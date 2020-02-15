@@ -85,7 +85,7 @@ export default {
     intro: {
       component: (): Promise<Component> => import("./home/intro.vue"),
       pretitle: "Alpha Theme",
-      title: "Hello, I’m Alpha. <br>A minimal, personal or portfolio theme.",
+      title: "Hello, I’m Alpha. <br>A minimal portfolio theme.",
       content:
         "Built with focus on a minimal and functional interface that delivers a bold visual experience.",
       buttons: [
@@ -93,7 +93,7 @@ export default {
           _item: "contact",
           link: "/contact",
           text: `Start a Project  <i class="fas fa-arrow-right"></i>`,
-          classes: "btn rounded-full bg-white text-blue-500 hover:bg-blue-100"
+          classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
         },
         {
           _item: "work",
@@ -156,26 +156,27 @@ export default {
       items: [
         {
           _item: "testimonial_1",
-          image: require("./img/andrew.jpg"),
-          author: "Raymond Brennan",
-          info: "CEO, Lorem ipsum",
+          image: require("./img/client1.jpg"),
+          author: "Kate Brennan",
+          info: "CEO, Sed Laudantium",
           content: `@Alpha designed and fully managed our migration to #productA and on-premises enterprise deployments. Absolutely fantastic!`
         },
         {
           _item: "testimonial_2",
           content: `Original, Creative and with an inborn understanding of their customer's needs. Alpha is always a pleasure to work with.`,
-          image: require("./img/ray.jpg"),
-          author: "Raymond Hodges",
-          info: "CEO, Fiction Technologies"
+          image: require("./img/client2.jpg"),
+          author: "Sebastian Hodges",
+          info: "CEO, Lorem ipsum"
         }
       ]
     },
-    // Client options are under "About" page settings
-    // Call to action settings are under "Site" settings above
-    meta: {
+    // Client options are under "About" page settings below.
+    // Call to action settings are under "Site" settings above.
+    metatags: {
       title: "Factor Alpha Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+      image: require("./static/logo-512.png")
     }
   },
   about: {
@@ -276,26 +277,22 @@ export default {
         }
       ]
     },
-    meta: {
+    metatags: {
       title: "Factor Alpha Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+      image: require("./img/about.jpg")
     }
   },
   work: {
+    indexRoute: "/work",
+    postRoute: "/work",
+    limit: 4,
+    returnLinkText: "Back to All Projects",
     headline: "Work",
     subheadline: "Case Studies",
     content:
       "Great products happen with passion, intelligence, and personal commitment.",
-    meta: {
-      title: "Work - Factor Alpha Theme",
-      description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
-    },
-    indexRoute: "/work",
-    postRoute: "/work",
-    limit: 4,
-    returnLinkText: "Back to Work Projects",
     components: {
       workWrap: (): Promise<Component> => import("./work/work-wrap.vue"),
       workIndex: (): Promise<Component> => import("./work/work-index.vue"),
@@ -309,7 +306,13 @@ export default {
     },
     layout: {
       index: ["workFeaturedImage", "workHeader"],
-      single: ["workReturnLink", "workHeader", "workFeaturedImage", "workTags", "workEntry"] //"workTags",
+      single: ["workReturnLink", "workHeader", "workFeaturedImage", "workEntry", "workTags"]
+    },
+    metatags: {
+      index: {
+        title: "Work - Factor Alpha Theme",
+        description: "The latest work."
+      }
     }
   },
   blog: {
@@ -320,28 +323,27 @@ export default {
     headline: "Blog",
     subheadline: "Discover The Latest",
     content:
-      "Product updates, articles, and announcements.",
+      "Thoughts on design, the process of creation, and optimizing collaboration.",
+    components: {
+      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
+      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+    },
+    layout: {
+      index: ["featuredImage", "title", "subtitle", "authorDate"],
+      single: ["customSingleHeader", "featuredImage", "meta", "entry", "social", "authorBio"],
+      meta: ["authorDate", "tags"]
+    },
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
     },
-    components: {
-      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-      pagination: (): Promise<Component> => import("./blog/widget-pagination.vue")
-    },
-    layout: {
-      index: ["featuredImage", "title", "subtitle", "authorDate"],
-      single: ["singleHeader", "featuredImage", "meta", "entry", "social", "authorBio"]
-    },
-    meta: {
+    metatags: {
       index: {
-        title: "Blog - The Latest from Factor Alpha Theme",
-        description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        title: "Blog - Factor Alpha Theme",
+        description: "Thoughts on design, the process of creation, and optimizing collaboration."
       }
     }
   },
@@ -349,18 +351,82 @@ export default {
     headline: "Contact",
     subheadline: "Let's Talk!",
     content:
-      "Drop me a note and I’ll get back to you within 24 hours. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.",
+      "A new project is an opportunity to create something unique. Share your idea, drop me a note and I’ll get back to you within 24 hours.",
     heroImage: require("./img/contact.jpg"),
-    form: {
-      namePlaceholder: "Name",
-      emailPlaceholder: "Email Address",
-      messagePlaceholder: "Message",
-      buttonText: "Contact"
+    resources: {
+      pretitle: "Looking for something in particular?",
+      title: "Resources",
+      items: [
+        {
+          _item: "resource_1",
+          title: "Sales",
+          content: `Interested in learning more about Alpha? Contact our product experts at <a href="mailto:example@example.com">sales@example.com</a>.`
+        },
+        {
+          _item: "resource_2",
+          title: "Support",
+          content: `If you don’t find what you need, please submit a support request through <a href="#">github</a>.`
+        },
+        {
+          _item: "resource_3",
+          title: "Business Development",
+          content: `Are you a reseller or affiliate that would like to partner with Alpha? <a href="mailto:example@example.com">partners@example.com</a>.`
+        }
+      ]
     },
-    meta: {
+    location: {
+      pretitle: "Location",
+      title: "Alpha HQ",
+      content: `Feel free to drop by to spot us in our natural habitat. We’ll even pour you some coffee.  <br><br>301 Howard St. #600 <br>San Francisco, CA 94105`,
+      button: {
+        link: "https://goo.gl/maps/KbqqgPzqJQVL35D39",
+        target: "_blank",
+        text: "Open in Google Maps",
+        classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+      },
+      map: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.014498913255!2d-122.39648858468193!3d37.78969997975663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858173dda8f9e3%3A0xa807172524065c9e!2s301%20Howard%20St%20%23600%2C%20San%20Francisco%2C%20CA%2094105!5e0!3m2!1sen!2sus!4v1581543011803!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`
+    },
+    metatags: {
       title: "Contact - Factor Alpha Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions."
+        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+      image: require("./img/contact.jpg")
     },
-  }
+  },
+  // Contact form plugin settings
+  contactForm: {
+    //email: "example@email.com",
+    submit: {
+      btn: "bg-blue-500 text-white hover:bg-blue-700",
+      text: "Contact"
+    },
+    inputFormat: "vertical",
+    confirm: {
+      title: "Got it!",
+      subTitle: "I’ll get back to you as soon as possible."
+    },
+    layout: [
+      {
+        label: "Name",
+        _id: "name",
+        inputType: "text",
+        placeholder: "Full Name",
+        required: true
+      },
+      {
+        label: "Work Email",
+        _id: "email",
+        inputType: "email",
+        placeholder: "name@example.com",
+        required: true
+      },
+      {
+        label: "Message",
+        _id: "message",
+        inputType: "textarea",
+        placeholder: "how can we help?",
+        required: true
+      }
+    ]
+  },
 }

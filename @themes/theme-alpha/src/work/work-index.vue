@@ -7,22 +7,15 @@
       :image="setting('work.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('work.content')" class="content entry-content" />
+        <div v-formatted-text="setting('work.content')" class="content text-gray-600" />
       </template>
     </el-hero>
 
-    <section v-else-if="tag" class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div class="work-return-link">
-            <factor-link class="back label label-primary" :path="setting('work.indexRoute')">
-              <factor-icon icon="fas fa-arrow-left" />
-              {{ returnLinkText }}
-            </factor-link>
-          </div>
-        </div>
-      </div>
-    </section>
+    <el-hero v-else-if="tag" :title="`Tag: ${tag}`">
+      <template v-slot:hero-pretitle>
+        <component :is="setting('work.components.workReturnLink')" :post-type="postType" />
+      </template>
+    </el-hero>
 
     <div v-if="loading" class="loading-entries">
       <factor-loading-ring />
@@ -48,21 +41,8 @@
         </div>
         <component :is="setting('work.components.workPagination')" :post-type="postType" />
       </div>
-
-      <!-- <div class="mast">
-        <div if="workPosts.length > 0" class="work-posts posts-index">
-          <div v-for="post in workPosts" :key="post._id" class="work-post">
-            <component
-              :is="setting(`work.components.${comp}`)"
-              v-for="(comp, i) in setting('work.layout.index')"
-              :key="i"
-              :post-id="post._id"
-              format="index"
-            />
-          </div>
-        </div>
-      </div>-->
     </section>
+
     <el-cta />
   </div>
 </template>
@@ -86,10 +66,12 @@ export default Vue.extend({
     }
   },
   metaInfo() {
-    const tag = this.$route.params.tag || ""
-    const title = tag ? `Tag "${tag}"` : "Projects"
+    const title = this.tag ? `Tag "${this.tag}"` : setting("work.metatags.index.title")
 
-    const description = tag ? `Articles related to tag: ${tag}` : "Projects and more..."
+    const description = this.tag
+      ? `Articles related to tag: ${this.tag}`
+      : setting("work.metatags.index.description")
+
     return {
       title,
       description
@@ -158,12 +140,6 @@ export default Vue.extend({
   .loading-entries {
     height: 50vh;
     padding: 5em;
-  }
-  a {
-    color: inherit;
-    &:hover {
-      color: var(--color-primary, #1a49bd);
-    }
   }
   .work-posts-wrap {
     padding: 4em 0 8em;

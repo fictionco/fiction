@@ -10,7 +10,7 @@
         <div class="hero-inner">
           <div>
             <factor-link class="back" :path="setting('work.indexRoute')">
-              <factor-icon icon="fas fa-arrow-left" /> All
+              <factor-icon icon="fas fa-arrow-left" />All
             </factor-link>
             <h1 class="heading">
               <factor-link :path="path">{{ title }}</factor-link>
@@ -130,7 +130,7 @@ export default Vue.extend({
           }
           a:hover {
             text-decoration: underline;
-            text-decoration-color: var(--color-tertiary);
+            text-decoration-color: var(--color-primary);
           }
         }
         .content {

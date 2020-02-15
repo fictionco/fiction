@@ -14,14 +14,20 @@ export const setup = (): void => {
 
   // post types
   const baseRoute = setting("work.postRoute")
+
   addPostType({
     postType: "work",
     baseRoute,
-    icon: require("./img/work.svg"),
-    model: "WorkPost",
+    icon: require("./img/dashicon-work.svg"),
     nameIndex: "Work",
     nameSingle: "Work Post",
-    namePlural: "Work Posts"
+    namePlural: "Work Posts",
+    //accessLevel: 100,
+    //add: true,
+    //hideAdmin: false,
+    //model: "WorkPost",
+    // listTemplate: () => import("./custom-dashboard-list-view.vue"), // optional
+    // editTemplate: () => import("./custom-post-edit-view.vue") // optional
   })
 
   // page templates
@@ -29,6 +35,12 @@ export const setup = (): void => {
   addPageTemplate({
     slug: "default",
     component: (): Promise<Component> => import("./page-template-default.vue")
+  })
+
+  addPageTemplate({
+    name: "Landing Page",
+    slug: "landing-page",
+    component: (): Promise<Component> => import("./page-template-landing.vue")
   })
 
   // content routes

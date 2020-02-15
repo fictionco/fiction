@@ -7,7 +7,7 @@
       :image="setting('blog.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('blog.content')" class="content entry-content" />
+        <div v-formatted-text="setting('blog.content')" class="content text-gray-600" />
       </template>
     </el-hero>
 
@@ -27,19 +27,6 @@
         </div>
       </div>
     </section>
-
-    <!-- <el-hero v-else-if="tag" :pretitle="`Tag: ` + tag" /> -->
-
-    <!-- <div v-if="tagsList.length > 0" class="widget-tags">
-      <div class="widget-tags-inner">
-        <h3>Tags:</h3>
-        <ul>
-          <li v-for="(theTag, ti) in tagsList" :key="ti">
-            <factor-link :path="`?tag=${theTag._id}`">{{ theTag._id }}</factor-link>
-          </li>
-        </ul>
-      </div>
-    </div>-->
 
     <section class="blog-posts">
       <div class="blog-posts-inner">
@@ -93,11 +80,11 @@ export default Vue.extend({
     return "nav-white"
   },
   metaInfo() {
-    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.meta.index.title")
+    const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
     const description = this.tag
       ? `Articles related to tag: ${this.tag}`
-      : setting("blog.meta.index.description")
+      : setting("blog.metatags.index.description")
 
     return {
       title,
@@ -212,6 +199,10 @@ export default Vue.extend({
       }
     }
   }
+  .blog-post .entry-meta {
+    display: block;
+    margin: 0;
+  }
 
   .blog-posts-inner {
     max-width: 1000px;
@@ -225,7 +216,7 @@ export default Vue.extend({
     .post-index {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-gap: 1rem;
+      grid-gap: 2rem;
       padding: 3em 2em;
 
       @media (max-width: 900px) {
@@ -235,23 +226,25 @@ export default Vue.extend({
       .blog-post {
         display: flex;
         flex-direction: column;
+        height: 100%;
         transition: all 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
-        border-radius: 8px;
-        padding: 1rem;
+        border-radius: 0.5rem;
 
         &:hover {
+          background: #fff;
           transform: translateY(-0.5rem);
           box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.05) 0px 5px 5px 2px;
         }
 
         .entry-title {
-          font-weight: var(--font-weight-bold, 700);
+          font-weight: var(--font-weight-bold);
           font-size: 1.4rem;
           letter-spacing: -0.03em;
           margin-top: 1rem;
           margin-bottom: 0.5rem;
+          padding: 0 1rem;
           &:hover {
-            color: var(--color-primary, #1a49bd);
+            color: var(--color-primary);
           }
         }
         .edit {
@@ -260,14 +253,16 @@ export default Vue.extend({
           font-weight: normal;
           letter-spacing: initial;
           margin: 0.5em 0;
-          color: var(--color-primary, #1a49bd);
+          color: var(--color-primary);
         }
         .entry-subtitle {
           font-size: 1rem;
-          opacity: 0.7;
+          padding: 0 1rem;
+          color: #718096;
         }
         .widget-author-date {
           margin-top: auto;
+          padding: 1rem 1rem 1rem;
         }
       }
     }

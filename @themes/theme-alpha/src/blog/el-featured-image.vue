@@ -1,5 +1,9 @@
 <template>
-  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)">
+  <factor-link
+    v-if="avatarUrl && format == 'index'"
+    :path="postLink(post._id)"
+    class="featured-image-wrap"
+  >
     <div class="featured-image" :style="style" />
   </factor-link>
   <div v-else class="featured-image-wrap">
@@ -43,12 +47,15 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   .blog-posts {
-    .featured-image {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 14rem;
-      border-radius: 8px 8px 0 0;
+    .featured-image-wrap {
+      display: block;
+      .featured-image {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 14rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+      }
     }
   }
   .single-entry {

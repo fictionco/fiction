@@ -49,7 +49,8 @@ export default Vue.extend({
   }
   &:hover {
     .thelogotext {
-      opacity: 0.8;
+      fill: var(--color-primary);
+      //opacity: 0.8;
     }
   }
 }
