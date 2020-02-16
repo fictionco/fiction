@@ -26,6 +26,12 @@ export interface UpdatePost {
   postType: string;
 }
 
+export interface UpdatePostEmbedded {
+  postId: string;
+  postType: string;
+  embeddedPost: FactorPost | UnsavedFactorPost;
+}
+
 export interface UpdateManyPosts {
   _ids: string[];
   data?: object;
@@ -163,6 +169,7 @@ export interface UnsavedFactorPost {
   revision?: object[];
   settings?: object;
   list?: any[];
+  embedded?: FactorPost[];
   status?: PostStatus;
   uniqueId?: string;
   permalink?: string;

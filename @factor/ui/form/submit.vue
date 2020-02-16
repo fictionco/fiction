@@ -15,7 +15,7 @@ export default Vue.extend({
     el: { type: String, default: "" }
   },
   computed: {
-    btnComponent() {
+    btnComponent(this: any) {
       return this.el ? this.el : factorBtn
     }
   }

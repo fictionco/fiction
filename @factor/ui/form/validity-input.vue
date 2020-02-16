@@ -22,7 +22,7 @@ export default Vue.extend({
   mounted() {
     this.$watch(
       "customValidity",
-      function(v) {
+      function(this: any, v?: string | boolean) {
         if (typeof v === "string" && this.$refs.customValidity) {
           this.$refs.customValidity.setCustomValidity(v)
         }

@@ -1,5 +1,5 @@
 <template>
-  <factor-link :path="home" class="nav-back">&larr; Back to All Discussions</factor-link>
+  <factor-link :path="home" class="nav-back">&larr; All Discussions</factor-link>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
@@ -17,7 +17,5 @@ export default Vue.extend({
 <style lang="less">
 .nav-back {
   display: inline-block;
-  font-size: 0.9em;
-  margin-bottom: 2rem;
 }
 </style>

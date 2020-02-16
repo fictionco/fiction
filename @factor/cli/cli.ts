@@ -66,6 +66,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
     const verifyDepProcess = execa(getCliExecutor(), ["install"])
     await verifyDepProcess
+
     await bar.update({ percent: 55, msg: "create files" })
     generateLoaders(setup)
   }

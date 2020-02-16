@@ -89,7 +89,7 @@ Next we'll add the `content.vue` content wrapper component. This is the parent c
 </template>
 ```
 
-## 6. Add Routes and View Components
+## 6. Add Routes and Views
 
 Next we'll add our first two routes along with the components that will be shown on them.
 

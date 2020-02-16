@@ -12,9 +12,9 @@ const getMarkdownUtility = (): MarkdownIt => {
   if (!markdownUtility) {
     markdownUtility = MarkdownIt({
       html: true,
-
       linkify: true,
-      typographer: false
+      typographer: false,
+      breaks: true
     })
 
     markdownUtility.use(mdAnchor, { slugify })

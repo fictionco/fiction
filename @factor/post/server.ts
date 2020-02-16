@@ -3,11 +3,12 @@ import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
-
+import { randomToken } from "@factor/api"
 import {
   PostActions,
   FactorPost,
   UnsavedFactorPost,
+  UpdatePostEmbedded,
   PostIndexAggregations,
   PostIndexCounts,
   PostIndexRequestParameters,
@@ -43,7 +44,7 @@ export const savePost = async (
 
   const Model = getModel(postType)
 
-  if (_id) post = await Model.findById(data._id)
+  if (_id) post = await Model.findById(_id)
 
   /**
    * If no id is set or post, set up a new one
@@ -71,8 +72,38 @@ export const savePost = async (
   }
 }
 
+export const savePostEmbedded = async (
+  { embeddedPost, postType = "post", postId }: UpdatePostEmbedded,
+  { bearer }: EndpointMeta
+): Promise<FactorPost | undefined> => {
+  if (dbIsOffline()) return
+
+  const Model = getModel(postType)
+
+  const { _id } = embeddedPost
+
+  embeddedPost.updatedAt = new Date().toISOString()
+
+  // Already exists
+  if (_id) {
+    await Model.updateOne(
+      { _id: postId, "embeddedPost._id": 80 },
+      { $set: { "embeddedPost.$": embeddedPost } }
+    )
+  } else {
+    embeddedPost._id = randomToken()
+    embeddedPost.createdAt = new Date().toISOString()
+    await Model.update(
+      { _id: postId },
+      { $push: { embedded: embeddedPost }, $inc: { embeddedCount: 1 } }
+    )
+  }
+
+  return embeddedPost as FactorPost
+}
+
 /**
- * Get a single post from the DB
+ * Get a single post from the DB.
  * @param params - selection parameters
  * @param meta - endpoint meta, including bearer
  */
@@ -205,6 +236,9 @@ export const indexMeta = async ({
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
 
+  /**
+   * $facet - processes several aggregation stages on a query
+   */
   const aggregate = [
     {
       $facet: {

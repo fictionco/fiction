@@ -54,6 +54,17 @@ export default Vue.extend({
   methods: {
     async initializeEditor(this: any) {
       /**
+       * If postId is set, then allow for autosave
+       */
+      const autosave = this.postId
+        ? {
+            enabled: true,
+            uniqueId: this.postId,
+            delay: 5000
+          }
+        : undefined
+
+      /**
        * EasyMDE Can't be loaded server-side
        */
       const EasyMDE = await import("easymde")
@@ -66,11 +77,7 @@ export default Vue.extend({
         shortcuts: {
           drawImage: "Shift-Cmd-I"
         },
-        autosave: {
-          enabled: true,
-          uniqueId: this.postId,
-          delay: 5000
-        },
+        autosave,
         toolbar: [
           "bold",
           "italic",
@@ -110,6 +117,13 @@ export default Vue.extend({
             }
           })
         }
+      })
+
+      /**
+       * Focuses the editor on this event
+       */
+      onEvent("focus-editor", () => {
+        this.easyMDE.codemirror.focus()
       })
 
       /**
@@ -897,6 +911,7 @@ span.CodeMirror-selectedtext {
 .CodeMirror .CodeMirror-code .cm-comment {
   background: rgba(0, 0, 0, 0.05);
   border-radius: 2px;
+  display: inline-block;
 }
 .CodeMirror .CodeMirror-code .cm-link {
   color: #7f8c8d;

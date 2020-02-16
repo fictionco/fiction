@@ -10,15 +10,16 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
+import { HTMLInputEvent } from "../event-types"
 export default Vue.extend({
   props: {
     value: { type: String, default: "" }
   },
   computed: {
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", event.target.value)
+        input: (event: HTMLInputEvent) => this.$emit("input", event.target.value)
       }
     }
   }

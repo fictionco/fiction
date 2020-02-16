@@ -3,7 +3,7 @@ import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
 import { randomToken } from "@factor/api/utils"
 import { objectIdType } from "./object-id"
-import { FactorSchema, FactorPost } from "./types"
+import { FactorSchema, FactorPost, PostStatus } from "./types"
 /**
  * Base post schema
  * This schema is inherited and extended by all other post types
@@ -62,7 +62,7 @@ export default (): FactorSchema => {
       // populated field
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
-      category: { type: [String], index: true, default: "general" },
+      category: { type: [String], index: true, default: ["general"] },
       /**
        * Source Key - Used to distinguish which app created a post in multi-app databases
        */
@@ -79,11 +79,12 @@ export default (): FactorSchema => {
        * Embedded documents (comments, posts, etc.)
        */
       embedded: { type: [Object] },
+      embeddedCount: Number,
       status: {
         type: String,
-        enum: ["published", "draft", "trash"],
+        enum: [PostStatus.Published, PostStatus.Draft, PostStatus.Trash],
         index: true,
-        default: "draft"
+        default: PostStatus.Published
       },
       /**
        * Allow plugins to set a custom UniqueId that can be referenced without first querying the DB

@@ -1,6 +1,6 @@
 <template>
   <div class="topic-actions">
-    <factor-menu :list="['reply', 'flag']" />
+    <factor-menu :list="['edit', 'reply', 'flag']" @action="$emit('action', $event)" />
   </div>
 </template>
 <script lang="ts">

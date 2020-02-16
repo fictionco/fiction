@@ -186,9 +186,19 @@ const google = (): void => {
     }) => {
       if (user) {
         if (params.newAccount) {
-          analyticsEvent({ category: "newAccount", action: "newAccount", value: 5 })
+          analyticsEvent({
+            category: "newAccount",
+            action: "newAccount",
+            label: user.email,
+            value: 5
+          })
         } else {
-          analyticsEvent({ category: "returnUser", action: "loggedIn", value: 1 })
+          analyticsEvent({
+            category: "returnUser",
+            action: "loggedIn",
+            label: user.email,
+            value: 1
+          })
         }
       }
     }

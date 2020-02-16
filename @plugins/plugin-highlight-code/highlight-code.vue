@@ -30,13 +30,15 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .code-toolbar {
-  font-family: "Roboto Mono", Monaco, courier, monospace;
   padding: 1em 2em;
   border-radius: 5px;
-  font-family: "Roboto Mono", Monaco, courier, monospace;
+  margin: 2rem 0;
   font-size: 0.85em;
   -webkit-font-smoothing: initial;
   -moz-osx-font-smoothing: initial;
+  background: var(--highlight-code-bg);
+  font-family: var(--highlight-code-font);
+  color: var(--highlight-code-color-text);
 }
 
 /* Code blocks */
@@ -91,7 +93,7 @@ pre[class*="language-"] {
 .token.prolog,
 .token.doctype,
 .token.cdata {
-  color: var(--code-color-comment, #a3b6ca);
+  color: var(--highlight-code-color-comment);
 }
 
 .namespace {
@@ -106,15 +108,15 @@ pre[class*="language-"] {
 .token.deleted,
 .token.function,
 .token.class-name {
-  color: var(--code-color-tag, #5458d2);
+  color: var(--highlight-code-color-tag);
 }
 
 .token.punctuation {
-  color: var(--code-color-punctuation, #5490f5);
+  color: var(--highlight-code-color-punctuation);
 }
 
 .token.property {
-  color: #2c506c;
+  color: var(--highlight-code-color-property);
 }
 .token.selector,
 .token.attr-name,
@@ -122,7 +124,7 @@ pre[class*="language-"] {
 .token.char,
 .token.builtin,
 .token.inserted {
-  color: var(--code-color-selector, #42b983);
+  color: var(--highlight-code-color-selector);
 }
 
 .token.operator,
@@ -136,13 +138,13 @@ pre[class*="language-"] {
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  color: var(--code-color-keyword, #0063ab);
+  color: var(--highlight-code-color-keyword);
 }
 
 .token.regex,
 .token.important,
 .token.variable {
-  color: var(--code-color-variable, #e90);
+  color: var(--highlight-code-color-variable);
 }
 
 .token.important,
@@ -163,53 +165,50 @@ div.code-toolbar {
 }
 
 div.code-toolbar > .toolbar {
+  letter-spacing: 0.1em;
+  color: var(--highlight-code-color-text);
   position: absolute;
   top: 0;
   right: 0;
   transition: opacity 0.3s ease-in-out;
-  opacity: 0.1;
-  font-weight: 800;
+  opacity: 0.2;
+  font-weight: 700;
   text-transform: uppercase;
-}
+  .toolbar-item {
+    display: inline-block;
+  }
+  a {
+    cursor: pointer;
+  }
+  button {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-user-select: none;
+    /* for button */
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  a,
+  button,
+  span {
+    font-size: 11px;
+    padding: 0 0.5em;
+    border-radius: 4px;
+  }
 
-div.code-toolbar > .toolbar .toolbar-item {
-  display: inline-block;
-}
-
-div.code-toolbar > .toolbar a {
-  cursor: pointer;
-}
-
-div.code-toolbar > .toolbar button {
-  background: none;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  line-height: normal;
-  overflow: visible;
-  padding: 0;
-  -webkit-user-select: none;
-  /* for button */
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-div.code-toolbar > .toolbar a,
-div.code-toolbar > .toolbar button,
-div.code-toolbar > .toolbar span {
-  font-size: 0.8em;
-  padding: 0 0.5em;
-
-  border-radius: 4px;
-}
-
-div.code-toolbar > .toolbar a:hover,
-div.code-toolbar > .toolbar a:focus,
-div.code-toolbar > .toolbar button:hover,
-div.code-toolbar > .toolbar button:focus,
-div.code-toolbar > .toolbar span:hover,
-div.code-toolbar > .toolbar span:focus {
-  color: inherit;
-  text-decoration: none;
+  a:hover,
+  a:focus,
+  button:hover,
+  button:focus,
+  span:hover,
+  span:focus {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 </style>

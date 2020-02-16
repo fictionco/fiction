@@ -1,5 +1,7 @@
 import dayjs, { Dayjs } from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
+dayjs.extend(relativeTime)
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 
 const _isNumber = (value: any): boolean => {
@@ -24,6 +26,11 @@ export const timeUtil = (time?: DateTypes): Dayjs => {
   }
 }
 
+export const timeAgo = (time?: dayjs.ConfigType): string => {
+  if (!time) return ""
+  return timeUtil(time).fromNow()
+}
+
 /**
  * Gets a standard formatted date
  * @param time - moment/dayjs compatible date
@@ -41,6 +48,9 @@ export const standardTime = (time: dayjs.ConfigType): string => {
   return timeUtil(time).format("h:mma (MM/D)")
 }
 
+/**
+ * Get date in international format
+ */
 export const internationalDate = (time: dayjs.ConfigType): string => {
   return timeUtil(time).format("YYYY-M-DD")
 }

@@ -224,7 +224,7 @@ export const toLabel = (str?: string): string => {
  * Converts regular space delimited text into a hyphenated slug
  * @param text - string to manipulate
  */
-export const slugify = (text: string): string => {
+export const slugify = (text?: string): string | undefined => {
   if (!text) return text
 
   return text
@@ -238,6 +238,13 @@ export const slugify = (text: string): string => {
     .replace(/-+$/, "") // Trim - from end of text
 }
 
+export const findListItem = (value: string, list: ListItem[]): ListItem => {
+  const def = { value, name: toLabel(value), desc: "" }
+
+  const found = list.find((_: ListItem) => _.value == value) ?? {}
+
+  return { ...def, ...found }
+}
 /**
  * Parse to standard utility lists
  * Standard format for passing around config data and lists (inputs, etc.. )

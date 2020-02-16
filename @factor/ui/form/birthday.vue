@@ -138,7 +138,7 @@ export default Vue.extend({
 
   methods: {
     fluidInput,
-    setValidity() {
+    setValidity(this: any) {
       let customValidity = ""
       if (!this.validity && this.required) {
         customValidity = `Please format the date correctly`

@@ -1,7 +1,7 @@
 <template>
   <div class="forum-sidebar">
     <div class="new-discussion">
-      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/new`">Start A Discussion</factor-link>
+      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`">Start A Discussion</factor-link>
     </div>
     <div class="forum-nav">
       <div v-for="(item, index) in navItems" :key="index" class="nav-item">

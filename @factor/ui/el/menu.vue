@@ -1,7 +1,8 @@
 <template>
   <div ref="toggle" class="quick-menu toggle" :class="toggle? 'active': 'not-active'" @click.stop>
     <div class="toggle-btn" :class="[toggleClass ]" data-test="menu-toggle" @click="setToggle()">
-      <factor-icon icon="fas fa-ellipsis-h" />
+      <slot v-if="$slots.default" />
+      <factor-icon v-else icon="fas fa-ellipsis-h" />
     </div>
     <div v-if="toggle" class="toggle-content" :class="ddClass">
       <div

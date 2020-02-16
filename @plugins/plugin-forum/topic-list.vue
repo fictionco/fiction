@@ -9,24 +9,27 @@
       </div>
     </div>
     <div class="thead-list-item">
-      <div v-for="(item, index) in items" :key="index" class="list-item-wrap">
+      <div v-for="(post, index) in posts" :key="index" class="list-item-wrap">
         <div class="list-item">
-          <factor-link class="item-avatar" :path="getThreadPath(item)">
-            <factor-avatar :url="item.avatarUrl" />
+          <factor-link class="item-avatar" :path="topicLink(post)">
+            <factor-avatar :post-id="author(post).avatar" />
           </factor-link>
           <div class="item-text">
-            <h2 class="title">
-              <factor-link :path="getThreadPath(item)">{{ item.text }}</factor-link>
-            </h2>
-            <div class="meta">
-              <component :is="setting('forum.components.topicAuthor')" class="meta-item" />
-              <component :is="setting('forum.components.topicTimeAgo')" class="meta-item" />
+            <div class="header">
+              <h2 class="title">
+                <factor-link :path="topicLink(post)">{{ excerpt(post.title, {length: 16}) }}</factor-link>
+              </h2>
+              <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
             </div>
-            <div class="synopsis">{{ item.synopsis }}</div>
+
+            <div class="meta">
+              <div class="author meta-item">{{ author(post).username }}</div>
+              <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
+            </div>
           </div>
           <div class="item-details">
             <component :is="setting('forum.components.topicNumberPosts')" />
-            <component :is="setting('forum.components.topicTags')" />
+            <component :is="setting('forum.components.topicTags')" :tags="post.category" />
           </div>
         </div>
       </div>
@@ -35,6 +38,9 @@
 </template>
 
 <script lang="ts">
+import { excerpt } from "@factor/api/excerpt"
+import { timeAgo } from "@factor/api/time"
+import { stored, toLabel } from "@factor/api"
 import { setting } from "@factor/api/settings"
 import { FactorPost } from "@factor/post/types"
 import {
@@ -45,6 +51,7 @@ import {
   factorInputText
 } from "@factor/ui"
 import Vue from "vue"
+import { topicLink } from "./request"
 
 export default Vue.extend({
   components: {
@@ -54,36 +61,22 @@ export default Vue.extend({
     factorInputSelect,
     factorInputText
   },
+  props: {
+    posts: { type: Array, default: () => [] }
+  },
   data() {
     return {
-      filterValue: "latest",
-      items: [
-        {
-          text: "Some text this is a topic",
-          synopsis: "some more text",
-          avatarUrl: require("./img/avatar.jpg")
-        },
-        {
-          text:
-            "another post yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd ",
-          synopsis:
-            "yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd ",
-          avatarUrl: require("./img/avatar.jpg")
-        },
-        {
-          text: "another post yadda ydadd yadda ydadd yadda ydadd ",
-          synopsis:
-            "yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd yadda ydadd ",
-          avatarUrl: require("./img/avatar.jpg")
-        }
-      ]
+      filterValue: "latest"
     }
   },
   methods: {
+    timeAgo,
+    toLabel,
     setting,
-    getThreadPath(this: any, post: FactorPost) {
-      const entry = setting("forum.postRoute")
-      return `${entry}/${post.permalink}`
+    topicLink,
+    excerpt,
+    author(this: any, post: FactorPost) {
+      return post.author && post.author.length > 0 ? stored(post.author[0]) : {}
     }
   }
 })
@@ -110,33 +103,31 @@ export default Vue.extend({
       }
     }
     .item-text {
-      .title {
-        font-size: 1.35em;
-        line-height: 1.2;
-        font-weight: var(--font-weight-bold, 700);
+      .header {
         margin-bottom: 0.25rem;
-        letter-spacing: -0.02em;
-        a {
-          color: inherit;
-          &:hover {
-            color: var(--color-primary);
+        .title {
+          font-size: 1.5em;
+          line-height: 1.2;
+          font-weight: var(--font-weight-bold, 700);
+          letter-spacing: -0.02em;
+          a {
+            color: inherit;
+            &:hover {
+              color: var(--color-primary);
+            }
           }
         }
+        .synopsis {
+          opacity: 0.6;
+        }
       }
-      .synopsis {
-        font-size: 1.1em;
-        opacity: 0.7;
-        margin-top: 0.5rem;
-      }
+
       .meta {
         display: flex;
         .meta-item {
           margin-right: 1rem;
-
-          .factor-icon {
-            font-size: 0.9em;
-            margin-right: 0.5rem;
-            opacity: 0.9;
+          &.author {
+            font-weight: 700;
           }
         }
       }

@@ -39,13 +39,20 @@ export const serverInfo = async ({
 }): Promise<void> => {
   const lines = []
 
-  const latest = await latestVersion("@factor/core")
+  let latest
+  try {
+    latest = await latestVersion("@factor/core")
+  } catch (error) {
+    log.info("Error getting latest Factor version")
+  }
+
   const current = factorVersion()
   lines.push(chalk.bold(`Factor Platform v${current}`))
 
-  if (current != latest) {
+  if (latest && current != latest) {
     lines.push(chalk.green(`New version available v${latest}`))
   }
+
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)

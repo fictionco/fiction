@@ -1,7 +1,7 @@
 <template>
   <form ref="form" class="wrap-form" autocomplete="on" @submit="checkForm($event)">
     <slot />
-    <input ref="send" class="submit" type="submit" value="submit" />
+    <input v-show="false" ref="send" class="submit" type="submit" value="submit" />
   </form>
 </template>
 <script lang="ts">
@@ -12,7 +12,7 @@ export default Vue.extend({
     watchValid: { type: Object, default: () => {} }
   },
   watch: {
-    save: function(v) {
+    save: function(this: any, v) {
       if (v) {
         this.$refs.send.click()
         this.$emit("update:save", false)
@@ -22,7 +22,7 @@ export default Vue.extend({
   mounted() {
     this.$watch(
       "watchValid",
-      function() {
+      function(this: any) {
         this.$nextTick(() => {
           this.$emit("valid", this.$refs["form"].checkValidity())
         })
@@ -31,7 +31,7 @@ export default Vue.extend({
     )
   },
   methods: {
-    checkForm(e) {
+    checkForm(this: any, e) {
       e.preventDefault()
       this.$emit("submit", e)
     }

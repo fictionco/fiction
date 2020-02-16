@@ -1,38 +1,29 @@
 <template>
-  <div class="forum-entries">
-    <component :is="setting('forum.components.returnLink')" v-if="tag || page > 1" />
+  <div class="forum-index">
     <div v-if="loading" class="forum-loading">
       <factor-loading-ring />
     </div>
-    <div v-else-if="forumPosts.length > 0" class="topic-index">
-      <div v-for="post in forumPosts" :key="post._id" class="topic">
-        <component
-          :is="setting(`forum.components.${comp}`)"
-          v-for="(comp, i) in setting('forum.layout.index')"
-          :key="i"
-          :post-id="post._id"
-        />
+
+    <div v-else class="index-layout">
+      <component :is="setting('forum.components.forumSidebar')" />
+      <div class="forum-content">
+        <component :is="setting('forum.components.topicList')" :posts="indexPosts" />
       </div>
     </div>
-    <div v-else class="topics-not-found">
-      <div class="text">
-        <div class="title">{{ setting("forum.notFound.title") }}</div>
-        <div class="sub-title">{{ setting("forum.notFound.subTitle") }}</div>
-      </div>
-    </div>
-    <component :is="setting('forum.components.pagination')" :post-type="postType" />
   </div>
 </template>
 <script lang="ts">
+import Vue from "vue"
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import { requestPostIndex } from "@factor/post/request"
-import Vue from "vue"
+import { loadAndStoreIndex } from "./request"
+import { postType } from "."
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: {
+    factorLoadingRing
+  },
   data() {
     return {
-      postType: "forum",
       loading: false
     }
   },
@@ -56,9 +47,9 @@ export default Vue.extend({
       return this.$route.params.tag || this.$route.query.tag || ""
     },
     index(this: any) {
-      return stored(this.postType) || {}
+      return stored(postType) || []
     },
-    forumPosts(this: any) {
+    indexPosts(this: any) {
       const { posts = [] } = this.index
       return posts
     },
@@ -81,14 +72,7 @@ export default Vue.extend({
     async getPosts(this: any) {
       this.loading = true
 
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: "published",
-        sort: "-date",
-        page: this.page,
-        limit: setting("forum.limit")
-      })
+      await loadAndStoreIndex()
 
       this.loading = false
     }
@@ -97,27 +81,11 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.plugin-forum {
-  .forum-entries {
-    .topic-index {
-      max-width: 48rem;
-      margin: 0 auto;
-      .topic {
-        margin-bottom: 4em;
-      }
-    }
-    .topics-not-found,
-    .posts-loading {
-      min-height: 50vh;
-      display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-      .title {
-        font-size: 1.4em;
-        font-weight: 600;
-      }
-    }
+.forum-index {
+  .index-layout {
+    display: grid;
+    grid-template-columns: minmax(225px, 250px) 1fr;
+    grid-gap: 2rem;
   }
 }
 </style>

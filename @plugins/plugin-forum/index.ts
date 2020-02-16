@@ -3,7 +3,7 @@ import { setting } from "@factor/api/settings"
 import { requestPostSave } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
-const postType = "forumTopic"
+export const postType = "forumTopic"
 
 const baseRoute = setting("forum.postRoute")
 
@@ -33,15 +33,28 @@ export const setup = (): void => {
     component: setting("forum.components.forumWrap"),
     children: [
       {
+        name: "forumIndex",
         path: "/",
-        component: setting("forum.components.topicIndex")
+        component: setting("forum.components.forumIndex")
       },
       {
-        path: "new",
-        component: setting("forum.components.topicNew")
+        name: "editTopic",
+        path: "edit",
+        component: setting("forum.components.topicEdit"),
+        meta: { auth: true }
+      },
+      {
+        name: "addNewTopic",
+        path: "add-new",
+        component: setting("forum.components.topicEdit"),
+        meta: { auth: true }
       },
       {
         path: `${setting("forum.postRoute")}/:permalink`,
+        component: setting("forum.components.topicSingle")
+      },
+      {
+        path: `${setting("forum.postRoute")}/:permalink/:title`,
         component: setting("forum.components.topicSingle")
       }
     ]

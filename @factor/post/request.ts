@@ -5,6 +5,7 @@ import objectHash from "object-hash"
 import {
   FactorPost,
   UpdatePost,
+  UpdatePostEmbedded,
   UpdateManyPosts,
   PostRequestParameters,
   PostIndexParametersFlat,
@@ -95,10 +96,13 @@ export const requestPostPopulate = async ({
   return _ids
 }
 
+/**
+ * Sends an endpoint request to save a post
+ */
 export const requestPostSave = async ({
   post,
   postType
-}: UpdatePost): Promise<FactorPost> => {
+}: UpdatePost): Promise<FactorPost | never> => {
   let result
 
   try {
@@ -108,6 +112,21 @@ export const requestPostSave = async ({
     result = post
     throw error
   }
+
+  return result as FactorPost
+}
+
+export const requestPostSaveEmbedded = async ({
+  postId,
+  embeddedPost,
+  postType
+}: UpdatePostEmbedded): Promise<FactorPost | never> => {
+  const result = await sendPostRequest("savePostEmbedded", {
+    embeddedPost,
+    postType,
+    postId
+  })
+  _setCache(postType)
 
   return result as FactorPost
 }
@@ -176,7 +195,8 @@ export const requestPostSingle = async (
    * ASYNC, but we should not wait for it, data will be loaded to store
    */
   if (post) {
-    requestPostPopulate({ posts: [post], depth })
+    const embedded = post.embedded ?? []
+    requestPostPopulate({ posts: [post, ...embedded], depth })
   }
 
   return post as FactorPost

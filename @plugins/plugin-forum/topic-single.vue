@@ -1,64 +1,78 @@
 <template>
   <div class="single-entry">
     <div class="topic-header">
-      <div class="text">
-        <h1 class="title">The Title</h1>
-        <div class="meta">
-          <component :is="setting('forum.components.topicNumberPosts')" class="meta-item" />
-          <component :is="setting('forum.components.topicTags')" class="meta-item" />
-        </div>
-      </div>
-      <div class="actions">
-        <factor-btn btn="default">Subscribe</factor-btn>
-        <factor-btn btn="primary" @click="focusReply()">Reply</factor-btn>
-      </div>
-    </div>
-    <div class="content-area">
-      <div class="topic-posts">
-        <div v-for="(item, index) in 4" :key="index" class="topic-post">
-          <div class="topic-post-avatar">
-            <factor-avatar :url="require('./img/avatar.jpg')" />
-          </div>
-          <div class="topic-post-content">
-            <div class="topic-post-meta">
-              <component :is="setting('forum.components.topicAuthor')" class="meta-item" />
-              <component :is="setting('forum.components.topicTimeAgo')" class="meta-item" />
-              <component :is="setting('forum.components.topicActions')" class="meta-item" />
-            </div>
-            <div
-              class="text"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque nisl a massa bibendum, nec sollicitudin felis varius. Praesent ligula tellus, elementum vel leo a, tristique convallis justo. Nam sodales mauris et justo efficitur, eu maximus tellus tincidunt. Donec ac est in libero ornare rutrum. Nullam ac dolor et augue bi</div>
+      <div class="header-main">
+        <component :is="setting('forum.components.navBack')" />
+
+        <div class="text">
+          <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
+          <div class="meta">
+            <component
+              :is="setting('forum.components.topicTags')"
+              class="meta-item"
+              :tags="post.tag"
+            />
           </div>
         </div>
-        <component :is="setting('forum.components.topicReply')" />
+      </div>
+      <div class="header-sub">
+        <div v-for="(cat, i) in post.category" :key="i" class="category">{{ toLabel(cat) }}</div>
       </div>
     </div>
 
-    <!-- <div v-if="!isEmpty(post)">
-      <component
-        :is="setting(`forum.components.${comp}`)"
-        v-for="(comp, i) in setting('forum.layout.single')"
-        :key="i"
-        :post-id="post._id"
-      />
+    <div class="content-area">
+      <div class="topic-content">
+        <div class="topic-posts">
+          <component
+            :is="setting('forum.components.topicPost')"
+            v-for="(topicPost, index) in topicPosts"
+            :key="index"
+            :post="topicPost"
+            @action="handleAction($event)"
+          />
+        </div>
+
+        <component :is="setting('forum.components.topicReply')" :post-id="post._id" />
+      </div>
+      <div class="topic-sidebar-wrap">
+        <div class="topic-sidebar">
+          <div class="number-posts item">
+            <factor-icon icon="far fa-comment" />
+            <span class="text">22 Posts</span>
+          </div>
+          <factor-btn class="item" btn="primary" @click="focusReply()">Reply &rarr;</factor-btn>
+          <factor-btn class="item" btn="default">
+            <factor-icon icon="far fa-star" />
+            <span class="text">Follow</span>
+          </factor-btn>
+
+          <factor-btn class="item" btn="default" @click="editTopic(post)">
+            <span class="text">Edit</span>
+          </factor-btn>
+        </div>
+      </div>
     </div>
-    <factor-error-404 v-else />-->
   </div>
 </template>
 <script lang="ts">
-import { factorAvatar, factorBtn } from "@factor/ui"
+import { excerpt } from "@factor/api/excerpt"
+import { renderMarkdown } from "@factor/api/markdown"
+import { factorHighlightCode } from "@factor/plugin-highlight-code"
+import { factorAvatar, factorBtn, factorIcon } from "@factor/ui"
 import {
   isEmpty,
   setting,
   stored,
   titleTag,
   descriptionTag,
-  shareImage
+  shareImage,
+  toLabel,
+  emitEvent
 } from "@factor/api"
-
 import Vue from "vue"
+import { editTopic, deleteTopic } from "./request"
 export default Vue.extend({
-  components: { factorAvatar, factorBtn },
+  components: { factorAvatar, factorBtn, factorHighlightCode, factorIcon },
   data() {
     return {}
   },
@@ -72,16 +86,36 @@ export default Vue.extend({
   computed: {
     post() {
       return stored("post") || {}
+    },
+    topicPosts(this: any) {
+      return [this.post, ...this.post.embedded]
+    },
+    rendered(this: any) {
+      return renderMarkdown(this.post.content)
     }
   },
 
   methods: {
     isEmpty,
     setting,
+    toLabel,
+    editTopic,
+    excerpt,
     focusReply() {
+      emitEvent("focus-editor")
       const el: HTMLFormElement | null = document.querySelector("#topic-reply")
       if (el) {
         el.focus()
+      }
+    },
+    getPost(_id: any) {
+      return stored(_id) || {}
+    },
+    async handleAction(this: any, action: string) {
+      if (action == "edit") {
+        editTopic(this.post)
+      } else if (action == "delete") {
+        deleteTopic(this.post)
       }
     }
   }
@@ -90,53 +124,67 @@ export default Vue.extend({
 <style lang="less">
 .topic-header {
   display: grid;
-  grid-template-columns: 1fr minmax(200px, 300px);
-
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 2rem;
+  grid-template-columns: 1fr 300px;
+  align-items: center;
+  .header-sub {
+    text-align: right;
+    .category {
+      display: inline-block;
+      padding: 0.5em 1em;
+      font-weight: 700;
+      border-radius: 7px;
+      background: var(--color-bg-contrast);
+      margin: 0.5rem;
+    }
+  }
+  .text {
+    padding: 2em 0;
+  }
   .title {
-    font-size: 2em;
+    font-size: 2.4em;
+    letter-spacing: -0.025em;
     line-height: 1.1;
     margin-bottom: 1rem;
     font-weight: var(--font-weight-bold, 700);
   }
-  .actions {
-    text-align: right;
-    align-self: center;
-    .factor-btn {
-      margin: 0 0.5rem;
-    }
-  }
+
   .meta {
     display: flex;
+
     .meta-item {
       margin-right: 1rem;
     }
   }
-  padding-bottom: 1rem;
 }
+
 .content-area {
   display: grid;
-  grid-template-columns: 1fr 100px;
+  grid-template-columns: 2fr 200px;
+  grid-gap: 3rem;
+  position: relative;
+  .topic-sidebar {
+    position: sticky;
+    top: 200px;
+    .number-posts {
+      font-size: 1.1em;
+      text-align: center;
+      font-weight: 700;
+    }
+    .factor-btn {
+      display: block;
+      width: 100%;
+      .text {
+        margin: 0 0.25rem;
+      }
+    }
+    .item {
+      margin-bottom: 1rem;
+    }
+  }
 }
-.topic-posts {
+.topic-content {
   padding: 1rem 0;
-
-  .topic-post {
-    display: grid;
-    grid-template-columns: 3rem 1fr;
-    grid-gap: 2rem;
-    margin-bottom: 3rem;
-    .text {
-      font-size: 1.2em;
-      line-height: 1.6;
-      max-width: 650px;
-    }
-  }
-  .topic-post-meta {
-    display: flex;
-    margin-bottom: 0.5rem;
-    .meta-item {
-      margin-right: 1rem;
-    }
-  }
 }
 </style>
