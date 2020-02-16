@@ -111,7 +111,7 @@ export const setup = (): void => {
             const subMenu: DashboardMenuItem[] = []
 
             if (!noAddNew && addNewText) {
-              subMenu.push({ path: slugify(addNewText), name: addNewText })
+              subMenu.push({ path: slugify(addNewText) ?? "", name: addNewText })
             }
 
             subMenu.push({ path: "edit" })

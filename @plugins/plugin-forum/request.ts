@@ -21,7 +21,7 @@ export const loadAndStoreIndex = async (): Promise<void> => {
   const page = parseInt(params.page ?? query.page ?? 1)
   const limit = page === 1 ? setting("forum.indexLimit") - 1 : setting("forum.indexLimit")
 
-  const r = await requestPostIndex({
+  await requestPostIndex({
     postType,
     tag,
     category,

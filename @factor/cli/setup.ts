@@ -43,7 +43,7 @@ export const addNotice = (text: string): void => {
     log.warn(text)
   } else {
     pushToFilter({
-      key: slugify(text.slice(1, 30)),
+      key: slugify(text.slice(1, 30)) ?? "",
       hook: "cli-warnings",
       item: text
     })
