@@ -1,23 +1,23 @@
 <template>
-  <div class="content-footer-wrap text-bluegray-600">
+  <footer class="content-footer-wrap text-bluegray-600">
     <div class="content-footer-pad">
       <div class="footer-col copy-wrap">
-        <span v-formatted-text="setting('footer.legal')" class="copyright" />
-        <span class="terms">
-          <template v-for="(item, index) in setting('footer.nav')">
+        <span v-if="footerLegal" v-formatted-text="footerLegal" class="copyright" />
+        <span v-if="footerNav" class="terms">
+          <template v-for="(item, index) in footerNav">
             <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
           </template>
         </span>
       </div>
-      <div class="footer-col social">
-        <template v-for="(item, index) in setting('site.social')">
+      <div v-if="footerSocial" class="footer-col social">
+        <template v-for="(item, index) in footerSocial">
           <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
             <factor-icon v-if="item.icon" :icon="item.icon" />
           </factor-link>
         </template>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
@@ -30,7 +30,11 @@ export default Vue.extend({
     factorIcon
   },
   data: () => {
-    return {}
+    return {
+      footerLegal: setting("footer.legal"),
+      footerNav: setting("footer.nav"),
+      footerSocial: setting("site.social")
+    }
   },
   methods: { setting }
 })

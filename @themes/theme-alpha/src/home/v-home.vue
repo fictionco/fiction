@@ -4,32 +4,33 @@
 
     <section v-if="section2" :id="section2id" class="section2">
       <div class="mast title-wrap text-center">
-        <h3 v-formatted-text="section2pretitle" class="pretitle" />
-        <h1 v-formatted-text="section2title" class="title" />
+        <h3 v-if="section2pretitle" v-formatted-text="section2pretitle" class="pretitle" />
+        <h1 v-if="section2title" v-formatted-text="section2title" class="title" />
       </div>
       <div class="mast section2-inner">
         <div v-for="(item, i) in section2items" :key="i" class="item">
-          <div v-if="item.icon" class="item-icon">
-            <img :src="item.icon" :alt="item.title" />
+          <div class="item-icon">
+            <img v-if="item.icon" :src="item.icon" :alt="item.title" />
           </div>
           <div class="item-content">
-            <h2 class="item-title">{{ item.title }}</h2>
-            <p class="item-description text-gray-600">{{ item.content }}</p>
+            <h2 v-if="item.title" class="item-title">{{ item.title }}</h2>
+            <p v-if="item.content" class="item-description text-gray-600">{{ item.content }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section v-if="section2" :id="section3id" class="section3">
+    <section v-if="section3" :id="section3id" class="section3">
       <div class="mast">
         <div class="title-wrap">
           <div>
-            <h3 v-formatted-text="section3pretitle" class="pretitle" />
-            <h1 v-formatted-text="section3title" class="title" />
+            <h3 v-if="section3pretitle" v-formatted-text="section3pretitle" class="pretitle" />
+            <h1 v-if="section3title" v-formatted-text="section3title" class="title" />
           </div>
           <div v-if="section3Buttons" class="buttons">
             <template v-for="(button, i) in section3Buttons">
               <factor-link
+                v-if="button.link"
                 :key="i"
                 v-formatted-text="button.text"
                 :path="button.link"
@@ -56,17 +57,17 @@
 
     <section v-if="section4" :id="section4.id" class="section4">
       <div class="mast">
-        <h3 v-formatted-text="section4pretitle" class="pretitle" />
-        <h1 v-formatted-text="section4title" class="title" />
+        <h3 v-if="section4pretitle" v-formatted-text="section4pretitle" class="pretitle" />
+        <h1 v-if="section4title" v-formatted-text="section4title" class="title" />
       </div>
       <div class="mast testimonials section4-inner">
         <div v-for="(item, i) in section4items" :key="i" class="testimonial">
           <div v-if="item.image" class="item-image">
             <img :src="item.image" :alt="item.author" />
           </div>
-          <p v-formatted-text="item.content" class="item-content" />
-          <h2 class="item-author">{{ item.author }}</h2>
-          <h3 class="item-info">{{ item.info }}</h3>
+          <p v-if="item.content" v-formatted-text="item.content" class="item-content" />
+          <h2 v-if="item.author" v-formatted-text="item.author" class="item-author" />
+          <h3 v-if="item.info" v-formatted-text="item.info" class="item-info" />
         </div>
       </div>
     </section>
@@ -156,7 +157,7 @@ export default Vue.extend({
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: 4 //setting("work.limit")
+        limit: setting("home.section3.limit")
       })
 
       this.loading = false
@@ -198,7 +199,9 @@ export default Vue.extend({
     }
   }
 
-  // Services section
+  /**
+  * Services section
+  */
   .section2 {
     padding: 4em 0;
     background: var(--color-bg-alt);
@@ -262,7 +265,9 @@ export default Vue.extend({
     }
   }
 
-  // Work section
+  /**
+  * Work section
+  */
   .section3 {
     padding: 4em 0;
     .title-wrap {
@@ -330,7 +335,9 @@ export default Vue.extend({
     }
   }
 
-  // Testimonials section
+  /**
+  * Testimonials section
+  */
   .section4 {
     padding: 4em 0;
     background: var(--color-bg-alt);
@@ -391,7 +398,9 @@ export default Vue.extend({
     }
   }
 
-  // Clients section
+  /**
+  * Clients section
+  */
   .section5 {
     padding: 0 0 8em;
     background: var(--color-bg-alt);

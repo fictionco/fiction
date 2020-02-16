@@ -103,10 +103,6 @@ export const savePostEmbedded = async (
     )
   }
 
-  const post = await Model.find({ _id: postId })
-
-  //console.log("POST", post)
-
   return embeddedPost as FactorPost
 }
 

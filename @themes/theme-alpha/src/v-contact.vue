@@ -1,12 +1,8 @@
 <template>
   <div class="page-contact">
-    <el-hero
-      :pretitle="setting('contact.headline')"
-      :title="setting('contact.subheadline')"
-      :image="setting('contact.heroImage')"
-    >
+    <el-hero :pretitle="contactPretitle" :title="contactTitle" :image="contactHeroImage">
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('contact.content')" class="content text-gray-600" />
+        <div v-if="contactContent" v-formatted-text="contactContent" class="content text-gray-600" />
         <!-- Contact Form Plugin -->
         <component :is="setting('contactForm.form')" />
       </template>
@@ -15,18 +11,17 @@
     <section class="resources">
       <div class="mast">
         <div>
-          <h3 v-formatted-text="setting('contact.resources.pretitle')" class="pretitle" />
-          <h1 v-formatted-text="setting('contact.resources.title')" class="title" />
+          <h3
+            v-if="contactResourcesPretitle"
+            v-formatted-text="contactResourcesPretitle"
+            class="pretitle"
+          />
+          <h1 v-if="contactResourcesTitle" v-formatted-text="contactResourcesTitle" class="title" />
         </div>
-        <div class="resources-items">
-          <div v-for="(item, i) in setting('contact.resources.items')" :key="i" class="item">
-            <div v-if="item.icon" class="item-icon">
-              <img :src="item.icon" :alt="item.title" />
-            </div>
-            <div class="item-content">
-              <h2 class="item-title">{{ item.title }}</h2>
-              <p v-formatted-text="item.content" class="item-description text-gray-600" />
-            </div>
+        <div v-if="contactResourcesItems" class="resources-items">
+          <div v-for="(item, i) in contactResourcesItems" :key="i" class="item">
+            <h2 class="item-title">{{ item.title }}</h2>
+            <p v-formatted-text="item.content" class="item-description text-gray-600" />
           </div>
         </div>
       </div>
@@ -35,17 +30,26 @@
     <section class="location">
       <div class="mast">
         <div class="location-items">
-          <div v-formatted-text="setting('contact.location.map')" class="map-wrap" />
+          <div v-if="contactLocationMap" v-formatted-text="contactLocationMap" class="map-wrap" />
           <div>
             <div class="location-content-wrap">
-              <h3 v-formatted-text="setting('contact.location.pretitle')" class="pretitle" />
-              <h1 v-formatted-text="setting('contact.location.title')" class="title" />
+              <h3
+                v-if="contactLocationPretitle"
+                v-formatted-text="contactLocationPretitle"
+                class="pretitle"
+              />
+              <h1
+                v-if="contactLocationTitle"
+                v-formatted-text="contactLocationTitle"
+                class="title"
+              />
               <div
-                v-formatted-text="setting('contact.location.content')"
+                v-if="contactLocationContent"
+                v-formatted-text="contactLocationContent"
                 class="location-content text-gray-600"
               />
               <factor-link
-                v-if="setting('contact.location.button.text')"
+                v-if="contactLocationButton"
                 v-formatted-text="setting('contact.location.button.text')"
                 :path="setting('contact.location.button.link')"
                 :class="setting('contact.location.button.classes')"
@@ -71,7 +75,19 @@ export default Vue.extend({
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      contactPretitle: setting("contact.pretitle"),
+      contactTitle: setting("contact.title"),
+      contactContent: setting("contact.content"),
+      contactHeroImage: setting("contact.heroImage"),
+      contactResourcesPretitle: setting("contact.resources.pretitle"),
+      contactResourcesTitle: setting("contact.resources.title"),
+      contactResourcesItems: setting("contact.resources.items"),
+      contactLocationMap: setting("contact.location.map"),
+      contactLocationPretitle: setting("contact.location.pretitle"),
+      contactLocationTitle: setting("contact.location.title"),
+      contactLocationContent: setting("contact.location.content"),
+      contactLocationButton: setting("contact.location.button")
     }
   },
   methods: {
