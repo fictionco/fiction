@@ -44,7 +44,7 @@ export default Vue.extend({
 
     h2 {
       font-size: 2.2em;
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
     }
     .buttons {
       justify-self: flex-end;

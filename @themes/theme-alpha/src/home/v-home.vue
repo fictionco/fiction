@@ -124,9 +124,6 @@ export default Vue.extend({
     }
   },
   computed: {
-    // tag(this: any) {
-    //   return this.$route.params.tag || this.$route.query.tag || ""
-    // },
     index(this: any) {
       return stored(this.postType) || {}
     },
@@ -191,38 +188,24 @@ export default Vue.extend({
     letter-spacing: 2px;
   }
   .title {
-    font-weight: var(--font-weight-bold, 800);
+    font-weight: var(--font-weight-bold);
     font-size: 3em;
     letter-spacing: -0.03em;
-    color: #110d47;
+    color: var(--color-text);
 
     @media (max-width: 900px) {
       font-size: 2em;
     }
   }
 
-  .section2,
-  .section4,
-  .section5 {
-    background: var(--color-bg-alt, #f3f5fb);
-    .pretitle {
-      color: var(--color-primary, #1a49bd);
-    }
-  }
-
-  .section2,
-  .section3,
-  .section4,
-  .section5 {
-    .pretitle {
-      color: var(--color-primary, #1a49bd);
-    }
-  }
-
-  // Services offered
+  // Services section
   .section2 {
     padding: 4em 0;
+    background: var(--color-bg-alt);
 
+    .pretitle {
+      color: var(--color-primary);
+    }
     .title {
       margin-bottom: 2rem;
     }
@@ -250,7 +233,7 @@ export default Vue.extend({
         }
         .item-content {
           .item-title {
-            font-weight: var(--font-weight-bold, 800);
+            font-weight: var(--font-weight-bold);
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
             @media (max-width: 900px) {
@@ -274,14 +257,12 @@ export default Vue.extend({
           background: #fff;
           box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
             0 10px 10px -5px rgba(0, 0, 0, 0.04);
-          // box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
-          //   0px 3px 30px rgba(0, 0, 0, 0.15);
         }
       }
     }
   }
 
-  // Work showcase
+  // Work section
   .section3 {
     padding: 4em 0;
     .title-wrap {
@@ -291,10 +272,12 @@ export default Vue.extend({
       align-items: center;
       margin-bottom: 2rem;
 
+      .pretitle {
+        color: var(--color-primary);
+      }
       .buttons {
         justify-self: flex-end;
       }
-
       @media (max-width: 900px) {
         grid-gap: 1rem;
         grid-template-columns: 1fr;
@@ -304,7 +287,6 @@ export default Vue.extend({
       }
     }
   }
-
   .work-posts {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -323,13 +305,13 @@ export default Vue.extend({
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
 
         .entry-title {
-          font-weight: var(--font-weight-bold, 800);
+          font-weight: var(--font-weight-bold);
           font-size: 1.5rem;
           margin-bottom: 0.5rem;
           a {
             color: inherit;
             &:hover {
-              color: var(--color-primary, #1a49bd);
+              color: var(--color-primary);
             }
           }
         }
@@ -348,11 +330,16 @@ export default Vue.extend({
     }
   }
 
-  // Testimonials
+  // Testimonials section
   .section4 {
     padding: 4em 0;
+    background: var(--color-bg-alt);
+
     .title-wrap {
       margin-bottom: 2rem;
+      .pretitle {
+        color: var(--color-primary);
+      }
     }
   }
   .testimonials {
@@ -388,7 +375,7 @@ export default Vue.extend({
         }
       }
       .item-author {
-        font-weight: var(--font-weight-bold, 800);
+        font-weight: var(--font-weight-bold);
       }
       .item-info,
       .item-content {
@@ -404,8 +391,14 @@ export default Vue.extend({
     }
   }
 
+  // Clients section
   .section5 {
     padding: 0 0 8em;
+    background: var(--color-bg-alt);
+
+    .pretitle {
+      color: var(--color-primary);
+    }
   }
 }
 </style>

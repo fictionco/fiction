@@ -3,7 +3,15 @@ export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />`
   },
+  metatags: {
+    defaultTitle: "Alpha",
+    titleTemplate: "%s - Factor JS"
+  },
   site: {
+    components: {
+      header: (): Promise<Component> => import("./header.vue"),
+      footer: (): Promise<Component> => import("./footer.vue")
+    },
     logo: (): Promise<Component> => import("./el/logo.vue"),
     nav: [
       {
@@ -136,6 +144,7 @@ export default {
       ]
     },
     section3: {
+      // Posts and post settings of section3 are managed via the "work" page settings
       id: "work",
       pretitle: "Latest Projects",
       title: "Work",
@@ -292,7 +301,7 @@ export default {
     headline: "Work",
     subheadline: "Case Studies",
     content:
-      "Great products happen with passion, intelligence, and personal commitment.",
+      "Great projects happen with passion, intelligence, and personal commitment.",
     components: {
       workWrap: (): Promise<Component> => import("./work/work-wrap.vue"),
       workIndex: (): Promise<Component> => import("./work/work-index.vue"),

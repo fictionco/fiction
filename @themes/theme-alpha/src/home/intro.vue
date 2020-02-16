@@ -1,9 +1,9 @@
 <template>
   <section v-if="setting('home.intro')" class="intro">
     <div class="intro-inner">
-      <h3 class="pretitle text-white">{{ section1Pretitle }}</h3>
+      <h3 class="pretitle text-bluegray-600">{{ section1Pretitle }}</h3>
       <h1 v-formatted-text="section1Title" class="title" />
-      <div class="content">{{ section1Content }}</div>
+      <div class="content text-bluegray-600">{{ section1Content }}</div>
 
       <div v-if="section1Buttons" class="buttons">
         <template v-for="(button, index) in section1Buttons">
@@ -43,7 +43,7 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .intro {
-  background-color: var(--color-bg-dark, #110d47);
+  background-color: var(--color-bg-dark);
   color: #fff;
   position: relative;
 
@@ -72,10 +72,9 @@ export default Vue.extend({
     .pretitle {
       position: relative;
       text-transform: uppercase;
-      color: #99adc0;
     }
     .title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 3.6em;
       letter-spacing: -0.03em;
       margin: 10px 0;
@@ -87,7 +86,6 @@ export default Vue.extend({
     }
     .content {
       max-width: 600px;
-      color: #99adc0;
       font-size: 1.4em;
       line-height: 1.6em;
     }

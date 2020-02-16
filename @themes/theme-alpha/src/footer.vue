@@ -1,5 +1,5 @@
 <template>
-  <div class="content-footer-wrap">
+  <div class="content-footer-wrap text-bluegray-600">
     <div class="content-footer-pad">
       <div class="footer-col copy-wrap">
         <span v-formatted-text="setting('footer.legal')" class="copyright" />
@@ -39,7 +39,6 @@ export default Vue.extend({
 <style lang="less">
 .content-footer-wrap {
   background: #110d47;
-  color: #99adc0;
 
   .content-footer-pad {
     display: grid;
@@ -53,7 +52,6 @@ export default Vue.extend({
     a {
       color: #99adc0;
       &:hover {
-        //color: #fff;
         color: var(--color-primary);
       }
     }

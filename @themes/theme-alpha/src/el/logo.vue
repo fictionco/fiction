@@ -50,7 +50,6 @@ export default Vue.extend({
   &:hover {
     .thelogotext {
       fill: var(--color-primary);
-      //opacity: 0.8;
     }
   }
 }

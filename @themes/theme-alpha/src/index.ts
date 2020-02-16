@@ -22,12 +22,6 @@ export const setup = (): void => {
     nameIndex: "Work",
     nameSingle: "Work Post",
     namePlural: "Work Posts",
-    //accessLevel: 100,
-    //add: true,
-    //hideAdmin: false,
-    //model: "WorkPost",
-    // listTemplate: () => import("./custom-dashboard-list-view.vue"), // optional
-    // editTemplate: () => import("./custom-post-edit-view.vue") // optional
   })
 
   // page templates

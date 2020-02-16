@@ -1,19 +1,11 @@
 <template>
   <div class="work-pagination">
     <div>
-      <factor-btn
-        v-if="pageCurrent > 1"
-        :class="`primary rounded-full mr-1`"
-        @click="page('previous')"
-      >
+      <factor-btn v-if="pageCurrent > 1" :class="`primary rounded-full`" @click="page('previous')">
         <factor-icon icon="fas fa-angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
-      <factor-btn
-        v-if="pageCurrent < pageCount"
-        class="primary rounded-full ml-1"
-        @click="page('next')"
-      >
+      <factor-btn v-if="pageCurrent < pageCount" class="primary rounded-full" @click="page('next')">
         <span class="custom-uppercase">Next</span>
         <factor-icon icon="fas fa-angle-right" />
       </factor-btn>

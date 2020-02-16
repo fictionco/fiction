@@ -187,7 +187,7 @@ export default Vue.extend({
             color: #70757b;
             &.router-link-exact-active,
             &:hover {
-              color: var(--color-primary, #1a49bd);
+              color: var(--color-primary);
             }
           }
         }
@@ -219,6 +219,7 @@ export default Vue.extend({
       grid-template-columns: 1fr 1fr;
       grid-gap: 2rem;
       padding: 3em 2em;
+      max-width: 100%;
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;

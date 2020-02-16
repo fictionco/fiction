@@ -2,15 +2,12 @@
   <div class="entry-header">
     <div class="entry-header-inner">
       <component :is="setting('blog.components.returnLink')" />
+
       <h1 class="entry-title">
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
 
       <h3 class="entry-synopsis">{{ post.synopsis }}</h3>
-
-      <!-- <div v-for="authorId in post.images" :key="authorId" class="author">
-        <img :src="getPost(authorId).url" />
-      </div>-->
 
       <factor-post-edit :post-id="post._id" />
     </div>
@@ -46,9 +43,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    // getPost(_id: any) {
-    //   return stored(_id) || {}
-    // },
     postLink,
     setting,
     standardDate
@@ -85,7 +79,7 @@ export default Vue.extend({
         text-transform: uppercase;
       }
       .entry-title {
-        font-weight: var(--font-weight-bold, 800);
+        font-weight: var(--font-weight-bold);
         font-size: 3em;
         letter-spacing: -0.03em;
         margin: 0.3em 0;

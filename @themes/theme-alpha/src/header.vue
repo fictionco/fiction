@@ -150,11 +150,6 @@ export default Vue.extend({
   .nav,
   .social {
     > a {
-      //letter-spacing: 0.08em;
-      //font-size: 0.9em;
-      //font-weight: 300;
-      // margin: 0 0.5em;
-
       color: #99adc0;
       padding: 0 0.6em;
 
@@ -186,7 +181,6 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-weight: 300;
     text-transform: uppercase;
     letter-spacing: 2px;

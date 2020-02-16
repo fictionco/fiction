@@ -145,12 +145,12 @@ export default Vue.extend({
   }
 
   .factor-btn.default {
-    color: var(--color-primary, #1a49bd);
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   // feature
   .feature {
-    background-color: var(--color-primary, #1a49bd);
+    background-color: var(--color-primary);
     color: #fff;
     position: relative;
 
@@ -250,7 +250,7 @@ export default Vue.extend({
   }
 
   .brands {
-    background: var(--color-bg-alt, #f3f5fb);
+    background: var(--color-bg-alt);
     padding: 3em 0;
     .title {
       font-weight: 600;

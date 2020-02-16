@@ -74,7 +74,7 @@ export default Vue.extend({
 
     .return-link a,
     .edit {
-      color: var(--color-primary, #1a49bd);
+      color: var(--color-primary);
     }
 
     .entry-tags a {
@@ -104,7 +104,7 @@ export default Vue.extend({
       position: relative;
       margin-top: 2rem;
       padding: 3em;
-      background: var(--color-bg-alt, #f3f5fb);
+      background: var(--color-bg-alt);
       @media (max-width: 900px) {
         padding: 1.5em 1em;
       }

@@ -26,11 +26,9 @@
 
 <script lang="ts">
 import { setting } from "@factor/api"
-//import { factorLink } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    //factorLink,
     "el-clients": () => import("../el/clients.vue"),
     "el-hero": () => import("../el/hero.vue"),
     "el-cta": () => import("../el/cta.vue")

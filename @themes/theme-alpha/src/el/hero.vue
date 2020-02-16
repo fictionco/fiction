@@ -32,7 +32,7 @@ export default Vue.extend({
 .hero {
   position: relative;
   //overflow: hidden;
-  background: var(--color-bg-alt, #f3f5fb);
+  background: var(--color-bg-alt);
 
   .mast {
     padding: 0 2em;
@@ -60,7 +60,7 @@ export default Vue.extend({
       color: var(--color-primary);
     }
     .title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 3em;
       letter-spacing: -0.03em;
       margin: 0.3em 0;

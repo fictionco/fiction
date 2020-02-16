@@ -49,7 +49,7 @@ export default Vue.extend({
     transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
 
     .entry-title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
       a {
@@ -84,9 +84,10 @@ export default Vue.extend({
     padding: 2em;
 
     .entry-title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 3em;
       letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
 
       a {
         color: inherit;
@@ -94,6 +95,7 @@ export default Vue.extend({
     }
     .entry-subtitle {
       font-size: 1.25em;
+      line-height: 1.6em;
     }
     .edit {
       display: block;
