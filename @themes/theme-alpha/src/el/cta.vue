@@ -1,13 +1,13 @@
 <template>
-  <section class="cta">
+  <section v-if="cta" class="cta">
     <div class="cta-inner">
-      <h2>{{ setting("site.cta.headline") }}</h2>
-      <div class="buttons">
+      <h2 v-if="ctaHeadline">{{ ctaHeadline }}</h2>
+      <div v-if="ctaPath" class="buttons">
         <factor-link
-          :path="setting('site.cta.path')"
+          :path="ctaPath"
           class="btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
         >
-          {{ setting("site.cta.text") }}
+          {{ ctaText }}
           <factor-icon icon="fas fa-arrow-right" />
         </factor-link>
       </div>
@@ -21,6 +21,15 @@ import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorIcon, factorLink },
+  data() {
+    return {
+      loading: true,
+      cta: setting("site.cta"),
+      ctaHeadline: setting("site.cta.headline"),
+      ctaPath: setting("site.cta.path"),
+      ctaText: setting("site.cta.text")
+    }
+  },
   methods: { setting }
 })
 </script>

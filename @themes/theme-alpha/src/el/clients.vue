@@ -1,6 +1,6 @@
 <template>
-  <div v-if="setting('about.clients')" :id="setting('about.clients.id')" class="clients">
-    <template v-for="(item, i) in setting('about.clients.items')">
+  <div v-if="aboutClients" :id="aboutClientsid" class="clients">
+    <template v-for="(item, i) in aboutClientsItems">
       <factor-link v-if="item.link" :key="i" :path="item.link" :target="item.target">
         <img v-if="item.image" :src="item.image" :alt="item.alt" />
       </factor-link>
@@ -19,7 +19,10 @@ export default Vue.extend({
   components: { factorLink },
   data() {
     return {
-      loading: true
+      loading: true,
+      aboutClients: setting("about.clients"),
+      aboutClientsid: setting("about.clients.id"),
+      aboutClientsItems: setting("about.clients.items")
     }
   },
   methods: { setting }

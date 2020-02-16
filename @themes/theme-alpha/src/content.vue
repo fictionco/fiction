@@ -1,7 +1,7 @@
 <template>
-  <div class="alpha-content">
+  <div class="content-layout alpha-content">
     <header-primary />
-    <div :style="bg">
+    <div class="content-main" :style="bg">
       <router-view />
     </div>
     <footer-primary />

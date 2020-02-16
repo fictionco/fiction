@@ -1,11 +1,11 @@
 <template>
-  <section class="hero">
+  <section v-if="title || pretitle" class="hero">
     <div class="mast">
       <div class="hero-inner">
         <div>
           <slot name="hero-pretitle" />
-          <h1 v-formatted-text="pretitle" class="pretitle" />
-          <h2 v-formatted-text="title" class="title" />
+          <h1 v-if="pretitle" v-formatted-text="pretitle" class="pretitle" />
+          <h2 v-if="title" v-formatted-text="title" class="title" />
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">

@@ -67,8 +67,11 @@ export default {
         icon: "fab fa-linkedin"
       }
     ],
+    /**
+     * Copy for the call to action on the home page, work page, and about page.
+     */
     cta: {
-      headline: "Let’s create something extraordinary", //For work inquiries, collaboration or feedback
+      headline: "Let’s create something extraordinary",
       path: "/contact",
       text: "Get in Touch"
     }
@@ -88,6 +91,9 @@ export default {
       }
     ]
   },
+  /**
+   * Copy for the home page template.
+   */
   home: {
     component: (): Promise<Component> => import("./home/v-home.vue"),
     intro: {
@@ -113,30 +119,33 @@ export default {
       ]
     },
     section2: {
+      /**
+      * Home page "Services" section.
+      */
       id: "services",
       pretitle: "Services",
-      title: "Tailored Digital Experiences", //Services 
+      title: "Tailored Digital Experiences",
       items: [
         {
-          _item: "branding",
+          _item: "service_1",
           icon: require("./img/icon-branding.svg"),
           title: "Branding",
           content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.`
         },
         {
-          _item: "uiux-design",
+          _item: "service_2",
           icon: require("./img/icon-ux.svg"),
           title: "UI/UX Design",
           content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.`
         },
         {
-          _item: "frontend-development",
+          _item: "service_3",
           icon: require("./img/icon-web.svg"),
           title: "Front-end Development",
           content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.`
         },
         {
-          _item: "prototyping",
+          _item: "service_4",
           icon: require("./img/icon-prototype.svg"),
           title: "Prototyping",
           content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.`
@@ -144,10 +153,13 @@ export default {
       ]
     },
     section3: {
-      // Posts and post settings of section3 are managed via the "work" page settings
+      /**
+      * Home page "work" section.
+      * Note: Post settings of this section are managed via the "work" page settings
+      */
       id: "work",
-      pretitle: "Latest Projects",
-      title: "Work",
+      pretitle: "Work",
+      title: "Latest Projects",
       buttons: [
         {
           _item: "work",
@@ -155,32 +167,36 @@ export default {
           text: `View All Projects <i class="fas fa-arrow-right"></i>`,
           classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
         }
-      ]
+      ],
+      limit: 4 // Post limit
     },
     section4: {
+      /**
+      * Home page "Testimonials" section.
+      */
       id: "testimonials",
       pretitle: "Testimonials",
       title: "Success Stories",
-      content: "We’re humbled to be working with such a great variety of clients that range from early stage startups to Fortune 500 companies.",
       items: [
         {
           _item: "testimonial_1",
           image: require("./img/client1.jpg"),
+          content: `&ldquo; @Alpha designed and fully managed our migration to #productA and on-premises enterprise deployments. Absolutely fantastic! &rdquo;`,
           author: "Kate Brennan",
-          info: "CEO, Sed Laudantium",
-          content: `&ldquo; @Alpha designed and fully managed our migration to #productA and on-premises enterprise deployments. Absolutely fantastic! &rdquo;`
+          info: "CEO, Sed Laudantium"
         },
         {
           _item: "testimonial_2",
-          content: `&ldquo; Original, Creative and with an inborn understanding of their customer's needs. Alpha is always a pleasure to work with. &rdquo;`,
           image: require("./img/client2.jpg"),
+          content: `&ldquo; Original, Creative and with an inborn understanding of their customer's needs. Alpha is always a pleasure to work with. &rdquo;`,
           author: "Sebastian Hodges",
           info: "CEO, Lorem ipsum"
         }
       ]
     },
-    // Client options are under "About" page settings below.
-    // Call to action settings are under "Site" settings above.
+    /**
+    * Home page client logos are set via the "About" page settings below.
+    */
     metatags: {
       title: "Factor Alpha Theme",
       description:
@@ -359,8 +375,8 @@ export default {
     }
   },
   contact: {
-    headline: "Contact",
-    subheadline: "Let's Talk!",
+    pretitle: "Contact",
+    title: "Let's Talk!",
     content:
       "A new project is an opportunity to create something unique. Share your idea, drop me a note and I’ll get back to you within 24 hours.",
     heroImage: require("./img/contact.jpg"),

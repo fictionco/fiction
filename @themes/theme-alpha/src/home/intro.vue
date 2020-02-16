@@ -1,13 +1,14 @@
 <template>
-  <section v-if="setting('home.intro')" class="intro">
+  <section v-if="section1" class="intro">
     <div class="intro-inner">
-      <h3 class="pretitle text-bluegray-600">{{ section1Pretitle }}</h3>
-      <h1 v-formatted-text="section1Title" class="title" />
-      <div class="content text-bluegray-600">{{ section1Content }}</div>
+      <h3 v-if="section1Pretitle" class="pretitle text-bluegray-600">{{ section1Pretitle }}</h3>
+      <h1 v-if="section1Title" v-formatted-text="section1Title" class="title" />
+      <div v-if="section1Content" class="content text-bluegray-600">{{ section1Content }}</div>
 
       <div v-if="section1Buttons" class="buttons">
         <template v-for="(button, index) in section1Buttons">
           <factor-link
+            v-if="button.link"
             :key="index"
             v-formatted-text="button.text"
             :path="button.link"
@@ -30,6 +31,7 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
+      section1: setting("home.intro"),
       section1Pretitle: setting("home.intro.pretitle"),
       section1Title: setting("home.intro.title"),
       section1Content: setting("home.intro.content"),
@@ -49,6 +51,7 @@ export default Vue.extend({
 
   &:before {
     position: absolute;
+    z-index: 1;
     content: "";
     width: 100%;
     height: 100%;

@@ -1,20 +1,16 @@
 <template>
   <div class="page-about">
-    <el-hero
-      :pretitle="setting('about.pretitle')"
-      :title="setting('about.title')"
-      :image="setting('about.heroImage')"
-    >
+    <el-hero :pretitle="aboutPretitle" :title="aboutTitle" :image="aboutHeroImage">
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('about.content')" class="content text-gray-600" />
+        <div v-if="aboutContent" v-formatted-text="aboutContent" class="content text-gray-600" />
       </template>
     </el-hero>
 
-    <section v-if="setting('about.clients')" :id="setting('about.clients.id')" class="clients-wrap">
+    <section v-if="aboutClients" :id="aboutClientsid" class="clients-wrap">
       <div class="mast">
-        <h3 class="pretitle">{{ setting('about.clients.pretitle') }}</h3>
-        <h1 v-formatted-text="setting('about.clients.title')" class="title" />
-        <div v-formatted-text="setting('about.clients.content')" class="content text-gray-600" />
+        <h3 class="pretitle">{{ aboutClientsPretitle }}</h3>
+        <h1 v-formatted-text="aboutClientsTitle" class="title" />
+        <div v-formatted-text="aboutClientsContent" class="content text-gray-600" />
 
         <el-clients />
       </div>
@@ -29,13 +25,22 @@ import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-clients": () => import("../el/clients.vue"),
-    "el-hero": () => import("../el/hero.vue"),
-    "el-cta": () => import("../el/cta.vue")
+    "el-clients": () => import("./el/clients.vue"),
+    "el-hero": () => import("./el/hero.vue"),
+    "el-cta": () => import("./el/cta.vue")
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      aboutPretitle: setting("about.pretitle"),
+      aboutTitle: setting("about.title"),
+      aboutHeroImage: setting("about.heroImage"),
+      aboutContent: setting("about.content"),
+      aboutClients: setting("about.clients"),
+      aboutClientsid: setting("about.clients.id"),
+      aboutClientsPretitle: setting("about.clients.pretitle"),
+      aboutClientsTitle: setting("about.clients.title"),
+      aboutClientsContent: setting("about.clients.content")
     }
   },
   metaInfo() {

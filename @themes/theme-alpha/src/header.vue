@@ -1,5 +1,5 @@
 <template>
-  <div class="site-head blue">
+  <header class="site-head">
     <div class="site-head-pad">
       <site-brand />
       <div
@@ -27,7 +27,7 @@
         <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
     </div>
-  </div>
+  </header>
 </template>
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
