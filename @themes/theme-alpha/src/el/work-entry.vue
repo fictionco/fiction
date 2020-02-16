@@ -10,7 +10,7 @@
         <div class="hero-inner">
           <div>
             <factor-link class="back" :path="setting('work.indexRoute')">
-              <factor-icon icon="fas fa-arrow-left" /> All
+              <factor-icon icon="fas fa-arrow-left" />All
             </factor-link>
             <h1 class="heading">
               <factor-link :path="path">{{ title }}</factor-link>
@@ -97,7 +97,7 @@ export default Vue.extend({
         top: 0;
         right: auto;
         bottom: 0;
-        background-color: var(--color-bg-alt, #f3f5fb);
+        background-color: var(--color-bg-alt);
         @media (max-width: 1024px) {
           width: 100%;
         }
@@ -121,7 +121,7 @@ export default Vue.extend({
           text-transform: uppercase;
         }
         .heading {
-          font-weight: var(--font-weight-bold, 800);
+          font-weight: var(--font-weight-bold);
           font-size: 3em;
           letter-spacing: -0.03em;
           margin: 0.3em 0;
@@ -130,7 +130,7 @@ export default Vue.extend({
           }
           a:hover {
             text-decoration: underline;
-            text-decoration-color: var(--color-tertiary);
+            text-decoration-color: var(--color-primary);
           }
         }
         .content {
@@ -190,7 +190,7 @@ export default Vue.extend({
       }
     }
     .title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 1.8em;
       line-height: 1.2;
       margin-bottom: 0.2em;

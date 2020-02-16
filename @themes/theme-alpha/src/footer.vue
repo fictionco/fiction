@@ -1,5 +1,5 @@
 <template>
-  <div class="content-footer-wrap">
+  <div class="content-footer-wrap text-bluegray-600">
     <div class="content-footer-pad">
       <div class="footer-col copy-wrap">
         <span v-formatted-text="setting('footer.legal')" class="copyright" />
@@ -8,9 +8,6 @@
             <factor-link :key="index" :path="item.path">{{ item.text }}</factor-link>
           </template>
         </span>
-      </div>
-      <div class="footer-col brand-wrap">
-        <site-brand />
       </div>
       <div class="footer-col social">
         <template v-for="(item, index) in setting('site.social')">
@@ -30,8 +27,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    factorIcon,
-    "site-brand": () => import("./el/brand.vue")
+    factorIcon
   },
   data: () => {
     return {}
@@ -43,11 +39,10 @@ export default Vue.extend({
 <style lang="less">
 .content-footer-wrap {
   background: #110d47;
-  color: #e1e1e1;
 
   .content-footer-pad {
     display: grid;
-    grid-template-columns: 2fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 0 10px;
     align-items: center;
     margin: 0 auto;
@@ -55,7 +50,7 @@ export default Vue.extend({
     max-width: 1024px;
 
     a {
-      color: #fff;
+      color: #99adc0;
       &:hover {
         color: var(--color-primary);
       }
@@ -64,21 +59,18 @@ export default Vue.extend({
     .footer-col {
       &.copy-wrap {
         order: 1;
-        font-size: 0.7em;
-        line-height: 1.6em;
+        font-size: 0.8em;
 
         .terms a {
-          padding-left: 10px;
+          padding: 0 7px;
         }
       }
-      &.brand-wrap {
-        justify-self: center;
-        order: 2;
-      }
       &.social {
-        order: 3;
+        order: 2;
         text-align: right;
+
         a {
+          font-size: 1.2em;
           padding: 0 0.5em;
         }
       }
@@ -88,21 +80,24 @@ export default Vue.extend({
   @media screen and (max-width: 900px) {
     .content-footer-pad {
       grid-template-columns: 1fr;
-      padding: 1em;
+      padding: 2rem 1rem 3rem;
       text-align: center;
       .footer-col {
         padding-bottom: 1em;
         &.copy-wrap {
-          order: 3;
+          order: 2;
+          font-size: 1em;
+          .copyright,
+          .terms a {
+            display: block;
+            padding: 0.5em 0;
+          }
           .terms {
             text-align: center;
           }
         }
-        &.brand-wrap {
-          order: 1;
-        }
         &.social {
-          order: 2;
+          order: 1;
           text-align: center;
         }
       }

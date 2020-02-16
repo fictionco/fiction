@@ -2,30 +2,30 @@
   <div class="page-home">
     <home-intro v-if="setting(`home.intro.component`)" />
 
-    <section v-if="setting('home.section2')" :id="setting('home.section2.id')" class="section2">
+    <section v-if="section2" :id="section2id" class="section2">
       <div class="mast title-wrap text-center">
-        <h3 class="pretitle">{{ setting('home.section2.pretitle') }}</h3>
-        <h1 v-formatted-text="setting('home.section2.title')" class="title" />
+        <h3 v-formatted-text="section2pretitle" class="pretitle" />
+        <h1 v-formatted-text="section2title" class="title" />
       </div>
       <div class="mast section2-inner">
-        <div v-for="(item, i) in setting('home.section2.items')" :key="i" class="item">
+        <div v-for="(item, i) in section2items" :key="i" class="item">
           <div v-if="item.icon" class="item-icon">
             <img :src="item.icon" :alt="item.title" />
           </div>
           <div class="item-content">
             <h2 class="item-title">{{ item.title }}</h2>
-            <p class="item-description">{{ item.content }}</p>
+            <p class="item-description text-gray-600">{{ item.content }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section v-if="setting('home.section3')" :id="setting('home.section3.id')" class="section3">
+    <section v-if="section2" :id="section3id" class="section3">
       <div class="mast">
         <div class="title-wrap">
           <div>
-            <h3 class="pretitle">{{ setting('home.section3.pretitle') }}</h3>
-            <h1 v-formatted-text="setting('home.section3.title')" class="title" />
+            <h3 v-formatted-text="section3pretitle" class="pretitle" />
+            <h1 v-formatted-text="section3title" class="title" />
           </div>
           <div v-if="section3Buttons" class="buttons">
             <template v-for="(button, i) in section3Buttons">
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="mast">
-        <div if="workPosts.length > 0" class="work-posts posts-index">
+        <div v-if="workPosts.length > 0" class="work-posts posts-index">
           <div v-for="post in workPosts" :key="post._id" class="work-post">
             <component
               :is="setting(`work.components.${comp}`)"
@@ -54,28 +54,29 @@
       </div>
     </section>
 
-    <section v-if="setting('home.section4')" :id="setting('home.section4.id')" class="section4">
+    <section v-if="section4" :id="section4.id" class="section4">
       <div class="mast">
-        <h3 class="pretitle">{{ setting('home.section4.pretitle') }}</h3>
-        <h1 v-formatted-text="setting('home.section4.title')" class="title" />
+        <h3 v-formatted-text="section4pretitle" class="pretitle" />
+        <h1 v-formatted-text="section4title" class="title" />
       </div>
       <div class="mast testimonials section4-inner">
-        <div v-for="(item, i) in setting('home.section4.items')" :key="i" class="testimonial">
+        <div v-for="(item, i) in section4items" :key="i" class="testimonial">
           <div v-if="item.image" class="item-image">
             <img :src="item.image" :alt="item.author" />
           </div>
-          <p class="item-content">{{ item.content }}</p>
+          <p v-formatted-text="item.content" class="item-content" />
           <h2 class="item-author">{{ item.author }}</h2>
           <h3 class="item-info">{{ item.info }}</h3>
         </div>
       </div>
     </section>
 
-    <section v-if="setting('about.clients')" :id="setting('about.clients.id')" class="section5">
+    <section v-if="section5" :id="section5.id" class="section5">
       <div class="mast">
         <el-clients />
       </div>
     </section>
+
     <el-cta />
   </div>
 </template>
@@ -95,23 +96,34 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
-      section1Title: setting("home.intro.title"),
-      section1Content: setting("home.intro.content"),
-      section1Buttons: setting("home.intro.buttons"),
+      section2: setting("home.section2"),
+      section2id: setting("home.section2.id"),
+      section2pretitle: setting("home.section2.pretitle"),
+      section2title: setting("home.section2.title"),
+      section2items: setting("home.section2.items"),
+      section3: setting("home.section3"),
+      section3id: setting("home.section3.id"),
+      section3pretitle: setting("home.section3.pretitle"),
+      section3title: setting("home.section3.title"),
       section3Buttons: setting("home.section3.buttons"),
+      section4: setting("home.section4"),
+      section4id: setting("home.section4.id"),
+      section4pretitle: setting("home.section4.pretitle"),
+      section4title: setting("home.section4.title"),
+      section4items: setting("home.section4.items"),
+      section5: setting("about.clients"),
+      section5id: setting("about.clients.id"),
       postType: "work"
     }
   },
   metaInfo() {
     return {
-      title: setting("home.meta.title"),
-      description: setting("home.meta.description")
+      title: setting("home.metatags.title"),
+      description: setting("home.metatags.description"),
+      image: setting("home.metatags.image")
     }
   },
   computed: {
-    tag(this: any) {
-      return this.$route.params.tag || this.$route.query.tag || ""
-    },
     index(this: any) {
       return stored(this.postType) || {}
     },
@@ -140,7 +152,7 @@ export default Vue.extend({
 
       await requestPostIndex({
         postType: this.postType,
-        tag: this.tag,
+        //tag: this.tag,
         status: "published",
         sort: "-date",
         page: this.page,
@@ -153,97 +165,6 @@ export default Vue.extend({
   serverPrefetch() {
     return this.getPosts()
   }
-  // pageTemplate() {
-  //   return {
-  //     name: "Landing Page",
-  //     description: "Minimalist landing page template.",
-  //     inputs: [
-  //       {
-  //         input: "text",
-  //         label: "Pre-heading",
-  //         key: "pageHeadingPre"
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Heading",
-  //         description: "Primary page heading",
-  //         key: "pageHeading"
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Sub Heading",
-  //         key: "pageHeadingSub"
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Button Link",
-  //         key: "buttonLink"
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Button Text",
-  //         key: "buttonText"
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Boxes Title",
-  //         key: "boxesTitle"
-  //       },
-  //       {
-  //         key: "boxes",
-  //         input: "sortable",
-  //         label: "Feature Boxes",
-  //         description: "Some feature boxes",
-  //         inputs: [
-  //           {
-  //             input: "text",
-  //             label: "Heading",
-  //             key: "heading"
-  //           },
-  //           {
-  //             input: "textarea",
-  //             label: "Description",
-  //             key: "description"
-  //           },
-  //           {
-  //             input: "image-upload",
-  //             label: "Icon",
-  //             key: "icon"
-  //           }
-  //         ]
-  //       },
-  //       {
-  //         input: "text",
-  //         label: "Brands Title",
-  //         key: "brandsTitle"
-  //       },
-  //       {
-  //         key: "brands",
-  //         input: "sortable",
-  //         label: "Feature Brands",
-  //         description: "Some feature brands",
-  //         inputs: [
-  //           {
-  //             input: "text",
-  //             label: "Link",
-  //             description: "(Optional)",
-  //             key: "link"
-  //           },
-  //           {
-  //             input: "image-upload",
-  //             label: "Image",
-  //             key: "image"
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // },
-  // methods: {
-  //   settings() {
-  //     return ["test"]
-  //   }
-  // }
 })
 </script>
 
@@ -264,40 +185,30 @@ export default Vue.extend({
   }
   .pretitle {
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
   }
   .title {
-    font-weight: var(--font-weight-bold, 800);
+    font-weight: var(--font-weight-bold);
     font-size: 3em;
     letter-spacing: -0.03em;
-    color: #110d47;
+    color: var(--color-text);
 
     @media (max-width: 900px) {
       font-size: 2em;
     }
   }
 
-  .section2,
-  .section4,
-  .section5 {
-    background: var(--color-bg-alt, #f3f5fb);
-    .pretitle {
-      color: var(--color-primary, #1a49bd);
-    }
-  }
-
-  .section2,
-  .section3,
-  .section4,
-  .section5 {
-    .pretitle {
-      color: var(--color-primary, #1a49bd);
-    }
-  }
-
-  // Services offered
+  // Services section
   .section2 {
     padding: 4em 0;
+    background: var(--color-bg-alt);
+
+    .pretitle {
+      color: var(--color-primary);
+    }
+    .title {
+      margin-bottom: 2rem;
+    }
 
     .section2-inner {
       display: grid;
@@ -307,10 +218,11 @@ export default Vue.extend({
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
       }
+
       .item {
         display: grid;
         grid-template-columns: 80px 1fr;
-        grid-gap: 1rem;
+        grid-gap: 2rem;
         padding: 2rem 1rem;
         border-radius: 0.5rem;
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
@@ -320,9 +232,8 @@ export default Vue.extend({
           flex-direction: column;
         }
         .item-content {
-          padding-left: 1rem;
           .item-title {
-            font-weight: var(--font-weight-bold, 800);
+            font-weight: var(--font-weight-bold);
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
             @media (max-width: 900px) {
@@ -330,31 +241,28 @@ export default Vue.extend({
             }
           }
           .item-description {
-            opacity: 0.5;
             line-height: 1.6rem;
           }
         }
 
         @media (max-width: 900px) {
           grid-template-columns: 1fr;
+          grid-gap: 1rem;
           .item-icon {
             flex-direction: row;
-          }
-          .item-content {
-            padding-left: 0;
           }
         }
 
         &:hover {
           background: #fff;
-          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
-            0px 3px 30px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
       }
     }
   }
 
-  // Work showcase
+  // Work section
   .section3 {
     padding: 4em 0;
     .title-wrap {
@@ -364,10 +272,12 @@ export default Vue.extend({
       align-items: center;
       margin-bottom: 2rem;
 
+      .pretitle {
+        color: var(--color-primary);
+      }
       .buttons {
         justify-self: flex-end;
       }
-
       @media (max-width: 900px) {
         grid-gap: 1rem;
         grid-template-columns: 1fr;
@@ -377,7 +287,6 @@ export default Vue.extend({
       }
     }
   }
-
   .work-posts {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -396,18 +305,17 @@ export default Vue.extend({
         transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
 
         .entry-title {
-          font-weight: var(--font-weight-bold, 800);
+          font-weight: var(--font-weight-bold);
           font-size: 1.5rem;
           margin-bottom: 0.5rem;
           a {
             color: inherit;
             &:hover {
-              color: var(--color-primary, #1a49bd);
+              color: var(--color-primary);
             }
           }
         }
         .entry-subtitle {
-          opacity: 0.5;
           line-height: 1.6rem;
         }
       }
@@ -422,11 +330,16 @@ export default Vue.extend({
     }
   }
 
-  // Testimonials
+  // Testimonials section
   .section4 {
     padding: 4em 0;
+    background: var(--color-bg-alt);
+
     .title-wrap {
       margin-bottom: 2rem;
+      .pretitle {
+        color: var(--color-primary);
+      }
     }
   }
   .testimonials {
@@ -447,6 +360,11 @@ export default Vue.extend({
       background: #e5e8f3;
       box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
 
+      &:hover {
+        background: none;
+        box-shadow: none;
+      }
+
       .item-image {
         margin: -4rem auto 1rem;
         img {
@@ -457,7 +375,7 @@ export default Vue.extend({
         }
       }
       .item-author {
-        font-weight: var(--font-weight-bold, 800);
+        font-weight: var(--font-weight-bold);
       }
       .item-info,
       .item-content {
@@ -473,8 +391,14 @@ export default Vue.extend({
     }
   }
 
+  // Clients section
   .section5 {
     padding: 0 0 8em;
+    background: var(--color-bg-alt);
+
+    .pretitle {
+      color: var(--color-primary);
+    }
   }
 }
 </style>

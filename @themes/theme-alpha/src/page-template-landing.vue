@@ -1,163 +1,137 @@
 <template>
   <div class="page-landing">
     <section class="feature">
+      <!-- <pre>
+        {{ post }}
+      </pre>-->
       <div class="feature-inner">
-        <h3 class="pre-title">{{ post.pageHeadingPre }}</h3>
-        <h1 class="title">{{ post.pageHeading }}</h1>
-        <div class="subtitle">{{ post.pageHeadingSub }}</div>
-
-        <div v-if="post.buttonLink" class="actions">
-          <factor-link :path="post.buttonLink" btn="default" size="large">
-            {{ post.buttonText }}
-            <factor-icon icon="fas fa-arrow-right" />
-          </factor-link>
-        </div>
+        <h3 class="pre-title">{{ post.settings.pageHeadingPre }}</h3>
+        <h1 class="title">{{ post.title }}</h1>
+        <factor-post-edit :post-id="post._id" />
       </div>
     </section>
-
-    <section class="boxes">
-      <div class="title">{{ post.boxesTitle }}</div>
-
-      <div class="mast boxes-inner">
-        <div v-for="(box, i) in post.boxes" :key="i" class="box">
-          <div v-if="box.icon" class="box-icon">
-            <img :src="box.icon[0].url" />
-          </div>
-          <h2 class="box-title">{{ box.heading }}</h2>
-          <p class="box-description">{{ box.description }}</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="brands">
-      <div class="title">{{ post.brandsTitle }}</div>
-      <div class="mast brands-inner">
-        <div v-for="(brand, i) in post.brands" :key="i" class="brand">
-          <div v-if="brand.link" class="brand-image">
-            <factor-link :path="brand.link" target="_blank">
-              <img :src="brand.image[0].url" />
-            </factor-link>
-          </div>
-          <div v-else class="brand-image">
-            <img :src="brand.image[0].url" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <el-cta />
   </div>
 </template>
 
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui"
+import { factorPostEdit } from "@factor/post"
+//import { factorLink, factorIcon } from "@factor/ui"
+import { renderMarkdown } from "@factor/api/markdown"
+import { setting, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-cta": () => import("./el/cta.vue"),
-    factorLink,
-    factorIcon
+    //"el-cta": () => import("./el/cta.vue"),
+    // factorLink,
+    // factorIcon
+    factorPostEdit
   },
-  props: {
-    post: { type: Object, default: () => {} }
-  },
+  // props: {
+  //   post: { type: Object, default: () => {} }
+  // },
   data() {
     return {
       loading: true
     }
   },
-  watch: {},
-  pageTemplate() {
-    return {
-      name: "Landing Page",
-      description: "Minimalist landing page template.",
-      inputs: [
-        {
-          input: "text",
-          label: "Pre-heading",
-          key: "pageHeadingPre"
-        },
-        {
-          input: "text",
-          label: "Heading",
-          description: "Primary page heading",
-          key: "pageHeading"
-        },
-        {
-          input: "text",
-          label: "Sub Heading",
-          key: "pageHeadingSub"
-        },
-        {
-          input: "text",
-          label: "Button Link",
-          key: "buttonLink"
-        },
-        {
-          input: "text",
-          label: "Button Text",
-          key: "buttonText"
-        },
-        {
-          input: "text",
-          label: "Boxes Title",
-          key: "boxesTitle"
-        },
-        {
-          key: "boxes",
-          input: "sortable",
-          label: "Feature Boxes",
-          description: "Some feature boxes",
-          inputs: [
-            {
-              input: "text",
-              label: "Heading",
-              key: "heading"
-            },
-            {
-              input: "textarea",
-              label: "Description",
-              key: "description"
-            },
-            {
-              input: "image-upload",
-              label: "Icon",
-              key: "icon"
-            }
-          ]
-        },
-        {
-          input: "text",
-          label: "Brands Title",
-          key: "brandsTitle"
-        },
-        {
-          key: "brands",
-          input: "sortable",
-          label: "Feature Brands",
-          description: "Some feature brands",
-          inputs: [
-            {
-              input: "text",
-              label: "Link",
-              description: "(Optional)",
-              key: "link"
-            },
-            {
-              input: "image-upload",
-              label: "Image",
-              key: "image"
-            }
-          ]
-        }
-      ]
+  computed: {
+    post(this: any) {
+      return stored("post") || {}
+    },
+    settings(this: any) {
+      return this.post.settings || {}
     }
   },
-  methods: {
-    settings() {
-      return ["test"]
-    }
-  }
+  watch: {},
+  templateSettings() {
+    return [
+      {
+        input: "select",
+        label: "Header Alignment",
+        description: "Alignment of the page header",
+        _id: "headerAlignment",
+        list: ["left", "center", "right"],
+        default: "left"
+      },
+      {
+        input: "text",
+        label: "Pre-heading",
+        _id: "pageHeadingPre",
+        default: ""
+      },
+      {
+        input: "text",
+        label: "Heading",
+        description: "Primary page heading",
+        _id: "pageHeading"
+      },
+      {
+        input: "text",
+        label: "Sub Heading",
+        _id: "pageHeadingSub"
+      },
+      {
+        input: "text",
+        label: "Button Link",
+        _id: "buttonLink"
+      },
+      {
+        input: "text",
+        label: "Button Text",
+        _id: "buttonText"
+      },
+      {
+        input: "text",
+        label: "Boxes Title",
+        _id: "boxesTitle"
+      }
+      // {
+      //   _id: "boxes",
+      //   input: "sortable",
+      //   label: "Feature Boxes",
+      //   description: "Some feature boxes",
+      //   default: [{ __title: "Box 1" }, { __title: "Box 2" }],
+      //   settings: [
+      //     {
+      //       input: "text",
+      //       label: "Heading",
+      //       _id: "heading",
+      //       default: "Box"
+      //     },
+      //     {
+      //       input: "image-upload",
+      //       label: "Icon",
+      //       _id: "icon"
+      //     }
+      //   ]
+      // },
+      // {
+      //   input: "text",
+      //   label: "Brands Title",
+      //   _id: "brandsTitle"
+      // },
+      // {
+      //   _id: "brands",
+      //   input: "sortable",
+      //   label: "Feature Brands",
+      //   description: "Some feature brands",
+      //   inputs: [
+      //     {
+      //       input: "text",
+      //       label: "Link",
+      //       description: "(Optional)",
+      //       _id: "link"
+      //     },
+      //     {
+      //       input: "image-upload",
+      //       label: "Image",
+      //       _id: "image"
+      //     }
+      //   ]
+      // }
+    ]
+  },
+  methods: { setting, renderMarkdown }
 })
 </script>
 
@@ -171,12 +145,12 @@ export default Vue.extend({
   }
 
   .factor-btn.default {
-    color: var(--color-primary, #1a49bd);
+    color: var(--color-primary);
     letter-spacing: -0.03em;
   }
   // feature
   .feature {
-    background-color: var(--color-primary, #1a49bd);
+    background-color: var(--color-primary);
     color: #fff;
     position: relative;
 
@@ -204,18 +178,6 @@ export default Vue.extend({
         position: relative;
         padding-bottom: 2em;
         text-transform: uppercase;
-        &:after {
-          background-color: var(--color-tertiary);
-          content: "";
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 24px;
-          height: 7px;
-          margin: -3.5px 0 0 -12px;
-          transform: skewY(-16deg) scaleX(1);
-          transform-origin: 0 100%;
-        }
       }
       .title {
         font-weight: 600;
@@ -288,7 +250,7 @@ export default Vue.extend({
   }
 
   .brands {
-    background: var(--color-bg-alt, #f3f5fb);
+    background: var(--color-bg-alt);
     padding: 3em 0;
     .title {
       font-weight: 600;

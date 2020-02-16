@@ -1,9 +1,9 @@
 <template>
   <section v-if="setting('home.intro')" class="intro">
     <div class="intro-inner">
-      <h3 class="pretitle text-white">{{ section1Pretitle }}</h3>
+      <h3 class="pretitle text-bluegray-600">{{ section1Pretitle }}</h3>
       <h1 v-formatted-text="section1Title" class="title" />
-      <div class="content">{{ section1Content }}</div>
+      <div class="content text-bluegray-600">{{ section1Content }}</div>
 
       <div v-if="section1Buttons" class="buttons">
         <template v-for="(button, index) in section1Buttons">
@@ -43,7 +43,7 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .intro {
-  background-color: var(--color-primary-dark, #1a49bd);
+  background-color: var(--color-bg-dark);
   color: #fff;
   position: relative;
 
@@ -61,38 +61,23 @@ export default Vue.extend({
 
   .intro-inner {
     display: flex;
-    align-items: center;
-    text-align: center;
     flex-direction: column;
-    max-width: 650px;
+    max-width: 850px;
     margin: 0 auto;
-    padding: 7em 0;
+    padding: 7em 2em;
     z-index: 1;
     @media (max-width: 900px) {
-      padding: 4em 0;
+      padding: 4em 2em;
     }
     .pretitle {
       position: relative;
-      padding-bottom: 2em;
       text-transform: uppercase;
-      &:after {
-        background-color: var(--color-tertiary);
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 24px;
-        height: 7px;
-        margin: -3.5px 0 0 -12px;
-        transform: skewY(-16deg) scaleX(1);
-        transform-origin: 0 100%;
-      }
     }
     .title {
-      font-weight: var(--font-weight-bold, 800);
-      font-size: 3em;
+      font-weight: var(--font-weight-bold);
+      font-size: 3.6em;
       letter-spacing: -0.03em;
-      margin: 0.5em;
+      margin: 10px 0;
       color: #fff;
 
       @media (max-width: 900px) {
@@ -100,15 +85,20 @@ export default Vue.extend({
       }
     }
     .content {
-      opacity: 0.7;
-      font-size: 1.2em;
+      max-width: 600px;
+      font-size: 1.4em;
       line-height: 1.6em;
     }
     .buttons {
       z-index: 2;
-      margin-top: 1.5em;
+      margin-top: 2em;
       .btn + .btn {
         margin-left: 1em;
+
+        @media (max-width: 900px) {
+          margin-left: 0;
+          margin-top: 1.4em;
+        }
         i {
           padding-left: 1rem;
         }

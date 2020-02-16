@@ -87,7 +87,7 @@ export default Vue.extend({
     blockquote {
       padding: 1em;
       margin: 1em 0;
-      border-left: 5px solid #ff0076;
+      border-left: 5px solid var(--color-primary);
       :first-child {
         margin-top: 0;
       }

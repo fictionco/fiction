@@ -3,15 +3,14 @@
     <h1 class="entry-title">
       <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
     </h1>
-    <h3 class="entry-subtitle">{{ post.synopsis }}</h3>
+    <h3 class="entry-subtitle text-gray-600">{{ post.synopsis }}</h3>
   </div>
   <div v-else class="entry-headers">
     <div class="splash">
-      <!-- <component :is="setting('work.components.workReturnLink')" /> -->
       <h1 class="entry-title">
         <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
       </h1>
-      <h3 class="entry-subtitle">{{ post.synopsis }}</h3>
+      <h3 class="entry-subtitle text-gray-600">{{ post.synopsis }}</h3>
       <factor-post-edit :post-id="post._id" />
     </div>
   </div>
@@ -50,13 +49,18 @@ export default Vue.extend({
     transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
 
     .entry-title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 1.5rem;
       margin-bottom: 0.5rem;
+      a {
+        color: inherit;
+        &:hover {
+          color: var(--color-primary);
+        }
+      }
     }
     .entry-subtitle {
       line-height: 1.6;
-      opacity: 0.7;
     }
   }
 
@@ -80,9 +84,10 @@ export default Vue.extend({
     padding: 2em;
 
     .entry-title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 3em;
       letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
 
       a {
         color: inherit;
@@ -90,7 +95,7 @@ export default Vue.extend({
     }
     .entry-subtitle {
       font-size: 1.25em;
-      opacity: 0.5;
+      line-height: 1.6em;
     }
     .edit {
       display: block;
@@ -107,80 +112,6 @@ export default Vue.extend({
       }
       .entry-subtitle {
         font-size: 1em;
-      }
-    }
-  }
-
-  .hero {
-    position: relative;
-    overflow: hidden;
-
-    .mast {
-      padding: 0 2em;
-      line-height: 1.2;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      width: 70%;
-      height: 100%;
-      top: 0;
-      right: auto;
-      bottom: 0;
-      background-color: var(--color-bg-alt, #f3f5fb);
-      @media (max-width: 900px) {
-        width: 100%;
-      }
-    }
-
-    .hero-inner {
-      position: relative;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-gap: 60px;
-      align-items: center;
-      padding: 5em 0;
-
-      a {
-        color: var(--color-primary, #1a49bd);
-      }
-      .entry-title {
-        font-size: 1.1em;
-        text-transform: uppercase;
-      }
-      .entry-subtitle {
-        font-weight: var(--font-weight-bold, 800);
-        font-size: 3em;
-        letter-spacing: -0.03em;
-        margin: 0.3em 0;
-      }
-      .heading {
-        font-weight: var(--font-weight-bold, 800);
-        font-size: 3em;
-        letter-spacing: -0.03em;
-        margin: 0.3em 0;
-      }
-
-      .content {
-        font-size: 1.2em;
-        line-height: 1.6em;
-        opacity: 0.5;
-      }
-      .hero-image {
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        height: 450px;
-        max-width: 300px;
-        box-shadow: 20px 60px 120px 0 rgba(0, 0, 0, 0.33);
-        border-top-left-radius: 40px;
-        @media (max-width: 900px) {
-          margin: 0 auto;
-          max-width: 100%;
-        }
       }
     }
   }

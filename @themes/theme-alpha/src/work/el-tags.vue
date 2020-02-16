@@ -1,12 +1,15 @@
 <template>
-  <div v-if="tags.length > 0" class="entry-tags">
-    <factor-link
-      v-for="(tag, ti) in tags"
-      :key="ti"
-      class="entry-tag rounded-full bg-blue-500 text-white hover:bg-blue-700"
-      :path="setting('work.indexRoute')"
-      :query="{ tag }"
-    >{{ tag }}</factor-link>
+  <div class="entry-tags-wrap">
+    <div />
+    <div v-if="tags.length > 0" class="entry-tags">
+      <factor-link
+        v-for="(tag, ti) in tags"
+        :key="ti"
+        class="entry-tag rounded-full bg-blue-500 text-white hover:bg-blue-700"
+        :path="setting('work.indexRoute')"
+        :query="{ tag }"
+      >{{ tag }}</factor-link>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -30,28 +33,39 @@ export default Vue.extend({
 })
 </script>
 <style lang="less">
-.entry-tags {
-  line-height: 1;
-  padding: 1em 2em 0;
+.entry-tags-wrap {
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 2rem;
+  padding: 0 2em;
 
-  a {
-    // color: var(--color-primary, #1a49bd);
-    // background: var(--color-placeholder-2, #eeeef1);
-    display: inline-block;
-    //opacity: 0.7;
-    font-size: 0.85em;
-    font-weight: var(--font-weight-bold);
-    margin: 5px 5px 5px 0;
-    padding: 5px 10px;
-    text-decoration: none;
-    border-radius: 3px;
-    // &:hover {
-    //   color: var(--color-primary, #1a49bd);
-    //   opacity: 1;
-    //   background: var(--color-tertiary, #9afecb);
-    // }
-    &:not(:nth-child(1)) {
-      margin-left: 3px;
+  .entry-tags {
+    line-height: 1;
+
+    a {
+      display: inline-block;
+      font-size: 0.85em;
+      font-weight: var(--font-weight-bold);
+      margin: 5px 5px 5px 0;
+      padding: 5px 10px;
+      text-decoration: none;
+      border-radius: 3px;
+
+      &:not(:nth-child(1)) {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+    padding: 0;
+    .entry-tags {
+      padding: 0;
     }
   }
 }

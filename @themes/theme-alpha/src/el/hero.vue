@@ -3,8 +3,9 @@
     <div class="mast">
       <div class="hero-inner">
         <div>
-          <h1 class="pretitle">{{ pretitle }}</h1>
-          <h2 class="title">{{ title }}</h2>
+          <slot name="hero-pretitle" />
+          <h1 v-formatted-text="pretitle" class="pretitle" />
+          <h2 v-formatted-text="title" class="title" />
           <slot name="hero-content" />
         </div>
         <div v-if="image != ''">
@@ -31,7 +32,7 @@ export default Vue.extend({
 .hero {
   position: relative;
   //overflow: hidden;
-  background: var(--color-bg-alt, #f3f5fb);
+  background: var(--color-bg-alt);
 
   .mast {
     padding: 0 2em;
@@ -39,21 +40,6 @@ export default Vue.extend({
     max-width: 1000px;
     margin: 0 auto;
   }
-  // &:before {
-  //   content: "";
-  //   display: block;
-  //   position: absolute;
-  //   width: 80%;
-  //   height: 100%;
-  //   top: 0;
-  //   right: auto;
-  //   bottom: 0;
-  //   //border-bottom-right-radius: 40px;
-  //   background-color: var(--color-bg-alt, #f3f5fb);
-  //   @media (max-width: 1024px) {
-  //     width: 100%;
-  //   }
-  // }
 
   .hero-inner {
     position: relative;
@@ -74,7 +60,7 @@ export default Vue.extend({
       color: var(--color-primary);
     }
     .title {
-      font-weight: var(--font-weight-bold, 800);
+      font-weight: var(--font-weight-bold);
       font-size: 3em;
       letter-spacing: -0.03em;
       margin: 0.3em 0;
@@ -85,7 +71,6 @@ export default Vue.extend({
     .content {
       font-size: 1.2em;
       line-height: 1.6em;
-      opacity: 0.5;
     }
     .hero-image {
       background-position: center;

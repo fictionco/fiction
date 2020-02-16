@@ -6,165 +6,82 @@
       :image="setting('contact.heroImage')"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('contact.content')" class="content entry-content" />
-
-        <factor-form
-          ref="form"
-          class="contact-form"
-          data-test="contact-form"
-          :class="formStatus"
-          @submit="send()"
-        >
-          <div v-if="sent" class="confirm" data-test="confirm">
-            <div class="title">Got it!</div>
-            <div
-              class="description"
-            >We’ll get back to you as soon as possible at the email you provided.</div>
-          </div>
-          <div v-else class="inputs">
-            <factor-input-wrap
-              v-model="form.name"
-              format="vertical"
-              data-test="form-name"
-              input="factor-input-text"
-              :placeholder="setting('contact.form.namePlaceholder')"
-              required
-            />
-            <factor-input-wrap
-              v-model="form.email"
-              format="vertical"
-              data-test="form-email"
-              input="factor-input-email"
-              :placeholder="setting('contact.form.emailPlaceholder')"
-              required
-            />
-            <factor-input-wrap
-              v-model="form.message"
-              format="vertical"
-              input="factor-input-textarea"
-              :placeholder="setting('contact.form.messagePlaceholder')"
-              required
-              data-test="form-message"
-            />
-
-            <factor-input-submit
-              btn="primary"
-              size="medium"
-              :loading="sending"
-              data-test="form-submit"
-            >
-              {{ setting("contact.form.buttonText") }}
-              <factor-icon icon="fas fa-arrow-right" />
-            </factor-input-submit>
-          </div>
-        </factor-form>
+        <div v-formatted-text="setting('contact.content')" class="content text-gray-600" />
+        <!-- Contact Form Plugin -->
+        <component :is="setting('contactForm.form')" />
       </template>
     </el-hero>
+
+    <section class="resources">
+      <div class="mast">
+        <div>
+          <h3 v-formatted-text="setting('contact.resources.pretitle')" class="pretitle" />
+          <h1 v-formatted-text="setting('contact.resources.title')" class="title" />
+        </div>
+        <div class="resources-items">
+          <div v-for="(item, i) in setting('contact.resources.items')" :key="i" class="item">
+            <div v-if="item.icon" class="item-icon">
+              <img :src="item.icon" :alt="item.title" />
+            </div>
+            <div class="item-content">
+              <h2 class="item-title">{{ item.title }}</h2>
+              <p v-formatted-text="item.content" class="item-description text-gray-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="location">
+      <div class="mast">
+        <div class="location-items">
+          <div v-formatted-text="setting('contact.location.map')" class="map-wrap" />
+          <div>
+            <div class="location-content-wrap">
+              <h3 v-formatted-text="setting('contact.location.pretitle')" class="pretitle" />
+              <h1 v-formatted-text="setting('contact.location.title')" class="title" />
+              <div
+                v-formatted-text="setting('contact.location.content')"
+                class="location-content text-gray-600"
+              />
+              <factor-link
+                v-if="setting('contact.location.button.text')"
+                v-formatted-text="setting('contact.location.button.text')"
+                :path="setting('contact.location.button.link')"
+                :class="setting('contact.location.button.classes')"
+                :target="setting('contact.location.button.target')"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
-import { factorForm, factorInputSubmit, factorInputWrap, factorIcon } from "@factor/ui"
+import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorForm,
-    factorInputSubmit,
-    factorInputWrap,
     factorIcon,
+    factorLink,
     "el-hero": () => import("./el/hero.vue")
   },
   data() {
     return {
-      loading: true,
-      sending: false,
-      form: {},
-      sent: false,
-      formStatus: "unchecked"
+      loading: true
     }
+  },
+  methods: {
+    setting
   },
   metaInfo() {
     return {
-      title: setting("contact.meta.title"),
-      description: setting("contact.meta.description")
-    }
-  },
-  mounted() {
-    this.$watch(
-      "form",
-      function(this: any) {
-        const v = this.$refs.form.$el.checkValidity()
-
-        this.formStatus = v ? "valid" : "invalid"
-      },
-      { deep: true }
-    )
-  },
-  // pageTemplate() {
-  //   return {
-  //     name: "Contact Page",
-  //     inputs: [
-  //       {
-  //         input: "text",
-  //         label: "Heading",
-  //         key: "pageHeading"
-  //       },
-  //       {
-  //         input: "image-upload",
-  //         label: "Image",
-  //         key: "heroImage"
-  //       }
-  //     ]
-  //   }
-  // },
-  methods: {
-    setting,
-    async send(this: any) {
-      this.sending = true
-      const { email } = this.form
-      // this.$email.send({
-      //   to: ["raylopezaleman@gmail.com"],
-      //   subject: `Contact Form: ${name} ${email}`,
-      //   message: `A form was submitted by ${name}.`,
-      //   meta: this.form
-      // })
-
-      // if (!name || !email || !message) {
-      //   this.$notify.error("Please enter your contact information into the form.")
-      //   return
-      // }
-
-      try {
-        const _p = []
-
-        _p.push(
-          this.$email.send({
-            to: email,
-            subject: `Got your message.`,
-            message: `This is to confirm we've recieved a form you submitted. We'll take a look and be in touch as soon as possible.`,
-            title: "Contact",
-            table: this.form
-          })
-        )
-
-        _p.push(
-          this.$sheets.saveForm({
-            ...this.form,
-            source: "/contact",
-            category: "General",
-            type: "Contact"
-          })
-        )
-
-        await Promise.all(_p)
-
-        this.sent = true
-      } catch (error) {
-        this.$notify.error("There was an issue sending your form.")
-      }
-
-      this.sending = false
+      title: setting("contact.metatags.title"),
+      description: setting("contact.metatags.description"),
+      image: setting("contact.metatags.image")
     }
   }
 })
@@ -178,52 +95,139 @@ export default Vue.extend({
     max-width: 1000px;
     margin: 0 auto;
   }
-
-  button.app-btn {
-    display: inline-block;
-    line-height: 1;
-    font-weight: var(--font-weight-bold);
-    font-size: 1em;
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-    &:hover {
-      background-color: var(--color-primary-dark);
+  .hero {
+    .hero-inner {
+      padding: 5em 0;
     }
   }
 
-  .contact-form {
-    margin-top: 40px;
-    input[type="text"],
-    input[type="email"] {
-      width: 100%;
+  .pretitle {
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .title {
+    font-weight: var(--font-weight-bold);
+    font-size: 3em;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    margin-bottom: 2rem;
+
+    @media (max-width: 900px) {
+      font-size: 2em;
     }
-    input[type="text"],
-    input[type="email"],
-    textarea.standard-textarea {
+  }
+
+  //Overwrite contact form plugin styles
+  .contact-form {
+    margin-top: 2rem;
+    .input-wrap .label {
+      font-weight: var(--font-weight-bold);
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    input,
+    textarea {
       background: #ffffff;
       border: 1px solid rgba(48, 48, 48, 0.1);
       border-radius: 4px;
       &:focus {
-        outline: var(--color-primary, #9afecb) auto 5px;
+        outline: var(--color-primary) auto 5px;
       }
     }
     .form-submit {
-      margin: 1em 0;
+      button {
+        display: inline-block;
+        line-height: 1;
+        font-weight: var(--font-weight-bold);
+        font-size: 1em;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+      }
     }
   }
   .confirm {
-    padding: 8em 2em;
+    padding: 3em 2em;
     text-align: center;
-    .title {
-      font-size: 1.7em;
-    }
-
     .description {
-      opacity: 0.5;
+      font-size: 1.2em;
+      line-height: 1.6em;
+      color: #718096;
     }
-    .actions {
-      margin-top: 1em;
+  }
+  .resources {
+    padding: 4em 0;
+    .resources-items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 2rem;
+      .item {
+        .item-title {
+          font-weight: var(--font-weight-bold);
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+
+          @media (max-width: 900px) {
+            font-size: 1.2rem;
+          }
+        }
+        .item-description {
+          line-height: 1.6rem;
+        }
+      }
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+  .location {
+    padding: 4em 0;
+    background: var(--color-bg-alt);
+
+    .location-items {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-gap: 0;
+      align-items: center;
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        grid-gap: 3em;
+      }
+
+      .location-content-wrap {
+        width: 120%;
+        margin-left: -20%;
+        position: relative;
+        z-index: 1;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: #fff;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        @media (max-width: 900px) {
+          width: 100%;
+          margin-left: 0;
+          padding: 0;
+          background: transparent;
+          box-shadow: none;
+        }
+      }
+
+      .location-content {
+        font-size: 1.2em;
+        line-height: 1.6em;
+        margin-bottom: 1rem;
+      }
+
+      .map-wrap iframe {
+        max-width: 100%;
+        border-radius: 0.5rem;
+      }
     }
   }
 }

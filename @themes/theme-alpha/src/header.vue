@@ -52,7 +52,7 @@ export default Vue.extend({
   position: relative;
   z-index: 10;
   padding: 0 1.5em;
-  background: var(--color-primary-dark, #1a49bd);
+  background: var(--color-bg-dark);
   color: #fff;
 }
 
@@ -93,6 +93,12 @@ export default Vue.extend({
       &:after {
         transform: rotate(0deg) translateY(5px);
       }
+      &.active {
+        position: fixed;
+        top: 1.5em;
+        right: 1.5em;
+        z-index: 9999999;
+      }
     }
 
     @media (max-width: 900px) {
@@ -105,7 +111,7 @@ export default Vue.extend({
         &:before,
         &:after {
           cursor: pointer;
-          background-color: var(--color-text, #303030);
+          background-color: var(--color-text);
         }
         &:before {
           transform: rotate(45deg) translateY(0);
@@ -135,7 +141,7 @@ export default Vue.extend({
       left: 0;
       right: 0;
       bottom: 0;
-      border: 14px solid var(--color-primary-dark, #1a49bd);
+      border: 14px solid var(--color-primary-dark);
       background-color: #fff;
       transition: 0.55s cubic-bezier(0.52, 0.01, 0.16, 1);
     }
@@ -144,41 +150,41 @@ export default Vue.extend({
   .nav,
   .social {
     > a {
-      letter-spacing: 0.08em;
-      font-size: 0.9em;
-      font-weight: 300;
-      color: #fdfdfd;
-      margin: 0 0.5em;
+      color: #99adc0;
+      padding: 0 0.6em;
+
       &:hover,
       &.active,
       &.active-path {
-        color: var(--color-tertiary);
+        color: var(--color-primary);
         @media (max-width: 900px) {
-          color: var(--color-primary, #1a49bd);
+          color: var(--color-primary);
         }
       }
       @media (max-width: 900px) {
-        font-size: 1.2em;
-        color: var(--color-text, #303030);
+        font-size: 1.4em;
+        color: var(--color-text);
         text-align: center;
-        padding: 1.5em 0;
+        padding: 1.5em 0.5em;
         &:hover,
         &.active {
-          color: var(--color-primary, #1a49bd);
+          color: var(--color-primary);
         }
         &:active {
-          color: var(--color-primary, #1a49bd);
+          color: var(--color-primary);
         }
       }
     }
   }
 
   .nav {
-    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 300;
     text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1em;
 
     @media (max-width: 900px) {
       display: grid;
@@ -186,9 +192,15 @@ export default Vue.extend({
   }
   .social {
     text-align: right;
+    a {
+      font-size: 1.2em;
+    }
     @media (max-width: 900px) {
       text-align: center;
       justify-content: center;
+      a {
+        font-size: 1.6em;
+      }
     }
   }
 }
