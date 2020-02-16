@@ -1,6 +1,7 @@
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/api/time"
+import { isNode } from "@factor/api"
 import objectHash from "object-hash"
 import {
   FactorPost,
@@ -193,11 +194,18 @@ export const requestPostSingle = async (
 
   /**
    * Populate joined fields, will add this post and all others to store
-   * ASYNC, but we should not wait for it, data will be loaded to store
+   * In BROWSER - DON'T WAIT, but we should not wait for it, data will be loaded to store
+   * In SERVER - WAIT - SSR needs to have all store information so it will be picked up on load
    */
   if (post) {
     const embedded = post.embedded ?? []
-    requestPostPopulate({ posts: [post, ...embedded], depth })
+    const posts = [post, ...embedded]
+
+    if (isNode) {
+      await requestPostPopulate({ posts, depth })
+    } else {
+      requestPostPopulate({ posts, depth })
+    }
   }
 
   return post as FactorPost

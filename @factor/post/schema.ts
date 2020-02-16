@@ -77,7 +77,7 @@ export default (): FactorSchema => {
        * Embedded documents (comments, posts, etc.)
        */
       embedded: { type: [Object] },
-      embeddedCount: Number,
+      embeddedCount: { type: Number, default: 0 },
       status: {
         type: String,
         enum: [PostStatus.Published, PostStatus.Draft, PostStatus.Trash],

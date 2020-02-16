@@ -23,13 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="sidebar-area">
-        <div class="sidebar">
-          <div class="borderize" />
-        </div>
-      </div>
       <div class="form-area">
-        <!-- <factor-avatar :url="require('./img/avatar.jpg')" /> -->
         <factor-form ref="form">
           <div class="primary-inputs">
             <factor-input-wrap

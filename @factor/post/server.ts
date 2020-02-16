@@ -91,7 +91,7 @@ export const savePostEmbedded = async (
   // Already exists
   if (_id) {
     await Model.updateOne(
-      { _id: postId, "embeddedPost._id": 80 },
+      { _id: postId, "embeddedPost._id": _id },
       { $set: { "embeddedPost.$": embeddedPost } }
     )
   } else {
@@ -102,6 +102,10 @@ export const savePostEmbedded = async (
       { $push: { embedded: embeddedPost }, $inc: { embeddedCount: 1 } }
     )
   }
+
+  const post = await Model.find({ _id: postId })
+
+  //console.log("POST", post)
 
   return embeddedPost as FactorPost
 }
