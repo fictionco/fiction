@@ -167,6 +167,7 @@ export default Vue.extend({
   .topic-sidebar {
     position: sticky;
     top: 200px;
+    padding-bottom: 600px;
     .number-posts {
       font-size: 1.1em;
       text-align: center;

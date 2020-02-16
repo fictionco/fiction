@@ -4,24 +4,27 @@
     <template v-else>
       <div class="header-area">
         <component :is="setting('forum.components.navBack')" class="back" />
-        <h1 class="title">{{ isNew ? "New" : "Edit" }} Topic</h1>
+        <div class="title-area">
+          <h1 class="title">{{ isNew ? "New" : "Edit" }} Topic</h1>
+          <div class="header-actions">
+            <factor-link
+              v-if="!isNew"
+              btn="default"
+              class="item"
+              :path="topicLink(post)"
+            >View Topic &rarr;</factor-link>
+
+            <factor-btn
+              class="item"
+              btn="primary"
+              :loading="sending"
+              @click="submit()"
+            >{{ isNew ? "Post Topic" : "Save Changes" }} &rarr;</factor-btn>
+          </div>
+        </div>
       </div>
       <div class="sidebar-area">
         <div class="sidebar">
-          <factor-link
-            v-if="!isNew"
-            btn="default"
-            class="item"
-            :path="topicLink(post)"
-          >View Topic &rarr;</factor-link>
-
-          <factor-btn
-            class="item"
-            btn="primary"
-            :loading="sending"
-            @click="submit()"
-          >{{ isNew ? "Post Topic" : "Save Changes" }} &rarr;</factor-btn>
-
           <div class="borderize" />
         </div>
       </div>
@@ -191,45 +194,33 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .topic-new {
-  max-width: 900px;
-  display: grid;
-  grid-column-gap: 2rem;
-  grid-template-columns: 1fr 150px;
-  grid-template-areas:
-    "header sidebar"
-    "form sidebar";
+  max-width: 700px;
+
+  margin: 0 auto;
   .header-area {
     grid-area: header;
+    .back {
+      margin-bottom: 2em;
+    }
+    .title-area {
+      display: flex;
+      justify-content: space-between;
+
+      .title {
+        font-size: 1.3em;
+        letter-spacing: -0.02em;
+        font-weight: var(--font-weight-bold, 700);
+        margin-bottom: 1rem;
+      }
+      .factor-btn {
+        margin-left: 1rem;
+      }
+    }
   }
   .form-area {
     grid-area: form;
   }
-  .sidebar-area {
-    grid-area: sidebar;
-    .sidebar {
-      position: sticky;
-      top: 5rem;
-      // .borderize {
-      //   margin-top: 2rem;
-      //   height: 30vh;
-      //   border-left-width: 1px;
-      //   border-style: solid;
-      //   border-image: linear-gradient(to bottom, var(--color-border), rgba(0, 0, 0, 0)) 1
-      //     100%;
-      // }
-    }
-    .factor-link,
-    .factor-btn {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-  }
 
-  margin: 0 auto;
-  .back {
-    margin-bottom: 2em;
-  }
   .loading-ring-wrap {
     min-height: 40vh;
     padding: 2em 0;
@@ -237,17 +228,7 @@ export default Vue.extend({
   .primary-inputs {
     font-size: 1.2em;
   }
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .title {
-    font-size: 1.3em;
-    letter-spacing: -0.02em;
-    font-weight: var(--font-weight-bold, 700);
-    margin-bottom: 1rem;
-  }
+
   .meta {
     display: flex;
     .meta-item {

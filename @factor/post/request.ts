@@ -4,6 +4,7 @@ import { timestamp } from "@factor/api/time"
 import objectHash from "object-hash"
 import {
   FactorPost,
+  FactorPostKey,
   UpdatePost,
   UpdatePostEmbedded,
   UpdateManyPosts,
@@ -52,16 +53,16 @@ export const sendPostRequest = async (
  * @remarks
  * Depth is useful as in some situations, like a long list, etc, it doesn't make sense to populate all joins
  */
-export const requestPostPopulate = async ({
+export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
   depth = 10
 }: {
-  posts: FactorPost[];
+  posts: T[];
   depth?: number;
 }): Promise<string[]> => {
   let _ids: string[] = []
 
-  posts.forEach((post: FactorPost) => {
+  posts.forEach((post: T) => {
     storeItem(post._id, post)
 
     const populatedFields = getSchemaPopulatedFields({

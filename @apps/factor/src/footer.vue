@@ -27,45 +27,26 @@
       </div>
       <div class="footer-col list">
         <div class="menu-header">Community</div>
-        <factor-link path="https://go.factor.dev/slack" target="_blank" rel="nofollow">Slack Channel</factor-link>
-        <factor-link path="https://go.factor.dev/github" target="_blank" rel="nofollow">Github repo</factor-link>
-        <factor-link
-          path="https://go.factor.dev/issues"
-          target="_blank"
-          rel="nofollow"
-        >Submit an issue</factor-link>
+        <factor-link path="https://go.factor.dev/slack" target="_blank">Slack Channel</factor-link>
+        <factor-link path="https://go.factor.dev/github" target="_blank">Github repo</factor-link>
+        <factor-link path="https://go.factor.dev/issues" target="_blank">Submit an issue</factor-link>
         <factor-link path="/#join">Join dev program</factor-link>
       </div>
       <div class="footer-col list">
         <div class="menu-header">Company</div>
         <factor-link path="https://www.fiction.com/careers">We're hiring</factor-link>
-        <factor-link path="https://go.factor.dev/facebook" target="_blank" rel="nofollow">Facebook</factor-link>
+        <factor-link path="https://go.factor.dev/facebook" target="_blank">Facebook</factor-link>
         <factor-link path="https://www.fiction.com/contact">Contact Us</factor-link>
       </div>
 
       <div class="footer-col icons">
-        <factor-link
-          class="icon-link"
-          path="https://go.factor.dev/facebook"
-          target="_blank"
-          rel="nofollow"
-        >
+        <factor-link class="icon-link" path="https://go.factor.dev/facebook" target="_blank">
           <factor-icon icon="fab fa-facebook" />
         </factor-link>
-        <factor-link
-          class="icon-link"
-          path="https://go.factor.dev/instagram"
-          target="_blank"
-          rel="nofollow"
-        >
+        <factor-link class="icon-link" path="https://go.factor.dev/instagram" target="_blank">
           <factor-icon icon="fab fa-instagram" />
         </factor-link>
-        <factor-link
-          class="icon-link"
-          path="https://go.factor.dev/twitter"
-          target="_blank"
-          rel="nofollow"
-        >
+        <factor-link class="icon-link" path="https://go.factor.dev/twitter" target="_blank">
           <factor-icon icon="fab fa-twitter" />
         </factor-link>
       </div>

@@ -5,11 +5,11 @@ import { processEndpointRequest, endpointError } from "@factor/endpoint/server"
 import { addEndpoint } from "@factor/api/endpoints"
 import { applyFilters, runCallbacks } from "@factor/api/hooks"
 import { objectId, postPermission, addPostSchema } from "@factor/post/util"
-
 import { getModel } from "@factor/post/database"
 import mime from "mime-types"
 import multer from "multer"
 import { addMiddleware } from "@factor/server/middleware"
+import { Attachment } from "./types"
 import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
 
@@ -31,7 +31,7 @@ const handleUpload = async function({
 
   const { buffer, mimetype, size } = file
 
-  const attachmentModel = getModel("attachment")
+  const attachmentModel = getModel<Attachment>("attachment")
   const attachment = new attachmentModel()
 
   Object.assign(attachment, {
@@ -68,19 +68,20 @@ export const deleteImage = async function(
   { _id }: { _id: string },
   { bearer }: EndpointMeta
 ): Promise<FactorPost | void> {
-  const post = await getModel("attachment").findOne({ _id })
+  const attachmentModel = getModel<Attachment>("attachment")
+  const post = await attachmentModel.findOne({ _id })
 
   if (!post) return
 
   postPermission({ bearer, post, action: PostActions.Delete })
 
-  const doc = await post.deleteOne({ _id })
+  await attachmentModel.deleteOne({ _id })
 
-  if (doc && !doc.url.includes("base64")) {
-    await runCallbacks("delete-attachment", doc)
+  if (post && !post.url.includes("base64")) {
+    await runCallbacks("delete-attachment", post)
   }
 
-  return doc
+  return post
 }
 
 export const setup = (): void => {

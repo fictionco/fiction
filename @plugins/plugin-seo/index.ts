@@ -1,7 +1,7 @@
 import { objectIdType } from "@factor/post/object-id"
 import { addFilter, pushToFilter } from "@factor/api"
-import { FactorPost } from "@factor/post/types"
 import { Component } from "vue"
+import mongoose from "mongoose"
 
 export const setup = (): void => {
   pushToFilter({
@@ -16,7 +16,7 @@ export const setup = (): void => {
   addFilter({
     key: "seoMetaFields",
     hook: "post-schema",
-    callback: (_: FactorPost): FactorPost => {
+    callback: (_: mongoose.SchemaDefinition): mongoose.SchemaDefinition => {
       return {
         ..._,
         titleTag: { type: String, trim: true },

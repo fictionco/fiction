@@ -11,8 +11,8 @@ import "./hooks-universal"
 /**
  * Gets the post model associated with user post type
  */
-export const getUserModel = (): Model<FactorUser & Document> => {
-  return getModel<FactorUser>("user")
+export const getUserModel = <T = FactorUser>(): Model<T & Document> => {
+  return getModel<T>("user")
 }
 
 /**
@@ -54,7 +54,8 @@ export const authenticate = async (
       throw new Error(`Couldn't find user.`)
     }
 
-    const compareResult = user ? await user.comparePassword(password) : false
+    const compareResult =
+      user && user.comparePassword ? await user.comparePassword(password) : false
 
     if (!compareResult) {
       throw new Error("Incorrect Login Information.")

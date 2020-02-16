@@ -55,11 +55,9 @@ export default (): FactorSchema => {
       title: { type: String, trim: true },
       synopsis: { type: String, trim: true },
       content: { type: String, trim: true },
-      // populated field
       author: [{ type: objectIdType(), ref: "user" }],
-      // populated field
+      follower: [{ type: objectIdType(), ref: "user" }],
       images: [{ type: objectIdType(), ref: "attachment" }],
-      // populated field
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
       category: { type: [String], index: true, default: ["general"] },
