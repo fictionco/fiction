@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts">
-import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   mounted() {
@@ -14,9 +13,6 @@ export default Vue.extend({
     this.setPage()
   },
   methods: {
-    style() {
-      return setting("highlightCode.style")
-    },
     setPage(this: any) {
       if (this.prism) {
         // wait til content is done rendering
