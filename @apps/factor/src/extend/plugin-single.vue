@@ -152,8 +152,6 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-@import "../prism/prism.less";
-
 .plugin-single {
   padding-top: 45px;
   font-weight: 400;
