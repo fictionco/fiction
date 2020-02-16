@@ -64,7 +64,7 @@
           <div v-if="item.image" class="item-image">
             <img :src="item.image" :alt="item.author" />
           </div>
-          <p class="item-content">{{ item.content }}</p>
+          <p v-formatted-text="item.content" class="item-content" />
           <h2 class="item-author">{{ item.author }}</h2>
           <h3 class="item-info">{{ item.info }}</h3>
         </div>
@@ -372,6 +372,11 @@ export default Vue.extend({
       transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
       background: #e5e8f3;
       box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
+
+      &:hover {
+        background: none;
+        box-shadow: none;
+      }
 
       .item-image {
         margin: -4rem auto 1rem;

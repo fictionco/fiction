@@ -159,11 +159,11 @@ export default {
           image: require("./img/client1.jpg"),
           author: "Kate Brennan",
           info: "CEO, Sed Laudantium",
-          content: `@Alpha designed and fully managed our migration to #productA and on-premises enterprise deployments. Absolutely fantastic!`
+          content: `&ldquo; @Alpha designed and fully managed our migration to #productA and on-premises enterprise deployments. Absolutely fantastic! &rdquo;`
         },
         {
           _item: "testimonial_2",
-          content: `Original, Creative and with an inborn understanding of their customer's needs. Alpha is always a pleasure to work with.`,
+          content: `&ldquo; Original, Creative and with an inborn understanding of their customer's needs. Alpha is always a pleasure to work with. &rdquo;`,
           image: require("./img/client2.jpg"),
           author: "Sebastian Hodges",
           info: "CEO, Lorem ipsum"
@@ -176,7 +176,7 @@ export default {
       title: "Factor Alpha Theme",
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
-      image: require("./static/logo-512.png")
+      image: require("./img/logo-alpha.jpg")
     }
   },
   about: {
@@ -278,10 +278,10 @@ export default {
       ]
     },
     metatags: {
-      title: "Factor Alpha Theme",
+      title: "About - Factor Alpha Theme",
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
-      image: require("./img/about.jpg")
+      image: require("./img/logo-alpha.jpg")
     }
   },
   work: {
@@ -311,14 +311,15 @@ export default {
     metatags: {
       index: {
         title: "Work - Factor Alpha Theme",
-        description: "The latest work."
+        description: "The latest work.",
+        image: require("./img/logo-alpha.jpg")
       }
     }
   },
   blog: {
     indexRoute: "/blog",
     postRoute: "/entry",
-    limit: 6,
+    limit: 4,
     returnLinkText: "Back",
     headline: "Blog",
     subheadline: "Discover The Latest",
@@ -343,7 +344,8 @@ export default {
     metatags: {
       index: {
         title: "Blog - Factor Alpha Theme",
-        description: "Thoughts on design, the process of creation, and optimizing collaboration."
+        description: "Thoughts on design, the process of creation, and optimizing collaboration.",
+        image: require("./img/logo-alpha.jpg")
       }
     }
   },
@@ -390,7 +392,7 @@ export default {
       title: "Contact - Factor Alpha Theme",
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
-      image: require("./img/contact.jpg")
+      image: require("./img/logo-alpha.jpg")
     },
   },
   // Contact form plugin settings

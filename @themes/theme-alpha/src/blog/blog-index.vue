@@ -88,7 +88,8 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
+      image: setting("blog.metatags.index.image")
     }
   },
   computed: {
@@ -229,9 +230,9 @@ export default Vue.extend({
         height: 100%;
         transition: all 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
         border-radius: 0.5rem;
+        background: var(--color-bg-alt);
 
         &:hover {
-          background: #fff;
           transform: translateY(-0.5rem);
           box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.05) 0px 5px 5px 2px;
         }

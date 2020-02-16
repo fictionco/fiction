@@ -74,7 +74,8 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
+      image: setting("work.metatags.index.image")
     }
   },
   serverPrefetch() {
