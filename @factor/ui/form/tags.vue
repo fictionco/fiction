@@ -93,7 +93,7 @@ export default Vue.extend({
       const item = this.parsedList.find((_: ListItem) => _.value == value)
       return item ? item.name : toLabel(value)
     },
-    addTag(this: any, e: Event) {
+    addTag(this: any) {
       if (this.addedSlug.length < 3) {
         emitEvent("notify", "Tags require at least 3 characters")
         return

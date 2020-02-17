@@ -107,7 +107,7 @@ export default Vue.extend({
     margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(250px, 300px) minmax(500px, 750px);
-    grid-gap: 3rem;
+    grid-gap: 5rem;
   }
   .mast {
     min-width: 0;

@@ -35,6 +35,7 @@ export default Vue.extend({
   background: var(--highlight-code-bg);
   font-family: var(--highlight-code-font);
   color: var(--highlight-code-color-text);
+  box-shadow: var(--highlight-code-shadow);
 }
 
 /* Code blocks */

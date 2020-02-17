@@ -354,7 +354,6 @@ export const postIndex = async (
     options
   )
 
-  console.log("SEARCH", postType, conditions, options)
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
     getModel(postType)
