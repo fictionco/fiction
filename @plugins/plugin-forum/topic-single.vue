@@ -173,7 +173,7 @@ export default Vue.extend({
 .content-area {
   display: grid;
   grid-template-columns: 2fr 200px;
-  grid-gap: 3rem;
+  grid-gap: 4rem;
   position: relative;
   .topic-sidebar {
     position: sticky;
@@ -197,6 +197,6 @@ export default Vue.extend({
   }
 }
 .topic-content {
-  padding: 1rem 0;
+  padding: 1rem 0 1rem 2rem;
 }
 </style>

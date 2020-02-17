@@ -67,7 +67,6 @@ export default Vue.extend({
       function(this: any, v: string[]) {
         if (v && !isEqual(v, this.tags)) {
           this.tags = v
-          this.setValidity()
         }
       },
       { immediate: true, deep: true }
@@ -83,7 +82,7 @@ export default Vue.extend({
       if (!el) return
 
       if (this.tags.length < this.min) {
-        const msg = `Minimum ${this.min} Needed`
+        const msg = `Minimum ${this.min} Needed (${this.tags.length} added)`
         el.setCustomValidity(msg)
       } else {
         el.setCustomValidity("")
@@ -100,7 +99,7 @@ export default Vue.extend({
       }
       if (this.addedSlug && !this.tags.includes(this.addedSlug)) {
         this.tags.push(this.addedSlug)
-
+        this.setValidity()
         this.$emit("input", this.tags)
       }
       this.addedText = ""
