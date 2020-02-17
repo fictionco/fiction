@@ -242,34 +242,34 @@ const makeFileLoader = ({
 
 /**
  * Recursively gets dependencies with 'factor' attribute
- * @param deps - dependencies of a package
+ * Also track modules that are disabled by apps/themes/plugins
+ * @param dependents - dependencies of a package
  * @param pkg - the calling package.json
  */
 const recursiveDependencies = (
-  deps: FactorPackageJson[],
-  pkg: FactorPackageJson
-): FactorPackageJson[] => {
-  const {
-    name,
-    dependencies = {},
-    devDependencies = {},
-    factor: { disable = [] } = {}
-  } = pkg
+  dependents: FactorPackageJson[],
+  pkg: FactorPackageJson,
+  disabled: string[]
+): { dependents: FactorPackageJson[]; disabled: string[] } => {
+  const { dependencies = {}, devDependencies = {}, factor: { disable = [] } = {} } = pkg
 
   const d = { ...dependencies, ...devDependencies }
+
+  disabled = [...disabled, ...disable]
 
   Object.keys(d)
     .map(_ => require(`${_}/package.json`))
     .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
     .forEach(_ => {
       // don't add if it's already there
-      if (!deps.find(pkg => pkg.name == _.name) && !disable.includes(name)) {
-        deps.push(_)
-        deps = recursiveDependencies(deps, _)
+      if (!dependents.find(pkg => pkg.name == _.name)) {
+        dependents.push(_)
+        // Preceding (;) is needed when not using const/let
+        ;({ dependents, disabled } = recursiveDependencies(dependents, _, disabled))
       }
     })
 
-  return deps
+  return { dependents, disabled }
 }
 
 /**
@@ -441,9 +441,11 @@ export const generateExtensionList = (
  * @param pkg - the root application package.json
  */
 const loadExtensions = (pkg: FactorPackageJson): FactorExtension[] => {
-  const dependents = recursiveDependencies([pkg], pkg)
+  const { dependents, disabled } = recursiveDependencies([pkg], pkg, [])
 
-  return generateExtensionList(dependents, pkg)
+  const deps = dependents.filter(_ => !disabled.includes(_.name))
+
+  return generateExtensionList(deps, pkg)
 }
 
 /**
