@@ -249,7 +249,12 @@ const recursiveDependencies = (
   deps: FactorPackageJson[],
   pkg: FactorPackageJson
 ): FactorPackageJson[] => {
-  const { dependencies = {}, devDependencies = {} } = pkg
+  const {
+    name,
+    dependencies = {},
+    devDependencies = {},
+    factor: { disable = [] } = {}
+  } = pkg
 
   const d = { ...dependencies, ...devDependencies }
 
@@ -258,7 +263,7 @@ const recursiveDependencies = (
     .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
     .forEach(_ => {
       // don't add if it's already there
-      if (!deps.find(pkg => pkg.name == _.name)) {
+      if (!deps.find(pkg => pkg.name == _.name) && !disable.includes(name)) {
         deps.push(_)
         deps = recursiveDependencies(deps, _)
       }

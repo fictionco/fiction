@@ -21,6 +21,21 @@ export enum PostStatus {
   Trash = "trash"
 }
 
+export enum IndexTimeFrame {
+  Day = "day",
+  Week = "week",
+  Month = "month",
+  Year = "year",
+  AllTime = "all-time"
+}
+
+export enum IndexOrderBy {
+  Latest = "latest",
+  Popular = "popular",
+  Top = "top",
+  Oldest = "oldest"
+}
+
 export interface UpdatePost {
   post: FactorPost | UnsavedFactorPost;
   postType: string;
@@ -64,11 +79,18 @@ export type PostIndexRequestParameters = {
   conditions: PostIndexConditions;
 } & EndpointParameters
 
+export enum SortDelimiters {
+  Ascending = "ascending",
+  Descending = "descending"
+}
 export interface PostIndexOptions {
   limit?: number;
   page?: number;
   skip?: number;
-  sort?: string;
+  sort?: string | Record<string, SortDelimiters>;
+  order?: IndexOrderBy;
+  time?: IndexTimeFrame;
+  search?: string;
 }
 
 export interface PostIndexConditions {
@@ -77,7 +99,7 @@ export interface PostIndexConditions {
   tag?: string;
   category?: string;
   role?: string;
-  conditions?: Record<string, any>;
+  search?: string;
 }
 
 export interface PostIndex {

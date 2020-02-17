@@ -4,7 +4,13 @@ import {
   requestPostIndex,
   requestPostSaveEmbedded
 } from "@factor/post/request"
-import { UnsavedFactorPost, FactorPost, PostStatus } from "@factor/post/types"
+import {
+  UnsavedFactorPost,
+  FactorPost,
+  PostStatus,
+  IndexOrderBy,
+  IndexTimeFrame
+} from "@factor/post/types"
 
 import { setting } from "@factor/api/settings"
 import { slugify, emitEvent } from "@factor/api"
@@ -14,20 +20,28 @@ import { postType } from "."
 
 export const loadAndStoreIndex = async (): Promise<void> => {
   const route = currentRoute()
-  const { params, query } = route
+  const { query } = route
+  const {
+    tag = "",
+    category = "",
+    order = IndexOrderBy.Latest,
+    time = IndexTimeFrame.AllTime,
+    page = "1",
+    search = ""
+  } = query as Record<string, string>
 
-  const tag = params.tag ?? query.tag ?? ""
-  const category = params.category ?? query.category ?? ""
-  const page = parseInt(params.page ?? query.page ?? 1)
-  const limit = page === 1 ? setting("forum.indexLimit") - 1 : setting("forum.indexLimit")
+  const limit =
+    page == "1" ? setting("forum.indexLimit") - 1 : setting("forum.indexLimit")
 
   await requestPostIndex({
     postType,
     tag,
     category,
     status: PostStatus.Published,
-    sort: "-date",
-    page,
+    order: order as IndexOrderBy,
+    time: time as IndexTimeFrame,
+    search,
+    page: parseInt(page),
     limit,
     conditions: {
       source: setting("package.name")

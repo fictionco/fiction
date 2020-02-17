@@ -77,7 +77,7 @@ export default (): FactorSchema => {
        * Embedded documents (comments, posts, etc.)
        */
       embedded: { type: [Object] },
-      embeddedCount: { type: Number, default: 0 },
+      embeddedCount: { type: Number, default: 0, index: true },
       status: {
         type: String,
         enum: [PostStatus.Published, PostStatus.Draft, PostStatus.Trash],
@@ -110,7 +110,12 @@ export default (): FactorSchema => {
       /**
        * Add index to allow full-text search
        */
-      postSchema.index({ title: "text", content: "text" })
+      postSchema.index({
+        title: "text",
+        content: "text",
+        "embedded.$.title": "text",
+        "embedded.$.content": "text"
+      })
 
       postSchema.pre("save", function(this: FactorPost & Document, next) {
         // apparently mongoose can't detect change to object keys

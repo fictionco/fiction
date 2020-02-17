@@ -61,6 +61,7 @@ export interface FactorPackageJson {
     load?: LoadTarget;
     extend?: ExtendTypes;
     priority?: number;
+    disable?: string[];
   };
   repository?: { type?: string; url: string };
   [key: string]: any;

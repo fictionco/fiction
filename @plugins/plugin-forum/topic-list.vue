@@ -2,10 +2,31 @@
   <div class="thread-index">
     <div class="thread-index-controls">
       <div class="filters">
-        <factor-input-select placeholder="Sort" :list="['latest', 'popular']" :value="filterValue" />
+        <factor-input-select
+          placeholder="Order By"
+          :list="['latest', 'popular']"
+          :value="$route.query.order || 'latest'"
+          @input="setQuery({key: 'order', value: $event, init: 'latest'})"
+        />
+        <factor-input-select
+          v-if="$route.query.order == 'popular'"
+          placeholder="Time"
+          :list="['day', 'week', 'month', 'year', 'all-time']"
+          :value="$route.query.time || 'week'"
+          @input="setQuery({key: 'time', value: $event, init: 'week'})"
+        />
       </div>
       <div class="discovery">
-        <factor-input-text placeholder="Search" :list="[]" />
+        <factor-input-text
+          placeholder="Search"
+          @keyup.enter="setQuery({key: 'search', value: $event.target.value.trim()})"
+        />
+      </div>
+    </div>
+    <div class="breadcrumb">
+      <div v-if="$route.query.search" class="notification">
+        Search results for
+        <strong>"{{ $route.query.search }}"</strong>
       </div>
     </div>
     <div class="list-items">
@@ -34,10 +55,11 @@
                 <factor-icon icon="far fa-comment" />
                 <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
               </div>
-              <component :is="setting('forum.components.topicTags')" :tags="post.category" />
+              <component :is="setting('forum.components.topicTags')" :tags="post.tag" />
             </div>
           </div>
         </div>
+        <component :is="setting('forum.components.topicPagination')" />
       </template>
       <div v-else class="no-posts">
         <div class="title">Nothing Found</div>
@@ -84,9 +106,7 @@ export default Vue.extend({
     posts: { type: Array, default: () => [] }
   },
   data() {
-    return {
-      filterValue: "latest"
-    }
+    return {}
   },
   methods: {
     timeAgo,
@@ -96,6 +116,18 @@ export default Vue.extend({
     excerpt,
     author(this: any, post: FactorPost) {
       return post.author && post.author.length > 0 ? stored(post.author[0]) : {}
+    },
+    setQuery(
+      this: any,
+      { key, value, init }: { key: string; value: string; init: string }
+    ): void {
+      let query = Object.assign({}, this.$route.query)
+      if (!value || value == init) {
+        delete query[key]
+      } else {
+        query = { ...query, [key]: value }
+      }
+      this.$router.push({ query })
     }
   }
 })
@@ -107,6 +139,12 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     margin-bottom: 2rem;
+    .filters select {
+      margin-right: 1rem;
+    }
+  }
+  .breadcrumb {
+    padding: 0.5rem 0 2rem;
   }
   .list-items {
     .loading-ring-wrap {
@@ -180,7 +218,11 @@ export default Vue.extend({
       grid-auto-rows: min-content;
 
       .number-posts {
+        font-size: 1.2em;
         font-weight: 800;
+        .text {
+          margin-left: 0.25em;
+        }
       }
     }
   }

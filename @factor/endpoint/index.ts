@@ -102,6 +102,8 @@ export const endpointRequest = async ({
         const err = new Error(error.message.replace("Error: ", ""))
         emitEvent("error", err)
 
+        console.log("handle", isNode)
+
         /**
          * Don't rethrow errors as they will cause SSR errors for requests made during SSR
          * This prevents page load

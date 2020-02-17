@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div class="topic-pagination">
     <div class="items">{{ count }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">&larr;</factor-btn>
     <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
@@ -11,14 +11,14 @@
 import { factorBtn } from "@factor/ui"
 import { stored } from "@factor/api"
 import Vue from "vue"
+import { postType } from ".."
+
 export default Vue.extend({
   components: { factorBtn },
-  props: {
-    postType: { type: String, default: "" }
-  },
+
   computed: {
     index(this: any) {
-      return stored(this.postType) || {}
+      return stored(postType) || {}
     },
     forumMeta(this: any) {
       const { meta = [] } = this.index
@@ -52,29 +52,27 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.plugin-forum {
-  .pagination {
-    max-width: 48rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @media (max-width: 900px) {
-      justify-content: flex-end;
-      .items,
-      .sep {
-        display: none;
-      }
-    }
-    > * {
-      margin: 0 5px;
-    }
+.topic-pagination {
+  max-width: 48rem;
+  margin: 5em auto 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 900px) {
+    justify-content: flex-end;
+    .items,
     .sep {
-      opacity: 0.4;
+      display: none;
     }
-    .factor-btn {
-      padding: 0.5em;
-    }
+  }
+  > * {
+    margin: 0 5px;
+  }
+  .sep {
+    opacity: 0.4;
+  }
+  .factor-btn {
+    padding: 0.5em;
   }
 }
 </style>

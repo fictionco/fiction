@@ -4,7 +4,7 @@ import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
-import { randomToken } from "@factor/api"
+import { randomToken, timeUtil, omit } from "@factor/api"
 import {
   PostActions,
   FactorPost,
@@ -15,7 +15,9 @@ import {
   PostIndexRequestParameters,
   PostIndex,
   UpdateManyPosts,
-  PostRequestParameters
+  PostRequestParameters,
+  IndexTimeFrame,
+  SortDelimiters
 } from "./types"
 import { canUpdatePostsCondition, postPermission } from "./util"
 import {
@@ -232,7 +234,7 @@ export const postList = async (
   options = Object.assign(
     {},
     {
-      sort: { createdAt: "descending" },
+      sort: { createdAt: SortDelimiters.Descending },
       limit: 20,
       skip: 0
     },
@@ -292,24 +294,67 @@ export const indexMeta = async ({
   return _out
 }
 
+/**
+ * Transform standard sorts and filters into Database API
+ */
+const transformIndexParameters = (
+  params: PostIndexRequestParameters
+): PostIndexRequestParameters => {
+  const { options, conditions } = params
+  const { order, time, search } = options
+  let { sort } = options
+
+  if (search) {
+    // https://docs.mongodb.com/manual/text-search/
+    const searchCondition = { $text: { $search: search } }
+    params.conditions = { ...conditions, ...searchCondition }
+  } else {
+    if (order == "popular") {
+      sort = {
+        embeddedCount: SortDelimiters.Descending,
+        createdAt: SortDelimiters.Descending
+      }
+    } else if (order == "latest") {
+      sort = { updatedAt: SortDelimiters.Descending }
+    }
+
+    // remove non-db paths
+    params.options = omit({ ...options, sort }, "order", "time", "search")
+
+    if (time && time != IndexTimeFrame.AllTime) {
+      const timeHorizon = timeUtil().subtract(1, time)
+      const timeCondition = { createdAt: { $gte: timeHorizon } }
+      params.conditions = { ...conditions, ...timeCondition }
+    }
+  }
+
+  return params
+}
+
+/**
+ * Gets an index of posts along with meta information like counts
+ */
 export const postIndex = async (
   params: PostIndexRequestParameters
 ): Promise<PostIndex> => {
   if (dbIsOffline()) return { meta: {}, posts: [] }
 
-  const { postType, conditions = {} } = params
-  let { options } = params
+  const dbParams = transformIndexParameters(params)
+
+  const { postType, conditions = {} } = dbParams
+  let { options } = dbParams
 
   options = Object.assign(
     {},
     {
-      sort: { date: "descending", createdAt: "descending" },
+      sort: { date: SortDelimiters.Descending, createdAt: SortDelimiters.Descending },
       limit: 20,
       skip: 0
     },
     options
   )
 
+  console.log("SEARCH", postType, conditions, options)
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
     getModel(postType)

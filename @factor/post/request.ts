@@ -13,7 +13,8 @@ import {
   PostIndexParametersFlat,
   PostIndexRequestParameters,
   PostIndex,
-  PostStatus
+  PostStatus,
+  PostIndexConditions
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
@@ -224,6 +225,9 @@ export const requestPostIndex = async (
     page = 1,
     postType,
     sort,
+    order,
+    time,
+    search,
     cache = true,
     conditions = {}
   } = _arguments
@@ -243,24 +247,33 @@ export const requestPostIndex = async (
   const params: PostIndexRequestParameters = {
     conditions,
     postType,
-    options: { limit, skip, page, sort }
+    options: { limit, skip, page, sort, order, time, search }
   }
 
-  const taxonomies = ["tag", "category", "status", "role"]
+  const taxonomies: (keyof PostIndexConditions)[] = ["tag", "category", "status", "role"]
   taxonomies.forEach(_ => {
     if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
 
   if (!_arguments.status) params.conditions.status = { $ne: PostStatus.Trash }
 
-  const { posts, meta } = (await sendPostRequest("postIndex", params)) as PostIndex
+  const result = await sendPostRequest("postIndex", params)
 
-  storeItem(queryHash, { posts, meta })
-  storeItem(postType, { posts, meta })
+  /**
+   * IF no result, then an error was thrown
+   */
+  if (result) {
+    const { posts, meta } = result as PostIndex
 
-  await requestPostPopulate({ posts, depth: 20 })
+    storeItem(queryHash, { posts, meta })
+    storeItem(postType, { posts, meta })
 
-  return { posts, meta }
+    await requestPostPopulate({ posts, depth: 20 })
+
+    return { posts, meta }
+  } else {
+    return { posts: [], meta: {} }
+  }
 }
 
 /**
