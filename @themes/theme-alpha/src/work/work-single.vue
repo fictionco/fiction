@@ -43,94 +43,40 @@ export default Vue.extend({
       return this.post.settings || {}
     }
   },
-  templateSettings() {
-    return [
-      {
-        input: "select",
-        label: "Header Alignment",
-        description: "Alignment of the page header",
-        _id: "headerAlignment",
-        list: ["left", "center", "right"],
-        default: "left"
-      },
-      {
-        input: "text",
-        label: "Pre-heading",
-        _id: "pageHeadingPre",
-        default: ""
-      },
-      {
-        input: "text",
-        label: "Heading",
-        description: "Primary page heading",
-        _id: "pageHeading"
-      },
-      {
-        input: "text",
-        label: "Sub Heading",
-        _id: "pageHeadingSub"
-      },
-      {
-        input: "text",
-        label: "Button Link",
-        _id: "buttonLink"
-      },
-      {
-        input: "text",
-        label: "Button Text",
-        _id: "buttonText"
-      },
-      {
-        input: "text",
-        label: "Boxes Title",
-        _id: "boxesTitle"
-      }
-      // {
-      //   _id: "boxes",
-      //   input: "sortable",
-      //   label: "Feature Boxes",
-      //   description: "Some feature boxes",
-      //   default: [{ __title: "Box 1" }, { __title: "Box 2" }],
-      //   settings: [
-      //     {
-      //       input: "text",
-      //       label: "Heading",
-      //       _id: "heading",
-      //       default: "Box"
-      //     },
-      //     {
-      //       input: "image-upload",
-      //       label: "Icon",
-      //       _id: "icon"
-      //     }
-      //   ]
-      // },
-      // {
-      //   input: "text",
-      //   label: "Brands Title",
-      //   _id: "brandsTitle"
-      // },
-      // {
-      //   _id: "brands",
-      //   input: "sortable",
-      //   label: "Feature Brands",
-      //   description: "Some feature brands",
-      //   inputs: [
-      //     {
-      //       input: "text",
-      //       label: "Link",
-      //       description: "(Optional)",
-      //       _id: "link"
-      //     },
-      //     {
-      //       input: "image-upload",
-      //       label: "Image",
-      //       _id: "image"
-      //     }
-      //   ]
-      // }
-    ]
-  },
+  // templateSettings() {
+  //   return [
+  //     {
+  //       input: "text",
+  //       label: "Client",
+  //       _id: "client",
+  //       default: ""
+  //     },
+  //     {
+  //       input: "text",
+  //       label: "Role",
+  //       _id: "role",
+  //       default: ""
+  //     },
+  //     {
+  //       input: "text",
+  //       label: "Year",
+  //       _id: "year",
+  //       default: ""
+  //     },
+  //     {
+  //       input: "text",
+  //       label: "Platforms",
+  //       _id: "platforms",
+  //       default: ""
+  //     },
+  //     {
+  //       input: "text",
+  //       label: "URL",
+  //       _id: "url",
+  //       default: ""
+  //     }
+  //   ]
+  // },
   methods: {
     isEmpty,
     setting

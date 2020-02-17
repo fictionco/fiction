@@ -13,6 +13,9 @@ export default {
       footer: (): Promise<Component> => import("./footer.vue")
     },
     logo: (): Promise<Component> => import("./el/logo.vue"),
+    /**
+    * Site navigation.
+    */
     nav: [
       {
         _item: "intro",
@@ -40,6 +43,9 @@ export default {
         name: "Contact"
       }
     ],
+    /**
+    * Site social links.
+    */
     social: [
       {
         _item: "dribbble",
@@ -76,6 +82,9 @@ export default {
       text: "Get in Touch"
     }
   },
+  /**
+   * Site footer settings.
+   */
   footer: {
     legal: `&copy; 2020 <a href="https://www.fiction.com/" target="_blank">Fiction.com</a> Inc.`,
     nav: [
@@ -204,6 +213,9 @@ export default {
       image: require("./img/logo-alpha.jpg")
     }
   },
+  /**
+   * Copy for the about page template.
+   */
   about: {
     pretitle: "About",
     title: "Designer and Illustrator based in San Francisco.",
@@ -309,13 +321,16 @@ export default {
       image: require("./img/logo-alpha.jpg")
     }
   },
+  /**
+   * Copy for the work page template.
+   */
   work: {
     indexRoute: "/work",
     postRoute: "/work",
     limit: 4,
     returnLinkText: "Back to All Projects",
-    headline: "Work",
-    subheadline: "Case Studies",
+    pretitle: "Work",
+    title: "Case Studies",
     content:
       "Great projects happen with passion, intelligence, and personal commitment.",
     components: {
@@ -341,6 +356,9 @@ export default {
       }
     }
   },
+  /**
+   * Copy for the blog page template.
+   */
   blog: {
     indexRoute: "/blog",
     postRoute: "/entry",
@@ -374,6 +392,9 @@ export default {
       }
     }
   },
+  /**
+   * Copy for the contact page template.
+   */
   contact: {
     pretitle: "Contact",
     title: "Let's Talk!",
@@ -420,7 +441,9 @@ export default {
       image: require("./img/logo-alpha.jpg")
     },
   },
-  // Contact form plugin settings
+  /**
+   * Contact form plugin settings.
+   */
   contactForm: {
     //email: "example@email.com",
     submit: {
@@ -455,5 +478,5 @@ export default {
         required: true
       }
     ]
-  },
+  }
 }

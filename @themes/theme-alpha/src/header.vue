@@ -7,16 +7,16 @@
         :class="{ active: showMobileMenu }"
         @click="showMobileMenu = !showMobileMenu"
       >
-        <div class="nav">
-          <template v-for="(item, index) in setting('site.nav')">
+        <div v-if="siteNav" class="nav">
+          <template v-for="(item, index) in siteNav">
             <factor-link :key="index" :path="item.path">
               <factor-icon v-if="item.icon" :icon="item.icon" />
               <span>{{ item.name }}</span>
             </factor-link>
           </template>
         </div>
-        <div class="social">
-          <template v-for="(item, index) in setting('site.social')">
+        <div v-if="siteSocial" class="social">
+          <template v-for="(item, index) in siteSocial">
             <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
@@ -41,7 +41,9 @@ export default Vue.extend({
   },
   data() {
     return {
-      showMobileMenu: false
+      showMobileMenu: false,
+      siteNav: setting("site.nav"),
+      siteSocial: setting("site.social")
     }
   },
   methods: { setting }
