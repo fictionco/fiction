@@ -7,7 +7,7 @@
       </li>
       <li>
         <h4>Role</h4>
-        <div>Branding, Motion</div>
+        <div>Branding, Development</div>
       </li>
       <li>
         <h4>Year</h4>
@@ -74,13 +74,12 @@ export default Vue.extend({
 <style lang="less">
 .work-wrap {
   .post-entry {
-    //margin: 2rem 0;
     padding-bottom: 1rem;
     font-size: 1.25em;
     line-height: 1.4;
 
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr; // Used when .project-info div is active
     grid-gap: 2rem;
 
     @media (max-width: 900px) {

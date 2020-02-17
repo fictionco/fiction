@@ -2,12 +2,12 @@
   <div class="page-work">
     <el-hero
       v-if="page == 1 && !tag"
-      :pretitle="setting('work.headline')"
-      :title="setting('work.subheadline')"
-      :image="setting('work.heroImage')"
+      :pretitle="workPretitle"
+      :title="workTitle"
+      :image="workHeroImage"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('work.content')" class="content text-gray-600" />
+        <div v-if="workContent" v-formatted-text="workContent" class="content text-gray-600" />
       </template>
     </el-hero>
 
@@ -62,7 +62,11 @@ export default Vue.extend({
   data() {
     return {
       postType: "work",
-      loading: false
+      loading: false,
+      workPretitle: setting("work.pretitle"),
+      workTitle: setting("work.title"),
+      workContent: setting("work.content"),
+      workHeroImage: setting("work.heroImage")
     }
   },
   metaInfo() {

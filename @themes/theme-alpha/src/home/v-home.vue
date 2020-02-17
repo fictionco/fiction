@@ -370,6 +370,7 @@ export default Vue.extend({
       &:hover {
         background: none;
         box-shadow: none;
+        padding: 1.5rem 2rem 2rem;
       }
 
       .item-image {
