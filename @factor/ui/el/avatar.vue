@@ -1,9 +1,15 @@
 <template>
   <div class="avatar">
-    <factor-loading-ring v-if="loading" :width="width" />
+    <factor-loading-ring v-if="server || loading" :width="width" />
 
-    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
+    <div
+      v-else-if="hasImage"
+      :style="getStyle({ backgroundImage: `url(${src})` })"
+      class="thumb thumb-src"
+    />
+    <div v-else :style="getStyle()" class="thumb thumb-default">
       <svg
+        v-if="!hasImage"
         class="user-blank"
         version="1.1"
         x="0px"
@@ -20,8 +26,6 @@
         </g>
       </svg>
     </div>
-    <div v-else :style="getStyle({ backgroundImage: `url(${src})` })" class="thumb thumb-src" />
-    <slot />
   </div>
 </template>
 <script lang="ts">
@@ -37,7 +41,7 @@ export default Vue.extend({
     loading: { type: Boolean, default: false }
   },
   data() {
-    return {}
+    return { server: true }
   },
   computed: {
     hasImage(this: any) {
@@ -56,6 +60,12 @@ export default Vue.extend({
         return ""
       }
     }
+  },
+  mounted() {
+    /**
+     * SSR struggles with SVGs
+     */
+    this.server = false
   },
 
   methods: {

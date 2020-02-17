@@ -15,6 +15,11 @@ import {
   EmailResult
 } from "./email-types"
 
+type FactorUserEmailVerify = FactorUser & {
+  emailVerificationCode?: string;
+  passwordResetCode?: string;
+}
+
 interface UserEmailConfig {
   to: string;
   subject: string;
@@ -59,7 +64,10 @@ export const verifyEmail = async (
     throw new Error(`Email verification user doesn't match the logged in account.`)
   }
 
-  const user = await getUserModel().findOne({ _id }, "+emailVerificationCode")
+  const user = await getUserModel<FactorUserEmailVerify>().findOne(
+    { _id },
+    "+emailVerificationCode"
+  )
 
   if (!user) {
     throw new Error("Can't find user ID.")
@@ -114,7 +122,10 @@ export const verifyAndResetPassword = async ({
   code,
   password
 }: VerifyAndResetPassword): Promise<EmailResult> => {
-  const user = await getModel("post").findOne({ _id }, "+passwordResetCode")
+  const user = await getModel<FactorUserEmailVerify>("post").findOne(
+    { _id },
+    "+passwordResetCode"
+  )
 
   if (!user) {
     throw new Error(`Could not find user.`)
@@ -183,7 +194,7 @@ export const setup = (): void => {
     hook: "user-schema-hooks",
     callback: (userSchema: Schema) => {
       userSchema.pre("save", async function(
-        this: FactorUser & Document,
+        this: FactorUserEmailVerify & Document,
         next: HookNextFunction
       ): Promise<void> {
         if (!this.isModified("email")) return

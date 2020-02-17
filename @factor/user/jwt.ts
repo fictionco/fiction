@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken"
 import log from "@factor/api/logger"
+import { Document } from "mongoose"
 import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
 /**
@@ -9,7 +10,7 @@ import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./ty
  * @returns credential including the client token
  */
 export const userCredential = (
-  user: FactorUserAuthentication
+  user: FactorUserAuthentication & Document
 ): FactorUserCredential | undefined => {
   if (!user) {
     return

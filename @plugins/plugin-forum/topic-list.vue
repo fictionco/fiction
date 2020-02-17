@@ -8,53 +8,62 @@
         <factor-input-text placeholder="Search" :list="[]" />
       </div>
     </div>
-    <div class="thead-list-item">
-      <div v-for="(post, index) in posts" :key="index" class="list-item-wrap">
-        <div class="list-item">
-          <factor-link class="item-avatar" :path="topicLink(post)">
-            <factor-avatar :post-id="author(post).avatar" />
-          </factor-link>
-          <div class="item-text">
-            <div class="header">
-              <h2 class="title">
-                <factor-link :path="topicLink(post)">{{ excerpt(post.title, {length: 16}) }}</factor-link>
-              </h2>
-              <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
-            </div>
+    <div class="list-items">
+      <factor-loading-ring v-if="loading" />
+      <template v-else>
+        <div v-for="(post, index) in posts" :key="index" class="list-item-wrap">
+          <div class="list-item">
+            <factor-link class="item-avatar" :path="topicLink(post)">
+              <factor-avatar :post-id="author(post).avatar" />
+            </factor-link>
+            <div class="item-text">
+              <div class="header">
+                <h2 class="title">
+                  <factor-link :path="topicLink(post)">{{ excerpt(post.title, {length: 16}) }}</factor-link>
+                </h2>
+                <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
+              </div>
 
-            <div class="meta">
-              <div class="author meta-item">{{ author(post).username }}</div>
-              <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
+              <div class="meta">
+                <div class="author meta-item">{{ author(post).username }}</div>
+                <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
+              </div>
             </div>
-          </div>
-          <div class="item-details">
-            <component :is="setting('forum.components.topicNumberPosts')" />
-            <component :is="setting('forum.components.topicTags')" :tags="post.category" />
+            <div class="item-details">
+              <div class="number-posts item">
+                <factor-icon icon="far fa-comment" />
+                <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
+              </div>
+              <component :is="setting('forum.components.topicTags')" :tags="post.category" />
+            </div>
           </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { excerpt } from "@factor/api/excerpt"
-import { timeAgo } from "@factor/api/time"
-import { stored, toLabel } from "@factor/api"
-import { setting } from "@factor/api/settings"
-import { FactorPost } from "@factor/post/types"
 import {
+  factorLoadingRing,
   factorIcon,
   factorLink,
   factorAvatar,
   factorInputSelect,
   factorInputText
 } from "@factor/ui"
+import { excerpt } from "@factor/api/excerpt"
+import { timeAgo } from "@factor/api/time"
+import { stored, toLabel } from "@factor/api"
+import { setting } from "@factor/api/settings"
+import { FactorPost } from "@factor/post/types"
+
 import Vue from "vue"
 import { topicLink } from "./request"
 
 export default Vue.extend({
   components: {
+    factorLoadingRing,
     factorLink,
     factorAvatar,
     factorIcon,
@@ -62,6 +71,7 @@ export default Vue.extend({
     factorInputText
   },
   props: {
+    loading: { type: Boolean, default: false },
     posts: { type: Array, default: () => [] }
   },
   data() {
@@ -88,6 +98,11 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     margin-bottom: 2rem;
+  }
+  .list-items {
+    .loading-ring-wrap {
+      margin: 3em 0;
+    }
   }
   .list-item-wrap {
     margin-bottom: 2rem;
@@ -138,20 +153,10 @@ export default Vue.extend({
       grid-template-columns: 1fr;
       grid-gap: 0.5rem;
       grid-auto-rows: min-content;
-      // .tags {
-      //   .tag {
-      //     border-radius: 5px;
-      //     padding: 0 0.5rem;
-      //     display: inline-block;
-      //     margin: 0 1rem 0.5rem 0;
-      //     background: var(--color-bg-contrast);
-      //   }
-      // }
-      // .number-comments {
-      //   .factor-icon {
-      //     margin-right: 0.5rem;
-      //   }
-      // }
+
+      .number-posts {
+        font-weight: 800;
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { addCallback } from "@factor/api/hooks"
+import { CurrentUserState } from "@factor/user/types"
 import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
@@ -31,18 +32,21 @@ import {
  * @param postType - Post type
  * @param bearer - User that is saving the data
  */
-export const savePost = async (
-  { data, postType = "post" }: { data: FactorPost | UnsavedFactorPost; postType: string },
+export const savePost = async <T = {}>(
+  {
+    data,
+    postType = "post"
+  }: { data: FactorPost | UnsavedFactorPost | T; postType: string },
   { bearer }: EndpointMeta
 ): Promise<FactorPost | undefined> => {
   if (dbIsOffline()) return
-
-  const { _id } = data
 
   let post
   let action = PostActions.Update
 
   const Model = getModel(postType)
+
+  const { _id = "" } = data as FactorPost
 
   if (_id) post = await Model.findById(_id)
 
@@ -87,7 +91,7 @@ export const savePostEmbedded = async (
   // Already exists
   if (_id) {
     await Model.updateOne(
-      { _id: postId, "embeddedPost._id": 80 },
+      { _id: postId, "embeddedPost._id": _id },
       { $set: { "embeddedPost.$": embeddedPost } }
     )
   } else {
@@ -144,10 +148,11 @@ export const getSinglePost = async (
     })
   ) {
     return
-  }
-  // If ID is unset or if it isn't found, create a new post model/doc
-  // This is not saved at this point, leading to a post sometimes not existing although an ID exists
-  else if (!_post && createOnEmpty) {
+  } else if (!_post && createOnEmpty) {
+    /**
+     * If ID is unset or if it isn't found, create a new post model/doc
+     * This is not saved at this point, leading to a post sometimes not existing although an ID exists
+     */
     const initial = { author: bearer && bearer._id ? [bearer._id] : null }
 
     _post = new Model(initial)
@@ -157,6 +162,12 @@ export const getSinglePost = async (
 
   return _post
 }
+
+/**
+ * Set these types as they are passed into hooks
+ */
+export type UpdateManySetter = { $set: any }
+export type UpdateManyOptions = { multi: boolean; bearer: CurrentUserState }
 /**
  * Update many posts at the same time
  */
@@ -172,8 +183,8 @@ export const updateManyById = async (
 
   const r = await getModel(postType).update(
     { $and: [permissionCondition, { _id: { $in: _ids } }] },
-    { $set: data },
-    { multi: true, bearer }
+    { $set: data } as UpdateManySetter,
+    { multi: true, bearer } as UpdateManyOptions
   )
 
   return r
@@ -198,6 +209,9 @@ export const deleteManyById = async (
   return
 }
 
+/**
+ * Gets an array of posts based on an array of _ids
+ */
 export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 

@@ -2,8 +2,8 @@ import { addFilter, setting } from "@factor/api"
 import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
 import inquirer from "inquirer"
 import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"
+import { UpdateManySetter, UpdateManyOptions } from "@factor/post/server"
 import { FactorUser, userRolesMap, UserRoles } from "./types"
-
 interface FactorUserRoles extends FactorUser {
   role: string;
   accessLevel: number;
@@ -17,7 +17,8 @@ interface FactorUserRoles extends FactorUser {
  * @library mongoose
  */
 const validateUpdateManyQuery = async function(
-  this: FactorUserRoles & Document,
+  this: FactorUserRoles &
+    Document & { _update: UpdateManySetter; options: UpdateManyOptions },
   next: HookNextFunction
 ): Promise<void> {
   const { bearer } = this.options
@@ -28,8 +29,9 @@ const validateUpdateManyQuery = async function(
   if (setRole) {
     const manageUsersAccessLevel = 500
     // If the bearer doesn't have proper privileges, don't allow this operation
-    if (!bearer || bearer.accessLevel < manageUsersAccessLevel) {
-      return next(new Error(`Can not edit roles as ${bearer.role}`))
+    if (!bearer || !bearer.accessLevel || bearer.accessLevel < manageUsersAccessLevel) {
+      const role = bearer?.role ?? "unknown"
+      return next(new Error(`Can not edit roles as ${role}`))
     } else {
       // If allowed, also set the user's accessLevel to match role
       this._update.$set.accessLevel = userRolesMap[setRole as UserRoles] || 0

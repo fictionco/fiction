@@ -152,16 +152,20 @@ export type CurrentFactorPost = FactorPost | undefined
 
 export interface FactorPost extends UnsavedFactorPost {
   _id: string;
+  __t: string;
 }
 
+export type FactorPostKey = FactorPost & { [key: string]: any }
+
 export interface UnsavedFactorPost {
-  date?: string;
+  _id?: string;
   postType?: string;
   title?: string;
   subTitle?: string;
   synopsis?: string;
   content?: string;
   author?: PopulatedPosts;
+  follower?: PopulatedPosts;
   images?: PopulatedPosts;
   avatar?: PopulatedPost;
   tag?: string[];
@@ -173,5 +177,8 @@ export interface UnsavedFactorPost {
   status?: PostStatus;
   uniqueId?: string;
   permalink?: string;
-  [key: string]: any;
+  date?: Date | string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  //[key: string]: any;
 }

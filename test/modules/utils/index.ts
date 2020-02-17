@@ -31,6 +31,8 @@ export const mockUser = (
   additional: object = {}
 ): FactorUser => {
   return {
+    __t: "user",
+    postType: "user",
     displayName: "Mock User",
     _id: objectId().toString(),
     email: "mock@mock.com",

@@ -1,27 +1,24 @@
 <template>
   <div class="forum-index">
-    <div v-if="loading" class="forum-loading">
-      <factor-loading-ring />
-    </div>
-
-    <div v-else class="index-layout">
+    <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
-        <component :is="setting('forum.components.topicList')" :posts="indexPosts" />
+        <component
+          :is="setting('forum.components.topicList')"
+          :posts="indexPosts"
+          :loading="loading"
+        />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing } from "@factor/ui"
+
 import { setting, stored } from "@factor/api"
 import { loadAndStoreIndex } from "./request"
 import { postType } from "."
 export default Vue.extend({
-  components: {
-    factorLoadingRing
-  },
   data() {
     return {
       loading: false

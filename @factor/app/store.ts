@@ -22,9 +22,10 @@ export const getStore = (): Store<object> => {
     }
   })
 
-  // prime the store with server-initialized state.
-  // the state is determined during SSR and inlined in the page markup.
-  // Make sure this is done after store modules are setup and added
+  /**
+   * prime the store with server-initialized state.
+   * the state is determined during SSR and inlined in the page markup.
+   */
   if (typeof window != "undefined" && window.__INITIAL_STATE__) {
     __store.replaceState(window.__INITIAL_STATE__)
   }

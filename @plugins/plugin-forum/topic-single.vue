@@ -5,7 +5,10 @@
         <component :is="setting('forum.components.navBack')" />
 
         <div class="text">
-          <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
+          <div class="text-header">
+            <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
+            <h1 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h1>
+          </div>
           <div class="meta">
             <component
               :is="setting('forum.components.topicTags')"
@@ -38,12 +41,17 @@
         <div class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
-            <span class="text">22 Posts</span>
+            <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
           </div>
-          <factor-btn class="item" btn="primary" @click="focusReply()">Reply &rarr;</factor-btn>
+          <factor-btn class="item" btn="primary" @click="focusReply()">Add Reply &darr;</factor-btn>
+          <factor-btn class="item" btn="default">
+            <factor-icon icon="far fa-bookmark" />
+            <span class="text">Bookmark</span>
+          </factor-btn>
+
           <factor-btn class="item" btn="default">
             <factor-icon icon="far fa-star" />
-            <span class="text">Follow</span>
+            <span class="text">Subscribe</span>
           </factor-btn>
 
           <factor-btn class="item" btn="default" @click="editTopic(post)">
@@ -142,12 +150,19 @@ export default Vue.extend({
   .text {
     padding: 2em 0;
   }
-  .title {
-    font-size: 2.4em;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
+  .text-header {
     margin-bottom: 1rem;
-    font-weight: var(--font-weight-bold, 700);
+    .title {
+      font-size: 2.4em;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+
+      font-weight: var(--font-weight-bold, 700);
+    }
+    .synopsis {
+      font-size: 1.4em;
+      opacity: 0.7;
+    }
   }
 
   .meta {
@@ -167,10 +182,11 @@ export default Vue.extend({
   .topic-sidebar {
     position: sticky;
     top: 200px;
+    padding-bottom: 600px;
     .number-posts {
-      font-size: 1.1em;
+      font-size: 1.5em;
       text-align: center;
-      font-weight: 700;
+      font-weight: 800;
     }
     .factor-btn {
       display: block;

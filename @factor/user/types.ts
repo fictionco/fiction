@@ -55,4 +55,6 @@ export interface FactorUser extends FactorPost {
   birthday?: Date | string;
   gender?: Gender;
   about?: string;
+  password?: string;
+  comparePassword?: (password: string) => boolean;
 }

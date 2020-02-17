@@ -9,7 +9,7 @@
         placeholder="Reply"
       />
       <div class="action">
-        <factor-btn btn="primary" :loading="sending" @click="topicReply()">Reply</factor-btn>
+        <factor-btn btn="primary" :loading="sending" @click="topicReply()">Post Reply &uarr;</factor-btn>
       </div>
     </div>
   </div>
@@ -55,9 +55,12 @@ export default Vue.extend({
         author: [this.currentUser._id]
       })
 
-      const embedded = this.post.embedded
+      const embedded = this.post.embedded || []
+      const embeddedCount = (this.post.embeddedCount || 0) + 1
+
       embedded.push(result)
-      this.post = { ...this.post, embedded }
+
+      this.post = { ...this.post, embedded, embeddedCount }
 
       this.reply = ""
 

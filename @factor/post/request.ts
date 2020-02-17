@@ -1,9 +1,11 @@
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/api/time"
+import { isNode } from "@factor/api"
 import objectHash from "object-hash"
 import {
   FactorPost,
+  FactorPostKey,
   UpdatePost,
   UpdatePostEmbedded,
   UpdateManyPosts,
@@ -52,16 +54,16 @@ export const sendPostRequest = async (
  * @remarks
  * Depth is useful as in some situations, like a long list, etc, it doesn't make sense to populate all joins
  */
-export const requestPostPopulate = async ({
+export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
   depth = 10
 }: {
-  posts: FactorPost[];
+  posts: T[];
   depth?: number;
 }): Promise<string[]> => {
   let _ids: string[] = []
 
-  posts.forEach((post: FactorPost) => {
+  posts.forEach((post: T) => {
     storeItem(post._id, post)
 
     const populatedFields = getSchemaPopulatedFields({
@@ -192,11 +194,18 @@ export const requestPostSingle = async (
 
   /**
    * Populate joined fields, will add this post and all others to store
-   * ASYNC, but we should not wait for it, data will be loaded to store
+   * In BROWSER - DON'T WAIT, but we should not wait for it, data will be loaded to store
+   * In SERVER - WAIT - SSR needs to have all store information so it will be picked up on load
    */
   if (post) {
     const embedded = post.embedded ?? []
-    requestPostPopulate({ posts: [post, ...embedded], depth })
+    const posts = [post, ...embedded]
+
+    if (isNode) {
+      await requestPostPopulate({ posts, depth })
+    } else {
+      requestPostPopulate({ posts, depth })
+    }
   }
 
   return post as FactorPost
