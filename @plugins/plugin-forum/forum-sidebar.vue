@@ -89,6 +89,7 @@ export default Vue.extend({
     font-weight: 600;
     display: grid;
     margin-bottom: 0.75rem;
+
     .menu-item-link,
     .sub-menu {
       grid-template-columns: 2rem 1fr;
@@ -102,6 +103,12 @@ export default Vue.extend({
 
       padding: 0.1em 0;
       color: inherit;
+      &.router-link-exact-active {
+        color: var(--color-primary);
+        .item-icon svg .primary-color {
+          fill: var(--color-primary);
+        }
+      }
       &:hover {
         color: var(--color-primary);
         .item-icon .primary-color {

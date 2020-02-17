@@ -44,10 +44,6 @@
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
           </div>
           <factor-btn class="item" btn="primary" @click="focusReply()">Add Reply &darr;</factor-btn>
-          <factor-btn class="item" btn="default">
-            <factor-icon icon="far fa-bookmark" />
-            <span class="text">Bookmark</span>
-          </factor-btn>
 
           <factor-btn class="item" btn="default">
             <factor-icon icon="far fa-star" />

@@ -1,16 +1,24 @@
 <template>
-  <div class="tag-input">
+  <div class="tag-input" @keydown.stop>
     <div v-if="list" class="the-input">
-      <factor-input-select v-model="addedText" :list="parsedList" @input="addTag()" />
+      <factor-input-select
+        ref="selectField"
+        v-model="addedText"
+        :list="parsedList"
+        :disabled="tagNumber >= max ? true : false"
+        @input="addTag()"
+      />
     </div>
     <div v-else class="the-input">
       <factor-input-text
+        ref="textField"
         v-model="addedText"
+        :disabled="tagNumber >= max ? true : false"
         type="text"
         placeholder="Enter tag"
-        @keyup.enter="addTag()"
+        @keydown.prevent.enter="addTag($event)"
       />
-      <factor-btn btn="default" @click="addTag()">Add</factor-btn>
+      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()">Add</factor-btn>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
@@ -31,7 +39,9 @@ export default Vue.extend({
   components: { factorBtn, factorIcon, factorInputText, factorInputSelect },
   props: {
     value: { type: Array, default: () => [] },
-    list: { type: Array, default: undefined } // undefined by default
+    list: { type: Array, default: undefined }, // undefined by default
+    min: { type: [Number, String], default: 0 },
+    max: { type: [Number, String], default: 10 }
   },
   data() {
     return {
@@ -40,6 +50,9 @@ export default Vue.extend({
     }
   },
   computed: {
+    tagNumber(this: any) {
+      return this.tags.length
+    },
     addedSlug(this: any) {
       return slugify(this.addedText)
     },
@@ -48,11 +61,13 @@ export default Vue.extend({
     }
   },
   mounted(this: any) {
+    setTimeout(() => this.setValidity(), 500)
     this.$watch(
       "value",
       function(this: any, v: string[]) {
         if (v && !isEqual(v, this.tags)) {
           this.tags = v
+          this.setValidity()
         }
       },
       { immediate: true, deep: true }
@@ -60,11 +75,25 @@ export default Vue.extend({
   },
   methods: {
     toLabel,
+    setValidity(this: any) {
+      const wrapper = this.list ? this.$refs.selectField : this.$refs.textField
+
+      const el = wrapper?.$el
+
+      if (!el) return
+
+      if (this.tags.length < this.min) {
+        const msg = `Minimum ${this.min} Needed`
+        el.setCustomValidity(msg)
+      } else {
+        el.setCustomValidity("")
+      }
+    },
     getListItemName(this: any, value: string) {
       const item = this.parsedList.find((_: ListItem) => _.value == value)
       return item ? item.name : toLabel(value)
     },
-    addTag(this: any) {
+    addTag(this: any, e: Event) {
       if (this.addedSlug.length < 3) {
         emitEvent("notify", "Tags require at least 3 characters")
         return

@@ -10,7 +10,7 @@
     </div>
     <div class="list-items">
       <factor-loading-ring v-if="loading" />
-      <template v-else>
+      <template v-else-if="posts.length > 0">
         <div v-for="(post, index) in posts" :key="index" class="list-item-wrap">
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
@@ -39,6 +39,15 @@
           </div>
         </div>
       </template>
+      <div v-else class="no-posts">
+        <div class="title">Nothing Found</div>
+        <div class="actions">
+          <factor-link
+            btn="primary"
+            :path="`${setting('forum.indexRoute')}/add-new`"
+          >Start A Discussion</factor-link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,6 +111,22 @@ export default Vue.extend({
   .list-items {
     .loading-ring-wrap {
       margin: 3em 0;
+    }
+    .no-posts {
+      padding: 8em 2em;
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      .title {
+        font-size: 1.4em;
+        opacity: 0.2;
+        font-weight: 700;
+      }
+      .actions {
+        margin-top: 2em;
+      }
     }
   }
   .list-item-wrap {

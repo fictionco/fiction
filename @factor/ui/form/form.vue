@@ -1,7 +1,7 @@
 <template>
   <form ref="form" class="wrap-form" autocomplete="on" @submit="checkForm($event)">
     <slot />
-    <input v-show="false" ref="send" class="submit" type="submit" value="submit" />
+    <input ref="send" class="submit" type="submit" value="submit" />
   </form>
 </template>
 <script lang="ts">
@@ -31,7 +31,7 @@ export default Vue.extend({
     )
   },
   methods: {
-    checkForm(this: any, e) {
+    checkForm(this: any, e: Event) {
       e.preventDefault()
       this.$emit("submit", e)
     }

@@ -59,13 +59,19 @@
               class="meta-item"
               label="Tags"
               input="factor-input-tags"
+              description="Choose 1 to 5"
+              min="1"
+              max="5"
             />
             <factor-input-wrap
               v-model="post.category"
               class="meta-item"
               label="Category"
+              description="Choose 1"
               input="factor-input-tags"
               placeholder="Category"
+              max="1"
+              min="1"
               :list="setting(`forum.categories`)"
             />
           </div>
@@ -224,7 +230,8 @@ export default Vue.extend({
   }
 
   .meta {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     .meta-item {
       margin-right: 2rem;
     }

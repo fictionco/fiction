@@ -68,20 +68,20 @@ export default Vue.extend({
         }
       }
     },
-    required() {
+    required(this: any) {
       if (typeof this.$attrs.required != "undefined" || this.theText != "") {
         return true
       } else {
         return false
       }
     },
-    theText() {
+    theText(this: any) {
       return this.monthUser + this.day + this.year
     },
     month(this: any): number | boolean {
       return parseInt(this.monthUser) >= 1 ? parseInt(this.monthUser) : false
     },
-    validity() {
+    validity(this: any) {
       let valid = true
       const day = parseInt(this.day)
       const monthUser = parseInt(this.monthUser)
@@ -98,7 +98,7 @@ export default Vue.extend({
 
       return valid
     },
-    birthday() {
+    birthday(this: any) {
       let bd = ""
 
       if (this.validity) {
@@ -112,7 +112,7 @@ export default Vue.extend({
   mounted() {
     this.$watch(
       `value`,
-      function(v) {
+      function(this: any, v) {
         if (v && v != this.birthday) {
           const M = timeUtil(v)
 
@@ -123,7 +123,7 @@ export default Vue.extend({
       },
       { immediate: true }
     )
-    this.$watch("birthday", function() {
+    this.$watch("birthday", function(this: any) {
       this.$emit("dob", {
         month: this.monthUser,
         day: this.day,

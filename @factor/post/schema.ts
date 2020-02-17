@@ -60,7 +60,7 @@ export default (): FactorSchema => {
       images: [{ type: objectIdType(), ref: "attachment" }],
       avatar: { type: objectIdType(), ref: "attachment" },
       tag: { type: [String], index: true },
-      category: { type: [String], index: true, default: ["general"] },
+      category: { type: [String], index: true, default: [] },
       /**
        * Source Key - Used to distinguish which app created a post in multi-app databases
        */
