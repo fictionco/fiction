@@ -3,13 +3,13 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="screenshot dashboard-tabs-mockup">
-          <img src="./img/dashboard-tabs.svg" />
+          <img src="./img/dashboard-tabs.svg" alt="Dashboard Tabs" />
         </div>
         <div class="screenshot dashboard-mockup">
-          <img src="./img/dashboard-mockup.svg" />
+          <img src="./img/dashboard-mockup.svg" alt="Dashboard Mockup" />
         </div>
         <div class="screenshot code-mockup">
-          <img src="./img/code.svg" />
+          <img src="./img/code.svg" alt="Dashboard Code" />
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    scale() {
+    scale(this: any) {
       return Math.max(Math.min(this.width / 500, 1), 0.5)
     }
   },
@@ -37,7 +37,7 @@ export default Vue.extend({
     })
   },
   methods: {
-    getWidth() {
+    getWidth(this: any) {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     }
   }
