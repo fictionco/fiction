@@ -90,15 +90,13 @@ export default (): FactorSchema => {
       uniqueId: {
         type: String,
         trim: true,
-        index: { unique: true, sparse: true },
-        default: (): string => randomToken(8)
+        index: { unique: true, sparse: true }
       },
       permalink: {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        default: (): string => randomToken(8),
         validator: function(v: string): boolean {
           return /^[\d-a-z]+$/.test(v)
         },
