@@ -9,6 +9,27 @@ const baseRoute = setting("forum.postRoute")
 
 type NewTopic = Pick<FactorPost, "title">
 
+export enum PostActions {
+  Edit = "edit",
+  Pin = "pin",
+  Lock = "lock",
+  Flag = "flag",
+  Delete = "delete"
+}
+interface RunPostAction {
+  action: PostActions;
+  post: FactorPost;
+  parent: FactorPost;
+}
+export const postAction = async ({
+  action,
+  post,
+  parent
+}: RunPostAction): Promise<void> => {
+  //console.log("RUN", action, post._id, parent._id)
+  return
+}
+
 /**
  * Request to create a new topic
  */

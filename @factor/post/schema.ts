@@ -82,7 +82,7 @@ export default (): FactorSchema => {
         type: String,
         enum: [PostStatus.Published, PostStatus.Draft, PostStatus.Trash],
         index: true,
-        default: PostStatus.Published
+        default: PostStatus.Draft
       },
       /**
        * Allow plugins to set a custom UniqueId that can be referenced without first querying the DB

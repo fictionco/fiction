@@ -97,7 +97,7 @@ export const savePostEmbedded = async (
       { $set: { "embeddedPost.$": embeddedPost } }
     )
   } else {
-    embeddedPost._id = randomToken()
+    embeddedPost._id = `${postId}-${randomToken(8)}`
     embeddedPost.createdAt = new Date().toISOString()
     await Model.update(
       { _id: postId },
