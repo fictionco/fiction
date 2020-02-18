@@ -31,6 +31,7 @@
             v-for="(topicPost, index) in topicPosts"
             :key="index"
             :post="topicPost"
+            :parent="post"
             @action="handleAction($event)"
           />
         </div>

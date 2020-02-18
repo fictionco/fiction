@@ -21,7 +21,7 @@
             :key="i"
             size="small"
             class="post-action"
-            @click="$emit('action', action)"
+            @click="handleAction(action)"
           >{{ toLabel(action) }}</div>
         </div>
       </div>
@@ -33,19 +33,25 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { factorAvatar, factorMenu } from "@factor/ui"
 import { isEmpty, setting, stored, toLabel } from "@factor/api"
-
 import { timeAgo } from "@factor/api/time"
 import Vue from "vue"
-import { editTopic } from "./request"
+import { postAction, PostActions } from "."
 export default Vue.extend({
   components: { factorAvatar, factorHighlightCode, factorMenu },
   props: {
-    post: { type: Object, default: () => {} }
+    post: { type: Object, default: () => {} },
+    parent: { type: Object, default: () => {} }
+  },
+
+  data() {
+    return {
+      running: false
+    }
   },
 
   computed: {
-    actions(this: any) {
-      return ["edit", "flag", "pin", "lock", "delete"]
+    actions(this: any): PostActions[] {
+      return Object.values(PostActions)
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
@@ -69,10 +75,12 @@ export default Vue.extend({
     getPost(_id: any) {
       return stored(_id) || {}
     },
-    handleAction(this: any, action: string) {
-      if (action == "edit") {
-        editTopic(this.post)
-      }
+    async handleAction(this: any, action: PostActions) {
+      this.running = true
+
+      await postAction({ action, post: this.post, parent: this.parent })
+
+      this.running = false
     }
   }
 })
