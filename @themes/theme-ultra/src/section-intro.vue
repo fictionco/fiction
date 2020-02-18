@@ -46,6 +46,7 @@ export default Vue.extend({
     #111010 100%
   );
   background-color: #351a19;
+
   .splash-content {
     margin: 0 auto;
     max-width: 650px;
