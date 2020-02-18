@@ -1,30 +1,76 @@
-# Factor Ultra Theme
+# Ultra - Factor Theme
 
-A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.
+> Ultra, a modern single-page [Factor](https://factor.dev/) theme for creative exposure with unique effects and features.
 
-[Live demo](https://ultra-theme.factor.dev/)
+## Install
 
----
-
-## Installing & Customizing Themes
-
-### Install
-
-To install theme just add to your [Factor](https://factor.dev/) app's project dependencies:
+To add Ultra to your Factor app, all you have to do is add it as a dependency:
 
 ```bash
-cd my-project
 npm add  @factor/theme-ultra
 ```
 
-### Customize
+This will add it to your `package.json` and should be all you need to do to get it running.
 
-This theme uses Factor's native theme settings system.
+## Customization
 
-Copy the [factor-settings.js](https://github.com/fiction-com/factor/blob/master/%40factor/%40themes/theme-ultra/src/factor-settings.js) file and place in your applications source folder `src`.
+Once you've added Ultra to your app, you can easily customize its settings via `factor-settings`.
 
-Edit the settings you'd like to change, the result will be merged with the theme settings file.
+The theme's settings can be [referenced here](https://github.com/fiction-com/factor/blob/development/%40themes/theme-ultra/src/factor-settings.ts).
 
-## Documentation
+To change any setting in this theme's factor-settings file, all you need to do is add the same setting in the settings file in your application.
 
-- [Factor Themes Guide](https://factor.dev/guide/themes)
+As an example, adding the below to your `factor-settings` file will override the nav value in the theme. In effect, customizing the navigation.
+
+```js
+export default {
+  site: {
+    nav: [
+      {
+        path: "/",
+        name: "My Home"
+      }
+    ]
+  }
+}
+```
+
+## Overriding Components
+
+If you'd like to get more advanced with your customization, its also easy to override any templates or components used by the theme (or its plugins) via `factor-settings`.
+
+As an example, to override the single post template used by the theme, first find the component in settings:
+
+```js
+export default {
+  // other settings
+  components: {
+    blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
+    blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+    featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+    authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
+    customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+  }
+  // other settings
+}
+```
+
+You'll see that it is being loaded in as `blogSingle`, so all you have to do in your app to override with `my-special-single.vue` is:
+
+```js
+export default {
+  // other settings
+  components: {
+    blogSingle: (): Promise<Component> => import("./my-special-single.vue")
+  }
+  // other settings
+}
+```
+
+Making sure to copy the original or create a new file in your app at that location.
+
+## Adding Additional Plugins, Routes
+
+It's easy to build on top of the baseline functionality that themes create for you.
+
+You can add additional routes and plugins in the standard ways discussed in the [Factor Docs](https://factor.dev/guide).
