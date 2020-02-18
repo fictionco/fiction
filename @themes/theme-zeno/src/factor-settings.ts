@@ -276,6 +276,10 @@ export default {
       }
     ],
     team: {
+      /**
+       * The team layout has "grid" or "list" options
+       */
+      layout: "grid",
       pretitle: "Meet the Minds",
       title: `The Team`,
       members: [
@@ -283,9 +287,29 @@ export default {
           _item: "member_1",
           photo: require("./img/member1.jpg"),
           title: "Co-Founder",
-          name: "Zeno Elea",
+          name: "Zeno Elea 1",
           content:
-            "Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit"
+            "custom element Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit",
+          links: [
+            {
+              _item: "link_1",
+              path: "https://www.linkedin.com/in/jkell",
+              icon: "fab fa-linkedin",
+              target: "_blank"
+            },
+            {
+              _item: "link_2",
+              path: "https://github.com/nodesocket",
+              icon: "fab fa-github",
+              target: "_blank"
+            },
+            {
+              _item: "link_3",
+              path: "https://angel.co/justink",
+              icon: "fab fa-angellist",
+              target: "_blank"
+            },
+          ]
         },
         {
           _item: "member_2",

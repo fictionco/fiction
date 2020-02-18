@@ -1,14 +1,14 @@
 <template>
   <main class="bg-gray-100">
     <el-hero
-      v-if="setting('about.hero')"
+      v-if="aboutHero"
       :align="`left`"
-      :subheadline="setting('about.hero.pretitle')"
-      :headline="setting('about.hero.title')"
+      :subheadline="aboutHeroPretitle"
+      :headline="aboutHeroTitle"
       class="text-left"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('about.hero.content')" class="content entry-content" />
+        <div v-formatted-text="aboutHeroContent" class="content entry-content" />
       </template>
     </el-hero>
 
@@ -60,17 +60,76 @@
       <div class="max-w-6xl mx-auto px-8">
         <div class="max-w-4xl mx-auto pb-6 text-center md:pb-12 md:w-full">
           <h3
-            v-if="setting('about.team.pretitle')"
+            v-if="aboutTeamPretitle"
+            v-formatted-text="aboutTeamPretitle"
             class="custom-uppercase text-purple-500"
-          >{{ setting("about.team.pretitle") }}</h3>
+          />
           <h1
-            v-if="setting('about.team.title')"
+            v-if="aboutTeamTitle"
+            v-formatted-text="aboutTeamTitle"
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
-          >{{ setting("about.team.title") }}</h1>
+          />
         </div>
-        <div v-if="setting('about.team.members')" class="flex flex-col md:flex-row md:flex-wrap">
-          <div
-            v-for="(member, index) in setting('about.team.members')"
+
+        <!-- Members List -->
+        <div
+          v-if="aboutTeamLayout == 'list' && aboutTeamMembers"
+          class="max-w-3xl mx-auto flex flex-col"
+        >
+          <section
+            v-for="(member, index) in aboutTeamMembers"
+            :key="index"
+            class="flex rounded mb-12 p-8 bg-gray-100 md:flex-row"
+          >
+            <div class="w-full md:w-2/5">
+              <img
+                v-if="member.photo"
+                :src="member.photo"
+                :alt="member.name"
+                class="w-full rounded mx-auto mb-8 border border-gray-300 md:w-4/5"
+              />
+            </div>
+            <div class="w-full bg-gray-100 md:w-3/5">
+              <h2
+                v-if="member.title"
+                v-formatted-text="member.title"
+                class="block text-left custom-uppercase mb-0 text-purple-500"
+              />
+              <h1
+                v-if="member.name"
+                v-formatted-text="member.name"
+                class="block text-left font-normal tracking-tight mb-3 text-2xl"
+              />
+              <div
+                v-if="member.content"
+                v-formatted-text="member.content"
+                class="text-lg text-gray-600"
+              />
+              <div class="transition-all flex mt-4 -ml-2">
+                <template v-for="(item, i) in member.links">
+                  <factor-link
+                    :key="i"
+                    :path="item.path"
+                    :event="item.event"
+                    :target="item.target"
+                    class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg hover:text-purple-500 hover:bg-white"
+                  >
+                    <factor-icon v-if="item.icon" :icon="item.icon" />
+                    <span v-if="item.name" v-formatted-text="item.name" />
+                  </factor-link>
+                </template>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Members Grid -->
+        <div
+          v-else-if="aboutTeamLayout == 'grid' && aboutTeamMembers"
+          class="flex flex-col md:flex-row md:flex-wrap"
+        >
+          <section
+            v-for="(member, index) in aboutTeamMembers"
             :key="index"
             class="w-full p-4 md:w-1/3"
           >
@@ -84,10 +143,24 @@
               <el-member :name="member.name" :title="member.title">
                 <template v-slot:content>
                   <div v-if="member.content" v-formatted-text="member.content" class="text-lg" />
+                  <div class="transition-all flex mt-4 -ml-2">
+                    <template v-for="(item, i) in member.links">
+                      <factor-link
+                        :key="i"
+                        :path="item.path"
+                        :event="item.event"
+                        :target="item.target"
+                        class="transition-all mx-2 h-8 w-8 rounded leading-loose text-center shadow-lg hover:text-purple-500 hover:bg-white"
+                      >
+                        <factor-icon v-if="item.icon" :icon="item.icon" />
+                        <span v-if="item.name" v-formatted-text="item.name" />
+                      </factor-link>
+                    </template>
+                  </div>
                 </template>
               </el-member>
             </div>
-          </div>
+          </section>
         </div>
       </div>
     </section>
@@ -97,18 +170,30 @@
 </template>
 
 <script lang="ts">
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
 
 import Vue from "vue"
 export default Vue.extend({
   components: {
+    factorLink,
+    factorIcon,
     "el-member": () => import("./el/member.vue"),
     "el-hero": () => import("./el/hero.vue"),
     "site-cta": () => import("./el/cta.vue")
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      active: false,
+      aboutHero: setting('about.hero'),
+      aboutHeroPretitle: setting('about.hero.pretitle'),
+      aboutHeroTitle: setting('about.hero.title'),
+      aboutHeroContent: setting('about.hero.content'),
+      aboutTeamPretitle: setting('about.team.pretitle'),
+      aboutTeamTitle: setting('about.team.title'),
+      aboutTeamLayout: setting('about.team.layout'),
+      aboutTeamMembers: setting('about.team.members')
     }
   },
   methods: {
