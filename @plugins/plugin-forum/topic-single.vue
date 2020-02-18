@@ -1,5 +1,5 @@
 <template>
-  <div class="single-entry">
+  <div class="topic-single">
     <div class="topic-header">
       <div class="header-main">
         <component :is="setting('forum.components.navBack')" />
@@ -26,14 +26,16 @@
     <div class="content-area">
       <div class="topic-content">
         <div class="topic-posts">
-          <component
-            :is="setting('forum.components.topicPost')"
-            v-for="(topicPost, index) in topicPosts"
-            :key="index"
-            :post="topicPost"
-            :parent="post"
-            @action="handleAction($event)"
-          />
+          <factor-highlight-code>
+            <component
+              :is="setting('forum.components.topicPost')"
+              v-for="(topicPost, index) in topicPosts"
+              :key="index"
+              :post-id="topicPost._id"
+              :parent-id="post._id"
+              @action="handleAction($event, topicPost)"
+            />
+          </factor-highlight-code>
         </div>
 
         <component :is="setting('forum.components.topicReply')" :post-id="post._id" />
@@ -57,17 +59,29 @@
         </div>
       </div>
     </div>
+    <factor-modal :vis.sync="vis" class="edit-reply-modal">
+      <div class="form-info">
+        <h2>Edit Reply</h2>
+        <component
+          :is="setting('forum.components.topicReply')"
+          :post-id="post._id"
+          :edit-id="editPost._id"
+          @done="vis = false; editPost = {}"
+        />
+      </div>
+    </factor-modal>
   </div>
 </template>
 <script lang="ts">
 import { excerpt } from "@factor/api/excerpt"
 import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { factorAvatar, factorBtn, factorIcon } from "@factor/ui"
+import { factorAvatar, factorBtn, factorIcon, factorModal } from "@factor/ui"
 import {
   isEmpty,
   setting,
   stored,
+  storeItem,
   titleTag,
   descriptionTag,
   shareImage,
@@ -75,11 +89,16 @@ import {
   emitEvent
 } from "@factor/api"
 import Vue from "vue"
-import { editTopic, deleteTopic } from "./request"
+import { FactorPost } from "@factor/post/types"
+import { editTopic, postAction, PostActions } from "./request"
+
 export default Vue.extend({
-  components: { factorAvatar, factorBtn, factorHighlightCode, factorIcon },
+  components: { factorAvatar, factorBtn, factorHighlightCode, factorIcon, factorModal },
   data() {
-    return {}
+    return {
+      vis: false,
+      editPost: {}
+    }
   },
   metaInfo() {
     return {
@@ -89,11 +108,19 @@ export default Vue.extend({
     }
   },
   computed: {
-    post() {
-      return stored("post") || {}
+    post: {
+      get(this: any): FactorPost {
+        return stored("post") || {}
+      },
+      set(this: any, v: FactorPost): void {
+        storeItem("post", v)
+      }
+    },
+    embedded(this: any) {
+      return this.post.embedded ?? []
     },
     topicPosts(this: any) {
-      return [this.post, ...this.post.embedded]
+      return [this.post, ...this.embedded]
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
@@ -116,17 +143,47 @@ export default Vue.extend({
     getPost(_id: any) {
       return stored(_id) || {}
     },
-    async handleAction(this: any, action: string) {
-      if (action == "edit") {
-        editTopic(this.post)
-      } else if (action == "delete") {
-        deleteTopic(this.post)
+    async handleAction(this: any, action: PostActions, topicPost: FactorPost) {
+      if (action == PostActions.Edit) {
+        if (this.isParent) {
+          editTopic(this.post)
+        } else {
+          this.editPost = topicPost
+          this.vis = true
+        }
+      } else {
+        await postAction({
+          action,
+          value: true,
+          post: topicPost,
+          parentId: this.post._id
+        })
+
+        this.handleActionUi(action, topicPost)
       }
+    },
+    handleActionUi(this: any, action: PostActions, topicPost: FactorPost) {
+      if (this.post._id != topicPost._id)
+        if (action == PostActions.Delete) {
+          const ind = this.embedded.findIndex((_: FactorPost) => _._id == topicPost._id)
+
+          if (this.post.embedded && this.post.embedded.length > 0) {
+            this.post.embedded.splice(ind, 1)
+          }
+
+          this.post.embeddedCount = this.post.embeddedCount - 1
+        }
     }
   }
 })
 </script>
 <style lang="less">
+.edit-reply-modal {
+  h2 {
+    font-size: 1.3em;
+    margin-bottom: 1rem;
+  }
+}
 .topic-header {
   display: grid;
   border-bottom: 1px solid var(--color-border);
@@ -199,5 +256,14 @@ export default Vue.extend({
 }
 .topic-content {
   padding: 1rem 0 1rem 2rem;
+  min-width: 0;
+  .topic-reply {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    grid-template-areas: ". reply";
+    .reply-area {
+      grid-area: reply;
+    }
+  }
 }
 </style>

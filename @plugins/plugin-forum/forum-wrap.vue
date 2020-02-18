@@ -16,6 +16,6 @@ export default Vue.extend({
 .forum-wrap {
   max-width: var(--forum-width, 1100px);
   margin: 5rem auto 1em;
-  padding: 1rem;
+  padding: 2rem;
 }
 </style>

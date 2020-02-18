@@ -7,12 +7,10 @@
       <div class="post-meta">
         <div class="author meta-item">{{ author.username }}</div>
         <div class="time meta-item">{{ timeAgo(post.createdAt) }}</div>
-        <factor-menu :list="actions" @action="$emit('action', $event)" />
+        <factor-menu :list="actions" @action="handleAction($event)" />
       </div>
       <div class="post-text">
-        <factor-highlight-code>
-          <div v-formatted-text="rendered" />
-        </factor-highlight-code>
+        <div v-formatted-text="rendered" />
       </div>
       <div class="post-footer">
         <div class="actions">
@@ -30,17 +28,17 @@
 </template>
 <script lang="ts">
 import { renderMarkdown } from "@factor/api/markdown"
-import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { factorAvatar, factorMenu } from "@factor/ui"
-import { isEmpty, setting, stored, toLabel } from "@factor/api"
+import { isEmpty, setting, stored, storeItem, toLabel } from "@factor/api"
 import { timeAgo } from "@factor/api/time"
 import Vue from "vue"
-import { postAction, PostActions } from "."
+import { FactorPost } from "@factor/post/types"
+import { PostActions } from "./request"
 export default Vue.extend({
-  components: { factorAvatar, factorHighlightCode, factorMenu },
+  components: { factorAvatar, factorMenu },
   props: {
-    post: { type: Object, default: () => {} },
-    parent: { type: Object, default: () => {} }
+    postId: { type: String, default: "" },
+    parentId: { type: String, default: "" }
   },
 
   data() {
@@ -50,14 +48,36 @@ export default Vue.extend({
   },
 
   computed: {
+    post: {
+      get(this: any): FactorPost {
+        return stored(this.postId) || {}
+      },
+      set(this: any, v: FactorPost): void {
+        storeItem(this.postId, v)
+      }
+    },
+    isParent(this: any): boolean {
+      return this.postId == this.parentId ? true : false
+    },
     actions(this: any): PostActions[] {
-      return Object.values(PostActions)
+      if (this.isParent) {
+        return [
+          PostActions.Edit,
+          this.post.pinned ? PostActions.Unpin : PostActions.Pin,
+          this.post.locked ? PostActions.Unlock : PostActions.Lock,
+          PostActions.Delete
+        ]
+      } else {
+        return [PostActions.Edit, PostActions.Delete]
+      }
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
     },
     author(this: any) {
-      return this.getPost(this.post.author[0])
+      const authorId =
+        this.post.author && this.post.author.length > 0 ? this.post.author[0] : ""
+      return this.getPost(authorId) || {}
     }
   },
 
@@ -76,11 +96,7 @@ export default Vue.extend({
       return stored(_id) || {}
     },
     async handleAction(this: any, action: PostActions) {
-      this.running = true
-
-      await postAction({ action, post: this.post, parent: this.parent })
-
-      this.running = false
+      this.$emit("action", action)
     }
   }
 })
@@ -93,6 +109,9 @@ export default Vue.extend({
   grid-gap: 2rem;
   margin-bottom: 3rem;
   border-bottom: 1px solid var(--color-border);
+  .post-content {
+    min-width: 0;
+  }
   &:last-child {
     border-bottom: none;
   }

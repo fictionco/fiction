@@ -1,7 +1,7 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
-import { randomToken } from "@factor/api/utils"
+
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost, PostStatus } from "./types"
 /**
@@ -44,9 +44,9 @@ export default (): FactorSchema => {
      * but for viewing an individual post you'd want a depth of 30
      */
     populatedFields: applyFilters("post-populated-fields", [
-      { field: "author", depth: 10 },
-      { field: "images", depth: 10 },
-      { field: "avatar", depth: 3 }
+      { field: "author", depth: 10, context: "list" },
+      { field: "images", depth: 10, context: "single" },
+      { field: "avatar", depth: 3, context: "any" }
     ]),
     schema: applyFilters("post-schema", {
       postType: { type: String, index: true, sparse: true },
@@ -80,7 +80,7 @@ export default (): FactorSchema => {
       embeddedCount: { type: Number, default: 0, index: true },
       status: {
         type: String,
-        enum: [PostStatus.Published, PostStatus.Draft, PostStatus.Trash],
+        enum: Object.values(PostStatus),
         index: true,
         default: PostStatus.Draft
       },

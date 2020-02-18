@@ -1,7 +1,7 @@
 <template>
   <div class="topic-reply">
     <div class="reply-area">
-      <factor-avatar :post-id="currentUser ? currentUser.avatar : ''" />
+      <factor-avatar :post-id="author.avatar" />
       <factor-input-editor
         id="topic-reply"
         v-model="reply"
@@ -9,7 +9,8 @@
         placeholder="Reply"
       />
       <div class="action">
-        <factor-btn btn="primary" :loading="sending" @click="topicReply()">Post Reply &uarr;</factor-btn>
+        <factor-btn v-if="editId" btn="primary" :loading="sending" @click="editReply()">Save &uarr;</factor-btn>
+        <factor-btn v-else btn="primary" :loading="sending" @click="topicReply()">Post Reply &uarr;</factor-btn>
       </div>
     </div>
   </div>
@@ -24,41 +25,67 @@ import { saveTopicReply } from "./request"
 export default Vue.extend({
   components: { factorInputEditor, factorAvatar, factorBtn },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
+    editId: { type: String, default: "" }
   },
   data() {
     return {
       reply: "",
-      sending: false
+      sending: false,
+      storeKey: this.editId ? this.editId : "post"
     }
-  },
-  metaInfo: () => {
-    return { title: "Post" }
   },
   computed: {
     currentUser,
+    author(this: any) {
+      if (this.editId) {
+        const authorID =
+          this.post && this.post.author && this.post.author.length > 0
+            ? this.post.author[0]
+            : ""
+        return stored(authorID) || {}
+      } else {
+        return this.currentUser ? this.currentUser : {}
+      }
+    },
     post: {
       get(this: any): FactorPost {
-        return stored("post") || {}
+        return stored(this.storeKey) || {}
       },
       set(this: any, v: FactorPost): void {
-        storeItem("post", v)
+        storeItem(this.storeKey, v)
       }
     }
   },
+  mounted() {
+    if (this.editId) {
+      this.reply = this.post.content
+    }
+  },
   methods: {
+    async editReply(this: any) {
+      this.sending = true
+      await saveTopicReply(this.postId, { _id: this.editId, content: this.reply })
+
+      this.post = { ...this.post, content: this.reply }
+      this.sending = false
+      this.$emit("done")
+    },
     async topicReply(this: any) {
       this.sending = true
 
-      const result = await saveTopicReply(this.postId, {
+      const doc = {
         content: this.reply,
-        author: [this.currentUser._id]
-      })
+        author: [this.currentUser._id],
+        _id: ""
+      }
+
+      await saveTopicReply(this.postId, doc)
 
       const embedded = this.post.embedded || []
       const embeddedCount = (this.post.embeddedCount || 0) + 1
 
-      embedded.push(result)
+      embedded.push(doc)
 
       this.post = { ...this.post, embedded, embeddedCount }
 
@@ -71,15 +98,15 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .topic-reply {
+  text-align: left;
   position: relative;
-  display: grid;
-  grid-template-columns: 5rem 1fr;
-  grid-template-areas: ". reply";
   .reply-area {
-    grid-area: reply;
     position: relative;
     textarea {
       padding: 1rem 5rem;
+    }
+    .editor-input {
+      text-align: left;
     }
     .editor-input .CodeMirror {
       padding-left: 5rem;

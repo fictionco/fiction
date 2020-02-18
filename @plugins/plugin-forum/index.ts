@@ -1,43 +1,9 @@
 import { addPostType, addContentRoute } from "@factor/api"
 import { setting } from "@factor/api/settings"
-import { requestPostSave } from "@factor/post/request"
-import { FactorPost } from "@factor/post/types"
 
 export const postType = "forumTopic"
 
 const baseRoute = setting("forum.postRoute")
-
-type NewTopic = Pick<FactorPost, "title">
-
-export enum PostActions {
-  Edit = "edit",
-  Pin = "pin",
-  Lock = "lock",
-  Flag = "flag",
-  Delete = "delete"
-}
-interface RunPostAction {
-  action: PostActions;
-  post: FactorPost;
-  parent: FactorPost;
-}
-export const postAction = async ({
-  action,
-  post,
-  parent
-}: RunPostAction): Promise<void> => {
-  //console.log("RUN", action, post._id, parent._id)
-  return
-}
-
-/**
- * Request to create a new topic
- */
-export const createNewTopic = async (post: NewTopic): Promise<FactorPost> => {
-  const savedPost = await requestPostSave({ post, postType })
-
-  return savedPost
-}
 
 export const setup = (): void => {
   addPostType({
@@ -58,6 +24,7 @@ export const setup = (): void => {
         path: "/",
         component: setting("forum.components.forumIndex")
       },
+
       {
         name: "editTopic",
         path: "edit",
@@ -69,6 +36,10 @@ export const setup = (): void => {
         path: "add-new",
         component: setting("forum.components.topicEdit"),
         meta: { auth: true }
+      },
+      {
+        path: setting("forum.postRoute") ?? "",
+        component: setting("forum.components.topicSingle")
       },
       {
         path: `${setting("forum.postRoute")}/:permalink`,

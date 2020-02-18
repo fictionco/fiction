@@ -151,7 +151,7 @@ export default Vue.extend({
     }
     .el-modal-pad {
       position: relative;
-      padding: 5rem 3rem;
+      padding: 3rem 3rem 2rem;
       background: #fff;
       border-radius: 0.5em;
       box-shadow: 1px 1px 4px 0 rgba(22, 22, 25, 0.4),
@@ -189,6 +189,7 @@ export default Vue.extend({
       .modal-text-content {
         flex-basis: 100%;
         text-align: center;
+        max-width: 100%;
         .errors {
           text-align: center;
         }

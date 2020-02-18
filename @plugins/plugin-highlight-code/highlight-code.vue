@@ -1,5 +1,5 @@
 <template>
-  <div class="highlight-code-wrap">
+  <div v-show="loading" ref="code" class="highlight-code-wrap">
     <slot />
   </div>
 </template>
@@ -7,6 +7,11 @@
 <script lang="ts">
 import Vue from "vue"
 export default Vue.extend({
+  data() {
+    return {
+      loading: true
+    }
+  },
   mounted() {
     require("./prism/prism.js")
     this.prism = window.Prism
@@ -17,8 +22,8 @@ export default Vue.extend({
       if (this.prism) {
         // wait til content is done rendering
         setTimeout(() => {
-          this.prism.highlightAll()
-        }, 500)
+          this.prism.highlightAllUnder(this.$refs.code)
+        }, 1000)
       }
     }
   }
@@ -38,38 +43,45 @@ export default Vue.extend({
   box-shadow: var(--highlight-code-shadow);
 }
 
-/* Code blocks */
-pre {
-  margin: 0;
-  overflow: auto;
-  border-radius: 5px;
+.highlight-code-wrap {
+  /* Code blocks */
+  pre {
+    opacity: 0;
+    transition: 0.4s;
+    margin: 0;
+    overflow: auto;
+    border-radius: 5px;
 
-  transition: all 0.2s;
+    transition: all 0.2s;
 
-  &[class*="language-"] {
+    &[class*="language-"] {
+      opacity: 1;
+    }
+  }
+  .code-toolbar pre {
     opacity: 1;
   }
-}
 
-code[class*="language-"],
-pre[class*="language-"] {
-  color: inherit;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  word-wrap: normal;
-  line-height: 1.5;
+  code[class*="language-"],
+  pre[class*="language-"] {
+    color: inherit;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
 
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
 
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-  font-weight: 300;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    font-weight: 300;
+  }
 }
 
 @media print {

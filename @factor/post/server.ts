@@ -78,34 +78,44 @@ export const savePost = async <T = {}>(
   }
 }
 
-export const savePostEmbedded = async (
-  { embeddedPost, postType = "post", postId }: UpdatePostEmbedded,
+export const embeddedAction = async (
+  { action, embeddedPostId, data, postType = "post", postId }: UpdatePostEmbedded,
   { bearer }: EndpointMeta
-): Promise<FactorPost | undefined> => {
+): Promise<void | undefined> => {
   if (dbIsOffline()) return
 
   const Model = getModel(postType)
 
-  const { _id } = embeddedPost
+  if (action == "save" && data) {
+    const { _id } = data
 
-  embeddedPost.updatedAt = new Date().toISOString()
+    data.updatedAt = new Date().toISOString()
 
-  // Already exists
-  if (_id) {
-    await Model.updateOne(
-      { _id: postId, "embeddedPost._id": _id },
-      { $set: { "embeddedPost.$": embeddedPost } }
-    )
-  } else {
-    embeddedPost._id = `${postId}-${randomToken(8)}`
-    embeddedPost.createdAt = new Date().toISOString()
+    // Already exists
+    if (_id) {
+      // No way to merge array entries, so we set each explicitly
+      const setter: Record<string, any> = {}
+
+      Object.entries(data).forEach(([key, value]) => {
+        setter[`embedded.$.${key}`] = value
+      })
+      await Model.updateOne({ _id: postId, "embedded._id": _id }, { $set: setter })
+    } else {
+      data._id = `${postId}-${randomToken(8)}`
+      data.createdAt = new Date().toISOString()
+      await Model.update(
+        { _id: postId },
+        { $push: { embedded: data }, $inc: { embeddedCount: 1 } }
+      )
+    }
+  } else if (action == "delete") {
     await Model.update(
       { _id: postId },
-      { $push: { embedded: embeddedPost }, $inc: { embeddedCount: 1 } }
+      { $pull: { embedded: { _id: embeddedPostId } }, $inc: { embeddedCount: -1 } }
     )
   }
 
-  return embeddedPost as FactorPost
+  return
 }
 
 /**

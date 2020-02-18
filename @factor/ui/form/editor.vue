@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { factorLoadingRing } from "@factor/ui"
+import { waitFor } from "@factor/api"
 import { onEvent, emitEvent } from "@factor/api/events"
 import { uploadImage } from "@factor/attachment"
 import { Attachment } from "@factor/attachment/types"
@@ -53,6 +54,8 @@ export default Vue.extend({
   },
   methods: {
     async initializeEditor(this: any) {
+      // Wait for everything else to load before initialization
+      await waitFor(100)
       /**
        * If postId is set, then allow for autosave
        */
@@ -149,7 +152,9 @@ export default Vue.extend({
 .editor-input {
   /** Toolbar icons should stay at the standard text size usually */
   .editor-toolbar {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: scroll;
   }
   .loading-ring-wrap {
     padding: 5rem 0;

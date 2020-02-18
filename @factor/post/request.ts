@@ -119,17 +119,11 @@ export const requestPostSave = async ({
   return result as FactorPost
 }
 
-export const requestPostSaveEmbedded = async ({
-  postId,
-  embeddedPost,
-  postType
-}: UpdatePostEmbedded): Promise<FactorPost | never> => {
-  const result = await sendPostRequest("savePostEmbedded", {
-    embeddedPost,
-    postType,
-    postId
-  })
-  _setCache(postType)
+export const requestEmbeddedAction = async (
+  _arguments: UpdatePostEmbedded & EndpointParameters
+): Promise<FactorPost | never> => {
+  const result = await sendPostRequest("embeddedAction", _arguments)
+  _setCache(_arguments.postType)
 
   return result as FactorPost
 }

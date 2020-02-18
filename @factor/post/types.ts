@@ -15,12 +15,30 @@ export interface PostEditComponent {
   component: () => Promise<Component>;
 }
 
+/**
+ * Contexts to determine when to populate certain fields
+ * e.g cover images should not be populated on post listings with authors
+ *     they should only be populated on single profile pages, etc.
+ */
+export enum PopulationContext {
+  Any = "any",
+  List = "list",
+  Single = "single",
+  Detailed = "detailed"
+}
+
+/**
+ * Available publication status
+ */
 export enum PostStatus {
   Draft = "draft",
   Published = "published",
   Trash = "trash"
 }
 
+/**
+ * Sorting time frames
+ */
 export enum IndexTimeFrame {
   Day = "day",
   Week = "week",
@@ -42,9 +60,11 @@ export interface UpdatePost {
 }
 
 export interface UpdatePostEmbedded {
+  action: "save" | "delete";
   postId: string;
   postType: string;
-  embeddedPost: FactorPost | UnsavedFactorPost;
+  data?: FactorPost | UnsavedFactorPost;
+  embeddedPostId?: string;
 }
 
 export interface UpdateManyPosts {

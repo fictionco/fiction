@@ -11,6 +11,10 @@ export default (): object => {
       icon: (): string => require("__FIND__/static/icon.svg"),
       templatePath: "__FIND__/index.html",
       faviconPath: "__FIND__/static/favicon.png"
+    },
+    globalMetaInfo: {
+      titleTemplate: "%s",
+      image: ""
     }
   }
 }
