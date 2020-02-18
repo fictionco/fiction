@@ -9,6 +9,7 @@ import {
   PostActions,
   FactorPost,
   UnsavedFactorPost,
+  FactorPostState,
   UpdatePostEmbedded,
   PostIndexAggregations,
   PostIndexCounts,
@@ -40,7 +41,7 @@ export const savePost = async <T = {}>(
     postType = "post"
   }: { data: FactorPost | UnsavedFactorPost | T; postType: string },
   { bearer }: EndpointMeta
-): Promise<FactorPost | undefined> => {
+): Promise<FactorPostState> => {
   if (dbIsOffline()) return
 
   let post
@@ -81,25 +82,23 @@ export const savePost = async <T = {}>(
 export const embeddedAction = async (
   { action, embeddedPostId, data, postType = "post", postId }: UpdatePostEmbedded,
   { bearer }: EndpointMeta
-): Promise<void | undefined> => {
+): Promise<FactorPostState> => {
   if (dbIsOffline()) return
 
   const Model = getModel(postType)
 
   if (action == "save" && data) {
-    const { _id } = data
-
     data.updatedAt = new Date().toISOString()
 
     // Already exists
-    if (_id) {
+    if (data._id) {
       // No way to merge array entries, so we set each explicitly
       const setter: Record<string, any> = {}
 
       Object.entries(data).forEach(([key, value]) => {
         setter[`embedded.$.${key}`] = value
       })
-      await Model.updateOne({ _id: postId, "embedded._id": _id }, { $set: setter })
+      await Model.updateOne({ _id: postId, "embedded._id": data._id }, { $set: setter })
     } else {
       data._id = `${postId}-${randomToken(8)}`
       data.createdAt = new Date().toISOString()
@@ -108,13 +107,18 @@ export const embeddedAction = async (
         { $push: { embedded: data }, $inc: { embeddedCount: 1 } }
       )
     }
+
+    const post = await Model.findById(postId, {
+      embedded: { $elemMatch: { _id: data._id } }
+    })
+
+    return post && post.embedded ? post.embedded[0] : undefined
   } else if (action == "delete") {
     await Model.update(
       { _id: postId },
       { $pull: { embedded: { _id: embeddedPostId } }, $inc: { embeddedCount: -1 } }
     )
   }
-
   return
 }
 
@@ -126,7 +130,7 @@ export const embeddedAction = async (
 export const getSinglePost = async (
   params: PostRequestParameters,
   meta: EndpointMeta = {}
-): Promise<FactorPost | undefined> => {
+): Promise<FactorPostState> => {
   const { bearer } = meta
   let { _id } = params
 

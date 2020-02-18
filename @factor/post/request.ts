@@ -6,6 +6,7 @@ import objectHash from "object-hash"
 import {
   FactorPost,
   FactorPostKey,
+  FactorPostState,
   UpdatePost,
   UpdatePostEmbedded,
   UpdateManyPosts,
@@ -40,10 +41,10 @@ const _cacheKey = (postType: string): any => {
  * @param method - endpoint method
  * @param params - parameters to call endpoint method with
  */
-export const sendPostRequest = async (
+export const sendPostRequest = async <T = unknown>(
   method: string,
   params: EndpointParameters
-): Promise<unknown> => {
+): Promise<T> => {
   return await endpointRequest({ id: "posts", method, params })
 }
 
@@ -100,32 +101,51 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 }
 
 /**
- * Sends an endpoint request to save a post
+ * Populate joined fields, will add this post and all others to store
+ * In BROWSER - DON'T WAIT, but we should not wait for it, data will be loaded to store
+ * In SERVER - WAIT - SSR needs to have all store information so it will be picked up on load
  */
-export const requestPostSave = async ({
-  post,
-  postType
-}: UpdatePost): Promise<FactorPost | never> => {
-  let result
+export const handlePostPopulation = async (
+  post: FactorPostState,
+  { depth = 10 }: { depth?: number } = {}
+): Promise<void> => {
+  if (post) {
+    const embedded = post.embedded ?? []
+    const posts = [post, ...embedded]
 
-  try {
-    result = await sendPostRequest("savePost", { data: post, postType })
-    _setCache(postType)
-  } catch (error) {
-    result = post
-    throw error
+    if (isNode) {
+      await requestPostPopulate({ posts, depth })
+    } else {
+      requestPostPopulate({ posts, depth })
+    }
   }
 
-  return result as FactorPost
+  return
 }
 
-export const requestEmbeddedAction = async (
+/**
+ * Sends an endpoint request to save a post
+ */
+export const requestPostSave = async <T extends FactorPostState | never>({
+  post,
+  postType
+}: UpdatePost): Promise<T> => {
+  const _post = await sendPostRequest<T>("savePost", { data: post, postType })
+  _setCache(postType)
+  await handlePostPopulation(_post)
+
+  return _post
+}
+
+export const requestEmbeddedAction = async <T extends FactorPostState | never>(
   _arguments: UpdatePostEmbedded & EndpointParameters
-): Promise<FactorPost | never> => {
-  const result = await sendPostRequest("embeddedAction", _arguments)
+): Promise<T> => {
+  const _post = await sendPostRequest<T>("embeddedAction", _arguments)
   _setCache(_arguments.postType)
 
-  return result as FactorPost
+  await handlePostPopulation(_post)
+
+  return _post
 }
 
 /**
@@ -163,6 +183,7 @@ export const requestPostSingle = async (
     permalink,
     field = "permalink",
     postType = "post",
+    log = "",
     _id,
     token,
     createOnEmpty = false,
@@ -170,7 +191,7 @@ export const requestPostSingle = async (
     depth = 50
   } = _arguments
 
-  const params: PostRequestParameters = { postType, createOnEmpty, status }
+  const params: PostRequestParameters = { postType, createOnEmpty, status, log }
 
   if (_id) {
     params._id = _id
@@ -187,21 +208,7 @@ export const requestPostSingle = async (
 
   const post = (await sendPostRequest("getSinglePost", params)) as FactorPost
 
-  /**
-   * Populate joined fields, will add this post and all others to store
-   * In BROWSER - DON'T WAIT, but we should not wait for it, data will be loaded to store
-   * In SERVER - WAIT - SSR needs to have all store information so it will be picked up on load
-   */
-  if (post) {
-    const embedded = post.embedded ?? []
-    const posts = [post, ...embedded]
-
-    if (isNode) {
-      await requestPostPopulate({ posts, depth })
-    } else {
-      requestPostPopulate({ posts, depth })
-    }
-  }
+  await handlePostPopulation(post, { depth })
 
   return post as FactorPost
 }

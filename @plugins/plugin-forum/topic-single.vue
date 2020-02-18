@@ -31,6 +31,8 @@
               :is="setting('forum.components.topicPost')"
               v-for="(topicPost, index) in topicPosts"
               :key="index"
+              class="tpost"
+              :class="highlight == topicPost._id ? 'highlight' : '' "
               :post-id="topicPost._id"
               :parent-id="post._id"
               @action="handleAction($event, topicPost)"
@@ -86,7 +88,8 @@ import {
   descriptionTag,
   shareImage,
   toLabel,
-  emitEvent
+  emitEvent,
+  onEvent
 } from "@factor/api"
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
@@ -97,7 +100,8 @@ export default Vue.extend({
   data() {
     return {
       vis: false,
-      editPost: {}
+      editPost: {},
+      highlight: ""
     }
   },
   metaInfo() {
@@ -126,13 +130,23 @@ export default Vue.extend({
       return renderMarkdown(this.post.content)
     }
   },
-
+  mounted() {
+    onEvent("highlight-post", (_id: string) => {
+      this.highlight = _id
+      setTimeout(() => {
+        this.highlight = ""
+      }, 2000)
+    })
+  },
   methods: {
     isEmpty,
     setting,
     toLabel,
     editTopic,
     excerpt,
+    isParent(this: any, topicPost: FactorPost): boolean {
+      return topicPost._id == this.post._id ? true : false
+    },
     focusReply() {
       emitEvent("focus-editor")
       const el: HTMLFormElement | null = document.querySelector("#topic-reply")
@@ -145,7 +159,7 @@ export default Vue.extend({
     },
     async handleAction(this: any, action: PostActions, topicPost: FactorPost) {
       if (action == PostActions.Edit) {
-        if (this.isParent) {
+        if (this.isParent(topicPost)) {
           editTopic(this.post)
         } else {
           this.editPost = topicPost
@@ -187,7 +201,7 @@ export default Vue.extend({
 .topic-header {
   display: grid;
   border-bottom: 1px solid var(--color-border);
-  margin-bottom: 2rem;
+
   grid-template-columns: 1fr 300px;
   align-items: center;
   .header-sub {
@@ -234,6 +248,7 @@ export default Vue.extend({
   grid-gap: 4rem;
   position: relative;
   .topic-sidebar {
+    margin-top: 2rem;
     position: sticky;
     top: 200px;
     padding-bottom: 600px;
@@ -255,8 +270,17 @@ export default Vue.extend({
   }
 }
 .topic-content {
-  padding: 1rem 0 1rem 2rem;
   min-width: 0;
+  .tpost {
+    transition: all 0.3s;
+    background: transparent;
+    &.highlight {
+      background: var(--color-bg-contrast);
+    }
+  }
+  .topic-posts {
+    padding-bottom: 2rem;
+  }
   .topic-reply {
     display: grid;
     grid-template-columns: 5rem 1fr;

@@ -23,11 +23,8 @@
         />
       </div>
     </div>
-    <div class="breadcrumb">
-      <div v-if="$route.query.search" class="notification">
-        Search results for
-        <strong>"{{ $route.query.search }}"</strong>
-      </div>
+    <div v-if="breadcrumb" class="breadcrumb">
+      <div v-formatted-text="breadcrumb" class="notification" />
     </div>
     <div class="list-items">
       <factor-loading-ring v-if="loading" />
@@ -108,6 +105,20 @@ export default Vue.extend({
   data() {
     return {}
   },
+  computed: {
+    breadcrumb(this: any): string {
+      let out = ""
+      const query = this.$route.query
+      if (query.search) {
+        out = `Search results for "${query.search}"`
+      } else if (query.tag) {
+        out = `Viewing tag "${query.tag}"`
+      } else if (query.category) {
+        out = `Viewing category "${query.category}"`
+      }
+      return out
+    }
+  },
   methods: {
     timeAgo,
     toLabel,
@@ -145,6 +156,11 @@ export default Vue.extend({
   }
   .breadcrumb {
     padding: 0.5rem 0 2rem;
+    .notification {
+      font-weight: 700;
+      opacity: 0.4;
+      padding: 0.25rem 0.5rem;
+    }
   }
   .list-items {
     .loading-ring-wrap {

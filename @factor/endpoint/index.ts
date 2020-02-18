@@ -78,12 +78,12 @@ export const authorizedRequest = async (
  * @param params - the data to call the endpoint method with
  * @param headers - the headers on the request
  */
-export const endpointRequest = async ({
+export const endpointRequest = async <T = unknown>({
   id,
   method,
   params = {},
   headers = {}
-}: EndpointRequestConfig): Promise<unknown | Error> => {
+}: EndpointRequestConfig): Promise<T> => {
   if (!method) {
     throw new Error(`Endpoint request to "${id}" requires a method.`)
   }

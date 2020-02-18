@@ -25,6 +25,7 @@ import "./edit-account"
 
 import { userToken, handleTokenError } from "./token"
 
+export const postType = "user"
 /**
  * Information for the currently logged in user
  */
@@ -65,7 +66,11 @@ export const loadUser = async (
 
   try {
     if (token) {
-      user = (await requestPostSingle({ token })) as FactorUserCredential
+      user = (await requestPostSingle({
+        token,
+        postType,
+        log: "loadUser"
+      })) as FactorUserCredential
 
       setUser({ user, token, current: true })
     }

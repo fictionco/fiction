@@ -56,9 +56,7 @@ export default Vue.extend({
         storeItem(this.postId, v)
       }
     },
-    isParent(this: any): boolean {
-      return this.postId == this.parentId ? true : false
-    },
+
     actions(this: any): PostActions[] {
       if (this.isParent) {
         return [
@@ -107,8 +105,9 @@ export default Vue.extend({
   display: grid;
   grid-template-columns: 3.5rem 1fr;
   grid-gap: 2rem;
-  margin-bottom: 3rem;
+  padding: 2rem;
   border-bottom: 1px solid var(--color-border);
+  position: relative;
   .post-content {
     min-width: 0;
   }
@@ -121,7 +120,6 @@ export default Vue.extend({
   .post-text {
     font-size: 1.2em;
     line-height: 1.6;
-    margin: 2em 0 2em 0;
   }
   .post-meta {
     display: flex;
@@ -136,7 +134,9 @@ export default Vue.extend({
   }
   .post-footer {
     text-align: right;
-
+    position: absolute;
+    right: 0;
+    bottom: 0;
     .actions {
       transition: opacity 0.5s;
       opacity: 0;

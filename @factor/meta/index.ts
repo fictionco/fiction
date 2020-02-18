@@ -8,7 +8,7 @@ import {
   descriptionTag,
   shareImage
 } from "@factor/api"
-import { CurrentFactorPost } from "@factor/post/types"
+import { FactorPostState } from "@factor/post/types"
 import { canonicalUrl } from "@factor/api/url"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
@@ -72,7 +72,7 @@ addFilter({
     ..._,
     {
       metaInfo(): MetaInfo {
-        const post: CurrentFactorPost = this.post
+        const post: FactorPostState = this.post
 
         const postInfo = post
           ? {

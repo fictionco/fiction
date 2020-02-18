@@ -17,11 +17,11 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { stored, storeItem } from "@factor/api"
+import { stored, storeItem, emitEvent } from "@factor/api"
 import { currentUser } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
 import { factorInputEditor, factorAvatar, factorBtn } from "@factor/ui"
-import { saveTopicReply } from "./request"
+import { saveTopicReply, saveTopic } from "./request"
 export default Vue.extend({
   components: { factorInputEditor, factorAvatar, factorBtn },
   props: {
@@ -65,9 +65,14 @@ export default Vue.extend({
   methods: {
     async editReply(this: any) {
       this.sending = true
-      await saveTopicReply(this.postId, { _id: this.editId, content: this.reply })
+      if (this.postId != this.editId) {
+        await saveTopicReply(this.postId, { _id: this.editId, content: this.reply })
+        this.post = { ...this.post, content: this.reply }
+        emitEvent("highlight-post", this.editId)
+      } else {
+        await saveTopic({ _id: this.postId, content: this.reply })
+      }
 
-      this.post = { ...this.post, content: this.reply }
       this.sending = false
       this.$emit("done")
     },
@@ -80,16 +85,20 @@ export default Vue.extend({
         _id: ""
       }
 
-      await saveTopicReply(this.postId, doc)
+      const result = await saveTopicReply(this.postId, doc)
 
-      const embedded = this.post.embedded || []
-      const embeddedCount = (this.post.embeddedCount || 0) + 1
+      if (result && result._id) {
+        const embedded = this.post.embedded || []
+        const embeddedCount = (this.post.embeddedCount || 0) + 1
 
-      embedded.push(doc)
+        embedded.push(result)
 
-      this.post = { ...this.post, embedded, embeddedCount }
+        this.post = { ...this.post, embedded, embeddedCount }
 
-      this.reply = ""
+        emitEvent("highlight-post", result._id)
+
+        this.reply = ""
+      }
 
       this.sending = false
     }

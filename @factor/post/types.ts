@@ -190,7 +190,7 @@ export interface FactorSchema {
   permissions?: SchemaPermissions;
 }
 
-export type CurrentFactorPost = FactorPost | undefined
+export type FactorPostState = FactorPost | undefined
 
 export interface FactorPost extends UnsavedFactorPost {
   _id: string;

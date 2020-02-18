@@ -1,7 +1,7 @@
 import { runCallbacks, applyFilters, stored } from "@factor/api"
 import { getObservables } from "@factor/app"
 import Vue, { VueConstructor } from "vue"
-import { CurrentFactorPost } from "@factor/post/types"
+import { FactorPostState } from "@factor/post/types"
 export default (): VueConstructor => {
   return Vue.extend({
     data() {
@@ -10,7 +10,7 @@ export default (): VueConstructor => {
       }
     },
     computed: {
-      post(): CurrentFactorPost {
+      post(): FactorPostState {
         return stored("post")
       },
       ui(this: VueConstructor): string {

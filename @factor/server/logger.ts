@@ -9,16 +9,28 @@ import { RequestHandler } from "express"
 export default (): RequestHandler =>
   morgan(
     (tokens, req, res) => {
-      const millisecondResponseTime = parseFloat(tokens["response-time"](req, res))
-      const seconds = millisecondResponseTime / 1000
-      const time = seconds.toFixed(3)
       const details = []
 
       if (req.body.method) {
-        details.push(chalk.cyan(`${figures.arrowRight} ${req.body.method}`))
+        const method = req.body.method
+        const postType = req.body.params?.postType ?? ""
+        const logDetail = req.body.params?.log ?? ""
+        let log = ""
+        if (logDetail) log = logDetail
+        else if (postType) log = postType
+        log = log ? `(${log})` : ""
+
+        details.push(chalk.cyan(`${figures.arrowRight} ${method}${log}`))
       }
 
-      details.push(`${time}s`)
+      const responseTime = tokens["response-time"](req, res)
+      if (responseTime) {
+        const millisecondResponseTime = parseFloat(responseTime)
+        const seconds = millisecondResponseTime / 1000
+        const time = seconds.toFixed(3)
+
+        details.push(`${time}s`)
+      }
 
       const contentLength = parseFloat(tokens.res(req, res, "content-length"))
       if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)

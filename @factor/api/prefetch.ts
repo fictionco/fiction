@@ -31,7 +31,8 @@ export const preFetchPost = async ({
   const request = applyFilters("post-params", {
     ...route.params,
     ...route.query,
-    status: "published"
+    status: "published",
+    log: "prefetch"
   } as PrefetchArguments)
 
   const { permalink = "", _id } = request

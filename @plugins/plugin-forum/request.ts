@@ -7,6 +7,7 @@ import {
 import {
   UnsavedFactorPost,
   FactorPost,
+  FactorPostState,
   PostStatus,
   IndexOrderBy,
   IndexTimeFrame
@@ -46,7 +47,7 @@ interface RunPostAction {
  */
 export const saveTopic = async (
   post: FactorPostForumTopic
-): Promise<FactorPostForumTopic | never> => {
+): Promise<FactorPostForumTopic | undefined | never> => {
   return await requestPostSave({ post, postType })
 }
 
@@ -66,19 +67,19 @@ export const deleteTopic = async (postId: string): Promise<void> => {
 export const saveTopicReply = async (
   postId: string,
   data: UnsavedFactorPost & { _id: string }
-): Promise<void | never> => {
-  await requestEmbeddedAction({ action: "save", postId, data, postType })
+): Promise<FactorPostState> => {
+  const result = await requestEmbeddedAction({ action: "save", postId, data, postType })
 
   emitEvent("notify", "Reply saved")
 
-  return
+  return result
 }
 
 export const deleteTopicReply = async (
   postId: string,
   embeddedPostId: string
-): Promise<void | never> => {
-  await requestEmbeddedAction({
+): Promise<FactorPostState> => {
+  const result = await requestEmbeddedAction({
     action: "delete",
     postId,
     embeddedPostId,
@@ -87,7 +88,7 @@ export const deleteTopicReply = async (
 
   emitEvent("notify", "Reply deleted")
 
-  return
+  return result
 }
 
 export const postAction = async ({
@@ -112,7 +113,10 @@ export const postAction = async ({
     if (action == PostActions.Edit) {
       await saveTopicReply(parentId, post)
     } else if (action == PostActions.Delete) {
-      await deleteTopicReply(parentId, post._id)
+      const r = confirm("Are you sure? This reply with be permanently deleted.")
+      if (r) {
+        await deleteTopicReply(parentId, post._id)
+      }
     }
   }
 
