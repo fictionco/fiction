@@ -43,3 +43,7 @@ import axios from "axios"
 
 axios.get("/__track_event__?event=myEvent&action=theAction&label=theLabel")
 ```
+
+### A Note On Traffic Filtering
+
+Because server events are triggered from Node, they will show as "non-browser" traffic in analytics (no browser or language set). Keep this in mind when creating filters to screen out bot traffic, etc..
