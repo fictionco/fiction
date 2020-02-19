@@ -8,6 +8,7 @@ import {
   descriptionTag,
   shareImage
 } from "@factor/api"
+import { setting } from "@factor/api/settings"
 import { FactorPostState } from "@factor/post/types"
 import { canonicalUrl } from "@factor/api/url"
 import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
@@ -87,7 +88,8 @@ addFilter({
          */
         const defaultMeta = {
           htmlAttrs: { lang: "en" },
-
+          titleTemplate: setting("metaInfo.titleTemplate"),
+          image: setting("metaInfo.image"),
           meta: [
             { charset: "utf-8" },
             {

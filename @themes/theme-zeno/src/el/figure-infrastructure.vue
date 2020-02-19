@@ -4,18 +4,17 @@
       v-if="title"
       class="text-sm text-center font-mono py-1 bg-purple-700 text-purple-300 rounded-t md:rounded-tl"
     >{{ title }}</figcaption>
-    <factor-highlight-code class="bg-purple-900 text-gray-500 p-4 text-sm md:py-8 md:px-24">
+    <div class="bg-purple-900 text-gray-500 p-4 text-sm md:py-8 md:px-24">
       <pre><code class="prism">{{ code() }}</code></pre>
-    </factor-highlight-code>
+    </div>
   </figure>
 </template>
 
 <script lang="ts">
-import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorHighlightCode },
+  components: {},
   props: {
     title: { type: String, default: "" }
   },
