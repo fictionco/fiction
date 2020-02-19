@@ -328,8 +328,6 @@ const transformIndexParameters = (
         embeddedCount: SortDelimiters.Descending,
         createdAt: SortDelimiters.Descending
       }
-    } else if (order == "latest") {
-      sort = { updatedAt: SortDelimiters.Descending }
     }
 
     // remove non-db paths

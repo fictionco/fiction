@@ -29,10 +29,23 @@
     <div class="list-items">
       <factor-loading-ring v-if="loading" />
       <template v-else-if="posts.length > 0">
-        <div v-for="(post, index) in posts" :key="index" class="list-item-wrap">
+        <div
+          v-for="(post, index) in posts"
+          :key="index"
+          class="list-item-wrap"
+          :class="[post.pinned ? 'pinned': '', post.locked ? 'locked': '']"
+        >
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
-              <factor-avatar :post-id="author(post).avatar" />
+              <div class="avatar-area">
+                <factor-avatar :post-id="author(post).avatar" />
+                <div v-if="post.pinned" class="tag-bubble">
+                  <factor-icon icon="fas fa-thumbtack" />
+                </div>
+                <div v-if="post.locked" class="tag-bubble bottom">
+                  <factor-icon icon="fas fa-lock" />
+                </div>
+              </div>
             </factor-link>
             <div class="item-text">
               <div class="header">
@@ -184,7 +197,10 @@ export default Vue.extend({
     }
   }
   .list-item-wrap {
-    margin-bottom: 2rem;
+    padding: 1rem;
+    &.pinned {
+      background: var(--color-bg-contrast);
+    }
   }
   .list-item {
     display: grid;
@@ -194,6 +210,26 @@ export default Vue.extend({
       padding-top: 0.1rem;
       .avatar {
         width: 3rem;
+      }
+      .avatar-area {
+        position: relative;
+      }
+      .tag-bubble {
+        width: 1.25rem;
+        height: 1.25rem;
+        line-height: 1.25rem;
+        text-align: center;
+        font-size: 12px;
+        position: absolute;
+        top: -3px;
+        right: -4px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 4px;
+        &.bottom {
+          bottom: -3px;
+          top: auto;
+        }
       }
     }
     .item-text {

@@ -50,8 +50,11 @@ button.app-btn {
   }
 
   &.default {
-    background: #fff;
-    box-shadow: inset 0 0 0 1px var(--color-border);
+    background: var(--color-bg, #fff);
+    box-shadow: inset var(--box-shadow-input, 0 0 0 1px rgba(0, 43, 93, 0.2));
+    &:hover {
+      background: var(--color-bg-contrast, #f7f7f7);
+    }
   }
 
   &.primary {

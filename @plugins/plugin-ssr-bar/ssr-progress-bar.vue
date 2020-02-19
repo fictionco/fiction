@@ -16,7 +16,7 @@ export default Vue.extend({
     }
   },
   computed: {
-    barStyle() {
+    barStyle(this: any) {
       return {
         width: `${this.percent}%`,
         height: this.height,
@@ -25,12 +25,12 @@ export default Vue.extend({
     }
   },
   mounted() {
-    onEvent("ssr-progress", action => {
+    onEvent("ssr-progress", (action: string) => {
       this[action]()
     })
   },
   methods: {
-    start() {
+    start(this: any) {
       this.show = true
       this.canSuccess = true
       if (this._timer) {
@@ -46,33 +46,33 @@ export default Vue.extend({
       }, 100)
       return this
     },
-    set(num) {
+    set(this: any, num: number) {
       this.show = true
       this.canSuccess = true
       this.percent = Math.floor(num)
       return this
     },
-    get() {
+    get(this: any) {
       return Math.floor(this.percent)
     },
-    increase(num) {
+    increase(this: any, num: number) {
       this.percent = this.percent + Math.floor(num)
       return this
     },
-    decrease(num) {
+    decrease(this: any, num: number) {
       this.percent = this.percent - Math.floor(num)
       return this
     },
-    finish() {
+    finish(this: any) {
       this.percent = 100
       this.hide()
       return this
     },
-    pause() {
+    pause(this: any) {
       clearInterval(this._timer)
       return this
     },
-    hide() {
+    hide(this: any) {
       clearInterval(this._timer)
       this._timer = null
       setTimeout(() => {
@@ -85,7 +85,7 @@ export default Vue.extend({
       }, 500)
       return this
     },
-    fail() {
+    fail(this: any) {
       this.canSuccess = false
       return this
     }
@@ -99,7 +99,7 @@ export default Vue.extend({
   top: 0px;
   left: 0px;
   right: 0px;
-  height: 4px;
+  height: 5px;
   width: 0%;
   transition: width 0.2s, opacity 0.4s;
   opacity: 1;

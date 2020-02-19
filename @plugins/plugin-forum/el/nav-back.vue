@@ -17,8 +17,9 @@ export default Vue.extend({
 <style lang="less">
 a.nav-back {
   display: inline-block;
-  opacity: 0.43;
+  opacity: 0.3;
   font-weight: 700;
+  color: inherit;
   &:hover {
     opacity: 1;
   }

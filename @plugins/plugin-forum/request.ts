@@ -10,7 +10,8 @@ import {
   FactorPostState,
   PostStatus,
   IndexOrderBy,
-  IndexTimeFrame
+  IndexTimeFrame,
+  SortDelimiters
 } from "@factor/post/types"
 
 import { setting } from "@factor/api/settings"
@@ -19,7 +20,7 @@ import { navigateToRoute, currentRoute } from "@factor/app/router"
 
 import { postType } from "."
 
-type FactorPostForumTopic = UnsavedFactorPost & {
+type FactorPostForumTopic = FactorPost & {
   pinned?: boolean;
   flagged?: boolean;
   locked?: boolean;
@@ -101,9 +102,9 @@ export const postAction = async ({
 
   if (isParent) {
     if (action == PostActions.Pin) {
-      await saveTopic({ pinned: value })
+      await saveTopic({ _id: post._id, pinned: value })
     } else if (action == PostActions.Lock) {
-      await saveTopic({ locked: value })
+      await saveTopic({ _id: post._id, locked: value })
     } else if (action == PostActions.Delete) {
       await deleteTopic(parentId)
     } else if (action == PostActions.Edit) {
@@ -150,6 +151,11 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     limit,
     conditions: {
       source: setting("package.name")
+    },
+    sort: {
+      pinned: SortDelimiters.Descending,
+      date: SortDelimiters.Descending,
+      updatedAt: SortDelimiters.Descending
     }
   })
 

@@ -161,7 +161,7 @@ export const postPermission = ({
   action
 }: {
   bearer: CurrentUserState;
-  post: FactorPost;
+  post: FactorPost & { __t: string };
   action: PostActions;
 }): true | never => {
   const permissionsConfig = getSchemaPermissions({ postType: post.__t })

@@ -10,6 +10,7 @@ import { stored } from "@factor/app/store"
 import log from "@factor/api/logger"
 import { onEvent, emitEvent } from "@factor/api/events"
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
+import { FactorPost } from "@factor/post/types"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
 import { setUser } from "./util"
@@ -165,15 +166,20 @@ export const authenticate = async (
  */
 export const userCan = ({
   role = "",
-  accessLevel = -1
+  accessLevel = -1,
+  post
 }: {
   role?: string;
   accessLevel?: number;
+  post?: FactorPost;
 }): boolean => {
   const current = currentUser()
   const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0
   const roleAccessLevel = role ? userRolesMap[role as UserRoles] : 1000
-  if (accessLevel >= 0 && userAccessLevel >= accessLevel) {
+
+  if (current && post?.author?.includes(current._id)) {
+    return true
+  } else if (accessLevel >= 0 && userAccessLevel >= accessLevel) {
     return true
   } else if (role && userAccessLevel >= roleAccessLevel) {
     return true

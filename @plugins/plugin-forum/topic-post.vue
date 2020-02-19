@@ -7,7 +7,8 @@
       <div class="post-meta">
         <div class="author meta-item">{{ author.username }}</div>
         <div class="time meta-item">{{ timeAgo(post.createdAt) }}</div>
-        <factor-menu :list="actions" @action="handleAction($event)" />
+
+        <factor-menu v-if="actions.length > 0" :list="actions" @action="handleAction($event)" />
       </div>
       <div class="post-text">
         <div v-formatted-text="rendered" />
@@ -31,6 +32,7 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { factorAvatar, factorMenu } from "@factor/ui"
 import { isEmpty, setting, stored, storeItem, toLabel } from "@factor/api"
 import { timeAgo } from "@factor/api/time"
+import { currentUser, userCan } from "@factor/user"
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
 import { PostActions } from "./request"
@@ -56,19 +58,7 @@ export default Vue.extend({
         storeItem(this.postId, v)
       }
     },
-
-    actions(this: any): PostActions[] {
-      if (this.isParent) {
-        return [
-          PostActions.Edit,
-          this.post.pinned ? PostActions.Unpin : PostActions.Pin,
-          this.post.locked ? PostActions.Unlock : PostActions.Lock,
-          PostActions.Delete
-        ]
-      } else {
-        return [PostActions.Edit, PostActions.Delete]
-      }
-    },
+    currentUser,
     rendered(this: any) {
       return renderMarkdown(this.post.content)
     },
@@ -76,6 +66,23 @@ export default Vue.extend({
       const authorId =
         this.post.author && this.post.author.length > 0 ? this.post.author[0] : ""
       return this.getPost(authorId) || {}
+    },
+    actions(this: any): PostActions[] {
+      const actions = []
+      if (this.postId == this.parentId && this.currentUser?.accessLevel >= 200) {
+        actions.push(
+          ...[
+            this.post.pinned ? PostActions.Unpin : PostActions.Pin,
+            this.post.locked ? PostActions.Unlock : PostActions.Lock
+          ]
+        )
+      }
+
+      if (userCan({ accessLevel: 200, post: this.post })) {
+        actions.push(...[PostActions.Edit, PostActions.Delete])
+      }
+
+      return actions
     }
   },
 
@@ -84,6 +91,7 @@ export default Vue.extend({
     setting,
     timeAgo,
     toLabel,
+
     focusReply() {
       const el: HTMLFormElement | null = document.querySelector("#topic-reply")
       if (el) {
@@ -94,7 +102,15 @@ export default Vue.extend({
       return stored(_id) || {}
     },
     async handleAction(this: any, action: PostActions) {
-      this.$emit("action", action)
+      let value = true
+      if (action == PostActions.Unpin || action == PostActions.Pin) {
+        value = action == PostActions.Unpin ? false : true
+        this.post = { ...this.post, pinned: value }
+      } else if (action == PostActions.Unlock || action == PostActions.Lock) {
+        value = action == PostActions.Unlock ? false : true
+        this.post = { ...this.post, locked: value }
+      }
+      this.$emit("action", action, value)
     }
   }
 })
@@ -143,14 +159,20 @@ export default Vue.extend({
     }
 
     .post-action {
+      user-select: none;
       display: inline-block;
       cursor: pointer;
-      margin: 0.5rem 1rem;
+
+      padding: 0.5rem 1rem;
       opacity: 0.7;
       font-size: 0.9em;
       &:hover {
+        background: rgba(0, 0, 0, 0.05);
         opacity: 1;
         color: var(--color-primary);
+      }
+      &:active {
+        background: rgba(0, 0, 0, 0.08);
       }
     }
   }

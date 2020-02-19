@@ -35,7 +35,7 @@
               :class="highlight == topicPost._id ? 'highlight' : '' "
               :post-id="topicPost._id"
               :parent-id="post._id"
-              @action="handleAction($event, topicPost)"
+              @action="handleAction(topicPost, ...arguments)"
             />
           </factor-highlight-code>
         </div>
@@ -48,14 +48,19 @@
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
           </div>
-          <factor-btn class="item" btn="primary" @click="focusReply()">Add Reply &darr;</factor-btn>
-
+          <factor-btn
+            v-if="currentUser"
+            class="item"
+            btn="primary"
+            @click="focusReply()"
+          >Add Reply &darr;</factor-btn>
+          <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
           <factor-btn class="item" btn="default">
             <factor-icon icon="far fa-star" />
             <span class="text">Subscribe</span>
           </factor-btn>
 
-          <factor-btn class="item" btn="default" @click="editTopic(post)">
+          <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
             <span class="text">Edit</span>
           </factor-btn>
         </div>
@@ -78,7 +83,7 @@
 import { excerpt } from "@factor/api/excerpt"
 import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { factorAvatar, factorBtn, factorIcon, factorModal } from "@factor/ui"
+import { factorAvatar, factorBtn, factorIcon, factorModal, factorLink } from "@factor/ui"
 import {
   isEmpty,
   setting,
@@ -92,11 +97,19 @@ import {
   onEvent
 } from "@factor/api"
 import Vue from "vue"
+import { currentUser, userCan } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
 import { editTopic, postAction, PostActions } from "./request"
 
 export default Vue.extend({
-  components: { factorAvatar, factorBtn, factorHighlightCode, factorIcon, factorModal },
+  components: {
+    factorAvatar,
+    factorBtn,
+    factorHighlightCode,
+    factorIcon,
+    factorModal,
+    factorLink
+  },
   data() {
     return {
       vis: false,
@@ -118,6 +131,14 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem("post", v)
+      }
+    },
+    currentUser,
+    canEditTopic(this: any): boolean {
+      if (userCan({ accessLevel: 200, post: this.post })) {
+        return true
+      } else {
+        return false
       }
     },
     embedded(this: any) {
@@ -157,7 +178,12 @@ export default Vue.extend({
     getPost(_id: any) {
       return stored(_id) || {}
     },
-    async handleAction(this: any, action: PostActions, topicPost: FactorPost) {
+    async handleAction(
+      this: any,
+      topicPost: FactorPost,
+      action: PostActions,
+      value: boolean
+    ) {
       if (action == PostActions.Edit) {
         if (this.isParent(topicPost)) {
           editTopic(this.post)
@@ -168,7 +194,7 @@ export default Vue.extend({
       } else {
         await postAction({
           action,
-          value: true,
+          value: value,
           post: topicPost,
           parentId: this.post._id
         })
@@ -266,6 +292,7 @@ export default Vue.extend({
     }
     .item {
       margin-bottom: 1rem;
+      width: 100%;
     }
   }
 }

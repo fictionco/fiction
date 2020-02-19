@@ -1,17 +1,38 @@
 <template>
   <div class="topic-reply">
     <div class="reply-area">
-      <factor-avatar :post-id="author.avatar" />
-      <factor-input-editor
-        id="topic-reply"
-        v-model="reply"
-        class="reply-textarea"
-        placeholder="Reply"
-      />
-      <div class="action">
-        <factor-btn v-if="editId" btn="primary" :loading="sending" @click="editReply()">Save &uarr;</factor-btn>
-        <factor-btn v-else btn="primary" :loading="sending" @click="topicReply()">Post Reply &uarr;</factor-btn>
+      <div v-if="post.locked" class="no-dice">
+        <div class="title">This topic is locked.</div>
       </div>
+      <div v-else-if="!currentUser" class="no-dice">
+        <div class="title">You need to login to reply.</div>
+        <div class="actions">
+          <factor-link event="sign-in-modal" btn="primary">Login &rarr;</factor-link>
+        </div>
+      </div>
+      <template v-else>
+        <factor-avatar :post-id="author.avatar" />
+        <factor-input-editor
+          id="topic-reply"
+          v-model="reply"
+          class="reply-textarea"
+          placeholder="Reply"
+        />
+        <div class="action">
+          <factor-btn
+            v-if="editId"
+            btn="primary"
+            :loading="sending"
+            @click="editReply()"
+          >Save &uarr;</factor-btn>
+          <factor-btn
+            v-else
+            btn="primary"
+            :loading="sending"
+            @click="topicReply()"
+          >Post Reply &uarr;</factor-btn>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -20,10 +41,10 @@ import Vue from "vue"
 import { stored, storeItem, emitEvent } from "@factor/api"
 import { currentUser } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
-import { factorInputEditor, factorAvatar, factorBtn } from "@factor/ui"
+import { factorInputEditor, factorAvatar, factorBtn, factorLink } from "@factor/ui"
 import { saveTopicReply, saveTopic } from "./request"
 export default Vue.extend({
-  components: { factorInputEditor, factorAvatar, factorBtn },
+  components: { factorInputEditor, factorAvatar, factorBtn, factorLink },
   props: {
     postId: { type: String, default: "" },
     editId: { type: String, default: "" }
@@ -77,6 +98,9 @@ export default Vue.extend({
       this.$emit("done")
     },
     async topicReply(this: any) {
+      if (!this.currentUser._id) {
+        return
+      }
       this.sending = true
 
       const doc = {
@@ -109,6 +133,16 @@ export default Vue.extend({
 .topic-reply {
   text-align: left;
   position: relative;
+  .no-dice {
+    padding: 2rem;
+    text-align: center;
+    .title {
+      font-size: 1.2em;
+    }
+    .actions {
+      margin-top: 2rem;
+    }
+  }
   .reply-area {
     position: relative;
     textarea {

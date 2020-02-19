@@ -33,6 +33,8 @@ const hookClientRouterBefore = async (
       next
     })
 
+    emitEvent("ssr-progress", "start")
+
     const results: (boolean | undefined)[] = await doBefore
 
     if (results.length == 0 || !results.some(_ => _ === false)) {

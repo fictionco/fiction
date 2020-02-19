@@ -2,8 +2,8 @@ import { CurrentUserState } from "@factor/user/types"
 import mongoose from "mongoose"
 import { Component } from "vue"
 import { EndpointParameters } from "@factor/endpoint"
-export type PopulatedPost = mongoose.Types.ObjectId
-export type PopulatedPosts = mongoose.Types.ObjectId[]
+export type PopulatedPost = string
+export type PopulatedPosts = string[]
 export type ObjectId = mongoose.Types.ObjectId
 export interface PostEndpointMeta {
   bearer?: CurrentUserState;
@@ -194,7 +194,7 @@ export type FactorPostState = FactorPost | undefined
 
 export interface FactorPost extends UnsavedFactorPost {
   _id: string;
-  __t: string;
+  __t?: string;
 }
 
 export type FactorPostKey = FactorPost & { [key: string]: any }
