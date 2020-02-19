@@ -24,7 +24,7 @@ export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   const { NODE_ENV, command, ENV, PORT, debug } = _arguments
 
   process.env.FACTOR_CWD = process.env.FACTOR_CWD || process.cwd()
-  process.env.NODE_ENV = NODE_ENV || ""
+  process.env.NODE_ENV = NODE_ENV || "production"
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || process.env.NODE_ENV || ""
   process.env.FACTOR_DEBUG = debug ? "yes" : ""
 

@@ -60,7 +60,7 @@ export const handleServerError = (
   response: Response,
   error: Error
 ): void => {
-  error.message = `Factor SSR Error \n url:${request.url}\n\n ${error.message}`
+  error.message = `Server Rendering Error \n url:${request.url}\n\n ${error.message}`
 
   log.error(error)
 
@@ -79,9 +79,9 @@ export const logServerReady = (): void => {
  * @param path - the path to assets directory
  * @param cache - should they be cached
  */
-export const serveStatic = (path: string, cache: boolean): Handler => {
+export const serveStatic = (path: string, cache = true): Handler => {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
-    maxAge: cache && process.env.NODE_ENV == "production" ? DAY : 0
+    maxAge: cache && process.env.NODE_ENV !== "development" ? DAY : 0
   })
 }

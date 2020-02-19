@@ -161,10 +161,10 @@ export const postPermission = ({
   action
 }: {
   bearer: CurrentUserState;
-  post: FactorPost & { __t: string };
+  post: FactorPost;
   action: PostActions;
 }): true | never => {
-  const permissionsConfig = getSchemaPermissions({ postType: post.__t })
+  const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "" })
 
   const { accessLevel, role, author, status } = permissionsConfig[action] ?? {
     accessLevel: 300
