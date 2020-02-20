@@ -1,0 +1,29 @@
+version: '3.7'
+volumes:
+  mongo_data: {}
+services:
+  mongodb:
+    image: mongo:4.2.3
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./dev/mongodb-init.js:/docker-entrypoint-initdb.d/mongodb-init.js
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongodbROOT
+      - MONGO_INITDB_DATABASE=factor
+  factor:
+    build:
+      context: .
+    image: factor:dev
+    working_dir: "/var/factor"
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - .:/var/factor
+      - /var/factor/node_modules/
+    ports:
+      - "3000:3000"
