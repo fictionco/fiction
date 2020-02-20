@@ -79,7 +79,7 @@ export default {
     title: "I am Ultra",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-    picture: require("./img/about.jpg"),
+    photo: require("./img/about.jpg"),
     counter: [
       {
         text: "Awards Received",
@@ -97,7 +97,37 @@ export default {
         text: "Happy Clients",
         number: "96"
       }
-    ]
+    ],
+    career: {
+      title: "Experience &amp; hard work",
+      items: [
+        {
+          left: "Jul 2019 - Today",
+          middle: "Senior Designer at Apple",
+          right: "Full-time"
+        },
+        {
+          left: "Sep 2018 - Jun 2019",
+          middle: "Creative Designer at Asana",
+          right: "Full-time"
+        },
+        {
+          left: "Apr 2018 - Sep 2018",
+          middle: "Art Director at Google",
+          right: "Full-time"
+        },
+        {
+          left: "Feb 2016 - Mar 2018",
+          middle: "Art Director at Dropbox",
+          right: "Remote"
+        },
+        {
+          left: "Aug 2014 - Jan 2016",
+          middle: "Art Director at Twitter",
+          right: "Full-time"
+        }
+      ]
+    }
   },
   services: {
     pretitle: "What I Do",
@@ -153,23 +183,31 @@ export default {
       index: ["featuredImage"],
       single: ["hero", "featuredImage", "tags", "portfolioEntry"]
     },
-    clientsTitle: "Previous Clients",
+    clientsTitle: "Brands we've worked with.",
     clients: [
       {
-        picture: require("./img/twitter.svg"),
-        alt: "Twitter"
+        picture: require("./img/sennheiser.svg"),
+        alt: "sennheiser"
       },
       {
-        picture: require("./img/dribbble.svg"),
-        alt: "Dribbble"
+        picture: require("./img/coca-cola.svg"),
+        alt: "coca-cola"
       },
       {
-        picture: require("./img/behance.svg"),
-        alt: "Behance"
+        picture: require("./img/adidas.svg"),
+        alt: "adidas"
       },
       {
-        picture: require("./img/amazon.svg"),
-        alt: "Amazon"
+        picture: require("./img/warner.svg"),
+        alt: "warner"
+      },
+      {
+        picture: require("./img/netflix.svg"),
+        alt: "netflix"
+      },
+      {
+        picture: require("./img/chanel.svg"),
+        alt: "chanel"
       }
     ],
     cta: {

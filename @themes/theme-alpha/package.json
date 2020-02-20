@@ -28,5 +28,19 @@
     "@factor/plugin-contact-form": "^1.3.8",
     "@factor/plugin-highlight-code": "^1.3.8",
     "@factor/plugin-notify": "^1.3.3"
-  }
+  },
+  "keywords": [
+    "factor",
+    "factor-theme",
+    "factor-featured",
+    "fiction",
+    "webpack",
+    "vue",
+    "modern",
+    "personal",
+    "business",
+    "clean",
+    "portfolio",
+    "agency"
+  ]
 }

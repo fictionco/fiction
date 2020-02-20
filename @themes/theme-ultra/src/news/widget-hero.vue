@@ -4,6 +4,7 @@
       <div v-if="format == 'index'">
         <h1 class="title">
           <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
+          <factor-post-edit :post-id="post._id" />
         </h1>
       </div>
       <div v-else>

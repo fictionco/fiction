@@ -1,15 +1,15 @@
 <template>
   <section id="contact" class="page-container contact-container">
-    <h2 class="pretitle">{{ setting('contact.pretitle') }}</h2>
-    <h1 class="title">{{ setting('contact.title') }}</h1>
+    <h2 v-if="contactPretitle" v-formatted-text="contactPretitle" class="pretitle" />
+    <h1 v-if="contactTitle" v-formatted-text="contactTitle" class="title" />
     <div class="form-wrap">
       <div>
-        <h2 class="heading">{{ setting('contact.form.title') }}</h2>
+        <h2 v-if="contactFormTitle" v-formatted-text="contactFormTitle" class="heading" />
         <component :is="setting('contactForm.form')" />
       </div>
-      <div>
-        <h2 class="heading">{{ setting('contact.info.title') }}</h2>
-        <div v-for="(item, i) in setting('contact.info.items')" :key="i" class="info-item">
+      <div class="info">
+        <h2 v-if="contactInfoTitle" v-formatted-text="contactInfoTitle" class="title heading" />
+        <div v-for="(item, i) in contactInfoItems" :key="i" class="info-item">
           <h3 class="item-title">{{ item.title }}</h3>
           <p>{{ item.text }}</p>
         </div>
@@ -25,7 +25,12 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      loading: true
+      loading: true,
+      contactPretitle: setting("contact.pretitle"),
+      contactTitle: setting("contact.title"),
+      contactFormTitle: setting("contact.form.title"),
+      contactInfoTitle: setting("contact.info.title"),
+      contactInfoItems: setting("contact.info.items")
     }
   },
   methods: { setting }

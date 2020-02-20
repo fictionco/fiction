@@ -142,7 +142,8 @@ export default Vue.extend({
     }
 
     img {
-      max-height: 60vh;
+      //max-height: 60vh;
+      max-width: 100%;
       box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease-in-out;
       border-radius: 5px;

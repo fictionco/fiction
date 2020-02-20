@@ -1,12 +1,17 @@
 <template>
   <section id="services" class="page-container services-container">
-    <h2 class="pretitle">{{ setting('services.pretitle') }}</h2>
-    <h1 class="title">{{ setting('services.title') }}</h1>
+    <h2 v-if="servicesPretitle" v-formatted-text="servicesPretitle" class="pretitle" />
+    <h1 v-if="servicesTitle" v-formatted-text="servicesTitle" class="title" />
     <div class="content">
-      <div v-for="(service, i) in setting('services.items')" :key="i" class="services-item">
-        <services-icon class="icon" :icon="service.icon" :title="service.title" />
-        <h4>{{ service.title }}</h4>
-        <p>{{ service.text }}</p>
+      <div v-for="(service, i) in servicesItems" :key="i" class="services-item">
+        <services-icon
+          v-if="service.icon"
+          class="icon"
+          :icon="service.icon"
+          :title="service.title"
+        />
+        <h4 v-if="service.title">{{ service.title }}</h4>
+        <p v-if="service.text">{{ service.text }}</p>
       </div>
     </div>
   </section>
@@ -19,6 +24,14 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     "services-icon": () => import("./el/icon-services.vue")
+  },
+  data() {
+    return {
+      loading: true,
+      servicesPretitle: setting("services.pretitle"),
+      servicesTitle: setting("services.title"),
+      servicesItems: setting("services.items")
+    }
   },
   methods: { setting }
 })

@@ -1,12 +1,11 @@
 <template>
   <div>
-    <p class="content">{{ excerpt(post.content) }}</p>
+    <p class="content">{{ post.synopsis }}</p>
     <factor-link class="read-more" :path="postLink(post._id)">Read More...</factor-link>
   </div>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { excerpt } from "@factor/api/excerpt"
 import { postLink, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
@@ -20,8 +19,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    postLink,
-    excerpt
+    postLink
   }
 })
 </script>

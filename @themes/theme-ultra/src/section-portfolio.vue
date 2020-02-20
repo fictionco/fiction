@@ -72,19 +72,6 @@ export default Vue.extend({
     @media (max-width: 900px) {
       padding: 0 2em 3em;
     }
-
-    .posts-wrap {
-      margin-top: -4em;
-      .portfolio-posts {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 1fr 1fr;
-
-        @media (max-width: 900px) {
-          grid-template-columns: 1fr;
-        }
-      }
-    }
   }
 
   .clients-wrap {
@@ -104,12 +91,11 @@ export default Vue.extend({
     }
     .clients {
       display: grid;
-      grid-gap: 3em;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       align-items: center;
 
       @media (max-width: 900px) {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
       .logo img {
         width: 100%;

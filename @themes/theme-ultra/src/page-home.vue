@@ -1,11 +1,11 @@
 <template>
   <div class="page-home">
-    <sectionIntro />
-    <sectionAbout />
-    <sectionServices />
-    <sectionPortfolio />
-    <sectionNews />
-    <sectionContact />
+    <section-intro />
+    <section-about />
+    <section-services />
+    <section-portfolio />
+    <section-news />
+    <section-contact />
   </div>
 </template>
 
@@ -13,12 +13,12 @@
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    sectionIntro: () => import("./section-intro.vue"),
-    sectionAbout: () => import("./section-about.vue"),
-    sectionServices: () => import("./section-services.vue"),
-    sectionPortfolio: () => import("./section-portfolio.vue"),
-    sectionNews: () => import("./section-news.vue"),
-    sectionContact: () => import("./section-contact.vue")
+    "section-intro": () => import("./section-intro.vue"),
+    "section-about": () => import("./section-about.vue"),
+    "section-services": () => import("./section-services.vue"),
+    "section-portfolio": () => import("./section-portfolio.vue"),
+    "section-news": () => import("./section-news.vue"),
+    "section-contact": () => import("./section-contact.vue")
   },
   data() {
     return {
