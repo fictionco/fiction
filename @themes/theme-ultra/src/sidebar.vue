@@ -8,7 +8,7 @@
         <factor-link
           :key="index"
           :path="item.path"
-          class="nav-link"
+          class="nav-link text-gray-600 hover:text-gray-100"
           :class="[item.target, { 'nav-link-active': selected === item.path }]"
           @click="sidebarPath(item.path)"
         >
@@ -111,18 +111,14 @@ export default Vue.extend({
     padding: 0 2em;
 
     .nav-link {
-      color: var(--color-text-gray);
       font-size: 1.4em;
       line-height: 1.2;
       text-decoration: none;
       min-height: 30px;
 
-      &:hover {
-        color: var(--color-text-light);
-      }
       &.nav-link-active {
-        color: var(--color-text-light);
         font-weight: var(--font-weight-semibold);
+        color: #f6f6f6;
         span {
           position: relative;
           &:after {

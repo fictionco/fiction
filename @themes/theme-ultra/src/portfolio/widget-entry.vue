@@ -109,7 +109,7 @@ export default Vue.extend({
     color: var(--color-primary);
 
     &:hover {
-      color: var(--color-secondary);
+      color: var(--color-primary-dark);
     }
   }
 

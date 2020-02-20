@@ -3,7 +3,7 @@
     <factor-link
       v-for="(tag, ti) in tags"
       :key="ti"
-      class="entry-tag"
+      class="entry-tag hover:text-white"
       :path="setting('portfolio.indexRoute')"
       :query="{ tag }"
     >{{ tag }}</factor-link>
@@ -52,7 +52,6 @@ export default Vue.extend({
     color: var(--color-primary);
 
     &:hover {
-      color: var(--color-white);
       opacity: 1;
       background: var(--color-primary);
     }

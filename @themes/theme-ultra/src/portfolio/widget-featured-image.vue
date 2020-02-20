@@ -21,7 +21,7 @@
         />
       </svg>
 
-      <div>
+      <div class="text-gray-100">
         <h1 v-if="post.title" v-formatted-text="post.title" class="entry-title" />
         <p v-if="post.synopsis" v-formatted-text="post.synopsis" class="synopsis" />
       </div>
@@ -102,13 +102,9 @@ export default Vue.extend({
         }
       }
       .entry-title {
-        color: var(--color-text-light);
         font-size: 1.4rem;
         font-weight: var(--font-weight-semibold);
         letter-spacing: -0.03em;
-      }
-      .synopsis {
-        color: var(--color-text-light);
       }
     }
   }

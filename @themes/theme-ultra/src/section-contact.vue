@@ -1,8 +1,8 @@
 <template>
-  <section id="contact" class="page-container contact-container">
+  <section id="contact" class="page-container contact-container text-gray-100">
     <h2 v-if="contactPretitle" v-formatted-text="contactPretitle" class="pretitle" />
     <h1 v-if="contactTitle" v-formatted-text="contactTitle" class="title" />
-    <div class="form-wrap">
+    <div class="form-wrap text-gray-100 bg-red-600 rounded-lg">
       <div>
         <h2 v-if="contactFormTitle" v-formatted-text="contactFormTitle" class="heading" />
         <component :is="setting('contactForm.form')" />
@@ -49,7 +49,6 @@ export default Vue.extend({
   .title {
     max-width: 800px;
     text-align: center;
-    color: var(--color-text-light);
   }
 
   .pretitle {
@@ -73,10 +72,7 @@ export default Vue.extend({
     max-width: 800px;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    border-radius: var(--border-radius);
     overflow: hidden;
-    color: var(--color-text-light);
-    background: var(--color-primary-dark);
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;

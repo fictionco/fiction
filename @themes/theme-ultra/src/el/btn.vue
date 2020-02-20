@@ -58,14 +58,13 @@ button.app-btn {
   }
 
   &.primary {
-    color: var(--color-white);
+    color: #fff;
     background: var(--color-primary);
     border-color: var(--color-primary);
     transition: all 0.2s ease-in-out;
 
     &:hover {
       background: var(--color-primary-dark);
-      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
 
@@ -77,7 +76,6 @@ button.app-btn {
 
     &:hover {
       color: var(--color-text-light);
-      box-shadow: 0 4px 4px rgba(var(--color-primary-rgb), 0.2);
     }
   }
 

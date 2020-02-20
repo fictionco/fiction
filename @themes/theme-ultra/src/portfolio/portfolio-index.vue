@@ -122,7 +122,6 @@ export default Vue.extend({
 
     /* The Masonry Brick */
     .item {
-      background-color: #eee;
       display: inline-block;
       margin: 0 0 2em;
       width: 100%;
@@ -130,7 +129,6 @@ export default Vue.extend({
 
       &:hover {
         transform: translateY(-2px) scale(1.02);
-        //box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
         box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15), 0 5px 5px rgba(0, 0, 0, 0.05);
       }
       img {

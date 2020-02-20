@@ -7,9 +7,12 @@
           {{ returnLinkText }}
         </factor-link>
         <h1 class="title">
-          <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link>
+          <factor-link
+            :path="postLink(post._id)"
+            class="text-gray-100 hover:text-red-500"
+          >{{ post.title }}</factor-link>
         </h1>
-        <h3 class="entry-subtitle">{{ post.subTitle }}</h3>
+        <h3 class="entry-subtitle text-gray-100">{{ post.subTitle }}</h3>
         <factor-post-edit :post-id="post._id" />
       </div>
     </div>
@@ -75,16 +78,13 @@ export default Vue.extend({
           font-size: 2em;
         }
         a {
-          color: var(--color-text-light);
           &:hover {
             text-decoration: underline;
-            text-decoration-color: var(--color-tertiary);
           }
         }
       }
       .entry-subtitle {
         line-height: 1.7;
-        color: var(--color-text-light);
       }
       .content {
         font-size: 1.2em;

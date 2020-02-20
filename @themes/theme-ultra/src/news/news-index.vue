@@ -1,7 +1,11 @@
 <template>
   <div class="news-wrap">
     <div v-if="newsPosts" class="news-posts">
-      <section v-for="post in newsPosts" :key="post._id" class="news-item">
+      <section
+        v-for="post in newsPosts"
+        :key="post._id"
+        class="news-item rounded-lg hover:bg-white"
+      >
         <component
           :is="setting(`news.components.${comp}`)"
           v-for="(comp, i) in setting('news.layout.index')"
@@ -110,11 +114,9 @@ export default Vue.extend({
     height: 100%;
     padding: 3rem 2rem;
     border: 1px solid rgba(17, 16, 16, 0.1);
-    border-radius: var(--border-radius);
     transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &:hover {
-      background: var(--color-white);
       color: var(--color-text);
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);

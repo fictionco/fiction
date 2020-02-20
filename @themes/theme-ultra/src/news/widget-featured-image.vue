@@ -21,7 +21,7 @@
         />
       </svg>
 
-      <h1 class="entry-title">{{ post.title }}</h1>
+      <h1 class="entry-title text-gray-100">{{ post.title }}</h1>
     </div>
   </factor-link>
 
@@ -100,7 +100,6 @@ export default Vue.extend({
         }
       }
       .entry-title {
-        color: var(--color-text-light);
         font-size: 1.4rem;
         font-weight: var(--font-weight-semibold);
         letter-spacing: -0.03em;
