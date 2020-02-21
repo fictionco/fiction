@@ -179,9 +179,9 @@ export const userCan = ({
   accessLevel = -1,
   post
 }: {
-  role?: string
-  accessLevel?: number
-  post?: FactorPost
+  role?: string;
+  accessLevel?: number;
+  post?: FactorPost;
 }): boolean => {
   const current = currentUser()
   const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0

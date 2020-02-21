@@ -65,10 +65,10 @@
                 <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
               </div>
               <component
-                class="item"
                 :is="setting('forum.components.topicTags')"
-                :tags="post.tag"
                 v-if="post.tag.length > 0"
+                class="item"
+                :tags="post.tag"
               />
             </div>
           </div>

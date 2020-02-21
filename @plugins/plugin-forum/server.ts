@@ -1,17 +1,16 @@
 import { addPostSchema } from "@factor/post/util"
-import forumSchema from "./schema"
 import { addEndpoint } from "@factor/api/endpoints"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
 import { embeddedAction } from "@factor/post/server"
 import { FactorPost, FactorPostState } from "@factor/post/types"
-import { ForumTopicFactorPost } from "./types"
 import { sendTransactionalEmailToId } from "@factor/email/server"
-import { topicLink } from "./request"
 import { currentUrl } from "@factor/api/url"
+import { ForumTopicFactorPost, SubscribeUser } from "./types"
+import { topicLink } from "./request"
+import forumSchema from "./schema"
 // import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 // import { EndpointMeta } from "@factor/endpoint/types"
-import { SubscribeUser } from "./types"
 
 const postType = "forumTopic"
 
@@ -45,9 +44,9 @@ export const notifySubscribers = async ({
   userId,
   reply
 }: {
-  postId: string
-  userId: string
-  reply: FactorPost
+  postId: string;
+  userId: string;
+  reply: FactorPost;
 }): Promise<true | undefined> => {
   const post = await getModel<ForumTopicFactorPost>(postType).findOne({ _id: postId })
 
@@ -77,9 +76,9 @@ export const saveTopicReply = async (
     reply,
     subscribe
   }: {
-    postId: string
-    reply: FactorPost
-    subscribe: boolean
+    postId: string;
+    reply: FactorPost;
+    subscribe: boolean;
   },
   { bearer }: EndpointMeta
 ): Promise<FactorPostState> => {

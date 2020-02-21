@@ -300,7 +300,7 @@ export const parseList = (
  */
 export const toPascalCase = (string: string): string => {
   return `${string}`
-    .replace(new RegExp(/[-_]+/, "g"), " ")
+    .replace(new RegExp(/[_-]+/, "g"), " ")
     .replace(new RegExp(/[^\s\w]/, "g"), "")
     .replace(
       new RegExp(/\s+(.)(\w+)/, "g"),

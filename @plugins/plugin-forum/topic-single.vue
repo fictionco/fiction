@@ -8,16 +8,16 @@
           <div class="text-header">
             <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
             <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h2>
-            <div class="notes" v-if="post.pinned || post.locked">
-              <div class="note locked" v-if="post.locked">
-                <factor-icon icon="fas fa-lock"></factor-icon>Locked
+            <div v-if="post.pinned || post.locked" class="notes">
+              <div v-if="post.locked" class="note locked">
+                <factor-icon icon="fas fa-lock"/>Locked
               </div>
-              <div class="note locked" v-if="post.pinned">
-                <factor-icon icon="fas fa-thumbtack"></factor-icon>Pinned
+              <div v-if="post.pinned" class="note locked">
+                <factor-icon icon="fas fa-thumbtack"/>Pinned
               </div>
             </div>
           </div>
-          <div class="meta" v-if="post.tag && post.tag.length > 0">
+          <div v-if="post.tag && post.tag.length > 0" class="meta">
             <component
               :is="setting('forum.components.topicTags')"
               class="meta-item"
@@ -55,8 +55,8 @@
         />
       </div>
       <div class="topic-sidebar-wrap">
-        <factor-loading-ring v-if="loading"></factor-loading-ring>
-        <div class="topic-sidebar" v-else>
+        <factor-loading-ring v-if="loading"/>
+        <div v-else class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
@@ -69,14 +69,14 @@
           >Add Reply &darr;</factor-btn>
           <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
           <factor-btn
+            v-if="currentUser"
             class="item"
             btn="default"
-            @click="subscribe(subscribed ? false : true)"
-            v-if="currentUser"
             :loading="sending"
+            @click="subscribe(subscribed ? false : true)"
           >
             <factor-icon icon="far fa-star" />
-            <span class="text normal">{{subscribed ? "Subscribed" : "Subscribe"}}</span>
+            <span class="text normal">{{ subscribed ? "Subscribed" : "Subscribe" }}</span>
           </factor-btn>
 
           <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">

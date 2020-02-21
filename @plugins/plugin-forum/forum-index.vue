@@ -3,10 +3,10 @@
     <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
-        <factor-loading-ring v-if="loading"></factor-loading-ring>
+        <factor-loading-ring v-if="loading"/>
         <component
-          v-else
           :is="setting('forum.components.topicList')"
+          v-else
           :posts="indexPosts"
           :loading="loading"
         />

@@ -93,7 +93,7 @@ export default (): FactorSchema => {
         index: { unique: true, sparse: true },
         minlength: 3,
         validator: function(v: string): boolean {
-          return /^[\d-a-z]+$/.test(v)
+          return /^[\d-az-]+$/.test(v)
         },
         message: (props: { value: string }): string =>
           `permalink ${props.value} is not URL compatible.`

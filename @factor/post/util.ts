@@ -3,7 +3,6 @@ import { deepMerge } from "@factor/api/utils"
 import postSchema from "@factor/post/schema"
 import log from "@factor/api/logger"
 import { UserRoles, CurrentUserState } from "@factor/user/types"
-import { roleAccessLevel } from "@factor/user/util"
 import {
   DetermineUpdatePermissions,
   FactorSchema,
@@ -58,8 +57,8 @@ export const getSchemaPopulatedFields = ({
   postType = "post",
   depth = 10
 }: {
-  postType: string
-  depth: number
+  postType: string;
+  depth: number;
 }): string[] => {
   let fields = getSchema("post").populatedFields || []
 
@@ -82,7 +81,7 @@ export const getSchemaPopulatedFields = ({
 export const getSchemaPermissions = ({
   postType
 }: {
-  postType: string
+  postType: string;
 }): SchemaPermissions => {
   const { permissions = {} } = getSchema("post")
 
@@ -107,8 +106,8 @@ export const isPostAuthor = ({
   user,
   post
 }: {
-  user: CurrentUserState
-  post: FactorPost
+  user: CurrentUserState;
+  post: FactorPost;
 }): boolean => {
   if (!user) {
     return false
@@ -136,10 +135,10 @@ export const getStatusCount = ({
   key,
   nullKey = ""
 }: {
-  meta: PostIndexMeta
-  field?: string
-  key: string
-  nullKey?: string
+  meta: PostIndexMeta;
+  field?: string;
+  key: string;
+  nullKey?: string;
 }): number => {
   if (!meta[field]) return 0
 
@@ -161,9 +160,9 @@ export const postPermission = ({
   post,
   action
 }: {
-  bearer: CurrentUserState
-  post: FactorPost
-  action: PostActions
+  bearer: CurrentUserState;
+  post: FactorPost;
+  action: PostActions;
 }): true | never => {
   const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "" })
 

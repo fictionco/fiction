@@ -5,7 +5,7 @@ import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
 import { randomToken, timeUtil, omit } from "@factor/api"
-import { FactorUser } from "@factor/user/types"
+
 import {
   PostActions,
   FactorPost,
@@ -19,8 +19,7 @@ import {
   UpdateManyPosts,
   PostRequestParameters,
   IndexTimeFrame,
-  SortDelimiters,
-  PostIndexConditions
+  SortDelimiters
 } from "./types"
 import { manyPostsPermissionCondition, postPermission } from "./util"
 import {

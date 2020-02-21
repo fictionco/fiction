@@ -3,10 +3,10 @@ import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { addEndpoint } from "@factor/api/endpoints"
 import "./setup"
-import { EmailTransactionalConfig } from "./util"
 import { getModel } from "@factor/post/database"
 import { FactorUser } from "@factor/user/types"
 import { renderMarkdown } from "@factor/api/markdown"
+import { EmailTransactionalConfig } from "./util"
 export const hasEmailService = (): boolean => {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
@@ -46,9 +46,18 @@ export const sendTransactionalEmail = async (
 ): Promise<void> => {
   _arguments = applyFilters("transactional-email-arguments", _arguments)
 
-  const { emailId = "none", to, title, text, linkText, linkUrl, textFooter } = _arguments
+  const {
+    emailId = "none",
+    subject,
+    to,
+    title,
+    text,
+    linkText,
+    linkUrl,
+    textFooter
+  } = _arguments
 
-  let { from, subject } = _arguments
+  let { from } = _arguments
 
   if (!from) from = setting("app.email")
 

@@ -2,7 +2,8 @@ import {
   requestPostSave,
   requestPostDeleteMany,
   requestPostIndex,
-  requestEmbeddedAction
+  requestEmbeddedAction,
+  handlePostPopulation
 } from "@factor/post/request"
 import {
   FactorPost,
@@ -12,20 +13,20 @@ import {
   IndexTimeFrame,
   SortDelimiters
 } from "@factor/post/types"
-import { handlePostPopulation } from "@factor/post/request"
-import { SubscribeUser } from "./types"
+
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
-import { randomToken } from "@factor/api"
+import { randomToken, slugify, emitEvent } from "@factor/api"
 import { setting } from "@factor/api/settings"
-import { slugify, emitEvent } from "@factor/api"
+
 import { navigateToRoute, currentRoute } from "@factor/app/router"
-import { currentUserId } from "@factor/user"
+
+import { SubscribeUser } from "./types"
 import { postType } from "."
 
 type FactorPostForumTopic = FactorPost & {
-  pinned?: boolean
-  flagged?: boolean
-  locked?: boolean
+  pinned?: boolean;
+  flagged?: boolean;
+  locked?: boolean;
 }
 
 export enum PostActions {
@@ -39,10 +40,10 @@ export enum PostActions {
   Delete = "delete"
 }
 interface RunPostAction {
-  action: PostActions
-  value?: boolean
-  post: FactorPost
-  parentId: string
+  action: PostActions;
+  value?: boolean;
+  post: FactorPost;
+  parentId: string;
 }
 
 /**
@@ -84,7 +85,7 @@ export const sendRequest = async <T = unknown>(
 export const requestSaveTopicReply = async (
   postId: string,
   reply: FactorPost,
-  subscribe: boolean = false
+  subscribe = false
 ): Promise<FactorPostState> => {
   const result = await sendRequest<FactorPost>("saveTopicReply", {
     postId,

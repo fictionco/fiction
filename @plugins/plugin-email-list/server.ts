@@ -116,8 +116,8 @@ export const deleteEmails = async ({
   emails,
   listId = "default"
 }: {
-  emails: string[]
-  listId: string
+  emails: string[];
+  listId: string;
 }): Promise<void> => {
   // query resource: https://stackoverflow.com/a/48933447/1858322
   await postModel().updateOne(

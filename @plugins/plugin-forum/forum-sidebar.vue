@@ -9,7 +9,7 @@
         :list="navItems"
         :value="$route.query.category || ''"
         @input="navigate($event)"
-      ></factor-input-select>
+      />
       <div v-for="(item, index) in navItems" :key="index" class="nav-item show-desktop">
         <factor-link
           class="menu-item-link"
@@ -86,7 +86,7 @@ export default Vue.extend({
     toLabel,
     navigate(this: any, category: string | null) {
       const path = setting(`forum.indexRoute`)
-      let query = { ...this.$route.query, category }
+      const query = { ...this.$route.query, category }
 
       // remove category from url if no val
       if (!category) delete query.category

@@ -1,7 +1,7 @@
 <template>
   <div class="topic-reply">
-    <factor-loading-ring v-if="loading"></factor-loading-ring>
-    <div class="reply-area" v-else>
+    <factor-loading-ring v-if="loading"/>
+    <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
         <div class="title">This topic is locked.</div>
       </div>
@@ -20,8 +20,8 @@
           placeholder="Reply"
         />
         <div class="actions">
-          <div class="subscriber" v-if="showSubscriber">
-            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?"></factor-input-checkbox>
+          <div v-if="showSubscriber" class="subscriber">
+            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?"/>
           </div>
           <factor-btn
             v-if="editId"

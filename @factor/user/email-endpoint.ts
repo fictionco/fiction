@@ -16,18 +16,18 @@ import {
 } from "./email-types"
 
 type FactorUserEmailVerify = FactorUser & {
-  emailVerificationCode?: string
-  passwordResetCode?: string
+  emailVerificationCode?: string;
+  passwordResetCode?: string;
 }
 
 interface UserEmailConfig {
-  to: string
-  subject: string
-  text: string
-  linkText: string
-  action: string
-  _id: string
-  code: string
+  to: string;
+  subject: string;
+  text: string;
+  linkText: string;
+  action: string;
+  _id: string;
+  code: string;
 }
 /**
  * Sends user account email
@@ -147,7 +147,7 @@ export const verifyAndResetPassword = async ({
 export const sendPasswordResetEmail = async ({
   email
 }: {
-  email: string
+  email: string;
 }): Promise<EmailResult> => {
   const passwordResetCode = randomToken()
 

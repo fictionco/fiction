@@ -61,12 +61,12 @@ export default Vue.extend({
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
   },
-  methods: { isLoggedIn },
   async mounted() {
     await userInitialized()
 
     this.userLoading = false
-  }
+  },
+  methods: { isLoggedIn }
 })
 </script>
 <style lang="less">
