@@ -35,6 +35,14 @@ export const currentUser = (): CurrentUserState => {
 }
 
 /**
+ * Return just the userId
+ */
+export const currentUserId = (): string => {
+  const user = currentUser()
+  return user?._id ?? ""
+}
+
+/**
  * Utility function that calls a callback when the user is set initially
  * If due to route change then initialized var is set and its called immediately
  *
@@ -169,9 +177,9 @@ export const userCan = ({
   accessLevel = -1,
   post
 }: {
-  role?: string;
-  accessLevel?: number;
-  post?: FactorPost;
+  role?: string
+  accessLevel?: number
+  post?: FactorPost
 }): boolean => {
   const current = currentUser()
   const userAccessLevel = current && current.accessLevel ? current.accessLevel : 0

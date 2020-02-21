@@ -60,4 +60,4 @@ Factor themes should be compatible with the [GPLv2 license](https://en.wikipedia
 
 ### Distribution and Discovery
 
-After you've [published your plugin as an NPM package](https://docs.npmjs.com/cli/publish), write us an email at [support@fiction.com](mailto:support@fiction.com) about getting your plugin listed on the [Factor plugins listing &rarr;](https://factor.dev/plugins)
+After you've [published your plugin as an NPM package](https://docs.npmjs.com/cli/publish), write us an email at [factor@fiction.com](mailto:factor@fiction.com) about getting your plugin listed on the [Factor plugins listing &rarr;](https://factor.dev/plugins)

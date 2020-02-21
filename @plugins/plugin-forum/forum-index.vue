@@ -67,11 +67,7 @@ export default Vue.extend({
   methods: {
     setting,
     async getPosts(this: any) {
-      this.loading = true
-
       await loadAndStoreIndex()
-
-      this.loading = false
     }
   }
 })

@@ -37,7 +37,7 @@ export default {
   },
 
   contactForm: {
-    email: "support@fiction.com",
+    email: "factor@fiction.com",
     confirm: {
       title: "Got your message.",
       subTitle: "We'll be in touch as soon as possible."

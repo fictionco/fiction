@@ -5,7 +5,6 @@ import {
   requestEmbeddedAction
 } from "@factor/post/request"
 import {
-  UnsavedFactorPost,
   FactorPost,
   FactorPostState,
   PostStatus,
@@ -13,12 +12,14 @@ import {
   IndexTimeFrame,
   SortDelimiters
 } from "@factor/post/types"
+import { handlePostPopulation } from "@factor/post/request"
+import { SubscribeUser } from "./types"
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { randomToken } from "@factor/api"
 import { setting } from "@factor/api/settings"
 import { slugify, emitEvent } from "@factor/api"
 import { navigateToRoute, currentRoute } from "@factor/app/router"
-
+import { currentUserId } from "@factor/user"
 import { postType } from "."
 
 type FactorPostForumTopic = FactorPost & {
@@ -67,12 +68,31 @@ export const deleteTopic = async (postId: string): Promise<void> => {
   return
 }
 
-export const saveTopicReply = async (
-  postId: string,
-  data: UnsavedFactorPost & { _id: string }
-): Promise<FactorPostState> => {
-  const result = await requestEmbeddedAction({ action: "save", postId, data, postType })
+export const sendRequest = async <T = unknown>(
+  method: string,
+  params: EndpointParameters
+): Promise<T> => {
+  const result = await endpointRequest<T>({
+    id: "forum",
+    method,
+    params
+  })
 
+  return result
+}
+
+export const requestSaveTopicReply = async (
+  postId: string,
+  reply: FactorPost,
+  subscribe: boolean = false
+): Promise<FactorPostState> => {
+  const result = await sendRequest<FactorPost>("saveTopicReply", {
+    postId,
+    reply,
+    subscribe
+  })
+
+  handlePostPopulation(result)
   emitEvent("notify", "Reply saved")
 
   return result
@@ -114,7 +134,7 @@ export const postAction = async ({
     }
   } else {
     if (action == PostActions.Edit) {
-      await saveTopicReply(parentId, post)
+      await requestSaveTopicReply(parentId, post)
     } else if (action == PostActions.Delete) {
       const r = confirm("Are you sure? This reply with be permanently deleted.")
       if (r) {
@@ -193,33 +213,14 @@ export const editTopic = (topicPost: FactorPostForumTopic): void => {
   navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
 }
 
-export const sendRequest = async <T = unknown>(
-  method: string,
-  params: EndpointParameters
+export const requestIsSubscribed = async <T = boolean>(
+  params: Omit<SubscribeUser, "subscribe">
 ): Promise<T> => {
-  const result = await endpointRequest<T>({
-    id: "forum",
-    method,
-    params
-  })
-
-  return result
+  return await sendRequest<T>("isSubscribed", params)
 }
 
-export const requestIsSubscribed = ({
-  postId,
-  userId
-}: {
-  postId: string
-  userId: string
-}): void => {}
-
-export const requestSetSubscribed = ({
-  postId,
-  userId,
-  subscribe = true
-}: {
-  postId: string
-  userId: string
-  subscribe: boolean
-}): void => {}
+export const requestSetSubscribed = async <T = boolean>(
+  params: SubscribeUser
+): Promise<T> => {
+  return await sendRequest<T>("setSubscribed", params)
+}

@@ -7,20 +7,20 @@ import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 
 export interface EndpointRequestConfig {
-  id: string;
-  method: string;
-  params: EndpointParameters;
-  headers?: object;
+  id: string
+  method: string
+  params: EndpointParameters
+  headers?: object
 }
 
 export interface EndpointParameters {
-  token?: string;
-  [key: string]: object | string | number | undefined | boolean;
+  token?: string
+  [key: string]: object | string | number | undefined | boolean
 }
 
 interface StandardEndpointRequestData {
-  method: string;
-  params: EndpointParameters;
+  method: string
+  params: EndpointParameters
 }
 
 /**

@@ -4,17 +4,21 @@
 
 <script lang="ts">
 import Vue from "vue"
-// import "../fa/js/brands.js"
-// import "../fa/js/solid.js"
-// import "../fa/js/regular.js"
-// import "../fa/js/fontawesome.js"
 export default Vue.extend({
   props: {
     icon: { type: String, default: "" }
+  },
+  metaInfo: {
+    link: [
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.css"
+      }
+    ]
   }
 })
 </script>
 
 <style lang="less">
-@import "~../fa/css/all.css";
 </style>

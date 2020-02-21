@@ -17,7 +17,7 @@
               </div>
             </div>
           </div>
-          <div class="meta" v-if="post.tag.length > 0">
+          <div class="meta" v-if="post.tag && post.tag.length > 0">
             <component
               :is="setting('forum.components.topicTags')"
               class="meta-item"
@@ -47,8 +47,12 @@
             />
           </factor-highlight-code>
         </div>
-
-        <component :is="setting('forum.components.topicReply')" :post-id="post._id" />
+        <component
+          :is="setting('forum.components.topicReply')"
+          :post-id="post._id"
+          :show-subscriber="!subscribed ? true : false"
+          @done="handleNewReply($event)"
+        />
       </div>
       <div class="topic-sidebar-wrap">
         <div class="topic-sidebar">
@@ -68,9 +72,10 @@
             btn="default"
             @click="subscribe(subscribed ? false : true)"
             v-if="currentUser"
+            :loading="sending"
           >
             <factor-icon icon="far fa-star" />
-            <span class="text">{{subscribed ? "Unsubscribe" : "subscribe"}}</span>
+            <span class="text normal">{{subscribed ? "Subscribed" : "Subscribe"}}</span>
           </factor-btn>
 
           <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
@@ -96,7 +101,14 @@
 import { excerpt } from "@factor/api/excerpt"
 import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { factorAvatar, factorBtn, factorIcon, factorModal, factorLink } from "@factor/ui"
+import {
+  factorLoadingRing,
+  factorAvatar,
+  factorBtn,
+  factorIcon,
+  factorModal,
+  factorLink
+} from "@factor/ui"
 import {
   isEmpty,
   setting,
@@ -127,7 +139,8 @@ export default Vue.extend({
     factorHighlightCode,
     factorIcon,
     factorModal,
-    factorLink
+    factorLink,
+    factorLoadingRing
   },
   data() {
     return {
@@ -135,7 +148,8 @@ export default Vue.extend({
       editPost: {},
       highlight: "",
       subscribed: false,
-      sending: false
+      sending: false,
+      loading: true
     }
   },
   metaInfo() {
@@ -172,7 +186,7 @@ export default Vue.extend({
       return renderMarkdown(this.post.content)
     }
   },
-  mounted() {
+  async mounted() {
     onEvent("highlight-post", (_id: string) => {
       this.highlight = _id
       setTimeout(() => {
@@ -180,7 +194,8 @@ export default Vue.extend({
       }, 2000)
     })
 
-    this.setSubscribed()
+    await this.setSubscribed()
+    this.loading = false
   },
   methods: {
     isEmpty,
@@ -191,7 +206,7 @@ export default Vue.extend({
     async setSubscribed(this: any) {
       await userInitialized()
       if (this.currentUser) {
-        this.subscribed = requestIsSubscribed({
+        this.subscribed = await requestIsSubscribed({
           postId: this.post._id,
           userId: this.currentUser._id
         })
@@ -204,6 +219,7 @@ export default Vue.extend({
         postId: this.post._id,
         userId: this.currentUser._id
       })
+
       this.sending = false
     },
     isParent(this: any, topicPost: FactorPost): boolean {
@@ -254,6 +270,12 @@ export default Vue.extend({
 
           this.post.embeddedCount = this.post.embeddedCount - 1
         }
+    },
+    handleNewReply(this: any, emitted: { subscribed?: boolean }) {
+      const { subscribed } = emitted
+      if (typeof subscribed != "undefined") {
+        this.subscribed = subscribed
+      }
     }
   }
 })
