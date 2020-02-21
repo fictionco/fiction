@@ -2,14 +2,22 @@
   <div class="topic-single">
     <div class="topic-header">
       <div class="header-main">
-        <component :is="setting('forum.components.navBack')" />
+        <component :is="setting('forum.components.navBack')" class="forum-home-link" />
 
         <div class="text">
           <div class="text-header">
             <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
-            <h1 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h1>
+            <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h2>
+            <div class="notes" v-if="post.pinned || post.locked">
+              <div class="note locked" v-if="post.locked">
+                <factor-icon icon="fas fa-lock"></factor-icon>Locked
+              </div>
+              <div class="note locked" v-if="post.pinned">
+                <factor-icon icon="fas fa-thumbtack"></factor-icon>Pinned
+              </div>
+            </div>
           </div>
-          <div class="meta">
+          <div class="meta" v-if="post.tag.length > 0">
             <component
               :is="setting('forum.components.topicTags')"
               class="meta-item"
@@ -55,9 +63,14 @@
             @click="focusReply()"
           >Add Reply &darr;</factor-btn>
           <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
-          <factor-btn class="item" btn="default">
+          <factor-btn
+            class="item"
+            btn="default"
+            @click="subscribe(subscribed ? false : true)"
+            v-if="currentUser"
+          >
             <factor-icon icon="far fa-star" />
-            <span class="text">Subscribe</span>
+            <span class="text">{{subscribed ? "Unsubscribe" : "subscribe"}}</span>
           </factor-btn>
 
           <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
@@ -97,9 +110,15 @@ import {
   onEvent
 } from "@factor/api"
 import Vue from "vue"
-import { currentUser, userCan } from "@factor/user"
+import { currentUser, userCan, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
-import { editTopic, postAction, PostActions } from "./request"
+import {
+  editTopic,
+  postAction,
+  PostActions,
+  requestIsSubscribed,
+  requestSetSubscribed
+} from "./request"
 
 export default Vue.extend({
   components: {
@@ -114,7 +133,9 @@ export default Vue.extend({
     return {
       vis: false,
       editPost: {},
-      highlight: ""
+      highlight: "",
+      subscribed: false,
+      sending: false
     }
   },
   metaInfo() {
@@ -158,6 +179,8 @@ export default Vue.extend({
         this.highlight = ""
       }, 2000)
     })
+
+    this.setSubscribed()
   },
   methods: {
     isEmpty,
@@ -165,6 +188,24 @@ export default Vue.extend({
     toLabel,
     editTopic,
     excerpt,
+    async setSubscribed(this: any) {
+      await userInitialized()
+      if (this.currentUser) {
+        this.subscribed = requestIsSubscribed({
+          postId: this.post._id,
+          userId: this.currentUser._id
+        })
+      }
+    },
+    async subscribe(this: any, subscribe = true) {
+      this.sending = true
+      this.subscribed = await requestSetSubscribed({
+        subscribe,
+        postId: this.post._id,
+        userId: this.currentUser._id
+      })
+      this.sending = false
+    },
     isParent(this: any, topicPost: FactorPost): boolean {
       return topicPost._id == this.post._id ? true : false
     },
@@ -230,6 +271,9 @@ export default Vue.extend({
 
   grid-template-columns: 1fr 300px;
   align-items: center;
+  .forum-home-link {
+    margin-bottom: 1.5rem;
+  }
   .header-sub {
     text-align: right;
     .category {
@@ -242,7 +286,6 @@ export default Vue.extend({
     }
   }
   .text {
-    padding: 2em 0;
   }
   .text-header {
     margin-bottom: 1rem;
@@ -257,14 +300,33 @@ export default Vue.extend({
       font-size: 1.4em;
       opacity: 0.7;
     }
+    .notes {
+      display: flex;
+      margin-top: 1rem;
+      .note {
+        border-radius: 7px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+
+        padding: 0.25rem 1rem;
+        margin-right: 1rem;
+        font-weight: 700;
+        background: var(--color-bg-contrast);
+        .factor-icon {
+          opacity: 0.6;
+          margin-right: 0.5rem;
+          font-size: 0.9em;
+        }
+      }
+    }
   }
 
   .meta {
     display: flex;
-
     .meta-item {
       margin-right: 1rem;
     }
+    margin-bottom: 1rem;
   }
 }
 

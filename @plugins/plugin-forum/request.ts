@@ -13,7 +13,8 @@ import {
   IndexTimeFrame,
   SortDelimiters
 } from "@factor/post/types"
-
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
+import { randomToken } from "@factor/api"
 import { setting } from "@factor/api/settings"
 import { slugify, emitEvent } from "@factor/api"
 import { navigateToRoute, currentRoute } from "@factor/app/router"
@@ -21,9 +22,9 @@ import { navigateToRoute, currentRoute } from "@factor/app/router"
 import { postType } from "."
 
 type FactorPostForumTopic = FactorPost & {
-  pinned?: boolean;
-  flagged?: boolean;
-  locked?: boolean;
+  pinned?: boolean
+  flagged?: boolean
+  locked?: boolean
 }
 
 export enum PostActions {
@@ -37,10 +38,10 @@ export enum PostActions {
   Delete = "delete"
 }
 interface RunPostAction {
-  action: PostActions;
-  value?: boolean;
-  post: FactorPost;
-  parentId: string;
+  action: PostActions
+  value?: boolean
+  post: FactorPost
+  parentId: string
 }
 
 /**
@@ -49,6 +50,7 @@ interface RunPostAction {
 export const saveTopic = async (
   post: FactorPostForumTopic
 ): Promise<FactorPostForumTopic | undefined | never> => {
+  post = { ...post, permalink: randomToken(8) }
   return await requestPostSave({ post, postType })
 }
 
@@ -190,3 +192,34 @@ export const redirectToTopic = (topicPost: FactorPostForumTopic): void => {
 export const editTopic = (topicPost: FactorPostForumTopic): void => {
   navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
 }
+
+export const sendRequest = async <T = unknown>(
+  method: string,
+  params: EndpointParameters
+): Promise<T> => {
+  const result = await endpointRequest<T>({
+    id: "forum",
+    method,
+    params
+  })
+
+  return result
+}
+
+export const requestIsSubscribed = ({
+  postId,
+  userId
+}: {
+  postId: string
+  userId: string
+}): void => {}
+
+export const requestSetSubscribed = ({
+  postId,
+  userId,
+  subscribe = true
+}: {
+  postId: string
+  userId: string
+  subscribe: boolean
+}): void => {}

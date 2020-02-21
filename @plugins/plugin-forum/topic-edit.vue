@@ -155,6 +155,7 @@ export default Vue.extend({
       this.sending = true
       try {
         const createdTopic = await saveTopic(this.post)
+
         if (createdTopic && createdTopic.permalink) {
           if (this.isNew) {
             emitEvent("notify", "New topic created")

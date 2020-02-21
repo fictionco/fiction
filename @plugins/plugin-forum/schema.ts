@@ -6,10 +6,10 @@ export default {
     create: { accessLevel: 1 }
   },
   schema: {
-    follower: [{ type: objectIdType(), ref: "user" }],
     flagged: Boolean,
     pinned: Boolean,
     locked: Boolean,
+    subscriber: [{ type: objectIdType(), ref: "user" }],
     /**
      * Override default for status
      * type is required or it errors
