@@ -5,6 +5,7 @@ import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
 import { randomToken, timeUtil, omit } from "@factor/api"
+import { FactorUser } from "@factor/user/types"
 import {
   PostActions,
   FactorPost,
@@ -18,9 +19,10 @@ import {
   UpdateManyPosts,
   PostRequestParameters,
   IndexTimeFrame,
-  SortDelimiters
+  SortDelimiters,
+  PostIndexConditions
 } from "./types"
-import { canUpdatePostsCondition, postPermission } from "./util"
+import { manyPostsPermissionCondition, postPermission } from "./util"
 import {
   getModel,
   dbInitialize,
@@ -191,7 +193,7 @@ export const updateManyById = async (
   { _ids, postType = "post", data }: UpdateManyPosts,
   { bearer }: EndpointMeta
 ): Promise<FactorPost[]> => {
-  const permissionCondition = canUpdatePostsCondition({
+  const permissionCondition = manyPostsPermissionCondition({
     bearer,
     action: PostActions.Update,
     postType
@@ -212,7 +214,7 @@ export const deleteManyById = async (
   { _ids, postType = "post" }: UpdateManyPosts,
   { bearer }: EndpointMeta
 ): Promise<void> => {
-  const permissionCondition = canUpdatePostsCondition({
+  const permissionCondition = manyPostsPermissionCondition({
     bearer,
     action: PostActions.Delete,
     postType
@@ -238,12 +240,13 @@ export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPo
 }
 
 export const postList = async (
-  params: PostIndexRequestParameters
+  params: PostIndexRequestParameters,
+  { bearer }: EndpointMeta
 ): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 
-  const { postType, conditions = {}, select = null } = params
-  let { options } = params
+  const { postType, select = null } = params
+  let { options, conditions = {} } = params
 
   options = Object.assign(
     {},
@@ -254,6 +257,15 @@ export const postList = async (
     },
     options
   )
+
+  conditions = {
+    ...conditions,
+    ...manyPostsPermissionCondition({
+      bearer,
+      action: PostActions.Retrieve,
+      postType
+    })
+  }
 
   return await getModel(postType).find(conditions, select, options)
 }
@@ -347,14 +359,15 @@ const transformIndexParameters = (
  * Gets an index of posts along with meta information like counts
  */
 export const postIndex = async (
-  params: PostIndexRequestParameters
+  params: PostIndexRequestParameters,
+  { bearer }: EndpointMeta
 ): Promise<PostIndex> => {
   if (dbIsOffline()) return { meta: {}, posts: [] }
 
   const dbParams = transformIndexParameters(params)
 
-  const { postType, conditions = {} } = dbParams
-  let { options } = dbParams
+  const { postType } = dbParams
+  let { options, conditions = {} } = dbParams
 
   options = Object.assign(
     {},
@@ -365,6 +378,15 @@ export const postIndex = async (
     },
     options
   )
+
+  conditions = {
+    ...conditions,
+    ...manyPostsPermissionCondition({
+      bearer,
+      action: PostActions.Retrieve,
+      postType
+    })
+  }
 
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),

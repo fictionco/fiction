@@ -3,7 +3,8 @@ import { PostStatus } from "@factor/post/types"
 export default {
   name: "forumTopic",
   permissions: {
-    create: { accessLevel: 1 }
+    create: { accessLevel: 1 },
+    retrieve: { accessLevel: 0 }
   },
   schema: {
     flagged: Boolean,

@@ -30,6 +30,7 @@
 import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
+import { PostStatus, SortDelimiters } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
   components: { factorLoadingRing },
@@ -87,8 +88,8 @@ export default Vue.extend({
       await requestPostIndex({
         postType: this.postType,
         tag: this.tag,
-        status: "published",
-        sort: "-date",
+        status: PostStatus.Published,
+        sort: { date: SortDelimiters.Descending },
         page: this.page,
         limit: setting("jobs.limit")
       })

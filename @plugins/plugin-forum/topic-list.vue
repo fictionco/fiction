@@ -27,8 +27,7 @@
       <div v-formatted-text="breadcrumb" class="notification" />
     </div>
     <div class="list-items">
-      <factor-loading-ring v-if="loading" />
-      <template v-else-if="posts.length > 0">
+      <template v-if="posts.length > 0">
         <div
           v-for="(post, index) in posts"
           :key="index"
@@ -117,7 +116,7 @@ export default Vue.extend({
     factorInputText
   },
   props: {
-    loading: { type: Boolean, default: false },
+    loading: { type: Boolean, default: true },
     posts: { type: Array, default: () => [] }
   },
   data() {

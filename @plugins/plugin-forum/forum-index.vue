@@ -62,17 +62,17 @@ export default Vue.extend({
   watch: {
     $route: {
       handler: function(this: any) {
+        this.loading = true
         this.getPosts()
       }
     }
   },
-  mounted() {
-    this.getPosts()
+  async mounted() {
+    await this.getPosts()
   },
   methods: {
     setting,
     async getPosts(this: any) {
-      this.loading = true
       await loadAndStoreIndex()
       this.loading = false
     }
