@@ -37,6 +37,9 @@ export const setSubscribed = async (_arguments: SubscribeUser): Promise<boolean>
   return subscribe
 }
 
+/**
+ * Email all topic subscribers about response
+ */
 export const notifySubscribers = async ({
   postId,
   userId,
@@ -50,16 +53,18 @@ export const notifySubscribers = async ({
 
   if (post && post !== null && post.subscriber && post.subscriber.length > 0) {
     const linkUrl = `${currentUrl()}${topicLink(post)}`
-    const _promises = post.subscriber.map(sub => {
-      return sendTransactionalEmailToId(sub, {
-        emailId: "forumTopicSubscribe",
-        subject: `Re: ${post.title}`,
-        text: reply.content,
-        linkText: "View Topic",
-        linkUrl,
-        textFooter: `You are receiving this email because you are subscribed to this topic.\n<a href="${linkUrl}">Unsubscribe</a>`
+    const _promises = post.subscriber
+      .filter(sub => sub != userId)
+      .map(sub => {
+        return sendTransactionalEmailToId(sub, {
+          emailId: "forumTopicSubscribe",
+          subject: `Re: ${post.title}`,
+          text: reply.content,
+          linkText: "View Topic",
+          linkUrl,
+          textFooter: `You are receiving this email because you are subscribed to this topic.\n<a href="${linkUrl}">Unsubscribe</a>`
+        })
       })
-    })
 
     await Promise.all(_promises)
   }
@@ -90,7 +95,6 @@ export const saveTopicReply = async (
     { bearer }
   )
 
-  console.log("SUB", subscribe, bearer?._id)
   if (subscribe && bearer) {
     await setSubscribed({ userId, postId, subscribe })
   }
