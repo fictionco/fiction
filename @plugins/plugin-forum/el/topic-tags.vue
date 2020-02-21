@@ -33,7 +33,7 @@ export default Vue.extend({
     border-radius: 5px;
     padding: 0 0.5rem;
     display: inline-block;
-    margin: 0 0 0.5rem 0.5rem;
+    margin: 0.25rem 0 0.25rem 0.5rem;
     background: var(--color-bg-contrast);
   }
 }

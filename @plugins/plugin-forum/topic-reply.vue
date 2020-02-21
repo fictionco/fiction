@@ -149,7 +149,7 @@ export default Vue.extend({
 
         emitEvent("highlight-post", result._id)
 
-        this.$emit("done", { subscribed: this.subscribed })
+        this.$emit("done", { subscribed: this.subscriber })
 
         this.reply = ""
       }

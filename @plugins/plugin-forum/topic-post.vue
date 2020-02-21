@@ -133,6 +133,7 @@ export default Vue.extend({
   padding: 2rem;
   border-bottom: 1px solid var(--color-border);
   position: relative;
+
   .post-content {
     min-width: 0;
   }
@@ -155,6 +156,17 @@ export default Vue.extend({
     }
     .meta-item {
       margin-right: 2rem;
+    }
+  }
+  @media (max-width: 900px) {
+    padding: 1.5rem 1rem;
+    grid-gap: 1rem;
+    grid-template-columns: 2.5rem 1fr;
+    .post-avatar .avatar {
+      width: 2.5rem;
+    }
+    .post-meta .meta-item {
+      font-size: 12px;
     }
   }
   .post-footer {
@@ -182,6 +194,12 @@ export default Vue.extend({
       }
       &:active {
         background: rgba(0, 0, 0, 0.08);
+      }
+    }
+    @media (max-width: 900px) {
+      .post-action {
+        font-size: 12px;
+        padding: 0.25em 1rem;
       }
     }
   }

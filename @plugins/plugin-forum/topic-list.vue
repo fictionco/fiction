@@ -65,7 +65,12 @@
                 <factor-icon icon="far fa-comment" />
                 <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
               </div>
-              <component :is="setting('forum.components.topicTags')" :tags="post.tag" />
+              <component
+                class="item"
+                :is="setting('forum.components.topicTags')"
+                :tags="post.tag"
+                v-if="post.tag.length > 0"
+              />
             </div>
           </div>
         </div>
@@ -207,8 +212,12 @@ export default Vue.extend({
   .list-item {
     display: grid;
     grid-template-columns: 3rem minmax(400px, 600px) minmax(100px, 150px);
-    grid-gap: 1.5rem;
+    grid-template-areas: "avatar text details";
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 0.5rem;
+
     .item-avatar {
+      grid-area: avatar;
       padding-top: 0.1rem;
       .avatar {
         width: 3rem;
@@ -235,6 +244,7 @@ export default Vue.extend({
       }
     }
     .item-text {
+      grid-area: text;
       .header {
         margin-bottom: 0.25rem;
         .title {
@@ -256,6 +266,7 @@ export default Vue.extend({
 
       .meta {
         display: flex;
+        line-height: 1.3;
         .meta-item {
           margin-right: 1rem;
           &.author {
@@ -265,17 +276,37 @@ export default Vue.extend({
       }
     }
     .item-details {
+      grid-area: details;
       text-align: right;
       display: grid;
       grid-template-columns: 1fr;
       grid-gap: 0.5rem;
-      grid-auto-rows: min-content;
-
+      .item {
+        min-width: 0;
+      }
       .number-posts {
-        font-size: 1.2em;
-        font-weight: 800;
         .text {
           margin-left: 0.25em;
+        }
+      }
+    }
+    @media (max-width: 900px) {
+      grid-template-columns: 3rem 1fr 2rem;
+      grid-template-areas: "avatar text details";
+      .item-details {
+        text-align: left;
+        grid-template-columns: 5rem 1fr;
+        .tags {
+          display: none;
+        }
+      }
+      .item-text {
+        .meta {
+          font-size: 0.85em;
+          flex-direction: column;
+          .author {
+            display: none;
+          }
         }
       }
     }

@@ -13,13 +13,6 @@
               class="item"
               :path="topicLink(post)"
             >View Topic &rarr;</factor-link>
-
-            <factor-btn
-              class="item"
-              btn="primary"
-              :loading="sending"
-              @click="submit()"
-            >{{ isNew ? "Post Topic" : "Save Changes" }} &rarr;</factor-btn>
           </div>
         </div>
       </div>
@@ -74,6 +67,14 @@
               min="1"
               :list="setting(`forum.categories`)"
             />
+          </div>
+          <div class="actions">
+            <factor-btn
+              class="item"
+              btn="primary"
+              :loading="sending"
+              @click="submit()"
+            >{{ isNew ? "Post Topic" : "Save Changes" }} &rarr;</factor-btn>
           </div>
         </factor-form>
       </div>
@@ -220,6 +221,18 @@ export default Vue.extend({
   }
   .form-area {
     grid-area: form;
+    .actions {
+      text-align: right;
+      @media (max-width: 900px) {
+        margin-top: 1rem;
+        text-align: center;
+        .factor-btn {
+          font-size: 1.2em;
+          width: 100%;
+          max-width: 400px;
+        }
+      }
+    }
   }
 
   .loading-ring-wrap {
@@ -235,6 +248,9 @@ export default Vue.extend({
     grid-template-columns: 1fr 1fr;
     .meta-item {
       margin-right: 2rem;
+    }
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
     }
   }
 }

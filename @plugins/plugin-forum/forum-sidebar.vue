@@ -4,16 +4,22 @@
       <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`">Start A Discussion</factor-link>
     </div>
     <div class="forum-nav">
-      <div v-for="(item, index) in navItems" :key="index" class="nav-item">
+      <factor-input-select
+        class="show-mobile"
+        :list="navItems"
+        :value="$route.query.category || ''"
+        @input="navigate($event)"
+      ></factor-input-select>
+      <div v-for="(item, index) in navItems" :key="index" class="nav-item show-desktop">
         <factor-link
           class="menu-item-link"
           :path="setting(`forum.indexRoute`)"
-          :query="{category: item.home ? null : item.id}"
+          :query="{category: item.home ? null : item.value}"
         >
           <div class="item-icon">
-            <nav-icon class="nav-icon" :icon="item.id" />
+            <nav-icon class="nav-icon" :icon="item.value" />
           </div>
-          <div class="item-text">{{ toLabel(item.text || item.id) }}</div>
+          <div class="item-text">{{ toLabel(item.name || item.value) }}</div>
         </factor-link>
         <div v-if="item == 2" class="sub-menu">
           <div class="sub-menu-links">
@@ -28,44 +34,65 @@
 <script lang="ts">
 import { toLabel } from "@factor/api/utils"
 import { setting } from "@factor/api/settings"
-import { factorLink } from "@factor/ui"
+import { factorLink, factorInputSelect } from "@factor/ui"
 import Vue from "vue"
 
+interface NavItem {
+  value: string
+  name?: string
+  path?: string
+  home?: boolean
+}
 export default Vue.extend({
-  components: { factorLink, navIcon: () => import("./el/nav-icon.vue") },
+  components: {
+    factorLink,
+    navIcon: () => import("./el/nav-icon.vue"),
+    factorInputSelect
+  },
   data() {
     return {
+      selectNav: "",
       navItems: [
         {
-          text: "All Discussions",
-          id: "discussion",
+          name: "All Discussions",
+          value: "",
           path: setting("forum.indexRoute"),
           home: true
         },
         {
-          id: "support"
+          value: "support"
         },
         {
-          id: "plugin"
+          value: "plugin"
         },
         {
-          id: "themes"
+          value: "themes"
         },
         {
-          id: "feedback"
+          value: "feedback"
         },
         {
-          id: "performance"
+          value: "performance"
         },
         {
-          id: "integrations"
+          value: "integrations"
         }
-      ]
+      ] as NavItem[]
     }
   },
+  computed: {},
   methods: {
     setting,
-    toLabel
+    toLabel,
+    navigate(this: any, category: string | null) {
+      const path = setting(`forum.indexRoute`)
+      let query = { ...this.$route.query, category }
+
+      // remove category from url if no val
+      if (!category) delete query.category
+
+      this.$router.push({ path, query })
+    }
   }
 })
 </script>
@@ -82,6 +109,22 @@ export default Vue.extend({
 
   .forum-nav {
     margin: 2rem 0;
+    @media (max-width: 900px) {
+      margin: 1rem 0;
+    }
+    .show-mobile {
+      display: none;
+      @media (max-width: 900px) {
+        display: block;
+      }
+    }
+
+    .show-desktop {
+      display: block;
+      @media (max-width: 900px) {
+        display: none;
+      }
+    }
   }
   .nav-item {
     letter-spacing: -0.02em;

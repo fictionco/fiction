@@ -85,7 +85,11 @@ export default Vue.extend({
   .index-layout {
     display: grid;
     grid-template-columns: minmax(225px, 250px) 1fr;
-    grid-gap: 2rem;
+    grid-gap: 1rem 2rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
   }
   .forum-content {
     .loading-ring-wrap {

@@ -294,7 +294,9 @@ export default Vue.extend({
   border-bottom: 1px solid var(--color-border);
 
   grid-template-columns: 1fr 300px;
+
   align-items: center;
+
   .forum-home-link {
     margin-bottom: 1.5rem;
   }
@@ -308,8 +310,6 @@ export default Vue.extend({
       background: var(--color-bg-contrast);
       margin: 0.5rem;
     }
-  }
-  .text {
   }
   .text-header {
     margin-bottom: 1rem;
@@ -352,17 +352,35 @@ export default Vue.extend({
     }
     margin-bottom: 1rem;
   }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    .header-main {
+      .meta {
+        display: none;
+      }
+    }
+    .header-sub {
+      text-align: left;
+    }
+    .text-header {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .content-area {
   display: grid;
   grid-template-columns: 2fr 200px;
-  grid-gap: 4rem;
+  grid-template-areas: "topic-content topic-sidebar";
+  grid-gap: 1rem 4rem;
   position: relative;
+
   .loading-ring-wrap {
     padding: 3em 0;
   }
   .topic-sidebar {
+    grid-area: topic-sidebar;
     margin-top: 2rem;
     position: sticky;
     top: 200px;
@@ -384,9 +402,17 @@ export default Vue.extend({
       width: 100%;
     }
   }
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-template-areas: "topic-sidebar" "topic-content";
+    .topic-sidebar {
+      padding-bottom: 0;
+    }
+  }
 }
 .topic-content {
   min-width: 0;
+  grid-area: topic-content;
   .tpost {
     transition: all 0.3s;
     background: transparent;
@@ -403,6 +429,11 @@ export default Vue.extend({
     grid-template-areas: ". reply";
     .reply-area {
       grid-area: reply;
+      min-width: 0;
+    }
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      grid-template-areas: "reply";
     }
   }
 }

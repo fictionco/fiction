@@ -1,7 +1,7 @@
 <template>
   <div class="content-layout">
-    <header-primary class="show-desktop" />
-    <header-mobile class="show-mobile" />
+    <header-primary class="nav-show-desktop" />
+    <header-mobile class="nav-show-mobile" />
     <div class="content-main">
       <div class="content-main-content">
         <router-view />
@@ -34,14 +34,14 @@ export default Vue.extend({
   flex-direction: column;
   min-height: 100vh;
 
-  .show-mobile {
+  .nav-show-mobile {
     display: none;
     @media (max-width: 900px) {
       display: block;
     }
   }
 
-  .show-desktop {
+  .nav-show-desktop {
     display: block;
     @media (max-width: 900px) {
       display: none;
