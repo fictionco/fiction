@@ -1,10 +1,10 @@
 <template>
   <section id="portfolio" class="page-container portfolio-container">
     <div class="header">
-      <h2 class="pretitle">{{ setting('portfolio.pretitle') }}</h2>
-      <h1 class="title">{{ setting('portfolio.title') }}</h1>
+      <h2 class="pretitle text-gray-600">{{ setting('portfolio.pretitle') }}</h2>
+      <h1 class="title text-gray-100">{{ setting('portfolio.title') }}</h1>
     </div>
-    <div class="content">
+    <div class="content bg-white">
       <portfolio-index />
 
       <div class="clients-wrap">
@@ -44,7 +44,6 @@ export default Vue.extend({
     }
 
     .pretitle {
-      color: var(--color-text-gray);
       font-size: 1.4em;
       text-align: center;
       @media (max-width: 900px) {
@@ -56,7 +55,6 @@ export default Vue.extend({
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text-light);
       text-align: center;
       max-width: 800px;
       margin: 0 auto 1rem;
@@ -67,23 +65,9 @@ export default Vue.extend({
   }
 
   .content {
-    background: var(--color-white);
     padding: 0 4em 4em;
     @media (max-width: 900px) {
       padding: 0 2em 3em;
-    }
-
-    .posts-wrap {
-      margin-top: -4em;
-      .portfolio-posts {
-        display: grid;
-        grid-gap: 10px;
-        grid-template-columns: 1fr 1fr;
-
-        @media (max-width: 900px) {
-          grid-template-columns: 1fr;
-        }
-      }
     }
   }
 
@@ -104,12 +88,11 @@ export default Vue.extend({
     }
     .clients {
       display: grid;
-      grid-gap: 3em;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       align-items: center;
 
       @media (max-width: 900px) {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
       .logo img {
         width: 100%;

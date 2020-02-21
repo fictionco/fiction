@@ -1,7 +1,7 @@
 <template>
   <div class="portfolio-wrap">
     <router-view />
-    <div class="cta">
+    <div class="cta text-white">
       <div class="cta-inner">
         <h2>{{ setting("portfolio.cta.headline") }}</h2>
         <factor-link btn="secondary" size="large" :path="setting('portfolio.cta.path')">
@@ -29,7 +29,6 @@ export default Vue.extend({
   text-align: center;
   position: relative;
   background: var(--color-primary);
-  color: var(--color-white);
   .cta-inner {
     max-width: 650px;
     margin: 0 auto;

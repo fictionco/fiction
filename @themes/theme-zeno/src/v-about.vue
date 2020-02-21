@@ -79,7 +79,7 @@
           <section
             v-for="(member, index) in aboutTeamMembers"
             :key="index"
-            class="flex rounded mb-12 p-8 bg-gray-100 md:flex-row"
+            class="flex flex-col rounded mb-12 p-8 bg-gray-100 md:flex-row"
           >
             <div class="w-full md:w-2/5">
               <img
@@ -186,14 +186,14 @@ export default Vue.extend({
     return {
       loading: true,
       active: false,
-      aboutHero: setting('about.hero'),
-      aboutHeroPretitle: setting('about.hero.pretitle'),
-      aboutHeroTitle: setting('about.hero.title'),
-      aboutHeroContent: setting('about.hero.content'),
-      aboutTeamPretitle: setting('about.team.pretitle'),
-      aboutTeamTitle: setting('about.team.title'),
-      aboutTeamLayout: setting('about.team.layout'),
-      aboutTeamMembers: setting('about.team.members')
+      aboutHero: setting("about.hero"),
+      aboutHeroPretitle: setting("about.hero.pretitle"),
+      aboutHeroTitle: setting("about.hero.title"),
+      aboutHeroContent: setting("about.hero.content"),
+      aboutTeamPretitle: setting("about.team.pretitle"),
+      aboutTeamTitle: setting("about.team.title"),
+      aboutTeamLayout: setting("about.team.layout"),
+      aboutTeamMembers: setting("about.team.members")
     }
   },
   methods: {

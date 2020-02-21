@@ -1,11 +1,11 @@
 <template>
   <section id="intro" class="page-container intro-container">
     <div class="splash-content">
-      <h2 class="pretitle">{{ setting("intro.pretitle") }}</h2>
-      <h1 class="title">{{ setting("intro.title") }}</h1>
+      <h2 v-if="introPretitle" v-formatted-text="introPretitle" class="pretitle text-gray-600" />
+      <h1 v-if="introTitle" v-formatted-text="introTitle" class="title text-gray-100" />
       <div class="actions">
         <factor-link
-          v-for="(action, i) in setting('intro.actions')"
+          v-for="(action, i) in introActions"
           :key="i"
           :path="action.path"
           :btn="action.btn"
@@ -28,7 +28,10 @@ export default Vue.extend({
   components: { factorLink, factorIcon },
   data() {
     return {
-      loading: true
+      loading: true,
+      introPretitle: setting("intro.pretitle"),
+      introTitle: setting("intro.title"),
+      introActions: setting("intro.actions")
     }
   },
   methods: { setting }
@@ -52,7 +55,6 @@ export default Vue.extend({
     max-width: 650px;
 
     .pretitle {
-      color: var(--color-text-gray);
       font-size: 1.4rem;
       @media (max-width: 900px) {
         font-size: 1.2rem;
@@ -63,7 +65,6 @@ export default Vue.extend({
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      color: var(--color-text-light);
       @media (max-width: 900px) {
         font-size: 2.2rem;
       }

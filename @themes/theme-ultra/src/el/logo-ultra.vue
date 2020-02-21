@@ -45,7 +45,7 @@ export default Vue.extend({
     }
   }
   .letters {
-    fill: var(--color-white);
+    fill: #fff;
   }
 }
 </style>

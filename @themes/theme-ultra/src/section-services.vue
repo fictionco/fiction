@@ -1,12 +1,21 @@
 <template>
   <section id="services" class="page-container services-container">
-    <h2 class="pretitle">{{ setting('services.pretitle') }}</h2>
-    <h1 class="title">{{ setting('services.title') }}</h1>
+    <h2 v-if="servicesPretitle" v-formatted-text="servicesPretitle" class="pretitle text-gray-100" />
+    <h1 v-if="servicesTitle" v-formatted-text="servicesTitle" class="title text-gray-100" />
     <div class="content">
-      <div v-for="(service, i) in setting('services.items')" :key="i" class="services-item">
-        <services-icon class="icon" :icon="service.icon" :title="service.title" />
-        <h4>{{ service.title }}</h4>
-        <p>{{ service.text }}</p>
+      <div
+        v-for="(service, i) in servicesItems"
+        :key="i"
+        class="services-item text-gray-100 bg-red-600 rounded-lg hover:bg-gray-100"
+      >
+        <services-icon
+          v-if="service.icon"
+          class="icon"
+          :icon="service.icon"
+          :title="service.title"
+        />
+        <h4 v-if="service.title">{{ service.title }}</h4>
+        <p v-if="service.text">{{ service.text }}</p>
       </div>
     </div>
   </section>
@@ -20,6 +29,14 @@ export default Vue.extend({
   components: {
     "services-icon": () => import("./el/icon-services.vue")
   },
+  data() {
+    return {
+      loading: true,
+      servicesPretitle: setting("services.pretitle"),
+      servicesTitle: setting("services.title"),
+      servicesItems: setting("services.items")
+    }
+  },
   methods: { setting }
 })
 </script>
@@ -29,7 +46,6 @@ export default Vue.extend({
   background: var(--color-primary) url(./img/circles-bg.svg) top center no-repeat;
 
   .pretitle {
-    color: var(--color-text-light);
     font-size: 1.4em;
     text-align: center;
     @media (max-width: 900px) {
@@ -42,7 +58,6 @@ export default Vue.extend({
     letter-spacing: -0.03em;
     line-height: 1.1;
     text-align: center;
-    color: var(--color-text-light);
     max-width: 800px;
     margin: 0 auto 1rem;
     @media (max-width: 900px) {
@@ -62,13 +77,9 @@ export default Vue.extend({
   .services-item {
     height: 100%;
     padding: 2rem;
-    background-color: var(--color-primary-dark);
-    border-radius: var(--border-radius);
-    color: var(--color-text-light);
     transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &:hover {
-      background: var(--color-text-light);
       color: var(--color-text);
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);

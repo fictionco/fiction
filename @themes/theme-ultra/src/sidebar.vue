@@ -1,14 +1,14 @@
 <template>
   <div class="sidebar-container">
-    <div class="sidebar-title-container">
+    <div class="sidebar-brand-wrap">
       <site-brand class="site-brand" />
     </div>
     <nav>
-      <template v-for="(item, index) in setting('site.nav')">
+      <template v-for="(item, index) in siteNav">
         <factor-link
           :key="index"
           :path="item.path"
-          class="nav-link"
+          class="nav-link text-gray-600 hover:text-gray-100"
           :class="[item.target, { 'nav-link-active': selected === item.path }]"
           @click="sidebarPath(item.path)"
         >
@@ -17,7 +17,7 @@
       </template>
     </nav>
 
-    <div v-formatted-text="setting('site.copyright') + currentyear()" class="copyright" />
+    <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" class="copyright" />
   </div>
 </template>
 
@@ -33,8 +33,10 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
-      options: setting("site.nav"),
-      selected: ""
+      //options: setting("site.nav"),
+      selected: "",
+      siteNav: setting("site.nav"),
+      siteCopyright: setting("site.copyright")
     }
   },
   mounted: function() {
@@ -42,7 +44,7 @@ export default Vue.extend({
      * Make sure intersection observer is available
      */
     if (IntersectionObserver) {
-      for (const ele of this.options) {
+      for (const ele of this.siteNav) {
         const observer = new IntersectionObserver(
           entries => {
             if (entries[0].isIntersecting) {
@@ -109,18 +111,14 @@ export default Vue.extend({
     padding: 0 2em;
 
     .nav-link {
-      color: var(--color-text-gray);
       font-size: 1.4em;
       line-height: 1.2;
       text-decoration: none;
       min-height: 30px;
 
-      &:hover {
-        color: var(--color-text-light);
-      }
       &.nav-link-active {
-        color: var(--color-text-light);
         font-weight: var(--font-weight-semibold);
+        color: #f6f6f6;
         span {
           position: relative;
           &:after {

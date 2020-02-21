@@ -21,7 +21,10 @@
         />
       </svg>
 
-      <h1 class="entry-title">{{ post.title }}</h1>
+      <div class="text-gray-100">
+        <h1 v-if="post.title" v-formatted-text="post.title" class="entry-title" />
+        <p v-if="post.synopsis" v-formatted-text="post.synopsis" class="synopsis" />
+      </div>
     </div>
   </factor-link>
 
@@ -67,7 +70,7 @@ export default Vue.extend({
     display: block;
     position: relative;
     line-height: 0.8;
-    overflow: hidden;
+    //overflow: hidden;
     &:hover .header-content {
       opacity: 1;
       transform: translateY(0);
@@ -99,7 +102,6 @@ export default Vue.extend({
         }
       }
       .entry-title {
-        color: var(--color-text-light);
         font-size: 1.4rem;
         font-weight: var(--font-weight-semibold);
         letter-spacing: -0.03em;

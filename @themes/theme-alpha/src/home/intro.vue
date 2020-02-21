@@ -49,19 +49,6 @@ export default Vue.extend({
   color: #fff;
   position: relative;
 
-  &:before {
-    position: absolute;
-    z-index: 1;
-    content: "";
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
-    clip-path: polygon(0 0, 0 100%, 100% 100%);
-    -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%);
-    top: 0;
-    left: 0;
-  }
-
   .intro-inner {
     display: flex;
     flex-direction: column;

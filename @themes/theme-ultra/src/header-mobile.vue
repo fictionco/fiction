@@ -2,7 +2,7 @@
   <div class="mobile-head">
     <div class="mobile-bar" @click.stop>
       <site-brand class="mobile-brand" />
-      <div class="mobile-toggle" @click="toggleNav()">
+      <div class="mobile-toggle text-gray-100" @click="toggleNav()">
         <div>Menu</div>
         <div class="bars">
           <div class="bar" />
@@ -15,7 +15,7 @@
       <div v-if="toggle" class="mobile-sidebar">
         <div class="mobile-sidebar-canvas">
           <div class="closer" @click="toggleNav(false)">
-            <factor-icon icon="fas fa-remove" />
+            <factor-icon icon="fa fa-times hover:text-gray-100" />
           </div>
           <page-sidebar />
         </div>
@@ -147,7 +147,6 @@ export default Vue.extend({
       z-index: 50;
       &:hover {
         opacity: 1;
-        color: var(--color-text-light);
       }
     }
   }
@@ -158,7 +157,6 @@ export default Vue.extend({
     margin: 0.5rem 1rem;
     display: flex;
     align-items: center;
-    color: var(--color-text-light);
     font-weight: var(--font-weight-semibold);
     font-size: 1.2rem;
     letter-spacing: -0.03em;
@@ -176,7 +174,7 @@ export default Vue.extend({
       }
     }
     &:hover .bar {
-      background-color: var(--color-text-light);
+      background-color: #f6f6f6;
     }
   }
 }

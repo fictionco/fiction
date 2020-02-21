@@ -46,7 +46,7 @@ export default Vue.extend({
     text-decoration: none;
     border-radius: 3px;
     &:hover {
-      color: var(--color-white);
+      color: #fff;
       opacity: 1;
       background: var(--color-primary-dark);
     }
