@@ -3,7 +3,9 @@
     <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
+        <factor-loading-ring v-if="loading"></factor-loading-ring>
         <component
+          v-else
           :is="setting('forum.components.topicList')"
           :posts="indexPosts"
           :loading="loading"
@@ -14,11 +16,14 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-
+import { factorLoadingRing } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreIndex } from "./request"
 import { postType } from "."
 export default Vue.extend({
+  components: {
+    factorLoadingRing
+  },
   data() {
     return {
       loading: false
@@ -67,7 +72,9 @@ export default Vue.extend({
   methods: {
     setting,
     async getPosts(this: any) {
+      this.loading = true
       await loadAndStoreIndex()
+      this.loading = false
     }
   }
 })
@@ -79,6 +86,11 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: minmax(225px, 250px) 1fr;
     grid-gap: 2rem;
+  }
+  .forum-content {
+    .loading-ring-wrap {
+      padding: 3rem;
+    }
   }
 }
 </style>

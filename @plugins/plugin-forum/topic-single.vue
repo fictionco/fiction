@@ -55,7 +55,8 @@
         />
       </div>
       <div class="topic-sidebar-wrap">
-        <div class="topic-sidebar">
+        <factor-loading-ring v-if="loading"></factor-loading-ring>
+        <div class="topic-sidebar" v-else>
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
@@ -194,7 +195,8 @@ export default Vue.extend({
       }, 2000)
     })
 
-    await this.setSubscribed()
+    await Promise.all([userInitialized(), this.setSubscribed()])
+
     this.loading = false
   },
   methods: {
@@ -357,6 +359,9 @@ export default Vue.extend({
   grid-template-columns: 2fr 200px;
   grid-gap: 4rem;
   position: relative;
+  .loading-ring-wrap {
+    padding: 3em 0;
+  }
   .topic-sidebar {
     margin-top: 2rem;
     position: sticky;

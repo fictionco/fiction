@@ -49,7 +49,7 @@ export const notifySubscribers = async ({
   const post = await getModel<ForumTopicFactorPost>(postType).findOne({ _id: postId })
 
   if (post && post !== null && post.subscriber && post.subscriber.length > 0) {
-    const linkUrl = `${currentUrl()}/${topicLink(post)}`
+    const linkUrl = `${currentUrl()}${topicLink(post)}`
     const _promises = post.subscriber.map(sub => {
       return sendTransactionalEmailToId(sub, {
         emailId: "forumTopicSubscribe",

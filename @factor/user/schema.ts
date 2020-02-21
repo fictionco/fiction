@@ -69,7 +69,7 @@ export default (): FactorSchema => {
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        default: (): string => randomToken(8)
+        default: (): string => `user-${randomToken(8)}`
       },
       email: {
         type: String,

@@ -8,7 +8,11 @@
         <div class="author meta-item">{{ author.username }}</div>
         <div class="time meta-item">{{ timeAgo(post.createdAt) }}</div>
 
-        <factor-menu v-if="actions.length > 0" :list="actions" @action="handleAction($event)" />
+        <factor-menu
+          v-if="!loading && actions.length > 0"
+          :list="actions"
+          @action="handleAction($event)"
+        />
       </div>
       <div class="post-text">
         <div v-formatted-text="rendered" />
@@ -32,7 +36,7 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { factorAvatar, factorMenu } from "@factor/ui"
 import { isEmpty, setting, stored, storeItem, toLabel } from "@factor/api"
 import { timeAgo } from "@factor/api/time"
-import { currentUser, userCan } from "@factor/user"
+import { currentUser, userCan, userInitialized } from "@factor/user"
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
 import { PostActions } from "./request"
@@ -45,6 +49,7 @@ export default Vue.extend({
 
   data() {
     return {
+      loading: true,
       running: false
     }
   },
@@ -84,6 +89,10 @@ export default Vue.extend({
 
       return actions
     }
+  },
+  async mounted() {
+    await userInitialized()
+    this.loading = false
   },
 
   methods: {

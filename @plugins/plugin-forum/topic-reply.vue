@@ -1,8 +1,8 @@
 <template>
   <div class="topic-reply">
-    <div class="reply-area">
-      <factor-loading-ring v-if="loading"></factor-loading-ring>
-      <div v-else-if="post.locked" class="no-dice">
+    <factor-loading-ring v-if="loading"></factor-loading-ring>
+    <div class="reply-area" v-else>
+      <div v-if="post.locked" class="no-dice">
         <div class="title">This topic is locked.</div>
       </div>
       <div v-else-if="!currentUser" class="no-dice">

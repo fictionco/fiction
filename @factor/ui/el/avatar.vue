@@ -7,7 +7,7 @@
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
-    <div v-else-if="!hasImage && !server" :style="getStyle()" class="thumb thumb-default">
+    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
         version="1.1"

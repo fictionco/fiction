@@ -38,7 +38,7 @@
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
               <div class="avatar-area">
-                <factor-avatar :post-id="author(post).avatar" />
+                <factor-avatar :post-id="author(post, 'avatar')" />
                 <div v-if="post.pinned" class="tag-bubble">
                   <factor-icon icon="fas fa-thumbtack" />
                 </div>
@@ -56,7 +56,7 @@
               </div>
 
               <div class="meta">
-                <div class="author meta-item">{{ author(post).username }}</div>
+                <div class="author meta-item">{{ author(post, 'username') }}</div>
                 <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
               </div>
             </div>
@@ -138,8 +138,10 @@ export default Vue.extend({
     setting,
     topicLink,
     excerpt,
-    author(this: any, post: FactorPost) {
-      return post.author && post.author.length > 0 ? stored(post.author[0]) : {}
+    author(this: any, post: FactorPost, field: string) {
+      const authorId = post.author && post.author.length > 0 ? post.author[0] : ""
+      const author = authorId ? stored(authorId) : {}
+      return author && author[field] ? author[field] : undefined
     },
     setQuery(
       this: any,

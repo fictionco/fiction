@@ -12,8 +12,8 @@
         <github-stars />
       </div>
       <div class="head-nav action-nav">
-        <account-menu v-if="isLoggedIn()" />
-        <factor-link v-else event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
+        <account-menu v-if="!userLoading && isLoggedIn()" />
+        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"
@@ -27,7 +27,7 @@
 import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
-import { isLoggedIn } from "@factor/user"
+import { isLoggedIn, userInitialized } from "@factor/user"
 import { accountMenu } from "@factor/plugin-standard-signin"
 export default Vue.extend({
   components: {
@@ -38,6 +38,8 @@ export default Vue.extend({
   },
   data() {
     return {
+      userLoading: true,
+      user: false,
       navConfig: setting("site.nav"),
       pageNav: [
         { path: "/guide", name: "Documentation" },
@@ -59,7 +61,12 @@ export default Vue.extend({
       return this.navConfig.filter(item => !item.condition || item.condition())
     }
   },
-  methods: { isLoggedIn }
+  methods: { isLoggedIn },
+  async mounted() {
+    await userInitialized()
+
+    this.userLoading = false
+  }
 })
 </script>
 <style lang="less">
