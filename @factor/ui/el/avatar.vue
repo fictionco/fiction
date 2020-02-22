@@ -1,15 +1,14 @@
 <template>
   <div class="avatar">
-    <factor-loading-ring v-if="server || loading" :width="width" />
+    <factor-loading-ring v-if="init" :width="width" />
 
     <div
       v-else-if="hasImage"
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
-    <div v-else :style="getStyle()" class="thumb thumb-default">
+    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
       <svg
-        v-if="!hasImage"
         class="user-blank"
         version="1.1"
         x="0px"
@@ -30,6 +29,7 @@
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"
+import { userInitialized } from "@factor/user"
 import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
@@ -41,7 +41,9 @@ export default Vue.extend({
     loading: { type: Boolean, default: false }
   },
   data() {
-    return { server: true }
+    return {
+      init: true
+    }
   },
   computed: {
     hasImage(this: any) {
@@ -61,11 +63,14 @@ export default Vue.extend({
       }
     }
   },
-  mounted() {
+  async mounted() {
+    await userInitialized()
+
     /**
      * SSR struggles with SVGs
      */
-    this.server = false
+
+    this.init = false
   },
 
   methods: {

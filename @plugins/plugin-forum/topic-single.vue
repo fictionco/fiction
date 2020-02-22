@@ -2,14 +2,22 @@
   <div class="topic-single">
     <div class="topic-header">
       <div class="header-main">
-        <component :is="setting('forum.components.navBack')" />
+        <component :is="setting('forum.components.navBack')" class="forum-home-link" />
 
         <div class="text">
           <div class="text-header">
             <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
-            <h1 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h1>
+            <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h2>
+            <div v-if="post.pinned || post.locked" class="notes">
+              <div v-if="post.locked" class="note locked">
+                <factor-icon icon="fas fa-lock" />Locked
+              </div>
+              <div v-if="post.pinned" class="note locked">
+                <factor-icon icon="fas fa-thumbtack" />Pinned
+              </div>
+            </div>
           </div>
-          <div class="meta">
+          <div v-if="post.tag && post.tag.length > 0" class="meta">
             <component
               :is="setting('forum.components.topicTags')"
               class="meta-item"
@@ -39,11 +47,16 @@
             />
           </factor-highlight-code>
         </div>
-
-        <component :is="setting('forum.components.topicReply')" :post-id="post._id" />
+        <component
+          :is="setting('forum.components.topicReply')"
+          :post-id="post._id"
+          :show-subscriber="!subscribed ? true : false"
+          @done="handleNewReply($event)"
+        />
       </div>
       <div class="topic-sidebar-wrap">
-        <div class="topic-sidebar">
+        <factor-loading-ring v-if="loading" />
+        <div v-else class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
@@ -55,9 +68,15 @@
             @click="focusReply()"
           >Add Reply &darr;</factor-btn>
           <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
-          <factor-btn class="item" btn="default">
+          <factor-btn
+            v-if="currentUser"
+            class="item"
+            btn="default"
+            :loading="sending"
+            @click="subscribe(subscribed ? false : true)"
+          >
             <factor-icon icon="far fa-star" />
-            <span class="text">Subscribe</span>
+            <span class="text normal">{{ subscribed ? "Subscribed" : "Subscribe" }}</span>
           </factor-btn>
 
           <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
@@ -83,7 +102,14 @@
 import { excerpt } from "@factor/api/excerpt"
 import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-import { factorAvatar, factorBtn, factorIcon, factorModal, factorLink } from "@factor/ui"
+import {
+  factorLoadingRing,
+  factorAvatar,
+  factorBtn,
+  factorIcon,
+  factorModal,
+  factorLink
+} from "@factor/ui"
 import {
   isEmpty,
   setting,
@@ -97,9 +123,15 @@ import {
   onEvent
 } from "@factor/api"
 import Vue from "vue"
-import { currentUser, userCan } from "@factor/user"
+import { currentUser, userCan, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
-import { editTopic, postAction, PostActions } from "./request"
+import {
+  editTopic,
+  postAction,
+  PostActions,
+  requestIsSubscribed,
+  requestSetSubscribed
+} from "./request"
 
 export default Vue.extend({
   components: {
@@ -108,13 +140,17 @@ export default Vue.extend({
     factorHighlightCode,
     factorIcon,
     factorModal,
-    factorLink
+    factorLink,
+    factorLoadingRing
   },
   data() {
     return {
       vis: false,
       editPost: {},
-      highlight: ""
+      highlight: "",
+      subscribed: false,
+      sending: false,
+      loading: true
     }
   },
   metaInfo() {
@@ -151,13 +187,17 @@ export default Vue.extend({
       return renderMarkdown(this.post.content)
     }
   },
-  mounted() {
+  async mounted() {
     onEvent("highlight-post", (_id: string) => {
       this.highlight = _id
       setTimeout(() => {
         this.highlight = ""
       }, 2000)
     })
+
+    await Promise.all([userInitialized(), this.setSubscribed()])
+
+    this.loading = false
   },
   methods: {
     isEmpty,
@@ -165,6 +205,25 @@ export default Vue.extend({
     toLabel,
     editTopic,
     excerpt,
+    async setSubscribed(this: any) {
+      await userInitialized()
+      if (this.currentUser) {
+        this.subscribed = await requestIsSubscribed({
+          postId: this.post._id,
+          userId: this.currentUser._id
+        })
+      }
+    },
+    async subscribe(this: any, subscribe = true) {
+      this.sending = true
+      this.subscribed = await requestSetSubscribed({
+        subscribe,
+        postId: this.post._id,
+        userId: this.currentUser._id
+      })
+
+      this.sending = false
+    },
     isParent(this: any, topicPost: FactorPost): boolean {
       return topicPost._id == this.post._id ? true : false
     },
@@ -213,6 +272,12 @@ export default Vue.extend({
 
           this.post.embeddedCount = this.post.embeddedCount - 1
         }
+    },
+    handleNewReply(this: any, emitted: { subscribed?: boolean }) {
+      const { subscribed } = emitted
+      if (typeof subscribed != "undefined") {
+        this.subscribed = subscribed
+      }
     }
   }
 })
@@ -229,7 +294,12 @@ export default Vue.extend({
   border-bottom: 1px solid var(--color-border);
 
   grid-template-columns: 1fr 300px;
+
   align-items: center;
+
+  .forum-home-link {
+    margin-bottom: 1.5rem;
+  }
   .header-sub {
     text-align: right;
     .category {
@@ -240,9 +310,6 @@ export default Vue.extend({
       background: var(--color-bg-contrast);
       margin: 0.5rem;
     }
-  }
-  .text {
-    padding: 2em 0;
   }
   .text-header {
     margin-bottom: 1rem;
@@ -257,13 +324,47 @@ export default Vue.extend({
       font-size: 1.4em;
       opacity: 0.7;
     }
+    .notes {
+      display: flex;
+      margin-top: 1rem;
+      .note {
+        border-radius: 7px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+
+        padding: 0.25rem 1rem;
+        margin-right: 1rem;
+        font-weight: 700;
+        background: var(--color-bg-contrast);
+        .factor-icon {
+          opacity: 0.6;
+          margin-right: 0.5rem;
+          font-size: 0.9em;
+        }
+      }
+    }
   }
 
   .meta {
     display: flex;
-
     .meta-item {
       margin-right: 1rem;
+    }
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    .header-main {
+      .meta {
+        display: none;
+      }
+    }
+    .header-sub {
+      text-align: left;
+    }
+    .text-header {
+      margin-bottom: 0;
     }
   }
 }
@@ -271,9 +372,15 @@ export default Vue.extend({
 .content-area {
   display: grid;
   grid-template-columns: 2fr 200px;
-  grid-gap: 4rem;
+  grid-template-areas: "topic-content topic-sidebar";
+  grid-gap: 1rem 4rem;
   position: relative;
+
+  .loading-ring-wrap {
+    padding: 3em 0;
+  }
   .topic-sidebar {
+    grid-area: topic-sidebar;
     margin-top: 2rem;
     position: sticky;
     top: 200px;
@@ -295,9 +402,17 @@ export default Vue.extend({
       width: 100%;
     }
   }
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-template-areas: "topic-sidebar" "topic-content";
+    .topic-sidebar {
+      padding-bottom: 0;
+    }
+  }
 }
 .topic-content {
   min-width: 0;
+  grid-area: topic-content;
   .tpost {
     transition: all 0.3s;
     background: transparent;
@@ -312,8 +427,15 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: 5rem 1fr;
     grid-template-areas: ". reply";
+
+    .loading-ring-wrap,
     .reply-area {
       grid-area: reply;
+      min-width: 0;
+    }
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      grid-template-areas: "reply";
     }
   }
 }

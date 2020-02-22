@@ -11,6 +11,7 @@ import log from "@factor/api/logger"
 import { onEvent, emitEvent } from "@factor/api/events"
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { FactorPost } from "@factor/post/types"
+import { waitFor, getPostTypeConfig } from "@factor/api"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
 import { setUser } from "./util"
@@ -23,7 +24,6 @@ import {
 } from "./types"
 import "./hooks-universal"
 import "./edit-account"
-
 import { userToken, handleTokenError } from "./token"
 
 export const postType = "user"
@@ -35,13 +35,23 @@ export const currentUser = (): CurrentUserState => {
 }
 
 /**
+ * Return just the userId
+ */
+export const currentUserId = (): string => {
+  const user = currentUser()
+  return user?._id ?? ""
+}
+
+/**
  * Utility function that calls a callback when the user is set initially
  * If due to route change then initialized var is set and its called immediately
  *
  * @param callback - Called after user is initialized with value of user
  */
 export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
-  const user = await Vue.$initializedUser
+  // this function needs to take at least 50ms, for consistency in rendering
+  // If user is logged out, this function happens too fast and can cause hydration issues
+  const [user] = await Promise.all([Vue.$initializedUser, waitFor(50)])
 
   if (callback) callback(user)
 
@@ -91,6 +101,8 @@ const requestInitializeUser = async (): Promise<CurrentUserState> => {
   const resolvedUser = await loadUser()
 
   await runCallbacks("before-user-init", resolvedUser)
+
+  Vue.$userIsInitialized = true
 
   return resolvedUser
 }
@@ -207,8 +219,26 @@ const handleAuthRouting = (): void => {
         return _r.meta.auth
       })
 
-      if (auth === true && !user) {
+      const userAccessLevel = user?.accessLevel ?? 0
+      let accessLevel = 0
+      to.matched.forEach(({ meta }) => {
+        if (meta.accessLevel && meta.accessLevel > accessLevel) {
+          accessLevel = meta.accessLevel
+        }
+      })
+
+      if (to.path.includes("dashboard") && to.params.postType) {
+        const ptAccess = getPostTypeConfig(to.params.postType)?.accessLevel ?? 0
+
+        if (ptAccess > accessLevel) accessLevel = ptAccess
+      }
+
+      if ((auth === true || accessLevel > 0) && !user) {
         emitEvent("sign-in-modal", { redirect: toPath })
+        return false
+      } else if (accessLevel > userAccessLevel) {
+        navigateToRoute({ path: "/" })
+        emitEvent("error", "403: Permissions needed")
         return false
       } else {
         return true
@@ -216,15 +246,38 @@ const handleAuthRouting = (): void => {
     }
   })
 
+  /**
+   * Handle auth redirects and protection on initial page load
+   */
   addCallback({
     key: "authRouting",
     hook: "before-user-init",
     callback: (user: CurrentUserState) => {
-      const { path, matched } = currentRoute()
-      const auth = matched.some(_r => _r.meta.auth)
+      const { path, matched, params } = currentRoute()
 
-      if (auth === true && (!user || !user._id)) {
+      const auth = matched.some(_r => _r.meta.auth)
+      const userAccessLevel = user?.accessLevel ?? 0
+      let accessLevel = 0
+
+      // If route has access level
+      matched.forEach(({ meta }) => {
+        if (meta.accessLevel && meta.accessLevel > accessLevel) {
+          accessLevel = meta.accessLevel
+        }
+      })
+
+      // If postType admin ui has access level
+      if (path.includes("dashboard") && params.postType) {
+        const ptAccess = getPostTypeConfig(params.postType)?.accessLevel ?? 0
+
+        if (ptAccess > accessLevel) accessLevel = ptAccess
+      }
+
+      if ((accessLevel > 0 || auth === true) && !user) {
         navigateToRoute({ path: "/signin", query: { redirect: path } })
+      } else if (accessLevel > userAccessLevel) {
+        navigateToRoute({ path: "/" })
+        emitEvent("error", "403: Permissions needed")
       }
     }
   })

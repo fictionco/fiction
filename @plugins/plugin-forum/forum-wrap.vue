@@ -17,5 +17,9 @@ export default Vue.extend({
   max-width: var(--forum-width, 1100px);
   margin: 5rem auto 1em;
   padding: 2rem;
+  @media (max-width: 900px) {
+    margin-top: 3rem;
+    padding: 1rem;
+  }
 }
 </style>

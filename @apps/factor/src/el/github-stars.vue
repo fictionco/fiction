@@ -27,7 +27,7 @@ export default Vue.extend({
   mounted(this: any) {
     setTimeout(() => {
       this.loading = false
-    }, 500)
+    }, 1000)
   }
 })
 </script>

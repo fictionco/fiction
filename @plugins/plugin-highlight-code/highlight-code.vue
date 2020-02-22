@@ -1,11 +1,12 @@
 <template>
-  <div v-show="loading" ref="code" class="highlight-code-wrap">
+  <div ref="code" class="highlight-code-wrap">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
+import { onEvent } from "@factor/api"
 export default Vue.extend({
   data() {
     return {
@@ -15,11 +16,18 @@ export default Vue.extend({
   mounted() {
     require("./prism/prism.js")
     this.prism = window.Prism
+
+    // Set page on load
     this.setPage()
+
+    // Event trigger for rehighlight
+    onEvent("highlight-post", () => {
+      this.setPage()
+    })
   },
   methods: {
     setPage(this: any) {
-      if (this.prism) {
+      if (this.prism && this.$refs.code) {
         // wait til content is done rendering
         setTimeout(() => {
           this.prism.highlightAllUnder(this.$refs.code)

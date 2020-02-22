@@ -1,6 +1,6 @@
 import { getModel } from "@factor/post/database"
 import { randomToken, emitEvent, applyFilters, currentUrl, timestamp } from "@factor/api"
-import { hasEmailService, sendTransactional } from "@factor/email/server"
+import { hasEmailService, sendTransactionalEmail } from "@factor/email/server"
 import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
 import { Model, Document } from "mongoose"
@@ -22,7 +22,7 @@ const sendCompleteEmail = async ({ email, listId }: EmailConfig): Promise<void> 
 
   const { subject, text, from } = format
 
-  return await sendTransactional({
+  return await sendTransactionalEmail({
     to: email,
     subject,
     text,
@@ -48,7 +48,7 @@ const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<v
     email
   )}&list=${listId}`
 
-  return await sendTransactional({
+  return await sendTransactionalEmail({
     to: email,
     from,
     subject,
@@ -136,7 +136,7 @@ const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> =>
   const { subject, text, to, from } = format
 
   if (to) {
-    await sendTransactional({
+    await sendTransactionalEmail({
       to,
       subject,
       text: text + `<p><strong>Email:</strong> ${email}</p>`,

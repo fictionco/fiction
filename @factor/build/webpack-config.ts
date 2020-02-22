@@ -118,7 +118,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
            * Don't use contenthash in name, it causes issues with SVG
            */
           {
-            test: /\.(png|jpg|gif|svg|mov|mp4)$/,
+            test: /\.(png|jpg|gif|svg|mov|mp4|woff|woff2|ttf|eot)$/,
             loader: "file-loader",
             // esModule option introduced in v5, but breaks markdown-image-loader
             options: { name: "[name]-[hash:8].[ext]", esModule: false }

@@ -3,7 +3,6 @@ import { deepMerge } from "@factor/api/utils"
 import postSchema from "@factor/post/schema"
 import log from "@factor/api/logger"
 import { UserRoles, CurrentUserState } from "@factor/user/types"
-import { roleAccessLevel } from "@factor/user/util"
 import {
   DetermineUpdatePermissions,
   FactorSchema,
@@ -11,7 +10,8 @@ import {
   SchemaPermissions,
   FactorPost,
   PostIndexMeta,
-  PostActions
+  PostActions,
+  PostStatus
 } from "./types"
 
 export * from "./object-id"
@@ -166,30 +166,25 @@ export const postPermission = ({
 }): true | never => {
   const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "" })
 
-  const { accessLevel, role, author, status } = permissionsConfig[action] ?? {
-    accessLevel: 300
-  }
-
-  let postAccessLevel = 0
-
-  if (status && post.status && status[post.status]) {
-    const { accessLevel: statusAccessLevel } = status[post.status] || {}
-    postAccessLevel = statusAccessLevel || 0
-  } else {
-    postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+  const { accessLevel = 500, accessPublished = 500, accessAuthor } = permissionsConfig[
+    action
+  ] ?? {
+    accessLevel: 500
   }
 
   const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
 
   const authorId = bearer?._id
 
-  const userAccessLevel = bearer?.accessLevel ?? roleAccessLevel(userRole)
+  const userAccessLevel = bearer?.accessLevel ?? 0
 
   const isAuthor = isPostAuthor({ user: bearer, post })
 
-  if (userAccessLevel >= postAccessLevel) {
+  if (userAccessLevel >= accessLevel) {
     return true
-  } else if (author && authorId && isAuthor) {
+  } else if (userAccessLevel >= accessPublished && post.status == PostStatus.Published) {
+    return true
+  } else if (accessAuthor && authorId && isAuthor) {
     return true
   } else {
     log.error("permissions error", bearer, action, post)
@@ -204,28 +199,37 @@ export const postPermission = ({
  * @param action - the CRUD action type
  * @param postType - the post type they are changing
  */
-export const canUpdatePostsCondition = ({
+export const manyPostsPermissionCondition = ({
   bearer,
   action,
-  postType = "post"
-}: DetermineUpdatePermissions): { author?: string } => {
+  postType
+}: DetermineUpdatePermissions): { author?: string; status?: PostStatus } => {
   const permissionsConfig = getSchemaPermissions({ postType })
 
-  const { accessLevel, role, author } = permissionsConfig[action] ?? { accessLevel: 300 }
+  const HIGHEST_LEVEL = 500
 
-  const postAccessLevel = accessLevel ? accessLevel : roleAccessLevel(role as UserRoles)
+  const {
+    accessLevel = HIGHEST_LEVEL,
+    accessAuthor,
+    accessPublished = HIGHEST_LEVEL
+  } = permissionsConfig[action] ?? {
+    accessLevel: HIGHEST_LEVEL
+  }
 
   const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
 
   const authorId = bearer?._id ?? false
 
-  const userAccessLevel = bearer?.accessLevel ?? roleAccessLevel(userRole)
+  const userAccessLevel = bearer?.accessLevel ?? 0
 
-  if (userAccessLevel >= postAccessLevel) {
+  if (userAccessLevel >= accessLevel) {
     return {}
-  } else if (author && authorId) {
+  } else if (userAccessLevel >= accessPublished) {
+    return { status: PostStatus.Published }
+  } else if (accessAuthor && authorId) {
     return { author: authorId }
   } else {
-    throw new Error(`Insufficient permissions (${userRole})`)
+    log.error("Many posts permissions error", bearer, action, postType)
+    throw new Error(`Insufficient permissions as (${userRole})`)
   }
 }

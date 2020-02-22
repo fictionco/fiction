@@ -25,6 +25,7 @@ export interface EndpointMeta {
   response?: Response;
   bearer?: CurrentUserState;
   url?: string;
+  serverRequest?: true;
 }
 
 export interface EndpointRequestConfig {

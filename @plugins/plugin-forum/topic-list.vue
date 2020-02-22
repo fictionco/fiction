@@ -27,8 +27,7 @@
       <div v-formatted-text="breadcrumb" class="notification" />
     </div>
     <div class="list-items">
-      <factor-loading-ring v-if="loading" />
-      <template v-else-if="posts.length > 0">
+      <template v-if="posts.length > 0">
         <div
           v-for="(post, index) in posts"
           :key="index"
@@ -38,7 +37,7 @@
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
               <div class="avatar-area">
-                <factor-avatar :post-id="author(post).avatar" />
+                <factor-avatar :post-id="author(post, 'avatar')" />
                 <div v-if="post.pinned" class="tag-bubble">
                   <factor-icon icon="fas fa-thumbtack" />
                 </div>
@@ -56,7 +55,7 @@
               </div>
 
               <div class="meta">
-                <div class="author meta-item">{{ author(post).username }}</div>
+                <div class="author meta-item">{{ author(post, 'username') }}</div>
                 <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
               </div>
             </div>
@@ -65,7 +64,12 @@
                 <factor-icon icon="far fa-comment" />
                 <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
               </div>
-              <component :is="setting('forum.components.topicTags')" :tags="post.tag" />
+              <component
+                :is="setting('forum.components.topicTags')"
+                v-if="post.tag.length > 0"
+                class="item"
+                :tags="post.tag"
+              />
             </div>
           </div>
         </div>
@@ -112,7 +116,7 @@ export default Vue.extend({
     factorInputText
   },
   props: {
-    loading: { type: Boolean, default: false },
+    loading: { type: Boolean, default: true },
     posts: { type: Array, default: () => [] }
   },
   data() {
@@ -138,8 +142,10 @@ export default Vue.extend({
     setting,
     topicLink,
     excerpt,
-    author(this: any, post: FactorPost) {
-      return post.author && post.author.length > 0 ? stored(post.author[0]) : {}
+    author(this: any, post: FactorPost, field: string) {
+      const authorId = post.author && post.author.length > 0 ? post.author[0] : ""
+      const author = authorId ? stored(authorId) : {}
+      return author && author[field] ? author[field] : undefined
     },
     setQuery(
       this: any,
@@ -205,8 +211,12 @@ export default Vue.extend({
   .list-item {
     display: grid;
     grid-template-columns: 3rem minmax(400px, 600px) minmax(100px, 150px);
-    grid-gap: 1.5rem;
+    grid-template-areas: "avatar text details";
+    grid-column-gap: 1.5rem;
+    grid-row-gap: 0.5rem;
+
     .item-avatar {
+      grid-area: avatar;
       padding-top: 0.1rem;
       .avatar {
         width: 3rem;
@@ -233,6 +243,7 @@ export default Vue.extend({
       }
     }
     .item-text {
+      grid-area: text;
       .header {
         margin-bottom: 0.25rem;
         .title {
@@ -254,6 +265,7 @@ export default Vue.extend({
 
       .meta {
         display: flex;
+        line-height: 1.3;
         .meta-item {
           margin-right: 1rem;
           &.author {
@@ -263,17 +275,37 @@ export default Vue.extend({
       }
     }
     .item-details {
+      grid-area: details;
       text-align: right;
       display: grid;
       grid-template-columns: 1fr;
       grid-gap: 0.5rem;
-      grid-auto-rows: min-content;
-
+      .item {
+        min-width: 0;
+      }
       .number-posts {
-        font-size: 1.2em;
-        font-weight: 800;
         .text {
           margin-left: 0.25em;
+        }
+      }
+    }
+    @media (max-width: 900px) {
+      grid-template-columns: 3rem 1fr 2rem;
+      grid-template-areas: "avatar text details";
+      .item-details {
+        text-align: left;
+        grid-template-columns: 5rem 1fr;
+        .tags {
+          display: none;
+        }
+      }
+      .item-text {
+        .meta {
+          font-size: 0.85em;
+          flex-direction: column;
+          .author {
+            display: none;
+          }
         }
       }
     }

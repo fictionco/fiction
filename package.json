@@ -1,6 +1,6 @@
 {
   "name": "@factor/wrapper",
-  "author": "Fiction.com <support@fiction.com> (https://www.fiction.com)",
+  "author": "Fiction.com <factor@fiction.com> (https://www.fiction.com)",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -83,6 +83,7 @@
     "eslint-plugin-tsdoc": "^0.2.0",
     "eslint-plugin-unicorn": "^16.0.0",
     "eslint-plugin-vue": "^6.0.0",
+    "eslint-plugin-cypress": "^2.7.0",
     "esm": "^3.2.25",
     "execa": "^4.0.0",
     "exit": "^0.1.2",
@@ -98,7 +99,7 @@
     "std-env": "^2.2.1",
     "ts-jest": "^25.0.0",
     "typedoc": "^0.16.2",
-    "typescript": "^3.7.2",
+    "typescript": "^3.8.0",
     "vue": "^2.6.10",
     "vue-jest": "^4.0.0-beta.2",
     "vue-server-renderer": "^2.6.10",
@@ -106,7 +107,5 @@
     "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
   },
-  "devDependencies": {
-    "eslint-plugin-cypress": "^2.7.0"
-  }
+  "devDependencies": {}
 }

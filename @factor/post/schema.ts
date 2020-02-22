@@ -18,19 +18,14 @@ export default (): FactorSchema => {
      * default post type. These can be changed by extending post types
      */
     permissions: {
-      create: { accessLevel: 300 },
+      create: { accessLevel: 100 },
       retrieve: {
-        accessLevel: 300,
-        status: { published: { accessLevel: 0 } },
-        author: true
+        accessLevel: 100,
+        accessPublished: 0,
+        accessAuthor: true
       },
-      list: {
-        accessLevel: 300,
-        author: true,
-        status: { published: { accessLevel: 0 } }
-      },
-      update: { accessLevel: 100, author: true },
-      delete: { accessLevel: 300, author: true }
+      update: { accessLevel: 100, accessAuthor: true },
+      delete: { accessLevel: 200, accessAuthor: true }
     },
     /**
      * populatedFields are how Factor knows which fields should be populated
@@ -98,7 +93,7 @@ export default (): FactorSchema => {
         index: { unique: true, sparse: true },
         minlength: 3,
         validator: function(v: string): boolean {
-          return /^[\d-a-z]+$/.test(v)
+          return /^[\d-az-]+$/.test(v)
         },
         message: (props: { value: string }): string =>
           `permalink ${props.value} is not URL compatible.`

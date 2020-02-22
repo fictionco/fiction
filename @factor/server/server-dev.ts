@@ -86,7 +86,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     config.output.filename = "[name].js"
   }
 
-  const hotEntry = "webpack-hot-middleware/client?noInfo=true"
+  const hotEntry = "webpack-hot-middleware/client?noInfo=true&quiet=true"
 
   config.entry = [hotEntry, ...existingEntry]
 

@@ -58,7 +58,7 @@ export default Vue.extend({
       return this.$route.params.postType || ""
     },
     postTypeLabel(this: any) {
-      return this.getPostTypeConfig.namePlural
+      return this.getPostTypeConfig?.namePlural ?? ""
     },
     postsMeta(this: any) {
       return this.postIndex && this.postIndex.meta ? this.postIndex.meta : {}

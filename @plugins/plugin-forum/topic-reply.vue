@@ -1,6 +1,7 @@
 <template>
   <div class="topic-reply">
-    <div class="reply-area">
+    <factor-loading-ring v-if="loading" />
+    <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
         <div class="title">This topic is locked.</div>
       </div>
@@ -18,7 +19,10 @@
           class="reply-textarea"
           placeholder="Reply"
         />
-        <div class="action">
+        <div class="actions save-post">
+          <div v-if="showSubscriber" class="subscriber">
+            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?" />
+          </div>
           <factor-btn
             v-if="editId"
             btn="primary"
@@ -39,21 +43,38 @@
 <script lang="ts">
 import Vue from "vue"
 import { stored, storeItem, emitEvent } from "@factor/api"
-import { currentUser } from "@factor/user"
+import { currentUser, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
-import { factorInputEditor, factorAvatar, factorBtn, factorLink } from "@factor/ui"
-import { saveTopicReply, saveTopic } from "./request"
+import {
+  factorInputEditor,
+  factorInputCheckbox,
+  factorAvatar,
+  factorBtn,
+  factorLink,
+  factorLoadingRing
+} from "@factor/ui"
+import { requestSaveTopicReply, requestSaveTopic } from "./request"
 export default Vue.extend({
-  components: { factorInputEditor, factorAvatar, factorBtn, factorLink },
+  components: {
+    factorInputEditor,
+    factorAvatar,
+    factorBtn,
+    factorLink,
+    factorInputCheckbox,
+    factorLoadingRing
+  },
   props: {
     postId: { type: String, default: "" },
-    editId: { type: String, default: "" }
+    editId: { type: String, default: "" },
+    showSubscriber: { type: Boolean, default: false }
   },
   data() {
     return {
+      subscriber: true,
       reply: "",
       sending: false,
-      storeKey: this.editId ? this.editId : "post"
+      storeKey: this.editId ? this.editId : "post",
+      loading: true
     }
   },
   computed: {
@@ -78,20 +99,27 @@ export default Vue.extend({
       }
     }
   },
-  mounted() {
+  async mounted() {
     if (this.editId) {
       this.reply = this.post.content
     }
+
+    await userInitialized()
+
+    this.loading = false
   },
   methods: {
     async editReply(this: any) {
       this.sending = true
       if (this.postId != this.editId) {
-        await saveTopicReply(this.postId, { _id: this.editId, content: this.reply })
+        await requestSaveTopicReply(this.postId, {
+          _id: this.editId,
+          content: this.reply
+        })
         this.post = { ...this.post, content: this.reply }
         emitEvent("highlight-post", this.editId)
       } else {
-        await saveTopic({ _id: this.postId, content: this.reply })
+        await requestSaveTopic({ _id: this.postId, content: this.reply })
       }
 
       this.sending = false
@@ -109,7 +137,7 @@ export default Vue.extend({
         _id: ""
       }
 
-      const result = await saveTopicReply(this.postId, doc)
+      const result = await requestSaveTopicReply(this.postId, doc, this.subscriber)
 
       if (result && result._id) {
         const embedded = this.post.embedded || []
@@ -120,6 +148,8 @@ export default Vue.extend({
         this.post = { ...this.post, embedded, embeddedCount }
 
         emitEvent("highlight-post", result._id)
+
+        this.$emit("done", { subscribed: this.subscriber })
 
         this.reply = ""
       }
@@ -145,6 +175,9 @@ export default Vue.extend({
   }
   .reply-area {
     position: relative;
+    .loading-ring-wrap {
+      padding: 4em 0;
+    }
     textarea {
       padding: 1rem 5rem;
     }
@@ -161,9 +194,27 @@ export default Vue.extend({
       top: 4rem;
       left: 1rem;
     }
-    .action {
+    .actions.save-post {
       padding: 1rem 0;
       text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .checkbox-wrap {
+        border-radius: 6px;
+        background: var(--color-bg-contrast);
+        padding: 0.25rem 1rem;
+        font-size: 0.9em;
+        font-weight: 700;
+        text-transform: uppercase;
+        align-items: center;
+        display: flex;
+        margin-right: 2rem;
+        .checkbox-label {
+          margin-left: 0.5rem;
+          opacity: 0.5;
+        }
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
 import { addFilter, currentUrl, randomToken } from "@factor/api"
-import { sendTransactional } from "@factor/email/server"
+import { sendTransactionalEmail } from "@factor/email/server"
 import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
@@ -37,7 +37,7 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
   const { to, subject, action, _id, code, text, linkText } = args
   const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
 
-  await sendTransactional({
+  await sendTransactionalEmail({
     to,
     subject,
     text,

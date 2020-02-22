@@ -8,7 +8,11 @@
         <div class="author meta-item">{{ author.username }}</div>
         <div class="time meta-item">{{ timeAgo(post.createdAt) }}</div>
 
-        <factor-menu v-if="actions.length > 0" :list="actions" @action="handleAction($event)" />
+        <factor-menu
+          v-if="!loading && actions.length > 0"
+          :list="actions"
+          @action="handleAction($event)"
+        />
       </div>
       <div class="post-text">
         <div v-formatted-text="rendered" />
@@ -32,7 +36,7 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { factorAvatar, factorMenu } from "@factor/ui"
 import { isEmpty, setting, stored, storeItem, toLabel } from "@factor/api"
 import { timeAgo } from "@factor/api/time"
-import { currentUser, userCan } from "@factor/user"
+import { currentUser, userCan, userInitialized } from "@factor/user"
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
 import { PostActions } from "./request"
@@ -45,6 +49,7 @@ export default Vue.extend({
 
   data() {
     return {
+      loading: true,
       running: false
     }
   },
@@ -85,6 +90,10 @@ export default Vue.extend({
       return actions
     }
   },
+  async mounted() {
+    await userInitialized()
+    this.loading = false
+  },
 
   methods: {
     isEmpty,
@@ -124,6 +133,12 @@ export default Vue.extend({
   padding: 2rem;
   border-bottom: 1px solid var(--color-border);
   position: relative;
+  figure {
+    text-align: left;
+    figcaption {
+      text-align: left;
+    }
+  }
   .post-content {
     min-width: 0;
   }
@@ -146,6 +161,17 @@ export default Vue.extend({
     }
     .meta-item {
       margin-right: 2rem;
+    }
+  }
+  @media (max-width: 900px) {
+    padding: 1.5rem 1rem;
+    grid-gap: 1rem;
+    grid-template-columns: 2.5rem 1fr;
+    .post-avatar .avatar {
+      width: 2.5rem;
+    }
+    .post-meta .meta-item {
+      font-size: 12px;
     }
   }
   .post-footer {
@@ -173,6 +199,12 @@ export default Vue.extend({
       }
       &:active {
         background: rgba(0, 0, 0, 0.08);
+      }
+    }
+    @media (max-width: 900px) {
+      .post-action {
+        font-size: 12px;
+        padding: 0.25em 1rem;
       }
     }
   }

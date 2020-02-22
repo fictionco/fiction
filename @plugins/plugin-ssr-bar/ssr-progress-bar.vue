@@ -12,7 +12,7 @@ export default Vue.extend({
       show: false,
       canSuccess: true,
       duration: 3000,
-      height: "2px"
+      height: "3px"
     }
   },
   computed: {

@@ -1,11 +1,10 @@
 import {
-  requestPostSave,
   requestPostDeleteMany,
   requestPostIndex,
-  requestEmbeddedAction
+  requestEmbeddedAction,
+  handlePostPopulation
 } from "@factor/post/request"
 import {
-  UnsavedFactorPost,
   FactorPost,
   FactorPostState,
   PostStatus,
@@ -14,10 +13,13 @@ import {
   SortDelimiters
 } from "@factor/post/types"
 
-import { setting } from "@factor/api/settings"
+import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { slugify, emitEvent } from "@factor/api"
+import { setting } from "@factor/api/settings"
+
 import { navigateToRoute, currentRoute } from "@factor/app/router"
 
+import { SubscribeUser } from "./types"
 import { postType } from "."
 
 type FactorPostForumTopic = FactorPost & {
@@ -44,12 +46,28 @@ interface RunPostAction {
 }
 
 /**
- * Request to create a new topic
+ * Gets a link to a topic based on its post
  */
-export const saveTopic = async (
-  post: FactorPostForumTopic
-): Promise<FactorPostForumTopic | undefined | never> => {
-  return await requestPostSave({ post, postType })
+export const topicLink = (topicPost: FactorPostForumTopic): string => {
+  const { title, _id } = topicPost
+  const base = setting("forum.postRoute")
+  const parts = [base, _id, slugify(title)]
+
+  return parts.join("/")
+}
+
+/**
+ * Navigates to a topic thread
+ */
+export const redirectToTopic = (topicPost: FactorPostForumTopic): void => {
+  navigateToRoute({ path: topicLink(topicPost) })
+}
+
+/**
+ * Gets a link to edit a topic
+ */
+export const editTopic = (topicPost: FactorPostForumTopic): void => {
+  navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
 }
 
 export const deleteTopic = async (postId: string): Promise<void> => {
@@ -65,12 +83,45 @@ export const deleteTopic = async (postId: string): Promise<void> => {
   return
 }
 
-export const saveTopicReply = async (
-  postId: string,
-  data: UnsavedFactorPost & { _id: string }
-): Promise<FactorPostState> => {
-  const result = await requestEmbeddedAction({ action: "save", postId, data, postType })
+export const sendRequest = async <T = unknown>(
+  method: string,
+  params: EndpointParameters
+): Promise<T> => {
+  const result = await endpointRequest<T>({
+    id: "forum",
+    method,
+    params
+  })
 
+  return result
+}
+
+/**
+ * Request to create a new topic
+ */
+export const requestSaveTopic = async (
+  post: FactorPostForumTopic,
+  subscribe?: boolean
+): Promise<FactorPostForumTopic | undefined | never> => {
+  const topic = await sendRequest<FactorPostForumTopic>("saveTopic", { post, subscribe })
+
+  redirectToTopic(topic)
+
+  return topic
+}
+
+export const requestSaveTopicReply = async (
+  postId: string,
+  reply: FactorPost,
+  subscribe = false
+): Promise<FactorPostState> => {
+  const result = await sendRequest<FactorPost>("saveTopicReply", {
+    postId,
+    reply,
+    subscribe
+  })
+
+  handlePostPopulation(result)
   emitEvent("notify", "Reply saved")
 
   return result
@@ -102,17 +153,17 @@ export const postAction = async ({
 
   if (isParent) {
     if (action == PostActions.Pin) {
-      await saveTopic({ _id: post._id, pinned: value })
+      await requestSaveTopic({ _id: post._id, pinned: value })
     } else if (action == PostActions.Lock) {
-      await saveTopic({ _id: post._id, locked: value })
+      await requestSaveTopic({ _id: post._id, locked: value })
     } else if (action == PostActions.Delete) {
       await deleteTopic(parentId)
     } else if (action == PostActions.Edit) {
-      await saveTopic(post)
+      await requestSaveTopic(post)
     }
   } else {
     if (action == PostActions.Edit) {
-      await saveTopicReply(parentId, post)
+      await requestSaveTopicReply(parentId, post)
     } else if (action == PostActions.Delete) {
       const r = confirm("Are you sure? This reply with be permanently deleted.")
       if (r) {
@@ -162,31 +213,14 @@ export const loadAndStoreIndex = async (): Promise<void> => {
   return
 }
 
-/**
- * Gets a link to a topic based on its post
- */
-export const topicLink = (topicPost: FactorPostForumTopic): string => {
-  const { permalink, title, _id } = topicPost
-  const base = setting("forum.postRoute")
-  if (permalink) {
-    const parts = [base, permalink, slugify(title)]
-
-    return parts.join("/")
-  } else {
-    return `${base}?_id=${_id}`
-  }
+export const requestIsSubscribed = async <T = boolean>(
+  params: Omit<SubscribeUser, "subscribe">
+): Promise<T> => {
+  return await sendRequest<T>("isSubscribed", params)
 }
 
-/**
- * Navigates to a topic thread
- */
-export const redirectToTopic = (topicPost: FactorPostForumTopic): void => {
-  navigateToRoute({ path: topicLink(topicPost) })
-}
-
-/**
- * Gets a link to edit a topic
- */
-export const editTopic = (topicPost: FactorPostForumTopic): void => {
-  navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
+export const requestSetSubscribed = async <T = boolean>(
+  params: SubscribeUser
+): Promise<T> => {
+  return await sendRequest<T>("setSubscribed", params)
 }

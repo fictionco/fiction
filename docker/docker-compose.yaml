@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 volumes:
   mongo_data: {}
 services:
@@ -9,7 +9,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./dev/mongodb-init.js:/docker-entrypoint-initdb.d/mongodb-init.js
+      - ./mongodb-init.js:/docker-entrypoint-initdb.d/mongodb-init.js
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=mongodbROOT

@@ -156,7 +156,8 @@ export interface DetermineUpdatePermissions {
   bearer: CurrentUserState;
   post?: FactorPost;
   action: PostActions;
-  postType?: string;
+  postType: string;
+  manyPosts?: boolean;
 }
 
 export type FactorSchemaModule = FactorSchema | { (): FactorSchema }
@@ -168,9 +169,9 @@ export interface PopulatedField {
 
 export interface PermissionLevel {
   accessLevel?: number;
-  role?: string;
-  author?: boolean;
-  status?: { [key in PostStatus]?: PermissionLevel };
+  accessPublished?: number;
+  accessAuthor?: boolean;
+  accessMany?: boolean;
 }
 
 export interface SchemaPermissions {
@@ -178,7 +179,6 @@ export interface SchemaPermissions {
   retrieve?: PermissionLevel;
   update?: PermissionLevel;
   delete?: PermissionLevel;
-  list?: PermissionLevel;
 }
 
 export interface FactorSchema {

@@ -55,4 +55,18 @@
       font-size: 1em;
     }
   }
+
+  .show-mobile {
+    display: none;
+    @media (max-width: 900px) {
+      display: block;
+    }
+  }
+
+  .show-desktop {
+    display: block;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
 }

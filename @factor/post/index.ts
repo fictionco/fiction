@@ -20,26 +20,32 @@ addFilter({
   key: "dashboardRoutes",
   hook: "dashboard-routes",
   callback: (_: RouteConfig[]): RouteConfig[] => {
+    const meta = { auth: true, accessLevel: 100 }
     const routes = [
       {
         path: "posts",
-        component: (): Promise<Component> => import("./view/dashboard-list.vue")
+        component: (): Promise<Component> => import("./view/dashboard-list.vue"),
+        meta
       },
       {
         path: "posts/edit",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue")
+        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        meta
       },
       {
         path: "posts/:postType/edit",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue")
+        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        meta
       },
       {
         path: "posts/:postType/add-new",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue")
+        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        meta
       },
       {
         path: "posts/:postType",
-        component: (): Promise<Component> => import("./view/dashboard-list.vue")
+        component: (): Promise<Component> => import("./view/dashboard-list.vue"),
+        meta
       }
     ]
 
@@ -56,8 +62,9 @@ export const setup = (): void => {
   addCallback({
     key: "prefetch",
     hook: "client-route-before",
-    callback: (_: Route & { clientOnly: boolean }) =>
-      preFetchPost({ clientOnly: true, ..._ })
+    callback: (_: Route & { clientOnly: boolean }) => {
+      return preFetchPost({ clientOnly: true, ..._ })
+    }
   })
 }
 

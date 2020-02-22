@@ -75,16 +75,6 @@ export default Vue.extend({
      */
     await user.userInitialized()
 
-    /**
-     * If the user doesn't have privs for a page, redirect
-     */
-    if (
-      this.postType &&
-      !user.userCan({ accessLevel: this.postTypeConfig?.accessLevel ?? 100 })
-    ) {
-      this.$router.push(dashboardBaseRoute())
-    }
-
     this.loading = false
   },
 

@@ -42,6 +42,7 @@ const hookClientRouterBefore = async (
       next()
     } else {
       // Abort navigation
+      emitEvent("ssr-progress", "finish")
       next(false)
     }
   }

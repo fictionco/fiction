@@ -8,24 +8,17 @@ export default Vue.extend({
   props: {
     icon: { type: String, default: "" }
   },
-  mounted() {
-    this.addExternalScripts()
-  },
-  methods: {
-    // Add dynamically since webpack tried to include as a module. Is there a better way?
-    addExternalScripts() {
-      const els = document.querySelector("#ficons")
-      if (!els) {
-        document.createElement("script")
-        const script = document.createElement("script")
-        script.src = "https://kit.fontawesome.com/4cb195f1ee.js"
-        script.type = "text/javascript"
-        script.id = "ficons"
-        script.crossOrigin = "anonymous"
-        document.querySelectorAll("head")[0].append(script)
+  metaInfo: {
+    link: [
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.css"
       }
-    }
+    ]
   }
 })
 </script>
 
+<style lang="less">
+</style>

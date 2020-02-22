@@ -1,7 +1,7 @@
 import { EndpointParameters } from "@factor/endpoint"
 export type EmailTransactionalConfig = {
-  _id?: string;
-  to: string;
+  emailId?: string;
+  to?: string;
   from?: string;
   subject?: string;
   title?: string;
