@@ -1,7 +1,7 @@
 <template>
   <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)" class="image-wrap">
-    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image" />
-    <div class="header-content">
+    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image rounded-lg" />
+    <div class="header-content rounded-lg">
       <svg
         width="30"
         height="30"
@@ -29,7 +29,7 @@
   </factor-link>
 
   <div v-else class="featured-image-wrap">
-    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image" />
+    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image rounded-lg" />
   </div>
 </template>
 <script lang="ts">
@@ -127,7 +127,6 @@ export default Vue.extend({
 
       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
         0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
-      border-radius: 4px;
     }
   }
 }

@@ -5,19 +5,23 @@ import { addPostType } from "@factor/api/post-types"
 import { addContentRoutes } from "@factor/api"
 import { Component } from "vue"
 
-const portfolioBaseRoute = setting("portfolio.postRoute")
-
-const newsBaseRoute = setting("news.postRoute")
-
-export const setup = (): void => {
+if (setting("headTags") != "") {
   addFilter({
-    key: "ultraFont",
+    key: "addUltraFont",
     hook: "factor_head",
-    callback: (_: string[]) => {
+    callback: (_: []) => {
       return [..._, setting("headTags.font")]
     },
     priority: 200
   })
+}
+
+const portfolioBaseRoute = setting("portfolio.postRoute")
+
+//const newsBaseRoute = setting("news.postRoute")
+
+
+export const setup = (): void => {
 
   addPostType({
     postType: "portfolio",
@@ -29,15 +33,15 @@ export const setup = (): void => {
     namePlural: "Portfolio"
   })
 
-  addPostType({
-    postType: "news",
-    baseRoute: newsBaseRoute,
-    icon: require("./img/news.svg"),
-    model: "newsPost",
-    nameIndex: "News",
-    nameSingle: "News Post",
-    namePlural: "News"
-  })
+  // addPostType({
+  //   postType: "news",
+  //   baseRoute: newsBaseRoute,
+  //   icon: require("./img/news.svg"),
+  //   model: "newsPost",
+  //   nameIndex: "News",
+  //   nameSingle: "News Post",
+  //   namePlural: "News"
+  // })
 
   addPageTemplate({
     slug: "ultra-default",
@@ -64,21 +68,21 @@ export const setup = (): void => {
             component: setting("portfolio.components.portfolioSingle")
           }
         ]
-      },
-      {
-        path: setting("news.indexRoute") ?? "/",
-        component: setting("news.components.newsWrap"),
-        children: [
-          {
-            path: "#news",
-            component: setting("news.components.newsIndex")
-          },
-          {
-            path: `${setting("news.postRoute")}/:permalink`,
-            component: setting("news.components.newsSingle")
-          }
-        ]
       }
+      // {
+      //   path: setting("news.indexRoute") ?? "/",
+      //   component: setting("news.components.newsWrap"),
+      //   children: [
+      //     {
+      //       path: "#news",
+      //       component: setting("news.components.newsIndex")
+      //     },
+      //     {
+      //       path: `${setting("news.postRoute")}/:permalink`,
+      //       component: setting("news.components.newsSingle")
+      //     }
+      //   ]
+      // }
     ]
   })
 }

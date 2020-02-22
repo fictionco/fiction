@@ -1,13 +1,18 @@
 <template>
   <div class="pagination">
-    <div class="items">{{ count }} Items</div>
-    <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
-      <factor-icon icon="fas fa-arrow-left" />
-    </factor-btn>
-    <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">
-      <factor-icon icon="fas fa-arrow-right" />
-    </factor-btn>
+    <div>
+      <factor-btn v-if="pageCurrent > 1" :class="`primary rounded-full`" @click="page('previous')">
+        <factor-icon icon="fas fa-angle-left" />
+        <span class="custom-uppercase">Prev</span>
+      </factor-btn>
+      <factor-btn v-if="pageCurrent < pageCount" class="primary rounded-full" @click="page('next')">
+        <span class="custom-uppercase">Next</span>
+        <factor-icon icon="fas fa-angle-right" />
+      </factor-btn>
+    </div>
+    <div>
+      <div class="sep">{{ pageCurrent }} / {{ pageCount }}</div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +44,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    page(direction: any) {
+    page(this: any, direction: any) {
       let page
       if (direction == "next" && this.pageCurrent !== this.pageCount) {
         page = this.pageCurrent + 1
@@ -58,25 +63,19 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   .pagination {
-    max-width: 48rem;
-    margin: 0 auto;
     display: flex;
-    align-items: center;
-    @media (max-width: 900px) {
-      justify-content: flex-end;
-      .items,
-      .sep {
-        display: none;
-      }
-    }
-    > * {
-      margin: 0 5px;
-    }
-    .sep {
-      opacity: 0.4;
+    justify-content: center;
+    padding: 2rem 0 0;
+    > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
     .factor-btn {
-      padding: 0.5em;
+      padding: 0.7em 1.4em;
     }
   }
 }

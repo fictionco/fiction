@@ -1,8 +1,7 @@
 <template>
   <div id="siteWrap" class="content-container">
     <div>
-      <header-mobile class="show-mobile" />
-      <sidebar class="show-desktop" />
+      <site-nav />
     </div>
     <div class="content-main">
       <router-view />
@@ -13,8 +12,7 @@
 <script lang="ts">
 export default {
   components: {
-    sidebar: () => import("./sidebar.vue"),
-    "header-mobile": () => import("./header-mobile.vue")
+    "site-nav": () => import("./site-nav.vue")
   }
 }
 </script>
@@ -37,7 +35,7 @@ export default {
   height: auto;
   padding: 4em;
   @media (max-width: 900px) {
-    padding: 3em 2em;
+    padding: 6em 2em 3em;
   }
 }
 </style>

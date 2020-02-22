@@ -1,36 +1,37 @@
 <template>
-  <section id="intro" class="page-container intro-container">
-    <div class="splash-content">
+  <section id="intro" class="page-container intro">
+    <div class="intro-inner">
       <h2 v-if="introPretitle" v-formatted-text="introPretitle" class="pretitle text-gray-600" />
       <h1 v-if="introTitle" v-formatted-text="introTitle" class="title text-gray-100" />
-      <div class="actions">
-        <factor-link
-          v-for="(action, i) in introActions"
-          :key="i"
-          :path="action.path"
-          :btn="action.btn"
-          size="large"
-        >
-          {{ action.text }}
-          <factor-icon :icon="action.icon" />
-        </factor-link>
+      <div v-if="introButtons" class="buttons">
+        <template v-for="(button, index) in introButtons">
+          <factor-link
+            v-if="button.link"
+            :key="index"
+            v-formatted-text="button.text"
+            :path="button.link"
+            :btn="button.btn"
+            :class="button.classes"
+          />
+        </template>
       </div>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api/settings"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLink, factorIcon },
+  components: { factorLink },
   data() {
     return {
       loading: true,
       introPretitle: setting("intro.pretitle"),
       introTitle: setting("intro.title"),
+      introButtons: setting("intro.buttons"),
       introActions: setting("intro.actions")
     }
   },
@@ -38,7 +39,7 @@ export default Vue.extend({
 })
 </script>
 <style lang="less" scoped>
-.intro-container {
+.intro {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +51,7 @@ export default Vue.extend({
   );
   background-color: #351a19;
 
-  .splash-content {
+  .intro-inner {
     margin: 0 auto;
     max-width: 650px;
 
@@ -69,20 +70,18 @@ export default Vue.extend({
         font-size: 2.2rem;
       }
     }
-    .actions {
-      margin-top: 2rem;
+    .buttons {
+      z-index: 2;
+      margin-top: 2em;
+      .btn + .btn {
+        margin-left: 1em;
 
-      .btn-link + .btn-link {
-        margin-left: 1rem;
-      }
-
-      @media (max-width: 900px) {
-        .btn-link {
-          display: grid;
-        }
-        .btn-link + .btn-link {
-          margin-top: 1rem;
+        @media (max-width: 900px) {
           margin-left: 0;
+          margin-top: 1.4em;
+        }
+        i {
+          padding-left: 1rem;
         }
       }
     }

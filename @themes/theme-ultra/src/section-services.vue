@@ -6,7 +6,7 @@
       <div
         v-for="(service, i) in servicesItems"
         :key="i"
-        class="services-item text-gray-100 bg-red-600 rounded-lg hover:bg-gray-100"
+        class="services-item text-gray-100 bg-red-600 rounded-lg hover:text-gray-700 hover:bg-white"
       >
         <services-icon
           v-if="service.icon"
@@ -80,7 +80,6 @@ export default Vue.extend({
     transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
     &:hover {
-      color: var(--color-text);
       transform: translateY(-2px) scale(1.02);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
       svg path {

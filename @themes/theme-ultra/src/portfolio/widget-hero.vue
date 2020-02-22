@@ -63,9 +63,7 @@ export default Vue.extend({
       padding: 5em 2em;
       max-width: 800px;
       margin: 0 auto;
-      @media (max-width: 900px) {
-        padding: 3em 2em;
-      }
+
       .back {
         font-weight: var(--font-weight-bold);
       }
@@ -103,6 +101,9 @@ export default Vue.extend({
           margin: 0 auto;
           max-width: 100%;
         }
+      }
+      @media (max-width: 900px) {
+        padding: 5em 2em 3em;
       }
     }
   }

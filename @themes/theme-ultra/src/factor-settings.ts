@@ -18,34 +18,40 @@ export default {
     logoTitle: "Ultra Theme",
     nav: [
       {
-        name: "Intro",
+        _item: "intro",
         path: "#intro",
-        target: "intro"
+        name: "Intro",
+        target: "_self"
       },
       {
-        name: "About",
+        _item: "about",
         path: "#about",
-        target: "about"
+        name: "About",
+        target: "_self"
       },
       {
-        name: "Services",
+        _item: "services",
         path: "#services",
-        target: "services"
+        name: "Services",
+        target: "_self"
       },
       {
-        name: "Portfolio",
+        _item: "portfolio",
         path: "#portfolio",
-        target: "portfolio"
+        name: "Portfolio",
+        target: "_self"
       },
       {
-        name: "News",
+        _item: "news",
         path: "#news",
-        target: "news"
+        name: "News",
+        target: "_self"
       },
       {
-        name: "Contact",
+        _item: "contact",
         path: "#contact",
-        target: "contact"
+        name: "Contact",
+        target: "_self"
       }
     ],
     copyright: "&copy; Copyright "
@@ -54,79 +60,98 @@ export default {
     pretitle: "Welcome To Ultra",
     title:
       "A modern one page theme for personal or portfolio exposure with unique effects and features.",
-    actions: [
+    buttons: [
       {
-        btn: "primary",
-        path: "#contact",
-        text: "Start a Project",
-        icon: "fas fa-right-arrow"
+        _item: "contact",
+        link: "/#contact",
+        text: `Start a project  <i class="fas fa-arrow-right"></i>`,
+        classes: "btn bg-red-500 text-white hover:bg-red-700 hover:text-white"
       },
       {
-        btn: "primary-ol",
-        path: "#about",
-        text: "More About Ultra",
-        icon: "fas fa-right-arrow"
+        _item: "work",
+        link: "/#portfolio",
+        text: "View work",
+        classes:
+          "btn border border-solid border-white text-white hover:bg-white hover:text-red-500"
       }
     ],
-    meta: {
-      title: "Ultra Theme - Built with Factor.js",
-      description: "A simple portfolio theme for Factor.js framework."
+    metatags: {
+      index: {
+        title: "Intro - Factor Ultra Theme",
+        description: "A simple portfolio theme for Factor.js framework.",
+        //image: require("./img/logo-ultra.jpg")
+      }
     }
   },
-
   about: {
     pretitle: "About Me",
-    title: "I am Ultra",
+    title: "Professional Summary",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
     photo: require("./img/about.jpg"),
-    counter: [
-      {
-        text: "Awards Received",
-        number: "56"
-      },
-      {
-        text: "Projects",
-        number: "127"
-      },
-      {
-        text: "Cups of Coffee",
-        number: "876"
-      },
-      {
-        text: "Happy Clients",
-        number: "96"
-      }
-    ],
     career: {
       title: "Experience &amp; hard work",
       items: [
         {
+          _item: "item_1",
           left: "Jul 2019 - Today",
           middle: "Senior Designer at Apple",
           right: "Full-time"
         },
         {
+          _item: "item_2",
           left: "Sep 2018 - Jun 2019",
           middle: "Creative Designer at Asana",
           right: "Full-time"
         },
         {
+          _item: "item_3",
           left: "Apr 2018 - Sep 2018",
           middle: "Art Director at Google",
           right: "Full-time"
         },
         {
+          _item: "item_4",
           left: "Feb 2016 - Mar 2018",
           middle: "Art Director at Dropbox",
           right: "Remote"
         },
         {
+          _item: "item_5",
           left: "Aug 2014 - Jan 2016",
           middle: "Art Director at Twitter",
           right: "Full-time"
         }
       ]
+    },
+    counter: [
+      {
+        _item: "item_1",
+        text: "Awards Received",
+        number: "56"
+      },
+      {
+        _item: "item_2",
+        text: "Projects",
+        number: "127"
+      },
+      {
+        _item: "item_3",
+        text: "Cups of Coffee",
+        number: "876"
+      },
+      {
+        _item: "item_4",
+        text: "Happy Clients",
+        number: "96"
+      }
+    ],
+    metatags: {
+      index: {
+        title: "About - Factor Ultra Theme",
+        description: "Professional Summary.",
+        //image: require("./img/logo-ultra.jpg")
+      }
     }
   },
   services: {
@@ -134,30 +159,41 @@ export default {
     title: "Everything you need to launch and grow your business",
     items: [
       {
+        _item: "illustration",
         title: "Illustration",
         text:
           "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
         icon: "illustration"
       },
       {
+        _item: "branding",
         title: "Branding",
         text:
           "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
         icon: "branding"
       },
       {
+        _item: "marketing",
         title: "Marketing",
         text:
           "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
         icon: "marketing"
       },
       {
+        _item: "web_development",
         title: "Web Development",
         text:
           "Nemo cupiditate ab quibusdam quaer impedit magni. Earum suscipit ipsum laudantium cupiditate.",
         icon: "webdev"
       }
-    ]
+    ],
+    metatags: {
+      index: {
+        title: "Services - Factor Ultra Theme",
+        description: "Everything you need to launch and grow your business.",
+        //image: require("./img/logo-ultra.jpg")
+      }
+    }
   },
   portfolio: {
     pretitle: "Portfolio",
@@ -186,26 +222,32 @@ export default {
     clientsTitle: "Brands we've worked with.",
     clients: [
       {
+        _item: "sennheiser",
         picture: require("./img/sennheiser.svg"),
         alt: "sennheiser"
       },
       {
+        _item: "coca-cola",
         picture: require("./img/coca-cola.svg"),
         alt: "coca-cola"
       },
       {
+        _item: "adidas",
         picture: require("./img/adidas.svg"),
         alt: "adidas"
       },
       {
+        _item: "warner",
         picture: require("./img/warner.svg"),
         alt: "warner"
       },
       {
+        _item: "netflix",
         picture: require("./img/netflix.svg"),
         alt: "netflix"
       },
       {
+        _item: "chanel",
         picture: require("./img/chanel.svg"),
         alt: "chanel"
       }
@@ -214,34 +256,49 @@ export default {
       headline: "Interested in Working Together? ",
       path: "/#contact",
       text: "Start Your Project"
+    },
+    metatags: {
+      index: {
+        title: "Portfolio - Factor Ultra Theme",
+        description: "Check out some of the latest creative work.",
+        //image: require("./img/logo-ultra.jpg")
+      }
     }
   },
-  news: {
-    pretitle: "News",
-    title: "Latest News",
+  blog: {
     indexRoute: "/#news",
     postRoute: "/news",
-    limit: 4,
-    returnLinkText: "All News",
-    notFound: {
-      title: "No News",
-      subTitle: "Couldn't find any news."
-    },
+    limit: 10,
+    returnLinkText: "Back",
+    headline: "Latest News",
+    subheadline: "Discover The Latest",
+    content:
+      "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
-      newsWrap: (): Promise<Component> => import("./news/news-wrap.vue"),
-      newsIndex: (): Promise<Component> => import("./news/news-index.vue"),
-      newsSingle: (): Promise<Component> => import("./news/news-single.vue"),
-      newsEntry: (): Promise<Component> => import("./news/widget-entry.vue"),
-      newsExcerpt: (): Promise<Component> => import("./news/widget-excerpt.vue"),
-      newsHero: (): Promise<Component> => import("./news/widget-hero.vue"),
-      date: (): Promise<Component> => import("./news/widget-date.vue"),
-      featuredImage: (): Promise<Component> => import("./news/widget-featured-image.vue"),
-      authorBio: (): Promise<Component> => import("./news/widget-author-bio.vue"),
-      tags: (): Promise<Component> => import("./news/widget-tags.vue")
+      blogIndex: (): Promise<Component> => import("./section-news.vue"),
+      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+      blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
+      date: (): Promise<Component> => import("./blog/widget-date.vue"),
+      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
+      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
     },
     layout: {
-      index: ["date", "newsHero", "newsExcerpt"],
-      single: ["newsHero", "featuredImage", "tags", "newsEntry", "authorBio"]
+      index: ["featuredImage", "date", "blogHero", "subtitle"],
+      single: ["customSingleHeader", "featuredImage", "meta", "entry", "social", "authorBio"],
+      // OLD single: ["newsHero", "featuredImage", "tags", "newsEntry", "authorBio"]
+      meta: ["authorDate", "tags"]
+    },
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any news posts."
+    },
+    metatags: {
+      index: {
+        title: "News - Factor Ultra Theme",
+        description: "Thoughts on design, the process of creation, and optimizing collaboration.",
+        //image: require("./img/logo-ultra.jpg")
+      }
     }
   },
   contactForm: {
@@ -296,18 +353,28 @@ export default {
       title: "Contact Info",
       items: [
         {
+          _item: "address",
           title: "Address",
           text: "123 Main St. Mountain View, Ca 94043"
         },
         {
+          _item: "email",
           title: "Email me",
           text: "contact@fiction.com"
         },
         {
+          _item: "phone",
           title: "Call",
-          text: "(+1)619-777-7777"
+          text: "(+1) 619-777-7777"
         }
       ]
+    },
+    metatags: {
+      index: {
+        title: "Contact - Factor Ultra Theme",
+        description: "Reach out for a new project or just say hello",
+        //image: require("./img/logo-ultra.jpg")
+      }
     }
   }
 }

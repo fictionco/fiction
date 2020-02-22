@@ -3,7 +3,7 @@
     <div class="hero-inner">
       <div v-if="format == 'index'">
         <h1 class="title">
-          <factor-link :path="postLink(post._id)" class="text-gray-100">{{ post.title }}</factor-link>
+          <factor-link :path="postLink(post._id)" class="text-white">{{ post.title }}</factor-link>
           <factor-post-edit :post-id="post._id" />
         </h1>
       </div>

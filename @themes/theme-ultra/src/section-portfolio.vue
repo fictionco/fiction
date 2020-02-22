@@ -35,6 +35,10 @@ export default Vue.extend({
 .portfolio-container {
   padding: 0;
 
+  @media (max-width: 900px) {
+    padding: 62px 0 3em; // 62px (menu height)
+  }
+
   .header {
     background: var(--color-text);
     padding: 4em 4em 8em;

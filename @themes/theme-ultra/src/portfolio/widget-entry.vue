@@ -147,7 +147,7 @@ export default Vue.extend({
       max-height: 60vh;
       box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease-in-out;
-      border-radius: 5px;
+      border-radius: 0.25rem;
 
       &:hover {
         box-shadow: 0 0 0 1px rgba(73, 86, 105, 0.15), 0 1px 15px 0 rgba(0, 0, 0, 0.1);
@@ -163,6 +163,8 @@ export default Vue.extend({
   table {
     margin: 0.5em 0 1.4em;
     width: 100%;
+    max-width: 100%;
+    overflow-x: scroll;
     border: 1px solid var(--color-bg-alt-dark);
 
     tr:nth-child(even) {
@@ -178,11 +180,32 @@ export default Vue.extend({
     td {
       padding: 0.5em;
     }
+
+    @media (max-width: 900px) {
+      display: flex;
+      flex-direction: column;
+      tr {
+        display: flex;
+        flex-direction: column;
+        td {
+          word-wrap: break-word;
+          width: 200px;
+        }
+      }
+    }
   }
 
   .code-toolbar {
     background: var(--color-bg-alt-dark);
     margin-bottom: 1.4em;
+    max-width: 300px;
+  }
+
+  .highlight-code-wrap code[class*="language-"],
+  .highlight-code-wrap pre[class*="language-"] {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
   }
 
   .embed-responsive {
@@ -222,6 +245,11 @@ export default Vue.extend({
     p {
       display: inline;
     }
+  }
+
+  code {
+    word-break: break-word;
+    max-width: inherit;
   }
 }
 </style>
