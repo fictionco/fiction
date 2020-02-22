@@ -1,31 +1,30 @@
 <template>
   <div class="forum-sidebar">
     <div class="new-discussion">
-      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`">Start A Discussion</factor-link>
+      <factor-link
+        btn="primary"
+        :path="`${setting('forum.indexRoute')}/add-new`"
+      >{{ setting('forum.text.newTopic') }}</factor-link>
     </div>
     <div class="forum-nav">
       <factor-input-select
         class="show-mobile"
-        :list="navItems"
+        :list="categories"
         :value="$route.query.category || ''"
         @input="navigate($event)"
       />
-      <div v-for="(item, index) in navItems" :key="index" class="nav-item show-desktop">
+      <div v-for="(item, index) in categories" :key="index" class="nav-item show-desktop">
         <factor-link
           class="menu-item-link"
           :path="setting(`forum.indexRoute`)"
-          :query="{category: item.home ? null : item.value}"
+          :query="{category: !item.value ? null : item.value}"
         >
           <div class="item-icon">
-            <nav-icon class="nav-icon" :icon="item.value" />
+            <factor-icon v-if="item.icon" :class="item.icon" />
+            <nav-icon v-else class="nav-icon" :icon="item.value" />
           </div>
           <div class="item-text">{{ toLabel(item.name || item.value) }}</div>
         </factor-link>
-        <div v-if="item == 2" class="sub-menu">
-          <div class="sub-menu-links">
-            <factor-link>Nav</factor-link>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -34,7 +33,7 @@
 <script lang="ts">
 import { toLabel } from "@factor/api/utils"
 import { setting } from "@factor/api/settings"
-import { factorLink, factorInputSelect } from "@factor/ui"
+import { factorLink, factorInputSelect, factorIcon } from "@factor/ui"
 import Vue from "vue"
 
 interface NavItem {
@@ -46,41 +45,28 @@ interface NavItem {
 export default Vue.extend({
   components: {
     factorLink,
-    navIcon: () => import("./el/nav-icon.vue"),
-    factorInputSelect
+    navIcon: setting("forum.components.customIcons"),
+    factorInputSelect,
+    factorIcon
   },
   data() {
     return {
-      selectNav: "",
-      navItems: [
-        {
-          name: "All Discussions",
-          value: "",
-          path: setting("forum.indexRoute"),
-          home: true
-        },
-        {
-          value: "support"
-        },
-        {
-          value: "plugin"
-        },
-        {
-          value: "themes"
-        },
-        {
-          value: "feedback"
-        },
-        {
-          value: "performance"
-        },
-        {
-          value: "integrations"
-        }
-      ] as NavItem[]
+      selectNav: ""
     }
   },
-  computed: {},
+  computed: {
+    categories(): NavItem[] {
+      const categories = setting<NavItem[]>("forum.categories") ?? []
+
+      return [
+        {
+          name: setting("forum.text.listAll"),
+          value: ""
+        },
+        ...categories
+      ]
+    }
+  },
   methods: {
     setting,
     toLabel,
@@ -104,6 +90,14 @@ export default Vue.extend({
       font-size: 1.1em;
       width: 100%;
       max-width: 200px;
+    }
+
+    @media (max-width: 900px) {
+      .factor-link,
+      .factor-btn {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 
@@ -160,6 +154,7 @@ export default Vue.extend({
       }
       .item-icon {
         grid-area: icon;
+        text-align: center;
         svg {
           width: 1.5em;
           display: block;

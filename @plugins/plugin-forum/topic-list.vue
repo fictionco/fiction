@@ -207,6 +207,9 @@ export default Vue.extend({
     &.pinned {
       background: var(--color-bg-contrast);
     }
+    @media (max-width: 900px) {
+      padding: 0.75rem;
+    }
   }
   .list-item {
     display: grid;
@@ -257,6 +260,9 @@ export default Vue.extend({
               color: var(--color-primary);
             }
           }
+          @media (max-width: 900px) {
+            font-size: 1.1em;
+          }
         }
         .synopsis {
           opacity: 0.6;
@@ -290,11 +296,11 @@ export default Vue.extend({
       }
     }
     @media (max-width: 900px) {
-      grid-template-columns: 3rem 1fr 2rem;
+      grid-template-columns: 3rem 1fr minmax(2.5rem, 4rem);
       grid-template-areas: "avatar text details";
       .item-details {
-        text-align: left;
-        grid-template-columns: 5rem 1fr;
+        text-align: right;
+        grid-template-columns: 1fr;
         .tags {
           display: none;
         }

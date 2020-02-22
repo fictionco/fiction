@@ -6,11 +6,41 @@ export default {
     postRoute: "/topic",
     indexLimit: 30,
     returnLinkText: "All Topics",
+    features: {
+      topicSubscribe: true,
+      tagging: true
+    },
     metatags: {
       index: {
         title: "Factor Forum",
-        description: "Fiction forum topics."
+        description: "Help and discussion about Factor JS"
+      },
+      newTopic: {
+        title: "New Topic",
+        description: "Start a new topic discussion on the forum"
+      },
+      editTopic: {
+        title: "Edit Topic",
+        description: "Edit a forum topic"
       }
+    },
+    text: {
+      newTopic: "Start A Discussion",
+      listAll: "All Discussions",
+      topicLocked: "This topic is locked.",
+      loginToReply: "You need to login to reply.",
+      subscribeOnReply: "Subscribe to updates?",
+      login: "Login &rarr;",
+      save: "Save &uarr;",
+      postReply: "Post Reply &uarr;",
+      viewTopic: "View Topic &rarr;",
+      newTopicHeader: "Create New Topic",
+      editTopicHeader: "Edit Topic",
+      postTopicButton: "Post Topic &rarr;",
+      editTopicButton: "Save Changes &rarr;",
+      notifyNewTopic: "New topic created",
+      notifyTopicEdited: "Topic edited successfully",
+      backToAll: "&larr; All Discussions"
     },
     notFound: {
       title: "No Topics",
@@ -20,7 +50,30 @@ export default {
       index: ["topicIndex"],
       single: ["topicSingle"]
     },
-    categories: ["general", "support", "off-topic"],
+    categories: [
+      {
+        value: "support"
+      },
+      {
+        value: "plugin"
+      },
+      {
+        value: "themes"
+      },
+      {
+        value: "feedback"
+      },
+      {
+        value: "performance"
+      },
+      {
+        value: "integrations"
+      },
+      {
+        value: "off-topic",
+        icon: "far fa-star"
+      }
+    ],
     components: {
       forumSidebar: (): Promise<Component> => import("./forum-sidebar.vue"),
       forumIndex: (): Promise<Component> => import("./forum-index.vue"),
@@ -34,7 +87,8 @@ export default {
       topicAuthor: (): Promise<Component> => import("./el/topic-post-author.vue"),
       topicEdit: (): Promise<Component> => import("./topic-edit.vue"),
       navBack: (): Promise<Component> => import("./el/nav-back.vue"),
-      topicPagination: (): Promise<Component> => import("./el/topic-pagination.vue")
+      topicPagination: (): Promise<Component> => import("./el/topic-pagination.vue"),
+      customIcons: (): Promise<Component> => import("./el/nav-icon.vue")
     }
   }
 }

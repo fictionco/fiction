@@ -22,7 +22,7 @@ npm add  @factor/plugin-forum
 
 ## Customization
 
-The customization system for this plugin is based on the standard `factor-settings.js` API that is provided by Factor.
+The customization system for this plugin is based on the standard `factor-settings.js` API that is provided by Factor. Just add values in your app's settings file to change the values. You can reference the settings file in this project for a list of available configuration options.
 
 ```js
 // app factor-settings.js
@@ -32,6 +32,25 @@ export default {
     postRoute: "/my-forum-post-base-route",
     limit: 6
   }
+}
+```
+
+### CSS Variables
+
+This plugin makes use of a few CSS variables to enhance appearance. To change or setup these variables just add them to your `factor-styles.less` file.
+
+The variables used are:
+
+```less
+.factor-app {
+  // The background color of your app
+  --color-bg: #ffffff;
+  // Background contrast color (highlights, etc.)
+  --color-bg-contrast: #f7f7f7;
+  // The primary color of your application
+  --color-primary: #0496ff;
+  // The standard text color in your app
+  --color-text: #000000;
 }
 ```
 

@@ -3,12 +3,14 @@
     <factor-loading-ring v-if="loading" />
     <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
-        <div class="title">This topic is locked.</div>
+        <div class="title">{{ setting('forum.text.topicLocked') }}</div>
       </div>
       <div v-else-if="!currentUser" class="no-dice">
-        <div class="title">You need to login to reply.</div>
+        <div class="title">{{ setting('forum.text.loginToReply') }}</div>
         <div class="actions">
-          <factor-link event="sign-in-modal" btn="primary">Login &rarr;</factor-link>
+          <factor-link event="sign-in-modal" btn="primary">
+            <span v-formatted-text="setting('forum.text.login')" />
+          </factor-link>
         </div>
       </div>
       <template v-else>
@@ -20,21 +22,18 @@
           placeholder="Reply"
         />
         <div class="actions save-post">
-          <div v-if="showSubscriber" class="subscriber">
-            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?" />
+          <div v-if="showSubscriber && hasSubscribe" class="subscriber">
+            <factor-input-checkbox
+              v-model="subscriber"
+              :label="setting('forum.text.subscribeOnReply')"
+            />
           </div>
-          <factor-btn
-            v-if="editId"
-            btn="primary"
-            :loading="sending"
-            @click="editReply()"
-          >Save &uarr;</factor-btn>
-          <factor-btn
-            v-else
-            btn="primary"
-            :loading="sending"
-            @click="topicReply()"
-          >Post Reply &uarr;</factor-btn>
+          <factor-btn v-if="editId" btn="primary" :loading="sending" @click="editReply()">
+            <span v-formatted-text="setting('forum.text.save')" />
+          </factor-btn>
+          <factor-btn v-else btn="primary" :loading="sending" @click="topicReply()">
+            <span v-formatted-text="setting('forum.text.postReply')" />
+          </factor-btn>
         </div>
       </template>
     </div>
@@ -42,7 +41,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { stored, storeItem, emitEvent } from "@factor/api"
+import { stored, storeItem, emitEvent, setting } from "@factor/api"
 import { currentUser, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
 import {
@@ -79,6 +78,9 @@ export default Vue.extend({
   },
   computed: {
     currentUser,
+    hasSubscribe() {
+      return setting("forum.features.topicSubscribe")
+    },
     author(this: any) {
       if (this.editId) {
         const authorID =
@@ -109,6 +111,7 @@ export default Vue.extend({
     this.loading = false
   },
   methods: {
+    setting,
     async editReply(this: any) {
       this.sending = true
       if (this.postId != this.editId) {

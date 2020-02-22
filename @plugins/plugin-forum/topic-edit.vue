@@ -5,14 +5,13 @@
       <div class="header-area">
         <component :is="setting('forum.components.navBack')" class="back" />
         <div class="title-area">
-          <h1 class="title">{{ isNew ? "New" : "Edit" }} Topic</h1>
+          <h1
+            class="title"
+          >{{ setting(`forum.text.${isNew ? "newTopicHeader" : "editTopicHeader"}`) }}</h1>
           <div class="header-actions">
-            <factor-link
-              v-if="!isNew"
-              btn="default"
-              class="item"
-              :path="topicLink(post)"
-            >View Topic &rarr;</factor-link>
+            <factor-link v-if="!isNew" btn="default" class="item" :path="topicLink(post)">
+              <span v-formatted-text="setting('forum.text.viewTopic')" />
+            </factor-link>
           </div>
         </div>
       </div>
@@ -48,6 +47,7 @@
 
           <div class="meta">
             <factor-input-wrap
+              v-if="setting('forum.features.tagging')"
               v-model="post.tag"
               class="meta-item"
               label="Tags"
@@ -69,12 +69,11 @@
             />
           </div>
           <div class="actions">
-            <factor-btn
-              class="item"
-              btn="primary"
-              :loading="sending"
-              @click="submit()"
-            >{{ isNew ? "Post Topic" : "Save Changes" }} &rarr;</factor-btn>
+            <factor-btn class="item" btn="primary" :loading="sending" @click="submit()">
+              <span
+                v-formatted-text="setting(`forum.text.${isNew ? 'postTopicButton' : 'editTopicButton'}`)"
+              />
+            </factor-btn>
           </div>
         </factor-form>
       </div>
@@ -116,14 +115,8 @@ export default Vue.extend({
   },
   metaInfo() {
     return this.isNew
-      ? {
-          title: "New Topic",
-          description: "Start a new topic discussion on the forum"
-        }
-      : {
-          title: "Edit Topic",
-          description: "Edit a forum topic"
-        }
+      ? setting("forum.metatags.newTopic")
+      : setting("forum.metatags.editTopic")
   },
   computed: {
     isNew(this: any): boolean {
@@ -159,9 +152,9 @@ export default Vue.extend({
 
         if (createdTopic && createdTopic.permalink) {
           if (this.isNew) {
-            emitEvent("notify", "New topic created")
+            emitEvent("notify", setting("forum.text.notifyNewTopic"))
           } else {
-            emitEvent("notify", "Topic edited successfully")
+            emitEvent("notify", setting("forum.text.notifyTopicEdited"))
           }
 
           redirectToTopic(createdTopic)

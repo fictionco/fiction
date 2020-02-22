@@ -1,5 +1,7 @@
 <template>
-  <factor-link :path="home" btn="default" class="nav-back">&larr; All Discussions</factor-link>
+  <factor-link :path="home" btn="default" class="nav-back">
+    <span v-formatted-text="setting('forum.text.backToAll')" />
+  </factor-link>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
@@ -11,6 +13,9 @@ export default Vue.extend({
     home() {
       return setting(`forum.indexRoute`)
     }
+  },
+  methods: {
+    setting
   }
 })
 </script>
