@@ -65,15 +65,13 @@ export const sendTransactionalEmail = async (
 
   if (title) lines.push(`<b style="font-size: 1.1em">${title}</b>`)
 
-  if (text) lines.push(`${text}\n`)
+  if (text) lines.push(`${renderMarkdown(text)}\n`)
 
   if (linkText && linkUrl) lines.push(`<a href="${linkUrl}">${linkText}</a>`)
 
   if (textFooter) lines.push(`—\n${textFooter}`)
 
-  const preRendered = lines.map(_ => `<p>${_}</p>`).join("")
-
-  const html = renderMarkdown(preRendered)
+  const html = lines.map(_ => `<p>${_}</p>`).join("")
 
   const plainText = require("html-to-text").fromString(html)
 

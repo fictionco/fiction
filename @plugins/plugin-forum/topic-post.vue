@@ -133,7 +133,12 @@ export default Vue.extend({
   padding: 2rem;
   border-bottom: 1px solid var(--color-border);
   position: relative;
-
+  figure {
+    text-align: left;
+    figcaption {
+      text-align: left;
+    }
+  }
   .post-content {
     min-width: 0;
   }
