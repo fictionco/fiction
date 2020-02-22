@@ -24,7 +24,7 @@ import { getSchemaPopulatedFields } from "./util"
  * So we set a cache that can be invalidated if any posts in that post type change
  * @param postType - post type
  */
-const _setCache = (postType: string): void => {
+export const setLocalPostTypeCache = (postType: string): void => {
   storeItem(`${postType}Cache`, timestamp())
 }
 
@@ -32,7 +32,7 @@ const _setCache = (postType: string): void => {
  * Used to identify if an identical query has already been made with no changes to the post type in between
  * @param postType - post type
  */
-const _cacheKey = (postType: string): any => {
+export const localPostTypeCache = (postType: string): any => {
   return stored(`${postType}Cache`) || ""
 }
 
@@ -131,7 +131,7 @@ export const requestPostSave = async <T extends FactorPostState | never>({
   postType
 }: UpdatePost): Promise<T> => {
   const _post = await sendPostRequest<T>("savePost", { data: post, postType })
-  _setCache(postType)
+  setLocalPostTypeCache(postType)
   await handlePostPopulation(_post)
 
   return _post
@@ -141,7 +141,7 @@ export const requestEmbeddedAction = async <T extends FactorPostState | never>(
   _arguments: UpdatePostEmbedded & EndpointParameters
 ): Promise<T> => {
   const _post = await sendPostRequest<T>("embeddedAction", _arguments)
-  _setCache(_arguments.postType)
+  setLocalPostTypeCache(_arguments.postType)
 
   await handlePostPopulation(_post)
 
@@ -159,7 +159,7 @@ export const requestPostSaveMany = async ({
   data,
   postType
 }: UpdateManyPosts): Promise<FactorPost[]> => {
-  _setCache(postType)
+  setLocalPostTypeCache(postType)
   const result = await sendPostRequest("updateManyById", { data, _ids, postType })
 
   return result as FactorPost[]
@@ -169,7 +169,7 @@ export const requestPostDeleteMany = async ({
   _ids,
   postType
 }: UpdateManyPosts): Promise<FactorPost[]> => {
-  _setCache(postType)
+  setLocalPostTypeCache(postType)
 
   const result = await sendPostRequest("deleteManyById", { _ids })
 
@@ -232,7 +232,7 @@ export const requestPostIndex = async (
     cache = true,
     conditions = {}
   } = _arguments
-  const queryHash = objectHash({ ..._arguments, cache: _cacheKey(postType) })
+  const queryHash = objectHash({ ..._arguments, cache: localPostTypeCache(postType) })
   const storedIndex = stored(queryHash)
 
   const skip = (page - 1) * limit
