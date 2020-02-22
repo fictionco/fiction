@@ -3,12 +3,12 @@
     <h2 v-if="contactPretitle" v-formatted-text="contactPretitle" class="pretitle" />
     <h1 v-if="contactTitle" v-formatted-text="contactTitle" class="title" />
     <div class="form-wrap text-gray-100 bg-red-600 rounded-lg">
-      <div>
+      <div class="fields">
         <h2 v-if="contactFormTitle" v-formatted-text="contactFormTitle" class="heading" />
         <component :is="setting('contactForm.form')" />
       </div>
       <div class="info">
-        <h2 v-if="contactInfoTitle" v-formatted-text="contactInfoTitle" class="title heading" />
+        <h2 v-if="contactInfoTitle" v-formatted-text="contactInfoTitle" class="heading" />
         <div v-for="(item, i) in contactInfoItems" :key="i" class="info-item">
           <h3 class="item-title">{{ item.title }}</h3>
           <p>{{ item.text }}</p>
@@ -78,17 +78,26 @@ export default Vue.extend({
       grid-template-columns: 1fr;
     }
 
-    > div {
+    .fields,
+    .info {
       padding: 2rem;
-      &:nth-child(2) {
-        background: var(--color-primary-darker);
-      }
       .heading {
         font-size: 1.4rem;
         font-weight: var(--font-weight-semibold);
         letter-spacing: -0.03em;
         line-height: 1.1;
         margin-bottom: 2rem;
+      }
+    }
+
+    .info {
+      background: var(--color-primary-darker);
+      .info-item {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        .item-title {
+          font-weight: var(--font-weight-semibold);
+        }
       }
     }
 
@@ -103,6 +112,7 @@ export default Vue.extend({
           border-radius: 5px;
           padding: 0.6rem 0.8rem;
           font-size: 1.1rem;
+          font-family: inherit;
           color: var(--text-color);
           background: var(--color-primary-darker);
           &:focus {
@@ -119,14 +129,6 @@ export default Vue.extend({
       .form-submit {
         text-align: left;
         margin: 2em 0 0;
-      }
-    }
-
-    .info-item {
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-      .item-title {
-        font-weight: var(--font-weight-semibold);
       }
     }
   }

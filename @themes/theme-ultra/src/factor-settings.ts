@@ -4,9 +4,8 @@ export default {
     font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`
   },
   metatags: {
-    default: {
-      image: require("./static/factor-logo.jpg")
-    }
+    defaultTitle: "Ultra",
+    titleTemplate: "%s - Factor JS"
   },
   core: {
     components: {
@@ -79,7 +78,7 @@ export default {
       index: {
         title: "Intro - Factor Ultra Theme",
         description: "A simple portfolio theme for Factor.js framework.",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   },
@@ -150,7 +149,7 @@ export default {
       index: {
         title: "About - Factor Ultra Theme",
         description: "Professional Summary.",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   },
@@ -191,7 +190,7 @@ export default {
       index: {
         title: "Services - Factor Ultra Theme",
         description: "Everything you need to launch and grow your business.",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   },
@@ -252,16 +251,11 @@ export default {
         alt: "chanel"
       }
     ],
-    cta: {
-      headline: "Interested in Working Together? ",
-      path: "/#contact",
-      text: "Start Your Project"
-    },
     metatags: {
       index: {
         title: "Portfolio - Factor Ultra Theme",
         description: "Check out some of the latest creative work.",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   },
@@ -275,18 +269,18 @@ export default {
     content:
       "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
-      blogIndex: (): Promise<Component> => import("./section-news.vue"),
+      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
       date: (): Promise<Component> => import("./blog/widget-date.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
       authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
-      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
+      social: (): Promise<Component> => import("./blog/widget-social.vue"),
     },
     layout: {
       index: ["featuredImage", "date", "blogHero", "subtitle"],
-      single: ["customSingleHeader", "featuredImage", "meta", "entry", "social", "authorBio"],
-      // OLD single: ["newsHero", "featuredImage", "tags", "newsEntry", "authorBio"]
+      single: ["customSingleHeader", "meta", "featuredImage", "entry", "social", "authorBio"],
       meta: ["authorDate", "tags"]
     },
     notFound: {
@@ -297,7 +291,7 @@ export default {
       index: {
         title: "News - Factor Ultra Theme",
         description: "Thoughts on design, the process of creation, and optimizing collaboration.",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   },
@@ -316,6 +310,12 @@ export default {
       {
         placeholder: "Your Name",
         _id: "name",
+        inputType: "text",
+        required: true
+      },
+      {
+        placeholder: "Your state",
+        _id: "state",
         inputType: "text",
         required: true
       },
@@ -373,7 +373,7 @@ export default {
       index: {
         title: "Contact - Factor Ultra Theme",
         description: "Reach out for a new project or just say hello",
-        //image: require("./img/logo-ultra.jpg")
+        image: require("./img/logo-ultra.jpg")
       }
     }
   }

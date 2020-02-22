@@ -47,9 +47,12 @@ export default {
   components: {
     blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
     blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
+    blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
+    date: (): Promise<Component> => import("./blog/widget-date.vue"),
     featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
     authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
-    customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+    customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
+    social: (): Promise<Component> => import("./blog/widget-social.vue"),
   }
   // other settings
 }

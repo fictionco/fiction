@@ -9,7 +9,7 @@
         <h1 class="title">
           <factor-link
             :path="postLink(post._id)"
-            class="text-gray-100 hover:text-red-500"
+            class="text-gray-100 hover:text-gray-100"
           >{{ post.title }}</factor-link>
         </h1>
         <h3 class="entry-subtitle text-gray-100">{{ post.subTitle }}</h3>
@@ -66,6 +66,7 @@ export default Vue.extend({
 
       .back {
         font-weight: var(--font-weight-bold);
+        color: var(--color-primary);
       }
       .title {
         font-weight: var(--font-weight-bold);
@@ -83,6 +84,9 @@ export default Vue.extend({
       }
       .entry-subtitle {
         line-height: 1.7;
+      }
+      .edit {
+        color: var(--color-primary);
       }
       .content {
         font-size: 1.2em;

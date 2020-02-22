@@ -57,31 +57,39 @@ export default Vue.extend({
 
     .pretitle {
       font-size: 1.4rem;
-      @media (max-width: 900px) {
-        font-size: 1.2rem;
-      }
     }
     .title {
       font-size: 3.2rem;
       font-weight: var(--font-weight-bold);
       letter-spacing: -0.03em;
       line-height: 1.1;
-      @media (max-width: 900px) {
-        font-size: 2.2rem;
-      }
     }
     .buttons {
       z-index: 2;
       margin-top: 2em;
       .btn + .btn {
         margin-left: 1em;
-
-        @media (max-width: 900px) {
-          margin-left: 0;
-          margin-top: 1.4em;
-        }
         i {
           padding-left: 1rem;
+        }
+      }
+    }
+
+    @media (max-width: 900px) {
+      .pretitle {
+        font-size: 1.2rem;
+      }
+      .title {
+        font-size: 2.2rem;
+      }
+      .buttons {
+        .btn {
+          display: block;
+          width: fit-content;
+          margin-bottom: 1rem;
+        }
+        .btn + .btn {
+          margin-left: 0;
         }
       }
     }

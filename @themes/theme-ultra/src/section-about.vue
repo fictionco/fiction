@@ -65,11 +65,8 @@ export default Vue.extend({
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
-      .content-wrap {
-        order: 2;
-      }
       .photo-wrap {
-        order: 1;
+        justify-self: center;
       }
     }
 
@@ -222,6 +219,10 @@ export default Vue.extend({
         }
       }
     }
+  }
+
+  @media (max-width: 900px) {
+    padding: 6em 2em 3em;
   }
 }
 </style>
