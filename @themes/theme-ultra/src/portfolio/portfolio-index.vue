@@ -103,24 +103,13 @@ export default Vue.extend({
     padding: 5em;
   }
 
-  // html {
-  //   box-sizing: border-box;
-  // }
-
-  // *,
-  // *:before,
-  // *:after {
-  //   box-sizing: inherit;
-  // }
-
-  /* The Masonry Container */
+  /* Column-based css masonry */
   .masonry {
-    column-count: 2;
+    column-count: 1;
     column-gap: 2em;
     margin: 1.5em auto;
     max-width: 100%;
 
-    /* The Masonry Brick */
     .item {
       display: inline-block;
       margin: 0 0 2em;
@@ -132,7 +121,6 @@ export default Vue.extend({
         box-shadow: 0 3px 30px rgba(0, 0, 0, 0.15), 0 5px 5px rgba(0, 0, 0, 0.05);
       }
       img {
-        //max-width: 100%;
         width: 100%;
         height: auto;
         vertical-align: middle;
@@ -141,7 +129,10 @@ export default Vue.extend({
       }
     }
 
-    @media only screen and (min-width: 1024px) {
+    @media only screen and (min-width: 1366px) {
+      column-count: 3;
+    }
+    @media only screen and (max-width: 1365px) and (min-width: 1024px) {
       column-count: 2;
     }
     @media only screen and (max-width: 1023px) and (min-width: 768px) {

@@ -5,29 +5,29 @@
         <div class="content-wrap">
           <h2 v-if="aboutPretitle" v-formatted-text="aboutPretitle" class="pretitle" />
           <h1 v-if="aboutTitle" v-formatted-text="aboutTitle" class="title" />
-          <p v-if="aboutContent" v-formatted-text="aboutContent" class="text" />
+          <p v-if="aboutContent" v-formatted-text="aboutContent" class="content text-gray-700" />
         </div>
         <div class="photo-wrap">
           <div class="photo">
-            <img :src="aboutPhoto" :alt="aboutTitle" />
+            <img :src="aboutPhoto" :alt="aboutTitle" class="rounded-lg" />
           </div>
-        </div>
-      </div>
-      <div class="counter">
-        <div v-for="(item, i) in aboutCounter" :key="i" class="item">
-          <div class="item-number">{{ item.number }}</div>
-          <div class="item-text">{{ item.text }}</div>
         </div>
       </div>
       <div class="career">
         <h4 v-if="aboutCareerTitle" v-formatted-text="aboutCareerTitle" class="title" />
-        <ul>
-          <li v-for="(item, index) in aboutCareerItems" :key="index" class="career-item">
+        <ul class="career-list text-gray-700 rounded-lg">
+          <li v-for="(item, index) in aboutCareerItems" :key="index" class="career-item rounded-lg">
             <span v-if="item.left" v-formatted-text="item.left" class="item-left" />
             <span v-if="item.middle" v-formatted-text="item.middle" class="item-middle" />
             <span v-if="item.right" v-formatted-text="item.right" class="item-right" />
           </li>
         </ul>
+      </div>
+      <div class="counter">
+        <div v-for="(item, i) in aboutCounter" :key="i" class="item text-gray-700">
+          <div class="item-number">{{ item.number }}</div>
+          <div class="item-text">{{ item.text }}</div>
+        </div>
       </div>
     </div>
   </section>
@@ -56,10 +56,6 @@ export default Vue.extend({
   background: var(--color-bg-alt);
   padding: 4em 8em;
   align-items: center;
-
-  @media (max-width: 900px) {
-    padding: 3em 2em;
-  }
 
   .content-photo {
     display: grid;
@@ -94,7 +90,7 @@ export default Vue.extend({
         font-size: 2.2rem;
       }
     }
-    .text {
+    .content {
       font-size: 1.2rem;
     }
     .photo-wrap {
@@ -109,14 +105,13 @@ export default Vue.extend({
           width: 100%;
           position: relative;
           z-index: 1;
-          border-radius: 4px;
         }
         &:before,
         &:after {
           content: "";
           width: 100%;
           position: absolute;
-          border-radius: 4px;
+          border-radius: 0.5em;
           border: 4px solid var(--color-primary);
         }
         &:before {
@@ -152,16 +147,16 @@ export default Vue.extend({
     margin: 2rem auto;
     text-align: center;
 
-    @media (max-width: 900px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
     .item-number {
       font-size: 4em;
       font-weight: var(--font-weight-bold);
     }
     .item-text {
-      color: var(--color-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
@@ -175,11 +170,10 @@ export default Vue.extend({
       margin-bottom: 1.5rem;
     }
 
-    ul {
+    .career-list {
       display: grid;
       grid-gap: 1em;
       padding: 1.5em 0;
-      border-radius: 0.5rem;
       background: rgba(0, 0, 0, 0.03);
       box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
       list-style: none;
@@ -195,8 +189,9 @@ export default Vue.extend({
         grid-gap: 1em;
         align-items: center;
         padding: 0.5em 2em;
-        border-radius: 0.5rem;
+        letter-spacing: -0.03em;
         transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+
         &:hover {
           background: rgba(0, 0, 0, 0.03);
           box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.05);
@@ -211,6 +206,19 @@ export default Vue.extend({
         .item-right {
           text-align: right;
           opacity: 0.5;
+        }
+
+        @media (max-width: 900px) {
+          grid-template-columns: 1fr;
+          grid-gap: 0;
+
+          .item-left,
+          .item-right {
+            font-size: 0.9em;
+          }
+          .item-right {
+            text-align: left;
+          }
         }
       }
     }
