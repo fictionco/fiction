@@ -7,7 +7,7 @@
     <div class="content bg-white">
       <portfolio-index />
 
-      <div class="clients-wrap">
+      <div v-if="setting('portfolio.clients')" class="clients-wrap">
         <h2 class="clients-title">{{ setting('portfolio.clientsTitle') }}</h2>
         <div class="clients">
           <div v-for="(logo, i) in setting('portfolio.clients')" :key="i" class="logo">

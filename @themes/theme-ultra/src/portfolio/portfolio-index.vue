@@ -1,15 +1,18 @@
 <template>
   <div class="posts-wrap">
-    <div v-if="portfolioPosts" class="portfolio-posts masonry">
-      <section v-for="post in portfolioPosts" :key="post._id" class="item">
+    <div v-if="loading" class="posts-loading">
+      <factor-loading-ring />
+    </div>
+    <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts masonry">
+      <div v-for="post in portfolioPosts" :key="post._id" class="item">
         <component
-          :is="setting(`portfolio.components.${comp}`)"
-          v-for="(comp, i) in setting('portfolio.layout.index')"
+          :is="setting(`portfolio.components.${_component}`)"
+          v-for="(_component, i) in setting('portfolio.layout.index')"
           :key="i"
           :post-id="post._id"
           format="index"
         />
-      </section>
+      </div>
     </div>
     <div v-else class="posts-not-found">
       <div class="text">
@@ -20,13 +23,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
-import { setting } from "@factor/api/settings"
-import { stored } from "@factor/app/store"
+import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorLoadingRing, factorLink, factorIcon },
   data() {
     return {
       postType: "portfolio",
@@ -97,7 +99,7 @@ export default Vue.extend({
 <style lang="less">
 .posts-wrap {
   margin-top: -4em;
-  .loading-entries {
+  .posts-loading {
     display: flex;
     justify-content: center;
     padding: 5em;

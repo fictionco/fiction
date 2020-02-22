@@ -72,7 +72,7 @@ export default Vue.extend({
         grid-template-columns: 1fr;
       }
       @media (max-width: 900px) {
-        padding: 0 1em;
+        padding: 3em 2em 1em;
       }
       .return-link {
         font-size: 1.1em;
@@ -81,6 +81,7 @@ export default Vue.extend({
       .entry-title {
         font-weight: var(--font-weight-bold);
         font-size: 3em;
+        line-height: 1.2em;
         letter-spacing: -0.03em;
         margin: 0.3em 0;
         @media (max-width: 900px) {
@@ -97,7 +98,6 @@ export default Vue.extend({
       .entry-synopsis {
         font-size: 1.2em;
         line-height: 1.6em;
-        opacity: 0.5;
       }
     }
   }

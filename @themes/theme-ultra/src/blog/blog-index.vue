@@ -1,60 +1,24 @@
 <template>
   <div class="blog">
-    <!-- <el-hero
-      v-if="page == 1 && !tag"
-      :pretitle="setting('blog.headline')"
-      :title="setting('blog.subheadline')"
-      :image="setting('blog.heroImage')"
-    >
-      <template v-slot:hero-content>
-        <div v-formatted-text="setting('blog.content')" class="content text-gray-600" />
-      </template>
-    </el-hero>-->
-
-    <!-- <section v-else-if="tag" class="hero">
-      <div class="mast">
-        <div class="hero-inner">
-          <div class="return-link">
-            <factor-link
-              class="pretitle back label label-primary"
-              :path="setting('blog.indexRoute')"
-            >
-              <factor-icon icon="fas fa-arrow-left" />
-              {{ returnLinkText }}
-            </factor-link>
-            <h2 class="title">Tag: {{ tag }}</h2>
-          </div>
+    <section class="blog-posts">
+      <div v-if="loading" class="posts-loading">
+        <factor-loading-ring />
+      </div>
+      <div v-else-if="blogPosts.length > 0" class="post-index">
+        <div v-for="post in blogPosts" :key="post._id" class="blog-post rounded-lg hover:bg-white">
+          <component
+            :is="setting(`blog.components.${_component}`)"
+            v-for="(_component, i) in setting('blog.layout.index')"
+            :key="i"
+            :post-id="post._id"
+            format="index"
+          />
         </div>
       </div>
-    </section>-->
-
-    <section class="blog-posts">
-      <div class="blog-posts-inner">
-        <div class="blog-entries">
-          <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
-          </div>
-          <div v-else-if="blogPosts.length > 0" class="post-index">
-            <div
-              v-for="post in blogPosts"
-              :key="post._id"
-              class="blog-post news-item rounded-lg hover:bg-white"
-            >
-              <component
-                :is="setting(`blog.components.${_component}`)"
-                v-for="(_component, i) in setting('blog.layout.index')"
-                :key="i"
-                :post-id="post._id"
-                format="index"
-              />
-            </div>
-          </div>
-          <div v-else class="posts-not-found">
-            <div class="text">
-              <div class="title">{{ setting("blog.notFound.title") }}</div>
-              <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
-            </div>
-          </div>
+      <div v-else class="posts-not-found">
+        <div class="text">
+          <div class="title">{{ setting("blog.notFound.title") }}</div>
+          <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
         </div>
       </div>
     </section>
@@ -71,7 +35,6 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon
-    //"el-hero": () => import("../el/hero.vue")
   },
   data() {
     return {
@@ -91,8 +54,8 @@ export default Vue.extend({
 
     return {
       title,
-      description
-      //image: setting("blog.metatags.index.image")
+      description,
+      image: setting("blog.metatags.index.image")
     }
   },
   computed: {
@@ -156,8 +119,8 @@ export default Vue.extend({
 
 <style lang="less">
 .blog {
-  .blog-posts-inner {
-    max-width: 1000px;
+  .blog-posts {
+    //max-width: 1000px;
     margin: 0 auto;
 
     .post-index {
