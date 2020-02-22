@@ -1,5 +1,4 @@
 import {
-  requestPostSave,
   requestPostDeleteMany,
   requestPostIndex,
   requestEmbeddedAction,
@@ -15,7 +14,7 @@ import {
 } from "@factor/post/types"
 
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
-import { randomToken, slugify, emitEvent } from "@factor/api"
+import { slugify, emitEvent } from "@factor/api"
 import { setting } from "@factor/api/settings"
 
 import { navigateToRoute, currentRoute } from "@factor/app/router"

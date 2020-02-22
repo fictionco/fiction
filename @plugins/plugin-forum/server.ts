@@ -53,14 +53,9 @@ export const notifySubscribers = async ({
   if (post && post !== null && post.subscriber && post.subscriber.length > 0) {
     const linkUrl = `${currentUrl()}${topicLink(post)}`
 
-    console.log(
-      "NOTIFY",
-      post.subscriber,
-      userId,
-      post.subscriber.filter(sub => sub != userId)
-    )
+    // don't forget to convert objectId to string
     const _promises = post.subscriber
-      .filter(sub => sub != userId)
+      .filter(sub => sub.toString() != userId.toString())
       .map(sub => {
         return sendTransactionalEmailToId(sub, {
           emailId: "forumTopicSubscribe",
