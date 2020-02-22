@@ -2,7 +2,8 @@ import {
   requestPostDeleteMany,
   requestPostIndex,
   requestEmbeddedAction,
-  handlePostPopulation
+  handlePostPopulation,
+  setLocalPostTypeCache
 } from "@factor/post/request"
 import {
   FactorPost,
@@ -75,8 +76,8 @@ export const deleteTopic = async (postId: string): Promise<void> => {
 
   if (confirmed) {
     await requestPostDeleteMany({ _ids: [postId], postType })
-
-    emitEvent("notify", "Topic deleted")
+    setLocalPostTypeCache(postType)
+    emitEvent("notify", "Topic Deleted")
     navigateToRoute({ name: "forumIndex" })
   }
 
@@ -104,6 +105,8 @@ export const requestSaveTopic = async (
   subscribe?: boolean
 ): Promise<FactorPostForumTopic | undefined | never> => {
   const topic = await sendRequest<FactorPostForumTopic>("saveTopic", { post, subscribe })
+  emitEvent("notify", "Topic Saved")
+  setLocalPostTypeCache(postType)
 
   redirectToTopic(topic)
 
@@ -122,7 +125,7 @@ export const requestSaveTopicReply = async (
   })
 
   handlePostPopulation(result)
-  emitEvent("notify", "Reply saved")
+  emitEvent("notify", "Reply Saved")
 
   return result
 }
@@ -138,7 +141,7 @@ export const deleteTopicReply = async (
     postType
   })
 
-  emitEvent("notify", "Reply deleted")
+  emitEvent("notify", "Reply Deleted")
 
   return result
 }
