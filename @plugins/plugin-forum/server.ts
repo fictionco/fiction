@@ -2,7 +2,7 @@ import { addPostSchema } from "@factor/post/util"
 import { addEndpoint } from "@factor/api/endpoints"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
-import { embeddedAction } from "@factor/post/server"
+import { embeddedAction, savePost } from "@factor/post/server"
 import { FactorPost, FactorPostState } from "@factor/post/types"
 import { sendTransactionalEmailToId } from "@factor/email/server"
 import { currentUrl } from "@factor/api/url"
@@ -52,6 +52,13 @@ export const notifySubscribers = async ({
 
   if (post && post !== null && post.subscriber && post.subscriber.length > 0) {
     const linkUrl = `${currentUrl()}${topicLink(post)}`
+
+    console.log(
+      "NOTIFY",
+      post.subscriber,
+      userId,
+      post.subscriber.filter(sub => sub != userId)
+    )
     const _promises = post.subscriber
       .filter(sub => sub != userId)
       .map(sub => {
@@ -106,8 +113,23 @@ export const saveTopicReply = async (
   return result
 }
 
+export const saveTopic = async (
+  { post, subscribe }: { post: FactorPost; subscribe?: boolean },
+  meta: EndpointMeta
+): Promise<FactorPostState> => {
+  const newPost = await savePost({ data: post, postType }, meta)
+
+  if (subscribe && meta.bearer && newPost) {
+    await setSubscribed({ userId: meta.bearer._id, postId: newPost._id, subscribe })
+  }
+  return newPost
+}
+
 export const setup = (): void => {
   addPostSchema(() => forumSchema)
-  addEndpoint({ id: "forum", handler: { isSubscribed, setSubscribed, saveTopicReply } })
+  addEndpoint({
+    id: "forum",
+    handler: { isSubscribed, setSubscribed, saveTopicReply, saveTopic }
+  })
 }
 setup()

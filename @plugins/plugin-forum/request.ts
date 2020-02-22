@@ -47,13 +47,28 @@ interface RunPostAction {
 }
 
 /**
- * Request to create a new topic
+ * Gets a link to a topic based on its post
  */
-export const saveTopic = async (
-  post: FactorPostForumTopic
-): Promise<FactorPostForumTopic | undefined | never> => {
-  post = { ...post, permalink: randomToken(8) }
-  return await requestPostSave({ post, postType })
+export const topicLink = (topicPost: FactorPostForumTopic): string => {
+  const { title, _id } = topicPost
+  const base = setting("forum.postRoute")
+  const parts = [base, _id, slugify(title)]
+
+  return parts.join("/")
+}
+
+/**
+ * Navigates to a topic thread
+ */
+export const redirectToTopic = (topicPost: FactorPostForumTopic): void => {
+  navigateToRoute({ path: topicLink(topicPost) })
+}
+
+/**
+ * Gets a link to edit a topic
+ */
+export const editTopic = (topicPost: FactorPostForumTopic): void => {
+  navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
 }
 
 export const deleteTopic = async (postId: string): Promise<void> => {
@@ -80,6 +95,20 @@ export const sendRequest = async <T = unknown>(
   })
 
   return result
+}
+
+/**
+ * Request to create a new topic
+ */
+export const requestSaveTopic = async (
+  post: FactorPostForumTopic,
+  subscribe?: boolean
+): Promise<FactorPostForumTopic | undefined | never> => {
+  const topic = await sendRequest<FactorPostForumTopic>("saveTopic", { post, subscribe })
+
+  redirectToTopic(topic)
+
+  return topic
 }
 
 export const requestSaveTopicReply = async (
@@ -125,13 +154,13 @@ export const postAction = async ({
 
   if (isParent) {
     if (action == PostActions.Pin) {
-      await saveTopic({ _id: post._id, pinned: value })
+      await requestSaveTopic({ _id: post._id, pinned: value })
     } else if (action == PostActions.Lock) {
-      await saveTopic({ _id: post._id, locked: value })
+      await requestSaveTopic({ _id: post._id, locked: value })
     } else if (action == PostActions.Delete) {
       await deleteTopic(parentId)
     } else if (action == PostActions.Edit) {
-      await saveTopic(post)
+      await requestSaveTopic(post)
     }
   } else {
     if (action == PostActions.Edit) {
@@ -183,35 +212,6 @@ export const loadAndStoreIndex = async (): Promise<void> => {
   })
 
   return
-}
-
-/**
- * Gets a link to a topic based on its post
- */
-export const topicLink = (topicPost: FactorPostForumTopic): string => {
-  const { permalink, title, _id } = topicPost
-  const base = setting("forum.postRoute")
-  if (permalink) {
-    const parts = [base, permalink, slugify(title)]
-
-    return parts.join("/")
-  } else {
-    return `${base}?_id=${_id}`
-  }
-}
-
-/**
- * Navigates to a topic thread
- */
-export const redirectToTopic = (topicPost: FactorPostForumTopic): void => {
-  navigateToRoute({ path: topicLink(topicPost) })
-}
-
-/**
- * Gets a link to edit a topic
- */
-export const editTopic = (topicPost: FactorPostForumTopic): void => {
-  navigateToRoute({ name: "editTopic", query: { _id: topicPost._id } })
 }
 
 export const requestIsSubscribed = async <T = boolean>(

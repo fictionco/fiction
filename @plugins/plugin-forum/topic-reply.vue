@@ -1,6 +1,6 @@
 <template>
   <div class="topic-reply">
-    <factor-loading-ring v-if="loading"/>
+    <factor-loading-ring v-if="loading" />
     <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
         <div class="title">This topic is locked.</div>
@@ -19,9 +19,9 @@
           class="reply-textarea"
           placeholder="Reply"
         />
-        <div class="actions">
+        <div class="actions save-post">
           <div v-if="showSubscriber" class="subscriber">
-            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?"/>
+            <factor-input-checkbox v-model="subscriber" label="Subscribe to updates?" />
           </div>
           <factor-btn
             v-if="editId"
@@ -53,7 +53,7 @@ import {
   factorLink,
   factorLoadingRing
 } from "@factor/ui"
-import { requestSaveTopicReply, saveTopic } from "./request"
+import { requestSaveTopicReply, requestSaveTopic } from "./request"
 export default Vue.extend({
   components: {
     factorInputEditor,
@@ -119,7 +119,7 @@ export default Vue.extend({
         this.post = { ...this.post, content: this.reply }
         emitEvent("highlight-post", this.editId)
       } else {
-        await saveTopic({ _id: this.postId, content: this.reply })
+        await requestSaveTopic({ _id: this.postId, content: this.reply })
       }
 
       this.sending = false
@@ -194,7 +194,7 @@ export default Vue.extend({
       top: 4rem;
       left: 1rem;
     }
-    .actions {
+    .actions.save-post {
       padding: 1rem 0;
       text-align: right;
       display: flex;

@@ -3,7 +3,7 @@
     <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
-        <factor-loading-ring v-if="loading"/>
+        <factor-loading-ring v-if="loading" />
         <component
           :is="setting('forum.components.topicList')"
           v-else
@@ -62,7 +62,6 @@ export default Vue.extend({
   watch: {
     $route: {
       handler: function(this: any) {
-        this.loading = true
         this.getPosts()
       }
     }
@@ -73,6 +72,7 @@ export default Vue.extend({
   methods: {
     setting,
     async getPosts(this: any) {
+      this.loading = true
       await loadAndStoreIndex()
       this.loading = false
     }

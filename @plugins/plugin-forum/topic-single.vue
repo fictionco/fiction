@@ -10,10 +10,10 @@
             <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h2>
             <div v-if="post.pinned || post.locked" class="notes">
               <div v-if="post.locked" class="note locked">
-                <factor-icon icon="fas fa-lock"/>Locked
+                <factor-icon icon="fas fa-lock" />Locked
               </div>
               <div v-if="post.pinned" class="note locked">
-                <factor-icon icon="fas fa-thumbtack"/>Pinned
+                <factor-icon icon="fas fa-thumbtack" />Pinned
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@
         />
       </div>
       <div class="topic-sidebar-wrap">
-        <factor-loading-ring v-if="loading"/>
+        <factor-loading-ring v-if="loading" />
         <div v-else class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
@@ -427,6 +427,8 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: 5rem 1fr;
     grid-template-areas: ". reply";
+
+    .loading-ring-wrap,
     .reply-area {
       grid-area: reply;
       min-width: 0;

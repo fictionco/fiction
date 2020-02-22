@@ -25,20 +25,21 @@ const toasterNotification = (
   if (typeof obj == "string") {
     message = obj
   } else {
-    ({ message = "", duration = 2000 } = obj)
+    ({ message = "", duration = 3000 } = obj)
   }
 
   emitNotification({ type: "notify", message, duration })
 }
 
 const toasterError = (obj: Error | string): void => {
+  const duration = 5000
   if (typeof obj == "string") {
-    emitNotification({ type: "error", message: obj })
+    emitNotification({ type: "error", message: obj, duration })
   } else {
     if (obj instanceof Error) log.error(obj)
 
     if (obj.message) {
-      emitNotification({ type: "error", message: obj.message })
+      emitNotification({ type: "error", message: obj.message, duration })
     }
   }
 }

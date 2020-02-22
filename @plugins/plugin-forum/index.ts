@@ -42,11 +42,11 @@ export const setup = (): void => {
         component: setting("forum.components.topicSingle")
       },
       {
-        path: `${setting("forum.postRoute")}/:permalink`,
+        path: `${setting("forum.postRoute")}/:_id`,
         component: setting("forum.components.topicSingle")
       },
       {
-        path: `${setting("forum.postRoute")}/:permalink/:title`,
+        path: `${setting("forum.postRoute")}/:_id/:title`,
         component: setting("forum.components.topicSingle")
       }
     ]

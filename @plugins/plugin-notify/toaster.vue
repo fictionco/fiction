@@ -33,20 +33,31 @@ export default Vue.extend({
     }
   },
   mounted() {
-    onEvent("notify-toast", ({ type, message = "", duration = 2000 }) => {
-      const time = +new Date()
-      if (type == "error") {
-        this.errors.push({ time, message })
-        setTimeout(() => {
-          this.errors.shift()
-        }, duration)
-      } else if (type == "notify") {
-        this.notification.push({ time, message })
-        setTimeout(() => {
-          this.notification.shift()
-        }, duration)
+    onEvent(
+      "notify-toast",
+      ({
+        type,
+        message = "",
+        duration = 2000
+      }: {
+        type: string
+        message: string
+        duration: number
+      }) => {
+        const time = +new Date()
+        if (type == "error") {
+          this.errors.push({ time, message })
+          setTimeout(() => {
+            this.errors.shift()
+          }, duration)
+        } else if (type == "notify") {
+          this.notification.push({ time, message })
+          setTimeout(() => {
+            this.notification.shift()
+          }, duration)
+        }
       }
-    })
+    )
   }
 })
 </script>
@@ -79,22 +90,23 @@ export default Vue.extend({
   left: 50%;
   transform: translateX(-50%);
   position: fixed;
-  max-width: 375px;
+  max-width: 400px;
   width: 90%;
   z-index: 10000;
   transition: transform 0.4s ease 0s;
 
   .toast {
     letter-spacing: -0.03em;
-    background: #fff;
-    font-size: 1em;
+    font-weight: 600;
+    background: var(--color-bg, #fff);
+    font-size: 1.3em;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 6px;
     text-align: center;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 6px 14px 0 rgba(24, 32, 41, 0.12),
-      0 12px 34px 0 rgba(24, 32, 41, 0.08);
+    box-shadow: 0 1px 0 1px rgba(50, 50, 50, 0.06), 0 50px 100px rgba(50, 50, 93, 0.13),
+      0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
     margin-bottom: 1em;
     .tx {
       flex-grow: 1;
@@ -103,9 +115,11 @@ export default Vue.extend({
   }
 }
 .notify-toast {
+  color: var(--color-primary);
   top: 10px;
 }
 .error-toast {
+  color: var(--color-warning);
   bottom: 10px;
 }
 </style>

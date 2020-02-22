@@ -195,18 +195,18 @@ export const requestPostSingle = async (
 
   if (_id) {
     params._id = _id
-    const existing = stored(_id)
-    if (existing) {
-      storeItem("post", existing)
-      return existing
-    }
   } else if (permalink) {
     params.conditions = { [field]: permalink }
   } else if (token) {
     params.token = token
   }
 
-  const post = (await sendPostRequest("getSinglePost", params)) as FactorPost
+  // If this post is in the store, don't get it again
+  let post = stored(_id)
+
+  if (!post) {
+    post = (await sendPostRequest("getSinglePost", params)) as FactorPost
+  }
 
   await handlePostPopulation(post, { depth })
 

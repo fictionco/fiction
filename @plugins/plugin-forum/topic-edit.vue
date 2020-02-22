@@ -96,7 +96,7 @@ import { stored, storeItem } from "@factor/api"
 import { emitEvent } from "@factor/api/events"
 import { FactorPost } from "@factor/post/types"
 import { requestPostSingle } from "@factor/post/request"
-import { saveTopic, redirectToTopic, topicLink } from "./request"
+import { requestSaveTopic, redirectToTopic, topicLink } from "./request"
 import { postType } from "."
 export default Vue.extend({
   components: {
@@ -155,7 +155,7 @@ export default Vue.extend({
 
       this.sending = true
       try {
-        const createdTopic = await saveTopic(this.post)
+        const createdTopic = await requestSaveTopic(this.post, true)
 
         if (createdTopic && createdTopic.permalink) {
           if (this.isNew) {
@@ -172,6 +172,9 @@ export default Vue.extend({
       this.sending = false
     },
     async requestPost(this: any) {
+      /**
+       * Create a blank scaffold post
+       */
       const post = await requestPostSingle({
         _id: this._id,
         postType,
