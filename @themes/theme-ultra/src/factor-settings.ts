@@ -278,7 +278,7 @@ export default {
       blogIndex: (): Promise<Component> => import("./section-news.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
-      date: (): Promise<Component> => import("./news/widget-date.vue"),
+      date: (): Promise<Component> => import("./blog/widget-date.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
       authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
       customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
