@@ -20,28 +20,28 @@
     "**/*.log": true
   },
   "editor.fontFamily": "Operator mono, Menlo, Monaco, 'Courier New', monospace",
-  "eslint.validate": [
-    {
-      "language": "vue",
-      "autoFix": true
-    },
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    {
-      "language": "html",
-      "autoFix": true
-    },
-    {
-      "language": "javascript",
-      "autoFix": true
-    },
-    {
-      "language": "json",
-      "autoFix": true
-    }
-  ],
+  // "eslint.validate": [
+  //   {
+  //     "language": "vue",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "typescript",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "html",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "javascript",
+  //     "autoFix": true
+  //   },
+  //   {
+  //     "language": "json",
+  //     "autoFix": true
+  //   }
+  // ],
   "eslint.options": {
     "extensions": [".js", ".vue", ""]
   },
@@ -49,7 +49,7 @@
   "editor.formatOnSave": true,
   "markdownlint.config": {
     "default": true,
-    "MD033": { "allowed_elements": ["a", "img", "p"] },
+    "MD033": { "allowed_elements": ["a", "img", "p", "div", "h3", "br"] },
     "MD041": false,
     "MD036": false
   },

@@ -105,6 +105,10 @@ export default Vue.extend({
     margin: 2rem 0;
     @media (max-width: 900px) {
       margin: 1rem 0;
+
+      .select-standard {
+        width: 100%;
+      }
     }
     .show-mobile {
       display: none;
