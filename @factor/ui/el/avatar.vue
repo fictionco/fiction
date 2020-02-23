@@ -1,13 +1,11 @@
 <template>
   <div class="avatar">
-    <factor-loading-ring v-if="init" :width="width" />
-
     <div
-      v-else-if="hasImage"
+      v-if="init & hasImage"
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
-    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
+    <div v-else-if="!hasImage & init" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
         version="1.1"
@@ -30,10 +28,8 @@
 <script lang="ts">
 import { stored } from "@factor/api"
 import { userInitialized } from "@factor/user"
-import { factorLoadingRing } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
   props: {
     width: { type: String, default: "" },
     postId: { type: String, default: "" },

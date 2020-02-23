@@ -182,9 +182,6 @@ export default Vue.extend({
     }
   }
   .list-items {
-    .loading-ring-wrap {
-      margin: 3em 0;
-    }
     .no-posts {
       padding: 8em 2em;
       display: flex;

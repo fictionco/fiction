@@ -92,7 +92,7 @@ export default Vue.extend({
     }
   }
   .forum-content {
-    .loading-ring-wrap {
+    > .loading-ring-wrap {
       padding: 3rem;
     }
   }
