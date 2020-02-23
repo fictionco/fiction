@@ -1,12 +1,12 @@
 <div align="center">
-  <img src="https://i.imgur.com/bLRWY70.jpg" width="600px"  alt="Factor The Javascript CMS">
+  <img src="https://i.imgur.com/Wv8kPKL.jpg" width="600px"  alt="Factor The Javascript CMS">
 </div>
 
 <br />
 
 <div align="center">
   <h3>The Javascript CMS</h3>
-  <p>FactorJS is a CMS designed to help you do way more in way less time. Guaranteed. Rapidly build superior apps, blogs and websites with Javascript (or native Typescript) throughout your entire stack.</p>
+  <p>FactorJS is a Javascript CMS for front-end developers. It will help you do way more with way less (Guaranteed).</p>
 </div>
 
 <br />
