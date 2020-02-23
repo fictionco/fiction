@@ -53,12 +53,12 @@ export default {
         target: "_self"
       }
     ],
-    copyright: "&copy; Copyright "
+    copyright: "&copy; Fiction.com Inc. "
   },
   intro: {
     pretitle: "Welcome To Ultra",
     title:
-      "A modern one page theme for personal or portfolio exposure with unique effects and features.",
+      "A multi-purpose creative theme for increased exposure with unique effects and features.",
     buttons: [
       {
         _item: "contact",
@@ -274,12 +274,13 @@ export default {
       blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
       date: (): Promise<Component> => import("./blog/widget-date.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      readMore: (): Promise<Component> => import("./blog/widget-read-more.vue"),
       authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
       customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
       social: (): Promise<Component> => import("./blog/widget-social.vue"),
     },
     layout: {
-      index: ["featuredImage", "date", "blogHero", "subtitle"],
+      index: ["featuredImage", "date", "blogHero", "subtitle", "readMore"],
       single: ["customSingleHeader", "meta", "featuredImage", "entry", "social", "authorBio"],
       meta: ["authorDate", "tags"]
     },
