@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.imgur.com/zOYVTbn.jpg" width="600px"  alt="Factor The Javascript CMS">
+  <img src="https://i.imgur.com/bLRWY70.jpg" width="600px"  alt="Factor The Javascript CMS">
 </div>
 
 <br />
