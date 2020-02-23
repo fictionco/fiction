@@ -5,8 +5,8 @@
 <br />
 
 <div align="center">
-  <h3>The Javascript CMS</h3>
-  <p>FactorJS is a fully Javascript CMS for front-end developers.</p>
+  <h3>The JavaScript CMS</h3>
+  <p>FactorJS is a fully JavaScript CMS for front-end developers.</p>
 </div>
  
 <div align="center">
