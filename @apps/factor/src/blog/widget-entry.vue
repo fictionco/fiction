@@ -44,7 +44,7 @@ export default Vue.extend({
     line-height: 1.625;
     max-width: 48rem;
     margin: 0 auto 1rem;
-    padding: 0 2rem;
+    padding: 3rem 2rem;
     p,
     ol,
     ul {
@@ -58,7 +58,7 @@ export default Vue.extend({
     h1,
     h2,
     h3 {
-      font-weight: 800;
+      font-weight: 700;
       line-height: 1.2;
       margin-bottom: 0.4em;
     }
