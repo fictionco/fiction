@@ -58,7 +58,7 @@ export default {
       subTitle: "Couldn't find any blog posts."
     },
     promo: {
-      pretitle: "The Javascript CMS",
+      pretitle: "The JavaScript CMS",
       title: "Build something incredible today",
       content: "Factor will help you launch websites and applications faster.",
       button: {

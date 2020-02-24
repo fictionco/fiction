@@ -1,11 +1,11 @@
 <template>
   <div class="avatar">
     <div
-      v-if="init & hasImage"
+      v-if="hasImage"
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
-    <div v-else-if="!hasImage & init" :style="getStyle()" class="thumb thumb-default">
+    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
         version="1.1"

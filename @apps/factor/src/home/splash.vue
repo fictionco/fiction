@@ -4,7 +4,7 @@
       <div class="content">
         <h1 class="page-title">Build something incredible today</h1>
         <h3 class="page-title-sub">
-          <span class="highlight">Factor</span> is the Javascript CMS for front-end developers.
+          <span class="highlight">Factor</span> is the JavaScript CMS for front-end developers.
         </h3>
 
         <div class="actions">

@@ -2,7 +2,7 @@
 
 ## Overview
 
-If you're familiar with the basics of Javascript apps then starting a Factor app is straight-forward. The goal is to get you up-and-running in **less than 3-minutes**.
+If you're familiar with the basics of JavaScript apps then starting a Factor app is straight-forward. The goal is to get you up-and-running in **less than 3-minutes**.
 
 To add Factor to an existing project, all that is needed is to add `@factor/core` as a dependency in your `package.json` file. Doing this will install the CLI and all other libraries Factor needs.
 

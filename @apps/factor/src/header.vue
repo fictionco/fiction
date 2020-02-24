@@ -44,7 +44,8 @@ export default Vue.extend({
       pageNav: [
         { path: "/guide", name: "Documentation" },
         { path: "/themes", name: "Themes" },
-        { path: "/plugins", name: "Plugins" }
+        { path: "/plugins", name: "Plugins" },
+        { path: "/forum", name: "Forum" }
       ],
       actionNav: [
         {
@@ -108,7 +109,7 @@ export default Vue.extend({
   height: 45px;
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(150px, 300px) 1fr 300px;
+  grid-template-columns: minmax(150px, 300px) 1fr minmax(150px, 300px);
 
   .head-nav {
     display: flex;
@@ -131,20 +132,21 @@ export default Vue.extend({
     }
     > .factor-link {
       color: inherit;
-
-      margin: 0 1em;
+      margin: 0 0.25em;
+      padding: 0.25em 0.7em;
+      border-radius: 6px;
       &:last-child {
         margin-right: 0;
       }
       @media (max-width: 767px) {
-        margin: 0 1em;
         .fa {
           display: none;
         }
       }
       &:hover,
       &.router-link-active {
-        opacity: 0.8;
+        color: var(--color-primary);
+        background: var(--color-bg-contrast);
       }
       &:active {
         opacity: 0.5;

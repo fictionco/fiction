@@ -4,7 +4,7 @@
 
 **Factor** is a CMS framework designed for the unique problems faced by front-end developers when creating websites and web apps.
 
-Factor is built with the 100% Javascript VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)); and also is coded in Typescript (which means you can use Javascript or Typescript natively).
+Factor is built with the 100% JavaScript VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)); and also is coded in Typescript (which means you can use JavaScript or Typescript natively).
 
 Factor will help you:
 

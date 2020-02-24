@@ -12,7 +12,7 @@ Is Factor for you? As discussed in the [Factor Introduction](./), Factor is desi
 
 Specifically, if you are a developer:
 
-1. Looking to build a web app or website using Javascript
+1. Looking to build a web app or website using JavaScript
 2. The app needs to include dynamic functionality like sending email, auth, forms, users, ssr, etc..
 
 then likely, Factor is a great choice.
@@ -22,7 +22,7 @@ As front-end developers ourselves, we built Factor with the following general ph
 ### Goals
 
 - **Extension First:** Useful, easy to work with plugin and theme systems
-- **Elegant** Full-Stack Javascript built on open-source tech. Minimize proprietary APIs and lock in.
+- **Elegant** Full-Stack JavaScript built on open-source tech. Minimize proprietary APIs and lock in.
 - **Minimalist:** Measured and minimal core features. Everything has it's purpose.
 
 ### Non-Goals

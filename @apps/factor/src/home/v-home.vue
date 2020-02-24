@@ -141,7 +141,7 @@ export default Vue.extend({
         },
         {
           title: "Save time with themes.",
-          text: `Ever seen a theming system for Javascript apps that you could work with? We hadn't either.
+          text: `Ever seen a theming system for JavaScript apps that you could work with? We hadn't either.
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" }
@@ -170,9 +170,9 @@ export default Vue.extend({
   methods: {},
   metaInfo() {
     return {
-      title: "The Javascript CMS",
+      title: "The JavaScript CMS",
       description:
-        "A purely Javascript CMS that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
+        "A purely JavaScript CMS that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
     }
   }
 })

@@ -5,7 +5,7 @@
         <div class="label label-white">Careers</div>
         <h1 class="title">Let's Create Something Beautiful Together</h1>
         <p class="subtitle">
-          Fiction is on a mission to help frontend developers create better Javascript
+          Fiction is on a mission to help frontend developers create better JavaScript
           apps.
         </p>
         <a href="#current-openings">

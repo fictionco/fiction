@@ -43,7 +43,7 @@ export const requestDeleteImage = async (params: EndpointParameters): Promise<ob
  */
 export const resizeImage = async (
   fileOrBlobOrUrl: File | Blob,
-  { maxWidth = 1500, maxHeight = 1500 }
+  { maxWidth = 1200, maxHeight = 1200 }
 ): Promise<Blob> => {
   return await new Promise(resolve => {
     loadImage(

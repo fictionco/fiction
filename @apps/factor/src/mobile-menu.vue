@@ -76,6 +76,7 @@ export default Vue.extend({
           { route: "/install", name: "Get Started" },
           { route: "/themes", name: "Themes" },
           { route: "/plugins", name: "Plugins" },
+          { route: "/forum", name: "Discussion" },
           { component: () => import("./el/github-stars.vue") }
         ]
       },
