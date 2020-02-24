@@ -12,6 +12,7 @@ export default {
         description: "The latest news and articles."
       }
     },
+    categories: ["uncategorized"],
     notFound: {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."

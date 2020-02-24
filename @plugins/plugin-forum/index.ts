@@ -1,5 +1,6 @@
-import { addPostType, addContentRoute } from "@factor/api"
+import { addPostType, addContentRoute, slugify } from "@factor/api"
 import { setting } from "@factor/api/settings"
+import { FactorPost } from "@factor/post/types"
 
 export const postType = "forumTopic"
 
@@ -12,7 +13,11 @@ export const setup = (): void => {
     icon: require("./img/forum.svg"),
     nameIndex: "Forum Topics",
     nameSingle: "Forum Topic",
-    namePlural: "Forum Topics"
+    namePlural: "Forum Topics",
+    categories: setting("forum.categories"),
+    permalink: (post: FactorPost): string => {
+      return `${setting("forum.postRoute")}/${post._id}/${slugify(post.title)}`
+    }
   })
 
   addContentRoute({

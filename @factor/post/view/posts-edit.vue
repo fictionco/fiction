@@ -15,7 +15,7 @@
         />
 
         <dashboard-input label="Post Content">
-          <input-editor v-model="post.content" :post-id="post._id" />
+          <factor-input-editor v-model="post.content" :post-id="post._id" />
         </dashboard-input>
       </dashboard-pane>
     </template>
@@ -27,7 +27,8 @@
           :list="['published', 'draft', 'trash']"
           input="factor-input-select"
         />
-        <dashboard-input label="Permalink">
+
+        <dashboard-input v-if="postTypeConfig.customPermalink" label="Permalink">
           <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
@@ -42,7 +43,13 @@
           <dashboard-input v-model="post.date" input="factor-input-date" label="Date" />
         </factor-client-only>
         <dashboard-input label="Tags">
-          <input-tags v-model="post.tag" />
+          <factor-input-tags v-model="post.tag" />
+        </dashboard-input>
+        <dashboard-input
+          v-if="postTypeConfig.categories && postTypeConfig.categories.length > 0"
+          label="Category"
+        >
+          <factor-input-tags v-model="post.category" :list="postTypeConfig.categories" />
         </dashboard-input>
         <dashboard-input
           v-model="post.avatar"
@@ -74,7 +81,12 @@
   </dashboard-page>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorLink } from "@factor/ui"
+import {
+  factorBtnDashboard,
+  factorLink,
+  factorInputTags,
+  factorInputEditor
+} from "@factor/ui"
 import {
   isEmpty,
   toLabel,
@@ -98,10 +110,10 @@ export default Vue.extend({
     dashboardPane,
     factorBtnDashboard,
     factorLink,
+    factorInputTags,
+    factorInputEditor,
     factorClientOnly: () => import("vue-client-only"),
-    inputEditor: () => import("../el/editor.vue"),
-    inputPermalink: () => import("../el/permalink.vue"),
-    inputTags: () => import("../el/tags.vue")
+    inputPermalink: () => import("../el/permalink.vue")
   },
 
   data() {
@@ -155,11 +167,7 @@ export default Vue.extend({
       return this.$route.params.postType || this.post.postType || "page"
     },
     url(this: any) {
-      return getPermalink({
-        postType: this.postType,
-        permalink: this.post.permalink,
-        root: false
-      })
+      return this.postTypeConfig.permalink(this.post)
     },
 
     lastRevision(this: any) {

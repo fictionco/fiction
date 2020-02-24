@@ -1,7 +1,7 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
-
+import { randomToken } from "@factor/api/utils"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost, PostStatus } from "./types"
 /**
@@ -80,11 +80,13 @@ export default (): FactorSchema => {
         default: PostStatus.Draft
       },
       /**
+       * Provides a shorter unique identifier, also
        * Allow plugins to set a custom UniqueId that can be referenced without first querying the DB
        */
       uniqueId: {
         type: String,
         trim: true,
+        default: randomToken(8),
         index: { unique: true, sparse: true }
       },
       permalink: {

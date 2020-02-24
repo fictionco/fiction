@@ -1,5 +1,7 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 import { toLabel } from "@factor/api/utils"
+import { FactorPost } from "@factor/post/types"
+import { ListItem, getPermalink } from "@factor/api"
 import Vue from "vue"
 
 export interface PostTypeConfig {
@@ -16,6 +18,9 @@ export interface PostTypeConfig {
   addNewText?: string;
   accessLevel?: number;
   hideAdmin?: boolean;
+  categories?: ListItem[];
+  customPermalink?: true | string;
+  permalink?: (p: FactorPost) => string;
 }
 
 export const addPostType = (config: PostTypeConfig): void => {
@@ -32,6 +37,21 @@ export const postTypesConfig = (): PostTypeConfig[] => {
   })
 }
 
-export const getPostTypeConfig = (postType: string): PostTypeConfig | undefined => {
-  return postTypesConfig().find(pt => pt.postType == postType)
+export const getPostTypeConfig = (
+  postType: string
+): PostTypeConfig & { permalink: (p: FactorPost) => string } => {
+  const userConfig = postTypesConfig().find(pt => pt.postType == postType) || {}
+
+  const configDefaults = {
+    postType: "post",
+    permalink: (post: FactorPost): string => {
+      return getPermalink({
+        postType: post.postType,
+        permalink: post.permalink,
+        root: false
+      })
+    }
+  }
+
+  return { ...configDefaults, ...userConfig }
 }

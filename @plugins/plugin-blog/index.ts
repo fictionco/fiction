@@ -41,7 +41,9 @@ addPostType({
   model: "BlogPost",
   nameIndex: "Blog",
   nameSingle: "Blog Post",
-  namePlural: "Blog Posts"
+  namePlural: "Blog Posts",
+  customPermalink: true,
+  categories: setting("blog.categories")
 })
 
 /**

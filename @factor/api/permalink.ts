@@ -43,7 +43,6 @@ interface PermalinkComponents {
   title?: string;
 }
 
-
 export const getPermalink = (_arguments: PermalinkComponents): string => {
   const { postType = "post", permalink = "", root = false, path = "" } = _arguments
   const parts = []
@@ -69,10 +68,14 @@ export const getPermalink = (_arguments: PermalinkComponents): string => {
   }
 }
 
-export const postLink = (_id: string, options = {}): string => {
+export const postLink = (_id: string, options: PermalinkComponents = {}): string => {
   const post = stored(_id)
 
   if (!post) return ""
 
-  return getPermalink({ ...post, ...options })
+  const root = options.root ? currentUrl() : ""
+
+  const { permalink } = getPostTypeConfig(post.postType)
+
+  return `${root}${permalink(post)}`
 }

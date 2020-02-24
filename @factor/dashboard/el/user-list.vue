@@ -2,11 +2,7 @@
   <div class="user-list-input">
     <div class="user-list-items">
       <div v-for="(_id, index) in authors" :key="index" class="added-user">
-        <dashboard-user-card
-          class="custom-list-item"
-          :post-id="_id"
-          @remove="deleteItem(index)"
-        />
+        <dashboard-user-card class="custom-list-item" :post-id="_id" @remove="deleteItem(index)" />
       </div>
       <div class="input-text">
         <dashboard-input
@@ -23,6 +19,7 @@
 <script lang="ts">
 import { dashboardInput, dashboardUserCard } from "@factor/dashboard"
 import { requestPostList } from "@factor/post/request"
+import { FactorUser } from "@factor/user/types"
 import Vue from "vue"
 export default Vue.extend({
   components: { dashboardInput, dashboardUserCard },
@@ -42,13 +39,13 @@ export default Vue.extend({
   },
   watch: {
     authors: {
-      handler: function(v) {
+      handler: function(this: any, v: string) {
         this.$emit("input", v)
       },
       deep: true
     },
     value: {
-      handler: function(v) {
+      handler: function(this: any, v: string[]) {
         if (v && v != this.authors) {
           this.authors = v
         }
@@ -58,29 +55,29 @@ export default Vue.extend({
   },
 
   async mounted() {
-    const posts = await requestPostList({
+    const posts = (await requestPostList({
       postType: "user",
       conditions: { accessLevel: { $gt: 99 } },
       options: { limit: 100 }
-    })
+    })) as FactorUser[]
 
-    this.potentialAuthors = posts.map(_ => {
+    this.potentialAuthors = posts.map((_: FactorUser) => {
       return { name: `${_.displayName} (${_.email})`, value: _._id }
     })
   },
   methods: {
-    addAuthor() {
+    addAuthor(this: any) {
       if (!this.authors.includes(this.newAuthor)) {
         this.authors.push(this.newAuthor)
       }
 
       this.newAuthor = ""
     },
-    deleteItem(index) {
+    deleteItem(this: any, index: number) {
       this.$delete(this.authors, index)
     },
 
-    setValidity() {
+    setValidity(this: any) {
       const v = this.value
       let customValidity = ""
       if (this.min && (!v || v.length < this.min)) {

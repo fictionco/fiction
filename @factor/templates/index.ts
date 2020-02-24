@@ -73,7 +73,8 @@ export const setup = (): void => {
     nameIndex: "Pages",
     nameSingle: "Page",
     namePlural: "Pages",
-    model: "Page"
+    model: "Page",
+    customPermalink: true
   })
 
   pushToFilter({
