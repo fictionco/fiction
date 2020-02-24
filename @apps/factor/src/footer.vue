@@ -29,7 +29,7 @@
         <div class="menu-header">Community</div>
         <factor-link path="https://go.factor.dev/slack" target="_blank">Slack Channel</factor-link>
         <factor-link path="https://go.factor.dev/github" target="_blank">Github repo</factor-link>
-        <factor-link path="https://go.factor.dev/issues" target="_blank">Submit an issue</factor-link>
+        <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link>
         <factor-link path="/#join">Join dev program</factor-link>
       </div>
       <div class="footer-col list">
@@ -42,9 +42,6 @@
       <div class="footer-col icons">
         <factor-link class="icon-link" path="https://go.factor.dev/facebook" target="_blank">
           <factor-icon icon="fab fa-facebook" />
-        </factor-link>
-        <factor-link class="icon-link" path="https://go.factor.dev/instagram" target="_blank">
-          <factor-icon icon="fab fa-instagram" />
         </factor-link>
         <factor-link class="icon-link" path="https://go.factor.dev/twitter" target="_blank">
           <factor-icon icon="fab fa-twitter" />
