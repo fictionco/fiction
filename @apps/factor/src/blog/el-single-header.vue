@@ -28,9 +28,6 @@
         </div>
       </div>
     </div>
-    <div class="featured-image-wrap">
-      <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" />
-    </div>
   </div>
 </template>
 <script lang="ts">

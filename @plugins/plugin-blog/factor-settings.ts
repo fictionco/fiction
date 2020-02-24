@@ -19,16 +19,7 @@ export default {
     },
     layout: {
       index: ["featuredImage", "title", "subtitle", "meta"],
-      single: [
-        "returnLink",
-        "title",
-        "meta",
-        "featuredImage",
-        "subtitle",
-        "entry",
-        "social",
-        "authorBio"
-      ],
+      single: ["returnLink", "title", "meta", "subtitle", "entry", "social", "authorBio"],
       meta: ["authorDate", "tags"]
     },
     components: {
