@@ -1,7 +1,6 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
-import { randomToken } from "@factor/api/utils"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost, PostStatus } from "./types"
 /**
