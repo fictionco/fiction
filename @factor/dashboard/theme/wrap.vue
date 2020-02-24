@@ -26,7 +26,6 @@
 import { factorLoadingRing } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel, getPostTypeConfig } from "@factor/api"
-import { dashboardBaseRoute } from "@factor/dashboard"
 import { Route } from "vue-router"
 import Vue from "vue"
 

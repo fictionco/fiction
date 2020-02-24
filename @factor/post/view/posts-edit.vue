@@ -94,7 +94,6 @@ import {
   stored,
   timeUtil,
   storeItem,
-  getPermalink,
   getPostTypeConfig,
   PostTypeConfig
 } from "@factor/api"
