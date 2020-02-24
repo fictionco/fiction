@@ -57,6 +57,7 @@ export default {
       title: "No Posts",
       subTitle: "Couldn't find any blog posts."
     },
+    categories: ["releases", "tutorials", "how-to", "company", "showcase"],
     promo: {
       pretitle: "The JavaScript CMS",
       title: "Build something incredible today",

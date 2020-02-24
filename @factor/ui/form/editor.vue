@@ -134,6 +134,7 @@ export default Vue.extend({
        * after a save occurs, as that info should be defaulted until changes are made
        */
       onEvent("save-post", () => {
+        console.log("clear autosave")
         this.easyMDE.clearAutosavedValue()
       })
 

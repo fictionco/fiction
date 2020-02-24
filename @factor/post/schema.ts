@@ -86,7 +86,6 @@ export default (): FactorSchema => {
       uniqueId: {
         type: String,
         trim: true,
-        default: randomToken(8),
         index: { unique: true, sparse: true }
       },
       permalink: {
@@ -119,10 +118,6 @@ export default (): FactorSchema => {
         if (!this.date) {
           const now = new Date()
           this.date = now.toISOString()
-        }
-
-        if (!this.avatar && this.images && this.images.length > 0) {
-          this.avatar = this.images[0]
         }
 
         this.postType = this.get("__t") || "post"
