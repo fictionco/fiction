@@ -170,13 +170,11 @@ export default Vue.extend({
           padding-bottom: 1rem;
         }
         .read-more {
-          position: absolute;
-          left: 0;
           width: 100%;
           display: inline-block;
-          padding: 0 2rem;
-          font-size: 1.2em;
+          font-size: 1em;
           opacity: 0;
+          color: var(--color-primary);
           transform: translateY(1em);
           transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
         }

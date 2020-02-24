@@ -1,6 +1,6 @@
 <template>
   <div class="nav-wrap">
-    <div class="mobile-head" :class="{ active: showMobileMenu }" @click.stop>
+    <div class="mobile-head" :class="{ active: showMobileMenu }">
       <site-brand class="mobile-brand" />
       <div class="mob-nav-btn">
         <div class="bars" @click="showMobileMenu = !showMobileMenu" />
@@ -29,7 +29,12 @@
           </factor-link>
         </template>
       </nav>
-      <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" class="copyright" />
+      <div class="copyright">
+        <factor-link path="https://factor.dev/" class="factor-logo-icon">
+          <factor-logo-icon />
+        </factor-link>
+        <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" />
+      </div>
     </div>
   </div>
 </template>
@@ -40,7 +45,8 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    "site-brand": () => import("./el/brand.vue")
+    "site-brand": () => import("./el/brand.vue"),
+    "factor-logo-icon": () => import("./el/factor.vue")
   },
   data() {
     return {
@@ -179,6 +185,7 @@ export default Vue.extend({
 
     > div:last-child {
       display: flex;
+      flex-direction: column;
       align-self: end;
       padding: 1rem 2rem;
     }
@@ -217,6 +224,10 @@ export default Vue.extend({
 
     .copyright {
       font-size: 0.8rem;
+      .factor-logo-icon {
+        display: block;
+        margin-bottom: 1em;
+      }
     }
 
     @media (max-width: 900px) {
