@@ -1,6 +1,6 @@
 import isEmail from "validator/lib/isEmail"
 import isMobilePhone from "validator/lib/isMobilePhone"
-import { randomToken } from "@factor/api/utils"
+import { randomToken, slugify } from "@factor/api/utils"
 import { applyFilters } from "@factor/api/hooks"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document } from "mongoose"
@@ -53,9 +53,19 @@ export default (): FactorSchema => {
         this: FactorUser & Document,
         next: HookNextFunction
       ) {
-        if (this.username) this.permalink = `@${this.username}`
+        if (this.displayName) {
+          this.title = this.displayName
+        }
 
-        if (this.displayName) this.title = this.displayName
+        // set default username
+        if (!this.username && this.displayName) {
+          this.username = `${slugify(this.displayName)}-${randomToken(3)}`
+        } else if (!this.username) {
+          this.username = `user-${randomToken(6)}`
+        }
+
+        // Users permalink is "@" plus their username
+        if (this.username) this.permalink = `@${this.username}`
 
         next()
       })
@@ -68,8 +78,7 @@ export default (): FactorSchema => {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
-        minlength: 3,
-        default: (): string => `user-${randomToken(8)}`
+        minlength: 3
       },
       email: {
         type: String,

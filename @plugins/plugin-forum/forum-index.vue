@@ -30,11 +30,20 @@ export default Vue.extend({
     }
   },
   metaInfo() {
-    const title = this.tag ? `Tag "${this.tag}"` : setting("forum.metatags.index.title")
+    let title = setting("forum.metatags.index.title")
+    let description = setting("forum.metatags.index.description")
 
-    const description = this.tag
-      ? `Articles related to tag: ${this.tag}`
-      : setting("forum.metatags.index.description")
+    if (this.tag) {
+      title = `Tag "${this.tag}"`
+      description = `Topics related to tag ${this.tag}`
+    } else if (this.category) {
+      title = `Category "${this.category}"`
+      description = `Topics in category ${this.category}`
+    }
+
+    if (this.page) {
+      title = `${title} - Page ${this.page}`
+    }
 
     return {
       title,
@@ -47,6 +56,9 @@ export default Vue.extend({
   computed: {
     tag(this: any) {
       return this.$route.params.tag || this.$route.query.tag || ""
+    },
+    category(this: any) {
+      return this.$route.params.category || this.$route.query.category || ""
     },
     index(this: any) {
       return stored(postType) || []

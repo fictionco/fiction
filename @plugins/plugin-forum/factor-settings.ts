@@ -55,7 +55,7 @@ export default {
         value: "support"
       },
       {
-        value: "plugin"
+        value: "plugins"
       },
       {
         value: "themes"
