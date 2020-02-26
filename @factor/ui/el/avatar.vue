@@ -88,7 +88,7 @@ export default Vue.extend({
 .thumb {
   background-position: 50%;
   background-size: cover;
-  border-radius: 5px;
+  border-radius: 50%;
   position: relative;
   &.thumb-src {
     padding: 50% 0;

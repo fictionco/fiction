@@ -99,6 +99,14 @@ export default Vue.extend({
       set(this: any, v: FactorPost): void {
         storeItem(this.storeKey, v)
       }
+    },
+    embedded: {
+      get(this: any): FactorPost {
+        return stored("embedded") || {}
+      },
+      set(this: any, v: FactorPost): void {
+        storeItem("embedded", v)
+      }
     }
   },
   async mounted() {
@@ -143,12 +151,11 @@ export default Vue.extend({
       const result = await requestSaveTopicReply(this.postId, doc, this.subscriber)
 
       if (result && result._id) {
-        const embedded = this.post.embedded || []
         const embeddedCount = (this.post.embeddedCount || 0) + 1
 
-        embedded.push(result)
+        this.embedded.push(result)
 
-        this.post = { ...this.post, embedded, embeddedCount }
+        this.post = { ...this.post, embeddedCount }
 
         emitEvent("highlight-post", result._id)
 
