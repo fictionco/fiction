@@ -151,16 +151,20 @@ export default Vue.extend({
   .post-text {
     font-size: 1.2em;
     line-height: 1.6;
+    word-break: break-word;
   }
   .post-meta {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     line-height: 1;
     .author {
       font-weight: 700;
     }
     .meta-item {
       margin-right: 2rem;
+    }
+    .post-meta-avatar {
+      width: 1.5em;
     }
   }
   @media (max-width: 900px) {
@@ -172,6 +176,9 @@ export default Vue.extend({
     }
     .post-meta .meta-item {
       font-size: 12px;
+    }
+    .post-text {
+      font-size: 1rem;
     }
   }
   .post-footer {

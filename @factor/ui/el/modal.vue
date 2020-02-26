@@ -142,7 +142,7 @@ export default Vue.extend({
     font-weight: 600;
     @media screen and (max-width: 550px) {
       width: 100%;
-      height: 100%;
+      min-height: 100%;
       padding: 0;
       .el-modal-pad.modal-content {
         border-radius: 0;
@@ -228,7 +228,7 @@ export default Vue.extend({
       border-radius: 0;
       max-width: none;
       .el-modal-pad {
-        padding: 2em;
+        padding: 2rem 1rem;
       }
     }
   }

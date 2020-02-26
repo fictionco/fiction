@@ -169,6 +169,10 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     margin-bottom: 2rem;
+    @media (max-width: 900px) {
+      padding: 0 1rem;
+    }
+
     .filters select {
       margin-right: 1rem;
     }

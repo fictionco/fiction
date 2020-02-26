@@ -79,13 +79,17 @@ export const getSchemaPopulatedFields = ({
  * @param postType - post type
  */
 export const getSchemaPermissions = ({
-  postType
+  postType,
+  embedded
 }: {
   postType: string;
+  embedded?: true;
 }): SchemaPermissions => {
   const { permissions = {} } = getSchema("post")
 
-  let subPermissions = {}
+  const embeddedPermissions = permissions.embedded || {}
+
+  let subPermissions: SchemaPermissions = {}
   if (postType !== "post") {
     const subSchema = getSchema(postType)
 
@@ -94,7 +98,13 @@ export const getSchemaPermissions = ({
     }
   }
 
-  return deepMerge([permissions, subPermissions])
+  const subEmbeddedPermissions = subPermissions.embedded || {}
+
+  if (embedded) {
+    return deepMerge([embeddedPermissions, subEmbeddedPermissions])
+  } else {
+    return deepMerge([permissions, subPermissions])
+  }
 }
 
 /**
@@ -158,13 +168,15 @@ export const getStatusCount = ({
 export const postPermission = ({
   bearer,
   post,
-  action
+  action,
+  embedded
 }: {
   bearer: CurrentUserState;
   post: FactorPost;
   action: PostActions;
+  embedded?: true;
 }): true | never => {
-  const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "" })
+  const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "", embedded })
 
   const { accessLevel = 500, accessPublished = 500, accessAuthor } = permissionsConfig[
     action

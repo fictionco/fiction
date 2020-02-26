@@ -60,11 +60,13 @@ export interface UpdatePost {
 }
 
 export interface UpdatePostEmbedded {
-  action: "save" | "delete";
+  action: "save" | "delete" | "retrieve";
   postId: string;
   postType: string;
   data?: FactorPost | UnsavedFactorPost;
   embeddedPostId?: string;
+  skip?: number;
+  limit?: number;
 }
 
 export interface UpdateManyPosts {
@@ -179,6 +181,7 @@ export interface SchemaPermissions {
   retrieve?: PermissionLevel;
   update?: PermissionLevel;
   delete?: PermissionLevel;
+  embedded?: SchemaPermissions;
 }
 
 export interface FactorSchema {

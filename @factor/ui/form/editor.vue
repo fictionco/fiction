@@ -155,13 +155,13 @@ export default Vue.extend({
     font-size: 0.9rem;
     white-space: nowrap;
     overflow: scroll;
+    -ms-overflow-style: none;
   }
   .loading-ring-wrap {
     padding: 5rem 0;
   }
   .CodeMirror {
     padding: 1rem;
-    font-size: 1.1rem;
     line-height: 1.6;
   }
   .editor-toolbar,

@@ -130,7 +130,8 @@ import {
   postAction,
   PostActions,
   requestIsSubscribed,
-  requestSetSubscribed
+  requestSetSubscribed,
+  requestEmbeddedPosts
 } from "./request"
 
 export default Vue.extend({
@@ -160,6 +161,10 @@ export default Vue.extend({
       image: shareImage(this.post._id)
     }
   },
+  async serverPrefetch() {
+    return this.getEmbeddedPosts()
+  },
+
   computed: {
     post: {
       get(this: any): FactorPost {
@@ -167,6 +172,14 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem("post", v)
+      }
+    },
+    embedded: {
+      get(this: any): FactorPost {
+        return stored("embedded") || []
+      },
+      set(this: any, v: FactorPost): void {
+        storeItem("embedded", v)
       }
     },
     currentUser,
@@ -177,14 +190,23 @@ export default Vue.extend({
         return false
       }
     },
-    embedded(this: any) {
-      return this.post.embedded ?? []
-    },
+    // embedded(this: any) {
+    //   return this.post.embedded ?? []
+    // },
     topicPosts(this: any) {
-      return [this.post, ...this.embedded]
+      const embedded = this.embedded ?? []
+      return [this.post, ...embedded]
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
+    }
+  },
+  watch: {
+    $route: {
+      handler: function(this: any) {
+        this.loading = true
+        this.getEmbeddedPosts()
+      }
     }
   },
   async mounted() {
@@ -195,7 +217,7 @@ export default Vue.extend({
       }, 2000)
     })
 
-    await Promise.all([userInitialized(), this.setSubscribed()])
+    await Promise.all([userInitialized(), this.setSubscribed(), this.getEmbeddedPosts()])
 
     this.loading = false
   },
@@ -205,6 +227,13 @@ export default Vue.extend({
     toLabel,
     editTopic,
     excerpt,
+    async getEmbeddedPosts(this: any) {
+      const postId = this.$route.params._id ?? this.$route.query._id
+      const skip = this.$route.query.skip ?? 0
+      await requestEmbeddedPosts({ skip, postId })
+
+      return
+    },
     async setSubscribed(this: any) {
       await userInitialized()
       if (this.currentUser) {
@@ -355,6 +384,7 @@ export default Vue.extend({
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    padding: 0 1rem;
     .header-main {
       .meta {
         display: none;
@@ -405,8 +435,9 @@ export default Vue.extend({
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
     grid-template-areas: "topic-sidebar" "topic-content";
+
     .topic-sidebar {
-      padding-bottom: 0;
+      padding: 0 1rem;
     }
   }
 }
@@ -434,6 +465,7 @@ export default Vue.extend({
       min-width: 0;
     }
     @media (max-width: 900px) {
+      padding: 0 1rem;
       grid-template-columns: 1fr;
       grid-template-areas: "reply";
     }

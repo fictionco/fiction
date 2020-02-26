@@ -26,7 +26,6 @@
 <script lang="ts">
 import Vue from "vue"
 import { factorLink } from "@factor/ui"
-import { setting } from "@factor/api"
 import { isLoggedIn, userInitialized } from "@factor/user"
 import { accountMenu } from "@factor/plugin-standard-signin"
 export default Vue.extend({
@@ -40,7 +39,6 @@ export default Vue.extend({
     return {
       userLoading: true,
       user: false,
-      navConfig: setting("site.nav"),
       pageNav: [
         { path: "/guide", name: "Documentation" },
         { path: "/themes", name: "Themes" },
@@ -57,11 +55,7 @@ export default Vue.extend({
       ]
     }
   },
-  computed: {
-    siteNav(this: any) {
-      return this.navConfig.filter(item => !item.condition || item.condition())
-    }
-  },
+  computed: {},
   async mounted() {
     await userInitialized()
 

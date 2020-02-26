@@ -1,7 +1,6 @@
 import { applyFilters } from "@factor/api/hooks"
 import { Schema, Document } from "mongoose"
 import { setting } from "@factor/api/settings"
-import { randomToken } from "@factor/api/utils"
 import { objectIdType } from "./object-id"
 import { FactorSchema, FactorPost, PostStatus } from "./types"
 /**
@@ -25,8 +24,15 @@ export default (): FactorSchema => {
         accessAuthor: true
       },
       update: { accessLevel: 100, accessAuthor: true },
-      delete: { accessLevel: 200, accessAuthor: true }
+      delete: { accessLevel: 200, accessAuthor: true },
+      embedded: {
+        create: { accessLevel: 1 },
+        retrieve: { accessLevel: 0 },
+        update: { accessLevel: 100, accessAuthor: true },
+        delete: { accessLevel: 100, accessAuthor: true }
+      }
     },
+
     /**
      * populatedFields are how Factor knows which fields should be populated
      * by other posts. (This is equivalent to a join in SQL speak.)
@@ -71,7 +77,7 @@ export default (): FactorSchema => {
       /**
        * Embedded documents (comments, posts, etc.)
        */
-      embedded: { type: [Object] },
+      embedded: { type: [Object], select: false },
       embeddedCount: { type: Number, default: 0, index: true },
       status: {
         type: String,

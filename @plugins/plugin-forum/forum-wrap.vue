@@ -19,7 +19,7 @@ export default Vue.extend({
   padding: 2rem;
   @media (max-width: 900px) {
     margin-top: 3rem;
-    padding: 1rem;
+    padding: 0rem;
   }
 }
 </style>

@@ -15,7 +15,7 @@ import {
 } from "@factor/post/types"
 
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
-import { slugify, emitEvent } from "@factor/api"
+import { slugify, emitEvent, storeItem } from "@factor/api"
 import { setting } from "@factor/api/settings"
 
 import { navigateToRoute, currentRoute } from "@factor/app/router"
@@ -144,6 +144,30 @@ export const deleteTopicReply = async (
   emitEvent("notify", "Reply Deleted")
 
   return result
+}
+
+export const requestEmbeddedPosts = async ({
+  limit = 100,
+  skip = 1,
+  postId
+}: {
+  limit?: number;
+  skip?: number;
+  postId: string;
+}): Promise<FactorPost[]> => {
+  const post = await requestEmbeddedAction<FactorPost | undefined>({
+    postId,
+    skip,
+    limit,
+    action: "retrieve",
+    postType
+  })
+
+  if (post && post.embedded) {
+    const embedded = post.embedded ?? []
+    storeItem("embedded", embedded)
+    return embedded
+  } else return []
 }
 
 export const postAction = async ({
