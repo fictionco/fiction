@@ -21,7 +21,7 @@ export default {
           subject: "Success!",
           text: `<p>Great work.</p>
             <p>You've successfully applied for Factor developer group and you will be hearing more from us soon.</p>
-            <p>You will be receiving additional invites in a separate emails; if you have any questions or suggestions please email: team@fiction.com.</p>
+            <p>You will be receiving additional invites in separate emails; if you have any questions or suggestions please email: team@fiction.com.</p>
             <p><b>Looking forward to building something with you!</b></p>`
         },
         notify: {
