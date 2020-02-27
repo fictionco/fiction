@@ -8,8 +8,7 @@
   "factor": {
     "_id": "fictionApp",
     "load": [
-      "app",
-      "server"
+      "app"
     ],
     "app": {
       "name": "Fiction.com",

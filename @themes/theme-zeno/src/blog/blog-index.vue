@@ -23,12 +23,18 @@
                 v-if="setting('blog.promo')"
                 class="blog-promo h-full overflow-hidden flex flex-col justify-center px-8 py-20 rounded-lg shadow-xl bg-cover bg-center bg-purple-900"
               >
-                <div v-if="setting('blog.promo.pretitle')" class="custom-uppercase text-purple-400">{{ setting('blog.promo.pretitle') }}</div>
+                <div
+                  v-if="setting('blog.promo.pretitle')"
+                  class="custom-uppercase text-purple-400"
+                >{{ setting('blog.promo.pretitle') }}</div>
                 <h1
                   v-if="setting('blog.promo.title')"
                   class="font-normal tracking-tight text-2xl text-gray-300"
                 >{{ setting('blog.promo.title') }}</h1>
-                <p v-if="setting('blog.promo.content')" class="text-gray-500 mt-2">{{ setting('blog.promo.content') }}</p>
+                <p
+                  v-if="setting('blog.promo.content')"
+                  class="text-gray-500 mt-2"
+                >{{ setting('blog.promo.content') }}</p>
                 <factor-link
                   v-if="setting('blog.promo.button.link')"
                   :path="setting('blog.promo.button.link')"
@@ -68,7 +74,6 @@
 <script lang="ts">
 import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -118,34 +123,10 @@ export default Vue.extend({
       }
     }
   },
-  serverPrefetch() {
-    return this.getPosts()
-  },
-  mounted() {
-    if (this.blogPosts.length == 0) {
-      this.getPosts()
-    }
-  },
   methods: {
     setting,
     getPost(_id: any) {
       return stored(_id) || {}
-    },
-    async getPosts(this: any) {
-      this.loading = true
-
-      const theLimit = this.page === 1 ? setting("blog.limit") - 1 : setting("blog.limit")
-
-      await requestPostIndex({
-        postType: this.postType,
-        tag: this.tag,
-        status: "published",
-        sort: "-date",
-        page: this.page,
-        limit: theLimit //setting("blog.limit")
-      })
-
-      this.loading = false
     }
   }
 })

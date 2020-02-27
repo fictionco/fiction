@@ -4,7 +4,7 @@ import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
-import { randomToken, timeUtil, omit } from "@factor/api"
+import { randomToken, timeUtil, omit, setting } from "@factor/api"
 
 import {
   PostActions,
@@ -311,7 +311,9 @@ export const postList = async (
     options
   )
 
+  const source = setting("package.name")
   conditions = {
+    source,
     ...conditions,
     ...manyPostsPermissionCondition({
       bearer,
@@ -331,10 +333,12 @@ export const indexMeta = async ({
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
 
+  console.log("MATCH CONSI", conditions)
   /**
    * $facet - processes several aggregation stages on a query
    */
   const aggregate = [
+    { $match: conditions },
     {
       $facet: {
         tags: [{ $unwind: "$tag" }, { $sortByCount: "$tag" }],
@@ -432,7 +436,10 @@ export const postIndex = async (
     options
   )
 
+  const source = setting("package.name")
+
   conditions = {
+    source,
     ...conditions,
     ...manyPostsPermissionCondition({
       bearer,

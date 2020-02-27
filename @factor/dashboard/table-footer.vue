@@ -1,8 +1,8 @@
 <template>
   <div class="table-footer">
     <table-pagination
-      :count="meta.total"
-      :page-count="pageCount(meta.total, meta.limit)"
+      :count="meta.totalForQuery"
+      :page-count="pageCount(meta.totalForQuery, meta.limit)"
       :page-current="$route.query.page || 1"
     />
   </div>

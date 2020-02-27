@@ -73,9 +73,9 @@ export default Vue.extend({
       this.selected = !val ? [] : this.list.map(_ => _._id)
     },
     controlStatus(this: any): ControlAction[] {
-      const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
-      const countPublished = getStatusCount({ meta: this.meta, key: "published" })
-      const countDraft = getStatusCount({ meta: this.meta, key: "draft" })
+      const countTrash = getStatusCount({ meta: this.meta, key: "trash" }) ?? 0
+      const countPublished = getStatusCount({ meta: this.meta, key: "published" }) ?? 0
+      const countDraft = getStatusCount({ meta: this.meta, key: "draft" }) ?? 0
       return [
         { value: "", label: `All (${this.meta.total})` },
         { value: "published", label: `Published (${countPublished})` },

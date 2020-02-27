@@ -15,7 +15,7 @@ export const loadAndStoreBlogIndex = async (): Promise<void> => {
   const tag = params.tag ?? query.tag ?? ""
   const category = params.category ?? query.category ?? ""
   const page = parseInt(params.page ?? query.page ?? 1)
-  const limit = page === 1 ? setting("blog.limit") - 1 : setting("blog.limit")
+  const limit = setting("blog.limit")
 
   await requestPostIndex({
     postType: "blog",

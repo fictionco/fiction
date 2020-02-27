@@ -18,7 +18,7 @@
         placeholder="Enter tag"
         @keydown.prevent.enter="addTag($event)"
       />
-      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()">Add</factor-btn>
+      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()">&rarr;</factor-btn>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">

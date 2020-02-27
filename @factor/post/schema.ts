@@ -65,7 +65,7 @@ export default (): FactorSchema => {
       /**
        * Source Key - Used to distinguish which app created a post in multi-app databases
        */
-      source: { type: String, trim: true, default: setting("package.name") },
+      source: { type: String, trim: true, default: setting("package.name"), index: true },
       /**
        * Settings is a vanilla key/value container
        */
