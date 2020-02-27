@@ -23,16 +23,13 @@ if (setting("headTags") != "") {
 // })
 
 // CUSTOM POST TYPE
-const portfolioBaseRoute = setting("portfolio.postRoute")
-
 addPostType({
   postType: "portfolio",
-  baseRoute: portfolioBaseRoute,
-  icon: require("./img/portfolio.svg"),
-  model: "portfolioPost",
+  baseRoute: `${setting("portfolio.postRoute")}`,
+  icon: require("./img/dashicon-portfolio.svg"),
   nameIndex: "Portfolio",
   nameSingle: "Portfolio Post",
-  namePlural: "Portfolio"
+  namePlural: "Portfolio Posts",
 })
 
 
@@ -49,11 +46,11 @@ addContentRoutes({
       component: setting("portfolio.components.portfolioWrap"),
       children: [
         {
-          path: "#portfolio",
+          path: "/",
           component: setting("portfolio.components.portfolioIndex")
         },
         {
-          path: `${portfolioBaseRoute}/:permalink`,
+          path: `${setting("portfolio.postRoute")}/:permalink`,
           component: setting("portfolio.components.portfolioSingle")
         }
       ]
