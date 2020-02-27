@@ -29,6 +29,8 @@ export const factorInputText = (): Promise<Component> => import("./form/text.vue
 export const factorInputTextarea = (): Promise<Component> => import("./form/textarea.vue")
 export const factorInputPhone = (): Promise<Component> => import("./form/phone.vue")
 export const factorInputCheckbox = (): Promise<Component> => import("./form/checkbox.vue")
+export const factorInputSortable = (): Promise<Component> => import("./form/sortable.vue")
+
 export const factorInputBirthday = (): Promise<Component> => import("./form/birthday.vue")
 export const factorInputImageUpload = (): Promise<Component> =>
   import("./form/image-upload.vue")

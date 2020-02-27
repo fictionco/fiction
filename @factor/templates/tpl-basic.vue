@@ -3,13 +3,10 @@
     <div v-if="post.title" class="title" :style="{textAlign: settings.headerAlignment || 'left'}">
       <h1 v-formatted-text="post.title" />
     </div>
-
     <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
-
     <factor-post-edit :post-id="post._id" />
   </div>
 </template>
-
 <script lang="ts">
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/api/markdown"
@@ -32,10 +29,10 @@ export default Vue.extend({
   templateSettings() {
     return [
       {
+        _id: "headerAlignment",
         input: "select",
         label: "Header Alignment",
         description: "Alignment of the page header",
-        _id: "headerAlignment",
         list: ["left", "center", "right"],
         default: "left"
       }
@@ -43,7 +40,6 @@ export default Vue.extend({
   }
 })
 </script>
-
 <style lang="less">
 .long-form {
   margin: 5em auto;

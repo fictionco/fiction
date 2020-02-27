@@ -10,7 +10,7 @@
     <div class="feature-boxes">
       <div v-for="(box, i) in post.settings.boxes" :key="i" class="box">
         <div v-if="box.icon" class="box-icon">
-          <img :src="box.icon[0].url" />
+          <img :src="image(box.icon)" />
         </div>
         <div class="box-heading">{{ box.heading }}</div>
         <div class="box-description">{{ box.description }}</div>
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import Vue from "vue"
+import { stored } from "@factor/api"
 import { factorBtn } from "@factor/ui"
 export default Vue.extend({
   components: { factorBtn },
@@ -32,6 +33,7 @@ export default Vue.extend({
       loading: true
     }
   },
+  computed: {},
   watch: {},
   templateSettings() {
     return [
@@ -77,8 +79,14 @@ export default Vue.extend({
     ]
   },
   methods: {
+    stored,
     settings() {
       return ["test"]
+    },
+    image(attachment: string[]) {
+      const aPost = stored(attachment[0])
+
+      return aPost.url || ""
     }
   }
 })

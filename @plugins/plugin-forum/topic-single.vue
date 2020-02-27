@@ -337,7 +337,7 @@ export default Vue.extend({
       font-weight: 700;
       border-radius: 7px;
       background: var(--color-bg-contrast);
-      margin: 0.5rem;
+      margin: 0 0.5rem 0.5rem 0;
     }
   }
   .text-header {
@@ -392,9 +392,19 @@ export default Vue.extend({
     }
     .header-sub {
       text-align: left;
+      margin: 0.5rem 0;
+      .category {
+        padding: 0.25em 0.75em;
+      }
     }
     .text-header {
-      margin-bottom: 0;
+      margin-bottom: 0.5rem;
+      .title {
+        font-size: 1.5em;
+      }
+      .synopsis {
+        font-size: 1em;
+      }
     }
   }
 }

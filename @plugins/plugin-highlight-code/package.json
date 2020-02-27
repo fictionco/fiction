@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "1.3.11",
+  "version": "1.4.2",
   "license": "GPL-2.0",
   "factor": {
     "load": [
@@ -23,5 +23,8 @@
     "syntax",
     "highlight",
     "markdown"
-  ]
+  ],
+  "dependencies": {
+    "prismjs": "^1.19.0"
+  }
 }

@@ -11,7 +11,7 @@
         >
           <div class="handle">
             <span v-if="item.__title">{{ item.__title }}</span>
-            <factor-icon icon="fas fa-arrow-right" />
+            &rarr;
           </div>
         </div>
         <factor-btn-dashboard btn="primary" @click="addItem()">+</factor-btn-dashboard>
@@ -41,10 +41,11 @@
           :class="['engine-input', field.input]"
           :inputs="field.inputs || []"
           :data-test="`input-${field._id}-${selected + 1}`"
+          v-bind="$attrs"
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard size="tiny" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
+          <factor-btn-dashboard size="small" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
         </div>
       </div>
     </div>
@@ -72,7 +73,7 @@ export default Vue.extend({
       get(this: any) {
         return this.ensure(this.value)
       },
-      set(this: any, localValue) {
+      set(this: any, localValue: any) {
         this.$emit("input", localValue)
       }
     }
@@ -82,7 +83,7 @@ export default Vue.extend({
   },
   methods: {
     // keys are required for drag and drop
-    ensure(v) {
+    ensure(v: any[]) {
       return v.map(_ => {
         if (!_.__key) {
           _.__key = guid()
@@ -131,10 +132,10 @@ export default Vue.extend({
         this.selected = 0
       }
     },
-    getValue(_id) {
+    getValue(this: any, _id: string) {
       return this.localValue[this.selected] ? this.localValue[this.selected][_id] : null
     },
-    setValue(_id, val) {
+    setValue(this: any, _id: string, val: any) {
       const newLocalValue = this.localValue.slice()
       newLocalValue[this.selected] = Object.assign({}, newLocalValue[this.selected], {
         [_id]: val
@@ -179,6 +180,12 @@ export default Vue.extend({
     border-radius: 5px;
     background: #fff;
     .title {
+      .title-input {
+        background: transparent;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+      }
       display: flex;
       margin-bottom: 1em;
       align-items: center;

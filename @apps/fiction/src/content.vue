@@ -1,18 +1,19 @@
 <template>
   <div class="content-layout">
     <site-head>
-      <factor-link path="/factor-js">Factor JS</factor-link>
+      <factor-link path="https://factor.dev?ref=fiction">Javascript CMS</factor-link>
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
-      <factor-link path="/blog">Blog</factor-link>
-      <factor-link v-if="!isLoggedIn()" event="sign-in-modal" data-test="login">
-        Sign In
-        <factor-icon icon="fas fa-arrow-right" />
-      </factor-link>
-      <factor-link v-else path="/dashboard" class="dashboard-link">
-        View Dashboard
-        <factor-icon icon="fas fa-arrow-right" />
-      </factor-link>
+      <template v-if="!loading">
+        <factor-link v-if="isLoggedIn()" path="/dashboard" class="dashboard-link">
+          View Dashboard
+          &rarr;
+        </factor-link>
+        <factor-link v-else event="sign-in-modal" data-test="login">
+          Sign In
+          &rarr;
+        </factor-link>
+      </template>
     </site-head>
     <div class="content-main" :style="bg">
       <div class="content-main-content">
@@ -25,15 +26,14 @@
 </template>
 
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui"
-import { isLoggedIn } from "@factor/user"
+import { factorLink } from "@factor/ui"
+import { isLoggedIn, userInitialized } from "@factor/user"
 
 import { stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    factorIcon,
     "site-head": () => import("./site-head.vue"),
     "content-footer": () => import("./site-footer.vue")
   },
@@ -42,6 +42,10 @@ export default Vue.extend({
     return {
       titleTemplate: "%s - Fiction"
     }
+  },
+
+  data() {
+    return { loading: true }
   },
 
   computed: {
@@ -62,7 +66,15 @@ export default Vue.extend({
       }
     }
   },
+  async mounted() {
+    await userInitialized()
+
+    this.loading = false
+  },
   methods: {
+    console: () => {
+      return console
+    },
     isLoggedIn
   }
 })
