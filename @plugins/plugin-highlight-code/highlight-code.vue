@@ -54,17 +54,11 @@ export default Vue.extend({
 .highlight-code-wrap {
   /* Code blocks */
   pre {
-    opacity: 0;
     transition: 0.4s;
     margin: 0;
     overflow: auto;
     border-radius: 5px;
-
     transition: all 0.2s;
-
-    &[class*="language-"] {
-      opacity: 1;
-    }
   }
   .code-toolbar pre {
     opacity: 1;

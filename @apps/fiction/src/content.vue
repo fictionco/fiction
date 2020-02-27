@@ -1,10 +1,9 @@
 <template>
   <div class="content-layout">
     <site-head>
-      <factor-link path="/factor-js">Factor JS</factor-link>
+      <factor-link path="https://factor.dev?ref=fiction">Javascript CMS</factor-link>
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
-      <factor-link path="/blog">Blog</factor-link>
       <factor-link v-if="!isLoggedIn()" event="sign-in-modal" data-test="login">
         Sign In
         <factor-icon icon="fas fa-arrow-right" />

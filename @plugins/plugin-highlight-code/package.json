@@ -23,5 +23,8 @@
     "syntax",
     "highlight",
     "markdown"
-  ]
+  ],
+  "dependencies": {
+    "prismjs": "^1.19.0"
+  }
 }
