@@ -15,8 +15,6 @@ export const dashboardTableFooter = (): Promise<Component> => import("./table-fo
 export const dashboardInput = (): Promise<Component> => import("./el/input.vue")
 export const dashboardUserCard = (): Promise<Component> => import("./el/user-card.vue")
 export const dashboardUserList = (): Promise<Component> => import("./el/user-list.vue")
-export const factorInputSortable = (): Promise<Component> => import("./el/sortable.vue")
-
 /**
  * The base route for the dashboard
  */

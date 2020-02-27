@@ -4,7 +4,7 @@
       <factor-loading-ring />
     </div>
     <div v-else-if="post._id">
-      <component :is="templateLoader" :post-id="post._id" />
+      <component :is="templateLoader" :post-id="post._id" :post="post" />
     </div>
     <factor-error-404 v-else />
   </div>

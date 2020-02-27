@@ -68,11 +68,12 @@ import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@fact
 import { HTMLInputEvent } from "@factor/ui/event-types"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import DOM from "jquery"
-import { emitEvent, onEvent, stored } from "@factor/api"
+import { emitEvent, onEvent, stored, storeItem } from "@factor/api"
 import Sortable from "sortablejs"
 import { Attachment, PreUploadProperties } from "@factor/attachment/types"
 import Vue from "vue"
 import { guid } from "@factor/api/utils"
+import { FactorPost } from "@factor/post/types"
 export default Vue.extend({
   components: { factorMenu, factorLoadingRing, factorIcon, factorLightbox },
   props: {
@@ -80,7 +81,8 @@ export default Vue.extend({
     loading: { type: Boolean, default: false },
     value: { type: [Array, String], default: () => [] },
     min: { type: [Number, String], default: 0 },
-    max: { type: [Number, String], default: 10 }
+    max: { type: [Number, String], default: 10 },
+    postId: { type: String, default: "post" }
   },
   data() {
     return {
@@ -93,6 +95,14 @@ export default Vue.extend({
     }
   },
   computed: {
+    post: {
+      get(this: any): FactorPost {
+        return stored(this.postId)
+      },
+      set(this: any, v: FactorPost): void {
+        storeItem(this.postId, v)
+      }
+    },
     single(this: any): boolean {
       return typeof this.value == "string" || this.max == 1 ? true : false
     },
@@ -164,7 +174,8 @@ export default Vue.extend({
       } else if (action == "copy-URL") {
         this.copyUrl(_id)
       } else if (action == "delete") {
-        this.removeImage(_id)
+        const result = confirm("Are you sure? This will permanently delete this image.")
+        if (result) this.removeImage(_id)
       } else if (action == "upload-image") {
         this.triggerUpload()
       }
@@ -257,9 +268,9 @@ export default Vue.extend({
     },
 
     updateValue(this: any) {
-      const v = this.imageIds.filter((_id: string) =>
-        this.populated.find((_: Attachment) => _._id == _id)
-      )
+      const v = this.imageIds.filter((_id: string) => {
+        return this.populated.find((_: Attachment) => _._id == _id)
+      })
       this.$emit("input", this.single ? v[0] : v)
 
       this.$emit("update:customValidity", this.validity)
@@ -267,8 +278,10 @@ export default Vue.extend({
 
     async removeImage(this: any, _id: string) {
       this.removeFromArrayById(_id, this.imageIds as string[])
-
-      requestDeleteImage({ _id })
+      if (this.post && this.post.images) {
+        this.removeFromArrayById(_id, this.post.images)
+      }
+      await requestDeleteImage({ _id })
     },
     /**
      * handle the raw upload event
@@ -345,14 +358,21 @@ export default Vue.extend({
         },
         onFinished: (result: Attachment) => {
           const { _id } = result
-          this.imageIds.push(_id)
-          this.removeFromArrayById(item._id, this.uploading as Attachment[])
 
+          this.pushNewImage(_id)
+          this.removeFromArrayById(item._id, this.uploading as Attachment[])
           if (onFinished) {
             onFinished()
           }
         }
       })
+    },
+
+    pushNewImage(this: any, _id: string) {
+      this.imageIds.push(_id)
+      if (this.post && this.post.images) {
+        this.$set(this.post, "images", [...this.post.images, _id])
+      }
     },
     /**
      * Sets uploading object status for UI

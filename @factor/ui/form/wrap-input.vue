@@ -41,7 +41,8 @@ import {
   factorInputSubmit,
   factorInputPassword,
   factorInputTextarea,
-  factorInputEditor
+  factorInputEditor,
+  factorInputSortable
 } from "@factor/ui"
 
 import { dashboardUserList } from "@factor/dashboard"
@@ -62,6 +63,7 @@ export default Vue.extend({
     factorInputSubmit,
     factorInputPassword,
     factorInputTextarea,
+    factorInputSortable,
     dashboardUserList
   },
   inheritAttrs: false,

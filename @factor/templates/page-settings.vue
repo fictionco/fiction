@@ -12,6 +12,7 @@
         :description="field.description"
         :class="['engine-input', field.input]"
         :inputs="field.settings || []"
+        :post-id="postId"
       />
     </template>
   </div>

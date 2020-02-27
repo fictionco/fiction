@@ -2,7 +2,6 @@ import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
 import Vue from "vue"
-import { isEmpty } from "@factor/api/utils-lodash"
 import { isNode } from "@factor/api/utils"
 import { addFilter, runCallbacks, addCallback } from "@factor/api/hooks"
 import { currentRoute, navigateToRoute } from "@factor/app/router"
@@ -128,7 +127,7 @@ export const userId = (): string => {
  * Is the user logged in?
  */
 export const isLoggedIn = (): boolean => {
-  return !isEmpty(currentUser())
+  return currentUser() ? true : false
 }
 
 /**

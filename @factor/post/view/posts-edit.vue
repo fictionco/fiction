@@ -198,10 +198,15 @@ export default Vue.extend({
 
       emitEvent("save-post")
 
-      const saved = await requestPostSave({
-        post: this.post,
-        postType: this.postType
-      })
+      let saved
+      try {
+        saved = await requestPostSave({
+          post: this.post,
+          postType: this.postType
+        })
+      } catch (error) {
+        this.sending = false
+      }
 
       if (saved) {
         this.post = saved
