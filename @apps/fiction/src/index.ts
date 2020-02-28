@@ -9,6 +9,7 @@ addPageTemplate({
 })
 
 addPageTemplate({
+  name: "Landing Page Name",
   slug: "landing-page",
   component: (): Promise<Component> => import("./tpl-landing-page.vue")
 })

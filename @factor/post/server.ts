@@ -4,7 +4,7 @@ import { decodeTokenIntoUser } from "@factor/user/jwt"
 import * as endpointHandler from "@factor/post/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
-import { randomToken, timeUtil, omit, setting } from "@factor/api"
+import { randomToken, timeUtil, omit } from "@factor/api"
 
 import {
   PostActions,
@@ -294,7 +294,7 @@ export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPo
 
 export const postList = async (
   params: PostIndexRequestParameters,
-  { bearer }: EndpointMeta
+  { bearer, source }: EndpointMeta
 ): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 
@@ -311,7 +311,6 @@ export const postList = async (
     options
   )
 
-  const source = setting("package.name")
   conditions = {
     source,
     ...conditions,
@@ -416,7 +415,7 @@ const transformIndexParameters = (
  */
 export const postIndex = async (
   params: PostIndexRequestParameters,
-  { bearer }: EndpointMeta
+  { bearer, source }: EndpointMeta
 ): Promise<PostIndex> => {
   if (dbIsOffline()) return { meta: {}, posts: [] }
 
@@ -434,8 +433,6 @@ export const postIndex = async (
     },
     options
   )
-
-  const source = setting("package.name")
 
   conditions = {
     source,

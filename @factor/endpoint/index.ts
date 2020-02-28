@@ -1,5 +1,5 @@
 import { emitEvent } from "@factor/api/events"
-import { isNode } from "@factor/api"
+import { isNode, setting } from "@factor/api"
 import log from "@factor/api/logger"
 import { localhostUrl } from "@factor/api/url"
 import { userInitialized } from "@factor/user"
@@ -60,8 +60,9 @@ export const authorizedRequest = async (
 
   // Must be capitalized as name is a standard
   const Authorization = await bearerToken(data)
+  const source = setting("package.name") ?? ""
 
-  options.headers = { Authorization, ...headers }
+  options.headers = { Authorization, from: source, ...headers }
   options.timeout = 30000
 
   if (isNode) {

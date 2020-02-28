@@ -3,6 +3,7 @@ import { ListItem } from "@factor/api"
 export interface TemplateConfig {
   name?: string;
   slug: string;
+  value?: string;
   component: () => Promise<Component>;
   fields?: TemplateOption[];
 }
