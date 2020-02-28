@@ -196,7 +196,6 @@ export default Vue.extend({
   }
 
   .code-toolbar {
-    background: var(--color-bg-alt-dark);
     margin-bottom: 1.4em;
     max-width: 300px;
   }

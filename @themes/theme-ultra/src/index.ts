@@ -1,8 +1,8 @@
-import { setting } from "@factor/api/settings"
+import { setting, addContentRoutes } from "@factor/api"
 import { addFilter } from "@factor/api/hooks"
 //import { addPageTemplate } from "@factor/templates"
 import { addPostType } from "@factor/api/post-types"
-import { addContentRoutes } from "@factor/api"
+
 import { Component } from "vue"
 
 if (setting("headTags") != "") {

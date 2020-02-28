@@ -28,7 +28,7 @@
 import { factorLink, factorIcon } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
 import { postLink } from "@factor/api/permalink"
-import { setting } from "@factor/api/settings"
+import { setting } from "@factor/api"
 import { stored } from "@factor/app/store"
 import Vue from "vue"
 export default Vue.extend({
