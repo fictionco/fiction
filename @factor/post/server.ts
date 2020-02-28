@@ -333,7 +333,6 @@ export const indexMeta = async ({
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
 
-  console.log("MATCH CONSI", conditions)
   /**
    * $facet - processes several aggregation stages on a query
    */
