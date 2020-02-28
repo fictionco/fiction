@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { setting } from "@factor/api/settings"
+import { setting } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({

@@ -1,9 +1,6 @@
 <template>
   <div class="posts-wrap">
-    <div v-if="loading" class="posts-loading">
-      <factor-loading-ring />
-    </div>
-    <div v-else-if="portfolioPosts.length > 0" class="portfolio-posts masonry">
+    <div v-if="portfolioPosts.length > 0" class="portfolio-posts masonry">
       <div v-for="post in portfolioPosts" :key="post._id" class="item">
         <component
           :is="setting(`portfolio.components.${_component}`)"
@@ -23,12 +20,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing, factorLink, factorIcon },
+  components: { factorLink, factorIcon },
   data() {
     return {
       postType: "portfolio",
@@ -98,11 +95,19 @@ export default Vue.extend({
 
 <style lang="less">
 .posts-wrap {
+  box-sizing: border-box;
   margin-top: -4em;
+
   .posts-loading {
     display: flex;
     justify-content: center;
     padding: 5em;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
   }
 
   /* Column-based css masonry */

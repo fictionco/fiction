@@ -109,19 +109,6 @@ export default Vue.extend({
         padding: 1.5em 1em;
       }
 
-      &:before {
-        position: absolute;
-        content: "";
-        width: 100%;
-        height: 100%;
-        background: #edeff5;
-        clip-path: polygon(0 0, 0 100%, 100% 100%);
-        -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%);
-        z-index: 0;
-        top: 0;
-        left: 0;
-      }
-
       .author-card {
         position: relative;
         padding: 3em;

@@ -31,10 +31,7 @@
     <section class="blog-posts">
       <div class="blog-posts-inner">
         <div class="blog-entries">
-          <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
-          </div>
-          <div v-else-if="blogPosts.length > 0" class="post-index">
+          <div v-if="blogPosts.length > 0" class="post-index">
             <div v-for="post in blogPosts" :key="post._id" class="blog-post">
               <component
                 :is="setting(`blog.components.${_component}`)"
@@ -43,12 +40,6 @@
                 :post-id="post._id"
                 format="index"
               />
-            </div>
-          </div>
-          <div v-else class="posts-not-found">
-            <div class="text">
-              <div class="title">{{ setting("blog.notFound.title") }}</div>
-              <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
             </div>
           </div>
           <component :is="setting('blog.components.pagination')" :post-type="postType" />
