@@ -2,7 +2,7 @@
   <div class="edit-page-templates">
     <dashboard-input
       v-model="post.template"
-      :list="getPageTemplates()"
+      :list="pageTemplates"
       input="factor-input-select"
       label="Page Template"
     />
@@ -31,6 +31,15 @@ export default Vue.extend({
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
       }
+    },
+    pageTemplates(this: any) {
+      const tpls = getPageTemplates() ?? []
+      return tpls.map(tpl => {
+        if (tpl.slug && !tpl.value) {
+          tpl.value = tpl.slug
+        }
+        return tpl
+      })
     }
   },
   watch: {},
