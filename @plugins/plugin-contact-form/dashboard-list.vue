@@ -140,9 +140,11 @@ export default Vue.extend({
     postItemAdditional(this: any, post: FactorPost): PostListDataItem[] {
       const formFields: { [key: string]: string } = this.formFields(post)
       const entries = Object.entries(formFields)
-      return entries.map(([key, value]) => {
+      const moreFields = entries.map(([key, value]) => {
         return { label: toLabel(key), value }
       })
+
+      return [...moreFields, { label: "Created", value: standardDate(post.createdAt) }]
     },
     selectAll(this: any, val: boolean): void {
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
