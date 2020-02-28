@@ -99,6 +99,7 @@ export type PostIndexRequestParameters = {
   select?: string | null;
   options: PostIndexOptions;
   conditions: PostIndexConditions;
+  sameSource?: boolean;
 } & EndpointParameters
 
 export enum SortDelimiters {

@@ -59,7 +59,7 @@ export default Vue.extend({
     controlStatus(this: any): ControlAction[] {
       const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
       return [
-        { value: "", label: `All (${this.meta.total})` },
+        { value: "", label: `All (${this.meta.totalForQuery ?? 0})` },
         { value: "trash", label: `Trash (${countTrash})` }
       ]
     },

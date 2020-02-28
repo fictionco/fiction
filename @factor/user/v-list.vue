@@ -82,7 +82,7 @@ export default Vue.extend({
       })
 
       return [
-        { value: "", label: `All (${this.meta.total})` },
+        { value: "", label: `All (${this.meta.totalForQuery ?? 0})` },
         { value: "admin", label: `Admin (${counts.admin})` },
         { value: "moderator", label: `Moderator (${counts.moderator})` },
         { value: "editor", label: `Editor (${counts.editor})` },

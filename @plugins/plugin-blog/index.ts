@@ -25,9 +25,7 @@ export const loadAndStoreBlogIndex = async (): Promise<void> => {
     sort: "-date",
     page,
     limit,
-    conditions: {
-      source: setting("package.name")
-    }
+    sameSource: true
   })
 }
 

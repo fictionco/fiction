@@ -26,7 +26,8 @@ export default Vue.extend({
       editor: null,
       session: null,
       content: "",
-      loading: true
+      loading: true,
+      destroyed: false
     }
   },
   computed: {
@@ -46,7 +47,9 @@ export default Vue.extend({
       }
     }
   },
-
+  beforeDestroy() {
+    this.destroyed = true
+  },
   async mounted(this: any) {
     await this.initializeEditor()
 
@@ -71,6 +74,11 @@ export default Vue.extend({
        * EasyMDE Can't be loaded server-side
        */
       const EasyMDE = await import("easymde")
+
+      // if component gets destroyed before init
+      // this can cause double editors to show
+      if (this.destroyed) return
+
       this.easyMDE = new EasyMDE.default({
         element: this.$refs.editor,
         minHeight: "200px",

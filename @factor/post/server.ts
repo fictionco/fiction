@@ -41,7 +41,7 @@ export const savePost = async <T = {}>(
     data,
     postType = "post"
   }: { data: FactorPost | UnsavedFactorPost | T; postType: string },
-  { bearer }: EndpointMeta
+  { bearer, source }: EndpointMeta
 ): Promise<FactorPostState> => {
   if (dbIsOffline()) return
 
@@ -59,7 +59,7 @@ export const savePost = async <T = {}>(
    */
   if (!_id || !post) {
     action = PostActions.Create
-    post = new Model()
+    post = new Model({ source })
   }
 
   Object.assign(post, data)
@@ -287,6 +287,7 @@ export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPo
   if (dbIsOffline()) return []
 
   const _in = Array.isArray(_ids) ? _ids : [_ids]
+
   const result = await getModel("post").find({ _id: { $in: _in } })
 
   return result
@@ -298,7 +299,7 @@ export const postList = async (
 ): Promise<FactorPost[]> => {
   if (dbIsOffline()) return []
 
-  const { postType, select = null } = params
+  const { postType, select = null, sameSource = false } = params
   let { options, conditions = {} } = params
 
   options = Object.assign(
@@ -311,7 +312,7 @@ export const postList = async (
     options
   )
 
-  if (source) {
+  if (sameSource && source) {
     conditions.source = source
   }
 
@@ -424,7 +425,7 @@ export const postIndex = async (
 
   const dbParams = transformIndexParameters(params)
 
-  const { postType } = dbParams
+  const { postType, sameSource = false } = dbParams
   let { options, conditions = {} } = dbParams
 
   options = Object.assign(
@@ -437,7 +438,7 @@ export const postIndex = async (
     options
   )
 
-  if (source) {
+  if (sameSource && source) {
     conditions.source = source
   }
 
@@ -449,8 +450,6 @@ export const postIndex = async (
       postType
     })
   }
-
-  console.log("get index", conditions)
 
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),

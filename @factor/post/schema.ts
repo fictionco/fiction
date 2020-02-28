@@ -113,6 +113,7 @@ export default (): FactorSchema => {
       postSchema.index({
         title: "text",
         content: "text",
+        username: "text",
         "embedded.$.title": "text",
         "embedded.$.content": "text"
       })

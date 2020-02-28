@@ -222,7 +222,7 @@ export const requestPostIndex = async (
   _arguments: PostIndexParametersFlat
 ): Promise<PostIndex> => {
   const {
-    limit = 50,
+    limit = 20,
     page = 1,
     postType,
     sort,
@@ -230,6 +230,7 @@ export const requestPostIndex = async (
     time,
     search,
     cache = true,
+    sameSource = false,
     conditions = {}
   } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: localPostTypeCache(postType) })
@@ -248,7 +249,8 @@ export const requestPostIndex = async (
   const params: PostIndexRequestParameters = {
     conditions,
     postType,
-    options: { limit, skip, page, sort, order, time, search }
+    options: { limit, skip, page, sort, order, time, search },
+    sameSource
   }
 
   const taxonomies: (keyof PostIndexConditions)[] = ["tag", "category", "status", "role"]
@@ -285,14 +287,23 @@ export const requestPostIndex = async (
 export const requestPostList = async (
   _arguments: PostIndexParametersFlat
 ): Promise<FactorPost[]> => {
-  const { limit = 10, page = 1, postType, sort, depth = 20, conditions = {} } = _arguments
+  const {
+    limit = 10,
+    page = 1,
+    postType,
+    sort,
+    depth = 20,
+    conditions = {},
+    sameSource
+  } = _arguments
 
   const skip = (page - 1) * limit
 
   const posts = (await sendPostRequest("postList", {
     postType,
     conditions,
-    options: { limit, skip, page, sort }
+    options: { limit, skip, page, sort },
+    sameSource
   })) as FactorPost[]
 
   await requestPostPopulate({ posts, depth })
