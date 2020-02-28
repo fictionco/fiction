@@ -2,7 +2,7 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Build powerful websites fast.</h1>
+        <h1 class="page-title">Ship powerful web apps in minutes.</h1>
         <h3 class="page-title-sub">
           <span class="highlight">Factor</span> is the JavaScript CMS for front-end developers.
         </h3>
@@ -119,11 +119,12 @@ export default Vue.extend({
         justify-self: center;
         max-width: 100%;
         .page-title {
-          font-size: 3em;
+          font-size: 2em;
+          line-height: 1.3;
         }
         .page-title-sub {
           font-size: 1.4em;
-          line-height: 1.1;
+          line-height: 1.4;
         }
 
         .actions {
