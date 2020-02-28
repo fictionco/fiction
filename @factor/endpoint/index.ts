@@ -60,6 +60,8 @@ export const authorizedRequest = async (
 
   // Must be capitalized as name is a standard
   const Authorization = await bearerToken(data)
+
+  // Allow endpoints to deduce which app is requesting from them
   const source = setting("package.name") ?? ""
 
   options.headers = { Authorization, from: source, ...headers }

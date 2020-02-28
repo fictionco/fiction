@@ -13,7 +13,7 @@ export default Vue.extend({
       {
         rel: "stylesheet",
         href:
-          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.css"
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css"
       }
     ]
   }

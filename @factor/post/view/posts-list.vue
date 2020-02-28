@@ -76,8 +76,9 @@ export default Vue.extend({
       const countTrash = getStatusCount({ meta: this.meta, key: "trash" }) ?? 0
       const countPublished = getStatusCount({ meta: this.meta, key: "published" }) ?? 0
       const countDraft = getStatusCount({ meta: this.meta, key: "draft" }) ?? 0
+      const all = this.meta.totalForQuery ?? 0
       return [
-        { value: "", label: `All (${this.meta.total})` },
+        { value: "", label: `All (${all})` },
         { value: "published", label: `Published (${countPublished})` },
         { value: "draft", label: `Draft (${countDraft})` },
         { value: "trash", label: `Trash (${countTrash})` }

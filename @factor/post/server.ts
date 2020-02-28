@@ -311,8 +311,11 @@ export const postList = async (
     options
   )
 
+  if (source) {
+    conditions.source = source
+  }
+
   conditions = {
-    source,
     ...conditions,
     ...manyPostsPermissionCondition({
       bearer,
@@ -434,8 +437,11 @@ export const postIndex = async (
     options
   )
 
+  if (source) {
+    conditions.source = source
+  }
+
   conditions = {
-    source,
     ...conditions,
     ...manyPostsPermissionCondition({
       bearer,
@@ -443,6 +449,8 @@ export const postIndex = async (
       postType
     })
   }
+
+  console.log("get index", conditions)
 
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
