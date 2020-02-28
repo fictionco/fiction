@@ -1,5 +1,5 @@
 import { emitEvent } from "@factor/api/events"
-import { isNode } from "@factor/api"
+import { isNode, setting } from "@factor/api"
 import log from "@factor/api/logger"
 import { localhostUrl } from "@factor/api/url"
 import { userInitialized } from "@factor/user"
@@ -62,7 +62,7 @@ export const authorizedRequest = async (
   const Authorization = await bearerToken(data)
 
   // Allow endpoints to deduce which app is requesting from them
-  const source = ""
+  const source = setting("package.name") ?? ""
 
   options.headers = { Authorization, from: source, ...headers }
   options.timeout = 30000
