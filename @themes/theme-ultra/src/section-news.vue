@@ -31,6 +31,7 @@ export default Vue.extend({
 <style lang="less">
 .news-container {
   background: var(--color-bg-alt);
+  grid-template-rows: 2em 5em 1fr;
 
   @media (max-width: 900px) {
     padding: 6em 2em 3em;
