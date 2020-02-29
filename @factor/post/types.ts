@@ -118,7 +118,7 @@ export interface PostIndexOptions {
 
 export interface PostIndexConditions {
   [index: string]: any;
-  status?: PostStatus | { $ne: PostStatus };
+  status?: PostStatus | { $ne: PostStatus } | keyof PostStatus;
   tag?: string;
   category?: string;
   role?: string;

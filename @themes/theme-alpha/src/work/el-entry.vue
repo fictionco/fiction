@@ -1,25 +1,9 @@
 <template>
   <div class="post-entry">
     <ul class="project-info">
-      <li>
-        <h4>Client</h4>
-        <div>Client name</div>
-      </li>
-      <li>
-        <h4>Role</h4>
-        <div>Branding, Development</div>
-      </li>
-      <li>
-        <h4>Year</h4>
-        <div>2020</div>
-      </li>
-      <li>
-        <h4>Platforms</h4>
-        <div>Web &amp; Mobile</div>
-      </li>
-      <li>
-        <h4>Project URL</h4>
-        <div>https://www.example.com/</div>
+      <li v-for="(bullet, index) in bullets" :key="index">
+        <h4>{{ bullet.__title }}</h4>
+        <div>{{ bullet.value }}</div>
       </li>
     </ul>
 
@@ -47,17 +31,23 @@ export default Vue.extend({
     post(this: any) {
       return stored(this.postId) || {}
     },
+    settings(this: any) {
+      return this.post.settings || {}
+    },
+    bullets(this: any) {
+      return this.settings.bullets || []
+    },
     theimages(this: any) {
-      const vars = {}
-      this.post.images.forEach(imageId => {
+      const vars: Record<string, any> = {}
+      this.post.images.forEach((imageId: string) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })
       return vars
     },
     variables(this: any) {
-      const vars = {}
-      this.post.images.forEach(imageId => {
+      const vars: Record<string, any> = {}
+      this.post.images.forEach((imageId: string) => {
         const img = stored(imageId) || {}
         vars[imageId] = img.url || ""
       })

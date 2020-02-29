@@ -4,12 +4,13 @@ import {
   pushToFilter,
   applyFilters,
   setting,
-  addPostType
+  addPostType,
+  getPostTypeConfig
 } from "@factor/api"
 import { addPostSchema } from "@factor/post/util"
 import { RouteConfig } from "vue-router"
 import { Component } from "vue"
-import { TemplateConfig, TemplateOption } from "./types"
+import { TemplateConfig, TemplateSetting } from "./types"
 import pageSchema from "./schema"
 
 export const addPageTemplate = (templateConfig: TemplateConfig): void => {
@@ -18,7 +19,7 @@ export const addPageTemplate = (templateConfig: TemplateConfig): void => {
 
 export const getTemplateFields = async (
   tpl: TemplateConfig
-): Promise<TemplateOption[]> => {
+): Promise<TemplateSetting[]> => {
   const theComponent = await tpl.component()
   const {
     default: {
@@ -90,9 +91,25 @@ export const setup = (): void => {
     key: "pageTemplateSettings",
     hook: "post-edit-components",
     item: {
-      postType: ["page"],
-      name: "Page Template Settings",
-      component: (): Promise<Component> => import("./page-settings.vue")
+      name: "Template Settings",
+      component: (): Promise<Component> => import("./template-settings.vue")
+    }
+  })
+
+  addFilter({
+    key: "pageTemplateSettings",
+    hook: "post-edit-components",
+    callback: (_, { postType }) => {
+      const config = getPostTypeConfig(postType)
+
+      if (postType == "page" || config.templateSettings) {
+        _.push({
+          name: "Template Settings",
+          component: (): Promise<Component> => import("./template-settings.vue")
+        })
+      }
+
+      return _
     }
   })
 

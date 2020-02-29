@@ -14,8 +14,8 @@ export default {
     },
     logo: (): Promise<Component> => import("./el/logo.vue"),
     /**
-    * Site navigation.
-    */
+     * Site navigation.
+     */
     nav: [
       {
         _item: "intro",
@@ -44,8 +44,8 @@ export default {
       }
     ],
     /**
-    * Site social links.
-    */
+     * Site social links.
+     */
     social: [
       {
         _item: "dribbble",
@@ -129,8 +129,8 @@ export default {
     },
     section2: {
       /**
-      * Home page "Services" section.
-      */
+       * Home page "Services" section.
+       */
       id: "services",
       pretitle: "Services",
       title: "Tailored Digital Experiences",
@@ -163,9 +163,9 @@ export default {
     },
     section3: {
       /**
-      * Home page "work" section.
-      * Note: Post settings of this section are managed via the "work" page settings
-      */
+       * Home page "work" section.
+       * Note: Post settings of this section are managed via the "work" page settings
+       */
       id: "work",
       pretitle: "Work",
       title: "Latest Projects",
@@ -181,8 +181,8 @@ export default {
     },
     section4: {
       /**
-      * Home page "Testimonials" section.
-      */
+       * Home page "Testimonials" section.
+       */
       id: "testimonials",
       pretitle: "Testimonials",
       title: "Success Stories",
@@ -204,8 +204,8 @@ export default {
       ]
     },
     /**
-    * Home page client logos are set via the "About" page settings below.
-    */
+     * Home page client logos are set via the "About" page settings below.
+     */
     metatags: {
       title: "Factor Alpha Theme",
       description:
@@ -226,7 +226,8 @@ export default {
       id: "clients",
       pretitle: "Clients",
       title: "Worked with great brands.",
-      content: "I'm humbled to be working with such a great variety of clients that range from early stage startups to Fortune 500 companies.",
+      content:
+        "I'm humbled to be working with such a great variety of clients that range from early stage startups to Fortune 500 companies.",
       items: [
         {
           _item: "adidas",
@@ -331,8 +332,7 @@ export default {
     returnLinkText: "Back to All Projects",
     pretitle: "Work",
     title: "Case Studies",
-    content:
-      "Great projects happen with passion, intelligence, and personal commitment.",
+    content: "Great projects happen with passion, intelligence, and personal commitment.",
     components: {
       workWrap: (): Promise<Component> => import("./work/work-wrap.vue"),
       workIndex: (): Promise<Component> => import("./work/work-index.vue"),
@@ -346,7 +346,13 @@ export default {
     },
     layout: {
       index: ["workFeaturedImage", "workHeader"],
-      single: ["workReturnLink", "workHeader", "workFeaturedImage", "workEntry", "workTags"]
+      single: [
+        "workReturnLink",
+        "workHeader",
+        "workFeaturedImage",
+        "workEntry",
+        "workTags"
+      ]
     },
     metatags: {
       index: {
@@ -354,10 +360,32 @@ export default {
         description: "The latest work.",
         image: require("./img/logo-alpha.jpg")
       }
-    }
+    },
+    templateSettings: [
+      {
+        _id: "bullets",
+        input: "sortable",
+        label: "Additional Work Info",
+        description: "Additional information about this project",
+        default: [
+          { __title: "Client", value: "Client Name" },
+          { __title: "Role", value: "Role" },
+          { __title: "Year", value: new Date().getFullYear() },
+          { __title: "Platforms", value: "Web" },
+          { __title: "URL", value: "https://www.example.com" }
+        ],
+        settings: [
+          {
+            input: "text",
+            label: "Value",
+            _id: "value"
+          }
+        ]
+      }
+    ]
   },
   /**
-   * Copy for the blog page template.
+   * Copy for the blog page template.c
    */
   blog: {
     indexRoute: "/blog",
@@ -366,8 +394,7 @@ export default {
     returnLinkText: "Back",
     headline: "Blog",
     subheadline: "Discover The Latest",
-    content:
-      "Thoughts on design, the process of creation, and optimizing collaboration.",
+    content: "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
@@ -377,7 +404,14 @@ export default {
     },
     layout: {
       index: ["featuredImage", "title", "subtitle", "authorDate"],
-      single: ["customSingleHeader", "featuredImage", "meta", "entry", "social", "authorBio"],
+      single: [
+        "customSingleHeader",
+        "featuredImage",
+        "meta",
+        "entry",
+        "social",
+        "authorBio"
+      ],
       meta: ["authorDate", "tags"]
     },
     notFound: {
@@ -387,7 +421,8 @@ export default {
     metatags: {
       index: {
         title: "Blog - Factor Alpha Theme",
-        description: "Thoughts on design, the process of creation, and optimizing collaboration.",
+        description:
+          "Thoughts on design, the process of creation, and optimizing collaboration.",
         image: require("./img/logo-alpha.jpg")
       }
     }
@@ -439,7 +474,7 @@ export default {
       description:
         "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
       image: require("./img/logo-alpha.jpg")
-    },
+    }
   },
   /**
    * Contact form plugin settings.

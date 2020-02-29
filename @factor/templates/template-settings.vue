@@ -20,10 +20,11 @@
 <script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
 import { getPageTemplates, getTemplate } from "@factor/templates"
-import { stored, storeItem } from "@factor/api"
+import { stored, storeItem, getPostTypeConfig } from "@factor/api"
+
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
-import { TemplateOption } from "./types"
+import { TemplateSetting } from "./types"
 export default Vue.extend({
   components: { dashboardInput },
 
@@ -47,7 +48,16 @@ export default Vue.extend({
       }
     },
     fields(this: any) {
-      return this.pageTemplateInfo.fields || []
+      return this.pageTemplateInfo.fields || this.postTypeSettings
+    },
+    postType(this: any): string {
+      return this.$route.params.postType || ""
+    },
+    postTypeConfig(this: any) {
+      return getPostTypeConfig(this.postType)
+    },
+    postTypeSettings(this: any) {
+      return this.postTypeConfig.templateSettings || []
     }
   },
   watch: {
@@ -79,6 +89,9 @@ export default Vue.extend({
       immediate: true
     }
   },
+  mounted() {
+    this.setTemplateDefaults()
+  },
   methods: {
     getPageTemplates,
     async setPageTemplate(this: any, templateId: string) {
@@ -87,7 +100,7 @@ export default Vue.extend({
       this.setTemplateDefaults()
     },
     setTemplateDefaults(this: any) {
-      this.fields.forEach((field: TemplateOption) => {
+      this.fields.forEach((field: TemplateSetting) => {
         const _id = field._id
         let val
         if (typeof this.settings[_id] == "undefined" && field.default) {

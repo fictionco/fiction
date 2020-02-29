@@ -45,7 +45,9 @@ export default Vue.extend({
       return editTemplate ? editTemplate : () => import("./posts-edit.vue")
     },
     editComponents(this: any): EditPanel[] {
-      const components = applyFilters("post-edit-components", [])
+      const components = applyFilters("post-edit-components", [], {
+        postType: this.postType
+      })
 
       return components.filter(
         ({ postType }: EditPanel) =>
@@ -53,7 +55,9 @@ export default Vue.extend({
       )
     },
     metaComponents(this: any): EditPanel[] {
-      const components = applyFilters("post-meta-components", [])
+      const components = applyFilters("post-meta-components", [], {
+        postType: this.postType
+      })
 
       return components.filter(
         ({ postType }: EditPanel) =>

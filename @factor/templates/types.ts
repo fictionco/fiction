@@ -5,15 +5,15 @@ export interface TemplateConfig {
   slug: string;
   value?: string;
   component: () => Promise<Component>;
-  fields?: TemplateOption[];
+  fields?: TemplateSetting[];
 }
 
-export interface TemplateOption {
+export interface TemplateSetting {
   input?: string;
   label?: string;
   _id: string;
   default?: string | object[];
   description?: string;
-  settings?: TemplateOption[];
+  settings?: TemplateSetting[];
   list?: string[] | ListItem[];
 }

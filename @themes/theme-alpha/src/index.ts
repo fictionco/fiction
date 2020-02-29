@@ -22,6 +22,7 @@ export const setup = (): void => {
     nameIndex: "Work",
     nameSingle: "Work Post",
     namePlural: "Work Posts",
+    templateSettings: setting("work.templateSettings")
   })
 
   // page templates

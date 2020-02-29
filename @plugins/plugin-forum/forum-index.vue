@@ -41,7 +41,7 @@ export default Vue.extend({
       description = `Topics in category ${this.category}`
     }
 
-    if (this.page) {
+    if (this.page > 1) {
       title = `${title} - Page ${this.page}`
     }
 
@@ -68,7 +68,7 @@ export default Vue.extend({
       return posts
     },
     page(this: any) {
-      return this.$route.query.page || 1
+      return parseInt(this.$route.query.page) || 1
     }
   },
   watch: {

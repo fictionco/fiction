@@ -11,7 +11,7 @@
         >
           <div class="handle">
             <span v-if="item.__title">{{ item.__title }}</span>
-            &rarr;
+            <span class="icon">&rarr;</span>
           </div>
         </div>
         <factor-btn-dashboard btn="primary" @click="addItem()">+</factor-btn-dashboard>
@@ -166,6 +166,13 @@ export default Vue.extend({
         //background: @factor-canvas-bg;
         // color: @factor-color-primary;
         font-weight: var(--font-weight-bold);
+      }
+      .handle {
+        display: flex;
+        justify-content: space-between;
+        .icon {
+          opacity: 0.2;
+        }
       }
     }
     .factor-btn {

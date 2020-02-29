@@ -88,8 +88,6 @@ addFilter({
          */
         const defaultMeta = {
           htmlAttrs: { lang: "en" },
-          titleTemplate: setting("metaInfo.titleTemplate"),
-          image: setting("metaInfo.image"),
           meta: [
             { charset: "utf-8" },
             {
@@ -101,7 +99,13 @@ addFilter({
           ]
         }
 
-        const meta = applyFilters("meta-default", { ...defaultMeta, ...postInfo })
+        const metaSettings = setting("metaInfo") ?? {}
+
+        const meta = applyFilters("meta-default", {
+          ...defaultMeta,
+          ...metaSettings,
+          ...postInfo
+        })
 
         return meta
       }

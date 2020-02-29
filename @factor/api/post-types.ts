@@ -3,6 +3,7 @@ import { toLabel } from "@factor/api/utils"
 import { FactorPost } from "@factor/post/types"
 import { ListItem, getPermalink } from "@factor/api"
 import Vue from "vue"
+import { TemplateSetting } from "@factor/templates/types"
 
 export interface PostTypeConfig {
   baseRoute?: string;
@@ -21,6 +22,7 @@ export interface PostTypeConfig {
   categories?: ListItem[];
   customPermalink?: true | string;
   permalink?: (p: FactorPost) => string;
+  templateSettings?: TemplateSetting[];
 }
 
 export const addPostType = (config: PostTypeConfig): void => {
