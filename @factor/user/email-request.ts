@@ -5,18 +5,19 @@ import {
   SendVerifyEmail,
   VerifyAndResetPassword,
   VerifyEmail,
-  EmailResult
+  EmailResult,
+  VerificationResult
 } from "./email-types"
 
-export const sendUserEmailRequest = async (
+export const sendUserEmailRequest = async <T = EmailResult>(
   method: string,
   params: EndpointParameters
-): Promise<EmailResult> => {
-  const result = (await endpointRequest({
+): Promise<T> => {
+  const result = await endpointRequest<T>({
     id: "userEmails",
     method,
     params
-  })) as EmailResult
+  })
 
   return result
 }
@@ -37,12 +38,16 @@ export const sendVerifyEmail = async ({ _id, email }: SendVerifyEmail): Promise<
  * @param code - the code that was emailed to them
  */
 export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => {
-  const result = await sendUserEmailRequest("verifyEmail", { _id, code })
+  const { result, user } = await sendUserEmailRequest<VerificationResult>("verifyEmail", {
+    _id,
+    code
+  })
 
   /**
    * If successful, send a notification and refresh user
    */
   if (result == EmailResult.success) {
+    emitEvent("accountEmailVerified", { user })
     emitEvent("notify", "Email is verified!")
     loadUser()
   }

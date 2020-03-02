@@ -1,3 +1,5 @@
+import { CurrentUserState } from "./types"
+
 export interface VerifyAndResetPassword {
   _id: string;
   code: string;
@@ -19,4 +21,9 @@ export interface SendVerifyEmail {
 export enum EmailResult {
   success,
   failure
+}
+
+export interface VerificationResult {
+  user: CurrentUserState;
+  result: EmailResult;
 }

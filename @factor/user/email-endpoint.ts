@@ -6,9 +6,9 @@ import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
 import { addEndpoint } from "@factor/api/endpoints"
-import { emitEvent } from "@factor/api/events"
 import { FactorUser } from "./types"
 import {
+  VerificationResult,
   SendVerifyEmail,
   VerifyAndResetPassword,
   VerifyEmail,
@@ -47,6 +47,7 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
 
   return
 }
+
 /**
  * Verifies a user email with code sent to that email
  * @param _id - user id
@@ -56,7 +57,7 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
 export const verifyEmail = async (
   { _id, code }: VerifyEmail,
   { bearer }: EndpointMeta
-): Promise<EmailResult> => {
+): Promise<VerificationResult | never> => {
   if (!bearer) {
     throw new Error(`You must be logged in to verify your account`)
   }
@@ -69,19 +70,20 @@ export const verifyEmail = async (
     "+emailVerificationCode"
   )
 
+  let result = EmailResult.failure
+
   if (!user) {
-    throw new Error("Can't find user ID.")
+    throw new Error("Can't verify email. Can't find user ID.")
   } else if (user.emailVerificationCode == code) {
     user.emailVerified = true
-    user.emailVerificationCode = undefined
     await user.save()
-    emitEvent("account-email-verified", user)
-    return EmailResult.success
+    result = EmailResult.success
   } else if (!user.emailVerified) {
-    throw new Error("Verification code does not match.")
-  } else {
-    return EmailResult.failure
+    throw new Error("Email verification code does not match.")
   }
+
+  user.emailVerificationCode = undefined
+  return { result, user }
 }
 /**
  * Sends a verification email to the current user

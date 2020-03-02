@@ -53,6 +53,7 @@
             </div>
           </div>
         </div>
+
         <div v-show="buttonsLoaded" class="factor-actions">
           <script async defer src="https://buttons.github.io/buttons.js" />
 
@@ -284,7 +285,9 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.buttonsLoaded = true
+    setTimeout(() => {
+      this.buttonsLoaded = true
+    }, 1000)
   },
   routeClass() {
     return "nav-white"

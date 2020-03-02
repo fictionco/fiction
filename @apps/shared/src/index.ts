@@ -223,10 +223,17 @@ const google = (): void => {
     }
   })
 
-  onEvent("userInitialized", (user: CurrentUserState) => {
-    identifyUser(user)
+  onEvent("accountEmailVerified", (user: FactorUser) => {
+    analyticsEvent({
+      category: "accountVerified",
+      action: "accountVerified",
+      label: user.email
+    })
+  })
 
+  onEvent("userInitialized", (user: CurrentUserState) => {
     if (user) {
+      identifyUser(user)
       analyticsEvent({
         category: "userInitialized",
         action: "userInitialized",
