@@ -32,7 +32,7 @@ export default (): RequestHandler =>
         details.push(`${time}s`)
       }
 
-      const contentLength = parseFloat(tokens.res(req, res, "content-length"))
+      const contentLength = parseFloat(tokens.res(req, res, "content-length") ?? "-1")
       if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)
 
       details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
@@ -41,7 +41,7 @@ export default (): RequestHandler =>
 
       // Server requests to endpoints have null as the value for url
       // This is due to proxy
-      if (url.includes("null")) {
+      if (url && url.includes("null")) {
         url = chalk.cyan(`server ${figures.arrowRight} ${url.split("null")[1]}`)
       }
 

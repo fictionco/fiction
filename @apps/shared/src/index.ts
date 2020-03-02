@@ -117,15 +117,39 @@ const slack = async (): Promise<void> => {
   }
 }
 
-const facebookTrack = (eventName: string): void => {
+/**
+ * https://developers.facebook.com/docs/facebook-pixel/reference#standard-events
+ */
+enum StandardFacebookEvents {
+  Subscribe = "Subscribe",
+  ViewContent = "ViewContent",
+  PageView = "PageView",
+  AddToCart = "AddToCart",
+  Contact = "Contact",
+  Lead = "Lead",
+  Purchase = "Purchase",
+  Schedule = "Schedule",
+  Search = "Search",
+  StartTrial = "StartTrial",
+  CustomizeProduct = "CustomizeProduct"
+}
+
+const facebookStandardEvent = (event: StandardFacebookEvents): void => {
   if (typeof window.fbq != "undefined") {
-    window.fbq("track", eventName)
+    window.fbq("track", event)
+  }
+}
+
+const facebookTrackCustom = (_arguments: AnalyticsEvent): void => {
+  const { category, action, value } = _arguments
+  if (typeof window.fbq != "undefined") {
+    if (category) window.fbq("trackCustom", category, { action, value })
   }
 }
 
 const facebook = (): void => {
   onEvent("email-list-new-email-requested", () => {
-    facebookTrack("Subscribe")
+    facebookStandardEvent(StandardFacebookEvents.Subscribe)
   })
 }
 
@@ -165,7 +189,7 @@ export const analyticsEvent = (_arguments: AnalyticsEvent): void => {
   label = label ? label : action
 
   if (window.ga && window.ga.getAll) {
-    facebookTrack(category)
+    facebookTrackCustom(_arguments)
     mixpanelTrack(_arguments)
 
     const tracker = window.ga.getAll()[0]
@@ -224,6 +248,7 @@ const google = (): void => {
     }) => {
       if (user) {
         if (params.newAccount) {
+          facebookStandardEvent(StandardFacebookEvents.Lead)
           analyticsEvent({
             category: "newAccount",
             action: "newAccount",

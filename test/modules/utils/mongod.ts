@@ -13,10 +13,9 @@ export interface MockDatabaseConfig {
 }
 
 export const startEndpointTestingServer = async ({
-  port = "",
-  debug = false
+  port = ""
 }): Promise<MockDatabaseConfig> => {
-  mongod = new MongoMemoryServer({ debug })
+  mongod = new MongoMemoryServer()
 
   const dbUrl = await mongod.getConnectionString()
   const dbPort = String(await mongod.getPort())
