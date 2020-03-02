@@ -99,6 +99,8 @@ const requestInitializeUser = async (): Promise<CurrentUserState> => {
 
   const resolvedUser = await loadUser()
 
+  emitEvent('userInitialized', resolvedUser)
+
   await runCallbacks("before-user-init", resolvedUser)
 
   Vue.$userIsInitialized = true

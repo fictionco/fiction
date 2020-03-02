@@ -174,6 +174,7 @@
     "mimetype",
     "minlength",
     "mixins",
+    "mixpanel",
     "mongod",
     "nocheck",
     "npmjs",

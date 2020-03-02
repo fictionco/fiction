@@ -11,6 +11,7 @@ export default Vue.extend({
   metaInfo: {
     link: [
       {
+        vmid: "fa",
         rel: "stylesheet",
         href:
           "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css"

@@ -5,8 +5,17 @@ import { EmailTransactionalConfig } from "@factor/email/util"
 import {
   FactorUser,
   FactorUserCredential,
-  AuthenticationParameters
+  AuthenticationParameters,
+  CurrentUserState
 } from "@factor/user/types"
+
+interface AnalyticsEvent {
+  category: string;
+  action: string;
+  label?: string;
+  value?: number;
+}
+
 /**
  * Send a notification to Slack
  */
@@ -120,11 +129,21 @@ const facebook = (): void => {
   })
 }
 
-interface AnalyticsEvent {
-  category: string;
-  action: string;
-  label?: string;
-  value?: number;
+const mixpanelTrack = (_arguments: AnalyticsEvent): void => {
+  const { category, action, value } = _arguments
+  if (typeof window.mixpanel != "undefined") {
+    window.mixpanel.track(category, { action, value })
+  }
+
+  return
+}
+
+const identifyUser = (user: CurrentUserState): void => {
+  if (user) {
+    if (window.mixpanel) {
+      window.mixpanel.identify(user._id)
+    }
+  }
 }
 
 /**
@@ -139,9 +158,10 @@ export const analyticsEvent = (_arguments: AnalyticsEvent): void => {
   let { label } = _arguments
   label = label ? label : action
 
-  facebookTrack(category)
-
   if (window.ga && window.ga.getAll) {
+    facebookTrack(category)
+    mixpanelTrack(_arguments)
+
     const tracker = window.ga.getAll()[0]
     if (tracker) {
       tracker.send("event", category, action, label, value)
@@ -170,6 +190,18 @@ const google = (): void => {
     if (window && window.dataLayer) {
       window.dataLayer.push({ event: "emailListSignupRequest" })
       analyticsEvent({ category: "newLead", action: "submittedEmail", value: 1 })
+    }
+  })
+
+  onEvent("userInitialized", (user: CurrentUserState) => {
+    identifyUser(user)
+
+    if (user) {
+      analyticsEvent({
+        category: "userInitialized",
+        action: "userInitialized",
+        label: user.email
+      })
     }
   })
   /**
