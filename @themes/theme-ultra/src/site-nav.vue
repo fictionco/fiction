@@ -185,8 +185,8 @@ export default Vue.extend({
 
     > div:last-child {
       display: flex;
-      flex-direction: column;
       align-self: end;
+      align-items: center;
       padding: 1rem 2rem;
     }
 
@@ -223,10 +223,14 @@ export default Vue.extend({
     }
 
     .copyright {
+      display: inline;
       font-size: 0.8rem;
       .factor-logo-icon {
-        display: block;
-        margin-bottom: 1em;
+        margin-right: 1.5em;
+        max-width: 1em;
+        svg {
+          width: 20px;
+        }
       }
     }
 

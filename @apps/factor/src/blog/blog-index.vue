@@ -66,7 +66,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "blog",
-      loading: false
+      loading: true
     }
   },
   routeClass() {
