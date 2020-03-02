@@ -36,14 +36,14 @@ export default Vue.extend({
 
   .nav-show-mobile {
     display: none;
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       display: block;
     }
   }
 
   .nav-show-desktop {
     display: block;
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       display: none;
     }
   }

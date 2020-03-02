@@ -142,6 +142,12 @@ const identifyUser = (user: CurrentUserState): void => {
   if (user) {
     if (window.mixpanel) {
       window.mixpanel.identify(user._id)
+      window.mixpanel.people.set({
+        $email: user.email,
+        createdAt: user.createdAt,
+        USER_ID: user._id,
+        emailVerified: user.emailVerified ?? false
+      })
     }
   }
 }
