@@ -6,7 +6,7 @@ export default {
     form: (): Promise<Component> => import("./contact-form.vue"),
     adminEmail: {
       disable: false,
-      subject: "Contact form submitted"
+      subject: form => `Contact form submitted from ${form.name}`
     },
     submit: {
       btn: "app-btn factor-btn primary",
