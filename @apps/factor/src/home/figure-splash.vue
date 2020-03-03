@@ -29,6 +29,14 @@
           <!-- <img src="./img/tablet-dashboard.svg" alt="Tablet" class="tablet" /> -->
         </div>
       </div>
+      <div v-if="activeSlide.id == 'code'" class="splash-figure code">
+        <div class="stage">
+          <div class="main wrap">
+            <img src="./img/code-editor.svg" alt="Code Editor" class="code" />
+          </div>
+          <img src="./img/terminal.svg" alt="Terminal" class="team" />
+        </div>
+      </div>
     </div>
 
     <div class="splash-caption">
@@ -49,7 +57,8 @@ export default Vue.extend({
       active: 0,
       figures: [
         { id: "dashboard", caption: "Your CMS Dashboard" },
-        { id: "themes", caption: "Themes you'll love" }
+        { id: "themes", caption: "Themes you'll love" },
+        { id: "code", caption: "Built for Web Professionals" }
       ],
       timer: false,
       animationInterval: 7000
@@ -131,17 +140,28 @@ figure.splash-figure-container {
     perspective: 800px;
   }
 
-  .splash-figure.themes {
+  .splash-figure.themes,
+  .splash-figure.code {
     img {
       position: absolute;
     }
+
     .main {
-      border-radius: 4px;
+      border-radius: 12px;
       z-index: 10;
       box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
         0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
       transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
       animation: themeTransform 1s 1 forwards;
+      overflow: hidden;
+      &.wrap {
+        width: 100%;
+        height: 100%;
+      }
+      img {
+        animation: codeScrollTransform 60s 1 linear;
+        width: 100%;
+      }
     }
 
     .tablet,
@@ -284,6 +304,15 @@ figure.splash-figure-container {
 
         transform: rotate(0deg) rotateX(0deg) rotateY(0deg) translateX(2em)
           translateZ(60px) scale(1.2);
+      }
+    }
+
+    @keyframes codeScrollTransform {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(-50%);
       }
     }
 

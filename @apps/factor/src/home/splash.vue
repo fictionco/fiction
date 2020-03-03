@@ -4,7 +4,7 @@
       <div class="content">
         <h1 class="page-title">Ship powerful web apps in minutes.</h1>
         <h3 class="page-title-sub">
-          <span class="highlight">Factor</span> is the JavaScript CMS for front-end developers.
+          <span class="highlight">Factor</span> is the JavaScript CMS and rapid development platform for web professionals.
         </h3>
 
         <div class="actions">
