@@ -101,9 +101,6 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
-      console.log(this.animationInterval)
-      return
-
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     }
@@ -200,6 +197,8 @@ figure.splash-figure-container {
       bottom: 9%;
       left: 0rem;
       animation: tabletTransform 1s 1 forwards;
+      box-shadow: 0 5px 15px rgba(27, 34, 60, 0.1), 0 15px 35px rgba(27, 34, 60, 0.1),
+        0 50px 100px rgba(27, 34, 60, 0.1), 20px -20px 35px rgba(80, 102, 119, 0.15);
     }
     .pricing {
       max-width: 240px;
