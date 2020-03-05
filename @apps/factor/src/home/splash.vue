@@ -4,7 +4,10 @@
       <div class="content">
         <h1 class="page-title">Ship powerful web apps in minutes.</h1>
         <h3 class="page-title-sub">
-          <span class="highlight">Factor</span> is the JavaScript CMS and rapid development platform for web professionals.
+          <span class="highlight">Factor</span> is the
+          JavaScript CMS and
+          rapid development platform for
+          web professionals.
         </h3>
 
         <div class="actions">
@@ -75,7 +78,7 @@ export default Vue.extend({
 
       .page-title,
       .page-title-sub {
-        letter-spacing: -0.025em;
+        letter-spacing: -0.035em;
       }
 
       .page-title {
@@ -96,7 +99,6 @@ export default Vue.extend({
         font-weight: 400;
         color: #8ba8bf;
         .highlight {
-          font-weight: 500;
           color: #5c84a4;
         }
       }

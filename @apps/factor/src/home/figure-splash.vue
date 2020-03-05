@@ -32,7 +32,7 @@
       <div v-if="activeSlide.id == 'code'" class="splash-figure code">
         <div class="stage">
           <div class="main wrap">
-            <img src="./img/code-editor.svg" alt="Code Editor" class="code" />
+            <div class="scroller" :style="`backgroundImage: url(${scrollerBg})`" />
           </div>
           <img src="./img/terminal.svg" alt="Terminal" class="team" />
         </div>
@@ -61,7 +61,7 @@ export default Vue.extend({
         { id: "code", caption: "Built for Web Professionals" }
       ],
       timer: false,
-      animationInterval: 7000
+      animationInterval: 777000
     }
   },
   computed: {
@@ -70,6 +70,9 @@ export default Vue.extend({
     },
     activeSlide(this: any) {
       return this.figures[this.active]
+    },
+    scrollerBg(this: any) {
+      return require("./img/code-editor.svg")
     }
   },
 
@@ -98,6 +101,9 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
+      console.log(this.animationInterval)
+      return
+
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     }
@@ -157,9 +163,17 @@ figure.splash-figure-container {
       &.wrap {
         width: 100%;
         height: 100%;
+        .scroller {
+          overflow: hidden;
+          box-shadow: none;
+          width: 100%;
+          height: 1000%;
+          animation: codeScrollTransform 60s 0s linear;
+          background-size: contain;
+        }
       }
       img {
-        animation: codeScrollTransform 60s 1 linear;
+        animation: codeScrollTransform 60s 1s linear;
         width: 100%;
       }
     }
@@ -201,8 +215,8 @@ figure.splash-figure-container {
         transform: scale(0.9);
       }
       to {
-        transform: scale(0.9) perspective(500px) rotateX(1deg) rotateY(-2deg)
-          rotateZ(0deg) translateZ(-15px);
+        transform: scale(1) perspective(500px) rotateX(1deg) rotateY(-2deg) rotateZ(0deg)
+          translateZ(-35px);
       }
     }
 
@@ -330,8 +344,8 @@ figure.splash-figure-container {
         transform: scale(0.9);
       }
       to {
-        transform: scale(0.9) perspective(500px) rotateX(1deg) rotateY(-2deg)
-          rotateZ(0deg) translateZ(-15px);
+        transform: scale(1) perspective(500px) rotateX(1deg) rotateY(-2deg) rotateZ(0deg)
+          translateZ(-45px);
       }
     }
 
