@@ -43,40 +43,6 @@ export default Vue.extend({
       return this.post.settings || {}
     }
   },
-  // templateSettings() {
-  //   return [
-  //     {
-  //       input: "text",
-  //       label: "Client",
-  //       _id: "client",
-  //       default: ""
-  //     },
-  //     {
-  //       input: "text",
-  //       label: "Role",
-  //       _id: "role",
-  //       default: ""
-  //     },
-  //     {
-  //       input: "text",
-  //       label: "Year",
-  //       _id: "year",
-  //       default: ""
-  //     },
-  //     {
-  //       input: "text",
-  //       label: "Platforms",
-  //       _id: "platforms",
-  //       default: ""
-  //     },
-  //     {
-  //       input: "text",
-  //       label: "URL",
-  //       _id: "url",
-  //       default: ""
-  //     }
-  //   ]
-  // },
   methods: {
     isEmpty,
     setting
@@ -96,11 +62,9 @@ export default Vue.extend({
 
   .work-return-link,
   .splash,
-  //.entry-tags,
   .single-entry-headers,
   .widget-date,
   .entry-meta,
-  //.post-entry,
   .social-share,
   .author-bio {
     line-height: 1.2;
@@ -120,8 +84,6 @@ export default Vue.extend({
     padding: 2em 2em 1em;
   }
 
-  //.splash,
-  //.entry-tags,
   .entry-meta,
   .post-entry,
   .social-share,

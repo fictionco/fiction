@@ -32,12 +32,6 @@ export const setup = (): void => {
     component: (): Promise<Component> => import("./page-template-default.vue")
   })
 
-  addPageTemplate({
-    name: "Landing Page",
-    slug: "landing-page",
-    component: (): Promise<Component> => import("./page-template-landing.vue")
-  })
-
   // content routes
 
   addContentRoutes({
