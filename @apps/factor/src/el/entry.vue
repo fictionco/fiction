@@ -1,7 +1,7 @@
 <template>
   <div class="docs-entry">
     <factor-highlight-code>
-      <div v-formatted-text="text" />
+      <div v-formatted-text="text" class="doc-container" />
     </factor-highlight-code>
   </div>
 </template>
@@ -47,6 +47,15 @@ export default Vue.extend({
 <style lang="less">
 .docs-entry {
   @import "~@factor/ui/css/standard-entry.less";
+
+  .doc-container {
+    letter-spacing: -0.01em;
+    > p:first-of-type {
+      letter-spacing: -0.02em;
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+  }
 
   figure {
     margin: 2em 0;

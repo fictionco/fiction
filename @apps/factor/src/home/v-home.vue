@@ -152,7 +152,7 @@ export default Vue.extend({
           text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
           attribution: "Justin Keller, CEO ElasticByte",
           img: require("./img/elastic-byte.svg"),
-          link: "https://www.elasticbyte.dev"
+          link: "https://www.elasticbyte.net"
         },
         {
           text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,

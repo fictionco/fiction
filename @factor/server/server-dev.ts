@@ -14,9 +14,9 @@ import { getWebpackConfig } from "@factor/build/webpack-config"
 import { getFactorDirectories } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import chokidar from "chokidar"
-
+import { emitEvent } from "@factor/api/events"
+import { setBuilding } from "@factor/cli/loading"
 import { RendererComponents } from "./types"
-
 interface UpdateBundle {
   ({ bundle, template, clientManifest }: RendererComponents): Promise<void>;
 }
@@ -111,12 +111,16 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       cliProgress.Presets.shades_classic
     )
 
+    setBuilding(true)
+
     bar.start(100, 0, { msg: "" })
+    emitEvent("buildProgress", "bundle", { progress: 0, message: "building app" })
     let percent = 0
     clientCompiler.apply(
       new webpackProgressPlugin((ratio: number, msg: string) => {
         percent = ratio * 100 > percent ? ratio * 100 : percent
         bar.update(percent, { msg })
+        emitEvent("buildProgress", "bundle", { progress: percent, message: msg })
       })
     )
 
@@ -153,6 +157,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     clientCompiler.plugin("done", (stats: Stats): void => {
       const { errors, warnings } = stats.toJson()
 
+      setBuilding(false)
       bar.stop()
 
       errors.forEach(err => log.error(err))
@@ -204,7 +209,10 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
   serverCompiler.plugin("compile", () => {})
 
   serverCompiler.watch({}, (_error: Error, stats) => {
-    if (_error) throw _error
+    if (_error) {
+      emitEvent("buildError", _error)
+      throw _error
+    }
 
     const { errors } = stats.toJson()
 

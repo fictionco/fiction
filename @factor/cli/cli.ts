@@ -5,12 +5,14 @@ import * as tools from "@factor/api"
 import commander from "commander"
 import log from "@factor/api/logger"
 import execa from "execa"
+import { createServer } from "@factor/server"
 import { serverInfo, getCliExecutor } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
 import LoadingBar from "./loading"
 import { logSetupNeeded } from "./setup"
+
 interface CommanderArguments {
   options: object[];
   parent: Record<string, any>;
@@ -47,8 +49,21 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     ...options
   }
 
-  const { install, filter, command, inspect, NODE_ENV } = setup
+  const {
+    install,
+    filter,
+    command,
+    inspect,
+    PORT,
+    NODE_ENV,
+    skipVerifyDeps,
+    debug
+  } = setup
 
+  // Set environment again based on any changes made via CLI arguments
+  setEnvironment({ NODE_ENV, PORT, debug, command })
+
+  await createServer({ port: PORT })
   /**
    * Log initial server info
    */
@@ -61,7 +76,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   /**
    * Make sure all package dependencies are installed and updated
    */
-  if (install) {
+  if (install && !skipVerifyDeps) {
     await bar.update({ percent: 35, msg: `checking dependencies (${getCliExecutor()})` })
 
     const verifyDepProcess = execa(getCliExecutor(), ["install"])
@@ -165,6 +180,7 @@ export const setup = (): void => {
     .description("Start development server")
     .option("--static", "use static file system for builds instead of memory")
     .option("--server", "server development mode - restart the server on file changes")
+    .option("--skip-verify-deps", "Skip dependency check")
     .action(_arguments => {
       runCommand({
         command: "dev",

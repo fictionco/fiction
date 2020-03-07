@@ -4,9 +4,9 @@ import { runCallbacks, addCallback } from "@factor/api"
 
 import commander from "commander"
 import log from "@factor/api/logger"
+import { ServerOptions } from "@factor/server"
 import aliasRequire from "./alias-require"
 import transpile from "./transpile"
-
 interface EnvironmentConfig {
   NODE_ENV?: string;
   command?: string;
@@ -73,7 +73,7 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
     key: "nodeReload",
     hook: "rebuild-server-app",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    callback: () => reloadNodeProcess(_config)
+    callback: (serverOptions: ServerOptions) => reloadNodeProcess(_config, serverOptions)
   })
 }
 
@@ -82,12 +82,17 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
  * Needed for server reloading
  * @param _arguments - original arguments for factor cli
  */
-const reloadNodeProcess = async (_arguments: EnvironmentConfig): Promise<void> => {
-  Object.keys(require.cache).forEach(id => {
-    if (!/node_modules/.test(id)) {
-      delete require.cache[id]
-    }
-  })
+const reloadNodeProcess = async (
+  _arguments: EnvironmentConfig,
+  serverOptions: ServerOptions
+): Promise<void> => {
+  if (!serverOptions.noReloadModules) {
+    Object.keys(require.cache).forEach(id => {
+      if (!/node_modules/.test(id)) {
+        delete require.cache[id]
+      }
+    })
+  }
 
   await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
 }

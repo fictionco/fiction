@@ -2,33 +2,24 @@
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-**Factor** is a CMS framework designed for the unique problems faced by front-end developers when creating websites and web apps.
+Factor is an open source, unified CMS platform and development framework for websites, blogs and web apps. It is built on a modern JavaScript technology stack — and designed for teams who need power, flexibility and performance.
 
-Factor is built with the 100% JavaScript VENM Stack ([VueJs](https://vuejs.org), [Express](https://expressjs.com), [NodeJS](https://nodejs.org/en/), [MongoDB](https://github.com/mongodb/mongo)); and also is coded in Typescript (which means you can use JavaScript or Typescript natively).
+Hitting the right balance of needs has led Factor to be used in production by many organizations. Once you learn the basics, you'll love how easy it is to create superior websites and apps.
 
-Factor will help you:
+Every day Factor powers some of the most powerful yet scaleable apps on the internet, it's modern architecture allows for simple caching and optimization which allows you to do more.
 
-- ship apps as quickly
-- implement projects more concisely
-- spend less time debugging
-- avoid pitfalls
+## How Factor Is Different
 
-## Core Idea
+The first question people usually ask is, how is Factor different from everything else out there?
 
-Factor is extension-focused, and the architecture it's built on was created with this in mind.
+{{components.comparison}}
 
-Factor includes the following components:
+A few key characteristics of Factor:
 
-- CLI and Build System
-- Express Server and Framework
-- VueJS Orchestration (router, store, ssr)
-- Standardized dashboard and data-model
-
-While this means Factor has an opinion on these things, it comes with one important benefit:
-
-Plugins and themes know what to expect.
-
-And this allows authors to do more for you. Essentially they can create an experience that "just works" while in other frameworks you could spend days in debugging and config.
+- **Instant extension** - plugins and themes that "just work."
+- **Real open-source** - Built on Vue, Mongo, Node, Express.
+- **Full-stack not static** - This makes it so apps can be their own API.
+- **One basic language: Javascript** - Build only with Javascript and Javascript friendly tech (JSON, Mongo, Typescript).
 
 ## Getting Started
 

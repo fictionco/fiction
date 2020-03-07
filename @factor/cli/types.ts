@@ -1,4 +1,9 @@
 /**
+ * The types of builds that we show progress for
+ */
+export type BuildTypes = "bundle" | "environment"
+
+/**
  * Control files are additional files that can be added to loaders from filters
  * @param target - the loader to target
  * @param file - the full path to the original file
@@ -36,12 +41,15 @@ export interface CommandOptions {
   filter?: string;
   install?: boolean;
   NODE_ENV?: string;
+  PORT?: string;
   analyze?: boolean;
+  debug?: boolean;
   static?: boolean;
   clean?: boolean;
   inspect?: boolean;
   cwd?: string;
   controlFiles?: ControlFile[];
+  skipVerifyDeps?: boolean;
 }
 
 export interface FactorPackageJson {

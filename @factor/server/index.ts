@@ -15,25 +15,27 @@ import { getPath } from "@factor/api/paths"
 import destroyer from "destroyer"
 import express from "express"
 import fs from "fs-extra"
-import log from "@factor/api/logger"
 import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
-
+import log from "@factor/api/logger"
+import { renderLoading } from "@factor/loader"
 import { developmentServer } from "./server-dev"
-import { handleServerError, getServerInfo, logServerReady } from "./util"
+import { handleServerError, getServerInfo } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
-
 let __listening: Server | undefined
-let __application
+let __application: express.Express
 let __renderer: BundleRenderer // used for dev server updates
 
-interface ServerOptions {
+export interface ServerOptions {
   static?: true;
   server?: true;
   port?: string;
   renderer?: BundleRenderer;
   cwd?: string;
+  noReloadModules?: boolean;
+  path?: string;
+  log?: boolean;
 }
 
 /**
@@ -69,7 +71,7 @@ export const renderRoute = async (
  * @param response - server response
  */
 export const renderRequest = async (
-  renderer: BundleRenderer,
+  renderer: BundleRenderer | undefined,
   request: express.Request,
   response: express.Response
 ): Promise<void> => {
@@ -82,7 +84,12 @@ export const renderRequest = async (
      */
     process.env.factorServerStatus = "200"
 
-    const html = await renderRoute(request.url, renderer)
+    let html = ""
+    if (!renderer) {
+      html = await renderLoading()
+    } else {
+      html = await renderRoute(request.url, renderer)
+    }
 
     const serverStatus = parseInt(process.env.factorServerStatus)
 
@@ -113,6 +120,23 @@ export const closeServer = async (): Promise<void> => {
   }
 }
 
+export const restartServer = async (options: ServerOptions): Promise<void> => {
+  if (__listening) {
+    try {
+      __listening.destroy()
+
+      await runCallbacks("rebuild-server-app", options)
+
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      await createServer(options)
+    } catch (error) {
+      // If an error is thrown that is subsequently fixed, don't prevent server restart
+      setRestarting("no")
+      throw error
+    }
+  }
+}
+
 /**
  * Create the express server
  * @library express
@@ -122,7 +146,7 @@ export const closeServer = async (): Promise<void> => {
  * This needs to take into account server resets
  */
 export const createServer = async (options: ServerOptions): Promise<void> => {
-  const { port, renderer } = options || {}
+  const { port } = options || {}
 
   process.env.PORT = port || process.env.PORT || "3000"
 
@@ -130,15 +154,19 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   loadMiddleware(__application)
 
-  if (renderer) {
-    __application.get("*", (request, response) => {
-      return renderRequest(renderer, request, response)
-    })
-  }
+  __application.get("*", (request, response) => {
+    return renderRequest(__renderer, request, response)
+  })
 
-  __listening = __application.listen(process.env.PORT, () => {
-    logServerReady()
-    setRestarting("no")
+  await new Promise(resolve => {
+    __listening = __application.listen(process.env.PORT, () => {
+      // if (log) {
+      //   logServerReady()
+      // }
+
+      setRestarting("no")
+      resolve()
+    })
   })
 
   prepareListener()
@@ -154,20 +182,9 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         setRestarting("yes")
 
         log.server(`Restarting Server`, { color: "yellow" })
+        options.path = path
 
-        if (__listening) {
-          try {
-            __listening.destroy()
-
-            await runCallbacks("rebuild-server-app", { path })
-
-            await createServer(options)
-          } catch (error) {
-            // If an error is thrown that is subsequently fixed, don't prevent server restart
-            setRestarting("no")
-            throw error
-          }
-        }
+        await restartServer(options)
       }
     }
   })
@@ -230,37 +247,28 @@ export const appRenderer = (cwd?: string): BundleRenderer => {
 export const createRenderServer = async (
   options: ServerOptions = {}
 ): Promise<BundleRenderer> => {
-  let renderer: BundleRenderer
-
   const cwd = getWorkingDirectory(options.cwd)
 
   if (process.env.NODE_ENV == "development") {
-    renderer = await new Promise(resolve => {
+    await new Promise(resolve => {
       developmentServer({
         cwd,
         fileSystem: options.static ? "static" : "memory",
         watchMode: options.server ? "server" : "app",
         onReady: async renderConfig => {
-          const renderer = htmlRenderer(renderConfig)
+          __renderer = htmlRenderer(renderConfig)
 
-          if (!__listening) {
-            options.renderer = renderer
-            await createServer(options)
-          } else {
-            __renderer = renderer
-          }
-
-          resolve(renderer)
+          resolve(__renderer)
         }
       })
     })
   } else {
-    renderer = appRenderer(cwd)
-    options.renderer = renderer
-    await createServer(options)
+    __renderer = appRenderer(cwd)
   }
 
-  return renderer
+  await restartServer({ noReloadModules: true })
+
+  return __renderer
 }
 
 export const setup = (): void => {

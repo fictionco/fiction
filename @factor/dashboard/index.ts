@@ -61,11 +61,11 @@ export const setup = (): void => {
         path: dashboardRoute,
         component: (): Promise<Component> => import("./theme/wrap.vue"),
         children: applyFilters("dashboard-routes", [
-          {
-            path: "admin",
-            component: (): Promise<Component> => import("./vd-dashboard.vue"),
-            meta: { auth: true }
-          },
+          // {
+          //   path: "admin",
+          //   component: (): Promise<Component> => import("./vd-dashboard.vue"),
+          //   meta: { auth: true }
+          // },
           {
             path: "*",
             component: (): Promise<Component> => import("./vd-404.vue"),
@@ -84,13 +84,13 @@ export const setup = (): void => {
     key: "dashboard",
     hook: "admin-menu",
     callback: (_: DashboardMenuItem[]) => {
-      _.push({
-        group: "admin",
-        path: "admin",
-        name: "Admin",
-        icon: require("./resource/dashboard.svg"),
-        priority: 50
-      })
+      // _.push({
+      //   group: "admin",
+      //   path: "admin",
+      //   name: "Admin",
+      //   icon: require("./resource/dashboard.svg"),
+      //   priority: 50
+      // })
 
       postTypesConfig()
         .filter(({ hideAdmin, accessLevel }) => {

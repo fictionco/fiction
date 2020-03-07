@@ -1,10 +1,14 @@
 import { Component } from "vue"
+import comparison from "./docs/comparison.vue"
 export default {
   app: { url: "https://factor.dev" },
   metaInfo: {
     default: {
       image: require("./src/static/factor-logo.jpg")
     }
+  },
+  components: {
+    comparison
   },
   emailList: {
     alphaProgram: { tags: ["factor-dev"] }

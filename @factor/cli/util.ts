@@ -1,5 +1,6 @@
 import prettyBytes from "pretty-bytes"
 import chalk from "chalk"
+import { pushToFilter } from "@factor/api/hooks"
 import { factorVersion } from "@factor/api/about"
 import { localhostUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
@@ -27,6 +28,28 @@ export const getCliExecutor = (): string => {
   const ePath = process.env.npm_execpath
   return ePath && ePath.includes("yarn") ? "yarn" : "npm"
 }
+
+export const getLatestVersion = async (): Promise<string> => {
+  const out = ""
+  let latest
+  try {
+    latest = await latestVersion("@factor/core")
+  } catch (error) {
+    log.info("Error getting latest Factor version")
+  }
+  const current = factorVersion()
+
+  if (latest && current != latest) {
+    pushToFilter({
+      key: "newVersion",
+      hook: "cli-notices",
+      item: `New Factor version available (v${latest})`
+    })
+  }
+
+  return out
+}
+
 /**
  * Log useful server info
  */
@@ -39,24 +62,15 @@ export const serverInfo = async ({
 }): Promise<void> => {
   const lines = []
 
-  let latest
-  try {
-    latest = await latestVersion("@factor/core")
-  } catch (error) {
-    log.info("Error getting latest Factor version")
-  }
-
   const current = factorVersion()
   lines.push(chalk.bold(`Factor Platform v${current}`))
-
-  if (latest && current != latest) {
-    lines.push(chalk.green(`New version available v${latest}`))
-  }
 
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
   }
+
+  getLatestVersion()
 
   log.log(lines.join(`\n`) + `\n`)
 }

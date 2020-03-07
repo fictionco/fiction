@@ -47,10 +47,8 @@ export class NodeLog {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  info(text: string, { color = "white" } = {}): void {
-    const colorize = chalk.keyword(color)
-
-    this.log(colorize(`${figures.dot}${figures.dot}`) + chalk.dim(` ${text}`))
+  info(..._arguments: any[]): void {
+    Reflect.apply(this.utility.log, null, _arguments)
   }
 
   server(text: string, { color = "cyan" } = {}): void {
@@ -97,11 +95,12 @@ export class NodeLog {
     lines.forEach(({ title, value, indent }) => {
       if (!title && !value) {
         msg.push("")
-      } else if (typeof value != "undefined") {
+      } else {
         const formattedTitle = indent
           ? "  " + chalk.keyword(color)(title)
           : chalk.bold(title)
-        msg.push(`${formattedTitle}${value ? ":" : ""} ${value}`)
+        const logVal = value ? value : ""
+        msg.push(`${formattedTitle}${value ? ":" : ""} ${logVal}`)
       }
     })
 

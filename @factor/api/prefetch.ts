@@ -44,7 +44,7 @@ export const preFetchPost = async ({
   if (
     (!permalink && !_id) ||
     (permalink && permalink == "__webpack_hmr") ||
-    /\.(png|jpg|gif|svg|ico)$/.test(permalink) ||
+    permalink.includes(".") ||
     route.path.includes(dashboardRoute)
   ) {
     return

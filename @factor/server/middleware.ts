@@ -7,6 +7,7 @@ import helmet from "helmet"
 import serveFavicon from "serve-favicon"
 import { Application, Request, Response, NextFunction } from "express"
 import { resolveFilePath } from "@factor/api/resolver"
+import { initLoader } from "@factor/loader"
 import { serveStatic } from "./util"
 import logger from "./logger"
 export interface MiddlewareHandler {
@@ -55,6 +56,10 @@ export const loadMiddleware = (app: Application, middleware = []): void => {
   app.use(logger())
   app.use(compression())
   app.use(helmet())
+
+  if (process.env.NODE_ENV == "development") {
+    initLoader()
+  }
 
   // parse application/x-www-form-urlencoded
   app.use(bodyParser.urlencoded({ extended: false }))

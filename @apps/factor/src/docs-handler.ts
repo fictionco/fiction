@@ -44,7 +44,7 @@ export const getMarkdownHTML = async (slug: string): Promise<string> => {
 
   if (file) {
     const { default: markdown } = await file()
-    html = renderMarkdown(markdown)
+    html = renderMarkdown(markdown, { variables: true })
   }
 
   return html

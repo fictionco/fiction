@@ -106,7 +106,7 @@ export default Vue.extend({
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(250px, 300px) minmax(500px, 750px);
+    grid-template-columns: minmax(250px, 300px) minmax(500px, 650px);
     grid-gap: 5rem;
   }
   .mast {
@@ -116,9 +116,6 @@ export default Vue.extend({
   .scroller {
     padding: 3em 0;
     margin: 0 auto;
-  }
-
-  .docs-entry {
   }
 
   @media (max-width: 900px) {

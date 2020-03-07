@@ -125,7 +125,10 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
           },
           { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
-          { test: /\.md$/, use: [{ loader: "markdown-image-loader" }] },
+          {
+            test: /\.md$/,
+            use: [{ loader: "markdown-image-loader" }]
+          },
           {
             test: /\.ts$/,
             loader: "ts-loader",

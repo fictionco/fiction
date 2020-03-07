@@ -5,7 +5,8 @@ import mdAnchor from "markdown-it-anchor"
 import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdImplicitFigures from "markdown-it-implicit-figures"
-
+import { setting } from "@factor/api"
+import Vue from "vue"
 let markdownUtility: MarkdownIt
 
 const getMarkdownUtility = (): MarkdownIt => {
@@ -42,11 +43,15 @@ export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): s
     const { variables } = options || {}
     if (variables) {
       content = content.replace(/{{([\S\s]+?)}}/g, matched => {
-        const setting = matched.replace(/[{}]/g, "")
-        const val = dotSetting({
-          key: setting,
+        const settingKey = matched.replace(/[{}]/g, "")
+        let val = dotSetting({
+          key: settingKey,
           settings: getStoreState()
         })
+
+        if (!val) {
+          val = setting(settingKey)
+        }
 
         return val || ""
       })

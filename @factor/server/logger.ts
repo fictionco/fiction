@@ -2,7 +2,7 @@ import morgan from "morgan"
 import figures from "figures"
 import chalk from "chalk"
 import { RequestHandler } from "express"
-
+import { isBuilding } from "@factor/cli/loading"
 /**
  * Log information for each server request
  */
@@ -51,10 +51,20 @@ export default (): RequestHandler =>
     },
     {
       skip: request => {
+        if (isBuilding()) {
+          return true
+        }
+        /**
+         * Socket stuff is being rewritten to '/' so we use originalUrl
+         */
+        const { originalUrl } = request
+
         let { url } = request
+
         if (url.indexOf("?") > 0) url = url.slice(0, url.indexOf("?"))
 
-        return url.match(/(js|svg|jpg|png|css|json|woff|woff2|eot)$/gi) ||
+        return originalUrl.includes("_loading") ||
+          url.match(/(js|svg|jpg|png|css|json|woff|woff2|eot)$/gi) ||
           url.match(/__webpack_hmr/gi)
           ? true
           : false

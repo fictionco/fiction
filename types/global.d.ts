@@ -17,6 +17,7 @@ interface Window {
   factorReady: boolean;
   factorApp: Record<string, any>;
   Prism: any;
+  _factorLoadingScreen: any;
 }
 
 declare namespace NodeJS {

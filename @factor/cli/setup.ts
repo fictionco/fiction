@@ -17,8 +17,8 @@ import fs from "fs-extra"
 import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
 import { FactorPackageJson } from "@factor/cli/types"
-import { getCliExecutor } from "./util"
 
+import { getCliExecutor } from "./util"
 export interface SetupCliConfig {
   name: string;
   value: string;
@@ -44,7 +44,7 @@ export const addNotice = (text: string): void => {
   } else {
     pushToFilter({
       key: slugify(text.slice(1, 30)) ?? "",
-      hook: "cli-warnings",
+      hook: "cli-notices",
       item: text
     })
   }
@@ -54,13 +54,13 @@ export const addNotice = (text: string): void => {
  * Log the notices that have been added
  */
 export const logNotices = (): void => {
-  const warnings = applyFilters("cli-warnings", [])
-  if (warnings.length > 0) {
-    const lines = warnings.map((_: string) => {
-      return { title: _, value: "", indent: true }
+  const notices = applyFilters("cli-notices", [])
+  if (notices.length > 0) {
+    log.log()
+    notices.forEach((_: string) => {
+      log.info(chalk.bold(_))
     })
-
-    log.formatted({ title: "Notices", lines, color: "yellow" })
+    log.log()
   }
   __noticesLogged = true
 }
