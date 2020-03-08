@@ -6,7 +6,7 @@
 
 <div align="center">
   <h3>The JavaScript CMS Platform</h3>
-  <p>Use Factor to easily create CMS-driven JavaScript apps and websites.</p>
+  <p>Use Factor to quickly create CMS-driven JavaScript apps and websites.</p>
 </div>
  
 <div align="center">
