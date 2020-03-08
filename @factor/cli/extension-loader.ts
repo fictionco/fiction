@@ -458,10 +458,12 @@ const loadExtensions = (pkg: FactorPackageJson): FactorExtension[] => {
 const __extensions: Record<string, FactorExtension[]> = {}
 export const getExtensions = (cwd?: string): FactorExtension[] => {
   const workingDirectory = getWorkingDirectory(cwd)
+
   if (__extensions[workingDirectory]) {
     return __extensions[workingDirectory]
   } else {
     const cwdPackage = getWorkingDirectoryPackage(cwd)
+
     if (cwdPackage) {
       const extensions = loadExtensions(cwdPackage)
 

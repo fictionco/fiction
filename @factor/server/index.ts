@@ -120,23 +120,6 @@ export const closeServer = async (): Promise<void> => {
   }
 }
 
-export const restartServer = async (options: ServerOptions): Promise<void> => {
-  if (__listening) {
-    try {
-      __listening.destroy()
-
-      await runCallbacks("rebuild-server-app", options)
-
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      await createServer(options)
-    } catch (error) {
-      // If an error is thrown that is subsequently fixed, don't prevent server restart
-      setRestarting("no")
-      throw error
-    }
-  }
-}
-
 /**
  * Create the express server
  * @library express
@@ -184,10 +167,29 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         log.server(`Restarting Server`, { color: "yellow" })
         options.path = path
 
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         await restartServer(options)
       }
     }
   })
+}
+
+export const restartServer = async (options: ServerOptions): Promise<void> => {
+  if (__listening) {
+    try {
+      __listening.destroy()
+
+      await runCallbacks("rebuild-server-app", options)
+
+      await createServer(options)
+    } catch (error) {
+      // If an error is thrown that is subsequently fixed, don't prevent server restart
+      setRestarting("no")
+      throw error
+    }
+  } else {
+    createServer(options)
+  }
 }
 
 /**

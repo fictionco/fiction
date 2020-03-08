@@ -2,14 +2,20 @@ import { dirname } from "path"
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import fs from "fs-extra"
-
+import { FactorExtension } from "@factor/cli/types"
 /**
  * Checks if a file exists in a theme dependency of an app
  * @param file - the file path (w aliases)
  */
 const fileExistsInTheme = (file: string): string => {
   let filePath = ""
-  const themes = getExtensions().filter(_ => _.extend == "theme")
+  const extensions = getExtensions()
+  let themes: FactorExtension[] = []
+
+  if (extensions && extensions.length > 0) {
+    themes = extensions.filter(_ => _.extend == "theme")
+  }
+
   if (themes.length > 0) {
     themes.some(_ => {
       const themeRoot = dirname(require.resolve(_.name))
