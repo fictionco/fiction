@@ -6,13 +6,13 @@
 
 <div align="center">
   <h3>The JavaScript CMS Platform</h3>
-  <p>Use Factor to quickly create CMS-driven JavaScript apps and websites.</p>
+  <p>Build powerful &amp; professional JavaScript applications fast.</p>
 </div>
  
 <div align="center">
   <h3>
     <a href="https://factor.dev">
-      Learn More at Factor.dev &rarr;
+      Learn More &rarr;
     </a>
   </h3>
 </div>
