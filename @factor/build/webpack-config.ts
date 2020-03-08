@@ -418,14 +418,9 @@ export const buildProduction = async (
   await Promise.all(promises)
 
   if (process.env.FACTOR_ENV != "test") {
-    process.stdout.write(
-      results
-        .map(
-          ({ target, info, cwd }) =>
-            `\n\n\n\nBuild Stats for ${target} @${cwd}: \n ${info}`
-        )
-        .join(`\n\n`)
-    )
+    results.forEach(({ target, info, cwd }) => {
+      process.stdout.write(`\n\nBuild Stats for ${target} @${cwd}: \n ${info} \n\n`)
+    })
   }
 
   return

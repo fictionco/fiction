@@ -20,7 +20,7 @@ import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
 import { developmentServer } from "./server-dev"
-import { handleServerError, getServerInfo } from "./util"
+import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
 let __listening: Server | undefined
@@ -35,7 +35,7 @@ export interface ServerOptions {
   cwd?: string;
   noReloadModules?: boolean;
   path?: string;
-  log?: boolean;
+  logOnReady?: boolean;
 }
 
 /**
@@ -60,9 +60,7 @@ export const renderRoute = async (
   url = "",
   renderer: BundleRenderer
 ): Promise<string> => {
-  const currentRenderer = __renderer ? __renderer : renderer
-
-  return await currentRenderer.renderToString({ url })
+  return await renderer.renderToString({ url })
 }
 /**
  * Renders HTML based on the url in the express request
@@ -80,9 +78,10 @@ export const renderRequest = async (
 
   try {
     /**
+     * factorServerStatus >>
      * Allow http status to be changed from inside the app
      */
-    process.env.factorServerStatus = "200"
+    process.env.factorServerStatus = "200" // ok
 
     let html = ""
     if (!renderer) {
@@ -129,7 +128,7 @@ export const closeServer = async (): Promise<void> => {
  * This needs to take into account server resets
  */
 export const createServer = async (options: ServerOptions): Promise<void> => {
-  const { port } = options || {}
+  const { port, logOnReady } = options || {}
 
   process.env.PORT = port || process.env.PORT || "3000"
 
@@ -143,9 +142,9 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   await new Promise(resolve => {
     __listening = __application.listen(process.env.PORT, () => {
-      // if (log) {
-      //   logServerReady()
-      // }
+      if (logOnReady) {
+        logServerReady()
+      }
 
       setRestarting("no")
       resolve()
@@ -268,7 +267,7 @@ export const createRenderServer = async (
     __renderer = appRenderer(cwd)
   }
 
-  await restartServer({ noReloadModules: true })
+  await restartServer({ noReloadModules: true, logOnReady: true })
 
   return __renderer
 }
