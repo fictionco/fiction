@@ -2,7 +2,7 @@
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-Factor is an open source, unified CMS platform and development framework for websites, blogs and web apps. It is built on a modern JavaScript technology stack — and designed for teams who need power, flexibility and performance.
+Factor is an open source CMS platform built for web professionals. It is designed for people who care about quality and don't like limitations. It's also especially nice for teams who need power, flexibility and performance.
 
 Hitting the right balance of needs has led Factor to be used in production by many organizations. Once you learn the basics, you'll love how easy it is to create superior websites and apps.
 
@@ -11,8 +11,6 @@ Every day Factor powers some of the most powerful yet scaleable apps on the inte
 ## How Factor Is Different
 
 The first question people usually ask is, how is Factor different from everything else out there?
-
-{{components.comparison}}
 
 A few key characteristics of Factor:
 
