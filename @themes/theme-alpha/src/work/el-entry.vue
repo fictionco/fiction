@@ -8,9 +8,6 @@
     </ul>
 
     <factor-highlight-code>
-      <!-- <div v-for="(imageURL, i) in theimages" :key="i">
-        <img v-if="imageURL" :src="imageURL" alt="title" class="image" />
-      </div>-->
       <div v-formatted-text="rendered" />
     </factor-highlight-code>
   </div>

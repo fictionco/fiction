@@ -55,6 +55,7 @@ export default Vue.extend({
 .long-form {
   margin: 5em auto;
   max-width: 600px;
+  min-height: 60vh;
   .title {
     font-size: 2.5em;
   }

@@ -6,7 +6,6 @@ import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdImplicitFigures from "markdown-it-implicit-figures"
 import { setting } from "@factor/api"
-import Vue from "vue"
 let markdownUtility: MarkdownIt
 
 const getMarkdownUtility = (): MarkdownIt => {
