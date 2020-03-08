@@ -5,14 +5,14 @@
 <br />
 
 <div align="center">
-  <h3>The JavaScript CMS</h3>
-  <p>FactorJS is a fully JavaScript CMS for front-end developers.</p>
+  <h3>The JavaScript CMS Platform</h3>
+  <p>Use Factor to easily create CMS driven JavaScript apps and websites. You'll love it!</p>
 </div>
  
 <div align="center">
   <h3>
     <a href="https://factor.dev">
-      Learn More &rarr;
+      Learn More at Factor.dev &rarr;
     </a>
   </h3>
 </div>
