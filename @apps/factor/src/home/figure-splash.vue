@@ -61,7 +61,7 @@ export default Vue.extend({
         { id: "code", caption: "Built for Web Professionals" }
       ],
       timer: false,
-      animationInterval: 777000
+      animationInterval: 5000
     }
   },
   computed: {
