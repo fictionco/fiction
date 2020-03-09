@@ -14,7 +14,7 @@ The first question people usually ask is, how is Factor different from everythin
 
 A few key characteristics of Factor:
 
-- **Instant extension** - plugins that "just work," themes that are actually useable.
+- **Instant extension** - plugins that "just work," themes that are actually usable.
 - **More power with full-stack** - A full stack system means power and simplicity. No more APIs or serverless functions for everything.
 - **Simplify with one basic language: Javascript** - Build only with Javascript and Javascript friendly tech (JSON, Mongo, Typescript).
 - **Modern Tech, Modern Advantage** - Do things that your friends building PHP apps can only dream of...
