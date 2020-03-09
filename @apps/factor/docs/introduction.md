@@ -17,8 +17,8 @@ A few key characteristics of Factor:
 - **Instant extension** - plugins that "just work," themes that are actually usable.
 - **More power with full-stack** - A full stack system means power and simplicity. No more APIs or serverless functions for everything.
 - **Simplify with one basic language: Javascript** - Build only with Javascript and Javascript friendly tech (JSON, Mongo, Typescript).
-- **Modern Tech, Modern Advantage** - Do things that your friends building PHP apps can only dream of...
-- **Remove Risk with Real Open-Source** - Built on non-biased open-source tech from developers just like us: Vue, Mongo, Node, Express.
+- **Modern tech, modern advantage** - Do things that your friends building PHP apps can only dream of...
+- **Remove risk with real open-source** - Built on non-biased open-source tech from developers just like us: Vue, Mongo, Node, Express.
 
 Here is a comparison table to help you quickly see how things compare:
 
