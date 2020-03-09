@@ -11,6 +11,7 @@ import {
   BundleRenderer,
   BundleRendererOptions
 } from "vue-server-renderer"
+import open from "open"
 import { getPath } from "@factor/api/paths"
 import destroyer from "destroyer"
 import express from "express"
@@ -19,11 +20,13 @@ import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
+import { currentUrl } from "@factor/api/url"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
 let __listening: Server | undefined
+
 let __application: express.Express
 let __renderer: BundleRenderer // used for dev server updates
 
@@ -33,9 +36,10 @@ export interface ServerOptions {
   port?: string;
   renderer?: BundleRenderer;
   cwd?: string;
-  noReloadModules?: boolean;
+  noReloadModules?: true;
   path?: string;
-  logOnReady?: boolean;
+  logOnReady?: true;
+  openOnReady?: true;
 }
 
 /**
@@ -128,7 +132,7 @@ export const closeServer = async (): Promise<void> => {
  * This needs to take into account server resets
  */
 export const createServer = async (options: ServerOptions): Promise<void> => {
-  const { port, logOnReady } = options || {}
+  const { port, logOnReady, openOnReady } = options || {}
 
   process.env.PORT = port || process.env.PORT || "3000"
 
@@ -144,6 +148,10 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
     __listening = __application.listen(process.env.PORT, () => {
       if (logOnReady) {
         logServerReady()
+      }
+
+      if (process.env.NODE_ENV == "development" && openOnReady) {
+        open(currentUrl())
       }
 
       setRestarting("no")

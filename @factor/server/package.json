@@ -37,7 +37,7 @@
     "memory-fs": "^0.5.0",
     "module-alias": "^2.2.0",
     "morgan": "^1.9.1",
-    "open": "^7.0.0",
+    "open": "^7.0.2",
     "serve-favicon": "^2.5.0",
     "server-destroy": "^1.0.1",
     "vue": "^2.6.8",

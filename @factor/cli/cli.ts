@@ -63,7 +63,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   // Set environment again based on any changes made via CLI arguments
   setEnvironment({ NODE_ENV, PORT, debug, command })
 
-  await createServer({ port: PORT })
+  await createServer({ port: PORT, openOnReady: true })
   /**
    * Log initial server info
    */

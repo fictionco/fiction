@@ -42,8 +42,7 @@ export default Vue.extend({
       pageNav: [
         { path: "/guide", name: "Documentation" },
         { path: "/themes", name: "Themes" },
-        { path: "/plugins", name: "Plugins" },
-        { path: "/forum", name: "Discussion" }
+        { path: "/plugins", name: "Plugins" }
       ],
       actionNav: [
         {
