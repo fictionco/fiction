@@ -94,5 +94,5 @@ const reloadNodeProcess = async (
     })
   }
 
-  await factorize({ ..._arguments, restart: true, NODE_ENV: "development" })
+  await factorize({ ..._arguments, restart: true })
 }
