@@ -295,10 +295,10 @@ h4 {
 .reload-prevented {
   width: 500px;
   max-width: 85vw;
-}
-
-.reload-prevented p {
-  margin-bottom: 1rem;
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
 }
 
 .progress-bar-wrap {

@@ -57,6 +57,26 @@ export default Vue.extend({
     }
   }
 
+  .features-comparison {
+    font-size: 0.8em;
+    td {
+      text-align: center;
+      min-width: 120px;
+      &:first-child {
+        min-width: 160px;
+        text-align: left;
+        display: flex;
+      }
+      i {
+        text-align: center;
+        width: 2em;
+        font-style: normal;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+    }
+  }
+
   figure {
     margin: 2em 0;
     text-align: center;

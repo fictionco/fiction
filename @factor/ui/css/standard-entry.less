@@ -24,6 +24,10 @@ p {
   }
 }
 
+small {
+  font-size: 12px;
+  opacity: 0.7;
+}
 h1,
 h2,
 h3,
@@ -145,17 +149,24 @@ pre {
 }
 
 table {
+  align-self: flex-start;
+  border-spacing: 0;
+  border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
+  font-size: 0.9em;
   margin: 0.5em 0 1.4em;
   width: 100%;
-  border: 1px solid #e7ebed;
+  border: 1px solid var(--color-border);
 
   tr:nth-child(even) {
-    background: #f3f5fa;
+    background: var(--color-bg-contrast);
   }
 
   th {
-    font-weight: 800;
-    border-bottom: 1px solid #e7ebed;
+    text-align: center;
+    font-weight: 700;
+    border-bottom: 1px solid var(--color-border);
   }
 
   th,
