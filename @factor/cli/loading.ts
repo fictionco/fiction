@@ -23,6 +23,7 @@ export default class LoadingBar {
   percent = 0
   msg = ""
   build = "environment"
+  addOneTimeout: NodeJS.Timeout | undefined = undefined
 
   constructor({ color = "", build = "" } = {}) {
     const colorize = color ? chalk.keyword(color) : (_: string): string => _
@@ -56,16 +57,27 @@ export default class LoadingBar {
     const diff = percent - this.percent
 
     for (let i = 0; i < diff || percent < this.percent; i++) {
-      this.percent = this.percent + 1
-      this.bar.update(this.percent, { msg: this.msg })
-      emitEvent("buildProgress", this.build, {
-        progress: this.percent,
-        message: this.msg
-      })
+      this.addOne()
       await waitFor(20)
     }
 
+    if (this.percent < 99) {
+      this.setTimeout()
+    }
+
     return
+  }
+
+  addOne(): void {
+    if (this.percent == 100) {
+      return
+    }
+    this.percent = this.percent + 1
+    this.bar.update(this.percent, { msg: this.msg })
+    emitEvent("buildProgress", this.build, {
+      progress: this.percent,
+      message: this.msg
+    })
   }
 
   stop(): void {
@@ -75,5 +87,19 @@ export default class LoadingBar {
       progress: 100,
       message: "environment set"
     })
+  }
+
+  clearTimeout(): void {
+    if (this.addOneTimeout) {
+      clearTimeout(this.addOneTimeout)
+    }
+  }
+
+  setTimeout(): void {
+    this.clearTimeout()
+    this.addOneTimeout = setTimeout(() => {
+      this.addOne()
+      this.setTimeout()
+    }, 6000)
   }
 }

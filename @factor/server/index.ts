@@ -186,7 +186,9 @@ export const restartServer = async (options: ServerOptions): Promise<void> => {
     try {
       __listening.destroy()
 
-      await runCallbacks("rebuild-server-app", options)
+      if (!options.noReloadModules) {
+        await runCallbacks("rebuild-server-app", options)
+      }
 
       await createServer(options)
     } catch (error) {
