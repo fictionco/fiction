@@ -10,6 +10,7 @@ declare module "vue/types/vue" {
     routeClass: string[] | string;
     $route: Route;
     $eventBus: Vue;
+    $sse: any;
   }
 
   export interface Vue {

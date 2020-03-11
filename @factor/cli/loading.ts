@@ -54,9 +54,8 @@ export default class LoadingBar {
   async update({ percent, msg = "" }: { percent: number; msg: string }): Promise<void> {
     this.msg = msg
     percent = Math.round(percent)
-    const diff = percent - this.percent
 
-    for (let i = 0; i < diff || percent < this.percent; i++) {
+    while (this.percent < percent && this.percent < 100) {
       this.addOne()
       await waitFor(20)
     }
@@ -69,23 +68,26 @@ export default class LoadingBar {
   }
 
   addOne(): void {
-    if (this.percent == 100) {
-      return
-    }
     this.percent = this.percent + 1
+
     this.bar.update(this.percent, { msg: this.msg })
     emitEvent("buildProgress", this.build, {
       progress: this.percent,
       message: this.msg
     })
+
+    if (this.percent >= 100) {
+      this.clearTimeout()
+    }
   }
 
   stop(): void {
+    this.clearTimeout()
     setBuilding(false)
     this.bar.stop()
     emitEvent("buildProgress", this.build, {
       progress: 100,
-      message: "environment set"
+      message: "done"
     })
   }
 
@@ -100,6 +102,6 @@ export default class LoadingBar {
     this.addOneTimeout = setTimeout(() => {
       this.addOne()
       this.setTimeout()
-    }, 6000)
+    }, 2000)
   }
 }

@@ -18,6 +18,7 @@ interface Window {
   factorApp: Record<string, any>;
   Prism: any;
   _factorLoadingScreen: any;
+  $BASE_URL: string;
 }
 
 declare namespace NodeJS {

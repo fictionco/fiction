@@ -42,7 +42,7 @@
       </form>
 
       <div class="actions">
-        <router-link class="btn" to="/setup?step=2">Create &rarr;</router-link>
+        <router-link class="btn" to="/setup?step=3">Create &rarr;</router-link>
       </div>
     </div>
     <div v-if="step == 3" class="page-item">
@@ -51,7 +51,7 @@
         <div class="sub-title">Your app is all set up, next step is customization</div>
       </div>
       <div class="actions">
-        <router-link class="btn" to="/">Build App &rarr;</router-link>
+        <div class="btn" @click="sendData()">Build App &rarr;</div>
       </div>
     </div>
   </div>
@@ -59,10 +59,28 @@
 <script >
 import Vue from "vue"
 
+import capitalizeMixin from "./mixins/capitalize"
+import logMixin from "./mixins/log"
+import sseMixin from "./mixins/sse"
+import storageMixin from "./mixins/storage"
+import { sendEvent } from "./utils"
 export default Vue.extend({
+  mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],
+  data() {
+    return {
+      baseURL: window.$BASE_URL
+    }
+  },
   computed: {
     step() {
       return this.$route.query.step ?? 1
+    }
+  },
+  methods: {
+    sendData() {
+      sendEvent({ installed: true, test: "works" })
+
+      this.$router.push({ path: "/" })
     }
   }
 })

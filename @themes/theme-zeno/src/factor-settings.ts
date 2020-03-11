@@ -308,7 +308,7 @@ export default {
               path: "https://angel.co/justink",
               icon: "fab fa-angellist",
               target: "_blank"
-            },
+            }
           ]
         },
         {
@@ -570,7 +570,6 @@ export default {
       }
     },
     components: {
-      blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),

@@ -1,13 +1,12 @@
 {
   "name": "@apps/factor",
   "description": "Factor documentation portal",
-  "version": "1.0.11",
+  "version": "1.3.0",
   "url": "https://factor.dev",
   "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
-    "_id": "docsApp",
     "load": [
       "app",
       "server"
@@ -15,7 +14,7 @@
     "app": {
       "name": "Factor.dev",
       "description": "",
-      "email": "Factor Team <factor@fiction.com>"
+      "email": "Factor <factor@fiction.com>"
     },
     "roles": {
       "arpowers@gmail.com": "admin",

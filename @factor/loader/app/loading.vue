@@ -49,6 +49,7 @@ import capitalizeMixin from "./mixins/capitalize"
 import logMixin from "./mixins/log"
 import sseMixin from "./mixins/sse"
 import storageMixin from "./mixins/storage"
+import { sendEvent } from "./utils"
 
 const waitFor = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -156,6 +157,13 @@ export default {
         return
       }
 
+      if (data.redirect && !this.$route.path.includes(data.redirect)) {
+        this.$router.replace({ path: data.redirect })
+        delete window.$STATE.redirect
+        sendEvent({ redirected: true })
+        return
+      }
+
       const { error, progress, message, hasErrors, allDone, build } = data
 
       if (error) {
@@ -167,7 +175,7 @@ export default {
         return
       }
 
-      // Try to show nuxt app if allDone and no errors
+      // Try to show the app if allDone and no errors
       if (!hasErrors && allDone && !this.allDone) {
         this.reload()
       }

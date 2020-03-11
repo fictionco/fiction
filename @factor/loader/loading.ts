@@ -5,6 +5,8 @@ import fs from "fs-extra"
 import { json } from "node-res"
 import { localhostUrl } from "@factor/api/url"
 import { BuildTypes } from "@factor/cli/types"
+import { parse } from "qs"
+import { emitEvent } from "@factor/api/events"
 import { parseStack } from "./utils/error"
 import { SSE } from "./sse"
 const distPath = resolve(__dirname, "app-dist")
@@ -22,6 +24,7 @@ interface State {
   allDone?: boolean;
   lastBroadCast?: number;
   error?: { description: string; stack: string };
+  redirect?: string;
 }
 
 let loaderState: State = {}
@@ -36,14 +39,26 @@ export const initializeLoading = (): express.Express => {
   app = express()
   sse = new SSE()
   // Subscribe to SSR channel
-  app.use("/sse", (req: express.Request, res: express.Response) =>
-    sse.subscribe(req, res)
+  app.use("/sse", (request: express.Request, response: express.Response) =>
+    sse.subscribe(request, response)
   )
 
   // Serve state with JSON
-  app.use("/json", (req: express.Request, res: express.Response) =>
-    json(req, res, loaderState)
+  app.use("/json", (request: express.Request, response: express.Response) =>
+    json(request, response, loaderState)
   )
+
+  app.use("/event", (request: express.Request) => {
+    const { query, body } = request
+
+    const data = { ...body, ...parse(query) }
+
+    if (data.redirected) {
+      delete loaderState.redirect
+    }
+
+    emitEvent("loaderEvent", data)
+  })
 
   // Serve dist
   app.use("/", serveStatic(distPath))
@@ -81,6 +96,11 @@ export const clearError = (): void => {
   loaderState.hasErrors = false
 }
 
+export const setShowInstall = (): void => {
+  loaderState.redirect = "/setup"
+  sse.broadcast("state", loaderState)
+}
+
 export const setLoadingStates = (
   build: BuildTypes,
   {
@@ -96,7 +116,7 @@ export const setLoadingStates = (
   loaderState.progress = progress
   loaderState.message = message
 
-  loaderState.allDone = progress == 100 ? true : false
+  loaderState.allDone = build == "bundle" && progress == 100 ? true : false
 
   broadcastState()
 }

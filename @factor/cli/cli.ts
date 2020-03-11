@@ -12,7 +12,6 @@ import { CommandOptions } from "./types"
 import pkg from "./package.json"
 import LoadingBar from "./loading"
 import { logSetupNeeded } from "./setup"
-
 interface CommanderArguments {
   options: object[];
   parent: Record<string, any>;
@@ -69,6 +68,8 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   await serverInfo({ NODE_ENV, command })
 
+  //await showInstallRoutine()
+
   const bar = new LoadingBar()
 
   await bar.update({ percent: 12, msg: "setting up" })
@@ -77,7 +78,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    * Make sure all package dependencies are installed and updated
    */
   if (install && !skipVerifyDeps) {
-    await bar.update({ percent: 35, msg: `checking dependencies (${getCliExecutor()})` })
+    await bar.update({ percent: 25, msg: `checking dependencies (${getCliExecutor()})` })
 
     const verifyDepProcess = execa(getCliExecutor(), ["install"])
     await verifyDepProcess
@@ -97,10 +98,14 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    * Extend and setup Node server environment
    */
 
-  await bar.update({ percent: 85, msg: "extending server" })
+  await bar.update({ percent: 80, msg: "extending server" })
+
   await factorize(setup)
-  await bar.update({ percent: 100, msg: "loaded" })
+
+  await bar.update({ percent: 99, msg: "loaded" })
+
   bar.stop()
+
   logSetupNeeded(command)
 
   try {
