@@ -170,9 +170,9 @@ export default Vue.extend({
   methods: {},
   metaInfo() {
     return {
-      title: "The JavaScript CMS",
+      title: "JavaScript CMS and eCommerce Platform",
       description:
-        "A purely JavaScript CMS that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
+        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
     }
   }
 })
