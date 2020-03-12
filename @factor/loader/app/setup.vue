@@ -2,12 +2,17 @@
   <div class="setup">
     <div class="pages">
       <router-link
-        v-for="page in 4"
-        :key="page"
-        :to="`/setup?step=${page}`"
+        v-for="(page, index) in steps"
+        :key="index"
+        :to="`/setup?step=${index + 1}`"
         class="pg"
-        :class="step == page ? 'active' : ''"
-      >{{ page }}</router-link>
+        :class="[step == index + 1 ? 'active' : '', isComplete(page._id) ? 'complete' : '']"
+      >
+        <span v-if="isComplete(page._id)" class="check">
+          <img src="./img/check.svg" />
+        </span>
+        <span class="num" v-else>{{ index + 1}}</span>
+      </router-link>
     </div>
     <div class="setup-content">
       <div class="setup-page-items">
@@ -122,7 +127,39 @@ export default Vue.extend({
   data() {
     return {
       baseURL: window.$BASE_URL,
-      form: {}
+      form: {},
+      steps: [
+        {
+          _id: "welcome",
+          complete: () => {
+            return this.step > 1 ? true : false
+          }
+        },
+        {
+          _id: "account",
+          complete: () => {
+            return this.form.siteTitle &&
+              this.form.displayName &&
+              this.form.password &&
+              this.form.email
+              ? true
+              : false
+          }
+        },
+        {
+          _id: "theme",
+          complete: () => {
+            return this.form.theme ? true : false
+          }
+        },
+        {
+          _id: "done",
+          complete: () => {
+            return this.isComplete("account") && this.isComplete("theme") ? true : false
+          }
+        }
+      ],
+      completed: {}
     }
   },
   computed: {
@@ -138,6 +175,15 @@ export default Vue.extend({
       sendEvent({ installed: true, test: "works" })
 
       this.$router.push({ path: "/" })
+    },
+    isComplete(id) {
+      const step = this.steps.find(step => step._id == id)
+
+      if (step && step.complete && step.complete()) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 })
@@ -164,6 +210,12 @@ export default Vue.extend({
       width: 2.5rem;
       height: 2.5rem;
       line-height: 2.5rem;
+      .check {
+        line-height: 2.5;
+        img {
+          width: 1.1em;
+        }
+      }
       text-align: center;
       border-radius: 8px;
 
@@ -179,6 +231,9 @@ export default Vue.extend({
         opacity: 1;
         background: var(--color-text);
         color: #fff;
+      }
+      &.complete {
+        background: var(--color-primary);
       }
     }
   }
@@ -224,6 +279,7 @@ export default Vue.extend({
         margin-bottom: 1rem;
         img {
           width: 80px;
+          height: 80px;
           background: #fff;
           border-radius: 50%;
           display: inline-block;
