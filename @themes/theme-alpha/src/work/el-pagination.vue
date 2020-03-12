@@ -1,11 +1,21 @@
 <template>
   <div class="work-pagination">
     <div>
-      <factor-btn v-if="pageCurrent > 1" :class="`primary rounded-full`" @click="page('previous')">
+      <factor-btn
+        v-if="pageCurrent > 1"
+        :class="`rounded-full`"
+        btn="primary"
+        @click="page('previous')"
+      >
         <factor-icon icon="fas fa-angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
-      <factor-btn v-if="pageCurrent < pageCount" class="primary rounded-full" @click="page('next')">
+      <factor-btn
+        v-if="pageCurrent < pageCount"
+        :class="`rounded-full`"
+        btn="primary"
+        @click="page('next')"
+      >
         <span class="custom-uppercase">Next</span>
         <factor-icon icon="fas fa-angle-right" />
       </factor-btn>
@@ -72,6 +82,10 @@ export default Vue.extend({
     margin-top: 1rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
+
+    button.app-btn.primary:hover {
+      background: var(--color-primary-dark);
+    }
   }
 }
 </style>
