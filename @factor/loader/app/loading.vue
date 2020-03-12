@@ -246,6 +246,8 @@ export default {
 <style lang="less">
 .loading-screen {
   position: relative;
+  max-width: 800px;
+  margin: 0 auto;
   .factor-logo-area {
     position: absolute;
     width: 100%;
