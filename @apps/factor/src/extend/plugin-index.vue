@@ -9,7 +9,7 @@
 
     <div v-if="true" class="coming-soon">
       <div class="title">Coming Soon 👋</div>
-      <div class="sub-title">Themes will launch March 17, 2020</div>
+      <div class="sub-title">Themes will launch April 21, 2020</div>
 
       <div class="actions">
         <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>

@@ -271,7 +271,17 @@ export default Vue.extend({
       const v = this.imageIds.filter((_id: string) => {
         return this.populated.find((_: Attachment) => _._id == _id)
       })
-      this.$emit("input", this.single ? v[0] : v)
+
+      let val
+
+      // null is needed to unset an objectId in mongoose
+      // also undefined doesn't trigger change
+      if (this.single) {
+        val = v[0] ?? null
+      } else {
+        val = v
+      }
+      this.$emit("input", val)
 
       this.$emit("update:customValidity", this.validity)
     },
