@@ -45,7 +45,7 @@ body {
 
 .v-enter-active,
 .v-leave-active {
-  transition-delay: 0.5s;
+  // transition-delay: 0.5s;
   transition-property: all;
   transition-duration: 0.6s;
 }
@@ -84,4 +84,7 @@ body {
   border-radius: 6px;
   background-color: #0471ff;
   font-size: 1em;
+  &[disabled] {
+    opacity: 0.5;
+  }
 }

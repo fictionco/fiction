@@ -6,6 +6,7 @@ import commander from "commander"
 import log from "@factor/api/logger"
 import execa from "execa"
 import { createServer } from "@factor/server"
+import { showInstallRoutine } from "@factor/loader"
 import { serverInfo, getCliExecutor } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
@@ -68,7 +69,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   await serverInfo({ NODE_ENV, command })
 
-  //await showInstallRoutine()
+  await showInstallRoutine()
 
   const bar = new LoadingBar()
 
