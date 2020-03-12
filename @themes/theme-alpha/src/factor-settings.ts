@@ -399,6 +399,7 @@ export default {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
+      pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
       authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
       customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
     },
