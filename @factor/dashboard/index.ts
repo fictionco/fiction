@@ -94,9 +94,7 @@ export const setup = (): void => {
 
       postTypesConfig()
         .filter(({ hideAdmin, accessLevel }) => {
-          return hideAdmin === false || (accessLevel && !userCan({ accessLevel }))
-            ? false
-            : true
+          return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true
         })
         .forEach(
           ({
