@@ -5,7 +5,7 @@
   "main": "src/index",
   "private": true,
   "factor": {
-    "load": [{ "app": "index", "server": "server" }],
+    "load": { "app": "index", "server": "server" },
     "app": {
       "name": "<%= name %>",
       "description": "<%= description %>",
