@@ -20,7 +20,9 @@ export default Vue.extend({
 
 <style lang="less">
 .factor-img {
-  // width: 100px;
+  &.factor-img-footer {
+    opacity: 0.1;
+  }
   svg {
     display: block;
   }

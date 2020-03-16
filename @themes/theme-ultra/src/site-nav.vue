@@ -30,10 +30,10 @@
         </template>
       </nav>
       <div class="copyright">
+        <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" />
         <factor-link path="https://factor.dev/" class="factor-logo-icon">
           <factor-logo-icon />
         </factor-link>
-        <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" />
       </div>
     </div>
   </div>
@@ -226,8 +226,9 @@ export default Vue.extend({
       display: inline;
       font-size: 0.8rem;
       .factor-logo-icon {
-        margin-right: 1.5em;
+        margin-left: 1em;
         max-width: 1em;
+        opacity: 0.15;
         svg {
           width: 20px;
         }
