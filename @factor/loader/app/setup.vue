@@ -11,12 +11,12 @@
         <span v-if="isComplete(page._id)" class="check">
           <img src="./img/check.svg" />
         </span>
-        <span class="num" v-else>{{ index + 1}}</span>
+        <span v-else class="num">{{ index + 1 }}</span>
       </router-link>
     </div>
     <div class="setup-content">
       <div class="setup-page-items">
-        <div v-if="step == 1" class="page-item" key="welcome">
+        <div v-if="step == 1" key="welcome" class="page-item">
           <transition appear>
             <div class="page-item-pad">
               <div class="header">
@@ -34,7 +34,7 @@
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 2" class="page-item account" key="account">
+        <div v-else-if="step == 2" key="account" class="page-item account">
           <transition appear>
             <div class="page-item-pad">
               <div class="user-image">
@@ -49,19 +49,19 @@
               <form class="setup-form">
                 <div class="input-item">
                   <label>Site Title</label>
-                  <input type="text" v-model="form.siteTitle" />
+                  <input v-model="form.siteTitle" type="text" />
                 </div>
                 <div class="input-item">
                   <label>Full Name</label>
-                  <input type="text" v-model="form.displayName" />
+                  <input v-model="form.displayName" type="text" />
                 </div>
                 <div class="input-item">
                   <label>Email</label>
-                  <input type="email" v-model="form.email" />
+                  <input v-model="form.email" type="email" />
                 </div>
                 <div class="input-item">
                   <label>Password</label>
-                  <input type="password" v-model="form.password" />
+                  <input v-model="form.password" type="password" />
                 </div>
               </form>
 
@@ -71,7 +71,7 @@
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 3" class="gallery-item" key="done">
+        <div v-else-if="step == 3" key="done" class="gallery-item">
           <transition appear>
             <div class="gallery-item-pad">
               <div class="header">
@@ -79,11 +79,11 @@
                 <div class="sub-title">You can always change this later.</div>
               </div>
               <div class="actions">
-                <div class="btn" @click="sendData()" disabled>Select Theme &rarr;</div>
+                <div class="btn" disabled @click="sendData()">Select Theme &rarr;</div>
               </div>
               <div class="theme-gallery-wrap">
                 <div class="theme-gallery">
-                  <div class="theme" v-for="page in 10" :key="page">
+                  <div v-for="page in 10" :key="page" class="theme">
                     <img src="./img/theme-zeno.jpg" alt="Zeno" />
                   </div>
                 </div>
@@ -91,7 +91,7 @@
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 4" class="page-item" key="done">
+        <div v-else-if="step == 4" key="done" class="page-item">
           <transition appear>
             <div class="page-item-pad">
               <div class="setup-image">
@@ -115,12 +115,12 @@
 </template>
 <script >
 import Vue from "vue"
+import gravatar from "gravatar"
 import capitalizeMixin from "./mixins/capitalize"
 import logMixin from "./mixins/log"
 import sseMixin from "./mixins/sse"
 import storageMixin from "./mixins/storage"
 import { sendEvent } from "./utils"
-import gravatar from "gravatar"
 export default Vue.extend({
   mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],
 
@@ -280,6 +280,60 @@ export default Vue.extend({
         img {
           width: 80px;
           height: 80px;
+          background: #fff;
+          border-radius: 50%;
+          display: inline-block;
+        }
+      }
+    }
+    &.account {
+      .header {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .gallery-item {
+    .header {
+      margin-top: 2rem;
+    }
+    .actions {
+      margin: 2em 0 3rem;
+    }
+  }
+  .theme-gallery-wrap {
+  }
+  .theme-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+    .theme {
+      width: 300px;
+
+      img {
+        box-shadow: var(--panel-shadow);
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
+  }
+  .page-item {
+    width: 650px;
+    max-width: 95vw;
+    margin: 0 1rem;
+    .page-item-pad {
+      padding: 3rem;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: var(--panel-shadow);
+      .setup-image {
+        text-align: center;
+      }
+      .user-image {
+        text-align: center;
+
+        margin-bottom: 1rem;
+        img {
+          width: 80px;
           background: #fff;
           border-radius: 50%;
           display: inline-block;
