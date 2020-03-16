@@ -11,7 +11,7 @@
       </div>
       <div class="footer-col factor-col">
         <factor-link path="https://factor.dev/">
-          <factor-logo-icon />
+          <factor-logo-icon class="factor-img-footer" />
         </factor-link>
       </div>
       <div v-if="footerSocial" class="footer-col social">
