@@ -1,6 +1,7 @@
 import execa from "execa"
 import { generateLoaders } from "@factor/cli/extension-loader"
-import * as cli from "@factor/cli"
+import * as cli from "@factor/cli/cli"
+
 jest.mock("execa")
 jest.mock("@factor/cli/extension-loader")
 
@@ -10,15 +11,10 @@ describe("cli", () => {
       jest.spyOn(process, "exit").mockImplementation(() => {
         throw "Mock"
       })
-
       jest.mock("@factor/cli/extension-loader")
-
-      await cli.runCommand({ command: "none" })
-
+      await cli.runCommand({ command: "test" })
       expect(execa).toHaveBeenCalledWith("yarn", expect.arrayContaining(["install"]))
-
       expect(generateLoaders).toHaveBeenCalledWith(expect.anything())
-
       return
     })
 

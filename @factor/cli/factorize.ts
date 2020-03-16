@@ -2,7 +2,6 @@ import { resolve } from "path"
 import dotenv from "dotenv"
 import { runCallbacks, addCallback } from "@factor/api"
 
-import commander from "commander"
 import log from "@factor/api/logger"
 import { ServerOptions } from "@factor/server"
 import aliasRequire from "./alias-require"
@@ -28,7 +27,7 @@ export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
   process.env.FACTOR_ENV = ENV || process.env.FACTOR_ENV || process.env.NODE_ENV || ""
   process.env.FACTOR_DEBUG = debug ? "yes" : ""
 
-  process.env.FACTOR_COMMAND = command || commander._name || "none"
+  process.env.FACTOR_COMMAND = command || "none"
   process.env.FACTOR_TARGET = "server"
   process.env.PORT = PORT || process.env.PORT || "3000"
   dotenv.config({ path: resolve(process.env.FACTOR_CWD, ".env") })

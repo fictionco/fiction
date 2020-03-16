@@ -161,7 +161,7 @@ const cleanArguments = (commanderArguments: CommanderArguments): Record<string, 
  * Handle the CLI using Commander
  * Set up initial Node environment
  */
-export const setup = (): void => {
+export const execute = (): void => {
   process.noDeprecation = true
   process.maxOldSpaceSize = 8192
 
@@ -169,6 +169,7 @@ export const setup = (): void => {
 
   // options added by filters, plugins or if not wanted in '--help'
   commander.allowUnknownOption(true)
+  commander.noHelp = true
 
   commander
     .version(pkg.version)
@@ -179,6 +180,11 @@ export const setup = (): void => {
     .option("--debug", "log debugging info")
     .option("--offline", "run in offline mode")
     .option("--inspect", "run node debug-mode inspector")
+
+  commander
+    .command("test")
+    .description("Used for testing")
+    .action(() => {})
 
   commander
     .command("dev")
@@ -248,7 +254,9 @@ export const setup = (): void => {
     .description("Generate extension loaders")
     .action(_arguments => generateLoaders(cleanArguments(_arguments)))
 
-  commander.parse(process.argv)
+  try {
+    commander.parse(process.argv)
+  } catch (error) {
+    throw new Error(error)
+  }
 }
-
-setup()
