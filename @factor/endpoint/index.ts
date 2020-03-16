@@ -5,7 +5,7 @@ import { localhostUrl } from "@factor/api/url"
 import { userInitialized } from "@factor/user"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
-
+import { ObjectId } from "@factor/post/types"
 export interface EndpointRequestConfig {
   id: string;
   method: string;
@@ -15,7 +15,7 @@ export interface EndpointRequestConfig {
 
 export interface EndpointParameters {
   token?: string;
-  [key: string]: object | string | number | undefined | boolean;
+  [key: string]: object | string | number | undefined | boolean | ObjectId;
 }
 
 interface StandardEndpointRequestData {

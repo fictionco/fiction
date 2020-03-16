@@ -8,7 +8,7 @@ import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validat
 import { FactorSchema, FactorPost } from "./types"
 import { getAddedSchemas, getBaseSchema } from "./util"
 
-type FactorPostDocument = FactorPost & Document
+export type FactorPostDocument = FactorPost & Document
 
 let __schemas: { [index: string]: Schema } = {}
 let __models: { [index: string]: Model<any> } = {}

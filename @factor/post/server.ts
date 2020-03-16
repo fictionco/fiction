@@ -406,7 +406,7 @@ const transformIndexParameters = (
 
     if (time && time != IndexTimeFrame.AllTime) {
       const timeHorizon = timeUtil().subtract(1, time)
-      const timeCondition = { createdAt: { $gte: timeHorizon } }
+      const timeCondition = { createdAt: { $gte: timeHorizon.toDate() } }
       params.conditions = { ...conditions, ...timeCondition }
     }
   }

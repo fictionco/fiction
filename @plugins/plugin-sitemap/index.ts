@@ -7,6 +7,7 @@ import { setting } from "@factor/api/settings"
 import { Request, Response } from "express"
 import { RouteConfig } from "vue-router"
 import { WebpackCopyItemConfig } from "@factor/build/types"
+import { PostStatus } from "@factor/post/types"
 let sitemap: Buffer
 
 /**
@@ -55,7 +56,11 @@ const getRouteUrls = (): string[] => {
 
 export const getPermalinks = async (): Promise<string[]> => {
   const posts = await getModel("post").find(
-    { permalink: { $ne: null }, status: "published", source: setting("package.name") },
+    {
+      permalink: { $ne: undefined },
+      status: PostStatus.Published,
+      source: setting("package.name")
+    },
     "permalink postType",
     { limit: 2000 }
   )

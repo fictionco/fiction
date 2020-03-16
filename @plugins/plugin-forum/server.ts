@@ -3,12 +3,13 @@ import { addEndpoint } from "@factor/api/endpoints"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
 import { embeddedAction, savePost } from "@factor/post/server"
-import { FactorPost, FactorPostState } from "@factor/post/types"
+import { FactorPost, FactorPostState, ObjectId } from "@factor/post/types"
 import { sendTransactionalEmailToId } from "@factor/email/server"
 import { currentUrl } from "@factor/api/url"
 import { ForumTopicFactorPost, SubscribeUser } from "./types"
 import { topicLink } from "./request"
 import forumSchema from "./schema"
+
 // import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 // import { EndpointMeta } from "@factor/endpoint/types"
 
@@ -18,7 +19,10 @@ export const isSubscribed = async ({
   userId,
   postId
 }: Omit<SubscribeUser, "subscribe">): Promise<boolean> => {
-  const r = await getModel(postType).findOne({ _id: postId, subscriber: userId })
+  const r = await getModel(postType).findOne({
+    _id: postId as ObjectId,
+    subscriber: userId
+  })
 
   return r ? true : false
 }

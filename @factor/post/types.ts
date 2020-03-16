@@ -1,7 +1,8 @@
 import { CurrentUserState } from "@factor/user/types"
-import mongoose from "mongoose"
+import mongoose, { FilterQuery } from "mongoose"
 import { Component } from "vue"
 import { EndpointParameters } from "@factor/endpoint"
+import { FactorPostDocument } from "@factor/post/database"
 export type PopulatedPost = string
 export type PopulatedPosts = string[]
 export type ObjectId = mongoose.Types.ObjectId
@@ -98,7 +99,7 @@ export type PostIndexRequestParameters = {
   postType: string;
   select?: string | null;
   options: PostIndexOptions;
-  conditions: PostIndexConditions;
+  conditions: FilterQuery<FactorPostDocument> & PostIndexConditions;
   sameSource?: boolean;
 } & EndpointParameters
 

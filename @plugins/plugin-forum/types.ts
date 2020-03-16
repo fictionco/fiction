@@ -1,8 +1,8 @@
 import { EndpointParameters } from "@factor/endpoint"
-import { FactorPost } from "@factor/post/types"
+import { FactorPost, ObjectId } from "@factor/post/types"
 
 export interface SubscribeUser extends EndpointParameters {
-  postId: string;
+  postId: ObjectId | string;
   userId: string;
   subscribe: boolean;
 }
