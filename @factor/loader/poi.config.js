@@ -8,7 +8,23 @@ const config = {
       template: "app/index.html",
       title: "Factor: Loading..."
     }
-  }
+  },
+  plugins: [
+    // {
+    //   resolve: "@poi/plugin-typescript",
+    //   options: {
+    //     configFile: "./tsconfig.json",
+    //     loaderOptions: {
+    //       compilerOptions: {
+    //         module: "es6",
+    //         noEmit: false,
+    //         strict: false,
+    //         sourceMap: false
+    //       }
+    //     }
+    //   }
+    // }
+  ]
 }
 
 if (env == "development") {
