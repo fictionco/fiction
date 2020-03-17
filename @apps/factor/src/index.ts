@@ -1,4 +1,4 @@
-import "./extend/extension-server"
+import "./extend/endpoint"
 import { setting, addContentRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
@@ -38,29 +38,29 @@ addContentRoutes({
       },
       {
         path: `/themes`,
-        component: (): Promise<Component> => import("./extend/theme-wrap.vue"),
+        component: (): Promise<Component> => import("./extend/wrap.vue"),
         children: [
           {
             path: `/`,
-            component: (): Promise<Component> => import("./extend/theme-index.vue")
+            component: (): Promise<Component> => import("./extend/index.vue")
           },
           {
-            path: `/theme/view`,
-            component: (): Promise<Component> => import("./extend/theme-single.vue")
+            path: `/theme/:slug`,
+            component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]
       },
       {
         path: `/plugins`,
-        component: (): Promise<Component> => import("./extend/plugin-wrap.vue"),
+        component: (): Promise<Component> => import("./extend/wrap.vue"),
         children: [
           {
             path: `/`,
-            component: (): Promise<Component> => import("./extend/plugin-index.vue")
+            component: (): Promise<Component> => import("./extend/index.vue")
           },
           {
-            path: `/plugin/view`,
-            component: (): Promise<Component> => import("./extend/plugin-single.vue")
+            path: `/plugin/:slug`,
+            component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]
       }
