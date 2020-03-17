@@ -69,7 +69,12 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   await serverInfo({ NODE_ENV, command })
 
-  await showInstallRoutine()
+  /**
+   * Show installation and setup routine
+   */
+  if (command == "dev") {
+    await showInstallRoutine()
+  }
 
   const bar = new LoadingBar()
 
