@@ -2,12 +2,21 @@
   <div class="plugins-container">
     <div class="plugin-index-head">
       <div class="content-pad">
-        <h1 class="title">Factor Plugins</h1>
-        <h3 class="sub-title">Add new features to your app in seconds</h3>
+        <template v-if="extensionType == 'plugin'">
+          <h1 class="title">Factor Plugins</h1>
+          <h3 class="sub-title">Add new features to your app in seconds</h3>
+        </template>
+        <template v-else>
+          <h1 class="title">Factor Themes</h1>
+          <h3 class="sub-title">Create beautiful apps in minutes.</h3>
+        </template>
       </div>
     </div>
 
-    <div v-if="true" class="coming-soon">
+    <div v-if="loading" class="posts-loading">
+      <factor-loading-ring />
+    </div>
+    <div v-else-if="!loading && !isLoggedIn" class="coming-soon">
       <div class="title">Coming Soon 👋</div>
       <div class="sub-title">Themes will launch April 21, 2020</div>
 
@@ -17,9 +26,6 @@
       </div>
     </div>
 
-    <div v-else-if="loading" class="posts-loading">
-      <factor-loading-ring />
-    </div>
     <div v-else class="plugins-wrap content-pad">
       <div class="content">
         <section v-if="extensionFeatured.length > 0" class="plugins-featured">
@@ -89,8 +95,9 @@
 </template>
 
 <script lang="ts">
-import { factorLoadingRing, factorLink } from "@factor/ui"
 import Vue from "vue"
+import { factorLoadingRing, factorLink } from "@factor/ui"
+import { userInitialized, isLoggedIn } from "@factor/user"
 import {
   titleFromPackage,
   formatDownloads,
@@ -99,7 +106,6 @@ import {
   getAuthors
 } from "./util"
 import { requestExtensionIndex, getIndexCache } from "./request"
-
 export default Vue.extend({
   components: {
     "widget-sidebar": () => import("./sidebar.vue"),
@@ -117,6 +123,10 @@ export default Vue.extend({
     return await requestExtensionIndex({ type: "plugins" })
   },
   computed: {
+    isLoggedIn,
+    extensionType(this: any) {
+      return this.$route.path.includes("theme") ? "theme" : "plugin"
+    },
     extensionFeatured(this: any) {
       return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
     },
@@ -125,9 +135,13 @@ export default Vue.extend({
     }
   },
   async mounted() {
+    const promises: Promise<any>[] = [userInitialized()]
+
     if (this.extensionIndex.length == 0) {
-      await requestExtensionIndex({ type: "plugins" })
+      promises.push(requestExtensionIndex({ type: "plugins" }))
     }
+
+    await Promise.all(promises)
 
     this.loading = false
   },
