@@ -114,9 +114,74 @@ export const getRouter = (): VueRouter => {
 export const addContentRoute = (routeItem: RouteConfig, options?: object): void => {
   pushToFilter({
     hook: "content-routes",
-    key: routeItem.path,
+    key: `add-${routeItem.path}`,
     item: routeItem,
     ...options
+  })
+}
+
+/**
+ * Recurse through routes and child routes
+ * Calling a callback for each route
+ * @param routes
+ * @param cb
+ */
+const eachRoute = (
+  routes: RouteConfig[],
+  cb: (r: RouteConfig) => RouteConfig | undefined
+): RouteConfig[] => {
+  const newRoutes: RouteConfig[] = []
+  routes.forEach((rr: RouteConfig) => {
+    const edited = cb(rr)
+    if (edited) {
+      // Recursive
+      if (edited.children) {
+        edited.children = eachRoute(edited.children, cb)
+      }
+
+      newRoutes.push(edited)
+    }
+  })
+
+  return newRoutes
+}
+
+/**
+ * Make edits to existing routes
+ * This can be useful to modify routes added by extensions and themes
+ * For now, only supports removing the route by path
+ */
+export const editContentRoute = ({
+  path,
+  action = "edit",
+  callback
+}: {
+  path: string | string[];
+  action: "remove" | "edit";
+  callback?: (r: RouteConfig) => RouteConfig | undefined;
+}): void => {
+  addFilter({
+    hook: "content-routes",
+    key: `edit-${path}`,
+    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
+      allRoutes = eachRoute(allRoutes, (r: RouteConfig): RouteConfig | undefined => {
+        if (
+          (typeof path == "object" && path.includes(r.path)) ||
+          (typeof path == "string" && r.path == path)
+        ) {
+          if (action == "edit" && callback) {
+            return callback(r)
+          } else if (action == "remove") {
+            return undefined
+          } else {
+            return r
+          }
+        } else return r
+      })
+
+      return allRoutes
+    },
+    priority: 200
   })
 }
 
