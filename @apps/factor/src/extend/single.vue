@@ -58,11 +58,8 @@ import { factorLoadingRing, factorLink, factorLightbox } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
 import { setting } from "@factor/api"
 import Vue from "vue"
-import {
-  getSingleCache,
-  requestExtensionSingle,
-  requestExtensionIndex
-} from "./extension-request"
+import { Route } from "vue-router"
+import { getSingleCache, requestExtensionSingle, requestExtensionIndex } from "./request"
 import {
   titleFromPackage,
   formatDownloads,
@@ -71,15 +68,14 @@ import {
   screenshotsList,
   getAuthors
 } from "./util"
-
 export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
     factorLightbox,
-    "widget-sidebar": () => import("./widget-sidebar.vue"),
+    "widget-sidebar": () => import("./sidebar.vue"),
     "plugin-entry": () => import("../el/entry.vue"),
-    "widget-cta": () => import("./widget-cta.vue")
+    "widget-cta": () => import("./el/cta.vue")
   },
   data() {
     return {
@@ -97,15 +93,15 @@ export default Vue.extend({
   },
 
   computed: {
-    packageName() {
+    packageName(this: any) {
       return decodeURI(this.$route.query.package)
     },
-    item() {
+    item(this: any) {
       return getSingleCache(this.packageName) || {}
     }
   },
   watch: {
-    $route: function(to, from) {
+    $route: function(this: any, to: Route, from: Route) {
       if (to.query.package != from.query.package) {
         this.getSingle()
       }
@@ -128,7 +124,7 @@ export default Vue.extend({
     getAuthors,
     screenshotsList,
     setting,
-    async getSingle() {
+    async getSingle(this: any) {
       this.loading = true
       await requestExtensionSingle(this.packageName)
       this.loading = false

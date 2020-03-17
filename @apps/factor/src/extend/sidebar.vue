@@ -84,7 +84,7 @@
 import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
-import { getIndexCache } from "./extension-request"
+import { getIndexCache } from "./request"
 import {
   titleFromPackage,
   formatDownloads,
@@ -102,21 +102,21 @@ export default Vue.extend({
     extensionIndex() {
       return getIndexCache() || []
     },
-    pluginsPopular() {
+    pluginsPopular(this: any) {
       const getPopular = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => b.downloads - a.downloads)
 
       return getPopular.slice(0, this.num)
     },
-    pluginsNew() {
+    pluginsNew(this: any) {
       const getNew = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => b.time.created - a.time.created)
 
       return getNew.slice(0, this.num)
     },
-    pluginsRecentlyUpdated() {
+    pluginsRecentlyUpdated(this: any) {
       const getRecentlyUpdated = [].slice
         .call(this.extensionIndex)
         .sort((a, b) => b.time.modified - a.time.modified)

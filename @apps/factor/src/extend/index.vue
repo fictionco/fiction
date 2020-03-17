@@ -98,12 +98,12 @@ import {
   extensionIcon,
   getAuthors
 } from "./util"
-import { requestExtensionIndex, getIndexCache } from "./extension-request"
+import { requestExtensionIndex, getIndexCache } from "./request"
 
 export default Vue.extend({
   components: {
-    "widget-sidebar": () => import("./widget-sidebar.vue"),
-    "widget-cta": () => import("./widget-cta.vue"),
+    "widget-sidebar": () => import("./sidebar.vue"),
+    "widget-cta": () => import("./el/cta.vue"),
     factorLoadingRing,
     factorLink
   },
