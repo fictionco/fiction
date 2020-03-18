@@ -16,7 +16,7 @@
     </div>
     <div class="setup-content">
       <div class="setup-page-items">
-        <div v-if="step == 1" key="welcome" class="page-item">
+        <div v-if="isStep('welcome')" key="welcome" class="page-item">
           <transition appear>
             <div class="page-item-pad">
               <div class="header">
@@ -34,12 +34,39 @@
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 2" key="account" class="page-item account">
+        <div v-else-if="isStep('app')" key="account" class="page-item account">
           <transition appear>
             <div class="page-item-pad">
               <div class="user-image">
                 <div class="user-image-wrap">
-                  <img :src="avatarUrl" />
+                  <img :src="appAvatar" />
+                </div>
+              </div>
+              <div class="header">
+                <div class="title">Your App</div>
+                <div class="sub-title">You can change this later.</div>
+              </div>
+              <form class="setup-form">
+                <form-input
+                  v-for="(input, index) in inputs.app"
+                  :key="index"
+                  v-model="form[input._id]"
+                  :input="input"
+                />
+              </form>
+
+              <div class="actions">
+                <router-link class="btn" to="/setup?step=3">Next Step &rarr;</router-link>
+              </div>
+            </div>
+          </transition>
+        </div>
+        <div v-else-if="isStep('account')" key="account" class="page-item account">
+          <transition appear>
+            <div class="page-item-pad">
+              <div class="user-image">
+                <div class="user-image-wrap">
+                  <img :src="userAvatar" />
                 </div>
               </div>
               <div class="header">
@@ -47,51 +74,61 @@
                 <div class="sub-title">Create an Admin User</div>
               </div>
               <form class="setup-form">
-                <div class="input-item">
-                  <label>Site Title</label>
-                  <input v-model="form.siteTitle" type="text" />
-                </div>
-                <div class="input-item">
-                  <label>Full Name</label>
-                  <input v-model="form.displayName" type="text" />
-                </div>
-                <div class="input-item">
-                  <label>Email</label>
-                  <input v-model="form.email" type="email" />
-                </div>
-                <div class="input-item">
-                  <label>Password</label>
-                  <input v-model="form.password" type="password" />
+                <div v-for="(input, index) in inputs.account" :key="index" class="input-item">
+                  <transition appear>
+                    <label v-if="form[input._id]">{{ input.label }}</label>
+                  </transition>
+                  <input v-model="form[input._id]" :type="input.type" :placeholder="input.label" />
                 </div>
               </form>
 
               <div class="actions">
-                <router-link class="btn" to="/setup?step=3">Create Account &rarr;</router-link>
+                <router-link class="btn" to="/setup?step=3">Next Step &rarr;</router-link>
               </div>
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 3" key="done" class="gallery-item">
+        <div v-else-if="isStep('theme')" key="theme" class="gallery-item page-item">
           <transition appear>
-            <div class="gallery-item-pad">
+            <div class="gallery-item-pad page-item-pad">
               <div class="header">
                 <div class="title">Select Default Theme</div>
                 <div class="sub-title">You can always change this later.</div>
               </div>
-              <div class="actions">
-                <div class="btn" disabled @click="sendData()">Select Theme &rarr;</div>
+              <div class="gallery-item-action">
+                <form class="setup-form">
+                  <div v-for="(input, index) in inputs.theme" :key="index" class="input-item">
+                    <transition appear>
+                      <label v-if="form[input._id]">{{ input.label }}</label>
+                    </transition>
+                    <input v-model="form[input._id]" :type="input.type" :placeholder="input.label" />
+                  </div>
+                  <div class="actions">
+                    <router-link class="btn" to="/setup?step=4">Select Theme &rarr;</router-link>
+                    <div class="skipper">
+                      or
+                      <router-link class="skip" to="/setup?step=4">skip this step</router-link>
+                    </div>
+                  </div>
+                </form>
               </div>
               <div class="theme-gallery-wrap">
                 <div class="theme-gallery">
-                  <div v-for="page in 10" :key="page" class="theme">
-                    <img src="./img/theme-zeno.jpg" alt="Zeno" />
+                  <div
+                    v-for="(theme, index) in themes"
+                    :key="index"
+                    class="theme"
+                    :class="form.theme == theme.value ? 'selected': ''"
+                    @click="setTheme(theme.value)"
+                  >
+                    <img :src="theme.screenshot" :alt="`Screenshot ${theme.name}`" />
                   </div>
                 </div>
               </div>
             </div>
           </transition>
         </div>
-        <div v-else-if="step == 4" key="done" class="page-item">
+        <div v-else-if="isStep('done')" key="done" class="page-item">
           <transition appear>
             <div class="page-item-pad">
               <div class="setup-image">
@@ -103,13 +140,19 @@
                   class="sub-title"
                 >You can now customize your app and modify other settings on your dashboard.</div>
               </div>
-              <div class="actions">
+              <div class="actions add-space">
                 <div class="btn" @click="sendData()">Build App &rarr;</div>
               </div>
             </div>
           </transition>
         </div>
       </div>
+    </div>
+
+    <div class="footer">
+      <transition appear>
+        <factor-logo />
+      </transition>
     </div>
   </div>
 </template>
@@ -122,12 +165,70 @@ import sseMixin from "./mixins/sse"
 import storageMixin from "./mixins/storage"
 import { sendEvent } from "./utils"
 export default Vue.extend({
+  components: {
+    factorLogo: () => import("./logo-factor.vue"),
+    formInput: () => import("./el/form-input.vue")
+  },
   mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],
-
   data() {
     return {
       baseURL: window.$BASE_URL,
       form: {},
+      themes: [
+        {
+          name: "Zeno",
+          screenshot: require("./img/screenshot-zeno.jpg"),
+          value: "@factor/theme-zeno"
+        },
+        {
+          name: "Ultra",
+          screenshot: require("./img/screenshot-ultra.jpg"),
+          value: "@factor/theme-ultra"
+        },
+        {
+          name: "Alpha",
+          screenshot: require("./img/screenshot-alpha.jpg"),
+          value: "@factor/theme-alpha"
+        }
+      ],
+      inputs: {
+        app: [
+          {
+            type: "text",
+            label: "Application Title",
+            _id: "appName"
+          },
+          {
+            type: "url",
+            label: "Production URL",
+            _id: "appUrl"
+          },
+          {
+            type: "email",
+            label: "Application Email",
+            description: "For transactional email",
+            _id: "appEmail"
+          }
+        ],
+        account: [
+          {
+            type: "text",
+            label: "Full Name",
+            _id: "displayName"
+          },
+          {
+            type: "email",
+            label: "Email",
+            _id: "email"
+          },
+          {
+            type: "password",
+            label: "Password",
+            _id: "password"
+          }
+        ],
+        theme: [{ type: "text", label: "Theme Package", _id: "theme" }]
+      },
       steps: [
         {
           _id: "welcome",
@@ -136,14 +237,15 @@ export default Vue.extend({
           }
         },
         {
+          _id: "app",
+          complete: () => {
+            return !!(this.form.appName && this.form.appUrl && this.form.appEmail)
+          }
+        },
+        {
           _id: "account",
           complete: () => {
-            return this.form.siteTitle &&
-              this.form.displayName &&
-              this.form.password &&
-              this.form.email
-              ? true
-              : false
+            return !!(this.form.displayName && this.form.password && this.form.email)
           }
         },
         {
@@ -166,13 +268,26 @@ export default Vue.extend({
     step() {
       return this.$route.query.step ?? 1
     },
-    avatarUrl() {
+    userAvatar() {
       return gravatar.url(this.form.email, { s: "200", d: "retro" }) || ""
+    },
+    appAvatar() {
+      return gravatar.url(this.form.appEmail, { s: "200", d: "retro" }) || ""
     }
   },
   methods: {
+    getStep(_id) {
+      const index = this.steps.findIndex(_ => _id == _._id)
+      return index + 1
+    },
+    isStep(_id) {
+      return this.getStep(_id) == this.step ? true : false
+    },
+    setTheme(theme) {
+      this.$set(this.form, "theme", theme)
+    },
     sendData() {
-      sendEvent({ installed: true, test: "works" })
+      sendEvent({ installed: true, data: this.form })
 
       this.$router.push({ path: "/" })
     },
@@ -193,12 +308,20 @@ export default Vue.extend({
 <style lang="less">
 .setup {
   min-height: 100vh;
+  --color-text-subtle: #98a5b9;
   background: var(--color-bg-contrast);
   --panel-shadow: 0 0 0 1px rgba(0, 43, 93, 0.1), 0 0 1px rgba(58, 55, 148, 0.25),
     0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
   .setup-content {
     display: flex;
     justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .footer {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0 3rem;
+    width: 100%;
   }
   .pages {
     display: flex;
@@ -219,52 +342,57 @@ export default Vue.extend({
       text-align: center;
       border-radius: 8px;
 
-      color: #fff;
+      color: var(--color-text-subtle);
+      border: 1px solid var(--color-text-subtle);
       font-weight: 700;
       font-size: 1.2em;
       margin: 0.5rem;
-      opacity: 0.4;
-      background: var(--color-text);
+
       transition: opacity 0.2s;
       &.active,
       &:hover {
+        background: var(--color-text-subtle);
         opacity: 1;
-        background: var(--color-text);
         color: #fff;
       }
       &.complete {
-        background: var(--color-primary);
+        border: 1px solid var(--color-text-subtle);
+        background: var(--color-text-subtle);
       }
     }
   }
-  .gallery-item {
-    .header {
-      margin-top: 2rem;
-    }
-    .actions {
-      margin: 2em 0 3rem;
-    }
-  }
-  .theme-gallery-wrap {
-  }
-  .theme-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    .theme {
-      width: 300px;
 
-      img {
-        box-shadow: var(--panel-shadow);
-        border-radius: 5px;
-        width: 100%;
-      }
-    }
-  }
   .page-item {
     width: 650px;
     max-width: 95vw;
-    margin: 0 1rem;
+    margin: 1rem;
+
+    &.gallery-item {
+      width: 1000px;
+
+      .actions {
+        margin: 2em 0 0;
+      }
+      .theme-gallery {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2rem;
+        .theme {
+          img {
+            box-shadow: var(--panel-shadow);
+            border-radius: 5px;
+            width: 100%;
+          }
+          &:hover img {
+            box-shadow: 0 0 0 5px var(--color-text);
+          }
+          &.selected img {
+            box-shadow: 0 0 0 5px var(--color-primary);
+          }
+        }
+      }
+    }
     .page-item-pad {
       padding: 3rem;
       border-radius: 10px;
@@ -293,29 +421,8 @@ export default Vue.extend({
     }
   }
   .gallery-item {
-    .header {
-      margin-top: 2rem;
-    }
-    .actions {
-      margin: 2em 0 3rem;
-    }
   }
-  .theme-gallery-wrap {
-  }
-  .theme-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    .theme {
-      width: 300px;
 
-      img {
-        box-shadow: var(--panel-shadow);
-        border-radius: 5px;
-        width: 100%;
-      }
-    }
-  }
   .page-item {
     width: 650px;
     max-width: 95vw;
@@ -348,7 +455,7 @@ export default Vue.extend({
   }
   .header {
     text-align: center;
-    margin: 0 0 3rem;
+
     .title {
       letter-spacing: -0.02em;
       font-weight: 700;
@@ -362,34 +469,36 @@ export default Vue.extend({
     }
   }
 
-  .hero {
-    width: 140%;
-    margin-left: -20%;
-    img {
-      max-width: 100%;
+  .hero-wrap {
+    margin-top: 3rem;
+    .hero {
+      width: 140%;
+      margin-left: -20%;
+      img {
+        max-width: 100%;
+      }
     }
   }
+
   .setup-form {
     max-width: 380px;
     padding: 1rem 2rem;
     margin: 0 auto;
-    .input-item {
-      margin: 1rem 0;
-      input {
-        font-size: 1.3rem;
-      }
-    }
-    label {
-      display: block;
-      font-weight: 600;
-
-      margin-bottom: 0.5rem;
-    }
   }
 
   .actions {
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    &.add-space {
+      margin-top: 2rem;
+    }
+    .skipper {
+      display: block;
+      margin-top: 1rem;
+      opacity: 0.4;
+      .skip {
+        color: inherit;
+      }
+    }
   }
 }
 </style>
