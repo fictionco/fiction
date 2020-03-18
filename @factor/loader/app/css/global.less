@@ -28,6 +28,7 @@ body {
   --box-shadow-input: 0 0 0 1px rgba(0, 43, 93, 0.2);
   --font-weight-bold: 700;
   --font-weight-light: 400;
+  color: var(--color-text);
 }
 
 .loading-screen.hide {
@@ -75,16 +76,35 @@ body {
   user-select: none;
   line-height: 1;
   font-size: 0.9em;
-  color: #fff;
-  transition: 0.15s all;
+
   opacity: 0.95;
   font-weight: 700;
   padding: 1em 1.5em;
   border: none;
   border-radius: 6px;
-  background-color: #0471ff;
+  transition: 0.1s all;
+  &.primary {
+    color: #fff;
+    background-color: var(--color-primary);
+  }
+
+  &.default {
+    color: var(--color-placeholder);
+    background-color: var(--color-bg-contrast);
+    box-shadow: inset var(--box-shadow-input);
+  }
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+  &:active {
+    opacity: 1;
+    transform: scale(0.98);
+    transition: all 0;
+  }
+
   font-size: 1em;
   &[disabled] {
-    opacity: 0.5;
+    opacity: 0.75;
   }
 }
