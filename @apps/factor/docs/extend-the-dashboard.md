@@ -74,6 +74,9 @@ addPostEditComponent({
 <script>
   import { dashboardInput } from "@factor/dashboard"
   export default {
+    components: {
+      dashboardInput
+    }
     props: {
       postId: { type: String, required: true }
     },
