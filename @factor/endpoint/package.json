@@ -1,6 +1,6 @@
 {
   "name": "@factor/endpoint",
-  "version": "1.4.4",
+  "version": "1.4.11",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
