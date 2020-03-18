@@ -1,32 +1,6 @@
 <template>
   <div class="plugins-sidebar">
     <div v-if="extensionIndex.length > 0" class="sidebar-inner">
-      <section class="plugins-popular">
-        <header class="section-header">
-          <h1 class="title">Popular</h1>
-        </header>
-        <factor-link
-          v-for="(item, index) in pluginsPopular"
-          :key="index"
-          :path="extensionPermalink({ name: item._id })"
-          class="sidebar-plugin"
-        >
-          <div class="sidebar-plugin-image">
-            <img :src="extensionIcon(item)" :alt="item.name" />
-          </div>
-
-          <div class="entry-content">
-            <h3 class="title">{{ titleFromPackage(item) }}</h3>
-            <div class="meta">
-              <div
-                v-if="item.downloads"
-                class="downloads"
-              >{{ formatDownloads(item.downloads) }} downloads</div>
-            </div>
-          </div>
-        </factor-link>
-      </section>
-
       <section class="plugins-new">
         <header class="section-header">
           <h1 class="title">New</h1>
@@ -85,12 +59,7 @@ import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 import { getIndexCache } from "./request"
-import {
-  titleFromPackage,
-  formatDownloads,
-  extensionPermalink,
-  extensionIcon
-} from "./util"
+import { titleFromPackage, extensionPermalink, extensionIcon } from "./util"
 export default Vue.extend({
   components: { factorLink },
   data() {
@@ -101,13 +70,6 @@ export default Vue.extend({
   computed: {
     extensionIndex() {
       return getIndexCache() || []
-    },
-    pluginsPopular(this: any) {
-      const getPopular = [].slice
-        .call(this.extensionIndex)
-        .sort((a, b) => b.downloads - a.downloads)
-
-      return getPopular.slice(0, this.num)
     },
     pluginsNew(this: any) {
       const getNew = [].slice
@@ -126,7 +88,6 @@ export default Vue.extend({
   },
   methods: {
     titleFromPackage,
-    formatDownloads,
     extensionPermalink,
     extensionIcon,
     standardDate
@@ -153,19 +114,18 @@ export default Vue.extend({
     }
   }
 
-  // POPULAR, NEW, AND RECENTLY UPDATED PLUGINS
-  .plugins-popular .section-header {
+  // NEW AND RECENTLY UPDATED PLUGINS
+
+  .plugins-new .section-header {
     margin: 0 0 1rem;
   }
 
-  .plugins-new,
   .plugins-updated {
     .section-header {
       margin: 2rem 0 1rem;
     }
   }
 
-  .plugins-popular,
   .plugins-new,
   .plugins-updated {
     .sidebar-plugin {
