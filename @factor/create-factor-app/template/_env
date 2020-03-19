@@ -1,6 +1,3 @@
-# -- Admins - Initial admins by email (must be verified) - separate by a comma
-FACTOR_ADMINS="<%= email %>"
-
 # -- Database - MongoDB/Mongoose compatible connection URL
 <% if(db){ %>DB_CONNECTION="<%= db %>"
 <% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
@@ -13,7 +10,3 @@ TOKEN_SECRET="RANDOMLY-GENERATED-<%= randomString %>"
 # SMTP_USERNAME="<SMTP USERNAME - ANY SMTP PROVIDER>"
 # SMTP_PASSWORD="<SMTP PASSWORD - ANY SMTP PROVIDER>"
 # SMTP_HOST="<SMTP HOST - ANY SMTP PROVIDER>"
-
-# -- Production URL - Needed for links in emails
-# FACTOR_URL="https://www.example.com"
-

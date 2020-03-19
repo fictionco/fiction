@@ -18,7 +18,6 @@ import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
 import { FactorPackageJson } from "@factor/cli/types"
 
-import { getCliExecutor } from "./util"
 export interface SetupCliConfig {
   name: string;
   value: string;
@@ -58,7 +57,7 @@ export const logNotices = (): void => {
   if (notices.length > 0) {
     log.log()
     notices.forEach((_: string) => {
-      log.info(chalk.bold(_))
+      log.info(typeof _ == "string" ? chalk.bold(_) : _)
     })
     log.log()
   }
@@ -169,14 +168,6 @@ export const logSetupNeeded = (command = ""): void => {
     const lines = setupNeeded.map((_: { title: string; value: string }) => {
       return { title: _.title, value: _.value, indent: true }
     })
-    if (process.env.FACTOR_COMMAND !== "setup") {
-      const cmd = getCliExecutor()
-      lines.push({
-        title: `Run '${cmd == "npm" ? "npx" : cmd} factor setup'`,
-        value: "",
-        indent: false
-      })
-    }
 
     log.formatted({ title: "Setup Needed", lines, color: "cyan" })
   }
@@ -218,12 +209,18 @@ export const writeFiles = (
     }
 
     fs.writeFileSync(configFile, JSON.stringify(packageJson, null, "  "))
+
+    // In case the built file is used later in process
+    delete require.cache[configFile]
   }
 
   if (file == "private") {
     const sec = deepMerge([privateConfig, values])
 
     fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
+
+    // In case the built file is used later in process
+    delete require.cache[secretsFile]
   }
 }
 

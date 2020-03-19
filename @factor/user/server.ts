@@ -33,16 +33,25 @@ export const authenticate = async (
     throw new Error(`Can't authenticate user, DB is offline.`)
   }
 
-  const { newAccount, email, password, displayName } = params
+  const { newAccount, email, password, displayName, noVerify } = params
 
   let user
   if (newAccount) {
     try {
-      user = await getUserModel().create({
+      const Model = getUserModel()
+
+      user = new Model({
         email,
         password,
         displayName
       })
+
+      // Disable email verification hook
+      if (noVerify && user) {
+        user.$locals.noVerify = noVerify
+      }
+
+      user = await user.save()
     } catch (error) {
       const e =
         error.code == 11000 ? `Account with email: "${email}" already exists.` : error
@@ -78,7 +87,7 @@ export const authenticate = async (
 export const createNewAdminUser = async (
   params: AuthenticationParameters
 ): Promise<FactorUser | undefined> => {
-  const createdUser = await authenticate({ ...params, newAccount: true })
+  const createdUser = await authenticate({ ...params, newAccount: true, noVerify: true })
 
   if (!createdUser) throw new Error("Could not create user")
 

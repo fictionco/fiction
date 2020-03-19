@@ -183,13 +183,6 @@ export default Vue.extend({
     transition: 0.15s cubic-bezier(0.52, 0.01, 0.16, 1);
     transform: translate(0, 0);
 
-    > div:last-child {
-      display: flex;
-      align-self: end;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-
     nav {
       display: grid;
       align-items: center;
@@ -225,12 +218,20 @@ export default Vue.extend({
     .copyright {
       display: inline;
       font-size: 0.8rem;
+      display: flex;
+      align-self: end;
+      align-items: center;
+      padding: 1rem 2rem;
+      justify-content: space-between;
       .factor-logo-icon {
         margin-left: 1em;
         max-width: 1em;
-        opacity: 0.15;
+        opacity: 0.1;
         svg {
           width: 20px;
+        }
+        &:hover {
+          opacity: 0.3;
         }
       }
     }

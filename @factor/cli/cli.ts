@@ -91,7 +91,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    * Make sure all package dependencies are installed and updated
    */
   if (install && !skipVerifyDeps) {
-    await bar.update({ percent: 25, msg: `checking dependencies (${getCliExecutor()})` })
+    await bar.update({ percent: 25, msg: `checking dependencies with ${getCliExecutor()}` })
 
     const verifyDepProcess = execa(getCliExecutor(), ["install"])
     await verifyDepProcess

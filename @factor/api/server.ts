@@ -13,18 +13,6 @@ export const setup = (): void => {
   if (!url) {
     pushToFilter({
       key: "appUrl",
-      hook: "setup-needed",
-      item: {
-        title: "Production Url",
-        value:
-          "The production URL setting is missing. This is needed for email and other tools",
-        file: ".env",
-        name: "FACTOR_URL"
-      }
-    })
-
-    pushToFilter({
-      key: "appUrl",
       hook: "cli-add-setup",
       item: () => {
         return {

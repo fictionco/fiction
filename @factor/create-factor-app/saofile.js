@@ -17,25 +17,8 @@ const config = {
   prompts: [
     {
       name: "name",
-      message: "What's the name of your app?",
-      default: "{outFolder}"
-    },
-    {
-      name: "description",
-      message: "... and a quick description?",
-      default: `My ${superb.random()} Factor project`,
-      when: answers => !config.isUnitTest(answers)
-    },
-    {
-      name: "email",
-      type: "string",
-      message: "Admin user email address?",
-      default: "{gitUser.email}",
-      when: answers => !config.isUnitTest(answers),
-      validate: v => {
-        const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-AZa-z-]+\.)+[A-Za-z]{2,}))$/
-        return re.test(v) ? true : "Enter a valid email address"
-      }
+      message: "Project name?",
+      default: `${superb.random()} project`
     }
   ],
   isUnitTest(answers) {
@@ -100,17 +83,17 @@ const config = {
 
     return actions
   },
-  async diagnostic({ email }) {
+  async diagnostic({ id }) {
     try {
       await axios.get(
-        `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${email}`
+        `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${id}`
       )
     } catch (error) {
       /* silence */
     }
   },
   async completed() {
-    config.diagnostic({ email: answers.email })
+    config.diagnostic({ id: answers.name })
 
     this.gitInit()
 
@@ -134,14 +117,15 @@ const config = {
       }
     }
 
+    const runner = this.npmClient == "npm" ? "npx" : "yarn"
+    console.log()
+    console.log()
+    console.log(this.chalk.bold(`  ${figures.tick} Ready! Now start your dev server:\n`))
+    cd()
     console.log()
     console.log(
-      this.chalk.bold(
-        `  ${figures.tick} Well, that was fast! Now start your dev server:\n`
-      )
+      `\t${this.chalk.magenta.bold(`${runner} `) + this.chalk.bold("factor dev")}\n`
     )
-    cd()
-    console.log(`\t${this.chalk.magenta.bold("npx ") + this.chalk.bold("factor dev")}\n`)
     console.log()
     console.log(
       `   ${this.chalk.cyan.bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold(
@@ -153,12 +137,7 @@ const config = {
         "https://go.factor.dev/slack"
       )}`
     )
-    console.log(
-      `   ${this.chalk.cyan.bold(
-        `${figures.arrowRight} Bugs or Requests:`
-      )} ${this.chalk.bold("https://go.factor.dev/issues")}`
-    )
-
+    console.log()
     console.log()
   }
 }

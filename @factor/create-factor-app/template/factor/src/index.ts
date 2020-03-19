@@ -1,5 +1,5 @@
 /**
- * This is your app control file (set in package.json)
+ * This is your app main file
  *
- * Use it to manipulate your application environment (routes, hooks/filters, events)
+ * Use it to do anything you want in your Factor app
  */

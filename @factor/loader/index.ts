@@ -81,7 +81,14 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     key: "addAdmin",
     hook: "db-initialized",
     callback: async (): Promise<void> => {
-      const user = await createNewAdminUser({ displayName, email, password })
+      let user
+      try {
+        user = await createNewAdminUser({ displayName, email, password })
+      } catch (error) {
+        addNotice(
+          `Couldn't create a user for: ${email}. Likely the email already exists in the DB.`
+        )
+      }
 
       if (user) {
         addNotice(`New admin created for: ${user.email}`)

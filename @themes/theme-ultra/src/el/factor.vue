@@ -25,12 +25,7 @@ export default Vue.extend({
     display: block;
   }
   .thelogo {
-    fill: #929292;
-  }
-  &:hover {
-    .thelogo {
-      fill: #fff;
-    }
+    fill: var(--color-primary);
   }
 }
 </style>

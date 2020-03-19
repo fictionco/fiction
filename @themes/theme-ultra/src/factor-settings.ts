@@ -53,7 +53,7 @@ export default {
         target: "_self"
       }
     ],
-    copyright: "&copy; Fiction.com Inc. "
+    copyright: "&copy; YourCompany Inc. "
   },
   intro: {
     pretitle: "Welcome To Ultra",
@@ -208,10 +208,12 @@ export default {
     components: {
       portfolioWrap: (): Promise<Component> => import("./portfolio/portfolio-wrap.vue"),
       portfolioIndex: (): Promise<Component> => import("./portfolio/portfolio-index.vue"),
-      portfolioSingle: (): Promise<Component> => import("./portfolio/portfolio-single.vue"),
+      portfolioSingle: (): Promise<Component> =>
+        import("./portfolio/portfolio-single.vue"),
       portfolioEntry: (): Promise<Component> => import("./portfolio/widget-entry.vue"),
       hero: (): Promise<Component> => import("./portfolio/widget-hero.vue"),
-      featuredImage: (): Promise<Component> => import("./portfolio/widget-featured-image.vue"),
+      featuredImage: (): Promise<Component> =>
+        import("./portfolio/widget-featured-image.vue"),
       tags: (): Promise<Component> => import("./portfolio/widget-tags.vue")
     },
     layout: {
@@ -266,8 +268,7 @@ export default {
     returnLinkText: "Back",
     headline: "Latest News",
     subheadline: "Discover The Latest",
-    content:
-      "Thoughts on design, the process of creation, and optimizing collaboration.",
+    content: "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
@@ -277,11 +278,18 @@ export default {
       readMore: (): Promise<Component> => import("./blog/widget-read-more.vue"),
       authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
       customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-      social: (): Promise<Component> => import("./blog/widget-social.vue"),
+      social: (): Promise<Component> => import("./blog/widget-social.vue")
     },
     layout: {
       index: ["featuredImage", "date", "blogHero", "subtitle", "readMore"],
-      single: ["customSingleHeader", "meta", "featuredImage", "entry", "social", "authorBio"],
+      single: [
+        "customSingleHeader",
+        "meta",
+        "featuredImage",
+        "entry",
+        "social",
+        "authorBio"
+      ],
       meta: ["authorDate", "tags"]
     },
     notFound: {
@@ -291,7 +299,8 @@ export default {
     metatags: {
       index: {
         title: "News - Factor Ultra Theme",
-        description: "Thoughts on design, the process of creation, and optimizing collaboration.",
+        description:
+          "Thoughts on design, the process of creation, and optimizing collaboration.",
         image: require("./img/logo-ultra.jpg")
       }
     }

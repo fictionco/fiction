@@ -126,7 +126,11 @@
                     :input="input"
                   />
                   <div class="actions">
-                    <div class="btn primary primary next-step" @click="nextStep()">Next Step &rarr;</div>
+                    <div
+                      class="btn primary primary next-step"
+                      :class="isComplete('theme') ? 'primary': 'default'"
+                      @click="nextStep()"
+                    >Next Step &rarr;</div>
                     <div class="skipper">
                       or
                       <span
@@ -274,7 +278,7 @@ export default Vue.extend({
         app: [
           {
             type: "text",
-            label: "App Name",
+            label: "App Title",
             placeholder: "Example App",
             _id: "appName",
             setting: "app.name"
@@ -356,7 +360,9 @@ export default Vue.extend({
         {
           _id: "theme",
           complete: () => {
-            return this.step > this.getStepIndex("theme") ? true : false
+            return this.form.theme || this.step > this.getStepIndex("theme")
+              ? true
+              : false
           }
         },
         // {

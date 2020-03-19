@@ -67,7 +67,7 @@ export const serverInfo = async ({
 
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
   if (command && ["dev", "serve", "start"].includes(command)) {
-    lines.push(`Serving locally at ${chalk.cyan(localhostUrl())}`)
+    lines.push(`Serving at ${chalk.cyan(localhostUrl())}`)
   }
 
   getLatestVersion()

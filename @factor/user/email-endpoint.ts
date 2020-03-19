@@ -199,7 +199,7 @@ export const setup = (): void => {
         this: FactorUserEmailVerify & Document,
         next: HookNextFunction
       ): Promise<void> {
-        if (!this.isModified("email")) return
+        if (!this.isModified("email") || this.$locals.noVerify) return
 
         const { email, _id } = this
         this.emailVerified = false

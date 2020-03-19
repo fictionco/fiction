@@ -1,7 +1,5 @@
 # <%= name %>
 
-_<%= description %>_
-
 ## Built with [Factor](https://factor.dev)
 
 ```bash
