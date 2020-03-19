@@ -6,23 +6,6 @@
   "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
-  "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
-    "app": {
-      "name": "Factor.dev",
-      "description": "",
-      "sender": "Factor",
-      "email": "factor@fiction.com"
-    },
-    "roles": {
-      "arpowers@gmail.com": "admin",
-      "andrew@fiction.com": "admin",
-      "ray@fiction.com": "admin"
-    }
-  },
   "dependencies": {
     "@factor/core": "^1.0.0",
     "@factor/plugin-blog": "^1.1.1",
@@ -37,6 +20,23 @@
     "@factor/plugin-storage-s3": "^1.0.0",
     "@factor/theme-shared": "^1.0.0",
     "@types/memory-cache": "^0.2.0",
-    "memory-cache": "^0.2.0"
+    "memory-cache": "^0.2.0",
+    "@factor/theme-zeno": "^1.4.11",
+    "@factor/theme-ultra": "^1.4.11"
+  },
+  "factor": {
+    "app": {
+      "name": "44",
+      "description": "444",
+      "url": "444444",
+      "email": "4444"
+    },
+    "admins": [
+      "arpowers+tftftq@gmail.com"
+    ],
+    "load": [
+      "app",
+      "server"
+    ]
   }
 }

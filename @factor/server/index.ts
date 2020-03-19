@@ -273,6 +273,8 @@ export const createRenderServer = async (
         }
       })
     })
+
+    await runCallbacks("dev-server-built")
   } else {
     __renderer = appRenderer(cwd)
   }

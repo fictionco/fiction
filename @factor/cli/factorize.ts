@@ -49,7 +49,9 @@ export const extendServer = async ({ restart = false } = {}): Promise<void> => {
 
   await runCallbacks("initialize-server")
 
-  if (!restart) runCallbacks("after-first-server-extend")
+  if (!restart) {
+    await runCallbacks("after-first-server-extend")
+  }
 }
 
 /**

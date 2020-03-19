@@ -471,7 +471,7 @@ export const setup = (): void => {
       callback: async () => {
         /**
          * This is async but we shouldn't wait for it
-         * as it add time to loading
+         * as it adds time to loading
          */
         dbInitialize()
 

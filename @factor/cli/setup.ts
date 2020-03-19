@@ -181,10 +181,10 @@ export const logSetupNeeded = (command = ""): void => {
     log.formatted({ title: "Setup Needed", lines, color: "cyan" })
   }
 
-  logNotices()
-
   log.diagnostic({ event: "factorCommand", action: `${command}-${setupNeeded.length}` })
 }
+
+addCallback({ key: "notices", hook: "dev-server-built", callback: () => logNotices() })
 
 /**
  * Hook into the CLI command filter

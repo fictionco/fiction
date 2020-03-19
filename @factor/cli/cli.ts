@@ -112,6 +112,8 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
   bar.stop()
 
+  await tools.runCallbacks(`environment-created`, setup)
+
   logSetupNeeded(command)
 
   try {

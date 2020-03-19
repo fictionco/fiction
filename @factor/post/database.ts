@@ -1,5 +1,5 @@
 import { log } from "@factor/api"
-import { pushToFilter, addCallback } from "@factor/api/hooks"
+import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
 import { writeConfig, addNotice } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import inquirer from "inquirer"
@@ -209,6 +209,8 @@ export const dbInitialize = async (): Promise<void> => {
   })
 
   initializeModels()
+
+  await runCallbacks(`db-initialized`)
 
   /**
    * This must run after DB has been initialized to determine offline/online

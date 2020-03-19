@@ -132,7 +132,7 @@
                       <span
                         class="skip-step"
                         @click="form.theme = ''; skip.theme = true;nextStep()"
-                      >don't add a theme</span>
+                      >skip this step</span>
                     </div>
                   </div>
                 </form>

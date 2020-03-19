@@ -29,7 +29,11 @@ export const addPostSchema = (config: FactorSchemaModule): void => {
  */
 export const getAddedSchemas = (): FactorSchema[] => {
   return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
-    return applyFilters(`data-schema-${s.name}`, typeof s == "function" ? s() : s)
+    const fullSchema = typeof s == "function" ? s() : s
+
+    fullSchema.schema = applyFilters(`schema-definition-${s.name}`, fullSchema.schema)
+
+    return applyFilters(`data-schema-${s.name}`, fullSchema)
   })
 }
 /**

@@ -3,8 +3,10 @@ import { addMiddleware } from "@factor/server/middleware"
 import { BuildTypes } from "@factor/cli/types"
 
 import latestVersion from "latest-version"
-import { setting, getSettings } from "@factor/api/settings"
-import { writeFiles } from "@factor/cli/setup"
+import { addCallback } from "@factor/api/hooks"
+import { createNewAdminUser } from "@factor/user/server"
+import { setting } from "@factor/api/settings"
+import { writeFiles, addNotice } from "@factor/cli/setup"
 import { configSettings } from "@factor/api/config"
 import log from "@factor/api/logger"
 import {
@@ -37,16 +39,26 @@ export const initLoader = (): void => {
 
 const writeInstallData = async (form: Record<string, any>): Promise<void> => {
   const existingSettings = configSettings()
-  const { appName, appUrl, appEmail, email, theme } = form
+  const {
+    appName,
+    appDescription,
+    appUrl,
+    appEmail,
+    displayName,
+    email,
+    password,
+    theme
+  } = form
 
   const values: Record<string, any> = {
     factor: {
-      app: { url: appUrl, name: appName, email: appEmail }
+      app: { name: appName, description: appDescription, url: appUrl, email: appEmail }
     }
   }
 
   if (email) {
-    values.factor.admins = [...values.factor.admins, email]
+    const { factor: { admins = [] } = {} } = existingSettings
+    values.factor.admins = [...admins, email]
   }
 
   // Add auto-load if they don't have anything
@@ -65,13 +77,25 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     }
   }
 
+  addCallback({
+    key: "addAdmin",
+    hook: "db-initialized",
+    callback: async (): Promise<void> => {
+      const user = await createNewAdminUser({ displayName, email, password })
+
+      if (user) {
+        addNotice(`New admin created for: ${user.email}`)
+      }
+    }
+  })
+
   writeFiles("package", values)
 
   return
 }
 
 export const showInstallRoutine = async (): Promise<void> => {
-  if (!setting("installed")) {
+  if (!setting("installed") && process.env.FACTOR_ENV !== "test") {
     setShowInstall()
 
     await new Promise(resolve => {

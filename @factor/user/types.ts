@@ -26,7 +26,7 @@ export const userRolesMap: { [index in UserRoles]: number } = {
 }
 
 export type AuthenticationParameters = {
-  newAccount: boolean;
+  newAccount?: boolean;
   email: string;
   password: string;
   displayName?: string;
