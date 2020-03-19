@@ -71,14 +71,8 @@ export default Vue.extend({
     }
     .extend-icon {
       width: 80px;
-      // position: absolute;
-      // right: 1rem;
-      // bottom: -1rem;
       background: #fff;
-      //border: 3px solid #fff;
       border-radius: 50%;
-      // box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.07), 0px 2px 3px rgba(50, 50, 93, 0.13),
-      //   0px 2px 5px rgba(50, 50, 93, 0.11);
     }
   }
 
