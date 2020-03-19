@@ -1,6 +1,4 @@
-import fs from "fs"
 import { deepMerge } from "@factor/api/utils"
-import { getPath } from "@factor/api/paths"
 
 /**
  * Gets the basic configuration of an application using package.json, factor-config
@@ -10,11 +8,11 @@ import { getPath } from "@factor/api/paths"
 export const configSettings = (cwd?: string): Record<string, any> => {
   const workingDirectory = cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
 
-  const configFile = getPath(`config-file-public`, workingDirectory)
+  const { factor, ...rest } = require(`${workingDirectory}/package.json`)
 
-  const config = fs.existsSync(configFile) ? require(configFile) : {}
+  const factorConfig = factor ? { ...factor, installed: true } : {}
 
-  const { factor = {}, ...rest } = require(`${workingDirectory}/package.json`)
+  const out = deepMerge([{ package: rest }, factorConfig])
 
-  return deepMerge([{ package: rest }, factor, config])
+  return out
 }

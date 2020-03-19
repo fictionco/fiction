@@ -249,7 +249,8 @@ const makeFileLoader = ({
 const recursiveDependencies = (
   dependents: FactorPackageJson[],
   pkg: FactorPackageJson,
-  disabled: string[]
+  disabled: string[],
+  options?: { shallow?: true }
 ): { dependents: FactorPackageJson[]; disabled: string[] } => {
   const { dependencies = {}, devDependencies = {}, factor: { disable = [] } = {} } = pkg
 
@@ -264,8 +265,16 @@ const recursiveDependencies = (
       // don't add if it's already there
       if (!dependents.find(pkg => pkg.name == _.name)) {
         dependents.push(_)
-        // Preceding (;) is needed when not using const/let
-        ;({ dependents, disabled } = recursiveDependencies(dependents, _, disabled))
+
+        if (!options?.shallow) {
+          // Preceding (;) is needed when not using const/let
+          ({ dependents, disabled } = recursiveDependencies(
+            dependents,
+            _,
+            disabled,
+            options
+          ))
+        }
       }
     })
 
@@ -440,12 +449,32 @@ export const generateExtensionList = (
  *
  * @param pkg - the root application package.json
  */
-const loadExtensions = (pkg: FactorPackageJson): FactorExtension[] => {
-  const { dependents, disabled } = recursiveDependencies([pkg], pkg, [])
+export const loadExtensions = (
+  pkg: FactorPackageJson,
+  options?: { shallow?: true }
+): FactorExtension[] => {
+  const { dependents, disabled } = recursiveDependencies([pkg], pkg, [], options)
 
   const deps = dependents.filter(_ => !disabled.includes(_.name))
 
   return generateExtensionList(deps, pkg)
+}
+
+/**
+ * Gets a list of the names of themes/plugins by package name
+ * @param pkg - root package
+ * @param options.shallow - only look at the plugins/themes from root pkg
+ */
+export const installedExtensions = (
+  pkg: FactorPackageJson,
+  options?: {
+    shallow?: true;
+  }
+): { themes: string[]; plugins: string[] } => {
+  const list = loadExtensions(pkg, options)
+  const themes: string[] = list.filter(item => item.extend == "theme").map(_ => _.name)
+  const plugins: string[] = list.filter(item => item.extend == "plugin").map(_ => _.name)
+  return { themes, plugins }
 }
 
 /**

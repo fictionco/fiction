@@ -14,7 +14,8 @@
     "app": {
       "name": "Factor.dev",
       "description": "",
-      "email": "Factor <factor@fiction.com>"
+      "sender": "Factor",
+      "email": "factor@fiction.com"
     },
     "roles": {
       "arpowers@gmail.com": "admin",

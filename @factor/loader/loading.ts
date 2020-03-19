@@ -5,6 +5,7 @@ import fs from "fs-extra"
 import { json } from "node-res"
 import { localhostUrl } from "@factor/api/url"
 import { BuildTypes } from "@factor/cli/types"
+import { installedExtensions } from "@factor/cli/extension-loader"
 import { parse } from "qs"
 import { emitEvent } from "@factor/api/events"
 import { deepMerge } from "@factor/api"
@@ -12,6 +13,7 @@ import { getSettings } from "@factor/api/settings"
 import { configSettings } from "@factor/api/config"
 import { parseStack } from "./utils/error"
 import { SSE } from "./sse"
+
 const distPath = resolve(__dirname, "app-dist")
 const indexPath = resolve(distPath, "index.html")
 const template = fs.readFileSync(indexPath, "utf-8")
@@ -107,7 +109,10 @@ export const clearError = (): void => {
 export const setShowInstall = (): void => {
   if (process.env.NODE_ENV == "development") {
     loaderState.redirect = "/setup"
-    loaderState.settings = deepMerge([configSettings(), getSettings()])
+    const config = configSettings()
+    const extensions = installedExtensions(config.package, { shallow: true })
+
+    loaderState.settings = deepMerge([config, extensions, getSettings()])
     sse.broadcast("state", loaderState)
   }
 }

@@ -3,9 +3,10 @@ import { addMiddleware } from "@factor/server/middleware"
 import { BuildTypes } from "@factor/cli/types"
 
 import latestVersion from "latest-version"
-import { setting } from "@factor/api/settings"
+import { setting, getSettings } from "@factor/api/settings"
 import { writeFiles } from "@factor/cli/setup"
 import { configSettings } from "@factor/api/config"
+import log from "@factor/api/logger"
 import {
   initializeLoading,
   setLoadingStates,
@@ -40,11 +41,12 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
 
   const values: Record<string, any> = {
     factor: {
-      app: { url: appUrl, name: appName, email: appEmail },
-      roles: {
-        [email]: "admin"
-      }
+      app: { url: appUrl, name: appName, email: appEmail }
     }
+  }
+
+  if (email) {
+    values.factor.admins = [...values.factor.admins, email]
   }
 
   // Add auto-load if they don't have anything
@@ -53,9 +55,13 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
   }
 
   if (theme) {
-    const themeVersion = await latestVersion(theme)
-    values.dependencies = {
-      [theme]: `^${themeVersion}`
+    try {
+      const themeVersion = await latestVersion(theme)
+      values.dependencies = {
+        [theme]: `^${themeVersion}`
+      }
+    } catch (error) {
+      log.error("Added theme was not found.")
     }
   }
 

@@ -97,19 +97,28 @@ For example, to extend the `page` schema:
 ```js
 import { addFilter } from "@factor/api"
 
-addFilter("data-schema-page", _original => {
-  // Add to schema
-  _original.schema = { ..._original.schema, ...{ comments: [] } }
+addFilter({
+  key: "my-unique-key",
+  hook: "data-schema-page",
 
-  // Add to schema
-  const cb = _original.callback
-  schemaConfig.callback = _schema => {
-    cb(_schema) // don't forget to call the original
-    schema.pre("save", async function(next) {
-      next()
-    })
+  _original => {
+
+    // Add comments array to schema
+    _original.schema = {
+      ..._original.schema,
+      ...{ comments: [] }
+    }
+
+    // Add to hooks (mongoose)
+    const cb = _original.callback
+    schemaConfig.callback = _schema => {
+      cb(_schema) // don't forget to call the original
+      schema.pre("save", async function(next) {
+        next()
+      })
+    }
+
+    return schemaConfig
   }
-
-  return schemaConfig
 })
 ```

@@ -96,6 +96,8 @@ export default {
       return
     }
 
+    document.title = "Factor Loading"
+
     this.onData(window.$STATE)
     this.sseConnect(`${this.baseURL}_loading/sse`)
     this.setTimeout()

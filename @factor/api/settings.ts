@@ -3,7 +3,6 @@ import { applyFilters, addCallback } from "@factor/api/hooks"
 import { configSettings } from "@factor/api/config"
 import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
-
 type SettingsObject = Record<string, any>
 
 export type SettingsRecords = Record<string, SettingsObject>
@@ -23,6 +22,17 @@ const settingsId = (cwd?: string): string => {
     return "base"
   }
 }
+
+/**
+ * Get basic config settings that are always available
+ * IMPORTANT - Note that config has different handling between server/app
+ * This is why core settings and config are split
+ * @param cwd - working directory
+ */
+export const basicSettings = (cwd?: string): SettingsObject => {
+  return deepMerge([configSettings(cwd), coreSettings()])
+}
+
 /**
  * Gets globally cached settings based on working directory
  * @remarks
@@ -34,7 +44,7 @@ export const getSettings = (cwd?: string): SettingsObject => {
 
   return Vue.$factorSettings[settingsId(cwd)]
     ? Vue.$factorSettings[settingsId(cwd)]
-    : coreSettings()
+    : basicSettings(cwd)
 }
 
 const setSettings = (settings: object, cwd?: string): void => {
@@ -44,7 +54,7 @@ const setSettings = (settings: object, cwd?: string): void => {
 }
 
 export const createSettings = (cwd?: string): void => {
-  const config = configSettings(cwd)
+  const basic = basicSettings(cwd)
 
   let settingsExports: (Function | object)[] = []
 
@@ -62,12 +72,10 @@ export const createSettings = (cwd?: string): void => {
 
   const settingsArray = applyFilters(
     "factor-settings",
-    [config, coreSettings, ...settingsExports].map(_export =>
-      typeof _export == "function" ? _export() : _export
-    )
+    settingsExports.map(_export => (typeof _export == "function" ? _export() : _export))
   )
 
-  const merged = deepMerge([config, coreSettings, ...settingsArray])
+  const merged = deepMerge([basic, ...settingsArray])
 
   const settings = applyFilters("merged-factor-settings", merged, { cwd })
 

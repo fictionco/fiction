@@ -236,6 +236,7 @@
 import Vue from "vue"
 
 import gravatar from "gravatar"
+import { dotSetting } from "@factor/api/utils"
 import capitalizeMixin from "./mixins/capitalize"
 import logMixin from "./mixins/log"
 import sseMixin from "./mixins/sse"
@@ -279,6 +280,13 @@ export default Vue.extend({
             setting: "app.name"
           },
           {
+            type: "text",
+            label: "App Description",
+            placeholder: "An example app",
+            _id: "appDescription",
+            setting: "app.description"
+          },
+          {
             type: "url",
             label: "URL in Production",
             placeholder: "https://www.example.com",
@@ -288,7 +296,7 @@ export default Vue.extend({
           },
           {
             type: "email",
-            label: `App Email Address`,
+            label: `Transaction Email Address`,
             placeholder: "team@example.com",
             description: "Needed for transactional email",
             _id: "appEmail",
@@ -378,10 +386,31 @@ export default Vue.extend({
       return gravatar.url(this.form.appEmail, { s: "200", d: "identicon" }) || ""
     },
     settings() {
-      return {}
+      return window.$STATE.settings || {}
     }
   },
+  mounted() {
+    document.title = "Factor Setup"
+    /**
+     * Set initial form values if they already exist in config
+     */
+    Object.values(this.inputs).forEach(inputSet => {
+      inputSet.forEach(input => {
+        if (input.setting) {
+          const val = this.getValue(input.setting)
+          if (val) {
+            this.$set(this.form, input._id, val)
+          }
+        }
+      })
+    })
+  },
   methods: {
+    getValue(key) {
+      if (!key) return
+
+      return dotSetting({ key, settings: this.settings })
+    },
     nextStep() {
       this.$router.push({ path: "/setup", query: { step: Number(this.step) + 1 } })
     },
