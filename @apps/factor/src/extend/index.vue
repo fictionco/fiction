@@ -134,6 +134,7 @@ export default Vue.extend({
   .posts-loading .loading-ring-wrap {
     min-height: 400px;
   }
+
   .content-pad {
     max-width: 1300px;
     margin: 0 auto;
@@ -143,47 +144,13 @@ export default Vue.extend({
     position: relative;
   }
 
-  /* HEADER */
-  .header {
-    background-image: url("./img/dot.svg");
-    overflow: hidden;
-
-    .content-pad {
-      display: grid;
-      grid-template-columns: 4fr 3fr;
-    }
-
-    .header-content {
+  @media (max-width: 900px) {
+    padding-top: 0;
+    .extend-index-head {
       padding: 4em 0;
-
-      .page-title-sub {
-        font-size: 1.6em;
-      }
-      @media (max-width: 900px) {
-        padding: 3rem 0;
-        .page-title {
-          font-size: 1.7em;
-          line-height: 1.3;
-        }
-        .page-title-sub {
-          font-size: 1.4em;
-          line-height: 1.1;
-        }
-      }
-    }
-
-    .header-figure {
-      position: relative;
-    }
-
-    @media (max-width: 900px) {
-      .content-pad {
-        grid-template-columns: 1fr;
-      }
     }
   }
 
-  /* PAGE CONTENT */
   .extensions-wrap {
     &.plugins-wrap {
       display: grid;

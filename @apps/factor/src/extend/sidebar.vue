@@ -90,7 +90,6 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-// Plugins Sidebar
 .plugins-sidebar {
   padding: 0;
 
@@ -109,16 +108,12 @@ export default Vue.extend({
     }
   }
 
-  // NEW AND RECENTLY UPDATED PLUGINS
-
   .plugins-new .section-header {
     margin: 0 0 1rem;
   }
 
-  .plugins-updated {
-    .section-header {
-      margin: 2rem 0 1rem;
-    }
+  .plugins-updated .section-header {
+    margin: 2rem 0 1rem;
   }
 
   .plugins-new,

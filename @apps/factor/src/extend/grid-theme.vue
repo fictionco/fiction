@@ -139,33 +139,16 @@ export default Vue.extend({
       }
     }
     @media (max-width: 900px) {
-      padding: 50% 0;
+      padding: 80% 0 0;
       .entry-content {
+        position: relative;
         transform: translateY(0%);
+        .action {
+          .btn-link + .btn-link {
+            margin-top: 1rem;
+          }
+        }
       }
-    }
-  }
-
-  .entry-images {
-    position: relative;
-    max-width: 100%;
-    img {
-      max-width: 100%;
-    }
-    .screenshot {
-      box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
-      transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
-    }
-    .logo {
-      position: absolute;
-      width: 200px;
-      right: 1rem;
-      bottom: -1rem;
-      background: #fff;
-      box-shadow: 0 5px 15px rgba(27, 34, 60, 0.1), 0 15px 35px rgba(27, 34, 60, 0.1),
-        0 50px 100px rgba(27, 34, 60, 0.1), 20px -20px 35px rgba(80, 102, 119, 0.15);
-      transform: perspective(1040px) rotate(2deg) rotateX(2deg) rotateY(-11deg)
-        translateZ(-20px) scale(1);
     }
   }
 }
