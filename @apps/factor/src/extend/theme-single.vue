@@ -1,126 +1,140 @@
 <template>
   <div class="theme-single">
-    <!-- <div v-if="loading" class="posts-loading">
+    <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
-    <div v-else>-->
-    <section>
-      <div class="theme-single-header">
+    <div v-else>
+      <section>
+        <div class="theme-single-header">
+          <div class="content-pad">
+            <factor-link class="back" :path="`/themes`">
+              <span>&larr; All Themes</span>
+            </factor-link>
+            <div class="content-wrap">
+              <div class="title-wrap">
+                <img src="./img/logo-alpha.svg" alt="Theme logo" class="logo" />
+                <h1 class="title">Theme Alpha</h1>
+                <h3
+                  class="description"
+                >A forum solution with essential elements to run an efficient and professional community.</h3>
+                <factor-link
+                  btn="primary"
+                  :path="`https://themes.factor.dev/alpha`"
+                  :target="`_blank`"
+                >
+                  View Theme
+                  <i class="fa fa-arrow-right" />
+                </factor-link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="content-pad">
-          <factor-link class="back" :path="`/themes`">
-            <span>&larr; All Themes</span>
-          </factor-link>
-          <div class="content-wrap">
-            <div class="title-wrap">
-              <img src="./img/logo-alpha.svg" alt="Theme logo" class="logo" />
-              <h1 class="title">Theme Alpha</h1>
-              <h3
-                class="description"
-              >A forum solution with essential elements to run an efficient and professional community.</h3>
-              <factor-link
-                btn="primary"
-                :path="`https://themes.factor.dev/alpha`"
-                :target="`_blank`"
-              >
-                View Theme
-                <i class="fa fa-arrow-right" />
-              </factor-link>
+          <div class="theme-images">
+            <img src="./img/screenshot-alpha.jpg" alt="image1" />
+            <img src="./img/screenshot-alpha.jpg" alt="image2" />
+            <img src="./img/screenshot-alpha.jpg" alt="image3" />
+          </div>
+          <div class="theme-highlights">
+            <div class="item">
+              <img src="./img/icon-placeholder.svg" alt="Icon placeholder" />
+              <p>Lorem ipsum dolor sit amet consectetur adip.</p>
+            </div>
+            <div class="item">
+              <img src="./img/icon-placeholder.svg" alt="Icon placeholder" />
+              <p>Lorem ipsum dolor sit amet consectetur adip.</p>
+            </div>
+            <div class="item">
+              <img src="./img/icon-placeholder.svg" alt="Icon placeholder" />
+              <p>Lorem ipsum dolor sit amet consectetur adip.</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="content-pad">
-        <div class="theme-images">
-          <img src="./img/screenshot-alpha.jpg" alt="image1" />
-          <img src="./img/screenshot-alpha.jpg" alt="image2" />
-          <img src="./img/screenshot-alpha.jpg" alt="image3" />
-        </div>
-      </div>
-
-      <div class="theme-content-wrap content-pad">
-        <div class="content">
-          <theme-entry :text="getContent(item.readme)" class="theme-content" />
-        </div>
-
-        <div class="theme-meta">
-          <div class="meta-card">
-            <h3 class="title">Publisher</h3>
-            <div class="meta-content">Factor Inc.</div>
+        <div class="theme-content-wrap content-pad">
+          <div class="content">
+            <theme-entry :text="getContent(item.readme)" class="theme-content" />
           </div>
 
-          <div class="meta-card">
-            <h3 class="title">Repo Link</h3>
-            <div class="meta-content">
-              <factor-icon icon="fab fa-github" />
-              <factor-link
-                :path="`https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha`"
-                :target="`_blank`"
-              >
-                <span>https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha</span>
-              </factor-link>
+          <div class="theme-meta">
+            <div class="meta-card">
+              <h3 class="title">Publisher</h3>
+              <div class="meta-content">Factor Inc.</div>
             </div>
-          </div>
 
-          <div class="meta-card">
-            <h3 class="title">Tags</h3>
-            <div class="meta-content tags">
-              <factor-link btn="default" size="small" :path="`#`">Support</factor-link>
-              <factor-link btn="default" size="small" :path="`#`">Discussion</factor-link>
-              <factor-link btn="default" size="small" :path="`#`">Forum</factor-link>
-              <factor-link btn="default" size="small" :path="`#`">Community</factor-link>
-            </div>
-          </div>
-
-          <div class="meta-card">
-            <h3 class="title">Share</h3>
-            <div class="meta-content share">
-              <factor-link :path="`#`">
-                <factor-icon icon="fas fa-link" />Copy Link
-              </factor-link>
-              <factor-link
-                :path="`https://twitter.com/intent/tweet?text=post-title-goes-here+post-link-goes-here`"
-              >
-                <factor-icon icon="fab fa-twitter" />Twitter
-              </factor-link>
-              <factor-link
-                :path="`https://www.facebook.com/sharer/sharer.php?u=post-link-goes-here`"
-              >
-                <factor-icon icon="fab fa-facebook" />Facebook
-              </factor-link>
-            </div>
-          </div>
-
-          <div class="meta-card">
-            <h3 class="title">Version History</h3>
-            <div class="meta-content versions">
-              <div class="version">
-                <p class="version-title">Version 1.4.0 on February 24, 2020</p>
-                <ul class="dashes">
-                  <li>Added customization</li>
-                  <li>Post type cached</li>
-                </ul>
+            <div class="meta-card">
+              <h3 class="title">Repo Link</h3>
+              <div class="meta-content">
+                <factor-icon icon="fab fa-github" />
+                <factor-link
+                  :path="`https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha`"
+                  :target="`_blank`"
+                >
+                  <span>https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha</span>
+                </factor-link>
               </div>
+            </div>
 
-              <div class="version">
-                <p class="version-title">Version 1.3.12 on February 22, 2020</p>
-                <ul class="dashes">
-                  <li>Notify was added</li>
-                  <li>Route auth</li>
-                </ul>
+            <div class="meta-card">
+              <h3 class="title">Tags</h3>
+              <div class="meta-content tags">
+                <factor-link btn="default" size="small" :path="`#`">Support</factor-link>
+                <factor-link btn="default" size="small" :path="`#`">Discussion</factor-link>
+                <factor-link btn="default" size="small" :path="`#`">Forum</factor-link>
+                <factor-link btn="default" size="small" :path="`#`">Community</factor-link>
+              </div>
+            </div>
+
+            <div class="meta-card">
+              <h3 class="title">Share</h3>
+              <div class="meta-content share">
+                <factor-link :path="`#`">
+                  <factor-icon icon="fas fa-link" />Copy Link
+                </factor-link>
+                <factor-link
+                  :path="`https://twitter.com/intent/tweet?text=post-title-goes-here+post-link-goes-here`"
+                >
+                  <factor-icon icon="fab fa-twitter" />Twitter
+                </factor-link>
+                <factor-link
+                  :path="`https://www.facebook.com/sharer/sharer.php?u=post-link-goes-here`"
+                >
+                  <factor-icon icon="fab fa-facebook" />Facebook
+                </factor-link>
+              </div>
+            </div>
+
+            <div class="meta-card">
+              <h3 class="title">Version History</h3>
+              <div class="meta-content versions">
+                <div class="version">
+                  <p class="version-title">Version 1.4.0 on February 24, 2020</p>
+                  <ul class="dashes">
+                    <li>Added customization</li>
+                    <li>Post type cached</li>
+                  </ul>
+                </div>
+
+                <div class="version">
+                  <p class="version-title">Version 1.3.12 on February 22, 2020</p>
+                  <ul class="dashes">
+                    <li>Notify was added</li>
+                    <li>Route auth</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- </div> -->
+      </section>
+    </div>
 
     <widget-cta />
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorIcon } from "@factor/ui" //factorLoadingRing,
+import { factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
 import { setting } from "@factor/api"
 import Vue from "vue"
@@ -129,7 +143,7 @@ import { getSingleCache, requestExtensionSingle, requestExtensionIndex } from ".
 
 export default Vue.extend({
   components: {
-    //factorLoadingRing,
+    factorLoadingRing,
     factorLink,
     factorIcon,
     "theme-entry": () => import("../el/entry.vue"),
@@ -275,6 +289,34 @@ export default Vue.extend({
       @media (max-width: 900px) {
         max-width: 70%;
         margin-right: 1rem;
+      }
+    }
+  }
+
+  .theme-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+    padding: 3rem 0;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      grid-gap: 1rem;
+      font-size: 1.2rem;
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
+      img {
+        max-width: 60px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07), 0 2px 3px rgba(50, 50, 93, 0.13),
+          0 2px 5px rgba(50, 50, 93, 0.11);
       }
     }
   }
