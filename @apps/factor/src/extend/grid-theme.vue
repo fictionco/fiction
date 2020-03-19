@@ -1,16 +1,18 @@
 <template>
-  <factor-link path="#" class="grid-item-theme">
-    <div class="entry-images">
-      <img src="./img/screenshot-alpha.jpg" alt="Factor Alpha" class="screenshot" />
-      <img src="./img/logo-alpha.svg" alt="Factor Alpha Logo" class="logo" />
-    </div>
-    <div class="entry-content">
-      <h3 class="title">Theme Alpha</h3>
-      <div class="meta">
-        <div class="author">by Factor Inc.</div>
+  <div class="theme-grid">
+    <factor-link v-for="(item, index) in 10" :key="index" path="#" class="grid-item-theme">
+      <div class="entry-images">
+        <img src="./img/screenshot-alpha.jpg" alt="Factor Alpha" class="screenshot" />
+        <img src="./img/logo-alpha.svg" alt="Factor Alpha Logo" class="logo" />
       </div>
-    </div>
-  </factor-link>
+      <div class="entry-content">
+        <h3 class="title">Theme Alpha</h3>
+        <div class="meta">
+          <div class="author">by Factor Inc.</div>
+        </div>
+      </div>
+    </factor-link>
+  </div>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
@@ -20,7 +22,8 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
+    extensions: { type: Array, default: () => {} }
   },
   computed: {
     post(this: any) {
@@ -32,6 +35,19 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
+.theme-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 3rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
 .grid-item-theme {
   display: block;
   transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);

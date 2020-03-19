@@ -1,19 +1,20 @@
 <template>
-  <factor-link path="#" class="grid-item-plugin">
-    <div class="entry-image">
-      <img src="./img/screenshot.jpg" alt="Factor Forum" />
-      <img src="./img/icon-forum.svg" alt="Factor Forum Icon" class="icon" />
-    </div>
-    <div class="entry-content">
-      <div class="meta">
-        <div class="category">Discussion</div>
+  <div class="plugin-grid">
+    <factor-link v-for="(item, index) in 10" :key="index" path="#" class="grid-item-plugin">
+      <div class="entry-content">
+        <div class="media">
+          <img src="./img/icon-forum.svg" alt="Factor Forum Icon" class="extend-icon" />
+        </div>
+        <div class="meta">
+          <div class="category">Discussion</div>
+        </div>
+        <h3 class="title">Plugin Forum</h3>
+        <p
+          class="description"
+        >Factor forum is a powerful forum solution for your factor app with essential elements to run an efficient community.</p>
       </div>
-      <h3 class="title">Plugin Forum</h3>
-      <p
-        class="description"
-      >Factor forum is a powerful forum solution for your factor app with essential elements to run an efficient community.</p>
-    </div>
-  </factor-link>
+    </factor-link>
+  </div>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
@@ -23,7 +24,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" }
+    extensions: { type: Array, default: () => {} }
   },
   computed: {
     post(this: any) {
@@ -35,6 +36,19 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
+.plugin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
 .grid-item-plugin {
   display: block;
   overflow: hidden;
@@ -48,22 +62,23 @@ export default Vue.extend({
       0px 2px 5px rgba(50, 50, 93, 0.11);
   }
 
-  .entry-image {
+  .media {
     position: relative;
     max-width: 100%;
+    margin-bottom: 0.75rem;
     img {
       max-width: 100%;
     }
-    .icon {
-      position: absolute;
-      width: 90px;
-      right: 1rem;
-      bottom: -1rem;
+    .extend-icon {
+      width: 80px;
+      // position: absolute;
+      // right: 1rem;
+      // bottom: -1rem;
       background: #fff;
-      border: 3px solid #fff;
+      //border: 3px solid #fff;
       border-radius: 50%;
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.07), 0px 2px 3px rgba(50, 50, 93, 0.13),
-        0px 2px 5px rgba(50, 50, 93, 0.11);
+      // box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.07), 0px 2px 3px rgba(50, 50, 93, 0.13),
+      //   0px 2px 5px rgba(50, 50, 93, 0.11);
     }
   }
 

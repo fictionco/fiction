@@ -18,10 +18,7 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">
-                Released
-                {{ standardDate(item.time.created) }}
-              </div>
+              <div v-if="item.time.created" class="released">{{ standardDate(item.time.created) }}</div>
             </div>
           </div>
         </factor-link>
@@ -29,7 +26,7 @@
 
       <section class="plugins-updated">
         <header class="section-header">
-          <h1 class="title">Recently Updated</h1>
+          <h1 class="title">Updated</h1>
         </header>
         <factor-link
           v-for="(item, i) in pluginsRecentlyUpdated"
@@ -43,10 +40,7 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">
-                Updated
-                {{ standardDate(item.time.modified) }}
-              </div>
+              <div v-if="item.time.created" class="released">{{ standardDate(item.time.modified) }}</div>
             </div>
           </div>
         </factor-link>
@@ -102,11 +96,12 @@ export default Vue.extend({
 
   .section-header {
     .title {
-      font-size: 1.6em;
-      font-weight: 500;
+      font-size: 1em;
+      text-transform: uppercase;
+      font-weight: 700;
       line-height: 1.1;
-      letter-spacing: -0.02em;
-
+      letter-spacing: 0.5px;
+      opacity: 0.5;
       @media (max-width: 900px) {
         font-size: 1.7em;
         line-height: 1.2;
@@ -162,7 +157,7 @@ export default Vue.extend({
       .entry-content {
         .title {
           font-size: 1rem;
-          font-weight: 500;
+          font-weight: 700;
           margin-bottom: 5px;
           text-transform: capitalize;
         }
