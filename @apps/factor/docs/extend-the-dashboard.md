@@ -52,7 +52,7 @@ It's easy to extend the post editing interface of a post type. A common use case
 To add a new panels, all that is needed is to use `addPostEditComponent`:
 
 ```js
-import { addPostEditComponent } from "@factor/api"
+import { addPostEditComponent } from "@factor/post"
 addPostEditComponent({
   name: "My Plugin Settings",
   component: () => import("./plugin-panel.vue"),
@@ -73,6 +73,7 @@ addPostEditComponent({
 </template>
 <script>
   import { dashboardInput } from "@factor/dashboard"
+  import { stored } from "@factor/api"
   export default {
     components: {
       dashboardInput
