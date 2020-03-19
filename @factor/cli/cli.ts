@@ -6,6 +6,7 @@ import commander from "commander"
 import log from "@factor/api/logger"
 import execa from "execa"
 import { createServer } from "@factor/server"
+import { showInstallRoutine } from "@factor/loader"
 import { serverInfo, getCliExecutor } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
@@ -68,7 +69,19 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   await serverInfo({ NODE_ENV, command })
 
-  //await showInstallRoutine()
+  /**
+   * Show installation and setup routine
+   */
+  if (command == "dev") {
+    await showInstallRoutine()
+  }
+
+  /**
+   * Open node inspector port if 'inspect' flag is set
+   */
+  if (command && inspect) {
+    await initializeNodeInspector()
+  }
 
   const bar = new LoadingBar()
 
@@ -85,13 +98,6 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 
     await bar.update({ percent: 55, msg: "create files" })
     generateLoaders(setup)
-  }
-
-  /**
-   * Open node inspector port if 'inspect' flag is set
-   */
-  if (command && inspect) {
-    await initializeNodeInspector()
   }
 
   /**
@@ -143,13 +149,13 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
 const cleanArguments = (commanderArguments: CommanderArguments): Record<string, any> => {
   const out: { [index: string]: any } = {}
 
-  const { parent = {}, ...rest } = commanderArguments
+  const { parent = {}, program = {}, ...rest } = commanderArguments
 
-  const flat = { ...parent, ...rest }
+  const flat = { ...program, ...parent, ...rest }
 
   // Remove all keys starting with Capital letters or underscore
   Object.keys(flat).forEach(k => {
-    if (!k.startsWith("_") && !/[A-Z]/.test(k[0])) {
+    if (!k.startsWith("_")) {
       out[k] = flat[k]
     }
   })

@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-sitemap",
   "description": "This plugin generates a sitemap by crawling your Factor app.",
-  "version": "1.4.6",
+  "version": "1.4.11",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
