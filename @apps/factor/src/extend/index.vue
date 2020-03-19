@@ -27,23 +27,14 @@
     </div>
 
     <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
-      {{ getData }}
-      <div class="plugins-grid">
-        <grid-item-plugin />
-        <grid-item-plugin />
-        <grid-item-plugin />
-      </div>
+      <plugin-grid />
       <div>
         <widget-sidebar :index-data="extensionIndex" />
       </div>
     </div>
 
     <div v-else class="extensions-wrap themes-wrap content-pad">
-      <div class="themes-grid">
-        <grid-item-theme />
-        <grid-item-theme />
-        <grid-item-theme />
-      </div>
+      <theme-grid />
     </div>
 
     <widget-cta />
@@ -66,8 +57,8 @@ export default Vue.extend({
   components: {
     "widget-sidebar": () => import("./sidebar.vue"),
     "widget-cta": () => import("./el/cta.vue"),
-    "grid-item-plugin": () => import("./grid-item-plugin.vue"),
-    "grid-item-theme": () => import("./grid-item-theme.vue"),
+    pluginGrid: () => import("./grid-plugin.vue"),
+    themeGrid: () => import("./grid-theme.vue"),
     factorLoadingRing,
     factorLink
   },
@@ -126,16 +117,16 @@ export default Vue.extend({
   overflow: hidden;
   .extend-index-head {
     padding: 6em 0;
-    text-align: center;
+
     .title {
-      font-size: 2.5em;
+      font-size: 3em;
       line-height: 1.1;
       font-weight: var(--font-weight-bold, 700);
       letter-spacing: -0.03em;
       text-transform: capitalize;
     }
     .sub-title {
-      font-size: 1.6em;
+      font-size: 1.8em;
       opacity: 0.7;
     }
   }
@@ -144,7 +135,7 @@ export default Vue.extend({
     min-height: 400px;
   }
   .content-pad {
-    max-width: 1100px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 1.5em;
     width: 100%;
@@ -197,35 +188,11 @@ export default Vue.extend({
     &.plugins-wrap {
       display: grid;
       grid-gap: 4rem;
-      grid-template-columns: 7fr 3fr;
+      grid-template-columns: 1fr 150px;
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
         grid-gap: 2rem;
-      }
-    }
-
-    .section-header {
-      .title {
-        font-size: 1.4em;
-        font-weight: var(--font-weight-bold, 700);
-        letter-spacing: -0.02em;
-
-        @media (max-width: 900px) {
-          font-size: 1.7em;
-          line-height: 1.2;
-        }
-      }
-    }
-
-    .plugins-grid,
-    .themes-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-gap: 3rem;
-
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
       }
     }
   }
