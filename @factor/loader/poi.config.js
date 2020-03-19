@@ -9,6 +9,7 @@ const config = {
       title: "Factor: Loading..."
     }
   },
+  configureWebpack: {},
   plugins: [
     // {
     //   resolve: "@poi/plugin-typescript",

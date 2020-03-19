@@ -22,7 +22,7 @@
   "license": "GPL-2.0",
   "scripts": {
     "loader:dev": "yarn workspace @factor/loader poi --serve --debug",
-    "loader:build": "yarn workspace @factor/loader poi --prod",
+    "loader:build": "yarn workspace @factor/loader poi --prod --watch",
     "packages:upgrade": "yarn install && yarn upgrade && yarn audit && yarn outdated",
     "version:patch": "yarn lerna version patch --yes",
     "apps:version": "yarn workspace @apps/fiction version --patch --no-git-tag-version && yarn workspace @apps/factor version --patch --no-git-tag-version",

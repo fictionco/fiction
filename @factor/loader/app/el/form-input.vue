@@ -1,20 +1,21 @@
 <template>
   <div class="input-item">
     <transition appear>
-      <label v-if="input.label || input.placeholder">{{ input.label }}</label>
+      <label v-if="input.label">{{ input.label }}</label>
     </transition>
 
     <input
       v-bind="$attrs"
       :value="value"
       :type="input.type"
-      :placeholder="input.placeholder || input.label"
+      :placeholder="getValue(input.setting) || input.placeholder || input.label"
       v-on="listeners"
     />
   </div>
 </template>
 <script>
 import Vue from "vue"
+import { dotSetting } from "@factor/api/utils"
 export default Vue.extend({
   props: {
     input: { type: Object, default: () => {} },
@@ -26,6 +27,16 @@ export default Vue.extend({
         ...this.$listeners,
         input: event => this.$emit("input", event.target.value)
       }
+    },
+    settings() {
+      return window.$STATE.settings || {}
+    }
+  },
+  methods: {
+    getValue(key) {
+      if (!key) return
+
+      return dotSetting({ key, settings: this.settings })
     }
   }
 })

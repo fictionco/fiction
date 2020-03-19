@@ -29,7 +29,7 @@ const settingsId = (cwd?: string): string => {
  * - We use the global Vue instance since this doesn't get wiped during server restart
  * @param cwd - working directory
  */
-const getSettings = (cwd?: string): SettingsObject => {
+export const getSettings = (cwd?: string): SettingsObject => {
   if (!Vue.$factorSettings) Vue.$factorSettings = {}
 
   return Vue.$factorSettings[settingsId(cwd)]

@@ -45,6 +45,7 @@
 
 <script>
 import fetch from "unfetch"
+
 import capitalizeMixin from "./mixins/capitalize"
 import logMixin from "./mixins/log"
 import sseMixin from "./mixins/sse"
@@ -155,6 +156,10 @@ export default {
     onData(data) {
       if (!data || this._reloading) {
         return
+      }
+
+      if (data.settings) {
+        window.$STATE.settings = data.settings
       }
 
       if (data.redirect && !this.$route.path.includes(data.redirect)) {

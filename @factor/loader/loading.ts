@@ -7,6 +7,9 @@ import { localhostUrl } from "@factor/api/url"
 import { BuildTypes } from "@factor/cli/types"
 import { parse } from "qs"
 import { emitEvent } from "@factor/api/events"
+import { deepMerge } from "@factor/api"
+import { getSettings } from "@factor/api/settings"
+import { configSettings } from "@factor/api/config"
 import { parseStack } from "./utils/error"
 import { SSE } from "./sse"
 const distPath = resolve(__dirname, "app-dist")
@@ -25,6 +28,7 @@ interface State {
   lastBroadCast?: number;
   error?: { description: string; stack: string };
   redirect?: string;
+  settings?: Record<string, any>;
 }
 
 let loaderState: State = {}
@@ -96,9 +100,16 @@ export const clearError = (): void => {
   loaderState.hasErrors = false
 }
 
+/**
+ * IMPORTANT This should never load in production mode
+ * It makes private settings available at an endpoint, used for setup
+ */
 export const setShowInstall = (): void => {
-  loaderState.redirect = "/setup"
-  sse.broadcast("state", loaderState)
+  if (process.env.NODE_ENV == "development") {
+    loaderState.redirect = "/setup"
+    loaderState.settings = deepMerge([process.env, configSettings(), getSettings()])
+    sse.broadcast("state", loaderState)
+  }
 }
 
 export const setLoadingStates = (

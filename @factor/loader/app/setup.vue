@@ -234,6 +234,7 @@
 </template>
 <script >
 import Vue from "vue"
+
 import gravatar from "gravatar"
 import capitalizeMixin from "./mixins/capitalize"
 import logMixin from "./mixins/log"
@@ -274,21 +275,24 @@ export default Vue.extend({
             type: "text",
             label: "App Name",
             placeholder: "Example App",
-            _id: "appName"
+            _id: "appName",
+            setting: "app.name"
           },
           {
             type: "url",
             label: "URL in Production",
             placeholder: "https://www.example.com",
             description: "Needed for transactional email",
-            _id: "appUrl"
+            _id: "appUrl",
+            setting: "app.url"
           },
           {
             type: "email",
             label: `App Email Address`,
             placeholder: "team@example.com",
             description: "Needed for transactional email",
-            _id: "appEmail"
+            _id: "appEmail",
+            setting: "app.email"
           }
         ],
         account: [
@@ -347,12 +351,12 @@ export default Vue.extend({
             return this.step > this.getStepIndex("theme") ? true : false
           }
         },
-        {
-          _id: "db",
-          complete: () => {
-            return this.step > this.getStepIndex("db") ? true : false
-          }
-        },
+        // {
+        //   _id: "db",
+        //   complete: () => {
+        //     return this.step > this.getStepIndex("db") ? true : false
+        //   }
+        // },
         {
           _id: "done",
           complete: () => {
@@ -372,6 +376,10 @@ export default Vue.extend({
     },
     appAvatar() {
       return gravatar.url(this.form.appEmail, { s: "200", d: "identicon" }) || ""
+    },
+    settings() {
+      console.log("window.$STATE.settings", window.$STATE.settings)
+      return {}
     }
   },
   methods: {
