@@ -7,7 +7,7 @@ import { getPath } from "@factor/api/paths"
  * @param cwd - The directory of the application to get config from
  * @returns The deep merged configuration
  */
-export const configSettings = (cwd?: string): object => {
+export const configSettings = (cwd?: string): Record<string, any> => {
   const workingDirectory = cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
 
   const configFile = getPath(`config-file-public`, workingDirectory)

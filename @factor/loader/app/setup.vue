@@ -132,7 +132,7 @@
                       <span
                         class="skip-step"
                         @click="form.theme = ''; skip.theme = true;nextStep()"
-                      >don't use a theme</span>
+                      >don't add a theme</span>
                     </div>
                   </div>
                 </form>
@@ -378,7 +378,6 @@ export default Vue.extend({
       return gravatar.url(this.form.appEmail, { s: "200", d: "identicon" }) || ""
     },
     settings() {
-      console.log("window.$STATE.settings", window.$STATE.settings)
       return {}
     }
   },
@@ -400,7 +399,7 @@ export default Vue.extend({
       this.$set(this.form, "theme", theme)
     },
     sendData() {
-      sendEvent({ installed: true, data: this.form })
+      sendEvent({ installed: true, form: this.form })
 
       this.$router.push({ path: "/" })
     },

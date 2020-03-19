@@ -198,6 +198,13 @@ export const stopWordLowercase = (str: string, lib: string[] = []): string => {
   return str.replace(regex, match => match.toLowerCase())
 }
 
+export const camelToUpperSnake = (string: string): string => {
+  return string
+    .replace(/\w([A-Z])/g, function(m) {
+      return m[0] + "_" + m[1]
+    })
+    .toUpperCase()
+}
 /**
  * Convert camel-case to kebab-case
  * @param string - string to manipulate
@@ -236,6 +243,31 @@ export const slugify = (text?: string): string | undefined => {
     .replace(/--+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text
     .replace(/-+$/, "") // Trim - from end of text
+}
+
+/**
+ * Converts a nested object to a normalized env friendly config
+ */
+type SettingObject = Record<string, object | string | string[]>
+export const envKeys = (
+  settingsObject: SettingObject,
+  prefix = "FACTOR"
+): Record<string, string> => {
+  let out: Record<string, string> = {}
+
+  Object.keys(settingsObject).forEach(key => {
+    const val = settingsObject[key]
+    const envKey = [prefix, camelToUpperSnake(key)].join("_")
+    if (Array.isArray(val)) {
+      out[envKey] = val.filter(_ => typeof _ == "string").join(",")
+    } else if (val && typeof val == "object" && val != null) {
+      const keys = envKeys(val as SettingObject, envKey)
+      out = { ...out, ...keys }
+    } else {
+      out[envKey] = val
+    }
+  })
+  return out
 }
 
 export const findListItem = (value: string, list: ListItem[]): ListItem => {

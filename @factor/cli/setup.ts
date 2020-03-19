@@ -204,11 +204,18 @@ export const prettyJson = (data: object): string => {
  * @param file - private or public config
  * @param values - object map of values
  */
-const writeFiles = (file: "public" | "private", values: object): void => {
-  const { publicConfig, privateConfig, packageJson } = existingSettings()
-
-  if (file == "public") {
-    packageJson.factor = deepMerge([publicConfig, values])
+export const writeFiles = (
+  file: "public" | "private" | "package",
+  values: object
+): void => {
+  const { publicConfig, privateConfig } = existingSettings()
+  let { packageJson } = existingSettings()
+  if (file == "public" || file == "package") {
+    if (file == "public") {
+      packageJson.factor = deepMerge([publicConfig, values])
+    } else {
+      packageJson = deepMerge([packageJson, values]) as FactorPackageJson
+    }
 
     fs.writeFileSync(configFile, JSON.stringify(packageJson, null, "  "))
   }

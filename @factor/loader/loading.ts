@@ -107,7 +107,7 @@ export const clearError = (): void => {
 export const setShowInstall = (): void => {
   if (process.env.NODE_ENV == "development") {
     loaderState.redirect = "/setup"
-    loaderState.settings = deepMerge([process.env, configSettings(), getSettings()])
+    loaderState.settings = deepMerge([configSettings(), getSettings()])
     sse.broadcast("state", loaderState)
   }
 }
