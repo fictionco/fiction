@@ -18,7 +18,7 @@
     </div>-->
     <div v-if="true" class="coming-soon">
       <div class="title">Coming Soon 👋</div>
-      <div class="sub-title">These extensions will launch May, 2020</div>
+      <div class="sub-title">Extensions arrive April, 2020</div>
 
       <div class="actions">
         <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
