@@ -13,12 +13,12 @@
       </div>
     </div>
 
-    <div v-if="loading" class="posts-loading">
+    <!-- <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
-    </div>
-    <div v-else-if="!loading && !isLoggedIn" class="coming-soon">
+    </div>-->
+    <div v-if="true" class="coming-soon">
       <div class="title">Coming Soon 👋</div>
-      <div class="sub-title">Themes will launch April 21, 2020</div>
+      <div class="sub-title">These extensions will launch May, 2020</div>
 
       <div class="actions">
         <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
