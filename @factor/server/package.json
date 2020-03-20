@@ -1,6 +1,6 @@
 {
   "name": "@factor/server",
-  "version": "1.4.10",
+  "version": "1.5.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
