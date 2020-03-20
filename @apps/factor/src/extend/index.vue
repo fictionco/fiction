@@ -16,15 +16,6 @@
     <div v-if="loading" class="posts-loading">
       <factor-loading-ring />
     </div>
-    <div v-else-if="!loading && !isLoggedIn" class="coming-soon">
-      <div class="title">Coming Soon 👋</div>
-      <div class="sub-title">Themes will launch April 21, 2020</div>
-
-      <div class="actions">
-        <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
-        <span class="cta-tag">for early access.</span>
-      </div>
-    </div>
 
     <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
       <plugin-grid />

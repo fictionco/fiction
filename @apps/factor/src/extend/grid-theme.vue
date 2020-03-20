@@ -1,6 +1,11 @@
 <template>
   <div class="theme-grid">
-    <factor-link v-for="(item, index) in 10" :key="index" path="#" class="grid-item-theme">
+    <factor-link
+      v-for="(item, index) in 10"
+      :key="index"
+      :path="`/theme/test`"
+      class="grid-item-theme"
+    >
       <div class="theme-wrap" :style="backgroundImageStyle(index)">
         <div class="overlay" />
         <div class="entry-content">
@@ -10,7 +15,7 @@
               <div class="author">by Factor Inc.</div>
             </div>
             <div class="action">
-              <factor-link btn="primary">Overview</factor-link>
+              <factor-link btn="primary" :path="`/theme/test`">Overview</factor-link>
               <factor-link btn="default">Demo</factor-link>
             </div>
           </div>
@@ -71,10 +76,8 @@ export default Vue.extend({
   }
 }
 .grid-item-theme {
-  --panel-shadow: 0 0 0 1px rgba(0, 43, 93, 0.1), 0 0 1px rgba(58, 55, 148, 0.25),
-    0 6px 14px 0 rgba(24, 32, 41, 0.06), 0 12px 34px 0 rgba(24, 32, 41, 0.04);
   display: block;
-  transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+  transition: 0.29s var(--panel-movement);
 
   .theme-wrap {
     background-position: 50% 0%;

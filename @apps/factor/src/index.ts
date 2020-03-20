@@ -46,7 +46,7 @@ addContentRoutes({
           },
           {
             path: `/theme/:slug`,
-            component: (): Promise<Component> => import("./extend/theme-single.vue")
+            component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]
       },
@@ -60,7 +60,7 @@ addContentRoutes({
           },
           {
             path: `/plugin/:slug`,
-            component: (): Promise<Component> => import("./extend/plugin-single.vue")
+            component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]
       }
