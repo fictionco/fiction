@@ -77,21 +77,25 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     }
   }
 
+  log.diagnostic({ event: "factorInstall", action: "factorSetup", label: email })
+
   addCallback({
     key: "addAdmin",
     hook: "db-initialized",
     callback: async (): Promise<void> => {
-      let user
-      try {
-        user = await createNewAdminUser({ displayName, email, password })
-      } catch (error) {
-        addNotice(
-          `Couldn't create a user for: ${email}. Likely the email already exists in the DB.`
-        )
-      }
+      if (email && password) {
+        let user
+        try {
+          user = await createNewAdminUser({ displayName, email, password })
+        } catch (error) {
+          addNotice(
+            `Couldn't create a user for: ${email}. Likely the email already exists in the DB.`
+          )
+        }
 
-      if (user) {
-        addNotice(`New admin created for: ${user.email}`)
+        if (user) {
+          addNotice(`New admin created for: ${user.email}`)
+        }
       }
     }
   })
