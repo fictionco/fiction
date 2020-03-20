@@ -96,7 +96,7 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing, factorLink } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { userInitialized, isLoggedIn } from "@factor/user"
 import {
   titleFromPackage,
@@ -110,7 +110,6 @@ export default Vue.extend({
   components: {
     "widget-sidebar": () => import("./sidebar.vue"),
     "widget-cta": () => import("./el/cta.vue"),
-    factorLoadingRing,
     factorLink
   },
   data() {
