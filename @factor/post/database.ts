@@ -123,6 +123,8 @@ export const setModel = (
   // Callback for hooks, etc.
   if (callback) callback(loadSchema)
 
+  runCallbacks(`schema-hooks-${name}`, loadSchema)
+
   const loadModel = !baseModel
     ? model(name, loadSchema)
     : baseModel.discriminator(name, loadSchema)
