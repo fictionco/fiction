@@ -217,6 +217,7 @@ export default {
    * Copy for the about page template.
    */
   about: {
+    component: (): Promise<Component> => import("./v-about.vue"),
     pretitle: "About",
     title: "Designer and Illustrator based in San Francisco.",
     content:
@@ -432,6 +433,7 @@ export default {
    * Copy for the contact page template.
    */
   contact: {
+    component: (): Promise<Component> => import("./v-contact.vue"),
     pretitle: "Contact",
     title: "Let's Talk!",
     content:

@@ -39,12 +39,12 @@ export const setup = (): void => {
     routes: [
       {
         path: "/",
-        component: (): Promise<Component> => import("./home/v-home.vue"),
+        component: setting("home.component"),
         meta: { nav: true }
       },
       {
         path: "/about",
-        component: (): Promise<Component> => import("./v-about.vue"),
+        component: setting("about.component"),
         meta: { nav: true }
       },
       {
@@ -63,7 +63,7 @@ export const setup = (): void => {
       },
       {
         path: "/contact",
-        component: (): Promise<Component> => import("./v-contact.vue"),
+        component: setting("contact.component"),
         meta: { nav: true }
       }
     ]
