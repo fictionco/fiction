@@ -220,7 +220,7 @@
                   class="sub-title"
                 >You can now customize your app and modify other settings on your dashboard.</div>
               </div>
-              <div class="actions add-space">
+              <div class="actions top-margin">
                 <div class="btn primary" @click="sendData()">Save Config &amp; Build App &rarr;</div>
               </div>
             </div>
@@ -659,7 +659,7 @@ export default Vue.extend({
 
   .actions {
     text-align: center;
-    &.add-space {
+    &.top-margin {
       margin-top: 2rem;
     }
     .back-step,

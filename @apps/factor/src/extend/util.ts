@@ -1,7 +1,11 @@
 import { toLabel } from "@factor/api"
 import { FactorPackageJson } from "@factor/cli/types"
-export const endpointId = "pluginData"
+
 import { FactorExtensionListing } from "../types"
+
+export const endpointId = "pluginData"
+
+export const postType = "extension"
 
 export const titleFromPackage = ({
   pkg,

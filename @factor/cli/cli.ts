@@ -4,6 +4,7 @@ import { generateLoaders } from "@factor/cli/extension-loader"
 import * as tools from "@factor/api"
 import commander from "commander"
 import log from "@factor/api/logger"
+import { emitEvent } from "@factor/api/events"
 import execa from "execa"
 import { createServer } from "@factor/server"
 import { showInstallRoutine } from "@factor/loader"
@@ -83,34 +84,43 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     await initializeNodeInspector()
   }
 
-  const bar = new LoadingBar()
+  try {
+    const bar = new LoadingBar()
 
-  await bar.update({ percent: 12, msg: "setting up" })
+    await bar.update({ percent: 12, msg: "setting up" })
 
-  /**
-   * Make sure all package dependencies are installed and updated
-   */
-  if (install && !skipVerifyDeps) {
-    await bar.update({ percent: 25, msg: `checking dependencies with ${getCliExecutor()}` })
+    /**
+     * Make sure all package dependencies are installed and updated
+     */
+    if (install && !skipVerifyDeps) {
+      await bar.update({
+        percent: 25,
+        msg: `checking dependencies with ${getCliExecutor()}`
+      })
 
-    const verifyDepProcess = execa(getCliExecutor(), ["install"])
-    await verifyDepProcess
+      const verifyDepProcess = execa(getCliExecutor(), ["install"])
+      await verifyDepProcess
 
-    await bar.update({ percent: 55, msg: "create files" })
-    generateLoaders(setup)
+      await bar.update({ percent: 55, msg: "generating files" })
+      generateLoaders(setup)
+    }
+
+    /**
+     * Extend and setup Node server environment
+     */
+
+    await bar.update({ percent: 80, msg: "adding server extensions" })
+
+    await factorize(setup)
+
+    await bar.update({ percent: 99, msg: "loaded" })
+
+    bar.stop()
+  } catch (error) {
+    emitEvent("buildError", error)
+
+    throw error
   }
-
-  /**
-   * Extend and setup Node server environment
-   */
-
-  await bar.update({ percent: 80, msg: "extending server" })
-
-  await factorize(setup)
-
-  await bar.update({ percent: 99, msg: "loaded" })
-
-  bar.stop()
 
   await tools.runCallbacks(`environment-created`, setup)
 

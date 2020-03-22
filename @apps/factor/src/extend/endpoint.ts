@@ -2,30 +2,24 @@ import { deepMerge } from "@factor/api/utils"
 import axios from "axios"
 import cache from "memory-cache"
 import { addEndpoint } from "@factor/api/endpoints"
+import { addMiddleware } from "@factor/server/middleware"
+import { Request, Response } from "express"
+import latestVersion from "latest-version"
+import { addPostSchema } from "@factor/post/util"
+
+import { getModel } from "@factor/post/database"
 import { FactorExtensionListing } from "../types"
 import { extensions, ExtensionRecord } from "../extension-record"
-import { endpointId } from "./util"
-export const latestPackageVersion = async (name: string): Promise<string> => {
-  const { data } = await axios.get(`https://data.jsdelivr.com/v1/package/npm/${name}`)
-
-  if (data) {
-    const {
-      tags: { latest }
-    } = data
-
-    return latest
-  } else return ""
-}
-
+import extensionSchema from "./schema"
+import { endpointId, postType } from "./util"
 export const getSingle = async (params: {
   name: string;
 }): Promise<FactorExtensionListing> => {
   const { name } = params
-  const cached = cache.get(name)
-  if (cached) return cached
+  // const cached = cache.get(name)
+  // if (cached) return cached
 
-  const latest = await latestPackageVersion(name)
-
+  const latest = await latestVersion(name)
   const requests = [
     {
       _id: "npmData",
@@ -64,19 +58,43 @@ export const getSingle = async (params: {
 
   delete item.versions
 
-  const FOUR_HOUR = 1000 * 60 * 60 * 4
-  cache.put(name, item, FOUR_HOUR)
+  const TWO_DAY = 1000 * 60 * 60 * 48
+  cache.put(name, item, TWO_DAY)
+
+  console.log("ITEM", item)
+  // const Model = getModel(postType)
+
+  // let post = await Model.findOne({ permalink: name })
+
+  // if (!post) {
+  //   post = new Model({ permalink: name })
+  // }
 
   return item
 }
 
-export const getIndex = async ({
-  type = "plugins"
-}): Promise<FactorExtensionListing[]> => {
-  const extensionRecord: ExtensionRecord = extensions()
-  const list = extensionRecord[type]
+export const saveIndex = async (): Promise<FactorExtensionListing[]> => {
+  const list = extensions
 
   return await Promise.all(list.map(async extension => getSingle(extension)))
 }
 
 addEndpoint({ id: endpointId, handler: { getIndex, getSingle } })
+addPostSchema(() => extensionSchema)
+
+addMiddleware({
+  key: "attachment",
+  path: "_extensions",
+  middleware: [
+    async (request: Request, response: Response): Promise<void> => {
+      const { query, body } = request
+
+      const data = { ...body, ...query }
+
+      saveIndex()
+
+      response.send("cool").end()
+      return
+    }
+  ]
+})

@@ -26,7 +26,7 @@
                       btn="primary"
                       :path="`https://themes.factor.dev/alpha`"
                       :target="`_blank`"
-                    >Add to Project &rarr;</factor-link>
+                    >Add to Project &darr;</factor-link>
                     <factor-link
                       btn="default"
                       :path="`https://themes.factor.dev/alpha`"
@@ -48,13 +48,33 @@
       </section>
       <section class="information">
         <div class="content-area medium">
+          <div class="install-extension">
+            <div class="title-header">
+              <div class="title">To Install</div>
+              <div class="sub-title">Add this package to your Factor enabled project:</div>
+            </div>
+            <div class="move-to-project">
+              <div class="install-code">
+                <span class="cmd">npm add</span>
+                <span class="pkg">@factor/theme-alpha</span>
+                <div class="copy">click to copy</div>
+              </div>
+              <div class="arrow">&rarr;</div>
+              <div class="project">Your Project</div>
+            </div>
+          </div>
+          <div class="long-form">.</div>
           <div class="info-grid">
             <div v-for="(block, i) in info" :key="i" class="info-block">
               <div class="block-title">
                 <div class="title">{{ block.name }}</div>
                 <div class="description">{{ block.description }}</div>
               </div>
-              <div class="block-content">
+              <div v-if="block.name == 'Readme'" class="block-readme">
+                <text-entry class="entry" :text="getContent(item.readme)" />
+                <div class="sidebar">...</div>
+              </div>
+              <div v-else class="block-features">
                 <div v-for="(info, ind) in 4" :key="ind" class="info-area">
                   <div class="info-title">Some title</div>
                   <div
@@ -83,31 +103,24 @@ export default Vue.extend({
   components: {
     factorLoadingRing,
     factorLink,
-    callToAction: () => import("./el/cta.vue")
+    callToAction: () => import("./el/cta.vue"),
+    textEntry: () => import("../el/entry.vue")
   },
   data() {
     return {
       getData: "",
       loading: true,
       info: [
-        {
-          name: "Features",
-          description: "Why you'll love this",
-          grid: [{ name: "Portfolio", description: "Some text goes here" }]
-        },
-        { name: "Install", description: "How to use this in your project" },
-        { name: "Answers", description: "FAQs" },
-        { name: "Readme", description: "How to customize it" },
-        { name: "Meta", description: "Additional info" }
+        // {
+        //   name: "Features",
+        //   description: "Why you'll love this",
+        //   grid: [{ name: "Portfolio", description: "Some text goes here" }]
+        // },
+        { name: "Readme", description: "How to customize it" }
       ]
     }
   },
-  async serverPrefetch() {
-    await Promise.all([
-      requestExtensionIndex({ type: "theme" }),
-      requestExtensionSingle(this.packageName)
-    ])
-  },
+  async serverPrefetch() {},
 
   computed: {
     image(this: any) {
@@ -169,6 +182,69 @@ export default Vue.extend({
     }
   }
   .information {
+    .install-extension {
+      text-align: center;
+
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+
+      z-index: 900;
+      position: relative;
+      padding: 4rem;
+      .title-header {
+        margin-bottom: 2rem;
+        line-height: 1.2;
+        .title {
+          font-size: 2em;
+          font-weight: 700;
+        }
+        .sub-title {
+          opacity: 0.5;
+          font-size: 1.2em;
+        }
+      }
+      .move-to-project {
+        display: flex;
+        justify-content: center;
+        .install-code,
+        .project,
+        .arrow {
+          font-size: 1.5em;
+          padding: 1rem 2rem;
+        }
+        .install-code,
+        .project {
+          letter-spacing: -0.03em;
+          border-radius: 10px;
+
+          font-weight: 700;
+          box-shadow: var(--panel-shadow);
+        }
+        .install-code {
+          background: var(--color-primary);
+          color: #fff;
+          position: relative;
+          .copy {
+            position: absolute;
+            color: var(--color-text);
+            opacity: 0.2;
+            font-size: 1rem;
+            text-transform: uppercase;
+            text-align: center;
+            transform: translateY(130%);
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            letter-spacing: 1px;
+          }
+          .cmd {
+            opacity: 0.4;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
     .info-block {
       font-size: 1.2em;
       display: grid;
@@ -177,12 +253,6 @@ export default Vue.extend({
       margin: 4rem 0;
       border-bottom: 1px solid var(--color-border);
       padding-bottom: 4rem;
-      .block-content {
-        display: grid;
-        grid-gap: 2rem;
-        grid-template-columns: 1fr 1fr;
-      }
-
       .block-title {
         text-align: right;
         .title {
@@ -198,11 +268,21 @@ export default Vue.extend({
           opacity: 0.3;
         }
       }
-      .info-title {
-        font-weight: 700;
+      .block-features {
+        display: grid;
+        grid-gap: 2rem;
+        grid-template-columns: 1fr 1fr;
+        .info-title {
+          font-weight: 700;
+        }
+        .info-content {
+          opacity: 0.7;
+        }
       }
-      .info-content {
-        opacity: 0.7;
+      .block-readme {
+        display: grid;
+        grid-gap: 2rem;
+        grid-template-columns: 1fr 200px;
       }
     }
   }

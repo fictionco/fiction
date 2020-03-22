@@ -99,6 +99,7 @@ export default {
     document.title = "Factor Loading"
 
     this.onData(window.$STATE)
+
     this.sseConnect(`${this.baseURL}_loading/sse`)
     this.setTimeout()
   },
@@ -286,7 +287,7 @@ h3 {
 }
 
 .hasErrors {
-  color: #d0021b;
+  color: #ff0076;
 }
 
 .errorStack {

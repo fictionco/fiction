@@ -7,10 +7,10 @@
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
+    "load": {
+      "app": "index",
+      "server": "server"
+    },
     "app": {
       "name": "Factor",
       "url": "https://factor.dev",
@@ -37,6 +37,7 @@
     "@factor/plugin-storage-s3": "^1.0.0",
     "@factor/theme-shared": "^1.0.0",
     "@types/memory-cache": "^0.2.0",
-    "memory-cache": "^0.2.0"
+    "memory-cache": "^0.2.0",
+    "node-cache": "^5.1.0"
   }
 }

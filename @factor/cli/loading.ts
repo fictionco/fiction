@@ -1,7 +1,7 @@
 import cliProgress, { SingleBar } from "cli-progress"
 import chalk from "chalk"
 import { waitFor } from "@factor/api/utils"
-import { emitEvent } from "@factor/api/events"
+import { emitEvent, onEvent } from "@factor/api/events"
 
 /**
  * Create a way to alter CLI output when progress bars are building
@@ -40,6 +40,11 @@ export default class LoadingBar {
     if (build) this.build = build
 
     this.start()
+
+    // If error elsewhere, don't iterate
+    onEvent("buildError", () => {
+      this.clearTimeout()
+    })
   }
 
   start({ start = 0, finish = 100 }: { start?: number; finish?: number } = {}): void {
@@ -100,8 +105,10 @@ export default class LoadingBar {
   setTimeout(): void {
     this.clearTimeout()
     this.addOneTimeout = setTimeout(() => {
-      this.addOne()
-      this.setTimeout()
+      if (this.percent <= 99) {
+        this.addOne()
+        this.setTimeout()
+      }
     }, 2000)
   }
 }
