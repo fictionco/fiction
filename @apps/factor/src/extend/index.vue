@@ -2,101 +2,108 @@
   <div class="extend-container">
     <div class="extend-index-head">
       <div class="content-pad">
-        <template v-if="extensionType == 'plugin'">
-          <h1 class="title">Factor Plugins</h1>
-          <h3 class="sub-title">Add new features to your app in seconds</h3>
-        </template>
-        <template v-else>
-          <h1 class="title">Factor Themes</h1>
-          <h3 class="sub-title">Create beautiful apps in minutes.</h3>
-        </template>
+        <h1 class="title">{{ describe.title }}</h1>
+        <h3 class="sub-title">{{ describe.description }}</h3>
       </div>
     </div>
 
-    <div v-if="loading" class="posts-loading">
-      <factor-loading-ring />
-    </div>
-
-    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
-      <plugin-grid />
-      <div>
-        <widget-sidebar :index-data="extensionIndex" />
-      </div>
+    <div v-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
+      <plugin-grid :extensions="extensions" />
+      <!-- <div>
+        <extension-sidebar :index-data="extensionIndex" />
+      </div>-->
     </div>
 
     <div v-else class="extensions-wrap themes-wrap content-pad">
-      <theme-grid />
+      <theme-grid :extensions="extensions" />
     </div>
 
-    <widget-cta />
+    <call-to-action />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing, factorLink } from "@factor/ui"
-import { userInitialized, isLoggedIn } from "@factor/user"
+import { factorLoadingRing } from "@factor/ui"
+import { isLoggedIn } from "@factor/user"
+import { stored } from "@factor/api"
 import {
+  postType,
   titleFromPackage,
   formatDownloads,
   extensionPermalink,
-  extensionIcon,
+  extensionImage,
   getAuthors
 } from "./util"
-import { requestExtensionIndex, getIndexCache } from "./request"
+
+import { requestIndex } from "./request"
 export default Vue.extend({
   components: {
-    "widget-sidebar": () => import("./sidebar.vue"),
-    "widget-cta": () => import("./el/cta.vue"),
+    extensionSidebar: () => import("./sidebar.vue"),
+    callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
     themeGrid: () => import("./grid-theme.vue"),
-    factorLoadingRing,
-    factorLink
+    factorLoadingRing
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       getData: ""
     }
   },
-  async serverPrefetch() {
-    return await requestExtensionIndex({ type: "plugins" })
+  serverPrefetch() {
+    return this.getPosts()
   },
   computed: {
     isLoggedIn,
+    extensions(this: any) {
+      const index = stored(postType) || {}
+      return index.posts ?? []
+    },
     extensionType(this: any) {
       return this.$route.path.includes("theme") ? "theme" : "plugin"
     },
-    extensionFeatured(this: any) {
-      return this.extensionIndex.filter(_ => _.featured).slice(0, 2)
-    },
-    extensionIndex() {
-      return getIndexCache() || []
+    describe(this: any) {
+      if (this.extensionType == "plugin") {
+        return {
+          title: "Factor Plugins",
+          description: "Add new features to your app in seconds"
+        }
+      } else {
+        return { title: "Factor Themes", description: "Create beautiful apps in minutes" }
+      }
     }
   },
-  async mounted() {
-    const promises: Promise<any>[] = [userInitialized()]
-
-    if (this.extensionIndex.length == 0) {
-      promises.push(requestExtensionIndex({ type: "plugins" }))
+  watch: {
+    $route: {
+      handler: function(this: any) {
+        this.getPosts()
+      }
     }
-
-    await Promise.all(promises)
-
-    this.loading = false
   },
+  created() {
+    console.log("this.posts", this.posts)
+  },
+  mounted() {
+    if (this.extensions.length == 0) {
+      this.getPosts()
+    }
+  },
+
   methods: {
+    async getPosts(this: any) {
+      await requestIndex({ extensionType: this.extensionType })
+
+      this.loading = false
+    },
     titleFromPackage,
     formatDownloads,
     extensionPermalink,
-    extensionIcon,
+    extensionImage,
     getAuthors
   },
   metaInfo() {
-    return {
-      title: "Factor " + this.extensionType,
-      description: "Add advanced features to your app in seconds."
-    }
+    return this.describe
   }
 })
 </script>

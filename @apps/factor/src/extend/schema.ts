@@ -1,13 +1,26 @@
 // import { objectIdType } from "@factor/post/object-id"
 import { PostStatus } from "@factor/post/types"
+import { postType } from "./util"
 export default {
-  name: "extension",
+  name: postType,
 
   schema: {
-    extensionType: String,
+    extensionType: { type: String, index: true },
     status: {
       default: PostStatus.Published,
       type: String
-    }
+    },
+    cdnUrl: { type: String },
+    files: { type: [Object] },
+    maintainer: { type: [Object] },
+    downloads: { type: Number },
+    packageName: { type: String },
+    version: { type: String },
+    homepage: { type: String },
+    repositoryUrl: { type: String },
+    featured: { type: Boolean },
+    extensionAuthor: { type: String },
+    icon: { type: String },
+    screenshots: { type: [String] }
   }
 }

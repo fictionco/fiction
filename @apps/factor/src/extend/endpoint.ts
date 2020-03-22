@@ -1,6 +1,6 @@
 import { deepMerge } from "@factor/api/utils"
 import axios from "axios"
-import cache from "memory-cache"
+
 import { addEndpoint } from "@factor/api/endpoints"
 import { addMiddleware } from "@factor/server/middleware"
 import { Request, Response } from "express"
@@ -8,16 +8,15 @@ import latestVersion from "latest-version"
 import { addPostSchema } from "@factor/post/util"
 
 import { getModel } from "@factor/post/database"
-import { FactorExtensionListing } from "../types"
 import { extensions, ExtensionRecord } from "../extension-record"
+import { FactorExtensionInfo } from "./types"
 import extensionSchema from "./schema"
-import { endpointId, postType } from "./util"
+import { postType, screenshotsList, extensionImage } from "./util"
 export const getSingle = async (params: {
   name: string;
-}): Promise<FactorExtensionListing> => {
-  const { name } = params
-  // const cached = cache.get(name)
-  // if (cached) return cached
+  featured?: true;
+}): Promise<FactorExtensionInfo> => {
+  const { name, featured } = params
 
   const latest = await latestVersion(name)
   const requests = [
@@ -49,52 +48,100 @@ export const getSingle = async (params: {
 
   const parsed = results.map(result => result.data)
 
-  const otherData = { cdnBaseUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}` }
-
   // Ensure array of objects and deep merge results
-  const merged: any = deepMerge([params, otherData, ...parsed])
+  const merged: any = deepMerge([...parsed])
 
-  const item = { ...merged, pkg: merged.versions[latest] }
+  const packageJson = merged.versions[latest]
 
+  const item = { ...merged, factor: packageJson.factor ?? {}, pkg: packageJson }
+
+  // Delete all the data from versions we don't care about
   delete item.versions
 
-  const TWO_DAY = 1000 * 60 * 60 * 48
-  cache.put(name, item, TWO_DAY)
+  const Model = getModel<FactorExtensionInfo>(postType)
 
-  console.log("ITEM", item)
-  // const Model = getModel(postType)
+  let post = await Model.findOne({ permalink: name })
 
-  // let post = await Model.findOne({ permalink: name })
+  if (!post) {
+    post = new Model({ permalink: name })
+  }
 
-  // if (!post) {
-  //   post = new Model({ permalink: name })
-  // }
+  const {
+    description,
+    keywords,
+    readme,
+    maintainers,
+    downloads,
+    factor,
+    license,
+    homepage,
+    repository,
+    author,
+    time: { modified }
+  } = item
 
-  return item
+  const screenshots = screenshotsList(item)
+  const icon = extensionImage(item, "icon.svg")
+  const extensionType = factor.extend ?? "plugin"
+
+  if (extensionType == "theme") {
+    console.log("ITEM", screenshots)
+  }
+
+  Object.assign(post, {
+    featured,
+    title: factor.title ?? packageJson.name,
+    synopsis: factor.synopsis ?? description,
+    content: readme,
+    tags: keywords,
+    version: latest,
+    maintainers,
+    downloads,
+    packageName: packageJson.name,
+    extensionType,
+    cdnUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}`,
+    updatedAt: modified,
+    license,
+    homepage,
+    repository: repository?.url,
+    extensionAuthor: author?.name,
+    screenshots,
+    icon
+  })
+
+  return await post.save()
 }
 
-export const saveIndex = async (): Promise<FactorExtensionListing[]> => {
+export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
   const list = extensions
 
   return await Promise.all(list.map(async extension => getSingle(extension)))
 }
 
-addEndpoint({ id: endpointId, handler: { getIndex, getSingle } })
-addPostSchema(() => extensionSchema)
+export const setup = (): void => {
+  // addEndpoint({ id: endpointId, handler: { getIndex, getSingle } })
+  addPostSchema(() => extensionSchema)
 
-addMiddleware({
-  key: "attachment",
-  path: "_extensions",
-  middleware: [
-    async (request: Request, response: Response): Promise<void> => {
-      const { query, body } = request
+  addMiddleware({
+    key: "saveIndex",
+    path: "/_extensions",
+    middleware: [
+      async (request: Request, response: Response): Promise<void> => {
+        const { query, body } = request
 
-      const data = { ...body, ...query }
+        const data = { ...body, ...query }
 
-      saveIndex()
+        if (data.key == process.env.CRON_KEY) {
+          await saveIndex()
+          response.send("cool").end()
+        } else {
+          response.send("not cool").end()
+        }
 
-      response.send("cool").end()
-      return
-    }
-  ]
-})
+        return
+      }
+    ]
+  })
+}
+
+setup()

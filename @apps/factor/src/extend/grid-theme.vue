@@ -1,21 +1,25 @@
 <template>
   <div class="theme-grid">
-    <factor-link
-      v-for="(item, index) in 10"
+    <div
+      v-for="(item, index) in extensions"
       :key="index"
-      :path="`/theme/test`"
+      :path="`/theme/${item.permalink}`"
       class="grid-item-theme"
+      @click="$router.push({path: `/theme/${encodeURIComponent(item.permalink)}`})"
     >
       <div class="theme-wrap" :style="backgroundImageStyle(index)">
         <div class="overlay" />
-        <div class="entry-content">
+        <div class="entry-content" @click.stop>
           <div class="text">
-            <h3 class="title">Theme Alpha</h3>
+            <h3 class="title">{{ item.title }}</h3>
             <div class="meta">
-              <div class="author">by Factor Inc.</div>
+              <div class="author">by {{ item.extensionAuthor }}</div>
             </div>
             <div class="action">
-              <factor-link btn="primary" :path="`/theme/test`">Overview</factor-link>
+              <factor-link
+                btn="primary"
+                :path="`/theme/${encodeURIComponent(item.permalink)}`"
+              >Overview</factor-link>
               <factor-link btn="default">Demo</factor-link>
             </div>
           </div>
@@ -24,7 +28,7 @@
           </div>
         </div>
       </div>
-    </factor-link>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -78,7 +82,7 @@ export default Vue.extend({
 .grid-item-theme {
   display: block;
   transition: 0.29s var(--panel-movement);
-
+  cursor: pointer;
   .theme-wrap {
     background-position: 50% 0%;
     background-size: cover;

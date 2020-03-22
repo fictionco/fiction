@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-zeno",
   "version": "1.5.0",
-  "description": "A modern one page [Factor](https://factor.dev/) theme for personal or portfolio exposure with unique effects and features.",
+  "description": "A modern one page Factor theme for personal or portfolio exposure with unique effects and features.",
   "author": "Factor",
   "main": "src/index",
   "license": "GPL-2.0",

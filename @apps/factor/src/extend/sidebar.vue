@@ -12,7 +12,7 @@
           class="sidebar-plugin"
         >
           <div class="sidebar-plugin-image">
-            <img :src="extensionIcon(item)" :alt="item.name" />
+            <img :src="extensionImage(item)" :alt="item.name" />
           </div>
 
           <div class="entry-content">
@@ -35,7 +35,7 @@
           class="sidebar-plugin"
         >
           <div class="sidebar-plugin-image">
-            <img :src="extensionIcon(item)" :alt="item.name" />
+            <img :src="extensionImage(item)" :alt="item.name" />
           </div>
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
@@ -53,7 +53,7 @@ import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 import { getIndexCache } from "./request"
-import { titleFromPackage, extensionPermalink, extensionIcon } from "./util"
+import { titleFromPackage, extensionPermalink, extensionImage } from "./util"
 export default Vue.extend({
   components: { factorLink },
   data() {
@@ -83,7 +83,7 @@ export default Vue.extend({
   methods: {
     titleFromPackage,
     extensionPermalink,
-    extensionIcon,
+    extensionImage,
     standardDate
   }
 })

@@ -44,7 +44,7 @@ addContentRoutes({
             component: (): Promise<Component> => import("./extend/index.vue")
           },
           {
-            path: `/theme/:slug`,
+            path: `/theme/:permalink`,
             component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]
@@ -58,7 +58,7 @@ addContentRoutes({
             component: (): Promise<Component> => import("./extend/index.vue")
           },
           {
-            path: `/plugin/:slug`,
+            path: `/plugin/:permalink`,
             component: (): Promise<Component> => import("./extend/single.vue")
           }
         ]

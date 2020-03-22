@@ -1,107 +1,97 @@
 <template>
   <div class="extension-single">
-    <div v-if="loading" class="extensions-loading">
-      <factor-loading-ring />
-    </div>
-    <div v-else>
-      <section class="splash">
-        <div class="header">
-          <div class="overlay" />
-          <div class="content-area header-pad">
-            <div class="content">
-              <factor-link class="back" :path="`/themes`">
-                <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
-              </factor-link>
-              <div class="text">
-                <div class="title-wrap">
-                  <div class="icon-area">
-                    <img src="./img/logo-alpha.svg" alt="Theme logo" class="extension-icon" />
-                  </div>
-                  <h1 class="title">Alpha</h1>
-                  <h3
-                    class="description"
-                  >A forum solution with essential elements to run an efficient and professional community.</h3>
-                  <div class="actions">
-                    <factor-link
-                      btn="primary"
-                      :path="`https://themes.factor.dev/alpha`"
-                      :target="`_blank`"
-                    >Add to Project &darr;</factor-link>
-                    <factor-link
-                      btn="default"
-                      :path="`https://themes.factor.dev/alpha`"
-                      :target="`_blank`"
-                    >View Demo &rarr;</factor-link>
-                  </div>
+    <section class="splash">
+      <div class="header">
+        <div class="overlay" />
+        <div class="content-area header-pad">
+          <div class="content">
+            <factor-link class="back" :path="`/themes`">
+              <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
+            </factor-link>
+            <div class="text">
+              <div class="title-wrap">
+                <div class="icon-area">
+                  <img src="./img/logo-alpha.svg" alt="Theme logo" class="extension-icon" />
+                </div>
+                <h1 class="title">{{ post.title }}</h1>
+                <h3 class="description">{{ post.synopsis }}</h3>
+                <div class="actions">
+                  <factor-link
+                    btn="primary"
+                    :path="`https://themes.factor.dev/alpha`"
+                    :target="`_blank`"
+                  >Add to Project &darr;</factor-link>
+                  <factor-link
+                    btn="default"
+                    :path="`https://themes.factor.dev/alpha`"
+                    :target="`_blank`"
+                  >View Demo &rarr;</factor-link>
                 </div>
               </div>
             </div>
-            <div class="media">
-              <div class="drawer">
-                <div v-for="(img, i) in 3" :key="i" class="screenshot" :class="`sc-${i + 1}`">
-                  <div class="screenshot-image" :style="{ backgroundImage: `url('${image}')` }" />
-                </div>
+          </div>
+          <div class="media">
+            <div class="drawer">
+              <div v-for="(img, i) in 3" :key="i" class="screenshot" :class="`sc-${i + 1}`">
+                <div class="screenshot-image" :style="{ backgroundImage: `url('${image}')` }" />
               </div>
             </div>
           </div>
         </div>
-      </section>
-      <section class="information">
-        <div class="content-area medium">
-          <div class="install-extension">
-            <div class="title-header">
-              <div class="title">To Install</div>
-              <div class="sub-title">Add this package to your Factor enabled project:</div>
-            </div>
-            <div class="move-to-project">
-              <div class="install-code">
-                <span class="cmd">npm add</span>
-                <span class="pkg">@factor/theme-alpha</span>
-                <div class="copy">click to copy</div>
-              </div>
-              <div class="arrow">&rarr;</div>
-              <div class="project">Your Project</div>
-            </div>
+      </div>
+    </section>
+    <section class="information">
+      <div class="content-area medium">
+        <div class="install-extension">
+          <div class="title-header">
+            <div class="title">To Install</div>
+            <div class="sub-title">Add this package to your Factor enabled project:</div>
           </div>
-          <div class="long-form">.</div>
-          <div class="info-grid">
-            <div v-for="(block, i) in info" :key="i" class="info-block">
-              <div class="block-title">
-                <div class="title">{{ block.name }}</div>
-                <div class="description">{{ block.description }}</div>
-              </div>
-              <div v-if="block.name == 'Readme'" class="block-readme">
-                <text-entry class="entry" :text="getContent(item.readme)" />
-                <div class="sidebar">...</div>
-              </div>
-              <div v-else class="block-features">
-                <div v-for="(info, ind) in 4" :key="ind" class="info-area">
-                  <div class="info-title">Some title</div>
-                  <div
-                    class="info-content"
-                  >A forum solution with essential elements to run an efficient and professional community.</div>
-                </div>
+          <div class="move-to-project">
+            <div class="install-code">
+              <span class="cmd">npm add</span>
+              <span class="pkg">{{ post.packageName }}</span>
+              <div class="copy">click to copy</div>
+            </div>
+            <div class="arrow">&rarr;</div>
+            <div class="project">Your Project</div>
+          </div>
+        </div>
+        <div class="long-form">.</div>
+        <div class="info-grid">
+          <div v-for="(block, i) in info" :key="i" class="info-block">
+            <div class="block-title">
+              <div class="title">{{ block.name }}</div>
+              <div class="description">{{ block.description }}</div>
+            </div>
+            <div v-if="block.name == 'Readme'" class="block-readme">
+              <text-entry class="entry" :text="getContent(post.content)" />
+              <div class="sidebar">...</div>
+            </div>
+            <div v-else class="block-features">
+              <div v-for="(info, ind) in 4" :key="ind" class="info-area">
+                <div class="info-title">Some title</div>
+                <div
+                  class="info-content"
+                >A forum solution with essential elements to run an efficient and professional community.</div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
 
     <call-to-action />
   </div>
 </template>
 <script lang="ts">
-import { factorLink, factorLoadingRing } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
-import { setting } from "@factor/api"
+import { setting, stored } from "@factor/api"
 import Vue from "vue"
-import { Route } from "vue-router"
-import { getSingleCache, requestExtensionSingle, requestExtensionIndex } from "./request"
 
 export default Vue.extend({
   components: {
-    factorLoadingRing,
     factorLink,
     callToAction: () => import("./el/cta.vue"),
     textEntry: () => import("../el/entry.vue")
@@ -120,9 +110,11 @@ export default Vue.extend({
       ]
     }
   },
-  async serverPrefetch() {},
 
   computed: {
+    post() {
+      return stored("post") || {}
+    },
     image(this: any) {
       return require("./img/screenshot-alpha.jpg")
     },
@@ -131,42 +123,21 @@ export default Vue.extend({
     },
     packageName(this: any) {
       return decodeURI(this.$route.query.package)
-    },
-    item(this: any) {
-      return getSingleCache(this.packageName) || {}
     }
   },
-  watch: {
-    $route: function(this: any, to: Route, from: Route) {
-      if (to.query.package != from.query.package) {
-        this.getSingle()
-      }
-    }
-  },
-  async mounted() {
-    const data = getSingleCache(this.packageName)
 
-    if (!data) {
-      await requestExtensionSingle(this.packageName)
-    }
-
-    this.loading = false
-  },
+  async mounted() {},
   methods: {
     setting,
-    async getSingle(this: any) {
-      this.loading = true
-      await requestExtensionSingle(this.packageName)
-      this.loading = false
-    },
+
     getContent(value: any) {
       return value ? renderMarkdown(value, { variables: true }) : ""
     }
   },
   metaInfo() {
     return {
-      title: "Factor Themes",
-      description: "Create beautiful apps in minutes."
+      title: this.post.title,
+      description: this.post.synopsis
     }
   }
 })

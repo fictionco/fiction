@@ -49,6 +49,10 @@ export const preFetchPost = async ({
   ) {
     return
   }
+
+  // in case it was encoded, as is the cases with npm packages passed in url
+  request.permalink = decodeURIComponent(permalink)
+
   // For pre-fetching that happens only in the browser
   // If this applied on server it causes a mismatch (store set with full post then set to loading)
   if (clientOnly) {

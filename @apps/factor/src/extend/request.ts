@@ -1,8 +1,9 @@
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { storeItem, stored } from "@factor/api"
-import { FactorExtensionListing } from "../types"
-import { endpointId } from "./util"
-
+import { requestPostIndex } from "@factor/post/request"
+import { currentRoute } from "@factor/app/router"
+import { FactorExtensionInfo } from "./types"
+import { endpointId, postType } from "./util"
 export const sendRequest = async <T>(
   method: string,
   params: EndpointParameters
@@ -16,23 +17,50 @@ export const sendRequest = async <T>(
   return result
 }
 
-export const getIndexCache = (type: "plugin" | "theme"): FactorExtensionListing[] => {
+export const getIndexCache = (type: "plugin" | "theme"): FactorExtensionInfo[] => {
   return stored(`${type}-index`)
 }
 
-export const getSingleCache = (name: string): FactorExtensionListing => {
+export const getSingleCache = (name: string): FactorExtensionInfo => {
   return stored(`extension-${name}`)
+}
+
+/**
+ * Gets the index of extensions, stores under post type
+ */
+export const requestIndex = async ({
+  extensionType
+}: {
+  extensionType: "theme" | "plugin";
+}): Promise<void> => {
+  const route = currentRoute()
+  const { params, query } = route
+
+  const tag = params.tag ?? query.tag ?? ""
+  const category = params.category ?? query.category ?? ""
+  const page = parseInt(params.page ?? query.page ?? 1)
+  const limit = 20
+
+  await requestPostIndex({
+    postType,
+    tag,
+    category,
+    sort: "-date",
+    page,
+    limit,
+    conditions: { extensionType }
+  })
 }
 
 export const requestExtensionIndex = async ({
   type
 }: {
   type: "plugin" | "theme";
-}): Promise<FactorExtensionListing[]> => {
+}): Promise<FactorExtensionInfo[]> => {
   let data = getIndexCache(type)
 
   if (!data) {
-    data = await sendRequest<FactorExtensionListing[]>("getIndex", { type })
+    data = await sendRequest<FactorExtensionInfo[]>("getIndex", { type })
 
     storeItem(`${type}-index`, data)
   }
@@ -46,11 +74,11 @@ export const requestExtensionIndex = async ({
  */
 export const requestExtensionSingle = async (
   name: string
-): Promise<FactorExtensionListing> => {
+): Promise<FactorExtensionInfo> => {
   let data = getSingleCache(name)
 
   if (!data) {
-    data = await sendRequest<FactorExtensionListing>("getSingle", { name })
+    data = await sendRequest<FactorExtensionInfo>("getSingle", { name })
 
     storeItem(`extension-${name}`, data)
   }
