@@ -40,10 +40,24 @@ export const setup = (): void => {
   addFilter({
     key: "handleUrlS3",
     hook: "storage-attachment-url",
-    callback: ({ buffer, key }: { buffer: Buffer; key: string }) => {
+    callback: ({
+      buffer,
+      key,
+      mimetype
+    }: {
+      buffer: Buffer;
+      key: string;
+      mimetype: string;
+    }) => {
       const { bucket, S3 } = setConfig()
       return new Promise((resolve, reject) => {
-        const params = { Bucket: bucket, Key: key, Body: buffer, ACL: "public-read" }
+        const params = {
+          Bucket: bucket,
+          Key: key,
+          Body: buffer,
+          ACL: "public-read",
+          ContentType: mimetype
+        }
         S3.upload(params, (error: Error, data: { Location: string }) => {
           if (error) reject(error)
 
