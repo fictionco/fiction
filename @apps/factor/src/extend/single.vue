@@ -1,9 +1,9 @@
 <template>
   <div class="extension-single">
     <section class="splash">
-      <div class="header">
+      <div class="content-area header">
         <div class="overlay" />
-        <div class="content-area header-pad">
+        <div class="content-pad header-pad">
           <div class="content">
             <factor-link class="back" :path="`/themes`">
               <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
@@ -41,39 +41,41 @@
       </div>
     </section>
     <section class="information">
-      <div class="content-area medium">
-        <div class="install-extension">
-          <div class="title-header">
-            <div class="title">To Install</div>
-            <div class="sub-title">Add this package to your Factor enabled project:</div>
-          </div>
-          <div class="move-to-project">
-            <div class="install-code">
-              <span class="cmd">npm add</span>
-              <span class="pkg">{{ post.packageName }}</span>
-              <div class="copy">click to copy</div>
+      <div class="content-area install">
+        <div class="content-pad">
+          <div class="install-extension">
+            <div class="title-header">
+              <div class="title">To Install</div>
+              <div class="sub-title">Add this package to your Factor enabled project:</div>
             </div>
-            <div class="arrow">&rarr;</div>
-            <div class="project">Your Project</div>
+            <div class="move-to-project">
+              <div class="install-code">
+                <span class="cmd">npm add</span>
+                <span class="pkg">{{ post.packageName }}</span>
+                <div class="copy">click to copy</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="long-form">.</div>
-        <div class="info-grid">
-          <div v-for="(block, i) in info" :key="i" class="info-block">
-            <div class="block-title">
-              <div class="title">{{ block.name }}</div>
-              <div class="description">{{ block.description }}</div>
+      </div>
+      <div class="content-area readme">
+        <div class="info-block">
+          <div class="block-title">
+            <div class="nav">
+              <div class="title">Readme</div>
+              <div class="description">Information on this specific extension</div>
             </div>
-            <div v-if="block.name == 'Readme'" class="block-readme">
+          </div>
+          <div class="block-readme">
+            <div class="entry-wrap">
               <text-entry class="entry" :text="getContent(post.content)" />
-              <div class="sidebar">...</div>
             </div>
-            <div v-else class="block-features">
-              <div v-for="(info, ind) in 4" :key="ind" class="info-area">
-                <div class="info-title">Some title</div>
-                <div
-                  class="info-content"
-                >A forum solution with essential elements to run an efficient and professional community.</div>
+          </div>
+          <div class="block-sidebar">
+            <div class="sidebar">
+              <div class="box">
+                <div class="box-title">Example</div>
+                <div class="box-content">Stuff goes here</div>
               </div>
             </div>
           </div>
@@ -146,11 +148,18 @@ export default Vue.extend({
 <style lang="less">
 .extension-single {
   .content-area {
+    &.install {
+      //  box-shadow: var(--panel-shadow);
+      z-index: 10;
+      position: relative;
+    }
+    &.readme {
+      //  background-color: var(--color-bg-contrast);
+    }
+  }
+  .content-pad {
     max-width: 1100px;
     margin: 0 auto;
-    &.medium {
-      max-width: 1000px;
-    }
   }
   .information {
     .install-extension {
@@ -162,7 +171,7 @@ export default Vue.extend({
 
       z-index: 900;
       position: relative;
-      padding: 4rem;
+      padding: 4rem 0 6rem;
       .title-header {
         margin-bottom: 2rem;
         line-height: 1.2;
@@ -216,15 +225,21 @@ export default Vue.extend({
         }
       }
     }
+
     .info-block {
       font-size: 1.2em;
       display: grid;
-      grid-template-columns: 150px 1fr;
+      grid-template-columns: 1fr 700px 1fr;
       grid-gap: 4rem;
-      margin: 4rem 0;
+      background: var(--color-bg-constrast);
       border-bottom: 1px solid var(--color-border);
-      padding-bottom: 4rem;
+      padding: 4rem 0;
+      position: relative;
       .block-title {
+        .nav {
+          display: inline-block;
+          max-width: 150px;
+        }
         text-align: right;
         .title {
           font-size: 1.5em;
@@ -239,21 +254,27 @@ export default Vue.extend({
           opacity: 0.3;
         }
       }
-      .block-features {
-        display: grid;
-        grid-gap: 2rem;
-        grid-template-columns: 1fr 1fr;
-        .info-title {
-          font-weight: 700;
-        }
-        .info-content {
-          opacity: 0.7;
+      .block-readme,
+      .sidebar {
+        background: #fff;
+      }
+
+      .block-readme {
+        .entry-wrap {
+          border-radius: 10px;
+          .entry {
+            min-width: 400px;
+          }
         }
       }
-      .block-readme {
-        display: grid;
-        grid-gap: 2rem;
-        grid-template-columns: 1fr 200px;
+      .sidebar {
+        position: sticky;
+        top: 100px;
+      }
+      .box {
+        .box-title {
+          font-weight: 700;
+        }
       }
     }
   }

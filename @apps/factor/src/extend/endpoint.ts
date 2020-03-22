@@ -1,14 +1,14 @@
 import { deepMerge } from "@factor/api/utils"
 import axios from "axios"
 
-import { addEndpoint } from "@factor/api/endpoints"
+//import { addEndpoint } from "@factor/api/endpoints"
 import { addMiddleware } from "@factor/server/middleware"
 import { Request, Response } from "express"
 import latestVersion from "latest-version"
 import { addPostSchema } from "@factor/post/util"
 
 import { getModel } from "@factor/post/database"
-import { extensions, ExtensionRecord } from "../extension-record"
+import { extensions } from "../extension-record"
 import { FactorExtensionInfo } from "./types"
 import extensionSchema from "./schema"
 import { postType, screenshotsList, extensionImage } from "./util"
@@ -83,10 +83,6 @@ export const getSingle = async (params: {
   const screenshots = screenshotsList(item)
   const icon = extensionImage(item, "icon.svg")
   const extensionType = factor.extend ?? "plugin"
-
-  if (extensionType == "theme") {
-    console.log("ITEM", screenshots)
-  }
 
   Object.assign(post, {
     featured,

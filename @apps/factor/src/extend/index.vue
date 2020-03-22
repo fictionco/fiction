@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
 import { stored } from "@factor/api"
 import {
@@ -39,11 +38,9 @@ import {
 import { requestIndex } from "./request"
 export default Vue.extend({
   components: {
-    extensionSidebar: () => import("./sidebar.vue"),
     callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
-    themeGrid: () => import("./grid-theme.vue"),
-    factorLoadingRing
+    themeGrid: () => import("./grid-theme.vue")
   },
   data() {
     return {
@@ -81,9 +78,7 @@ export default Vue.extend({
       }
     }
   },
-  created() {
-    console.log("this.posts", this.posts)
-  },
+
   mounted() {
     if (this.extensions.length == 0) {
       this.getPosts()
