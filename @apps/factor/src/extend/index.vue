@@ -7,9 +7,7 @@
       </div>
     </div>
 
-    <factor-loading-ring v-if="loading" />
-
-    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
+    <div v-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
       <!-- <plugin-grid :extensions="extensions" /> -->
       <!-- <div>
         <extension-sidebar :index-data="extensionIndex" />
@@ -24,6 +22,8 @@
         </div>
       </div>
     </div>
+
+    <factor-loading-ring v-else-if="loading" />
 
     <div v-else class="extensions-wrap themes-wrap content-pad">
       <theme-grid :extensions="extensions" />
