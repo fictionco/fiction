@@ -96,10 +96,8 @@ export default Vue.extend({
   transition: transform 0.4s ease 0s;
 
   .toast {
-    letter-spacing: -0.03em;
-    font-weight: 600;
     background: var(--color-bg, #fff);
-    font-size: 1.3em;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -115,7 +113,6 @@ export default Vue.extend({
   }
 }
 .notify-toast {
-  color: var(--color-primary);
   top: 10px;
 }
 .error-toast {

@@ -14,24 +14,24 @@ import { FactorExtensionInfo } from "./types"
 import extensionSchema from "./schema"
 import { postType, screenshotsList, extensionImage } from "./util"
 export const getSingle = async (params: {
-  name: string;
+  packageName: string;
   featured?: true;
-}): Promise<FactorExtensionInfo> => {
-  const { name, featured } = params
+}): Promise<FactorExtensionInfo | undefined> => {
+  const { packageName, featured } = params
 
-  const latest = await latestVersion(name)
+  const latest = await latestVersion(packageName)
   const requests = [
     {
       _id: "npmData",
-      url: `https://registry.npmjs.org/${name}`
+      url: `https://registry.npmjs.org/${packageName}`
     },
     {
       _id: "npmDownloads",
-      url: `https://api.npmjs.org/downloads/point/last-month/${name}`
+      url: `https://api.npmjs.org/downloads/point/last-month/${packageName}`
     },
     {
       _id: "npmFiles",
-      url: `https://data.jsdelivr.com/v1/package/npm/${name}@${latest}`
+      url: `https://data.jsdelivr.com/v1/package/npm/${packageName}@${latest}`
     }
   ]
 
@@ -61,10 +61,10 @@ export const getSingle = async (params: {
 
   const Model = getModel<FactorExtensionInfo>(postType)
 
-  let post = await Model.findOne({ permalink: name })
+  let post = await Model.findOne({ packageName })
 
   if (!post) {
-    post = new Model({ permalink: name })
+    post = new Model({ packageName })
   }
 
   const {
@@ -82,7 +82,7 @@ export const getSingle = async (params: {
     time: { modified }
   } = item
 
-  const cdnUrl = `https://cdn.jsdelivr.net/npm/${name}@${latest}`
+  const cdnUrl = `https://cdn.jsdelivr.net/npm/${packageName}@${latest}`
 
   const screenshots = screenshotsList(files, cdnUrl)
   const icon = extensionImage(files, cdnUrl, "icon.svg")
@@ -90,16 +90,18 @@ export const getSingle = async (params: {
 
   Object.assign(post, {
     featured,
-    title: factor.title ?? packageJson.name,
-    synopsis: factor.synopsis ?? description,
+    permalink: factor.permalink ?? packageName,
+    title: factor.title ?? packageName,
+    demo: factor.demo,
+    synopsis: description,
     content: readme,
     tags: keywords,
     version: latest,
     maintainers,
     downloads,
-    packageName: packageJson.name,
+    packageName,
     extensionType,
-    cdnUrl: `https://cdn.jsdelivr.net/npm/${name}@${latest}`,
+    cdnUrl,
     updatedAt: modified,
     license,
     homepage,
@@ -109,17 +111,22 @@ export const getSingle = async (params: {
     icon
   })
 
-  const saved = await post.save()
-
-  log.info(`Saved post for ${post.packageName}`)
-
-  return saved
+  let saved
+  try {
+    saved = await post.save()
+    log.info(`Saved post for ${post.packageName}`)
+    return saved
+  } catch (error) {
+    log.error(error)
+  }
+  return
 }
 
 export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
-  const list = extensions
+  const posts = await Promise.all(extensions.map(async extension => getSingle(extension)))
 
-  return await Promise.all(list.map(async extension => getSingle(extension)))
+  const filtered = posts.filter(_ => _) as FactorExtensionInfo[]
+  return filtered
 }
 
 export const setup = (): void => {

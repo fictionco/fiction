@@ -15,6 +15,7 @@ export default {
     maintainer: { type: [Object] },
     downloads: { type: Number },
     packageName: { type: String },
+    demo: { type: String },
     version: { type: String },
     homepage: { type: String },
     repositoryUrl: { type: String },

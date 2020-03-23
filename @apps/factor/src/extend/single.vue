@@ -11,16 +11,12 @@
             <div class="text">
               <div class="title-wrap">
                 <div class="icon-area">
-                  <img src="./img/logo-alpha.svg" alt="Theme logo" class="extension-icon" />
+                  <img :src="post.icon" alt="Theme logo" class="extension-icon" />
                 </div>
                 <h1 class="title">{{ post.title }}</h1>
                 <h3 class="description">{{ post.synopsis }}</h3>
                 <div class="actions">
-                  <factor-link
-                    btn="primary"
-                    :path="`https://themes.factor.dev/alpha`"
-                    :target="`_blank`"
-                  >Add to Project &darr;</factor-link>
+                  <factor-link btn="primary" @click="scrollTo(`#install`)">Add to Project &darr;</factor-link>
                   <factor-link
                     btn="default"
                     :path="`https://themes.factor.dev/alpha`"
@@ -32,8 +28,20 @@
           </div>
           <div class="media">
             <div class="drawer">
-              <div v-for="(img, i) in 3" :key="i" class="screenshot" :class="`sc-${i + 1}`">
-                <div class="screenshot-image" :style="{ backgroundImage: `url('${image}')` }" />
+              <transition-group tag="div" name="gallery">
+                <div
+                  v-for="(img, i) in screenshots"
+                  :key="img"
+                  class="screenshot"
+                  :class="`sc-${i + 1}`"
+                  :style="screenshotStyle(i)"
+                  @click="nextScreenshot()"
+                >
+                  <div class="screenshot-image" :style="{ backgroundImage: `url('${img}')` }" />
+                </div>
+              </transition-group>
+              <div class="arrow-wrap">
+                <div class="arrow" @click="nextScreenshot()">&rarr;</div>
               </div>
             </div>
           </div>
@@ -41,7 +49,7 @@
       </div>
     </section>
     <section class="information">
-      <div class="content-area install">
+      <div id="install" class="content-area install">
         <div class="content-pad">
           <div class="install-extension">
             <div class="title-header">
@@ -49,11 +57,12 @@
               <div class="sub-title">Add this package to your Factor enabled project:</div>
             </div>
             <div class="move-to-project">
-              <div class="install-code">
+              <div class="install-code" @click="copyPackageName(post.packageName)">
                 <span class="cmd">npm add</span>
                 <span class="pkg">{{ post.packageName }}</span>
-                <div class="copy">click to copy</div>
               </div>
+              <div class="copy">{{ isCopied }}</div>
+              <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
             </div>
           </div>
         </div>
@@ -89,7 +98,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
-import { setting, stored } from "@factor/api"
+import { setting, stored, emitEvent } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -102,14 +111,11 @@ export default Vue.extend({
     return {
       getData: "",
       loading: true,
-      info: [
-        // {
-        //   name: "Features",
-        //   description: "Why you'll love this",
-        //   grid: [{ name: "Portfolio", description: "Some text goes here" }]
-        // },
-        { name: "Readme", description: "How to customize it" }
-      ]
+      viewScreenshot: 0,
+      screenshots: [],
+      copyText: "",
+      isCopied: "Click to Copy",
+      animationInterval: 5000
     }
   },
 
@@ -117,9 +123,15 @@ export default Vue.extend({
     post() {
       return stored("post") || {}
     },
-    image(this: any) {
-      return require("./img/screenshot-alpha.jpg")
-    },
+    // screenshots(this: any): string[] {
+    //   const sc = this.post.screenshots.filter((_: string): boolean => _.includes("tall"))
+
+    //   const p1 = sc.slice(0, this.viewScreenshot)
+    //   const p2 = sc.slice(this.viewScreenshot)
+
+    //   return [...p2, ...p1]
+    // },
+
     extensionType(this: any) {
       return this.$route.path.includes("theme") ? "theme" : "plugin"
     },
@@ -128,12 +140,65 @@ export default Vue.extend({
     }
   },
 
-  async mounted() {},
+  created() {
+    this.screenshots = this.post.screenshots.filter((_: string) => _.includes("tall"))
+  },
+  mounted() {
+    this.runTimer()
+  },
   methods: {
+    runTimer(this: any) {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => this.nextScreenshot(), this.animationInterval)
+    },
+    scrollTo(sel: string) {
+      const element = document.querySelector(sel)
+
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+    },
     setting,
+    beforeEnter: function(el: HTMLElement) {
+      el.style.opacity = "0"
+      el.style.height = "0"
+    },
+    nextScreenshot(this: any) {
+      const removed = this.screenshots.splice(0, 1)
+
+      setTimeout(() => {
+        this.screenshots = [...this.screenshots, ...removed]
+      }, 1000)
+      this.runTimer()
+    },
 
     getContent(value: any) {
       return value ? renderMarkdown(value, { variables: true }) : ""
+    },
+    screenshotStyle(index: number) {
+      const style = {
+        transform: `translate(${index * 15}%, ${index}%) scale(${1 - index * 0.1})`,
+        zIndex: 50 - index
+      }
+
+      return style
+    },
+
+    copyPackageName(this: any, text: string): void {
+      this.copyText = text
+
+      this.$nextTick(() => {
+        this.$refs.copyInput.select()
+
+        document.execCommand("copy")
+
+        this.isCopied = "Copied"
+        emitEvent("notify", `Copied "${this.post.packageName}" to clipboard`)
+
+        setTimeout(() => {
+          this.isCopied = "Click to Copy"
+        }, 3000)
+      })
     }
   },
   metaInfo() {
@@ -152,9 +217,6 @@ export default Vue.extend({
       //  box-shadow: var(--panel-shadow);
       z-index: 10;
       position: relative;
-    }
-    &.readme {
-      //  background-color: var(--color-bg-contrast);
     }
   }
   .content-pad {
@@ -185,8 +247,6 @@ export default Vue.extend({
         }
       }
       .move-to-project {
-        display: flex;
-        justify-content: center;
         .install-code,
         .project,
         .arrow {
@@ -201,23 +261,35 @@ export default Vue.extend({
           font-weight: 700;
           box-shadow: var(--panel-shadow);
         }
+        .copy {
+          position: absolute;
+          color: var(--color-text);
+          opacity: 0.2;
+          font-size: 1rem;
+          text-transform: uppercase;
+          text-align: center;
+          margin-top: 5px;
+          width: 100%;
+
+          letter-spacing: 1px;
+        }
+        .invisible-copy {
+          position: absolute;
+          left: -9999px;
+        }
         .install-code {
+          display: inline-block;
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            .copy {
+              opacity: 0.5;
+            }
+          }
           background: var(--color-primary);
           color: #fff;
           position: relative;
-          .copy {
-            position: absolute;
-            color: var(--color-text);
-            opacity: 0.2;
-            font-size: 1rem;
-            text-transform: uppercase;
-            text-align: center;
-            transform: translateY(130%);
-            width: 100%;
-            left: 0;
-            bottom: 0;
-            letter-spacing: 1px;
-          }
+
           .cmd {
             opacity: 0.4;
             margin-right: 0.5rem;
@@ -372,15 +444,39 @@ export default Vue.extend({
         }
       }
       .drawer {
-        // position: absolute;
-        // right: 0;
-        // bottom: 0;
-        // height: 500px;
-        // width: 100%;
+        .arrow-wrap {
+          z-index: 100;
+          position: absolute;
+          bottom: 0;
+          text-align: center;
+          left: -5rem;
+        }
+        .arrow {
+          font-size: 4em;
+
+          width: 100%;
+          text-align: center;
+          cursor: pointer;
+
+          transition: opacity 0.2s;
+          opacity: 0.1;
+          &:hover {
+            opacity: 0.3;
+          }
+        }
+
         position: relative;
 
+        .gallery-enter,
+        .gallery-leave-to {
+          opacity: 0;
+        }
+
         .screenshot {
-          box-shadow: var(--panel-shadow);
+          transform-origin: bottom right;
+          transition: all 0.5s var(--panel-movement);
+          cursor: pointer;
+          box-shadow: var(--panel-shadow), 15px 2px 30px rgba(58, 55, 148, 0.15);
           position: absolute;
           width: 100%;
           height: 100%;
@@ -388,23 +484,7 @@ export default Vue.extend({
           background: #fff;
           border-radius: 10px;
           overflow: hidden;
-          z-index: 50;
-          &.sc-2 {
-            transform-origin: bottom right;
-            transform: translate(5%, 1%) scale(0.95);
-            z-index: 30;
-            .screenshot-image {
-              opacity: 0.8;
-            }
-          }
-          &.sc-3 {
-            transform-origin: bottom right;
-            transform: translate(10%, 2%) scale(0.9);
-            z-index: 10;
-            .screenshot-image {
-              opacity: 0.6;
-            }
-          }
+
           .screenshot-image {
             background-size: cover;
             position: absolute;
