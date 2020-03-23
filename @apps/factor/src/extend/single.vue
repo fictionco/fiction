@@ -159,14 +159,6 @@ export default Vue.extend({
         }
       ].filter(_ => _.value)
     },
-    // screenshots(this: any): string[] {
-    //   const sc = this.post.screenshots.filter((_: string): boolean => _.includes("tall"))
-
-    //   const p1 = sc.slice(0, this.viewScreenshot)
-    //   const p2 = sc.slice(this.viewScreenshot)
-
-    //   return [...p2, ...p1]
-    // },
 
     extensionType(this: any) {
       return this.$route.path.includes("theme") ? "theme" : "plugin"
@@ -198,10 +190,6 @@ export default Vue.extend({
       }
     },
 
-    beforeEnter: function(el: HTMLElement) {
-      el.style.opacity = "0"
-      el.style.height = "0"
-    },
     nextScreenshot(this: any) {
       const removed = this.screenshots.splice(0, 1)
 
@@ -460,7 +448,7 @@ export default Vue.extend({
         font-weight: 700;
       }
       .description {
-        font-size: 1.6em;
+        font-size: 1.4em;
         opacity: 0.6;
       }
       .actions {
