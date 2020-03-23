@@ -1,7 +1,16 @@
 {
   "name": "@factor/theme-alpha",
-  "description": "A minimal, personal or portfolio theme for Factor. Ideal for entrepreneurs or individuals of multiple creative professions.",
-  "version": "1.5.1",
+  "version": "1.5.2",
+  "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
+  "author": "fiction.com, inc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha"
+  },
+  "homepage": "https://factor.dev/themes",
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
   "main": "src/index",
   "license": "GPL-2.0",
   "publishConfig": {
@@ -19,9 +28,6 @@
     }
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
-  "peerDependencies": {
-    "@factor/core": "^1.1.23"
-  },
   "dependencies": {
     "@factor/core": "^1.5.0",
     "@factor/plugin-blog": "^1.4.3",
