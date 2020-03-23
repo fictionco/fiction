@@ -115,16 +115,19 @@ Learn more about [filters, callbacks, and events &rarr;](./filters-callbacks-eve
 
 Once you've created your plugin, you likely want to set it up for distribution. Here are standards for assets and plugin quality that will help your plugin get discovered and used.
 
+### Icon
+
+Add a plugin icon in .svg format sized at **200px x 200px** called **icon.svg** and place it in the root of your plugin.
+
 ### Screenshots
 
 Add screenshots to the root of your plugin. These will be used in plugin listings.
 
-- **Naming:** screenshot.jpg, screenshot-2.jpg, screenshot-3.jpg. These will be ordered according to the number (with the default screenshot not needing a number).
-- **Sizing** The standard screenshot size is [720p](https://en.wikipedia.org/wiki/720p): 1280px-by-720px.
+Add a primary screenshot sized at **1080px x 720px** called **screenshot.jpg** or **screenshot-wide.jpg**.
 
-### icon.svg
+Add a tall screenshot at **720px x 1080px** called **screenshot-tall.jpg**.
 
-Add a square `icon.svg` file to your plugin that defaults to **100px by 100px**.
+Other screenshots are allowed and are used in galleries for your app. Additional screenshots should start with `screenshot-` or `screenshot-tall-` and will be sorted alphanumerically.
 
 ### Plugin Name Spacing
 
