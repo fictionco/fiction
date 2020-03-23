@@ -7,7 +7,8 @@
       </div>
     </div>
 
-    <div v-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
+    <factor-loading-ring v-if="loading" />
+    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
       <plugin-grid :extensions="extensions" />
       <!-- <div>
         <extension-sidebar :index-data="extensionIndex" />
@@ -26,6 +27,7 @@
 import Vue from "vue"
 import { isLoggedIn } from "@factor/user"
 import { stored } from "@factor/api"
+import { factorLoadingRing } from "@factor/ui"
 import {
   postType,
   titleFromPackage,
@@ -40,7 +42,8 @@ export default Vue.extend({
   components: {
     callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
-    themeGrid: () => import("./grid-theme.vue")
+    themeGrid: () => import("./grid-theme.vue"),
+    factorLoadingRing
   },
   data() {
     return {
@@ -87,6 +90,7 @@ export default Vue.extend({
 
   methods: {
     async getPosts(this: any) {
+      this.loading = true
       await requestIndex({ extensionType: this.extensionType })
 
       this.loading = false
@@ -124,7 +128,7 @@ export default Vue.extend({
     }
   }
 
-  .posts-loading .loading-ring-wrap {
+  .loading-ring-wrap {
     min-height: 400px;
   }
 

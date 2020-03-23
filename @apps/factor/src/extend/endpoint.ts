@@ -87,15 +87,17 @@ export const getSingle = async (params: {
   const screenshots = screenshotsList(files, cdnUrl)
   const icon = extensionImage(files, cdnUrl, "icon.svg")
   const extensionType = factor.extend ?? "plugin"
+  const tag = keywords.filter((_: string) => !_.includes("factor"))
 
   Object.assign(post, {
     featured,
     permalink: factor.permalink ?? packageName,
     title: factor.title ?? packageName,
     demo: factor.demo,
+    category: factor.category,
     synopsis: description,
     content: readme,
-    tags: keywords,
+    tag,
     version: latest,
     maintainers,
     downloads,
@@ -105,7 +107,7 @@ export const getSingle = async (params: {
     updatedAt: modified,
     license,
     homepage,
-    repository: repository?.url,
+    repositoryUrl: repository?.url,
     extensionAuthor: author?.name,
     screenshots,
     icon

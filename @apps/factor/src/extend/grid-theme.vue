@@ -20,11 +20,11 @@
                 btn="primary"
                 :path="`/theme/${encodeURIComponent(item.permalink)}`"
               >Overview</factor-link>
-              <factor-link btn="default">Demo</factor-link>
+              <factor-link v-if="item.demo" btn="default" :path="item.demo" target="_blank">Demo</factor-link>
             </div>
           </div>
           <div class="media">
-            <img src="./img/logo-alpha.svg" alt="Factor Alpha Logo" class="logo" />
+            <img :src="item.icon" :alt="`${item.title} Logo`" class="logo" />
           </div>
         </div>
       </div>
@@ -137,6 +137,7 @@ export default Vue.extend({
       }
       .media img {
         border-radius: 8px;
+        width: 80px;
       }
     }
     &:hover {

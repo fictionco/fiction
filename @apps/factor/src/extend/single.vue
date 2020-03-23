@@ -18,9 +18,10 @@
                 <div class="actions">
                   <factor-link btn="primary" @click="scrollTo(`#install`)">Add to Project &darr;</factor-link>
                   <factor-link
+                    v-if="post.demo"
                     btn="default"
-                    :path="`https://themes.factor.dev/alpha`"
-                    :target="`_blank`"
+                    :path="post.demo"
+                    target="_blank"
                   >View Demo &rarr;</factor-link>
                 </div>
               </div>
@@ -49,42 +50,40 @@
       </div>
     </section>
     <section class="information">
-      <div id="install" class="content-area install">
+      <div class="content-area blocks">
         <div class="content-pad">
-          <div class="install-extension">
-            <div class="title-header">
-              <div class="title">To Install</div>
-              <div class="sub-title">Add this package to your Factor enabled project:</div>
-            </div>
-            <div class="move-to-project">
-              <div class="install-code" @click="copyPackageName(post.packageName)">
-                <span class="cmd">npm add</span>
-                <span class="pkg">{{ post.packageName }}</span>
+          <div
+            v-for="(block, i) in ['install', 'overview', 'meta']"
+            :id="block"
+            :key="i"
+            class="block-grid"
+          >
+            <div class="title">{{ toLabel(block) }}</div>
+            <div class="info">
+              <div v-if="block == 'install'" class="install-extension">
+                <div class="title-header">
+                  <div class="sub-title">Add this package to your Factor enabled project:</div>
+                </div>
+                <div class="move-to-project">
+                  <div class="install-code" @click="copyPackageName(post.packageName)">
+                    <span class="cmd">npm add</span>
+                    <span class="pkg">{{ post.packageName }}</span>
+                  </div>
+                  <div class="copy">{{ isCopied }}</div>
+                  <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
+                </div>
               </div>
-              <div class="copy">{{ isCopied }}</div>
-              <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content-area readme">
-        <div class="info-block">
-          <div class="block-title">
-            <div class="nav">
-              <div class="title">Readme</div>
-              <div class="description">Information on this specific extension</div>
-            </div>
-          </div>
-          <div class="block-readme">
-            <div class="entry-wrap">
-              <text-entry class="entry" :text="getContent(post.content)" />
-            </div>
-          </div>
-          <div class="block-sidebar">
-            <div class="sidebar">
-              <div class="box">
-                <div class="box-title">Example</div>
-                <div class="box-content">Stuff goes here</div>
+              <div v-else-if="block == 'meta'" class="meta">
+                <div class="meta-grid">
+                  <div v-for="(meta, ii) in metaItems" :key="ii" class="meta-item">
+                    <div class="title">{{ meta.name }}</div>
+                    <factor-link v-if="meta.link" class="link" :path="meta.value">{{ meta.link }}</factor-link>
+                    <div v-else class="value">{{ meta.value }}</div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="entry-wrap">
+                <text-entry class="entry" :text="getContent(post.content)" />
               </div>
             </div>
           </div>
@@ -98,7 +97,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
-import { setting, stored, emitEvent } from "@factor/api"
+import { setting, stored, emitEvent, toLabel, standardDate } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -122,6 +121,43 @@ export default Vue.extend({
   computed: {
     post() {
       return stored("post") || {}
+    },
+    metaItems(this: any) {
+      return [
+        {
+          name: "Latest Version",
+          value: this.post.version
+        },
+        {
+          name: "Downloads",
+          value: this.post.downloads
+        },
+        {
+          name: "Updated",
+          value: standardDate(this.post.updatedAt)
+        },
+        {
+          name: "Created",
+          value: standardDate(this.post.createdAt)
+        },
+        {
+          name: "Tags",
+          value: this.post.tag ? this.post.tag.join(", ") : ""
+        },
+        {
+          name: "License",
+          value: this.post.license
+        },
+        {
+          name: "Author",
+          value: this.post.extensionAuthor
+        },
+        {
+          name: "Repository",
+          value: this.post.repositoryUrl,
+          link: "View"
+        }
+      ].filter(_ => _.value)
     },
     // screenshots(this: any): string[] {
     //   const sc = this.post.screenshots.filter((_: string): boolean => _.includes("tall"))
@@ -147,6 +183,9 @@ export default Vue.extend({
     this.runTimer()
   },
   methods: {
+    setting,
+    toLabel,
+    standardDate,
     runTimer(this: any) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextScreenshot(), this.animationInterval)
@@ -158,7 +197,7 @@ export default Vue.extend({
         element.scrollIntoView({ behavior: "smooth" })
       }
     },
-    setting,
+
     beforeEnter: function(el: HTMLElement) {
       el.style.opacity = "0"
       el.style.height = "0"
@@ -212,10 +251,16 @@ export default Vue.extend({
 
 <style lang="less">
 .extension-single {
+  // .information {
+  //
+  // }
   .content-area {
     &.install {
-      //  box-shadow: var(--panel-shadow);
+      padding: 2rem;
       z-index: 10;
+      position: relative;
+    }
+    &.readme {
       position: relative;
     }
   }
@@ -224,16 +269,49 @@ export default Vue.extend({
     margin: 0 auto;
   }
   .information {
+    padding: 3rem;
+    background-image: url("./img/dot.svg");
+    .block-grid {
+      margin-bottom: 3rem;
+      &.last-child {
+        margin-bottom: 0;
+      }
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-gap: 3rem;
+      > .title {
+        font-size: 2.5em;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        text-align: right;
+      }
+      .info {
+        background: #fff;
+        box-shadow: var(--panel-shadow);
+        border-radius: 10px;
+        padding: 3rem;
+        min-width: 0;
+      }
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 2rem;
+      .title {
+        font-weight: 700;
+      }
+    }
     .install-extension {
       text-align: center;
 
       margin: 0 auto;
       background: #fff;
+
       border-radius: 10px;
 
       z-index: 900;
       position: relative;
-      padding: 4rem 0 6rem;
+      padding: 2rem 0 3rem;
       .title-header {
         margin-bottom: 2rem;
         line-height: 1.2;
@@ -262,15 +340,13 @@ export default Vue.extend({
           box-shadow: var(--panel-shadow);
         }
         .copy {
-          position: absolute;
           color: var(--color-text);
           opacity: 0.2;
           font-size: 1rem;
           text-transform: uppercase;
           text-align: center;
-          margin-top: 5px;
+          margin-top: 0.5rem;
           width: 100%;
-
           letter-spacing: 1px;
         }
         .invisible-copy {
@@ -301,37 +377,38 @@ export default Vue.extend({
     .info-block {
       font-size: 1.2em;
       display: grid;
-      grid-template-columns: 1fr 700px 1fr;
+      grid-template-columns: 1fr 200px;
       grid-gap: 4rem;
       background: var(--color-bg-constrast);
       border-bottom: 1px solid var(--color-border);
       padding: 4rem 0;
       position: relative;
-      .block-title {
-        .nav {
-          display: inline-block;
-          max-width: 150px;
-        }
-        text-align: right;
-        .title {
-          font-size: 1.5em;
-          line-height: 1;
-          font-weight: 700;
-          letter-spacing: -0.03em;
-        }
-        .description {
-          margin-top: 1rem;
-          font-size: 0.9em;
-          line-height: 1.5;
-          opacity: 0.3;
-        }
-      }
-      .block-readme,
-      .sidebar {
-        background: #fff;
-      }
+      // .block-title {
+      //   .nav {
+      //     display: inline-block;
+      //     max-width: 150px;
+      //   }
+      //   text-align: right;
+      //   .title {
+      //     font-size: 1.5em;
+      //     line-height: 1;
+      //     font-weight: 700;
+      //     letter-spacing: -0.03em;
+      //   }
+      //   .description {
+      //     margin-top: 1rem;
+      //     font-size: 0.9em;
+      //     line-height: 1.5;
+      //     opacity: 0.3;
+      //   }
+      // }
 
       .block-readme {
+        min-width: 0;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: var(--panel-shadow);
+        padding: 3rem;
         .entry-wrap {
           border-radius: 10px;
           .entry {
