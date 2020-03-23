@@ -2,7 +2,11 @@
   "name": "@factor/theme-ultra",
   "version": "1.5.2",
   "description": "Ultra, a modern single-page [Factor](https://factor.dev/) theme for creative exposure with unique effects and features.",
-  "author": "fiction.com, inc",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fiction-com/factor/tree/development/@themes/theme-ultra"
@@ -18,6 +22,8 @@
   },
   "factor": {
     "title": "Ultra",
+    "permalink": "ultra",
+    "demo": "https://themes.factor.dev/ultra",
     "extend": "theme",
     "load": [
       "server",
