@@ -7,7 +7,7 @@
       class="grid-item-theme"
       @click="$router.push({path: `/theme/${encodeURIComponent(item.permalink)}`})"
     >
-      <div class="theme-wrap" :style="backgroundImageStyle(index)">
+      <div class="theme-wrap" :style="backgroundImageStyle(item)">
         <div class="overlay" />
         <div class="entry-content" @click.stop>
           <div class="text">
@@ -35,6 +35,7 @@
 import { factorLink } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/api"
 import Vue from "vue"
+import { FactorExtensionInfo } from "./types"
 
 export default Vue.extend({
   components: { factorLink },
@@ -50,16 +51,17 @@ export default Vue.extend({
   methods: {
     setting,
     postLink,
-    backgroundImageStyle(num: number) {
-      const urls = [
-        require("./img/screenshot-alpha.jpg"),
-        require("./img/screenshot-zeno.jpg"),
-        require("./img/screenshot-ultra.jpg")
-      ]
-      const r = num % 3
-      const url = urls[r]
+    backgroundImageStyle(item: FactorExtensionInfo) {
+      return { backgroundImage: `url(${this.getPrimaryScreenshot(item)})` }
+    },
+    getScreenshotsTall(this: any, item: FactorExtensionInfo): string[] {
+      if (!item.screenshots) return []
+      return item.screenshots.filter(_ => _.includes("tall"))
+    },
+    getPrimaryScreenshot(item: FactorExtensionInfo) {
+      const screenshots = this.getScreenshotsTall(item)
 
-      return { backgroundImage: `url(${url})` }
+      return screenshots[0] ?? ""
     }
   }
 })

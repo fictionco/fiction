@@ -35,27 +35,41 @@ export const extensionPermalink = ({ base = "plugin", name = "" }): string => {
 }
 
 export const extensionImage = (
-  item: FactorExtensionInfo,
+  files: { name: string }[],
+  cdnUrl: string,
   fileName = "icon.svg"
 ): string => {
-  const { files, cdnUrl } = item
-
   const found = files ? files.find(f => f.name == fileName) : false
 
   return found ? `${cdnUrl}/${fileName}` : ""
 }
 
-export const screenshotsList = (item: FactorExtensionInfo): string[] => {
-  const imagePattern = /screenshot\.(png|gif|jpg|svg)$/i
+/**
+ * Removes the file extension
+ */
+const trimExtension = (file: string): string => {
+  return file
+    .split(".")
+    .slice(0, -1)
+    .join(".")
+}
 
-  const { files = [], cdnUrl } = item
-
+export const screenshotsList = (files: { name: string }[], cdnUrl: string): string[] => {
   let screenshots = []
 
   screenshots = files
-    .filter((f: { name: string }) => !!f.name.match(imagePattern))
-    .map((f: { name: string }) => `${cdnUrl}/${f.name}`)
-    .sort()
+    .map((f: { name: string }) => f.name)
+    .filter(name => name.includes("screenshot"))
+    .map(name => [cdnUrl, name].join("/"))
+    .sort((a, b) => {
+      // Sort alphabetically, but without file extension
+      // Otherwise screenshot.jpg sorts after screenshot-2.jpg
+      a = trimExtension(a)
+      b = trimExtension(b)
+      if (a < b) return -1
+      if (a > b) return 1
+      return 0
+    })
 
   return screenshots
 }

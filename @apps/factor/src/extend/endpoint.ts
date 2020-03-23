@@ -8,6 +8,7 @@ import latestVersion from "latest-version"
 import { addPostSchema } from "@factor/post/util"
 
 import { getModel } from "@factor/post/database"
+import log from "@factor/api/logger"
 import { extensions } from "../extension-record"
 import { FactorExtensionInfo } from "./types"
 import extensionSchema from "./schema"
@@ -77,11 +78,14 @@ export const getSingle = async (params: {
     homepage,
     repository,
     author,
+    files,
     time: { modified }
   } = item
 
-  const screenshots = screenshotsList(item)
-  const icon = extensionImage(item, "icon.svg")
+  const cdnUrl = `https://cdn.jsdelivr.net/npm/${name}@${latest}`
+
+  const screenshots = screenshotsList(files, cdnUrl)
+  const icon = extensionImage(files, cdnUrl, "icon.svg")
   const extensionType = factor.extend ?? "plugin"
 
   Object.assign(post, {
@@ -105,7 +109,11 @@ export const getSingle = async (params: {
     icon
   })
 
-  return await post.save()
+  const saved = await post.save()
+
+  log.info(`Saved post for ${post.packageName}`)
+
+  return saved
 }
 
 export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
