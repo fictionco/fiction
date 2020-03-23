@@ -421,13 +421,21 @@ export default Vue.extend({
             .description {
               font-size: 1.2em;
             }
+            .btn-link + .btn-link {
+              margin-top: 1rem;
+            }
           }
         }
         .media {
           height: 400px;
           width: 300px;
           .drawer {
-            left: 20vw;
+            left: 2rem;
+            right: 2rem;
+            .arrow-wrap {
+              top: -3.4rem;
+              left: 0;
+            }
           }
         }
       }
