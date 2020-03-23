@@ -70,7 +70,6 @@
                     <span class="pkg">{{ post.packageName }}</span>
                   </div>
                   <div class="copy">{{ isCopied }}</div>
-                  <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
                 </div>
               </div>
               <div v-else-if="block == 'meta'" class="meta">
@@ -88,6 +87,7 @@
             </div>
           </div>
         </div>
+        <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
       </div>
     </section>
 
@@ -251,9 +251,10 @@ export default Vue.extend({
 
 <style lang="less">
 .extension-single {
-  // .information {
-  //
-  // }
+  .invisible-copy {
+    position: absolute;
+    left: -9999px;
+  }
   .content-area {
     &.install {
       padding: 2rem;
@@ -293,12 +294,31 @@ export default Vue.extend({
         min-width: 0;
       }
     }
+    @media (max-width: 900px) {
+      padding: 0.5rem;
+      .block-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        margin-bottom: 1rem;
+        > .title {
+          text-align: left;
+          margin-top: 3rem;
+          padding: 0 0.5rem;
+        }
+        .info {
+          padding: 1.5rem;
+        }
+      }
+    }
     .meta-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: 2rem;
       .title {
         font-weight: 700;
+      }
+      @media (max-width: 600px) {
+        grid-template-columns: 1fr 1fr;
       }
     }
     .install-extension {
@@ -315,30 +335,47 @@ export default Vue.extend({
       .title-header {
         margin-bottom: 2rem;
         line-height: 1.2;
-        .title {
-          font-size: 2em;
-          font-weight: 700;
-        }
+
         .sub-title {
           opacity: 0.5;
           font-size: 1.2em;
+          line-height: 1.5;
         }
       }
       .move-to-project {
-        .install-code,
-        .project,
-        .arrow {
+        .install-code {
           font-size: 1.5em;
           padding: 1rem 2rem;
-        }
-        .install-code,
-        .project {
           letter-spacing: -0.03em;
           border-radius: 10px;
 
           font-weight: 700;
           box-shadow: var(--panel-shadow);
+          display: inline-block;
+          background: var(--color-primary);
+          color: #fff;
+          position: relative;
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            .copy {
+              opacity: 0.5;
+            }
+          }
+
+          .pkg {
+            white-space: nowrap;
+          }
+          .cmd {
+            opacity: 0.4;
+            margin-right: 0.5rem;
+          }
+
+          @media (max-width: 900px) {
+            font-size: 1.2em;
+          }
         }
+
         .copy {
           color: var(--color-text);
           opacity: 0.2;
@@ -348,81 +385,6 @@ export default Vue.extend({
           margin-top: 0.5rem;
           width: 100%;
           letter-spacing: 1px;
-        }
-        .invisible-copy {
-          position: absolute;
-          left: -9999px;
-        }
-        .install-code {
-          display: inline-block;
-          &:hover {
-            cursor: pointer;
-            opacity: 0.8;
-            .copy {
-              opacity: 0.5;
-            }
-          }
-          background: var(--color-primary);
-          color: #fff;
-          position: relative;
-
-          .cmd {
-            opacity: 0.4;
-            margin-right: 0.5rem;
-          }
-        }
-      }
-    }
-
-    .info-block {
-      font-size: 1.2em;
-      display: grid;
-      grid-template-columns: 1fr 200px;
-      grid-gap: 4rem;
-      background: var(--color-bg-constrast);
-      border-bottom: 1px solid var(--color-border);
-      padding: 4rem 0;
-      position: relative;
-      // .block-title {
-      //   .nav {
-      //     display: inline-block;
-      //     max-width: 150px;
-      //   }
-      //   text-align: right;
-      //   .title {
-      //     font-size: 1.5em;
-      //     line-height: 1;
-      //     font-weight: 700;
-      //     letter-spacing: -0.03em;
-      //   }
-      //   .description {
-      //     margin-top: 1rem;
-      //     font-size: 0.9em;
-      //     line-height: 1.5;
-      //     opacity: 0.3;
-      //   }
-      // }
-
-      .block-readme {
-        min-width: 0;
-        border-radius: 10px;
-        background: #fff;
-        box-shadow: var(--panel-shadow);
-        padding: 3rem;
-        .entry-wrap {
-          border-radius: 10px;
-          .entry {
-            min-width: 400px;
-          }
-        }
-      }
-      .sidebar {
-        position: sticky;
-        top: 100px;
-      }
-      .box {
-        .box-title {
-          font-weight: 700;
         }
       }
     }
@@ -459,9 +421,31 @@ export default Vue.extend({
       grid-template-columns: 4fr 4fr;
 
       padding: 5rem 0 0;
+
+      @media (max-width: 900px) {
+        grid-gap: 2rem;
+        grid-template-columns: 1fr;
+        padding-top: 3rem;
+        .content {
+          padding: 2rem;
+          .text {
+            padding: 3rem 0 1rem;
+            .description {
+              font-size: 1.2em;
+            }
+          }
+        }
+        .media {
+          height: 400px;
+          width: 300px;
+          .drawer {
+            left: 20vw;
+          }
+        }
+      }
     }
     .content {
-      padding: 4rem 0;
+      padding: 4rem 2rem;
       .icon-area {
         margin-bottom: 1rem;
         .extension-icon {
@@ -496,31 +480,9 @@ export default Vue.extend({
       height: 100%;
       display: grid;
 
-      .thumbs {
-        width: 100%;
-
-        padding: 1rem;
-        z-index: 1000;
-        justify-content: center;
-        flex-direction: column;
-        display: flex;
-        .thumb {
-          box-shadow: var(--panel-shadow);
-          width: 75px;
-          height: 50px;
-          border-radius: 10px;
-          background-size: cover;
-          margin: 0.5rem;
-
-          &.selected {
-            box-shadow: 0 0 0 4px var(--color-primary);
-          }
-          &:hover {
-            box-shadow: 0 0 0 4px var(--color-text);
-          }
-        }
-      }
       .drawer {
+        height: 100%;
+        position: relative;
         .arrow-wrap {
           z-index: 100;
           position: absolute;
@@ -541,8 +503,6 @@ export default Vue.extend({
             opacity: 0.3;
           }
         }
-
-        position: relative;
 
         .gallery-enter,
         .gallery-leave-to {
