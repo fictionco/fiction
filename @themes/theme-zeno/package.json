@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.5.0",
+  "version": "1.5.2",
   "description": "Zeno is a [Factor](https://factor.dev/) theme suited for the needs of SaaS and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
   "author": "fiction.com, inc",
   "repository": {
