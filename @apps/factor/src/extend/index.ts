@@ -12,6 +12,7 @@ addPostType({
   hideAdmin: true,
   permalink: (post: FactorExtensionInfo): string => {
     const baseRoute = post.extensionType == "plugin" ? "/plugin" : "/themes"
-    return `${baseRoute}/${post.permalink}`
+    const permalink = post.permalink || ""
+    return `${baseRoute}/${encodeURIComponent(permalink)}`
   }
 })
