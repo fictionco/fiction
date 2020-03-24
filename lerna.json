@@ -2,11 +2,7 @@
   "version": "1.5.7",
   "npmClient": "yarn",
   "useWorkspaces": false,
-  "packages": [
-    "@factor/*",
-    "@plugins/*",
-    "@themes/*"
-  ],
+  "packages": ["@factor/*", "@plugins/*", "@themes/*"],
   "command": {
     "publish": {
       "npmClient": "npm",
@@ -25,7 +21,8 @@
       "fix": "Bug Fix",
       "docs": "Documentation",
       "perf": "Performance",
-      "refactor": "Code Refactoring"
+      "refactor": "Code Refactoring",
+      "chore": "Maintenance"
     }
   }
 }

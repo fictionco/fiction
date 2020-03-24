@@ -21,6 +21,7 @@
   "private": true,
   "license": "GPL-2.0",
   "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "standard-version",
     "loader:dev": "yarn workspace @factor/loader poi --serve --debug",
     "loader:build": "yarn workspace @factor/loader poi --prod --watch",
@@ -70,6 +71,7 @@
     "babel-jest": "^25.1.0",
     "codecov": "^3.6.1",
     "consola": "^2.10.1",
+    "conventional-changelog-cli": "^2.0.31",
     "cypress": "^4.0.0",
     "eslint": "^6.0.0",
     "eslint-config-prettier": "^6.4.0",
