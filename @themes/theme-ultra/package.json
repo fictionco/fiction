@@ -24,6 +24,7 @@
     "title": "Ultra",
     "permalink": "ultra",
     "demo": "https://themes.factor.dev/ultra",
+    "category": "single-page",
     "extend": "theme",
     "load": [
       "server",
@@ -42,10 +43,11 @@
     "@factor/plugin-notify": "^1.5.3"
   },
   "keywords": [
-    "factor",
-    "factor-theme",
     "modern",
+    "creative",
     "personal",
+    "freelance",
+    "designer",
     "portfolio",
     "one-page"
   ]

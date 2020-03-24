@@ -24,6 +24,7 @@
     "title": "Alpha",
     "permalink": "alpha",
     "demo": "https://themes.factor.dev/alpha",
+    "category": "portfolio",
     "extend": "theme",
     "load": [
       "server",
@@ -42,8 +43,6 @@
     "@factor/plugin-notify": "^1.5.3"
   },
   "keywords": [
-    "factor",
-    "factor-theme",
     "modern",
     "personal",
     "business",

@@ -1,7 +1,7 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="128" height="128" fill="#0496FF"/>
-<path d="M53.5312 75.8179V89.0513L72.125 75.8179H53.5312Z" fill="#B8B8B8"/>
-<path d="M53.5312 89.0513L45.875 73.6123L94 37L53.5312 75.8179V89.0513Z" fill="#E6E5E5"/>
-<path d="M76.5 89.0513L53.5312 75.8179L94 37L76.5 89.0513Z" fill="white"/>
-<path d="M45.875 73.6123L24 69.2012L94 37L45.875 73.6123Z" fill="white"/>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="200" height="200" fill="#0496FF"/>
+<path d="M83.6426 118.465V139.143L112.695 118.465H83.6426Z" fill="#B8B8B8"/>
+<path d="M83.6426 139.143L71.6797 115.019L146.875 57.8125L83.6426 118.465V139.143Z" fill="#E6E5E5"/>
+<path d="M119.531 139.143L83.6426 118.465L146.875 57.8125L119.531 139.143Z" fill="white"/>
+<path d="M71.6797 115.019L37.5 108.127L146.875 57.8125L71.6797 115.019Z" fill="white"/>
 </svg>

@@ -4,18 +4,27 @@ Factor themes are just Factor apps that leverage settings and code to make them 
 
 If you've created a Factor app, then you already know everything you need to create a theme (or convert an app into one).
 
+
+### package.json > factor
+
 To make a Factor app into a theme just add `factor > extend: theme` to the package.json file.
 
 ```json
 // package.json
 {
-  "name": "superb-factor-theme",
+  "name": "superb-factor-theme", // Theme Name
   "factor": {
+    "title": "Superb Factor Theme",
+    "permalink": "superb-factor-theme", // Set theme page permalink
+    "demo": "https://mysite.com/demo-url", // Set theme demo URL
+    "category": "portfolio", // Set theme category in Factor library
     "load": ["app", "theme"],
-    "extend": "theme"
+    "extend": "theme" // Make a Factor app into a theme
   }
 }
 ```
+
+
 
 ## Development Setup
 
@@ -48,11 +57,20 @@ Some especially important information to cover:
 - Description of what the theme does and includes
 - Available settings and CSS Variables
 
+### Icon
+
+Add a theme icon in .svg format sized at **200px x 200px** called **icon.svg** and place it in the root of your theme.
+
 ### Screenshots
 
-Add a primary screenshot sized at **1280px x 720px** called **screenshot.jpg** and place it in the root of your theme.
+Add screenshots to the root of your theme. These will be used in galleries for your app.
 
-Other screenshots are allowed and are used in galleries for your app. Additional screenshots should start with `screenshot-` and will be sorted alphanumerically.
+Add a primary screenshot sized at **1080px x 720px** called **screenshot.jpg** or **screenshot-wide.jpg**.
+
+Add a tall screenshot at **720px x 1080px** called **screenshot-tall.jpg**.
+
+Additional screenshots should start with `screenshot-` or `screenshot-tall-` and will be sorted alphanumerically.
+
 
 ### License
 
