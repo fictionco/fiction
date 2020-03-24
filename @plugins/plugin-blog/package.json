@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-blog",
   "description": "",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "license": "GPL-2.0",
   "factor": {
     "load": [
@@ -20,7 +20,7 @@
     "themeColor": "#2F80EE"
   },
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.4"
+    "@factor/plugin-highlight-code": "^1.5.7"
   },
   "publishConfig": {
     "access": "public"
