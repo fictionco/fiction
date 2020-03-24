@@ -12,7 +12,11 @@
     "post": {
       "title": "Standard Blog",
       "synopsis": "Easily implement, customize and manage blog in your Factor app."
-    }
+    },
+    "category": [
+      "blog"
+    ],
+    "permalink": "standard-blog"
   },
   "dependencies": {
     "@factor/plugin-highlight-code": "^1.5.4"

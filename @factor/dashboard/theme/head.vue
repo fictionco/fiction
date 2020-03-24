@@ -48,7 +48,7 @@
             :class="toggle == 'on' && menuType == 'dashboard' ? 'active' : 'inactive'"
             @click="toggleNav(`toggle`, `dashboard`)"
           >
-            <factor-avatar :post-id="getUser('avatar')" width="2rem" />
+            <factor-avatar :user="getUser()" width="2rem" />
 
             <div class="bars">
               <div class="bar" />
@@ -110,6 +110,9 @@ export default Vue.extend({
     toLabel,
 
     getUser(this: any, field: string) {
+      if (!field) {
+        return this.currentUser
+      }
       return this.currentUser ? this.currentUser[field] : undefined
     },
     toggleNav(this: any, toggle: "on" | "off" | "toggle", menuType: "dashboard" | "app") {

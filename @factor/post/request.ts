@@ -233,16 +233,20 @@ export const requestPostIndex = async (
     sameSource = false,
     conditions = {}
   } = _arguments
+
+  let { storeKey } = _arguments
   const queryHash = objectHash({ ..._arguments, cache: localPostTypeCache(postType) })
   const storedIndex = stored(queryHash)
 
   const skip = (page - 1) * limit
 
+  storeKey = storeKey ? storeKey : postType
+
   /**
    * Create a mechanism to prevent multiple runs/pops for same data
    */
   if (storedIndex && cache) {
-    storeItem(postType, storedIndex)
+    storeItem(storeKey, storedIndex)
     return storedIndex
   }
 
@@ -269,7 +273,7 @@ export const requestPostIndex = async (
     const { posts, meta } = result as PostIndex
 
     storeItem(queryHash, { posts, meta })
-    storeItem(postType, { posts, meta })
+    storeItem(storeKey, { posts, meta })
 
     await requestPostPopulate({ posts, depth: 20 })
 

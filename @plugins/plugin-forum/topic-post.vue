@@ -1,7 +1,7 @@
 <template>
   <div class="topic-post">
     <div class="post-avatar">
-      <factor-avatar :post-id="author.avatar" />
+      <factor-avatar :user="author" />
     </div>
     <div class="post-content">
       <div class="post-meta">

@@ -37,7 +37,7 @@
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
               <div class="avatar-area">
-                <factor-avatar :post-id="author(post, 'avatar')" />
+                <factor-avatar :user="author(post)" />
                 <div v-if="post.pinned" class="tag-bubble">
                   <factor-icon icon="fas fa-thumbtack" />
                 </div>
@@ -145,6 +145,7 @@ export default Vue.extend({
     author(this: any, post: FactorPost, field: string) {
       const authorId = post.author && post.author.length > 0 ? post.author[0] : ""
       const author = authorId ? stored(authorId) : {}
+      if (!field) return author
       return author && author[field] ? author[field] : undefined
     },
     setQuery(

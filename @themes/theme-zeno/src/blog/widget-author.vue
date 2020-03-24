@@ -2,7 +2,7 @@
   <div class="widget-author mt-auto pt-12 pb-8 px-8">
     <div class="author-wrap">
       <div v-for="authorId in post.author" :key="authorId" class="author">
-        <factor-avatar :post-id="getPost(authorId).avatar" />
+        <factor-avatar :user="getPost(authorId)" />
         <span
           class="inline-flex items-center custom-uppercase mb-0"
           itemprop="author"

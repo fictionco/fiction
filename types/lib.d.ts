@@ -13,3 +13,5 @@ declare module "std-env"
 declare module "blueimp-load-image"
 declare module "tailwindcss"
 declare module "@fullhuman/postcss-purgecss"
+
+declare module "gravatar"

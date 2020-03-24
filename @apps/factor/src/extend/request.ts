@@ -44,6 +44,7 @@ export const requestIndex = async ({
 
   await requestPostIndex({
     postType,
+    storeKey: [postType, extensionType].join(""),
     tag,
     category,
     sort: "updatedAt",

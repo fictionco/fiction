@@ -1,7 +1,7 @@
 <template>
   <div class="author-bio">
     <div v-for="_id in post.author" :key="_id" class="author-card">
-      <factor-avatar :post-id="getPost(_id).avatar" width="4em" />
+      <factor-avatar :user="getPost(_id)" width="4em" />
       <div class="text">
         <div class="sup">Written By</div>
         <div

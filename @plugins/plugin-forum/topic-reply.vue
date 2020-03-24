@@ -14,7 +14,7 @@
         </div>
       </div>
       <template v-else>
-        <factor-avatar :post-id="author.avatar" />
+        <factor-avatar :user="author" />
         <factor-input-editor
           id="topic-reply"
           v-model="reply"

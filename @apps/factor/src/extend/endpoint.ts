@@ -86,11 +86,13 @@ export const saveSingleExtension = async (params: {
 
   const Model = getModel<FactorExtensionInfo>(postType)
 
-  let post = await Model.findOne({ permalink })
+  let post = await Model.findOne({ packageName })
 
   if (!post) {
-    post = new Model({ permalink })
+    post = new Model({ packageName })
   }
+
+  const category = Array.isArray(factor.category) ? factor.category : [factor.category]
 
   Object.assign(post, {
     status: PostStatus.Published,
@@ -98,7 +100,7 @@ export const saveSingleExtension = async (params: {
     permalink,
     title: factor.title ?? packageName,
     demo: factor.demo,
-    category: factor.category,
+    category,
     synopsis: description,
     content: readme,
     tag,

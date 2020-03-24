@@ -30,7 +30,7 @@ export default Vue.extend({ components: { factorLink }, methods: { setting } })
   }
   .plugins-cta {
     max-width: 700px;
-    margin: 4rem auto 0;
+    margin: 9rem auto 0;
     display: grid;
     grid-gap: 2rem;
     justify-content: center;

@@ -27,7 +27,7 @@
             :key="authorId"
             class="flex justify-center items-center"
           >
-            <factor-avatar :post-id="getPost(authorId).avatar" class="ml-8" />
+            <factor-avatar :user="getPost(authorId)" class="ml-8" />
             <span
               class="ml-2 mb-0"
               itemprop="author"

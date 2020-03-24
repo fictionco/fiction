@@ -1,7 +1,7 @@
 <template>
   <div class="mobile-nav-content">
     <div class="user-menu menu-area">
-      <factor-avatar :post-id="getUser('avatar')" width="2rem" />
+      <factor-avatar :user="getUser()" width="2rem" />
       <div class="content" :data-uid="getUser('_id')">
         <div class="name">{{ getUser('displayName') || getUser('email') }}</div>
         <div v-if="getUser('role')" class="name-sub">
@@ -81,6 +81,7 @@ export default Vue.extend({
     toLabel,
 
     getUser(this: any, field: string) {
+      if (!field) return this.currentUser
       return this.currentUser ? this.currentUser[field] : undefined
     },
     async setMenu(this: any) {

@@ -5,6 +5,7 @@
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
+
     <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
       <svg
         class="user-blank"
@@ -26,6 +27,7 @@
   </div>
 </template>
 <script lang="ts">
+import gravatar from "gravatar"
 import { stored } from "@factor/api"
 import { userInitialized } from "@factor/user"
 import Vue from "vue"
@@ -34,7 +36,9 @@ export default Vue.extend({
     width: { type: String, default: "" },
     postId: { type: String, default: "" },
     url: { type: String, default: "" },
-    loading: { type: Boolean, default: false }
+    email: { type: String, default: "" },
+    loading: { type: Boolean, default: false },
+    user: { type: [Object, undefined], default: undefined }
   },
   data() {
     return {
@@ -47,13 +51,17 @@ export default Vue.extend({
     },
 
     avatar(this: any) {
-      return stored(this.postId) || {}
+      const avatarId = this.postId || this.user?.avatar
+
+      return avatarId ? stored(avatarId) ?? {} : {}
     },
     src(this: any) {
-      if (this.avatar && this.avatar.url) {
-        return this.avatar.url
-      } else if (this.url) {
+      if (this.url) {
         return this.url
+      } else if (this.avatar && this.avatar.url) {
+        return this.avatar.url
+      } else if (this.user) {
+        return gravatar.url(this.user.email, { s: "200", d: "identicon" }) || ""
       } else {
         return ""
       }

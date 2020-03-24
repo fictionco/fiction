@@ -2,7 +2,7 @@
   <div class="widget-author-date">
     <div class="author-date">
       <div v-for="authorId in post.author" :key="authorId" class="author">
-        <factor-avatar :post-id="getPost(authorId).avatar" />
+        <factor-avatar :user="getPost(authorId)" />
         <span
           class="name"
           itemprop="author"

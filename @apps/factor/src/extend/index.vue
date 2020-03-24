@@ -65,7 +65,8 @@ export default Vue.extend({
   computed: {
     isLoggedIn,
     extensions(this: any) {
-      const index = stored(postType) || {}
+      const storeKey = [postType, this.extensionType].join("")
+      const index = stored(storeKey) || {}
       return index.posts ?? []
     },
     extensionType(this: any) {
@@ -144,18 +145,27 @@ export default Vue.extend({
   }
 
   .extend-index-head {
-    padding: 6em 0;
-
+    padding: 9em 0;
+    text-align: center;
     .title {
-      font-size: 3em;
+      font-size: 4em;
       line-height: 1.1;
       font-weight: var(--font-weight-bold, 700);
       letter-spacing: -0.03em;
       text-transform: capitalize;
+      margin-bottom: 0.5rem;
     }
     .sub-title {
-      font-size: 1.8em;
+      font-size: 2.2em;
       opacity: 0.7;
+    }
+    @media (max-width: 900px) {
+      .title {
+        font-size: 2em;
+      }
+      .sub-title {
+        font-size: 1.3em;
+      }
     }
   }
 

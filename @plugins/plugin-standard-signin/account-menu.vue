@@ -7,13 +7,13 @@
       @click.stop="setToggle($event)"
     >
       <div v-if="showName" class="display-name">{{ currentUser.displayName }}</div>
-      <factor-avatar width="2rem" :post-id="currentUser.avatar" />
+      <factor-avatar width="2rem" :user="currentUser" />
     </span>
     <transition name="leftfade">
       <div v-if="toggle" class="account-menu-nav" @click.stop>
         <div class="nav-pad">
           <div class="user-basics">
-            <factor-avatar v-if="isLoggedIn()" :post-id="currentUser.avatar" width="2.5em" />
+            <factor-avatar v-if="isLoggedIn()" :user="currentUser" width="2.5em" />
             <div class="content" :data-uid="currentUser._id">
               <div class="name">{{ currentUser.displayName || currentUser.email }}</div>
               <div v-if="role.title" class="privs">
