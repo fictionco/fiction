@@ -1,8 +1,13 @@
 {
   "name": "@factor/plugin-sitemap",
-  "description": "This plugin generates a sitemap by crawling your Factor app.",
-  "version": "1.5.0",
+  "description": "Advanced automatically generated sitemaps for your Factor app",
+  "version": "1.5.4",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -10,18 +15,19 @@
     "load": [
       "server"
     ],
-    "title": "Sitemap"
+    "extend": "plugin",
+    "permalink": "sitemap-xml",
+    "title": "Sitemap",
+    "demo": "https://factor.dev/sitemap.xml"
   },
   "dependencies": {
+    "node-cache": "^5.1.0",
     "sitemap": "^6.0.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "sitemap",
     "sitemap.xml",
     "generator",

@@ -11,7 +11,7 @@
     },
     "priority": 30
   },
-  "version": "1.5.3",
+  "version": "1.5.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -44,6 +44,7 @@
     "rand-token": "^0.4.0",
     "remark": "^11.0.0",
     "sanitize-html": "^1.20.1",
+    "sitemap": "^6.1.0",
     "stopwords": "^0.0.9",
     "strip-markdown": "^3.0.3",
     "uniqid": "^5.0.3",

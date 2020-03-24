@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
   "author": {
     "name": "Fiction",
@@ -22,7 +22,7 @@
   },
   "factor": {
     "title": "Alpha",
-    "permalink": "alpha",
+    "permalink": "alpha-factor-theme",
     "demo": "https://themes.factor.dev/alpha",
     "category": "portfolio",
     "extend": "theme",
@@ -36,11 +36,11 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/core": "^1.5.3",
-    "@factor/plugin-blog": "^1.5.3",
-    "@factor/plugin-contact-form": "^1.4.6",
-    "@factor/plugin-highlight-code": "^1.4.2",
-    "@factor/plugin-notify": "^1.5.3"
+    "@factor/core": "^1.5.4",
+    "@factor/plugin-blog": "^1.5.4",
+    "@factor/plugin-contact-form": "^1.5.4",
+    "@factor/plugin-highlight-code": "^1.5.4",
+    "@factor/plugin-notify": "^1.5.4"
   },
   "keywords": [
     "modern",

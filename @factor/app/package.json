@@ -1,13 +1,11 @@
 {
   "name": "@factor/app",
-  "version": "1.5.0",
+  "version": "1.5.4",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "factor": {
-    "_id": "app"
-  },
+  "factor": {},
   "dependencies": {
     "qs": "^6.6.0",
     "vue": "^2.6.7",

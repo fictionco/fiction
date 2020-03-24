@@ -1,6 +1,7 @@
 import { setting, addContentRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
+import "./extend"
 
 addPageTemplate({
   name: "Factor Basic",
@@ -14,10 +15,6 @@ addContentRoutes({
     const base = setting("docs.base")
 
     return [
-      {
-        path: "/compare",
-        component: (): Promise<Component> => import("./page-compare.vue")
-      },
       {
         path: "/",
         component: (): Promise<Component> => import("./home/v-home.vue")

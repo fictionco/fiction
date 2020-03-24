@@ -74,7 +74,9 @@
                             <thead>
                                 <tr>
                                     <th width="75%">Sitemap</th>
-                                    <th width="25%">Last Modified</th>
+                                    <th width="25%">
+                                    <!-- Last Modified -->
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
