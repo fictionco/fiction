@@ -86,10 +86,13 @@ export const saveSingleExtension = async (params: {
 
   const Model = getModel<FactorExtensionInfo>(postType)
 
-  let post = await Model.findOne({ packageName })
+  /**
+   * Cant be packageName because of potential dupes
+   */
+  let post = await Model.findOne({ permalink })
 
   if (!post) {
-    post = new Model({ packageName })
+    post = new Model({ permalink })
   }
 
   const category = Array.isArray(factor.category) ? factor.category : [factor.category]

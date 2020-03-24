@@ -35,7 +35,7 @@
 import Vue from "vue"
 import { isLoggedIn } from "@factor/user"
 import { stored } from "@factor/api"
-import { factorLoadingRing, factorLink } from "@factor/ui"
+import { factorLoadingRing } from "@factor/ui"
 import {
   postType,
   titleFromPackage,
