@@ -88,8 +88,8 @@
               </div>
               <div v-else-if="block == 'screenshots'" class="lightshots-wrap">
                 <div
-                  v-for="(screenshot, i) in post.screenshots"
-                  :key="i"
+                  v-for="(screenshot, iii) in post.screenshots"
+                  :key="iii"
                   class="lightshot"
                   :style="bgImage(screenshot)"
                   @click="lightboxShow = true; lightboxIndex = i"
