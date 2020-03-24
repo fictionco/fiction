@@ -22,7 +22,7 @@
   },
   "factor": {
     "title": "Alpha",
-    "permalink": "alpha",
+    "permalink": "alpha-factor-theme",
     "demo": "https://themes.factor.dev/alpha",
     "category": "portfolio",
     "extend": "theme",

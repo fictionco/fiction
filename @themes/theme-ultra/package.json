@@ -22,7 +22,7 @@
   },
   "factor": {
     "title": "Ultra",
-    "permalink": "ultra",
+    "permalink": "ultra-factor-theme",
     "demo": "https://themes.factor.dev/ultra",
     "category": "single-page",
     "extend": "theme",

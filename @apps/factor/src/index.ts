@@ -1,6 +1,7 @@
 import { setting, addContentRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
+import "./extend"
 
 addPageTemplate({
   name: "Factor Basic",

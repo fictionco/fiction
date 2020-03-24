@@ -60,14 +60,6 @@ export const saveSingleExtension = async (params: {
   // Delete all the data from versions we don't care about
   delete item.versions
 
-  const Model = getModel<FactorExtensionInfo>(postType)
-
-  let post = await Model.findOne({ packageName })
-
-  if (!post) {
-    post = new Model({ packageName })
-  }
-
   const {
     description,
     keywords,
@@ -90,10 +82,20 @@ export const saveSingleExtension = async (params: {
   const extensionType = factor.extend ?? "plugin"
   const tag = keywords.filter((_: string) => !_.includes("factor"))
 
+  const permalink = factor.permalink ?? packageName
+
+  const Model = getModel<FactorExtensionInfo>(postType)
+
+  let post = await Model.findOne({ permalink })
+
+  if (!post) {
+    post = new Model({ permalink })
+  }
+
   Object.assign(post, {
     status: PostStatus.Published,
     featured,
-    permalink: factor.permalink ?? packageName,
+    permalink,
     title: factor.title ?? packageName,
     demo: factor.demo,
     category: factor.category,

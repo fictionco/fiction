@@ -77,5 +77,7 @@ export const postLink = (_id: string, options: PermalinkComponents = {}): string
 
   const { permalink } = getPostTypeConfig(post.postType)
 
-  return `${root}${permalink(post)}`
+  const route = permalink ? permalink(post) : ""
+
+  return `${root}${route}`
 }

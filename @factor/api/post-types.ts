@@ -21,7 +21,7 @@ export interface PostTypeConfig {
   hideAdmin?: boolean;
   categories?: ListItem[];
   customPermalink?: true | string;
-  permalink?: (p: FactorPost) => string;
+  permalink?: (p: any) => string;
   templateSettings?: TemplateSetting[];
   addSitemap?: true;
 }

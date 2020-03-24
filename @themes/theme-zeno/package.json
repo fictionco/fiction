@@ -22,7 +22,7 @@
   },
   "factor": {
     "title": "Zeno",
-    "permalink": "zeno",
+    "permalink": "zeno-factor-theme",
     "demo": "https://themes.factor.dev/zeno",
     "category": "technology",
     "extend": "theme",
