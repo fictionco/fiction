@@ -118,6 +118,9 @@ export default Vue.extend({
       font-size: 0.9em;
       font-weight: var(--font-weight-bold, 700);
       text-transform: uppercase;
+      .category {
+        color: var(--color-primary);
+      }
     }
     .title {
       color: var(--color-text);

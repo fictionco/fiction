@@ -1,9 +1,9 @@
 <template>
   <div class="extension-single">
     <section class="splash">
-      <div class="content-area header">
+      <div class="ext-content-area header">
         <div class="overlay" />
-        <div class="content-pad header-pad">
+        <div class="ext-content-pad header-pad">
           <div class="content">
             <factor-link class="back" :path="`/${extensionType}s`">
               <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
@@ -57,11 +57,11 @@
     </section>
 
     <section class="information">
-      <div class="content-area lightshots">
-        <div class="content-pad" />
+      <div class="ext-content-area lightshots">
+        <div class="ext-content-pad" />
       </div>
-      <div class="content-area blocks">
-        <div class="content-pad">
+      <div class="ext-content-area blocks">
+        <div class="ext-content-pad">
           <div v-for="(block, i) in infoItems" :id="block" :key="i" class="block-grid">
             <div class="title">{{ toLabel(block) }}</div>
             <div class="info" :class="block">
@@ -292,7 +292,7 @@ export default Vue.extend({
     position: absolute;
     left: -9999px;
   }
-  .content-area {
+  .ext-content-area {
     &.install {
       padding: 2rem;
       z-index: 10;
@@ -302,7 +302,7 @@ export default Vue.extend({
       position: relative;
     }
   }
-  .content-pad {
+  .ext-content-pad {
     max-width: 1100px;
     margin: 0 auto;
   }

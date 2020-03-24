@@ -409,7 +409,7 @@ export default Vue.extend({
   }
 }
 
-.content-area {
+.topic-single .content-area {
   display: grid;
   grid-template-columns: 2fr 200px;
   grid-template-areas: "topic-content topic-sidebar";
