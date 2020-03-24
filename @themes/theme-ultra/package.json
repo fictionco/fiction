@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-ultra",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Ultra, a modern single-page [Factor](https://factor.dev/) theme for creative exposure with unique effects and features.",
   "author": {
     "name": "Fiction",
@@ -36,11 +36,11 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/core": "^1.5.3",
-    "@factor/plugin-blog": "^1.5.3",
-    "@factor/plugin-contact-form": "^1.4.6",
-    "@factor/plugin-highlight-code": "^1.4.2",
-    "@factor/plugin-notify": "^1.5.3"
+    "@factor/core": "^1.5.4",
+    "@factor/plugin-blog": "^1.5.4",
+    "@factor/plugin-contact-form": "^1.5.4",
+    "@factor/plugin-highlight-code": "^1.5.4",
+    "@factor/plugin-notify": "^1.5.4"
   },
   "keywords": [
     "modern",
