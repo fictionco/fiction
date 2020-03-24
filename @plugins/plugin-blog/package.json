@@ -16,7 +16,8 @@
     "category": [
       "blog"
     ],
-    "permalink": "standard-blog"
+    "permalink": "standard-blog",
+    "themeColor": "#2F80EE"
   },
   "dependencies": {
     "@factor/plugin-highlight-code": "^1.5.4"
@@ -29,8 +30,6 @@
     "factor",
     "factor-plugin",
     "fiction",
-    "webpack",
-    "vue",
     "blog",
     "post",
     "writing"

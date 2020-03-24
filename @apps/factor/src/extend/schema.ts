@@ -12,6 +12,7 @@ export default {
     demo: { type: String },
     version: { type: String },
     homepage: { type: String },
+    themeColor: { type: String },
     repositoryUrl: { type: String },
     featured: { type: Boolean },
     extensionAuthor: { type: String },

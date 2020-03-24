@@ -6,7 +6,7 @@
       class="grid-item-plugin"
       @click="$router.push({path: `/plugin/${encodeURIComponent(item.permalink)}`})"
     >
-      <div class="entry-media" :style="mediaStyle(item)">
+      <div class="entry-media" :style="mediaStyle(item)" :class="imageStyle(item)">
         <img :src="item.icon" :alt="`${item.title} Icon`" class="extend-icon" />
       </div>
       <div class="entry-content">
@@ -29,6 +29,9 @@ export default Vue.extend({
   props: {
     extensions: { type: Array, default: () => {} }
   },
+  data() {
+    return {}
+  },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
@@ -48,6 +51,10 @@ export default Vue.extend({
 
       return screenshots[0] ?? ""
     },
+    imageStyle(this: any, item: FactorExtensionInfo) {
+      const sc = this.getPrimaryScreenshot(item)
+      return sc ? "screenshot" : "icon"
+    },
     mediaStyle(this: any, item: FactorExtensionInfo) {
       const sc = this.getPrimaryScreenshot(item)
 
@@ -57,6 +64,7 @@ export default Vue.extend({
         }
       } else {
         return {
+          backgroundColor: item.themeColor,
           backgroundImage: `url(${item.icon})`,
           backgroundPosition: "50% 50%"
         }
@@ -101,6 +109,9 @@ export default Vue.extend({
     position: relative;
     padding: 25%;
     box-shadow: 0px 1px 0 rgba(50, 50, 93, 0.13);
+    &.icon {
+      background-size: contain;
+    }
     img {
       width: 80px;
       right: 0;

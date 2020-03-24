@@ -8,7 +8,9 @@
       "app",
       "server"
     ],
-    "title": "Job Board"
+    "title": "Job Board",
+    "themeColor": "#131C23",
+    "category": "listing"
   },
   "dependencies": {
     "@factor/plugin-highlight-code": "^1.5.4"

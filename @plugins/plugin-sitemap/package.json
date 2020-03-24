@@ -18,7 +18,8 @@
     "extend": "plugin",
     "permalink": "sitemap-xml",
     "title": "Sitemap",
-    "demo": "https://factor.dev/sitemap.xml"
+    "demo": "https://factor.dev/sitemap.xml",
+    "themeColor": "#172D45"
   },
   "dependencies": {
     "node-cache": "^5.1.0",

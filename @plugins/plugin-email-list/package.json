@@ -4,7 +4,6 @@
   "version": "1.5.4",
   "license": "GPL-2.0",
   "factor": {
-    "_id": "emailList",
     "load": {
       "app": "index",
       "server": [
@@ -12,7 +11,10 @@
         "index"
       ]
     },
-    "title": "Email List"
+    "title": "Email List",
+    "themeColor": "#8C81EA",
+    "permalink": "email-list-factor-plugin",
+    "category": "forms"
   },
   "dependencies": {
     "export-to-csv": "^0.2.1"

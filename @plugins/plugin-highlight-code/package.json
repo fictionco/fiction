@@ -7,7 +7,9 @@
     "load": [
       "app"
     ],
-    "title": "Syntax Highlight"
+    "title": "Syntax Highlight",
+    "category": "ui",
+    "themeColor": "#000000"
   },
   "publishConfig": {
     "access": "public"

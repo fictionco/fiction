@@ -10,7 +10,9 @@
     "load": [
       "server"
     ],
-    "title": "Server Analytics"
+    "title": "Server Analytics",
+    "category": "analytics",
+    "permalink": "server-analytics-plugin"
   },
   "dependencies": {
     "@types/universal-analytics": "^0.4.3",

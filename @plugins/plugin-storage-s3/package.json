@@ -8,7 +8,9 @@
     "load": [
       "server"
     ],
-    "title": "Storage S3"
+    "title": "Storage S3",
+    "category": "storage",
+    "themeColor": "#232F3E"
   },
   "publishConfig": {
     "access": "public"
@@ -19,9 +21,12 @@
   },
   "keywords": [
     "factor",
+    "factor-js",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue"
+    "storage",
+    "amazon",
+    "s3",
+    "image-hosting",
+    "images"
   ]
 }

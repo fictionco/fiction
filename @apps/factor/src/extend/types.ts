@@ -17,4 +17,5 @@ export type FactorExtensionInfo = {
   files?: { name: string; size: number; hash: string }[];
   icon?: string;
   screenshots?: string[];
+  themeColor?: string;
 } & FactorPost

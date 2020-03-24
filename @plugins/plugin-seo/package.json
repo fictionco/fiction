@@ -11,16 +11,15 @@
       "app",
       "server"
     ],
-    "title": "SEO"
+    "title": "SEO",
+    "category": "seo",
+    "themeColor": "#09CF85"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "seo",
-    ""
+    "optimization"
   ]
 }

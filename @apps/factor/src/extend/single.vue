@@ -369,6 +369,11 @@ export default Vue.extend({
         }
         .info {
           padding: 1.5rem;
+          &.install,
+          &.overview,
+          &.meta {
+            padding: 1rem;
+          }
         }
       }
     }
@@ -410,7 +415,9 @@ export default Vue.extend({
           padding: 1rem 2rem;
           letter-spacing: -0.03em;
           border-radius: 10px;
-
+          overflow: hidden;
+          max-width: 100%;
+          text-overflow: ellipsis;
           font-weight: 700;
           box-shadow: var(--panel-shadow);
           display: inline-block;
@@ -528,6 +535,8 @@ export default Vue.extend({
         font-size: 3.5em;
         letter-spacing: -0.03em;
         font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
       }
       .description {
         font-size: 1.4em;
@@ -543,6 +552,11 @@ export default Vue.extend({
       }
       .text {
         padding: 5rem 0;
+      }
+      @media (max-width: 900px) {
+        .title {
+          font-size: 2em;
+        }
       }
     }
     .media {

@@ -81,7 +81,7 @@ export const saveSingleExtension = async (params: {
   const icon = extensionImage(files, cdnUrl, "icon.svg")
   const extensionType = factor.extend ?? "plugin"
   const tag = keywords.filter((_: string) => !_.includes("factor"))
-
+  const themeColor = factor.themeColor ?? "#FFFFFF"
   const permalink = factor.permalink ?? packageName
 
   const Model = getModel<FactorExtensionInfo>(postType)
@@ -101,6 +101,7 @@ export const saveSingleExtension = async (params: {
     status: PostStatus.Published,
     featured,
     permalink,
+    themeColor,
     title: factor.title ?? packageName,
     demo: factor.demo,
     category,

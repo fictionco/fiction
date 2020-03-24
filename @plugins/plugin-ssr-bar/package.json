@@ -10,7 +10,10 @@
     "load": [
       "app"
     ],
-    "title": "SSR Bar"
+    "title": "SSR Bar",
+    "category": "ui",
+    "permalink": "ssr-bar-plugin",
+    "themeColor": "#FFC35A"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

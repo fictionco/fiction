@@ -11,7 +11,9 @@
       "app": "index",
       "server": "server"
     },
-    "title": "Google Tag Manager"
+    "title": "Google Tag Manager",
+    "category": "analytics",
+    "themeColor": "#F5F5F5"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

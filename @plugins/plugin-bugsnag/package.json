@@ -8,12 +8,14 @@
     "access": "public"
   },
   "factor": {
-    "_id": "bugsnag",
+    "category": "monitoring",
     "load": {
       "app": "index",
       "server": "server"
     },
-    "title": "Bugsnag"
+    "title": "Bugsnag",
+    "permalink": "bugsnag-factor-plugin",
+    "themeColor": "#020F46"
   },
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
@@ -22,9 +24,6 @@
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "bugsnag",
     "error",
     "monitoring",

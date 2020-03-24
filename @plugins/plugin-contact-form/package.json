@@ -4,12 +4,13 @@
   "version": "1.5.5",
   "license": "GPL-2.0",
   "factor": {
-    "_id": "contactForm",
     "load": {
       "app": "index",
       "server": "server"
     },
-    "title": "Contact Form"
+    "title": "Contact Form",
+    "themeColor": "#0697FF",
+    "category": "forms"
   },
   "publishConfig": {
     "access": "public"
