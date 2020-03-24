@@ -2,6 +2,7 @@ import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { storeItem, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import { currentRoute } from "@factor/app/router"
+import { PostStatus } from "@factor/post/types"
 import { FactorExtensionInfo } from "./types"
 import { endpointId, postType } from "./util"
 export const sendRequest = async <T>(
@@ -45,9 +46,10 @@ export const requestIndex = async ({
     postType,
     tag,
     category,
-    sort: "-date",
+    sort: "updatedAt",
     page,
     limit,
+    status: PostStatus.Published,
     conditions: { extensionType }
   })
 }

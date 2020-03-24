@@ -1,28 +1,31 @@
 <template>
   <div class="plugin-grid">
-    <factor-link v-for="(item, index) in 10" :key="index" path="#" class="grid-item-plugin">
-      <div class="entry-content">
-        <div class="media">
-          <img src="./img/icon-forum.svg" alt="Factor Forum Icon" class="extend-icon" />
-        </div>
-        <div class="meta">
-          <div class="category">Discussion</div>
-        </div>
-        <h3 class="title">Plugin Forum</h3>
-        <p
-          class="description"
-        >Factor forum is a powerful forum solution for your factor app with essential elements to run an efficient community.</p>
+    <div
+      v-for="(item, index) in extensions"
+      :key="index"
+      class="grid-item-plugin"
+      @click="$router.push({path: `/plugin/${encodeURIComponent(item.permalink)}`})"
+    >
+      <div class="entry-media" :style="mediaStyle(item)">
+        <img :src="item.icon" :alt="`${item.title} Icon`" class="extend-icon" />
       </div>
-    </factor-link>
+      <div class="entry-content">
+        <div class="meta">
+          <div v-if="item.category" class="category">{{ item.category.join(', ') }}</div>
+        </div>
+        <h3 class="title">{{ item.title }}</h3>
+        <p class="description">{{ item.synopsis }}</p>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { factorLink } from "@factor/ui"
-import { setting, stored, postLink } from "@factor/api"
+import { setting, stored } from "@factor/api"
 import Vue from "vue"
+import { FactorExtensionInfo } from "./types"
 
 export default Vue.extend({
-  components: { factorLink },
+  components: {},
   props: {
     extensions: { type: Array, default: () => {} }
   },
@@ -31,7 +34,35 @@ export default Vue.extend({
       return stored(this.postId) || {}
     }
   },
-  methods: { setting, postLink }
+  methods: {
+    setting,
+    backgroundImageStyle(item: FactorExtensionInfo) {
+      return { backgroundImage: `url(${this.getPrimaryScreenshot(item)})` }
+    },
+    getScreenshots(this: any, item: FactorExtensionInfo): string[] {
+      if (!item.screenshots) return []
+      return item.screenshots
+    },
+    getPrimaryScreenshot(item: FactorExtensionInfo) {
+      const screenshots = this.getScreenshots(item)
+
+      return screenshots[0] ?? ""
+    },
+    mediaStyle(this: any, item: FactorExtensionInfo) {
+      const sc = this.getPrimaryScreenshot(item)
+
+      if (sc) {
+        return {
+          backgroundImage: `url(${sc})`
+        }
+      } else {
+        return {
+          backgroundImage: `url(${item.icon})`,
+          backgroundPosition: "50% 50%"
+        }
+      }
+    }
+  }
 })
 </script>
 
@@ -54,30 +85,35 @@ export default Vue.extend({
   overflow: hidden;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
-  transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
+  box-shadow: var(--panel-shadow);
+  cursor: pointer;
+  transition: 0.1s cubic-bezier(0.52, 0.01, 0.16, 1);
   &:hover {
-    transform: translateY(-0.5rem);
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.07), 0px 2px 3px rgba(50, 50, 93, 0.13),
-      0px 2px 5px rgba(50, 50, 93, 0.11);
+    opacity: 0.9;
   }
 
-  .media {
+  .entry-media {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 0%;
     position: relative;
     max-width: 100%;
-    margin-bottom: 0.75rem;
+    position: relative;
+    padding: 25%;
+    box-shadow: 0px 1px 0 rgba(50, 50, 93, 0.13);
     img {
-      max-width: 100%;
-    }
-    .extend-icon {
       width: 80px;
-      background: #fff;
-      border-radius: 50%;
+      right: 0;
+      bottom: 0;
+      position: absolute;
+      border-radius: 8px;
+      transform: translate(-50%, 50%);
+      box-shadow: var(--panel-shadow);
     }
   }
 
   .entry-content {
-    padding: 1rem;
+    padding: 1.5rem;
     .meta {
       font-size: 0.9em;
       font-weight: var(--font-weight-bold, 700);
@@ -86,9 +122,11 @@ export default Vue.extend({
     .title {
       color: var(--color-text);
       font-weight: var(--font-weight-bold, 700);
-      font-size: 1.5rem;
+      font-size: 1.6em;
+      letter-spacing: -0.02em;
     }
     .description {
+      font-size: 1.2em;
       color: var(--color-text);
       opacity: 0.5;
       // Unofficial line clamp works on all major browsers except IE

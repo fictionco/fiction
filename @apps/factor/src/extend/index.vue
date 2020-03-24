@@ -6,13 +6,13 @@
         <h3 class="sub-title">{{ describe.description }}</h3>
       </div>
     </div>
-
-    <div v-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
-      <!-- <plugin-grid :extensions="extensions" /> -->
+    <factor-loading-ring v-if="loading" />
+    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
+      <plugin-grid :extensions="extensions" />
       <!-- <div>
         <extension-sidebar :index-data="extensionIndex" />
       </div>-->
-      <div class="coming-soon">
+      <!-- <div class="coming-soon">
         <div class="title">Coming Soon 👋</div>
         <div class="sub-title">Plugins will launch early April, 2020</div>
 
@@ -20,10 +20,8 @@
           <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
           <span class="cta-tag">for early access.</span>
         </div>
-      </div>
+      </div>-->
     </div>
-
-    <factor-loading-ring v-else-if="loading" />
 
     <div v-else class="extensions-wrap themes-wrap content-pad">
       <theme-grid :extensions="extensions" />
@@ -51,10 +49,9 @@ import { requestIndex } from "./request"
 export default Vue.extend({
   components: {
     callToAction: () => import("./el/cta.vue"),
-    //pluginGrid: () => import("./grid-plugin.vue"),
+    pluginGrid: () => import("./grid-plugin.vue"),
     themeGrid: () => import("./grid-theme.vue"),
-    factorLoadingRing,
-    factorLink
+    factorLoadingRing
   },
   data() {
     return {
@@ -102,6 +99,7 @@ export default Vue.extend({
   methods: {
     async getPosts(this: any) {
       this.loading = true
+
       await requestIndex({ extensionType: this.extensionType })
 
       this.loading = false

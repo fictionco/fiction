@@ -5,12 +5,12 @@
         <div class="overlay" />
         <div class="content-pad header-pad">
           <div class="content">
-            <factor-link class="back" :path="`/themes`">
+            <factor-link class="back" :path="`/${extensionType}s`">
               <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
             </factor-link>
             <div class="text">
               <div class="title-wrap">
-                <div class="icon-area">
+                <div v-if="headerFormat != 'icon'" class="icon-area">
                   <img :src="post.icon" alt="Theme logo" class="extension-icon" />
                 </div>
                 <h1 class="title">{{ post.title }}</h1>
@@ -28,10 +28,16 @@
             </div>
           </div>
           <div class="media">
-            <div class="drawer">
+            <div v-if="headerFormat == 'icon'" class="icon-splash">
+              <div
+                class="icon-image"
+                :style="{ backgroundImage: `url('${headerScreenshots[0]}')` }"
+              />
+            </div>
+            <div v-else class="drawer" :class="headerFormat">
               <transition-group tag="div" name="gallery">
                 <div
-                  v-for="(img, i) in screenshots"
+                  v-for="(img, i) in headerScreenshots"
                   :key="img"
                   class="screenshot"
                   :class="`sc-${i + 1}`"
@@ -41,7 +47,7 @@
                   <div class="screenshot-image" :style="{ backgroundImage: `url('${img}')` }" />
                 </div>
               </transition-group>
-              <div class="arrow-wrap">
+              <div v-if="headerScreenshots.length > 1" class="arrow-wrap">
                 <div class="arrow" @click="nextScreenshot()">&rarr;</div>
               </div>
             </div>
@@ -49,17 +55,16 @@
         </div>
       </div>
     </section>
+
     <section class="information">
+      <div class="content-area lightshots">
+        <div class="content-pad" />
+      </div>
       <div class="content-area blocks">
         <div class="content-pad">
-          <div
-            v-for="(block, i) in ['install', 'overview', 'meta']"
-            :id="block"
-            :key="i"
-            class="block-grid"
-          >
+          <div v-for="(block, i) in infoItems" :id="block" :key="i" class="block-grid">
             <div class="title">{{ toLabel(block) }}</div>
-            <div class="info">
+            <div class="info" :class="block">
               <div v-if="block == 'install'" class="install-extension">
                 <div class="title-header">
                   <div class="sub-title">Add this package to your Factor enabled project:</div>
@@ -81,6 +86,15 @@
                   </div>
                 </div>
               </div>
+              <div v-else-if="block == 'screenshots'" class="lightshots-wrap">
+                <div
+                  v-for="(screenshot, i) in post.screenshots"
+                  :key="i"
+                  class="lightshot"
+                  :style="bgImage(screenshot)"
+                  @click="lightboxShow = true; lightboxIndex = i"
+                />
+              </div>
               <div v-else class="entry-wrap">
                 <text-entry class="entry" :text="getContent(post.content)" />
               </div>
@@ -92,10 +106,11 @@
     </section>
 
     <call-to-action />
+    <factor-lightbox :visible.sync="lightboxShow" :imgs="post.screenshots" :index="lightboxIndex" />
   </div>
 </template>
 <script lang="ts">
-import { factorLink } from "@factor/ui"
+import { factorLink, factorLightbox } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
 import { setting, stored, emitEvent, toLabel, standardDate } from "@factor/api"
 import Vue from "vue"
@@ -104,21 +119,33 @@ export default Vue.extend({
   components: {
     factorLink,
     callToAction: () => import("./el/cta.vue"),
-    textEntry: () => import("../el/entry.vue")
+    textEntry: () => import("../el/entry.vue"),
+    factorLightbox
   },
   data() {
     return {
       getData: "",
       loading: true,
       viewScreenshot: 0,
-      screenshots: [],
+      headerScreenshots: [],
+      headerFormat: "tall",
       copyText: "",
       isCopied: "Click to Copy",
-      animationInterval: 5000
+      animationInterval: 5000,
+      lightboxIndex: 0,
+      lightboxShow: false
     }
   },
 
   computed: {
+    infoItems(this: any) {
+      const items: string[] = []
+
+      if (this.post.screenshots && this.post.screenshots.length > 0) {
+        items.push("screenshots")
+      }
+      return [...items, "install", "overview", "meta"]
+    },
     post() {
       return stored("post") || {}
     },
@@ -169,7 +196,21 @@ export default Vue.extend({
   },
 
   created() {
-    this.screenshots = this.post.screenshots.filter((_: string) => _.includes("tall"))
+    this.headerScreenshots = this.post.screenshots.filter((_: string) =>
+      _.includes("tall")
+    )
+
+    if (this.headerScreenshots.length == 0) {
+      this.headerScreenshots = this.post.screenshots.filter((_: string) =>
+        _.includes("wide")
+      )
+      this.headerFormat = "wide"
+    }
+
+    if (this.headerScreenshots.length == 0) {
+      this.headerScreenshots = [this.post.icon]
+      this.headerFormat = "icon"
+    }
   },
   mounted() {
     this.runTimer()
@@ -179,6 +220,9 @@ export default Vue.extend({
     toLabel,
     standardDate,
     runTimer(this: any) {
+      if (this.headerScreenshots.length <= 1) {
+        return
+      }
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextScreenshot(), this.animationInterval)
     },
@@ -191,16 +235,21 @@ export default Vue.extend({
     },
 
     nextScreenshot(this: any) {
-      const removed = this.screenshots.splice(0, 1)
+      if (this.headerScreenshots.length <= 1) return
+
+      const removed = this.headerScreenshots.splice(0, 1)
 
       setTimeout(() => {
-        this.screenshots = [...this.screenshots, ...removed]
+        this.headerScreenshots = [...this.headerScreenshots, ...removed]
       }, 1000)
       this.runTimer()
     },
 
     getContent(value: any) {
       return value ? renderMarkdown(value, { variables: true }) : ""
+    },
+    bgImage(url: string) {
+      return { backgroundImage: `url(${url})` }
     },
     screenshotStyle(index: number) {
       const style = {
@@ -257,6 +306,26 @@ export default Vue.extend({
     max-width: 1100px;
     margin: 0 auto;
   }
+  .lightshots {
+    margin-bottom: 2rem;
+  }
+  .lightshots-wrap {
+    display: flex;
+
+    flex-wrap: wrap;
+    .lightshot {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+      border-radius: 8px;
+      width: 80px;
+      height: 80px;
+      margin: 0 0.5rem 0.5rem 0;
+      background-size: cover;
+      box-shadow: var(--panel-shadow);
+    }
+  }
   .information {
     padding: 3rem;
     background-image: url("./img/dot.svg");
@@ -269,17 +338,22 @@ export default Vue.extend({
       grid-template-columns: 250px 1fr;
       grid-gap: 3rem;
       > .title {
-        font-size: 2.5em;
+        font-size: 2em;
         font-weight: 700;
         letter-spacing: -0.03em;
         text-align: right;
       }
       .info {
-        background: #fff;
-        box-shadow: var(--panel-shadow);
         border-radius: 10px;
-        padding: 3rem;
+
         min-width: 0;
+        &.install,
+        &.overview,
+        &.meta {
+          background: #fff;
+          box-shadow: var(--panel-shadow);
+          padding: 3rem;
+        }
       }
     }
     @media (max-width: 900px) {
@@ -476,6 +550,20 @@ export default Vue.extend({
       height: 100%;
       display: grid;
 
+      .icon-splash {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .icon-image {
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          box-shadow: var(--panel-shadow);
+          background-size: cover;
+          background-position: 50%;
+        }
+      }
+
       .drawer {
         height: 100%;
         position: relative;
@@ -519,6 +607,7 @@ export default Vue.extend({
           overflow: hidden;
 
           .screenshot-image {
+            background-position: 50% 0%;
             background-size: cover;
             position: absolute;
             width: 100%;

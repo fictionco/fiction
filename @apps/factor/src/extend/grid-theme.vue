@@ -33,14 +33,13 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import { setting, stored, postLink } from "@factor/api"
+import { setting, stored } from "@factor/api"
 import Vue from "vue"
 import { FactorExtensionInfo } from "./types"
 
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" },
     extensions: { type: Array, default: () => {} }
   },
   computed: {
@@ -50,7 +49,6 @@ export default Vue.extend({
   },
   methods: {
     setting,
-    postLink,
     backgroundImageStyle(item: FactorExtensionInfo) {
       return { backgroundImage: `url(${this.getPrimaryScreenshot(item)})` }
     },
