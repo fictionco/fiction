@@ -6,14 +6,15 @@ import { addMiddleware } from "@factor/server/middleware"
 import { Request, Response } from "express"
 import latestVersion from "latest-version"
 import { addPostSchema } from "@factor/post/util"
-
+import { PostStatus } from "@factor/post/types"
 import { getModel } from "@factor/post/database"
 import log from "@factor/api/logger"
 import { extensions } from "../extension-record"
 import { FactorExtensionInfo } from "./types"
 import extensionSchema from "./schema"
 import { postType, screenshotsList, extensionImage } from "./util"
-export const getSingle = async (params: {
+
+export const saveSingleExtension = async (params: {
   packageName: string;
   featured?: true;
 }): Promise<FactorExtensionInfo | undefined> => {
@@ -90,6 +91,7 @@ export const getSingle = async (params: {
   const tag = keywords.filter((_: string) => !_.includes("factor"))
 
   Object.assign(post, {
+    status: PostStatus.Published,
     featured,
     permalink: factor.permalink ?? packageName,
     title: factor.title ?? packageName,
@@ -125,14 +127,23 @@ export const getSingle = async (params: {
 }
 
 export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
-  const posts = await Promise.all(extensions.map(async extension => getSingle(extension)))
+  /**
+   * Reset all extensions to draft, in case some have been removed
+   * Set them to published again on save
+   */
+  const Model = getModel<FactorExtensionInfo>(postType)
 
-  const filtered = posts.filter(_ => _) as FactorExtensionInfo[]
-  return filtered
+  await Model.updateMany({ postType }, { status: PostStatus.Draft })
+
+  const posts = await Promise.all(
+    extensions.map(async extension => saveSingleExtension(extension))
+  )
+
+  return posts.filter(_ => _) as FactorExtensionInfo[]
 }
 
 export const setup = (): void => {
-  // addEndpoint({ id: endpointId, handler: { getIndex, getSingle } })
+  // addEndpoint({ id: endpointId, handler: { getIndex, saveSingleExtension } })
   addPostSchema(() => extensionSchema)
 
   addMiddleware({
