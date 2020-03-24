@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-standard-signin",
   "description": "The standard login/signup plugin for Factor.",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
