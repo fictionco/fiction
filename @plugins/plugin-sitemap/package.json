@@ -19,7 +19,8 @@
     "permalink": "sitemap-xml",
     "title": "Sitemap",
     "demo": "https://factor.dev/sitemap.xml",
-    "themeColor": "#172D45"
+    "themeColor": "#172D45",
+    "category": "utility"
   },
   "dependencies": {
     "node-cache": "^5.1.0",

@@ -9,7 +9,7 @@
       "server"
     ],
     "title": "Storage S3",
-    "category": "storage",
+    "category": "images",
     "themeColor": "#232F3E"
   },
   "publishConfig": {

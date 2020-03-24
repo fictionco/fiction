@@ -492,11 +492,11 @@ export default Vue.extend({
       padding: 5rem 0 0;
 
       @media (max-width: 900px) {
-        grid-gap: 2rem;
+        grid-gap: 1rem;
         grid-template-columns: 1fr;
         padding-top: 3rem;
         .content {
-          padding: 2rem;
+          padding: 1rem;
           .text {
             padding: 3rem 0 1rem;
             .description {
@@ -510,12 +510,12 @@ export default Vue.extend({
         .media {
           height: 400px;
           width: 300px;
+          justify-self: center;
           .drawer {
-            left: 2rem;
+            left: 0rem;
             right: 2rem;
             .arrow-wrap {
-              top: -3.4rem;
-              left: 0;
+              display: none;
             }
           }
         }
@@ -569,12 +569,16 @@ export default Vue.extend({
         justify-content: center;
         align-items: center;
         .icon-image {
-          width: 250px;
-          height: 250px;
-          border-radius: 50%;
+          width: 300px;
+          height: 300px;
+          border-radius: 1rem;
           box-shadow: var(--panel-shadow);
           background-size: cover;
           background-position: 50%;
+          @media (max-width: 700px) {
+            width: 200px;
+            height: 200px;
+          }
         }
       }
 

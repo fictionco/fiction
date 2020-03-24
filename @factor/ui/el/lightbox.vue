@@ -187,7 +187,7 @@ export default Vue.extend({
 })
 </script>
 
-    <style scoped>
+ <style scoped lang="less">
 .icon {
   width: 1em;
   height: 1em;
@@ -236,12 +236,22 @@ export default Vue.extend({
 .btn__prev,
 .btn__next,
 .btn__close {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  text-align: center;
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
   cursor: pointer;
   position: absolute;
   font-size: 60px;
   color: #fff;
   opacity: 0.6;
   transition: 0.15s linear;
+  &:hover,
+  &:active {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 .btn__prev:hover,
 .btn__next:hover,
