@@ -15,6 +15,7 @@ export const setup = (): void => {
     nameSingle: "Forum Topic",
     namePlural: "Forum Topics",
     categories: setting("forum.categories"),
+    addSitemap: true,
     permalink: (post: FactorPost): string => {
       return `${setting("forum.postRoute")}/${post._id}/${slugify(post.title)}`
     }

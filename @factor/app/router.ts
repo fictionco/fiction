@@ -3,7 +3,7 @@ import { emitEvent } from "@factor/api/events"
 import Vue from "vue"
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"
-
+import { uniq } from "@factor/api"
 Vue.use(VueRouter)
 
 let __initialPageLoad = true
@@ -58,6 +58,49 @@ const hookClientRouterAfter = (to: Route, from: Route): void => {
   if (query._action) {
     runCallbacks(`route-query-action-${query._action}`, query)
   }
+}
+
+/**
+ * Pull routes for sitemap out of a router config
+ */
+export const getRouterPaths = (routes: RouteConfig[], parent = ""): string[] => {
+  let out: string[] = []
+
+  routes
+    .filter(_ => _.path !== "*")
+    .forEach(_ => {
+      if (_.path) {
+        let _p = _.path
+
+        if (parent && !_.path.startsWith("/")) {
+          _p = `${parent}/${_.path}`
+        } else if (parent && _.path == "/") {
+          _p = parent
+        }
+
+        out.push(_p)
+      }
+
+      if (_.children) {
+        out = [...out, ...getRouterPaths(_.children, _.path)]
+      }
+    })
+
+  return out
+}
+
+/**
+ * get statically assigned routes
+ * then remove duplicated and dynamic routes (which include a colon (:))
+ */
+export const getKnownRoutePaths = (): string[] => {
+  const contentRoutes = applyFilters("content-routes", [])
+
+  const theRoutes = uniq(getRouterPaths(contentRoutes)).filter((fullPath: string) => {
+    return !fullPath.includes(":")
+  })
+
+  return theRoutes
 }
 
 /**

@@ -6,6 +6,7 @@ import inquirer from "inquirer"
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
 
 import { FactorSchema, FactorPost } from "./types"
+
 import { getAddedSchemas, getBaseSchema } from "./util"
 
 export type FactorPostDocument = FactorPost & Document

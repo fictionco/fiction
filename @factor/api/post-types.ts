@@ -23,6 +23,7 @@ export interface PostTypeConfig {
   customPermalink?: true | string;
   permalink?: (p: FactorPost) => string;
   templateSettings?: TemplateSetting[];
+  addSitemap?: true;
 }
 
 export const addPostType = (config: PostTypeConfig): void => {
@@ -35,25 +36,28 @@ export const postTypesConfig = (): PostTypeConfig[] => {
 
     const label = toLabel(_.postType)
 
-    return { baseRoute, nameIndex: label, nameSingle: label, namePlural: label, ..._ }
+    return {
+      postType: "post",
+      permalink: (post: FactorPost): string => {
+        return getPermalink({
+          postType: post.postType,
+          permalink: post.permalink,
+          root: false
+        })
+      },
+      baseRoute,
+      nameIndex: label,
+      nameSingle: label,
+      namePlural: label,
+      ..._
+    }
   })
 }
 
-export const getPostTypeConfig = (
-  postType: string
-): PostTypeConfig & { permalink: (p: FactorPost) => string } => {
-  const userConfig = postTypesConfig().find(pt => pt.postType == postType) || {}
-
-  const configDefaults = {
-    postType: "post",
-    permalink: (post: FactorPost): string => {
-      return getPermalink({
-        postType: post.postType,
-        permalink: post.permalink,
-        root: false
-      })
-    }
+export const getPostTypeConfig = (postType: string): PostTypeConfig => {
+  const userConfig = postTypesConfig().find(pt => pt.postType == postType) || {
+    postType: "post"
   }
 
-  return { ...configDefaults, ...userConfig }
+  return userConfig
 }

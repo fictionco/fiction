@@ -20,7 +20,8 @@ export const setup = (): void => {
     model: "JobPost",
     nameIndex: "Jobs",
     nameSingle: "Jobs Post",
-    namePlural: "Jobs Posts"
+    namePlural: "Jobs Posts",
+    addSitemap: true
   })
 
   addContentRoute({

@@ -15,10 +15,6 @@ addContentRoutes({
 
     return [
       {
-        path: "/compare",
-        component: (): Promise<Component> => import("./page-compare.vue")
-      },
-      {
         path: "/",
         component: (): Promise<Component> => import("./home/v-home.vue")
       },

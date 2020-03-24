@@ -9,14 +9,8 @@
     "load": {
       "app": "index",
       "server": [
-        {
-          "file": "server",
-          "_id": "postServer"
-        },
-        {
-          "file": "index",
-          "_id": "post"
-        }
+        "server",
+        "index"
       ]
     },
     "_id": "post"

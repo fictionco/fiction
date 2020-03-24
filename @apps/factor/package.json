@@ -9,7 +9,10 @@
   "factor": {
     "load": {
       "app": "index",
-      "server": "server"
+      "server": [
+        "index",
+        "server"
+      ]
     },
     "app": {
       "name": "Factor",
