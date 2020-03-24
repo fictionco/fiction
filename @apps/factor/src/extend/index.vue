@@ -160,6 +160,7 @@ export default Vue.extend({
       opacity: 0.7;
     }
     @media (max-width: 900px) {
+      text-align: left;
       .title {
         font-size: 2em;
       }
