@@ -17,7 +17,7 @@ export const setup = (): void => {
 
   pushToFilter({
     key: "account",
-    hook: "account-menu",
+    hook: "dashboard-menu",
     item: {
       group: "account",
       path: "account",

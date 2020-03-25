@@ -99,7 +99,7 @@ export default Vue.extend({
       return setting("app.name") ?? "No Name"
     },
     menu(this: any) {
-      return getDashboardMenu(this.$route.path)
+      return getDashboardMenu()
     },
     dashboardMenu(this: any) {
       return dashboardSiteMenu(this.$route.path, this.menuType)

@@ -123,16 +123,13 @@ export default Vue.extend({
     background: var(--color-bg-contrast);
     box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
     .app-main-content {
-      padding: 2rem;
+      height: 100%;
     }
   }
   .app-nav {
     grid-area: nav;
     box-shadow: 1px 1px 0 var(--panel-border-color);
     position: relative;
-    .app-nav-pad {
-      padding: 1rem;
-    }
   }
 
   @media (max-width: 960px) {
@@ -144,11 +141,6 @@ export default Vue.extend({
       "main main";
     .app-nav {
       display: none;
-    }
-    .app-main {
-      .app-main-content {
-        padding: 0.5rem;
-      }
     }
   }
 }

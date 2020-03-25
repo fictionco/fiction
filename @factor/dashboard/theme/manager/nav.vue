@@ -2,8 +2,8 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <template v-for="area in menu">
-        <div v-if="area.menu.length > 0" :key="area.name" class="nav-area" :class="area.name">
-          <div class="area-title">{{ toLabel(area.name) }}</div>
+        <div v-if="area.menu.length > 0" :key="area.group" class="nav-area" :class="area.group">
+          <div v-if="!area.hideTitle" class="area-title">{{ toLabel(area.group) }}</div>
 
           <template v-for="(_, key) in area.menu">
             <div :key="key" class="nav-group" :class="_.active ? 'active': ''">
@@ -92,8 +92,8 @@ export default Vue.extend({
     margin-bottom: 0.75em;
     padding-bottom: 0.75em;
     .area-title {
-      font-size: 0.9em;
-      margin: 1rem 1rem 0.5rem;
+      font-size: 0.8em;
+      margin: 1rem 0.5rem 0.5rem;
       font-weight: var(--font-weight-bold, 700);
       text-transform: uppercase;
       letter-spacing: 1px;

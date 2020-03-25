@@ -47,6 +47,14 @@ export default Vue.extend({
 
 <style lang="less">
 .dpg {
+  .dpg-content-pad {
+    padding: 2rem;
+  }
+  @media (max-width: 900px) {
+    .dpg-content-pad {
+      padding: 0.5rem;
+    }
+  }
   .dpg-loading .loading-ring-wrap {
     height: 300px;
   }

@@ -16,21 +16,22 @@ export interface MenuItem {
   accessLevel?: number;
 }
 
-export type MenuAreaName = "admin" | "dashboard" | "development"
-
-export interface MenuArea {
-  name: MenuAreaName;
+export type MenuGroup = {
+  group: string;
+  hideTitle?: true;
   menu: MenuItem[];
 }
 
-const setMenu = (area: MenuAreaName): MenuArea => {
-  const rawMenu: MenuItem[] = applyFilters(`${area}-menu`, [])
+const setMenuState = (area: MenuGroup): MenuGroup => {
   const { path } = currentRoute()
 
-  const menu = rawMenu.map((menuItem: MenuItem) => {
+  const menuWithState = area.menu.map((menuItem: MenuItem) => {
     const parentPath = getDashboardRoute(menuItem.path)
 
-    const subMenu = applyFilters(`${area}-menu-${menuItem.group}`, menuItem.items || [])
+    const subMenu = applyFilters(
+      `${area.group}-menu-${menuItem.group}`,
+      menuItem.items || []
+    )
 
     let active = parentPath == path
     const items = subMenu.map((sub: MenuItem) => {
@@ -53,29 +54,31 @@ const setMenu = (area: MenuAreaName): MenuArea => {
     }
   })
 
-  return { name: area, menu }
+  return { ...area, menu: menuWithState }
 }
 
 /**
  * Returns an object containing the dashboard menu areas with menu arrays
  * @param currentPath - The currently active route path. Used to determine active menu items.
  */
-export const getDashboardMenu = async (): Promise<MenuArea[]> => {
+export const getDashboardMenu = async (): Promise<MenuGroup[]> => {
   await userInitialized()
 
-  const menuAreas: MenuArea[] = []
+  const groups: MenuGroup[] = []
 
-  menuAreas.push(setMenu("dashboard"))
+  groups.push({ group: "site", hideTitle: true, menu: applyFilters(`site-menu`, []) })
+
+  groups.push({ group: "dashboard", menu: applyFilters(`dashboard-menu`, []) })
 
   if (userCan({ accessLevel: 100 })) {
-    menuAreas.push(setMenu("admin"))
+    groups.push({ group: "admin", menu: applyFilters(`admin-menu`, []) })
   }
 
   if (process.env.NODE_ENV == "development") {
-    menuAreas.push(setMenu("development"))
+    groups.push({ group: "development", menu: applyFilters(`development-menu`, []) })
   }
 
-  return menuAreas
+  return applyFilters("manager-menus", groups).map(group => setMenuState(group))
 }
 
 export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuItem[] => {

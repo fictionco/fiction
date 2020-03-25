@@ -332,12 +332,12 @@ h4 {
 
   &.environment {
     .progress-bar {
-      background-color: var(--color-info, #0471ff);
+      background-color: var(--color-text, #0471ff);
     }
   }
   &.bundle {
     .progress-bar {
-      background-color: #0471ff;
+      background-color: var(--color-primary, #0471ff);
     }
   }
 

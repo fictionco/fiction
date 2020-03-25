@@ -1,4 +1,11 @@
-import { addFilter, applyFilters, toLabel, slugify, postTypesConfig } from "@factor/api"
+import {
+  addFilter,
+  applyFilters,
+  toLabel,
+  slugify,
+  postTypesConfig,
+  pushToFilter
+} from "@factor/api"
 import { Component } from "vue"
 import { setting } from "@factor/api/settings"
 import { userCan } from "@factor/user"
@@ -40,6 +47,15 @@ export const getDashboardRoute = (path?: string, parentPath?: string): string =>
 }
 
 export const setup = (): void => {
+  pushToFilter({
+    key: "frame",
+    hook: "dashboard-routes",
+    item: {
+      path: "site",
+      component: (): Promise<Component> => import("./v-frame.vue")
+    }
+  })
+
   addFilter({
     key: "dashboard",
     hook: "routes",
@@ -61,11 +77,6 @@ export const setup = (): void => {
         path: dashboardRoute,
         component: (): Promise<Component> => import("./theme/wrap.vue"),
         children: applyFilters("dashboard-routes", [
-          // {
-          //   path: "admin",
-          //   component: (): Promise<Component> => import("./vd-dashboard.vue"),
-          //   meta: { auth: true }
-          // },
           {
             path: "*",
             component: (): Promise<Component> => import("./vd-404.vue"),
