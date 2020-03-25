@@ -373,7 +373,7 @@ export default Vue.extend({
     }
     > a {
       font-size: 0.9em;
-      color: #506677;
+      color: #3a4854;
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 1em;

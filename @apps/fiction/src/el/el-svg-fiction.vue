@@ -74,7 +74,7 @@
           class="a"
           d="M35.53,13.71A4.48,4.48,0,1,1,40,9.23,4.48,4.48,0,0,1,35.53,13.71Zm0-7.88a3.4,3.4,0,1,0,3.4,3.4A3.41,3.41,0,0,0,35.53,5.83Z"
         />
-        <path :fill="color" class="a" d="M36.18,11.06h-.83V8h-.66V7.4h1.49Z"/>
+        <path :fill="color" class="a" d="M36.18,11.06h-.83V8h-.66V7.4h1.49Z" />
         <path
           :fill="color"
           class="a"
@@ -133,7 +133,7 @@ import Vue from "vue"
 export default Vue.extend({
   props: {
     icon: { type: String, default: "" },
-    color: { type: String, default: "#506677" }
+    color: { type: String, default: "#3a4854" }
   }
 })
 </script>

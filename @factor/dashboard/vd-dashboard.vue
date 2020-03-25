@@ -101,8 +101,8 @@ export default Vue.extend({
     padding: 0;
     svg path,
     i {
-      color: #506677;
-      fill: #506677;
+      color: #3a4854;
+      fill: #3a4854;
     }
   }
 
