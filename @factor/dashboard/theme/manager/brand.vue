@@ -3,8 +3,9 @@
     <div class="manager-brand-pad">
       <div class="menu-grid-item menu-media">
         <factor-avatar v-if="mode == 'account'" :user="getUser()" />
-        <div v-else class="app-brand">
-          <svg
+        <div v-else class="app-brand" :style="brandBackground">
+          <!-- <img :src="setting(`app.icon`)" /> -->
+          <!-- <svg
             width="340"
             height="336"
             viewBox="0 0 340 336"
@@ -17,7 +18,7 @@
                 d="M292.66 335.466H145.832C136.313 335.466 127.353 331.811 120.633 325.167L8.63634 214.432C0.236593 206.127 -2.33933 193.614 2.25253 182.762C6.8444 171.799 17.4841 164.712 29.4677 164.712H166.552V29.0624C166.552 17.2137 173.719 6.69393 184.695 2.1538C195.559 -2.27559 208.55 0.27131 216.838 8.46568L328.835 119.2C335.555 125.955 339.251 134.703 339.251 144.116V289.289C339.363 314.758 318.419 335.466 292.66 335.466ZM151.992 285.524H288.852V150.206L217.062 79.2252V214.543H80.2022L151.992 285.524Z"
               />
             </g>
-          </svg>
+          </svg>-->
         </div>
       </div>
       <div class="menu-grid-item menu-name">
@@ -42,6 +43,11 @@ export default Vue.extend({
   },
   computed: {
     currentUser,
+    brandBackground(this: any) {
+      return {
+        backgroundImage: `url(${setting(`app.icon`)})`
+      }
+    },
     menuName(this: any) {
       if (this.mode == "brand") {
         return setting("app.name") || "Factor"
@@ -113,7 +119,9 @@ export default Vue.extend({
       }
     }
     .app-brand {
-      background: #fff;
+      background-color: #fff;
+      background-size: cover;
+      background-position: 50%;
       box-shadow: var(--box-shadow-input);
       border-radius: 5px;
       width: 2.25rem;
@@ -121,6 +129,7 @@ export default Vue.extend({
       display: flex;
       align-items: center;
       justify-content: center;
+
       svg {
         display: block;
         width: 1.3rem;
