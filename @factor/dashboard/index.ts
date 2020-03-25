@@ -4,7 +4,8 @@ import {
   toLabel,
   slugify,
   postTypesConfig,
-  pushToFilter
+  pushToFilter,
+  currentUrl
 } from "@factor/api"
 import { Component } from "vue"
 import { setting } from "@factor/api/settings"
@@ -47,15 +48,6 @@ export const getDashboardRoute = (path?: string, parentPath?: string): string =>
 }
 
 export const setup = (): void => {
-  pushToFilter({
-    key: "frame",
-    hook: "dashboard-routes",
-    item: {
-      path: "site",
-      component: (): Promise<Component> => import("./v-frame.vue")
-    }
-  })
-
   addFilter({
     key: "dashboard",
     hook: "routes",
@@ -91,18 +83,38 @@ export const setup = (): void => {
     }
   })
 
+  pushToFilter({
+    key: "frame",
+    hook: "dashboard-routes",
+    item: {
+      path: "site",
+      component: (): Promise<Component> => import("./v-frame.vue")
+    }
+  })
+
+  addFilter({
+    key: "dashboard",
+    hook: "site-menu",
+    callback: (_: DashboardMenuItem[]) => {
+      _.push({
+        path: `site`,
+        name: "View Site",
+        icon: require("./img/dashboard.svg"),
+        secondary: {
+          icon: "fas fa-external-link-alt",
+          path: currentUrl(),
+          target: "_blank"
+        }
+      })
+
+      return _
+    }
+  })
+
   addFilter({
     key: "dashboard",
     hook: "admin-menu",
     callback: (_: DashboardMenuItem[]) => {
-      // _.push({
-      //   group: "admin",
-      //   path: "admin",
-      //   name: "Admin",
-      //   icon: require("./resource/dashboard.svg"),
-      //   priority: 50
-      // })
-
       postTypesConfig()
         .filter(({ hideAdmin, accessLevel }) => {
           return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true

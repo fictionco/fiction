@@ -20,6 +20,11 @@
                 </div>
                 <div class="item-text">
                   <span v-formatted-text="_.name" />
+                  <span v-if="_.secondary" class="secondary" @click.stop>
+                    <factor-link :path="_.secondary.path" :target="_.secondary.target">
+                      <factor-icon :icon="_.secondary.icon" />
+                    </factor-link>
+                  </span>
                 </div>
               </factor-link>
               <div v-if="_.active && _.items.length > 0" class="sub-menu">
@@ -49,13 +54,13 @@
 </template>
 
 <script lang="ts">
-import { factorLink } from "@factor/ui"
+import { factorLink, factorIcon } from "@factor/ui"
 import { toLabel, slugify } from "@factor/api"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { Route } from "vue-router"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink },
+  components: { factorLink, factorIcon },
   data() {
     return {
       toggle: false,
@@ -111,14 +116,34 @@ export default Vue.extend({
       border-radius: 4px;
       display: grid;
       grid-template-columns: 2rem 1fr;
+      .secondary {
+        opacity: 0;
+        padding: 0 5px;
+        font-size: 0.9em;
+        transition: opacity 0.2s;
+        &:hover {
+          color: var(--color-primary);
+        }
+      }
       &.active-path,
       &:hover {
         background: var(--color-bg-highlight);
+      }
+      &:hover {
+        .secondary {
+          opacity: 1;
+        }
       }
     }
     .menu-link {
       display: grid;
       grid-template-areas: "icon primary";
+    }
+    .item-text {
+      grid-area: primary;
+      line-height: 1.4;
+      grid-template-columns: 1fr 1rem;
+      display: grid;
     }
 
     .item-icon {
@@ -128,19 +153,6 @@ export default Vue.extend({
         width: 1rem;
         display: block;
       }
-    }
-
-    // .sub-menu {
-    //   display: grid;
-    //   grid-template-areas: ". sub";
-    //   .sub-menu-links {
-    //     grid-area: sub;
-    //     padding: 0.5rem 0;
-    //   }
-    // }
-    .item-text {
-      grid-area: primary;
-      line-height: 1.4;
     }
 
     .primary-item-icon {
