@@ -93,7 +93,7 @@ export default Vue.extend({
     padding-bottom: 0.75em;
     .area-title {
       font-size: 0.9em;
-      margin: 1rem 0.5rem 0.5rem;
+      margin: 1rem 1rem 0.5rem;
       font-weight: var(--font-weight-bold, 700);
       text-transform: uppercase;
       letter-spacing: 1px;

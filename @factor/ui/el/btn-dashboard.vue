@@ -57,7 +57,7 @@ export default Vue.extend({
   }
 
   &.default {
-    box-shadow: inset 0 0 0 1px var(--panel-border-color);
+    box-shadow: inset var(--box-shadow-input);
   }
 
   &.primary {

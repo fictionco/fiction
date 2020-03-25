@@ -112,6 +112,11 @@ export default Vue.extend({
   grid-template-columns: 17rem 1fr;
   grid-template-areas: "nav main";
 
+  .app-main,
+  .app-nav {
+    height: 100vh;
+    overflow: auto;
+  }
   .app-main {
     grid-area: main;
     min-width: 0;
