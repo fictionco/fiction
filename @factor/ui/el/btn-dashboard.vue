@@ -61,7 +61,7 @@ export default Vue.extend({
   }
 
   &.primary {
-    color: hsla(0, 0%, 100%, 0.9);
+    color: #fff;
     background: var(--color-primary);
 
     &:hover {
@@ -69,7 +69,7 @@ export default Vue.extend({
     }
   }
   &.secondary {
-    color: hsla(0, 0%, 100%, 0.9);
+    color: #fff;
     background: var(--color-secondary);
 
     &:hover {

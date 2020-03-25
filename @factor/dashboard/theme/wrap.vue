@@ -1,25 +1,21 @@
 <template>
   <div class="app-wrap">
-    <template v-if="loading">
-      <div class="user-loading">
-        <factor-loading-ring width="4em" />
+    <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
+      <div class="app-nav" @click.stop>
+        <dashboard-manager />
       </div>
-    </template>
-    <template v-else>
-      <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
-        <dashboard-head class="app-head" />
-
-        <div class="app-nav" @click.stop>
-          <dashboard-nav />
-        </div>
-        <div class="app-main">
-          <div class="app-main-content">
-            <slot v-if="$slots.default" />
-            <router-view v-else />
-          </div>
+      <div class="app-main">
+        <div class="app-main-content">
+          <template v-if="loading">
+            <div class="user-loading">
+              <factor-loading-ring width="4em" />
+            </div>
+          </template>
+          <slot v-else-if="$slots.default" />
+          <router-view v-else />
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -32,8 +28,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLoadingRing,
-    dashboardNav: () => import("./nav.vue"),
-    dashboardHead: () => import("./head.vue")
+    dashboardManager: () => import("./manager/manager.vue")
   },
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()
@@ -114,21 +109,13 @@ export default Vue.extend({
 
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 18rem 1fr;
-  grid-template-rows: 50px 1fr;
-  grid-template-areas:
-    "header header"
-    "nav main";
+  grid-template-columns: 17rem 1fr;
+  grid-template-areas: "nav main";
 
-  .app-head {
-    grid-area: header;
-    background: #fff;
-    box-shadow: 0 1px 0 var(--panel-border-color);
-  }
   .app-main {
     grid-area: main;
     min-width: 0;
-    background: #f6fafd;
+    background: var(--color-bg-contrast);
     box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
     .app-main-content {
       padding: 2rem;
