@@ -133,8 +133,8 @@ export default {
        */
       component: (): Promise<Component> => import("./home/section-2.vue"),
       id: "services",
-      pretitle: "Services NEW STUFF",
-      title: "Tailored Digital Experiences NEW STUFF",
+      pretitle: "Services",
+      title: "Tailored Digital Experiences",
       items: [
         {
           _item: "service_1",
@@ -170,7 +170,7 @@ export default {
       component: (): Promise<Component> => import("./home/section-3.vue"),
       id: "work",
       pretitle: "Work",
-      title: "Latest Projects!!",
+      title: "Latest Projects",
       buttons: [
         {
           _item: "work",
