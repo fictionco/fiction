@@ -36,5 +36,8 @@ export default Vue.extend({
 .content-layout {
   display: flex;
   flex-direction: column;
+  .content-main {
+    min-height: calc(100vh - 120px);
+  }
 }
 </style>

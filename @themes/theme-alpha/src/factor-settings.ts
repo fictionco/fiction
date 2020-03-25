@@ -131,9 +131,10 @@ export default {
       /**
        * Home page "Services" section.
        */
+      component: (): Promise<Component> => import("./home/section-2.vue"),
       id: "services",
-      pretitle: "Services",
-      title: "Tailored Digital Experiences",
+      pretitle: "Services NEW STUFF",
+      title: "Tailored Digital Experiences NEW STUFF",
       items: [
         {
           _item: "service_1",
@@ -166,9 +167,10 @@ export default {
        * Home page "work" section.
        * Note: Post settings of this section are managed via the "work" page settings
        */
+      component: (): Promise<Component> => import("./home/section-3.vue"),
       id: "work",
       pretitle: "Work",
-      title: "Latest Projects",
+      title: "Latest Projects!!",
       buttons: [
         {
           _item: "work",
@@ -183,6 +185,7 @@ export default {
       /**
        * Home page "Testimonials" section.
        */
+      component: (): Promise<Component> => import("./home/section-4.vue"),
       id: "testimonials",
       pretitle: "Testimonials",
       title: "Success Stories",
@@ -202,6 +205,9 @@ export default {
           info: "CEO, Lorem ipsum"
         }
       ]
+    },
+    section5: {
+      component: (): Promise<Component> => import("./home/section-5.vue"),
     },
     /**
      * Home page client logos are set via the "About" page settings below.
@@ -328,7 +334,7 @@ export default {
    */
   work: {
     indexRoute: "/work",
-    postRoute: "/work",
+    postRoute: "/working",
     limit: 4,
     returnLinkText: "Back to All Projects",
     pretitle: "Work",
@@ -386,7 +392,7 @@ export default {
     ]
   },
   /**
-   * Copy for the blog page template.c
+   * Copy for the blog page template.
    */
   blog: {
     indexRoute: "/blog",
