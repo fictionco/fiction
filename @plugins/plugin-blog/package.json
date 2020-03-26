@@ -1,55 +1,44 @@
 {
-  "name": "@factor/theme-alpha",
-  "version": "1.5.7",
-  "license": "GPL-2.0",
-  "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
+  "name": "@factor/plugin-blog",
+  "description": "A standard blog plugin that can be easily customized to meet any blogging need in your Factor app.",
   "author": {
     "name": "Fiction",
     "email": "factor@fiction.com",
     "url": "https://www.fiction.com"
   },
+  "version": "1.5.7",
+  "license": "GPL-2.0",
   "factor": {
     "load": [
-      "server",
-      "app"
+      "app",
+      "server"
     ],
-    "title": "Alpha",
-    "permalink": "alpha-factor-theme",
-    "demo": "https://themes.factor.dev/alpha",
+    "title": "Standard Blog",
+    "permalink": "standard-blog",
     "category": [
-      "portfolio"
+      "blog"
     ],
-    "extend": "theme",
-    "app": {
-      "name": "Alpha - Factor Theme"
-    }
+    "themeColor": "#2F80EE"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha"
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-blog"
   },
   "bugs": {
     "url": "https://github.com/fiction-com/factor/issues"
   },
-  "homepage": "https://factor.dev/theme/alpha-factor-theme",
+  "homepage": "https://factor.dev/plugin/bugsnag-factor-plugin",
   "main": "src/index",
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@factor/core": "^1.5.7",
-    "@factor/plugin-blog": "^1.5.7",
-    "@factor/plugin-contact-form": "^1.5.7",
-    "@factor/plugin-highlight-code": "^1.5.7",
-    "@factor/plugin-notify": "^1.5.7"
+    "@factor/plugin-highlight-code": "^1.5.7"
   },
   "keywords": [
-    "modern",
-    "personal",
-    "business",
-    "clean",
-    "portfolio",
-    "agency"
+    "blog",
+    "post",
+    "writing"
   ]
 }
