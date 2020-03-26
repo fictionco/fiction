@@ -1,33 +1,55 @@
 {
-  "name": "@factor/plugin-blog",
-  "description": "A standard blog plugin that can be easily customized to meet any blogging need in your Factor app.",
+  "name": "@factor/theme-alpha",
   "version": "1.5.7",
   "license": "GPL-2.0",
+  "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "factor": {
     "load": [
-      "app",
-      "server"
+      "server",
+      "app"
     ],
-    "title": "Standard Blog",
+    "title": "Alpha",
+    "permalink": "alpha-factor-theme",
+    "demo": "https://themes.factor.dev/alpha",
     "category": [
-      "blog"
+      "portfolio"
     ],
-    "permalink": "standard-blog",
-    "themeColor": "#2F80EE"
+    "extend": "theme",
+    "app": {
+      "name": "Alpha - Factor Theme"
+    }
   },
-  "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.7"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@themes/theme-alpha"
   },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/theme/alpha-factor-theme",
+  "main": "src/index",
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "dependencies": {
+    "@factor/core": "^1.5.7",
+    "@factor/plugin-blog": "^1.5.7",
+    "@factor/plugin-contact-form": "^1.5.7",
+    "@factor/plugin-highlight-code": "^1.5.7",
+    "@factor/plugin-notify": "^1.5.7"
+  },
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "blog",
-    "post",
-    "writing"
+    "modern",
+    "personal",
+    "business",
+    "clean",
+    "portfolio",
+    "agency"
   ]
 }
