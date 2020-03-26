@@ -26,18 +26,22 @@
         <div v-if="menuSubName" class="sub">{{ menuSubName }}</div>
       </div>
       <div class="menu-grid-item action-icon">
-        <toggle-caret />
+        <factor-icon v-if="mode == 'account'" icon="fas fa-angle-up" />
+        <factor-icon v-else icon="fas fa-search" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorAvatar } from "@factor/ui"
+import { factorAvatar, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
 import { currentUser } from "@factor/user"
 export default Vue.extend({
-  components: { factorAvatar, toggleCaret: () => import("../../el/caret.vue") },
+  components: {
+    factorAvatar,
+    factorIcon
+  },
   props: {
     mode: { type: String, default: "brand" }
   },
@@ -77,9 +81,7 @@ export default Vue.extend({
 <style lang="less">
 .manager-brand-pad {
   cursor: pointer;
-  &:hover {
-    background-color: var(--color-bg-contrast);
-  }
+
   border-radius: 5px;
   display: grid;
   grid-gap: 1rem;
@@ -91,11 +93,12 @@ export default Vue.extend({
   }
   .action-icon {
     text-align: right;
-    svg {
-      width: 0.75rem;
-    }
-    .caret {
-      opacity: 0.5;
+    opacity: 0.4;
+  }
+  &:hover {
+    background-color: var(--color-bg-contrast);
+    .action-icon {
+      opacity: 1;
     }
   }
   .menu-name {
