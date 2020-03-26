@@ -3,28 +3,39 @@
   "description": "This plugin makes it easy to create and manage a job board in your Factor app.",
   "version": "1.5.7",
   "license": "GPL-2.0",
-  "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
-    "title": "Job Board",
-    "themeColor": "#131C23",
-    "category": "listing"
-  },
-  "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.7"
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
   },
   "publishConfig": {
     "access": "public"
   },
+  "factor": {
+    "load": {
+      "app": "index",
+      "server": "server"
+    },
+    "title": "Job Board",
+    "permalink": "jobs-factor-plugin",
+    "category": [
+      "listing"
+    ],
+    "themeColor": "#131C23"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-jobs"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/jobs-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "@factor/plugin-highlight-code": "^1.5.7"
+  },
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "job board",
     "careers",
     "jobs",

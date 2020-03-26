@@ -3,6 +3,11 @@
   "description": "This plugin adds Google Tag Manager to your Factor app.",
   "version": "1.5.7",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -12,18 +17,26 @@
       "server": "server"
     },
     "title": "Google Tag Manager",
-    "category": "analytics",
+    "permalink": "google-tag-manager-factor-plugin",
+    "category": [
+      "analytics"
+    ],
     "themeColor": "#F5F5F5"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-google-tag-manager"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/google-tag-manager-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "google tag manager",
-    "tag manager",
+    "google",
+    "tag",
+    "manager",
     "gtm"
   ]
 }

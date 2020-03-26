@@ -33,12 +33,6 @@
             />
           </div>
         </div>
-        <div v-else class="posts-not-found">
-          <div class="text">
-            <div class="font-normal tracking-tight text-2xl">{{ setting("work.notFound.title") }}</div>
-            <div class="sub-title">{{ setting("work.notFound.subTitle") }}</div>
-          </div>
-        </div>
       </div>
     </div>
   </section>

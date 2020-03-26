@@ -3,31 +3,42 @@
   "description": "Factor forum is a powerful forum solution for your factor app. This plugin comes with essential elements to run an efficient and professional community.",
   "version": "1.5.7",
   "license": "GPL-2.0",
-  "factor": {
-    "load": {
-      "app": [
-        "index",
-        "request"
-      ],
-      "server": [
-        "server"
-      ]
-    },
-    "title": "Forum"
-  },
-  "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.7"
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "factor": {
+    "load": [
+      "app",
+      "server"
+    ],
+    "title": "Forum",
+    "permalink": "forum-factor-plugin",
+    "category": [
+      "forum"
+    ],
+    "themeColor": "#E90000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-forum"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/forum-factor-plugin",
+  "dependencies": {
+    "@factor/plugin-highlight-code": "^1.3.0"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
-    "forum"
+    "forum",
+    "discussions",
+    "topics",
+    "categories"
   ]
 }
