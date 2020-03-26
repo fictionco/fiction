@@ -8,6 +8,9 @@
   },
   "version": "1.5.7",
   "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
     "load": [
       "app",
@@ -27,12 +30,9 @@
   "bugs": {
     "url": "https://github.com/fiction-com/factor/issues"
   },
-  "homepage": "https://factor.dev/plugin/bugsnag-factor-plugin",
+  "homepage": "https://factor.dev/plugin/standard-blog",
   "dependencies": {
     "@factor/plugin-highlight-code": "^1.5.7"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

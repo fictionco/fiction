@@ -1,34 +1,46 @@
 {
   "name": "@factor/plugin-bugsnag",
   "description": "This plugin implements Bugsnag in your Factor app.",
-  "author": "andrew@fiction.com",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "version": "1.5.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
   },
   "factor": {
-    "category": "monitoring",
     "load": {
       "app": "index",
       "server": "server"
     },
     "title": "Bugsnag",
     "permalink": "bugsnag-factor-plugin",
+    "category": [
+      "monitoring"
+    ],
     "themeColor": "#020F46"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-bugsnag"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/bugsnag-factor-plugin",
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
     "@bugsnag/plugin-vue": "^6.4.1"
   },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
-    "factor",
-    "factor-plugin",
     "bugsnag",
     "error",
     "monitoring",
     "stability",
     "reportings"
-  ],
-  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434"
+  ]
 }

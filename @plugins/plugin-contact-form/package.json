@@ -3,27 +3,38 @@
   "description": "This plugin makes it easy to add a contact form to your app.",
   "version": "1.5.7",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
     "load": {
       "app": "index",
       "server": "server"
     },
     "title": "Contact Form",
-    "themeColor": "#0697FF",
-    "category": "forms"
+    "permalink": "contact-form-factor-plugin",
+    "category": [
+      "forms"
+    ],
+    "themeColor": "#0697FF"
   },
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-contact-form"
   },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/contact-form-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "contact",
-    "contact form",
+    "form",
     "email"
   ]
 }
