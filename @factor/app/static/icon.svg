@@ -3,7 +3,7 @@
     <style>
       .a {
         fill: none;
-        stroke: #929fa5;
+        stroke: #3a4854;
         stroke-miterlimit: 10;
         stroke-width: 15px;
       }
