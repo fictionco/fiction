@@ -65,6 +65,7 @@ export default Vue.extend({
     margin-bottom: 1em;
     padding: 1rem 0 0;
     .page-title {
+      font-weight: 700;
       font-size: 1.5em;
       letter-spacing: -0.03em;
     }

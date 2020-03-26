@@ -1,6 +1,9 @@
 <template>
   <div class="app-manager">
-    <brand-area mode="brand" class="manager-area manager-header" @click="search()" />
+    <div class="manager-area manager-header">
+      <brand-area mode="brand" @click="search()" />
+      <mobile-toggle />
+    </div>
     <div class="manager-area manager-content">
       <nav-handler />
     </div>
@@ -15,11 +18,12 @@
 
 <script lang="ts">
 import Vue from "vue"
-
+import { currentUser } from "@factor/user"
 export default Vue.extend({
   components: {
     navHandler: () => import("./nav.vue"),
-    brandArea: () => import("./brand.vue")
+    brandArea: () => import("./brand.vue"),
+    mobileToggle: () => import("./mobile-toggle.vue")
   },
   data() {
     return {
@@ -27,14 +31,22 @@ export default Vue.extend({
     }
   },
   methods: {
+    currentUser,
     search(this: any) {
       console.log("show search")
+    },
+    getUser(this: any, field: string) {
+      if (!field) {
+        return this.currentUser
+      }
+      return this.currentUser ? this.currentUser[field] : undefined
     }
   }
 })
 </script>
 <style lang="less">
 .app-manager {
+  background: #fff;
   height: 100vh;
   display: grid;
   grid-template-rows: minmax(3rem, auto) 1fr minmax(4rem, auto);
@@ -42,6 +54,7 @@ export default Vue.extend({
   overflow: auto;
   padding: 0.5rem;
   position: relative;
+  border-right: 1px solid var(--panel-border-color);
   .manager-area {
     min-width: 0;
   }
@@ -49,6 +62,10 @@ export default Vue.extend({
     min-width: 0;
     min-height: 0;
     overflow: auto;
+  }
+  .manager-header {
+    display: grid;
+    grid-template-columns: 1fr 5rem;
   }
   // .manager-footer {
   //   position: absolute;

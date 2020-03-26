@@ -89,7 +89,7 @@ export const renderRequest = async (
 
     let html = ""
     if (!renderer) {
-      html = await renderLoading()
+      html = renderLoading()
     } else {
       html = await renderRoute(request.url, renderer)
     }

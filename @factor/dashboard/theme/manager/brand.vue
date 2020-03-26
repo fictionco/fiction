@@ -1,6 +1,10 @@
 <template>
   <div class="manager-brand" @click.stop>
-    <div class="manager-brand-pad" @click="toggle()">
+    <factor-link
+      class="manager-brand-pad"
+      :path="mode == 'brand' ? currentUrl() : ''"
+      @click="toggle()"
+    >
       <div class="menu-grid-item menu-media">
         <factor-avatar v-if="mode == 'account'" :user="getUser()" />
         <div v-else class="app-brand" :style="brandBackground" />
@@ -10,10 +14,13 @@
         <div v-if="menuSubName" class="sub">{{ menuSubName }}</div>
       </div>
       <div class="menu-grid-item action-icon">
-        <factor-icon v-if="mode == 'account'" :icon="`fas fa-angle-${active ? 'down': 'up'}`" />
-        <factor-icon v-else icon="fas fa-search" />
+        <factor-icon
+          v-if="mode == 'account'"
+          :icon="`fas fa-angle-up`"
+          :class="active ? 'down': 'up'"
+        />
       </div>
-    </div>
+    </factor-link>
 
     <transition name="slide-up">
       <div v-if="active" class="slide-menu">
@@ -33,7 +40,7 @@
 import Vue from "vue"
 import { getDashboardRoute } from "@factor/dashboard"
 import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
-import { setting, applyFilters } from "@factor/api"
+import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
 import { currentUser } from "@factor/user"
 export default Vue.extend({
   components: {
@@ -70,14 +77,16 @@ export default Vue.extend({
     },
     menuSubName(this: any) {
       if (this.mode == "account") {
-        return this.getUser("role")
+        return toLabel(this.getUser("role"))
       } else {
-        return ""
+        return productionUrl({ domainOnly: true })
       }
     }
   },
   methods: {
+    currentUrl,
     setting,
+    toLabel,
     getDashboardRoute,
     escapeHandler(e: KeyboardEvent) {
       if (e.keyCode === 27) {
@@ -88,8 +97,12 @@ export default Vue.extend({
       this.close()
     },
     toggle(this: any) {
-      this.active = !this.active
-      this.toggleActive()
+      if (this.mode == "brand") {
+        this.$router.push({ path: "/" })
+      } else {
+        this.active = !this.active
+        this.toggleActive()
+      }
     },
     close(this: any) {
       this.active = false
@@ -145,8 +158,7 @@ export default Vue.extend({
     will-change: margin;
     z-index: 100;
     background: #fff;
-    box-shadow: 0 0 0 1px rgba(50, 50, 93, 0.1), 0 2px 5px -1px rgba(50, 50, 93, 0.25),
-      0 15px 15px -6px rgba(50, 50, 93, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--menu-shadow);
     border-radius: 5px;
     .factor-link {
       display: block;
@@ -165,7 +177,7 @@ export default Vue.extend({
   }
   .manager-brand-pad {
     cursor: pointer;
-
+    color: inherit;
     border-radius: 5px;
     display: grid;
     grid-gap: 1rem;
@@ -179,6 +191,15 @@ export default Vue.extend({
     .action-icon {
       text-align: right;
       opacity: 0.4;
+      svg {
+        width: 1.2rem;
+      }
+      .factor-icon {
+        transition: 0.2s all;
+      }
+      .factor-icon.down {
+        transform: rotateZ(180deg);
+      }
     }
     &:hover {
       background-color: var(--color-bg-contrast);
@@ -197,7 +218,7 @@ export default Vue.extend({
       }
       .sub {
         opacity: 0.5;
-        font-size: 0.84em;
+        font-size: 12px;
       }
     }
     .menu-media {

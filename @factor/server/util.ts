@@ -1,11 +1,11 @@
-import { setting, log } from "@factor/api"
+import { setting, log, emitEvent } from "@factor/api"
 import chalk from "chalk"
 import express, { Handler, Request, Response } from "express"
 
 import { localhostUrl } from "@factor/api/url"
 import expressPackage from "express/package.json"
 import serverRendererPackage from "vue-server-renderer/package.json"
-
+import { renderLoading } from "@factor/loader"
 /**
  * The error shown if a server error occurs and no HTML can be rendered
  * @param param0
@@ -64,11 +64,12 @@ export const handleServerError = (
 
   log.error(error)
 
-  const description = process.env.NODE_ENV == "development" ? error.message : ""
+  emitEvent("buildError", error)
 
   response
     .status(500)
-    .send(serverErrorWrap({ title: "500", subTitle: "Server Error", description }))
+    .send(renderLoading())
+    .end()
 }
 
 export const logServerReady = (): void => {

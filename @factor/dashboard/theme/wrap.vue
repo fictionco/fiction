@@ -104,6 +104,9 @@ export default Vue.extend({
 }
 
 .app-layout {
+  background: var(--color-bg-contrast);
+  --menu-shadow: 0 0 0 1px rgba(50, 50, 93, 0.1), 0 2px 5px -1px rgba(50, 50, 93, 0.25),
+    0 15px 15px -6px rgba(50, 50, 93, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
   --panel-border-color: rgba(200, 204, 228, 0.7);
   min-height: 100vh;
 
@@ -128,7 +131,7 @@ export default Vue.extend({
   }
   .app-nav {
     grid-area: nav;
-    box-shadow: 1px 1px 0 var(--panel-border-color);
+
     position: relative;
   }
 
@@ -137,10 +140,24 @@ export default Vue.extend({
       opacity: 0.6;
     }
     grid-template-areas:
-      "header header"
+      "nav nav"
       "main main";
     .app-nav {
-      display: none;
+      height: 5rem;
+      .app-manager {
+        position: absolute;
+        background: #fff;
+        z-index: 100;
+        margin: 0.5rem;
+        width: calc(~"100% - 1rem");
+        height: calc(~"100% - 1rem");
+        border-radius: 5px;
+
+        box-shadow: 0 0 0 1px var(--panel-border-color);
+        .app-manager {
+          height: 100%;
+        }
+      }
     }
   }
 }

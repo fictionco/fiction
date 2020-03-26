@@ -171,7 +171,7 @@ export default Vue.extend({
     }
     .title {
       white-space: pre-wrap;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.2em;
       margin-bottom: 0.25rem;
     }

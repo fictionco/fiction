@@ -287,7 +287,13 @@ h3 {
 }
 
 .hasErrors {
-  color: #ff0076;
+  color: #ff005d;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.error-item {
+  max-width: 95vw;
 }
 
 .errorStack {
@@ -296,11 +302,12 @@ h3 {
   border-radius: 1em;
   background-color: #f6fafd;
   margin: 1em 0;
+  overflow: auto;
 }
 
 p.pre {
   margin-top: 1em;
-  line-height: 1.2em;
+  line-height: 1.4;
   white-space: pre;
 }
 
