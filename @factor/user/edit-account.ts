@@ -1,5 +1,5 @@
 import { addPostType } from "@factor/api/post-types"
-import { pushToFilter } from "@factor/api/hooks"
+import { pushToFilter, addFilter } from "@factor/api/hooks"
 import { Component } from "vue"
 import { logout } from "./util"
 export const setup = (): void => {
@@ -26,13 +26,21 @@ export const setup = (): void => {
     }
   })
 
-  pushToFilter({
-    key: "account",
+  addFilter({
+    key: "accountMenu",
     hook: "action-menu",
-    item: {
-      key: "logout",
-      click: (): Promise<void> => logout(),
-      name: "Logout"
+    callback: (_: any[]): any[] => {
+      return [
+        ..._,
+        {
+          path: "account",
+          name: "Profile Settings"
+        },
+        {
+          click: (): Promise<void> => logout(),
+          name: "Logout"
+        }
+      ]
     }
   })
 

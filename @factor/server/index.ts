@@ -20,7 +20,7 @@ import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
-import { currentUrl } from "@factor/api/url"
+import { dashboardUrl } from "@factor/api/url"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
@@ -151,7 +151,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
       }
 
       if (process.env.NODE_ENV == "development" && openOnReady) {
-        open(currentUrl())
+        open(dashboardUrl())
       }
 
       setRestarting("no")

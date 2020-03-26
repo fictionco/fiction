@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrap">
     <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
-      <div class="app-nav" @click.stop>
+      <div class="app-nav">
         <dashboard-manager />
       </div>
       <div class="app-main">

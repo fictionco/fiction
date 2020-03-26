@@ -54,7 +54,11 @@ export const setup = (): void => {
     callback: (_: RouteConfig[]) => {
       const dashboardRoute = dashboardBaseRoute()
 
-      const defaultRoute = getDashboardRoute("account")
+      let defaultRoute = getDashboardRoute("account")
+      if (process.env.NODE_ENV == "development") {
+        defaultRoute = getDashboardRoute("site")
+      }
+
       _.push({
         path: "/admin",
         redirect: defaultRoute

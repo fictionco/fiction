@@ -14,6 +14,9 @@ export default (): object => {
       templatePath: "__FIND__/index.html",
       faviconPath: "__FIND__/static/favicon.png"
     },
+    dashboard: {
+      route: "/dashboard"
+    },
     metaInfo: {
       titleTemplate: "%s",
       image: ""

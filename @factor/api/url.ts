@@ -1,5 +1,6 @@
+import path from "path"
 import { setting } from "@factor/api/settings"
-
+import { dashboardBaseRoute } from "@factor/dashboard"
 /**
  * Gets the localhost url based on port and protocol
  */
@@ -40,6 +41,13 @@ export const currentUrl = (): string => {
   else {
     return productionUrl()
   }
+}
+
+/**
+ * Gets current URl based on NODE_ENV - localhost or production
+ */
+export const dashboardUrl = (): string => {
+  return path.join(currentUrl(), dashboardBaseRoute())
 }
 
 /**

@@ -1,6 +1,6 @@
 <template>
-  <div class="manager-brand">
-    <div class="manager-brand-pad" @click="active = !active">
+  <div class="manager-brand" @click.stop>
+    <div class="manager-brand-pad" @click="toggle()">
       <div class="menu-grid-item menu-media">
         <factor-avatar v-if="mode == 'account'" :user="getUser()" />
         <div v-else class="app-brand" :style="brandBackground" />
@@ -15,18 +15,31 @@
       </div>
     </div>
 
-    <div v-if="active" class="slide-menu">SLIDew</div>
+    <transition name="slide-up">
+      <div v-if="active" class="slide-menu">
+        <factor-link
+          v-for="(item, i) in actionMenu"
+          :key="i"
+          class="item"
+          :path="getDashboardRoute(item.path)"
+          :query="item.query"
+          @click="item.click ? item.click(): ''; active = false"
+        >{{ item.name }}</factor-link>
+      </div>
+    </transition>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorAvatar, factorIcon } from "@factor/ui"
-import { setting } from "@factor/api"
+import { getDashboardRoute } from "@factor/dashboard"
+import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
+import { setting, applyFilters } from "@factor/api"
 import { currentUser } from "@factor/user"
 export default Vue.extend({
   components: {
     factorAvatar,
-    factorIcon
+    factorIcon,
+    factorLink
   },
   props: {
     mode: { type: String, default: "brand" }
@@ -36,9 +49,16 @@ export default Vue.extend({
   },
   computed: {
     currentUser,
+    actionMenu(this: any) {
+      return applyFilters("action-menu", [])
+    },
     brandBackground(this: any) {
+      const iconSetting = setting(`app.icon`)
+
+      const icon = typeof iconSetting == "function" ? iconSetting() : iconSetting
+
       return {
-        backgroundImage: `url(${setting(`app.icon`)})`
+        backgroundImage: `url(${icon})`
       }
     },
     menuName(this: any) {
@@ -58,6 +78,33 @@ export default Vue.extend({
   },
   methods: {
     setting,
+    getDashboardRoute,
+    escapeHandler(e: KeyboardEvent) {
+      if (e.keyCode === 27) {
+        this.close()
+      }
+    },
+    clickHandler: function() {
+      this.close()
+    },
+    toggle(this: any) {
+      this.active = !this.active
+      this.toggleActive()
+    },
+    close(this: any) {
+      this.active = false
+    },
+    toggleActive(this: any) {
+      if (this.active) {
+        setTimeout(() => {
+          window.addEventListener("keydown", this.escapeHandler)
+          window.addEventListener("click", this.clickHandler)
+        }, 200)
+      } else {
+        window.removeEventListener("keydown", this.escapeHandler)
+        window.removeEventListener("click", this.clickHandler)
+      }
+    },
     getUser(this: any, field: string) {
       if (!field) {
         return this.currentUser
@@ -71,18 +118,50 @@ export default Vue.extend({
 .manager-brand {
   position: relative;
   --panel-movement: cubic-bezier(0.52, 0.01, 0.16, 1);
+  perspective: 100px;
+  .slide-up-enter-active,
+  .slide-up-leave-active {
+    transform-origin: 0 100%;
+    transition: all 0.2s var(--panel-movement);
+  }
+  .slide-up-enter,
+  .slide-up-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  .slide-up-enter-to,
+  .slide-up-leave {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 
   .slide-menu {
+    transform-origin: 0 100%;
     position: absolute;
     bottom: 100%;
     width: 100%;
 
-    padding: 2rem;
+    padding: 1rem;
     will-change: margin;
     z-index: 100;
     background: #fff;
-    box-shadow: 0 2px 5px -1px rgba(50, 50, 93, 0.25), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(50, 50, 93, 0.1), 0 2px 5px -1px rgba(50, 50, 93, 0.25),
+      0 15px 15px -6px rgba(50, 50, 93, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+    .factor-link {
+      display: block;
+      cursor: pointer;
+      color: inherit;
+      padding: 0.5rem;
+      border-radius: 5px;
+      margin: 2px 0;
+      &:hover {
+        background-color: var(--color-bg-highlight);
+      }
+      &.active-path {
+        background-color: var(--color-bg-contrast);
+      }
+    }
   }
   .manager-brand-pad {
     cursor: pointer;
@@ -108,6 +187,7 @@ export default Vue.extend({
       }
     }
     .menu-name {
+      user-select: none;
       .name {
         font-size: 1em;
         font-weight: var(--font-weight-bold);
