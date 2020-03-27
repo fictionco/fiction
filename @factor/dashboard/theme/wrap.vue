@@ -141,9 +141,11 @@ export default Vue.extend({
     &.nav-overlay {
       opacity: 0.6;
     }
-    grid-template-areas:
-      "nav nav"
-      "main main";
+    display: block;
+
+    .app-main {
+      height: auto;
+    }
     .app-nav {
       height: 4rem;
       overflow: initial;

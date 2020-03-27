@@ -19,6 +19,11 @@ export default Vue.extend({
       return this.factorApp?.events
     }
   },
+  metaInfo() {
+    return {
+      title: "View Site"
+    }
+  },
   mounted(this: any) {
     this.appIFrame = document.querySelector("#app-frame")
     this.appIFrame.addEventListener("load", () => {
@@ -44,6 +49,6 @@ export default Vue.extend({
 .frame {
   background-color: #fff;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 </style>
