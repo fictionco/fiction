@@ -38,7 +38,7 @@
       }
 
       .j {
-        fill: #506677;
+        fill: #3a4854;
       }
     </style>
     <linearGradient id="a" x1="598.84" y1="54.99" x2="613.84" y2="383.48" gradientUnits="userSpaceOnUse">
@@ -46,7 +46,7 @@
       <stop offset="0.18" stop-color="#376a9b"/>
       <stop offset="0.45" stop-color="#456887"/>
       <stop offset="0.73" stop-color="#4d667b"/>
-      <stop offset="1" stop-color="#506677"/>
+      <stop offset="1" stop-color="#3a4854"/>
     </linearGradient>
     <linearGradient id="b" x1="762.78" y1="47.51" x2="777.78" y2="375.99" xlink:href="#a"/>
     <linearGradient id="c" x1="903.75" y1="41.07" x2="918.75" y2="369.55" xlink:href="#a"/>

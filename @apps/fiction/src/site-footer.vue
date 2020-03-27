@@ -63,7 +63,7 @@ export default Vue.extend({
         display: block;
         width: 35px;
         svg path {
-          fill: #506677;
+          fill: #3a4854;
           opacity: 0.2;
         }
       }

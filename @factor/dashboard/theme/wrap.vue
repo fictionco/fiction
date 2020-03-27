@@ -1,25 +1,21 @@
 <template>
   <div class="app-wrap">
-    <template v-if="loading">
-      <div class="user-loading">
-        <factor-loading-ring width="4em" />
+    <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
+      <div class="app-nav">
+        <dashboard-manager />
       </div>
-    </template>
-    <template v-else>
-      <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
-        <dashboard-head class="app-head" />
-
-        <div class="app-nav" @click.stop>
-          <dashboard-nav />
-        </div>
-        <div class="app-main">
-          <div class="app-main-content">
-            <slot v-if="$slots.default" />
-            <router-view v-else />
-          </div>
+      <div class="app-main">
+        <div class="app-main-content">
+          <template v-if="loading">
+            <div class="user-loading">
+              <factor-loading-ring width="4em" />
+            </div>
+          </template>
+          <slot v-else-if="$slots.default" />
+          <router-view v-else />
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -32,9 +28,9 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLoadingRing,
-    dashboardNav: () => import("./nav.vue"),
-    dashboardHead: () => import("./head.vue")
+    dashboardManager: () => import("./manager/manager.vue")
   },
+
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()
     const niceName = toLabel(pageName)
@@ -47,6 +43,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      vis: false,
       loading: true,
       activeRoute: this.$route.path,
       toggle: false
@@ -109,53 +106,58 @@ export default Vue.extend({
 }
 
 .app-layout {
+  background: var(--color-bg-contrast);
+  --menu-shadow: 0 0 0 1px rgba(50, 50, 93, 0.1), 0 2px 5px -1px rgba(50, 50, 93, 0.25),
+    0 15px 15px -6px rgba(50, 50, 93, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
   --panel-border-color: rgba(200, 204, 228, 0.7);
   min-height: 100vh;
 
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 18rem 1fr;
-  grid-template-rows: 50px 1fr;
-  grid-template-areas:
-    "header header"
-    "nav main";
+  grid-template-columns: 17rem 1fr;
+  grid-template-areas: "nav main";
 
-  .app-head {
-    grid-area: header;
-    background: #fff;
-    box-shadow: 0 1px 0 var(--panel-border-color);
+  .app-main,
+  .app-nav {
+    height: 100vh;
+    overflow: auto;
   }
   .app-main {
     grid-area: main;
     min-width: 0;
-    background: #f6fafd;
+    background: var(--color-bg-contrast);
     box-shadow: inset 0 0 5rem rgba(200, 204, 228, 0.1);
     .app-main-content {
-      padding: 2rem;
+      height: 100%;
     }
   }
   .app-nav {
     grid-area: nav;
-    box-shadow: 1px 1px 0 var(--panel-border-color);
+
     position: relative;
-    .app-nav-pad {
-      padding: 1rem;
-    }
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 900px) {
     &.nav-overlay {
       opacity: 0.6;
     }
     grid-template-areas:
-      "header header"
+      "nav nav"
       "main main";
     .app-nav {
-      display: none;
-    }
-    .app-main {
-      .app-main-content {
-        padding: 0.5rem;
+      height: 4rem;
+      overflow: initial;
+      .app-manager {
+        position: absolute;
+        background: #fff;
+        z-index: 100;
+        border-right: none;
+        border-bottom: 1px solid var(--panel-border-color);
+        width: 100%;
+
+        .app-manager {
+          height: 100%;
+        }
       }
     }
   }

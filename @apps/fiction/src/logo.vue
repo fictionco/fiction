@@ -63,7 +63,7 @@ export default Vue.extend({
     display: block;
   }
   .thelogotext {
-    fill: #506677;
+    fill: #3a4854;
   }
   .thelogoicon {
     fill: #ff0076;

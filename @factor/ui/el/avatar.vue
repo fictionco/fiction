@@ -30,6 +30,7 @@
 import gravatar from "gravatar"
 import { stored } from "@factor/api"
 import { userInitialized } from "@factor/user"
+import { setting } from "@factor/api/settings"
 import Vue from "vue"
 export default Vue.extend({
   props: {
@@ -38,7 +39,8 @@ export default Vue.extend({
     url: { type: String, default: "" },
     email: { type: String, default: "" },
     loading: { type: Boolean, default: false },
-    user: { type: [Object, undefined], default: undefined }
+    user: { type: [Object, undefined], default: undefined },
+    defaultGravatar: { type: String, default: "identicon" }
   },
   data() {
     return {
@@ -61,7 +63,12 @@ export default Vue.extend({
       } else if (this.avatar && this.avatar.url) {
         return this.avatar.url
       } else if (this.user) {
-        return gravatar.url(this.user.email, { s: "200", d: "identicon" }) || ""
+        return (
+          gravatar.url(this.user.email, {
+            s: "200",
+            d: setting("app.blankUser") || "retro"
+          }) || ""
+        )
       } else {
         return ""
       }
@@ -98,6 +105,7 @@ export default Vue.extend({
   background-size: cover;
   border-radius: 50%;
   position: relative;
+  box-shadow: inset 0 0 0 1px rgba(116, 136, 161, 0.15);
   &.thumb-src {
     padding: 50% 0;
   }

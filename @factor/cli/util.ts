@@ -2,7 +2,7 @@ import prettyBytes from "pretty-bytes"
 import chalk from "chalk"
 import { pushToFilter } from "@factor/api/hooks"
 import { factorVersion } from "@factor/api/about"
-import { localhostUrl } from "@factor/api/url"
+import { localhostUrl, dashboardUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
 import latestVersion from "latest-version"
 /**
@@ -67,7 +67,8 @@ export const serverInfo = async ({
 
   lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
   if (command && ["dev", "serve", "start"].includes(command)) {
-    lines.push(`Serving at ${chalk.cyan(localhostUrl())}`)
+    lines.push(`App: ${chalk.cyan(localhostUrl())}`)
+    lines.push(`Dashboard: ${chalk.cyan(dashboardUrl())}`)
   }
 
   getLatestVersion()

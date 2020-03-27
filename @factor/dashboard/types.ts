@@ -7,6 +7,11 @@ export interface DashboardMenuItem {
   icon?: string;
   items?: DashboardMenuItem[];
   priority?: number;
+  secondary?: {
+    icon: string;
+    target?: "_blank";
+    path: string;
+  };
 }
 
 export interface EditPanel {

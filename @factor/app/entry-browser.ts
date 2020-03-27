@@ -1,4 +1,5 @@
 import Vue from "vue"
+import * as events from "@factor/api/events"
 import { createApp } from "./app"
 
 const startClient = async (): Promise<void> => {
@@ -8,7 +9,7 @@ const startClient = async (): Promise<void> => {
    * Add to <window> for external use
    *  For example, inside of integration tests
    */
-  window.factorApp = { vm, router, store, Vue }
+  window.factorApp = { vm, router, store, Vue, events }
 
   /**
    * Mount after router has resolved
