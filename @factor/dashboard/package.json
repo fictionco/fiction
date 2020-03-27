@@ -1,6 +1,6 @@
 {
   "name": "@factor/dashboard",
-  "version": "1.5.6",
+  "version": "1.5.8",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -13,7 +13,7 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/plugin-standard-signin": "^1.5.6",
+    "@factor/plugin-standard-signin": "^1.5.8",
     "@types/sortablejs": "^1.10.0"
   }
 }

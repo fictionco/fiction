@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-sitemap",
   "description": "Advanced automatically generated sitemaps for your Factor app",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",

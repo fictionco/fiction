@@ -1,8 +1,12 @@
 {
-  "version": "1.5.7",
+  "version": "1.5.8",
   "npmClient": "yarn",
   "useWorkspaces": false,
-  "packages": ["@factor/*", "@plugins/*", "@themes/*"],
+  "packages": [
+    "@factor/*",
+    "@plugins/*",
+    "@themes/*"
+  ],
   "command": {
     "publish": {
       "npmClient": "npm",
