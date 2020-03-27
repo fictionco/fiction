@@ -6,9 +6,10 @@ import {
   runCallbacks,
   addCallback,
   log,
-  getKnownRoutePaths
+  getKnownRoutePaths,
+  setting,
+  currentUrl
 } from "@factor/api"
-import { currentUrl } from "@factor/api/url"
 import { postTypesConfig, PostTypeConfig } from "@factor/api/post-types"
 
 import NodeCache from "node-cache"
@@ -62,12 +63,18 @@ const copyStaticFiles = (): WebpackCopyItemConfig[] => {
   return copyItems
 }
 
+type GetSitemapOptions = {
+  bust?: true;
+}
+
 /**
  * Get all registered sitemaps, only run this once as sitemaps may run queries on the DB
  */
-const getRegisteredSitemaps = async (): Promise<RegisteredSitemap[]> => {
+const getRegisteredSitemaps = async (
+  options: GetSitemapOptions = {}
+): Promise<RegisteredSitemap[]> => {
   const cached = sitemapsCache.get<RegisteredSitemap[]>("sitemaps")
-  if (cached) {
+  if (cached && !options.bust) {
     return cached
   } else {
     const sitemaps = await runCallbacks<RegisteredSitemap>("sitemaps")
@@ -78,8 +85,11 @@ const getRegisteredSitemaps = async (): Promise<RegisteredSitemap[]> => {
   }
 }
 
-const getSitemap = async (_id: string): Promise<RegisteredSitemap | undefined> => {
-  const sitemaps = await getRegisteredSitemaps()
+const getSitemap = async (
+  _id: string,
+  options: GetSitemapOptions = {}
+): Promise<RegisteredSitemap | undefined> => {
+  const sitemaps = await getRegisteredSitemaps(options)
 
   return sitemaps.find(map => map._id == _id)
 }
@@ -104,7 +114,10 @@ export const setPostTypeSitemaps = async (): Promise<void> => {
       async (): Promise<SitemapItem[]> => {
         const Model = getModel(postType)
 
-        const posts = await Model.find({ status: PostStatus.Published })
+        const posts = await Model.find({
+          status: PostStatus.Published,
+          source: setting("package.name")
+        })
 
         return posts.map(p => {
           return { url: permalink(p), lastmod: p.updatedAt?.toString() ?? "" }
@@ -151,11 +164,14 @@ export const setup = (): void => {
             response.header("Content-Type", "application/xml")
             response.header("Content-Encoding", "gzip")
             const _id = request.params.sitemapId
-
+            // const { bust = false } = request.query
             try {
               const map = await getSitemap(_id)
               if (!map) {
                 throw new Error(`Sitemap not found for ${_id}`)
+              }
+              if (!map.items || map.items.length == 0) {
+                throw new Error(`There are no entries for this sitemap`)
               }
               const smStream = new SitemapStream({
                 hostname: currentUrl(),
@@ -199,9 +215,11 @@ export const setup = (): void => {
 
               const sitemaps = await getRegisteredSitemaps()
 
-              sitemaps.forEach(({ _id }) => {
-                sitemapIndex.write({ url: getSitemapUrl(_id) })
-              })
+              sitemaps
+                .filter(_ => _.items && _.items.length > 0)
+                .forEach(({ _id }) => {
+                  sitemapIndex.write({ url: getSitemapUrl(_id) })
+                })
 
               const pipeline = sitemapIndex.pipe(createGzip())
 
