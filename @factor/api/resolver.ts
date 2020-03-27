@@ -37,9 +37,12 @@ const fileExistsInTheme = (file: string): string => {
  */
 export const resolveFilePath = (file: string): string => {
   const appPath = file.replace("__FIND__", getPath("source"))
+  const noStatic = appPath.replace("/static", "")
 
   if (fs.pathExistsSync(appPath)) {
     return appPath
+  } else if (fs.pathExistsSync(noStatic)) {
+    return noStatic
   } else {
     let filePath = fileExistsInTheme(file)
 

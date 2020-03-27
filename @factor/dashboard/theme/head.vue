@@ -99,7 +99,7 @@ export default Vue.extend({
       return setting("app.name") ?? "No Name"
     },
     menu(this: any) {
-      return getDashboardMenu(this.$route.path)
+      return getDashboardMenu()
     },
     dashboardMenu(this: any) {
       return dashboardSiteMenu(this.$route.path, this.menuType)
@@ -279,89 +279,7 @@ export default Vue.extend({
       }
     }
   }
-  .menu-app,
-  .menu-factor {
-    padding: 0 0.25rem;
-    color: inherit;
-    transition: opacity 0.2s;
-    display: flex;
-    align-items: center;
-    background: #f6fafd;
-    box-shadow: 0 0 0 1px var(--panel-border-color);
-    border-radius: 5px;
-    position: relative;
-    .menu-items {
-      position: absolute;
-      width: 275px;
-      min-height: 1rem;
-      background: #fff;
-      overflow: hidden;
-      border-radius: 5px;
-      box-shadow: 0 0 0 1px rgba(136, 152, 170, 0.1), 0 15px 35px 0 rgba(49, 49, 93, 0.1),
-        0 5px 15px 0 rgba(0, 0, 0, 0.08);
-      z-index: 5;
-      top: -4px;
-      left: -4px;
-      padding-top: 2.5rem;
-      .menu-item {
-        margin: 0 1rem;
 
-        user-select: none;
-        &:last-child {
-          margin-bottom: 1rem;
-        }
-        .menu-item-name {
-          padding: 0.5rem 1.75rem;
-          display: block;
-          color: inherit;
-          &:hover {
-            background: #f6fafd;
-            cursor: pointer;
-          }
-        }
-      }
-      @media (max-width: 900px) {
-        padding-top: 3rem;
-        .menu-item {
-          font-size: 1.2em;
-        }
-      }
-    }
-
-    &.open {
-      .menu-icon,
-      .app-name {
-        position: relative;
-        z-index: 10;
-      }
-      .caret {
-        transform: rotate(180deg);
-      }
-    }
-
-    .app-name {
-      user-select: none;
-      padding-left: 0.25rem;
-      padding-right: 0.5rem;
-      font-weight: 700;
-      transition: all 0.1s;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      .caret {
-        margin-top: 3px;
-        margin-left: 0.5rem;
-        opacity: 0.45;
-        transition: all 0.2s;
-        width: 0.8rem;
-      }
-      &:hover {
-        opacity: 0.7;
-        color: inherit;
-      }
-    }
-  }
   .nav {
     font-weight: var(--font-weight-bold);
     display: flex;
@@ -373,7 +291,7 @@ export default Vue.extend({
     }
     > a {
       font-size: 0.9em;
-      color: #506677;
+      color: #3a4854;
       margin: 0 1em;
       @media (max-width: 767px) {
         margin: 0 1em;

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58">
   <defs>
     <style>
-      .a{fill:#506677}
+      .a{fill:#3a4854}
     </style>
   </defs>
   <path d="M44.9 20.53v26a.92.92 0 0 1-1 .9H6.2a1 1 0 0 1-1-.9V8.03a.92.92 0 0 1 1-.9h26l4.9-4.9H6.2A6 6 0 0 0 0 8.03v38.4a6 6 0 0 0 6.2 5.8h37.6a6 6 0 0 0 6.2-5.8v-31.1z" class="a"/>

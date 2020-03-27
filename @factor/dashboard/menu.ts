@@ -1,5 +1,6 @@
 import { applyFilters } from "@factor/api"
 import { userInitialized, userCan } from "@factor/user"
+import { currentRoute } from "@factor/app/router"
 import { getDashboardRoute } from "."
 export interface MenuItem {
   name: string;
@@ -15,42 +16,69 @@ export interface MenuItem {
   accessLevel?: number;
 }
 
+export type MenuGroup = {
+  group: string;
+  hideTitle?: true;
+  menu: MenuItem[];
+}
+
+const setMenuState = (area: MenuGroup): MenuGroup => {
+  const { path } = currentRoute()
+
+  const menuWithState = area.menu.map((menuItem: MenuItem) => {
+    const parentPath = getDashboardRoute(menuItem.path)
+
+    const subMenu = applyFilters(
+      `${area.group}-menu-${menuItem.group}`,
+      menuItem.items || []
+    )
+
+    let active = parentPath == path
+    const items = subMenu.map((sub: MenuItem) => {
+      const subPath = getDashboardRoute(sub.path, parentPath)
+
+      const subActive = subPath == path
+      if (subActive) {
+        active = true
+      }
+
+      return { ...sub, path: subPath, active: subActive }
+    })
+
+    return {
+      ...menuItem,
+      icon: menuItem.icon ? menuItem.icon : require("./theme/img/generic.svg"),
+      active,
+      path: parentPath,
+      items
+    }
+  })
+
+  return { ...area, menu: menuWithState }
+}
+
 /**
  * Returns an object containing the dashboard menu areas with menu arrays
  * @param currentPath - The currently active route path. Used to determine active menu items.
  */
-export const getDashboardMenu = async (
-  currentPath: string
-): Promise<Record<string, MenuItem[]>> => {
+export const getDashboardMenu = async (): Promise<MenuGroup[]> => {
   await userInitialized()
 
-  const menuAreas = ["dashboard", "account", "action"]
+  const groups: MenuGroup[] = []
+
+  groups.push({ group: "site", hideTitle: true, menu: applyFilters(`site-menu`, []) })
+
+  groups.push({ group: "dashboard", menu: applyFilters(`dashboard-menu`, []) })
 
   if (userCan({ accessLevel: 100 })) {
-    menuAreas.push("admin")
+    groups.push({ group: "admin", menu: applyFilters(`admin-menu`, []) })
   }
 
-  const menu: Record<string, MenuItem[]> = {}
-  menuAreas.forEach(area => {
-    const parentMenu: MenuItem[] = applyFilters(`${area}-menu`, [])
+  if (process.env.NODE_ENV == "development") {
+    groups.push({ group: "development", menu: applyFilters(`development-menu`, []) })
+  }
 
-    menu[area] = parentMenu.map((menuItem: MenuItem) => {
-      const parentPath = getDashboardRoute(menuItem.path)
-      const icon = menuItem.icon ? menuItem.icon : require("./theme/img/generic.svg")
-      let active = parentPath == currentPath
-      const subMenu = applyFilters(`${area}-menu-${menuItem.group}`, menuItem.items || [])
-      const items = subMenu.map((menuItem: MenuItem) => {
-        const subPath = getDashboardRoute(menuItem.path, parentPath)
-        const subActive = subPath == currentPath
-        if (subActive) active = subActive
-        return { ...menuItem, path: subPath, active: subActive }
-      })
-
-      return { ...menuItem, icon, active, path: parentPath, items }
-    })
-  })
-
-  return menu
+  return applyFilters("manager-menus", groups).map(group => setMenuState(group))
 }
 
 export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuItem[] => {

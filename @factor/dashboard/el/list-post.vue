@@ -5,9 +5,10 @@
         <input v-model="checked" type="checkbox" class="checkbox" />
       </div>
       <div class="post-info">
-        <div v-if="itemAvatar" class="post-media">
+        <div v-if="itemAvatar || $slots.avatar" class="post-media">
           <factor-link :path="itemPath" class="post-avatar">
-            <img :src="itemAvatar" alt="Avatar" />
+            <slot v-if="$slots.avatar" name="avatar" />
+            <img v-else :src="itemAvatar" alt="Avatar" />
           </factor-link>
         </div>
         <div class="text-header">
@@ -170,7 +171,7 @@ export default Vue.extend({
     }
     .title {
       white-space: pre-wrap;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1.2em;
       margin-bottom: 0.25rem;
     }

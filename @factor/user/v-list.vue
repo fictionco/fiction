@@ -19,7 +19,12 @@
       :title="post.displayName || 'No Name'"
       :sub-title="post.email"
       :meta="postItemMeta(post)"
-    />
+      class="user-list-post"
+    >
+      <template #avatar>
+        <factor-avatar :user="post" default-gravatar="mp" />
+      </template>
+    </dashboard-list-post>
 
     <dashboard-table-footer v-bind="$attrs" :meta="meta" />
   </dashboard-pane>
@@ -39,6 +44,7 @@ import { toLabel, standardDate, emitEvent } from "@factor/api"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
+import { factorAvatar } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
 export default Vue.extend({
   name: "UserList",
@@ -46,7 +52,8 @@ export default Vue.extend({
     dashboardPane,
     dashboardTableFooter,
     dashboardListPost,
-    dashboardListControls
+    dashboardListControls,
+    factorAvatar
   },
   props: {
     title: { type: String, default: "" },
@@ -156,6 +163,14 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .posts-dashboard {
+  .user-list-post {
+    .avatar {
+      width: 4rem;
+      .thumb {
+        box-shadow: inset 0 0 0 1px rgba(116, 136, 161, 0.15);
+      }
+    }
+  }
   .post-title {
     > a {
       display: block;

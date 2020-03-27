@@ -227,7 +227,7 @@ export default Vue.extend({
     > .factor-link {
       letter-spacing: -0.03em;
       font-size: 0.9em;
-      color: #506677;
+      color: #3a4854;
       margin: 0 1em;
       @media (max-width: 900px) {
         display: block;

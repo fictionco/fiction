@@ -1,19 +1,35 @@
+import path from "path"
 import { setting } from "@factor/api/settings"
+import { dashboardBaseRoute } from "@factor/dashboard"
 
+interface UrlOptions {
+  domainOnly?: true;
+}
+
+const removeProtocol = (url: string): string => {
+  return url.replace(/(^\w+:|^)\/\//, "")
+}
 /**
  * Gets the localhost url based on port and protocol
  */
-export const localhostUrl = (): string => {
+export const localhostUrl = (options: UrlOptions = {}): string => {
   const port = process.env.PORT || 3000
   const routine = process.env.HTTP_PROTOCOL || "http"
-  return `${routine}://localhost:${port}`
+
+  let url = `${routine}://localhost:${port}`
+
+  if (url && options.domainOnly) {
+    url = removeProtocol(url)
+  }
+
+  return url
 }
 
 /**
  * Gets production URL as configured
  *
  */
-export const productionUrl = (): string => {
+export const productionUrl = (options: UrlOptions = {}): string => {
   let url
 
   if (process.env.FACTOR_URL) {
@@ -22,6 +38,10 @@ export const productionUrl = (): string => {
     url = setting<string>("url")
   } else if (setting<string>("app.url")) {
     url = setting<string>("app.url")
+  }
+
+  if (url && options.domainOnly) {
+    url = removeProtocol(url)
   }
 
   if (url) {
@@ -34,12 +54,19 @@ export const productionUrl = (): string => {
 /**
  * Gets current URl based on NODE_ENV - localhost or production
  */
-export const currentUrl = (): string => {
+export const currentUrl = (options = {}): string => {
   if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
-    return localhostUrl()
+    return localhostUrl(options)
   else {
-    return productionUrl()
+    return productionUrl(options)
   }
+}
+
+/**
+ * Gets current URl based on NODE_ENV - localhost or production
+ */
+export const dashboardUrl = (): string => {
+  return path.join(currentUrl(), dashboardBaseRoute())
 }
 
 /**
