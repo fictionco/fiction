@@ -1,6 +1,6 @@
 {
   "name": "@factor/loader",
-  "version": "1.5.8",
+  "version": "1.5.11",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
