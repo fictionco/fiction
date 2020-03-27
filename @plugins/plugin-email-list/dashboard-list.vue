@@ -1,25 +1,27 @@
 <template>
-  <dashboard-pane>
-    <dashboard-list-controls
-      :control-actions="controlActions()"
-      :control-status="controlStatus()"
-      :selected="selected"
-      :loading="loading"
-      :list="list"
-      @action="handleAction($event)"
-      @select-all="selectAll($event)"
-    />
+  <dashboard-page>
+    <dashboard-pane>
+      <dashboard-list-controls
+        :control-actions="controlActions()"
+        :control-status="controlStatus()"
+        :selected="selected"
+        :loading="loading"
+        :list="list"
+        @action="handleAction($event)"
+        @select-all="selectAll($event)"
+      />
 
-    <dashboard-list-post
-      v-for="post in list"
-      :key="post._id"
-      v-model="selected"
-      :post="post"
-      sub-title="Email List"
-      :meta="postItemMeta(post)"
-      :additional="postItemAdditional(post)"
-    />
-  </dashboard-pane>
+      <dashboard-list-post
+        v-for="post in list"
+        :key="post._id"
+        v-model="selected"
+        :post="post"
+        sub-title="Email List"
+        :meta="postItemMeta(post)"
+        :additional="postItemAdditional(post)"
+      />
+    </dashboard-pane>
+  </dashboard-page>
 </template>
 <script lang="ts">
 import { getStatusCount } from "@factor/post/util"
@@ -28,6 +30,7 @@ import { FactorPost } from "@factor/post/types"
 import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import {
+  dashboardPage,
   dashboardPane,
   dashboardListPost,
   dashboardListControls
@@ -40,7 +43,8 @@ export default Vue.extend({
   components: {
     dashboardListPost,
     dashboardPane,
-    dashboardListControls
+    dashboardListControls,
+    dashboardPage
   },
   props: {
     postType: { type: String, default: "post" },

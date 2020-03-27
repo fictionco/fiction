@@ -65,7 +65,7 @@ export default Vue.extend({
       } else if (this.user) {
         return (
           gravatar.url(this.user.email, {
-            s: "200",
+            s: "300",
             d: setting("app.blankUser") || "retro"
           }) || ""
         )
