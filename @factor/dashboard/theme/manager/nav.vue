@@ -108,7 +108,9 @@ export default Vue.extend({
     border-radius: 5px;
 
     position: relative;
-
+    a {
+      color: inherit;
+    }
     .menu-link,
     .menu-link-sub {
       padding: 0.6rem 1.5rem 0.5rem;
