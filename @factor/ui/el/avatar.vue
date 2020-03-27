@@ -105,6 +105,7 @@ export default Vue.extend({
   background-size: cover;
   border-radius: 50%;
   position: relative;
+  box-shadow: inset 0 0 0 1px rgba(116, 136, 161, 0.15);
   &.thumb-src {
     padding: 50% 0;
   }

@@ -30,7 +30,7 @@
           class="item"
           :path="getDashboardRoute(item.path)"
           :query="item.query"
-          @click="item.click ? item.click(): ''; active = false"
+          @click="handleItemClick(item)"
         >{{ item.name }}</factor-link>
       </div>
     </transition>
@@ -42,6 +42,13 @@ import { getDashboardRoute } from "@factor/dashboard"
 import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
 import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
 import { currentUser } from "@factor/user"
+
+interface ActionMenuItem {
+  path?: string
+  click?: () => any
+  query?: any
+  name: string
+}
 export default Vue.extend({
   components: {
     factorAvatar,
@@ -88,6 +95,12 @@ export default Vue.extend({
     setting,
     toLabel,
     getDashboardRoute,
+    handleItemClick(this: any, item: ActionMenuItem) {
+      item.click ? item.click() : ""
+      this.active = false
+
+      document.body.click()
+    },
     escapeHandler(e: KeyboardEvent) {
       if (e.keyCode === 27) {
         this.close()

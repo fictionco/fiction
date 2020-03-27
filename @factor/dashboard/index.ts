@@ -100,16 +100,18 @@ export const setup = (): void => {
     key: "dashboard",
     hook: "site-menu",
     callback: (_: DashboardMenuItem[]) => {
-      _.push({
-        path: `site`,
-        name: "View Site",
-        icon: require("./img/dashboard.svg"),
-        secondary: {
-          icon: "fas fa-external-link-alt",
-          path: currentUrl(),
-          target: "_blank"
-        }
-      })
+      if (userCan({ accessLevel: 100 })) {
+        _.push({
+          path: `site`,
+          name: "View Site",
+          icon: require("./img/dashboard.svg"),
+          secondary: {
+            icon: "fas fa-external-link-alt",
+            path: currentUrl(),
+            target: "_blank"
+          }
+        })
+      }
 
       return _
     }

@@ -30,6 +30,7 @@ export default Vue.extend({
     factorLoadingRing,
     dashboardManager: () => import("./manager/manager.vue")
   },
+
   metaInfo() {
     const pageName = this.$route.path.split("/").pop()
     const niceName = toLabel(pageName)
@@ -42,6 +43,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      vis: false,
       loading: true,
       activeRoute: this.$route.path,
       toggle: false
@@ -135,7 +137,7 @@ export default Vue.extend({
     position: relative;
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 900px) {
     &.nav-overlay {
       opacity: 0.6;
     }
@@ -143,17 +145,16 @@ export default Vue.extend({
       "nav nav"
       "main main";
     .app-nav {
-      height: 5rem;
+      height: 4rem;
+      overflow: initial;
       .app-manager {
         position: absolute;
         background: #fff;
         z-index: 100;
-        margin: 0.5rem;
-        width: calc(~"100% - 1rem");
-        height: calc(~"100% - 1rem");
-        border-radius: 5px;
+        border-right: none;
+        border-bottom: 1px solid var(--panel-border-color);
+        width: 100%;
 
-        box-shadow: 0 0 0 1px var(--panel-border-color);
         .app-manager {
           height: 100%;
         }

@@ -1,8 +1,8 @@
 <template>
-  <div class="app-manager">
+  <div class="app-manager" :class="vis ? 'show-mobile': 'standard'">
     <div class="manager-area manager-header">
-      <brand-area mode="brand" @click="search()" />
-      <mobile-toggle />
+      <brand-area mode="brand" />
+      <mobile-toggle :vis.sync="vis" class="show-mobile" />
     </div>
     <div class="manager-area manager-content">
       <nav-handler />
@@ -25,16 +25,18 @@ export default Vue.extend({
     brandArea: () => import("./brand.vue"),
     mobileToggle: () => import("./mobile-toggle.vue")
   },
+
   data() {
     return {
-      active: ""
+      mobileVisible: false,
+      active: "",
+      vis: false
     }
   },
+  watch: {},
   methods: {
     currentUser,
-    search(this: any) {
-      console.log("show search")
-    },
+
     getUser(this: any, field: string) {
       if (!field) {
         return this.currentUser
@@ -63,14 +65,34 @@ export default Vue.extend({
     min-height: 0;
     overflow: auto;
   }
-  .manager-header {
-    display: grid;
-    grid-template-columns: 1fr 5rem;
+
+  .show-mobile {
+    display: none;
   }
-  // .manager-footer {
-  //   position: absolute;
-  //   bottom: 0;
-  //   width: 100%;
-  // }
+  @media (max-width: 900px) {
+    height: auto;
+    display: block;
+    .show-mobile {
+      display: block;
+    }
+    .manager-header {
+      display: grid;
+      grid-template-columns: 1fr 5rem;
+    }
+
+    .manager-footer,
+    .manager-content {
+      display: none;
+    }
+
+    &.show-mobile {
+      height: 100vh;
+      display: grid;
+      .manager-footer,
+      .manager-content {
+        display: block;
+      }
+    }
+  }
 }
 </style>

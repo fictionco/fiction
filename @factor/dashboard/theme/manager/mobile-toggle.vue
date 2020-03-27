@@ -1,10 +1,6 @@
 <template>
   <div class="mobile-nav-toggle-wrap" @click.stop>
-    <div
-      class="mobile-nav-toggle"
-      :class="toggle == 'on' && menuType == 'dashboard' ? 'active' : 'inactive'"
-      @click="toggleNav(`toggle`, `dashboard`)"
-    >
+    <div class="mobile-nav-toggle" :class="vis ? 'active' : 'inactive'" @click="toggleNav()">
       <factor-avatar :user="getUser()" />
 
       <div class="bars">
@@ -23,6 +19,9 @@ import { factorAvatar } from "@factor/ui"
 import { currentUser } from "@factor/user"
 export default Vue.extend({
   components: { factorAvatar },
+  props: {
+    vis: { type: Boolean, default: false }
+  },
   data() {
     return {
       active: ""
@@ -35,6 +34,33 @@ export default Vue.extend({
         return this.currentUser
       }
       return this.currentUser ? this.currentUser[field] : undefined
+    },
+
+    toggleNav(this: any, toggle: boolean | undefined) {
+      if (!document) return
+
+      if (typeof toggle == "undefined") {
+        this.$emit("update:vis", !this.vis)
+      } else {
+        this.$emit("update:vis", toggle)
+      }
+
+      /**
+       * A setTimeout is needed because synced parameters are not sync'd
+       * This causes inconsistent behavior
+       */
+      setTimeout(() => {
+        this.clickHandler = () => {
+          this.$emit("update:vis", false)
+          document.removeEventListener("click", this.clickHandler)
+        }
+
+        if (this.vis) {
+          document.addEventListener("click", this.clickHandler)
+        } else {
+          document.removeEventListener("click", this.clickHandler)
+        }
+      }, 100)
     }
   }
 })
@@ -51,7 +77,7 @@ export default Vue.extend({
   grid-gap: 0.5rem;
   .avatar {
     transition: all 0.2s;
-    width: 2.5rem;
+    width: 2.25rem;
   }
 
   .bars {
