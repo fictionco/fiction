@@ -72,6 +72,7 @@ export default Vue.extend({
   @media (max-width: 900px) {
     height: auto;
     display: block;
+    border-bottom: 1px solid var(--panel-border-color);
     .show-mobile {
       display: block;
     }
@@ -86,7 +87,9 @@ export default Vue.extend({
     }
 
     &.show-mobile {
-      height: 100vh;
+      max-height: 90vh;
+      border-bottom: none;
+      box-shadow: var(--menu-shadow);
       display: grid;
       .manager-footer,
       .manager-content {

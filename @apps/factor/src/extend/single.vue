@@ -196,14 +196,12 @@ export default Vue.extend({
   },
 
   created() {
-    this.headerScreenshots = this.post.screenshots.filter((_: string) =>
-      _.includes("tall")
-    )
+    const allScreenshots = this.post.screenshots || []
+
+    this.headerScreenshots = allScreenshots.filter((_: string) => _.includes("tall"))
 
     if (this.headerScreenshots.length == 0) {
-      this.headerScreenshots = this.post.screenshots.filter((_: string) =>
-        _.includes("wide")
-      )
+      this.headerScreenshots = allScreenshots.filter((_: string) => _.includes("wide"))
       this.headerFormat = "wide"
     }
 

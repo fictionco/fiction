@@ -31,7 +31,9 @@
           <div class="row progress-bar-wrap" :class="build">
             <div class="progress-title">{{ building }}</div>
             <div class="progress-bar-container">
-              <div class="progress-bar" :style="{ width: `${progress}%` }" />
+              <div class="progress-bar" :style="{ width: `${progress}%` }">
+                <div class="barber" />
+              </div>
             </div>
             <div class="progress-message">{{ progressText }}</div>
           </div>
@@ -252,6 +254,11 @@ export default {
 }
 </script>
 <style lang="less">
+@keyframes barberpole {
+  100% {
+    background-position: 100% 100%;
+  }
+}
 .loading-screen {
   position: relative;
   max-width: 800px;
@@ -353,6 +360,21 @@ h4 {
     height: 1rem;
     width: 1rem;
     transition: width 0.4s;
+    position: relative;
+    .barber {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      background-size: 200% 200%;
+      background-image: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1) 1rem,
+        transparent 1rem,
+        transparent 2rem
+      );
+      animation: barberpole 2s linear infinite;
+    }
   }
   .progress-title,
   .progress-message {

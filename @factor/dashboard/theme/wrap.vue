@@ -154,7 +154,7 @@ export default Vue.extend({
         background: #fff;
         z-index: 100;
         border-right: none;
-        border-bottom: 1px solid var(--panel-border-color);
+
         width: 100%;
 
         .app-manager {
