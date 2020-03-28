@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-tailwind",
   "description": "This plugin adds tailwindcss to your Factor app.",
-  "version": "1.5.8",
+  "version": "1.5.12",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
