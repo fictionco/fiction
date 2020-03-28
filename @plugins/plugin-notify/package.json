@@ -3,6 +3,11 @@
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "version": "1.5.10",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -11,16 +16,22 @@
       "app"
     ],
     "title": "Notify",
-    "themeColor": "#ffffff",
-    "category": "ui"
+    "permalink": "notify-factor-plugin",
+    "category": [
+      "ui"
+    ],
+    "themeColor": "#ffffff"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-notify"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/notify-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
-    "factor",
-    "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "notification",
     "alert",
     "notify",
