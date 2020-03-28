@@ -3,6 +3,11 @@
   "description": "This plugin adds tailwindcss to your Factor app.",
   "version": "1.5.8",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -10,19 +15,29 @@
     "load": [
       "server"
     ],
-    "title": "Tailwind CSS"
+    "title": "Tailwind CSS",
+    "permalink": "tailwind-css-framework",
+    "category": [
+      "tailwind"
+    ],
+    "themeColor": "#F8F9FB"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-tailwind"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/tailwind-css-framework",
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.0.5",
     "tailwindcss": "^1.1.3"
   },
-  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
     "tailwind",
     "tailwindcss",
     "framework",

@@ -3,30 +3,46 @@
   "description": "This plugin configures Factor to use AWS S3 for image storage.",
   "version": "1.5.8",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "factor": {
     "_id": "storageS3",
     "load": [
       "server"
     ],
     "title": "Storage S3",
-    "category": "images",
+    "permalink": "s3-cloud-storage",
+    "category": [
+      "images"
+    ],
     "themeColor": "#232F3E"
   },
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-storage-s3"
   },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/s3-cloud-storage",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
     "aws-sdk": "^2.504.0"
   },
   "keywords": [
     "factor",
-    "factor-js",
     "factor-plugin",
     "storage",
     "amazon",
     "s3",
     "image-hosting",
-    "images"
+    "images",
+    "cloud-storage"
   ]
 }

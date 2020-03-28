@@ -15,6 +15,7 @@
     "load": [
       "app"
     ],
+    "extend": "plugin",
     "title": "Syntax Highlight",
     "permalink": "highlight-code-factor-plugin",
     "category": [
@@ -35,6 +36,8 @@
     "prismjs": "^1.19.0"
   },
   "keywords": [
+    "factor",
+    "factor-plugin",
     "syntax",
     "highlight",
     "markdown",

@@ -3,15 +3,34 @@
   "description": "This plugin configures Factor to use Google Cloud Services for image storage.",
   "version": "1.5.8",
   "license": "GPL-2.0",
-  "factor": {
-    "load": [
-      "server"
-    ],
-    "title": "Google Cloud Image Storage"
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
   },
   "publishConfig": {
     "access": "public"
   },
+  "factor": {
+    "load": [
+      "server"
+    ],
+    "extend": "plugin",
+    "title": "Google Cloud Image Storage",
+    "permalink": "google-cloud-image-storage",
+    "category": [
+      "images"
+    ],
+    "themeColor": "#f5f5f5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-storage-google-cloud"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/google-cloud-image-storage",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
     "@google-cloud/storage": "^4.3.0"
@@ -19,9 +38,8 @@
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue",
-    "google-cloud-storage"
+    "storage",
+    "cloud storage",
+    "media"
   ]
 }

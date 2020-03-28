@@ -3,6 +3,11 @@
   "description": "The standard login/signup plugin for Factor.",
   "version": "1.5.8",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -10,12 +15,29 @@
     "load": [
       "app"
     ],
-    "title": "Standard Signin"
+    "extend": "plugin",
+    "title": "Standard Signin",
+    "permalink": "standard-signin",
+    "category": [
+      "login"
+    ],
+    "themeColor": "#222648"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-standard-signin"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/standard-signin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction"
+    "signin",
+    "login",
+    "authentication",
+    "signup"
   ]
 }

@@ -16,12 +16,22 @@
       "server"
     ],
     "extend": "plugin",
-    "permalink": "sitemap-xml",
     "title": "Sitemap",
+    "permalink": "sitemap-xml",
     "demo": "https://factor.dev/sitemap.xml",
-    "themeColor": "#172D45",
-    "category": "utility"
+    "category": [
+      "utility"
+    ],
+    "themeColor": "#172D45"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-sitemap"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/sitemap-xml",
   "dependencies": {
     "node-cache": "^5.1.0",
     "sitemap": "^6.0.0"

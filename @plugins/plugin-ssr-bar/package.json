@@ -3,6 +3,11 @@
   "description": "Elegant progress bar to show users how far they are in a process.",
   "version": "1.5.8",
   "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -10,17 +15,29 @@
     "load": [
       "app"
     ],
+    "extend": "plugin",
     "title": "SSR Bar",
-    "category": "ui",
-    "permalink": "ssr-bar-plugin",
+    "permalink": "ssr-progress-bar",
+    "category": [
+      "ui"
+    ],
     "themeColor": "#FFC35A"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-ssr-bar"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/ssr-progress-bar",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
-    "fiction",
-    "webpack",
-    "vue"
+    "ssr",
+    "loading",
+    "bar",
+    "indicator"
   ]
 }

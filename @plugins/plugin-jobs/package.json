@@ -16,6 +16,7 @@
       "app",
       "server"
     ],
+    "extend": "plugin",
     "title": "Job Board",
     "permalink": "jobs-factor-plugin",
     "category": [
@@ -36,6 +37,8 @@
     "@factor/plugin-highlight-code": "^1.5.8"
   },
   "keywords": [
+    "factor",
+    "factor-plugin",
     "job board",
     "careers",
     "jobs",

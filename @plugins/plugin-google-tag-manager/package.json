@@ -16,6 +16,7 @@
       "app": "index",
       "server": "server"
     },
+    "extend": "plugin",
     "title": "Google Tag Manager",
     "permalink": "google-tag-manager-factor-plugin",
     "category": [
@@ -33,6 +34,8 @@
   "homepage": "https://factor.dev/plugin/google-tag-manager-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
+    "factor",
+    "factor-plugin",
     "google tag manager",
     "google",
     "tag",
