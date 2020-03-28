@@ -4,7 +4,7 @@
       <h3 v-if="section4pretitle" v-formatted-text="section4pretitle" class="pretitle" />
       <h1 v-if="section4title" v-formatted-text="section4title" class="title" />
     </div>
-    <el-testimonials class="mast section4-inner" />
+    <el-testimonials :items="section4items" class="mast section4-inner" />
   </section>
 </template>
 <script lang="ts">

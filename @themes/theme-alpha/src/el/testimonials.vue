@@ -1,6 +1,6 @@
 <template>
-  <div v-if="testimonials" class="testimonials">
-    <div v-for="(item, i) in testimonials" :key="i" class="testimonial">
+  <div v-if="items" class="testimonials">
+    <div v-for="(item, i) in items" :key="i" class="testimonial">
       <div v-if="item.image" class="item-image">
         <img :src="item.image" :alt="item.author" />
       </div>
@@ -15,10 +15,17 @@
 import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
+  props: {
+    items: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data() {
     return {
-      loading: true,
-      testimonials: setting("home.section4.items")
+      loading: true
     }
   },
   methods: { setting }
