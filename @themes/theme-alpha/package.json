@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "1.5.12",
+  "version": "1.5.13",
   "license": "GPL-2.0",
   "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
   "author": {
@@ -42,7 +42,7 @@
     "@factor/plugin-blog": "^1.5.12",
     "@factor/plugin-contact-form": "^1.5.12",
     "@factor/plugin-highlight-code": "^1.5.12",
-    "@factor/plugin-notify": "^1.5.12"
+    "@factor/plugin-notify": "^1.5.13"
   },
   "keywords": [
     "modern",
