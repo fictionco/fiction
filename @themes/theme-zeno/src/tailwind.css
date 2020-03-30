@@ -11,7 +11,7 @@
   @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded;
 }
 .factor-app .btn-ol {
-  @apply border;
+  @apply border-solid border;
 }
 .factor-app .custom-uppercase {
   @apply font-sans font-semibold text-sm mb-2 leading-tight tracking-widest uppercase;
