@@ -56,7 +56,7 @@ export default Vue.extend({
   }
   input,
   textarea {
-    @apply border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
+    @apply border-solid border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
   }
   .form-submit {
     @apply m-0;

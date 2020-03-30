@@ -87,7 +87,7 @@ export default Vue.extend({
   methods: {
     headerClasses(this: any) {
       if (this.$route.path != "/") {
-        return "max-w-6xl mx-auto border-b border-gray-200 md:px-4"
+        return "max-w-6xl mx-auto border-solid border-b border-gray-200 md:px-4"
       } else {
         return "w-full max-w-6xl absolute md:max-w-full"
       }
