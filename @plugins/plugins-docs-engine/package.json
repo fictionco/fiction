@@ -1,0 +1,45 @@
+{
+  "name": "@factor/plugin-docs-engine",
+  "description": "A technical documentation engine for Factor apps.",
+  "version": "1.5.12",
+  "license": "GPL-2.0",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "factor": {
+    "load": [
+      "app",
+      "server"
+    ],
+    "extend": "plugin",
+    "title": "Forum",
+    "permalink": "plugin-docs-engine",
+    "category": [
+      "documentation"
+    ],
+    "themeColor": "#E90000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-docs"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/plugin-docs-engine",
+  "dependencies": {
+    "@factor/plugin-highlight-code": "^1.5.12"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "documentation",
+    "docs"
+  ]
+}
