@@ -37,6 +37,13 @@ export default Vue.extend({
       selectedGroup: "",
       nav: [
         {
+          title: "Get Started",
+          items: [
+            { title: "test", path: "/docs" },
+            { title: "Yes, I AM", path: "/" }
+          ]
+        },
+        {
           title: "Creating Apps",
           items: [
             { title: "test", path: "/docs" },

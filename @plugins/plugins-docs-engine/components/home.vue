@@ -3,7 +3,7 @@
     <div class="docs-hero-area">
       <div class="docs-hero">
         <div class="docs-hero-pad docs-content-area">
-          <div class="title-panel">
+          <div class="title-panel docs-hero">
             <h1 class="title">Documentation</h1>
             <h3 class="sub-title">Learn how to ship professional Factor apps, plugins and themes.</h3>
             <div class="search-panel">
@@ -30,8 +30,8 @@
         </div>
       </div>
     </div>
-    <div class="docs-faq">
-      <div class="faq-title-area">
+    <div class="docs-faq docs-content-area">
+      <div class="faq-title-area docs-hero">
         <div class="title">Factor Answers</div>
         <div class="sub-title">Answers to Frequently Asked Questions</div>
       </div>
@@ -52,6 +52,18 @@ export default Vue.extend({
 
 <style lang="less">
 .docs-engine-home {
+  .docs-hero {
+    .title {
+      font-size: 2.5em;
+      line-height: 1.1;
+      font-weight: var(--font-weight-bold, 700);
+      margin-bottom: 1rem;
+    }
+    .sub-title {
+      font-size: 1.5em;
+      color: var(--color-text-secondary);
+    }
+  }
   .docs-content-area {
     max-width: var(--content-width);
     padding: 3rem;
@@ -113,12 +125,14 @@ export default Vue.extend({
         }
         input {
           letter-spacing: -0.03em;
-          box-shadow: 0 0 0 3px rgba(0, 43, 93, 0.1);
+          box-shadow: var(--panel-shadow);
           border-radius: 2rem;
           padding-left: 3.5rem;
           background: #fff;
+          transition: 0.2s all;
           &:focus {
-            border-radius: 2rem;
+            outline: none;
+            background: rgba(0, 43, 93, 0.03);
           }
         }
       }
