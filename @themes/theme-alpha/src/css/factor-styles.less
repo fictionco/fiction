@@ -34,6 +34,14 @@
     font-weight: var(--font-weight-bold);
   }
 
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      color: var(--color-primary-dark);
+    }
+  }
+
   .btn{
     display: inline-block;
     line-height: 1;
@@ -43,7 +51,8 @@
   }
 
   // Colors
-  .text-white{
+  .text-white,
+  .hover\:text-white:hover {
     color: #fff;
   }
   .text-blue-500,

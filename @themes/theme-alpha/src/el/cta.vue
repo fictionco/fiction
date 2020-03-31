@@ -5,7 +5,7 @@
       <div v-if="ctaPath" class="buttons">
         <factor-link
           :path="ctaPath"
-          class="btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+          class="btn rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
         >
           {{ ctaText }}
           <factor-icon icon="fas fa-arrow-right" />
