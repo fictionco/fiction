@@ -129,6 +129,27 @@ export default Vue.extend({
       .form-submit {
         text-align: left;
         margin: 2em 0 0;
+
+        // Plugin Contact Form Button
+        button.app-btn {
+          font-size: 1em;
+          font-family: var(--font-family-primary);
+          font-weight: bold;
+
+          &:hover {
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+          }
+
+          &.secondary {
+            color: var(--color-primary);
+            background: var(--color-text-light);
+            border: 1px solid var(--color-text-light);
+
+            &:hover {
+              color: var(--color-primary-darker);
+            }
+          }
+        }
       }
     }
   }

@@ -7,11 +7,6 @@ export default {
     defaultTitle: "Ultra",
     titleTemplate: "%s - Factor JS"
   },
-  core: {
-    components: {
-      btn: (): Promise<Component> => import("./el/btn.vue")
-    }
-  },
   site: {
     logo: (): Promise<Component> => import("./el/logo-ultra.vue"),
     logoTitle: "Ultra Theme",
