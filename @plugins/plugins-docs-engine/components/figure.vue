@@ -31,7 +31,22 @@ export default Vue.extend({
         { icon: "layout" },
         { icon: "settings" },
         { icon: "image" },
-        { icon: "doc", color: "primary" }
+        { icon: "doc", color: "primary" },
+        { icon: "widgets" },
+        { icon: "search" },
+        { icon: "touch" },
+        { icon: "user" },
+        { icon: "email" },
+        { icon: "layout" },
+        { icon: "settings" },
+        { icon: "image" },
+        { icon: "doc", color: "primary" },
+        { icon: "widgets" },
+        { icon: "search" },
+        { icon: "touch" },
+        { icon: "user" },
+        { icon: "email" },
+        { icon: "layout" }
       ]
     }
   }
@@ -40,23 +55,26 @@ export default Vue.extend({
 
 <style lang="less">
 .search-figure {
-  // top: 0;
-  // left: 0;
-  // position: absolute;
-  // width: 100%;
-  // height: 100%;
+  top: 0;
+  left: 0;
+  //position: absolute;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+
   .stage {
-    perspective: 500px;
+    perspective: 1000px;
   }
   .figure {
+    justify-content: center;
     transform-style: preserve-3d;
     display: grid;
-    grid-gap: 1rem;
+    grid-gap: 1.5rem;
     //grid-template-columns: repeat(3, 120px);
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    justify-content: center;
-    transform: rotateY(-15deg);
+    grid-template-columns: repeat(6, auto);
+
+    //justify-content: center;
+    //transform: rotateX(60deg);
     .icon-wrap {
       justify-self: center;
       align-self: center;

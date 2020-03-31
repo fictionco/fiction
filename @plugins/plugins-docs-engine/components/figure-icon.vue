@@ -96,6 +96,11 @@ export default Vue.extend({
   .filler {
     fill: var(--color-text);
   }
+  &.white {
+    .filler {
+      fill: #fff;
+    }
+  }
   &.primary {
     .filler {
       fill: var(--color-primary);
