@@ -36,8 +36,10 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.careers {
+.plugin-jobs.careers {
   .single-entry {
+    max-width: none;
+    padding: 0;
     margin-bottom: 6em;
     .post-entry {
       padding: 0;
