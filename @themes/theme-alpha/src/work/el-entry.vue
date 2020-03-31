@@ -3,7 +3,7 @@
     <ul class="project-info">
       <li v-for="(bullet, index) in bullets" :key="index">
         <h4>{{ bullet.__title }}</h4>
-        <div>{{ bullet.value }}</div>
+        <div v-formatted-text="renderMarkdown(bullet.value)" />
       </li>
     </ul>
 
@@ -55,7 +55,8 @@ export default Vue.extend({
         variables: true
       })
     }
-  }
+  },
+  methods: { renderMarkdown }
 })
 </script>
 <style lang="less">
