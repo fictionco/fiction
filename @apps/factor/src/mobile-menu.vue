@@ -165,7 +165,7 @@ export default Vue.extend({
 
     border-radius: 5px;
     &.active-path {
-      background: var(--color-bg-contrast-more);
+      background: var(--color-bg-highlight);
       color: var(--color-primary);
     }
   }

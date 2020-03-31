@@ -144,7 +144,7 @@ export default Vue.extend({
       margin: 0 1rem;
       &.active,
       &:hover {
-        background: var(--color-bg-contrast-more);
+        background: var(--color-bg-highlight);
         color: var(--color-primary);
         opacity: 1;
       }
@@ -268,7 +268,7 @@ export default Vue.extend({
         font-size: 0.9em;
         margin: 0.25em 0;
         padding: 0 1rem;
-        background: var(--color-bg-contrast-more);
+        background: var(--color-bg-highlight);
         color: var(--color-secondary);
         border-radius: 6px;
       }

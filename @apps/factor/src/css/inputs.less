@@ -82,7 +82,11 @@
     }
   }
 
-  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="search"],
+  input[type="tel"],
   textarea,
   select {
     background-color: var(--input-bg);

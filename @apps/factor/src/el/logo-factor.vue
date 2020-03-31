@@ -147,11 +147,11 @@ export default Vue.extend({})
     fill: var(--color-primary);
   }
 }
-#app.nav-light:not(.scrolled) {
+.nav-white.top {
   .pin {
-    fill: var(--color-secondary);
+    fill: #fff;
   }
-  .letters {
+  .letter {
     fill: #fff;
   }
 }

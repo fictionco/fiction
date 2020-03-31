@@ -17,7 +17,7 @@
       "server"
     ],
     "extend": "plugin",
-    "title": "Forum",
+    "title": "Docs Engine",
     "permalink": "plugin-docs-engine",
     "category": [
       "documentation"
@@ -32,14 +32,14 @@
     "url": "https://github.com/fiction-com/factor/issues"
   },
   "homepage": "https://factor.dev/plugin/plugin-docs-engine",
-  "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.12"
-  },
+  "dependencies": {},
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
     "factor-plugin",
     "documentation",
-    "docs"
+    "docs",
+    "learning",
+    "faq"
   ]
 }

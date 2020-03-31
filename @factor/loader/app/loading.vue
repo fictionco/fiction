@@ -365,15 +365,15 @@ h4 {
       position: absolute;
       height: 100%;
       width: 100%;
-      background-size: 200% 200%;
+      background-size: 2000% 2000%;
       background-image: repeating-linear-gradient(
         45deg,
-        rgba(255, 255, 255, 0.1),
-        rgba(255, 255, 255, 0.1) 1rem,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.08) 1rem,
         transparent 1rem,
         transparent 2rem
       );
-      animation: barberpole 2s linear infinite;
+      animation: barberpole 30s linear infinite;
     }
   }
   .progress-title,

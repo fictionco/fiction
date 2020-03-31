@@ -98,6 +98,12 @@ export default Vue.extend({
   }
 }
 
+.nav-white.top {
+  .head-nav {
+    color: #fff;
+  }
+}
+
 .site-head-pad {
   height: 45px;
   align-items: center;
