@@ -5,7 +5,9 @@
         <div class="docs-hero-pad docs-content-area">
           <div class="title-panel docs-hero">
             <h1 class="title">Documentation</h1>
-            <h3 class="sub-title">Learn how to ship professional Factor apps, plugins and themes.</h3>
+            <h3
+              class="sub-title"
+            >Learn how to ship professional Factor apps, build plugins, and create themes.</h3>
             <div class="search-panel">
               <div class="search-area">
                 <factor-icon icon="fas fa-search" />
@@ -30,12 +32,12 @@
         </div>
       </div>
     </div>
-    <div class="docs-faq docs-content-area">
+    <!-- <div class="docs-faq docs-content-area">
       <div class="faq-title-area docs-hero">
         <div class="title">Factor Answers</div>
         <div class="sub-title">Answers to Frequently Asked Questions</div>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -52,6 +54,7 @@ export default Vue.extend({
 
 <style lang="less">
 .docs-engine-home {
+  padding-bottom: 12 rem;
   .docs-hero {
     .title {
       font-size: 2.5em;

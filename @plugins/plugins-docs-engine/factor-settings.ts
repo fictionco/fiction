@@ -2,6 +2,7 @@ import { Component } from "vue"
 
 export default {
   docsEngine: {
+    nav: [],
     baseRoute: "/docs",
     baseRoutePost: "/doc",
     components: {

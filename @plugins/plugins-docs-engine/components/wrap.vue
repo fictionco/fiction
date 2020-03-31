@@ -8,11 +8,11 @@
           class="nav-group"
           :class="selectedGroup == group.title ? 'selected' : ''"
         >
-          <div class="nav-group-title" @click="selectedGroup = group.title">
-            <factor-icon class="ico" icon="fas fa-angle-down" />
+          <div v-if="group.title" class="nav-group-title" @click="selectedGroup = group.title">
+            <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
             <span class="title">{{ group.title }}</span>
           </div>
-          <div v-if="selectedGroup == group.title" class="group-items">
+          <div v-if="!group.title || selectedGroup == group.title" class="group-items">
             <factor-link v-for="(link, ii) in group.items" :key="ii" :path="link.path">
               <span class="ico" />
               <span class="link">{{ link.title }}</span>
@@ -29,39 +29,14 @@
 
 <script lang="ts">
 import Vue from "vue"
+import { setting } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   data() {
     return {
       selectedGroup: "",
-      nav: [
-        {
-          title: "Get Started",
-          items: [
-            { title: "test", path: "/docs" },
-            { title: "Yes, I AM", path: "/" }
-          ]
-        },
-        {
-          title: "Creating Apps",
-          items: [
-            { title: "test", path: "/docs" },
-            { title: "Yes, I AM", path: "/" }
-          ]
-        },
-        {
-          title: "Advanced / Extensions",
-          items: [
-            { title: "test", path: "/docs" },
-            { title: "Another Item for This", path: "/" }
-          ]
-        },
-        {
-          title: "Tutorials / Examples",
-          items: [{ title: "test", path: "/" }]
-        }
-      ]
+      nav: setting("docsEngine.nav")
     }
   }
 })
@@ -79,6 +54,9 @@ export default Vue.extend({
   grid-template-columns: minmax(300px, 400px) 1fr;
   box-shadow: var(--panel-shadow-inset);
   position: relative;
+  .view-area {
+    min-height: 50vh;
+  }
   .sidebar-area {
     display: flex;
     justify-content: flex-end;
@@ -94,7 +72,6 @@ export default Vue.extend({
       font-weight: 600;
       padding: 1rem;
       .nav-group {
-        padding: 0.5rem 0 0.5rem 0.5rem;
         border-bottom: 1px solid var(--color-border);
         &:last-child {
           border-bottom: none;
@@ -109,7 +86,8 @@ export default Vue.extend({
           align-items: center;
           font-weight: 700;
           cursor: pointer;
-          &.router-link-exact-active {
+          &.router-link-exact-active,
+          &:hover {
             background: var(--color-bg-contrast);
             color: var(--color-primary);
           }
@@ -118,6 +96,8 @@ export default Vue.extend({
           }
         }
         .nav-group-title {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
           font-size: 0.85em;
           color: var(--color-text-secondary);
           letter-spacing: 1px;
@@ -133,8 +113,6 @@ export default Vue.extend({
           border-bottom-left-radius: 5px;
           .nav-group-title {
             color: var(--color-text);
-            .factor-icon {
-            }
           }
         }
 

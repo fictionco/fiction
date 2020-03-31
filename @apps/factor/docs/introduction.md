@@ -1,3 +1,8 @@
+---
+title: Factor Introduction
+description: What is Factor and why is it useful? How does it compare to alternative approaches?
+---
+
 # Introduction
 
 ![Factor Logo](./img/factor-logo-2.svg)

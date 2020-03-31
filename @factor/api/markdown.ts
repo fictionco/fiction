@@ -6,6 +6,7 @@ import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdImplicitFigures from "markdown-it-implicit-figures"
 import { setting } from "@factor/api"
+import frontMatter from "front-matter"
 let markdownUtility: MarkdownIt
 
 const getMarkdownUtility = (): MarkdownIt => {
@@ -36,28 +37,51 @@ interface MarkdownRenderOptions {
   variables?: boolean;
 }
 
+/**
+ * Convert markdown into HTML
+ * @param content - the markdown content
+ * @param options.variables - does the markdown support variables?
+ */
 export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): string => {
   const util = getMarkdownUtility()
-  if (typeof content == "string") {
-    const { variables } = options || {}
-    if (variables) {
-      content = content.replace(/{{([\S\s]+?)}}/g, matched => {
-        const settingKey = matched.replace(/[{}]/g, "")
-        let val = dotSetting({
-          key: settingKey,
-          settings: getStoreState()
-        })
 
-        if (!val) {
-          val = setting(settingKey)
-        }
-
-        return val || ""
-      })
-    }
-
-    return util.render(content, options)
-  } else {
+  if (typeof content !== "string") {
     return ""
+  }
+
+  const { variables } = options || {}
+  if (variables) {
+    content = content.replace(/{{([\S\s]+?)}}/g, matched => {
+      const settingKey = matched.replace(/[{}]/g, "")
+      let val = dotSetting({
+        key: settingKey,
+        settings: getStoreState()
+      })
+
+      if (!val) {
+        val = setting(settingKey)
+      }
+
+      return val || ""
+    })
+  }
+
+  return util.render(content, options)
+}
+
+/**
+ * Parse meta YAML and render markdown
+ * @param markdown - raw markdown with YAML header
+ * @param options - parsing options for render
+ */
+export const renderMarkdownWithMeta = (
+  markdown = "",
+  options?: MarkdownRenderOptions
+): { meta: Record<string, string>; content: string } => {
+  const { attributes, body } = frontMatter(markdown)
+
+  return {
+    meta: attributes as Record<string, string>,
+    content: renderMarkdown(body, options)
   }
 }
