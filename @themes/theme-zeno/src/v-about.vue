@@ -38,7 +38,7 @@
 
           <div
             v-if="setting('about.values')"
-            class="rounded-lg -mt-8 p-8 pt-12 border-2 border-purple-500 flex flex-col md:flex-row md:flex-wrap"
+            class="rounded-lg -mt-8 p-8 pt-12 border-solid border-2 border-purple-500 flex flex-col md:flex-row md:flex-wrap"
           >
             <div v-for="(item, index) in setting('about.values')" :key="index" class="w-full my-2">
               <h2
@@ -86,7 +86,7 @@
                 v-if="member.photo"
                 :src="member.photo"
                 :alt="member.name"
-                class="w-full rounded mx-auto mb-8 border border-gray-300 md:w-4/5"
+                class="w-full rounded mx-auto mb-8 border-solid border border-gray-300 md:w-4/5"
               />
             </div>
             <div class="w-full bg-gray-100 md:w-3/5">
@@ -138,7 +138,7 @@
                 v-if="member.photo"
                 :src="member.photo"
                 :alt="member.name"
-                class="w-4/5 rounded-full mx-auto border border-gray-300"
+                class="w-4/5 rounded-full mx-auto border-solid border border-gray-300"
               />
               <el-member :name="member.name" :title="member.title">
                 <template v-slot:content>

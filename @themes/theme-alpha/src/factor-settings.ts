@@ -116,7 +116,7 @@ export default {
           _item: "contact",
           link: "/contact",
           text: `Start a Project  <i class="fas fa-arrow-right"></i>`,
-          classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+          classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
         },
         {
           _item: "work",
@@ -176,7 +176,7 @@ export default {
           _item: "work",
           link: "/work",
           text: `View All Projects <i class="fas fa-arrow-right"></i>`,
-          classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+          classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
         }
       ],
       limit: 4 // Post limit
@@ -474,7 +474,7 @@ export default {
         link: "https://goo.gl/maps/KbqqgPzqJQVL35D39",
         target: "_blank",
         text: "Open in Google Maps",
-        classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700"
+        classes: "btn rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
       },
       map: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.014498913255!2d-122.39648858468193!3d37.78969997975663!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858173dda8f9e3%3A0xa807172524065c9e!2s301%20Howard%20St%20%23600%2C%20San%20Francisco%2C%20CA%2094105!5e0!3m2!1sen!2sus!4v1581543011803!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>`
     },
@@ -491,7 +491,7 @@ export default {
   contactForm: {
     //email: "example@email.com",
     submit: {
-      btn: "bg-blue-500 text-white hover:bg-blue-700",
+      btn: "bg-blue-500 text-white hover:bg-blue-700 hover:text-white",
       text: "Contact"
     },
     inputFormat: "vertical",

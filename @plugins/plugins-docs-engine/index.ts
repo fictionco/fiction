@@ -1,7 +1,5 @@
-import { addPostType, addContentRoute, slugify } from "@factor/api"
+import { addContentRoute } from "@factor/api"
 import { setting } from "@factor/api/settings"
-import { FactorPost } from "@factor/post/types"
-
 export const postType = "docsItem"
 
 export const setup = (): void => {

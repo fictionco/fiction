@@ -41,7 +41,7 @@
 <script lang="ts">
 import Vue from "vue"
 import { setting } from "@factor/api"
-import { factorIcon, factorLink } from "@factor/ui"
+import { factorLink } from "@factor/ui"
 import { DocConfig } from "../util"
 export default Vue.extend({
   components: {
