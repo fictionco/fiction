@@ -12,10 +12,12 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { setting } from "@factor/api"
-import { getDocConfig, DocConfig } from "../util"
+import { factorLoadingRing } from "@factor/ui"
+import { setting, toLabel } from "@factor/api"
+import { getDocConfig } from "../util"
 export default Vue.extend({
   components: {
+    factorLoadingRing,
     docsEntry: () => import("./entry.vue")
   },
   data() {
@@ -39,15 +41,21 @@ export default Vue.extend({
   watch: {
     $route: {
       handler: function(this: any) {
-        this.getConfig()
+        this.getContent()
       }
     }
   },
   async created() {
     this.config = (await getDocConfig(this.doc)) ?? {}
   },
+  metaInfo(this: any) {
+    return {
+      title: this.config.meta?.title ?? toLabel(this.doc),
+      description: this.config.meta?.description
+    }
+  },
   mounted() {
-    this.getConfig()
+    this.getContent()
   },
   methods: {
     async getContent(this: any): Promise<void> {

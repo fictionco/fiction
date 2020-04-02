@@ -13,9 +13,13 @@
             <span class="title">{{ group.title }}</span>
           </div>
           <div v-if="!group.title || selectedGroup == group.title" class="group-items">
-            <factor-link v-for="(link, ii) in group.items" :key="ii" :path="link.path">
+            <factor-link
+              v-for="(link, ii) in group.items"
+              :key="ii"
+              :path="link.path || `${baseRoute}/${link.doc}`"
+            >
               <span class="ico" />
-              <span class="link">{{ link.title }}</span>
+              <span class="link">{{ link.title || toLabel(link.doc) }}</span>
             </factor-link>
           </div>
         </div>
@@ -29,7 +33,7 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { setting } from "@factor/api"
+import { setting, toLabel } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
 export default Vue.extend({
   components: { factorLink, factorIcon },
@@ -38,6 +42,15 @@ export default Vue.extend({
       selectedGroup: "",
       nav: setting("docsEngine.nav")
     }
+  },
+  computed: {
+    baseRoute() {
+      return setting("docsEngine.baseRoute") ?? "/docs"
+    }
+  },
+  methods: {
+    toLabel,
+    getPath() {}
   }
 })
 </script>

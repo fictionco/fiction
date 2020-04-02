@@ -4,7 +4,6 @@ export default {
   docsEngine: {
     nav: [],
     baseRoute: "/docs",
-    baseRoutePost: "/doc",
     components: {
       wrap: (): Promise<Component> => import("./components/wrap.vue"),
       home: (): Promise<Component> => import("./components/home.vue"),
