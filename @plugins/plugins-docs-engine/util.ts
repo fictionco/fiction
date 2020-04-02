@@ -1,27 +1,34 @@
 import { setting, storeItem, stored } from "@factor/api"
 import { renderMarkdownWithMeta } from "@factor/api/markdown"
-
+import { omit } from "@factor/api/utils-lodash"
 export interface DocConfig {
   doc?: string;
   title?: string;
   path?: string;
   file?: () => Promise<{ default: string }>;
   items?: DocConfig[];
+  parents?: DocConfig[];
   meta?: Record<string, string>;
   markdown?: string;
   content?: string;
 }
 
-export const scanDocs = (doc: string, nav: DocConfig[]): DocConfig | undefined => {
+export const scanDocs = (
+  doc: string,
+  nav: DocConfig[],
+  parents: DocConfig[] = []
+): DocConfig | undefined => {
   const found = nav.find(group => group.doc == doc)
 
   if (found) {
+    found.parents = parents
     return found
   } else {
     let foundInItems
     nav.some(group => {
       if (group.items) {
-        const result = scanDocs(doc, group.items)
+        // Omit circular reference
+        const result = scanDocs(doc, group.items, [...parents, omit(group, ["items"])])
 
         if (result) {
           foundInItems = result
@@ -57,4 +64,11 @@ export const getDocConfig = async (doc: string): Promise<DocConfig | undefined> 
   storeItem(storeKey, config)
 
   return config
+}
+
+export const activeDocGroup = async (doc: string): Promise<string> => {
+  const config = await getDocConfig(doc)
+  const parents = config?.parents ?? []
+  const group = parents.length > 0 ? parents[0].title ?? "" : ""
+  return group
 }

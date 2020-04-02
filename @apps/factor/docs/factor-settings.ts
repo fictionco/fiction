@@ -123,10 +123,6 @@ export default {
           {
             doc: "contribution",
             file: (): Promise<string> => import("./contribution.md")
-          },
-          {
-            doc: "philosophy",
-            file: (): Promise<string> => import("./philosophy.md")
           }
         ]
       }

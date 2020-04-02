@@ -35,6 +35,7 @@
 import Vue from "vue"
 import { setting, toLabel } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
+import { activeDocGroup } from "../util"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   data() {
@@ -46,7 +47,13 @@ export default Vue.extend({
   computed: {
     baseRoute() {
       return setting("docsEngine.baseRoute") ?? "/docs"
+    },
+    doc(this: any) {
+      return this.$route.params.doc
     }
+  },
+  async created() {
+    this.selectedGroup = await activeDocGroup(this.doc)
   },
   methods: {
     toLabel,

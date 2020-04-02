@@ -3,10 +3,12 @@
     <div class="doc-content">
       <div class="doc-content-pad">
         <factor-loading-ring v-if="loading" />
-        <docs-entry v-else :content="content" />
+        <doc-entry v-else :content="content" />
       </div>
     </div>
-    <div class="doc-sidebar">..sidebar..</div>
+    <div class="doc-sidebar">
+      <doc-toc selector=".doc-content-pad" />
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,8 @@ import { getDocConfig } from "../util"
 export default Vue.extend({
   components: {
     factorLoadingRing,
-    docsEntry: () => import("./entry.vue")
+    docEntry: () => import("./entry.vue"),
+    docToc: () => import("./toc.vue")
   },
   data() {
     return {
@@ -61,6 +64,7 @@ export default Vue.extend({
     async getContent(this: any): Promise<void> {
       this.loading = true
       this.config = (await getDocConfig(this.doc)) ?? {}
+
       this.loading = false
     }
   }
@@ -77,7 +81,7 @@ export default Vue.extend({
   .doc-content {
     max-width: 800px;
     .doc-content-pad {
-      padding: 3rem;
+      padding: 3rem 3rem 8rem;
     }
   }
 }

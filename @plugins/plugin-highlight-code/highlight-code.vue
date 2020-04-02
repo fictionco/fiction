@@ -27,12 +27,12 @@ export default Vue.extend({
   },
   methods: {
     setPage(this: any) {
-      if (this.prism && this.$refs.code) {
-        // wait til content is done rendering
-        setTimeout(() => {
+      setTimeout(() => {
+        if (this.prism && this.$refs.code) {
+          // wait til content is done rendering
           this.prism.highlightAllUnder(this.$refs.code)
-        }, 1000)
-      }
+        }
+      }, 1000)
     }
   }
 })
