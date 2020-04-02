@@ -111,6 +111,7 @@ export default Vue.extend({
       grid-template-columns: 1fr 8em;
 
       grid-gap: 10rem;
+
       .icon-figure {
         margin-bottom: 1rem;
         text-align: right;
@@ -122,6 +123,14 @@ export default Vue.extend({
           width: 4rem;
           height: 4rem;
           background: var(--color-primary);
+        }
+      }
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        grid-gap: 2rem;
+        .icon-figure {
+          display: none;
         }
       }
 

@@ -154,7 +154,7 @@ export default Vue.extend({
     padding: 0.5em;
   }
   .menu-component {
-    padding: 0.5rem 0;
+    padding: 2rem 0;
   }
   .menu-link {
     display: block;

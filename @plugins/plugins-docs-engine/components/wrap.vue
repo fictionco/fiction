@@ -4,13 +4,13 @@
       <div class="sidebar-wrap">
         <div class="sidebar-toggle">
           <factor-btn
-            btn="primary"
+            btn="default"
             class="toggle-button"
             :class="vis ? 'active': ''"
             @click.stop="toggleNav()"
           >
-            <factor-icon icon="fas fa-chevron-down" />
-            <span>Docs Menu</span>
+            <mobile-toggle :active="vis" />
+            <span class="text">Docs</span>
           </factor-btn>
         </div>
         <div class="sidebar" :class="vis ? 'show-mobile': 'standard'">
@@ -52,7 +52,12 @@ import { setting, toLabel } from "@factor/api"
 import { factorLink, factorIcon, factorBtn } from "@factor/ui"
 import { activeDocGroup, DocConfig } from "../util"
 export default Vue.extend({
-  components: { factorLink, factorIcon, factorBtn },
+  components: {
+    factorLink,
+    factorIcon,
+    factorBtn,
+    mobileToggle: () => import("./mobile-toggle.vue")
+  },
   data() {
     return {
       vis: false,
@@ -217,10 +222,20 @@ export default Vue.extend({
       display: none;
       padding: 0.5rem 0;
       .toggle-button {
-        font-size: 1.1em;
+        .btn-content {
+          display: flex;
+          align-items: center;
+          .mobile-toggle {
+            margin-right: 0.5rem;
+          }
+        }
+        text-transform: uppercase;
+        font-size: 0.9em;
         font-weight: 700;
-        padding: 1rem 2rem;
+        padding: 0.5rem 1rem;
         border-radius: 5px;
+        letter-spacing: 1.5px;
+        color: var(--color-text-secondary);
         .factor-icon {
           transition: transform 0.2s;
           margin-right: 0.5rem;
