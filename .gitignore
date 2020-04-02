@@ -48,3 +48,12 @@ server.csr
 server.csr.cnf
 v3.ext
 
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
