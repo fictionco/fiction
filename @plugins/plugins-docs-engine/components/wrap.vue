@@ -133,6 +133,7 @@ export default Vue.extend({
   }
   .view-area {
     min-height: 50vh;
+    min-width: 0;
   }
   .sidebar-area {
     position: relative;
@@ -231,10 +232,10 @@ export default Vue.extend({
         }
       }
     }
-    @media (max-width: 900px) {
-    }
+
     @media (max-width: 900px) {
       margin: 1rem;
+      border: none;
       .sidebar-toggle {
         display: flex;
       }

@@ -76,13 +76,9 @@ export default Vue.extend({
           { route: "/install", name: "Get Started" },
           { route: "/themes", name: "Themes" },
           { route: "/plugins", name: "Plugins" },
+          { route: "/docs", name: "Documentation" },
           { component: () => import("./el/github-stars.vue") }
         ]
-      },
-      {
-        _id: "docs",
-        title: "Documentation",
-        items: config()
       }
     ]
   },

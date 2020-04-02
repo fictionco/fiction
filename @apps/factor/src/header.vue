@@ -40,7 +40,7 @@ export default Vue.extend({
       userLoading: true,
       user: false,
       pageNav: [
-        { path: "/guide", name: "Documentation" },
+        { path: "/docs", name: "Docs" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" }
       ],
