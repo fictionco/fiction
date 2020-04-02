@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
-  "version": "1.5.14",
+  "version": "1.5.15",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
