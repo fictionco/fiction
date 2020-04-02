@@ -145,10 +145,10 @@ export default Vue.extend({
   }
 
   .extend-index-head {
-    padding: 9em 0;
+    padding: 6em 0;
     text-align: center;
     .title {
-      font-size: 4em;
+      font-size: 2.5em;
       line-height: 1.1;
       font-weight: var(--font-weight-bold, 700);
       letter-spacing: -0.03em;
@@ -156,7 +156,7 @@ export default Vue.extend({
       margin-bottom: 0.5rem;
     }
     .sub-title {
-      font-size: 2.2em;
+      font-size: 1.5em;
       opacity: 0.7;
     }
     @media (max-width: 900px) {
