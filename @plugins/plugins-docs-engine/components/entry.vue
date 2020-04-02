@@ -20,13 +20,10 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .docs-entry {
-  font-size: 1.2em;
   @import "~@factor/ui/css/standard-entry.less";
 
   .doc-container {
-    letter-spacing: -0.01em;
     > p:first-of-type {
-      letter-spacing: -0.02em;
       font-size: 1.2em;
       font-weight: 600;
     }

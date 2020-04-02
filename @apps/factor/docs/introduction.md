@@ -7,7 +7,7 @@ description: What is Factor and why is it useful? How does it compare to alterna
 
 ![Factor Logo](./img/factor-logo-2.svg)
 
-Factor is a truly open-source CMS platform built for web professionals. It is designed for people who care about quality and don't like limitations. It's also especially nice for teams who need power and flexibility but have deadlines to meet.
+Factor is a truly open-source CMS platform built for web professionals. It is designed for people who care about quality and don't like limitations. It's also especially nice for teams who need power and flexibility but have deadlines.
 
 Hitting the right balance of needs has led Factor to be used in production by many organizations. Once you learn the basics, you'll love how easy it is to create superior websites and apps.
 

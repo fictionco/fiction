@@ -74,14 +74,35 @@ export default Vue.extend({
 <style lang="less">
 .docs-engine-post {
   display: grid;
-  grid-gap: 3rem;
+  grid-gap: 2rem;
   grid-template-columns: auto 200px;
   justify-content: flex-start;
 
   .doc-content {
-    max-width: 800px;
+    max-width: 760px;
+    min-width: 0;
     .doc-content-pad {
       padding: 3rem 3rem 8rem;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+    .doc-sidebar {
+      display: none;
+    }
+    .doc-content {
+      .doc-content-pad {
+        padding: 2rem 2rem 5rem;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .doc-content {
+      .doc-content-pad {
+        padding: 2rem 1rem 5rem;
+      }
     }
   }
 }

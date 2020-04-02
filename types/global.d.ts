@@ -19,6 +19,7 @@ interface Window {
   Prism: any;
   _factorLoadingScreen: any;
   $BASE_URL: string;
+  docsearch: any;
 }
 
 declare namespace NodeJS {

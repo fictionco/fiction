@@ -9,10 +9,7 @@
               class="sub-title"
             >Learn how to ship professional Factor apps, build plugins, and create themes.</h3>
             <div class="search-panel">
-              <div class="search-area">
-                <factor-icon icon="fas fa-search" />
-                <input type="search" placeholder="Search Docs" />
-              </div>
+              <doc-search />
             </div>
           </div>
           <div class="icon-figure">
@@ -23,13 +20,13 @@
     </div>
     <div class="docs-groups-area docs-content-area">
       <div class="docs-groups">
-        <div v-for="(group,i) in 5" :key="i" class="doc-group">
-          <figure-icon icon="widgets" class="group-icon" color="primary" />
+        <factor-link v-for="(group,i) in boxes" :key="i" class="doc-group" :path="group.path">
+          <figure-icon :icon="group.boxIcon || 'apps'" class="group-icon" color="primary" />
           <div class="group-text">
-            <div class="group-title">Building Apps</div>
-            <div class="group-description">Description of this stuff</div>
+            <div class="group-title">{{ group.title }}</div>
+            <div class="group-description">{{ group.description }}</div>
           </div>
-        </div>
+        </factor-link>
       </div>
     </div>
     <!-- <div class="docs-faq docs-content-area">
@@ -43,9 +40,38 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { factorIcon } from "@factor/ui"
+import { setting } from "@factor/api"
+import { factorIcon, factorLink } from "@factor/ui"
+import { DocConfig } from "../util"
 export default Vue.extend({
-  components: { factorIcon, figureIcon: () => import("./figure-icon.vue") },
+  components: {
+    factorLink,
+    figureIcon: () => import("./figure-icon.vue"),
+    docSearch: () => import("./search.vue")
+  },
+  data() {
+    return {
+      selectedGroup: "",
+      nav: setting("docsEngine.nav")
+    }
+  },
+  computed: {
+    baseRoute() {
+      return setting("docsEngine.baseRoute") ?? "/docs"
+    },
+    boxes(this: any) {
+      return this.nav
+        .filter((_: DocConfig) => _.title)
+        .map((_: DocConfig) => {
+          if (_.items && _.items.length > 0) {
+            const { path, doc } = _.items[0]
+            _.path = path || `${this.baseRoute}/${doc}`
+          }
+
+          return _
+        })
+    }
+  },
   metaInfo: {
     title: "Docs"
   }
@@ -54,7 +80,7 @@ export default Vue.extend({
 
 <style lang="less">
 .docs-engine-home {
-  padding-bottom: 12 rem;
+  padding-bottom: 8rem;
   .docs-hero {
     .title {
       font-size: 2.5em;
@@ -72,6 +98,9 @@ export default Vue.extend({
     padding: 3rem;
     .docs-content-area-pad {
       padding: 0 2rem;
+    }
+    @media (max-width: 900px) {
+      padding: 1rem;
     }
   }
   .docs-hero-area {
@@ -114,31 +143,6 @@ export default Vue.extend({
           margin-top: 2rem;
         }
       }
-      .search-area {
-        max-width: 400px;
-        font-size: 1.3em;
-
-        position: relative;
-        .factor-icon {
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          color: var(--color-placeholder);
-        }
-        input {
-          letter-spacing: -0.03em;
-          box-shadow: var(--panel-shadow);
-          border-radius: 2rem;
-          padding-left: 3.5rem;
-          background: #fff;
-          transition: 0.2s all;
-          &:focus {
-            outline: none;
-            background: rgba(0, 43, 93, 0.03);
-          }
-        }
-      }
     }
   }
   .docs-groups-area {
@@ -147,19 +151,30 @@ export default Vue.extend({
 
     .docs-groups {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
 
       grid-gap: 2rem;
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+      }
     }
     .doc-group {
+      user-select: none;
+      color: inherit;
+      &:hover {
+        box-shadow: 0 0 0 3px var(--color-primary);
+      }
       min-width: 0;
       background: #fff;
       font-size: 1em;
       box-shadow: var(--panel-shadow);
       border-radius: 5px;
-      padding: 1.5rem;
+      padding: 1rem;
       display: grid;
-      grid-template-columns: 3rem 1fr;
+      grid-template-columns: 2rem 1fr;
+
+      grid-gap: 1rem;
       svg {
         width: 2rem;
         height: 2rem;

@@ -13,7 +13,8 @@
             :class="isActive(h2.anchor) ? 'scroll-active' : ''"
             @click.prevent="setClick(h2.anchor)"
           >{{ h2.text }}</a>
-          <ul v-if="h2.sub && isActive(h2.anchor, h2.sub.map(h3 => h3.anchor))">
+          <!--To turn this back on use condition: h2.sub && isActive(h2.anchor, h2.sub.map(h3 => h3.anchor)) -->
+          <ul v-if="false">
             <li v-for="(h3, ii) in h2.sub" :key="ii">
               <a
                 class="nav-link sub"
@@ -121,7 +122,7 @@ export default Vue.extend({
         document.body.scrollTop
       )
 
-      const anchors = this.scroller.querySelectorAll("h2, h3")
+      const anchors = this.scroller.querySelectorAll("h2")
 
       for (const [i, anchor] of anchors.entries()) {
         const nextAnchor = anchors[i + 1]

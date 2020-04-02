@@ -21,7 +21,7 @@
         d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"
       />
     </template>
-    <template v-else-if="icon == 'widgets'">
+    <template v-else-if="icon == 'apps'">
       <path d="M0 0h24v24H0V0z" fill="none" />
       <path
         class="filler"
@@ -74,6 +74,35 @@
       <path
         class="filler"
         d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"
+      />
+    </template>
+    <template v-else-if="icon == 'bold'">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path
+        class="filler"
+        d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zm0 17.96c-4.4 0-7.98-3.58-7.98-7.98S7.6 4.02 12 4.02 19.98 7.6 19.98 12 16.4 19.98 12 19.98zM12.75 5l-4.5 8.5h3.14V19l4.36-8.5h-3z"
+      />
+    </template>
+    <template v-else-if="icon == 'quick'">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path
+        class="filler"
+        d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zm0 17.96c-4.4 0-7.98-3.58-7.98-7.98S7.6 4.02 12 4.02 19.98 7.6 19.98 12 16.4 19.98 12 19.98zM12.75 5l-4.5 8.5h3.14V19l4.36-8.5h-3z"
+      />
+    </template>
+    <template v-else-if="icon == 'example'">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path
+        class="filler"
+        d="M3.55 19.09l1.41 1.41 1.79-1.8-1.41-1.41zM11 20h2v3h-2zM1 11h3v2H1zm12-6.95v3.96l1 .58c1.24.72 2 2.04 2 3.46 0 2.21-1.79 4-4 4s-4-1.79-4-4c0-1.42.77-2.74 2-3.46l1-.58V4.05h2m2-2H9v4.81C7.21 7.9 6 9.83 6 12.05c0 3.31 2.69 6 6 6s6-2.69 6-6c0-2.22-1.21-4.15-3-5.19V2.05zM20 11h3v2h-3zm-2.76 7.71l1.79 1.8 1.41-1.41-1.8-1.79z"
+      />
+    </template>
+
+    <template v-else-if="icon == 'plugin'">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path
+        class="filler"
+        d="M16 9v4.66l-3.5 3.51V19h-1v-1.83L8 13.65V9h8m0-6h-2v4h-4V3H8v4h-.01C6.9 6.99 6 7.89 6 8.98v5.52L9.5 18v3h5v-3l3.5-3.51V9c0-1.1-.9-2-2-2V3z"
       />
     </template>
   </svg>

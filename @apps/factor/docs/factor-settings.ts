@@ -12,6 +12,8 @@ export default {
       },
       {
         title: "Get Started",
+        description: "From install to production deploy in minutes.",
+        boxIcon: "quick",
         items: [
           {
             doc: "introduction",
@@ -29,6 +31,8 @@ export default {
       },
       {
         title: "Creating Apps",
+        description: "Everything you need to build advanced apps.",
+
         items: [
           {
             doc: "structure",
@@ -69,6 +73,8 @@ export default {
       },
       {
         title: "Advanced / Extensions",
+        description: "Advanced coding, extension development.",
+        boxIcon: "plugin",
         items: [
           {
             doc: "working-with-posts",
@@ -110,6 +116,8 @@ export default {
       },
       {
         title: "Tutorials / Examples",
+        description: "Examples and help for specific use cases.",
+        boxIcon: "example",
         items: [
           {
             doc: "basic-example",
@@ -118,7 +126,9 @@ export default {
         ]
       },
       {
-        title: "Contributing",
+        title: "Resources",
+        description: "Factor resources, tools, and guides",
+        boxIcon: "doc",
         items: [
           {
             doc: "contribution",
