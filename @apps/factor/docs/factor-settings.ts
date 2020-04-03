@@ -17,7 +17,11 @@ export default {
         items: [
           {
             doc: "introduction",
-            file: (): Promise<string> => import("./introduction.md")
+            file: (): Promise<string> => import("./getting-started/introduction.md")
+          },
+          {
+            doc: "features",
+            file: (): Promise<string> => import("./getting-started/features.md")
           },
           {
             doc: "quickstart",

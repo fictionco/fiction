@@ -82,7 +82,7 @@ export default Vue.extend({
     text-align: center;
 
     figcaption {
-      margin-top: 0.1em;
+      margin-top: 0.5rem;
       opacity: 0.3;
       text-align: center;
     }

@@ -5,7 +5,7 @@ description: What is Factor and why is it useful? How does it compare to alterna
 
 # Introduction
 
-![Factor Logo](./img/factor-logo-2.svg)
+![Factor - A JavaScript CMS Platform](./splash.jpg)
 
 Factor is a truly open-source CMS platform built for web professionals. It is designed for people who care about quality and don't like limitations. It's also especially nice for teams who need power and flexibility but have deadlines.
 
@@ -104,8 +104,28 @@ Here is a comparison table to help you quickly see how things compare:
   </tbody>
 </table>
 
-## Getting Started
+## Other Important Information
 
-We'll dive into the details of the dashboard, data model, plugins, themes and framework in a bit.
+If you're considering Factor, then you'll probably want to know a bit about the philosophy and approach behind the software.
 
-If you haven't installed Factor yet, let's move on to the [Factor Quickstart &rarr;](./guide/quickstart)
+### Built by Fiction
+
+Factor was created as an internal framework for building our own apps at [Fiction.com](https://www.fiction.com).
+
+We started in 2017, building an application for renting monthly homes. In this process, we made MANY mistakes around new technology; continually getting fooled by the large marketing budgets of big corporations or venture funded companies.
+
+After wasting many months reading technical documentation, debugging, reinventing the wheel, and discovering undisclosed limitations of proprietary services; we decided we needed to formalize our software approach and build something simple and standard, based on the best philosophical ideas from the last 50 years of software development.
+
+With that, we started building Factor.
+
+### Software Philosophy
+
+The detailed picture is covered in the core concepts document, but here are some key "rules" we follow to deliver a superior product:
+
+- **Build on an Open-Source Stack.** Working with proprietary technology often leads to risks and costs in the long term. We've found that open-source tech is not only free, but also reduces risk and encourages standardization of your app.
+
+- **Follow 80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
+
+- **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scaleable and portable; also, easy to develop. Factor leverages this philosophy.
+
+- **JavaScript and TypeScript Only** In the last years, the one language that has made the most progress is clearly JavaScript and it's type-safe buddy TypeScript. For that reason, Factor is focused on JS and JS oriented libraries. That way you only need to learn one key language and complementary tools.
