@@ -14,6 +14,7 @@ export const loadAndStoreBlogIndex = async (): Promise<void> => {
 
   const tag = params.tag ?? query.tag ?? ""
   const category = params.category ?? query.category ?? ""
+  const search = params.search ?? query.search ?? ""
   const page = parseInt(params.page ?? query.page ?? 1)
   const limit = setting("blog.limit")
 
@@ -21,6 +22,7 @@ export const loadAndStoreBlogIndex = async (): Promise<void> => {
     postType: "blog",
     tag,
     category,
+    search,
     status: PostStatus.Published,
     sort: "-date",
     page,
