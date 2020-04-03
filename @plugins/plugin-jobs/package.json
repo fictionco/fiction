@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-jobs",
   "description": "This plugin makes it easy to create and manage a job board in your Factor app.",
-  "version": "1.5.14",
+  "version": "1.5.16",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
@@ -34,7 +34,7 @@
   "homepage": "https://factor.dev/plugin/jobs-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.14"
+    "@factor/plugin-highlight-code": "^1.5.16"
   },
   "keywords": [
     "factor",
