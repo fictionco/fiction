@@ -33,6 +33,15 @@ export default Vue.extend({
         src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/prism.min.js"
       },
       {
+        vmid: "prism-bash",
+        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-bash.min.js"
+      },
+      {
+        vmid: "prism-ts",
+        src:
+          "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-typescript.min.js"
+      },
+      {
         vmid: "prism-autoload",
         src:
           "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/plugins/autoloader/prism-autoloader.min.js"

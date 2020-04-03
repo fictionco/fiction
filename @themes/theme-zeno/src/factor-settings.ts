@@ -356,7 +356,7 @@ export default {
     meta: {
       title: "About - Factor Zeno Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+        "Zeno is a minimalist theme suited for the needs of IT companies and tech startups. Zeno styles are powered by Tailwind, a low-level CSS framework.",
       image: require("./img/logo-zeno.jpg")
     }
   },
@@ -589,7 +589,7 @@ export default {
       index: {
         title: "Blog - The Latest from Zeno Theme",
         description:
-          "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+          "Discover the latest product updates, announcements, and articles from the Zeno team",
         image: require("./img/logo-zeno.jpg")
       }
     }
