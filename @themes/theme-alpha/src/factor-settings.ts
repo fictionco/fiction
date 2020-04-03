@@ -325,7 +325,7 @@ export default {
     metatags: {
       title: "About - Factor Alpha Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+        "Designer and Illustrator based in San Francisco.",
       image: require("./img/logo-alpha.jpg")
     }
   },
@@ -364,7 +364,7 @@ export default {
     metatags: {
       index: {
         title: "Work - Factor Alpha Theme",
-        description: "The latest work.",
+        description: "Great projects happen with passion, intelligence, and personal commitment.",
         image: require("./img/logo-alpha.jpg")
       }
     },
@@ -481,7 +481,7 @@ export default {
     metatags: {
       title: "Contact - Factor Alpha Theme",
       description:
-        "A minimal, personal or portfolio theme. Ideal for entrepreneurs or individuals of multiple creative professions.",
+        "Share your idea, drop me a note and I’ll get back to you within 24 hours.",
       image: require("./img/logo-alpha.jpg")
     }
   },
