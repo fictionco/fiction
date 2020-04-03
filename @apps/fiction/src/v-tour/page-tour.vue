@@ -29,7 +29,7 @@
               in a matter of minutes, with only basic coding knowledge.
             </p>
             <div class="actions">
-              <factor-link path="https://factor.dev/guide/quickstart">Learn How &rarr;</factor-link>
+              <factor-link path="https://factor.dev/docs/quickstart">Learn How &rarr;</factor-link>
             </div>
           </div>
           <div class="banner-figure">

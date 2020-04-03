@@ -79,4 +79,4 @@ Making sure to copy the original or create a new file in your app at that locati
 
 It's easy to build on top of the baseline functionality that themes create for you.
 
-You can add additional routes and plugins in the standard ways discussed in the [Factor Docs](https://factor.dev/guide).
+You can add additional routes and plugins in the standard ways discussed in the [Factor Docs](https://factor.dev/docs).

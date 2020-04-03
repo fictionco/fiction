@@ -2,4 +2,4 @@
 
 Want to contribute to Factor?
 
-We provide a **[Contribution Guide](https://factor.dev/guide/contribution)** to help you get started.
+We provide a **[Contribution Guide](https://factor.dev/docs/contribution)** to help you get started.

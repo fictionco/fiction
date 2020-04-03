@@ -13,11 +13,13 @@ Hitting the right balance of needs has led Factor to be used in production by ma
 
 Every day Factor powers some of the most powerful yet scaleable apps on the internet, it's modern architecture allows for simple caching and optimization which allows you to do more.
 
-## TL;DR - The Problem Factor Solves
+## The Problem Factor Solves
 
-Building modern web apps is fraught with peril, and there are many pitfalls that can lay waste to your time, money, and sanity.
+Building JavaScript apps is hard and time consuming. There are many possible mistakes that can cost you tons of time.
 
-Factor packages up hard earned insights into a system that helps you build fully featured, great looking apps (including websites) in record time and with less risk. Don't believe me? Read on...
+Factor works to make JS development easier by applying best practices learned by years on the job.
+
+It is minimalist as it an possibly be, but opinionated enough to make your challenging tasks simple. It is also built with tried and true open-source tools which reduces your risks and helps you ship.
 
 ## How Factor Is Different
 

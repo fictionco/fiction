@@ -12,8 +12,6 @@ addPageTemplate({
 addContentRoutes({
   key: "docsRoutes",
   routes: () => {
-    const base = setting("docs.base")
-
     return [
       {
         path: "/",
@@ -23,14 +21,6 @@ addContentRoutes({
         path: "/install",
         component: (): Promise<Component> => import("./home/v-install.vue"),
         meta: { auth: true }
-      },
-      {
-        path: `/${base}`,
-        component: (): Promise<Component> => import("./page-docs.vue")
-      },
-      {
-        path: `/${base}/:doc`,
-        component: (): Promise<Component> => import("./page-docs.vue")
       },
       {
         path: `/themes`,

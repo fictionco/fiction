@@ -52,7 +52,7 @@ export default {
     featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
     authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
     customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-    social: (): Promise<Component> => import("./blog/widget-social.vue"),
+    social: (): Promise<Component> => import("./blog/widget-social.vue")
   }
   // other settings
 }
@@ -76,4 +76,4 @@ Making sure to copy the original or create a new file in your app at that locati
 
 It's easy to build on top of the baseline functionality that themes create for you.
 
-You can add additional routes and plugins in the standard ways discussed in the [Factor Docs](https://factor.dev/guide).
+You can add additional routes and plugins in the standard ways discussed in the [Factor Docs](https://factor.dev/docs).

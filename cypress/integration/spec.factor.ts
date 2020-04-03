@@ -10,7 +10,7 @@ context("Actions", () => {
       .type("fake@email.com")
       .should("have.value", "fake@email.com")
 
-    cy.scrollTo('bottom', { duration: 1000 })
+    cy.scrollTo("bottom", { duration: 1000 })
 
     cy.get(".add-email:last")
       .find("input")
@@ -24,53 +24,61 @@ context("Actions", () => {
       .find(".btn-link")
       .click()
 
-    // Should be on a new URL which includes '/guide/quickstart'
-    cy.url().should('include', '/guide/quickstart')
+    // Should be on a new URL which includes '/docs/quickstart'
+    cy.url().should("include", "/docs/quickstart")
 
     // back home
-    cy.get(".site-brand").find("a").click()
+    cy.get(".site-brand")
+      .find("a")
+      .click()
 
-    cy.url().should('include', '/')
+    cy.url().should("include", "/")
 
     // view quickstart link
     cy.get('[data-test="feature-0"] .factor-link').click()
 
     // back home
-    cy.get(".site-brand").find("a").click()
+    cy.get(".site-brand")
+      .find("a")
+      .click()
 
     // try factor link
     cy.get('[data-test="feature-1"] .factor-link').click()
 
     //back home
-    cy.get(".site-brand").find("a").click()
+    cy.get(".site-brand")
+      .find("a")
+      .click()
 
     // learn more link
     cy.get('[data-test="feature-2"] .factor-link').click()
 
     //back home
-    cy.get(".site-brand").find("a").click()
+    cy.get(".site-brand")
+      .find("a")
+      .click()
 
     // view plugins link
     cy.get('[data-test="feature-3"] .factor-link').click()
 
     // back home
-    cy.get(".site-brand").find("a").click()
+    cy.get(".site-brand")
+      .find("a")
+      .click()
 
     // view themes link
     cy.get('[data-test="feature-4"] .factor-link').click()
-
   })
 
   it("Getting started links", () => {
-
     // Switch to mobile
-    cy.viewport('iphone-x')
+    cy.viewport("iphone-x")
 
     // desktop head should not be visible
-    cy.get('.site-head').should('not.be.visible')
+    cy.get(".site-head").should("not.be.visible")
 
     // open nav
-    cy.get('.mobile-toggle').click()
+    cy.get(".mobile-toggle").click()
 
     // introduction link
     cy.get(".menu-root .menu-item")
@@ -104,13 +112,11 @@ context("Actions", () => {
       .eq(4)
       .find(".factor-link")
       .click()
-
   })
 
   it("App development links", () => {
-
     // switch to mobile
-    cy.viewport('iphone-x')
+    cy.viewport("iphone-x")
 
     // open nav
     cy.get(".mobile-toggle").click()
@@ -210,13 +216,11 @@ context("Actions", () => {
       .eq(16)
       .find(".factor-link")
       .click()
-
   })
 
   it("Extension development links", () => {
-
     // Switch to mobile
-    cy.viewport('iphone-x')
+    cy.viewport("iphone-x")
 
     // open nav
     cy.get(".mobile-toggle").click()
@@ -262,13 +266,11 @@ context("Actions", () => {
       .eq(22)
       .find(".factor-link")
       .click()
-
   })
 
   it("Contributing links", () => {
-
     // Switch to mobile
-    cy.viewport('iphone-x')
+    cy.viewport("iphone-x")
 
     // open nav
     cy.get(".mobile-toggle").click()
@@ -287,13 +289,11 @@ context("Actions", () => {
       .eq(25)
       .find(".factor-link")
       .click()
-
   })
 
   it("Theme and plugin links", () => {
-
     // Switch to mobile
-    cy.viewport('iphone-x')
+    cy.viewport("iphone-x")
 
     // open nav
     cy.get(".mobile-toggle").click()
@@ -314,11 +314,11 @@ context("Actions", () => {
       .click()
 
     // switch to desktop view
-    cy.viewport('macbook-15')
+    cy.viewport("macbook-15")
 
     // end back home
-    cy.get(".site-brand").find("a").click()
-
+    cy.get(".site-brand")
+      .find("a")
+      .click()
   })
-
 })

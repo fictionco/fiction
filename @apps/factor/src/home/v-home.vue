@@ -110,7 +110,7 @@ export default Vue.extend({
             Stop worrying about lock-in and making the right choice. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
-          link: { path: "/guide/quickstart", text: "View Quickstart" }
+          link: { path: "/docs/quickstart", text: "View Quickstart" }
         },
         {
           icon: "ssr",
@@ -119,7 +119,7 @@ export default Vue.extend({
               It helps you build custom endpoints and easily optimize things for SEO,
              marketing, and performance.`,
           figure: () => import("./figure-live-changes.vue"),
-          link: { path: "/guide", text: "Try Factor" }
+          link: { path: "/docs", text: "Try Factor" }
         },
         {
           icon: "dashboard2",
@@ -128,7 +128,7 @@ export default Vue.extend({
             This tool was carefully crafted to give you maximum power with minimal bloat.
             It is simple but can be extended to handle the most complex tasks.`,
           figure: () => import("./figure-dashboard.vue"),
-          link: { path: "/guide", text: "Learn More" }
+          link: { path: "/docs", text: "Learn More" }
         },
         {
           id: "plugins-feature",

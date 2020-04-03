@@ -1,5 +1,6 @@
-import { addContentRoute } from "@factor/api"
+import { addContentRoute, addCallback } from "@factor/api"
 import { setting } from "@factor/api/settings"
+import { getDocRoutes } from "./util"
 export const postType = "docsItem"
 
 export const setup = (): void => {
@@ -31,6 +32,24 @@ export const setup = (): void => {
         component: setting("docsEngine.components.doc")
       }
     ]
+  })
+
+  /**
+   * Add docs to sitemap
+   */
+  addCallback({
+    key: "docs",
+    hook: "sitemaps",
+    callback: (): { _id: string; items: { url: string }[] } => {
+      const routes = getDocRoutes()
+
+      return {
+        _id: "docs",
+        items: routes.map(_ => {
+          return { url: _ }
+        })
+      }
+    }
   })
 }
 

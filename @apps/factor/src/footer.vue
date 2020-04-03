@@ -20,10 +20,10 @@
       <div class="footer-col list">
         <div class="menu-header">Getting Started</div>
         <factor-link path="/install">Get started</factor-link>
-        <factor-link path="/guide">Documentation</factor-link>
+        <factor-link path="/docs">Documentation</factor-link>
         <factor-link path="/themes">Themes</factor-link>
         <factor-link path="/plugins">Plugins</factor-link>
-        <factor-link path="/guide/contribution">Contribution</factor-link>
+        <factor-link path="/docs/contribution">Contribution</factor-link>
       </div>
       <div class="footer-col list">
         <div class="menu-header">Community</div>

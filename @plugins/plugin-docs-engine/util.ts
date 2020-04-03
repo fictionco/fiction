@@ -13,6 +13,27 @@ export interface DocConfig {
   content?: string;
 }
 
+const scanRoutes = (nav: DocConfig[]): string[] => {
+  const routes: string[] = []
+  const baseRoute = setting("docsEngine.baseRoute") ?? "/docs"
+
+  nav.forEach(group => {
+    if (group.doc) {
+      routes.push(group.path ?? `${baseRoute}/${group.doc}`)
+    }
+    if (group.items) {
+      const subRoutes = scanRoutes(group.items)
+      routes.push(...subRoutes)
+    }
+  })
+
+  return routes
+}
+
+export const getDocRoutes = (): string[] => {
+  return scanRoutes(setting("docsEngine.nav") ?? [])
+}
+
 export const scanDocs = (
   doc: string,
   nav: DocConfig[],
