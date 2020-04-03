@@ -13,6 +13,12 @@ Hitting the right balance of needs has led Factor to be used in production by ma
 
 Every day Factor powers some of the most powerful yet scaleable apps on the internet, it's modern architecture allows for simple caching and optimization which allows you to do more.
 
+## TL;DR - The Problem Factor Solves
+
+Building modern web apps is fraught with peril, and there are many pitfalls that can lay waste to your time, money, and sanity.
+
+Factor packages up hard earned insights into a system that helps you build fully featured, great looking apps (including websites) in record time and with less risk. Don't believe me? Read on...
+
 ## How Factor Is Different
 
 The first question people usually ask is, how is Factor different from everything else out there?
@@ -124,7 +130,7 @@ The detailed picture is covered in the core concepts document, but here are some
 
 - **Build on an Open-Source Stack.** Working with proprietary technology often leads to risks and costs in the long term. We've found that open-source tech is not only free, but also reduces risk and encourages standardization of your app.
 
-- **Follow 80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
+- **80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
 
 - **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scaleable and portable; also, easy to develop. Factor leverages this philosophy.
 

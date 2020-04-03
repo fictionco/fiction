@@ -25,7 +25,7 @@ export default {
           },
           {
             doc: "quickstart",
-            file: (): Promise<string> => import("./quickstart.md")
+            file: (): Promise<string> => import("./getting-started/quickstart.md")
           },
           {
             doc: "dashboard-setup",
