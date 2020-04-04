@@ -7,6 +7,12 @@ export default {
             title: "Docs Home",
             path: "/docs",
             icon: "far fa-file-alt"
+          },
+          {
+            doc: "quickstart",
+            path: "/docs/quickstart",
+            icon: "far fa-file-alt",
+            file: (): Promise<string> => import("./getting-started/quickstart.md")
           }
         ]
       },
@@ -24,12 +30,8 @@ export default {
             file: (): Promise<string> => import("./getting-started/features.md")
           },
           {
-            doc: "quickstart",
-            file: (): Promise<string> => import("./getting-started/quickstart.md")
-          },
-          {
-            doc: "dashboard-setup",
-            file: (): Promise<string> => import("./dashboard-setup.md")
+            doc: "essential-services",
+            file: (): Promise<string> => import("./getting-started/essential-services.md")
           }
         ]
       },

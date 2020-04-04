@@ -10,18 +10,6 @@ p {
   &:last-child {
     margin-bottom: 0;
   }
-  code {
-    font-family: "Roboto Mono", Monaco, courier, monospace;
-    padding: 0.2em 0.5em;
-    margin: 0 2px;
-    border-radius: 5px;
-    color: var(--color-text);
-    background-color: var(--color-bg-highlight);
-    font-family: "Roboto Mono", Monaco, courier, monospace;
-    font-size: 0.85em;
-    -webkit-font-smoothing: initial;
-    -moz-osx-font-smoothing: initial;
-  }
 }
 
 small {
@@ -33,15 +21,32 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  line-height: 1.4em;
-  margin-bottom: 0.5em;
+h6,
+p,
+ul,
+ol {
+  code {
+    font-family: "Roboto Mono", Monaco, courier, monospace;
+    padding: 0.2em 0.5em;
+    margin: 0 2px;
+    border-radius: 5px;
+    color: var(--color-code, --color-text);
+    background-color: var(--color-bg-highlight);
+    font-family: "Roboto Mono", Monaco, courier, monospace;
+    font-size: 0.85em;
+    -webkit-font-smoothing: initial;
+    -moz-osx-font-smoothing: initial;
+  }
 }
 
 h1,
 h2,
 h3 {
-  font-weight: var(--font-weight-semi-bold, 600);
+  margin: 2em 0 0.5em;
+  font-weight: var(--font-weight-bold, 600);
+  &:first-child {
+    margin-top: 0;
+  }
 }
 h1 {
   font-size: 2em;
@@ -68,7 +73,11 @@ h3 {
     font-size: 1.2em;
   }
 }
-
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold, 700);
+}
 h4 {
   font-size: 1.2em;
   @media (max-width: 767px) {
@@ -214,9 +223,9 @@ blockquote {
   margin: 1em 0;
   padding: 0.5em 1em;
   border-left: 0.2em solid var(--color-border);
-  background: var(--color-bg-contrast);
+  background: var(--color-bg-highlight);
   font-style: italic;
-
+  border-radius: 6px;
   @media (max-width: 767px) {
     margin: 0.5em 0;
   }

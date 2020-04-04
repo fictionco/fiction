@@ -4,12 +4,24 @@ Ready to Factor enable your JavaScript app? Alright let's do this...
 
 > **Before You Start** Make sure you are running LTS NodeJS. Currently version 12 or newer.
 
-## Adding Factor Dependency
+## Approach 1 - Adding Factor Dependency
 
-First, you should know that adding Factor is the same as adding any other dependency to a JS/Node project. All you have to do is add it as a dependency inside a standard `package.json` on your machine.
+First, you should know that adding Factor is the same as adding any other dependency to a JS/Node project. All you have to do is add it as a dependency inside a standard `package.json` in your project.
 
 ```bash
 npm install @factor/core
+```
+
+Once added your `package.json` should look something like this:
+
+```json
+{
+  "name": "your project name",
+  // other stuff
+  "dependencies": {
+    "@factor/core": "^1.0.0"
+  }
+}
 ```
 
 ### Start Development Server
@@ -24,7 +36,9 @@ This should kick off an installation and setup routine and guide you through the
 
 ![Factor Setup UI](./factor-setup.jpg)
 
-## Scaffold a Project with `create-factor-app`
+Once this setup routine is finished, it will add some additional information to your `package.json` such as the name of your app, primary app email, production URL, etc..
+
+## Approach 2 - Scaffold a Project with `create-factor-app`
 
 If you'd like to setup a Factor project with recommended defaults and standard files, we also recommend using `create-factor-app` a special scaffolding tool we've made to help you with this.
 
