@@ -1,13 +1,11 @@
 ---
-title: Essential Services - Database, Auth, Email and Storage
+title: Essential Service Setup - Database, Auth, Email and Storage
 description: The basic information and settings needed to configure Factor's dashboard and CMS.
 ---
 
 # Setting Up Your Essential Services
 
 Now that you've gotten your project set up, now you need to setup a few "essential services" for critical functionality like your database, image storage, transactional email and authentication. The good news is Factor makes this easy.
-
-![Factor Dashboard](./img/dashboard.jpg)
 
 ## Your Database
 

@@ -13,11 +13,15 @@ export default {
             path: "/docs/quickstart",
             icon: "far fa-file-alt",
             file: (): Promise<string> => import("./getting-started/quickstart.md")
+          },
+          {
+            doc: "essential-service-setup",
+            file: (): Promise<string> => import("./getting-started/essential-services.md")
           }
         ]
       },
       {
-        title: "Get Started",
+        title: "Core Concepts",
         description: "From install to production deploy in minutes.",
         boxIcon: "quick",
         items: [
@@ -28,10 +32,6 @@ export default {
           {
             doc: "features",
             file: (): Promise<string> => import("./getting-started/features.md")
-          },
-          {
-            doc: "essential-services",
-            file: (): Promise<string> => import("./getting-started/essential-services.md")
           }
         ]
       },
