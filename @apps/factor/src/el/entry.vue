@@ -7,7 +7,6 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { Route } from "vue-router"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default Vue.extend({
   components: {
@@ -18,29 +17,6 @@ export default Vue.extend({
   },
   data() {
     return {}
-  },
-
-  watch: {
-    $route: function(this: any, to: Route, from: Route) {
-      if (to.path != from.path) {
-        this.setPage()
-      }
-    }
-  },
-  mounted() {
-    require("../prism/prism")
-
-    this.prism = window.Prism
-
-    this.setPage()
-  },
-  methods: {
-    setPage(this: any) {
-      // wait til content is done rendering
-      setTimeout(() => {
-        this.prism.highlightAll()
-      }, 50)
-    }
   }
 })
 </script>

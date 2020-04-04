@@ -15,7 +15,9 @@ export default Vue.extend({
     }
   },
   mounted() {
-    this.prism = window.Prism
+    if (window.Prism) {
+      this.prism = window.Prism
+    }
 
     // Set page on load
     this.setPage()
