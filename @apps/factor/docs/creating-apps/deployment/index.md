@@ -12,7 +12,7 @@ You'll first need to get a server that is running Node 10 or greater. We recomme
 
 Next set up your environmental variables at your host. These should be the production versions of the variables you have in your local `.env` file.
 
-![Setup Environment](./img/host-environment.jpg)
+![Setup Environment](./host-environment.jpg)
 
 ## 3. Build `/dist` and Deploy to Server
 

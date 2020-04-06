@@ -80,7 +80,7 @@ export default {
           },
           {
             doc: "deployment",
-            file: (): Promise<string> => import("./deployment.md")
+            file: (): Promise<string> => import("./creating-apps/deployment/index.md")
           }
         ]
       },
@@ -134,7 +134,7 @@ export default {
         items: [
           {
             doc: "basic-example",
-            file: (): Promise<string> => import("./basic-example.md")
+            file: (): Promise<string> => import("./examples/basic-example.md")
           }
         ]
       },

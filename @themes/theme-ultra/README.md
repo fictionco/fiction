@@ -22,7 +22,7 @@ To change any setting in this theme's factor-settings file, all you need to do i
 
 As an example, adding the below to your `factor-settings` file will override the nav value in the theme. In effect, customizing the navigation.
 
-```js
+```typescript
 export default {
   site: {
     nav: [
@@ -41,7 +41,7 @@ If you'd like to get more advanced with your customization, its also easy to ove
 
 As an example, to override the single post template used by the theme, first find the component in settings:
 
-```js
+```typescript
 export default {
   // other settings
   components: {
@@ -60,7 +60,7 @@ export default {
 
 You'll see that it is being loaded in as `blogSingle`, so all you have to do in your app to override with `my-special-single.vue` is:
 
-```js
+```typescript
 export default {
   // other settings
   components: {

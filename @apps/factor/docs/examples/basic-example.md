@@ -10,7 +10,7 @@ Check out the files for this example here.
 
 Let's start by creating a repository to hold our code. Go to [Github](https://github.com/) and create a new repository and clone it to wherever you keep projects on your computer. In this example, we'll call our project "factor-example."
 
-![Create A Repo](./example/create-repo.jpg)
+![Create A Repo](./img/create-repo.jpg)
 
 ```bash
 cd projects
