@@ -218,6 +218,12 @@ const makeFileLoader = ({
 
     glob
       .sync(fileGlob)
+      .filter(path => {
+        // Don't include anything inside of node_modules
+        // this isn't very efficient since it searches them anyway, but couldn't make it work otherwise
+        const sub = path.replace(dir, "")
+        return sub.includes("node_modules") ? false : true
+      })
       .map((fullPath, index) => {
         const _module = fullPath.replace(dir, requireBase)
 
