@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-alpha",
-  "version": "1.5.18",
+  "version": "1.5.19",
   "license": "GPL-2.0",
   "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
   "author": {
@@ -38,7 +38,7 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/core": "^1.5.18",
+    "@factor/core": "^1.5.19",
     "@factor/plugin-blog": "^1.5.18",
     "@factor/plugin-contact-form": "^1.5.12",
     "@factor/plugin-highlight-code": "^1.5.18",
