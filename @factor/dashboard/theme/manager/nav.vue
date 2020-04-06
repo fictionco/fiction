@@ -21,9 +21,9 @@
                 <div class="item-text">
                   <span v-formatted-text="_.name" />
                   <span v-if="_.secondary" class="secondary" @click.stop>
-                    <factor-link :path="_.secondary.path" :target="_.secondary.target">
+                    <div class="secondary-link" @click="_.secondary.click()">
                       <factor-icon :icon="_.secondary.icon" />
-                    </factor-link>
+                    </div>
                   </span>
                 </div>
               </factor-link>

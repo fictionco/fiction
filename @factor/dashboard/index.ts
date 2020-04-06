@@ -107,8 +107,11 @@ export const setup = (): void => {
           icon: require("./img/dashboard.svg"),
           secondary: {
             icon: "fas fa-external-link-alt",
-            path: currentUrl(),
-            target: "_blank"
+            click: (): void => {
+              const url = window?.factorFrame?.location ?? currentUrl()
+
+              window.open(url, "_blank")
+            }
           }
         })
       }

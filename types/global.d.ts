@@ -20,6 +20,7 @@ interface Window {
   _factorLoadingScreen: any;
   $BASE_URL: string;
   docsearch: any;
+  factorFrame: any;
 }
 
 declare namespace NodeJS {

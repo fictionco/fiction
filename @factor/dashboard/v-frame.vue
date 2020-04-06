@@ -29,6 +29,7 @@ export default Vue.extend({
     this.appIFrame.addEventListener("load", () => {
       const doc = this.appIFrame.contentWindow || this.appIFrame.contentDocument
       this.factorApp = doc.factorApp
+      window.factorFrame = doc
       this.handleEvents()
     })
   },

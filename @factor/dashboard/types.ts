@@ -10,7 +10,8 @@ export interface DashboardMenuItem {
   secondary?: {
     icon: string;
     target?: "_blank";
-    path: string;
+    path?: string;
+    click?: () => void;
   };
 }
 
