@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.5.17",
+  "version": "1.5.18",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -24,7 +24,7 @@
     "@factor/post": "^1.5.8",
     "@factor/server": "^1.5.8",
     "@factor/templates": "^1.5.8",
-    "@factor/ui": "^1.5.17",
+    "@factor/ui": "^1.5.18",
     "@factor/user": "^1.5.8",
     "ts-node": "^8.5.0",
     "typescript": "^3.8.0"

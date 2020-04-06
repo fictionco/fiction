@@ -6,7 +6,7 @@
     "email": "factor@fiction.com",
     "url": "https://www.fiction.com"
   },
-  "version": "1.5.17",
+  "version": "1.5.18",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -33,7 +33,7 @@
   },
   "homepage": "https://factor.dev/plugin/standard-blog",
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.5.17"
+    "@factor/plugin-highlight-code": "^1.5.18"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
