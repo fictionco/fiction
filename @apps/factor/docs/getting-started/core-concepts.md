@@ -1,31 +1,33 @@
 ---
-title: Features and Benefits
+title: Core Concepts, Features, and Benefits
 description: Factor has many benefits designed to help you build scaleable apps faster.
 ---
 
-# Features
+# Core Concepts
 
-When you use Factor, you'll get instant access to a powerful set of core features and many more delivered via extension. You can then customize these features as much as you like from any Factor enabled application.
+Factor strives to be a solid software platform that will stand the test of time. It takes advantage of many of the best practices established by platforms such as Unix or WordPress; but also does it's best to avoid common mistakes that lead to bloated software.
 
-Here is a quick overview of some of the primary features. Here we've highlighted just a few things you may find useful as you get started.
+Many of the ideas might not be obvious to newer developers, so in this document we'll explain some of the choices along with why we made them.
 
-## Be A Better Developer - The 12-Factor App Methodology
+## Platform Goals
+
+## Simple 12 Factor Apps - Apps that work anywhere and scale
 
 The [12-Factor App Methodology](https://12factor.net/) was written to highlight some of the best practices you can use to develop a light and portable, developer-friendly app.
 
 Factor follows along with many of these ideas (Factor is extremely portable and scaleable). In comparison with older LAMP based approaches, you'll quickly notice how these topics -- which used to be so painful to deal with -- just seem to fall away into insignificance.
 
-## You Can Use Extensions Again (Finally)
+## Useful Extensions
 
 The JS world has [famously](https://news.ycombinator.com/item?id=19517560) had a problem with "reinventing the wheel." This is because with any big change in practice, there is always some aspect of things that must be relearned.
 
 In designing Factor, we've taken the best ideas from the past and applied them to JavaScript apps.
 
-Factor is designed to be opinionated-enough&#8482; to allow for extensions (plugins, themes) that essentially "just work." While it may seem limiting to have some technical choices made for you, this is done with clear intention: the extensions now know what to expect.
+Factor is designed to be "opinionated-enough" to allow for extensions (plugins, themes) that essentially "just work." While it may seem limiting to have some technical choices made for you, this is done with clear intention: the extensions now know what to expect.
 
 As a web professional, the end result is you'll spend much less time reinventing the wheel, and much more time building the thing that makes you successful at the end of the day.
 
-## Standardized App Management (CMS)
+## Content Management (CMS)
 
 Most real apps need some way to manage data objects like pages, transactions, users, etc.. If you build your application with a framework, then typically you'll need to create this yourself or use various SaaS services for each specific management function.
 

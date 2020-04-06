@@ -1,11 +1,22 @@
 ---
-title: Essential Service Setup - Database, Auth, Email and Storage
+title: Services Setup - Database, Auth, Email and Storage
 description: The basic information and settings needed to configure Factor's dashboard and CMS.
 ---
 
-# Setting Up Your Essential Services
+# Setting Up Your Services
 
-Now that you've gotten your project set up, now you need to setup a few "essential services" for critical functionality like your database, image storage, transactional email and authentication. The good news is Factor makes this easy.
+## Services vs The Monolith
+
+Factor is built for portability. This means it works consistently and simply across multiple servers, and environments; which makes it powerful.
+
+Unlike older CMS' which integrate all services into one monolithic install, Factor uses "services" which exist outside your app and can be shared and used across apps and servers if needed. The advantage this gives you is flexibility and consistency from development to production.
+
+Now that you've gotten your project set up, now you need to setup the "key services":
+
+- **Database** (MongoDB connection URL),
+- **Image storage** (Static hosting service e.g. AWS S3)
+- **Transactional email** (SMTP Service).
+- **User authentication and roles** (Not external, uses JWTs)
 
 ## Your Database
 

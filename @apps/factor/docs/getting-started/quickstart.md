@@ -60,7 +60,7 @@ Once launched, this will kick up a CLI and walk you through the next steps.
 
 Now, you should have a pre-scaffolded Factor project. All you need to do from here is run your development server.
 
-```sh
+```bash
 npx factor dev
 ```
 

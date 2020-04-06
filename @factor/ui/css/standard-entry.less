@@ -43,32 +43,29 @@ h1,
 h2,
 h3 {
   margin: 2em 0 0.5em;
-  font-weight: var(--font-weight-bold, 600);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 1.4;
   &:first-child {
     margin-top: 0;
   }
 }
 h1 {
   font-size: 2em;
-  line-height: 1.1;
+  line-height: 1.2;
   @media (max-width: 767px) {
     font-size: 1.6em;
   }
 }
 
 h2 {
-  margin: 2em 0 0.5em;
   font-size: 1.6em;
-  line-height: 1.4;
   @media (max-width: 767px) {
     font-size: 1.4em;
   }
 }
 
 h3 {
-  margin-top: 1em;
   font-size: 1.3em;
-  line-height: 1.1;
   @media (max-width: 767px) {
     font-size: 1.2em;
   }
@@ -77,6 +74,7 @@ h4,
 h5,
 h6 {
   font-weight: var(--font-weight-bold, 700);
+  margin-bottom: 0.75rem;
 }
 h4 {
   font-size: 1.2em;
@@ -232,5 +230,8 @@ blockquote {
 
   p {
     display: inline;
+  }
+  code {
+    background: rgba(0, 0, 0, 0.05);
   }
 }

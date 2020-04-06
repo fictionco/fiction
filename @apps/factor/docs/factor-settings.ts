@@ -7,21 +7,11 @@ export default {
             title: "Docs Home",
             path: "/docs",
             icon: "far fa-file-alt"
-          },
-          {
-            doc: "quickstart",
-            path: "/docs/quickstart",
-            icon: "far fa-file-alt",
-            file: (): Promise<string> => import("./getting-started/quickstart.md")
-          },
-          {
-            doc: "essential-service-setup",
-            file: (): Promise<string> => import("./getting-started/essential-services.md")
           }
         ]
       },
       {
-        title: "Core Concepts",
+        title: "Getting Started",
         description: "From install to production deploy in minutes.",
         boxIcon: "quick",
         items: [
@@ -29,9 +19,20 @@ export default {
             doc: "introduction",
             file: (): Promise<string> => import("./getting-started/introduction.md")
           },
+          // {
+          //   doc: "core-concepts",
+          //   file: (): Promise<string> => import("./getting-started/core-concepts.md")
+          // },
           {
-            doc: "features",
-            file: (): Promise<string> => import("./getting-started/features.md")
+            doc: "quickstart",
+            path: "/docs/quickstart",
+            icon: "far fa-file-alt",
+            file: (): Promise<string> => import("./getting-started/quickstart.md")
+          },
+          {
+            doc: "services-setup",
+            file: (): Promise<string> =>
+              import("./getting-started/quickstart-services.md")
           }
         ]
       },
@@ -41,21 +42,27 @@ export default {
 
         items: [
           {
-            doc: "structure",
-            file: (): Promise<string> => import("./structure.md")
+            title: "Overview",
+            doc: "creating-apps",
+            file: (): Promise<string> => import("./creating-apps/creating-apps.md")
+          },
+
+          {
+            title: "Commands and CLI",
+            doc: "commands-and-cli",
+            file: (): Promise<string> => import("./creating-apps/commands-and-cli.md")
+          },
+          {
+            doc: "files-and-folders",
+            file: (): Promise<string> => import("./creating-apps/files-and-folders.md")
           },
           {
             doc: "settings-and-style",
-            file: (): Promise<string> => import("./settings-and-style.md")
+            file: (): Promise<string> => import("./creating-apps/settings-and-style.md")
           },
           {
             doc: "posts-and-pages",
             file: (): Promise<string> => import("./posts-and-pages.md")
-          },
-          {
-            title: "Using the CLI",
-            doc: "cli",
-            file: (): Promise<string> => import("./cli.md")
           },
           {
             doc: "router-and-store",

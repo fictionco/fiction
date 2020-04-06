@@ -17,6 +17,11 @@ export default Vue.extend({
   mounted() {
     if (window.Prism) {
       this.prism = window.Prism
+
+      window.Prism.languages.bash = window.Prism.languages.extend("bash", {
+        variable: /\b(?:start|build|serve|dev|run|setup)\b/,
+        function: /\b(?:yarn|npx|npm)\b/
+      })
     }
 
     // Set page on load
