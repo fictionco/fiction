@@ -1,6 +1,6 @@
 ---
 title: Core Concepts, Features, and Benefits
-description: Factor has many benefits designed to help you build scaleable apps faster.
+description: Factor has many benefits designed to help you build scalable apps faster.
 ---
 
 # Core Concepts
@@ -15,7 +15,7 @@ Many of the ideas might not be obvious to newer developers, so in this document 
 
 The [12-Factor App Methodology](https://12factor.net/) was written to highlight some of the best practices you can use to develop a light and portable, developer-friendly app.
 
-Factor follows along with many of these ideas (Factor is extremely portable and scaleable). In comparison with older LAMP based approaches, you'll quickly notice how these topics -- which used to be so painful to deal with -- just seem to fall away into insignificance.
+Factor follows along with many of these ideas (Factor is extremely portable and scalable). In comparison with older LAMP based approaches, you'll quickly notice how these topics -- which used to be so painful to deal with -- just seem to fall away into insignificance.
 
 ## Useful Extensions
 
