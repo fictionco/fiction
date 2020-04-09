@@ -1,9 +1,9 @@
-import { setting, addContentRoutes } from "@factor/api"
-import { addFilter } from "@factor/api/hooks"
-//import { addPageTemplate } from "@factor/templates"
-import { addPostType } from "@factor/api/post-types"
-
+import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
+import { addPageTemplate } from "@factor/templates"
 import { Component } from "vue"
+
+const baseRoute = setting("portfolio.postRoute")
+
 
 if (setting("headTags") != "") {
   addFilter({
@@ -17,19 +17,20 @@ if (setting("headTags") != "") {
 }
 
 
-// addPageTemplate({
-//   slug: "ultra-default",
-//   component: () => import("./page-template-default.vue")
-// })
+addPageTemplate({
+  slug: "ultra-default",
+  component: () => import("./page-template-default.vue")
+})
 
 // CUSTOM POST TYPE
 addPostType({
   postType: "portfolio",
-  baseRoute: `${setting("portfolio.postRoute")}`,
+  baseRoute,
   icon: require("./img/dashicon-portfolio.svg"),
   nameIndex: "Portfolio",
   nameSingle: "Portfolio Post",
   namePlural: "Portfolio Posts",
+  customPermalink: true
 })
 
 
