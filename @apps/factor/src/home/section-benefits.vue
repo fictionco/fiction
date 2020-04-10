@@ -50,7 +50,7 @@
         <home-icon icon="open-source" />
         <h3 class="title">Free and open-source</h3>
         <p class="text">
-          Factor is built on open-source tech and uses the samelicense as projects like WordPress
+          Factor is built on open-source and uses the same license as projects like WordPress
           and Linux.
         </p>
       </li>
