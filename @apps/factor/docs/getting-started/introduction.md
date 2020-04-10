@@ -11,7 +11,7 @@ Factor is a truly open-source CMS platform built for web professionals. It is de
 
 Hitting the right balance of needs has led Factor to be used in production by many organizations. Once you learn the basics, you'll love how easy it is to create superior websites and apps.
 
-Every day Factor powers some of the most powerful yet scaleable apps on the internet, it's modern architecture allows for simple caching and optimization which allows you to do more.
+Every day Factor powers some of the most powerful yet scalable apps on the internet, it's modern architecture allows for simple caching and optimization which allows you to do more.
 
 ## The Problem Factor Solves
 
@@ -134,6 +134,6 @@ The detailed picture is covered in the core concepts document, but here are some
 
 - **80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
 
-- **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scaleable and portable; also, easy to develop. Factor leverages this philosophy.
+- **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scalable and portable; also, easy to develop. Factor leverages this philosophy.
 
 - **JavaScript and TypeScript Only** In the last years, the one language that has made the most progress is clearly JavaScript and it's type-safe buddy TypeScript. For that reason, Factor is focused on JS and JS oriented libraries. That way you only need to learn one key language and complementary tools.
