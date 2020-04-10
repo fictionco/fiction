@@ -14,7 +14,7 @@
                   <img :src="post.icon" alt="Theme logo" class="extension-icon" />
                 </div>
                 <h1 class="title">{{ post.title }}</h1>
-                <h3 class="description">{{ post.synopsis }}</h3>
+                <h3 v-formatted-text="getContent(post.synopsis)" class="description" />
                 <div class="actions">
                   <factor-link btn="primary" @click="scrollTo(`#install`)">Add to Project &darr;</factor-link>
                   <factor-link
