@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.5.19",
+  "version": "1.5.20",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@factor/api": "^1.5.14",
-    "@factor/app": "^1.5.8",
-    "@factor/attachment": "^1.5.8",
+    "@factor/app": "^1.5.20",
+    "@factor/attachment": "^1.5.20",
     "@factor/build": "^1.5.8",
     "@factor/cli": "^1.5.19",
     "@factor/dashboard": "^1.5.19",
