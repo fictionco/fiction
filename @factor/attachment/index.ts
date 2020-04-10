@@ -1,6 +1,6 @@
 import { endpointRequest, authorizedRequest, EndpointParameters } from "@factor/endpoint"
 import { storeItem, addPostSchema } from "@factor/api"
-import loadImage from "blueimp-load-image"
+
 import { uploadEndpointPath } from "./util"
 import storageSchema from "./schema"
 import { PreUploadProperties } from "./types"
@@ -45,6 +45,12 @@ export const resizeImage = async (
   fileOrBlobOrUrl: File | Blob,
   { maxWidth = 1200, maxHeight = 1200 }
 ): Promise<Blob> => {
+  if (!document) {
+    throw new Error("Can't resize image using this method on server.")
+  }
+  // Contains an unwrapped call to document, errors in server
+  const { default: loadImage } = await import("blueimp-load-image")
+
   return await new Promise(resolve => {
     loadImage(
       fileOrBlobOrUrl,

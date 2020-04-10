@@ -48,7 +48,7 @@ export const extendApp = async (options = {}): Promise<void> => {
     // eslint-disable-next-line import/no-unresolved
     require("__CWD__/.factor/loader-app")
   } catch (error) {
-    if (error.code !== "MODULE_NOT_FOUND") throw new Error(error)
+    if (error.code !== "MODULE_NOT_FOUND") throw error
   }
 
   setupGlobalObservable()
