@@ -25,14 +25,14 @@ export default (): RequestHandler =>
 
       const responseTime = tokens["response-time"](req, res)
       if (responseTime) {
-        const millisecondResponseTime = parseFloat(responseTime)
+        const millisecondResponseTime = Number.parseFloat(responseTime)
         const seconds = millisecondResponseTime / 1000
         const time = seconds.toFixed(3)
 
         details.push(`${time}s`)
       }
 
-      const contentLength = parseFloat(tokens.res(req, res, "content-length") ?? "-1")
+      const contentLength = Number.parseFloat(tokens.res(req, res, "content-length") ?? "-1")
       if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)
 
       details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)

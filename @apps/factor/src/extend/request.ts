@@ -39,7 +39,7 @@ export const requestIndex = async ({
 
   const tag = params.tag ?? query.tag ?? ""
   const category = params.category ?? query.category ?? ""
-  const page = parseInt(params.page ?? query.page ?? 1)
+  const page = Number.parseInt(params.page ?? query.page ?? 1)
   const limit = 20
 
   await requestPostIndex({

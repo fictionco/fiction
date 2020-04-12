@@ -68,7 +68,7 @@ export default Vue.extend({
       return posts
     },
     page(this: any) {
-      return parseInt(this.$route.query.page) || 1
+      return Number.parseInt(this.$route.query.page) || 1
     }
   },
   watch: {

@@ -6,7 +6,7 @@ import { json } from "node-res"
 import { localhostUrl } from "@factor/api/url"
 import { BuildTypes } from "@factor/cli/types"
 import { installedExtensions } from "@factor/cli/extension-loader"
-import { parse } from "qs"
+
 import { emitEvent } from "@factor/api/events"
 import { deepMerge } from "@factor/api"
 import { getSettings } from "@factor/api/settings"
@@ -57,7 +57,7 @@ export const initializeLoading = (): express.Express => {
   app.use("/event", (request: express.Request) => {
     const { query, body } = request
 
-    const data = { ...body, ...parse(query) }
+    const data = { ...body, ...query }
 
     if (data.redirected) {
       delete loaderState.redirect
@@ -90,7 +90,7 @@ export const setLoadingError = (error: Error): void => {
   loaderState = {}
   loaderState.error = {
     description: error.toString(),
-    stack: parseStack(error.stack ?? "").join("\n")
+    stack: parseStack(error.stack ?? "").join("\n"),
   }
   loaderState.hasErrors = true
 
@@ -121,7 +121,7 @@ export const setLoadingStates = (
   build: BuildTypes,
   {
     progress,
-    message
+    message,
   }: {
     progress: number;
     message: string;

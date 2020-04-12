@@ -16,7 +16,7 @@ export const loadAndStoreJobsIndex = async (): Promise<void> => {
   const { params, query } = route
 
   const tag = params.tag ?? query.tag ?? ""
-  const page = parseInt(params.page ?? query.page ?? 1)
+  const page = Number.parseInt(params.page ?? query.page ?? 1)
   const limit = setting("jobs.limit")
 
   await requestPostIndex({

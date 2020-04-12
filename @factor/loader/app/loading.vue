@@ -10,9 +10,7 @@
         <h3 class="hasErrors">An error occured, please look at Factor terminal.</h3>
       </div>
       <div v-else-if="hasErrors && errorDescription" class="error-item">
-        <h3
-          class="hasErrors"
-        >An error occured, please see below or look at Factor terminal for more info.</h3>
+        <h3 class="hasErrors">An error occured, see output below or in your terminal.</h3>
         <div class="errorStack">
           <p class="hasErrors">{{ errorDescription }}</p>
           <p v-if="errorStack" class="pre">{{ errorStack }}</p>
@@ -199,8 +197,8 @@ export default {
     },
 
     canReload() {
-      this.reloadCount = parseInt(this.retrieveItem("reloadCount")) || 0
-      const lastReloadTime = parseInt(this.retrieveItem("lastReloadTime")) || 0
+      this.reloadCount = Number.parseInt(this.retrieveItem("reloadCount")) || 0
+      const lastReloadTime = Number.parseInt(this.retrieveItem("lastReloadTime")) || 0
 
       this.loadingTime = new Date().getTime()
       const canReload = this.reloadCount < this.maxReloadCount
@@ -294,7 +292,6 @@ h3 {
 }
 
 .hasErrors {
-  color: #ff005d;
   line-height: 1.4;
   font-weight: 700;
 }
@@ -305,12 +302,13 @@ h3 {
 
 .errorStack {
   padding: 1.5em;
-  border: 1px solid #0471ff;
   border-radius: 1em;
   background-color: #f6fafd;
+  box-shadow: 0 0 0 1px var(--color-text);
   margin: 1em 0;
   overflow: auto;
-  height: calc(~"100vh - 250px");
+  max-height: calc(~"100vh - 350px");
+  font-size: 0.9em;
 }
 
 p.pre {

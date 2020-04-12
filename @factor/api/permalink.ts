@@ -24,7 +24,7 @@ export const requestPermalinkVerify = async ({
 
     const matches = permalink.match(/\d+$/)
 
-    if (matches) num = parseInt(matches[0]) + 1
+    if (matches) num = Number.parseInt(matches[0]) + 1
 
     permalink = await requestPermalinkVerify({
       permalink: `${permalink.replace(/\d+$/, "")}${num}`,

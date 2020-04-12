@@ -47,25 +47,25 @@ import { fluidInput } from "../utils"
 export default Vue.extend({
   props: {
     customValidity: { type: String, default: "" },
-    value: { type: [String, Date, Number], default: "" }
+    value: { type: [String, Date, Number], default: "" },
   },
   data() {
     return {
       day: "",
       monthUser: "",
-      year: ""
+      year: "",
     }
   },
   computed: {
     listeners(this: any): any {
       return {
         ...this.$listeners,
-        input: e => {
+        input: (e) => {
           fluidInput(e, this.$refs.wrap)
         },
-        keydown: e => {
+        keydown: (e) => {
           fluidInput(e, this.$refs.wrap)
-        }
+        },
       }
     },
     required(this: any) {
@@ -79,14 +79,16 @@ export default Vue.extend({
       return this.monthUser + this.day + this.year
     },
     month(this: any): number | boolean {
-      return parseInt(this.monthUser) >= 1 ? parseInt(this.monthUser) : false
+      return Number.parseInt(this.monthUser) >= 1
+        ? Number.parseInt(this.monthUser)
+        : false
     },
     validity(this: any) {
       let valid = true
-      const day = parseInt(this.day)
-      const monthUser = parseInt(this.monthUser)
-      const year = parseInt(this.year)
-      if (isNaN(day) || isNaN(monthUser) || isNaN(year)) {
+      const day = Number.parseInt(this.day)
+      const monthUser = Number.parseInt(this.monthUser)
+      const year = Number.parseInt(this.year)
+      if (Number.isNaN(day) || Number.isNaN(monthUser) || Number.isNaN(year)) {
         valid = false
       } else if (day > 31 || day < 1) {
         valid = false
@@ -106,13 +108,13 @@ export default Vue.extend({
       }
       this.setValidity()
       return bd
-    }
+    },
   },
 
   mounted() {
     this.$watch(
       `value`,
-      function(this: any, v) {
+      function (this: any, v) {
         if (v && v != this.birthday) {
           const M = timeUtil(v)
 
@@ -123,11 +125,11 @@ export default Vue.extend({
       },
       { immediate: true }
     )
-    this.$watch("birthday", function(this: any) {
+    this.$watch("birthday", function (this: any) {
       this.$emit("dob", {
         month: this.monthUser,
         day: this.day,
-        year: this.year
+        year: this.year,
       })
       this.$emit("day", this.day)
       this.$emit("month", this.monthUser)
@@ -145,8 +147,8 @@ export default Vue.extend({
       }
 
       this.$emit("update:customValidity", customValidity)
-    }
-  }
+    },
+  },
 })
 </script>
 

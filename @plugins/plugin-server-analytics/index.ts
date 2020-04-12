@@ -3,7 +3,7 @@ import ua from "universal-analytics"
 import { setting } from "@factor/api/settings"
 import { EndpointRunningParams } from "@factor/endpoint/server"
 import { MiddlewarePathConfig } from "@factor/server/middleware"
-import { parse } from "qs"
+
 import { Request, Response } from "express"
 
 export const setup = (): void => {
@@ -31,7 +31,7 @@ export const setup = (): void => {
         const { method } = data
         visitor.event(`endpointRequest`, id, method).send()
         return _arguments
-      }
+      },
     })
   }
 
@@ -54,7 +54,7 @@ export const setup = (): void => {
 
             const { event = "ping", action = "No Action", label = "No Label" } = {
               ...body,
-              ...parse(query)
+              ...query,
             }
 
             const visitor = ua(trackingId)
@@ -62,12 +62,12 @@ export const setup = (): void => {
             visitor.event(event, action, label).send()
 
             response.send("sent").end()
-          }
-        ]
+          },
+        ],
       })
 
       return _
-    }
+    },
   })
 }
 

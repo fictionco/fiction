@@ -225,7 +225,7 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     order: order as IndexOrderBy,
     time: time as IndexTimeFrame,
     search,
-    page: parseInt(page),
+    page: Number.parseInt(page),
     limit,
     conditions: {
       source: setting("package.name")

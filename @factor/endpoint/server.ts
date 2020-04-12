@@ -5,14 +5,14 @@ import log from "@factor/api/logger"
 import { FactorUser, CurrentUserState } from "@factor/user/types"
 import { endpointPath } from "@factor/endpoint"
 import { getSinglePost } from "@factor/post/server"
-import { parse } from "qs"
+
 import createError, { HttpError } from "http-errors"
 import {
   EndpointItem,
   EndpointMeta,
   EndpointRequestConfig,
   EndpointRequestParams,
-  ResponseType
+  ResponseType,
 } from "./types"
 
 /**
@@ -110,13 +110,13 @@ export const runEndpointMethod = async (
 export const processEndpointRequest = async ({
   request,
   response,
-  handler
+  handler,
 }: EndpointRequestConfig): Promise<void> => {
   const { query, body, headers, url } = request
 
   const meta: EndpointMeta = { request, response, url }
 
-  const data = { ...body, ...parse(query) }
+  const data = { ...body, ...query }
 
   /**
    * Headers
@@ -139,10 +139,7 @@ export const processEndpointRequest = async ({
     log.error(error)
   }
 
-  response
-    .status(200)
-    .jsonp(responseJson)
-    .end()
+  response.status(200).jsonp(responseJson).end()
 
   return
 }
@@ -164,16 +161,16 @@ export const initializeEndpointServer = (): void => {
               return await processEndpointRequest({
                 request,
                 response,
-                handler: __ => runEndpointMethod({ ...__, id, handler })
+                handler: (__) => runEndpointMethod({ ...__, id, handler }),
               })
-            }
+            },
           ],
-          id
+          id,
         })
       })
 
       return _
-    }
+    },
   })
 }
 
@@ -182,7 +179,7 @@ export const setup = (): void => {
   addCallback({
     hook: "initialize-server",
     key: "addEndpoints",
-    callback: () => initializeEndpointServer()
+    callback: () => initializeEndpointServer(),
   })
 }
 

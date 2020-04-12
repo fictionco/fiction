@@ -43,7 +43,6 @@ module.exports = {
     "unicorn",
     "import",
     "jest",
-    "import",
     "@typescript-eslint",
     "cypress"
   ],

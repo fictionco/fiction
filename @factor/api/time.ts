@@ -5,7 +5,7 @@ dayjs.extend(relativeTime)
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 
 const _isNumber = (value: any): boolean => {
-  return !!(!isNaN(parseFloat(value)) && isFinite(value))
+  return !!(!Number.isNaN(Number.parseFloat(value)) && Number.isFinite(value))
 }
 
 export const isUnixTimestamp = (value: DateTypes): boolean => {
@@ -19,7 +19,7 @@ export const isUnixTimestamp = (value: DateTypes): boolean => {
 
 export const timeUtil = (time?: DateTypes): Dayjs => {
   if (time && isUnixTimestamp(time)) {
-    time = parseFloat(time.toString())
+    time = Number.parseFloat(time.toString())
     return dayjs.unix(time)
   } else {
     return dayjs(time)

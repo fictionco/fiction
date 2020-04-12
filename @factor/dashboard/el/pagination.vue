@@ -22,7 +22,7 @@ export default Vue.extend({
   },
   methods: {
     page(this: any, direction: string) {
-      const current: number = parseInt(this.pageCurrent)
+      const current: number = Number.parseInt(this.pageCurrent)
       let page
       if (direction == "next" && current !== this.pageCount) {
         page = current + 1

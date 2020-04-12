@@ -94,7 +94,7 @@ export const renderRequest = async (
       html = await renderRoute(request.url, renderer)
     }
 
-    const serverStatus = parseInt(process.env.factorServerStatus)
+    const serverStatus = Number.parseInt(process.env.factorServerStatus)
 
     response
       .status(serverStatus)
