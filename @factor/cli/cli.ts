@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-process-exit */
 import { buildProduction } from "@factor/build/webpack-config"
 
 import { generateLoaders } from "@factor/cli/extension-loader"
@@ -47,7 +48,7 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     install: true,
     clean: true,
     NODE_ENV: options.command == "dev" ? "development" : "production",
-    ...options
+    ...options,
   }
 
   const {
@@ -58,13 +59,19 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     PORT,
     NODE_ENV,
     skipVerifyDeps,
-    debug
+    debug,
   } = setup
 
   // Set environment again based on any changes made via CLI arguments
   setEnvironment({ NODE_ENV, PORT, debug, command })
 
-  await createServer({ port: PORT, openOnReady: true })
+  try {
+    await createServer({ port: PORT, openOnReady: true })
+  } catch (error) {
+    log.error(error)
+    process.exit(1)
+  }
+
   /**
    * Log initial server info
    */
@@ -95,14 +102,19 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     if (install && !skipVerifyDeps) {
       await bar.update({
         percent: 25,
-        msg: `checking dependencies with ${getCliExecutor()}`
+        msg: `checking dependencies with ${getCliExecutor()}`,
       })
 
       const verifyDepProcess = execa(getCliExecutor(), ["install"])
       await verifyDepProcess
 
       await bar.update({ percent: 55, msg: "generating files" })
-      generateLoaders(setup)
+      try {
+        generateLoaders(setup)
+      } catch (error) {
+        bar.stop()
+        log.error(error)
+      }
     }
 
     /**
@@ -166,7 +178,7 @@ const cleanArguments = (commanderArguments: CommanderArguments): Record<string, 
   const flat = { ...program, ...parent, ...rest }
 
   // Remove all keys starting with Capital letters or underscore
-  Object.keys(flat).forEach(k => {
+  Object.keys(flat).forEach((k) => {
     if (!k.startsWith("_")) {
       out[k] = flat[k]
     }
@@ -210,18 +222,20 @@ export const execute = (): void => {
     .option("--static", "use static file system for builds instead of memory")
     .option("--server", "server development mode - restart the server on file changes")
     .option("--skip-verify-deps", "Skip dependency check")
-    .action(_arguments => {
+    .action((_arguments) => {
       runCommand({
         command: "dev",
         ...cleanArguments(_arguments),
-        NODE_ENV: "development"
+        NODE_ENV: "development",
       })
     })
 
   commander
     .command("start")
     .description("Build and then serve production app.")
-    .action(_arguments => runCommand({ command: "start", ...cleanArguments(_arguments) }))
+    .action((_arguments) =>
+      runCommand({ command: "start", ...cleanArguments(_arguments) })
+    )
 
   commander
     .command("serve [NODE_ENV]")
@@ -231,7 +245,7 @@ export const execute = (): void => {
         command: "serve",
         ...cleanArguments(_arguments),
         install: false,
-        NODE_ENV
+        NODE_ENV,
       })
     )
 
@@ -240,7 +254,9 @@ export const execute = (): void => {
     .option("--analyze", "Analyze package size")
     .option("--speed", "Output build speed data")
     .description("Build production app")
-    .action(_arguments => runCommand({ command: "build", ...cleanArguments(_arguments) }))
+    .action((_arguments) =>
+      runCommand({ command: "build", ...cleanArguments(_arguments) })
+    )
 
   commander
     .command("setup [filter]")
@@ -250,7 +266,7 @@ export const execute = (): void => {
         command: "setup",
         filter,
         clean: false,
-        ...cleanArguments(_arguments)
+        ...cleanArguments(_arguments),
       })
     )
 
@@ -262,7 +278,7 @@ export const execute = (): void => {
         command: "run",
         filter,
         install: false,
-        ...cleanArguments(_arguments)
+        ...cleanArguments(_arguments),
       })
     )
 
@@ -270,7 +286,7 @@ export const execute = (): void => {
     .command("create-loaders")
     .option("--clean", "clean generated directories before creation")
     .description("Generate extension loaders")
-    .action(_arguments => generateLoaders(cleanArguments(_arguments)))
+    .action((_arguments) => generateLoaders(cleanArguments(_arguments)))
 
   try {
     commander.parse(process.argv)

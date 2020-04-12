@@ -12,7 +12,7 @@ import {
   LoadTargets,
   NormalizedLoadTarget,
   LoadTarget,
-  CommandOptions
+  CommandOptions,
 } from "./types"
 
 interface LoaderFile {
@@ -70,7 +70,7 @@ const getDirectory = ({
   name,
   isCwd,
   cwd,
-  main = ""
+  main = "",
 }: {
   name: string;
   main?: string;
@@ -100,7 +100,7 @@ const getDirectory = ({
 const getRequireBase = ({
   isCwd,
   name,
-  main = "package.json"
+  main = "package.json",
 }: {
   isCwd: boolean;
   name: string;
@@ -124,7 +124,7 @@ const getRequireBase = ({
 const getPriority = ({
   extend,
   priority,
-  isCwd
+  isCwd,
 }: {
   extend: ExtendTypes;
   priority?: number;
@@ -157,7 +157,7 @@ const makeModuleLoader = ({
   extensions,
   loadTarget,
   callback,
-  additional = []
+  additional = [],
 }: {
   extensions: FactorExtension[];
   loadTarget: LoadTargets;
@@ -169,7 +169,7 @@ const makeModuleLoader = ({
 
   const filtered = extensions.filter(({ load }) => load[loadTarget])
 
-  filtered.forEach(extension => {
+  filtered.forEach((extension) => {
     const { load, name, isCwd } = extension
 
     load[loadTarget].forEach(({ _id = "", file, priority = 100 }) => {
@@ -197,7 +197,7 @@ const makeFileLoader = ({
   filename,
   callback,
   cwd,
-  additional = []
+  additional = [],
 }: {
   extensions: FactorExtension[];
   filename: string;
@@ -208,7 +208,7 @@ const makeFileLoader = ({
 }): void => {
   const files: LoaderFile[] = []
 
-  extensions.forEach(_ => {
+  extensions.forEach((_) => {
     const { name, isCwd, _id, priority } = _
 
     const dir = getDirectory({ name, isCwd, cwd })
@@ -218,7 +218,7 @@ const makeFileLoader = ({
 
     glob
       .sync(fileGlob)
-      .filter(path => {
+      .filter((path) => {
         // Don't include anything inside of node_modules
         // this isn't very efficient since it searches them anyway, but couldn't make it work otherwise
         const sub = path.replace(dir, "")
@@ -233,10 +233,10 @@ const makeFileLoader = ({
           _id: index == 0 ? _id : `${_id}_${index}`,
           file: moduleName,
           path: fullPath,
-          priority
+          priority,
         }
       })
-      .forEach(lPath => {
+      .forEach((lPath) => {
         if (lPath) {
           files.push(lPath)
         }
@@ -265,11 +265,11 @@ const recursiveDependencies = (
   disabled = [...disabled, ...disable]
 
   Object.keys(d)
-    .map(_ => require(`${_}/package.json`))
-    .filter(_ => typeof _.factor != "undefined" || _.name.includes("factor"))
-    .forEach(_ => {
+    .map((_) => require(`${_}/package.json`))
+    .filter((_) => typeof _.factor != "undefined" || _.name.includes("factor"))
+    .forEach((_) => {
       // don't add if it's already there
-      if (!dependents.find(pkg => pkg.name == _.name)) {
+      if (!dependents.find((pkg) => pkg.name == _.name)) {
         dependents.push(_)
 
         if (!options?.shallow) {
@@ -295,7 +295,7 @@ const getId = ({
   name = "",
   main = "index",
   file = "",
-  isCwd = false
+  isCwd = false,
 }): string => {
   let __
   if (isCwd) {
@@ -304,7 +304,7 @@ const getId = ({
     __ = _id
   } else {
     const afterSlash = name.split(/plugin-|theme-|@factor/gi).pop() ?? "id"
-    __ = afterSlash.replace(/\//gi, "").replace(/-([a-z])/g, g => g[1].toUpperCase())
+    __ = afterSlash.replace(/\//gi, "").replace(/-([a-z])/g, (g) => g[1].toUpperCase())
   }
 
   // Add file specific ID to end
@@ -317,7 +317,7 @@ const getId = ({
 
 const writeFile = ({
   destination,
-  content
+  content,
 }: {
   destination: string;
   content: string;
@@ -328,7 +328,7 @@ const writeFile = ({
 
 export const makeEmptyLoaders = (): void => {
   const l = ["loader-server", "loader-app", "loader-styles", "loader-settings"]
-  l.forEach(pathId => {
+  l.forEach((pathId) => {
     const content = pathId == "loader-styles" ? "" : ``
     writeFile({ destination: getPath(pathId), content })
   })
@@ -353,7 +353,7 @@ const normalizeLoadTarget = ({
   load,
   main,
   _id,
-  isCwd
+  isCwd,
 }: {
   load: LoadTarget;
   main: string;
@@ -365,19 +365,19 @@ const normalizeLoadTarget = ({
   if (!load) return __
 
   if (Array.isArray(load)) {
-    load.forEach(t => {
+    load.forEach((t) => {
       __[t] = [{ file: main, _id }]
     })
   } else if (typeof load == "object") {
-    Object.keys(load).forEach(t => {
+    Object.keys(load).forEach((t) => {
       const val = load[t]
 
       if (!Array.isArray(val)) {
         __[t] = [
-          { file: join(nd(main), val), _id: getId({ _id, main, file: val, isCwd }) }
+          { file: join(nd(main), val), _id: getId({ _id, main, file: val, isCwd }) },
         ]
       } else {
-        __[t] = val.map(v => {
+        __[t] = val.map((v) => {
           return typeof v == "string"
             ? { file: join(nd(main), v), _id: getId({ _id, main, file: v, isCwd }) }
             : { ...v, file: join(nd(main), v.file) }
@@ -420,12 +420,12 @@ export const generateExtensionList = (
 ): FactorExtension[] => {
   const loader: FactorExtension[] = []
 
-  packagePaths.forEach(_ => {
+  packagePaths.forEach((_) => {
     const {
       name,
       factor: { priority = -1, load = [], extend = ExtendTypes.Plugin } = {},
       version,
-      main = "index"
+      main = "index",
     } = _
 
     let { factor: { _id = "" } = {} } = _
@@ -442,7 +442,7 @@ export const generateExtensionList = (
       priority: getPriority({ priority, name, extend, isCwd }),
       load: normalizeLoadTarget({ load, main, _id, isCwd }),
       isCwd,
-      _id
+      _id,
     })
   })
 
@@ -461,7 +461,7 @@ export const loadExtensions = (
 ): FactorExtension[] => {
   const { dependents, disabled } = recursiveDependencies([pkg], pkg, [], options)
 
-  const deps = dependents.filter(_ => !disabled.includes(_.name))
+  const deps = dependents.filter((_) => !disabled.includes(_.name))
 
   return generateExtensionList(deps, pkg)
 }
@@ -478,9 +478,43 @@ export const installedExtensions = (
   }
 ): { themes: string[]; plugins: string[] } => {
   const list = loadExtensions(pkg, options)
-  const themes: string[] = list.filter(item => item.extend == "theme").map(_ => _.name)
-  const plugins: string[] = list.filter(item => item.extend == "plugin").map(_ => _.name)
+  const themes: string[] = list
+    .filter((item) => item.extend == "theme")
+    .map((_) => _.name)
+  const plugins: string[] = list
+    .filter((item) => item.extend == "plugin")
+    .map((_) => _.name)
   return { themes, plugins }
+}
+
+/**
+ * Verify that the main files and loading setup from package.json resolves to actual files
+ * Without this check errors occur that don't hint to what is happening
+ * @param extensions - all factor extensions and app
+ */
+const verifyMainFiles = (extensions: FactorExtension[]): void | never => {
+  let mainFiles: string[] = []
+
+  extensions.forEach(({ load: { app, server }, name }) => {
+    [app, server].forEach((environment) => {
+      if (environment.length > 0) {
+        mainFiles.push(...environment.map((_) => `${name}/${_.file}`))
+      }
+    })
+  })
+
+  // remove duplicates
+  mainFiles = mainFiles.filter((item, index) => {
+    return mainFiles.indexOf(item) === index
+  })
+
+  mainFiles.forEach((fi) => {
+    try {
+      require.resolve(fi)
+    } catch (error) {
+      throw new Error(`There was a problem resolving a main file (${fi}).`)
+    }
+  })
 }
 
 /**
@@ -501,6 +535,8 @@ export const getExtensions = (cwd?: string): FactorExtension[] => {
 
     if (cwdPackage) {
       const extensions = loadExtensions(cwdPackage)
+
+      verifyMainFiles(extensions)
 
       __extensions[workingDirectory] = extensions
 
@@ -526,10 +562,10 @@ export const generateLoaders = (options?: CommandOptions): void => {
 
   const folders = {
     generated: resolve(workingDirectory, ".factor"),
-    distribution: resolve(workingDirectory, "dist")
+    distribution: resolve(workingDirectory, "dist"),
   }
 
-  Object.values(folders).forEach(folder => {
+  Object.values(folders).forEach((folder) => {
     if (clean) {
       fs.removeSync(folder)
     }
@@ -555,13 +591,10 @@ export const generateLoaders = (options?: CommandOptions): void => {
       }
 
       if (_filename) {
-        const filenameBase = _filename
-          .split(".")
-          .slice(0, -1)
-          .join(".")
+        const filenameBase = _filename.split(".").slice(0, -1).join(".")
 
         controls[target] = [
-          { _id: filenameBase, file: `./${filenameBase}`, priority: 800 }
+          { _id: filenameBase, file: `./${filenameBase}`, priority: 800 },
         ]
       }
     })
@@ -583,9 +616,9 @@ export const generateLoaders = (options?: CommandOptions): void => {
     callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-server", cwd),
-        content: loaderString(files)
+        content: loaderString(files),
       })
-    }
+    },
   })
 
   /**
@@ -598,7 +631,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
     cwd,
     callback: (files: LoaderFile[]) => {
       writeFile({ destination: getPath("loader-app", cwd), content: loaderString(files) })
-    }
+    },
   })
 
   /**
@@ -613,9 +646,9 @@ export const generateLoaders = (options?: CommandOptions): void => {
     callback: (files: LoaderFile[]) => {
       writeFile({
         destination: getPath("loader-settings", cwd),
-        content: loaderStringOrdered(files)
+        content: loaderStringOrdered(files),
       })
-    }
+    },
   })
 
   /**
@@ -628,11 +661,11 @@ export const generateLoaders = (options?: CommandOptions): void => {
     additional: controls[LoadTargets.Style],
     cwd,
     callback: (files: LoaderFile[]) => {
-      const imports = files.map(_ => `@import (less) "~${_.file}";`).join(`\n`)
+      const imports = files.map((_) => `@import (less) "~${_.file}";`).join(`\n`)
       const content = `${imports}`
 
       writeFile({ destination: getPath("loader-styles", cwd), content })
-    }
+    },
   })
 
   return
