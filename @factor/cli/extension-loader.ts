@@ -258,13 +258,11 @@ const recursiveDependencies = (
   disabled: string[],
   options?: { shallow?: true }
 ): { dependents: FactorPackageJson[]; disabled: string[] } => {
-  const { dependencies = {}, devDependencies = {}, factor: { disable = [] } = {} } = pkg
-
-  const d = { ...dependencies, ...devDependencies }
+  const { dependencies = {}, factor: { disable = [] } = {} } = pkg
 
   disabled = [...disabled, ...disable]
 
-  Object.keys(d)
+  Object.keys(dependencies)
     .map((_) => require(`${_}/package.json`))
     .filter((_) => typeof _.factor != "undefined" || _.name.includes("factor"))
     .forEach((_) => {
