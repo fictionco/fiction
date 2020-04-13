@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.5.23",
+  "version": "1.5.24",
   "license": "GPL-2.0",
   "description": "Zeno is a theme suited for the needs of SaaS and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
   "author": {
@@ -41,12 +41,12 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/core": "^1.5.23",
-    "@factor/plugin-blog": "^1.5.21",
-    "@factor/plugin-contact-form": "^1.5.12",
-    "@factor/plugin-highlight-code": "^1.5.18",
-    "@factor/plugin-notify": "^1.5.13",
-    "@factor/plugin-tailwind": "^1.5.12"
+    "@factor/core": "^1.5.24",
+    "@factor/plugin-blog": "^1.5.24",
+    "@factor/plugin-contact-form": "^1.5.24",
+    "@factor/plugin-highlight-code": "^1.5.24",
+    "@factor/plugin-notify": "^1.5.24",
+    "@factor/plugin-tailwind": "^1.5.24"
   },
   "keywords": [
     "technology",

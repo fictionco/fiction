@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-server-analytics",
   "description": "Analytics for your server and endpoints.",
-  "version": "1.5.21",
+  "version": "1.5.24",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
