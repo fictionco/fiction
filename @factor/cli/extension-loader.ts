@@ -90,6 +90,29 @@ const getDirectory = ({
 }
 
 /**
+ * Gets the path needed for node resolve taking into account main files and cwd
+ * @param name - package.json name
+ * @param isCwd - is the package the app?
+ * @param cwd - the working directory
+ * @param main - the main file
+ */
+const getResolver = ({
+  name,
+  isCwd,
+  cwd,
+  main = "package.json",
+}: {
+  name: string;
+  main?: string;
+  isCwd: boolean;
+  cwd?: string;
+}): string => {
+  const resolverRoot = isCwd ? getWorkingDirectory(cwd) : name
+
+  return `${resolverRoot}/${main}`
+}
+
+/**
  * Gets the base module require path
  * Follows the node format rather than path
  *
@@ -490,13 +513,22 @@ export const installedExtensions = (
  * Without this check errors occur that don't hint to what is happening
  * @param extensions - all factor extensions and app
  */
-const verifyMainFiles = (extensions: FactorExtension[]): void | never => {
+const verifyMainFiles = (extensions: FactorExtension[], cwd?: string): void | never => {
   let mainFiles: string[] = []
 
-  extensions.forEach(({ load: { app, server }, name }) => {
+  extensions.forEach(({ isCwd, load: { app, server }, name }) => {
     [app, server].forEach((environment) => {
       if (environment.length > 0) {
-        mainFiles.push(...environment.map((_) => `${name}/${_.file}`))
+        mainFiles.push(
+          ...environment.map((_) =>
+            getResolver({
+              name,
+              isCwd,
+              cwd,
+              main: _.file,
+            })
+          )
+        )
       }
     })
   })
@@ -534,7 +566,7 @@ export const getExtensions = (cwd?: string): FactorExtension[] => {
     if (cwdPackage) {
       const extensions = loadExtensions(cwdPackage)
 
-      verifyMainFiles(extensions)
+      verifyMainFiles(extensions, cwd)
 
       __extensions[workingDirectory] = extensions
 
