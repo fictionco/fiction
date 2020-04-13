@@ -32,7 +32,6 @@ export default class LoadingBar {
         hideCursor: true,
         clearOnComplete: true,
         format: `${colorize(`{bar}`)} {percentage}% {msg}`,
-        noTTYOutput: true,
       },
       cliProgress.Presets.shades_classic
     )

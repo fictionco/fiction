@@ -147,7 +147,11 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         logServerReady()
       }
 
-      if (process.env.NODE_ENV == "development" && openOnReady) {
+      if (
+        process.env.NODE_ENV == "development" &&
+        openOnReady &&
+        process.env.FACTOR_ENV !== "test"
+      ) {
         open(dashboardUrl())
       }
 

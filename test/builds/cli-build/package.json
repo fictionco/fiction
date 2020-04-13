@@ -6,7 +6,6 @@
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
-    "_id": "fictionApp",
     "load": [
       "app",
       "server"
