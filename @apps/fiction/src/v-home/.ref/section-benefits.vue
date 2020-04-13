@@ -3,7 +3,12 @@
     <div class="mast">
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#506677"
@@ -25,17 +30,19 @@
           Manage all your online and offline sales in one place with a single Stripe
           integration, simplifying reporting and reconciliation. Terminal works seamlessly
           with Stripe
-          <a
-            href="/payments"
-            class="common-link"
-          >Payments</a>,
+          <a href="/payments" class="common-link">Payments</a>,
           <a href="/connect" class="common-link">Connect</a>, and
           <a href="/billing" class="common-link">Billing</a>.
         </p>
       </div>
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#0496ff"
@@ -61,7 +68,12 @@
       </div>
       <div class="benefit">
         <figure class="benefit-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" viewBox="0 0 48 48">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48px"
+            height="48px"
+            viewBox="0 0 48 48"
+          >
             <g fill="none" fill-rule="evenodd">
               <path
                 fill="#0496ff"
@@ -82,10 +94,7 @@
         <p class="common-bodytext">
           Add in-person payments to your platform or marketplace. Using Stripe Terminal
           with
-          <a
-            href="/connect"
-            class="common-link"
-          >Connect</a>, you can onboard users for
+          <a href="/connect" class="common-link">Connect</a>, you can onboard users for
           online and in-person payments, and unify their payouts across channels.
         </p>
       </div>
@@ -94,7 +103,7 @@
 </template>
 <script>
 export default {
-  mounted() {}
+  mounted() {},
 }
 </script>
 <style lang="less">

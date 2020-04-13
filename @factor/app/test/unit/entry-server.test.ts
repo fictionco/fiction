@@ -8,7 +8,7 @@ const spies = {
   createApp: jest.spyOn(app, "createApp"),
   emitEvent: jest.spyOn(events, "emitEvent"),
   runCallbacks: jest.spyOn(filters, "runCallbacks"),
-  applyFilters: jest.spyOn(filters, "applyFilters")
+  applyFilters: jest.spyOn(filters, "applyFilters"),
 }
 
 let vm: Vue

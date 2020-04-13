@@ -6,24 +6,24 @@ import Vue from "vue"
 import { TemplateSetting } from "@factor/templates/types"
 
 export interface PostTypeConfig {
-  baseRoute?: string;
-  postType: string;
-  icon?: string;
-  model?: string;
-  nameIndex?: string;
-  nameSingle?: string;
-  namePlural?: string;
-  listTemplate?: () => Promise<Vue>;
-  editTemplate?: () => Promise<Vue>;
-  noAddNew?: boolean;
-  addNewText?: string;
-  accessLevel?: number;
-  hideAdmin?: boolean;
-  categories?: ListItem[];
-  customPermalink?: true | string;
-  permalink?: (p: any) => string;
-  templateSettings?: TemplateSetting[];
-  addSitemap?: true;
+  baseRoute?: string
+  postType: string
+  icon?: string
+  model?: string
+  nameIndex?: string
+  nameSingle?: string
+  namePlural?: string
+  listTemplate?: () => Promise<Vue>
+  editTemplate?: () => Promise<Vue>
+  noAddNew?: boolean
+  addNewText?: string
+  accessLevel?: number
+  hideAdmin?: boolean
+  categories?: ListItem[]
+  customPermalink?: true | string
+  permalink?: (p: any) => string
+  templateSettings?: TemplateSetting[]
+  addSitemap?: true
 }
 
 export const addPostType = (config: PostTypeConfig): void => {
@@ -42,21 +42,21 @@ export const postTypesConfig = (): PostTypeConfig[] => {
         return getPermalink({
           postType: post.postType,
           permalink: post.permalink,
-          root: false
+          root: false,
         })
       },
       baseRoute,
       nameIndex: label,
       nameSingle: label,
       namePlural: label,
-      ..._
+      ..._,
     }
   })
 }
 
 export const getPostTypeConfig = (postType: string): PostTypeConfig => {
-  const userConfig = postTypesConfig().find(pt => pt.postType == postType) || {
-    postType: "post"
+  const userConfig = postTypesConfig().find((pt) => pt.postType == postType) || {
+    postType: "post",
   }
 
   return userConfig

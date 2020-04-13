@@ -1,149 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+      name="viewport"
+    />
+    <title>Under Maintenance</title>
+    <style>
+      html,
+      body {
+        font-family: sans-serif;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        background-color: #ffffff;
+        height: 100%;
+        -webkit-font-smoothing: antialiased;
+      }
 
-<head>
-  <meta charset=utf-8>
-  <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
-    name=viewport>
-  <title>Under Maintenance</title>
-  <style>
-    html,
-    body {
-      font-family: sans-serif;
-      -ms-text-size-adjust: 100%;
-      -webkit-text-size-adjust: 100%;
-      background-color: #FFFFFF;
-      height: 100%;
-      -webkit-font-smoothing: antialiased;
-    }
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
+      .message {
+        text-align: center;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0px 20px;
+        max-width: 450px;
+      }
 
-    .message {
-      text-align: center;
-      align-self: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0px 20px;
-      max-width: 450px;
-    }
+      .message__title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 15px;
+        color: #47494e;
+        margin-bottom: 8px;
+      }
 
-    .message__title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-top: 15px;
-      color: #47494E;
-      margin-bottom: 8px;
-    }
+      p {
+        -webkit-margin-after: 0px;
+        -webkit-margin-before: 0px;
+        font-size: 15px;
+        color: #7f828b;
+        line-height: 21px;
+        margin-bottom: 4px;
+      }
 
-    p {
-      -webkit-margin-after: 0px;
-      -webkit-margin-before: 0px;
-      font-size: 15px;
-      color: #7F828B;
-      line-height: 21px;
-      margin-bottom: 4px;
-    }
+      .btn {
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        margin-top: 10px;
+        font-size: 14px;
+        color: #7f828b;
+        border: 1px solid #7f828b;
+      }
 
-    .btn {
-      text-decoration: none;
-      padding: 8px 15px;
-      border-radius: 4px;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #7F828B;
-      border: 1px solid #7F828B;
-    }
+      .hk-logo,
+      .app-icon {
+        fill: #dbe1ec;
+      }
 
-    .hk-logo,
-    .app-icon {
-      fill: #DBE1EC;
-    }
+      .info {
+        fill: #9fabbc;
+      }
 
-    .info {
-      fill: #9FABBC;
-    }
+      body.friendly {
+        background: -webkit-linear-gradient(-45deg, #8363a1 0%, #74a8c3 100%);
+        background: linear-gradient(135deg, #8363a1 0%, #74a8c3 100%);
+      }
 
-    body.friendly {
-      background: -webkit-linear-gradient(-45deg, #8363a1 0%, #74a8c3 100%);
-      background: linear-gradient(135deg, #8363a1 0%, #74a8c3 100%);
-    }
+      body.friendly .message__title {
+        color: #fff;
+      }
 
-    body.friendly .message__title {
-      color: #fff;
-    }
+      body.friendly p {
+        color: rgba(255, 255, 255, 0.6);
+      }
 
-    body.friendly p {
-      color: rgba(255, 255, 255, 0.6);
-    }
+      body.friendly .hk-logo,
+      body.friendly .app-icon {
+        fill: rgba(255, 255, 255, 0.9);
+      }
 
-    body.friendly .hk-logo,
-    body.friendly .app-icon {
-      fill: rgba(255, 255, 255, 0.9);
-    }
+      body.friendly .info {
+        fill: rgba(255, 255, 255, 0.9);
+      }
 
-    body.friendly .info {
-      fill: rgba(255, 255, 255, 0.9);
-    }
+      body.friendly .btn {
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
 
-    body.friendly .btn {
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-    }
+      .info_area {
+        position: fixed;
+        right: 12px;
+        bottom: 12px;
+      }
 
-    .info_area {
-      position: fixed;
-      right: 12px;
-      bottom: 12px;
-    }
+      .logo {
+        position: fixed;
+        left: 12px;
+        bottom: 12px;
+      }
 
-    .logo {
-      position: fixed;
-      left: 12px;
-      bottom: 12px;
-    }
+      code {
+        background: #313440;
+        border-radius: 4px;
+        padding: 2px 6px;
+        color: #d9dcef;
+      }
 
-    code {
-      background: #313440;
-      border-radius: 4px;
-      padding: 2px 6px;
-      color: #D9DCEF;
-    }
+      code span {
+        color: #d093e3;
+      }
 
-    code span {
-      color: #D093E3;
-    }
+      p a {
+        color: #408fec;
+        text-decoration: none;
+      }
+    </style>
+    <base target="_parent" />
+  </head>
 
-    p a {
-      color: #408fec;
-      text-decoration: none;
-    }
-  </style>
-  <base target=_parent />
-</head>
-
-<body>
-  <div class=spacer></div>
-  <div class=message>
-    <div class="icon">
-      <svg width="39" height="41" viewBox="0 0 39 41" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M33.307 40.5H16.5925C15.508 40.5 14.4866 40.0577 13.7194 39.2507L0.984092 25.8887C0.0213371 24.8811 -0.26336 23.3741 0.256049 22.0564C0.777632 20.7364 1.99248 19.8815 3.35512 19.8815H18.9613V3.51018C18.9613 2.0853 19.7741 0.810894 21.0303 0.263742C22.2668 -0.276572 23.7403 0.0312015 24.6857 1.02292L37.4275 14.3894C38.1947 15.1987 38.6163 16.268 38.6163 17.4033V34.9327C38.6141 38.0036 36.2344 40.5 33.307 40.5ZM17.2922 34.4768H32.8745V18.1306L24.7031 9.5585V25.9047H9.12078L17.2922 34.4768Z"
-          fill="#0471ff" />
-      </svg>
+  <body>
+    <div class="spacer"></div>
+    <div class="message">
+      <div class="icon">
+        <svg
+          width="39"
+          height="41"
+          viewBox="0 0 39 41"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M33.307 40.5H16.5925C15.508 40.5 14.4866 40.0577 13.7194 39.2507L0.984092 25.8887C0.0213371 24.8811 -0.26336 23.3741 0.256049 22.0564C0.777632 20.7364 1.99248 19.8815 3.35512 19.8815H18.9613V3.51018C18.9613 2.0853 19.7741 0.810894 21.0303 0.263742C22.2668 -0.276572 23.7403 0.0312015 24.6857 1.02292L37.4275 14.3894C38.1947 15.1987 38.6163 16.268 38.6163 17.4033V34.9327C38.6141 38.0036 36.2344 40.5 33.307 40.5ZM17.2922 34.4768H32.8745V18.1306L24.7031 9.5585V25.9047H9.12078L17.2922 34.4768Z"
+            fill="#0471ff"
+          />
+        </svg>
+      </div>
+      <div class="message__title">Under Maintenance</div>
+      <p>
+        Currently this site is being upgraded.<br />
+        <br /><a href="mailto:team@fiction.com">Contact Us &rarr;</a>
+      </p>
     </div>
-    <div class=message__title> Under Maintenance </div>
-    <p> Currently this site is being upgraded.<br /> <br /><a href="mailto:team@fiction.com">Contact Us &rarr;</a></p>
-  </div>
-
-</body>
-
+  </body>
 </html>

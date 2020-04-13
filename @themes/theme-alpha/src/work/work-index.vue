@@ -7,13 +7,20 @@
       :image="workHeroImage"
     >
       <template v-slot:hero-content>
-        <div v-if="workContent" v-formatted-text="workContent" class="content text-gray-600" />
+        <div
+          v-if="workContent"
+          v-formatted-text="workContent"
+          class="content text-gray-600"
+        />
       </template>
     </el-hero>
 
     <el-hero v-else-if="tag" :title="`Tag: ${tag}`">
       <template v-slot:hero-pretitle>
-        <component :is="setting('work.components.workReturnLink')" :post-type="postType" />
+        <component
+          :is="setting('work.components.workReturnLink')"
+          :post-type="postType"
+        />
       </template>
     </el-hero>
 
@@ -35,11 +42,16 @@
         </div>
         <div v-else class="posts-not-found">
           <div class="text">
-            <div class="font-normal tracking-tight text-2xl">{{ setting("work.notFound.title") }}</div>
+            <div class="font-normal tracking-tight text-2xl">
+              {{ setting("work.notFound.title") }}
+            </div>
             <div class="sub-title">{{ setting("work.notFound.subTitle") }}</div>
           </div>
         </div>
-        <component :is="setting('work.components.workPagination')" :post-type="postType" />
+        <component
+          :is="setting('work.components.workPagination')"
+          :post-type="postType"
+        />
       </div>
     </section>
 
@@ -57,7 +69,7 @@ export default Vue.extend({
     factorLink,
     factorIcon,
     "el-hero": () => import("../el/hero.vue"),
-    "el-cta": () => import("../el/cta.vue")
+    "el-cta": () => import("../el/cta.vue"),
   },
   data() {
     return {
@@ -66,7 +78,7 @@ export default Vue.extend({
       workPretitle: setting("work.pretitle"),
       workTitle: setting("work.title"),
       workContent: setting("work.content"),
-      workHeroImage: setting("work.heroImage")
+      workHeroImage: setting("work.heroImage"),
     }
   },
   metaInfo() {
@@ -79,7 +91,7 @@ export default Vue.extend({
     return {
       title,
       description,
-      image: setting("work.metatags.index.image")
+      image: setting("work.metatags.index.image"),
     }
   },
   serverPrefetch() {
@@ -101,14 +113,14 @@ export default Vue.extend({
     },
     returnLinkText() {
       return setting("work.returnLinkText") || "All Projects"
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -124,12 +136,12 @@ export default Vue.extend({
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: setting("work.limit")
+        limit: setting("work.limit"),
       })
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

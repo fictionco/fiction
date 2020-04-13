@@ -11,12 +11,12 @@ export default {
     metatags: {
       index: {
         title: "Fiction Jobs - Building Apps, Code, Remote Work",
-        description: "Fiction jobs."
-      }
+        description: "Fiction jobs.",
+      },
     },
     notFound: {
       title: "No Posts",
-      subTitle: "Couldn't find any job posts."
+      subTitle: "Couldn't find any job posts.",
     },
     layout: {
       index: ["featuredImage", "title", "meta", "synopsis"],
@@ -27,7 +27,7 @@ export default {
         "meta",
         "synopsis",
         "entry",
-        "cta"
+        "cta",
       ],
     },
     components: {
@@ -43,7 +43,7 @@ export default {
       pagination: (): Promise<Component> => import("./widget-pagination.vue"),
       entry: (): Promise<Component> => import("./widget-entry.vue"),
       excerpt: (): Promise<Component> => import("./widget-excerpt.vue"),
-      cta: (): Promise<Component> => import("./widget-cta.vue")
-    }
-  }
+      cta: (): Promise<Component> => import("./widget-cta.vue"),
+    },
+  },
 }

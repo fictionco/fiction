@@ -10,18 +10,18 @@ import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-clients": () => import("../el/clients.vue")
+    "el-clients": () => import("../el/clients.vue"),
   },
   data() {
     return {
       loading: true,
       section5: setting("about.clients"),
-      section5id: setting("about.clients.id")
+      section5id: setting("about.clients.id"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

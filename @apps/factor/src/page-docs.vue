@@ -26,14 +26,14 @@ export default Vue.extend({
     factorError404,
     "page-sidebar": () => import("./sidebar.vue"),
     "docs-footer": () => import("./el/el-docs-footer.vue"),
-    "docs-entry": () => import("./el/entry.vue")
+    "docs-entry": () => import("./el/entry.vue"),
   },
   data() {
     return {
       loading: true,
       toggle: true,
       clicked: false,
-      html: ""
+      html: "",
     }
   },
   async serverPrefetch() {
@@ -51,15 +51,15 @@ export default Vue.extend({
     },
     storeKey() {
       return this.doc || "docsHome"
-    }
+    },
   },
   watch: {
-    $route: function(this: any, to: Route, from: Route) {
+    $route: function (this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.toggleNav(false)
         this.setContent()
       }
-    }
+    },
   },
   mounted() {
     if (!this.docHtml) {
@@ -93,8 +93,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler, false)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

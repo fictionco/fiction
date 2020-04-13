@@ -36,12 +36,12 @@ export default Vue.extend({
   components: {
     factorLoadingRing,
     dashboardPane,
-    dashboardFooter: () => import("./footer.vue")
+    dashboardFooter: () => import("./footer.vue"),
   },
   props: {
     title: { type: String, default: "" },
-    loading: { type: Boolean, default: false }
-  }
+    loading: { type: Boolean, default: false },
+  },
 })
 </script>
 

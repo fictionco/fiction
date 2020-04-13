@@ -11,12 +11,12 @@ import { initLoader } from "@factor/loader"
 import { serveStatic } from "./util"
 import logger from "./logger"
 export interface MiddlewareHandler {
-  (request: Request, response: Response, next: NextFunction): void;
+  (request: Request, response: Response, next: NextFunction): void
 }
 
 export interface MiddlewarePathConfig {
-  path: string;
-  middleware: MiddlewareHandler[];
+  path: string
+  middleware: MiddlewareHandler[]
 }
 
 /**
@@ -28,11 +28,11 @@ export interface MiddlewarePathConfig {
 export const addMiddleware = ({
   path,
   middleware,
-  key
+  key,
 }: {
-  path: string | string[];
-  middleware: MiddlewareHandler[];
-  key?: string;
+  path: string | string[]
+  middleware: MiddlewareHandler[]
+  key?: string
 }): void => {
   const pathKey = typeof path == "string" ? path : path.join("")
   key = key ? key : pathKey
@@ -67,7 +67,7 @@ export const loadMiddleware = (app: Application, middleware = []): void => {
   // parse application/json
   app.use(bodyParser.json())
 
-  middleware.forEach(_ => app.use(_))
+  middleware.forEach((_) => app.use(_))
 
   const ware = applyFilters("middleware", [])
 

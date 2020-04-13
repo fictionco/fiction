@@ -5,7 +5,7 @@ import {
   slugify,
   postTypesConfig,
   pushToFilter,
-  currentUrl
+  currentUrl,
 } from "@factor/api"
 import { Component } from "vue"
 import { setting } from "@factor/api/settings"
@@ -61,12 +61,12 @@ export const setup = (): void => {
 
       _.push({
         path: "/admin",
-        redirect: defaultRoute
+        redirect: defaultRoute,
       })
 
       _.push({
         path: dashboardRoute,
-        redirect: defaultRoute
+        redirect: defaultRoute,
       })
 
       _.push({
@@ -77,14 +77,14 @@ export const setup = (): void => {
             path: "*",
             component: (): Promise<Component> => import("./vd-404.vue"),
             meta: { auth: true },
-            priority: 3000
-          }
+            priority: 3000,
+          },
         ]),
-        meta: { auth: true, format: "dashboard", ui: "dashboard" }
+        meta: { auth: true, format: "dashboard", ui: "dashboard" },
       })
 
       return _
-    }
+    },
   })
 
   pushToFilter({
@@ -92,8 +92,8 @@ export const setup = (): void => {
     hook: "dashboard-routes",
     item: {
       path: "site",
-      component: (): Promise<Component> => import("./v-frame.vue")
-    }
+      component: (): Promise<Component> => import("./v-frame.vue"),
+    },
   })
 
   addFilter({
@@ -111,13 +111,13 @@ export const setup = (): void => {
               const url = window?.factorFrame?.location ?? currentUrl()
 
               window.open(url, "_blank")
-            }
-          }
+            },
+          },
         })
       }
 
       return _
-    }
+    },
   })
 
   addFilter({
@@ -134,7 +134,7 @@ export const setup = (): void => {
             namePlural,
             icon = "",
             noAddNew = false,
-            addNewText = "Add New"
+            addNewText = "Add New",
           }) => {
             const subMenu: DashboardMenuItem[] = []
 
@@ -149,13 +149,13 @@ export const setup = (): void => {
               path: `posts/${postType}`,
               name: namePlural || toLabel(postType),
               icon,
-              items: applyFilters(`admin-menu-post-${postType}`, subMenu)
+              items: applyFilters(`admin-menu-post-${postType}`, subMenu),
             })
           }
         )
 
       return _
-    }
+    },
   })
 }
 

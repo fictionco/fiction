@@ -1,6 +1,16 @@
 <template>
-  <div ref="toggle" class="quick-menu toggle" :class="toggle? 'active': 'not-active'" @click.stop>
-    <div class="toggle-btn" :class="[toggleClass ]" data-test="menu-toggle" @click="setToggle()">
+  <div
+    ref="toggle"
+    class="quick-menu toggle"
+    :class="toggle ? 'active' : 'not-active'"
+    @click.stop
+  >
+    <div
+      class="toggle-btn"
+      :class="[toggleClass]"
+      data-test="menu-toggle"
+      @click="setToggle()"
+    >
       <slot v-if="$slots.default" />
       <factor-icon v-else icon="fas fa-ellipsis-h" />
     </div>
@@ -11,7 +21,9 @@
         class="toggle-item"
         :data-test="`menu-${action.value}`"
         @click.stop="sendEvent(action.value)"
-      >{{ action.name }}</div>
+      >
+        {{ action.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -26,19 +38,19 @@ export default Vue.extend({
     toggleClass: { type: String, default: "" },
     list: { type: Array, default: () => [] },
     dropDirection: { type: String, default: "down" },
-    itemKey: { type: [String, Number], default: "" }
+    itemKey: { type: [String, Number], default: "" },
   },
   data() {
     return {
       toggle: false,
       clickHandler: "",
-      el: false
+      el: false,
     }
   },
   computed: {
     ddClass(this: any) {
       return `drop-${this.dropDirection}`
-    }
+    },
   },
   mounted() {
     this.el = this.$refs.toggle
@@ -75,8 +87,8 @@ export default Vue.extend({
       } else {
         return false
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

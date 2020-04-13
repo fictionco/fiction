@@ -12,7 +12,7 @@ export const sendRequest = async <T>(
   const result = await endpointRequest<T>({
     id: endpointId,
     method,
-    params
+    params,
   })
 
   return result
@@ -30,9 +30,9 @@ export const getSingleCache = (name: string): FactorExtensionInfo => {
  * Gets the index of extensions, stores under post type
  */
 export const requestIndex = async ({
-  extensionType
+  extensionType,
 }: {
-  extensionType: "theme" | "plugin";
+  extensionType: "theme" | "plugin"
 }): Promise<void> => {
   const route = currentRoute()
   const { params, query } = route
@@ -51,14 +51,14 @@ export const requestIndex = async ({
     page,
     limit,
     status: PostStatus.Published,
-    conditions: { extensionType }
+    conditions: { extensionType },
   })
 }
 
 export const requestExtensionIndex = async ({
-  type
+  type,
 }: {
-  type: "plugin" | "theme";
+  type: "plugin" | "theme"
 }): Promise<FactorExtensionInfo[]> => {
   let data = getIndexCache(type)
 

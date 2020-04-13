@@ -25,13 +25,13 @@ export const setup = (): void => {
     children: [
       {
         path: basePath,
-        component: setting("docsEngine.components.home")
+        component: setting("docsEngine.components.home"),
       },
       {
         path: `${basePath}/:doc`,
-        component: setting("docsEngine.components.doc")
-      }
-    ]
+        component: setting("docsEngine.components.doc"),
+      },
+    ],
   })
 
   /**
@@ -45,11 +45,11 @@ export const setup = (): void => {
 
       return {
         _id: "docs",
-        items: routes.map(_ => {
+        items: routes.map((_) => {
           return { url: _ }
-        })
+        }),
       }
-    }
+    },
   })
 }
 

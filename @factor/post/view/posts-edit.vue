@@ -2,7 +2,9 @@
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
       <factor-link btn="default" :path="url">View</factor-link>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Update</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()"
+        >Update</factor-btn-dashboard
+      >
     </template>
     <template #primary>
       <dashboard-pane class="compose">
@@ -29,7 +31,11 @@
         />
 
         <dashboard-input v-if="postTypeConfig.customPermalink" label="Permalink">
-          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
+          <input-permalink
+            v-model="post.permalink"
+            :initial="post.title"
+            :post-type="postType"
+          />
         </dashboard-input>
         <dashboard-input
           v-model="post.synopsis"
@@ -65,7 +71,11 @@
           label="Post Images"
           @autosave="saveDraft()"
         />
-        <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
+        <dashboard-input
+          v-model="post.author"
+          input="dashboard-user-list"
+          label="Author"
+        />
         <dashboard-input
           v-model="post.source"
           input="factor-input-text"
@@ -85,7 +95,7 @@ import {
   factorBtnDashboard,
   factorLink,
   factorInputTags,
-  factorInputEditor
+  factorInputEditor,
 } from "@factor/ui"
 import {
   isEmpty,
@@ -95,7 +105,7 @@ import {
   timeUtil,
   storeItem,
   getPostTypeConfig,
-  PostTypeConfig
+  PostTypeConfig,
 } from "@factor/api"
 import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
@@ -112,7 +122,7 @@ export default Vue.extend({
     factorInputTags,
     factorInputEditor,
     factorClientOnly: () => import("vue-client-only"),
-    inputPermalink: () => import("../el/permalink.vue")
+    inputPermalink: () => import("../el/permalink.vue"),
   },
 
   data() {
@@ -124,12 +134,12 @@ export default Vue.extend({
       saveNeeded: false,
       willsave: null,
       settings: [],
-      reactivePost: {}
+      reactivePost: {},
     }
   },
   metaInfo() {
     return {
-      title: this.title
+      title: this.title,
     }
   },
   computed: {
@@ -139,7 +149,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
-      }
+      },
     },
 
     test(this: any) {
@@ -179,13 +189,13 @@ export default Vue.extend({
         !this.lastRevision.published &&
         this.post.revisions &&
         this.post.revisions.length > 0 &&
-        this.post.revisions.some(_ => _.published)
+        this.post.revisions.some((_) => _.published)
       ) {
         return true
       } else {
         return false
       }
-    }
+    },
   },
 
   methods: {
@@ -202,7 +212,7 @@ export default Vue.extend({
       try {
         saved = await requestPostSave({
           post: this.post,
-          postType: this.postType
+          postType: this.postType,
         })
       } catch (error) {
         this.sending = false
@@ -233,8 +243,8 @@ export default Vue.extend({
       this.sendingDraft = true
 
       this.sendingDraft = false
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

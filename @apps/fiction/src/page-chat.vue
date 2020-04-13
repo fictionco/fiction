@@ -37,9 +37,9 @@
             </div>
             <div class="sub-title">
               Add
-              <factor-link
-                path="https://fiction.page.link/discord"
-              >Fiction's chat server</factor-link>&nbsp; on Discord
+              <factor-link path="https://fiction.page.link/discord"
+                >Fiction's chat server</factor-link
+              >&nbsp; on Discord
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default Vue.extend({
       sending: false,
       form: {},
       sent: false,
-      formStatus: "unchecked"
+      formStatus: "unchecked",
     }
   },
   computed: {},
@@ -72,7 +72,7 @@ export default Vue.extend({
 
     this.$watch(
       "form",
-      function() {
+      function () {
         const v = this.$refs.form.$el.checkValidity()
 
         this.formStatus = v ? "valid" : "invalid"
@@ -84,10 +84,10 @@ export default Vue.extend({
     return {
       title: "Discord Chat Support",
       description: "Join Fiction's chat group on Discord.",
-      image: require("./img/fiction.jpg")
+      image: require("./img/fiction.jpg"),
     }
   },
-  methods: {}
+  methods: {},
 })
 </script>
 <style lang="less">

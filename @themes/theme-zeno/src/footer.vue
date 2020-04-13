@@ -1,7 +1,10 @@
 <template>
   <footer class="bg-purple-900 text-gray-200 p-8 lg:px-4">
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
-      <figure v-if="footerFigure" class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block">
+      <figure
+        v-if="footerFigure"
+        class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block"
+      >
         <img :src="footerFigure" :alt="footerFigureAlt" />
       </figure>
       <div>
@@ -47,7 +50,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
-    "site-brand": () => import("./el/brand.vue")
+    "site-brand": () => import("./el/brand.vue"),
   },
   data() {
     return {
@@ -57,14 +60,14 @@ export default Vue.extend({
       footerLeft: setting("footer.left"),
       footerRight: setting("footer.right"),
       footerFigure: setting("footer.figure"),
-      footerFigureAlt: setting("footer.figureAlt")
+      footerFigureAlt: setting("footer.figureAlt"),
     }
   },
   methods: {
     setting,
     currentyear(this: any) {
       return new Date().getFullYear()
-    }
-  }
+    },
+  },
 })
 </script>

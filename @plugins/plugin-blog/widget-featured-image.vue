@@ -6,7 +6,7 @@ import Vue from "vue"
 import { stored } from "@factor/api"
 export default Vue.extend({
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -20,12 +20,12 @@ export default Vue.extend({
     },
     style(this: any) {
       const style = {
-        backgroundImage: `url(${this.avatarUrl})`
+        backgroundImage: `url(${this.avatarUrl})`,
       }
 
       return style
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

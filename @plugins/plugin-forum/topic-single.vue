@@ -6,8 +6,10 @@
 
         <div class="text">
           <div class="text-header">
-            <h1 class="title">{{ excerpt(post.title, {length: 22}) }}</h1>
-            <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, {length: 22}) }}</h2>
+            <h1 class="title">{{ excerpt(post.title, { length: 22 }) }}</h1>
+            <h2 v-if="post.synopsis" class="synopsis">
+              {{ excerpt(post.synopsis, { length: 22 }) }}
+            </h2>
             <div v-if="post.pinned || post.locked" class="notes">
               <div v-if="post.locked" class="note locked">
                 <factor-icon icon="fas fa-lock" />Locked
@@ -27,7 +29,9 @@
         </div>
       </div>
       <div class="header-sub">
-        <div v-for="(cat, i) in post.category" :key="i" class="category">{{ toLabel(cat) }}</div>
+        <div v-for="(cat, i) in post.category" :key="i" class="category">
+          {{ toLabel(cat) }}
+        </div>
       </div>
     </div>
 
@@ -40,7 +44,7 @@
               v-for="(topicPost, index) in topicPosts"
               :key="index"
               class="tpost"
-              :class="highlight == topicPost._id ? 'highlight' : '' "
+              :class="highlight == topicPost._id ? 'highlight' : ''"
               :post-id="topicPost._id"
               :parent-id="post._id"
               @action="handleAction(topicPost, ...arguments)"
@@ -61,13 +65,12 @@
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
           </div>
-          <factor-btn
-            v-if="currentUser"
-            class="item"
-            btn="primary"
-            @click="focusReply()"
-          >Add Reply &darr;</factor-btn>
-          <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
+          <factor-btn v-if="currentUser" class="item" btn="primary" @click="focusReply()"
+            >Add Reply &darr;</factor-btn
+          >
+          <factor-link v-else event="sign-in-modal" class="item" btn="primary"
+            >Login to Reply &rarr;</factor-link
+          >
           <factor-btn
             v-if="currentUser"
             class="item"
@@ -79,7 +82,12 @@
             <span class="text normal">{{ subscribed ? "Subscribed" : "Subscribe" }}</span>
           </factor-btn>
 
-          <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
+          <factor-btn
+            v-if="canEditTopic"
+            class="item"
+            btn="default"
+            @click="editTopic(post)"
+          >
             <span class="text">Edit</span>
           </factor-btn>
         </div>
@@ -92,7 +100,10 @@
           :is="setting('forum.components.topicReply')"
           :post-id="post._id"
           :edit-id="editPost._id"
-          @done="vis = false; editPost = {}"
+          @done="
+            vis = false
+            editPost = {}
+          "
         />
       </div>
     </factor-modal>
@@ -108,7 +119,7 @@ import {
   factorBtn,
   factorIcon,
   factorModal,
-  factorLink
+  factorLink,
 } from "@factor/ui"
 import {
   isEmpty,
@@ -120,7 +131,7 @@ import {
   shareImage,
   toLabel,
   emitEvent,
-  onEvent
+  onEvent,
 } from "@factor/api"
 import Vue from "vue"
 import { currentUser, userCan, userInitialized } from "@factor/user"
@@ -131,7 +142,7 @@ import {
   PostActions,
   requestIsSubscribed,
   requestSetSubscribed,
-  requestEmbeddedPosts
+  requestEmbeddedPosts,
 } from "./request"
 
 export default Vue.extend({
@@ -142,7 +153,7 @@ export default Vue.extend({
     factorIcon,
     factorModal,
     factorLink,
-    factorLoadingRing
+    factorLoadingRing,
   },
   data() {
     return {
@@ -151,14 +162,14 @@ export default Vue.extend({
       highlight: "",
       subscribed: false,
       sending: false,
-      loading: true
+      loading: true,
     }
   },
   metaInfo() {
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
-      image: shareImage(this.post._id)
+      image: shareImage(this.post._id),
     }
   },
   async serverPrefetch() {
@@ -172,7 +183,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem("post", v)
-      }
+      },
     },
     embedded: {
       get(this: any): FactorPost {
@@ -180,7 +191,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem("embedded", v)
-      }
+      },
     },
     currentUser,
     canEditTopic(this: any): boolean {
@@ -199,15 +210,15 @@ export default Vue.extend({
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.loading = true
         this.getEmbeddedPosts()
-      }
-    }
+      },
+    },
   },
   async mounted() {
     onEvent("highlight-post", (_id: string) => {
@@ -239,7 +250,7 @@ export default Vue.extend({
       if (this.currentUser) {
         this.subscribed = await requestIsSubscribed({
           postId: this.post._id,
-          userId: this.currentUser._id
+          userId: this.currentUser._id,
         })
       }
     },
@@ -248,7 +259,7 @@ export default Vue.extend({
       this.subscribed = await requestSetSubscribed({
         subscribe,
         postId: this.post._id,
-        userId: this.currentUser._id
+        userId: this.currentUser._id,
       })
 
       this.sending = false
@@ -284,7 +295,7 @@ export default Vue.extend({
           action,
           value: value,
           post: topicPost,
-          parentId: this.post._id
+          parentId: this.post._id,
         })
 
         this.handleActionUi(action, topicPost)
@@ -307,8 +318,8 @@ export default Vue.extend({
       if (typeof subscribed != "undefined") {
         this.subscribed = subscribed
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

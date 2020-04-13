@@ -8,17 +8,17 @@ export default {
       disable: false,
       subject: (form: Record<string, any>): string => {
         return `Contact form submitted from ${form.name}`
-      }
+      },
     },
     submit: {
       btn: "app-btn factor-btn primary",
       size: "",
-      text: "Contact Us"
+      text: "Contact Us",
     },
     inputFormat: "horizontal",
     confirm: {
       title: "Got it!",
-      subTitle: "We’ll get back t o you as soon as possible."
+      subTitle: "We’ll get back t o you as soon as possible.",
     },
     layout: [
       {
@@ -28,7 +28,7 @@ export default {
         inputType: "text",
         inputClasses: "",
         placeholder: "Enter your name",
-        required: true
+        required: true,
       },
       {
         label: "Your Email",
@@ -37,7 +37,7 @@ export default {
         inputType: "email",
         inputClasses: "",
         placeholder: "Enter your email address",
-        required: true
+        required: true,
       },
       {
         label: "Phone",
@@ -45,7 +45,7 @@ export default {
         _id: "phone",
         inputType: "phone",
         inputClasses: "",
-        placeholder: "(xxx) xxx-xxxx"
+        placeholder: "(xxx) xxx-xxxx",
       },
       {
         label: "Website",
@@ -53,7 +53,7 @@ export default {
         _id: "website",
         inputType: "text",
         inputClasses: "",
-        placeholder: "http://www.example.com"
+        placeholder: "http://www.example.com",
       },
       {
         label: "Location",
@@ -61,7 +61,7 @@ export default {
         _id: "location",
         inputType: "text",
         inputClasses: "",
-        placeholder: "Enter your location"
+        placeholder: "Enter your location",
       },
 
       {
@@ -70,8 +70,8 @@ export default {
         _id: "message",
         inputType: "textarea",
         inputClasses: "",
-        placeholder: "Enter your message"
-      }
-    ]
-  }
+        placeholder: "Enter your message",
+      },
+    ],
+  },
 }

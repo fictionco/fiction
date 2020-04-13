@@ -8,16 +8,16 @@ import webpack, { Plugin } from "webpack"
 import { FactorExtension } from "@factor/cli/types"
 
 interface WebpackResource {
-  [key: string]: any;
-  request: string;
-  context: string;
+  [key: string]: any
+  request: string
+  context: string
 }
 
 /**
  * Gets the theme dependencies
  */
 const getThemes = (): FactorExtension[] => {
-  return getExtensions().filter(_ => _.extend == "theme")
+  return getExtensions().filter((_) => _.extend == "theme")
 }
 
 /**
@@ -99,10 +99,7 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
   const resolvedDirectory = dirname(resolvedFile)
   const filename = basename(resolvedFile)
 
-  const filenameRoot = filename
-    .split(".")
-    .slice(0, -1)
-    .join(".")
+  const filenameRoot = filename.split(".").slice(0, -1).join(".")
 
   const clientUtil = _fileExists(`${resolvedDirectory}/${filenameRoot}-browser`)
 
@@ -125,7 +122,7 @@ addFilter({
         : getPath("source", cwd)
 
     return { ..._, __THEME__: p }
-  }
+  },
 })
 
 /**
@@ -160,5 +157,5 @@ addFilter({
       )
     )
     return _
-  }
+  },
 })

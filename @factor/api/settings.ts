@@ -72,7 +72,7 @@ export const createSettings = (cwd?: string): void => {
 
   const settingsArray = applyFilters(
     "factor-settings",
-    settingsExports.map(_export => (typeof _export == "function" ? _export() : _export))
+    settingsExports.map((_export) => (typeof _export == "function" ? _export() : _export))
   )
 
   const merged = deepMerge([basic, ...settingsArray])
@@ -101,12 +101,12 @@ export const setup = (): void => {
   addCallback({
     hook: "before-server-plugins",
     callback: () => createSettings(),
-    key
+    key,
   })
   addCallback({
     hook: "before-app-plugins",
     callback: () => createSettings(),
-    key
+    key,
   })
 }
 

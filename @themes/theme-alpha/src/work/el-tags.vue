@@ -8,7 +8,8 @@
         class="entry-tag rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
         :path="setting('work.indexRoute')"
         :query="{ tag }"
-      >{{ tag }}</factor-link>
+        >{{ tag }}</factor-link
+      >
     </div>
   </div>
 </template>
@@ -19,7 +20,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -27,9 +28,9 @@ export default Vue.extend({
     },
     tags(this: any) {
       return this.post.tag || []
-    }
+    },
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 <style lang="less">

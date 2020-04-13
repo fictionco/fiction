@@ -12,13 +12,13 @@ export default Vue.extend({
   components: { factorBtn },
   inheritAttrs: false,
   props: {
-    el: { type: String, default: "" }
+    el: { type: String, default: "" },
   },
   computed: {
     btnComponent(this: any) {
       return this.el ? this.el : factorBtn
-    }
-  }
+    },
+  },
 })
 </script>
 

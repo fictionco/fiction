@@ -6,5 +6,5 @@ export default {
     jobApplyEmail: String,
     jobCompanyName: String,
     jobCompanyWebsite: String,
-  }
+  },
 }

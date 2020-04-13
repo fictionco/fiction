@@ -18,7 +18,9 @@
         placeholder="Enter tag"
         @keydown.prevent.enter="addTag($event)"
       />
-      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()">&rarr;</factor-btn>
+      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()"
+        >&rarr;</factor-btn
+      >
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
@@ -41,12 +43,12 @@ export default Vue.extend({
     value: { type: Array, default: () => [] },
     list: { type: Array, default: undefined }, // undefined by default
     min: { type: [Number, String], default: 0 },
-    max: { type: [Number, String], default: 10 }
+    max: { type: [Number, String], default: 10 },
   },
   data() {
     return {
       tags: [],
-      addedText: ""
+      addedText: "",
     }
   },
   computed: {
@@ -58,13 +60,13 @@ export default Vue.extend({
     },
     parsedList(this: any): ListItem[] {
       return this.list ? parseList(this.list) : []
-    }
+    },
   },
   mounted(this: any) {
     setTimeout(() => this.setValidity(), 500)
     this.$watch(
       "value",
-      function(this: any, v: string[]) {
+      function (this: any, v: string[]) {
         if (v && !isEqual(v, this.tags)) {
           this.tags = v
         }
@@ -107,8 +109,8 @@ export default Vue.extend({
     removeTag(this: any, index: number) {
       this.tags.splice(index, 1)
       this.$emit("input", this.tags)
-    }
-  }
+    },
+  },
 })
 </script>
 

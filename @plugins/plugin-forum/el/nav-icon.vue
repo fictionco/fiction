@@ -8,14 +8,14 @@
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      v-if="icon== 'plugin'"
+      v-if="icon == 'plugin'"
       transform="translate(6, 0)"
       d="M10 6V10.66L6.5 14.17V16H5.5V14.17L2 10.65V6H10ZM10 0H8V4H4V0H2V4H1.99C0.9 3.99 0 4.89 0 5.98V11.5L3.5 15V18H8.5V15L12 11.49V6C12 4.9 11.1 4 10 4V0Z"
       class="primary-color"
     />
 
     <path
-      v-else-if="icon== 'support'"
+      v-else-if="icon == 'support'"
       d="M11 23.59V19.99C5.99 19.73 2 15.57 2 10.5C2 5.26 6.26 1 11.5 1C16.74 1 21 5.26 21 10.5C21 15.45 17.56 20.43 12.43 22.9L11 23.59ZM11.5 3C7.36 3 4 6.36 4 10.5C4 14.64 7.36 18 11.5 18H13V20.3C16.64 18 19 14.22 19 10.5C19 6.36 15.64 3 11.5 3ZM10.5 14.5H12.5V16.5H10.5V14.5ZM12.5 13H10.5C10.5 9.75 13.5 10 13.5 8C13.5 6.9 12.6 6 11.5 6C10.4 6 9.5 6.9 9.5 8H7.5C7.5 5.79 9.29 4 11.5 4C13.71 4 15.5 5.79 15.5 8C15.5 10.5 12.5 10.75 12.5 13Z"
       class="primary-color"
     />
@@ -62,8 +62,8 @@ import Vue from "vue"
 
 export default Vue.extend({
   props: {
-    icon: { type: String, default: "" }
-  }
+    icon: { type: String, default: "" },
+  },
 })
 </script>
 

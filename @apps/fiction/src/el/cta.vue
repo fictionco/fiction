@@ -8,24 +8,23 @@
         </h1>
       </div>
       <div class="buttons">
-        <factor-btn
-          action="signinModal"
-          class="common-Button common-Button--default"
-        >Get Started</factor-btn>
+        <factor-btn action="signinModal" class="common-Button common-Button--default"
+          >Get Started</factor-btn
+        >
         <factor-btn path="/contact" class="common-Button">Contact Sales</factor-btn>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts"> 
+<script lang="ts">
 import { factorBtn } from "@factor/ui"
 import { isLoggedIn } from "@factor/user"
 import Vue from "vue"
 
 export default Vue.extend({
   components: { factorBtn },
-  methods: { isLoggedIn }
+  methods: { isLoggedIn },
 })
 </script>
 

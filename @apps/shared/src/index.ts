@@ -6,14 +6,14 @@ import {
   FactorUser,
   FactorUserCredential,
   AuthenticationParameters,
-  CurrentUserState
+  CurrentUserState,
 } from "@factor/user/types"
 
 interface AnalyticsEvent {
-  category: string;
-  action: string;
-  label?: string;
-  value?: number;
+  category: string
+  action: string
+  label?: string
+  value?: number
 }
 
 /**
@@ -22,27 +22,27 @@ interface AnalyticsEvent {
 const notifySlack = async ({
   pretext,
   title,
-  text
+  text,
 }: {
-  pretext: string;
-  title: string;
-  text: string;
+  pretext: string
+  title: string
+  text: string
 }): Promise<void> => {
   await axios.request({
     method: "post",
     url: process.env.SLACK_NOTIFY_URL,
-    data: { pretext, title, text }
+    data: { pretext, title, text },
   })
   return
 }
 
 enum ActiveCampaignList {
-  DevGroup = 2
+  DevGroup = 2,
 }
 
 enum ActiveCampaignStatus {
   Subscribed = 1,
-  Unsubscribed = 2
+  Unsubscribed = 2,
 }
 
 /**
@@ -50,17 +50,17 @@ enum ActiveCampaignStatus {
  * @param contact - contact info
  */
 const addOrUpdateActiveCampaignContact = async (contact: {
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string | number;
+  email: string
+  firstName?: string
+  lastName?: string
+  phone?: string | number
 }): Promise<void> => {
   const baseUrl = "https://fiction41560.api-us1.com/api/3"
   const { data } = await axios.request({
     url: `${baseUrl}/contact/sync`,
     method: "post",
     headers: { "Api-Token": process.env.ACTIVE_CAMPAIGN_KEY },
-    data: { contact }
+    data: { contact },
   })
 
   const contactId = data.contact?.id ?? false
@@ -74,9 +74,9 @@ const addOrUpdateActiveCampaignContact = async (contact: {
         contactList: {
           list: ActiveCampaignList.DevGroup,
           contact: contactId,
-          status: ActiveCampaignStatus.Subscribed
-        }
-      }
+          status: ActiveCampaignStatus.Subscribed,
+        },
+      },
     })
   }
 
@@ -97,7 +97,7 @@ const slack = async (): Promise<void> => {
       axios.request({
         method: "post",
         url: process.env.SLACK_NOTIFY_URL,
-        data: { text }
+        data: { text },
       })
     })
 
@@ -110,9 +110,9 @@ const slack = async (): Promise<void> => {
         notifySlack({
           pretext: `Email Sent to "${to}" from "${from}"`,
           title: subject,
-          text
+          text,
         })
-      }
+      },
     })
   }
 }
@@ -131,7 +131,7 @@ enum StandardFacebookEvents {
   Schedule = "Schedule",
   Search = "Search",
   StartTrial = "StartTrial",
-  CustomizeProduct = "CustomizeProduct"
+  CustomizeProduct = "CustomizeProduct",
 }
 
 const facebookStandardEvent = (event: StandardFacebookEvents): void => {
@@ -170,7 +170,7 @@ const identifyUser = (user: CurrentUserState): void => {
         $email: user.email,
         createdAt: user.createdAt,
         USER_ID: user._id,
-        emailVerified: user.emailVerified ?? false
+        emailVerified: user.emailVerified ?? false,
       })
     }
   }
@@ -227,7 +227,7 @@ const google = (): void => {
     analyticsEvent({
       category: "accountVerified",
       action: "accountVerified",
-      label: user.email
+      label: user.email,
     })
   })
 
@@ -237,7 +237,7 @@ const google = (): void => {
       analyticsEvent({
         category: "userInitialized",
         action: "userInitialized",
-        label: user.email
+        label: user.email,
       })
     }
   })
@@ -248,10 +248,10 @@ const google = (): void => {
     "userAuthenticated",
     ({
       user,
-      params
+      params,
     }: {
-      user: FactorUserCredential;
-      params: AuthenticationParameters;
+      user: FactorUserCredential
+      params: AuthenticationParameters
     }) => {
       if (user) {
         if (params.newAccount) {
@@ -260,14 +260,14 @@ const google = (): void => {
             category: "newAccount",
             action: "newAccount",
             label: user.email,
-            value: 5
+            value: 5,
           })
         } else {
           analyticsEvent({
             category: "returnUser",
             action: "loggedIn",
             label: user.email,
-            value: 1
+            value: 1,
           })
         }
       }

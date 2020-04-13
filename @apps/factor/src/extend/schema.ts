@@ -17,6 +17,6 @@ export default {
     featured: { type: Boolean },
     extensionAuthor: { type: String },
     icon: { type: String },
-    screenshots: { type: [String] }
-  }
+    screenshots: { type: [String] },
+  },
 }

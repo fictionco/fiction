@@ -32,7 +32,7 @@ import { addPageTemplate } from "@factor/templates"
 addPageTemplate({
   name: "My Landing Page",
   slug: "landing-page",
-  component: () => import("./tpl-landing-page")
+  component: () => import("./tpl-landing-page"),
 })
 ```
 
@@ -53,7 +53,7 @@ export default {
   computed: {
     post() {
       return stored("post") || {}
-    }
+    },
   },
   templateSettings() {
     return [
@@ -62,7 +62,7 @@ export default {
         label: "Heading",
         description: "Primary page heading",
         _id: "pageHeading",
-        default: "Landing Page Template"
+        default: "Landing Page Template",
       },
       {
         _id: "boxes",
@@ -75,17 +75,17 @@ export default {
             input: "text",
             label: "Heading",
             _id: "heading",
-            default: "Box"
+            default: "Box",
           },
           {
             input: "image-upload",
             label: "Icon",
-            _id: "icon"
-          }
-        ]
-      }
+            _id: "icon",
+          },
+        ],
+      },
     ]
-  }
+  },
   // ...other component code
 }
 ```

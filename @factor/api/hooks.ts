@@ -7,23 +7,23 @@ export type FilterCallbacks = Record<string, CallbackItem>
 type FilterRecord = Record<string, FilterCallbacks>
 
 interface HookItem {
-  hook: string;
-  key: string;
-  priority?: number;
+  hook: string
+  key: string
+  priority?: number
 }
 
 interface FilterItem extends HookItem {
-  callback: <F>(input: any, _arguments: any) => any;
+  callback: <F>(input: any, _arguments: any) => any
 }
 
 interface CallbackItem extends HookItem {
-  callback: Function;
+  callback: Function
 }
 
 interface GlobalFilterObject {
-  filters: FilterRecord;
-  applied: FilterRecord;
-  controllers: FilterRecord;
+  filters: FilterRecord
+  applied: FilterRecord
+  controllers: FilterRecord
 }
 
 /**
@@ -32,7 +32,7 @@ interface GlobalFilterObject {
  */
 declare module "vue/types/vue" {
   export interface VueConstructor {
-    $filters: GlobalFilterObject;
+    $filters: GlobalFilterObject
   }
 }
 
@@ -46,7 +46,7 @@ export const getGlobals = (): GlobalFilterObject => {
     Vue.$filters = {
       filters: {},
       applied: {},
-      controllers: {}
+      controllers: {},
     }
   }
 
@@ -71,7 +71,7 @@ export const getFilters = (
   // Allow for filter control using global in special cases
   // This allows special builds and multi-builds to control how filters are applied
   if (controllers && controllers[hook]) {
-    const controllerCbs = Object.values(controllers[hook]).map(_ => _.callback)
+    const controllerCbs = Object.values(controllers[hook]).map((_) => _.callback)
     for (const controller of controllerCbs) {
       const result = controller(hooks, ...rest)
       if (typeof result !== "undefined") {
@@ -95,7 +95,7 @@ const setFilter = ({
   hook,
   key,
   callback,
-  priority
+  priority,
 }: CallbackItem): Record<string, any> => {
   const { filters } = getGlobals()
   if (!filters[hook]) filters[hook] = {}
@@ -131,7 +131,7 @@ export const applyFilters = <U>(hook: string, data: U, ...rest: any[]): typeof d
 
   // Thread through filters if they exist
   if (_added && numFilters > 0) {
-    const _addedArray = filterKeys.map(key => _added[key])
+    const _addedArray = filterKeys.map((key) => _added[key])
     const _sorted = sortPriority(_addedArray)
 
     for (const element of _sorted) {
@@ -191,7 +191,7 @@ export const pushToFilter = <T>(options: HookItem & { item: T }): void => {
       item = typeof item == "function" ? item(...args) : item
 
       return [...input, item]
-    }
+    },
   })
 
   return
@@ -209,7 +209,7 @@ export const addCallback = (options: CallbackItem): void => {
 
   addFilter({
     ...rest,
-    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)]
+    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)],
   })
 
   return
@@ -253,7 +253,7 @@ const callerKey = (): string => {
     const line = error.stack
       .toString()
       .split("(")
-      .find(line => !line.match(/(filter|Error)/))
+      .find((line) => !line.match(/(filter|Error)/))
 
     if (line) {
       stacker = line.slice(0, Math.max(0, line.indexOf(":")))

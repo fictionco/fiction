@@ -11,7 +11,7 @@ import { onEvent } from "@factor/api"
 export default Vue.extend({
   data() {
     return {
-      loading: true
+      loading: true,
     }
   },
   mounted() {
@@ -20,7 +20,7 @@ export default Vue.extend({
 
       window.Prism.languages.bash = window.Prism.languages.extend("bash", {
         variable: /\b(?:start|build|serve|dev|run|setup)\b/,
-        function: /\b(?:yarn|npx|npm)\b/
+        function: /\b(?:yarn|npx|npm)\b/,
       })
     }
 
@@ -37,27 +37,27 @@ export default Vue.extend({
     script: [
       {
         vmid: "prism",
-        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/prism.min.js"
+        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/prism.min.js",
       },
       {
         vmid: "prism-bash",
-        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-bash.min.js"
+        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-bash.min.js",
       },
       {
         vmid: "prism-ts",
         src:
-          "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-typescript.min.js"
+          "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-typescript.min.js",
       },
       {
         vmid: "prism-json",
-        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-json.min.js"
+        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-json.min.js",
       },
       {
         vmid: "prism-autoload",
         src:
-          "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/plugins/autoloader/prism-autoloader.min.js"
-      }
-    ]
+          "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/plugins/autoloader/prism-autoloader.min.js",
+      },
+    ],
   },
   methods: {
     setPage(this: any) {
@@ -65,8 +65,8 @@ export default Vue.extend({
         // wait til content is done rendering
         this.prism.highlightAllUnder(this.$refs.code)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style src="./prism/theme-vscode.less" lang="less"></style>

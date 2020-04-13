@@ -4,7 +4,7 @@ export default {
   name: "forumTopic",
   permissions: {
     create: { accessLevel: 1 },
-    retrieve: { accessLevel: 0 }
+    retrieve: { accessLevel: 0 },
   },
   schema: {
     flagged: Boolean,
@@ -17,7 +17,7 @@ export default {
      */
     status: {
       default: PostStatus.Published,
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 }

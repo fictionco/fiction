@@ -47,8 +47,8 @@ export default {
   computed: {
     post() {
       return stored("post")
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -77,14 +77,14 @@ import { addPostSchema } from "@factor/api"
 
 addPostSchema({
   name: "post-type-name",
-  callback: schema => {
-    schema.pre("save", async function(next) {
+  callback: (schema) => {
+    schema.pre("save", async function (next) {
       next()
     }) // Mongoose hooks belong here.
   },
   schema: { example: { type: String, trim: true } },
   populatedFields: [{ field: "company", depth: 10 }],
-  options: {}
+  options: {},
 })
 ```
 

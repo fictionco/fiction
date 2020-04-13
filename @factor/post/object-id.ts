@@ -5,9 +5,9 @@ import { ObjectId } from "bson"
 Object.defineProperty(ObjectId.prototype, "_id", {
   enumerable: false,
   configurable: true,
-  get: function() {
+  get: function () {
     return this
-  }
+  },
 })
 
 // const objectIdSymbol = Symbol("mongoose#ObjectId")

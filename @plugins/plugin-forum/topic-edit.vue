@@ -5,9 +5,9 @@
       <div class="header-area">
         <component :is="setting('forum.components.navBack')" class="back" />
         <div class="title-area">
-          <h1
-            class="title"
-          >{{ setting(`forum.text.${isNew ? "newTopicHeader" : "editTopicHeader"}`) }}</h1>
+          <h1 class="title">
+            {{ setting(`forum.text.${isNew ? "newTopicHeader" : "editTopicHeader"}`) }}
+          </h1>
           <div class="header-actions">
             <factor-link v-if="!isNew" btn="default" class="item" :path="topicLink(post)">
               <span v-formatted-text="setting('forum.text.viewTopic')" />
@@ -71,7 +71,9 @@
           <div class="actions">
             <factor-btn class="item" btn="primary" :loading="sending" @click="submit()">
               <span
-                v-formatted-text="setting(`forum.text.${isNew ? 'postTopicButton' : 'editTopicButton'}`)"
+                v-formatted-text="
+                  setting(`forum.text.${isNew ? 'postTopicButton' : 'editTopicButton'}`)
+                "
               />
             </factor-btn>
           </div>
@@ -89,7 +91,7 @@ import {
   factorBtn,
   factorIcon,
   factorLoadingRing,
-  factorLink
+  factorLink,
 } from "@factor/ui"
 import { stored, storeItem } from "@factor/api"
 import { emitEvent } from "@factor/api/events"
@@ -104,13 +106,13 @@ export default Vue.extend({
     factorIcon,
     factorForm,
     factorLoadingRing,
-    factorLink
+    factorLink,
   },
   data() {
     return {
       form: {},
       sending: false,
-      loading: true
+      loading: true,
     }
   },
   metaInfo() {
@@ -128,11 +130,11 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
-      }
+      },
     },
     _id(this: any): string {
       return this.$route.query._id || ""
-    }
+    },
   },
   mounted() {
     this.requestPost()
@@ -172,7 +174,7 @@ export default Vue.extend({
         _id: this._id,
         postType,
         createOnEmpty: true,
-        depth: 100
+        depth: 100,
       })
 
       /**
@@ -181,13 +183,13 @@ export default Vue.extend({
        */
       if (post._id && this._id !== post._id) {
         this.$router.replace({
-          query: { ...this.$route.query, _id: post._id }
+          query: { ...this.$route.query, _id: post._id },
         })
       }
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

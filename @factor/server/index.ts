@@ -4,12 +4,12 @@ import {
   runCallbacks,
   applyFilters,
   setting,
-  getWorkingDirectory
+  getWorkingDirectory,
 } from "@factor/api"
 import {
   createBundleRenderer,
   BundleRenderer,
-  BundleRendererOptions
+  BundleRendererOptions,
 } from "vue-server-renderer"
 import open from "open"
 import { getPath } from "@factor/api/paths"
@@ -31,15 +31,15 @@ let __application: express.Express
 let __renderer: BundleRenderer // used for dev server updates
 
 export interface ServerOptions {
-  static?: true;
-  server?: true;
-  port?: string;
-  renderer?: BundleRenderer;
-  cwd?: string;
-  noReloadModules?: true;
-  path?: string;
-  logOnReady?: true;
-  openOnReady?: true;
+  static?: true
+  server?: true
+  port?: string
+  renderer?: BundleRenderer
+  cwd?: string
+  noReloadModules?: true
+  path?: string
+  logOnReady?: true
+  openOnReady?: true
 }
 
 /**
@@ -96,10 +96,7 @@ export const renderRequest = async (
 
     const serverStatus = Number.parseInt(process.env.factorServerStatus)
 
-    response
-      .status(serverStatus)
-      .send(html)
-      .end()
+    response.status(serverStatus).send(html).end()
   } catch (error) {
     handleServerError(request, response, error)
   }
@@ -144,7 +141,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
     return renderRequest(__renderer, request, response)
   })
 
-  await new Promise(resolve => {
+  await new Promise((resolve) => {
     __listening = __application.listen(process.env.PORT, () => {
       if (logOnReady) {
         logServerReady()
@@ -177,7 +174,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         await restartServer(options)
       }
-    }
+    },
   })
 }
 
@@ -211,7 +208,7 @@ export const restartServer = async (options: ServerOptions): Promise<void> => {
 export const htmlRenderer = ({
   bundle,
   template,
-  clientManifest
+  clientManifest,
 }: RendererComponents): BundleRenderer => {
   // Allow for changing default options when rendering
   // particularly important for testing
@@ -220,7 +217,7 @@ export const htmlRenderer = ({
     runInNewContext: false,
     directives: applyFilters("server-directives", {}),
     template,
-    clientManifest
+    clientManifest,
   })
 
   return createBundleRenderer(bundle, options)
@@ -235,13 +232,13 @@ export const appRenderer = (cwd?: string): BundleRenderer => {
   const paths = {
     template: resolveFilePath(rawTemplatePath),
     bundle: getPath("server-bundle", cwd),
-    clientManifest: getPath("client-manifest", cwd)
+    clientManifest: getPath("client-manifest", cwd),
   }
 
   const renderComponents = {
     template: fs.readFileSync(paths.template, "utf-8"),
     bundle: require(paths.bundle),
-    clientManifest: require(paths.clientManifest)
+    clientManifest: require(paths.clientManifest),
   }
 
   return htmlRenderer(renderComponents)
@@ -261,16 +258,16 @@ export const createRenderServer = async (
   const cwd = getWorkingDirectory(options.cwd)
 
   if (process.env.NODE_ENV == "development") {
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       developmentServer({
         cwd,
         fileSystem: options.static ? "static" : "memory",
         watchMode: options.server ? "server" : "app",
-        onReady: async renderConfig => {
+        onReady: async (renderConfig) => {
           __renderer = htmlRenderer(renderConfig)
 
           resolve(__renderer)
-        }
+        },
       })
     })
 
@@ -288,12 +285,12 @@ export const setup = (): void => {
   addCallback({
     key: "server",
     hook: "create-server",
-    callback: (_: ServerOptions) => createRenderServer(_)
+    callback: (_: ServerOptions) => createRenderServer(_),
   })
   addCallback({
     key: "server",
     hook: "close-server",
-    callback: () => closeServer()
+    callback: () => closeServer(),
   })
 }
 

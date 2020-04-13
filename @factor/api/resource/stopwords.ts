@@ -656,5 +656,5 @@ export default [
   "yourselves",
   "youve",
   "z",
-  "zero"
+  "zero",
 ]

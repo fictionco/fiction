@@ -25,19 +25,19 @@ export default Vue.extend({
     homeSection3: setting("home.section3.component"),
     homeSection4: setting("home.section4.component"),
     homeSection5: setting("home.section5.component"),
-    "el-cta": () => import("../el/cta.vue")
+    "el-cta": () => import("../el/cta.vue"),
   },
   data() {
     return {
       loading: true,
-      postType: "work"
+      postType: "work",
     }
   },
   metaInfo() {
     return {
       title: setting("home.metatags.title"),
       description: setting("home.metatags.description"),
-      image: setting("home.metatags.image")
+      image: setting("home.metatags.image"),
     }
   },
   computed: {
@@ -50,14 +50,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -73,15 +73,15 @@ export default Vue.extend({
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: setting("home.section3.limit")
+        limit: setting("home.section3.limit"),
       })
 
       this.loading = false
-    }
+    },
   },
   serverPrefetch() {
     return this.getPosts()
-  }
+  },
 })
 </script>
 

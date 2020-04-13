@@ -1,6 +1,6 @@
 export default {
   serverAnalytics: {
     trackingId: "",
-    trackEndpointHits: true
-  }
+    trackEndpointHits: true,
+  },
 }

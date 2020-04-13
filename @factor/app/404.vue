@@ -15,7 +15,7 @@ export default Vue.extend({
     return {
       title: `${this.errorText} Error`,
       description: `Looks like you've hit a ${this.errorText} error.`,
-      meta: [{ name: "robots", content: "noindex" }]
+      meta: [{ name: "robots", content: "noindex" }],
     }
   },
   computed: {
@@ -34,23 +34,23 @@ export default Vue.extend({
       if (this.$route.meta.error == 403) {
         out = {
           title: "403 Error",
-          subTitle: "You don't have permissions to access this page"
+          subTitle: "You don't have permissions to access this page",
         }
       } else {
         out = {
           title: "404 Error",
-          subTitle: "This page doesn't exist."
+          subTitle: "This page doesn't exist.",
         }
       }
 
       return out
-    }
+    },
   },
   created() {
     if (process) {
       process.env.factorServerStatus = "404"
     }
-  }
+  },
 })
 </script>
 

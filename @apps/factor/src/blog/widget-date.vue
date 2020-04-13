@@ -6,7 +6,7 @@ import { isEmpty, standardDate, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     postSet() {
@@ -14,14 +14,14 @@ export default Vue.extend({
     },
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     getPost(_id: any) {
       return stored(_id) || {}
     },
-    standardDate
-  }
+    standardDate,
+  },
 })
 </script>
 

@@ -15,5 +15,5 @@ export const extensions: ExtensionRecord = [
   { packageName: "@factor/plugin-contact-form" },
   { packageName: "@factor/theme-alpha" },
   { packageName: "@factor/theme-ultra" },
-  { packageName: "@factor/theme-zeno" }
+  { packageName: "@factor/theme-zeno" },
 ]

@@ -6,9 +6,10 @@
         <h2 class="title">Join the community</h2>
         <h3 class="sub-title">Take yourself to the next level</h3>
       </div>
-      <div
-        class="text"
-      >Factor is bringing together boldest and brightest to work on the future of web design and development.</div>
+      <div class="text">
+        Factor is bringing together boldest and brightest to work on the future of web
+        design and development.
+      </div>
       <div class="action">
         <factor-email-list list-id="alphaProgram" />
       </div>
@@ -19,7 +20,7 @@
 <script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 export default {
-  components: { factorEmailList, homeIcon: () => import("./icon.vue") }
+  components: { factorEmailList, homeIcon: () => import("./icon.vue") },
 }
 </script>
 

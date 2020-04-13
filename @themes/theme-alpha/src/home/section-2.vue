@@ -11,7 +11,9 @@
         </div>
         <div class="item-content">
           <h2 v-if="item.title" class="item-title">{{ item.title }}</h2>
-          <p v-if="item.content" class="item-description text-gray-600">{{ item.content }}</p>
+          <p v-if="item.content" class="item-description text-gray-600">
+            {{ item.content }}
+          </p>
         </div>
       </div>
     </div>
@@ -28,12 +30,12 @@ export default Vue.extend({
       section2id: setting("home.section2.id"),
       section2pretitle: setting("home.section2.pretitle"),
       section2title: setting("home.section2.title"),
-      section2items: setting("home.section2.items")
+      section2items: setting("home.section2.items"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

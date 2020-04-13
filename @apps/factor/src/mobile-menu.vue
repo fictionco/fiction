@@ -7,7 +7,7 @@
           v-for="menu in menus"
           :key="menu._id"
           class="menu-area"
-          :class="activeMenu[menu._id] ? 'active': ''"
+          :class="activeMenu[menu._id] ? 'active' : ''"
         >
           <div v-if="activeMenu[menu._id]" class="menu-items" @click="clickLink()">
             <div
@@ -43,18 +43,18 @@ import { config } from "./docs-handler"
 export default Vue.extend({
   components: {
     factorLink,
-    siteBrand: () => import("./el/brand.vue")
+    siteBrand: () => import("./el/brand.vue"),
   },
   data() {
     return {
       menus: {},
-      activeMenu: { docs: true, pages: true }
+      activeMenu: { docs: true, pages: true },
     }
   },
   computed: {
     nav() {
       return config()
-    }
+    },
   },
   mounted() {
     this.menus = [
@@ -65,26 +65,26 @@ export default Vue.extend({
           {
             event: "sign-in-modal",
             name: "Sign In &rarr;",
-            condition: (): boolean => !isLoggedIn()
+            condition: (): boolean => !isLoggedIn(),
           },
           {
             route: "/dashboard",
             name: "View Dashboard &rarr;",
-            condition: (): boolean => isLoggedIn()
+            condition: (): boolean => isLoggedIn(),
           },
 
           { route: "/install", name: "Get Started" },
           { route: "/themes", name: "Themes" },
           { route: "/plugins", name: "Plugins" },
           { route: "/docs", name: "Documentation" },
-          { component: () => import("./el/github-stars.vue") }
-        ]
-      }
+          { component: () => import("./el/github-stars.vue") },
+        ],
+      },
     ]
   },
   methods: {
     filteredMenu(items: any) {
-      return items.filter(item => {
+      return items.filter((item) => {
         const condition = item.condition ? item.condition() : true
 
         return condition
@@ -97,8 +97,8 @@ export default Vue.extend({
     toggleMenuArea(this: any, area: string) {
       const newValue = this.activeMenu[area] ? false : true
       this.$set(this.activeMenu, area, newValue)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

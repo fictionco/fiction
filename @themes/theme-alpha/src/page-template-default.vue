@@ -1,6 +1,6 @@
 <template>
   <div class="long-form">
-    <div :style="{textAlign: settings.headerAlignment || 'left'}">
+    <div :style="{ textAlign: settings.headerAlignment || 'left' }">
       <h1 class="title">{{ post.title }}</h1>
       <h3 class="subtitle">{{ post.subTitle }}</h3>
     </div>
@@ -24,7 +24,7 @@ export default Vue.extend({
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
-      image: shareImage(this.post._id)
+      image: shareImage(this.post._id),
     }
   },
   computed: {
@@ -33,7 +33,7 @@ export default Vue.extend({
     },
     settings(this: any) {
       return this.post.settings || {}
-    }
+    },
   },
   methods: { setting, renderMarkdown },
   templateSettings() {
@@ -44,10 +44,10 @@ export default Vue.extend({
         description: "Alignment of the page header",
         _id: "headerAlignment",
         list: ["left", "center", "right"],
-        default: "left"
-      }
+        default: "left",
+      },
     ]
-  }
+  },
 })
 </script>
 

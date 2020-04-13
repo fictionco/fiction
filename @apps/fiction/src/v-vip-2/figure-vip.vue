@@ -24,39 +24,39 @@ import { figureMixin } from "./utils"
 
 export default Vue.extend({
   components: {
-    "page-icon": () => import("./icon-vip.vue")
+    "page-icon": () => import("./icon-vip.vue"),
   },
   mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       vipicons: [
         {
-          icon: "seo"
+          icon: "seo",
         },
         {
-          icon: "design"
+          icon: "design",
         },
         {
-          icon: "dev"
+          icon: "dev",
         },
         {
-          icon: "node"
+          icon: "node",
         },
         {
-          icon: "github"
+          icon: "github",
         },
         {
-          icon: "infrastructure"
+          icon: "infrastructure",
         },
         {
-          icon: "support"
+          icon: "support",
         },
         {
-          icon: "cloud"
-        }
-      ]
+          icon: "cloud",
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 

@@ -10,18 +10,18 @@ export default Vue.extend({
   data() {
     return {
       appIFrame: "",
-      factorApp: undefined
+      factorApp: undefined,
     }
   },
   computed: {
     currentUrl,
     appEvents(this: any) {
       return this.factorApp?.events
-    }
+    },
   },
   metaInfo() {
     return {
-      title: "View Site"
+      title: "View Site",
     }
   },
   mounted(this: any) {
@@ -41,8 +41,8 @@ export default Vue.extend({
     },
     reload() {
       location.reload()
-    }
-  }
+    },
+  },
 })
 </script>
 

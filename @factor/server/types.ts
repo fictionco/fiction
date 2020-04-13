@@ -1,7 +1,7 @@
 export interface RendererComponents {
-  bundle: string;
-  template: string;
-  clientManifest: object;
+  bundle: string
+  template: string
+  clientManifest: object
 }
 
 declare module "fs" {

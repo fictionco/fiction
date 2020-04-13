@@ -2,15 +2,15 @@ import { Component } from "vue"
 
 export default {
   app: {
-    url: "https://www.fiction.com"
+    url: "https://www.fiction.com",
   },
   emailList: {
     alphaProgram: {
       tags: ["fiction-com"],
       form: {
-        buttonText: "Apply for Dev Program &rarr;"
-      }
-    }
+        buttonText: "Apply for Dev Program &rarr;",
+      },
+    },
   },
   blog: {
     indexRoute: "/blog",
@@ -21,13 +21,13 @@ export default {
       blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
       blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
       featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue")
+      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
     },
     layout: {
       index: ["title", "subtitle", "meta"],
       single: ["customSingleHeader", "meta", "entry", "social", "authorBio"],
-      meta: ["authorDate", "tags"]
-    }
+      meta: ["authorDate", "tags"],
+    },
   },
   jobs: {
     indexRoute: "/careers",
@@ -37,23 +37,23 @@ export default {
     metatags: {
       index: {
         title: "Fiction Jobs - Building Apps, Code, Remote Work",
-        description: "Fiction jobs."
-      }
+        description: "Fiction jobs.",
+      },
     },
     notFound: {
       title: "No Posts",
-      subTitle: "Couldn't find any job posts."
+      subTitle: "Couldn't find any job posts.",
     },
     layout: {
       index: ["featuredImage", "title", "synopsis"],
-      single: ["singleHeader", "entry", "cta"]
+      single: ["singleHeader", "entry", "cta"],
     },
     components: {
       jobsWrap: (): Promise<Component> => import("./jobs/wrap.vue"),
       jobsIndex: (): Promise<Component> => import("./jobs/index.vue"),
       jobsSingle: (): Promise<Component> => import("./jobs/single.vue"),
       singleHeader: (): Promise<Component> => import("./jobs/single-header.vue"),
-      cta: (): Promise<Component> => import("./jobs/cta.vue")
-    }
-  }
+      cta: (): Promise<Component> => import("./jobs/cta.vue"),
+    },
+  },
 }

@@ -18,7 +18,7 @@ export const setup = (): void => {
     addSitemap: true,
     permalink: (post: FactorPost): string => {
       return `${setting("forum.postRoute")}/${post._id}/${slugify(post.title)}`
-    }
+    },
   })
 
   addContentRoute({
@@ -28,34 +28,34 @@ export const setup = (): void => {
       {
         name: "forumIndex",
         path: "/",
-        component: setting("forum.components.forumIndex")
+        component: setting("forum.components.forumIndex"),
       },
 
       {
         name: "editTopic",
         path: "edit",
         component: setting("forum.components.topicEdit"),
-        meta: { auth: true }
+        meta: { auth: true },
       },
       {
         name: "addNewTopic",
         path: "add-new",
         component: setting("forum.components.topicEdit"),
-        meta: { auth: true }
+        meta: { auth: true },
       },
       {
         path: setting("forum.postRoute") ?? "",
-        component: setting("forum.components.topicSingle")
+        component: setting("forum.components.topicSingle"),
       },
       {
         path: `${setting("forum.postRoute")}/:_id`,
-        component: setting("forum.components.topicSingle")
+        component: setting("forum.components.topicSingle"),
       },
       {
         path: `${setting("forum.postRoute")}/:_id/:title`,
-        component: setting("forum.components.topicSingle")
-      }
-    ]
+        component: setting("forum.components.topicSingle"),
+      },
+    ],
   })
 }
 

@@ -1,5 +1,8 @@
 <template>
-  <div class="factor-extend" :class="$route.path.includes('plugin') ? 'plugin' : 'themes'">
+  <div
+    class="factor-extend"
+    :class="$route.path.includes('plugin') ? 'plugin' : 'themes'"
+  >
     <router-view />
   </div>
 </template>

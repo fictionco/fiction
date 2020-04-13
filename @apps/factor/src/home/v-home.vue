@@ -21,7 +21,9 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
+              <factor-link :path="feature.link.path"
+                >{{ feature.link.text }} &rarr;</factor-link
+              >
             </div>
           </div>
         </div>
@@ -41,13 +43,17 @@
             :key="index"
             :class="[
               index % 2 == 0 ? 'odd' : 'even',
-              index % 4 == 0 || index % 4 == 3 ? 'diagonal' : ''
+              index % 4 == 0 || index % 4 == 3 ? 'diagonal' : '',
             ]"
             itemprop="review"
             itemscope
             itemtype="http://schema.org/Review"
           >
-            <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Review">
+            <blockquote
+              itemprop="reviewRating"
+              itemscope
+              itemtype="http://schema.org/Review"
+            >
               <div class="quote-media">
                 <a class="quote-image" href="#">
                   <img :src="quote.img" alt="quote" />
@@ -74,7 +80,8 @@
                   itemprop="author"
                   itemscope
                   itemtype="https://schema.org/Person"
-                >{{ quote.attribution }}</a>
+                  >{{ quote.attribution }}</a
+                >
               </footer>
             </blockquote>
           </article>
@@ -96,7 +103,7 @@ export default Vue.extend({
     joinProgram: () => import("./el-join.vue"),
     homeSplash: () => import("./splash.vue"),
     homeIcon: () => import("./icon.vue"),
-    sectionBenefits: () => import("./section-benefits.vue")
+    sectionBenefits: () => import("./section-benefits.vue"),
   },
   data(this: any) {
     return {
@@ -110,7 +117,7 @@ export default Vue.extend({
             Stop worrying about lock-in and making the right choice. No more endlessly comparing new tools and techniques.
             Just trust Factor and get started building your app.`,
           figure: () => import("./figure-powered-by.vue"),
-          link: { path: "/docs/quickstart", text: "View Quickstart" }
+          link: { path: "/docs/quickstart", text: "View Quickstart" },
         },
         {
           icon: "ssr",
@@ -119,7 +126,7 @@ export default Vue.extend({
               It helps you build custom endpoints and easily optimize things for SEO,
              marketing, and performance.`,
           figure: () => import("./figure-live-changes.vue"),
-          link: { path: "/docs", text: "Try Factor" }
+          link: { path: "/docs", text: "Try Factor" },
         },
         {
           icon: "dashboard2",
@@ -128,7 +135,7 @@ export default Vue.extend({
             This tool was carefully crafted to give you maximum power with minimal bloat.
             It is simple but can be extended to handle the most complex tasks.`,
           figure: () => import("./figure-dashboard.vue"),
-          link: { path: "/docs", text: "Learn More" }
+          link: { path: "/docs", text: "Learn More" },
         },
         {
           id: "plugins-feature",
@@ -137,29 +144,29 @@ export default Vue.extend({
           text: `Most coding frameworks make you do way too much custom coding. Their plugins can take days to learn, install, and customize.
           Factor focuses on making plugins dead simple. This means they "just work," but can be easily customized.`,
           figure: () => import("./figure-plugins.vue"),
-          link: { path: "/plugins", text: "View Plugins" }
+          link: { path: "/plugins", text: "View Plugins" },
         },
         {
           title: "Save time with themes.",
           text: `Ever seen a theming system for JavaScript apps that you could work with? We hadn't either.
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
-          link: { path: "/themes", text: "View Themes" }
-        }
+          link: { path: "/themes", text: "View Themes" },
+        },
       ],
       quotes: [
         {
           text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
           attribution: "Justin Keller, CEO ElasticByte",
           img: require("./img/elastic-byte.svg"),
-          link: "https://www.elasticbyte.net"
+          link: "https://www.elasticbyte.net",
         },
         {
           text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
           attribution: "Nick Dryburgh, Relic Games co.",
-          img: require("./img/zeno.svg")
-        }
-      ]
+          img: require("./img/zeno.svg"),
+        },
+      ],
     }
   },
   mounted(this: any) {
@@ -172,9 +179,9 @@ export default Vue.extend({
     return {
       title: "JavaScript CMS and eCommerce Platform",
       description:
-        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript."
+        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
     }
-  }
+  },
 })
 </script>
 <style lang="less">

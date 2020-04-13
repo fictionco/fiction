@@ -6,12 +6,10 @@
       <factor-link path="/careers">Careers</factor-link>
       <template v-if="!loading">
         <factor-link v-if="isLoggedIn()" path="/dashboard" class="dashboard-link">
-          View Dashboard
-          &rarr;
+          View Dashboard &rarr;
         </factor-link>
         <factor-link v-else event="sign-in-modal" data-test="login">
-          Sign In
-          &rarr;
+          Sign In &rarr;
         </factor-link>
       </template>
     </site-head>
@@ -35,12 +33,12 @@ export default Vue.extend({
   components: {
     factorLink,
     "site-head": () => import("./site-head.vue"),
-    "content-footer": () => import("./site-footer.vue")
+    "content-footer": () => import("./site-footer.vue"),
   },
 
   metaInfo() {
     return {
-      titleTemplate: "%s - Fiction"
+      titleTemplate: "%s - Fiction",
     }
   },
 
@@ -64,7 +62,7 @@ export default Vue.extend({
       } else {
         return { background }
       }
-    }
+    },
   },
   async mounted() {
     await userInitialized()
@@ -75,8 +73,8 @@ export default Vue.extend({
     console: () => {
       return console
     },
-    isLoggedIn
-  }
+    isLoggedIn,
+  },
 })
 </script>
 

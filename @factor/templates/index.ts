@@ -5,7 +5,7 @@ import {
   applyFilters,
   setting,
   addPostType,
-  getPostTypeConfig
+  getPostTypeConfig,
 } from "@factor/api"
 import { addPostSchema } from "@factor/post/util"
 import { RouteConfig } from "vue-router"
@@ -23,8 +23,8 @@ export const getTemplateFields = async (
   const theComponent = await tpl.component()
   const {
     default: {
-      options: { templateSettings }
-    }
+      options: { templateSettings },
+    },
   } = theComponent
 
   return templateSettings ? templateSettings() : []
@@ -39,7 +39,7 @@ export const getPageTemplates = (): TemplateConfig[] => {
   return applyFilters("page-templates", _templates)
     .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
       // remove duplicates, favor the last
-      const lastIndexOf = self.map(_ => _.slug).lastIndexOf(page.slug)
+      const lastIndexOf = self.map((_) => _.slug).lastIndexOf(page.slug)
       return index === lastIndexOf
     })
     .map((_: TemplateConfig) => {
@@ -51,10 +51,10 @@ export const getPageTemplates = (): TemplateConfig[] => {
 export const getTemplate = async (templateId: string): Promise<TemplateConfig | {}> => {
   const _all = getPageTemplates()
 
-  let tpl = _all.find(_ => _.slug == templateId)
+  let tpl = _all.find((_) => _.slug == templateId)
 
   if (!tpl) {
-    tpl = _all.find(_ => _.slug == "")
+    tpl = _all.find((_) => _.slug == "")
   }
 
   if (!tpl) return {}
@@ -76,7 +76,7 @@ export const setup = (): void => {
     namePlural: "Pages",
     model: "Page",
     customPermalink: true,
-    addSitemap: true
+    addSitemap: true,
   })
 
   pushToFilter({
@@ -85,16 +85,16 @@ export const setup = (): void => {
     item: {
       postType: ["page"],
       name: "Page Template",
-      component: (): Promise<Component> => import("./page-select.vue")
-    }
+      component: (): Promise<Component> => import("./page-select.vue"),
+    },
   })
   pushToFilter({
     key: "pageTemplateSettings",
     hook: "post-edit-components",
     item: {
       name: "Template Settings",
-      component: (): Promise<Component> => import("./template-settings.vue")
-    }
+      component: (): Promise<Component> => import("./template-settings.vue"),
+    },
   })
 
   addFilter({
@@ -106,12 +106,12 @@ export const setup = (): void => {
       if (postType == "page" || config.templateSettings) {
         _.push({
           name: "Template Settings",
-          component: (): Promise<Component> => import("./template-settings.vue")
+          component: (): Promise<Component> => import("./template-settings.vue"),
         })
       }
 
       return _
-    }
+    },
   })
 
   addFilter({
@@ -121,7 +121,7 @@ export const setup = (): void => {
       _.unshift({ path: "/:permalink", component: () => import("./template.vue") })
 
       return _
-    }
+    },
   })
 }
 setup()

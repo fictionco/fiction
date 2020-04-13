@@ -5,8 +5,9 @@
       :key="tag"
       class="tag"
       :path="setting(`forum.indexRoute`)"
-      :query="{tag}"
-    >{{ tag }}</factor-link>
+      :query="{ tag }"
+      >{{ tag }}</factor-link
+    >
   </div>
 </template>
 <script lang="ts">
@@ -15,14 +16,14 @@ import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api/settings"
 export default Vue.extend({
   components: {
-    factorLink
+    factorLink,
   },
   props: {
-    tags: { type: Array, default: () => [] }
+    tags: { type: Array, default: () => [] },
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

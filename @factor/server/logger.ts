@@ -32,7 +32,9 @@ export default (): RequestHandler =>
         details.push(`${time}s`)
       }
 
-      const contentLength = Number.parseFloat(tokens.res(req, res, "content-length") ?? "-1")
+      const contentLength = Number.parseFloat(
+        tokens.res(req, res, "content-length") ?? "-1"
+      )
       if (contentLength) details.push(`Size: ${Math.round(contentLength / 1000)}kb`)
 
       details.push(`${tokens.method(req, res)}:${tokens.status(req, res)}`)
@@ -50,7 +52,7 @@ export default (): RequestHandler =>
       )}`
     },
     {
-      skip: request => {
+      skip: (request) => {
         if (isBuilding()) {
           return true
         }
@@ -68,6 +70,6 @@ export default (): RequestHandler =>
           url.match(/__webpack_hmr/gi)
           ? true
           : false
-      }
+      },
     }
   )

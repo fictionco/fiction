@@ -24,11 +24,11 @@ describe.posix("cli factor dev", () => {
       command: "dev",
       env: process.env,
       callback: (__process: ChildProcess) => {
-        __process.on("error", err => {
+        __process.on("error", (err) => {
           error = err
         })
       },
-      cwd: __dirname
+      cwd: __dirname,
     })
 
     const SECOND = 1000

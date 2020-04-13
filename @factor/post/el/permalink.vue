@@ -1,7 +1,10 @@
 <template>
   <div class="permalink" @click.stop>
     <div class="linky">
-      <factor-link class="linky-link" :path="value ? getPermalink({ postType, permalink }) : ''">
+      <factor-link
+        class="linky-link"
+        :path="value ? getPermalink({ postType, permalink }) : ''"
+      >
         <span class="root">{{ getPermalink({ postType }) }}</span>
         <span v-if="!toggleValue" class="permalink-value">
           <span class="val">{{ permalink }}</span>
@@ -13,8 +16,12 @@
       </span>
     </div>
     <div v-if="!toggleValue" class="edit-actions">
-      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()">Edit Permalink</factor-btn-dashboard>
-      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()">Update from Title</factor-btn-dashboard>
+      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()"
+        >Edit Permalink</factor-btn-dashboard
+      >
+      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()"
+        >Update from Title</factor-btn-dashboard
+      >
     </div>
   </div>
 </template>
@@ -29,12 +36,12 @@ export default Vue.extend({
     value: { type: String, default: "" },
     toggle: { type: Boolean, default: false },
     initial: { type: String, default: "" },
-    postType: { type: String, default: "" }
+    postType: { type: String, default: "" },
   },
   data() {
     return {
       tog: false,
-      actual: ""
+      actual: "",
     }
   },
   computed: {
@@ -53,16 +60,16 @@ export default Vue.extend({
     listeners(this: any) {
       return {
         ...this.$listeners,
-        input: (event: Event) => this.emit(event)
+        input: (event: Event) => this.emit(event),
       }
-    }
+    },
   },
   watch: {
-    lock: function(this: any, v: string) {
+    lock: function (this: any, v: string) {
       if (v) {
         this.emit(v)
       }
-    }
+    },
   },
   mounted() {
     onEvent("save-post", () => {
@@ -104,8 +111,8 @@ export default Vue.extend({
         this.updateToggle(false)
         document.removeEventListener("click", this.clickHandler, false)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

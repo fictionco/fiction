@@ -23,7 +23,7 @@ addCallback({
   key,
   hook: "ssr-context-callbacks",
   callback: ({ matchedComponents }: { matchedComponents: Component[] }) =>
-    matchedComponents.forEach((_: Component) => setRouteClass(_))
+    matchedComponents.forEach((_: Component) => setRouteClass(_)),
 })
 
 const manageClient = (): void => {
@@ -32,19 +32,19 @@ const manageClient = (): void => {
     hook: "client-route-after",
     callback: () => {
       getObservables().routeClass = []
-    }
+    },
   })
 
   Vue.mixin(
     Vue.extend({
       watch: {
         $route: {
-          handler: function(this: Component): void {
+          handler: function (this: Component): void {
             setRouteClass(this.$options)
           },
-          immediate: true
-        }
-      }
+          immediate: true,
+        },
+      },
     })
   )
 }
@@ -54,7 +54,7 @@ addFilter({
   hook: "before-app",
   callback: () => {
     if (process.env.FACTOR_BUILD_ENV !== "server") manageClient()
-  }
+  },
 })
 
 addFilter({
@@ -62,7 +62,7 @@ addFilter({
   hook: "register-global-observables",
   callback: (__: Record<string, any>) => {
     return { ...__, routeClass: [] }
-  }
+  },
 })
 
 pushToFilter({ key, hook: "observable-class-keys", item: "routeClass" })

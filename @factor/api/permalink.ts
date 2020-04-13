@@ -10,11 +10,11 @@ import { currentUrl } from "@factor/api/url"
 export const requestPermalinkVerify = async ({
   permalink,
   _id,
-  field = "permalink"
+  field = "permalink",
 }: {
-  permalink: string;
-  field: string;
-  _id: string;
+  permalink: string
+  field: string
+  _id: string
 }): Promise<string> => {
   const post = await requestPostSingle({ permalink, field })
 
@@ -29,18 +29,18 @@ export const requestPermalinkVerify = async ({
     permalink = await requestPermalinkVerify({
       permalink: `${permalink.replace(/\d+$/, "")}${num}`,
       _id,
-      field
+      field,
     })
   }
   return permalink
 }
 
 interface PermalinkComponents {
-  postType?: string;
-  permalink?: string;
-  root?: boolean;
-  path?: string;
-  title?: string;
+  postType?: string
+  permalink?: string
+  root?: boolean
+  path?: string
+  title?: string
 }
 
 export const getPermalink = (_arguments: PermalinkComponents): string => {

@@ -7,7 +7,7 @@
     x="0px"
     y="0px"
     viewBox="0 0 28 28"
-    style="enable-background:new 0 0 28 28;"
+    style="enable-background: new 0 0 28 28;"
     xml:space="preserve"
   >
     <path
@@ -26,4 +26,3 @@ export default Vue.extend({})
   fill: var(--color-text);
 }
 </style>
-

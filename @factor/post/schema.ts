@@ -21,7 +21,7 @@ export default (): FactorSchema => {
       retrieve: {
         accessLevel: 100,
         accessPublished: 0,
-        accessAuthor: true
+        accessAuthor: true,
       },
       update: { accessLevel: 100, accessAuthor: true },
       delete: { accessLevel: 200, accessAuthor: true },
@@ -29,8 +29,8 @@ export default (): FactorSchema => {
         create: { accessLevel: 1 },
         retrieve: { accessLevel: 0 },
         update: { accessLevel: 100, accessAuthor: true },
-        delete: { accessLevel: 100, accessAuthor: true }
-      }
+        delete: { accessLevel: 100, accessAuthor: true },
+      },
     },
 
     /**
@@ -47,7 +47,7 @@ export default (): FactorSchema => {
     populatedFields: applyFilters("post-populated-fields", [
       { field: "author", depth: 10, context: "list" },
       { field: "images", depth: 10, context: "single" },
-      { field: "avatar", depth: 3, context: "any" }
+      { field: "avatar", depth: 3, context: "any" },
     ]),
     schema: applyFilters("post-schema", {
       postType: { type: String, index: true, sparse: true },
@@ -83,7 +83,7 @@ export default (): FactorSchema => {
         type: String,
         enum: Object.values(PostStatus),
         index: true,
-        default: PostStatus.Draft
+        default: PostStatus.Draft,
       },
       /**
        * Provides a shorter unique identifier, also
@@ -92,19 +92,19 @@ export default (): FactorSchema => {
       uniqueId: {
         type: String,
         trim: true,
-        index: { unique: true, sparse: true }
+        index: { unique: true, sparse: true },
       },
       permalink: {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
         minlength: 3,
-        validator: function(v: string): boolean {
+        validator: function (v: string): boolean {
           return /^[\d-az-]+$/.test(v)
         },
         message: (props: { value: string }): string =>
-          `permalink ${props.value} is not URL compatible.`
-      }
+          `permalink ${props.value} is not URL compatible.`,
+      },
     }),
     callback: (postSchema: Schema): void => {
       /**
@@ -115,10 +115,10 @@ export default (): FactorSchema => {
         content: "text",
         username: "text",
         "embedded.$.title": "text",
-        "embedded.$.content": "text"
+        "embedded.$.content": "text",
       })
 
-      postSchema.pre("save", function(this: FactorPost & Document, next) {
+      postSchema.pre("save", function (this: FactorPost & Document, next) {
         // apparently mongoose can't detect change to object keys
         this.markModified("settings")
 
@@ -130,6 +130,6 @@ export default (): FactorSchema => {
         this.postType = this.get("__t") || "post"
         next()
       })
-    }
+    },
   }
 }

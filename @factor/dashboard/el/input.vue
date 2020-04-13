@@ -8,7 +8,7 @@ import { factorInputWrap } from "@factor/ui"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorInputWrap }
+  components: { factorInputWrap },
 })
 </script>
 

@@ -46,7 +46,7 @@ export default Vue.extend({
   components: {
     factorLink,
     "site-brand": () => import("./el/brand.vue"),
-    "factor-logo-icon": () => import("./el/factor.vue")
+    "factor-logo-icon": () => import("./el/factor.vue"),
   },
   data() {
     return {
@@ -54,15 +54,15 @@ export default Vue.extend({
       showMobileMenu: false,
       siteNav: setting("site.nav"),
       selected: "",
-      siteCopyright: setting("site.copyright")
+      siteCopyright: setting("site.copyright"),
     }
   },
-  mounted: function() {
+  mounted: function () {
     // Make sure intersection observer is available
     if (IntersectionObserver) {
       for (const ele of this.siteNav) {
         const observer = new IntersectionObserver(
-          entries => {
+          (entries) => {
             if (entries[0].isIntersecting) {
               this.selected = ele.path //`#${entries[0].target.id}`
 
@@ -89,8 +89,8 @@ export default Vue.extend({
     },
     currentyear(this: any) {
       return new Date().getFullYear()
-    }
-  }
+    },
+  },
 })
 </script>
 

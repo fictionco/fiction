@@ -4,7 +4,8 @@
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{ _id: post._id }"
-  >{{ editText }} &rarr;</factor-link>
+    >{{ editText }} &rarr;</factor-link
+  >
 </template>
 
 <script lang="ts">
@@ -16,11 +17,11 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   data() {
     return {
-      factorBtn
+      factorBtn,
     }
   },
 
@@ -45,7 +46,7 @@ export default Vue.extend({
     },
     canEdit(this: any) {
       return this.accessLevel > 100 || this.author.includes(userId())
-    }
-  }
+    },
+  },
 })
 </script>

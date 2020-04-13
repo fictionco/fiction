@@ -1,6 +1,10 @@
 <template>
   <div class="mobile-nav-toggle-wrap" @click.stop>
-    <div class="mobile-nav-toggle" :class="vis ? 'active' : 'inactive'" @click="toggleNav()">
+    <div
+      class="mobile-nav-toggle"
+      :class="vis ? 'active' : 'inactive'"
+      @click="toggleNav()"
+    >
       <factor-avatar :user="getUser()" />
 
       <div class="bars">
@@ -20,11 +24,11 @@ import { currentUser } from "@factor/user"
 export default Vue.extend({
   components: { factorAvatar },
   props: {
-    vis: { type: Boolean, default: false }
+    vis: { type: Boolean, default: false },
   },
   data() {
     return {
-      active: ""
+      active: "",
     }
   },
   computed: { currentUser },
@@ -61,8 +65,8 @@ export default Vue.extend({
           document.removeEventListener("click", this.clickHandler)
         }
       }, 100)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

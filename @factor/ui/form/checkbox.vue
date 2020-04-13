@@ -10,12 +10,12 @@ import Vue from "vue"
 export default Vue.extend({
   props: {
     value: { type: [String, Boolean, Array], default: false },
-    label: { type: String, default: "" }
+    label: { type: String, default: "" },
   },
 
   data() {
     return {
-      val: false
+      val: false,
     }
   },
   computed: {
@@ -24,10 +24,10 @@ export default Vue.extend({
         ...this.$listeners,
         input: (event: Event & { target: HTMLInputElement }) => {
           this.$emit("change", event.target.value)
-        }
+        },
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less"></style>

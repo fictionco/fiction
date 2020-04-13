@@ -1,7 +1,9 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Update</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()"
+        >Update</factor-btn-dashboard
+      >
     </template>
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">
@@ -54,7 +56,8 @@
               btn="primary"
               :loading="sending"
               @click="sendVerifyEmail()"
-            >Unverified - Resend Email &rarr;</factor-btn-dashboard>
+              >Unverified - Resend Email &rarr;</factor-btn-dashboard
+            >
           </div>
         </dashboard-input>
 
@@ -75,7 +78,11 @@
     </template>
     <template #secondary>
       <dashboard-pane title="Profile" class="inputs">
-        <dashboard-input v-model="post.about" input="factor-input-textarea" label="About You" />
+        <dashboard-input
+          v-model="post.about"
+          input="factor-input-textarea"
+          label="About You"
+        />
         <dashboard-input
           v-model="post.birthday"
           input="factor-input-birthday"
@@ -118,13 +125,13 @@ export default Vue.extend({
     dashboardPage,
     dashboardPane,
     dashboardInput,
-    factorBtnDashboard
+    factorBtnDashboard,
   },
   data() {
     return {
       sending: false,
       loading: false,
-      postType: "user"
+      postType: "user",
     }
   },
   computed: {
@@ -134,7 +141,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
-      }
+      },
     },
 
     profile(this: any) {
@@ -145,7 +152,7 @@ export default Vue.extend({
     },
     url(this: any) {
       return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
-    }
+    },
   },
 
   methods: {
@@ -155,7 +162,7 @@ export default Vue.extend({
       this.sending = true
       await sendVerifyEmail({
         email: this.post.email,
-        _id: this.post._id
+        _id: this.post._id,
       })
       this.sending = false
     },
@@ -165,7 +172,7 @@ export default Vue.extend({
       try {
         const saved = await requestPostSave({
           post: this.post,
-          postType: this.postType
+          postType: this.postType,
         })
         if (saved) {
           this.post = saved
@@ -177,8 +184,8 @@ export default Vue.extend({
       }
 
       this.sending = false
-    }
-  }
+    },
+  },
 })
 </script>
 

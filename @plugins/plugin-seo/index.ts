@@ -9,8 +9,8 @@ export const setup = (): void => {
     hook: "post-edit-components",
     item: {
       name: "SEO and Sharing",
-      component: (): Promise<Component> => import("./seo-panel.vue")
-    }
+      component: (): Promise<Component> => import("./seo-panel.vue"),
+    },
   })
 
   addFilter({
@@ -21,15 +21,15 @@ export const setup = (): void => {
         ..._,
         titleTag: { type: String, trim: true },
         descriptionTag: { type: String, trim: true },
-        shareImage: { type: objectIdType(), ref: "attachment" }
+        shareImage: { type: objectIdType(), ref: "attachment" },
       }
-    }
+    },
   })
 
   pushToFilter({
     key: "shareImage",
     hook: "post-populated-fields",
-    item: { field: "shareImage", depth: 20 }
+    item: { field: "shareImage", depth: 20 },
   })
 }
 setup()

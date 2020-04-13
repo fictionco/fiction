@@ -7,22 +7,22 @@ export default {
           successMessage: "Email confirmed!",
           subject: "Please confirm your email",
           text: "We've received your request. Please confirm your email.",
-          linkText: "Confirm Email"
+          linkText: "Confirm Email",
         },
         complete: {
           subject: "Your email has been confirmed",
-          text: "Thanks! You'll be hearing from us soon."
+          text: "Thanks! You'll be hearing from us soon.",
         },
         notify: {
           subject: "New Confirmed Email",
-          text: "A new email was added to a list."
-        }
+          text: "A new email was added to a list.",
+        },
       },
 
       form: {
         component: (): Promise<Component> => import("./email-list-form.vue"),
         buttonText: "Request Invite &rarr;",
-        placeholder: "Your Email"
+        placeholder: "Your Email",
       },
       success: {
         modal: (): Promise<Component> => import("./modal-confirm.vue"),
@@ -33,15 +33,15 @@ export default {
           return {
             path: `/signin?email=${email}&newAccount=1`,
             text: "Create Account &rarr;",
-            close: false
+            close: false,
           }
-        }
+        },
       },
       validation: {
         error: "Whoops.. There was an issue adding your email.",
         empty: `Please enter an email address.`,
-        notEmail: `Please enter a valid email address`
-      }
-    }
-  }
+        notEmail: `Please enter a valid email address`,
+      },
+    },
+  },
 }

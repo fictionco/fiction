@@ -16,7 +16,7 @@ export default Vue.extend({
         apiKey: "253dead4ff72565d38ab60b5689eaa94",
         indexName: "fiction-com_factor",
         inputSelector: ".doc-search",
-        debug: false // Set debug to true if you want to inspect the dropdown
+        debug: false, // Set debug to true if you want to inspect the dropdown
       })
     }
   },
@@ -25,15 +25,15 @@ export default Vue.extend({
       {
         vmid: "docsearch",
         rel: "stylesheet",
-        href: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css"
-      }
+        href: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css",
+      },
     ],
     script: [
       {
-        src: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"
-      }
-    ]
-  }
+        src: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js",
+      },
+    ],
+  },
 })
 </script>
 

@@ -12,7 +12,7 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   serverPrefetch() {
@@ -32,14 +32,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     if (this.jobsPosts.length == 0) {
@@ -56,7 +56,7 @@ export default Vue.extend({
       await loadAndStoreJobsIndex()
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>

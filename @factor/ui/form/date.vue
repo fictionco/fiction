@@ -16,10 +16,10 @@ import { toDate } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "date-picker": () => import("vuejs-datepicker")
+    "date-picker": () => import("vuejs-datepicker"),
   },
   props: {
-    value: { type: String, default: null }
+    value: { type: String, default: null },
   },
   data() {
     return { date: null }
@@ -31,18 +31,18 @@ export default Vue.extend({
     listeners() {
       return {
         ...this.$listeners,
-        input: event => {
+        input: (event) => {
           this.$emit("input", event.toISOString())
-        }
+        },
       }
-    }
+    },
   },
 
   methods: {
     clk() {
       this.$refs.picker.showCalendar()
-    }
-  }
+    },
+  },
 })
 </script>
 

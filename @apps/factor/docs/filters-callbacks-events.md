@@ -11,7 +11,7 @@ In the example below, an item "bar" is added to the data with filter id: `item-l
 ```javascript
 import { applyFilters, addFilter } from "@factor/api"
 
-addFilter("item-list", list => {
+addFilter("item-list", (list) => {
   list.push("bar")
   return list
 })
@@ -40,8 +40,8 @@ An awaited `runCallbacks` will "await" for all async callbacks attached to run b
 ```javascript
 import { runCallbacks, addCallback } from "@factor/api"
 
-addCallback("after-action", args => exampleFunction1(args))
-addCallback("after-action", args => exampleFunction2(args))
+addCallback("after-action", (args) => exampleFunction1(args))
+addCallback("after-action", (args) => exampleFunction2(args))
 
 async function exampleFunction1(args) {
   return args + "-first"
@@ -66,7 +66,7 @@ Here is an example:
 ```js
 import { emitEvent, onEvent } from "@factor/api"
 
-onEvent("custom-event", data => {
+onEvent("custom-event", (data) => {
   // data = "foo"
 })
 

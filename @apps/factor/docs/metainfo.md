@@ -16,9 +16,9 @@ export default {
       title: "My title",
       description: "My description",
       image: require("./my-og-image.jpg"),
-      meta: []
+      meta: [],
     }
-  }
+  },
 }
 ```
 

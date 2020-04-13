@@ -3,9 +3,9 @@
     <div class="user-menu menu-area">
       <factor-avatar :user="getUser()" width="2rem" />
       <div class="content" :data-uid="getUser('_id')">
-        <div class="name">{{ getUser('displayName') || getUser('email') }}</div>
+        <div class="name">{{ getUser("displayName") || getUser("email") }}</div>
         <div v-if="getUser('role')" class="name-sub">
-          <span class="status">{{ toLabel(getUser('role')) }}</span>
+          <span class="status">{{ toLabel(getUser("role")) }}</span>
         </div>
       </div>
     </div>
@@ -17,7 +17,9 @@
           class="menu-area"
           :class="area"
         >
-          <div v-if="area != 'action' && area != 'account'" class="area-title">{{ toLabel(area) }}</div>
+          <div v-if="area != 'action' && area != 'account'" class="area-title">
+            {{ toLabel(area) }}
+          </div>
           <div class="menu-area-items">
             <template v-for="(primary, key) in menu[area]">
               <factor-link
@@ -26,11 +28,15 @@
                 :query="primary.query"
                 :action="primary.action"
                 class="menu-item-link"
-                :class="primary.active ? 'active': 'not-active'"
-                @click="(primary.click) ? primary.click() : ''"
+                :class="primary.active ? 'active' : 'not-active'"
+                @click="primary.click ? primary.click() : ''"
               >
                 <div class="item-icon">
-                  <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" />
+                  <img
+                    class
+                    :src="primary.icon || defaultIcon"
+                    :alt="`${primary.name} Icon`"
+                  />
                 </div>
                 <div class="item-text">
                   <span v-formatted-text="primary.name" />
@@ -54,23 +60,23 @@ import { Route } from "vue-router"
 export default Vue.extend({
   components: {
     factorLink,
-    factorAvatar
+    factorAvatar,
   },
   data() {
     return {
       menu: {},
-      loading: false
+      loading: false,
     }
   },
   computed: {
-    currentUser
+    currentUser,
   },
   watch: {
-    $route: function(this: any, to: Route, from: Route) {
+    $route: function (this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.setMenu()
       }
-    }
+    },
   },
   async mounted() {
     this.loading = true
@@ -86,8 +92,8 @@ export default Vue.extend({
     },
     async setMenu(this: any) {
       this.menu = await getDashboardMenu(this.$route.path)
-    }
-  }
+    },
+  },
 })
 </script>
 

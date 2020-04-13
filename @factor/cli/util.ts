@@ -43,7 +43,7 @@ export const getLatestVersion = async (): Promise<string> => {
     pushToFilter({
       key: "newVersion",
       hook: "cli-notices",
-      item: `New Factor version available (v${latest})`
+      item: `New Factor version available (v${latest})`,
     })
   }
 
@@ -55,10 +55,10 @@ export const getLatestVersion = async (): Promise<string> => {
  */
 export const serverInfo = async ({
   NODE_ENV = process.env.NODE_ENV,
-  command
+  command,
 }: {
-  NODE_ENV?: string;
-  command?: string;
+  NODE_ENV?: string
+  command?: string
 }): Promise<void> => {
   const lines = []
 

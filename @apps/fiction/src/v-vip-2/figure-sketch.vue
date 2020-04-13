@@ -1,7 +1,12 @@
 <template>
   <figure ref="wrapper" class="factor-figure figure-sketch">
     <div class="sketches">
-      <div v-for="(sketch, index) in sketches" :key="index" class="sketch" :class="sketch.class">
+      <div
+        v-for="(sketch, index) in sketches"
+        :key="index"
+        class="sketch"
+        :class="sketch.class"
+      >
         <img :src="sketch.image" :alt="sketch.alt" />
       </div>
     </div>
@@ -19,21 +24,21 @@ export default Vue.extend({
         {
           class: `feature`,
           image: require("./img/sketch-feature.svg"),
-          alt: `Sketch - Feature`
+          alt: `Sketch - Feature`,
         },
         {
           class: `intro`,
           image: require("./img/sketch-intro.svg"),
-          alt: `Sketch - Intro`
+          alt: `Sketch - Intro`,
         },
         {
           class: `boxes`,
           image: require("./img/sketch-boxes.svg"),
-          alt: `Sketch - Boxes`
-        }
-      ]
+          alt: `Sketch - Boxes`,
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 

@@ -19,7 +19,7 @@ export default Vue.extend({
   props: {
     value: { type: String, default: "" },
     postId: { type: String, default: "" },
-    imageInputSelector: { type: String, default: "post-images" }
+    imageInputSelector: { type: String, default: "post-images" },
   },
   data() {
     return {
@@ -27,7 +27,7 @@ export default Vue.extend({
       session: null,
       content: "",
       loading: true,
-      destroyed: false
+      destroyed: false,
     }
   },
   computed: {
@@ -35,17 +35,17 @@ export default Vue.extend({
       return {
         ...this.$listeners,
         change: (event: Event & { target: HTMLInputElement }) =>
-          this.$emit("input", event.target.value)
+          this.$emit("input", event.target.value),
       }
-    }
+    },
   },
 
   watch: {
-    value: function(this: any, v: string) {
+    value: function (this: any, v: string) {
       if (this.easyMDE && this.easyMDE.value() != v) {
         this.easyMDE.value(v)
       }
-    }
+    },
   },
   beforeDestroy() {
     this.destroyed = true
@@ -66,7 +66,7 @@ export default Vue.extend({
         ? {
             enabled: true,
             uniqueId: this.postId,
-            delay: 5000
+            delay: 5000,
           }
         : undefined
 
@@ -86,7 +86,7 @@ export default Vue.extend({
         forceSync: true,
         autoDownloadFontAwesome: false,
         shortcuts: {
-          drawImage: "Shift-Cmd-I"
+          drawImage: "Shift-Cmd-I",
         },
         autosave,
         toolbar: [
@@ -107,7 +107,7 @@ export default Vue.extend({
           "preview",
           "side-by-side",
           "fullscreen",
-          "guide"
+          "guide",
         ],
         uploadImage: true,
         imageUploadFunction: (file: File, onSuccess, onError) => {
@@ -123,11 +123,11 @@ export default Vue.extend({
                */
               emitEvent("addImageToInput", {
                 selector: this.imageInputSelector,
-                _id: result._id
+                _id: result._id,
               })
-            }
+            },
           })
-        }
+        },
       })
 
       /**
@@ -151,8 +151,8 @@ export default Vue.extend({
       this.easyMDE.codemirror.on("change", () => {
         this.$emit("input", this.easyMDE.value())
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -18,7 +18,7 @@ export default Vue.extend({
   components: { dashboardInput },
 
   props: {
-    postId: { type: String, required: true }
+    postId: { type: String, required: true },
   },
   data() {
     return {}
@@ -30,22 +30,21 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
-      }
+      },
     },
     pageTemplates(this: any) {
       const tpls = getPageTemplates() ?? []
-      return tpls.map(tpl => {
+      return tpls.map((tpl) => {
         if (tpl.slug && !tpl.value) {
           tpl.value = tpl.slug
         }
         return tpl
       })
-    }
+    },
   },
   watch: {},
   methods: {
-    getPageTemplates
-  }
+    getPageTemplates,
+  },
 })
 </script>
-

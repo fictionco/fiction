@@ -12,7 +12,7 @@ export default Vue.extend({
       show: false,
       canSuccess: true,
       duration: 3000,
-      height: "3px"
+      height: "3px",
     }
   },
   computed: {
@@ -20,9 +20,9 @@ export default Vue.extend({
       return {
         width: `${this.percent}%`,
         height: this.height,
-        opacity: this.show ? 1 : 0
+        opacity: this.show ? 1 : 0,
       }
-    }
+    },
   },
   mounted() {
     onEvent("ssr-progress", (action: string) => {
@@ -88,8 +88,8 @@ export default Vue.extend({
     fail(this: any) {
       this.canSuccess = false
       return this
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -39,7 +39,7 @@ import { addCallback } from "@factor/api"
 
 addCallback("endpoints", {
   id: "myEndpoint",
-  handler: { myEndpointMethod }
+  handler: { myEndpointMethod },
 })
 
 function myEndpointMethod(params) {
@@ -102,6 +102,6 @@ pushToFilter("middleware", {
     response.send(sitemapXML)
 
     // Notes: No 'next' call is needed since we don't need to continue processing other middleware
-  }
+  },
 })
 ```

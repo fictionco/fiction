@@ -16,11 +16,11 @@ import {
 } from "./types"
 
 interface LoaderFile {
-  _id: string;
-  file: string;
-  priority: number;
-  path?: string;
-  writeFile?: { filename: string; content: string };
+  _id: string
+  file: string
+  priority: number
+  path?: string
+  writeFile?: { filename: string; content: string }
 }
 
 /**
@@ -72,10 +72,10 @@ const getDirectory = ({
   cwd,
   main = "",
 }: {
-  name: string;
-  main?: string;
-  isCwd: boolean;
-  cwd?: string;
+  name: string
+  main?: string
+  isCwd: boolean
+  cwd?: string
 }): string => {
   const resolver = isCwd ? getWorkingDirectory(cwd) : name
 
@@ -102,10 +102,10 @@ const getResolver = ({
   cwd,
   main = "package.json",
 }: {
-  name: string;
-  main?: string;
-  isCwd: boolean;
-  cwd?: string;
+  name: string
+  main?: string
+  isCwd: boolean
+  cwd?: string
 }): string => {
   const resolverRoot = isCwd ? getWorkingDirectory(cwd) : name
 
@@ -125,9 +125,9 @@ const getRequireBase = ({
   name,
   main = "package.json",
 }: {
-  isCwd: boolean;
-  name: string;
-  main?: string;
+  isCwd: boolean
+  name: string
+  main?: string
 }): string => {
   const mainFile = join(...[isCwd ? ".." : name, main])
   return nd(mainFile)
@@ -149,10 +149,10 @@ const getPriority = ({
   priority,
   isCwd,
 }: {
-  extend: ExtendTypes;
-  priority?: number;
-  name: string;
-  isCwd: boolean;
+  extend: ExtendTypes
+  priority?: number
+  name: string
+  isCwd: boolean
 }): number => {
   if (priority && priority >= 0) return priority
 
@@ -182,11 +182,11 @@ const makeModuleLoader = ({
   callback,
   additional = [],
 }: {
-  extensions: FactorExtension[];
-  loadTarget: LoadTargets;
-  callback: (files: LoaderFile[]) => void;
-  cwd?: string;
-  additional?: LoaderFile[];
+  extensions: FactorExtension[]
+  loadTarget: LoadTargets
+  callback: (files: LoaderFile[]) => void
+  cwd?: string
+  additional?: LoaderFile[]
 }): void => {
   const files: LoaderFile[] = []
 
@@ -222,12 +222,12 @@ const makeFileLoader = ({
   cwd,
   additional = [],
 }: {
-  extensions: FactorExtension[];
-  filename: string;
-  callback: (files: LoaderFile[]) => void;
-  cwd?: string;
-  loadTarget: LoadTargets;
-  additional?: LoaderFile[];
+  extensions: FactorExtension[]
+  filename: string
+  callback: (files: LoaderFile[]) => void
+  cwd?: string
+  loadTarget: LoadTargets
+  additional?: LoaderFile[]
 }): void => {
   const files: LoaderFile[] = []
 
@@ -295,7 +295,7 @@ const recursiveDependencies = (
 
         if (!options?.shallow) {
           // Preceding (;) is needed when not using const/let
-          ({ dependents, disabled } = recursiveDependencies(
+          ;({ dependents, disabled } = recursiveDependencies(
             dependents,
             _,
             disabled,
@@ -340,8 +340,8 @@ const writeFile = ({
   destination,
   content,
 }: {
-  destination: string;
-  content: string;
+  destination: string
+  content: string
 }): void => {
   fs.ensureDirSync(nd(destination))
   fs.writeFileSync(destination, content)
@@ -376,10 +376,10 @@ const normalizeLoadTarget = ({
   _id,
   isCwd,
 }: {
-  load: LoadTarget;
-  main: string;
-  _id: string;
-  isCwd: boolean;
+  load: LoadTarget
+  main: string
+  _id: string
+  isCwd: boolean
 }): NormalizedLoadTarget => {
   const __: NormalizedLoadTarget = { app: [], server: [] }
 
@@ -495,7 +495,7 @@ export const loadExtensions = (
 export const installedExtensions = (
   pkg: FactorPackageJson,
   options?: {
-    shallow?: true;
+    shallow?: true
   }
 ): { themes: string[]; plugins: string[] } => {
   const list = loadExtensions(pkg, options)
@@ -517,7 +517,7 @@ const verifyMainFiles = (extensions: FactorExtension[], cwd?: string): void | ne
   let mainFiles: string[] = []
 
   extensions.forEach(({ isCwd, load: { app, server }, name }) => {
-    [app, server].forEach((environment) => {
+    ;[app, server].forEach((environment) => {
       if (environment.length > 0) {
         mainFiles.push(
           ...environment.map((_) =>

@@ -19,30 +19,30 @@ export default Vue.extend({
     return {
       points: [
         {
-          text: `Social`
+          text: `Social`,
         },
         {
-          text: `SEO`
+          text: `SEO`,
         },
         {
-          text: `DevOps`
+          text: `DevOps`,
         },
         {
-          text: `Support`
+          text: `Support`,
         },
         {
-          text: `Debugging`
+          text: `Debugging`,
         },
         {
-          text: `Scaling`
-        }
-      ]
+          text: `Scaling`,
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 
- <style lang="less">
+<style lang="less">
 figure.figure-manage {
   position: relative;
   height: auto;

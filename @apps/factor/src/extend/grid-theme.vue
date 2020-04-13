@@ -5,7 +5,7 @@
       :key="index"
       :path="`/theme/${item.permalink}`"
       class="grid-item-theme"
-      @click="$router.push({path: `/theme/${encodeURIComponent(item.permalink)}`})"
+      @click="$router.push({ path: `/theme/${encodeURIComponent(item.permalink)}` })"
     >
       <div class="theme-wrap" :style="backgroundImageStyle(item)">
         <div class="overlay" />
@@ -19,8 +19,15 @@
               <factor-link
                 btn="primary"
                 :path="`/theme/${encodeURIComponent(item.permalink)}`"
-              >Overview</factor-link>
-              <factor-link v-if="item.demo" btn="default" :path="item.demo" target="_blank">Demo</factor-link>
+                >Overview</factor-link
+              >
+              <factor-link
+                v-if="item.demo"
+                btn="default"
+                :path="item.demo"
+                target="_blank"
+                >Demo</factor-link
+              >
             </div>
           </div>
           <div class="media">
@@ -40,12 +47,12 @@ import { FactorExtensionInfo } from "./types"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    extensions: { type: Array, default: () => {} }
+    extensions: { type: Array, default: () => {} },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     setting,
@@ -54,14 +61,14 @@ export default Vue.extend({
     },
     getScreenshotsTall(this: any, item: FactorExtensionInfo): string[] {
       if (!item.screenshots) return []
-      return item.screenshots.filter(_ => _.includes("tall"))
+      return item.screenshots.filter((_) => _.includes("tall"))
     },
     getPrimaryScreenshot(item: FactorExtensionInfo) {
       const screenshots = this.getScreenshotsTall(item)
 
       return screenshots[0] ?? ""
-    }
-  }
+    },
+  },
 })
 </script>
 

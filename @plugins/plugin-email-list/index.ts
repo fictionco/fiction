@@ -5,7 +5,7 @@ import {
   emitEvent,
   addPostType,
   addCallback,
-  setting
+  setting,
 } from "@factor/api"
 import { Component } from "vue"
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
@@ -14,9 +14,9 @@ import { EmailConfig } from "./types"
 const postType = "emailList"
 
 type VerifyEmail = {
-  list: string;
-  email: string;
-  code: string;
+  list: string
+  email: string
+  code: string
 } & EndpointParameters
 
 export const factorEmailList = (): Promise<Component> => import("./wrap.vue")
@@ -51,17 +51,17 @@ export const postTypeUIConfig = {
   namePlural: "Email Lists",
   listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
   editTemplate: (): Promise<Component> => import("./dashboard-edit.vue"),
-  add: false
+  add: false,
 }
 
 addPostType(postTypeUIConfig)
 
 export const deleteEmails = async ({
   emails,
-  listId
+  listId,
 }: {
-  emails: string[];
-  listId: string;
+  emails: string[]
+  listId: string
 }): Promise<void> => {
   await sendEmailListRequest("deleteEmails", { emails, listId })
 
@@ -70,10 +70,10 @@ export const deleteEmails = async ({
 
 export const csvExport = <T = object>({
   filename,
-  data
+  data,
 }: {
-  filename: string;
-  data: T[];
+  filename: string
+  data: T[]
 }): void => {
   filename += `-${timestamp()}`
 
@@ -98,7 +98,7 @@ export const verifyEmail = async (query: VerifyEmail): Promise<void> => {
 export const addEmail = async ({
   email,
   listId,
-  tags = []
+  tags = [],
 }: EmailConfig): Promise<void> => {
   emitEvent("email-list-new-email-requested", { email, listId, tags })
   await sendEmailListRequest("addEmail", { email, listId, tags })
@@ -110,7 +110,7 @@ export const setup = (): void => {
   addCallback({
     key: "emailList",
     hook: "route-query-action-verify-email-list",
-    callback: (_: VerifyEmail) => verifyEmail(_)
+    callback: (_: VerifyEmail) => verifyEmail(_),
   })
 }
 setup()

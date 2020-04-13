@@ -23,15 +23,15 @@ export default Vue.extend({
       navLogoInverse: setting("site.logoInverse"),
       logoAlt: setting("home.meta.title"),
       logoDisplay: "",
-      logoInverseDisplay: ""
+      logoInverseDisplay: "",
     }
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.brandClass()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.brandClass()
@@ -49,7 +49,7 @@ export default Vue.extend({
         this.logoDisplay = "block"
         this.logoInverseDisplay = "hidden"
       }
-    }
-  }
+    },
+  },
 })
 </script>

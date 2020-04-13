@@ -28,11 +28,11 @@ export default Vue.extend({
     circle: { type: String, default: "" },
     btn: { type: String, default: "" },
     disabled: { type: Boolean, default: false },
-    size: { type: String, default: "" }
+    size: { type: String, default: "" },
   },
   data() {
     return {
-      backupCircleClass: "lightcolor"
+      backupCircleClass: "lightcolor",
     }
   },
   computed: {
@@ -74,7 +74,7 @@ export default Vue.extend({
       let out = "lightcolor"
       const dark = ["google", "default", "subtle"]
 
-      dark.forEach(_ => {
+      dark.forEach((_) => {
         if (
           (this.$el && this.$el.classList.contains(_)) ||
           this.buttonClass.includes(_)
@@ -84,8 +84,8 @@ export default Vue.extend({
       })
 
       return out
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -15,9 +15,9 @@
           <div v-if="blogPosts.length > 0" class="blog-entries-inner">
             <div v-if="page == 1" class="blog-post">
               <div class="blog-promo">
-                <div class="pretitle">{{ setting('blog.promo.pretitle') }}</div>
-                <h1 class="title">{{ setting('blog.promo.title') }}</h1>
-                <p class="content">{{ setting('blog.promo.content') }}</p>
+                <div class="pretitle">{{ setting("blog.promo.pretitle") }}</div>
+                <h1 class="title">{{ setting("blog.promo.title") }}</h1>
+                <p class="content">{{ setting("blog.promo.content") }}</p>
 
                 <factor-link
                   v-if="setting('blog.promo.button.link')"
@@ -25,7 +25,7 @@
                   :path="setting('blog.promo.button.link')"
                   class="mt-8"
                 >
-                  {{ setting('blog.promo.button.text') }}
+                  {{ setting("blog.promo.button.text") }}
                   <factor-icon icon="fas fa-angle-right" />
                 </factor-link>
               </div>
@@ -61,12 +61,12 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon,
-    elHero: () => import("../el/hero.vue")
+    elHero: () => import("../el/hero.vue"),
   },
   data() {
     return {
       postType: "blog",
-      loading: true
+      loading: true,
     }
   },
   routeClass() {
@@ -91,15 +91,15 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
 
   methods: {
     setting,
     getPost(_id: any) {
       return stored(_id) || {}
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -9,20 +9,20 @@ import Vue from "vue"
 export default Vue.extend({
   props: {
     save: { type: Boolean, default: false },
-    watchValid: { type: Object, default: () => {} }
+    watchValid: { type: Object, default: () => {} },
   },
   watch: {
-    save: function(this: any, v) {
+    save: function (this: any, v) {
       if (v) {
         this.$refs.send.click()
         this.$emit("update:save", false)
       }
-    }
+    },
   },
   mounted() {
     this.$watch(
       "watchValid",
-      function(this: any) {
+      function (this: any) {
         this.$nextTick(() => {
           this.$emit("valid", this.$refs["form"].checkValidity())
         })
@@ -34,8 +34,8 @@ export default Vue.extend({
     checkForm(this: any, e: Event) {
       e.preventDefault()
       this.$emit("submit", e)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

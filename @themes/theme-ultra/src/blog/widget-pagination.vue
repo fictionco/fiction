@@ -1,11 +1,19 @@
 <template>
   <div class="pagination">
     <div>
-      <factor-btn v-if="pageCurrent > 1" :class="`primary rounded-full`" @click="page('previous')">
+      <factor-btn
+        v-if="pageCurrent > 1"
+        :class="`primary rounded-full`"
+        @click="page('previous')"
+      >
         <factor-icon icon="fas fa-angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
-      <factor-btn v-if="pageCurrent < pageCount" class="primary rounded-full" @click="page('next')">
+      <factor-btn
+        v-if="pageCurrent < pageCount"
+        class="primary rounded-full"
+        @click="page('next')"
+      >
         <span class="custom-uppercase">Next</span>
         <factor-icon icon="fas fa-angle-right" />
       </factor-btn>
@@ -23,7 +31,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {
-    postType: { type: String, default: "" }
+    postType: { type: String, default: "" },
   },
   computed: {
     index(this: any) {
@@ -41,7 +49,7 @@ export default Vue.extend({
     },
     pageCurrent(this: any) {
       return this.blogMeta.pageCurrent || 1
-    }
+    },
   },
   methods: {
     page(this: any, direction: any) {
@@ -55,8 +63,8 @@ export default Vue.extend({
       if (page) {
         this.$router.push({ query: { ...this.$route.query, page } })
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

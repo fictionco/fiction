@@ -7,14 +7,14 @@
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-signin": () => import("./sign-in.vue")
+    "el-signin": () => import("./sign-in.vue"),
   },
   metaInfo() {
     return {
       title: "Login / Sign Up",
-      description: "Login or register an account."
+      description: "Login or register an account.",
     }
-  }
+  },
 })
 </script>
 

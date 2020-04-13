@@ -36,43 +36,43 @@ export default Vue.extend({
         {
           class: `design-typography light`,
           image: require("./img/design-typography.svg"),
-          alt: `Design - Typography`
+          alt: `Design - Typography`,
         },
         {
           class: `design-color light`,
           image: require("./img/design-color.svg"),
-          alt: `Design - Color`
+          alt: `Design - Color`,
         },
         {
           class: `design-boxes light`,
           image: require("./img/design-boxes.svg"),
-          alt: `Design - Boxes`
-        }
+          alt: `Design - Boxes`,
+        },
       ],
       designsRight: [
         {
           class: `design-illustrations dark`,
           image: require("./img/design-illustrations.svg"),
-          alt: `Design - Illustrations`
+          alt: `Design - Illustrations`,
         },
         {
           class: `design-logo dark`,
           image: require("./img/factor-vip-logo.svg"),
-          alt: `Design - Factor VIP`
+          alt: `Design - Factor VIP`,
         },
         {
           class: `design-icons light`,
           image: require("./img/design-icons.svg"),
-          alt: `Design - Icons`
+          alt: `Design - Icons`,
         },
         {
           class: `design-elements light`,
           image: require("./img/design-elements.svg"),
-          alt: `Design - Elements`
-        }
-      ]
+          alt: `Design - Elements`,
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 

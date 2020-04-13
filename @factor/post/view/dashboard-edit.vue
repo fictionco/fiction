@@ -28,7 +28,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this._id, v)
-      }
+      },
     },
     _id(this: any): string {
       return this.$route.query._id || ""
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
     editComponents(this: any): EditPanel[] {
       const components = applyFilters("post-edit-components", [], {
-        postType: this.postType
+        postType: this.postType,
       })
 
       return components.filter(
@@ -56,21 +56,21 @@ export default Vue.extend({
     },
     metaComponents(this: any): EditPanel[] {
       const components = applyFilters("post-meta-components", [], {
-        postType: this.postType
+        postType: this.postType,
       })
 
       return components.filter(
         ({ postType }: EditPanel) =>
           !postType || (postType && postType.includes(this.postType))
       )
-    }
+    },
   },
   watch: {
-    $route: function(this: any) {
+    $route: function (this: any) {
       if (!this._id) {
         this.requestPost()
       }
-    }
+    },
   },
 
   mounted() {
@@ -82,7 +82,7 @@ export default Vue.extend({
         _id: this._id,
         postType: this.postType,
         createOnEmpty: true,
-        depth: 100
+        depth: 100,
       })
 
       /**
@@ -91,10 +91,10 @@ export default Vue.extend({
        */
       if (post._id && this._id !== post._id) {
         this.$router.replace({
-          query: { ...this.$route.query, _id: post._id }
+          query: { ...this.$route.query, _id: post._id },
         })
       }
-    }
-  }
+    },
+  },
 })
 </script>

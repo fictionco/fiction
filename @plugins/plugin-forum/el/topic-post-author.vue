@@ -8,7 +8,7 @@
 import { factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorIcon }
+  components: { factorIcon },
 })
 </script>
 <style lang="less">

@@ -4,14 +4,14 @@ export default {
   app: { url: "https://factor.dev" },
   metaInfo: {
     default: {
-      image: require("./src/static/factor-logo.jpg")
-    }
+      image: require("./src/static/factor-logo.jpg"),
+    },
   },
   components: {
-    comparison
+    comparison,
   },
   emailList: {
-    alphaProgram: { tags: ["factor-dev"] }
+    alphaProgram: { tags: ["factor-dev"] },
   },
   docs: {
     base: "guide",
@@ -20,7 +20,7 @@ export default {
       { root: true, slug: "introduction" },
       {
         slug: "quickstart",
-        description: "Get started using Factor CMS in less than 5 minutes."
+        description: "Get started using Factor CMS in less than 5 minutes.",
       },
       { slug: "dashboard-setup" },
       { slug: "basic-example" },
@@ -44,11 +44,11 @@ export default {
       { slug: "extend-the-cli", name: "Extend the CLI" },
       { group: "contributing" },
       { slug: "contribution" },
-      { slug: "philosophy" }
-    ]
+      { slug: "philosophy" },
+    ],
   },
   site: {
-    logo: (): Promise<Component> => import("./src/el/logo-factor.vue")
+    logo: (): Promise<Component> => import("./src/el/logo-factor.vue"),
   },
   blog: {
     title: "Factor Blog",
@@ -59,7 +59,7 @@ export default {
     returnLinkText: "Back",
     notFound: {
       title: "No Posts",
-      subTitle: "Couldn't find any blog posts."
+      subTitle: "Couldn't find any blog posts.",
     },
     categories: ["releases", "tutorials", "how-to", "company", "showcase"],
     promo: {
@@ -68,14 +68,14 @@ export default {
       content: "Factor will help you launch websites and applications faster.",
       button: {
         link: "/install",
-        text: "Install Factor"
-      }
+        text: "Install Factor",
+      },
     },
     metatags: {
       index: {
         title: "Factor Blog",
-        description: "The latest news and articles."
-      }
+        description: "The latest news and articles.",
+      },
     },
     components: {
       blogIndex: (): Promise<Component> => import("./src/blog/blog-index.vue"),
@@ -87,22 +87,22 @@ export default {
       singleHeader: (): Promise<Component> => import("./src/blog/el-single-header.vue"),
       entry: (): Promise<Component> => import("./src/blog/widget-entry.vue"),
       social: (): Promise<Component> => import("./src/blog/widget-social.vue"),
-      pagination: (): Promise<Component> => import("./src/blog/widget-pagination.vue")
+      pagination: (): Promise<Component> => import("./src/blog/widget-pagination.vue"),
     },
     layout: {
       index: ["featuredImage", "date", "title", "author"],
-      single: ["singleHeader", "entry", "social"]
-    }
+      single: ["singleHeader", "entry", "social"],
+    },
   },
   plugins: {
     cta: {
       title: "Create and Submit Your Plugin",
       subtitle:
-        "Learn about extension development and how to submit your extension to the Factor library."
-    }
+        "Learn about extension development and how to submit your extension to the Factor library.",
+    },
   },
   footer: {
     legal:
-      "&copy; 2020 <a href='https://www.fiction.com'>Fiction.com</a> Inc. Released under the GPL-2 License."
-  }
+      "&copy; 2020 <a href='https://www.fiction.com'>Fiction.com</a> Inc. Released under the GPL-2 License.",
+  },
 }

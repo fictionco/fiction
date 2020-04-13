@@ -7,8 +7,8 @@
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "btn-base": () => import("./btn-base.vue")
-  }
+    "btn-base": () => import("./btn-base.vue"),
+  },
 })
 </script>
 <style lang="less">

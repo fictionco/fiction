@@ -10,7 +10,8 @@
           <factor-link
             :path="postLink(post._id)"
             class="text-gray-100 hover:text-gray-100"
-          >{{ post.title }}</factor-link>
+            >{{ post.title }}</factor-link
+          >
         </h1>
         <h3 class="entry-subtitle text-gray-100">{{ post.subTitle }}</h3>
         <factor-post-edit :post-id="post._id" />
@@ -27,7 +28,7 @@ export default Vue.extend({
   components: { factorLink, factorIcon, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
-    format: { type: String, default: "" }
+    format: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -35,12 +36,12 @@ export default Vue.extend({
     },
     returnLinkText() {
       return setting("portfolio.returnLinkText") || "All Projects"
-    }
+    },
   },
   methods: {
     postLink,
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

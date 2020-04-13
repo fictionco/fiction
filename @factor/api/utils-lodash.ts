@@ -8,5 +8,5 @@ export {
   cloneDeep,
   merge,
   identity,
-  omit
+  omit,
 } from "lodash-es"

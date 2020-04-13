@@ -12,18 +12,18 @@
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "table-pagination": () => import("./el/pagination.vue")
+    "table-pagination": () => import("./el/pagination.vue"),
   },
   props: {
     tabs: { type: Array, default: () => [] },
     actions: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
     count: { type: Number, default: 0 },
-    pageCurrent: { type: Number, default: 0 }
+    pageCurrent: { type: Number, default: 0 },
   },
   data() {
     return {
-      action: ""
+      action: "",
     }
   },
   computed: {},
@@ -32,8 +32,8 @@ export default Vue.extend({
       if (total == 0) {
         return 1
       } else return Math.ceil(total / limit)
-    }
-  }
+    },
+  },
 })
 </script>
 

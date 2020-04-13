@@ -30,10 +30,10 @@ export default Vue.extend({
       contactTitle: setting("contact.title"),
       contactFormTitle: setting("contact.form.title"),
       contactInfoTitle: setting("contact.info.title"),
-      contactInfoItems: setting("contact.info.items")
+      contactInfoItems: setting("contact.info.items"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

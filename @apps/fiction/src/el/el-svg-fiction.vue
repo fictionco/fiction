@@ -133,8 +133,7 @@ import Vue from "vue"
 export default Vue.extend({
   props: {
     icon: { type: String, default: "" },
-    color: { type: String, default: "#3a4854" }
-  }
+    color: { type: String, default: "#3a4854" },
+  },
 })
 </script>
-

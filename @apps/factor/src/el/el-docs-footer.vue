@@ -9,7 +9,8 @@
         href="https://github.com/fiction-com/factor"
         target="_blank"
         rel="noopener noreferrer"
-      >Github repo</a>
+        >Github repo</a
+      >
     </p>
   </div>
 </template>

@@ -13,7 +13,12 @@
           </defs>
           <g fill="none" fill-rule="evenodd">
             <path fill="#7795F8" d="M0 0h976v627H0z" />
-            <use fill="#7795F8" xlink:href="#a" fill-rule="nonzero" transform="translate(608)" />
+            <use
+              fill="#7795F8"
+              xlink:href="#a"
+              fill-rule="nonzero"
+              transform="translate(608)"
+            />
             <g class="animation-group">
               <path
                 class="draw"
@@ -764,7 +769,9 @@
       <div class="reader">
         <img
           :src="require(`./img/reader.png`)"
-          :srcset="require(`./img/reader.png`) + ` 1x, ` + require(`./img/reader@2x.png`) + ` 2x`"
+          :srcset="
+            require(`./img/reader.png`) + ` 1x, ` + require(`./img/reader@2x.png`) + ` 2x`
+          "
           alt="Reader"
         />
       </div>

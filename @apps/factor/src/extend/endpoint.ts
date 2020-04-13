@@ -15,8 +15,8 @@ import extensionSchema from "./schema"
 import { postType, screenshotsList, extensionImage } from "./util"
 
 export const saveSingleExtension = async (params: {
-  packageName: string;
-  featured?: true;
+  packageName: string
+  featured?: true
 }): Promise<FactorExtensionInfo | undefined> => {
   const { packageName, featured } = params
 
@@ -24,16 +24,16 @@ export const saveSingleExtension = async (params: {
   const requests = [
     {
       _id: "npmData",
-      url: `https://registry.npmjs.org/${packageName}`
+      url: `https://registry.npmjs.org/${packageName}`,
     },
     {
       _id: "npmDownloads",
-      url: `https://api.npmjs.org/downloads/point/last-month/${packageName}`
+      url: `https://api.npmjs.org/downloads/point/last-month/${packageName}`,
     },
     {
       _id: "npmFiles",
-      url: `https://data.jsdelivr.com/v1/package/npm/${packageName}@${latest}`
-    }
+      url: `https://data.jsdelivr.com/v1/package/npm/${packageName}@${latest}`,
+    },
   ]
 
   // Run the requests, but add context for errors
@@ -48,7 +48,7 @@ export const saveSingleExtension = async (params: {
     })
   )
 
-  const parsed = results.map(result => result.data)
+  const parsed = results.map((result) => result.data)
 
   // Ensure array of objects and deep merge results
   const merged: any = deepMerge([...parsed])
@@ -72,7 +72,7 @@ export const saveSingleExtension = async (params: {
     repository,
     author,
     files,
-    time: { modified }
+    time: { modified },
   } = item
 
   const cdnUrl = `https://cdn.jsdelivr.net/npm/${packageName}@${latest}`
@@ -120,7 +120,7 @@ export const saveSingleExtension = async (params: {
     repositoryUrl: repository?.url,
     extensionAuthor: author?.name,
     screenshots,
-    icon
+    icon,
   })
 
   let saved
@@ -144,10 +144,10 @@ export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
   await Model.updateMany({ postType }, { status: PostStatus.Draft })
 
   const posts = await Promise.all(
-    extensions.map(async extension => saveSingleExtension(extension))
+    extensions.map(async (extension) => saveSingleExtension(extension))
   )
 
-  return posts.filter(_ => _) as FactorExtensionInfo[]
+  return posts.filter((_) => _) as FactorExtensionInfo[]
 }
 
 export const setup = (): void => {
@@ -171,8 +171,8 @@ export const setup = (): void => {
         }
 
         return
-      }
-    ]
+      },
+    ],
   })
 }
 

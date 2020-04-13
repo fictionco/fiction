@@ -24,7 +24,7 @@ const zenoDir = dirname(require.resolve("@factor/theme-zeno/package.json"))
 const dirs = [
   { name: "ultra", dir: dirname(require.resolve("@factor/theme-ultra/package.json")) },
   { name: "alpha", dir: dirname(require.resolve("@factor/theme-alpha/package.json")) },
-  { name: "zeno", dir: zenoDir }
+  { name: "zeno", dir: zenoDir },
 ]
 
 /**
@@ -44,14 +44,14 @@ addController({
     }
 
     return out
-  }
+  },
 })
 
 dirs.forEach(({ name, dir }) => {
   addFilter({
     key: `theme-${name}`,
     hook: "build-directories",
-    callback: dirs => {
+    callback: (dirs) => {
       dirs.push({
         cwd: dir,
         config: { output: { publicPath: `/${name}/` } },
@@ -62,20 +62,20 @@ dirs.forEach(({ name, dir }) => {
           {
             writeFile: {
               content: addBaseRouteCode(name),
-              filename: `control-theme-${name}.ts`
+              filename: `control-theme-${name}.ts`,
             },
-            target: "app"
-          }
-        ]
+            target: "app",
+          },
+        ],
       })
       return dirs
-    }
+    },
   })
 
   const dist = getPath("dist", dir)
   addMiddleware({
     path: `/${name}`,
-    middleware: [serveStatic(dist, true)]
+    middleware: [serveStatic(dist, true)],
   })
 })
 
@@ -87,7 +87,7 @@ dirs.forEach(({ name, dir }) => {
         const renderer = appRenderer(dir)
 
         return renderRequest(renderer, request, response)
-      }
-    ]
+      },
+    ],
   })
 })

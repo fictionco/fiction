@@ -12,7 +12,8 @@
             :href="h2.anchor"
             :class="isActive(h2.anchor) ? 'scroll-active' : ''"
             @click.prevent="setClick(h2.anchor)"
-          >{{ h2.text }}</a>
+            >{{ h2.text }}</a
+          >
           <!--To turn this back on use condition: h2.sub && isActive(h2.anchor, h2.sub.map(h3 => h3.anchor)) -->
           <ul v-if="false">
             <li v-for="(h3, ii) in h2.sub" :key="ii">
@@ -21,7 +22,8 @@
                 :class="isActive(h3.anchor) ? 'scroll-active' : ``"
                 :href="h3.anchor"
                 @click.prevent="setClick(h3.anchor)"
-              >{{ h3.text }}</a>
+                >{{ h3.text }}</a
+              >
             </li>
           </ul>
         </li>
@@ -39,7 +41,7 @@ import { Route } from "vue-router"
 export default Vue.extend({
   components: { factorIcon },
   props: {
-    selector: { type: String, default: "" }
+    selector: { type: String, default: "" },
   },
   data() {
     return {
@@ -47,19 +49,19 @@ export default Vue.extend({
       headers: [],
       allHeaders: [],
       activeHash: this.$route.hash,
-      hydrated: false
+      hydrated: false,
     }
   },
 
   computed: {},
   watch: {
-    $route: function(this: any, to: Route, from: Route): void {
+    $route: function (this: any, to: Route, from: Route): void {
       if (to.path != from.path) {
         this.setMenu()
       } else if (to.hash != from.hash) {
         this.activeHash = to.hash
       }
-    }
+    },
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll())
@@ -88,7 +90,7 @@ export default Vue.extend({
         window.scroll({
           top: el.offsetTop - 100,
           left: 0,
-          behavior: "smooth"
+          behavior: "smooth",
         })
       }
     },
@@ -155,13 +157,13 @@ export default Vue.extend({
           this.allHeaders.push(h3)
           return {
             text: this.getHeaderText(h3),
-            anchor: `#${h3.id}`
+            anchor: `#${h3.id}`,
           }
         })
         out.push({
           text: this.getHeaderText(h2),
           anchor: `#${h2.id}`,
-          sub
+          sub,
         })
       })
       this.loading = false
@@ -181,7 +183,7 @@ export default Vue.extend({
     getHeaderText(h: HTMLHeadingElement) {
       const text = [].slice
         .call(h.childNodes)
-        .map(function(node: ChildNode) {
+        .map(function (node: ChildNode) {
           return node.textContent
           // if (node.nodeType === Node.TEXT_NODE) {
           //   return node.nodeValue
@@ -194,8 +196,8 @@ export default Vue.extend({
         .join("")
 
       return text
-    }
-  }
+    },
+  },
 })
 </script>
 

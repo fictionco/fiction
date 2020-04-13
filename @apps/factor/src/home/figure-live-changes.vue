@@ -21,13 +21,13 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      width: 500
+      width: 500,
     }
   },
   computed: {
     scale() {
       return Math.max(Math.min(this.width / 500, 1), 0.5)
-    }
+    },
   },
   mounted() {
     this.width = this.getWidth()
@@ -39,8 +39,8 @@ export default Vue.extend({
   methods: {
     getWidth() {
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
-    }
-  }
+    },
+  },
 })
 </script>
 

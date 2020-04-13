@@ -7,9 +7,9 @@ export const roleAccessLevel = (role: UserRoles | undefined): number => {
 }
 
 export interface SetUser {
-  user: CurrentUserState;
-  token?: string;
-  current?: boolean;
+  user: CurrentUserState
+  token?: string
+  current?: boolean
 }
 
 /**
@@ -41,7 +41,7 @@ export const logout = async (args: { redirect?: string } = {}): Promise<void> =>
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
 
-  if (args.redirect || currentRoute().matched.some(r => r.meta.auth)) {
+  if (args.redirect || currentRoute().matched.some((r) => r.meta.auth)) {
     const { redirect: path = "/" } = args
     navigateToRoute({ path })
   } else {

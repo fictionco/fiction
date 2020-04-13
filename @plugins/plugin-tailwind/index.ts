@@ -29,10 +29,10 @@ export const setup = (): void => {
 
       return [
         tailwindCSS(config, directives),
-        ..._
+        ..._,
         //...(process.env.NODE_ENV === "production" ? [purgecss] : [])
       ]
-    }
+    },
   })
 }
 

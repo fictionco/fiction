@@ -25,46 +25,46 @@ addFilter({
       {
         path: "posts",
         component: (): Promise<Component> => import("./view/dashboard-list.vue"),
-        meta
+        meta,
       },
       {
         path: "posts/edit",
         component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
-        meta
+        meta,
       },
       {
         path: "posts/:postType/edit",
         component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
-        meta
+        meta,
       },
       {
         path: "posts/:postType/add-new",
         component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
-        meta
+        meta,
       },
       {
         path: "posts/:postType",
         component: (): Promise<Component> => import("./view/dashboard-list.vue"),
-        meta
-      }
+        meta,
+      },
     ]
 
     return [..._, ...routes]
-  }
+  },
 })
 
 export const setup = (): void => {
   addCallback({
     key: "prefetch",
     hook: "global-prefetch",
-    callback: (_: Route & { clientOnly: boolean }) => preFetchPost(_)
+    callback: (_: Route & { clientOnly: boolean }) => preFetchPost(_),
   })
   addCallback({
     key: "prefetch",
     hook: "client-route-before",
     callback: (_: Route & { clientOnly: boolean }) => {
       return preFetchPost({ clientOnly: true, ..._ })
-    }
+    },
   })
 }
 

@@ -6,8 +6,8 @@ export default (): FactorSchema => {
     schema: applyFilters("page-template-schema", {
       template: {
         type: String,
-        default: "default"
-      }
-    })
+        default: "default",
+      },
+    }),
   }
 }

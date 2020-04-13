@@ -29,9 +29,21 @@
     <section class="graphic-splash">
       <div class="mast">
         <div class="splash-wrap">
-          <img class="theme-ultra" :src="require(`./img/theme-ultra.jpg`)" alt="Theme Ultra" />
-          <img class="dashboard" :src="require(`./img/dashboard.svg`)" alt="Factor Dashboard" />
-          <img class="theme-alpha" :src="require(`./img/theme-alpha.jpg`)" alt="Theme Alpha" />
+          <img
+            class="theme-ultra"
+            :src="require(`./img/theme-ultra.jpg`)"
+            alt="Theme Ultra"
+          />
+          <img
+            class="dashboard"
+            :src="require(`./img/dashboard.svg`)"
+            alt="Factor Dashboard"
+          />
+          <img
+            class="theme-alpha"
+            :src="require(`./img/theme-alpha.jpg`)"
+            alt="Theme Alpha"
+          />
         </div>
       </div>
     </section>
@@ -99,7 +111,10 @@
           </div>
           <div id="column4" class="column">
             <span class="img-wrap">
-              <img :src="require(`./img/js-frameworks.svg`)" alt="JavaScript frameworks" />
+              <img
+                :src="require(`./img/js-frameworks.svg`)"
+                alt="JavaScript frameworks"
+              />
             </span>
             <span>
               <factor-icon icon="fas fa-close" />
@@ -136,7 +151,7 @@ export default Vue.extend({
   components: {
     factorIcon,
     factorLink,
-    "el-factor": () => import("./el/logo-factor.vue")
+    "el-factor": () => import("./el/logo-factor.vue"),
   },
   data() {
     return {
@@ -144,16 +159,16 @@ export default Vue.extend({
       nav: [],
       headers: [],
       allHeaders: [],
-      clicked: false
+      clicked: false,
     }
   },
   computed: {
     normalizedNav() {
-      return this.navItems().map(_ => {
+      return this.navItems().map((_) => {
         if (typeof _ == "string") {
           return {
             slug: _,
-            name: toLabel(_)
+            name: toLabel(_),
           }
         } else {
           return _
@@ -162,7 +177,7 @@ export default Vue.extend({
     },
     activePath() {
       return this.$route.params.doc || ""
-    }
+    },
   },
 
   methods: {
@@ -170,7 +185,7 @@ export default Vue.extend({
       const nav = [
         {
           name: "All",
-          slug: ""
+          slug: "",
         },
         "monitoring",
         "payment",
@@ -178,18 +193,18 @@ export default Vue.extend({
         "search",
         "admin",
         "security",
-        "maps"
+        "maps",
       ]
 
       return nav
-    }
+    },
   },
   metaInfo() {
     return {
       title: "Compare Factor",
-      description: "Compare Factor to WordPress and modern JS frameworks."
+      description: "Compare Factor to WordPress and modern JS frameworks.",
     }
-  }
+  },
 })
 </script>
 <style lang="less">

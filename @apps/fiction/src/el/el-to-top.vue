@@ -17,8 +17,8 @@ export default Vue.extend({
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

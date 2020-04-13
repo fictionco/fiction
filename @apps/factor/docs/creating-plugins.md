@@ -67,8 +67,8 @@ Anything that should be editable belongs in a `factor-settings.js` file in your 
 export default {
   myWelcomePlugin: {
     bannerText: "Welcome",
-    route: "/welcome"
-  }
+    route: "/welcome",
+  },
 }
 ```
 
@@ -85,7 +85,7 @@ If your plugin has components that include their own style, use CSS variables an
 <script>
   import { setting } from "@factor/api"
   export default {
-    methods: { setting }
+    methods: { setting },
   }
 </script>
 <style lang="less">

@@ -165,7 +165,7 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    icon: { type: String, default: "" }
-  }
+    icon: { type: String, default: "" },
+  },
 })
 </script>

@@ -17,7 +17,7 @@
         <factor-icon
           v-if="mode == 'account'"
           :icon="`fas fa-angle-up`"
-          :class="active ? 'down': 'up'"
+          :class="active ? 'down' : 'up'"
         />
       </div>
     </factor-link>
@@ -31,7 +31,8 @@
           :path="getDashboardRoute(item.path)"
           :query="item.query"
           @click="handleItemClick(item)"
-        >{{ item.name }}</factor-link>
+          >{{ item.name }}</factor-link
+        >
       </div>
     </transition>
   </div>
@@ -53,10 +54,10 @@ export default Vue.extend({
   components: {
     factorAvatar,
     factorIcon,
-    factorLink
+    factorLink,
   },
   props: {
-    mode: { type: String, default: "brand" }
+    mode: { type: String, default: "brand" },
   },
   data() {
     return { active: false }
@@ -72,7 +73,7 @@ export default Vue.extend({
       const icon = typeof iconSetting == "function" ? iconSetting() : iconSetting
 
       return {
-        backgroundImage: `url(${icon})`
+        backgroundImage: `url(${icon})`,
       }
     },
     menuName(this: any) {
@@ -88,7 +89,7 @@ export default Vue.extend({
       } else {
         return productionUrl({ domainOnly: true })
       }
-    }
+    },
   },
   methods: {
     currentUrl,
@@ -106,7 +107,7 @@ export default Vue.extend({
         this.close()
       }
     },
-    clickHandler: function() {
+    clickHandler: function () {
       this.close()
     },
     toggle(this: any) {
@@ -136,8 +137,8 @@ export default Vue.extend({
         return this.currentUser
       }
       return this.currentUser ? this.currentUser[field] : undefined
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">
@@ -267,5 +268,3 @@ export default Vue.extend({
   }
 }
 </style>
-
-

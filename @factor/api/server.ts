@@ -24,16 +24,16 @@ export const setup = (): void => {
                 name: "url",
                 message: "What's your app's production URL? (e.g. https://...)",
                 type: "input",
-                default: process.env.FACTOR_URL
-              }
+                default: process.env.FACTOR_URL,
+              },
             ]
 
             const { url } = await inquirer.prompt(questions)
 
             await writeConfig("private", { FACTOR_URL: url })
-          }
+          },
         }
-      }
+      },
     })
   }
 }

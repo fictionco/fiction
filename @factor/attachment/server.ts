@@ -13,10 +13,10 @@ import { Attachment } from "./types"
 import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
 
-const handleUpload = async function({
-  meta
+const handleUpload = async function ({
+  meta,
 }: {
-  meta: EndpointMeta;
+  meta: EndpointMeta
 }): Promise<ResponseType | void> {
   const { bearer, request } = meta
   const { file } = request ?? {}
@@ -37,7 +37,7 @@ const handleUpload = async function({
   Object.assign(attachment, {
     author: [objectId(bearer._id)],
     mimetype,
-    size
+    size,
   })
 
   const attachmentUrl = await applyFilters("storage-attachment-url", {
@@ -45,7 +45,7 @@ const handleUpload = async function({
     key: `${attachment._id}.${mime.extension(mimetype)}`,
     mimetype,
     size,
-    _id: attachment._id
+    _id: attachment._id,
   })
 
   attachment.url =
@@ -64,7 +64,7 @@ const handleUpload = async function({
  * @param params._id - Post ID of the image to delete
  * @param meta.bearer - Authenticated user making the request
  */
-export const deleteImage = async function(
+export const deleteImage = async function (
   { _id }: { _id: string },
   { bearer }: EndpointMeta
 ): Promise<FactorPost | void> {
@@ -98,10 +98,10 @@ export const setup = (): void => {
         return await processEndpointRequest({
           request,
           response,
-          handler: _ => handleUpload(_)
+          handler: (_) => handleUpload(_),
         })
-      }
-    ]
+      },
+    ],
   })
 }
 

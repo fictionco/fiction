@@ -32,7 +32,7 @@
     </dashboard-pane>
   </dashboard-page>
 </template>
-<script  lang="ts">
+<script lang="ts">
 import { dashboardPage, dashboardPane } from "@factor/dashboard"
 import { factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
@@ -41,7 +41,7 @@ export default Vue.extend({
   components: {
     dashboardPage,
     dashboardPane,
-    factorLink
+    factorLink,
   },
   data() {
     return {
@@ -54,22 +54,22 @@ export default Vue.extend({
           description: "Browse and download Factor extensions for your app.",
           content: "something",
           btn: "Go to Factor.dev &rarr;",
-          path: "https://factor.dev"
+          path: "https://factor.dev",
         },
         {
           title: "Slack Channel",
           description: "Need some help getting things rolling? Join the Slack channel",
           btn: "Join &rarr;",
-          path: "https://go.factor.dev/slack"
+          path: "https://go.factor.dev/slack",
         },
         {
           title: "Requests or Issues",
           description:
             "Find a bug or have a feature request? Don't be shy, submit an issue.",
           btn: "Github Repo &rarr;",
-          path: "https://go.factor.dev/issues"
-        }
-      ]
+          path: "https://go.factor.dev/issues",
+        },
+      ],
     }
   },
   async mounted() {
@@ -80,9 +80,9 @@ export default Vue.extend({
     return {
       title: "Admin",
       description: "Fiction.com dashboard overview.",
-      priority: 30
+      priority: 30,
     }
-  }
+  },
 })
 </script>
 

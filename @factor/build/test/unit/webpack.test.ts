@@ -21,7 +21,7 @@ describe("webpack", () => {
           "plugins",
           "module",
           "externals",
-          "target"
+          "target",
         ])
       )
 
@@ -60,12 +60,12 @@ describe("webpack", () => {
           clientConfig,
           {
             entry: `${process.env.FACTOR_CWD}/entry`,
-            output: { filename: "js/[name].js" }
-          }
+            output: { filename: "js/[name].js" },
+          },
         ])
       )
 
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         compiler.run(() => resolve())
       })
 
@@ -83,7 +83,7 @@ describe("webpack", () => {
 
     it("supports bundle analysis", async () => {
       const config = await getWebpackConfig({ analyze: true, target: "client" })
-      const plugins = config.plugins?.map(_ => _.constructor.name)
+      const plugins = config.plugins?.map((_) => _.constructor.name)
 
       if (plugins) expect(plugins.includes("BundleAnalyzerPlugin")).toBe(true)
     })
@@ -93,15 +93,15 @@ describe("webpack", () => {
       const defined = getDefinedValues({ target: "client" })
 
       // all should be string
-      expect(Object.values(defined).some(_ => typeof _ != "string")).toBe(false)
+      expect(Object.values(defined).some((_) => typeof _ != "string")).toBe(false)
 
-      expect(Object.keys(defined).map(_ => _.replace("process.env.", ""))).toEqual(
+      expect(Object.keys(defined).map((_) => _.replace("process.env.", ""))).toEqual(
         expect.arrayContaining([
           "FACTOR_APP_CONFIG",
           "NODE_ENV",
           "FACTOR_ENV",
           "VUE_ENV",
-          "FACTOR_BUILD_ENV"
+          "FACTOR_BUILD_ENV",
         ])
       )
     })
@@ -110,14 +110,14 @@ describe("webpack", () => {
     it("recognizes the override alias and uses correct override hierarchy", () => {
       const resource = findFileOperator({
         request: "__FIND__/test-files/test-image.jpg",
-        context: __dirname
+        context: __dirname,
       })
       expect(existsSync(resource.request)).toBe(true)
     })
     it("allows for browser/webpack overrides '-browser'", () => {
       const resource = browserReplaceModule({
         request: "./test-files/entry.js",
-        context: __dirname
+        context: __dirname,
       })
 
       expect(resource.request.includes("entry-browser")).toBe(true)

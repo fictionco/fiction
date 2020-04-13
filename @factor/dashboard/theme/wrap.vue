@@ -28,7 +28,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLoadingRing,
-    dashboardManager: () => import("./manager/manager.vue")
+    dashboardManager: () => import("./manager/manager.vue"),
   },
 
   metaInfo() {
@@ -38,7 +38,7 @@ export default Vue.extend({
     return {
       title: niceName,
       description: `Factor Dashboard`,
-      titleTemplate: "%s - Fiction Dashboard"
+      titleTemplate: "%s - Fiction Dashboard",
     }
   },
   data() {
@@ -46,7 +46,7 @@ export default Vue.extend({
       vis: false,
       loading: true,
       activeRoute: this.$route.path,
-      toggle: false
+      toggle: false,
     }
   },
 
@@ -56,14 +56,14 @@ export default Vue.extend({
     },
     postTypeConfig(this: any) {
       return getPostTypeConfig(this.postType)
-    }
+    },
   },
 
   watch: {
-    $route: function(this: any, to: Route) {
+    $route: function (this: any, to: Route) {
       this.activeRoute = to.path
       this.toggleNav(false)
-    }
+    },
   },
   async mounted() {
     /**
@@ -94,8 +94,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler, false)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style src="./style.less" lang="less"></style>

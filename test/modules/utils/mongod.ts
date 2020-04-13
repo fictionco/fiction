@@ -6,14 +6,14 @@ import { createServer, closeServer } from "@factor/server"
 let mongod: MongoMemoryServer
 
 export interface MockDatabaseConfig {
-  dbUrl: string;
-  dbPort: string;
-  dbPath: string;
-  dbName?: string;
+  dbUrl: string
+  dbPort: string
+  dbPath: string
+  dbName?: string
 }
 
 export const startEndpointTestingServer = async ({
-  port = ""
+  port = "",
 }): Promise<MockDatabaseConfig> => {
   mongod = new MongoMemoryServer()
 

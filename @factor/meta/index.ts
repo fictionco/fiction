@@ -6,7 +6,7 @@ import {
   addCallback,
   titleTag,
   descriptionTag,
-  shareImage
+  shareImage,
 } from "@factor/api"
 import { setting } from "@factor/api/settings"
 import { FactorPostState } from "@factor/post/types"
@@ -19,7 +19,7 @@ import { version } from "@factor/core/package.json"
 Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
 interface MetaHookOptions {
-  context: ServerRenderContext;
+  context: ServerRenderContext
 }
 const key = "metaInfo"
 
@@ -38,18 +38,18 @@ addFilter({
      */
     const metaHooks = ["factor_head", "factor_body_start", "factor_body_end"]
 
-    metaHooks.forEach(h => {
+    metaHooks.forEach((h) => {
       context[h] = (): string => applyFilters(h, [], { context }).join("")
     })
 
     // Distinguish between content and dashboard UI
     const { meta: { ui = "app" } = {} } =
-      router.currentRoute.matched.find(_ => _.meta.ui) || {}
+      router.currentRoute.matched.find((_) => _.meta.ui) || {}
 
     const attrHooks = [
       { name: "factor_html_attr", attr: [], classes: [`factor-${ui}`] },
       { name: "factor_body_attr", attr: [], classes: [] },
-      { name: "factor_head_attr", attr: [], classes: [] }
+      { name: "factor_head_attr", attr: [], classes: [] },
     ]
 
     attrHooks.forEach(
@@ -63,7 +63,7 @@ addFilter({
     )
 
     return context
-  }
+  },
 })
 
 addFilter({
@@ -79,7 +79,7 @@ addFilter({
           ? {
               title: titleTag(post._id),
               description: descriptionTag(post._id),
-              image: shareImage(post._id)
+              image: shareImage(post._id),
             }
           : {}
 
@@ -93,10 +93,10 @@ addFilter({
             {
               name: "viewport",
               content:
-                "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
+                "width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no",
             },
-            { name: "generator", content: `Factor ${version}` }
-          ]
+            { name: "generator", content: `Factor ${version}` },
+          ],
         }
 
         const metaSettings = setting("metaInfo") ?? {}
@@ -104,13 +104,13 @@ addFilter({
         const meta = applyFilters("meta-default", {
           ...defaultMeta,
           ...metaSettings,
-          ...postInfo
+          ...postInfo,
         })
 
         return meta
-      }
-    }
-  ]
+      },
+    },
+  ],
 })
 
 addCallback({
@@ -129,10 +129,10 @@ addCallback({
           const refined = applyFilters("meta-component", meta)
 
           return refined
-        }
+        },
       })
     )
-  }
+  },
 })
 
 /**
@@ -149,7 +149,7 @@ addFilter({
       data.meta.push({
         vmid: "description",
         name: "description",
-        content: data.description
+        content: data.description,
       })
     }
 
@@ -157,7 +157,7 @@ addFilter({
       data.meta.push({
         vmid: "og:image",
         property: "og:image",
-        content: canonicalUrl(data.image)
+        content: canonicalUrl(data.image),
       })
     }
 
@@ -165,12 +165,12 @@ addFilter({
       data.meta.push({
         vmid: "og:title",
         property: "og:title",
-        content: data.title
+        content: data.title,
       })
     }
     return data
   },
-  priority: 200
+  priority: 200,
 })
 
 /**
@@ -189,9 +189,9 @@ addFilter({
       link.text(),
       style.text(),
       script.text(),
-      noscript.text()
+      noscript.text(),
     ]
-  }
+  },
 })
 
 /**
@@ -203,7 +203,7 @@ addFilter({
   callback: (_: string[], { context }: MetaHookOptions) => {
     const { htmlAttrs } = context.metaInfo.inject()
     return [..._, htmlAttrs.text(true)]
-  }
+  },
 })
 
 /**
@@ -215,7 +215,7 @@ addFilter({
   callback: (_: string[], { context }: MetaHookOptions) => {
     const { bodyAttrs } = context.metaInfo.inject()
     return [..._, bodyAttrs.text()]
-  }
+  },
 })
 
 /**
@@ -227,7 +227,7 @@ addFilter({
   callback: (_: string[], { context }: MetaHookOptions) => {
     const { headAttrs } = context.metaInfo.inject()
     return [..._, headAttrs.text()]
-  }
+  },
 })
 
 /**
@@ -243,9 +243,9 @@ addFilter({
       ..._,
       style.text({ pbody: true }),
       script.text({ pbody: true }),
-      noscript.text({ pbody: true })
+      noscript.text({ pbody: true }),
     ]
-  }
+  },
 })
 
 /**
@@ -261,7 +261,7 @@ addFilter({
       ..._,
       style.text({ body: true }),
       script.text({ body: true }),
-      noscript.text({ body: true })
+      noscript.text({ body: true }),
     ]
-  }
+  },
 })

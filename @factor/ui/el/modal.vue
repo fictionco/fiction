@@ -1,6 +1,11 @@
 <template>
   <transition name="scaleInModal">
-    <div v-if="vis && appended" class="el-modal" :class="modalClass" data-test="modal-window">
+    <div
+      v-if="vis && appended"
+      class="el-modal"
+      :class="modalClass"
+      data-test="modal-window"
+    >
       <div class="el-modal-wrap">
         <div v-show="vis" class="el-modal-content" @click.stop>
           <div class="el-modal-pad modal-content" data-test="modal-content">
@@ -35,11 +40,11 @@ export default Vue.extend({
     vis: { type: Boolean, default: false },
     title: { type: String, default: "" },
     sub: { type: String, default: "" },
-    modalClass: { type: String, default: "" }
+    modalClass: { type: String, default: "" },
   },
   data() {
     return {
-      appended: false
+      appended: false,
     }
   },
   watch: {
@@ -48,10 +53,10 @@ export default Vue.extend({
         this.$emit("update:vis", false)
       }
     },
-    vis: function(this: any, v: boolean) {
+    vis: function (this: any, v: boolean) {
       this.handleCloseEvents(v)
       emitEvent("modal", v)
-    }
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -76,7 +81,7 @@ export default Vue.extend({
       this.close()
       window.removeEventListener("click", this.clickHandler)
     },
-    close: function(this: any) {
+    close: function (this: any) {
       this.$emit("update:vis", false)
       this.$emit("close")
     },
@@ -90,8 +95,8 @@ export default Vue.extend({
         window.removeEventListener("keydown", this.escapeHandler)
         window.removeEventListener("click", this.clickHandler)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

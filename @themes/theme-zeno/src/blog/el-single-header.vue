@@ -20,7 +20,9 @@
     </div>
     <div class="bg-gray-100">
       <div class="max-w-3xl mx-auto">
-        <div class="flex justify-center items-center custom-uppercase mb-0 py-4 text-gray-600">
+        <div
+          class="flex justify-center items-center custom-uppercase mb-0 py-4 text-gray-600"
+        >
           <span class="inline-block">{{ standardDate(post.date) }}</span>
           <div
             v-for="authorId in post.author"
@@ -33,7 +35,8 @@
               itemprop="author"
               itemscope
               itemtype="http://schema.org/Person"
-            >{{ getPost(authorId).displayName }}</span>
+              >{{ getPost(authorId).displayName }}</span
+            >
           </div>
         </div>
       </div>
@@ -56,7 +59,7 @@ export default Vue.extend({
   components: { factorLink, factorAvatar, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
-    url: { type: String, default: "" }
+    url: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -70,10 +73,10 @@ export default Vue.extend({
     },
     featuredImage(this: any) {
       const style = {
-        backgroundImage: `url(${this.avatarUrl})`
+        backgroundImage: `url(${this.avatarUrl})`,
       }
       return style
-    }
+    },
   },
   methods: {
     getPost(_id: any) {
@@ -81,8 +84,8 @@ export default Vue.extend({
     },
     postLink,
     setting,
-    standardDate
-  }
+    standardDate,
+  },
 })
 </script>
 <style lang="less">

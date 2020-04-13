@@ -14,16 +14,16 @@ export default Vue.extend({
   components: { factorLoadingRing },
   props: {
     list: { type: Array, default: () => [] },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
       selectAllSelected: false,
-      actionValue: ""
+      actionValue: "",
     }
   },
   computed: {},
-  methods: {}
+  methods: {},
 })
 </script>
 

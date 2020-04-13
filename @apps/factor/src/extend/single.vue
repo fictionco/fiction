@@ -6,7 +6,10 @@
         <div class="ext-content-pad header-pad">
           <div class="content">
             <factor-link class="back" :path="`/${extensionType}s`">
-              <span>&larr; Back to {{ extensionType == 'theme' ? "Themes" : "Plugins" }}</span>
+              <span
+                >&larr; Back to
+                {{ extensionType == "theme" ? "Themes" : "Plugins" }}</span
+              >
             </factor-link>
             <div class="text">
               <div class="title-wrap">
@@ -16,13 +19,16 @@
                 <h1 class="title">{{ post.title }}</h1>
                 <h3 v-formatted-text="getContent(post.synopsis)" class="description" />
                 <div class="actions">
-                  <factor-link btn="primary" @click="scrollTo(`#install`)">Add to Project &darr;</factor-link>
+                  <factor-link btn="primary" @click="scrollTo(`#install`)"
+                    >Add to Project &darr;</factor-link
+                  >
                   <factor-link
                     v-if="post.demo"
                     btn="default"
                     :path="post.demo"
                     target="_blank"
-                  >View Demo &rarr;</factor-link>
+                    >View Demo &rarr;</factor-link
+                  >
                 </div>
               </div>
             </div>
@@ -44,7 +50,10 @@
                   :style="screenshotStyle(i)"
                   @click="nextScreenshot()"
                 >
-                  <div class="screenshot-image" :style="{ backgroundImage: `url('${img}')` }" />
+                  <div
+                    class="screenshot-image"
+                    :style="{ backgroundImage: `url('${img}')` }"
+                  />
                 </div>
               </transition-group>
               <div v-if="headerScreenshots.length > 1" class="arrow-wrap">
@@ -67,7 +76,9 @@
             <div class="info" :class="block">
               <div v-if="block == 'install'" class="install-extension">
                 <div class="title-header">
-                  <div class="sub-title">Add this package to your Factor enabled project:</div>
+                  <div class="sub-title">
+                    Add this package to your Factor enabled project:
+                  </div>
                 </div>
                 <div class="move-to-project">
                   <div class="install-code" @click="copyPackageName(post.packageName)">
@@ -81,7 +92,9 @@
                 <div class="meta-grid">
                   <div v-for="(meta, ii) in metaItems" :key="ii" class="meta-item">
                     <div class="title">{{ meta.name }}</div>
-                    <factor-link v-if="meta.link" class="link" :path="meta.value">{{ meta.link }}</factor-link>
+                    <factor-link v-if="meta.link" class="link" :path="meta.value">{{
+                      meta.link
+                    }}</factor-link>
                     <div v-else class="value">{{ meta.value }}</div>
                   </div>
                 </div>
@@ -92,7 +105,10 @@
                   :key="iii"
                   class="lightshot"
                   :style="bgImage(screenshot)"
-                  @click="lightboxShow = true; lightboxIndex = i"
+                  @click="
+                    lightboxShow = true
+                    lightboxIndex = i
+                  "
                 />
               </div>
               <div v-else class="entry-wrap">
@@ -106,7 +122,11 @@
     </section>
 
     <call-to-action />
-    <factor-lightbox :visible.sync="lightboxShow" :imgs="post.screenshots" :index="lightboxIndex" />
+    <factor-lightbox
+      :visible.sync="lightboxShow"
+      :imgs="post.screenshots"
+      :index="lightboxIndex"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -120,7 +140,7 @@ export default Vue.extend({
     factorLink,
     callToAction: () => import("./el/cta.vue"),
     textEntry: () => import("../el/entry.vue"),
-    factorLightbox
+    factorLightbox,
   },
   data() {
     return {
@@ -133,7 +153,7 @@ export default Vue.extend({
       isCopied: "Click to Copy",
       animationInterval: 5000,
       lightboxIndex: 0,
-      lightboxShow: false
+      lightboxShow: false,
     }
   },
 
@@ -153,38 +173,38 @@ export default Vue.extend({
       return [
         {
           name: "Latest Version",
-          value: this.post.version
+          value: this.post.version,
         },
         {
           name: "Downloads",
-          value: this.post.downloads
+          value: this.post.downloads,
         },
         {
           name: "Updated",
-          value: standardDate(this.post.updatedAt)
+          value: standardDate(this.post.updatedAt),
         },
         {
           name: "Created",
-          value: standardDate(this.post.createdAt)
+          value: standardDate(this.post.createdAt),
         },
         {
           name: "Tags",
-          value: this.post.tag ? this.post.tag.join(", ") : ""
+          value: this.post.tag ? this.post.tag.join(", ") : "",
         },
         {
           name: "License",
-          value: this.post.license
+          value: this.post.license,
         },
         {
           name: "Author",
-          value: this.post.extensionAuthor
+          value: this.post.extensionAuthor,
         },
         {
           name: "Repository",
           value: this.post.repositoryUrl,
-          link: "View"
-        }
-      ].filter(_ => _.value)
+          link: "View",
+        },
+      ].filter((_) => _.value)
     },
 
     extensionType(this: any) {
@@ -192,7 +212,7 @@ export default Vue.extend({
     },
     packageName(this: any) {
       return decodeURI(this.$route.query.package)
-    }
+    },
   },
 
   created() {
@@ -252,7 +272,7 @@ export default Vue.extend({
     screenshotStyle(index: number) {
       const style = {
         transform: `translate(${index * 15}%, ${index}%) scale(${1 - index * 0.1})`,
-        zIndex: 50 - index
+        zIndex: 50 - index,
       }
 
       return style
@@ -273,14 +293,14 @@ export default Vue.extend({
           this.isCopied = "Click to Copy"
         }, 3000)
       })
-    }
+    },
   },
   metaInfo() {
     return {
       title: this.post.title,
-      description: this.post.synopsis
+      description: this.post.synopsis,
     }
-  }
+  },
 })
 </script>
 

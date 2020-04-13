@@ -2,22 +2,22 @@ import { setting, storeItem, stored } from "@factor/api"
 import { renderMarkdownWithMeta } from "@factor/api/markdown"
 import { omit } from "@factor/api/utils-lodash"
 export interface DocConfig {
-  doc?: string;
-  title?: string;
-  path?: string;
-  file?: () => Promise<{ default: string }>;
-  items?: DocConfig[];
-  parents?: DocConfig[];
-  meta?: Record<string, string>;
-  markdown?: string;
-  content?: string;
+  doc?: string
+  title?: string
+  path?: string
+  file?: () => Promise<{ default: string }>
+  items?: DocConfig[]
+  parents?: DocConfig[]
+  meta?: Record<string, string>
+  markdown?: string
+  content?: string
 }
 
 const scanRoutes = (nav: DocConfig[]): string[] => {
   const routes: string[] = []
   const baseRoute = setting("docsEngine.baseRoute") ?? "/docs"
 
-  nav.forEach(group => {
+  nav.forEach((group) => {
     if (group.doc) {
       routes.push(group.path ?? `${baseRoute}/${group.doc}`)
     }
@@ -39,14 +39,14 @@ export const scanDocs = (
   nav: DocConfig[],
   parents: DocConfig[] = []
 ): DocConfig | undefined => {
-  const found = nav.find(group => group.doc == doc)
+  const found = nav.find((group) => group.doc == doc)
 
   if (found) {
     found.parents = parents
     return found
   } else {
     let foundInItems
-    nav.some(group => {
+    nav.some((group) => {
       if (group.items) {
         // Omit circular reference
         const result = scanDocs(doc, group.items, [...parents, omit(group, ["items"])])

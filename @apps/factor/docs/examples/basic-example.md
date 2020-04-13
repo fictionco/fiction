@@ -118,12 +118,12 @@ import { addContentRoute } from "@factor/api"
 
 addContentRoute({
   path: "/",
-  component: () => import("./v-home.vue")
+  component: () => import("./v-home.vue"),
 })
 
 addContentRoute({
   path: "/page",
-  component: () => import("./v-page.vue")
+  component: () => import("./v-page.vue"),
 })
 ```
 
@@ -150,8 +150,8 @@ Add `header.vue` and `splash.vue`
   import { factorLink } from "@factor/ui"
   export default {
     components: {
-      factorLink
-    }
+      factorLink,
+    },
   }
 </script>
 ```
@@ -165,8 +165,8 @@ Add `header.vue` and `splash.vue`
 <script>
   export default {
     props: {
-      text: { type: String, default: "" }
-    }
+      text: { type: String, default: "" },
+    },
   }
 </script>
 ```
@@ -230,8 +230,8 @@ Anything you see in a settings files is override-able in your app. Let's try it.
 //factor-settings.js
 export default {
   blog: {
-    indexRoute: "/essays"
-  }
+    indexRoute: "/essays",
+  },
 }
 ```
 

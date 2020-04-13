@@ -9,49 +9,54 @@
       <li class="feature-block">
         <home-icon icon="dashboard" />
         <h3 class="title">Your dashboard</h3>
-        <p
-          class="text"
-        >Wield a powerful post system and dashboard to simplify your backend design and add complete content-management.</p>
+        <p class="text">
+          Wield a powerful post system and dashboard to simplify your backend design and
+          add complete content-management.
+        </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="build" />
         <h3 class="title">Themes that work</h3>
-        <p
-          class="text"
-        >Factor is designed for theming. Save time and start with a solid foundation, then customize.</p>
+        <p class="text">
+          Factor is designed for theming. Save time and start with a solid foundation,
+          then customize.
+        </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="simple" />
         <h3 class="title">Simple yet powerful</h3>
-        <p
-          class="text"
-        >Factor simplifies your life by helping you use standards and best-practices without having to think about them.</p>
+        <p class="text">
+          Factor simplifies your life by helping you use standards and best-practices
+          without having to think about them.
+        </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="easy" />
         <h3 class="title">Easy to use</h3>
-        <p
-          class="text"
-        >Nobody likes reading technical docs. Factor is built for people that like to save time, not debug.</p>
+        <p class="text">
+          Nobody likes reading technical docs. Factor is built for people that like to
+          save time, not debug.
+        </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="optimized" />
         <h3 class="title">Search optimized</h3>
-        <p
-          class="text"
-        >Build universal apps with VueJS. Get better SEO results with server-rendered apps.</p>
+        <p class="text">
+          Build universal apps with VueJS. Get better SEO results with server-rendered
+          apps.
+        </p>
       </li>
 
       <li class="feature-block">
         <home-icon icon="open-source" />
         <h3 class="title">Free and open-source</h3>
         <p class="text">
-          Factor is built on open-source and uses the same license as projects like WordPress
-          and Linux.
+          Factor is built on open-source and uses the same license as projects like
+          WordPress and Linux.
         </p>
       </li>
     </ul>
@@ -63,7 +68,9 @@
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/install">Start Now &rarr;</factor-link>
+        <factor-link btn="primary" size="large" path="/install"
+          >Start Now &rarr;</factor-link
+        >
       </div>
     </div>
   </div>
@@ -76,9 +83,9 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    homeIcon: () => import("./icon.vue")
+    homeIcon: () => import("./icon.vue"),
   },
-  methods: {}
+  methods: {},
 })
 </script>
 <style lang="less">

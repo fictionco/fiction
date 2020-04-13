@@ -7,12 +7,12 @@ import { ServerOptions } from "@factor/server"
 import aliasRequire from "./alias-require"
 import transpile from "./transpile"
 interface EnvironmentConfig {
-  NODE_ENV?: string;
-  command?: string;
-  ENV?: string;
-  PORT?: string;
-  debug?: boolean;
-  restart?: boolean;
+  NODE_ENV?: string
+  command?: string
+  ENV?: string
+  PORT?: string
+  debug?: boolean
+  restart?: boolean
 }
 
 /**
@@ -74,7 +74,7 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
     key: "nodeReload",
     hook: "rebuild-server-app",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    callback: (serverOptions: ServerOptions) => reloadNodeProcess(_config, serverOptions)
+    callback: (serverOptions: ServerOptions) => reloadNodeProcess(_config, serverOptions),
   })
 }
 
@@ -88,7 +88,7 @@ const reloadNodeProcess = async (
   serverOptions: ServerOptions
 ): Promise<void> => {
   if (!serverOptions.noReloadModules) {
-    Object.keys(require.cache).forEach(id => {
+    Object.keys(require.cache).forEach((id) => {
       if (!/node_modules/.test(id)) {
         delete require.cache[id]
       }

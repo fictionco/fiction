@@ -1,7 +1,11 @@
 <template>
   <transition name="fade">
     <div v-if="visible" class="img-swiper modal" @click.self="closeDialog">
-      <div :class="{transition: imgTransitionStatus}" :style="imgStyle" class="img-wrapper">
+      <div
+        :class="{ transition: imgTransitionStatus }"
+        :style="imgStyle"
+        class="img-wrapper"
+      >
         <!-- START: Imgs -->
         <img :src="imgList[imgIndex]" class="img" alt draggable="false" />
         <!-- END: Imgs -->
@@ -26,7 +30,9 @@
       </div>
       <!-- END: btns -->
       <!-- START: total -->
-      <div v-if="imgList.length !== 1" class="pagination-total">{{ imgIndex + 1 }}/{{ imgTotal }}</div>
+      <div v-if="imgList.length !== 1" class="pagination-total">
+        {{ imgIndex + 1 }}/{{ imgTotal }}
+      </div>
       <!-- END: total -->
     </div>
   </transition>
@@ -42,7 +48,7 @@ export default Vue.extend({
   props: {
     imgs: { type: [Array, String], default: "" },
     visible: { type: Boolean, default: false },
-    index: { type: Number, default: 0 }
+    index: { type: Number, default: 0 },
   },
   data() {
     return {
@@ -54,13 +60,13 @@ export default Vue.extend({
       left: 0,
       lastX: 0,
       lastY: 0,
-      isDraging: false
+      isDraging: false,
     }
   },
   computed: {
     imgList() {
       if (Object.prototype.toString.call(this.imgs) === "[object Array]") {
-        return this.imgs.map(img => {
+        return this.imgs.map((img) => {
           if (img.url) {
             return img.url
           } else {
@@ -81,10 +87,10 @@ export default Vue.extend({
       scale(${this.scale})
       rotate(-${this.rotateDeg}deg)`,
           top: `calc(50% + ${this.top}px)`,
-          left: `calc(50% + ${this.left}px)`
+          left: `calc(50% + ${this.left}px)`,
         }
-      }
-    }
+      },
+    },
   },
   watch: {
     visible(visible) {
@@ -93,7 +99,7 @@ export default Vue.extend({
       }
 
       emitEvent("modal", visible)
-    }
+    },
   },
   mounted() {
     require("./img/iconfont")
@@ -182,12 +188,12 @@ export default Vue.extend({
       this.rotateDeg = 0
       this.top = 0
       this.left = 0
-    }
-  }
+    },
+  },
 })
 </script>
 
- <style scoped lang="less">
+<style scoped lang="less">
 .icon {
   width: 1em;
   height: 1em;

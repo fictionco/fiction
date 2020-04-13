@@ -17,14 +17,14 @@ export default Vue.extend({
   components: { factorPostEdit },
   data() {
     return {
-      content: ""
+      content: "",
     }
   },
   metaInfo() {
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
-      image: shareImage(this.post._id)
+      image: shareImage(this.post._id),
     }
   },
   computed: {
@@ -33,7 +33,7 @@ export default Vue.extend({
     },
     settings(this: any) {
       return this.post.settings || {}
-    }
+    },
   },
   methods: { setting, renderMarkdown },
   templateSettings() {
@@ -44,10 +44,10 @@ export default Vue.extend({
         description: "Alignment of the page header",
         _id: "headerAlignment",
         list: ["left", "center", "right"],
-        default: "left"
-      }
+        default: "left",
+      },
     ]
-  }
+  },
 })
 </script>
 

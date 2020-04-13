@@ -17,14 +17,14 @@ export default Vue.extend({
   components: {
     "header-primary": () => import("./header.vue"),
     "footer-primary": () => import("./footer.vue"),
-    "header-mobile": () => import("./header-mobile.vue")
+    "header-mobile": () => import("./header-mobile.vue"),
   },
   metaInfo() {
     return {
       titleTemplate: "%s - Factor JS",
-      image: require("./static/og-image.jpg")
+      image: require("./static/og-image.jpg"),
     }
-  }
+  },
 })
 </script>
 

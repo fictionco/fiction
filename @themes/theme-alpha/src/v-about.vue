@@ -2,7 +2,11 @@
   <div class="page-about">
     <el-hero :pretitle="aboutPretitle" :title="aboutTitle" :image="aboutHeroImage">
       <template v-slot:hero-content>
-        <div v-if="aboutContent" v-formatted-text="aboutContent" class="content text-gray-600" />
+        <div
+          v-if="aboutContent"
+          v-formatted-text="aboutContent"
+          class="content text-gray-600"
+        />
       </template>
     </el-hero>
 
@@ -27,7 +31,7 @@ export default Vue.extend({
   components: {
     "el-clients": () => import("./el/clients.vue"),
     "el-hero": () => import("./el/hero.vue"),
-    "el-cta": () => import("./el/cta.vue")
+    "el-cta": () => import("./el/cta.vue"),
   },
   data() {
     return {
@@ -40,17 +44,17 @@ export default Vue.extend({
       aboutClientsid: setting("about.clients.id"),
       aboutClientsPretitle: setting("about.clients.pretitle"),
       aboutClientsTitle: setting("about.clients.title"),
-      aboutClientsContent: setting("about.clients.content")
+      aboutClientsContent: setting("about.clients.content"),
     }
   },
   metaInfo() {
     return {
       title: setting("about.metatags.title"),
       description: setting("about.metatags.description"),
-      image: setting("about.metatags.image")
+      image: setting("about.metatags.image"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

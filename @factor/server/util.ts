@@ -13,7 +13,7 @@ import { renderLoading } from "@factor/loader"
 export const serverErrorWrap = ({
   title = "",
   subTitle = "",
-  description = ""
+  description = "",
 }): string => {
   const lines = []
 
@@ -66,10 +66,7 @@ export const handleServerError = (
 
   emitEvent("buildError", error)
 
-  response
-    .status(500)
-    .send(renderLoading())
-    .end()
+  response.status(500).send(renderLoading()).end()
 }
 
 export const logServerReady = (): void => {
@@ -83,6 +80,6 @@ export const logServerReady = (): void => {
 export const serveStatic = (path: string, cache = true): Handler => {
   const DAY = 1000 * 60 * 60 * 24
   return express.static(path, {
-    maxAge: cache && process.env.NODE_ENV !== "development" ? DAY : 0
+    maxAge: cache && process.env.NODE_ENV !== "development" ? DAY : 0,
   })
 }

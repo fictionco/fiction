@@ -15,8 +15,11 @@
           :path="post.jobCompanyWebsite"
           target="_blank"
           class="company"
-        >{{ post.jobCompanyName }}</factor-link>
-        <span v-else-if="post.jobCompanyName" class="company">{{ post.jobCompanyName }}</span>
+          >{{ post.jobCompanyName }}</factor-link
+        >
+        <span v-else-if="post.jobCompanyName" class="company">{{
+          post.jobCompanyName
+        }}</span>
       </div>
 
       <h1 class="entry-title">
@@ -38,7 +41,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorIcon, factorPostEdit },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -46,9 +49,9 @@ export default Vue.extend({
     },
     returnLinkText(this: any) {
       return setting("jobs.returnLinkText") || "All Jobs"
-    }
+    },
   },
-  methods: { postLink, setting }
+  methods: { postLink, setting },
 })
 </script>
 <style lang="less">

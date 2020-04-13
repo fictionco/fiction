@@ -7,23 +7,23 @@ import { PreUploadProperties } from "./types"
 addPostSchema(storageSchema)
 
 export interface PostAttachment {
-  url: string;
+  url: string
 }
 
 export interface ImageUploadItems {
-  file: File | Blob;
-  onPrep?: Function;
-  onFinished?: Function;
-  onError?: Function;
-  onChange?: Function;
+  file: File | Blob
+  onPrep?: Function
+  onFinished?: Function
+  onError?: Function
+  onChange?: Function
 }
 
 export const sendStorageRequest = async ({
   method,
-  params
+  params,
 }: {
-  method: string;
-  params: EndpointParameters;
+  method: string
+  params: EndpointParameters
 }): Promise<object> => {
   return (await endpointRequest({ id: "storage", method, params })) as object
 }
@@ -51,11 +51,11 @@ export const resizeImage = async (
   // Contains an unwrapped call to document, errors in server
   const { default: loadImage } = await import("blueimp-load-image")
 
-  return await new Promise(resolve => {
+  return await new Promise((resolve) => {
     loadImage(
       fileOrBlobOrUrl,
       (canvas: HTMLCanvasElement) => {
-        canvas.toBlob(blob => {
+        canvas.toBlob((blob) => {
           if (blob) resolve(blob)
         }, fileOrBlobOrUrl.type)
       },
@@ -84,7 +84,7 @@ export const preUploadImage = async (
       onPrep({
         mode: "resized",
         percent: 25,
-        preview: URL.createObjectURL(file)
+        preview: URL.createObjectURL(file),
       } as PreUploadProperties)
     }
   }
@@ -109,7 +109,7 @@ export const uploadImage = async ({
   onPrep,
   onFinished,
   onError,
-  onChange
+  onChange,
 }: ImageUploadItems): Promise<void> => {
   file = await preUploadImage({ file, onPrep })
 
@@ -118,14 +118,14 @@ export const uploadImage = async ({
   formData.append("imageUpload", file)
 
   const {
-    data: { result, error }
+    data: { result, error },
   } = await authorizedRequest(uploadEndpointPath(), formData, {
     headers: { "Content-Type": "multipart/form-data" },
-    onUploadProgress: function(progressEvent) {
+    onUploadProgress: function (progressEvent) {
       if (onChange) {
         onChange(progressEvent)
       }
-    }
+    },
   })
 
   if (error && onError) {

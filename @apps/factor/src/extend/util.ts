@@ -7,10 +7,10 @@ export const postType = "extension"
 
 export const titleFromPackage = ({
   pkg,
-  _id = ""
+  _id = "",
 }: {
-  pkg: FactorPackageJson;
-  _id: string;
+  pkg: FactorPackageJson
+  _id: string
 }): string => {
   const { factor: { title = "" } = {} } = pkg
   if (title) {
@@ -37,7 +37,7 @@ export const extensionImage = (
   cdnUrl: string,
   fileName = "icon.svg"
 ): string => {
-  const found = files ? files.find(f => f.name == fileName) : false
+  const found = files ? files.find((f) => f.name == fileName) : false
 
   return found ? `${cdnUrl}/${fileName}` : ""
 }
@@ -46,10 +46,7 @@ export const extensionImage = (
  * Removes the file extension
  */
 const trimExtension = (file: string): string => {
-  return file
-    .split(".")
-    .slice(0, -1)
-    .join(".")
+  return file.split(".").slice(0, -1).join(".")
 }
 
 export const screenshotsList = (files: { name: string }[], cdnUrl: string): string[] => {
@@ -57,8 +54,8 @@ export const screenshotsList = (files: { name: string }[], cdnUrl: string): stri
 
   screenshots = files
     .map((f: { name: string }) => f.name)
-    .filter(name => name.includes("screenshot"))
-    .map(name => [cdnUrl, name].join("/"))
+    .filter((name) => name.includes("screenshot"))
+    .map((name) => [cdnUrl, name].join("/"))
     .sort((a, b) => {
       // Sort alphabetically, but without file extension
       // Otherwise screenshot.jpg sorts after screenshot-2.jpg
@@ -76,7 +73,7 @@ export const getAuthors = (
   { maintainers = [] }: { maintainers: { name: string }[] },
   { number = 2 } = {}
 ): string => {
-  const authors = maintainers.map(a => a.name)
+  const authors = maintainers.map((a) => a.name)
 
   return authors.slice(0, number).join(", ")
 }

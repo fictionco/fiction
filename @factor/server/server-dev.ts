@@ -18,7 +18,7 @@ import { emitEvent } from "@factor/api/events"
 import { setBuilding } from "@factor/cli/loading"
 import { RendererComponents } from "./types"
 interface UpdateBundle {
-  ({ bundle, template, clientManifest }: RendererComponents): Promise<void>;
+  ({ bundle, template, clientManifest }: RendererComponents): Promise<void>
 }
 
 type MemorySystemType = typeof fs | MFS
@@ -26,19 +26,19 @@ type MemorySystemType = typeof fs | MFS
 const devServer: Record<string, DevServerComponents> = {}
 
 interface DevServerComponents {
-  cwd: string;
-  bundle?: string;
-  clientManifest?: object;
-  template?: string;
-  updateBundleCallback: UpdateBundle;
-  updateReason?: string;
-  configServer: Configuration;
-  configClient: Configuration;
+  cwd: string
+  bundle?: string
+  clientManifest?: object
+  template?: string
+  updateBundleCallback: UpdateBundle
+  updateReason?: string
+  configServer: Configuration
+  configClient: Configuration
 }
 
 export interface DevCompilerOptions {
-  fileSystem?: "static" | "memory" | void;
-  devServer: DevServerComponents;
+  fileSystem?: "static" | "memory" | void
+  devServer: DevServerComponents
 }
 
 /**
@@ -46,11 +46,11 @@ export interface DevCompilerOptions {
  */
 
 const updateBundles = ({
-  cwd
+  cwd,
 }: {
-  cwd: string;
-  title?: string;
-  value?: string;
+  cwd: string
+  title?: string
+  value?: string
 }): void => {
   const dev = devServer[cwd]
 
@@ -106,7 +106,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       {
         hideCursor: true,
         clearOnComplete: true,
-        format: `${chalk.cyan(`{bar}`)} {percentage}% {msg}`
+        format: `${chalk.cyan(`{bar}`)} {percentage}% {msg}`,
       },
       cliProgress.Presets.shades_classic
     )
@@ -135,12 +135,12 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       dev: webpackDevMiddleware(clientCompiler, {
         publicPath,
         logLevel: "silent",
-        ...devFilesystem
+        ...devFilesystem,
       }),
       hmr: webpackHotMiddleware(clientCompiler, {
         heartbeat: 5000,
-        log: false
-      })
+        log: false,
+      }),
     }
 
     addFilter({
@@ -149,7 +149,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       callback: (_: object[]) => {
         const { dev, hmr } = middleware
         return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
-      }
+      },
     })
 
     clientCompiler.plugin("compile", () => {})
@@ -160,8 +160,8 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       setBuilding(false)
       bar.stop()
 
-      errors.forEach(err => log.error(err))
-      warnings.forEach(err => log.warn(err))
+      errors.forEach((err) => log.error(err))
+      warnings.forEach((err) => log.warn(err))
 
       if (errors.length > 0) return
 
@@ -237,17 +237,17 @@ const createServerCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
  * @param cwd - working directory of app
  */
 export const watcherDevServer = ({
-  cwd
+  cwd,
 }: {
-  cwd: string;
-  devServer: DevServerComponents;
+  cwd: string
+  devServer: DevServerComponents
 }): void => {
-  const watchDirs = getFactorDirectories().map(_ => `${_}/**`)
+  const watchDirs = getFactorDirectories().map((_) => `${_}/**`)
 
   chokidar
     .watch([`${getPath("source")}/**`, ...watchDirs], {
       ignoreInitial: true,
-      ignored: `**/+(node_modules|test)/**`
+      ignored: `**/+(node_modules|test)/**`,
     })
     .on("all", async (event, path) => {
       if (event == "change") {
@@ -272,12 +272,12 @@ export const developmentServer = async ({
   fileSystem,
   onReady,
   watchMode,
-  cwd
+  cwd,
 }: {
-  fileSystem?: "static" | "memory";
-  watchMode: "server" | "app";
-  onReady: UpdateBundle;
-  cwd: string;
+  fileSystem?: "static" | "memory"
+  watchMode: "server" | "app"
+  onReady: UpdateBundle
+  cwd: string
 }): Promise<void> => {
   const rawPath = setting("app.templatePath", { cwd })
   const templatePath = resolveFilePath(rawPath)
@@ -294,7 +294,7 @@ export const developmentServer = async ({
     updateBundleCallback: onReady,
     template: fs.readFileSync(templatePath, "utf-8"),
     configClient,
-    configServer
+    configServer,
   }
 
   devServer[cwd] = dev

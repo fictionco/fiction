@@ -12,40 +12,40 @@
 <script lang="ts">
 import { factorModal, factorLink } from "@factor/ui"
 import Vue from "vue"
- 
+
 import { getSetting } from "."
 export default Vue.extend({
   components: { factorModal, factorLink },
   props: {
     added: { type: String, default: "" },
-    listId: { type: String, default: "default" }
+    listId: { type: String, default: "default" },
   },
   data() {
     return {
-      vis: false
+      vis: false,
     }
   },
   computed: {
     link(this: any): { path?: string; close?: boolean; text?: string } | false {
       const linkSetting = this.setting("success.link")
       return linkSetting && this.added ? linkSetting(this.added) : false
-    }
+    },
   },
   watch: {
-    added: function(this: any, v: string) {
+    added: function (this: any, v: string) {
       if (v) {
         this.vis = true
       }
-    }
+    },
   },
   methods: {
     setting(this: any, key: string) {
       return getSetting({
         key,
-        listId: this.listId
+        listId: this.listId,
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

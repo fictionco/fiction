@@ -32,7 +32,7 @@ export const setup = (): void => {
 
       return [..._, add]
     },
-    priority: 200
+    priority: 200,
   })
 
   addFilter({
@@ -43,7 +43,7 @@ export const setup = (): void => {
       style="display:none;visibility:hidden"></iframe></noscript>
   `
       return [..._, add]
-    }
+    },
   })
 }
 setup()

@@ -45,7 +45,9 @@
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard size="small" @click="removeItem(selected)">Remove Item</factor-btn-dashboard>
+          <factor-btn-dashboard size="small" @click="removeItem(selected)"
+            >Remove Item</factor-btn-dashboard
+          >
         </div>
       </div>
     </div>
@@ -61,11 +63,11 @@ export default Vue.extend({
   components: { factorBtnDashboard, factorIcon, factorInputWrap },
   props: {
     value: { type: [Array, Object], default: () => [] },
-    inputs: { type: Array, default: () => [] }
+    inputs: { type: Array, default: () => [] },
   },
   data() {
     return {
-      selected: 0
+      selected: 0,
     }
   },
   computed: {
@@ -75,8 +77,8 @@ export default Vue.extend({
       },
       set(this: any, localValue: any) {
         this.$emit("input", localValue)
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.sortItems()
@@ -84,7 +86,7 @@ export default Vue.extend({
   methods: {
     // keys are required for drag and drop
     ensure(v: any[]) {
-      return v.map(_ => {
+      return v.map((_) => {
         if (!_.__key) {
           _.__key = guid()
         }
@@ -95,7 +97,7 @@ export default Vue.extend({
       Sortable.create(this.$refs.organizer, {
         filter: ".ignore-sortable",
         ghostClass: "sortable-ghost",
-        onUpdate: e => {
+        onUpdate: (e) => {
           const newLocalValue = this.localValue.slice()
           if (e.oldIndex && newLocalValue[e.oldIndex]) {
             const moved = newLocalValue.splice(e.oldIndex, 1)
@@ -105,13 +107,13 @@ export default Vue.extend({
             this.selected = e.newIndex
           }
         },
-        onMove: e => {
+        onMove: (e) => {
           if (DOM(e.related).hasClass("ignore-sortable")) {
             return false
           } else {
             return true
           }
-        }
+        },
       })
     },
     addItem(this: any) {
@@ -138,12 +140,12 @@ export default Vue.extend({
     setValue(this: any, _id: string, val: any) {
       const newLocalValue = this.localValue.slice()
       newLocalValue[this.selected] = Object.assign({}, newLocalValue[this.selected], {
-        [_id]: val
+        [_id]: val,
       })
 
       this.localValue = newLocalValue
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

@@ -35,7 +35,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     link(this: any) {
@@ -43,8 +43,8 @@ export default Vue.extend({
     },
     post(this: any) {
       return stored(this.postId) || {}
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

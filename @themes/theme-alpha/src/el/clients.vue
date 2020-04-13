@@ -22,10 +22,10 @@ export default Vue.extend({
       loading: true,
       aboutClients: setting("about.clients"),
       aboutClientsid: setting("about.clients.id"),
-      aboutClientsItems: setting("about.clients.items")
+      aboutClientsItems: setting("about.clients.items"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

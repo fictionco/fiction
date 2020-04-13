@@ -30,7 +30,7 @@ import { storeItem, stored, internationalDate } from "@factor/api"
 import {
   dashboardPane,
   dashboardListPost,
-  dashboardListControls
+  dashboardListControls,
 } from "@factor/dashboard"
 import { ControlAction } from "@factor/dashboard/types"
 import { FactorPost } from "@factor/post/types"
@@ -42,17 +42,17 @@ export default Vue.extend({
   components: {
     dashboardPane,
     dashboardListPost,
-    dashboardListControls
+    dashboardListControls,
   },
   props: {
     loading: { type: Boolean, default: false },
-    sending: { type: Boolean, default: false }
+    sending: { type: Boolean, default: false },
   },
   data() {
     return {
       action: "",
       selected: [],
-      loadingAction: false
+      loadingAction: false,
     }
   },
   computed: {
@@ -71,7 +71,7 @@ export default Vue.extend({
       },
       set(v: FactorPost) {
         storeItem(this._id, v)
-      }
+      },
     } as any,
     list(this: any) {
       if (!this.post.list) return []
@@ -82,7 +82,7 @@ export default Vue.extend({
           return {
             ..._,
             _id: email,
-            title: email
+            title: email,
           }
         })
         .reverse()
@@ -99,7 +99,7 @@ export default Vue.extend({
           return true
         }
       })
-    }
+    },
   },
 
   methods: {
@@ -111,7 +111,7 @@ export default Vue.extend({
       return [
         { value: "", label: `All (${countAll})` },
         { value: "verified", label: `Verified (${countVerified})` },
-        { value: "unverified", label: `Unverified (${countAll - countVerified})` }
+        { value: "unverified", label: `Unverified (${countAll - countVerified})` },
       ]
     },
     controlActions(): ControlAction[] {
@@ -122,8 +122,8 @@ export default Vue.extend({
           value: "delete",
           label: "Permanently Delete",
           confirm: (selected: string[]) =>
-            `Permanently delete ${selected.length} email(s)?`
-        }
+            `Permanently delete ${selected.length} email(s)?`,
+        },
       ]
 
       return actions
@@ -140,14 +140,14 @@ export default Vue.extend({
       return [
         {
           label: "Delete",
-          onClick: () => this.deleteEmails({ emails: [item.email] })
-        }
+          onClick: () => this.deleteEmails({ emails: [item.email] }),
+        },
       ]
     },
     async deleteEmails(this: any, { emails }: { emails: string[] }) {
       await deleteEmails({
         emails,
-        listId: this.listId
+        listId: this.listId,
       })
 
       // Remove from UI
@@ -166,7 +166,7 @@ export default Vue.extend({
         })
         csvExport<EmailConfig>({
           filename: `email-list-${this.listId}`,
-          data
+          data,
         })
       } else if (action == "export-selected") {
         const data = this.post.list
@@ -178,14 +178,14 @@ export default Vue.extend({
           })
         csvExport<EmailConfig>({
           filename: `email-list-${this.listId}-selected`,
-          data
+          data,
         })
       }
     },
     selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.post.list.map((_: EmailConfig) => _.email)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less"></style>

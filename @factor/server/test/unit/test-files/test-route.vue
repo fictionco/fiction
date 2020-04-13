@@ -10,9 +10,9 @@ export default Vue.extend({
   data() {
     return {
       msg: "::hello::",
-      img: require("./test-image.jpg")
+      img: require("./test-image.jpg"),
     }
-  }
+  },
 })
 </script>
 <style lang="less">

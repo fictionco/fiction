@@ -16,7 +16,9 @@
               itemprop="brand"
               itemscope
               itemtype="http://schema.org/Brand"
-            >Factor JS &rarr; Platform</div>
+            >
+              Factor JS &rarr; Platform
+            </div>
           </div>
 
           <h1 class="title">
@@ -26,11 +28,14 @@
           </h1>
           <p class="text">
             Try the
-            <factor-link path="https://factor.dev">Factor Platform</factor-link>, a development platform built for websites, blogs and applications.
+            <factor-link path="https://factor.dev">Factor Platform</factor-link>, a
+            development platform built for websites, blogs and applications.
           </p>
 
           <div class="header-actions">
-            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
+            <factor-link btn="primary" path="/signin?newAccount"
+              >Create Account &rarr;</factor-link
+            >
           </div>
         </div>
         <figure-header />
@@ -65,9 +70,12 @@
             data-size="large"
             data-show-count="true"
             aria-label="Star fiction-com/factor on GitHub"
-          >Star</a>
+            >Star</a
+          >
 
-          <factor-link path="/factor-js" btn="primary">Factor Developer Site &rarr;</factor-link>
+          <factor-link path="/factor-js" btn="primary"
+            >Factor Developer Site &rarr;</factor-link
+          >
         </div>
       </div>
     </div>
@@ -78,7 +86,10 @@
       :key="index"
       class="features content"
     >
-      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even']">
+      <div
+        class="split-feature content-pad wide"
+        :class="[index % 2 == 0 ? 'odd' : 'even']"
+      >
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
@@ -144,11 +155,13 @@
             <h3 class="sub-title">We'd love to have you as a member</h3>
           </div>
           <div class="text">
-            Join other developers building the next big things for
-            the web. Join to get chat access, latest updates and support.
+            Join other developers building the next big things for the web. Join to get
+            chat access, latest updates and support.
           </div>
           <div class="action">
-            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
+            <factor-link btn="primary" path="/signin?newAccount"
+              >Create Account &rarr;</factor-link
+            >
           </div>
         </div>
       </div>
@@ -167,7 +180,7 @@ export default Vue.extend({
     factorLink,
     factorIcon,
     "home-icon": () => import("./icon.vue"),
-    "figure-header": () => import("./figure-header.vue")
+    "figure-header": () => import("./figure-header.vue"),
   },
   data() {
     return {
@@ -179,20 +192,20 @@ export default Vue.extend({
           icon: "front-end",
           title: "Front-End Focused",
           text: `Fiction focuses solely on the needs of front-end professionals.
-            We don't bloat your apps with unnecessary features, and we help you build apps the way you actually want to.`
+            We don't bloat your apps with unnecessary features, and we help you build apps the way you actually want to.`,
         },
         {
           icon: "code",
           title: "Coding, Just the Fun Parts",
           text: `The best apps are handcrafted with custom CSS and components.
-              Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`
+              Fiction helps you code where its fun and creative; but takes away the pitfalls, bugs and quirks common in JS apps.`,
         },
         {
           icon: "pro-support",
           title: "Professional Support",
           text: `Build your app with people that know design and can answer advanced coding questions.
-              Fiction provides only top-tier support run by expert designers and application devs. `
-        }
+              Fiction provides only top-tier support run by expert designers and application devs. `,
+        },
       ],
       features: [
         {
@@ -205,8 +218,8 @@ export default Vue.extend({
           figure: () => import("./figure-code.vue"),
           link: {
             path: "https://factor.dev",
-            text: "Learn More &rarr;"
-          }
+            text: "Learn More &rarr;",
+          },
         },
         {
           id: "feature-pro",
@@ -218,8 +231,8 @@ export default Vue.extend({
           figure: () => import("./figure-pro.vue"),
           link: {
             path: "/vip",
-            text: "Learn More &rarr;"
-          }
+            text: "Learn More &rarr;",
+          },
         },
         {
           id: "feature-vip",
@@ -230,7 +243,7 @@ export default Vue.extend({
           figure: () => import("./figure-vip.vue"),
           link: {
             path: "/vip",
-            text: "Learn More &rarr;"
+            text: "Learn More &rarr;",
           },
           bullets: [
             "Design",
@@ -240,48 +253,48 @@ export default Vue.extend({
             "Dedicated Developers",
             "Guaranteed Satisfaction",
             "Phone Support",
-            "Free Setup"
-          ]
-        }
+            "Free Setup",
+          ],
+        },
       ],
       compare: [
         {
-          items: ["", "Ideal For &rarr;", "Summary  &rarr;"]
+          items: ["", "Ideal For &rarr;", "Summary  &rarr;"],
         },
         {
           items: [
             "Factor JS",
             "Front-End Developers",
-            "A free platform to ship beautiful JS apps fast."
+            "A free platform to ship beautiful JS apps fast.",
           ],
           link: {
             path: "https://factor.dev",
-            text: "Go to Factor.dev &rarr;"
-          }
+            text: "Go to Factor.dev &rarr;",
+          },
         },
         {
           items: [
             "Factor Pro",
             "Professional Front-End Developers",
-            "Advanced features, options and tools. Technical support from Fiction."
+            "Advanced features, options and tools. Technical support from Fiction.",
           ],
           link: {
             path: "/vip",
-            text: "Learn More &rarr;"
-          }
+            text: "Learn More &rarr;",
+          },
         },
         {
           items: [
             "Factor VIP",
             "Enterprise Front-End Developers",
-            "Dedicated developers and managed infrastructure. Virtual dev team."
+            "Dedicated developers and managed infrastructure. Virtual dev team.",
           ],
           link: {
             path: "/vip",
-            text: "Learn More &rarr;"
-          }
-        }
-      ]
+            text: "Learn More &rarr;",
+          },
+        },
+      ],
     }
   },
   mounted() {
@@ -296,9 +309,9 @@ export default Vue.extend({
     return {
       title: "Build Websites, blogs and apps with JavaScript",
       description: `A VueJS framework that allows you to build amazing websites and blogs.`,
-      image: require("../img/fiction.jpg")
+      image: require("../img/fiction.jpg"),
     }
-  }
+  },
 })
 </script>
 <style lang="less">

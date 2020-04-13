@@ -20,7 +20,7 @@ import { addContentRoute } from "@factor/api"
 
 addContentRoute({
   path: "/example-route",
-  component: () => import("./v-example.vue")
+  component: () => import("./v-example.vue"),
 })
 ```
 
@@ -77,8 +77,8 @@ export default {
   computed: {
     myData() {
       return stored("myData") // {foo: "bar"}
-    }
-  }
+    },
+  },
 }
 ```
 

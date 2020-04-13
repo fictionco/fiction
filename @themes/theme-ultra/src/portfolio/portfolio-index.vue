@@ -29,7 +29,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "portfolio",
-      loading: true
+      loading: true,
     }
   },
   metaInfo() {
@@ -39,7 +39,7 @@ export default Vue.extend({
     const description = tag ? `Articles related to tag: ${tag}` : "Projects and more..."
     return {
       title,
-      description
+      description,
     }
   },
   serverPrefetch() {
@@ -61,14 +61,14 @@ export default Vue.extend({
     },
     returnLinkText() {
       return setting("portfolio.returnLinkText") || "All Projects"
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -84,12 +84,12 @@ export default Vue.extend({
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: setting("portfolio.limit")
+        limit: setting("portfolio.limit"),
       })
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

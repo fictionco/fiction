@@ -8,7 +8,8 @@
           itemprop="author"
           itemscope
           itemtype="http://schema.org/Person"
-        >{{ getPost(authorId).displayName }}</span>
+          >{{ getPost(authorId).displayName }}</span
+        >
       </div>
       <span class="sep">on</span>
       <span class="date">{{ standardDate(post.date) }}</span>
@@ -22,7 +23,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorAvatar },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     postSet() {
@@ -30,14 +31,14 @@ export default Vue.extend({
     },
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     getPost(_id: any) {
       return stored(_id) || {}
     },
-    standardDate
-  }
+    standardDate,
+  },
 })
 </script>
 <style lang="less">

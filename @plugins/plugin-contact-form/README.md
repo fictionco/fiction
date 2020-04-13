@@ -25,9 +25,9 @@ To customize defaults, you can
 export default {
   contactForm: {
     submit: {
-      text: "my text"
-    }
-  }
+      text: "my text",
+    },
+  },
 }
 ```
 

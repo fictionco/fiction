@@ -39,8 +39,8 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    "site-logo": () => import("./logo.vue")
-  }
+    "site-logo": () => import("./logo.vue"),
+  },
 })
 </script>
 

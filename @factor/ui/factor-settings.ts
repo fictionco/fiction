@@ -9,7 +9,7 @@ export default {
       loadingRing: (): Promise<Component> => import("./el/loading-ring.vue"),
       modal: (): Promise<Component> => import("./el/modal.vue"),
       modalApp: (): Promise<Component> => import("./el/modal.vue"),
-      lightbox: (): Promise<Component> => import("./el/lightbox.vue")
-    }
-  }
+      lightbox: (): Promise<Component> => import("./el/lightbox.vue"),
+    },
+  },
 }

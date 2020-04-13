@@ -2,18 +2,23 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <template v-for="area in menu">
-        <div v-if="area.menu.length > 0" :key="area.group" class="nav-area" :class="area.group">
+        <div
+          v-if="area.menu.length > 0"
+          :key="area.group"
+          class="nav-area"
+          :class="area.group"
+        >
           <div v-if="!area.hideTitle" class="area-title">{{ toLabel(area.group) }}</div>
 
           <template v-for="(_, key) in area.menu">
-            <div :key="key" class="nav-group" :class="_.active ? 'active': ''">
+            <div :key="key" class="nav-group" :class="_.active ? 'active' : ''">
               <factor-link
                 :path="_.path"
                 :query="_.query"
                 :action="_.action"
                 class="menu-link"
-                :class="_.active ? 'active': 'not-active'"
-                @click="(_.click) ? _.click() : ''"
+                :class="_.active ? 'active' : 'not-active'"
+                @click="_.click ? _.click() : ''"
               >
                 <div class="item-icon">
                   <img class :src="_.icon" />
@@ -66,16 +71,16 @@ export default Vue.extend({
       toggle: false,
       clickHandler: false,
       menu: {},
-      loading: false
+      loading: false,
     }
   },
   computed: {},
   watch: {
-    $route: function(this: any, to: Route, from: Route) {
+    $route: function (this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.setMenu()
       }
-    }
+    },
   },
   async mounted(this: any) {
     this.loading = true
@@ -87,8 +92,8 @@ export default Vue.extend({
     slugify,
     async setMenu(this: any) {
       this.menu = await getDashboardMenu()
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

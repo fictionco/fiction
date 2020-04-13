@@ -20,7 +20,7 @@ As an example, we'll fetch a post:
 ```js
 import { addGlobalPrefetch, storeItem } from "@factor/api"
 
-addGlobalPrefetch(async route => {
+addGlobalPrefetch(async (route) => {
   const data = await getData()
   storeItem("myItem", data)
 })
@@ -31,7 +31,7 @@ export default {
   async serverPrefetch() {
     const data = await getData()
     storeItem("myItem", data)
-  }
+  },
 }
 ```
 
@@ -47,8 +47,8 @@ export default {
   computed: {
     myItem() {
       return stored("myItem") || {}
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -59,7 +59,7 @@ In Vue components we have two primary 'hooks' that are initialized when componen
 ```javascript
 export default {
   created() {}, // fired on both server and client
-  mounted() {} // fired only on client
+  mounted() {}, // fired only on client
 }
 ```
 
@@ -75,6 +75,6 @@ export default {
   async mounted() {
     const user = await userInitialized()
     // user auth state is loaded
-  }
+  },
 }
 ```

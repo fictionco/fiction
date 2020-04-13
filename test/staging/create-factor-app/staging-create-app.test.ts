@@ -10,7 +10,7 @@ const unicodeKeys = {
   up: "\u001B\u005B\u0041",
   down: "\u001B\u005B\u0042",
   enter: "\u000D",
-  space: "\u0020"
+  space: "\u0020",
 }
 
 let spawnedProcess: ChildProcess
@@ -25,19 +25,19 @@ describe("create-factor-app", () => {
     it("asks for app name, email, url", async () => {
       spawnedProcess = spawn("npx", ["create-factor-app@latest", APP_FOLDER], {
         detached: true,
-        cwd
+        cwd,
       })
 
       const output: string[] = []
 
       if (spawnedProcess.stdout) {
-        spawnedProcess.stdout.on("data", data => {
+        spawnedProcess.stdout.on("data", (data) => {
           output.push(data.toString())
         })
       }
 
       if (spawnedProcess.stderr) {
-        spawnedProcess.stderr.on("data", data => {
+        spawnedProcess.stderr.on("data", (data) => {
           output.push(`[err] ${data.toString()}`)
         })
       }
@@ -48,7 +48,7 @@ describe("create-factor-app", () => {
         spawnedProcess.stdin.write(`UNIT-TEST${unicodeKeys.enter}`)
       }
 
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         spawnedProcess.on("close", () => resolve())
       })
 
@@ -68,10 +68,10 @@ describe("create-factor-app", () => {
     it("create-factor-app runs", async () => {
       spawnedProcess = spawn("yarn", ["factor", "create-loaders"], {
         detached: true,
-        cwd: `${cwd}/${APP_FOLDER}`
+        cwd: `${cwd}/${APP_FOLDER}`,
       })
 
-      await new Promise(resolve => {
+      await new Promise((resolve) => {
         spawnedProcess.on("close", () => resolve())
       })
 

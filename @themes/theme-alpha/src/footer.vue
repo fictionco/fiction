@@ -33,16 +33,16 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
-    "factor-logo-icon": () => import("./el/factor.vue")
+    "factor-logo-icon": () => import("./el/factor.vue"),
   },
   data: () => {
     return {
       footerLegal: setting("footer.legal"),
       footerNav: setting("footer.nav"),
-      footerSocial: setting("site.social")
+      footerSocial: setting("site.social"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

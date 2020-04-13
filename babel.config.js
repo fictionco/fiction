@@ -1,9 +1,9 @@
 // @ts-nocheck
-const isBabelLoader = caller => {
+const isBabelLoader = (caller) => {
   return caller && caller.name === "babel-loader"
 }
 
-module.exports = function(api) {
+module.exports = function (api) {
   if (api.env("test") && !api.caller(isBabelLoader)) {
     return {
       plugins: [],
@@ -12,11 +12,11 @@ module.exports = function(api) {
           "@babel/env",
           {
             targets: {
-              node: "current"
-            }
-          }
-        ]
-      ]
+              node: "current",
+            },
+          },
+        ],
+      ],
     }
   }
   return {}

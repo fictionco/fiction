@@ -9,18 +9,18 @@ export default {
     metatags: {
       index: {
         title: "Blog",
-        description: "The latest news and articles."
-      }
+        description: "The latest news and articles.",
+      },
     },
     categories: ["uncategorized"],
     notFound: {
       title: "No Posts",
-      subTitle: "Couldn't find any blog posts."
+      subTitle: "Couldn't find any blog posts.",
     },
     layout: {
       index: ["featuredImage", "title", "subtitle", "meta"],
       single: ["returnLink", "title", "meta", "subtitle", "entry", "social", "authorBio"],
-      meta: ["authorDate", "tags"]
+      meta: ["authorDate", "tags"],
     },
     components: {
       blogWrap: (): Promise<Component> => import("./blog-wrap.vue"),
@@ -39,7 +39,7 @@ export default {
       social: (): Promise<Component> => import("./widget-social.vue"),
       tags: (): Promise<Component> => import("./widget-tags.vue"),
       notFound: (): Promise<Component> => import("./widget-not-found.vue"),
-      loading: (): Promise<Component> => import("./widget-loading.vue")
-    }
-  }
+      loading: (): Promise<Component> => import("./widget-loading.vue"),
+    },
+  },
 }

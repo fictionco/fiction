@@ -3,7 +3,11 @@
     <div class="mast">
       <div class="title-wrap">
         <div>
-          <h3 v-if="section3pretitle" v-formatted-text="section3pretitle" class="pretitle" />
+          <h3
+            v-if="section3pretitle"
+            v-formatted-text="section3pretitle"
+            class="pretitle"
+          />
           <h1 v-if="section3title" v-formatted-text="section3title" class="title" />
         </div>
         <div v-if="section3Buttons" class="buttons">
@@ -43,15 +47,15 @@ import { factorLink } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorLink
+    factorLink,
   },
   props: {
     thePosts: {
       type: Array,
       default() {
         return []
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -60,12 +64,12 @@ export default Vue.extend({
       section3id: setting("home.section3.id"),
       section3pretitle: setting("home.section3.pretitle"),
       section3title: setting("home.section3.title"),
-      section3Buttons: setting("home.section3.buttons")
+      section3Buttons: setting("home.section3.buttons"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

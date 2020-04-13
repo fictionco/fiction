@@ -15,8 +15,8 @@ npm add  @factor/plugin-server-analytics
 export default {
   serverAnalytics: {
     trackingId: "", // GA tracking ID - ua-xxxx-xx
-    trackEndpointHits: true // Send endpoint request events (track each endpoint request)
-  }
+    trackEndpointHits: true, // Send endpoint request events (track each endpoint request)
+  },
 }
 ```
 

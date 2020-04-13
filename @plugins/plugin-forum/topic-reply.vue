@@ -3,10 +3,10 @@
     <factor-loading-ring v-if="loading" />
     <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
-        <div class="title">{{ setting('forum.text.topicLocked') }}</div>
+        <div class="title">{{ setting("forum.text.topicLocked") }}</div>
       </div>
       <div v-else-if="!currentUser" class="no-dice">
-        <div class="title">{{ setting('forum.text.loginToReply') }}</div>
+        <div class="title">{{ setting("forum.text.loginToReply") }}</div>
         <div class="actions">
           <factor-link event="sign-in-modal" btn="primary">
             <span v-formatted-text="setting('forum.text.login')" />
@@ -50,7 +50,7 @@ import {
   factorAvatar,
   factorBtn,
   factorLink,
-  factorLoadingRing
+  factorLoadingRing,
 } from "@factor/ui"
 import { requestSaveTopicReply, requestSaveTopic } from "./request"
 export default Vue.extend({
@@ -60,12 +60,12 @@ export default Vue.extend({
     factorBtn,
     factorLink,
     factorInputCheckbox,
-    factorLoadingRing
+    factorLoadingRing,
   },
   props: {
     postId: { type: String, default: "" },
     editId: { type: String, default: "" },
-    showSubscriber: { type: Boolean, default: false }
+    showSubscriber: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -73,7 +73,7 @@ export default Vue.extend({
       reply: "",
       sending: false,
       storeKey: this.editId ? this.editId : "post",
-      loading: true
+      loading: true,
     }
   },
   computed: {
@@ -98,7 +98,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.storeKey, v)
-      }
+      },
     },
     embedded: {
       get(this: any): FactorPost {
@@ -106,8 +106,8 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem("embedded", v)
-      }
-    }
+      },
+    },
   },
   async mounted() {
     if (this.editId) {
@@ -125,7 +125,7 @@ export default Vue.extend({
       if (this.postId != this.editId) {
         await requestSaveTopicReply(this.postId, {
           _id: this.editId,
-          content: this.reply
+          content: this.reply,
         })
         this.post = { ...this.post, content: this.reply }
         emitEvent("highlight-post", this.editId)
@@ -145,7 +145,7 @@ export default Vue.extend({
       const doc = {
         content: this.reply,
         author: [this.currentUser._id],
-        _id: ""
+        _id: "",
       }
 
       const result = await requestSaveTopicReply(this.postId, doc, this.subscriber)
@@ -165,8 +165,8 @@ export default Vue.extend({
       }
 
       this.sending = false
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

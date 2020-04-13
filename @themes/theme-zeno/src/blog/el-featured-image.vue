@@ -13,7 +13,7 @@ export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
-    format: { type: String, default: "" }
+    format: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -27,14 +27,14 @@ export default Vue.extend({
     },
     style(this: any) {
       const style = {
-        backgroundImage: `url(${this.avatarUrl})`
+        backgroundImage: `url(${this.avatarUrl})`,
       }
 
       return style
-    }
+    },
   },
   methods: {
-    postLink
-  }
+    postLink,
+  },
 })
 </script>

@@ -2,18 +2,18 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Maven Pro", "sans-serif"]
+        sans: ["Maven Pro", "sans-serif"],
       },
       listStyleType: {
         square: "square",
-        roman: "upper-roman"
+        roman: "upper-roman",
       },
       maxHeight: {
         "0": "0",
         "1/4": "25%",
         "1/2": "50%",
         "3/4": "75%",
-        full: "100%"
+        full: "100%",
       },
       colors: {
         gray: {
@@ -25,7 +25,7 @@ module.exports = {
           600: "#717485",
           700: "#4a5568",
           800: "#2d3748",
-          900: "#1a202c"
+          900: "#1a202c",
         },
         teal: {
           100: "#E8FFF9",
@@ -36,7 +36,7 @@ module.exports = {
           600: "#18E5AD",
           700: "#109873",
           800: "#0C7256",
-          900: "#084C3A"
+          900: "#084C3A",
         },
         purple: {
           100: "#F0E8FC",
@@ -47,17 +47,17 @@ module.exports = {
           600: "#5B13C7",
           700: "#3D0D85",
           800: "#2D0963",
-          900: "#0B092E"
-        }
-      }
+          900: "#0B092E",
+        },
+      },
     },
-    fill: theme => ({
-      purple: theme("colors.purple.500")
-    })
+    fill: (theme) => ({
+      purple: theme("colors.purple.500"),
+    }),
   },
   variants: {
     backgroundColor: ["responsive", "hover", "focus", "active", "even", "odd"],
-    textColor: ["responsive", "hover", "focus"]
+    textColor: ["responsive", "hover", "focus"],
   },
-  plugins: []
+  plugins: [],
 }

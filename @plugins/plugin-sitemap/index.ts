@@ -8,7 +8,7 @@ import {
   log,
   getKnownRoutePaths,
   setting,
-  currentUrl
+  currentUrl,
 } from "@factor/api"
 import { postTypesConfig, PostTypeConfig } from "@factor/api/post-types"
 
@@ -22,8 +22,8 @@ const sitemapsCache = new NodeCache()
 
 export type SitemapItem = SitemapItemLoose
 export interface RegisteredSitemap {
-  _id: string;
-  items: SitemapItem[];
+  _id: string
+  items: SitemapItem[]
 }
 
 /**
@@ -42,7 +42,7 @@ export const registerSitemap = (
       const items = await getItems()
 
       return { _id, items }
-    }
+    },
   })
   return
 }
@@ -64,7 +64,7 @@ const copyStaticFiles = (): WebpackCopyItemConfig[] => {
 }
 
 type GetSitemapOptions = {
-  bust?: true;
+  bust?: true
 }
 
 /**
@@ -91,7 +91,7 @@ const getSitemap = async (
 ): Promise<RegisteredSitemap | undefined> => {
   const sitemaps = await getRegisteredSitemaps(options)
 
-  return sitemaps.find(map => map._id == _id)
+  return sitemaps.find((map) => map._id == _id)
 }
 
 const getSitemapUrl = (_id: string): string => {
@@ -116,10 +116,10 @@ export const setPostTypeSitemaps = async (): Promise<void> => {
 
         const posts = await Model.find({
           status: PostStatus.Published,
-          source: setting("package.name")
+          source: setting("package.name"),
         })
 
-        return posts.map(p => {
+        return posts.map((p) => {
           return { url: permalink(p), lastmod: p.updatedAt?.toString() ?? "" }
         })
       }
@@ -134,13 +134,13 @@ export const setup = (): void => {
     hook: "db-initialized",
     callback: () => {
       registerSitemap("routes", () =>
-        getKnownRoutePaths().map(_ => {
+        getKnownRoutePaths().map((_) => {
           return { url: _ }
         })
       )
 
       return setPostTypeSitemaps()
-    }
+    },
   })
   /**
    * Copy any static/built files into root of dist
@@ -150,7 +150,7 @@ export const setup = (): void => {
     hook: "webpack-copy-files-config",
     callback: (_: WebpackCopyItemConfig[]) => {
       return [..._, ...copyStaticFiles()]
-    }
+    },
   })
 
   addFilter({
@@ -175,30 +175,30 @@ export const setup = (): void => {
               }
               const smStream = new SitemapStream({
                 hostname: currentUrl(),
-                xslUrl: getStyleUrl()
+                xslUrl: getStyleUrl(),
               })
               const pipeline = smStream.pipe(createGzip())
 
               map.items
-                .map(item => {
+                .map((item) => {
                   const merged = { changefreq: "weekly", priority: 0.5, ...item }
                   // Ensure priority is a number or throws error
                   return { ...merged, priority: Number(merged.priority) }
                 })
-                .forEach(item => {
+                .forEach((item) => {
                   smStream.write(item)
                 })
               smStream.end()
 
-              pipeline.pipe(response).on("error", e => {
+              pipeline.pipe(response).on("error", (e) => {
                 throw e
               })
             } catch (error) {
               log.error(error)
               response.status(500).end()
             }
-          }
-        ]
+          },
+        ],
       })
       _.push({
         path: "/sitemap.xml",
@@ -210,20 +210,20 @@ export const setup = (): void => {
             try {
               const sitemapIndex = new SitemapIndexStream({
                 xslUrl: getStyleUrl(),
-                level: ErrorLevel.WARN
+                level: ErrorLevel.WARN,
               })
 
               const sitemaps = await getRegisteredSitemaps()
 
               sitemaps
-                .filter(_ => _.items && _.items.length > 0)
+                .filter((_) => _.items && _.items.length > 0)
                 .forEach(({ _id }) => {
                   sitemapIndex.write({ url: getSitemapUrl(_id) })
                 })
 
               const pipeline = sitemapIndex.pipe(createGzip())
 
-              pipeline.pipe(response).on("error", e => {
+              pipeline.pipe(response).on("error", (e) => {
                 throw e
               })
               sitemapIndex.end()
@@ -231,12 +231,12 @@ export const setup = (): void => {
               log.error(error)
               response.status(500).end()
             }
-          }
-        ]
+          },
+        ],
       })
 
       return _
-    }
+    },
   })
 }
 

@@ -22,15 +22,15 @@ let app: express.Express
 let sse: SSE
 
 interface State {
-  build?: BuildTypes;
-  progress?: number;
-  message?: string;
-  hasErrors?: boolean;
-  allDone?: boolean;
-  lastBroadCast?: number;
-  error?: { description: string; stack: string };
-  redirect?: string;
-  settings?: Record<string, any>;
+  build?: BuildTypes
+  progress?: number
+  message?: string
+  hasErrors?: boolean
+  allDone?: boolean
+  lastBroadCast?: number
+  error?: { description: string; stack: string }
+  redirect?: string
+  settings?: Record<string, any>
 }
 
 let loaderState: State = {}
@@ -123,8 +123,8 @@ export const setLoadingStates = (
     progress,
     message,
   }: {
-    progress: number;
-    message: string;
+    progress: number
+    message: string
   }
 ): void => {
   clearError()

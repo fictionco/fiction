@@ -20,15 +20,15 @@ export default Vue.extend({
       type: Array,
       default() {
         return []
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      loading: true
+      loading: true,
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

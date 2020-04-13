@@ -7,20 +7,16 @@
       <template v-if="!isLoggedIn()">
         <div v-if="newAccount && !view" class="forgot-password alternative-action-link">
           Have an account?
-          <a
-            href="#"
-            data-test="link-login"
-            @click.prevent="newAccount = false"
-          >Login &rarr;</a>
+          <a href="#" data-test="link-login" @click.prevent="newAccount = false"
+            >Login &rarr;</a
+          >
         </div>
 
         <div v-else-if="!view" class="new-account alternative-action-link">
           Don't have an account?
-          <a
-            href="#"
-            data-test="link-register"
-            @click.prevent="newAccount = true"
-          >Sign Up &rarr;</a>
+          <a href="#" data-test="link-register" @click.prevent="newAccount = true"
+            >Sign Up &rarr;</a
+          >
         </div>
       </template>
     </div>
@@ -106,7 +102,8 @@
             :loading="loading"
             btn="primary"
             @click="signIn('email')"
-          >{{ newAccount ? 'Sign Up' : 'Login' }} &rarr;</factor-btn>
+            >{{ newAccount ? "Sign Up" : "Login" }} &rarr;</factor-btn
+          >
         </div>
       </template>
     </factor-form>
@@ -124,7 +121,8 @@
             <a
               data-test="link-forgot-password"
               @click.prevent="setView(`forgot-password`)"
-            >forget your password?</a>
+              >forget your password?</a
+            >
           </div>
         </template>
       </template>

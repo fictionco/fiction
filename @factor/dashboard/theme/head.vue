@@ -4,12 +4,16 @@
       <div class="icon-nav" @click.stop>
         <div
           class="menu-factor menu-toggle"
-          :class="toggle == 'on' && menuType == 'factor' ? 'open': 'closed'"
+          :class="toggle == 'on' && menuType == 'factor' ? 'open' : 'closed'"
           @click="toggleNav(`toggle`, `factor`)"
         >
           <div v-if="toggle == 'on' && menuType == 'factor'" class="menu-items">
             <div v-for="(item, index) in dashboardMenu" :key="index" class="menu-item">
-              <factor-link v-formatted-text="item.name" :path="item.path" class="menu-item-name" />
+              <factor-link
+                v-formatted-text="item.name"
+                :path="item.path"
+                class="menu-item-name"
+              />
             </div>
           </div>
           <div class="menu-icon">
@@ -22,18 +26,25 @@
         </div>
         <div
           class="menu-app menu-toggle"
-          :class="toggle == 'on' && menuType == 'app' ? 'open': 'closed'"
+          :class="toggle == 'on' && menuType == 'app' ? 'open' : 'closed'"
           @click="toggleNav(`toggle`, `app`)"
         >
           <div v-if="toggle == 'on' && menuType == 'app'" class="menu-items">
             <div v-for="(item, index) in dashboardMenu" :key="index" class="menu-item">
-              <factor-link v-formatted-text="item.name" :path="item.path" class="menu-item-name" />
+              <factor-link
+                v-formatted-text="item.name"
+                :path="item.path"
+                class="menu-item-name"
+              />
             </div>
           </div>
           <div class="menu-icon">
             <dashboard-icon icon="globe" />
           </div>
-          <div v-if="toggle == 'off' || (toggle == 'on' && menuType == 'app')" class="app-name">
+          <div
+            v-if="toggle == 'off' || (toggle == 'on' && menuType == 'app')"
+            class="app-name"
+          >
             <span v-formatted-text="appName" class="name-text" />
             <toggle-caret />
           </div>
@@ -80,12 +91,12 @@ export default Vue.extend({
     factorAvatar,
     factorLink,
     mobileMenu: () => import("./nav-mobile.vue"),
-    toggleCaret: () => import("../el/caret.vue")
+    toggleCaret: () => import("../el/caret.vue"),
   },
   data() {
     return {
       toggle: "off",
-      menuType: "menu"
+      menuType: "menu",
     }
   },
   computed: {
@@ -103,7 +114,7 @@ export default Vue.extend({
     },
     dashboardMenu(this: any) {
       return dashboardSiteMenu(this.$route.path, this.menuType)
-    }
+    },
   },
   methods: {
     isLoggedIn,
@@ -139,8 +150,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler, false)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

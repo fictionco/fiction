@@ -62,7 +62,6 @@ export default Vue.extend({
 })
 </script>
 
-
 <style lang="less">
 .notification-bottom-enter-active,
 .notification-bottom-move,

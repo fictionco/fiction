@@ -14,7 +14,7 @@ import {
   setLoadingStates,
   setLoadingError,
   serveIndex,
-  setShowInstall
+  setShowInstall,
 } from "./loading"
 
 export const initLoader = (): void => {
@@ -22,7 +22,7 @@ export const initLoader = (): void => {
 
   addMiddleware({
     path: "/_loading",
-    middleware: [app]
+    middleware: [app],
   })
 
   onEvent(
@@ -47,13 +47,13 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     displayName,
     email,
     password,
-    theme
+    theme,
   } = form
 
   const values: Record<string, any> = {
     factor: {
-      app: { name: appName, description: appDescription, url: appUrl, email: appEmail }
-    }
+      app: { name: appName, description: appDescription, url: appUrl, email: appEmail },
+    },
   }
 
   if (email) {
@@ -70,7 +70,7 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     try {
       const themeVersion = await latestVersion(theme)
       values.dependencies = {
-        [theme]: `^${themeVersion}`
+        [theme]: `^${themeVersion}`,
       }
     } catch (error) {
       log.error("Added theme was not found.")
@@ -97,7 +97,7 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
           addNotice(`New admin created for: ${user.email}`)
         }
       }
-    }
+    },
   })
 
   writeFiles("package", values)
@@ -109,7 +109,7 @@ export const showInstallRoutine = async (): Promise<void> => {
   if (!setting("installed") && process.env.FACTOR_ENV !== "test") {
     setShowInstall()
 
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       onEvent("loaderEvent", async (data: Record<string, any>) => {
         const { form } = data
         if (form) {

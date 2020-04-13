@@ -6,11 +6,11 @@ import cssNano from "cssnano"
 export const cssLoaders = ({
   target,
   lang,
-  cwd
+  cwd,
 }: {
-  target: string;
-  lang: string;
-  cwd?: string;
+  target: string
+  lang: string
+  cwd?: string
 }): object[] => {
   const postCssPlugins = applyFilters(
     "postcss-plugins",
@@ -25,9 +25,9 @@ export const cssLoaders = ({
       options: {
         ident: "postcss", // https://github.com/postcss/postcss-loader#plugins
         plugins: postCssPlugins,
-        minimize: true
-      }
-    }
+        minimize: true,
+      },
+    },
   ]
 
   if (lang == "less") {

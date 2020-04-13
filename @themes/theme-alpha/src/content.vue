@@ -14,21 +14,21 @@ import { setting } from "@factor/api/settings"
 export default Vue.extend({
   components: {
     "header-primary": setting(`site.components.header`),
-    "footer-primary": setting(`site.components.footer`)
+    "footer-primary": setting(`site.components.footer`),
   },
   metaInfo() {
     return {
       title: setting("metatags.defaultTitle"),
-      titleTemplate: setting("metatags.titleTemplate")
+      titleTemplate: setting("metatags.titleTemplate"),
     }
   },
   computed: {
     bg(this: any) {
       return {
-        background: this.$route.meta.background || ""
+        background: this.$route.meta.background || "",
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

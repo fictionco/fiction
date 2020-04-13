@@ -17,11 +17,11 @@ const postType = "forumTopic"
 
 export const isSubscribed = async ({
   userId,
-  postId
+  postId,
 }: Omit<SubscribeUser, "subscribe">): Promise<boolean> => {
   const r = await getModel(postType).findOne({
     _id: postId as ObjectId,
-    subscriber: userId
+    subscriber: userId,
   })
 
   return r ? true : false
@@ -46,11 +46,11 @@ export const setSubscribed = async (_arguments: SubscribeUser): Promise<boolean>
 export const notifySubscribers = async ({
   postId,
   userId,
-  reply
+  reply,
 }: {
-  postId: string;
-  userId: string;
-  reply: FactorPost;
+  postId: string
+  userId: string
+  reply: FactorPost
 }): Promise<true | undefined> => {
   const post = await getModel<ForumTopicFactorPost>(postType).findOne({ _id: postId })
 
@@ -59,15 +59,15 @@ export const notifySubscribers = async ({
 
     // don't forget to convert objectId to string
     const _promises = post.subscriber
-      .filter(sub => sub.toString() != userId.toString())
-      .map(sub => {
+      .filter((sub) => sub.toString() != userId.toString())
+      .map((sub) => {
         return sendTransactionalEmailToId(sub, {
           emailId: "forumTopicSubscribe",
           subject: `Re: ${post.title}`,
           text: reply.content,
           linkText: "View Topic",
           linkUrl,
-          textFooter: `You are receiving this email because you are subscribed to this topic.\n<a href="${linkUrl}">Unsubscribe</a>`
+          textFooter: `You are receiving this email because you are subscribed to this topic.\n<a href="${linkUrl}">Unsubscribe</a>`,
         })
       })
 
@@ -80,11 +80,11 @@ export const saveTopicReply = async (
   {
     postId,
     reply,
-    subscribe
+    subscribe,
   }: {
-    postId: string;
-    reply: FactorPost;
-    subscribe: boolean;
+    postId: string
+    reply: FactorPost
+    subscribe: boolean
   },
   { bearer }: EndpointMeta
 ): Promise<FactorPostState> => {
@@ -95,7 +95,7 @@ export const saveTopicReply = async (
       action: "save",
       postId,
       data: reply,
-      postType
+      postType,
     },
     { bearer }
   )
@@ -128,7 +128,7 @@ export const setup = (): void => {
   addPostSchema(() => forumSchema)
   addEndpoint({
     id: "forum",
-    handler: { isSubscribed, setSubscribed, saveTopicReply, saveTopic }
+    handler: { isSubscribed, setSubscribed, saveTopicReply, saveTopic },
   })
 }
 setup()

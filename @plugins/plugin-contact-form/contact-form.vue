@@ -8,7 +8,10 @@
   >
     <div v-if="sent" class="confirm" data-test="confirm">
       <div v-formatted-text="setting('contactForm.confirm.title')" class="title" />
-      <div v-formatted-text="setting('contactForm.confirm.subTitle')" class="description" />
+      <div
+        v-formatted-text="setting('contactForm.confirm.subTitle')"
+        class="description"
+      />
     </div>
     <div v-else class="inputs">
       <factor-input-wrap
@@ -29,7 +32,8 @@
         :size="setting('contactForm.submit.size')"
         :loading="sending"
         data-test="contact-form-submit"
-      >{{ setting("contactForm.submit.text") }}</factor-input-submit>
+        >{{ setting("contactForm.submit.text") }}</factor-input-submit
+      >
     </div>
   </factor-form>
 </template>
@@ -47,13 +51,13 @@ export default Vue.extend({
       sending: false,
       sent: false,
       form: {},
-      formStatus: "unchecked"
+      formStatus: "unchecked",
     }
   },
   mounted() {
     this.$watch(
       "form",
-      function(this: any) {
+      function (this: any) {
         const v = this.$refs.form.$el.checkValidity()
 
         this.formStatus = v ? "valid" : "invalid"
@@ -84,7 +88,7 @@ export default Vue.extend({
         placeholder.push("*")
       }
       return placeholder.join(" ")
-    }
-  }
+    },
+  },
 })
 </script>

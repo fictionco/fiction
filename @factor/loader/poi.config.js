@@ -6,8 +6,8 @@ const config = {
     dir: "app-dist",
     html: {
       template: "app/index.html",
-      title: "Factor: Loading..."
-    }
+      title: "Factor: Loading...",
+    },
   },
   configureWebpack: {},
   plugins: [
@@ -25,7 +25,7 @@ const config = {
     //     }
     //   }
     // }
-  ]
+  ],
 }
 
 if (env == "development") {

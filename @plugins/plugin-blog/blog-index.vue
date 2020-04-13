@@ -33,7 +33,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "blog",
-      loading: false
+      loading: false,
     }
   },
   metaInfo() {
@@ -45,7 +45,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   serverPrefetch() {
@@ -64,14 +64,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -84,8 +84,8 @@ export default Vue.extend({
       await loadAndStoreBlogIndex()
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

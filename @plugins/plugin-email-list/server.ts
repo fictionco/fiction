@@ -26,7 +26,7 @@ const sendCompleteEmail = async ({ email, listId }: EmailConfig): Promise<void> 
     to: email,
     subject,
     text,
-    from
+    from,
   })
 }
 
@@ -35,7 +35,7 @@ const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<v
 
   const format = getSetting({
     key: "emails.confirm",
-    listId
+    listId,
   })
 
   if (!format) {
@@ -54,7 +54,7 @@ const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<v
     subject,
     text,
     linkText,
-    linkUrl
+    linkUrl,
   })
 }
 
@@ -66,7 +66,7 @@ const sendConfirmEmail = async ({ email, listId, code }: EmailConfig): Promise<v
 export const addEmail = async ({
   email,
   listId = "default",
-  tags = []
+  tags = [],
 }: EmailConfig): Promise<void> => {
   // Allow for external services to hook in
   email = applyFilters(`plugin-email-list-add-${listId}`, email)
@@ -86,7 +86,7 @@ export const addEmail = async ({
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.email": { $ne: email } },
     {
-      $addToSet: { list: { email, verified: false, code, tags, addedAt: timestamp() } }
+      $addToSet: { list: { email, verified: false, code, tags, addedAt: timestamp() } },
     }
   )
 
@@ -114,10 +114,10 @@ export const addEmail = async ({
  */
 export const deleteEmails = async ({
   emails,
-  listId = "default"
+  listId = "default",
 }: {
-  emails: string[];
-  listId: string;
+  emails: string[]
+  listId: string
 }): Promise<void> => {
   // query resource: https://stackoverflow.com/a/48933447/1858322
   await postModel().updateOne(
@@ -140,7 +140,7 @@ const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> =>
       to,
       subject,
       text: text + `<p><strong>Email:</strong> ${email}</p>`,
-      from
+      from,
     })
   }
 
@@ -157,7 +157,7 @@ const sendNotifyEmail = async ({ email, listId }: EmailConfig): Promise<void> =>
 export const verifyEmail = async ({
   email,
   list: listId = "default",
-  code
+  code,
 }: EmailConfig): Promise<void> => {
   const result = await postModel().updateOne(
     { uniqueId: uniqueId(listId), "list.code": code, "list.email": email },
@@ -165,15 +165,15 @@ export const verifyEmail = async ({
       $set: {
         "list.$.verified": true,
         "list.$.code": null,
-        "list.$.verifiedAt": timestamp()
-      }
+        "list.$.verifiedAt": timestamp(),
+      },
     }
   )
 
   if (result && result.nModified > 0) {
     await Promise.all([
       sendNotifyEmail({ email, listId }),
-      sendCompleteEmail({ email, listId })
+      sendCompleteEmail({ email, listId }),
     ])
   }
   return

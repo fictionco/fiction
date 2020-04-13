@@ -7,6 +7,6 @@ export const addEndpoint = ({ id, handler }: EndpointItem): void => {
     key: id,
     callback: () => {
       return { id, handler }
-    }
+    },
   })
 }

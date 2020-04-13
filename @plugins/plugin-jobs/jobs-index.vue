@@ -37,7 +37,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "jobs",
-      loading: false
+      loading: false,
     }
   },
   metaInfo() {
@@ -49,7 +49,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   serverPrefetch() {
@@ -68,14 +68,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -91,12 +91,12 @@ export default Vue.extend({
         status: PostStatus.Published,
         sort: { date: SortDelimiters.Descending },
         page: this.page,
-        limit: setting("jobs.limit")
+        limit: setting("jobs.limit"),
       })
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

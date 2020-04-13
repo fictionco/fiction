@@ -13,13 +13,13 @@ export const getStore = (): Store<object> => {
       return {}
     },
     getters: {
-      getItem: (state: Record<string, any>) => (item: string): any => state[item]
+      getItem: (state: Record<string, any>) => (item: string): any => state[item],
     },
     mutations: {
       setItem: (state, { item, value }): void => {
         Vue.set(state, item, value)
-      }
-    }
+      },
+    },
   })
 
   /**

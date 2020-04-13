@@ -15,7 +15,7 @@ import {
   PostIndexRequestParameters,
   PostIndex,
   PostStatus,
-  PostIndexConditions
+  PostIndexConditions,
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
@@ -58,10 +58,10 @@ export const sendPostRequest = async <T = unknown>(
  */
 export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
-  depth = 10
+  depth = 10,
 }: {
-  posts: T[];
-  depth?: number;
+  posts: T[]
+  depth?: number
 }): Promise<string[]> => {
   let _ids: string[] = []
 
@@ -70,10 +70,10 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 
     const populatedFields = getSchemaPopulatedFields({
       postType: post.postType ?? "post",
-      depth
+      depth,
     })
 
-    populatedFields.forEach(field => {
+    populatedFields.forEach((field) => {
       const v = post[field]
       if (v) {
         if (Array.isArray(v)) {
@@ -91,7 +91,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 
   if (_idsFiltered.length > 0) {
     const posts = (await sendPostRequest("populatePosts", {
-      _ids: _idsFiltered
+      _ids: _idsFiltered,
     })) as FactorPost[]
 
     await requestPostPopulate({ posts, depth })
@@ -128,7 +128,7 @@ export const handlePostPopulation = async (
  */
 export const requestPostSave = async <T extends FactorPostState | never>({
   post,
-  postType
+  postType,
 }: UpdatePost): Promise<T> => {
   const _post = await sendPostRequest<T>("savePost", { data: post, postType })
   setLocalPostTypeCache(postType)
@@ -157,7 +157,7 @@ export const requestEmbeddedAction = async <T extends FactorPostState | never>(
 export const requestPostSaveMany = async ({
   _ids,
   data,
-  postType
+  postType,
 }: UpdateManyPosts): Promise<FactorPost[]> => {
   setLocalPostTypeCache(postType)
   const result = await sendPostRequest("updateManyById", { data, _ids, postType })
@@ -167,7 +167,7 @@ export const requestPostSaveMany = async ({
 
 export const requestPostDeleteMany = async ({
   _ids,
-  postType
+  postType,
 }: UpdateManyPosts): Promise<FactorPost[]> => {
   setLocalPostTypeCache(postType)
 
@@ -188,7 +188,7 @@ export const requestPostSingle = async (
     token,
     createOnEmpty = false,
     status = "all",
-    depth = 50
+    depth = 50,
   } = _arguments
 
   const params: PostRequestParameters = { postType, createOnEmpty, status, log }
@@ -231,7 +231,7 @@ export const requestPostIndex = async (
     search,
     cache = true,
     sameSource = false,
-    conditions = {}
+    conditions = {},
   } = _arguments
 
   let { storeKey } = _arguments
@@ -254,11 +254,11 @@ export const requestPostIndex = async (
     conditions,
     postType,
     options: { limit, skip, page, sort, order, time, search },
-    sameSource
+    sameSource,
   }
 
   const taxonomies: (keyof PostIndexConditions)[] = ["tag", "category", "status", "role"]
-  taxonomies.forEach(_ => {
+  taxonomies.forEach((_) => {
     if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
 
@@ -298,7 +298,7 @@ export const requestPostList = async (
     sort,
     depth = 20,
     conditions = {},
-    sameSource
+    sameSource,
   } = _arguments
 
   const skip = (page - 1) * limit
@@ -307,7 +307,7 @@ export const requestPostList = async (
     postType,
     conditions,
     options: { limit, skip, page, sort },
-    sameSource
+    sameSource,
   })) as FactorPost[]
 
   await requestPostPopulate({ posts, depth })

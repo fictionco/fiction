@@ -115,8 +115,8 @@ export default Vue.extend({
   components: {},
   props: {
     icon: { type: String, default: "" },
-    color: { type: String, default: "text" }
-  }
+    color: { type: String, default: "text" },
+  },
 })
 </script>
 

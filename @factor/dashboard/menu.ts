@@ -3,23 +3,23 @@ import { userInitialized, userCan } from "@factor/user"
 import { currentRoute } from "@factor/app/router"
 import { getDashboardRoute } from "."
 export interface MenuItem {
-  name: string;
-  group?: string;
-  path?: string;
-  icon?: string;
-  key?: string;
-  click?: Function;
-  items?: MenuItem[];
-  active?: boolean;
-  priority?: number;
-  query?: Record<string, any>;
-  accessLevel?: number;
+  name: string
+  group?: string
+  path?: string
+  icon?: string
+  key?: string
+  click?: Function
+  items?: MenuItem[]
+  active?: boolean
+  priority?: number
+  query?: Record<string, any>
+  accessLevel?: number
 }
 
 export type MenuGroup = {
-  group: string;
-  hideTitle?: true;
-  menu: MenuItem[];
+  group: string
+  hideTitle?: true
+  menu: MenuItem[]
 }
 
 const setMenuState = (area: MenuGroup): MenuGroup => {
@@ -50,7 +50,7 @@ const setMenuState = (area: MenuGroup): MenuGroup => {
       icon: menuItem.icon ? menuItem.icon : require("./theme/img/generic.svg"),
       active,
       path: parentPath,
-      items
+      items,
     }
   })
 
@@ -78,7 +78,7 @@ export const getDashboardMenu = async (): Promise<MenuGroup[]> => {
     groups.push({ group: "development", menu: applyFilters(`development-menu`, []) })
   }
 
-  return applyFilters("manager-menus", groups).map(group => setMenuState(group))
+  return applyFilters("manager-menus", groups).map((group) => setMenuState(group))
 }
 
 export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuItem[] => {
@@ -88,27 +88,27 @@ export const dashboardSiteMenu = (currentPath: string, menuType: string): MenuIt
     items = [
       {
         name: "Visit Site &rarr;",
-        path: "/"
-      }
+        path: "/",
+      },
     ]
   } else {
     items = [
       {
         name: "Documentation",
-        path: "https://factor.dev"
+        path: "https://factor.dev",
       },
       {
         name: "Community",
-        path: "https://link.fiction.com/slack"
+        path: "https://link.fiction.com/slack",
       },
       {
         name: "Support",
-        path: "https://link.fiction.com/slack"
-      }
+        path: "https://link.fiction.com/slack",
+      },
     ]
   }
 
-  return items.map(el => {
+  return items.map((el) => {
     return { ...el, active: el.path == currentPath }
   })
 }

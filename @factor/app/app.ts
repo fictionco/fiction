@@ -17,9 +17,9 @@ import { ApplicationComponents } from "./types"
  * app instances on each call (which is called for each SSR request)
  */
 export const createApp = async ({
-  url = "/"
+  url = "/",
 }: {
-  url?: string;
+  url?: string
 } = {}): Promise<ApplicationComponents> => {
   process.env.FACTOR_TARGET = "app"
 
@@ -49,7 +49,7 @@ export const createApp = async ({
     },
     render: (h: CreateElement): VNode => h(site),
     router,
-    store
+    store,
   })
 
   /**

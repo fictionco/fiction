@@ -5,7 +5,7 @@
         <h2>Form Submission</h2>
         <div class="fields">
           <div
-            v-for="({label, value}, index) in postItemAdditional(selectedPost)"
+            v-for="({ label, value }, index) in postItemAdditional(selectedPost)"
             :key="index"
             class="field"
           >
@@ -48,7 +48,7 @@ import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request
 import {
   dashboardPane,
   dashboardListPost,
-  dashboardListControls
+  dashboardListControls,
 } from "@factor/dashboard"
 import { factorModal } from "@factor/ui"
 import Vue from "vue"
@@ -60,7 +60,7 @@ export default Vue.extend({
     dashboardListPost,
     dashboardPane,
     dashboardListControls,
-    factorModal
+    factorModal,
   },
   props: {
     postType: { type: String, default: "post" },
@@ -68,7 +68,7 @@ export default Vue.extend({
     list: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false },
-    sending: { type: Boolean, default: false }
+    sending: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -76,7 +76,7 @@ export default Vue.extend({
       showInfo: [],
       loadingAction: false,
       vis: false,
-      selectedPost: {}
+      selectedPost: {},
     }
   },
   computed: {},
@@ -95,7 +95,7 @@ export default Vue.extend({
       const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
       return [
         { value: "", label: `All (${this.meta.totalForQuery ?? 0})` },
-        { value: "trash", label: `Trash (${countTrash})` }
+        { value: "trash", label: `Trash (${countTrash})` },
       ]
     },
     postItemMeta(post: FactorPost) {
@@ -104,12 +104,12 @@ export default Vue.extend({
       return [
         {
           label: "From",
-          value: formFields.name
+          value: formFields.name,
         },
         {
           label: "Email",
-          value: formFields.email
-        }
+          value: formFields.email,
+        },
       ]
     },
     controlActions(): ControlAction[] {
@@ -119,20 +119,20 @@ export default Vue.extend({
           label: "Move to Inactive/Trash",
           condition: (query: { [key: string]: string }) => query.status != "trash",
           confirm: (selected: string[]) =>
-            `Move ${selected.length} submission(s) to trash?`
+            `Move ${selected.length} submission(s) to trash?`,
         },
         {
           value: "publish",
           label: "Move to Active",
-          condition: (query: { [key: string]: string }) => query.status == "trash"
+          condition: (query: { [key: string]: string }) => query.status == "trash",
         },
         {
           value: "delete",
           label: "Permanently Delete",
           condition: (query: { [key: string]: string }) => query.status == "trash",
           confirm: (selected: string[]) =>
-            `Permanently delete ${selected.length} submission(s)?`
-        }
+            `Permanently delete ${selected.length} submission(s)?`,
+        },
       ]
 
       return actions
@@ -159,20 +159,20 @@ export default Vue.extend({
           await requestPostSaveMany({
             _ids: this.selected,
             data: { status: action },
-            postType: this.postType
+            postType: this.postType,
           })
         }
         emitEvent("refresh-table")
       }
 
       this.loadingAction = false
-    }
+    },
     // fields(row) {
     //   const rest = omit(row, ["message", "createdAt", "_id"])
 
     //   return Object.values(rest)
     // }
-  }
+  },
 })
 </script>
 <style lang="less">

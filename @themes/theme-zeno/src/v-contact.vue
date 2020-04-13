@@ -8,7 +8,10 @@
       class="text-center pb-24 md:pb-32"
     >
       <template v-slot:hero-content>
-        <div v-formatted-text="setting('contact.hero.content')" class="content entry-content" />
+        <div
+          v-formatted-text="setting('contact.hero.content')"
+          class="content entry-content"
+        />
       </template>
     </el-hero>
 
@@ -28,23 +31,23 @@ import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-hero": () => import("./el/hero.vue")
+    "el-hero": () => import("./el/hero.vue"),
   },
   data() {
     return {
-      loading: true
+      loading: true,
     }
   },
   methods: {
-    setting
+    setting,
   },
   metaInfo() {
     return {
       title: setting("contact.meta.title"),
       description: setting("contact.meta.description"),
-      image: setting("contact.meta.image")
+      image: setting("contact.meta.image"),
     }
-  }
+  },
 })
 </script>
 

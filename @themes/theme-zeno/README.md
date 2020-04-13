@@ -28,10 +28,10 @@ export default {
     nav: [
       {
         path: "/",
-        name: "My Home"
-      }
-    ]
-  }
+        name: "My Home",
+      },
+    ],
+  },
 }
 ```
 
@@ -55,8 +55,8 @@ export default {
     singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
     entry: (): Promise<Component> => import("./blog/widget-entry.vue"),
     social: (): Promise<Component> => import("./blog/widget-social.vue"),
-    pagination: (): Promise<Component> => import("./blog/widget-pagination.vue")
-  }
+    pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
+  },
   // other settings
 }
 ```
@@ -67,8 +67,8 @@ You'll see that it is being loaded in as `blogSingle`, so all you have to do in 
 export default {
   // other settings
   components: {
-    blogSingle: (): Promise<Component> => import("./my-special-single.vue")
-  }
+    blogSingle: (): Promise<Component> => import("./my-special-single.vue"),
+  },
   // other settings
 }
 ```

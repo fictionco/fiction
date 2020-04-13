@@ -7,20 +7,20 @@ import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 import { ObjectId } from "@factor/post/types"
 export interface EndpointRequestConfig {
-  id: string;
-  method: string;
-  params: EndpointParameters;
-  headers?: object;
+  id: string
+  method: string
+  params: EndpointParameters
+  headers?: object
 }
 
 export interface EndpointParameters {
-  token?: string;
-  [key: string]: object | string | number | undefined | boolean | ObjectId;
+  token?: string
+  [key: string]: object | string | number | undefined | boolean | ObjectId
 }
 
 interface StandardEndpointRequestData {
-  method: string;
-  params: EndpointParameters;
+  method: string
+  params: EndpointParameters
 }
 
 /**
@@ -85,14 +85,14 @@ export const endpointRequest = async <T = unknown>({
   id,
   method,
   params = {},
-  headers = {}
+  headers = {},
 }: EndpointRequestConfig): Promise<T> => {
   if (!method) {
     throw new Error(`Endpoint request to "${id}" requires a method.`)
   }
 
   const {
-    data: { result, error }
+    data: { result, error },
   } = await authorizedRequest(
     endpointPath(id),
     { method, params } as StandardEndpointRequestData,
@@ -114,7 +114,7 @@ export const endpointRequest = async <T = unknown>({
         } else {
           throw err
         }
-      }
+      },
     })
   }
 

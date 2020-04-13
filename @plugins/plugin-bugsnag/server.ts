@@ -10,7 +10,7 @@ const addFilters = (): void => {
     pushToFilter({
       key: "bugsnag",
       hook: "setup-needed",
-      item: { title: setupTitle, file: "package.json", name: "clientApiKey" }
+      item: { title: setupTitle, file: "package.json", name: "clientApiKey" },
     })
 
     return
@@ -29,16 +29,16 @@ const addSetupCli = (name: string): void => {
           {
             name: "clientApiKey",
             message: "What's your public client API key?",
-            type: "input"
-          }
+            type: "input",
+          },
         ]
         const { clientApiKey } = await inquirer.prompt(questions)
 
         await writeConfig("public", {
-          bugsnag: { clientApiKey }
+          bugsnag: { clientApiKey },
         })
-      }
-    }
+      },
+    },
   })
 }
 

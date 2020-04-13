@@ -35,7 +35,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    factorIcon
+    factorIcon,
   },
   data() {
     return {
@@ -43,12 +43,12 @@ export default Vue.extend({
       section1Title: setting("home.intro.title"),
       section1Content: setting("home.intro.content"),
       section1Buttons: setting("home.intro.buttons"),
-      section1Figure: setting("home.intro.figure")
+      section1Figure: setting("home.intro.figure"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

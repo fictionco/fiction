@@ -7,7 +7,7 @@ export default {
     components: {
       wrap: (): Promise<Component> => import("./components/wrap.vue"),
       home: (): Promise<Component> => import("./components/home.vue"),
-      doc: (): Promise<Component> => import("./components/doc.vue")
-    }
-  }
+      doc: (): Promise<Component> => import("./components/doc.vue"),
+    },
+  },
 }

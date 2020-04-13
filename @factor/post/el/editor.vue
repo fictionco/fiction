@@ -17,14 +17,14 @@ export default Vue.extend({
   props: {
     value: { type: String, default: "" },
     postId: { type: String, default: "" },
-    imageInputSelector: { type: String, default: "post-images" }
+    imageInputSelector: { type: String, default: "post-images" },
   },
   data() {
     return {
       editor: null,
       session: null,
       content: "",
-      loading: true
+      loading: true,
     }
   },
   computed: {
@@ -32,17 +32,17 @@ export default Vue.extend({
       return {
         ...this.$listeners,
         change: (event: Event & { target: HTMLInputElement }) =>
-          this.$emit("input", event.target.value)
+          this.$emit("input", event.target.value),
       }
-    }
+    },
   },
 
   watch: {
-    value: function(this: any, v: string) {
+    value: function (this: any, v: string) {
       if (this.easyMDE && this.easyMDE.value() != v) {
         this.easyMDE.value(v)
       }
-    }
+    },
   },
 
   async mounted(this: any) {
@@ -57,12 +57,12 @@ export default Vue.extend({
         spellChecker: false,
         forceSync: true,
         shortcuts: {
-          drawImage: "Shift-Cmd-I"
+          drawImage: "Shift-Cmd-I",
         },
         autosave: {
           enabled: true,
           uniqueId: this.postId,
-          delay: 5000
+          delay: 5000,
         },
         toolbar: [
           "bold",
@@ -82,7 +82,7 @@ export default Vue.extend({
           "preview",
           "side-by-side",
           "fullscreen",
-          "guide"
+          "guide",
         ],
         uploadImage: true,
         imageUploadFunction: (file: File, onSuccess, onError) => {
@@ -98,11 +98,11 @@ export default Vue.extend({
                */
               emitEvent("addImageToInput", {
                 selector: this.imageInputSelector,
-                _id: result._id
+                _id: result._id,
               })
-            }
+            },
           })
-        }
+        },
       })
 
       /**
@@ -119,8 +119,8 @@ export default Vue.extend({
       this.easyMDE.codemirror.on("change", () => {
         this.$emit("input", this.easyMDE.value())
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

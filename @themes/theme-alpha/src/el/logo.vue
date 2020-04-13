@@ -1,6 +1,12 @@
 <template>
   <div class="logo-img" :class="theme">
-    <svg width="81" height="27" viewBox="0 0 81 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="81"
+      height="27"
+      viewBox="0 0 81 27"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M12.9192 16.6803L6.02918 16.662L4.87624 20.0129L0.196261 20.0004L6.9789 1.76645L12.1009 1.7801L18.7862 20.05L14.0542 20.0374L12.9192 16.6803ZM11.7842 13.2973L9.51421 6.53122L7.18219 13.285L11.7842 13.2973Z"
         class="thelogotext"
@@ -32,11 +38,10 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    theme: { type: String, default: "" }
-  }
+    theme: { type: String, default: "" },
+  },
 })
 </script>
-
 
 <style lang="less">
 .logo-img {

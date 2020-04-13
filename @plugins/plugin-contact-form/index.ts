@@ -37,7 +37,7 @@ export const sendFormEmail = async (form: object): Promise<void> => {
     _id: "contact-form",
     to,
     subject: typeof subject == "function" ? subject(form) : subject,
-    text
+    text,
   })
 
   return
@@ -57,7 +57,7 @@ export const setup = (): void => {
     nameSingle: "Submission",
     namePlural: "Contact Form Submissions",
     listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
-    noAddNew: true
+    noAddNew: true,
   })
 }
 setup()

@@ -17,20 +17,20 @@ import DOM from "jquery"
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    value: { type: [String, Number], default: "" }
+    value: { type: [String, Number], default: "" },
   },
   computed: {
     listeners(this: any) {
       return {
         ...this.$listeners,
-        input: (event: any) => this.$emit("input", event.target.value)
+        input: (event: any) => this.$emit("input", event.target.value),
       }
-    }
+    },
   },
   mounted() {
     this.$watch(
       `value`,
-      function(this: any) {
+      function (this: any) {
         this.setHeight()
       },
       { immediate: true }
@@ -44,8 +44,8 @@ export default Vue.extend({
         const sh = ta.height(0).get(0).scrollHeight
         ta.height(sh)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

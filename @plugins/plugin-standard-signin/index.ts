@@ -16,7 +16,7 @@ export const setup = (): void => {
   addContentRoute({
     name: "signin",
     path: "/signin",
-    component: (): Promise<Component> => import("./sign-in-view.vue")
+    component: (): Promise<Component> => import("./sign-in-view.vue"),
   })
 
   pushToFilter({
@@ -24,8 +24,8 @@ export const setup = (): void => {
     hook: "site-components",
     item: {
       name: "sign-in-modal",
-      component: (): Promise<Component> => import("./sign-in-modal.vue")
-    }
+      component: (): Promise<Component> => import("./sign-in-modal.vue"),
+    },
   })
 }
 

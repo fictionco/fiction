@@ -25,17 +25,17 @@ export default Vue.extend({
   components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
-    format: { type: String, default: "" }
+    format: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     postLink,
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

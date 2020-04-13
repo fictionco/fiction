@@ -144,7 +144,7 @@ export default Vue.extend({
       nav: [],
       headers: [],
       allHeaders: [],
-      clicked: false
+      clicked: false,
     }
   },
   computed: {
@@ -152,11 +152,11 @@ export default Vue.extend({
       return this.$route.params.doc || "introduction"
     },
     normalizedNav() {
-      return this.navItems().map(_ => {
+      return this.navItems().map((_) => {
         if (typeof _ == "string") {
           return {
             slug: _,
-            name: toLabel(_)
+            name: toLabel(_),
           }
         } else {
           return _
@@ -165,7 +165,7 @@ export default Vue.extend({
     },
     activePath() {
       return this.$route.params.doc || ""
-    }
+    },
   },
 
   methods: {
@@ -173,7 +173,7 @@ export default Vue.extend({
       const nav = [
         {
           name: "All",
-          slug: ""
+          slug: "",
         },
         "monitoring",
         "payment",
@@ -181,11 +181,11 @@ export default Vue.extend({
         "search",
         "admin",
         "security",
-        "maps"
+        "maps",
       ]
 
       return nav
-    }
+    },
   },
   metaInfo() {
     return {
@@ -193,11 +193,11 @@ export default Vue.extend({
       meta: [
         {
           name: "description",
-          content: "Extend your project features and do more with Factor."
-        }
-      ]
+          content: "Extend your project features and do more with Factor.",
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 <style lang="less">

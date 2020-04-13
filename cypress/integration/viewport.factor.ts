@@ -13,17 +13,13 @@ context("Viewport", () => {
     cy.get(".site-head").should("not.be.visible")
     cy.get('[data-text="signin-link"]').should("not.be.visible")
     // mobile toggle should be visible
-    cy.get(".mobile-toggle")
-      .should("be.visible")
-      .click()
+    cy.get(".mobile-toggle").should("be.visible").click()
 
     // mobile sidebar should be visible since toggle was clicked
     cy.get(".mobile-sidebar").should("be.visible")
 
     // mobile links should be visible when .mobile-sidebar is open
-    cy.get(".menu-root")
-      .find("a")
-      .should("be.visible")
+    cy.get(".menu-root").find("a").should("be.visible")
 
     // View app in super large screen
     cy.viewport(2999, 2999)
@@ -32,8 +28,6 @@ context("Viewport", () => {
     cy.viewport(320, 480)
 
     // close nav
-    cy.get(".mobile-sidebar-canvas")
-      .find(".closer")
-      .click()
+    cy.get(".mobile-sidebar-canvas").find(".closer").click()
   })
 })

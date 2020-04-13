@@ -5,7 +5,11 @@
         <div class="content-wrap">
           <h2 v-if="aboutPretitle" v-formatted-text="aboutPretitle" class="pretitle" />
           <h1 v-if="aboutTitle" v-formatted-text="aboutTitle" class="title" />
-          <p v-if="aboutContent" v-formatted-text="aboutContent" class="content text-gray-700" />
+          <p
+            v-if="aboutContent"
+            v-formatted-text="aboutContent"
+            class="content text-gray-700"
+          />
         </div>
         <div class="photo-wrap">
           <div class="photo">
@@ -16,7 +20,11 @@
       <div class="career">
         <h4 v-if="aboutCareerTitle" v-formatted-text="aboutCareerTitle" class="title" />
         <ul class="career-list text-gray-700 rounded-lg">
-          <li v-for="(item, index) in aboutCareerItems" :key="index" class="career-item rounded-lg">
+          <li
+            v-for="(item, index) in aboutCareerItems"
+            :key="index"
+            class="career-item rounded-lg"
+          >
             <span v-if="item.left" v-formatted-text="item.left" class="item-left" />
             <span v-if="item.middle" v-formatted-text="item.middle" class="item-middle" />
             <span v-if="item.right" v-formatted-text="item.right" class="item-right" />
@@ -44,10 +52,10 @@ export default Vue.extend({
       aboutPhoto: setting("about.photo"),
       aboutCounter: setting("about.counter"),
       aboutCareerTitle: setting("about.career.title"),
-      aboutCareerItems: setting("about.career.items")
+      aboutCareerItems: setting("about.career.items"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

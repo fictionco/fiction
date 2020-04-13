@@ -26,7 +26,7 @@ export const setup = (): void => {
             {
               name: "googleTagManagerId",
               message: "What's your Google Tag Manager container ID?",
-              type: "input"
+              type: "input",
             },
             {
               name: "developmentMode",
@@ -35,20 +35,20 @@ export const setup = (): void => {
                 "Load the tag manager in your 'development' environment? (Defaults to production only. This can be changed later)",
               choices: [
                 { name: "yes", value: true },
-                { name: "no", value: false }
-              ]
-            }
+                { name: "no", value: false },
+              ],
+            },
           ]
           const { googleTagManagerId, developmentMode } = await inquirer.prompt(questions)
 
           await writeConfig("public", {
-            googleTagManager: { googleTagManagerId, developmentMode }
+            googleTagManager: { googleTagManagerId, developmentMode },
           })
-        }
+        },
       }
 
       return [..._, setupAdmins]
-    }
+    },
   })
 }
 setup()

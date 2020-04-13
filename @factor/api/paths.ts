@@ -33,7 +33,7 @@ const relativePath = (key: string, cwd?: string): string => {
     "loader-settings": [...generated, "loader-settings.ts"],
     "loader-styles": [...generated, "loader-styles.less"],
     "client-manifest": [...dist, "factor-client.json"],
-    "server-bundle": [...dist, "factor-server.json"]
+    "server-bundle": [...dist, "factor-server.json"],
   } as { [key: string]: string | string[] })
 
   const p = paths[key]
@@ -62,7 +62,7 @@ const staticCopyConfig = (cwd?: string): WebpackCopyItemConfig[] => {
 
   const copyItems: WebpackCopyItemConfig[] = []
 
-  paths.forEach(p => {
+  paths.forEach((p) => {
     if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
   })
 
@@ -76,7 +76,7 @@ export const setup = (): void => {
     hook: "webpack-copy-files-config",
     callback: (_: WebpackCopyItemConfig[], { cwd }) => {
       return [..._, ...staticCopyConfig(cwd)]
-    }
+    },
   })
 
   addFilter({
@@ -87,9 +87,9 @@ export const setup = (): void => {
         ..._,
         __SRC__: getPath("source", cwd),
         __CWD__: getPath("app", cwd),
-        __FIND__: getPath("app", cwd)
+        __FIND__: getPath("app", cwd),
       }
-    }
+    },
   })
 }
 

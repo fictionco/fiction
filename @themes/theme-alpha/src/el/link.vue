@@ -7,7 +7,7 @@
 import { factorLink } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLink }
+  components: { factorLink },
 })
 </script>
 

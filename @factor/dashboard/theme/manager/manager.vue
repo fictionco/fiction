@@ -1,5 +1,5 @@
 <template>
-  <div class="app-manager" :class="vis ? 'show-mobile': 'standard'">
+  <div class="app-manager" :class="vis ? 'show-mobile' : 'standard'">
     <div class="manager-area manager-header">
       <brand-area mode="brand" />
       <mobile-toggle :vis.sync="vis" class="show-mobile" />
@@ -23,14 +23,14 @@ export default Vue.extend({
   components: {
     navHandler: () => import("./nav.vue"),
     brandArea: () => import("./brand.vue"),
-    mobileToggle: () => import("./mobile-toggle.vue")
+    mobileToggle: () => import("./mobile-toggle.vue"),
   },
 
   data() {
     return {
       mobileVisible: false,
       active: "",
-      vis: false
+      vis: false,
     }
   },
   watch: {},
@@ -42,8 +42,8 @@ export default Vue.extend({
         return this.currentUser
       }
       return this.currentUser ? this.currentUser[field] : undefined
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

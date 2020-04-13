@@ -9,7 +9,9 @@
               Factor CMS Platform
               <span class="alt">A Reactive CMS Platform for Typescript.</span>
             </h1>
-            <p class="subtitle">Build sites, blogs or full-stack apps in hours not months</p>
+            <p class="subtitle">
+              Build sites, blogs or full-stack apps in hours not months
+            </p>
             <div class="action">
               <factor-email-list list-id="alphaProgram" />
             </div>
@@ -29,7 +31,9 @@
               in a matter of minutes, with only basic coding knowledge.
             </p>
             <div class="actions">
-              <factor-link path="https://factor.dev/docs/quickstart">Learn How &rarr;</factor-link>
+              <factor-link path="https://factor.dev/docs/quickstart"
+                >Learn How &rarr;</factor-link
+              >
             </div>
           </div>
           <div class="banner-figure">
@@ -78,7 +82,10 @@
                   />
                 </template>
                 <template v-if="feature.figure == 'ssr'">
-                  <img :src="require(`./img/ssr.svg`)" alt="Factor - Serverless and SSR" />
+                  <img
+                    :src="require(`./img/ssr.svg`)"
+                    alt="Factor - Serverless and SSR"
+                  />
                 </template>
                 <template v-else-if="feature.figure == 'hello'">
                   <pre><code class="javascript"><span>var</span> app = new <span class="a">Factor</span>({
@@ -96,10 +103,16 @@
                   />
                 </template>
                 <template v-else-if="feature.figure == 'markdown'">
-                  <img :src="require(`./img/markdown-editor.svg`)" alt="Factor - Markdown Editor" />
+                  <img
+                    :src="require(`./img/markdown-editor.svg`)"
+                    alt="Factor - Markdown Editor"
+                  />
                 </template>
                 <template v-else-if="feature.figure == 'power'">
-                  <img :src="require(`./img/themes-plugins.svg`)" alt="Factor - Themes and Plugins" />
+                  <img
+                    :src="require(`./img/themes-plugins.svg`)"
+                    alt="Factor - Themes and Plugins"
+                  />
                 </template>
                 <template v-if="feature.figure == 'roles'">
                   <img
@@ -129,7 +142,9 @@
               </p>
               <div class="attribution">
                 <div class="cite">Matt Walsh</div>
-                <factor-link path="#" target="_blank" @click.prevent>Relic Apps Ltd.</factor-link>
+                <factor-link path="#" target="_blank" @click.prevent
+                  >Relic Apps Ltd.</factor-link
+                >
               </div>
             </blockquote>
           </div>
@@ -163,7 +178,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorEmailList,
-    "el-svg": () => import("../el/el-svg.vue")
+    "el-svg": () => import("../el/el-svg.vue"),
   },
   data() {
     return {
@@ -176,9 +191,9 @@ export default Vue.extend({
           figure: `extension`,
           link: {
             path: `https://factor.dev/plugins`,
-            text: `See Plugins &rarr;`
+            text: `See Plugins &rarr;`,
           },
-          icon: `puzzle`
+          icon: `puzzle`,
         },
         {
           title: `Built for Marketing, SEO and Social`,
@@ -187,7 +202,7 @@ export default Vue.extend({
               efforts on what provides value to your users.`,
 
           icon: `wrench`,
-          figure: "ssr"
+          figure: "ssr",
         },
         {
           title: `Built on the Shoulders of (<i>Open-Source</i>) Giants`,
@@ -195,7 +210,7 @@ export default Vue.extend({
             Stop worrying about lock-in and immature tech. Stop reading technical documentation endlessly and trust the stack.`,
 
           icon: `vue`,
-          figure: "hello"
+          figure: "hello",
         },
         {
           title: `The Future of Themes`,
@@ -203,7 +218,7 @@ export default Vue.extend({
               development without complex configurations.`,
 
           icon: `themes`,
-          figure: "plugins"
+          figure: "plugins",
         },
         {
           title: `Manage Users with Roles`,
@@ -212,7 +227,7 @@ export default Vue.extend({
               limit their access. Each user is assigned a role when they are added.`,
 
           icon: `user`,
-          figure: "roles"
+          figure: "roles",
         },
         {
           title: `Simple Content Editing with Markdown`,
@@ -221,7 +236,7 @@ export default Vue.extend({
               than using a WYSIWYG.`,
 
           icon: `markdown`,
-          figure: "markdown"
+          figure: "markdown",
         },
         {
           title: `Absolute Power Corrupts Absolutely, Enjoy...`,
@@ -230,9 +245,9 @@ export default Vue.extend({
                 customize it to accomplish whatever you can think of...`,
 
           icon: `infinite`,
-          figure: "power"
-        }
-      ]
+          figure: "power",
+        },
+      ],
     }
   },
   routeClass() {
@@ -242,9 +257,9 @@ export default Vue.extend({
     return {
       title: "Factor Typescript CMS - Application Framework of the Future",
       description:
-        "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform."
+        "Build server-rendered web applications that stun your friends and followers with Factor JS Universal VueJS platform.",
     }
-  }
+  },
 })
 </script>
 <style lang="less">

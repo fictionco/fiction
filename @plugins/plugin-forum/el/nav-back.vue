@@ -12,11 +12,11 @@ export default Vue.extend({
   computed: {
     home() {
       return setting(`forum.indexRoute`)
-    }
+    },
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

@@ -65,7 +65,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
-    "site-brand": () => import("./el/brand.vue")
+    "site-brand": () => import("./el/brand.vue"),
   },
   data() {
     return {
@@ -73,15 +73,15 @@ export default Vue.extend({
       navLogo: setting("site.logo"),
       navLogoInverse: setting("site.logoInverse"),
       navConfig: setting("site.nav"),
-      isOpen: false
+      isOpen: false,
     }
   },
   computed: {
     siteNav(this: any) {
       return this.navConfig.filter((item: any) => !item.condition || item.condition())
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.loading = false
   },
   methods: {
@@ -98,8 +98,8 @@ export default Vue.extend({
       } else {
         return "md:justify-center"
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -1,10 +1,10 @@
 <template>
   <div class="tabber">
     <div
-      v-for="(tab) in tabs"
+      v-for="tab in tabs"
       :key="tab.value"
       class="tabb"
-      :class="activeItem == tab.value ? 'active': 'not-active'"
+      :class="activeItem == tab.value ? 'active' : 'not-active'"
     >
       <a class="facet" @click.prevent="setActive(tab.value)">{{ tab.name }}</a>
       <span class="count">({{ tab.count || 0 }})</span>
@@ -12,18 +12,17 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import Vue from "vue"
 export default Vue.extend({
   props: {
     filter: { type: String, default: "status" },
-    tabs: { type: Array, default: () => [] }
+    tabs: { type: Array, default: () => [] },
   },
   computed: {
     activeItem() {
       return this.$route.query[this.filter] || ""
-    }
+    },
   },
   methods: {
     setActive(value) {
@@ -33,13 +32,11 @@ export default Vue.extend({
       delete current[this.filter]
       delete current.page
 
-      const query = value
-        ? { ...this.$route.query, [this.filter]: value }
-        : current
+      const query = value ? { ...this.$route.query, [this.filter]: value } : current
 
       this.$router.push({ query })
-    }
-  }
+    },
+  },
 })
 </script>
 

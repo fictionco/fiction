@@ -12,16 +12,16 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    value: { type: [String, Number], default: "" }
+    value: { type: [String, Number], default: "" },
   },
   computed: {
     listeners(this: any) {
       return {
         ...this.$listeners,
         input: (event: Event & { target: HTMLInputElement }) =>
-          this.$emit("input", event.target.value)
+          this.$emit("input", event.target.value),
       }
-    }
-  }
+    },
+  },
 })
 </script>

@@ -10,7 +10,8 @@
         data-size="large"
         data-show-count="true"
         aria-label="Star fiction-com/factor on GitHub"
-      >{{ text }}</a>
+        >{{ text }}</a
+      >
     </div>
   </transition>
 </template>
@@ -18,7 +19,7 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    text: { type: String, default: "Follow Project" }
+    text: { type: String, default: "Follow Project" },
   },
 
   data() {
@@ -28,7 +29,7 @@ export default Vue.extend({
     setTimeout(() => {
       this.loading = false
     }, 1000)
-  }
+  },
 })
 </script>
 <style lang="less">

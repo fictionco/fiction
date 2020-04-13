@@ -8,7 +8,7 @@ if (setting("headTags") != "") {
     callback: (_: []) => {
       return [..._, setting("headTags.font")]
     },
-    priority: 200
+    priority: 200,
   })
 }
 
@@ -20,22 +20,22 @@ addContentRoutes({
     {
       path: "/",
       component: setting("home.component"),
-      meta: { nav: true }
+      meta: { nav: true },
     },
     {
       path: "/about",
       component: (): Promise<Component> => import("./v-about.vue"),
-      meta: { nav: true }
+      meta: { nav: true },
     },
     {
       path: "/contact",
       component: (): Promise<Component> => import("./v-contact.vue"),
-      meta: { nav: true }
+      meta: { nav: true },
     },
     {
       path: "/pricing",
       component: (): Promise<Component> => import("./v-pricing.vue"),
-      meta: { nav: true }
-    }
-  ]
+      meta: { nav: true },
+    },
+  ],
 })

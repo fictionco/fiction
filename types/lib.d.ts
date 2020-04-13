@@ -1,11 +1,11 @@
 declare namespace jest {
   interface Describe {
-    win: any;
-    posix: any;
+    win: any
+    posix: any
   }
   interface It {
-    win: any;
-    posix: any;
+    win: any
+    posix: any
   }
 }
 

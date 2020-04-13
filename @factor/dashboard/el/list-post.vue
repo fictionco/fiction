@@ -12,7 +12,9 @@
           </factor-link>
         </div>
         <div class="text-header">
-          <div v-if="clickEvent" class="title click-title" @click="clickEvent(post)">{{ itemTitle }}</div>
+          <div v-if="clickEvent" class="title click-title" @click="clickEvent(post)">
+            {{ itemTitle }}
+          </div>
           <factor-link v-else :path="itemPath" class="title">{{ itemTitle }}</factor-link>
           <div v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</div>
         </div>
@@ -62,11 +64,11 @@ export default Vue.extend({
     value: { type: Array, default: () => [] },
     toggle: { type: Object, default: () => ({ show: "More", hide: "Less" }) },
     editPath: { type: [String, Boolean], default: true },
-    clickEvent: { type: [Function, Boolean], default: false }
+    clickEvent: { type: [Function, Boolean], default: false },
   },
   data() {
     return {
-      moreInfoToggle: false
+      moreInfoToggle: false,
     }
   },
   computed: {
@@ -85,7 +87,7 @@ export default Vue.extend({
         }
 
         this.$emit("input", newValue)
-      }
+      },
     },
 
     itemTitle(this: any): string {
@@ -116,12 +118,12 @@ export default Vue.extend({
       const avatar = stored(this.post.avatar)
 
       return avatar && avatar.url ? avatar.url : ""
-    }
+    },
   },
   methods: {
     toLabel,
-    postLink
-  }
+    postLink,
+  },
 })
 </script>
 <style lang="less">

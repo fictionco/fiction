@@ -38,6 +38,6 @@ export default {
         Vue.$sse.close()
         delete Vue.$sse
       }
-    }
-  }
+    },
+  },
 }

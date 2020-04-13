@@ -6,7 +6,7 @@ export const sanitizeHtml = (html: string): string => {
     allowedAttributes: false,
     allowedSchemes: ["http", "https", "mailto"],
     allowedSchemesByTag: {
-      img: ["data", "http", "https"]
-    }
+      img: ["data", "http", "https"],
+    },
   })
 }

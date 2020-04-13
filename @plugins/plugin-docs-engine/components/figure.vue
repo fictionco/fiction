@@ -18,7 +18,7 @@ import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    figureIcon: () => import("./figure-icon.vue")
+    figureIcon: () => import("./figure-icon.vue"),
   },
   data() {
     return {
@@ -46,10 +46,10 @@ export default Vue.extend({
         { icon: "touch" },
         { icon: "user" },
         { icon: "email" },
-        { icon: "layout" }
-      ]
+        { icon: "layout" },
+      ],
     }
-  }
+  },
 })
 </script>
 

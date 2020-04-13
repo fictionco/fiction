@@ -19,26 +19,26 @@ import { dotSetting } from "@factor/api/utils"
 export default Vue.extend({
   props: {
     input: { type: Object, default: () => {} },
-    value: { type: String, default: "" }
+    value: { type: String, default: "" },
   },
   computed: {
     listeners() {
       return {
         ...this.$listeners,
-        input: event => this.$emit("input", event.target.value)
+        input: (event) => this.$emit("input", event.target.value),
       }
     },
     settings() {
       return window.$STATE.settings || {}
-    }
+    },
   },
   methods: {
     getValue(key) {
       if (!key) return
 
       return dotSetting({ key, settings: this.settings })
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

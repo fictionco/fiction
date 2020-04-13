@@ -7,7 +7,10 @@
       </div>
     </div>
     <factor-loading-ring v-if="loading" />
-    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
+    <div
+      v-else-if="extensionType == 'plugin'"
+      class="extensions-wrap plugins-wrap content-pad"
+    >
       <plugin-grid :extensions="extensions" />
       <!-- <div>
         <extension-sidebar :index-data="extensionIndex" />
@@ -42,7 +45,7 @@ import {
   formatDownloads,
   extensionPermalink,
   extensionImage,
-  getAuthors
+  getAuthors,
 } from "./util"
 
 import { requestIndex } from "./request"
@@ -51,12 +54,12 @@ export default Vue.extend({
     callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
     themeGrid: () => import("./grid-theme.vue"),
-    factorLoadingRing
+    factorLoadingRing,
   },
   data() {
     return {
       loading: false,
-      getData: ""
+      getData: "",
     }
   },
   serverPrefetch() {
@@ -76,19 +79,19 @@ export default Vue.extend({
       if (this.extensionType == "plugin") {
         return {
           title: "Factor Plugins",
-          description: "Add new features to your app in seconds"
+          description: "Add new features to your app in seconds",
         }
       } else {
         return { title: "Factor Themes", description: "Create beautiful apps in minutes" }
       }
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
 
   mounted() {
@@ -109,11 +112,11 @@ export default Vue.extend({
     formatDownloads,
     extensionPermalink,
     extensionImage,
-    getAuthors
+    getAuthors,
   },
   metaInfo() {
     return this.describe
-  }
+  },
 })
 </script>
 <style lang="less">

@@ -16,9 +16,9 @@ import pkg from "./package.json"
 import LoadingBar from "./loading"
 import { logSetupNeeded } from "./setup"
 interface CommanderArguments {
-  options: object[];
-  parent: Record<string, any>;
-  [key: string]: any;
+  options: object[]
+  parent: Record<string, any>
+  [key: string]: any
 }
 
 /**

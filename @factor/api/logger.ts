@@ -6,9 +6,9 @@ import axios from "axios"
 import { appId } from "@factor/api/about"
 import { isNode } from "@factor/api"
 interface DiagnosticEvent {
-  event: string;
-  action?: string;
-  label?: string;
+  event: string
+  action?: string
+  label?: string
 }
 
 export class NodeLog {
@@ -16,7 +16,7 @@ export class NodeLog {
 
   constructor() {
     this.utility = consola.create({
-      level: 5
+      level: 5,
     })
   }
 
@@ -80,12 +80,12 @@ export class NodeLog {
     title,
     lines = [],
     format = "",
-    color = "cyan"
+    color = "cyan",
   }: {
-    title: string;
-    lines?: { title: string; value?: string; indent?: boolean }[];
-    format?: string;
-    color?: string;
+    title: string
+    lines?: { title: string; value?: string; indent?: boolean }[]
+    format?: string
+    color?: string
   }): void {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return

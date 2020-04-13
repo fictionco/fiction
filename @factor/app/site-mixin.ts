@@ -6,7 +6,7 @@ export default (): VueConstructor => {
   return Vue.extend({
     data() {
       return {
-        scrollClass: ""
+        scrollClass: "",
       }
     },
     computed: {
@@ -14,7 +14,7 @@ export default (): VueConstructor => {
         return stored("post")
       },
       ui(this: VueConstructor): string {
-        const { meta = {} } = this.$route.matched.find(_ => _.meta.ui) || {}
+        const { meta = {} } = this.$route.matched.find((_) => _.meta.ui) || {}
 
         const ui = meta.ui || "app"
 
@@ -38,19 +38,19 @@ export default (): VueConstructor => {
         return siteComponents.map(
           (_: { name: string; component: Function }) => _.component
         )
-      }
+      },
     },
 
     watch: {
       ui: {
-        handler: function(to: string, from: string): void {
+        handler: function (to: string, from: string): void {
           if (typeof document != "undefined") {
             const _el = document.documentElement
             _el.classList.remove(from)
             _el.classList.add(to)
           }
-        }
-      }
+        },
+      },
     },
     mounted() {
       this.setScrollClass()
@@ -64,7 +64,7 @@ export default (): VueConstructor => {
     methods: {
       setScrollClass(this: VueConstructor): void {
         this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
-      }
-    }
+      },
+    },
   })
 }

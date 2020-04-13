@@ -31,11 +31,11 @@ export default Vue.extend({
   components: {
     accountMenu,
     factorLink,
-    "site-logo": () => import("./logo.vue")
+    "site-logo": () => import("./logo.vue"),
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
     }
   },
   methods: {
@@ -58,8 +58,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

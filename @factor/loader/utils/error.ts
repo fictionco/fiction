@@ -7,11 +7,8 @@ export const parseStack = (stack: string): string[] => {
   const lines = stack
     .split("\n")
     .splice(1)
-    .map(l => {
-      return l
-        .trim()
-        .replace("file://", "")
-        .replace(cwd, "")
+    .map((l) => {
+      return l.trim().replace("file://", "").replace(cwd, "")
     })
 
   return lines

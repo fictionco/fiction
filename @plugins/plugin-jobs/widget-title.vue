@@ -10,7 +10,8 @@
       itemscope
       itemtype="http://schema.org/Place"
       class="location"
-    >{{ post.jobLocation }}</span>
+      >{{ post.jobLocation }}</span
+    >
 
     <factor-post-edit :post-id="post._id" />
   </div>
@@ -24,14 +25,14 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorPostEdit },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
-  methods: { postLink }
+  methods: { postLink },
 })
 </script>
 <style lang="less">

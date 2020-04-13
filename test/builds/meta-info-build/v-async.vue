@@ -14,18 +14,18 @@ export default Vue.extend({
   },
   methods: {
     async prefetch() {
-      const r = await new Promise(resolve => {
+      const r = await new Promise((resolve) => {
         setTimeout(() => {
           resolve({
             title: "async-title",
-            description: "async-description"
+            description: "async-description",
           })
         }, 100)
       })
 
       storeItem("test", r)
       return
-    }
-  }
+    },
+  },
 })
 </script>

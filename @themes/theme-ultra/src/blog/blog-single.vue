@@ -20,7 +20,7 @@ export default Vue.extend({
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
-      image: shareImage(this.post._id)
+      image: shareImage(this.post._id),
     }
   },
   routeClass() {
@@ -29,7 +29,7 @@ export default Vue.extend({
   computed: {
     post() {
       return stored("post") || {}
-    }
+    },
   },
   methods: {
     setting,
@@ -38,8 +38,8 @@ export default Vue.extend({
     },
     tagLink(_id: any) {
       return setting("blog.indexRoute") + "?tag=" + _id
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -13,10 +13,10 @@ export default Vue.extend({
   computed: {
     text() {
       return stored("text")
-    }
+    },
   },
   created() {
     storeItem("text", "loaded")
-  }
+  },
 })
 </script>

@@ -14,7 +14,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -22,8 +22,8 @@ export default Vue.extend({
     },
     returnLinkText() {
       return setting("portfolio.returnLinkText") || "All Posts"
-    }
+    },
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>

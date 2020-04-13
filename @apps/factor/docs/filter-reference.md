@@ -22,17 +22,17 @@ Routes in Factor use [Vue Router](https://router.vuejs.org). These filters add r
 ```js
 import { addFilter } from "@factor/api"
 
-addFilter("content-routes", routes => {
+addFilter("content-routes", (routes) => {
   return [
     ...routes,
     {
       path: "/my-route",
-      component: () => import("./component-for-my-route.vue")
+      component: () => import("./component-for-my-route.vue"),
     },
     {
       path: "/another-route",
-      component: () => import("./component-for-another-route.vue")
-    }
+      component: () => import("./component-for-another-route.vue"),
+    },
   ]
 })
 ```
@@ -44,13 +44,13 @@ You can add global Vue components easily using the `components` filter.
 #### Global Component Example
 
 ```js
-addFilter("global-components", _ => {
+addFilter("global-components", (_) => {
   return [
     ..._,
     {
       name: "my-global-component-one",
-      component: () => import("./one.vue")
-    }
+      component: () => import("./one.vue"),
+    },
   ]
 })
 ```
@@ -69,10 +69,10 @@ Filter: `post-schema` - To extend the base post schema:
 
 ```js
 // Takes and returns an object {}
-addFilter("post-schema", _ => {
+addFilter("post-schema", (_) => {
   return {
     ..._,
-    myPluginSetting: { type: String, trim: true }
+    myPluginSetting: { type: String, trim: true },
   }
 })
 ```
@@ -92,7 +92,7 @@ Options can be found on [Vue SSR site](https://ssr.vuejs.org/api/#renderer-optio
 
 ```js
 // Prevent injection in template
-addFilter("server-renderer-options", options => {
+addFilter("server-renderer-options", (options) => {
   options.inject = false
   options.template = (result, context) => {
     return "hi"

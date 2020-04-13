@@ -6,7 +6,7 @@ import "./extend"
 addPageTemplate({
   name: "Factor Basic",
   slug: "factor-basic",
-  component: (): Promise<Component> => import("./page-template-default.vue")
+  component: (): Promise<Component> => import("./page-template-default.vue"),
 })
 
 addContentRoutes({
@@ -15,12 +15,12 @@ addContentRoutes({
     return [
       {
         path: "/",
-        component: (): Promise<Component> => import("./home/v-home.vue")
+        component: (): Promise<Component> => import("./home/v-home.vue"),
       },
       {
         path: "/install",
         component: (): Promise<Component> => import("./home/v-install.vue"),
-        meta: { auth: true }
+        meta: { auth: true },
       },
       {
         path: `/themes`,
@@ -28,13 +28,13 @@ addContentRoutes({
         children: [
           {
             path: `/`,
-            component: (): Promise<Component> => import("./extend/index.vue")
+            component: (): Promise<Component> => import("./extend/index.vue"),
           },
           {
             path: `/theme/:permalink`,
-            component: (): Promise<Component> => import("./extend/single.vue")
-          }
-        ]
+            component: (): Promise<Component> => import("./extend/single.vue"),
+          },
+        ],
       },
       {
         path: `/plugins`,
@@ -42,14 +42,14 @@ addContentRoutes({
         children: [
           {
             path: `/`,
-            component: (): Promise<Component> => import("./extend/index.vue")
+            component: (): Promise<Component> => import("./extend/index.vue"),
           },
           {
             path: `/plugin/:permalink`,
-            component: (): Promise<Component> => import("./extend/single.vue")
-          }
-        ]
-      }
+            component: (): Promise<Component> => import("./extend/single.vue"),
+          },
+        ],
+      },
     ]
-  }
+  },
 })

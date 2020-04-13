@@ -12,19 +12,19 @@ import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    "blog-index": () => import("./blog/blog-index.vue")
+    "blog-index": () => import("./blog/blog-index.vue"),
   },
   data() {
     return {
       postType: "blog",
       loading: false,
       newsPretitle: setting("blog.subheadline"),
-      newsTitle: setting("blog.headline")
+      newsTitle: setting("blog.headline"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 

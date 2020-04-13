@@ -6,14 +6,14 @@
           <factor-btn
             btn="default"
             class="toggle-button"
-            :class="vis ? 'active': ''"
+            :class="vis ? 'active' : ''"
             @click.stop="toggleNav()"
           >
             <mobile-toggle :active="vis" />
             <span class="text">Docs</span>
           </factor-btn>
         </div>
-        <div class="sidebar" :class="vis ? 'show-mobile': 'standard'">
+        <div class="sidebar" :class="vis ? 'show-mobile' : 'standard'">
           <div class="nav">
             <div
               v-for="(group, i) in nav"
@@ -21,11 +21,18 @@
               class="nav-group"
               :class="selectedGroup == group.title ? 'selected' : ''"
             >
-              <div v-if="group.title" class="nav-group-title" @click.stop="toggleGroupTitle(group)">
+              <div
+                v-if="group.title"
+                class="nav-group-title"
+                @click.stop="toggleGroupTitle(group)"
+              >
                 <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
                 <span class="title">{{ group.title }}</span>
               </div>
-              <div v-if="!group.title || selectedGroup == group.title" class="group-items">
+              <div
+                v-if="!group.title || selectedGroup == group.title"
+                class="group-items"
+              >
                 <factor-link
                   v-for="(link, ii) in group.items"
                   :key="ii"
@@ -56,13 +63,13 @@ export default Vue.extend({
     factorLink,
     factorIcon,
     factorBtn,
-    mobileToggle: () => import("./mobile-toggle.vue")
+    mobileToggle: () => import("./mobile-toggle.vue"),
   },
   data() {
     return {
       vis: false,
       selectedGroup: "",
-      nav: setting("docsEngine.nav")
+      nav: setting("docsEngine.nav"),
     }
   },
   computed: {
@@ -71,14 +78,14 @@ export default Vue.extend({
     },
     doc(this: any) {
       return this.$route.params.doc
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.setActiveGroup()
-      }
-    }
+      },
+    },
   },
 
   async created() {
@@ -109,8 +116,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

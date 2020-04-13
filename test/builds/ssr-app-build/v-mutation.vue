@@ -7,11 +7,11 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      text: "nope"
+      text: "nope",
     }
   },
   created() {
     this.text = "mutated"
-  }
+  },
 })
 </script>

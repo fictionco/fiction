@@ -3,7 +3,7 @@ import { setting } from "@factor/api/settings"
 import { dashboardBaseRoute } from "@factor/dashboard"
 
 interface UrlOptions {
-  domainOnly?: true;
+  domainOnly?: true
 }
 
 const removeProtocol = (url: string): string => {
@@ -77,7 +77,7 @@ export const dashboardUrl = (): string => {
 export const canonicalUrl = (path: string): string => {
   const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 
-  if (schemes.some(scheme => path.includes(scheme))) {
+  if (schemes.some((scheme) => path.includes(scheme))) {
     return path
   } else {
     return `${currentUrl()}${path}`

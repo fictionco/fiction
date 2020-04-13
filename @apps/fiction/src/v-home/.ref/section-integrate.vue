@@ -47,13 +47,9 @@
 
             <div class="item item-alternate">
               <p class="common-bodytext text-small">
-                <span class="long-label">
-                  <span>bbPOS</span> Chipper™ 2X BT
-                </span>
+                <span class="long-label"> <span>bbPOS</span> Chipper™ 2X BT </span>
                 <span class="second long-label">
-                  <span>
-                    <span>Verifone</span>® P400
-                  </span>
+                  <span> <span>Verifone</span>® P400 </span>
                   <span class="annotation-label">Coming soon</span>
                 </span>
               </p>
@@ -75,9 +71,7 @@
 
             <div class="item item-alternate">
               <p class="common-bodytext text-small">
-                <span class="second">
-                  <span>Verifone</span>® P400
-                </span>
+                <span class="second"> <span>Verifone</span>® P400 </span>
               </p>
             </div>
           </div>
@@ -88,7 +82,7 @@
 </template>
 <script>
 export default {
-  mounted() {}
+  mounted() {},
 }
 </script>
 <style lang="less">
@@ -143,8 +137,7 @@ export default {
         min-width: 160px;
         align-self: flex-end;
         border-radius: var(--border-radius) 0 0 var(--border-radius);
-        box-shadow: 0 3px 3px 0 rgba(23, 55, 87, 0.03),
-          0 0 5px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 3px 3px 0 rgba(23, 55, 87, 0.03), 0 0 5px 1px rgba(0, 0, 0, 0.05);
         margin-bottom: 5px;
         display: block;
 
@@ -180,8 +173,7 @@ export default {
         margin-right: 8px;
         max-width: 420px;
         min-width: 170px;
-        box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1),
-          0 5px 15px 0 rgba(0, 0, 0, 0.07);
+        box-shadow: 0 4px 35px 0 rgba(23, 55, 87, 0.1), 0 5px 15px 0 rgba(0, 0, 0, 0.07);
         @media (max-width: 767px) {
           flex: 1;
           border-radius: 0;

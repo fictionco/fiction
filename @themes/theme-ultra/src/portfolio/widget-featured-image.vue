@@ -1,5 +1,9 @@
 <template>
-  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)" class="image-wrap">
+  <factor-link
+    v-if="avatarUrl && format == 'index'"
+    :path="postLink(post._id)"
+    class="image-wrap"
+  >
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image rounded-lg" />
     <div class="header-content rounded-lg">
       <svg
@@ -29,7 +33,12 @@
   </factor-link>
 
   <div v-else class="featured-image-wrap">
-    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image rounded-lg" />
+    <img
+      v-if="avatarUrl"
+      :src="avatarUrl"
+      :alt="post.title"
+      class="featured-image rounded-lg"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -40,7 +49,7 @@ export default Vue.extend({
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
-    format: { type: String, default: "" }
+    format: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -54,14 +63,14 @@ export default Vue.extend({
     },
     style(this: any) {
       const style = {
-        backgroundImage: `url(${this.avatarUrl})`
+        backgroundImage: `url(${this.avatarUrl})`,
       }
       return style
-    }
+    },
   },
   methods: {
-    postLink
-  }
+    postLink,
+  },
 })
 </script>
 <style lang="less">

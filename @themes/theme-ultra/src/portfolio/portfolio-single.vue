@@ -18,7 +18,7 @@ import {
   stored,
   titleTag,
   descriptionTag,
-  shareImage
+  shareImage,
 } from "@factor/api"
 
 import { factorError404 } from "@factor/ui"
@@ -33,15 +33,15 @@ export default Vue.extend({
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
-      image: shareImage(this.post._id)
+      image: shareImage(this.post._id),
     }
   },
   computed: {
     post() {
       return stored("post") || {}
-    }
+    },
   },
-  methods: { isEmpty, setting }
+  methods: { isEmpty, setting },
 })
 </script>
 

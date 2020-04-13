@@ -24,13 +24,13 @@ export default Vue.extend({
   data() {
     return {
       errors: [],
-      notification: []
+      notification: [],
     }
   },
   computed: {
     notifications() {
       return this.errors.slice(0).reverse()
-    }
+    },
   },
   mounted() {
     onEvent("notify", ({ type, message = "", duration = 4000 }) => {
@@ -47,7 +47,7 @@ export default Vue.extend({
         }, duration)
       }
     })
-  }
+  },
 })
 </script>
 

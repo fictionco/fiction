@@ -21,13 +21,13 @@ export default Vue.extend({
   components: {
     factorLoadingRing,
     docEntry: () => import("./entry.vue"),
-    docToc: () => import("./toc.vue")
+    docToc: () => import("./toc.vue"),
   },
   data() {
     return {
       nav: setting("docsEngine.nav"),
       config: {},
-      loading: false
+      loading: false,
     }
   },
   serverPrefetch() {
@@ -39,14 +39,14 @@ export default Vue.extend({
     },
     content(this: any) {
       return this.config.content ?? ""
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getContent()
-      }
-    }
+      },
+    },
   },
   async created() {
     this.config = (await getDocConfig(this.doc)) ?? {}
@@ -54,7 +54,7 @@ export default Vue.extend({
   metaInfo(this: any) {
     return {
       title: this.config.meta?.title ?? toLabel(this.doc),
-      description: this.config.meta?.description
+      description: this.config.meta?.description,
     }
   },
   mounted() {
@@ -66,8 +66,8 @@ export default Vue.extend({
       this.config = (await getDocConfig(this.doc)) ?? {}
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

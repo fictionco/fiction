@@ -18,15 +18,14 @@ export default Vue.extend({
     "section-services": () => import("./section-services.vue"),
     "section-portfolio": () => import("./section-portfolio.vue"),
     "section-news": () => import("./section-news.vue"),
-    "section-contact": () => import("./section-contact.vue")
+    "section-contact": () => import("./section-contact.vue"),
   },
   data() {
     return {
-      loading: true
+      loading: true,
     }
-  }
+  },
 })
 </script>
 
-<style lang="less">
-</style>
+<style lang="less"></style>

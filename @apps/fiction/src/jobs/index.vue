@@ -9,7 +9,12 @@
           apps.
         </p>
         <a href="#current-openings">
-          <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
+          <factor-btn
+            path="#current-openings"
+            btn="primary"
+            size="large"
+            class="see-openings"
+          >
             Check Our Current Openings
             <factor-icon icon="fas fa-arrow-down" />
           </factor-btn>
@@ -60,7 +65,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "jobs",
-      loading: false
+      loading: false,
     }
   },
   metaInfo() {
@@ -72,7 +77,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   routeClass() {
@@ -94,14 +99,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -117,15 +122,14 @@ export default Vue.extend({
         status: "published",
         sort: "-date",
         page: this.page,
-        limit: setting("jobs.limit")
+        limit: setting("jobs.limit"),
       })
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
-
 
 <style lang="less">
 .careers {

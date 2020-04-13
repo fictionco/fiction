@@ -1,6 +1,8 @@
 <template>
   <div class="edit-page-templates">
-    <div v-if="fields.length == 0" class="no-options">No settings available for selected template.</div>
+    <div v-if="fields.length == 0" class="no-options">
+      No settings available for selected template.
+    </div>
     <template v-else>
       <dashboard-input
         v-for="(field, i) in fields"
@@ -29,13 +31,13 @@ export default Vue.extend({
   components: { dashboardInput },
 
   props: {
-    postId: { type: String, required: true }
+    postId: { type: String, required: true },
   },
   data() {
     return {
       template: "",
       settings: {},
-      pageTemplateInfo: {}
+      pageTemplateInfo: {},
     }
   },
   computed: {
@@ -45,7 +47,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
-      }
+      },
     },
     fields(this: any) {
       return this.pageTemplateInfo.fields || this.postTypeSettings
@@ -58,36 +60,36 @@ export default Vue.extend({
     },
     postTypeSettings(this: any) {
       return this.postTypeConfig.templateSettings || []
-    }
+    },
   },
   watch: {
     settings: {
-      handler: function(this: any, v: Record<string, any>) {
+      handler: function (this: any, v: Record<string, any>) {
         this.post = { ...this.post, settings: v }
       },
-      deep: true
+      deep: true,
     },
     template: {
-      handler: function(this: any, v: string): void {
+      handler: function (this: any, v: string): void {
         this.setPageTemplate(v)
-      }
+      },
     },
     "post.template": {
-      handler: function(this: any, v: string) {
+      handler: function (this: any, v: string) {
         if (v && v != this.template) {
           this.template = v
         }
       },
-      immediate: true
+      immediate: true,
     },
     "post.settings": {
-      handler: function(this: any, v: Record<string, any>) {
+      handler: function (this: any, v: Record<string, any>) {
         if (v && v != this.settings) {
           this.settings = v
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {
     this.setTemplateDefaults()
@@ -112,7 +114,7 @@ export default Vue.extend({
           ) {
             val = field.default.map((item: Record<string, any>) => {
               if (field.settings) {
-                field.settings.forEach(sub => {
+                field.settings.forEach((sub) => {
                   if (typeof item[sub._id] == "undefined" && sub.default) {
                     item[sub._id] = sub.default
                   }
@@ -128,9 +130,8 @@ export default Vue.extend({
           this.$set(this.settings, _id, val)
         }
       })
-    }
-  }
+    },
+  },
 })
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

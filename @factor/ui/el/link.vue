@@ -12,10 +12,10 @@ export default Vue.extend({
     event: { type: String, default: "" },
     query: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false },
-    text: { type: String, default: "" }
+    text: { type: String, default: "" },
   },
 
-  render: function(createElement: CreateElement): VNode {
+  render: function (createElement: CreateElement): VNode {
     let path = this.path
     let text = this.text || this.$slots.default
     let el = "span"
@@ -35,7 +35,7 @@ export default Vue.extend({
 
     const schemes = ["http:", "https:", "ftp:", "mailto:", "file:", "data:", "irc:"]
 
-    if (schemes.some(scheme => path.includes(scheme))) {
+    if (schemes.some((scheme) => path.includes(scheme))) {
       el = "a"
       attrs = { href: path }
       props = []
@@ -43,7 +43,7 @@ export default Vue.extend({
       el = "router-link"
       attrs = {}
       props = {
-        to: { path, query }
+        to: { path, query },
       }
     }
 
@@ -58,7 +58,7 @@ export default Vue.extend({
         btn: this.btn,
         disabled: this.disabled,
         size: this.size,
-        loading: this.loading
+        loading: this.loading,
       }
 
       let btnElement
@@ -75,7 +75,7 @@ export default Vue.extend({
         btnElement,
         {
           props: passed,
-          attrs: passed
+          attrs: passed,
         },
         [text]
       )
@@ -97,7 +97,7 @@ export default Vue.extend({
             emitEvent(this.event, query)
 
             return false
-          }
+          },
         }
       : this.$listeners
 
@@ -112,11 +112,11 @@ export default Vue.extend({
         attrs,
         props,
         on,
-        ...nativeEvents
+        ...nativeEvents,
       },
       [text]
     )
-  }
+  },
 })
 </script>
 

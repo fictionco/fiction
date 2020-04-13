@@ -8,17 +8,19 @@
           class="nav-area"
           :class="area"
         >
-          <div v-if="area != 'action' && area != 'account'" class="area-title">{{ toLabel(area) }}</div>
+          <div v-if="area != 'action' && area != 'account'" class="area-title">
+            {{ toLabel(area) }}
+          </div>
 
           <template v-for="(item, key) in menu[area]">
-            <div :key="key" class="nav-group" :class="item.active ? 'active': ''">
+            <div :key="key" class="nav-group" :class="item.active ? 'active' : ''">
               <factor-link
                 :path="item.path"
                 :query="item.query"
                 :action="item.action"
                 class="menu-item-link"
-                :class="item.active ? 'active': 'not-active'"
-                @click="(item.click) ? item.click() : ''"
+                :class="item.active ? 'active' : 'not-active'"
+                @click="item.click ? item.click() : ''"
               >
                 <div class="item-icon">
                   <img class :src="item.icon || defaultIcon" :alt="`${item.name} Icon`" />
@@ -29,7 +31,7 @@
               </factor-link>
               <div v-if="item.active && item.items.length > 0" class="sub-menu">
                 <div class="sub-menu-links">
-                  <template v-for="(subItem) in item.items">
+                  <template v-for="subItem in item.items">
                     <factor-link
                       v-if="subItem.name"
                       :key="subItem.name"
@@ -65,16 +67,16 @@ export default Vue.extend({
       toggle: false,
       clickHandler: false,
       menu: {},
-      loading: false
+      loading: false,
     }
   },
   computed: {},
   watch: {
-    $route: function(this: any, to: Route, from: Route) {
+    $route: function (this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.setMenu()
       }
-    }
+    },
   },
   async mounted(this: any) {
     this.loading = true
@@ -86,8 +88,8 @@ export default Vue.extend({
     slugify,
     async setMenu(this: any) {
       this.menu = await getDashboardMenu(this.$route.path)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

@@ -49,8 +49,8 @@ export default Vue.extend({
       </div>
   </div>
 </template>`
-    }
-  }
+    },
+  },
 })
 </script>
 

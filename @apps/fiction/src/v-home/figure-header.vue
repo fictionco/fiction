@@ -26,10 +26,10 @@ export default Vue.extend({
         { name: "Factor", img: require("./img/pin.svg") },
         { name: "Mongo", img: require("./img/mongo.svg") },
         { name: "Node", img: require("./img/node.svg") },
-        { name: "Vue", img: require("./img/vue.svg") }
-      ]
+        { name: "Vue", img: require("./img/vue.svg") },
+      ],
     }
-  }
+  },
 })
 </script>
 <style lang="less">

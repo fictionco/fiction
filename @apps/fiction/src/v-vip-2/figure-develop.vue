@@ -34,14 +34,14 @@ export default Vue.extend({
         {
           class: `develop-desktop`,
           image: require("./img/develop-desktop.svg"),
-          alt: `Develop - Factor VIP Desktop`
+          alt: `Develop - Factor VIP Desktop`,
         },
         {
           class: `develop-mobile`,
           image: require("./img/develop-mobile.svg"),
-          alt: `Develop - Factor VIP Mobile`
-        }
-      ]
+          alt: `Develop - Factor VIP Mobile`,
+        },
+      ],
     }
   },
   methods: {
@@ -63,8 +63,8 @@ export default Vue.extend({
     }
   }
 }`
-    }
-  }
+    },
+  },
 })
 </script>
 

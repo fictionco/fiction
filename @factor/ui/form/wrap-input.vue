@@ -42,7 +42,7 @@ import {
   factorInputPassword,
   factorInputTextarea,
   factorInputEditor,
-  factorInputSortable
+  factorInputSortable,
 } from "@factor/ui"
 
 import { dashboardUserList } from "@factor/dashboard"
@@ -64,20 +64,20 @@ export default Vue.extend({
     factorInputPassword,
     factorInputTextarea,
     factorInputSortable,
-    dashboardUserList
+    dashboardUserList,
   },
   inheritAttrs: false,
   props: {
     value: {
       type: null, // any type
-      default: () => {}
+      default: () => {},
     },
     label: { type: String, default: "" },
     description: { type: String, default: "" },
     format: { type: String, default: "" },
     input: { type: String, default: "" },
     inputClasses: { type: String, default: "" },
-    labelClasses: { type: String, default: "" }
+    labelClasses: { type: String, default: "" },
   },
   computed: {
     // Vue sometimes can cache this component and handle it incorrectly across views
@@ -95,10 +95,10 @@ export default Vue.extend({
     },
     inputFormat(this: any) {
       return this.format ? this.format : "vertical"
-    }
+    },
   },
 
-  methods: {}
+  methods: {},
 })
 </script>
 

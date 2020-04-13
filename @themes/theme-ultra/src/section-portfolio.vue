@@ -1,14 +1,14 @@
 <template>
   <section id="portfolio" class="page-container portfolio-container">
     <div class="header">
-      <h2 class="pretitle text-gray-600">{{ setting('portfolio.pretitle') }}</h2>
-      <h1 class="title text-gray-100">{{ setting('portfolio.title') }}</h1>
+      <h2 class="pretitle text-gray-600">{{ setting("portfolio.pretitle") }}</h2>
+      <h1 class="title text-gray-100">{{ setting("portfolio.title") }}</h1>
     </div>
     <div class="content bg-white">
       <portfolio-index />
 
       <div v-if="setting('portfolio.clients')" class="clients-wrap">
-        <h2 class="clients-title">{{ setting('portfolio.clientsTitle') }}</h2>
+        <h2 class="clients-title">{{ setting("portfolio.clientsTitle") }}</h2>
         <div class="clients">
           <div v-for="(logo, i) in setting('portfolio.clients')" :key="i" class="logo">
             <img :src="logo.picture" :alt="logo.alt" />
@@ -25,9 +25,9 @@ import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    "portfolio-index": () => import("./portfolio/portfolio-index.vue")
+    "portfolio-index": () => import("./portfolio/portfolio-index.vue"),
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

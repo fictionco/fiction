@@ -32,7 +32,7 @@ export default class LoadingBar {
         hideCursor: true,
         clearOnComplete: true,
         format: `${colorize(`{bar}`)} {percentage}% {msg}`,
-        noTTYOutput: true
+        noTTYOutput: true,
       },
       cliProgress.Presets.shades_classic
     )
@@ -52,7 +52,7 @@ export default class LoadingBar {
     setBuilding(true)
     emitEvent("buildProgress", this.build, {
       progress: 0,
-      message: "setting environment"
+      message: "setting environment",
     })
   }
 
@@ -78,7 +78,7 @@ export default class LoadingBar {
     this.bar.update(this.percent, { msg: this.msg })
     emitEvent("buildProgress", this.build, {
       progress: this.percent,
-      message: this.msg
+      message: this.msg,
     })
 
     if (this.percent >= 100) {
@@ -92,7 +92,7 @@ export default class LoadingBar {
     this.bar.stop()
     emitEvent("buildProgress", this.build, {
       progress: 100,
-      message: "done"
+      message: "done",
     })
   }
 

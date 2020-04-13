@@ -9,5 +9,5 @@ addFilter({
     }
     return options
   },
-  key: "test-server-renderer"
+  key: "test-server-renderer",
 })

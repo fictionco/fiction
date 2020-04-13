@@ -13,7 +13,7 @@ export const customLogger = (): Bugsnag.ILogger => {
     debug: (): void => {},
     info: (): void => {},
     warn: (): Function => log.warn,
-    error: (): Function => log.error
+    error: (): Function => log.error,
   }
 }
 
@@ -25,7 +25,7 @@ export const setup = (): void => {
   const bugsnagClient = bugsnag({
     apiKey: clientApiKey,
     logger: customLogger(),
-    appVersion
+    appVersion,
   })
 
   bugsnagClient.use(bugsnagVue, Vue)
@@ -39,7 +39,7 @@ export const setup = (): void => {
       const user = await userInitialized()
 
       if (user) bugsnagClient.user = user
-    }
+    },
   })
 }
 

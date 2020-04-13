@@ -19,10 +19,10 @@ import { stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorHighlightCode
+    factorHighlightCode,
   },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -52,11 +52,11 @@ export default Vue.extend({
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content, {
-        variables: true
+        variables: true,
       })
-    }
+    },
   },
-  methods: { renderMarkdown }
+  methods: { renderMarkdown },
 })
 </script>
 <style lang="less">

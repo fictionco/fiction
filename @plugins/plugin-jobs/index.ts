@@ -7,7 +7,6 @@ import jobsSchema from "./schema"
 
 const baseRoute = setting("jobs.postRoute")
 
-
 /**
  * Get post index and add to store
  */
@@ -26,7 +25,7 @@ export const loadAndStoreJobsIndex = async (): Promise<void> => {
     sort: "-date",
     page,
     limit,
-    sameSource: true
+    sameSource: true,
   })
 }
 
@@ -42,7 +41,7 @@ export const setup = (): void => {
     nameSingle: "Jobs Post",
     namePlural: "Jobs Posts",
     customPermalink: true,
-    addSitemap: true
+    addSitemap: true,
   })
 
   addContentRoute({
@@ -51,13 +50,13 @@ export const setup = (): void => {
     children: [
       {
         path: "/",
-        component: setting("jobs.components.jobsIndex")
+        component: setting("jobs.components.jobsIndex"),
       },
       {
         path: `${setting("jobs.postRoute")}/:permalink`,
-        component: setting("jobs.components.jobsSingle")
-      }
-    ]
+        component: setting("jobs.components.jobsSingle"),
+      },
+    ],
   })
 
   pushToFilter({
@@ -66,8 +65,8 @@ export const setup = (): void => {
     item: {
       postType: ["jobs"],
       name: "Job Settings",
-      component: setting("jobs.settings.settingsPanel")
-    }
+      component: setting("jobs.settings.settingsPanel"),
+    },
   })
 }
 setup()

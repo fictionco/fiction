@@ -3,10 +3,9 @@
     <home-intro v-if="setting(`home.intro.component`)" />
     <section v-if="setting('home.logos')" class="section-2 bg-gray-100 px-8 py-12">
       <div class="max-w-6xl mx-auto">
-        <h1
-          v-if="section2Title"
-          class="custom-uppercase text-center text-purple-500"
-        >{{ section2Title }}</h1>
+        <h1 v-if="section2Title" class="custom-uppercase text-center text-purple-500">
+          {{ section2Title }}
+        </h1>
         <div class="flex flex-wrap items-center justify-center mt-8">
           <template v-for="(item, index) in section2List">
             <factor-link
@@ -18,7 +17,11 @@
             >
               <img v-if="item.image" :src="item.image" :alt="item.alt" class="mx-auto" />
             </factor-link>
-            <div v-else-if="item.image" :key="index" class="block w-full px-4 py-6 sm:w-1/3">
+            <div
+              v-else-if="item.image"
+              :key="index"
+              class="block w-full px-4 py-6 sm:w-1/3"
+            >
               <img :src="item.image" :alt="item.alt" class="mx-auto" />
             </div>
           </template>
@@ -45,8 +48,14 @@
             <h2
               v-if="item.title"
               class="font-normal tracking-tight text-3xl text-purple-900 mt-5"
-            >{{ item.title }}</h2>
-            <div v-if="item.content" v-formatted-text="item.content" class="text-lg text-gray-600" />
+            >
+              {{ item.title }}
+            </h2>
+            <div
+              v-if="item.content"
+              v-formatted-text="item.content"
+              class="text-lg text-gray-600"
+            />
           </div>
         </div>
       </div>
@@ -59,14 +68,15 @@
     >
       <div class="max-w-6xl mx-auto flex flex-col py-8 md:flex-row lg:pt-12 lg:pb-24">
         <div class="flex flex-col p-8 justify-center md:w-3/5">
-          <h3
-            v-if="section4Pretitle"
-            class="custom-uppercase text-purple-500"
-          >{{ section4Pretitle }}</h3>
+          <h3 v-if="section4Pretitle" class="custom-uppercase text-purple-500">
+            {{ section4Pretitle }}
+          </h3>
           <h1
             v-if="section4Title"
             class="font-normal tracking-tight text-3xl lg:text-4xl text-purple-900"
-          >{{ section4Title }}</h1>
+          >
+            {{ section4Title }}
+          </h1>
           <div
             v-if="section4Content"
             v-formatted-text="section4Content"
@@ -96,7 +106,9 @@
             <h3
               v-if="section5Pretitle"
               class="custom-uppercase text-center text-purple-500"
-            >{{ section5Pretitle }}</h3>
+            >
+              {{ section5Pretitle }}
+            </h3>
             <div class="flex items-center justify-center">
               <h1
                 v-if="section5Title"
@@ -150,11 +162,15 @@
           <h3
             v-if="section6Pretitle"
             class="custom-uppercase text-center text-purple-500"
-          >{{ section6Pretitle }}</h3>
+          >
+            {{ section6Pretitle }}
+          </h3>
           <h1
             v-if="section6Title"
             class="mt-2 text-normal tracking-tight leading-tight text-3xl text-center text-purple-900 lg:text-4xl"
-          >{{ section6Title }}</h1>
+          >
+            {{ section6Title }}
+          </h1>
         </div>
         <div
           v-if="section6Items"
@@ -163,8 +179,13 @@
           <template v-for="(item, index) in section6Items">
             <div :key="index" class="w-full p-8 md:w-1/2">
               <blockquote v-if="item.content" class="relative inline-block">
-                <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6">&ldquo;</span>
-                <span v-formatted-text="item.content" class="leading-relaxed text-gray-600" />
+                <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6"
+                  >&ldquo;</span
+                >
+                <span
+                  v-formatted-text="item.content"
+                  class="leading-relaxed text-gray-600"
+                />
               </blockquote>
               <footer class="flex items-center mt-6">
                 <img
@@ -198,7 +219,7 @@ export default Vue.extend({
     factorLink,
     factorIcon,
     siteCta: () => import("../el/cta.vue"),
-    homeIntro: setting("home.intro.component")
+    homeIntro: setting("home.intro.component"),
   },
   data() {
     return {
@@ -220,19 +241,19 @@ export default Vue.extend({
       section5Items: setting("home.section5.items"),
       section6Pretitle: setting("home.testimonials.pretitle"),
       section6Title: setting("home.testimonials.title"),
-      section6Items: setting("home.testimonials.items")
+      section6Items: setting("home.testimonials.items"),
     }
   },
   methods: {
-    setting
+    setting,
   },
   metaInfo() {
     return {
       title: setting("home.meta.title"),
       description: setting("home.meta.description"),
-      image: setting("home.meta.image")
+      image: setting("home.meta.image"),
     }
-  }
+  },
 })
 </script>
 

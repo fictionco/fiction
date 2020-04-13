@@ -22,19 +22,19 @@ import { Route } from "vue-router"
 export default Vue.extend({
   components: {
     mobileMenu: () => import("./mobile-menu.vue"),
-    siteBrand: () => import("./el/brand.vue")
+    siteBrand: () => import("./el/brand.vue"),
   },
   data() {
     return {
-      toggle: false
+      toggle: false,
     }
   },
   watch: {
-    $route: function(this: any, to: Route, from: Route) {
+    $route: function (this: any, to: Route, from: Route) {
       if (to.path != from.path) {
         this.toggleNav(false)
       }
-    }
+    },
   },
   mounted() {
     onEvent("reset-ui", () => this.toggleNav(false))
@@ -59,8 +59,8 @@ export default Vue.extend({
       } else {
         document.removeEventListener("click", this.clickHandler)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

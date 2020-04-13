@@ -14,8 +14,8 @@ import { PostAttachment } from "@factor/attachment"
  * which can be set to the raw JSON string
  */
 const getService = (): {
-  storage: Storage | undefined;
-  bucketName: string | undefined;
+  storage: Storage | undefined
+  bucketName: string | undefined
 } => {
   const rawCredentialPath = process.env.GOOGLE_APPLICATION_CREDENTIALS
   const rawCredentialJSON = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON
@@ -60,10 +60,10 @@ export const setup = (): void => {
           {
             title: "Plugin: Google Cloud Storage",
             file: ".env",
-            name: "GOOGLE_APPLICATION_CREDENTIALS"
-          }
+            name: "GOOGLE_APPLICATION_CREDENTIALS",
+          },
         ]
-      }
+      },
     })
 
     return
@@ -99,7 +99,7 @@ export const setup = (): void => {
       const url = `http://storage.googleapis.com/${bucketName}/${key}`
 
       return url
-    }
+    },
   })
 
   /**
@@ -129,7 +129,7 @@ export const setup = (): void => {
       // const apiResponse = data[0]
 
       return
-    }
+    },
   })
 }
 

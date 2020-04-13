@@ -16,9 +16,7 @@ export const stripMarkdown = (markdown: string): string => {
 export const excerpt = (content: string, { length = 42 } = {}): string => {
   if (!content) return ""
 
-  const __ = stripMarkdown(content)
-    .replace(/\n|\r/g, " ")
-    .split(" ")
+  const __ = stripMarkdown(content).replace(/\n|\r/g, " ").split(" ")
 
   return __.length > length ? __.slice(0, length).join(" ") + "..." : __.join(" ")
 }

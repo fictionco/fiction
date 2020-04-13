@@ -1,6 +1,6 @@
 <template>
   <div class="loading-ring-wrap">
-    <div :style="{width}" class="loader">
+    <div :style="{ width }" class="loader">
       <svg class="ring-circular" viewBox="25 25 50 50">
         <circle
           class="ring-path"
@@ -20,8 +20,8 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    width: { type: String, default: "3em" }
-  }
+    width: { type: String, default: "3em" },
+  },
 })
 </script>
 

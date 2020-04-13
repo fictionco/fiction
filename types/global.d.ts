@@ -13,26 +13,26 @@ declare module "*.vue" {
 }
 
 interface Window {
-  __INITIAL_STATE__: any;
-  factorReady: boolean;
-  factorApp: Record<string, any>;
-  Prism: any;
-  _factorLoadingScreen: any;
-  $BASE_URL: string;
-  docsearch: any;
-  factorFrame: any;
+  __INITIAL_STATE__: any
+  factorReady: boolean
+  factorApp: Record<string, any>
+  Prism: any
+  _factorLoadingScreen: any
+  $BASE_URL: string
+  docsearch: any
+  factorFrame: any
 }
 
 declare namespace NodeJS {
   interface Process {
-    noDeprecation: boolean;
-    maxOldSpaceSize: number;
+    noDeprecation: boolean
+    maxOldSpaceSize: number
   }
   interface Module {
     hot: {
-      accept: () => any;
-      status: () => any;
-    };
+      accept: () => any
+      status: () => any
+    }
   }
 }
 

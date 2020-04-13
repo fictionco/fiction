@@ -20,8 +20,8 @@ export default {
   blog: {
     indexRoute: "/my-blog-index-route",
     postRoute: "/my-post-base-route",
-    limit: 6
-  }
+    limit: 6,
+  },
 }
 ```
 

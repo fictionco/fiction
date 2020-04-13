@@ -63,20 +63,20 @@ pushToFilter("cli-add-setup", () => {
   return {
     name: "DB Connection - Add/edit the connection string for MongoDB",
     value: "db",
-    callback: async program => {
+    callback: async (program) => {
       const questions = [
         {
           name: "connection",
           message: "What's your MongoDB connection string? (mongodb://...)",
           type: "input",
-          default: process.env.DB_CONNECTION
-        }
+          default: process.env.DB_CONNECTION,
+        },
       ]
 
       let { connection } = await inquirer.prompt(questions)
 
       await writeConfig("private", { DB_CONNECTION: connection })
-    }
+    },
   }
 })
 ```
@@ -89,11 +89,11 @@ As in the example above, to write to the app's private or public config, use `wr
 import { writeConfig } from "@factor/cli/setup"
 // PRIVATE CONFIG: .env
 await writeConfig("private", {
-  SOME_PRIVATE_SETTING: "VALUE"
+  SOME_PRIVATE_SETTING: "VALUE",
 })
 
 // PUBLIC CONFIG: package.json
 await writeConfig("public", {
-  some_setting: "value"
+  some_setting: "value",
 })
 ```

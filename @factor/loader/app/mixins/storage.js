@@ -20,6 +20,6 @@ export default {
 
     removeItem(key) {
       sessionStorage.removeItem(this.createItemKey(key))
-    }
-  }
+    },
+  },
 }

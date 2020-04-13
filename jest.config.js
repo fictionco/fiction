@@ -13,7 +13,7 @@ module.exports = {
   testPathIgnorePatterns: [
     "node_modules/(?!(@factor|factor))",
     "test/fixtures/.*/.*?/",
-    "examples/.*"
+    "examples/.*",
   ],
 
   watchPathIgnorePatterns: ["dist/.*", ".factor/.*"],
@@ -24,7 +24,7 @@ module.exports = {
     "\\.(css|less)$": "<rootDir>/test/config/mock-style",
     "__FIND__(.*).(js|vue|ts)$": "<rootDir>/@factor/app/$1",
     "__CWD__/(.*)$": "<rootDir>/test/modules/alias/$1",
-    "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1"
+    "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1",
   },
 
   transformIgnorePatterns: ["node_modules/(?!(@factor|factor|lodash-es))"],
@@ -32,17 +32,17 @@ module.exports = {
   transform: {
     "^.+\\.ts$": "ts-jest",
     "^.+\\.js$": "babel-jest",
-    "^.+\\.vue$": "vue-jest"
+    "^.+\\.vue$": "vue-jest",
   },
 
   globals: {
     "ts-jest": {
       tsConfig: {
         strict: false,
-        checkJs: false
+        checkJs: false,
       },
-      isolatedModules: true
-    }
+      isolatedModules: true,
+    },
   },
 
   moduleFileExtensions: ["js", "ts", "json", "vue"],
@@ -53,5 +53,5 @@ module.exports = {
 
   coveragePathIgnorePatterns: ["node_modules/(?!(@factor|factor))", "fixtures", "dist"],
 
-  reporters: ["default", ["jest-junit", { outputDirectory: "reports/junit" }]]
+  reporters: ["default", ["jest-junit", { outputDirectory: "reports/junit" }]],
 }

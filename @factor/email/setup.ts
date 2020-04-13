@@ -14,8 +14,8 @@ export const setup = (): void => {
         title: "Email Credentials",
         value: "SMTP credential information is needed to send transactional email",
         file: ".env",
-        name: ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST", "SMTP_PORT"]
-      }
+        name: ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST", "SMTP_PORT"],
+      },
     })
   }
 
@@ -33,20 +33,20 @@ export const setup = (): void => {
               name: "SMTP_USERNAME",
               message: "What's Your SMTP Service Username?",
               type: "input",
-              default: process.env.SMTP_USERNAME
+              default: process.env.SMTP_USERNAME,
             },
             {
               name: "SMTP_PASSWORD",
               message: "What's Your SMTP Service Password?",
               type: "input",
-              default: process.env.SMTP_USERNAME
+              default: process.env.SMTP_USERNAME,
             },
             {
               name: "SMTP_HOST",
               message: "What's Your SMTP Service Host?",
               type: "input",
-              default: process.env.SMTP_HOST
-            }
+              default: process.env.SMTP_HOST,
+            },
           ]
 
           const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = await inquirer.prompt(
@@ -54,11 +54,11 @@ export const setup = (): void => {
           )
 
           await writeConfig("private", { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST })
-        }
+        },
       }
 
       return [..._, setupItem]
-    }
+    },
   })
 }
 setup()

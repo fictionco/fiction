@@ -13,11 +13,11 @@ const fileExistsInTheme = (file: string): string => {
   let themes: FactorExtension[] = []
 
   if (extensions && extensions.length > 0) {
-    themes = extensions.filter(_ => _.extend == "theme")
+    themes = extensions.filter((_) => _.extend == "theme")
   }
 
   if (themes.length > 0) {
-    themes.some(_ => {
+    themes.some((_) => {
       const themeRoot = dirname(require.resolve(_.name))
       const themePath = file.replace("__FIND__", themeRoot)
 

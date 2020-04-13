@@ -12,7 +12,7 @@ import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    "el-testimonials": () => import("../el/testimonials.vue")
+    "el-testimonials": () => import("../el/testimonials.vue"),
   },
   data() {
     return {
@@ -21,12 +21,12 @@ export default Vue.extend({
       section4id: setting("home.section4.id"),
       section4pretitle: setting("home.section4.pretitle"),
       section4title: setting("home.section4.title"),
-      section4items: setting("home.section4.items")
+      section4items: setting("home.section4.items"),
     }
   },
   methods: {
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

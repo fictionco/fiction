@@ -25,8 +25,8 @@ describe("site-wrapper", () => {
     router = new VueRouter({
       routes: [
         { path: "/", meta: { ui: "app" } },
-        { path: "/alt", meta: { ui: "dashboard" } }
-      ]
+        { path: "/alt", meta: { ui: "dashboard" } },
+      ],
     })
     router.push("/")
 

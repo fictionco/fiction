@@ -22,11 +22,11 @@ import { loadAndStoreIndex } from "./request"
 import { postType } from "."
 export default Vue.extend({
   components: {
-    factorLoadingRing
+    factorLoadingRing,
   },
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   metaInfo() {
@@ -47,7 +47,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   serverPrefetch() {
@@ -69,14 +69,14 @@ export default Vue.extend({
     },
     page(this: any) {
       return Number.parseInt(this.$route.query.page) || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   async mounted() {
     await this.getPosts()
@@ -87,8 +87,8 @@ export default Vue.extend({
       this.loading = true
       await loadAndStoreIndex()
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

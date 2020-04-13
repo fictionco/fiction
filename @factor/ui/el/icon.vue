@@ -6,7 +6,7 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    icon: { type: String, default: "" }
+    icon: { type: String, default: "" },
   },
   metaInfo: {
     link: [
@@ -14,12 +14,11 @@ export default Vue.extend({
         vmid: "fa",
         rel: "stylesheet",
         href:
-          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"
-      }
-    ]
-  }
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css",
+      },
+    ],
+  },
 })
 </script>
 
-<style lang="less">
-</style>
+<style lang="less"></style>

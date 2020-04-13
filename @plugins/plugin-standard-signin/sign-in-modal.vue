@@ -24,28 +24,28 @@ interface ModalArguments {
 export default Vue.extend({
   components: {
     factorModal,
-    factorSignin: () => import("./sign-in.vue")
+    factorSignin: () => import("./sign-in.vue"),
   },
-  data: function() {
+  data: function () {
     return {
       vis: false,
       redirect: "",
       title: "",
       subTitle: "",
-      mode: ""
+      mode: "",
     }
   },
   computed: {
     view(this: any) {
       return this.$route.query.view || ""
-    }
+    },
   },
   watch: {
     $route(this: any, to: Route) {
       if (to.query.signInView) {
         this.vis = true
       }
-    }
+    },
   },
   mounted() {
     if (this.$route.query.signInView) {
@@ -96,7 +96,7 @@ export default Vue.extend({
       }
 
       this.close()
-    }
-  }
+    },
+  },
 })
 </script>

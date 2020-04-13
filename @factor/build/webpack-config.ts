@@ -26,31 +26,31 @@ import { cssLoaders } from "./webpack-utils"
  * Options to control the way a specific app builds
  */
 interface FactorBundleOptions {
-  cwd?: string;
-  config?: Record<string, any>;
-  controlFiles?: ControlFile[];
-  webpackControls?: FactorWebpackControls;
-  beforeBuild?: (_arguments: any) => void;
-  beforeCompile?: (_arguments: any) => void;
-  afterCompile?: (_arguments: any) => void;
+  cwd?: string
+  config?: Record<string, any>
+  controlFiles?: ControlFile[]
+  webpackControls?: FactorWebpackControls
+  beforeBuild?: (_arguments: any) => void
+  beforeCompile?: (_arguments: any) => void
+  afterCompile?: (_arguments: any) => void
 }
 
 interface BuildConfig {
-  cwd: string;
-  controlFiles?: ControlFile[];
-  config?: Configuration;
-  beforeBuild?: (_arguments: any) => void;
+  cwd: string
+  controlFiles?: ControlFile[]
+  config?: Configuration
+  beforeBuild?: (_arguments: any) => void
 }
 
 type FactorWebpackOptions = FactorWebpackControls & {
-  target: "server" | "client";
+  target: "server" | "client"
 }
 
 interface FactorWebpackControls {
-  analyze?: boolean;
-  testing?: boolean;
-  clean?: boolean;
-  cwd?: string;
+  analyze?: boolean
+  testing?: boolean
+  clean?: boolean
+  cwd?: string
 }
 
 /**
@@ -70,7 +70,7 @@ export const getDefinedValues = (
       "process.env.VUE_ENV": JSON.stringify(target),
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
-      "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings(cwd))
+      "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings(cwd)),
     },
     _arguments
   )
@@ -90,7 +90,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     /**
      * Define constants, transfer values from node
      */
-    new webpack.DefinePlugin(getDefinedValues(_arguments))
+    new webpack.DefinePlugin(getDefinedValues(_arguments)),
   ]
 
   const copyPluginConfig = applyFilters("webpack-copy-files-config", [], _arguments)
@@ -102,11 +102,11 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     output: {
       publicPath: "/",
       path: getPath("dist", cwd),
-      filename: "js/[name].[hash:8].js"
+      filename: "js/[name].[hash:8].js",
     },
     resolve: {
       extensions: [".js", ".vue", ".json", ".ts"],
-      alias: applyFilters("webpack-aliases", {}, _arguments)
+      alias: applyFilters("webpack-aliases", {}, _arguments),
     },
     module: {
       rules: applyFilters(
@@ -121,13 +121,13 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
             test: /\.(png|jpg|gif|svg|mov|mp4|woff|woff2|ttf|eot)$/,
             loader: "file-loader",
             // esModule option introduced in v5, but breaks markdown-image-loader
-            options: { name: "[name]-[hash:8].[ext]", esModule: false }
+            options: { name: "[name]-[hash:8].[ext]", esModule: false },
           },
           { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
           {
             test: /\.md$/,
-            use: [{ loader: "markdown-image-loader" }]
+            use: [{ loader: "markdown-image-loader" }],
           },
           {
             test: /\.ts$/,
@@ -139,11 +139,11 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
                 module: "es6",
                 noEmit: false,
                 strict: false,
-                sourceMap: false
+                sourceMap: false,
               },
-              configFile: resolve(__dirname, "tsconfig.webpack.json")
-            }
-          }
+              configFile: resolve(__dirname, "tsconfig.webpack.json"),
+            },
+          },
         ],
         _arguments
       ),
@@ -151,7 +151,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
        *  Undocumented webpack options to disable warnings on variables in node requires that have nothing to do with webpack
        *  https://github.com/webpack/webpack/issues/198#issuecomment-37306725
        */
-      unknownContextCritical: false
+      unknownContextCritical: false,
     },
     plugins,
     stats: { children: false },
@@ -160,7 +160,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
      * Don't warn about file sizes
      */
     performance: { hints: false as const },
-    node: {}
+    node: {},
   }
 
   /**
@@ -180,7 +180,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
  */
 const development = (): Configuration => {
   return {
-    mode: "development"
+    mode: "development",
   }
 }
 /**
@@ -192,19 +192,19 @@ const production = (): Configuration => {
     plugins: [
       new MiniCssExtractPlugin({
         filename: "css/[name]-[hash:8].css",
-        chunkFilename: "css/[name]-[hash:8].css"
+        chunkFilename: "css/[name]-[hash:8].css",
       }),
       /**
        * Limit the minimum size of JS files generated
        * this reduces http overhead
        */
       new webpack.optimize.MinChunkSizePlugin({
-        minChunkSize: 65000 // Minimum number of characters
-      })
+        minChunkSize: 65000, // Minimum number of characters
+      }),
     ],
     optimization: {
-      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})]
-    }
+      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin({})],
+    },
   }
 }
 /**
@@ -221,15 +221,15 @@ const client = (cwd?: string): Configuration => {
        * Custom error handling
        * Only log for client compiler instead of both
        */
-      function(this: Compiler): void {
-        this.plugin("done", function(stats: Stats) {
+      function (this: Compiler): void {
+        this.plugin("done", function (stats: Stats) {
           const { errors } = stats.compilation
           if (errors && errors.length > 0) {
-            errors.forEach(e => log.error(e))
+            errors.forEach((e) => log.error(e))
           }
         })
-      }
-    ]
+      },
+    ],
   }
 }
 /**
@@ -248,7 +248,7 @@ const server = (cwd?: string): Configuration => {
     // https://github.com/liady/webpack-node-externals
     // do not externalize CSS files in case we need to import it from a dep
     externals: [nodeExternals({ whitelist: [/\.css$/, /factor/] })],
-    plugins: [new VueSSRServerPlugin({ filename })]
+    plugins: [new VueSSRServerPlugin({ filename })],
   }
 }
 
@@ -346,7 +346,7 @@ export const buildProduction = async (
   _arguments: FactorWebpackControls = {}
 ): Promise<void> => {
   const buildDirectories: BuildConfig[] = applyFilters("build-directories", [
-    { cwd: getWorkingDirectory() }
+    { cwd: getWorkingDirectory() },
   ])
 
   const { Presets } = cliProgress
@@ -357,7 +357,7 @@ export const buildProduction = async (
       clearOnComplete: true,
       hideCursor: true,
       format,
-      noTTYOutput: true
+      noTTYOutput: true,
     },
     Presets.rect
   )
@@ -378,7 +378,7 @@ export const buildProduction = async (
           const newBar: SingleBar | undefined = multi.create(100, 0, {
             msg: "",
             target,
-            name
+            name,
           })
 
           bars[name + target] = newBar
@@ -405,10 +405,10 @@ export const buildProduction = async (
               modules: false,
               children: false,
               chunks: false,
-              chunkModules: false
-            })
+              chunkModules: false,
+            }),
           })
-        }
+        },
       })
 
       return

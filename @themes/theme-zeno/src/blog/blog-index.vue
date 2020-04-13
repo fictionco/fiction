@@ -26,29 +26,38 @@
                 <div
                   v-if="setting('blog.promo.pretitle')"
                   class="custom-uppercase text-purple-400"
-                >{{ setting('blog.promo.pretitle') }}</div>
+                >
+                  {{ setting("blog.promo.pretitle") }}
+                </div>
                 <h1
                   v-if="setting('blog.promo.title')"
                   class="font-normal tracking-tight text-2xl text-gray-300"
-                >{{ setting('blog.promo.title') }}</h1>
-                <p
-                  v-if="setting('blog.promo.content')"
-                  class="text-gray-500 mt-2"
-                >{{ setting('blog.promo.content') }}</p>
+                >
+                  {{ setting("blog.promo.title") }}
+                </h1>
+                <p v-if="setting('blog.promo.content')" class="text-gray-500 mt-2">
+                  {{ setting("blog.promo.content") }}
+                </p>
                 <factor-link
                   v-if="setting('blog.promo.button.link')"
                   :path="setting('blog.promo.button.link')"
                   class="mt-8 self-start"
                   :class="setting('blog.promo.button.classes')"
                 >
-                  {{ setting('blog.promo.button.text') }}
+                  {{ setting("blog.promo.button.text") }}
                   <factor-icon icon="fas fa-angle-right" />
                 </factor-link>
               </div>
             </div>
 
-            <div v-for="post in blogPosts" :key="post._id" class="blog-post w-full p-2 lg:w-1/3">
-              <div class="h-full overflow-hidden flex flex-col rounded-lg shadow-xl bg-white">
+            <div
+              v-for="post in blogPosts"
+              :key="post._id"
+              class="blog-post w-full p-2 lg:w-1/3"
+            >
+              <div
+                class="h-full overflow-hidden flex flex-col rounded-lg shadow-xl bg-white"
+              >
                 <component
                   :is="setting(`blog.components.${_component}`)"
                   v-for="(_component, i) in setting('blog.layout.index')"
@@ -61,7 +70,9 @@
           </div>
           <div v-else class="posts-not-found">
             <div class="text">
-              <div class="font-normal tracking-tight text-2xl">{{ setting("blog.notFound.title") }}</div>
+              <div class="font-normal tracking-tight text-2xl">
+                {{ setting("blog.notFound.title") }}
+              </div>
               <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
             </div>
           </div>
@@ -81,12 +92,12 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon,
-    "el-hero": () => import("../el/hero.vue")
+    "el-hero": () => import("../el/hero.vue"),
   },
   data() {
     return {
       postType: "blog",
-      loading: false
+      loading: false,
     }
   },
   routeClass() {
@@ -101,7 +112,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   computed: {
@@ -114,21 +125,21 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   methods: {
     setting,
     getPost(_id: any) {
       return stored(_id) || {}
-    }
-  }
+    },
+  },
 })
 </script>
 

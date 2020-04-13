@@ -38,7 +38,11 @@
           v-if="single || imageIds.length < maxImages"
           ref="multiImageDrop"
           class="image-item ignore-sortable image-drop"
-          :class="single && (populated.length > 0 || uploading.length > 0) ? 'single-image-drop': ''"
+          :class="
+            single && (populated.length > 0 || uploading.length > 0)
+              ? 'single-image-drop'
+              : ''
+          "
         >
           <div class="image-item-pad">
             <div class="image-item-content">
@@ -60,7 +64,11 @@
       </div>
     </div>
     <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
+    <factor-lightbox
+      :visible.sync="lightboxShow"
+      :imgs="populated"
+      :index="lightboxIndex"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -82,7 +90,7 @@ export default Vue.extend({
     value: { type: [Array, String], default: () => [] },
     min: { type: [Number, String], default: 0 },
     max: { type: [Number, String], default: 10 },
-    postId: { type: String, default: "post" }
+    postId: { type: String, default: "post" },
   },
   data() {
     return {
@@ -91,7 +99,7 @@ export default Vue.extend({
       lightboxShow: false,
       lightboxIndex: 0,
       callback: null,
-      copyText: ""
+      copyText: "",
     }
   },
   computed: {
@@ -101,7 +109,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
-      }
+      },
     },
     single(this: any): boolean {
       return typeof this.value == "string" || this.max == 1 ? true : false
@@ -119,7 +127,7 @@ export default Vue.extend({
     },
     allImages(this: any) {
       return [...this.populated, ...this.uploading]
-    }
+    },
   },
 
   mounted() {
@@ -147,7 +155,7 @@ export default Vue.extend({
 
     this.$watch(
       `value`,
-      function(this: any, v: string | string[]) {
+      function (this: any, v: string | string[]) {
         if (v) {
           this.imageIds = typeof v == "string" ? [v] : v
         }
@@ -234,11 +242,11 @@ export default Vue.extend({
         dropEl.removeClass("dragover")
       })
 
-      jq.on("dragover", e => {
+      jq.on("dragover", (e) => {
         e.stopPropagation()
         e.preventDefault()
       })
-      jq.on("drop", e => {
+      jq.on("drop", (e) => {
         e.stopPropagation()
         e.preventDefault()
         dropEl.removeClass("dragover")
@@ -252,7 +260,7 @@ export default Vue.extend({
         Sortable.create(this.$refs.organizer, {
           filter: ".ignore-sortable",
           ghostClass: "sortable-ghost",
-          onUpdate: e => {
+          onUpdate: (e) => {
             if (e.oldIndex && this.imageIds[e.oldIndex]) {
               const moved = this.imageIds.splice(e.oldIndex, 1)
               this.imageIds.splice(e.newIndex, 0, moved[0])
@@ -260,9 +268,9 @@ export default Vue.extend({
               this.updateValue()
             }
           },
-          onMove: e => {
+          onMove: (e) => {
             return DOM(e.related).hasClass("ignore-sortable") ? false : true
-          }
+          },
         })
       }
     },
@@ -327,7 +335,7 @@ export default Vue.extend({
             onError: () => {},
             onFinished: () => {
               if (replaceImage) this.removeImage(replaceImage)
-            }
+            },
           })
         }
       }
@@ -340,7 +348,7 @@ export default Vue.extend({
       {
         file,
         onFinished,
-        item
+        item,
       }: { item: any; file: File; index: number; onFinished: Function }
     ) {
       this.$emit("upload", { file, item })
@@ -374,7 +382,7 @@ export default Vue.extend({
           if (onFinished) {
             onFinished()
           }
-        }
+        },
       })
     },
 
@@ -414,8 +422,8 @@ export default Vue.extend({
       } else {
         return
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

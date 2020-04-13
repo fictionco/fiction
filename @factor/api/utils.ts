@@ -13,18 +13,18 @@ export { isNode, guid }
  * Standard list format
  */
 export interface ListItem {
-  value?: string;
-  name?: string;
-  label?: string;
-  desc?: string;
+  value?: string
+  name?: string
+  label?: string
+  desc?: string
 }
 
 /**
  * Object with a priority key for sorting
  */
 export interface PriorityItem {
-  priority?: number;
-  [key: string]: any;
+  priority?: number
+  [key: string]: any
 }
 
 /**
@@ -32,7 +32,7 @@ export interface PriorityItem {
  * @param ms - milliseconds
  */
 export const waitFor = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms || 0))
+  return new Promise((resolve) => setTimeout(resolve, ms || 0))
 }
 
 /**
@@ -110,10 +110,10 @@ export const sortPriority = <TPri extends PriorityItem[]>(arr: TPri): TPri => {
  */
 export const dotSetting = ({
   key,
-  settings
+  settings,
 }: {
-  key: string;
-  settings: Record<string, any>;
+  key: string
+  settings: Record<string, any>
 }): any => {
   const currentKey = key.slice(0, key.indexOf("."))
   const subKeys = key.slice(key.indexOf(".") + 1)
@@ -138,7 +138,7 @@ export const dotSetting = ({
  * @param items - array of objects
  */
 export const deepMerge = <T>(items: Partial<T>[]): object => {
-  const mergeItems = items.filter(_ => _)
+  const mergeItems = items.filter((_) => _)
 
   const merged = deepMergeLib.all(mergeItems, {
     arrayMerge: (lowerPriority, higherPriority) => {
@@ -165,7 +165,7 @@ export const deepMerge = <T>(items: Partial<T>[]): object => {
           return higher
         }
       })
-    }
+    },
   })
 
   return merged
@@ -195,12 +195,12 @@ export const stopWordLowercase = (str: string, lib: string[] = []): string => {
 
   const regex = new RegExp("\\b(" + lib.join("|") + ")\\b", "gi")
 
-  return str.replace(regex, match => match.toLowerCase())
+  return str.replace(regex, (match) => match.toLowerCase())
 }
 
 export const camelToUpperSnake = (string: string): string => {
   return string
-    .replace(/\w([A-Z])/g, function(m) {
+    .replace(/\w([A-Z])/g, function (m) {
       return m[0] + "_" + m[1]
     })
     .toUpperCase()
@@ -222,7 +222,7 @@ export const toLabel = (str?: string): string => {
 
   const label = camelToKebab(str)
     .replace(new RegExp("-|_", "g"), " ")
-    .replace(/\b\w/g, l => l.toUpperCase())
+    .replace(/\b\w/g, (l) => l.toUpperCase())
 
   return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
 }
@@ -255,11 +255,11 @@ export const envKeys = (
 ): Record<string, string> => {
   let out: Record<string, string> = {}
 
-  Object.keys(settingsObject).forEach(key => {
+  Object.keys(settingsObject).forEach((key) => {
     const val = settingsObject[key]
     const envKey = [prefix, camelToUpperSnake(key)].join("_")
     if (Array.isArray(val)) {
-      out[envKey] = val.filter(_ => typeof _ == "string").join(",")
+      out[envKey] = val.filter((_) => typeof _ == "string").join(",")
     } else if (val && typeof val == "object" && val != null) {
       const keys = envKeys(val as SettingObject, envKey)
       out = { ...out, ...keys }
@@ -294,14 +294,14 @@ export const parseList = (
 
   suffix = suffix ? " " + suffix : ""
 
-  const normalized = list.map(_ => {
+  const normalized = list.map((_) => {
     if (typeof _ == "string" || typeof _ == "number") {
       const label = `${prefix}${toLabel(_)}${suffix}`
       return {
         value: _,
         name: label,
         label,
-        desc: ""
+        desc: "",
       }
     } else {
       const { name, label, value } = _
@@ -339,5 +339,5 @@ export const toPascalCase = (string: string): string => {
       ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`
     )
     .replace(new RegExp(/\s/, "g"), "")
-    .replace(new RegExp(/\w/), s => s.toUpperCase())
+    .replace(new RegExp(/\w/), (s) => s.toUpperCase())
 }

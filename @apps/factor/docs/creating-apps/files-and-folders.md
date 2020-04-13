@@ -116,7 +116,7 @@ For example, the code below would add a new route at `/example` and show the `v-
 import { addContentRoute } from "@factor/api"
 addContentRoute({
   path: "/example",
-  component: () => import("/v-example.vue")
+  component: () => import("/v-example.vue"),
 })
 ```
 
@@ -132,8 +132,8 @@ addMiddleware({
     async (request: Request, response: Response): Promise<void> => {
       response.send("cool").end()
       return
-    }
-  ]
+    },
+  ],
 })
 ```
 
@@ -181,8 +181,8 @@ Here is an example `content.vue` that adds a header and footer:
   export default Vue.extend({
     components: {
       headerMain: () => import("./header.vue"),
-      footerMain: () => import("./footer.vue")
-    }
+      footerMain: () => import("./footer.vue"),
+    },
   })
 </script>
 

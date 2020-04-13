@@ -9,19 +9,19 @@ module.exports = {
     Cypress: false,
     to: false,
     describe: false,
-    context: false
+    context: false,
   },
   parser: "vue-eslint-parser",
   parserOptions: {
     sourceType: "module",
-    parser: "@typescript-eslint/parser"
+    parser: "@typescript-eslint/parser",
   },
   env: {
     browser: true,
     es6: true,
     node: true,
     "jest/globals": true,
-    "cypress/globals": true
+    "cypress/globals": true,
   },
 
   extends: [
@@ -33,7 +33,7 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
   ],
 
   plugins: [
@@ -44,7 +44,7 @@ module.exports = {
     "import",
     "jest",
     "@typescript-eslint",
-    "cypress"
+    "cypress",
   ],
 
   rules: {
@@ -55,8 +55,8 @@ module.exports = {
     "import/order": [
       "error",
       {
-        groups: ["builtin", "external", "parent", "sibling", "index"]
-      }
+        groups: ["builtin", "external", "parent", "sibling", "index"],
+      },
     ],
     complexity: 2,
     semi: ["error", "never"],
@@ -75,11 +75,11 @@ module.exports = {
         html: {
           void: "always",
           normal: "always",
-          component: "always"
+          component: "always",
         },
         svg: "always",
-        math: "always"
-      }
+        math: "always",
+      },
     ],
     "vue/html-closing-bracket-spacing": "off",
     "vue/multiline-html-element-content-newline": "off",
@@ -91,7 +91,8 @@ module.exports = {
     "func-style": ["warn", "expression"],
     "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
     "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
   },
   overrides: [
     {
@@ -99,20 +100,16 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       rules: {
         "@typescript-eslint/explicit-function-return-type": ["warn"],
-        "@typescript-eslint/ban-ts-ignore": "warn"
-      }
+        "@typescript-eslint/ban-ts-ignore": "warn",
+      },
     },
-    /**
-     * Prettier/Vetur or something removes semicolons in Vue files, causing conflict
-     */
-    { files: ["*.vue"], rules: { "@typescript-eslint/member-delimiter-style": "off" } }
   ],
 
   settings: {
     "import/resolver": {
       alias: {
-        map: [["~", process.env.FACTOR_CWD || process.cwd()]]
-      }
-    }
-  }
+        map: [["~", process.env.FACTOR_CWD || process.cwd()]],
+      },
+    },
+  },
 }

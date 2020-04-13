@@ -9,7 +9,7 @@ import {
   applyFilters,
   addCallback,
   pushToFilter,
-  slugify
+  slugify,
 } from "@factor/api"
 import chalk from "chalk"
 import envfile from "envfile"
@@ -19,10 +19,10 @@ import json2yaml from "json2yaml"
 import { FactorPackageJson } from "@factor/cli/types"
 
 export interface SetupCliConfig {
-  name: string;
-  value: string;
-  callback: () => {} | void;
-  priority?: number;
+  name: string
+  value: string
+  callback: () => {} | void
+  priority?: number
 }
 
 const configFile = getPath("config-file-public")
@@ -44,7 +44,7 @@ export const addNotice = (text: string): void => {
     pushToFilter({
       key: slugify(text.slice(1, 30)) ?? "",
       hook: "cli-notices",
-      item: text
+      item: text,
     })
   }
 }
@@ -70,10 +70,10 @@ export const logNotices = (): void => {
  * @param format - the format to return
  */
 const extensionNames = (type: "plugin" | "theme" | "app", format = "join"): string => {
-  const extensions = getExtensions().filter(_ => _.extend == type)
+  const extensions = getExtensions().filter((_) => _.extend == type)
 
   if (extensions && extensions.length > 0) {
-    const names = extensions.map(_ => _.name)
+    const names = extensions.map((_) => _.name)
 
     return format == "count" ? names.length.toString() : names.join(", ")
   } else return "none"
@@ -84,9 +84,9 @@ const extensionNames = (type: "plugin" | "theme" | "app", format = "join"): stri
  * Also returns packageJson for writing later
  */
 const existingSettings = (): {
-  packageJson: FactorPackageJson;
-  publicConfig: Record<string, any>;
-  privateConfig: Record<string, any>;
+  packageJson: FactorPackageJson
+  publicConfig: Record<string, any>
+  privateConfig: Record<string, any>
 } => {
   const packageJson = require(configFile)
   const { factor: publicConfig = {} } = packageJson
@@ -110,9 +110,9 @@ export const runSetup = async (): Promise<void> => {
       {
         title: "Modules",
         value: extensionNames("plugin", "count"),
-        indent: true
-      }
-    ]
+        indent: true,
+      },
+    ],
   })
 
   let setups: SetupCliConfig[] = applyFilters(
@@ -125,8 +125,8 @@ export const runSetup = async (): Promise<void> => {
           // eslint-disable-next-line unicorn/no-process-exit
           process.exit()
         },
-        priority: 1000
-      }
+        priority: 1000,
+      },
     ],
     existingSettings()
   )
@@ -141,7 +141,7 @@ export const runSetup = async (): Promise<void> => {
       type: "list",
       name: `setupItem`,
       message: `What would you like to do?`,
-      choices: setups
+      choices: setups,
     })
 
     console.log()
@@ -245,7 +245,7 @@ export const writeConfig = async (
     message: `Write the following ${file} config to the ${outFile} file? \n\n ${prettyJson(
       values
     )} \n`,
-    default: true
+    default: true,
   })
 
   console.log()

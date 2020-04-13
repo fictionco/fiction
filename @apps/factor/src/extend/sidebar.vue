@@ -18,7 +18,9 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">{{ standardDate(item.time.created) }}</div>
+              <div v-if="item.time.created" class="released">
+                {{ standardDate(item.time.created) }}
+              </div>
             </div>
           </div>
         </factor-link>
@@ -40,7 +42,9 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">{{ standardDate(item.time.modified) }}</div>
+              <div v-if="item.time.created" class="released">
+                {{ standardDate(item.time.modified) }}
+              </div>
             </div>
           </div>
         </factor-link>
@@ -58,7 +62,7 @@ export default Vue.extend({
   components: { factorLink },
   data() {
     return {
-      num: 5
+      num: 5,
     }
   },
   computed: {
@@ -78,14 +82,14 @@ export default Vue.extend({
         .sort((a, b) => b.time.modified - a.time.modified)
 
       return getRecentlyUpdated.slice(0, this.num)
-    }
+    },
   },
   methods: {
     titleFromPackage,
     extensionPermalink,
     extensionImage,
-    standardDate
-  }
+    standardDate,
+  },
 })
 </script>
 

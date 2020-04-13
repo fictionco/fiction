@@ -12,19 +12,19 @@ const router = new VueRouter({
   routes: [
     {
       path: "/setup",
-      component: (): Promise<Component> => import("./setup.vue")
+      component: (): Promise<Component> => import("./setup.vue"),
     },
     {
       path: "*",
-      component: (): Promise<Component> => import("./loading.vue")
-    }
-  ]
+      component: (): Promise<Component> => import("./loading.vue"),
+    },
+  ],
 })
 
 Vue.config.devtools = true
 window._factorLoadingScreen = new Vue({
   render: (h: CreateElement): VNode => h(Site),
-  router
+  router,
 }).$mount("#app")
 
 router.onReady(() => {

@@ -11,7 +11,9 @@
         v-if="headline"
         class="max-w-2xl font-normal tracking-tight leading-tight text-3xl text-gray-100 lg:text-5xl"
         :class="alignment"
-      >{{ headline }}</h1>
+      >
+        {{ headline }}
+      </h1>
       <div class="max-w-2xl mt-2 text-base text-gray-500 lg:text-xl" :class="alignment">
         <slot name="hero-content" />
       </div>
@@ -25,7 +27,7 @@ export default Vue.extend({
   props: {
     align: { type: String, default: "" },
     headline: { type: String, default: "" },
-    subheadline: { type: String, default: "" }
+    subheadline: { type: String, default: "" },
   },
   computed: {
     alignment(this: any) {
@@ -34,8 +36,8 @@ export default Vue.extend({
       } else {
         return ""
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

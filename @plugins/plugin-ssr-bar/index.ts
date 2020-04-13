@@ -7,8 +7,8 @@ export const setup = (): void => {
     key: "ssrProgressBar",
     item: {
       name: "plugin-ssr-bar",
-      component: (): Promise<Component> => import("./ssr-progress-bar.vue")
-    }
+      component: (): Promise<Component> => import("./ssr-progress-bar.vue"),
+    },
   })
 }
 

@@ -12,8 +12,8 @@
 <script lang="ts">
 export default {
   components: {
-    "site-nav": () => import("./site-nav.vue")
-  }
+    "site-nav": () => import("./site-nav.vue"),
+  },
 }
 </script>
 

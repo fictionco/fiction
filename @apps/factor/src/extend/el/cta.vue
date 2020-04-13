@@ -8,7 +8,9 @@
         </div>
 
         <div class="buttons">
-          <factor-link btn="primary" path="https://www.fiction.com/contact">Submit &rarr;</factor-link>
+          <factor-link btn="primary" path="https://www.fiction.com/contact"
+            >Submit &rarr;</factor-link
+          >
         </div>
       </div>
     </div>

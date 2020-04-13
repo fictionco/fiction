@@ -20,8 +20,8 @@ export default Vue.extend({
   components: {
     dashboardPage,
     dashboardPane,
-    factorLink
-  }
+    factorLink,
+  },
 })
 </script>
 

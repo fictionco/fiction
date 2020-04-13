@@ -25,7 +25,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn },
   props: {
-    listId: { type: String, default: "default" }
+    listId: { type: String, default: "default" },
   },
   data() {
     return {
@@ -33,7 +33,7 @@ export default Vue.extend({
       sending: false,
       added: "",
       validation: "",
-      confirmModal: this.setting(`success.modal`)
+      confirmModal: this.setting(`success.modal`),
     }
   },
   computed: {
@@ -42,13 +42,13 @@ export default Vue.extend({
     },
     tags(this: any) {
       return this.setting("tags") || []
-    }
+    },
   },
   methods: {
     setting(this: any, key: string) {
       return getSetting({
         key,
-        listId: this.listId
+        listId: this.listId,
       })
     },
     async add(this: any) {
@@ -61,7 +61,7 @@ export default Vue.extend({
           await addEmail({
             email: this.email,
             listId: this.listId,
-            tags: this.tags
+            tags: this.tags,
           })
 
           this.added = this.email
@@ -92,8 +92,8 @@ export default Vue.extend({
     },
     regex() {
       return /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-AZa-z-]+\.)+[A-Za-z]{2,}))$/
-    }
-  }
+    },
+  },
 })
 </script>
 

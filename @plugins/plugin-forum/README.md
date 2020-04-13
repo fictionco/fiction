@@ -30,8 +30,8 @@ export default {
   forum: {
     indexRoute: "/my-forum-index-route",
     postRoute: "/my-forum-post-base-route",
-    limit: 6
-  }
+    limit: 6,
+  },
 }
 ```
 
@@ -67,9 +67,9 @@ Then reference where it is added as a setting in your `factor-settings`:
 export default {
   forum: {
     components: {
-      topicReply: () => import("./topic-reply.vue")
-    }
-  }
+      topicReply: () => import("./topic-reply.vue"),
+    },
+  },
 }
 ```
 
@@ -80,8 +80,8 @@ And then simply add the overriding version of the component from your app:
 export default {
   forum: {
     components: {
-      topicReply: () => import("./my-forum/topic-reply.vue")
-    }
-  }
+      topicReply: () => import("./my-forum/topic-reply.vue"),
+    },
+  },
 }
 ```

@@ -1,10 +1,9 @@
 <template>
   <div class="forum-sidebar">
     <div class="new-discussion">
-      <factor-link
-        btn="primary"
-        :path="`${setting('forum.indexRoute')}/add-new`"
-      >{{ setting('forum.text.newTopic') }}</factor-link>
+      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`">{{
+        setting("forum.text.newTopic")
+      }}</factor-link>
     </div>
     <div class="forum-nav">
       <factor-input-select
@@ -17,7 +16,7 @@
         <factor-link
           class="menu-item-link"
           :path="setting(`forum.indexRoute`)"
-          :query="{category: !item.value ? null : item.value}"
+          :query="{ category: !item.value ? null : item.value }"
         >
           <div class="item-icon">
             <factor-icon v-if="item.icon" :class="item.icon" />
@@ -47,11 +46,11 @@ export default Vue.extend({
     factorLink,
     navIcon: setting("forum.components.customIcons"),
     factorInputSelect,
-    factorIcon
+    factorIcon,
   },
   data() {
     return {
-      selectNav: ""
+      selectNav: "",
     }
   },
   computed: {
@@ -61,11 +60,11 @@ export default Vue.extend({
       return [
         {
           name: setting("forum.text.listAll"),
-          value: ""
+          value: "",
         },
-        ...categories
+        ...categories,
       ]
-    }
+    },
   },
   methods: {
     setting,
@@ -78,8 +77,8 @@ export default Vue.extend({
       if (!category) delete query.category
 
       this.$router.push({ path, query })
-    }
-  }
+    },
+  },
 })
 </script>
 

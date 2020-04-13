@@ -30,14 +30,14 @@ const hookClientRouterBefore = async (
     const doBefore = runCallbacks<boolean | undefined>("client-route-before", {
       to,
       from,
-      next
+      next,
     })
 
     emitEvent("ssr-progress", "start")
 
     const results: (boolean | undefined)[] = await doBefore
 
-    if (results.length == 0 || !results.some(_ => _ === false)) {
+    if (results.length == 0 || !results.some((_) => _ === false)) {
       // proceed
       next()
     } else {
@@ -67,8 +67,8 @@ export const getRouterPaths = (routes: RouteConfig[], parent = ""): string[] => 
   let out: string[] = []
 
   routes
-    .filter(_ => _.path !== "*")
-    .forEach(_ => {
+    .filter((_) => _.path !== "*")
+    .forEach((_) => {
       if (_.path) {
         let _p = _.path
 
@@ -125,8 +125,8 @@ export const createRouter = (): VueRouter => {
         return position
       }
     },
-    parseQuery: query => qs.parse(query),
-    stringifyQuery: query => (qs.stringify(query) ? `?${qs.stringify(query)}` : "")
+    parseQuery: (query) => qs.parse(query),
+    stringifyQuery: (query) => (qs.stringify(query) ? `?${qs.stringify(query)}` : ""),
   } as RouterOptions)
 
   /**
@@ -159,7 +159,7 @@ export const addContentRoute = (routeItem: RouteConfig, options?: object): void 
     hook: "content-routes",
     key: `add-${routeItem.path}`,
     item: routeItem,
-    ...options
+    ...options,
   })
 }
 
@@ -197,11 +197,11 @@ const eachRoute = (
 export const editContentRoute = ({
   path,
   action = "edit",
-  callback
+  callback,
 }: {
-  path: string | string[];
-  action: "remove" | "edit";
-  callback?: (r: RouteConfig) => RouteConfig | undefined;
+  path: string | string[]
+  action: "remove" | "edit"
+  callback?: (r: RouteConfig) => RouteConfig | undefined
 }): void => {
   addFilter({
     hook: "content-routes",
@@ -224,7 +224,7 @@ export const editContentRoute = ({
 
       return allRoutes
     },
-    priority: 200
+    priority: 200,
   })
 }
 
@@ -238,10 +238,10 @@ export const editContentRoute = ({
  */
 export const addContentRoutes = ({
   key,
-  routes
+  routes,
 }: {
-  key: string;
-  routes: RouteConfig[] | (() => RouteConfig[]);
+  key: string
+  routes: RouteConfig[] | (() => RouteConfig[])
 }): void => {
   addFilter({
     hook: "content-routes",
@@ -250,7 +250,7 @@ export const addContentRoutes = ({
       const r = typeof routes === "function" ? routes() : routes
 
       return allRoutes.concat(r)
-    }
+    },
   })
 }
 

@@ -26,23 +26,23 @@ import { factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorIcon
+    factorIcon,
   },
   props: {
     title: { type: String, default: "" },
-    name: { type: String, default: "" }
+    name: { type: String, default: "" },
   },
   data() {
     return {
       loading: true,
-      active: false
+      active: false,
     }
   },
   computed: {
     hasContentSlot(this: any) {
       return !!this.$slots.content
-    }
+    },
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>

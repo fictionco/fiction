@@ -15,7 +15,7 @@ const getMarkdownUtility = (): MarkdownIt => {
       html: true,
       linkify: true,
       typographer: false,
-      breaks: true
+      breaks: true,
     })
 
     markdownUtility.use(mdAnchor, { slugify })
@@ -26,7 +26,7 @@ const getMarkdownUtility = (): MarkdownIt => {
       dataType: true, // <figure data-type="image">, default: false
       figcaption: true, // <figcaption>alternative text</figcaption>, default: false
       tabindex: false, // <figure tabindex="1+n">..., default: false
-      link: true // <a href="img.png"><img src="img.png"></a>, default: false
+      link: true, // <a href="img.png"><img src="img.png"></a>, default: false
     })
   }
 
@@ -34,7 +34,7 @@ const getMarkdownUtility = (): MarkdownIt => {
 }
 
 interface MarkdownRenderOptions {
-  variables?: boolean;
+  variables?: boolean
 }
 
 /**
@@ -51,11 +51,11 @@ export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): s
 
   const { variables } = options || {}
   if (variables) {
-    content = content.replace(/{{([\S\s]+?)}}/g, matched => {
+    content = content.replace(/{{([\S\s]+?)}}/g, (matched) => {
       const settingKey = matched.replace(/[{}]/g, "")
       let val = dotSetting({
         key: settingKey,
-        settings: getStoreState()
+        settings: getStoreState(),
       })
 
       if (!val) {
@@ -82,6 +82,6 @@ export const renderMarkdownWithMeta = (
 
   return {
     meta: attributes as Record<string, string>,
-    content: renderMarkdown(body, options)
+    content: renderMarkdown(body, options),
   }
 }

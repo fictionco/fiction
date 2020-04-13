@@ -1,6 +1,10 @@
 <template>
   <div class="long-form">
-    <div v-if="post.title" class="title" :style="{textAlign: settings.headerAlignment || 'left'}">
+    <div
+      v-if="post.title"
+      class="title"
+      :style="{ textAlign: settings.headerAlignment || 'left' }"
+    >
       <h1 v-formatted-text="post.title" />
     </div>
     <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
@@ -15,7 +19,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorPostEdit },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post() {
@@ -23,7 +27,7 @@ export default Vue.extend({
     },
     settings(this: any) {
       return this.post.settings || {}
-    }
+    },
   },
   methods: { renderMarkdown },
   templateSettings() {
@@ -34,10 +38,10 @@ export default Vue.extend({
         label: "Header Alignment",
         description: "Alignment of the page header",
         list: ["left", "center", "right"],
-        default: "left"
-      }
+        default: "left",
+      },
     ]
-  }
+  },
 })
 </script>
 <style lang="less">

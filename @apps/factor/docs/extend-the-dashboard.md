@@ -56,7 +56,7 @@ import { addPostEditComponent } from "@factor/api"
 addPostEditComponent({
   name: "My Plugin Settings",
   component: () => import("./plugin-panel.vue"),
-  postType: ["page", "blog"] // if missing, defaults to all post types
+  postType: ["page", "blog"], // if missing, defaults to all post types
 })
 ```
 
@@ -75,13 +75,13 @@ addPostEditComponent({
   import { dashboardInput } from "@factor/dashboard"
   export default {
     props: {
-      postId: { type: String, required: true }
+      postId: { type: String, required: true },
     },
     computed: {
       post() {
         return stored(this.postId) || {}
-      }
-    }
+      },
+    },
   }
 </script>
 ```

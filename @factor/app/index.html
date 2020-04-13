@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html {{{ factor_html_attr() }}}>
+  <head {{{ factor_head_attr() }}}>
+    {{{ factor_head() }}}
+  </head>
 
-<head {{{ factor_head_attr() }}}>
-  {{{ factor_head() }}}
-</head>
-
-<body {{{ factor_body_attr() }}}>
-  {{{ factor_body_start() }}}
-  <!--vue-ssr-outlet-->
-  {{{ factor_body_end() }}}
-</body>
-
+  <body {{{ factor_body_attr() }}}>
+    {{{ factor_body_start() }}}
+    <!--vue-ssr-outlet-->
+    {{{ factor_body_end() }}}
+  </body>
 </html>

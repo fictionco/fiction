@@ -11,7 +11,7 @@ describe("post permissions", () => {
     const mock = jest.spyOn<any, "getModel">(db, "getModel")
 
     mock.mockReturnValueOnce({
-      findById: async () => ({ foo: "bar" })
+      findById: async () => ({ foo: "bar" }),
     })
 
     let e
@@ -25,7 +25,7 @@ describe("post permissions", () => {
     expect(e.message).toContain("Insufficient permissions")
 
     mock.mockReturnValueOnce({
-      findById: async () => ({ foo: "bar", status: "published" })
+      findById: async () => ({ foo: "bar", status: "published" }),
     })
 
     post = await getSinglePost({ _id: "123", postType: "post" }, { bearer: undefined })

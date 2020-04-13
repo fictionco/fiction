@@ -18,13 +18,13 @@ export default Vue.extend({
   props: {
     offset: { type: Boolean, default: false },
     title: { type: String, default: "" },
-    subtitle: { type: String, default: "" }
+    subtitle: { type: String, default: "" },
   },
   computed: {
-    offsetCTA: function(this: any) {
+    offsetCTA: function (this: any) {
       return this.offset ? "offset-top" : ""
-    }
-  }
+    },
+  },
 })
 </script>
 

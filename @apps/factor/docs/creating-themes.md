@@ -4,7 +4,6 @@ Factor themes are just Factor apps that leverage settings and code to make them 
 
 If you've created a Factor app, then you already know everything you need to create a theme (or convert an app into one).
 
-
 ### package.json > factor
 
 To make a Factor app into a theme just add `factor > extend: theme` to the package.json file.
@@ -23,8 +22,6 @@ To make a Factor app into a theme just add `factor > extend: theme` to the packa
   }
 }
 ```
-
-
 
 ## Development Setup
 
@@ -70,7 +67,6 @@ Add a primary screenshot sized at **1080px x 720px** called **screenshot.jpg** o
 Add a tall screenshot at **720px x 1080px** called **screenshot-tall.jpg**.
 
 Additional screenshots should start with `screenshot-` or `screenshot-tall-` and will be sorted alphanumerically.
-
 
 ### License
 

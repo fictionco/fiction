@@ -98,7 +98,10 @@
             </figure>
 
             <div class="card-stories">
-              <ul class="card-story-list" style="width: 500%; transform: translateX(-80%);">
+              <ul
+                class="card-story-list"
+                style="width: 500%; transform: translateX(-80%);"
+              >
                 <li class="card-story-item">
                   <div class="card-quote">
                     <p class="common-body-title">
@@ -305,7 +308,7 @@
 </template>
 <script>
 export default {
-  mounted() {}
+  mounted() {},
 }
 </script>
 <style lang="less">
@@ -370,8 +373,7 @@ export default {
       z-index: 1;
       will-change: transform;
       box-shadow: 0 30px 60px -12px rgba(50, 50, 93, 0.25),
-        0 18px 36px -18px rgba(0, 0, 0, 0.3),
-        0 -12px 36px -8px rgba(0, 0, 0, 0.025);
+        0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 -12px 36px -8px rgba(0, 0, 0, 0.025);
     }
 
     .card-image-container {

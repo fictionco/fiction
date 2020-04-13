@@ -14,11 +14,11 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorPostEdit },
   props: {
-    post: { type: Object, default: () => {} }
+    post: { type: Object, default: () => {} },
   },
   data() {
     return {
-      content: ""
+      content: "",
     }
   },
   created() {
@@ -28,7 +28,7 @@ export default Vue.extend({
     //   typographer: true
     // }).use(require("markdown-it-anchor"))
   },
-  methods: { renderMarkdown }
+  methods: { renderMarkdown },
 })
 </script>
 

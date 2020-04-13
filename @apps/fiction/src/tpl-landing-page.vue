@@ -26,11 +26,11 @@ import { factorBtn } from "@factor/ui"
 export default Vue.extend({
   components: { factorBtn },
   props: {
-    post: { type: Object, default: () => {} }
+    post: { type: Object, default: () => {} },
   },
   data() {
     return {
-      loading: true
+      loading: true,
     }
   },
   computed: {},
@@ -42,13 +42,13 @@ export default Vue.extend({
         label: "Heading",
         description: "Primary page heading",
         _id: "pageHeading",
-        default: "Landing Page Template"
+        default: "Landing Page Template",
       },
       {
         input: "text",
         label: "Sub Heading",
         _id: "pageHeadingSub",
-        default: "This is a landing page template."
+        default: "This is a landing page template.",
       },
       {
         _id: "boxes",
@@ -61,21 +61,21 @@ export default Vue.extend({
             input: "text",
             label: "Heading",
             _id: "heading",
-            default: "Box"
+            default: "Box",
           },
           {
             input: "textarea",
             label: "Description",
             _id: "description",
-            default: "Box Description"
+            default: "Box Description",
           },
           {
             input: "image-upload",
             label: "Icon",
-            _id: "icon"
-          }
-        ]
-      }
+            _id: "icon",
+          },
+        ],
+      },
     ]
   },
   methods: {
@@ -87,8 +87,8 @@ export default Vue.extend({
       const aPost = stored(attachment[0])
 
       return aPost.url || ""
-    }
-  }
+    },
+  },
 })
 </script>
 

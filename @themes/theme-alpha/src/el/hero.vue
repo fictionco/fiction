@@ -22,8 +22,8 @@ export default Vue.extend({
   props: {
     pretitle: { type: String, default: "" },
     title: { type: String, default: "" },
-    image: { type: String, default: "" }
-  }
+    image: { type: String, default: "" },
+  },
 })
 </script>
 

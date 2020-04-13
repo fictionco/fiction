@@ -4,12 +4,9 @@
       <factor-avatar :user="getPost(_id)" width="4em" />
       <div class="text">
         <div class="sup">Written By</div>
-        <div
-          class="name"
-          itemprop="author"
-          itemscope
-          itemtype="http://schema.org/Person"
-        >{{ getPost(_id).displayName }}</div>
+        <div class="name" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          {{ getPost(_id).displayName }}
+        </div>
         <div v-if="getPost(_id).about" class="bio">{{ getPost(_id).about }}</div>
       </div>
     </div>
@@ -22,18 +19,18 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorAvatar },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     getPost(_id: string) {
       return stored(_id) || {}
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

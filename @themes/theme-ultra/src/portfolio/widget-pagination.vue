@@ -18,7 +18,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorBtn, factorIcon },
   props: {
-    postType: { type: String, default: "" }
+    postType: { type: String, default: "" },
   },
   computed: {
     index(this: any) {
@@ -36,7 +36,7 @@ export default Vue.extend({
     },
     pageCurrent(this: any) {
       return this.blogMeta.pageCurrent || 1
-    }
+    },
   },
   methods: {
     page(direction: any) {
@@ -50,8 +50,8 @@ export default Vue.extend({
       if (page) {
         this.$router.push({ query: { ...this.$route.query, page } })
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

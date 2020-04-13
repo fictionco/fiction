@@ -6,8 +6,8 @@ export default {
       {
         name: "Default",
         slug: "default",
-        component: (): Promise<Component> => import("./tpl-basic.vue")
-      } as TemplateConfig
-    ]
-  }
+        component: (): Promise<Component> => import("./tpl-basic.vue"),
+      } as TemplateConfig,
+    ],
+  },
 }

@@ -20,7 +20,7 @@ export default (): void => {
     return applyFilters("node-alias-src", dirname(resolve(cwd, main)), {
       fromPath,
       request,
-      alias
+      alias,
     })
   })
 

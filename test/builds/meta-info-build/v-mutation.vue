@@ -8,14 +8,14 @@ export default Vue.extend({
   data() {
     return {
       title: "change-title",
-      description: "change-description"
+      description: "change-description",
     }
   },
   metaInfo() {
     return {
       title: this.title,
-      description: this.description
+      description: this.description,
     }
-  }
+  },
 })
 </script>

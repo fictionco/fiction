@@ -11,7 +11,8 @@
               :href="h2.anchor"
               :class="$route.hash == h2.anchor ? 'active' : 'not'"
               @click="clicked = true"
-            >{{ h2.text }}</a>
+              >{{ h2.text }}</a
+            >
             <ul v-if="h2.sub.length">
               <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                 <a
@@ -19,7 +20,8 @@
                   :class="$route.hash == h3.anchor ? 'active' : 'not'"
                   :href="h3.anchor"
                   @click="clicked = true"
-                >{{ h3.text }}</a>
+                  >{{ h3.text }}</a
+                >
               </li>
             </ul>
           </li>
@@ -51,7 +53,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLoadingRing, factorPostEdit },
   props: {
-    post: { type: Object, default: () => {} }
+    post: { type: Object, default: () => {} },
   },
   data() {
     return {
@@ -60,13 +62,13 @@ export default Vue.extend({
       headers: [],
       allHeaders: [],
       navFixed: false,
-      clicked: false
+      clicked: false,
     }
   },
   watch: {
-    $route: function() {
+    $route: function () {
       this.setNav()
-    }
+    },
   },
 
   mounted() {
@@ -116,7 +118,7 @@ export default Vue.extend({
         ) {
           this.$router.replace({
             hash: decodeURIComponent(anchor.id),
-            meta: { noscroll: true }
+            meta: { noscroll: true },
           })
           return
         }
@@ -124,19 +126,19 @@ export default Vue.extend({
     },
     getHeaders(el) {
       const out = []
-      el.querySelectorAll("h2").forEach(h2 => {
+      el.querySelectorAll("h2").forEach((h2) => {
         this.allHeaders.push(h2)
-        const sub = this.collectH3s(h2).map(h3 => {
+        const sub = this.collectH3s(h2).map((h3) => {
           this.allHeaders.push(h3)
           return {
             text: this.getHeaderText(h3),
-            anchor: `#${h3.id}`
+            anchor: `#${h3.id}`,
           }
         })
         out.push({
           text: this.getHeaderText(h2),
           anchor: `#${h2.id}`,
-          sub
+          sub,
         })
       })
       this.loading = false
@@ -156,7 +158,7 @@ export default Vue.extend({
     getHeaderText(h) {
       const text = [].slice
         .call(h.childNodes)
-        .map(function(node) {
+        .map(function (node) {
           if (node.nodeType === Node.TEXT_NODE) {
             return node.nodeValue
           } else if (["CODE", "SPAN"].includes(node.tagName)) {
@@ -169,8 +171,8 @@ export default Vue.extend({
         .replace(/\(.*\)$/, "")
 
       return text
-    }
-  }
+    },
+  },
 })
 </script>
 

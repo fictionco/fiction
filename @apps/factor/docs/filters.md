@@ -28,7 +28,7 @@ The above diagram is a typical use case. For example, application routes work in
 import { applyFilters } from "@factor/api"
 // From an extension
 // The callback receives the list so just add another item to it
-addFilter("my-item-list", list => {
+addFilter("my-item-list", (list) => {
   list.push(4)
   return list
 })
@@ -49,7 +49,7 @@ To change the order in which filters fire, use the `priority` option. Filters ad
 
 ```javascript
 // From an extension
-addFilter("my-item-list", list => {
+addFilter("my-item-list", (list) => {
   list.push(4)
   return list
 }) // default priority 100
@@ -57,7 +57,7 @@ addFilter("my-item-list", list => {
 // Later... From another extension
 addFilter(
   "my-item-list",
-  list => {
+  (list) => {
     list.push(5)
     return list
   },
@@ -83,10 +83,10 @@ Here is an example using these helpers:
 ```javascript
 import { runCallbacks, addCallback } from "@factor/api"
 // Extension A
-addCallback("after-signup", args => sendWelcomeEmail(args))
+addCallback("after-signup", (args) => sendWelcomeEmail(args))
 
 // Extension B
-addCallback("after-signup", args => addToSpreadsheet(args))
+addCallback("after-signup", (args) => addToSpreadsheet(args))
 
 // From authentication extension
 // uses Promise.all to run all callbacks in parallel

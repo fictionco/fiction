@@ -25,7 +25,9 @@
             size="small"
             class="post-action"
             @click="handleAction(action)"
-          >{{ toLabel(action) }}</div>
+          >
+            {{ toLabel(action) }}
+          </div>
         </div>
       </div>
     </div>
@@ -44,13 +46,13 @@ export default Vue.extend({
   components: { factorAvatar, factorMenu },
   props: {
     postId: { type: String, default: "" },
-    parentId: { type: String, default: "" }
+    parentId: { type: String, default: "" },
   },
 
   data() {
     return {
       loading: true,
-      running: false
+      running: false,
     }
   },
 
@@ -61,7 +63,7 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
-      }
+      },
     },
     currentUser,
     rendered(this: any) {
@@ -78,7 +80,7 @@ export default Vue.extend({
         actions.push(
           ...[
             this.post.pinned ? PostActions.Unpin : PostActions.Pin,
-            this.post.locked ? PostActions.Unlock : PostActions.Lock
+            this.post.locked ? PostActions.Unlock : PostActions.Lock,
           ]
         )
       }
@@ -88,7 +90,7 @@ export default Vue.extend({
       }
 
       return actions
-    }
+    },
   },
   async mounted() {
     await userInitialized()
@@ -120,8 +122,8 @@ export default Vue.extend({
         this.post = { ...this.post, locked: value }
       }
       this.$emit("action", action, value)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

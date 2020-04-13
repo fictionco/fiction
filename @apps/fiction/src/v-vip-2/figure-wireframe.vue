@@ -24,16 +24,16 @@ export default Vue.extend({
         {
           class: `steps`,
           image: require("./img/wireframe-process.svg"),
-          alt: `Wireframe - Process Steps`
+          alt: `Wireframe - Process Steps`,
         },
         {
           class: `intro`,
           image: require("./img/wireframe-intro.svg"),
-          alt: `Wireframe - Intro`
-        }
-      ]
+          alt: `Wireframe - Intro`,
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 

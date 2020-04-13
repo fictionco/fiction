@@ -2,7 +2,11 @@
   <div class="user-list-input">
     <div class="user-list-items">
       <div v-for="(_id, index) in authors" :key="index" class="added-user">
-        <dashboard-user-card class="custom-list-item" :post-id="_id" @remove="deleteItem(index)" />
+        <dashboard-user-card
+          class="custom-list-item"
+          :post-id="_id"
+          @remove="deleteItem(index)"
+        />
       </div>
       <div class="input-text">
         <dashboard-input
@@ -26,7 +30,7 @@ export default Vue.extend({
   props: {
     customValidity: { type: String, default: "" },
     value: { type: Array, default: () => [] },
-    placeholder: { type: String, default: "Search" }
+    placeholder: { type: String, default: "Search" },
   },
   data() {
     return {
@@ -34,31 +38,31 @@ export default Vue.extend({
       newAuthor: "",
       searchResults: [],
       authors: [],
-      toggle: false
+      toggle: false,
     }
   },
   watch: {
     authors: {
-      handler: function(this: any, v: string) {
+      handler: function (this: any, v: string) {
         this.$emit("input", v)
       },
-      deep: true
+      deep: true,
     },
     value: {
-      handler: function(this: any, v: string[]) {
+      handler: function (this: any, v: string[]) {
         if (v && v != this.authors) {
           this.authors = v
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 
   async mounted() {
     const posts = (await requestPostList({
       postType: "user",
       conditions: { accessLevel: { $gt: 99 } },
-      options: { limit: 100 }
+      options: { limit: 100 },
     })) as FactorUser[]
 
     this.potentialAuthors = posts.map((_: FactorUser) => {
@@ -87,8 +91,8 @@ export default Vue.extend({
       }
 
       this.$emit("update:customValidity", customValidity)
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -7,7 +7,7 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      text: "nope"
+      text: "nope",
     }
   },
   metaInfo() {
@@ -18,9 +18,9 @@ export default Vue.extend({
       image: require("./factor.png"),
       htmlAttrs: {
         lang: "en",
-        amp: true
-      }
+        amp: true,
+      },
     }
-  }
+  },
 })
 </script>

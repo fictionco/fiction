@@ -20,7 +20,7 @@ const getEmailSMTPService = (): Transporter | void => {
     SMTP_USERNAME = "",
     SMTP_PASSWORD = "",
     SMTP_HOST = "",
-    SMTP_PORT = 587
+    SMTP_PORT = 587,
   } = process.env
 
   const options = {
@@ -29,8 +29,8 @@ const getEmailSMTPService = (): Transporter | void => {
     secure: false, // true for 587, false for other ports
     auth: {
       user: SMTP_USERNAME,
-      pass: SMTP_PASSWORD
-    }
+      pass: SMTP_PASSWORD,
+    },
   }
 
   const emailServiceClient = nodeMailer.createTransport(options)
@@ -54,7 +54,7 @@ export const sendTransactionalEmail = async (
     text,
     linkText,
     linkUrl,
-    textFooter
+    textFooter,
   } = _arguments
 
   let { from } = _arguments
@@ -71,7 +71,7 @@ export const sendTransactionalEmail = async (
 
   if (textFooter) lines.push(`—\n${textFooter}`)
 
-  const html = lines.map(_ => `<p>${_}</p>`).join("")
+  const html = lines.map((_) => `<p>${_}</p>`).join("")
 
   const plainText = require("html-to-text").fromString(html)
 
@@ -81,7 +81,7 @@ export const sendTransactionalEmail = async (
     to,
     subject,
     html,
-    text: plainText
+    text: plainText,
   })
 
   const emailServiceClient = getEmailSMTPService()
@@ -113,8 +113,8 @@ export const setup = async (): Promise<void> => {
   addEndpoint({
     id: "email",
     handler: {
-      sendTransactionalEmail
-    }
+      sendTransactionalEmail,
+    },
   })
 }
 

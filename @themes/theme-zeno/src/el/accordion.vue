@@ -25,17 +25,17 @@ import { factorIcon } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorIcon
+    factorIcon,
   },
   props: {
-    title: { type: String, default: "" }
+    title: { type: String, default: "" },
   },
   data() {
     return {
       loading: true,
-      active: false
+      active: false,
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>

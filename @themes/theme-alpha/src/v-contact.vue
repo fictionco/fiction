@@ -2,7 +2,11 @@
   <div class="page-contact">
     <el-hero :pretitle="contactPretitle" :title="contactTitle" :image="contactHeroImage">
       <template v-slot:hero-content>
-        <div v-if="contactContent" v-formatted-text="contactContent" class="content text-gray-600" />
+        <div
+          v-if="contactContent"
+          v-formatted-text="contactContent"
+          class="content text-gray-600"
+        />
         <!-- Contact Form Plugin -->
         <component :is="setting('contactForm.form')" />
       </template>
@@ -16,7 +20,11 @@
             v-formatted-text="contactResourcesPretitle"
             class="pretitle"
           />
-          <h1 v-if="contactResourcesTitle" v-formatted-text="contactResourcesTitle" class="title" />
+          <h1
+            v-if="contactResourcesTitle"
+            v-formatted-text="contactResourcesTitle"
+            class="title"
+          />
         </div>
         <div v-if="contactResourcesItems" class="resources-items">
           <div v-for="(item, i) in contactResourcesItems" :key="i" class="item">
@@ -30,7 +38,11 @@
     <section class="location">
       <div class="mast">
         <div class="location-items">
-          <div v-if="contactLocationMap" v-formatted-text="contactLocationMap" class="map-wrap" />
+          <div
+            v-if="contactLocationMap"
+            v-formatted-text="contactLocationMap"
+            class="map-wrap"
+          />
           <div>
             <div class="location-content-wrap">
               <h3
@@ -71,7 +83,7 @@ export default Vue.extend({
   components: {
     factorIcon,
     factorLink,
-    "el-hero": () => import("./el/hero.vue")
+    "el-hero": () => import("./el/hero.vue"),
   },
   data() {
     return {
@@ -87,19 +99,19 @@ export default Vue.extend({
       contactLocationPretitle: setting("contact.location.pretitle"),
       contactLocationTitle: setting("contact.location.title"),
       contactLocationContent: setting("contact.location.content"),
-      contactLocationButton: setting("contact.location.button")
+      contactLocationButton: setting("contact.location.button"),
     }
   },
   methods: {
-    setting
+    setting,
   },
   metaInfo() {
     return {
       title: setting("contact.metatags.title"),
       description: setting("contact.metatags.description"),
-      image: setting("contact.metatags.image")
+      image: setting("contact.metatags.image"),
     }
-  }
+  },
 })
 </script>
 

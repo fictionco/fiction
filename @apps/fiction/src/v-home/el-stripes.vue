@@ -21,9 +21,9 @@ export default Vue.extend({
     numStripes: {
       type: Number,
       required: false,
-      default: 2
-    }
-  }
+      default: 2,
+    },
+  },
 })
 </script>
 <style lang="less">

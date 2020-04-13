@@ -132,16 +132,16 @@ Example:
 export default {
   myCar: {
     type: "mercedes",
-    color: "black"
+    color: "black",
   },
-  myHouse: () => import("./house-component.vue")
+  myHouse: () => import("./house-component.vue"),
 }
 // APP: your-app/src/factor-settings.js
 export default {
   myCar: {
-    color: "black"
+    color: "black",
   },
-  myHouse: () => import("./custom-house-component.vue")
+  myHouse: () => import("./custom-house-component.vue"),
 }
 ```
 

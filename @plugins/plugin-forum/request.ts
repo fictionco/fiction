@@ -3,7 +3,7 @@ import {
   requestPostIndex,
   requestEmbeddedAction,
   handlePostPopulation,
-  setLocalPostTypeCache
+  setLocalPostTypeCache,
 } from "@factor/post/request"
 import {
   FactorPost,
@@ -11,7 +11,7 @@ import {
   PostStatus,
   IndexOrderBy,
   IndexTimeFrame,
-  SortDelimiters
+  SortDelimiters,
 } from "@factor/post/types"
 
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
@@ -24,9 +24,9 @@ import { SubscribeUser } from "./types"
 import { postType } from "."
 
 type FactorPostForumTopic = FactorPost & {
-  pinned?: boolean;
-  flagged?: boolean;
-  locked?: boolean;
+  pinned?: boolean
+  flagged?: boolean
+  locked?: boolean
 }
 
 export enum PostActions {
@@ -37,13 +37,13 @@ export enum PostActions {
   Unlock = "unlock",
   Flag = "flag",
   Unflag = "unflag",
-  Delete = "delete"
+  Delete = "delete",
 }
 interface RunPostAction {
-  action: PostActions;
-  value?: boolean;
-  post: FactorPost;
-  parentId: string;
+  action: PostActions
+  value?: boolean
+  post: FactorPost
+  parentId: string
 }
 
 /**
@@ -91,7 +91,7 @@ export const sendRequest = async <T = unknown>(
   const result = await endpointRequest<T>({
     id: "forum",
     method,
-    params
+    params,
   })
 
   return result
@@ -121,7 +121,7 @@ export const requestSaveTopicReply = async (
   const result = await sendRequest<FactorPost>("saveTopicReply", {
     postId,
     reply,
-    subscribe
+    subscribe,
   })
 
   handlePostPopulation(result)
@@ -138,7 +138,7 @@ export const deleteTopicReply = async (
     action: "delete",
     postId,
     embeddedPostId,
-    postType
+    postType,
   })
 
   emitEvent("notify", "Reply Deleted")
@@ -149,18 +149,18 @@ export const deleteTopicReply = async (
 export const requestEmbeddedPosts = async ({
   limit = 100,
   skip = 1,
-  postId
+  postId,
 }: {
-  limit?: number;
-  skip?: number;
-  postId: string;
+  limit?: number
+  skip?: number
+  postId: string
 }): Promise<FactorPost[]> => {
   const post = await requestEmbeddedAction<FactorPost | undefined>({
     postId,
     skip,
     limit,
     action: "retrieve",
-    postType
+    postType,
   })
 
   if (post && post.embedded) {
@@ -174,7 +174,7 @@ export const postAction = async ({
   action,
   value = true,
   post,
-  parentId
+  parentId,
 }: RunPostAction): Promise<void> => {
   const isParent = post._id == parentId ? true : false
 
@@ -211,7 +211,7 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     order = IndexOrderBy.Latest,
     time = IndexTimeFrame.AllTime,
     page = "1",
-    search = ""
+    search = "",
   } = query as Record<string, string>
 
   const limit =
@@ -228,13 +228,13 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     page: Number.parseInt(page),
     limit,
     conditions: {
-      source: setting("package.name")
+      source: setting("package.name"),
     },
     sort: {
       pinned: SortDelimiters.Descending,
       date: SortDelimiters.Descending,
-      updatedAt: SortDelimiters.Descending
-    }
+      updatedAt: SortDelimiters.Descending,
+    },
   })
 
   return

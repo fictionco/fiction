@@ -18,7 +18,7 @@ import Vue from "vue"
 export default Vue.extend({
   inheritAttrs: false,
   props: {
-    value: { type: [String, Number], default: "" }
+    value: { type: [String, Number], default: "" },
   },
   data() {
     return {}
@@ -30,11 +30,11 @@ export default Vue.extend({
     listeners() {
       return {
         ...this.$listeners,
-        input: e => {
+        input: (e) => {
           this.send(e.target.value)
-        }
+        },
       }
-    }
+    },
   },
 
   methods: {
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
     send(e) {
       this.$emit("input", this.addPlus(e))
-    }
-  }
+    },
+  },
 })
 </script>

@@ -9,9 +9,10 @@
           Contact
           <span class="arrow">&darr;</span>
         </h1>
-        <div
-          class="sub-title"
-        >We're happy to answer your questions. Fill out the form and we’ll be in touch as soon as possible.</div>
+        <div class="sub-title">
+          We're happy to answer your questions. Fill out the form and we’ll be in touch as
+          soon as possible.
+        </div>
       </div>
     </div>
     <div class="contact-wrap">
@@ -35,17 +36,17 @@ import Vue from "vue"
 export default Vue.extend({
   data() {
     return {
-      loading: true
+      loading: true,
     }
   },
   metaInfo() {
     return {
       title: "Contact Sales or Support at Fiction",
       description: "Contact sales or support at Fiction.",
-      image: require("./img/fiction.jpg")
+      image: require("./img/fiction.jpg"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 <style lang="less">

@@ -6,7 +6,7 @@ import {
   VerifyAndResetPassword,
   VerifyEmail,
   EmailResult,
-  VerificationResult
+  VerificationResult,
 } from "./email-types"
 
 export const sendUserEmailRequest = async <T = EmailResult>(
@@ -16,7 +16,7 @@ export const sendUserEmailRequest = async <T = EmailResult>(
   const result = await endpointRequest<T>({
     id: "userEmails",
     method,
-    params
+    params,
   })
 
   return result
@@ -40,7 +40,7 @@ export const sendVerifyEmail = async ({ _id, email }: SendVerifyEmail): Promise<
 export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => {
   const { result, user } = await sendUserEmailRequest<VerificationResult>("verifyEmail", {
     _id,
-    code
+    code,
   })
 
   /**
@@ -60,7 +60,7 @@ export const showResetPassword = async (): Promise<void> => {
     hook: "sign-in-modal-loaded",
     callback: () => {
       emitEvent("sign-in-modal")
-    }
+    },
   })
 }
 
@@ -77,9 +77,9 @@ export const verifyAndResetPassword = async (
 }
 
 export const sendPasswordResetEmail = async ({
-  email
+  email,
 }: {
-  email: string;
+  email: string
 }): Promise<void> => {
   const result = await sendUserEmailRequest("sendPasswordResetEmail", { email })
 

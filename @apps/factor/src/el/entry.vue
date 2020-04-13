@@ -10,14 +10,14 @@ import Vue from "vue"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default Vue.extend({
   components: {
-    factorHighlightCode
+    factorHighlightCode,
   },
   props: {
-    text: { type: String, default: "" }
+    text: { type: String, default: "" },
   },
   data() {
     return {}
-  }
+  },
 })
 </script>
 <style lang="less">

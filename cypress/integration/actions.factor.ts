@@ -14,7 +14,7 @@ context("Actions", () => {
     const user = {
       name: Cypress.env("username"), // username from cypress.json
       email: "test" + string + "@email.com", // randomized email name
-      password: Cypress.env("password") // password from cypress.json
+      password: Cypress.env("password"), // password from cypress.json
     }
 
     // click sign in link

@@ -14,5 +14,5 @@ addPostType({
     const baseRoute = post.extensionType == "plugin" ? "/plugin" : "/themes"
     const permalink = post.permalink || ""
     return `${baseRoute}/${encodeURIComponent(permalink)}`
-  }
+  },
 })

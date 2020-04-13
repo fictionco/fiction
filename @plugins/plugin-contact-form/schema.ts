@@ -4,7 +4,7 @@ export default {
     create: { accessLevel: 0 },
     retrieve: {
       accessLevel: 100,
-      accessAuthor: true
-    }
-  }
+      accessAuthor: true,
+    },
+  },
 }

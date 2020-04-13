@@ -35,7 +35,7 @@ import {
   dashboardPane,
   dashboardListPost,
   dashboardListControls,
-  dashboardTableFooter
+  dashboardTableFooter,
 } from "@factor/dashboard"
 import { currentUser, userCan } from "@factor/user"
 import { FactorUser } from "@factor/user/types"
@@ -53,25 +53,25 @@ export default Vue.extend({
     dashboardTableFooter,
     dashboardListPost,
     dashboardListControls,
-    factorAvatar
+    factorAvatar,
   },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
       selected: [],
-      loadingAction: false
+      loadingAction: false,
     }
   },
   computed: {
     currentUser,
     roles() {
       return ["admin", "moderator", "editor", "member"]
-    }
+    },
   },
 
   methods: {
@@ -80,11 +80,11 @@ export default Vue.extend({
     controlStatus(this: any): ControlAction[] {
       const roles = ["admin", "moderator", "editor", "member"]
       const counts: { [key: string]: number } = {}
-      roles.forEach(role => {
+      roles.forEach((role) => {
         counts[role] = getStatusCount({
           meta: this.meta,
           field: "role",
-          key: role
+          key: role,
         })
       })
 
@@ -93,7 +93,7 @@ export default Vue.extend({
         { value: "admin", label: `Admin (${counts.admin})` },
         { value: "moderator", label: `Moderator (${counts.moderator})` },
         { value: "editor", label: `Editor (${counts.editor})` },
-        { value: "member", label: `Member (${counts.member})` }
+        { value: "member", label: `Member (${counts.member})` },
       ]
     },
 
@@ -104,7 +104,7 @@ export default Vue.extend({
           value: "delete",
           label: "Permanently Delete",
           confirm: (selected: string[]) =>
-            `Permanently delete ${selected.length} user(s)?`
+            `Permanently delete ${selected.length} user(s)?`,
         })
 
         this.roles.forEach((role: string) => {
@@ -112,7 +112,7 @@ export default Vue.extend({
             value: role,
             label: `Change to ${toLabel(role)}`,
             confirm: (selected: string[]) =>
-              `Change ${selected.length} user(s) to "${role}" role?`
+              `Change ${selected.length} user(s) to "${role}" role?`,
           })
         })
       }
@@ -121,16 +121,16 @@ export default Vue.extend({
     postItemMeta(post: FactorUser) {
       return [
         {
-          value: toLabel(post.role || "no role")
+          value: toLabel(post.role || "no role"),
         },
         {
           label: "Username",
-          value: post.username || post.email
+          value: post.username || post.email,
         },
         {
           label: "Since",
-          value: standardDate(post.createdAt)
-        }
+          value: standardDate(post.createdAt),
+        },
       ]
     },
 
@@ -140,13 +140,13 @@ export default Vue.extend({
       if (action == "delete") {
         await requestPostDeleteMany({
           _ids: this.selected,
-          postType: this.postType
+          postType: this.postType,
         })
       } else if (["admin", "moderator", "editor", "member"].includes(action)) {
         await requestPostSaveMany({
           _ids: this.selected,
           data: { role: action },
-          postType: "user"
+          postType: "user",
         })
       }
 
@@ -157,8 +157,8 @@ export default Vue.extend({
     },
     selectAll(this: any, val: boolean) {
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

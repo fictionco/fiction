@@ -4,7 +4,6 @@ import { Component } from "vue"
 
 const baseRoute = setting("portfolio.postRoute")
 
-
 if (setting("headTags") != "") {
   addFilter({
     key: "addUltraFont",
@@ -12,14 +11,13 @@ if (setting("headTags") != "") {
     callback: (_: []) => {
       return [..._, setting("headTags.font")]
     },
-    priority: 200
+    priority: 200,
   })
 }
 
-
 addPageTemplate({
   slug: "ultra-default",
-  component: () => import("./page-template-default.vue")
+  component: () => import("./page-template-default.vue"),
 })
 
 // CUSTOM POST TYPE
@@ -30,9 +28,8 @@ addPostType({
   nameIndex: "Portfolio",
   nameSingle: "Portfolio Post",
   namePlural: "Portfolio Posts",
-  customPermalink: true
+  customPermalink: true,
 })
-
 
 // CONTENT ROUTES
 addContentRoutes({
@@ -40,7 +37,7 @@ addContentRoutes({
   routes: [
     {
       path: "/",
-      component: (): Promise<Component> => import("./page-home.vue")
+      component: (): Promise<Component> => import("./page-home.vue"),
     },
     {
       path: setting("portfolio.indexRoute") ?? "/",
@@ -48,13 +45,13 @@ addContentRoutes({
       children: [
         {
           path: "/",
-          component: setting("portfolio.components.portfolioIndex")
+          component: setting("portfolio.components.portfolioIndex"),
         },
         {
           path: `${setting("portfolio.postRoute")}/:permalink`,
-          component: setting("portfolio.components.portfolioSingle")
-        }
-      ]
-    }
-  ]
+          component: setting("portfolio.components.portfolioSingle"),
+        },
+      ],
+    },
+  ],
 })

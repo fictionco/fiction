@@ -12,7 +12,8 @@
       :key="i"
       :value="s.value"
       :disabled="s.disabled"
-    >{{ s.label || s.name }}</option>
+      >{{ s.label || s.name }}</option
+    >
   </select>
 </template>
 <script lang="ts">
@@ -22,11 +23,11 @@ export default Vue.extend({
   props: {
     value: { type: [Number, String, Boolean], default: "" },
     list: { type: Array, default: () => [] },
-    listSuffix: { type: String, default: "" }
+    listSuffix: { type: String, default: "" },
   },
   data() {
     return {
-      selected: ""
+      selected: "",
     }
   },
   computed: {
@@ -36,7 +37,7 @@ export default Vue.extend({
         input: (event: Event) => {
           const target = event.target as HTMLInputElement
           this.$emit("input", target.value)
-        }
+        },
       }
     },
     setting(this: any) {
@@ -46,16 +47,16 @@ export default Vue.extend({
     parsedList(this: any): ListItem[] {
       return this.list
         ? parseList(this.list, {
-            suffix: this.listSuffix
+            suffix: this.listSuffix,
           })
         : []
     },
     inputStyle() {
       return {
-        backgroundImage: `url(${require("./img/select.svg")})`
+        backgroundImage: `url(${require("./img/select.svg")})`,
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

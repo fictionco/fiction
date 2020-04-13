@@ -5,8 +5,8 @@ import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"
 import { UpdateManySetter, UpdateManyOptions } from "@factor/post/server"
 import { FactorUser, userRolesMap, UserRoles } from "./types"
 interface FactorUserRoles extends FactorUser {
-  role: string;
-  accessLevel: number;
+  role: string
+  accessLevel: number
 }
 
 /**
@@ -16,7 +16,7 @@ interface FactorUserRoles extends FactorUser {
  *
  * @library mongoose
  */
-const validateUpdateManyQuery = async function(
+const validateUpdateManyQuery = async function (
   this: FactorUserRoles &
     Document & { _update: UpdateManySetter; options: UpdateManyOptions },
   next: HookNextFunction
@@ -50,7 +50,7 @@ const validateUpdateManyQuery = async function(
  *
  * @library mongoose
  */
-const validateUserRoles = async function(
+const validateUserRoles = async function (
   this: FactorUserRoles & Document,
   next: HookNextFunction
 ): Promise<void> {
@@ -95,7 +95,7 @@ export const setup = (): void => {
         type: String,
         enum: Object.keys(userRolesMap),
         required: true,
-        default: "member"
+        default: "member",
       }
 
       _.accessLevel = {
@@ -104,11 +104,11 @@ export const setup = (): void => {
         max: 1000,
         required: true,
         default: 0,
-        index: true
+        index: true,
       }
 
       return _
-    }
+    },
   })
 
   /**
@@ -121,7 +121,7 @@ export const setup = (): void => {
     callback: (userSchema: Schema) => {
       userSchema.pre("validate", validateUserRoles)
       userSchema.pre("update", validateUpdateManyQuery)
-    }
+    },
   })
 
   /**
@@ -136,10 +136,10 @@ export const setup = (): void => {
         value: "admins",
         callback: async (): Promise<void> => {
           const roles = userRolesMap
-          const choices = Object.keys(roles).map(_ => {
+          const choices = Object.keys(roles).map((_) => {
             return {
               name: `${_} (${roles[_ as UserRoles]})`,
-              value: _
+              value: _,
             }
           })
 
@@ -151,20 +151,20 @@ export const setup = (): void => {
               validate: (v: string): string | boolean => {
                 const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-AZa-z-]+\.)+[A-Za-z]{2,}))$/
                 return re.test(v) ? true : "Enter a valid email address"
-              }
+              },
             },
             {
               name: "role",
               message: "What is the role for this admin?",
               choices,
-              type: "list"
+              type: "list",
             },
             {
               type: "confirm",
               name: `askAgain`,
               message: `Got it. Add another user?`,
-              default: false
-            }
+              default: false,
+            },
           ]
 
           const admins: Record<string, string> = {}
@@ -177,11 +177,11 @@ export const setup = (): void => {
           await ask()
 
           await writeConfig("public", { roles: admins })
-        }
+        },
       }
 
       return [..._, setupAdmins]
-    }
+    },
   })
 }
 

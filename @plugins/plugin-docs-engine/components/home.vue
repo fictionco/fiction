@@ -5,9 +5,10 @@
         <div class="docs-hero-pad docs-content-area">
           <div class="title-panel docs-hero">
             <h1 class="title">Documentation</h1>
-            <h3
-              class="sub-title"
-            >Learn how to ship professional Factor apps, build plugins, and create themes.</h3>
+            <h3 class="sub-title">
+              Learn how to ship professional Factor apps, build plugins, and create
+              themes.
+            </h3>
             <div class="search-panel">
               <doc-search />
             </div>
@@ -20,8 +21,17 @@
     </div>
     <div class="docs-groups-area docs-content-area">
       <div class="docs-groups">
-        <factor-link v-for="(group,i) in boxes" :key="i" class="doc-group" :path="group.path">
-          <figure-icon :icon="group.boxIcon || 'apps'" class="group-icon" color="primary" />
+        <factor-link
+          v-for="(group, i) in boxes"
+          :key="i"
+          class="doc-group"
+          :path="group.path"
+        >
+          <figure-icon
+            :icon="group.boxIcon || 'apps'"
+            class="group-icon"
+            color="primary"
+          />
           <div class="group-text">
             <div class="group-title">{{ group.title }}</div>
             <div class="group-description">{{ group.description }}</div>
@@ -47,12 +57,12 @@ export default Vue.extend({
   components: {
     factorLink,
     figureIcon: () => import("./figure-icon.vue"),
-    docSearch: () => import("./search.vue")
+    docSearch: () => import("./search.vue"),
   },
   data() {
     return {
       selectedGroup: "",
-      nav: setting("docsEngine.nav")
+      nav: setting("docsEngine.nav"),
     }
   },
   computed: {
@@ -70,11 +80,11 @@ export default Vue.extend({
 
           return _
         })
-    }
+    },
   },
   metaInfo: {
-    title: "Docs"
-  }
+    title: "Docs",
+  },
 })
 </script>
 

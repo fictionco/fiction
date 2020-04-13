@@ -26,7 +26,7 @@ describe("cli", () => {
           "FACTOR_CWD",
           "FACTOR_COMMAND",
           "FACTOR_DEBUG",
-          "PORT"
+          "PORT",
         ])
       )
     })

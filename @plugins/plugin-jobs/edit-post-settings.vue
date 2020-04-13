@@ -1,14 +1,26 @@
 <template>
   <div class="edit-job-templates">
-    <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Job Location" />
+    <dashboard-input
+      v-model="post.jobLocation"
+      input="factor-input-text"
+      label="Job Location"
+    />
     <dashboard-input
       v-model="post.jobType"
       input="factor-input-text"
       label="Job Type"
       description="e.g. Freelance, Full Time, Internship, Part Time, Temporary"
     />
-    <dashboard-input v-model="post.jobApplyEmail" input="factor-input-text" label="Apply Email" />
-    <dashboard-input v-model="post.jobCompanyName" input="factor-input-text" label="Company Name" />
+    <dashboard-input
+      v-model="post.jobApplyEmail"
+      input="factor-input-text"
+      label="Apply Email"
+    />
+    <dashboard-input
+      v-model="post.jobCompanyName"
+      input="factor-input-text"
+      label="Company Name"
+    />
     <dashboard-input
       v-model="post.jobCompanyWebsite"
       input="factor-input-text"
@@ -25,14 +37,14 @@ import { FactorPost } from "@factor/post/types"
 export default Vue.extend({
   components: { dashboardInput },
   props: {
-    postId: { type: String, required: true }
+    postId: { type: String, required: true },
   },
   data() {
     return {
       loading: false,
       template: "",
       settings: {},
-      pageTemplateInfo: {}
+      pageTemplateInfo: {},
     }
   },
   computed: {
@@ -42,11 +54,11 @@ export default Vue.extend({
       },
       set(this: any, v: FactorPost): void {
         storeItem(this.postId, v)
-      }
-    }
+      },
+    },
   },
   watch: {},
-  methods: {}
+  methods: {},
 })
 </script>
 <style lang="less"></style>

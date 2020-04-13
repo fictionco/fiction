@@ -4,12 +4,12 @@ export default {
     mimetype: String,
     imageData: Buffer,
     size: Number,
-    url: String
+    url: String,
   },
   permissions: {
     create: { accessLevel: 1 },
     retrieve: {
-      accessLevel: 0
-    }
-  }
+      accessLevel: 0,
+    },
+  },
 }

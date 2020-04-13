@@ -43,10 +43,10 @@ export default {
   emailList: {
     default: {
       form: {
-        buttonText: "My text"
-      }
-    }
-  }
+        buttonText: "My text",
+      },
+    },
+  },
 }
 ```
 
@@ -96,10 +96,10 @@ export default {
   emailList: {
     customListId: {
       emails: {
-        complete: false
-      }
-    }
-  }
+        complete: false,
+      },
+    },
+  },
 }
 ```
 
@@ -110,9 +110,9 @@ To disable all emails, set the emails key to false:
 export default {
   emailList: {
     customListId: {
-      emails: false
-    }
-  }
+      emails: false,
+    },
+  },
 }
 ```
 
@@ -122,7 +122,7 @@ If you'd like to use this plugin to add emails to external services like email s
 
 ```js
 import { addFilter } from "@factor/api"
-addFilter(`plugin-email-list-add-myListId`, email => {
+addFilter(`plugin-email-list-add-myListId`, (email) => {
   someExternalApi.addEmail(email)
 
   return email

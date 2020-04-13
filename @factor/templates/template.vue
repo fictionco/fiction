@@ -20,7 +20,7 @@ export default Vue.extend({
   data() {
     return {
       comp: null,
-      settings: ""
+      settings: "",
     }
   },
   computed: {
@@ -31,13 +31,13 @@ export default Vue.extend({
       return this.post.template ? this.post.template : "default"
     },
     templateLoader(this: any) {
-      const selected = getPageTemplates().find(_ => _.slug == this.templateLocation)
+      const selected = getPageTemplates().find((_) => _.slug == this.templateLocation)
 
       return selected && selected.component
         ? selected.component
         : () => import("./tpl-basic.vue")
-    }
-  }
+    },
+  },
 })
 </script>
 ,

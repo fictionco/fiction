@@ -8,9 +8,7 @@
     <template v-if="callback">
       <factor-btn btn="default" @click="vis = false">Cancel</factor-btn>
       <factor-btn btn="primary" :loading="sending" @click="run()">
-        {{
-          actionText
-        }}
+        {{ actionText }}
       </factor-btn>
     </template>
     <template v-else>
@@ -32,7 +30,7 @@ export default Vue.extend({
       subTitle: "",
       callback: () => {},
       actionText: "",
-      sending: false
+      sending: false,
     }
   },
   mounted() {
@@ -46,13 +44,11 @@ export default Vue.extend({
   },
   methods: {
     async run() {
-
-
       this.sending = true
       await this.callback.call()
       this.sending = false
       this.vis = false
-    }
-  }
+    },
+  },
 })
 </script>

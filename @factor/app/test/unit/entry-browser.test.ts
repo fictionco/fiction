@@ -8,7 +8,7 @@ import { waitFor, indexHtml } from "@test/utils"
 
 const spies = {
   createApp: jest.spyOn(app, "createApp"),
-  emitEvent: jest.spyOn(events, "emitEvent")
+  emitEvent: jest.spyOn(events, "emitEvent"),
 }
 describe("browser-app", () => {
   beforeAll(() => {

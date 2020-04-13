@@ -14,7 +14,7 @@ export default Vue.extend({
     return {
       title: setting("blog.notFound.title"),
       description: setting("blog.notFound.subTitle"),
-      meta: [{ name: "robots", content: "noindex" }]
+      meta: [{ name: "robots", content: "noindex" }],
     }
   },
   created() {
@@ -22,7 +22,7 @@ export default Vue.extend({
       process.env.factorServerStatus = "404"
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 <style lang="less">

@@ -12,10 +12,10 @@ export default (): FactorSchema => {
   return {
     name: "user",
     permissions: {
-      retrieve: { accessLevel: 0 }
+      retrieve: { accessLevel: 0 },
     },
     populatedFields: applyFilters("user-populated-fields", [
-      { field: "covers", depth: 30 }
+      { field: "covers", depth: 30 },
     ]),
     callback: (userSchema: Schema): void => {
       /**
@@ -30,7 +30,7 @@ export default (): FactorSchema => {
       /**
        * Handle password saving
        */
-      userSchema.pre("save", async function(
+      userSchema.pre("save", async function (
         this: FactorUser & Document,
         next: HookNextFunction
       ) {
@@ -49,7 +49,7 @@ export default (): FactorSchema => {
       /**
        * Set permalink to @[username] to users can have their own url
        */
-      userSchema.pre("save", function(
+      userSchema.pre("save", function (
         this: FactorUser & Document,
         next: HookNextFunction
       ) {
@@ -78,7 +78,7 @@ export default (): FactorSchema => {
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
-        minlength: 3
+        minlength: 3,
       },
       email: {
         type: String,
@@ -88,8 +88,8 @@ export default (): FactorSchema => {
         index: { unique: true },
         validate: {
           validator: (v: string): boolean => isEmail(v) || false,
-          message: `Email is invalid.`
-        }
+          message: `Email is invalid.`,
+        },
       },
       emailVerified: { type: Boolean, default: false },
       password: {
@@ -98,12 +98,12 @@ export default (): FactorSchema => {
         trim: true,
         validate: {
           validator: (v: string): boolean => (v.length >= 8 ? true : false),
-          message: `Password is shorter than minimum (8 characters)`
-        }
+          message: `Password is shorter than minimum (8 characters)`,
+        },
       },
       displayName: {
         type: String,
-        trim: true
+        trim: true,
       },
       phoneNumber: {
         type: String,
@@ -111,21 +111,21 @@ export default (): FactorSchema => {
         trim: true,
         validate: {
           validator: (v: string): boolean => isMobilePhone(v),
-          message: `Phone number is invalid.`
-        }
+          message: `Phone number is invalid.`,
+        },
       },
 
       covers: [{ type: objectIdType(), ref: "attachment" }],
       birthday: Date,
       gender: {
         type: String,
-        enum: ["male", "female"]
+        enum: ["male", "female"],
       },
-      about: String
+      about: String,
     }),
     options: {
       toObject: { virtuals: true },
-      toJSON: { virtuals: true }
-    }
+      toJSON: { virtuals: true },
+    },
   }
 }

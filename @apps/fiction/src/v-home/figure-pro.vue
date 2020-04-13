@@ -19,7 +19,7 @@ import { figureMixin } from "./utils"
 
 export default Vue.extend({
   components: {
-    "icon-pro": () => import("./icon-pro.vue")
+    "icon-pro": () => import("./icon-pro.vue"),
   },
   mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
@@ -27,56 +27,56 @@ export default Vue.extend({
       features: [
         {
           icon: "pro-extensions",
-          text: `Pro Extensions`
+          text: `Pro Extensions`,
         },
         {
           icon: "white-label",
-          text: `White Label`
+          text: `White Label`,
         },
         {
           icon: "community",
-          text: `Community`
+          text: `Community`,
         },
         {
           icon: "code",
-          text: `Developer Options`
+          text: `Developer Options`,
         },
         {
           icon: "support",
-          text: `Enhanced Support`
+          text: `Enhanced Support`,
         },
 
         {
           icon: "tools",
-          text: `Client Tools`
+          text: `Client Tools`,
         },
         {
           icon: "seo",
-          text: `SEO and Social`
+          text: `SEO and Social`,
         },
         {
           icon: "ecommerce",
-          text: `eCommerce`
+          text: `eCommerce`,
         },
         {
           icon: "business",
-          text: `Business`
+          text: `Business`,
         },
         {
           icon: "community",
-          text: `Community`
+          text: `Community`,
         },
         {
           icon: "code",
-          text: `Developer`
+          text: `Developer`,
         },
         {
           icon: "community",
-          text: `Community`
-        }
-      ]
+          text: `Community`,
+        },
+      ],
     }
-  }
+  },
 })
 </script>
 

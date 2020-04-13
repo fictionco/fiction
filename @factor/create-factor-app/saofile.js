@@ -18,8 +18,8 @@ const config = {
     {
       name: "name",
       message: "Project name?",
-      default: `${superb.random()} project`
-    }
+      default: `${superb.random()} project`,
+    },
   ],
   isUnitTest(answers) {
     return answers.name == "UNIT-TEST" ? true : false
@@ -64,21 +64,21 @@ const config = {
         type: "add",
         files: "**",
         templateDir: "template/factor",
-        filters: {}
+        filters: {},
       },
       {
         type: "add",
         files: "*",
-        filters: {}
+        filters: {},
       },
       {
         type: "move",
         patterns: {
           _gitignore: ".gitignore",
           "_package.json": "package.json",
-          _env: ".env"
-        }
-      }
+          _env: ".env",
+        },
+      },
     ]
 
     return actions
@@ -139,7 +139,7 @@ const config = {
     )
     console.log()
     console.log()
-  }
+  },
 }
 
 module.exports = config

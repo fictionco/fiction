@@ -4,19 +4,18 @@ import { Component } from "vue"
 
 const baseRoute = setting("work.postRoute")
 
-
 addFilter({
   key: "alphaFont",
   hook: "factor_head",
   callback: (_: string[]) => {
     return [..._, setting("headTags.font")]
   },
-  priority: 200
+  priority: 200,
 })
 
 /*
-* Sets admin and CMS
-*/
+ * Sets admin and CMS
+ */
 
 addPostType({
   postType: "work",
@@ -26,32 +25,32 @@ addPostType({
   nameSingle: "Work Post",
   namePlural: "Work Posts",
   customPermalink: true,
-  templateSettings: setting("work.templateSettings")
+  templateSettings: setting("work.templateSettings"),
 })
 
 /**
-* Page templates
-*/
+ * Page templates
+ */
 addPageTemplate({
   slug: "default",
-  component: (): Promise<Component> => import("./page-template-default.vue")
+  component: (): Promise<Component> => import("./page-template-default.vue"),
 })
 
 /*
-* The front end routes
-*/
+ * The front end routes
+ */
 addContentRoutes({
   key: "alphaRoutes",
   routes: [
     {
       path: "/",
       component: setting("home.component"),
-      meta: { nav: true }
+      meta: { nav: true },
     },
     {
       path: "/about",
       component: setting("about.component"),
-      meta: { nav: true }
+      meta: { nav: true },
     },
     {
       path: setting("work.indexRoute") ?? "/",
@@ -59,18 +58,18 @@ addContentRoutes({
       children: [
         {
           path: "/",
-          component: setting("work.components.workIndex")
+          component: setting("work.components.workIndex"),
         },
         {
           path: `${setting("work.postRoute")}/:permalink`,
-          component: setting("work.components.workSingle")
-        }
-      ]
+          component: setting("work.components.workSingle"),
+        },
+      ],
     },
     {
       path: "/contact",
       component: setting("contact.component"),
-      meta: { nav: true }
-    }
-  ]
+      meta: { nav: true },
+    },
+  ],
 })

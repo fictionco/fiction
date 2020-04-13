@@ -1,7 +1,11 @@
 <template>
   <div class="blog-wrap">
     <div v-if="blogPosts.length > 0" class="blog-posts post-index">
-      <div v-for="post in blogPosts" :key="post._id" class="blog-post rounded-lg hover:bg-white">
+      <div
+        v-for="post in blogPosts"
+        :key="post._id"
+        class="blog-post rounded-lg hover:bg-white"
+      >
         <component
           :is="setting(`blog.components.${_component}`)"
           v-for="(_component, i) in setting('blog.layout.index')"
@@ -31,7 +35,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "blog",
-      loading: true
+      loading: true,
     }
   },
   metaInfo() {
@@ -43,7 +47,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   computed: {
@@ -62,14 +66,14 @@ export default Vue.extend({
     },
     returnLinkText() {
       return setting("blog.returnLinkText") || "All Posts"
-    }
+    },
   },
   watch: {
     $route: {
-      handler: function(this: any) {
+      handler: function (this: any) {
         this.getPosts()
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.getPosts()
@@ -82,8 +86,8 @@ export default Vue.extend({
       await loadAndStoreBlogIndex()
 
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -31,23 +31,23 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorBtnDashboard, factorIcon, dashboardInput },
   props: {
-    value: { type: Array, default: () => [] }
+    value: { type: Array, default: () => [] },
   },
   data() {
     return {
       tags: [],
-      addedText: ""
+      addedText: "",
     }
   },
   computed: {
     addedSlug(this: any) {
       return slugify(this.addedText)
-    }
+    },
   },
   mounted(this: any) {
     this.$watch(
       "value",
-      function(this: any, v: string[]) {
+      function (this: any, v: string[]) {
         if (v && !isEqual(v, this.tags)) {
           this.tags = v
         }
@@ -67,8 +67,8 @@ export default Vue.extend({
     removeTag(this: any, index: number) {
       this.tags.splice(index, 1)
       this.$emit("input", this.tags)
-    }
-  }
+    },
+  },
 })
 </script>
 

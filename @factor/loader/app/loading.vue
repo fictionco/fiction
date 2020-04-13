@@ -16,13 +16,22 @@
           <p v-if="errorStack" class="pre">{{ errorStack }}</p>
         </div>
         <p>
-          <span class="hasErrors">Note:</span> A manual restart of the Factor dev server may be required
+          <span class="hasErrors">Note:</span> A manual restart of the Factor dev server
+          may be required
         </p>
       </div>
       <div v-else-if="preventReload" class="reload-prevented error-item">
-        <h3 class="hasErrors">Failed to show Factor app after {{ maxReloadCount }} reloads</h3>
-        <p>Your Factor app could not be shown even though the webpack build appears to have finished.</p>
-        <p>Try to reload the page manually, if this problem persists try to restart your Factor dev server.</p>
+        <h3 class="hasErrors">
+          Failed to show Factor app after {{ maxReloadCount }} reloads
+        </h3>
+        <p>
+          Your Factor app could not be shown even though the webpack build appears to have
+          finished.
+        </p>
+        <p>
+          Try to reload the page manually, if this problem persists try to restart your
+          Factor dev server.
+        </p>
       </div>
       <template v-else>
         <transition appear>
@@ -41,8 +50,6 @@
   </div>
 </template>
 
-
-
 <script>
 import fetch from "unfetch"
 
@@ -52,11 +59,11 @@ import sseMixin from "./mixins/sse"
 import storageMixin from "./mixins/storage"
 import { sendEvent } from "./utils"
 
-const waitFor = ms => new Promise(resolve => setTimeout(resolve, ms))
+const waitFor = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default {
   components: {
-    factorLogo: () => import("./logo-factor.vue")
+    factorLogo: () => import("./logo-factor.vue"),
   },
   mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],
   data() {
@@ -72,7 +79,7 @@ export default {
       baseURL: window.$BASE_URL,
       progress: 0,
       message: "",
-      build: ""
+      build: "",
     }
   },
   computed: {
@@ -82,7 +89,7 @@ export default {
     },
     building() {
       return this.build == "bundle" ? "Building App" : "Setting Up Environment"
-    }
+    },
   },
 
   beforeMount() {
@@ -108,7 +115,7 @@ export default {
     cap(text) {
       if (!text) return ""
 
-      return text.replace(/\b\w/g, l => l.toUpperCase())
+      return text.replace(/\b\w/g, (l) => l.toUpperCase())
     },
     onSseData(data) {
       if (this._reloading) {
@@ -130,7 +137,7 @@ export default {
       this.clearTimeout()
 
       try {
-        const data = await fetch(`${this.baseURL}_loading/json`).then(res => res.json())
+        const data = await fetch(`${this.baseURL}_loading/json`).then((res) => res.json())
 
         this.onData(data)
       } catch (error) {
@@ -247,8 +254,8 @@ export default {
 
       // Reload the page
       window.location.reload(true)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less">

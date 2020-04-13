@@ -4,12 +4,13 @@
       <factor-link
         v-for="(video, index) in videos"
         :key="video.id"
-        :class="video.id == selected ? 'active': ''"
+        :class="video.id == selected ? 'active' : ''"
         :path="`#${video.id}`"
-      >{{ index + 1 }}. {{ toLabel(video.id) }}</factor-link>
+        >{{ index + 1 }}. {{ toLabel(video.id) }}</factor-link
+      >
     </nav>
     <div class="start-content">
-      <section v-for="(video) in videos" :id="video.id" :key="video.id" class="video-entry">
+      <section v-for="video in videos" :id="video.id" :key="video.id" class="video-entry">
         <div class="header">
           <h1 class="title">{{ toLabel(video.id) }}</h1>
           <div class="subtitle">
@@ -39,7 +40,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
-    joinProgram: () => import("./el-join.vue")
+    joinProgram: () => import("./el-join.vue"),
   },
   data() {
     return {
@@ -52,7 +53,7 @@ export default Vue.extend({
           duration: "1 Minute",
           synopsis: "Get Factor running locally with a theme in 60 seconds",
           context:
-            "In this video you'll use <p><code>npx create-factor-app</code></p> to download and scaffold your first app."
+            "In this video you'll use <p><code>npx create-factor-app</code></p> to download and scaffold your first app.",
         },
         {
           id: "customize",
@@ -60,7 +61,7 @@ export default Vue.extend({
           duration: "3 Minutes",
           synopsis: "Simple customization with 'factor-settings'",
           context:
-            "Factor merges settings files together taking your app's as the highest priority. "
+            "Factor merges settings files together taking your app's as the highest priority. ",
         },
         {
           id: "manage",
@@ -68,7 +69,7 @@ export default Vue.extend({
           duration: "4 Minutes",
           synopsis: "Add your own DB and run the dashboard",
           context:
-            "Setting up your own DB takes seconds and only requires a MongoDb style connection string."
+            "Setting up your own DB takes seconds and only requires a MongoDb style connection string.",
         },
         {
           id: "deploy",
@@ -76,9 +77,9 @@ export default Vue.extend({
           duration: "3 Minutes",
           synopsis: "Create a repo and continuously deploy to Heroku",
           context:
-            "Deploying a Factor app is simple and takes two steps: <ol><li>Build</li><li>Serve</li></ol>"
-        }
-      ]
+            "Deploying a Factor app is simple and takes two steps: <ol><li>Build</li><li>Serve</li></ol>",
+        },
+      ],
     }
   },
   mounted() {
@@ -89,7 +90,7 @@ export default Vue.extend({
       this.videos.forEach((video: any) => {
         const selector = `#${video.id}`
         const observer = new IntersectionObserver(
-          entries => {
+          (entries) => {
             if (entries[0].isIntersecting) {
               this.selected = entries[0].target.id
             }
@@ -108,10 +109,10 @@ export default Vue.extend({
     return {
       title: "Getting Started",
       description:
-        "Getting started with Factor is easy. Install to deployment just 10 minutes of setup."
+        "Getting started with Factor is easy. Install to deployment just 10 minutes of setup.",
     }
   },
-  methods: { toLabel }
+  methods: { toLabel },
 })
 </script>
 <style lang="less">

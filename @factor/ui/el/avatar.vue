@@ -13,7 +13,7 @@
         x="0px"
         y="0px"
         viewBox="0 0 24 24"
-        style="enable-background:new 0 0 24 24;"
+        style="enable-background: new 0 0 24 24;"
         xml:space="preserve"
       >
         <g class="st0">
@@ -40,11 +40,11 @@ export default Vue.extend({
     email: { type: String, default: "" },
     loading: { type: Boolean, default: false },
     user: { type: [Object, undefined], default: undefined },
-    defaultGravatar: { type: String, default: "identicon" }
+    defaultGravatar: { type: String, default: "identicon" },
   },
   data() {
     return {
-      init: true
+      init: true,
     }
   },
   computed: {
@@ -66,13 +66,13 @@ export default Vue.extend({
         return (
           gravatar.url(this.user.email, {
             s: "300",
-            d: setting("app.blankUser") || "retro"
+            d: setting("app.blankUser") || "retro",
           }) || ""
         )
       } else {
         return ""
       }
-    }
+    },
   },
   async mounted() {
     await userInitialized()
@@ -91,8 +91,8 @@ export default Vue.extend({
       const dimension = this.width ? { width, height: width } : {}
 
       return { ...dimension, ...more }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

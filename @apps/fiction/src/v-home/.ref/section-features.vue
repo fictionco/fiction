@@ -5,7 +5,9 @@
     <section class="feature feature--developer feature--reversed">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">Build your perfect point of sale</h3>
+          <h3 class="common-UppercaseTitle feature-title">
+            Build your perfect point of sale
+          </h3>
           <p class="common-MediumBodyText">
             Break free from the constraints of off-the-shelf point of sale software.
             Fiction Terminal makes it easier to build your point of sale and own your
@@ -66,7 +68,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
 
         <figure class="floating-cards">
           <div class="card">
-            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" >
+            <img :src="require(`./img/devices@2x.jpg`)" alt="Fiction Terminal device" />
           </div>
         </figure>
       </div>
@@ -75,7 +77,9 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
     <section class="feature feature--reversed feature-fleet">
       <div class="mast">
         <article class="feature-content">
-          <h3 class="common-UppercaseTitle feature-title">Centralized fleet management</h3>
+          <h3 class="common-UppercaseTitle feature-title">
+            Centralized fleet management
+          </h3>
           <p class="common-MediumBodyText">
             Manage your entire fleet of Fiction card readers right from the Fiction
             Dashboard, where you can register hardware to a location, monitor device
@@ -93,7 +97,7 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
             <img
               :src="require(`./img/screenshot-fleet-updated.jpg`)"
               alt="Fiction Dashboard screenshot of managing your fleet hardware."
-            >
+            />
           </div>
         </figure>
       </div>
@@ -103,9 +107,9 @@ terminal.setReaderDisplay({ type: 'cart', cart });</code></pre>
 <script>
 export default {
   components: {
-    "el-stripes": () => import("./el-stripes")
+    "el-stripes": () => import("./el-stripes"),
   },
-  mounted() {}
+  mounted() {},
 }
 </script>
 <style lang="less">

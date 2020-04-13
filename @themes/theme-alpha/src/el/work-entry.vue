@@ -41,7 +41,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
-    factorHighlightCode
+    factorHighlightCode,
   },
   props: {
     format: { type: String, default: "" },
@@ -51,7 +51,7 @@ export default Vue.extend({
     date: { type: [String, Number], default: "" },
     path: { type: String, default: "" },
     postId: { type: String, default: "" },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
   computed: {
     post(this: any) {
@@ -64,14 +64,14 @@ export default Vue.extend({
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content, {
-        variables: true
+        variables: true,
       })
-    }
+    },
   },
   methods: {
     postLink,
-    setting
-  }
+    setting,
+  },
 })
 </script>
 <style lang="less">

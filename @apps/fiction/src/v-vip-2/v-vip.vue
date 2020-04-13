@@ -8,7 +8,11 @@
             <div class="header-icon-text">{{ intro.preheading }}</div>
           </div>
 
-          <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
+          <img
+            class="title"
+            :src="require(`./img/factor-vip-logo.svg`)"
+            alt="Factor VIP"
+          />
 
           <p class="text">{{ intro.text }}</p>
 
@@ -129,7 +133,7 @@ export default Vue.extend({
     "icon-vip": () => import("./icon-vip.vue"),
     "figure-vip": () => import("./figure-vip.vue"),
     "figure-manage": () => import("./figure-manage.vue"),
-    "el-cta-vip": () => import("./cta-vip.vue")
+    "el-cta-vip": () => import("./cta-vip.vue"),
   },
   data() {
     return {
@@ -140,7 +144,7 @@ export default Vue.extend({
           "Web application development services powered by Factor designed to fit your custom workflow.",
         link: {
           path: "/contact",
-          text: "Contact Sales &rarr;"
+          text: "Contact Sales &rarr;",
         },
         bullets: [
           "Design",
@@ -150,25 +154,25 @@ export default Vue.extend({
           "Dedicated Developers",
           "Guaranteed Satisfaction",
           "24/7 Support",
-          "Phone Support"
-        ]
+          "Phone Support",
+        ],
       },
       benefits: [
         {
           icon: "enterprise",
           title: "Enterprise Factor Platform",
-          text: `VIP is a fully managed Factor cloud platform for unparalleled scale, security, flexibility, and performance.`
+          text: `VIP is a fully managed Factor cloud platform for unparalleled scale, security, flexibility, and performance.`,
         },
         {
           icon: "implementation",
           title: "Implementation & Support",
-          text: `End-to-end guidance and hands-on support, from project consideration through launch and every day thereafter.`
+          text: `End-to-end guidance and hands-on support, from project consideration through launch and every day thereafter.`,
         },
         {
           icon: "solution",
           title: "A Complete Solution",
-          text: `Ready models, processes, and plugins to deliver your business goals. Deep, extensible capabilities.`
-        }
+          text: `Ready models, processes, and plugins to deliver your business goals. Deep, extensible capabilities.`,
+        },
       ],
       process: {
         preheading: "The Design Process",
@@ -179,38 +183,38 @@ export default Vue.extend({
             id: "process-sketch",
             figure: () => import("./figure-sketch.vue"),
             title: "Sketch",
-            text: `Sketching sets the tone for the rest of the design process. It makes us think and work faster. It’s key in crafting the user experience and communicating it to others.`
+            text: `Sketching sets the tone for the rest of the design process. It makes us think and work faster. It’s key in crafting the user experience and communicating it to others.`,
           },
           {
             id: "process-wireframe",
             figure: () => import("./figure-wireframe.vue"),
             title: "Wireframe",
-            text: `Wireframes set the structure and define the interface items clearly. They make the design process iterative while saving time and effort.`
+            text: `Wireframes set the structure and define the interface items clearly. They make the design process iterative while saving time and effort.`,
           },
           {
             id: "process-design",
             figure: () => import("./figure-design.vue"),
             title: "Design",
-            text: `Layouts for complex web apps are a lot less daunting when taking a methodical approach like ours.  By using research information and all previous steps these layouts come together like magic.`
+            text: `Layouts for complex web apps are a lot less daunting when taking a methodical approach like ours.  By using research information and all previous steps these layouts come together like magic.`,
           },
           {
             id: "process-develop",
             figure: () => import("./figure-develop.vue"),
             title: "Develop",
-            text: `Everything built with the Factor CMS platform, powered by modern tools like VueJS, MongoDB and TypeScript. Your app will include a dashboard and post management system.`
-          }
+            text: `Everything built with the Factor CMS platform, powered by modern tools like VueJS, MongoDB and TypeScript. Your app will include a dashboard and post management system.`,
+          },
         ],
         link: {
           path: "/contact",
-          text: "Learn More &rarr;"
-        }
+          text: "Learn More &rarr;",
+        },
       },
       manage: {
         title: "Manage & Maintain",
         text:
           "Get chat access to the Factor community, experience immediate content updates when managing your app and the latest updates of the Factor platform.",
-        bullets: ["Build", "Test", "Deploy", "SEO", "Support", "Updates"]
-      }
+        bullets: ["Build", "Test", "Deploy", "SEO", "Support", "Updates"],
+      },
     }
   },
   routeClass() {
@@ -220,9 +224,9 @@ export default Vue.extend({
     return {
       title: "Factor VIP - Professional App Development Service",
       description: `Web application development services powered by Factor designed to fit your custom workflow.`,
-      image: require("../img/fiction.jpg")
+      image: require("../img/fiction.jpg"),
     }
-  }
+  },
 })
 </script>
 <style lang="less">

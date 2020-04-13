@@ -18,7 +18,7 @@ describe("page template permissions", () => {
   it("prevents viewing of drafts to non-moderators", async () => {
     let post: FactorPost | void
     mock.mockReturnValueOnce({
-      findById: async () => ({ page: "data" })
+      findById: async () => ({ page: "data" }),
     })
 
     let e
@@ -35,7 +35,7 @@ describe("page template permissions", () => {
 
   it("Allows view of published pages", async () => {
     mock.mockReturnValueOnce({
-      findById: async () => ({ page: "data", status: "published" })
+      findById: async () => ({ page: "data", status: "published" }),
     })
 
     const post: FactorPost | void = await getSinglePost(

@@ -6,20 +6,20 @@
           placeholder="Order By"
           :list="['latest', 'popular']"
           :value="$route.query.order || 'latest'"
-          @input="setQuery({key: 'order', value: $event, init: 'latest'})"
+          @input="setQuery({ key: 'order', value: $event, init: 'latest' })"
         />
         <factor-input-select
           v-if="$route.query.order == 'popular'"
           placeholder="Time"
           :list="['day', 'week', 'month', 'year', 'all-time']"
           :value="$route.query.time || 'week'"
-          @input="setQuery({key: 'time', value: $event, init: 'week'})"
+          @input="setQuery({ key: 'time', value: $event, init: 'week' })"
         />
       </div>
       <div class="discovery">
         <factor-input-text
           placeholder="Search"
-          @keyup.enter="setQuery({key: 'search', value: $event.target.value.trim()})"
+          @keyup.enter="setQuery({ key: 'search', value: $event.target.value.trim() })"
         />
       </div>
     </div>
@@ -32,7 +32,7 @@
           v-for="(post, index) in posts"
           :key="index"
           class="list-item-wrap"
-          :class="[post.pinned ? 'pinned': '', post.locked ? 'locked': '']"
+          :class="[post.pinned ? 'pinned' : '', post.locked ? 'locked' : '']"
         >
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
@@ -49,14 +49,18 @@
             <div class="item-text">
               <div class="header">
                 <h2 class="title">
-                  <factor-link :path="topicLink(post)">{{ excerpt(post.title, {length: 16}) }}</factor-link>
+                  <factor-link :path="topicLink(post)">{{
+                    excerpt(post.title, { length: 16 })
+                  }}</factor-link>
                 </h2>
                 <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
               </div>
 
               <div class="meta">
-                <div class="author meta-item">{{ author(post, 'username') }}</div>
-                <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
+                <div class="author meta-item">{{ author(post, "username") }}</div>
+                <div class="time-ago meta-item">
+                  Updated {{ timeAgo(post.updatedAt) }}
+                </div>
               </div>
             </div>
             <div class="item-details">
@@ -78,10 +82,9 @@
       <div v-else class="no-posts">
         <div class="title">Nothing Found</div>
         <div class="actions">
-          <factor-link
-            btn="primary"
-            :path="`${setting('forum.indexRoute')}/add-new`"
-          >Start A Discussion</factor-link>
+          <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`"
+            >Start A Discussion</factor-link
+          >
         </div>
       </div>
     </div>
@@ -95,7 +98,7 @@ import {
   factorLink,
   factorAvatar,
   factorInputSelect,
-  factorInputText
+  factorInputText,
 } from "@factor/ui"
 import { excerpt } from "@factor/api/excerpt"
 import { timeAgo } from "@factor/api/time"
@@ -113,11 +116,11 @@ export default Vue.extend({
     factorAvatar,
     factorIcon,
     factorInputSelect,
-    factorInputText
+    factorInputText,
   },
   props: {
     loading: { type: Boolean, default: true },
-    posts: { type: Array, default: () => [] }
+    posts: { type: Array, default: () => [] },
   },
   data() {
     return {}
@@ -134,7 +137,7 @@ export default Vue.extend({
         out = `Viewing category "${query.category}"`
       }
       return out
-    }
+    },
   },
   methods: {
     timeAgo,
@@ -159,8 +162,8 @@ export default Vue.extend({
         query = { ...query, [key]: value }
       }
       this.$router.push({ query })
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -13,12 +13,15 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
-        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
         <factor-link
-          v-if="$route.path != '/install'"
-          path="/install"
-          btn="primary"
-        >Install Factor &rarr;</factor-link>
+          v-else-if="!userLoading"
+          event="sign-in-modal"
+          data-test="signin-link"
+          >Sign In</factor-link
+        >
+        <factor-link v-if="$route.path != '/install'" path="/install" btn="primary"
+          >Install Factor &rarr;</factor-link
+        >
       </div>
     </div>
   </div>
@@ -33,7 +36,7 @@ export default Vue.extend({
     factorLink,
     accountMenu,
     siteBrand: () => import("./el/brand.vue"),
-    githubStars: () => import("./el/github-stars.vue")
+    githubStars: () => import("./el/github-stars.vue"),
   },
   data() {
     return {
@@ -42,16 +45,16 @@ export default Vue.extend({
       pageNav: [
         { path: "/docs", name: "Docs" },
         { path: "/themes", name: "Themes" },
-        { path: "/plugins", name: "Plugins" }
+        { path: "/plugins", name: "Plugins" },
       ],
       actionNav: [
         {
           event: "sign-in-modal",
           name: "Sign In &rarr;",
-          condition: (): boolean => !isLoggedIn()
+          condition: (): boolean => !isLoggedIn(),
         },
-        { component: accountMenu, condition: (): boolean => isLoggedIn() }
-      ]
+        { component: accountMenu, condition: (): boolean => isLoggedIn() },
+      ],
     }
   },
   computed: {},
@@ -60,7 +63,7 @@ export default Vue.extend({
 
     this.userLoading = false
   },
-  methods: { isLoggedIn }
+  methods: { isLoggedIn },
 })
 </script>
 <style lang="less">

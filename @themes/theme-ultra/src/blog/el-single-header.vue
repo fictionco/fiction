@@ -23,7 +23,7 @@ export default Vue.extend({
   components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
-    url: { type: String, default: "" }
+    url: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -37,16 +37,16 @@ export default Vue.extend({
     },
     featuredImage(this: any) {
       const style = {
-        backgroundImage: `url(${this.avatarUrl})`
+        backgroundImage: `url(${this.avatarUrl})`,
       }
       return style
-    }
+    },
   },
   methods: {
     postLink,
     setting,
-    standardDate
-  }
+    standardDate,
+  },
 })
 </script>
 <style lang="less">

@@ -3,7 +3,7 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { DocsItem } from "./types"
 
 export const normalize = (items: DocsItem[]): DocsItem[] => {
-  return items.map(options => {
+  return items.map((options) => {
     const { slug, name, root } = options
 
     if (!root && !slug) return options
@@ -16,7 +16,7 @@ export const normalize = (items: DocsItem[]): DocsItem[] => {
       name: name || toLabel(slug),
       title: name || toLabel(slug),
       description: "",
-      file: (): Promise<{ default: string }> => import(`../docs/${slug}.md`)
+      file: (): Promise<{ default: string }> => import(`../docs/${slug}.md`),
     }
 
     return { ...d, ...options }
@@ -29,7 +29,7 @@ export const config = (): DocsItem[] => {
 }
 
 export const selected = (slug: string): DocsItem | void => {
-  return config().find(_ => (slug ? _.slug == slug : _.root))
+  return config().find((_) => (slug ? _.slug == slug : _.root))
 }
 
 /**

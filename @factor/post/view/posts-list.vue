@@ -29,7 +29,7 @@ import {
   dashboardPane,
   dashboardTableFooter,
   dashboardListPost,
-  dashboardListControls
+  dashboardListControls,
 } from "@factor/dashboard"
 import { getStatusCount } from "@factor/post/util"
 import { ControlAction } from "@factor/dashboard/types"
@@ -42,18 +42,18 @@ export default Vue.extend({
     dashboardListPost,
     dashboardListControls,
     dashboardPane,
-    dashboardTableFooter
+    dashboardTableFooter,
   },
   props: {
     title: { type: String, default: "" },
     list: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
       selected: [],
-      loadingAction: false
+      loadingAction: false,
     }
   },
   computed: {
@@ -63,14 +63,14 @@ export default Vue.extend({
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
-    }
+    },
   },
 
   methods: {
     toLabel,
     standardDate,
     selectAll(this: any, val: boolean) {
-      this.selected = !val ? [] : this.list.map(_ => _._id)
+      this.selected = !val ? [] : this.list.map((_) => _._id)
     },
     controlStatus(this: any): ControlAction[] {
       const countTrash = getStatusCount({ meta: this.meta, key: "trash" }) ?? 0
@@ -81,7 +81,7 @@ export default Vue.extend({
         { value: "", label: `All (${all})` },
         { value: "published", label: `Published (${countPublished})` },
         { value: "draft", label: `Draft (${countDraft})` },
-        { value: "trash", label: `Trash (${countTrash})` }
+        { value: "trash", label: `Trash (${countTrash})` },
       ]
     },
     additional(this: any, post: FactorPost) {
@@ -89,16 +89,16 @@ export default Vue.extend({
         { label: "synopsis", value: post.synopsis },
         {
           label: "tags",
-          value: ""
+          value: "",
         },
         {
           label: "updated",
-          value: standardDate(post.updatedAt)
+          value: standardDate(post.updatedAt),
         },
         {
           label: "created",
-          value: standardDate(post.createdAt)
-        }
+          value: standardDate(post.createdAt),
+        },
       ]
     },
     metaInfo(this: any, post: FactorPost) {
@@ -106,12 +106,12 @@ export default Vue.extend({
         { value: toLabel(post.status) },
         {
           label: "by",
-          value: this.getAuthorNames(post.author)
+          value: this.getAuthorNames(post.author),
         },
         {
           label: "on",
-          value: standardDate(post.date)
-        }
+          value: standardDate(post.date),
+        },
       ]
     },
     controlActions(): ControlAction[] {
@@ -120,26 +120,27 @@ export default Vue.extend({
           value: "published",
           label: "Publish Selected",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Change ${selected.length} items to published?`
+          confirm: (selected: string[]) =>
+            `Change ${selected.length} items to published?`,
         },
         {
           value: "draft",
           label: "Draft Selected",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Change ${selected.length} items to draft?`
+          confirm: (selected: string[]) => `Change ${selected.length} items to draft?`,
         },
         {
           value: "trash",
           label: "Move to Trash",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Move ${selected.length} items to trash?`
+          confirm: (selected: string[]) => `Move ${selected.length} items to trash?`,
         },
         {
           value: "delete",
           label: "Permanently Delete",
           condition: (query: { [key: string]: string }) => query.status == "trash",
-          confirm: (selected: string[]) => `Permanently delete ${selected.length} items?`
-        }
+          confirm: (selected: string[]) => `Permanently delete ${selected.length} items?`,
+        },
       ]
 
       return actions
@@ -154,7 +155,7 @@ export default Vue.extend({
           await requestPostSaveMany({
             _ids: this.selected,
             data: { status: action },
-            postType: this.postType
+            postType: this.postType,
           })
         }
         emitEvent("refresh-table")
@@ -171,13 +172,13 @@ export default Vue.extend({
     },
     getAuthorNames(authorIds: string[]) {
       return authorIds
-        .map(_id => {
+        .map((_id) => {
           return stored(_id) || {}
         })
-        .map(_ => _.displayName)
+        .map((_) => _.displayName)
         .join(", ")
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

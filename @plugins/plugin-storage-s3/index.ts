@@ -5,7 +5,7 @@ import { PostAttachment } from "@factor/attachment"
 const setConfig = (): { S3: AWS.S3; bucket: string } => {
   AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET
+    secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET,
   })
 
   const bucket = process.env.AWS_S3_BUCKET || ""
@@ -28,10 +28,10 @@ export const setup = (): void => {
           {
             title: "Plugin: S3 Storage Credentials",
             file: ".env",
-            name: "AWS_ACCESS_KEY"
-          }
+            name: "AWS_ACCESS_KEY",
+          },
         ]
-      }
+      },
     })
 
     return
@@ -43,11 +43,11 @@ export const setup = (): void => {
     callback: ({
       buffer,
       key,
-      mimetype
+      mimetype,
     }: {
-      buffer: Buffer;
-      key: string;
-      mimetype: string;
+      buffer: Buffer
+      key: string
+      mimetype: string
     }) => {
       const { bucket, S3 } = setConfig()
       return new Promise((resolve, reject) => {
@@ -56,7 +56,7 @@ export const setup = (): void => {
           Key: key,
           Body: buffer,
           ACL: "public-read",
-          ContentType: mimetype
+          ContentType: mimetype,
         }
         S3.upload(params, (error: Error, data: { Location: string }) => {
           if (error) reject(error)
@@ -66,7 +66,7 @@ export const setup = (): void => {
           resolve(Location)
         })
       })
-    }
+    },
   })
 
   addCallback({
@@ -78,7 +78,7 @@ export const setup = (): void => {
 
       const params = { Bucket: bucket, Key: key }
       return await S3.deleteObject(params).promise()
-    }
+    },
   })
 }
 

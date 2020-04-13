@@ -57,7 +57,7 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    icon: { type: String, default: "pin" }
+    icon: { type: String, default: "pin" },
   },
   data() {
     return {}
@@ -67,18 +67,16 @@ export default Vue.extend({
       if (this.icon == "globe") {
         return {
           width: 16,
-          height: 16
+          height: 16,
         }
       } else {
         return {
           width: 340,
-          height: 336
+          height: 336,
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>
-<style lang="less">
-</style>
-
+<style lang="less"></style>

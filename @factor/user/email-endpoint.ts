@@ -12,22 +12,22 @@ import {
   SendVerifyEmail,
   VerifyAndResetPassword,
   VerifyEmail,
-  EmailResult
+  EmailResult,
 } from "./email-types"
 
 type FactorUserEmailVerify = FactorUser & {
-  emailVerificationCode?: string;
-  passwordResetCode?: string;
+  emailVerificationCode?: string
+  passwordResetCode?: string
 }
 
 interface UserEmailConfig {
-  to: string;
-  subject: string;
-  text: string;
-  linkText: string;
-  action: string;
-  _id: string;
-  code: string;
+  to: string
+  subject: string
+  text: string
+  linkText: string
+  action: string
+  _id: string
+  code: string
 }
 /**
  * Sends user account email
@@ -42,7 +42,7 @@ export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
     subject,
     text,
     linkText,
-    linkUrl
+    linkUrl,
   })
 
   return
@@ -108,7 +108,7 @@ export const sendVerifyEmail = async (
     linkText: "Verify Email",
     action: "verify-email",
     _id,
-    code: emailVerificationCode
+    code: emailVerificationCode,
   })
 
   return EmailResult.success
@@ -122,7 +122,7 @@ export const sendVerifyEmail = async (
 export const verifyAndResetPassword = async ({
   _id,
   code,
-  password
+  password,
 }: VerifyAndResetPassword): Promise<EmailResult> => {
   const user = await getModel<FactorUserEmailVerify>("post").findOne(
     { _id },
@@ -147,9 +147,9 @@ export const verifyAndResetPassword = async ({
  * @param email - the email address for the account
  */
 export const sendPasswordResetEmail = async ({
-  email
+  email,
 }: {
-  email: string;
+  email: string
 }): Promise<EmailResult> => {
   const passwordResetCode = randomToken()
 
@@ -167,7 +167,7 @@ export const sendPasswordResetEmail = async ({
     linkText: "Reset Password",
     action: "reset-password",
     _id: user._id,
-    code: passwordResetCode
+    code: passwordResetCode,
   })
 
   return EmailResult.success
@@ -184,8 +184,8 @@ export const setup = (): void => {
       verifyAndResetPassword,
       sendVerifyEmail,
       verifyEmail,
-      sendEmail
-    }
+      sendEmail,
+    },
   })
 
   /**
@@ -195,7 +195,7 @@ export const setup = (): void => {
     key: "userEmails",
     hook: "user-schema-hooks",
     callback: (userSchema: Schema) => {
-      userSchema.pre("save", async function(
+      userSchema.pre("save", async function (
         this: FactorUserEmailVerify & Document,
         next: HookNextFunction
       ): Promise<void> {
@@ -212,7 +212,7 @@ export const setup = (): void => {
 
         next()
       })
-    }
+    },
   })
 
   /**
@@ -226,7 +226,7 @@ export const setup = (): void => {
       _.passwordResetCode = { type: String, select: false }
 
       return _
-    }
+    },
   })
 }
 

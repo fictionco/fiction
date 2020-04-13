@@ -33,7 +33,7 @@ import {
   dashboardPage,
   dashboardPane,
   dashboardListPost,
-  dashboardListControls
+  dashboardListControls,
 } from "@factor/dashboard"
 import Vue from "vue"
 import { EmailConfig } from "./types"
@@ -44,7 +44,7 @@ export default Vue.extend({
     dashboardListPost,
     dashboardPane,
     dashboardListControls,
-    dashboardPage
+    dashboardPage,
   },
   props: {
     postType: { type: String, default: "post" },
@@ -52,7 +52,7 @@ export default Vue.extend({
     list: { type: Array, default: () => [] },
     meta: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false },
-    sending: { type: Boolean, default: false }
+    sending: { type: Boolean, default: false },
   },
   data() {
     return { selected: [], loadingAction: false, postTypeUIConfig }
@@ -64,7 +64,7 @@ export default Vue.extend({
       const countTrash = getStatusCount({ meta: this.meta, key: "trash" })
       return [
         { value: "", label: `All (${this.meta.totalForQuery ?? 0})` },
-        { value: "trash", label: `Trash (${countTrash})` }
+        { value: "trash", label: `Trash (${countTrash})` },
       ]
     },
 
@@ -75,20 +75,20 @@ export default Vue.extend({
           value: "trash",
           label: "Move to Inactive/Trash",
           condition: (query: { [key: string]: string }) => query.status != "trash",
-          confirm: (selected: string[]) => `Move ${selected.length} list(s) to trash?`
+          confirm: (selected: string[]) => `Move ${selected.length} list(s) to trash?`,
         },
         {
           value: "publish",
           label: "Move to Active Lists",
-          condition: (query: { [key: string]: string }) => query.status == "trash"
+          condition: (query: { [key: string]: string }) => query.status == "trash",
         },
         {
           value: "delete",
           label: "Permanently Delete",
           condition: (query: { [key: string]: string }) => query.status == "trash",
           confirm: (selected: string[]) =>
-            `Permanently delete ${selected.length} list(s)?`
-        }
+            `Permanently delete ${selected.length} list(s)?`,
+        },
       ]
 
       return actions
@@ -99,18 +99,18 @@ export default Vue.extend({
       return [
         {
           label: "Emails",
-          value: list.length
+          value: list.length,
         },
         {
           label: "Verified",
-          value: list.filter(_ => _.verified).length
-        }
+          value: list.filter((_) => _.verified).length,
+        },
       ]
     },
     postItemAdditional(this: any, post: FactorPost) {
       const list = post.list ? post.list : []
       list
-        .filter(_ => _.addedAt)
+        .filter((_) => _.addedAt)
         .sort((a, b) => {
           return a.addedAt > b.addedAt ? 1 : -1
         })
@@ -124,25 +124,25 @@ export default Vue.extend({
           label: "In 24 Hours",
           value: `${emailsInDay.length} Emails (${
             emailsInDay.filter((_: EmailConfig) => _.verified).length
-          } Verified)`
+          } Verified)`,
         },
         {
           label: "In Week",
           value: `${emailsInWeek.length} Emails (${
             emailsInWeek.filter((_: EmailConfig) => _.verified).length
-          } Verified)`
+          } Verified)`,
         },
         {
           label: "In Month",
           value: `${emailsInMonth.length} Emails (${
             emailsInMonth.filter((_: EmailConfig) => _.verified).length
-          } Verified)`
-        }
+          } Verified)`,
+        },
       ]
     },
     emailsInTime(list: any[], time: "day" | "week" | "month") {
       const boundary = timestamp(timeUtil().subtract(1, time))
-      return list.filter(_ => _.addedAt >= boundary)
+      return list.filter((_) => _.addedAt >= boundary)
     },
     async handleAction(this: any, action: string) {
       this.loadingAction = true
@@ -166,7 +166,7 @@ export default Vue.extend({
 
           csvExport<EmailConfig>({
             filename: name.join("-"),
-            data
+            data,
           })
         } else if (action == "delete") {
           await requestPostDeleteMany({ _ids: this.selected, postType: this.postType })
@@ -174,7 +174,7 @@ export default Vue.extend({
           await requestPostSaveMany({
             _ids: this.selected,
             data: { status: action },
-            postType: this.postType
+            postType: this.postType,
           })
         }
         emitEvent("refresh-table")
@@ -184,9 +184,8 @@ export default Vue.extend({
     },
     selectAll(this: any, val: boolean): void {
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
-    }
-  }
+    },
+  },
 })
 </script>
-<style lang="less">
-</style>
+<style lang="less"></style>

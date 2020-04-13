@@ -5,14 +5,19 @@
         <div>
           <div class="label label-white">Discover The Latest</div>
           <h1 class="title">Fiction Blog</h1>
-          <p class="subtitle">Product updates, articles, and announcements from the Fiction team.</p>
+          <p class="subtitle">
+            Product updates, articles, and announcements from the Fiction team.
+          </p>
         </div>
       </div>
     </section>
     <section class="blog-posts">
       <div class="blog-posts-inner">
         <div class="blog-entries">
-          <component :is="setting('blog.components.blogReturnLink')" v-if="tag || page > 1" />
+          <component
+            :is="setting('blog.components.blogReturnLink')"
+            v-if="tag || page > 1"
+          />
           <div v-if="loading" class="posts-loading">
             <factor-loading-ring />
           </div>
@@ -49,7 +54,7 @@ export default Vue.extend({
   data() {
     return {
       postType: "blog",
-      loading: false
+      loading: false,
     }
   },
   routeClass() {
@@ -64,7 +69,7 @@ export default Vue.extend({
 
     return {
       title,
-      description
+      description,
     }
   },
   computed: {
@@ -80,10 +85,10 @@ export default Vue.extend({
     },
     page(this: any) {
       return this.$route.query.page || 1
-    }
+    },
   },
 
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

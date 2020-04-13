@@ -7,7 +7,7 @@
 import { factorMenu } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorMenu }
+  components: { factorMenu },
 })
 </script>
 <style lang="less">

@@ -24,7 +24,7 @@ export async function addSlackNotification(params) {
   axios.request({
     method: "post",
     url: process.env.SLACK_NOTIFY_URL,
-    data: { text }
+    data: { text },
   })
 }
 ```
@@ -42,7 +42,7 @@ export async function requestSlackNotification(text) {
   const result = await endpointRequest({
     id: "slack",
     method: "addSlackNotification",
-    params: { text }
+    params: { text },
   })
 
   return result

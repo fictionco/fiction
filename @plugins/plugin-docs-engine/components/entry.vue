@@ -11,11 +11,11 @@ import Vue from "vue"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default Vue.extend({
   components: {
-    factorHighlightCode
+    factorHighlightCode,
   },
   props: {
-    content: { type: String, default: "" }
-  }
+    content: { type: String, default: "" },
+  },
 })
 </script>
 <style lang="less">

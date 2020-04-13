@@ -58,12 +58,12 @@ export default Vue.extend({
     factorLoadingRing,
     factorLink,
     factorIcon,
-    "el-hero": () => import("../el/hero.vue")
+    "el-hero": () => import("../el/hero.vue"),
   },
   data() {
     return {
       postType: "blog",
-      loading: false
+      loading: false,
     }
   },
   routeClass() {
@@ -79,7 +79,7 @@ export default Vue.extend({
     return {
       title,
       description,
-      image: setting("blog.metatags.index.image")
+      image: setting("blog.metatags.index.image"),
     }
   },
   computed: {
@@ -101,7 +101,7 @@ export default Vue.extend({
     },
     tagsList(this: any) {
       return this.index.meta.tags || []
-    }
+    },
   },
 
   mounted() {},
@@ -109,8 +109,8 @@ export default Vue.extend({
     setting,
     getPost(_id: any) {
       return stored(_id) || {}
-    }
-  }
+    },
+  },
 })
 </script>
 

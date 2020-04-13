@@ -6,7 +6,11 @@
       <div class="plink">{{ link }}</div>
       <div class="desc">{{ desc }}</div>
     </div>
-    <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
+    <dashboard-input
+      v-model="post.titleTag"
+      input="factor-input-text"
+      label="Title Meta Tag"
+    />
     <dashboard-input
       v-model="post.descriptionTag"
       input="factor-input-textarea"
@@ -29,7 +33,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { dashboardInput },
   props: {
-    postId: { type: String, required: true }
+    postId: { type: String, required: true },
   },
   computed: {
     desc(this: any) {
@@ -48,9 +52,9 @@ export default Vue.extend({
     },
     link(this: any) {
       return postLink(this.postId, { root: true })
-    }
+    },
   },
-  methods: { excerpt }
+  methods: { excerpt },
 })
 </script>
 <style lang="less">

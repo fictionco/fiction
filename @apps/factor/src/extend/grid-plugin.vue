@@ -4,14 +4,14 @@
       v-for="(item, index) in extensions"
       :key="index"
       class="grid-item-plugin"
-      @click="$router.push({path: `/plugin/${encodeURIComponent(item.permalink)}`})"
+      @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })"
     >
       <div class="entry-media" :style="mediaStyle(item)" :class="imageStyle(item)">
         <img :src="item.icon" :alt="`${item.title} Icon`" class="extend-icon" />
       </div>
       <div class="entry-content">
         <div class="meta">
-          <div v-if="item.category" class="category">{{ item.category.join(', ') }}</div>
+          <div v-if="item.category" class="category">{{ item.category.join(", ") }}</div>
         </div>
         <h3 class="title">{{ item.title }}</h3>
         <p class="description">{{ item.synopsis }}</p>
@@ -27,7 +27,7 @@ import { FactorExtensionInfo } from "./types"
 export default Vue.extend({
   components: {},
   props: {
-    extensions: { type: Array, default: () => {} }
+    extensions: { type: Array, default: () => {} },
   },
   data() {
     return {}
@@ -35,7 +35,7 @@ export default Vue.extend({
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     setting,
@@ -60,17 +60,17 @@ export default Vue.extend({
 
       if (sc) {
         return {
-          backgroundImage: `url(${sc})`
+          backgroundImage: `url(${sc})`,
         }
       } else {
         return {
           backgroundColor: item.themeColor,
           backgroundImage: `url(${item.icon})`,
-          backgroundPosition: "50% 50%"
+          backgroundPosition: "50% 50%",
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

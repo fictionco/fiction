@@ -12,10 +12,10 @@ import jsdom from "jsdom"
 import { FactorUser, UserRoles, userRolesMap } from "@factor/user/types"
 
 interface JSDomConfig {
-  port?: string;
-  route?: string;
-  url?: string;
-  options?: object;
+  port?: string
+  route?: string
+  url?: string
+  options?: object
 }
 
 export const getPort = async (): Promise<string> => {
@@ -23,7 +23,7 @@ export const getPort = async (): Promise<string> => {
   return String(port)
 }
 export const waitFor = (ms: number): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms || 0))
+  return new Promise((resolve) => setTimeout(resolve, ms || 0))
 }
 
 export const mockUser = (
@@ -38,13 +38,13 @@ export const mockUser = (
     email: "mock@mock.com",
     accessLevel: userRolesMap[role] || 0,
     role,
-    ...additional
+    ...additional,
   }
 }
 
 export const indexHtml = ({
   head = `<title>NOT SET</title>`,
-  body = `<div id="app"></div>`
+  body = `<div id="app"></div>`,
 } = {}): string => {
   return `<!DOCTYPE html><html><head>${head}</head><body>${body}</body></html>`
 }
@@ -101,7 +101,7 @@ export const renderAndGetWindow = async (
       // Mock window.scrollTo
       window.scrollTo = (): void => {}
     },
-    ...options
+    ...options,
   }
 
   const { window } = await jsdom.JSDOM.fromURL(url, options)

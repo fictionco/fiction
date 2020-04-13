@@ -2,7 +2,12 @@
   <div class="list-controls">
     <div class="list-controls-pad">
       <div class="select-all control-col">
-        <input v-model="selectAllSelected" type="checkbox" class="checkbox" @click="selectAll()" />
+        <input
+          v-model="selectAllSelected"
+          type="checkbox"
+          class="checkbox"
+          @click="selectAll()"
+        />
       </div>
       <div class="actions control-col">
         <div class="select-action">
@@ -51,12 +56,12 @@ export default Vue.extend({
     statusField: { type: String, default: "status" },
     selected: { type: Array, default: () => [] },
     list: { type: Array, default: () => [] },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
       selectAllSelected: false,
-      actionValue: ""
+      actionValue: "",
     }
   },
   computed: {
@@ -64,16 +69,16 @@ export default Vue.extend({
       return this.controlActions.filter(
         (item: ControlAction) => !item.condition || item.condition(this.$route.query)
       )
-    }
+    },
   },
   watch: {
-    selected: function(this: any, v: any[]) {
+    selected: function (this: any, v: any[]) {
       if (v.length > 0) {
         this.selectAllSelected = true
       } else {
         this.selectAllSelected = false
       }
-    }
+    },
   },
   methods: {
     toLabel,
@@ -91,7 +96,7 @@ export default Vue.extend({
       if (this.$route.query[controlId]) {
         return this.$route.query[controlId]
       } else {
-        const defaultControl = controls.find(_ => _.default)
+        const defaultControl = controls.find((_) => _.default)
         return defaultControl ? defaultControl.value : undefined
       }
     },
@@ -99,7 +104,7 @@ export default Vue.extend({
       return [
         { value: "createdAt", label: `Date Created`, default: true },
         { value: "date", label: `Date` },
-        { value: "updatedAt", label: `Date Updated` }
+        { value: "updatedAt", label: `Date Updated` },
       ]
     },
     setAction(this: any, value: string): void {
@@ -144,8 +149,8 @@ export default Vue.extend({
         this.selectAllSelected = false
         this.$emit("select-all", false)
       })
-    }
-  }
+    },
+  },
 })
 </script>
 

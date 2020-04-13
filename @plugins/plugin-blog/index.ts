@@ -27,7 +27,7 @@ export const loadAndStoreBlogIndex = async (): Promise<void> => {
     sort: "-date",
     page,
     limit,
-    sameSource: true
+    sameSource: true,
   })
 }
 
@@ -44,7 +44,7 @@ addPostType({
   namePlural: "Blog Posts",
   customPermalink: true,
   categories: setting("blog.categories"),
-  addSitemap: true
+  addSitemap: true,
 })
 
 /**
@@ -57,11 +57,11 @@ addContentRoute({
     {
       path: "/",
       component: setting("blog.components.blogIndex"),
-      meta: { index: true }
+      meta: { index: true },
     },
     {
       path: `${setting("blog.postRoute")}/:permalink`,
-      component: setting("blog.components.blogSingle")
-    }
-  ]
+      component: setting("blog.components.blogSingle"),
+    },
+  ],
 })

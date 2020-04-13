@@ -4,11 +4,27 @@
       <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
         <div class="stage-icons-wrap">
           <div class="stage-icons">
-            <img src="./img/plugin-jobs.svg" alt="Plugin Jobs" class="flying-icon icon-1" />
-            <img src="./img/plugin-email.svg" alt="Plugin Email" class="flying-icon icon-2" />
+            <img
+              src="./img/plugin-jobs.svg"
+              alt="Plugin Jobs"
+              class="flying-icon icon-1"
+            />
+            <img
+              src="./img/plugin-email.svg"
+              alt="Plugin Email"
+              class="flying-icon icon-2"
+            />
             <img src="./img/plugin-ssr.svg" alt="Plugin SSR" class="flying-icon icon-3" />
-            <img src="./img/plugin-blog.svg" alt="Plugin Blog" class="flying-icon icon-4" />
-            <img src="./img/plugin-notify.svg" alt="Plugin Notify" class="flying-icon icon-5" />
+            <img
+              src="./img/plugin-blog.svg"
+              alt="Plugin Blog"
+              class="flying-icon icon-4"
+            />
+            <img
+              src="./img/plugin-notify.svg"
+              alt="Plugin Notify"
+              class="flying-icon icon-5"
+            />
             <img
               src="./img/plugin-highlight-code.svg"
               alt="Plugin Highlight Code"
@@ -58,10 +74,10 @@ export default Vue.extend({
       figures: [
         { id: "dashboard", caption: "Your CMS Dashboard" },
         { id: "themes", caption: "Themes you'll love" },
-        { id: "code", caption: "Built for Web Professionals" }
+        { id: "code", caption: "Built for Web Professionals" },
       ],
       timer: false,
-      animationInterval: 5000
+      animationInterval: 5000,
     }
   },
   computed: {
@@ -73,7 +89,7 @@ export default Vue.extend({
     },
     scrollerBg(this: any) {
       return require("./img/code-editor.svg")
-    }
+    },
   },
 
   mounted() {
@@ -103,8 +119,8 @@ export default Vue.extend({
     runTimer(this: any) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
-    }
-  }
+    },
+  },
 })
 </script>
 

@@ -8,14 +8,14 @@ export const handleContext = async ({
   context,
   vm,
   router,
-  store
+  store,
 }: ApplicationComponents): Promise<ServerRenderContext> => {
   const { url = "" } = context
 
   const { fullPath } = router.resolve(url).route
 
   // Account for redirects
-  router.push(fullPath !== url ? fullPath : url).catch(error => log.error(error))
+  router.push(fullPath !== url ? fullPath : url).catch((error) => log.error(error))
 
   context = applyFilters("ssr-context-init", context, { vm, router, store })
 

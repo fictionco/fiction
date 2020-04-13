@@ -6,7 +6,8 @@
       class="entry-tag"
       :path="setting('jobs.indexRoute')"
       :query="{ tag }"
-    >{{ tag }}</factor-link>
+      >{{ tag }}</factor-link
+    >
   </div>
 </template>
 <script lang="ts">
@@ -17,7 +18,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
@@ -25,9 +26,9 @@ export default Vue.extend({
     },
     tags(this: any) {
       return this.post.tag || []
-    }
+    },
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 <style lang="less">

@@ -31,7 +31,8 @@
                   :href="h2.anchor"
                   :class="activeHash == h2.anchor ? 'scroll-active' : ''"
                   @click="clicked = true"
-                >{{ h2.text }}</a>
+                  >{{ h2.text }}</a
+                >
                 <ul v-if="false">
                   <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                     <a
@@ -41,7 +42,8 @@
                       "
                       :href="h3.anchor"
                       @click="clicked = true"
-                    >{{ h3.text }}</a>
+                      >{{ h3.text }}</a
+                    >
                   </li>
                 </ul>
               </li>
@@ -63,7 +65,7 @@ import { config } from "./docs-handler"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
-    mode: { type: String, default: "" }
+    mode: { type: String, default: "" },
   },
   data() {
     return {
@@ -72,13 +74,13 @@ export default Vue.extend({
       allHeaders: [],
       activeHash: this.$route.hash,
       hydrated: false,
-      navConfig: setting("site.nav")
+      navConfig: setting("site.nav"),
     }
   },
 
   computed: {
     siteNav(this: any) {
-      return this.navConfig.filter(item => !item.condition || item.condition())
+      return this.navConfig.filter((item) => !item.condition || item.condition())
     },
     nav() {
       return config()
@@ -86,16 +88,16 @@ export default Vue.extend({
 
     activeDoc(this: any): string {
       return this.$route.params.doc || ""
-    }
+    },
   },
   watch: {
-    $route: function(this: any, to: Route, from: Route): void {
+    $route: function (this: any, to: Route, from: Route): void {
       if (to.path != from.path) {
         this.setPage()
       } else if (to.hash != from.hash) {
         this.activeHash = to.hash
       }
-    }
+    },
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll())
@@ -160,19 +162,19 @@ export default Vue.extend({
     getHeaders(this: any, el: HTMLElement) {
       const out: any[] = []
 
-      el.querySelectorAll("h2").forEach(h2 => {
+      el.querySelectorAll("h2").forEach((h2) => {
         this.allHeaders.push(h2)
-        const sub = this.collectH3s(h2).map(h3 => {
+        const sub = this.collectH3s(h2).map((h3) => {
           this.allHeaders.push(h3)
           return {
             text: this.getHeaderText(h3),
-            anchor: `#${h3.id}`
+            anchor: `#${h3.id}`,
           }
         })
         out.push({
           text: this.getHeaderText(h2),
           anchor: `#${h2.id}`,
-          sub
+          sub,
         })
       })
       this.loading = false
@@ -192,7 +194,7 @@ export default Vue.extend({
     getHeaderText(h) {
       const text = [].slice
         .call(h.childNodes)
-        .map(function(node) {
+        .map(function (node) {
           return node.textContent
           // if (node.nodeType === Node.TEXT_NODE) {
           //   return node.nodeValue
@@ -205,8 +207,8 @@ export default Vue.extend({
         .join("")
 
       return text
-    }
-  }
+    },
+  },
 })
 </script>
 

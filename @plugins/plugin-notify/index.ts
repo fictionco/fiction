@@ -2,9 +2,9 @@ import { emitEvent, onEvent, pushToFilter, log } from "@factor/api"
 import { Component } from "vue"
 import { waitFor } from "@factor/api/utils"
 interface NotificationInfo {
-  type: "notify" | "error";
-  message: string;
-  duration?: number;
+  type: "notify" | "error"
+  message: string
+  duration?: number
 }
 
 /**
@@ -25,7 +25,7 @@ const toasterNotification = (
   if (typeof obj == "string") {
     message = obj
   } else {
-    ({ message = "", duration = 3000 } = obj)
+    ;({ message = "", duration = 3000 } = obj)
   }
 
   emitNotification({ type: "notify", message, duration })
@@ -50,8 +50,8 @@ export const setup = (): void => {
     key: "notification",
     item: {
       name: "plugin-notify",
-      component: (): Promise<Component> => import("./toaster.vue")
-    }
+      component: (): Promise<Component> => import("./toaster.vue"),
+    },
   })
 
   onEvent("notify", toasterNotification)

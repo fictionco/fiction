@@ -1,4 +1,3 @@
-
 <template>
   <div class="logo-img" :class="theme" itemprop="logo">
     <svg
@@ -49,11 +48,10 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    theme: { type: String, default: "" }
-  }
+    theme: { type: String, default: "" },
+  },
 })
 </script>
-
 
 <style lang="less">
 .logo-img {

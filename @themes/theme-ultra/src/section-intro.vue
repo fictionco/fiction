@@ -1,7 +1,11 @@
 <template>
   <section id="intro" class="page-container intro">
     <div class="intro-inner">
-      <h2 v-if="introPretitle" v-formatted-text="introPretitle" class="pretitle text-gray-600" />
+      <h2
+        v-if="introPretitle"
+        v-formatted-text="introPretitle"
+        class="pretitle text-gray-600"
+      />
       <h1 v-if="introTitle" v-formatted-text="introTitle" class="title text-gray-100" />
       <div v-if="introButtons" class="buttons">
         <template v-for="(button, index) in introButtons">
@@ -32,10 +36,10 @@ export default Vue.extend({
       introPretitle: setting("intro.pretitle"),
       introTitle: setting("intro.title"),
       introButtons: setting("intro.buttons"),
-      introActions: setting("intro.actions")
+      introActions: setting("intro.actions"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 <style lang="less" scoped>

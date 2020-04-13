@@ -28,7 +28,7 @@ jest.spyOn(endpointServer, "setAuthorizedUser").mockImplementation(
 
 let __id: string
 const spies = {
-  applyFilters: jest.spyOn(filters, "applyFilters")
+  applyFilters: jest.spyOn(filters, "applyFilters"),
 }
 describe("upload endpoint", () => {
   beforeAll(async () => {
@@ -52,11 +52,11 @@ describe("upload endpoint", () => {
     )
 
     const response = await endpoint.authorizedRequest(uploadEndpointPath(), form, {
-      headers: form.getHeaders()
+      headers: form.getHeaders(),
     })
 
     const {
-      result: { _id, size, url, mimetype, postType }
+      result: { _id, size, url, mimetype, postType },
     } = response.data
 
     __id = _id
@@ -81,7 +81,7 @@ describe("upload endpoint", () => {
     const r = (await endpoint.endpointRequest({
       id: "storage",
       method: "deleteImage",
-      params: { _id: __id }
+      params: { _id: __id },
     })) as { _id: string }
 
     expect(r._id).toBe(__id)

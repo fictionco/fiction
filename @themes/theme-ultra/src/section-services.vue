@@ -1,7 +1,15 @@
 <template>
   <section id="services" class="page-container services-container">
-    <h2 v-if="servicesPretitle" v-formatted-text="servicesPretitle" class="pretitle text-gray-100" />
-    <h1 v-if="servicesTitle" v-formatted-text="servicesTitle" class="title text-gray-100" />
+    <h2
+      v-if="servicesPretitle"
+      v-formatted-text="servicesPretitle"
+      class="pretitle text-gray-100"
+    />
+    <h1
+      v-if="servicesTitle"
+      v-formatted-text="servicesTitle"
+      class="title text-gray-100"
+    />
     <div class="content">
       <div
         v-for="(service, i) in servicesItems"
@@ -27,17 +35,17 @@ import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    "services-icon": () => import("./el/icon-services.vue")
+    "services-icon": () => import("./el/icon-services.vue"),
   },
   data() {
     return {
       loading: true,
       servicesPretitle: setting("services.pretitle"),
       servicesTitle: setting("services.title"),
-      servicesItems: setting("services.items")
+      servicesItems: setting("services.items"),
     }
   },
-  methods: { setting }
+  methods: { setting },
 })
 </script>
 

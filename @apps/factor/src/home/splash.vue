@@ -4,9 +4,8 @@
       <div class="content">
         <h1 class="page-title">Ship powerful web apps in minutes.</h1>
         <h3 class="page-title-sub">
-          <span class="highlight">Factor</span> is the
-          JavaScript CMS platform for
-          web professionals.
+          <span class="highlight">Factor</span> is the JavaScript CMS platform for web
+          professionals.
         </h3>
 
         <div class="actions">
@@ -34,13 +33,13 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
-    splashFigure: () => import("./figure-splash.vue")
+    splashFigure: () => import("./figure-splash.vue"),
   },
   computed: {
     version() {
       return `v${factorVersion()}`
-    }
-  }
+    },
+  },
 })
 </script>
 

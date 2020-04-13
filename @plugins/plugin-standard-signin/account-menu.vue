@@ -23,7 +23,11 @@
           </div>
 
           <div class="account-nav-items">
-            <div v-for="(group, groupIndex) in accountMenu" :key="groupIndex" class="list-group">
+            <div
+              v-for="(group, groupIndex) in accountMenu"
+              :key="groupIndex"
+              class="list-group"
+            >
               <div v-if="group.title" class="list-group-title">{{ group.title }}</div>
 
               <factor-link
@@ -33,7 +37,8 @@
                 :query="item.query"
                 :data-test="`account-nav-${item.key}`"
                 @click="itemClick(item)"
-              >{{ item.name }}</factor-link>
+                >{{ item.name }}</factor-link
+              >
             </div>
           </div>
         </div>
@@ -52,12 +57,12 @@ export default Vue.extend({
   name: "AccountMenu",
   components: { factorAvatar, factorLink },
   props: {
-    showName: { type: Boolean, default: false }
+    showName: { type: Boolean, default: false },
   },
   data() {
     return {
       toggle: false,
-      accountMenu: []
+      accountMenu: [],
     }
   },
   computed: {
@@ -66,7 +71,7 @@ export default Vue.extend({
     },
     role(this: any) {
       return this.currentUser.role || {}
-    }
+    },
   },
   created() {
     const menuStructure = [
@@ -75,15 +80,15 @@ export default Vue.extend({
           {
             key: "account",
             path: "/dashboard/account",
-            name: "Account Settings"
+            name: "Account Settings",
           },
           {
             key: "logout",
             click: () => logout(),
-            name: "Logout"
-          }
-        ]
-      }
+            name: "Logout",
+          },
+        ],
+      },
     ]
 
     this.$set(this, "accountMenu", menuStructure)
@@ -121,8 +126,8 @@ export default Vue.extend({
         this.toggle = false
         document.removeEventListener("click", this.clickHandler, false)
       }
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

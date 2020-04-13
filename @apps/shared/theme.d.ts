@@ -1,6 +1,6 @@
 interface Window {
-  fbq: any;
-  dataLayer?: object[];
-  ga?: any;
-  mixpanel?: any;
+  fbq: any
+  dataLayer?: object[]
+  ga?: any
+  mixpanel?: any
 }

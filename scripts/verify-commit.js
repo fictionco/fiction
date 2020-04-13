@@ -4,9 +4,7 @@
 
 const msgPath = process.env.GIT_PARAMS
 
-const msg = require("fs")
-  .readFileSync(msgPath, "utf-8")
-  .trim()
+const msg = require("fs").readFileSync(msgPath, "utf-8").trim()
 
 const chalk = require("chalk")
 

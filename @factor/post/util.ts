@@ -13,7 +13,7 @@ import {
   FactorPost,
   PostIndexMeta,
   PostActions,
-  PostStatus
+  PostStatus,
 } from "./types"
 
 export * from "./object-id"
@@ -51,7 +51,7 @@ export const getBaseSchema = (): FactorSchema => {
 export const getSchema = (postType: string): FactorSchema => {
   const schemas = getAddedSchemas()
 
-  return schemas.find(s => s.name == postType) ?? postSchema()
+  return schemas.find((s) => s.name == postType) ?? postSchema()
 }
 
 /**
@@ -61,10 +61,10 @@ export const getSchema = (postType: string): FactorSchema => {
  */
 export const getSchemaPopulatedFields = ({
   postType = "post",
-  depth = 10
+  depth = 10,
 }: {
-  postType: string;
-  depth: number;
+  postType: string
+  depth: number
 }): string[] => {
   let fields = getSchema("post").populatedFields || []
 
@@ -75,7 +75,7 @@ export const getSchemaPopulatedFields = ({
     fields = [...fields, ...postTypePopulated]
   }
 
-  const pop = fields.filter(_ => _.depth <= depth).map(_ => _.field)
+  const pop = fields.filter((_) => _.depth <= depth).map((_) => _.field)
 
   return pop
 }
@@ -86,10 +86,10 @@ export const getSchemaPopulatedFields = ({
  */
 export const getSchemaPermissions = ({
   postType,
-  embedded
+  embedded,
 }: {
-  postType: string;
-  embedded?: true;
+  postType: string
+  embedded?: true
 }): SchemaPermissions => {
   const { permissions = {} } = getSchema("post")
 
@@ -120,17 +120,17 @@ export const getSchemaPermissions = ({
  */
 export const isPostAuthor = ({
   user,
-  post
+  post,
 }: {
-  user: CurrentUserState;
-  post: FactorPost;
+  user: CurrentUserState
+  post: FactorPost
 }): boolean => {
   if (!user) {
     return false
   }
 
   const userId = user._id.toString()
-  const authors = post.author ? post.author.map(authorId => authorId.toString()) : []
+  const authors = post.author ? post.author.map((authorId) => authorId.toString()) : []
   const postId = post._id.toString()
 
   return (userId && authors.includes(userId)) || userId == postId ? true : false
@@ -149,12 +149,12 @@ export const getStatusCount = ({
   meta,
   field = "status",
   key,
-  nullKey = ""
+  nullKey = "",
 }: {
-  meta: PostIndexMeta;
-  field?: string;
-  key: string;
-  nullKey?: string;
+  meta: PostIndexMeta
+  field?: string
+  key: string
+  nullKey?: string
 }): number => {
   if (!meta[field]) return 0
 
@@ -175,19 +175,19 @@ export const postPermission = ({
   bearer,
   post,
   action,
-  embedded
+  embedded,
 }: {
-  bearer: CurrentUserState;
-  post: FactorPost;
-  action: PostActions;
-  embedded?: true;
+  bearer: CurrentUserState
+  post: FactorPost
+  action: PostActions
+  embedded?: true
 }): true | never => {
   const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "", embedded })
 
   const { accessLevel = 500, accessPublished = 500, accessAuthor } = permissionsConfig[
     action
   ] ?? {
-    accessLevel: 500
+    accessLevel: 500,
   }
 
   const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous
@@ -220,7 +220,7 @@ export const postPermission = ({
 export const manyPostsPermissionCondition = ({
   bearer,
   action,
-  postType
+  postType,
 }: DetermineUpdatePermissions): { author?: string; status?: PostStatus } => {
   const permissionsConfig = getSchemaPermissions({ postType })
 
@@ -229,9 +229,9 @@ export const manyPostsPermissionCondition = ({
   const {
     accessLevel = HIGHEST_LEVEL,
     accessAuthor,
-    accessPublished = HIGHEST_LEVEL
+    accessPublished = HIGHEST_LEVEL,
   } = permissionsConfig[action] ?? {
-    accessLevel: HIGHEST_LEVEL
+    accessLevel: HIGHEST_LEVEL,
   }
 
   const userRole = (bearer?.role as UserRoles) ?? UserRoles.Anonymous

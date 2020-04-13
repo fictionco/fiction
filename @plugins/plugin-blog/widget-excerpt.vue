@@ -15,17 +15,17 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorIcon },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
   methods: {
     excerpt,
-    postLink
-  }
+    postLink,
+  },
 })
 </script>
 <style lang="less">

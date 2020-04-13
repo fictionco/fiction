@@ -16,20 +16,20 @@ export default Vue.extend({
   props: {
     customValidity: {
       type: [String, Boolean],
-      default: ""
-    }
+      default: "",
+    },
   },
   mounted() {
     this.$watch(
       "customValidity",
-      function(this: any, v?: string | boolean) {
+      function (this: any, v?: string | boolean) {
         if (typeof v === "string" && this.$refs.customValidity) {
           this.$refs.customValidity.setCustomValidity(v)
         }
       },
       { immediate: true }
     )
-  }
+  },
 })
 </script>
 <style lang="less">

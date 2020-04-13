@@ -1,6 +1,8 @@
 <template>
   <h1 class="entry-title">
-    <factor-link class="entry-title-text" :path="postLink(post._id)">{{ post.title }}</factor-link>
+    <factor-link class="entry-title-text" :path="postLink(post._id)">{{
+      post.title
+    }}</factor-link>
     <factor-post-edit :post-id="post._id" />
   </h1>
 </template>
@@ -13,14 +15,14 @@ import Vue from "vue"
 export default Vue.extend({
   components: { factorLink, factorPostEdit },
   props: {
-    postId: { type: String, default: "" }
+    postId: { type: String, default: "" },
   },
   computed: {
     post(this: any) {
       return stored(this.postId) || {}
-    }
+    },
   },
-  methods: { postLink }
+  methods: { postLink },
 })
 </script>
 <style lang="less">

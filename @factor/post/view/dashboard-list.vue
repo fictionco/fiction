@@ -6,7 +6,8 @@
         :path="`/dashboard/posts/${postType}/add-new`"
         btn="primary"
         data-test="add-post"
-      >Add New &rarr;</factor-link>
+        >Add New &rarr;</factor-link
+      >
     </template>
 
     <component
@@ -31,12 +32,12 @@ export default Vue.extend({
   data() {
     return {
       loading: true,
-      sending: false
+      sending: false,
     }
   },
   metaInfo() {
     return {
-      title: this.postTypeLabel
+      title: this.postTypeLabel,
     }
   },
 
@@ -76,17 +77,17 @@ export default Vue.extend({
         category,
         tag,
         role,
-        direction = "descending"
+        direction = "descending",
       } = this.$route.query
 
       sort = { [sort]: direction }
       return { postType, page, status, category, tag, role, sort }
-    }
+    },
   },
   watch: {
-    $route: function(this: any) {
+    $route: function (this: any) {
       this.setPosts()
-    }
+    },
   },
   mounted() {
     this.setPosts()
@@ -101,8 +102,8 @@ export default Vue.extend({
 
       await requestPostIndex({ ...this.filters, cache: false })
       this.loading = false
-    }
-  }
+    },
+  },
 })
 </script>
 <style lang="less">

@@ -10,9 +10,9 @@ export const setup = (): void => {
       path: "account",
       component: (): Promise<Component> => import("./v-account.vue"),
       meta: {
-        postType: "user"
-      }
-    }
+        postType: "user",
+      },
+    },
   })
 
   pushToFilter({
@@ -22,8 +22,8 @@ export const setup = (): void => {
       group: "account",
       path: "account",
       name: "Your Account",
-      icon: require("./img/users.svg")
-    }
+      icon: require("./img/users.svg"),
+    },
   })
 
   addFilter({
@@ -34,14 +34,14 @@ export const setup = (): void => {
         ..._,
         {
           path: "account",
-          name: "Profile Settings"
+          name: "Profile Settings",
         },
         {
           click: (): Promise<void> => logout(),
-          name: "Logout"
-        }
+          name: "Logout",
+        },
       ]
-    }
+    },
   })
 
   addPostType({
@@ -54,7 +54,7 @@ export const setup = (): void => {
     editTemplate: (): Promise<Component> => import("./v-edit.vue"),
     baseRoute: "@",
     accessLevel: 500,
-    noAddNew: true
+    noAddNew: true,
   })
 }
 setup()
