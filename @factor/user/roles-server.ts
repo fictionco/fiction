@@ -58,7 +58,7 @@ const validateUserRoles = async function (
 
   if (this.emailVerified || process.env.NODE_ENV == "development") {
     const envAdmins = process.env.FACTOR_ADMINS
-    const admins = envAdmins ? envAdmins.split(",") : setting(`admins`)
+    const admins = envAdmins ? envAdmins.split(",") : setting(`admins`) ?? []
     const adminUserEmail = admins.find((email: string) => this.email == email.trim())
 
     const settingRole = setting(`roles.${this.email}`)

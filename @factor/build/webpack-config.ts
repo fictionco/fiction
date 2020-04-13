@@ -106,7 +106,11 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     },
     resolve: {
       extensions: [".js", ".vue", ".json", ".ts"],
-      alias: applyFilters("webpack-aliases", {}, _arguments),
+      alias: applyFilters(
+        "webpack-aliases",
+        { static: getPath('static', cwd) },
+        _arguments
+      ),
     },
     module: {
       rules: applyFilters(

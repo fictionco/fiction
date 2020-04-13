@@ -164,6 +164,32 @@ export const addContentRoute = (routeItem: RouteConfig, options?: object): void 
 }
 
 /**
+ * Adds an array of routes to the router.
+ *
+ * @param _id A unique group identifier for the routes
+ * @param routeItems Array of standard routes
+ * @param options Optional route options
+ * @category app
+ */
+export const addContentRoutes = ({
+  key,
+  routes,
+}: {
+  key: string
+  routes: RouteConfig[] | (() => RouteConfig[])
+}): void => {
+  addFilter({
+    hook: "content-routes",
+    key,
+    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
+      const r = typeof routes === "function" ? routes() : routes
+
+      return allRoutes.concat(r)
+    },
+  })
+}
+
+/**
  * Recurse through routes and child routes
  * Calling a callback for each route
  * @param routes
@@ -225,32 +251,6 @@ export const editContentRoute = ({
       return allRoutes
     },
     priority: 200,
-  })
-}
-
-/**
- * Adds an array of routes to the router.
- *
- * @param _id A unique group identifier for the routes
- * @param routeItems Array of standard routes
- * @param options Optional route options
- * @category app
- */
-export const addContentRoutes = ({
-  key,
-  routes,
-}: {
-  key: string
-  routes: RouteConfig[] | (() => RouteConfig[])
-}): void => {
-  addFilter({
-    hook: "content-routes",
-    key,
-    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
-      const r = typeof routes === "function" ? routes() : routes
-
-      return allRoutes.concat(r)
-    },
   })
 }
 

@@ -256,7 +256,7 @@ export const dbSetupUtility = (): void => {
       item: {
         title: "Using Demo DB",
         value:
-          "You are using the demo DB (resets every 30 minutes). Change it to your own connection in .env",
+          "You are using the demo DB which resets itself every 30 minutes (process.env.DB_CONNECTION)",
         file: ".env",
         name: "DB_CONNECTION",
       },

@@ -4,10 +4,6 @@
     "noEmit": true,
     "target": "ES2018",
     "module": "commonjs",
-    // "checkJs": true,
-    // "declaration": true,
-    // "declarationMap": true,
-    //"sourceMap": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -16,25 +12,22 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-
     "skipLibCheck": true,
     "paths": {
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],
       "__FIND__/*": ["test/modules/alias/*"]
-    },
-    "typeRoots": ["node_modules/@types", "**/types", "**/@types"]
+    }
   },
 
   "exclude": [
-    "cypress",
+    "node_modules",
     "**/dist",
+    "cypress",
     "reports",
     "coverage",
-    "**/prism.js",
     "**/iconfont.js",
     "**/.ref*",
-    "node_modules",
     "**/create-factor-app/*"
   ]
 }

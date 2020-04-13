@@ -13,6 +13,7 @@ export default Vue.extend({
     query: { type: Object, default: () => {} },
     loading: { type: Boolean, default: false },
     text: { type: String, default: "" },
+    to: { type: [String, Object], default: "" },
   },
 
   render: function (createElement: CreateElement): VNode {
@@ -39,11 +40,11 @@ export default Vue.extend({
       el = "a"
       attrs = { href: path }
       props = []
-    } else if (path) {
+    } else if (path || this.to) {
       el = "router-link"
-      attrs = {}
+      attrs = this.$attrs ?? {}
       props = {
-        to: { path, query },
+        to: path ? { path, query } : this.to,
       }
     }
 

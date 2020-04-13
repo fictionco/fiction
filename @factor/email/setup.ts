@@ -11,8 +11,8 @@ export const setup = (): void => {
       key,
       hook: "setup-needed",
       item: {
-        title: "Email Credentials",
-        value: "SMTP credential information is needed to send transactional email",
+        title: "SMTP Email Setup",
+        value: "Needed to send transactional email",
         file: ".env",
         name: ["SMTP_USERNAME", "SMTP_PASSWORD", "SMTP_HOST", "SMTP_PORT"],
       },
