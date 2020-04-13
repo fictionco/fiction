@@ -16,12 +16,16 @@
       </span>
     </div>
     <div v-if="!toggleValue" class="edit-actions">
-      <factor-btn-dashboard size="tiny" class="edit" @click="setToggle()"
-        >Edit Permalink</factor-btn-dashboard
-      >
-      <factor-btn-dashboard size="tiny" class="edit" @click="updateFromInitial()"
-        >Update from Title</factor-btn-dashboard
-      >
+      <factor-btn-dashboard
+        size="tiny"
+        class="edit"
+        @click="setToggle()"
+      >Edit Permalink</factor-btn-dashboard>
+      <factor-btn-dashboard
+        size="tiny"
+        class="edit"
+        @click="updateFromInitial()"
+      >Update from Title</factor-btn-dashboard>
     </div>
   </div>
 </template>

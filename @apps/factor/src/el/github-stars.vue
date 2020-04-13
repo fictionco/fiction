@@ -10,8 +10,7 @@
         data-size="large"
         data-show-count="true"
         aria-label="Star fiction-com/factor on GitHub"
-        >{{ text }}</a
-      >
+      >{{ text }}</a>
     </div>
   </transition>
 </template>

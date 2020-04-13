@@ -82,9 +82,10 @@
       <div v-else class="no-posts">
         <div class="title">Nothing Found</div>
         <div class="actions">
-          <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`"
-            >Start A Discussion</factor-link
-          >
+          <factor-link
+            btn="primary"
+            :path="`${setting('forum.indexRoute')}/add-new`"
+          >Start A Discussion</factor-link>
         </div>
       </div>
     </div>

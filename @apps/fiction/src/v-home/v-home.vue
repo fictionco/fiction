@@ -33,9 +33,10 @@
           </p>
 
           <div class="header-actions">
-            <factor-link btn="primary" path="/signin?newAccount"
-              >Create Account &rarr;</factor-link
-            >
+            <factor-link
+              btn="primary"
+              path="/signin?newAccount"
+            >Create Account &rarr;</factor-link>
           </div>
         </div>
         <figure-header />
@@ -70,12 +71,12 @@
             data-size="large"
             data-show-count="true"
             aria-label="Star fiction-com/factor on GitHub"
-            >Star</a
-          >
+          >Star</a>
 
-          <factor-link path="/factor-js" btn="primary"
-            >Factor Developer Site &rarr;</factor-link
-          >
+          <factor-link
+            path="/factor-js"
+            btn="primary"
+          >Factor Developer Site &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -159,9 +160,10 @@
             chat access, latest updates and support.
           </div>
           <div class="action">
-            <factor-link btn="primary" path="/signin?newAccount"
-              >Create Account &rarr;</factor-link
-            >
+            <factor-link
+              btn="primary"
+              path="/signin?newAccount"
+            >Create Account &rarr;</factor-link>
           </div>
         </div>
       </div>

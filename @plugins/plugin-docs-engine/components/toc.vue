@@ -12,8 +12,7 @@
             :href="h2.anchor"
             :class="isActive(h2.anchor) ? 'scroll-active' : ''"
             @click.prevent="setClick(h2.anchor)"
-            >{{ h2.text }}</a
-          >
+          >{{ h2.text }}</a>
           <!--To turn this back on use condition: h2.sub && isActive(h2.anchor, h2.sub.map(h3 => h3.anchor)) -->
           <ul v-if="false">
             <li v-for="(h3, ii) in h2.sub" :key="ii">
@@ -22,8 +21,7 @@
                 :class="isActive(h3.anchor) ? 'scroll-active' : ``"
                 :href="h3.anchor"
                 @click.prevent="setClick(h3.anchor)"
-                >{{ h3.text }}</a
-              >
+              >{{ h3.text }}</a>
             </li>
           </ul>
         </li>

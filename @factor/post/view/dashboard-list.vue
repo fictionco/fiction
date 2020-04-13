@@ -6,8 +6,7 @@
         :path="`/dashboard/posts/${postType}/add-new`"
         btn="primary"
         data-test="add-post"
-        >Add New &rarr;</factor-link
-      >
+      >Add New &rarr;</factor-link>
     </template>
 
     <component

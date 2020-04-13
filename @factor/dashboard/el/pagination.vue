@@ -2,13 +2,15 @@
   <div class="pagination">
     <div v-if="count && count > 0" class="items">{{ count }} Items</div>
     <template v-if="pageCount && pageCurrent">
-      <factor-btn-dashboard :disabled="pageCurrent == 1" @click="page('previous')"
-        >&larr;</factor-btn-dashboard
-      >
+      <factor-btn-dashboard
+        :disabled="pageCurrent == 1"
+        @click="page('previous')"
+      >&larr;</factor-btn-dashboard>
       <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-      <factor-btn-dashboard :disabled="pageCurrent == pageCount" @click="page('next')"
-        >&rarr;</factor-btn-dashboard
-      >
+      <factor-btn-dashboard
+        :disabled="pageCurrent == pageCount"
+        @click="page('next')"
+      >&rarr;</factor-btn-dashboard>
     </template>
   </div>
 </template>

@@ -9,8 +9,7 @@
       :path="post.jobCompanyWebsite"
       target="_blank"
       class="company"
-      >{{ post.jobCompanyName }}</factor-link
-    >
+    >{{ post.jobCompanyName }}</factor-link>
     <span v-else-if="post.jobCompanyName" class="company">{{ post.jobCompanyName }}</span>
   </div>
 </template>

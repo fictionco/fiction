@@ -31,8 +31,7 @@
           :path="getDashboardRoute(item.path)"
           :query="item.query"
           @click="handleItemClick(item)"
-          >{{ item.name }}</factor-link
-        >
+        >{{ item.name }}</factor-link>
       </div>
     </transition>
   </div>

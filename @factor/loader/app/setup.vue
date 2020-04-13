@@ -85,8 +85,7 @@
                       skip.app = true
                       nextStep()
                     "
-                    >skip this step</span
-                  >
+                  >skip this step</span>
                 </div>
               </div>
             </div>
@@ -131,8 +130,7 @@
                       skip.account = true
                       nextStep()
                     "
-                    >skip this step</span
-                  >
+                  >skip this step</span>
                 </div>
               </div>
             </div>
@@ -170,8 +168,7 @@
                           skip.theme = true
                           nextStep()
                         "
-                        >skip this step</span
-                      >
+                      >skip this step</span>
                     </div>
                   </div>
                 </form>
@@ -208,14 +205,12 @@
                     class="addendum"
                     href="https://docs.mongodb.com/manual/reference/connection-string/"
                     target="_blank"
-                    >MongoDB Docs</a
-                  >
+                  >MongoDB Docs</a>
                   <a
                     class="addendum"
                     href="https://youtu.be/KKyag6t98g8?t=90"
                     target="_blank"
-                    >Video Tutorial</a
-                  >
+                  >Video Tutorial</a>
                 </div>
               </div>
               <form class="setup-form">
@@ -244,8 +239,7 @@
                       skip.app = true
                       nextStep()
                     "
-                    >skip and use the demo db</span
-                  >
+                  >skip and use the demo db</span>
                 </div>
               </div>
             </div>

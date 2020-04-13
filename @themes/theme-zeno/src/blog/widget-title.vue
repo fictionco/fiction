@@ -4,8 +4,7 @@
       <factor-link
         class="font-normal tracking-tight leading-tight text-2xl text-purple-900 mt-5 hover:text-purple-500"
         :path="postLink(post._id)"
-        >{{ post.title }}</factor-link
-      >
+      >{{ post.title }}</factor-link>
       <factor-post-edit
         :post-id="post._id"
         class="block mt-2 text-normal text-gray-600 hover:text-purple-500"

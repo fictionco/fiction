@@ -8,8 +8,7 @@
         class="entry-tag rounded-full bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
         :path="setting('work.indexRoute')"
         :query="{ tag }"
-        >{{ tag }}</factor-link
-      >
+      >{{ tag }}</factor-link>
     </div>
   </div>
 </template>

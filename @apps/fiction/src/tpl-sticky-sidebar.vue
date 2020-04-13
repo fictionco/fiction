@@ -11,8 +11,7 @@
               :href="h2.anchor"
               :class="$route.hash == h2.anchor ? 'active' : 'not'"
               @click="clicked = true"
-              >{{ h2.text }}</a
-            >
+            >{{ h2.text }}</a>
             <ul v-if="h2.sub.length">
               <li v-for="(h3, indexSub) in h2.sub" :key="indexSub">
                 <a
@@ -20,8 +19,7 @@
                   :class="$route.hash == h3.anchor ? 'active' : 'not'"
                   :href="h3.anchor"
                   @click="clicked = true"
-                  >{{ h3.text }}</a
-                >
+                >{{ h3.text }}</a>
               </li>
             </ul>
           </li>

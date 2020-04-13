@@ -17,11 +17,12 @@
           v-else-if="!userLoading"
           event="sign-in-modal"
           data-test="signin-link"
-          >Sign In</factor-link
-        >
-        <factor-link v-if="$route.path != '/install'" path="/install" btn="primary"
-          >Install Factor &rarr;</factor-link
-        >
+        >Sign In</factor-link>
+        <factor-link
+          v-if="$route.path != '/install'"
+          path="/install"
+          btn="primary"
+        >Install Factor &rarr;</factor-link>
       </div>
     </div>
   </div>

@@ -25,7 +25,7 @@ const toasterNotification = (
   if (typeof obj == "string") {
     message = obj
   } else {
-    ;({ message = "", duration = 3000 } = obj)
+    ({ message = "", duration = 3000 } = obj)
   }
 
   emitNotification({ type: "notify", message, duration })

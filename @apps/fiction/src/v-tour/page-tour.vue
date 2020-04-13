@@ -31,9 +31,9 @@
               in a matter of minutes, with only basic coding knowledge.
             </p>
             <div class="actions">
-              <factor-link path="https://factor.dev/docs/quickstart"
-                >Learn How &rarr;</factor-link
-              >
+              <factor-link
+                path="https://factor.dev/docs/quickstart"
+              >Learn How &rarr;</factor-link>
             </div>
           </div>
           <div class="banner-figure">
@@ -142,9 +142,11 @@
               </p>
               <div class="attribution">
                 <div class="cite">Matt Walsh</div>
-                <factor-link path="#" target="_blank" @click.prevent
-                  >Relic Apps Ltd.</factor-link
-                >
+                <factor-link
+                  path="#"
+                  target="_blank"
+                  @click.prevent
+                >Relic Apps Ltd.</factor-link>
               </div>
             </blockquote>
           </div>

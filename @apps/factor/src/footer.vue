@@ -27,21 +27,24 @@
       </div>
       <div class="footer-col list">
         <div class="menu-header">Community</div>
-        <factor-link path="https://go.factor.dev/slack" target="_blank"
-          >Slack Channel</factor-link
-        >
-        <factor-link path="https://go.factor.dev/github" target="_blank"
-          >Github repo</factor-link
-        >
+        <factor-link
+          path="https://go.factor.dev/slack"
+          target="_blank"
+        >Slack Channel</factor-link>
+        <factor-link
+          path="https://go.factor.dev/github"
+          target="_blank"
+        >Github repo</factor-link>
         <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link>
         <factor-link path="/#join">Join dev program</factor-link>
       </div>
       <div class="footer-col list">
         <div class="menu-header">Company</div>
         <factor-link path="https://www.fiction.com/careers">We're hiring</factor-link>
-        <factor-link path="https://go.factor.dev/facebook" target="_blank"
-          >Facebook</factor-link
-        >
+        <factor-link
+          path="https://go.factor.dev/facebook"
+          target="_blank"
+        >Facebook</factor-link>
         <factor-link path="https://www.fiction.com/contact">Contact Us</factor-link>
       </div>
 

@@ -37,8 +37,7 @@
                 :query="item.query"
                 :data-test="`account-nav-${item.key}`"
                 @click="itemClick(item)"
-                >{{ item.name }}</factor-link
-              >
+              >{{ item.name }}</factor-link>
             </div>
           </div>
         </div>

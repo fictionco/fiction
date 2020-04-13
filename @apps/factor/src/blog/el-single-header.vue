@@ -4,9 +4,7 @@
       <div class="inner">
         <component :is="setting('blog.components.returnLink')" :post-id="postId" />
         <h1 class="title">
-          <factor-link :path="postLink(post._id)" class="headline">{{
-            post.title
-          }}</factor-link>
+          <factor-link :path="postLink(post._id)" class="headline">{{ post.title }}</factor-link>
         </h1>
 
         <h3 class="hero-content">{{ post.synopsis }}</h3>
@@ -25,8 +23,7 @@
               itemprop="author"
               itemscope
               itemtype="http://schema.org/Person"
-              >{{ getPost(authorId).displayName }}</span
-            >
+            >{{ getPost(authorId).displayName }}</span>
           </div>
         </div>
       </div>

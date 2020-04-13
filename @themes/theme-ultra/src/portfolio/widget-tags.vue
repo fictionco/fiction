@@ -6,8 +6,7 @@
       class="entry-tag hover:text-white"
       :path="setting('portfolio.indexRoute')"
       :query="{ tag }"
-      >{{ tag }}</factor-link
-    >
+    >{{ tag }}</factor-link>
   </div>
 </template>
 <script lang="ts">

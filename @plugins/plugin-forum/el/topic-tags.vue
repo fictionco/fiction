@@ -6,8 +6,7 @@
       class="tag"
       :path="setting(`forum.indexRoute`)"
       :query="{ tag }"
-      >{{ tag }}</factor-link
-    >
+    >{{ tag }}</factor-link>
   </div>
 </template>
 <script lang="ts">

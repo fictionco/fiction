@@ -8,8 +8,7 @@
           itemprop="author"
           itemscope
           itemtype="http://schema.org/Person"
-          >{{ getPost(authorId).displayName }}</span
-        >
+        >{{ getPost(authorId).displayName }}</span>
       </div>
       <span class="sep">on</span>
       <span class="date">{{ standardDate(post.date) }}</span>

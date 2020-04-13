@@ -19,15 +19,13 @@
               <factor-link
                 btn="primary"
                 :path="`/theme/${encodeURIComponent(item.permalink)}`"
-                >Overview</factor-link
-              >
+              >Overview</factor-link>
               <factor-link
                 v-if="item.demo"
                 btn="default"
                 :path="item.demo"
                 target="_blank"
-                >Demo</factor-link
-              >
+              >Demo</factor-link>
             </div>
           </div>
           <div class="media">

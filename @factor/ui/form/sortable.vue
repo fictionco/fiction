@@ -45,9 +45,10 @@
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard size="small" @click="removeItem(selected)"
-            >Remove Item</factor-btn-dashboard
-          >
+          <factor-btn-dashboard
+            size="small"
+            @click="removeItem(selected)"
+          >Remove Item</factor-btn-dashboard>
         </div>
       </div>
     </div>

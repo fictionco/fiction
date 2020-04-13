@@ -6,10 +6,8 @@
         <div class="ext-content-pad header-pad">
           <div class="content">
             <factor-link class="back" :path="`/${extensionType}s`">
-              <span
-                >&larr; Back to
-                {{ extensionType == "theme" ? "Themes" : "Plugins" }}</span
-              >
+              <span>&larr; Back to
+                {{ extensionType == "theme" ? "Themes" : "Plugins" }}</span>
             </factor-link>
             <div class="text">
               <div class="title-wrap">
@@ -19,16 +17,16 @@
                 <h1 class="title">{{ post.title }}</h1>
                 <h3 v-formatted-text="getContent(post.synopsis)" class="description" />
                 <div class="actions">
-                  <factor-link btn="primary" @click="scrollTo(`#install`)"
-                    >Add to Project &darr;</factor-link
-                  >
+                  <factor-link
+                    btn="primary"
+                    @click="scrollTo(`#install`)"
+                  >Add to Project &darr;</factor-link>
                   <factor-link
                     v-if="post.demo"
                     btn="default"
                     :path="post.demo"
                     target="_blank"
-                    >View Demo &rarr;</factor-link
-                  >
+                  >View Demo &rarr;</factor-link>
                 </div>
               </div>
             </div>

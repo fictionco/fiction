@@ -6,8 +6,7 @@
         :key="video.id"
         :class="video.id == selected ? 'active' : ''"
         :path="`#${video.id}`"
-        >{{ index + 1 }}. {{ toLabel(video.id) }}</factor-link
-      >
+      >{{ index + 1 }}. {{ toLabel(video.id) }}</factor-link>
     </nav>
     <div class="start-content">
       <section v-for="video in videos" :id="video.id" :key="video.id" class="video-entry">

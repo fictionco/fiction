@@ -4,8 +4,7 @@
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{ _id: post._id }"
-    >{{ editText }} &rarr;</factor-link
-  >
+  >{{ editText }} &rarr;</factor-link>
 </template>
 
 <script lang="ts">

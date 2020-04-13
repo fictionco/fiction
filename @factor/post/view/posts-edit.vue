@@ -2,9 +2,11 @@
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
       <factor-link btn="default" :path="url">View</factor-link>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()"
-        >Update</factor-btn-dashboard
-      >
+      <factor-btn-dashboard
+        btn="primary"
+        :loading="sending"
+        @click="savePost()"
+      >Update</factor-btn-dashboard>
     </template>
     <template #primary>
       <dashboard-pane class="compose">

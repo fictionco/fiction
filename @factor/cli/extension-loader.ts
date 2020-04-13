@@ -295,7 +295,7 @@ const recursiveDependencies = (
 
         if (!options?.shallow) {
           // Preceding (;) is needed when not using const/let
-          ;({ dependents, disabled } = recursiveDependencies(
+          ({ dependents, disabled } = recursiveDependencies(
             dependents,
             _,
             disabled,
@@ -517,7 +517,7 @@ const verifyMainFiles = (extensions: FactorExtension[], cwd?: string): void | ne
   let mainFiles: string[] = []
 
   extensions.forEach(({ isCwd, load: { app, server }, name }) => {
-    ;[app, server].forEach((environment) => {
+    [app, server].forEach((environment) => {
       if (environment.length > 0) {
         mainFiles.push(
           ...environment.map((_) =>

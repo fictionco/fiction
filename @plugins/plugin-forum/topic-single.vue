@@ -65,12 +65,18 @@
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>
           </div>
-          <factor-btn v-if="currentUser" class="item" btn="primary" @click="focusReply()"
-            >Add Reply &darr;</factor-btn
-          >
-          <factor-link v-else event="sign-in-modal" class="item" btn="primary"
-            >Login to Reply &rarr;</factor-link
-          >
+          <factor-btn
+            v-if="currentUser"
+            class="item"
+            btn="primary"
+            @click="focusReply()"
+          >Add Reply &darr;</factor-btn>
+          <factor-link
+            v-else
+            event="sign-in-modal"
+            class="item"
+            btn="primary"
+          >Login to Reply &rarr;</factor-link>
           <factor-btn
             v-if="currentUser"
             class="item"

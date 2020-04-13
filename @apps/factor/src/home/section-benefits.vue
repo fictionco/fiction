@@ -68,9 +68,11 @@
       </div>
 
       <div class="buttons">
-        <factor-link btn="primary" size="large" path="/install"
-          >Start Now &rarr;</factor-link
-        >
+        <factor-link
+          btn="primary"
+          size="large"
+          path="/install"
+        >Start Now &rarr;</factor-link>
       </div>
     </div>
   </div>

@@ -32,8 +32,7 @@
         :size="setting('contactForm.submit.size')"
         :loading="sending"
         data-test="contact-form-submit"
-        >{{ setting("contactForm.submit.text") }}</factor-input-submit
-      >
+      >{{ setting("contactForm.submit.text") }}</factor-input-submit>
     </div>
   </factor-form>
 </template>

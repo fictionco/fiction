@@ -37,9 +37,9 @@
             </div>
             <div class="sub-title">
               Add
-              <factor-link path="https://fiction.page.link/discord"
-                >Fiction's chat server</factor-link
-              >&nbsp; on Discord
+              <factor-link
+                path="https://fiction.page.link/discord"
+              >Fiction's chat server</factor-link>&nbsp; on Discord
             </div>
           </div>
         </div>

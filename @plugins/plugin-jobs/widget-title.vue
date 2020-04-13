@@ -10,8 +10,7 @@
       itemscope
       itemtype="http://schema.org/Place"
       class="location"
-      >{{ post.jobLocation }}</span
-    >
+    >{{ post.jobLocation }}</span>
 
     <factor-post-edit :post-id="post._id" />
   </div>

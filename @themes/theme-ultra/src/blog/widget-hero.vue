@@ -18,8 +18,7 @@
           <factor-link
             :path="postLink(post._id)"
             class="text-gray-100 hover:text-red-500"
-            >{{ post.title }}</factor-link
-          >
+          >{{ post.title }}</factor-link>
         </h1>
         <h3 class="entry-subtitle text-gray-100">{{ post.subTitle }}</h3>
         <factor-post-edit :post-id="post._id" />

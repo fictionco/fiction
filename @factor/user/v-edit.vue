@@ -1,9 +1,11 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()"
-        >Update</factor-btn-dashboard
-      >
+      <factor-btn-dashboard
+        btn="primary"
+        :loading="sending"
+        @click="save()"
+      >Update</factor-btn-dashboard>
     </template>
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">
@@ -56,8 +58,7 @@
               btn="primary"
               :loading="sending"
               @click="sendVerifyEmail()"
-              >Unverified - Resend Email &rarr;</factor-btn-dashboard
-            >
+            >Unverified - Resend Email &rarr;</factor-btn-dashboard>
           </div>
         </dashboard-input>
 

@@ -179,9 +179,9 @@
           <template v-for="(item, index) in section6Items">
             <div :key="index" class="w-full p-8 md:w-1/2">
               <blockquote v-if="item.content" class="relative inline-block">
-                <span class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6"
-                  >&ldquo;</span
-                >
+                <span
+                  class="absolute text-6xl text-purple-600 font-serif -ml-10 -mt-6"
+                >&ldquo;</span>
                 <span
                   v-formatted-text="item.content"
                   class="leading-relaxed text-gray-600"

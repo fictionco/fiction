@@ -1,17 +1,17 @@
+/* eslint-disable no-console */
 export default {
   methods: {
     log(...args) {
-      console.log(...args) // eslint-disable-line no-console
+      console.log(...args)
     },
 
     logError(...args) {
-      console.error(...args) // eslint-disable-line no-console
+      console.error(...args)
     },
 
     clearConsole() {
       if (typeof console.clear === "function") {
-        // eslint-disable-line no-console
-        console.clear() // eslint-disable-line no-console
+        console.clear()
       }
     },
   },
