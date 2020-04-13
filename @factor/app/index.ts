@@ -1,11 +1,12 @@
 import { setting } from "@factor/api/settings"
 import { addFilter, applyFilters, addCallback } from "@factor/api/hooks"
 import { onEvent } from "@factor/api/events"
+import { isNode } from "@factor/api/utils"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
 
 const waitForMountApp = (): Promise<void> => {
-  return new Promise(resolve => onEvent("app-mounted", () => resolve()))
+  return new Promise((resolve) => onEvent("app-mounted", () => resolve()))
 }
 
 const clientIsMountedPromise = waitForMountApp()
@@ -21,6 +22,16 @@ export const appMounted = async (callback?: Function): Promise<void> => {
 }
 
 export const setup = (): void => {
+  /**
+   * Log all notification style events to console
+   */
+  if (!isNode) {
+    // eslint-disable-next-line no-console
+    onEvent("notify", console.log)
+    // eslint-disable-next-line no-console
+    onEvent("error", console.error)
+  }
+
   addCallback({
     hook: "initialize-app",
     key: "setupApp",
@@ -41,18 +52,18 @@ export const setup = (): void => {
               name: "forbidden",
               path: "/forbidden",
               component: factorError404,
-              meta: { error: 403 }
-            }
+              meta: { error: 403 },
+            },
           ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
             // remove duplicate paths
-            const lastIndexOf = self.map(_ => _.path).lastIndexOf(route.path)
+            const lastIndexOf = self.map((_) => _.path).lastIndexOf(route.path)
             return index === lastIndexOf
           })
 
           _.push({
             path: "/",
             component: factorContent,
-            children: contentRoutes
+            children: contentRoutes,
           })
 
           _.push({
@@ -63,16 +74,16 @@ export const setup = (): void => {
                 name: "notFound",
                 path: "*",
                 component: factorError404,
-                meta: { error: 404 }
-              }
+                meta: { error: 404 },
+              },
             ]),
-            priority: 3000
+            priority: 3000,
           })
 
           return _
-        }
+        },
       })
-    }
+    },
   })
 }
 

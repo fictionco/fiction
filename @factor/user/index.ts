@@ -19,7 +19,7 @@ import {
   AuthenticationParameters,
   userRolesMap,
   CurrentUserState,
-  UserRoles
+  UserRoles,
 } from "./types"
 import "./hooks-universal"
 import "./edit-account"
@@ -79,7 +79,7 @@ export const loadUser = async (
       user = (await requestPostSingle({
         token,
         postType,
-        log: "loadUser"
+        log: "loadUser",
       })) as FactorUserCredential
 
       setUser({ user, token, current: true })
@@ -99,7 +99,7 @@ const requestInitializeUser = async (): Promise<CurrentUserState> => {
 
   const resolvedUser = await loadUser()
 
-  emitEvent('userInitialized', resolvedUser)
+  emitEvent("userInitialized", resolvedUser)
 
   await runCallbacks("before-user-init", resolvedUser)
 
@@ -180,7 +180,7 @@ export const authenticate = async (
 export const userCan = ({
   role = "",
   accessLevel = -1,
-  post
+  post,
 }: {
   role?: string;
   accessLevel?: number;
@@ -216,7 +216,7 @@ const handleAuthRouting = (): void => {
       const { path: toPath } = to
 
       // Is authentication needed
-      const auth = to.matched.some(_r => {
+      const auth = to.matched.some((_r) => {
         return _r.meta.auth
       })
 
@@ -244,7 +244,7 @@ const handleAuthRouting = (): void => {
       } else {
         return true
       }
-    }
+    },
   })
 
   /**
@@ -256,7 +256,7 @@ const handleAuthRouting = (): void => {
     callback: (user: CurrentUserState) => {
       const { path, matched, params } = currentRoute()
 
-      const auth = matched.some(_r => _r.meta.auth)
+      const auth = matched.some((_r) => _r.meta.auth)
       const userAccessLevel = user?.accessLevel ?? 0
       let accessLevel = 0
 
@@ -280,7 +280,7 @@ const handleAuthRouting = (): void => {
         navigateToRoute({ path: "/" })
         emitEvent("error", "403: Permissions needed")
       }
-    }
+    },
   })
 }
 
@@ -288,12 +288,12 @@ export const setup = (): void => {
   addCallback({
     key: "verifyEmail",
     hook: "route-query-action-verify-email",
-    callback: (_: VerifyEmail) => verifyEmail(_)
+    callback: (_: VerifyEmail) => verifyEmail(_),
   })
   addCallback({
     key: "resetPassword",
     hook: "route-query-action-reset-password",
-    callback: () => showResetPassword()
+    callback: () => showResetPassword(),
   })
 
   addFilter({
@@ -305,7 +305,7 @@ export const setup = (): void => {
         Vue.$initializedUser = requestInitializeUser()
         handleAuthRouting()
       }
-    }
+    },
   })
 
   onEvent("invalid-user-token", () => {

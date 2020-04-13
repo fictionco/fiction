@@ -15,11 +15,25 @@ let __schemas: { [index: string]: Schema } = {}
 let __models: { [index: string]: Model<any> } = {}
 let __offline = false
 
+export const demoDbUrl = (): string => {
+  return "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+}
+
+export const getDbUrl = (): string => {
+  const connectionString = process.env.DB_CONNECTION || demoDbUrl()
+
+  return connectionString.replace(/\\"/g, "")
+}
+
+export const usingDemoDb = (): boolean => {
+  return getDbUrl().includes("demo:demo") ? true : false
+}
+
 /**
  * Is the db running in offline mode?
  */
 export const dbIsOffline = (): boolean => {
-  return (__offline || !process.env.DB_CONNECTION) && process.env.FACTOR_ENV !== "test"
+  return __offline && process.env.FACTOR_ENV !== "test"
 }
 
 /**
@@ -78,19 +92,16 @@ const dbHandleError = (error: Error & { code?: string }): void => {
  * Connect to database using a MongoDb "connection string"
  */
 export const dbConnect = async (): Promise<mongoose.Connection | void> => {
+  const dbUrl = getDbUrl()
+
   if (__offline) {
     return
   }
-  if (!isConnected() && process.env.DB_CONNECTION) {
+
+  if (!isConnected()) {
     try {
-      let connectionString = process.env.DB_CONNECTION
-
-      // Remove any erroneous escaped double quotes if they exist
-      // Depending on handling of .env this can happen
-      connectionString = connectionString.replace(/\\"/g, "")
-
-      const result = await mongoose.connect(connectionString, {
-        useNewUrlParser: true
+      const result = await mongoose.connect(dbUrl, {
+        useNewUrlParser: true,
         // useUnifiedTopology: true // this was causing issues
       })
 
@@ -160,7 +171,7 @@ const runDbUpgrades = async (): Promise<void> => {
      * ensureIndexes creates indexes that don't exist but can't drop indexes
      * syncIndexes will drop indexes then recreate them, problem is that we can't do this every time
      */
-    const _promises = Object.values(__models).map(m => m.ensureIndexes())
+    const _promises = Object.values(__models).map((m) => m.ensureIndexes())
 
     /**
      * @reference version 1.1
@@ -192,7 +203,7 @@ const initializeModels = (): void => {
 
   const { model: baseModel } = setModel(baseSchema)
 
-  sch.filter(s => s.name != "post").forEach(s => setModel(s, baseModel))
+  sch.filter((s) => s.name != "post").forEach((s) => setModel(s, baseModel))
 }
 
 /**
@@ -208,7 +219,7 @@ export const dbInitialize = async (): Promise<void> => {
   mongoose.set("useCreateIndex", true)
 
   mongoose.plugin(mongooseBeautifulUniqueValidation, {
-    defaultMessage: "{PATH}: '{VALUE}' is already being used."
+    defaultMessage: "{PATH}: '{VALUE}' is already being used.",
   })
 
   initializeModels()
@@ -226,7 +237,7 @@ export const dbInitialize = async (): Promise<void> => {
  * To allow for smooth server restart
  */
 export const tearDown = (): void => {
-  Object.keys(mongoose.models).forEach(m => {
+  Object.keys(mongoose.models).forEach((m) => {
     mongoose.connection.deleteModel(m)
     delete mongoose.connection.models[m]
     delete mongoose.models[m]
@@ -238,19 +249,7 @@ export const tearDown = (): void => {
  * Adds notifications and tools for setting up the basic DB connection
  */
 export const dbSetupUtility = (): void => {
-  if (!process.env.DB_CONNECTION) {
-    pushToFilter({
-      key: "dbConnection",
-      hook: "setup-needed",
-      item: {
-        title: "DB Connection",
-        value:
-          "There is no DB connection URL set. This is needed for dashboard and auth.",
-        file: ".env",
-        name: "DB_CONNECTION"
-      }
-    })
-  } else if (process.env.DB_CONNECTION.includes("demo:demo")) {
+  if (usingDemoDb()) {
     pushToFilter({
       key: "dbDemo",
       hook: "setup-needed",
@@ -259,8 +258,8 @@ export const dbSetupUtility = (): void => {
         value:
           "You are using the demo DB (resets every 30 minutes). Change it to your own connection in .env",
         file: ".env",
-        name: "DB_CONNECTION"
-      }
+        name: "DB_CONNECTION",
+      },
     })
   }
 
@@ -277,16 +276,16 @@ export const dbSetupUtility = (): void => {
               name: "connection",
               message: "What's your MongoDB connection string? (mongodb://...)",
               type: "input",
-              default: process.env.DB_CONNECTION
-            }
+              default: process.env.DB_CONNECTION,
+            },
           ]
 
           const { connection } = await inquirer.prompt(questions)
 
           await writeConfig("private", { DB_CONNECTION: connection })
-        }
+        },
       }
-    }
+    },
   })
 }
 
@@ -299,7 +298,7 @@ export const setup = (): void => {
     hook: "rebuild-server-app",
     callback: () => {
       tearDown()
-    }
+    },
   })
 }
 setup()

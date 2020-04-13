@@ -143,7 +143,7 @@ import { factorForm, factorBtn, factorLink } from "@factor/ui"
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
 import {
   sendPasswordResetEmail,
-  verifyAndResetPassword
+  verifyAndResetPassword,
 } from "@factor/user/email-request"
 import { emitEvent, waitFor } from "@factor/api"
 import Vue from "vue"
@@ -154,14 +154,14 @@ export default Vue.extend({
   props: {
     format: { type: String, default: "page" },
     redirect: { type: String, default: "" },
-    initialView: { type: String, default: "" }
+    initialView: { type: String, default: "" },
   },
   data() {
     return {
       loading: false,
       form: {},
       newAccount: false,
-      user: undefined
+      user: undefined,
     }
   },
   computed: {
@@ -169,39 +169,39 @@ export default Vue.extend({
       if (this.view == "account-created") {
         return {
           title: "Account Created",
-          subTitle: "Good work. Please check your email to confirm your email address."
+          subTitle: "Good work. Please check your email to confirm your email address.",
         }
       } else if (this.view == "password-email-sent") {
         return {
           title: "Reset Email Sent",
-          subTitle: "Check your inbox for instructions on recovering your password."
+          subTitle: "Check your inbox for instructions on recovering your password.",
         }
       } else if (this.view == "successful-password-reset") {
         return {
           title: "Password Changed",
-          subTitle: "You've successfully changed your password."
+          subTitle: "You've successfully changed your password.",
         }
       } else if (this.view == "forgot-password") {
         return {
           title: "Password Reset",
-          subTitle: "Enter your account email address."
+          subTitle: "Enter your account email address.",
         }
       } else if (this.view == "reset-password") {
         return {
           title: "Enter New Password",
-          subTitle: "Enter your new password."
+          subTitle: "Enter your new password.",
         }
       } else if (isLoggedIn()) {
         return {
-          title: "You are signed in"
+          title: "You are signed in",
         }
       } else if (this.newAccount) {
         return {
-          title: "Sign Up"
+          title: "Sign Up",
         }
       } else {
         return {
-          title: "Login"
+          title: "Login",
         }
       }
     },
@@ -214,7 +214,7 @@ export default Vue.extend({
     redirectPath(this: any) {
       const defaultRedirect = this.$route.name == "signin" ? "/" : false
       return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
-    }
+    },
   },
   created(this: any) {
     const { email, displayName, newAccount } = this.$route.query
@@ -340,13 +340,15 @@ export default Vue.extend({
           this.done()
         }
       }
-    }
-  }
+    },
+  },
 })
 </script>
 
 <style lang="less">
+@import "~@factor/ui/css/standard-mixins.less";
 .signin {
+  .base-ui();
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;

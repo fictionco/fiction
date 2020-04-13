@@ -3,6 +3,12 @@ import log from "@factor/api/logger"
 import { Document } from "mongoose"
 import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
+const tokenSecret = (): string => {
+  if (!process.env.TOKEN_SECRET) {
+    log.warn("Your authentication secret is not set (process.env.TOKEN_SECRET)")
+  }
+  return process.env.TOKEN_SECRET ?? "demo"
+}
 /**
  * Returns a user authentication credential including token for storage in client
  * @param user - the user who's been authenticated
@@ -16,22 +22,13 @@ export const userCredential = (
     return
   }
 
-  let tokenSecret = process.env.TOKEN_SECRET
-
-  if (!tokenSecret) {
-    log.warn(
-      "Security Problem: TOKEN_SECRET is not set in environment variables. Without this secret key, users can login with any account."
-    )
-    tokenSecret = "DEFAULT_TOKEN_KEY"
-  }
-
   const credentialUser = user.toObject()
 
   delete credentialUser.password
 
   return {
     ...credentialUser,
-    token: jwt.sign({ _id: user._id }, tokenSecret)
+    token: jwt.sign({ _id: user._id }, tokenSecret()),
   }
 }
 
@@ -40,12 +37,8 @@ export const userCredential = (
  * @param token
  */
 export const decodeTokenIntoUser = (token: string): FactorUser => {
-  if (!process.env.TOKEN_SECRET) {
-    throw new Error("Can't decode token. No TOKEN_SECRET is set.")
-  }
-
   try {
-    return jwt.verify(token, process.env.TOKEN_SECRET) as FactorUser
+    return jwt.verify(token, tokenSecret()) as FactorUser
   } catch (error) {
     if (error.message.includes("invalid signature")) {
       error.errno = 403

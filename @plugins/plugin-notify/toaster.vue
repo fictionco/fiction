@@ -24,13 +24,13 @@ export default Vue.extend({
   data() {
     return {
       errors: [],
-      notification: []
+      notification: [],
     }
   },
   computed: {
     notifications(this: any) {
       return this.errors.slice(0).reverse()
-    }
+    },
   },
   mounted() {
     onEvent(
@@ -38,7 +38,7 @@ export default Vue.extend({
       ({
         type,
         message = "",
-        duration = 2000
+        duration = 2000,
       }: {
         type: string
         message: string
@@ -58,7 +58,7 @@ export default Vue.extend({
         }
       }
     )
-  }
+  },
 })
 </script>
 
@@ -84,8 +84,9 @@ export default Vue.extend({
   transform: translateY(-30px);
   opacity: 0;
 }
-
+@import "~@factor/ui/css/standard-mixins.less";
 .toasty {
+  .base-ui();
   position: fixed;
   left: 50%;
   transform: translateX(-50%);

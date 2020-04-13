@@ -10,7 +10,7 @@ import {
   userRolesMap,
   UserRoles,
   FactorUserCredential,
-  AuthenticationParameters
+  AuthenticationParameters,
 } from "./types"
 
 import "./hooks-universal"
@@ -43,7 +43,7 @@ export const authenticate = async (
       user = new Model({
         email,
         password,
-        displayName
+        displayName,
       })
 
       // Disable email verification hook
@@ -122,11 +122,11 @@ export const setup = (): void => {
             value:
               "A random JWT token secret is needed to encode user authentication information.",
             file: ".env",
-            name: "TOKEN_SECRET"
-          }
+            name: "TOKEN_SECRET",
+          },
         })
       }
-    }
+    },
   })
 
   /**

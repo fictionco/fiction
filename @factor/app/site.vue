@@ -12,7 +12,7 @@ import Vue from "vue"
 import siteMixin from "./site-mixin"
 export default Vue.extend({
   name: "Site",
-  mixins: applyFilters("site-mixins", [siteMixin()])
+  mixins: applyFilters("site-mixins", [siteMixin()]),
 })
 </script>
 <style lang="less">

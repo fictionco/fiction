@@ -8,7 +8,7 @@ import { factorBtnBase } from "@factor/ui"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorBtnBase }
+  components: { factorBtnBase },
 })
 </script>
 
@@ -19,7 +19,6 @@ button.app-btn {
   font-weight: 700;
   line-height: 1;
   border-radius: 4px;
-  letter-spacing: -0.02em;
   color: var(--color-text);
   transition: all 0.2s ease-in-out;
   &:focus {
@@ -59,8 +58,8 @@ button.app-btn {
 
   &.primary {
     color: var(--color-primary-text, #fff);
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    background: var(--color-primary, #0471ff);
+    border-color: var(--color-primary, #0471ff);
 
     .ring-path {
       stroke: var(--color-primary-text, #fff);
@@ -69,7 +68,7 @@ button.app-btn {
 
   &.secondary {
     color: var(--color-secondary-text, #fff);
-    background: var(--color-secondary);
+    background: var(--color-secondary, #3a4854);
 
     .ring-path {
       stroke: var(--color-secondary-text, #fff);

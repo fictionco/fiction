@@ -19,7 +19,7 @@ import {
   UpdateManyPosts,
   PostRequestParameters,
   IndexTimeFrame,
-  SortDelimiters
+  SortDelimiters,
 } from "./types"
 import { manyPostsPermissionCondition, postPermission } from "./util"
 import {
@@ -27,7 +27,7 @@ import {
   dbInitialize,
   dbDisconnect,
   dbSetupUtility,
-  dbIsOffline
+  dbIsOffline,
 } from "./database"
 
 /**
@@ -39,7 +39,7 @@ import {
 export const savePost = async <T = {}>(
   {
     data,
-    postType = "post"
+    postType = "post",
   }: { data: FactorPost | UnsavedFactorPost | T; postType: string },
   { bearer, source }: EndpointMeta
 ): Promise<FactorPostState> => {
@@ -91,7 +91,7 @@ export const embeddedAction = async (
     postType = "post",
     postId,
     skip = 0,
-    limit = 100
+    limit = 100,
   }: UpdatePostEmbedded,
   { bearer }: EndpointMeta
 ): Promise<FactorPostState> => {
@@ -120,7 +120,7 @@ export const embeddedAction = async (
       post: parent,
       bearer,
       action: operation,
-      embedded: true
+      embedded: true,
     })
 
     if (!permissable) return
@@ -128,10 +128,10 @@ export const embeddedAction = async (
     if (action == "retrieve") {
       const post = await Model.findOne(
         {
-          _id: postId
+          _id: postId,
         },
         {
-          embedded: { $slice: [skip, limit] }
+          embedded: { $slice: [skip, limit] },
         }
       )
         .select("+embedded")
@@ -162,7 +162,7 @@ export const embeddedAction = async (
       }
 
       const post = await Model.findById(postId, {
-        embedded: { $elemMatch: { _id: data._id } }
+        embedded: { $elemMatch: { _id: data._id } },
       })
 
       return post && post.embedded ? post.embedded[0] : undefined
@@ -215,7 +215,7 @@ export const getSinglePost = async (
     !postPermission({
       post: _post,
       bearer,
-      action: PostActions.Retrieve
+      action: PostActions.Retrieve,
     })
   ) {
     return
@@ -249,7 +249,7 @@ export const updateManyById = async (
   const permissionCondition = manyPostsPermissionCondition({
     bearer,
     action: PostActions.Update,
-    postType
+    postType,
   })
 
   const r = await getModel(postType).update(
@@ -270,11 +270,11 @@ export const deleteManyById = async (
   const permissionCondition = manyPostsPermissionCondition({
     bearer,
     action: PostActions.Delete,
-    postType
+    postType,
   })
 
   await getModel(postType).remove({
-    $and: [permissionCondition, { _id: { $in: _ids } }]
+    $and: [permissionCondition, { _id: { $in: _ids } }],
   })
 
   return
@@ -307,7 +307,7 @@ export const postList = async (
     {
       sort: { createdAt: SortDelimiters.Descending },
       limit: 20,
-      skip: 0
+      skip: 0,
     },
     options
   )
@@ -321,8 +321,8 @@ export const postList = async (
     ...manyPostsPermissionCondition({
       bearer,
       action: PostActions.Retrieve,
-      postType
-    })
+      postType,
+    }),
   }
 
   return await getModel(postType).find(conditions, select, options)
@@ -331,7 +331,7 @@ export const postList = async (
 export const indexMeta = async ({
   postType,
   conditions,
-  options
+  options,
 }: PostIndexRequestParameters): Promise<PostIndexAggregations & PostIndexCounts> => {
   const { limit = 20, skip = 0 } = options || {}
   const ItemModel = getModel(postType)
@@ -349,26 +349,26 @@ export const indexMeta = async ({
           {
             $group: {
               _id: "$status",
-              count: { $sum: 1 }
-            }
-          }
+              count: { $sum: 1 },
+            },
+          },
         ],
         role: [
           {
             $group: {
               _id: "$role",
-              count: { $sum: 1 }
-            }
-          }
-        ]
-      }
-    }
+              count: { $sum: 1 },
+            },
+          },
+        ],
+      },
+    },
   ]
 
   const [aggregations, totalForQuery, total] = await Promise.all([
     ItemModel.aggregate(aggregate).exec(),
     ItemModel.find(conditions).count(),
-    ItemModel.count({})
+    ItemModel.count({}),
   ])
 
   const pageCount = !totalForQuery ? 1 : Math.ceil(totalForQuery / limit)
@@ -397,7 +397,7 @@ const transformIndexParameters = (
     if (order == "popular") {
       sort = {
         embeddedCount: SortDelimiters.Descending,
-        createdAt: SortDelimiters.Descending
+        createdAt: SortDelimiters.Descending,
       }
     }
 
@@ -433,7 +433,7 @@ export const postIndex = async (
     {
       sort: { date: SortDelimiters.Descending, createdAt: SortDelimiters.Descending },
       limit: 20,
-      skip: 0
+      skip: 0,
     },
     options
   )
@@ -447,15 +447,13 @@ export const postIndex = async (
     ...manyPostsPermissionCondition({
       bearer,
       action: PostActions.Retrieve,
-      postType
-    })
+      postType,
+    }),
   }
 
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
-    getModel(postType)
-      .find(conditions, null, options)
-      .exec()
+    getModel(postType).find(conditions, null, options).exec(),
   ])
 
   return { meta: { ...counts, ...options, conditions }, posts }
@@ -464,22 +462,20 @@ export const postIndex = async (
 export const setup = (): void => {
   addEndpoint({ id: "posts", handler: endpointHandler })
 
-  if (process.env.DB_CONNECTION) {
-    addCallback({
-      key: "db",
-      hook: "initialize-server",
-      callback: async () => {
-        /**
-         * This is async but we shouldn't wait for it
-         * as it adds time to loading
-         */
-        dbInitialize()
+  addCallback({
+    key: "db",
+    hook: "initialize-server",
+    callback: async () => {
+      /**
+       * This is async but we shouldn't wait for it
+       * as it adds time to loading
+       */
+      dbInitialize()
 
-        return
-      }
-    })
-    addCallback({ key: "db", hook: "close-server", callback: () => dbDisconnect() })
-  }
+      return
+    },
+  })
+  addCallback({ key: "db", hook: "close-server", callback: () => dbDisconnect() })
 
   /**
    * Add DB Setup CLI

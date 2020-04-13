@@ -14,6 +14,7 @@
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
     "@factor/plugin-standard-signin": "^1.5.12",
+    "@factor/plugin-notify": "^1.5.0",
     "@types/sortablejs": "^1.10.0"
   }
 }
