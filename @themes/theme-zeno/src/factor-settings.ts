@@ -1,4 +1,3 @@
-import { Component } from "vue"
 export default {
   /**
    * Add custom font to app
@@ -24,8 +23,8 @@ export default {
    */
   site: {
     components: {
-      header: (): Promise<Component> => import("./header.vue"),
-      footer: (): Promise<Component> => import("./footer.vue"),
+      header: (): Promise<any> => import("./header.vue"),
+      footer: (): Promise<any> => import("./footer.vue"),
     },
     logo: require("./img/logo-zeno.svg"),
     logoInverse: require("./img/logo-zeno-inverse.svg"),
@@ -88,9 +87,9 @@ export default {
    * Copy for the home page template.
    */
   home: {
-    component: (): Promise<Component> => import("./home/v-home.vue"),
+    component: (): Promise<any> => import("./home/v-home.vue"),
     intro: {
-      component: (): Promise<Component> => import("./home/intro.vue"),
+      component: (): Promise<any> => import("./home/intro.vue"),
       title: "Welcome to Zeno, <br>SaaS Factor Theme",
       content:
         "Zeno is a minimalist theme suited for the needs of start-ups, tech businesses and SaaS companies. Styles are powered by Tailwind, a low-level CSS framework.",
@@ -192,7 +191,7 @@ export default {
             "factor-link factor-link btn bg-purple-500 rounded text-white hover:bg-purple-600",
         },
       ],
-      figure: (): Promise<Component> => import("./el/figure-devops.vue"),
+      figure: (): Promise<any> => import("./el/figure-devops.vue"),
     },
     section5: {
       id: "software-as-code",
@@ -214,7 +213,7 @@ export default {
         },
       ],
       syntaxTitle: "terraform.tf",
-      syntax: (): Promise<Component> => import("./el/figure-infrastructure.vue"),
+      syntax: (): Promise<any> => import("./el/figure-infrastructure.vue"),
     },
     testimonials: {
       pretitle: "Success Stories",
@@ -570,16 +569,16 @@ export default {
       },
     },
     components: {
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      title: (): Promise<Component> => import("./blog/widget-title.vue"),
-      date: (): Promise<Component> => import("./blog/widget-date.vue"),
-      author: (): Promise<Component> => import("./blog/widget-author.vue"),
-      singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-      entry: (): Promise<Component> => import("./blog/widget-entry.vue"),
-      social: (): Promise<Component> => import("./blog/widget-social.vue"),
-      pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
+      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+      title: (): Promise<any> => import("./blog/widget-title.vue"),
+      date: (): Promise<any> => import("./blog/widget-date.vue"),
+      author: (): Promise<any> => import("./blog/widget-author.vue"),
+      singleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
+      entry: (): Promise<any> => import("./blog/widget-entry.vue"),
+      social: (): Promise<any> => import("./blog/widget-social.vue"),
+      pagination: (): Promise<any> => import("./blog/widget-pagination.vue"),
     },
     layout: {
       index: ["featuredImage", "date", "title", "author"],

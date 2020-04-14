@@ -1,6 +1,5 @@
 import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
-import { Component } from "vue"
 
 const baseRoute = setting("portfolio.postRoute")
 
@@ -37,7 +36,7 @@ addContentRoutes({
   routes: [
     {
       path: "/",
-      component: (): Promise<Component> => import("./page-home.vue"),
+      component: (): Promise<any> => import("./page-home.vue"),
     },
     {
       path: setting("portfolio.indexRoute") ?? "/",

@@ -1,5 +1,5 @@
 import { emitEvent, onEvent, pushToFilter, log } from "@factor/api"
-import { Component } from "vue"
+
 import { waitFor } from "@factor/api/utils"
 interface NotificationInfo {
   type: "notify" | "error"
@@ -50,7 +50,7 @@ export const setup = (): void => {
     key: "notification",
     item: {
       name: "plugin-notify",
-      component: (): Promise<Component> => import("./toaster.vue"),
+      component: (): Promise<any> => import("./toaster.vue"),
     },
   })
 

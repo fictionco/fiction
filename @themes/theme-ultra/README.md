@@ -45,14 +45,14 @@ As an example, to override the single post template used by the theme, first fin
 export default {
   // other settings
   components: {
-    blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-    blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-    blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
-    date: (): Promise<Component> => import("./blog/widget-date.vue"),
-    featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-    authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
-    customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-    social: (): Promise<Component> => import("./blog/widget-social.vue"),
+    blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+    blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+    blogHero: (): Promise<any> => import("./blog/widget-hero.vue"),
+    date: (): Promise<any> => import("./blog/widget-date.vue"),
+    featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+    authorDate: (): Promise<any> => import("./blog/widget-author-date.vue"),
+    customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
+    social: (): Promise<any> => import("./blog/widget-social.vue"),
   },
   // other settings
 }
@@ -64,7 +64,7 @@ You'll see that it is being loaded in as `blogSingle`, so all you have to do in 
 export default {
   // other settings
   components: {
-    blogSingle: (): Promise<Component> => import("./my-special-single.vue"),
+    blogSingle: (): Promise<any> => import("./my-special-single.vue"),
   },
   // other settings
 }

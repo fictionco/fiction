@@ -1,4 +1,4 @@
-import Vue, { Component, CreateElement, VNode } from "vue"
+import Vue, { CreateElement, VNode } from "vue"
 import VueRouter from "vue-router"
 import Site from "./site.vue"
 
@@ -12,11 +12,11 @@ const router = new VueRouter({
   routes: [
     {
       path: "/setup",
-      component: (): Promise<Component> => import("./setup.vue"),
+      component: (): Promise<any> => import("./setup.vue"),
     },
     {
       path: "*",
-      component: (): Promise<Component> => import("./loading.vue"),
+      component: (): Promise<any> => import("./loading.vue"),
     },
   ],
 })

@@ -1,5 +1,3 @@
-import { Component } from "vue"
-
 export default {
   app: {
     url: "https://www.fiction.com",
@@ -18,10 +16,10 @@ export default {
     limit: 6,
     returnLinkText: "Back",
     components: {
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
+      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+      customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
     },
     layout: {
       index: ["title", "subtitle", "meta"],
@@ -49,11 +47,11 @@ export default {
       single: ["singleHeader", "entry", "cta"],
     },
     components: {
-      jobsWrap: (): Promise<Component> => import("./jobs/wrap.vue"),
-      jobsIndex: (): Promise<Component> => import("./jobs/index.vue"),
-      jobsSingle: (): Promise<Component> => import("./jobs/single.vue"),
-      singleHeader: (): Promise<Component> => import("./jobs/single-header.vue"),
-      cta: (): Promise<Component> => import("./jobs/cta.vue"),
+      jobsWrap: (): Promise<any> => import("./jobs/wrap.vue"),
+      jobsIndex: (): Promise<any> => import("./jobs/index.vue"),
+      jobsSingle: (): Promise<any> => import("./jobs/single.vue"),
+      singleHeader: (): Promise<any> => import("./jobs/single-header.vue"),
+      cta: (): Promise<any> => import("./jobs/cta.vue"),
     },
   },
 }

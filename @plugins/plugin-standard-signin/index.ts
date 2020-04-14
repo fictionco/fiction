@@ -1,5 +1,5 @@
 import { pushToFilter, addContentRoute, emitEvent } from "@factor/api"
-import { Component } from "vue"
+
 import { currentUser } from "@factor/user"
 
 export const notifySignedIn = (): void => {
@@ -10,13 +10,13 @@ export const notifySignedIn = (): void => {
   }
 }
 
-export const accountMenu = (): Promise<Component> => import("./account-menu.vue")
+export const accountMenu = (): Promise<any> => import("./account-menu.vue")
 
 export const setup = (): void => {
   addContentRoute({
     name: "signin",
     path: "/signin",
-    component: (): Promise<Component> => import("./sign-in-view.vue"),
+    component: (): Promise<any> => import("./sign-in-view.vue"),
   })
 
   pushToFilter({
@@ -24,7 +24,7 @@ export const setup = (): void => {
     hook: "site-components",
     item: {
       name: "sign-in-modal",
-      component: (): Promise<Component> => import("./sign-in-modal.vue"),
+      component: (): Promise<any> => import("./sign-in-modal.vue"),
     },
   })
 }

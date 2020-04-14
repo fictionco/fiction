@@ -1,9 +1,8 @@
-import { Component } from "vue"
 import { setting } from "@factor/api"
 export default {
   contactForm: {
     email: setting("app.email"),
-    form: (): Promise<Component> => import("./contact-form.vue"),
+    form: (): Promise<any> => import("./contact-form.vue"),
     adminEmail: {
       disable: false,
       subject: (form: Record<string, any>): string => {

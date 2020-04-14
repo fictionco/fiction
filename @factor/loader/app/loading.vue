@@ -21,9 +21,7 @@
         </p>
       </div>
       <div v-else-if="preventReload" class="reload-prevented error-item">
-        <h3 class="hasErrors">
-          Failed to show Factor app after {{ maxReloadCount }} reloads
-        </h3>
+        <h3 class="hasErrors">Failed to show Factor app after {{ maxReloadCount }} reloads</h3>
         <p>
           Your Factor app could not be shown even though the webpack build appears to have
           finished.

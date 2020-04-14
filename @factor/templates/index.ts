@@ -9,7 +9,7 @@ import {
 } from "@factor/api"
 import { addPostSchema } from "@factor/post/util"
 import { RouteConfig } from "vue-router"
-import { Component } from "vue"
+
 import { TemplateConfig, TemplateSetting } from "./types"
 import pageSchema from "./schema"
 
@@ -85,7 +85,7 @@ export const setup = (): void => {
     item: {
       postType: ["page"],
       name: "Page Template",
-      component: (): Promise<Component> => import("./page-select.vue"),
+      component: (): Promise<any> => import("./page-select.vue"),
     },
   })
   pushToFilter({
@@ -93,7 +93,7 @@ export const setup = (): void => {
     hook: "post-edit-components",
     item: {
       name: "Template Settings",
-      component: (): Promise<Component> => import("./template-settings.vue"),
+      component: (): Promise<any> => import("./template-settings.vue"),
     },
   })
 
@@ -106,7 +106,7 @@ export const setup = (): void => {
       if (postType == "page" || config.templateSettings) {
         _.push({
           name: "Template Settings",
-          component: (): Promise<Component> => import("./template-settings.vue"),
+          component: (): Promise<any> => import("./template-settings.vue"),
         })
       }
 

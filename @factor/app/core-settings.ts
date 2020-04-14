@@ -1,12 +1,11 @@
 /* eslint-disable import/no-unresolved */
-import { Component } from "vue"
 export default (): object => {
   return {
     app: {
       components: {
-        error404: (): Promise<Component> => import("__FIND__/404.vue"),
-        content: (): Promise<Component> => import("__FIND__/content.vue"),
-        site: (): Promise<Component> => import("__FIND__/site.vue"),
+        error404: (): Promise<any> => import("__FIND__/404.vue"),
+        content: (): Promise<any> => import("__FIND__/content.vue"),
+        site: (): Promise<any> => import("__FIND__/site.vue"),
       },
       // Must be a function to use __FIND__
       icon: (): string => require("__FIND__/static/icon.svg"),

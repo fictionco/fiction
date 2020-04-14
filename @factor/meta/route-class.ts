@@ -5,7 +5,13 @@ import { getObservables } from "@factor/app/extend-app"
 
 const key = "routeClass"
 
-const setRouteClass = (options: Vue): void => {
+declare module "vue" {
+  interface Component {
+    routeClass: string[] | string | Function
+  }
+}
+
+const setRouteClass = (options: Component): void => {
   if (!options) return
 
   const { routeClass } = options
@@ -39,8 +45,8 @@ const manageClient = (): void => {
     Vue.extend({
       watch: {
         $route: {
-          handler: function (this: Component): void {
-            setRouteClass(this.$options)
+          handler: function (): void {
+            setRouteClass(this.$options as Component)
           },
           immediate: true,
         },

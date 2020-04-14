@@ -1,4 +1,3 @@
-import { Component } from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet" />`,
@@ -9,10 +8,10 @@ export default {
   },
   site: {
     components: {
-      header: (): Promise<Component> => import("./header.vue"),
-      footer: (): Promise<Component> => import("./footer.vue"),
+      header: (): Promise<any> => import("./header.vue"),
+      footer: (): Promise<any> => import("./footer.vue"),
     },
-    logo: (): Promise<Component> => import("./el/logo.vue"),
+    logo: (): Promise<any> => import("./el/logo.vue"),
     /**
      * Site navigation.
      */
@@ -104,9 +103,9 @@ export default {
    * Copy for the home page template.
    */
   home: {
-    component: (): Promise<Component> => import("./home/v-home.vue"),
+    component: (): Promise<any> => import("./home/v-home.vue"),
     intro: {
-      component: (): Promise<Component> => import("./home/intro.vue"),
+      component: (): Promise<any> => import("./home/intro.vue"),
       pretitle: "Alpha Theme",
       title: "Hello, I’m Alpha. <br>A minimal portfolio theme.",
       content:
@@ -132,7 +131,7 @@ export default {
       /**
        * Home page "Services" section.
        */
-      component: (): Promise<Component> => import("./home/section-2.vue"),
+      component: (): Promise<any> => import("./home/section-2.vue"),
       id: "services",
       pretitle: "Services",
       title: "Tailored Digital Experiences",
@@ -168,7 +167,7 @@ export default {
        * Home page "work" section.
        * Note: Post settings of this section are managed via the "work" page settings
        */
-      component: (): Promise<Component> => import("./home/section-3.vue"),
+      component: (): Promise<any> => import("./home/section-3.vue"),
       id: "work",
       pretitle: "Work",
       title: "Latest Projects",
@@ -187,7 +186,7 @@ export default {
       /**
        * Home page "Testimonials" section.
        */
-      component: (): Promise<Component> => import("./home/section-4.vue"),
+      component: (): Promise<any> => import("./home/section-4.vue"),
       id: "testimonials",
       pretitle: "Testimonials",
       title: "Success Stories",
@@ -209,7 +208,7 @@ export default {
       ],
     },
     section5: {
-      component: (): Promise<Component> => import("./home/section-5.vue"),
+      component: (): Promise<any> => import("./home/section-5.vue"),
     },
     /**
      * Home page client logos are set via the "About" page settings below.
@@ -225,7 +224,7 @@ export default {
    * Copy for the about page template.
    */
   about: {
-    component: (): Promise<Component> => import("./v-about.vue"),
+    component: (): Promise<any> => import("./v-about.vue"),
     pretitle: "About",
     title: "Designer and Illustrator based in San Francisco.",
     content:
@@ -342,15 +341,15 @@ export default {
     title: "Case Studies",
     content: "Great projects happen with passion, intelligence, and personal commitment.",
     components: {
-      workWrap: (): Promise<Component> => import("./work/work-wrap.vue"),
-      workIndex: (): Promise<Component> => import("./work/work-index.vue"),
-      workSingle: (): Promise<Component> => import("./work/work-single.vue"),
-      workFeaturedImage: (): Promise<Component> => import("./work/el-featured-image.vue"),
-      workHeader: (): Promise<Component> => import("./work/el-headers.vue"),
-      workReturnLink: (): Promise<Component> => import("./work/el-return-link.vue"),
-      workTags: (): Promise<Component> => import("./work/el-tags.vue"),
-      workEntry: (): Promise<Component> => import("./work/el-entry.vue"),
-      workPagination: (): Promise<Component> => import("./work/el-pagination.vue"),
+      workWrap: (): Promise<any> => import("./work/work-wrap.vue"),
+      workIndex: (): Promise<any> => import("./work/work-index.vue"),
+      workSingle: (): Promise<any> => import("./work/work-single.vue"),
+      workFeaturedImage: (): Promise<any> => import("./work/el-featured-image.vue"),
+      workHeader: (): Promise<any> => import("./work/el-headers.vue"),
+      workReturnLink: (): Promise<any> => import("./work/el-return-link.vue"),
+      workTags: (): Promise<any> => import("./work/el-tags.vue"),
+      workEntry: (): Promise<any> => import("./work/el-entry.vue"),
+      workPagination: (): Promise<any> => import("./work/el-pagination.vue"),
     },
     layout: {
       index: ["workFeaturedImage", "workHeader"],
@@ -405,12 +404,12 @@ export default {
     subheadline: "Discover The Latest",
     content: "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
-      authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
-      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
+      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+      pagination: (): Promise<any> => import("./blog/widget-pagination.vue"),
+      authorDate: (): Promise<any> => import("./blog/widget-author-date.vue"),
+      customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
     },
     layout: {
       index: ["featuredImage", "title", "subtitle", "authorDate"],
@@ -441,7 +440,7 @@ export default {
    * Copy for the contact page template.
    */
   contact: {
-    component: (): Promise<Component> => import("./v-contact.vue"),
+    component: (): Promise<any> => import("./v-contact.vue"),
     pretitle: "Contact",
     title: "Let's Talk!",
     content:

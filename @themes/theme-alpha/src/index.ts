@@ -1,6 +1,5 @@
 import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
-import { Component } from "vue"
 
 const baseRoute = setting("work.postRoute")
 
@@ -33,7 +32,7 @@ addPostType({
  */
 addPageTemplate({
   slug: "default",
-  component: (): Promise<Component> => import("./page-template-default.vue"),
+  component: (): Promise<any> => import("./page-template-default.vue"),
 })
 
 /*

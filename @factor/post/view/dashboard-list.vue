@@ -25,7 +25,7 @@ import { requestPostIndex } from "@factor/post/request"
 import { getPostTypeConfig, onEvent, stored } from "@factor/api"
 import { dashboardPage } from "@factor/dashboard"
 import { FactorPost } from "@factor/post/types"
-import Vue, { Component } from "vue"
+import Vue from "vue"
 export default Vue.extend({
   components: { dashboardPage, factorLink },
   data() {
@@ -50,9 +50,7 @@ export default Vue.extend({
     templateLoader(this: any) {
       const { listTemplate } = this.getPostTypeConfig
 
-      return listTemplate
-        ? listTemplate
-        : (): Promise<Component> => import("./posts-list.vue")
+      return listTemplate ? listTemplate : (): Promise<any> => import("./posts-list.vue")
     },
     postType(this: any): string {
       return this.$route.params.postType || ""

@@ -1,4 +1,3 @@
-import { Component } from "vue"
 export default {
   headTags: {
     font: `<link href="https://fonts.googleapis.com/css?family=Work+Sans:400,600,700" rel="stylesheet" />`,
@@ -8,7 +7,7 @@ export default {
     titleTemplate: "%s - Factor JS",
   },
   site: {
-    logo: (): Promise<Component> => import("./el/logo-ultra.vue"),
+    logo: (): Promise<any> => import("./el/logo-ultra.vue"),
     logoTitle: "Ultra Theme",
     nav: [
       {
@@ -201,15 +200,13 @@ export default {
       subTitle: "Couldn't find any projects.",
     },
     components: {
-      portfolioWrap: (): Promise<Component> => import("./portfolio/portfolio-wrap.vue"),
-      portfolioIndex: (): Promise<Component> => import("./portfolio/portfolio-index.vue"),
-      portfolioSingle: (): Promise<Component> =>
-        import("./portfolio/portfolio-single.vue"),
-      portfolioEntry: (): Promise<Component> => import("./portfolio/widget-entry.vue"),
-      hero: (): Promise<Component> => import("./portfolio/widget-hero.vue"),
-      featuredImage: (): Promise<Component> =>
-        import("./portfolio/widget-featured-image.vue"),
-      tags: (): Promise<Component> => import("./portfolio/widget-tags.vue"),
+      portfolioWrap: (): Promise<any> => import("./portfolio/portfolio-wrap.vue"),
+      portfolioIndex: (): Promise<any> => import("./portfolio/portfolio-index.vue"),
+      portfolioSingle: (): Promise<any> => import("./portfolio/portfolio-single.vue"),
+      portfolioEntry: (): Promise<any> => import("./portfolio/widget-entry.vue"),
+      hero: (): Promise<any> => import("./portfolio/widget-hero.vue"),
+      featuredImage: (): Promise<any> => import("./portfolio/widget-featured-image.vue"),
+      tags: (): Promise<any> => import("./portfolio/widget-tags.vue"),
     },
     layout: {
       index: ["featuredImage"],
@@ -265,15 +262,15 @@ export default {
     subheadline: "Discover The Latest",
     content: "Thoughts on design, the process of creation, and optimizing collaboration.",
     components: {
-      blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-      blogHero: (): Promise<Component> => import("./blog/widget-hero.vue"),
-      date: (): Promise<Component> => import("./blog/widget-date.vue"),
-      featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-      readMore: (): Promise<Component> => import("./blog/widget-read-more.vue"),
-      authorDate: (): Promise<Component> => import("./blog/widget-author-date.vue"),
-      customSingleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-      social: (): Promise<Component> => import("./blog/widget-social.vue"),
+      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+      blogHero: (): Promise<any> => import("./blog/widget-hero.vue"),
+      date: (): Promise<any> => import("./blog/widget-date.vue"),
+      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+      readMore: (): Promise<any> => import("./blog/widget-read-more.vue"),
+      authorDate: (): Promise<any> => import("./blog/widget-author-date.vue"),
+      customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
+      social: (): Promise<any> => import("./blog/widget-social.vue"),
     },
     layout: {
       index: ["featuredImage", "date", "blogHero", "subtitle", "readMore"],

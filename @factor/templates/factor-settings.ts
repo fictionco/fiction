@@ -1,4 +1,3 @@
-import { Component } from "vue"
 import { TemplateConfig } from "./types"
 export default {
   pageTemplates: {
@@ -6,7 +5,7 @@ export default {
       {
         name: "Default",
         slug: "default",
-        component: (): Promise<Component> => import("./tpl-basic.vue"),
+        component: (): Promise<any> => import("./tpl-basic.vue"),
       } as TemplateConfig,
     ],
   },

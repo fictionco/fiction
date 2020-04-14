@@ -45,17 +45,17 @@ As an example, to override the single post template used by the theme, first fin
 export default {
   // other settings
   components: {
-    blogWrap: (): Promise<Component> => import("./blog/blog-wrap.vue"),
-    blogIndex: (): Promise<Component> => import("./blog/blog-index.vue"),
-    blogSingle: (): Promise<Component> => import("./blog/blog-single.vue"),
-    featuredImage: (): Promise<Component> => import("./blog/el-featured-image.vue"),
-    title: (): Promise<Component> => import("./blog/widget-title.vue"),
-    date: (): Promise<Component> => import("./blog/widget-date.vue"),
-    author: (): Promise<Component> => import("./blog/widget-author.vue"),
-    singleHeader: (): Promise<Component> => import("./blog/el-single-header.vue"),
-    entry: (): Promise<Component> => import("./blog/widget-entry.vue"),
-    social: (): Promise<Component> => import("./blog/widget-social.vue"),
-    pagination: (): Promise<Component> => import("./blog/widget-pagination.vue"),
+    blogWrap: (): Promise<any> => import("./blog/blog-wrap.vue"),
+    blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+    blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+    featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+    title: (): Promise<any> => import("./blog/widget-title.vue"),
+    date: (): Promise<any> => import("./blog/widget-date.vue"),
+    author: (): Promise<any> => import("./blog/widget-author.vue"),
+    singleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
+    entry: (): Promise<any> => import("./blog/widget-entry.vue"),
+    social: (): Promise<any> => import("./blog/widget-social.vue"),
+    pagination: (): Promise<any> => import("./blog/widget-pagination.vue"),
   },
   // other settings
 }
@@ -67,7 +67,7 @@ You'll see that it is being loaded in as `blogSingle`, so all you have to do in 
 export default {
   // other settings
   components: {
-    blogSingle: (): Promise<Component> => import("./my-special-single.vue"),
+    blogSingle: (): Promise<any> => import("./my-special-single.vue"),
   },
   // other settings
 }

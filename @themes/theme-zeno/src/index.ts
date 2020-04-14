@@ -1,5 +1,4 @@
 import { addFilter, setting, addContentRoutes } from "@factor/api"
-import { Component } from "vue"
 
 if (setting("headTags") != "") {
   addFilter({
@@ -24,17 +23,17 @@ addContentRoutes({
     },
     {
       path: "/about",
-      component: (): Promise<Component> => import("./v-about.vue"),
+      component: (): Promise<any> => import("./v-about.vue"),
       meta: { nav: true },
     },
     {
       path: "/contact",
-      component: (): Promise<Component> => import("./v-contact.vue"),
+      component: (): Promise<any> => import("./v-contact.vue"),
       meta: { nav: true },
     },
     {
       path: "/pricing",
-      component: (): Promise<Component> => import("./v-pricing.vue"),
+      component: (): Promise<any> => import("./v-pricing.vue"),
       meta: { nav: true },
     },
   ],

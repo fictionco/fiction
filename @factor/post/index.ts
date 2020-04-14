@@ -1,13 +1,13 @@
 import { preFetchPost } from "@factor/api/prefetch"
 import { addFilter, addCallback, pushToFilter } from "@factor/api/hooks"
-import { Component } from "vue"
+
 import { RouteConfig, Route } from "vue-router"
 import { PostEditComponent } from "./types"
 
 /**
  * the 'edit post' link component
  */
-export const factorPostEdit = (): Promise<Component> => import("./el/edit-link.vue")
+export const factorPostEdit = (): Promise<any> => import("./el/edit-link.vue")
 
 export const addPostEditComponent = (item: PostEditComponent): void => {
   pushToFilter({ hook: "post-edit-components", key: item.name, item })
@@ -24,27 +24,27 @@ addFilter({
     const routes = [
       {
         path: "posts",
-        component: (): Promise<Component> => import("./view/dashboard-list.vue"),
+        component: (): Promise<any> => import("./view/dashboard-list.vue"),
         meta,
       },
       {
         path: "posts/edit",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
         meta,
       },
       {
         path: "posts/:postType/edit",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
         meta,
       },
       {
         path: "posts/:postType/add-new",
-        component: (): Promise<Component> => import("./view/dashboard-edit.vue"),
+        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
         meta,
       },
       {
         path: "posts/:postType",
-        component: (): Promise<Component> => import("./view/dashboard-list.vue"),
+        component: (): Promise<any> => import("./view/dashboard-list.vue"),
         meta,
       },
     ]

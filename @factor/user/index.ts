@@ -26,6 +26,14 @@ import "./edit-account"
 import { userToken, handleTokenError } from "./token"
 
 export const postType = "user"
+
+declare module "vue/types/vue" {
+  interface VueConstructor {
+    $initializedUser: Promise<CurrentUserState> | CurrentUserState
+    $userIsInitialized?: boolean
+  }
+}
+
 /**
  * Information for the currently logged in user
  */

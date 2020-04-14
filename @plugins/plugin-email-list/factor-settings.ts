@@ -1,4 +1,3 @@
-import { Component } from "vue"
 export default {
   emailList: {
     default: {
@@ -20,12 +19,12 @@ export default {
       },
 
       form: {
-        component: (): Promise<Component> => import("./email-list-form.vue"),
+        component: (): Promise<any> => import("./email-list-form.vue"),
         buttonText: "Request Invite &rarr;",
         placeholder: "Your Email",
       },
       success: {
-        modal: (): Promise<Component> => import("./modal-confirm.vue"),
+        modal: (): Promise<any> => import("./modal-confirm.vue"),
         title: "Excellent work!",
         text:
           "Please check your email to confirm your email address. Now, would you like to create an account?",

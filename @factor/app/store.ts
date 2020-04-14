@@ -37,14 +37,19 @@ export const storeItem = (item: string, value: any): void => {
   if (!__store) {
     throw new Error(`Store not available for ${item}:${value}`)
   }
+
   return __store.commit("setItem", { item, value })
 }
 
 export const stored = (key?: string | ObjectId): any => {
-  return __store && key ? __store.getters["getItem"](key) : undefined
+  if (!__store) return undefined
+
+  if (!key) return __store.state
+
+  return __store.getters["getItem"](key)
 }
 
-export const getStoreState = (): Store<object>["state"] => {
+export const getStoreState = (): Store<Record<string, any>>["state"] => {
   if (!__store) {
     throw new Error("Store not available for state.")
   }

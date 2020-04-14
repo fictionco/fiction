@@ -1,6 +1,5 @@
 import { CurrentUserState } from "@factor/user/types"
 import mongoose, { FilterQuery } from "mongoose"
-import { Component } from "vue"
 import { EndpointParameters } from "@factor/endpoint"
 import { FactorPostDocument } from "@factor/post/database"
 export type PopulatedPost = string
@@ -13,7 +12,7 @@ export interface PostEndpointMeta {
 export interface PostEditComponent {
   postType: string[]
   name: string
-  component: () => Promise<Component>
+  component: () => Promise<any>
 }
 
 /**

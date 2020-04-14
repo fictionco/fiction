@@ -7,22 +7,20 @@ import {
   pushToFilter,
   currentUrl,
 } from "@factor/api"
-import { Component } from "vue"
 import { setting } from "@factor/api/settings"
 import { userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { DashboardMenuItem } from "./types"
 
-export const dashboardPane = (): Promise<Component> => import("./theme/pane.vue")
-export const dashboardPage = (): Promise<Component> => import("./theme/page.vue")
-export const dashboardListPost = (): Promise<Component> => import("./el/list-post.vue")
-export const dashboardListControls = (): Promise<Component> =>
-  import("./el/list-controls.vue")
-export const dashboardListEmpty = (): Promise<Component> => import("./el/list-empty.vue")
-export const dashboardTableFooter = (): Promise<Component> => import("./table-footer.vue")
-export const dashboardInput = (): Promise<Component> => import("./el/input.vue")
-export const dashboardUserCard = (): Promise<Component> => import("./el/user-card.vue")
-export const dashboardUserList = (): Promise<Component> => import("./el/user-list.vue")
+export const dashboardPane = (): Promise<any> => import("./theme/pane.vue")
+export const dashboardPage = (): Promise<any> => import("./theme/page.vue")
+export const dashboardListPost = (): Promise<any> => import("./el/list-post.vue")
+export const dashboardListControls = (): Promise<any> => import("./el/list-controls.vue")
+export const dashboardListEmpty = (): Promise<any> => import("./el/list-empty.vue")
+export const dashboardTableFooter = (): Promise<any> => import("./table-footer.vue")
+export const dashboardInput = (): Promise<any> => import("./el/input.vue")
+export const dashboardUserCard = (): Promise<any> => import("./el/user-card.vue")
+export const dashboardUserList = (): Promise<any> => import("./el/user-list.vue")
 /**
  * The base route for the dashboard
  */
@@ -71,11 +69,11 @@ export const setup = (): void => {
 
       _.push({
         path: dashboardRoute,
-        component: (): Promise<Component> => import("./theme/wrap.vue"),
+        component: (): Promise<any> => import("./theme/wrap.vue"),
         children: applyFilters("dashboard-routes", [
           {
             path: "*",
-            component: (): Promise<Component> => import("./vd-404.vue"),
+            component: (): Promise<any> => import("./vd-404.vue"),
             meta: { auth: true },
             priority: 3000,
           },
@@ -92,7 +90,7 @@ export const setup = (): void => {
     hook: "dashboard-routes",
     item: {
       path: "site",
-      component: (): Promise<Component> => import("./v-frame.vue"),
+      component: (): Promise<any> => import("./v-frame.vue"),
     },
   })
 

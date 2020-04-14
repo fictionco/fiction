@@ -1,6 +1,6 @@
 import { addPostType } from "@factor/api/post-types"
 import { pushToFilter, addFilter } from "@factor/api/hooks"
-import { Component } from "vue"
+
 import { logout } from "./util"
 export const setup = (): void => {
   pushToFilter({
@@ -8,7 +8,7 @@ export const setup = (): void => {
     hook: "dashboard-routes",
     item: {
       path: "account",
-      component: (): Promise<Component> => import("./v-account.vue"),
+      component: (): Promise<any> => import("./v-account.vue"),
       meta: {
         postType: "user",
       },
@@ -50,8 +50,8 @@ export const setup = (): void => {
     nameIndex: "Users",
     nameSingle: "User",
     namePlural: "Users",
-    listTemplate: (): Promise<Component> => import("./v-list.vue"),
-    editTemplate: (): Promise<Component> => import("./v-edit.vue"),
+    listTemplate: (): Promise<any> => import("./v-list.vue"),
+    editTemplate: (): Promise<any> => import("./v-edit.vue"),
     baseRoute: "@",
     accessLevel: 500,
     noAddNew: true,

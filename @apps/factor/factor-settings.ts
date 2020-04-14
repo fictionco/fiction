@@ -1,4 +1,3 @@
-import { Component } from "vue"
 import comparison from "./docs/comparison.vue"
 export default {
   app: { url: "https://factor.dev" },
@@ -48,7 +47,7 @@ export default {
     ],
   },
   site: {
-    logo: (): Promise<Component> => import("./src/el/logo-factor.vue"),
+    logo: (): Promise<any> => import("./src/el/logo-factor.vue"),
   },
   blog: {
     title: "Factor Blog",
@@ -78,16 +77,16 @@ export default {
       },
     },
     components: {
-      blogIndex: (): Promise<Component> => import("./src/blog/blog-index.vue"),
-      blogSingle: (): Promise<Component> => import("./src/blog/blog-single.vue"),
-      featuredImage: (): Promise<Component> => import("./src/blog/el-featured-image.vue"),
-      title: (): Promise<Component> => import("./src/blog/widget-title.vue"),
-      date: (): Promise<Component> => import("./src/blog/widget-date.vue"),
-      author: (): Promise<Component> => import("./src/blog/widget-author.vue"),
-      singleHeader: (): Promise<Component> => import("./src/blog/el-single-header.vue"),
-      entry: (): Promise<Component> => import("./src/blog/widget-entry.vue"),
-      social: (): Promise<Component> => import("./src/blog/widget-social.vue"),
-      pagination: (): Promise<Component> => import("./src/blog/widget-pagination.vue"),
+      blogIndex: (): Promise<any> => import("./src/blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./src/blog/blog-single.vue"),
+      featuredImage: (): Promise<any> => import("./src/blog/el-featured-image.vue"),
+      title: (): Promise<any> => import("./src/blog/widget-title.vue"),
+      date: (): Promise<any> => import("./src/blog/widget-date.vue"),
+      author: (): Promise<any> => import("./src/blog/widget-author.vue"),
+      singleHeader: (): Promise<any> => import("./src/blog/el-single-header.vue"),
+      entry: (): Promise<any> => import("./src/blog/widget-entry.vue"),
+      social: (): Promise<any> => import("./src/blog/widget-social.vue"),
+      pagination: (): Promise<any> => import("./src/blog/widget-pagination.vue"),
     },
     layout: {
       index: ["featuredImage", "date", "title", "author"],

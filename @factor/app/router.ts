@@ -8,6 +8,12 @@ Vue.use(VueRouter)
 
 let __initialPageLoad = true
 
+declare module "vue/types/vue" {
+  export interface VueConstructor {
+    $router: VueRouter
+  }
+}
+
 /**
  * In client, when we change routes, we should run checks for auth, preloaders, etc.
  * @param to - next route

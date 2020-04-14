@@ -7,7 +7,7 @@ import {
   addCallback,
   setting,
 } from "@factor/api"
-import { Component } from "vue"
+
 import { endpointRequest, EndpointParameters } from "@factor/endpoint"
 import { ExportToCsv } from "export-to-csv"
 import { EmailConfig } from "./types"
@@ -19,7 +19,7 @@ type VerifyEmail = {
   code: string
 } & EndpointParameters
 
-export const factorEmailList = (): Promise<Component> => import("./wrap.vue")
+export const factorEmailList = (): Promise<any> => import("./wrap.vue")
 
 export const getListSettings = (listId = ""): object => {
   const merge = [setting(`emailList.default`)]
@@ -49,8 +49,8 @@ export const postTypeUIConfig = {
   nameIndex: "Email Lists",
   nameSingle: "List",
   namePlural: "Email Lists",
-  listTemplate: (): Promise<Component> => import("./dashboard-list.vue"),
-  editTemplate: (): Promise<Component> => import("./dashboard-edit.vue"),
+  listTemplate: (): Promise<any> => import("./dashboard-list.vue"),
+  editTemplate: (): Promise<any> => import("./dashboard-edit.vue"),
   add: false,
 }
 

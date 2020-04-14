@@ -1,8 +1,10 @@
 import { runCallbacks, applyFilters, stored } from "@factor/api"
 import { getObservables } from "@factor/app"
-import Vue, { VueConstructor } from "vue"
+import Vue from "vue"
+import { Route } from "vue-router"
 import { FactorPostState } from "@factor/post/types"
-export default (): VueConstructor => {
+
+export default (): any => {
   return Vue.extend({
     data() {
       return {
@@ -13,8 +15,8 @@ export default (): VueConstructor => {
       post(): FactorPostState {
         return stored("post")
       },
-      ui(this: VueConstructor): string {
-        const { meta = {} } = this.$route.matched.find((_) => _.meta.ui) || {}
+      ui(this: any): string {
+        const { meta = {} } = this.$route.matched.find((_: Route) => _.meta.ui) || {}
 
         const ui = meta.ui || "app"
 
@@ -58,11 +60,12 @@ export default (): VueConstructor => {
     },
 
     async serverPrefetch() {
-      return await runCallbacks("global-prefetch", this.$route)
+      await runCallbacks("global-prefetch", this.$route)
+      return
     },
 
     methods: {
-      setScrollClass(this: VueConstructor): void {
+      setScrollClass(this: any): void {
         this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
       },
     },

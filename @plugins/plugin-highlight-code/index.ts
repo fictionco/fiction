@@ -1,4 +1,1 @@
-import { Component } from "vue"
-
-export const factorHighlightCode = (): Promise<Component> =>
-  import("./highlight-code.vue")
+export const factorHighlightCode = (): Promise<any> => import("./highlight-code.vue")

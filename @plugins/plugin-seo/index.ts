@@ -1,6 +1,6 @@
 import { objectIdType } from "@factor/post/object-id"
 import { addFilter, pushToFilter } from "@factor/api"
-import { Component } from "vue"
+
 import mongoose from "mongoose"
 
 export const setup = (): void => {
@@ -9,7 +9,7 @@ export const setup = (): void => {
     hook: "post-edit-components",
     item: {
       name: "SEO and Sharing",
-      component: (): Promise<Component> => import("./seo-panel.vue"),
+      component: (): Promise<any> => import("./seo-panel.vue"),
     },
   })
 

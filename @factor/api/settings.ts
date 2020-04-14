@@ -3,9 +3,15 @@ import { applyFilters, addCallback } from "@factor/api/hooks"
 import { configSettings } from "@factor/api/config"
 import Vue from "vue"
 import coreSettings from "@factor/app/core-settings"
-type SettingsObject = Record<string, any>
 
+type SettingsObject = Record<string, any>
 export type SettingsRecords = Record<string, SettingsObject>
+
+declare module "vue/types/vue" {
+  interface VueConstructor {
+    $factorSettings: SettingsRecords
+  }
+}
 
 /**
  * Returns a unique ID for a set of settings based on app directory

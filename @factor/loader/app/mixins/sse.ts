@@ -1,5 +1,11 @@
 import Vue from "vue"
 
+declare module "vue/types/vue" {
+  interface VueConstructor {
+    $sse: any
+  }
+}
+
 export default {
   methods: {
     logSse(this: any, ...args: any[]): void {
