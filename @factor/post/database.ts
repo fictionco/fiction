@@ -1,3 +1,5 @@
+// Helps with resolution in node_modules
+import "./global.d"
 import { log } from "@factor/api"
 import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
 import { writeConfig, addNotice } from "@factor/cli/setup"

@@ -3,6 +3,11 @@
 // any circular references to @factor/api from modules from also included here
 // Will error with "Object(...) is not a function"
 // Make sure to call modules directly here
+// --
+
+// Helps with resolution in node_modules
+import "./global.d"
+
 import log from "./logger"
 export * from "./utils"
 
