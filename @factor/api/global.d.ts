@@ -7,6 +7,15 @@ declare module "*.css"
 declare module "*.md"
 declare module "*package"
 declare module "jest"
+declare module "std-env"
+declare module "gravatar"
+declare module "strip-markdown"
+declare module "markdown-it-video"
+declare module "markdown-it-link-attributes"
+declare module "markdown-it-implicit-figures"
+declare module "rand-token"
+declare module "figures"
+
 declare module "*.vue" {
   import Vue from "vue"
   export default Vue
@@ -42,4 +51,15 @@ declare module "module-alias" {
     cb: (fromPath: string, request: string, alias: string) => string
   ): void
   function addAlias(alias: string, path: string): void
+}
+
+declare namespace jest {
+  interface Describe {
+    win: any
+    posix: any
+  }
+  interface It {
+    win: any
+    posix: any
+  }
 }

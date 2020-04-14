@@ -41,7 +41,7 @@ export const storeItem = (item: string, value: any): void => {
   return __store.commit("setItem", { item, value })
 }
 
-export const stored = (key?: string | ObjectId): any => {
+export const stored = (key?: string | ObjectId | number): any => {
   if (!__store) return undefined
 
   if (!key) return __store.state

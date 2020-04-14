@@ -10,6 +10,8 @@
     "_id": "cli"
   },
   "dependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "@types/inquirer": "^6.5.0",
     "@types/module-alias": "^2.0.0",
     "chalk": "^4.0.0",
     "cli-highlight": "^2.1.1",

@@ -11,6 +11,10 @@ import { getAddedSchemas, getBaseSchema } from "./util"
 
 export type FactorPostDocument = FactorPost & Document
 
+declare module "mongoose" {
+  export const modelSchemas: { [index: string]: Schema }
+}
+
 let __schemas: { [index: string]: Schema } = {}
 let __models: { [index: string]: Model<any> } = {}
 let __offline = false
