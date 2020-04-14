@@ -1,6 +1,6 @@
 {
   "name": "@factor/dashboard",
-  "version": "1.5.26",
+  "version": "1.5.28",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
