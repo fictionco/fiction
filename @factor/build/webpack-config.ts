@@ -20,6 +20,7 @@ import { generateLoaders } from "@factor/cli/extension-loader"
 import webpackProgressPlugin from "webpack/lib/ProgressPlugin"
 import cliProgress, { SingleBar, MultiBar } from "cli-progress"
 import { ControlFile } from "@factor/cli/types"
+import { emitEvent } from "@factor/api/events"
 import { cssLoaders } from "./webpack-utils"
 
 /**
@@ -108,7 +109,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
       extensions: [".js", ".vue", ".json", ".ts"],
       alias: applyFilters(
         "webpack-aliases",
-        { static: getPath('static', cwd) },
+        { static: getPath("static", cwd) },
         _arguments
       ),
     },
@@ -229,7 +230,10 @@ const client = (cwd?: string): Configuration => {
         this.plugin("done", function (stats: Stats) {
           const { errors } = stats.compilation
           if (errors && errors.length > 0) {
-            errors.forEach((e) => log.error(e))
+            errors.forEach((e) => {
+              log.error(e)
+              emitEvent("buildError", e)
+            })
           }
         })
       },
