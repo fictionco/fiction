@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-//import "./global.d" // Helps with resolution in node_modules
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./global.d.ts" />
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import { highlight } from "cli-highlight"

@@ -5,8 +5,8 @@
 // Make sure to call modules directly here
 // --
 
-// Helps with resolution in node_modules
-//import "./global.d"
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./global.d.ts" />
 
 import log from "./logger"
 export * from "./utils"

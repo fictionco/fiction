@@ -1,5 +1,7 @@
 // Helps with resolution in node_modules
-//import "./global.d"
+
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./global.d.ts" />
 import { log } from "@factor/api"
 import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
 import { writeConfig, addNotice } from "@factor/cli/setup"
