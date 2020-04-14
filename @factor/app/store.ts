@@ -6,6 +6,12 @@ Vue.use(Vuex)
 
 let __store: Store<object> | undefined
 
+declare global {
+  interface Window {
+    __INITIAL_STATE__: any
+  }
+}
+
 export const getStore = (): Store<object> => {
   __store = new Vuex.Store({
     strict: false,

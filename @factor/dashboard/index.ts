@@ -21,6 +21,13 @@ export const dashboardTableFooter = (): Promise<any> => import("./table-footer.v
 export const dashboardInput = (): Promise<any> => import("./el/input.vue")
 export const dashboardUserCard = (): Promise<any> => import("./el/user-card.vue")
 export const dashboardUserList = (): Promise<any> => import("./el/user-list.vue")
+
+declare global {
+  interface Window {
+    factorFrame: any
+  }
+}
+
 /**
  * The base route for the dashboard
  */
