@@ -6,7 +6,7 @@
 // --
 
 // Helps with resolution in node_modules
-import "./global.d"
+//import "./global.d"
 
 import log from "./logger"
 export * from "./utils"
