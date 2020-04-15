@@ -305,7 +305,7 @@ export default {
   align-items: center;
   height: 100vh;
   transition: opacity 0.4s;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .under-maintenance {
