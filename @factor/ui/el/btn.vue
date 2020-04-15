@@ -21,6 +21,7 @@ button.app-btn {
   border-radius: 4px;
   color: var(--color-text);
   transition: all 0.2s ease-in-out;
+  border: none;
   &:focus {
     outline: none;
   }
@@ -50,7 +51,10 @@ button.app-btn {
 
   &.default {
     background: var(--color-bg, #fff);
-    box-shadow: inset var(--box-shadow-input, 0 0 0 1px rgba(0, 43, 93, 0.2));
+    border-color: var(
+      --color-border,
+      rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186)
+    );
     &:hover {
       background: var(--color-bg-contrast, #f7f7f7);
     }
@@ -69,6 +73,7 @@ button.app-btn {
   &.secondary {
     color: var(--color-secondary-text, #fff);
     background: var(--color-secondary, #3a4854);
+    border-color: var(--color-secondary, #3a4854);
 
     .ring-path {
       stroke: var(--color-secondary-text, #fff);

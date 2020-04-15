@@ -2,7 +2,6 @@ declare module "*.png"
 declare module "*.jpg"
 declare module "*.json"
 declare module "*.svg"
-
 declare module "*.css"
 declare module "*.md"
 declare module "*package"
@@ -15,7 +14,6 @@ declare module "markdown-it-link-attributes"
 declare module "markdown-it-implicit-figures"
 declare module "rand-token"
 declare module "figures"
-
 declare module "*.vue" {
   import Vue from "vue"
   export default Vue
