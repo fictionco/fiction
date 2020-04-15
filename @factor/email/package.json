@@ -1,6 +1,6 @@
 {
   "name": "@factor/email",
-  "version": "1.5.25",
+  "version": "1.6.0",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
