@@ -9,6 +9,13 @@ export const factorVersion = (): string => {
 }
 
 /**
+ * Set the scope of the framework to control defaults and handling
+ */
+export const factorScope = (): "framework" | "cms" => {
+  return setting("scope") ?? "cms"
+}
+
+/**
  * Get a unique ID to associate with an app
  */
 export const appId = (): string => {

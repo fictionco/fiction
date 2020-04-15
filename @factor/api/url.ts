@@ -9,6 +9,7 @@ interface UrlOptions {
 const removeProtocol = (url: string): string => {
   return url.replace(/(^\w+:|^)\/\//, "")
 }
+
 /**
  * Gets the localhost url based on port and protocol
  */
@@ -81,5 +82,23 @@ export const canonicalUrl = (path: string): string => {
     return path
   } else {
     return `${currentUrl()}${path}`
+  }
+}
+
+/**
+ * Gets the url of a common system based location based on string
+ * @param location - system location
+ */
+export const systemUrl = (
+  location: "production" | "local" | "dashboard" | "current"
+): string => {
+  if (location == "production") {
+    return productionUrl()
+  } else if (location == "local") {
+    return localhostUrl()
+  } else if (location == "dashboard") {
+    return dashboardUrl()
+  } else {
+    return currentUrl()
   }
 }

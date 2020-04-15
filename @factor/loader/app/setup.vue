@@ -12,15 +12,8 @@
         ]"
       >
         <span v-if="isComplete(page._id)" class="check">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
           </svg>
         </span>
         <span class="num">{{ page._id }}</span>
@@ -74,9 +67,7 @@
                   class="btn next-step"
                   :class="isComplete('app') ? 'primary' : 'default'"
                   @click="nextStep()"
-                >
-                  Next Step &rarr;
-                </div>
+                >Next Step &rarr;</div>
                 <div class="skipper">
                   or
                   <span
@@ -119,9 +110,7 @@
                   class="btn next-step"
                   :class="isComplete('account') ? 'primary' : 'default'"
                   @click="nextStep()"
-                >
-                  Next Step &rarr;
-                </div>
+                >Next Step &rarr;</div>
                 <div class="skipper">
                   or
                   <span
@@ -156,9 +145,7 @@
                       class="btn primary primary next-step"
                       :class="isComplete('theme') ? 'primary' : 'default'"
                       @click="nextStep()"
-                    >
-                      Next Step &rarr;
-                    </div>
+                    >Next Step &rarr;</div>
                     <div class="skipper">
                       or
                       <span
@@ -227,9 +214,7 @@
                   class="btn next-step"
                   :class="isComplete('db') ? 'primary' : 'default'"
                   @click="nextStep()"
-                >
-                  Next Step &rarr;
-                </div>
+                >Next Step &rarr;</div>
 
                 <div class="skipper">
                   or
@@ -259,9 +244,7 @@
                 </div>
               </div>
               <div class="actions top-margin">
-                <div class="btn primary" @click="sendData()">
-                  Save Config &amp; Build App &rarr;
-                </div>
+                <div class="btn primary" @click="sendData()">Save Config &amp; Build App &rarr;</div>
               </div>
             </div>
           </transition>
@@ -288,7 +271,7 @@ import storageMixin from "./mixins/storage"
 import { sendEvent } from "./utils"
 export default Vue.extend({
   components: {
-    factorLogo: () => import("./logo-factor.vue"),
+    factorLogo: () => import("./el/logo-factor.vue"),
     formInput: () => import("./el/form-input.vue"),
   },
   mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],

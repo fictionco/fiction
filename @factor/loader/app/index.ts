@@ -21,7 +21,6 @@ const router = new VueRouter({
   ],
 })
 
-Vue.config.devtools = true
 window._factorLoadingScreen = new Vue({
   render: (h: CreateElement): VNode => h(Site),
   router,

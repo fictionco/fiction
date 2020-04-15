@@ -20,7 +20,8 @@ import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
-import { dashboardUrl } from "@factor/api/url"
+import { factorScope } from "@factor/api/about"
+import { systemUrl } from "@factor/api/url"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
@@ -135,7 +136,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   __application = express()
 
-  loadMiddleware(__application)
+  await loadMiddleware(__application)
 
   __application.get("*", (request, response) => {
     return renderRequest(__renderer, request, response)
@@ -147,12 +148,13 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         logServerReady()
       }
 
-      if (
-        process.env.NODE_ENV == "development" &&
-        openOnReady &&
-        process.env.FACTOR_ENV !== "test"
-      ) {
-        open(dashboardUrl())
+      if (openOnReady && process.env.FACTOR_ENV !== "test") {
+        const openAtUrl = systemUrl(
+          process.env.NODE_ENV == "development" && factorScope() == "cms"
+            ? "dashboard"
+            : "local"
+        )
+        open(openAtUrl)
       }
 
       setRestarting("no")

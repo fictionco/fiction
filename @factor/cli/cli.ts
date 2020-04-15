@@ -62,7 +62,9 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
     debug,
   } = setup
 
-  // Set environment again based on any changes made via CLI arguments
+  /**
+   * Set environment again based on any changes made via CLI arguments
+   */
   setEnvironment({ NODE_ENV, PORT, debug, command })
 
   try {

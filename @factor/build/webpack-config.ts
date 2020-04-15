@@ -365,7 +365,6 @@ export const buildProduction = async (
       clearOnComplete: true,
       hideCursor: true,
       format,
-      noTTYOutput: true,
     },
     Presets.rect
   )
@@ -424,6 +423,9 @@ export const buildProduction = async (
   )
 
   await Promise.all(promises)
+
+  // Notify build watchers we are done
+  emitEvent("buildProgress", "bundle", { progress: 100, message: "bundles created" })
 
   if (process.env.FACTOR_ENV != "test") {
     results.forEach(({ target, info, cwd }) => {

@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no"
-    />
-    <meta name="generator" content="Factor" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title><%= html.title %></title>
-  </head>
 
-  <body>
-    <div id="app"></div>
-    <script>
-      window.$STATE = "STATE"
-    </script>
-    <script>
-      window.$BASE_URL = "{BASE_URL}"
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no" />
+  <meta name="generator" content="Factor" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title><%= html.title %></title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    window.$STATE = "STATE"
+    window.$BASE_URL = "{BASE_URL}"
+    window.$NODE_ENV = "{NODE_ENV}"
+    window.$APP_ICON = "{APP_ICON}"
+  </script>
+</body>
+
 </html>

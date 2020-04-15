@@ -39,17 +39,32 @@ export const setEnvironment = (_arguments: EnvironmentConfig = {}): void => {
  */
 export const extendServer = async ({ restart = false } = {}): Promise<void> => {
   try {
+    /**
+     * Add functionality before plugins are installed and initialized
+     * @callback
+     */
     await runCallbacks("before-server-plugins")
   } catch (error) {
     log.error(error)
   }
 
+  /**
+   * Load the server module extensions that are auto-loaded
+   */
   // eslint-disable-next-line import/no-unresolved
   require("__CWD__/.factor/loader-server")
 
+  /**
+   * Primary filter for extending the server environment w callbacks/filters/middleware
+   * @callback
+   */
   await runCallbacks("initialize-server")
 
   if (!restart) {
+    /**
+     * This filter will run only once on initial server setup, if server restarting is enabled it won't be run again
+     * @callback
+     */
     await runCallbacks("after-first-server-extend")
   }
 }
@@ -67,9 +82,11 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
 
   await extendServer(_config)
 
-  // Filters must be reloaded with every new restart of server.
-  // This adds the filter each time to allow for restart
-
+  /**
+   * Filters must be reloaded with every new restart of server as they are purged.
+   * This adds the filter each time to allow for restart
+   * @hook
+   */
   addCallback({
     key: "nodeReload",
     hook: "rebuild-server-app",

@@ -17,7 +17,7 @@ import {
   setShowInstall,
 } from "./loading"
 
-export const initLoader = (): void => {
+export const addLoaderMiddleware = (): void => {
   const app = initializeLoading()
 
   addMiddleware({
@@ -129,3 +129,15 @@ export const showInstallRoutine = async (): Promise<void> => {
 export const renderLoading = (): string => {
   return serveIndex()
 }
+
+export const setup = (): void => {
+  addCallback({
+    key: "loaderMiddleware",
+    hook: "before-middleware",
+    callback: () => {
+      addLoaderMiddleware()
+    },
+  })
+}
+
+setup()

@@ -2,10 +2,19 @@
   <div class="loading-screen" :class="{ hide: allDone && !preventReload }">
     <div class="factor-logo-area">
       <transition appear>
-        <factor-logo />
+        <factor-spinner v-if="nodeEnv == 'production'" :show="true" />
+        <factor-logo v-else />
       </transition>
     </div>
-    <div class="loading-area">
+    <div v-if="nodeEnv == 'production'" class>
+      <div class="under-maintenance">
+        <h3 class="title">Under Maintenance</h3>
+        <div
+          class="sub-title"
+        >We are down briefly for a upgrades and maintenance. We'll be right back.</div>
+      </div>
+    </div>
+    <div v-else class="loading-area">
       <div v-if="hasErrors && !errorDescription" class="error-item">
         <h3 class="hasErrors">An error occured, please look at Factor terminal.</h3>
       </div>
@@ -61,7 +70,8 @@ const waitFor = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default {
   components: {
-    factorLogo: () => import("./logo-factor.vue"),
+    factorLogo: () => import("./el/logo-factor.vue"),
+    factorSpinner: () => import("./el/spinner.vue"),
   },
   mixins: [capitalizeMixin, logMixin, sseMixin, storageMixin],
   data() {
@@ -75,12 +85,14 @@ export default {
       preventReload: false,
       manualReload: false,
       baseURL: window.$BASE_URL,
+      nodeEnv: window.$NODE_ENV,
       progress: 0,
       message: "",
       build: "",
     }
   },
   computed: {
+
     progressText() {
       const showPercent = this.progress ? `${Math.round(this.progress)}%` : ""
       return `${this.cap(this.message)} ${showPercent}`
@@ -101,7 +113,7 @@ export default {
       return
     }
 
-    document.title = "Factor Loading"
+    document.title = this.nodeEnv == 'development' ? "Building App" : 'Under Maintenance'
 
     this.onData(window.$STATE)
 
@@ -278,9 +290,14 @@ export default {
       height: 100px;
       min-width: 200px;
     }
+    .spinner {
+      width: 3rem;
+      height: 3rem;
+    }
   }
 }
-.loading-area {
+.loading-area,
+.under-maintenance {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -288,12 +305,22 @@ export default {
   align-items: center;
   height: 100vh;
   transition: opacity 0.4s;
+  padding: 1rem;
+}
+
+.under-maintenance {
+  text-align: center;
 }
 
 h3 {
   font-size: 1.4em;
   font-weight: 700;
   margin: 1em 0;
+}
+
+.sub-title {
+  opacity: 7;
+  line-height: 1.5;
 }
 
 .hasErrors {

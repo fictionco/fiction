@@ -39,6 +39,7 @@ export const serveIndex = (): string => {
   return template
     .replace('"STATE"', JSON.stringify(loaderState))
     .replace(/{BASE_URL}/g, localhostUrl() + "/")
+    .replace(/{NODE_ENV}/g, process.env.NODE_ENV ?? "production")
 }
 
 export const initializeLoading = (): express.Express => {
