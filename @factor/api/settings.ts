@@ -96,7 +96,7 @@ export const createSettings = (cwd?: string): void => {
 export const setting = <T = any>(
   key: string,
   { cwd }: { cwd?: string } = {}
-): T | undefined => {
+): T => {
   const settings = getSettings(cwd)
 
   return dotSetting({ key, settings })

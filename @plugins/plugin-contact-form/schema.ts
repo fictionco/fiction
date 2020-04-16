@@ -3,7 +3,7 @@ export default {
   permissions: {
     create: { accessLevel: 0 },
     retrieve: {
-      accessLevel: 100,
+      accessLevel: 200,
       accessAuthor: true,
     },
   },

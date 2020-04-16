@@ -34,8 +34,8 @@
   },
   "homepage": "https://factor.dev/plugin/bugsnag-factor-plugin",
   "dependencies": {
-    "@bugsnag/js": "^6.4.1",
-    "@bugsnag/plugin-vue": "^6.4.1"
+    "@bugsnag/js": "^7.0.0",
+    "@bugsnag/plugin-vue": "^7.0.0"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

@@ -12,9 +12,7 @@
           </factor-link>
         </div>
         <div class="text-header">
-          <div v-if="clickEvent" class="title click-title" @click="clickEvent(post)">
-            {{ itemTitle }}
-          </div>
+          <div v-if="clickEvent" class="title click-title" @click="clickEvent(post)">{{ itemTitle }}</div>
           <factor-link v-else :path="itemPath" class="title">{{ itemTitle }}</factor-link>
           <div v-if="itemSubTitle" class="sub-title">{{ itemSubTitle }}</div>
         </div>
@@ -172,7 +170,6 @@ export default Vue.extend({
       color: inherit;
     }
     .title {
-      white-space: pre-wrap;
       font-weight: 700;
       font-size: 1.2em;
       margin-bottom: 0.25rem;

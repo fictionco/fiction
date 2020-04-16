@@ -5,7 +5,11 @@ import { getSetting } from "@factor/plugin-email-list"
 import * as endpoints from "@factor/plugin-email-list/server"
 import { Model, Document } from "mongoose"
 import { addEndpoint } from "@factor/api/endpoints"
+import { addPostSchema } from "@factor/post/util"
 import { EmailConfig } from "./types"
+import postSchema from "./schema"
+
+addPostSchema(postSchema)
 
 const uniqueId = (listId: string): string => {
   return `_plugin-emailList-${listId}`

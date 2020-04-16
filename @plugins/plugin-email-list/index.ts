@@ -52,6 +52,7 @@ export const postTypeUIConfig = {
   listTemplate: (): Promise<any> => import("./dashboard-list.vue"),
   editTemplate: (): Promise<any> => import("./dashboard-edit.vue"),
   add: false,
+  accessLevel: 300,
 }
 
 addPostType(postTypeUIConfig)

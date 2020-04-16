@@ -98,7 +98,7 @@ export default {
       return `${this.cap(this.message)} ${showPercent}`
     },
     building() {
-      return this.build == "bundle" ? "Building App" : "Setting Up Environment"
+      return this.build == "bundle" ? "Building Application" : "Setting Up Environment"
     },
   },
 

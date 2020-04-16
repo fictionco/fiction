@@ -27,7 +27,7 @@ export default Vue.extend({
   props: {
     listId: { type: String, default: "default" },
   },
-  data() {
+  data(this: any) {
     return {
       email: "",
       sending: false,

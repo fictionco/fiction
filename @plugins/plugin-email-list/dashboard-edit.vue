@@ -1,33 +1,36 @@
 <template>
-  <dashboard-pane :title="title" class="email-list-edit">
-    <dashboard-list-controls
-      :control-actions="controlActions()"
-      :control-status="controlStatus()"
-      :selected="selected"
-      :loading="loading"
-      :list="list"
-      @action="handleAction($event)"
-      @select-all="selectAll($event)"
-    />
+  <dashboard-page>
+    <dashboard-pane :title="title" class="email-list-edit">
+      <dashboard-list-controls
+        :control-actions="controlActions()"
+        :control-status="controlStatus()"
+        :selected="selected"
+        :loading="loading"
+        :list="list"
+        @action="handleAction($event)"
+        @select-all="selectAll($event)"
+      />
 
-    <dashboard-list-post
-      v-for="item in list"
-      :key="item.email"
-      v-model="selected"
-      :post="item"
-      sub-title="Email"
-      :meta="postItemMeta(item)"
-      :additional="[]"
-      :actions="postItemActions(item)"
-      :edit-path="false"
-    />
-  </dashboard-pane>
+      <dashboard-list-post
+        v-for="item in list"
+        :key="item.email"
+        v-model="selected"
+        :post="item"
+        sub-title="Email"
+        :meta="postItemMeta(item)"
+        :additional="[]"
+        :actions="postItemActions(item)"
+        :edit-path="false"
+      />
+    </dashboard-pane>
+  </dashboard-page>
 </template>
 
 <script lang="ts">
 /* eslint-disable no-unused-vars */
 import { storeItem, stored, internationalDate } from "@factor/api"
 import {
+  dashboardPage,
   dashboardPane,
   dashboardListPost,
   dashboardListControls,
@@ -40,6 +43,7 @@ import { deleteEmails, csvExport } from "."
 export default Vue.extend({
   name: "EmailListGrid",
   components: {
+    dashboardPage,
     dashboardPane,
     dashboardListPost,
     dashboardListControls,

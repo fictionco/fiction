@@ -95,6 +95,7 @@
     "jsdom": "^16.0.0",
     "lerna": "^3.13.0",
     "mongodb-memory-server": "^6.0.1",
+    "poi": "^12.7.5",
     "prettier": "^2.0.4",
     "prettier-eslint": "^9.0.0",
     "request": "^2.88.0",
@@ -107,7 +108,6 @@
     "vue-jest": "^4.0.0-beta.2",
     "vue-server-renderer": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
-    "poi": "^12.7.5",
     "webpack": "^4.29.6",
     "yorkie": "^2.0.0"
   },

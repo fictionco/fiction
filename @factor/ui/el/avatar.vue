@@ -5,25 +5,6 @@
       :style="getStyle({ backgroundImage: `url(${src})` })"
       class="thumb thumb-src"
     />
-
-    <div v-else-if="!hasImage" :style="getStyle()" class="thumb thumb-default">
-      <svg
-        class="user-blank"
-        version="1.1"
-        x="0px"
-        y="0px"
-        viewBox="0 0 24 24"
-        style="enable-background: new 0 0 24 24;"
-        xml:space="preserve"
-      >
-        <g class="st0">
-          <path
-            d="M12,5c1.7,0,3,1.3,3,3s-1.3,3-3,3S9,9.7,9,8S10.3,5,12,5z M12,19.2c-2.5,0-4.7-1.3-6-3.2c0-2,4-3.1,6-3.1c2,0,6,1.1,6,3.1
-          C16.7,17.9,14.5,19.2,12,19.2z"
-          />
-        </g>
-      </svg>
-    </div>
   </div>
 </template>
 <script lang="ts">
@@ -39,7 +20,7 @@ export default Vue.extend({
     url: { type: String, default: "" },
     email: { type: String, default: "" },
     loading: { type: Boolean, default: false },
-    user: { type: [Object, undefined], default: undefined },
+    user: { type: [Object], default: () => {} },
     defaultGravatar: { type: String, default: "identicon" },
   },
   data() {
@@ -70,7 +51,7 @@ export default Vue.extend({
           }) || ""
         )
       } else {
-        return ""
+        return this.userBlank()
       }
     },
   },
@@ -92,6 +73,24 @@ export default Vue.extend({
 
       return { ...dimension, ...more }
     },
+    userBlank() {
+      return `data:image/svg+xml;utf8,<svg
+        class="user-blank"
+        version="1.1"
+        x="0px"
+        y="0px"
+        viewBox="0 0 24 24"
+        style="enable-background: new 0 0 24 24;"
+        xml:space="preserve"
+      >
+        <g class="st0">
+          <path
+            d="M12,5c1.7,0,3,1.3,3,3s-1.3,3-3,3S9,9.7,9,8S10.3,5,12,5z M12,19.2c-2.5,0-4.7-1.3-6-3.2c0-2,4-3.1,6-3.1c2,0,6,1.1,6,3.1
+          C16.7,17.9,14.5,19.2,12,19.2z"
+          />
+        </g>
+      </svg>`
+    },
   },
 })
 </script>
@@ -111,10 +110,10 @@ export default Vue.extend({
   }
   .user-blank {
     opacity: 0.6;
-    fill: var(--color-placeholder);
+    fill: var(--color-bg-contrast);
     box-shadow: var(--box-shadow-input);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
   }
   width: 100%;
 }
