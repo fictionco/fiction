@@ -2,7 +2,7 @@ import bugsnag from "@bugsnag/js"
 
 import BugsnagPluginVue from "@bugsnag/plugin-vue"
 import { setting } from "@factor/api"
-
+import Vue from "vue"
 import { currentUser } from "@factor/user"
 
 const clientApiKey = setting("bugsnag.clientApiKey")
@@ -14,7 +14,8 @@ export const setup = (): void => {
 
   bugsnag.start({
     apiKey: clientApiKey,
-    plugins: [new BugsnagPluginVue()],
+    // @ts-ignore
+    plugins: [new BugsnagPluginVue(Vue)],
     onError: function (event) {
       const user = currentUser()
       if (user) {

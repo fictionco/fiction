@@ -100,7 +100,6 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       rules: {
         "@typescript-eslint/explicit-function-return-type": ["warn"],
-        "@typescript-eslint/ban-ts-ignore": "warn",
       },
     },
   ],

@@ -49,7 +49,8 @@
     "stopwords": "^0.0.9",
     "strip-markdown": "^3.0.3",
     "uniqid": "^5.0.3",
-    "validator": "^13.0.0"
+    "validator": "^13.0.0",
+    "vue": "^2.6.11"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480"
 }
