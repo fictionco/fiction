@@ -1,6 +1,6 @@
 ---
-title: Factor Introduction
-description: What is Factor and why is it useful? How does it compare to alternative approaches?
+title: Introduction and Backstory
+description: What is Factor and why is it useful? Learn how it solves common development problems and how it compares to alternative approaches.
 ---
 
 # Introduction
@@ -25,11 +25,11 @@ The first question people usually ask is, how is Factor different from everythin
 
 A few key characteristics of Factor:
 
-- **Easy Plugins and Themes** - Factor uses a special architecture that allows plugins and themes to 'just work.' Add a plugin and then customize, no integration steps.
-- **No Functional Limitations** - A full stack system means power and simplicity. No more APIs or serverless functions for everything.
-- **Javascript Only** - Build only with Javascript and Javascript friendly tech (JSON, Mongo, Typescript).
-- **Modern Portability and Scalability** - Do things that your friends building PHP apps can only dream of...
-- **Best Practices** - Built on non-biased open-source tech from developers just like us: Vue, Mongo, Node, Express.
+- **(Really) Easy Plugins and Themes** - Work with a special architecture that allows you to add new functionality in seconds with plugins and themes to 'just work.' 
+- **Server & App in One Environment** - Use a full stack system that combines everything you need from endpoints (auth, ssr) with a robust client-side app framework. This reduces the need for external APIs and simplifies your app's structure as you build advanced features.
+- **Javascript Focused** - JavaScript is the most popular and actively developed tool for the web. Life is much simpler when you only need to worry JavaScript and JavaScript-focused complementary frameworks (MongoDB, Vue, TypeScript, Webpack).
+- **Modern Portability and Scalability** - Use modern technology that allows applications to be massively easier to scale and work with in different environments. Do things that your friends building PHP apps can only dream of...
+- **Open-Source Focused (No SaaS)** - Use an architecture is designed to help you avoid the risks, costs and complication associated with external APIs and services. Build on an open-source stack and increase your chances of success in the long-term.
 
 Here is a comparison table to help you quickly see how things compare:
 
@@ -109,20 +109,21 @@ Here is a comparison table to help you quickly see how things compare:
     </tr>
   </tbody>
 </table>
-
-## Other Important Information
-
-If you're considering Factor, then you'll probably want to know a bit about the philosophy and approach behind the software.
-
-### Built by Fiction
+### The Backstory 
 
 Factor was created as an internal framework for building our own apps at [Fiction.com](https://www.fiction.com).
 
-We started in 2017, building an application for renting monthly homes. In this process, we made MANY mistakes around new technology; continually getting fooled by the large marketing budgets of big corporations or venture funded companies.
+We started in 2017, building an application for renting monthly home, similar in approach to Airbnb. In this process, we made *many* mistakes around new technology; continually getting fooled by the large marketing budgets of big corporations or venture funded companies.
 
-After wasting many months reading technical documentation, debugging, reinventing the wheel, and discovering undisclosed limitations of proprietary services; we decided we needed to formalize our software approach and build something simple and standard, based on the best philosophical ideas from the last 50 years of software development.
+After wasting many months reading technical documentation, debugging, reinventing the wheel, and discovering undisclosed limitations of various services; we decided we needed to formalize our software approach and build something simple and standard, based on the best philosophical ideas from the last 50 years of software development.
 
 With that, we started building Factor.
+
+Prior to Fiction, we were the founders of a web tools company called [PageLines](https://www.pagelines.com), that built frameworks, plugins and themes for WordPress.  We were successful with this, serving over 58,500 paying customers and shipping over 210,000 live websites.  In building Factor, we've used all this experience--including innovations, mistakes, successes and failures--to build something that we think will deliver you outstanding results now and in the future.
+
+### Next Steps
+
+Now that you know a little about Factor, and what it can do for you, you probably want to [install it](./install) or read about it's [core concepts and architecture](./core-concepts).
 
 ### Software Philosophy
 
