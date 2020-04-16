@@ -15,9 +15,9 @@ Every day Factor powers some of the most powerful yet scalable apps on the inter
 
 ## The Problem Factor Solves
 
-Building top-quality JavaScript apps is hard because there is too much reinventing of the wheel. Developers are forced to adopt too much code and things become complicated and brittle quickly. Months can be wasted developing, testing, and debugging code for boilerplate functionality that doesn't add distinct value to your app.
+Building quality JavaScript apps is hard.There is simply too much reinventing of the wheel. Developers are forced to adopt too much code and things become complicated quickly. Months can be wasted on boilerplate functionality that doesn't add distinct value to your app.
 
-The solution to this problem is to use a core framework to help you with best practices and structure; and then add or develop plugins to reach mission specific goals.
+The solution is using a core framework that helps you with best practices and structure; and then gives you the ability to easily add plugins or themes to reach your mission specific goals. Factor is here to help you with this.
 
 ## How Factor Is Different
 
@@ -109,6 +109,7 @@ Here is a comparison table to help you quickly see how things compare:
     </tr>
   </tbody>
 </table>
+
 ### The Backstory 
 
 Factor was created as an internal framework for building our own apps at [Fiction.com](https://www.fiction.com).
@@ -119,20 +120,8 @@ After wasting many months reading technical documentation, debugging, reinventin
 
 With that, we started building Factor.
 
-Prior to Fiction, we were the founders of a web tools company called [PageLines](https://www.pagelines.com), that built frameworks, plugins and themes for WordPress.  We were successful with this, serving over 58,500 paying customers and shipping over 210,000 live websites.  In building Factor, we've used all this experience--including innovations, mistakes, successes and failures--to build something that we think will deliver you outstanding results now and in the future.
+Prior to Fiction, we were the founders of a web tools company called [PageLines](https://www.pagelines.com), that built frameworks, plugins and themes for WordPress.  We were successful with this, serving over 58,500 paying customers and shipping over 210,000 live websites.  In building Factor, we've used all this experience&mdash;including innovations, mistakes, successes and failures&mdash;to build something that we think will deliver you outstanding results now and in the future.
 
 ### Next Steps
 
-Now that you know a little about Factor, and what it can do for you, you probably want to [install it](./install) or read about it's [core concepts and architecture](./core-concepts).
-
-### Software Philosophy
-
-The detailed picture is covered in the core concepts document, but here are some key "rules" we follow to deliver a superior product:
-
-- **Build on an Open-Source Stack.** Working with proprietary technology often leads to risks and costs in the long term. We've found that open-source tech is not only free, but also reduces risk and encourages standardization of your app.
-
-- **80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
-
-- **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scalable and portable; also, easy to develop. Factor leverages this philosophy.
-
-- **JavaScript and TypeScript Only** In the last years, the one language that has made the most progress is clearly JavaScript and it's type-safe buddy TypeScript. For that reason, Factor is focused on JS and JS oriented libraries. That way you only need to learn one key language and complementary tools.
+Now that you know a little about Factor, and what it can do for you, you probably want to learn about [installation and setup](./install) or read about it's [core concepts and architecture](./core-concepts).

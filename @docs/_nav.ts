@@ -6,16 +6,24 @@ export default [
         path: "/docs",
         icon: "far fa-file-alt",
       },
+      {
+        doc: "introduction",
+        file: (): Promise<string> => import("./getting-started/introduction/index.md"),
+      },
+      {
+        doc: "core-concepts",
+        file: (): Promise<string> => import("./getting-started/core-concepts/index.md"),
+      },
     ],
   },
   {
-    title: "Getting Started",
+    title: "Essentials",
     description: "Learn how to setup your Factor app",
     boxIcon: "quick",
     items: [
       {
-        doc: "introduction",
-        file: (): Promise<string> => import("./getting-started/introduction/index.md"),
+        doc: "install",
+        file: (): Promise<string> => import("./essentials/install/index.md"),
       },
     ],
   },

@@ -38,12 +38,13 @@ export const getLatestVersion = async (): Promise<string> => {
     log.info("Error getting latest Factor version")
   }
   const current = factorVersion()
+  const executor = getCliExecutor()
 
   if (latest && current != latest) {
     pushToFilter({
       key: "newVersion",
       hook: "cli-notices",
-      item: `New Factor version available (v${latest})`,
+      item: `A Factor upgrade is available (v${latest}) - Run: "${executor} upgrade"`,
     })
   }
 
