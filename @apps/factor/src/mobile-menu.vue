@@ -39,7 +39,6 @@ import { factorLink } from "@factor/ui"
 import { toLabel, emitEvent } from "@factor/api"
 import Vue from "vue"
 import { isLoggedIn } from "@factor/user"
-import { config } from "./docs-handler"
 export default Vue.extend({
   components: {
     factorLink,
@@ -51,11 +50,7 @@ export default Vue.extend({
       activeMenu: { docs: true, pages: true },
     }
   },
-  computed: {
-    nav() {
-      return config()
-    },
-  },
+  computed: {},
   mounted() {
     this.menus = [
       {

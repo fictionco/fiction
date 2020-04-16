@@ -1,50 +1,19 @@
-import comparison from "./docs/comparison.vue"
+import docNav from "../../@docs/_nav"
+import docNavOld from "../../@docs-old/_nav-old"
+
 export default {
+  docsEngine: {
+    nav: process.env.NODE_ENV == "production" ? docNavOld : docNav,
+  },
   app: { url: "https://factor.dev" },
   metaInfo: {
     default: {
       image: require("./src/static/factor-logo.jpg"),
     },
   },
-  components: {
-    comparison,
-  },
+
   emailList: {
     alphaProgram: { tags: ["factor-dev"] },
-  },
-  docs: {
-    base: "guide",
-    pages: [
-      { group: "getting-started" },
-      { root: true, slug: "introduction" },
-      {
-        slug: "quickstart",
-        description: "Get started using Factor CMS in less than 5 minutes.",
-      },
-      { slug: "dashboard-setup" },
-      { slug: "basic-example" },
-      { group: "app-development" },
-      { slug: "structure" },
-      { slug: "plugins-and-themes" },
-      { slug: "settings-and-style" },
-      { slug: "posts-and-pages" },
-      { slug: "cli", name: "CLI" },
-      { slug: "router-and-store" },
-      { slug: "metainfo", name: "Meta Info" },
-      { slug: "working-with-posts" },
-      { slug: "endpoints-and-middleware" },
-      { slug: "ssr", name: "Server-Side Rendering" },
-      { slug: "deployment" },
-      { group: "extension-development" },
-      { slug: "creating-plugins" },
-      { slug: "creating-themes" },
-      { slug: "filters-callbacks-events", name: "Filters, Callbacks and Events" },
-      { slug: "extend-the-dashboard" },
-      { slug: "extend-the-cli", name: "Extend the CLI" },
-      { group: "contributing" },
-      { slug: "contribution" },
-      { slug: "philosophy" },
-    ],
   },
   site: {
     logo: (): Promise<any> => import("./src/el/logo-factor.vue"),

@@ -1,6 +1,6 @@
 import { toLabel, setting } from "@factor/api"
 import { renderMarkdown } from "@factor/api/markdown"
-import { DocsItem } from "./types"
+import { DocsItem } from "../../../@apps/factor/src/types"
 
 export const normalize = (items: DocsItem[]): DocsItem[] => {
   return items.map((options) => {
