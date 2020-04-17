@@ -58,7 +58,7 @@ export const setup = (): void => {
     namePlural: "Contact Form Submissions",
     listTemplate: (): Promise<any> => import("./dashboard-list.vue"),
     noAddNew: true,
-    accessLevel: 200,
+    accessLevel: 300,
   })
 }
 setup()

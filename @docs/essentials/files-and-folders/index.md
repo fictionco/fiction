@@ -29,6 +29,27 @@ Here is a basic structure for a Factor app:
       example.jpg: statically hosted files
 ```
 
+## Using a `src` folder
+
+It is also possible to put your app files in a `src` folder if you specify the main file there in your `package.json`
+
+```json
+// package.json
+{
+  "name": "myApp",
+  "main": "src/index.js"
+}
+```
+
+```yaml
+# Basic Structure
+- /: Project Root
+    package.json: Config
+    .env: Secrets
+    src/:
+      index.js: Main File
+      # Other files
+```
 
 ## Config (package.json)
 
@@ -76,27 +97,6 @@ Main files are auto-loaded by Factor based on the `load` property in `package.js
 
 Learn more about [main files &rarr;](/main-files)
 
-## Using a `src` folder
-
-It is also possible to put your app files in a `src` folder if you specify the main file there in your `package.json`
-
-```json
-// package.json
-{
-  "name": "myApp",
-  "main": "src/index.js"
-}
-```
-
-```yaml
-# Basic Structure
-- /: Project Root
-    package.json: Config
-    .env: Secrets
-    src/:
-      index.js: Main File
-      # Other files
-```
 
 ## Content Wrapper (content.vue)
 
