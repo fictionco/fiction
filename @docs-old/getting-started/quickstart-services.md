@@ -162,5 +162,4 @@ AWS_ACCESS_KEY="KEY"
 AWS_ACCESS_KEY_SECRET="SECRET"
 AWS_S3_BUCKET="your-bucket-name"
 ```
-
-Once this is setup, you should h
+ 
