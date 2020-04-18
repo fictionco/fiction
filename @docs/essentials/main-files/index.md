@@ -28,9 +28,9 @@ There are two different environments where loading occurs Factor's "app" environ
 - The **server environment** is what runs your CLI, your express server, endpoints and so on,
 - The **application environment** is the built and bundled application that gets served.
 
-It becomes important to differentiate between the two because there are many differences in terms of what works and doesn't work.
+It becomes important to differentiate between the two because while both environments run JavaScript, there are many differences in terms of what "can work" in each.
 
-For example, MongoDB/Mongoose code can only run in the server environment as they require Node. While many UI libraries can only run in the client application environment (as they reference `document` which is unavailable in node).
+For example, MongoDB/Mongoose require Node so they can only run in the server environment. While many UI libraries can only run in the client application environment (as they reference `document`).
 
 That's why `load` provides for distinct loading of main files based on app vs server environment.
 

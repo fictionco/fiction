@@ -39,7 +39,7 @@
                   :path="link.path || `${baseRoute}/${link.doc}`"
                 >
                   <span class="ico" />
-                  <span class="link">{{ link.title || toLabel(link.doc) }}</span>
+                  <span v-formatted-text="link.title || toLabel(link.doc)" class="link"/>
                 </factor-link>
               </div>
             </div>
