@@ -48,12 +48,17 @@ export default [
         file: (): Promise<string> => import("./essentials/settings/index.md"),
       },
       {
+        title: "Styles &amp; CSS Variables",
+        doc: "styles",
+        file: (): Promise<string> => import("./essentials/styles/index.md"),
+      },
+      {
         title: "CLI and Commands",
         doc: "cli",
         file: (): Promise<string> => import("./essentials/cli/index.md"),
       },
       {
-        title: "MetaInfo",
+        title: "Meta Info",
         doc: "metainfo",
         file: (): Promise<string> => import("./essentials/metainfo/index.md"),
       },
@@ -75,6 +80,16 @@ export default [
         title: "TypeScript",
         doc: "typescript",
         file: (): Promise<string> => import("./essentials/typescript/index.md"),
+      },
+    ],
+  },
+  {
+    title: "Examples",
+    description: "Example projects to help get you started",
+    items: [
+      {
+        doc: "hacker-news",
+        file: (): Promise<string> => import("./examples/hacker-news/index.md"),
       },
     ],
   },

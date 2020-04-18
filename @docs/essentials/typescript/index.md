@@ -5,11 +5,11 @@ description: TypeScript runs natively in Factor, but it is optional. Learn how t
 
 # TypeScript Support
 
-Factor is written in TypeScript and has first-class support for types and TypeScript within apps and extensions. In fact, it runs natively would almost zero effort on your part.
+Factor is written in TypeScript and has zero-config, native support for it in your app.
 
 ## Should you use TypeScript?
 
-We think so. TypeScript has been rapidly improving on a monthly basis and Microsoft (who is behind it) has shown a deep commitment to being the leader in development tooling.
+TypeScript has been rapidly improving on a monthly basis and Microsoft (who is behind it) has shown a deep commitment to being the leader in development tooling.
 
 There are a few main advantages of using TypeScript that actually matter day to day:
 

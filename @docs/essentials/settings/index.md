@@ -3,7 +3,7 @@ title: Settings
 description: Learn how to customize plugins, themes and Factor core with settings
 ---
 
-# Customizing Factor and Extensions
+# Settings
 
 When using plugins or themes, you'll often want to make customizations to text, layout and more. To make this as easy as possible, Factor provides a simple file based system `factor-settings`.
 
@@ -26,9 +26,7 @@ Now you're ready to start..
 
 If your app has a `factor-settings` file, then it will override any settings from Factor or an extension, if you use the same object key.
 
-Below is a simple example:
-
-Example:
+If a plugin has the following setting:
 
 ```js
 // factor-settings in a plugin
@@ -39,6 +37,8 @@ export default {
 }
 ```
 
+And then you create a `factor-settings` file with the following setting at the same location:
+
 ```js
 // factor-settings from your app
 export default {
@@ -48,7 +48,7 @@ export default {
 }
 ```
 
-Now when the plugin references that setting, they will get your custom value:
+Then when the plugin references that setting, they will get your custom value:
 
 ```js
 setting("plugin.foo") // baz
