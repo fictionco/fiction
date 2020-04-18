@@ -38,6 +38,31 @@ export default [
         doc: "files-and-folders",
         file: (): Promise<string> => import("./essentials/files-and-folders/index.md"),
       },
+      {
+        title: "CLI and Commands",
+        doc: "cli",
+        file: (): Promise<string> => import("./essentials/cli/index.md"),
+      },
+      {
+        title: "MetaInfo",
+        doc: "metainfo",
+        file: (): Promise<string> => import("./essentials/metainfo/index.md"),
+      },
+      {
+        title: "Content Wrapper",
+        doc: "content",
+        file: (): Promise<string> => import("./essentials/content/index.md"),
+      },
+      {
+        title: "Private Keys (.env)",
+        doc: "dotenv",
+        file: (): Promise<string> => import("./essentials/dotenv/index.md"),
+      },
+      {
+        title: "TypeScript",
+        doc: "typescript",
+        file: (): Promise<string> => import("./essentials/typescript/index.md"),
+      },
     ],
   },
   {

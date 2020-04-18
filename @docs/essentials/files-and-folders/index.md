@@ -8,7 +8,7 @@ description: The standard files and folders you'll find in a Factor project and 
 Factor follows standard conventions for structuring modern apps. As you get started, it will be useful to understand the basic files and folders you'll encounter. As well as your options with them.
 
 > **A Note on Flexibility**
-> It's possible to support a wide array of file types and structures within Factor. It is designed for it. The overview below reflects a basic Factor setup and a few preferences we have (e.g. ts vs js, less vs sass); but don't view these as limitations since they can be changed.
+> Factor's structure is designed to be flexible. The overview below reflects a basic Factor setup and a few preferences we have (e.g. ts vs js, less vs sass); but don't view these as limitations since they can be changed.
 
 ## Organizing Your App
 
@@ -21,7 +21,7 @@ Here is a basic structure for a Factor app:
     .env: Secrets
     index.ts: Main File
     factor-styles.less: Styling and css variables
-    factor-settings.ts: Customize 
+    factor-settings.ts: Customize
     content.vue: Application Wrapper
     icon.svg: Primary icon (200px by 200px)
     favicon.png: Favicon
@@ -31,7 +31,11 @@ Here is a basic structure for a Factor app:
 
 ## Using a `src` folder
 
-It is also possible to put your app files in a `src` folder if you specify the main file there in your `package.json`
+It is also possible to put your app files in a `src` folder or similar.
+
+In your app's `package.json`, in the `main` property you set your app's primary "main file."
+
+Factor will use this file to establish which folder is the app's source. So if you set it to `src/index` then Factor considers the `src` folder to be your source folder.
 
 ```json
 // package.json
@@ -86,17 +90,16 @@ DB_CONNECTION="https://my-connection-string-etc"
 
 ## Main Files (index.js)
 
-Your app's main file (or files) are the entry point for app's code. This is where the code belongs that will control your app. For example, in main files you can add: 
+Your app's main file (or files) are the entry point for app's code. This is where the code belongs that will control your app. For example, in main files you can add:
 
 - Routes and components
-- Vue plugins and tools 
+- Vue plugins and tools
 - Server endpoints and handlers (i.e. middleware)
 - Filters, callbacks and event handlers
 
 Main files are auto-loaded by Factor based on the `load` property in `package.json` > `factor`. If needed, you can load multiple files. It is also common to separate the application and server files, since some packages cannot work in both environments.
 
 Learn more about [main files &rarr;](/main-files)
-
 
 ## Content Wrapper (content.vue)
 
