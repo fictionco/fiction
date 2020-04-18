@@ -49,6 +49,10 @@ export default [
         file: (): Promise<string> => import("./essentials/metainfo/index.md"),
       },
       {
+        doc: "main-files",
+        file: (): Promise<string> => import("./essentials/main-files/index.md"),
+      },
+      {
         title: "Content Wrapper",
         doc: "content",
         file: (): Promise<string> => import("./essentials/content/index.md"),

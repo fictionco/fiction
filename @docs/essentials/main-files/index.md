@@ -1,3 +1,10 @@
+---
+title: Main Files
+description: Main files are the controller files for your Factor app. Learn how to load and use them.
+---
+
+## Main Files
+
 There are two environments where we need to load main files:
 
 - **Server** - Your server environment
