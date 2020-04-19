@@ -89,6 +89,16 @@ export default [
     ],
   },
   {
+    title: "API",
+    description: "Reference the Factor APIs",
+    items: [
+      {
+        doc: "css-variables",
+        file: (): Promise<string> => import("./api/css-variables/index.md"),
+      },
+    ],
+  },
+  {
     title: "Examples",
     description: "Example projects to help get you started",
     items: [
