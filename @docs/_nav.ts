@@ -39,13 +39,11 @@ export default [
         file: (): Promise<string> => import("./essentials/files-and-folders/index.md"),
       },
       {
-        title: "Using Plugins",
-        doc: "extending",
+        doc: "using-plugins",
         file: (): Promise<string> => import("./essentials/using-plugins/index.md"),
       },
       {
-        title: "Using Themes",
-        doc: "extending",
+        doc: "using-themes",
         file: (): Promise<string> => import("./essentials/using-themes/index.md"),
       },
       {

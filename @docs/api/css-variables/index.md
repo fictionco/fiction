@@ -10,7 +10,7 @@ In order to provide consistency across apps and extensions, Factor recommends a 
 ## Using CSS Variables
 
 - CSS variables must be scoped to CSS selectors.
-- No font size variables is needed, use `1rem`.
+- No font size variable is needed, use `1rem`.
 - Other defaults can be assigned globally to `html` or `body`.
 - Components that make use of variables can usually be overwritten for more advanced customization.
 

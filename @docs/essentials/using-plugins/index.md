@@ -40,4 +40,4 @@ Generally, there are 3 ways to use and customize plugins:
 
 ## Tips
 
-- Reference plugins `factor-settings` to know what can be overwritten in any specific plugin [example](https://github.com/fiction-com/factor/blob/development/%40plugins/plugin-forum/factor-settings.ts).
+- Reference plugins `factor-settings` to know what can be overwritten in any specific plugin ([example](https://github.com/fiction-com/factor/blob/development/%40plugins/plugin-forum/factor-settings.ts)).
