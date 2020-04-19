@@ -196,6 +196,7 @@
     "postbuild",
     "postdeploy",
     "preid",
+    "preprocessors",
     "purgecss",
     "quickstart",
     "rgba",
