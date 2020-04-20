@@ -1,13 +1,13 @@
 <template>
   <div class="topic-new">
-    <factor-loading-ring v-if="loading" />
+    <factor-spinner v-if="loading" />
     <template v-else>
       <div class="header-area">
         <component :is="setting('forum.components.navBack')" class="back" />
         <div class="title-area">
-          <h1 class="title">
-            {{ setting(`forum.text.${isNew ? "newTopicHeader" : "editTopicHeader"}`) }}
-          </h1>
+          <h1
+            class="title"
+          >{{ setting(`forum.text.${isNew ? "newTopicHeader" : "editTopicHeader"}`) }}</h1>
           <div class="header-actions">
             <factor-link v-if="!isNew" btn="default" class="item" :path="topicLink(post)">
               <span v-formatted-text="setting('forum.text.viewTopic')" />
@@ -90,7 +90,7 @@ import {
   factorInputWrap,
   factorBtn,
   factorIcon,
-  factorLoadingRing,
+  factorSpinner,
   factorLink,
 } from "@factor/ui"
 import { stored, storeItem } from "@factor/api"
@@ -105,7 +105,7 @@ export default Vue.extend({
     factorBtn,
     factorIcon,
     factorForm,
-    factorLoadingRing,
+    factorSpinner,
     factorLink,
   },
   data() {
@@ -233,7 +233,7 @@ export default Vue.extend({
     }
   }
 
-  .loading-ring-wrap {
+  .spinner-wrap {
     min-height: 40vh;
     padding: 2em 0;
   }

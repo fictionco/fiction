@@ -5,21 +5,16 @@
         <div>
           <div class="label label-white">Discover The Latest</div>
           <h1 class="title">Fiction Blog</h1>
-          <p class="subtitle">
-            Product updates, articles, and announcements from the Fiction team.
-          </p>
+          <p class="subtitle">Product updates, articles, and announcements from the Fiction team.</p>
         </div>
       </div>
     </section>
     <section class="blog-posts">
       <div class="blog-posts-inner">
         <div class="blog-entries">
-          <component
-            :is="setting('blog.components.blogReturnLink')"
-            v-if="tag || page > 1"
-          />
+          <component :is="setting('blog.components.blogReturnLink')" v-if="tag || page > 1" />
           <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
+            <factor-spinner />
           </div>
           <div v-else-if="blogPosts.length > 0" class="post-index">
             <div v-for="post in blogPosts" :key="post._id" class="blog-post">
@@ -45,12 +40,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   data() {
     return {
       postType: "blog",

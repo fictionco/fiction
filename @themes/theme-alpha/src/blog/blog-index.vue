@@ -49,13 +49,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     factorLink,
     factorIcon,
     "el-hero": () => import("../el/hero.vue"),

@@ -1,7 +1,7 @@
 <template>
   <div class="page sidebar-page">
     <div class="grid-sidebar">
-      <factor-loading-ring v-if="loading" />
+      <factor-spinner v-if="loading" />
       <div v-else ref="nav" class="page-nav">
         <div v-formatted-text="post.title" class="nav-title" />
         <ul>
@@ -42,14 +42,14 @@
 </template>
 
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/api/markdown"
 import { throttle, standardDate } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLoadingRing, factorPostEdit },
+  components: { factorSpinner, factorPostEdit },
   props: {
     post: { type: Object, default: () => {} },
   },
@@ -182,7 +182,7 @@ export default Vue.extend({
   max-width: 1200px;
   margin: 0 auto;
   .grid-sidebar {
-    .loading-ring-wrap {
+    .spinner-wrap {
       margin: 3em 0;
     }
   }

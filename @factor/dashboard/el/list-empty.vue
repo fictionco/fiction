@@ -1,6 +1,6 @@
 <template>
   <div class="list-empty">
-    <factor-loading-ring v-if="loading && list.length == 0" />
+    <factor-spinner v-if="loading && list.length == 0" />
     <div v-if="!loading && list.length == 0" class="no-posts">
       <div class="no-posts-text">Nothing Found</div>
     </div>
@@ -9,9 +9,9 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   props: {
     list: { type: Array, default: () => [] },
     loading: { type: Boolean, default: false },
@@ -29,7 +29,7 @@ export default Vue.extend({
 
 <style lang="less">
 .list-empty {
-  .loading-ring-wrap {
+  .spinner-wrap {
     height: 60vh;
   }
   .no-posts {

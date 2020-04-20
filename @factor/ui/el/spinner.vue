@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-ring-wrap">
+  <div class="spinner-wrap spinner-wrap">
     <div :style="{ width }" class="loader">
       <svg class="ring-circular" viewBox="25 25 50 50">
         <circle
@@ -26,7 +26,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.loading-ring-wrap {
+.spinner-wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;

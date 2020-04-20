@@ -8,7 +8,7 @@
         </div>
       </div>
       <dashboard-pane v-if="loading" class="dpg-loading">
-        <factor-loading-ring width="4em" />
+        <factor-spinner width="4em" />
       </dashboard-pane>
       <div v-else-if="!loading && $slots.primary" class="page-grid">
         <div class="col col-primary">
@@ -29,12 +29,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { dashboardPane } from "@factor/dashboard"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     dashboardPane,
     dashboardFooter: () => import("./footer.vue"),
   },
@@ -55,7 +55,7 @@ export default Vue.extend({
       padding: 0.5rem;
     }
   }
-  .dpg-loading .loading-ring-wrap {
+  .dpg-loading .spinner-wrap {
     height: 300px;
   }
   .title-bar {

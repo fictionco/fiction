@@ -9,12 +9,7 @@
           apps.
         </p>
         <a href="#current-openings">
-          <factor-btn
-            path="#current-openings"
-            btn="primary"
-            size="large"
-            class="see-openings"
-          >
+          <factor-btn path="#current-openings" btn="primary" size="large" class="see-openings">
             Check Our Current Openings
             <factor-icon icon="fas fa-arrow-down" />
           </factor-btn>
@@ -27,7 +22,7 @@
         <h1 class="title">Current Job Openings</h1>
         <div class="jobs-entries">
           <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
+            <factor-spinner />
           </div>
 
           <div v-else-if="jobsPosts.length > 0" class="post-index">
@@ -56,12 +51,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorBtn, factorLink, factorLoadingRing, factorIcon } from "@factor/ui"
+import { factorBtn, factorLink, factorSpinner, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorBtn, factorLink, factorLoadingRing, factorIcon },
+  components: { factorBtn, factorLink, factorSpinner, factorIcon },
   data() {
     return {
       postType: "jobs",

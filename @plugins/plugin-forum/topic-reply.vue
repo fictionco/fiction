@@ -1,6 +1,6 @@
 <template>
   <div class="topic-reply">
-    <factor-loading-ring v-if="loading" />
+    <factor-spinner v-if="loading" />
     <div v-else class="reply-area">
       <div v-if="post.locked" class="no-dice">
         <div class="title">{{ setting("forum.text.topicLocked") }}</div>
@@ -50,7 +50,7 @@ import {
   factorAvatar,
   factorBtn,
   factorLink,
-  factorLoadingRing,
+  factorSpinner,
 } from "@factor/ui"
 import { requestSaveTopicReply, requestSaveTopic } from "./request"
 export default Vue.extend({
@@ -60,7 +60,7 @@ export default Vue.extend({
     factorBtn,
     factorLink,
     factorInputCheckbox,
-    factorLoadingRing,
+    factorSpinner,
   },
   props: {
     postId: { type: String, default: "" },
@@ -109,7 +109,7 @@ export default Vue.extend({
       },
     },
   },
-  async mounted() {
+  async mounted(this: any) {
     if (this.editId) {
       this.reply = this.post.content
     }
@@ -185,7 +185,7 @@ export default Vue.extend({
   }
   .reply-area {
     position: relative;
-    .loading-ring-wrap {
+    .spinner-wrap {
       padding: 4em 0;
     }
     textarea {

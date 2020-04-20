@@ -3,7 +3,7 @@
     <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
-        <factor-loading-ring v-if="loading" />
+        <factor-spinner v-if="loading" />
         <component
           :is="setting('forum.components.topicList')"
           v-else
@@ -16,13 +16,13 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreIndex } from "./request"
 import { postType } from "."
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
   },
   data() {
     return {
@@ -50,7 +50,7 @@ export default Vue.extend({
       description,
     }
   },
-  serverPrefetch() {
+  serverPrefetch(this: any) {
     return this.getPosts()
   },
   computed: {
@@ -104,7 +104,7 @@ export default Vue.extend({
     }
   }
   .forum-content {
-    > .loading-ring-wrap {
+    > .spinner-wrap {
       padding: 3rem;
     }
   }

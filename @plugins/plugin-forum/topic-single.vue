@@ -7,9 +7,7 @@
         <div class="text">
           <div class="text-header">
             <h1 class="title">{{ excerpt(post.title, { length: 22 }) }}</h1>
-            <h2 v-if="post.synopsis" class="synopsis">
-              {{ excerpt(post.synopsis, { length: 22 }) }}
-            </h2>
+            <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, { length: 22 }) }}</h2>
             <div v-if="post.pinned || post.locked" class="notes">
               <div v-if="post.locked" class="note locked">
                 <factor-icon icon="fas fa-lock" />Locked
@@ -29,9 +27,7 @@
         </div>
       </div>
       <div class="header-sub">
-        <div v-for="(cat, i) in post.category" :key="i" class="category">
-          {{ toLabel(cat) }}
-        </div>
+        <div v-for="(cat, i) in post.category" :key="i" class="category">{{ toLabel(cat) }}</div>
       </div>
     </div>
 
@@ -59,7 +55,7 @@
         />
       </div>
       <div class="topic-sidebar-wrap">
-        <factor-loading-ring v-if="loading" />
+        <factor-spinner v-if="loading" />
         <div v-else class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
@@ -71,12 +67,7 @@
             btn="primary"
             @click="focusReply()"
           >Add Reply &darr;</factor-btn>
-          <factor-link
-            v-else
-            event="sign-in-modal"
-            class="item"
-            btn="primary"
-          >Login to Reply &rarr;</factor-link>
+          <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
           <factor-btn
             v-if="currentUser"
             class="item"
@@ -88,12 +79,7 @@
             <span class="text normal">{{ subscribed ? "Subscribed" : "Subscribe" }}</span>
           </factor-btn>
 
-          <factor-btn
-            v-if="canEditTopic"
-            class="item"
-            btn="default"
-            @click="editTopic(post)"
-          >
+          <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
             <span class="text">Edit</span>
           </factor-btn>
         </div>
@@ -120,7 +106,7 @@ import { excerpt } from "@factor/api/excerpt"
 import { renderMarkdown } from "@factor/api/markdown"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import {
-  factorLoadingRing,
+  factorSpinner,
   factorAvatar,
   factorBtn,
   factorIcon,
@@ -159,7 +145,7 @@ export default Vue.extend({
     factorIcon,
     factorModal,
     factorLink,
-    factorLoadingRing,
+    factorSpinner,
   },
   data() {
     return {
@@ -433,7 +419,7 @@ export default Vue.extend({
   grid-gap: 1rem 4rem;
   position: relative;
 
-  .loading-ring-wrap {
+  .spinner-wrap {
     padding: 3em 0;
   }
   .topic-sidebar {
@@ -486,7 +472,7 @@ export default Vue.extend({
     grid-template-columns: 5rem 1fr;
     grid-template-areas: ". reply";
 
-    .loading-ring-wrap,
+    .spinner-wrap,
     .reply-area {
       grid-area: reply;
       min-width: 0;

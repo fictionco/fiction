@@ -1,7 +1,7 @@
 <template>
   <div class="jobs-entries">
     <div v-if="loading" class="posts-loading">
-      <factor-loading-ring />
+      <factor-spinner />
     </div>
 
     <div v-else-if="jobsPosts.length > 0" class="post-index">
@@ -27,13 +27,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import { PostStatus, SortDelimiters } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   data() {
     return {
       postType: "jobs",

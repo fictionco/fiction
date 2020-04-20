@@ -2,7 +2,7 @@
   <div class="docs-engine-post">
     <div class="doc-content">
       <div class="doc-content-pad">
-        <factor-loading-ring v-if="loading" />
+        <factor-spinner v-if="loading" />
         <doc-entry v-else :content="content" />
       </div>
     </div>
@@ -14,12 +14,12 @@
 
 <script lang="ts">
 import Vue from "vue"
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting, toLabel } from "@factor/api"
 import { getDocConfig } from "../util"
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     docEntry: () => import("./entry.vue"),
     docToc: () => import("./toc.vue"),
   },
@@ -30,7 +30,7 @@ export default Vue.extend({
       loading: false,
     }
   },
-  serverPrefetch() {
+  serverPrefetch(this: any) {
     return this.getContent()
   },
   computed: {

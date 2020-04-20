@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div v-if="post.loading" class="post-loading">
-      <factor-loading-ring />
+      <factor-spinner />
     </div>
     <div v-else-if="post._id">
       <component :is="templateLoader" :post-id="post._id" :post="post" />
@@ -10,13 +10,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorError404, factorLoadingRing } from "@factor/ui"
+import { factorError404, factorSpinner } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLoadingRing, factorError404 },
+  components: { factorSpinner, factorError404 },
   data() {
     return {
       comp: null,

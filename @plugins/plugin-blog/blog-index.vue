@@ -2,7 +2,7 @@
   <div class="blog-entries">
     <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
     <div v-if="loading" class="posts-loading">
-      <factor-loading-ring />
+      <factor-spinner />
     </div>
     <div v-else-if="blogPosts.length > 0" class="post-index">
       <div v-for="post in blogPosts" :key="post._id" class="post">
@@ -24,12 +24,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   data() {
     return {
       postType: "blog",
@@ -48,7 +48,7 @@ export default Vue.extend({
       description,
     }
   },
-  serverPrefetch() {
+  serverPrefetch(this: any) {
     return this.getPosts()
   },
   computed: {

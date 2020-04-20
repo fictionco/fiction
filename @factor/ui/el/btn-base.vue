@@ -8,7 +8,7 @@
       </span>
       <transition v-if="loading" name="fade">
         <div v-if="loading" class="waitload">
-          <factor-loading-ring :class="circleClass" width="1.2em" />
+          <factor-spinner :class="circleClass" width="1.2em" />
         </div>
       </transition>
     </span>
@@ -16,10 +16,10 @@
 </template>
 
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   props: {
     image: { type: String, default: "" },
     text: { type: String, default: "" },

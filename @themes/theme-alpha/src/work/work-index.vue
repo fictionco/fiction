@@ -7,25 +7,18 @@
       :image="workHeroImage"
     >
       <template v-slot:hero-content>
-        <div
-          v-if="workContent"
-          v-formatted-text="workContent"
-          class="content text-gray-600"
-        />
+        <div v-if="workContent" v-formatted-text="workContent" class="content text-gray-600" />
       </template>
     </el-hero>
 
     <el-hero v-else-if="tag" :title="`Tag: ${tag}`">
       <template v-slot:hero-pretitle>
-        <component
-          :is="setting('work.components.workReturnLink')"
-          :post-type="postType"
-        />
+        <component :is="setting('work.components.workReturnLink')" :post-type="postType" />
       </template>
     </el-hero>
 
     <div v-if="loading" class="loading-entries">
-      <factor-loading-ring />
+      <factor-spinner />
     </div>
     <section class="work-posts-wrap">
       <div class="mast">
@@ -42,16 +35,11 @@
         </div>
         <div v-else class="posts-not-found">
           <div class="text">
-            <div class="font-normal tracking-tight text-2xl">
-              {{ setting("work.notFound.title") }}
-            </div>
+            <div class="font-normal tracking-tight text-2xl">{{ setting("work.notFound.title") }}</div>
             <div class="sub-title">{{ setting("work.notFound.subTitle") }}</div>
           </div>
         </div>
-        <component
-          :is="setting('work.components.workPagination')"
-          :post-type="postType"
-        />
+        <component :is="setting('work.components.workPagination')" :post-type="postType" />
       </div>
     </section>
 
@@ -59,13 +47,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import Vue from "vue"
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     factorLink,
     factorIcon,
     "el-hero": () => import("../el/hero.vue"),

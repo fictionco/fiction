@@ -1,11 +1,7 @@
 <template>
   <div class="blog-wrap">
     <div v-if="blogPosts.length > 0" class="blog-posts post-index">
-      <div
-        v-for="post in blogPosts"
-        :key="post._id"
-        class="blog-post rounded-lg hover:bg-white"
-      >
+      <div v-for="post in blogPosts" :key="post._id" class="blog-post rounded-lg hover:bg-white">
         <component
           :is="setting(`blog.components.${_component}`)"
           v-for="(_component, i) in setting('blog.layout.index')"
@@ -24,14 +20,14 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorLoadingRing, factorLink, factorIcon },
+  components: { factorSpinner, factorLink, factorIcon },
   data() {
     return {
       postType: "blog",

@@ -3,19 +3,19 @@
     <div v-show="!loading" class="editor-wrap">
       <textarea ref="editor" :value="value" v-on="listeners" />
     </div>
-    <factor-loading-ring v-if="loading" />
+    <factor-spinner v-if="loading" />
   </div>
 </template>
 
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { waitFor } from "@factor/api"
 import { onEvent, emitEvent } from "@factor/api/events"
 import { uploadImage } from "@factor/attachment"
 import { Attachment } from "@factor/attachment/types"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   props: {
     value: { type: String, default: "" },
     postId: { type: String, default: "" },
@@ -165,7 +165,7 @@ export default Vue.extend({
     overflow: scroll;
     -ms-overflow-style: none;
   }
-  .loading-ring-wrap {
+  .spinner-wrap {
     padding: 5rem 0;
   }
   .CodeMirror {

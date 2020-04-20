@@ -54,7 +54,7 @@
                 multiple
                 @change="handleMultiUpload($event)"
               />
-              <factor-loading-ring v-if="loading" width="2em" />
+              <factor-spinner v-if="loading" width="2em" />
               <div v-else class="upload-status">
                 <factor-icon icon="fas fa-plus" />
               </div>
@@ -64,15 +64,11 @@
       </div>
     </div>
     <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-    <factor-lightbox
-      :visible.sync="lightboxShow"
-      :imgs="populated"
-      :index="lightboxIndex"
-    />
+    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
   </div>
 </template>
 <script lang="ts">
-import { factorMenu, factorLoadingRing, factorIcon, factorLightbox } from "@factor/ui"
+import { factorMenu, factorSpinner, factorIcon, factorLightbox } from "@factor/ui"
 import { HTMLInputEvent } from "@factor/ui/event-types"
 import { uploadImage, requestDeleteImage } from "@factor/attachment"
 import DOM from "jquery"
@@ -83,7 +79,7 @@ import Vue from "vue"
 import { guid } from "@factor/api/utils"
 import { FactorPost } from "@factor/post/types"
 export default Vue.extend({
-  components: { factorMenu, factorLoadingRing, factorIcon, factorLightbox },
+  components: { factorMenu, factorSpinner, factorIcon, factorLightbox },
   props: {
     selector: { type: String, default: "none" },
     loading: { type: Boolean, default: false },
@@ -536,7 +532,7 @@ export default Vue.extend({
   }
 }
 .image-item-content {
-  .loading-ring-wrap {
+  .spinner-wrap {
     position: absolute;
     width: 100%;
     height: 100%;

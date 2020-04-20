@@ -1,14 +1,14 @@
 <template>
   <div class="posts-loading">
-    <factor-loading-ring />
+    <factor-spinner />
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import { setting } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorLoadingRing },
+  components: { factorSpinner },
   methods: { setting },
 })
 </script>

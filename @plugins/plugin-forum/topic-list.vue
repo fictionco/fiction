@@ -49,18 +49,18 @@
             <div class="item-text">
               <div class="header">
                 <h2 class="title">
-                  <factor-link :path="topicLink(post)">{{
+                  <factor-link :path="topicLink(post)">
+                    {{
                     excerpt(post.title, { length: 16 })
-                  }}</factor-link>
+                    }}
+                  </factor-link>
                 </h2>
                 <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
               </div>
 
               <div class="meta">
                 <div class="author meta-item">{{ author(post, "username") }}</div>
-                <div class="time-ago meta-item">
-                  Updated {{ timeAgo(post.updatedAt) }}
-                </div>
+                <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
               </div>
             </div>
             <div class="item-details">
@@ -94,7 +94,7 @@
 
 <script lang="ts">
 import {
-  factorLoadingRing,
+  factorSpinner,
   factorIcon,
   factorLink,
   factorAvatar,
@@ -112,7 +112,7 @@ import { topicLink } from "./request"
 
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     factorLink,
     factorAvatar,
     factorIcon,

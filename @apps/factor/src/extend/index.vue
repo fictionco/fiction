@@ -6,11 +6,8 @@
         <h3 class="sub-title">{{ describe.description }}</h3>
       </div>
     </div>
-    <factor-loading-ring v-if="loading" />
-    <div
-      v-else-if="extensionType == 'plugin'"
-      class="extensions-wrap plugins-wrap content-pad"
-    >
+    <factor-spinner v-if="loading" />
+    <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
       <plugin-grid :extensions="extensions" />
       <!-- <div>
         <extension-sidebar :index-data="extensionIndex" />
@@ -38,7 +35,7 @@
 import Vue from "vue"
 import { isLoggedIn } from "@factor/user"
 import { stored } from "@factor/api"
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import {
   postType,
   titleFromPackage,
@@ -54,7 +51,7 @@ export default Vue.extend({
     callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
     themeGrid: () => import("./grid-theme.vue"),
-    factorLoadingRing,
+    factorSpinner,
   },
   data() {
     return {
@@ -173,7 +170,7 @@ export default Vue.extend({
     }
   }
 
-  .loading-ring-wrap {
+  .spinner-wrap {
     min-height: 400px;
   }
 

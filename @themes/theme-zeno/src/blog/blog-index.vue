@@ -15,7 +15,7 @@
       <div class="max-w-6xl mx-auto">
         <div class="blog-entries">
           <div v-if="loading" class="posts-loading">
-            <factor-loading-ring />
+            <factor-spinner />
           </div>
           <div v-else-if="blogPosts.length > 0" class="flex flex-wrap py-8">
             <div v-if="page == 1" class="blog-post w-full p-2 lg:w-1/3">
@@ -26,18 +26,15 @@
                 <div
                   v-if="setting('blog.promo.pretitle')"
                   class="custom-uppercase text-purple-400"
-                >
-                  {{ setting("blog.promo.pretitle") }}
-                </div>
+                >{{ setting("blog.promo.pretitle") }}</div>
                 <h1
                   v-if="setting('blog.promo.title')"
                   class="font-normal tracking-tight text-2xl text-gray-300"
-                >
-                  {{ setting("blog.promo.title") }}
-                </h1>
-                <p v-if="setting('blog.promo.content')" class="text-gray-500 mt-2">
-                  {{ setting("blog.promo.content") }}
-                </p>
+                >{{ setting("blog.promo.title") }}</h1>
+                <p
+                  v-if="setting('blog.promo.content')"
+                  class="text-gray-500 mt-2"
+                >{{ setting("blog.promo.content") }}</p>
                 <factor-link
                   v-if="setting('blog.promo.button.link')"
                   :path="setting('blog.promo.button.link')"
@@ -50,14 +47,8 @@
               </div>
             </div>
 
-            <div
-              v-for="post in blogPosts"
-              :key="post._id"
-              class="blog-post w-full p-2 lg:w-1/3"
-            >
-              <div
-                class="h-full overflow-hidden flex flex-col rounded-lg shadow-xl bg-white"
-              >
+            <div v-for="post in blogPosts" :key="post._id" class="blog-post w-full p-2 lg:w-1/3">
+              <div class="h-full overflow-hidden flex flex-col rounded-lg shadow-xl bg-white">
                 <component
                   :is="setting(`blog.components.${_component}`)"
                   v-for="(_component, i) in setting('blog.layout.index')"
@@ -70,9 +61,7 @@
           </div>
           <div v-else class="posts-not-found">
             <div class="text">
-              <div class="font-normal tracking-tight text-2xl">
-                {{ setting("blog.notFound.title") }}
-              </div>
+              <div class="font-normal tracking-tight text-2xl">{{ setting("blog.notFound.title") }}</div>
               <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
             </div>
           </div>
@@ -83,13 +72,13 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing, factorLink, factorIcon } from "@factor/ui"
+import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     factorLink,
     factorIcon,
     "el-hero": () => import("../el/hero.vue"),

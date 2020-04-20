@@ -8,7 +8,7 @@
         <div class="app-main-content">
           <template v-if="loading">
             <div class="user-loading">
-              <factor-loading-ring width="4em" />
+              <factor-spinner width="4em" />
             </div>
           </template>
           <slot v-else-if="$slots.default" />
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang="ts">
-import { factorLoadingRing } from "@factor/ui"
+import { factorSpinner } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel, getPostTypeConfig } from "@factor/api"
 import { Route } from "vue-router"
@@ -27,7 +27,7 @@ import Vue from "vue"
 
 export default Vue.extend({
   components: {
-    factorLoadingRing,
+    factorSpinner,
     dashboardManager: () => import("./manager/manager.vue"),
   },
 
