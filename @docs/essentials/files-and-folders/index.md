@@ -1,5 +1,5 @@
 ---
-title: Application Files and Folders
+title: File Structure
 description: The standard files and folders you'll find in a Factor project and their purpose
 ---
 
@@ -31,9 +31,9 @@ Here is a basic structure for a Factor app:
 
 ## Using a `src` folder
 
-It is also possible to put your app files in a `src` folder or similar.
+It is also possible to put your source files in a sub folder. Typically this would be called `src`.
 
-In your app's `package.json`, in the `main` property you set your app's primary "main file."
+In your app's `package.json`, in the `main` property you set your app's primary [main file](./main-files).
 
 Factor will use this file to establish which folder is the app's source. So if you set it to `src/index` then Factor considers the `src` folder to be your source folder.
 
@@ -84,9 +84,11 @@ This utility takes the values in this files and adds them to your application wh
 > **Note:** You should never commit this file to source control, treat it like a password.
 
 ```bash
-TOKEN_SECRET="SOME-LONG-TEXT-12345"
-DB_CONNECTION="https://my-connection-string-etc"
+TOKEN_SECRET=SOME-LONG-TEXT-12345
+DB_CONNECTION=https://my-connection-string-etc
 ```
+
+[Read about .env in Factor](./dotenv)
 
 ## Main Files (index.js)
 
@@ -99,19 +101,19 @@ Your app's main file (or files) are the entry point for app's code. This is wher
 
 Main files are auto-loaded by Factor based on the `load` property in `package.json` > `factor`. If needed, you can load multiple files. It is also common to separate the application and server files, since some packages cannot work in both environments.
 
-Learn more about [main files &rarr;](/main-files)
+Learn more about [main files](/main-files)
 
 ## Content Wrapper (content.vue)
 
 The content wrapper (`content.vue`) is the root component that wraps your application front-end. It allows you to add global components like your navigation and footer.
 
-Learn more about the [content wrapper &rarr;](./content-wrapper)
+Learn more about the [content wrapper](./content-wrapper)
 
 ## Settings and Styles
 
 Factor has a powerfully simple settings and styles system that works with `factor-settings` and `factor-styles` files found in your application as well as any plugins you have installed.
 
-Learn more about [customization &rarr;](./customization)
+Learn more about [settings](./settings) or [styles](./styles)
 
 ## Static Assets
 

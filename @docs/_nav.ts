@@ -8,17 +8,17 @@ export default [
       },
       {
         doc: "introduction",
-        file: (): Promise<string> => import("./getting-started/introduction/index.md"),
+        file: (): Promise<string> => import("./overview/introduction/index.md"),
       },
       {
         doc: "core-concepts",
-        file: (): Promise<string> => import("./getting-started/core-concepts/index.md"),
+        file: (): Promise<string> => import("./overview/core-concepts/index.md"),
       },
     ],
   },
   {
-    title: "Essentials",
-    description: "Learn how to setup your Factor app",
+    title: "Getting Started",
+    description: "Setting up and customizing your Factor app",
     boxIcon: "quick",
     items: [
       {
@@ -31,12 +31,14 @@ export default [
         file: (): Promise<string> => import("./essentials/upgrading/index.md"),
       },
       {
-        doc: "before-you-code",
-        file: (): Promise<string> => import("./essentials/before-you-code/index.md"),
+        title: "Running Factor (CLI)",
+        doc: "cli",
+        file: (): Promise<string> => import("./essentials/cli/index.md"),
       },
       {
-        doc: "files-and-folders",
-        file: (): Promise<string> => import("./essentials/files-and-folders/index.md"),
+        title: "Basic Configuration",
+        doc: "configuration",
+        file: (): Promise<string> => import("./essentials/configuration/index.md"),
       },
       {
         doc: "using-plugins",
@@ -47,6 +49,10 @@ export default [
         file: (): Promise<string> => import("./essentials/using-themes/index.md"),
       },
       {
+        doc: "files-and-folders",
+        file: (): Promise<string> => import("./essentials/files-and-folders/index.md"),
+      },
+      {
         doc: "settings",
         file: (): Promise<string> => import("./essentials/settings/index.md"),
       },
@@ -55,10 +61,21 @@ export default [
         doc: "styles",
         file: (): Promise<string> => import("./essentials/styles/index.md"),
       },
+    ],
+  },
+  {
+    title: "Essentials",
+    description: "Essential development tools and techniques",
+    boxIcon: "quick",
+    items: [
       {
-        title: "CLI and Commands",
-        doc: "cli",
-        file: (): Promise<string> => import("./essentials/cli/index.md"),
+        doc: "before-you-code",
+        file: (): Promise<string> => import("./essentials/before-you-code/index.md"),
+      },
+      {
+        title: "TypeScript",
+        doc: "typescript",
+        file: (): Promise<string> => import("./essentials/typescript/index.md"),
       },
       {
         title: "Meta Info",
@@ -80,9 +97,9 @@ export default [
         file: (): Promise<string> => import("./essentials/dotenv/index.md"),
       },
       {
-        title: "TypeScript",
-        doc: "typescript",
-        file: (): Promise<string> => import("./essentials/typescript/index.md"),
+        title: "Routes and Views",
+        doc: "routes",
+        file: (): Promise<string> => import("./essentials/routes/index.md"),
       },
     ],
   },
