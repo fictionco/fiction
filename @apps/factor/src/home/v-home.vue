@@ -1,7 +1,6 @@
 <template>
   <div class="view-home">
     <home-splash />
-
     <section class="benefits content">
       <section-benefits class="content-pad" />
     </section>
@@ -21,9 +20,7 @@
             <h2 class="title">{{ feature.title }}</h2>
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
-              <factor-link
-                :path="feature.link.path"
-              >{{ feature.link.text }} &rarr;</factor-link>
+              <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
             </div>
           </div>
         </div>
@@ -49,11 +46,7 @@
             itemscope
             itemtype="http://schema.org/Review"
           >
-            <blockquote
-              itemprop="reviewRating"
-              itemscope
-              itemtype="http://schema.org/Review"
-            >
+            <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Review">
               <div class="quote-media">
                 <a class="quote-image" href="#">
                   <img :src="quote.img" alt="quote" />

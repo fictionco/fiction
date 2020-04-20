@@ -101,6 +101,10 @@ export default [
         doc: "routes",
         file: (): Promise<string> => import("./essentials/routes/index.md"),
       },
+      {
+        doc: "static-assets",
+        file: (): Promise<string> => import("./essentials/static-assets/index.md"),
+      },
     ],
   },
   {
