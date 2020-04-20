@@ -17,6 +17,29 @@ So if you're Factor app is looking good locally, there is a good chance you're r
 
 As outlined in [the Dotenv doc](./dotenv), The only difference will be the environmental configuration which is dictated by the variables in `.env`.
 
+## Setting Environmental Variables
+
+The main difference between your local and production server will be defined by [environmental variables](./dotenv). While in your local setup, you only need to add the values to `.env`, sometimes it can be tricky (depending on your host.)
+
+Reference your host's documentation to see how they recommend you add and configure environmental variables.
+
 ## Deployment Process
 
+Deploying to production typically follows one of these two work flows:
+
+1. Build production app locally - `npx factor build`
+2. Upload built code (in `/dist`) to server
+3. Verify dependencies on server `npm install`
+4. Run server - `npx factor serve`
+
+Or...
+
+1. Commit or upload app to build environment or server
+2. It builds the production app (`npx factor build`)
+3. It then uploads the built code (in `/dist`) to server
+4. Verify dependencies on server `npm install`
+5. Run server - `npx factor serve`
+
 ## Deployment Guides
+
+- [Deploying an app on Heroku](./heroku)

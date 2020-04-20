@@ -157,6 +157,10 @@ export default [
         doc: "mailgun",
         file: (): Promise<string> => import("./integrations/mailgun/index.md"),
       },
+      {
+        doc: "heroku",
+        file: (): Promise<string> => import("./integrations/heroku/index.md"),
+      },
     ],
   },
 ]
