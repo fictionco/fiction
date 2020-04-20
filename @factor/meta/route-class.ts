@@ -1,5 +1,5 @@
 import { addFilter, addCallback, pushToFilter } from "@factor/api"
-import Vue, { Component, ComponentOptions } from "vue"
+import Vue, { Component } from "vue"
 
 import { getObservables } from "@factor/app/extend-app"
 
@@ -8,6 +8,7 @@ const key = "routeClass"
 declare module "vue" {
   interface ComponentOptions<V extends Vue> {
     routeClass?: string[] | string | Function
+    metaInfoCore?: any
   }
 }
 

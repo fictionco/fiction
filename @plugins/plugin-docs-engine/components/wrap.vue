@@ -14,33 +14,32 @@
           </factor-btn>
         </div>
         <div class="sidebar" :class="vis ? 'show-mobile' : 'standard'">
-          <div class="nav">
-            <div
-              v-for="(group, i) in nav"
-              :key="i"
-              class="nav-group"
-              :class="selectedGroup == group.title ? 'selected' : ''"
-            >
+          <div class="nav-wrap">
+            <div class="nav">
               <div
-                v-if="group.title"
-                class="nav-group-title"
-                @click.stop="toggleGroupTitle(group)"
+                v-for="(group, i) in nav"
+                :key="i"
+                class="nav-group"
+                :class="selectedGroup == group.title ? 'selected' : ''"
               >
-                <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
-                <span class="title">{{ group.title }}</span>
-              </div>
-              <div
-                v-if="!group.title || selectedGroup == group.title"
-                class="group-items"
-              >
-                <factor-link
-                  v-for="(link, ii) in group.items"
-                  :key="ii"
-                  :path="link.path || `${baseRoute}/${link.doc}`"
+                <div
+                  v-if="group.title"
+                  class="nav-group-title"
+                  @click.stop="toggleGroupTitle(group)"
                 >
-                  <span class="ico" />
-                  <span v-formatted-text="link.title || toLabel(link.doc)" class="link"/>
-                </factor-link>
+                  <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
+                  <span class="title">{{ group.title }}</span>
+                </div>
+                <div v-if="!group.title || selectedGroup == group.title" class="group-items">
+                  <factor-link
+                    v-for="(link, ii) in group.items"
+                    :key="ii"
+                    :path="link.path || `${baseRoute}/${link.doc}`"
+                  >
+                    <span class="ico" />
+                    <span v-formatted-text="link.title || toLabel(link.doc)" class="link" />
+                  </factor-link>
+                </div>
               </div>
             </div>
           </div>
@@ -134,7 +133,7 @@ export default Vue.extend({
   --menu-shadow: 0 0 0 1px rgba(50, 50, 93, 0.1), 0 2px 5px -1px rgba(50, 50, 93, 0.25),
     0 15px 15px -6px rgba(50, 50, 93, 0.2), 0 1px 3px -1px rgba(0, 0, 0, 0.3);
   display: grid;
-  grid-template-columns: minmax(250px, 1fr) 3fr;
+  grid-template-columns: minmax(300px, 1fr) 3fr;
   box-shadow: var(--panel-shadow-inset);
   position: relative;
   @media (max-width: 1100px) {
@@ -154,8 +153,8 @@ export default Vue.extend({
     .sidebar-wrap {
       position: sticky;
       top: 3rem;
-      padding-bottom: 5em;
-      height: calc(~"100vh");
+
+      height: calc(~"100vh - 3rem");
     }
     .sidebar {
       position: relative;
@@ -169,10 +168,10 @@ export default Vue.extend({
       height: 100%;
       overflow: auto;
       .nav {
-        padding-top: 2rem;
         width: 300px;
         font-weight: 600;
         padding: 1rem;
+        padding-bottom: 6rem;
         .nav-group {
           border-bottom: 1px solid var(--color-border);
           &:last-child {
@@ -282,6 +281,9 @@ export default Vue.extend({
         display: none;
         &.show-mobile {
           display: block;
+        }
+        .nav {
+          padding: 0;
         }
       }
     }

@@ -23,12 +23,6 @@ interface MetaHookOptions {
 }
 const key = "metaInfo"
 
-declare module "vue/types/options" {
-  interface ComponentOptions<V extends Vue> {
-    metaInfoCore?: () => {}
-  }
-}
-
 addFilter({
   key,
   hook: "ssr-context-ready",
