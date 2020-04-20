@@ -16,9 +16,10 @@ export default [
       },
     ],
   },
+
   {
-    title: "Getting Started",
-    description: "Setting up and customizing your Factor app",
+    title: "Essentials",
+    description: "Essential development tools and techniques",
     boxIcon: "quick",
     items: [
       {
@@ -29,6 +30,10 @@ export default [
       {
         doc: "upgrading",
         file: (): Promise<string> => import("./essentials/upgrading/index.md"),
+      },
+      {
+        doc: "before-you-start",
+        file: (): Promise<string> => import("./essentials/before-you-start/index.md"),
       },
       {
         title: "Running Factor (CLI)",
@@ -49,8 +54,8 @@ export default [
         file: (): Promise<string> => import("./essentials/using-themes/index.md"),
       },
       {
-        doc: "files-and-folders",
-        file: (): Promise<string> => import("./essentials/files-and-folders/index.md"),
+        doc: "file-structure",
+        file: (): Promise<string> => import("./essentials/file-structure/index.md"),
       },
       {
         doc: "settings",
@@ -61,16 +66,42 @@ export default [
         doc: "styles",
         file: (): Promise<string> => import("./essentials/styles/index.md"),
       },
-    ],
-  },
-  {
-    title: "Essentials",
-    description: "Essential development tools and techniques",
-    boxIcon: "quick",
-    items: [
       {
-        doc: "before-you-code",
-        file: (): Promise<string> => import("./essentials/before-you-code/index.md"),
+        title: "Private Keys (.env)",
+        doc: "dotenv",
+        file: (): Promise<string> => import("./essentials/dotenv/index.md"),
+      },
+
+      {
+        doc: "main-files",
+        file: (): Promise<string> => import("./essentials/main-files/index.md"),
+      },
+
+      {
+        title: "Meta Info",
+        doc: "metainfo",
+        file: (): Promise<string> => import("./essentials/metainfo/index.md"),
+      },
+
+      {
+        title: "Content Wrapper",
+        doc: "content",
+        file: (): Promise<string> => import("./essentials/content/index.md"),
+      },
+
+      {
+        title: "Routes and Views",
+        doc: "routes",
+        file: (): Promise<string> => import("./essentials/routes/index.md"),
+      },
+      {
+        title: "Using Standard UI",
+        doc: "using-standard-ui",
+        file: (): Promise<string> => import("./essentials/using-standard-ui/index.md"),
+      },
+      {
+        doc: "static-assets",
+        file: (): Promise<string> => import("./essentials/static-assets/index.md"),
       },
       {
         title: "TypeScript",
@@ -78,32 +109,9 @@ export default [
         file: (): Promise<string> => import("./essentials/typescript/index.md"),
       },
       {
-        title: "Meta Info",
-        doc: "metainfo",
-        file: (): Promise<string> => import("./essentials/metainfo/index.md"),
-      },
-      {
-        doc: "main-files",
-        file: (): Promise<string> => import("./essentials/main-files/index.md"),
-      },
-      {
-        title: "Content Wrapper",
-        doc: "content",
-        file: (): Promise<string> => import("./essentials/content/index.md"),
-      },
-      {
-        title: "Private Keys (.env)",
-        doc: "dotenv",
-        file: (): Promise<string> => import("./essentials/dotenv/index.md"),
-      },
-      {
-        title: "Routes and Views",
-        doc: "routes",
-        file: (): Promise<string> => import("./essentials/routes/index.md"),
-      },
-      {
-        doc: "static-assets",
-        file: (): Promise<string> => import("./essentials/static-assets/index.md"),
+        title: "Deployment &amp; Hosting",
+        doc: "deployment-and-hosting",
+        file: (): Promise<string> => import("./essentials/deployment/index.md"),
       },
     ],
   },
@@ -114,6 +122,11 @@ export default [
       {
         doc: "css-variables",
         file: (): Promise<string> => import("./api/css-variables/index.md"),
+      },
+      {
+        title: "Standard UI",
+        doc: "standard-ui",
+        file: (): Promise<string> => import("./api/standard-ui/index.md"),
       },
     ],
   },

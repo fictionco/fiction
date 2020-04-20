@@ -7,7 +7,7 @@ const key = "routeClass"
 
 declare module "vue" {
   interface ComponentOptions<V extends Vue> {
-    routeClass: string[] | string | Function
+    routeClass?: string[] | string | Function
   }
 }
 
