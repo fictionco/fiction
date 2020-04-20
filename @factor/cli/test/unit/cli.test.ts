@@ -12,7 +12,7 @@ describe("cli", () => {
         throw "Mock"
       })
       jest.mock("@factor/cli/extension-loader")
-      await cli.runCommand({ command: "test" })
+      await cli.runCommand({ command: "test", PORT: "5000" })
       expect(execa).toHaveBeenCalledWith("yarn", expect.arrayContaining(["install"]))
       expect(generateLoaders).toHaveBeenCalledWith(expect.anything())
       return
