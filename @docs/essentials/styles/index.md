@@ -15,7 +15,7 @@ To help you with this, Factor provides some useful standards that can help with 
 
 ## LESS Preprocessor
 
-The only CSS preprocessor that is supported by default in Factor is [Less](http://lesscss.org/). This is because we don't recommend using any functionality in these preprocessors aside from [nesting](http://lesscss.org/#nesting) which is critical and module loading.
+The only CSS preprocessor that is supported by default in Factor is [Less](http://lesscss.org/). This is because we don't recommend using any functionality in these preprocessors aside from [nesting](http://lesscss.org/#nesting).
 
 In the [near future](https://drafts.csswg.org/css-nesting/) CSS nesting will become native, and therefore we won't need preprocessors at all.
 
