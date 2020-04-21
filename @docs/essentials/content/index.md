@@ -54,8 +54,6 @@ From there, you can add any global functionality and UI that you'd like. In the 
 </script>
 ```
 
-![Content Wrapper Example](./content-wrapper.jpg)
-
 ## Global Code
 
 In addition to global components, you can use the content wrapper to set global code and styles.
