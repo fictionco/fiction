@@ -61,15 +61,15 @@ Factor includes user authentication and user role system that requires some simp
 
 Factor auth works via Json Web Tokens (JWTs) a secure, simple, and standard technique to manage user sessions.
 
-All that is needed for JWTs to work correctly is a special "token secret." This secret is used to create special tokens that users can send to your server when they make requests. Factor then decodes this token and makes sure the user is who they say they are. To set the token secret just add the `TOKEN_SECRET` variable in your `.env` to any string.
+All that is needed for JWTs to work correctly is a special "token secret." This secret is used to create special tokens that users can send to your server when they make requests. Factor then decodes this token and makes sure the user is who they say they are. To set the token secret just add the `FACTOR_AUTH_SECRET` variable in your `.env` to any string.
 
-> **Important -** Treat your production `TOKEN_SECRET` as a top security password. With this information any user account can be hijacked.
+> **Important -** Treat your production `FACTOR_AUTH_SECRET` as a top security password. With this information any user account can be hijacked.
 
 In your `.env` your secret looks like this:
 
 ```git
 # .env - Token Secret: Treat like a password, can be whatever you want
-TOKEN_SECRET="SOME-LONG-TEXT-12345"
+FACTOR_AUTH_SECRET="SOME-LONG-TEXT-12345"
 ```
 
 ### Setting Admins Users
@@ -162,4 +162,3 @@ AWS_ACCESS_KEY="KEY"
 AWS_ACCESS_KEY_SECRET="SECRET"
 AWS_S3_BUCKET="your-bucket-name"
 ```
- 

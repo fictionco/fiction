@@ -4,9 +4,9 @@
 /// <reference path="./global.d.ts" />
 import { log } from "@factor/api"
 import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
-import { writeConfig, addNotice } from "@factor/cli/setup"
+import { addNotice } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
-import inquirer from "inquirer"
+
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
 
 import { FactorSchema, FactorPost } from "./types"
@@ -28,7 +28,8 @@ export const demoDbUrl = (): string => {
 }
 
 export const getDbUrl = (): string => {
-  const connectionString = process.env.DB_CONNECTION || demoDbUrl()
+  const connectionString =
+    process.env.FACTOR_DB_CONNECTION || process.env.DB_CONNECTION || demoDbUrl()
 
   return connectionString.replace(/\\"/g, "")
 }
@@ -264,37 +265,12 @@ export const dbSetupUtility = (): void => {
       item: {
         title: "Using Demo DB",
         value:
-          "You are using the demo DB which resets itself every 30 minutes (process.env.DB_CONNECTION)",
+          "The demo DB resets itself every 30 minutes (set process.env.FACTOR_DB_CONNECTION)",
         file: ".env",
-        name: "DB_CONNECTION",
+        name: "FACTOR_DB_CONNECTION",
       },
     })
   }
-
-  pushToFilter({
-    key: "dbConnectionSetup",
-    hook: "cli-add-setup",
-    item: () => {
-      return {
-        name: "DB Connection - Add/edit the database connection",
-        value: "db",
-        callback: async (): Promise<void> => {
-          const questions = [
-            {
-              name: "connection",
-              message: "What's your MongoDB connection string? (mongodb://...)",
-              type: "input",
-              default: process.env.DB_CONNECTION,
-            },
-          ]
-
-          const { connection } = await inquirer.prompt(questions)
-
-          await writeConfig("private", { DB_CONNECTION: connection })
-        },
-      }
-    },
-  })
 }
 
 export const setup = (): void => {

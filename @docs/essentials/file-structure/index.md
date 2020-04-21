@@ -84,8 +84,8 @@ This utility takes the values in this file and adds them to your application whe
 > **Note:** You should never commit this file to source control, treat it like a password.
 
 ```bash
-TOKEN_SECRET=SOME-LONG-TEXT-12345
-DB_CONNECTION=https://my-connection-string-etc
+FACTOR_AUTH_SECRET=SOME-LONG-TEXT-12345
+FACTOR_DB_CONNECTION=https://my-connection-string-etc
 ```
 
 [Read about .env in Factor](./dotenv)
@@ -100,7 +100,6 @@ Your app's main file (or files) is the entry point for the app's code. This is w
 - Filters, callbacks and event handlers
 
 Main files are auto-loaded by Factor based on the `load` property in `package.json` > `factor`. If needed, you can load multiple files. It is also common to separate the application and server files since some packages cannot work in both environments.
-
 
 Learn more about [main files](/main-files)
 

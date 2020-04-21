@@ -47,7 +47,7 @@ export default Vue.extend({
       }
     },
   },
-  mounted() {
+  mounted(this: any) {
     if (this.$route.query.signInView) {
       this.vis = true
     } else {

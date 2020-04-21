@@ -14,11 +14,11 @@
     }
   ],
   "env": {
-    "DB_CONNECTION": {
+    "FACTOR_DB_CONNECTION": {
       "description": "Demo MongoDB database (resets every half-hour)",
       "value": "mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
     },
-    "TOKEN_SECRET": {
+    "FACTOR_AUTH_SECRET": {
       "description": "JWT decoding secret. Used for authentication.",
       "value": "CAN_BE_ANYTHING"
     },

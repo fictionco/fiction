@@ -4,10 +4,10 @@ import { Document } from "mongoose"
 import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
 const tokenSecret = (): string => {
-  if (!process.env.TOKEN_SECRET) {
-    log.warn("Your authentication secret is not set (process.env.TOKEN_SECRET)")
+  if (!process.env.FACTOR_AUTH_SECRET && !process.env.TOKEN_SECRET) {
+    log.warn("Your authentication secret is not set (process.env.FACTOR_AUTH_SECRET)")
   }
-  return process.env.TOKEN_SECRET ?? "demo"
+  return process.env.FACTOR_AUTH_SECRET ?? process.env.TOKEN_SECRET ?? "demo"
 }
 /**
  * Returns a user authentication credential including token for storage in client

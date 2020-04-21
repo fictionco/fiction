@@ -28,5 +28,6 @@ export * from "@factor/post/util"
 export * from "@factor/post/request"
 export * from "@factor/app/router"
 export * from "@factor/app/store"
+export * from "@factor/user"
 
 export { log }

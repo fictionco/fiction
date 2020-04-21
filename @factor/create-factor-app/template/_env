@@ -1,10 +1,9 @@
 # -- Database - MongoDB/Mongoose compatible connection URL
-<% if(db){ %>DB_CONNECTION="<%= db %>"
-<% } else { %># DB_CONNECTION="<YOUR MONGODB CONNECTION STRING>"<% } %>
+<% if(db){ %>FACTOR_DB_CONNECTION="<%= db %>"
+<% } else { %># FACTOR_DB_CONNECTION="<YOUR MONGODB CONNECTION URL>"<% } %>
 
-# -- Auth - Token decode/encode secret
-# TOKEN_SECRET="<JWT SECRET - CAN BE ANYTHING>"
-TOKEN_SECRET="RANDOMLY-GENERATED-<%= randomString %>"
+# -- Auth - Any decode/encode secret
+FACTOR_AUTH_SECRET="RANDOMLY-GENERATED-<%= randomString %>"
 
 # -- Email - Transactional e.g. "forgot password"
 # SMTP_USERNAME="<SMTP USERNAME - ANY SMTP PROVIDER>"

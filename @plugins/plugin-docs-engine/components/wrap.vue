@@ -190,13 +190,14 @@ export default Vue.extend({
           .nav-group-title,
           a {
             user-select: none;
-            padding: 0.5rem 0.5rem 0.5rem 1rem;
+            padding: 0.4rem 0.5rem 0.4rem 1rem;
             display: grid;
             grid-template-columns: 0.75rem 1fr;
             grid-gap: 5px;
             border-radius: 5px;
             align-items: center;
             font-weight: 700;
+            font-size: 0.9em;
             cursor: pointer;
             &.router-link-exact-active,
             &:hover {

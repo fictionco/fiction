@@ -25,6 +25,8 @@ import "./hooks-universal"
 import "./edit-account"
 import { userToken, handleTokenError } from "./token"
 
+export * from "./util"
+
 export const postType = "user"
 
 declare module "vue/types/vue" {
@@ -292,7 +294,7 @@ const handleAuthRouting = (): void => {
   })
 }
 
-export const setup = (): void => {
+const setup = (): void => {
   addCallback({
     key: "verifyEmail",
     hook: "route-query-action-verify-email",

@@ -67,8 +67,8 @@ For private configuration keys and information, Factor uses the standard [dotenv
 This utility takes the values in this files and adds them to `process.env` at runtime. You should never commit this file to source control, treat it like a password.
 
 ```git
-TOKEN_SECRET="SOME-LONG-TEXT-12345"
-DB_CONNECTION="https://my-connection-string-etc"
+FACTOR_AUTH_SECRET="SOME-LONG-TEXT-12345"
+FACTOR_DB_CONNECTION="https://my-connection-string-etc"
 ```
 
 ## Main Files (index.js)

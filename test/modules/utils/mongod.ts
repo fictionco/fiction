@@ -22,7 +22,7 @@ export const startEndpointTestingServer = async ({
   const dbPath = await mongod.getDbPath()
   const dbName = await mongod.getDbName()
 
-  process.env.DB_CONNECTION = dbUrl
+  process.env.DB_CONNECTION = process.env.FACTOR_DB_CONNECTION = dbUrl
   process.env.PORT = String(dbPort)
   initializeEndpointServer()
   await createServer({ port })

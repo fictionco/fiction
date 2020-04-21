@@ -55,7 +55,7 @@ export const productionUrl = (options: UrlOptions = {}): string => {
 /**
  * Gets current URl based on NODE_ENV - localhost or production
  */
-export const currentUrl = (options = {}): string => {
+export const currentUrl = (options: UrlOptions = {}): string => {
   if (process.env.NODE_ENV == "development" || process.env.FACTOR_ENV == "test")
     return localhostUrl(options)
   else {
@@ -66,8 +66,8 @@ export const currentUrl = (options = {}): string => {
 /**
  * Gets current URl based on NODE_ENV - localhost or production
  */
-export const dashboardUrl = (): string => {
-  return path.join(currentUrl(), dashboardBaseRoute())
+export const dashboardUrl = (options: UrlOptions = {}): string => {
+  return path.join(currentUrl(options), dashboardBaseRoute())
 }
 
 /**
@@ -90,15 +90,16 @@ export const canonicalUrl = (path: string): string => {
  * @param location - system location
  */
 export const systemUrl = (
-  location: "production" | "local" | "dashboard" | "current"
+  location: "production" | "local" | "dashboard" | "current",
+  options: UrlOptions = {}
 ): string => {
   if (location == "production") {
-    return productionUrl()
+    return productionUrl(options)
   } else if (location == "local") {
-    return localhostUrl()
+    return localhostUrl(options)
   } else if (location == "dashboard") {
-    return dashboardUrl()
+    return dashboardUrl(options)
   } else {
-    return currentUrl()
+    return currentUrl(options)
   }
 }

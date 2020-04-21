@@ -90,6 +90,12 @@ export default [
       },
 
       {
+        title: "Users &amp; Roles",
+        doc: "users-and-roles",
+        file: (): Promise<string> => import("./essentials/users-and-roles/index.md"),
+      },
+
+      {
         title: "Routes and Views",
         doc: "routes",
         file: (): Promise<string> => import("./essentials/routes/index.md"),
@@ -112,6 +118,24 @@ export default [
         title: "Deployment &amp; Hosting",
         doc: "deployment-and-hosting",
         file: (): Promise<string> => import("./essentials/deployment/index.md"),
+      },
+    ],
+  },
+  {
+    title: "Advanced",
+    description: "Building advanced apps and extensions",
+    items: [
+      {
+        doc: "working-with-data",
+        file: (): Promise<string> => import("./advanced/working-with-data/index.md"),
+      },
+      {
+        doc: "authentication",
+        file: (): Promise<string> => import("./advanced/authentication/index.md"),
+      },
+      {
+        doc: "links",
+        file: (): Promise<string> => import("./advanced/links/index.md"),
       },
     ],
   },

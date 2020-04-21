@@ -68,16 +68,24 @@ export const getPermalink = (_arguments: PermalinkComponents): string => {
   }
 }
 
+/**
+ * Primary app linking for posts.
+ * @param _id - Post ID
+ * @param options.root - Include root domain
+ */
 export const postLink = (_id: string, options: PermalinkComponents = {}): string => {
-  const post = stored(_id)
-
-  if (!post) return ""
-
   const root = options.root ? currentUrl() : ""
 
-  const { permalink } = getPostTypeConfig(post.postType)
+  const post = stored(_id)
 
-  const route = permalink ? permalink(post) : ""
+  let route = ""
+  if (post) {
+    const { permalink } = getPostTypeConfig(post.postType)
+
+    route = permalink ? permalink(post) : ""
+  } else {
+    route = `?_id=${_id}`
+  }
 
   return `${root}${route}`
 }

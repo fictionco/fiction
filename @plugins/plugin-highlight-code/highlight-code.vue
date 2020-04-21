@@ -18,7 +18,7 @@ export default Vue.extend({
     if (window.Prism) {
       this.prism = window.Prism
 
-      if (window.Prism.languages) {
+      if (window.Prism.languages.bash) {
         window.Prism.languages.bash = window.Prism.languages.extend("bash", {
           variable: /\b(?:start|build|serve|dev|run|setup)\b/,
           function: /\b(?:yarn|npx|npm)\b/,

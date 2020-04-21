@@ -82,7 +82,7 @@ Your `.env` (dotenv) file is where you'll store all your secret API keys, at lea
 
 ```bash
 # Authentication Decode/Encode Secret
-TOKEN_SECRET="random-secret-abc213"
+FACTOR_AUTH_SECRET="random-secret-abc213"
 ```
 
 You'll need to add additional keys to this file to enable your "key services" discussed below.

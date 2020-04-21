@@ -2,6 +2,7 @@ import { emitEvent, currentRoute, navigateToRoute, storeItem } from "@factor/api
 import Vue from "vue"
 import { userRolesMap, CurrentUserState, UserRoles } from "./types"
 import { userToken } from "./token"
+
 export const roleAccessLevel = (role: UserRoles | undefined): number => {
   return role && userRolesMap[role] ? userRolesMap[role] : 0
 }
@@ -31,6 +32,13 @@ export const setUser = ({ user, token = "", current = false }: SetUser): void =>
   }
 
   if (user && user._id) storeItem(user._id, user)
+}
+
+/**
+ * Shows sign in
+ */
+export const showSignIn = (options: { redirect?: string; view?: string }): void => {
+  emitEvent("sign-in-modal", options)
 }
 
 /**

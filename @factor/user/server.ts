@@ -113,16 +113,15 @@ export const setup = (): void => {
       /**
        * Add user setup to CLI
        */
-      if (!process.env.TOKEN_SECRET) {
+      if (!process.env.FACTOR_AUTH_SECRET && !process.env.TOKEN_SECRET) {
         pushToFilter({
           key: "jwt",
           hook: "setup-needed",
           item: {
             title: "Authentication Secret",
-            value:
-              "A JWT token secret needed to encode authentication information (process.env.TOKEN_SECRET)",
+            value: "Needed to encode authentication (set process.env.FACTOR_AUTH_SECRET)",
             file: ".env",
-            name: "TOKEN_SECRET",
+            name: "FACTOR_AUTH_SECRET",
           },
         })
       }
