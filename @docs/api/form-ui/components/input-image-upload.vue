@@ -24,6 +24,12 @@ export default {
 .wrap {
   .drawer {
     margin-top: 1rem;
+    .value {
+      opacity: 0.6;
+      font-weight: 600;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.8em;
+    }
   }
 }
 </style>

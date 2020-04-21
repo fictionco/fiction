@@ -21,17 +21,7 @@ export default Vue.extend({
       injectMarkdownComponents()
     }, 50)
   },
-  // Injected components wont load metaInfo
-  metaInfo: {
-    link: [
-      {
-        vmid: "fa",
-        rel: "stylesheet",
-        href:
-          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css",
-      },
-    ],
-  },
+
   methods: { setting },
 })
 </script>

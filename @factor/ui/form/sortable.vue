@@ -87,7 +87,7 @@ export default Vue.extend({
     ensure(v: any[]) {
       return v.map((_) => {
         if (!_.__key) {
-          _.__key = guid()
+          _.__key = randomToken(4)
         }
         return _
       })

@@ -19,12 +19,15 @@
 </template>
 <script lang="ts">
 import { dashboardInput } from "@factor/dashboard"
-import { getPageTemplates, getTemplate } from "@factor/templates"
+import {
+  getPageTemplates,
+  getTemplate,
+  getDefaultTemplateSettings,
+} from "@factor/templates"
 import { stored, storeItem, getPostTypeConfig } from "@factor/api"
 
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
-import { TemplateSetting } from "./types"
 export default Vue.extend({
   components: { dashboardInput },
 
@@ -100,34 +103,7 @@ export default Vue.extend({
       this.setTemplateDefaults()
     },
     setTemplateDefaults(this: any) {
-      this.fields.forEach((field: TemplateSetting) => {
-        const _id = field._id
-        let val
-        if (typeof this.settings[_id] == "undefined" && field.default) {
-          if (
-            field.settings &&
-            field.default &&
-            Array.isArray(field.settings) &&
-            Array.isArray(field.default)
-          ) {
-            val = field.default.map((item: Record<string, any>) => {
-              if (field.settings) {
-                field.settings.forEach((sub) => {
-                  if (typeof item[sub._id] == "undefined" && sub.default) {
-                    item[sub._id] = sub.default
-                  }
-                })
-              }
-
-              return item
-            })
-          } else {
-            val = field.default
-          }
-
-          this.$set(this.settings, _id, val)
-        }
-      })
+      this.settings = getDefaultTemplateSettings(this.fields, this.settings)
     },
   },
 })

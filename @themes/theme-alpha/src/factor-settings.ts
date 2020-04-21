@@ -375,7 +375,7 @@ export default {
         input: "sortable",
         label: "Additional Work Info",
         description: "Additional information about this project",
-        default: [
+        _default: [
           { __title: "Client", value: "Client Name" },
           { __title: "Role", value: "Role" },
           { __title: "Year", value: new Date().getFullYear() },

@@ -11,7 +11,7 @@ export interface TemplateSetting {
   input?: string
   label?: string
   _id: string
-  default?: string | object[]
+  _default?: string | object[]
   description?: string
   settings?: TemplateSetting[]
   list?: string[] | ListItem[]

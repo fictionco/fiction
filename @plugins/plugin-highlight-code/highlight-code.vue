@@ -18,10 +18,12 @@ export default Vue.extend({
     if (window.Prism) {
       this.prism = window.Prism
 
-      window.Prism.languages.bash = window.Prism.languages.extend("bash", {
-        variable: /\b(?:start|build|serve|dev|run|setup)\b/,
-        function: /\b(?:yarn|npx|npm)\b/,
-      })
+      if (window.Prism.languages) {
+        window.Prism.languages.bash = window.Prism.languages.extend("bash", {
+          variable: /\b(?:start|build|serve|dev|run|setup)\b/,
+          function: /\b(?:yarn|npx|npm)\b/,
+        })
+      }
     }
 
     // Set page on load
@@ -55,6 +57,10 @@ export default Vue.extend({
       {
         vmid: "prism-yaml",
         src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-yaml.min.js",
+      },
+      {
+        vmid: "prism-less",
+        src: "https://cdn.jsdelivr.net/npm/prismjs@1.19.0/components/prism-less.min.js",
       },
       {
         vmid: "prism-autoload",

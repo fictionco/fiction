@@ -44,7 +44,7 @@ export default Vue.extend({
         description: "Alignment of the page header",
         _id: "headerAlignment",
         list: ["left", "center", "right"],
-        default: "left",
+        _default: "left",
       },
     ]
   },

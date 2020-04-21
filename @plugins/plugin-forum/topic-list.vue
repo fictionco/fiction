@@ -49,11 +49,7 @@
             <div class="item-text">
               <div class="header">
                 <h2 class="title">
-                  <factor-link :path="topicLink(post)">
-                    {{
-                    excerpt(post.title, { length: 16 })
-                    }}
-                  </factor-link>
+                  <factor-link :path="topicLink(post)">{{ excerpt(post.title, { length: 16 }) }}</factor-link>
                 </h2>
                 <div class="synopsis">{{ excerpt(post.synopsis) }}</div>
               </div>

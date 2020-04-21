@@ -166,10 +166,44 @@ Allow for ordered and arranged inputs and values. Ideal for config. Uses the [te
 import { factorInputSortable } from "@factor/ui"
 ```
 
-#### In Template
+#### Template Example
 
 ```html
-<factor-input-sortable />
+<template>
+  <div class="wrap">
+    <factor-input-sortable v-model="sorted" :settings="settings" />
+  </div>
+</template>
+
+<script lang="ts">
+  import { factorInputSortable } from "@factor/ui"
+  import { initSortableSettings } from "@factor/templates"
+
+  const _default = [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }]
+  const settings = [
+    {
+      input: "text",
+      label: "Heading",
+      _id: "heading",
+      _default: "Box",
+    },
+    {
+      input: "textarea",
+      label: "Description",
+      _id: "description",
+      _default: "Box Description",
+    },
+  ]
+  export default {
+    components: { factorInputSortable },
+    data() {
+      return {
+        sorted: initSortableSettings({ _default, settings }),
+        settings,
+      }
+    },
+  }
+</script>
 ```
 
 #### Rendered

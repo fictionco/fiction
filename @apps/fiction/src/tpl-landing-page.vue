@@ -42,32 +42,32 @@ export default Vue.extend({
         label: "Heading",
         description: "Primary page heading",
         _id: "pageHeading",
-        default: "Landing Page Template",
+        _default: "Landing Page Template",
       },
       {
         input: "text",
         label: "Sub Heading",
         _id: "pageHeadingSub",
-        default: "This is a landing page template.",
+        _default: "This is a landing page template.",
       },
       {
         _id: "boxes",
         input: "sortable",
         label: "Feature Boxes",
         description: "Some feature boxes",
-        default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
+        _default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
         settings: [
           {
             input: "text",
             label: "Heading",
             _id: "heading",
-            default: "Box",
+            _default: "Box",
           },
           {
             input: "textarea",
             label: "Description",
             _id: "description",
-            default: "Box Description",
+            _default: "Box Description",
           },
           {
             input: "image-upload",

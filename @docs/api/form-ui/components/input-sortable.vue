@@ -10,33 +10,34 @@
 
 <script lang="ts">
 import { factorInputSortable } from "@factor/ui"
-
+import { initSortableSettings } from "@factor/templates"
 export default {
   components: { factorInputSortable },
   data() {
     return {
       sorted: [],
-      default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
+
       settings: [
         {
           input: "text",
           label: "Heading",
           _id: "heading",
-          default: "Box",
+          _default: "Box",
         },
         {
           input: "textarea",
           label: "Description",
           _id: "description",
-          default: "Box Description",
-        },
-        {
-          input: "image-upload",
-          label: "Icon",
-          _id: "icon",
+          _default: "Box Description",
         },
       ],
     }
+  },
+  mounted(this: any) {
+    this.sorted = initSortableSettings({
+      _default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
+      settings: this.settings,
+    })
   },
 }
 </script>
@@ -44,6 +45,12 @@ export default {
 .wrap {
   .drawer {
     margin-top: 1.5rem;
+    .value {
+      opacity: 0.6;
+      font-weight: 600;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.8em;
+    }
   }
 }
 </style>

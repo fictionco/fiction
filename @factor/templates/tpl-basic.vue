@@ -1,10 +1,6 @@
 <template>
   <div class="long-form">
-    <div
-      v-if="post.title"
-      class="title"
-      :style="{ textAlign: settings.headerAlignment || 'left' }"
-    >
+    <div v-if="post.title" class="title" :style="{ textAlign: settings.headerAlignment || 'left' }">
       <h1 v-formatted-text="post.title" />
     </div>
     <div v-formatted-text="renderMarkdown(post.content)" class="content entry-content" />
@@ -38,7 +34,7 @@ export default Vue.extend({
         label: "Header Alignment",
         description: "Alignment of the page header",
         list: ["left", "center", "right"],
-        default: "left",
+        _default: "left",
       },
     ]
   },

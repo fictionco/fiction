@@ -64,6 +64,16 @@ export default Vue.extend({
     factorBtn,
     mobileToggle: () => import("./mobile-toggle.vue"),
   },
+  // Injected components wont load metaInfo
+  metaInfo: {
+    link: [
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css",
+      },
+    ],
+  },
   data() {
     return {
       vis: false,

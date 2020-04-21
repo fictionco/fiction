@@ -13,6 +13,12 @@ import { RouteConfig } from "vue-router"
 import { TemplateConfig, TemplateSetting } from "./types"
 import pageSchema from "./schema"
 
+declare module "vue" {
+  interface ComponentOptions<V extends Vue> {
+    templateSettings?: any
+  }
+}
+
 export const addPageTemplate = (templateConfig: TemplateConfig): void => {
   pushToFilter({ hook: "page-templates", key: templateConfig.slug, item: templateConfig })
 }
@@ -62,6 +68,52 @@ export const getTemplate = async (templateId: string): Promise<TemplateConfig | 
   tpl.fields = await getTemplateFields(tpl)
 
   return tpl
+}
+
+export const initSortableSettings = ({
+  _default,
+  settings,
+}: {
+  _default: Record<string, any>[]
+  settings: TemplateSetting[]
+}): Record<string, any>[] => {
+  return _default.map((item: Record<string, any>) => {
+    if (settings) {
+      settings.forEach((sub) => {
+        if (typeof item[sub._id] == "undefined" && sub._default) {
+          item[sub._id] = sub._default
+        }
+      })
+    }
+
+    return item
+  })
+}
+
+export const getDefaultTemplateSettings = (
+  fields: TemplateSetting[],
+  current: Record<string, any>
+): any => {
+  const out: Record<string, any> = {}
+  fields.forEach((field: TemplateSetting) => {
+    const { _id, _default, settings } = field
+    let val
+    // If undefined, then set defaults
+    if (typeof current[_id] == "undefined" && _default) {
+      if (settings && _default && Array.isArray(settings) && Array.isArray(_default)) {
+        val = initSortableSettings({
+          _default,
+          settings: settings,
+        })
+      } else {
+        val = _default
+      }
+
+      out[_id] = val
+    }
+
+    return out
+  })
 }
 
 export const setup = (): void => {

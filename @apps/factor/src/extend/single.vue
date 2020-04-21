@@ -84,11 +84,7 @@
                 <div class="meta-grid">
                   <div v-for="(meta, ii) in metaItems" :key="ii" class="meta-item">
                     <div class="title">{{ meta.name }}</div>
-                    <factor-link v-if="meta.link" class="link" :path="meta.value">
-                      {{
-                      meta.link
-                      }}
-                    </factor-link>
+                    <factor-link v-if="meta.link" class="link" :path="meta.value">{{ meta.link }}</factor-link>
                     <div v-else class="value">{{ meta.value }}</div>
                   </div>
                 </div>
