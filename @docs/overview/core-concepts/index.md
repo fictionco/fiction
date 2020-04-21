@@ -28,12 +28,12 @@ The ability of your application to "scale" is important, not necessarily because
 
 Many server-rendered CMS' and frameworks are notoriously hard to scale. With WordPress, for example, there are 100s of blogs dedicated just to this subject.  
 
-The reason for is because, by default, they rerun all queries and rendering for every visitor on every page load. This can be solved somewhat by caching but becomes very challenging when you want to deliver user specific content (that is different for every visitor). 
+The reason for is because they re-render everything whenever someone loads a page. This can be solved somewhat by caching but becomes very challenging when you want to deliver user specific content. 
 
 **Solution**
-A new standard in client side authentication JSON Web Tokens (JWTs) make it easy to handle authentication fully in the user's browser (instead of a session on your server). 
+Factor handles authentication fully in the user's browser (instead of a session on your server). This means all routes are served with the same content. 
 
-In Factor, all routes are served with the same content. Once the HTML is rendered, it uses an endpoint to establish the user's status and change the page accordingly. This round-trip costs around 500ms but makes for an applications that is massively easier to scale and much cheaper to run.
+When you serve the same content to everyone, it's easily cached and therefore cheap to scale.
 
 ### Extensibility in JavaScript Apps
 
