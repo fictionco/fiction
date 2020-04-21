@@ -36,8 +36,9 @@ button.app-btn {
     font-weight: 500;
   }
   &.small {
-    font-size: 0.75em;
-    padding: 0.35em 0.5em;
+    font-size: 0.8em;
+    padding: 0.4em 0.75em;
+    line-height: 1.2;
   }
   &.large {
     font-size: 1.2em;
@@ -51,32 +52,40 @@ button.app-btn {
 
   &.default {
     background: var(--color-bg, #fff);
-    border-color: var(
-      --color-border,
-      rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186)
-    );
+    box-shadow: 0 0 0 1px
+      var(--color-border, rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186));
     &:hover {
       background: var(--color-bg-contrast, #f7f7f7);
     }
   }
 
   &.primary {
-    color: var(--color-primary-text, #fff);
+    color: var(--color-bg, #fff);
     background: var(--color-primary, #0471ff);
-    border-color: var(--color-primary, #0471ff);
+    box-shadow: 0 0 0 1px var(--color-primary, #0471ff);
 
     .ring-path {
-      stroke: var(--color-primary-text, #fff);
+      stroke: var(--color-bg, #fff);
     }
   }
 
   &.secondary {
-    color: var(--color-secondary-text, #fff);
+    color: var(--color-bg, #fff);
     background: var(--color-secondary, #3a4854);
-    border-color: var(--color-secondary, #3a4854);
+    box-shadow: 0 0 0 1px var(--color-secondary, #3a4854);
 
     .ring-path {
-      stroke: var(--color-secondary-text, #fff);
+      stroke: var(--color-bg, #fff);
+    }
+  }
+
+  &.text {
+    color: var(--color-bg, #fff);
+    background: var(--color-text, #3a4854);
+    box-shadow: 0 0 0 1px var(--color-text, #3a4854);
+
+    .ring-path {
+      stroke: var(--color-bg, #fff);
     }
   }
 }

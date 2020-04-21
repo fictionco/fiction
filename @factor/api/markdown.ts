@@ -5,9 +5,15 @@ import mdAnchor from "markdown-it-anchor"
 import mdVideo from "markdown-it-video"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdImplicitFigures from "markdown-it-implicit-figures"
-import { setting } from "@factor/api"
+import { setting } from "@factor/api/settings"
 import frontMatter from "front-matter"
+import Vue from "vue"
+import { getRouter, getStore } from "@factor/api"
 let markdownUtility: MarkdownIt
+
+interface MarkdownRenderOptions {
+  variables?: boolean
+}
 
 const getMarkdownUtility = (): MarkdownIt => {
   if (!markdownUtility) {
@@ -33,10 +39,6 @@ const getMarkdownUtility = (): MarkdownIt => {
   return markdownUtility
 }
 
-interface MarkdownRenderOptions {
-  variables?: boolean
-}
-
 /**
  * Convert markdown into HTML
  * @param content - the markdown content
@@ -59,7 +61,12 @@ export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): s
       })
 
       if (!val) {
-        val = setting(settingKey)
+        const settingValue = setting(settingKey)
+
+        val =
+          typeof settingValue == "function"
+            ? `<div id="${settingKey}" class="inject-component"></div>`
+            : settingValue
       }
 
       return val || ""
@@ -84,4 +91,26 @@ export const renderMarkdownWithMeta = (
     meta: attributes as Record<string, string>,
     content: renderMarkdown(body, options),
   }
+}
+
+export const injectMarkdownComponents = (): void => {
+  if (!document) return
+
+  const injected = document.querySelectorAll(".inject-component:not(.injected)")
+
+  injected.forEach(async (el) => {
+    const asyncComponent = setting(el.id)
+    if (asyncComponent) {
+      const { default: component } = await asyncComponent()
+      const ComponentClass = Vue.extend(component)
+      const instance = new ComponentClass({
+        router: getRouter(),
+        store: getStore(),
+      })
+
+      instance.$mount() // pass nothing
+      el.append(instance.$el)
+      el.classList.add("injected")
+    }
+  })
 }

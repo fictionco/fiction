@@ -120,6 +120,7 @@ export default [
     description: "Reference the Factor APIs",
     items: [
       {
+        title: "CSS Variables",
         doc: "css-variables",
         file: (): Promise<string> => import("./api/css-variables/index.md"),
       },
@@ -127,6 +128,11 @@ export default [
         title: "Standard UI",
         doc: "standard-ui",
         file: (): Promise<string> => import("./api/standard-ui/index.md"),
+      },
+      {
+        title: "Form UI",
+        doc: "form-ui",
+        file: (): Promise<string> => import("./api/form-ui/index.md"),
       },
     ],
   },

@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export const getStore = (): Store<object> => {
+export const createStore = (): Store<object> => {
   __store = new Vuex.Store({
     strict: false,
     state: (): Record<string, any> => {
@@ -36,6 +36,10 @@ export const getStore = (): Store<object> => {
     __store.replaceState(window.__INITIAL_STATE__)
   }
 
+  return __store
+}
+
+export const getStore = (): Store<object> | undefined => {
   return __store
 }
 

@@ -22,6 +22,7 @@ export * from "./post-types"
 export * from "./settings"
 export * from "./events"
 export * from "./prefetch"
+export * from "./markdown"
 
 export * from "@factor/post/util"
 export * from "@factor/post/request"

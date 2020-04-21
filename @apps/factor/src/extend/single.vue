@@ -6,8 +6,10 @@
         <div class="ext-content-pad header-pad">
           <div class="content">
             <factor-link class="back" :path="`/${extensionType}s`">
-              <span>&larr; Back to
-                {{ extensionType == "theme" ? "Themes" : "Plugins" }}</span>
+              <span>
+                &larr; Back to
+                {{ extensionType == "theme" ? "Themes" : "Plugins" }}
+              </span>
             </factor-link>
             <div class="text">
               <div class="title-wrap">
@@ -17,10 +19,7 @@
                 <h1 class="title">{{ post.title }}</h1>
                 <h3 v-formatted-text="getContent(post.synopsis)" class="description" />
                 <div class="actions">
-                  <factor-link
-                    btn="primary"
-                    @click="scrollTo(`#install`)"
-                  >Add to Project &darr;</factor-link>
+                  <factor-link btn="primary" @click="scrollTo(`#install`)">Add to Project &darr;</factor-link>
                   <factor-link
                     v-if="post.demo"
                     btn="default"
@@ -48,10 +47,7 @@
                   :style="screenshotStyle(i)"
                   @click="nextScreenshot()"
                 >
-                  <div
-                    class="screenshot-image"
-                    :style="{ backgroundImage: `url('${img}')` }"
-                  />
+                  <div class="screenshot-image" :style="{ backgroundImage: `url('${img}')` }" />
                 </div>
               </transition-group>
               <div v-if="headerScreenshots.length > 1" class="arrow-wrap">
@@ -74,9 +70,7 @@
             <div class="info" :class="block">
               <div v-if="block == 'install'" class="install-extension">
                 <div class="title-header">
-                  <div class="sub-title">
-                    Add this package to your Factor enabled project:
-                  </div>
+                  <div class="sub-title">Add this package to your Factor enabled project:</div>
                 </div>
                 <div class="move-to-project">
                   <div class="install-code" @click="copyPackageName(post.packageName)">
@@ -90,9 +84,11 @@
                 <div class="meta-grid">
                   <div v-for="(meta, ii) in metaItems" :key="ii" class="meta-item">
                     <div class="title">{{ meta.name }}</div>
-                    <factor-link v-if="meta.link" class="link" :path="meta.value">{{
+                    <factor-link v-if="meta.link" class="link" :path="meta.value">
+                      {{
                       meta.link
-                    }}</factor-link>
+                      }}
+                    </factor-link>
                     <div v-else class="value">{{ meta.value }}</div>
                   </div>
                 </div>
@@ -122,8 +118,8 @@
     <call-to-action />
     <factor-lightbox
       :visible.sync="lightboxShow"
-      :imgs="post.screenshots"
-      :index="lightboxIndex"
+      :images="post.screenshots"
+      :selected="lightboxIndex"
     />
   </div>
 </template>

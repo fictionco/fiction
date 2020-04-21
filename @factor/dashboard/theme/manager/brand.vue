@@ -245,7 +245,7 @@ export default Vue.extend({
         background-color: #fff;
         background-size: cover;
         background-position: 50%;
-        box-shadow: var(--box-shadow-input);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
         border-radius: 5px;
         width: 2.25rem;
         height: 2.25rem;

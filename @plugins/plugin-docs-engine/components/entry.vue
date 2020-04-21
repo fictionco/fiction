@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-
+import { injectMarkdownComponents, setting } from "@factor/api"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default Vue.extend({
   components: {
@@ -16,6 +16,23 @@ export default Vue.extend({
   props: {
     content: { type: String, default: "" },
   },
+  mounted(this: any) {
+    setTimeout(() => {
+      injectMarkdownComponents()
+    }, 50)
+  },
+  // Injected components wont load metaInfo
+  metaInfo: {
+    link: [
+      {
+        vmid: "fa",
+        rel: "stylesheet",
+        href:
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css",
+      },
+    ],
+  },
+  methods: { setting },
 })
 </script>
 <style lang="less">

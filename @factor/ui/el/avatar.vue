@@ -1,19 +1,18 @@
 <template>
-  <div class="avatar">
-    <div
-      v-if="hasImage"
-      :style="getStyle({ backgroundImage: `url(${src})` })"
-      class="thumb thumb-src"
-    />
+  <div class="factor-avatar avatar">
+    <factor-spinner v-if="loading" />
+    <div v-else :style="getStyle({ backgroundImage: `url(${src})` })" class="thumb thumb-src" />
   </div>
 </template>
 <script lang="ts">
 import gravatar from "gravatar"
+import { factorSpinner } from "@factor/ui"
 import { stored } from "@factor/api"
 import { userInitialized } from "@factor/user"
 import { setting } from "@factor/api/settings"
 import Vue from "vue"
 export default Vue.extend({
+  components: { factorSpinner },
   props: {
     width: { type: String, default: "" },
     postId: { type: String, default: "" },
@@ -43,10 +42,11 @@ export default Vue.extend({
         return this.url
       } else if (this.avatar && this.avatar.url) {
         return this.avatar.url
-      } else if (this.user) {
+      } else if (this.user || this.email) {
+        const email = this.user ? this.user.email : this.email
         return (
-          gravatar.url(this.user.email, {
-            s: "300",
+          gravatar.url(email, {
+            s: "200",
             d: setting("app.blankUser") || "retro",
           }) || ""
         )
@@ -98,6 +98,10 @@ export default Vue.extend({
 .avatar {
   position: relative;
   line-height: 1;
+  width: 2rem;
+  .factor-spinner .loader {
+    width: 100%;
+  }
 }
 .thumb {
   background-position: 50%;

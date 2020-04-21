@@ -64,7 +64,7 @@
       </div>
     </div>
     <input ref="copyInput" v-model="copyText" type="text" class="invisible-copy" />
-    <factor-lightbox :visible.sync="lightboxShow" :imgs="populated" :index="lightboxIndex" />
+    <factor-lightbox :visible.sync="lightboxShow" :images="populated" :selected="lightboxIndex" />
   </div>
 </template>
 <script lang="ts">

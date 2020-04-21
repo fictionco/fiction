@@ -1,11 +1,7 @@
 <template>
   <transition name="fade">
     <div v-if="visible" class="img-swiper modal" @click.self="closeDialog">
-      <div
-        :class="{ transition: imgTransitionStatus }"
-        :style="imgStyle"
-        class="img-wrapper"
-      >
+      <div :class="{ transition: imgTransitionStatus }" :style="imgStyle" class="img-wrapper">
         <!-- START: Imgs -->
         <img :src="imgList[imgIndex]" class="img" alt draggable="false" />
         <!-- END: Imgs -->
@@ -30,9 +26,7 @@
       </div>
       <!-- END: btns -->
       <!-- START: total -->
-      <div v-if="imgList.length !== 1" class="pagination-total">
-        {{ imgIndex + 1 }}/{{ imgTotal }}
-      </div>
+      <div v-if="imgList.length !== 1" class="pagination-total">{{ imgIndex + 1 }}/{{ imgTotal }}</div>
       <!-- END: total -->
     </div>
   </transition>
@@ -46,9 +40,9 @@ import { emitEvent } from "@factor/api/events"
 export default Vue.extend({
   components: {},
   props: {
-    imgs: { type: [Array, String], default: "" },
+    images: { type: [Array, String], default: "" },
     visible: { type: Boolean, default: false },
-    index: { type: Number, default: 0 },
+    selected: { type: Number, default: 0 },
   },
   data() {
     return {
@@ -64,24 +58,24 @@ export default Vue.extend({
     }
   },
   computed: {
-    imgList() {
-      if (Object.prototype.toString.call(this.imgs) === "[object Array]") {
-        return this.imgs.map((img) => {
-          if (img.url) {
-            return img.url
-          } else {
+    imgList(this: any) {
+      if (Object.prototype.toString.call(this.images) === "[object Array]") {
+        return this.images.map((img: string | { url: string }) => {
+          if (typeof img == "string") {
             return img
-          }
+          } else if (img.url) {
+            return img.url
+          } else return ""
         })
       } else {
-        return [this.imgs]
+        return [this.images]
       }
     },
     imgTotal() {
       return this.imgList.length || 0
     },
     imgStyle: {
-      get() {
+      get(this: any) {
         return {
           transform: `translate(-50%, -50%)
       scale(${this.scale})
@@ -93,7 +87,7 @@ export default Vue.extend({
     },
   },
   watch: {
-    visible(visible) {
+    visible(this: any, visible) {
       if (visible === true) {
         this.init()
       }
@@ -107,30 +101,34 @@ export default Vue.extend({
     this.$nextTick(() => {
       this.$el.remove()
 
-      document.querySelector("#app").append(this.$el)
+      const appEl = document.querySelector("#app")
+
+      if (appEl) {
+        appEl.append(this.$el)
+      }
     })
   },
   destroyed() {
     this.$el.remove()
   },
   methods: {
-    checkBtn(btn) {
+    checkBtn(btn: number) {
       if (btn === 0) return true
       return false
     },
-    handleMouseDown(e) {
+    handleMouseDown(this: any, e) {
       if (!this.checkBtn(e.button)) return
       this.lastX = e.clientX
       this.lastY = e.clientY
       this.isDraging = true
       e.stopPropagation()
     },
-    handleMouseUp(e) {
+    handleMouseUp(this: any, e) {
       if (!this.checkBtn(e.button)) return
       this.isDraging = false
       this.lastX = this.lastY = 0
     },
-    handleMouseMove(e) {
+    handleMouseMove(this: any, e) {
       if (!this.checkBtn(e.button)) return
       if (this.isDraging) {
         this.top = this.top - this.lastY + e.clientY
@@ -140,16 +138,16 @@ export default Vue.extend({
       }
       e.stopPropagation()
     },
-    zoomIn() {
+    zoomIn(this: any) {
       this.scale += 0.25
     },
-    zoomOut() {
+    zoomOut(this: any) {
       if (this.scale !== 0) this.scale -= 0.25
     },
-    rotate() {
+    rotate(this: any) {
       this.rotateDeg += 90
     },
-    next() {
+    next(this: any) {
       this.reset()
       if (this.imgIndex === this.imgList.length - 1) {
         this.imgIndex = 0
@@ -161,7 +159,7 @@ export default Vue.extend({
         this.imgTransitionStatus = !this.imgTransitionStatus
       }, 0)
     },
-    prev() {
+    prev(this: any) {
       if (this.imgIndex === 0) {
         this.imgIndex = this.imgList.length + 1
       } else {
@@ -173,7 +171,7 @@ export default Vue.extend({
         this.imgTransitionStatus = !this.imgTransitionStatus
       }, 0)
     },
-    reset() {
+    reset(this: any) {
       this.imgTransitionStatus = !this.imgTransitionStatus
       this.scale = 1
       this.rotateDeg = 0
@@ -181,8 +179,8 @@ export default Vue.extend({
     closeDialog() {
       this.$emit("update:visible", false)
     },
-    init() {
-      this.imgIndex = this.index
+    init(this: any) {
+      this.imgIndex = this.selected
       this.imgTransitionStatus = true
       this.scale = 1
       this.rotateDeg = 0

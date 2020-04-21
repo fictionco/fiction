@@ -18,18 +18,22 @@ export default Vue.extend({
 
   render: function (createElement: CreateElement): VNode {
     let path = this.path
-    let text = this.text || this.$slots.default
+    let text: string | VNode | VNode[] = (this.text || this.$slots.default) ?? ""
     let el = "span"
     let attrs = {}
     let props = {}
-
+    const route = this.$route ?? {}
+    const routePath = route.path ?? ""
+    const routeMeta = route.meta ?? {}
     // Remove any 'falsy' values from query
     // https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
     // Removing empty values ensures a reduction in any potential "duplicate content" issues with the default state
 
     const query = pickBy(this.query, identity) || {}
 
-    path = !path && !isEmpty(query) ? this.$route.path : path
+    if (!path && !isEmpty(query) && route) {
+      path = route.path
+    }
 
     // Allow for global customization
     path = applyFilters("link-path", path.trim(), { query })
@@ -64,9 +68,7 @@ export default Vue.extend({
 
       let btnElement
 
-      if (this.btnElement) {
-        btnElement = this.btnElement
-      } else if (this.$route.path.includes("dashboard")) {
+      if (routePath.includes("dashboard")) {
         btnElement = factorBtnDashboard
       } else {
         btnElement = factorBtn
@@ -86,7 +88,7 @@ export default Vue.extend({
       classes["disabled"] = true
     }
 
-    if (this.$route.path == this.path || this.$route.meta.activePath == this.path) {
+    if (routePath == this.path || routeMeta.activePath == this.path) {
       classes["active-path"] = true
     }
 

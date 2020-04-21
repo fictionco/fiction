@@ -1,0 +1,58 @@
+{
+  "name": "@factor/theme-framework",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "description": "Framework, a starter theme for [Factor](https://factor.dev/) meant to be worked with, tweaked, and styled. focused on simplicity and just enough functionality to help you start building your new app.",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
+  "factor": {
+    "load": [
+      "server",
+      "app"
+    ],
+    "title": "Framework",
+    "permalink": "framework-factor-theme",
+    "demo": "https://themes.factor.dev/framework",
+    "category": [
+      "starter"
+    ],
+    "extend": "theme",
+    "app": {
+      "name": "Framework - Factor Theme",
+      "url": "http://localhost:3000/"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@themes/theme-framework"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/theme/framework-factor-theme",
+  "main": "src/index",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "dependencies": {
+    "@factor/core": "^1.6.0",
+    "@factor/plugin-blog": "^1.6.0",
+    "@factor/plugin-jobs": "^1.6.0",
+    "@factor/plugin-contact-form": "^1.6.0",
+    "@factor/plugin-email-list": "^1.6.1",
+    "@factor/plugin-highlight-code": "^1.6.0",
+    "@factor/plugin-notify": "^1.6.0",
+    "@factor/plugin-seo": "^1.6.0",
+    "@factor/plugin-sitemap": "^1.6.0"
+  },
+  "keywords": [
+    "starter",
+    "build",
+    "clean",
+    "minimal"
+  ]
+}
