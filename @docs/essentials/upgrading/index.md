@@ -36,7 +36,7 @@ npm install
 
 ## Updating in Package.json
 
-Your `package.json` file is what specifies which version of Factor and it's plugins should be installed. You can also manually update versions there if you prefer. 
+Your `package.json` file is what specifies which version of Factor and its plugins should be installed. You can also manually update versions there if you prefer. 
 
 > **Understanding ^ in versions** 
 > Most versions in `package.json` use the (^) "caret" marker. This specifies that the package should be upgraded unless the package is a major release. Since major releases are the only "breaking" releases, this is why using the (^) makes sense

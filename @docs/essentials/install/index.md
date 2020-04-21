@@ -5,7 +5,7 @@ description: Learn how to add Factor to your JavaScript (or TypeScript) project 
 
 # Installation and Setup
 
-Getting started with Factor is designed to be fast, easy, and simple as possible. In this guide we'll discuss ways to get a project started with Factor, as well as best-practices for setting up a Factor enabled application.
+Getting started with Factor is designed to be fast, easy, and simple as possible. In this guide, we'll discuss ways to get a project started with Factor, as well as best-practices for setting up a Factor enabled application.
 
 > **Getting Started - Video Guide**
 > Check out the video guide to [getting started with Factor](../install).
@@ -21,7 +21,7 @@ In using Factor, we assume you have basic knowledge about running standard JavaS
 
 ## Generate An App
 
-The easiest way to set up a fully featured Factor application is to use the scaffolding tool `create-factor-app`. This tool creates a new project for you and includes recommended tooling and files.
+The easiest way to set up a fully-featured Factor application is to use the scaffolding tool `create-factor-app`. This tool creates a new project for you and includes recommended tooling and files.
 
 To run this tool, just type the following in your terminal (_yes, it just works nothing else is necessary_)
 
@@ -142,7 +142,7 @@ You'll need somewhere store images uploaded through Factor. For this we recommen
 
 ### SMTP Email
 
-Every CMS oriented system needs email for things like email notifications, forgot my password emails, email verification, etc. For this Factor integrates a standard SMTP email tool that needs to be connected with an external service.
+Every CMS oriented system needs email for things like email notifications, forgot my password emails, email verification, etc. for this Factor integrates a standard SMTP email tool that needs to be connected with an external service.
 
 > **Recommendation**
 > Mailgun [Integration Tutorial](./mailgun)
@@ -151,14 +151,14 @@ Every CMS oriented system needs email for things like email notifications, forgo
 
 ### Linters and Types
 
-Now that you have Factor working, we recommend you add some additional tooling to help you down the line. We highly recommend strict linting and type checking; it will help you create stable and professinal code. We recommend implementing the following:
+Now that you have Factor working, we recommend you add some additional tooling to help you down the line. We highly recommend strict linting and type checking; it will help you create stable and professional code. We recommend implementing the following:
 
-- **Eslint (eslintrc).** Code formatting guidelines and autoformatting. Can help you catch bugs and maintain best practices. See examples for reference configurations.
+- **Eslint (eslintrc).** Code formatting guidelines and autoformatting. It can help you catch bugs and maintain best practices. See examples for reference configurations.
   - Use [Eslint Recommended](https://eslint.org/docs/rules/)
   - [Eslint Unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn)
 - **Prettier.** Code organization and styling. Helps a lot.
   - [Github](https://github.com/prettier/prettier)
-- **TypeScript (.tsconfig.json)** To get started using TypeScript all that you need to add is a `.tsconfig.json` file. See examples for reference configurations.
+- **TypeScript (.tsconfig.json)** To get started using TypeScript all you need to add is a `.tsconfig.json` file. See examples for reference configurations.
 
 ### Code Editor / Plugins
 

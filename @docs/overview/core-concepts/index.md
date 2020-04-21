@@ -18,8 +18,12 @@ While this may have certain advantages, there is one massive problem that arises
 
 Also, you may want to share a database or images across multiple websites or apps. This isn't possible with the monolithic approach without working with their APIs (and adopting a bunch more code in the process.)
 
+![Traditional CMS](./traditional-cms.jpg)
+
 **Solution**
 Factor follows the [12 Factor App methodology](https://12factor.net) which outlines a strategy for achieving maximum portability in your applications. It does this by having your connect key services&mdash;like your image storage and database&mdash; which allows you to easily share them across multiple apps. 
+
+![Factor Javascript CMS](./factor-javascript-cms.jpg)
 
 ### Scaling Servers Cheaply
 
@@ -62,7 +66,7 @@ It also comes with added benefits like server side rendering, instant editing (n
 ### Avoiding Full-Stack Complication 
 
 **Problem**
-Most full stack applications are a compilation of dozens of technologies. In addition, an app may use code bases for the backend which have nothing in common with the tools used on the frontend. This commonly leads to high cognitive costs when switching between environments and some developers don't have the capability or th skills to work in both environments.
+Most full stack applications are a compilation of dozens of technologies. In addition, an app may use code bases for the backend which have nothing in common with the tools used on the frontend. This commonly leads to high cognitive costs when switching between environments and some developers don't have the capability or the skills to work in both environments.
 
 **Solution**
 Factor approaches this problem by first using JavaScript related technologies for everything; adding TypeScript for help with stability on the backend. From there, it creates a synergy layer that is designed to make interacting with it feel like one cohesive structure. 
@@ -131,10 +135,10 @@ As a core UI framework, Factor uses Vue exclusively. We made this decision for t
 
 - **Fully featured and carefully implemented codebase.** Evan You the creator of Vue clearly works hard to craft a well designed framework that will stand the test of time.
 - **No corporate bias.** 
-  - All the competive solutions suffer from some form of corporate bias which is largely the reason they are successful. In the case of Vue, it was successful purely because of its merits and quality. 
+  - All the competitive solutions suffer from some form of corporate bias which is largely the reason they are successful. In the case of Vue, it was successful purely because of its merits and quality. 
   - Corporate bias can lead to [conflicts of interest](https://thenextweb.com/dd/2017/09/25/facebook-re-licenses-react-mit-license-developer-backlash/) in the direction and decisions regarding a platform.
 - **Standards Oriented.** 
-  - Vue is designed to be as close to standard JS, HTML, etc. as possible. That means you'll spend less time learning custom APIs and syntax and more time building standard skillsets.
+  - Vue is designed to be as close to standard JS, HTML, etc. as possible. That means you'll spend less time learning custom APIs and syntax and more time building standard skill sets.
 
 ### MongoDB
 
@@ -163,7 +167,7 @@ There are many other tools at use in Factor. Most of them however are not "perma
 
 The detailed picture is covered in the core concepts document, but here are some key "rules" we follow to deliver a superior product:
 
-- **Simple as possible, not simpler.** All features and codesets that are added to Factor core have a clear reason for being there. Anything else belongs in an extension.
+- **Simple as possible, not simpler.** All features and code sets that are added to Factor core have a clear reason for being there. Anything else belongs in an extension.
 - **80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.
 - **Unix philosophy.** Factor generally follows the rules and guidelines outlined in books about the [Unix Philosophy](https://en.wikipedia.org/wiki/Unix_philosophy). Essentially, this means we: 
   - Favor portability over efficiency.
