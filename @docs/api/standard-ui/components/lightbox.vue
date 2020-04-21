@@ -1,7 +1,7 @@
 <template>
   <div class="example docs-component-example">
-    <factor-lightbox :visible.sync="vis" :imgs="images" :index="selected" />
-    <factor-btn btn="primary" size="large" @click="vis = !vis">View Images Lightbox &rarr;</factor-btn>
+    <factor-lightbox :visible.sync="vis" :images="images" :selected="selected" />
+    <factor-btn btn="primary" @click="vis = !vis">View Images Lightbox &rarr;</factor-btn>
   </div>
 </template>
 <script lang="ts">
@@ -23,7 +23,3 @@ export default {
   computed: {},
 }
 </script>
-<style lang="less" scoped>
-.example {
-}
-</style>

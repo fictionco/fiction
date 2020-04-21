@@ -1,7 +1,7 @@
 <template>
   <div class="example docs-component-example">
     <factor-modal :vis.sync="vis">Your Modal Content</factor-modal>
-    <factor-btn @click="vis = !vis">Click Me</factor-btn>
+    <factor-btn @click="vis = !vis">Show Modal &rarr;</factor-btn>
   </div>
 </template>
 <script lang="ts">

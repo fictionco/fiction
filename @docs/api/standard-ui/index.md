@@ -175,43 +175,36 @@ Lightboxes images in full screen mode.
 #### Props
 ```yaml 
 - visible(boolean): Show lightbox
-- imgs(url[]): Array of image urls
+- imgs(array): Array of image urls
 - index(number): Selected image index
 ```
-#### To Import
-```js
-import { factorLightbox } from "@factor/ui"
-```
-#### In Template
+#### Usage in Component
 ```html
-<factor-icon icon="fas fa-key" />
-<factor-icon icon="far fa-trash-alt" />
-<factor-icon icon="fas fa-map-marker-alt" />
-<factor-icon icon="fas fa-camera x2" />
-<factor-icon icon="fas fa-times x2" />
-<factor-icon icon="fas fa-plus-square x2" />
+<template>
+  <div class="example docs-component-example">
+    <factor-lightbox :visible.sync="vis" :images="images" :selected="selected" />
+    <factor-btn btn="primary" @click="vis = !vis">View Images Lightbox &rarr;</factor-btn>
+  </div>
+</template>
+<script lang="ts">
+import { factorLightbox, factorBtn } from "@factor/ui"
+export default {
+  components: { factorLightbox, factorBtn },
+  data() {
+    return {
+      vis: false,
+      selected: 0,
+      images: [
+        require("./img/icon-1.svg"),
+        require("./img/icon-2.svg"),
+        require("./img/icon-3.svg"),
+        require("./img/icon-4.svg"),
+      ],
+    }
+  },
+  computed: {},
+}
+</script>
 ```
 #### Rendered
 <component class="inject-component" id="docsEngine.components.lightbox"></component>
-
-# Forms
-
-## Input Wrapper
-
-## Rich Editor
-
-## Image Upload
-
-## Sortable
-
-## Tags
-
-## Select
-
-## Date
-
-## Birthday
-
-## Checkbox
-
-## Text, Email, Password, Phone, Textarea
