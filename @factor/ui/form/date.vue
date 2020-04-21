@@ -1,5 +1,5 @@
 <template>
-  <div id="sel" class="date-input">
+  <div id="sel" class="factor-input date-input">
     <date-picker
       ref="picker"
       :value="val"
@@ -19,7 +19,7 @@ export default Vue.extend({
     "date-picker": () => import("vuejs-datepicker"),
   },
   props: {
-    value: { type: String, default: null },
+    value: { type: [String, Date], default: null },
   },
   data() {
     return { date: null }

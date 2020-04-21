@@ -1,7 +1,7 @@
 <template>
   <textarea
     ref="textarea"
-    class="standard-textarea"
+    class="factor-input standard-textarea"
     :value="value"
     :required="$attrs.required"
     v-bind="$attrs"

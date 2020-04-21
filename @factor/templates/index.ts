@@ -70,7 +70,7 @@ export const getTemplate = async (templateId: string): Promise<TemplateConfig | 
   return tpl
 }
 
-export const initSortableSettings = ({
+export const sortableSettings = ({
   _default,
   settings,
 }: {
@@ -101,7 +101,7 @@ export const getDefaultTemplateSettings = (
     // If undefined, then set defaults
     if (typeof current[_id] == "undefined" && _default) {
       if (settings && _default && Array.isArray(settings) && Array.isArray(_default)) {
-        val = initSortableSettings({
+        val = sortableSettings({
           _default,
           settings: settings,
         })

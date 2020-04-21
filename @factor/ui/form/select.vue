@@ -1,7 +1,7 @@
 <template>
   <select
     :value="setting"
-    class="select-standard"
+    class="factor-input select-standard"
     :required="$attrs.required"
     :style="inputStyle"
     v-on="listeners"

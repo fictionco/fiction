@@ -1,5 +1,5 @@
 <template>
-  <label class="checkbox-wrap">
+  <label class="factor-input checkbox-wrap">
     <input type="checkbox" class="checkbox" :checked="value" v-on="listeners" />
     <span v-if="label" class="checkbox-label">{{ label }}</span>
   </label>
@@ -30,4 +30,16 @@ export default Vue.extend({
   },
 })
 </script>
-<style lang="less"></style>
+<style lang="less">
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+  .checkbox {
+    margin-right: 0.5rem;
+  }
+}
+</style>

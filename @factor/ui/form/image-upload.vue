@@ -1,5 +1,5 @@
 <template>
-  <div class="image-upload-container">
+  <div class="factor-input image-upload-container">
     <div class="image-upload-input">
       <div ref="organizer" class="image-organizer">
         <div

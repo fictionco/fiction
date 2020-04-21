@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { factorInputSortable } from "@factor/ui"
-import { initSortableSettings } from "@factor/templates"
+import { sortableSettings } from "@factor/templates"
 export default {
   components: { factorInputSortable },
   data() {
@@ -34,7 +34,7 @@ export default {
     }
   },
   mounted(this: any) {
-    this.sorted = initSortableSettings({
+    this.sorted = sortableSettings({
       _default: [{ __title: "Box 1" }, { __title: "Box 2" }, { __title: "Box 3" }],
       settings: this.settings,
     })

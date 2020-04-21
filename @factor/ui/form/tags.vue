@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-input" @keydown.stop>
+  <div class="factor-input tag-input" @keydown.stop>
     <div v-if="list" class="the-input">
       <factor-input-select
         ref="selectField"
@@ -18,11 +18,7 @@
         placeholder="Enter tag"
         @keydown.prevent.enter="addTag($event)"
       />
-      <factor-btn
-        btn="default"
-        :disabled="tagNumber >= max"
-        @click="addTag()"
-      >&rarr;</factor-btn>
+      <factor-btn btn="default" :disabled="tagNumber >= max" @click="addTag()">Add Tag</factor-btn>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
@@ -141,7 +137,7 @@ export default Vue.extend({
   }
   .the-input {
     display: flex;
-    width: 12em;
+    min-width: 12em;
     input[type="text"] {
       margin-right: 0.5em;
     }

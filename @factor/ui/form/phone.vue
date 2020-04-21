@@ -1,17 +1,16 @@
 <template>
-  <div class="phone-inputs">
-    <input
-      :value="phone"
-      type="tel"
-      v-bind="$attrs"
-      pattern="^[0-9-+s()]{6,16}"
-      autocomplete="tel"
-      size="15"
-      title="Enter a valid phone number with country code."
-      :required="$attrs.required"
-      v-on="listeners"
-    />
-  </div>
+  <input
+    class="factor-input phone-inputs"
+    :value="phone"
+    type="tel"
+    v-bind="$attrs"
+    pattern="^[0-9-+s()]{6,16}"
+    autocomplete="tel"
+    size="15"
+    title="Enter a valid phone number with country code."
+    :required="$attrs.required"
+    v-on="listeners"
+  />
 </template>
 <script lang="ts">
 import Vue from "vue"
@@ -24,10 +23,10 @@ export default Vue.extend({
     return {}
   },
   computed: {
-    phone() {
+    phone(this: any) {
       return this.value ? this.addPlus(String(this.value)) : ""
     },
-    listeners() {
+    listeners(this: any) {
       return {
         ...this.$listeners,
         input: (e) => {

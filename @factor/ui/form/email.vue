@@ -1,5 +1,6 @@
 <template>
   <input
+    class="factor-input"
     :value="value"
     type="email"
     autocomplete="email"

@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-input">
+  <div class="factor-input editor-input">
     <div v-show="!loading" class="editor-wrap">
       <textarea ref="editor" :value="value" v-on="listeners" />
     </div>

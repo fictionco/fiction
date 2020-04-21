@@ -5,7 +5,7 @@ description: A reference for standard UI elements available for Factor apps
 
 # Standard UI Elements
 
-Factor includes several standard UI elements that can be used for common tasks.
+Factor includes several standard UI elements and CSS files that can be used for common tasks.
 
 ## Using Elements
 
@@ -268,3 +268,22 @@ Lightboxes images in full screen mode.
 #### Rendered
 
 <component class="inject-component" id="docsEngine.components.lightbox"></component>
+
+## Standard Reset CSS
+
+Most apps and themes will want to apply a CSS "reset" to help create consistency across browsers. Factor has one you can import as follows:
+
+```less
+// global scope
+@import "~@factor/ui/css/standard-reset.less";
+```
+
+## Standard Entry CSS
+
+Long form text&mdash;similar to the text in this document&mdash;typically uses a common formatting pattern and style. To help you quickly format and style text like this, Factor provides you a CSS file for standard long form entries.
+
+```less
+.my-entry-text {
+  @import "~@factor/ui/css/standard-entry.less";
+}
+```

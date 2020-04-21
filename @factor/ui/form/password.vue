@@ -1,5 +1,6 @@
 <template>
   <input
+    class="factor-input"
     :value="value"
     :autocomplete="$attrs.autocomplete || 'current-password'"
     type="password"

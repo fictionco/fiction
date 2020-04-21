@@ -1,5 +1,5 @@
 <template>
-  <div class="birthday">
+  <div class="factor-input birthday">
     <div ref="wrap" class="date-inputs">
       <input
         v-model="monthUser"
