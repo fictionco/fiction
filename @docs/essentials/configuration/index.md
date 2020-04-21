@@ -11,7 +11,7 @@ To get Factor to work seamlessly, make sure you have the basic configuration ite
 
 Factor uses the `factor` property inside of `package.json` as the location for your app's basic public configuration.
 
-For minimal configuration we recommend adding your app's meta information, your initial admin users, and your main file loading config.
+For minimal configuration, we recommend adding your app's meta information, your initial admin users, and your main file loading config.
 
 ### App Meta Information
 

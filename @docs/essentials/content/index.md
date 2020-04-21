@@ -1,6 +1,6 @@
 ---
 title: The Content Wrapper (content.vue)
-description: The content.vue component wraps the content on the front end. Use it to add global elements.
+description: The content.vue component wraps the content on the front-end. Use it to add global elements.
 ---
 
 # The Content Wrapper
@@ -32,6 +32,7 @@ The only requirement in the wrapper is a Vue `router-view` component (which show
 
 From there, you can add any global functionality and UI that you'd like. In the below example, we add a `header` and `footer` component.
 
+
 ```html
 <template>
   <div class="my-app-content">
@@ -52,6 +53,8 @@ From there, you can add any global functionality and UI that you'd like. In the 
   }
 </script>
 ```
+
+![Content Wrapper Example](./content-wrapper.jpg)
 
 ## Global Code
 

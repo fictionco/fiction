@@ -17,13 +17,13 @@ To help you with this, Factor provides some useful standards that can help with 
 
 The only CSS preprocessor that is supported by default in Factor is [Less](http://lesscss.org/). This is because we don't recommend using any functionality in these preprocessors aside from [nesting](http://lesscss.org/#nesting) which is critical and module loading.
 
-In the [near future](https://drafts.csswg.org/css-nesting/) CSS nesting will become native, and therefore we won't need preprocessors at all.
+In the [near future](https://drafts.csswg.org/css-nesting/), CSS nesting will become native, and therefore we won't need preprocessors at all.
 
 > **Note** You can support other preprocessors via plugin
 
 ## Styles in Components
 
-You can add CSS to any Vue component by adding a `<style>` tag. The style tag will then use any preprocessor specified in it's `lang` attribute (as long as it's been supported):
+You can add CSS to any Vue component by adding a `<style>` tag. The style tag will then use any preprocessor specified in its `lang` attribute (as long as its been supported):
 
 ```html
 <style lang="less">
@@ -64,7 +64,7 @@ In the example above, the resulting CSS will be wrapped with `.my-component` app
 
 ### Scoping Global Styles
 
-When loading global styles in Factor, it's important that styles scoped to `body` or `html` reference the `html.factor-app` selector. This is needed because it is possible for styles to leak to the dashboard(`html.factor-dashboard`) if they aren't scoped correctly.
+When loading global styles in Factor, it's important that styles scoped to `body` or `html` reference the `html.factor-app` selector. This is needed because styles might leak to the dashboard(`html.factor-dashboard`) if they aren't scoped correctly.
 
 ```less
 html.factor-app {
@@ -78,7 +78,7 @@ html.factor-app {
 
 ### `content.vue`
 
-One of the cleanest ways to handle your global styling is to add it to your [content wrapper](./content) component. This removes the need for a stand alone CSS file.
+One of the cleanest ways to handle your global styling is to add it to your [content wrapper](./content) component. This removes the need for a stand-alone CSS file.
 
 ```html
 <!-- content.vue -->
@@ -104,7 +104,7 @@ html.factor-app {
 
 In order to maintain consistency across apps, plugins, and themes, Factor uses a few standard [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
 
-CSS variables are easily set from your application and can be used by plugins to set colors, fonts, shadows, etc appropriate to your desired look and feel.
+CSS variables are easily set from your application and can be used by plugins to set colors, fonts, shadows, etc. appropriate to your desired look and feel.
 
 To reference the variables we recommend setting, check out the [standard CSS variables](./css-variables) document.
 

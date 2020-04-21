@@ -19,7 +19,7 @@ You can think of main files as the entry point of your application (or extension
 
 ## Loading Your Main Files
 
-Main files are auto loaded based on the configuration you set in your app's `package.json`.
+Main files are auto-loaded based on the configuration you set in your app's `package.json`.
 
 ### App vs Server Loading
 
