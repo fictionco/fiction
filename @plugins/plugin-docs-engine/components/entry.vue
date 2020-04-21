@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-
+import { injectMarkdownComponents, setting } from "@factor/api"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 export default Vue.extend({
   components: {
@@ -16,6 +16,12 @@ export default Vue.extend({
   props: {
     content: { type: String, default: "" },
   },
+  mounted(this: any) {
+    setTimeout(() => {
+      injectMarkdownComponents()
+    }, 50)
+  },
+  methods: { setting },
 })
 </script>
 <style lang="less">

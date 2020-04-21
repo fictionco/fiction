@@ -6,7 +6,7 @@ import Vue, { CreateElement, VNode } from "vue"
 
 import { createRouter } from "@factor/app/router"
 import { emitEvent } from "@factor/api/events"
-import { getStore } from "@factor/app/store"
+import { createStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/api/hooks"
 import { setting } from "@factor/api/settings"
 import { extendApp } from "./extend-app"
@@ -25,7 +25,7 @@ export const createApp = async ({
 
   await extendApp()
 
-  const store = getStore()
+  const store = createStore()
   const router = createRouter()
 
   /**

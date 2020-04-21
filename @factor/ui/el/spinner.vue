@@ -1,8 +1,9 @@
 <template>
-  <div class="spinner-wrap spinner-wrap">
-    <div :style="{ width }" class="loader">
+  <div class="factor-spinner spinner-wrap loading-ring-wrap">
+    <div class="loader" :style="{ width: width || '' }">
       <svg class="ring-circular" viewBox="25 25 50 50">
         <circle
+          :class="colorMode"
           class="ring-path"
           cx="50"
           cy="50"
@@ -20,7 +21,8 @@
 import Vue from "vue"
 export default Vue.extend({
   props: {
-    width: { type: String, default: "3em" },
+    width: { type: String, default: "" },
+    colorMode: { type: String, default: "placeholder" },
   },
 })
 </script>
@@ -30,8 +32,10 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transform: translateZ(0);
 }
 .loader {
+  width: 3rem;
   position: relative;
   margin: 0 auto;
   &:before {
@@ -57,11 +61,21 @@ export default Vue.extend({
 .ring-path {
   will-change: stroke-dasharray;
   will-change: stroke-dashoffset;
+
   stroke-dasharray: 1, 200;
   stroke-dashoffset: 0;
-  stroke: var(--color-placeholder);
+
   stroke-linecap: round;
   animation: dash 1s ease-in-out infinite;
+  &.placeholder {
+    stroke: var(--color-placeholder);
+  }
+  &.primary {
+    stroke: var(--color-primary);
+  }
+  &.text {
+    stroke: var(--color-text);
+  }
 }
 
 @keyframes rotate {

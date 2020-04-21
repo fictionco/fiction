@@ -58,7 +58,7 @@ module.exports = {
         groups: ["builtin", "external", "parent", "sibling", "index"],
       },
     ],
-    complexity: 2,
+
     semi: ["error", "never"],
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",

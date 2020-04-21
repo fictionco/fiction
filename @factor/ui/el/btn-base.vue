@@ -8,7 +8,7 @@
       </span>
       <transition v-if="loading" name="fade">
         <div v-if="loading" class="waitload">
-          <factor-spinner :class="circleClass" width="1.2em" />
+          <factor-spinner :class="circleClass" width="1.1em" />
         </div>
       </transition>
     </span>

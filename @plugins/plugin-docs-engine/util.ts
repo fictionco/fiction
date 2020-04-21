@@ -75,7 +75,7 @@ export const getDocConfig = async (doc: string): Promise<DocConfig | undefined> 
 
   if (config?.file) {
     const { default: markdown } = await config.file()
-    const { meta, content } = renderMarkdownWithMeta(markdown)
+    const { meta, content } = renderMarkdownWithMeta(markdown, { variables: true })
 
     config.markdown = markdown
     config.meta = meta

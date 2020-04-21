@@ -1,9 +1,11 @@
 import docNav from "../../@docs/_nav"
+import injectedComponents from "../../@docs/_components"
 import docNavOld from "../../@docs-old/_nav-old"
 
 export default {
   docsEngine: {
     nav: process.env.NODE_ENV == "production" ? docNavOld : docNav,
+    components: injectedComponents,
   },
   app: { url: "https://factor.dev" },
   metaInfo: {
