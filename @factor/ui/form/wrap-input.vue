@@ -69,7 +69,7 @@ export default Vue.extend({
   inheritAttrs: false,
   props: {
     value: {
-      type: null, // any type
+      type: undefined, // any type
       default: () => {},
     },
     label: { type: String, default: "" },
@@ -97,8 +97,6 @@ export default Vue.extend({
       return this.format ? this.format : "vertical"
     },
   },
-
-  methods: {},
 })
 </script>
 

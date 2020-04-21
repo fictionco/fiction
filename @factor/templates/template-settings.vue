@@ -1,8 +1,6 @@
 <template>
   <div class="edit-page-templates">
-    <div v-if="fields.length == 0" class="no-options">
-      No settings available for selected template.
-    </div>
+    <div v-if="fields.length == 0" class="no-options">No settings available for selected template.</div>
     <template v-else>
       <dashboard-input
         v-for="(field, i) in fields"
@@ -13,7 +11,7 @@
         :label="field.label"
         :description="field.description"
         :class="['engine-input', field.input]"
-        :inputs="field.settings || []"
+        :settings="field.settings || []"
         :post-id="postId"
       />
     </template>

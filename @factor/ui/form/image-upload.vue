@@ -52,6 +52,7 @@
                 type="file"
                 accept="image/*"
                 multiple
+                :disabled="$attrs.disabled"
                 @change="handleMultiUpload($event)"
               />
               <factor-spinner v-if="loading" width="2em" />
@@ -574,6 +575,10 @@ export default Vue.extend({
   position: relative;
 
   border-radius: 6px;
+
+  color: var(--color-placeholder);
+  background-color: var(--color-bg-contrast);
+  box-shadow: inset 0 0 0 1px var(--color-border);
 
   .upload-status {
     width: 100%;

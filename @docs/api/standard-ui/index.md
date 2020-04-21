@@ -14,9 +14,11 @@ All elements are made available from the `@factor/ui` module. Import them into y
 ## Link
 
 #### Purpose
+
 Add links between routes and to external resources.
 
 #### Props
+
 ```yaml
 # Props
 - path: The path to URL. If it's a route it will use Vue Router. If it includes a protocol (e.g. https..) then it will navigate like a normal link.
@@ -25,11 +27,15 @@ Add links between routes and to external resources.
 - btn: Turn Turn into a 'factor-btn' ('primary', 'default')
   - tip: Accepts attributes for 'factor-btn'
 ```
+
 #### To Import
+
 ```js
 import { factorLink } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <factor-link path="https://www.fiction.com">External Link</factor-link>
 <factor-link path="/">Local Link</factor-link>
@@ -37,66 +43,93 @@ import { factorLink } from "@factor/ui"
 <factor-link btn="default" path="/">Button</factor-link>
 <factor-link btn="primary" path="/" :loading="true">Button</factor-link>
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.link"></component>
 
 ## Spinner
 
 #### Purpose
-A universal loading indicator. 
+
+A universal loading indicator.
+
 #### Props
-```yaml 
+
+```yaml
 - colorMode(string): primary, text, placeholder (default)
 - size(string): Spinner width
 ```
+
 #### To Import
+
 ```js
 import { factorSpinner } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <factor-spinner />
 <factor-spinner color-mode="primary" />
 <factor-spinner color-mode="text" />
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.spinner"></component>
 
 ## Modal
 
 #### Purpose
+
 Standard modal.
+
 #### Props
-```yaml 
+
+```yaml
 - vis.sync (boolean): Synced parameter. Set [true] to show modal.
 ```
+
 #### To Import
+
 ```js
 import { factorModal } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <factor-modal :vis.sync="vis">Your Modal Content</factor-modal>
 <factor-btn @click="vis = !vis">Click Me</factor-btn>
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.modal"></component>
 
 ## Button
 
 #### Purpose
+
 Standard buttons.
+
 #### Props
-```yaml 
+
+```yaml
 - btn(string): primary, secondary, text, default
 - loading(boolean): Show loading spinner.
 - size(string): normal, small, tiny, large
 ```
+
 #### To Import
+
 ```js
 import { factorBtn } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <div class="row">
   <factor-btn btn="primary">Click Me</factor-btn>
@@ -115,25 +148,34 @@ import { factorBtn } from "@factor/ui"
   <factor-btn size="tiny" :loading="true">Click Me</factor-btn>
 </div>
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.btn"></component>
 
 ## Avatar
 
 #### Purpose
+
 User profile images with Gravatar fallback.
+
 #### Props
-```yaml 
+
+```yaml
 - url(string): image URL
 - user(object): Factor user object
 - post-id(string): Post ID for an image in store
 - loading(boolean): Loading spinner
 ```
+
 #### To Import
+
 ```js
 import { factorAvatar } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <factor-avatar :user="{email: `email@example.com`}" />
 <factor-avatar email="email@example.com" />
@@ -141,22 +183,31 @@ import { factorAvatar } from "@factor/ui"
 <factor-avatar email="no-exist@example.com" />
 <factor-avatar :loading="true" />
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.avatar"></component>
 
 ## Icon
 
 #### Purpose
+
 Loads Font Awesome and displays an icon. Free version only and loads max once per page.
+
 #### Props
-```yaml 
+
+```yaml
 - icon(string): A Font Awesome icon class
 ```
+
 #### To Import
+
 ```js
 import { factorIcon } from "@factor/ui"
 ```
+
 #### In Template
+
 ```html
 <factor-icon icon="fas fa-key" />
 <factor-icon icon="far fa-trash-alt" />
@@ -165,20 +216,27 @@ import { factorIcon } from "@factor/ui"
 <factor-icon icon="fas fa-times x2" />
 <factor-icon icon="fas fa-plus-square x2" />
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.icon"></component>
 
 ## Lightbox
 
 #### Purpose
+
 Lightboxes images in full screen mode.
+
 #### Props
-```yaml 
+
+```yaml
 - visible(boolean): Show lightbox
 - imgs(array): Array of image urls
 - index(number): Selected image index
 ```
+
 #### Usage in Component
+
 ```html
 <template>
   <div class="example docs-component-example">
@@ -187,24 +245,26 @@ Lightboxes images in full screen mode.
   </div>
 </template>
 <script lang="ts">
-import { factorLightbox, factorBtn } from "@factor/ui"
-export default {
-  components: { factorLightbox, factorBtn },
-  data() {
-    return {
-      vis: false,
-      selected: 0,
-      images: [
-        require("./img/icon-1.svg"),
-        require("./img/icon-2.svg"),
-        require("./img/icon-3.svg"),
-        require("./img/icon-4.svg"),
-      ],
-    }
-  },
-  computed: {},
-}
+  import { factorLightbox, factorBtn } from "@factor/ui"
+  export default {
+    components: { factorLightbox, factorBtn },
+    data() {
+      return {
+        vis: false,
+        selected: 0,
+        images: [
+          require("./img/icon-1.svg"),
+          require("./img/icon-2.svg"),
+          require("./img/icon-3.svg"),
+          require("./img/icon-4.svg"),
+        ],
+      }
+    },
+    computed: {},
+  }
 </script>
 ```
+
 #### Rendered
+
 <component class="inject-component" id="docsEngine.components.lightbox"></component>

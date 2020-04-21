@@ -11,35 +11,170 @@ Factor includes several form UI elements that can be used for common tasks.
 
 All elements are made available from the `@factor/ui` module. Import them and then use them as Vue components.
 
-## Input Wrapper
+## Form Wrapper
 
 #### Purpose
-Loads Font Awesome and displays an icon. Free version only and loads max once per page.
-#### Props
-```yaml 
-- icon(string): A Font Awesome icon class
-```
-#### To Import
-```js
-import { factorIcon } from "@factor/ui"
-```
-#### In Template
-```html
-<factor-icon icon="fas fa-key" />
-<factor-icon icon="far fa-trash-alt" />
-<factor-icon icon="fas fa-map-marker-alt" />
-<factor-icon icon="fas fa-camera x2" />
-<factor-icon icon="fas fa-times x2" />
-<factor-icon icon="fas fa-plus-square x2" />
-```
-#### Rendered
-<component class="inject-component" id="docsEngine.components.icon"></component>
 
-## Rich Editor
+Wraps inputs in a `<form>`. Emits a `@submit` on enter.
+
+#### Props
+
+```yaml
+- @submit: Fires when form is submitted (enter key).
+```
+
+#### To Import
+
+```js
+import { factorForm } from "@factor/ui"
+```
+
+#### In Template
+
+```html
+<factor-form @submit="send()">
+  <!-- Form Inputs -->
+</factor-form>
+```
+
+## Inputs Wrapper
+
+#### Purpose
+
+Wraps inputs with consistent markup for label and description.
+
+#### Props
+
+```yaml
+- value(any): input value
+- label(string): input label
+- description(string): input description
+- input(string): component name (as you'd call it in template)
+- inputClasses(string): classes to add to input
+- labelClasses(string): classes to add to label
+# attrs + $listeners: Passes other attributes and events to input
+```
+
+#### To Import
+
+```js
+import { factorInputWrap } from "@factor/ui"
+```
+
+#### In Template
+
+```html
+<factor-input-wrap
+  v-model="title"
+  input="factor-input-text"
+  label="Title"
+  description="Your example title"
+  placeholder="Write A Title"
+  required
+/>
+<factor-input-wrap
+  v-model="select"
+  input="factor-input-select"
+  label="Select Option"
+  description="Options for selecting something"
+  placeholder="Select Something"
+  :list="['foo', 'bar', 'baz']"
+  required
+/>
+```
+
+#### Rendered
+
+<component class="inject-component" id="docsEngine.components.inputWrap"></component>
+
+## Markdown Editor
+
+#### Purpose
+
+Standard Markdown editor used for formatted text.
+
+#### Props
+
+```yaml
+- value(any): input value
+- autosaveId(string): Enabled auto save based on passed ID
+- allowImageUpload(boolean): Allow dragged images to upload
+# attrs + $listeners: Passes other attributes and events to input
+```
+
+#### Import
+
+```js
+import { factorInputEditor } from "@factor/ui"
+```
+
+#### In Template
+
+```html
+<factor-input-editor autosave-id="ui" :allow-image-upload="false" />
+```
+
+#### Rendered
+
+<component class="inject-component" id="docsEngine.components.inputEditor"></component>
 
 ## Image Upload
 
-## Sortable
+#### Purpose
+
+Standard image upload component.
+
+#### Props
+
+```yaml
+- value(array): array of image post Ids
+- min(string|number): Minimum images
+- max(string|number): Maximum images
+```
+
+#### Import
+
+```js
+import { factorInputImageUpload } from "@factor/ui"
+```
+
+#### In Template
+
+```html
+<factor-input-image-upload v-model="images" max="3" min="1" />
+```
+
+#### Rendered
+
+<component class="inject-component" id="docsEngine.components.inputImageUpload"></component>
+
+## Sortable Inputs
+
+#### Purpose
+
+Allow for ordered and arranged inputs and values. Ideal for config. Uses the [template settings API](/template-settings).
+
+#### Props
+
+```yaml
+- settings(array): Template settings array
+```
+
+#### Import
+
+```js
+import { factorInputSortable } from "@factor/ui"
+```
+
+#### In Template
+
+```html
+<factor-input-sortable />
+```
+
+#### Rendered
+
+<component class="inject-component" id="docsEngine.components.inputSortable"></component>
 
 ## Tags
 

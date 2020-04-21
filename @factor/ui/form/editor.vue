@@ -18,7 +18,8 @@ export default Vue.extend({
   components: { factorSpinner },
   props: {
     value: { type: String, default: "" },
-    postId: { type: String, default: "" },
+    autosaveId: { type: String, default: "" },
+    allowImageUpload: { type: Boolean, default: true },
     imageInputSelector: { type: String, default: "post-images" },
   },
   data() {
@@ -60,12 +61,12 @@ export default Vue.extend({
       // Wait for everything else to load before initialization
       await waitFor(100)
       /**
-       * If postId is set, then allow for autosave
+       * If autosaveId is set, then allow for autosave
        */
-      const autosave = this.postId
+      const autosave = this.autosaveId
         ? {
             enabled: true,
-            uniqueId: this.postId,
+            uniqueId: this.autosaveId,
             delay: 5000,
           }
         : undefined
@@ -79,7 +80,7 @@ export default Vue.extend({
       // this can cause double editors to show
       if (this.destroyed) return
 
-      this.easyMDE = new EasyMDE.default({
+      const opts: any = {
         element: this.$refs.editor,
         minHeight: "200px",
         spellChecker: false,
@@ -110,7 +111,10 @@ export default Vue.extend({
           "guide",
         ],
         uploadImage: true,
-        imageUploadFunction: (file: File, onSuccess, onError) => {
+      }
+
+      if (this.allowImageUpload) {
+        opts.imageUploadFunction = (file: File, onSuccess: any, onError: any) => {
           uploadImage({
             file,
             onError: (error: Error) => {
@@ -127,8 +131,10 @@ export default Vue.extend({
               })
             },
           })
-        },
-      })
+        }
+      }
+
+      this.easyMDE = new EasyMDE.default(opts)
 
       /**
        * Focuses the editor on this event

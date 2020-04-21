@@ -10,11 +10,12 @@
           @click="selected = i"
         >
           <div class="handle">
-            <span v-if="item.__title">{{ item.__title }}</span>
-            <span class="icon">&rarr;</span>
+            <span>{{ item.__title || `Item ${i + 1}` }}</span>
+            <factor-icon icon="fas fa-grip-horizontal" />
           </div>
         </div>
-        <factor-btn-dashboard btn="primary" @click="addItem()">+</factor-btn-dashboard>
+
+        <factor-btn class="add-item" @click="addItem()">Add Item</factor-btn>
       </div>
 
       <div class="inputs">
@@ -32,39 +33,36 @@
           </span>
         </div>
         <factor-input-wrap
-          v-for="(field, i) in inputs"
+          v-for="(field, i) in settings"
           :key="i"
           :value="getValue(field._id)"
           :input="`factor-input-${field.input}`"
           :label="field.label"
           :description="field.description"
           :class="['engine-input', field.input]"
-          :inputs="field.inputs || []"
+          :settings="field.settings || []"
           :data-test="`input-${field._id}-${selected + 1}`"
           v-bind="$attrs"
           @input="setValue(field._id, $event)"
         />
         <div>
-          <factor-btn-dashboard
-            size="small"
-            @click="removeItem(selected)"
-          >Remove Item</factor-btn-dashboard>
+          <factor-btn size="small" @click="removeItem(selected)">Remove Item</factor-btn>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorIcon, factorInputWrap } from "@factor/ui"
-import { guid } from "@factor/api/utils"
+import { factorBtn, factorIcon, factorInputWrap } from "@factor/ui"
+import { randomToken } from "@factor/api/utils"
 import DOM from "jquery"
 import Sortable from "sortablejs"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorBtnDashboard, factorIcon, factorInputWrap },
+  components: { factorBtn, factorIcon, factorInputWrap },
   props: {
     value: { type: [Array, Object], default: () => [] },
-    inputs: { type: Array, default: () => [] },
+    settings: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -120,7 +118,10 @@ export default Vue.extend({
     addItem(this: any) {
       const newLocalValue = this.localValue.slice()
 
-      newLocalValue.push({ __title: "", __key: guid() })
+      newLocalValue.push({
+        __title: `Item ${this.value.length + 1}`,
+        __key: randomToken(4),
+      })
 
       this.localValue = newLocalValue
     },
@@ -154,26 +155,31 @@ export default Vue.extend({
   display: grid;
   grid-gap: 1em;
 
-  grid-template-columns: 100px 1fr;
+  grid-template-columns: 130px 1fr;
   .controls {
     text-align: right;
     .sortable-item {
-      //box-shadow: @factor-box-shadow-input;
+      box-shadow: 0 0 0 1px var(--color-border);
+
       font-size: 0.9em;
       margin-bottom: 0.75em;
-      padding: 0.3em 0.5em;
+      padding: 0.3em 0.75em;
       border-radius: 5px;
       text-align: center;
       cursor: move;
+      cursor: -webkit-grab;
+      cursor: -moz-grab;
+      cursor: grab;
       &.active {
-        //background: @factor-canvas-bg;
-        // color: @factor-color-primary;
+        background-color: var(--color-bg-contrast);
+
         font-weight: var(--font-weight-bold);
       }
       .handle {
         display: flex;
         justify-content: space-between;
-        .icon {
+        align-items: center;
+        .factor-icon {
           opacity: 0.2;
         }
       }
@@ -185,7 +191,7 @@ export default Vue.extend({
   }
 
   .inputs {
-    //box-shadow: @factor-box-shadow-input;
+    box-shadow: 0 0 0 1px var(--color-border);
     padding: 1.5em;
     border-radius: 5px;
     background: #fff;

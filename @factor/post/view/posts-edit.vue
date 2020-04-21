@@ -2,11 +2,7 @@
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
       <factor-link btn="default" :path="url">View</factor-link>
-      <factor-btn-dashboard
-        btn="primary"
-        :loading="sending"
-        @click="savePost()"
-      >Update</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Update</factor-btn-dashboard>
     </template>
     <template #primary>
       <dashboard-pane class="compose">
@@ -19,7 +15,7 @@
         />
 
         <dashboard-input label="Post Content">
-          <factor-input-editor v-model="post.content" :post-id="post._id" />
+          <factor-input-editor v-model="post.content" :autosave-id="post._id" />
         </dashboard-input>
       </dashboard-pane>
     </template>
@@ -33,11 +29,7 @@
         />
 
         <dashboard-input v-if="postTypeConfig.customPermalink" label="Permalink">
-          <input-permalink
-            v-model="post.permalink"
-            :initial="post.title"
-            :post-type="postType"
-          />
+          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
           v-model="post.synopsis"
@@ -73,11 +65,7 @@
           label="Post Images"
           @autosave="saveDraft()"
         />
-        <dashboard-input
-          v-model="post.author"
-          input="dashboard-user-list"
-          label="Author"
-        />
+        <dashboard-input v-model="post.author" input="dashboard-user-list" label="Author" />
         <dashboard-input
           v-model="post.source"
           input="factor-input-text"
