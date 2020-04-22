@@ -99,6 +99,7 @@ To learn more about working with data in Factor, here are some resources we reco
 
 - [Endpoints and middleware](./endpoints-and-middleware) - Learn how to make requests to custom endpoints or middleware.
 - [Working with posts](./working-with-posts) - Learn how fetching works in the posts system and how it makes use of the store.
+- [Database](./database) - Working with MongoDB/Mongoose in Factor.
 
 ### Example
 

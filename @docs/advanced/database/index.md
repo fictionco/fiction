@@ -9,7 +9,7 @@ Don't forget that behind everything you have a fully featured MongoDB/Mongoose p
 
 ## Understanding the Database Structure
 
-The DB is a MongoDB powered database built as a single collection. Within the collection each document is considered a "post." And then to distinguish between each post type, we use [Mongoose discriminators](https://mongoosejs.com/docs/discriminators.html).
+The DB is a MongoDB powered database built as a single collection. Within the collection each document is considered a "post." Finally to distinguish between each post type, we use [Mongoose discriminators](https://mongoosejs.com/docs/discriminators.html).
 
 Why is it structured this way? Here are the advantages:
 
