@@ -17,10 +17,10 @@ In order for Factor to be highly scalable, there is no user specific content ren
 
 When a logged-in user loads a page, the following occurs:
 
-1. **Render:** Server renders the page with no user-specific content.
-2. **Load:** On client load, Factor checks `localStorage` for a token indicating a logged in user
-3. **Endpoint:** If a token is found, it's sent to an endpoint which decodes it and returns the user associated with it
-4. **Initialized:** In the client, the returned user is stored as the `currentUser` and the user is considered initialized.
+1. **Server Render:** Server renders the page with no user-specific content.
+2. **Client Load:** On client load, Factor checks `localStorage` for a token indicating a logged in user
+3. **Server Decode:** If a token is found, it's sent to an endpoint which decodes it and returns the user associated with it
+4. **Client Initialized:** In the client, the returned user is stored as the `currentUser` and the user is considered initialized.
 
 > **Bearer:** For each endpoint request the token is passed along and decoded into a `bearer` user which is used for permissions and security on a query by query basis.
 
