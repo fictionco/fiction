@@ -18,12 +18,10 @@ While this may have certain advantages, there is one massive problem that arises
 
 Also, you may want to share a database or images across multiple websites or apps. This isn't possible with the monolithic approach without working with their APIs (and adopting a bunch more code in the process.)
 
-![Traditional CMS](./traditional-cms.jpg)
-
 **Solution**
 Factor follows the [12 Factor App methodology](https://12factor.net) which outlines a strategy for achieving maximum portability in your applications. It does this by having your connect key services&mdash;like your image storage and database&mdash; which allows you to easily share them across multiple apps. 
 
-![Factor Javascript CMS](./factor-javascript-cms.jpg)
+![Traditional CMS(Monolith) vs Factor](./monoliths-vs-factor.jpg)
 
 ### Scaling Servers Cheaply
 

@@ -9,6 +9,8 @@ The `content.vue` component wraps your front-end content and allows you to add g
 
 Use it to add elements that are visible on all pages of your site like navigation or a footer.
 
+![Content Component](./content-wrapper.jpg)
+
 ## Adding a Content Wrapper
 
 To add a `content.vue`, just place it in the source folder of your app, Factor will detect it automatically on build. And no further steps are necessary.
@@ -79,7 +81,7 @@ For example, you can [add meta information](./metainfo) like `titleTemplate` and
 
 ## Global Styles and Variables
 
-Since the content wrapper is available on all front-end pages, its ideal for setting global styles and CSS variables.
+Since the content wrapper is available on all front-end pages, it's ideal for setting global styles and CSS variables.
 
 Since the wrapper component lies within the `body` of your HTML, use the `html.factor-app` specifier to wrap your global styles.
 

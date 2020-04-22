@@ -5,13 +5,13 @@ description: Learn how to deploy your Factor application to a production environ
 
 # Deployment and Hosting
 
-You've done it. You're ready to deploy your application to a production environment. The good news it that should be easy, here are some tips.
+You've done it. You're ready to deploy your application to a production environment. The good news is that should be easy, here are some tips.
 
 ## How Deployment Works
 
 One of the ideas in the [Twelve-Factor App](https://12factor.net/) is that your development and your production environment should be as close as possible. This is because it makes deployment easier! And Factor is built for this.
 
-Running `npx factor start` builds and serves your application locally; and that's the same thing you'll be doing in deployment.
+Running `npx factor start` builds and serves your application locally, and that's the same thing you'll be doing in deployment.
 
 Basically, if you're Factor app is looking good locally, there is a good chance you're ready to go to production.
 
@@ -19,13 +19,13 @@ As outlined in [the Dotenv doc](./dotenv), The only difference will be the envir
 
 ## Setting Environmental Variables
 
-The main difference between your local and production server will be defined by [environmental variables](./dotenv). While in your local setup, you only need to add the values to `.env`, sometimes it can be tricky (depending on your host.)
+The main difference between your local and production servers will be defined by [environmental variables](./dotenv). While in your local setup, you only need to add the values to `.env`, sometimes it can be tricky (depending on your host.)
 
 Reference your host's documentation to see how they recommend you add and configure environmental variables.
 
 ## Deployment Process
 
-Deploying to production typically follows one of these two work flows:
+Deploying to production typically follows one of these two workflows:
 
 ### Build Locally and Upload
 
@@ -33,6 +33,8 @@ Deploying to production typically follows one of these two work flows:
 2. Upload built code (in `/dist`) to server
 3. Verify dependencies on server `npm install`
 4. Run server - `npx factor serve`
+
+![Deployment Process](./deployment-process.jpg)
 
 Or...
 
