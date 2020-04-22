@@ -9,9 +9,7 @@
     <div v-if="nodeEnv == 'production'" class>
       <div class="under-maintenance">
         <h3 class="title">Under Maintenance</h3>
-        <div
-          class="sub-title"
-        >We are down briefly for a upgrades and maintenance. We'll be right back.</div>
+        <div class="sub-title">We'll be right back.</div>
       </div>
     </div>
     <div v-else class="loading-area">
