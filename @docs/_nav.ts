@@ -126,6 +126,11 @@ export default [
     description: "Building advanced apps and extensions",
     items: [
       {
+        title: "Plugin API",
+        doc: "plugin-api",
+        file: (): Promise<string> => import("./advanced/plugin-api/index.md"),
+      },
+      {
         doc: "database",
         file: (): Promise<string> => import("./advanced/database/index.md"),
       },
