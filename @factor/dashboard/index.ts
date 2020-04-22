@@ -52,6 +52,55 @@ export const getDashboardRoute = (path?: string, parentPath?: string): string =>
   }
 }
 
+interface MenuConfig {
+  dashboard: DashboardMenuItem[]
+  admin: DashboardMenuItem[]
+}
+
+const getPostTypeMenus = (): MenuConfig => {
+  const out: MenuConfig = {
+    dashboard: [],
+    admin: [],
+  }
+  postTypesConfig()
+    .filter(({ hideAdmin, accessLevel }) => {
+      return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true
+    })
+    .forEach(
+      ({
+        accessLevel = 100,
+        postType,
+        namePlural,
+        icon = "",
+        noAddNew = false,
+        addNewText = "Add New",
+      }) => {
+        const subMenu: DashboardMenuItem[] = []
+
+        if (!noAddNew && addNewText) {
+          subMenu.push({ path: slugify(addNewText) ?? "", name: addNewText })
+        }
+
+        subMenu.push({ path: "edit" })
+
+        const item = {
+          group: postType,
+          path: `posts/${postType}`,
+          name: namePlural || toLabel(postType),
+          icon,
+          items: applyFilters(`admin-menu-post-${postType}`, subMenu),
+        }
+
+        if (accessLevel < 100) {
+          out.dashboard.push(item)
+        } else {
+          out.admin.push(item)
+        }
+      }
+    )
+  return out
+}
+
 export const setup = (): void => {
   addFilter({
     key: "dashboard",
@@ -129,36 +178,18 @@ export const setup = (): void => {
     key: "dashboard",
     hook: "admin-menu",
     callback: (_: DashboardMenuItem[]) => {
-      postTypesConfig()
-        .filter(({ hideAdmin, accessLevel }) => {
-          return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true
-        })
-        .forEach(
-          ({
-            postType,
-            namePlural,
-            icon = "",
-            noAddNew = false,
-            addNewText = "Add New",
-          }) => {
-            const subMenu: DashboardMenuItem[] = []
+      const { admin } = getPostTypeMenus()
+      _.push(...admin)
+      return _
+    },
+  })
 
-            if (!noAddNew && addNewText) {
-              subMenu.push({ path: slugify(addNewText) ?? "", name: addNewText })
-            }
-
-            subMenu.push({ path: "edit" })
-
-            _.push({
-              group: postType,
-              path: `posts/${postType}`,
-              name: namePlural || toLabel(postType),
-              icon,
-              items: applyFilters(`admin-menu-post-${postType}`, subMenu),
-            })
-          }
-        )
-
+  addFilter({
+    key: "dashboard",
+    hook: "dashboard-menu",
+    callback: (_: DashboardMenuItem[]) => {
+      const { dashboard } = getPostTypeMenus()
+      _.push(...dashboard)
       return _
     },
   })

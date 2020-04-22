@@ -157,7 +157,7 @@ export const embeddedAction = async (
         data.createdAt = new Date().toISOString()
         await Model.update(
           { _id: postId },
-          { $push: { embedded: data }, $inc: { embeddedCount: 1 } }
+          { $push: { embedded: data as FactorPost }, $inc: { embeddedCount: 1 } }
         )
       }
 

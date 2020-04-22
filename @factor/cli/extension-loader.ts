@@ -241,6 +241,7 @@ const makeFileLoader = ({
 
     glob
       .sync(fileGlob)
+      .map((_) => normalize(_))
       .filter((path) => {
         // Don't include anything inside of node_modules
         // this isn't very efficient since it searches them anyway, but couldn't make it work otherwise
@@ -250,7 +251,15 @@ const makeFileLoader = ({
       .map((fullPath, index) => {
         const _module = fullPath.replace(dir, requireBase)
 
-        const moduleName = _module.replace(/\.[jt]s$/, "").replace(/\/index$/, "")
+        /**
+         * Make sure posix path,
+         * remove file extension and
+         * index if at end
+         */
+        const moduleName = _module
+          .replace(/\\/g, "/")
+          .replace(/\.[jt]s$/, "")
+          .replace(/\/index$/, "")
 
         return {
           _id: index == 0 ? _id : `${_id}_${index}`,
@@ -344,7 +353,7 @@ const writeFile = ({
   content: string
 }): void => {
   fs.ensureDirSync(nd(destination))
-  fs.writeFileSync(destination, content)
+  fs.writeFileSync(normalize(destination), content)
 }
 
 export const makeEmptyLoaders = (): void => {

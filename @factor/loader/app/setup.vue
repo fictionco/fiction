@@ -93,7 +93,7 @@
                 </div>
               </transition>
               <div class="header">
-                <div class="title">Your Account</div>
+                <div class="title">Admin Account</div>
                 <div class="sub-title">Create an Admin User</div>
               </div>
               <form class="setup-form">
@@ -269,6 +269,12 @@ import logMixin from "./mixins/log"
 import sseMixin from "./mixins/sse"
 import storageMixin from "./mixins/storage"
 import { sendEvent } from "./utils"
+
+import screenshotZeno from "./img/screenshot-zeno.jpg"
+import screenshotUltra from './img/screenshot-ultra.jpg'
+import screenshotAlpha from './img/screenshot-alpha.jpg'
+
+
 export default Vue.extend({
   components: {
     factorLogo: () => import("./el/logo-factor.vue"),
@@ -280,23 +286,7 @@ export default Vue.extend({
       skip: {},
       baseURL: window.$BASE_URL,
       form: {},
-      themes: [
-        {
-          name: "Zeno",
-          screenshot: require("./img/screenshot-zeno.jpg"),
-          value: "@factor/theme-zeno",
-        },
-        {
-          name: "Ultra",
-          screenshot: require("./img/screenshot-ultra.jpg"),
-          value: "@factor/theme-ultra",
-        },
-        {
-          name: "Alpha",
-          screenshot: require("./img/screenshot-alpha.jpg"),
-          value: "@factor/theme-alpha",
-        },
-      ],
+
       inputs: {
         app: [
           {
@@ -417,6 +407,26 @@ export default Vue.extend({
     settings() {
       return window.$STATE.settings || {}
     },
+    themes(){
+      return [
+        {
+          name: "Zeno",
+          screenshot: screenshotZeno,
+          value: "@factor/theme-zeno",
+        },
+        {
+          name: "Ultra",
+          screenshot: screenshotUltra,
+          value: "@factor/theme-ultra",
+        },
+        {
+          name: "Alpha",
+          screenshot: screenshotAlpha,
+          value: "@factor/theme-alpha",
+        },
+      ]
+
+    }
   },
   mounted() {
     document.title = "Factor Setup"

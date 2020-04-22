@@ -12,4 +12,11 @@ const config = {
   plugins: [],
 }
 
+/**
+ * Needed to make URL usable in dev mode
+ */
+if (process.env.NODE_ENV == "development") {
+  config.output = { publicUrl: "/" }
+}
+
 module.exports = config

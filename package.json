@@ -23,6 +23,7 @@
   "scripts": {
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "standard-version",
+    "loader:dev": "yarn workspace @factor/loader poi --serve --debug",
     "loader:build": "yarn workspace @factor/loader poi --prod --watch",
     "packages:upgrade": "yarn install && yarn upgrade && yarn audit && yarn outdated",
     "version:patch": "yarn lerna version patch --yes",
