@@ -42,7 +42,7 @@ To help make this easy, Factor has created a simple [Schema API](./schema-api) t
 
 ## Query Directly with Mongoose Models
 
-As an advanced user, you'll often want to step outside of your tools and interact with the database directly. This is easy with the `getModel()` function which returns the Mongoose model for a specific post type.
+As an advanced user, you'll often want to step outside of your tools and interact with the database directly. This is easy with the `getModel(postType)` function which returns the Mongoose model for a specific post type.
 
 ```js
 // Get a user based on their userId

@@ -245,7 +245,7 @@ const google = (): void => {
    * Track auth events in Analytics
    */
   onEvent(
-    "userAuthenticated",
+    "user-authenticated",
     ({
       user,
       params,

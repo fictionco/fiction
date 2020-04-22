@@ -23,11 +23,7 @@
           </div>
 
           <div class="account-nav-items">
-            <div
-              v-for="(group, groupIndex) in accountMenu"
-              :key="groupIndex"
-              class="list-group"
-            >
+            <div v-for="(group, groupIndex) in accountMenu" :key="groupIndex" class="list-group">
               <div v-if="group.title" class="list-group-title">{{ group.title }}</div>
 
               <factor-link
@@ -49,7 +45,7 @@
 import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn } from "@factor/user"
 import { logout } from "@factor/user/util"
-import { toLabel, onEvent, emitEvent } from "@factor/api"
+import { toLabel, onEvent, emitEvent, showSignIn } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
@@ -115,7 +111,7 @@ export default Vue.extend({
     },
     setToggle(this: any): void {
       if (!isLoggedIn()) {
-        emitEvent("sign-in-modal")
+        showSignIn()
       }
 
       if (!this.toggle) {

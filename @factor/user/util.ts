@@ -37,8 +37,20 @@ export const setUser = ({ user, token = "", current = false }: SetUser): void =>
 /**
  * Shows sign in
  */
-export const showSignIn = (options: { redirect?: string; view?: string }): void => {
-  emitEvent("sign-in-modal", options)
+export const showSignIn = (
+  options: {
+    redirect?: string
+    view?: string
+    mode?: "page" | "modal"
+  } = {}
+): void => {
+  const { mode = "modal", redirect } = options
+
+  if (mode == "modal") {
+    emitEvent("sign-in-modal", options)
+  } else {
+    navigateToRoute({ path: "/signin", query: { redirect } })
+  }
 }
 
 /**

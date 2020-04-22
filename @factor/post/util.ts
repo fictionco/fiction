@@ -33,8 +33,16 @@ export const getAddedSchemas = (): FactorSchema[] => {
   return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
     const fullSchema = typeof s == "function" ? s() : s
 
+    /**
+     * Allow filters to change schema definition
+     * @filter
+     */
     fullSchema.schema = applyFilters(`schema-definition-${s.name}`, fullSchema.schema)
 
+    /**
+     * Allow filters to change entire schema
+     * @filter
+     */
     return applyFilters(`data-schema-${s.name}`, fullSchema)
   })
 }

@@ -36,7 +36,7 @@ export default Vue.extend({
   methods: {
     handleEvents(this: any) {
       if (this.appEvents) {
-        this.appEvents.onEvent("userAuthenticated", () => this.reload())
+        this.appEvents.onEvent("user-authenticated", () => this.reload())
       }
     },
     reload() {

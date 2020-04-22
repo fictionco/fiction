@@ -13,7 +13,7 @@ import { FactorPost } from "@factor/post/types"
 import { waitFor, getPostTypeConfig } from "@factor/api"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
-import { setUser } from "./util"
+import { setUser, showSignIn } from "./util"
 import {
   FactorUserCredential,
   AuthenticationParameters,
@@ -171,9 +171,9 @@ export const authenticate = async (
   const user = (await sendUserRequest("authenticate", params)) as FactorUserCredential
 
   if (user && user.token) {
-    emitEvent("userAuthenticated", { user, params })
+    emitEvent("user-authenticated", { user, params })
 
-    await runCallbacks("userAuthenticatedCallbacks", user, params)
+    await runCallbacks("user-authenticated-callbacks", user, params)
 
     requestPostPopulate({ posts: [user] })
     setUser({ user, token: user.token, current: true })
@@ -245,7 +245,7 @@ const handleAuthRouting = (): void => {
       }
 
       if ((auth === true || accessLevel > 0) && !user) {
-        emitEvent("sign-in-modal", { redirect: toPath })
+        showSignIn({ redirect: toPath })
         return false
       } else if (accessLevel > userAccessLevel) {
         navigateToRoute({ path: "/" })
@@ -288,7 +288,7 @@ const handleAuthRouting = (): void => {
         navigateToRoute({ path: "/signin", query: { redirect: path } })
       } else if (accessLevel > userAccessLevel) {
         navigateToRoute({ path: "/" })
-        emitEvent("error", "403: Permissions needed")
+        emitEvent("error", "403: You don't have the permissions to view that page.")
       }
     },
   })
