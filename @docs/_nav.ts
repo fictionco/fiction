@@ -126,6 +126,10 @@ export default [
     description: "Building advanced apps and extensions",
     items: [
       {
+        doc: "database",
+        file: (): Promise<string> => import("./advanced/database/index.md"),
+      },
+      {
         doc: "working-with-data",
         file: (): Promise<string> => import("./advanced/working-with-data/index.md"),
       },
