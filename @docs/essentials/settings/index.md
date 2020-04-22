@@ -5,15 +5,17 @@ description: Learn how to customize plugins, themes and Factor core with setting
 
 # Settings
 
-When using plugins or themes, you'll often want to make customizations to text, layout and more. To make this as easy as possible, Factor provides a simple file based system `factor-settings`.
+When using plugins or themes, you'll often want to make customizations to text, layout and more. To make this as easy as possible, Factor provides a simple file-based system `factor-settings`.
 
 ## Settings in Factor
 
 The `factor-settings` convention is a system for customizing extensions and Factor core.
 
-It works by gathering all `factor-settings` files in your app and extensions, then merging them together in priority order.
+It works by gathering all `factor-settings` files in your app and extensions, then merging them in priority order.
 
-To set started with settings, just add `factor-settings.ts` (or `factor-settings.js`) to your app. Then export an empty object `{}`
+![Factor Settings](./factor-settings.jpg)
+
+To get started with settings, just add `factor-settings.ts` (or `factor-settings.js`) to your app. Then export an empty object `{}`
 
 ```js
 // factor-settings
@@ -58,7 +60,7 @@ setting("plugin.foo") // baz
 
 A common and powerful technique for customizing extensions is simply to override its components.
 
-In order to enable this, many plugins load in components based on settings. If you reference their code or documentation; you will likely see something like this example from the blog plugin:
+To enable this, many plugins load in components based on settings. If you reference their code or documentation; you will likely see something like this example from the blog plugin:
 
 ```js
 // blog/factor-settings.ts
