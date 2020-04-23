@@ -1,6 +1,8 @@
-export default {
-  name: "attachment",
-  schema: {
+import { addPostType } from "@factor/api/post-types"
+
+addPostType({
+  postType: "attachment",
+  schemaDefinition: {
     mimetype: String,
     imageData: Buffer,
     size: Number,
@@ -12,4 +14,4 @@ export default {
       accessLevel: 0,
     },
   },
-}
+})

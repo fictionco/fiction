@@ -63,8 +63,8 @@ const getPostTypeMenus = (): MenuConfig => {
     admin: [],
   }
   postTypesConfig()
-    .filter(({ hideAdmin, accessLevel }) => {
-      return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true
+    .filter(({ managePosts, accessLevel }) => {
+      return !managePosts || (accessLevel && !userCan({ accessLevel })) ? false : true
     })
     .forEach(
       ({

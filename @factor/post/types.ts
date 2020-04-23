@@ -165,9 +165,13 @@ export interface DetermineUpdatePermissions {
 
 export type FactorSchemaModule = FactorSchema | { (): FactorSchema }
 
+/**
+ * @deprecate 1.7
+ */
 export interface PopulatedField {
   field: string
   depth: number
+  context?: "list" | "single" | "any"
 }
 
 export interface PermissionLevel {

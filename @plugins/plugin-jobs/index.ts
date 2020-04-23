@@ -1,9 +1,7 @@
-import { addPostSchema } from "@factor/post/util"
 import { addPostType, addContentRoute, setting, pushToFilter } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import { PostStatus } from "@factor/post/types"
 import { currentRoute } from "@factor/app/router"
-import jobsSchema from "./schema"
 
 const baseRoute = setting("jobs.postRoute")
 
@@ -30,8 +28,6 @@ export const loadAndStoreJobsIndex = async (): Promise<void> => {
 }
 
 export const setup = (): void => {
-  addPostSchema(jobsSchema)
-
   addPostType({
     postType: "jobs",
     baseRoute,
@@ -42,6 +38,14 @@ export const setup = (): void => {
     namePlural: "Jobs Posts",
     customPermalink: true,
     addSitemap: true,
+    managePosts: true,
+    schemaDefinition: {
+      jobLocation: String,
+      jobType: String,
+      jobApplyEmail: String,
+      jobCompanyName: String,
+      jobCompanyWebsite: String,
+    },
   })
 
   addContentRoute({

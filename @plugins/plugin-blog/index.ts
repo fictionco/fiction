@@ -42,6 +42,7 @@ addPostType({
   nameIndex: "Blog",
   nameSingle: "Blog Post",
   namePlural: "Blog Posts",
+  managePosts: true,
   customPermalink: true,
   categories: setting("blog.categories"),
   addSitemap: true,

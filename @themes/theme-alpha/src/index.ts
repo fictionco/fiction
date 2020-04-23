@@ -23,6 +23,7 @@ addPostType({
   nameIndex: "Work",
   nameSingle: "Work Post",
   namePlural: "Work Posts",
+  managePosts: true,
   customPermalink: true,
   templateSettings: setting("work.templateSettings"),
 })

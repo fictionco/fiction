@@ -1,9 +1,12 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 import { toLabel } from "@factor/api/utils"
-import { FactorPost } from "@factor/post/types"
+import { FactorPost, SchemaPermissions } from "@factor/post/types"
 import { ListItem, getPermalink } from "@factor/api"
 import Vue from "vue"
 import { TemplateSetting } from "@factor/templates/types"
+import { SchemaDefinition, SchemaOptions, Schema } from "mongoose"
+
+export type PopulationContexts = "list" | "any" | "single" | undefined
 
 export interface PostTypeConfig {
   baseRoute?: string
@@ -18,12 +21,18 @@ export interface PostTypeConfig {
   noAddNew?: boolean
   addNewText?: string
   accessLevel?: number
+  managePosts?: boolean // manage in dashboard
   hideAdmin?: boolean
   categories?: ListItem[]
   customPermalink?: true | string
   permalink?: (p: any) => string
   templateSettings?: TemplateSetting[]
   addSitemap?: true
+  permissions?: SchemaPermissions
+  schemaDefinition?: SchemaDefinition | (() => SchemaDefinition)
+  schemaMiddleware?: (s: Schema) => void
+  schemaPopulated?: Record<string, PopulationContexts>
+  schemaOptions?: SchemaOptions
 }
 
 export const addPostType = (config: PostTypeConfig): void => {

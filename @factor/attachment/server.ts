@@ -4,13 +4,14 @@ import { Request, Response } from "express"
 import { processEndpointRequest, endpointError } from "@factor/endpoint/server"
 import { addEndpoint } from "@factor/api/endpoints"
 import { applyFilters, runCallbacks } from "@factor/api/hooks"
-import { objectId, postPermission, addPostSchema } from "@factor/post/util"
+import { objectId, postPermission } from "@factor/post/util"
 import { getModel } from "@factor/post/database"
 import mime from "mime-types"
 import multer from "multer"
 import { addMiddleware } from "@factor/server/middleware"
+
+import "./universal"
 import { Attachment } from "./types"
-import storageSchema from "./schema"
 import { uploadEndpointPath } from "./util"
 
 const handleUpload = async function ({
@@ -86,8 +87,6 @@ export const deleteImage = async function (
 
 export const setup = (): void => {
   addEndpoint({ id: "storage", handler: { deleteImage } })
-
-  addPostSchema(() => storageSchema)
 
   addMiddleware({
     key: "attachment",
