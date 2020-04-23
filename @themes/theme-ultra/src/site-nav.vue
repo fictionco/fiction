@@ -15,20 +15,21 @@
       <div class="sidebar-brand-wrap">
         <site-brand class="site-brand" />
       </div>
-      <nav v-if="siteNav">
+
+      <site-nav v-if="siteNav">
         <template v-for="(item, index) in siteNav">
           <factor-link
             :key="index"
             :path="item.path"
-            :target="item.target"
+            :target="item.target ? item.target: '_self'"
             class="nav-link text-gray-600 hover:text-gray-100"
-            :class="[item._item, { 'nav-link-active': selected === item.path }]"
-            @click="navItemPath(item.path)"
+            :class="scrollClass(item.path)"
           >
             <span>{{ item.name }}</span>
           </factor-link>
         </template>
-      </nav>
+      </site-nav>
+
       <div class="copyright">
         <div v-if="siteCopyright" v-formatted-text="siteCopyright + currentyear()" />
         <factor-link path="https://factor.dev/" class="factor-logo-icon">
@@ -45,6 +46,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     factorLink,
+    "site-nav": () => import("./el/nav.vue"),
     "site-brand": () => import("./el/brand.vue"),
     "factor-logo-icon": () => import("./el/factor.vue"),
   },
@@ -53,39 +55,13 @@ export default Vue.extend({
       loading: true,
       showMobileMenu: false,
       siteNav: setting("site.nav"),
-      selected: "",
       siteCopyright: setting("site.copyright"),
-    }
-  },
-  mounted: function () {
-    // Make sure intersection observer is available
-    if (IntersectionObserver) {
-      for (const ele of this.siteNav) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting) {
-              this.selected = ele.path //`#${entries[0].target.id}`
-
-              // Update browser url with visible div id as hashtag
-              window.history.pushState(null, this.name, this.selected)
-            }
-          },
-          { threshold: [0.2] }
-        )
-        if (document.querySelector(ele.path)) {
-          observer.observe(document.querySelector(ele.path))
-        }
-      }
     }
   },
   methods: {
     setting,
-    navItemPath(this: any, path: any) {
-      const ele = document.querySelector(path)
-
-      if (ele) {
-        ele.scrollIntoView()
-      }
+    scrollClass(path: any) {
+      return path.includes("#") ? "active-item" : ""
     },
     currentyear(this: any) {
       return new Date().getFullYear()
@@ -102,7 +78,6 @@ export default Vue.extend({
     z-index: 50;
     justify-content: space-between;
     align-items: center;
-    // height: auto;
     padding: 1em;
     width: 100%;
     background: var(--color-text);
@@ -195,7 +170,8 @@ export default Vue.extend({
         min-height: 30px;
         transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 
-        &.nav-link-active {
+        //&.router-link-active,
+        &.is-active {
           font-weight: var(--font-weight-semibold);
           color: #f6f6f6;
           span {
