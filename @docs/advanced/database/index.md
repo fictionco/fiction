@@ -5,17 +5,17 @@ description: Learn how to use Factor's MongoDB/Mongoose powered database.
 
 # The Database
 
-Don't forget that behind everything you have a fully featured MongoDB/Mongoose powered DB. Let's learn how to use it.
+Don't forget that behind everything you have a fully-featured MongoDB/Mongoose powered DB. Let's learn how to use it.
 
 ## Understanding the Database Structure
 
-The DB is a MongoDB powered database built as a single collection. Within the collection each document is considered a "post." Finally to distinguish between each post type, we use [Mongoose discriminators](https://mongoosejs.com/docs/discriminators.html).
+The DB is a MongoDB powered database built as a single collection. Within the collection, each document is considered a "post." Finally, to distinguish between each post type, we use [Mongoose discriminators](https://mongoosejs.com/docs/discriminators.html).
 
 Why is it structured this way? Here are the advantages:
 
 - **It is simpler.** Posts can all share common structures and indexes.
 - **It scales better.** A single collection can scale better since we have shared indexes.
-- **Easier to setup.** Just add a single collection.
+- **Easier to set up.** Just add a single collection.
 - **It can be cheaper.** Some MongoDB hosts [charge based on collection](https://www.azurefromthetrenches.com/azure-cosmos-db-and-its-perplexing-pricing-problems/).
 - **It syncs.** It's meant to match the structure of the [flat store](./working-with-data).
 
@@ -25,7 +25,7 @@ It's important to note that all direct database operations must happen inside th
 
 So when you want to get data from the client application, you'll need to:
 
-1. Create a HTTP request to an [endpoint on the server](./endpoints-and-middleware)
+1. Create an HTTP request to an [endpoint on the server](./endpoints-and-middleware)
 2. In the endpoint, run the query and return the result
 
 ## Posts and the DB
@@ -34,7 +34,7 @@ This article is about understanding the raw Factor database and how to work with
 
 ## Optimize with Schemas and Indexes
 
-When you create a new post type it inherits the base post schema. However in many cases you might want to extend that schemas functionality with hooks, definitions and privileges.
+When you create a new post type it inherits the base post schema. However, in many cases, you might want to extend that schemas functionality with hooks, definitions, and privileges.
 
 To help make this easy, Factor has created a simple [Schema API](./schema-api) that simplifies and coordinates the loading of Mongoose [schemas](https://mongoosejs.com/docs/guide.html) and [models](https://mongoosejs.com/docs/models.html).
 

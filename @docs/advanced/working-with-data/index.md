@@ -9,9 +9,9 @@ Working with data in Factor is designed to be simple and powerful.
 
 ## The Flat Store
 
-For data there is the [database](./database) and it's equivalent in your app called the "flat store."
+For data, there is the [database](./database) and it's equivalent in your app called the "flat store."
 
-The flat store is a store built with Vue's store solution: [Vuex](https://vuex.vuejs.org/), but you won't need interact with it directly. In about 99% of cases, you'll be able to get by with two functions `stored(key)` and `storeItem(key, value)`.
+The flat store is a store built with Vue's store solution: [Vuex](https://vuex.vuejs.org/), but you won't need to interact with it directly. In about 99% of cases, you'll be able to get by with two functions `stored(key)` and `storeItem(key, value)`.
 
 Here is how it works:
 
@@ -26,7 +26,7 @@ const value = stored("myKey") // hello world
 
 ## The Store In Components
 
-The store is reactive, and can be used as computed properties in your components. You can also use [computed setters](https://vuejs.org/v2/guide/computed.html#Computed-Setter) to interact with the stored value directly in your component.
+The store is reactive and can be used as computed properties in your components. You can also use [computed setters](https://vuejs.org/v2/guide/computed.html#Computed-Setter) to interact with the stored value directly in your component.
 
 ```js
 import { stored, storeItem } from "@factor/api"
@@ -52,7 +52,7 @@ export default {
 
 ## Server-side Rendering
 
-To prevent double fetching of data between your server and client, use the store to send information from the server to the client.
+To prevent double-fetching of data between your server and client, use the store to send information from the server to the client.
 
 Whenever you add information to the store on the server it is delivered and added to the store on load.
 
