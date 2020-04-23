@@ -52,13 +52,21 @@ export const saveContactForm = async (form: object): Promise<FactorPostState> =>
 
 export const setup = (): void => {
   addPostType({
-    postType: postType,
+    postType,
     nameIndex: "Contact Form Submissions",
     nameSingle: "Submission",
     namePlural: "Contact Form Submissions",
     listTemplate: (): Promise<any> => import("./dashboard-list.vue"),
     noAddNew: true,
     accessLevel: 300,
+    managePosts: true,
+    permissions: {
+      create: { accessLevel: 0 },
+      retrieve: {
+        accessLevel: 200,
+        accessAuthor: true,
+      },
+    },
   })
 }
 setup()

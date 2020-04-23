@@ -1,10 +1,8 @@
 import { endpointRequest, authorizedRequest, EndpointParameters } from "@factor/endpoint"
-import { storeItem, addPostSchema } from "@factor/api"
-
+import { storeItem } from "@factor/api"
 import { uploadEndpointPath } from "./util"
-import storageSchema from "./schema"
 import { PreUploadProperties } from "./types"
-addPostSchema(storageSchema)
+import "./universal"
 
 export interface PostAttachment {
   url: string

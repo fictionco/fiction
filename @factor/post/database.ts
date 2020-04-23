@@ -6,10 +6,10 @@ import { log } from "@factor/api"
 import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
 import { addNotice } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
-
+import { PostTypeConfig } from "@factor/api/post-types"
 import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
 
-import { FactorSchema, FactorPost } from "./types"
+import { FactorPost } from "./types"
 
 import { getAddedSchemas, getBaseSchema } from "./util"
 
@@ -133,25 +133,33 @@ export const dbConnect = async (): Promise<mongoose.Connection | void> => {
  * @param baseModel - Base post model
  */
 export const setModel = (
-  schemaConfig: FactorSchema,
+  schemaConfig: PostTypeConfig,
   baseModel?: Model<FactorPostDocument> | void
 ): { schema: Schema; model: Model<any> } => {
   const { Schema, model } = mongoose
-  const { schema = {}, options = {}, callback, name } = schemaConfig
+  const {
+    schemaDefinition = {},
+    schemaOptions = {},
+    schemaMiddleware,
+    postType,
+  } = schemaConfig
 
-  const loadSchema = new Schema(schema, options)
+  const schema =
+    typeof schemaDefinition == "function" ? schemaDefinition() : schemaDefinition
+
+  const loadSchema = new Schema(schema, schemaOptions)
 
   // Callback for hooks, etc.
-  if (callback) callback(loadSchema)
+  if (schemaMiddleware) schemaMiddleware(loadSchema)
 
-  runCallbacks(`schema-hooks-${name}`, loadSchema)
+  runCallbacks(`schema-hooks-${postType}`, loadSchema)
 
   const loadModel = !baseModel
-    ? model(name, loadSchema)
-    : baseModel.discriminator(name, loadSchema)
+    ? model(postType, loadSchema)
+    : baseModel.discriminator(postType, loadSchema)
 
-  __schemas[name] = loadSchema
-  __models[name] = loadModel
+  __schemas[postType] = loadSchema
+  __models[postType] = loadModel
 
   return { schema: loadSchema, model: loadModel }
 }
@@ -159,15 +167,17 @@ export const setModel = (
 /**
  * Gets a Mongoose model based on postType name
  * Must be async so it can be chained as recommended by Mongoose docs
- * @param name - name of postType/model
+ * @param postType - name of postType/model
  */
-export const getModel = <T>(name: string): Model<(T & Document) & FactorPostDocument> => {
+export const getModel = <T>(
+  postType: string
+): Model<(T & Document) & FactorPostDocument> => {
   // If model doesn't exist, create a vanilla one
-  if (!__models[name] && name != "post") {
-    setModel({ name }, getModel("post"))
+  if (!__models[postType] && postType != "post") {
+    setModel({ postType }, getModel("post"))
   }
 
-  return __models[name]
+  return __models[postType]
 }
 
 /**
@@ -212,7 +222,7 @@ const initializeModels = (): void => {
 
   const { model: baseModel } = setModel(baseSchema)
 
-  sch.filter((s) => s.name != "post").forEach((s) => setModel(s, baseModel))
+  sch.filter((s) => s.postType != "post").forEach((s) => setModel(s, baseModel))
 }
 
 /**

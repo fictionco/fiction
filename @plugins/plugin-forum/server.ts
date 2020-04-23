@@ -1,4 +1,3 @@
-import { addPostSchema } from "@factor/post/util"
 import { addEndpoint } from "@factor/api/endpoints"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
@@ -8,7 +7,6 @@ import { sendTransactionalEmailToId } from "@factor/email/server"
 import { currentUrl } from "@factor/api/url"
 import { ForumTopicFactorPost, SubscribeUser } from "./types"
 import { topicLink } from "./request"
-import forumSchema from "./schema"
 
 // import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 // import { EndpointMeta } from "@factor/endpoint/types"
@@ -125,7 +123,6 @@ export const saveTopic = async (
 }
 
 export const setup = (): void => {
-  addPostSchema(() => forumSchema)
   addEndpoint({
     id: "forum",
     handler: { isSubscribed, setSubscribed, saveTopicReply, saveTopic },

@@ -12,10 +12,10 @@
     "access": "public"
   },
   "factor": {
-    "load": {
-      "app": "index",
-      "server": "server"
-    },
+    "load": [
+      "app",
+      "server"
+    ],
     "extend": "plugin",
     "title": "Contact Form",
     "permalink": "contact-form-factor-plugin",

@@ -7,11 +7,10 @@ import {
   addPostType,
   getPostTypeConfig,
 } from "@factor/api"
-import { addPostSchema } from "@factor/post/util"
+
 import { RouteConfig } from "vue-router"
 
 import { TemplateConfig, TemplateSetting } from "./types"
-import pageSchema from "./schema"
 
 declare module "vue" {
   interface ComponentOptions<V extends Vue> {
@@ -117,10 +116,9 @@ export const getDefaultTemplateSettings = (
 }
 
 export const setup = (): void => {
-  addPostSchema(() => pageSchema())
-
   addPostType({
     postType: "page",
+    managePosts: true,
     baseRoute: "",
     icon: require("./img/pages.svg"),
     nameIndex: "Pages",
@@ -129,6 +127,9 @@ export const setup = (): void => {
     model: "Page",
     customPermalink: true,
     addSitemap: true,
+    schemaDefinition: {
+      template: { type: String, default: "default" },
+    },
   })
 
   pushToFilter({

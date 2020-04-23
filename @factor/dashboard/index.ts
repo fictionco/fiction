@@ -63,8 +63,8 @@ const getPostTypeMenus = (): MenuConfig => {
     admin: [],
   }
   postTypesConfig()
-    .filter(({ hideAdmin, accessLevel }) => {
-      return hideAdmin || (accessLevel && !userCan({ accessLevel })) ? false : true
+    .filter(({ managePosts, accessLevel }) => {
+      return !managePosts || (accessLevel && !userCan({ accessLevel })) ? false : true
     })
     .forEach(
       ({
@@ -152,7 +152,7 @@ export const setup = (): void => {
 
   addFilter({
     key: "dashboard",
-    hook: "site-menu",
+    hook: "development-menu",
     callback: (_: DashboardMenuItem[]) => {
       if (userCan({ accessLevel: 100 })) {
         _.push({

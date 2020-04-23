@@ -3,6 +3,7 @@ import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/api/time"
 import { isNode } from "@factor/api"
 import objectHash from "object-hash"
+import { PopulationContexts } from "@factor/api/post-types"
 import {
   FactorPost,
   FactorPostKey,
@@ -63,7 +64,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 }: {
   posts: T[]
   depth?: number
-  context?: "list" | "single" | "any"
+  context?: PopulationContexts
 }): Promise<string[]> => {
   let _ids: string[] = []
 
@@ -97,7 +98,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
       _ids: _idsFiltered,
     })) as FactorPost[]
 
-    await requestPostPopulate({ posts, depth })
+    await requestPostPopulate({ posts, depth, context })
   }
 
   return _ids
@@ -134,6 +135,7 @@ export const requestPostSave = async <T extends FactorPostState | never>({
   postType,
 }: UpdatePost): Promise<T> => {
   const _post = await sendPostRequest<T>("savePost", { data: post, postType })
+
   setLocalPostTypeCache(postType)
   await handlePostPopulation(_post)
 

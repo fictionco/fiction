@@ -28,6 +28,7 @@ addPostType({
   nameSingle: "Portfolio Post",
   namePlural: "Portfolio Posts",
   customPermalink: true,
+  managePosts: true,
 })
 
 // CONTENT ROUTES

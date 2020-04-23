@@ -20,7 +20,6 @@ import LRU from "lru-cache"
 import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
-import { factorScope } from "@factor/api/about"
 import { systemUrl } from "@factor/api/url"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
@@ -149,11 +148,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
       }
 
       if (openOnReady && process.env.FACTOR_ENV !== "test") {
-        const openAtUrl = systemUrl(
-          process.env.NODE_ENV == "development" && factorScope() == "cms"
-            ? "dashboard"
-            : "local"
-        )
+        const openAtUrl = systemUrl("local")
         open(openAtUrl)
       }
 

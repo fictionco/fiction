@@ -1,13 +1,16 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 import { deepMerge } from "@factor/api/utils"
-import postSchema from "@factor/post/schema"
-import log from "@factor/api/logger"
 
+import log from "@factor/api/logger"
+import {
+  postTypesConfig,
+  PostTypeConfig,
+  PopulationContexts,
+} from "@factor/api/post-types"
 import { UserRoles, CurrentUserState } from "@factor/user/types"
 
 import {
   DetermineUpdatePermissions,
-  FactorSchema,
   FactorSchemaModule,
   SchemaPermissions,
   FactorPost,
@@ -22,44 +25,105 @@ export * from "./object-id"
  * Adds a new post type schema
  * @param config - post schema config
  */
+
 export const addPostSchema = (config: FactorSchemaModule): void => {
   const key = typeof config == "function" ? config().name : config.name
+
   pushToFilter({ hook: "data-schemas", key, item: config })
 }
+
+/**
+ * @deprecate 1.8
+ */
+const upgradeOldSchema = (): PostTypeConfig[] => {
+  const oldDataSchemas = applyFilters("data-schemas", [])
+
+  return oldDataSchemas.map((sm: FactorSchemaModule) => {
+    const s = typeof sm == "function" ? sm() : sm
+
+    const schemaPopulated: Record<string, PopulationContexts> = {}
+    if (s.populatedFields) {
+      s.populatedFields.forEach((f) => {
+        let val: PopulationContexts
+        if (f.context) {
+          val = f.context
+        } else if (f.depth) {
+          if (f.depth > 20) {
+            val = "single"
+          } else if (f.depth >= 8) {
+            val = "list"
+          } else {
+            val = "any"
+          }
+        }
+        if (val) {
+          schemaPopulated[f.field] = val
+        }
+      })
+    }
+
+    return {
+      postType: s.name,
+      schemaPopulated,
+      schemaDefinition: s.schema ? s.schema : undefined,
+      schemaOptions: s.options ? s.options : undefined,
+      schemaMiddleware: s.callback ? s.callback : undefined,
+    }
+  })
+}
+
 /**
  * Gets all schemas for factor post types
  */
-export const getAddedSchemas = (): FactorSchema[] => {
-  return applyFilters("data-schemas", [postSchema()]).map((s: FactorSchemaModule) => {
-    const fullSchema = typeof s == "function" ? s() : s
+export const getAddedSchemas = (): PostTypeConfig[] => {
+  const postTypes = [...upgradeOldSchema(), ...postTypesConfig()]
+    .filter((_) => _.schemaDefinition)
+    .filter((pt: PostTypeConfig, index: number, self: PostTypeConfig[]) => {
+      // remove duplicates, favor the last
+      const lastIndexOf = self.map((_) => _.postType).lastIndexOf(pt.postType)
+      return index === lastIndexOf
+    })
 
-    /**
-     * Allow filters to change schema definition
-     * @filter
-     */
-    fullSchema.schema = applyFilters(`schema-definition-${s.name}`, fullSchema.schema)
+  const added = postTypes.map((s: PostTypeConfig) => {
+    const { schemaDefinition, postType } = s
 
-    /**
-     * Allow filters to change entire schema
-     * @filter
-     */
-    return applyFilters(`data-schema-${s.name}`, fullSchema)
+    const def =
+      typeof schemaDefinition == "function" ? schemaDefinition() : schemaDefinition
+
+    s.schemaDefinition = applyFilters(`schema-definition-${s.postType}`, def)
+
+    return applyFilters(`data-schema-${postType}`, s)
   })
+
+  return added
 }
 /**
  * Gets the base post schema
  */
-export const getBaseSchema = (): FactorSchema => {
-  return postSchema()
+export const getBaseSchema = (): PostTypeConfig => {
+  return getAddedSchemas().find((s) => s.postType == "post") ?? { postType: "post" }
 }
 /**
  * Gets the factor schema associated with a post type
  * @param postType - post type
  */
-export const getSchema = (postType: string): FactorSchema => {
-  const schemas = getAddedSchemas()
+export const getSchema = (postType: string): PostTypeConfig => {
+  const found = getAddedSchemas().find((s) => s.postType == postType)
 
-  return schemas.find((s) => s.name == postType) ?? postSchema()
+  return found ?? getBaseSchema()
+}
+
+const getContextDepth = (context: PopulationContexts): number => {
+  let depth
+  if (context == "list") {
+    depth = 10
+  } else if (context == "single") {
+    depth = 20
+  } else {
+    depth = 10
+  }
+
+  return depth
 }
 
 /**
@@ -70,22 +134,28 @@ export const getSchema = (postType: string): FactorSchema => {
 export const getSchemaPopulatedFields = ({
   postType = "post",
   depth = 10,
-  context = "any",
+  context,
 }: {
   postType: string
-  depth: number
-  context: "list" | "any" | "single"
+  depth?: number
+  context?: PopulationContexts
 }): string[] => {
-  let fields = getSchema("post").populatedFields || []
+  let fields = getSchema("post").schemaPopulated || {}
 
   const schema = getSchema(postType)
 
   if (postType != "post" && schema) {
-    const postTypePopulated = schema.populatedFields || []
-    fields = [...fields, ...postTypePopulated]
+    const postTypePopulated = schema.schemaPopulated || {}
+    fields = { ...fields, ...postTypePopulated }
   }
 
-  const pop = fields.filter((_) => _.depth <= depth).map((_) => _.field)
+  depth = context ? getContextDepth(context) : depth
+
+  const pop = Object.entries(fields)
+    .filter((entry) => {
+      return depth <= getContextDepth(entry[1])
+    })
+    .map(([key]) => key)
 
   return pop
 }

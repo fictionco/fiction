@@ -12,16 +12,20 @@
     "access": "public"
   },
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
+    "load": {
+      "app": [
+        "index",
+        "request"
+      ],
+      "server": [
+        "index",
+        "server"
+      ]
+    },
     "extend": "plugin",
     "title": "Forum",
     "permalink": "forum-factor-plugin",
-    "category": [
-      "forum"
-    ],
+    "category": "forum",
     "themeColor": "#E90000"
   },
   "repository": {

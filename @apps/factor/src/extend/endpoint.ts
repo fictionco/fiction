@@ -5,14 +5,16 @@ import axios from "axios"
 import { addMiddleware } from "@factor/server/middleware"
 import { Request, Response } from "express"
 import latestVersion from "latest-version"
-import { addPostSchema } from "@factor/post/util"
+
 import { PostStatus } from "@factor/post/types"
 import { getModel } from "@factor/post/database"
 import log from "@factor/api/logger"
+
 import { extensions } from "../extension-record"
 import { FactorExtensionInfo } from "./types"
-import extensionSchema from "./schema"
+
 import { postType, screenshotsList, extensionImage } from "./util"
+import "."
 
 export const saveSingleExtension = async (params: {
   packageName: string
@@ -151,9 +153,6 @@ export const saveIndex = async (): Promise<FactorExtensionInfo[]> => {
 }
 
 export const setup = (): void => {
-  // addEndpoint({ id: endpointId, handler: { getIndex, saveSingleExtension } })
-  addPostSchema(() => extensionSchema)
-
   addMiddleware({
     key: "saveIndex",
     path: "/_extensions",

@@ -1,11 +1,7 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard
-        btn="primary"
-        :loading="sending"
-        @click="save()"
-      >Update</factor-btn-dashboard>
+      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Update</factor-btn-dashboard>
     </template>
     <template #meta>
       <dashboard-pane title="Images" class="compose inputs">
@@ -79,11 +75,7 @@
     </template>
     <template #secondary>
       <dashboard-pane title="Profile" class="inputs">
-        <dashboard-input
-          v-model="post.about"
-          input="factor-input-textarea"
-          label="About You"
-        />
+        <dashboard-input v-model="post.about" input="factor-input-textarea" label="About You" />
         <dashboard-input
           v-model="post.birthday"
           input="factor-input-birthday"
@@ -168,6 +160,7 @@ export default Vue.extend({
       this.sending = false
     },
     async save(this: any) {
+      console.log("run save")
       this.sending = true
 
       try {

@@ -3,6 +3,7 @@ import { addFilter, addCallback, pushToFilter } from "@factor/api/hooks"
 
 import { RouteConfig, Route } from "vue-router"
 import { PostEditComponent } from "./types"
+import "./post-type"
 
 /**
  * the 'edit post' link component

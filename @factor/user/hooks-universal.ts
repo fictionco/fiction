@@ -1,11 +1,9 @@
-import { addPostSchema } from "@factor/post/util"
 import { addPostType } from "@factor/api/post-types"
-import userSchema from "./schema"
-
-addPostSchema(() => userSchema())
+import { schemaDefinition, schemaMiddleware } from "./schema"
 
 addPostType({
   postType: "user",
+  managePosts: true,
   icon: require("./img/users.svg"),
   nameIndex: "Users",
   nameSingle: "User",
@@ -15,4 +13,12 @@ addPostType({
   baseRoute: "@",
   accessLevel: 500,
   noAddNew: true,
+  schemaDefinition,
+  schemaMiddleware,
+  schemaPopulated: {
+    covers: "single",
+  },
+  permissions: {
+    retrieve: { accessLevel: 0 },
+  },
 })
