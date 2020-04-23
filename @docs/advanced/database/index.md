@@ -45,6 +45,9 @@ To help make this easy, Factor has created a simple [Schema API](./schema-api) t
 As an advanced user, you'll often want to step outside of your tools and interact with the database directly. This is easy with the `getModel(postType)` function which returns the Mongoose model for a specific post type.
 
 ```js
+// Import from server-only api
+import { getModel } from "@factor/api/server"
+
 // Get a user based on their userId
 const getUser = async (_id) => {
   return await await getModel("user").findOne({ _id })

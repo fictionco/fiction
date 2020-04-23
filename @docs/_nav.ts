@@ -126,9 +126,10 @@ export default [
     description: "Building advanced apps and extensions",
     items: [
       {
-        title: "Plugin API",
-        doc: "plugin-api",
-        file: (): Promise<string> => import("./advanced/plugin-api/index.md"),
+        title: "Filters, Callbacks, Events",
+        doc: "filters-callbacks-events",
+        file: (): Promise<string> =>
+          import("./advanced/filters-callbacks-events/index.md"),
       },
       {
         doc: "database",
@@ -145,6 +146,10 @@ export default [
       {
         doc: "links",
         file: (): Promise<string> => import("./advanced/links/index.md"),
+      },
+      {
+        doc: "schemas",
+        file: (): Promise<string> => import("./advanced/schemas/index.md"),
       },
     ],
   },

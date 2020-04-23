@@ -1,4 +1,3 @@
-import { addPostType } from "@factor/api/post-types"
 import { pushToFilter, addFilter } from "@factor/api/hooks"
 
 import { logout } from "./util"
@@ -42,19 +41,6 @@ export const setup = (): void => {
         },
       ]
     },
-  })
-
-  addPostType({
-    postType: "user",
-    icon: require("./img/users.svg"),
-    nameIndex: "Users",
-    nameSingle: "User",
-    namePlural: "Users",
-    listTemplate: (): Promise<any> => import("./v-list.vue"),
-    editTemplate: (): Promise<any> => import("./v-edit.vue"),
-    baseRoute: "@",
-    accessLevel: 500,
-    noAddNew: true,
   })
 }
 setup()

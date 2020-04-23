@@ -59,9 +59,11 @@ export const sendPostRequest = async <T = unknown>(
 export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
   depth = 10,
+  context = "any",
 }: {
   posts: T[]
   depth?: number
+  context?: "list" | "single" | "any"
 }): Promise<string[]> => {
   let _ids: string[] = []
 
@@ -71,6 +73,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
     const populatedFields = getSchemaPopulatedFields({
       postType: post.postType ?? "post",
       depth,
+      context,
     })
 
     populatedFields.forEach((field) => {

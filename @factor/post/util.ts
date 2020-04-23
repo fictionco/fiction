@@ -70,9 +70,11 @@ export const getSchema = (postType: string): FactorSchema => {
 export const getSchemaPopulatedFields = ({
   postType = "post",
   depth = 10,
+  context = "any",
 }: {
   postType: string
   depth: number
+  context: "list" | "any" | "single"
 }): string[] => {
   let fields = getSchema("post").populatedFields || []
 
