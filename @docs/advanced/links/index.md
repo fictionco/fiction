@@ -9,7 +9,7 @@ Advanced tools for working with links and URLs in Factor.
 
 ## System URLs
 
-From anywhere within Factor you can get the system wide urls using the `systemUrl` function:
+From anywhere within Factor you can get the system-wide URLs using the `systemUrl` function:
 
 ```js
 import { systemUrl } from "@factor/api"
@@ -22,7 +22,7 @@ const productionUrl = systemUrl("production") // https://factor.dev
 
 ## Getting Links for Posts
 
-If you're working with posts and you need to link to them, then use `postLink`. The only caveat for postLink to work correctly, is that the post needs to be loaded in the store prior to its use.
+If you're working with posts and you need to link to them, then use `postLink`. The only caveat for postLink to work correctly, is that the post needs to be loaded in the store before its use.
 
 ```js
 import { postLink } from "@factor/api"

@@ -9,7 +9,7 @@ It can be hard to make sure your app stays consistent in its look and feel. To s
 
 ## The Problem
 
-Look and feel can be difficult to maintain consistently across applications. While CSS and UI frameworks exist to help you with this, they come with their own downsides and technical challenges.
+Look and feel can be difficult to maintain consistently across applications. While CSS and UI frameworks exist to help you with this, they come with their particular downsides and technical challenges.
 
 To help you with this, Factor provides some useful standards that can help with consistency across your app.
 
