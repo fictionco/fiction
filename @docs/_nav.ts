@@ -148,8 +148,8 @@ export default [
         file: (): Promise<string> => import("./advanced/links/index.md"),
       },
       {
-        doc: "schemas",
-        file: (): Promise<string> => import("./advanced/schemas/index.md"),
+        doc: "post-types",
+        file: (): Promise<string> => import("./advanced/post-types/index.md"),
       },
     ],
   },

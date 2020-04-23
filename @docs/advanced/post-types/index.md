@@ -1,9 +1,9 @@
 ---
-title: Schema API
+title: Post Types
 description: Reference for the schema API
 ---
 
-# Schemas
+# Post Types
 
 Extending the base post schema is a common task when adding new post types. To help you with this Factor provides a standard schema format to help simplify the process.
 

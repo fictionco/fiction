@@ -152,7 +152,7 @@ export const setup = (): void => {
 
   addFilter({
     key: "dashboard",
-    hook: "site-menu",
+    hook: "development-menu",
     callback: (_: DashboardMenuItem[]) => {
       if (userCan({ accessLevel: 100 })) {
         _.push({
