@@ -160,7 +160,6 @@ export default Vue.extend({
       this.sending = false
     },
     async save(this: any) {
-      console.log("run save")
       this.sending = true
 
       try {

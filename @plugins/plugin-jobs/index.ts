@@ -32,7 +32,7 @@ export const setup = (): void => {
     postType: "jobs",
     baseRoute,
     icon: require("./img/jobs.svg"),
-    model: "JobPost",
+    //model: "JobPost",
     nameIndex: "Jobs",
     nameSingle: "Jobs Post",
     namePlural: "Jobs Posts",

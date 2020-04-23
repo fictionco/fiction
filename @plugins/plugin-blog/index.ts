@@ -38,7 +38,7 @@ addPostType({
   postType: "blog",
   baseRoute,
   icon: require("./img/posts.svg"),
-  model: "BlogPost",
+  // model: "BlogPost",
   nameIndex: "Blog",
   nameSingle: "Blog Post",
   namePlural: "Blog Posts",

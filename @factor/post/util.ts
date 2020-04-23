@@ -19,6 +19,8 @@ import {
   PostStatus,
 } from "./types"
 
+import "./post-type"
+
 export * from "./object-id"
 
 /**

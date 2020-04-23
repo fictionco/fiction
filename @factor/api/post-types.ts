@@ -12,7 +12,7 @@ export interface PostTypeConfig {
   baseRoute?: string
   postType: string
   icon?: string
-  model?: string
+  // model?: string
   nameIndex?: string
   nameSingle?: string
   namePlural?: string
