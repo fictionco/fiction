@@ -7,12 +7,7 @@
 <script>
   export default {
     props: {
-      /* Class that will be applied in the menu item. */
       activeClass: { type: String, default: 'is-active' },
-
-      /* The duration of the scroll animation when clicking to scroll is activated. */
-      duration: { type: Number, default: 50 },
-
     },
     data() {
       return {
@@ -109,36 +104,6 @@
           .then(() => {
             this.pushHashToUrl(hash)
           })
-      },
-      scrollTo(target) {
-        return new Promise((resolve) => {
-          const targetDistanceFromTop = this.getOffsetTop(target)
-          const startingY = this.scrollContainer.scrollTop || window.pageYOffset
-          const difference = targetDistanceFromTop - startingY
-          let start = null
-
-          const step = (timestamp) => {
-            if (!start) start = timestamp
-
-            let progress = timestamp - start
-            let progressPercentage = progress / this.duration
-
-            if (progress >= this.duration) progress = this.duration
-            if (progressPercentage >= 1) progressPercentage = 1
-
-            const perTick = startingY + (progressPercentage * difference)
-
-            this.scrollContainer.scrollTo(0, perTick)
-
-            if (progress < this.duration) {
-              this.scrollAnimationFrame = window.requestAnimationFrame(step)
-            } else {
-              resolve()
-            }
-          }
-
-          window.requestAnimationFrame(step)
-        })
       },
       getOffsetTop(element) {
         let yPosition = 0
