@@ -30,6 +30,15 @@ import {
   dbIsOffline,
 } from "./database"
 
+export const handlePostSaveError = (
+  error: Error & { code: number; keyValue: Record<string, string> }
+): never => {
+  if (error.code == 11000 && error.keyValue) {
+    const [field, value] = Object.entries(error.keyValue)[0]
+    throw new Error(`The ${field} "${value}" already exists`)
+  } else throw error
+}
+
 /**
  * Save a post to database
  * @param data - Data to save
@@ -65,7 +74,11 @@ export const savePost = async <T = {}>(
   Object.assign(post, data)
 
   if (postPermission({ post, bearer, action })) {
-    await post.save()
+    try {
+      await post.save()
+    } catch (error) {
+      handlePostSaveError(error)
+    }
 
     /**
      * instead of returning the data that is saved,

@@ -5,68 +5,177 @@ description: Reference for the schema API
 
 # Post Types
 
-Extending the base post schema is a common task when adding new post types. To help you with this Factor provides a standard schema format to help simplify the process.
+You can create new post types for use creating advanced functionality like blogs, forums, job listings, etc. In this document we'll walk through the basic steps. 
 
-## Extending the Schema is Optional
+## Base Post Type
 
-Custom schemas for new post types are optional and used to add additional fields or functionality. If you don't set one, then the new post type will inherit the schema from the base post type.
+All post types are built on a base post type schema called simply `post`. 
 
-## Purpose Of Schemas
+This post type includes functionality that is common to most post use cases. For example, it adds `title`, `content`, `tag`, and `category` fields.  
 
-Schemas are to help organize the handling of post data on your server. You'll want to create a custom schema when you want to add new data fields to a post type, do additional validation of data, or if you want to change the default permissions for [standard post functions](./working-with-posts).
+It also adds [indexes](https://mongoosejs.com/docs/guide.html#indexes) for common queries. Examples of default indexes are: 
 
-The Factor schema API has the following elements:
+- Text search on `title` and `content` fields
+- Unique index on `permalink`
+- Index on `postType`
 
-- **Name:**
-  Set the post type name
-- **Permissions:**
-  Allows you to add standard privileges handling on read, write, update, delete requests to the post type
-- **Schema:**
-  The [Mongoose schema](https://mongoosejs.com/docs/guide.html) definition that allows you to structure and validate your data.
-- **Callback:**
-  A callback function for adding [Mongoose middleware](https://mongoosejs.com/docs/middleware.html)
-
-## Defining A Schema
-
-Here is how a basic post type schema is defined:
+Here is the schema definition summarized for clarity ([actual definition is here](https://github.com/fiction-com/factor/blob/development/%40factor/post/post-type.ts))
 
 ```js
-import { addPostSchema } from "@factor/api"
-
-const mySchema = {
-  name: "myPostType",
-  schema: {
-    mimetype: String,
-    imageData: Buffer,
-    size: Number,
-    url: String,
-  },
-  callback: (MongooseSchema) => {
-    // Add standard mongoose middleware
-    // Do NOT use arrow function (=>) as `this` within the callback is equal to the
-    // object being saved.
-    MongooseSchema.pre("save", async function () {
-      const myPost = this
-
-      await doStuff()
-
-      return
-    })
-  },
+const schemaDefinition = {
+  // Standard post content / taxonomy
+  postType: String,
+  date: Date,
+  title: String,
+  synopsis: String,
+  content: String,
+  author: [{ ref: "user" }],
+  follower: [{ ref: "user" }],
+  images: [{ ref: "attachment" }],
+  avatar: { ref: "attachment" },
+  tag: [String],
+  category: [String],
+  // Used to distinguish which app created a post in multi-app databases
+  source: String,
+  // Vanilla key/value container
+  settings: {},
+  // vanilla list container
+  list: { type: [Object] },
+  // Embedded documents (comments, posts, etc.)
+  embedded: [Object],
+  embeddedCount: Number,
+  // published, draft, trash
+  status: String,
+  // Allow plugins to set a custom UniqueId
+  uniqueId: String, // must be unique
+  permalink: String // must be unique
 }
+```
+## Adding A Post Type
+
+To add a post type, all that is needed is the `addPostType` function: 
+
+```js
+import {addPostType} from "@factor/api"
+
+addPostType({
+  postType: "myPostType", 
+  // ... other options
+}) 
+```
+
+For all post type features to work correctly this function needs to be run in both the app and server environments. So make sure to address this with your [main files](./main-files); for example a load configuration of `load: ['app', 'server']`.
+
+## Configuring the Post Type
+
+There are many available options available when creating new post types, let's walk through them.
+
+## Post Type Management Options
+
+You can control the dashboard management features with the following options: 
+
+```js
+import {addPostType} from "@factor/api"
+
+import icon from './my-icon.svg'
+
+addPostType({
+  postType: "myPostType", 
+  managePosts: true, // Enable dashboard menu
+  icon, // Dashboard icon
+  nameIndex: "Users", // Contextual references
+  nameSingle: "User",
+  namePlural: "Users",
+  accessLevel: 500, // accessLevel needed to see dashboard menu
+  noAddNew: true, // hide "add new" 
+  addNewText: "Create User", // change add new text
+  listTemplate: () => import("./v-list.vue"), // override post listing component
+  editTemplate: () => import("./v-edit.vue"), // override post edit component
+}) 
+```
+
+## Post Type Permalinks
+
+You can control the post type permalinks when you set up the post type. 
+
+This doesn't create the route however it just allows you to use `postLink` ([doc](./links)) and get the desired link. You'll also need to[ create the routes and handling](./routes) to make the post show correctly on that page.
+
+```js
+import {addPostType, slugify} from "@factor/api"
+ 
+addPostType({
+  postType: "myPostType", 
+  permalink: (post) => {
+    return `/my-post-type/${post._id}/${slugify(post.title)}`
+  },
+}) 
+```
+
+If you want to allow permalinks to be set in the dashboard:
+
+```js
+import {addPostType} from "@factor/api"
+ 
+addPostType({
+  postType: "myPostType", 
+  customPermalink: true, // Allow permalink option on post edit
+  permalink: (post) => {
+    return `/my-post-type/${post.permalink}` 
+  },
+}) 
+```
+
+## Create Structure with Post Schema Options
+
+### Schema Definition 
+
+Schemas are to help organize the handling of post data on your server. Create a custom schema to add new properties or to change the base post definition.
+
+The `schemaDefinition` options is used to add a [Mongoose schema](https://mongoosejs.com/docs/guide.html) definition to your post type and extend the base post schema.
+
+Post type creation also supports three additional options related to schemas: 
+- `schemaMiddleware` - Callback function for adding [Mongoose middleware](https://mongoosejs.com/docs/middleware.html) functions
+- `schemaOptions` - Add Mongoose [options](https://mongoosejs.com/docs/guide.html#options) to the schema
+- `schemaPopulated` - Defines which fields define IDs that should should be looked up and populated. It also supports a context value for controlling when population should occur (population is similar to a join in SQL).
+
+```js
+import { addPostType, ObjectId } from "@factor/api"
+
+
+addPostType({
+  schemaDefinition: {
+    foo: String,
+    bar: Buffer,
+    baz: Number,
+    buz: {ref: "anotherPostType", type: ObjectId}
+  }, 
+  schemaMiddleware: Schema => {
+    Schema.pre('save', function(){
+      // add middleware
+    })
+  }
+  schemaPopulated: {
+    buz: "any" // "any" | "list" | "single"
+  }
+  schemaOptions: {}
+  // ...other post type options
+})
 
 // Add the schema to factor
 addPostSchema(mySchema)
 ```
+#### Notes
+- Populated fields are fields consisting of just `_id`'s or `objectId` that populate based on data in the original post (like a SQL join)
+- `ObjectId` is needed for Mongoose to property type check reference to other posts
 
-> Schemas are only used on the server side, so there is no need to add them in the app environment.
+## Security Permissions
 
-## Permissions
+For database operations you need permissions to control access. Factor offers a basic system to control standard CRUD input and output.
 
-With schemas you have the ability to override the default permissions handling of the base post. The base post permissions schema looks like this:
+The base post permissions schema looks like this:
 
 ```js
-const schema = {
+addPostType({
   permissions: {
     create: { accessLevel: 100 },
     retrieve: {
@@ -83,7 +192,7 @@ const schema = {
       delete: { accessLevel: 100, accessAuthor: true },
     },
   },
-}
+})
 ```
 
 In your extending schema you can override this. For example with contact form submissions, we want it to be possible for anyone to create them (`accessLevel: 0`) but you have to be a moderator or the post author to read them (`accessLevel: 300`). In your schema that looks like this:
@@ -101,22 +210,47 @@ export default {
 }
 ```
 
-## Population
+## Template Settings
 
-Once you've retrieved a document, most times you have some related data that also needs to be queried. For example, you'll need to get the author, or images based on their IDs. In the MongoDb world this is called "population."
-
-Factor provides a simple system for defining fields that should be populated when data is retrieved called `populatedFields`.
-
-It includes a context depth property for defining when and where the population should occur. This is needed because you don't always want to populate everything. For example, if you are showing a long list of blog posts, you don't want to pull all the images for each post just to index them.
-
-The default populated fields for the base post schema look like this:
+If you would like to allow users to set meta information on each post, there is a way to add template options in post types using the [template settings API]('./template-settings'). 
 
 ```js
-const mySchema = {
-  populated: {
-    author: "list",
-    images: "single",
-    avatar: "any",
-  },
-}
+addPostType({
+  postType: "portfolioItems", 
+  templateSettings: [
+      {
+        _id: "items",
+        input: "sortable",
+        label: "Additional Work Info",
+        description: "Additional information about this project",
+        _default: [
+          { __title: "Client", value: "Client Name" },
+          { __title: "Role", value: "Role" },
+          { __title: "Year", value: new Date().getFullYear() },
+          { __title: "Platforms", value: "Web" },
+          { __title: "URL", value: "https://www.example.com" },
+        ],
+        settings: [
+          {
+            input: "text",
+            label: "Value",
+            _id: "value",
+          },
+        ],
+      },
+    ]
+})
+```
+
+## Public Sitemap
+
+Some post types are meant to be public, e.g. blog posts, while others are meant to be private, e.g. contact form submissions.
+
+If you would like to indicate that posts are public and meant to be added to the public sitemap then use `addSitemap`.
+
+```js
+addPostType({
+  postType: "portfolioItems", 
+  addSitemap: true
+})
 ```

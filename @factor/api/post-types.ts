@@ -1,7 +1,7 @@
 import { applyFilters, pushToFilter } from "@factor/api/hooks"
 import { toLabel } from "@factor/api/utils"
 import { FactorPost, SchemaPermissions } from "@factor/post/types"
-import { ListItem, getPermalink } from "@factor/api"
+import { ListItem, slugify } from "@factor/api"
 import Vue from "vue"
 import { TemplateSetting } from "@factor/templates/types"
 import { SchemaDefinition, SchemaOptions, Schema } from "mongoose"
@@ -41,18 +41,16 @@ export const addPostType = (config: PostTypeConfig): void => {
 
 export const postTypesConfig = (): PostTypeConfig[] => {
   return applyFilters("post-types-config", []).map((_: PostTypeConfig) => {
-    const baseRoute = typeof _.baseRoute == "undefined" ? _.postType : _.baseRoute
+    const baseRoute = typeof _.baseRoute == "undefined" ? `/${_.postType}` : _.baseRoute
 
     const label = toLabel(_.postType)
 
     return {
       postType: "post",
       permalink: (post: FactorPost): string => {
-        return getPermalink({
-          postType: post.postType,
-          permalink: post.permalink,
-          root: false,
-        })
+        const permalink = post.permalink ?? slugify(post.title ?? "")
+
+        return `${baseRoute}/${permalink}`
       },
       baseRoute,
       nameIndex: label,
@@ -63,10 +61,14 @@ export const postTypesConfig = (): PostTypeConfig[] => {
   })
 }
 
-export const getPostTypeConfig = (postType: string): PostTypeConfig => {
-  const userConfig = postTypesConfig().find((pt) => pt.postType == postType) || {
-    postType: "post",
-  }
+export const basePostTypeConfig = (): PostTypeConfig => {
+  return postTypesConfig().find((pt) => pt.postType == "post") || { postType: "post" }
+}
 
-  return userConfig
+export const getPostTypeConfig = (postType?: string): PostTypeConfig => {
+  const base = basePostTypeConfig()
+
+  if (!postType) return base
+
+  return postTypesConfig().find((pt) => pt.postType == postType) || base
 }

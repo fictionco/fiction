@@ -29,7 +29,7 @@
         />
 
         <dashboard-input v-if="postTypeConfig.customPermalink" label="Permalink">
-          <input-permalink v-model="post.permalink" :initial="post.title" :post-type="postType" />
+          <input-permalink v-model="post.permalink" :post-id="post._id" :post-type="postType" />
         </dashboard-input>
         <dashboard-input
           v-model="post.synopsis"

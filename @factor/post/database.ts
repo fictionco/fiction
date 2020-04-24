@@ -7,7 +7,6 @@ import { pushToFilter, addCallback, runCallbacks } from "@factor/api/hooks"
 import { addNotice } from "@factor/cli/setup"
 import mongoose, { Model, Schema, Document } from "mongoose"
 import { PostTypeConfig } from "@factor/api/post-types"
-import mongooseBeautifulUniqueValidation from "mongoose-beautiful-unique-validation"
 
 import { FactorPost } from "./types"
 
@@ -236,10 +235,6 @@ export const dbInitialize = async (): Promise<void> => {
   }
 
   mongoose.set("useCreateIndex", true)
-
-  mongoose.plugin(mongooseBeautifulUniqueValidation, {
-    defaultMessage: "{PATH}: '{VALUE}' is already being used.",
-  })
 
   initializeModels()
 

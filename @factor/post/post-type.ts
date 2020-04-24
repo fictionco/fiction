@@ -115,7 +115,7 @@ addPostType({
         type: String,
         trim: true,
         index: { unique: true, sparse: true },
-        minlength: 3,
+        minlength: 2,
         validator: function (v: string): boolean {
           return /^[\d-az-]+$/.test(v)
         },

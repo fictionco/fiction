@@ -14,6 +14,8 @@ Object.defineProperty(ObjectId.prototype, "_id", {
 // ObjectId.prototype:  { [key in symbol]: boolean }
 // ObjectId.prototype[objectIdSymbol] = true
 
+export { ObjectId }
+
 export const objectIdType = (): any => ObjectId
 
 export const objectId = (str?: string): ObjectId => {
