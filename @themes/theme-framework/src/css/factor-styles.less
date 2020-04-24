@@ -1,20 +1,51 @@
 @import "reset.less";
 
-.factor-app {
-  --color-primary: #007bff;
-  --color-text: #495057;
+html.factor-app {
+  // Primary app color
+  --color-primary: #3452ff;
+
+  // Secondary app color
+  --color-secondary: #4660f3;
+
+  // Primary text color
+  --color-text: #0D0C22;
+  //--color-text: #495057;
+  //#0D0C22
+  //#6e6d7a
+
+  --color-text-light: #f9fafb;
+
+  // Background color
+  --color-bg: #ffffff;
+  --color-bg-alt: #f9fafb; // Theme Custom
+  --color-bg-dark: #222; // Theme Custom
+
+  // Background contrast colors (e.g. hover states)
+  --color-bg-contrast: #f6fafd;
+  --color-bg-highlight: #edf1f5;
+
+  // Layout border color
+  --color-border: #e9ecef;
+
+  // Placeholder text color (usually light contrast)
   --color-placeholder: #bdcad4;
 
-  --color-bg: #fff;
-  --color-bg-alt: #f9fafb;
-  --color-bg-dark: #495057;
-  
-  --color-borders: #e9ecef;
+  // Code color (`code`)
+  --color-code: #283f63;
 
-  --font-family-primary: "Oxygen",
-    /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
-    /* Chrome < 56 for OS X (San Francisco)*/ BlinkMacSystemFont, /* Windows*/ "Segoe UI",
-    /* Android*/ "Roboto", /* Basic web fallback*/ "Helvetica Neue", Arial, sans-serif;
+  // Application primary font
+  --font-family-primary: "Rubik",
+  /* Safari for OS X and iOS (San Francisco)*/ -apple-system,
+  /* Chrome < 56 for OS X (San Francisco)*/ BlinkMacSystemFont, /* Windows*/ "Segoe UI",
+  /* Android*/ "Roboto", /* Basic web fallback*/ "Helvetica Neue", Arial, sans-serif;
+
+  // Application secondary font
+  --font-family-secondary: "Archivo Black", sans-serif;
+
+  // Font weights
+  --font-weight-bold: 700;
+  --font-weight-normal: 400;
+  --font-weight-light: 300;
 
   color: var(--color-text);
   background: var(--color-bg);
@@ -26,6 +57,13 @@
 
   a {
     color: var(--color-primary);
+  }
+
+  button.app-btn{
+    font-weight: 500;
+    &.primary:hover{
+      background: var(--color-secondary);
+    }
   }
 
   //inputs
@@ -61,7 +99,7 @@
   input[type="text"],
   textarea {
     -webkit-appearance: none;
-    border: 1px solid var(--color-borders);
+    border: 1px solid var(--color-border);
   }
 
   input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),

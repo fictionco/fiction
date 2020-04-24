@@ -104,6 +104,17 @@ export default Vue.extend({
 <style lang="less">
 .plugin-blog {
   padding-bottom: 3rem;
+
+  .entry-title {
+    font-weight: 400;
+  }
+
+  .entry-meta {
+    .widget-author-date .author-date {
+      font-weight: 400;
+    }
+  }
+
   .blog-entries {
     .hero {
       text-align: center;

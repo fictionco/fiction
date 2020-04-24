@@ -1,5 +1,5 @@
 <template>
-  <section v-if="title" class="hero">
+  <section v-if="title" class="hero" :style="{ 'background-image': `url(` + bgImage + `)` }">
     <div class="mast">
       <div class="hero-inner">
         <h1 v-formatted-text="title" class="title" />
@@ -31,6 +31,7 @@ export default Vue.extend({
     factorLink,
   },
   props: {
+    bgImage: { type: String, default: "" },
     title: { type: String, default: "" },
     buttons: { type: Array, default() {} },
   },
@@ -39,21 +40,41 @@ export default Vue.extend({
 
 <style lang="less">
 .hero {
-  border-top: 1px solid var(--color-borders);
-  border-bottom: 1px solid var(--color-borders);
-  background: var(--color-bg-alt);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg-dark);
+  background-size: cover;
+  background-position: center center;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    content: " ";
+    z-index: 1;
+    display: block;
+    background-color: rgba(2, 2, 2, 0.43);
+  }
 
   .mast {
     margin: 0 auto;
     max-width: 1140px;
+    position: relative;
+    z-index: 10;
   }
 
   .hero-inner {
     padding: 3em 2em;
+    color: var(--color-text-light);
 
     .title {
-      font-size: 3rem;
-      font-weight: 700;
+      font-family: var(--font-family-secondary);
+      font-size: 2.2rem;
+      margin-bottom: 0.4rem;
     }
     .content {
       font-size: 1.2em;
