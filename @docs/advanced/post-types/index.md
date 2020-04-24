@@ -136,7 +136,11 @@ The `schemaDefinition` options is used to add a [Mongoose schema](https://mongoo
 Post type creation also supports three additional options related to schemas: 
 - `schemaMiddleware` - Callback function for adding [Mongoose middleware](https://mongoosejs.com/docs/middleware.html) functions
 - `schemaOptions` - Add Mongoose [options](https://mongoosejs.com/docs/guide.html#options) to the schema
-- `schemaPopulated` - Defines which fields define IDs that should should be looked up and populated. It also supports a context value for controlling when population should occur (population is similar to a join in SQL).
+- `schemaPopulated` - Defines which fields define IDs that should should be looked up and populated. It also supports a context value for controlling when population should occur (population is similar to a join in SQL).  
+  - **Context:** Defines the depth of population based on situation. 
+    - `any` always populates
+    - `list` populated on single post views and post listings
+    - `single` only populate on single post views (e.g. specific content like images)
 
 ```js
 import { addPostType, ObjectId } from "@factor/api"
@@ -254,3 +258,5 @@ addPostType({
   addSitemap: true
 })
 ```
+
+Enabling this option will add the post type to public tools like the `sitemap.xml` file and search utilities.

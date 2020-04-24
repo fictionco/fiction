@@ -56,11 +56,13 @@ export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Prom
   // If this applied on server it causes a mismatch (store set with full post then set to loading)
   if (clientOnly) {
     storeItem("post", { loading: true })
+    storeItem("permalink", { loading: true })
   }
 
   const post: FactorPost = await requestPostSingle(request)
 
   storeItem("post", post)
+  storeItem("permalink", post)
 
   return
 }

@@ -306,41 +306,6 @@ export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPo
   return result
 }
 
-export const postList = async (
-  params: PostIndexRequestParameters,
-  { bearer, source }: EndpointMeta
-): Promise<FactorPost[]> => {
-  if (dbIsOffline()) return []
-
-  const { postType, select = null, sameSource = false } = params
-  let { options, conditions = {} } = params
-
-  options = Object.assign(
-    {},
-    {
-      sort: { createdAt: SortDelimiters.Descending },
-      limit: 20,
-      skip: 0,
-    },
-    options
-  )
-
-  if (sameSource && source) {
-    conditions.source = source
-  }
-
-  conditions = {
-    ...conditions,
-    ...manyPostsPermissionCondition({
-      bearer,
-      action: PostActions.Retrieve,
-      postType,
-    }),
-  }
-
-  return await getModel(postType).find(conditions, select, options)
-}
-
 export const indexMeta = async ({
   postType,
   conditions,

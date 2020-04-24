@@ -69,7 +69,7 @@ export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): s
             : settingValue
       }
 
-      return val || ""
+      return val || matched
     })
   }
 

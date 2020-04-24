@@ -3,7 +3,6 @@ import { stored, storeItem } from "@factor/app/store"
 import { timestamp } from "@factor/api/time"
 import { isNode } from "@factor/api"
 import objectHash from "object-hash"
-import { PopulationContexts } from "@factor/api/post-types"
 import {
   FactorPost,
   FactorPostKey,
@@ -17,6 +16,7 @@ import {
   PostIndex,
   PostStatus,
   PostIndexConditions,
+  PopulationContext,
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
 
@@ -60,11 +60,11 @@ export const sendPostRequest = async <T = unknown>(
 export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
   depth = 10,
-  context = "any",
+  context = PopulationContext.Any,
 }: {
   posts: T[]
   depth?: number
-  context?: PopulationContexts
+  context?: PopulationContext
 }): Promise<string[]> => {
   let _ids: string[] = []
 
@@ -111,16 +111,19 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
  */
 export const handlePostPopulation = async (
   post: FactorPostState,
-  { depth = 10 }: { depth?: number } = {}
+  {
+    depth = 10,
+    context = PopulationContext.Any,
+  }: { depth?: number; context?: PopulationContext } = {}
 ): Promise<void> => {
   if (post) {
     const embedded = post.embedded ?? []
     const posts = [post, ...embedded]
 
     if (isNode) {
-      await requestPostPopulate({ posts, depth })
+      await requestPostPopulate({ posts, depth, context })
     } else {
-      requestPostPopulate({ posts, depth })
+      requestPostPopulate({ posts, depth, context })
     }
   }
 
@@ -193,7 +196,7 @@ export const requestPostSingle = async (
     token,
     createOnEmpty = false,
     status = "all",
-    depth = 50,
+    conditions = {},
   } = _arguments
 
   const params: PostRequestParameters = { postType, createOnEmpty, status, log }
@@ -204,6 +207,8 @@ export const requestPostSingle = async (
     params.conditions = { [field]: permalink }
   } else if (token) {
     params.token = token
+  } else {
+    params.conditions = conditions
   }
 
   // If this post is in the store, don't get it again
@@ -213,7 +218,7 @@ export const requestPostSingle = async (
     post = (await sendPostRequest("getSinglePost", params)) as FactorPost
   }
 
-  await handlePostPopulation(post, { depth })
+  await handlePostPopulation(post, { context: PopulationContext.Single })
 
   return post as FactorPost
 }
@@ -286,36 +291,4 @@ export const requestPostIndex = async (
   } else {
     return { posts: [], meta: {} }
   }
-}
-
-/**
- * Gets List of Posts
- * The difference with 'index' is that there is no meta information returned
- * @param _arguments
- */
-export const requestPostList = async (
-  _arguments: PostIndexParametersFlat
-): Promise<FactorPost[]> => {
-  const {
-    limit = 10,
-    page = 1,
-    postType,
-    sort,
-    depth = 20,
-    conditions = {},
-    sameSource,
-  } = _arguments
-
-  const skip = (page - 1) * limit
-
-  const posts = (await sendPostRequest("postList", {
-    postType,
-    conditions,
-    options: { limit, skip, page, sort },
-    sameSource,
-  })) as FactorPost[]
-
-  await requestPostPopulate({ posts, depth })
-
-  return posts
 }

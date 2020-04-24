@@ -17,6 +17,7 @@ import {
   PostIndexMeta,
   PostActions,
   PostStatus,
+  PopulationContext,
 } from "./types"
 
 import "./post-type"
@@ -115,11 +116,11 @@ export const getSchema = (postType: string): PostTypeConfig => {
   return found ?? getBaseSchema()
 }
 
-const getContextDepth = (context: PopulationContexts): number => {
+const getContextDepth = (context: PopulationContext): number => {
   let depth
-  if (context == "list") {
+  if (context == PopulationContext.List) {
     depth = 10
-  } else if (context == "single") {
+  } else if (context == PopulationContext.Single) {
     depth = 20
   } else {
     depth = 10
@@ -140,14 +141,22 @@ export const getSchemaPopulatedFields = ({
 }: {
   postType: string
   depth?: number
-  context?: PopulationContexts
+  context?: PopulationContext
 }): string[] => {
   let fields = getSchema("post").schemaPopulated || {}
 
   const schema = getSchema(postType)
 
   if (postType != "post" && schema) {
-    const postTypePopulated = schema.schemaPopulated || {}
+    const populated = schema.schemaPopulated
+
+    let postTypePopulated: Record<string, PopulationContexts> = {}
+    if (Array.isArray(populated)) {
+      populated.forEach((f) => (postTypePopulated[f] = PopulationContext.Any))
+    } else if (schema.schemaPopulated) {
+      postTypePopulated = schema.schemaPopulated
+    }
+
     fields = { ...fields, ...postTypePopulated }
   }
 
@@ -155,7 +164,7 @@ export const getSchemaPopulatedFields = ({
 
   const pop = Object.entries(fields)
     .filter((entry) => {
-      return depth <= getContextDepth(entry[1])
+      return depth <= getContextDepth(entry[1] as PopulationContext)
     })
     .map(([key]) => key)
 

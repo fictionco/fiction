@@ -132,6 +132,14 @@ export default [
           import("./advanced/filters-callbacks-events/index.md"),
       },
       {
+        doc: "working-with-posts",
+        file: (): Promise<string> => import("./advanced/working-with-posts/index.md"),
+      },
+      {
+        doc: "post-types",
+        file: (): Promise<string> => import("./advanced/post-types/index.md"),
+      },
+      {
         doc: "database",
         file: (): Promise<string> => import("./advanced/database/index.md"),
       },
@@ -146,10 +154,6 @@ export default [
       {
         doc: "links",
         file: (): Promise<string> => import("./advanced/links/index.md"),
-      },
-      {
-        doc: "post-types",
-        file: (): Promise<string> => import("./advanced/post-types/index.md"),
       },
     ],
   },
