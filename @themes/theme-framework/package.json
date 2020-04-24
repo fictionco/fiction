@@ -2,7 +2,7 @@
   "name": "@factor/theme-framework",
   "version": "1.6.3",
   "license": "GPL-2.0",
-  "description": "Framework, a starter theme for [Factor](https://factor.dev/) meant to be worked with, tweaked, and styled. focused on simplicity and just enough functionality to help you start building your new app.",
+  "description": "Framework theme is lightweight, uncluttered and simple. Focused on functionality to help you start building your new app with [Factor](https://factor.dev/).",
   "author": {
     "name": "Fiction",
     "email": "factor@fiction.com",

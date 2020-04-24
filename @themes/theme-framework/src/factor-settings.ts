@@ -1,9 +1,9 @@
 export default {
   headTags: {
-    font: `<link href="https://fonts.googleapis.com/css?family=Oxygen&display=swap" rel="stylesheet" />`,
+    font: `<link href="https://fonts.googleapis.com/css?family=Archivo+Black|Rubik:400,500&display=swap" rel="stylesheet" />`,
   },
   metatags: {
-    defaultTitle: "Framework Theme",
+    defaultTitle: "Framework",
     titleTemplate: "%s - Factor JS",
   },
   site: {
@@ -11,7 +11,7 @@ export default {
       header: (): Promise<any> => import("./header.vue"),
       footer: (): Promise<any> => import("./footer.vue"),
     },
-    title: "Framework Theme",
+    logo: (): Promise<any> => import("./el/logo.vue"),
     /**
      * Site navigation.
      */
@@ -48,7 +48,7 @@ export default {
   home: {
     component: (): Promise<any> => import("./v-home.vue"),
     splash: {
-      title: "Framework Theme",
+      title: "Get Started Fast",
       subtitle:
         "Framework theme is lightweight, uncluttered and simple.<br /> Focused on functionality to help you start building your new app.",
       buttons: [
@@ -59,13 +59,8 @@ export default {
           btn: "primary",
           target: "_blank"
         },
-        {
-          _item: "contact",
-          link: "/contact",
-          text: "Contact",
-          btn: "secondary",
-        },
       ],
+      image: require("./img/canyon.jpg"),
     },
     features: [
       {
@@ -81,6 +76,21 @@ export default {
       {
         _item: "rapid",
         title: "Rapid Development",
+        content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut.`,
+      },
+      {
+        _item: "documentation",
+        title: "Great Documentation",
+        content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut.`,
+      },
+      {
+        _item: "saves-time",
+        title: "Saves Time",
+        content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut.`,
+      },
+      {
+        _item: "extension-library",
+        title: "Extension Library",
         content: `Lorem ipsum dolor sit amet, labore et dolore adipiscing elit, sed do eiusmod tempor incididunt ut.`,
       }
     ],

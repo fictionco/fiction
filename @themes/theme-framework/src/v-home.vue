@@ -1,6 +1,6 @@
 <template>
   <div class="page-home">
-    <el-hero :title="splashTitle" :buttons="splashButtons">
+    <el-hero :title="splashTitle" :buttons="splashButtons" :bg-image="splashImage">
       <template v-slot:hero-content>
         <div v-if="splashContent" v-formatted-text="splashContent" class="content" />
       </template>
@@ -13,32 +13,16 @@
       </div>
     </section>
 
-    <section class="mast">
-      <div>
-        <h2>Built for developers</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      </div>
-      <div>Image</div>
-    </section>
-
     <div class="mast home-blog">
       <!-- <pre>
-      HERE {{ blogPosts }}
+      {{ blogPosts }}
       </pre>-->
       <div v-if="blogPosts.length > 0" class="post-index">
         <div v-for="post in blogPosts" :key="post._id" class="post">
-          <factor-link v-if="post.title" class="title" :path="postLink(post._id)">
-            <!-- <factor-link :path="postLink(post._id)">{{ post.title }}</factor-link> -->
-            {{ post.title }}
-          </factor-link>
-
+          <h2 class="title">
+            <factor-link v-if="post.title" :path="postLink(post._id)">{{ post.title }}</factor-link>
+          </h2>
           <div v-if="post.synopsis" v-formatted-text="post.synopsis" class="content" />
-          <!-- <component
-            :is="setting(`blog.components.${comp}`)"
-            v-for="(comp, i) in setting('blog.layout.index')"
-            :key="i"
-            :post-id="post._id"
-          />-->
         </div>
       </div>
     </div>
@@ -65,6 +49,7 @@ export default Vue.extend({
       splashTitle: setting("home.splash.title"),
       splashContent: setting("home.splash.subtitle"),
       splashButtons: setting("home.splash.buttons"),
+      splashImage: setting("home.splash.image"),
       features: setting("home.features"),
     }
   },
@@ -111,22 +96,17 @@ export default Vue.extend({
 
       await loadAndStoreBlogIndex()
 
+      //   await requestPostIndex({
+      //     postType: this.postType,
+      //     //tag: this.tag,
+      //     status: "published",
+      //     sort: "-date",
+      //     page: this.page,
+      //     limit: setting("home.section3.limit"),
+      //   })
+
       this.loading = false
     },
-    // async getPosts(this: any) {
-    //   this.loading = true
-
-    //   await requestPostIndex({
-    //     postType: this.postType,
-    //     //tag: this.tag,
-    //     status: "published",
-    //     sort: "-date",
-    //     page: this.page,
-    //     limit: setting("home.section3.limit"),
-    //   })
-
-    //   this.loading = false
-    // },
   },
 })
 </script>
@@ -144,18 +124,26 @@ export default Vue.extend({
   .features {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-gap: 1rem;
+    grid-gap: 4rem;
     padding: 4rem 2rem;
     .feature {
       .title {
         font-size: 1.5rem;
-        font-weight: 700;
         margin-bottom: 0.5rem;
       }
     }
   }
   .home-blog {
     padding: 4rem 2rem;
+    .post-index {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 4rem;
+      .title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+    }
   }
 }
 </style>

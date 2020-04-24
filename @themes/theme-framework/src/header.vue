@@ -1,7 +1,8 @@
 <template>
   <header class="site-head">
     <div class="mast site-head-inner">
-      <factor-link path="/" class="site-title">{{ siteTitle }}</factor-link>
+      <site-logo />
+      <!-- <factor-link path="/" class="site-title">{{ siteTitle }}</factor-link> -->
 
       <div v-if="siteNav" class="nav">
         <template v-for="(item, index) in siteNav">
@@ -22,6 +23,7 @@ export default Vue.extend({
   components: {
     factorLink,
     factorIcon,
+    "site-logo": () => import("./el/logo.vue"),
   },
   data() {
     return {
@@ -44,10 +46,10 @@ export default Vue.extend({
     align-items: center;
     padding: 1rem 2rem;
 
-    .site-title {
-      color: var(--color-text);
-      font-weight: 700;
-    }
+    // .site-title {
+    //   color: var(--color-text);
+    //   font-weight: 700;
+    // }
     .nav {
       > a {
         color: var(--color-text);
