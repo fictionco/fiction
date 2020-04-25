@@ -131,18 +131,7 @@ export default [
         file: (): Promise<string> =>
           import("./advanced/filters-callbacks-events/index.md"),
       },
-      {
-        doc: "working-with-posts",
-        file: (): Promise<string> => import("./advanced/working-with-posts/index.md"),
-      },
-      {
-        doc: "post-types",
-        file: (): Promise<string> => import("./advanced/post-types/index.md"),
-      },
-      {
-        doc: "embedded-posts",
-        file: (): Promise<string> => import("./advanced/embedded-posts/index.md"),
-      },
+
       {
         doc: "database",
         file: (): Promise<string> => import("./advanced/database/index.md"),
@@ -156,8 +145,24 @@ export default [
         file: (): Promise<string> => import("./advanced/authentication/index.md"),
       },
       {
+        doc: "working-with-posts",
+        file: (): Promise<string> => import("./advanced/working-with-posts/index.md"),
+      },
+      {
+        doc: "post-types",
+        file: (): Promise<string> => import("./advanced/post-types/index.md"),
+      },
+      {
+        doc: "embedded-posts",
+        file: (): Promise<string> => import("./advanced/embedded-posts/index.md"),
+      },
+      {
         doc: "links",
         file: (): Promise<string> => import("./advanced/links/index.md"),
+      },
+      {
+        doc: "page-templates",
+        file: (): Promise<string> => import("./advanced/page-templates/index.md"),
       },
       {
         doc: "endpoints-and-middleware",
@@ -167,6 +172,24 @@ export default [
       {
         doc: "transactional-email",
         file: (): Promise<string> => import("./advanced/transactional-email/index.md"),
+      },
+      {
+        title: "Extend the CLI",
+        doc: "extend-the-CLI",
+        file: (): Promise<string> => import("./advanced/extend-the-cli/index.md"),
+      },
+      {
+        doc: "writing-a-plugin",
+        file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),
+      },
+      {
+        doc: "theme-development",
+        file: (): Promise<string> => import("./advanced/theme-development/index.md"),
+      },
+      {
+        doc: "security-and-performance",
+        file: (): Promise<string> =>
+          import("./advanced/security-and-performance/index.md"),
       },
     ],
   },

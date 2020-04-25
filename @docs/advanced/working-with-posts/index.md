@@ -124,12 +124,9 @@ requestPostSingle({
 
 ### Requesting Post Lists and Indexes
 
-Often you'll want to get lists or indexes of posts:
+Often you'll want to get lists or indexes of posts. An index also returns meta information like total count, taxonomy information (e.g. count per category)
 
-- **List** - Simple list of posts
-- **Index** - Returns meta information like total count, taxonomy information (e.g. count per category)
-
-Let's walk through the native helpers `requestPostIndex`
+Let's walk through the native helper `requestPostIndex`...
 
 ```js
 const {posts, meta} = requestPostIndex({
