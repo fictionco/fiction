@@ -8,7 +8,7 @@ import { objectId, postPermission } from "@factor/post/util"
 import { getModel } from "@factor/post/database"
 import mime from "mime-types"
 import multer from "multer"
-import { addMiddleware } from "@factor/server/middleware"
+import { addMiddleware } from "@factor/api"
 
 import "./universal"
 import { Attachment } from "./types"

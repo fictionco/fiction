@@ -2,7 +2,7 @@ import { addFilter, log } from "@factor/api"
 import ua from "universal-analytics"
 import { setting } from "@factor/api/settings"
 import { EndpointRunningParams } from "@factor/endpoint/server"
-import { MiddlewarePathConfig } from "@factor/server/middleware"
+import { MiddlewarePathConfig } from "@factor/server/types"
 
 import { Request, Response } from "express"
 

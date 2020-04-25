@@ -1,8 +1,7 @@
 import { deepMerge } from "@factor/api/utils"
 import axios from "axios"
 
-//import { addEndpoint } from "@factor/api/endpoints"
-import { addMiddleware } from "@factor/server/middleware"
+import { addMiddleware } from "@factor/api"
 import { Request, Response } from "express"
 import latestVersion from "latest-version"
 

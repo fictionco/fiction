@@ -1,43 +1,15 @@
-import { applyFilters, pushToFilter, runCallbacks } from "@factor/api/hooks"
+import { applyFilters, runCallbacks } from "@factor/api/hooks"
 import { getPath } from "@factor/api/paths"
 import { setting } from "@factor/api/settings"
 import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
 import serveFavicon from "serve-favicon"
-import { Application, Request, Response, NextFunction } from "express"
+import { Application } from "express"
 import { resolveFilePath } from "@factor/api/resolver"
 import { serveStatic } from "./util"
 import logger from "./logger"
-export interface MiddlewareHandler {
-  (request: Request, response: Response, next: NextFunction): void
-}
-
-export interface MiddlewarePathConfig {
-  path: string
-  middleware: MiddlewareHandler[]
-}
-
-/**
- * Add middleware to the Factor server
- * @param path - route to serve the middleware
- * @param middleware - express style middleware handler
- * @param key - unique key for the middleware (prevents double loading)
- */
-export const addMiddleware = ({
-  path,
-  middleware,
-  key,
-}: {
-  path: string | string[]
-  middleware: MiddlewareHandler[]
-  key?: string
-}): void => {
-  const pathKey = typeof path == "string" ? path : path.join("")
-  key = key ? key : pathKey
-  pushToFilter({ key, hook: "middleware", item: { path, middleware } })
-}
-
+import { MiddlewarePathConfig } from "./types"
 /**
  * Adds all middleware to the primary express server
  * @param app - express app

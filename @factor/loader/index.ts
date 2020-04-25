@@ -1,5 +1,5 @@
 import { onEvent } from "@factor/api/events"
-import { addMiddleware } from "@factor/server/middleware"
+import { addMiddleware } from "@factor/api"
 import { BuildTypes } from "@factor/cli/types"
 
 import latestVersion from "latest-version"

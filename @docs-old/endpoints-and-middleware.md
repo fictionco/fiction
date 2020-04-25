@@ -58,7 +58,7 @@ It's easy to add custom middleware endpoints and handling to Factor's Express se
 As an example, let's show a sitemap at `/sitemap.xml`
 
 ```js
-import { addMiddleware } from "@factor/server"
+import { addMiddleware } from "@factor/api"
 import { createSitemap } from "sitemap"
 
 addMiddleware(
