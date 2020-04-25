@@ -1,7 +1,7 @@
 import { savePost } from "@factor/post/server"
 import { getModel } from "@factor/post/database"
 import { addFilter, currentUrl, randomToken } from "@factor/api"
-import { sendTransactionalEmail } from "@factor/email/server"
+import { sendEmail } from "@factor/api/server"
 import { Document, Schema, SchemaDefinition, HookNextFunction } from "mongoose"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getUserModel } from "@factor/user/server"
@@ -33,11 +33,11 @@ interface UserEmailConfig {
  * Sends user account email
  * @param args - standard email text
  */
-export const sendEmail = async (args: UserEmailConfig): Promise<void> => {
+export const sendAccountEmail = async (args: UserEmailConfig): Promise<void> => {
   const { to, subject, action, _id, code, text, linkText } = args
   const linkUrl = `${currentUrl()}?_action=${action}&code=${code}&_id=${_id}`
 
-  await sendTransactionalEmail({
+  await sendEmail({
     to,
     subject,
     text,
@@ -101,7 +101,7 @@ export const sendVerifyEmail = async (
     await savePost({ postType: "user", data: { _id, emailVerificationCode } }, { bearer })
   }
 
-  await sendEmail({
+  await sendAccountEmail({
     to: email,
     subject: "Confirm Your Email",
     text: "Hello! Please confirm your email by clicking on the following link:",
@@ -159,7 +159,7 @@ export const sendPasswordResetEmail = async ({
     throw new Error("Could not find an user with that email.")
   }
 
-  await sendEmail({
+  await sendAccountEmail({
     to: email,
     subject: "Password Reset",
     text:
@@ -184,7 +184,7 @@ export const setup = (): void => {
       verifyAndResetPassword,
       sendVerifyEmail,
       verifyEmail,
-      sendEmail,
+      sendAccountEmail,
     },
   })
 

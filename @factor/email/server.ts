@@ -7,6 +7,7 @@ import { getModel } from "@factor/post/database"
 import { FactorUser } from "@factor/user/types"
 import { renderMarkdown } from "@factor/api/markdown"
 import { EmailTransactionalConfig } from "./util"
+
 export const hasEmailService = (): boolean => {
   const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
 
@@ -41,9 +42,7 @@ const getEmailSMTPService = (): Transporter | void => {
   return emailServiceClient
 }
 
-export const sendTransactionalEmail = async (
-  _arguments: EmailTransactionalConfig
-): Promise<void> => {
+export const sendEmail = async (_arguments: EmailTransactionalConfig): Promise<void> => {
   _arguments = applyFilters("transactional-email-arguments", _arguments)
 
   const {
@@ -76,6 +75,7 @@ export const sendTransactionalEmail = async (
   const plainText = require("html-to-text").fromString(html)
 
   const theEmail = applyFilters("transactional-email", {
+    ..._arguments,
     emailId,
     from,
     to,
@@ -96,7 +96,7 @@ export const sendTransactionalEmail = async (
 /**
  * Sends an email to a user taking an ID as the argument instead of an email
  */
-export const sendTransactionalEmailToId = async (
+export const sendEmailToId = async (
   userId: string,
   _arguments: EmailTransactionalConfig
 ): Promise<true | never> => {
@@ -104,18 +104,14 @@ export const sendTransactionalEmailToId = async (
 
   if (user && user.email) {
     _arguments.to = user.email
-    await sendTransactionalEmail(_arguments)
+    await sendEmail(_arguments)
   }
   return true
 }
 
-export const setup = async (): Promise<void> => {
-  addEndpoint({
-    id: "email",
-    handler: {
-      sendTransactionalEmail,
-    },
-  })
-}
-
-setup()
+addEndpoint({
+  id: "email",
+  handler: {
+    sendEmail,
+  },
+})

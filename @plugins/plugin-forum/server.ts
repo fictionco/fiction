@@ -3,7 +3,7 @@ import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
 import { embeddedPost, savePost } from "@factor/post/server"
 import { FactorPost, FactorPostState, ObjectId } from "@factor/post/types"
-import { sendTransactionalEmailToId } from "@factor/email/server"
+import { sendEmailToId } from "@factor/email/server"
 import { currentUrl } from "@factor/api/url"
 import { ForumTopicFactorPost, SubscribeUser } from "./types"
 import { topicLink } from "./request"
@@ -59,7 +59,7 @@ export const notifySubscribers = async ({
     const _promises = post.subscriber
       .filter((sub) => sub.toString() != userId.toString())
       .map((sub) => {
-        return sendTransactionalEmailToId(sub, {
+        return sendEmailToId(sub, {
           emailId: "forumTopicSubscribe",
           subject: `Re: ${post.title}`,
           text: reply.content,

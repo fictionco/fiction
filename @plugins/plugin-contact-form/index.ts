@@ -33,7 +33,7 @@ export const sendFormEmail = async (form: object): Promise<void> => {
 
   const subject = setting("contactForm.adminEmail.subject")
 
-  await sendEmailRequest("sendTransactionalEmail", {
+  await sendEmailRequest("sendEmail", {
     _id: "contact-form",
     to,
     subject: typeof subject == "function" ? subject(form) : subject,
