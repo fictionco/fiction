@@ -145,10 +145,10 @@ export const requestPostSave = async <T extends FactorPostState | never>({
   return _post
 }
 
-export const requestEmbeddedAction = async <T extends FactorPostState | never>(
+export const requestEmbeddedPost = async <T extends FactorPostState | never>(
   _arguments: UpdatePostEmbedded & EndpointParameters
 ): Promise<T> => {
-  const _post = await sendPostRequest<T>("embeddedAction", _arguments)
+  const _post = await sendPostRequest<T>("embeddedPost", _arguments)
   setLocalPostTypeCache(_arguments.postType)
 
   await handlePostPopulation(_post)

@@ -1,7 +1,7 @@
 import {
   requestPostDeleteMany,
   requestPostIndex,
-  requestEmbeddedAction,
+  requestEmbeddedPost,
   handlePostPopulation,
   setLocalPostTypeCache,
 } from "@factor/post/request"
@@ -134,7 +134,7 @@ export const deleteTopicReply = async (
   postId: string,
   embeddedPostId: string
 ): Promise<FactorPostState> => {
-  const result = await requestEmbeddedAction({
+  const result = await requestEmbeddedPost({
     action: "delete",
     postId,
     embeddedPostId,
@@ -155,7 +155,7 @@ export const requestEmbeddedPosts = async ({
   skip?: number
   postId: string
 }): Promise<FactorPost[]> => {
-  const post = await requestEmbeddedAction<FactorPost | undefined>({
+  const post = await requestEmbeddedPost<FactorPost | undefined>({
     postId,
     skip,
     limit,

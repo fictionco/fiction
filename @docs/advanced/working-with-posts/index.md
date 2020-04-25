@@ -259,3 +259,19 @@ There are situations when you might not want to create new posts for every data 
 For this use case, Factor has an embedded post system that adds some additional tooling that makes this sort of thing easy.
 
 Learn more about [embedded posts](./embedded-posts).
+
+## Direct Requests On The Server
+
+If you are working in the server environment, for example in endpoints or middleware, then you can make direct call to server functions for posts; you only have to make sure to pass along the `bearer` parameter discussed in [endpoints and middleware](./../endpoints-and-middleware).
+
+```js
+import { savePost, getSinglePost } from "@factor/post/server"
+
+export const myEndpoint = async (data, { bearer }) => {
+  // Save a post
+  await savePost({ postType: "user", data }, { bearer })
+
+  // Get a post
+  await getSinglePost({ postType: "attachment", _id: "---objectId---" }, { bearer })
+}
+```

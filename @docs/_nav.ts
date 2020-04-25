@@ -140,6 +140,10 @@ export default [
         file: (): Promise<string> => import("./advanced/post-types/index.md"),
       },
       {
+        doc: "embedded-posts",
+        file: (): Promise<string> => import("./advanced/embedded-posts/index.md"),
+      },
+      {
         doc: "database",
         file: (): Promise<string> => import("./advanced/database/index.md"),
       },
@@ -154,6 +158,15 @@ export default [
       {
         doc: "links",
         file: (): Promise<string> => import("./advanced/links/index.md"),
+      },
+      {
+        doc: "endpoints-and-middleware",
+        file: (): Promise<string> =>
+          import("./advanced/endpoints-and-middleware/index.md"),
+      },
+      {
+        doc: "transactional-email",
+        file: (): Promise<string> => import("./advanced/transactional-email/index.md"),
       },
     ],
   },

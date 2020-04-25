@@ -1,7 +1,7 @@
 import { addEndpoint } from "@factor/api/endpoints"
 import { EndpointMeta } from "@factor/endpoint/types"
 import { getModel } from "@factor/post/database"
-import { embeddedAction, savePost } from "@factor/post/server"
+import { embeddedPost, savePost } from "@factor/post/server"
 import { FactorPost, FactorPostState, ObjectId } from "@factor/post/types"
 import { sendTransactionalEmailToId } from "@factor/email/server"
 import { currentUrl } from "@factor/api/url"
@@ -88,7 +88,7 @@ export const saveTopicReply = async (
 ): Promise<FactorPostState> => {
   const userId = bearer?._id ?? ""
   const isNew = reply._id ? false : true
-  const result = await embeddedAction(
+  const result = await embeddedPost(
     {
       action: "save",
       postId,
