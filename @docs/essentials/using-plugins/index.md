@@ -23,7 +23,7 @@ npm add @factor/plugin-sitemap
 
 ## How Plugins Work
 
-Plugins use the [plugin API](./plugin-api) to interact with the core Factor features and deliver an out of the box extension experience to your app.
+Plugins use the [plugin API](./filters-callbacks-events) to interact with the core Factor features and deliver an out of the box extension experience to your app.
 
 They are loaded automatically via a loading routine dictated by the [main files](./main-files) configuration in the plugin.
 
@@ -35,7 +35,7 @@ Generally, there are 3 ways to use and customize plugins:
 
 - [Settings](./settings)
 - [Styles](./styles)
-- [Plugin API](./plugin-api)
+- [Plugin API](./filters-callbacks-events)
 - Providing imports and settings you can use in the app (e.g. `import {example} from @factor/plugin`)
 
 ## Tips
