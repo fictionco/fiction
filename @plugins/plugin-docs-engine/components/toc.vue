@@ -14,7 +14,7 @@
             @click.prevent="setClick(h2.anchor)"
           >{{ h2.text }}</a>
           <!--To turn this back on use condition: h2.sub && isActive(h2.anchor, h2.sub.map(h3 => h3.anchor)) -->
-          <ul v-if="false">
+          <ul v-if="subHeader">
             <li v-for="(h3, ii) in h2.sub" :key="ii">
               <a
                 class="nav-link sub"
@@ -39,6 +39,7 @@ import { Route } from "vue-router"
 export default Vue.extend({
   components: { factorIcon },
   props: {
+    subHeader: { type: Boolean, default: false },
     selector: { type: String, default: "" },
   },
   data() {
@@ -122,7 +123,8 @@ export default Vue.extend({
         document.body.scrollTop
       )
 
-      const anchors = this.scroller.querySelectorAll("h2")
+      const headers = this.subHeader ? "h2, h3" : "h2"
+      const anchors = this.scroller.querySelectorAll(headers)
 
       for (const [i, anchor] of anchors.entries()) {
         const nextAnchor = anchors[i + 1]
@@ -265,8 +267,10 @@ export default Vue.extend({
     .nav-link {
       display: block;
       line-height: 1.3;
+
       padding: 0.25rem 0;
       &.sub {
+        font-size: 0.9em;
         opacity: 0.8;
         margin-left: 1rem;
         padding: 4px 0;

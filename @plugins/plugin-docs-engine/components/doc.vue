@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="doc-sidebar">
-      <doc-toc selector=".doc-content-pad" />
+      <doc-toc selector=".doc-content-pad" :sub-header="subHeaders" />
     </div>
   </div>
 </template>
@@ -39,6 +39,9 @@ export default Vue.extend({
     },
     content(this: any) {
       return this.config.content ?? ""
+    },
+    subHeaders(this: any) {
+      return this.config.meta?.sub ?? false
     },
   },
   watch: {
