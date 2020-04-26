@@ -164,7 +164,7 @@ export default Vue.extend({
       image: shareImage(this.post._id),
     }
   },
-  async serverPrefetch() {
+  async serverPrefetch(this: any) {
     return this.getEmbeddedPosts()
   },
 
@@ -212,7 +212,7 @@ export default Vue.extend({
       },
     },
   },
-  async mounted() {
+  async mounted(this: any) {
     onEvent("highlight-post", (_id: string) => {
       this.highlight = _id
       setTimeout(() => {
@@ -233,7 +233,7 @@ export default Vue.extend({
     async getEmbeddedPosts(this: any) {
       const postId = this.$route.params._id ?? this.$route.query._id
       const skip = this.$route.query.skip ?? 0
-      await requestEmbeddedPosts({ skip, postId })
+      await requestEmbeddedPosts({ skip, parentId: postId })
 
       return
     },

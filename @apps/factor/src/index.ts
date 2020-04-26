@@ -4,8 +4,7 @@ import { addPageTemplate } from "@factor/templates"
 import "./extend"
 
 addPageTemplate({
-  name: "Factor Basic",
-  slug: "factor-basic",
+  slug: "example",
   component: (): Promise<any> => import("./page-template-default.vue"),
 })
 

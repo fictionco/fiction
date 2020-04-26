@@ -91,7 +91,7 @@ export const saveTopicReply = async (
   const result = await embeddedPost(
     {
       action: "save",
-      postId,
+      parentId: postId,
       data: reply,
       postType,
     },

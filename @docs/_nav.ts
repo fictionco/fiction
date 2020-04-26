@@ -178,19 +178,19 @@ export default [
         doc: "extend-the-CLI",
         file: (): Promise<string> => import("./advanced/extend-the-cli/index.md"),
       },
-      {
-        doc: "writing-a-plugin",
-        file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),
-      },
-      {
-        doc: "theme-development",
-        file: (): Promise<string> => import("./advanced/theme-development/index.md"),
-      },
-      {
-        doc: "security-and-performance",
-        file: (): Promise<string> =>
-          import("./advanced/security-and-performance/index.md"),
-      },
+      // {
+      //   doc: "writing-a-plugin",
+      //   file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),
+      // },
+      // {
+      //   doc: "theme-development",
+      //   file: (): Promise<string> => import("./advanced/theme-development/index.md"),
+      // },
+      // {
+      //   doc: "security-and-performance",
+      //   file: (): Promise<string> =>
+      //     import("./advanced/security-and-performance/index.md"),
+      // },
     ],
   },
   {
@@ -211,6 +211,10 @@ export default [
         title: "Form UI",
         doc: "form-ui",
         file: (): Promise<string> => import("./api/form-ui/index.md"),
+      },
+      {
+        doc: "template-settings",
+        file: (): Promise<string> => import("./api/template-settings/index.md"),
       },
     ],
   },

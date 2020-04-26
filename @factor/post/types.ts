@@ -61,10 +61,10 @@ export interface UpdatePost {
 
 export interface UpdatePostEmbedded {
   action: "save" | "delete" | "retrieve"
-  postId: string
-  postType: string
+  postType?: string
+  parentId: string
   data?: FactorPost | UnsavedFactorPost
-  embeddedPostId?: string
+  _id?: string
   skip?: number
   limit?: number
 }

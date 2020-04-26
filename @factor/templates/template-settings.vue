@@ -86,7 +86,7 @@ export default Vue.extend({
     "post.settings": {
       handler: function (this: any, v: Record<string, any>) {
         if (v && v != this.settings) {
-          this.settings = v
+          this.settings = v ?? {}
         }
       },
       immediate: true,
@@ -103,7 +103,7 @@ export default Vue.extend({
       this.setTemplateDefaults()
     },
     setTemplateDefaults(this: any) {
-      this.settings = getDefaultTemplateSettings(this.fields, this.settings)
+      this.settings = getDefaultTemplateSettings(this.fields, this.settings) ?? {}
     },
   },
 })

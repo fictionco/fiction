@@ -136,8 +136,8 @@ export const deleteTopicReply = async (
 ): Promise<FactorPostState> => {
   const result = await requestEmbeddedPost({
     action: "delete",
-    postId,
-    embeddedPostId,
+    parentId: postId,
+    _id: embeddedPostId,
     postType,
   })
 
@@ -149,14 +149,14 @@ export const deleteTopicReply = async (
 export const requestEmbeddedPosts = async ({
   limit = 100,
   skip = 1,
-  postId,
+  parentId,
 }: {
   limit?: number
   skip?: number
-  postId: string
+  parentId: string
 }): Promise<FactorPost[]> => {
   const post = await requestEmbeddedPost<FactorPost | undefined>({
-    postId,
+    parentId,
     skip,
     limit,
     action: "retrieve",

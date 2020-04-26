@@ -21,12 +21,17 @@ export default Vue.extend({
       content: "",
     }
   },
-  created() {
-    // const md = require("markdown-it")({
-    //   html: true,
-    //   linkify: true,
-    //   typographer: true
-    // }).use(require("markdown-it-anchor"))
+  templateSettings() {
+    return [
+      {
+        _id: "exampleSetting",
+        input: "select",
+        label: "Example",
+        description: "Shows example setting",
+        list: ["foo", "bar"],
+        _default: "foo",
+      },
+    ]
   },
   methods: { renderMarkdown },
 })

@@ -149,9 +149,12 @@ export const requestEmbeddedPost = async <T extends FactorPostState | never>(
   _arguments: UpdatePostEmbedded & EndpointParameters
 ): Promise<T> => {
   const _post = await sendPostRequest<T>("embeddedPost", _arguments)
-  setLocalPostTypeCache(_arguments.postType)
+  if (_post) {
+    const postType = _post?.postType ?? 'post'
+    setLocalPostTypeCache(postType)
 
-  await handlePostPopulation(_post)
+    await handlePostPopulation(_post)
+  }
 
   return _post
 }
