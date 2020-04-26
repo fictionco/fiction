@@ -78,50 +78,6 @@ Most applications and websites consider search and sharing optimization paramoun
 **Solution**
 Server-rendering (SSR) is not obsolete, however it is difficult to implement. Since Factor already has a backend server, needed for endpoints, it was just one step further to provide robust SSR for all pages and routes.
 
-## Architecture
-
-#### Overview
-
-There is a clear architecture needed to create a framework capable of being effective CMS. It must include a standard for both a development structure as well as a data and data-management structure. Factor consists of the following major elements:
-
-### Framework
-
-Factor features a fully featured development framework. It can be used stand-alone in similar to use cases to a more typical JS frameworks; but it also serves as the basis for building data management features as well as the extension API. The framework includes:
-
-- A fully featured Vue framework (`*.vue`)
-- Native TypeScript support (`*.ts` optional)
-- A CLI for serving, building, bundling your app
-- Server-side rendering and search optimization
-- Complete routing and permalink system
-- Static file serving
-- Development server with hot reloading
-- Pre-processors and libraries: LESS, Tailwind, etc.
-- Extensible modular architecture
-
-### Data and Management
-
-On top of the core framework, Factor includes a standard for data management and structure. We call this the "data model." In practice, these features are purely optional. You can use Factor as a stand-alone framework as well; however, they offer remarkably interesting capabilities for plugins and themes.
-
-The dashboard and posts model includes:
-
-- A themeable dashboard structure
-- A simple, standard database design with only one collection/table
-- Posts and post types
-- Taxonomy (categories, tags, search)
-- Automated data fetching, storage and handling
-- Fully featured post editing capabilities
-- Plugable structure that can be leveraged by extensions
-
-### Extensions
-
-Now that we have both a fully featured framework and a data management structure, we have awesome capabilities in plugins and themes. Extensions in Factor are designed to be easier to install and to "just work." The extensions API in Factor includes:
-
-- **Filters** - work with data at the point it's used. Plugins and themes can alter any data in the core Factor system.
-- **Callbacks** - An async system that allows you to run functions at certain key points in Factor's operation. For example, after a user authenticates.
-- **Events** - Respond to events in Factor, e.g. when an error occurs, or an email is sent.
-
-All this allows for interesting capabilities for extensions and it all just works when you add them to your project. Examples of ways to use posts might be job listings, forms, chat, forums, etc.
-
 ## Technology Choices
 
 #### Overview
@@ -141,30 +97,16 @@ As a core UI framework, Factor uses Vue exclusively. We made this decision for t
 
 ### MongoDB
 
-Factor has chosen to work with the MongoDB/Mongoose API for the database layer (not necessarily MongoDB, see below):
+Factor requires a MongoDB/Mongoose compatible API for the database:
 
-- **The JavaScript oriented DB.** MongoDB is designed from the beginning for JSON and is easy to work with in modern applications.
-- **Dead-simple setup.** SQL databases are highly technical to manage and setup. In contrast, MongoDB is very easy to work with. All that's needed to create your DB is a working install and a "connection string" to get a DB working.
-- **Standard / Flexibility.** Working with the Mongo API does not necessarily mean you're stuck with MongoDB. DynamoDB (Amazon) and CosmosDB (Microsoft) are designed to support the same API and can work with plugins.
-- **Portability.** Using MongoDB removes the need to use an abstraction layer like GraphQL or REST API. Mongo works "over the wire" by default, just connect it and start making queries.
-
-### TypeScript
-
-Type checking is a super helpful tool as it relates to stability and rapid development. Factor supports it natively and is also written in TypeScript. We chose this for these reasons:
-
-- **Type-Checking is needed.** Working with un-typed JS is a stability nightmare. Its flexible nature leads to big problems when using it as a backend technology. In recent months, TypeScript has established itself the standard in writing "JavaScript that scales" and as libraries have support it, it has become easier to use and more helpful.
-- **Rapid development.** TypeScript massively speeds up development of quality code.
-- **The future of JS.** TypeScript is so helpful that we believe it will continue to improve and will lead to even more advantages in the future.
-
-### Other Tools
-
-There are many other tools at use in Factor. Most of them however are not "permanent" and can be replaced as needed in the future. Here are some keys ones along with why we chose them:
-
-- **WebPack** - Used for building the application. While WebPack is bloated and verbose, it is the standard and is virtually a requirement for working with Vue.
+- **JavaScript Oriented** MongoDB is designed from the beginning for JSON and is easy to work with in modern applications.
+- **Simple setup.** SQL databases are highly technical to manage and setup. In contrast, MongoDB is very easy to work with. All that's needed to create your DB is a working install and a "connection string" to get a DB working.
+- **Flexible.** Working with the Mongo API does not necessarily mean you're stuck with MongoDB. DynamoDB (Amazon) and CosmosDB (Microsoft) are designed to support the same API and can work with plugins.
+- **Portable.** Using MongoDB removes the need to use an abstraction layer like GraphQL or REST API. Mongo works "over the wire" by default, just connect it and start making queries.
 
 ## Software Philosophy
 
-The detailed picture is covered in the core concepts document, but here are some key "rules" we follow to deliver a superior product:
+Here are some key "rules" we follow in Factor:
 
 - **Simple as possible, not simpler.** All features and code sets that are added to Factor core have a clear reason for being there. Anything else belongs in an extension.
 - **80% Rule of Core vs Extension.** Most features belong in an extension; this allows us to keep Factor core light while allowing users to "choose their own adventure" regarding which features they'd like to have (via plugins and themes). The rule is that any core feature must be needed or useful to at least 80% of the user base.

@@ -36,6 +36,7 @@ export default {
   .row {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     .factor-btn {
       margin: 1rem;
     }

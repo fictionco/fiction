@@ -34,3 +34,13 @@ export default {
   },
 }
 </script>
+
+
+<style lang="less" scoped>
+.wrap {
+  align-items: center;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+</style>

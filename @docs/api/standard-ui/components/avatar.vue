@@ -25,6 +25,7 @@ export default {
 .example {
   .row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     .factor-avatar {
       width: 4rem;

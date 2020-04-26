@@ -17,6 +17,7 @@ export default {
 .example {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   .factor-link {
     margin: 1rem;
   }

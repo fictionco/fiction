@@ -175,8 +175,12 @@ export default [
       },
       {
         title: "Extend the CLI",
-        doc: "extend-the-CLI",
+        doc: "extend-the-cli",
         file: (): Promise<string> => import("./advanced/extend-the-cli/index.md"),
+      },
+      {
+        doc: "markdown",
+        file: (): Promise<string> => import("./advanced/markdown/index.md"),
       },
       // {
       //   doc: "writing-a-plugin",

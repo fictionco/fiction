@@ -156,6 +156,9 @@ export default Vue.extend({
   grid-gap: 1em;
 
   grid-template-columns: 130px 1fr;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
   .controls {
     text-align: right;
     .sortable-item {

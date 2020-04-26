@@ -28,10 +28,10 @@ export default {
 <style lang="less" scoped>
 .wrap {
   .inputs {
-    justify-content: center;
     display: flex;
+    flex-wrap: wrap;
     .factor-input {
-      margin: 1.5rem;
+      margin: 1rem;
     }
   }
   .drawer {

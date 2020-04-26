@@ -61,12 +61,7 @@ export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): s
       })
 
       if (!val) {
-        const settingValue = setting(settingKey)
-
-        val =
-          typeof settingValue == "function"
-            ? `<div id="${settingKey}" class="inject-component"></div>`
-            : settingValue
+        val = setting(settingKey)
       }
 
       return val || matched
