@@ -5,11 +5,11 @@ description: Learn how to work with data and the flat store in Factor
 
 # Working with Posts
 
-Every document in the database is considered a post. All posts share some standard functionality but can be extended and changed in big ways based on post type. In this document we'll go over ways to work with posts in Factor.
+Every document in the database is considered a post. All posts share some standard functionality but can be extended and changed in big ways based on post type. In this document, we'll go over ways to work with posts in Factor.
 
 ## Post Types
 
-When doing advanced work with posts, the first step in many cases is to [create and configure a new post type](./post-types). This allows you to setup a unique set of posts with a custom schema, data handling and management configuration.
+When doing advanced work with posts, the first step in many cases is to [create and configure a new post type](./post-types). This allows you to set up a unique set of posts with a custom schema, data handling, and management configuration.
 
 This example adds two post types and connects them via population whenever the `example` post type is queried.
 
@@ -72,7 +72,7 @@ Now later in a component:
 </script>
 ```
 
-The above makes posts portable and universal. Which results in making posts easy to move around and work with because you're only working with the post `_id`s.
+The above makes posts portable and universal. This results in making posts easy to move around and work with because you're only working with the post `_id`s.
 
 ## Post Population
 
@@ -159,7 +159,7 @@ const {posts, meta} = requestPostIndex({
 #### Indexes and the Store
 
 When you request an index, the index is added to the store with a `storeKey` which defaults to the name of the post type (`postType`). You can change this if you need to run multiple indexes of the same post type on the same page.
-que to the arguments provided. This prevents you from running the same queries over and over again as a user navigates.
+Query to the arguments provided. This prevents you from running the same queries over and over again as a user navigates.
 
 ```js
 const { posts, meta } = requestPostIndex({
@@ -182,7 +182,7 @@ export default {
 
 #### Returned Meta Information
 
-Post index queries return meta information about the query and results. This is useful for displaying pagination, taxonomy, links and info to the user.
+Post index queries return meta information about the query and results. This is useful for displaying pagination, taxonomy, links, and info to the user.
 
 ```json
 {
@@ -202,7 +202,7 @@ Post index queries return meta information about the query and results. This is 
 
 ## Updating or Deleting Multiple Posts
 
-In some cases you'll want to update or delete multiple posts at a time. Factor offers some utilities for this as well:
+In some cases, you'll want to update or delete multiple posts at a time. Factor offers some utilities for this as well:
 
 ```js
 const posts = requestPostSaveMany({
@@ -245,13 +245,13 @@ export default {
 
 ## Posts on the Dashboard
 
-When you create new post types, you'll have the option to use Factor's default post management handling with the `managePost` option. You can also add your own handling and functionality to the dashboard via [filters](./filters-callbacks-events) if desired.
+When you create new post types, you'll have the option to use Factor's default post-management handling with the `managePost` option. You can also add your own handling and functionality to the dashboard via [filters](./filters-callbacks-events) if desired.
 
 Learn more about [creating post types](./post-types).
 
 ## Embedded Posts
 
-There are situations when you might not want to create new posts for every data point. For example, in forum threads, comments or chat.
+There are situations when you might not want to create new posts for every data point. For example, in forum threads, comments, or chat.
 
 For this use case, Factor has an embedded post system that adds some additional tooling that makes this sort of thing easy.
 
@@ -259,7 +259,7 @@ Learn more about [embedded posts](./embedded-posts).
 
 ## Direct Requests On The Server
 
-If you are working in the server environment, for example in endpoints or middleware, then you can make direct call to server functions for posts; you only have to make sure to pass along the `bearer` parameter discussed in [endpoints and middleware](./../endpoints-and-middleware).
+If you are working in the server environment, for example in endpoints or middleware, then you can make a direct call to server functions for posts; you only have to make sure to pass along the `bearer` parameter discussed in [endpoints and middleware](./../endpoints-and-middleware).
 
 ```js
 import { savePost, getSinglePost } from "@factor/post/server"

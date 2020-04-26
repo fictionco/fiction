@@ -5,13 +5,13 @@ description: Add additional functionality to Factor CLI
 
 # Extend the CLI 
 
-Sometimes you may want to add a command line utility for users of your plugin or theme. An example use case would be to generate backups or downloads in CSV format. 
+Sometimes you may want to add a command-line utility for users of your plugin or theme. An example use case would be to generate backups or downloads in CSV format. 
 
 You can easily create a `factor run` command using a filter. 
 
 ## Add A Custom Command
 
-To add a custom CLI command, you just need to add a special callback using the `cli-run-` prefix on the filter ID. The command will the be available when running: 
+To add a custom CLI command, you just need to add a special callback using the `cli-run-` prefix on the filter ID. The command will then be available when running: 
 
 ```bash
 npx factor run <command>

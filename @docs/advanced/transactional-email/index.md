@@ -5,7 +5,7 @@ description: Sending transactional email with Factor
 
 # Sending Transactional Email
 
-Learn how to setup and send transactional emails.
+Learn how to set up and send transactional emails.
 
 ## Overview
 
@@ -32,7 +32,7 @@ If you'd like a recommendation, we use Mailgun and have written an integration g
 
 ### Config
 
-In order for your app to send emails, you'll need to setup SMTP. Until you do so, emails will be logged to the terminal but not sent. 
+For your app to send emails, you'll need to setup SMTP. Until you do so, emails will be logged to the terminal but not sent. 
 
 Just add the following to `.env` to get this setup: 
 
@@ -49,7 +49,7 @@ Once you've done this, your app should be ready to send emails.
 
 To send transactional emails, Factor offers a `sendEmail` function plus some additional helpers.  Note that emails must be sent from the server and not the client, so often you'll need to do the sending from an [endpoint method](./endpoints-and-middleware). 
 
-In additional to sending the email, `sendEmail` formats a HTML email based on the text and links you're sending. This can be changed, as discussed below.
+In addition to sending the email, `sendEmail` formats an HTML email based on the text and links you're sending. This can be changed, as discussed below.
 
 ```js
 

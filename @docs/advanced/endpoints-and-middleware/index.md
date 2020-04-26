@@ -5,7 +5,7 @@ description: Guide for creating and working with server endpoints and middleware
 
 # Endpoints and Middleware
 
-Endpoints and middleware are the primary mechanism for performing "trusted" transactions in any app.
+Endpoints and middleware are the primary mechanisms for performing "trusted" transactions in any app.
 
 For example, any direct database transaction must happen in an endpoint.
 
@@ -44,7 +44,7 @@ const result = await endpointRequest({
 // hello world
 ```
 
-The above is a simple example, but in practice endpoints are primarily used for performing custom queries on the [database](./database) or using APIs for trusted transactions (e.g. Stripe transactions, sending email, etc..).
+The above is a simple example, but in practice, endpoints are primarily used for performing custom queries on the [database](./database) or using APIs for trusted transactions (e.g. Stripe transactions, sending email, etc..).
 
 ## Bearer (Authentication)
 
@@ -99,4 +99,4 @@ addMiddleware({
 })
 ```
 
-With the above middleware, at the route `/_example` your server will output "did something" instead of show a standard 404 message.
+With the above middleware, at the route `/_example`, your server will output "did something" instead of showing a standard 404 message.
