@@ -37,6 +37,18 @@ ol {
     -webkit-font-smoothing: initial;
     -moz-osx-font-smoothing: initial;
   }
+
+  // header anchors
+  .header-anchor {
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  &:hover {
+    .header-anchor {
+      opacity: 1;
+    }
+  }
 }
 
 h1,

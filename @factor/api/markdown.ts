@@ -13,9 +13,10 @@ let markdownUtility: MarkdownIt
 
 interface MarkdownRenderOptions {
   variables?: boolean
+  permalink?: true
 }
 
-const getMarkdownUtility = (): MarkdownIt => {
+const getMarkdownUtility = (options: MarkdownRenderOptions = {}): MarkdownIt => {
   if (!markdownUtility) {
     markdownUtility = MarkdownIt({
       html: true,
@@ -24,7 +25,11 @@ const getMarkdownUtility = (): MarkdownIt => {
       breaks: true,
     })
 
-    markdownUtility.use(mdAnchor, { slugify })
+    markdownUtility.use(mdAnchor, {
+      slugify,
+      permalink: options.permalink ?? false,
+      permalinkSymbol: "#",
+    })
     markdownUtility.use(mdVideo)
 
     markdownUtility.use(mdLinkAttributes)
@@ -45,7 +50,7 @@ const getMarkdownUtility = (): MarkdownIt => {
  * @param options.variables - does the markdown support variables?
  */
 export const renderMarkdown = (content = "", options?: MarkdownRenderOptions): string => {
-  const util = getMarkdownUtility()
+  const util = getMarkdownUtility(options)
 
   if (typeof content !== "string") {
     return ""

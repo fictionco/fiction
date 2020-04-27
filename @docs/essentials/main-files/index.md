@@ -3,7 +3,7 @@ title: Main Files
 description: Main files are the controller files for your Factor app. Learn how to load and use them.
 ---
 
-## Main Files
+# Main Files
 
 Main files are the controller files for Factor apps and extensions. Use main files to coordinate and add functionality such as routes, callbacks, event handling, etc.
 

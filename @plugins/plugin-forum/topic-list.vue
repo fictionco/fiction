@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-if="breadcrumb" class="breadcrumb">
-      <div v-formatted-text="breadcrumb" class="notification" />
+      <h1 v-formatted-text="breadcrumb" class="notification" />
     </div>
     <div class="list-items">
       <template v-if="posts.length > 0">

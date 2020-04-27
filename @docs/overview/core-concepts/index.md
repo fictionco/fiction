@@ -1,19 +1,19 @@
 ---
 title: Core Concepts, Goals and Philosophy
-description: What is Factor and why is it useful? Learn how it solves common development problems and how it compares to alternative approaches.
+description: Learn the core concepts, goals, and philosophy behind Factor platform.
 sub: true
 ---
 
 # Core Concepts
 
-If you want to build a solid app or website that will stand the test of time; than you better do your homework. Here we'll walk through some of the problems we've encountered and explain the design choices that make Factor ideal to solve them.
+If you want to build a solid app then you better do your homework. Here we'll walk through some of the problems we've encountered and explain the design choices that make Factor ideal to solve them.
 
 ## Problems and Solutions
 
 ### Working Across Environments (Portability)
 
 **Problem**
-Today, the most common CMS structure&mdash;used by tools like WordPress, Drupal, Ghost, etc.&mdash; is to combine everything together into one giant "monolith." That means the code for your your database, image storage, email, app all live together in the same install.
+The most common CMS structure&mdash;used by tools like WordPress, Drupal, Ghost, etc.&mdash; is to combine everything together into one giant "monolith." That means the code for your your database, image storage, email, app all live together in the same install.
 
 While this may have certain advantages, there is one massive problem that arises: _you can't work easily across environments_. In other words, your development work and production work are always going to be different. This leads to challenges because things that work locally, might break when you push to production.
 
@@ -29,14 +29,14 @@ Factor follows the [12 Factor App methodology](https://12factor.net) which outli
 **Problem**
 The ability of your application to "scale" is important, not necessarily because you'll be pushing millions of page views, but also because this directly correlates to the cost of running your app.
 
-Many server-rendered CMS' and frameworks are notoriously hard to scale. With WordPress, for example, there are 100s of blogs dedicated just to this subject.
+Many server-rendered CMS' and frameworks are hard to scale. With WordPress, for example, there are 100s of sites and business dedicated to this subject.
 
-The reason for is because they re-render everything whenever someone loads a page. This can be solved somewhat by caching but becomes very challenging when you want to deliver user specific content.
+The reason is because they re-render everything whenever someone loads a page. This can be solved somewhat by caching but becomes challenging when you want to deliver user specific content.
 
 **Solution**
 Factor handles authentication fully in the user's browser (instead of a session on your server). This means all routes are served with the same content.
 
-When you serve the same content to everyone, it's easily cached and therefore cheap to scale.
+When you serve the same content to everyone, it's easily cached and cheap to scale.
 
 ### Extensibility in JavaScript Apps
 
