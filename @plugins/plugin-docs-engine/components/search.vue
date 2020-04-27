@@ -39,9 +39,6 @@ export default Vue.extend({
 
 <style lang="less">
 .search-area {
-  max-width: 400px;
-  font-size: 1.3em;
-
   position: relative;
   .factor-icon {
     position: absolute;
@@ -51,21 +48,65 @@ export default Vue.extend({
     color: var(--color-placeholder);
     z-index: 10;
   }
+
   input[type="search"] {
-    letter-spacing: -0.03em;
-    box-shadow: var(--panel-shadow);
-    border-radius: 2rem;
-    padding-left: 3.5rem;
+    border-radius: none;
+    box-shadow: none;
+
+    padding: 1em 1em 1em 3rem;
     background: #fff;
     transition: 0.2s all;
     &:focus {
       outline: none;
-      background: rgba(0, 43, 93, 0.03);
     }
+  }
+  .algolia-autocomplete {
+    display: block !important;
   }
   .algolia-autocomplete .ds-dropdown-menu {
     font-size: 1rem;
     box-shadow: var(--dropdown-shadow);
+
+    display: block;
+    @media (max-width: 700px) {
+      min-width: 350px;
+      max-width: calc(~"100%-2em");
+    }
+  }
+  .algolia-docsearch-footer {
+    opacity: 0.15;
+  }
+
+  .algolia-docsearch-suggestion {
+    [class^="algolia-docsearch-suggestion--"] {
+      color: var(--color-text);
+    }
+    div.algolia-docsearch-suggestion--wrapper {
+      margin: 0.5rem 0;
+    }
+
+    div.algolia-docsearch-suggestion--subcategory-column {
+      display: block;
+      @media (max-width: 900px) {
+        float: none;
+      }
+
+      opacity: 1;
+      > span {
+        color: var(--color-text-secondary);
+      }
+      &::after {
+        opacity: 0;
+      }
+    }
+    .algolia-docsearch-suggestion--title {
+      color: var(--color-text);
+    }
+    .algolia-docsearch-suggestion--text {
+      .algolia-docsearch-suggestion--highlight {
+        box-shadow: inset 0 -2px 0 var(--color-primary);
+      }
+    }
   }
 }
 </style>

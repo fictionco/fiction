@@ -255,7 +255,7 @@ export default {
       this.clearConsole()
 
       // Wait for transition (and hopefully renderer to be ready)
-      await waitFor(500)
+      await waitFor(750)
 
       // Update reload counter
       this.updateReloadItems()

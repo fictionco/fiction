@@ -2,6 +2,10 @@
   <div class="docs-engine-wrap">
     <div class="sidebar-area">
       <div class="sidebar-wrap">
+        <div class="search-panel">
+          <doc-search />
+        </div>
+
         <div class="sidebar-toggle">
           <factor-btn
             btn="default"
@@ -13,6 +17,7 @@
             <span class="text">Docs</span>
           </factor-btn>
         </div>
+
         <div class="sidebar" :class="vis ? 'show-mobile' : 'standard'">
           <div class="nav-wrap">
             <div class="nav">
@@ -63,6 +68,7 @@ export default Vue.extend({
     factorIcon,
     factorBtn,
     mobileToggle: () => import("./mobile-toggle.vue"),
+    docSearch: () => import("./search.vue"),
   },
   // Injected components wont load metaInfo
   metaInfo: {
@@ -156,7 +162,19 @@ export default Vue.extend({
     min-height: 50vh;
     min-width: 0;
   }
+  .search-panel {
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    .search-area {
+      width: 300px;
+      @media (max-width: 900px) {
+        width: 100%;
+      }
+    }
+  }
   .sidebar-area {
+    z-index: 200;
     position: relative;
     border-top: 1px solid var(--color-border);
     border-right: 1px solid var(--color-border);

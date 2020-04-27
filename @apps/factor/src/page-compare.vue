@@ -7,7 +7,7 @@
             <h1 class="title">A Modern Alternative to WordPress</h1>
             <div class="subtitle">Created for perfectionists with deadlines.</div>
             <div class="actions">
-              <factor-link path="/docs/quickstart" btn="primary" size="large">
+              <factor-link path="/docs/installation" btn="primary" size="large">
                 Start Your Web App
                 <em class="fa fa-arrow-right" />
               </factor-link>
@@ -29,21 +29,9 @@
     <section class="graphic-splash">
       <div class="mast">
         <div class="splash-wrap">
-          <img
-            class="theme-ultra"
-            :src="require(`./img/theme-ultra.jpg`)"
-            alt="Theme Ultra"
-          />
-          <img
-            class="dashboard"
-            :src="require(`./img/dashboard.svg`)"
-            alt="Factor Dashboard"
-          />
-          <img
-            class="theme-alpha"
-            :src="require(`./img/theme-alpha.jpg`)"
-            alt="Theme Alpha"
-          />
+          <img class="theme-ultra" :src="require(`./img/theme-ultra.jpg`)" alt="Theme Ultra" />
+          <img class="dashboard" :src="require(`./img/dashboard.svg`)" alt="Factor Dashboard" />
+          <img class="theme-alpha" :src="require(`./img/theme-alpha.jpg`)" alt="Theme Alpha" />
         </div>
       </div>
     </section>
@@ -111,10 +99,7 @@
           </div>
           <div id="column4" class="column">
             <span class="img-wrap">
-              <img
-                :src="require(`./img/js-frameworks.svg`)"
-                alt="JavaScript frameworks"
-              />
+              <img :src="require(`./img/js-frameworks.svg`)" alt="JavaScript frameworks" />
             </span>
             <span>
               <factor-icon icon="fas fa-close" />

@@ -184,7 +184,7 @@ export default Vue.extend({
       const text = [].slice
         .call(h.childNodes)
         .map(function (node: ChildNode) {
-          return node.textContent
+          return node.textContent?.replace("#", "") ?? ""
           // if (node.nodeType === Node.TEXT_NODE) {
           //   return node.nodeValue
           // } else if (["CODE", "SPAN"].includes(node.tagName)) {

@@ -9,29 +9,21 @@
               Learn how to ship professional Factor apps, build plugins, and create
               themes.
             </h3>
-            <div class="search-panel">
-              <doc-search />
-            </div>
           </div>
-          <div class="icon-figure">
-            <figure-icon icon="doc" class="main" color="white" />
+          <div class="icon-figure-stage">
+            <div class="icon-figure" :class="loaded ? 'loaded' : ''">
+              <figure-icon icon="doc" class="main" color="white" />
+              <figure-icon icon="doc" class="main" color="white" />
+              <figure-icon icon="doc" class="main" color="white" />
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="docs-groups-area docs-content-area">
       <div class="docs-groups">
-        <factor-link
-          v-for="(group, i) in boxes"
-          :key="i"
-          class="doc-group"
-          :path="group.path"
-        >
-          <figure-icon
-            :icon="group.boxIcon || 'apps'"
-            class="group-icon"
-            color="primary"
-          />
+        <factor-link v-for="(group, i) in boxes" :key="i" class="doc-group" :path="group.path">
+          <figure-icon :icon="group.boxIcon || 'apps'" class="group-icon" color="primary" />
           <div class="group-text">
             <div class="group-title">{{ group.title }}</div>
             <div class="group-description">{{ group.description }}</div>
@@ -61,6 +53,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      loaded: false,
       selectedGroup: "",
       nav: setting("docsEngine.nav"),
     }
@@ -81,6 +74,11 @@ export default Vue.extend({
           return _
         })
     },
+  },
+  mounted(this: any) {
+    setTimeout(() => {
+      this.loaded = true
+    }, 100)
   },
   metaInfo: {
     title: "Docs",
@@ -121,17 +119,40 @@ export default Vue.extend({
       grid-template-columns: 1fr 8em;
 
       grid-gap: 10rem;
-
+      padding: 6rem 3rem;
+      .icon-figure-stage {
+        transform: translate(2rem, 3rem);
+      }
       .icon-figure {
-        margin-bottom: 1rem;
-        text-align: right;
+        margin-bottom: 1.5rem;
+        perspective: 800px;
+        height: 6rem;
+        transform: rotateY(-14deg);
+        transform-style: preserve-3d;
+        opacity: 1;
+
+        //transition: 3s all cubic-bezier(0.165, 0.84, 0.44, 1);
+
         .docs-figure-icon {
+          transform: rotateZ(20deg) rotateX(15deg);
+          opacity: 0.1;
+          &:nth-child(2) {
+            z-index: 10;
+            opacity: 0.4;
+            transform: rotateZ(5deg) rotateX(15deg) translateZ(6em);
+          }
+          &:nth-child(3) {
+            z-index: 30;
+            opacity: 1;
+            transform: rotate(-5deg) rotateX(15deg) translateZ(12em);
+          }
+          position: absolute;
+
           border-radius: 6px;
           padding: 1rem;
-          box-shadow: var(--panel-shadow);
 
-          width: 4rem;
-          height: 4rem;
+          width: 6rem;
+          height: 6rem;
           background: var(--color-primary);
         }
       }
@@ -199,7 +220,7 @@ export default Vue.extend({
         height: 2rem;
       }
       .group-title {
-        font-size: 1.2em;
+        font-size: 1.5em;
         line-height: 1.1;
         font-weight: var(--font-weight-bold, 700);
         margin-bottom: 0.5rem;

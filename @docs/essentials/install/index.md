@@ -131,7 +131,7 @@ DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrit
 
 ### Auth
 
-Once you're database is setup, setting up your users, admins and auth is just a couple more steps. Check out the document on [users and auth](./users-and-auth).
+Once you're database is setup, setting up your users, admins and auth is just a couple more steps. Check out the document on [users and auth](./users-and-roles).
 
 ### Image Storage
 
