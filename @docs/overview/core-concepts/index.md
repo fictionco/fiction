@@ -82,11 +82,11 @@ Server-rendering (SSR) is not obsolete, however it is difficult to implement. Si
 
 #### Overview
 
-In designing Factor it became necessary to make opinionated choices around key elements in the technology stack. Aside from the requirement that all technology is open-source, there are some nuanced reason for the decisions made; here is the reasoning:
+In designing Factor it became necessary to make opinionated choices around key elements in the technology stack. Aside from the requirement that all technology is open-source, there are some nuances to the decisions made.
 
 ### Vue
 
-As a core UI framework, Factor uses Vue exclusively. We made this decision for the following reasons:
+As a core JavaScript UI framework, Factor uses Vue. This decision was made for the following reasons:
 
 - **Fully featured and carefully implemented codebase.** Evan You the creator of Vue clearly works hard to craft a well designed framework that will stand the test of time.
 - **No corporate bias.**
@@ -97,7 +97,7 @@ As a core UI framework, Factor uses Vue exclusively. We made this decision for t
 
 ### MongoDB
 
-Factor requires a MongoDB/Mongoose compatible API for the database:
+Factor requires a MongoDB/Mongoose compatible database:
 
 - **JavaScript Oriented** MongoDB is designed from the beginning for JSON and is easy to work with in modern applications.
 - **Simple setup.** SQL databases are highly technical to manage and setup. In contrast, MongoDB is very easy to work with. All that's needed to create your DB is a working install and a "connection string" to get a DB working.
