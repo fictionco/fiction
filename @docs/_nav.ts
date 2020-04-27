@@ -124,6 +124,7 @@ export default [
   {
     title: "Advanced",
     description: "Building advanced apps and extensions",
+    boxIcon: "settings",
     items: [
       {
         title: "Filters, Callbacks, Events",
@@ -200,6 +201,7 @@ export default [
   {
     title: "API",
     description: "Reference the Factor APIs",
+    boxIcon: "doc",
     items: [
       {
         title: "CSS Variables",
@@ -224,6 +226,7 @@ export default [
   },
   {
     title: "Examples",
+    boxIcon: "example",
     description: "Example projects to help get you started",
     items: [
       {
@@ -235,7 +238,7 @@ export default [
   {
     title: "Integrations",
     description: "Using popular tools and services with Factor",
-    boxIcon: "quick",
+    boxIcon: "plugin",
     items: [
       {
         doc: "mongo-atlas",
