@@ -49,7 +49,6 @@ export default Vue.extend({
   components: {
     factorLink,
     figureIcon: () => import("./figure-icon.vue"),
-    docSearch: () => import("./search.vue"),
   },
   data() {
     return {
@@ -117,10 +116,11 @@ export default Vue.extend({
 
       display: grid;
       grid-template-columns: 1fr 8em;
-
+      grid-template-areas: "a b";
       grid-gap: 10rem;
       padding: 6rem 3rem;
       .icon-figure-stage {
+        grid-area: b;
         transform: translate(2rem, 3rem);
       }
       .icon-figure {
@@ -159,13 +159,16 @@ export default Vue.extend({
 
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+        grid-template-areas: "b" "a";
         grid-gap: 2rem;
-        .icon-figure {
-          display: none;
+        padding: 1rem;
+        .icon-figure-stage {
+          transform: translate(2rem, 2rem) scale(0.7);
         }
       }
 
       .title-panel {
+        grid-area: a;
         letter-spacing: -0.03em;
 
         border-radius: 7px;

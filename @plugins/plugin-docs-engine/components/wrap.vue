@@ -14,7 +14,7 @@
             @click.stop="toggleNav()"
           >
             <mobile-toggle :active="vis" />
-            <span class="text">Docs</span>
+            <span class="text">Docs Menu</span>
           </factor-btn>
         </div>
 
