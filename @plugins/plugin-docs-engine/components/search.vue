@@ -10,15 +10,13 @@ import Vue from "vue"
 import { factorIcon } from "@factor/ui"
 export default Vue.extend({
   components: { factorIcon },
-  mounted() {
-    if (window && window.docsearch) {
-      window.docsearch({
-        apiKey: "253dead4ff72565d38ab60b5689eaa94",
-        indexName: "fiction-com_factor",
-        inputSelector: ".doc-search",
-        debug: false, // Set debug to true if you want to inspect the dropdown
-      })
+  data() {
+    return {
+      tries: 0,
     }
+  },
+  mounted() {
+    this.setSearch()
   },
   metaInfo: {
     link: [
@@ -33,6 +31,24 @@ export default Vue.extend({
         src: "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js",
       },
     ],
+  },
+  methods: {
+    setSearch(this: any) {
+      if (window && window.docsearch) {
+        this.tries = 0
+        window.docsearch({
+          apiKey: "253dead4ff72565d38ab60b5689eaa94",
+          indexName: "fiction-com_factor",
+          inputSelector: ".doc-search",
+          debug: false, // Set debug to true if you want to inspect the dropdown
+        })
+      } else if (this.tries < 5) {
+        setTimeout(() => {
+          this.tries++
+          this.setSearch()
+        }, 50)
+      }
+    },
   },
 })
 </script>
