@@ -55,7 +55,9 @@ We recommend you add your admin user's email addresses in your configuration as 
 
 ### Main File Loading
 
-Main file loading is discusses at length in the document on [main files](./main-files)
+Main files are where you run your business code or hook into the rest of Factor.
+
+Main file loading is discussed in the doc on [main files](./main-files).
 
 ```json
 // package.json
