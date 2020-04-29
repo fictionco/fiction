@@ -123,7 +123,7 @@ export const getSinglePost = async (
   // If ID is available, first look for it.
   if (_id) {
     _post = await Model.findById(_id)
-  } else if (conditions) {
+  } else if (conditions && Object.keys(conditions).length > 0) {
     _post = await Model.findOne(conditions)
   }
 
