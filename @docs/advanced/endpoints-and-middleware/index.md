@@ -48,9 +48,9 @@ The above is a simple example, but in practice, endpoints are primarily used for
 
 ## Bearer (Authentication)
 
-Since the Factor server doesn't know about the authentication state of users, endpoint requests using `endpointRequest` are sent with a `Authorization` header. This header is the token discussed in [authentication](./authentication) document.
+Since the Factor server doesn't know about the authentication state of users, endpoint requests using `endpointRequest` are sent with an `Authorization` header. This header is the token discussed in [authentication](./authentication) document.
 
-On the server, this token is securely decoded to the user and passed along to all endpoint functions as the `bearer`. Any secure operations on the server should verify that the bearer user has the needed privileges and information to perform the action.
+On the server, this token is securely decoded to the user and passed along to all endpoint functions as the `bearer`. Any secure operations on the server should verify that the bearer user has the needed privileges and information to act.
 
 ```js
 // Endpoint method on server

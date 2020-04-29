@@ -5,7 +5,7 @@ description: Learn how to customize plugins, themes and Factor core with setting
 
 # Settings
 
-When using plugins or themes, you'll often want to make customizations to text, layout and more. To make this as easy as possible, Factor provides a simple file-based system `factor-settings`.
+When using plugins or themes, you'll often want to make customizations to text, layout, and more. To make this as easy as possible, Factor provides a simple file-based system `factor-settings`.
 
 ## Settings in Factor
 

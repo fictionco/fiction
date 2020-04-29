@@ -2,11 +2,10 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Ship powerful web apps in minutes.</h1>
-        <h3 class="page-title-sub">
-          <span class="highlight">Factor</span> is the JavaScript CMS platform for web
-          professionals.
-        </h3>
+        <h1 class="page-title">The JavaScript CMS</h1>
+        <h3
+          class="page-title-sub"
+        >A professional JavaScript platform for dynamic, code-first web applications.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
@@ -49,7 +48,7 @@ export default Vue.extend({
 
   .splash-inner {
     display: grid;
-    grid-template-columns: 40% minmax(40%, 1fr);
+    grid-template-columns: 1fr 1fr;
     grid-gap: 4em;
     padding: 6rem 3rem 3rem;
     align-items: center;
@@ -67,35 +66,39 @@ export default Vue.extend({
       min-width: 0;
     }
     .content {
-      max-width: 435px;
+      max-width: 550px;
       justify-self: flex-end;
+
       h1 {
         z-index: 5;
         position: relative;
       }
 
+      .page-sup {
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--color-text-secondary);
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
       .page-title,
       .page-title-sub {
         letter-spacing: -0.035em;
       }
 
       .page-title {
-        font-size: 3.3em;
-        letter-spacing: -0.025em;
+        font-size: 4em;
+        letter-spacing: -0.035em;
         line-height: 1.1;
         font-weight: 700;
         margin-bottom: 1rem;
-
-        @media (max-width: 900px) {
-          font-size: 4em;
-        }
       }
 
       .page-title-sub {
         margin-top: 2rem;
-        font-size: 2em;
+        font-size: 2.2em;
         font-weight: 400;
-        color: #8ba8bf;
+        color: var(--color-text-secondary);
         .highlight {
           color: #5c84a4;
         }
@@ -112,6 +115,20 @@ export default Vue.extend({
 
       .sub-actions {
         margin-top: 1.5rem;
+      }
+
+      @media (max-width: 1200px) {
+        max-width: 450px;
+        .page-title {
+          font-size: 3em;
+        }
+        .page-title-sub {
+          font-size: 1.5em;
+        }
+
+        .actions {
+          font-size: 1.1em;
+        }
       }
 
       @media (max-width: 900px) {

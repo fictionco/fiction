@@ -1,11 +1,11 @@
 ---
-title: Plugin API - Filters, Callbacks and Events
+title: Plugin API - Filters, Callbacks, and Events
 description: The plugin API allows you to interact with Factor core from apps, plugins and themes.
 ---
 
-# Filters, Callbacks and Events
+# Filters, Callbacks, and Events
 
-Hooks, also known as "filters", "callbacks" and "events" are provided by Factor to allow you to 'hook into' the rest of Factor. Allowing you to call functions or manipulate data in your code at specific times. There are three kinds of hooks:
+Hooks, also known as "filters", "callbacks", and "events" are provided by Factor to allow you to 'hook into' the rest of Factor. Allowing you to call functions or manipulate data in your code at specific times. There are three kinds of hooks:
 
 - **Filters** - Change or add to data used in other parts of Factor
 - **Callbacks** - Trigger and await functions at specific times
@@ -48,7 +48,7 @@ const data = applyFilters("my-example-hook", { defaultData: "Hi" })
 
 ### pushToFilter
 
-There is an additional utility function that saves some boiler plate if you're just adding something to an array `pushToFilter`.
+There is an additional utility function that saves some boiler-plate if you're just adding something to an array `pushToFilter`.
 
 ```js
 import { applyFilters, pushToFilter } from "@factor/api"

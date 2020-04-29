@@ -5,15 +5,15 @@ description: Reference for the schema API
 
 # Post Types
 
-You can create new post types for use creating advanced functionality like blogs, forums, job listings, etc. In this document we'll walk through the basic steps. 
+You can create new post types for use creating advanced functionality like blogs, forums, job listings, etc. In this guide, we'll walk through the basic steps.
 
 ## Base Post Type
 
-All post types are built on a base post type schema called simply `post`. 
+All post types are built on a base post type schema called simply `post`.
 
-This post type includes functionality that is common to most post use cases. For example, it adds `title`, `content`, `tag`, and `category` fields.  
+This post type includes functionality that is common to most post use cases. For example, it adds `title`, `content`, `tag`, and `category` fields.
 
-It also adds [indexes](https://mongoosejs.com/docs/guide.html#indexes) for common queries. Examples of default indexes are: 
+It also adds [indexes](https://mongoosejs.com/docs/guide.html#indexes) for common queries. Examples of default indexes are:
 
 - Text search on `title` and `content` fields
 - Unique index on `permalink`
@@ -48,20 +48,21 @@ const schemaDefinition = {
   status: String,
   // Allow plugins to set a custom UniqueId
   uniqueId: String, // must be unique
-  permalink: String // must be unique
+  permalink: String, // must be unique
 }
 ```
+
 ## Adding A Post Type
 
-To add a post type, all that is needed is the `addPostType` function: 
+To add a post type, all that is needed is the `addPostType` function:
 
 ```js
-import {addPostType} from "@factor/api"
+import { addPostType } from "@factor/api"
 
 addPostType({
-  postType: "myPostType", 
+  postType: "myPostType",
   // ... other options
-}) 
+})
 ```
 
 For all post type features to work correctly this function needs to be run in both the app and server environments. So make sure to address this with your [main files](./main-files); for example a load configuration of `load: ['app', 'server']`.
@@ -72,72 +73,73 @@ There are many available options available when creating new post types, let's w
 
 ## Post Type Management Options
 
-You can control the dashboard management features with the following options: 
+You can control the dashboard management features with the following options:
 
 ```js
-import {addPostType} from "@factor/api"
+import { addPostType } from "@factor/api"
 
-import icon from './my-icon.svg'
+import icon from "./my-icon.svg"
 
 addPostType({
-  postType: "myPostType", 
+  postType: "myPostType",
   managePosts: true, // Enable dashboard menu
   icon, // Dashboard icon
   nameIndex: "Users", // Contextual references
   nameSingle: "User",
   namePlural: "Users",
   accessLevel: 500, // accessLevel needed to see dashboard menu
-  noAddNew: true, // hide "add new" 
+  noAddNew: true, // hide "add new"
   addNewText: "Create User", // change add new text
   listTemplate: () => import("./v-list.vue"), // override post listing component
   editTemplate: () => import("./v-edit.vue"), // override post edit component
-}) 
+})
 ```
 
 ## Post Type Permalinks
 
-You can control the post type permalinks when you set up the post type. 
+You can control the post type permalinks when you set up the post type.
 
 This doesn't create the route however it just allows you to use `postLink` ([doc](./links)) and get the desired link. You'll also need to[ create the routes and handling](./routes) to make the post show correctly on that page.
 
 ```js
-import {addPostType, slugify} from "@factor/api"
- 
+import { addPostType, slugify } from "@factor/api"
+
 addPostType({
-  postType: "myPostType", 
+  postType: "myPostType",
   permalink: (post) => {
     return `/my-post-type/${post._id}/${slugify(post.title)}`
   },
-}) 
+})
 ```
 
 If you want to allow permalinks to be set in the dashboard:
 
 ```js
-import {addPostType} from "@factor/api"
- 
+import { addPostType } from "@factor/api"
+
 addPostType({
-  postType: "myPostType", 
+  postType: "myPostType",
   customPermalink: true, // Allow permalink option on post edit
   permalink: (post) => {
-    return `/my-post-type/${post.permalink}` 
+    return `/my-post-type/${post.permalink}`
   },
-}) 
+})
 ```
 
 ## Create Structure with Post Schema Options
 
-### Schema Definition 
+### Schema Definition
 
 Schemas are to help organize the handling of post data on your server. Create a custom schema to add new properties or to change the base post definition.
 
-The `schemaDefinition` options is used to add a [Mongoose schema](https://mongoosejs.com/docs/guide.html) definition to your post type and extend the base post schema.
+The `schemaDefinition` options are used to add a [Mongoose schema](https://mongoosejs.com/docs/guide.html) definition to your post type and extend the base post schema.
 
-Post type creation also supports three additional options related to schemas: 
+Post type creation also supports three additional options related to schemas:
+
 - `schemaMiddleware` - Callback function for adding [Mongoose middleware](https://mongoosejs.com/docs/middleware.html) functions
 - `schemaOptions` - Add Mongoose [options](https://mongoosejs.com/docs/guide.html#options) to the schema
-- `schemaPopulated` - Defines which fields define IDs that should should be looked up and populated. It also supports a context value for controlling when population should occur (population is similar to a join in SQL).  
-  - **Context:** Defines the depth of population based on situation. 
+- `schemaPopulated` - Defines which fields define IDs that should be looked up and populated. It also supports a context value for controlling when population should occur (population is similar to a join in SQL).
+  - **Context:** Defines the depth of population based on situation.
     - `any` always populates
     - `list` populated on single post views and post listings
     - `single` only populate on single post views (e.g. specific content like images)
@@ -152,7 +154,7 @@ addPostType({
     bar: Buffer,
     baz: Number,
     buz: {ref: "anotherPostType", type: ObjectId}
-  }, 
+  },
   schemaMiddleware: Schema => {
     Schema.pre('save', function(){
       // add middleware
@@ -168,13 +170,15 @@ addPostType({
 // Add the schema to factor
 addPostSchema(mySchema)
 ```
+
 #### Notes
+
 - Populated fields are fields consisting of just `_id`'s or `objectId` that populate based on data in the original post (like a SQL join)
 - `ObjectId` is needed for Mongoose to property type check reference to other posts
 
 ## Security Permissions
 
-For database operations you need permissions to control access. Factor offers a basic system to control standard CRUD input and output.
+For database operations, you need permissions to control access. Factor offers a basic system to control standard CRUD input and output.
 
 The base post permissions schema looks like this:
 
@@ -216,33 +220,33 @@ export default {
 
 ## Template Settings
 
-If you would like to allow users to set meta information on each post, there is a way to add template options in post types using the [template settings API]('./template-settings'). 
+If you would like to allow users to set meta-information on each post, there is a way to add template options in post types using the [template settings API]('./template-settings').
 
 ```js
 addPostType({
-  postType: "portfolioItems", 
+  postType: "portfolioItems",
   templateSettings: [
-      {
-        _id: "items",
-        input: "sortable",
-        label: "Additional Work Info",
-        description: "Additional information about this project",
-        _default: [
-          { __title: "Client", value: "Client Name" },
-          { __title: "Role", value: "Role" },
-          { __title: "Year", value: new Date().getFullYear() },
-          { __title: "Platforms", value: "Web" },
-          { __title: "URL", value: "https://www.example.com" },
-        ],
-        settings: [
-          {
-            input: "text",
-            label: "Value",
-            _id: "value",
-          },
-        ],
-      },
-    ]
+    {
+      _id: "items",
+      input: "sortable",
+      label: "Additional Work Info",
+      description: "Additional information about this project",
+      _default: [
+        { __title: "Client", value: "Client Name" },
+        { __title: "Role", value: "Role" },
+        { __title: "Year", value: new Date().getFullYear() },
+        { __title: "Platforms", value: "Web" },
+        { __title: "URL", value: "https://www.example.com" },
+      ],
+      settings: [
+        {
+          input: "text",
+          label: "Value",
+          _id: "value",
+        },
+      ],
+    },
+  ],
 })
 ```
 
@@ -254,8 +258,8 @@ If you would like to indicate that posts are public and meant to be added to the
 
 ```js
 addPostType({
-  postType: "portfolioItems", 
-  addSitemap: true
+  postType: "portfolioItems",
+  addSitemap: true,
 })
 ```
 

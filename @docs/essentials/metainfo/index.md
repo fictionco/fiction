@@ -5,11 +5,11 @@ description: Learn how to add metatags and metainfo to pages and components in F
 
 # Metainfo and Metatags
 
-For meta handling, Factor uses the [Vue Meta Plugin](https://github.com/nuxt/vue-meta). Which allows you to set meta information in the the source of your HTML. The features of this plugin are fully implemented on both the client and in SSR.
+For meta handling, Factor uses the [Vue Meta Plugin](https://github.com/nuxt/vue-meta). Which allows you to set meta information in the source of your HTML. The features of this plugin are fully implemented on both the client and in SSR.
 
 ## Vue Meta
 
-Factor fully implements [Vue Meta](https://vue-meta.nuxtjs.org/guide/), so all of it's docs apply to working with Factor's meta info.
+Factor's meta system implements [Vue Meta](https://vue-meta.nuxtjs.org/guide/), so use its docs for additional help working with Factor's meta info.
 
 **Features:**
 

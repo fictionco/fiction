@@ -21,8 +21,16 @@ export default Vue.extend({
   },
   metaInfo() {
     return {
-      titleTemplate: "%s - Factor",
+      titleTemplate: "%s - Factor JS",
       image: require("./static/og-image.jpg"),
+      link: [
+        {
+          vmid: "font",
+          rel: "stylesheet",
+          href:
+            "https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=swap",
+        },
+      ],
     }
   },
 })

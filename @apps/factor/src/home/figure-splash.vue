@@ -4,27 +4,11 @@
       <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
         <div class="stage-icons-wrap">
           <div class="stage-icons">
-            <img
-              src="./img/plugin-jobs.svg"
-              alt="Plugin Jobs"
-              class="flying-icon icon-1"
-            />
-            <img
-              src="./img/plugin-email.svg"
-              alt="Plugin Email"
-              class="flying-icon icon-2"
-            />
+            <img src="./img/plugin-jobs.svg" alt="Plugin Jobs" class="flying-icon icon-1" />
+            <img src="./img/plugin-email.svg" alt="Plugin Email" class="flying-icon icon-2" />
             <img src="./img/plugin-ssr.svg" alt="Plugin SSR" class="flying-icon icon-3" />
-            <img
-              src="./img/plugin-blog.svg"
-              alt="Plugin Blog"
-              class="flying-icon icon-4"
-            />
-            <img
-              src="./img/plugin-notify.svg"
-              alt="Plugin Notify"
-              class="flying-icon icon-5"
-            />
+            <img src="./img/plugin-blog.svg" alt="Plugin Blog" class="flying-icon icon-4" />
+            <img src="./img/plugin-notify.svg" alt="Plugin Notify" class="flying-icon icon-5" />
             <img
               src="./img/plugin-highlight-code.svg"
               alt="Plugin Highlight Code"
@@ -117,6 +101,7 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
+      return
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     },
@@ -130,8 +115,8 @@ figure.splash-figure-container {
 
   .figure-wrap {
     margin: 0 auto;
-    width: 900px;
-    height: 600px;
+    width: 800px;
+    height: 500px;
     transform-origin: left center;
     @media (max-width: 1200px) {
       width: 600px;
@@ -214,7 +199,7 @@ figure.splash-figure-container {
       left: 0rem;
       animation: tabletTransform 1s 1 forwards;
       box-shadow: 0 5px 15px rgba(27, 34, 60, 0.1), 0 15px 35px rgba(27, 34, 60, 0.1),
-        0 50px 100px rgba(27, 34, 60, 0.1), 20px -20px 35px rgba(80, 102, 119, 0.15);
+        20px -20px 35px rgba(80, 102, 119, 0.15);
     }
     .pricing {
       max-width: 240px;
@@ -255,8 +240,8 @@ figure.splash-figure-container {
     .stage-icons {
       width: 100%;
       height: 100%;
-      perspective: 500px;
-      transform: translateX(-3em) rotateZ(-6deg);
+      perspective: 700px;
+      transform: translateX(-4em) rotate(-2.5deg);
     }
     .flying-icon {
       transform-origin: center;

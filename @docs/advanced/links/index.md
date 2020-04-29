@@ -1,5 +1,5 @@
 ---
-title: URLs, Links and Permalinks
+title: URLs, Links, and Permalinks
 description: Advanced URLs and link handling in Factor
 ---
 
@@ -22,7 +22,7 @@ const productionUrl = systemUrl("production") // https://factor.dev
 
 ## Getting Links for Posts
 
-If you're working with posts and you need to link to them, then use `postLink`. The only caveat for postLink to work correctly, is that the post needs to be loaded in the store before its use.
+If you're working with posts and you need to link to them, then use `postLink`. The only caveat for postLink to work correctly is that the post needs to be loaded in the store before its use.
 
 ```js
 import { postLink } from "@factor/api"

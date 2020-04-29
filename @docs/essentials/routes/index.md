@@ -53,7 +53,7 @@ addContentRoutes({
 })
 ```
 
-Notice that the route objects in both functions are just fed into the global [Vue Router](https://router.vuejs.org/) instance. The advantage they bring you however is modularity. You can now easily add routes from any file.
+Notice that the route objects in both functions are just fed into the global [Vue Router](https://router.vuejs.org/) instance. The advantage they bring you, however, is modularity. You can now easily add routes from any file.
 
 ## Using Routes in Components
 
