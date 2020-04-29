@@ -11,21 +11,11 @@ import { onEvent } from "@factor/api"
 export default Vue.extend({
   data() {
     return {
+      tries: 0,
       loading: true,
     }
   },
   mounted(this: any) {
-    if (window.Prism) {
-      this.prism = window.Prism
-
-      if (window.Prism.languages.bash) {
-        window.Prism.languages.bash = window.Prism.languages.extend("bash", {
-          variable: /\b(?:start|build|serve|dev|run|setup)\b/,
-          function: /\b(?:yarn|npx|npm)\b/,
-        })
-      }
-    }
-
     // Set page on load
     this.setPage()
 
@@ -71,9 +61,24 @@ export default Vue.extend({
   },
   methods: {
     setPage(this: any) {
-      if (this.prism && this.$refs.code) {
+      if (window.Prism && this.$refs.code) {
+        this.tries = 0
+        this.prism = window.Prism
+
+        if (this.prism.languages.bash) {
+          this.prism.languages.bash = this.prism.languages.extend("bash", {
+            variable: /\b(?:start|build|serve|dev|run|setup)\b/,
+            function: /\b(?:yarn|npx|npm)\b/,
+          })
+        }
+
         // wait til content is done rendering
         this.prism.highlightAllUnder(this.$refs.code)
+      } else if (this.tries < 5) {
+        setTimeout(() => {
+          this.tries++
+          this.setPage()
+        }, 50)
       }
     },
   },

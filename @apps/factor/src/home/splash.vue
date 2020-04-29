@@ -50,7 +50,7 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 4em;
-    padding: 6rem 3rem 3rem;
+    padding: 10rem 3rem 3rem;
     align-items: center;
 
     @media (min-height: 1000px) {

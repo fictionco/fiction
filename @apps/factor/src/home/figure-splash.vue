@@ -61,7 +61,7 @@ export default Vue.extend({
         { id: "code", caption: "Built for Web Professionals" },
       ],
       timer: false,
-      animationInterval: 5000,
+      animationInterval: 10000,
     }
   },
   computed: {
@@ -101,7 +101,6 @@ export default Vue.extend({
     },
 
     runTimer(this: any) {
-      return
       clearTimeout(this.timer)
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     },
