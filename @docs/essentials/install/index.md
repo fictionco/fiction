@@ -35,7 +35,7 @@ _or with Yarn:_
 yarn create factor-app <folder-name>
 ```
 
-Once launched, it walk you through the next steps.
+Once launched, it will walk you through the next steps.
 
 Once the utility has finished setting up your project, all you need to do from here is run your development server.
 
@@ -131,11 +131,11 @@ DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrit
 
 ### Auth
 
-Once you're database is setup, setting up your users, admins and auth is just a couple more steps. Check out the document on [users and auth](./users-and-roles).
+Once you're database is setup, setting up your users, admins, and auth is just a couple more steps. Check out the document on [users and auth](./users-and-roles).
 
 ### Image Storage
 
-You'll need somewhere store images uploaded through Factor. For this we recommend an external image storage service that cleanly decouples your app from your images.
+You'll need somewhere store images uploaded through Factor. For this we recommend an external image storage service that cleanly separates your app from your images.
 
 > **Recommendation**
 > Amazon/AWS S3 [Integration Tutorial](./amazon-s3)

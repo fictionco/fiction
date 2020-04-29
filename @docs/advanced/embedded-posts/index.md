@@ -5,11 +5,9 @@ description: Working with embedded post documents
 
 # Embedded Posts
 
-In some cases it isn't practical to create new posts for every data item needed. Examples of this are comments or chat messages where items easily grow into the thousands for a single post.
+In some cases it isn't practical to create new posts for every data item needed. Examples of this are comments or chat messages where messages easily grow into the thousands.
 
-With situations like this, it's easier and more practical to use embedded posts. What are embedded posts? Just posts within posts.
-
-As an example, since comments are always tied to a "parent" post, embedded post are perfectly suited to handle this problem.
+In situations like this, it's easier and more practical to use embedded posts. What are embedded posts? Just posts within posts.
 
 Factor has a tool to help you with embedded posts that is built on the post system.
 

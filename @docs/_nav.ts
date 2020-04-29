@@ -183,6 +183,10 @@ export default [
         doc: "markdown",
         file: (): Promise<string> => import("./advanced/markdown/index.md"),
       },
+      {
+        doc: "extending-webpack",
+        file: (): Promise<string> => import("./advanced/extending-webpack/index.md"),
+      },
       // {
       //   doc: "writing-a-plugin",
       //   file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),

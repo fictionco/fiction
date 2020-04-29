@@ -29,9 +29,9 @@ Factor follows the [12 Factor App methodology](https://12factor.net) which outli
 **Problem**
 The ability of your application to "scale" is important, not necessarily because you'll be pushing millions of page views, but also because this directly correlates to the cost of running your app.
 
-Many server-rendered CMS' and frameworks are hard to scale. With WordPress, for example, there are 100s of sites and business dedicated to this subject.
+Many server-rendered CMS' and frameworks are hard to scale. With WordPress, for example, there are 100s of sites and businesses dedicated to this subject.
 
-The reason is because they re-render everything whenever someone loads a page. This can be solved somewhat by caching but becomes challenging when you want to deliver user specific content.
+The reason is because they re-render everything whenever someone loads a page. This can be solved somewhat by caching but becomes challenging when you want to deliver user-specific content.
 
 **Solution**
 Factor handles authentication fully in the user's browser (instead of a session on your server). This means all routes are served with the same content.
@@ -46,7 +46,7 @@ JavaScript frameworks are nice for easily getting started with a basic structure
 This works well for certain use cases. But in the case of extension, it means that plugins and themes can only do so much.
 
 **Solution**
-As opposed to JS frameworks, with older CMS' they learned that when you standardize of the entire application stack, as well as data and management, then plugins can do way more.
+As opposed to JS frameworks, with older CMS' they learned that when you standardize the entire stack and data model then plugins can do way more.
 
 In Factor, we've taken this idea and carefully selected open-source technologies to standardize a stack that can be easily extended.
 
@@ -65,7 +65,7 @@ It also comes with added benefits like server side rendering, instant editing (n
 ### Avoiding Full-Stack Complication
 
 **Problem**
-Most full stack applications are a compilation of dozens of technologies which sometimes don't work well together. This commonly leads to high cognitive costs when switching between environments and tools.
+Most full-stack applications are a compilation of dozens of technologies which sometimes don't work well together. This commonly leads to high cognitive costs when switching between environments and tools.
 
 **Solution**
 Factor approaches this problem by first using JavaScript related technologies for everything; adding TypeScript for help with stability on the backend. From there, it creates a synergy that is designed to make interacting with it feel like one cohesive structure.
@@ -76,19 +76,19 @@ Factor approaches this problem by first using JavaScript related technologies fo
 Most applications and websites consider search and sharing optimization paramount to their growth and success. Since search engines and scrapers have a hard time rendering JavaScript, this is a challenge in many JS based approaches. Single-page applications (SPAs), don't render source so they have a notorious problem dealing with this (the source is same for all pages). This has led to the rise in static, but static sites always require build steps and APIs.
 
 **Solution**
-Server-rendering (SSR) is not obsolete, however it is difficult to implement. Since Factor already has a backend server, needed for endpoints, it was just one step further to provide robust SSR for all pages and routes.
+Server-rendering (SSR) is not obsolete; however, it is difficult to implement. Since Factor already has a backend server, needed for endpoints, it was just one step further to provide robust SSR for all pages and routes.
 
 ## Technology Choices
 
 #### Overview
 
-In designing Factor it became necessary to make opinionated choices around key elements in the technology stack. Aside from the requirement that all technology is open-source, there are some nuances to the decisions made.
+In designing Factor it became necessary to make opinionated choices around key elements in the technology stack.
 
 ### Vue
 
 As a core JavaScript UI framework, Factor uses Vue. This decision was made for the following reasons:
 
-- **Fully featured and carefully implemented codebase.** Evan You the creator of Vue clearly works hard to craft a well designed framework that will stand the test of time.
+- **Fully featured and carefully implemented codebase.** Evan You the creator of Vue clearly works hard to craft a well-designed framework that will stand the test of time.
 - **No corporate bias.**
   - All the competitive solutions suffer from some form of corporate bias which is largely the reason they are successful. In the case of Vue, it was successful purely because of its merits and quality.
   - Corporate bias can lead to [conflicts of interest](https://thenextweb.com/dd/2017/09/25/facebook-re-licenses-react-mit-license-developer-backlash/) in the direction and decisions regarding a platform.
@@ -116,4 +116,4 @@ Here are some key "rules" we follow in Factor:
   - Build new modules rather than add new features to old ones.
 - **The 12 Factor App** The [12 Factor App](https://12factor.net/) guideline discusses how to build apps that are scalable and portable; also, easy to develop. Factor leverages this philosophy.
 - **JavaScript and TypeScript Only** In the last years, the one language that has made the most progress is clearly JavaScript and it's type-safe buddy TypeScript. For that reason, Factor is focused on JS and JS oriented libraries. That way you only need to learn one key language and complementary tools.
-- **The value of open-source.** Working with proprietary technology often leads to risks and costs in the long term. We've found that open-source tech is not only free, but also reduces risk and encourages standardization of your app.
+- **The value of open-source.** Working with proprietary technology often leads to risks and costs in the long term. We've found that open-source tech is not only free but also reduces risk and encourages standardization of your app.
