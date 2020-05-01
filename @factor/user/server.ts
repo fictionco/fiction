@@ -93,7 +93,7 @@ export const createNewAdminUser = async (
 
   const user = await getUserModel().findById(createdUser._id)
 
-  if (user == null) throw new Error("User missing")
+  if (!user) throw new Error("User missing")
 
   if (user) {
     user.emailVerified = true

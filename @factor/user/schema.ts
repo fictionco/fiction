@@ -4,7 +4,7 @@ import { randomToken, slugify } from "@factor/api/utils"
 import { applyFilters } from "@factor/api/hooks"
 import bcrypt from "bcryptjs"
 import { HookNextFunction, Schema, Document, SchemaDefinition } from "mongoose"
-import { FactorSchema } from "@factor/post/types"
+
 import { objectIdType } from "@factor/post/object-id"
 import { FactorUser } from "./types"
 
@@ -115,20 +115,20 @@ export const schemaDefinition = (): SchemaDefinition => {
   })
 }
 
-export const userSchema = (): FactorSchema => {
-  return {
-    name: "user",
-    permissions: {
-      retrieve: { accessLevel: 0 },
-    },
-    populatedFields: applyFilters("user-populated-fields", [
-      { field: "covers", depth: 30 },
-    ]),
-    callback: schemaMiddleware,
-    schema: schemaDefinition(),
-    // options: {
-    //   toObject: { virtuals: true },
-    //   toJSON: { virtuals: true },
-    // },
-  }
-}
+// export const userSchema = (): FactorSchema => {
+//   return {
+//     name: "user",
+//     permissions: {
+//       retrieve: { accessLevel: 0 },
+//     },
+//     populatedFields: applyFilters("user-populated-fields", [
+//       { field: "covers", depth: 30 },
+//     ]),
+//     callback: schemaMiddleware,
+//     schema: schemaDefinition(),
+//     // options: {
+//     //   toObject: { virtuals: true },
+//     //   toJSON: { virtuals: true },
+//     // },
+//   }
+// }

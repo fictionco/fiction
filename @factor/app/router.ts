@@ -1,4 +1,4 @@
-import { applyFilters, runCallbacks, pushToFilter, addFilter } from "@factor/api/hooks"
+import { applyFilters, runCallbacks, addFilter } from "@factor/api/hooks"
 import { emitEvent } from "@factor/api/events"
 import Vue from "vue"
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
@@ -154,18 +154,41 @@ export const getRouter = (): VueRouter => {
 }
 
 /**
+ * Add routes to app
+ * Allows for in content or dashboard
+ */
+export const addRoutes = ({
+  key,
+  location = "content",
+  routes,
+}: {
+  key: string
+  location?: "content" | "dashboard" | "root"
+  routes: RouteConfig[] | (() => RouteConfig[])
+}): void => {
+  const hook = location == "root" ? "routes" : `${location}-routes`
+  addFilter({
+    hook,
+    key,
+    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
+      const r = typeof routes === "function" ? routes() : routes
+
+      return allRoutes.concat(r)
+    },
+  })
+}
+
+/**
  * Adds a route to the app.
  *
  * @param routeItem Standard Route Config
  * @param options Optional route options
  * @category app
  */
-export const addContentRoute = (routeItem: RouteConfig, options?: object): void => {
-  pushToFilter({
-    hook: "content-routes",
+export const addContentRoute = (routeItem: RouteConfig): void => {
+  addRoutes({
     key: `add-${routeItem.path}`,
-    item: routeItem,
-    ...options,
+    routes: [routeItem],
   })
 }
 
@@ -184,15 +207,7 @@ export const addContentRoutes = ({
   key: string
   routes: RouteConfig[] | (() => RouteConfig[])
 }): void => {
-  addFilter({
-    hook: "content-routes",
-    key,
-    callback: (allRoutes: RouteConfig[]): RouteConfig[] => {
-      const r = typeof routes === "function" ? routes() : routes
-
-      return allRoutes.concat(r)
-    },
-  })
+  addRoutes({ key, routes })
 }
 
 /**

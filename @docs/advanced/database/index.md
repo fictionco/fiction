@@ -34,11 +34,7 @@ This article is about understanding the raw Factor database and how to work with
 
 ## Optimize with Schemas and Indexes
 
-When you create a new post type it inherits the base post schema. However, in many cases, you might want to extend that schemas functionality with hooks, definitions, and privileges.
-
-To help make this easy, Factor has created a simple [Schema API](./schema-api) that simplifies and coordinates the loading of Mongoose [schemas](https://mongoosejs.com/docs/guide.html) and [models](https://mongoosejs.com/docs/models.html).
-
-[View schema API reference](./schema-api)
+When you create a new post type it inherits the base post schema. However, in many cases, you might want to extend that schemas functionality with hooks, definitions, and privileges. Learn about extending the base post when you define a [post type](./post-types).
 
 ## Query Directly with Mongoose Models
 

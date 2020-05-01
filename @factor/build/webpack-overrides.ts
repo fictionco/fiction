@@ -111,19 +111,19 @@ export const browserReplaceModule = (resource: WebpackResource): WebpackResource
 /**
  * Add __THEME__ alias to the first theme src dir
  */
-addFilter({
-  key: "themeAlias",
-  hook: "webpack-aliases",
-  callback: (_: Record<string, any>, { cwd }) => {
-    const themes = getThemes()
-    const p =
-      themes.length > 0
-        ? dirname(require.resolve(themes[0].name))
-        : getPath("source", cwd)
+// addFilter({
+//   key: "themeAlias",
+//   hook: "webpack-aliases",
+//   callback: (_: Record<string, any>, { cwd }) => {
+//     const themes = getThemes()
+//     const p =
+//       themes.length > 0
+//         ? dirname(require.resolve(themes[0].name))
+//         : getPath("source", cwd)
 
-    return { ..._, __THEME__: p }
-  },
-})
+//     return { ..._, __THEME__: p }
+//   },
+// })
 
 /**
  * Allow for overriding of files from themes

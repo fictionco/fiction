@@ -6,7 +6,6 @@
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
-    "_id": "appShared",
     "extend": "theme",
     "load": [
       "app",

@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from "axios"
-import { onEvent, addFilter, splitDisplayName } from "@factor/api"
+import {
+  onEvent,
+  addFilter,
+  splitDisplayName,
+  addDashboardMenu,
+  randomToken,
+} from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 import {
   FactorUser,
@@ -8,6 +14,39 @@ import {
   AuthenticationParameters,
   CurrentUserState,
 } from "@factor/user/types"
+
+addDashboardMenu({
+  name: "Developer",
+  path: "/developer",
+  key: "developers",
+  component: (): Promise<any> => import("./developer.vue"),
+})
+
+declare module "@factor/user/types" {
+  interface FactorUser {
+    developer: any
+  }
+}
+
+addFilter({
+  key: "addApiKey",
+  hook: "schema-definition-user",
+  callback: (definition) => {
+    const developerSchema = {
+      apiKey: {
+        type: String,
+        required: true,
+        default: randomToken(50),
+        index: { unique: true },
+      },
+    }
+    definition.developer = {
+      type: developerSchema,
+      default: developerSchema,
+    }
+    return definition
+  },
+})
 
 interface AnalyticsEvent {
   category: string

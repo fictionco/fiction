@@ -61,7 +61,7 @@
           this.$emit('itemchanged', event, this.currentItem, this.lastActiveItem)
           this.lastActiveItem = this.currentItem
         }
-      
+
         //if (this.currentItem) this.pushHashToUrl(this.currentItem)
 
         // Current item might be null if not inside any section
@@ -134,13 +134,13 @@
         if (!hashElement) return
 
         // Clears the hash to prevent scroll from jumping
-        window.location.hash = '' 
+        window.location.hash = ''
 
         setTimeout(() => {
           const yPos = hashElement.offsetTop
 
           this.scrollContainer.scrollTo(0, yPos)
-          
+
           this.pushHashToUrl(hash)
         }, 0)
       },

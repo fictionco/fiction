@@ -5,6 +5,7 @@ import { factorVersion } from "@factor/api/about"
 import { localhostUrl, dashboardUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
 import latestVersion from "latest-version"
+import axios from "axios"
 /**
  * Get node memory usage
  * https://nodejs.org/api/process.html#process_process_memoryusage
@@ -27,6 +28,16 @@ export const getFormattedMemoryUsage = (): string => {
 export const getCliExecutor = (): string => {
   const ePath = process.env.npm_execpath
   return ePath && ePath.includes("yarn") ? "yarn" : "npm"
+}
+
+export const getApiUser = async (): Promise<void> => {
+  const apiKey = process.env.FACTOR_API_KEY
+
+  if (apiKey) {
+    const {
+      data: { result },
+    } = await axios.get(`http://localhost:3333?apiKey=${apiKey}`)
+  }
 }
 
 export const getLatestVersion = async (): Promise<string> => {

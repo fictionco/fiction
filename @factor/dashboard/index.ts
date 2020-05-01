@@ -6,11 +6,17 @@ import {
   postTypesConfig,
   pushToFilter,
   currentUrl,
+  addCallback,
+  addRoutes,
 } from "@factor/api"
-import { setting } from "@factor/api/settings"
+
 import { userCan } from "@factor/user"
-import { RouteConfig } from "vue-router"
+
 import { DashboardMenuItem } from "./types"
+import { getDashboardRoute, dashboardBaseRoute } from "./util"
+import { preloadedDashboardRoutes } from "./menu"
+
+export * from "./util"
 
 export const dashboardPane = (): Promise<any> => import("./theme/pane.vue")
 export const dashboardPage = (): Promise<any> => import("./theme/page.vue")
@@ -25,30 +31,6 @@ export const dashboardUserList = (): Promise<any> => import("./el/user-list.vue"
 declare global {
   interface Window {
     factorFrame: any
-  }
-}
-
-/**
- * The base route for the dashboard
- */
-export const dashboardBaseRoute = (): string => {
-  const dashboardRoute = setting("dashboard.route")
-
-  if (!dashboardRoute) {
-    throw new Error(
-      "Dashboard settings are missing. There may be a problem with settings generation; check the files in your '.factor' folder."
-    )
-  }
-  return dashboardRoute
-}
-
-export const getDashboardRoute = (path?: string, parentPath?: string): string => {
-  if (path && path.startsWith("/")) {
-    return path
-  } else {
-    const base = parentPath ? parentPath : dashboardBaseRoute()
-    const p = path || ""
-    return `${base}/${p}`
   }
 }
 
@@ -102,44 +84,78 @@ const getPostTypeMenus = (): MenuConfig => {
 }
 
 export const setup = (): void => {
-  addFilter({
-    key: "dashboard",
-    hook: "routes",
-    callback: (_: RouteConfig[]) => {
+  addCallback({
+    hook: "initialize-app",
+    key: "setupDashboard",
+    callback: () => {
       const dashboardRoute = dashboardBaseRoute()
 
-      let defaultRoute = getDashboardRoute("account")
-      if (process.env.NODE_ENV == "development") {
-        defaultRoute = getDashboardRoute("site")
-      }
+      const routes = preloadedDashboardRoutes()
 
-      _.push({
-        path: "/admin",
-        redirect: defaultRoute,
+      addRoutes({
+        key: "dashboardRoutesPreloaded",
+        location: "dashboard",
+        routes,
       })
 
-      _.push({
-        path: dashboardRoute,
-        redirect: defaultRoute,
-      })
-
-      _.push({
-        path: dashboardRoute,
-        component: (): Promise<any> => import("./theme/wrap.vue"),
-        children: applyFilters("dashboard-routes", [
+      addRoutes({
+        key: "setupDashboard",
+        location: "root",
+        routes: [
           {
-            path: "*",
-            component: (): Promise<any> => import("./vd-404.vue"),
-            meta: { auth: true },
-            priority: 3000,
+            path: dashboardRoute,
+            redirect: getDashboardRoute("account"),
           },
-        ]),
-        meta: { auth: true, format: "dashboard", ui: "dashboard" },
+          {
+            path: dashboardRoute,
+            component: (): Promise<any> => import("./theme/wrap.vue"),
+            children: applyFilters("dashboard-routes", [
+              {
+                path: "*",
+                component: (): Promise<any> => import("./vd-404.vue"),
+                meta: { auth: true },
+                priority: 3000,
+              },
+            ]),
+            meta: { auth: true, format: "dashboard", ui: "dashboard" },
+          },
+        ],
       })
-
-      return _
     },
   })
+  // addFilter({
+  //   key: "dashboard",
+  //   hook: "routes",
+  //   callback: (_: RouteConfig[]) => {
+  //     const dashboardRoute = dashboardBaseRoute()
+
+  //     let defaultRoute = getDashboardRoute("account")
+  //     if (process.env.NODE_ENV == "development") {
+  //       defaultRoute = getDashboardRoute("site")
+  //     }
+
+  //     _.push({
+  //       path: dashboardRoute,
+  //       redirect: defaultRoute,
+  //     })
+
+  //     _.push({
+  //       path: dashboardRoute,
+  //       component: (): Promise<any> => import("./theme/wrap.vue"),
+  //       children: applyFilters("dashboard-routes", [
+  //         {
+  //           path: "*",
+  //           component: (): Promise<any> => import("./vd-404.vue"),
+  //           meta: { auth: true },
+  //           priority: 3000,
+  //         },
+  //       ]),
+  //       meta: { auth: true, format: "dashboard", ui: "dashboard" },
+  //     })
+
+  //     return _
+  //   },
+  // })
 
   pushToFilter({
     key: "frame",

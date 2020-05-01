@@ -4,7 +4,6 @@
       <div class="four04">
         <div class="pad">
           <div class="title">Not Found (404)</div>
-          <factor-link path="/dashboard">Go to Dashboard &rarr;</factor-link>
         </div>
       </div>
     </dashboard-pane>
@@ -12,7 +11,6 @@
 </template>
 
 <script lang="ts">
-import { factorLink } from "@factor/ui"
 import { dashboardPage, dashboardPane } from "@factor/dashboard"
 import Vue from "vue"
 
@@ -20,7 +18,6 @@ export default Vue.extend({
   components: {
     dashboardPage,
     dashboardPane,
-    factorLink,
   },
 })
 </script>
@@ -34,9 +31,10 @@ export default Vue.extend({
   justify-content: center;
 
   .title {
-    font-size: 2em;
+    font-size: 1.5em;
     letter-spacing: -0.03em;
     margin-bottom: 1em;
+    font-weight: var(--font-weight-bold, 700);
   }
 }
 </style>

@@ -78,7 +78,7 @@ export default Vue.extend({
     grid-template-areas:
       "primary   meta"
       "secondary meta";
-
+    min-height: 80vh;
     @media (max-width: 1200px) {
       grid-template-columns: 1fr;
       grid-template-areas:

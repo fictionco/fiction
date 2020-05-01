@@ -19,38 +19,7 @@ It also adds [indexes](https://mongoosejs.com/docs/guide.html#indexes) for commo
 - Unique index on `permalink`
 - Index on `postType`
 
-Here is the schema definition summarized for clarity ([actual definition is here](https://github.com/fiction-com/factor/blob/development/%40factor/post/post-type.ts))
-
-```js
-const schemaDefinition = {
-  // Standard post content / taxonomy
-  postType: String,
-  date: Date,
-  title: String,
-  synopsis: String,
-  content: String,
-  author: [{ ref: "user" }],
-  follower: [{ ref: "user" }],
-  images: [{ ref: "attachment" }],
-  avatar: { ref: "attachment" },
-  tag: [String],
-  category: [String],
-  // Used to distinguish which app created a post in multi-app databases
-  source: String,
-  // Vanilla key/value container
-  settings: {},
-  // vanilla list container
-  list: { type: [Object] },
-  // Embedded documents (comments, posts, etc.)
-  embedded: [Object],
-  embeddedCount: Number,
-  // published, draft, trash
-  status: String,
-  // Allow plugins to set a custom UniqueId
-  uniqueId: String, // must be unique
-  permalink: String, // must be unique
-}
-```
+Here is the [schema definition](https://github.com/fiction-com/factor/blob/development/%40factor/post/post-type.ts).
 
 ## Adding A Post Type
 
@@ -220,7 +189,7 @@ export default {
 
 ## Template Settings
 
-If you would like to allow users to set meta-information on each post, there is a way to add template options in post types using the [template settings API]('./template-settings').
+If you would like to allow users to set meta-information on each post, there is a way to add template options in post types using [template settings]('./template-settings').
 
 ```js
 addPostType({
@@ -264,3 +233,25 @@ addPostType({
 ```
 
 Enabling this option will add the post type to public tools like the `sitemap.xml` file and search utilities.
+
+## Changing Post Types with Filters
+
+You can edit or add to existing post types using standard filters.
+
+- `schema-definition-[post type]` - Is a filter to adjust the schema definition of a post type
+- `schema-hooks-[post type]` - Add additional Mongoose middleware to a schema
+
+```js
+import {randomToken} from "@factor/api"
+addFilter({
+  key: "addApiKey",
+  hook: "schema-definition-user",
+  callback: (definition) => {
+    definition.apiKey = {
+      type: String,
+      default: randomToken(50),
+    }
+    return definition
+  },
+})
+```

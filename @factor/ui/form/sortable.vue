@@ -137,7 +137,9 @@ export default Vue.extend({
       }
     },
     getValue(this: any, _id: string) {
-      return this.localValue[this.selected] ? this.localValue[this.selected][_id] : null
+      return this.localValue[this.selected]
+        ? this.localValue[this.selected][_id]
+        : undefined
     },
     setValue(this: any, _id: string, val: any) {
       const newLocalValue = this.localValue.slice()

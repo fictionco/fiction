@@ -235,6 +235,7 @@ export const dbInitialize = async (): Promise<void> => {
   }
 
   mongoose.set("useCreateIndex", true)
+  mongoose.set("typePojoToMixed", false)
 
   initializeModels()
 

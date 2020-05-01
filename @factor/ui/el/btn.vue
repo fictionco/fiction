@@ -13,7 +13,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-button.app-btn {
+html button.app-btn {
   padding: 0.7em 1.4em;
   font-size: 0.9em;
   font-weight: 700;

@@ -69,6 +69,8 @@ module.exports = {
     //   1,
     //   { unusedExports: true, ignoreExports: [".ref", "test"] }
     // ],
+    "unicorn/no-null": "off",
+    "unicorn/no-fn-reference-in-iterator": "off",
     "vue/html-self-closing": [
       "error",
       {

@@ -1,11 +1,6 @@
 <template>
   <transition name="scaleInModal">
-    <div
-      v-if="vis && appended"
-      class="el-modal"
-      :class="modalClass"
-      data-test="modal-window"
-    >
+    <div v-if="vis && appended" class="el-modal" :class="modalClass" data-test="modal-window">
       <div class="el-modal-wrap">
         <div v-show="vis" class="el-modal-content" @click.stop>
           <div class="el-modal-pad modal-content" data-test="modal-content">
@@ -61,7 +56,7 @@ export default Vue.extend({
   mounted() {
     this.$nextTick(() => {
       // Append to Body
-      this.$el.parentNode.removeChild(this.$el)
+      this.$el.remove()
       const appEl = document.querySelector("#app")
       if (appEl) {
         appEl.append(this.$el)
