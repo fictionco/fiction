@@ -169,7 +169,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
       if (!isRestarting()) {
         setRestarting("yes")
 
-        log.server(`Restarting Server`, { color: "yellow" })
+        log.server(`Restarting Server`)
         options.path = path
 
         // eslint-disable-next-line @typescript-eslint/no-use-before-define

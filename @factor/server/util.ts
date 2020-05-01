@@ -70,7 +70,7 @@ export const handleServerError = (
 }
 
 export const logServerReady = (): void => {
-  log.server(`Ready ${chalk.dim(`at ${localhostUrl()}`)}`, { color: "cyan" })
+  log.server(`Ready ${chalk.dim(`at ${localhostUrl()}`)}`)
 }
 /**
  * Serve static assets at a path

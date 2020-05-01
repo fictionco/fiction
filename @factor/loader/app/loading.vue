@@ -9,7 +9,7 @@
     <div v-if="nodeEnv == 'production'" class>
       <div class="under-maintenance">
         <h3 class="title">Under Maintenance</h3>
-        <div class="sub-title">We'll be right back.</div>
+        <div class="sub-title">We'll be right back</div>
       </div>
     </div>
     <div v-else class="loading-area">
@@ -289,8 +289,8 @@ export default {
       min-width: 200px;
     }
     .spinner {
-      width: 3rem;
-      height: 3rem;
+      width: 5rem;
+      height: 5rem;
     }
   }
 }

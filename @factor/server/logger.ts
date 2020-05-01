@@ -3,6 +3,7 @@ import figures from "figures"
 import chalk from "chalk"
 import { RequestHandler } from "express"
 import { isBuilding } from "@factor/cli/loading"
+import { blueChalk } from "@factor/cli/util"
 /**
  * Log information for each server request
  */
@@ -20,7 +21,7 @@ export default (): RequestHandler =>
         else if (postType) log = postType
         log = log ? `(${log})` : ""
 
-        details.push(chalk.cyan(`${figures.arrowRight} ${method}${log}`))
+        details.push(blueChalk(`${figures.arrowRight} ${method}${log}`))
       }
 
       const responseTime = tokens["response-time"](req, res)
@@ -44,10 +45,10 @@ export default (): RequestHandler =>
       // Server requests to endpoints have null as the value for url
       // This is due to proxy
       if (url && url.includes("null")) {
-        url = chalk.cyan(`server ${figures.arrowRight} ${url.split("null")[1]}`)
+        url = blueChalk(`server ${figures.arrowRight} ${url.split("null")[1]}`)
       }
 
-      return `${chalk.cyan(figures.arrowUp)} Request ${chalk.cyan(url)} ${chalk.dim(
+      return `${blueChalk(figures.arrowUp)} Request ${blueChalk(url ?? "")} ${chalk.dim(
         details.join(" ")
       )}`
     },

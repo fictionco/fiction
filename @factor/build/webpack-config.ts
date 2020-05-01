@@ -359,7 +359,9 @@ export const buildProduction = async (
 
   const { Presets } = cliProgress
 
-  const format = `${chalk.cyan("{percentage}%")} {msg} ${chalk.dim(`{target} {name}`)}`
+  const format = `${chalk.hex("#0471ff")("{percentage}%")} {msg} ${chalk.dim(
+    `{target} {name}`
+  )}`
   const multi: MultiBar = new cliProgress.MultiBar(
     {
       clearOnComplete: true,

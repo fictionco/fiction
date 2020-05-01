@@ -2,12 +2,11 @@ import prettyBytes from "pretty-bytes"
 import chalk from "chalk"
 import { pushToFilter } from "@factor/api/hooks"
 import { factorVersion } from "@factor/api/about"
-import { localhostUrl, dashboardUrl } from "@factor/api/url"
+import { systemUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
 import latestVersion from "latest-version"
 import axios from "axios"
 import { FactorUser } from "@factor/user/types"
-import { toLabel } from "@factor/api/utils"
 const __remoteConfig = {
   apiUser: undefined,
   latestVersion: "",
@@ -101,6 +100,10 @@ export const getRemoteConfig = async (): Promise<typeof __remoteConfig> => {
   return __remoteConfig
 }
 
+export const blueChalk = (text: string): string => {
+  return chalk.hex("#0471ff").bold(text)
+}
+
 /**
  * Log useful server info
  */
@@ -115,24 +118,17 @@ export const serverInfo = async ({
 
   const current = factorVersion()
   const latest = await getLatestVersion()
-  const suite = await getSuiteEdition()
+  const { name } = await getSuiteEdition()
 
   const vLatest = latest != current ? `v${latest} upgrade available` : "latest"
 
-  lines.push(chalk.bold(`Factor Platform v${current} (${vLatest})`))
+  lines.push(chalk.bold(`Factor platform v${current} (${vLatest})`))
 
-  lines.push(
-    `${chalk.bold(`${toLabel(suite.name)} Suite`)} - Running in ${chalk.bold(
-      NODE_ENV
-    )} mode`
-  )
+  lines.push(`Running ${chalk.bold(name)} edition in ${chalk.bold(NODE_ENV)} mode`)
 
   if (command && ["dev", "serve", "start"].includes(command)) {
-    lines.push(`App: ${chalk.cyan(localhostUrl())}`)
-    lines.push(`Dashboard: ${chalk.cyan(dashboardUrl())}`)
+    lines.push(`Available at ${blueChalk(systemUrl("local"))}`)
   }
 
-  getLatestVersion()
-
-  log.log(lines.join(`\n`) + `\n`)
+  log.log(`\n` + lines.join(`\n`) + `\n`)
 }

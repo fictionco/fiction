@@ -106,7 +106,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
       {
         hideCursor: true,
         clearOnComplete: true,
-        format: `${chalk.cyan(`{bar}`)} {percentage}% {msg}`,
+        format: `${chalk.hex("#0471ff")(`{bar}`)} {percentage}% {msg}`,
       },
       cliProgress.Presets.shades_classic
     )

@@ -16,7 +16,7 @@ const outDir = path.resolve(process.argv[2] || ".")
 
 consola.log(`${figures.pointer} Starting ${packageName}@${version}`)
 consola.log()
-consola.log(chalk.cyan.bold("Success"))
+consola.log(chalk.hex("#0471ff").bold("Success"))
 consola.success(`Generating Factor project in: ${outDir}`)
 consola.log()
 

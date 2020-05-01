@@ -19,7 +19,7 @@ import fs from "fs-extra"
 import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
 import { FactorPackageJson } from "@factor/cli/types"
-
+import { blueChalk } from "@factor/cli/util"
 export interface SetupCliConfig {
   name: string
   value: string
@@ -171,7 +171,7 @@ export const logSetupNeeded = (command = ""): void => {
       return { title: _.title, value: _.value, indent: true }
     })
 
-    log.formatted({ title: "Setup Needed", lines, color: "cyan" })
+    log.formatted({ title: "Setup Needed", lines })
   }
 
   log.diagnostic({ event: "factorCommand", action: `${command}-${setupNeeded.length}` })
@@ -240,7 +240,7 @@ export const writeConfig = async (
   }
 
   const fileName = file == "public" ? "package.json" : ".env"
-  const outFile = chalk.cyan(fileName)
+  const outFile = blueChalk(fileName)
   const answers = await inquirer.prompt({
     type: "confirm",
     name: `writeFiles`,

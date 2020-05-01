@@ -51,10 +51,8 @@ export class NodeLog {
     Reflect.apply(this.utility.log, null, _arguments)
   }
 
-  server(text: string, { color = "cyan" } = {}): void {
-    const colorize = chalk.keyword(color)
-
-    this.log(colorize(`${figures.tick} `) + text)
+  server(text: string): void {
+    this.log(chalk.hex("#0471ff")(`${figures.tick} `) + text)
   }
 
   /**
@@ -80,12 +78,10 @@ export class NodeLog {
     title,
     lines = [],
     format = "",
-    color = "cyan",
   }: {
     title: string
     lines?: { title: string; value?: string; indent?: boolean }[]
     format?: string
-    color?: string
   }): void {
     // Don't log during tests
     if (process.env.FACTOR_ENV == "test") return
@@ -97,7 +93,7 @@ export class NodeLog {
         msg.push("")
       } else {
         const formattedTitle = indent
-          ? "  " + chalk.keyword(color)(title)
+          ? "  " + chalk.hex("#0471ff")(title)
           : chalk.bold(title)
         const logVal = value ? value : ""
         msg.push(`${formattedTitle}${value ? ":" : ""} ${logVal}`)

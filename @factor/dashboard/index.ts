@@ -1,15 +1,6 @@
-import {
-  addFilter,
-  applyFilters,
-  toLabel,
-  slugify,
-  postTypesConfig,
-  pushToFilter,
-  currentUrl,
-  addCallback,
-  addRoutes,
-} from "@factor/api"
+import { toLabel, slugify, postTypesConfig, currentUrl, addRoutes } from "@factor/api"
 
+import { addCallback, pushToFilter, addFilter, applyFilters } from "@factor/api/hooks"
 import { userCan } from "@factor/user"
 
 import { DashboardMenuItem } from "./types"

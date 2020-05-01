@@ -42,7 +42,7 @@
     "test:lint": "yarn test:eslint && yarn test:types",
     "test:eslint": "eslint --ext .ts,.js,.vue,.json .",
     "test:coverage": "codecov",
-    "test:unit": "jest @factor/**/test/unit --forceExit",
+    "test:unit": "jest @factor/**/test/unit --forceExit --detectOpenHandles",
     "test:fixtures": "yarn test:builds && yarn test:integration",
     "test:builds": "jest test/builds --forceExit",
     "test:staging": "jest test/staging --forceExit && cypress run",

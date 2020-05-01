@@ -16,7 +16,7 @@ describe("dashboard", () => {
     await createRenderServer()
   })
 
-  describe("general", () => {
+  describe.skip("general", () => {
     it("shows dashboard on dashboard route", async () => {
       win = await renderAndGetWindow({ route: "/dashboard" })
 

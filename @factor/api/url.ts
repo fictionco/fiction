@@ -4,6 +4,7 @@ import { dashboardBaseRoute } from "@factor/dashboard"
 
 interface UrlOptions {
   domainOnly?: true
+  location?: string
 }
 
 const removeProtocol = (url: string): string => {
@@ -67,7 +68,8 @@ export const currentUrl = (options: UrlOptions = {}): string => {
  * Gets current URl based on NODE_ENV - localhost or production
  */
 export const dashboardUrl = (options: UrlOptions = {}): string => {
-  return path.join(currentUrl(options), dashboardBaseRoute())
+  const base = options.location == "current" ? currentUrl(options) : localhostUrl(options)
+  return path.join(base, dashboardBaseRoute())
 }
 
 /**

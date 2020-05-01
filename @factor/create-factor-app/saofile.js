@@ -128,12 +128,14 @@ const config = {
     )
     console.log()
     console.log(
-      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold(
-        "https://factor.dev"
-      )}`
+      `   ${this.chalk
+        .hex("#0471ff")
+        .bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold("https://factor.dev")}`
     )
     console.log(
-      `   ${this.chalk.cyan.bold(`${figures.arrowRight} Help:`)} ${this.chalk.bold(
+      `   ${this.chalk
+        .hex("#0471ff")
+        .bold(`${figures.arrowRight} Help:`)} ${this.chalk.bold(
         "https://go.factor.dev/slack"
       )}`
     )
