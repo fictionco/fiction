@@ -118,9 +118,9 @@ export const preloadedDashboardRoutes = (): RouteConfig[] => {
 export const getDashboardMenu = async (): Promise<MenuGroup[]> => {
   await userInitialized()
 
-  const groups: MenuGroup[] = loadMenuGroups()
+  let groups: MenuGroup[] = loadMenuGroups()
 
-  groups.filter((group) => {
+  groups = groups.filter((group) => {
     if (group.group == "admin" && !userCan({ accessLevel: 100 })) {
       return false
     } else if (group.group == "development" && process.env.NODE_ENV !== "development") {
