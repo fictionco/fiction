@@ -24,7 +24,7 @@ addDashboardMenu({
 
 declare module "@factor/user/types" {
   interface FactorUser {
-    developer: any
+    developer?: any
   }
 }
 

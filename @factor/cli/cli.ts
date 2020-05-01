@@ -9,7 +9,7 @@ import { emitEvent } from "@factor/api/events"
 import execa from "execa"
 import { createServer } from "@factor/server"
 import { showInstallRoutine } from "@factor/loader"
-import { serverInfo, getCliExecutor } from "./util"
+import { serverInfo, getCliExecutor, getRemoteConfig } from "./util"
 import { factorize, setEnvironment } from "./factorize"
 import { CommandOptions } from "./types"
 import pkg from "./package.json"
@@ -67,17 +67,17 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
    */
   setEnvironment({ NODE_ENV, PORT, debug, command })
 
+  /**
+   * Gets remote configuration info
+   */
+  getRemoteConfig()
+
   try {
     await createServer({ port: PORT, openOnReady: true })
   } catch (error) {
     log.error(error)
     process.exit(1)
   }
-
-  /**
-   * Log initial server info
-   */
-  await serverInfo({ NODE_ENV, command })
 
   /**
    * Show installation and setup routine
@@ -137,6 +137,11 @@ export const runCommand = async (options: CommandOptions): Promise<void> => {
   }
 
   await tools.runCallbacks(`environment-created`, setup)
+
+  /**
+   * Log initial server info
+   */
+  await serverInfo({ NODE_ENV, command })
 
   logSetupNeeded(command)
 

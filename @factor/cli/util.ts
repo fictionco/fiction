@@ -6,6 +6,12 @@ import { localhostUrl, dashboardUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
 import latestVersion from "latest-version"
 import axios from "axios"
+import { FactorUser } from "@factor/user/types"
+import { toLabel } from "@factor/api/utils"
+const __remoteConfig = {
+  apiUser: undefined,
+  latestVersion: "",
+}
 /**
  * Get node memory usage
  * https://nodejs.org/api/process.html#process_process_memoryusage
@@ -30,36 +36,69 @@ export const getCliExecutor = (): string => {
   return ePath && ePath.includes("yarn") ? "yarn" : "npm"
 }
 
-export const getApiUser = async (): Promise<void> => {
-  const apiKey = process.env.FACTOR_API_KEY
+export const getApiUser = async (): Promise<FactorUser | undefined> => {
+  if (__remoteConfig.apiUser) {
+    return __remoteConfig.apiUser
+  } else {
+    const apiKey = process.env.FACTOR_API_KEY
 
-  if (apiKey) {
-    const {
-      data: { result },
-    } = await axios.get(`http://localhost:3333?apiKey=${apiKey}`)
+    if (apiKey) {
+      try {
+        const {
+          data: { result },
+        } = await axios.get(`https://api-server.factor.dev?apiKey=${apiKey}`)
+        return result
+      } catch (error) {
+        log.info("error getting API user")
+      }
+    }
+    return
   }
 }
 
+interface FactorEdition {
+  name: "pro" | "business" | "community"
+  text?: string
+}
+
+export const getSuiteEdition = async (): Promise<FactorEdition> => {
+  const apiUser = await getApiUser()
+  return { name: "community", text: apiUser?.displayName ?? "" }
+}
+
 export const getLatestVersion = async (): Promise<string> => {
-  const out = ""
-  let latest
-  try {
-    latest = await latestVersion("@factor/core")
-  } catch (error) {
-    log.info("Error getting latest Factor version")
-  }
-  const current = factorVersion()
-  const executor = getCliExecutor()
+  if (__remoteConfig.latestVersion) {
+    return __remoteConfig.latestVersion
+  } else {
+    let latest = ""
+    try {
+      latest = await latestVersion("@factor/core")
+    } catch (error) {
+      log.info("Error getting latest Factor version")
+    }
+    const current = factorVersion()
+    const executor = getCliExecutor()
 
-  if (latest && current != latest) {
-    pushToFilter({
-      key: "newVersion",
-      hook: "cli-notices",
-      item: `A Factor upgrade is available (v${latest}) - Run: "${executor} upgrade"`,
-    })
-  }
+    if (latest && current != latest) {
+      pushToFilter({
+        key: "newVersion",
+        hook: "cli-notices",
+        item: `Factor v${latest} is available (v${latest}) - Run: "${executor} upgrade"`,
+      })
+    }
 
-  return out
+    __remoteConfig.latestVersion = latest
+
+    return latest
+  }
+}
+
+export const getRemoteConfig = async (): Promise<typeof __remoteConfig> => {
+  const _promises: Promise<any>[] = [getApiUser(), getLatestVersion()]
+
+  await Promise.all(_promises)
+
+  return __remoteConfig
 }
 
 /**
@@ -75,9 +114,19 @@ export const serverInfo = async ({
   const lines = []
 
   const current = factorVersion()
-  lines.push(chalk.bold(`Factor Platform v${current}`))
+  const latest = await getLatestVersion()
+  const suite = await getSuiteEdition()
 
-  lines.push(`Running in ${chalk.bold(NODE_ENV)} mode`)
+  const vLatest = latest != current ? `v${latest} upgrade available` : "latest"
+
+  lines.push(chalk.bold(`Factor Platform v${current} (${vLatest})`))
+
+  lines.push(
+    `${chalk.bold(`${toLabel(suite.name)} Suite`)} - Running in ${chalk.bold(
+      NODE_ENV
+    )} mode`
+  )
+
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`App: ${chalk.cyan(localhostUrl())}`)
     lines.push(`Dashboard: ${chalk.cyan(dashboardUrl())}`)
