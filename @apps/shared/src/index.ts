@@ -35,7 +35,7 @@ addFilter({
     definition.developer = {
       apiKey: {
         type: String,
-        default: randomToken(50),
+        default: (): string => randomToken(50),
         index: { unique: true },
       },
     }

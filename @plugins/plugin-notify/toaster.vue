@@ -83,9 +83,21 @@ export default Vue.extend({
   transform: translateY(-30px);
   opacity: 0;
 }
-@import "~@factor/ui/css/standard-mixins.less";
+
 .toasty {
-  .base-ui();
+  font-family: var(
+    --font-family-primary,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Helvetica Neue,
+    sans-serif;
+  );
+  color: var(--color-text, #3a4854);
+  a {
+    color: var(--color-primary, #0471ff);
+  }
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
