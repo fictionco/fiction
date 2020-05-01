@@ -1,10 +1,10 @@
 import { addPostType } from "@factor/api/post-types"
 import { schemaDefinition, schemaMiddleware } from "./schema"
-
+import userIcon from "./img/users.svg"
 addPostType({
   postType: "user",
   managePosts: true,
-  icon: require("./img/users.svg"),
+  icon: userIcon,
   nameIndex: "Users",
   nameSingle: "User",
   namePlural: "Users",

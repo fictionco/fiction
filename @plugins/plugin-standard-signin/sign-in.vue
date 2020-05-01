@@ -346,9 +346,20 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-@import "~@factor/ui/css/standard-mixins.less";
 .signin {
-  .base-ui();
+  font-family: var(
+    --font-family-primary,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Helvetica Neue,
+    sans-serif;
+  );
+  color: var(--color-text, #3a4854);
+  a {
+    color: var(--color-primary, #0471ff);
+  }
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;

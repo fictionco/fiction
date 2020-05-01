@@ -1,5 +1,5 @@
 import { pushToFilter, addFilter } from "@factor/api/hooks"
-
+import userIcon from "./img/users.svg"
 import { logout } from "./util"
 export const setup = (): void => {
   pushToFilter({
@@ -21,7 +21,7 @@ export const setup = (): void => {
       group: "account",
       path: "account",
       name: "Your Account",
-      icon: require("./img/users.svg"),
+      icon: userIcon,
     },
   })
 

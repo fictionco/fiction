@@ -4,7 +4,7 @@
       <div class="details">
         <h2 class="title">Plugins API Key</h2>
         <div class="sub-title">
-          Add the following API key to your environmental variables as
+          Add to your app's environmental variables as
           <strong>FACTOR_API_KEY</strong>
         </div>
       </div>

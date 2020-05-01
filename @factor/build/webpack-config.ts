@@ -330,8 +330,12 @@ export const generateBundles = async (
 
       await new Promise((resolve, reject) => {
         compiler.run((error, stats) => {
-          if (error || stats.hasErrors()) reject(error)
-          else {
+          if (error) {
+            reject(error)
+          } else if (stats.hasErrors()) {
+            const { errors } = stats.toJson("errors-only")
+            reject(errors)
+          } else {
             if (options.afterCompile) {
               options.afterCompile({ compiler, error, stats, config, target })
             }
@@ -400,7 +404,10 @@ export const buildProduction = async (
             })
           )
         },
-        afterCompile({ stats, target }) {
+        afterCompile({ stats, target, error }) {
+          if (error) {
+            throw error
+          }
           if (bars[name + target]) {
             bars[name + target].stop()
             multi.remove(bars[name + target])
