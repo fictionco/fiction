@@ -32,16 +32,12 @@ addFilter({
   key: "addApiKey",
   hook: "schema-definition-user",
   callback: (definition) => {
-    const developerSchema = {
+    definition.developer = {
       apiKey: {
         type: String,
         default: randomToken(50),
         index: { unique: true },
       },
-    }
-    definition.developer = {
-      type: developerSchema,
-      default: developerSchema,
     }
     return definition
   },

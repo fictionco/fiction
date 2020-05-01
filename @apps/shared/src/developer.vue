@@ -19,7 +19,7 @@ import Vue from "vue"
 export default Vue.extend({
   components: { dashboardPage, dashboardPane, dashboardInput },
   data() {
-    return { key: "test", sending: false }
+    return { key: "", sending: false }
   },
   async mounted() {
     const user = await userInitialized()
