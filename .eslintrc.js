@@ -49,6 +49,7 @@ module.exports = {
 
   rules: {
     "jest/no-disabled-tests": "off",
+    "jest/no-commented-out-tests": "off",
     "no-console": "error",
     "no-debugger": "error",
 
