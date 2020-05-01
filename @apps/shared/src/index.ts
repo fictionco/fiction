@@ -35,7 +35,6 @@ addFilter({
     const developerSchema = {
       apiKey: {
         type: String,
-        required: true,
         default: randomToken(50),
         index: { unique: true },
       },
