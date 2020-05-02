@@ -104,21 +104,20 @@ export default Vue.extend({
       features: [
         {
           icon: "powered",
-          title: "Stop worrying about your tools.",
-          text: `When you use Factor you'll be using best-of-class open source software under the hood.
-            Stop worrying about lock-in and making the right choice. No more endlessly comparing new tools and techniques.
-            Just trust Factor and get started building your app.`,
+          title: `100% JavaScript apps made simple.`,
+          text: `Build 100% JavaScript apps with best-of-class open source software.
+            No more backend and frontend, Factor has a single environment you can use to build full-stack apps.`,
           figure: () => import("./figure-powered-by.vue"),
-          link: { path: "/docs/quickstart", text: "View Quickstart" },
+          link: { path: "/docs", text: "View Docs" },
         },
         {
           icon: "ssr",
-          title: "Make web apps that do more.",
+          title: "A Modern Alternative to WordPress",
           text: `Factor helps you bring together all the different tools you'll need to build great apps.
-              It helps you build custom endpoints and easily optimize things for SEO,
+              Add advanced features easily and quickly optimize things for SEO,
              marketing, and performance.`,
           figure: () => import("./figure-live-changes.vue"),
-          link: { path: "/docs", text: "Try Factor" },
+          link: { path: "/install", text: "Install Factor" },
         },
         {
           icon: "dashboard2",
@@ -132,7 +131,7 @@ export default Vue.extend({
         {
           id: "plugins-feature",
 
-          title: `Add new features in seconds.`,
+          title: `Plugins that "just work."`,
           text: `Most coding frameworks make you do way too much custom coding. Their plugins can take days to learn, install, and customize.
           Factor focuses on making plugins dead simple. This means they "just work," but can be easily customized.`,
           figure: () => import("./figure-plugins.vue"),

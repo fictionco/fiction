@@ -195,22 +195,36 @@ export const setup = (): void => {
     key: "userEmails",
     hook: "user-schema-hooks",
     callback: (userSchema: Schema) => {
+      /**
+       * Before save, add emailVerified false and code if email has changed or if new account
+       */
       userSchema.pre("save", async function (
         this: FactorUserEmailVerify & Document,
         next: HookNextFunction
       ): Promise<void> {
         if (!this.isModified("email") || this.$locals.noVerify) return
 
-        const { email, _id } = this
         this.emailVerified = false
         this.emailVerificationCode = randomToken()
+
+        next()
+      })
+
+      /**
+       * If save was successful, send verification email
+       * A post hook is needed because if email exists, it was still sending the email
+       */
+      userSchema.post("save", async function (
+        this: FactorUserEmailVerify & Document
+      ): Promise<void> {
+        if (!this.isModified("email") || this.$locals.noVerify) return
+
+        const { email, _id } = this
 
         sendVerifyEmail(
           { _id, email, code: this.emailVerificationCode },
           { bearer: this }
         )
-
-        next()
       })
     },
   })

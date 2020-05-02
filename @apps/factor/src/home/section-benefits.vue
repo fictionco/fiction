@@ -68,11 +68,7 @@
       </div>
 
       <div class="buttons">
-        <factor-link
-          btn="primary"
-          size="large"
-          path="/install"
-        >Start Now &rarr;</factor-link>
+        <factor-link btn="primary" size="large" path="/install">Start Now &rarr;</factor-link>
       </div>
     </div>
   </div>
@@ -138,7 +134,7 @@ export default Vue.extend({
     .feature-block {
       position: relative;
       .title {
-        font-weight: 500;
+        font-weight: 700;
         font-size: 1.2em;
         line-height: 1.5em;
       }
