@@ -139,7 +139,7 @@ export default Vue.extend({
         },
         {
           title: "Save time with themes.",
-          text: `Ever seen a theming system for JavaScript apps that you could work with? We hadn't either.
+          text: `Need a theming system for JavaScript apps that you can work with?
               Factor was developed from the start with customizable theming and rapid app development in mind.`,
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" },

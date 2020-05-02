@@ -18,22 +18,45 @@ export default [
   },
 
   {
-    title: "Essentials",
-    description: "Essential development tools and techniques",
+    title: "Get Started",
+    description: "Up and running in 10 minutes.",
     boxIcon: "quick",
     items: [
       {
-        title: "Installation",
-        doc: "install",
-        file: (): Promise<string> => import("./essentials/install/index.md"),
+        title: "QuickStart Videos",
+        doc: "quickstart",
+        file: (): Promise<string> => import("./get-started/quickstart/index.md"),
       },
+      {
+        title: "Create a Factor App",
+        doc: "create-factor-app",
+        file: (): Promise<string> => import("./get-started/create-factor-app/index.md"),
+      },
+      {
+        title: "Manual Install",
+        doc: "manual-install",
+        file: (): Promise<string> => import("./get-started/manual-install/index.md"),
+      },
+      {
+        title: "Services Setup",
+        doc: "services-setup",
+        file: (): Promise<string> => import("./get-started/services-setup/index.md"),
+      },
+    ],
+  },
+
+  {
+    title: "Essentials",
+    description: "Essential development tools and techniques",
+    boxIcon: "touch",
+    items: [
       {
         doc: "upgrading",
         file: (): Promise<string> => import("./essentials/upgrading/index.md"),
       },
       {
         doc: "before-you-start",
-        file: (): Promise<string> => import("./essentials/before-you-start/index.md"),
+        file: (): Promise<string> => import("./essentials/before-you-code/index.md"),
       },
       {
         title: "Running Factor (CLI)",

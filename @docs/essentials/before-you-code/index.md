@@ -1,9 +1,9 @@
 ---
-title: Before You Start
+title: Before You Code
 description: Things you might want to consider before you start coding your Factor app.
 ---
 
-# Before You Start
+# Before You Code
 
 As a best practice, we recommend some planning before you get started with your application. Here are some tips on how we do it.
 

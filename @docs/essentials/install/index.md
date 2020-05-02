@@ -119,11 +119,11 @@ Factor is built for portability, it works consistently and simply across multipl
 
 The method of giving Factor this information is via a [MongoDB connection string](https://docs.mongodb.com/manual/reference/connection-string/). A URL-like connection format. There are many ways to setup and host a MongoDB database. Each method will have a straight forward way of getting a connection string.
 
-Once you have a string, just add it to `.env` under `DB_CONNECTION`:
+Once you have a string, just add it to `.env` under `FACTOR_DB_CONNECTION`:
 
 ```bash
 # .env - DB Connection (Mongo Connection String)
-DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+FACTOR_DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
 ```
 
 > **Recommendation**

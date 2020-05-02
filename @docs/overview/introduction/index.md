@@ -122,4 +122,4 @@ With that, we started building Factor.
 
 ### Try It Out
 
-Now that you know a little about Factor, and what it can do for you, you probably want to learn about [installation and setup](./install) or read about it's [core concepts and architecture](./core-concepts).
+Now that you know a little about Factor, and what it can do for you, you probably want to learn about [installation and setup](./quickstart) or read about it's [core concepts and architecture](./core-concepts).

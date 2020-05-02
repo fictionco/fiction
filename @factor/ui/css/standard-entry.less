@@ -121,7 +121,7 @@ div > ul {
 ol,
 ul {
   padding-left: 1.5em;
-  margin-bottom: 1.5em;
+  margin: 0.5rem 0 1.5rem;
 }
 
 hr {
@@ -234,6 +234,12 @@ blockquote {
 
   p {
     display: inline;
+  }
+  ul,
+  ol {
+    &:last-child {
+      margin-bottom: 0.5rem;
+    }
   }
   code {
     background: rgba(0, 0, 0, 0.05);

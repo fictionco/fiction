@@ -43,5 +43,5 @@ Finally, get the connection info. Go to **Connect** > **Connect Application**. T
 
 ```bash
 # .env - DB Connection (Mongo Connection String)
-DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+FACTOR_DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
 ```

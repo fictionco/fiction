@@ -38,6 +38,18 @@ Generally, there are 3 ways to use and customize plugins:
 - [Plugin API](./filters-callbacks-events)
 - Providing imports and settings you can use in the app (e.g. `import {example} from @factor/plugin`)
 
-## Tips
+> **Tip:** Reference any plugin's `factor-settings` to know what can be overwritten and configured. Here is an ([example](https://github.com/fiction-com/factor/blob/development/%40plugins/plugin-forum/factor-settings.ts)).
 
-- Reference plugins `factor-settings` to know what can be overwritten in any specific plugin ([example](https://github.com/fiction-com/factor/blob/development/%40plugins/plugin-forum/factor-settings.ts)).
+## Disabling plugins
+
+Sometimes extensions may use other plugins in the Factor ecosystem that you don't want. For example, a theme might install an unneeded blog.
+
+To disable any plugin, you can just add their package name to the `disable` property to your `package.json` under `factor`.
+
+```json
+{
+  "factor": {
+    "disable": ["@factor/plugin-blog"]
+  }
+}
+```

@@ -64,12 +64,10 @@ export const startProcess = ({
     }
 
     if (__process.stderr) {
-      __process.stderr.on("data", (data) =>
-        data.toString().toLowerCase().includes("error")
-          ? // eslint-disable-next-line no-console
-            console.error(data.toString())
-          : null
-      )
+      __process.stderr.on("data", (data) => {
+        const text = data.toString().toLowerCase()
+        if (text.includes("error")) throw text
+      })
     }
   })
 }
