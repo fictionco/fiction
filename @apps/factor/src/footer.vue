@@ -103,7 +103,7 @@ export default Vue.extend({
         text-align: right;
         .icon-link {
           font-size: 1.2em;
-          color: inherit;
+          color: var(--color-text-secondary);
           opacity: 0.8;
 
           margin: 0 0.5rem;
@@ -119,14 +119,15 @@ export default Vue.extend({
       }
       &.list {
         .menu-header {
+          color: var(--color-text-secondary);
           font-weight: 700;
           text-transform: uppercase;
           margin-bottom: 0.5rem;
-          opacity: 0.5;
         }
         a {
           display: block;
-          color: inherit;
+
+          color: var(--color-text-secondary);
           line-height: 2em;
           cursor: pointer;
           text-decoration: none;
@@ -155,12 +156,16 @@ export default Vue.extend({
       padding-bottom: 2em;
       border-top: 1px solid #e8ebed;
       font-size: 0.8em;
+      color: var(--color-text-secondary);
+      a {
+        color: var(--color-text);
+      }
     }
     .copynav {
       text-align: right;
       a {
         margin-left: 10px;
-        color: inherit;
+        color: var(--color-text-secondary);
       }
     }
   }
