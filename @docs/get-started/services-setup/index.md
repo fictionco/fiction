@@ -7,7 +7,7 @@ description: Learn how to add the basic backing services to Factor
 
 ## Db, Email, Storage
 
-Factor is built to allow maximum flexibility for working with your app. Let's discuss the 3 key services your application will need email, database, and image storage.
+To allow maximum flexibility Factor requires 3 key services: email, database, and image storage. Set them up now or later.
 
 ## Demo Defaults
 

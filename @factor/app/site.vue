@@ -1,11 +1,7 @@
 <template>
   <div id="app" class="factor-site" :class="classes">
     <router-view />
-    <component
-      :is="component"
-      v-for="(component, index) in injectedComponents"
-      :key="index"
-    />
+    <component :is="component" v-for="(component, index) in injectedComponents" :key="index" />
   </div>
 </template>
 

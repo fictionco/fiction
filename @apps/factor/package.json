@@ -38,6 +38,7 @@
     "@factor/plugin-seo": "^1.0.0",
     "@factor/plugin-sitemap": "^1.0.0",
     "@factor/plugin-storage-s3": "^1.0.0",
+    "@factor/plugin-checkout": "^1.0.0",
     "@factor/theme-shared": "^1.0.0",
     "@factor/plugin-docs-engine": "^1.0.0",
     "@types/memory-cache": "^0.2.0",

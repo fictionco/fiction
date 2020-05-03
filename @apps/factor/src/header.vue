@@ -13,11 +13,7 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
-        <factor-link
-          v-else-if="!userLoading"
-          event="sign-in-modal"
-          data-test="signin-link"
-        >Sign In</factor-link>
+        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"
@@ -75,9 +71,9 @@ export default Vue.extend({
 
 .site-head {
   transition: all 0.1s;
-
   padding: 0 1.5em;
   position: fixed;
+  top: 0;
   width: 100%;
   z-index: 5000;
   font-weight: 600;

@@ -49,8 +49,8 @@
           <h2>{{ toLabel(item.id) }}</h2>
           <div class="sub">{{ item.sub }}</div>
           <div class="action">
-            <factor-btn v-if="item.id == 'community'" btn="default">Current Plan</factor-btn>
-            <factor-btn v-else btn="primary">Get Started</factor-btn>
+            <factor-link v-if="item.id == 'community'" btn="default">Current Plan</factor-link>
+            <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
           </div>
         </div>
       </div>

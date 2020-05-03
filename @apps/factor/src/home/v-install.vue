@@ -116,7 +116,7 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .start-container {
-  padding-top: 7em;
+  padding-top: 5em;
   .start-content {
     max-width: var(--content-width, 1200px);
     margin: 0 auto;

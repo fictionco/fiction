@@ -3,7 +3,7 @@ import { getObservables } from "@factor/app"
 import Vue from "vue"
 import { Route } from "vue-router"
 import { FactorPostState } from "@factor/post/types"
-
+import veil from "./veil.vue"
 export default (): any => {
   return Vue.extend({
     data() {
@@ -35,7 +35,12 @@ export default (): any => {
         return [siteClasses, this.scrollClass]
       },
       injectedComponents(): Function[] {
-        const siteComponents = applyFilters("site-components", [])
+        const siteComponents = applyFilters("site-components", [
+          {
+            name: "veil",
+            component: veil,
+          },
+        ])
 
         return siteComponents.map(
           (_: { name: string; component: Function }) => _.component

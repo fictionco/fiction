@@ -41,12 +41,15 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
+  padding-top: 45px;
   .nav-show-mobile {
     display: none;
     @media (max-width: 1100px) {
       display: block;
     }
+  }
+  @media (max-width: 900px) {
+    padding-top: 0;
   }
 
   .nav-show-desktop {

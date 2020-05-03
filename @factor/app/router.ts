@@ -282,3 +282,9 @@ export const currentRoute = (): Route => {
 export const navigateToRoute = (r: Location): Promise<Route> => {
   return getRouter().push(r)
 }
+
+export const routeRequiresAuth = (): boolean => {
+  const route = currentRoute()
+
+  return route.matched.some((_) => _.meta.auth)
+}

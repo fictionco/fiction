@@ -118,7 +118,6 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .extend-container {
-  padding-top: 45px;
   font-weight: 400;
   overflow: hidden;
   .coming-soon {

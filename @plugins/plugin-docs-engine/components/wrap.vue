@@ -138,7 +138,6 @@ export default Vue.extend({
 
 <style lang="less">
 .docs-engine-wrap {
-  margin-top: 3rem;
   --content-width: 1000px;
   --panel-shadow: 0 0 0 2px rgba(0, 43, 93, 0.1), 0 0 1px rgba(58, 55, 148, 0.25),
     0 3px 3px 0 rgba(24, 32, 41, 0.06), 0 6px 14px -10px rgba(24, 32, 41, 0.04);

@@ -24,7 +24,6 @@ addContentRoutes({
       {
         path: "/plans",
         component: (): Promise<any> => import("./plans/v-plans.vue"),
-        meta: { auth: true },
       },
       {
         path: `/themes`,

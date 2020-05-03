@@ -114,39 +114,7 @@ export const setup = (): void => {
       })
     },
   })
-  // addFilter({
-  //   key: "dashboard",
-  //   hook: "routes",
-  //   callback: (_: RouteConfig[]) => {
-  //     const dashboardRoute = dashboardBaseRoute()
 
-  //     let defaultRoute = getDashboardRoute("account")
-  //     if (process.env.NODE_ENV == "development") {
-  //       defaultRoute = getDashboardRoute("site")
-  //     }
-
-  //     _.push({
-  //       path: dashboardRoute,
-  //       redirect: defaultRoute,
-  //     })
-
-  //     _.push({
-  //       path: dashboardRoute,
-  //       component: (): Promise<any> => import("./theme/wrap.vue"),
-  //       children: applyFilters("dashboard-routes", [
-  //         {
-  //           path: "*",
-  //           component: (): Promise<any> => import("./vd-404.vue"),
-  //           meta: { auth: true },
-  //           priority: 3000,
-  //         },
-  //       ]),
-  //       meta: { auth: true, format: "dashboard", ui: "dashboard" },
-  //     })
-
-  //     return _
-  //   },
-  // })
 
   pushToFilter({
     key: "frame",

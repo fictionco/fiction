@@ -177,7 +177,6 @@ export default Vue.extend({
 </script>
 <style lang="less">
 .view-home {
-  padding-top: 45px;
   overflow: hidden;
   .content-pad {
     max-width: 1100px;

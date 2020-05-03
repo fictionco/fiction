@@ -497,7 +497,7 @@ export default Vue.extend({
       grid-gap: 8rem;
       grid-template-columns: 4fr 4fr;
 
-      padding: 5rem 0 0;
+      padding: 2rem 0 0;
 
       @media (max-width: 900px) {
         grid-gap: 1rem;
