@@ -54,20 +54,12 @@ export default {
         inputClasses: "",
         placeholder: "http://www.example.com",
       },
-      {
-        label: "Location",
-        labelClasses: "",
-        _id: "location",
-        inputType: "text",
-        inputClasses: "",
-        placeholder: "Enter your location",
-      },
 
       {
         label: "Message",
         labelClasses: "",
         _id: "message",
-        inputType: "textarea",
+        inputType: "editor",
         inputClasses: "",
         placeholder: "Enter your message",
       },

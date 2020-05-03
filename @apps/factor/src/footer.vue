@@ -18,24 +18,23 @@
         </factor-link>
       </div>
       <div class="footer-col list">
-        <div class="menu-header">Getting Started</div>
+        <div class="menu-header">Build Apps</div>
         <factor-link path="/install">Get started</factor-link>
         <factor-link path="/docs">Docs</factor-link>
+        <factor-link path="https://go.factor.dev/github" target="_blank">Github repo</factor-link>
+        <factor-link path="https://go.factor.dev/slack" target="_blank">Slack Channel</factor-link>
+      </div>
+      <div class="footer-col list">
+        <div class="menu-header">Extensions</div>
+
         <factor-link path="/themes">Themes</factor-link>
         <factor-link path="/plugins">Plugins</factor-link>
       </div>
       <div class="footer-col list">
-        <div class="menu-header">Community</div>
-        <factor-link path="https://go.factor.dev/slack" target="_blank">Slack Channel</factor-link>
-        <factor-link path="https://go.factor.dev/github" target="_blank">Github repo</factor-link>
-        <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link>
-        <factor-link path="/#join">Join dev program</factor-link>
-      </div>
-      <div class="footer-col list">
         <div class="menu-header">Company</div>
         <factor-link path="https://www.fiction.com/careers">We're hiring</factor-link>
-        <factor-link path="https://go.factor.dev/facebook" target="_blank">Facebook</factor-link>
-        <factor-link path="https://www.fiction.com/contact">Contact Us</factor-link>
+        <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link>
+        <factor-link path="/contact">Contact Us</factor-link>
       </div>
 
       <div class="footer-col icons">

@@ -1,4 +1,4 @@
-import { addContentRoutes } from "@factor/api"
+import { addRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 addPageTemplate({
@@ -12,7 +12,7 @@ addPageTemplate({
   component: (): Promise<any> => import("./tpl-landing-page.vue"),
 })
 
-addContentRoutes({
+addRoutes({
   key: "fictionRoutes",
   routes: () => {
     const routes = [

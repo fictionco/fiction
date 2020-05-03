@@ -25,6 +25,6 @@ export default Vue.extend({
 <style lang="less">
 .form-submit {
   text-align: right;
-  margin: 2em 0;
+  margin: 2em 0 0;
 }
 </style>

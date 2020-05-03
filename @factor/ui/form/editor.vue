@@ -182,8 +182,7 @@ export default Vue.extend({
   .CodeMirror {
     color: inherit;
     border: none;
-    background-color: var(--input-bg);
-    box-shadow: var(--box-shadow-input);
+    box-shadow: 0 0 0 1px var(--color-border);
   }
 }
 

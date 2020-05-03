@@ -1,4 +1,4 @@
-import { addFilter, setting, addContentRoutes } from "@factor/api"
+import { addFilter, setting, addRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 addFilter({
@@ -21,7 +21,7 @@ addPageTemplate({
 /*
  * The front end routes
  */
-addContentRoutes({
+addRoutes({
   key: "frameworkThemeRoutes",
   routes: [
     {

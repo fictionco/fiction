@@ -12,7 +12,7 @@ Main files are the controller files for Factor apps and extensions. Use main fil
 You can think of main files as the entry point of your application (or extension). When your app loads, you'll sometimes want to add routes, or run functions to coordinate other activity in your app. Some examples of what you might do:
 
 - Use `onEvent` to trigger an action when an event occurs
-- Use `addContentRoutes` to add several custom routes to an app
+- Use `addRoutes` to add several custom routes to an app
 - Use `addCallback` to run a function at some point Factor's lifecycle
 - Run code directly when your app first loads
 - Import and run functions provided by Factor plugins or themes

@@ -79,16 +79,19 @@ const upgradeOldSchema = (): PostTypeConfig[] => {
  * Gets all schemas for factor post types
  */
 export const getAddedSchemas = (): PostTypeConfig[] => {
-  const postTypes = [...upgradeOldSchema(), ...postTypesConfig()]
-    .filter((_) => _.schemaDefinition)
-    .filter((pt: PostTypeConfig, index: number, self: PostTypeConfig[]) => {
-      // remove duplicates, favor the last
+  const postTypes = [...upgradeOldSchema(), ...postTypesConfig()].filter(
+    (pt: PostTypeConfig, index: number, self: PostTypeConfig[]) => {
+      /**
+       * Remove duplicates, needed for backwards compat with old schema format
+       * @deprecate 2.0
+       */
       const lastIndexOf = self.map((_) => _.postType).lastIndexOf(pt.postType)
       return index === lastIndexOf
-    })
+    }
+  )
 
   const added = postTypes.map((s: PostTypeConfig) => {
-    const { schemaDefinition, postType } = s
+    const { schemaDefinition = {}, postType } = s
 
     const def =
       typeof schemaDefinition == "function" ? schemaDefinition() : schemaDefinition
@@ -111,7 +114,9 @@ export const getBaseSchema = (): PostTypeConfig => {
  * @param postType - post type
  */
 export const getSchema = (postType: string): PostTypeConfig => {
-  const found = getAddedSchemas().find((s) => s.postType == postType)
+  const addedSchemas = getAddedSchemas()
+
+  const found = addedSchemas.find((s) => s.postType == postType)
 
   return found ?? getBaseSchema()
 }

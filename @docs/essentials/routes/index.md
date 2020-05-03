@@ -17,13 +17,13 @@ It is also typical to add custom routes from your app. For that Factor gives you
 
 ## Add Routes
 
-There are two primary functions used to add routes: `addContentRoute` to add a single route, and `addContentRoutes` to add many routes.
+There are two primary functions used to add routes: `addContentRoute` to add a single route, and `addRoutes` to add many routes.
 
 Their syntax is as follows:
 
 ```js
 // index.js
-import { addContentRoute, addContentRoutes } from "@factor/api"
+import { addContentRoute, addRoutes } from "@factor/api"
 
 addContentRoute({
   path: "/my-path",
@@ -32,7 +32,7 @@ addContentRoute({
   meta: {},
 })
 
-addContentRoutes({
+addRoutes({
   key: "myRoutes",
   routes: [
     {

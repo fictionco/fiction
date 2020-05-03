@@ -1,4 +1,4 @@
-import { addFilter, setting, addContentRoutes } from "@factor/api"
+import { addFilter, setting, addRoutes } from "@factor/api"
 
 if (setting("headTags") != "") {
   addFilter({
@@ -13,7 +13,7 @@ if (setting("headTags") != "") {
 
 // CONTENT ROUTES
 
-addContentRoutes({
+addRoutes({
   key: "zenoRoutes",
   routes: [
     {

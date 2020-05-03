@@ -1,4 +1,4 @@
-import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
+import { addFilter, setting, addRoutes, addPostType } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 const baseRoute = setting("work.postRoute")
@@ -39,7 +39,7 @@ addPageTemplate({
 /*
  * The front end routes
  */
-addContentRoutes({
+addRoutes({
   key: "alphaRoutes",
   routes: [
     {

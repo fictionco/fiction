@@ -1,4 +1,4 @@
-import { addContentRoutes } from "@factor/api"
+import { addRoutes } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 import "./extend"
@@ -8,8 +8,8 @@ addPageTemplate({
   component: (): Promise<any> => import("./page-template-default.vue"),
 })
 
-addContentRoutes({
-  key: "docsRoutes",
+addRoutes({
+  key: "factorAppRoutes",
   routes: () => {
     return [
       {
@@ -24,6 +24,10 @@ addContentRoutes({
       {
         path: "/plans",
         component: (): Promise<any> => import("./plans/v-plans.vue"),
+      },
+      {
+        path: "/contact",
+        component: (): Promise<any> => import("./v-contact.vue"),
       },
       {
         path: `/themes`,

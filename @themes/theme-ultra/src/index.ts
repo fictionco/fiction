@@ -1,4 +1,4 @@
-import { addFilter, setting, addContentRoutes, addPostType } from "@factor/api"
+import { addFilter, setting, addRoutes, addPostType } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 const baseRoute = setting("portfolio.postRoute")
@@ -32,7 +32,7 @@ addPostType({
 })
 
 // CONTENT ROUTES
-addContentRoutes({
+addRoutes({
   key: "ultraRoutes",
   routes: [
     {

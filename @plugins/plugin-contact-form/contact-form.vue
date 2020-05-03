@@ -8,10 +8,7 @@
   >
     <div v-if="sent" class="confirm" data-test="confirm">
       <div v-formatted-text="setting('contactForm.confirm.title')" class="title" />
-      <div
-        v-formatted-text="setting('contactForm.confirm.subTitle')"
-        class="description"
-      />
+      <div v-formatted-text="setting('contactForm.confirm.subTitle')" class="description" />
     </div>
     <div v-else class="inputs">
       <factor-input-wrap
@@ -25,7 +22,6 @@
         :label="getLabel(c)"
         :label-classes="`${c.labelClasses}`"
         :placeholder="getPlaceholder(c)"
-        :format="setting('contactForm.inputFormat', 'horizontal')"
       />
       <factor-input-submit
         :btn="setting('contactForm.submit.btn')"

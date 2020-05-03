@@ -34,9 +34,9 @@ npx factor dev
 
 #### Dev Server Options
 
-- **Use Static Files** `--static`
+- **Use Static Files** `--static-files`
   Use static files instead of Webpack's default memory filesystem (virtual files).
-- **Server Restart On Change** `--server`
+- **Server Restart On Change** `--watch-server`
   Server development mode. Restart the server on file changes.
 
 ### Running Application Build
