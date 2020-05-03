@@ -127,11 +127,11 @@ export default Vue.extend({
       max-width: 600px;
       margin: 0 auto;
       align-items: center;
-      display: grid;
-      grid-template-columns: 1fr;
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-      }
+      // display: grid;
+      // grid-template-columns: 1fr;
+      // @media (max-width: 900px) {
+      //   grid-template-columns: 1fr;
+      // }
     }
     .aside {
       padding: 1.5em;
