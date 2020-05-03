@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-checkout",
   "description": "A Stripe eCommerce solution for Factor.",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
@@ -32,7 +32,6 @@
     "url": "https://github.com/fiction-com/factor/issues"
   },
   "homepage": "https://factor.dev/plugin/checkout-ecommerce",
-  "dependencies": {},
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
