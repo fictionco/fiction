@@ -3,7 +3,7 @@ import { addEndpoint, addFilter } from "@factor/api"
 import Stripe from "stripe"
 import { savePost } from "@factor/api/server"
 import { EndpointMeta } from "@factor/endpoint/types"
-import { SubscriptionResult, SubscriptionCustomerData } from "./types"
+import { SubscriptionResult, SubscriptionCustomerData, PlanInfo } from "./types"
 
 const getStripe = (): Stripe => {
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -26,7 +26,7 @@ export const createSubscription = async (
 
   let stripeCustomerId = bearer.stripeCustomerId
   let stripeCustomer: Stripe.Customer
-  console.log("stripeCustomerId", stripeCustomerId)
+
   if (!stripeCustomerId) {
     // This creates a new Customer and attaches the PaymentMethod in one API call.
     stripeCustomer = await stripe.customers.create({
@@ -38,7 +38,7 @@ export const createSubscription = async (
     })
 
     stripeCustomerId = stripeCustomer.id
-    console.log("Created stripeCustomerId", stripeCustomerId)
+
     await savePost(
       {
         data: { _id: bearer._id, stripeCustomerId: stripeCustomer.id },
@@ -52,15 +52,11 @@ export const createSubscription = async (
     )) as Stripe.Customer
   }
 
-  console.log("try sub")
-
   const stripeSubscription = await stripe.subscriptions.create({
     customer: stripeCustomerId,
     items: [{ plan: subscriptionPlanId as string }],
     expand: ["latest_invoice.payment_intent"],
   })
-
-  console.log("stripeSubscription", stripeSubscription)
 
   return {
     status: "success",
@@ -69,15 +65,35 @@ export const createSubscription = async (
   }
 }
 
-addEndpoint({ id: "pluginCheckout", handler: { createSubscription } })
+/**
+ * Retrieve Stripe plan by Id
+ * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
+ * @param id - Stripe plan ID
+ */
+export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> => {
+  const stripe = getStripe()
 
-addFilter({
-  key: "addStripeInfo",
-  hook: "schema-definition-user",
-  callback: (definition) => {
-    definition.stripeCustomerId = {
-      type: String,
-    }
-    return definition
-  },
-})
+  const plan = await stripe.plans.retrieve(id)
+  let product = {}
+  if (typeof plan.product == "string") {
+    product = await stripe.products.retrieve(plan.product)
+  }
+  return { plan, product }
+}
+
+const setup = (): void => {
+  addEndpoint({ id: "pluginCheckout", handler: { createSubscription, retrievePlan } })
+
+  addFilter({
+    key: "addStripeInfo",
+    hook: "schema-definition-user",
+    callback: (definition) => {
+      definition.stripeCustomerId = {
+        type: String,
+      }
+      return definition
+    },
+  })
+}
+
+setup()

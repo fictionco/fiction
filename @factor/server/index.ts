@@ -31,8 +31,8 @@ let __application: express.Express
 let __renderer: BundleRenderer // used for dev server updates
 
 export interface ServerOptions {
-  static?: true
-  server?: true
+  staticFiles?: true
+  watchServer?: true
   port?: string
   renderer?: BundleRenderer
   cwd?: string
@@ -262,8 +262,8 @@ export const createRenderServer = async (
     await new Promise((resolve) => {
       developmentServer({
         cwd,
-        fileSystem: options.static ? "static" : "memory",
-        watchMode: options.server ? "server" : "app",
+        fileSystem: options.staticFiles ? "static" : "memory",
+        watchMode: options.watchServer ? "server" : "app",
         onReady: async (renderConfig) => {
           __renderer = htmlRenderer(renderConfig)
 

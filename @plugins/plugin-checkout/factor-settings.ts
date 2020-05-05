@@ -17,21 +17,11 @@ export default {
     },
     development: {
       publishableKey: "",
-      plans: {
-        pro: "plan_HDdUFHsAuiYJf3",
-        proMonthly: "plan_HDdVV8sK4WHPq3",
-        business: "plan_HDggbm822dNjDg",
-        businessMonthly: "plan_HDggVQfROhqWoT",
-      },
+      plans: {},
     },
     production: {
       publishableKey: "",
-      plans: {
-        pro: "plan_HDdUFHsAuiYJf3",
-        proMonthly: "plan_HDdVV8sK4WHPq3",
-        business: "plan_HDggbm822dNjDg",
-        businessMonthly: "plan_HDggVQfROhqWoT",
-      },
+      plans: {},
     },
   },
 }

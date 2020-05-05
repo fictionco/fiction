@@ -9,7 +9,7 @@
 import Vue from "vue"
 import { factorForm } from "@factor/ui"
 import { userInitialized, storeItem } from "@factor/api"
-import { getStripeClient } from "."
+import { getStripeClient } from "./stripe-client"
 
 export default Vue.extend({
   name: "CC",

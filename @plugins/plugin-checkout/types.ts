@@ -1,15 +1,19 @@
 import { EndpointParameters } from "@factor/endpoint"
-
-import Stripe from "stripe"
+import StripeNode from "stripe"
 
 export interface SubscriptionResult {
   status: "success" | "failure"
-  customer: Stripe.Customer
-  subscription: Stripe.Subscription
+  customer: StripeNode.Customer
+  subscription: StripeNode.Subscription
+}
+
+export interface PlanInfo {
+  plan: StripeNode.Plan
+  product: StripeNode.Product | {}
 }
 
 export type SubscriptionCustomerData = {
-  plan: string
+  plan: StripeNode.Plan
   subscriptionPlanId?: string
   paymentMethodId: string
 } & EndpointParameters

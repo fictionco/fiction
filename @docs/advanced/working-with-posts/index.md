@@ -76,7 +76,7 @@ The above makes posts portable and universal. This results in making posts easy 
 
 ## Post Population
 
-Factor has a simple post population utility that allows you to populate posts based on their post type configuration. This happens automatically when you use native post request functions like `requestPostIndex` but you can also do this manually using the `requestPostPopulate` function.
+Factor allows you to populate posts based on their post type configuration. This happens automatically with native post request functions like `requestPostIndex` but you can also use the `requestPostPopulate` function.
 
 ```js
 // Get posts from DB
@@ -94,7 +94,7 @@ The two most common post requests you'll be doing are requesting single posts an
 
 Factor provides three native helpers to make these easy:
 
-### Request Single Post
+## Request Single Post
 
 To request a single post, use the `requestPostSingle` function. The post and populated fields will be added to the store automatically.
 
@@ -122,7 +122,10 @@ requestPostSingle({
 })
 ```
 
-### Requesting Post Lists and Indexes
+> **createOnEmpty**
+> If you pass the `createOnEmpty` property, the requested post will be created if it doesn't exist.
+
+## Requesting Post Lists and Indexes
 
 Often you'll want to get lists or indexes of posts. An index also returns meta information like total count, taxonomy information (e.g. count per category)
 
@@ -156,7 +159,7 @@ const {posts, meta} = requestPostIndex({
 
 - `sort` - Sorting is handled by [Mongoose sort](https://mongoosejs.com/docs/api/query.html#query_Query-sort)
 
-#### Indexes and the Store
+### Indexes and the Store
 
 When you request an index, the index is added to the store with a `storeKey` which defaults to the name of the post type (`postType`). You can change this if you need to run multiple indexes of the same post type on the same page.
 Query to the arguments provided. This prevents you from running the same queries over and over again as a user navigates.
@@ -180,7 +183,7 @@ export default {
 }
 ```
 
-#### Returned Meta Information
+### Returned Meta Information
 
 Post index queries return meta information about the query and results. This is useful for displaying pagination, taxonomy, links, and info to the user.
 
@@ -262,7 +265,7 @@ Learn more about [embedded posts](./embedded-posts).
 If you are working in the server environment, for example in endpoints or middleware, then you can make a direct call to server functions for posts; you only have to make sure to pass along the `bearer` parameter discussed in [endpoints and middleware](./../endpoints-and-middleware).
 
 ```js
-import { savePost, getSinglePost } from "@factor/post/server"
+import { savePost, getSinglePost } from "@factor/api/server"
 
 export const myEndpoint = async (data, { bearer }) => {
   // Save a post
@@ -272,3 +275,6 @@ export const myEndpoint = async (data, { bearer }) => {
   await getSinglePost({ postType: "attachment", _id: "---objectId---" }, { bearer })
 }
 ```
+
+> **New Posts on Save**
+> If no `_id` is passed to the `savePost` function a new post will be created.

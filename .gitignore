@@ -38,6 +38,9 @@ coverage
 # Junit reports
 reports
 
+# Editors
+.idea
+
 # Local SSL
 rootCA.key
 rootCA.pem

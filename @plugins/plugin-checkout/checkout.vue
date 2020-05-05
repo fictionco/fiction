@@ -2,24 +2,42 @@
 <template>
   <div class="checkout-wrap">
     <div class="checkout">
-      <div class="header">
+      <div v-if="!status" class="header">
         <h1>Checkout</h1>
         <div class="action">
-          <factor-link path="/plans">Change selection?</factor-link>
+          <factor-link
+            v-if="$route.query.interval == 'month'"
+            :query="{...$route.query, interval: `year`}"
+          >Pay Yearly (Save 40%)</factor-link>
+          <factor-link v-else :query="{...$route.query, interval: `month`}">Pay Monthly Instead</factor-link>
+          <factor-link path="/plans">Change plan?</factor-link>
         </div>
       </div>
-      <div class="checkout-info">
+      <div v-if="status == 'success'" class="status-info">
+        <div class="success">
+          <img class="media" src="./img/popper.svg" />
+          <h2 class="title">Success</h2>
+          <div class="sub">
+            <p>Congratulations! You've officially upgraded to {{ metadata.title }}</p>
+          </div>
+          <div class="action">
+            <factor-link btn="primary" path="/docs/pro">Using {{ metadata.title }} &rarr;</factor-link>
+            <factor-link btn="default" path="/dashboard/developer">Developer Dashboard &rarr;</factor-link>
+          </div>
+        </div>
+      </div>
+      <div v-else class="checkout-info">
         <div class="checkout-col payment-details">
-          <div class="super">Your Membership</div>
+          <div class="super">Premium Membership</div>
           <div class="purchasing">
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">348</span>
-              <span class="period">per year</span>
+              <span class="amount">{{ plan.amount / 100 }}</span>
+              <span class="period">per {{ plan.interval }}</span>
             </div>
             <div class="product">
-              <div class="name">Pro Suite</div>
-              <div class="sub">Professional extensions, features and support.</div>
+              <div class="name">{{ metadata.title || "No Title" }}</div>
+              <div class="sub">{{ metadata.description || "No Description" }}</div>
             </div>
           </div>
           <ul>
@@ -71,7 +89,11 @@
 import Vue from "vue"
 import { stored, currentUser, emitEvent } from "@factor/api"
 import { factorBtn, factorIcon, factorLink } from "@factor/ui"
-import { getStripeClient, requestCreateSubscription } from "."
+import {
+  getStripeClient,
+  requestCreateSubscription,
+  requestPlanInfo,
+} from "./stripe-client"
 export default Vue.extend({
   components: { factorBtn, factorIcon, factorLink, creditCard: () => import("./cc.vue") },
   data() {
@@ -86,10 +108,34 @@ export default Vue.extend({
       return stored("stripeCardElement")
     },
     plan() {
-      return this.$route.query.plan
+      return stored("planInfo") ?? {}
+    },
+    product() {
+      return stored("productInfo") ?? {}
+    },
+    metadata(this: any) {
+      return this.product.metadata ?? {}
+    },
+    status() {
+      return this.$route.query.status
     },
   },
+  watch: {
+    $route: {
+      handler: function (this: any) {
+        this.setPlan()
+      },
+    },
+  },
+  mounted(this: any) {
+    this.setPlan()
+  },
   methods: {
+    async setPlan() {
+      const plan = this.$route.query.plan ?? "pro"
+      const interval = this.$route.query.interval ?? "year"
+      await requestPlanInfo(plan as string, interval as string)
+    },
     async createSubscription(this: any) {
       this.sending = true
       this.error = ""
@@ -112,14 +158,16 @@ export default Vue.extend({
       if (paymentMethod?.id) {
         this.paymentMethodId = paymentMethod?.id
 
-        const result = await requestCreateSubscription({
+        const { status } = await requestCreateSubscription({
           paymentMethodId: this.paymentMethodId,
           plan: this.plan,
         })
 
-        console.log("result", result)
+        if (status == "success") {
+          emitEvent("notify", "Success!")
+          this.$router.push({ query: { ...this.$route.query, status } })
+        }
 
-        emitEvent("notify", "Success!")
         this.sending = false
       }
     },
@@ -156,10 +204,13 @@ export default Vue.extend({
       font-weight: var(--font-weight-bold, 700);
     }
     .action {
-      font-weight: var(--font-weight-bold, 700);
       opacity: 0.5;
       font-size: 0.85em;
       color: var(--color-text-secondary);
+      a {
+        color: inherit;
+        margin-left: 0.75rem;
+      }
     }
   }
   .footer {
@@ -170,16 +221,42 @@ export default Vue.extend({
     color: var(--color-text-secondary);
   }
 }
-.checkout-info {
+.checkout-info,
+.status-info {
   box-shadow: 0 0 0 1px var(--color-border);
   border-radius: 8px;
   background: #fff;
+}
 
+.checkout-info {
   display: grid;
   grid-template-columns: 1fr 2fr;
   .payment-details,
   .payment-area {
     padding: 3rem 2rem;
+  }
+}
+.status-info {
+  padding: 5rem;
+  text-align: center;
+  .media {
+    max-width: 150px;
+  }
+  .title {
+    font-weight: var(--font-weight-bold, 700);
+    font-size: 2em;
+  }
+  .sub {
+    color: var(--color-text-secondary);
+    p {
+      margin: 1rem 0;
+    }
+  }
+  .action {
+    margin-top: 2rem;
+    .factor-link {
+      margin-right: 1rem;
+    }
   }
 }
 .payment-info {

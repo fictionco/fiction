@@ -44,7 +44,8 @@ export interface CommandOptions {
   PORT?: string
   analyze?: boolean
   debug?: boolean
-  static?: boolean
+  staticFiles?: boolean
+  watchServer?: boolean
   clean?: boolean
   inspect?: boolean
   cwd?: string
