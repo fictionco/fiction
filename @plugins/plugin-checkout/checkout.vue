@@ -32,8 +32,8 @@
           <div class="purchasing">
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">{{ plan.amount / 100 }}</span>
-              <span class="period">per {{ plan.interval }}</span>
+              <span class="amount">{{ plan.amount ? plan.amount / 100 : "" }}</span>
+              <span class="period">per {{ plan.interval || "" }}</span>
             </div>
             <div class="product">
               <div class="name">{{ metadata.title || "No Title" }}</div>

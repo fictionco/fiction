@@ -15,6 +15,7 @@ export interface MenuItem {
   key?: string
   click?: Function
   items?: MenuItem[]
+  children?: (MenuItem & RouteConfig)[]
   active?: boolean
   priority?: number
   query?: Record<string, any>
@@ -61,14 +62,15 @@ const loadMenuGroups = (): MenuGroup[] => {
 
   groups = groups.map((menuGroup: MenuGroup) => {
     menuGroup.menu = menuGroup.menu.map((menuItem: MenuItem) => {
-      const { path, group, icon, items = [] } = menuItem
+      const { path, group, icon, items = [], children = [] } = menuItem
       const parentPath = getDashboardRoute(path)
 
-      const subItems = applyFilters(`${menuGroup.group}-menu-${group}`, items).map(
-        (sub: MenuItem) => {
-          return { ...sub, path: getDashboardRoute(sub.path, parentPath) }
-        }
-      )
+      const subItems = applyFilters(`${menuGroup.group}-menu-${group}`, [
+        ...items,
+        ...children,
+      ]).map((sub: MenuItem) => {
+        return { ...sub, path: getDashboardRoute(sub.path, parentPath) }
+      })
 
       return {
         ...menuItem,
@@ -92,16 +94,15 @@ export const preloadedDashboardRoutes = (): RouteConfig[] => {
     .map((g) => g.menu)
     .forEach((menuItems: MenuItem[]) => {
       menuItems.forEach((menu: MenuItem) => {
-        const { component, meta, path } = menu
+        const { component, meta, path, children = [] } = menu
         if (component && path) {
-          routes.push({ component, path, meta })
+          routes.push({ component, path, meta, children })
         }
-
         if (menu.items) {
           menu.items.forEach((sub: MenuItem) => {
-            const { component: sc, meta: sm, path: sp } = sub
+            const { component: sc, meta: sm, path: sp, children: subChildren = [] } = sub
             if (sc && sp) {
-              routes.push({ component: sc, path: sp, meta: sm })
+              routes.push({ component: sc, path: sp, meta: sm, children: subChildren })
             }
           })
         }
