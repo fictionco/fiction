@@ -341,7 +341,7 @@ export const postIndex = async (
   return { meta: { ...counts, ...options, conditions }, posts }
 }
 
-export const setup = (): void => {
+const setup = (): void => {
   addEndpoint({ id: "posts", handler: endpointHandler })
 
   addCallback({

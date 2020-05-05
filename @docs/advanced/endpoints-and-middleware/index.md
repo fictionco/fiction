@@ -5,11 +5,19 @@ description: Guide for creating and working with server endpoints and middleware
 
 # Endpoints and Middleware
 
-Endpoints and middleware are the primary mechanisms for performing "trusted" transactions in any app.
+Endpoints and middleware are the primary mechanisms for performing "trusted" transactions in your app's server environment. This includes handling payment information or saving data to your database.
 
-For example, any direct database transaction must happen in an endpoint.
+## What are endpoints?
 
-In advanced and extension development, creating endpoints is common whenever you want to work with APIs or directly with posts and the database. Let's go through the tools available.
+Whenever you want a user to perform some secured action, like saving their account data, they have to make a request to your server. On your server you then need to verify their identity, handle the request data, then perform the transaction.
+
+In Factor, endpoints automate all the boiler plate in this process. Use them when you need to perform trusted actions on the server that are triggered from the client. For examples of what you might do:
+
+- Run a custom database query
+- Send notification emails
+- Save a new subscription to Stripe
+
+Endpoints are built on top of Express server middleware discussed below.
 
 ## Creating an Endpoint
 
@@ -35,6 +43,8 @@ addEndpoint({
 Now that we've created the endpoint, we can make a request to it. This is usually done from the 'app' environment and uses the function `endpointRequest`.
 
 ```js
+import { endpointRequest } from "@factor/api"
+
 const result = await endpointRequest({
   id: "my-endpoint",
   method: "exampleEndpointMethod",
@@ -75,7 +85,7 @@ Other information set as meta to all endpoint methods:
 
 ## Creating Middleware
 
-Adding server middleware is a common way to add server functionality at URLs and is lower level than the endpoints system. A typical use case is to handle image uploads.
+Middleware is an [Express concept](https://expressjs.com/en/guide/using-middleware.html). It is a common way to add server functionality at URLs and is lower level than the endpoints system. A typical use case is to handle image uploads.
 
 ```js
 import { addMiddleware } from "@factor/api"

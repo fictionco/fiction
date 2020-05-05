@@ -24,6 +24,7 @@ interface Window {
   factorReady: boolean
   factorApp: Record<string, any>
   Prism: any
+
   _factorLoadingScreen: any
   $BASE_URL: string
   docsearch: any

@@ -5,6 +5,26 @@ export default {
     nav: docNav,
     components: injectedComponents,
   },
+  checkout: {
+    production: {
+      publishableKey: "pk_live_mNp1P1HlMMP4gxpc0aUMuayE",
+      plans: {
+        pro: "plan_HDdUFHsAuiYJf3",
+        proMonthly: "plan_HDdVV8sK4WHPq3",
+        business: "plan_HDggbm822dNjDg",
+        businessMonthly: "plan_HDggVQfROhqWoT",
+      },
+    },
+    development: {
+      publishableKey: "pk_test_jbW9mKYjd1PXtJklKiqJtIq4",
+      plans: {
+        pro: "plan_HDjUY9NRtVTaND",
+        proMonthly: "plan_HDjUeyfZxz6vJD",
+        business: "plan_HDjVkmq9Hlpr5p",
+        businessMonthly: "plan_HDjVyDXlswZYDP",
+      },
+    },
+  },
   app: { url: "https://factor.dev" },
   metaInfo: {
     default: {

@@ -48,7 +48,7 @@ export default Vue.extend({
       display: block;
     }
   }
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     padding-top: 0;
   }
 

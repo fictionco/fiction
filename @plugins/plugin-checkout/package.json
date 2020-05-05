@@ -12,10 +12,10 @@
     "access": "public"
   },
   "factor": {
-    "load": [
-      "app",
-      "server"
-    ],
+    "load": {
+      "app": "index",
+      "server": "server"
+    },
     "extend": "plugin",
     "title": "Checkout",
     "permalink": "checkout-ecommerce",
@@ -40,5 +40,10 @@
     "stripe",
     "cart",
     "checkout"
-  ]
+  ],
+  "dependencies": {
+    "@types/stripe": "^7.13.23",
+    "@types/stripe-v3": "^3.1.17",
+    "stripe": "^8.49.0"
+  }
 }

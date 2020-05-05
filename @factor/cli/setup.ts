@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./global.d.ts" />
+
 import { getExtensions } from "@factor/cli/extension-loader"
 import { getPath } from "@factor/api/paths"
 import { highlight } from "cli-highlight"

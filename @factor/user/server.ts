@@ -105,7 +105,7 @@ export const createNewAdminUser = async (
   return userCredential(user)
 }
 
-export const setup = (): void => {
+const setup = (): void => {
   addCallback({
     hook: "environment-created",
     key: "verifyToken",

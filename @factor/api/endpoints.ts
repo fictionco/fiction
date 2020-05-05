@@ -1,6 +1,7 @@
 import { addCallback, pushToFilter } from "@factor/api/hooks"
 import { EndpointItem } from "@factor/endpoint/types"
 import { MiddlewareHandler } from "@factor/server/types"
+export * from "@factor/endpoint"
 
 export const addEndpoint = ({ id, handler }: EndpointItem): void => {
   addCallback({
