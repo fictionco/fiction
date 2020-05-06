@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-pane">
+  <div class="dashboard-panel">
     <div v-if="title || $slots.nav" class="head">
       <div v-if="$slots.title">
         <slot name="title" />
@@ -23,6 +23,7 @@
 <script lang="ts">
 import Vue from "vue"
 export default Vue.extend({
+  name: "DashboardPanel",
   props: {
     title: { type: String, default: "" },
     note: { type: String, default: "" },
@@ -31,7 +32,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.dashboard-pane {
+.dashboard-panel {
   background: #fff;
   border-radius: 5px;
   box-shadow: 0 0 0 1px var(--panel-border-color);

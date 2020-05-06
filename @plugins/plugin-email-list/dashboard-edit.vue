@@ -1,6 +1,6 @@
 <template>
   <dashboard-page>
-    <dashboard-pane :title="title" class="email-list-edit">
+    <dashboard-panel :title="title" class="email-list-edit">
       <dashboard-list-controls
         :control-actions="controlActions()"
         :control-status="controlStatus()"
@@ -22,7 +22,7 @@
         :actions="postItemActions(item)"
         :edit-path="false"
       />
-    </dashboard-pane>
+    </dashboard-panel>
   </dashboard-page>
 </template>
 
@@ -31,10 +31,10 @@
 import { storeItem, stored, internationalDate } from "@factor/api"
 import {
   dashboardPage,
-  dashboardPane,
+  dashboardPanel,
   dashboardListPost,
   dashboardListControls,
-} from "@factor/dashboard"
+} from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
 import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
@@ -44,7 +44,7 @@ export default Vue.extend({
   name: "EmailListGrid",
   components: {
     dashboardPage,
-    dashboardPane,
+    dashboardPanel,
     dashboardListPost,
     dashboardListControls,
   },

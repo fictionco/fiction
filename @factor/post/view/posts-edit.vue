@@ -2,10 +2,10 @@
   <dashboard-page :loading="loading" :title="title">
     <template #actions>
       <factor-link btn="default" :path="url">View</factor-link>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="savePost()">Update</factor-btn-dashboard>
+      <dashboard-btn btn="primary" :loading="sending" @click="savePost()">Update</dashboard-btn>
     </template>
     <template #primary>
-      <dashboard-pane class="compose">
+      <dashboard-panel class="compose">
         <dashboard-input
           v-model="post.title"
           input="factor-input-text"
@@ -17,10 +17,10 @@
         <dashboard-input label="Post Content">
           <factor-input-editor v-model="post.content" :autosave-id="post._id" />
         </dashboard-input>
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
     <template #meta>
-      <dashboard-pane class="post-media">
+      <dashboard-panel class="post-media">
         <dashboard-input
           v-model="post.status"
           label="Status"
@@ -72,7 +72,7 @@
           label="Source"
           description="Used when sharing DB in multiple apps"
         />
-      </dashboard-pane>
+      </dashboard-panel>
       <slot name="meta" />
     </template>
     <template #secondary>
@@ -82,10 +82,13 @@
 </template>
 <script lang="ts">
 import {
-  factorBtnDashboard,
+  dashboardBtn,
   factorLink,
   factorInputTags,
   factorInputEditor,
+  dashboardPage,
+  dashboardPanel,
+  dashboardInput,
 } from "@factor/ui"
 import {
   isEmpty,
@@ -99,15 +102,15 @@ import {
 } from "@factor/api"
 import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
-import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
+
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
 export default Vue.extend({
   components: {
     dashboardInput,
     dashboardPage,
-    dashboardPane,
-    factorBtnDashboard,
+    dashboardPanel,
+    dashboardBtn,
     factorLink,
     factorInputTags,
     factorInputEditor,

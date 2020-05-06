@@ -6,11 +6,7 @@
       <div class="plink">{{ link }}</div>
       <div class="desc">{{ desc }}</div>
     </div>
-    <dashboard-input
-      v-model="post.titleTag"
-      input="factor-input-text"
-      label="Title Meta Tag"
-    />
+    <dashboard-input v-model="post.titleTag" input="factor-input-text" label="Title Meta Tag" />
     <dashboard-input
       v-model="post.descriptionTag"
       input="factor-input-textarea"
@@ -27,7 +23,7 @@
 </template>
 <script lang="ts">
 import { excerpt } from "@factor/api/excerpt"
-import { dashboardInput } from "@factor/dashboard"
+import { dashboardInput } from "@factor/ui"
 import { postLink, stored } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({

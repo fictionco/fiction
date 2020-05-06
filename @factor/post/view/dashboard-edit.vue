@@ -1,26 +1,26 @@
 <template>
   <component :is="templateLoader" :post-id="_id" :post="post" :post-type="postType">
     <template #edit>
-      <dashboard-pane v-for="(item, i) in editComponents" :key="i" :title="item.name">
+      <dashboard-panel v-for="(item, i) in editComponents" :key="i" :title="item.name">
         <component :is="item.component" :post-id="_id" />
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
     <template #meta>
-      <dashboard-pane v-for="(item, i) in metaComponents" :key="i" :title="item.name">
+      <dashboard-panel v-for="(item, i) in metaComponents" :key="i" :title="item.name">
         <component :is="item.component" :post-id="_id" />
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
   </component>
 </template>
 <script lang="ts">
-import { dashboardPane } from "@factor/dashboard"
+import { dashboardPanel } from "@factor/ui"
 import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 import { EditPanel } from "@factor/dashboard/types"
 import Vue from "vue"
 export default Vue.extend({
-  components: { dashboardPane },
+  components: { dashboardPanel },
   computed: {
     post: {
       get(this: any): FactorPost {

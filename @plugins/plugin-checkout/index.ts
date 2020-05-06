@@ -13,8 +13,13 @@ addDashboardMenu({
   name: "Subscription",
   path: "/subscription",
   key: "subscription",
-  component: (): Promise<any> => import("./dashboard/subscription.vue"),
+  component: (): Promise<any> => import("./dashboard/wrap.vue"),
   children: [
+    {
+      name: "Subscription",
+      path: "/",
+      component: (): Promise<any> => import("./dashboard/subscription.vue"),
+    },
     {
       name: "Payment Method",
       path: "/payment-method",

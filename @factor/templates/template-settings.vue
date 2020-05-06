@@ -18,7 +18,7 @@
   </div>
 </template>
 <script lang="ts">
-import { dashboardInput } from "@factor/dashboard"
+import { dashboardInput } from "@factor/ui"
 import {
   getPageTemplates,
   getTemplate,

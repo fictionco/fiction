@@ -1,6 +1,6 @@
 <template>
   <dashboard-page :loading="loading">
-    <dashboard-pane class="dashboard-splash">
+    <dashboard-panel class="dashboard-splash">
       <div class="splash-head">
         <div class="content">
           <h1 v-formatted-text="title" class="title" />
@@ -29,18 +29,17 @@
           </div>
         </div>
       </div>
-    </dashboard-pane>
+    </dashboard-panel>
   </dashboard-page>
 </template>
 <script lang="ts">
-import { dashboardPage, dashboardPane } from "@factor/dashboard"
-import { factorLink } from "@factor/ui"
+import { dashboardPage, dashboardPanel, factorLink } from "@factor/ui"
 import { userInitialized } from "@factor/user"
 import Vue from "vue"
 export default Vue.extend({
   components: {
     dashboardPage,
-    dashboardPane,
+    dashboardPanel,
     factorLink,
   },
   data() {

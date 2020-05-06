@@ -1,5 +1,5 @@
 <template>
-  <dashboard-pane :title="title">
+  <dashboard-panel :title="title">
     <factor-modal :vis.sync="vis" class="form-view-modal">
       <div class="form-info">
         <h2>Form Submission</h2>
@@ -37,7 +37,7 @@
       :toggle="{ show: `Show Form Data`, hide: `Hide Form Data` }"
       :click-event="() => showModal(post)"
     />
-  </dashboard-pane>
+  </dashboard-panel>
 </template>
 <script lang="ts">
 import { getStatusCount } from "@factor/post/util"
@@ -46,11 +46,12 @@ import { FactorPost } from "@factor/post/types"
 import { ControlAction, PostListDataItem } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import {
-  dashboardPane,
+  dashboardPanel,
   dashboardListPost,
   dashboardListControls,
-} from "@factor/dashboard"
-import { factorModal } from "@factor/ui"
+  factorModal,
+} from "@factor/ui"
+
 import Vue from "vue"
 import { ContactFormStandard } from "./types"
 
@@ -58,7 +59,7 @@ export default Vue.extend({
   name: "ContactFormList",
   components: {
     dashboardListPost,
-    dashboardPane,
+    dashboardPanel,
     dashboardListControls,
     factorModal,
   },

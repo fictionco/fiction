@@ -1,4 +1,4 @@
-import { applyFilters } from "@factor/api"
+import { applyFilters, slugify } from "@factor/api"
 import { userInitialized, userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { currentRoute } from "@factor/app/router"
@@ -62,15 +62,22 @@ const loadMenuGroups = (): MenuGroup[] => {
 
   groups = groups.map((menuGroup: MenuGroup) => {
     menuGroup.menu = menuGroup.menu.map((menuItem: MenuItem) => {
-      const { path, group, icon, items = [], children = [] } = menuItem
+      const { name, path, group, icon, items = [], children = [] } = menuItem
       const parentPath = getDashboardRoute(path)
 
-      const subItems = applyFilters(`${menuGroup.group}-menu-${group}`, [
-        ...items,
-        ...children,
-      ]).map((sub: MenuItem) => {
-        return { ...sub, path: getDashboardRoute(sub.path, parentPath) }
-      })
+      const allSubItems = [...items, ...children]
+
+      const filteredSub = allSubItems
+        .map((item: MenuItem) => {
+          return { ...item, path: getDashboardRoute(item.path, parentPath) }
+        })
+        .filter((item) => {
+          return item.path != parentPath
+        })
+
+      const subMenuId = group || slugify(name)
+
+      const subItems = applyFilters(`${menuGroup.group}-menu-${subMenuId}`, filteredSub)
 
       return {
         ...menuItem,

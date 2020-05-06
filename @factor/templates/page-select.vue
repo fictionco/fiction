@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts">
-import { dashboardInput } from "@factor/dashboard"
+import { dashboardInput } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
 import { stored, storeItem } from "@factor/api"
 import Vue from "vue"

@@ -1,5 +1,5 @@
 <template>
-  <dashboard-pane>
+  <dashboard-panel>
     <dashboard-list-controls
       :control-actions="controlActions()"
       :control-status="controlStatus()"
@@ -19,7 +19,7 @@
       :meta="postItemMeta(post)"
       :additional="postItemAdditional(post)"
     />
-  </dashboard-pane>
+  </dashboard-panel>
 </template>
 <script lang="ts">
 import { getStatusCount } from "@factor/post/util"
@@ -27,11 +27,7 @@ import { stored, timeUtil, timestamp, emitEvent } from "@factor/api"
 import { FactorPost } from "@factor/post/types"
 import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
-import {
-  dashboardPane,
-  dashboardListPost,
-  dashboardListControls,
-} from "@factor/dashboard"
+import { dashboardPanel, dashboardListPost, dashboardListControls } from "@factor/ui"
 import Vue from "vue"
 import { EmailConfig } from "./types"
 import { postTypeUIConfig, csvExport } from "."
@@ -39,7 +35,7 @@ export default Vue.extend({
   name: "EmailListGrid",
   components: {
     dashboardListPost,
-    dashboardPane,
+    dashboardPanel,
     dashboardListControls,
   },
   props: {

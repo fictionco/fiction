@@ -1,23 +1,23 @@
 <template>
   <dashboard-page>
-    <dashboard-pane>
+    <dashboard-panel>
       <div class="four04">
         <div class="pad">
           <div class="title">Not Found (404)</div>
         </div>
       </div>
-    </dashboard-pane>
+    </dashboard-panel>
   </dashboard-page>
 </template>
 
 <script lang="ts">
-import { dashboardPage, dashboardPane } from "@factor/dashboard"
+import { dashboardPage, dashboardPanel } from "@factor/ui"
 import Vue from "vue"
 
 export default Vue.extend({
   components: {
     dashboardPage,
-    dashboardPane,
+    dashboardPanel,
   },
 })
 </script>

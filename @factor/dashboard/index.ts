@@ -9,16 +9,6 @@ import { preloadedDashboardRoutes } from "./menu"
 
 export * from "./util"
 
-export const dashboardPane = (): Promise<any> => import("./theme/pane.vue")
-export const dashboardPage = (): Promise<any> => import("./theme/page.vue")
-export const dashboardListPost = (): Promise<any> => import("./el/list-post.vue")
-export const dashboardListControls = (): Promise<any> => import("./el/list-controls.vue")
-export const dashboardListEmpty = (): Promise<any> => import("./el/list-empty.vue")
-export const dashboardTableFooter = (): Promise<any> => import("./table-footer.vue")
-export const dashboardInput = (): Promise<any> => import("./el/input.vue")
-export const dashboardUserCard = (): Promise<any> => import("./el/user-card.vue")
-export const dashboardUserList = (): Promise<any> => import("./el/user-list.vue")
-
 declare global {
   interface Window {
     factorFrame: any
@@ -114,7 +104,6 @@ export const setup = (): void => {
       })
     },
   })
-
 
   pushToFilter({
     key: "frame",

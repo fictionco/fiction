@@ -1,5 +1,5 @@
 <template>
-  <dashboard-pane :title="title">
+  <dashboard-panel :title="title">
     <dashboard-list-controls
       :control-actions="controlActions()"
       :control-status="controlStatus()"
@@ -26,17 +26,18 @@
       </template>
     </dashboard-list-post>
 
-    <dashboard-table-footer v-bind="$attrs" :meta="meta" />
-  </dashboard-pane>
+    <dashboard-list-footer v-bind="$attrs" :meta="meta" />
+  </dashboard-panel>
 </template>
 
 <script lang="ts">
 import {
-  dashboardPane,
+  dashboardPanel,
   dashboardListPost,
   dashboardListControls,
-  dashboardTableFooter,
-} from "@factor/dashboard"
+  dashboardListFooter,
+  factorAvatar,
+} from "@factor/ui"
 import { currentUser, userCan } from "@factor/user"
 import { FactorUser } from "@factor/user/types"
 import { getStatusCount } from "@factor/post/util"
@@ -44,13 +45,13 @@ import { toLabel, standardDate, emitEvent } from "@factor/api"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
-import { factorAvatar } from "@factor/ui"
+
 import { ControlAction } from "@factor/dashboard/types"
 export default Vue.extend({
   name: "UserList",
   components: {
-    dashboardPane,
-    dashboardTableFooter,
+    dashboardPanel,
+    dashboardListFooter,
     dashboardListPost,
     dashboardListControls,
     factorAvatar,

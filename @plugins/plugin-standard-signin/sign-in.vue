@@ -138,8 +138,8 @@
 
 <script lang="ts">
 import { logout } from "@factor/user/util"
-import { dashboardInput } from "@factor/dashboard"
-import { factorForm, factorBtn, factorLink } from "@factor/ui"
+import { dashboardInput, factorForm, factorBtn, factorLink } from "@factor/ui"
+
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
 import {
   sendPasswordResetEmail,

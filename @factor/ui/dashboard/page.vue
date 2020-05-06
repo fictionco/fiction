@@ -7,9 +7,9 @@
           <slot name="actions" />
         </div>
       </div>
-      <dashboard-pane v-if="loading" class="dpg-loading">
+      <dashboard-panel v-if="loading" class="dpg-loading">
         <factor-spinner width="4em" />
-      </dashboard-pane>
+      </dashboard-panel>
       <div v-else-if="!loading && $slots.primary" class="page-grid">
         <div class="col col-primary">
           <slot name="primary" />
@@ -29,14 +29,14 @@
   </div>
 </template>
 <script lang="ts">
-import { factorSpinner } from "@factor/ui"
-import { dashboardPane } from "@factor/dashboard"
+import { factorSpinner, dashboardPanel, dashboardFooter } from "@factor/ui"
+
 import Vue from "vue"
 export default Vue.extend({
   components: {
     factorSpinner,
-    dashboardPane,
-    dashboardFooter: () => import("./footer.vue"),
+    dashboardPanel,
+    dashboardFooter,
   },
   props: {
     title: { type: String, default: "" },

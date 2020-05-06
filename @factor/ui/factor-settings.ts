@@ -2,7 +2,7 @@ export default {
   core: {
     components: {
       btn: (): Promise<any> => import("./el/btn.vue"),
-      btnDashboard: (): Promise<any> => import("./el/btn-dashboard.vue"),
+      dashboardBtn: (): Promise<any> => import("./dashboard/btn.vue"),
       btnBase: (): Promise<any> => import("./el/btn-base.vue"),
       link: (): Promise<any> => import("./el/link.vue"),
       spinner: (): Promise<any> => import("./el/spinner.vue"),

@@ -1,26 +1,14 @@
 <template>
   <div class="edit-job-templates">
-    <dashboard-input
-      v-model="post.jobLocation"
-      input="factor-input-text"
-      label="Job Location"
-    />
+    <dashboard-input v-model="post.jobLocation" input="factor-input-text" label="Job Location" />
     <dashboard-input
       v-model="post.jobType"
       input="factor-input-text"
       label="Job Type"
       description="e.g. Freelance, Full Time, Internship, Part Time, Temporary"
     />
-    <dashboard-input
-      v-model="post.jobApplyEmail"
-      input="factor-input-text"
-      label="Apply Email"
-    />
-    <dashboard-input
-      v-model="post.jobCompanyName"
-      input="factor-input-text"
-      label="Company Name"
-    />
+    <dashboard-input v-model="post.jobApplyEmail" input="factor-input-text" label="Apply Email" />
+    <dashboard-input v-model="post.jobCompanyName" input="factor-input-text" label="Company Name" />
     <dashboard-input
       v-model="post.jobCompanyWebsite"
       input="factor-input-text"
@@ -29,7 +17,7 @@
   </div>
 </template>
 <script lang="ts">
-import { dashboardInput } from "@factor/dashboard"
+import { dashboardInput } from "@factor/ui"
 import { stored, storeItem } from "@factor/api"
 import Vue from "vue"
 import { FactorPost } from "@factor/post/types"

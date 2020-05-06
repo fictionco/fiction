@@ -20,10 +20,10 @@
   </dashboard-page>
 </template>
 <script lang="ts">
-import { factorLink } from "@factor/ui"
+import { factorLink, dashboardPage } from "@factor/ui"
 import { requestPostIndex } from "@factor/post/request"
 import { getPostTypeConfig, onEvent, stored } from "@factor/api"
-import { dashboardPage } from "@factor/dashboard"
+
 import { FactorPost } from "@factor/post/types"
 import Vue from "vue"
 export default Vue.extend({

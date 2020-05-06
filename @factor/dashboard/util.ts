@@ -17,9 +17,13 @@ export const dashboardBaseRoute = (): string => {
 export const getDashboardRoute = (path?: string, parentPath?: string): string => {
   const base = parentPath ? parentPath : dashboardBaseRoute()
   const p = path || ""
+  let out
   if (!path || path.startsWith("/")) {
-    return `${base}${p}`
+    out = `${base}${p}`
   } else {
-    return `${base}/${p}`
+    out = `${base}/${p}`
   }
+
+  // remove trailing slash
+  return out.replace(/\/$/, "")
 }

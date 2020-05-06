@@ -1,10 +1,10 @@
 <template>
   <dashboard-page :title="_id == userId() ? 'Your Account' : 'Edit User'">
     <template #actions>
-      <factor-btn-dashboard btn="primary" :loading="sending" @click="save()">Update</factor-btn-dashboard>
+      <dashboard-btn btn="primary" :loading="sending" @click="save()">Update</dashboard-btn>
     </template>
     <template #meta>
-      <dashboard-pane title="Images" class="compose inputs">
+      <dashboard-panel title="Images" class="compose inputs">
         <dashboard-input
           v-model="post.avatar"
           max="1"
@@ -31,10 +31,10 @@
           :loading="loading"
           @autosave="$emit('autosave')"
         />
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
     <template #primary>
-      <dashboard-pane title="Account Info" class="compose inputs">
+      <dashboard-panel title="Account Info" class="compose inputs">
         <dashboard-input
           v-model="post.displayName"
           input="factor-input-text"
@@ -49,12 +49,12 @@
           label="Email Address"
         >
           <div v-if="post.email && !post.emailVerified" class="verify-email">
-            <factor-btn-dashboard
+            <dashboard-btn
               size="small"
               btn="primary"
               :loading="sending"
               @click="sendVerifyEmail()"
-            >Unverified - Resend Email &rarr;</factor-btn-dashboard>
+            >Unverified - Resend Email &rarr;</dashboard-btn>
           </div>
         </dashboard-input>
 
@@ -71,10 +71,10 @@
           label="Update Password"
           autocomplete="new-password"
         />
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
     <template #secondary>
-      <dashboard-pane title="Profile" class="inputs">
+      <dashboard-panel title="Profile" class="inputs">
         <dashboard-input v-model="post.about" input="factor-input-textarea" label="About You" />
         <dashboard-input
           v-model="post.birthday"
@@ -100,13 +100,13 @@
             <div class="value">{{ standardDate(post.createdAt) }}</div>
           </div>
         </div>
-      </dashboard-pane>
+      </dashboard-panel>
     </template>
   </dashboard-page>
 </template>
 <script lang="ts">
-import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
-import { factorBtnDashboard } from "@factor/ui"
+import { dashboardPage, dashboardPanel, dashboardInput, dashboardBtn } from "@factor/ui"
+
 import { userId } from "@factor/user"
 import { sendVerifyEmail } from "@factor/user/email-request"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
@@ -116,9 +116,9 @@ import Vue from "vue"
 export default Vue.extend({
   components: {
     dashboardPage,
-    dashboardPane,
+    dashboardPanel,
     dashboardInput,
-    factorBtnDashboard,
+    dashboardBtn,
   },
   data() {
     return {

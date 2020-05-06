@@ -1,14 +1,20 @@
 import { setting } from "@factor/api/settings"
 import "./directives"
 
+/**
+ * GLOBAL
+ */
 export const factorError404 = setting("app.components.error404")
 export const factorContent = setting("app.components.content")
 export const factorSite = setting("app.components.site")
 
+/**
+ * ELEMENTS
+ */
 export const factorLink = setting("core.components.link")
 export const factorBtn = setting("core.components.btn")
 export const factorBtnBase = setting("core.components.btnBase")
-export const factorBtnDashboard = setting("core.components.btnDashboard")
+
 export const factorModal = setting("core.components.modalApp")
 export const factorModalDashboard = setting("core.components.modal")
 // factorLoadingRing @deprecate 2.0
@@ -19,6 +25,9 @@ export const factorIcon = (): Promise<any> => import("./el/icon.vue")
 export const factorAvatar = (): Promise<any> => import("./el/avatar.vue")
 export const factorLightbox = setting("core.components.lightbox")
 
+/**
+ * FORMS
+ */
 export const factorForm = (): Promise<any> => import("./form/form.vue")
 export const factorInputWrap = (): Promise<any> => import("./form/wrap-input.vue")
 export const factorInputEmail = (): Promise<any> => import("./form/email.vue")
@@ -37,3 +46,18 @@ export const factorInputImageUpload = (): Promise<any> =>
   import("./form/image-upload.vue")
 export const factorInputSelect = (): Promise<any> => import("./form/select.vue")
 export const factorInputSubmit = (): Promise<any> => import("./form/submit.vue")
+
+/**
+ * DASHBOARD
+ */
+export const dashboardBtn = setting("core.components.dashboardBtn")
+export const dashboardPanel = (): Promise<any> => import("./dashboard/panel.vue")
+export const dashboardPage = (): Promise<any> => import("./dashboard/page.vue")
+export const dashboardFooter = (): Promise<any> => import("./dashboard/footer.vue")
+export const dashboardListPost = (): Promise<any> => import("./dashboard/list-post.vue")
+export const dashboardListEmpty = (): Promise<any> => import("./dashboard/list-empty.vue")
+export const dashboardListControls = (): Promise<any> =>
+  import("./dashboard/list-controls.vue")
+export const dashboardInput = (): Promise<any> => import("./dashboard/input.vue")
+export const dashboardListFooter = (): Promise<any> =>
+  import("./dashboard/list-footer.vue")

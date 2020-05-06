@@ -8,9 +8,9 @@
         placeholder="Add Tag"
         @keyup.enter="addTag()"
       />
-      <factor-btn-dashboard @click="addTag()">
+      <dashboard-btn @click="addTag()">
         <factor-icon icon="fas fa-plus" />
-      </factor-btn-dashboard>
+      </dashboard-btn>
     </div>
     <div v-if="tags.length > 0" class="the-tags">
       <div v-for="(tag, index) in tags" :key="index" class="tag">
@@ -24,12 +24,12 @@
   </div>
 </template>
 <script lang="ts">
-import { factorBtnDashboard, factorIcon } from "@factor/ui"
-import { dashboardInput } from "@factor/dashboard"
+import { dashboardBtn, factorIcon, dashboardInput } from "@factor/ui"
+
 import { isEqual, slugify } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { factorBtnDashboard, factorIcon, dashboardInput },
+  components: { dashboardBtn, factorIcon, dashboardInput },
   props: {
     value: { type: Array, default: () => [] },
   },

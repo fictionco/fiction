@@ -9,23 +9,23 @@
       v-on="listeners"
     />
     <div class="p-item edit-actions">
-      <factor-btn-dashboard
+      <dashboard-btn
         v-if="!toggleValue"
         size="small"
         btn="default"
         class="edit"
         @click="setToggle()"
-      >Edit</factor-btn-dashboard>
+      >Edit</dashboard-btn>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { factorInputText, factorBtnDashboard, factorLink } from "@factor/ui"
+import { factorInputText, dashboardBtn, factorLink } from "@factor/ui"
 import { slugify, onEvent, stored, getPostTypeConfig } from "@factor/api"
 import Vue from "vue"
 
 export default Vue.extend({
-  components: { factorBtnDashboard, factorLink, factorInputText },
+  components: { dashboardBtn, factorLink, factorInputText },
   props: {
     value: { type: String, default: "" },
     toggle: { type: Boolean, default: false },

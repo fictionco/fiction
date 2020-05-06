@@ -1,5 +1,5 @@
 <template>
-  <dashboard-pane :title="title">
+  <dashboard-panel :title="title">
     <slot slot="title" name="title" />
 
     <dashboard-list-controls
@@ -21,16 +21,16 @@
       :meta="metaInfo(post)"
     />
 
-    <dashboard-table-footer v-bind="$attrs" :meta="meta" />
-  </dashboard-pane>
+    <dashboard-list-footer v-bind="$attrs" :meta="meta" />
+  </dashboard-panel>
 </template>
 <script lang="ts">
 import {
-  dashboardPane,
-  dashboardTableFooter,
+  dashboardPanel,
+  dashboardListFooter,
   dashboardListPost,
   dashboardListControls,
-} from "@factor/dashboard"
+} from "@factor/ui"
 import { getStatusCount } from "@factor/post/util"
 import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
@@ -41,8 +41,8 @@ export default Vue.extend({
   components: {
     dashboardListPost,
     dashboardListControls,
-    dashboardPane,
-    dashboardTableFooter,
+    dashboardPanel,
+    dashboardListFooter,
   },
   props: {
     title: { type: String, default: "" },

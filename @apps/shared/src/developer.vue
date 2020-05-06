@@ -1,6 +1,6 @@
 <template>
   <dashboard-page title="Developer" class="api-panel">
-    <dashboard-pane title="API Keys">
+    <dashboard-panel title="API Keys">
       <div class="details">
         <h2 class="title">Plugins API Key</h2>
         <div class="sub-title">
@@ -9,15 +9,15 @@
         </div>
       </div>
       <dashboard-input v-model="key" input="factor-input-text" class="api-key-text" readonly />
-    </dashboard-pane>
+    </dashboard-panel>
   </dashboard-page>
 </template>
 <script lang="ts">
-import { dashboardPage, dashboardPane, dashboardInput } from "@factor/dashboard"
+import { dashboardPage, dashboardPanel, dashboardInput } from "@factor/ui"
 import { userInitialized } from "@factor/api"
 import Vue from "vue"
 export default Vue.extend({
-  components: { dashboardPage, dashboardPane, dashboardInput },
+  components: { dashboardPage, dashboardPanel, dashboardInput },
   data() {
     return { key: "", sending: false }
   },
@@ -32,7 +32,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less">
-.api-panel .dashboard-pane {
+.api-panel .dashboard-panel {
   .cont {
     padding: 5rem 2rem 7rem;
   }
