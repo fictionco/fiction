@@ -88,7 +88,7 @@ export const factorize = async (_config: EnvironmentConfig = {}): Promise<void> 
    * @hook
    */
   addCallback({
-    key: "nodeReload",
+    key: "nodeReloadModules",
     hook: "rebuild-server-app",
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     callback: (serverOptions: ServerOptions) => reloadNodeProcess(_config, serverOptions),

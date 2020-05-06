@@ -61,3 +61,5 @@ export const dashboardListControls = (): Promise<any> =>
 export const dashboardInput = (): Promise<any> => import("./dashboard/input.vue")
 export const dashboardListFooter = (): Promise<any> =>
   import("./dashboard/list-footer.vue")
+export const dashboardUserList = (): Promise<any> => import("./dashboard/user-list.vue")
+export const dashboardUserCard = (): Promise<any> => import("./dashboard/user-card.vue")

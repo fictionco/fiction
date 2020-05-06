@@ -31,15 +31,15 @@ let __application: express.Express
 let __renderer: BundleRenderer // used for dev server updates
 
 export interface ServerOptions {
-  staticFiles?: true
-  watchServer?: true
+  staticFiles?: boolean
+  watchServer?: boolean
   port?: string
   renderer?: BundleRenderer
   cwd?: string
-  noReloadModules?: true
+  noReloadModules?: boolean
   path?: string
-  logOnReady?: true
-  openOnReady?: true
+  logOnReady?: boolean
+  openOnReady?: boolean
 }
 
 /**
@@ -173,7 +173,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
         options.path = path
 
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        await restartServer(options)
+        await restartServer({ ...options, noReloadModules: false })
       }
     },
   })

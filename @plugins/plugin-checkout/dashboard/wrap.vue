@@ -1,9 +1,6 @@
 <template>
   <dashboard-page :loading="loading" :title="$route.name">
-    <template #actions>
-      <factor-link btn="default" path="/">View</factor-link>
-      <dashboard-btn btn="primary" :loading="sending" @click="savePost()">Update</dashboard-btn>
-    </template>
+    <template #actions />
     <dashboard-panel class="compose">
       <router-view />
     </dashboard-panel>
@@ -11,15 +8,29 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { dashboardPage, dashboardPanel, dashboardBtn, factorLink } from "@factor/ui"
+import { userInitialized, stored } from "@factor/api"
+import { dashboardPage, dashboardPanel } from "@factor/ui"
+import { requestCustomer } from "../stripe-client"
 export default Vue.extend({
   name: "Subscription",
-  components: { dashboardPage, dashboardPanel, dashboardBtn, factorLink },
+  components: { dashboardPage, dashboardPanel },
   data() {
     return {
       title: "Subscription",
       sending: false,
       loading: false,
+    }
+  },
+  computed: {
+    customer() {
+      return stored("stripeCustomer")
+    },
+  },
+  async mounted(this: any) {
+    const user = await userInitialized()
+
+    if (user?.stripeCustomerId) {
+      requestCustomer(user)
     }
   },
 })

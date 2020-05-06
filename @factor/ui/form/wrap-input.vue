@@ -43,11 +43,13 @@ import {
   factorInputTextarea,
   factorInputEditor,
   factorInputSortable,
+  dashboardUserList,
 } from "@factor/ui"
-
 import Vue from "vue"
+
 export default Vue.extend({
   components: {
+    dashboardUserList,
     factorInputWrap,
     factorInputEmail,
     factorInputDate,

@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue, { CreateElement, VNode } from "vue"
-import { factorBtn, factorBtnDashboard } from "@factor/ui"
+import { factorBtn, dashboardBtn } from "@factor/ui"
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/api"
 import { applyFilters } from "@factor/api/hooks"
 export default Vue.extend({
@@ -69,7 +69,7 @@ export default Vue.extend({
       let btnElement
 
       if (routePath.includes("dashboard")) {
-        btnElement = factorBtnDashboard
+        btnElement = dashboardBtn
       } else {
         btnElement = factorBtn
       }

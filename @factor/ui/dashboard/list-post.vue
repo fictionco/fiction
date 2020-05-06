@@ -49,10 +49,9 @@ import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { toLabel, postLink, stored } from "@factor/api"
 
-import { PostListDataItem } from "../types"
+import { PostListDataItem } from "@factor/dashboard/types"
 export default Vue.extend({
   components: { factorLink },
-  //model: { prop: "checked", event: "change" },
   props: {
     post: { type: Object, default: () => {} },
     title: { type: String, default: "" },
@@ -70,18 +69,21 @@ export default Vue.extend({
     }
   },
   computed: {
+    _id() {
+      return this.post?._id || ""
+    },
     checked: {
       get(this: any): boolean {
-        return this.value.includes(this.post._id)
+        return this.value.includes(this._id)
       },
       set(this: any, localValue: boolean) {
         let newValue = this.value
-        const index = newValue.indexOf(this.post._id)
+        const index = newValue.indexOf(this._id)
 
         if (!localValue && index != -1) {
           newValue.splice(index, 1)
         } else if (index == -1) {
-          newValue = [...this.value, this.post._id]
+          newValue = [...this.value, this._id]
         }
 
         this.$emit("input", newValue)
@@ -94,14 +96,14 @@ export default Vue.extend({
     itemPath(this: any): string {
       let p = ""
       if (this.editPath === true) {
-        p = `${this.$route.path}/edit?_id=${this.post._id}`
+        p = `${this.$route.path}/edit?_id=${this._id}`
       } else if (this.editPath) {
         p = this.editPath
       }
       return p
     },
     itemSubTitle(this: any): string {
-      return this.subTitle || this.post.permalink
+      return this.subTitle || this.post?.permalink || ""
     },
     itemMeta(this: any): PostListDataItem[] {
       return this.meta && this.meta.length > 0 ? this.meta : []
@@ -113,6 +115,8 @@ export default Vue.extend({
       return additional.filter((_: PostListDataItem) => _.value)
     },
     itemAvatar(this: any) {
+      if (!this.post) return
+
       const avatar = stored(this.post.avatar)
 
       return avatar && avatar.url ? avatar.url : ""

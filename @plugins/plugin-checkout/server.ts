@@ -66,6 +66,22 @@ export const createSubscription = async (
 }
 
 /**
+ * Retrieve Stripe customer by customer Id
+ * @param id - Stripe customer ID
+ */
+export const retrieveCustomer = async ({
+  id,
+}: {
+  id: string
+}): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
+  const stripe = getStripe()
+
+  const customer = (await stripe.customers.retrieve(id)) as Stripe.Customer
+
+  return customer
+}
+
+/**
  * Retrieve Stripe plan by Id
  * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
  * @param id - Stripe plan ID
@@ -82,7 +98,10 @@ export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> =>
 }
 
 const setup = (): void => {
-  addEndpoint({ id: "pluginCheckout", handler: { createSubscription, retrievePlan } })
+  addEndpoint({
+    id: "pluginCheckout",
+    handler: { createSubscription, retrievePlan, retrieveCustomer },
+  })
 
   addFilter({
     key: "addStripeInfo",
