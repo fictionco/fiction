@@ -76,9 +76,25 @@ export const retrieveCustomer = async ({
 }): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
   const stripe = getStripe()
 
-  const customer = (await stripe.customers.retrieve(id)) as Stripe.Customer
+  const customer = await stripe.customers.retrieve(id)
 
   return customer
+}
+
+/**
+ * Retrieve Stripe payment methods by customer Id
+ * @param id - Stripe customer ID
+ */
+export const retrievePaymentMethods = async ({
+  customer,
+}: {
+  customer: string
+}): Promise<Stripe.ApiList<Stripe.PaymentMethod>> => {
+  const stripe = getStripe()
+
+  const methods = await stripe.paymentMethods.list({ customer, type: "card" })
+
+  return methods
 }
 
 export const retrieveInvoices = async ({
@@ -113,7 +129,13 @@ export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> =>
 const setup = (): void => {
   addEndpoint({
     id: "pluginCheckout",
-    handler: { createSubscription, retrievePlan, retrieveCustomer },
+    handler: {
+      createSubscription,
+      retrievePlan,
+      retrieveCustomer,
+      retrievePaymentMethods,
+      retrieveInvoices,
+    },
   })
 
   addFilter({

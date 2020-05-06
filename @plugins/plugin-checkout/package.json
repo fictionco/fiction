@@ -1,6 +1,6 @@
 {
-  "name": "@factor/plugin-checkout",
-  "description": "A Stripe eCommerce solution for Factor.",
+  "name": "@factor/plugin-subscription",
+  "description": "A paid subscription solution for Factor.",
   "version": "1.7.4",
   "license": "GPL-2.0",
   "author": {
@@ -18,7 +18,7 @@
     },
     "extend": "plugin",
     "title": "Checkout",
-    "permalink": "checkout-ecommerce",
+    "permalink": "subscription-ecommerce",
     "category": [
       "eCommerce"
     ],
@@ -26,12 +26,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-checkout"
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-subscription"
   },
   "bugs": {
     "url": "https://github.com/fiction-com/factor/issues"
   },
-  "homepage": "https://factor.dev/plugin/checkout-ecommerce",
+  "homepage": "https://factor.dev/plugin/subscription-ecommerce",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
     "factor",
@@ -39,7 +39,7 @@
     "ecommerce",
     "stripe",
     "cart",
-    "checkout"
+    "subscription"
   ],
   "dependencies": {
     "@types/stripe": "^7.13.23",
