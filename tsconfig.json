@@ -17,8 +17,7 @@
       "__CWD__/*": ["test/modules/alias/*"],
       "__SRC__/*": ["test/modules/alias/*"],
       "__FIND__/*": ["test/modules/alias/*"]
-    },
-    "typeRoots": ["**/global.d.ts"]
+    }
   },
 
   "exclude": [
