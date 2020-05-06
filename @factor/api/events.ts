@@ -9,3 +9,7 @@ export const emitEvent = (event: string, ...data: unknown[]): void => {
 export const onEvent = (event: string, callback: Function): void => {
   __events.$on(event, callback)
 }
+
+export const offEvent = (event: string, callback: Function): void => {
+  __events.$off(event, callback)
+}

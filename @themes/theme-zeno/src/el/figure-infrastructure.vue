@@ -3,9 +3,7 @@
     <figcaption
       v-if="title"
       class="text-sm text-center font-mono py-1 bg-purple-700 text-purple-300 rounded-t md:rounded-tl"
-    >
-      {{ title }}
-    </figcaption>
+    >{{ title }}</figcaption>
     <div class="bg-purple-900 text-gray-500 p-4 text-sm md:py-8 md:px-24">
       <pre><code class="prism">{{ code() }}</code></pre>
     </div>
@@ -22,41 +20,34 @@ export default Vue.extend({
   },
   methods: {
     code() {
-      return `data "aws_ami" "backend" {
-  filter {
-    name = "tag:Name"
+      return `
+<template>
 
-    values = [
-      "backend-v1",
-    ]
-  }
+  <section class="hero">
+    <div class="mx-auto">
 
-  most_recent = true
-}
+      <div
+        v-if="subheadline" v-formatted-text="subheadline"
+        :class="alignment"
+      />
 
-resource "aws_instance" "backend1" {
-  ami           = "\${data.aws_ami.backend.id}"
-  instance_type = "m5.large"
+      <h1
+        v-if="headline"
+        :class="alignment"
+      >
+        {{ headline }}
+      </h1>
 
-  vpc_security_group_ids = [
-    "sg-40b2e613",
-  ]
+      <div :class="alignment">
+        <slot name="hero-content" />
+      </div>
 
-  subnet_id = "subnet-f2e81712"
+    </div>
+  </section>
 
-  root_block_device {
-    volume_size = "16"
-    volume_type = "gp2"
-  }
+</template>
 
-  tags = {
-    Name = "backend1"
-  }
-
-  volume_tags = {
-    Name = "backend1"
-  }
-}`
+`
     },
   },
 })

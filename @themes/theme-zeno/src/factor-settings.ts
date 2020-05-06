@@ -181,7 +181,7 @@ export default {
       id: "software-as-a-service",
       pretitle: "Software-as-a-Service",
       title: "The last software you'll need!",
-      content: `<p>By leveraging our decades of experience, we'll help you focus on what's important… Growing your business.</p><p class="mt-4">Zeno will handle uptime, security, cost optimization, disaster recovery, and performance. We’re always on-call, ready to assist. Focused on being responsive, transparent, and thorough.</p>`,
+      content: `<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>`,
       buttons: [
         {
           _item: "contact",
@@ -203,16 +203,16 @@ export default {
           _item: "packer",
           image: require("./img/logo-packer.svg"),
           alt: "XYZ Corp Product",
-          content: `<p>Product A automates the creation of machine images across cloud providers.</p><p class="mt-4">It embraces modern configuration management by utilizing automated scripts to install and configure software within images.</p>`,
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.`,
         },
         {
           _item: "terraform",
           image: require("./img/logo-terraform.svg"),
           alt: "XYZ Corp Product",
-          content: `<p>Product B codifies infrastructure and resources, replacing manual point and click with a simple and intuitive declarative configuration.</p><p class="mt-4">Confidently apply reproducible infrastructure transformations. Humans make mistakes and forget details, machines and code don't.</p>`,
+          content: `Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.`,
         },
       ],
-      syntaxTitle: "terraform.tf",
+      syntaxTitle: "mycode.ts",
       syntax: (): Promise<any> => import("./el/figure-infrastructure.vue"),
     },
     testimonials: {
@@ -278,7 +278,7 @@ export default {
       /**
        * The team layout has "grid" or "list" options
        */
-      layout: "grid",
+      layout: "list",
       pretitle: "Meet the Minds",
       title: `The Team`,
       members: [
@@ -292,19 +292,19 @@ export default {
           links: [
             {
               _item: "link_1",
-              path: "https://www.linkedin.com/in/jkell",
+              path: "https://www.linkedin.com/",
               icon: "fab fa-linkedin",
               target: "_blank",
             },
             {
               _item: "link_2",
-              path: "https://github.com/nodesocket",
+              path: "https://github.com/",
               icon: "fab fa-github",
               target: "_blank",
             },
             {
               _item: "link_3",
-              path: "https://angel.co/justink",
+              path: "https://angel.co/",
               icon: "fab fa-angellist",
               target: "_blank",
             },
@@ -363,25 +363,25 @@ export default {
   pricing: {
     hero: {
       pretitle: "Pricing that scales with your business.",
-      title: `Choose the right plan for your business.`,
+      title: `Awesome Plans`,
       content:
-        "Three simple monthly plans with hours that can be used for any infrastructure or DevOps related tasks.",
+        "Choose the plan that suits your needs.",
     },
     packages: [
       {
         classes: "md:mt-6",
-        name: "Basic",
-        description: "The full power of Zeno Theme",
+        name: "Starter",
+        description: "All the basics for businesses that are just getting started.",
         price: `$199 <span class="text-base">per month</span>`,
         list: [
           {
-            content: "10 billable hours included monthly",
+            content: "At vero eos et accusamus",
           },
           {
-            content: "$200 per additional hour",
+            content: "Et iusto odio dignissimos",
           },
           {
-            content: `24/7/365 on-call and 99.9% SLA`,
+            content: `Ducimus qui blanditiis`,
           },
           {
             content: "Lorem ipsum dolor sit",
@@ -397,17 +397,17 @@ export default {
       },
       {
         name: "Pro",
-        description: "Great value for growing businesses",
-        price: `$399 <span class="text-base">per month</span>`,
+        description: "Better insights for growing businesses that want more customers.",
+        price: `$499 <span class="text-base">per month</span>`,
         list: [
           {
-            content: "20 billable hours included monthly",
+            content: "Voluptatem accusantium",
           },
           {
-            content: "$250 per additional hour",
+            content: "Omnis iste natus error",
           },
           {
-            content: "24/7/365 on-call and 99.9% SLA",
+            content: "Sed ut perspiciatis unde",
           },
           {
             content: "Lorem ipsum dolor sit",
@@ -422,18 +422,18 @@ export default {
       },
       {
         classes: "md:mt-6",
-        name: "Enterprise",
-        description: "Infrastructure at scale",
-        price: `$799 <span class="text-base">per month</span>`,
+        name: "Business",
+        description: "Advanced features for pros who need more customization.",
+        price: `$899 <span class="text-base">per month</span>`,
         list: [
           {
-            content: "40 billable hours included monthly",
+            content: "Nam libero tempore",
           },
           {
-            content: "$150 per additional hour",
+            content: "Soluta nobis est eligendi",
           },
           {
-            content: `24/7/365 on-call and 99.9% SLA`,
+            content: `Optio cumque nihil`,
           },
           {
             content: "Lorem ipsum dolor sit",
@@ -449,39 +449,39 @@ export default {
       },
     ],
     packagesFooter:
-      "* Tasks are billed in half-hour increments with a half-hour minimum.",
+      "* 10 day money back guarantee",
     faq: {
-      title: "Billing FAQs",
+      title: "FAQs",
       questions: [
         {
           _item: "q1",
-          title: "How are payments handled?",
-          content: `<p>We process all payments via Stripe and offer two payment options.</p><ul class="font-normal list-outside list-square mt-8 ml-8 text-base leading-relaxed lg:text-xl"><li>ACH debit bank transfer. (US only)</li><li> All major credit cards. Note, there is a 3% processing fee for credit card transactions.</li></ul>`,
+          title: "Can I buy a lower tier and upgrade later?",
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
         {
           _item: "q2",
-          title: "Who pays for infrastructure and 3rd party services?",
-          content: `To prevent any vendor lock-in, you do. All infrastructure and cloud costs are still under your payment method of choice. If we recommend a 3rd party service, you'll signup, provide your own billing details, and then give us credentials/access to the service.`,
+          title: "What if I don't like it?",
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
         {
           _item: "q3",
           title: "Can I cancel at anytime?",
-          content: `We require a three month commitment at the start, but after that all of our plans are month-to-month so you may cancel at any time. As a courtesy, we can provide a detailed "exit briefing" to the new party taking over.`,
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
         {
           _item: "q4",
           title: "What happens if I go over my plans included hours?",
-          content: `After you've utilized your plans included hours, you will be billed at your plans billable hourly rate above.`,
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
         {
           _item: "q5",
-          title: "Do you have smaller plans with less billable hours?",
-          content: `Unfortunately no. The Basic plan is the smallest plan we can offer while maintaining a high level of quality service.`,
+          title: "Who is this for?",
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
         {
           _item: "q6",
-          title: "Do you offer annual billing?",
-          content: `Yes, and we offer a discount for up-front annual billing. Please contact us for details.`,
+          title: "Are there any discounts available?",
+          content: `Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.`,
         },
       ],
     },
