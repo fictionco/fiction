@@ -18,7 +18,7 @@ export default Vue.extend({
     return {
       title: "Subscription",
       sending: false,
-      loading: false,
+      loading: true,
     }
   },
   computed: {
@@ -30,8 +30,10 @@ export default Vue.extend({
     const user = await userInitialized()
 
     if (user?.stripeCustomerId) {
-      requestCustomer(user)
+      await requestCustomer(user)
     }
+
+    this.loading = false
   },
 })
 </script>

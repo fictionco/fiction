@@ -43,14 +43,22 @@ export const getStore = (): Store<object> | undefined => {
   return __store
 }
 
+/**
+ * Store an item in application store/cache
+ *
+ * If a typical app function is used in an endpoint, then there will be no store
+ * However we don't want to break code that would otherwise work
+ */
 export const storeItem = (item: string, value: any): void => {
-  if (!__store) {
-    throw new Error(`Store not available for ${item}:${value}`)
-  }
+  if (!__store) return
 
   return __store.commit("setItem", { item, value })
 }
 
+/**
+ * Get a reactive value from the application store
+ * @param key - ID in the flat store
+ */
 export const stored = (key?: string | ObjectId | number): any => {
   if (!__store || !key) return undefined
 
@@ -58,8 +66,6 @@ export const stored = (key?: string | ObjectId | number): any => {
 }
 
 export const getStoreState = (): Store<Record<string, any>>["state"] => {
-  if (!__store) {
-    throw new Error("Store not available for state.")
-  }
+  if (!__store) return {}
   return __store.state
 }

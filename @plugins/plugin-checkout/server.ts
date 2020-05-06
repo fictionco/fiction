@@ -81,6 +81,19 @@ export const retrieveCustomer = async ({
   return customer
 }
 
+export const retrieveInvoices = async ({
+  customer,
+  limit = 30,
+  starting_after,
+}: {
+  customer: string
+  limit?: number
+  starting_after?: string
+}): Promise<Stripe.ApiList<Stripe.Invoice>> => {
+  const stripe = getStripe()
+  return await stripe.invoices.list({ customer, starting_after, limit })
+}
+
 /**
  * Retrieve Stripe plan by Id
  * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
