@@ -45,7 +45,7 @@ export default Vue.extend({
   padding: 2em 0 0;
   @media (max-width: 767px) {
     display: grid;
-    padding: 0 0 1em;
+    padding: 1em 0;
   }
 }
 </style>

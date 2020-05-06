@@ -42,13 +42,7 @@ export default Vue.extend({
 .pagination {
   display: flex;
   align-items: center;
-  @media (max-width: 767px) {
-    justify-content: flex-end;
-    .items,
-    .sep {
-      display: none;
-    }
-  }
+
   > * {
     margin: 0 5px;
   }
