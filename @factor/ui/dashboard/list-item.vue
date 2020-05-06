@@ -30,9 +30,9 @@
             <div class="label">{{ dataItem.label }}:</div>
             <div class="value">{{ dataItem.value }}</div>
           </div>
-          <div v-if="$slots.actions" class="id data-item">
+          <div v-if="$slots.actions" class="actions data-item">
             <div class="label">Actions</div>
-            <div class="value">
+            <div class="value actions-items">
               <slot name="actions" />
             </div>
           </div>
@@ -70,6 +70,13 @@ export default Vue.extend({
   },
 })
 </script>
+<style lang="less">
+.data-item {
+  .additional-information .actions .factor-btn {
+    margin-right: 1rem;
+  }
+}
+</style>
 <style lang="less" scoped>
 .list-item {
   .fade-enter-active {
@@ -103,7 +110,7 @@ export default Vue.extend({
       }
     }
     .description {
-      opacity: 0.7;
+      color: var(--color-text-secondary);
     }
   }
 
@@ -126,7 +133,7 @@ export default Vue.extend({
         display: inline-block;
       }
       .label {
-        opacity: 0.6;
+        color: var(--color-text-secondary);
       }
     }
   }
@@ -134,7 +141,10 @@ export default Vue.extend({
     cursor: pointer;
     padding: 0 0.5rem;
     border-radius: 4px;
+    color: var(--color-primary);
+    opacity: 0.45;
     &:hover {
+      opacity: 1;
       background: var(--color-bg-contrast);
     }
   }
@@ -151,10 +161,10 @@ export default Vue.extend({
         opacity: 0.4;
         margin-bottom: 0.5rem;
       }
-      .value {
-        .factor-btn {
-          margin-right: 1rem;
-        }
+    }
+    .actions {
+      .factor-btn {
+        margin-right: 1rem;
       }
     }
   }

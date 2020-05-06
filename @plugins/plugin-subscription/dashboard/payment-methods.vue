@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="list-action">
+      <dashboard-btn size="small" btn="primary" @click="modalVisible = true">Add New Payment Method</dashboard-btn>
+    </div>
     <dashboard-list-item
       v-for="(item, i) in paymentMethods"
       :key="i"
@@ -7,17 +10,27 @@
       :sub-title="subTitle(item)"
       :meta="meta(item)"
       :additional="additional(item)"
-    />
+    >
+      <template #actions>
+        <dashboard-btn size="small" btn="default" @click="modalVisible = true">Set To Default</dashboard-btn>
+      </template>
+    </dashboard-list-item>
+    <factor-modal :vis.sync="modalVisible">
+      <h2>Add Payment Method</h2>
+    </factor-modal>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue"
 import { stored, standardDate, toLabel } from "@factor/api"
-import { dashboardListItem } from "@factor/ui"
+import { dashboardListItem, factorModal, dashboardBtn } from "@factor/ui"
 import StripeNode from "stripe"
 export default Vue.extend({
   name: "PaymentMethods",
-  components: { dashboardListItem },
+  components: { dashboardListItem, factorModal, dashboardBtn },
+  data() {
+    return { modalVisible: false }
+  },
   computed: {
     composite() {
       return stored("customerComposite") || {}

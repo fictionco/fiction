@@ -1,4 +1,4 @@
-import { setting, endpointRequest, waitFor, storeItem } from "@factor/api"
+import { setting, endpointRequest, waitFor, storeItem, stored } from "@factor/api"
 import { EndpointParameters } from "@factor/endpoint"
 import { FactorUser } from "@factor/user/types"
 import StripeNode from "stripe"
@@ -18,13 +18,24 @@ declare global {
 
 export const sendRequest = async <T>(
   method: string,
-  params: EndpointParameters
+  params: EndpointParameters = {}
 ): Promise<T> => {
   return await endpointRequest<T>({
     id: "pluginCheckout",
     method,
     params,
   })
+}
+
+export const requestAllPlans = async (): Promise<PlanInfo[]> => {
+  if (stored("allPlans")) {
+    return stored("allPlans")
+  }
+  const allPlans = await sendRequest<PlanInfo[]>("retrieveAllPlans")
+
+  storeItem("allPlans", allPlans)
+
+  return allPlans
 }
 
 export const requestCustomerComposite = async (

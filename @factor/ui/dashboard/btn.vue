@@ -76,5 +76,13 @@ export default Vue.extend({
       color: #fff;
     }
   }
+  &.warning {
+    color: #fff;
+    background: var(--color-warning);
+
+    &:hover {
+      color: #fff;
+    }
+  }
 }
 </style>

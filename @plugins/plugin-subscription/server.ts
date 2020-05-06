@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { addEndpoint, addFilter } from "@factor/api"
+import { addEndpoint, addFilter, setting } from "@factor/api"
 import Stripe from "stripe"
 import { savePost } from "@factor/api/server"
 import { EndpointMeta } from "@factor/endpoint/types"
@@ -116,28 +116,6 @@ export const retrieveInvoices = async ({
 }
 
 /**
- * Get a composite of all relevant user information
- * @param id - customer id
- */
-export const retrieveCustomerComposite = async ({
-  id,
-}: {
-  id: string
-}): Promise<CustomerComposite> => {
-  const [customer, invoices, paymentMethods] = await Promise.all([
-    retrieveCustomer({ id }),
-    retrieveInvoices({ customer: id }),
-    retrievePaymentMethods({ customer: id }),
-  ])
-
-  return {
-    customer,
-    invoices,
-    paymentMethods,
-  }
-}
-
-/**
  * Retrieve Stripe plan by Id
  * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
  * @param id - Stripe plan ID
@@ -153,6 +131,83 @@ export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> =>
   return { plan, product }
 }
 
+export const retrieveAllPlans = async (): Promise<PlanInfo[]> => {
+  const planSetting = setting<Record<string, Record<string, string>>>(
+    `checkout.${process.env.NODE_ENV}.plans`
+  )
+  let planIds: string[] = []
+
+  Object.values(planSetting).forEach((val) => {
+    planIds = [...planIds, ...Object.values(val)]
+  })
+
+  return await Promise.all(planIds.map((id) => retrievePlan({ id })))
+}
+
+/**
+ * Get a composite of all relevant user information
+ * @param id - customer id
+ */
+export const retrieveCustomerComposite = async ({
+  id,
+}: {
+  id: string
+}): Promise<CustomerComposite> => {
+  const [customer, invoices, paymentMethods, allPlans] = await Promise.all([
+    retrieveCustomer({ id }),
+    retrieveInvoices({ customer: id }),
+    retrievePaymentMethods({ customer: id }),
+    retrieveAllPlans(),
+  ])
+
+  return {
+    customer,
+    invoices,
+    paymentMethods,
+    allPlans,
+  }
+}
+
+/**
+ * Standard updates on Stripe subscriptions
+ * @param param0
+ */
+export const updateSubscription = async ({
+  subscriptionId,
+  planId,
+  action,
+}: {
+  subscriptionId: string
+  planId?: string
+  action: "cancel" | "change" | "restore"
+}): Promise<Stripe.Subscription | undefined> => {
+  const stripe = getStripe()
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+
+  let result: Stripe.Subscription | undefined
+
+  if (action == "cancel" || action == "restore") {
+    // https://stripe.com/docs/billing/subscriptions/cancel
+    const cancel_at_period_end = action == "cancel" ? true : false
+    result = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end })
+  } else if (action == "change") {
+    // https://stripe.com/docs/billing/subscriptions/upgrade-downgrade
+    result = await stripe.subscriptions.update(subscriptionId, {
+      cancel_at_period_end: false,
+      proration_behavior: "always_invoice",
+      items: [
+        {
+          id: subscription.items.data[0].id,
+          plan: planId,
+        },
+      ],
+    })
+  }
+
+  return result
+}
+
 const setup = (): void => {
   addEndpoint({
     id: "pluginCheckout",
@@ -163,6 +218,8 @@ const setup = (): void => {
       retrievePaymentMethods,
       retrieveInvoices,
       retrieveCustomerComposite,
+      updateSubscription,
+      retrieveAllPlans,
     },
   })
 

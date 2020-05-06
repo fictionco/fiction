@@ -11,6 +11,7 @@ export interface CustomerComposite {
   customer: StripeNode.Customer | StripeNode.DeletedCustomer
   paymentMethods: StripeNode.ApiList<StripeNode.PaymentMethod>
   invoices: StripeNode.ApiList<StripeNode.Invoice>
+  allPlans: PlanInfo[]
 }
 
 export interface PlanInfo {

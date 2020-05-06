@@ -10,7 +10,7 @@
 import Vue from "vue"
 import { userInitialized, stored } from "@factor/api"
 import { dashboardPage, dashboardPanel } from "@factor/ui"
-import { requestCustomerComposite } from "../stripe-client"
+import { requestCustomerComposite, requestAllPlans } from "../stripe-client"
 export default Vue.extend({
   name: "SubscriptionWrap",
   components: { dashboardPage, dashboardPanel },
@@ -34,6 +34,8 @@ export default Vue.extend({
     }
 
     this.loading = false
+
+    await requestAllPlans()
   },
 })
 </script>
