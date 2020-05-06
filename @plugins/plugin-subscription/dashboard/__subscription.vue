@@ -37,7 +37,7 @@
             <div class="id data-item">
               <div class="label">Actions</div>
               <div class="value">
-                <factor-btn btn="default" class="switch" size="small">Switch Plan</factor-btn>
+                <factor-btn btn="default" class="switch" size="small">Change Plan</factor-btn>
                 <factor-btn btn="default" class="cancel" size="small">Cancel</factor-btn>
               </div>
             </div>
@@ -62,8 +62,11 @@ export default Vue.extend({
     }
   },
   computed: {
-    customer() {
-      return stored("stripeCustomer") || {}
+    composite() {
+      return stored("customerComposite") || {}
+    },
+    customer(this: any) {
+      return this.composite.customer || {}
     },
     subscriptions(this: any) {
       const raw = this.customer.subscriptions?.data || []

@@ -3,7 +3,12 @@ import { addEndpoint, addFilter } from "@factor/api"
 import Stripe from "stripe"
 import { savePost } from "@factor/api/server"
 import { EndpointMeta } from "@factor/endpoint/types"
-import { SubscriptionResult, SubscriptionCustomerData, PlanInfo } from "./types"
+import {
+  SubscriptionResult,
+  SubscriptionCustomerData,
+  PlanInfo,
+  CustomerComposite,
+} from "./types"
 
 const getStripe = (): Stripe => {
   const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY
@@ -111,6 +116,28 @@ export const retrieveInvoices = async ({
 }
 
 /**
+ * Get a composite of all relevant user information
+ * @param id - customer id
+ */
+export const retrieveCustomerComposite = async ({
+  id,
+}: {
+  id: string
+}): Promise<CustomerComposite> => {
+  const [customer, invoices, paymentMethods] = await Promise.all([
+    retrieveCustomer({ id }),
+    retrieveInvoices({ customer: id }),
+    retrievePaymentMethods({ customer: id }),
+  ])
+
+  return {
+    customer,
+    invoices,
+    paymentMethods,
+  }
+}
+
+/**
  * Retrieve Stripe plan by Id
  * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
  * @param id - Stripe plan ID
@@ -135,6 +162,7 @@ const setup = (): void => {
       retrieveCustomer,
       retrievePaymentMethods,
       retrieveInvoices,
+      retrieveCustomerComposite,
     },
   })
 

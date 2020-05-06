@@ -95,7 +95,7 @@ export const runEndpointMethod = async (
     return await _ep[method](params, meta)
   } catch (error) {
     log.error(`${error.message} in ${id}:${method}`)
-    throw new Error(error)
+    throw error
   }
 }
 

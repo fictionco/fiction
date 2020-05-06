@@ -3,8 +3,14 @@ import StripeNode from "stripe"
 
 export interface SubscriptionResult {
   status: "success" | "failure"
-  customer: StripeNode.Customer
+  customer: StripeNode.Customer | StripeNode.DeletedCustomer
   subscription: StripeNode.Subscription
+}
+
+export interface CustomerComposite {
+  customer: StripeNode.Customer | StripeNode.DeletedCustomer
+  paymentMethods: StripeNode.ApiList<StripeNode.PaymentMethod>
+  invoices: StripeNode.ApiList<StripeNode.Invoice>
 }
 
 export interface PlanInfo {

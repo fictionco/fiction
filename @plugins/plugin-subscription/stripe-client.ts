@@ -2,7 +2,12 @@ import { setting, endpointRequest, waitFor, storeItem } from "@factor/api"
 import { EndpointParameters } from "@factor/endpoint"
 import { FactorUser } from "@factor/user/types"
 import StripeNode from "stripe"
-import { SubscriptionCustomerData, SubscriptionResult, PlanInfo } from "./types"
+import {
+  SubscriptionCustomerData,
+  SubscriptionResult,
+  PlanInfo,
+  CustomerComposite,
+} from "./types"
 
 const env = process.env.NODE_ENV
 declare global {
@@ -20,6 +25,18 @@ export const sendRequest = async <T>(
     method,
     params,
   })
+}
+
+export const requestCustomerComposite = async (
+  customerId: string
+): Promise<CustomerComposite> => {
+  const composite = await sendRequest<CustomerComposite>("retrieveCustomerComposite", {
+    id: customerId,
+  })
+
+  storeItem("customerComposite", composite)
+
+  return composite
 }
 
 export const requestCustomer = async (user: FactorUser): Promise<StripeNode.Customer> => {

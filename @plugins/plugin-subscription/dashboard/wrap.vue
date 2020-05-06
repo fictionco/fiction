@@ -10,9 +10,9 @@
 import Vue from "vue"
 import { userInitialized, stored } from "@factor/api"
 import { dashboardPage, dashboardPanel } from "@factor/ui"
-import { requestCustomer } from "../stripe-client"
+import { requestCustomerComposite } from "../stripe-client"
 export default Vue.extend({
-  name: "Subscription",
+  name: "SubscriptionWrap",
   components: { dashboardPage, dashboardPanel },
   data() {
     return {
@@ -22,15 +22,15 @@ export default Vue.extend({
     }
   },
   computed: {
-    customer() {
-      return stored("stripeCustomer")
+    composite() {
+      return stored("customerComposite") || {}
     },
   },
   async mounted(this: any) {
     const user = await userInitialized()
 
     if (user?.stripeCustomerId) {
-      await requestCustomer(user)
+      await requestCustomerComposite(user?.stripeCustomerId)
     }
 
     this.loading = false

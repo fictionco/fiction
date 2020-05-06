@@ -55,6 +55,7 @@ export const dashboardPanel = (): Promise<any> => import("./dashboard/panel.vue"
 export const dashboardPage = (): Promise<any> => import("./dashboard/page.vue")
 export const dashboardFooter = (): Promise<any> => import("./dashboard/footer.vue")
 export const dashboardListPost = (): Promise<any> => import("./dashboard/list-post.vue")
+export const dashboardListItem = (): Promise<any> => import("./dashboard/list-item.vue")
 export const dashboardListEmpty = (): Promise<any> => import("./dashboard/list-empty.vue")
 export const dashboardListControls = (): Promise<any> =>
   import("./dashboard/list-controls.vue")
