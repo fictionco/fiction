@@ -30,15 +30,22 @@ export default Vue.extend({
   methods: {
     standardDate,
     title(invoice: StripeNode.Invoice) {
-      return invoice.lines.data[0].plan?.nickname ?? "Order"
+      return toLabel(invoice.billing_reason ?? "")
     },
     subTitle(invoice: StripeNode.Invoice) {
-      return invoice.lines.data[0].description
+      const amount = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(invoice.amount_due / 100)
+
+      return amount
     },
     meta(this: any, invoice: StripeNode.Invoice) {
       return [
         { label: "Date", value: standardDate(invoice.created) },
         { label: "Status", value: toLabel(invoice.status as string) },
+        { label: "Number", value: invoice.number },
+        { label: "Download", path: invoice.invoice_pdf },
       ]
     },
     additional(this: any, invoice: StripeNode.Invoice) {

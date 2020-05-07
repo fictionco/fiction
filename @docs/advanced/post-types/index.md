@@ -136,8 +136,6 @@ addPostType({
   // ...other post type options
 })
 
-// Add the schema to factor
-addPostSchema(mySchema)
 ```
 
 #### Notes
@@ -242,7 +240,7 @@ You can edit or add to existing post types using standard filters.
 - `schema-hooks-[post type]` - Add additional Mongoose middleware to a schema
 
 ```js
-import {randomToken} from "@factor/api"
+import { randomToken } from "@factor/api"
 addFilter({
   key: "addApiKey",
   hook: "schema-definition-user",

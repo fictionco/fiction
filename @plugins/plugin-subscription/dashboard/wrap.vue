@@ -8,9 +8,9 @@
 </template>
 <script lang="ts">
 import Vue from "vue"
-import { userInitialized, stored } from "@factor/api"
+import { userInitialized, stored, onEvent } from "@factor/api"
 import { dashboardPage, dashboardPanel } from "@factor/ui"
-import { requestCustomerComposite, requestAllPlans } from "../stripe-client"
+import { requestCustomerComposite } from "../stripe-client"
 export default Vue.extend({
   name: "SubscriptionWrap",
   components: { dashboardPage, dashboardPanel },
@@ -27,15 +27,19 @@ export default Vue.extend({
     },
   },
   async mounted(this: any) {
-    const user = await userInitialized()
+    this.setCustomerData()
+    onEvent("refresh-user", () => this.setCustomerData())
+  },
+  methods: {
+    async setCustomerData() {
+      const user = await userInitialized()
+      this.loading = true
+      if (user?.stripeCustomerId) {
+        await requestCustomerComposite(user?.stripeCustomerId)
+      }
 
-    if (user?.stripeCustomerId) {
-      await requestCustomerComposite(user?.stripeCustomerId)
-    }
-
-    this.loading = false
-
-    await requestAllPlans()
+      this.loading = false
+    },
   },
 })
 </script>

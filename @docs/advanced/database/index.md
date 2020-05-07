@@ -46,7 +46,7 @@ import { getModel } from "@factor/api/server"
 
 // Get a user based on their userId
 const getUser = async (_id) => {
-  return await await getModel("user").findOne({ _id })
+  return await getModel("user").findOne({ _id })
 }
 
 // Endpoint to create an attachment

@@ -9,7 +9,7 @@ Markdown is a great way of working with formatted text. Learn about the tools in
 
 ## Reading Markdown Files
 
-Factor is set up to read markdown files (`.md`) by default. It also supports relative image urls via [Markdown Image Loader](./https://github.com/lucsorel/markdown-image-loader).
+Factor is set up to read markdown files (`.md`) by default. It also supports relative image urls via [Markdown Image Loader](https://github.com/lucsorel/markdown-image-loader).
 
 ```js
 const getMarkdown = async () => {

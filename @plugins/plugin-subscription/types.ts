@@ -1,6 +1,12 @@
 import { EndpointParameters } from "@factor/endpoint"
 import StripeNode from "stripe"
 
+export interface UpdateSubscription {
+  subscriptionId: string
+  planId?: string
+  action: "cancel" | "change" | "restore" | "delete"
+}
+
 export interface SubscriptionResult {
   status: "success" | "failure"
   customer: StripeNode.Customer | StripeNode.DeletedCustomer

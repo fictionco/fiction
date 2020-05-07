@@ -30,7 +30,7 @@
 </template>
 <script lang="ts">
 import { factorIcon } from "@factor/ui"
-import { emitEvent } from "@factor/api/events"
+import { emitEvent, onEvent } from "@factor/api/events"
 import Vue from "vue"
 import { Route } from "vue-router"
 export default Vue.extend({
@@ -59,6 +59,7 @@ export default Vue.extend({
     },
   },
   mounted() {
+    onEvent("reset-modals", () => this.$emit("update:vis", false))
     this.$nextTick(() => {
       // Append to Body
       this.$el.remove()

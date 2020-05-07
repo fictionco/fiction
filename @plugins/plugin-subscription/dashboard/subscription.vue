@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div v-if="subscriptions.length == 0" class="zero-state banner">
+      <div class="super">Money Back Guarantee</div>
+      <div class="title">Get the Pro Suite</div>
+      <div
+        class="sub-title"
+      >Experience pro extensions, pro features, dashboard enhancements and more.</div>
+      <div class="actions">
+        <factor-link to="/plans" btn="primary">Pick a Plan &rarr;</factor-link>
+        <factor-link to="/pro" btn="default">Learn More &rarr;</factor-link>
+      </div>
+    </div>
     <dashboard-list-item
       v-for="(item, i) in subscriptions"
       :key="i"
@@ -10,28 +21,43 @@
     >
       <template #actions>
         <dashboard-btn
-          btn="default"
+          btn="primary"
           class="switch"
           size="small"
           @click="modal('change', item)"
-        >Change Plan</dashboard-btn>
+        >{{ item.cancel_at_period_end ? "Restore" : "Change" }} Plan</dashboard-btn>
         <dashboard-btn
-          btn="default"
+          v-if="!item.cancel_at_period_end"
+          btn="subtle"
           class="cancel"
           size="small"
           @click="modal('cancel', item)"
-        >Cancel</dashboard-btn>
+        >Cancel Subscription</dashboard-btn>
+        <dashboard-btn
+          v-else
+          btn="subtle"
+          class="cancel"
+          size="small"
+          @click="updateSubscription({ subscriptionId: item.id, action: 'delete' })"
+        >Delete Permanently</dashboard-btn>
       </template>
     </dashboard-list-item>
-    <factor-modal :vis.sync="modalVisible">
+    <factor-modal class="sub-modal" :vis.sync="modalVisible">
       <template v-if="modalMode == 'cancel'">
         <h2>Cancel Subscription</h2>
         <div class="info">
-          <p>Are you sure? This will downgrade your premium suite to the free community version.</p>
-          <p>Before you cancel, please get in touch with us and we'll do whatever we can to make you happy.</p>
+          <p>Are you sure? This will downgrade your premium suite to the community version.</p>
+          <p>
+            Have a concern? Please
+            <router-link to="/contact">get in touch</router-link>&nbsp;with us and we'll do whatever we can to make you happy.
+          </p>
         </div>
         <div class="actions">
-          <dashboard-btn btn="warning" @click="updateSubscription(item, 'cancel')">Yes, I'm Sure</dashboard-btn>
+          <dashboard-btn
+            btn="warning"
+            :loading="sending"
+            @click="updateSubscription({ subscriptionId: modalItem.id, action: 'cancel' })"
+          >Yes, I'm Sure</dashboard-btn>
           <dashboard-btn btn="default" @click="modalVisible = false">Close</dashboard-btn>
         </div>
       </template>
@@ -46,17 +72,16 @@
             <div class="period">${{ plan.amount / 100 }} per {{ plan.interval }}</div>
             <div class="actions">
               <dashboard-btn
-                v-if="modalItem.plan && modalItem.plan.id == plan.id"
+                v-if="modalItem.plan && modalItem.plan.id == plan.id && !modalItem.cancel_at_period_end"
                 btn="default"
-                size="small"
                 disabled
               >Current Plan</dashboard-btn>
               <dashboard-btn
                 v-else
                 btn="primary"
-                size="small"
-                @click="updateSubscription(item, 'update', plan.id)"
-              >Change to this plan</dashboard-btn>
+                :loading="sending == plan.id"
+                @click="updateSubscription({ subscriptionId: modalItem.id, action: 'change', planId: plan.id })"
+              >{{ modalItem.cancel_at_period_end ? "Restore" : "Change to" }} this plan</dashboard-btn>
             </div>
           </div>
         </div>
@@ -67,17 +92,24 @@
 <script lang="ts">
 import Vue from "vue"
 import { stored, standardDate, toLabel } from "@factor/api"
-import { dashboardListItem, dashboardBtn, factorModal } from "@factor/ui"
+import { dashboardListItem, dashboardBtn, factorModal, factorLink } from "@factor/ui"
 import StripeNode from "stripe"
+import { requestUpdateSubscription } from "../stripe-client"
+import { UpdateSubscription } from "../types"
 export default Vue.extend({
   name: "SubscriptionList",
-  components: { dashboardListItem, dashboardBtn, factorModal },
+  components: { dashboardListItem, dashboardBtn, factorModal, factorLink },
   data() {
-    return { modalVisible: false, modalMode: "", modalItem: {} }
+    return {
+      modalVisible: false,
+      modalMode: "",
+      modalItem: {},
+      sending: false,
+    }
   },
   computed: {
-    allPlans() {
-      return stored("allPlans") || []
+    allPlans(this: any) {
+      return this.composite.allPlans || []
     },
     composite() {
       return stored("customerComposite") || {}
@@ -86,8 +118,17 @@ export default Vue.extend({
       return this.composite.customer?.subscriptions?.data || []
     },
   },
+  beforeDestroy() {
+    this.modalVisible = false
+  },
   methods: {
-    updateSubscription(item: StripeNode.Subscription, action: string) {},
+    async updateSubscription(this: any, _arguments: UpdateSubscription) {
+      this.sending = _arguments.planId ?? true
+
+      await requestUpdateSubscription(_arguments)
+      this.sending = false
+      this.modalVisible = false
+    },
     modal(this: any, mode: string, item: StripeNode.Subscription) {
       this.modalMode = mode
       this.modalItem = item
@@ -104,22 +145,59 @@ export default Vue.extend({
       return [
         { value: this.getAmount(item) },
         { label: "Renews", value: standardDate(item.current_period_end) },
-        { label: "Status", value: toLabel(item.status as string) },
+        { label: "Status", value: this.getStatus(item) },
       ]
     },
     additional(this: any, item: StripeNode.Subscription) {
       return [{ label: "Id", value: item.id }]
     },
+    getStatus(item: StripeNode.Subscription) {
+      if (item.status == "active" && item.cancel_at_period_end) {
+        return "Awaiting Cancellation"
+      } else {
+        return toLabel(item.status as string)
+      }
+    },
     getAmount(this: any, item: StripeNode.Subscription) {
       const amount = item.plan?.amount ? item.plan?.amount / 100 : ""
       const interval = item.plan?.interval
 
-      return `${amount} / ${interval}`
+      return `$${amount} / ${interval}`
     },
   },
 })
 </script>
 <style lang="less" scoped>
+.zero-state {
+  padding: 4rem;
+  .super {
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-size: 0.9em;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .sub-title {
+    font-size: 1.5em;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+  .actions {
+    margin-top: 1rem;
+    a {
+      margin: 0.5rem 1rem 0.5rem 0;
+    }
+  }
+  @media (max-width: 900px) {
+    padding: 1rem;
+  }
+}
 .factor-modal {
   .modal-text-content {
     text-align: left;

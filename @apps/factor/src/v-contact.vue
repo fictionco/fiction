@@ -95,26 +95,6 @@ export default Vue.extend({
         font-size: 1.2em;
       }
     }
-
-    .stripes {
-      pointer-events: none;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -72px;
-      top: 50%;
-      transform: skewY(-6deg);
-      transition: opacity 0.2s ease-out;
-      will-change: transform;
-      .wedge {
-        position: absolute;
-        height: 5000px;
-        bottom: 0;
-        background: #fff;
-        left: 0;
-        right: 0;
-      }
-    }
   }
   .contact-wrap {
     padding: 2em 0 4em;

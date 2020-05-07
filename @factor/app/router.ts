@@ -39,6 +39,7 @@ const hookClientRouterBefore = async (
       next,
     })
 
+    emitEvent("reset-modals")
     emitEvent("ssr-progress", "start")
 
     const results: (boolean | undefined)[] = await doBefore

@@ -8,6 +8,7 @@ import {
   SubscriptionCustomerData,
   PlanInfo,
   CustomerComposite,
+  UpdateSubscription,
 } from "./types"
 
 const getStripe = (): Stripe => {
@@ -170,24 +171,21 @@ export const retrieveCustomerComposite = async ({
 
 /**
  * Standard updates on Stripe subscriptions
- * @param param0
  */
-export const updateSubscription = async ({
-  subscriptionId,
-  planId,
-  action,
-}: {
-  subscriptionId: string
-  planId?: string
-  action: "cancel" | "change" | "restore"
-}): Promise<Stripe.Subscription | undefined> => {
+export const serverUpdateSubscription = async (
+  params: UpdateSubscription
+): Promise<Stripe.Subscription | undefined> => {
+  const { subscriptionId, planId, action } = params
+
   const stripe = getStripe()
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
   let result: Stripe.Subscription | undefined
 
-  if (action == "cancel" || action == "restore") {
+  if (action == "delete") {
+    await stripe.subscriptions.del(subscriptionId)
+  } else if (action == "cancel" || action == "restore") {
     // https://stripe.com/docs/billing/subscriptions/cancel
     const cancel_at_period_end = action == "cancel" ? true : false
     result = await stripe.subscriptions.update(subscriptionId, { cancel_at_period_end })
@@ -195,7 +193,8 @@ export const updateSubscription = async ({
     // https://stripe.com/docs/billing/subscriptions/upgrade-downgrade
     result = await stripe.subscriptions.update(subscriptionId, {
       cancel_at_period_end: false,
-      proration_behavior: "always_invoice",
+      billing_cycle_anchor: "now",
+      proration_behavior: "create_prorations",
       items: [
         {
           id: subscription.items.data[0].id,
@@ -218,7 +217,7 @@ const setup = (): void => {
       retrievePaymentMethods,
       retrieveInvoices,
       retrieveCustomerComposite,
-      updateSubscription,
+      serverUpdateSubscription,
       retrieveAllPlans,
     },
   })

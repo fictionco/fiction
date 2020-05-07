@@ -1,4 +1,11 @@
-import { setting, endpointRequest, waitFor, storeItem, stored } from "@factor/api"
+import {
+  setting,
+  endpointRequest,
+  waitFor,
+  storeItem,
+  stored,
+  emitEvent,
+} from "@factor/api"
 import { EndpointParameters } from "@factor/endpoint"
 import { FactorUser } from "@factor/user/types"
 import StripeNode from "stripe"
@@ -7,6 +14,7 @@ import {
   SubscriptionResult,
   PlanInfo,
   CustomerComposite,
+  UpdateSubscription,
 } from "./types"
 
 const env = process.env.NODE_ENV
@@ -38,6 +46,10 @@ export const requestAllPlans = async (): Promise<PlanInfo[]> => {
   return allPlans
 }
 
+/**
+ * Gets a composite of relevant customer information
+ * @param customerId - stripe customer id
+ */
 export const requestCustomerComposite = async (
   customerId: string
 ): Promise<CustomerComposite> => {
@@ -48,6 +60,18 @@ export const requestCustomerComposite = async (
   storeItem("customerComposite", composite)
 
   return composite
+}
+
+export const requestUpdateSubscription = async (
+  options: UpdateSubscription
+): Promise<StripeNode.Subscription | undefined> => {
+  const result = await sendRequest<StripeNode.Subscription | undefined>(
+    "serverUpdateSubscription",
+    options as UpdateSubscription & EndpointParameters
+  )
+  emitEvent("refresh-user")
+
+  return result
 }
 
 export const requestCustomer = async (user: FactorUser): Promise<StripeNode.Customer> => {

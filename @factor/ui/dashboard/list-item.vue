@@ -13,8 +13,11 @@
     </div>
     <div class="meta-information">
       <div v-for="(dataItem, index) in meta" :key="index" class="data-item">
-        <div v-if="dataItem.label" class="label">{{ dataItem.label }}:</div>
-        <div class="value">{{ dataItem.value }}</div>
+        <factor-link v-if="dataItem.path" :path="dataItem.path">{{ dataItem.label }}</factor-link>
+        <template v-else>
+          <div v-if="dataItem.label" class="label">{{ dataItem.label }}:</div>
+          <div class="value">{{ dataItem.value }}</div>
+        </template>
       </div>
       <div class="data-item">
         <div class="toggle-additional-information value" @click="toggle = !toggle">
@@ -114,12 +117,8 @@ export default Vue.extend({
     }
   }
 
-  .data-item {
-    .value {
-      font-weight: var(--font-weight-bold, 700);
-    }
-  }
   .meta-information {
+    font-size: 0.9em;
     display: flex;
     flex-wrap: wrap;
     line-height: 1.7;
