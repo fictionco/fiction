@@ -138,9 +138,9 @@ export default Vue.extend({
           link: { path: "/plugins", text: "View Plugins" },
         },
         {
-          title: "Save time with themes.",
-          text: `Need a theming system for JavaScript apps that you can work with?
-              Factor was developed from the start with customizable theming and rapid app development in mind.`,
+          title: "Premium Themes for Professionals",
+          text: `Leverage an amazing theme library or build your own for fun and profit.
+              Factor gives you a complete theming and rapid app development system to quickly deploy apps.`,
           figure: () => import("./figure-themes.vue"),
           link: { path: "/themes", text: "View Themes" },
         },
