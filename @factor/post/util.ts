@@ -121,19 +121,6 @@ export const getSchema = (postType: string): PostTypeConfig => {
   return found ?? getBaseSchema()
 }
 
-const getContextDepth = (context: PopulationContext): number => {
-  let depth
-  if (context == PopulationContext.List) {
-    depth = 10
-  } else if (context == PopulationContext.Single) {
-    depth = 20
-  } else {
-    depth = 10
-  }
-
-  return depth
-}
-
 /**
  * Gets the fields that should be populated for a given post type schema
  * @param postType - the post type for the schema
@@ -141,39 +128,24 @@ const getContextDepth = (context: PopulationContext): number => {
  */
 export const getSchemaPopulatedFields = ({
   postType = "post",
-  depth = 10,
-  context,
 }: {
   postType: string
   depth?: number
   context?: PopulationContext
 }): string[] => {
-  let fields = getSchema("post").schemaPopulated || {}
+  let fields = (getSchema("post").schemaPopulated as string[]) || []
 
   const schema = getSchema(postType)
 
-  if (postType != "post" && schema) {
-    const populated = schema.schemaPopulated
+  if (postType != "post" && schema && schema.schemaPopulated) {
+    let populated = schema.schemaPopulated
 
-    let postTypePopulated: Record<string, PopulationContexts> = {}
-    if (Array.isArray(populated)) {
-      populated.forEach((f) => (postTypePopulated[f] = PopulationContext.Any))
-    } else if (schema.schemaPopulated) {
-      postTypePopulated = schema.schemaPopulated
-    }
+    populated = !Array.isArray(populated) ? Object.keys(populated) : populated
 
-    fields = { ...fields, ...postTypePopulated }
+    fields = [...fields, ...populated]
   }
 
-  depth = context ? getContextDepth(context) : depth
-
-  const pop = Object.entries(fields)
-    .filter((entry) => {
-      return depth <= getContextDepth(entry[1] as PopulationContext)
-    })
-    .map(([key]) => key)
-
-  return pop
+  return fields
 }
 
 /**

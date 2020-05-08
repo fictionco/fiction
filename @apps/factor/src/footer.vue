@@ -70,7 +70,7 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="less">
+<style lang="postcss">
 .content-footer {
   position: relative;
   width: 100%;

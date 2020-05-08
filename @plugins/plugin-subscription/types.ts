@@ -7,6 +7,8 @@ export interface UpdateSubscription {
   action: "cancel" | "change" | "restore" | "delete"
 }
 
+export type StripeEndpointParameters = EndpointParameters & { idempotencyKey: string }
+
 export interface SubscriptionResult {
   status: "success" | "failure"
   customer: StripeNode.Customer | StripeNode.DeletedCustomer
@@ -29,7 +31,7 @@ export type SubscriptionCustomerData = {
   plan: StripeNode.Plan
   subscriptionPlanId?: string
   paymentMethodId: string
-} & EndpointParameters
+} & StripeEndpointParameters
 
 declare module "@factor/user/types" {
   interface FactorUser {

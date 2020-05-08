@@ -1,6 +1,5 @@
 import { addFilter, setting } from "@factor/api"
-import { writeConfig, SetupCliConfig } from "@factor/cli/setup"
-import inquirer from "inquirer"
+
 import { Schema, SchemaDefinition, HookNextFunction, Document } from "mongoose"
 import { UpdateManySetter, UpdateManyOptions } from "@factor/post/server"
 import { FactorUser, userRolesMap, UserRoles } from "./types"

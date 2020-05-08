@@ -5,7 +5,7 @@
       <dashboard-btn btn="primary" @click="modalVisible = true">Add New Payment Method</dashboard-btn>
     </div>
     <div v-if="paymentMethods.length == 0" class="zero-state">
-      <div class="title">No Invoices Found</div>
+      <div class="title">No payment methods found.</div>
     </div>
     <template v-else>
       <dashboard-list-item
@@ -82,7 +82,7 @@ export default Vue.extend({
       return stored("customerComposite") || {}
     },
     paymentMethods(this: any) {
-      return this.composite.paymentMethods.data || []
+      return this.composite.paymentMethods?.data || []
     },
     customer(this: any) {
       return this.composite.customer || {}
@@ -172,7 +172,7 @@ export default Vue.extend({
   },
 })
 </script>
-<style lang="less" scoped>
+<style lang="postcss" scoped>
 .add-payment-method {
   h2 {
     font-size: 1.5em;
@@ -184,6 +184,13 @@ export default Vue.extend({
   }
   .error {
     margin: 1rem 0;
+  }
+}
+
+.zero-state {
+  padding: 4rem 0;
+  .title {
+    font-size: 1.2em;
   }
 }
 </style>

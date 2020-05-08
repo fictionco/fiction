@@ -11,7 +11,7 @@ Every document in the database is considered a post. All posts share some standa
 
 When doing advanced work with posts, the first step in many cases is to [create and configure a new post type](./post-types). This allows you to set up a unique set of posts with a custom schema, data handling, and management configuration.
 
-This example adds two post types and connects them via population whenever the `example` post type is queried.
+This example adds two post types and connects them via population. Whenever the `example` post type is queried; population will get the posts listed in `anotherList` and replace the `_id`'s with post objects.
 
 ```js
 import { addPostType, ObjectId } from "@factor/api"

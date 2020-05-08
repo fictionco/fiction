@@ -43,7 +43,6 @@ export default Vue.extend({
 
   methods: {
     async setPage(this: any) {
-      console.log("SET BP")
       this.stripe = await getStripeClient()
 
       this.elements = this.stripe.elements()

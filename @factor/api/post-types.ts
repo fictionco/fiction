@@ -31,7 +31,7 @@ export interface PostTypeConfig {
   permissions?: SchemaPermissions
   schemaDefinition?: SchemaDefinition | (() => SchemaDefinition)
   schemaMiddleware?: (s: Schema) => void
-  schemaPopulated?: Record<string, PopulationContexts>
+  schemaPopulated?: Record<string, PopulationContexts> | string[]
   schemaOptions?: SchemaOptions
 }
 

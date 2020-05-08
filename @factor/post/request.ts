@@ -106,7 +106,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 
 /**
  * Populate joined fields, will add this post and all others to store
- * In BROWSER - DON'T WAIT, but we should not wait for it, data will be loaded to store
+ * In BROWSER - DON'T WAIT, data will be loaded to store when it arrives
  * In SERVER - WAIT - SSR needs to have all store information so it will be picked up on load
  */
 export const handlePostPopulation = async (
@@ -150,7 +150,7 @@ export const requestEmbeddedPost = async <T extends FactorPostState | never>(
 ): Promise<T> => {
   const _post = await sendPostRequest<T>("embeddedPost", _arguments)
   if (_post) {
-    const postType = _post?.postType ?? 'post'
+    const postType = _post?.postType ?? "post"
     setLocalPostTypeCache(postType)
 
     await handlePostPopulation(_post)

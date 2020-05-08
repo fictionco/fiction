@@ -128,7 +128,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
             // esModule option introduced in v5, but breaks markdown-image-loader
             options: { name: "[name]-[hash:8].[ext]", esModule: false },
           },
-          { test: /\.css/, use: cssLoaders({ target, lang: "css", cwd }) },
+          { test: /\.(postcss|css)/, use: cssLoaders({ target, lang: "css", cwd }) },
           { test: /\.less/, use: cssLoaders({ target, lang: "less", cwd }) },
           {
             test: /\.md$/,

@@ -5,6 +5,7 @@ import {
   storeItem,
   stored,
   emitEvent,
+  randomToken,
 } from "@factor/api"
 import { EndpointParameters } from "@factor/endpoint"
 import { FactorUser } from "@factor/user/types"
@@ -17,7 +18,15 @@ import {
   UpdateSubscription,
 } from "./types"
 
-const env = process.env.NODE_ENV
+/**
+ * Used to prevent duplicate transactions
+ * https://stripe.com/docs/api/idempotent_requests
+ */
+const idempotencyKey = randomToken()
+
+/**
+ * Client stripe is added to global window
+ */
 declare global {
   interface Window {
     Stripe: stripe.Stripe
@@ -31,7 +40,7 @@ export const sendRequest = async <T>(
   return await endpointRequest<T>({
     id: "pluginCheckout",
     method,
-    params,
+    params: { idempotencyKey, ...params },
   })
 }
 
@@ -75,7 +84,7 @@ export const requestUpdateSubscription = async (
 }
 
 export const requestCustomer = async (user: FactorUser): Promise<StripeNode.Customer> => {
-  const customer = await sendRequest<StripeNode.Customer>("retrieveCustomer", {
+  const customer = await sendRequest<StripeNode.Customer>("serverRetrieveCustomer", {
     customerId: user.stripeCustomerId,
   })
 
@@ -88,7 +97,7 @@ export const getPlanId = (
   productKey: string,
   interval: "year" | "month" = "year"
 ): string => {
-  const allPlans = setting(`checkout.${env}.plans`) ?? {}
+  const allPlans = setting(`checkout.${process.env.NODE_ENV}.plans`) ?? {}
 
   const plans = allPlans[productKey] ?? productKey
 
@@ -163,7 +172,7 @@ export const getStripeClient = async (): Promise<stripe.Stripe> => {
   if (__stripeClient) {
     return __stripeClient
   } else if (window.Stripe) {
-    const key = setting(`checkout.${env}.publishableKey`)
+    const key = setting(`checkout.${process.env.NODE_ENV}.publishableKey`)
 
     __stripeClient = window.Stripe(key)
 

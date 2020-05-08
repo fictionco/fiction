@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { addEndpoint, addFilter, setting } from "@factor/api"
 import Stripe from "stripe"
-import { savePost, getSinglePost } from "@factor/api/server"
+import { savePost } from "@factor/api/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import {
   SubscriptionResult,
@@ -27,7 +27,7 @@ const getStripe = (): Stripe => {
  * If no customer has been created yet, then it will create and attach to bearer
  * @param customerId - Stripe customer ID
  */
-export const retrieveCustomer = async (
+export const serverRetrieveCustomer = async (
   {
     customerId,
   }: {
@@ -50,7 +50,7 @@ export const retrieveCustomer = async (
       email: bearer.email,
       name: bearer.displayName,
       phone: bearer.phoneNumber,
-      metadata: { _id: bearer._id, username: bearer.username ?? "" },
+      metadata: { _id: bearer._id.toString(), username: bearer.username ?? "" },
     })
 
     customerId = customer.id
@@ -85,7 +85,7 @@ export const serverSetDefaultPaymentMethod = async ({
 }
 
 export const createSubscription = async (
-  { paymentMethodId, subscriptionPlanId }: SubscriptionCustomerData,
+  { paymentMethodId, subscriptionPlanId, idempotencyKey }: SubscriptionCustomerData,
   { bearer }: EndpointMeta
 ): Promise<SubscriptionResult> => {
   if (!bearer) {
@@ -94,7 +94,9 @@ export const createSubscription = async (
   const stripe = getStripe()
 
   const stripeCustomerId = bearer.stripeCustomerId
-  const stripeCustomer: Stripe.Customer | Stripe.DeletedCustomer = await retrieveCustomer(
+  const stripeCustomer:
+    | Stripe.Customer
+    | Stripe.DeletedCustomer = await serverRetrieveCustomer(
     {
       customerId: stripeCustomerId,
     },
@@ -110,11 +112,14 @@ export const createSubscription = async (
     })
   }
 
-  const stripeSubscription = await stripe.subscriptions.create({
-    customer: stripeCustomer.id,
-    items: [{ plan: subscriptionPlanId as string }],
-    expand: ["latest_invoice.payment_intent"],
-  })
+  const stripeSubscription = await stripe.subscriptions.create(
+    {
+      customer: stripeCustomer.id,
+      items: [{ plan: subscriptionPlanId as string }],
+      expand: ["latest_invoice.payment_intent"],
+    },
+    { idempotencyKey }
+  )
 
   return {
     status: "success",
@@ -194,7 +199,7 @@ export const serverCustomerComposite = async (
   meta: EndpointMeta
 ): Promise<CustomerComposite> => {
   const [customer, invoices, paymentMethods, allPlans] = await Promise.all([
-    retrieveCustomer({ customerId }, meta),
+    serverRetrieveCustomer({ customerId }, meta),
     serverRetrieveInvoices({ customer: customerId }),
     serverRetrievePaymentMethods({ customer: customerId }),
     serverRetrieveAllPlans(),
@@ -238,7 +243,7 @@ export const serverPaymentMethodAction = async (
     })
   } else if (action == "delete") {
     await stripe.paymentMethods.detach(paymentMethodId)
-    result = (await retrieveCustomer({ customerId }, meta)) as Stripe.Customer
+    result = (await serverRetrieveCustomer({ customerId }, meta)) as Stripe.Customer
   } else if (action == "default") {
     result = await serverSetDefaultPaymentMethod({
       customerId,
@@ -295,7 +300,7 @@ const setup = (): void => {
     handler: {
       createSubscription,
       serverRetrievePlan,
-      retrieveCustomer,
+      serverRetrieveCustomer,
       serverRetrievePaymentMethods,
       serverRetrieveInvoices,
       serverCustomerComposite,
