@@ -71,8 +71,8 @@ const validateUserRoles = async function (
 
   if (configRole != this.role) {
     this.role = configRole
-  } else if (this.isModified("role") && configRole != this.role) {
-    return next(new Error(`Can't edit user role to ${this.role}`))
+  } else if (this.isModified("role")) {
+    return next(new Error(`Can't change user role to ${this.role}`))
   }
 
   this.accessLevel = userRolesMap[this.role as UserRoles] || 0

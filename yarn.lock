@@ -2739,13 +2739,6 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.2.tgz#a877a4658f8238c8266faef300ae41c84d72ec8a"
   integrity sha512-BOl+6KDs4ItndUWUFchy3aEqGdHhw0BC4Uu+qoDonN/f0rbUnJbm71Ulj8Tt9jLFRaAxPLKvdS1bBLfx1qXR9g==
 
-"@types/postcss-nested@^4.2.3":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/@types/postcss-nested/-/postcss-nested-4.2.3.tgz#06bca65025be7633657c58e9e55bb5bedd432857"
-  integrity sha512-ZhABeFlQIL0Z3rXjWkQ9CIFiQH8383J97N7FB5B4GrfCSdniZ58fri3lxgTlU4kp6PDH3a/LWRDWHk9Mvord6A==
-  dependencies:
-    postcss-nested "*"
-
 "@types/prettier@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.0.0.tgz#dc85454b953178cc6043df5208b9e949b54a3bc4"
@@ -13346,7 +13339,7 @@ postcss-modules-values@^3.0.0:
     icss-utils "^4.0.0"
     postcss "^7.0.6"
 
-postcss-nested@*, postcss-nested@^4.1.1, postcss-nested@^4.2.1:
+postcss-nested@^4.1.1, postcss-nested@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/postcss-nested/-/postcss-nested-4.2.1.tgz#4bc2e5b35e3b1e481ff81e23b700da7f82a8b248"
   integrity sha512-AMayXX8tS0HCp4O4lolp4ygj9wBn32DJWXvG6gCv+ZvJrEa00GUxJcJEEzMh87BIe6FrWdYkpR2cuyqHKrxmXw==
