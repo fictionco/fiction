@@ -1,5 +1,5 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
-
+import postcssNested from "postcss-nested"
 import { applyFilters } from "@factor/api/hooks"
 import cssNano from "cssnano"
 
@@ -14,7 +14,7 @@ export const cssLoaders = ({
 }): object[] => {
   const postCssPlugins = applyFilters(
     "postcss-plugins",
-    [cssNano({ preset: "default" })],
+    [cssNano({ preset: "default" }), postcssNested],
     { target, lang, cwd }
   )
 

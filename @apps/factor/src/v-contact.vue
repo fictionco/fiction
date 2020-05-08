@@ -49,7 +49,7 @@ export default Vue.extend({
   methods: { setting },
 })
 </script>
-<style lang="postcss">
+<style lang="less">
 .view-contact {
   padding-top: 4rem;
   .hhh {

@@ -167,6 +167,7 @@ export default Vue.extend({
           post: this.post,
           postType: this.postType,
         })
+
         if (saved) {
           this.post = saved
           emitEvent("notify", `Saved!`)
