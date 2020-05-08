@@ -199,10 +199,14 @@ export const setup = (): void => {
        * Before save, add emailVerified false and code if email has changed or if new account
        */
       userSchema.pre("save", async function (
-        this: FactorUserEmailVerify & Document,
+        this: FactorUserEmailVerify & Document & { emailUpdated: boolean },
         next: HookNextFunction
       ): Promise<void> {
+        this.emailUpdated = false
+
         if (!this.isModified("email") || this.$locals.noVerify) return
+
+        this.emailUpdated = true
 
         this.emailVerified = false
         this.emailVerificationCode = randomToken()
@@ -215,9 +219,11 @@ export const setup = (): void => {
        * A post hook is needed because if email exists, it was still sending the email
        */
       userSchema.post("save", async function (
-        this: FactorUserEmailVerify & Document
+        this: FactorUserEmailVerify & Document & { emailUpdated: boolean }
       ): Promise<void> {
-        if (!this.isModified("email") || this.$locals.noVerify) return
+        // Email updated set in pre save hook
+        // https://stackoverflow.com/a/54008061/1858322
+        if (!this.emailUpdated || this.$locals.noVerify) return
 
         const { email, _id } = this
 

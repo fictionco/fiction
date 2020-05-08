@@ -127,62 +127,62 @@ export const setup = (): void => {
   /**
    * CLI admin setup utility for adding user roles to config
    */
-  addFilter({
-    key,
-    hook: "cli-add-setup",
-    callback: (_: SetupCliConfig[]) => {
-      const setupAdmins: SetupCliConfig = {
-        name: "User Roles - Add admin privileges to specific users.",
-        value: "admins",
-        callback: async (): Promise<void> => {
-          const roles = userRolesMap
-          const choices = Object.keys(roles).map((_) => {
-            return {
-              name: `${_} (${roles[_ as UserRoles]})`,
-              value: _,
-            }
-          })
+  // addFilter({
+  //   key,
+  //   hook: "cli-add-setup",
+  //   callback: (_: SetupCliConfig[]) => {
+  //     const setupAdmins: SetupCliConfig = {
+  //       name: "User Roles - Add admin privileges to specific users.",
+  //       value: "admins",
+  //       callback: async (): Promise<void> => {
+  //         const roles = userRolesMap
+  //         const choices = Object.keys(roles).map((_) => {
+  //           return {
+  //             name: `${_} (${roles[_ as UserRoles]})`,
+  //             value: _,
+  //           }
+  //         })
 
-          const questions = [
-            {
-              name: "email",
-              message: "What's the user's email?",
-              type: "input",
-              validate: (v: string): string | boolean => {
-                const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-AZa-z-]+\.)+[A-Za-z]{2,}))$/
-                return re.test(v) ? true : "Enter a valid email address"
-              },
-            },
-            {
-              name: "role",
-              message: "What is the role for this admin?",
-              choices,
-              type: "list",
-            },
-            {
-              type: "confirm",
-              name: `askAgain`,
-              message: `Got it. Add another user?`,
-              default: false,
-            },
-          ]
+  //         const questions = [
+  //           {
+  //             name: "email",
+  //             message: "What's the user's email?",
+  //             type: "input",
+  //             validate: (v: string): string | boolean => {
+  //               const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\d-AZa-z-]+\.)+[A-Za-z]{2,}))$/
+  //               return re.test(v) ? true : "Enter a valid email address"
+  //             },
+  //           },
+  //           {
+  //             name: "role",
+  //             message: "What is the role for this admin?",
+  //             choices,
+  //             type: "list",
+  //           },
+  //           {
+  //             type: "confirm",
+  //             name: `askAgain`,
+  //             message: `Got it. Add another user?`,
+  //             default: false,
+  //           },
+  //         ]
 
-          const admins: Record<string, string> = {}
-          const ask = async (): Promise<void> => {
-            const { askAgain, email, role } = await inquirer.prompt(questions)
-            admins[email] = role
-            if (askAgain) await ask()
-          }
+  //         const admins: Record<string, string> = {}
+  //         const ask = async (): Promise<void> => {
+  //           const { askAgain, email, role } = await inquirer.prompt(questions)
+  //           admins[email] = role
+  //           if (askAgain) await ask()
+  //         }
 
-          await ask()
+  //         await ask()
 
-          await writeConfig("public", { roles: admins })
-        },
-      }
+  //         await writeConfig("public", { roles: admins })
+  //       },
+  //     }
 
-      return [..._, setupAdmins]
-    },
-  })
+  //     return [..._, setupAdmins]
+  //   },
+  // })
 }
 
 setup()
