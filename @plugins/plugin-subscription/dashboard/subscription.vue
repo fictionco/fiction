@@ -125,7 +125,13 @@ export default Vue.extend({
     async updateSubscription(this: any, _arguments: UpdateSubscription) {
       this.sending = _arguments.planId ?? true
 
-      await requestUpdateSubscription(_arguments)
+      try {
+        await requestUpdateSubscription(_arguments)
+      } catch (error) {
+        this.sending = false
+        throw error
+      }
+
       this.sending = false
       this.modalVisible = false
     },

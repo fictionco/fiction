@@ -39,7 +39,7 @@ export const requestAllPlans = async (): Promise<PlanInfo[]> => {
   if (stored("allPlans")) {
     return stored("allPlans")
   }
-  const allPlans = await sendRequest<PlanInfo[]>("retrieveAllPlans")
+  const allPlans = await sendRequest<PlanInfo[]>("serverRetrieveAllPlans")
 
   storeItem("allPlans", allPlans)
 
@@ -53,8 +53,8 @@ export const requestAllPlans = async (): Promise<PlanInfo[]> => {
 export const requestCustomerComposite = async (
   customerId: string
 ): Promise<CustomerComposite> => {
-  const composite = await sendRequest<CustomerComposite>("retrieveCustomerComposite", {
-    id: customerId,
+  const composite = await sendRequest<CustomerComposite>("serverCustomerComposite", {
+    customerId,
   })
 
   storeItem("customerComposite", composite)
@@ -76,7 +76,7 @@ export const requestUpdateSubscription = async (
 
 export const requestCustomer = async (user: FactorUser): Promise<StripeNode.Customer> => {
   const customer = await sendRequest<StripeNode.Customer>("retrieveCustomer", {
-    id: user.stripeCustomerId,
+    customerId: user.stripeCustomerId,
   })
 
   storeItem("stripeCustomer", customer)
@@ -105,7 +105,7 @@ export const requestPlanInfo = async (
 ): Promise<PlanInfo> => {
   const id = getPlanId(productKey, interval as "month" | "year")
 
-  const { plan, product } = await sendRequest<PlanInfo>("retrievePlan", { id })
+  const { plan, product } = await sendRequest<PlanInfo>("serverRetrievePlan", { id })
 
   storeItem("planInfo", plan)
   storeItem("productInfo", product)
@@ -124,6 +124,36 @@ export const requestCreateSubscription = async (
 
   return await sendRequest<SubscriptionResult>("createSubscription", params)
 }
+
+export const requestPaymentMethodAction = async (params: {
+  customerId: string
+  paymentMethodId: string
+  action: "default" | "delete" | "setup"
+}): Promise<StripeNode.SetupIntent | StripeNode.Customer> => {
+  const result = await sendRequest<StripeNode.SetupIntent | StripeNode.Customer>(
+    "serverPaymentMethodAction",
+    params
+  )
+
+  emitEvent("refresh-user")
+
+  return result
+}
+
+// export const requestSetupPaymentMethod = async (params: {
+//   customerId: string
+//   paymentMethodId: string
+//   cardDescription?: string
+// }): Promise<StripeNode.SetupIntent> => {
+//   const result = await sendRequest<StripeNode.SetupIntent>(
+//     "serverSetupPaymentMethod",
+//     params
+//   )
+
+//   emitEvent("refresh-user")
+
+//   return result
+// }
 
 let __tries = 0
 let __stripeClient: stripe.Stripe

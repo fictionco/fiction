@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { addEndpoint, addFilter, setting } from "@factor/api"
 import Stripe from "stripe"
-import { savePost } from "@factor/api/server"
+import { savePost, getSinglePost } from "@factor/api/server"
 import { EndpointMeta } from "@factor/endpoint/types"
 import {
   SubscriptionResult,
@@ -21,6 +21,69 @@ const getStripe = (): Stripe => {
   return new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2020-03-02" })
 }
 
+/**
+ * Retrieve Stripe customer by customer Id
+ * If no custom Id is passed it will use the bearer
+ * If no customer has been created yet, then it will create and attach to bearer
+ * @param customerId - Stripe customer ID
+ */
+export const retrieveCustomer = async (
+  {
+    customerId,
+  }: {
+    customerId?: string
+  },
+  { bearer }: EndpointMeta
+): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
+  const stripe = getStripe()
+
+  let customer
+
+  if (!customerId && bearer?.stripeCustomerId) {
+    customerId = bearer.stripeCustomerId
+  }
+
+  if (customerId) {
+    customer = await stripe.customers.retrieve(customerId)
+  } else if (!customerId && bearer) {
+    customer = await stripe.customers.create({
+      email: bearer.email,
+      name: bearer.displayName,
+      phone: bearer.phoneNumber,
+      metadata: { _id: bearer._id, username: bearer.username ?? "" },
+    })
+
+    customerId = customer.id
+
+    await savePost(
+      {
+        data: { _id: bearer._id, stripeCustomerId: customer.id },
+        postType: "user",
+      },
+      { bearer }
+    )
+  } else {
+    throw new Error("could not get Stripe customer")
+  }
+
+  return customer
+}
+
+export const serverSetDefaultPaymentMethod = async ({
+  customerId,
+  paymentMethodId,
+}: {
+  customerId: string
+  paymentMethodId: string
+}): Promise<Stripe.Customer> => {
+  const stripe = getStripe()
+  return await stripe.customers.update(customerId, {
+    invoice_settings: {
+      default_payment_method: paymentMethodId,
+    },
+  })
+}
+
 export const createSubscription = async (
   { paymentMethodId, subscriptionPlanId }: SubscriptionCustomerData,
   { bearer }: EndpointMeta
@@ -30,36 +93,25 @@ export const createSubscription = async (
   }
   const stripe = getStripe()
 
-  let stripeCustomerId = bearer.stripeCustomerId
-  let stripeCustomer: Stripe.Customer
+  const stripeCustomerId = bearer.stripeCustomerId
+  const stripeCustomer: Stripe.Customer | Stripe.DeletedCustomer = await retrieveCustomer(
+    {
+      customerId: stripeCustomerId,
+    },
+    { bearer }
+  )
 
-  if (!stripeCustomerId) {
-    // This creates a new Customer and attaches the PaymentMethod in one API call.
-    stripeCustomer = await stripe.customers.create({
-      payment_method: paymentMethodId,
-      email: bearer.email,
-      invoice_settings: {
-        default_payment_method: paymentMethodId,
-      },
+  if (paymentMethodId) {
+    await stripe.paymentMethods.attach(paymentMethodId, { customer: stripeCustomer.id })
+
+    await serverSetDefaultPaymentMethod({
+      customerId: stripeCustomer.id,
+      paymentMethodId,
     })
-
-    stripeCustomerId = stripeCustomer.id
-
-    await savePost(
-      {
-        data: { _id: bearer._id, stripeCustomerId: stripeCustomer.id },
-        postType: "user",
-      },
-      { bearer }
-    )
-  } else {
-    stripeCustomer = (await stripe.customers.retrieve(
-      stripeCustomerId
-    )) as Stripe.Customer
   }
 
   const stripeSubscription = await stripe.subscriptions.create({
-    customer: stripeCustomerId,
+    customer: stripeCustomer.id,
     items: [{ plan: subscriptionPlanId as string }],
     expand: ["latest_invoice.payment_intent"],
   })
@@ -72,26 +124,10 @@ export const createSubscription = async (
 }
 
 /**
- * Retrieve Stripe customer by customer Id
- * @param id - Stripe customer ID
- */
-export const retrieveCustomer = async ({
-  id,
-}: {
-  id: string
-}): Promise<Stripe.Customer | Stripe.DeletedCustomer> => {
-  const stripe = getStripe()
-
-  const customer = await stripe.customers.retrieve(id)
-
-  return customer
-}
-
-/**
  * Retrieve Stripe payment methods by customer Id
  * @param id - Stripe customer ID
  */
-export const retrievePaymentMethods = async ({
+export const serverRetrievePaymentMethods = async ({
   customer,
 }: {
   customer: string
@@ -103,9 +139,9 @@ export const retrievePaymentMethods = async ({
   return methods
 }
 
-export const retrieveInvoices = async ({
+export const serverRetrieveInvoices = async ({
   customer,
-  limit = 30,
+  limit = 100,
   starting_after,
 }: {
   customer: string
@@ -121,7 +157,7 @@ export const retrieveInvoices = async ({
  * @reference https://stripe.com/docs/api/plans/retrieve?lang=node
  * @param id - Stripe plan ID
  */
-export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> => {
+export const serverRetrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> => {
   const stripe = getStripe()
 
   const plan = await stripe.plans.retrieve(id)
@@ -132,7 +168,7 @@ export const retrievePlan = async ({ id }: { id: string }): Promise<PlanInfo> =>
   return { plan, product }
 }
 
-export const retrieveAllPlans = async (): Promise<PlanInfo[]> => {
+export const serverRetrieveAllPlans = async (): Promise<PlanInfo[]> => {
   const planSetting = setting<Record<string, Record<string, string>>>(
     `checkout.${process.env.NODE_ENV}.plans`
   )
@@ -142,23 +178,26 @@ export const retrieveAllPlans = async (): Promise<PlanInfo[]> => {
     planIds = [...planIds, ...Object.values(val)]
   })
 
-  return await Promise.all(planIds.map((id) => retrievePlan({ id })))
+  return await Promise.all(planIds.map((id) => serverRetrievePlan({ id })))
 }
 
 /**
  * Get a composite of all relevant user information
  * @param id - customer id
  */
-export const retrieveCustomerComposite = async ({
-  id,
-}: {
-  id: string
-}): Promise<CustomerComposite> => {
+export const serverCustomerComposite = async (
+  {
+    customerId,
+  }: {
+    customerId: string
+  },
+  meta: EndpointMeta
+): Promise<CustomerComposite> => {
   const [customer, invoices, paymentMethods, allPlans] = await Promise.all([
-    retrieveCustomer({ id }),
-    retrieveInvoices({ customer: id }),
-    retrievePaymentMethods({ customer: id }),
-    retrieveAllPlans(),
+    retrieveCustomer({ customerId }, meta),
+    serverRetrieveInvoices({ customer: customerId }),
+    serverRetrievePaymentMethods({ customer: customerId }),
+    serverRetrieveAllPlans(),
   ])
 
   return {
@@ -167,6 +206,49 @@ export const retrieveCustomerComposite = async ({
     paymentMethods,
     allPlans,
   }
+}
+
+export const serverPaymentMethodAction = async (
+  {
+    customerId,
+    paymentMethodId,
+    action,
+  }: {
+    customerId: string
+    paymentMethodId: string
+    action: "delete" | "default" | "setup"
+  },
+  meta: EndpointMeta
+): Promise<Stripe.SetupIntent | Stripe.Customer> => {
+  const stripe = getStripe()
+
+  let result
+
+  if (action == "setup") {
+    result = await stripe.setupIntents.create({
+      customer: customerId,
+      payment_method: paymentMethodId,
+      confirm: true,
+      description: "CC",
+    })
+
+    await serverSetDefaultPaymentMethod({
+      customerId,
+      paymentMethodId,
+    })
+  } else if (action == "delete") {
+    await stripe.paymentMethods.detach(paymentMethodId)
+    result = (await retrieveCustomer({ customerId }, meta)) as Stripe.Customer
+  } else if (action == "default") {
+    result = await serverSetDefaultPaymentMethod({
+      customerId,
+      paymentMethodId,
+    })
+  } else {
+    throw new Error("No action provided")
+  }
+
+  return result
 }
 
 /**
@@ -212,13 +294,14 @@ const setup = (): void => {
     id: "pluginCheckout",
     handler: {
       createSubscription,
-      retrievePlan,
+      serverRetrievePlan,
       retrieveCustomer,
-      retrievePaymentMethods,
-      retrieveInvoices,
-      retrieveCustomerComposite,
+      serverRetrievePaymentMethods,
+      serverRetrieveInvoices,
+      serverCustomerComposite,
       serverUpdateSubscription,
-      retrieveAllPlans,
+      serverRetrieveAllPlans,
+      serverPaymentMethodAction,
     },
   })
 

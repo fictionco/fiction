@@ -13,7 +13,8 @@
     </div>
     <div class="meta-information">
       <div v-for="(dataItem, index) in meta" :key="index" class="data-item">
-        <factor-link v-if="dataItem.path" :path="dataItem.path">{{ dataItem.label }}</factor-link>
+        <div v-if="dataItem.tag" class="tag">{{ dataItem.tag }}</div>
+        <factor-link v-else-if="dataItem.path" :path="dataItem.path">{{ dataItem.label }}</factor-link>
         <template v-else>
           <div v-if="dataItem.label" class="label">{{ dataItem.label }}:</div>
           <div class="value">{{ dataItem.value }}</div>
@@ -123,6 +124,7 @@ export default Vue.extend({
     flex-wrap: wrap;
     line-height: 1.7;
     overflow-x: scroll;
+    align-items: center;
     .data-item {
       margin-right: 1rem;
       display: inline-block;
@@ -134,17 +136,31 @@ export default Vue.extend({
       .label {
         color: var(--color-text-secondary);
       }
+      // .tag {
+      //   background: var(--color-bg-contrast);
+      //   border-radius: 5px;
+      //   font-size: 0.85em;
+      //   padding: 0 0.5rem;
+      //   color: var(--color-text-secondary);
+      //   font-weight: var(--font-weight-bold, 700);
+      // }
     }
+  }
+
+  .tag,
+  .toggle-additional-information {
+    background: var(--color-bg-contrast);
+    border-radius: 5px;
+    font-size: 0.85em;
+    padding: 0 0.5rem;
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-bold, 700);
   }
   .toggle-additional-information {
     cursor: pointer;
-    padding: 0 0.5rem;
-    border-radius: 4px;
-    color: var(--color-primary);
-    opacity: 0.45;
     &:hover {
-      opacity: 1;
-      background: var(--color-bg-contrast);
+      opacity: 0.7;
+      background: var(--color-bg-highlight);
     }
   }
   .additional-information {

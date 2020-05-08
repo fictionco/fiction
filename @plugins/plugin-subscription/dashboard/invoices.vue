@@ -1,14 +1,19 @@
 <template>
   <div>
-    <dashboard-list-item
-      v-for="(invoice, i) in invoices"
-      :key="i"
-      :title="title(invoice)"
-      :sub-title="subTitle(invoice)"
-      :meta="meta(invoice)"
-      :additional="additional(invoice)"
-      :edit-path="invoice.invoice_pdf"
-    />
+    <div v-if="invoices.length == 0" class="zero-state">
+      <div class="title">No Invoices Found</div>
+    </div>
+    <template v-else>
+      <dashboard-list-item
+        v-for="(invoice, i) in invoices"
+        :key="i"
+        :title="title(invoice)"
+        :sub-title="subTitle(invoice)"
+        :meta="meta(invoice)"
+        :additional="additional(invoice)"
+        :edit-path="invoice.invoice_pdf"
+      />
+    </template>
   </div>
 </template>
 <script lang="ts">
@@ -58,4 +63,10 @@ export default Vue.extend({
 })
 </script>
 <style lang="less" scoped>
+.zero-state {
+  padding: 2rem;
+  .title {
+    font-size: 1.2em;
+  }
+}
 </style>
