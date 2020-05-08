@@ -31,6 +31,17 @@ That said, nearly everything in a theme can be customized via settings. So confl
 
 It's possible to use multiple themes in one app. At Fiction we use a shared theme (between [Factor](https://factor.dev) and [Fiction](https://www.fiction.com)). In this theme we put all the shared functionality, customization, and plugins.
 
+If there is an issue with load order between the themes, you can add a priority setting in `package.json` > `factor`. The theme with the higher priority value will come later in the load order, taking precedence.
+
+```json
+{
+  // package.json
+  "factor": {
+    "priority": 300
+  }
+}
+```
+
 ## Customizing Themes
 
 Every theme has different features and functionality. It's best to review the documentation and/or readme for the plugin to know what is available.
