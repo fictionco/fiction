@@ -16,8 +16,8 @@
         <div v-if="dataItem.tag" class="tag">{{ dataItem.tag }}</div>
         <factor-link v-else-if="dataItem.path" :path="dataItem.path">{{ dataItem.label }}</factor-link>
         <template v-else>
-          <div v-if="dataItem.label" class="label">{{ dataItem.label }}:</div>
-          <div class="value">{{ dataItem.value }}</div>
+          <div v-if="dataItem.label" v-formatted-text="dataItem.label" class="label" />
+          <div v-formatted-text="dataItem.value" class="value" />
         </template>
       </div>
       <div class="data-item">
@@ -31,8 +31,8 @@
       <div v-if="toggle" class="additional-information">
         <div class="additional-items">
           <div v-for="(dataItem, index) in additional" :key="index" class="data-item">
-            <div class="label">{{ dataItem.label }}:</div>
-            <div class="value">{{ dataItem.value }}</div>
+            <div v-formatted-text="dataItem.label" class="label" />
+            <div v-formatted-text="dataItem.value" class="value" />
           </div>
           <div v-if="$slots.actions" class="actions data-item">
             <div class="label">Actions</div>

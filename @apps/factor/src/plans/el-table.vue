@@ -9,7 +9,7 @@
           <h2>{{ toLabel(item.id) }}</h2>
           <div class="sub">{{ item.sub }}</div>
           <div class="action">
-            <factor-link v-if="item.id == 'community'" btn="default">Current Plan</factor-link>
+            <factor-link v-if="item.id == 'community'" btn="default" disabled>Free Forever</factor-link>
             <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
           </div>
         </div>
@@ -28,33 +28,22 @@
           </div>
         </div>
         <div class="col col-icon col-community">
+          <div v-if="child.level <= 0" class="mobile-label">Community</div>
           <factor-icon v-if="child.level <= 0" icon="fas fa-check" />
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-pro">
+          <div v-if="child.level <= 10" class="mobile-label">Pro</div>
           <factor-icon v-if="child.level <= 10" icon="fas fa-check" />
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-business">
+          <div v-if="child.level <= 20" class="mobile-label">Business</div>
           <factor-icon v-if="child.level <= 20" icon="fas fa-check" />
           <factor-icon v-else icon="fas fa-minus" />
         </div>
       </div>
     </section>
-    <div class="table-header">
-      <div class="table-row">
-        <div class="col col-label" />
-        <div v-for="(item, i) in header" :key="i" class="col col-header" :class="`col-${item.id}`">
-          <div class="super">{{ item.super }}</div>
-          <h2>{{ toLabel(item.id) }}</h2>
-          <div class="sub">{{ item.sub }}</div>
-          <div class="action">
-            <factor-link v-if="item.id == 'community'" btn="default">Current Plan</factor-link>
-            <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -201,11 +190,20 @@ export default Vue.extend({
     padding: 1rem;
     display: grid;
     grid-template-columns: 2rem 1fr;
+    .group-title {
+      font-size: 1.3em;
+      font-weight: var(--font-weight-bold, 700);
+    }
+    @media (max-width: 900px) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .group-title {
+        margin-left: 0.5rem;
+      }
+    }
   }
-  .group-title {
-    font-size: 1.3em;
-    font-weight: var(--font-weight-bold, 700);
-  }
+
   .table-header {
     margin: 0 0 0.5rem;
   }
@@ -220,6 +218,7 @@ export default Vue.extend({
     display: grid;
     grid-template-columns: minmax(300px, 1fr) repeat(3, 1fr);
     grid-gap: 1rem;
+
     &.feature-row {
       &:hover {
         background: var(--color-bg-contrast);
@@ -249,6 +248,37 @@ export default Vue.extend({
             top: 100%;
             width: 100%;
           }
+        }
+      }
+      .mobile-label {
+        display: none;
+        font-size: 0.8em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        font-weight: var(--font-weight-bold, 700);
+      }
+    }
+    @media (max-width: 900px) {
+      grid-gap: 0.5rem;
+      grid-template-columns: 1fr;
+      &.feature-row {
+        grid-template-columns: repeat(3, 1fr);
+        .col-label {
+          text-align: center;
+          display: block;
+          padding: 1.5rem 0 0;
+          grid-column: ~"1 / 4";
+        }
+        .mobile-label {
+          display: block;
+        }
+      }
+      .col {
+        padding: 0.5rem;
+        display: flex;
+        justify-content: center;
+        .factor-icon {
+          display: none;
         }
       }
     }

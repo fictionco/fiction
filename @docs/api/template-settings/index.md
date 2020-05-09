@@ -5,7 +5,7 @@ description: The API for creating settings for templates
 
 # Template Settings API
 
-The template settings API is a format for settings that is used by page templates and post types to configure settings that can be set on a post by post basis.
+The template settings API is a format for settings that is used by page templates and post types to create post-by-post settings.
 
 This is a reference guide for options and configuration of template settings.
 

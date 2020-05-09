@@ -23,7 +23,7 @@ export default Vue.extend({
 
 <style lang="less">
 .plans {
-  padding-top: 5rem;
+  padding: 5rem 1rem;
   .plans-content {
     margin: 0 auto;
     max-width: 900px;

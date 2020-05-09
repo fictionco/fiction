@@ -9,6 +9,7 @@ import {
   PlanInfo,
   CustomerComposite,
   UpdateSubscription,
+  StripeEndpointParameters,
 } from "./types"
 
 const getStripe = (): Stripe => {
@@ -84,8 +85,22 @@ export const serverSetDefaultPaymentMethod = async ({
   })
 }
 
+export const serverRetrieveCoupon = async ({
+  coupon,
+}: {
+  coupon: string
+}): Promise<Stripe.Coupon> => {
+  const stripe = getStripe()
+  return await stripe.coupons.retrieve(coupon)
+}
+
 export const createSubscription = async (
-  { paymentMethodId, subscriptionPlanId, idempotencyKey }: SubscriptionCustomerData,
+  {
+    paymentMethodId,
+    subscriptionPlanId,
+    idempotencyKey,
+    coupon
+  }: SubscriptionCustomerData & StripeEndpointParameters,
   { bearer }: EndpointMeta
 ): Promise<SubscriptionResult> => {
   if (!bearer) {
@@ -116,6 +131,7 @@ export const createSubscription = async (
     {
       customer: stripeCustomer.id,
       items: [{ plan: subscriptionPlanId as string }],
+      coupon,
       expand: ["latest_invoice.payment_intent"],
     },
     { idempotencyKey }
@@ -307,6 +323,7 @@ const setup = (): void => {
       serverUpdateSubscription,
       serverRetrieveAllPlans,
       serverPaymentMethodAction,
+      serverRetrieveCoupon,
     },
   })
 

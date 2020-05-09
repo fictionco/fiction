@@ -90,6 +90,7 @@
   </div>
 </template>
 <script lang="ts">
+/* eslint-disable @typescript-eslint/camelcase */
 import Vue from "vue"
 import { stored, standardDate, toLabel } from "@factor/api"
 import { dashboardListItem, dashboardBtn, factorModal, factorLink } from "@factor/ui"
@@ -142,17 +143,19 @@ export default Vue.extend({
     },
     standardDate,
     title(item: StripeNode.Subscription) {
-      return item.plan?.metadata?.title || "Subscription"
+      return item.plan?.nickname || "Subscription"
     },
     subTitle(item: StripeNode.Subscription) {
-      return item.plan?.metadata?.description || `Per ${item.plan?.interval}`
+      return `Since ${standardDate(item.created)}`
     },
     meta(this: any, item: StripeNode.Subscription) {
-      return [
-        { value: this.getAmount(item) },
+      const meta = [
         { label: "Renews", value: standardDate(item.current_period_end) },
         { label: "Status", value: this.getStatus(item) },
+        { value: this.getAmount(item) },
       ]
+
+      return meta
     },
     additional(this: any, item: StripeNode.Subscription) {
       return [{ label: "Id", value: item.id }]
@@ -165,14 +168,35 @@ export default Vue.extend({
       }
     },
     getAmount(this: any, item: StripeNode.Subscription) {
-      const amount = item.plan?.amount ? item.plan?.amount / 100 : ""
+      let amount = item.plan?.amount ? item.plan?.amount / 100 : 0
       const interval = item.plan?.interval
 
-      return `$${amount} / ${interval}`
+      const coupon = item.discount?.coupon
+      let discount = ""
+      if (coupon) {
+        const { percent_off, amount_off } = coupon
+
+        if (percent_off) {
+          amount = amount * (1 - percent_off / 100)
+          discount = `${percent_off}% Off`
+        } else if (amount_off) {
+          amount = amount - amount_off
+          discount = `$${amount_off / 100} Off`
+        }
+        discount = `<span class="discount-tag">(${discount})</span>`
+      }
+
+      return `$${Math.round(amount)} / ${interval} ${discount}`
     },
   },
 })
 </script>
+<style>
+.discount-tag {
+  color: var(--color-primary);
+  opacity: 0.5;
+}
+</style>
 <style lang="less" scoped>
 .zero-state {
   padding: 4rem;
@@ -203,6 +227,9 @@ export default Vue.extend({
   @media (max-width: 900px) {
     padding: 1rem;
   }
+}
+.discount-tag {
+  color: var(--color-primary);
 }
 .factor-modal {
   .modal-text-content {

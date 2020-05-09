@@ -31,7 +31,8 @@ export type SubscriptionCustomerData = {
   plan: StripeNode.Plan
   subscriptionPlanId?: string
   paymentMethodId: string
-} & StripeEndpointParameters
+  coupon?: string
+}
 
 declare module "@factor/user/types" {
   interface FactorUser {

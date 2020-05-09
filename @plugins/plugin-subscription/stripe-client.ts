@@ -44,6 +44,15 @@ export const sendRequest = async <T>(
   })
 }
 
+/**
+ * Gets a coupon's details with its code
+ */
+export const requestCoupon = async (params: {
+  coupon: string
+}): Promise<StripeNode.Coupon> => {
+  return await sendRequest<StripeNode.Coupon>("serverRetrieveCoupon", params)
+}
+
 export const requestAllPlans = async (): Promise<PlanInfo[]> => {
   if (stored("allPlans")) {
     return stored("allPlans")
@@ -131,6 +140,8 @@ export const requestCreateSubscription = async (
     throw new Error("Missing subscription ID")
   }
 
+  emitEvent("refresh-user")
+
   return await sendRequest<SubscriptionResult>("createSubscription", params)
 }
 
@@ -148,21 +159,6 @@ export const requestPaymentMethodAction = async (params: {
 
   return result
 }
-
-// export const requestSetupPaymentMethod = async (params: {
-//   customerId: string
-//   paymentMethodId: string
-//   cardDescription?: string
-// }): Promise<StripeNode.SetupIntent> => {
-//   const result = await sendRequest<StripeNode.SetupIntent>(
-//     "serverSetupPaymentMethod",
-//     params
-//   )
-
-//   emitEvent("refresh-user")
-
-//   return result
-// }
 
 let __tries = 0
 let __stripeClient: stripe.Stripe

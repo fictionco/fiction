@@ -32,7 +32,7 @@
           <div class="purchasing">
             <div class="price">
               <span class="currency">$</span>
-              <span class="amount">{{ plan.amount ? plan.amount / 100 : "" }}</span>
+              <span class="amount">{{ getTotal() }}</span>
               <span class="period">per {{ plan.interval || "" }}</span>
             </div>
             <div class="product">
@@ -68,11 +68,28 @@
               By accepting the order and purchasing a subscription, you're agreeing to the
               <factor-link path="/terms-of-service">terms of service</factor-link>.
             </div>
+
+            <div class="item coupon">
+              <div v-if="!toggleCode" class="label" @click="toggleCode = true">Add Code</div>
+              <div v-if="toggleCode" class="coupon-code">
+                <factor-input-text v-model="coupon" placeholder="Enter Code" />
+                <factor-btn
+                  btn="default"
+                  size="small"
+                  :loading="sending == 'coupon'"
+                  @click="applyCoupon()"
+                >Apply</factor-btn>
+              </div>
+            </div>
           </div>
 
           <div class="action">
             <div class="secure">This is a secure 128-bit SSL encrypted payment</div>
-            <factor-btn btn="primary" :loading="sending" @click="createSubscription()">Confirm Order</factor-btn>
+            <factor-btn
+              btn="primary"
+              :loading="sending == 'confirm'"
+              @click="createSubscription()"
+            >Confirm Order</factor-btn>
           </div>
         </div>
       </div>
@@ -88,18 +105,28 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue from "vue"
 import { stored, currentUser, emitEvent } from "@factor/api"
-import { factorBtn, factorIcon, factorLink } from "@factor/ui"
+import { factorBtn, factorIcon, factorLink, factorInputText } from "@factor/ui"
 import {
   getStripeClient,
   requestCreateSubscription,
   requestPlanInfo,
+  requestCoupon,
 } from "./stripe-client"
 export default Vue.extend({
-  components: { factorBtn, factorIcon, factorLink, creditCard: () => import("./cc.vue") },
+  components: {
+    factorBtn,
+    factorIcon,
+    factorLink,
+    factorInputText,
+    creditCard: () => import("./cc.vue"),
+  },
   data() {
     return {
       sending: false,
       error: "",
+      toggleCode: false,
+      coupon: "",
+      couponData: undefined,
     }
   },
   computed: {
@@ -131,13 +158,44 @@ export default Vue.extend({
     this.setPlan()
   },
   methods: {
+    getTotal(this: any) {
+      const baseline = this.plan?.amount ?? 0
+      let amount = baseline
+      if (this.couponData) {
+        const { duration, amount_off, percent_off, valid } = this.couponData
+
+        if (valid && duration == "forever") {
+          if (percent_off) {
+            amount = baseline * (1 - percent_off / 100)
+          } else if (amount_off) {
+            amount = baseline - amount_off
+          }
+        }
+      }
+
+      return amount ? Math.round(amount / 100) : ""
+    },
+    async applyCoupon(this: any) {
+      if (this.coupon) {
+        this.sending = "coupon"
+        try {
+          this.couponData = await requestCoupon({ coupon: this.coupon })
+          emitEvent("notify", "Code applied")
+        } catch (error) {
+          this.sending = false
+          throw error
+        }
+
+        this.sending = false
+      }
+    },
     async setPlan() {
       const plan = this.$route.query.plan ?? "pro"
       const interval = this.$route.query.interval ?? "year"
       await requestPlanInfo(plan as string, interval as string)
     },
     async createSubscription(this: any) {
-      this.sending = true
+      this.sending = "confirm"
       this.error = ""
       const stripeClient = await getStripeClient()
 
@@ -161,15 +219,15 @@ export default Vue.extend({
         const { status } = await requestCreateSubscription({
           paymentMethodId: this.paymentMethodId,
           plan: this.plan,
+          coupon: this.coupon,
         })
 
         if (status == "success") {
           emitEvent("notify", "Success!")
           this.$router.push({ query: { ...this.$route.query, status } })
         }
-
-        this.sending = false
       }
+      this.sending = false
     },
   },
   metaInfo() {
@@ -188,10 +246,14 @@ export default Vue.extend({
 
 <style lang="less" scoped>
 .checkout-wrap {
-  padding: 10rem 0;
+  padding: 6rem 0;
+  @media (max-width: 900px) {
+    padding: 3rem 0;
+  }
 }
 .checkout {
   max-width: 800px;
+  padding: 1rem;
   margin: 0 auto;
   .header {
     display: flex;
@@ -200,11 +262,10 @@ export default Vue.extend({
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;
     h1 {
-      font-size: 1.5em;
+      font-size: 1.3em;
       font-weight: var(--font-weight-bold, 700);
     }
     .action {
-      opacity: 0.5;
       font-size: 0.85em;
       color: var(--color-text-secondary);
       a {
@@ -216,7 +277,7 @@ export default Vue.extend({
   .footer {
     text-align: center;
     margin-top: 1rem;
-    opacity: 0.5;
+
     font-size: 0.85em;
     color: var(--color-text-secondary);
   }
@@ -234,6 +295,10 @@ export default Vue.extend({
   .payment-details,
   .payment-area {
     padding: 3rem 2rem;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
   }
 }
 .status-info {
@@ -274,10 +339,29 @@ export default Vue.extend({
     color: var(--color-warning, "#ff0000");
     font-size: 0.8em;
   }
-  .terms {
-    opacity: 0.7;
-    font-size: 0.85em;
+  .terms,
+  .coupon {
     color: var(--color-text-secondary);
+  }
+  .terms,
+  .coupon .label {
+    font-size: 0.9em;
+  }
+  .coupon .label {
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    &:hover {
+      cursor: pointer;
+
+      color: var(--color-primary);
+    }
+  }
+  .coupon-code {
+    display: flex;
+    input {
+      width: 120px;
+      margin-right: 1rem;
+    }
   }
   .action {
     display: flex;
@@ -288,7 +372,6 @@ export default Vue.extend({
 
     .secure {
       font-size: 11px;
-      opacity: 0.5;
 
       color: var(--color-text-secondary);
     }
@@ -297,6 +380,10 @@ export default Vue.extend({
 .payment-details {
   background: var(--color-bg-contrast);
   border-right: 1px solid var(--color-border);
+  @media (max-width: 900px) {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
   .super {
     text-transform: uppercase;
     font-weight: var(--font-weight-bold, 700);

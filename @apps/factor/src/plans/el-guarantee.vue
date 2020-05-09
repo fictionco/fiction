@@ -137,12 +137,21 @@ export default Vue.extend({
   .title {
     font-size: 2em;
     font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    margin-bottom: 1rem;
   }
   .sub {
     color: var(--color-text-secondary);
   }
   .figure {
     justify-self: center;
+  }
+  @media (max-width: 900px) {
+    margin: 4rem 0;
+    grid-template-columns: 1fr;
+    .title {
+      font-size: 1.5em;
+    }
   }
 }
 </style>
