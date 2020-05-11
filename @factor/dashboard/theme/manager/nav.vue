@@ -2,12 +2,7 @@
   <div class="app-nav-pad">
     <div class="nav-list">
       <template v-for="area in menu">
-        <div
-          v-if="area.menu.length > 0"
-          :key="area.group"
-          class="nav-area"
-          :class="area.group"
-        >
+        <div v-if="area.menu.length > 0" :key="area.group" class="nav-area" :class="area.group">
           <div v-if="!area.hideTitle" class="area-title">{{ toLabel(area.group) }}</div>
 
           <template v-for="(_, key) in area.menu">
@@ -63,8 +58,8 @@ import { factorLink, factorIcon } from "@factor/ui"
 import { toLabel, slugify } from "@factor/api"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { Route } from "vue-router"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorLink, factorIcon },
   data() {
     return {
@@ -94,7 +89,7 @@ export default Vue.extend({
       this.menu = await getDashboardMenu()
     },
   },
-})
+}
 </script>
 <style lang="less">
 .nav-list {

@@ -1,14 +1,6 @@
-import Vue, { VueConstructor } from "vue"
-
-export const figureMixin = ({
-  ref,
-  width,
-}: {
-  ref: string
-  width: number
-}): VueConstructor => {
-  return Vue.extend({
-    data() {
+export const figureMixin = ({ ref, width }: { ref: string; width: number }): any => {
+  return {
+    data(): object {
       return {
         width,
       }
@@ -18,7 +10,7 @@ export const figureMixin = ({
         return Math.max(Math.min(this.width / width, 1), 0.5)
       },
     },
-    mounted() {
+    mounted(): void {
       this.width = this.getWidth()
 
       window.addEventListener("resize", () => {
@@ -30,5 +22,5 @@ export const figureMixin = ({
         return this.$refs[ref] ? this.$refs[ref].clientWidth : 100
       },
     },
-  })
+  }
 }

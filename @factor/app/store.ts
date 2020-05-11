@@ -2,7 +2,6 @@ import Vuex from "vuex"
 import Vue from "vue"
 import { Store } from "vuex/types"
 import { ObjectId } from "@factor/post/types"
-Vue.use(Vuex)
 
 let __store: Store<object> | undefined
 
@@ -12,7 +11,7 @@ declare global {
   }
 }
 
-export const createStore = (): Store<object> => {
+export const createFactorStore = (): Store<object> => {
   __store = new Vuex.Store({
     strict: false,
     state: (): Record<string, any> => {

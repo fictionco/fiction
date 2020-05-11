@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       text: "nope",
@@ -18,9 +17,9 @@ export default Vue.extend({
       image: require("./factor.png"),
       htmlAttrs: {
         lang: "en",
-        amp: true,
+        amp: "",
       },
     }
   },
-})
+}
 </script>

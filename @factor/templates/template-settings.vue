@@ -26,9 +26,8 @@ import {
 } from "@factor/templates"
 import { stored, storeItem, getPostTypeConfig } from "@factor/api"
 
-import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
-export default Vue.extend({
+export default {
   components: { dashboardInput },
 
   props: {
@@ -106,6 +105,6 @@ export default Vue.extend({
       this.settings = getDefaultTemplateSettings(this.fields, this.settings) ?? {}
     },
   },
-})
+}
 </script>
 <style lang="less"></style>

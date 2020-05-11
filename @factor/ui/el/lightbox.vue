@@ -33,11 +33,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 // Code from:
 // https://github.com/XiongAmao/vue-easy-lightbox
 import { emitEvent } from "@factor/api/events"
-export default Vue.extend({
+export default {
   components: {},
   props: {
     images: { type: [Array, String], default: "" },
@@ -188,7 +187,7 @@ export default Vue.extend({
       this.left = 0
     },
   },
-})
+}
 </script>
 
 <style scoped lang="less">

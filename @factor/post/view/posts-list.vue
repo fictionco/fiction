@@ -36,8 +36,8 @@ import { ControlAction } from "@factor/dashboard/types"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { stored, toLabel, standardDate, emitEvent, getPermalink } from "@factor/api"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     dashboardListPost,
     dashboardListControls,
@@ -179,7 +179,7 @@ export default Vue.extend({
         .join(", ")
     },
   },
-})
+}
 </script>
 <style lang="less">
 .posts-dashboard {

@@ -11,8 +11,8 @@ import EasyMDE from "easymde"
 import { onEvent, emitEvent } from "@factor/api/events"
 import { uploadImage } from "@factor/attachment"
 import { Attachment } from "@factor/attachment/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {},
   props: {
     value: { type: String, default: "" },
@@ -121,7 +121,7 @@ export default Vue.extend({
       })
     },
   },
-})
+}
 </script>
 
 <style lang="less">

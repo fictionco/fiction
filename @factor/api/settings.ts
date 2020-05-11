@@ -1,11 +1,13 @@
-import { dotSetting, deepMerge } from "@factor/api/utils"
+import { dotSetting, deepMerge, isNode } from "@factor/api/utils"
 import { applyFilters, addCallback } from "@factor/api/hooks"
 import { configSettings } from "@factor/api/config"
-import Vue from "vue"
+
 import coreSettings from "@factor/app/core-settings"
 
 type SettingsObject = Record<string, any>
 export type SettingsRecords = Record<string, SettingsObject>
+
+const globalObject: any = isNode ? global : window
 
 declare module "vue/types/vue" {
   interface VueConstructor {
@@ -46,17 +48,17 @@ export const basicSettings = (cwd?: string): SettingsObject => {
  * @param cwd - working directory
  */
 export const getSettings = (cwd?: string): SettingsObject => {
-  if (!Vue.$factorSettings) Vue.$factorSettings = {}
+  if (!globalObject.$factorSettings) globalObject.$factorSettings = {}
 
-  return Vue.$factorSettings[settingsId(cwd)]
-    ? Vue.$factorSettings[settingsId(cwd)]
+  return globalObject.$factorSettings[settingsId(cwd)]
+    ? globalObject.$factorSettings[settingsId(cwd)]
     : basicSettings(cwd)
 }
 
 const setSettings = (settings: object, cwd?: string): void => {
-  if (!Vue.$factorSettings) Vue.$factorSettings = {}
+  if (!globalObject.$factorSettings) globalObject.$factorSettings = {}
 
-  Vue.$factorSettings[settingsId(cwd)] = settings
+  globalObject.$factorSettings[settingsId(cwd)] = settings
 }
 
 export const createSettings = (cwd?: string): void => {

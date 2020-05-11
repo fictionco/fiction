@@ -4,12 +4,11 @@
   </btn-base>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     "btn-base": () => import("../el/btn-base.vue"),
   },
-})
+}
 </script>
 <style lang="less">
 .factor-dashboard {

@@ -12,8 +12,8 @@ import { factorLink, factorBtn } from "@factor/ui"
 import { stored, getPostTypeConfig } from "@factor/api"
 import { userId, currentUser } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -47,5 +47,5 @@ export default Vue.extend({
       return this.accessLevel > 100 || this.author.includes(userId())
     },
   },
-})
+}
 </script>

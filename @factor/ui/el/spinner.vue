@@ -18,13 +18,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     width: { type: String, default: "" },
     colorMode: { type: String, default: "placeholder" },
   },
-})
+}
 </script>
 
 <style lang="less">

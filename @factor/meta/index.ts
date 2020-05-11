@@ -1,5 +1,5 @@
 import Vue from "vue"
-import VueMeta, { MetaInfo } from "vue-meta"
+import  { MetaInfo } from "vue-meta"
 import {
   addFilter,
   applyFilters,
@@ -16,7 +16,6 @@ import { FactorMetaInfo } from "./types"
 import "./route-class"
 import { version } from "@factor/core/package.json"
 
-Vue.use(VueMeta, { keyName: "metaInfoCore" })
 
 interface MetaHookOptions {
   context: ServerRenderContext

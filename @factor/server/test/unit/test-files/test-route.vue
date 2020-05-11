@@ -5,15 +5,14 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       msg: "::hello::",
       img: require("./test-image.jpg"),
     }
   },
-})
+}
 </script>
 <style lang="less">
 .some-nested-less {

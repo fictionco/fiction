@@ -3,19 +3,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       title: "change-title",
       description: "change-description",
     }
   },
-  metaInfo() {
+  metaInfo(this: any) {
     return {
       title: this.title,
       description: this.description,
     }
   },
-})
+}
 </script>

@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { toDate } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     "date-picker": () => import("vuejs-datepicker"),
   },
@@ -43,7 +43,7 @@ export default Vue.extend({
       this.$refs.picker.showCalendar()
     },
   },
-})
+}
 </script>
 
 <style lang="less">

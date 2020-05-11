@@ -1,16 +1,6 @@
 <template>
-  <div
-    ref="toggle"
-    class="quick-menu toggle"
-    :class="toggle ? 'active' : 'not-active'"
-    @click.stop
-  >
-    <div
-      class="toggle-btn"
-      :class="[toggleClass]"
-      data-test="menu-toggle"
-      @click="setToggle()"
-    >
+  <div ref="toggle" class="quick-menu toggle" :class="toggle ? 'active' : 'not-active'" @click.stop>
+    <div class="toggle-btn" :class="[toggleClass]" data-test="menu-toggle" @click="setToggle()">
       <slot v-if="$slots.default" />
       <factor-icon v-else icon="fas fa-ellipsis-h" />
     </div>
@@ -21,9 +11,7 @@
         class="toggle-item"
         :data-test="`menu-${action.value}`"
         @click.stop="sendEvent(action.value)"
-      >
-        {{ action.name }}
-      </div>
+      >{{ action.name }}</div>
     </div>
   </div>
 </template>
@@ -31,8 +19,7 @@
 import { factorIcon } from "@factor/ui"
 import DOM from "jquery"
 import { parseList } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorIcon },
   props: {
     toggleClass: { type: String, default: "" },
@@ -89,7 +76,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .quick-menu {

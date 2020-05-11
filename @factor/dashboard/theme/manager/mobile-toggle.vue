@@ -1,10 +1,6 @@
 <template>
   <div class="mobile-nav-toggle-wrap" @click.stop>
-    <div
-      class="mobile-nav-toggle"
-      :class="vis ? 'active' : 'inactive'"
-      @click="toggleNav()"
-    >
+    <div class="mobile-nav-toggle" :class="vis ? 'active' : 'inactive'" @click="toggleNav()">
       <factor-avatar :user="getUser()" />
 
       <div class="bars">
@@ -17,11 +13,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { factorAvatar } from "@factor/ui"
 
 import { currentUser } from "@factor/user"
-export default Vue.extend({
+export default {
   components: { factorAvatar },
   props: {
     vis: { type: Boolean, default: false },
@@ -67,7 +62,7 @@ export default Vue.extend({
       }, 100)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .mobile-nav-toggle-wrap {

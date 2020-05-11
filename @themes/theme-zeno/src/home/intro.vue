@@ -31,8 +31,8 @@
 <script lang="ts">
 import { setting } from "@factor/api"
 import { factorLink, factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -49,7 +49,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 .home-hero {

@@ -1,7 +1,5 @@
 <template>
-  <section
-    class="cta relative flex items-center text-center py-16 px-8 bg-purple-800 md:py-24"
-  >
+  <section class="cta relative flex items-center text-center py-16 px-8 bg-purple-800 md:py-24">
     <figure class="absolute top-0 right-0 z-20 hidden mr-32 -mt-10 lg:block">
       <img :src="ctaFigure" :alt="ctaFigureAlt" />
     </figure>
@@ -9,9 +7,7 @@
       <h1
         v-if="ctaTitle"
         class="font-normal tracking-tight text-3xl lg:text-4xl text-gray-100"
-      >
-        {{ ctaTitle }}
-      </h1>
+      >{{ ctaTitle }}</h1>
       <div
         v-if="ctaContent"
         v-formatted-text="ctaContent"
@@ -32,9 +28,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink, factorIcon },
   data() {
     return {
@@ -47,7 +42,7 @@ export default Vue.extend({
     }
   },
   methods: { setting },
-})
+}
 </script>
 
 <style lang="less">

@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     "list-pagination": () => import("./pagination.vue"),
   },
@@ -34,7 +33,7 @@ export default Vue.extend({
       } else return Math.ceil(total / limit)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -21,14 +21,13 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   name: "DashboardPanel",
   props: {
     title: { type: String, default: "" },
     note: { type: String, default: "" },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -45,12 +45,11 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { toLabel, postLink, stored } from "@factor/api"
 
 import { PostListDataItem } from "@factor/dashboard/types"
-export default Vue.extend({
+export default {
   components: { factorLink },
   props: {
     post: { type: Object, default: () => {} },
@@ -126,7 +125,7 @@ export default Vue.extend({
     toLabel,
     postLink,
   },
-})
+}
 </script>
 <style lang="less">
 .post-item {

@@ -13,9 +13,8 @@
 import { factorError404, factorSpinner } from "@factor/ui"
 import { getPageTemplates } from "@factor/templates"
 import { stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorSpinner, factorError404 },
   data() {
     return {
@@ -38,7 +37,7 @@ export default Vue.extend({
         : () => import("./tpl-basic.vue")
     },
   },
-})
+}
 </script>
 ,
 <style lang="less">

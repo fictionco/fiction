@@ -103,9 +103,8 @@ import {
 import { excerpt } from "@factor/api/excerpt"
 import { requestPostSave } from "@factor/post/request"
 
-import Vue from "vue"
 import { FactorPost } from "@factor/post/types"
-export default Vue.extend({
+export default {
   components: {
     dashboardInput,
     dashboardPage,
@@ -238,7 +237,7 @@ export default Vue.extend({
       this.sendingDraft = false
     },
   },
-})
+}
 </script>
 <style lang="less">
 .post-grid {

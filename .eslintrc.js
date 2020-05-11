@@ -10,6 +10,7 @@ module.exports = {
     to: false,
     describe: false,
     context: false,
+    globalThis: false,
   },
   parser: "vue-eslint-parser",
   parserOptions: {
@@ -41,7 +42,7 @@ module.exports = {
     "json",
     "prettier",
     "unicorn",
-    "import",
+    // "import",
     "jest",
     "@typescript-eslint",
     "cypress",
@@ -65,6 +66,8 @@ module.exports = {
     "unicorn/prevent-abbreviations": "off",
     "@typescript-eslint/no-empty-function": "off",
     "import/no-cycle": 2,
+    "import/no-unresolved": "off",
+    "import/named": "off",
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     // "import/no-unused-modules": [
     //   1,

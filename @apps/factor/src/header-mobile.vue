@@ -16,10 +16,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { toLabel, onEvent } from "@factor/api"
 import { Route } from "vue-router"
-export default Vue.extend({
+export default {
   components: {
     mobileMenu: () => import("./mobile-menu.vue"),
     siteBrand: () => import("./el/brand.vue"),
@@ -61,7 +60,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

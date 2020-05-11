@@ -31,9 +31,9 @@
 <script lang="ts">
 import { factorIcon } from "@factor/ui"
 import { emitEvent, onEvent } from "@factor/api/events"
-import Vue from "vue"
+
 import { Route } from "vue-router"
-export default Vue.extend({
+export default {
   components: { factorIcon },
   inheritAttrs: false,
   props: {
@@ -98,7 +98,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .scaleInModal-enter-active,

@@ -7,10 +7,7 @@
       class="text-left md:pb-40"
     >
       <template v-slot:hero-content>
-        <div
-          v-formatted-text="setting('pricing.hero.content')"
-          class="content entry-content"
-        />
+        <div v-formatted-text="setting('pricing.hero.content')" class="content entry-content" />
       </template>
     </el-hero>
 
@@ -26,9 +23,7 @@
                 <h1
                   v-if="item.name"
                   class="font-normal tracking-tight leading-tight text-3xl text-purple-900 lg:text-4xl"
-                >
-                  {{ item.name }}
-                </h1>
+                >{{ item.name }}</h1>
                 <p
                   v-if="item.description"
                   v-formatted-text="item.description"
@@ -61,9 +56,10 @@
           </div>
         </template>
       </div>
-      <p v-if="setting('pricing.packagesFooter')" class="text-xs text-center mt-8">
-        {{ setting("pricing.packagesFooter") }}
-      </p>
+      <p
+        v-if="setting('pricing.packagesFooter')"
+        class="text-xs text-center mt-8"
+      >{{ setting("pricing.packagesFooter") }}</p>
     </section>
 
     <section v-if="setting('pricing.faq')" class="py-8 lg:py-12 bg-white">
@@ -71,16 +67,10 @@
         <h3
           v-if="setting('pricing.faq.title')"
           class="font-normal leading-tight tracking-tight text-center text-3xl lg:text-4xl text-purple-900"
-        >
-          {{ setting("pricing.faq.title") }}
-        </h3>
+        >{{ setting("pricing.faq.title") }}</h3>
         <div v-if="setting('pricing.faq.questions')" class="mt-6 mx-6">
           <template v-for="(question, ind) in setting('pricing.faq.questions')">
-            <el-accordion
-              :key="ind"
-              :title="question.title"
-              class="bg-gray-100 rounded-lg"
-            >
+            <el-accordion :key="ind" :title="question.title" class="bg-gray-100 rounded-lg">
               <div
                 v-formatted-text="question.content"
                 class="text-base leading-relaxed lg:text-xl"
@@ -96,8 +86,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -120,5 +110,5 @@ export default Vue.extend({
       image: setting("pricing.meta.image"),
     }
   },
-})
+}
 </script>

@@ -8,9 +8,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { factorSpinner } from "@factor/ui"
-export default Vue.extend({
+export default {
   components: { factorSpinner },
   props: {
     list: { type: Array, default: () => [] },
@@ -24,7 +23,7 @@ export default Vue.extend({
   },
   computed: {},
   methods: {},
-})
+}
 </script>
 
 <style lang="less">

@@ -87,8 +87,8 @@
 
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -173,7 +173,7 @@ export default Vue.extend({
         "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
     }
   },
-})
+}
 </script>
 <style lang="less">
 .view-home {

@@ -1,9 +1,9 @@
 <script lang="ts">
-import Vue, { CreateElement, VNode } from "vue"
+import { CreateElement, VNode } from "vue"
 import { factorBtn, dashboardBtn } from "@factor/ui"
 import { pickBy, isEmpty, emitEvent, identity } from "@factor/api"
 import { applyFilters } from "@factor/api/hooks"
-export default Vue.extend({
+export default {
   props: {
     btn: { type: String, default: "" },
     size: { type: String, default: "" },
@@ -120,7 +120,7 @@ export default Vue.extend({
       [text]
     )
   },
-})
+}
 </script>
 
 <style lang="less">

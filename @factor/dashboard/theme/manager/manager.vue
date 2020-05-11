@@ -17,9 +17,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { currentUser } from "@factor/user"
-export default Vue.extend({
+export default {
   components: {
     navHandler: () => import("./nav.vue"),
     brandArea: () => import("./brand.vue"),
@@ -44,7 +43,7 @@ export default Vue.extend({
       return this.currentUser ? this.currentUser[field] : undefined
     },
   },
-})
+}
 </script>
 <style lang="less">
 .app-manager {

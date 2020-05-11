@@ -260,7 +260,6 @@
   </div>
 </template>
 <script>
-import Vue from "vue"
 
 import gravatar from "gravatar"
 import { dotSetting } from "@factor/api/utils"
@@ -275,7 +274,7 @@ import screenshotUltra from './img/screenshot-ultra.jpg'
 import screenshotAlpha from './img/screenshot-alpha.jpg'
 
 
-export default Vue.extend({
+export default {
   components: {
     factorLogo: () => import("./el/logo-factor.vue"),
     formInput: () => import("./el/form-input.vue"),
@@ -481,7 +480,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

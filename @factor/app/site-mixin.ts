@@ -1,12 +1,12 @@
 import { runCallbacks, applyFilters, stored } from "@factor/api"
 import { getObservables } from "@factor/app"
-import Vue from "vue"
+
 import { Route } from "vue-router"
 import { FactorPostState } from "@factor/post/types"
 import veil from "./veil.vue"
 export default (): any => {
-  return Vue.extend({
-    data() {
+  return {
+    data(): object {
       return {
         scrollClass: "",
       }
@@ -59,12 +59,12 @@ export default (): any => {
         },
       },
     },
-    mounted() {
+    mounted(): void {
       this.setScrollClass()
       window.addEventListener("scroll", () => this.setScrollClass())
     },
 
-    async serverPrefetch() {
+    async serverPrefetch(): Promise<void> {
       await runCallbacks("global-prefetch", this.$route)
       return
     },
@@ -74,5 +74,5 @@ export default (): any => {
         this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
       },
     },
-  })
+  }
 }

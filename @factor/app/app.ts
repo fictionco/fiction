@@ -2,15 +2,25 @@ import "@factor/app"
 import "@factor/meta"
 import "@factor/api" // prevent load order issues
 
-import Vue, { CreateElement, VNode } from "vue"
-
-import { createRouter } from "@factor/app/router"
+import Vue, { CreateElement, VNode, VueConstructor } from "vue"
+import VueRouter from "vue-router"
+import Vuex from "vuex"
+import VueMeta from "vue-meta"
 import { emitEvent } from "@factor/api/events"
-import { createStore } from "@factor/app/store"
+import { createFactorRouter } from "@factor/app/router"
+import { createFactorStore } from "@factor/app/store"
 import { runCallbacks } from "@factor/api/hooks"
 import { setting } from "@factor/api/settings"
 import { extendApp } from "./extend-app"
 import { ApplicationComponents } from "./types"
+
+Vue.use(VueRouter)
+Vue.use(Vuex)
+Vue.use(VueMeta, { keyName: "metaInfoCore" })
+
+export const getPrimaryApp = (): VueConstructor => {
+  return Vue
+}
 
 /**
  * Expose a factory function that creates a fresh set of store, router,
@@ -25,8 +35,8 @@ export const createApp = async ({
 
   await extendApp()
 
-  const store = createStore()
-  const router = createRouter()
+  const store = createFactorStore()
+  const router = createFactorRouter()
 
   /**
    * Extend with mixin, etc... happens after router and store

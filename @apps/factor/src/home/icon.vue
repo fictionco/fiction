@@ -28,11 +28,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'powered'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'powered'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>powered</title>
       <circle cx="36" cy="36" r="36" style="fill: transparent;" />
       <path
@@ -56,11 +52,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'dashboard2'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'dashboard2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>dashboard</title>
       <path
         fill-rule="evenodd"
@@ -74,11 +66,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'plugins'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'plugins'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>plugins</title>
       <circle cx="36" cy="36" r="36" style="fill: transparent;" />
       <path
@@ -86,11 +74,7 @@
         style="fill: #0471ff;"
       />
     </svg>
-    <svg
-      v-else-if="icon == 'brush'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'brush'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>brush</title>
       <circle cx="36" cy="36" r="36" style="fill: transparent;" />
       <path
@@ -228,11 +212,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'open-source2'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'open-source2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
         style="fill: none; stroke: #0471ff; stroke-miterlimit: 10; stroke-width: 4px;"
@@ -258,11 +238,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'build2'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'build2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <title>build</title>
       <line
         x1="16.48"
@@ -369,49 +345,11 @@
         "
       />
       <rect width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill: #0471ff;" />
-      <rect
-        x="3.96"
-        y="3.96"
-        width="2.61"
-        height="2.61"
-        rx="0.04"
-        ry="0.04"
-        style="fill: #fff;"
-      />
-      <rect
-        y="40.46"
-        width="10.52"
-        height="10.52"
-        rx="1.96"
-        ry="1.96"
-        style="fill: #0471ff;"
-      />
-      <rect
-        x="3.96"
-        y="44.42"
-        width="2.61"
-        height="2.61"
-        rx="0.04"
-        ry="0.04"
-        style="fill: #fff;"
-      />
-      <rect
-        x="41.77"
-        width="10.52"
-        height="10.52"
-        rx="1.96"
-        ry="1.96"
-        style="fill: #0471ff;"
-      />
-      <rect
-        x="45.72"
-        y="3.96"
-        width="2.61"
-        height="2.61"
-        rx="0.04"
-        ry="0.04"
-        style="fill: #fff;"
-      />
+      <rect x="3.96" y="3.96" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill: #fff;" />
+      <rect y="40.46" width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill: #0471ff;" />
+      <rect x="3.96" y="44.42" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill: #fff;" />
+      <rect x="41.77" width="10.52" height="10.52" rx="1.96" ry="1.96" style="fill: #0471ff;" />
+      <rect x="45.72" y="3.96" width="2.61" height="2.61" rx="0.04" ry="0.04" style="fill: #fff;" />
       <rect x="9.7" y="27.43" width="32.97" height="13.09" style="fill: transparent;" />
       <path
         d="M49.09,63.48h0a1.32,1.32,0,0,1-1.2-.82L37.43,36.55a1.31,1.31,0,0,1,.35-1.46,1.3,1.3,0,0,1,1.5-.16L62.77,48a1.28,1.28,0,0,1,.67,1.2,1.3,1.3,0,0,1-.79,1.14L54,54l-3.71,8.65A1.3,1.3,0,0,1,49.09,63.48ZM41.22,39l7.91,19.77,2.67-6.24a1.35,1.35,0,0,1,.68-.69L59.18,49Z"
@@ -428,11 +366,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   props: {
     icon: { type: String, default: "" },
   },
-})
+}
 </script>

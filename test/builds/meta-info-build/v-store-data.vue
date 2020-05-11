@@ -4,9 +4,8 @@
 
 <script lang="ts">
 import { storeItem, stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   data() {
     return {}
   },
@@ -18,5 +17,5 @@ export default Vue.extend({
   created() {
     storeItem("text", "loaded")
   },
-})
+}
 </script>

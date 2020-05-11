@@ -20,9 +20,7 @@
     </div>
     <div class="bg-gray-100">
       <div class="max-w-3xl mx-auto">
-        <div
-          class="flex justify-center items-center custom-uppercase mb-0 py-4 text-gray-600"
-        >
+        <div class="flex justify-center items-center custom-uppercase mb-0 py-4 text-gray-600">
           <span class="inline-block">{{ standardDate(post.date) }}</span>
           <div
             v-for="authorId in post.author"
@@ -52,9 +50,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorLink, factorAvatar } from "@factor/ui"
 import { postLink, standardDate, setting, stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink, factorAvatar, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
@@ -85,7 +82,7 @@ export default Vue.extend({
     setting,
     standardDate,
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

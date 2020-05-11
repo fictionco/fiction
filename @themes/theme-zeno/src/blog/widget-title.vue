@@ -16,9 +16,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { setting, stored, postLink } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
@@ -30,5 +29,5 @@ export default Vue.extend({
     },
   },
   methods: { setting, postLink },
-})
+}
 </script>

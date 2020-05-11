@@ -38,12 +38,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
 import { factorInputSelect, dashboardListEmpty } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
 import { ListItem, toLabel, onEvent } from "@factor/api"
-export default Vue.extend({
+export default {
   components: { factorInputSelect, dashboardListEmpty },
   props: {
     controlActions: { type: Array, default: () => [] },
@@ -146,7 +144,7 @@ export default Vue.extend({
       })
     },
   },
-})
+}
 </script>
 
 <style lang="less">

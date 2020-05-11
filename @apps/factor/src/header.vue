@@ -24,11 +24,10 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { isLoggedIn, userInitialized } from "@factor/user"
 import { accountMenu } from "@factor/plugin-standard-signin"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     accountMenu,
@@ -61,7 +60,7 @@ export default Vue.extend({
     this.userLoading = false
   },
   methods: { isLoggedIn },
-})
+}
 </script>
 <style lang="less">
 .nav-light:not(.scrolled) .site-head {

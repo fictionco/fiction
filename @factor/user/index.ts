@@ -1,7 +1,7 @@
 import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
-import Vue from "vue"
+
 import { isNode } from "@factor/api/utils"
 import { addFilter, runCallbacks, addCallback } from "@factor/api/hooks"
 import { currentRoute, navigateToRoute } from "@factor/app/router"
@@ -13,7 +13,7 @@ import { FactorPost } from "@factor/post/types"
 import { waitFor, getPostTypeConfig } from "@factor/api"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
-import { setUser, showSignIn } from "./util"
+import { setUser, showSignIn, initializedUser } from "./util"
 import {
   FactorUserCredential,
   AuthenticationParameters,
@@ -28,13 +28,6 @@ import { userToken, handleTokenError } from "./token"
 export * from "./util"
 
 export const postType = "user"
-
-declare module "vue/types/vue" {
-  interface VueConstructor {
-    $initializedUser: Promise<CurrentUserState> | CurrentUserState
-    $userIsInitialized?: boolean
-  }
-}
 
 /**
  * Information for the currently logged in user
@@ -60,7 +53,7 @@ export const currentUserId = (): string => {
 export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
   // this function needs to take at least 50ms, for consistency in rendering
   // If user is logged out, this function happens too fast and can cause hydration issues
-  const [user] = await Promise.all([Vue.$initializedUser, waitFor(50)])
+  const [user] = await Promise.all([initializedUser(), waitFor(50)])
 
   if (callback) callback(user)
 
@@ -112,8 +105,6 @@ const requestInitializeUser = async (): Promise<CurrentUserState> => {
   emitEvent("userInitialized", resolvedUser)
 
   await runCallbacks("before-user-init", resolvedUser)
-
-  Vue.$userIsInitialized = true
 
   return resolvedUser
 }
@@ -311,8 +302,9 @@ const setup = (): void => {
     hook: "before-app",
     callback: () => {
       // Authentication events only work after SSR
-      if (!isNode && !Vue.$initializedUser) {
-        Vue.$initializedUser = requestInitializeUser()
+      if (!isNode && !initializedUser()) {
+        initializedUser("set", requestInitializeUser())
+
         handleAuthRouting()
       }
     },

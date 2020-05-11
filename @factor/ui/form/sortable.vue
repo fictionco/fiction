@@ -57,8 +57,8 @@ import { factorBtn, factorIcon, factorInputWrap } from "@factor/ui"
 import { randomToken } from "@factor/api/utils"
 import DOM from "jquery"
 import Sortable from "sortablejs"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorBtn, factorIcon, factorInputWrap },
   props: {
     value: { type: [Array, Object], default: () => [] },
@@ -150,7 +150,7 @@ export default Vue.extend({
       this.localValue = newLocalValue
     },
   },
-})
+}
 </script>
 <style lang="less">
 .sortable-items {

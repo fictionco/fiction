@@ -22,9 +22,8 @@
 <script lang="ts">
 import { factorInputText, dashboardBtn, factorLink } from "@factor/ui"
 import { slugify, onEvent, stored, getPostTypeConfig } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { dashboardBtn, factorLink, factorInputText },
   props: {
     value: { type: String, default: "" },
@@ -108,7 +107,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

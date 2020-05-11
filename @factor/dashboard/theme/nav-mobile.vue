@@ -17,9 +17,7 @@
           class="menu-area"
           :class="area"
         >
-          <div v-if="area != 'action' && area != 'account'" class="area-title">
-            {{ toLabel(area) }}
-          </div>
+          <div v-if="area != 'action' && area != 'account'" class="area-title">{{ toLabel(area) }}</div>
           <div class="menu-area-items">
             <template v-for="(primary, key) in menu[area]">
               <factor-link
@@ -32,11 +30,7 @@
                 @click="primary.click ? primary.click() : ''"
               >
                 <div class="item-icon">
-                  <img
-                    class
-                    :src="primary.icon || defaultIcon"
-                    :alt="`${primary.name} Icon`"
-                  />
+                  <img class :src="primary.icon || defaultIcon" :alt="`${primary.name} Icon`" />
                 </div>
                 <div class="item-text">
                   <span v-formatted-text="primary.name" />
@@ -55,9 +49,9 @@ import { toLabel } from "@factor/api"
 import { factorLink, factorAvatar } from "@factor/ui"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { currentUser } from "@factor/user"
-import Vue from "vue"
+
 import { Route } from "vue-router"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     factorAvatar,
@@ -94,7 +88,7 @@ export default Vue.extend({
       this.menu = await getDashboardMenu(this.$route.path)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

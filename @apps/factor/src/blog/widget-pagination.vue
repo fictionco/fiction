@@ -2,19 +2,11 @@
   <div class="pagination mast">
     <!-- <div class="items">{{ count }} Items</div> -->
     <div class="prev-next flex justify-center align-center mt-4">
-      <factor-btn
-        v-if="pageCurrent > 1"
-        :class="`primary prev`"
-        @click="page('previous')"
-      >
+      <factor-btn v-if="pageCurrent > 1" :class="`primary prev`" @click="page('previous')">
         <factor-icon icon="fas fa-angle-left" />
         <span class="custom-uppercase">Prev</span>
       </factor-btn>
-      <factor-btn
-        v-if="pageCurrent < pageCount"
-        class="primary next"
-        @click="page('next')"
-      >
+      <factor-btn v-if="pageCurrent < pageCount" class="primary next" @click="page('next')">
         <span class="custom-uppercase">Next</span>
         <factor-icon icon="fas fa-angle-right" />
       </factor-btn>
@@ -28,8 +20,8 @@
 <script lang="ts">
 import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorBtn, factorIcon },
   props: {
     postType: { type: String, default: "" },
@@ -66,7 +58,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

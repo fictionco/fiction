@@ -5,11 +5,10 @@
 </template>
 <script lang="ts">
 import { factorBtnBase } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorBtnBase },
-})
+}
 </script>
 
 <style lang="less">

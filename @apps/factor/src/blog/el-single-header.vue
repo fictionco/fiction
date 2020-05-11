@@ -34,9 +34,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorLink, factorAvatar } from "@factor/ui"
 import { postLink, standardDate, setting, stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink, factorAvatar, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
@@ -61,7 +60,7 @@ export default Vue.extend({
     setting,
     standardDate,
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

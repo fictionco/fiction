@@ -8,9 +8,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   metaInfo() {
     return {
       title: `${this.errorText} Error`,
@@ -51,7 +49,7 @@ export default Vue.extend({
       process.env.factorServerStatus = "404"
     }
   },
-})
+}
 </script>
 
 <style lang="less">

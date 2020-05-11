@@ -42,9 +42,9 @@
 </template>
 <script lang="ts">
 import { timeUtil } from "@factor/api"
-import Vue from "vue"
+
 import { fluidInput } from "../utils"
-export default Vue.extend({
+export default {
   props: {
     customValidity: { type: String, default: "" },
     value: { type: [String, Date, Number], default: "" },
@@ -149,7 +149,7 @@ export default Vue.extend({
       this.$emit("update:customValidity", customValidity)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

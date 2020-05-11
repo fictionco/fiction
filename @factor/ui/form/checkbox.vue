@@ -5,9 +5,7 @@
   </label>
 </template>
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   props: {
     value: { type: [String, Boolean, Array], default: false },
     label: { type: String, default: "" },
@@ -28,7 +26,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .checkbox-wrap {

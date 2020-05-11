@@ -7,13 +7,12 @@
 
 <script lang="ts">
 import { applyFilters } from "@factor/api"
-import Vue from "vue"
 
 import siteMixin from "./site-mixin"
-export default Vue.extend({
+export default {
   name: "Site",
   mixins: applyFilters("site-mixins", [siteMixin()]),
-})
+}
 </script>
 <style lang="less">
 @import (optional) "~__CWD__/.factor/loader-styles.less";

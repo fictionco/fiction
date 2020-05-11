@@ -20,8 +20,8 @@
 import { dashboardInput, dashboardUserCard } from "@factor/ui"
 import { requestPostIndex } from "@factor/post/request"
 import { FactorUser } from "@factor/user/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { dashboardInput, dashboardUserCard },
   props: {
     customValidity: { type: String, default: "" },
@@ -89,7 +89,7 @@ export default Vue.extend({
       this.$emit("update:customValidity", customValidity)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

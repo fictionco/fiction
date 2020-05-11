@@ -7,9 +7,7 @@
 <script lang="ts">
 import { factorSpinner } from "@factor/ui"
 import { userInitialized, routeRequiresAuth } from "@factor/api"
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   name: "Veil",
   components: { factorSpinner },
 
@@ -30,7 +28,7 @@ export default Vue.extend({
       this.authLoading = false
     }, 500)
   },
-})
+}
 </script>
 <style lang="less" scoped>
 .loading-veil {

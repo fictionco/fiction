@@ -1,12 +1,13 @@
 import { applyFilters, runCallbacks, addFilter } from "@factor/api/hooks"
 import { emitEvent } from "@factor/api/events"
-import Vue from "vue"
+
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"
 import { uniq } from "@factor/api"
-Vue.use(VueRouter)
 
 let __initialPageLoad = true
+
+let __routerInstance: VueRouter
 
 declare module "vue/types/vue" {
   export interface VueConstructor {
@@ -114,7 +115,7 @@ export const getKnownRoutePaths = (): string[] => {
  * Creates the Vue Router instance
  * @library vue-router
  */
-export const createRouter = (): VueRouter => {
+export const createFactorRouter = (): VueRouter => {
   const routes: RouteConfig[] = applyFilters("routes", []).filter((_: RouteConfig) => _)
 
   const router = new VueRouter({
@@ -145,13 +146,13 @@ export const createRouter = (): VueRouter => {
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
 
-  Vue.$router = router
+  __routerInstance = router
 
   return router
 }
 
 export const getRouter = (): VueRouter => {
-  return Vue.$router
+  return __routerInstance
 }
 
 /**

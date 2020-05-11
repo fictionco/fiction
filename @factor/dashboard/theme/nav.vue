@@ -8,9 +8,7 @@
           class="nav-area"
           :class="area"
         >
-          <div v-if="area != 'action' && area != 'account'" class="area-title">
-            {{ toLabel(area) }}
-          </div>
+          <div v-if="area != 'action' && area != 'account'" class="area-title">{{ toLabel(area) }}</div>
 
           <template v-for="(item, key) in menu[area]">
             <div :key="key" class="nav-group" :class="item.active ? 'active' : ''">
@@ -59,8 +57,8 @@ import { factorLink } from "@factor/ui"
 import { toLabel, slugify } from "@factor/api"
 import { getDashboardMenu } from "@factor/dashboard/menu"
 import { Route } from "vue-router"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorLink },
   data() {
     return {
@@ -90,7 +88,7 @@ export default Vue.extend({
       this.menu = await getDashboardMenu(this.$route.path)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .app-nav-pad .nav-list {

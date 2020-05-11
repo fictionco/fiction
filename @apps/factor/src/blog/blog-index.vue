@@ -54,9 +54,7 @@
 import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
     factorLink,
@@ -100,7 +98,7 @@ export default Vue.extend({
       return stored(_id) || {}
     },
   },
-})
+}
 </script>
 
 <style lang="less">

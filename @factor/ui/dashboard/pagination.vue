@@ -11,9 +11,8 @@
 
 <script lang="ts">
 import { dashboardBtn } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { dashboardBtn },
   props: {
     pageCount: { type: Number, default: 0 },
@@ -35,7 +34,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -5,11 +5,10 @@
 </template>
 <script lang="ts">
 import { factorInputWrap } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorInputWrap },
-})
+}
 </script>
 
 <style lang="less">

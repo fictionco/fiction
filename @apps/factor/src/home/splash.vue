@@ -27,8 +27,8 @@
 <script lang="ts">
 import { factorVersion } from "@factor/api/about"
 import { factorLink, factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -39,7 +39,7 @@ export default Vue.extend({
       return `v${factorVersion()}`
     },
   },
-})
+}
 </script>
 
 <style lang="less">

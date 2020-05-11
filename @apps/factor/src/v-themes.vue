@@ -52,8 +52,12 @@
                 </div>
               </div>
               <p>A single page portfolio theme.</p>
-              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
-              <p class="author"><i class="fa fa-user" /> by Fiction</p>
+              <p class="downloads">
+                <i class="fa fa-download" /> 254 Downloads
+              </p>
+              <p class="author">
+                <i class="fa fa-user" /> by Fiction
+              </p>
             </a>
             <a href="#" class="item">
               <div class="item-top">
@@ -64,8 +68,12 @@
                 </div>
               </div>
               <p>A comprehensive application theme.</p>
-              <p class="downloads"><i class="fa fa-download" /> 254 Downloads</p>
-              <p class="author"><i class="fa fa-user" /> by Fiction</p>
+              <p class="downloads">
+                <i class="fa fa-download" /> 254 Downloads
+              </p>
+              <p class="author">
+                <i class="fa fa-user" /> by Fiction
+              </p>
             </a>
           </div>
         </div>
@@ -77,9 +85,8 @@
 <script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { toLabel } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorIcon, factorLink },
   data() {
     return {
@@ -94,7 +101,7 @@ export default Vue.extend({
     themesPage() {
       return this.$route.params.doc || "introduction"
     },
-    normalizedNav() {
+    normalizedNav(this: any) {
       return this.navItems().map((_) => {
         if (typeof _ == "string") {
           return {
@@ -136,7 +143,7 @@ export default Vue.extend({
       description: "Extend your project features and do more with Factor.",
     }
   },
-})
+}
 </script>
 <style lang="less">
 .themes-container {

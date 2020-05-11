@@ -1,5 +1,4 @@
-import { sortPriority } from "@factor/api/utils"
-import Vue from "vue"
+import { sortPriority, isNode } from "@factor/api/utils"
 import { omit } from "./utils-lodash"
 
 export type FilterCallbacks = Record<string, CallbackItem>
@@ -27,30 +26,23 @@ interface GlobalFilterObject {
 }
 
 /**
- * Store the filters on the global Vue object
- * The filters need to be retained on server resets
- */
-declare module "vue/types/vue" {
-  export interface VueConstructor {
-    $filters: GlobalFilterObject
-  }
-}
-
-/**
  * Get globally set filter functions
  * @remarks
  * The globals must not get destroyed with a hot server restart
  */
 export const getGlobals = (): GlobalFilterObject => {
-  if (!Vue.$filters) {
-    Vue.$filters = {
+  // Use global value as filters need to remain in tact
+  // even after all modules are purged on server resets
+  const globalObject: any = isNode ? global : window
+  if (!globalObject.$filters) {
+    globalObject.$filters = {
       filters: {},
       applied: {},
       controllers: {},
     }
   }
 
-  return Vue.$filters
+  return globalObject.$filters
 }
 
 /**

@@ -12,14 +12,13 @@
 
 <script lang="ts">
 import { dashboardPage, dashboardPanel } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     dashboardPage,
     dashboardPanel,
   },
-})
+}
 </script>
 
 <style lang="less">

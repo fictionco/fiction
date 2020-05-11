@@ -46,10 +46,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { standardDate, toLabel } from "@factor/api"
 import { factorLink } from "@factor/ui"
-export default Vue.extend({
+export default {
   name: "DashboardListItem",
   components: { factorLink },
   props: {
@@ -72,7 +71,7 @@ export default Vue.extend({
     standardDate,
     toLabel,
   },
-})
+}
 </script>
 <style lang="less">
 .data-item {

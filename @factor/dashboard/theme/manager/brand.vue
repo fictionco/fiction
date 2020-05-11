@@ -37,7 +37,6 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { getDashboardRoute } from "@factor/dashboard"
 import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
 import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
@@ -49,7 +48,7 @@ interface ActionMenuItem {
   query?: any
   name: string
 }
-export default Vue.extend({
+export default {
   components: {
     factorAvatar,
     factorIcon,
@@ -138,7 +137,7 @@ export default Vue.extend({
       return this.currentUser ? this.currentUser[field] : undefined
     },
   },
-})
+}
 </script>
 <style lang="less">
 .manager-brand {

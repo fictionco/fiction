@@ -1,7 +1,19 @@
 import { emitEvent, currentRoute, navigateToRoute, storeItem } from "@factor/api"
-import Vue from "vue"
 import { userRolesMap, CurrentUserState, UserRoles } from "./types"
 import { userToken } from "./token"
+
+let __initializedUser: Promise<CurrentUserState> | CurrentUserState
+
+export const initializedUser = (
+  action?: "set" | "get",
+  value?: Promise<CurrentUserState> | CurrentUserState
+): Promise<CurrentUserState> | CurrentUserState => {
+  if (action == "set") {
+    __initializedUser = value
+  }
+
+  return __initializedUser
+}
 
 export const roleAccessLevel = (role: UserRoles | undefined): number => {
   return role && userRolesMap[role] ? userRolesMap[role] : 0
@@ -18,7 +30,7 @@ export interface SetUser {
  */
 export const setUser = ({ user, token = "", current = false }: SetUser): void => {
   if (current) {
-    Vue.$initializedUser = user ? user : undefined
+    initializedUser("set", user ? user : undefined)
 
     if (token && user) userToken(token)
     else if (user === undefined) userToken("destroy")

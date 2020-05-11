@@ -23,9 +23,8 @@ import { factorSpinner } from "@factor/ui"
 import * as user from "@factor/user"
 import { toLabel, getPostTypeConfig } from "@factor/api"
 import { Route } from "vue-router"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
     dashboardManager: () => import("./manager/manager.vue"),
@@ -96,7 +95,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style src="./style.less" lang="less"></style>
 

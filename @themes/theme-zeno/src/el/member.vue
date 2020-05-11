@@ -23,8 +23,8 @@
 <script lang="ts">
 import { setting } from "@factor/api"
 import { factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorIcon,
   },
@@ -44,5 +44,5 @@ export default Vue.extend({
     },
   },
   methods: { setting },
-})
+}
 </script>

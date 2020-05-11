@@ -18,8 +18,8 @@ import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 import { EditPanel } from "@factor/dashboard/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { dashboardPanel },
   computed: {
     post: {
@@ -96,5 +96,5 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>

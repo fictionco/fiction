@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import { factorSpinner } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorSpinner },
   props: {
     image: { type: String, default: "" },
@@ -86,7 +86,7 @@ export default Vue.extend({
       return out
     },
   },
-})
+}
 </script>
 
 <style lang="less">

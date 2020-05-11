@@ -60,14 +60,14 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
   },
   methods: { setting },
-})
+}
 </script>
 
 <style lang="postcss">

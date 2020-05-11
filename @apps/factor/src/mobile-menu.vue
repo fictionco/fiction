@@ -37,9 +37,9 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { toLabel, emitEvent } from "@factor/api"
-import Vue from "vue"
+
 import { isLoggedIn } from "@factor/user"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     siteBrand: () => import("./el/brand.vue"),
@@ -94,7 +94,7 @@ export default Vue.extend({
       this.$set(this.activeMenu, area, newValue)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .mobile-menu {

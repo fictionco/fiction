@@ -45,9 +45,8 @@ import {
   factorInputSortable,
   dashboardUserList,
 } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     dashboardUserList,
     factorInputWrap,
@@ -97,7 +96,7 @@ export default Vue.extend({
       return this.format ? this.format : "vertical"
     },
   },
-})
+}
 </script>
 
 <style lang="less">

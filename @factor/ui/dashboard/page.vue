@@ -31,8 +31,7 @@
 <script lang="ts">
 import { factorSpinner, dashboardPanel, dashboardFooter } from "@factor/ui"
 
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
     dashboardPanel,
@@ -42,7 +41,7 @@ export default Vue.extend({
     title: { type: String, default: "" },
     loading: { type: Boolean, default: false },
   },
-})
+}
 </script>
 
 <style lang="less">

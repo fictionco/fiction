@@ -11,9 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {},
   props: {
     title: { type: String, default: "" },
@@ -50,5 +48,5 @@ export default Vue.extend({
 `
     },
   },
-})
+}
 </script>

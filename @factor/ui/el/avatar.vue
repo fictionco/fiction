@@ -10,8 +10,8 @@ import { factorSpinner } from "@factor/ui"
 import { stored } from "@factor/api"
 import { userInitialized } from "@factor/user"
 import { setting } from "@factor/api/settings"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorSpinner },
   props: {
     width: { type: String, default: "" },
@@ -92,7 +92,7 @@ export default Vue.extend({
       </svg>`
     },
   },
-})
+}
 </script>
 <style lang="less">
 .avatar {

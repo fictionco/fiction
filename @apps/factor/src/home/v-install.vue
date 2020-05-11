@@ -35,8 +35,8 @@
 <script lang="ts">
 import { toLabel } from "@factor/api"
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     joinProgram: () => import("./el-join.vue"),
@@ -112,7 +112,7 @@ export default Vue.extend({
     }
   },
   methods: { toLabel },
-})
+}
 </script>
 <style lang="less">
 .start-container {

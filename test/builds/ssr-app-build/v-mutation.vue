@@ -3,8 +3,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       text: "nope",
@@ -13,5 +12,5 @@ export default Vue.extend({
   created() {
     this.text = "mutated"
   },
-})
+}
 </script>
