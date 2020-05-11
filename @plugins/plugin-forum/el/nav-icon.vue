@@ -68,7 +68,7 @@ export default {
 <style lang="less">
 .nav-icon-wrap {
   .primary-color {
-    fill: var(--color-text);
+    fill: currentColor;
   }
   &:hover .primary-color {
     fill: var(--color-primary);

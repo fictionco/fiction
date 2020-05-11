@@ -9,12 +9,6 @@ export type SettingsRecords = Record<string, SettingsObject>
 
 const globalObject: any = isNode ? global : window
 
-declare module "vue/types/vue" {
-  interface VueConstructor {
-    $factorSettings: SettingsRecords
-  }
-}
-
 /**
  * Returns a unique ID for a set of settings based on app directory
  * @param cwd - working directory

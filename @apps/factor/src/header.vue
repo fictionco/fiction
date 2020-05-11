@@ -3,12 +3,9 @@
     <div class="site-head-pad">
       <site-brand class="site-brand" />
       <div class="head-nav page-nav">
-        <factor-link
-          v-for="navItem in pageNav"
-          :key="navItem.path"
-          v-formatted-text="navItem.name"
-          :path="navItem.path"
-        />
+        <factor-link v-for="navItem in pageNav" :key="navItem.path" :path="navItem.path">
+          <span v-formatted-text="navItem.name" />
+        </factor-link>
         <github-stars />
       </div>
       <div class="head-nav action-nav">
@@ -39,7 +36,7 @@ export default {
       userLoading: true,
       user: false,
       pageNav: [
-        { path: "/docs", name: "Docs" },
+        { path: "/docs", name: "Develop" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" },
       ],

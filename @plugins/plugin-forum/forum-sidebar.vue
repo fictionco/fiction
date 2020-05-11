@@ -88,7 +88,6 @@ export default {
     .factor-btn {
       font-size: 1.1em;
       width: 100%;
-      max-width: 200px;
     }
 
     @media (max-width: 900px) {
@@ -130,10 +129,8 @@ export default {
   .nav-item {
     letter-spacing: -0.02em;
     font-size: 1.2em;
-    font-weight: 600;
     display: grid;
     margin-bottom: 0.75rem;
-
     .menu-item-link,
     .sub-menu {
       grid-template-columns: 2rem 1fr;
