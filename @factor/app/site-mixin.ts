@@ -3,9 +3,10 @@ import { getObservables } from "@factor/app"
 
 import { Route } from "vue-router"
 import { FactorPostState } from "@factor/post/types"
+import Vue from "vue"
 import veil from "./veil.vue"
 export default (): any => {
-  return {
+  return Vue.extend({
     data(): object {
       return {
         scrollClass: "",
@@ -16,7 +17,9 @@ export default (): any => {
         return stored("post")
       },
       ui(this: any): string {
-        const { meta = {} } = this.$route.matched.find((_: Route) => _.meta.ui) || {}
+        const route = this.$route
+
+        const { meta = {} } = route.matched.find((_: Route) => _.meta.ui) || {}
 
         const ui = meta.ui || "app"
 
@@ -74,5 +77,5 @@ export default (): any => {
         this.scrollClass = window.pageYOffset == 0 ? "top" : "scrolled"
       },
     },
-  }
+  })
 }
