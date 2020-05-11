@@ -20,8 +20,7 @@
 import { factorLink } from "@factor/ui"
 import { toLabel, onEvent, setting } from "@factor/api"
 import { Route } from "vue-router"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     //mobileMenu: () => import("./mobile-menu.vue"),
@@ -64,7 +63,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

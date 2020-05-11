@@ -8,8 +8,7 @@
 import { stored } from "@factor/app/store"
 import { setting } from "@factor/api/settings"
 import { loadAndStoreJobsIndex } from "@factor/plugin-jobs"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       loading: false,
@@ -58,5 +57,5 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>

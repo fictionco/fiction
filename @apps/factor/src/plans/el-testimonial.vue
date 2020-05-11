@@ -22,9 +22,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { factorLink, factorAvatar } from "@factor/ui"
-export default Vue.extend({
+export default {
   components: { factorLink, factorAvatar },
   data() {
     return {
@@ -39,7 +38,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less" scoped>

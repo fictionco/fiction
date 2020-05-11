@@ -3,9 +3,7 @@
     <div class="hero-inner">
       <div v-if="format == 'index'">
         <h1 class="title">
-          <factor-link :path="postLink(post._id)" class="text-white">{{
-            post.title
-          }}</factor-link>
+          <factor-link :path="postLink(post._id)" class="text-white">{{ post.title }}</factor-link>
           <factor-post-edit :post-id="post._id" />
         </h1>
       </div>
@@ -32,8 +30,7 @@ import { factorPostEdit } from "@factor/post"
 import { postLink } from "@factor/api/permalink"
 import { setting } from "@factor/api"
 import { stored } from "@factor/app/store"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorPostEdit, factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" },
@@ -51,5 +48,5 @@ export default Vue.extend({
     postLink,
     setting,
   },
-})
+}
 </script>

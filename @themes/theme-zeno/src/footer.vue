@@ -1,10 +1,7 @@
 <template>
   <footer class="bg-purple-900 text-gray-200 p-8 lg:px-4">
     <div class="relative max-w-6xl mx-auto flex flex-col md:flex-row justify-between">
-      <figure
-        v-if="footerFigure"
-        class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block"
-      >
+      <figure v-if="footerFigure" class="absolute top-0 left-0 z-20 hidden ml-56 -mt-16 lg:block">
         <img :src="footerFigure" :alt="footerFigureAlt" />
       </figure>
       <div>
@@ -45,8 +42,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -69,5 +66,5 @@ export default Vue.extend({
       return new Date().getFullYear()
     },
   },
-})
+}
 </script>

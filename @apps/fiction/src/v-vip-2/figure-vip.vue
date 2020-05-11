@@ -19,10 +19,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { figureMixin } from "./utils"
 
-export default Vue.extend({
+export default {
   components: {
     "page-icon": () => import("./icon-vip.vue"),
   },
@@ -57,7 +56,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -48,9 +48,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   data() {
     return {
       width: 500,
@@ -105,7 +103,7 @@ export default Vue.extend({
       this.timer = setTimeout(() => this.nextSlide(), this.animationInterval)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

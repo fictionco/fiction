@@ -1,11 +1,7 @@
 <template>
   <section id="intro" class="page-container intro">
     <div class="intro-inner">
-      <h2
-        v-if="introPretitle"
-        v-formatted-text="introPretitle"
-        class="pretitle text-gray-600"
-      />
+      <h2 v-if="introPretitle" v-formatted-text="introPretitle" class="pretitle text-gray-600" />
       <h1 v-if="introTitle" v-formatted-text="introTitle" class="title text-gray-100" />
       <div v-if="introButtons" class="buttons">
         <template v-for="(button, index) in introButtons">
@@ -26,9 +22,8 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink },
   data() {
     return {
@@ -40,7 +35,7 @@ export default Vue.extend({
     }
   },
   methods: { setting },
-})
+}
 </script>
 <style lang="less" scoped>
 .intro {

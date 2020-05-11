@@ -2,11 +2,7 @@
   <div class="page-about">
     <el-hero :pretitle="aboutPretitle" :title="aboutTitle" :image="aboutHeroImage">
       <template v-slot:hero-content>
-        <div
-          v-if="aboutContent"
-          v-formatted-text="aboutContent"
-          class="content text-gray-600"
-        />
+        <div v-if="aboutContent" v-formatted-text="aboutContent" class="content text-gray-600" />
       </template>
     </el-hero>
 
@@ -26,8 +22,8 @@
 
 <script lang="ts">
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     "el-clients": () => import("./el/clients.vue"),
     "el-hero": () => import("./el/hero.vue"),
@@ -55,7 +51,7 @@ export default Vue.extend({
     }
   },
   methods: { setting },
-})
+}
 </script>
 
 <style lang="less">

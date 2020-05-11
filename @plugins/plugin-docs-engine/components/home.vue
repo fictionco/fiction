@@ -41,11 +41,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { setting } from "@factor/api"
 import { factorLink } from "@factor/ui"
 import { DocConfig } from "../util"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     figureIcon: () => import("./figure-icon.vue"),
@@ -82,7 +81,7 @@ export default Vue.extend({
   metaInfo: {
     title: "Docs",
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -18,8 +18,7 @@
   </figure>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       icons: [
@@ -30,7 +29,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 <style lang="less">
 .header-figure {

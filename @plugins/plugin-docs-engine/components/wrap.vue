@@ -58,11 +58,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { setting, toLabel } from "@factor/api"
 import { factorLink, factorIcon, factorBtn } from "@factor/ui"
 import { activeDocGroup, DocConfig } from "../util"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -133,7 +132,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

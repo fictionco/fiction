@@ -14,9 +14,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {
     figureIcon: () => import("./figure-icon.vue"),
   },
@@ -50,7 +48,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less">

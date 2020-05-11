@@ -11,9 +11,8 @@
 <script lang="ts">
 import { factorBtn, factorIcon } from "@factor/ui"
 import { stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorBtn, factorIcon },
   props: {
     postId: { type: String, default: "" },
@@ -23,7 +22,7 @@ export default Vue.extend({
       return stored(this.postId) || {}
     },
   },
-})
+}
 </script>
 
 <style lang="less">

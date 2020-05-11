@@ -36,10 +36,9 @@
 <script lang="ts">
 import { factorInputWrap, factorForm, factorInputSubmit } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
 import { saveContactForm } from "."
 
-export default Vue.extend({
+export default {
   components: { factorInputWrap, factorForm, factorInputSubmit },
   data() {
     return {
@@ -85,5 +84,5 @@ export default Vue.extend({
       return placeholder.join(" ")
     },
   },
-})
+}
 </script>

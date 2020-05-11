@@ -6,9 +6,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { factorIcon } from "@factor/ui"
-export default Vue.extend({
+export default {
   components: { factorIcon },
   data() {
     return {
@@ -50,7 +49,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

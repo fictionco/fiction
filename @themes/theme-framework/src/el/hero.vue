@@ -25,8 +25,8 @@
 
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
   },
@@ -35,7 +35,7 @@ export default Vue.extend({
     title: { type: String, default: "" },
     buttons: { type: Array, default() {} },
   },
-})
+}
 </script>
 
 <style lang="less">

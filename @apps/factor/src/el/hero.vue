@@ -1,9 +1,7 @@
 <template>
   <section class="hero">
     <div class="mast">
-      <div v-if="subheadline" class="subheadline" :class="alignment">
-        {{ subheadline }}
-      </div>
+      <div v-if="subheadline" class="subheadline" :class="alignment">{{ subheadline }}</div>
       <h1 class="headline" :class="alignment">{{ headline }}</h1>
       <div class="hero-content" :class="alignment">
         <slot name="hero-content" />
@@ -13,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     align: { type: String, default: "" },
     headline: { type: String, default: "" },
@@ -29,7 +26,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

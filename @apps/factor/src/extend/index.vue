@@ -32,7 +32,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { isLoggedIn } from "@factor/user"
 import { stored } from "@factor/api"
 import { factorSpinner } from "@factor/ui"
@@ -46,7 +45,7 @@ import {
 } from "./util"
 
 import { requestIndex } from "./request"
-export default Vue.extend({
+export default {
   components: {
     callToAction: () => import("./el/cta.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
@@ -114,7 +113,7 @@ export default Vue.extend({
   metaInfo() {
     return this.describe
   },
-})
+}
 </script>
 <style lang="less">
 .extend-container {

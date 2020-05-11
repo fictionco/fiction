@@ -4,8 +4,7 @@
 
 <script lang="ts">
 import { storeItem, stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   metaInfo() {
     return stored("test") || {}
   },
@@ -27,5 +26,5 @@ export default Vue.extend({
       return
     },
   },
-})
+}
 </script>

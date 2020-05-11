@@ -14,12 +14,14 @@ export const cssLoaders = ({
 }): object[] => {
   const postCssPlugins = applyFilters(
     "postcss-plugins",
-    [cssNano({ preset: "default" }), postcssNested],
+    [postcssNested, cssNano({ preset: "default" })],
     { target, lang, cwd }
   )
 
-  const _base = [
-    { loader: "css-loader" },
+  const _base: object[] = [
+    {
+      loader: "css-loader",
+    },
     {
       loader: "postcss-loader",
       options: {

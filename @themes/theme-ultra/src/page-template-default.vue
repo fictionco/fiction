@@ -11,9 +11,8 @@
 import { factorPostEdit } from "@factor/post"
 import { renderMarkdown } from "@factor/api/markdown"
 import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorPostEdit },
   data() {
     return {
@@ -48,7 +47,7 @@ export default Vue.extend({
       },
     ]
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -6,12 +6,11 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorForm } from "@factor/ui"
 import { userInitialized, storeItem } from "@factor/api"
 import { getStripeClient } from "./stripe-client"
 
-export default Vue.extend({
+export default {
   name: "CC",
   components: { factorForm },
   data() {
@@ -58,7 +57,7 @@ export default Vue.extend({
       storeItem("stripeCardElement", this.cardElement)
     },
   },
-})
+}
 </script>
 <style lang="less" scoped>
 .cc {

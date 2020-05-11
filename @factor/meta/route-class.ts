@@ -42,18 +42,16 @@ const manageClient = (): void => {
     },
   })
 
-  Vue.mixin(
-    Vue.extend({
-      watch: {
-        $route: {
-          handler: function (): void {
-            setRouteClass(this.$options as Component)
-          },
-          immediate: true,
+  Vue.mixin({
+    watch: {
+      $route: {
+        handler: function (this: any): void {
+          setRouteClass(this.$options as Component)
         },
+        immediate: true,
       },
-    })
-  )
+    },
+  })
 }
 
 addFilter({

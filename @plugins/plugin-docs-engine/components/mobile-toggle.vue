@@ -6,14 +6,12 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {},
   props: {
     active: { type: Boolean, default: false },
   },
-})
+}
 </script>
 
 <style lang="less">

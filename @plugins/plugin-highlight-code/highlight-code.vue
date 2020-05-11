@@ -5,10 +5,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
 import { onEvent } from "@factor/api"
-export default Vue.extend({
+export default {
   data() {
     return {
       tries: 0,
@@ -82,6 +80,6 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style src="./prism/theme-vscode.less" lang="less"></style>

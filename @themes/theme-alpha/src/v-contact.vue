@@ -2,11 +2,7 @@
   <div class="page-contact">
     <el-hero :pretitle="contactPretitle" :title="contactTitle" :image="contactHeroImage">
       <template v-slot:hero-content>
-        <div
-          v-if="contactContent"
-          v-formatted-text="contactContent"
-          class="content text-gray-600"
-        />
+        <div v-if="contactContent" v-formatted-text="contactContent" class="content text-gray-600" />
         <!-- Contact Form Plugin -->
         <component :is="setting('contactForm.form')" />
       </template>
@@ -20,11 +16,7 @@
             v-formatted-text="contactResourcesPretitle"
             class="pretitle"
           />
-          <h1
-            v-if="contactResourcesTitle"
-            v-formatted-text="contactResourcesTitle"
-            class="title"
-          />
+          <h1 v-if="contactResourcesTitle" v-formatted-text="contactResourcesTitle" class="title" />
         </div>
         <div v-if="contactResourcesItems" class="resources-items">
           <div v-for="(item, i) in contactResourcesItems" :key="i" class="item">
@@ -38,11 +30,7 @@
     <section class="location">
       <div class="mast">
         <div class="location-items">
-          <div
-            v-if="contactLocationMap"
-            v-formatted-text="contactLocationMap"
-            class="map-wrap"
-          />
+          <div v-if="contactLocationMap" v-formatted-text="contactLocationMap" class="map-wrap" />
           <div>
             <div class="location-content-wrap">
               <h3
@@ -78,8 +66,8 @@
 <script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorIcon,
     factorLink,
@@ -112,7 +100,7 @@ export default Vue.extend({
       image: setting("contact.metatags.image"),
     }
   },
-})
+}
 </script>
 
 <style lang="less">

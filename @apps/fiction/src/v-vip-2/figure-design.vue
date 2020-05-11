@@ -27,8 +27,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {},
   data() {
     return {
@@ -73,7 +72,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less">

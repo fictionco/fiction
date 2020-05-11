@@ -18,9 +18,7 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">
-                {{ standardDate(item.time.created) }}
-              </div>
+              <div v-if="item.time.created" class="released">{{ standardDate(item.time.created) }}</div>
             </div>
           </div>
         </factor-link>
@@ -42,9 +40,7 @@
           <div class="entry-content">
             <h3 class="title">{{ titleFromPackage(item) }}</h3>
             <div class="meta">
-              <div v-if="item.time.created" class="released">
-                {{ standardDate(item.time.modified) }}
-              </div>
+              <div v-if="item.time.created" class="released">{{ standardDate(item.time.modified) }}</div>
             </div>
           </div>
         </factor-link>
@@ -55,10 +51,10 @@
 <script lang="ts">
 import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
+
 import { getIndexCache } from "./request"
 import { titleFromPackage, extensionPermalink, extensionImage } from "./util"
-export default Vue.extend({
+export default {
   components: { factorLink },
   data() {
     return {
@@ -67,7 +63,7 @@ export default Vue.extend({
   },
   computed: {
     extensionIndex() {
-      return getIndexCache() || []
+      return getIndexCache("plugin") || []
     },
     pluginsNew(this: any) {
       const getNew = [].slice
@@ -90,7 +86,7 @@ export default Vue.extend({
     extensionImage,
     standardDate,
   },
-})
+}
 </script>
 
 <style lang="less">

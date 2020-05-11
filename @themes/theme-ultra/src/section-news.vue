@@ -8,9 +8,8 @@
 
 <script lang="ts">
 import { setting } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     "blog-index": () => import("./blog/blog-index.vue"),
   },
@@ -25,7 +24,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 
 <style lang="less">

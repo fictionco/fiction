@@ -17,8 +17,8 @@
 <script lang="ts">
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     homeIntro: setting("home.intro.component"),
     homeSection2: setting("home.section2.component"),
@@ -82,7 +82,7 @@ export default Vue.extend({
   serverPrefetch() {
     return this.getPosts()
   },
-})
+}
 </script>
 
 <style lang="less">

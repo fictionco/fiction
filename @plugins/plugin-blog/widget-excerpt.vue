@@ -11,8 +11,8 @@
 import { factorLink, factorIcon } from "@factor/ui"
 import { postLink, stored } from "@factor/api"
 import { excerpt } from "@factor/api/excerpt"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" },
@@ -26,7 +26,7 @@ export default Vue.extend({
     excerpt,
     postLink,
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

@@ -13,8 +13,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     offset: { type: Boolean, default: false },
     title: { type: String, default: "" },
@@ -25,7 +24,7 @@ export default Vue.extend({
       return this.offset ? "offset-top" : ""
     },
   },
-})
+}
 </script>
 
 <style lang="less">

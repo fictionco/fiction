@@ -156,6 +156,13 @@ export const getRouter = (): VueRouter => {
 }
 
 /**
+ * Set the router from an external source, needed for tests
+ */
+export const setRouter = (r: VueRouter): void => {
+  __routerInstance = r
+}
+
+/**
  * Add routes to app
  * Allows for in content or dashboard
  */

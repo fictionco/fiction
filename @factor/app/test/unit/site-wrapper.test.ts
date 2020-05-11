@@ -9,6 +9,7 @@ import Vue, { VueConstructor, VNode, CreateElement } from "vue"
 
 //import { renderToString } from "@vue/server-test-utils"
 import VueRouter from "vue-router"
+import { setRouter } from "@factor/api"
 import factorSite from "../../site.vue"
 
 let localVue: VueConstructor
@@ -30,7 +31,7 @@ describe("site-wrapper", () => {
     })
     router.push("/")
 
-    Vue.$router = router
+    setRouter(router)
 
     // Needs router as it assumes $route is there
     const vm = new Vue({ router, render: (h: CreateElement): VNode => h(factorSite) })

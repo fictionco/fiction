@@ -3,8 +3,8 @@
 </template>
 <script lang="ts">
 import { onEvent } from "@factor/api/events"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   name: "SsrBar",
   data() {
     return {
@@ -90,7 +90,7 @@ export default Vue.extend({
       return this
     },
   },
-})
+}
 </script>
 
 <style lang="less">

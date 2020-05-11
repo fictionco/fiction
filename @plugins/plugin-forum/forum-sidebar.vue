@@ -1,9 +1,10 @@
 <template>
   <div class="forum-sidebar">
     <div class="new-discussion">
-      <factor-link btn="primary" :path="`${setting('forum.indexRoute')}/add-new`">{{
-        setting("forum.text.newTopic")
-      }}</factor-link>
+      <factor-link
+        btn="primary"
+        :path="`${setting('forum.indexRoute')}/add-new`"
+      >{{ setting("forum.text.newTopic") }}</factor-link>
     </div>
     <div class="forum-nav">
       <factor-input-select
@@ -33,7 +34,6 @@
 import { toLabel } from "@factor/api/utils"
 import { setting } from "@factor/api/settings"
 import { factorLink, factorInputSelect, factorIcon } from "@factor/ui"
-import Vue from "vue"
 
 interface NavItem {
   value: string
@@ -41,7 +41,7 @@ interface NavItem {
   path?: string
   home?: boolean
 }
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     navIcon: setting("forum.components.customIcons"),
@@ -79,7 +79,7 @@ export default Vue.extend({
       this.$router.push({ path, query })
     },
   },
-})
+}
 </script>
 
 <style lang="less">

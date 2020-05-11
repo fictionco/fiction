@@ -13,12 +13,7 @@
           </defs>
           <g fill="none" fill-rule="evenodd">
             <path fill="#7795F8" d="M0 0h976v627H0z" />
-            <use
-              fill="#7795F8"
-              xlink:href="#a"
-              fill-rule="nonzero"
-              transform="translate(608)"
-            />
+            <use fill="#7795F8" xlink:href="#a" fill-rule="nonzero" transform="translate(608)" />
             <g class="animation-group">
               <path
                 class="draw"
@@ -779,6 +774,5 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({})
+export default {}
 </script>

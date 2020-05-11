@@ -8,8 +8,8 @@
 </template>
 <script lang="ts">
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   metaInfo() {
     return {
       title: setting("blog.notFound.title"),
@@ -23,7 +23,7 @@ export default Vue.extend({
     }
   },
   methods: { setting },
-})
+}
 </script>
 <style lang="less">
 .posts-not-found {

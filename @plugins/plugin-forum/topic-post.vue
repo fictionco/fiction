@@ -25,9 +25,7 @@
             size="small"
             class="post-action"
             @click="handleAction(action)"
-          >
-            {{ toLabel(action) }}
-          </div>
+          >{{ toLabel(action) }}</div>
         </div>
       </div>
     </div>
@@ -39,10 +37,10 @@ import { factorAvatar, factorMenu } from "@factor/ui"
 import { isEmpty, setting, stored, storeItem, toLabel } from "@factor/api"
 import { timeAgo } from "@factor/api/time"
 import { currentUser, userCan, userInitialized } from "@factor/user"
-import Vue from "vue"
+
 import { FactorPost } from "@factor/post/types"
 import { PostActions } from "./request"
-export default Vue.extend({
+export default {
   components: { factorAvatar, factorMenu },
   props: {
     postId: { type: String, default: "" },
@@ -124,7 +122,7 @@ export default Vue.extend({
       this.$emit("action", action, value)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .topic-post {

@@ -21,9 +21,8 @@ import {
   shareImage,
 } from "@factor/api"
 import { factorError404 } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorError404 },
   data() {
     return {}
@@ -47,7 +46,7 @@ export default Vue.extend({
     isEmpty,
     setting,
   },
-})
+}
 </script>
 
 <style lang="less">

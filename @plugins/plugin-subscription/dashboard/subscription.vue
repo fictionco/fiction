@@ -91,13 +91,12 @@
 </template>
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
-import Vue from "vue"
 import { stored, standardDate, toLabel } from "@factor/api"
 import { dashboardListItem, dashboardBtn, factorModal, factorLink } from "@factor/ui"
 import StripeNode from "stripe"
 import { requestUpdateSubscription } from "../stripe-client"
 import { UpdateSubscription } from "../types"
-export default Vue.extend({
+export default {
   name: "SubscriptionList",
   components: { dashboardListItem, dashboardBtn, factorModal, factorLink },
   data() {
@@ -189,7 +188,7 @@ export default Vue.extend({
       return `$${Math.round(amount)} / ${interval} ${discount}`
     },
   },
-})
+}
 </script>
 <style>
 .discount-tag {

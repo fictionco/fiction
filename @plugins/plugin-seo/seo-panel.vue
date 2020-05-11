@@ -25,8 +25,8 @@
 import { excerpt } from "@factor/api/excerpt"
 import { dashboardInput } from "@factor/ui"
 import { postLink, stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { dashboardInput },
   props: {
     postId: { type: String, required: true },
@@ -51,7 +51,7 @@ export default Vue.extend({
     },
   },
   methods: { excerpt },
-})
+}
 </script>
 <style lang="less">
 .edit-post-seo {

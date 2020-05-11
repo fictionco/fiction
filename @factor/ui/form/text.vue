@@ -10,8 +10,7 @@
   />
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     value: { type: [String, Number], default: "" },
   },
@@ -24,5 +23,5 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>

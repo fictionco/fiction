@@ -14,9 +14,9 @@
   </div>
 </template>
 <script>
-import Vue from "vue"
+
 import { dotSetting } from "@factor/api/utils"
-export default Vue.extend({
+export default {
   props: {
     input: { type: Object, default: () => {} },
     value: { type: String, default: "" },
@@ -39,7 +39,7 @@ export default Vue.extend({
       return dotSetting({ key, settings: this.settings })
     },
   },
-})
+}
 </script>
 <style lang="less">
 .input-item {

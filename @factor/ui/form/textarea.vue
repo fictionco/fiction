@@ -14,8 +14,7 @@
 
 <script lang="ts">
 import DOM from "jquery"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     value: { type: [String, Number], default: "" },
   },
@@ -46,7 +45,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

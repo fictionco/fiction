@@ -61,12 +61,11 @@
 </template>
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
-import Vue from "vue"
 import { stored, standardDate, toLabel, currentUser, emitEvent } from "@factor/api"
 import { dashboardListItem, factorModal, dashboardBtn } from "@factor/ui"
 import StripeNode from "stripe"
 import { getStripeClient, requestPaymentMethodAction } from "../stripe-client"
-export default Vue.extend({
+export default {
   name: "PaymentMethods",
   components: {
     dashboardListItem,
@@ -170,7 +169,7 @@ export default Vue.extend({
       ]
     },
   },
-})
+}
 </script>
 <style lang="postcss" scoped>
 .add-payment-method {

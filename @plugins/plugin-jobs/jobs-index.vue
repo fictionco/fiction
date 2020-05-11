@@ -31,8 +31,7 @@ import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 import { PostStatus, SortDelimiters } from "@factor/post/types"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorSpinner },
   data() {
     return {
@@ -97,7 +96,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

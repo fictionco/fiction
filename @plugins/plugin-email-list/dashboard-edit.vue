@@ -37,10 +37,9 @@ import {
 } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
 import { EmailConfig } from "./types"
 import { deleteEmails, csvExport } from "."
-export default Vue.extend({
+export default {
   name: "EmailListGrid",
   components: {
     dashboardPage,
@@ -190,6 +189,6 @@ export default Vue.extend({
       this.selected = !val ? [] : this.post.list.map((_: EmailConfig) => _.email)
     },
   },
-})
+}
 </script>
 <style lang="less"></style>

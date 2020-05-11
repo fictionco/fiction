@@ -17,11 +17,10 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { stored, standardDate, toLabel } from "@factor/api"
 import { dashboardListItem } from "@factor/ui"
 import StripeNode from "stripe"
-export default Vue.extend({
+export default {
   name: "Invoices",
   components: { dashboardListItem },
   computed: {
@@ -60,7 +59,7 @@ export default Vue.extend({
       ]
     },
   },
-})
+}
 </script>
 <style lang="less" scoped>
 .zero-state {

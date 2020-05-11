@@ -1,13 +1,10 @@
 <template>
-  <h3 v-if="post.synopsis" itemprop="description" class="entry-synopsis">
-    {{ post.synopsis }}
-  </h3>
+  <h3 v-if="post.synopsis" itemprop="description" class="entry-synopsis">{{ post.synopsis }}</h3>
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   props: {
     postId: { type: String, default: "" },
   },
@@ -16,7 +13,7 @@ export default Vue.extend({
       return stored(this.postId) || {}
     },
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-jobs {

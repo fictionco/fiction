@@ -13,9 +13,8 @@
 <script lang="ts">
 import { postLink, stored } from "@factor/api"
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -42,7 +41,7 @@ export default Vue.extend({
   methods: {
     postLink,
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

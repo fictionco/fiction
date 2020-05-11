@@ -11,9 +11,7 @@
         </div>
         <div class="item-content">
           <h2 v-if="item.title" class="item-title">{{ item.title }}</h2>
-          <p v-if="item.content" class="item-description text-gray-600">
-            {{ item.content }}
-          </p>
+          <p v-if="item.content" class="item-description text-gray-600">{{ item.content }}</p>
         </div>
       </div>
     </div>
@@ -21,8 +19,7 @@
 </template>
 <script lang="ts">
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   data() {
     return {
       loading: true,
@@ -36,7 +33,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 .section2 {

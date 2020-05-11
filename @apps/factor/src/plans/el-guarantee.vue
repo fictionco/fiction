@@ -119,13 +119,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {},
   data() {
     return {}
   },
-})
+}
 </script>
 
 <style lang="less" scoped>

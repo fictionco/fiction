@@ -46,9 +46,8 @@ import { factorAvatar, factorLink } from "@factor/ui"
 import { currentUser, isLoggedIn } from "@factor/user"
 import { logout } from "@factor/user/util"
 import { toLabel, onEvent, showSignIn } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   name: "AccountMenu",
   components: { factorAvatar, factorLink },
   props: {
@@ -123,7 +122,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .account-menu-toggle {

@@ -12,7 +12,6 @@
 import { FactorUserCredential } from "@factor/user/types"
 import { factorModal } from "@factor/ui"
 import { onEvent, runCallbacks } from "@factor/api"
-import Vue from "vue"
 import { Route } from "vue-router"
 import { notifySignedIn } from "."
 interface ModalArguments {
@@ -21,7 +20,7 @@ interface ModalArguments {
   callback?: Function
   user?: FactorUserCredential
 }
-export default Vue.extend({
+export default {
   components: {
     factorModal,
     factorSignin: () => import("./sign-in.vue"),
@@ -98,5 +97,5 @@ export default Vue.extend({
       this.close()
     },
   },
-})
+}
 </script>

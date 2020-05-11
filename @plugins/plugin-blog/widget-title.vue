@@ -1,8 +1,6 @@
 <template>
   <h1 class="entry-title">
-    <factor-link class="entry-title-text" :path="postLink(post._id)">{{
-      post.title
-    }}</factor-link>
+    <factor-link class="entry-title-text" :path="postLink(post._id)">{{ post.title }}</factor-link>
     <factor-post-edit :post-id="post._id" />
   </h1>
 </template>
@@ -10,9 +8,8 @@
 import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink, factorPostEdit },
   props: {
     postId: { type: String, default: "" },
@@ -23,7 +20,7 @@ export default Vue.extend({
     },
   },
   methods: { postLink },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

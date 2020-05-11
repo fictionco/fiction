@@ -1,12 +1,7 @@
 <template>
   <figure ref="wrapper" class="factor-figure figure-sketch">
     <div class="sketches">
-      <div
-        v-for="(sketch, index) in sketches"
-        :key="index"
-        class="sketch"
-        :class="sketch.class"
-      >
+      <div v-for="(sketch, index) in sketches" :key="index" class="sketch" :class="sketch.class">
         <img :src="sketch.image" :alt="sketch.alt" />
       </div>
     </div>
@@ -14,9 +9,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {},
   data() {
     return {
@@ -39,7 +32,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -3,9 +3,8 @@
 </template>
 <script lang="ts">
 import { stored } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   props: {
     postId: { type: String, default: "" },
   },
@@ -14,7 +13,7 @@ export default Vue.extend({
       return stored(this.postId) || {}
     },
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

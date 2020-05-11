@@ -7,9 +7,7 @@
 
     <template v-if="callback">
       <factor-btn btn="default" @click="vis = false">Cancel</factor-btn>
-      <factor-btn btn="primary" :loading="sending" @click="run()">
-        {{ actionText }}
-      </factor-btn>
+      <factor-btn btn="primary" :loading="sending" @click="run()">{{ actionText }}</factor-btn>
     </template>
     <template v-else>
       <factor-btn btn="primary" @click="vis = false">Close</factor-btn>
@@ -20,8 +18,7 @@
 <script lang="ts">
 import { factorBtn, factorModal } from "@factor/ui"
 import { onEvent } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorBtn, factorModal },
   data() {
     return {
@@ -50,5 +47,5 @@ export default Vue.extend({
       this.vis = false
     },
   },
-})
+}
 </script>

@@ -34,8 +34,8 @@
 <script lang="ts">
 import { factorBtn, factorIcon, factorInputText, factorInputSelect } from "@factor/ui"
 import { isEqual, slugify, toLabel, parseList, ListItem, emitEvent } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorBtn, factorIcon, factorInputText, factorInputSelect },
   props: {
     value: { type: Array, default: () => [] },
@@ -109,7 +109,7 @@ export default Vue.extend({
       this.$emit("input", this.tags)
     },
   },
-})
+}
 </script>
 
 <style lang="less">

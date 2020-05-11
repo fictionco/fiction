@@ -11,8 +11,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     customValidity: {
       type: [String, Boolean],
@@ -30,7 +29,7 @@ export default Vue.extend({
       { immediate: true }
     )
   },
-})
+}
 </script>
 <style lang="less">
 .validity-input {

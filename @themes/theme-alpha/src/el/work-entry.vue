@@ -36,8 +36,8 @@ import { factorLink, factorIcon } from "@factor/ui"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { setting, stored, postLink } from "@factor/api"
 import { renderMarkdown } from "@factor/api/markdown"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -72,7 +72,7 @@ export default Vue.extend({
     postLink,
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 .entry {

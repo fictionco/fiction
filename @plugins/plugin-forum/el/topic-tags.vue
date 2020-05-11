@@ -10,10 +10,9 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api/settings"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
   },
@@ -23,7 +22,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 .tags {

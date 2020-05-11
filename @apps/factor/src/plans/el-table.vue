@@ -48,10 +48,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { toLabel } from "@factor/api"
 import { factorIcon, factorLink } from "@factor/ui"
-export default Vue.extend({
+export default {
   components: { factorIcon, factorLink, planIcon: () => import("./icons.vue") },
   metaInfo() {
     return {
@@ -171,7 +170,7 @@ export default Vue.extend({
     }
   },
   methods: { toLabel },
-})
+}
 </script>
 <style lang="less">
 .el-table {

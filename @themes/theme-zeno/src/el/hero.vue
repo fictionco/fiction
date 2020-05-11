@@ -11,9 +11,7 @@
         v-if="headline"
         class="max-w-2xl font-normal tracking-tight leading-tight text-3xl text-gray-100 lg:text-5xl"
         :class="alignment"
-      >
-        {{ headline }}
-      </h1>
+      >{{ headline }}</h1>
       <div class="max-w-2xl mt-2 text-base text-gray-500 lg:text-xl" :class="alignment">
         <slot name="hero-content" />
       </div>
@@ -22,8 +20,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     align: { type: String, default: "" },
     headline: { type: String, default: "" },
@@ -38,7 +35,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

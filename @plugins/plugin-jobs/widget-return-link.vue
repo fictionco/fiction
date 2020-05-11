@@ -9,8 +9,7 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorLink, factorIcon },
   props: {
     postId: { type: String, default: "" },
@@ -24,7 +23,7 @@ export default Vue.extend({
     },
   },
   methods: { setting },
-})
+}
 </script>
 <style lang="less">
 .plugin-jobs {

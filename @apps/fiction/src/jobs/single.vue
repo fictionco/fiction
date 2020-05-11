@@ -10,9 +10,8 @@
 </template>
 <script lang="ts">
 import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   data() {
     return {}
   },
@@ -32,7 +31,7 @@ export default Vue.extend({
     },
   },
   methods: { setting },
-})
+}
 </script>
 
 <style lang="less">

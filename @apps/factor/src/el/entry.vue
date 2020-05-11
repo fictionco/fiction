@@ -6,9 +6,8 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
-export default Vue.extend({
+export default {
   components: {
     factorHighlightCode,
   },
@@ -18,7 +17,7 @@ export default Vue.extend({
   data() {
     return {}
   },
-})
+}
 </script>
 <style lang="less">
 .docs-entry {

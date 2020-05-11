@@ -14,10 +14,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
-  components: {},
+export default {
   data() {
     return {
       wireframes: [
@@ -34,7 +31,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less">

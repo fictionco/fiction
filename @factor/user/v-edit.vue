@@ -112,8 +112,8 @@ import { sendVerifyEmail } from "@factor/user/email-request"
 import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     dashboardPage,
     dashboardPanel,
@@ -180,7 +180,7 @@ export default Vue.extend({
       this.sending = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

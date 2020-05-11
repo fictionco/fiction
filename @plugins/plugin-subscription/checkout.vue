@@ -103,7 +103,6 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
-import Vue from "vue"
 import { stored, currentUser, emitEvent } from "@factor/api"
 import { factorBtn, factorIcon, factorLink, factorInputText } from "@factor/ui"
 import {
@@ -112,7 +111,7 @@ import {
   requestPlanInfo,
   requestCoupon,
 } from "./stripe-client"
-export default Vue.extend({
+export default {
   components: {
     factorBtn,
     factorIcon,
@@ -241,7 +240,7 @@ export default Vue.extend({
       ],
     }
   },
-})
+}
 </script>
 
 <style lang="less" scoped>

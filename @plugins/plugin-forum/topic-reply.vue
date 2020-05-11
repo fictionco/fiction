@@ -40,7 +40,6 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { stored, storeItem, emitEvent, setting } from "@factor/api"
 import { currentUser, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
@@ -53,7 +52,7 @@ import {
   factorSpinner,
 } from "@factor/ui"
 import { requestSaveTopicReply, requestSaveTopic } from "./request"
-export default Vue.extend({
+export default {
   components: {
     factorInputEditor,
     factorAvatar,
@@ -167,7 +166,7 @@ export default Vue.extend({
       this.sending = false
     },
   },
-})
+}
 </script>
 <style lang="less">
 .topic-reply {

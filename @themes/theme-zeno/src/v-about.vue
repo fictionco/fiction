@@ -33,26 +33,18 @@
           >
             <h2
               class="font-normal tracking-tight leading-tight text-2xl text-purple-500 md:text-3xl"
-            >
-              {{ setting("about.valuesTitle") }}
-            </h2>
+            >{{ setting("about.valuesTitle") }}</h2>
           </div>
 
           <div
             v-if="setting('about.values')"
             class="rounded-lg -mt-8 p-8 pt-12 border-solid border-2 border-purple-500 flex flex-col md:flex-row md:flex-wrap"
           >
-            <div
-              v-for="(item, index) in setting('about.values')"
-              :key="index"
-              class="w-full my-2"
-            >
+            <div v-for="(item, index) in setting('about.values')" :key="index" class="w-full my-2">
               <h2
                 v-if="item.title"
                 class="font-normal tracking-tight text-2xl text-purple-900"
-              >
-                {{ item.title }}
-              </h2>
+              >{{ item.title }}</h2>
               <div
                 v-if="item.content"
                 v-formatted-text="item.content"
@@ -150,11 +142,7 @@
               />
               <el-member :name="member.name" :title="member.title">
                 <template v-slot:content>
-                  <div
-                    v-if="member.content"
-                    v-formatted-text="member.content"
-                    class="text-lg"
-                  />
+                  <div v-if="member.content" v-formatted-text="member.content" class="text-lg" />
                   <div class="transition-all flex mt-4 -ml-2">
                     <template v-for="(item, i) in member.links">
                       <factor-link
@@ -185,8 +173,7 @@
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
 
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -218,5 +205,5 @@ export default Vue.extend({
       image: setting("about.meta.image"),
     }
   },
-})
+}
 </script>

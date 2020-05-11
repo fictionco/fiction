@@ -5,10 +5,10 @@
 </template>
 <script lang="ts">
 import { factorMenu } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorMenu },
-})
+}
 </script>
 <style lang="less">
 .topic-post-author {

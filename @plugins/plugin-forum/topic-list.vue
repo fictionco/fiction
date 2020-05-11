@@ -103,10 +103,9 @@ import { stored, toLabel } from "@factor/api"
 import { setting } from "@factor/api/settings"
 import { FactorPost } from "@factor/post/types"
 
-import Vue from "vue"
 import { topicLink } from "./request"
 
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
     factorLink,
@@ -161,7 +160,7 @@ export default Vue.extend({
       this.$router.push({ query })
     },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -6,11 +6,11 @@
 <script lang="ts">
 import { factorSpinner } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorSpinner },
   methods: { setting },
-})
+}
 </script>
 <style lang="less" scoped>
 .posts-loading {

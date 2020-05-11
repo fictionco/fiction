@@ -129,11 +129,10 @@
   </span>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     icon: { type: String, default: "" },
     color: { type: String, default: "#3a4854" },
   },
-})
+}
 </script>

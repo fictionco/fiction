@@ -17,14 +17,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     pretitle: { type: String, default: "" },
     title: { type: String, default: "" },
     image: { type: String, default: "" },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -8,11 +8,7 @@
         </h1>
       </div>
       <div class="buttons">
-        <factor-link
-          path="/contact"
-          btn="primary"
-          size="large"
-        >Contact Sales &rarr;</factor-link>
+        <factor-link path="/contact" btn="primary" size="large">Contact Sales &rarr;</factor-link>
       </div>
     </div>
   </div>
@@ -21,12 +17,11 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { userId } from "@factor/user"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorLink },
   methods: { userId },
-})
+}
 </script>
 
 <style lang="less">

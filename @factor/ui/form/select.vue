@@ -17,8 +17,8 @@
 </template>
 <script lang="ts">
 import { parseList, ListItem } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   props: {
     value: { type: [Number, String, Boolean], default: "" },
     list: { type: Array, default: () => [] },
@@ -56,7 +56,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

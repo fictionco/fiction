@@ -36,12 +36,11 @@
   </svg>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     icon: { type: String, default: "" },
   },
-})
+}
 </script>
 
 <style lang="less">

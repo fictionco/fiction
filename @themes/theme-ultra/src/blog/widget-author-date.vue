@@ -16,8 +16,8 @@
 </template>
 <script lang="ts">
 import { isEmpty, standardDate, stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   props: {
     postId: { type: String, default: "" },
   },
@@ -35,7 +35,7 @@ export default Vue.extend({
     },
     standardDate,
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

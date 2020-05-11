@@ -52,10 +52,9 @@ import {
   factorModal,
 } from "@factor/ui"
 
-import Vue from "vue"
 import { ContactFormStandard } from "./types"
 
-export default Vue.extend({
+export default {
   name: "ContactFormList",
   components: {
     dashboardListPost,
@@ -174,7 +173,7 @@ export default Vue.extend({
     //   return Object.values(rest)
     // }
   },
-})
+}
 </script>
 <style lang="less">
 .form-view-modal .form-info {

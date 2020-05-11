@@ -15,12 +15,11 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreIndex } from "./request"
 import { postType } from "."
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
   },
@@ -89,7 +88,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

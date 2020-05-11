@@ -44,8 +44,7 @@
 <script lang="ts">
 import { setting } from "@factor/api"
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
   },
@@ -70,7 +69,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 /**

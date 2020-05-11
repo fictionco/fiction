@@ -20,10 +20,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { stored } from "@factor/api"
 import { factorBtn } from "@factor/ui"
-export default Vue.extend({
+export default {
   components: { factorBtn },
   props: {
     post: { type: Object, default: () => {} },
@@ -89,7 +88,7 @@ export default Vue.extend({
       return aPost.url || ""
     },
   },
-})
+}
 </script>
 
 <style lang="less">

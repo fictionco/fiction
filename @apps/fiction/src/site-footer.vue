@@ -35,13 +35,12 @@
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     "site-logo": () => import("./logo.vue"),
   },
-})
+}
 </script>
 
 <style lang="less">

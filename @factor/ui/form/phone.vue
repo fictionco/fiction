@@ -13,8 +13,7 @@
   />
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   inheritAttrs: false,
   props: {
     value: { type: [String, Number], default: "" },
@@ -47,5 +46,5 @@ export default Vue.extend({
       this.$emit("input", this.addPlus(e))
     },
   },
-})
+}
 </script>

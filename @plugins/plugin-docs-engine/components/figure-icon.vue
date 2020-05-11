@@ -109,15 +109,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: {},
   props: {
     icon: { type: String, default: "" },
     color: { type: String, default: "text" },
   },
-})
+}
 </script>
 
 <style lang="less">

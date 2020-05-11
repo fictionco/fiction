@@ -8,11 +8,7 @@
             <div class="header-icon-text">{{ intro.preheading }}</div>
           </div>
 
-          <img
-            class="title"
-            :src="require(`./img/factor-vip-logo.svg`)"
-            alt="Factor VIP"
-          />
+          <img class="title" :src="require(`./img/factor-vip-logo.svg`)" alt="Factor VIP" />
 
           <p class="text">{{ intro.text }}</p>
 
@@ -125,8 +121,7 @@
 
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -227,7 +222,7 @@ export default Vue.extend({
       image: require("../img/fiction.jpg"),
     }
   },
-})
+}
 </script>
 <style lang="less">
 // .content-layout {

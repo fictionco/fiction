@@ -3,20 +3,16 @@
     <div class="items">{{ count }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">&larr;</factor-btn>
     <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-    <factor-btn
-      :disabled="pageCurrent == pageCount"
-      @click="page('next')"
-    >&rarr;</factor-btn>
+    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">&rarr;</factor-btn>
   </div>
 </template>
 
 <script lang="ts">
 import { factorBtn } from "@factor/ui"
 import { stored } from "@factor/api"
-import Vue from "vue"
 import { postType } from ".."
 
-export default Vue.extend({
+export default {
   components: { factorBtn },
 
   computed: {
@@ -51,7 +47,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -10,16 +10,15 @@
 </template>
 <script lang="ts">
 import { factorBtn } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: { factorBtn },
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .back-to-top {

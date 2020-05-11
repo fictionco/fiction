@@ -13,11 +13,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { factorSpinner } from "@factor/ui"
 import { setting, toLabel } from "@factor/api"
 import { getDocConfig } from "../util"
-export default Vue.extend({
+export default {
   components: {
     factorSpinner,
     docEntry: () => import("./entry.vue"),
@@ -71,7 +70,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

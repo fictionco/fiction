@@ -8,10 +8,7 @@
         </div>
 
         <div class="buttons">
-          <factor-link
-            btn="primary"
-            path="https://www.fiction.com/contact"
-          >Submit &rarr;</factor-link>
+          <factor-link btn="primary" path="https://www.fiction.com/contact">Submit &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -20,8 +17,7 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({ components: { factorLink }, methods: { setting } })
+export default { components: { factorLink }, methods: { setting } }
 </script>
 <style lang="less">
 .plugins-cta-wrap {

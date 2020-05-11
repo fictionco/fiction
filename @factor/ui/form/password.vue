@@ -11,9 +11,8 @@
   />
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { HTMLInputEvent } from "../event-types"
-export default Vue.extend({
+export default {
   props: {
     value: { type: String, default: "" },
   },
@@ -25,5 +24,5 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>

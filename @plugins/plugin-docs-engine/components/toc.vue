@@ -33,10 +33,9 @@
 import { factorIcon } from "@factor/ui"
 import { throttle, setting, toLabel } from "@factor/api"
 
-import Vue from "vue"
 import { Route } from "vue-router"
 
-export default Vue.extend({
+export default {
   components: { factorIcon },
   props: {
     subHeader: { type: Boolean, default: false },
@@ -198,7 +197,7 @@ export default Vue.extend({
       return text
     },
   },
-})
+}
 </script>
 
 <style lang="less">

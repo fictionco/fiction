@@ -15,12 +15,10 @@
   </transition>
 </template>
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     text: { type: String, default: "Follow Project" },
   },
-
   data() {
     return { loading: true }
   },
@@ -29,7 +27,7 @@ export default Vue.extend({
       this.loading = false
     }, 1000)
   },
-})
+}
 </script>
 <style lang="less">
 .github-actions {

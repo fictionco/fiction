@@ -58,11 +58,7 @@
       />
     </svg>
 
-    <svg
-      v-else-if="icon == 'dashboard'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'dashboard'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path d="M3.79,3.81H26.28v30H3.79Z" style="fill: transparent;" />
       <path d="M60.2,30.21v30.1H37.71V30.21Z" style="fill: transparent;" />
       <path d="M37.71,3.8H60.2v15H37.71Z" style="fill: transparent;" />
@@ -72,11 +68,7 @@
       <path d="M64,22.53H34V0H64ZM37.71,3.79v15h22.5v-15Z" style="fill: #ff0076;" />
       <path d="M0,64V41.48H30.08V64ZM26.28,45.25H3.78v15h22.5Z" style="fill: #ff0076;" />
     </svg>
-    <svg
-      v-else-if="icon == 'dashboard2'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'dashboard2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>dashboard</title>
       <circle cx="36" cy="36" r="36" style="fill: #e6ebf1;" />
       <path d="M50.52,45.94a16.54,16.54,0,1,0-29,0Z" style="fill: #b3bdc4;" />
@@ -85,11 +77,7 @@
         style="fill: #3a4854;"
       />
     </svg>
-    <svg
-      v-else-if="icon == 'plugins'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'plugins'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>plugins</title>
       <circle cx="36" cy="36" r="36" style="fill: #e6ebf1;" />
       <path
@@ -97,11 +85,7 @@
         style="fill: #3a4854;"
       />
     </svg>
-    <svg
-      v-else-if="icon == 'brush'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 72 72"
-    >
+    <svg v-else-if="icon == 'brush'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
       <title>brush</title>
       <circle cx="36" cy="36" r="36" style="fill: #e6ebf1;" />
       <path
@@ -153,11 +137,7 @@
         </g>
       </g>
     </svg>
-    <svg
-      v-else-if="icon == 'open-source'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'open-source'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
         style="
@@ -168,11 +148,7 @@
         "
       />
     </svg>
-    <svg
-      v-else-if="icon == 'open-source2'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'open-source2'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M32,4.05A29.94,29.94,0,0,0,16.49,59.61l.18-.1,9.56-15.9a11.26,11.26,0,1,1,11.59.09l9.49,15.8.2.11A29.94,29.94,0,0,0,32,4.05Z"
         style="fill: none; stroke: #ff0076; stroke-miterlimit: 10; stroke-width: 4px;"
@@ -182,11 +158,7 @@
         style="fill: transparent;"
       />
     </svg>
-    <svg
-      v-else-if="icon == 'build'"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
+    <svg v-else-if="icon == 'build'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <path
         d="M38.71,62a10.86,10.86,0,0,0-21.63,0H6.56A4.57,4.57,0,0,1,2,57.44V46.92A10.86,10.86,0,0,0,2,25.29V14.77a4.55,4.55,0,0,1,4.53-4.56H21.69v-2a6.21,6.21,0,1,1,12.41,0v2H49.23a4.56,4.56,0,0,1,4.56,4.56V29.9h2a6.21,6.21,0,1,1,0,12.41h-2V57.44A4.56,4.56,0,0,1,49.23,62Z"
         style="fill: transparent;"
@@ -206,10 +178,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   props: {
     icon: { type: String, default: "" },
   },
-})
+}
 </script>

@@ -1,13 +1,9 @@
 <template>
   <section v-if="section1" class="intro">
     <div class="intro-inner">
-      <h3 v-if="section1Pretitle" class="pretitle text-bluegray-600">
-        {{ section1Pretitle }}
-      </h3>
+      <h3 v-if="section1Pretitle" class="pretitle text-bluegray-600">{{ section1Pretitle }}</h3>
       <h1 v-if="section1Title" v-formatted-text="section1Title" class="title" />
-      <div v-if="section1Content" class="content text-bluegray-600">
-        {{ section1Content }}
-      </div>
+      <div v-if="section1Content" class="content text-bluegray-600">{{ section1Content }}</div>
 
       <div v-if="section1Buttons" class="buttons">
         <template v-for="(button, index) in section1Buttons">
@@ -27,8 +23,7 @@
 <script lang="ts">
 import { setting } from "@factor/api"
 import { factorLink } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
   },
@@ -45,7 +40,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 .intro {

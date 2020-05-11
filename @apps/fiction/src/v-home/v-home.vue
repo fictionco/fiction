@@ -16,9 +16,7 @@
               itemprop="brand"
               itemscope
               itemtype="http://schema.org/Brand"
-            >
-              Factor JS &rarr; Platform
-            </div>
+            >Factor JS &rarr; Platform</div>
           </div>
 
           <h1 class="title">
@@ -33,10 +31,7 @@
           </p>
 
           <div class="header-actions">
-            <factor-link
-              btn="primary"
-              path="/signin?newAccount"
-            >Create Account &rarr;</factor-link>
+            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
           </div>
         </div>
         <figure-header />
@@ -73,10 +68,7 @@
             aria-label="Star fiction-com/factor on GitHub"
           >Star</a>
 
-          <factor-link
-            path="/factor-js"
-            btn="primary"
-          >Factor Developer Site &rarr;</factor-link>
+          <factor-link path="/factor-js" btn="primary">Factor Developer Site &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -87,10 +79,7 @@
       :key="index"
       class="features content"
     >
-      <div
-        class="split-feature content-pad wide"
-        :class="[index % 2 == 0 ? 'odd' : 'even']"
-      >
+      <div class="split-feature content-pad wide" :class="[index % 2 == 0 ? 'odd' : 'even']">
         <div class="feature-content-container">
           <div class="feature-content">
             <div class="super">{{ feature.super }}</div>
@@ -160,10 +149,7 @@
             chat access, latest updates and support.
           </div>
           <div class="action">
-            <factor-link
-              btn="primary"
-              path="/signin?newAccount"
-            >Create Account &rarr;</factor-link>
+            <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -174,9 +160,8 @@
 <script lang="ts">
 import { factorEmailList } from "@factor/plugin-email-list"
 import { factorLink, factorIcon } from "@factor/ui"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     factorEmailList,
     factorLink,
@@ -314,7 +299,7 @@ export default Vue.extend({
       image: require("../img/fiction.jpg"),
     }
   },
-})
+}
 </script>
 <style lang="less">
 .view-home-version-2 {

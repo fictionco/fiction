@@ -83,7 +83,6 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { setting } from "@factor/api/settings"
 import {
   factorForm,
@@ -99,7 +98,7 @@ import { FactorPost } from "@factor/post/types"
 import { requestPostSingle } from "@factor/post/request"
 import { requestSaveTopic, redirectToTopic, topicLink } from "./request"
 import { postType } from "."
-export default Vue.extend({
+export default {
   components: {
     factorInputWrap,
     factorBtn,
@@ -190,7 +189,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 <style lang="less">
 .topic-new {

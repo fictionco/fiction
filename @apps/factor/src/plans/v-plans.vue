@@ -10,15 +10,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     planTable: () => import("./el-table.vue"),
     //planFaq: () => import("./el-faq.vue"),
     planTestimonial: () => import("./el-testimonial.vue"),
     planGuarantee: () => import("./el-guarantee.vue"),
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -16,8 +16,7 @@
 <script lang="ts">
 import { factorIcon, factorLink } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorIcon,
     factorLink,
@@ -40,7 +39,7 @@ export default Vue.extend({
       image: setting("contact.metatags.image"),
     }
   },
-})
+}
 </script>
 
 <style lang="less">

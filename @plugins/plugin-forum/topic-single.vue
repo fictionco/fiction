@@ -125,7 +125,7 @@ import {
   emitEvent,
   onEvent,
 } from "@factor/api"
-import Vue from "vue"
+
 import { currentUser, userCan, userInitialized } from "@factor/user"
 import { FactorPost } from "@factor/post/types"
 import {
@@ -137,7 +137,7 @@ import {
   requestEmbeddedPosts,
 } from "./request"
 
-export default Vue.extend({
+export default {
   components: {
     factorAvatar,
     factorBtn,
@@ -312,7 +312,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .edit-reply-modal {

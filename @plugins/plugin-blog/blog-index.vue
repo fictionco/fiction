@@ -27,8 +27,7 @@
 import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorSpinner },
   data() {
     return {
@@ -86,7 +85,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

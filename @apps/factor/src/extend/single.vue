@@ -123,9 +123,8 @@
 import { factorLink, factorLightbox } from "@factor/ui"
 import { renderMarkdown } from "@factor/api/markdown"
 import { setting, stored, emitEvent, toLabel, standardDate } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     callToAction: () => import("./el/cta.vue"),
@@ -291,7 +290,7 @@ export default Vue.extend({
       description: this.post.synopsis,
     }
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -76,10 +76,9 @@ import DOM from "jquery"
 import { emitEvent, onEvent, stored, storeItem } from "@factor/api"
 import Sortable from "sortablejs"
 import { Attachment, PreUploadProperties } from "@factor/attachment/types"
-import Vue from "vue"
 import { guid } from "@factor/api/utils"
 import { FactorPost } from "@factor/post/types"
-export default Vue.extend({
+export default {
   components: { factorMenu, factorSpinner, factorIcon, factorLightbox },
   props: {
     selector: { type: String, default: "none" },
@@ -421,7 +420,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

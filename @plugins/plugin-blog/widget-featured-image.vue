@@ -2,9 +2,8 @@
   <div v-if="avatarUrl" class="featured-image" :style="style" />
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { stored } from "@factor/api"
-export default Vue.extend({
+export default {
   props: {
     postId: { type: String, default: "" },
   },
@@ -26,7 +25,7 @@ export default Vue.extend({
       return style
     },
   },
-})
+}
 </script>
 <style lang="less">
 .plugin-blog {

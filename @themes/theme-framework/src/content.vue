@@ -10,9 +10,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
 import { setting } from "@factor/api/settings"
-export default Vue.extend({
+export default {
   components: {
     "header-primary": setting("site.components.header"),
     "footer-primary": setting("site.components.footer"),
@@ -24,7 +23,7 @@ export default Vue.extend({
       titleTemplate: setting("metatags.titleTemplate"),
     }
   },
-})
+}
 </script>
 
 <style lang="less">

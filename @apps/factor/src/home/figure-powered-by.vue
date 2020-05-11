@@ -45,9 +45,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   data() {
     return {
       width: 500,
@@ -70,7 +68,7 @@ export default Vue.extend({
       return this.$refs.wrapper ? this.$refs.wrapper.clientWidth : 100
     },
   },
-})
+}
 </script>
 
 <style lang="less">

@@ -27,11 +27,10 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { setting } from "@factor/api"
-export default Vue.extend({
+export default {
   methods: { setting },
-})
+}
 </script>
 
 <style lang="less" scope>

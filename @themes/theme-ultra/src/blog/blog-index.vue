@@ -24,9 +24,7 @@ import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 
-import Vue from "vue"
-
-export default Vue.extend({
+export default {
   components: { factorSpinner, factorLink, factorIcon },
   data() {
     return {
@@ -34,7 +32,7 @@ export default Vue.extend({
       loading: true,
     }
   },
-  metaInfo() {
+  metaInfo(): object {
     const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
     const description = this.tag
@@ -84,7 +82,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

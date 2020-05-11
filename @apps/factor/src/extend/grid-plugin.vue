@@ -21,10 +21,9 @@
 </template>
 <script lang="ts">
 import { setting, stored } from "@factor/api"
-import Vue from "vue"
 import { FactorExtensionInfo } from "./types"
 
-export default Vue.extend({
+export default {
   components: {},
   props: {
     extensions: { type: Array, default: () => {} },
@@ -71,7 +70,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

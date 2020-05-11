@@ -1,5 +1,5 @@
 import Vue from "vue"
-import  { MetaInfo } from "vue-meta"
+import { MetaInfo } from "vue-meta"
 import {
   addFilter,
   applyFilters,
@@ -15,7 +15,6 @@ import { ServerRenderContext, ApplicationComponents } from "@factor/app/types"
 import { FactorMetaInfo } from "./types"
 import "./route-class"
 import { version } from "@factor/core/package.json"
-
 
 interface MetaHookOptions {
   context: ServerRenderContext
@@ -116,21 +115,19 @@ addCallback({
   key,
   hook: "initialize-app",
   callback: (): void => {
-    Vue.mixin(
-      Vue.extend({
-        metaInfoCore() {
-          const opt = this.$options.metaInfo
+    Vue.mixin({
+      metaInfoCore(this: any) {
+        const opt = this.$options.metaInfo
 
-          if (!opt) return {}
+        if (!opt) return {}
 
-          const meta = typeof opt == "function" ? opt.call(this) : opt
+        const meta = typeof opt == "function" ? opt.call(this) : opt
 
-          const refined = applyFilters("meta-component", meta)
+        const refined = applyFilters("meta-component", meta)
 
-          return refined
-        },
-      })
-    )
+        return refined
+      },
+    })
   },
 })
 

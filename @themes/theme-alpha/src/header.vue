@@ -17,22 +17,14 @@
         </div>
         <div v-if="siteSocial" class="social">
           <template v-for="(item, index) in siteSocial">
-            <factor-link
-              :key="index"
-              :path="item.path"
-              class="factor-icon"
-              target="_blank"
-            >
+            <factor-link :key="index" :path="item.path" class="factor-icon" target="_blank">
               <factor-icon v-if="item.icon" :icon="item.icon" />
             </factor-link>
           </template>
         </div>
       </div>
       <div class="mob-nav-btn">
-        <div
-          :class="{ active: showMobileMenu }"
-          @click="showMobileMenu = !showMobileMenu"
-        />
+        <div :class="{ active: showMobileMenu }" @click="showMobileMenu = !showMobileMenu" />
       </div>
     </div>
   </header>
@@ -40,8 +32,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -55,7 +47,7 @@ export default Vue.extend({
     }
   },
   methods: { setting },
-})
+}
 </script>
 <style lang="less">
 .site-head {

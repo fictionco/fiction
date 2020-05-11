@@ -18,9 +18,8 @@
 </template>
 <script lang="ts">
 import { onEvent } from "@factor/api"
-import Vue from "vue"
 
-export default Vue.extend({
+export default {
   data() {
     return {
       errors: [],
@@ -59,7 +58,7 @@ export default Vue.extend({
       }
     )
   },
-})
+}
 </script>
 
 <style lang="less">

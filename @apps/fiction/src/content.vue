@@ -5,12 +5,12 @@
       <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
       <template v-if="!loading">
-        <factor-link v-if="isLoggedIn()" path="/dashboard" class="dashboard-link">
-          View Dashboard &rarr;
-        </factor-link>
-        <factor-link v-else event="sign-in-modal" data-test="login">
-          Sign In &rarr;
-        </factor-link>
+        <factor-link
+          v-if="isLoggedIn()"
+          path="/dashboard"
+          class="dashboard-link"
+        >View Dashboard &rarr;</factor-link>
+        <factor-link v-else event="sign-in-modal" data-test="login">Sign In &rarr;</factor-link>
       </template>
     </site-head>
     <div class="content-main" :style="bg">
@@ -28,8 +28,7 @@ import { factorLink } from "@factor/ui"
 import { isLoggedIn, userInitialized } from "@factor/user"
 
 import { stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorLink,
     "site-head": () => import("./site-head.vue"),
@@ -75,7 +74,7 @@ export default Vue.extend({
     },
     isLoggedIn,
   },
-})
+}
 </script>
 
 <style lang="less">

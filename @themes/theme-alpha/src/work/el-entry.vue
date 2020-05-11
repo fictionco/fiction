@@ -16,8 +16,7 @@
 import { factorHighlightCode } from "@factor/plugin-highlight-code"
 import { renderMarkdown } from "@factor/api/markdown"
 import { stored } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     factorHighlightCode,
   },
@@ -57,7 +56,7 @@ export default Vue.extend({
     },
   },
   methods: { renderMarkdown },
-})
+}
 </script>
 <style lang="less">
 .work-wrap {

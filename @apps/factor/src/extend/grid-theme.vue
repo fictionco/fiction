@@ -20,12 +20,7 @@
                 btn="primary"
                 :path="`/theme/${encodeURIComponent(item.permalink)}`"
               >Overview</factor-link>
-              <factor-link
-                v-if="item.demo"
-                btn="default"
-                :path="item.demo"
-                target="_blank"
-              >Demo</factor-link>
+              <factor-link v-if="item.demo" btn="default" :path="item.demo" target="_blank">Demo</factor-link>
             </div>
           </div>
           <div class="media">
@@ -39,10 +34,9 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting, stored } from "@factor/api"
-import Vue from "vue"
 import { FactorExtensionInfo } from "./types"
 
-export default Vue.extend({
+export default {
   components: { factorLink },
   props: {
     extensions: { type: Array, default: () => {} },
@@ -67,7 +61,7 @@ export default Vue.extend({
       return screenshots[0] ?? ""
     },
   },
-})
+}
 </script>
 
 <style lang="less">

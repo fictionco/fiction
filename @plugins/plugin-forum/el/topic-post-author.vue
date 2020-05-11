@@ -6,10 +6,9 @@
 </template>
 <script lang="ts">
 import { factorIcon } from "@factor/ui"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorIcon },
-})
+}
 </script>
 <style lang="less">
 .topic-post-author {

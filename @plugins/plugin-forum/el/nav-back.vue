@@ -6,8 +6,8 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { setting } from "@factor/api/settings"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { factorLink },
   computed: {
     home() {
@@ -17,7 +17,7 @@ export default Vue.extend({
   methods: {
     setting,
   },
-})
+}
 </script>
 <style lang="less">
 a.nav-back {

@@ -26,8 +26,7 @@
 import { accountMenu } from "@factor/plugin-standard-signin"
 import { factorLink } from "@factor/ui"
 import { userId } from "@factor/user"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: {
     accountMenu,
     factorLink,
@@ -60,7 +59,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 <style lang="less">
 .site-head {

@@ -44,10 +44,9 @@ import { getStatusCount } from "@factor/post/util"
 import { toLabel, standardDate, emitEvent } from "@factor/api"
 import { requestPostSaveMany, requestPostDeleteMany } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
-import Vue from "vue"
 
 import { ControlAction } from "@factor/dashboard/types"
-export default Vue.extend({
+export default {
   name: "UserList",
   components: {
     dashboardPanel,
@@ -160,7 +159,7 @@ export default Vue.extend({
       this.selected = !val ? [] : this.list.map((_: FactorPost) => _._id)
     },
   },
-})
+}
 </script>
 <style lang="less">
 .posts-dashboard {

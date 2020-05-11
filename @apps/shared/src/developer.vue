@@ -15,8 +15,8 @@
 <script lang="ts">
 import { dashboardPage, dashboardPanel, dashboardInput } from "@factor/ui"
 import { userInitialized } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: { dashboardPage, dashboardPanel, dashboardInput },
   data() {
     return { key: "", sending: false }
@@ -28,7 +28,7 @@ export default Vue.extend({
       this.key = user.developer.apiKey
     }
   },
-})
+}
 </script>
 
 <style lang="less">

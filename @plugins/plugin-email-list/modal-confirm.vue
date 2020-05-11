@@ -11,10 +11,9 @@
 </template>
 <script lang="ts">
 import { factorModal, factorLink } from "@factor/ui"
-import Vue from "vue"
 
 import { getSetting } from "."
-export default Vue.extend({
+export default {
   components: { factorModal, factorLink },
   props: {
     added: { type: String, default: "" },
@@ -46,7 +45,7 @@ export default Vue.extend({
       })
     },
   },
-})
+}
 </script>
 
 <style lang="less">

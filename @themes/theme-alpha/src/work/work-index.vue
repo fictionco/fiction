@@ -50,8 +50,8 @@
 import { factorSpinner, factorLink, factorIcon } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorSpinner,
     factorLink,
@@ -130,7 +130,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 
 <style lang="less">

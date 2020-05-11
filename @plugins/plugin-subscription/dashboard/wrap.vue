@@ -7,11 +7,10 @@
   </dashboard-page>
 </template>
 <script lang="ts">
-import Vue from "vue"
 import { userInitialized, stored, onEvent } from "@factor/api"
 import { dashboardPage, dashboardPanel } from "@factor/ui"
 import { requestCustomerComposite } from "../stripe-client"
-export default Vue.extend({
+export default {
   name: "SubscriptionWrap",
   components: { dashboardPage, dashboardPanel },
   data() {
@@ -41,7 +40,7 @@ export default Vue.extend({
       this.loading = false
     },
   },
-})
+}
 </script>
 <style lang="less" scoped>
 </style>

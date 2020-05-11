@@ -8,8 +8,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue"
-export default Vue.extend({})
+export default {}
 </script>
 <style lang="less">
 .factor-extend {

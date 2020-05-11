@@ -60,8 +60,8 @@
 <script lang="ts">
 import { factorLink, factorIcon } from "@factor/ui"
 import { setting } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+
+export default {
   components: {
     factorLink,
     factorIcon,
@@ -100,7 +100,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">

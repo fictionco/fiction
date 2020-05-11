@@ -1,9 +1,5 @@
 <template>
-  <factor-link
-    v-if="avatarUrl && format == 'index'"
-    :path="postLink(post._id)"
-    class="image-wrap"
-  >
+  <factor-link v-if="avatarUrl && format == 'index'" :path="postLink(post._id)" class="image-wrap">
     <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="image rounded-lg" />
     <div class="header-content rounded-lg">
       <svg
@@ -33,19 +29,13 @@
   </factor-link>
 
   <div v-else class="featured-image-wrap">
-    <img
-      v-if="avatarUrl"
-      :src="avatarUrl"
-      :alt="post.title"
-      class="featured-image rounded-lg"
-    />
+    <img v-if="avatarUrl" :src="avatarUrl" :alt="post.title" class="featured-image rounded-lg" />
   </div>
 </template>
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/api"
-import Vue from "vue"
-export default Vue.extend({
+export default {
   components: { factorLink },
   props: {
     postId: { type: String, default: "" },
@@ -71,7 +61,7 @@ export default Vue.extend({
   methods: {
     postLink,
   },
-})
+}
 </script>
 <style lang="less">
 .portfolio-posts {

@@ -146,10 +146,10 @@ import {
   verifyAndResetPassword,
 } from "@factor/user/email-request"
 import { emitEvent, waitFor } from "@factor/api"
-import Vue from "vue"
+
 import { CurrentUserState } from "@factor/user/types"
 import { notifySignedIn } from "."
-export default Vue.extend({
+export default {
   components: { factorForm, factorBtn, dashboardInput, factorLink },
   props: {
     format: { type: String, default: "page" },
@@ -342,7 +342,7 @@ export default Vue.extend({
       }
     },
   },
-})
+}
 </script>
 
 <style lang="less">
