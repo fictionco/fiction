@@ -122,9 +122,8 @@ export default {
         {
           icon: "dashboard2",
           title: "Manage your users and content.",
-          text: `Factor comes with a professional dashboard and post management system.
-            This tool was carefully crafted to give you maximum power with minimal bloat.
-            It is simple but can be extended to handle the most complex tasks.`,
+          text: `Factor comes with a professional dashboard and content management framework.
+            It's ideal for eCommerce, blogs, users, and more. Use it for simple or advanced tasks.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/docs", text: "Learn More" },
         },
@@ -138,7 +137,7 @@ export default {
           link: { path: "/plugins", text: "View Plugins" },
         },
         {
-          title: "Premium Themes for Professionals",
+          title: "Design made simple with themes.",
           text: `Leverage an amazing theme library or build your own for fun and profit.
               Factor gives you a complete theming and rapid app development system to quickly deploy apps.`,
           figure: () => import("./figure-themes.vue"),

@@ -42,7 +42,7 @@ module.exports = {
     "json",
     "prettier",
     "unicorn",
-    // "import",
+    "import",
     "jest",
     "@typescript-eslint",
     "cypress",
@@ -69,10 +69,6 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/named": "off",
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
-    // "import/no-unused-modules": [
-    //   1,
-    //   { unusedExports: true, ignoreExports: [".ref", "test"] }
-    // ],
     "unicorn/no-null": "off",
     "unicorn/no-fn-reference-in-iterator": "off",
     "vue/html-self-closing": [
