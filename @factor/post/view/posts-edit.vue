@@ -39,9 +39,9 @@
           class="post-title"
           @keyup="doDraftSave()"
         />
-        <factor-client-only>
-          <dashboard-input v-model="post.date" input="factor-input-date" label="Date" />
-        </factor-client-only>
+        <vue-client-only>
+          <dashboard-input v-model="post.date" input="vue-input-date" label="Date" />
+        </vue-client-only>
         <dashboard-input label="Tags">
           <factor-input-tags v-model="post.tag" />
         </dashboard-input>
@@ -113,7 +113,7 @@ export default {
     factorLink,
     factorInputTags,
     factorInputEditor,
-    factorClientOnly: () => import("vue-client-only"),
+    vueClientOnly: () => import("vue-client-only"),
     inputPermalink: () => import("../el/permalink.vue"),
   },
 

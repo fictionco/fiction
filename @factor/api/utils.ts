@@ -28,6 +28,17 @@ export interface PriorityItem {
 }
 
 /**
+ * Get a universal global this object
+ */
+export const getGlobalThis = (): typeof globalThis | NodeJS.Global => {
+  if (globalThis) {
+    return globalThis
+  } else {
+    return isNode ? global : window
+  }
+}
+
+/**
  * Wait for specific amount of time
  * @param ms - milliseconds
  */

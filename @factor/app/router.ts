@@ -3,11 +3,13 @@ import { emitEvent } from "@factor/api/events"
 
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"
-import { uniq } from "@factor/api"
+import { uniq, getGlobalThis } from "@factor/api"
 
 let __initialPageLoad = true
 
-let __routerInstance: VueRouter
+const GLOBALS = getGlobalThis() as any
+
+GLOBALS.__routerInstance = ""
 
 declare module "vue/types/vue" {
   export interface VueConstructor {
@@ -146,20 +148,20 @@ export const createFactorRouter = (): VueRouter => {
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
 
-  __routerInstance = router
+  GLOBALS.__routerInstance = router
 
   return router
 }
 
 export const getRouter = (): VueRouter => {
-  return __routerInstance
+  return GLOBALS.__routerInstance
 }
 
 /**
  * Set the router from an external source, needed for tests
  */
 export const setRouter = (r: VueRouter): void => {
-  __routerInstance = r
+  GLOBALS.__routerInstance = r
 }
 
 /**
