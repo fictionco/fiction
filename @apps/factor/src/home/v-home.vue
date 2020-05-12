@@ -137,7 +137,7 @@ export default {
           link: { path: "/plugins", text: "View Plugins" },
         },
         {
-          title: "Design made simple with themes.",
+          title: "Great design made simple.",
           text: `Leverage an amazing theme library or build your own for fun and profit.
               Factor gives you a complete theming and rapid app development system to quickly deploy apps.`,
           figure: () => import("./figure-themes.vue"),

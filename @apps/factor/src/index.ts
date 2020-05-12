@@ -19,7 +19,7 @@ addRoutes({
       {
         path: "/install",
         component: (): Promise<any> => import("./home/v-install.vue"),
-        meta: { auth: true },
+        meta: { auth: true, allowBots: true },
       },
       {
         path: "/plans",
@@ -44,7 +44,7 @@ addRoutes({
           {
             path: `/theme/:permalink`,
             component: (): Promise<any> => import("./extend/single.vue"),
-            meta: { auth: true },
+            meta: { auth: true, allowBots: true },
           },
         ],
       },
@@ -59,7 +59,7 @@ addRoutes({
           {
             path: `/plugin/:permalink`,
             component: (): Promise<any> => import("./extend/single.vue"),
-            meta: { auth: true },
+            meta: { auth: true, allowBots: true },
           },
         ],
       },

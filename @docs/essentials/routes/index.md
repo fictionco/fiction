@@ -129,3 +129,25 @@ To do this, Factor adds the `routeClass` component option.
   }
 </script>
 ```
+
+## Protecting Routes
+
+You can make a route "protected" by adding meta values to the route. 
+
+- `auth: true` - Will require that users are logged in to view a page
+- `accessLevel: 100` - Is the required user access level needed to view a page
+- `allowBots: true` - If you set allowBots to true, then robots like Google will be able to access pages even if users are blocked.
+
+```js
+addContentRoute({
+  path: "/my-protected-path",
+  component: () => import("./my-view-component"),
+  meta: {auth: true, allowBots: true},
+})
+
+addContentRoute({
+  path: "/my-protected-path",
+  component: () => import("./my-admin-component"),
+  meta: {auth: true, accessLevel: 300}, // admins only
+})
+```

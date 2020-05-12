@@ -2,7 +2,7 @@ import { requestPostSingle, requestPostPopulate } from "@factor/post/request"
 import { appMounted } from "@factor/app"
 import { RouteGuard } from "@factor/app/types"
 
-import { isNode } from "@factor/api/utils"
+import { isNode, isSearchBot } from "@factor/api/utils"
 import { addFilter, runCallbacks, addCallback } from "@factor/api/hooks"
 import { currentRoute, navigateToRoute } from "@factor/app/router"
 import { stored } from "@factor/app/store"
@@ -216,9 +216,12 @@ const handleAuthRouting = (): void => {
       const user = await userInitialized()
       const { path: toPath } = to
 
+      const isBot = isSearchBot()
+
       // Is authentication needed
       const auth = to.matched.some((_r) => {
-        return _r.meta.auth
+        const botsAllowed = _r.meta.allowBots && isBot
+        return _r.meta.auth && !botsAllowed
       })
 
       const userAccessLevel = user?.accessLevel ?? 0
@@ -257,7 +260,13 @@ const handleAuthRouting = (): void => {
     callback: (user: CurrentUserState) => {
       const { path, matched, params } = currentRoute()
 
-      const auth = matched.some((_r) => _r.meta.auth)
+      const isBot = isSearchBot()
+
+      const auth = matched.some((_r) => {
+        const botsAllowed = _r.meta.allowBots && isBot
+        return _r.meta.auth && !botsAllowed
+      })
+
       const userAccessLevel = user?.accessLevel ?? 0
       let accessLevel = 0
 

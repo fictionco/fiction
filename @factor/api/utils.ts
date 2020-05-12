@@ -39,6 +39,20 @@ export const getGlobalThis = (): typeof globalThis | NodeJS.Global => {
 }
 
 /**
+ * Detect if visitor is actually a search bot
+ */
+export const isSearchBot = (): boolean => {
+  if (!window || !window.navigator) {
+    return false
+  }
+  const result = /bot|google|baidu|bing|msn|duckduckbot|teoma|slurp|yandex/i.test(
+    window.navigator.userAgent
+  )
+
+  return result
+}
+
+/**
  * Wait for specific amount of time
  * @param ms - milliseconds
  */

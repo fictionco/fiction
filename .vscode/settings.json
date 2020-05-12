@@ -112,6 +112,7 @@
     "autosave",
     "backlink",
     "behance",
+    "bing",
     "blueimp",
     "bson",
     "bugsnag",
@@ -132,6 +133,7 @@
     "devtools",
     "dribbble",
     "dropdown",
+    "duckduckbot",
     "ecommerce",
     "elif",
     "envfile",
@@ -198,6 +200,7 @@
     "stopwords",
     "tabindex",
     "tailwindcss",
+    "teoma",
     "themeable",
     "transpilation",
     "transpiled",
@@ -215,6 +218,7 @@
     "vnode",
     "webm",
     "woff",
+    "yandex",
     "yarnpkg"
   ],
   "typescript.tsdk": "node_modules/typescript/lib"

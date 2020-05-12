@@ -6,7 +6,9 @@ export const postType = "docsItem"
 export const setup = (): void => {
   const basePath = setting("docsEngine.baseRoute") ?? "/"
 
-  const meta = setting("docsEngine.requireLoggedIn") ? { auth: true } : {}
+  const meta = setting("docsEngine.requireLoggedIn")
+    ? { auth: true, allowBots: true }
+    : {}
   addContentRoute({
     path: basePath,
     component: setting("docsEngine.components.wrap"),
