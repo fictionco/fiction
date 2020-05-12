@@ -26,6 +26,10 @@ addRoutes({
         component: (): Promise<any> => import("./plans/v-plans.vue"),
       },
       {
+        path: "/pro",
+        component: (): Promise<any> => import("./pro/v-pro.vue"),
+      },
+      {
         path: "/contact",
         component: (): Promise<any> => import("./v-contact.vue"),
       },
