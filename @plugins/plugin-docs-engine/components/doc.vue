@@ -59,7 +59,7 @@ export default {
       description: this.config.meta?.description,
     }
   },
-  mounted() {
+  mounted(this: any) {
     this.getContent()
   },
   methods: {

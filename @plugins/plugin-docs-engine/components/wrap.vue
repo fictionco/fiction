@@ -2,48 +2,50 @@
   <div class="docs-engine-wrap">
     <div class="sidebar-area">
       <div class="sidebar-wrap">
-        <div class="search-panel">
-          <doc-search />
-        </div>
+        <div class="sidebar-work-area">
+          <div class="search-panel">
+            <doc-search />
+          </div>
 
-        <div class="sidebar-toggle">
-          <factor-btn
-            btn="default"
-            class="toggle-button"
-            :class="vis ? 'active' : ''"
-            @click.stop="toggleNav()"
-          >
-            <mobile-toggle :active="vis" />
-            <span class="text">Docs Menu</span>
-          </factor-btn>
-        </div>
+          <div class="sidebar-toggle">
+            <factor-btn
+              btn="default"
+              class="toggle-button"
+              :class="vis ? 'active' : ''"
+              @click.stop="toggleNav()"
+            >
+              <mobile-toggle :active="vis" />
+              <span class="text">Docs Menu</span>
+            </factor-btn>
+          </div>
 
-        <div class="sidebar" :class="vis ? 'show-mobile' : 'standard'">
-          <div class="nav-wrap">
-            <div class="nav">
-              <div
-                v-for="(group, i) in nav"
-                :key="i"
-                class="nav-group"
-                :class="selectedGroup == group.title ? 'selected' : ''"
-              >
+          <div class="sidebar" :class="vis ? 'show-mobile' : 'standard'">
+            <div class="nav-wrap">
+              <div class="nav">
                 <div
-                  v-if="group.title"
-                  class="nav-group-title"
-                  @click.stop="toggleGroupTitle(group)"
+                  v-for="(group, i) in nav"
+                  :key="i"
+                  class="nav-group"
+                  :class="selectedGroup == group.title ? 'selected' : ''"
                 >
-                  <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
-                  <span class="title">{{ group.title }}</span>
-                </div>
-                <div v-if="!group.title || selectedGroup == group.title" class="group-items">
-                  <factor-link
-                    v-for="(link, ii) in group.items"
-                    :key="ii"
-                    :path="link.path || `${baseRoute}/${link.doc}`"
+                  <div
+                    v-if="group.title"
+                    class="nav-group-title"
+                    @click.stop="toggleGroupTitle(group)"
                   >
-                    <span class="ico" />
-                    <span v-formatted-text="link.title || toLabel(link.doc)" class="link" />
-                  </factor-link>
+                    <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
+                    <span class="title">{{ group.title }}</span>
+                  </div>
+                  <div v-if="!group.title || selectedGroup == group.title" class="group-items">
+                    <factor-link
+                      v-for="(link, ii) in group.items"
+                      :key="ii"
+                      :path="link.path || `${baseRoute}/${link.doc}`"
+                    >
+                      <span class="ico" />
+                      <span v-formatted-text="link.title || toLabel(link.doc)" class="link" />
+                    </factor-link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -161,9 +163,15 @@ export default {
     min-width: 0;
   }
   .search-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     border-bottom: 1px solid var(--color-border);
     display: flex;
     justify-content: flex-end;
+    background: #fff;
+    z-index: 10;
     .search-area {
       width: 300px;
       @media (max-width: 900px) {
@@ -179,20 +187,20 @@ export default {
     .sidebar-wrap {
       position: sticky;
       top: 3rem;
-
       height: calc(~"100vh - 3rem");
+    }
+    .sidebar-work-area {
+      height: 100%;
+      position: relative;
     }
     .sidebar {
       position: relative;
-
       display: flex;
       justify-content: flex-end;
-
-      // background-color: #fbfcfd;
-
       z-index: 0;
       height: 100%;
       overflow: auto;
+      padding-top: 3rem;
       .nav {
         width: 300px;
         font-weight: 600;
@@ -254,6 +262,7 @@ export default {
     .sidebar-toggle {
       display: none;
       padding: 0.5rem 0;
+      justify-content: center;
       .toggle-button {
         .btn-content {
           display: flex;
@@ -282,10 +291,15 @@ export default {
     }
 
     @media (max-width: 900px) {
-      margin: 1rem;
       border: none;
+      border-top: 1px solid var(--color-border);
       .sidebar-toggle {
         display: flex;
+        justify-content: center;
+      }
+      .search-panel {
+        border: none;
+        position: relative;
       }
       .sidebar-wrap {
         position: relative;
@@ -294,10 +308,11 @@ export default {
         padding-bottom: 0;
       }
       .sidebar {
+        padding-top: 0;
         height: auto;
         position: absolute;
-        left: 0;
-        //  transform: translateX(-50%);
+        left: 50%;
+        transform: translateX(-50%);
         top: 100%;
         background: var(--color-bg);
         z-index: 100;
