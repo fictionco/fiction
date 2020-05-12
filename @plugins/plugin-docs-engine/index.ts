@@ -4,24 +4,13 @@ import { getDocRoutes } from "./util"
 export const postType = "docsItem"
 
 export const setup = (): void => {
-  // addPostType({
-  //   postType,
-  //   baseRoute: setting("docs.baseRoute"),
-  //   icon: require("./img/forum.svg"),
-  //   nameIndex: "Docs",
-  //   nameSingle: "Docs Page",
-  //   namePlural: "Docs Pages",
-  //   addSitemap: true,
-  //   permalink: (post: FactorPost): string => {
-  //     return `${setting("docs.baseRoutePost")}/${post._id}/${slugify(post.title)}`
-  //   }
-  // })
-
   const basePath = setting("docsEngine.baseRoute") ?? "/"
 
+  const meta = setting("docsEngine.requireLoggedIn") ? { auth: true } : {}
   addContentRoute({
     path: basePath,
     component: setting("docsEngine.components.wrap"),
+    meta,
     children: [
       {
         path: basePath,

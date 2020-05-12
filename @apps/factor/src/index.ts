@@ -44,6 +44,7 @@ addRoutes({
           {
             path: `/theme/:permalink`,
             component: (): Promise<any> => import("./extend/single.vue"),
+            meta: { auth: true },
           },
         ],
       },
@@ -58,6 +59,7 @@ addRoutes({
           {
             path: `/plugin/:permalink`,
             component: (): Promise<any> => import("./extend/single.vue"),
+            meta: { auth: true },
           },
         ],
       },
