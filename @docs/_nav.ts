@@ -264,6 +264,10 @@ export default [
         doc: "hacker-news",
         file: (): Promise<string> => import("./examples/hacker-news/index.md"),
       },
+      {
+        doc: "development-monorepo",
+        file: (): Promise<string> => import("./examples/development-monorepo/index.md"),
+      },
     ],
   },
   {
