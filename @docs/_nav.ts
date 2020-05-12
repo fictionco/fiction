@@ -210,6 +210,10 @@ export default [
         doc: "extending-webpack",
         file: (): Promise<string> => import("./advanced/extending-webpack/index.md"),
       },
+      {
+        doc: "creating-plugins",
+        file: (): Promise<string> => import("./advanced/creating-plugins/index.md"),
+      },
       // {
       //   doc: "writing-a-plugin",
       //   file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),

@@ -1,7 +1,8 @@
 // Return a function since this will need to be called again on server restarts
 
 module.exports = () => {
-  const transpileModules = ["@factor", "factor", "lodash-es"]
+  // https://regex101.com/r/La4C28/1
+  const transpileModules = ["@factor", ".*factor", "lodash-es"]
   require("ts-node").register({
     transpileOnly: true,
     compilerOptions: {
