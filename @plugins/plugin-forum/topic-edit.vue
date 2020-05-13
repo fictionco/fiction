@@ -149,7 +149,7 @@ export default {
 
       this.sending = true
       try {
-        const createdTopic = await requestSaveTopic(this.post, true)
+        const createdTopic = await requestSaveTopic(this.post, { subscribe: true })
 
         if (createdTopic && createdTopic.permalink) {
           if (this.isNew) {

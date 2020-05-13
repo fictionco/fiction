@@ -102,13 +102,14 @@ export const sendRequest = async <T = unknown>(
  */
 export const requestSaveTopic = async (
   post: FactorPostForumTopic,
-  subscribe?: boolean
+  options: { subscribe?: boolean; redirect?: boolean } = {}
 ): Promise<FactorPostForumTopic | undefined | never> => {
+  const { subscribe, redirect = true } = options
   const topic = await sendRequest<FactorPostForumTopic>("saveTopic", { post, subscribe })
   emitEvent("notify", "Topic Saved")
   setLocalPostTypeCache(postType)
 
-  redirectToTopic(topic)
+  if (redirect) redirectToTopic(topic)
 
   return topic
 }
@@ -184,10 +185,10 @@ export const postAction = async ({
   const isParent = post._id == parentId ? true : false
 
   if (isParent) {
-    if (action == PostActions.Pin) {
-      await requestSaveTopic({ _id: post._id, pinned: value })
-    } else if (action == PostActions.Lock) {
-      await requestSaveTopic({ _id: post._id, locked: value })
+    if (action == PostActions.Pin || action == PostActions.Unpin) {
+      await requestSaveTopic({ _id: post._id, pinned: value }, { redirect: false })
+    } else if (action == PostActions.Lock || action == PostActions.Unlock) {
+      await requestSaveTopic({ _id: post._id, locked: value }, { redirect: false })
     } else if (action == PostActions.Delete) {
       await deleteTopic(parentId)
     } else if (action == PostActions.Edit) {
@@ -237,7 +238,6 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     },
     sort: {
       pinned: SortDelimiters.Descending,
-      date: SortDelimiters.Descending,
       updatedAt: SortDelimiters.Descending,
     },
   })

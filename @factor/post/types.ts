@@ -49,6 +49,7 @@ export enum IndexTimeFrame {
 
 export enum IndexOrderBy {
   Latest = "latest",
+  UpdatedAt = "updatedAt",
   Popular = "popular",
   Top = "top",
   Oldest = "oldest",

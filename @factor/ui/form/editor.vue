@@ -167,7 +167,7 @@ export default {
   .editor-toolbar {
     font-size: 0.9rem;
     white-space: nowrap;
-    overflow: scroll;
+    overflow: auto;
     -ms-overflow-style: none;
   }
   .spinner-wrap {

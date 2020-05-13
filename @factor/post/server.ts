@@ -19,6 +19,7 @@ import {
   PostRequestParameters,
   IndexTimeFrame,
   SortDelimiters,
+  IndexOrderBy,
 } from "./types"
 import { manyPostsPermissionCondition, postPermission } from "./util"
 import {
@@ -278,10 +279,14 @@ const transformIndexParameters = (
     const searchCondition = { $text: { $search: search } }
     params.conditions = { ...conditions, ...searchCondition }
   } else {
-    if (order == "popular") {
+    if (order == IndexOrderBy.Popular) {
       sort = {
         embeddedCount: SortDelimiters.Descending,
         createdAt: SortDelimiters.Descending,
+      }
+    } else if (order == IndexOrderBy.UpdatedAt) {
+      sort = {
+        updatedAt: SortDelimiters.Descending,
       }
     }
 

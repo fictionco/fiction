@@ -77,7 +77,7 @@ export default {
       notifySubscribers: true,
       reply: "",
       sending: false,
-      storeKey: this.editId ? this.editId : "post",
+      storeKey: this.editId ? this.editId : this.postId,
       loading: true,
     }
   },

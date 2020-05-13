@@ -168,12 +168,15 @@ export default {
   },
 
   computed: {
+    postId() {
+      return this.$route.params._id ?? this.$route.query._id
+    },
     post: {
       get(this: any): FactorPost {
-        return stored("post") || {}
+        return stored(this.postId) || {}
       },
       set(this: any, v: FactorPost): void {
-        storeItem("post", v)
+        storeItem(this.postId, v)
       },
     },
     embedded: {
@@ -237,9 +240,8 @@ export default {
     editTopic,
     excerpt,
     async getEmbeddedPosts(this: any) {
-      const postId = this.$route.params._id ?? this.$route.query._id
       const skip = this.$route.query.skip ?? 0
-      await requestEmbeddedPosts({ skip, parentId: postId })
+      await requestEmbeddedPosts({ skip, parentId: this.postId })
 
       return
     },

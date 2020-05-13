@@ -22,6 +22,7 @@ import { factorSpinner } from "@factor/ui"
 import { setting, stored } from "@factor/api"
 import { loadAndStoreIndex } from "./request"
 import { postType } from "."
+
 export default {
   components: {
     factorSpinner,
