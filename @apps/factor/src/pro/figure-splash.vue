@@ -12,24 +12,22 @@
 </template>
 
 <script lang="ts">
-import img from "./img/icon-forum.svg"
 export default {
   data() {
     return {
-      img,
       cards: [
-        { text: "Forum", image: img },
-        { text: "Chat", image: img },
-        { text: "Analytics", image: img },
-        { text: "Forms", image: img },
-        { text: "Gallery", image: img },
-        { text: "SEO", image: img },
-        { text: "Themes", image: img },
-        { text: "Support", image: img },
-        { text: "Socialize", image: img },
-        { text: "Subscriptions", image: img },
-        { text: "Job Lister", image: img },
-        { text: "Feed", image: img },
+        { text: "Forum", image: require("./img/icon-forum.svg") },
+        { text: "Chat", image: require("./img/icon-chat.svg") },
+        { text: "Analytics", image: require("./img/icon-analytics.svg") },
+        { text: "Forms", image: require("./img/icon-forms.svg") },
+        { text: "Gallery", image: require("./img/icon-gallery.svg") },
+        { text: "SEO", image: require("./img/icon-seo.svg") },
+        { text: "Themes", image: require("./img/icon-themes.svg") },
+        { text: "Support", image: require("./img/icon-support.svg") },
+        { text: "Socialize", image: require("./img/icon-socialize.svg") },
+        { text: "Subscriptions", image: require("./img/icon-subscriptions.svg") },
+        { text: "Feed", image: require("./img/icon-feed.svg") },
+        { text: "Job Lister", image: require("./img/icon-jobs.svg") },
       ],
     }
   },
@@ -52,7 +50,7 @@ figure.figure-splash {
   .stage {
     width: 100%;
     position: relative;
-    transform: scale(1.1);
+    transform: scale(1);
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -72,7 +70,7 @@ figure.figure-splash {
       overflow: hidden;
       .icon {
         background-size: cover;
-        height: 6rem;
+        height: 8rem;
         background-position: 50%;
         img {
           max-width: 100%;
