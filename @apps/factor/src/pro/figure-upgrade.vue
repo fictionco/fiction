@@ -63,7 +63,8 @@ figure.figure-upgrade {
         left: 0;
         right: auto;
         z-index: 0;
-        transform: translateY(36px) translateZ(-50px);
+        transform: rotateX(2deg) rotateY(15deg) translateY(36px) translateZ(-50px)
+          scale(1) perspective(1050px);
         box-shadow: 0px 20px 90px rgba(50, 50, 93, 0.13),
           0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
@@ -73,7 +74,8 @@ figure.figure-upgrade {
         position: absolute;
         bottom: 0px;
         left: 60px;
-        transform: translateY(36px) translateX(-30px) scale(1) perspective(1050px);
+        transform: rotateX(2deg) rotateY(15deg) translateY(36px) translateX(-30px)
+          scale(1) perspective(1050px);
         background: #ffffff;
         box-shadow: -5px -5px 27px rgba(0, 0, 0, 0.1), -1px -1px 3px rgba(50, 50, 93, 0.2);
         overflow: hidden;

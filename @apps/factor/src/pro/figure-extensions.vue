@@ -68,7 +68,7 @@ figure.figure-extensions {
         top: 0;
         right: 0;
         z-index: 0;
-        transform: translateY(-45px);
+        transform: translateY(-45px) rotateX(2deg) rotateY(10deg);
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
         border-radius: 4px;
@@ -77,7 +77,8 @@ figure.figure-extensions {
         position: absolute;
         top: 0;
         left: 0;
-        transform: translateZ(-50px) translateX(-90px) scale(1) perspective(1050px);
+        transform: scale(1) translateZ(-50px) translateX(-90px) rotateX(2deg)
+          rotateY(12deg) perspective(1050px);
         background: #ffffff;
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
