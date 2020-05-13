@@ -2,7 +2,9 @@
   <div class="factor-pro-benefits">
     <ul class="features-list">
       <li class="feature-block">
-        <home-icon icon="settings" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Advanced Settings</h3>
         <p
           class="text"
@@ -10,7 +12,9 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="premium" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Premium Features</h3>
         <p
           class="text"
@@ -18,7 +22,9 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="support" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Help &amp; Support</h3>
         <p
           class="text"
@@ -26,7 +32,9 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="settings" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Advanced Settings</h3>
         <p
           class="text"
@@ -34,7 +42,9 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="premium" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Premium Features</h3>
         <p
           class="text"
@@ -42,7 +52,9 @@
       </li>
 
       <li class="feature-block">
-        <home-icon icon="support" />
+        <div class="icon">
+          <img :src="img" />
+        </div>
         <h3 class="title">Help &amp; Support</h3>
         <p
           class="text"
@@ -53,9 +65,13 @@
 </template>
 
 <script lang="ts">
+import img from "./img/icon-forum.svg"
 export default {
   components: {
     homeIcon: () => import("./icon.vue"),
+  },
+  data() {
+    return { img }
   },
 }
 </script>
@@ -93,6 +109,11 @@ export default {
         height: 48px;
 
         margin: 10px 0 20px 0;
+        img {
+          max-width: 100%;
+          height: 100%;
+          border-radius: 0.5rem;
+        }
       }
       h3,
       p {

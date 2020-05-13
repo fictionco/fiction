@@ -2,13 +2,14 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Factor Pro Suite</h1>
+        <h3 class="page-sup">Factor Pro / Business Suite</h3>
+        <h1 class="page-title">Built for Pros</h1>
         <h3
           class="page-title-sub"
-        >Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod.</h3>
+        >Upgrade Factor with professional extensions, features and support.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/plans">Pick a plan &rarr;</factor-link>
+          <factor-link btn="primary" path="/plans" size="large">Get Pro &rarr;</factor-link>
         </div>
       </div>
 
@@ -38,7 +39,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 4em;
-    padding: 10rem 3rem 6rem;
+    padding: 4rem 3rem 6rem;
     align-items: center;
 
     @media (min-height: 1000px) {
@@ -69,7 +70,6 @@ export default {
         font-weight: 700;
         color: var(--color-text-secondary);
         margin-bottom: 1rem;
-        opacity: 0.5;
       }
       .page-title,
       .page-title-sub {
@@ -77,8 +77,8 @@ export default {
       }
 
       .page-title {
-        font-size: 4em;
-        letter-spacing: -0.035em;
+        font-size: 5em;
+        letter-spacing: -0.045em;
         line-height: 1.1;
         font-weight: 700;
         margin-bottom: 1rem;

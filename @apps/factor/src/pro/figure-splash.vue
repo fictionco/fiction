@@ -2,14 +2,9 @@
   <figure ref="wrapper" class="figure-splash">
     <div class="stage-wrap">
       <div class="stage">
-        <div class="screenshot card-settings">
-          <img src="./img/card-settings.svg" alt="Settings" />
-        </div>
-        <div class="screenshot card-support">
-          <img src="./img/card-support.svg" alt="Support" />
-        </div>
-        <div class="screenshot card-extensions">
-          <img src="./img/card-extensions.svg" alt="Extensions" />
+        <div v-for="(card, i) in cards" :key="i" class="card">
+          <div class="icon" :style="{backgroundImage: `url(${card.image})`}" />
+          <div class="text">{{ card.text }}</div>
         </div>
       </div>
     </div>
@@ -17,7 +12,28 @@
 </template>
 
 <script lang="ts">
-export default {}
+import img from "./img/icon-forum.svg"
+export default {
+  data() {
+    return {
+      img,
+      cards: [
+        { text: "Forum", image: img },
+        { text: "Chat", image: img },
+        { text: "Analytics", image: img },
+        { text: "Forms", image: img },
+        { text: "Gallery", image: img },
+        { text: "SEO", image: img },
+        { text: "Themes", image: img },
+        { text: "Support", image: img },
+        { text: "Socialize", image: img },
+        { text: "Subscriptions", image: img },
+        { text: "Job Lister", image: img },
+        { text: "Feed", image: img },
+      ],
+    }
+  },
+}
 </script>
 
 <style lang="less">
@@ -30,54 +46,85 @@ figure.figure-splash {
 
   .stage-wrap {
     transform-origin: center left;
+    perspective: 800px;
+    transform-style: preserve-3d;
   }
   .stage {
-    padding: 30% 0;
-    width: 560px;
+    width: 100%;
     position: relative;
     transform: scale(1.1);
-    transform-style: preserve-3d;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.5rem;
     @media (max-width: 900px) {
       transform: scale(1) translate(-0, -0px);
     }
-    .screenshot {
-      top: 35px;
+    transform: rotateY(-12deg) rotateX(5deg);
+    .card {
+      border-radius: 10px;
       background: #fff;
-      display: inline-block;
-      &.card-settings {
-        position: absolute;
-        top: -30px;
-        right: 110px;
-        transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(2deg) rotate(2deg);
-        background: #ffffff;
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
-        overflow: hidden;
-        border-radius: 4px;
+      box-shadow: 0px 2px 2px rgba(50, 50, 93, 0.3), 0px 3px 10px rgba(0, 0, 0, 0.07);
+      display: grid;
+      grid-template-columns: 1fr;
+
+      align-items: center;
+      overflow: hidden;
+      .icon {
+        background-size: cover;
+        height: 6rem;
+        background-position: 50%;
+        img {
+          max-width: 100%;
+          display: block;
+        }
       }
-      &.card-support {
-        position: absolute;
-        top: 20px;
-        left: 70px;
-        z-index: 0;
-        transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(2deg) rotate(2deg)
-          translateZ(-40px);
-        box-shadow: 0px 20px 90px rgba(50, 50, 93, 0.13),
-          0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
-        overflow: hidden;
-        border-radius: 4px;
-      }
-      &.card-extensions {
-        position: absolute;
-        top: 270px;
-        left: 0;
-        transform: translateZ(-8px) scale(1) perspective(1050px);
-        background: #ffffff;
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
-        overflow: hidden;
-        border-radius: 4px;
+      .text {
+        display: grid;
+        padding: 1rem;
+        font-size: 1.2em;
+        line-height: 1.2;
+        font-weight: 700;
       }
     }
-    perspective: 1000px;
+    // .screenshot {
+    //   top: 35px;
+    //   background: #fff;
+    //   display: inline-block;
+    //   &.card-settings {
+    //     position: absolute;
+    //     top: -30px;
+    //     right: 110px;
+    //     transform: scale(1) rotateY(-6deg) rotateX(2deg) rotate(2deg);
+    //     background: #ffffff;
+    //     box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
+    //       0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
+    //     overflow: hidden;
+    //     border-radius: 4px;
+    //   }
+    //   &.card-support {
+    //     position: absolute;
+    //     top: 20px;
+    //     left: 70px;
+    //     z-index: 0;
+    //     transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(2deg) rotate(2deg)
+    //       translateZ(-40px);
+    //     box-shadow: 0px 20px 90px rgba(50, 50, 93, 0.13),
+    //       0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
+    //     overflow: hidden;
+    //     border-radius: 4px;
+    //   }
+    //   &.card-extensions {
+    //     position: absolute;
+    //     top: 270px;
+    //     left: 0;
+    //     transform: translateZ(-8px) scale(1) perspective(1050px);
+    //     background: #ffffff;
+    //     box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+    //     overflow: hidden;
+    //     border-radius: 4px;
+    //   }
+    // }
   }
 }
 </style>
