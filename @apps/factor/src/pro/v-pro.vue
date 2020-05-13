@@ -155,7 +155,6 @@ export default {
   }
 
   .features {
-    background: linear-gradient(180deg, #f4f8fc 0%, rgba(255, 255, 255, 0) 19.27%);
     &.content {
       &.last {
         box-shadow: none;

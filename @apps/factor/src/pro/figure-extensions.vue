@@ -50,12 +50,13 @@ figure.figure-extensions {
 
   .stage-wrap {
     transform-origin: center right;
+    perspective: 1000px;
+    transform-style: preserve-3d;
   }
   .extensions {
     padding: 34% 0;
     width: 500px;
     position: relative;
-    transform: scale(1);
     transform-style: preserve-3d;
     @media (max-width: 900px) {
       transform: scale(1) translate(-0, -0px);
@@ -68,7 +69,7 @@ figure.figure-extensions {
         top: 0;
         right: 0;
         z-index: 0;
-        transform: translateY(-45px) rotateX(2deg) rotateY(10deg);
+        transform: rotateX(2deg) rotateY(-20deg);
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
         border-radius: 4px;
@@ -77,15 +78,13 @@ figure.figure-extensions {
         position: absolute;
         top: 0;
         left: 0;
-        transform: scale(1) translateZ(-50px) translateX(-90px) rotateX(2deg)
-          rotateY(12deg) perspective(1050px);
+        transform: rotateX(2deg) rotateY(20deg) translateZ(-100px) translateY(10%);
         background: #ffffff;
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
         border-radius: 4px;
       }
     }
-    perspective: 1000px;
   }
 }
 </style>
