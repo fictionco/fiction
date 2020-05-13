@@ -181,7 +181,7 @@ export default {
 
 ## Template Settings
 
-If you would like to allow users to set meta-information on each post, there is a way to add template options in post types using [template settings]('./template-settings').
+If you would like to allow users to set meta-information on each post, there is a way to add template options in post types using [template settings](./template-settings).
 
 ```js
 addPostType({

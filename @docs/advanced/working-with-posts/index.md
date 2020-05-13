@@ -1,6 +1,6 @@
 ---
 title: Working With Posts
-description: Learn how to work with data and the flat store in Factor
+description: Work with Factor's post system to create blogs, listings, eCommerce and more.
 ---
 
 # Working with Posts

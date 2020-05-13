@@ -146,7 +146,7 @@ export const saveTopicReply = async (
         emailAddresses: notifyEmails,
         config: {
           emailId: "newForumTopic",
-          subject: `New Topic Reply: ${reply.title}`,
+          subject: `New Topic Reply: ${post.title}`,
           text: reply.content,
           linkText: "View Topic",
           linkUrl: getTopicUrl(reply),
@@ -177,7 +177,8 @@ export const saveTopic = async (
 
   const notifyEmails = setting("forum.notify.newTopic")
 
-  if (notifyEmails && notifyEmails.length > 0) {
+  // If no _id then it's a new post
+  if (!post._id && notifyEmails && notifyEmails.length > 0) {
     sendNotificationEmails({
       emailAddresses: notifyEmails,
       config: {
