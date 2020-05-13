@@ -226,9 +226,9 @@ export default {
 
     await Promise.all(getOnLoad)
 
-    emitEvent("highlight-code")
-
     this.loading = false
+
+    emitEvent("highlight-code")
   },
   methods: {
     isEmpty,

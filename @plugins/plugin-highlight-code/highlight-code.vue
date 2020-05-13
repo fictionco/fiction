@@ -19,7 +19,7 @@ export default {
 
     // Event trigger for rehighlight
     onEvent("highlight-code", () => {
-      this.setPage()
+      setTimeout(() => this.setPage(), 50)
     })
   },
   metaInfo: {
