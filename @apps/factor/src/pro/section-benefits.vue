@@ -1,64 +1,10 @@
 <template>
   <div class="factor-pro-benefits">
     <ul class="features-list">
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Advanced Settings</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-      </li>
-
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Premium Features</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-      </li>
-
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Help &amp; Support</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-      </li>
-
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Advanced Settings</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-      </li>
-
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Premium Features</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-      </li>
-
-      <li class="feature-block">
-        <div class="icon">
-          <img :src="img" />
-        </div>
-        <h3 class="title">Help &amp; Support</h3>
-        <p
-          class="text"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+      <li v-for="(feature, i) in features" :key="i" class="feature-block">
+        <home-icon :icon="feature.icon" />
+        <h3 class="title">{{ feature.title }}</h3>
+        <p class="text">{{ feature.text }}</p>
       </li>
     </ul>
   </div>
@@ -71,7 +17,47 @@ export default {
     homeIcon: () => import("./icon.vue"),
   },
   data() {
-    return { img }
+    return {
+      img,
+      features: [
+        {
+          icon: "forum",
+          title: "Advanced Settings",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+        {
+          icon: "forum",
+          title: "Premium Features",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+        {
+          icon: "forum",
+          title: "Help & Support",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+        {
+          icon: "forum",
+          title: "Advanced Settings",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+        {
+          icon: "forum",
+          title: "Premium Features",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+        {
+          icon: "forum",
+          title: "Help & Support",
+          text:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+        },
+      ],
+    }
   },
 }
 </script>
@@ -107,13 +93,9 @@ export default {
       .icon {
         width: 48px;
         height: 48px;
-
         margin: 10px 0 20px 0;
-        img {
-          max-width: 100%;
-          height: 100%;
-          border-radius: 0.5rem;
-        }
+        border-radius: 0.5rem;
+        overflow: hidden;
       }
       h3,
       p {
