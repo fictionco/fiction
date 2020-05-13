@@ -36,7 +36,7 @@
                     <factor-icon class="ico" :icon="group.icon || `fas fa-angle-down`" />
                     <span class="title">{{ group.title }}</span>
                   </div>
-                  <div v-if="!group.title || selectedGroup == group.title" class="group-items">
+                  <div v-show="!group.title || selectedGroup == group.title" class="group-items">
                     <factor-link
                       v-for="(link, ii) in group.items"
                       :key="ii"
