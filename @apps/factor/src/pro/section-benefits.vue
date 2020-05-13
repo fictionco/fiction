@@ -24,6 +24,30 @@
           class="text"
         >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
       </li>
+
+      <li class="feature-block">
+        <home-icon icon="settings" />
+        <h3 class="title">Advanced Settings</h3>
+        <p
+          class="text"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+      </li>
+
+      <li class="feature-block">
+        <home-icon icon="premium" />
+        <h3 class="title">Premium Features</h3>
+        <p
+          class="text"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+      </li>
+
+      <li class="feature-block">
+        <home-icon icon="support" />
+        <h3 class="title">Help &amp; Support</h3>
+        <p
+          class="text"
+        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+      </li>
     </ul>
   </div>
 </template>

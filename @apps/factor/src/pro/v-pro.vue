@@ -61,6 +61,8 @@
         </article>
       </div>
     </section>
+
+    <el-cta id="cta" />
   </div>
 </template>
 
@@ -73,6 +75,7 @@ export default {
     factorIcon,
     sectionSplash: () => import("./splash.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
+    elCta: () => import("./el-cta.vue"),
   },
   data(this: any) {
     return {
@@ -223,14 +226,6 @@ export default {
 
     .feature-content {
       letter-spacing: -0.01em;
-    }
-    .feature-icon {
-      height: 72px;
-      width: 72px;
-      margin-bottom: 1rem;
-      box-shadow: 0px 2px 3px rgba(50, 50, 93, 0.13), 0px 2px 5px rgba(50, 50, 93, 0.11),
-        0px 5px 15px rgba(0, 0, 0, 0.07);
-      border-radius: 6px;
     }
     .title {
       font-weight: 700;
