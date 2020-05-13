@@ -40,7 +40,7 @@ export const addPostType = (config: PostTypeConfig): void => {
 }
 
 export const postTypesConfig = (): PostTypeConfig[] => {
-  return applyFilters("post-types-config", []).map((_: PostTypeConfig) => {
+  return applyFilters("post-types-config", []).map((_: Partial<PostTypeConfig>) => {
     const baseRoute = typeof _.baseRoute == "undefined" ? `/${_.postType}` : _.baseRoute
 
     const label = toLabel(_.postType)

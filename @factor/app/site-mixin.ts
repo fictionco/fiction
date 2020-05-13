@@ -19,6 +19,9 @@ export default (): any => {
       ui(this: any): string {
         const route = this.$route
 
+        // In testing sometimes we don't want to bother with routes
+        if (!route) return "factor-app"
+
         const { meta = {} } = route.matched.find((_: Route) => _.meta.ui) || {}
 
         const ui = meta.ui || "app"

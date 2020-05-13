@@ -59,7 +59,7 @@ export const setup = (): void => {
   addCallback({
     key: "prefetch",
     hook: "client-route-before",
-    callback: (_: Route & { clientOnly: boolean }) => {
+    callback: (_: Route & { clientOnly?: boolean }) => {
       return preFetchPost({ clientOnly: true, ..._ })
     },
   })
