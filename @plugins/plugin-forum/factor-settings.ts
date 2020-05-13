@@ -4,6 +4,7 @@ export default {
     postRoute: "/topic",
     indexLimit: 30,
     returnLinkText: "All Topics",
+    title: "Forum",
     features: {
       topicSubscribe: true,
       tagging: true,
@@ -22,12 +23,17 @@ export default {
         description: "Edit a forum topic",
       },
     },
+    notify: {
+      newTopic: [],
+      newReply: [],
+    },
     text: {
       newTopic: "Start A Discussion",
       listAll: "All Discussions",
       topicLocked: "This topic is locked.",
       loginToReply: "You need to login to reply.",
       subscribeOnReply: "Subscribe to updates?",
+      notifySubscribers: "Notify Subscribers?",
       login: "Login &rarr;",
       save: "Save &uarr;",
       postReply: "Post Reply &uarr;",

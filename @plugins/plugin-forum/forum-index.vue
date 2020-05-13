@@ -1,5 +1,8 @@
 <template>
   <div class="forum-index">
+    <div class="forum-title">
+      <h1 v-formatted-text="setting(`forum.title`)" />
+    </div>
     <div class="index-layout">
       <component :is="setting('forum.components.forumSidebar')" />
       <div class="forum-content">
@@ -93,6 +96,16 @@ export default {
 
 <style lang="less">
 .forum-index {
+  .forum-title {
+    h1 {
+      font-size: 1.5em;
+      font-weight: var(--font-weight-bold);
+    }
+    margin-bottom: 1rem;
+    @media (max-width: 900px) {
+      padding: 0 1rem;
+    }
+  }
   .index-layout {
     display: grid;
     grid-template-columns: 15em 1fr;

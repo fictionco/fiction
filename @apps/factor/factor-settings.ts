@@ -22,6 +22,13 @@ export default {
       },
     },
   },
+  forum: {
+    title: "Factor Forum",
+    notify: {
+      newTopic: ["andrew@fiction.com"],
+      newReply: ["andrew@fiction.com"],
+    },
+  },
   app: { url: "https://factor.dev" },
   metaInfo: {
     default: {
@@ -37,7 +44,7 @@ export default {
   },
   blog: {
     title: "Factor Blog",
-    content: "Learn coding tips and tricks. Get updates, build successful apps.",
+    content: "Build successful apps.",
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 6,

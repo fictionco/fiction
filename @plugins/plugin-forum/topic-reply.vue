@@ -22,10 +22,15 @@
           placeholder="Reply"
         />
         <div class="actions save-post">
-          <div v-if="showSubscriber && hasSubscribe" class="subscriber">
+          <div v-if="hasSubscribe" class="subscriber">
             <factor-input-checkbox
               v-model="subscriber"
               :label="setting('forum.text.subscribeOnReply')"
+            />
+
+            <factor-input-checkbox
+              v-model="notifySubscribers"
+              :label="setting('forum.text.notifySubscribers')"
             />
           </div>
           <factor-btn v-if="editId" btn="primary" :loading="sending" @click="editReply()">
@@ -69,6 +74,7 @@ export default {
   data() {
     return {
       subscriber: true,
+      notifySubscribers: true,
       reply: "",
       sending: false,
       storeKey: this.editId ? this.editId : "post",
@@ -128,6 +134,7 @@ export default {
         })
         this.post = { ...this.post, content: this.reply }
         emitEvent("highlight-post", this.editId)
+        emitEvent("highlight-code")
       } else {
         await requestSaveTopic({ _id: this.postId, content: this.reply })
       }
@@ -147,17 +154,24 @@ export default {
         _id: "",
       }
 
-      const result = await requestSaveTopicReply(this.postId, doc, this.subscriber)
+      const result = await requestSaveTopicReply(this.postId, doc, {
+        subscribe: this.subscriber,
+        notifySubscribers: this.notifySubscribers,
+      })
 
-      if (result && result._id) {
+      const { embedded = [] } = result || {}
+
+      const embeddedPost = embedded[0] || {}
+
+      if (embeddedPost && embeddedPost._id) {
         const embeddedCount = (this.post.embeddedCount || 0) + 1
 
-        this.embedded.push(result)
+        this.embedded.push(embeddedPost)
 
         this.post = { ...this.post, embeddedCount }
 
-        emitEvent("highlight-post", result._id)
-
+        emitEvent("highlight-post", embeddedPost._id)
+        emitEvent("highlight-code")
         this.$emit("done", { subscribed: this.subscriber })
 
         this.reply = ""
@@ -209,11 +223,14 @@ export default {
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      .subscriber {
+        display: flex;
+      }
       .checkbox-wrap {
         border-radius: 6px;
-        background: var(--color-bg-contrast);
+        color: var(--color-text-secondary);
         padding: 0.25rem 1rem;
-        font-size: 0.9em;
+        font-size: 0.85em;
         font-weight: 700;
         text-transform: uppercase;
         align-items: center;
@@ -222,6 +239,13 @@ export default {
         .checkbox-label {
           margin-left: 0.5rem;
           opacity: 0.5;
+        }
+      }
+      @media (max-width: 900px) {
+        display: block;
+        .subscriber {
+          display: block;
+          margin-bottom: 1rem;
         }
       }
     }

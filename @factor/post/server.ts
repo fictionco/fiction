@@ -205,7 +205,9 @@ export const populatePosts = async ({ _ids }: UpdateManyPosts): Promise<FactorPo
 
   const _in = Array.isArray(_ids) ? _ids : [_ids]
 
-  const result = await getModel("post").find({ _id: { $in: _in } })
+  const Model = getModel("post")
+
+  const result = await Model.find({ _id: { $in: _in } })
 
   return result
 }

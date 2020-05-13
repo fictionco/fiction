@@ -141,7 +141,7 @@ export default {
       line-height: 1.2;
       display: grid;
       grid-template-areas: "icon primary";
-
+      font-weight: 600;
       padding: 0.1em 0;
       color: inherit;
       &.router-link-exact-active {

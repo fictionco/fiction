@@ -67,9 +67,7 @@ export default {
       loading: true,
     }
   },
-  routeClass() {
-    return "nav-white"
-  },
+
   metaInfo() {
     const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 

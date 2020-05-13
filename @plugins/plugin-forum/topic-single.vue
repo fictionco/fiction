@@ -13,7 +13,7 @@
                 <factor-icon icon="fas fa-lock" />Locked
               </div>
               <div v-if="post.pinned" class="note locked">
-                <factor-icon icon="fas fa-thumbtack" />Pinned
+                <factor-icon icon="fas fa-map-pin" />Pinned
               </div>
             </div>
           </div>
@@ -50,7 +50,6 @@
         <component
           :is="setting('forum.components.topicReply')"
           :post-id="post._id"
-          :show-subscriber="!subscribed ? true : false"
           @done="handleNewReply($event)"
         />
       </div>
@@ -193,12 +192,14 @@ export default {
         return false
       }
     },
-    // embedded(this: any) {
-    //   return this.post.embedded ?? []
-    // },
+
     topicPosts(this: any) {
       const embedded = this.embedded ?? []
-      return [this.post, ...embedded]
+
+      const val = [this.post, ...embedded]
+
+      emitEvent("highlight-code")
+      return val
     },
     rendered(this: any) {
       return renderMarkdown(this.post.content)
@@ -211,6 +212,7 @@ export default {
         this.getEmbeddedPosts()
       },
     },
+    embedded: function () {},
   },
   async mounted(this: any) {
     onEvent("highlight-post", (_id: string) => {
@@ -220,7 +222,11 @@ export default {
       }, 2000)
     })
 
-    await Promise.all([userInitialized(), this.setSubscribed(), this.getEmbeddedPosts()])
+    const getOnLoad = [userInitialized(), this.setSubscribed(), this.getEmbeddedPosts()]
+
+    await Promise.all(getOnLoad)
+
+    emitEvent("highlight-code")
 
     this.loading = false
   },
@@ -339,6 +345,7 @@ export default {
       padding: 0.5em 1em;
       font-weight: 700;
       border-radius: 7px;
+      color: var(--color-text-secondary, inherit);
       background: var(--color-bg-contrast);
       margin: 0 0.5rem 0.5rem 0;
     }
@@ -355,6 +362,7 @@ export default {
     .synopsis {
       font-size: 1.4em;
       opacity: 0.7;
+      color: var(--color-text-secondary, inherit);
     }
     .notes {
       display: flex;
@@ -363,7 +371,7 @@ export default {
         border-radius: 7px;
         text-transform: uppercase;
         font-size: 0.85rem;
-
+        color: var(--color-text-secondary, inherit);
         padding: 0.25rem 1rem;
         margin-right: 1rem;
         font-weight: 700;
@@ -460,7 +468,7 @@ export default {
   .tpost {
     transition: all 0.3s;
     background: transparent;
-    &.highlight {
+    &.highlight .post-content {
       background: var(--color-bg-contrast);
     }
   }

@@ -39,6 +39,7 @@ export default {
         { path: "/docs", name: "Develop" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" },
+        { path: "/forum", name: "Forum" },
       ],
       actionNav: [
         {

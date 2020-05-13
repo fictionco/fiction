@@ -33,13 +33,14 @@
           :key="index"
           class="list-item-wrap"
           :class="[post.pinned ? 'pinned' : '', post.locked ? 'locked' : '']"
+          @click="$router.push({path: topicLink(post)})"
         >
           <div class="list-item">
             <factor-link class="item-avatar" :path="topicLink(post)">
               <div class="avatar-area">
                 <factor-avatar :user="author(post)" />
                 <div v-if="post.pinned" class="tag-bubble">
-                  <factor-icon icon="fas fa-thumbtack" />
+                  <factor-icon icon="fas fa-map-pin" />
                 </div>
                 <div v-if="post.locked" class="tag-bubble bottom">
                   <factor-icon icon="fas fa-lock" />
@@ -168,7 +169,8 @@ export default {
   .thread-index-controls {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    align-items: center;
+    margin-bottom: 1rem;
     @media (max-width: 900px) {
       padding: 0 1rem;
     }
@@ -202,12 +204,21 @@ export default {
         margin-top: 2em;
       }
     }
+    @media (max-width: 900px) {
+      padding: 1rem;
+    }
   }
   .list-item-wrap {
-    padding: 1rem;
-    &.pinned {
+    padding: 1.5rem;
+
+    box-shadow: var(--forum-panel-shadow);
+    &:hover {
       background: var(--color-bg-contrast);
+      cursor: pointer;
     }
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+
     @media (max-width: 900px) {
       padding: 0.75rem;
     }
@@ -233,13 +244,14 @@ export default {
         height: 1.25rem;
         line-height: 1.25rem;
         text-align: center;
-        font-size: 12px;
+        font-size: 10px;
         position: absolute;
         top: -3px;
         right: -4px;
         color: #fff;
-        background: rgba(0, 0, 0, 0.6);
-        border-radius: 4px;
+        background: var(--color-primary);
+        border-radius: 14px;
+
         &.bottom {
           bottom: -3px;
           top: auto;

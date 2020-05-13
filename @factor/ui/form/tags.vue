@@ -121,7 +121,8 @@ export default {
     font-size: 0.8rem;
     display: inline-block;
     padding: 3px 0.5em;
-    box-shadow: var(--box-shadow-input);
+    box-shadow: 0 0 0 1px var(--color-border);
+    background: var(--color-bg-contrast);
     border-radius: 5px;
     margin: 0 0.5em 0.5em 0;
     .tx {

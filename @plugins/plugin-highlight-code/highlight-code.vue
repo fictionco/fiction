@@ -18,7 +18,7 @@ export default {
     this.setPage()
 
     // Event trigger for rehighlight
-    onEvent("highlight-post", () => {
+    onEvent("highlight-code", () => {
       this.setPage()
     })
   },

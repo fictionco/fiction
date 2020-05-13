@@ -28,11 +28,12 @@ export default {
 .tags {
   font-size: 0.85em;
   .tag {
-    color: inherit;
+    color: var(--color-text-secondary, inherit);
     border-radius: 5px;
     padding: 0 0.5rem;
     display: inline-block;
     margin: 0.25rem 0 0.25rem 0.5rem;
+    font-weight: var(--font-weight-bold);
     background: var(--color-bg-contrast);
   }
 }

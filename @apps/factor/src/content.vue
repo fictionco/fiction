@@ -20,7 +20,7 @@ export default {
   },
   metaInfo() {
     return {
-      titleTemplate: "%s - Factor JS",
+      titleTemplate: "%s - Factor",
       image: require("./static/og-image.jpg"),
       link: [
         {

@@ -130,8 +130,8 @@ export default {
   display: grid;
   grid-template-columns: 3.5rem 1fr;
   grid-gap: 2rem;
-  padding: 2rem;
-  border-bottom: 1px solid var(--color-border);
+  margin: 2rem 0;
+
   position: relative;
   figure {
     text-align: left;
@@ -141,6 +141,13 @@ export default {
   }
   .post-content {
     min-width: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: var(--forum-panel-shadow);
+
+    .post-text {
+      padding: 2rem;
+    }
   }
   &:last-child {
     border-bottom: none;
@@ -155,8 +162,14 @@ export default {
   }
   .post-meta {
     display: flex;
+    padding: 0.7rem 1rem;
+
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-contrast);
+    font-size: 0.9em;
     margin-bottom: 0.5rem;
     line-height: 1;
+
     .author {
       font-weight: 700;
     }
@@ -168,7 +181,7 @@ export default {
     }
   }
   @media (max-width: 900px) {
-    padding: 1.5rem 1rem;
+    padding: 0 1rem;
     grid-gap: 1rem;
     grid-template-columns: 2.5rem 1fr;
     .post-avatar .avatar {
@@ -187,7 +200,7 @@ export default {
     right: 0;
     bottom: 0;
     .actions {
-      transition: opacity 0.5s;
+      transition: opacity 0.2s;
       opacity: 0;
     }
 
@@ -196,11 +209,10 @@ export default {
       display: inline-block;
       cursor: pointer;
 
-      padding: 0.5rem 1rem;
+      padding: 0.2rem 1rem;
       opacity: 0.7;
       font-size: 0.9em;
       &:hover {
-        background: rgba(0, 0, 0, 0.05);
         opacity: 1;
         color: var(--color-primary);
       }

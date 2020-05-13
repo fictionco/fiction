@@ -116,15 +116,20 @@ export const requestSaveTopic = async (
 export const requestSaveTopicReply = async (
   postId: string,
   reply: FactorPost,
-  subscribe = false
+  options?: { subscribe?: boolean; notifySubscribers?: boolean }
 ): Promise<FactorPostState> => {
   const result = await sendRequest<FactorPost>("saveTopicReply", {
     postId,
     reply,
-    subscribe,
+    options,
   })
 
-  handlePostPopulation(result)
+  const { embedded = [] } = result
+
+  if (embedded.length > 0) {
+    handlePostPopulation(embedded[0])
+  }
+
   emitEvent("notify", "Reply Saved")
 
   return result

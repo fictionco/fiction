@@ -72,5 +72,6 @@ select.select-standard {
   background-position: right 0.6em center;
   padding-right: 2em;
   cursor: pointer;
+  line-height: 1.2;
 }
 </style>
