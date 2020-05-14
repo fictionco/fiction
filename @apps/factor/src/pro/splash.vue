@@ -1,6 +1,6 @@
 <template>
-  <section class="splash">
-    <div class="splash-inner">
+  <section class="pro-splash">
+    <div class="pro-splash-inner">
       <div class="content">
         <h3 class="page-sup">Factor Pro / Business Suite</h3>
         <h1 class="page-title">Built for Pros</h1>
@@ -32,10 +32,10 @@ export default {
 </script>
 
 <style lang="less">
-.splash {
+.pro-splash {
   position: relative;
 
-  .splash-inner {
+  .pro-splash-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 4em;
