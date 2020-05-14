@@ -18,7 +18,7 @@ export default {
       cards: [
         { text: "Forum", image: require("./img/icon-forum.svg") },
         { text: "Analytics", image: require("./img/icon-analytics.svg") },
-        { text: "Chat", image: require("./img/icon-chat.svg") },
+     //   { text: "Chat", image: require("./img/icon-chat.svg") },
         { text: "SEO", image: require("./img/icon-seo.svg") },
         { text: "Themes", image: require("./img/icon-themes.svg") },
         { text: "Gallery", image: require("./img/icon-gallery.svg") },
