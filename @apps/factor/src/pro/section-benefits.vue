@@ -95,6 +95,8 @@ export default {
         height: 48px;
         margin: 10px 0 20px 0;
         border-radius: 0.5rem;
+        box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
+          0 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
       }
       h3,

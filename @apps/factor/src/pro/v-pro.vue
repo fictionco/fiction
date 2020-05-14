@@ -113,6 +113,16 @@ export default {
           attribution: "Patrick Carter, Full-stack Developer",
           img: require("./img/patrick.jpg"),
         },
+        {
+          text: `When I moved from a static site to Factor, traffic blew up. Once you see what Factor can do for you, Pro is a given.`,
+          attribution: "Daniel Byler, Front-end Developer",
+          img: require("./img/patrick.jpg"),
+        },
+        {
+          text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
+          attribution: "Rick Lee, UI Designer",
+          img: require("./img/patrick.jpg"),
+        },
       ],
     }
   },
@@ -254,7 +264,7 @@ export default {
   }
 
   .quotes {
-    padding-top: 4rem;
+    padding: 6rem 0 4rem;
     .quotes-pad {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -276,7 +286,7 @@ export default {
 
       blockquote {
         max-width: 550px;
-        padding: 6rem 2rem;
+        padding: 2rem;
         font-size: 1.1em;
         line-height: 1.8;
         background: #fff;

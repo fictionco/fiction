@@ -72,6 +72,8 @@ figure.figure-splash {
         background-size: cover;
         background-position: 50%;
         border-radius: 10px;
+        box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
+          0 5px 15px rgba(0, 0, 0, 0.07);
         height: 7rem;
         @media (max-width: 900px) {
           height: 8rem;

@@ -67,7 +67,7 @@ figure.figure-support {
         top: 0;
         left: 0;
         z-index: 0;
-        transform: translateY(-80px) rotateX(-2deg) rotateY(-10deg);
+        transform: rotateX(2deg) rotateY(20deg) translateZ(-70px) translateY(-80px);
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
         border-radius: 4px;
@@ -76,7 +76,7 @@ figure.figure-support {
         position: absolute;
         top: 20px;
         right: 0;
-        transform: scale(1) translateZ(-50px) translateX(95px) rotateX(-2deg)
+        transform: scale(1) translateX(60px) translateZ(-120px) rotateX(-2deg)
           rotateY(-12deg) perspective(1050px);
         background: #ffffff;
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
