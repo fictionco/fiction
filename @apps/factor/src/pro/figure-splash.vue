@@ -17,17 +17,17 @@ export default {
     return {
       cards: [
         { text: "Forum", image: require("./img/icon-forum.svg") },
-        { text: "Chat", image: require("./img/icon-chat.svg") },
         { text: "Analytics", image: require("./img/icon-analytics.svg") },
-        { text: "Forms", image: require("./img/icon-forms.svg") },
-        { text: "Gallery", image: require("./img/icon-gallery.svg") },
+        { text: "Chat", image: require("./img/icon-chat.svg") },
         { text: "SEO", image: require("./img/icon-seo.svg") },
         { text: "Themes", image: require("./img/icon-themes.svg") },
+        { text: "Gallery", image: require("./img/icon-gallery.svg") },
+        { text: "Forms", image: require("./img/icon-forms.svg") },
         { text: "Support", image: require("./img/icon-support.svg") },
         { text: "Socialize", image: require("./img/icon-socialize.svg") },
-        { text: "Subscriptions", image: require("./img/icon-subscriptions.svg") },
-        { text: "Feed", image: require("./img/icon-feed.svg") },
-        { text: "Job Lister", image: require("./img/icon-jobs.svg") },
+        // { text: "Subscriptions", image: require("./img/icon-subscriptions.svg") },
+        // { text: "Feed", image: require("./img/icon-feed.svg") },
+        // { text: "Job Lister", image: require("./img/icon-jobs.svg") },
       ],
     }
   },
@@ -54,15 +54,15 @@ figure.figure-splash {
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1.5rem;
+    grid-gap: 2rem;
     @media (max-width: 900px) {
       transform: scale(1) translate(-0, -0px);
     }
     transform: rotateY(-12deg) rotateX(5deg);
     .card {
-      border-radius: 10px;
+      //border-radius: 10px;
       background: #fff;
-      box-shadow: 0px 2px 2px rgba(50, 50, 93, 0.3), 0px 3px 10px rgba(0, 0, 0, 0.07);
+      //box-shadow: 0px 2px 2px rgba(50, 50, 93, 0.3), 0px 3px 10px rgba(0, 0, 0, 0.07);
       display: grid;
       grid-template-columns: 1fr;
 
@@ -70,8 +70,12 @@ figure.figure-splash {
       overflow: hidden;
       .icon {
         background-size: cover;
-        height: 8rem;
         background-position: 50%;
+        border-radius: 10px;
+        height: 7rem;
+        @media (max-width: 900px) {
+          height: 8rem;
+        }
         img {
           max-width: 100%;
           display: block;
@@ -79,10 +83,11 @@ figure.figure-splash {
       }
       .text {
         display: grid;
-        padding: 1rem;
+        padding: 0.4rem 1rem;
         font-size: 1.2em;
         line-height: 1.2;
         font-weight: 700;
+        text-align: center;
       }
     }
     // .screenshot {

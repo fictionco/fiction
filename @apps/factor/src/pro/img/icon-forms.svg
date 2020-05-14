@@ -1,7 +1,8 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="200" height="200" fill="#F9D513"/>
-<rect width="200" height="200" fill="white"/>
-<path d="M0 200L4.71939e-06 0L200 4.71939e-06L200 200L0 200Z" fill="#F9D513"/>
-<path d="M142.778 57.2222V142.778H57.2222V57.2222H142.778ZM149.5 45H50.5C47.4444 45 45 47.4444 45 50.5V149.5C45 151.944 47.4444 155 50.5 155H149.5C151.944 155 155 151.944 155 149.5V50.5C155 47.4444 151.944 45 149.5 45Z" fill="#082B5A"/>
-<path d="M93.8888 69.4444H130.555V81.6667H93.8888V69.4444ZM93.8888 93.8889H130.555V106.111H93.8888V93.8889ZM93.8888 118.333H130.555V130.556H93.8888V118.333ZM69.4443 69.4444H81.6666V81.6667H69.4443V69.4444ZM69.4443 93.8889H81.6666V106.111H69.4443V93.8889ZM69.4443 118.333H81.6666V130.556H69.4443V118.333Z" fill="#082B5A"/>
+<rect width="200" height="200" fill="#FFC35A"/>
+<rect width="200" height="200" fill="#F9AB03"/>
+<rect x="36" y="46" width="129" height="108" rx="7" stroke="#E07600" stroke-width="4"/>
+<rect x="57" y="65" width="88" height="17" fill="#E07600" fill-opacity="0.5"/>
+<rect x="57" y="93" width="88" height="17" fill="#E07600" fill-opacity="0.5"/>
+<rect x="98" y="121" width="47" height="17" fill="#E07600"/>
 </svg>
