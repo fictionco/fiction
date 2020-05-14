@@ -23,15 +23,6 @@ select,
   font-family: var(--font-family-input, var(--font-family-primary));
 }
 
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="text"],
-textarea {
-  -webkit-appearance: none;
-}
-
 input,
 textarea {
   line-height: 1.2;
@@ -88,8 +79,19 @@ input[type="search"],
 input[type="tel"],
 textarea,
 select {
+  -webkit-appearance: none;
   background-color: var(--color-bg-input, var(--color-bg));
   box-shadow: 0 0 0 1px var(--color-border-input, var(--color-border));
   border-radius: 4px;
   width: 100%;
+  font-family: var(
+    --font-family-input,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    Arial,
+    sans-serif
+  );
 }

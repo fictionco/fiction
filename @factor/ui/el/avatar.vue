@@ -47,7 +47,7 @@ export default {
         return (
           gravatar.url(email, {
             s: "200",
-            d: setting("app.blankUser") || "retro",
+            d: setting("app.avatarDefault") || "retro",
           }) || ""
         )
       } else {

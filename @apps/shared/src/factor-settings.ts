@@ -1,4 +1,7 @@
 export default {
+  app: {
+    avatarDefault: "retro",
+  },
   serverAnalytics: {
     trackingId: "UA-109072363-1",
   },

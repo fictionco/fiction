@@ -5,6 +5,7 @@
     </div>
     <div class="post-content">
       <div class="post-meta">
+        <factor-avatar class="avatar meta-item" :user="author" />
         <div class="author meta-item">{{ author.username }}</div>
         <div class="time meta-item">{{ timeAgo(post.createdAt) }}</div>
 
@@ -140,9 +141,10 @@ export default {
     }
   }
   .post-content {
+    position: relative;
     min-width: 0;
     border-radius: 5px;
-    overflow: hidden;
+
     box-shadow: var(--forum-panel-shadow);
 
     .post-text {
@@ -162,8 +164,10 @@ export default {
   }
   .post-meta {
     display: flex;
+    align-items: center;
     padding: 0.7rem 1rem;
-
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     border-bottom: 1px solid var(--color-border);
     background: var(--color-bg-contrast);
     font-size: 0.9em;
@@ -174,22 +178,29 @@ export default {
       font-weight: 700;
     }
     .meta-item {
-      margin-right: 2rem;
+      margin-right: 1rem;
     }
-    .post-meta-avatar {
-      width: 1.5em;
+    .factor-avatar {
+      width: 1.5rem;
+      display: none;
     }
   }
   @media (max-width: 900px) {
     padding: 0 1rem;
     grid-gap: 1rem;
-    grid-template-columns: 2.5rem 1fr;
-    .post-avatar .avatar {
-      width: 2.5rem;
+    grid-template-columns: 1fr;
+    .post-avatar {
+      display: none;
     }
-    .post-meta .meta-item {
-      font-size: 12px;
+    .post-meta {
+      .meta-item {
+        font-size: 12px;
+      }
+      .factor-avatar {
+        display: block;
+      }
     }
+
     .post-text {
       font-size: 1rem;
     }

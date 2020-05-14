@@ -149,7 +149,7 @@ export const saveTopicReply = async (
           subject: `New Topic Reply: ${post.title}`,
           text: reply.content,
           linkText: "View Topic",
-          linkUrl: getTopicUrl(reply),
+          linkUrl: getTopicUrl(post),
         },
         bearer,
       })

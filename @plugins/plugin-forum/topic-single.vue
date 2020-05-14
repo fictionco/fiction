@@ -54,8 +54,7 @@
         />
       </div>
       <div class="topic-sidebar-wrap">
-        <factor-spinner v-if="loading" />
-        <div v-else class="topic-sidebar">
+        <div class="topic-sidebar">
           <div class="number-posts item">
             <factor-icon icon="far fa-comment" />
             <span class="text">{{ (post.embeddedCount || 0) + 1 }}</span>

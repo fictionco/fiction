@@ -182,6 +182,21 @@ export default {
     color: inherit;
     border: none;
     box-shadow: 0 0 0 1px var(--color-border);
+    font-family: var(
+      --font-family-input,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      "Roboto",
+      "Helvetica Neue",
+      Arial,
+      sans-serif
+    );
+  }
+  @media (max-width: 900px) {
+    .editor-statusbar {
+      display: none;
+    }
   }
 }
 

@@ -21,6 +21,19 @@ const getPostWithEmbeddedById = async (
   return post ?? undefined
 }
 
+const getEmbeddedPost = async (
+  parentId: string,
+  _id: string
+): Promise<FactorPostState> => {
+  const parentPost = await getPostWithEmbeddedById(parentId, _id)
+
+  const { embedded = [] } = parentPost || {}
+
+  const embeddedPost = embedded[0] || {}
+
+  return embeddedPost
+}
+
 /**
  * Operations on embedded docs
  */
@@ -57,12 +70,19 @@ export const embeddedPost = async (
     return
   }
 
+  const embeddedPostId = _id ? _id : data?._id
+
+  let embeddedPost: FactorPostState | true = true
+  if (embeddedPostId && parentId) {
+    embeddedPost = await getEmbeddedPost(parentId, embeddedPostId)
+  }
+
   // Check permissions
   const permissable = postPermission({
     post: parent,
     bearer,
     action: operation,
-    embedded: true,
+    embeddedPost,
   })
 
   if (!permissable) return

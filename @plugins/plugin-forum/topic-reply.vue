@@ -217,15 +217,22 @@ export default {
       top: 4rem;
       left: 1rem;
     }
+
+    @media (max-width: 900px) {
+      .avatar {
+        display: none;
+      }
+      .editor-input .CodeMirror {
+        padding-left: 1rem;
+      }
+    }
     .actions.save-post {
       padding: 1rem 0;
       text-align: right;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
-      .subscriber {
-        display: flex;
-      }
+      justify-content: space-between;
+
       .checkbox-wrap {
         border-radius: 6px;
         color: var(--color-text-secondary);
@@ -242,10 +249,11 @@ export default {
         }
       }
       @media (max-width: 900px) {
-        display: block;
+        margin-top: 1rem;
+        flex-direction: column-reverse;
         .subscriber {
           display: block;
-          margin-bottom: 1rem;
+          margin-top: 2rem;
         }
       }
     }

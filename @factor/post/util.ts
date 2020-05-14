@@ -157,7 +157,7 @@ export const getSchemaPermissions = ({
   embedded,
 }: {
   postType: string
-  embedded?: true
+  embedded?: boolean
 }): SchemaPermissions => {
   const { permissions = {} } = getSchema("post")
 
@@ -243,13 +243,14 @@ export const postPermission = ({
   bearer,
   post,
   action,
-  embedded,
+  embeddedPost,
 }: {
   bearer: CurrentUserState
   post: FactorPost
   action: PostActions
-  embedded?: true
+  embeddedPost?: FactorPost | true
 }): true | never => {
+  const embedded = !!embeddedPost
   const permissionsConfig = getSchemaPermissions({ postType: post.__t ?? "", embedded })
 
   const { accessLevel = 500, accessPublished = 500, accessAuthor } = permissionsConfig[
@@ -264,7 +265,12 @@ export const postPermission = ({
 
   const userAccessLevel = bearer?.accessLevel ?? 0
 
-  const isAuthor = isPostAuthor({ user: bearer, post })
+  let authorPost = post
+  if (typeof embeddedPost == "object" && embeddedPost._id) {
+    authorPost = embeddedPost
+  }
+
+  const isAuthor = isPostAuthor({ user: bearer, post: authorPost })
 
   if (userAccessLevel >= accessLevel) {
     return true
