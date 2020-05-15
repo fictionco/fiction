@@ -113,7 +113,6 @@ export default {
           img: require("./img/melissa.jpg"),
         },
         {
-          // text: `What I like about Factor is that instead wondering what my modifications are going to look like on the live site, I get a real-time preview locally as I customize.`,
           text: `Creating powerful apps takes minutes, I spend less time integrating and customizing is quite simple.`,
           attribution: "Joshua Carter, Front-end Developer",
           img: require("./img/joshua.jpg"),
@@ -121,7 +120,7 @@ export default {
         {
           text: `Great documentation and support. The advanced features and settings with Factor pro make it easy.`,
           attribution: "Daniel Turner, Software Developer",
-          img: require("./img/justin.jpg"),
+          img: require("./img/daniel.jpg"),
         },
       ],
     }
