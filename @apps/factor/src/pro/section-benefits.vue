@@ -32,38 +32,38 @@ export default {
       img,
       features: [
         {
-          icon: "forum",
+          icon: "settings",
           title: "Pro Settings",
           text:
             "Your existing plugins will get additional functionality like sitemap support and more.",
         },
         {
-          icon: "forum",
+          icon: "extensions",
           title: "Pro Extensions",
           text:
             "Weild the full power of pro-only plugins built especially for high quality web apps.",
         },
         {
-          icon: "forum",
+          icon: "support",
           title: "Priority Help & Support",
           text:
             "Have a problem? Need advice? We're here to help. Pro members get priority support.",
         },
 
         {
-          icon: "forum",
+          icon: "dashboard",
           title: "Dashboard Enhancements",
           text:
             "With Pro, you'll get access to additional dashboard features designed for production apps.",
         },
         {
-          icon: "forum",
+          icon: "cancel",
           title: "Cancel Anytime",
           text:
             "If you want to cancel, you can do so at any time. We'll never break production web apps.",
         },
         {
-          icon: "forum",
+          icon: "satisfaction",
           title: "Satisfaction Guaranteed",
           text: "If you're not happy with the Pro suite, we'll refund your money.",
         },
