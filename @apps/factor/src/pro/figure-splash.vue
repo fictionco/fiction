@@ -18,7 +18,7 @@ export default {
       cards: [
         { text: "Forum", image: require("./img/icon-forum.svg") },
         { text: "Analytics", image: require("./img/icon-analytics.svg") },
-     //   { text: "Chat", image: require("./img/icon-chat.svg") },
+        //   { text: "Chat", image: require("./img/icon-chat.svg") },
         { text: "SEO", image: require("./img/icon-seo.svg") },
         { text: "Themes", image: require("./img/icon-themes.svg") },
         { text: "Gallery", image: require("./img/icon-gallery.svg") },
@@ -60,9 +60,7 @@ figure.figure-splash {
     }
     transform: rotateY(-12deg) rotateX(5deg);
     .card {
-      //border-radius: 10px;
       background: #fff;
-      //box-shadow: 0px 2px 2px rgba(50, 50, 93, 0.3), 0px 3px 10px rgba(0, 0, 0, 0.07);
       display: grid;
       grid-template-columns: 1fr;
 

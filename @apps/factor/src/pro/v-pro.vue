@@ -103,25 +103,24 @@ export default {
       ],
       quotes: [
         {
-          text: `When I moved from a static site to Factor, traffic blew up. Once you see what Factor can do for you, Pro is a given.`,
-          attribution: "Justin Keller, CEO Elastic Byte",
-          img: require("./img/justin.jpg"),
-          link: "https://elasticbyte.net",
-        },
-        {
           text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
-          attribution: "Patrick Carter, Full-stack Developer",
+          attribution: "Patrick Abner , Full-stack Developer",
           img: require("./img/patrick.jpg"),
         },
         {
-          text: `When I moved from a static site to Factor, traffic blew up. Once you see what Factor can do for you, Pro is a given.`,
-          attribution: "Daniel Byler, Front-end Developer",
-          img: require("./img/patrick.jpg"),
+          text: `What I like about Factor pro are the extensions that just keep on coming, they save time and are easy to customize.`,
+          attribution: "Melissa Flick, Developer",
+          img: require("./img/melissa.jpg"),
         },
         {
-          text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
-          attribution: "Rick Lee, UI Designer",
-          img: require("./img/patrick.jpg"),
+          text: `Creating powerful apps takes minutes, I spend less time integrating and customizing is quite simple.`,
+          attribution: "Joshua Carter, Front-end Developer",
+          img: require("./img/joshua.jpg"),
+        },
+        {
+          text: `Great documentation and support. The advanced features and settings with Factor pro make it easy.`,
+          attribution: "Daniel Turner, Software Developer",
+          img: require("./img/daniel.jpg"),
         },
       ],
     }
@@ -285,6 +284,7 @@ export default {
       display: flex;
 
       blockquote {
+        width: 100%;
         max-width: 550px;
         padding: 2rem;
         font-size: 1.1em;
