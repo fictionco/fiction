@@ -81,9 +81,6 @@ export default {
       this.loaded = true
     }, 100)
   },
-  metaInfo: {
-    title: "Docs",
-  },
 }
 </script>
 
