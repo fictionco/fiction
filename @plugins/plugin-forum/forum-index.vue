@@ -24,6 +24,7 @@ import { loadAndStoreIndex } from "./request"
 import { postType } from "."
 
 export default {
+  name: "ForumIndex",
   components: {
     factorSpinner,
   },
@@ -32,7 +33,7 @@ export default {
       loading: false,
     }
   },
-  metaInfo() {
+  metaInfo(this: any) {
     let title = setting("forum.metatags.index.title")
     let description = setting("forum.metatags.index.description")
 
@@ -88,7 +89,13 @@ export default {
     setting,
     async getPosts(this: any) {
       this.loading = true
-      await loadAndStoreIndex()
+      try {
+        await loadAndStoreIndex()
+      } catch (error) {
+        this.loading = false
+        throw error
+      }
+
       this.loading = false
     },
   },

@@ -275,6 +275,7 @@ import screenshotAlpha from './img/screenshot-alpha.jpg'
 
 
 export default {
+  name: "Setup",
   components: {
     factorLogo: () => import("./el/logo-factor.vue"),
     formInput: () => import("./el/form-input.vue"),

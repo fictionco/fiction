@@ -288,7 +288,11 @@ export const requestPostIndex = async (
     storeItem(queryHash, { posts, meta })
     storeItem(storeKey, { posts, meta })
 
-    await requestPostPopulate({ posts, depth: 20 })
+    const embeddedPosts = posts
+      .map((p) => (p.embedded?.length ? p.embedded[0] : undefined))
+      .filter((_) => _) as FactorPost[] // remove undefined, but typescript doesn't understand that
+
+    await requestPostPopulate({ posts: [...posts, ...embeddedPosts] })
 
     return { posts, meta }
   } else {

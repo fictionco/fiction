@@ -342,7 +342,10 @@ export const postIndex = async (
 
   const [counts, posts] = await Promise.all([
     indexMeta({ postType, conditions, options }),
-    getModel(postType).find(conditions, null, options).exec(),
+    getModel(postType)
+      .find(conditions, "+embedded", options)
+      .select({ embedded: { $slice: -1 } })
+      .exec(),
   ])
 
   return { meta: { ...counts, ...options, conditions }, posts }

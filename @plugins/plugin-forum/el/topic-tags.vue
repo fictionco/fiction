@@ -26,7 +26,7 @@ export default {
 </script>
 <style lang="less">
 .tags {
-  font-size: 0.85em;
+  font-size: 11px;
   .tag {
     color: var(--color-text-secondary, inherit);
     border-radius: 5px;

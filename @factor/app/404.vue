@@ -9,6 +9,7 @@
 
 <script lang="ts">
 export default {
+  name: "Four04",
   metaInfo() {
     return {
       title: `${this.errorText} Error`,

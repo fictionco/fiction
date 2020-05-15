@@ -39,9 +39,9 @@
               v-model="post.synopsis"
               input="factor-input-text"
               class="topic-new-textarea"
-              label="Synopsis"
+              label="Summary"
+              description="Optional"
               placeholder="Topic Summary"
-              required
             />
           </div>
 

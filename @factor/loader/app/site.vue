@@ -8,7 +8,11 @@
 <style src="./css/reset.less" lang="less"></style>
 <style src="./css/global.less" lang="less"></style>
 <style src="./css/inputs.less" lang="less"></style>
-<script></script>
+<script>
+export default {
+  name: "Loader"
+}
+</script>
 
 <style lang="less">
 .loader-app {

@@ -65,6 +65,9 @@ export default {
         value: "themes",
       },
       {
+        value: "showcase",
+      },
+      {
         value: "feedback",
       },
       {

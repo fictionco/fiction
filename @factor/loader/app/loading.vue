@@ -67,6 +67,7 @@ import { sendEvent } from "./utils"
 const waitFor = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export default {
+  name: "Progress",
   components: {
     factorLogo: () => import("./el/logo-factor.vue"),
     factorSpinner: () => import("./el/spinner.vue"),

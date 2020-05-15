@@ -21,14 +21,16 @@ import { resolveFilePath } from "@factor/api/resolver"
 import log from "@factor/api/logger"
 import { renderLoading } from "@factor/loader"
 import { systemUrl } from "@factor/api/url"
+import { getGlobalThis } from "@factor/api/utils"
 import { developmentServer } from "./server-dev"
 import { handleServerError, getServerInfo, logServerReady } from "./util"
 import { loadMiddleware } from "./middleware"
 import { RendererComponents } from "./types"
-let __listening: Server | undefined
 
+let __listening: Server | undefined
 let __application: express.Express
-let __renderer: BundleRenderer // used for dev server updates
+
+const __global = getGlobalThis() as any
 
 export interface ServerOptions {
   staticFiles?: boolean
@@ -137,8 +139,10 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
 
   await loadMiddleware(__application)
 
+  const ssrRenderer = __global.ssrRenderer
+
   __application.get("*", (request, response) => {
-    return renderRequest(__renderer, request, response)
+    return renderRequest(ssrRenderer, request, response)
   })
 
   await new Promise((resolve) => {
@@ -265,21 +269,21 @@ export const createRenderServer = async (
         fileSystem: options.staticFiles ? "static" : "memory",
         watchMode: options.watchServer ? "server" : "app",
         onReady: async (renderConfig) => {
-          __renderer = htmlRenderer(renderConfig)
+          __global.ssrRenderer = htmlRenderer(renderConfig)
 
-          resolve(__renderer)
+          resolve(__global.ssrRenderer)
         },
       })
     })
 
     await runCallbacks("dev-server-built")
   } else {
-    __renderer = appRenderer(cwd)
+    __global.ssrRenderer = appRenderer(cwd)
   }
 
   await restartServer({ noReloadModules: true, logOnReady: true })
 
-  return __renderer
+  return __global.ssrRenderer
 }
 
 export const setup = (): void => {

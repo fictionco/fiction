@@ -148,7 +148,7 @@ export default {
     box-shadow: var(--forum-panel-shadow);
 
     .post-text {
-      padding: 2rem;
+      padding: 1rem;
     }
   }
   &:last-child {
@@ -158,7 +158,6 @@ export default {
     width: 3.5rem;
   }
   .post-text {
-    font-size: 1.2em;
     line-height: 1.6;
     word-break: break-word;
   }

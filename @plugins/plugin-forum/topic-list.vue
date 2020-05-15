@@ -39,6 +39,11 @@
             <factor-link class="item-avatar" :path="topicLink(post)">
               <div class="avatar-area">
                 <factor-avatar :user="author(post)" />
+                <factor-avatar
+                  v-if="hasReply(post)"
+                  class="last-post"
+                  :user="lastReplyAuthor(post)"
+                />
                 <div v-if="post.pinned" class="tag-bubble">
                   <factor-icon icon="fas fa-map-pin" />
                 </div>
@@ -56,7 +61,11 @@
               </div>
 
               <div class="meta">
-                <div class="author meta-item">{{ author(post, "username") }}</div>
+                <div v-if="hasReply(post)" class="last-author meta-item">
+                  <factor-icon icon="fas fa-reply" />
+                  {{ lastReplyAuthor(post, "username") }}
+                </div>
+                <div v-else class="author meta-item">{{ author(post, "username") }}</div>
                 <div class="time-ago meta-item">Updated {{ timeAgo(post.updatedAt) }}</div>
               </div>
             </div>
@@ -142,9 +151,24 @@ export default {
     setting,
     topicLink,
     excerpt,
+    postAuthor(this: any, post: FactorPost) {
+      return post.author && post.author.length > 0 ? post.author[0] : ""
+    },
+    hasReply(this: any, post: FactorPost) {
+      const last = this.lastReply(post)
+
+      return !last || this.postAuthor(post) == this.postAuthor(last) ? false : true
+    },
+    lastReply(this: any, post: FactorPost) {
+      return post.embedded && post.embedded.length > 0 ? post.embedded[0] : undefined
+    },
+    lastReplyAuthor(this: any, post: FactorPost, field: string) {
+      const last = this.lastReply(post) || {}
+      return this.author(last, field)
+    },
     author(this: any, post: FactorPost, field: string) {
       const authorId = post.author && post.author.length > 0 ? post.author[0] : ""
-      const author = authorId ? stored(authorId) : {}
+      const author = authorId ? stored(authorId) : undefined
       if (!field) return author
       return author && author[field] ? author[field] : undefined
     },
@@ -236,6 +260,16 @@ export default {
       .avatar {
         width: 3rem;
       }
+      .avatar.last-post {
+        position: absolute;
+        left: -0.5rem;
+        bottom: -0.5rem;
+        width: 1.75rem;
+        .thumb {
+          box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7),
+            0 1px 1px 1px rgba(0, 0, 0, 0.3);
+        }
+      }
       .avatar-area {
         position: relative;
       }
@@ -287,8 +321,13 @@ export default {
         line-height: 1.3;
         .meta-item {
           margin-right: 1rem;
-          &.author {
+          &.author,
+          &.last-author {
             font-weight: 700;
+            .factor-icon {
+              opacity: 0.3;
+              font-size: 0.8em;
+            }
           }
         }
       }
