@@ -24,14 +24,12 @@ export const setup = (): void => {
     key: "tailwindPlugin",
     hook: "postcss-plugins",
     callback: (_: any[], { cwd }: { cwd?: string } = {}): any[] => {
-      const config: string = setting("tailwind.config", { cwd }) ?? ""
+      const purgeSetting = setting("tailwind.purge", { cwd })
+      const purge = process.env.NODE_ENV === "production" ? purgeSetting : {}
+      const config = setting("tailwind.config", { cwd }) ?? {}
       const directives: string = setting("tailwind.directives", { cwd }) ?? ""
 
-      return [
-        tailwindCSS(config, directives),
-        ..._,
-        //...(process.env.NODE_ENV === "production" ? [purgecss] : [])
-      ]
+      return [tailwindCSS({ purge, ...config }, directives), ..._]
     },
   })
 }
