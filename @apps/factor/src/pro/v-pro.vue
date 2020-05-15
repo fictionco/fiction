@@ -302,6 +302,12 @@ export default {
           padding: 2rem;
           box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
           border-radius: 6px 6px 6px 0;
+          transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
+
+          &:hover {
+            box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2),
+              0 14px 32px rgba(50, 50, 93, 0.1);
+          }
         }
 
         .quote-media {
