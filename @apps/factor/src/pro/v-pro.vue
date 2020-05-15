@@ -85,21 +85,21 @@ export default {
       features: [
         {
           title: `Dashboard <span class="pro">Pro</span>`,
-          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          text: `The professional suite enables special pro-level features on Factor's CMS dashboard.`,
           figure: () => import("./figure-dashboard.vue"),
-          link: { path: "/plans", text: "Learn More" },
+          link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: "Premium Extensions",
-          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          title: `Extensions <span class="pro">Pro</span>`,
+          text: `Want to take your applications to the next level? The Pro suite enabled Pro versions of many Factor plugins.`,
           figure: () => import("./figure-extensions.vue"),
-          link: { path: "/plans", text: "Learn More" },
+          link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: "Premium Support",
+          title: `Support <span class="pro">Pro</span>`,
           text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
           figure: () => import("./figure-support.vue"),
-          link: { path: "/plans", text: "Learn More" },
+          link: { path: "/plans", text: "Start Now" },
         },
       ],
       quotes: [

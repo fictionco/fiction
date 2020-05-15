@@ -25,7 +25,7 @@ export default {
       return Math.max(Math.min(this.width / 500, 1), 0.5)
     },
   },
-  mounted() {
+  mounted(this: any) {
     this.width = this.getWidth()
 
     window.addEventListener("resize", () => {
@@ -62,22 +62,28 @@ figure.figure-support {
     .screenshot {
       background: #fff;
       display: inline-block;
-      &.card-support-nav {
+      &.card-support-page {
+        img {
+          width: 400px;
+        }
         position: absolute;
         top: 0;
         left: 0;
         z-index: 0;
-        transform: rotateX(2deg) rotateY(20deg) translateZ(-70px) translateY(-80px);
+        transform: rotateX(-2deg) rotateY(10deg) rotateZ(-1deg);
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
-        border-radius: 4px;
+        border-radius: 8px;
       }
-      &.card-support-page {
+      &.card-support-nav {
+        img {
+          width: 200px;
+        }
         position: absolute;
         top: 20px;
         right: 0;
-        transform: scale(1) translateX(60px) translateZ(-120px) rotateX(-2deg)
-          rotateY(-12deg) perspective(1050px);
+        transform: scale(1) translateZ(50px) translateY(1%) rotateY(-15deg) rotateX(10deg)
+          rotateZ(4deg);
         background: #ffffff;
         box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
         overflow: hidden;
