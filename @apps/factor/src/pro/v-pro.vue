@@ -3,6 +3,7 @@
     <section-splash />
 
     <section class="benefits content">
+      <h2 class="title">Why you'll love being Pro...</h2>
       <section-benefits class="content-pad" />
     </section>
 
@@ -22,7 +23,7 @@
         </div>
         <div class="feature-content-container">
           <div class="feature-content">
-            <h2 class="title">{{ feature.title }}</h2>
+            <h2 v-formatted-text="feature.title" class="title" />
             <div class="text">{{ feature.text }}</div>
             <div v-if="feature.link" class="action">
               <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
@@ -83,7 +84,7 @@ export default {
       loadingButtons: true,
       features: [
         {
-          title: `Pro CMS Dashboard`,
+          title: `Dashboard <span class="pro">Pro</span>`,
           text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/plans", text: "Learn More" },
@@ -153,9 +154,14 @@ export default {
   }
 
   .benefits {
+    h2.title {
+      font-size: 1.5em;
+      text-align: center;
+      font-weight: var(--font-weight-bold, 700);
+    }
     .content-pad {
       padding-top: 3rem;
-      padding-bottom: 10rem;
+      padding-bottom: 3rem;
       @media (max-width: 900px) {
         padding-top: 6rem;
         padding-bottom: 3rem;
@@ -179,7 +185,7 @@ export default {
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
       align-items: center;
-      min-height: 80vh;
+
       &.even {
         .feature-content-container {
           justify-self: flex-end;
@@ -232,21 +238,22 @@ export default {
       }
     }
 
-    .feature-content {
-      letter-spacing: -0.01em;
-    }
     .title {
       font-weight: 700;
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
+      .pro {
+        color: var(--color-text-secondary);
+      }
     }
     .text {
       font-weight: 400;
       font-size: 1.4em;
       line-height: 1.6;
       margin-bottom: 1rem;
-      opacity: 0.8;
+
+      color: var(--color-text-secondary);
     }
     .action {
       font-weight: 500;

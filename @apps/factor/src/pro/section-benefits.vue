@@ -7,13 +7,24 @@
         <p class="text">{{ feature.text }}</p>
       </li>
     </ul>
+    <div class="reminder">
+      <div class="text">
+        <h2 class="reminder-title">Get Pro Today</h2>
+        <div class="sub">There has never been a better time.</div>
+      </div>
+      <div class="action">
+        <factor-link btn="primary" path="/plan">Get Started &rarr;</factor-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { factorLink } from "@factor/ui"
 import img from "./img/icon-forum.svg"
 export default {
   components: {
+    factorLink,
     homeIcon: () => import("./icon.vue"),
   },
   data() {
@@ -22,39 +33,39 @@ export default {
       features: [
         {
           icon: "forum",
-          title: "Advanced Settings",
+          title: "Pro Settings",
           text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            "Your existing plugins will get additional functionality like sitemap support and more.",
         },
         {
           icon: "forum",
-          title: "Premium Features",
+          title: "Pro Extensions",
           text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            "Weild the full power of pro-only plugins built especially for high quality web apps.",
         },
         {
           icon: "forum",
-          title: "Help & Support",
+          title: "Priority Help & Support",
           text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            "Have a problem? Need advice? We're here to help. Pro members get priority support.",
+        },
+
+        {
+          icon: "forum",
+          title: "Dashboard Enhancements",
+          text:
+            "With Pro, you'll get access to additional dashboard features designed for production apps.",
         },
         {
           icon: "forum",
-          title: "Advanced Settings",
+          title: "Cancel Anytime",
           text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+            "If you want to cancel, you can do so at any time. We'll never break production web apps.",
         },
         {
           icon: "forum",
-          title: "Premium Features",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-        },
-        {
-          icon: "forum",
-          title: "Help & Support",
-          text:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+          title: "Satisfaction Guaranteed",
+          text: "If you're not happy with the Pro suite, we'll refund your money.",
         },
       ],
     }
@@ -106,6 +117,21 @@ export default {
       p:last-child {
         margin-bottom: 0;
       }
+    }
+  }
+  .reminder {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .reminder-title {
+      font-size: 1.4em;
+      font-weight: var(--font-weight-bold, 700);
+    }
+    .sub {
+      color: var(--color-text-secondary);
     }
   }
 }

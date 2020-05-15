@@ -49,6 +49,9 @@ export default {
     factorLink,
     figureIcon: () => import("./figure-icon.vue"),
   },
+  metaInfo: () => {
+    return setting("docsEngine.metaInfo")
+  },
   data() {
     return {
       loaded: false,

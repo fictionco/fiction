@@ -4,7 +4,10 @@
       <div class="stage">
         <div v-for="(card, i) in cards" :key="i" class="card">
           <div class="icon" :style="{backgroundImage: `url(${card.image})`}" />
-          <div class="text">{{ card.text }}</div>
+          <div class="text">
+            {{ card.text }}
+            <span class="pro">Pro</span>
+          </div>
         </div>
       </div>
     </div>
@@ -18,16 +21,16 @@ export default {
       cards: [
         { text: "Forum", image: require("./img/icon-forum.svg") },
         { text: "Analytics", image: require("./img/icon-analytics.svg") },
-        //   { text: "Chat", image: require("./img/icon-chat.svg") },
+        { text: "Chat", image: require("./img/icon-chat.svg") },
         { text: "SEO", image: require("./img/icon-seo.svg") },
         { text: "Themes", image: require("./img/icon-themes.svg") },
-        { text: "Gallery", image: require("./img/icon-gallery.svg") },
+        { text: "Coming Soon", image: require("./img/icon-gallery.svg") },
         { text: "Forms", image: require("./img/icon-forms.svg") },
         { text: "Support", image: require("./img/icon-support.svg") },
-        { text: "Socialize", image: require("./img/icon-socialize.svg") },
-        // { text: "Subscriptions", image: require("./img/icon-subscriptions.svg") },
-        // { text: "Feed", image: require("./img/icon-feed.svg") },
-        // { text: "Job Lister", image: require("./img/icon-jobs.svg") },
+        { text: "Coming Soon", image: require("./img/icon-socialize.svg") },
+        { text: "Subscriptions", image: require("./img/icon-subscriptions.svg") },
+        { text: "Coming Soon", image: require("./img/icon-feed.svg") },
+        { text: "Job Lister", image: require("./img/icon-jobs.svg") },
       ],
     }
   },
@@ -53,7 +56,7 @@ figure.figure-splash {
     transform: scale(1);
 
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 2rem;
     @media (max-width: 900px) {
       transform: scale(1) translate(-0, -0px);
@@ -61,8 +64,6 @@ figure.figure-splash {
     transform: rotateY(-12deg) rotateX(5deg);
     .card {
       background: #fff;
-      display: grid;
-      grid-template-columns: 1fr;
 
       align-items: center;
       overflow: hidden;
@@ -72,7 +73,8 @@ figure.figure-splash {
         border-radius: 10px;
         box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
           0 5px 15px rgba(0, 0, 0, 0.07);
-        height: 7rem;
+        padding: 50%;
+        width: 6em;
         @media (max-width: 900px) {
           height: 8rem;
         }
@@ -82,12 +84,16 @@ figure.figure-splash {
         }
       }
       .text {
-        display: grid;
         padding: 0.4rem 1rem;
-        font-size: 1.2em;
+        font-size: 0.8em;
         line-height: 1.2;
         font-weight: 700;
+        text-transform: uppercase;
         text-align: center;
+        color: var(--color-text-secondary);
+        .pro {
+          opacity: 0.6;
+        }
       }
     }
     // .screenshot {
