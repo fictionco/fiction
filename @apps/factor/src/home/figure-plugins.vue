@@ -50,6 +50,9 @@ figure.plugins-figure {
   top: 0;
   left: 0;
 
+  .stage-wrap {
+    perspective: 1000px;
+  }
   .stage-wrap,
   .stage {
     width: 100%;
@@ -65,8 +68,9 @@ figure.plugins-figure {
     @media (max-width: 900px) {
       transform: translate(-0, -0px);
     }
-    perspective: 1000px;
-    transform: rotateX(10deg) rotateY(0deg) rotate(-1deg) scale(1) translateX(-15px);
+
+    transform: rotateX(27deg) rotateY(10deg) rotateZ(-7deg) rotate(-2deg) scale(1)
+      translateX(0px);
     .plugin-icon {
       position: absolute;
       width: 100px;
@@ -74,7 +78,7 @@ figure.plugins-figure {
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 50%;
+      border-radius: 1.5rem;
       overflow: hidden;
       background: #fff;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);

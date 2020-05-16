@@ -140,7 +140,7 @@ export default {
       .text {
         font-size: 0.94em;
         line-height: 1.7em;
-        opacity: 0.85;
+        color: var(--color-text-secondary);
       }
       .icon {
         width: 48px;
@@ -162,8 +162,10 @@ export default {
     grid-template-columns: 1fr auto;
     align-items: center;
     border-top: 2px solid #f6f9fc;
-    margin: 60px -20px 0;
+
     padding: 60px 20px 0;
+    max-width: 700px;
+    margin: 60px auto 0;
     @media (max-width: 767px) {
       grid-template-columns: 1fr;
     }

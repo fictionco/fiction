@@ -288,7 +288,8 @@ export default {
       font-size: 1.4em;
       line-height: 1.6;
       margin-bottom: 1rem;
-      opacity: 0.8;
+
+      color: var(--color-text-secondary);
     }
     .action {
       font-weight: 500;
