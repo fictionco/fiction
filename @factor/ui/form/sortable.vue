@@ -117,23 +117,31 @@ export default {
     },
     addItem(this: any) {
       const newLocalValue = this.localValue.slice()
-
-      newLocalValue.push({
-        __title: `Item ${this.value.length + 1}`,
+      const selected = this.value.length
+      let item = {
+        __title: `Item ${selected + 1}`,
         __key: randomToken(4),
-      })
+      }
 
+      this.settings.forEach(field => {
+        if ('_default' in field) {
+          item[field._id] = field._default
+        }
+      });
+      newLocalValue.push(item)
+      
       this.localValue = newLocalValue
+      this.selected = selected
     },
     removeItem(this: any, index: number) {
       const newLocalValue = this.localValue.slice()
 
-      newLocalValue.splice(index)
+      newLocalValue.splice(index, 1)
 
       this.localValue = newLocalValue
 
       if (index == this.selected) {
-        this.selected = 0
+        this.selected = index > 0 ? index - 1 : 0
       }
     },
     getValue(this: any, _id: string) {
