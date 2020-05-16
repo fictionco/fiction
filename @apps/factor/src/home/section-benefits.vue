@@ -6,58 +6,10 @@
     </header>
 
     <ul class="features-list">
-      <li class="feature-block">
-        <home-icon icon="dashboard" />
-        <h3 class="title">Your dashboard</h3>
-        <p class="text">
-          Wield a powerful post system and dashboard to simplify your backend design and
-          add complete content-management.
-        </p>
-      </li>
-
-      <li class="feature-block">
-        <home-icon icon="build" />
-        <h3 class="title">Themes that work</h3>
-        <p class="text">
-          Factor is designed for theming. Save time and start with a solid foundation,
-          then customize.
-        </p>
-      </li>
-
-      <li class="feature-block">
-        <home-icon icon="simple" />
-        <h3 class="title">Simple yet powerful</h3>
-        <p class="text">
-          Factor simplifies your life by helping you use standards and best-practices
-          without having to think about them.
-        </p>
-      </li>
-
-      <li class="feature-block">
-        <home-icon icon="easy" />
-        <h3 class="title">Easy to use</h3>
-        <p class="text">
-          Nobody likes reading technical docs. Factor is built for people that like to
-          save time, not debug.
-        </p>
-      </li>
-
-      <li class="feature-block">
-        <home-icon icon="optimized" />
-        <h3 class="title">Search optimized</h3>
-        <p class="text">
-          Build universal apps with VueJS. Get better SEO results with server-rendered
-          apps.
-        </p>
-      </li>
-
-      <li class="feature-block">
-        <home-icon icon="open-source" />
-        <h3 class="title">Free and open-source</h3>
-        <p class="text">
-          Factor is built on open-source and uses the same license as projects like
-          WordPress and Linux.
-        </p>
+      <li v-for="(feature, i) in features" :key="i" class="feature-block">
+        <home-icon :icon="feature.icon" />
+        <h3 class="title">{{ feature.title }}</h3>
+        <p class="text">{{ feature.text }}</p>
       </li>
     </ul>
 
@@ -82,7 +34,48 @@ export default {
     factorLink,
     homeIcon: () => import("./icon.vue"),
   },
-  methods: {},
+  data() {
+    return {
+      features: [
+        {
+          icon: "dashboard3",
+          title: "Your dashboard",
+          text:
+            "Wield a powerful post system and dashboard to simplify your backend design and add complete content-management.",
+        },
+        {
+          icon: "themes",
+          title: "Themes that work",
+          text:
+            "Factor is designed for theming. Save time and start with a solid foundation, then customize.",
+        },
+        {
+          icon: "simple2",
+          title: "Simple yet powerful",
+          text:
+            "Factor simplifies your life by helping you use standards and best-practices without having to think about them.",
+        },
+        {
+          icon: "easy2",
+          title: "Easy to use",
+          text:
+            "Nobody likes reading technical docs. Factor is built for people that like to save time, not debug.",
+        },
+        {
+          icon: "optimized2",
+          title: "Search optimized",
+          text:
+            "Build universal apps with VueJS. Get better SEO results with server-rendered apps.",
+        },
+        {
+          icon: "open-source2",
+          title: "Free and open-source",
+          text:
+            "Factor is built on open-source and uses the same license as projects like WordPress and Linux.",
+        },
+      ],
+    }
+  },
 }
 </script>
 <style lang="less">
@@ -145,8 +138,11 @@ export default {
       .icon {
         width: 48px;
         height: 48px;
-
-        margin: 10px 0 20px 0;
+        margin: 10px 0 20px;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
+          0 5px 15px rgba(0, 0, 0, 0.07);
+        overflow: hidden;
       }
       h3,
       p {

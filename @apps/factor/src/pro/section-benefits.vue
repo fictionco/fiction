@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { factorLink } from "@factor/ui"
-import img from "./img/icon-forum.svg"
 export default {
   components: {
     factorLink,
@@ -29,7 +28,6 @@ export default {
   },
   data() {
     return {
-      img,
       features: [
         {
           icon: "settings",
