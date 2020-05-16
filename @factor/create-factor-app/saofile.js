@@ -88,7 +88,7 @@ const config = {
       await axios.get(
         `https://factor.dev/__track_event__?event=factorInstall&action=createFactorApp&label=${id}`
       )
-    } catch (error) {
+    } catch {
       /* silence */
     }
   },

@@ -255,7 +255,7 @@ export default {
       try {
         await action(args)
         this.setView(next)
-      } catch (error) {
+      } catch {
         this.loading = false
       }
 
@@ -273,7 +273,7 @@ export default {
       let user
       try {
         user = await authenticate({ ...this.form, newAccount: this.newAccount })
-      } catch (error) {
+      } catch {
         this.loading = false
       }
 

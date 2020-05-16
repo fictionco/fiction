@@ -206,7 +206,7 @@ export default {
           post: this.post,
           postType: this.postType,
         })
-      } catch (error) {
+      } catch {
         this.sending = false
       }
 

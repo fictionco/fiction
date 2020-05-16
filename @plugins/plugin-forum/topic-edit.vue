@@ -162,6 +162,7 @@ export default {
         }
       } catch (error) {
         this.sending = false
+        throw error
       }
       this.sending = false
     },

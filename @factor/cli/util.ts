@@ -47,7 +47,7 @@ export const getApiUser = async (): Promise<FactorUser | undefined> => {
           data: { result },
         } = await axios.get(`https://api-server.factor.dev?apiKey=${apiKey}`)
         return result
-      } catch (error) {
+      } catch {
         log.info("error getting API user")
       }
     }
@@ -72,7 +72,7 @@ export const getLatestVersion = async (): Promise<string> => {
     let latest = ""
     try {
       latest = await latestVersion("@factor/core")
-    } catch (error) {
+    } catch {
       log.info("Error getting latest Factor version")
     }
     const current = factorVersion()

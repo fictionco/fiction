@@ -65,7 +65,7 @@ export default {
 
           this.added = this.email
           this.email = ""
-        } catch (error) {
+        } catch {
           this.validate(this.setting("validation.error"))
         }
       }

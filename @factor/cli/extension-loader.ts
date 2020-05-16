@@ -550,7 +550,7 @@ const verifyMainFiles = (extensions: FactorExtension[], cwd?: string): void | ne
   mainFiles.forEach((fi) => {
     try {
       require.resolve(fi)
-    } catch (error) {
+    } catch {
       throw new Error(`There was a problem resolving a main file (${fi}).`)
     }
   })

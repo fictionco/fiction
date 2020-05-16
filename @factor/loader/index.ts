@@ -72,7 +72,7 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
       values.dependencies = {
         [theme]: `^${themeVersion}`,
       }
-    } catch (error) {
+    } catch {
       log.error("Added theme was not found.")
     }
   }
@@ -87,7 +87,7 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
         let user
         try {
           user = await createNewAdminUser({ displayName, email, password })
-        } catch (error) {
+        } catch {
           addNotice(
             `Couldn't create a user for: ${email}. Likely the email already exists in the DB.`
           )

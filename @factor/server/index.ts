@@ -133,14 +133,14 @@ export const listenServer = async (options: ServerOptions): Promise<void> => {
         setRestarting("no")
         resolve()
       })
-      .on("error", async (error) => {
+      .on("error", async (error: NodeJS.ErrnoException) => {
         if (error.code === "EADDRINUSE") {
-          const usedPort = process.env.PORT
-          const newPort = Number.parseInt(process.env.PORT) + 1
+          const usedPort = process.env.PORT || "3000"
+          const newPort: string | number = Number.parseInt(usedPort) + 1
 
           log.log(`Port ${usedPort} is in use, trying ${newPort}...`)
 
-          await listenServer({ ...options, port: newPort })
+          await listenServer({ ...options, port: String(newPort) })
           resolve()
         } else {
           log.error(error)

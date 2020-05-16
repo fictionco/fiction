@@ -66,7 +66,7 @@ export class NodeLog {
     )
     try {
       await axios.get(encoded)
-    } catch (error) {
+    } catch {
       /* silence */
     }
   }

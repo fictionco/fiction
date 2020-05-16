@@ -284,6 +284,7 @@ export const uniqueObjectHash = (obj: any): string => {
 
   const keyed = str
     .split("")
+    // eslint-disable-next-line unicorn/no-reduce
     .reduce(
       (prevHash: number, currVal: string) =>
         ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0,

@@ -36,6 +36,7 @@ describe["posix"]("cli factor start", () => {
     const SECOND = 1000
     await waitFor(SECOND)
 
+    // eslint-disable-next-line unicorn/no-useless-undefined
     expect(error).toBe(undefined)
 
     const theUrl = getUrl({ route: "/", port: process.env.PORT })

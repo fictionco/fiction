@@ -71,6 +71,7 @@ module.exports = {
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     "unicorn/no-null": "off",
     "unicorn/no-fn-reference-in-iterator": "off",
+    "unicorn/no-useless-undefined": "off",
     "vue/html-self-closing": [
       "error",
       {

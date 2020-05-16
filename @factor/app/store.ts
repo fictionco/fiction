@@ -59,7 +59,7 @@ export const storeItem = (item: string, value: any): void => {
  * @param key - ID in the flat store
  */
 export const stored = (key?: string | ObjectId | number): any => {
-  if (!__store || !key) return undefined
+  if (!__store || !key) return
 
   return __store.getters["getItem"](key)
 }

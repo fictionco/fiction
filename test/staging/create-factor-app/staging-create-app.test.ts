@@ -82,7 +82,6 @@ describe("create-factor-app", () => {
       } catch (error) {
         err = error
       }
-
       expect(err).toBe(undefined)
     })
   })
