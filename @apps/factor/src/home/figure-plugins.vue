@@ -2,46 +2,8 @@
   <figure ref="wrapper" class="stage-container plugins-figure">
     <div class="stage-wrap">
       <div class="stage">
-        <div class="plugin-icon">
-          <img src="./img/icon-blog.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-notify.svg" />
-        </div>
-        <div class="plugin-icon twitter">
-          <img src="./img/icon-twitter.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-gtm.svg" />
-        </div>
-        <div class="plugin-icon facebook">
-          <img src="./img/icon-facebook.svg" />
-        </div>
-
-        <div class="plugin-icon">
-          <img src="./img/icon-user-profiles.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-google-analytics.svg" />
-        </div>
-
-        <div class="plugin-icon">
-          <img src="./img/icon-syntax.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-contact-form.svg" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-aws.svg" alt="AWS icon" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-jobs.svg" alt="Jobs icon" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-seo.svg" alt="SEO icon" />
-        </div>
-        <div class="plugin-icon">
-          <img src="./img/icon-sitemap.svg" alt="sitemap icon" />
+        <div v-for="(plugin, i) in plugins" :key="i" class="plugin-icon" :class="plugin.class">
+          <img :src="plugin.image" :alt="plugin.alt" />
         </div>
       </div>
     </div>
@@ -49,7 +11,27 @@
 </template>
 
 <script lang="ts">
-export default {}
+export default {
+  data() {
+    return {
+      plugins: [
+        { image: require("./img/icon-docs.svg"), alt: "Docs Icon" },
+        { image: require("./img/icon-analytics.svg"), alt: "Analytics Icon" },
+        { image: require("./img/icon-forms.svg"), alt: "Forms Icon" },
+        { image: require("./img/icon-gallery.svg"), alt: "Gallery Icon" },
+        { image: require("./img/icon-feed.svg"), alt: "Feed Icon" },
+        { image: require("./img/icon-sitemap.svg"), alt: "Sitemap Icon" },
+        { image: require("./img/icon-syntax.svg"), alt: "Syntax Icon" },
+        { image: require("./img/icon-themes.svg"), alt: "Themes Icon" },
+        { image: require("./img/icon-aws.svg"), alt: "AWS Icon" },
+        { image: require("./img/icon-subscriptions.svg"), alt: "Subscriptions Icon" },
+        { image: require("./img/icon-jobs.svg"), alt: "Jobs Icon" },
+        { image: require("./img/icon-socialize.svg"), alt: "Socialize Icon" },
+        { image: require("./img/icon-seo.svg"), alt: "SEO Icon" },
+      ],
+    }
+  },
+}
 </script>
 
 <style lang="less">
@@ -93,14 +75,19 @@ figure.plugins-figure {
       justify-content: center;
       align-items: center;
       border-radius: 50%;
+      overflow: hidden;
       background: #fff;
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.11), 0px 1px 3px rgba(0, 0, 0, 0.08);
-      &.facebook {
-        background: #0471ff;
+
+      img {
+        width: 100%;
       }
-      &.twitter {
-        background: #0471ff;
-      }
+      // &.facebook {
+      //   background: #0471ff;
+      // }
+      // &.twitter {
+      //   background: #0471ff;
+      // }
       &:nth-child(1) {
         top: 5%;
         left: 5%;
