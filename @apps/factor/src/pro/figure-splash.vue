@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import chatIcon from "./img/icon-chat.svg"
+import chatIcon from "./img/icon-chat-bubbles.svg"
 import formIcon from "./img/icon-forms.svg"
 export default {
   data() {
