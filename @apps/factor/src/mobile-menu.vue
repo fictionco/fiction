@@ -71,7 +71,7 @@ export default {
           { route: "/install", name: "Get Started" },
           { route: "/themes", name: "Themes" },
           { route: "/plugins", name: "Plugins" },
-          { path: "/forum", name: "Forum" },
+          { route: "/forum", name: "Forum" },
           { route: "/docs", name: "Develop" },
           { component: () => import("./el/github-stars.vue") },
         ],
