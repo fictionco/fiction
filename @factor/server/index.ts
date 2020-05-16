@@ -105,21 +105,57 @@ export const renderRequest = async (
 }
 
 /**
- * Adds a utility to the listener/server so we can remove it later
- */
-const prepareListener = (): void => {
-  if (__listening) {
-    __listening.destroy = destroyer(__listening)
-  }
-}
-
-/**
  * Closes and removes port processes etc for existing server
  */
 export const closeServer = async (): Promise<void> => {
   if (__listening) {
     __listening.destroy()
   }
+}
+
+export const listenServer = async (options: ServerOptions): Promise<void> => {
+  const { port, logOnReady, openOnReady } = options || {}
+
+  process.env.PORT = port || process.env.PORT || "3000"
+
+  await new Promise((resolve) => {
+    __listening = __application
+      .listen(process.env.PORT, () => {
+        if (logOnReady) {
+          logServerReady()
+        }
+
+        if (openOnReady && process.env.FACTOR_ENV !== "test") {
+          const openAtUrl = systemUrl("local")
+          open(openAtUrl)
+        }
+
+        setRestarting("no")
+        resolve()
+      })
+      .on("error", async (error) => {
+        if (error.code === "EADDRINUSE") {
+          const usedPort = process.env.PORT
+          const newPort = Number.parseInt(process.env.PORT) + 1
+
+          log.log(`Port ${usedPort} is in use, trying ${newPort}...`)
+
+          await listenServer({ ...options, port: newPort })
+          resolve()
+        } else {
+          log.error(error)
+        }
+      })
+  })
+
+  /**
+   * Adds a utility to the listener/server so we can remove it later
+   */
+  if (__listening) {
+    __listening.destroy = destroyer(__listening)
+  }
+
+  return
 }
 
 /**
@@ -131,10 +167,6 @@ export const closeServer = async (): Promise<void> => {
  * This needs to take into account server resets
  */
 export const createServer = async (options: ServerOptions): Promise<void> => {
-  const { port, logOnReady, openOnReady } = options || {}
-
-  process.env.PORT = port || process.env.PORT || "3000"
-
   __application = express()
 
   await loadMiddleware(__application)
@@ -145,23 +177,7 @@ export const createServer = async (options: ServerOptions): Promise<void> => {
     return renderRequest(ssrRenderer, request, response)
   })
 
-  await new Promise((resolve) => {
-    __listening = __application.listen(process.env.PORT, () => {
-      if (logOnReady) {
-        logServerReady()
-      }
-
-      if (openOnReady && process.env.FACTOR_ENV !== "test") {
-        const openAtUrl = systemUrl("local")
-        open(openAtUrl)
-      }
-
-      setRestarting("no")
-      resolve()
-    })
-  })
-
-  prepareListener()
+  await listenServer(options)
 
   /**
    * Hook into restart-server callback that occurs on changes, etc.
