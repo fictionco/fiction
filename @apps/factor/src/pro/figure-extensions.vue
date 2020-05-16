@@ -70,7 +70,8 @@ figure.figure-extensions {
         right: 0;
         z-index: 0;
         transform: rotateX(2deg) rotateY(-20deg);
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+        box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
+          0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
         border-radius: 4px;
       }
@@ -80,7 +81,9 @@ figure.figure-extensions {
         left: 0;
         transform: rotateX(2deg) rotateY(20deg) translateZ(-100px) translateY(10%);
         background: #ffffff;
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 4px;
       }

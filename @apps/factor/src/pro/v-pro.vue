@@ -213,7 +213,6 @@ export default {
         min-width: 0; // defaults content width
         height: 100%;
         position: relative;
-        // width: 100%;
         display: flex;
         align-items: center;
         .figure-container {
@@ -301,12 +300,13 @@ export default {
         .quote-body {
           padding: 2rem;
           box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
-          border-radius: 6px 6px 6px 0;
-          transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
+          border-radius: 0.5rem;
+          transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
 
           &:hover {
-            box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2),
-              0 14px 32px rgba(50, 50, 93, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+              0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
           }
         }
 

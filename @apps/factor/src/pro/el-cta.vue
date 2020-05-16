@@ -49,7 +49,8 @@ export default {
     padding: 2rem 5rem;
     overflow: hidden;
     border-radius: 8px;
-    box-shadow: 0 0 3px rgba(50, 50, 93, 0.2), 0 14px 32px rgba(50, 50, 93, 0.1);
+    box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+      0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
 
     @media (max-width: 767px) {
       grid-template-columns: 1fr;
