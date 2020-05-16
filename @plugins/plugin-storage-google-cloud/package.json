@@ -33,7 +33,7 @@
   "homepage": "https://factor.dev/plugin/google-cloud-image-storage",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@google-cloud/storage": "^4.3.0"
+    "@google-cloud/storage": "^5.0.0"
   },
   "keywords": [
     "factor",
