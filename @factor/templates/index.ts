@@ -28,7 +28,7 @@ export const getTemplateFields = async (
   const theComponent = await tpl.component()
   const {
     default: {
-      options: { templateSettings },
+      templateSettings
     },
   } = theComponent
 
@@ -111,8 +111,8 @@ export const getDefaultTemplateSettings = (
       out[_id] = val
     }
 
-    return out
   })
+  return out
 }
 
 export const setup = (): void => {
