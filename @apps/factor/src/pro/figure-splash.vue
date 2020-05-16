@@ -15,13 +15,15 @@
 </template>
 
 <script lang="ts">
+import chatIcon from "./img/icon-chat.svg"
+import formIcon from "./img/icon-forms.svg"
 export default {
   data() {
     return {
       cards: [
         { text: "Forum", image: require("./img/icon-forum.svg") },
-        { text: "Forms", image: require("./img/icon-forms.svg") },
-        { text: "Chat", image: require("./img/icon-chat.svg") },
+        { text: "Forms", image: formIcon },
+        { text: "Chat", image: chatIcon },
         { text: "Analytics", image: require("./img/icon-analytics.svg") },
         { text: "SEO", image: require("./img/icon-seo.svg") },
         { text: "Coming Soon", image: require("./img/icon-gallery.svg") },
