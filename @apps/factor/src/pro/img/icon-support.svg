@@ -1,11 +1,6 @@
-<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 200L4.71939e-06 0L200 4.71939e-06L200 200L0 200Z" fill="#241553"/>
-<circle cx="100" cy="100" r="45" stroke="white" stroke-width="20"/>
-<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="42" y="42" width="116" height="116">
-<circle cx="100" cy="100" r="45" stroke="white" stroke-width="26"/>
-</mask>
-<g mask="url(#mask0)">
-<rect x="58.0312" y="161.397" width="28.3636" height="146.182" transform="rotate(-135 58.0312 161.397)" fill="#FF5B64"/>
-<rect x="42.6025" y="58.0308" width="28.3636" height="146.182" transform="rotate(-45 42.6025 58.0308)" fill="#FF5B64"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200">
+  <defs/>
+  <path fill="#020F46" d="M0 200V0h200v200H0z"/>
+  <path fill="#fff" fill-rule="evenodd" d="M100 135a35 35 0 100-70 35 35 0 000 70zm0 20a55 55 0 100-110 55 55 0 000 110z" clip-rule="evenodd"/>
+  <path fill="#FF5B64" d="M69.56 89.27a32.09 32.09 0 0119.98-19.62l-19.5-19.5a58.3 58.3 0 00-19.88 19.71l19.4 19.41zM129.86 149.56l-19.41-19.4a32.09 32.09 0 0019.62-19.98l19.5 19.5a58.28 58.28 0 01-19.71 19.88zM130.16 89.27a32.08 32.08 0 00-19.98-19.62l19.5-19.5a58.3 58.3 0 0119.88 19.71l-19.4 19.41zM69.86 149.56l19.41-19.4a32.09 32.09 0 01-19.62-19.98l-19.5 19.5a58.29 58.29 0 0019.71 19.88z"/>
 </svg>
