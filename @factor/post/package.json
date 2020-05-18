@@ -1,6 +1,6 @@
 {
   "name": "@factor/post",
-  "version": "1.7.9",
+  "version": "1.7.10",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
