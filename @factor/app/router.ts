@@ -3,19 +3,10 @@ import { emitEvent } from "@factor/api/events"
 
 import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
 import qs from "qs"
-import { uniq, getGlobalThis } from "@factor/api"
+import { uniq } from "@factor/api"
 
 let __initialPageLoad = true
-
-const GLOBALS = getGlobalThis() as any
-
-GLOBALS.__routerInstance = ""
-
-declare module "vue/types/vue" {
-  export interface VueConstructor {
-    $router: VueRouter
-  }
-}
+let __routerInstance: VueRouter
 
 /**
  * In client, when we change routes, we should run checks for auth, preloaders, etc.
@@ -148,20 +139,20 @@ export const createFactorRouter = (): VueRouter => {
     router.afterEach((to, from) => hookClientRouterAfter(to, from))
   }
 
-  GLOBALS.__routerInstance = router
+  __routerInstance = router
 
   return router
 }
 
 export const getRouter = (): VueRouter => {
-  return GLOBALS.__routerInstance
+  return __routerInstance
 }
 
 /**
  * Set the router from an external source, needed for tests
  */
 export const setRouter = (r: VueRouter): void => {
-  GLOBALS.__routerInstance = r
+  __routerInstance = r
 }
 
 /**
