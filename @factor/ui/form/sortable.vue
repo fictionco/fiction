@@ -55,6 +55,7 @@
 <script lang="ts">
 import { factorBtn, factorIcon, factorInputWrap } from "@factor/ui"
 import { randomToken } from "@factor/api/utils"
+import { TemplateSetting } from "@factor/templates/types"
 import DOM from "jquery"
 import Sortable from "sortablejs"
 
@@ -118,18 +119,18 @@ export default {
     addItem(this: any) {
       const newLocalValue = this.localValue.slice()
       const selected = this.value.length
-      let item = {
+      const item: { [key: string]: any } = {
         __title: `Item ${selected + 1}`,
         __key: randomToken(4),
       }
 
-      this.settings.forEach(field => {
-        if ('_default' in field) {
+      this.settings.forEach((field: TemplateSetting) => {
+        if ("_default" in field) {
           item[field._id] = field._default
         }
-      });
+      })
       newLocalValue.push(item)
-      
+
       this.localValue = newLocalValue
       this.selected = selected
     },
