@@ -34,33 +34,8 @@
     </section>
 
     <section class="quotes content">
-      <div class="content-pad quotes-pad">
-        <article
-          v-for="(quote, index) in quotes"
-          :key="index"
-          itemprop="review"
-          itemscope
-          itemtype="http://schema.org/Review"
-        >
-          <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Review">
-            <p class="quote-body" itemprop="reviewBody">"{{ quote.text }}"</p>
-            <footer>
-              <div class="quote-media">
-                <a class="quote-image" :href="quote.link">
-                  <img :src="quote.img" alt="quote" />
-                </a>
-              </div>
-              <a
-                :href="quote.link"
-                target="_blank"
-                itemprop="author"
-                itemscope
-                itemtype="https://schema.org/Person"
-              >{{ quote.attribution }}</a>
-            </footer>
-          </blockquote>
-        </article>
-      </div>
+      <h2 class="title">What they’re saying...</h2>
+      <section-quotes class="content-pad quotes-pad" />
     </section>
 
     <el-cta id="cta" />
@@ -76,6 +51,7 @@ export default {
     factorIcon,
     sectionSplash: () => import("./splash.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
+    sectionQuotes: () => import("./section-quotes.vue"),
     elCta: () => import("./el-cta.vue"),
   },
   data(this: any) {
@@ -100,28 +76,6 @@ export default {
           text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
-        },
-      ],
-      quotes: [
-        {
-          text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
-          attribution: "Patrick Abner , Full-stack Developer",
-          img: require("./img/patrick.jpg"),
-        },
-        {
-          text: `What I like about Factor pro are the extensions that just keep on coming, they save time and are easy to customize.`,
-          attribution: "Melissa Flick, Developer",
-          img: require("./img/melissa.jpg"),
-        },
-        {
-          text: `Creating powerful apps takes minutes, I spend less time integrating and customizing is quite simple.`,
-          attribution: "Joshua Carter, Front-end Developer",
-          img: require("./img/joshua.jpg"),
-        },
-        {
-          text: `Great documentation and support. The advanced features and settings with Factor pro make it easy.`,
-          attribution: "Daniel Turner, Software Developer",
-          img: require("./img/daniel.jpg"),
         },
       ],
     }
@@ -269,73 +223,16 @@ export default {
   }
 
   .quotes {
-    padding: 6rem 0 4rem;
-    .quotes-pad {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
+    padding: 10rem 0;
     @media (max-width: 900px) {
-      .quotes-pad {
-        grid-template-columns: 1fr;
-        article {
-          margin: 0 auto;
-          blockquote {
-            padding: 2rem 0;
-          }
-        }
-      }
+      padding: 4rem 0 8rem;
     }
-    article {
-      position: relative;
-      display: flex;
 
-      blockquote {
-        width: 100%;
-        max-width: 550px;
-        padding: 2rem;
-        font-size: 1.1em;
-        line-height: 1.8;
-        background: #fff;
-
-        .quote-body {
-          padding: 2rem;
-          box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
-          border-radius: 0.5rem;
-          transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
-
-          &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
-              0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
-          }
-        }
-
-        .quote-media {
-          display: block;
-          text-align: center;
-          a {
-            display: block;
-            width: 40px;
-
-            img {
-              display: block;
-              width: 100%;
-              border-radius: 50%;
-            }
-          }
-        }
-        footer {
-          display: grid;
-          grid-template-columns: 1fr 6fr;
-          align-items: center;
-          margin-top: 1rem;
-          font-size: 0.8em;
-          font-weight: 500;
-          a {
-            color: inherit;
-          }
-        }
-      }
+    h2.title {
+      font-size: 1.5em;
+      text-align: center;
+      font-weight: var(--font-weight-bold, 700);
+      margin-bottom: 6rem;
     }
   }
 }

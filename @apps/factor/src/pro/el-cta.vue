@@ -37,7 +37,7 @@ export default {
   padding: 0 2rem 6rem;
 
   @media (max-width: 767px) {
-    padding: 6rem 2rem;
+    padding: 2rem 2rem 6rem;
   }
 
   .pro-cta {
