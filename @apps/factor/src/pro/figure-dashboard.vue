@@ -103,7 +103,7 @@ figure.figure-dashboard {
           rotate(4deg);
         background: #ffffff;
         box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
-          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          -19px 32.5px 95px -5px rgba(50, 50, 93, 0.3),
           13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 20px;
