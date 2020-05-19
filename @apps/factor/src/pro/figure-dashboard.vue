@@ -5,6 +5,9 @@
         <div class="screenshot card-dashboard">
           <img src="./img/dashboard.svg" alt="Dashboard" />
         </div>
+        <div class="screenshot phone">
+          <img src="./img/card-phone.svg" alt="Dashboard Mobile" />
+        </div>
         <div class="screenshot magnify">
           <img src="./img/magnify.jpg" alt="Dashboard Magnify" />
         </div>
@@ -91,6 +94,19 @@ figure.figure-dashboard {
           box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
             0px 15px 35px rgba(50, 50, 93, 0.11), 0px -5px 15px rgba(0, 0, 0, 0.07);
         }
+      }
+      &.phone {
+        position: absolute;
+        top: 70px;
+        right: 90px;
+        transform: scale(1) translateZ(50px) translateY(1%) rotateY(-15deg) rotateX(10deg)
+          rotate(4deg);
+        background: #ffffff;
+        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        border-radius: 20px;
       }
     }
     perspective: 1000px;

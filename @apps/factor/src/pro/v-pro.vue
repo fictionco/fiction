@@ -77,6 +77,12 @@ export default {
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
+        {
+          title: `Lorem ipsum`,
+          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          figure: () => import("./figure-satisfaction.vue"),
+          link: { path: "/plans", text: "Start Now" },
+        },
       ],
     }
   },
