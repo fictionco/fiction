@@ -4,7 +4,6 @@ export default {
   docsEngine: {
     nav: docNav,
     components: injectedComponents,
-    requireLoggedIn: true,
   },
   checkout: {
     production: {

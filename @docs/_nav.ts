@@ -253,6 +253,10 @@ export default [
         doc: "template-settings",
         file: (): Promise<string> => import("./api/template-settings/index.md"),
       },
+      {
+        doc: "extension-guidelines",
+        file: (): Promise<string> => import("./api/extension-guidelines/index.md"),
+      },
     ],
   },
   {
