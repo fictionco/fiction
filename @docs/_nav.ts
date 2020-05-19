@@ -214,6 +214,10 @@ export default [
         doc: "creating-plugins",
         file: (): Promise<string> => import("./advanced/creating-plugins/index.md"),
       },
+      {
+        doc: "theme-development",
+        file: (): Promise<string> => import("./advanced/theme-development/index.md"),
+      },
       // {
       //   doc: "writing-a-plugin",
       //   file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),
