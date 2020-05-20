@@ -39,23 +39,23 @@ export default {
       animationInterval: 8000,
       quotes: [
         {
-          text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
-          attribution: "Patrick Abner , Full-stack Developer",
+          text: `Factor Pro is all about speed and quality. Pro features, pro results.`,
+          attribution: "Patrick A, Full-Stack",
           img: require("./img/patrick.jpg"),
         },
         {
-          text: `What I like about Factor pro is the extensions that just keep on coming, they save time and are easy to customize.`,
-          attribution: "Melissa Flick, Developer",
+          text: `What's awesome is the plugins and features just keep on coming!`,
+          attribution: "Mel F. Front-End",
           img: require("./img/melissa.jpg"),
         },
         {
-          text: `Creating powerful apps takes minutes, I spend less time integrating and customizing is quite simple.`,
-          attribution: "Joshua Carter, Front-end Developer",
+          text: `You get what you pay for. Factor pays for itself in a few hours.`,
+          attribution: "Joshua C, Front-End",
           img: require("./img/joshua.jpg"),
         },
         {
-          text: `Great documentation and support. The advanced features and settings with Factor pro make it easy.`,
-          attribution: "Daniel Turner, Software Developer",
+          text: `Adding Pro gives you something other developers don't have.`,
+          attribution: "Daniel Turner, Developer",
           img: require("./img/daniel.jpg"),
         },
       ],
@@ -125,13 +125,19 @@ export default {
           }
         }
       }
+      .quote-body {
+        font-size: 1.2em;
+        font-weight: var(--font-weight-bold, 700);
+      }
       footer {
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
         display: grid;
         grid-template-columns: 1fr 6fr;
         grid-gap: 1rem;
         align-items: center;
         margin-top: 1rem;
-        font-size: 0.8em;
+        font-size: 0.7em;
         font-weight: 500;
         a {
           color: inherit;
@@ -143,7 +149,7 @@ export default {
     }
 
     &.active {
-      box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
+      box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 50px 100px rgba(50, 50, 93, 0.13),
         0px 15px 35px rgba(50, 50, 93, 0.11), 0px -5px 15px rgba(0, 0, 0, 0.07);
       transform: scale(1.1) translateY(-30px);
       @media (max-width: 900px) {
@@ -152,7 +158,8 @@ export default {
     }
     &:not(.active) {
       //filter: blur(2px);
-      box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.05);
+      box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 5px 5px rgba(50, 50, 93, 0.05),
+        0px 5px 15px rgba(50, 50, 93, 0.11);
       @media (max-width: 900px) {
         box-shadow: 0 0px 26px rgba(50, 50, 93, 0.05);
       }
@@ -161,14 +168,14 @@ export default {
 
   #quote1:not(.active),
   #quote3:not(.active) {
-    transform: scale(0.9) translate3d(-400px, 100px, -250px);
+    transform: scale(0.9) translate3d(-400px, 100px, -250px) rotateX(30deg);
     @media (max-width: 900px) {
       transform: translate3d(0, 100px, -250px);
     }
   }
   #quote2:not(.active),
   #quote4:not(.active) {
-    transform: scale(0.9) translate3d(400px, 100px, -250px);
+    transform: scale(0.9) translate3d(400px, 100px, -250px) rotateX(30deg);
     @media (max-width: 900px) {
       transform: translate3d(0, 100px, -250px);
     }

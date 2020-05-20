@@ -64,7 +64,7 @@ figure.figure-satisfaction {
       &.card-satisfaction {
         position: absolute;
         z-index: 0;
-        transform: rotateX(5deg) rotateY(-20deg);
+        transform: rotateX(5deg) rotateY(20deg);
         box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
           0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
