@@ -291,10 +291,11 @@ export default {
     }
 
     h2.title {
-      font-size: 1.5em;
       text-align: center;
       font-weight: var(--font-weight-bold, 700);
       margin-bottom: 6rem;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
     }
   }
 
