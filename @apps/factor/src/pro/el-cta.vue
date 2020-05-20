@@ -8,7 +8,7 @@
         </div>
 
         <div class="actions">
-          <factor-link path="/plans" btn="primary">Upgrade Now &rarr;</factor-link>
+          <factor-link path="/plans" btn="primary">Upgrade Youe App &rarr;</factor-link>
         </div>
       </div>
     </div>
