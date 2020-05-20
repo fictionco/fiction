@@ -17,7 +17,8 @@ interface FactorEdition {
 }
 
 export const getApiUserData = async (): Promise<
-  { user: FactorUser; suite: { pro: boolean; business: boolean } } | undefined
+  | { user?: FactorUser; suite: { pro: boolean; business: boolean; hasError?: boolean } }
+  | undefined
 > => {
   if (__remoteConfig.apiUser) {
     return __remoteConfig.apiUser
@@ -34,7 +35,9 @@ export const getApiUserData = async (): Promise<
         } = await axios.get(`${apiServerUrl}?apiKey=${apiKey}`)
         return result
       } catch {
-        log.info("error getting API user")
+        return {
+          suite: { pro: false, business: false, hasError: true },
+        }
       }
     }
     return
@@ -43,29 +46,26 @@ export const getApiUserData = async (): Promise<
 
 export const getSuiteEdition = async (): Promise<FactorEdition> => {
   let edition = "community"
-  let user
 
   try {
     const result = await getApiUserData()
 
     if (result) {
-      user = result.user
-
-      const { pro, business } = result.suite ?? {}
+      const { pro, business, hasError } = result.suite ?? {}
 
       if (business) {
         edition = "business"
       } else if (pro) {
         edition = "pro"
-      } else {
-        edition = "community"
+      } else if (hasError) {
+        edition = "unknown"
       }
     }
   } catch {
-    log.log("Error getting API user")
+    edition = "unknown"
   }
 
-  return { edition, displayName: user?.displayName ?? "" }
+  return { edition }
 }
 
 export const getLatestVersion = async (): Promise<string> => {

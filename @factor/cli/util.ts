@@ -60,12 +60,14 @@ export const serverInfo = async ({
       ` / ${chalk.bold(NODE_ENV)} mode`
   )
 
-  const upsell =
-    edition == "community"
-      ? `- upgrade: ${redChalk("https://factor.dev/pro")}`
-      : "- premium enabled"
+  if (edition != "unknown") {
+    const upsell =
+      edition == "community"
+        ? `- upgrade: ${redChalk("https://factor.dev/pro")}`
+        : "- premium enabled"
 
-  lines.push(`Using the ${redChalk(edition)} suite ${chalk.dim(upsell)}`)
+    lines.push(`Using the ${redChalk(edition)} suite ${chalk.dim(upsell)}`)
+  }
 
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Available at ${blueChalk(systemUrl("local"))}`)
