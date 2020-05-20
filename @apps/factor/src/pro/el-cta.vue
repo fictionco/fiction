@@ -34,7 +34,7 @@ export default {
 
 <style lang="less">
 .pro-cta-wrap {
-  padding: 0 2rem 6rem;
+  padding: 3rem 2rem 6rem;
 
   @media (max-width: 767px) {
     padding: 2rem 2rem 6rem;

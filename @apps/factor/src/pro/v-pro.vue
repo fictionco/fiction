@@ -23,8 +23,15 @@
         </div>
         <div class="feature-content-container">
           <div class="feature-content">
-            <h2 v-formatted-text="feature.title" class="title" />
-            <div class="text">{{ feature.text }}</div>
+            <h2 v-if="feature.title" v-formatted-text="feature.title" class="title" />
+            <div v-if="feature.text" class="text">{{ feature.text }}</div>
+
+            <ul v-if="feature.list" class="list">
+              <li v-for="(item, i) in feature.list" :key="i" class="list-block">
+                <h3 v-formatted-text="item.title" class="list-title" />
+                <p class="list-text">{{ item.text }}</p>
+              </li>
+            </ul>
             <div v-if="feature.link" class="action">
               <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
             </div>
@@ -36,6 +43,20 @@
     <section class="quotes content">
       <h2 class="title">What they’re saying...</h2>
       <section-quotes class="content-pad quotes-pad" />
+    </section>
+
+    <section class="plugins-gallery-section content">
+      <div class="plugins-gallery-header content-pad">
+        <div class="text">
+          <h2 class="title">Latest Plugins</h2>
+          <div class="sub">Create and run your web app with Factor and extensions.</div>
+        </div>
+        <div class="action">
+          <factor-link btn="default" path="/plugins">Browse All &rarr;</factor-link>
+        </div>
+      </div>
+
+      <plugins-gallery class="content-pad" />
     </section>
 
     <el-cta id="cta" />
@@ -53,6 +74,7 @@ export default {
     sectionBenefits: () => import("./section-benefits.vue"),
     sectionQuotes: () => import("./section-quotes.vue"),
     elCta: () => import("./el-cta.vue"),
+    pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {
     return {
@@ -60,28 +82,37 @@ export default {
       loadingButtons: true,
       features: [
         {
-          title: `Dashboard <span class="pro">Pro</span>`,
+          title: `Dashboard <span class="alt">Pro</span>`,
           text: `The professional suite enables special pro-level features on Factor's CMS dashboard.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: `Extensions <span class="pro">Pro</span>`,
+          title: `Extensions <span class="alt">Pro</span>`,
           text: `Want to take your applications to the next level? The Pro suite enabled Pro versions of many Factor plugins.`,
           figure: () => import("./figure-extensions.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: `Support <span class="pro">Pro</span>`,
+          title: `Support <span class="alt">Pro</span>`,
           text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: `Lorem ipsum`,
-          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          list: [
+            {
+              title: `Satisfaction Guaranteed`,
+              text:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+            },
+            {
+              title: `Cancel Anytime`,
+              text:
+                "If you want to cancel, you can do so at any time. We'll never break production web apps.",
+            },
+          ],
           figure: () => import("./figure-satisfaction.vue"),
-          link: { path: "/plans", text: "Start Now" },
         },
       ],
     }
@@ -202,7 +233,7 @@ export default {
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
-      .pro {
+      .alt {
         color: var(--color-text-secondary);
       }
     }
@@ -214,6 +245,31 @@ export default {
 
       color: var(--color-text-secondary);
     }
+
+    .list {
+      list-style-type: none;
+      .list-block {
+        margin-bottom: 3rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .list-title {
+        font-weight: 700;
+        font-size: 2em;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+      .list-text {
+        font-weight: 400;
+        font-size: 1.4em;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+
+        color: var(--color-text-secondary);
+      }
+    }
+
     .action {
       font-weight: 500;
       font-size: 1.3em;
@@ -229,7 +285,7 @@ export default {
   }
 
   .quotes {
-    padding: 10rem 0;
+    padding: 6rem 0;
     @media (max-width: 900px) {
       padding: 4rem 0 8rem;
     }
@@ -239,6 +295,25 @@ export default {
       text-align: center;
       font-weight: var(--font-weight-bold, 700);
       margin-bottom: 6rem;
+    }
+  }
+
+  .plugins-gallery-section {
+    padding: 3rem 0;
+
+    .plugins-gallery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      .title {
+        font-size: 1.4em;
+        font-weight: var(--font-weight-bold, 700);
+      }
+      .sub {
+        color: var(--color-text-secondary);
+      }
     }
   }
 }
