@@ -8,7 +8,6 @@
         class="gallery-item-plugin"
         :href="`/plugin/${encodeURIComponent(item.permalink)}`"
       >
-        <!-- @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })" -->
         <img :src="item.icon" :alt="`${item.title} Icon`" class="plugin-icon" />
         <div class="entry-content">
           <h1 class="title">{{ item.title }}</h1>
@@ -21,11 +20,9 @@
 
 <script lang="ts">
 import { stored } from "@factor/api"
-import { isLoggedIn } from "@factor/user"
 import { factorSpinner } from "@factor/ui"
-import { postType, extensionPermalink } from "../extend/util"
-
 import { requestIndex } from "../extend/request"
+
 export default {
   components: {
     factorSpinner,
@@ -33,21 +30,18 @@ export default {
   data() {
     return {
       loading: false,
-      getData: "",
+      postType: "extension",
+      extensionType: "plugin",
     }
   },
   serverPrefetch(this: any) {
     return this.getPosts()
   },
   computed: {
-    isLoggedIn,
     extensions(this: any) {
-      const storeKey = [postType, this.extensionType].join("")
+      const storeKey = [this.postType, this.extensionType].join("")
       const index = stored(storeKey) || {}
       return index.posts ?? []
-    },
-    extensionType(this: any) {
-      return this.$route.path.includes("theme") ? "theme" : "plugin"
     },
   },
   watch: {
@@ -57,13 +51,11 @@ export default {
       },
     },
   },
-
   mounted() {
     if (this.extensions.length == 0) {
       this.getPosts()
     }
   },
-
   methods: {
     async getPosts(this: any) {
       this.loading = true
@@ -72,7 +64,6 @@ export default {
 
       this.loading = false
     },
-    extensionPermalink,
   },
 }
 </script>
