@@ -1,12 +1,9 @@
 <template>
-  <figure ref="wrapper" class="figure-extensions">
+  <figure ref="wrapper" class="figure-satisfaction">
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
-      <div class="extensions">
-        <div class="screenshot card-extension-list">
-          <img src="./img/card-extensions-list.svg" alt="Extensions List" />
-        </div>
-        <div class="screenshot card-extension-page">
-          <img src="./img/card-extensions-page.svg" alt="Extensions Page" />
+      <div class="satisfaction">
+        <div class="screenshot card-satisfaction">
+          <img src="./img/card-satisfaction.svg" alt="Client Satisfaction" />
         </div>
       </div>
     </div>
@@ -41,7 +38,7 @@ export default {
 </script>
 
 <style lang="less">
-figure.figure-extensions {
+figure.figure-satisfaction {
   max-width: 100%;
   @media (max-width: 900px) {
     margin: 1rem auto 4rem;
@@ -53,7 +50,7 @@ figure.figure-extensions {
     perspective: 1000px;
     transform-style: preserve-3d;
   }
-  .extensions {
+  .satisfaction {
     padding: 34% 0;
     width: 500px;
     position: relative;
@@ -64,28 +61,19 @@ figure.figure-extensions {
     .screenshot {
       background: #fff;
       display: inline-block;
-      &.card-extension-list {
+      &.card-satisfaction {
         position: absolute;
-        top: 0;
-        right: 0;
         z-index: 0;
-        transform: rotateX(2deg) rotateY(-20deg);
+        transform: rotateX(5deg) rotateY(20deg);
         box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
           0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
         border-radius: 4px;
-      }
-      &.card-extension-page {
-        position: absolute;
-        top: 0;
-        left: 0;
-        transform: rotateX(2deg) rotateY(20deg) translateZ(-100px) translateY(10%);
-        background: #ffffff;
-        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
-          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
-          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        border-radius: 4px;
+        right: 0;
+        top: -50px;
+        @media (max-width: 900px) {
+          top: 0;
+        }
       }
     }
   }

@@ -27,7 +27,7 @@ export default {
   data() {
     return {}
   },
-  metaInfo() {
+  metaInfo(this: any) {
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),

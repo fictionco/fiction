@@ -76,10 +76,7 @@ figure.figure-splash {
         box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
           0 5px 15px rgba(0, 0, 0, 0.07);
         padding: 50%;
-        width: 6em;
-        @media (max-width: 900px) {
-          height: 8rem;
-        }
+
         img {
           max-width: 100%;
           display: block;

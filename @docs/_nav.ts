@@ -214,19 +214,10 @@ export default [
         doc: "creating-plugins",
         file: (): Promise<string> => import("./advanced/creating-plugins/index.md"),
       },
-      // {
-      //   doc: "writing-a-plugin",
-      //   file: (): Promise<string> => import("./advanced/writing-a-plugin/index.md"),
-      // },
-      // {
-      //   doc: "theme-development",
-      //   file: (): Promise<string> => import("./advanced/theme-development/index.md"),
-      // },
-      // {
-      //   doc: "security-and-performance",
-      //   file: (): Promise<string> =>
-      //     import("./advanced/security-and-performance/index.md"),
-      // },
+      {
+        doc: "theme-development",
+        file: (): Promise<string> => import("./advanced/theme-development/index.md"),
+      },
     ],
   },
   {
@@ -252,6 +243,10 @@ export default [
       {
         doc: "template-settings",
         file: (): Promise<string> => import("./api/template-settings/index.md"),
+      },
+      {
+        doc: "extension-guidelines",
+        file: (): Promise<string> => import("./api/extension-guidelines/index.md"),
       },
     ],
   },

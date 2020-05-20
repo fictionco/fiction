@@ -27,9 +27,13 @@ export const getTemplateFields = async (
 ): Promise<TemplateSetting[]> => {
   const theComponent = await tpl.component()
   const {
+<<<<<<< HEAD
     default: {
       templateSettings
     },
+=======
+    default: { templateSettings },
+>>>>>>> upstream/development
   } = theComponent
 
   return templateSettings ? templateSettings() : []
@@ -97,6 +101,7 @@ export const getDefaultTemplateSettings = (
   fields.forEach((field: TemplateSetting) => {
     const { _id, _default, settings } = field
     let val
+
     // If undefined, then set defaults
     if (typeof current[_id] == "undefined" && _default) {
       if (settings && _default && Array.isArray(settings) && Array.isArray(_default)) {
@@ -109,9 +114,11 @@ export const getDefaultTemplateSettings = (
       }
 
       out[_id] = val
+    } else {
+      out[_id] = current[_id]
     }
-
   })
+
   return out
 }
 

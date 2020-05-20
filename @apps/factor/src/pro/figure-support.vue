@@ -71,7 +71,9 @@ figure.figure-support {
         left: 0;
         z-index: 0;
         transform: rotateX(-2deg) rotateY(10deg) rotateZ(-1deg);
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 8px;
       }
@@ -85,7 +87,9 @@ figure.figure-support {
         transform: scale(1) translateZ(50px) translateY(1%) rotateY(-15deg) rotateX(10deg)
           rotateZ(4deg);
         background: #ffffff;
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+          -19px 32.5px 105px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 4px;
       }

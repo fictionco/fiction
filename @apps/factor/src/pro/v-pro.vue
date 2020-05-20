@@ -23,8 +23,15 @@
         </div>
         <div class="feature-content-container">
           <div class="feature-content">
-            <h2 v-formatted-text="feature.title" class="title" />
-            <div class="text">{{ feature.text }}</div>
+            <h2 v-if="feature.title" v-formatted-text="feature.title" class="title" />
+            <div v-if="feature.text" class="text">{{ feature.text }}</div>
+
+            <ul v-if="feature.list" class="list">
+              <li v-for="(item, i) in feature.list" :key="i" class="list-block">
+                <h3 v-formatted-text="item.title" class="list-title" />
+                <p class="list-text">{{ item.text }}</p>
+              </li>
+            </ul>
             <div v-if="feature.link" class="action">
               <factor-link :path="feature.link.path">{{ feature.link.text }} &rarr;</factor-link>
             </div>
@@ -34,33 +41,22 @@
     </section>
 
     <section class="quotes content">
-      <div class="content-pad quotes-pad">
-        <article
-          v-for="(quote, index) in quotes"
-          :key="index"
-          itemprop="review"
-          itemscope
-          itemtype="http://schema.org/Review"
-        >
-          <blockquote itemprop="reviewRating" itemscope itemtype="http://schema.org/Review">
-            <p class="quote-body" itemprop="reviewBody">"{{ quote.text }}"</p>
-            <footer>
-              <div class="quote-media">
-                <a class="quote-image" :href="quote.link">
-                  <img :src="quote.img" alt="quote" />
-                </a>
-              </div>
-              <a
-                :href="quote.link"
-                target="_blank"
-                itemprop="author"
-                itemscope
-                itemtype="https://schema.org/Person"
-              >{{ quote.attribution }}</a>
-            </footer>
-          </blockquote>
-        </article>
+      <h2 class="title">What they’re saying...</h2>
+      <section-quotes class="content-pad quotes-pad" />
+    </section>
+
+    <section class="plugins-gallery-section content">
+      <div class="plugins-gallery-header content-pad">
+        <div class="text">
+          <h2 class="title">Latest Plugins</h2>
+          <div class="sub">Create and run your web app with Factor and extensions.</div>
+        </div>
+        <div class="action">
+          <factor-link btn="default" path="/plugins">Browse All &rarr;</factor-link>
+        </div>
       </div>
+
+      <plugins-gallery class="content-pad" />
     </section>
 
     <el-cta id="cta" />
@@ -76,7 +72,9 @@ export default {
     factorIcon,
     sectionSplash: () => import("./splash.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
+    sectionQuotes: () => import("./section-quotes.vue"),
     elCta: () => import("./el-cta.vue"),
+    pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {
     return {
@@ -84,44 +82,37 @@ export default {
       loadingButtons: true,
       features: [
         {
-          title: `Dashboard <span class="pro">Pro</span>`,
+          title: `Dashboard <span class="alt">Pro</span>`,
           text: `The professional suite enables special pro-level features on Factor's CMS dashboard.`,
           figure: () => import("./figure-dashboard.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: `Extensions <span class="pro">Pro</span>`,
+          title: `Extensions <span class="alt">Pro</span>`,
           text: `Want to take your applications to the next level? The Pro suite enabled Pro versions of many Factor plugins.`,
           figure: () => import("./figure-extensions.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
         {
-          title: `Support <span class="pro">Pro</span>`,
+          title: `Support <span class="alt">Pro</span>`,
           text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
-      ],
-      quotes: [
         {
-          text: `Factor gives me the right technology and a robust set of extensions. Factor Pro helps me build and get paid faster.`,
-          attribution: "Patrick Abner , Full-stack Developer",
-          img: require("./img/patrick.jpg"),
-        },
-        {
-          text: `What I like about Factor pro are the extensions that just keep on coming, they save time and are easy to customize.`,
-          attribution: "Melissa Flick, Developer",
-          img: require("./img/melissa.jpg"),
-        },
-        {
-          text: `Creating powerful apps takes minutes, I spend less time integrating and customizing is quite simple.`,
-          attribution: "Joshua Carter, Front-end Developer",
-          img: require("./img/joshua.jpg"),
-        },
-        {
-          text: `Great documentation and support. The advanced features and settings with Factor pro make it easy.`,
-          attribution: "Daniel Turner, Software Developer",
-          img: require("./img/daniel.jpg"),
+          list: [
+            {
+              title: `Satisfaction Guaranteed`,
+              text:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+            },
+            {
+              title: `Cancel Anytime`,
+              text:
+                "If you want to cancel, you can do so at any time. We'll never break production web apps.",
+            },
+          ],
+          figure: () => import("./figure-satisfaction.vue"),
         },
       ],
     }
@@ -213,7 +204,6 @@ export default {
         min-width: 0; // defaults content width
         height: 100%;
         position: relative;
-        // width: 100%;
         display: flex;
         align-items: center;
         .figure-container {
@@ -243,7 +233,7 @@ export default {
       font-size: 3em;
       line-height: 1.1;
       margin-bottom: 1.5rem;
-      .pro {
+      .alt {
         color: var(--color-text-secondary);
       }
     }
@@ -255,6 +245,31 @@ export default {
 
       color: var(--color-text-secondary);
     }
+
+    .list {
+      list-style-type: none;
+      .list-block {
+        margin-bottom: 3rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+      .list-title {
+        font-weight: 700;
+        font-size: 2em;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+      .list-text {
+        font-weight: 400;
+        font-size: 1.4em;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+
+        color: var(--color-text-secondary);
+      }
+    }
+
     .action {
       font-weight: 500;
       font-size: 1.3em;
@@ -270,71 +285,35 @@ export default {
   }
 
   .quotes {
-    padding: 6rem 0 4rem;
-    .quotes-pad {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
+    padding: 6rem 0;
     @media (max-width: 900px) {
-      .quotes-pad {
-        grid-template-columns: 1fr;
-        article {
-          margin: 0 auto;
-          blockquote {
-            padding: 2rem 0;
-          }
-        }
-      }
+      padding: 4rem 0 8rem;
     }
-    article {
-      position: relative;
+
+    h2.title {
+      text-align: center;
+      font-weight: var(--font-weight-bold, 700);
+      margin-bottom: 6rem;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+  }
+
+  .plugins-gallery-section {
+    padding: 3rem 0;
+
+    .plugins-gallery-header {
       display: flex;
-
-      blockquote {
-        width: 100%;
-        max-width: 550px;
-        padding: 2rem;
-        font-size: 1.1em;
-        line-height: 1.8;
-        background: #fff;
-
-        .quote-body {
-          padding: 2rem;
-          box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2);
-          border-radius: 6px 6px 6px 0;
-          transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
-
-          &:hover {
-            box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2),
-              0 14px 32px rgba(50, 50, 93, 0.1);
-          }
-        }
-
-        .quote-media {
-          display: block;
-          text-align: center;
-          a {
-            display: block;
-            width: 40px;
-
-            img {
-              display: block;
-              width: 100%;
-              border-radius: 50%;
-            }
-          }
-        }
-        footer {
-          display: grid;
-          grid-template-columns: 1fr 6fr;
-          align-items: center;
-          margin-top: 1rem;
-          font-size: 0.8em;
-          font-weight: 500;
-          a {
-            color: inherit;
-          }
-        }
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      .title {
+        font-size: 1.4em;
+        font-weight: var(--font-weight-bold, 700);
+      }
+      .sub {
+        color: var(--color-text-secondary);
       }
     }
   }

@@ -5,6 +5,9 @@
         <div class="screenshot card-dashboard">
           <img src="./img/dashboard.svg" alt="Dashboard" />
         </div>
+        <div class="screenshot phone">
+          <img src="./img/card-phone.svg" alt="Dashboard Mobile" />
+        </div>
         <div class="screenshot magnify">
           <img src="./img/magnify.jpg" alt="Dashboard Magnify" />
         </div>
@@ -58,7 +61,7 @@ figure.figure-dashboard {
     transform: scale(1);
     transform-style: preserve-3d;
     @media (max-width: 900px) {
-      transform: scale(1) translate(-0, -0px);
+      transform: translate(-0, -0px);
     }
     .screenshot {
       background: #fff;
@@ -69,27 +72,46 @@ figure.figure-dashboard {
         left: 0;
         right: auto;
         z-index: 0;
-        transform: scale(1) perspective(1040px) rotateY(-6deg) rotateX(3deg) rotate(2deg)
-          translateZ(-50px);
+        transform: rotateY(38deg) rotateX(6deg) rotate(0deg) translateZ(-50px);
+
         box-shadow: 0px 20px 90px rgba(50, 50, 93, 0.13),
           0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
         border-radius: 4px;
       }
       &.magnify {
+        display: none;
         position: absolute;
         top: 40px;
         left: 0;
-        transform: translateX(-30px) scale(1) perspective(1050px);
+        transform: translateX(-30px) rotateY(-10deg) rotateX(5deg);
         background: #ffffff;
-        box-shadow: 0px 0px 3px rgba(50, 50, 93, 0.2), 0px 14px 32px rgba(50, 50, 93, 0.1);
+        box-shadow: 0px 20px 90px rgba(50, 50, 93, 0.13),
+          0 15px 35px rgba(50, 50, 93, 0.11), 0 5px 15px rgba(0, 0, 0, 0.07);
         overflow: hidden;
         border-radius: 50%;
         img {
-          height: 150px;
-          width: 150px;
+          height: 120px;
+          width: 120px;
           box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
             0px 15px 35px rgba(50, 50, 93, 0.11), 0px -5px 15px rgba(0, 0, 0, 0.07);
+        }
+      }
+      &.phone {
+        position: absolute;
+        bottom: -15%;
+        right: -6%;
+        width: 114px;
+        transform: translateZ(50px) translateY(1%) rotateY(-29deg) rotateX(9deg)
+          rotate(3deg);
+        background: #fff;
+        box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
+          -19px 32.5px 95px -5px rgba(50, 50, 93, 0.3),
+          13.4px 37.5px 55px -37.5px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        border-radius: 20px;
+        img {
+          width: 100%;
         }
       }
     }

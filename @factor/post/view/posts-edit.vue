@@ -40,7 +40,7 @@
           @keyup="doDraftSave()"
         />
         <vue-client-only>
-          <dashboard-input v-model="post.date" input="vue-input-date" label="Date" />
+          <dashboard-input v-model="post.date" input="factor-input-date" label="Date" />
         </vue-client-only>
         <dashboard-input label="Tags">
           <factor-input-tags v-model="post.tag" />
