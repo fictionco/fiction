@@ -6,7 +6,7 @@
         <h1 class="page-title">Built for Pros</h1>
         <h3
           class="page-title-sub"
-        >Upgrade Factor with professional extensions, features and support.</h3>
+        >Upgrade Factor with professional extensions, features, and support.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/plans" size="large">Compare Plans &rarr;</factor-link>

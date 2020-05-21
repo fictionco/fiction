@@ -85,7 +85,7 @@ export default {
         },
         {
           title: `Support <span class="alt">Pro</span>`,
-          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          text: `Need help time to time? With pro support and priority debugging, we'll help you figure out any issue you have.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
