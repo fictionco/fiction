@@ -22,7 +22,7 @@
               <factor-link
                 v-else
                 class="menu-link primary-doc-link"
-                :path="item.route"
+                :path="item.path"
                 :event="item.event"
               >
                 <span v-if="item.name" v-formatted-text="item.name" />
@@ -63,17 +63,17 @@ export default {
             condition: (): boolean => !isLoggedIn(),
           },
           {
-            route: "/dashboard",
+            path: "/dashboard",
             name: "View Dashboard &rarr;",
             condition: (): boolean => isLoggedIn(),
           },
 
-          { route: "/install", name: "Get Started" },
+          { path: "/install", name: "Get Started" },
           { path: "/pro", name: "Pro / Business" },
-          { route: "/themes", name: "Themes" },
-          { route: "/plugins", name: "Plugins" },
-          { route: "/forum", name: "Forum" },
-          { route: "/docs", name: "Develop" },
+          { path: "/themes", name: "Themes" },
+          { path: "/plugins", name: "Plugins" },
+          { path: "/forum", name: "Forum" },
+          { path: "/docs", name: "Develop" },
           { component: () => import("./el/github-stars.vue") },
         ],
       },
