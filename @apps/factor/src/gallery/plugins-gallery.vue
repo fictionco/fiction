@@ -1,5 +1,15 @@
 <template>
   <div class="plugins-gallery-container">
+    <div class="plugins-gallery-header">
+      <div class="text">
+        <h2 class="title">{{ title }}</h2>
+        <div class="sub">{{ text }}</div>
+      </div>
+      <div class="action">
+        <factor-link btn="default" path="/plugins">Browse All &rarr;</factor-link>
+      </div>
+    </div>
+
     <factor-spinner v-if="loading" />
     <div v-else-if="extensionType == 'plugin'" class="plugins-gallery">
       <a
@@ -20,12 +30,20 @@
 
 <script lang="ts">
 import { stored } from "@factor/api"
-import { factorSpinner } from "@factor/ui"
+import { factorLink, factorSpinner } from "@factor/ui"
 import { requestIndex } from "../extend/request"
 
 export default {
   components: {
+    factorLink,
     factorSpinner,
+  },
+  props: {
+    title: { type: String, default: "Latest Plugins" },
+    text: {
+      type: String,
+      default: "Create and run your web app with Factor and extensions.",
+    },
   },
   data() {
     return {
@@ -69,6 +87,21 @@ export default {
 </script>
 <style lang="less">
 .plugins-gallery-container {
+  .plugins-gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    .title {
+      font-size: 1.4em;
+      font-weight: var(--font-weight-bold, 700);
+    }
+    .sub {
+      color: var(--color-text-secondary);
+    }
+  }
+
   .spinner-wrap {
     min-height: 400px;
   }

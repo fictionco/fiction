@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-
 export default {
   data() {
     return {
@@ -68,7 +67,7 @@ figure.themes-graph {
     perspective: 800px;
 
     .screenshot-wrap {
-      width: 550px;
+      width: 535px;
       top: 0;
       left: 0;
       position: absolute;
