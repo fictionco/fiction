@@ -11,11 +11,7 @@
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
         <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
-        <factor-link
-          v-if="$route.path != '/install'"
-          path="/install"
-          btn="primary"
-        >Install Factor &rarr;</factor-link>
+        <factor-link v-if="$route.path != '/plans'" path="/plans" btn="primary">Compare Plans &rarr;</factor-link>
       </div>
     </div>
   </div>

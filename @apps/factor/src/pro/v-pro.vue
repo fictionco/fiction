@@ -115,9 +115,9 @@ export default {
   methods: {},
   metaInfo() {
     return {
-      title: "JavaScript CMS and eCommerce Platform",
+      title: "Pro and Business Suite",
       description:
-        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
+        "Use the premium Factor suites to upgrade your application and dominate on the web.",
     }
   },
 }

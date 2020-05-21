@@ -6,7 +6,7 @@
         <h3 class="page-title-sub">The JavaScript CMS for web professionals.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
+          <factor-link btn="primary" path="/plans">Compare Plans &rarr;</factor-link>
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
             &nbsp;

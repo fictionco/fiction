@@ -15,7 +15,7 @@
               btn="primary"
               path="/checkout"
               :query="{product: item.id}"
-            >Select &rarr;</factor-link>
+            >Upgrade &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -33,18 +33,28 @@
           </div>
         </div>
         <div class="col col-icon col-community">
-          <div v-if="child.level <= 0" class="mobile-label">Community</div>
-          <factor-icon v-if="child.level <= 0" icon="fas fa-check" />
+          <div v-if="child.community" v-formatted-text="child.community" class="col-value" />
+          <div v-else-if="child.level <= 0" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Community</span>
+          </div>
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-pro">
-          <div v-if="child.level <= 10" class="mobile-label">Pro</div>
-          <factor-icon v-if="child.level <= 10" icon="fas fa-check" />
+          <div v-if="child.pro" v-formatted-text="child.pro" class="col-value" />
+          <div v-else-if="child.level <= 10" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Pro</span>
+          </div>
+
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-business">
-          <div v-if="child.level <= 20" class="mobile-label">Business</div>
-          <factor-icon v-if="child.level <= 20" icon="fas fa-check" />
+          <div v-if="child.business" v-formatted-text="child.business" class="col-value" />
+          <div v-else-if="child.level <= 20" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Business</span>
+          </div>
           <factor-icon v-else icon="fas fa-minus" />
         </div>
       </div>
@@ -83,6 +93,26 @@ export default {
         },
       ],
       groups: [
+        {
+          title: "Basics",
+          icon: "description",
+          children: [
+            {
+              title: "Price",
+              community: "Free",
+              pro: "$29/mo <span class='add'>Paid Yearly</span>",
+              business: "$59/mo <span class='add'>Paid Yearly</span>",
+            },
+            {
+              title: "Unlimited Domains (You Own)",
+              level: 0,
+            },
+            {
+              title: "Money-Back Guarantee",
+              level: 10,
+            },
+          ],
+        },
         {
           title: "Extensions",
           icon: "extension",
@@ -259,11 +289,22 @@ export default {
         }
       }
       .mobile-label {
-        display: none;
         font-size: 0.8em;
         text-transform: uppercase;
         color: var(--color-primary);
         font-weight: var(--font-weight-bold, 700);
+      }
+      .col-value {
+        .fa-check {
+          opacity: 0.5;
+          margin-right: 0.25rem;
+        }
+        .add {
+          display: block;
+          font-size: 11px;
+          opacity: 0.3;
+          text-transform: uppercase;
+        }
       }
     }
     @media (max-width: 900px) {
