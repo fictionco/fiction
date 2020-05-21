@@ -15,7 +15,7 @@
 
     <div class="interstitial-cta">
       <div class="text">
-        <h2 class="title">The Famous 10-Minute Challenge</h2>
+        <h2 class="title">Ready to try it?</h2>
         <h2 class="title-sub">Create a live website in 10 Minutes</h2>
       </div>
 

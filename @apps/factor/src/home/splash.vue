@@ -3,7 +3,7 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-title">Build reactive websites and apps.</h1>
-        <h3 class="page-title-sub">The premium JavaScript CMS built for web professionals.</h3>
+        <h3 class="page-title-sub">The JavaScript CMS for web professionals.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
