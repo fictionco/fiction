@@ -30,7 +30,7 @@ export default {
     onEvent("refresh-user", () => this.setCustomerData())
   },
   methods: {
-    async setCustomerData() {
+    async setCustomerData(this: any) {
       const user = await userInitialized()
       this.loading = true
       if (user?.stripeCustomerId) {

@@ -18,10 +18,10 @@
           <img class="media" src="./img/popper.svg" />
           <h2 class="title">Success</h2>
           <div class="sub">
-            <p>Congratulations! You've officially upgraded to {{ metadata.title }}</p>
+            <p>Congratulations! You've officially upgraded to {{ productConfig.title }}</p>
           </div>
           <div class="action">
-            <factor-link btn="primary" path="/docs/pro-suite">Using {{ metadata.title }} &rarr;</factor-link>
+            <factor-link btn="primary" path="/docs/pro-suite">Using {{ productConfig.title }} &rarr;</factor-link>
             <factor-link btn="default" path="/dashboard/developer">Developer Dashboard &rarr;</factor-link>
           </div>
         </div>
@@ -229,6 +229,7 @@ export default {
 
         if (status == "success") {
           emitEvent("notify", "Success!")
+          emitEvent("refresh-user")
           this.$router.push({ query: { ...this.$route.query, status } })
         }
       }
