@@ -157,6 +157,7 @@ export default {
         transform: scale(1) translateY(-30px);
       }
     }
+
     &:not(.active) {
       //filter: blur(2px);
       box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 5px 5px rgba(50, 50, 93, 0.05),
@@ -165,20 +166,19 @@ export default {
         box-shadow: 0 0px 26px rgba(50, 50, 93, 0.05);
       }
     }
-  }
 
-  #quote1:not(.active),
-  #quote3:not(.active) {
-    transform: scale(0.9) translate3d(-400px, 100px, -250px) rotateX(30deg);
-    @media (max-width: 900px) {
-      transform: translate3d(0, 100px, -250px);
+    &:nth-child(odd):not(.active) {
+      transform: scale(0.9) translate3d(-400px, 100px, -250px) rotateX(30deg);
+      @media (max-width: 900px) {
+        transform: translate3d(0, 100px, -250px);
+      }
     }
-  }
-  #quote2:not(.active),
-  #quote4:not(.active) {
-    transform: scale(0.9) translate3d(400px, 100px, -250px) rotateX(30deg);
-    @media (max-width: 900px) {
-      transform: translate3d(0, 100px, -250px);
+
+    &:nth-child(even):not(.active) {
+      transform: scale(0.9) translate3d(400px, 100px, -250px) rotateX(30deg);
+      @media (max-width: 900px) {
+        transform: translate3d(0, 100px, -250px);
+      }
     }
   }
 }

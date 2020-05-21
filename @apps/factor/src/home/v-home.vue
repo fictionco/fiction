@@ -101,7 +101,7 @@ export default {
     homeSplash: () => import("./splash.vue"),
     homeIcon: () => import("./icon.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
-    joinProgram: () => import("./el-join.vue"),
+    //joinProgram: () => import("./el-join.vue"),
     upgradeFactor: () => import("./el-upgrade.vue"),
     pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },

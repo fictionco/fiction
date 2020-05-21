@@ -7,8 +7,13 @@
     </div>
     <div class="faq-answers">
       <div v-for="(faq, i) in faqs" :key="i" class="answer">
-        <div class="answer-title">{{ faq.question }}</div>
-        <div v-formatted-text="faq.answer" class="answer-text" />
+        <div class="icon">
+          <plan-icon icon="question" />
+        </div>
+        <div>
+          <div class="answer-title">{{ faq.question }}</div>
+          <div v-formatted-text="faq.answer" class="answer-text" />
+        </div>
       </div>
     </div>
   </section>
@@ -17,29 +22,29 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 export default {
-  components: { factorLink },
+  components: { factorLink, planIcon: () => import("./icons.vue") },
   data() {
     return {
       faqs: [
         {
           question: "Can I use Factor for client projects?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/docs">Read more →</a>`,
+          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
         },
         {
           question: "How do I get started?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/install">Read more →</a>`,
+          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/install">Read more →</a>`,
         },
         {
           question: "Can I buy a lower suite and upgrade later?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/docs">Read more →</a>`,
+          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
         },
         {
           question: "What if I don't like it?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/docs">Read more →</a>`,
+          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
         },
         {
           question: "Can I cancel my subscription anytime?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <a href="/docs">Read more →</a>`,
+          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
         },
       ],
     }
@@ -49,7 +54,7 @@ export default {
 
 <style lang="less" scoped>
 .faq {
-  padding: 3rem 0;
+  padding: 4rem 0;
 
   .faq-header {
     padding-bottom: 3rem;
@@ -68,6 +73,15 @@ export default {
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
+    }
+
+    .answer {
+      display: grid;
+      grid-template-columns: 2.6rem 1fr;
+
+      .icon {
+        opacity: 0.5;
+      }
     }
 
     .answer-title {

@@ -7,8 +7,10 @@
         <h2 class="title">What users are saying...</h2>
         <plan-quotes />
       </section>
+
       <!-- <plan-guarantee />
       <plan-testimonial />-->
+
       <plan-faq />
     </div>
   </div>
