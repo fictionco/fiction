@@ -7,7 +7,7 @@
         <div v-for="(item, i) in header" :key="i" class="col col-header" :class="`col-${item.id}`">
           <div class="super">{{ item.super }}</div>
           <h2>{{ toLabel(item.id) }}</h2>
-          <div class="sub">{{ item.sub }}</div>
+          <div v-formatted-text="item.sub" class="sub" />
           <div class="action">
             <factor-link v-if="item.id == 'community'" btn="default" disabled>Free Forever</factor-link>
             <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
@@ -69,7 +69,7 @@ export default {
         {
           super: "For Professionals",
           id: "pro",
-          sub: "Premium features and extensions",
+          sub: "Premium features, extensions, &amp; support",
         },
         {
           super: "For Businesses",
@@ -83,19 +83,19 @@ export default {
           icon: "extension",
           children: [
             {
-              title: "Community extensions",
+              title: "Community Extensions",
               level: 0,
             },
             {
-              title: "Free extensions",
+              title: "Free Extensions",
               level: 0,
             },
             {
-              title: "Pro extensions",
+              title: "Pro Extensions",
               level: 10,
             },
             {
-              title: "Additional features &amp; settings",
+              title: "Additional Features &amp; Settings",
               level: 10,
             },
           ],
@@ -131,15 +131,15 @@ export default {
           icon: "supervisor",
           children: [
             {
-              title: "Community support",
+              title: "Community Support",
               level: 0,
             },
             {
-              title: "Premium technical support",
+              title: "Premium Technical Support",
               level: 10,
             },
             {
-              title: "Priority support with debugging*",
+              title: "Priority Support with Debugging*",
               level: 20,
             },
           ],
@@ -153,15 +153,15 @@ export default {
               level: 0,
             },
             {
-              title: "Sustain ongoing development",
+              title: "Sustain Ongoing Development",
               level: 10,
             },
             {
-              title: "Priority feature requests",
+              title: "Priority Feature Requests",
               level: 10,
             },
             {
-              title: "New extensions monthly",
+              title: "New Extensions Monthly",
               level: 10,
             },
           ],
@@ -292,19 +292,22 @@ export default {
       justify-content: space-between;
       border: 1px solid var(--color-border);
       border-radius: 5px;
+      padding: 2rem;
       h2 {
-        font-size: 1.2em;
+        //font-size: 1.2em;
+        font-size: 1.6em;
         font-weight: var(--font-weight-bold, 700);
       }
       .super {
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 13px;
         color: var(--color-text-secondary);
-        opacity: 0.7;
+        //opacity: 0.7;
       }
       .sub {
         margin-top: 0.5rem;
-        font-size: 0.85em;
+        //font-size: 0.85em;
+        font-size: 1rem;
         line-height: 1.3;
       }
       .action {
