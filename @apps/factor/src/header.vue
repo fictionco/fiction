@@ -67,6 +67,13 @@ export default {
   background: transparent;
 }
 
+.keep-focused .site-head-pad {
+  .page-nav,
+  .action-nav {
+    display: none;
+  }
+}
+
 .site-head {
   transition: all 0.1s;
   padding: 0 1.5em;

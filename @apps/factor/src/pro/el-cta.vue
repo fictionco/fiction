@@ -7,7 +7,7 @@
           <div class="sub">No risk, money-back guarantee</div>
         </div>
         <div class="actions">
-          <factor-link path="/plans" btn="primary">Upgrade Your App &rarr;</factor-link>
+          <factor-link path="/plans" btn="primary">Compare Plans &rarr;</factor-link>
         </div>
       </div>
     </div>

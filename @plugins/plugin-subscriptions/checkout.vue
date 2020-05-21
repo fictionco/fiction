@@ -235,6 +235,9 @@ export default {
       this.sending = false
     },
   },
+  routeClass() {
+    return "keep-focused"
+  },
   metaInfo() {
     return {
       title: "Checkout",
