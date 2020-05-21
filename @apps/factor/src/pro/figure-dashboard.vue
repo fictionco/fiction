@@ -53,12 +53,16 @@ figure.figure-dashboard {
 
   .stage-wrap {
     transform-origin: center right;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    @media (max-width: 900px) {
+      transform-origin: center;
+    }
   }
   .dashboard {
     padding: 30% 0;
     width: 500px;
     position: relative;
-    transform: scale(1);
     transform-style: preserve-3d;
     @media (max-width: 900px) {
       transform: translate(-0, -0px);
@@ -115,7 +119,6 @@ figure.figure-dashboard {
         }
       }
     }
-    perspective: 1000px;
   }
 }
 </style>
