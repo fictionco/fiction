@@ -1,10 +1,9 @@
 <template>
-  <div class="upgrade-factor content">
+  <div class="upgrade-cta content">
     <div class="content-pad">
       <div class="head">
-        <home-icon icon="powered" />
         <h2 class="title">Try Pro Today</h2>
-        <h3 class="sub-title">No risk, money-back guarantee</h3>
+        <h3 class="sub">No risk, money-back guarantee</h3>
       </div>
       <div class="actions">
         <factor-link path="/plans" btn="primary">Upgrade Your App &rarr;</factor-link>
@@ -17,12 +16,12 @@
 <script lang="ts">
 import { factorLink } from "@factor/ui"
 export default {
-  components: { factorLink, homeIcon: () => import("./icon.vue") },
+  components: { factorLink },
 }
 </script>
 
 <style lang="less">
-.upgrade-factor {
+.upgrade-cta {
   text-align: center;
   padding: 0 0 3rem;
   line-height: 1.1;
@@ -31,23 +30,15 @@ export default {
     max-width: 700px;
     margin: 0 auto;
   }
-  figure.icon {
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    font-size: 3.5em;
-
-    border-radius: 50%;
-    margin: 1rem auto;
-  }
   .title {
     font-size: 3em;
     font-weight: 700;
   }
-  .sub-title {
+  .sub {
     font-size: 2em;
     opacity: 0.8;
     margin-top: 1rem;
+    color: var(--color-text-secondary);
   }
   .actions {
     margin: 2rem 0;

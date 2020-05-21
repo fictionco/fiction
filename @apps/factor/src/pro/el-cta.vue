@@ -6,7 +6,6 @@
           <h2 class="title">Try Pro Today</h2>
           <div class="sub">No risk, money-back guarantee</div>
         </div>
-
         <div class="actions">
           <factor-link path="/plans" btn="primary">Upgrade Your App &rarr;</factor-link>
         </div>
@@ -29,25 +28,32 @@ export default {
 
 <style lang="less">
 .pro-cta-wrap {
-  padding: 3rem 2rem 6rem;
+  padding: 4rem 0 6rem;
+  line-height: 1.1;
+  text-align: center;
 
   .pro-cta {
-    overflow: hidden;
-    border-radius: 8px;
-
-    text-align: center;
-    .text {
-      text-align: center;
-
+    .title {
+      font-size: 3em;
       font-weight: 700;
-      font-size: 1.5em;
-
-      .sub {
-        color: var(--color-text-secondary);
-      }
+    }
+    .sub {
+      font-size: 2em;
+      opacity: 0.8;
+      margin-top: 1rem;
+      color: var(--color-text-secondary);
     }
     .actions {
       margin-top: 2rem;
+      font-size: 1.3em;
+    }
+  }
+  @media (max-width: 900px) {
+    text-align: left;
+    .pro-cta {
+      .title {
+        font-size: 2em;
+      }
     }
   }
 }
