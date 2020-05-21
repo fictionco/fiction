@@ -69,6 +69,7 @@ export default {
           },
 
           { route: "/install", name: "Get Started" },
+          { path: "/pro", name: "Pro / Business" },
           { route: "/themes", name: "Themes" },
           { route: "/plugins", name: "Plugins" },
           { route: "/forum", name: "Forum" },

@@ -36,9 +36,10 @@ export default {
       userLoading: true,
       user: false,
       pageNav: [
-        { path: "/docs", name: "Develop" },
+        { path: "/pro", name: "Pro / Business" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" },
+        { path: "/docs", name: "Develop" },
         { path: "/forum", name: "Forum" },
       ],
       actionNav: [
