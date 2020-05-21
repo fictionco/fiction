@@ -92,6 +92,7 @@ export default {
   grid-template-columns: 1fr;
   perspective: 1000px;
   transform-style: preserve-3d;
+  margin: 3rem 0;
 
   article {
     margin: 0 auto;

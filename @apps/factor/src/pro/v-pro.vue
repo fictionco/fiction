@@ -40,23 +40,13 @@
       </div>
     </section>
 
-    <section class="quotes content">
+    <section class="quotes content-pad">
       <h2 class="title">What they’re saying...</h2>
-      <section-quotes class="content-pad quotes-pad" />
+      <section-quotes />
     </section>
 
-    <section class="plugins-gallery-section content">
-      <div class="plugins-gallery-header content-pad">
-        <div class="text">
-          <h2 class="title">Latest Plugins</h2>
-          <div class="sub">Create and run your web app with Factor and extensions.</div>
-        </div>
-        <div class="action">
-          <factor-link btn="default" path="/plugins">Browse All &rarr;</factor-link>
-        </div>
-      </div>
-
-      <plugins-gallery class="content-pad" />
+    <section class="plugins-gallery-section content-pad">
+      <plugins-gallery />
     </section>
 
     <el-cta id="cta" />
@@ -285,9 +275,9 @@ export default {
   }
 
   .quotes {
-    padding: 6rem 0;
+    padding: 3rem 0;
     @media (max-width: 900px) {
-      padding: 4rem 0 8rem;
+      padding: 3rem 1rem;
     }
 
     h2.title {
@@ -296,26 +286,15 @@ export default {
       margin-bottom: 6rem;
       text-transform: uppercase;
       color: var(--color-text-secondary);
+
+      @media (max-width: 900px) {
+        margin-bottom: 4rem;
+      }
     }
   }
 
   .plugins-gallery-section {
-    padding: 3rem 0;
-
-    .plugins-gallery-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-      .title {
-        font-size: 1.4em;
-        font-weight: var(--font-weight-bold, 700);
-      }
-      .sub {
-        color: var(--color-text-secondary);
-      }
-    }
+    padding: 3em 1.5em;
   }
 }
 </style>
