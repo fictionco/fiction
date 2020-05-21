@@ -94,7 +94,7 @@ export default {
             {
               title: `Satisfaction Guaranteed`,
               text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+                "When you upgrade we guarantee you'll be 100% satisfied. No questions 60-day money back.",
             },
             {
               title: `Cancel Anytime`,
