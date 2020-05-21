@@ -2,8 +2,10 @@
   <section class="faq">
     <div class="faq-header">
       <h2 class="title">Common Questions</h2>
-      <div class="sub">Haven't found what you're looking for?</div>
-      <factor-link path="/contact">Contact Us &rarr;</factor-link>
+      <div class="sub">
+        Have a question?
+        <factor-link path="/contact">Contact Us &rarr;</factor-link>
+      </div>
     </div>
     <div class="faq-answers">
       <div v-for="(faq, i) in faqs" :key="i" class="answer">
@@ -13,6 +15,7 @@
         <div>
           <div class="answer-title">{{ faq.question }}</div>
           <div v-formatted-text="faq.answer" class="answer-text" />
+          <factor-link v-if="faq.more" :path="faq.more">More &rarr;</factor-link>
         </div>
       </div>
     </div>
@@ -28,23 +31,24 @@ export default {
       faqs: [
         {
           question: "Can I use Factor for client projects?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
+          answer: `You can use Factor Pro / Business on unlimited sites you own or manage. You should purchase additional licenses with your client accounts which we'll provide a discounted rate.`,
         },
         {
           question: "How do I get started?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/install">Read more →</a>`,
+          answer: `Once you purchase a premium suite, all that you need to do is add your Factor API key to your apps environmental variables.`,
+          more: "https://factor.dev/docs/pro-suite",
         },
         {
           question: "Can I buy a lower suite and upgrade later?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
+          answer: `Yes, satisfaction is our priority so feel free to buy whatever package you're comfortable with. You can upgrade or downgrade at any time.`,
         },
         {
           question: "What if I don't like it?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
+          answer: `Factor offers a 30-day no questions asked money back guarantee.`,
         },
         {
-          question: "Can I cancel my subscription anytime?",
-          answer: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. <a href="/docs">Read more →</a>`,
+          question: "What happens to my site when I cancel?",
+          answer: `Pro features are carefully selected. They are meant to be additive and subtle so if you cancel your site will look and feel the same.`,
         },
       ],
     }

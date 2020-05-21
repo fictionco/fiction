@@ -68,7 +68,7 @@ export default {
 <style lang="less">
 .plan-icon {
   .highlight {
-    fill: var(--color-primary);
+    fill: currentColor;
   }
 }
 </style>

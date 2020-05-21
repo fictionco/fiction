@@ -10,7 +10,12 @@
           <div v-formatted-text="item.sub" class="sub" />
           <div class="action">
             <factor-link v-if="item.id == 'community'" btn="default" disabled>Free Forever</factor-link>
-            <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
+            <factor-link
+              v-else
+              btn="primary"
+              path="/checkout"
+              :query="{plan: item.id}"
+            >Select &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -95,7 +100,7 @@ export default {
               level: 10,
             },
             {
-              title: "Additional Features &amp; Settings",
+              title: "Pro Features &amp; Settings",
               level: 10,
             },
           ],
@@ -189,8 +194,10 @@ export default {
     padding: 1rem;
     display: grid;
     grid-template-columns: 2rem 1fr;
+
     .group-title {
-      font-size: 1.3em;
+      text-transform: uppercase;
+      font-size: 1.2em;
       font-weight: var(--font-weight-bold, 700);
     }
     @media (max-width: 900px) {
@@ -207,11 +214,13 @@ export default {
     margin: 0 0 0.5rem;
   }
   .area-title {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: var(--font-weight-bold, 700);
     color: var(--color-text-secondary);
     opacity: 0.6;
     padding: 1rem 0 0.5rem;
+
+    text-transform: uppercase;
   }
   .table-row {
     display: grid;
