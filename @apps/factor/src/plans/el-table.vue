@@ -14,7 +14,7 @@
               v-else
               btn="primary"
               path="/checkout"
-              :query="{plan: item.id}"
+              :query="{product: item.id}"
             >Select &rarr;</factor-link>
           </div>
         </div>
@@ -299,7 +299,8 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid var(--color-border);
+      box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 5px 5px rgba(50, 50, 93, 0.05),
+        0px 5px 15px rgba(50, 50, 93, 0.11);
       border-radius: 5px;
       padding: 2rem;
       h2 {

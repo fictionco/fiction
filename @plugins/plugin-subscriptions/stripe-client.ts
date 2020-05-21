@@ -16,6 +16,7 @@ import {
   PlanInfo,
   CustomerComposite,
   UpdateSubscription,
+  ProductConfig,
 } from "./types"
 
 /**
@@ -102,19 +103,22 @@ export const requestCustomer = async (user: FactorUser): Promise<StripeNode.Cust
   return customer
 }
 
+export const getProductConfig = (slug: string): ProductConfig | undefined => {
+  const products: ProductConfig[] = setting(`subscriptions.products`) ?? {}
+
+  return products.find((product) => product.slug == slug)
+}
+
 export const getPlanId = (
-  productKey: string,
+  slug: string,
   interval: "year" | "month" = "year"
-): string => {
-  const allPlans = setting(`checkout.${process.env.NODE_ENV}.plans`) ?? {}
+): string | undefined => {
+  const product = getProductConfig(slug)
 
-  const plans = allPlans[productKey] ?? productKey
+  const plan = product?.plans.find((plan) => plan.interval == interval)
 
-  if (typeof plans == "object") {
-    return plans[interval]
-  } else {
-    return plans
-  }
+  const env = process.env.NODE_ENV ?? "production"
+  return plan ? plan[env] : undefined
 }
 
 export const requestPlanInfo = async (
@@ -168,7 +172,7 @@ export const getStripeClient = async (): Promise<stripe.Stripe> => {
   if (__stripeClient) {
     return __stripeClient
   } else if (window.Stripe) {
-    const key = setting(`checkout.${process.env.NODE_ENV}.publishableKey`)
+    const key = setting(`subscriptions.publishableKey.${process.env.NODE_ENV}`)
 
     __stripeClient = window.Stripe(key)
 

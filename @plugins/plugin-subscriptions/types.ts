@@ -1,6 +1,18 @@
 import { EndpointParameters } from "@factor/endpoint"
 import StripeNode from "stripe"
 
+export interface ProductConfig {
+  slug: string
+  title: string
+  description: string
+  plans: {
+    interval: string
+    production: string
+    development: string
+    [key: string]: string
+  }[]
+}
+
 export interface UpdateSubscription {
   subscriptionId: string
   planId?: string
