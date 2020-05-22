@@ -238,6 +238,7 @@ export const loadAndStoreIndex = async (): Promise<void> => {
     },
     sort: {
       pinned: SortDelimiters.Descending,
+      contributedAt: SortDelimiters.Descending,
       updatedAt: SortDelimiters.Descending,
     },
   })

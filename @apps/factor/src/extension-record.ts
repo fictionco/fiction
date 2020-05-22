@@ -2,6 +2,7 @@ export type ExtensionRecord = { packageName: string; featured?: true }[]
 
 export const extensions: ExtensionRecord = [
   { packageName: "@factor/plugin-sitemap" },
+  { packageName: "@factor/plugin-forum" },
   { packageName: "@factor/plugin-email-list", featured: true },
   { packageName: "@factor/plugin-jobs", featured: true },
   { packageName: "@factor/plugin-blog", featured: true },

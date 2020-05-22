@@ -3,10 +3,11 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-title">Build reactive websites and apps.</h1>
-        <h3 class="page-title-sub">The JavaScript CMS for web professionals.</h3>
+        <h3 class="page-title-sub">The premium JavaScript CMS for web professionals.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/plans">Compare Plans &rarr;</factor-link>
+          <factor-link btn="primary" path="/install">Try Factor Now</factor-link>
+          <factor-link btn="default" path="/pro">Factor Pro</factor-link>
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
             &nbsp;

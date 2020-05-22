@@ -941,9 +941,12 @@ span.CodeMirror-selectedtext {
   line-height: 110%;
 }
 .CodeMirror .CodeMirror-code .cm-comment {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-bg-contrast, rgba(0, 0, 0, 0.05));
   border-radius: 2px;
   display: inline-block;
+  font-family: Courier, monospace;
+  font-size: 0.8em;
+  font-weight: 500;
 }
 .CodeMirror .CodeMirror-code .cm-link {
   color: #7f8c8d;

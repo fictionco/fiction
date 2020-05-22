@@ -68,7 +68,7 @@ export default {
             condition: (): boolean => isLoggedIn(),
           },
 
-          { path: "/install", name: "Get Started" },
+          { path: "/install", name: "Install" },
           { path: "/pro", name: "Pro / Business" },
           { path: "/themes", name: "Themes" },
           { path: "/plugins", name: "Plugins" },

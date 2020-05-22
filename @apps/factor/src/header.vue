@@ -11,7 +11,11 @@
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
         <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
-        <factor-link v-if="$route.path != '/plans'" path="/plans" btn="primary">Compare Plans &rarr;</factor-link>
+        <factor-link
+          v-if="$route.path != '/install'"
+          path="/install"
+          btn="primary"
+        >Install Factor &rarr;</factor-link>
       </div>
     </div>
   </div>
@@ -92,7 +96,7 @@ export default {
   }
   &.scrolled {
     .site-head {
-      padding: 0rem 2rem;
+      padding: 0rem 1rem;
       background: #fff;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     }
@@ -109,7 +113,7 @@ export default {
   height: 45px;
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(150px, 300px) 1fr minmax(150px, 300px);
+  grid-template-columns: minmax(130px, 250px) 1fr minmax(130px, 250px);
 
   .head-nav {
     display: flex;
@@ -135,6 +139,7 @@ export default {
       margin: 0 0.25em;
       padding: 0.25em 0.7em;
       border-radius: 6px;
+      white-space: nowrap;
       &:last-child {
         margin-right: 0;
       }
