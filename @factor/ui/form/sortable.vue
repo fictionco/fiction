@@ -123,21 +123,12 @@ export default {
         __title: `Item ${selected + 1}`,
         __key: randomToken(4),
       }
-
       this.settings.forEach((field: TemplateSetting) => {
         if ("_default" in field) {
           item[field._id] = field._default
         }
       })
       newLocalValue.push(item)
-
-      this.settings.forEach(field => {
-        if ('_default' in field) {
-          item[field._id] = field._default
-        }
-      });
-      newLocalValue.push(item)
-      
       this.localValue = newLocalValue
       this.selected = selected
     },

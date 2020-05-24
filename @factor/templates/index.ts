@@ -27,13 +27,7 @@ export const getTemplateFields = async (
 ): Promise<TemplateSetting[]> => {
   const theComponent = await tpl.component()
   const {
-<<<<<<< HEAD
-    default: {
-      templateSettings
-    },
-=======
     default: { templateSettings },
->>>>>>> upstream/development
   } = theComponent
 
   return templateSettings ? templateSettings() : []
@@ -44,7 +38,6 @@ export const getTemplateFields = async (
  */
 export const getPageTemplates = (): TemplateConfig[] => {
   const _templates: TemplateConfig[] = setting("pageTemplates.templates") || []
-
   return applyFilters("page-templates", _templates)
     .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
       // remove duplicates, favor the last
