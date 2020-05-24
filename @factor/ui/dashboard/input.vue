@@ -23,15 +23,25 @@ export default {
   }
 
   input,
-  select,
-  textarea {
-    resize: none;
+  select {
     border: 0;
     font-size: 1em;
     box-shadow: none;
     padding: 0;
-    width: 25em;
-    max-width: 100%;
+    width: 100%;
+    max-width: 25em;
+    overflow: hidden;
+  }
+
+  textarea {
+    border: 0;
+    font-size: 1em;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+    resize: none;
+    max-height: 15em;
+    overflow: auto;
   }
 
   button,
@@ -77,7 +87,6 @@ export default {
     font-size: 1em;
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
-    overflow: hidden;
     border: 0;
     font-weight: 500;
     color: var(--color-text);
