@@ -53,6 +53,13 @@ export default {
       newTopic: ["andrew@fiction.com"],
       newReply: ["andrew@fiction.com"],
     },
+    categories: ["support", "plugins", "themes", "showcase", "feedback", "integrations"],
+    metatags: {
+      index: {
+        title: "Factor Forum",
+        description: "Help and discussion about Factor JS",
+      },
+    },
   },
   app: { url: "https://factor.dev" },
   metaInfo: {

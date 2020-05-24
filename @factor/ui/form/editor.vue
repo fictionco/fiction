@@ -39,7 +39,16 @@ export default {
       }
     },
   },
-
+  metaInfo: {
+    link: [
+      {
+        vmid: "fa",
+        rel: "stylesheet",
+        href:
+          "https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css",
+      },
+    ],
+  },
   watch: {
     value: function (this: any, v: string) {
       if (this.easyMDE && this.easyMDE.value() != v) {

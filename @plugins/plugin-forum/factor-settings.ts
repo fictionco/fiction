@@ -11,8 +11,8 @@ export default {
     },
     metatags: {
       index: {
-        title: "Factor Forum",
-        description: "Help and discussion about Factor JS",
+        title: "Forum",
+        description: "Start a new discussion",
       },
       newTopic: {
         title: "New Topic",
@@ -54,33 +54,8 @@ export default {
       index: ["topicIndex"],
       single: ["topicSingle"],
     },
-    categories: [
-      {
-        value: "support",
-      },
-      {
-        value: "plugins",
-      },
-      {
-        value: "themes",
-      },
-      {
-        value: "showcase",
-      },
-      {
-        value: "feedback",
-      },
-      {
-        value: "performance",
-      },
-      {
-        value: "integrations",
-      },
-      {
-        value: "off-topic",
-        icon: "far fa-star",
-      },
-    ],
+    categories: [],
+
     components: {
       forumSidebar: (): Promise<any> => import("./forum-sidebar.vue"),
       forumIndex: (): Promise<any> => import("./forum-index.vue"),
