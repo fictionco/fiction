@@ -239,9 +239,9 @@ export default {
   routeClass() {
     return "keep-focused"
   },
-  metaInfo() {
+  metaInfo(this: any) {
     return {
-      title: "Checkout",
+      title: `Checkout ${this.productConfig.title}`,
       script: [
         {
           vmid: "stripe",

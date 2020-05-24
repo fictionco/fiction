@@ -6,8 +6,8 @@
         <h3 class="page-title-sub">The premium JavaScript CMS for web professionals.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Try Factor Now</factor-link>
-          <factor-link btn="default" path="/pro">Factor Pro</factor-link>
+          <factor-link btn="primary" path="/install">Install Factor</factor-link>
+
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
             &nbsp;
