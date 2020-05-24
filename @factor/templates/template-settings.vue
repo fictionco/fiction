@@ -91,9 +91,6 @@ export default {
       immediate: true,
     },
   },
-  mounted() {
-    this.setTemplateDefaults()
-  },
   methods: {
     getPageTemplates,
     async setPageTemplate(this: any, templateId: string) {
