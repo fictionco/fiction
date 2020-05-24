@@ -286,6 +286,11 @@ export default [
         doc: "heroku",
         file: (): Promise<string> => import("./integrations/heroku/index.md"),
       },
+      {
+        title: "Pro / Business Suite",
+        doc: "pro-suite",
+        file: (): Promise<string> => import("./integrations/pro-suite/index.md"),
+      },
     ],
   },
 ]

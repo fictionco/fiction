@@ -7,7 +7,7 @@ export default {
       },
     ],
   },
-  checkout: {
+  subscriptions: {
     routes: {
       checkout: {
         path: "/checkout",
@@ -15,13 +15,10 @@ export default {
         meta: { auth: true },
       },
     },
-    development: {
-      publishableKey: "",
-      plans: {},
+    publishableKey: {
+      development: "",
+      production: "",
     },
-    production: {
-      publishableKey: "",
-      plans: {},
-    },
+    products: [],
   },
 }

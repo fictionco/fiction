@@ -1,16 +1,10 @@
 import prettyBytes from "pretty-bytes"
 import chalk from "chalk"
-import { pushToFilter } from "@factor/api/hooks"
+import { getLatestVersion, getSuiteEdition } from "@factor/api/remote"
 import { factorVersion } from "@factor/api/about"
 import { systemUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
-import latestVersion from "latest-version"
-import axios from "axios"
-import { FactorUser } from "@factor/user/types"
-const __remoteConfig = {
-  apiUser: undefined,
-  latestVersion: "",
-}
+
 /**
  * Get node memory usage
  * https://nodejs.org/api/process.html#process_process_memoryusage
@@ -35,73 +29,12 @@ export const getCliExecutor = (): string => {
   return ePath && ePath.includes("yarn") ? "yarn" : "npm"
 }
 
-export const getApiUser = async (): Promise<FactorUser | undefined> => {
-  if (__remoteConfig.apiUser) {
-    return __remoteConfig.apiUser
-  } else {
-    const apiKey = process.env.FACTOR_API_KEY
-
-    if (apiKey) {
-      try {
-        const {
-          data: { result },
-        } = await axios.get(`https://api-server.factor.dev?apiKey=${apiKey}`)
-        return result
-      } catch {
-        log.info("error getting API user")
-      }
-    }
-    return
-  }
-}
-
-interface FactorEdition {
-  name: "pro" | "business" | "community"
-  text?: string
-}
-
-export const getSuiteEdition = async (): Promise<FactorEdition> => {
-  const apiUser = await getApiUser()
-  return { name: "community", text: apiUser?.displayName ?? "" }
-}
-
-export const getLatestVersion = async (): Promise<string> => {
-  if (__remoteConfig.latestVersion) {
-    return __remoteConfig.latestVersion
-  } else {
-    let latest = ""
-    try {
-      latest = await latestVersion("@factor/core")
-    } catch {
-      log.info("Error getting latest Factor version")
-    }
-    const current = factorVersion()
-    const executor = getCliExecutor()
-
-    if (latest && current != latest) {
-      pushToFilter({
-        key: "newVersion",
-        hook: "cli-notices",
-        item: `Factor v${latest} is available (v${latest}) - Run: "${executor} upgrade"`,
-      })
-    }
-
-    __remoteConfig.latestVersion = latest
-
-    return latest
-  }
-}
-
-export const getRemoteConfig = async (): Promise<typeof __remoteConfig> => {
-  const _promises: Promise<any>[] = [getApiUser(), getLatestVersion()]
-
-  await Promise.all(_promises)
-
-  return __remoteConfig
-}
-
 export const blueChalk = (text: string): string => {
   return chalk.hex("#0471ff").bold(text)
+}
+
+export const redChalk = (text: string): string => {
+  return chalk.hex("#FF0076").bold(text)
 }
 
 /**
@@ -118,13 +51,23 @@ export const serverInfo = async ({
 
   const current = factorVersion()
   const latest = await getLatestVersion()
-  const { name } = await getSuiteEdition()
+  const { edition } = await getSuiteEdition()
 
   const vLatest = latest != current ? `v${latest} upgrade available` : "latest"
 
-  lines.push(chalk.bold(`Factor platform v${current} (${vLatest})`))
+  lines.push(
+    chalk.bold(`Factor platform v${current} (${vLatest})`) +
+      ` / ${chalk.bold(NODE_ENV)} mode`
+  )
 
-  lines.push(`Running ${chalk.bold(name)} edition in ${chalk.bold(NODE_ENV)} mode`)
+  if (edition != "unknown") {
+    const upsell =
+      edition == "community"
+        ? `- upgrade: ${redChalk("https://factor.dev/pro")}`
+        : "- premium enabled"
+
+    lines.push(`Using the ${redChalk(edition)} suite ${chalk.dim(upsell)}`)
+  }
 
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Available at ${blueChalk(systemUrl("local"))}`)

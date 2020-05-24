@@ -5,21 +5,47 @@ export default {
     nav: docNav,
     components: injectedComponents,
   },
-  checkout: {
-    production: {
-      publishableKey: "pk_live_mNp1P1HlMMP4gxpc0aUMuayE",
-      plans: {
-        pro: { year: "plan_HDdUFHsAuiYJf3", month: "plan_HDdVV8sK4WHPq3" },
-        business: { year: "plan_HDggbm822dNjDg", month: "plan_HDggVQfROhqWoT" },
-      },
+  subscriptions: {
+    publishableKey: {
+      production: "pk_live_mNp1P1HlMMP4gxpc0aUMuayE",
+      development: "pk_test_jbW9mKYjd1PXtJklKiqJtIq4",
     },
-    development: {
-      publishableKey: "pk_test_jbW9mKYjd1PXtJklKiqJtIq4",
-      plans: {
-        pro: { year: "plan_HDjUY9NRtVTaND", month: "plan_HDjUeyfZxz6vJD" },
-        business: { year: "plan_HDjVkmq9Hlpr5p", month: "plan_HDjVyDXlswZYDP" },
+    products: [
+      {
+        slug: "pro",
+        title: "Pro Suite",
+        description: "Pro Features and Extensions",
+        plans: [
+          {
+            interval: "year",
+            production: "plan_HDdUFHsAuiYJf3",
+            development: "plan_HDjUY9NRtVTaND",
+          },
+          {
+            interval: "month",
+            production: "plan_HDdVV8sK4WHPq3",
+            development: "plan_HDjUeyfZxz6vJD",
+          },
+        ],
       },
-    },
+      {
+        slug: "business",
+        title: "Business Suite",
+        description: "Pro plus additional business enhancements",
+        plans: [
+          {
+            interval: "year",
+            production: "plan_HDggbm822dNjDg",
+            development: "plan_HDjVkmq9Hlpr5p",
+          },
+          {
+            interval: "month",
+            production: "plan_HDggVQfROhqWoT",
+            development: "plan_HDjVyDXlswZYDP",
+          },
+        ],
+      },
+    ],
   },
   forum: {
     title: "Factor Forum",

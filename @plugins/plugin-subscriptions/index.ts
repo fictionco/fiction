@@ -6,7 +6,7 @@ import { addRoutes, setting, addDashboardMenu } from "@factor/api"
 addRoutes({
   location: "content",
   key: "checkoutPlugin",
-  routes: [setting("checkout.routes.checkout")],
+  routes: [setting("subscriptions.routes.checkout")],
 })
 
 addDashboardMenu({

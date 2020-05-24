@@ -18,10 +18,10 @@
           <img class="media" src="./img/popper.svg" />
           <h2 class="title">Success</h2>
           <div class="sub">
-            <p>Congratulations! You've officially upgraded to {{ metadata.title }}</p>
+            <p>Congratulations! You've officially upgraded to {{ productConfig.title }}</p>
           </div>
           <div class="action">
-            <factor-link btn="primary" path="/docs/pro">Using {{ metadata.title }} &rarr;</factor-link>
+            <factor-link btn="primary" path="/docs/pro-suite">Using {{ productConfig.title }} &rarr;</factor-link>
             <factor-link btn="default" path="/dashboard/developer">Developer Dashboard &rarr;</factor-link>
           </div>
         </div>
@@ -36,8 +36,8 @@
               <span class="period">per {{ plan.interval || "" }}</span>
             </div>
             <div class="product">
-              <div class="name">{{ metadata.title || "No Title" }}</div>
-              <div class="sub">{{ metadata.description || "No Description" }}</div>
+              <div class="name">{{ productConfig.title || "No Title" }}</div>
+              <div class="sub">{{ productConfig.description || "No Description" }}</div>
             </div>
           </div>
           <ul>
@@ -103,13 +103,14 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
-import { stored, currentUser, emitEvent } from "@factor/api"
+import { stored, currentUser, emitEvent, setting } from "@factor/api"
 import { factorBtn, factorIcon, factorLink, factorInputText } from "@factor/ui"
 import {
   getStripeClient,
   requestCreateSubscription,
   requestPlanInfo,
   requestCoupon,
+  getProductConfig,
 } from "./stripe-client"
 export default {
   components: {
@@ -130,6 +131,10 @@ export default {
   },
   computed: {
     currentUser,
+    productConfig() {
+      const slug = this.$route.query.product ?? "pro"
+      return slug ? getProductConfig(slug as string) : {}
+    },
     cardElement() {
       return stored("stripeCardElement")
     },
@@ -157,6 +162,7 @@ export default {
     this.setPlan()
   },
   methods: {
+    setting,
     getTotal(this: any) {
       const baseline = this.plan?.amount ?? 0
       let amount = baseline
@@ -189,9 +195,9 @@ export default {
       }
     },
     async setPlan() {
-      const plan = this.$route.query.plan ?? "pro"
+      const product = this.$route.query.product ?? "pro"
       const interval = this.$route.query.interval ?? "year"
-      await requestPlanInfo(plan as string, interval as string)
+      await requestPlanInfo(product as string, interval as string)
     },
     async createSubscription(this: any) {
       this.sending = "confirm"
@@ -223,15 +229,19 @@ export default {
 
         if (status == "success") {
           emitEvent("notify", "Success!")
+          emitEvent("refresh-user")
           this.$router.push({ query: { ...this.$route.query, status } })
         }
       }
       this.sending = false
     },
   },
-  metaInfo() {
+  routeClass() {
+    return "keep-focused"
+  },
+  metaInfo(this: any) {
     return {
-      title: "Checkout",
+      title: `Checkout ${this.productConfig.title}`,
       script: [
         {
           vmid: "stripe",
@@ -402,7 +412,7 @@ export default {
       font-size: 1.3em;
     }
     .amount {
-      font-size: 3.5em;
+      font-size: 2.5em;
       line-height: 1;
     }
   }

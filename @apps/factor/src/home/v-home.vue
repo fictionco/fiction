@@ -81,7 +81,13 @@
       </div>
     </div>
 
-    <join-program id="join" />
+    <!-- <join-program id="join" /> -->
+
+    <section class="plugins-gallery-section content-pad">
+      <plugins-gallery />
+    </section>
+
+    <upgrade-factor />
   </div>
 </template>
 
@@ -92,10 +98,12 @@ export default {
   components: {
     factorLink,
     factorIcon,
-    joinProgram: () => import("./el-join.vue"),
     homeSplash: () => import("./splash.vue"),
     homeIcon: () => import("./icon.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
+    //joinProgram: () => import("./el-join.vue"),
+    upgradeFactor: () => import("./el-upgrade.vue"),
+    pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {
     return {
@@ -308,8 +316,9 @@ export default {
   .quotes-wrap {
     position: relative;
     background-image: url("./img/dot.svg");
+    margin-top: 6em;
+    margin-bottom: 6em;
 
-    margin-top: 5em;
     .quotes {
       transform: skewY(-10deg);
 
@@ -347,7 +356,7 @@ export default {
           //    background-image: linear-gradient(45deg, #fff, #f7f7f7);
           blockquote {
             box-shadow: 1px 1px 4px 0 rgba(26, 26, 67, 0.1),
-              -9px 22.5px 65px -5px rgba(50, 50, 93, 0.2);
+              -5px 22.5px 65px 0 rgba(50, 50, 93, 0.2);
           }
         }
         &:nth-child(even) {
@@ -400,6 +409,10 @@ export default {
         }
       }
     }
+  }
+
+  .plugins-gallery-section {
+    padding: 6em 1.5em;
   }
 }
 </style>

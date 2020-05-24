@@ -7,10 +7,15 @@
         <div v-for="(item, i) in header" :key="i" class="col col-header" :class="`col-${item.id}`">
           <div class="super">{{ item.super }}</div>
           <h2>{{ toLabel(item.id) }}</h2>
-          <div class="sub">{{ item.sub }}</div>
+          <div v-formatted-text="item.sub" class="sub" />
           <div class="action">
             <factor-link v-if="item.id == 'community'" btn="default" disabled>Free Forever</factor-link>
-            <factor-link v-else btn="primary" path="/checkout" :query="{plan: item.id}">Get Started</factor-link>
+            <factor-link
+              v-else
+              btn="primary"
+              path="/checkout"
+              :query="{product: item.id}"
+            >Upgrade &rarr;</factor-link>
           </div>
         </div>
       </div>
@@ -28,18 +33,28 @@
           </div>
         </div>
         <div class="col col-icon col-community">
-          <div v-if="child.level <= 0" class="mobile-label">Community</div>
-          <factor-icon v-if="child.level <= 0" icon="fas fa-check" />
+          <div v-if="child.community" v-formatted-text="child.community" class="col-value" />
+          <div v-else-if="child.level <= 0" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Community</span>
+          </div>
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-pro">
-          <div v-if="child.level <= 10" class="mobile-label">Pro</div>
-          <factor-icon v-if="child.level <= 10" icon="fas fa-check" />
+          <div v-if="child.pro" v-formatted-text="child.pro" class="col-value" />
+          <div v-else-if="child.level <= 10" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Pro</span>
+          </div>
+
           <factor-icon v-else icon="fas fa-minus" />
         </div>
         <div class="col col-icon col-business">
-          <div v-if="child.level <= 20" class="mobile-label">Business</div>
-          <factor-icon v-if="child.level <= 20" icon="fas fa-check" />
+          <div v-if="child.business" v-formatted-text="child.business" class="col-value" />
+          <div v-else-if="child.level <= 20" class="col-value mobile-label">
+            <factor-icon icon="fas fa-check" />
+            <span>Business</span>
+          </div>
           <factor-icon v-else icon="fas fa-minus" />
         </div>
       </div>
@@ -69,7 +84,7 @@ export default {
         {
           super: "For Professionals",
           id: "pro",
-          sub: "Premium features and extensions",
+          sub: "Premium features, extensions, &amp; support",
         },
         {
           super: "For Businesses",
@@ -79,23 +94,43 @@ export default {
       ],
       groups: [
         {
+          title: "Basics",
+          icon: "description",
+          children: [
+            {
+              title: "Price",
+              community: "Free",
+              pro: "$29/mo <span class='add'>Paid Yearly</span>",
+              business: "$59/mo <span class='add'>Paid Yearly</span>",
+            },
+            {
+              title: "Unlimited Domains (You Own)",
+              level: 0,
+            },
+            {
+              title: "Money-Back Guarantee",
+              level: 10,
+            },
+          ],
+        },
+        {
           title: "Extensions",
           icon: "extension",
           children: [
             {
-              title: "Community extensions",
+              title: "Community Extensions",
               level: 0,
             },
             {
-              title: "Free extensions",
+              title: "Free Extensions",
               level: 0,
             },
             {
-              title: "Pro extensions",
+              title: "Pro Extensions",
               level: 10,
             },
             {
-              title: "Additional features &amp; settings",
+              title: "Pro Features &amp; Settings",
               level: 10,
             },
           ],
@@ -131,15 +166,15 @@ export default {
           icon: "supervisor",
           children: [
             {
-              title: "Community support",
+              title: "Community Support",
               level: 0,
             },
             {
-              title: "Premium technical support",
+              title: "Premium Technical Support",
               level: 10,
             },
             {
-              title: "Priority support with debugging*",
+              title: "Priority Support with Debugging*",
               level: 20,
             },
           ],
@@ -153,15 +188,15 @@ export default {
               level: 0,
             },
             {
-              title: "Sustain ongoing development",
+              title: "Sustain Ongoing Development",
               level: 10,
             },
             {
-              title: "Priority feature requests",
+              title: "Priority Feature Requests",
               level: 10,
             },
             {
-              title: "New extensions monthly",
+              title: "New Extensions Monthly",
               level: 10,
             },
           ],
@@ -189,8 +224,10 @@ export default {
     padding: 1rem;
     display: grid;
     grid-template-columns: 2rem 1fr;
+
     .group-title {
-      font-size: 1.3em;
+      text-transform: uppercase;
+      font-size: 1.2em;
       font-weight: var(--font-weight-bold, 700);
     }
     @media (max-width: 900px) {
@@ -207,11 +244,13 @@ export default {
     margin: 0 0 0.5rem;
   }
   .area-title {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: var(--font-weight-bold, 700);
     color: var(--color-text-secondary);
     opacity: 0.6;
     padding: 1rem 0 0.5rem;
+
+    text-transform: uppercase;
   }
   .table-row {
     display: grid;
@@ -250,11 +289,22 @@ export default {
         }
       }
       .mobile-label {
-        display: none;
         font-size: 0.8em;
         text-transform: uppercase;
         color: var(--color-primary);
         font-weight: var(--font-weight-bold, 700);
+      }
+      .col-value {
+        .fa-check {
+          opacity: 0.5;
+          margin-right: 0.25rem;
+        }
+        .add {
+          display: block;
+          font-size: 11px;
+          opacity: 0.3;
+          text-transform: uppercase;
+        }
       }
     }
     @media (max-width: 900px) {
@@ -290,21 +340,25 @@ export default {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid var(--color-border);
+      box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 5px 5px rgba(50, 50, 93, 0.05),
+        0px 5px 15px rgba(50, 50, 93, 0.11);
       border-radius: 5px;
+      padding: 2rem;
       h2 {
-        font-size: 1.2em;
+        //font-size: 1.2em;
+        font-size: 1.6em;
         font-weight: var(--font-weight-bold, 700);
       }
       .super {
         text-transform: uppercase;
-        font-size: 12px;
+        font-size: 13px;
         color: var(--color-text-secondary);
-        opacity: 0.7;
+        //opacity: 0.7;
       }
       .sub {
         margin-top: 0.5rem;
-        font-size: 0.85em;
+        //font-size: 0.85em;
+        font-size: 1rem;
         line-height: 1.3;
       }
       .action {

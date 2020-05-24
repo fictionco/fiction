@@ -48,6 +48,7 @@ addPostType({
       if (!this.date) {
         const now = new Date()
         this.date = now.toISOString()
+        this.contributedAt = now.toISOString()
       }
 
       this.postType = this.get("__t") || "post"
@@ -58,7 +59,7 @@ addPostType({
     applyFilters("post-schema", {
       postType: { type: String, index: true, sparse: true },
       date: Date,
-
+      contributedAt: Date,
       title: { type: String, trim: true },
       synopsis: { type: String, trim: true },
       content: { type: String, trim: true },

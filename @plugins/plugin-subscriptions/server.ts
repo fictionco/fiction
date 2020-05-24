@@ -10,6 +10,7 @@ import {
   CustomerComposite,
   UpdateSubscription,
   StripeEndpointParameters,
+  ProductConfig,
 } from "./types"
 
 const getStripe = (): Stripe => {
@@ -99,7 +100,7 @@ export const createSubscription = async (
     paymentMethodId,
     subscriptionPlanId,
     idempotencyKey,
-    coupon
+    coupon,
   }: SubscriptionCustomerData & StripeEndpointParameters,
   { bearer }: EndpointMeta
 ): Promise<SubscriptionResult> => {
@@ -190,13 +191,13 @@ export const serverRetrievePlan = async ({ id }: { id: string }): Promise<PlanIn
 }
 
 export const serverRetrieveAllPlans = async (): Promise<PlanInfo[]> => {
-  const planSetting = setting<Record<string, Record<string, string>>>(
-    `checkout.${process.env.NODE_ENV}.plans`
-  )
+  const products = setting<ProductConfig[]>(`subscriptions.products`)
   let planIds: string[] = []
 
-  Object.values(planSetting).forEach((val) => {
-    planIds = [...planIds, ...Object.values(val)]
+  products.forEach((product) => {
+    const env = process.env.NODE_ENV ?? "production"
+    const add = product.plans.map((plan) => plan[env])
+    planIds = [...planIds, ...add]
   })
 
   return await Promise.all(planIds.map((id) => serverRetrievePlan({ id })))

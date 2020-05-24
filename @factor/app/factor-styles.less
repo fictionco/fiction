@@ -1,0 +1,49 @@
+@import "~@factor/ui/css/standard-reset.less";
+.factor-app {
+  @import "~@factor/ui/css/standard-form.less";
+  --color-primary: #0471ff;
+  --color-secondary: #0496ff;
+  --color-text: #3a4854;
+  --color-text-secondary: #8ba8bf;
+  --color-code: #283f63;
+  --color-border: rgba(209, 210, 223, 0.7);
+  --color-placeholder: #bdcad4;
+  --color-success: #42b983;
+  --color-info: #62bdff;
+  --color-warning: #ff6464;
+  --color-danger: #ff0000;
+  --color-bg: #ffffff;
+  --color-bg-contrast: #f6fafd;
+  --color-bg-highlight: #edf1f5;
+  --font-family-primary: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  --font-weight-bold: 700;
+  --font-weight-standard: 500;
+  --font-weight-light: 400;
+  --base-font-size: 16px;
+  --base-line-height: 1.5;
+
+  /* Standard Styles */
+  color: var(--color-text);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  font-weight: var(--font-weight-standard);
+
+  /* Optimize Text */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

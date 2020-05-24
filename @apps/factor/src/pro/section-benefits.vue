@@ -13,7 +13,7 @@
         <div class="sub">There has never been a better time.</div>
       </div>
       <div class="action">
-        <factor-link btn="primary" path="/plan">Get Started &rarr;</factor-link>
+        <factor-link btn="primary" path="/plans">Get Started &rarr;</factor-link>
       </div>
     </div>
   </div>

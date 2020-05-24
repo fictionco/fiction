@@ -231,5 +231,6 @@ export interface UnsavedFactorPost {
   date?: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  contributedAt?: Date | string
   //[key: string]: any;
 }

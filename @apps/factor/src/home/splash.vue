@@ -2,13 +2,12 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">The JavaScript CMS</h1>
-        <h3
-          class="page-title-sub"
-        >A professional JavaScript platform for dynamic, code-first web applications.</h3>
+        <h1 class="page-title">Build reactive websites and apps.</h1>
+        <h3 class="page-title-sub">The premium JavaScript CMS for web professionals.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Install Factor &rarr;</factor-link>
+          <factor-link btn="primary" path="/install">Install Factor</factor-link>
+
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
             &nbsp;

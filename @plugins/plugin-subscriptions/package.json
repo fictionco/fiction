@@ -1,7 +1,7 @@
 {
-  "name": "@factor/plugin-subscription",
-  "description": "A paid subscription solution for Factor.",
-  "version": "1.7.8",
+  "name": "@factor/plugin-subscriptions",
+  "description": "Add memberships and paid subscriptions powered by Stripe.",
+  "version": "1.8.0",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
@@ -17,7 +17,7 @@
       "server": "server"
     },
     "extend": "plugin",
-    "title": "Checkout",
+    "title": "Subscriptions",
     "permalink": "subscription-ecommerce",
     "category": [
       "eCommerce"
@@ -36,6 +36,7 @@
   "keywords": [
     "factor",
     "factor-plugin",
+    "pro",
     "ecommerce",
     "stripe",
     "cart",

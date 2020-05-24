@@ -40,7 +40,7 @@ export default {
       return this.btn == "test" && !this.$testing.isTest ? false : true
     },
     buttonClass() {
-      const btnClass = ["factor-btn", "factor-btn-load"]
+      const btnClass = ["factor-btn", "factor-btn-load", "factor-input"]
 
       if (this.loading) {
         btnClass.push("loading")

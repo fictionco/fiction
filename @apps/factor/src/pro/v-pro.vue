@@ -40,23 +40,13 @@
       </div>
     </section>
 
-    <section class="quotes content">
+    <section class="quotes content-pad">
       <h2 class="title">What they’re saying...</h2>
-      <section-quotes class="content-pad quotes-pad" />
+      <section-quotes />
     </section>
 
-    <section class="plugins-gallery-section content">
-      <div class="plugins-gallery-header content-pad">
-        <div class="text">
-          <h2 class="title">Latest Plugins</h2>
-          <div class="sub">Create and run your web app with Factor and extensions.</div>
-        </div>
-        <div class="action">
-          <factor-link btn="default" path="/plugins">Browse All &rarr;</factor-link>
-        </div>
-      </div>
-
-      <plugins-gallery class="content-pad" />
+    <section class="plugins-gallery-section content-pad">
+      <plugins-gallery />
     </section>
 
     <el-cta id="cta" />
@@ -95,7 +85,7 @@ export default {
         },
         {
           title: `Support <span class="alt">Pro</span>`,
-          text: `Lorem ipsum sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.`,
+          text: `Need help time to time? With pro support and priority debugging, we'll help you figure out any issue you have.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/plans", text: "Start Now" },
         },
@@ -104,7 +94,7 @@ export default {
             {
               title: `Satisfaction Guaranteed`,
               text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+                "When you upgrade we guarantee you'll be 100% satisfied. No questions 60-day money back.",
             },
             {
               title: `Cancel Anytime`,
@@ -125,9 +115,9 @@ export default {
   methods: {},
   metaInfo() {
     return {
-      title: "JavaScript CMS and eCommerce Platform",
+      title: "Pro and Business Suite",
       description:
-        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
+        "Use the premium Factor suites to upgrade your application and dominate on the web.",
     }
   },
 }
@@ -177,20 +167,6 @@ export default {
       grid-template-areas: "a b";
       align-items: center;
 
-      &.even {
-        .feature-content-container {
-          justify-self: flex-end;
-        }
-      }
-      &.odd {
-        grid-template-areas: "b a";
-        .feature-figure-container {
-          justify-content: flex-end;
-          @media (max-width: 900px) {
-            justify-content: center;
-          }
-        }
-      }
       .feature-content-container {
         grid-area: a;
         min-width: 0;
@@ -206,24 +182,42 @@ export default {
         position: relative;
         display: flex;
         align-items: center;
+        justify-content: center;
         .figure-container {
           max-width: 100%;
         }
       }
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-        grid-template-areas: "a" "b";
-        &.odd {
-          grid-template-areas: "a" "b";
-        }
+
+      &.even {
         .feature-content-container {
-          .feature-content {
-            padding: 3rem 1.5rem 1rem;
-            max-width: 100%;
-          }
+          justify-self: flex-end;
         }
         .feature-figure-container {
-          justify-content: center;
+          justify-content: flex-start;
+        }
+      }
+      &.odd {
+        grid-template-areas: "b a";
+        .feature-figure-container {
+          justify-content: flex-end;
+        }
+      }
+
+      @media (max-width: 900px) {
+        &.even,
+        &.odd {
+          grid-template-columns: 1fr;
+          grid-template-areas: "a" "b";
+          .feature-content-container {
+            justify-self: flex-start;
+            .feature-content {
+              padding: 3rem 1.5rem 1rem;
+              max-width: 100%;
+            }
+          }
+          .feature-figure-container {
+            justify-content: center;
+          }
         }
       }
     }
@@ -285,9 +279,9 @@ export default {
   }
 
   .quotes {
-    padding: 6rem 0;
+    padding: 3rem 0;
     @media (max-width: 900px) {
-      padding: 4rem 0 8rem;
+      padding: 3rem 1rem;
     }
 
     h2.title {
@@ -296,26 +290,15 @@ export default {
       margin-bottom: 6rem;
       text-transform: uppercase;
       color: var(--color-text-secondary);
+
+      @media (max-width: 900px) {
+        margin-bottom: 4rem;
+      }
     }
   }
 
   .plugins-gallery-section {
-    padding: 3rem 0;
-
-    .plugins-gallery-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 2rem;
-      padding-bottom: 2rem;
-      .title {
-        font-size: 1.4em;
-        font-weight: var(--font-weight-bold, 700);
-      }
-      .sub {
-        color: var(--color-text-secondary);
-      }
-    }
+    padding: 3em 1.5em;
   }
 }
 </style>

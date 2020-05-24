@@ -36,9 +36,10 @@ export default {
       userLoading: true,
       user: false,
       pageNav: [
-        { path: "/docs", name: "Develop" },
+        { path: "/pro", name: "Pro / Business" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" },
+        { path: "/docs", name: "Develop" },
         { path: "/forum", name: "Forum" },
       ],
       actionNav: [
@@ -66,6 +67,13 @@ export default {
   background: transparent;
 }
 
+.keep-focused .site-head-pad {
+  .page-nav,
+  .action-nav {
+    display: none;
+  }
+}
+
 .site-head {
   transition: all 0.1s;
   padding: 0 1.5em;
@@ -88,7 +96,7 @@ export default {
   }
   &.scrolled {
     .site-head {
-      padding: 0rem 2rem;
+      padding: 0rem 1rem;
       background: #fff;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     }
@@ -105,7 +113,7 @@ export default {
   height: 45px;
   align-items: center;
   display: grid;
-  grid-template-columns: minmax(150px, 300px) 1fr minmax(150px, 300px);
+  grid-template-columns: minmax(130px, 250px) 1fr minmax(130px, 250px);
 
   .head-nav {
     display: flex;
@@ -131,6 +139,7 @@ export default {
       margin: 0 0.25em;
       padding: 0.25em 0.7em;
       border-radius: 6px;
+      white-space: nowrap;
       &:last-child {
         margin-right: 0;
       }

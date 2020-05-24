@@ -11,6 +11,8 @@
   </div>
 </template>
 <script lang="ts">
+import socialImage from "./static/social.jpg"
+import sharingIcon from "./static/icon-500.jpg"
 export default {
   name: "ContentWrap",
   components: {
@@ -21,13 +23,24 @@ export default {
   metaInfo() {
     return {
       titleTemplate: "%s - Factor",
-      image: require("./static/og-image.jpg"),
       link: [
         {
           vmid: "font",
           rel: "stylesheet",
           href:
             "https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=fallback",
+        },
+        {
+          vmid: "icon",
+          rel: "icon",
+          href: sharingIcon,
+        },
+      ],
+      meta: [
+        {
+          vmid: "socialImage",
+          property: "og:image",
+          content: socialImage,
         },
       ],
     }

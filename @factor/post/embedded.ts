@@ -85,6 +85,8 @@ export const embeddedPost = async (
     embeddedPost,
   })
 
+  const currentDate = new Date().toISOString()
+
   if (!permissable) return
 
   if (action == "retrieve") {
@@ -98,7 +100,7 @@ export const embeddedPost = async (
   } else if (action == "save") {
     if (!data) return
 
-    data.updatedAt = new Date().toISOString()
+    data.updatedAt = currentDate
 
     // Already exists
     if (data._id) {
@@ -112,10 +114,15 @@ export const embeddedPost = async (
       await Model.updateOne({ _id: parentId, "embedded._id": data._id }, { $set: setter })
     } else {
       data._id = `${parentId}-${randomToken(8)}`
-      data.createdAt = new Date().toISOString()
+
+      data.createdAt = currentDate
       await Model.update(
         { _id: parentId },
-        { $push: { embedded: data as FactorPost }, $inc: { embeddedCount: 1 } }
+        {
+          contributedAt: currentDate,
+          $push: { embedded: data as FactorPost },
+          $inc: { embeddedCount: 1 },
+        }
       )
     }
 

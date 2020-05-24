@@ -52,6 +52,9 @@ figure.figure-extensions {
     transform-origin: center right;
     perspective: 1000px;
     transform-style: preserve-3d;
+    @media (max-width: 900px) {
+      transform-origin: center;
+    }
   }
   .extensions {
     padding: 34% 0;
@@ -59,7 +62,7 @@ figure.figure-extensions {
     position: relative;
     transform-style: preserve-3d;
     @media (max-width: 900px) {
-      transform: scale(1) translate(-0, -0px);
+      transform: translate(-0, -0px);
     }
     .screenshot {
       background: #fff;

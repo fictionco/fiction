@@ -42,13 +42,16 @@ figure.figure-satisfaction {
   max-width: 100%;
   @media (max-width: 900px) {
     margin: 1rem auto 4rem;
-    width: 450px;
+    //width: 460px;
   }
 
   .stage-wrap {
     transform-origin: center right;
     perspective: 1000px;
     transform-style: preserve-3d;
+    @media (max-width: 900px) {
+      transform-origin: center;
+    }
   }
   .satisfaction {
     padding: 34% 0;
@@ -57,6 +60,7 @@ figure.figure-satisfaction {
     transform-style: preserve-3d;
     @media (max-width: 900px) {
       transform: scale(1) translate(-0, -0px);
+      width: 460px;
     }
     .screenshot {
       background: #fff;

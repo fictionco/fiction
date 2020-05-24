@@ -19,30 +19,37 @@
       </div>
       <div class="footer-col list">
         <div class="menu-header">Build Apps</div>
-        <factor-link path="/install">Get started</factor-link>
-        <factor-link path="/docs">Docs</factor-link>
-        <factor-link path="https://go.factor.dev/github" target="_blank">Github repo</factor-link>
-        <factor-link path="https://go.factor.dev/slack" target="_blank">Slack Channel</factor-link>
+        <factor-link path="/install">Install</factor-link>
+        <factor-link path="/docs">Documentation</factor-link>
+        <factor-link path="/forum">Support Forum</factor-link>
       </div>
       <div class="footer-col list">
-        <div class="menu-header">Extensions</div>
+        <div class="menu-header">Extend</div>
 
         <factor-link path="/themes">Themes</factor-link>
         <factor-link path="/plugins">Plugins</factor-link>
+        <factor-link path="/pro">Pro / Business Suite</factor-link>
       </div>
+
       <div class="footer-col list">
         <div class="menu-header">Company</div>
         <factor-link path="https://www.fiction.com/careers">We're hiring</factor-link>
-        <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link>
+        <!-- <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link> -->
         <factor-link path="/contact">Contact Us</factor-link>
       </div>
 
       <div class="footer-col icons">
-        <factor-link class="icon-link" path="https://go.factor.dev/facebook" target="_blank">
+        <!-- <factor-link class="icon-link" path="https://go.factor.dev/facebook" target="_blank">
           <factor-icon icon="fab fa-facebook" />
-        </factor-link>
+        </factor-link>-->
         <factor-link class="icon-link" path="https://go.factor.dev/twitter" target="_blank">
           <factor-icon icon="fab fa-twitter" />
+        </factor-link>
+        <factor-link class="icon-link" path="https://go.factor.dev/slack" target="_blank">
+          <factor-icon icon="fab fa-slack" />
+        </factor-link>
+        <factor-link class="icon-link" path="https://go.factor.dev/github" target="_blank">
+          <factor-icon icon="fab fa-github" />
         </factor-link>
       </div>
     </div>

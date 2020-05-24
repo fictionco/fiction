@@ -157,6 +157,7 @@ export default {
         transform: scale(1) translateY(-30px);
       }
     }
+
     &:not(.active) {
       //filter: blur(2px);
       box-shadow: 0 1px 1px rgba(50, 50, 93, 0.11), 0px 5px 5px rgba(50, 50, 93, 0.05),
