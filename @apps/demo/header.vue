@@ -23,13 +23,31 @@
     <div class="selector nav-area">
       <plugin-selector />
     </div>
+    <div class="selector nav-area">
+      <account-menu v-if="!userLoading && isLoggedIn()" />
+      <factor-link
+        v-else-if="!userLoading"
+        event="sign-in-modal"
+        data-test="signin-link"
+      >Demo Login / Sign Up</factor-link>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { isLoggedIn, userInitialized } from "@factor/user"
 import { factorLink } from "@factor/ui"
+import { accountMenu } from "@factor/plugin-standard-signin"
 export default {
-  components: { pluginSelector: () => import("./selector.vue"), factorLink },
+  components: { pluginSelector: () => import("./selector.vue"), factorLink, accountMenu },
+  async mounted(this: any) {
+    await userInitialized()
+
+    this.userLoading = false
+  },
+  methods: {
+    isLoggedIn,
+  },
 }
 </script>
 <style lang="postcss">

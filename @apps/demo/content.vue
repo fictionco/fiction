@@ -1,12 +1,12 @@
 <template>
   <div class="demo">
-    <route-switcher />
+    <demo-header />
     <router-view />
   </div>
 </template>
 <script lang="ts">
 export default {
-  components: { routeSwitcher: () => import("./switcher.vue") },
+  components: { demoHeader: () => import("./header.vue") },
 }
 </script>
 

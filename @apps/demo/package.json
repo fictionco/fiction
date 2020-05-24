@@ -25,6 +25,10 @@
   },
   "dependencies": {
     "@factor/core": "^1.0.0",
-    "@factor/plugin-forum": "^1.1.1"
+    "@factor/plugin-forum": "^1.1.1",
+    "@factor/plugin-blog": "^1.1.1",
+    "@factor/plugin-jobs": "^1.1.1",
+    "@factor/plugin-docs-engine": "^1.1.1",
+    "@factor/plugin-subscriptions": "^1.1.1"
   }
 }

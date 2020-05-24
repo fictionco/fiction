@@ -1,8 +1,5 @@
 <template>
-  <factor-input-select
-    v-model="select"
-    :list="[{name: `Home`, value: '/'}, {name: `Forum`, value: '/forum'}]"
-  />
+  <factor-input-select v-model="select" :list="pluginList" />
 </template>
 
 <script lang="ts">
@@ -12,6 +9,14 @@ export default {
   data() {
     return {
       select: this.$route.path,
+      pluginList: [
+        { name: `Home`, value: "/" },
+        { name: `Forum`, value: "/forum" },
+        { name: `Blog v1`, value: `/blog` },
+        { name: `Job Listings`, value: `/jobs` },
+        { name: `Subscriptions`, value: `/checkout` },
+        { name: `Docs Engine`, value: `/docs` },
+      ],
     }
   },
   watch: {
