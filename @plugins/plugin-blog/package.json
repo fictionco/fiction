@@ -22,7 +22,8 @@
     "category": [
       "blog"
     ],
-    "themeColor": "#2F80EE"
+    "themeColor": "#2F80EE",
+    "demo": "https://demo.factor.dev/blog"
   },
   "repository": {
     "type": "git",

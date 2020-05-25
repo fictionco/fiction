@@ -26,7 +26,8 @@
     "title": "Forum",
     "permalink": "forum-factor-plugin",
     "category": "forum",
-    "themeColor": "#020F46"
+    "themeColor": "#020F46",
+    "demo": "https://demo.factor.dev/forum"
   },
   "repository": {
     "type": "git",
