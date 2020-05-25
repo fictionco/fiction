@@ -30,11 +30,11 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .splash-content {
-    padding: 0 1rem;
+    padding: 1rem;
     h1 {
-      font-size: 3em;
-      line-height: 1.3;
+      font-size: 2em;
       font-weight: 700;
+      line-height: 1.2;
     }
     .sub {
       color: var(--color-text-secondary);

@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
@@ -33,7 +33,7 @@
   },
   "homepage": "https://factor.dev/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.7.9"
+    "@factor/plugin-highlight-code": "^1.8.1"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [

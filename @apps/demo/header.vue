@@ -23,10 +23,11 @@
     <div class="selector nav-area">
       <plugin-selector />
     </div>
-    <div class="selector nav-area">
+    <div class="actions nav-area">
       <account-menu v-if="!userLoading && isLoggedIn()" />
       <factor-link
         v-else-if="!userLoading"
+        class="nav-link"
         event="sign-in-modal"
         data-test="signin-link"
       >Demo Login / Sign Up</factor-link>
@@ -57,12 +58,30 @@ export default {
 </script>
 <style lang="postcss">
 .switcher {
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content 1fr 200px;
+  grid-template-areas: "grid-brand grid-selector grid-actions";
+  grid-column-gap: 1rem;
   padding: 0 1rem;
   width: 100%;
   box-shadow: 0 0 0 1px var(--color-border);
   align-items: center;
   justify-content: space-between;
+
+  .brand {
+    grid-area: grid-brand;
+  }
+  .selector {
+    grid-area: grid-selector;
+  }
+  .actions {
+    grid-area: grid-actions;
+    justify-self: flex-end;
+  }
+  @media (max-width: 900px) {
+    grid-template-columns: max-content 1fr;
+    grid-template-areas: "grid-brand grid-actions" "grid-selector grid-selector";
+  }
 
   .logo {
     display: flex;
@@ -91,8 +110,24 @@ export default {
     }
   }
 
+  .nav-link {
+    box-shadow: 0 0 0 1px var(--color-border);
+    border-radius: 0.25rem;
+    padding: 0.5em 1rem;
+    font-size: 0.9em;
+    font-weight: 600;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
   .nav-area {
     padding: 0.5rem;
+  }
+  .selector {
+    select {
+      font-size: 0.9em;
+    }
   }
 }
 </style>
