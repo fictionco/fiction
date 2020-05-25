@@ -197,8 +197,9 @@ export default {
     }
 
     table {
+      display: inline-table;
       margin: 0.5em 0 1.4em;
-      width: 100%;
+      //width: 100%;
       border: 1px solid #e7ebed;
 
       tr:nth-child(even) {
@@ -206,6 +207,7 @@ export default {
       }
 
       th {
+        text-align: left;
         font-weight: 600;
         border-bottom: 1px solid #e7ebed;
       }
