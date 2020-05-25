@@ -2,8 +2,10 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Build reactive websites and apps.</h1>
-        <h3 class="page-title-sub">The premium JavaScript CMS platform for web professionals.</h3>
+        <h1 class="page-title">Build professional websites incredibly fast.</h1>
+        <h3
+          class="page-title-sub"
+        >The integrated JavaScript CMS and framework that automates development.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -65,7 +67,7 @@ export default {
       min-width: 0;
     }
     .content {
-      max-width: 550px;
+      max-width: 520px;
       justify-self: flex-end;
 
       h1 {
@@ -86,7 +88,7 @@ export default {
       }
 
       .page-title {
-        font-size: 4em;
+        font-size: 3em;
         letter-spacing: -0.035em;
         line-height: 1.1;
         font-weight: 700;
@@ -95,7 +97,7 @@ export default {
 
       .page-title-sub {
         margin-top: 2rem;
-        font-size: 2.2em;
+        font-size: 1.8em;
         font-weight: 400;
         color: var(--color-text-secondary);
         .highlight {
