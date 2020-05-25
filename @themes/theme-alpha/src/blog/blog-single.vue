@@ -95,6 +95,27 @@ export default {
           padding: 0 1em;
         }
       }
+      table {
+        display: table;
+        margin: 0.5em 0 1.4em;
+        width: auto;
+        border: 1px solid #e7ebed;
+
+        tr:nth-child(even) {
+          background: #f3f5fa;
+        }
+
+        th {
+          text-align: left;
+          font-weight: 600;
+          border-bottom: 1px solid #e7ebed;
+        }
+
+        th,
+        td {
+          padding: 0.5em;
+        }
+      }
     }
     .social-share {
       justify-content: center;

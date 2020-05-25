@@ -10,7 +10,7 @@
     </div>
 
     <div class="home">
-      <factor-link path="https://factor.dev">Back for Factor Home &rarr;</factor-link>
+      <factor-link path="https://factor.dev">Back to Factor Home &rarr;</factor-link>
     </div>
   </div>
 </template>
