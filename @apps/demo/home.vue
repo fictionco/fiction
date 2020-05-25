@@ -10,7 +10,7 @@
     </div>
 
     <div class="home">
-      <factor-link path="https://factor.dev">Back for Factor Home &rarr;</factor-link>
+      <factor-link path="https://factor.dev">Back to Factor Home &rarr;</factor-link>
     </div>
   </div>
 </template>
@@ -30,8 +30,10 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   .splash-content {
+    padding: 0 1rem;
     h1 {
       font-size: 3em;
+      line-height: 1.3;
       font-weight: 700;
     }
     .sub {
