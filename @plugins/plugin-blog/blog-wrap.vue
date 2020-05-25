@@ -17,7 +17,7 @@ export default {
       loading: false,
     }
   },
-  serverPrefetch() {
+  serverPrefetch(this: any) {
     if (!this.isIndexPage) return
     return this.getPosts()
   },
@@ -62,3 +62,5 @@ export default {
   },
 }
 </script>
+
+<style lang="less"></style>

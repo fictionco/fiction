@@ -4,7 +4,7 @@
     class="edit"
     :path="`/dashboard/posts/${post.postType}/edit`"
     :query="{ _id: post._id }"
-  >{{ editText }} &rarr;</factor-link>
+  >{{ editText }}</factor-link>
 </template>
 
 <script lang="ts">
@@ -29,7 +29,7 @@ export default {
       return this.postId ? stored(this.postId) : {}
     },
     editText(this: any): string {
-      return this.meta && this.meta.nameSingle ? `Edit ${this.meta.nameSingle}` : "Edit"
+      return "Edit"
     },
     meta(this: any) {
       return this.post.postType ? getPostTypeConfig(this.post.postType) : {}

@@ -46,7 +46,7 @@ export default {
     .author-date {
       display: flex;
       align-items: center;
-      font-size: 0.9em;
+
       font-weight: 600;
 
       .author {

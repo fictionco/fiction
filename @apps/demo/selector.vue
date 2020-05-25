@@ -21,10 +21,13 @@ export default {
   },
   watch: {
     select: {
-      handler: function (v) {
+      handler: function (this: any, v) {
         this.$router.push({ path: v })
+
+        this.select = ""
       },
     },
   },
+  mounted() {},
 }
 </script>

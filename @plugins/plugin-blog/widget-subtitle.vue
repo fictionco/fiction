@@ -18,9 +18,10 @@ export default {
 <style lang="less">
 .plugin-blog {
   .entry-subtitle {
+    color: var(--color-text-secondary);
     font-size: 1.2em;
     line-height: 1.6em;
-    margin-bottom: 1em;
+    margin: 0.5em 0em;
   }
 }
 </style>

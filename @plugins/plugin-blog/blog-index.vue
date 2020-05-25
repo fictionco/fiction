@@ -92,10 +92,14 @@ export default {
 .plugin-blog {
   .blog-entries {
     .post-index {
-      max-width: 48rem;
+      max-width: 44rem;
       margin: 0 auto;
+      padding: 1rem;
       .post {
         margin-bottom: 4em;
+        &:last-child {
+          margin-bottom: 2em;
+        }
       }
     }
     .posts-not-found,

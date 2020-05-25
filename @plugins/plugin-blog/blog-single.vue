@@ -46,5 +46,10 @@ export default {
 
 <style lang="less">
 .plugin-blog {
+  .single-entry {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 1rem;
+  }
 }
 </style>

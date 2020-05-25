@@ -54,7 +54,7 @@
         <dashboard-input
           v-model="post.avatar"
           input="factor-input-image-upload"
-          label="Avatar"
+          label="Avatar / Primary"
           max="1"
           @autosave="saveDraft()"
         />
