@@ -18,16 +18,8 @@ export default {
       subTitle: "Couldn't find any job posts.",
     },
     layout: {
-      index: ["featuredImage", "title", "meta", "synopsis"],
-      single: [
-        "returnLink",
-        "featuredImage",
-        "title",
-        "meta",
-        "synopsis",
-        "entry",
-        "cta",
-      ],
+      index: ["featuredImage", "title", "synopsis", "meta"],
+      single: ["returnLink", "featuredImage", "title", "meta", "entry", "cta"],
     },
     components: {
       jobsWrap: (): Promise<any> => import("./jobs-wrap.vue"),

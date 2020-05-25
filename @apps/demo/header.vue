@@ -40,6 +40,11 @@ import { factorLink } from "@factor/ui"
 import { accountMenu } from "@factor/plugin-standard-signin"
 export default {
   components: { pluginSelector: () => import("./selector.vue"), factorLink, accountMenu },
+  data() {
+    return {
+      userLoading: true,
+    }
+  },
   async mounted(this: any) {
     await userInitialized()
 

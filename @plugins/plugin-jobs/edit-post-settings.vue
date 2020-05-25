@@ -5,9 +5,14 @@
       v-model="post.jobType"
       input="factor-input-text"
       label="Job Type"
-      description="e.g. Freelance, Full Time, Internship, Part Time, Temporary"
+      description="e.g. Freelance, Full-Time, Internship, Part-Time, Temporary"
     />
-    <dashboard-input v-model="post.jobApplyEmail" input="factor-input-text" label="Apply Email" />
+    <dashboard-input
+      v-model="post.jobApplyEmail"
+      input="factor-input-text"
+      label="Apply Link or Email"
+      description="Where should the candidate apply for this job? Add email for a mailto link."
+    />
     <dashboard-input v-model="post.jobCompanyName" input="factor-input-text" label="Company Name" />
     <dashboard-input
       v-model="post.jobCompanyWebsite"

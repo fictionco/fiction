@@ -33,9 +33,9 @@ export default {
 <style lang="less">
 .plugin-jobs {
   .single-entry {
-    max-width: 48rem;
+    max-width: 44em;
     margin: 0 auto;
-    padding: 3rem 0;
+    padding: 3rem 1rem;
 
     @media (max-width: 767px) {
       padding: 3rem 1rem;

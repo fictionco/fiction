@@ -21,6 +21,7 @@ export default {
     font-size: 1.2rem;
     line-height: 1.6em;
     padding-top: 0.5rem;
+    color: var(--color-text-secondary);
   }
 }
 </style>
