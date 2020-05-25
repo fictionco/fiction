@@ -50,18 +50,24 @@ export default {
 
 <style lang="less">
 //Overwrite plugin styles
-.contact-form {
-  .input-wrap .label {
-    @apply font-normal leading-tight text-lg text-purple-900;
-  }
-  input,
-  textarea {
-    @apply border-solid border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
-  }
-  .form-submit {
-    @apply m-0;
-    button {
-      @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+.factor-app {
+  .contact-form {
+    .input-wrap .label {
+      @apply font-normal leading-tight text-lg text-purple-900;
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="text"],
+    textarea {
+      @apply border-solid border border-gray-300 rounded py-2 px-4 block w-full appearance-none leading-normal bg-gray-100;
+    }
+    .form-submit {
+      @apply m-0;
+      button {
+        @apply inline-block px-5 py-3 font-sans font-semibold text-sm leading-tight tracking-widest uppercase rounded text-purple-100 bg-purple-500;
+      }
     }
   }
 }
