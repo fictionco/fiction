@@ -18,8 +18,9 @@ import "."
 export const saveSingleExtension = async (params: {
   packageName: string
   featured?: true
+  discover?: boolean
 }): Promise<FactorExtensionInfo | undefined> => {
-  const { packageName, featured } = params
+  const { packageName, featured, discover = true } = params
 
   const latest = await latestVersion(packageName)
   const requests = [
@@ -101,6 +102,7 @@ export const saveSingleExtension = async (params: {
   Object.assign(post, {
     status: PostStatus.Published,
     featured,
+    discover,
     permalink,
     themeColor,
     title: factor.title ?? packageName,

@@ -8,15 +8,15 @@
     </div>
     <factor-spinner v-if="loading" />
     <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
-      <div>
+      <plugin-slider
+        :title="`Featured`"
+        :extensions="extensionsFeatured"
+        class="grid-featured featured-plugins"
+      />
+      <div class="grid-sidebar">
         <extension-sidebar :extensions="extensions" />
       </div>
-      <div>
-        <plugin-slider
-          :title="`Featured`"
-          :extensions="extensionsFeatured"
-          class="featured-plugins"
-        />
+      <div class="grid-boxes">
         <plugin-grid :title="`All Plugins`" :extensions="extensions" />
       </div>
     </div>
@@ -66,6 +66,7 @@ export default {
     extensions(this: any) {
       const storeKey = [postType, this.extensionType].join("")
       const index = stored(storeKey) || {}
+
       return index.posts ?? []
     },
     extensionsFeatured(this: any) {
@@ -197,7 +198,16 @@ export default {
       display: grid;
       grid-gap: 4rem;
       grid-template-columns: 250px 2fr;
-
+      grid-template-areas: "grid-featured grid-featured" "grid-sidebar grid-boxes";
+      .grid-featured {
+        grid-area: grid-featured;
+      }
+      .grid-boxes {
+        grid-area: grid-boxes;
+      }
+      .grid-sidebar {
+        grid-area: grid-sidebar;
+      }
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
         grid-gap: 2rem;

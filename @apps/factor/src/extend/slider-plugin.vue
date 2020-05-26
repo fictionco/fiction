@@ -5,28 +5,29 @@
       <header class="section-header">
         <h1 class="title">{{ title }}</h1>
       </header>
-      <div
-        v-for="(item, index) in extensions"
-        :key="index"
-        class="featured-item-plugin"
-        :class="{ 'active': active === index }"
-        @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })"
-      >
-        <div class="entry-media" :style="mediaStyle(item)" :class="imageStyle(item)" />
-        <div class="entry-content">
-          <img :src="item.icon" :alt="`${item.title} Icon`" class="icon" />
-          <h3 class="title">
-            {{ item.title }}
-            <span v-if="item.pro" class="pro-badge">Pro</span>
-          </h3>
-          <p class="description">{{ item.synopsis }}</p>
-          <!-- <div class="meta">
-            <div class="rating">Rating Stars</div>
-            <div class="likes">
-              <img src="./img/like.svg" :alt="`Like Icon`" class="like-icon" />
-              {{ item.downloads }} Likes
-            </div>
-          </div>-->
+      <div class="carousel">
+        <div
+          v-for="(item, index) in extensions"
+          :key="item.packageName"
+          class="featured-item-plugin"
+          :class="{ 'active': isActive(index) }"
+          @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })"
+        >
+          <div class="entry-content">
+            <img :src="item.icon" :alt="`${item.title} Icon`" class="icon" />
+            <h3 class="title">
+              {{ item.title }}
+              <span v-if="item.pro" class="pro-badge">Pro</span>
+            </h3>
+            <p class="description">{{ item.synopsis }}</p>
+            <!-- <div class="meta">
+              <div class="rating">Rating Stars</div>
+              <div class="likes">
+                <img src="./img/like.svg" :alt="`Like Icon`" class="like-icon" />
+                {{ item.downloads }} Likes
+              </div>
+            </div>-->
+          </div>
         </div>
       </div>
     </section>
@@ -46,8 +47,9 @@ export default {
     return {
       loading: false,
       active: 0,
+      totalActive: 3,
       timer: null,
-      animationInterval: 8000,
+      animationInterval: 2000,
     }
   },
   computed: {
@@ -66,6 +68,20 @@ export default {
   },
   methods: {
     setting,
+    isActive(this: any, index: number) {
+      const active = this.active
+      const totalActive = this.totalActive
+      const numberExtensions = this.extensions.length
+
+      const endRange = active + totalActive
+
+      const startRange =
+        endRange > numberExtensions ? endRange - numberExtensions - 1 : -1
+
+      if ((index >= active && index < active + totalActive) || index <= startRange) {
+        return true
+      } else return false
+    },
     backgroundImageStyle(item: FactorExtensionInfo) {
       return { backgroundImage: `url(${this.getPrimaryScreenshot(item)})` }
     },
@@ -116,8 +132,6 @@ export default {
 
 <style lang="less">
 .slider-plugin-container {
-  margin-bottom: 6rem;
-
   .slider-plugin {
     position: relative;
 
@@ -138,9 +152,15 @@ export default {
     }
   }
 
-  .featured-item-plugin {
+  .carousel {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+  }
+
+  .featured-item-plugin {
+    // display: grid;
+    // grid-template-columns: 1fr 2fr;
 
     @media (max-width: 900px) {
       grid-template-columns: 1fr;
@@ -176,20 +196,13 @@ export default {
       position: relative;
       max-width: 100%;
       position: relative;
-      padding: 25%;
-      min-height: 320px;
+
       box-shadow: 1px 0 0 rgba(50, 50, 93, 0.13);
       &.icon {
         background-size: contain;
       }
       img {
-        width: 80px;
-        right: 0;
-        bottom: 0;
-        position: absolute;
-        border-radius: 8px;
-        transform: translate(-50%, 50%);
-        box-shadow: var(--panel-shadow);
+        width: 100%;
       }
     }
 

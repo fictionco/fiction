@@ -15,11 +15,7 @@
         <div class="entry-content">
           <h3 class="title">{{ item.title }}</h3>
           <div class="meta">
-            <div class="rating">Rating Stars</div>
-            <div class="likes">
-              <!-- <img src="./img/like.svg" :alt="`Like Icon`" class="like-icon" /> -->
-              {{ item.downloads }} Likes
-            </div>
+            <div class="rating">{{ excerpt(item.synopsis) }}</div>
           </div>
         </div>
       </factor-link>
@@ -40,7 +36,7 @@
         <div class="entry-content">
           <h3 class="title">{{ item.title }}</h3>
           <div class="meta">
-            <div class="likes">24 Likes</div>
+            <div class="likes">{{ excerpt(item.synopsis) }}</div>
           </div>
         </div>
       </factor-link>
@@ -93,7 +89,7 @@
 <script lang="ts">
 import { standardDate } from "@factor/api"
 import { factorLink } from "@factor/ui"
-
+import { excerpt } from "@factor/api/excerpt"
 export default {
   components: {
     factorLink,
@@ -149,6 +145,9 @@ export default {
     // },
   },
   methods: {
+    excerpt(text: string) {
+      return excerpt(text, { length: 13 })
+    },
     standardDate,
   },
 }
@@ -185,7 +184,7 @@ export default {
   .sidebar-plugin {
     display: grid;
     grid-template-columns: auto 3fr;
-    grid-gap: 1.5rem;
+    grid-gap: 1rem;
     padding: 0.6rem 0;
     border-radius: 6px;
     transition: 0.29s cubic-bezier(0.52, 0.01, 0.16, 1);
@@ -200,8 +199,8 @@ export default {
 
     .plugin-icon {
       display: block;
-      width: 64px;
-      height: 64px;
+      width: 48px;
+      height: 48px;
       border-radius: 0.5rem;
       box-shadow: 0 2.5px 5px -1px rgba(50, 50, 93, 0.25),
         0 1.5px 3px -1.5px rgba(0, 0, 0, 0.3);
@@ -212,7 +211,7 @@ export default {
     }
     .entry-content {
       .title {
-        font-size: 1.2rem;
+        font-size: 1em;
         font-weight: 700;
         text-transform: capitalize;
       }

@@ -19,11 +19,10 @@
             <span v-if="item.pro" class="pro-badge">Pro</span>
           </h3>
           <p class="description">{{ item.synopsis }}</p>
-          <div class="meta">
+          <!-- <div class="meta">
             <div class="rating">Rating Stars</div>
             <div class="likes">{{ item.downloads }} Likes</div>
-            <!-- <div v-if="item.category" class="category">{{ item.category.join(", ") }}</div> -->
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

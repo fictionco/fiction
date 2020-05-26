@@ -17,7 +17,7 @@
       "server"
     ],
     "extend": "plugin",
-    "title": "SEO",
+    "title": "SEO Metatags",
     "permalink": "seo-factor-plugin",
     "category": [
       "search"

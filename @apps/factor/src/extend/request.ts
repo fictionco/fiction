@@ -51,7 +51,7 @@ export const requestIndex = async ({
     page,
     limit,
     status: PostStatus.Published,
-    conditions: { extensionType },
+    conditions: { extensionType, discover: { $ne: false } },
   })
 }
 

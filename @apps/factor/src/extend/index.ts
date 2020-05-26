@@ -27,6 +27,7 @@ addPostType({
     themeColor: { type: String },
     repositoryUrl: { type: String },
     featured: { type: Boolean },
+    discover: { type: Boolean },
     extensionAuthor: { type: String },
     icon: { type: String },
     screenshots: { type: [String] },
