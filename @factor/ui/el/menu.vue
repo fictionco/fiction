@@ -39,7 +39,7 @@ export default {
       return `drop-${this.dropDirection}`
     },
   },
-  mounted() {
+  mounted(this: any) {
     this.el = this.$refs.toggle
   },
   methods: {
@@ -101,11 +101,11 @@ export default {
     box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.4), 0 6px 14px 0 rgba(24, 32, 41, 0.08),
       0 12px 34px 0 rgba(24, 32, 41, 0.06);
     z-index: 100;
-    font-weight: 500;
-    width: 200px;
+    font-weight: 600;
+    width: 160px;
     background: var(--menu-el-bg, #fff);
     border-radius: 6px;
-    right: 0;
+    left: 0;
     text-align: left;
     overflow: hidden;
     .toggle-item {
