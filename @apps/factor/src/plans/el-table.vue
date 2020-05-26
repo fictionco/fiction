@@ -26,11 +26,7 @@
         <plan-icon :icon="group.icon" />
         <h2 v-formatted-text="group.title" class="group-title" />
       </div>
-      <div
-        v-for="(child, ii) in group.children"
-        :&#x26;#x26;#x60;key="ii"
-        class="table-row feature-row"
-      >
+      <div v-for="(child, ii) in group.children" :key="ii" class="table-row feature-row">
         <div class="col col-label">
           <div class="label-wrap">
             <span v-formatted-text="child.title" class="label" />

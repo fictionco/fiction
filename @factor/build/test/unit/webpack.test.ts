@@ -11,6 +11,7 @@ describe("webpack", () => {
   describe("webpack-config", () => {
     it("returns the correct development config", async () => {
       process.env.NODE_ENV = "development"
+      process.env.PORT = "4242"
       process.env.FACTOR_CWD = dirname(require.resolve("./test-files/package.json"))
       const serverConfig = await getWebpackConfig({ target: "server" })
 
@@ -90,6 +91,7 @@ describe("webpack", () => {
 
     it("defines application ENV variables", () => {
       process.env.NODE_ENV = "development"
+      process.env.PORT = "4242"
       const defined = getDefinedValues({ target: "client" })
 
       // all should be string
@@ -102,6 +104,7 @@ describe("webpack", () => {
           "FACTOR_ENV",
           "VUE_ENV",
           "FACTOR_BUILD_ENV",
+          "PORT",
         ])
       )
     })
