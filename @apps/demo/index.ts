@@ -1,6 +1,15 @@
-import { addContentRoute } from "@factor/api"
+import { addRoutes } from "@factor/api"
 
-addContentRoute({
-  path: "/",
-  component: () => import("./home.vue"),
+addRoutes({
+  key: "demoRoutes",
+  routes: [
+    {
+      path: "/",
+      component: (): Promise<any> => import("./home.vue"),
+    },
+    {
+      path: "/contact",
+      component: (): Promise<any> => import("./contact.vue"),
+    },
+  ],
 })

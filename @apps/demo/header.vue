@@ -15,9 +15,8 @@
               fill="#0471ff"
             />
           </svg>
+          <div class="sub-name">Demos</div>
         </div>
-
-        <div class="sub-name">Demos</div>
       </factor-link>
     </div>
     <div class="selector nav-area">
@@ -96,10 +95,12 @@ export default {
     }
   }
   .fiction-icon {
+    display: flex;
+    align-items: center;
     border-radius: 0.5rem;
     background: #fff;
     box-shadow: inset 0 0 0 1px var(--color-border);
-    padding: 0.5rem 0.55rem 0.6rem 0.5rem;
+    padding: 0.5rem 1rem 0.6rem 1rem;
     a {
       display: block;
     }

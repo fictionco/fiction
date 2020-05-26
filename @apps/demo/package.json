@@ -30,6 +30,9 @@
     "@factor/plugin-jobs": "^1.1.1",
     "@factor/plugin-docs-engine": "^1.1.1",
     "@factor/plugin-subscriptions": "^1.1.1",
-    "@factor/plugin-storage-s3": "^1.0.0"
+    "@factor/plugin-storage-s3": "^1.0.0",
+    "@factor/plugin-contact-form": "^1.0.0",
+    "@factor/plugin-highlight-code": "^1.0.0",
+    "@factor/theme-shared": "^1.0.0"
   }
 }

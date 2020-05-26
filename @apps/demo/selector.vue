@@ -14,6 +14,7 @@ export default {
         { name: `Forum`, value: "/forum" },
         { name: `Standard Blog`, value: `/blog` },
         { name: `Job Listings`, value: `/jobs` },
+        { name: `Contact Form`, value: `/contact` },
         // { name: `Subscriptions`, value: `/checkout` },
         // { name: `Docs Engine`, value: `/docs` },
       ],

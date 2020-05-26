@@ -954,8 +954,7 @@ span.CodeMirror-selectedtext {
   border-radius: 2px;
   display: inline-block;
   font-family: Courier, monospace;
-  font-size: 0.8em;
-  font-weight: 500;
+  font-weight: 600;
 }
 .CodeMirror .CodeMirror-code .cm-link {
   color: #7f8c8d;

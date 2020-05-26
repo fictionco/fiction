@@ -259,4 +259,14 @@ export default {
     }
   }
 }
+.modal-text-content {
+  .topic-reply {
+    .editor-input .CodeMirror {
+      padding-left: 1rem;
+    }
+    .avatar {
+      display: none;
+    }
+  }
+}
 </style>

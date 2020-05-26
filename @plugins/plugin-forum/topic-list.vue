@@ -266,8 +266,7 @@ export default {
         bottom: -0.5rem;
         width: 1.75rem;
         .thumb {
-          box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7),
-            0 1px 1px 1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.3);
         }
       }
       .avatar-area {
