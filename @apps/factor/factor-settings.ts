@@ -18,12 +18,12 @@ export default {
         plans: [
           {
             interval: "year",
-            production: "plan_HDdUFHsAuiYJf3",
+            production: "plan_HLstnnRlMqX9EU",
             development: "plan_HDjUY9NRtVTaND",
           },
           {
             interval: "month",
-            production: "plan_HDdVV8sK4WHPq3",
+            production: "plan_HLsuiVVFaZJ8Hy",
             development: "plan_HDjUeyfZxz6vJD",
           },
         ],
@@ -35,12 +35,12 @@ export default {
         plans: [
           {
             interval: "year",
-            production: "plan_HDggbm822dNjDg",
+            production: "plan_HLsrwfVGN72lgI",
             development: "plan_HDjVkmq9Hlpr5p",
           },
           {
             interval: "month",
-            production: "plan_HDggVQfROhqWoT",
+            production: "plan_HLss5bGKAIfuXs",
             development: "plan_HDjVyDXlswZYDP",
           },
         ],

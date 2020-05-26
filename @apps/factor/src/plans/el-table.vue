@@ -22,11 +22,15 @@
     </div>
     <h2 class="area-title">Compare Benefits</h2>
     <section v-for="(group, i) in groups" :key="i" class="feature-group">
-      <div class="group-header">
+      <div v-if="group.title" class="group-header">
         <plan-icon :icon="group.icon" />
         <h2 v-formatted-text="group.title" class="group-title" />
       </div>
-      <div v-for="(child, ii) in group.children" :key="ii" class="table-row feature-row">
+      <div
+        v-for="(child, ii) in group.children"
+        :&#x26;#x26;#x60;key="ii"
+        class="table-row feature-row"
+      >
         <div class="col col-label">
           <div class="label-wrap">
             <span v-formatted-text="child.title" class="label" />
@@ -94,22 +98,12 @@ export default {
       ],
       groups: [
         {
-          title: "Basics",
-          icon: "description",
           children: [
             {
               title: "Price",
               community: "Free",
-              pro: "$29/mo <span class='add'>Paid Yearly</span>",
-              business: "$59/mo <span class='add'>Paid Yearly</span>",
-            },
-            {
-              title: "Unlimited Domains (You Own)",
-              level: 0,
-            },
-            {
-              title: "Money-Back Guarantee",
-              level: 10,
+              pro: "$99 / yr",
+              business: "$199 / yr",
             },
           ],
         },
@@ -198,6 +192,10 @@ export default {
             {
               title: "New Extensions Monthly",
               level: 10,
+            },
+            {
+              title: "Unlimited Domains (You Own)",
+              level: 0,
             },
           ],
         },
