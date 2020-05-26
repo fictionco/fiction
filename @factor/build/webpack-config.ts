@@ -71,7 +71,6 @@ export const getDefinedValues = (
       "process.env.VUE_ENV": JSON.stringify(target),
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
       "process.env.FACTOR_ENV": JSON.stringify(process.env.FACTOR_ENV),
-      "process.env.PORT": JSON.stringify(process.env.PORT),
       "process.env.FACTOR_APP_CONFIG": JSON.stringify(configSettings(cwd)),
     },
     _arguments

@@ -104,7 +104,6 @@ describe("webpack", () => {
           "FACTOR_ENV",
           "VUE_ENV",
           "FACTOR_BUILD_ENV",
-          "PORT",
         ])
       )
     })
