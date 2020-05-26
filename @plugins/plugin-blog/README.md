@@ -155,7 +155,7 @@ export default {
 
 ## Localization / i18n
 
-Factor supports [localization](./docs/localization) and this plugin can easily be localized by adding the translations to a `factor-lang-[code].ts` file in your app.
+Factor supports [localization](./docs/localization) and this plugin can easily be localized by adding the translations to a `factor-lang-[locale-code].ts` file in your app.
 
 If you'd like to contribute a translation to the plugin that would be much appreciated. Please create a pull request to add it.
 

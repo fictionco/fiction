@@ -1,6 +1,9 @@
 export default {
   blog: {
     returnLinkText: "All Posts",
+    nameIndex: "Blog",
+    nameSingle: "Blog Post",
+    namePlural: "Blog Posts",
     metatags: {
       index: {
         title: "Blog",
@@ -13,5 +16,6 @@ export default {
       subTitle: "Couldn't find any blog posts.",
     },
     on: "on",
+    writtenBy: "Written by",
   },
 }

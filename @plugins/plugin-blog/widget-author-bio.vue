@@ -3,7 +3,7 @@
     <div v-for="_id in post.author" :key="_id" class="author-card">
       <factor-avatar :user="getPost(_id)" width="4em" />
       <div class="text">
-        <div class="sup">Written By</div>
+        <div class="sup">{{ setting("blog.writtenBy") }}</div>
         <div
           class="name"
           itemprop="author"
@@ -17,7 +17,7 @@
 </template>
 <script lang="ts">
 import { factorAvatar } from "@factor/ui"
-import { stored } from "@factor/api"
+import { stored, setting } from "@factor/api"
 
 export default {
   components: { factorAvatar },
@@ -30,6 +30,7 @@ export default {
     },
   },
   methods: {
+    setting,
     getPost(_id: string) {
       return stored(_id) || {}
     },
