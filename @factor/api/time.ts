@@ -1,7 +1,9 @@
 import dayjs, { Dayjs } from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { getLocale } from "@factor/api/i18n"
 
 dayjs.extend(relativeTime)
+
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 
 const _isNumber = (value: any): boolean => {
@@ -17,15 +19,31 @@ export const isUnixTimestamp = (value: DateTypes): boolean => {
   }
 }
 
+/**
+ * Get the time manipulation library w locale
+ */
 export const timeUtil = (time?: DateTypes): Dayjs => {
+  const locale = getLocale()
+
+  // Import the language locale (async)
+  import(`dayjs/locale/${locale}`).catch((error) => {
+    if (!error.message.includes("Cannot find module")) {
+      throw error
+    }
+  })
+
   if (time && isUnixTimestamp(time)) {
     time = Number.parseFloat(time.toString())
     return dayjs.unix(time)
   } else {
-    return dayjs(time)
+    return dayjs(time).locale(locale)
   }
 }
 
+/**
+ * Get the time since a date in human language
+ * @param time - time/date
+ */
 export const timeAgo = (time?: dayjs.ConfigType): string => {
   if (!time) return ""
   return timeUtil(time).fromNow()
