@@ -59,7 +59,7 @@ export const showResetPassword = async (): Promise<void> => {
     key: "resetPass",
     hook: "sign-in-modal-loaded",
     callback: () => {
-      emitEvent("sign-in-modal")
+      emitEvent("sign-in-modal", { view: "reset-password" })
     },
   })
 }
