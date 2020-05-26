@@ -45,6 +45,8 @@ export default {
 <style lang="less">
 .plugin-blog {
   .single-entry {
+    max-width: 100%;
+    padding: 0;
     background: var(--color-bg-alt);
     @media (max-width: 900px) {
       padding: 3em 0;
