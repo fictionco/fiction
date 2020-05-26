@@ -104,7 +104,7 @@ export default {
 
   .plugin-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 2rem;
 
     @media (max-width: 1200px) {
@@ -140,12 +140,12 @@ export default {
         background-size: contain;
       }
       img {
-        width: 80px;
-        right: 0;
+        width: 60px;
+        right: 1rem;
         bottom: 0;
         position: absolute;
         border-radius: 8px;
-        transform: translate(-50%, 50%);
+        transform: translateY(50%);
         box-shadow: var(--panel-shadow);
       }
     }
@@ -158,7 +158,7 @@ export default {
         align-items: center;
         color: var(--color-text);
         font-weight: var(--font-weight-bold, 700);
-        font-size: 1.6em;
+        font-size: 1.3em;
         letter-spacing: -0.02em;
 
         .pro-badge {
@@ -174,7 +174,7 @@ export default {
         }
       }
       .description {
-        font-size: 1.2em;
+        font-size: 1em;
         color: var(--color-text);
         opacity: 0.5;
         display: -webkit-box;
