@@ -15,7 +15,7 @@
               btn="primary"
               path="/checkout"
               :query="{product: item.id}"
-            >Upgrade &rarr;</factor-link>
+            >Select &rarr;</factor-link>
           </div>
         </div>
       </div>

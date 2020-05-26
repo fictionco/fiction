@@ -9,7 +9,7 @@
         >Upgrade Factor with professional extensions, features, and support.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/plans" size="large">Compare Plans &rarr;</factor-link>
+          <factor-link btn="primary" path="/plans" size="large">Purchase &rarr;</factor-link>
         </div>
       </div>
 
