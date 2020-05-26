@@ -3,7 +3,7 @@
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">&larr;</factor-btn>
     <div class="counter">
       {{ pageCurrent }}
-      <span class="sep">of</span>
+      <span class="sep">/</span>
       {{ pageCount }}
     </div>
     <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">&rarr;</factor-btn>

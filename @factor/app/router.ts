@@ -109,8 +109,6 @@ export const getKnownRoutePaths = (): string[] => {
  * @library vue-router
  */
 export const createFactorRouter = (): VueRouter => {
-  if (__routerInstance) return __routerInstance
-
   const routes: RouteConfig[] = applyFilters("routes", []).filter((_: RouteConfig) => _)
 
   const router = new VueRouter({
@@ -147,7 +145,7 @@ export const createFactorRouter = (): VueRouter => {
 }
 
 export const getRouter = (): VueRouter => {
-  return createFactorRouter()
+  return __routerInstance
 }
 
 /**

@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { getLocale } from "@factor/api/i18n"
+import timeLocales from "./resource/time-locale"
 
 dayjs.extend(relativeTime)
 
@@ -8,6 +9,20 @@ type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 
 const _isNumber = (value: any): boolean => {
   return !!(!Number.isNaN(Number.parseFloat(value)) && Number.isFinite(value))
+}
+
+const importLocale = async (): Promise<void> => {
+  const locale = getLocale() ?? "en"
+
+  try {
+    const dynamicImport = timeLocales[locale] ?? "en"
+    await dynamicImport()
+    dayjs.locale(locale)
+  } catch (error) {
+    if (!error.message.includes("Cannot find module")) {
+      throw error
+    }
+  }
 }
 
 export const isUnixTimestamp = (value: DateTypes): boolean => {
@@ -23,20 +38,13 @@ export const isUnixTimestamp = (value: DateTypes): boolean => {
  * Get the time manipulation library w locale
  */
 export const timeUtil = (time?: DateTypes): Dayjs => {
-  const locale = getLocale()
-
-  // Import the language locale (async)
-  import(`dayjs/locale/${locale}`).catch((error) => {
-    if (!error.message.includes("Cannot find module")) {
-      throw error
-    }
-  })
+  importLocale()
 
   if (time && isUnixTimestamp(time)) {
     time = Number.parseFloat(time.toString())
     return dayjs.unix(time)
   } else {
-    return dayjs(time).locale(locale)
+    return dayjs(time)
   }
 }
 
