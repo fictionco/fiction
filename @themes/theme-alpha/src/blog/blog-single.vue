@@ -1,17 +1,29 @@
 <template>
   <div class="single-entry">
-    <component
-      :is="setting(`blog.components.${comp}`)"
-      v-for="(comp, i) in setting('blog.layout.single')"
-      :key="i"
-      :post-id="post._id"
-    />
+    <div v-if="!isEmpty(post)">
+      <component
+        :is="setting(`blog.components.${comp}`)"
+        v-for="(comp, i) in setting('blog.layout.single')"
+        :key="i"
+        :post-id="post._id"
+      />
+    </div>
+    <factor-error-404 v-else />
   </div>
 </template>
 <script lang="ts">
-import { setting, stored, titleTag, descriptionTag, shareImage } from "@factor/api"
+import { factorError404 } from "@factor/ui"
+import {
+  isEmpty,
+  setting,
+  stored,
+  titleTag,
+  descriptionTag,
+  shareImage,
+} from "@factor/api"
 
 export default {
+  components: { factorError404 },
   data() {
     return {}
   },
@@ -22,38 +34,31 @@ export default {
       image: shareImage(this.post._id),
     }
   },
-  routeClass() {
-    return "nav-white"
-  },
   computed: {
     post() {
       return stored("post") || {}
     },
   },
-  methods: {
-    setting,
-    getPost(_id: any) {
-      return stored(_id) || {}
-    },
-    tagLink(_id: any) {
-      return setting("blog.indexRoute") + "?tag=" + _id
-    },
-  },
+
+  methods: { isEmpty, setting },
 }
 </script>
 
 <style lang="less">
 .plugin-blog {
   .single-entry {
+    max-width: 100%;
+    padding: 0;
+
     .entry-header-inner,
     .entry-meta,
     .author-card {
       max-width: 800px;
       margin: 0 auto;
-      padding: 3em 3em 1em;
+      padding: 3rem 3rem 1rem;
       @media (max-width: 900px) {
-        padding: 1.5em 1em 0;
-        margin: 3em 1em 3em;
+        padding: 1.5rem 1rem 0;
+        margin: 3rem 1rem 3rem;
       }
     }
 
@@ -115,6 +120,9 @@ export default {
         td {
           padding: 0.5em;
         }
+      }
+      img {
+        max-height: inherit;
       }
     }
     .social-share {

@@ -403,14 +403,6 @@ export default {
     headline: "Blog",
     subheadline: "Discover The Latest",
     content: "Thoughts on design, the process of creation, and optimizing collaboration.",
-    components: {
-      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
-      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
-      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
-      pagination: (): Promise<any> => import("./blog/widget-pagination.vue"),
-      authorDate: (): Promise<any> => import("./blog/widget-author-date.vue"),
-      customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
-    },
     layout: {
       index: ["featuredImage", "title", "subtitle", "authorDate"],
       single: [
@@ -422,6 +414,14 @@ export default {
         "authorBio",
       ],
       meta: ["authorDate", "tags"],
+    },
+    components: {
+      blogIndex: (): Promise<any> => import("./blog/blog-index.vue"),
+      blogSingle: (): Promise<any> => import("./blog/blog-single.vue"),
+      featuredImage: (): Promise<any> => import("./blog/el-featured-image.vue"),
+      pagination: (): Promise<any> => import("./blog/widget-pagination.vue"),
+      authorDate: (): Promise<any> => import("./blog/widget-author-date.vue"),
+      customSingleHeader: (): Promise<any> => import("./blog/el-single-header.vue"),
     },
     notFound: {
       title: "No Posts",

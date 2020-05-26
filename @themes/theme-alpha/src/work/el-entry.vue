@@ -64,7 +64,6 @@ export default {
     padding-bottom: 1rem;
     font-size: 1.25em;
     line-height: 1.4;
-
     display: grid;
     grid-template-columns: 1fr 2fr; // Used when .project-info div is active
     grid-gap: 2rem;
@@ -175,8 +174,9 @@ export default {
 
       > a,
       > img {
-        text-align: center;
         display: inline-block;
+        max-height: unset;
+        text-align: center;
       }
 
       img {
