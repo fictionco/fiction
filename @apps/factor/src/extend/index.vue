@@ -210,6 +210,7 @@ export default {
       }
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+        grid-template-areas: "grid-featured" "grid-boxes" "grid-sidebar";
         grid-gap: 2rem;
       }
     }

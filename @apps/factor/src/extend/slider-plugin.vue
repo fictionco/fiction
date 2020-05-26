@@ -156,6 +156,10 @@ export default {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 2rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   .featured-item-plugin {
