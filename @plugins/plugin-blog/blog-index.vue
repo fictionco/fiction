@@ -1,10 +1,10 @@
 <template>
   <div class="blog-entries">
-    <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
     <div v-if="loading" class="posts-loading">
       <factor-spinner />
     </div>
     <div v-else-if="blogPosts.length > 0" class="post-index">
+      <component :is="setting('blog.components.returnLink')" v-if="tag || page > 1" />
       <div v-for="post in blogPosts" :key="post._id" class="post">
         <component
           :is="setting(`blog.components.${comp}`)"
@@ -13,6 +13,7 @@
           :post-id="post._id"
         />
       </div>
+      <component :is="setting('blog.components.pagination')" :post-type="postType" />
     </div>
     <div v-else class="posts-not-found">
       <div class="text">
@@ -20,7 +21,7 @@
         <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
       </div>
     </div>
-    <component :is="setting('blog.components.pagination')" :post-type="postType" />
+
   </div>
 </template>
 <script lang="ts">
@@ -112,6 +113,9 @@ export default {
       .title {
         font-size: 1.4em;
         font-weight: 600;
+      }
+      .sub-title {
+        color: var(--color-text-secondary);
       }
     }
   }

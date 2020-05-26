@@ -1,20 +1,10 @@
 export default {
   blog: {
+    disableAutoRoutes: false,
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 10,
-    returnLinkText: "All Posts",
-    metatags: {
-      index: {
-        title: "Blog",
-        description: "The latest news and articles.",
-      },
-    },
-    categories: ["uncategorized"],
-    notFound: {
-      title: "No Posts",
-      subTitle: "Couldn't find any blog posts.",
-    },
+    categories: [],
     layout: {
       index: ["featuredImage", "title", "subtitle", "meta"],
       single: ["returnLink", "title", "meta", "entry", "social", "authorBio"],

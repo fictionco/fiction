@@ -28,6 +28,7 @@ const relativePath = (key: string, cwd?: string): string => {
     "entry-server": [coreApp, "entry-server"],
     "config-file-public": [app, "package.json"],
     "config-file-private": [app, ".env"],
+    "loader-lang": [...generated, "loader-lang.ts"],
     "loader-app": [...generated, "loader-app.ts"],
     "loader-server": [...generated, "loader-server.ts"],
     "loader-settings": [...generated, "loader-settings.ts"],

@@ -31,6 +31,7 @@ export enum LoadTargets {
   App = "app",
   Style = "style",
   Settings = "settings",
+  Lang = "lang",
 }
 
 /**

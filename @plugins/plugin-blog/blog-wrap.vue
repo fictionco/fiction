@@ -1,6 +1,9 @@
 <template>
   <div class="plugin-blog">
     <component :is="setting(`blog.components.loading`)" v-if="loading" />
+    <template v-else-if="$slots.default">
+      <slot />
+    </template>
     <router-view v-else-if="blogPosts.length > 0 || !isIndexPage" />
     <component :is="setting(`blog.components.notFound`)" v-else />
   </div>

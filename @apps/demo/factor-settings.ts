@@ -7,4 +7,7 @@ export default {
   forum: {
     categories: ["example-category", "another-example"],
   },
+  blog: {
+    disableAutoRoutes: true,
+  },
 }

@@ -4,8 +4,6 @@
     <component :is="setting('contactForm.form')" />
   </div>
 </template>
-
-
 <script lang="ts">
 import { setting } from "@factor/api"
 

@@ -10,14 +10,14 @@
           itemtype="http://schema.org/Person"
         >{{ getPost(authorId).displayName }}</span>
       </div>
-      <span class="sep">on</span>
+      <span class="sep">{{ setting('blog.on') }}</span>
       <span class="date">{{ standardDate(post.date) }}</span>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { factorAvatar } from "@factor/ui"
-import { isEmpty, standardDate, stored } from "@factor/api"
+import { isEmpty, standardDate, stored, setting } from "@factor/api"
 
 export default {
   components: { factorAvatar },
@@ -37,6 +37,7 @@ export default {
       return stored(_id) || {}
     },
     standardDate,
+    setting,
   },
 }
 </script>

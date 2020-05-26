@@ -48,21 +48,26 @@ addPostType({
   addSitemap: true,
 })
 
-/**
- * The front end routes
- */
-addContentRoute({
-  path: setting("blog.indexRoute") ?? "/",
-  component: setting("blog.components.blogWrap"),
-  children: [
-    {
-      path: "/",
-      component: setting("blog.components.blogIndex"),
-      meta: { index: true },
-    },
-    {
-      path: `${setting("blog.postRoute")}/:permalink`,
-      component: setting("blog.components.blogSingle"),
-    },
-  ],
-})
+if (!setting("blog.disableAutoRoutes")) {
+  /**
+   * The front end routes
+   */
+  addContentRoute({
+    path: setting("blog.indexRoute") ?? "/",
+    component: setting("blog.components.blogWrap"),
+    children: [
+      {
+        path: "/",
+        component: setting("blog.components.blogIndex"),
+        meta: { index: true },
+      },
+      {
+        path: `${setting("blog.postRoute")}/:permalink`,
+        component: setting("blog.components.blogSingle"),
+      },
+    ],
+  })
+}
+
+export const standardBlogIndex = (): Promise<any> => import("./standard-blog-index.vue")
+export const standardBlogSingle = (): Promise<any> => import("./standard-blog-single.vue")
