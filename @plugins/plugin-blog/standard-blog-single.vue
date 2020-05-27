@@ -5,10 +5,11 @@
 </template>
 
 <script lang="ts">
+import { setting } from "@factor/api"
 export default {
   components: {
-    blogWrap: () => import("./blog-wrap.vue"),
-    blogSingle: () => import("./blog-single.vue"),
+    blogWrap: setting("blog.components.blogWrap"),
+    blogSingle: setting("blog.components.blogSingle"),
   },
 }
 </script>
