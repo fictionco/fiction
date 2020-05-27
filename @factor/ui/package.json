@@ -1,7 +1,7 @@
 {
   "name": "@factor/ui",
   "description": "Dependency bundle",
-  "version": "1.8.3",
+  "version": "1.8.7",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
