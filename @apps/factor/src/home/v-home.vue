@@ -175,7 +175,7 @@ export default {
   methods: {},
   metaInfo() {
     return {
-      title: "The JavaScript CMS",
+      title: "The JavaScript CMS and Vue Framework",
       description:
         "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
     }

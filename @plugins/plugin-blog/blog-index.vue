@@ -6,12 +6,10 @@
     <div v-else-if="blogPosts.length > 0" class="post-index">
       <return-link v-if="tag || page > 1" />
       <div v-for="post in blogPosts" :key="post._id" class="post">
-        <component
-          :is="setting(`blog.components.${comp}`)"
-          v-for="(comp, i) in indexLayoutComponents"
-          :key="i"
-          :post-id="post._id"
-        />
+        <featured-image :post-id="post._id" />
+        <post-title :post-id="post._id" />
+        <sub-title :post-id="post._id" />
+        <post-meta :post-id="post._id" />
       </div>
       <pagination :post-type="postType" />
     </div>
@@ -31,6 +29,10 @@ export default {
     factorSpinner,
     pagination: setting("blog.components.pagination"),
     returnLink: setting("blog.components.returnLink"),
+    featuredImage: setting("blog.components.featuredImage"),
+    postTitle: setting("blog.components.title"),
+    postMeta: setting("blog.components.meta"),
+    subTitle: setting("blog.components.subtitle"),
   },
   data() {
     return {

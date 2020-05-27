@@ -2,10 +2,10 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Build professional websites incredibly fast.</h1>
+        <h1 class="page-title">The JavaScript CMS and VueJS Framework</h1>
         <h3
           class="page-title-sub"
-        >The integrated JavaScript CMS and framework that automates development.</h3>
+        >Factor is a platform for building CMS-driven websites with JavaScript. A modern alternative to WordPress.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>

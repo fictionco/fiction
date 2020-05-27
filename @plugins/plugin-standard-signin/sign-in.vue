@@ -423,6 +423,11 @@ export default {
 .modal-content {
   .signin {
     color: inherit;
+    input,
+    textarea,
+    select {
+      color: inherit;
+    }
   }
 }
 </style>

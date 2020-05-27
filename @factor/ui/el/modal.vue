@@ -181,6 +181,11 @@ export default {
           transform: rotate(90deg);
         }
       }
+      input,
+      textarea,
+      select {
+        color: inherit;
+      }
     }
     .modal-text {
       text-align: left;
