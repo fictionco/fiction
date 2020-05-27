@@ -1,9 +1,7 @@
 <template>
-  <div class="standard-blog-single">
-    <blog-wrap>
-      <blog-single />
-    </blog-wrap>
-  </div>
+  <blog-wrap class="standard-blog-single" handling="single">
+    <blog-single />
+  </blog-wrap>
 </template>
 
 <script lang="ts">

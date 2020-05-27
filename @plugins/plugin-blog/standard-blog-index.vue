@@ -1,9 +1,7 @@
 <template>
-  <div class="standard-blog-index">
-    <blog-wrap>
-      <blog-index />
-    </blog-wrap>
-  </div>
+  <blog-wrap class="standard-blog-index" handling="index">
+    <blog-index />
+  </blog-wrap>
 </template>
 
 <script lang="ts">

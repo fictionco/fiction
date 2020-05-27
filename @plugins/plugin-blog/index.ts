@@ -8,8 +8,8 @@ const baseRoute = setting("blog.postRoute")
 /**
  * Components for import
  */
-export const standardBlogIndex = setting("blog.components.blogIndex")
-export const standardBlogSingle = setting("blog.components.blogSingle")
+export const standardBlogIndex = setting("blog.components.standardBlogIndex")
+export const standardBlogSingle = setting("blog.components.standardBlogSingle")
 
 /**
  * Get post index and add to store

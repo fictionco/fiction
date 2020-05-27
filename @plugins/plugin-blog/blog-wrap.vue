@@ -15,6 +15,9 @@ import { setting } from "@factor/api/settings"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 
 export default {
+  props: {
+    handling: { type: String, default: "" },
+  },
   data() {
     return {
       loading: false,
@@ -26,7 +29,7 @@ export default {
   },
   computed: {
     isIndexPage(this: any) {
-      return this.$route.meta.index ? true : false
+      return this.handling == "index" || this.$route.meta.index ? true : false
     },
     index(this: any) {
       return stored("blog") || {}
