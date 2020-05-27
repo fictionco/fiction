@@ -21,7 +21,6 @@
         <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
       </div>
     </div>
-
   </div>
 </template>
 <script lang="ts">
@@ -36,7 +35,7 @@ export default {
       loading: false,
     }
   },
-  metaInfo() {
+  metaInfo(this: any) {
     const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
     const description = this.tag

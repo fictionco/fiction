@@ -30,15 +30,13 @@ export default {
   methods: { postLink },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .featured-image {
-    display: block;
-    background-size: cover;
-    background-position: 50%;
-    height: 16em;
-    margin-bottom: 1em;
-    border-radius: 0.35rem;
-  }
+<style lang="less" scoped>
+.featured-image {
+  display: block;
+  background-size: cover;
+  background-position: 50%;
+  height: 16em;
+  margin-bottom: 1em;
+  border-radius: 0.35rem;
 }
 </style>

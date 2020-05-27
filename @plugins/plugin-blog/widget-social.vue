@@ -46,38 +46,36 @@ export default {
   },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .social-share {
-    display: grid;
-    grid-template-columns: repeat(4, 32px);
-    grid-gap: 1em;
-    margin-bottom: 1em;
-    a.social {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      font-size: 1.2em;
-      text-align: center;
-      line-height: 32px;
-      color: var(--color-placeholder);
-      border-radius: 5px;
-      box-shadow: var(--box-shadow-input);
-      &:not(:nth-child(1)) {
-        margin-right: 0.5em;
-      }
-      &.facebook:hover {
-        color: #1877f2;
-      }
-      &.twitter:hover {
-        color: #1da1f2;
-      }
-      &.linkedin:hover {
-        color: #007bb5;
-      }
-      &.pinterest:hover {
-        color: #bd081c;
-      }
+<style lang="less" scoped>
+.social-share {
+  display: grid;
+  grid-template-columns: repeat(4, 32px);
+  grid-gap: 1em;
+  margin-bottom: 1em;
+  a.social {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 32px;
+    color: var(--color-placeholder);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow-input);
+    &:not(:nth-child(1)) {
+      margin-right: 0.5em;
+    }
+    &.facebook:hover {
+      color: #1877f2;
+    }
+    &.twitter:hover {
+      color: #1da1f2;
+    }
+    &.linkedin:hover {
+      color: #007bb5;
+    }
+    &.pinterest:hover {
+      color: #bd081c;
     }
   }
 }

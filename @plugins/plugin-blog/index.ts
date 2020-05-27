@@ -6,6 +6,12 @@ import { currentRoute } from "@factor/app/router"
 const baseRoute = setting("blog.postRoute")
 
 /**
+ * Components for import
+ */
+export const standardBlogIndex = setting("blog.components.blogIndex")
+export const standardBlogSingle = setting("blog.components.blogSingle")
+
+/**
  * Get post index and add to store
  */
 export const loadAndStoreBlogIndex = async (): Promise<void> => {
@@ -67,6 +73,3 @@ if (!setting("blog.disableAutoRoutes")) {
     ],
   })
 }
-
-export const standardBlogIndex = (): Promise<any> => import("./standard-blog-index.vue")
-export const standardBlogSingle = (): Promise<any> => import("./standard-blog-single.vue")

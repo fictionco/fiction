@@ -54,34 +54,32 @@ export default {
 }
 </script>
 
-<style lang="less">
-.plugin-blog {
-  .pagination {
-    max-width: 48rem;
-    padding: 1rem;
-    margin: 0 auto 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media (max-width: 767px) {
-      justify-content: flex-end;
-      .items,
-      .counter {
-        display: none;
-      }
-    }
-    > * {
-      margin: 0 5px;
-    }
+<style lang="less" scoped>
+.pagination {
+  max-width: 48rem;
+  padding: 1rem;
+  margin: 0 auto 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 767px) {
+    justify-content: flex-end;
+    .items,
     .counter {
-      opacity: 0.4;
-      .sep {
-        font-style: italic;
-      }
+      display: none;
     }
-    .factor-btn {
-      padding: 0.5em;
+  }
+  > * {
+    margin: 0 5px;
+  }
+  .counter {
+    opacity: 0.4;
+    .sep {
+      font-style: italic;
     }
+  }
+  .factor-btn {
+    padding: 0.5em;
   }
 }
 </style>

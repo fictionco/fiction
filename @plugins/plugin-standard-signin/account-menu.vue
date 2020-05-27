@@ -176,7 +176,7 @@ export default {
     0px 15px 35px 0px rgba(49, 49, 93, 0.1), 0px 5px 15px 0px rgba(0, 0, 0, 0.08);
   min-width: 250px;
   background: #fff;
-  color: var(--color-text);
+  color: #3a4854;
   border-radius: 5px;
   user-select: none;
   .nav-pad {

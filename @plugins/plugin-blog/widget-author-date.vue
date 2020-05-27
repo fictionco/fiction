@@ -41,36 +41,34 @@ export default {
   },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .widget-author-date {
-    .author-date {
+<style lang="less" scoped>
+.widget-author-date {
+  .author-date {
+    display: flex;
+    align-items: center;
+
+    font-weight: 600;
+
+    .author {
       display: flex;
-      align-items: center;
-
-      font-weight: 600;
-
-      .author {
-        display: flex;
-        margin-right: 1em;
-        .avatar {
-          width: 2rem;
-          display: block;
-          margin-right: 10px;
-          float: left;
-        }
-        .name {
-          display: inline-flex;
-          align-items: center;
-          font-weight: 600;
-        }
+      margin-right: 1em;
+      .avatar {
+        width: 2rem;
+        display: block;
+        margin-right: 10px;
+        float: left;
       }
-      .sep {
-        font-weight: 500;
-        font-style: italic;
-        margin: 0 1em 0 0;
-        opacity: 0.8;
+      .name {
+        display: inline-flex;
+        align-items: center;
+        font-weight: 600;
       }
+    }
+    .sep {
+      font-weight: 500;
+      font-style: italic;
+      margin: 0 1em 0 0;
+      opacity: 0.8;
     }
   }
 }

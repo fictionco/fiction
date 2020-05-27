@@ -25,21 +25,19 @@ export default {
   methods: { setting },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .entry-meta {
-    display: flex;
-    align-items: center;
-    margin: 1em auto;
-    font-size: 0.9em;
-    @media (max-width: 767px) {
-      display: grid;
-      grid-gap: 1em;
-      grid-template-columns: 1fr;
-    }
-    > div {
-      margin-right: 1rem;
-    }
+<style lang="less" scoped>
+.entry-meta {
+  display: flex;
+  align-items: center;
+  margin: 1em auto;
+  font-size: 0.9em;
+  @media (max-width: 767px) {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: 1fr;
+  }
+  > div {
+    margin-right: 1rem;
   }
 }
 </style>

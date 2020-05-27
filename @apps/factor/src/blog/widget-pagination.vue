@@ -61,23 +61,21 @@ export default {
 }
 </script>
 
-<style lang="less">
-.plugin-blog {
-  .pagination {
-    .page-count,
-    .prev-next {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 1rem;
+<style lang="less" scoped>
+.pagination {
+  .page-count,
+  .prev-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .prev-next {
+    .prev {
+      margin-right: 0.25rem;
     }
-    .prev-next {
-      .prev {
-        margin-right: 0.25rem;
-      }
-      .next {
-        margin-left: 0.25rem;
-      }
+    .next {
+      margin-left: 0.25rem;
     }
   }
 }
