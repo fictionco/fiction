@@ -1,7 +1,7 @@
 {
   "name": "@factor/cli",
   "homepage": "https://factor.dev",
-  "version": "1.8.3",
+  "version": "1.8.6",
   "license": "GPL-2.0",
   "publishConfig": {
     "access": "public"
