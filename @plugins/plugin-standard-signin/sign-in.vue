@@ -420,4 +420,9 @@ export default {
     justify-content: center;
   }
 }
+.modal-content {
+  .signin {
+    color: inherit;
+  }
+}
 </style>

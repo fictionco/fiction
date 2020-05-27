@@ -88,34 +88,32 @@ export default {
 }
 </script>
 
-<style lang="less">
-.plugin-blog {
-  .blog-entries {
-    .post-index {
-      max-width: 44rem;
-      margin: 0 auto;
-      padding: 1rem;
-      .post {
-        margin-bottom: 4em;
-        &:last-child {
-          margin-bottom: 2em;
-        }
+<style lang="less" scoped>
+.blog-entries {
+  .post-index {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 1rem;
+    .post {
+      margin-bottom: 4em;
+      &:last-child {
+        margin-bottom: 2em;
       }
     }
-    .posts-not-found,
-    .posts-loading {
-      min-height: 50vh;
-      display: flex;
-      text-align: center;
-      align-items: center;
-      justify-content: center;
-      .title {
-        font-size: 1.4em;
-        font-weight: 600;
-      }
-      .sub-title {
-        color: var(--color-text-secondary);
-      }
+  }
+  .posts-not-found,
+  .posts-loading {
+    min-height: 50vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    .title {
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+    .sub-title {
+      color: var(--color-text-secondary);
     }
   }
 }

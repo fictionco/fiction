@@ -25,7 +25,7 @@ export default {
   methods: { setting },
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .posts-not-found {
   min-height: 50vh;
   display: flex;
