@@ -8,11 +8,13 @@ import { deepMerge } from "@factor/api/utils"
 export const configSettings = (cwd?: string): Record<string, any> => {
   const workingDirectory = cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
 
+  const locale = process.env.FACTOR_LOCALE
+
   const { factor, ...rest } = require(`${workingDirectory}/package.json`)
 
   const factorConfig = factor ? { ...factor, installed: true } : {}
 
-  const out = deepMerge([{ package: rest }, factorConfig])
+  const out = deepMerge([{ package: rest }, locale, factorConfig])
 
   return out
 }

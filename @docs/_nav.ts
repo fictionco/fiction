@@ -138,6 +138,10 @@ export default [
         file: (): Promise<string> => import("./essentials/typescript/index.md"),
       },
       {
+        doc: "localization",
+        file: (): Promise<string> => import("./essentials/localization/index.md"),
+      },
+      {
         title: "Deployment &amp; Hosting",
         doc: "deployment-and-hosting",
         file: (): Promise<string> => import("./essentials/deployment/index.md"),
