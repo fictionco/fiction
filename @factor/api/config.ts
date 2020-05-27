@@ -12,7 +12,9 @@ export const configSettings = (cwd?: string): Record<string, any> => {
 
   const { factor, ...rest } = require(`${workingDirectory}/package.json`)
 
-  const factorConfig = factor ? { ...factor, installed: true } : {}
+  // If installed is set in 'factor' property then make it override
+  // It will get removed on actual install
+  const factorConfig = factor ? { installed: true, ...factor } : {}
 
   const out = deepMerge([{ package: rest }, locale, factorConfig])
 

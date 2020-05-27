@@ -351,24 +351,33 @@ export default {
           },
         ],
       },
-      steps: [
+
+      completed: {},
+    }
+  },
+  computed: {
+    steps(){
+      const allSteps = [
         {
           _id: "welcome",
           complete: () => {
             return this.step >= 1 ? true : false
           },
+          condition: true
         },
         {
           _id: "app",
           complete: () => {
             return !!(this.form.appName && this.form.appUrl && this.form.appEmail)
           },
+          condition: this.getValue("installRoutine") != 'account'
         },
         {
           _id: "account",
           complete: () => {
             return !!(this.form.displayName && this.form.password && this.form.email)
           },
+          condition: true
         },
         {
           _id: "theme",
@@ -377,24 +386,19 @@ export default {
               ? true
               : false
           },
+          condition: this.getValue("installRoutine") != 'account'
         },
-        // {
-        //   _id: "db",
-        //   complete: () => {
-        //     return this.step > this.getStepIndex("db") ? true : false
-        //   }
-        // },
         {
           _id: "done",
           complete: () => {
             return this.isStep("done") ? true : false
           },
+          condition: true
         },
-      ],
-      completed: {},
-    }
-  },
-  computed: {
+      ]
+
+      return allSteps.filter(step => step.condition)
+    },
     step() {
       return this.$route.query.step ?? 1
     },

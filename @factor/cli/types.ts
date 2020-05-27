@@ -72,6 +72,8 @@ export interface FactorPackageJson {
     extend?: ExtendTypes
     priority?: number
     disable?: string[]
+    installed?: boolean
+    installRoutine?: "account" | "full"
   }
   repository?: { type?: string; url: string }
   [key: string]: any

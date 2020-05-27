@@ -162,11 +162,17 @@ export const dotSetting = ({
  *
  * @param items - array of objects
  */
-export const deepMerge = <T>(items: Partial<T>[]): object => {
+export const deepMerge = <T>(
+  items: Partial<T>[],
+  options: { mergeArrays?: boolean } = {}
+): object => {
   const mergeItems = items.filter((_) => _)
 
   const merged = deepMergeLib.all(mergeItems, {
     arrayMerge: (lowerPriority, higherPriority) => {
+      if (options.mergeArrays) {
+        return [...higherPriority, ...lowerPriority]
+      }
       return higherPriority.map((higher: any) => {
         if (higher === null || typeof higher !== "object") {
           return higher

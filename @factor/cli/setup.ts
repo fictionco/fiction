@@ -199,7 +199,8 @@ export const prettyJson = (data: object): string => {
  */
 export const writeFiles = (
   file: "public" | "private" | "package",
-  values: object
+  values: object,
+  callback?: Function
 ): void => {
   const { publicConfig, privateConfig } = existingSettings()
   let { packageJson } = existingSettings()
@@ -208,6 +209,11 @@ export const writeFiles = (
       packageJson.factor = deepMerge([publicConfig, values])
     } else {
       packageJson = deepMerge([packageJson, values]) as FactorPackageJson
+    }
+
+    // Allow for additional work via callback (remove fields)
+    if (callback) {
+      packageJson = callback(packageJson)
     }
 
     fs.writeFileSync(configFile, JSON.stringify(packageJson, null, "  "))

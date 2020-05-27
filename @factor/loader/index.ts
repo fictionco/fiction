@@ -1,6 +1,6 @@
 import { onEvent } from "@factor/api/events"
 import { addMiddleware } from "@factor/api"
-import { BuildTypes } from "@factor/cli/types"
+import { BuildTypes, FactorPackageJson } from "@factor/cli/types"
 
 import latestVersion from "latest-version"
 import { addCallback } from "@factor/api/hooks"
@@ -53,11 +53,12 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
   const values: Record<string, any> = {
     factor: {
       app: { name: appName, description: appDescription, url: appUrl, email: appEmail },
+      installed: true,
     },
   }
 
   if (email) {
-    const { factor: { admins = [] } = {} } = existingSettings
+    const { admins = [] } = existingSettings
     values.factor.admins = [...admins, email]
   }
 
@@ -100,11 +101,26 @@ const writeInstallData = async (form: Record<string, any>): Promise<void> => {
     },
   })
 
-  writeFiles("package", values)
+  writeFiles(
+    "package",
+    values,
+    (pkg: FactorPackageJson): FactorPackageJson => {
+      if (pkg.factor) {
+        delete pkg.factor.installed
+        delete pkg.factor.installRoutine
+      }
+
+      return pkg
+    }
+  )
 
   return
 }
 
+/**
+ * Determine if the install routine should run
+ * "installed" is set if "factor" property exists or based on installed config value
+ */
 export const showInstallRoutine = async (): Promise<void> => {
   if (!setting("installed") && process.env.FACTOR_ENV !== "test") {
     setShowInstall()
