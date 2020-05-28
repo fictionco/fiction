@@ -5,23 +5,23 @@ description: Learn how to localize your app, how to add translations and contrib
 
 # Localization (i18n)
 
-Factor supports localization or i18n (short for internationalization) via a simple lang file system that integrates with [settings](./settings). 
+Factor supports localization or i18n (short for internationalization) via a simple lang file system that integrates with [settings](./settings).
 
-Let's go through the steps needed to: 
+Let's go through the steps needed to:
 
 - Set your app's locale / language
-- Add custom translations 
+- Add custom translations
 - Contribute translations to core or plugins
 
 ## Setting Your Locale
 
-The first step in changing your app's language is to set the "locale" which is a standard language based code. For example, English is `en` and Spanish is `es`, etc... 
+The first step in changing your app's language is to set the "locale" which is a standard language based code. For example, English is `en` and Spanish is `es`, etc...
 
-You can see a full reference of language codes at the bottom of this doc. 
+You can see a full reference of language codes at the bottom of this doc.
 
-> Note that the default and fallback language code is english `en`. 
+> Note that the default and fallback language code is english `en`.
 
-There are three ways to set the locale: 
+There are three ways to set the locale:
 
 ### Using `setLocale`
 
@@ -44,12 +44,12 @@ You can also set the locale via `package.json` or `FACTOR_LOCALE` in `.env`. Thi
 FACTOR_LOCALE="zh"
 ```
 
-or in `package.json`: 
+or in `package.json`:
 
 ```json
 {
   "factor": {
-    "locale": "it"  // Italian
+    "locale": "it" // Italian
   }
 }
 ```
@@ -60,37 +60,37 @@ Now that your locale is set, you are set up to pull in translations and add cust
 
 Factor translation works with `factor-lang-[language-code].ts` files. These are automatically compiled at build and loaded based on your locale. They are then merged with `factor-settings`.
 
-So to add custom Spanish translations to your app, first identify the settings file that you'd like to translate. As an example, if a plugin has a file `factor-lang-en.ts` with the following object: 
+So to add custom Spanish translations to your app, first identify the settings file that you'd like to translate. As an example, if a plugin has a file `factor-lang-en.ts` with the following object:
 
 ```js
 // factor-lang-en.ts
 export default {
-  thePlugin: { greeting: "hello" }
+  thePlugin: { greeting: "hello!" },
 }
 ```
 
-You could add a `factor-lang-es.ts` file to your app with the following: 
+You could add a `factor-lang-es.ts` file to your app with the following:
 
 ```js
 // factor-lang-es.ts
 export default {
-  thePlugin: { greeting: "hola" }
+  thePlugin: { greeting: "hola!" },
 }
 ```
 
-Now if your locale is `es` whenever that plugin uses `setting("thePlugin.greeting")` it will pull in the localized `es` value: 
+Now if your locale is `es` whenever that plugin uses `setting("thePlugin.greeting")` it will pull in the localized `es` value:
 
 ```js
 import { setLocale, setting } from "@factor/api"
- 
+
 setLocale("es")
 
-setting("thePlugin.greeting") // "hole"
+setting("thePlugin.greeting") // "hola!"
 ```
 
 ## Adding Translations to Plugins, Themes or Core
 
-Since finding settings files and then adding custom translations can be a hassle, its much easier if translations already exist. However, this doesn't happen without contributions from users such as yourself 
+Since finding settings files and then adding custom translations can be a hassle, its much easier if translations already exist. However, this doesn't happen without contributions from users such as yourself
 
 To add a custom translation, just fork any repo and add your `lang` file. Then, when your ready just create a pull request.
 
@@ -98,24 +98,24 @@ Most authors, including us, are happy to accept translations in your language!
 
 ## Language Codes
 
-- **Afrikaans:**	af
+- **Afrikaans:** af
 - **Albanian:** sq
 - **Arabic:** ar
 - **Armenian:** hy
 - **Azerbaijani:** az
 - **Basque:** eu
 - **Belarusian:** be
-- **Bulgarian:**	bg
-- **Catalan:**	ca
+- **Bulgarian:** bg
+- **Catalan:** ca
 - **Chinese:** zh
 - **Croatian:** hr
-- **Czech:**	cs
+- **Czech:** cs
 - **Danish:** da
-- **Dutch:**	nl
-- **English:**	en
-- **Estonian keel**:	et
+- **Dutch:** nl
+- **English:** en
+- **Estonian keel**: et
 - **Filipino:** tl
-- **Finnish:**	fi
+- **Finnish:** fi
 - **French:** fr
 - **Galician:** gl
 - **Georgian:** ka

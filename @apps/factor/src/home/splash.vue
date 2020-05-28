@@ -2,14 +2,17 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">The JavaScript CMS for Web Professionals.</h1>
-        <h3 class="page-title-sub">
-          Factor is an integrated CMS platform and framework
+        <h3 class="page-title">Build fast.</h3>
+        <h1 class="page-title-sub">
+          Factor is the first JavaScript iCMS
           <span class="highlight">
             <span class="asterisk">*</span>
-            <div class="drop">Use Factor as a full-stack development framework for Vue and Node.js</div>
-          </span> designed for professional websites and applications.
-        </h3>
+            <div class="drop">
+              <strong>iCMS</strong> - An integrated CMS combining a JavaScript framework (Vue, Node) with a CMS-oriented dashboard.
+            </div>
+          </span> designed
+          to help you build apps and websites faster.
+        </h1>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -80,8 +83,7 @@ export default {
 
         cursor: pointer;
         .asterisk {
-          opacity: 0.6;
-          color: var(--color-primary);
+          opacity: 0.8;
         }
         .drop {
           background: #fff;
@@ -91,13 +93,14 @@ export default {
           color: var(--color-text);
           font-size: 1rem;
           z-index: 100;
-          width: 12rem;
+          width: 20rem;
           padding: 1rem;
           border-radius: 8px;
           box-shadow: 0px 0 0 1px rgba(50, 50, 93, 0.1), 0px 3px 6px rgba(0, 0, 0, 0.05),
             0px 7px 14px rgba(50, 50, 93, 0.1);
           transition: opacity 0.2s;
           opacity: 0;
+          font-weight: 500;
         }
         &:hover {
           .drop {
@@ -124,12 +127,12 @@ export default {
       }
       .page-title,
       .page-title-sub {
-        letter-spacing: -0.035em;
+        letter-spacing: -0.025em;
       }
 
       .page-title {
-        font-size: 3em;
-        letter-spacing: -0.035em;
+        font-size: 4em;
+        letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
         margin-bottom: 1rem;

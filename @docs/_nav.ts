@@ -267,6 +267,10 @@ export default [
         doc: "development-monorepo",
         file: (): Promise<string> => import("./examples/development-monorepo/index.md"),
       },
+      {
+        doc: "custom-blog",
+        file: (): Promise<string> => import("./examples/custom-blog/index.md"),
+      },
     ],
   },
   {
