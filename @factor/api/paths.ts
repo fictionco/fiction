@@ -64,7 +64,7 @@ const staticCopyConfig = (cwd?: string): WebpackCopyItemConfig[] => {
   const copyItems: WebpackCopyItemConfig[] = []
 
   paths.forEach((p) => {
-    if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
+    if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "" })
   })
 
   return copyItems
