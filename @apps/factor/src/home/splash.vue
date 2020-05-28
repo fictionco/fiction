@@ -2,10 +2,14 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">There is an easier way to create professional websites and apps.</h1>
-        <h3
-          class="page-title-sub"
-        >Factor is the JavaScript CMS platform and framework built for web professionals.</h3>
+        <h1 class="page-title">The JavaScript CMS for Web Professionals.</h1>
+        <h3 class="page-title-sub">
+          Factor is an integrated CMS platform and framework
+          <span class="highlight">
+            <span class="asterisk">*</span>
+            <div class="drop">Use Factor as a full-stack development framework for Vue and Node.js</div>
+          </span> designed for professional websites and applications.
+        </h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -70,6 +74,42 @@ export default {
       max-width: 520px;
       justify-self: flex-end;
 
+      .highlight {
+        position: relative;
+        margin-left: -0.2em;
+
+        cursor: pointer;
+        .asterisk {
+          opacity: 0.6;
+          color: var(--color-primary);
+        }
+        .drop {
+          background: #fff;
+          position: absolute;
+          left: 0;
+          bottom: 100%;
+          color: var(--color-text);
+          font-size: 1rem;
+          z-index: 100;
+          width: 12rem;
+          padding: 1rem;
+          border-radius: 8px;
+          box-shadow: 0px 0 0 1px rgba(50, 50, 93, 0.1), 0px 3px 6px rgba(0, 0, 0, 0.05),
+            0px 7px 14px rgba(50, 50, 93, 0.1);
+          transition: opacity 0.2s;
+          opacity: 0;
+        }
+        &:hover {
+          .drop {
+            display: block;
+            opacity: 1;
+          }
+          .asterisk {
+            opacity: 1;
+          }
+        }
+      }
+
       h1 {
         z-index: 5;
         position: relative;
@@ -100,9 +140,6 @@ export default {
         font-size: 1.8em;
         font-weight: 400;
         color: var(--color-text-secondary);
-        .highlight {
-          color: #5c84a4;
-        }
       }
 
       .actions {
