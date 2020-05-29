@@ -38,6 +38,8 @@ npx factor dev
   Use static files instead of Webpack's default memory filesystem (virtual files).
 - **Server Restart On Change** `--watch-server`
   Server development mode. Restart the server on file changes.
+- **Node Inspector** `--inspector`
+  Open a port for the Node Inspector. Which allows debugging with Chrome developer tools, VSCode debugger, etc..
 
 ### Running Application Build
 

@@ -89,6 +89,7 @@ module.exports = {
     "vue/singleline-html-element-content-newline": "off",
     "vue/max-attributes-per-line": [2, { singleline: 20, multiline: {} }],
     "jest/expect-expect": "off", // annoying
+    "@typescript-eslint/explicit-module-boundary-types": "off", // come back to this later (2000 errors)
     "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
     "@typescript-eslint/no-use-before-define": "warn", // can cause organization issues
     "func-style": ["warn", "expression"],

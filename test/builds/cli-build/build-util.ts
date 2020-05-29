@@ -5,7 +5,7 @@ interface ProcessConfig {
   command: string
   cwd: string
   env?: typeof process.env
-  callback?: Function
+  callback?: (process: ChildProcess) => void
   options?: { env?: typeof process.env; detached?: boolean }
 }
 /**

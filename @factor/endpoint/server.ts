@@ -152,7 +152,7 @@ export const initializeEndpointServer = (): void => {
   addFilter({
     key: "endpoints",
     hook: "middleware",
-    callback: (_: object[]) => {
+    callback: (_: Record<string, unknown>[]) => {
       applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
         _.push({
           path: endpointPath(id),

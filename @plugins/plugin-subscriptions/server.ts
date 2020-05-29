@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { addEndpoint, addFilter, setting } from "@factor/api"
 import Stripe from "stripe"
 import { savePost } from "@factor/api/server"

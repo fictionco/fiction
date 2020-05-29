@@ -36,7 +36,7 @@ export interface CustomerComposite {
 
 export interface PlanInfo {
   plan: StripeNode.Plan
-  product: StripeNode.Product | {}
+  product: StripeNode.Product | Record<string, unknown>
 }
 
 export type SubscriptionCustomerData = {

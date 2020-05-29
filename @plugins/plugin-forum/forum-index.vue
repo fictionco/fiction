@@ -82,7 +82,7 @@ export default {
       },
     },
   },
-  async mounted() {
+  async mounted(this:any) {
     await this.getPosts()
   },
   methods: {
