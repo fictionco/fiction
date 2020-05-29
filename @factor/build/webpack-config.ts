@@ -94,7 +94,7 @@ const base = async (_arguments: FactorWebpackOptions): Promise<Configuration> =>
     new webpack.DefinePlugin(getDefinedValues(_arguments)),
   ]
 
-  const copyPluginConfig = applyFilters("webpack-copy-files-config", [], _arguments)
+  const copyPluginConfig: any = applyFilters("webpack-copy-files-config", [], _arguments)
   if (copyPluginConfig.length > 0) {
     plugins.push(new CopyPlugin(copyPluginConfig))
   }

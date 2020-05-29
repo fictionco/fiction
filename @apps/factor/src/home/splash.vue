@@ -4,15 +4,15 @@
       <div class="content">
         <h3 class="page-title">Build fast.</h3>
         <h1 class="page-title-sub">
-          Factor is the first JavaScript iCMS
-          <span class="highlight">
+          Factor is the first JavaScript iCMS.
+          <span ref="ast" class="highlight">
             <span class="asterisk">*</span>
-            <div class="drop">
+            <div class="drop" :class="dropDirection">
               <strong>iCMS</strong> - An integrated CMS combining a JavaScript framework (Vue, Node) with a CMS-oriented dashboard.
             </div>
-          </span> designed
-          to help you build apps and websites faster.
-        </h1>
+          </span> It's designed
+          to help you build web apps and websites faster with <factor-link path="/plugins">extensions</factor-link>.
+          </factor-link></h1>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -40,12 +40,30 @@ export default {
   components: {
     factorLink,
     factorIcon,
-    splashFigure: () => import("./figure-splash.vue"),
+    splashFigure: (): Promise<any> => import("./figure-splash.vue"),
+  },
+  data(): any {
+    return {
+      dropDirection: "left",
+    }
   },
   computed: {
-    version() {
+    version(): string {
       return `v${factorVersion()}`
     },
+  },
+  mounted(): void {
+    const el = document.querySelector(".asterisk")
+
+    if (el) {
+      setTimeout(() => {
+        const { left } = el.getBoundingClientRect()
+
+        if (left < 250) {
+          this.dropDirection = "right"
+        }
+      }, 50)
+    }
   },
 }
 </script>
@@ -88,7 +106,11 @@ export default {
         .drop {
           background: #fff;
           position: absolute;
-          left: 0;
+          right: 0;
+          &.right {
+            right: auto;
+            left: 0;
+          }
           bottom: 100%;
           color: var(--color-text);
           font-size: 1rem;
@@ -101,6 +123,7 @@ export default {
           transition: opacity 0.2s;
           opacity: 0;
           font-weight: 500;
+          line-height: 1.5;
         }
         &:hover {
           .drop {
@@ -131,7 +154,7 @@ export default {
       }
 
       .page-title {
-        font-size: 4em;
+        font-size: 5em;
         letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
@@ -143,6 +166,24 @@ export default {
         font-size: 1.8em;
         font-weight: 400;
         color: var(--color-text-secondary);
+        a{
+          color: inherit;
+
+          position: relative;
+          &:before {
+            background-image: linear-gradient(90deg, #a6adc9 33%, transparent 0);
+            background-position: bottom;
+            background-repeat: repeat-x;
+            background-size: 3px 1px;
+            content: "";
+            display: block;
+            height: 1px;
+            left: 0;
+            position: absolute;
+            top: 85%;
+            width: 100%;
+          }
+        }
       }
 
       .actions {
@@ -177,7 +218,7 @@ export default {
         justify-self: center;
         max-width: 100%;
         .page-title {
-          font-size: 2em;
+          font-size: 3em;
           line-height: 1.3;
         }
         .page-title-sub {
