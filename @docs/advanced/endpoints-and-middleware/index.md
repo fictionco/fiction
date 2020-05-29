@@ -75,6 +75,32 @@ export const exampleEndpointMethod = async (params, meta) => {
 }
 ```
 
+## Geo Information
+
+If available, Factor also gets geolocation data from the user's browser and IP address and provides it to endpoints as a meta property. Available information includes: 
+
+```js
+// Endpoint method on server
+export const exampleEndpointMethod = async (params, meta) => {
+  const { geo } = meta
+
+  console.log(geo)
+  // {
+  //   name: "Park City, UT US",
+  //   ip: "--ip--",
+  //   countryCode: "US",
+  //   countryName: "United States",
+  //   regionCode: "UT",
+  //   regionName: "Utah",
+  //   city: "Park City",
+  //   zip: "84060",
+  //   timeZone: "America/Denver",
+  //   latitude: 40.646061,
+  //   longitude: -111.497971,
+  // }  
+}
+```
+
 ## Endpoint Meta
 
 Other information set as meta to all endpoint methods:

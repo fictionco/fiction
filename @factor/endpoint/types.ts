@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 
-import { CurrentUserState } from "@factor/user/types"
+import { CurrentUserState, UserGeolocation } from "@factor/user/types"
 
 export type ResponseType =
   | Record<string, any>
@@ -34,6 +34,7 @@ export interface EndpointMeta {
   source?: string
   url?: string
   serverRequest?: true
+  geo?: UserGeolocation
 }
 
 export interface EndpointRequestConfig {

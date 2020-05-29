@@ -6,6 +6,7 @@ import { userInitialized } from "@factor/user"
 import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 import { ObjectId } from "@factor/post/types"
+import { getUserGeolocationSync } from "@factor/user/geo"
 export interface EndpointRequestConfig {
   id: string
   method: string
@@ -65,6 +66,12 @@ export const authorizedRequest = async (
   const source = setting("package.name") ?? ""
 
   options.headers = { Authorization, from: source, ...headers }
+
+  const geo = getUserGeolocationSync()
+  if (geo) {
+    options.headers.geo = JSON.stringify(geo)
+  }
+
   options.timeout = 30000
 
   if (isNode) {

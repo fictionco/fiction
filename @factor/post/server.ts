@@ -77,6 +77,7 @@ export const savePost = async <T = Record<string, any>>(
 
   if (postPermission({ post, bearer, action })) {
     try {
+      console.log("POst", post)
       await post.save()
     } catch (error) {
       handlePostSaveError(error)

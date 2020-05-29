@@ -99,6 +99,10 @@
             <div class="label">Signed up</div>
             <div class="value">{{ standardDate(post.createdAt) }}</div>
           </div>
+          <div v-if="geo.name" class="item">
+            <div class="label">Location</div>
+            <div class="value">{{ geo.name }}</div>
+          </div>
         </div>
       </dashboard-panel>
     </template>
@@ -109,7 +113,7 @@ import { dashboardPage, dashboardPanel, dashboardInput, dashboardBtn } from "@fa
 
 import { userId } from "@factor/user"
 import { sendVerifyEmail } from "@factor/user/email-request"
-import { standardDate, emitEvent, stored, storeItem } from "@factor/api"
+import { standardDate, emitEvent, stored, storeItem, currentUserId } from "@factor/api"
 import { requestPostSave } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 
@@ -146,6 +150,9 @@ export default {
     url(this: any) {
       return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
     },
+    geo(this: any) {
+      return stored("geo") ?? {}
+    },
   },
 
   methods: {
@@ -163,8 +170,15 @@ export default {
       this.sending = true
 
       try {
+        let post = this.post
+        // Set geo information if user is saving their own account, not admins!
+        if (currentUserId() == this.post._id) {
+          post = { geo: this.geo, ...this.post }
+        }
+
+        console.log("Save?", post)
         const saved = await requestPostSave({
-          post: this.post,
+          post,
           postType: this.postType,
         })
 
@@ -230,7 +244,8 @@ export default {
   line-height: 1.5;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
   margin: 4em 0;
   .label {
     opacity: 0.4;

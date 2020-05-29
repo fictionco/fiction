@@ -14,6 +14,7 @@ import { waitFor, getPostTypeConfig } from "@factor/api"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
 import { setUser, showSignIn, initializedUser } from "./util"
+import { setUserGeolocation } from "./geo"
 import {
   FactorUserCredential,
   AuthenticationParameters,
@@ -101,6 +102,9 @@ export const loadUser = async (
  */
 const requestInitializeUser = async (): Promise<CurrentUserState> => {
   await appMounted()
+
+  // Run this and store for later sync requests
+  setUserGeolocation()
 
   const resolvedUser = await loadUser()
 
