@@ -10,7 +10,7 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
-        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
+        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign in</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"
@@ -42,14 +42,14 @@ export default {
         { path: "/docs", name: "Develop" },
         { path: "/forum", name: "Forum" },
       ],
-      actionNav: [
-        {
-          event: "sign-in-modal",
-          name: "Sign In &rarr;",
-          condition: (): boolean => !isLoggedIn(),
-        },
-        { component: accountMenu, condition: (): boolean => isLoggedIn() },
-      ],
+      // actionNav: [
+      //   {
+      //     event: "sign-in-modal",
+      //     name: "Sign In &rarr;",
+      //     condition: (): boolean => !isLoggedIn(),
+      //   },
+      //   { component: accountMenu, condition: (): boolean => isLoggedIn() },
+      // ],
     }
   },
   computed: {},

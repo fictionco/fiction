@@ -131,6 +131,10 @@ export default {
           label: "Since",
           value: standardDate(post.createdAt),
         },
+        {
+          label: "Verified",
+          value: post.emailVerified ? "Yes" : "No",
+        },
       ]
     },
 

@@ -160,7 +160,7 @@ export default {
     return {
       loading: false,
       form: {},
-      newAccount: false,
+      newAccount: true,
       user: undefined,
     }
   },
@@ -197,7 +197,7 @@ export default {
         }
       } else if (this.newAccount) {
         return {
-          title: "Sign Up",
+          title: "Create Account",
         }
       } else {
         return {
