@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-subscriptions",
   "description": "Add memberships and paid subscriptions powered by Stripe.",
-  "version": "1.8.2",
+  "version": "1.8.11",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
