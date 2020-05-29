@@ -34,6 +34,10 @@ addRoutes({
         component: (): Promise<any> => import("./v-contact.vue"),
       },
       {
+        path: "/vip",
+        component: (): Promise<any> => import("./vip/v-vip.vue"),
+      },
+      {
         path: `/themes`,
         component: (): Promise<any> => import("./extend/wrap.vue"),
         children: [
