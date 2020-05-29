@@ -176,7 +176,6 @@ export default {
           post = { geo: this.geo, ...this.post }
         }
 
-        console.log("Save?", post)
         const saved = await requestPostSave({
           post,
           postType: this.postType,
