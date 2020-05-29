@@ -3,7 +3,7 @@ import Vue from "vue"
 import { Store } from "vuex/types"
 import { ObjectId } from "@factor/post/types"
 
-let __store: Store<object> | undefined
+let __store: Store<Record<string, any>> | undefined
 
 declare global {
   interface Window {
@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-export const createFactorStore = (): Store<object> => {
+export const createFactorStore = (): Store<Record<string, any>> => {
   __store = new Vuex.Store({
     strict: false,
     state: (): Record<string, any> => {
@@ -38,7 +38,7 @@ export const createFactorStore = (): Store<object> => {
   return __store
 }
 
-export const getStore = (): Store<object> | undefined => {
+export const getStore = (): Store<Record<string, any>> | undefined => {
   return __store
 }
 

@@ -129,7 +129,7 @@ export default {
       reactivePost: {},
     }
   },
-  metaInfo() {
+  metaInfo(): Record<string, any> {
     return {
       title: this.title,
     }
@@ -155,7 +155,7 @@ export default {
     excerpt(this: any) {
       return excerpt(this.post.content)
     },
-    postTypeConfig(this: any): PostTypeConfig | {} {
+    postTypeConfig(this: any): PostTypeConfig | Record<string, any> {
       return getPostTypeConfig(this.postType) || {}
     },
     title(this: any) {

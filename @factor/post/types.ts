@@ -72,7 +72,7 @@ export interface UpdatePostEmbedded {
 
 export interface UpdateManyPosts {
   _ids: string[]
-  data?: object
+  data?: Record<string, any>
   postType: string
 }
 
@@ -127,7 +127,7 @@ export interface PostIndexConditions {
 }
 
 export interface PostIndex {
-  meta: PostIndexMeta | {}
+  meta: PostIndexMeta | Record<string, any>
   posts: FactorPost[]
 }
 
@@ -221,8 +221,8 @@ export interface UnsavedFactorPost {
   avatar?: PopulatedPost
   tag?: string[]
   category?: string[]
-  revision?: object[]
-  settings?: object
+  revision?: Record<string, any>[]
+  settings?: Record<string, any>
   list?: any[]
   embedded?: FactorPost[]
   status?: PostStatus

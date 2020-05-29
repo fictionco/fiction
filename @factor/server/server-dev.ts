@@ -28,7 +28,7 @@ const devServer: Record<string, DevServerComponents> = {}
 interface DevServerComponents {
   cwd: string
   bundle?: string
-  clientManifest?: object
+  clientManifest?: Record<string, any>
   template?: string
   updateBundleCallback: UpdateBundle
   updateReason?: string
@@ -146,7 +146,7 @@ const createClientCompiler = ({ fileSystem, devServer }: DevCompilerOptions): vo
     addFilter({
       key: "devMiddleware",
       hook: "middleware",
-      callback: (_: object[]) => {
+      callback: (_: Record<string, any>[]) => {
         const { dev, hmr } = middleware
         return [{ id: "devServer", middleware: [dev, hmr] }, ..._]
       },

@@ -100,4 +100,4 @@ export default {
   vi: (): Promise<any> => import("dayjs/locale/vi"),
   yo: (): Promise<any> => import("dayjs/locale/yo"),
   zh: (): Promise<any> => import("dayjs/locale/zh"),
-} as Record<string, Function>
+} as Record<string, () => Promise<any>>

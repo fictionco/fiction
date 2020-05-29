@@ -100,7 +100,6 @@ const config = {
     try {
       await this.npmInstall()
     } catch (error) {
-      // @ts-ignore
       consola.error(error)
     }
 

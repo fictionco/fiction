@@ -18,7 +18,7 @@ export const userToken = (token?: string): string | void => {
 // If JWT auth fails then delete token, etc.
 export const handleTokenError = (
   error: Error | string,
-  { onError }: { onError?: Function }
+  { onError }: { onError?: () => void }
 ): void => {
   const badToken = "token signature is invalid"
   if (

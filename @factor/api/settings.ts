@@ -50,7 +50,7 @@ export const getSettings = (cwd?: string): SettingsObject => {
     : basicSettings(cwd)
 }
 
-const setSettings = (settings: object, cwd?: string): void => {
+const setSettings = (settings: Record<string, any>, cwd?: string): void => {
   if (!globalObject.$factorSettings) globalObject.$factorSettings = {}
 
   globalObject.$factorSettings[settingsId(cwd)] = settings
@@ -59,8 +59,11 @@ const setSettings = (settings: object, cwd?: string): void => {
 export const createSettings = (cwd?: string): void => {
   const basic = basicSettings(cwd)
 
-  let settingsExports: (Function | object)[] = []
-  let langExports: Record<string, (Function | object)[]> = {}
+  let settingsExports: (() => Record<string, any> | Record<string, any>)[] = []
+  let langExports: Record<
+    string,
+    (() => Record<string, any> | Record<string, any>)[]
+  > = {}
 
   /**
    * @remark

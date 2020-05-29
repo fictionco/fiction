@@ -1,6 +1,6 @@
 export const figureMixin = ({ ref, width }: { ref: string; width: number }): any => {
   return {
-    data(): {} {
+    data(): Record<string, any> {
       return { width }
     },
     computed: {

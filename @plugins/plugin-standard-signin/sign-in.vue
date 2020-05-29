@@ -243,7 +243,13 @@ export default {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
     },
-    async send(this: any, { action, next }: { action: Function; next: string }) {
+    async send(
+      this: any,
+      {
+        action,
+        next,
+      }: { action: (args: Record<string, any>) => Promise<any>; next: string }
+    ) {
       const r = this.$refs["signin-form"].$el.reportValidity()
 
       if (!r) return

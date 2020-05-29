@@ -6,7 +6,7 @@ import { FactorPostState } from "@factor/post/types"
 
 const postType = "contact-form"
 
-export const sendFormEmail = async (form: object): Promise<void> => {
+export const sendFormEmail = async (form: Record<string, any>): Promise<void> => {
   const toSetting = setting("contactForm.email")
 
   /**
@@ -43,7 +43,9 @@ export const sendFormEmail = async (form: object): Promise<void> => {
   return
 }
 
-export const saveContactForm = async (form: object): Promise<FactorPostState> => {
+export const saveContactForm = async (
+  form: Record<string, any>
+): Promise<FactorPostState> => {
   const post = { settings: form }
   const saved = await requestPostSave({ post, postType: postType })
   sendFormEmail(form)

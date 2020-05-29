@@ -23,7 +23,7 @@ import { blueChalk } from "@factor/cli/util"
 export interface SetupCliConfig {
   name: string
   value: string
-  callback: () => {} | void
+  callback: () => Record<string, any> | void
   priority?: number
 }
 
@@ -188,7 +188,7 @@ addCallback({ key: "setup", hook: "cli-setup", callback: () => runSetup() })
  * Output JSON nicely to the CLI
  * @param data - data to output
  */
-export const prettyJson = (data: object): string => {
+export const prettyJson = (data: Record<string, any>): string => {
   return highlight(json2yaml.stringify(data, null, "  "))
 }
 
@@ -199,8 +199,8 @@ export const prettyJson = (data: object): string => {
  */
 export const writeFiles = (
   file: "public" | "private" | "package",
-  values: object,
-  callback?: Function
+  values: Record<string, any>,
+  callback?: (p: FactorPackageJson) => FactorPackageJson
 ): void => {
   const { publicConfig, privateConfig } = existingSettings()
   let { packageJson } = existingSettings()
@@ -239,7 +239,7 @@ export const writeFiles = (
  */
 export const writeConfig = async (
   file: "public" | "private",
-  values: object
+  values: Record<string, any>
 ): Promise<void> => {
   if (!file || !values) {
     return

@@ -27,7 +27,7 @@ interface FilterItem extends HookItem {
 }
 
 interface CallbackItem extends HookItem {
-  callback: Function
+  callback: (...a: any[]) => any
 }
 
 interface GlobalFilterObject {
@@ -211,7 +211,10 @@ export const addCallback = (options: CallbackItem): void => {
 
   addFilter({
     ...rest,
-    callback: (_: Function[] = [], ...args: any[]) => [..._, callback(...args)],
+    callback: (_: ((...a: any[]) => any)[] = [], ...args: any[]) => [
+      ..._,
+      callback(...args),
+    ],
   })
 
   return

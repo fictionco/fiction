@@ -6,7 +6,7 @@
 import { factorInputSelect } from "@factor/ui"
 export default {
   components: { factorInputSelect },
-  data() {
+  data(): Record<string, any> {
     return {
       select: this.$route.path,
       pluginList: [

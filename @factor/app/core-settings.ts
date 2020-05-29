@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-export default (): object => {
+export default (): Record<string, any> => {
   return {
     app: {
       components: {

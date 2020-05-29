@@ -4,15 +4,16 @@
       <div class="content">
         <h3 class="page-title">Build fast.</h3>
         <h1 class="page-title-sub">
-          Factor is the first JavaScript iCMS.
+          Factor is the first JavaScript iCMS
           <span ref="ast" class="highlight">
             <span class="asterisk">*</span>
             <div class="drop" :class="dropDirection">
               <strong>iCMS</strong> - An integrated CMS combining a JavaScript framework (Vue, Node) with a CMS-oriented dashboard.
             </div>
-          </span> It's designed
-          to help you build web apps and websites faster with <factor-link path="/plugins">extensions</factor-link>.
-          </factor-link></h1>
+          </span>... It's designed
+          to help you build web apps and websites faster with
+          <factor-link path="/plugins">extensions</factor-link>.
+        </h1>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -166,7 +167,7 @@ export default {
         font-size: 1.8em;
         font-weight: 400;
         color: var(--color-text-secondary);
-        a{
+        a {
           color: inherit;
 
           position: relative;

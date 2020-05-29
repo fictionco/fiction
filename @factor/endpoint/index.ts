@@ -10,12 +10,12 @@ export interface EndpointRequestConfig {
   id: string
   method: string
   params: EndpointParameters
-  headers?: object
+  headers?: Record<string, any>
 }
 
 export interface EndpointParameters {
   token?: string
-  [key: string]: object | string | number | undefined | boolean | ObjectId
+  [key: string]: Record<string, any> | string | number | undefined | boolean | ObjectId
 }
 
 interface StandardEndpointRequestData {

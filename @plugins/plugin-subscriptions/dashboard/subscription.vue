@@ -90,7 +90,6 @@
   </div>
 </template>
 <script lang="ts">
-/* eslint-disable @typescript-eslint/camelcase */
 import { stored, standardDate, toLabel } from "@factor/api"
 import { dashboardListItem, dashboardBtn, factorModal, factorLink } from "@factor/ui"
 import StripeNode from "stripe"

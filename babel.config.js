@@ -1,4 +1,3 @@
-// @ts-nocheck
 const isBabelLoader = (caller) => {
   return caller && caller.name === "babel-loader"
 }

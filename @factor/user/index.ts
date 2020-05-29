@@ -50,7 +50,9 @@ export const currentUserId = (): string => {
  *
  * @param callback - Called after user is initialized with value of user
  */
-export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
+export const userInitialized = async (
+  callback?: (u: CurrentUserState) => void
+): Promise<CurrentUserState> => {
   // this function needs to take at least 50ms, for consistency in rendering
   // If user is logged out, this function happens too fast and can cause hydration issues
   const [user] = await Promise.all([initializedUser(), waitFor(50)])

@@ -32,7 +32,7 @@ export default {
       loading: true,
     }
   },
-  metaInfo(): object {
+  metaInfo(): Record<string, any> {
     const title = this.tag ? `Tag "${this.tag}"` : setting("blog.metatags.index.title")
 
     const description = this.tag

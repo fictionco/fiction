@@ -51,7 +51,9 @@ export const getPageTemplates = (): TemplateConfig[] => {
     })
 }
 
-export const getTemplate = async (templateId: string): Promise<TemplateConfig | {}> => {
+export const getTemplate = async (
+  templateId: string
+): Promise<TemplateConfig | Record<string, unknown>> => {
   const _all = getPageTemplates()
 
   let tpl = _all.find((_) => _.slug == templateId)

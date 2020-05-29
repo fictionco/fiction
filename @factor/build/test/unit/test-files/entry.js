@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import Vue from "vue"
 import component from "./test-vue.vue"
 Vue.config.productionTip = false

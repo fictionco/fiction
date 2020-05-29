@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import deepMergeLib from "deepmerge"
 import randToken from "rand-token"
 import isNode from "detect-node"
@@ -165,7 +164,7 @@ export const dotSetting = ({
 export const deepMerge = <T>(
   items: Partial<T>[],
   options: { mergeArrays?: boolean } = {}
-): object => {
+): Record<string, any> => {
   const mergeItems = items.filter((_) => _)
 
   const merged = deepMergeLib.all(mergeItems, {
@@ -206,7 +205,7 @@ export const deepMerge = <T>(
  * Merges an array of objects, but first sorts them by priority attr
  * @param arr - array of objects w priority key
  */
-export const sortMerge = (arr: PriorityItem[]): object => {
+export const sortMerge = (arr: PriorityItem[]): Record<string, any> => {
   return deepMerge(sortPriority(arr))
 }
 
@@ -279,7 +278,7 @@ export const slugify = (text?: string): string | undefined => {
 /**
  * Converts a nested object to a normalized env friendly config
  */
-type SettingObject = Record<string, object | string | string[]>
+type SettingObject = Record<string, Record<string, any> | string | string[]>
 export const envKeys = (
   settingsObject: SettingObject,
   prefix = "FACTOR"

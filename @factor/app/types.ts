@@ -10,7 +10,7 @@ export interface RouteGuard {
 
 export interface ServerRenderContext {
   url: string
-  state?: object
+  state?: Record<string, any>
   [key: string]: any
 }
 

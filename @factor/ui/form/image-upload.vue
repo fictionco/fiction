@@ -126,13 +126,13 @@ export default {
     },
   },
 
-  mounted() {
+  mounted(this: any) {
     /**
      * Allow for external elements to communicate with this image uploader via a DOM selector
      */
     onEvent(
       "uploadImageWithInput",
-      ({ selector, callback }: { selector: string; callback: Function }) => {
+      ({ selector, callback }: { selector: string; callback: () => any }) => {
         if (selector == this.selector) {
           this.callback = callback
           this.triggerUpload()
@@ -345,7 +345,7 @@ export default {
         file,
         onFinished,
         item,
-      }: { item: any; file: File; index: number; onFinished: Function }
+      }: { item: any; file: File; index: number; onFinished: () => void }
     ) {
       this.$emit("upload", { file, item })
 

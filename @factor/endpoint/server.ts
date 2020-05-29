@@ -88,9 +88,9 @@ export const runEndpointMethod = async (
   }
 
   try {
-    if (typeof _ep.permissions == "function") {
-      await _ep.permissions({ method, meta, params })
-    }
+    // if (typeof _ep.permissions == "function") {
+    //   await _ep.permissions({ method, meta, params })
+    // }
 
     return await _ep[method](params, meta)
   } catch (error) {
