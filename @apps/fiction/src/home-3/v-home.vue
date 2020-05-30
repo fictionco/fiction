@@ -44,15 +44,21 @@ export default {
   .header-area-text {
     text-align: center;
     padding: 6em 0;
+    font-size: 12vw;
+
     h1 {
-      font-size: 6em;
+      font-size: inherit;
       font-weight: 800;
       line-height: 1.2;
-      //color: var(--color-primary);
+      color: var(--color-primary-dark);
+      margin-bottom: 1rem;
     }
     .sub {
-      font-size: 3em;
-      color: var(--color-text-secondary);
+      max-width: 56vw;
+      margin: 0 auto;
+      font-family: var(--font-family-primary);
+      font-size: calc(0.125em + 0.6rem);
+      line-height: 1.75;
     }
     .actions {
       margin-top: 2rem;

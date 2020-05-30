@@ -47,7 +47,7 @@ export default {
   padding: 0;
   .content-footer-pad {
     margin-top: 2em;
-    padding: 4em 2em;
+    padding: 0 2em 4em;
     display: grid;
     grid-template-columns: 1fr 1fr 2fr 1fr;
     grid-gap: 0;
