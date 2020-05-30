@@ -155,7 +155,7 @@ export default {
 
     .splash-wrap {
       background-image: url(./img/world-left.svg), url(./img/world-right.svg);
-      background-color: #1b223c;
+      background-color: #091723;
       background-position: left -100px center, right -500px center;
       background-repeat: no-repeat;
       background-size: contain;

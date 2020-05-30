@@ -1,34 +1,39 @@
-@import "reset.less";
-@import "entry-content.less";
-@import "inputs.less";
+@font-face {
+  font-family: "Mark Pro";
+  src: local("Mark Pro Heavy"), local("MarkPro-Heavy"),
+    url(/markpro-heavy.woff2) format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Mark Pro";
+  src: local("Mark Pro Bold"), local("MarkPro-Bold"),
+    url(/markpro-bold.woff2) format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: Eina01;
+  src: local("Eina01-Regular"), local("3A2AFF_0_0"),
+    url(/eina-regular.woff2) format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: Eina01;
+  src: local("Eina01-Bold"), local("3A2AFF_0_1"), url(/eina-bold.woff2) format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
 
 .factor-app {
-  --color-primary: #ff0076;
-  --color-primary-rgb: 42, 116, 229;
-  --color-secondary: #0496ff;
-  --color-tertiary: #eff6ff;
-  --color-text: #3a4854;
-  --color-light: #fafbff;
-  --color-placeholder: #bdcad4;
-
-  --color-success: #42b983;
-  --color-info: #62bdff;
-  --color-warning: #ff6464;
-  --color-danger: #ff0076;
-  --color-code: #e83b0e;
-
-  --color-bg: #ffffff;
-  --color-bg-alt: #f6f9fc;
-
-  --input-bg: #f6f9fc;
-  --box-shadow-input: 0 0 0 1px rgba(0, 72, 164, 0.2);
-
   --max-width: 1200px;
   --content-max-width: 1200px;
   --font-weight-bold: 700;
   --font-weight-normal: 500;
+  --color-primary: #ff0076;
 
-  --font-family-primary: -apple-system,
+  --font-family-primary: Eina01, -apple-system,
     /* Chrome < 56 for OS X (San Francisco)  */ BlinkMacSystemFont,
     /* Windows  */ "Segoe UI", /* Android  */ "Roboto",
     /* Basic web fallback  */ "Helvetica Neue", Arial, sans-serif;
@@ -41,7 +46,7 @@
   font-family: var(--font-family-primary);
   font-size: 16px;
   line-height: 1.5;
-  font-weight: 500;
+  font-weight: 400;
 
   strong {
     font-weight: var(--font-weight-bold);
@@ -49,10 +54,14 @@
 
   a {
     color: var(--color-primary);
+  }
 
-    &:hover {
-      color: var(--color-secondary);
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Mark Pro", var(--font-family-primary);
   }
 
   // .nav-absolute {
@@ -100,11 +109,11 @@
   .nav-white.top {
     .site-head {
       .logo-img .thelogotext {
-        fill: var(--color-light);
+        fill: #fff;
       }
       .site-head-pad .mob-nav-btn .toggle:after,
       .site-head-pad .mob-nav-btn .toggle:before {
-        background-color: var(--color-light);
+        background-color: #fff;
       }
 
       .mobile-logo .logo-img .thelogotext {
@@ -112,7 +121,7 @@
       }
 
       .nav > .factor-link {
-        color: var(--color-light);
+        color: #fff;
 
         &:hover {
           color: var(--color-primary);

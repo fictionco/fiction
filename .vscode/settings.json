@@ -76,6 +76,7 @@
     "EDESTRUCTION",
     "ENOTFOUND",
     "ETIMEOUT",
+    "Eina",
     "Entrypoint",
     "Gitlens",
     "Interop",
