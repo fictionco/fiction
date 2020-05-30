@@ -64,9 +64,13 @@ export default {
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll())
   },
-  mounted() {
+  mounted(this: any) {
     this.hydrated = true
     this.setMenu()
+
+    if (this.$route.hash) {
+      this.setClick(this.$route.hash)
+    }
   },
   methods: {
     toLabel,
