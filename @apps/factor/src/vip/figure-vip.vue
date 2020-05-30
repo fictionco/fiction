@@ -1,15 +1,20 @@
 <template>
-  <figure ref="wrapper" class="stage-container figure-vip">
+  <figure ref="wrapper" class="figure-vip">
     <div class="stage-wrap">
       <div class="stage" :style="{ transform: `scale(${scale})` }">
         <div class="feature-circle">
           <div class="core">
-            <page-icon icon="core" />
+            <img :src="require(`./img/vip-bolt.svg`)" alt="Factor VIP Bolt" />
+            <!-- <page-icon icon="core" /> -->
           </div>
 
           <div class="rotator">
             <div v-for="(vipicon, index) in vipicons" :key="index" class="rad">
-              <page-icon v-if="vipicon.icon" :icon="vipicon.icon" class="rad-icon" />
+              <div
+                v-if="vipicon.icon"
+                class="icon"
+                :style="{backgroundImage: `url(${vipicon.icon})`}"
+              />
             </div>
           </div>
         </div>
@@ -22,36 +27,36 @@
 import { figureMixin } from "./utils"
 
 export default {
-  components: {
-    "page-icon": () => import("./icon-vip.vue"),
-  },
+  // components: {
+  //   "page-icon": () => import("./icon-vip.vue"),
+  // },
   mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {
       vipicons: [
         {
-          icon: "seo",
+          icon: require("./img/icon-forum.svg"),
         },
         {
-          icon: "design",
+          icon: require("./img/icon-forms.svg"),
         },
         {
-          icon: "dev",
+          icon: require("./img/icon-chat-bubbles.svg"),
         },
         {
-          icon: "node",
+          icon: require("./img/icon-analytics.svg"),
         },
         {
-          icon: "github",
+          icon: require("./img/icon-seo.svg"),
         },
         {
-          icon: "infrastructure",
+          icon: require("./img/icon-gallery.svg"),
         },
         {
-          icon: "support",
+          icon: require("./img/icon-themes.svg"),
         },
         {
-          icon: "cloud",
+          icon: require("./img/icon-socialize.svg"),
         },
       ],
     }
@@ -70,12 +75,14 @@ figure.figure-vip {
     width: 100%;
     height: 100%;
   }
+
   .feature-circle {
     width: 100%;
     height: 100%;
     position: relative;
     transform: rotateY(-5deg);
     transition: all 0.5s;
+
     @media (max-width: 900px) {
       transform: rotateY(0);
     }
@@ -84,15 +91,18 @@ figure.figure-vip {
       position: absolute;
       width: 80px;
       height: 80px;
-      display: flex;
-      align-items: center;
     }
     .core {
+      z-index: 10;
       display: grid;
       justify-content: center;
       align-items: center;
       height: 100%;
       height: 100%;
+
+      img {
+        width: 100%;
+      }
     }
     .rotator {
       position: absolute;
@@ -117,76 +127,60 @@ figure.figure-vip {
       transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1);
 
       .rad {
-        .rad-icon {
-          width: 100%;
-          height: 100%;
-          background: #f6fafd;
-          //box-shadow: 0 42px 1px hsla(0, 0%, 100%, 0.16), inset 0 2px 0 rgba(0, 0, 0, 0.2);
+        .icon {
+          background-size: cover;
+          background-position: 50%;
+          border-radius: 50%;
           box-shadow: 0 2px 3px rgba(50, 50, 93, 0.13), 0 2px 5px rgba(50, 50, 93, 0.11),
             0 5px 15px rgba(0, 0, 0, 0.07);
-          border-radius: 50%;
-          svg {
-            path {
-              fill: var(--color-primary, #0471ff);
-            }
-            &.node path {
-              stroke: var(--color-primary, #0471ff);
-            }
-          }
+          padding: 50%;
         }
+
         &:nth-child(1) {
           transform: rotate(45deg);
-          .rad-icon {
-            //background: #0471ff;
+          .icon {
             transform: translateY(12rem) rotate(-45deg);
           }
         }
         &:nth-child(2) {
           transform: rotate(90deg);
-          .rad-icon {
-            //background: #241653;
+          .icon {
             transform: translateY(12rem) rotate(-90deg);
           }
         }
         &:nth-child(3) {
           transform: rotate(135deg);
-          .rad-icon {
-            //background: #40cf8f;
+          .icon {
             transform: translateY(12rem) rotate(-135deg);
           }
         }
         &:nth-child(4) {
           transform: rotate(180deg);
-          .rad-icon {
-            //background: #814ae6;
+          .icon {
             transform: translateY(12rem) rotate(-180deg);
           }
         }
         &:nth-child(5) {
           transform: rotate(225deg);
-          .rad-icon {
-            //background: #fecb42;
+          .icon {
             transform: translateY(12rem) rotate(-225deg);
           }
         }
         &:nth-child(6) {
           transform: rotate(270deg);
-          .rad-icon {
-            //background: #ff5b66;
+          .icon {
             transform: translateY(12rem) rotate(-270deg);
           }
         }
         &:nth-child(7) {
           transform: rotate(315deg);
-          .rad-icon {
-            //background: #020f46;
+          .icon {
             transform: translateY(12rem) rotate(-315deg);
           }
         }
         &:nth-child(8) {
           transform: rotate(0deg);
-          .rad-icon {
-            //background: #40cf8f;
+          .icon {
             transform: translateY(12rem) rotate(-0deg);
           }
         }

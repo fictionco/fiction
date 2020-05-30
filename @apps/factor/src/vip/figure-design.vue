@@ -55,7 +55,7 @@ export default {
           alt: `Design - Illustrations`,
         },
         {
-          class: `design-logo dark`,
+          class: `design-logo light`,
           image: require("./img/factor-vip-logo.svg"),
           alt: `Design - Factor VIP`,
         },
