@@ -26,10 +26,6 @@ addRoutes({
         meta: { nav: true },
       },
       {
-        path: "/vip",
-        component: (): Promise<any> => import("./v-vip-2/v-vip.vue"),
-      },
-      {
         path: "/contact",
         component: (): Promise<any> => import("./page-contact.vue"),
         meta: { background: "#fafbff" },

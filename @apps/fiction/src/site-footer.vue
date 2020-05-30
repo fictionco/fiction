@@ -9,7 +9,6 @@
       <div class="footer-col">
         <div class="menu-header">Products</div>
         <factor-link path="/factor-js">Factor JS</factor-link>
-        <factor-link path="/vip">VIP</factor-link>
       </div>
       <div class="footer-col">
         <div class="menu-header">Company</div>

@@ -217,32 +217,32 @@ export default {
             enhanced SEO and brand capabilities and more. `,
           figure: () => import("./figure-pro.vue"),
           link: {
-            path: "/vip",
+            path: "https://factor.dev/pro",
             text: "Learn More &rarr;",
           },
         },
-        {
-          id: "feature-vip",
-          super: "Factor VIP",
-          title: "Your Development Team, Delivered",
-          text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you.
-            No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`,
-          figure: () => import("./figure-vip.vue"),
-          link: {
-            path: "/vip",
-            text: "Learn More &rarr;",
-          },
-          bullets: [
-            "Design",
-            "Development",
-            "Managed Infrastructure",
-            "SEO",
-            "Dedicated Developers",
-            "Guaranteed Satisfaction",
-            "Phone Support",
-            "Free Setup",
-          ],
-        },
+        // {
+        //   id: "feature-vip",
+        //   super: "Factor VIP",
+        //   title: "Your Development Team, Delivered",
+        //   text: `Being a Fiction customer means you'll have a 24/7 team of expert developers ready to help you.
+        //     No more countless hours of debugging, or unexpected surprises, Fiction will be here to help you build, deploy and scale your apps.`,
+        //   figure: () => import("./figure-vip.vue"),
+        //   link: {
+        //     path: "/vip",
+        //     text: "Learn More &rarr;",
+        //   },
+        //   bullets: [
+        //     "Design",
+        //     "Development",
+        //     "Managed Infrastructure",
+        //     "SEO",
+        //     "Dedicated Developers",
+        //     "Guaranteed Satisfaction",
+        //     "Phone Support",
+        //     "Free Setup",
+        //   ],
+        // },
       ],
       compare: [
         {
@@ -266,7 +266,7 @@ export default {
             "Advanced features, options and tools. Technical support from Fiction.",
           ],
           link: {
-            path: "/vip",
+            path: "https://factor.dev/pro",
             text: "Learn More &rarr;",
           },
         },
@@ -277,7 +277,7 @@ export default {
             "Dedicated developers and managed infrastructure. Virtual dev team.",
           ],
           link: {
-            path: "/vip",
+            path: "https://factor.dev/pro",
             text: "Learn More &rarr;",
           },
         },

@@ -2,7 +2,6 @@
   <div class="content-layout">
     <site-head>
       <factor-link path="https://factor.dev?ref=fiction">Javascript CMS</factor-link>
-      <factor-link path="/vip">VIP</factor-link>
       <factor-link path="/careers">Careers</factor-link>
       <template v-if="!loading">
         <factor-link
