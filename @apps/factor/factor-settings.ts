@@ -125,8 +125,8 @@ export default {
     returnLinkText: "All Jobs",
     metatags: {
       index: {
-        title: "Fiction Jobs - Building Apps, Code, Remote Work",
-        description: "Fiction jobs.",
+        title: "Factor Jobs - Building Apps, Code, Remote Work",
+        description: "Factor jobs.",
       },
     },
     notFound: {
