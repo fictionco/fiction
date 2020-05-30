@@ -10,12 +10,9 @@
 </template>
 
 <script lang="ts">
-import { factorLink } from "@factor/ui"
 import fictionLogo from "../img/fiction.jpg"
 export default {
-  components: {
-    factorLink,
-  },
+  components: {},
   data() {
     return {
       loading: true,
