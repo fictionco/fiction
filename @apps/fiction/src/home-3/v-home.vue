@@ -40,25 +40,42 @@ export default {
     display: flex;
     justify-content: center;
     flex-direction: column;
+
+    @media (max-width: 900px) {
+      padding: 1rem 2rem;
+    }
   }
   .header-area-text {
     text-align: center;
     padding: 6em 0;
-    font-size: 12vw;
+
+    @media (max-width: 900px) {
+      text-align: left;
+    }
 
     h1 {
-      font-size: inherit;
+      font-size: 6em;
       font-weight: 800;
       line-height: 1.2;
-      color: var(--color-primary-dark);
       margin-bottom: 1rem;
+
+      @media (max-width: 900px) {
+        font-size: 4em;
+      }
     }
     .sub {
-      max-width: 56vw;
+      max-width: 55vw;
       margin: 0 auto;
       font-family: var(--font-family-primary);
-      font-size: calc(0.125em + 0.6rem);
-      line-height: 1.75;
+      font-size: 2.4rem;
+      letter-spacing: -0.03em;
+      color: var(--color-text-secondary);
+
+      @media (max-width: 900px) {
+        max-width: 100vw;
+        font-size: 1.4rem;
+        margin: 0;
+      }
     }
     .actions {
       margin-top: 2rem;
