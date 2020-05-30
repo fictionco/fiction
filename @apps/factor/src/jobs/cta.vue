@@ -29,9 +29,7 @@ export default {
 .careers {
   .single-entry {
     .job-entry-cta {
-      max-width: 800px;
-      margin: 1em auto;
-      padding: 0 3em;
+      margin: 3em auto;
       @media (max-width: 767px) {
         padding: 0 2em;
       }

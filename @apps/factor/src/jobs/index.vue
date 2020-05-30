@@ -2,7 +2,7 @@
   <div class="view-careers">
     <section class="splash-wrap">
       <div class="splash mast">
-        <div class="label label-white">Careers</div>
+        <div class="label label-secondary">Careers</div>
         <h1 class="title">Let's Create Something Beautiful Together</h1>
         <p class="subtitle">
           Fiction is on a mission to help frontend developers create better JavaScript
@@ -26,16 +26,19 @@
           </div>
 
           <div v-else-if="jobsPosts.length > 0" class="post-index">
-            <div v-for="post in jobsPosts" :key="post._id" class="jobs-post">
-              <div>
-                <component
-                  :is="setting(`jobs.components.${comp}`)"
-                  v-for="(comp, i) in setting('jobs.layout.index')"
-                  :key="i"
-                  :post-id="post._id"
-                />
-              </div>
-            </div>
+            <factor-link
+              v-for="post in jobsPosts"
+              :key="post._id"
+              :path="postLink(post._id)"
+              class="jobs-post"
+            >
+              <component
+                :is="setting(`jobs.components.${comp}`)"
+                v-for="(comp, i) in setting('jobs.layout.index')"
+                :key="i"
+                :post-id="post._id"
+              />
+            </factor-link>
           </div>
 
           <div v-else class="posts-not-found">
@@ -52,7 +55,7 @@
 </template>
 <script lang="ts">
 import { factorBtn, factorLink, factorSpinner, factorIcon } from "@factor/ui"
-import { setting, stored } from "@factor/api"
+import { setting, stored, postLink } from "@factor/api"
 import { requestPostIndex } from "@factor/post/request"
 export default {
   components: { factorBtn, factorLink, factorSpinner, factorIcon },
@@ -106,6 +109,7 @@ export default {
     this.getPosts()
   },
   methods: {
+    postLink,
     setting,
     async getPosts(this: any) {
       this.loading = true
@@ -140,31 +144,25 @@ export default {
 
     .label {
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      &.label-blue {
-        color: var(--color-primary);
-      }
-      &.label-pink {
-        color: var(--color-secondary);
-      }
-      &.label-white {
-        //color: #fff;
-        opacity: 0.4;
+      font-weight: 700;
+      margin-bottom: 1rem;
+
+      &.label-secondary {
+        color: var(--color-text-secondary);
       }
     }
 
     .splash-wrap {
-      background-image: url(./img/world-left.svg), url(./img/world-right.svg);
-      background-color: var(--color-bg-contrast);
-      background-position: left -100px center, right -500px center;
-      background-repeat: no-repeat;
-      background-size: contain;
-      @media (max-width: 767px) {
-        background-position: left -300px center, right -350px center;
-        button.app-btn.large {
-          font-size: 1em;
-        }
-      }
+      // background-image: url(./img/world-left.svg), url(./img/world-right.svg);
+      // background-position: left -100px center, right -600px center;
+      // background-repeat: no-repeat;
+      // background-size: contain;
+      // @media (max-width: 767px) {
+      //   background-position: left -300px center, right -600px center;
+      //   button.app-btn.large {
+      //     font-size: 1em;
+      //   }
+      // }
       .splash {
         display: grid;
         grid-template-columns: 1fr;
@@ -177,26 +175,29 @@ export default {
           text-align: left;
         }
         .title {
-          font-weight: var(--font-weight-bold);
           font-size: 4em;
-          letter-spacing: -0.03em;
-          line-height: 1;
-          margin: 0.3em 0;
-          //color: #f9f9f9;
+          letter-spacing: -0.025em;
+          line-height: 1.1;
+          font-weight: 700;
+          margin-bottom: 1rem;
+
           @media (max-width: 767px) {
-            font-size: 2.6em;
+            font-size: 2em;
+            line-height: 1.3;
           }
         }
         .subtitle {
-          opacity: 0.7;
-          font-size: 1.4em;
-          line-height: 1.6em;
+          margin: 0 auto 1.5em;
+          max-width: 40ch;
+          font-size: 1.75em;
           font-weight: 400;
-          margin-bottom: 1.5em;
-          //color: #fff;
+          color: var(--color-text-secondary);
+          letter-spacing: -0.025em;
 
           @media (max-width: 767px) {
-            font-size: 1.2em;
+            margin: 0 0 1.5em;
+            font-size: 1.4em;
+            line-height: 1.4;
           }
         }
       }
@@ -216,7 +217,6 @@ export default {
         background: #fff;
         border-radius: 8px;
         padding: 3em;
-        box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
 
         @media (max-width: 767px) {
           padding: 1em;
@@ -232,17 +232,24 @@ export default {
       .post-index {
         margin-top: 2em;
         .jobs-post {
-          padding-bottom: 1.5em;
-          margin-bottom: 1.5em;
-          border-bottom: 1px solid rgba(80, 102, 119, 0.1);
-          &:first-child {
-            border-top: 1px solid rgba(80, 102, 119, 0.1);
-            padding-top: 1.5em;
+          display: block;
+          margin-bottom: 2rem;
+          padding: 1.5rem;
+          text-align: left;
+          border-radius: 8px;
+          color: var(--color-text);
+          transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+          box-shadow: 0 0.2rem 0.5rem rgba(103, 110, 144, 0.2),
+            0 0 0 0.1rem rgba(103, 110, 144, 0.05);
+
+          &:hover {
+            opacity: 1;
+            color: var(--color-primary);
+            box-shadow: 0 0.2rem 0.5rem rgba(103, 110, 144, 0.4),
+              0 0 0 0.1rem rgba(103, 110, 144, 0.05);
           }
           @media (max-width: 767px) {
             grid-template-columns: 1fr;
-            margin-bottom: 0;
-            padding: 1.5rem 0;
           }
         }
       }

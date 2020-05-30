@@ -134,13 +134,14 @@ export default {
       subTitle: "Couldn't find any job posts.",
     },
     layout: {
-      index: ["featuredImage", "title", "synopsis"],
+      index: ["title"],
       single: ["singleHeader", "entry", "cta"],
     },
     components: {
       jobsWrap: (): Promise<any> => import("./src/jobs/wrap.vue"),
       jobsIndex: (): Promise<any> => import("./src/jobs/index.vue"),
       jobsSingle: (): Promise<any> => import("./src/jobs/single.vue"),
+      title: (): Promise<any> => import("./src/jobs/widget-title-override.vue"),
       singleHeader: (): Promise<any> => import("./src/jobs/single-header.vue"),
       cta: (): Promise<any> => import("./src/jobs/cta.vue"),
     },

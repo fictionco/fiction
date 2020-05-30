@@ -22,9 +22,6 @@ export default {
       image: shareImage(this.post._id),
     }
   },
-  // routeClass() {
-  //   return "nav-white"
-  // },
   computed: {
     post() {
       return stored("post") || {}
@@ -37,12 +34,18 @@ export default {
 <style lang="less">
 .plugin-jobs.careers {
   .single-entry {
-    max-width: none;
-    padding: 0;
-    margin-bottom: 6em;
+    max-width: 50rem;
+    margin: 0 auto 6rem;
+
+    .jobs-entry {
+      margin: 0;
+      .entry-container > p:first-of-type {
+        font-weight: inherit;
+      }
+    }
+
     .post-entry {
       padding: 0;
-      margin: 0 auto;
       @media (max-width: 767px) {
         padding: 0 1em;
       }
