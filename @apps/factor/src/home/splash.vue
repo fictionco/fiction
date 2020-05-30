@@ -2,18 +2,13 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h3 class="page-title">Build fast.</h3>
-        <h1 class="page-title-sub">
-          Factor is the first JavaScript iCMS
-          <span ref="ast" class="highlight">
-            <span class="asterisk">*</span>
-            <div class="drop" :class="dropDirection">
-              <strong>iCMS</strong> - An integrated CMS combining a JavaScript framework (Vue, Node) with a CMS-oriented dashboard.
-            </div>
-          </span>... It's designed
-          to help you build web apps and websites faster with
+        <h1 class="page-title">The JavaScript CMS</h1>
+        <h3 class="page-title-sub">
+          Factor is an integrated CMS that helps developers build websites and web apps using
+          <factor-link path="/docs/core-concepts#vue">VueJS</factor-link>
+          <span>and</span>
           <factor-link path="/plugins">extensions</factor-link>.
-        </h1>
+        </h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install Factor</factor-link>
@@ -76,7 +71,7 @@ export default {
   .splash-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 4em;
+    grid-gap: 6em;
     padding: 10rem 3rem 3rem;
     align-items: center;
 
@@ -155,24 +150,30 @@ export default {
       }
 
       .page-title {
-        font-size: 5em;
+        font-size: 3.3em;
         letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
         margin-bottom: 1rem;
+        max-width: 30ch;
       }
 
       .page-title-sub {
         margin-top: 2rem;
-        font-size: 1.8em;
+        font-size: 1.75em;
         font-weight: 400;
         color: var(--color-text-secondary);
+        max-width: 30ch;
         a {
           color: inherit;
 
           position: relative;
           &:before {
-            background-image: linear-gradient(90deg, #a6adc9 33%, transparent 0);
+            background-image: linear-gradient(
+              90deg,
+              var(--color-text-secondary) 33%,
+              transparent 0
+            );
             background-position: bottom;
             background-repeat: repeat-x;
             background-size: 3px 1px;
