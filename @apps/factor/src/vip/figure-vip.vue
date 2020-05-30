@@ -5,7 +5,6 @@
         <div class="feature-circle">
           <div class="core">
             <img :src="require(`./img/vip-bolt.svg`)" alt="Factor VIP Bolt" />
-            <!-- <page-icon icon="core" /> -->
           </div>
 
           <div class="rotator">
@@ -27,9 +26,6 @@
 import { figureMixin } from "./utils"
 
 export default {
-  // components: {
-  //   "page-icon": () => import("./icon-vip.vue"),
-  // },
   mixins: [figureMixin({ ref: "wrapper", width: 500 })],
   data() {
     return {

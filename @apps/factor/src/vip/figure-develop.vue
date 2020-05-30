@@ -114,7 +114,7 @@ figure.figure-develop {
       &.develop-desktop {
         position: absolute;
         top: 11.5rem;
-        left: -3rem;
+        left: -2rem;
         border-radius: 6px;
         width: 400px;
       }
@@ -127,15 +127,12 @@ figure.figure-develop {
         .img-wrap {
           margin: 6px;
           border-radius: 10px;
-          background: linear-gradient(
-            35deg,
-            var(--color-bg-splash) 70%,
-            var(--color-bg-splash-contrast)
-          );
+          background: linear-gradient(35deg, #1b223c 70%, #233575);
         }
       }
     }
   }
+
   @media (max-width: 900px) {
     .code-container {
       transform: scale(0.8);
