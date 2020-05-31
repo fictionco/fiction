@@ -44,6 +44,10 @@ export default {
       }
     }
 
+    .entry-title {
+      display: block;
+    }
+
     .post-entry {
       padding: 0;
       @media (max-width: 767px) {
