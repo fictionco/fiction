@@ -2,16 +2,14 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">The JavaScript CMS</h1>
-        <h3 class="page-title-sub">
-          Factor is an integrated CMS that helps developers build websites and web apps using
-          <factor-link path="/docs/core-concepts#vue">VueJS</factor-link>
-          <span>and</span>
-          <factor-link path="/plugins">extensions</factor-link>.
-        </h3>
+        <h1 class="page-sup">JavaScript CMS - Vue, Node, MongoDB</h1>
+        <h2 class="page-title">The fastest way to build professional websites.</h2>
+        <h3
+          class="page-title-sub"
+        >Factor is an open-source JavaScript framework plus CMS. Use it to develop, launch, and manage websites.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Install Factor</factor-link>
+          <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
 
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
@@ -150,7 +148,7 @@ export default {
       }
 
       .page-title {
-        font-size: 3.3em;
+        font-size: 2.5em;
         letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
@@ -220,7 +218,7 @@ export default {
         justify-self: center;
         max-width: 100%;
         .page-title {
-          font-size: 3em;
+          font-size: 2em;
           line-height: 1.3;
         }
         .page-title-sub {

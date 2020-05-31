@@ -7,6 +7,7 @@ import { userToken, handleTokenError } from "@factor/user/token"
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios"
 import { ObjectId } from "@factor/post/types"
 import { getUserGeolocationSync } from "@factor/user/geo"
+import { UserGeolocation } from "@factor/user/types"
 export interface EndpointRequestConfig {
   id: string
   method: string
@@ -22,6 +23,7 @@ export interface EndpointParameters {
 interface StandardEndpointRequestData {
   method: string
   params: EndpointParameters
+  geo?: UserGeolocation
 }
 
 /**
@@ -67,11 +69,6 @@ export const authorizedRequest = async (
 
   options.headers = { Authorization, from: source, ...headers }
 
-  const geo = getUserGeolocationSync()
-  if (geo) {
-    options.headers.geo = JSON.stringify(geo)
-  }
-
   options.timeout = 30000
 
   if (isNode) {
@@ -98,13 +95,16 @@ export const endpointRequest = async <T = unknown>({
     throw new Error(`Endpoint request to "${id}" requires a method.`)
   }
 
+  const requestData = { method, params } as StandardEndpointRequestData
+
+  const geo = getUserGeolocationSync()
+  if (geo) {
+    requestData.geo = geo
+  }
+
   const {
     data: { result, error },
-  } = await authorizedRequest(
-    endpointPath(id),
-    { method, params } as StandardEndpointRequestData,
-    { headers }
-  )
+  } = await authorizedRequest(endpointPath(id), requestData, { headers })
 
   if (error) {
     handleTokenError(error, {

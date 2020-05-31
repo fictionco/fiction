@@ -25,11 +25,17 @@ Once you have a string, just add it to `.env` under `FACTOR_DB_CONNECTION`:
 
 ```bash
 # .env - DB Connection (Mongo Connection String)
+
+# with Mongo Atlas connection URL
 FACTOR_DB_CONNECTION="mongodb+srv://demo:demo@cluster0-yxsfy.mongodb.net/demo?retryWrites=true&w=majority"
+
+# or with Mongo installed locally 
+FACTOR_DB_CONNECTION="mongodb://127.0.0.1:27017/posts"
 ```
 
 > **Recommendation**
 > Mongo Atlas [Integration Tutorial](./mongo-atlas)
+> Mongo Local Server [Setting Up](./mongo-local)
 
 ## Image Storage
 

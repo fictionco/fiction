@@ -283,6 +283,10 @@ export default [
         file: (): Promise<string> => import("./integrations/mongo-atlas/index.md"),
       },
       {
+        doc: "mongo-local",
+        file: (): Promise<string> => import("./integrations/mongo-local/index.md"),
+      },
+      {
         doc: "amazon-s3",
         file: (): Promise<string> => import("./integrations/amazon-s3/index.md"),
       },

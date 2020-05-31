@@ -123,7 +123,9 @@ export const processEndpointRequest = async ({
    * "authorization" - user token
    * "from" - source app
    */
-  const { authorization = "", from, geo } = headers
+  const { authorization = "", from } = headers
+
+  const { geo } = data
 
   const responseJson: { result?: ResponseType; error?: HttpError } = {}
 
@@ -133,7 +135,8 @@ export const processEndpointRequest = async ({
     const bearer = await setAuthorizedUser(authorization)
     meta.bearer = bearer
     meta.source = from
-    meta.geo = geo ? JSON.parse(geo as string) : undefined
+
+    meta.geo = geo ? geo : undefined
     responseJson.result = await handler({ data, meta, bearer, url })
   } catch (error) {
     responseJson.error = createError(error.code ?? 500, error.message)
