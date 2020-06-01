@@ -22,7 +22,7 @@ export default {
       newTopic: "Start A Discussion",
       listAll: "All Discussions",
       topicLocked: "This topic is locked.",
-      loginToReply: "You need to login to reply.",
+      loginToReply: "Login to reply",
       subscribeOnReply: "Subscribe to updates?",
       notifySubscribers: "Notify Subscribers?",
       login: "Login &rarr;",
