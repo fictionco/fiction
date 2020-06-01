@@ -1,41 +1,43 @@
-@font-face {
-  font-family: "Mark Pro";
-  src: local("Mark Pro Heavy"), local("MarkPro-Heavy"),
-    url(/markpro-heavy.woff2) format("woff2");
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Mark Pro";
-  src: local("Mark Pro Bold"), local("MarkPro-Bold"),
-    url(/markpro-bold.woff2) format("woff2");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: Eina01;
-  src: local("Eina01-Regular"), local("3A2AFF_0_0"),
-    url(/eina-regular.woff2) format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: Eina01;
-  src: local("Eina01-Bold"), local("3A2AFF_0_1"), url(/eina-bold.woff2) format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
+// @font-face {
+//   font-family: "Mark Pro";
+//   src: local("Mark Pro Heavy"), local("MarkPro-Heavy"),
+//     url(/markpro-heavy.woff2) format("woff2");
+//   font-weight: 800;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: "Mark Pro";
+//   src: local("Mark Pro Bold"), local("MarkPro-Bold"),
+//     url(/markpro-bold.woff2) format("woff2");
+//   font-weight: 600;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: Eina01;
+//   src: local("Eina01-Regular"), local("3A2AFF_0_0"),
+//     url(/eina-regular.woff2) format("woff2");
+//   font-weight: 500;
+//   font-style: normal;
+// }
+// @font-face {
+//   font-family: Eina01;
+//   src: local("Eina01-Bold"), local("3A2AFF_0_1"), url(/eina-bold.woff2) format("woff2");
+//   font-weight: 700;
+//   font-style: normal;
+// }
 
 .factor-app {
   --max-width: 1200px;
   --content-max-width: 1200px;
   --font-weight-bold: 700;
   --font-weight-normal: 500;
-  --color-primary: #ff0076;
-  --color-primary-dark: #E5006A;
-  --color-text: #545465;
+  --color-primary: #eee;
+  --color-secondary: #000;
+  
+  --color-text: #ccc;
+  --color-bg: #000;
 
-  --font-family-primary: Eina01, -apple-system,
+  --font-family-primary: "Montserrat", -apple-system,
     /* Chrome < 56 for OS X (San Francisco)  */ BlinkMacSystemFont,
     /* Windows  */ "Segoe UI", /* Android  */ "Roboto",
     /* Basic web fallback  */ "Helvetica Neue", Arial, sans-serif;
@@ -48,7 +50,7 @@
   font-family: var(--font-family-primary);
   font-size: 16px;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 500;
 
   strong {
     font-weight: var(--font-weight-bold);
@@ -63,7 +65,14 @@
   h3,
   h4,
   h5 {
-    font-family: "Mark Pro", var(--font-family-primary);
+    font-family: var(--font-family-primary);
+  }
+
+  button.app-btn{
+    font-weight: 600;
+    &.secondary{
+     color: var(--color-text);
+    }
   }
 
   // .nav-absolute {

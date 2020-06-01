@@ -6,7 +6,7 @@
       </div>
       <div class="brand">
         <factor-link path="/">
-          <site-logo />
+          <site-logo class="white" />
         </factor-link>
       </div>
       <transition name="fade">
@@ -14,7 +14,7 @@
       </transition>
       <div class="nav" :class="{ open: toggle }">
         <factor-link class="mobile-logo" path="/">
-          <site-logo />
+          <site-logo class="white" />
         </factor-link>
         <slot />
         <account-menu v-if="userId()" />
@@ -67,6 +67,7 @@ export default {
   width: 100%;
   position: fixed;
   z-index: 110;
+  background: #000;
   @media (max-width: 900px) {
     padding: 0 0.5em;
   }
@@ -86,7 +87,7 @@ export default {
   &.scrolled {
     .site-head {
       padding: 0rem 1rem;
-      background: #fff;
+      background: #000;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     }
   }
@@ -124,7 +125,8 @@ export default {
     display: none;
     height: 100vh;
     width: 100vw;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    //background: rgba(0, 0, 0, 0.1);
     z-index: 10;
     position: fixed;
     top: 0;
@@ -215,7 +217,8 @@ export default {
       left: 0;
       width: 70%;
       transform: translate(-100%, 0);
-      background: #f6f9fc;
+      //background: #f6f9fc;
+      background: #000;
       transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
       &.open {
         display: block;
@@ -226,7 +229,7 @@ export default {
     > .factor-link {
       letter-spacing: -0.03em;
       font-size: 0.9em;
-      color: #3a4854;
+      //color: #3a4854;
       margin: 0 1em;
       @media (max-width: 900px) {
         display: block;
@@ -235,15 +238,19 @@ export default {
         padding: 0.75em;
         margin: 0;
         box-shadow: var(--box-shadow-input);
-        background: #fff;
+        background: #000;
       }
       &:hover,
       &.active {
-        color: #0496ff;
+        color: var(--color-primary);
       }
-      &:active {
-        color: #ff0076;
-      }
+      // &:hover,
+      // &.active {
+      //   color: #0496ff;
+      // }
+      // &:active {
+      //   color: #ff0076;
+      // }
     }
     .account-menu {
       margin-left: 1em;

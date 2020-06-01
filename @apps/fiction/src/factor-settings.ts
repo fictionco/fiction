@@ -27,6 +27,13 @@ export default {
       meta: ["authorDate", "tags"],
     },
   },
+  contactForm: {
+    submit: {
+      btn: "app-btn factor-btn secondary",
+      size: "",
+      text: "Contact Us",
+    },
+  },
   jobs: {
     indexRoute: "/careers",
     postRoute: "/careers",

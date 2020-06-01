@@ -31,10 +31,17 @@ export default {
     "site-head": () => import("./site-head.vue"),
     "content-footer": () => import("./site-footer.vue"),
   },
-
   metaInfo() {
     return {
       titleTemplate: "%s - Fiction",
+      link: [
+        {
+          vmid: "font",
+          rel: "stylesheet",
+          href:
+            "https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap",
+        },
+      ],
     }
   },
 
