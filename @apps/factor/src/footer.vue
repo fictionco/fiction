@@ -33,7 +33,7 @@
 
       <div class="footer-col list">
         <div class="menu-header">Company</div>
-        <factor-link path="https://www.fiction.com/careers">We're hiring</factor-link>
+        <factor-link path="https://factor.dev/careers">We're hiring</factor-link>
         <!-- <factor-link path="https://factor.dev/blog" target="_blank">Blog</factor-link> -->
         <factor-link path="/contact">Contact Us</factor-link>
       </div>

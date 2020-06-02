@@ -41,6 +41,7 @@ export default {
     h1 {
       font-size: 1.6em;
       line-height: 1.2;
+      max-width: none;
     }
     .location {
       text-transform: uppercase;
