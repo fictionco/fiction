@@ -154,13 +154,14 @@ export default {
     }
 
     .splash-wrap {
-      background-image: url(./img/world-left.svg), url(./img/world-right.svg);
-      background-color: #091723;
-      background-position: left -100px center, right -500px center;
-      background-repeat: no-repeat;
-      background-size: contain;
+      // background-image: url(./img/world-left.svg), url(./img/world-right.svg);
+      // background-color: #091723;
+      // background-position: left -100px center, right -500px center;
+      // background-repeat: no-repeat;
+      // background-size: contain;
+
       @media (max-width: 767px) {
-        background-position: left -300px center, right -350px center;
+        //background-position: left -300px center, right -350px center;
         button.app-btn.large {
           font-size: 1em;
         }
@@ -213,6 +214,7 @@ export default {
       .careers-inner {
         max-width: 800px;
         margin-top: -80px;
+        color: #000;
         background: #fff;
         border-radius: 0.5em;
         padding: 3em;
@@ -234,10 +236,16 @@ export default {
           padding-bottom: 1.5em;
           margin-bottom: 1.5em;
           border-bottom: 1px solid rgba(80, 102, 119, 0.1);
+
           &:first-child {
             border-top: 1px solid rgba(80, 102, 119, 0.1);
             padding-top: 1.5em;
           }
+
+          .entry-synopsis {
+            color: inherit;
+          }
+
           @media (max-width: 767px) {
             grid-template-columns: 1fr;
             margin-bottom: 0;

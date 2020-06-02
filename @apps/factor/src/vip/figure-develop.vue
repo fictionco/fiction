@@ -70,6 +70,8 @@ export default {
 <style lang="less">
 figure.figure-develop {
   position: relative;
+  max-width: 500px;
+  margin: 0 auto;
 
   .code-container {
     margin: 0 auto;
@@ -101,7 +103,7 @@ figure.figure-develop {
   }
 
   .screenshots {
-    padding: 0 0 10rem;
+    padding: 0 0 4rem;
     .screenshot {
       z-index: 10;
       background: #fff;
@@ -119,11 +121,11 @@ figure.figure-develop {
         width: 400px;
       }
       &.develop-mobile {
+        width: 200px;
         position: absolute;
         top: 9rem;
-        right: -2rem;
+        right: 0;
         border-radius: 15px;
-        width: 200px;
         .img-wrap {
           margin: 6px;
           border-radius: 10px;
@@ -138,13 +140,14 @@ figure.figure-develop {
       transform: scale(0.8);
     }
     .screenshots {
-      padding: 0 0 2rem;
+      padding: 0;
       .screenshot {
         &.develop-desktop {
           width: 100%;
           max-width: 400px;
           left: 0;
-          top: 6rem;
+          top: auto;
+          bottom: 2rem;
         }
         &.develop-mobile {
           width: 110px;
