@@ -3,7 +3,7 @@
     <section-splash />
 
     <section class="benefits content">
-      <h2 class="title">Why you'll love being Pro...</h2>
+      <h2 class="title">Why you'll love developing Factor extensions...</h2>
       <section-benefits class="content-pad" />
     </section>
 
