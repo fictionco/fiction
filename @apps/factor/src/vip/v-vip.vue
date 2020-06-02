@@ -55,8 +55,8 @@
       </div>
     </div>
 
-    <div class="process-wrap">
-      <div class="content-pad">
+    <div class="content-pad">
+      <div class="process-wrap">
         <div class="sticky-container">
           <div class="process-sticky">
             <div class="title">{{ process.preheading }}</div>
@@ -69,7 +69,7 @@
               </li>
             </ul>
 
-            <div class="action">
+            <div class="actions">
               <factor-link :path="process.link.path" btn="primary">
                 <span v-formatted-text="process.link.text" />
               </factor-link>
@@ -82,16 +82,13 @@
             :id="step.id"
             :key="index"
             :name="step.id"
-            class="process"
+            class="process-item"
           >
-            <div v-if="step.figure" class="process-figure-container">
-              <component :is="step.figure" />
-            </div>
-            <div class="process-content-container">
-              <div class="process-content">
-                <div class="title">{{ step.title }}</div>
-                <div class="text">{{ step.text }}</div>
-              </div>
+            <component :is="step.figure" v-if="step.figure" />
+
+            <div class="process-content">
+              <div class="title">{{ step.title }}</div>
+              <div class="text">{{ step.text }}</div>
             </div>
           </div>
         </div>
@@ -382,65 +379,18 @@ export default {
   // PROCESS
 
   .process-wrap {
-    .content-pad {
-      padding-top: 3rem;
-      padding-bottom: 3rem;
-      min-height: 90vh;
-      display: grid;
-      grid-column-gap: 4rem;
-      grid-template-areas: "a" "b";
-      grid-template-columns: repeat(2, minmax(100px, 1fr));
+    display: grid;
+    grid-column-gap: 4rem;
+    grid-template-areas: "a" "b";
+    grid-template-columns: repeat(2, 1fr);
+    padding-top: 6rem;
+    padding-bottom: 10rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      padding-bottom: 2rem;
     }
 
-    .sticky-container {
-      height: 100%;
-    }
-    .process-sticky {
-      padding: 4rem 0;
-      align-self: start;
-      position: sticky;
-      top: 3em;
-
-      .title {
-        font-weight: 700;
-        font-size: 3em;
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
-        letter-spacing: -0.025em;
-      }
-    }
-
-    .process-list {
-      .process {
-        min-height: 90vh;
-        //background: url("./img/dot-gray.svg");
-        background: radial-gradient(rgba(255, 255, 255, 0), #fff),
-          url("./img/dot-gray.svg");
-        position: relative;
-        padding: 4rem 0;
-
-        .process-figure-container {
-          position: relative;
-          height: 100%;
-        }
-        .process-content-container {
-          position: relative;
-          padding: 2rem 0 0;
-        }
-      }
-    }
-
-    .process-content {
-      letter-spacing: -0.01em;
-    }
-    .super {
-      text-transform: uppercase;
-      font-weight: 600;
-
-      font-size: 1.3em;
-      color: var(--color-primary);
-      margin-bottom: 0.6em;
-    }
     .title {
       font-weight: 700;
       font-size: 2em;
@@ -450,33 +400,35 @@ export default {
     .text {
       font-weight: 400;
       font-size: 1.4em;
+      letter-spacing: -0.025em;
       line-height: 1.6;
       margin-bottom: 1rem;
       color: var(--color-text-secondary);
     }
-    .action {
+    .actions {
       margin-top: 2rem;
     }
-    @media (max-width: 1200px) {
-      .content-pad {
-        grid-template-columns: 1fr;
-        overflow: hidden;
-        .process-figure-container {
-          justify-content: center;
-        }
-        .process-sticky {
-          padding: 4rem 0 3rem;
-        }
-        .process-list .process {
-          padding: 2rem 0 3rem;
-          .process-content-container {
-            padding: 4rem 0 1rem;
-            .process-content {
-              max-width: 500px;
-              margin: 0 auto;
-            }
-          }
-        }
+
+    .sticky-container {
+      height: 100%;
+    }
+    .process-sticky {
+      position: sticky;
+      top: 1em;
+      padding-top: 4rem;
+
+      .title {
+        font-size: 3em;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    .process-item {
+      background: radial-gradient(rgba(255, 255, 255, 0), #fff), url("./img/dot-gray.svg");
+      padding: 4rem 0;
+
+      .title {
+        margin-top: 4rem;
       }
     }
   }
@@ -489,9 +441,14 @@ export default {
     .manage {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(2, minmax(100px, 1fr));
-      grid-column-gap: 4rem;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 3rem;
       align-items: center;
+
+      @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+        grid-gap: 2rem;
+      }
     }
 
     .manage-content {
@@ -509,11 +466,6 @@ export default {
         line-height: 1.6;
         margin-bottom: 1rem;
         color: var(--color-text-secondary);
-      }
-    }
-    @media (max-width: 900px) {
-      .content-pad {
-        grid-template-columns: 1fr;
       }
     }
   }

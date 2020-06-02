@@ -50,13 +50,14 @@ figure.figure-manage-wrap {
   position: relative;
   height: auto;
   padding-bottom: 4rem;
-  transform-origin: center right;
-  perspective: 1000px;
-  transform-style: preserve-3d;
+  max-width: 500px;
+  margin: 0 auto;
+
   .graph {
     padding: 34% 0;
-    width: 500px;
     position: relative;
+    perspective: 1000px;
+    transform-origin: center right;
     transform-style: preserve-3d;
 
     .screenshot {
@@ -81,6 +82,11 @@ figure.figure-manage-wrap {
     top: 45%;
     left: 40%;
     height: 33px;
+
+    @media (max-width: 900px) {
+      transform: scale(0.8);
+    }
+
     .point-wrap {
       position: absolute;
       width: auto;
@@ -101,7 +107,7 @@ figure.figure-manage-wrap {
           transform: translateY(-2rem) translateX(0);
           background: #020f46;
           @media (max-width: 900px) {
-            transform: translateY(-6rem) translateX(-1rem);
+            transform: translateY(-2rem) translateX(0rem);
           }
         }
       }
@@ -109,6 +115,9 @@ figure.figure-manage-wrap {
         .point {
           background: #0471ff;
           transform: translateY(-8rem) translateX(14vw);
+          @media (max-width: 900px) {
+            transform: translateY(-8rem) translateX(12rem);
+          }
         }
       }
       &:nth-child(3) {
@@ -116,7 +125,7 @@ figure.figure-manage-wrap {
           transform: translateY(4rem) translateX(9rem);
           background: #40cf8f;
           @media (max-width: 900px) {
-            transform: translateY(0rem) translateX(6rem);
+            transform: translateY(4rem) translateX(9rem);
           }
         }
       }
@@ -135,10 +144,9 @@ figure.figure-manage-wrap {
       &:nth-child(6) {
         .point {
           transform: translateY(3rem) translateX(-13vw);
-          //transform: translateY(-1rem) translateX(-24vw);
           background: #0471ff;
           @media (max-width: 900px) {
-            transform: translateY(-3rem) translateX(-36vw);
+            transform: translateY(3rem) translateX(-10rem);
           }
         }
       }

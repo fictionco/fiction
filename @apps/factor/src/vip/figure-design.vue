@@ -1,25 +1,29 @@
 <template>
   <figure ref="wrapper" class="factor-figure figure-design">
     <div class="designs">
-      <div class="designs-left">
-        <div
-          v-for="(design, index) in designsLeft"
-          :key="index"
-          class="design"
-          :class="design.class"
-        >
-          <img :src="design.image" :alt="design.alt" />
+      <div class="column">
+        <div class="left-inner">
+          <div
+            v-for="(design, index) in designsLeft"
+            :key="index"
+            class="design"
+            :class="design.class"
+          >
+            <img :src="design.image" :alt="design.alt" />
+          </div>
         </div>
       </div>
 
-      <div class="designs-right">
-        <div
-          v-for="(design, index) in designsRight"
-          :key="index"
-          class="design"
-          :class="design.class"
-        >
-          <img :src="design.image" :alt="design.alt" />
+      <div class="column">
+        <div class="right-inner">
+          <div
+            v-for="(design, index) in designsRight"
+            :key="index"
+            class="design"
+            :class="design.class"
+          >
+            <img :src="design.image" :alt="design.alt" />
+          </div>
         </div>
       </div>
     </div>
@@ -80,24 +84,37 @@ figure.figure-design {
   position: relative;
 
   .designs {
-    padding: 0 0 1rem;
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
-    align-items: start;
-    .designs-left,
-    .designs-right {
-      display: grid;
-      grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 475px;
+
+    @media (max-width: 900px) {
+      min-height: 400px;
+    }
+
+    .column {
       position: relative;
+
+      .left-inner,
+      .right-inner {
+        position: absolute;
+        display: grid;
+        grid-gap: 1rem;
+      }
+      .left-inner {
+        top: 3rem;
+        right: 0;
+        justify-items: end;
+      }
+      .right-inner {
+        top: 0;
+        left: 0;
+        justify-items: start;
+      }
     }
-    .designs-left {
-      justify-items: end;
-    }
+
     .design {
-      display: inline-block;
-      max-width: 400px;
-      z-index: 10;
       box-shadow: 0px 5px 15px rgba(27, 34, 60, 0.1), 0px 15px 35px rgba(27, 34, 60, 0.1),
         0px 50px 100px rgba(27, 34, 60, 0.1);
       border-radius: 4px;
@@ -111,50 +128,39 @@ figure.figure-design {
         background: #1b223c;
       }
       &.design-typography {
-        margin-top: 4rem;
+        max-width: 210px;
         padding: 1rem 2rem 1rem 1rem;
-        width: 214px;
-        max-width: fit-content;
-        //width: 90%;
       }
       &.design-color {
+        max-width: 180px;
         padding: 0.7rem;
-        width: 180px;
-        max-width: fit-content;
-        //width: 75%;
       }
       &.design-boxes {
+        width: 240px;
         padding: 0.7rem;
-        width: 320px;
-        position: absolute;
-        right: 0;
-        bottom: -4.4rem;
       }
       &.design-illustrations {
+        max-width: 170px;
         padding: 1rem 0.7rem;
-        width: 170px;
       }
       &.design-logo {
-        padding: 0.7rem;
-        width: 110px;
+        max-width: 76px;
+        padding: 0.5rem;
         position: absolute;
-        top: 9.7rem;
-        right: -2rem;
-      }
-      &.design-icons {
-        padding: 0 1.2rem;
-        width: 210px;
-      }
-      &.design-elements {
-        padding: 1rem;
-        width: 280px;
-      }
-    }
-    @media (max-width: 900px) {
-      .design {
-        &.design-logo {
+        top: 9.1rem;
+        left: 10.2rem;
+
+        @media (max-width: 900px) {
           display: none;
         }
+      }
+      &.design-icons {
+        max-width: 210px;
+        padding: 0 1.2rem;
+      }
+      &.design-elements {
+        max-width: 280px;
+        padding: 1rem;
       }
     }
   }
