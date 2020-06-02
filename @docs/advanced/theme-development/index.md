@@ -33,8 +33,10 @@ To turn a standard Factor application into a theme, you only need to do the foll
 }
 ```
 
-- **Addable As Module Dependency**
-  To use a theme, you must be able to add it as a dependency in your `package.json`. This can be trickier than you'd think! The easiest way to handle this is to use a [monorepo](./development-monorepo) otherwise you'll have to use a [local dependency / link approach](https://github.com/fiction-com/factor-example-local-dependency) (_not recommended_) or publish the theme as a [NPM module](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages).
+- **Add As Dependency**
+  To use a theme, you must be able to add it as a dependency in your `package.json`. When developing this can be trickier than you'd think! NPM only works well with published packages and you don't want to publish each time you make a change.
+
+  The easiest way around this is to use a [monorepo](./development-monorepo) otherwise you'll have to use a [local dependency / link approach](https://github.com/fiction-com/factor-example-local-dependency) (_not recommended_) or just publish each change as a [NPM module](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages).
 
 - **Add Settings**
   Once your theme is added as a dependency you'll need to be able to customize it from the base application. Since themes load before the base app, overriding and customization is easily accomplished via [settings](./settings).

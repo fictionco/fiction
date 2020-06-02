@@ -69,11 +69,11 @@ export default {
           },
 
           { path: "/install", name: "Start Your App" },
-          { path: "/pro", name: "Pro / Business" },
+          { path: "/developers", name: "Developers" },
           { path: "/themes", name: "Themes" },
           { path: "/plugins", name: "Plugins" },
           { path: "/forum", name: "Forum" },
-          { path: "/docs", name: "Develop" },
+          { path: "/docs", name: "Docs" },
           { component: () => import("./el/github-stars.vue") },
         ],
       },
