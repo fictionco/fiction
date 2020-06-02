@@ -14,7 +14,7 @@ import {
   slugify,
 } from "@factor/api"
 import chalk from "chalk"
-import envfile from "envfile"
+import * as envfile from "envfile"
 import fs from "fs-extra"
 import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
@@ -94,7 +94,7 @@ const existingSettings = (): {
   const { factor: publicConfig = {} } = packageJson
 
   fs.ensureFileSync(secretsFile)
-  const privateConfig = envfile.parseFileSync(secretsFile)
+  const privateConfig = envfile.parse(secretsFile)
 
   return { publicConfig, privateConfig, packageJson }
 }
@@ -225,7 +225,7 @@ export const writeFiles = (
   if (file == "private") {
     const sec = deepMerge([privateConfig, values])
 
-    fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
+    fs.writeFileSync(secretsFile, envfile.stringify(sec))
 
     // In case the built file is used later in process
     delete require.cache[secretsFile]
