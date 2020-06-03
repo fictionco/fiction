@@ -37,13 +37,8 @@ export default {
         },
         {
           icon: "extensions",
-          title: "Secret Sauce",
+          title: "Trade Secrets",
           text: "Having your own extensions can help you get clients and keep them.",
-        },
-        {
-          icon: "support",
-          title: "Questions Answered",
-          text: "Have a question? Need advice? We'd love to help you with your success.",
         },
 
         {
@@ -62,6 +57,11 @@ export default {
           title: "Innovate",
           text:
             "Spend less time reinventing the wheel and more creating something special.",
+        },
+        {
+          icon: "support",
+          title: "Developer Services",
+          text: "Have a question? Need advice? We'd love to help you with your success.",
         },
       ],
     }

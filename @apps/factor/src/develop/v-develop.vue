@@ -3,7 +3,7 @@
     <section-splash />
 
     <section class="benefits content">
-      <h2 class="title">Why you'll love developing Factor extensions...</h2>
+      <h2 class="title">Build your Factor plugin or theme.</h2>
       <section-benefits class="content-pad" />
     </section>
 
@@ -84,7 +84,7 @@ export default {
           link: { path: "/plugins", text: "Plugins" },
         },
         {
-          title: `Developer <span class="alt">Guidance</span>`,
+          title: `Developer <span class="alt">Support</span>`,
           text: `Have questions? Need help? Join the forum where the community will help you build amazing tools.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/forum", text: "Forum" },

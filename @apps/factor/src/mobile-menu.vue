@@ -69,7 +69,7 @@ export default {
           },
 
           { path: "/install", name: "Start Your App" },
-          { path: "/developers", name: "Developers" },
+          { path: "/developers", name: "Contribute" },
           { path: "/themes", name: "Themes" },
           { path: "/plugins", name: "Plugins" },
           { path: "/forum", name: "Forum" },

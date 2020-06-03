@@ -9,7 +9,8 @@
         >With the power of Factor, the ease of JavaScript, and your revolutionary ideas, anything is possible.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/docs">View Docs &rarr;</factor-link>
+          <factor-link btn="primary" path="https://go.factor.dev/slack">Developer Slack &rarr;</factor-link>
+          <factor-link btn="defautl" path="/docs/creating-plugins">Creating Plugins &rarr;</factor-link>
         </div>
       </div>
 
