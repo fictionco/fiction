@@ -47,13 +47,13 @@ export default {
         },
 
         {
-          icon: "dashboard",
+          icon: "power",
           title: "Powerful Functionality",
           text:
             "Your extensions will get access to awesome features no one else can touch.",
         },
         {
-          icon: "cancel",
+          icon: "money",
           title: "Make Money",
           text: "Feel free to sell or market your extensions on or off of Factor",
         },

@@ -79,13 +79,13 @@ export default {
         },
         {
           title: `Distribute <span class="alt">Worldwide</span>`,
-          text: `Want to take your applications to the next level? The Pro suite enabled Pro versions of many Factor plugins.`,
+          text: `The Factor plugin directory makes it easy for users around the world to discover and install your extensions.`,
           figure: () => import("./figure-extensions.vue"),
-          link: { path: "/docs", text: "Docs" },
+          link: { path: "/plugins", text: "Plugins" },
         },
         {
           title: `Developer <span class="alt">Guidance</span>`,
-          text: `Have questions? Need help? We've seen it all before and are here to help you build amazing tools.`,
+          text: `Have questions? Need help? Join the forum where the community will help you build amazing tools.`,
           figure: () => import("./figure-support.vue"),
           link: { path: "/forum", text: "Forum" },
         },
