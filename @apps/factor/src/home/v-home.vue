@@ -87,7 +87,7 @@
       <plugins-gallery />
     </section>
 
-    <upgrade-factor />
+    <join-dev />
   </div>
 </template>
 
@@ -102,7 +102,8 @@ export default {
     homeIcon: () => import("./icon.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
     //joinProgram: () => import("./el-join.vue"),
-    upgradeFactor: () => import("./el-upgrade.vue"),
+    //upgradeFactor: () => import("./el-upgrade.vue"),
+    joinDev: () => import("./el-join-dev.vue"),
     pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {

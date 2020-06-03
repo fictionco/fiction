@@ -4,7 +4,7 @@
       <div class="pro-cta">
         <div class="text">
           <h2 class="title">Developer Program</h2>
-          <div class="sub">Learn, build, and distribute your themes and plugins.</div>
+          <div class="sub">Learn, build, and distribute your themes &amp; plugins.</div>
         </div>
         <div class="actions">
           <factor-link path="https://go.factor.dev/slack" btn="primary">Join &rarr;</factor-link>
