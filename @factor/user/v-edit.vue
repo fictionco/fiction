@@ -155,7 +155,7 @@ export default {
       return this.post.username ? `/@${this.post.username}` : `/@?_id=${this.post._id}`
     },
     geo(this: any) {
-      return stored("geo") ?? {}
+      return this.post.geo ?? {}
     },
   },
 
