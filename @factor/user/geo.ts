@@ -22,8 +22,14 @@ interface FreeGeoIp {
  * @param locationData - user location info
  */
 export const getUserGeolocationName = (locationData: UserGeolocation): string => {
-  const { city, regionName, countryCode } = locationData
-  return `${city}, ${regionName} ${countryCode}`
+  const { city, countryName } = locationData
+  const out = [countryName]
+
+  if (city) {
+    out.unshift(city)
+  }
+
+  return out.filter((_) => _).join(", ")
 }
 
 export const getUserGeolocationSync = (): UserGeolocation | void => {

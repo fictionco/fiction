@@ -103,6 +103,10 @@
             <div class="label">Location</div>
             <div class="value">{{ geo.name }}</div>
           </div>
+          <div v-if="geo.ip" class="item">
+            <div class="label">IP</div>
+            <div class="value">{{ geo.ip }}</div>
+          </div>
         </div>
       </dashboard-panel>
     </template>
