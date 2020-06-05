@@ -29,7 +29,7 @@
         <factor-link path="/themes">Themes</factor-link>
         <factor-link path="/plugins">Plugins</factor-link>
         <!-- <factor-link path="/pro">Pro / Business Suite</factor-link> -->
-        <factor-link path="/developers">Developers</factor-link>
+        <factor-link path="/developers">Contribute</factor-link>
       </div>
 
       <div class="footer-col list">
