@@ -2,8 +2,8 @@
   <div class="home-view">
     <section class="header-area">
       <div class="header-area-text">
-        <h1>Let's build.</h1>
-        <h3 class="sub">Fiction starts, develops, and funds early stage software companies.</h3>
+        <h1>Idea to App</h1>
+        <h3 class="sub">Validate, plan, develop, and fund your software company.</h3>
         <factor-link btn="primary" size="large" path="/contact">Contact us &rarr;</factor-link>
       </div>
     </section>
@@ -27,7 +27,7 @@ export default {
 
   metaInfo() {
     return {
-      title: "We start, partner and invest in early stage software companies.",
+      title: "Validate, plan, develop, and fund your software company.",
       description: `Fiction helps entrepreneurs develop, market and launch applications.`,
       image: fictionLogo,
     }

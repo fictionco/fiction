@@ -3,10 +3,10 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-sup">JavaScript CMS - Vue, Node, MongoDB</h1>
-        <h2 class="page-title">The fastest way to build professional websites.</h2>
+        <h2 class="page-title">The fastest way to build JavaScript applications.</h2>
         <h3
           class="page-title-sub"
-        >Factor is an open-source JavaScript framework plus CMS. Use it to develop, launch, and manage websites.</h3>
+        >Factor is an open-source TypeScript framework plus dashboard. Use it to develop, launch, and manage apps.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
