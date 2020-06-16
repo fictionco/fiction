@@ -152,6 +152,11 @@ export default {
     box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
       0 50px 100px -20px rgba(50, 50, 93, 0.25), 0 30px 60px -30px rgba(0, 0, 0, 0.3);
 
+    .input-wrap .label {
+      font-family: "Mark Pro", var(--font-family-primary);
+      font-weight: var(--font-weight-bold);
+    }
+
     input[type="email"],
     input[type="password"],
     input[type="search"],
