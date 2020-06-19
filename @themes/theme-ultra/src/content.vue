@@ -1,5 +1,5 @@
 <template>
-  <div id="siteWrap" class="content-container">
+  <div id="siteWrap" class="content-container ultra-content">
     <div>
       <site-nav />
     </div>
