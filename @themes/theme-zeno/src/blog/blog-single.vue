@@ -45,10 +45,12 @@ export default {
 </script>
 
 <style lang="less">
-.plugin-blog {
-  .single-entry {
-    max-width: 100%;
-    padding: 0;
+.zeno-content {
+  .plugin-blog {
+    .single-entry {
+      max-width: 100%;
+      padding: 0;
+    }
   }
 }
 </style>
