@@ -152,13 +152,12 @@ workflows:
           requires: [setup, build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches
-
-  live:
-    jobs:
-      - setup
-      - test-e2e: { requires: [setup] }
-    triggers:
-      - schedule:
-          cron: "0 5 * * *"
-          filters:
-            <<: *release_branches
+  # live:
+  #   jobs:
+  #     - setup
+  #     - test-e2e: { requires: [setup] }
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 5 * * *"
+  #         filters:
+  #           <<: *release_branches
