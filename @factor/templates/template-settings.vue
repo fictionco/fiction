@@ -6,13 +6,10 @@
         v-for="(field, i) in fields"
         :key="i"
         v-model="settings[field._id]"
-        :list="field.list"
-        :input="`factor-input-${field.input}`"
-        :label="field.label"
-        :description="field.description"
+        v-bind="field"
         :class="['engine-input', field.input]"
-        :settings="field.settings || []"
         :post-id="postId"
+        :values="settings"
       />
     </template>
   </div>
@@ -50,7 +47,11 @@ export default {
       },
     },
     fields(this: any) {
-      return this.pageTemplateInfo.fields || this.postTypeSettings
+      const fields = this.pageTemplateInfo.fields || this.postTypeSettings
+      return fields.map((field) => {
+        field.input = `factor-input-${field.input}`
+        return field
+      })
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
