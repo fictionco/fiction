@@ -1,15 +1,19 @@
 import { Request, Response } from "express"
 
-import { CurrentUserState } from "@factor/user/types"
+import { CurrentUserState, UserGeolocation } from "@factor/user/types"
 
-export type ResponseType = object | (string | object | number)[] | string | void
+export type ResponseType =
+  | Record<string, any>
+  | (string | Record<string, any> | number)[]
+  | string
+  | void
 
 export interface EndpointRequestHandler {
   ({ data, meta }: EndpointRequestParams): Promise<ResponseType>
 }
 
 export interface EndpointRequestParams {
-  data: { method: string; params: object }
+  data: { method: string; params: Record<string, any> }
   meta: EndpointMeta
   url: string
   bearer: CurrentUserState
@@ -17,7 +21,10 @@ export interface EndpointRequestParams {
 
 export interface EndpointItem {
   id: string
-  handler: (() => Record<string, Function>) | Record<string, Function>
+  handler:
+    | (() => Record<string, (p: EndpointRequestParams) => any>)
+    | Record<string, (p: any) => any>
+    | Record<string, (e: any, m: any) => any>
 }
 
 export interface EndpointMeta {
@@ -27,6 +34,7 @@ export interface EndpointMeta {
   source?: string
   url?: string
   serverRequest?: true
+  geo?: UserGeolocation
 }
 
 export interface EndpointRequestConfig {

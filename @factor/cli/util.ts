@@ -1,6 +1,6 @@
 import prettyBytes from "pretty-bytes"
 import chalk from "chalk"
-import { getLatestVersion, getSuiteEdition } from "@factor/api/remote"
+import { getLatestVersion } from "@factor/api/remote"
 import { factorVersion } from "@factor/api/about"
 import { systemUrl } from "@factor/api/url"
 import log from "@factor/api/logger"
@@ -51,23 +51,12 @@ export const serverInfo = async ({
 
   const current = factorVersion()
   const latest = await getLatestVersion()
-  const { edition } = await getSuiteEdition()
-
   const vLatest = latest != current ? `v${latest} upgrade available` : "latest"
 
   lines.push(
     chalk.bold(`Factor platform v${current} (${vLatest})`) +
       ` / ${chalk.bold(NODE_ENV)} mode`
   )
-
-  if (edition != "unknown") {
-    const upsell =
-      edition == "community"
-        ? `- upgrade: ${redChalk("https://factor.dev/pro")}`
-        : "- premium enabled"
-
-    lines.push(`Using the ${redChalk(edition)} suite ${chalk.dim(upsell)}`)
-  }
 
   if (command && ["dev", "serve", "start"].includes(command)) {
     lines.push(`Available at ${blueChalk(systemUrl("local"))}`)

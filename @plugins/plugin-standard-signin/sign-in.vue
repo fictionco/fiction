@@ -160,7 +160,7 @@ export default {
     return {
       loading: false,
       form: {},
-      newAccount: false,
+      newAccount: true,
       user: undefined,
     }
   },
@@ -197,7 +197,7 @@ export default {
         }
       } else if (this.newAccount) {
         return {
-          title: "Sign Up",
+          title: "Create Account",
         }
       } else {
         return {
@@ -243,7 +243,13 @@ export default {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
     },
-    async send(this: any, { action, next }: { action: Function; next: string }) {
+    async send(
+      this: any,
+      {
+        action,
+        next,
+      }: { action: (args: Record<string, any>) => Promise<any>; next: string }
+    ) {
       const r = this.$refs["signin-form"].$el.reportValidity()
 
       if (!r) return
@@ -418,6 +424,16 @@ export default {
 
   .image-organizer {
     justify-content: center;
+  }
+}
+.modal-content {
+  .signin {
+    color: inherit;
+    input,
+    textarea,
+    select {
+      color: inherit;
+    }
   }
 }
 </style>

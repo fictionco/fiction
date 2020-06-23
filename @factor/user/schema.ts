@@ -112,6 +112,25 @@ export const schemaDefinition = (): SchemaDefinition => {
       enum: ["male", "female"],
     },
     about: String,
+    geo: {
+      name: String,
+      ip: String,
+      city: String,
+      region: String,
+      regionName: String,
+      regionCode: String,
+      dmaCode: String,
+      countryCode: String,
+      countryName: String,
+      continentCode: String,
+      continentName: String,
+      inEU: Boolean,
+      latitude: Number,
+      longitude: Number,
+      timeZone: String,
+      zip: String,
+      metroCode: Number,
+    },
   })
 }
 

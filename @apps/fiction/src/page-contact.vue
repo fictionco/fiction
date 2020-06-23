@@ -1,14 +1,11 @@
 <template>
   <div class="view-contact">
     <div class="hhh">
-      <div class="stripes">
+      <!-- <div class="stripes">
         <div class="wedge" />
-      </div>
+      </div>-->
       <div class="text">
-        <h1 class="title">
-          Contact
-          <span class="arrow">&darr;</span>
-        </h1>
+        <h1 class="title">Contact</h1>
         <div class="sub-title">
           We're happy to answer your questions. Fill out the form and we’ll be in touch as
           soon as possible.
@@ -64,7 +61,7 @@ export default {
     }
 
     .text {
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto;
       position: relative;
       z-index: 10;
@@ -77,41 +74,43 @@ export default {
     }
     .title {
       font-size: 3em;
+      font-weight: 800;
       margin-bottom: 1rem;
       line-height: 1;
+      color: var(--color-primary);
+
       @media (max-width: 900px) {
         font-size: 2em;
       }
     }
 
     .sub-title {
-      font-size: 1.3em;
+      font-size: 1.6rem;
       font-weight: 500;
-      opacity: 0.6;
       @media (max-width: 900px) {
         font-size: 1.2em;
       }
     }
 
-    .stripes {
-      pointer-events: none;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -72px;
-      top: 50%;
-      transform: skewY(-6deg);
-      transition: opacity 0.2s ease-out;
-      will-change: transform;
-      .wedge {
-        position: absolute;
-        height: 5000px;
-        bottom: 0;
-        background: #fff;
-        left: 0;
-        right: 0;
-      }
-    }
+    // .stripes {
+    //   pointer-events: none;
+    //   position: absolute;
+    //   left: 0;
+    //   right: 0;
+    //   bottom: -72px;
+    //   top: 50%;
+    //   transform: skewY(-6deg);
+    //   transition: opacity 0.2s ease-out;
+    //   will-change: transform;
+    //   .wedge {
+    //     position: absolute;
+    //     height: 5000px;
+    //     bottom: 0;
+    //     background: #fff;
+    //     left: 0;
+    //     right: 0;
+    //   }
+    // }
   }
   .contact-wrap {
     padding: 2em 0 4em;
@@ -121,34 +120,53 @@ export default {
     z-index: 10;
     .grid {
       padding: 0 1em;
-      max-width: 960px;
+      max-width: 700px;
       margin: 0 auto;
-      align-items: center;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-      }
+      //align-items: center;
+      // display: grid;
+      // grid-template-columns: 1fr 1fr;
+      // @media (max-width: 900px) {
+      //   grid-template-columns: 1fr;
+      // }
     }
     .aside {
       padding: 1.5em;
       font-size: 1.8em;
       line-height: 1.3;
       .title {
-        font-size: 1.5em;
+        font-size: 1.6em;
       }
       .sub-title {
+        font-size: 1rem;
         font-weight: 500;
-        opacity: 0.5;
+        text-align: center;
+        // opacity: 0.5;
       }
     }
   }
   .contact-form {
+    color: #000;
     padding: 1.5em;
     border-radius: 5px;
     background: #fff;
     box-shadow: 0 0 0 0.4px rgba(50, 50, 93, 0.05),
       0 50px 100px -20px rgba(50, 50, 93, 0.25), 0 30px 60px -30px rgba(0, 0, 0, 0.3);
+
+    .input-wrap .label {
+      font-family: "Mark Pro", var(--font-family-primary);
+      font-weight: var(--font-weight-bold);
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="text"],
+    select,
+    textarea {
+      color: #000;
+      background: #fff;
+    }
   }
   .confirm {
     padding: 8em 2em;

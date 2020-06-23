@@ -18,12 +18,12 @@ export default {
         plans: [
           {
             interval: "year",
-            production: "plan_HDdUFHsAuiYJf3",
+            production: "plan_HLstnnRlMqX9EU",
             development: "plan_HDjUY9NRtVTaND",
           },
           {
             interval: "month",
-            production: "plan_HDdVV8sK4WHPq3",
+            production: "plan_HLsuiVVFaZJ8Hy",
             development: "plan_HDjUeyfZxz6vJD",
           },
         ],
@@ -35,12 +35,12 @@ export default {
         plans: [
           {
             interval: "year",
-            production: "plan_HDggbm822dNjDg",
+            production: "plan_HLsrwfVGN72lgI",
             development: "plan_HDjVkmq9Hlpr5p",
           },
           {
             interval: "month",
-            production: "plan_HDggVQfROhqWoT",
+            production: "plan_HLss5bGKAIfuXs",
             development: "plan_HDjVyDXlswZYDP",
           },
         ],
@@ -52,6 +52,13 @@ export default {
     notify: {
       newTopic: ["andrew@fiction.com"],
       newReply: ["andrew@fiction.com"],
+    },
+    categories: ["support", "plugins", "themes", "showcase", "feedback", "integrations"],
+    metatags: {
+      index: {
+        title: "Factor Forum",
+        description: "Help and discussion about Factor JS",
+      },
     },
   },
   app: { url: "https://factor.dev" },
@@ -109,6 +116,34 @@ export default {
     layout: {
       index: ["featuredImage", "date", "title", "author"],
       single: ["singleHeader", "entry", "social"],
+    },
+  },
+  jobs: {
+    indexRoute: "/careers",
+    postRoute: "/careers",
+    limit: 6,
+    returnLinkText: "All Jobs",
+    metatags: {
+      index: {
+        title: "Factor Jobs - Building Apps, Code, Remote Work",
+        description: "Factor jobs.",
+      },
+    },
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any job posts.",
+    },
+    layout: {
+      index: ["title"],
+      single: ["singleHeader", "entry", "cta"],
+    },
+    components: {
+      jobsWrap: (): Promise<any> => import("./src/jobs/wrap.vue"),
+      jobsIndex: (): Promise<any> => import("./src/jobs/index.vue"),
+      jobsSingle: (): Promise<any> => import("./src/jobs/single.vue"),
+      title: (): Promise<any> => import("./src/jobs/widget-title-override.vue"),
+      singleHeader: (): Promise<any> => import("./src/jobs/single-header.vue"),
+      cta: (): Promise<any> => import("./src/jobs/cta.vue"),
     },
   },
   plugins: {

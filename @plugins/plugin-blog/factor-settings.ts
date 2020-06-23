@@ -1,28 +1,20 @@
 export default {
   blog: {
+    disableAutoRoutes: false,
     indexRoute: "/blog",
     postRoute: "/entry",
     limit: 10,
-    returnLinkText: "All Posts",
-    metatags: {
-      index: {
-        title: "Blog",
-        description: "The latest news and articles.",
-      },
-    },
-    categories: ["uncategorized"],
-    notFound: {
-      title: "No Posts",
-      subTitle: "Couldn't find any blog posts.",
-    },
+    categories: [],
     layout: {
       index: ["featuredImage", "title", "subtitle", "meta"],
-      single: ["returnLink", "title", "meta", "subtitle", "entry", "social", "authorBio"],
+      single: ["returnLink", "title", "meta", "entry", "social", "authorBio"],
       meta: ["authorDate", "tags"],
     },
     components: {
       blogWrap: (): Promise<any> => import("./blog-wrap.vue"),
+      standardBlogIndex: (): Promise<any> => import("./standard-blog-index.vue"),
       blogIndex: (): Promise<any> => import("./blog-index.vue"),
+      standardBlogSingle: (): Promise<any> => import("./standard-blog-single.vue"),
       blogSingle: (): Promise<any> => import("./blog-single.vue"),
       returnLink: (): Promise<any> => import("./widget-return-link.vue"),
       featuredImage: (): Promise<any> => import("./widget-featured-image.vue"),

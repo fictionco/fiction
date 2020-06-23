@@ -21,7 +21,7 @@ type VerifyEmail = {
 
 export const factorEmailList = (): Promise<any> => import("./wrap.vue")
 
-export const getListSettings = (listId = ""): object => {
+export const getListSettings = (listId = ""): Record<string, unknown> => {
   const merge = [setting(`emailList.default`)]
 
   if (listId && listId != "default") {
@@ -29,7 +29,7 @@ export const getListSettings = (listId = ""): object => {
 
     if (list) merge.push(list)
   }
-  return deepMerge(merge)
+  return deepMerge(merge) as Record<string, unknown>
 }
 
 export const getSetting = ({ listId, key }: { listId?: string; key: string }): any => {
@@ -75,7 +75,7 @@ export const deleteEmails = async ({
   return
 }
 
-export const csvExport = <T = object>({
+export const csvExport = <T = Record<string, unknown>>({
   filename,
   data,
 }: {

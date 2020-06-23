@@ -28,12 +28,10 @@ export default {
   },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .entry-excerpt {
-    font-size: 1.2em;
-    line-height: 1.6em;
-    margin-bottom: 1em;
-  }
+<style lang="less" scoped>
+.entry-excerpt {
+  font-size: 1.2em;
+  line-height: 1.6em;
+  margin-bottom: 1em;
 }
 </style>

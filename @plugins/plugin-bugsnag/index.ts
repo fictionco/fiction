@@ -14,7 +14,6 @@ export const setup = (): void => {
 
   bugsnag.start({
     apiKey: clientApiKey,
-    // @ts-ignore
     plugins: [new BugsnagPluginVue(Vue)],
     onError: function (event) {
       const user = currentUser()

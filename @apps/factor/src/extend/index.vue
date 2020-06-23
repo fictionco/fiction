@@ -8,19 +8,17 @@
     </div>
     <factor-spinner v-if="loading" />
     <div v-else-if="extensionType == 'plugin'" class="extensions-wrap plugins-wrap content-pad">
-      <plugin-grid :extensions="extensions" />
-      <!-- <div>
-        <extension-sidebar :index-data="extensionIndex" />
-      </div>-->
-      <!-- <div class="coming-soon">
-        <div class="title">Coming Soon 👋</div>
-        <div class="sub-title">Plugins will launch early April, 2020</div>
-
-        <div class="actions">
-          <factor-link btn="primary" path="/signin?newAccount">Create Account &rarr;</factor-link>
-          <span class="cta-tag">for early access.</span>
-        </div>
-      </div>-->
+      <plugin-slider
+        :title="`Featured`"
+        :extensions="extensionsFeatured"
+        class="grid-featured featured-plugins"
+      />
+      <div class="grid-sidebar">
+        <extension-sidebar :extensions="extensions" />
+      </div>
+      <div class="grid-boxes">
+        <plugin-grid :title="`All Plugins`" :extensions="extensions" />
+      </div>
     </div>
 
     <div v-else class="extensions-wrap themes-wrap content-pad">
@@ -48,8 +46,10 @@ import { requestIndex } from "./request"
 export default {
   components: {
     callToAction: () => import("./el/cta.vue"),
+    pluginSlider: () => import("./slider-plugin.vue"),
     pluginGrid: () => import("./grid-plugin.vue"),
     themeGrid: () => import("./grid-theme.vue"),
+    extensionSidebar: () => import("./sidebar.vue"),
     factorSpinner,
   },
   data() {
@@ -66,7 +66,12 @@ export default {
     extensions(this: any) {
       const storeKey = [postType, this.extensionType].join("")
       const index = stored(storeKey) || {}
+
       return index.posts ?? []
+    },
+    extensionsFeatured(this: any) {
+      const getFeatured = this.extensions.filter((item: any) => item.featured == true)
+      return getFeatured
     },
     extensionType(this: any) {
       return this.$route.path.includes("theme") ? "theme" : "plugin"
@@ -155,7 +160,7 @@ export default {
     }
     .sub-title {
       font-size: 1.5em;
-      opacity: 0.7;
+      color: var(--color-text-secondary);
     }
     @media (max-width: 900px) {
       text-align: left;
@@ -192,10 +197,20 @@ export default {
     &.plugins-wrap {
       display: grid;
       grid-gap: 4rem;
-      //grid-template-columns: 1fr 150px;
-
+      grid-template-columns: 250px 2fr;
+      grid-template-areas: "grid-featured grid-featured" "grid-sidebar grid-boxes";
+      .grid-featured {
+        grid-area: grid-featured;
+      }
+      .grid-boxes {
+        grid-area: grid-boxes;
+      }
+      .grid-sidebar {
+        grid-area: grid-sidebar;
+      }
       @media (max-width: 900px) {
         grid-template-columns: 1fr;
+        grid-template-areas: "grid-featured" "grid-boxes" "grid-sidebar";
         grid-gap: 2rem;
       }
     }

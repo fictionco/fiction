@@ -10,4 +10,15 @@
   .underline {
     text-decoration-color: var(--color-secondary);
   }
+
+  //Factor override default styles
+  a{
+    color: inherit;
+    &:hover{
+      opacity: 1;
+    }
+  }
+  input[type=email], input[type=password], input[type=search], input[type=tel], input[type=text], select, textarea{
+    box-shadow: none;
+  }
 }

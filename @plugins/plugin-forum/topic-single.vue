@@ -10,10 +10,12 @@
             <h2 v-if="post.synopsis" class="synopsis">{{ excerpt(post.synopsis, { length: 22 }) }}</h2>
             <div v-if="post.pinned || post.locked" class="notes">
               <div v-if="post.locked" class="note locked">
-                <factor-icon icon="fas fa-lock" />Locked
+                <factor-icon icon="fas fa-lock" />
+                {{ setting('forum.text.locked') }}
               </div>
               <div v-if="post.pinned" class="note locked">
-                <factor-icon icon="fas fa-map-pin" />Pinned
+                <factor-icon icon="fas fa-map-pin" />
+                {{ setting('forum.text.pinned') }}
               </div>
             </div>
           </div>
@@ -64,8 +66,13 @@
             class="item"
             btn="primary"
             @click="focusReply()"
-          >Add Reply &darr;</factor-btn>
-          <factor-link v-else event="sign-in-modal" class="item" btn="primary">Login to Reply &rarr;</factor-link>
+          >{{ setting('forum.text.addReply') }} &darr;</factor-btn>
+          <factor-link
+            v-else
+            event="sign-in-modal"
+            class="item"
+            btn="primary"
+          >{{ setting('forum.text.loginToReply') }} &rarr;</factor-link>
           <factor-btn
             v-if="currentUser"
             class="item"
@@ -78,14 +85,14 @@
           </factor-btn>
 
           <factor-btn v-if="canEditTopic" class="item" btn="default" @click="editTopic(post)">
-            <span class="text">Edit</span>
+            <span class="text">{{ setting('forum.text.edit') }}</span>
           </factor-btn>
         </div>
       </div>
     </div>
     <factor-modal :vis.sync="vis" class="edit-reply-modal">
       <div class="form-info">
-        <h2>Edit Reply</h2>
+        <h2>{{ setting('forum.text.editReply') }}</h2>
         <component
           :is="setting('forum.components.topicReply')"
           :post-id="post._id"
@@ -155,7 +162,7 @@ export default {
       loading: true,
     }
   },
-  metaInfo() {
+  metaInfo(this: any) {
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),

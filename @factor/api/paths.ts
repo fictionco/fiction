@@ -28,6 +28,7 @@ const relativePath = (key: string, cwd?: string): string => {
     "entry-server": [coreApp, "entry-server"],
     "config-file-public": [app, "package.json"],
     "config-file-private": [app, ".env"],
+    "loader-lang": [...generated, "loader-lang.ts"],
     "loader-app": [...generated, "loader-app.ts"],
     "loader-server": [...generated, "loader-server.ts"],
     "loader-settings": [...generated, "loader-settings.ts"],
@@ -63,7 +64,7 @@ const staticCopyConfig = (cwd?: string): WebpackCopyItemConfig[] => {
   const copyItems: WebpackCopyItemConfig[] = []
 
   paths.forEach((p) => {
-    if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "", ignore: [".*"] })
+    if (fs.pathExistsSync(p)) copyItems.push({ from: p, to: "" })
   })
 
   return copyItems

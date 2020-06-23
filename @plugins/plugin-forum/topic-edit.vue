@@ -57,6 +57,7 @@
               max="5"
             />
             <factor-input-wrap
+              v-if="categories.length > 0"
               v-model="post.category"
               class="meta-item"
               label="Category"
@@ -65,7 +66,7 @@
               placeholder="Category"
               max="1"
               min="1"
-              :list="setting(`forum.categories`)"
+              :list="categories"
             />
           </div>
           <div class="actions">
@@ -120,6 +121,9 @@ export default {
       : setting("forum.metatags.editTopic")
   },
   computed: {
+    categories() {
+      return setting(`forum.categories`)
+    },
     isNew(this: any): boolean {
       return this.$route.path.includes("new") ? true : false
     },

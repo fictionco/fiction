@@ -1,20 +1,29 @@
 <template>
-  <div class="plugin-grid">
-    <div
-      v-for="(item, index) in extensions"
-      :key="index"
-      class="grid-item-plugin"
-      @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })"
-    >
-      <div class="entry-media" :style="mediaStyle(item)" :class="imageStyle(item)">
-        <img :src="item.icon" :alt="`${item.title} Icon`" class="extend-icon" />
-      </div>
-      <div class="entry-content">
-        <div class="meta">
-          <div v-if="item.category" class="category">{{ item.category.join(", ") }}</div>
+  <div class="grid-plugin-container">
+    <header v-if="title" class="section-header">
+      <h1 class="title">{{ title }}</h1>
+    </header>
+    <div class="plugin-grid">
+      <div
+        v-for="(item, index) in extensions"
+        :key="index"
+        class="grid-item-plugin"
+        @click="$router.push({ path: `/plugin/${encodeURIComponent(item.permalink)}` })"
+      >
+        <div class="entry-media" :style="mediaStyle(item)" :class="imageStyle(item)">
+          <img :src="item.icon" :alt="`${item.title} Icon`" class="extend-icon" />
         </div>
-        <h3 class="title">{{ item.title }}</h3>
-        <p class="description">{{ item.synopsis }}</p>
+        <div class="entry-content">
+          <h3 class="title">
+            {{ item.title }}
+            <span v-if="item.pro" class="pro-badge">Pro</span>
+          </h3>
+          <p class="description">{{ item.synopsis }}</p>
+          <!-- <div class="meta">
+            <div class="rating">Rating Stars</div>
+            <div class="likes">{{ item.downloads }} Likes</div>
+          </div>-->
+        </div>
       </div>
     </div>
   </div>
@@ -26,6 +35,7 @@ import { FactorExtensionInfo } from "./types"
 export default {
   components: {},
   props: {
+    title: { type: String, default: () => {} },
     extensions: { type: Array, default: () => {} },
   },
   data() {
@@ -74,79 +84,115 @@ export default {
 </script>
 
 <style lang="less">
-.plugin-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 2rem;
-
-  @media (max-width: 1200px) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
-}
-.grid-item-plugin {
-  display: block;
-  overflow: hidden;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: var(--panel-shadow);
-  cursor: pointer;
-  transition: 0.1s cubic-bezier(0.52, 0.01, 0.16, 1);
-  &:hover {
-    opacity: 0.9;
-  }
-
-  .entry-media {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 0%;
-    position: relative;
-    max-width: 100%;
-    position: relative;
-    padding: 25%;
-    box-shadow: 0px 1px 0 rgba(50, 50, 93, 0.13);
-    &.icon {
-      background-size: contain;
-    }
-    img {
-      width: 80px;
-      right: 0;
-      bottom: 0;
-      position: absolute;
-      border-radius: 8px;
-      transform: translate(-50%, 50%);
-      box-shadow: var(--panel-shadow);
-    }
-  }
-
-  .entry-content {
-    padding: 1.5rem;
-    .meta {
-      font-size: 0.9em;
-      font-weight: var(--font-weight-bold, 700);
+.grid-plugin-container {
+  .section-header {
+    margin-bottom: 1rem;
+    .title {
+      font-size: 0.9rem;
       text-transform: uppercase;
-      .category {
-        color: var(--color-primary);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      color: var(--color-text-secondary);
+      @media (max-width: 900px) {
+        font-size: 1.7em;
+        line-height: 1.2;
       }
     }
-    .title {
-      color: var(--color-text);
-      font-weight: var(--font-weight-bold, 700);
-      font-size: 1.6em;
-      letter-spacing: -0.02em;
+  }
+
+  .plugin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr 1fr;
     }
-    .description {
-      font-size: 1.2em;
-      color: var(--color-text);
-      opacity: 0.5;
-      // Unofficial line clamp works on all major browsers except IE
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .grid-item-plugin {
+    display: block;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: var(--panel-shadow);
+    cursor: pointer;
+    transition: 0.1s cubic-bezier(0.52, 0.01, 0.16, 1);
+    &:hover {
+      opacity: 0.9;
+    }
+
+    .entry-media {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 50% 0%;
+      position: relative;
+      max-width: 100%;
+      position: relative;
+      padding: 25%;
+      box-shadow: 0px 1px 0 rgba(50, 50, 93, 0.13);
+      &.icon {
+        background-size: contain;
+      }
+      img {
+        width: 60px;
+        right: 1rem;
+        bottom: 0;
+        position: absolute;
+        border-radius: 8px;
+        transform: translateY(50%);
+        box-shadow: var(--panel-shadow);
+      }
+    }
+
+    .entry-content {
+      padding: 1.5rem;
+
+      .title {
+        display: inline-flex;
+        align-items: center;
+        color: var(--color-text);
+        font-weight: var(--font-weight-bold, 700);
+        font-size: 1.3em;
+        letter-spacing: -0.02em;
+
+        .pro-badge {
+          font-size: 0.9rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: var(--color-text-secondary);
+          border: 1px solid var(--color-text-secondary);
+          border-radius: 25px;
+          padding: 0.1rem 0.8rem;
+          margin-left: 0.5rem;
+          letter-spacing: 0.5px;
+        }
+      }
+      .description {
+        font-size: 1em;
+        color: var(--color-text);
+        opacity: 0.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+        color: var(--color-text);
+        opacity: 0.5;
+        .category {
+          font-weight: var(--font-weight-bold, 700);
+          text-transform: uppercase;
+          color: var(--color-primary);
+        }
+      }
     }
   }
 }

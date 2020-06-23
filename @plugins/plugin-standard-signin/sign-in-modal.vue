@@ -17,7 +17,6 @@ import { notifySignedIn } from "."
 interface ModalArguments {
   redirect?: string
   view?: string | null
-  callback?: Function
   user?: FactorUserCredential
 }
 export default {

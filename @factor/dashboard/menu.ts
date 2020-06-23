@@ -4,16 +4,16 @@ import { RouteConfig } from "vue-router"
 import { currentRoute } from "@factor/app/router"
 import genericIcon from "./theme/img/generic.svg"
 import { getDashboardRoute } from "./util"
+
 export interface MenuItem {
   name: string
   group?: string
   location?: "dashboard" | "development" | "admin" | "site"
   path?: string
-  component?: Function
+  component?: () => Promise<any>
   meta?: Record<string, any>
   icon?: string
   key?: string
-  click?: Function
   items?: MenuItem[]
   children?: (MenuItem & RouteConfig)[]
   active?: boolean

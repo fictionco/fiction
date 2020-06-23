@@ -28,10 +28,14 @@ export default {
 <style lang="less">
 .plugin-jobs {
   .return-link {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     .back {
       text-transform: uppercase;
       letter-spacing: 0.1em;
+      color: var(--color-text-secondary);
+      &:hover {
+        color: var(--color-primary);
+      }
     }
   }
 }

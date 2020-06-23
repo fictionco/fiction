@@ -3,84 +3,21 @@ export default {
     indexRoute: "/forum",
     postRoute: "/topic",
     indexLimit: 30,
-    returnLinkText: "All Topics",
-    title: "Forum",
-    features: {
-      topicSubscribe: true,
-      tagging: true,
-    },
-    metatags: {
-      index: {
-        title: "Factor Forum",
-        description: "Help and discussion about Factor JS",
-      },
-      newTopic: {
-        title: "New Topic",
-        description: "Start a new topic discussion on the forum",
-      },
-      editTopic: {
-        title: "Edit Topic",
-        description: "Edit a forum topic",
-      },
-    },
     notify: {
       newTopic: [],
       newReply: [],
     },
-    text: {
-      newTopic: "Start A Discussion",
-      listAll: "All Discussions",
-      topicLocked: "This topic is locked.",
-      loginToReply: "You need to login to reply.",
-      subscribeOnReply: "Subscribe to updates?",
-      notifySubscribers: "Notify Subscribers?",
-      login: "Login &rarr;",
-      save: "Save &uarr;",
-      postReply: "Post Reply &uarr;",
-      viewTopic: "View Topic &rarr;",
-      newTopicHeader: "Create New Topic",
-      editTopicHeader: "Edit Topic",
-      postTopicButton: "Post Topic &rarr;",
-      editTopicButton: "Save Changes &rarr;",
-      notifyNewTopic: "New topic created",
-      notifyTopicEdited: "Topic edited successfully",
-      backToAll: "&larr; All Discussions",
+    features: {
+      topicSubscribe: true,
+      tagging: true,
     },
-    notFound: {
-      title: "No Topics",
-      subTitle: "Couldn't find any forum topics.",
-    },
+
     layout: {
       index: ["topicIndex"],
       single: ["topicSingle"],
     },
-    categories: [
-      {
-        value: "support",
-      },
-      {
-        value: "plugins",
-      },
-      {
-        value: "themes",
-      },
-      {
-        value: "showcase",
-      },
-      {
-        value: "feedback",
-      },
-      {
-        value: "performance",
-      },
-      {
-        value: "integrations",
-      },
-      {
-        value: "off-topic",
-        icon: "far fa-star",
-      },
-    ],
+    categories: [],
+
     components: {
       forumSidebar: (): Promise<any> => import("./forum-sidebar.vue"),
       forumIndex: (): Promise<any> => import("./forum-index.vue"),

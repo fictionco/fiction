@@ -26,34 +26,32 @@ export default {
 }
 </script>
 
-<style lang="less">
-.plugin-blog {
-  .title-area {
-    padding-top: 0.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    .post-edit {
-      margin-top: 0.5rem;
-      font-size: 0.9em;
-      display: inline-block;
+<style lang="less" scoped>
+.title-area {
+  padding-top: 0.5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  .post-edit {
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    display: inline-block;
+  }
+}
+.entry-title {
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  font-size: 1.5rem;
+  margin-top: 1.25rem;
+  font-weight: var(--font-weight-bold, 700);
+  .title {
+    color: inherit;
+    &:hover {
+      color: var(--color-primary);
     }
   }
-  .entry-title {
-    letter-spacing: -0.025em;
-    line-height: 1.25;
-    font-size: 1.5rem;
-    margin-top: 1.25rem;
-    font-weight: var(--font-weight-bold, 700);
-    .title {
-      color: inherit;
-      &:hover {
-        color: var(--color-primary);
-      }
-    }
-    .edit {
-      display: block;
-      margin-top: 0.5rem;
-    }
+  .edit {
+    display: block;
+    margin-top: 0.5rem;
   }
 }
 </style>

@@ -29,28 +29,26 @@ export default {
   methods: { setting },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .entry-tags {
-    line-height: 1;
-    text-align: right;
-    @media (max-width: 767px) {
-      text-align: left;
-    }
-    a {
+<style lang="less" scoped>
+.entry-tags {
+  line-height: 1;
+  text-align: right;
+  @media (max-width: 767px) {
+    text-align: left;
+  }
+  a {
+    color: inherit;
+    background: rgba(50, 50, 93, 0.08);
+    display: inline-block;
+    font-size: 0.85em;
+    margin: 5px 2px 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 3px;
+    &:hover {
       color: inherit;
-      background: rgba(50, 50, 93, 0.08);
-      display: inline-block;
-      font-size: 0.85em;
-      margin: 5px 2px 5px;
-      padding: 5px 10px;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 3px;
-      &:hover {
-        color: inherit;
-        background: rgba(50, 50, 93, 0.15);
-      }
+      background: rgba(50, 50, 93, 0.15);
     }
   }
 }

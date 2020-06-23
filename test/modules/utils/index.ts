@@ -15,7 +15,7 @@ interface JSDomConfig {
   port?: string
   route?: string
   url?: string
-  options?: object
+  options?: Record<string, any>
 }
 
 export const getPort = async (): Promise<string> => {
@@ -28,7 +28,7 @@ export const waitFor = (ms: number): Promise<void> => {
 
 export const mockUser = (
   role: UserRoles = UserRoles.Member,
-  additional: object = {}
+  additional: Record<string, any> = {}
 ): FactorUser => {
   return {
     __t: "user",

@@ -14,7 +14,7 @@ import {
   slugify,
 } from "@factor/api"
 import chalk from "chalk"
-import envfile from "envfile"
+import * as envfile from "envfile"
 import fs from "fs-extra"
 import inquirer, { Answers } from "inquirer"
 import json2yaml from "json2yaml"
@@ -23,7 +23,7 @@ import { blueChalk } from "@factor/cli/util"
 export interface SetupCliConfig {
   name: string
   value: string
-  callback: () => {} | void
+  callback: () => Record<string, any> | void
   priority?: number
 }
 
@@ -94,7 +94,7 @@ const existingSettings = (): {
   const { factor: publicConfig = {} } = packageJson
 
   fs.ensureFileSync(secretsFile)
-  const privateConfig = envfile.parseFileSync(secretsFile)
+  const privateConfig = envfile.parse(secretsFile)
 
   return { publicConfig, privateConfig, packageJson }
 }
@@ -188,7 +188,7 @@ addCallback({ key: "setup", hook: "cli-setup", callback: () => runSetup() })
  * Output JSON nicely to the CLI
  * @param data - data to output
  */
-export const prettyJson = (data: object): string => {
+export const prettyJson = (data: Record<string, any>): string => {
   return highlight(json2yaml.stringify(data, null, "  "))
 }
 
@@ -199,7 +199,8 @@ export const prettyJson = (data: object): string => {
  */
 export const writeFiles = (
   file: "public" | "private" | "package",
-  values: object
+  values: Record<string, any>,
+  callback?: (p: FactorPackageJson) => FactorPackageJson
 ): void => {
   const { publicConfig, privateConfig } = existingSettings()
   let { packageJson } = existingSettings()
@@ -208,6 +209,11 @@ export const writeFiles = (
       packageJson.factor = deepMerge([publicConfig, values])
     } else {
       packageJson = deepMerge([packageJson, values]) as FactorPackageJson
+    }
+
+    // Allow for additional work via callback (remove fields)
+    if (callback) {
+      packageJson = callback(packageJson)
     }
 
     fs.writeFileSync(configFile, JSON.stringify(packageJson, null, "  "))
@@ -219,7 +225,7 @@ export const writeFiles = (
   if (file == "private") {
     const sec = deepMerge([privateConfig, values])
 
-    fs.writeFileSync(secretsFile, envfile.stringifySync(sec))
+    fs.writeFileSync(secretsFile, envfile.stringify(sec))
 
     // In case the built file is used later in process
     delete require.cache[secretsFile]
@@ -233,7 +239,7 @@ export const writeFiles = (
  */
 export const writeConfig = async (
   file: "public" | "private",
-  values: object
+  values: Record<string, any>
 ): Promise<void> => {
   if (!file || !values) {
     return

@@ -15,14 +15,14 @@
               btn="primary"
               path="/checkout"
               :query="{product: item.id}"
-            >Upgrade &rarr;</factor-link>
+            >Select &rarr;</factor-link>
           </div>
         </div>
       </div>
     </div>
     <h2 class="area-title">Compare Benefits</h2>
     <section v-for="(group, i) in groups" :key="i" class="feature-group">
-      <div class="group-header">
+      <div v-if="group.title" class="group-header">
         <plan-icon :icon="group.icon" />
         <h2 v-formatted-text="group.title" class="group-title" />
       </div>
@@ -94,22 +94,12 @@ export default {
       ],
       groups: [
         {
-          title: "Basics",
-          icon: "description",
           children: [
             {
               title: "Price",
               community: "Free",
-              pro: "$29/mo <span class='add'>Paid Yearly</span>",
-              business: "$59/mo <span class='add'>Paid Yearly</span>",
-            },
-            {
-              title: "Unlimited Domains (You Own)",
-              level: 0,
-            },
-            {
-              title: "Money-Back Guarantee",
-              level: 10,
+              pro: "$99 / yr",
+              business: "$199 / yr",
             },
           ],
         },
@@ -198,6 +188,10 @@ export default {
             {
               title: "New Extensions Monthly",
               level: 10,
+            },
+            {
+              title: "Unlimited Domains (You Own)",
+              level: 0,
             },
           ],
         },

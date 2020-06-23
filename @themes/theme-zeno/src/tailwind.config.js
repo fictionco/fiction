@@ -1,4 +1,5 @@
 module.exports = {
+  important: '#app',
   purge: false,
   theme: {
     extend: {
@@ -27,17 +28,6 @@ module.exports = {
           700: "#4a5568",
           800: "#2d3748",
           900: "#1a202c",
-        },
-        teal: {
-          100: "#E8FFF9",
-          200: "#C6FFEF",
-          300: "#A4FFE6",
-          400: "#5FFED3",
-          500: "var(--color-secondary, #1bfec0)",
-          600: "#18E5AD",
-          700: "#109873",
-          800: "#0C7256",
-          900: "#084C3A",
         },
         purple: {
           100: "#F0E8FC",

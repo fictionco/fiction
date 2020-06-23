@@ -2,6 +2,7 @@ import { getModel, dbIsOffline } from "@factor/post/database"
 import { pushToFilter, applyFilters, addCallback } from "@factor/api"
 import * as endpointHandler from "@factor/user/server"
 import { Model, Document } from "mongoose"
+import { EndpointMeta } from "@factor/endpoint/types"
 import { addEndpoint } from "@factor/api/endpoints"
 import { emitEvent } from "@factor/api/events"
 import { userCredential } from "./jwt"
@@ -27,7 +28,8 @@ export const getUserModel = <T = FactorUser>(): Model<T & Document> => {
  * @param params - authentication information
  */
 export const authenticate = async (
-  params: AuthenticationParameters
+  params: AuthenticationParameters,
+  { geo }: EndpointMeta = {}
 ): Promise<FactorUserCredential | undefined> => {
   if (dbIsOffline()) {
     throw new Error(`Can't authenticate user, DB is offline.`)
@@ -45,6 +47,10 @@ export const authenticate = async (
         password,
         displayName,
       })
+
+      if (geo) {
+        user.geo = geo
+      }
 
       // Disable email verification hook
       if (noVerify && user) {
@@ -77,6 +83,10 @@ export const authenticate = async (
       throw new Error("Incorrect Login Information.")
     } else {
       user.signedInAt = Date.now()
+      if (geo) {
+        user.geo = geo
+      }
+
       await user.save()
 
       return userCredential(user)

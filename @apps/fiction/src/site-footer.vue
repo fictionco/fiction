@@ -3,25 +3,23 @@
     <div class="content-footer-pad">
       <div class="footer-col">
         <factor-link path="/">
-          <site-logo />
+          <site-logo class="white" />
         </factor-link>
       </div>
       <div class="footer-col">
-        <div class="menu-header">Products</div>
-        <factor-link path="/factor-js">Factor JS</factor-link>
-        <factor-link path="/vip">VIP</factor-link>
+        <h3 class="menu-header">Platform</h3>
+        <factor-link path="https://factor.dev?ref=fiction">JavaScript CMS</factor-link>
       </div>
       <div class="footer-col">
-        <div class="menu-header">Company</div>
-        <factor-link path="/careers">Careers</factor-link>
-        <factor-link path="/blog">Blog</factor-link>
-      </div>
-      <div class="footer-col">
-        <div class="menu-header">Connect</div>
+        <h3 class="menu-header">Company</h3>
+        <factor-link path="https://factor.dev/careers?ref=fiction">Careers</factor-link>
         <factor-link path="/contact">Contact Us</factor-link>
       </div>
       <div class="footer-col">
-        <factor-link btn="primary" path="/careers">We're Hiring! &rarr;</factor-link>
+        <factor-link
+          btn="primary"
+          path="https://factor.dev/careers?ref=fiction"
+        >We're Hiring! &rarr;</factor-link>
         <div>
           <div class="copyright">
             <span>&copy; Fiction.com Inc.</span>
@@ -52,9 +50,9 @@ export default {
   padding: 0;
   .content-footer-pad {
     margin-top: 2em;
-    padding: 4em 2em;
+    padding: 0 2em 4em;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr 2fr 1fr;
     grid-gap: 0;
 
     .footer-col {
@@ -68,12 +66,10 @@ export default {
       }
 
       .menu-header {
-        font-weight: 700;
         text-transform: uppercase;
-
+        font-weight: 600;
         margin-bottom: 0.5rem;
-
-        opacity: 0.5;
+        color: var(--color-primary);
       }
       a {
         display: block;
@@ -85,15 +81,15 @@ export default {
         text-decoration: none;
         transition: opacity 0.1s;
         &:hover {
-          opacity: 1;
+          // opacity: 1;
           color: var(--color-primary);
         }
-        &.hiring {
-          color: var(--color-secondary);
-          opacity: 1;
-          font-weight: 700;
-          line-height: inherit;
-        }
+        // &.hiring {
+        //   color: var(--color-secondary);
+        //   opacity: 1;
+        //   font-weight: 700;
+        //   line-height: inherit;
+        // }
       }
       .copyright {
         margin-top: 4em;

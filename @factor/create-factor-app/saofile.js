@@ -100,7 +100,6 @@ const config = {
     try {
       await this.npmInstall()
     } catch (error) {
-      // @ts-ignore
       consola.error(error)
     }
 
@@ -130,13 +129,15 @@ const config = {
     console.log(
       `   ${this.chalk
         .hex("#0471ff")
-        .bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold("https://factor.dev")}`
+        .bold(`${figures.arrowRight} Docs:`)} ${this.chalk.bold(
+        "https://factor.dev/docs"
+      )}`
     )
     console.log(
       `   ${this.chalk
         .hex("#0471ff")
-        .bold(`${figures.arrowRight} Help:`)} ${this.chalk.bold(
-        "https://go.factor.dev/slack"
+        .bold(`${figures.arrowRight} Support:`)} ${this.chalk.bold(
+        "https://factor.dev/forum"
       )}`
     )
     console.log()

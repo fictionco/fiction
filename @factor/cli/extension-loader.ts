@@ -21,6 +21,7 @@ interface LoaderFile {
   priority: number
   path?: string
   writeFile?: { filename: string; content: string }
+  group?: string
 }
 
 /**
@@ -226,7 +227,6 @@ const makeFileLoader = ({
   filename: string
   callback: (files: LoaderFile[]) => void
   cwd?: string
-  loadTarget: LoadTargets
   additional?: LoaderFile[]
 }): void => {
   const files: LoaderFile[] = []
@@ -237,7 +237,7 @@ const makeFileLoader = ({
     const dir = getDirectory({ name, isCwd, cwd })
     const requireBase = getRequireBase({ isCwd, name })
 
-    const fileGlob = `${dir}/**/${filename}`
+    const fileGlob = `${dir}/**/${filename}*`
 
     glob
       .sync(fileGlob)
@@ -261,11 +261,22 @@ const makeFileLoader = ({
           .replace(/\.[jt]s$/, "")
           .replace(/\/index$/, "")
 
+        const reg = new RegExp(`.*${filename}-(.*)\\.`)
+        const capture = _module.match(reg)
+        const group = capture && capture.length > 1 ? capture[1] : ""
+
+        let newId = _id
+
+        if (group) newId += `_${group}`
+
+        if (index > 0) newId += `_${index}`
+
         return {
-          _id: index == 0 ? _id : `${_id}_${index}`,
+          _id: newId,
           file: moduleName,
           path: fullPath,
           priority,
+          group,
         }
       })
       .forEach((lPath) => {
@@ -436,6 +447,36 @@ const loaderStringOrdered = (files: LoaderFile[]): string => {
   )
 
   lines.push(`\n\nexport default [ ${files.map(({ _id }) => _id).join(", ")} ]`)
+
+  return lines.join("\n")
+}
+
+/**
+ * Creates an import string, that loads things in a priority based order
+ * @param files - module names to write to string
+ */
+const loaderStringOrderedAndGrouped = (files: LoaderFile[]): string => {
+  const lines = files.map(
+    ({ _id, file, priority }) =>
+      `import { default as ${_id} } from "${file}" // ${priority}`
+  )
+
+  const groups: { [key: string]: LoaderFile[] } = {}
+
+  files.forEach((file) => {
+    const grp = file.group ? file.group : "en"
+
+    if (!groups[grp]) groups[grp] = []
+
+    groups[grp].push(file)
+  })
+
+  const exportLines: string[] = []
+  Object.keys(groups).forEach((key) => {
+    exportLines.push(`${key}: [${groups[key].map(({ _id }) => _id).join(", ")}]`)
+  })
+
+  lines.push(`\n\nexport default {\n  ${exportLines.join(`,\n  `)}\n}`)
 
   return lines.join("\n")
 }
@@ -678,8 +719,7 @@ export const generateLoaders = (options?: CommandOptions): void => {
    */
   makeFileLoader({
     extensions,
-    filename: "factor-settings.*",
-    loadTarget: LoadTargets.Settings,
+    filename: "factor-settings",
     additional: controls[LoadTargets.Settings],
     cwd,
     callback: (files: LoaderFile[]) => {
@@ -691,12 +731,27 @@ export const generateLoaders = (options?: CommandOptions): void => {
   })
 
   /**
+   * SETTINGS FILES LOADER
+   */
+  makeFileLoader({
+    extensions,
+    filename: "factor-lang",
+    additional: controls[LoadTargets.Lang],
+    cwd,
+    callback: (files: LoaderFile[]) => {
+      writeFile({
+        destination: getPath("loader-lang", cwd),
+        content: loaderStringOrderedAndGrouped(files),
+      })
+    },
+  })
+
+  /**
    * STYLE FILES LOADER
    */
   makeFileLoader({
     extensions,
-    filename: "factor-styles.*",
-    loadTarget: LoadTargets.Style,
+    filename: "factor-styles",
     additional: controls[LoadTargets.Style],
     cwd,
     callback: (files: LoaderFile[]) => {

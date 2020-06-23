@@ -40,6 +40,7 @@ export const setup = (): void => {
   addFilter({
     key: "handleUrlS3",
     hook: "storage-attachment-url",
+    priority: 200,
     callback: ({
       buffer,
       key,
@@ -72,6 +73,7 @@ export const setup = (): void => {
   addCallback({
     key: "deleteImageS3",
     hook: "delete-attachment",
+    priority: 200,
     callback: async (doc: PostAttachment) => {
       const { bucket, S3 } = setConfig()
       const key = doc.url.split("amazonaws.com/")[1]

@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 export interface RendererComponents {
   bundle: string
   template: string
-  clientManifest: object
+  clientManifest: Record<string, any>
 }
 
 declare module "fs" {

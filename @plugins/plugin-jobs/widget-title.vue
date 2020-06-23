@@ -11,17 +11,14 @@
       itemtype="http://schema.org/Place"
       class="location"
     >{{ post.jobLocation }}</span>
-
-    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script lang="ts">
-import { factorPostEdit } from "@factor/post"
 import { factorLink } from "@factor/ui"
 import { stored, postLink } from "@factor/api"
 
 export default {
-  components: { factorLink, factorPostEdit },
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
   },
@@ -36,14 +33,18 @@ export default {
 <style lang="less">
 .plugin-jobs {
   .entry-title {
-    margin-bottom: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 200px;
     h1 {
       display: inline-block;
       max-width: 65%;
-      font-size: 1.4em;
+      font-size: 1.6em;
       font-weight: var(--font-weight-bold, 700);
-      letter-spacing: -0.03em;
+
       line-height: 1.2;
+      a {
+        color: inherit;
+      }
       @media (max-width: 767px) {
         display: block;
         max-width: 100%;
@@ -51,9 +52,9 @@ export default {
     }
     .location {
       float: right;
-      font-size: 1rem;
+      font-size: 0.9em;
       line-height: 1.8em;
-      font-weight: 300;
+      color: var(--color-text-secondary);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       text-align: right;
@@ -62,15 +63,7 @@ export default {
         text-align: left;
       }
     }
-    .edit {
-      display: block;
-      font-size: 1rem;
-      letter-spacing: initial;
-      margin: 0.5em 0;
-      @media (max-width: 767px) {
-        display: none;
-      }
-    }
+
     @media (max-width: 767px) {
       display: flex;
       flex-direction: column-reverse;

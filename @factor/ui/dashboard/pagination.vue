@@ -15,9 +15,9 @@ import { dashboardBtn } from "@factor/ui"
 export default {
   components: { dashboardBtn },
   props: {
-    pageCount: { type: Number, default: 0 },
-    pageCurrent: { type: Number, default: 0 },
-    count: { type: Number, default: 0 },
+    pageCount: { type: [Number, String], default: 0 },
+    pageCurrent: { type: [Number, String], default: 0 },
+    count: { type: [Number, String], default: 0 },
   },
   methods: {
     page(this: any, direction: string) {

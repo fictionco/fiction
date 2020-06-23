@@ -88,9 +88,9 @@ export const runEndpointMethod = async (
   }
 
   try {
-    if (typeof _ep.permissions == "function") {
-      await _ep.permissions({ method, meta, params })
-    }
+    // if (typeof _ep.permissions == "function") {
+    //   await _ep.permissions({ method, meta, params })
+    // }
 
     return await _ep[method](params, meta)
   } catch (error) {
@@ -125,6 +125,8 @@ export const processEndpointRequest = async ({
    */
   const { authorization = "", from } = headers
 
+  const { geo } = data
+
   const responseJson: { result?: ResponseType; error?: HttpError } = {}
 
   // Run Endpoint Method
@@ -133,6 +135,8 @@ export const processEndpointRequest = async ({
     const bearer = await setAuthorizedUser(authorization)
     meta.bearer = bearer
     meta.source = from
+
+    meta.geo = geo ? geo : undefined
     responseJson.result = await handler({ data, meta, bearer, url })
   } catch (error) {
     responseJson.error = createError(error.code ?? 500, error.message)
@@ -152,7 +156,7 @@ export const initializeEndpointServer = (): void => {
   addFilter({
     key: "endpoints",
     hook: "middleware",
-    callback: (_: object[]) => {
+    callback: (_: Record<string, unknown>[]) => {
       applyFilters("endpoints", []).forEach(({ id, handler }: EndpointItem) => {
         _.push({
           path: endpointPath(id),

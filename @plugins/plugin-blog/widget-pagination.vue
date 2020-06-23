@@ -1,22 +1,21 @@
 <template>
   <div class="pagination">
-    <div class="items">{{ count }} Items</div>
-    <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
-      <factor-icon icon="fas fa-arrow-left" />
-    </factor-btn>
-    <div class="sep">{{ pageCurrent }} of {{ pageCount }}</div>
-    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">
-      <factor-icon icon="fas fa-arrow-right" />
-    </factor-btn>
+    <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">&larr;</factor-btn>
+    <div class="counter">
+      {{ pageCurrent }}
+      <span class="sep">/</span>
+      {{ pageCount }}
+    </div>
+    <factor-btn :disabled="pageCurrent == pageCount" @click="page('next')">&rarr;</factor-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { factorBtn, factorIcon } from "@factor/ui"
+import { factorBtn } from "@factor/ui"
 import { stored } from "@factor/api"
 
 export default {
-  components: { factorBtn, factorIcon },
+  components: { factorBtn },
   props: {
     postType: { type: String, default: "" },
   },
@@ -55,29 +54,32 @@ export default {
 }
 </script>
 
-<style lang="less">
-.plugin-blog {
-  .pagination {
-    max-width: 48rem;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    @media (max-width: 767px) {
-      justify-content: flex-end;
-      .items,
-      .sep {
-        display: none;
-      }
+<style lang="less" scoped>
+.pagination {
+  max-width: 48rem;
+  padding: 1rem;
+  margin: 0 auto 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: 767px) {
+    justify-content: flex-end;
+    .items,
+    .counter {
+      display: none;
     }
-    > * {
-      margin: 0 5px;
-    }
+  }
+  > * {
+    margin: 0 5px;
+  }
+  .counter {
+    opacity: 0.4;
     .sep {
-      opacity: 0.4;
+      font-style: italic;
     }
-    .factor-btn {
-      padding: 0.5em;
-    }
+  }
+  .factor-btn {
+    padding: 0.5em;
   }
 }
 </style>

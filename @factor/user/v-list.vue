@@ -119,7 +119,7 @@ export default {
       return actions
     },
     postItemMeta(post: FactorUser) {
-      return [
+      const meta = [
         {
           value: toLabel(post.role || "no role"),
         },
@@ -131,7 +131,21 @@ export default {
           label: "Since",
           value: standardDate(post.createdAt),
         },
+        {
+          label: "Verified",
+          value: post.emailVerified ? "Yes" : "No",
+        },
       ]
+
+      const locationName = post.geo?.name
+      if (locationName) {
+        meta.push({
+          label: "Location",
+          value: locationName,
+        })
+      }
+
+      return meta
     },
 
     async handleAction(this: any, action: string) {

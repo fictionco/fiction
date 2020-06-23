@@ -10,12 +10,12 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
-        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign In</factor-link>
+        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign in</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"
           btn="primary"
-        >Install Factor &rarr;</factor-link>
+        >Start Your App &rarr;</factor-link>
       </div>
     </div>
   </div>
@@ -36,20 +36,20 @@ export default {
       userLoading: true,
       user: false,
       pageNav: [
-        { path: "/pro", name: "Pro / Business" },
+        { path: "/developers", name: "Contribute" },
         { path: "/themes", name: "Themes" },
         { path: "/plugins", name: "Plugins" },
-        { path: "/docs", name: "Develop" },
+        { path: "/docs", name: "Docs" },
         { path: "/forum", name: "Forum" },
       ],
-      actionNav: [
-        {
-          event: "sign-in-modal",
-          name: "Sign In &rarr;",
-          condition: (): boolean => !isLoggedIn(),
-        },
-        { component: accountMenu, condition: (): boolean => isLoggedIn() },
-      ],
+      // actionNav: [
+      //   {
+      //     event: "sign-in-modal",
+      //     name: "Sign In &rarr;",
+      //     condition: (): boolean => !isLoggedIn(),
+      //   },
+      //   { component: accountMenu, condition: (): boolean => isLoggedIn() },
+      // ],
     }
   },
   computed: {},

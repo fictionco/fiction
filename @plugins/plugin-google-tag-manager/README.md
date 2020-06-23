@@ -10,6 +10,8 @@ Just add to your application dependencies:
 npm add  @factor/plugin-google-tag-manager
 ```
 
+Once you've done this Factor will automatically load this plugin. All that is needed is to add your configuration info via settings.
+
 ## Customization and Settings
 
 Config for this plugin is public only and stored in your `factor-settings.js` file.
@@ -23,6 +25,8 @@ Config for this plugin is public only and stored in your `factor-settings.js` fi
   }
 }
 ```
+
+- **Development Mode** - This adds the tag manager in your local development environment. This is because typically you don't want to render tags in your development environment as it could skew your data.
 
 ## Using The Tag Manager Plugin
 

@@ -143,6 +143,7 @@ export default {
             color: var(--color-primary);
             background: var(--color-text-light);
             border: 1px solid var(--color-text-light);
+            box-shadow: none;
 
             &:hover {
               color: var(--color-primary-darker);

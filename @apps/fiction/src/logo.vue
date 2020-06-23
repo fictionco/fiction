@@ -81,5 +81,17 @@ export default {
       fill: #fff;
     }
   }
+
+  &.black {
+    .thelogoicon {
+      fill: #000;
+      &:hover {
+        fill: #000;
+      }
+    }
+    .thelogotext {
+      fill: #000;
+    }
+  }
 }
 </style>

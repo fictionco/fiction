@@ -109,7 +109,7 @@ export default {
     }
 
     .post-index {
-      max-width: 48rem;
+      max-width: 44rem;
       margin: 0 auto;
       .jobs-post {
         padding: 1.5em 0;

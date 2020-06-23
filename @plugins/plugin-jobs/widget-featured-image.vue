@@ -1,9 +1,11 @@
 <template>
-  <div v-if="avatarUrl" class="featured-image" :style="style" />
+  <factor-link v-if="avatarUrl" class="featured-image" :style="style" :path="postLink(post._id)" />
 </template>
 <script lang="ts">
-import { stored } from "@factor/api"
+import { factorLink } from "@factor/ui"
+import { stored, postLink } from "@factor/api"
 export default {
+  components: { factorLink },
   props: {
     postId: { type: String, default: "" },
   },
@@ -25,15 +27,18 @@ export default {
       return style
     },
   },
+  methods: { postLink },
 }
 </script>
 <style lang="less">
 .plugin-jobs {
   .featured-image {
+    display: block;
     background-size: cover;
     background-position: 50%;
     height: 16em;
     margin-bottom: 1em;
+    border-radius: 0.5rem;
   }
 }
 </style>

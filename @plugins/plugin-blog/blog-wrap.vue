@@ -1,6 +1,9 @@
 <template>
   <div class="plugin-blog">
     <component :is="setting(`blog.components.loading`)" v-if="loading" />
+    <template v-else-if="$slots.default">
+      <slot />
+    </template>
     <router-view v-else-if="blogPosts.length > 0 || !isIndexPage" />
     <component :is="setting(`blog.components.notFound`)" v-else />
   </div>
@@ -12,18 +15,21 @@ import { setting } from "@factor/api/settings"
 import { loadAndStoreBlogIndex } from "@factor/plugin-blog"
 
 export default {
+  props: {
+    handling: { type: String, default: "" },
+  },
   data() {
     return {
       loading: false,
     }
   },
-  serverPrefetch() {
+  serverPrefetch(this: any) {
     if (!this.isIndexPage) return
     return this.getPosts()
   },
   computed: {
     isIndexPage(this: any) {
-      return this.$route.meta.index ? true : false
+      return this.handling == "index" || this.$route.meta.index ? true : false
     },
     index(this: any) {
       return stored("blog") || {}
@@ -62,3 +68,5 @@ export default {
   },
 }
 </script>
+
+<style lang="less"></style>

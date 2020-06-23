@@ -54,7 +54,7 @@
         <dashboard-input
           v-model="post.avatar"
           input="factor-input-image-upload"
-          label="Avatar"
+          label="Avatar / Primary"
           max="1"
           @autosave="saveDraft()"
         />
@@ -129,7 +129,7 @@ export default {
       reactivePost: {},
     }
   },
-  metaInfo() {
+  metaInfo(): Record<string, any> {
     return {
       title: this.title,
     }
@@ -155,7 +155,7 @@ export default {
     excerpt(this: any) {
       return excerpt(this.post.content)
     },
-    postTypeConfig(this: any): PostTypeConfig | {} {
+    postTypeConfig(this: any): PostTypeConfig | Record<string, any> {
       return getPostTypeConfig(this.postType) || {}
     },
     title(this: any) {

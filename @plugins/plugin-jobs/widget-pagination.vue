@@ -1,6 +1,5 @@
 <template>
   <div class="pagination">
-    <div class="items">{{ count }} Items</div>
     <factor-btn :disabled="pageCurrent == 1" @click="page('previous')">
       <factor-icon icon="fas fa-arrow-left" />
     </factor-btn>
@@ -59,9 +58,10 @@ export default {
 .plugin-jobs {
   .pagination {
     max-width: 48rem;
-    margin: 0 auto;
+    margin: 2em auto;
     display: flex;
     align-items: center;
+    justify-content: center;
     @media (max-width: 767px) {
       justify-content: flex-end;
       .items,

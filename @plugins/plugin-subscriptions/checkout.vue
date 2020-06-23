@@ -102,7 +102,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/camelcase */
 import { stored, currentUser, emitEvent, setting } from "@factor/api"
 import { factorBtn, factorIcon, factorLink, factorInputText } from "@factor/ui"
 import {

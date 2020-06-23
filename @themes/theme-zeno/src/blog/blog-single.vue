@@ -43,3 +43,14 @@ export default {
   methods: { isEmpty, setting },
 }
 </script>
+
+<style lang="less">
+.zeno-content {
+  .plugin-blog {
+    .single-entry {
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+</style>

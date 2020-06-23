@@ -14,6 +14,7 @@ import { waitFor, getPostTypeConfig } from "@factor/api"
 import { showResetPassword, verifyEmail } from "./email-request"
 import { VerifyEmail } from "./email-types"
 import { setUser, showSignIn, initializedUser } from "./util"
+import { setUserGeolocation } from "./geo"
 import {
   FactorUserCredential,
   AuthenticationParameters,
@@ -50,7 +51,9 @@ export const currentUserId = (): string => {
  *
  * @param callback - Called after user is initialized with value of user
  */
-export const userInitialized = async (callback?: Function): Promise<CurrentUserState> => {
+export const userInitialized = async (
+  callback?: (u: CurrentUserState) => void
+): Promise<CurrentUserState> => {
   // this function needs to take at least 50ms, for consistency in rendering
   // If user is logged out, this function happens too fast and can cause hydration issues
   const [user] = await Promise.all([initializedUser(), waitFor(50)])
@@ -99,6 +102,9 @@ export const loadUser = async (
  */
 const requestInitializeUser = async (): Promise<CurrentUserState> => {
   await appMounted()
+
+  // Run this and store for later sync requests
+  setUserGeolocation()
 
   const resolvedUser = await loadUser()
 

@@ -10,10 +10,10 @@ export interface PostAttachment {
 
 export interface ImageUploadItems {
   file: File | Blob
-  onPrep?: Function
-  onFinished?: Function
-  onError?: Function
-  onChange?: Function
+  onPrep?: (p: PreUploadProperties) => void
+  onFinished?: (p: any) => void
+  onError?: (p: any) => void
+  onChange?: (p: any) => void
 }
 
 export const sendStorageRequest = async ({
@@ -22,14 +22,16 @@ export const sendStorageRequest = async ({
 }: {
   method: string
   params: EndpointParameters
-}): Promise<object> => {
-  return (await endpointRequest({ id: "storage", method, params })) as object
+}): Promise<Record<string, any>> => {
+  return (await endpointRequest({ id: "storage", method, params })) as Record<string, any>
 }
 
 /**
  * Sends a request to endpoint to delete an image
  */
-export const requestDeleteImage = async (params: EndpointParameters): Promise<object> => {
+export const requestDeleteImage = async (
+  params: EndpointParameters
+): Promise<Record<string, any>> => {
   return await sendStorageRequest({ method: "deleteImage", params })
 }
 
@@ -68,7 +70,7 @@ export const resizeImage = async (
  * @param options  - image resizing options
  */
 export const preUploadImage = async (
-  { file, onPrep }: { file: File | Blob; onPrep?: Function },
+  { file, onPrep }: { file: File | Blob; onPrep?: (p: PreUploadProperties) => void },
   options = {}
 ): Promise<File | Blob> => {
   if (onPrep) {

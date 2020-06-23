@@ -32,7 +32,7 @@ import {
 
 export * from "./embedded"
 
-export const handlePostSaveError = (
+const handlePostSaveError = (
   error: Error & { code: number; keyValue: Record<string, string> }
 ): never => {
   if (error.code == 11000 && error.keyValue) {
@@ -47,7 +47,7 @@ export const handlePostSaveError = (
  * @param postType - Post type
  * @param bearer - User that is saving the data
  */
-export const savePost = async <T = {}>(
+export const savePost = async <T = Record<string, any>>(
   {
     data,
     postType = "post",

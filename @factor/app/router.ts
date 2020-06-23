@@ -1,7 +1,13 @@
 import { applyFilters, runCallbacks, addFilter } from "@factor/api/hooks"
 import { emitEvent } from "@factor/api/events"
 
-import VueRouter, { RouteConfig, Route, RouterOptions, Location } from "vue-router"
+import VueRouter, {
+  RouteConfig,
+  Route,
+  RouterOptions,
+  Location,
+  NavigationGuardNext,
+} from "vue-router"
 import qs from "qs"
 import { uniq } from "@factor/api"
 
@@ -22,7 +28,7 @@ let __routerInstance: VueRouter
 const hookClientRouterBefore = async (
   to: Route,
   from: Route,
-  next: Function
+  next: NavigationGuardNext
 ): Promise<void> => {
   if (__initialPageLoad || to.path == from.path) {
     next()

@@ -28,10 +28,8 @@ export default {
   },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .return-link {
-    margin-bottom: 1rem;
-  }
+<style lang="less" scoped>
+.return-link {
+  margin-bottom: 1rem;
 }
 </style>

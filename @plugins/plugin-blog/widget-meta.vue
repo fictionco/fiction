@@ -6,12 +6,14 @@
       :key="i"
       :post-id="postId"
     />
+    <factor-post-edit :post-id="post._id" />
   </div>
 </template>
 <script lang="ts">
 import { setting, stored } from "@factor/api"
-
+import { factorPostEdit } from "@factor/post"
 export default {
+  components: { factorPostEdit },
   props: {
     postId: { type: String, default: "" },
   },
@@ -23,20 +25,19 @@ export default {
   methods: { setting },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .entry-meta {
+<style lang="less" scoped>
+.entry-meta {
+  display: flex;
+  align-items: center;
+  margin: 1em auto;
+  font-size: 0.9em;
+  @media (max-width: 767px) {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 2em;
-    align-items: flex-start;
-    margin: 1em auto;
-
-    @media (max-width: 767px) {
-      display: grid;
-      grid-gap: 1em;
-      grid-template-columns: 1fr;
-    }
+    grid-gap: 1em;
+    grid-template-columns: 1fr;
+  }
+  > div {
+    margin-right: 1rem;
   }
 }
 </style>

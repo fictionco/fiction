@@ -7,7 +7,7 @@
       >{{ post.title }}</factor-link>
       <factor-post-edit
         :post-id="post._id"
-        class="block mt-2 text-normal text-gray-600 hover:text-purple-500"
+        class="block mt-2 text-base font-normal text-gray-600 hover:text-purple-500"
       />
     </h1>
   </div>

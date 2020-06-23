@@ -6,6 +6,12 @@ import { currentRoute } from "@factor/app/router"
 const baseRoute = setting("blog.postRoute")
 
 /**
+ * Components for import
+ */
+export const standardBlogIndex = setting("blog.components.standardBlogIndex")
+export const standardBlogSingle = setting("blog.components.standardBlogSingle")
+
+/**
  * Get post index and add to store
  */
 export const loadAndStoreBlogIndex = async (): Promise<void> => {
@@ -38,31 +44,32 @@ addPostType({
   postType: "blog",
   baseRoute,
   icon: require("./img/posts.svg"),
-  // model: "BlogPost",
-  nameIndex: "Blog",
-  nameSingle: "Blog Post",
-  namePlural: "Blog Posts",
+  nameIndex: setting("blog.nameIndex"),
+  nameSingle: setting("blog.nameSingle"),
+  namePlural: setting("blog.namePlural"),
   managePosts: true,
   customPermalink: true,
   categories: setting("blog.categories"),
   addSitemap: true,
 })
 
-/**
- * The front end routes
- */
-addContentRoute({
-  path: setting("blog.indexRoute") ?? "/",
-  component: setting("blog.components.blogWrap"),
-  children: [
-    {
-      path: "/",
-      component: setting("blog.components.blogIndex"),
-      meta: { index: true },
-    },
-    {
-      path: `${setting("blog.postRoute")}/:permalink`,
-      component: setting("blog.components.blogSingle"),
-    },
-  ],
-})
+if (!setting("blog.disableAutoRoutes")) {
+  /**
+   * The front end routes
+   */
+  addContentRoute({
+    path: setting("blog.indexRoute") ?? "/",
+    component: setting("blog.components.blogWrap"),
+    children: [
+      {
+        path: "/",
+        component: setting("blog.components.blogIndex"),
+        meta: { index: true },
+      },
+      {
+        path: `${setting("blog.postRoute")}/:permalink`,
+        component: setting("blog.components.blogSingle"),
+      },
+    ],
+  })
+}

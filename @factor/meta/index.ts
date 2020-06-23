@@ -67,7 +67,7 @@ addFilter({
 addFilter({
   key,
   hook: "site-mixins",
-  callback: (_: object[]) => [
+  callback: (_: Record<string, unknown>[]) => [
     ..._,
     {
       metaInfo(): MetaInfo {

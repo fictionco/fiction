@@ -11,14 +11,14 @@ export const cssLoaders = ({
   target: string
   lang: string
   cwd?: string
-}): object[] => {
+}): Record<string, any>[] => {
   const postCssPlugins = applyFilters(
     "postcss-plugins",
     [postcssNested, cssNano({ preset: "default" })],
     { target, lang, cwd }
   )
 
-  const _base: object[] = [
+  const _base: Record<string, any>[] = [
     {
       loader: "css-loader",
     },

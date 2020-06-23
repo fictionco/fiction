@@ -1,8 +1,8 @@
 <template>
   <div class="posts-not-found">
     <div class="text">
-      <div class="title">{{ setting("blog.notFound.title") }}</div>
-      <div class="sub-title">{{ setting("blog.notFound.subTitle") }}</div>
+      <div class="title">{{ title }}</div>
+      <div class="sub-title">{{ description }}</div>
     </div>
   </div>
 </template>
@@ -10,10 +10,16 @@
 import { setting } from "@factor/api"
 
 export default {
-  metaInfo() {
+  data() {
     return {
       title: setting("blog.notFound.title"),
       description: setting("blog.notFound.subTitle"),
+    }
+  },
+  metaInfo() {
+    return {
+      title: this.title,
+      description: this.description,
       meta: [{ name: "robots", content: "noindex" }],
     }
   },
@@ -25,7 +31,7 @@ export default {
   methods: { setting },
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .posts-not-found {
   min-height: 50vh;
   display: flex;

@@ -1,4 +1,5 @@
 import { dotSetting, deepMerge, isNode } from "@factor/api/utils"
+import { getLocale } from "@factor/api/i18n"
 import { applyFilters, addCallback } from "@factor/api/hooks"
 import { configSettings } from "@factor/api/config"
 
@@ -49,7 +50,7 @@ export const getSettings = (cwd?: string): SettingsObject => {
     : basicSettings(cwd)
 }
 
-const setSettings = (settings: object, cwd?: string): void => {
+const setSettings = (settings: Record<string, any>, cwd?: string): void => {
   if (!globalObject.$factorSettings) globalObject.$factorSettings = {}
 
   globalObject.$factorSettings[settingsId(cwd)] = settings
@@ -58,7 +59,11 @@ const setSettings = (settings: object, cwd?: string): void => {
 export const createSettings = (cwd?: string): void => {
   const basic = basicSettings(cwd)
 
-  let settingsExports: (Function | object)[] = []
+  let settingsExports: (() => Record<string, any> | Record<string, any>)[] = []
+  let langExports: Record<
+    string,
+    (() => Record<string, any> | Record<string, any>)[]
+  > = {}
 
   /**
    * @remark
@@ -68,16 +73,24 @@ export const createSettings = (cwd?: string): void => {
    */
   if (cwd) {
     settingsExports = require(`${cwd}/.factor/loader-settings`).default
+    langExports = require(`${cwd}/.factor/loader-lang`).default
   } else {
     settingsExports = require(`__CWD__/.factor/loader-settings`).default
+    langExports = require(`__CWD__/.factor/loader-lang`).default
   }
+
+  const langArray = []
+
+  const locale = getLocale()
+  if (langExports.en) langArray.push(...langExports.en)
+  if (locale != "en" && langExports[locale]) langArray.push(...langExports[locale])
 
   const settingsArray = applyFilters(
     "factor-settings",
     settingsExports.map((_export) => (typeof _export == "function" ? _export() : _export))
   )
 
-  const merged = deepMerge([basic, ...settingsArray])
+  const merged = deepMerge([basic, ...settingsArray, ...langArray])
 
   const settings = applyFilters("merged-factor-settings", merged, { cwd })
 

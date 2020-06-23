@@ -13,7 +13,7 @@ const clientIsMountedPromise = waitForMountApp()
 
 // Allows components to definitively wait for client to init
 // otherwise we might throw hydration errors
-export const appMounted = async (callback?: Function): Promise<void> => {
+export const appMounted = async (callback?: () => void): Promise<void> => {
   await clientIsMountedPromise
 
   if (callback) callback()

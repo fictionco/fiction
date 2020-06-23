@@ -1,9 +1,6 @@
 <template>
   <div class="content-layout">
     <site-head>
-      <factor-link path="https://factor.dev?ref=fiction">Javascript CMS</factor-link>
-      <factor-link path="/vip">VIP</factor-link>
-      <factor-link path="/careers">Careers</factor-link>
       <template v-if="!loading">
         <factor-link
           v-if="isLoggedIn()"
@@ -34,10 +31,17 @@ export default {
     "site-head": () => import("./site-head.vue"),
     "content-footer": () => import("./site-footer.vue"),
   },
-
   metaInfo() {
     return {
       titleTemplate: "%s - Fiction",
+      link: [
+        {
+          vmid: "font",
+          rel: "stylesheet",
+          href:
+            "https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap",
+        },
+      ],
     }
   },
 

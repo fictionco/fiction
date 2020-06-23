@@ -25,6 +25,7 @@ export * from "./prefetch"
 export * from "./markdown"
 export * from "./endpoints"
 export * from "./dashboard"
+export * from "./i18n"
 
 export * from "@factor/post/util"
 export * from "@factor/post/request"

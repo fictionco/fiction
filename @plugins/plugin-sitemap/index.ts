@@ -156,7 +156,7 @@ export const setup = (): void => {
   addFilter({
     key: "sitemapRoutesMiddleware",
     hook: "middleware",
-    callback: (_: object[]) => {
+    callback: (_: Record<string, any>[]) => {
       _.push({
         path: "/sitemaps/:sitemapId/sitemap.xml",
         middleware: [

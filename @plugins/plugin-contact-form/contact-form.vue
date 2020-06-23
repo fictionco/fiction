@@ -86,3 +86,16 @@ export default {
   },
 }
 </script>
+
+<style lang='postcss' scoped>
+.confirm {
+  padding: 2em;
+  text-align: center;
+  .title {
+    font-size: 1.4em;
+  }
+  .description {
+    color: var(--color-text-secondary);
+  }
+}
+</style>

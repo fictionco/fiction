@@ -2,11 +2,14 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-title">Build reactive websites and apps.</h1>
-        <h3 class="page-title-sub">The premium JavaScript CMS for web professionals.</h3>
+        <h1 class="page-sup">JavaScript CMS - Vue, Node, MongoDB</h1>
+        <h2 class="page-title">The fastest way to build JavaScript applications.</h2>
+        <h3
+          class="page-title-sub"
+        >Factor is an open-source TypeScript framework plus dashboard. Use it to develop, launch, and manage apps.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Install Factor</factor-link>
+          <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
 
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />
@@ -31,12 +34,30 @@ export default {
   components: {
     factorLink,
     factorIcon,
-    splashFigure: () => import("./figure-splash.vue"),
+    splashFigure: (): Promise<any> => import("./figure-splash.vue"),
+  },
+  data(): any {
+    return {
+      dropDirection: "left",
+    }
   },
   computed: {
-    version() {
+    version(): string {
       return `v${factorVersion()}`
     },
+  },
+  mounted(): void {
+    const el = document.querySelector(".asterisk")
+
+    if (el) {
+      setTimeout(() => {
+        const { left } = el.getBoundingClientRect()
+
+        if (left < 250) {
+          this.dropDirection = "right"
+        }
+      }, 50)
+    }
   },
 }
 </script>
@@ -48,7 +69,7 @@ export default {
   .splash-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 4em;
+    grid-gap: 6em;
     padding: 10rem 3rem 3rem;
     align-items: center;
 
@@ -65,8 +86,49 @@ export default {
       min-width: 0;
     }
     .content {
-      max-width: 550px;
+      max-width: 520px;
       justify-self: flex-end;
+
+      .highlight {
+        position: relative;
+        margin-left: -0.2em;
+
+        cursor: pointer;
+        .asterisk {
+          opacity: 0.8;
+        }
+        .drop {
+          background: #fff;
+          position: absolute;
+          right: 0;
+          &.right {
+            right: auto;
+            left: 0;
+          }
+          bottom: 100%;
+          color: var(--color-text);
+          font-size: 1rem;
+          z-index: 100;
+          width: 20rem;
+          padding: 1rem;
+          border-radius: 8px;
+          box-shadow: 0px 0 0 1px rgba(50, 50, 93, 0.1), 0px 3px 6px rgba(0, 0, 0, 0.05),
+            0px 7px 14px rgba(50, 50, 93, 0.1);
+          transition: opacity 0.2s;
+          opacity: 0;
+          font-weight: 500;
+          line-height: 1.5;
+        }
+        &:hover {
+          .drop {
+            display: block;
+            opacity: 1;
+          }
+          .asterisk {
+            opacity: 1;
+          }
+        }
+      }
 
       h1 {
         z-index: 5;
@@ -82,24 +144,45 @@ export default {
       }
       .page-title,
       .page-title-sub {
-        letter-spacing: -0.035em;
+        letter-spacing: -0.025em;
       }
 
       .page-title {
-        font-size: 4em;
-        letter-spacing: -0.035em;
+        font-size: 2.5em;
+        letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
         margin-bottom: 1rem;
+        max-width: 30ch;
       }
 
       .page-title-sub {
         margin-top: 2rem;
-        font-size: 2.2em;
+        font-size: 1.75em;
         font-weight: 400;
         color: var(--color-text-secondary);
-        .highlight {
-          color: #5c84a4;
+        max-width: 30ch;
+        a {
+          color: inherit;
+
+          position: relative;
+          &:before {
+            background-image: linear-gradient(
+              90deg,
+              var(--color-text-secondary) 33%,
+              transparent 0
+            );
+            background-position: bottom;
+            background-repeat: repeat-x;
+            background-size: 3px 1px;
+            content: "";
+            display: block;
+            height: 1px;
+            left: 0;
+            position: absolute;
+            top: 85%;
+            width: 100%;
+          }
         }
       }
 

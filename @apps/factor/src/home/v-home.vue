@@ -87,7 +87,7 @@
       <plugins-gallery />
     </section>
 
-    <upgrade-factor />
+    <join-dev />
   </div>
 </template>
 
@@ -102,7 +102,8 @@ export default {
     homeIcon: () => import("./icon.vue"),
     sectionBenefits: () => import("./section-benefits.vue"),
     //joinProgram: () => import("./el-join.vue"),
-    upgradeFactor: () => import("./el-upgrade.vue"),
+    //upgradeFactor: () => import("./el-upgrade.vue"),
+    joinDev: () => import("./el-join-dev.vue"),
     pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {
@@ -177,7 +178,7 @@ export default {
     return {
       title: "The JavaScript CMS",
       description:
-        "Factor is the leading extension-focused JavaScript CMS and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
+        "Factor is the leading extension-focused JavaScript CMS, Vue framework and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
     }
   },
 }

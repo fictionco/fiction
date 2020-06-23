@@ -159,6 +159,7 @@ export default {
       position: relative;
       padding: 3rem 3rem 2rem;
       background: #fff;
+      color: #3a4854;
       border-radius: 0.5em;
       box-shadow: 1px 1px 4px 0 rgba(22, 22, 25, 0.4),
         -9px 22.5px 65px -5px rgba(22, 22, 25, 0.8);
@@ -179,6 +180,11 @@ export default {
           color: #ff0076;
           transform: rotate(90deg);
         }
+      }
+      input,
+      textarea,
+      select {
+        color: inherit;
       }
     }
     .modal-text {

@@ -183,7 +183,7 @@ export default {
       color: var(--color-primary);
     }
     .sub-title {
-      opacity: 0.6;
+      color: var(--color-text-secondary);
     }
     @media (max-width: 900px) {
       .title {
@@ -193,7 +193,7 @@ export default {
   }
   .data-item {
     .label {
-      opacity: 0.7;
+      color: var(--color-text-secondary);
     }
     .value {
       font-weight: 600;

@@ -138,6 +138,10 @@ export default [
         file: (): Promise<string> => import("./essentials/typescript/index.md"),
       },
       {
+        doc: "localization",
+        file: (): Promise<string> => import("./essentials/localization/index.md"),
+      },
+      {
         title: "Deployment &amp; Hosting",
         doc: "deployment-and-hosting",
         file: (): Promise<string> => import("./essentials/deployment/index.md"),
@@ -263,6 +267,10 @@ export default [
         doc: "development-monorepo",
         file: (): Promise<string> => import("./examples/development-monorepo/index.md"),
       },
+      {
+        doc: "custom-blog",
+        file: (): Promise<string> => import("./examples/custom-blog/index.md"),
+      },
     ],
   },
   {
@@ -273,6 +281,10 @@ export default [
       {
         doc: "mongo-atlas",
         file: (): Promise<string> => import("./integrations/mongo-atlas/index.md"),
+      },
+      {
+        doc: "mongo-local",
+        file: (): Promise<string> => import("./integrations/mongo-local/index.md"),
       },
       {
         doc: "amazon-s3",

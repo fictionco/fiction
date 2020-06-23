@@ -105,7 +105,7 @@ export const clearError = (): void => {
 
 /**
  * IMPORTANT This should never load in production mode
- * It makes private settings available at an endpoint, used for setup
+ * It potentially makes private settings available at an endpoint, used for setup
  */
 export const setShowInstall = (): void => {
   if (process.env.NODE_ENV == "development") {

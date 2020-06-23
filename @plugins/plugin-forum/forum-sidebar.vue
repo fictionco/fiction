@@ -19,11 +19,7 @@
           :path="setting(`forum.indexRoute`)"
           :query="{ category: !item.value ? null : item.value }"
         >
-          <div class="item-icon">
-            <factor-icon v-if="item.icon" :class="item.icon" />
-            <nav-icon v-else class="nav-icon" :icon="item.value" />
-          </div>
-          <div class="item-text">{{ toLabel(item.name || item.value) }}</div>
+          <span class="item-text">{{ toLabel(item.name || item.value) }}</span>
         </factor-link>
       </div>
     </div>
@@ -31,9 +27,9 @@
 </template>
 
 <script lang="ts">
-import { toLabel } from "@factor/api/utils"
+import { toLabel, parseList } from "@factor/api/utils"
 import { setting } from "@factor/api/settings"
-import { factorLink, factorInputSelect, factorIcon } from "@factor/ui"
+import { factorLink, factorInputSelect } from "@factor/ui"
 
 interface NavItem {
   value: string
@@ -44,9 +40,8 @@ interface NavItem {
 export default {
   components: {
     factorLink,
-    navIcon: setting("forum.components.customIcons"),
+
     factorInputSelect,
-    factorIcon,
   },
   data() {
     return {
@@ -54,15 +49,17 @@ export default {
     }
   },
   computed: {
-    categories(): NavItem[] {
+    categories() {
       const categories = setting<NavItem[]>("forum.categories") ?? []
+
+      const parsedCategories = parseList(categories)
 
       return [
         {
           name: setting("forum.text.listAll"),
           value: "",
         },
-        ...categories,
+        ...parsedCategories,
       ]
     },
   },
@@ -85,9 +82,13 @@ export default {
 <style lang="less">
 .forum-sidebar {
   .new-discussion {
+    .factor-link {
+      display: block;
+    }
     .factor-btn {
       font-size: 1.1em;
       width: 100%;
+      display: block;
     }
 
     @media (max-width: 900px) {
@@ -130,32 +131,21 @@ export default {
     letter-spacing: -0.02em;
     font-size: 1.2em;
     display: grid;
-    margin-bottom: 0.75rem;
-    .menu-item-link,
-    .sub-menu {
-      grid-template-columns: 2rem 1fr;
-      grid-gap: 0.5rem;
-    }
+    margin-bottom: 0.3px;
 
     .menu-item-link {
       line-height: 1.2;
-      display: grid;
-      grid-template-areas: "icon primary";
+
       font-weight: 600;
-      padding: 0.1em 0;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
       color: inherit;
-      &.router-link-exact-active {
-        color: var(--color-primary);
-        .item-icon svg .primary-color {
-          fill: var(--color-primary);
-        }
-      }
+      display: block;
+      &.router-link-exact-active,
       &:hover {
-        color: var(--color-primary);
-        .item-icon .primary-color {
-          fill: var(--color-primary);
-        }
+        background-color: var(--color-bg-contrast);
       }
+
       .item-icon {
         grid-area: icon;
         text-align: center;

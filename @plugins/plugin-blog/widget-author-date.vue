@@ -10,14 +10,14 @@
           itemtype="http://schema.org/Person"
         >{{ getPost(authorId).displayName }}</span>
       </div>
-      <span class="sep">on</span>
+      <span class="sep">{{ setting('blog.on') }}</span>
       <span class="date">{{ standardDate(post.date) }}</span>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { factorAvatar } from "@factor/ui"
-import { isEmpty, standardDate, stored } from "@factor/api"
+import { isEmpty, standardDate, stored, setting } from "@factor/api"
 
 export default {
   components: { factorAvatar },
@@ -37,39 +37,38 @@ export default {
       return stored(_id) || {}
     },
     standardDate,
+    setting,
   },
 }
 </script>
-<style lang="less">
-.plugin-blog {
-  .widget-author-date {
-    .author-date {
-      display: flex;
-      align-items: center;
-      font-size: 0.9em;
-      font-weight: 600;
+<style lang="less" scoped>
+.widget-author-date {
+  .author-date {
+    display: flex;
+    align-items: center;
 
-      .author {
-        display: flex;
-        margin-right: 1em;
-        .avatar {
-          width: 2rem;
-          display: block;
-          margin-right: 10px;
-          float: left;
-        }
-        .name {
-          display: inline-flex;
-          align-items: center;
-          font-weight: 600;
-        }
+    font-weight: 600;
+
+    .author {
+      display: flex;
+      margin-right: 1em;
+      .avatar {
+        width: 2rem;
+        display: block;
+        margin-right: 10px;
+        float: left;
       }
-      .sep {
-        font-weight: 500;
-        font-style: italic;
-        margin: 0 1em 0 0;
-        opacity: 0.8;
+      .name {
+        display: inline-flex;
+        align-items: center;
+        font-weight: 600;
       }
+    }
+    .sep {
+      font-weight: 500;
+      font-style: italic;
+      margin: 0 1em 0 0;
+      opacity: 0.8;
     }
   }
 }
