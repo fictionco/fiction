@@ -79,11 +79,14 @@ export default {
     describe(this: any) {
       if (this.extensionType == "plugin") {
         return {
-          title: "Factor Plugins",
+          title: "Example Plugins",
           description: "Add new features to your app in seconds",
         }
       } else {
-        return { title: "Factor Themes", description: "Create beautiful apps in minutes" }
+        return {
+          title: "Example Themes",
+          description: "Sample themes to build beautiful apps in minutes",
+        }
       }
     },
   },
