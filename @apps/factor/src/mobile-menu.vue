@@ -68,11 +68,9 @@ export default {
             condition: (): boolean => isLoggedIn(),
           },
 
-          { path: "/install", name: "Start Your App" },
-          { path: "/developers", name: "Contribute" },
+          { path: "/install", name: "Install" },
           { path: "/themes", name: "Themes" },
           { path: "/plugins", name: "Plugins" },
-          { path: "/forum", name: "Forum" },
           { path: "/docs", name: "Docs" },
           { component: () => import("./el/github-stars.vue") },
         ],
