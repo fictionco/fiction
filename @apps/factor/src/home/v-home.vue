@@ -178,7 +178,7 @@ export default {
     return {
       title: "The JavaScript CMS",
       description:
-        "Factor is the leading extension-focused JavaScript CMS, Vue framework and eCommerce platform that helps you build websites, blogs, and eCommerce. Built with Vue, Express, Node, MongoDb and natively Typescript.",
+        "Factor is a modular JavaScript framework that helps you build websites, blogs, and eCommerce.",
     }
   },
 }
