@@ -1,0 +1,31 @@
+{
+  "name": "@apps/darwin-app",
+  "description": "Darwin Application",
+  "version": "1.3.0",
+  "url": "https://www.darwin.dev",
+  "main": "src/index",
+  "author": "Fiction.com",
+  "license": "UNLICENSED",
+  "factor": {
+    "load": {
+      "app": "index",
+      "server": [
+        "index",
+        "server"
+      ]
+    },
+    "app": {
+      "name": "Darwin",
+      "url": "https://www.darwin.dev",
+      "email": "Darwin Analytics <team@darwin.dev>"
+    },
+    "admins": [
+      "arpowers@gmail.com",
+      "andrew@fiction.com",
+      "ray@fiction.com"
+    ]
+  },
+  "dependencies": {
+    "@factor/core": "^1.0.0"
+  }
+}
