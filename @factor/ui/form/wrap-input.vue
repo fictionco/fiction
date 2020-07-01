@@ -1,5 +1,10 @@
 <template>
-  <div :key="renderKey" class="input-wrap" :class="[requiredClass, inputFormat]">
+  <div
+    v-show="show(values)"
+    :key="renderKey"
+    class="input-wrap"
+    :class="[requiredClass, inputFormat]"
+  >
     <div v-if="label || description" class="input-meta">
       <label class="label-wrap">
         <span v-if="label" class="label" :class="labelClasses">{{ label }}</span>
@@ -28,7 +33,6 @@
 
 <script lang="ts">
 import {
-  factorInputWrap,
   factorInputEmail,
   factorInputDate,
   factorInputText,
@@ -46,24 +50,29 @@ import {
   dashboardUserList,
 } from "@factor/ui"
 
+import { applyFilters } from "@factor/api"
+
+const inputs = applyFilters("ui-form-inputs", {
+  factorInputEmail,
+  factorInputDate,
+  factorInputText,
+  factorInputTags,
+  factorInputPhone,
+  factorInputCheckbox,
+  factorInputBirthday,
+  factorInputImageUpload,
+  factorInputSelect,
+  factorInputSubmit,
+  factorInputPassword,
+  factorInputTextarea,
+  factorInputEditor,
+  factorInputSortable,
+})
+
 export default {
   components: {
     dashboardUserList,
-    factorInputWrap,
-    factorInputEmail,
-    factorInputDate,
-    factorInputTags,
-    factorInputEditor,
-    factorInputText,
-    factorInputPhone,
-    factorInputCheckbox,
-    factorInputBirthday,
-    factorInputImageUpload,
-    factorInputSelect,
-    factorInputSubmit,
-    factorInputPassword,
-    factorInputTextarea,
-    factorInputSortable,
+    ...inputs,
   },
   inheritAttrs: false,
   props: {
@@ -77,6 +86,8 @@ export default {
     input: { type: String, default: "" },
     inputClasses: { type: String, default: "" },
     labelClasses: { type: String, default: "" },
+    show: { type: Function, default: () => true },
+    values: { type: Object, default: () => {} },
   },
   computed: {
     // Vue sometimes can cache this component and handle it incorrectly across views

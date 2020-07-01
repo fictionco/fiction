@@ -38,7 +38,6 @@ export const getTemplateFields = async (
  */
 export const getPageTemplates = (): TemplateConfig[] => {
   const _templates: TemplateConfig[] = setting("pageTemplates.templates") || []
-
   return applyFilters("page-templates", _templates)
     .filter((page: TemplateConfig, index: number, self: TemplateConfig[]) => {
       // remove duplicates, favor the last

@@ -10,44 +10,43 @@
           @click="selected = i"
         >
           <div class="handle">
-            <span>{{ item.__title || `Item ${i + 1}` }}</span>
+            <span>{{ item.__title || `${itemLabel} ${selected}` }}</span>
             <factor-icon icon="fas fa-grip-horizontal" />
           </div>
         </div>
 
-        <factor-btn class="add-item" @click="addItem()">Add Item</factor-btn>
+        <factor-btn class="add-item" @click="addItem()">{{ `Add ${itemLabel}` }}</factor-btn>
       </div>
 
-      <div class="inputs">
-        <div class="title">
-          <input
-            class="title-input"
-            :value="getValue('__title')"
-            type="text"
-            placeholder="Edit Title"
-            :size="getValue('__title') ? getValue('__title').length + 2 : 8"
-            @input="setValue('__title', $event.target.value)"
-          />
-          <span class="edit-me">
-            <factor-icon icon="fas fa-pencil" />
-          </span>
+      <div v-if="localValue.length" class="inputs">
+        <div class="header">
+          <div class="title">
+            <input
+              class="title-input"
+              :value="getValue('__title')"
+              type="text"
+              :placeholder="`Edit ${itemLabel}`"
+              :size="getValue('__title') ? getValue('__title').length + 2 : 8"
+              @input="setValue('__title', $event.target.value)"
+            />
+            <span class="edit-me">
+              <factor-icon icon="fas fa-pencil-alt" />
+            </span>
+          </div>
+          <div>
+            <factor-btn size="small" @click="removeItem(selected)">{{ `Remove ${itemLabel}` }}</factor-btn>
+          </div>
         </div>
         <factor-input-wrap
-          v-for="(field, i) in settings"
+          v-for="(field, i) in fields"
           :key="i"
           :value="getValue(field._id)"
-          :input="`factor-input-${field.input}`"
-          :label="field.label"
-          :description="field.description"
           :class="['engine-input', field.input]"
-          :settings="field.settings || []"
           :data-test="`input-${field._id}-${selected + 1}`"
-          v-bind="$attrs"
+          v-bind="{...$attrs, ...field}"
           @input="setValue(field._id, $event)"
+          :values="value[selected] || {}"
         />
-        <div>
-          <factor-btn size="small" @click="removeItem(selected)">Remove Item</factor-btn>
-        </div>
       </div>
     </div>
   </div>
@@ -64,6 +63,7 @@ export default {
   props: {
     value: { type: [Array, Object], default: () => [] },
     settings: { type: Array, default: () => [] },
+    itemLabel: { type: String, default: "Item" },
   },
   data() {
     return {
@@ -78,6 +78,12 @@ export default {
       set(this: any, localValue: any) {
         this.$emit("input", localValue)
       },
+    },
+    fields(this: any) {
+      return this.settings.map((setting) => {
+        setting.input = `factor-input-${setting.input}`
+        return setting
+      })
     },
   },
   mounted() {
@@ -120,17 +126,15 @@ export default {
       const newLocalValue = this.localValue.slice()
       const selected = this.value.length
       const item: { [key: string]: any } = {
-        __title: `Item ${selected + 1}`,
+        __title: `${this.itemLabel} ${selected}`,
         __key: randomToken(4),
       }
-
       this.settings.forEach((field: TemplateSetting) => {
         if ("_default" in field) {
           item[field._id] = field._default
         }
       })
       newLocalValue.push(item)
-
       this.localValue = newLocalValue
       this.selected = selected
     },
@@ -209,28 +213,37 @@ export default {
     padding: 1.5em;
     border-radius: 5px;
     background: #fff;
-    .title {
-      .title-input {
-        background: transparent;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
-      }
+    .header {
       display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
       margin-bottom: 1em;
-      align-items: center;
-      .edit-me {
-        margin-left: 1em;
-        opacity: 0.4;
-        font-size: 0.8em;
-      }
-      input {
-        width: auto;
-        padding: 0.2em;
-        padding-left: 0;
-        background: none;
-        box-shadow: none;
-        font-weight: var(--font-weight-bold);
+      width: 100%;
+      max-width: 25em;
+      .title {
+        .title-input {
+          background: transparent;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+          border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+        }
+        display: flex;
+        align-items: center;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        .edit-me {
+          margin-left: 1em;
+          opacity: 0.4;
+          font-size: 0.8em;
+        }
+        input {
+          width: auto;
+          padding: 0.2em;
+          padding-left: 0;
+          background: none;
+          box-shadow: none;
+          font-weight: var(--font-weight-bold);
+        }
       }
     }
   }
