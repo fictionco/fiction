@@ -1,4 +1,10 @@
-import { pushToFilter, addContentRoute, emitEvent } from "@factor/api"
+import {
+  pushToFilter,
+  addContentRoute,
+  emitEvent,
+  onEvent,
+  navigateToRoute,
+} from "@factor/api"
 
 import { currentUser } from "@factor/user"
 
@@ -13,6 +19,10 @@ export const notifySignedIn = (): void => {
 export const accountMenu = (): Promise<any> => import("./account-menu.vue")
 
 export const setup = (): void => {
+  onEvent("signin-redirect", ({ query }: { query: Record<string, any> }) => {
+    navigateToRoute({ path: "/signin", query })
+  })
+
   addContentRoute({
     name: "signin",
     path: "/signin",

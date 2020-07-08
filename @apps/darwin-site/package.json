@@ -1,16 +1,13 @@
 {
-  "name": "@apps/darwin-app",
-  "description": "Darwin Application",
+  "name": "@apps/darwin-site",
+  "description": "Darwin Site",
   "version": "1.3.0",
-  "url": "https://app.darwin.dev",
+  "url": "https://www.darwin.dev",
   "main": "src/index",
   "author": "Fiction.com",
   "license": "UNLICENSED",
   "factor": {
-    "disable": [
-      "@factor/dashboard",
-      "@factor/plugin-standard-signin"
-    ],
+    "disable": [],
     "load": {
       "app": "index",
       "server": [
