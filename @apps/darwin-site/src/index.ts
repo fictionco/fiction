@@ -6,7 +6,7 @@ addRoutes({
     {
       path: "/",
       component: (): Promise<any> => import("./home.vue"),
-      meta: { auth: true },
+      meta: {},
     },
   ],
 })
