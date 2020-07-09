@@ -1,6 +1,6 @@
 <template>
   <div class="content-layout">
-    sup
+    SUP ray?
     <router-view />
   </div>
 </template>
@@ -10,7 +10,7 @@ export default {
   components: {},
   metaInfo() {
     return {
-      titleTemplate: "%s - Factor",
+      titleTemplate: "%s - Darwin Analytics",
       link: [],
     }
   },
