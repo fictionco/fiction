@@ -64,6 +64,7 @@ export default {
       }
       .content {
         max-width: 520px;
+        justify-self: flex-end;
 
         .page-title,
         .page-title-sub {
