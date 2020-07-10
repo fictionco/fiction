@@ -52,7 +52,8 @@ export default {
 .site-head-pad {
   display: flex;
   align-items: center;
-  width: 100%;
+  margin: 0.5rem auto;
+  max-width: 1200px;
   height: 45px;
   margin: 0 auto;
   padding: 0 2rem;

@@ -3,7 +3,8 @@
     <section class="splash">
       <div class="splash-inner">
         <div class="content">
-          <h1 class="page-title">Analyze, measure, and improve your product.</h1>
+          <div class="super">Coming Soon</div>
+          <h1 class="page-title">Behavioral Analytics</h1>
           <h2
             class="page-title-sub"
           >Powerful but simple analytics to help you convert, engage, and retain more users.</h2>
@@ -41,7 +42,9 @@ export default {
 .view-home {
   .splash {
     position: relative;
-
+    input {
+      background: #fff;
+    }
     .splash-inner {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -66,6 +69,12 @@ export default {
         max-width: 520px;
         justify-self: flex-end;
 
+        .super {
+          text-transform: uppercase;
+          color: var(--color-primary);
+          letter-spacing: 0.02em;
+          margin-bottom: 1rem;
+        }
         .page-title,
         .page-title-sub {
           letter-spacing: -0.025em;

@@ -3,6 +3,7 @@
     <div class="stage-wrap" :style="{ transform: `scale(${scale})` }">
       <div class="stage">
         <div class="screenshot rectangle" />
+        <div class="screenshot rectangle-green" />
         <div class="screenshot graph">
           <img src="./img/figure-graph.svg" alt="Recurring Revenue Analytics" />
         </div>
@@ -75,6 +76,17 @@ figure.darwin-splash {
         width: 100%;
         height: 280px;
         background: var(--color-primary);
+        transform: translateZ(-79px) rotateY(-25deg) rotateX(4deg);
+      }
+      &.rectangle-green {
+        position: absolute;
+        left: -30%;
+        top: 10%;
+        width: 50%;
+        opacity: 0.5;
+        height: 180px;
+        background: var(--color-secondary);
+        transform: translateZ(-179px) rotateY(25deg) rotateX(4deg);
       }
       &.graph {
         position: absolute;
@@ -84,13 +96,15 @@ figure.darwin-splash {
         width: 100%;
         padding: 0.5rem 0.5rem 0;
         transform: scale(1.05);
+        transform: translateZ(179px) rotateY(-15deg) rotateX(4deg);
       }
       &.data-bar-list {
         position: absolute;
-        width: 80%;
-        top: 20px;
-        right: -40px;
+        width: 60%;
+        top: 10%;
+        left: -120px;
         padding: 1.5rem;
+        transform: translateZ(79px) rotateY(5deg) rotateX(4deg);
       }
     }
   }
