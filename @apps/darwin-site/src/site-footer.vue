@@ -42,7 +42,7 @@ export default {
     .legal,
     .copynav {
       color: inherit;
-      opacity: 0.5;
+      color: var(--color-text-secondary);
       a {
         color: inherit;
       }

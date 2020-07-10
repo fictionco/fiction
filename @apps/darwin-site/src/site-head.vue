@@ -52,18 +52,16 @@ export default {
 .site-head-pad {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 0.5rem auto;
   max-width: 1200px;
-  height: 45px;
+  height: 55px;
   margin: 0 auto;
   padding: 0 2rem;
 
-  @media (max-width: 900px) {
-    justify-content: center;
-  }
-
   .brand {
-    padding: 5px 0;
+    width: 120px;
+    padding: 0.5rem;
   }
 }
 </style>

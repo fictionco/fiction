@@ -51,6 +51,7 @@ figure.darwin-splash {
   @media (max-width: 900px) {
     margin: 0 auto;
     width: 450px;
+    transform: translateX(50px);
   }
   .stage-wrap {
     transform-origin: center center;
@@ -96,15 +97,15 @@ figure.darwin-splash {
         width: 100%;
         padding: 0.5rem 0.5rem 0;
         transform: scale(1.05);
-        transform: translateZ(179px) rotateY(-15deg) rotateX(4deg);
+        transform: scale(1.2) translateZ(50px) rotateY(-23deg) rotateX(12deg);
       }
       &.data-bar-list {
         position: absolute;
-        width: 60%;
-        top: 10%;
-        left: -120px;
+        width: 50%;
+        bottom: 5%;
+        left: -102px;
         padding: 1.5rem;
-        transform: translateZ(79px) rotateY(5deg) rotateX(4deg);
+        transform: translateZ(150px) rotateY(23deg) rotateX(11deg);
       }
     }
   }
