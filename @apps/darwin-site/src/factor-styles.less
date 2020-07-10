@@ -1,0 +1,39 @@
+.factor-app {
+  --color-primary: #5435FF;
+  --color-text: #252F3F;
+  --color-placeholder: #bdcad4;
+  --color-placeholder-2: #eeeef1;
+
+  --color-bg: #F4F6FC;
+
+  --font-family-primary: "Hind", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  --box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.04), 0px 20px 25px rgba(0, 0, 0, 0.1);
+  --box-shadow-input: 0 0 0 1px rgba(0, 43, 93, 0.2);
+
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-family-primary);
+  font-size: 16px;
+  font-weight: 500;
+  // line-height: 1.5;
+
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  a {
+    color: var(--color-primary);
+  }
+
+  .email-list-form {
+    max-width: 650px;
+    font-size: 1.3em;
+    margin: 2rem auto;
+
+    @media (max-width: 900px) {
+      font-size: 1em;
+    }
+  }
+}

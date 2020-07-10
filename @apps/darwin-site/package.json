@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0"
+    "@factor/core": "^1.0.0",
+    "@factor/plugin-email-list": "^1.0.0"
   }
 }
