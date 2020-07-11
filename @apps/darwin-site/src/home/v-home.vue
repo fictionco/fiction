@@ -3,11 +3,11 @@
     <section class="splash">
       <div class="splash-inner">
         <div class="content">
-          <div class="super">Currently in Stealth Mode</div>
+          <div class="super">In Stealth Mode &mdash; Coming Fall 2020</div>
           <h1 class="page-title">Understand Your Visitors and Convert More Traffic</h1>
           <h2
             class="page-title-sub"
-          >Session replays, heatmaps and behavioral analytics to you understand precisely how your visitors feel about your website.</h2>
+          >Fix problems, find money making opportunities and destroy your competition with a complete conversion analytics platfom.</h2>
 
           <factor-email-list list-id="darwinAlpha" />
         </div>
@@ -51,7 +51,7 @@ export default {
       grid-gap: 12em;
       padding: 10rem 3rem 2rem;
       align-items: center;
-
+      overflow: hidden;
       @media (min-height: 1000px) {
         padding-top: 170px;
       }
