@@ -83,9 +83,9 @@ export default {
         }
 
         .page-title {
-          font-size: 3em;
-          letter-spacing: -0.025em;
-          line-height: 1.1;
+          font-size: 2.5em;
+          letter-spacing: -0.02em;
+          line-height: 1.2;
           font-weight: 600;
           margin-bottom: 1rem;
         }
