@@ -31,7 +31,7 @@ export default {
   margin: 5em auto 0;
   padding: 0;
   .site-footer-pad {
-    margin: 0.5rem auto;
+    margin: 0 auto 1rem;
     max-width: 1200px;
   }
   .copy-wrap {
