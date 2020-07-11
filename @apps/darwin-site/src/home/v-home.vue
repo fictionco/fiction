@@ -30,7 +30,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: "Analyze, measure, and improve your product.",
+      title: "Optimize your website with behavioral analytics.",
       description:
         "Powerful but simple analytics to help you convert, engage, and retain more users.",
     }
