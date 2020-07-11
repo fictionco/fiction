@@ -60,8 +60,8 @@ export default {
   padding: 0 2rem;
 
   .brand {
-    width: 120px;
-    padding: 0.5rem;
+    display: flex;
+    width: 140px;
   }
 }
 </style>
