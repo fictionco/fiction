@@ -8,7 +8,7 @@
       <div v-else-if="!currentUser" class="no-dice">
         <div class="title">{{ setting("forum.text.loginToReply") }}</div>
         <div class="actions">
-          <factor-link event="signin-redirect-client" btn="primary">
+          <factor-link event="signin-form" btn="primary">
             <span v-formatted-text="setting('forum.text.login')" />
           </factor-link>
         </div>

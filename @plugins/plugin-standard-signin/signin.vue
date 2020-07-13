@@ -334,7 +334,7 @@ export default {
             waitFor(1000)
 
             if (newAccount) {
-              emitEvent("signin-redirect-client", { view: "account-created", user })
+              emitEvent("signin-form", { view: "account-created", user })
             }
           }
         })

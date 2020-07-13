@@ -49,21 +49,21 @@ export default {
     if (this.$route.query.signInView) {
       this.vis = true
     } else {
-      onEvent("signin-redirect-client", (args: ModalArguments = {}) => {
-        const { redirect = "", view = null, user } = args
-        this.user = user
-        this.redirect = redirect
-        if (view && this.view != view) {
-          this.setView(view)
-        }
+      // onEvent("signin-form", (args: ModalArguments = {}) => {
+      //   const { redirect = "", view = null, user } = args
+      //   this.user = user
+      //   this.redirect = redirect
+      //   if (view && this.view != view) {
+      //     this.setView(view)
+      //   }
 
-        this.vis = true
-      })
+      //   this.vis = true
+      // })
 
       /**
        * Allow modules to wait for loading before triggering this modal with an event
        */
-      runCallbacks("signin-redirect-client-loaded")
+      runCallbacks("signin-form-loaded")
     }
   },
   methods: {

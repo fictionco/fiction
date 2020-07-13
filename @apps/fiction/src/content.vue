@@ -7,7 +7,7 @@
           path="/dashboard"
           class="dashboard-link"
         >View Dashboard &rarr;</factor-link>
-        <factor-link v-else event="signin-redirect-client" data-test="login">Sign In &rarr;</factor-link>
+        <factor-link v-else event="signin-form" data-test="login">Sign In &rarr;</factor-link>
       </template>
     </site-head>
     <div class="content-main" :style="bg">

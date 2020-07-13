@@ -57,9 +57,9 @@ export const verifyEmail = async ({ _id, code }: VerifyEmail): Promise<void> => 
 export const showResetPassword = async (): Promise<void> => {
   addCallback({
     key: "resetPass",
-    hook: "signin-redirect-client-loaded",
+    hook: "signin-form-loaded",
     callback: () => {
-      emitEvent("signin-redirect-client", { view: "reset-password" })
+      emitEvent("signin-form", { view: "reset-password" })
     },
   })
 }

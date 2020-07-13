@@ -6,7 +6,7 @@
 <script lang="ts">
 export default {
   components: {
-    "el-signin": () => import("./sign-in.vue"),
+    "el-signin": () => import("./signin.vue"),
   },
   metaInfo() {
     return {

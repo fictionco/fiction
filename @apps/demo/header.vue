@@ -52,7 +52,7 @@
       <factor-link
         v-else-if="!userLoading"
         class="nav-link"
-        event="signin-redirect-client"
+        event="signin-form"
         data-test="signin-link"
       >Demo Login / Sign Up</factor-link>
     </div>

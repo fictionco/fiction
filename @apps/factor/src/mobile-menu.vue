@@ -58,7 +58,7 @@ export default {
         title: "Pages",
         items: [
           {
-            event: "signin-redirect-client",
+            event: "signin-form",
             name: "Sign In &rarr;",
             condition: (): boolean => !isLoggedIn(),
           },

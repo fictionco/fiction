@@ -69,7 +69,7 @@
           >{{ setting('forum.text.addReply') }} &darr;</factor-btn>
           <factor-link
             v-else
-            event="signin-redirect-client"
+            event="signin-form"
             class="item"
             btn="primary"
           >{{ setting('forum.text.loginToReply') }} &rarr;</factor-link>
