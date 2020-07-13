@@ -56,12 +56,12 @@ export const showSignIn = (
     mode?: "page" | "modal"
   } = {}
 ): void => {
-  const { mode = "modal", redirect } = options
+  const { mode = "modal" } = options
 
   if (mode == "modal") {
-    emitEvent("sign-in-modal", options)
+    emitEvent("signin-redirect-client", options)
   } else {
-    emitEvent("signin-redirect", { query: { redirect } })
+    emitEvent("signin-redirect", options)
     // navigateToRoute({ path: "/signin", query: { redirect } })
   }
 }

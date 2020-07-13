@@ -10,7 +10,11 @@
       </div>
       <div class="head-nav action-nav">
         <account-menu v-if="!userLoading && isLoggedIn()" />
-        <factor-link v-else-if="!userLoading" event="sign-in-modal" data-test="signin-link">Sign in</factor-link>
+        <factor-link
+          v-else-if="!userLoading"
+          event="signin-redirect-client"
+          data-test="signin-link"
+        >Sign in</factor-link>
         <factor-link
           v-if="$route.path != '/install'"
           path="/install"
@@ -42,7 +46,7 @@ export default {
       ],
       // actionNav: [
       //   {
-      //     event: "sign-in-modal",
+      //     event: "signin-redirect-client",
       //     name: "Sign In &rarr;",
       //     condition: (): boolean => !isLoggedIn(),
       //   },

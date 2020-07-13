@@ -58,7 +58,7 @@ export default {
         title: "Pages",
         items: [
           {
-            event: "sign-in-modal",
+            event: "signin-redirect-client",
             name: "Sign In &rarr;",
             condition: (): boolean => !isLoggedIn(),
           },

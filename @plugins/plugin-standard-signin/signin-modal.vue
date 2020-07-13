@@ -49,7 +49,7 @@ export default {
     if (this.$route.query.signInView) {
       this.vis = true
     } else {
-      onEvent("sign-in-modal", (args: ModalArguments = {}) => {
+      onEvent("signin-redirect-client", (args: ModalArguments = {}) => {
         const { redirect = "", view = null, user } = args
         this.user = user
         this.redirect = redirect
@@ -63,7 +63,7 @@ export default {
       /**
        * Allow modules to wait for loading before triggering this modal with an event
        */
-      runCallbacks("sign-in-modal-loaded")
+      runCallbacks("signin-redirect-client-loaded")
     }
   },
   methods: {

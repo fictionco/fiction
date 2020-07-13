@@ -19,8 +19,8 @@ export const notifySignedIn = (): void => {
 export const accountMenu = (): Promise<any> => import("./account-menu.vue")
 
 export const setup = (): void => {
-  onEvent("signin-redirect", ({ query }: { query: Record<string, any> }) => {
-    navigateToRoute({ path: "/signin", query })
+  onEvent("signin-redirect", ({ redirect }: { redirect: string }) => {
+    navigateToRoute({ path: "/signin", query: { redirect } })
   })
 
   addContentRoute({
@@ -33,8 +33,8 @@ export const setup = (): void => {
     key: "dashboard",
     hook: "site-components",
     item: {
-      name: "sign-in-modal",
-      component: (): Promise<any> => import("./sign-in-modal.vue"),
+      name: "signin-modal",
+      component: (): Promise<any> => import("./signin-modal.vue"),
     },
   })
 }

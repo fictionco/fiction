@@ -20,9 +20,3 @@ export interface ApplicationComponents {
   store: Store<any>
   context: ServerRenderContext
 }
-
-declare module "vue-router" {
-  interface RouteConfig {
-    priority?: number
-  }
-}
