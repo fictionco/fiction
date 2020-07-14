@@ -5,6 +5,8 @@ import { isNode } from "@factor/api/utils"
 export * from "./extend-app"
 import { RouteConfig } from "vue-router"
 
+type FactorRouteConfig = RouteConfig & { priority?: number }
+
 const waitForMountApp = (): Promise<void> => {
   return new Promise((resolve) => onEvent("app-mounted", () => resolve()))
 }
@@ -46,7 +48,7 @@ export const setup = (): void => {
       addFilter({
         hook: "routes",
         key: "appRoutes",
-        callback: (_: RouteConfig[]) => {
+        callback: (_: FactorRouteConfig[]) => {
           const contentRoutes = applyFilters("content-routes", [
             {
               name: "forbidden",
@@ -54,11 +56,13 @@ export const setup = (): void => {
               component: factorError404,
               meta: { error: 403 },
             },
-          ]).filter((route: RouteConfig, index: number, self: RouteConfig[]) => {
-            // remove duplicate paths
-            const lastIndexOf = self.map((_) => _.path).lastIndexOf(route.path)
-            return index === lastIndexOf
-          })
+          ]).filter(
+            (route: FactorRouteConfig, index: number, self: FactorRouteConfig[]) => {
+              // remove duplicate paths
+              const lastIndexOf = self.map((_) => _.path).lastIndexOf(route.path)
+              return index === lastIndexOf
+            }
+          )
 
           _.push({
             path: "/",
