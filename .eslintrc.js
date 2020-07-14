@@ -65,6 +65,7 @@ module.exports = {
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-extra-semi": "off",
     "import/no-cycle": 2,
     "import/no-unresolved": "off",
     "import/named": "off",

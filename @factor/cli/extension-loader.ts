@@ -306,8 +306,19 @@ const recursiveDependencies = (
   disabled = [...disabled, ...disable]
 
   Object.keys(dependencies)
-    .map((_) => require(`${_}/package.json`))
-    .filter((_) => typeof _.factor != "undefined" || _.name.includes("factor"))
+    .map((_) => {
+      // Some external dependencies may throw errors due to mismatching export
+      // Currently seeing this with 'envfile'
+      let p
+      try {
+        p = require(`${_}/package.json`)
+      } catch {
+        //silence
+      }
+
+      return p
+    })
+    .filter((_) => _ && typeof _.factor != "undefined")
     .forEach((_) => {
       // don't add if it's already there
       if (!dependents.find((pkg) => pkg.name == _.name)) {
@@ -315,7 +326,8 @@ const recursiveDependencies = (
 
         if (!options?.shallow) {
           // Preceding (;) is needed when not using const/let
-          ({ dependents, disabled } = recursiveDependencies(
+
+          ;({ dependents, disabled } = recursiveDependencies(
             dependents,
             _,
             disabled,
@@ -567,7 +579,7 @@ const verifyMainFiles = (extensions: FactorExtension[], cwd?: string): void | ne
   let mainFiles: string[] = []
 
   extensions.forEach(({ isCwd, load: { app, server }, name }) => {
-    [app, server].forEach((environment) => {
+    ;[app, server].forEach((environment) => {
       if (environment.length > 0) {
         mainFiles.push(
           ...environment.map((_) =>
