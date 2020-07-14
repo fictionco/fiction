@@ -357,7 +357,10 @@ const getId = ({
     __ = _id
   } else {
     const afterSlash = name.split(/plugin-|theme-|@factor/gi).pop() ?? "id"
-    __ = afterSlash.replace(/\//gi, "").replace(/-([a-z])/g, (g) => g[1].toUpperCase())
+    __ = afterSlash
+      .replace(/\//gi, "")
+      .replace(/[!#$%&*@^]/g, "")
+      .replace(/-([a-z])/g, (g) => g[1].toUpperCase())
   }
 
   // Add file specific ID to end
