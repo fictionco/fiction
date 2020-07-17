@@ -3,7 +3,7 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-sup">JavaScript CMS - Vue, Node, MongoDB</h1>
-        <h2 class="page-title">A framework for SaaS websites and applications</h2>
+        <h2 class="page-title">A platform for SaaS websites and dashboards</h2>
         <h3
           class="page-title-sub"
         >Factor is an open-source TypeScript framework plus headless CMS. Use it to develop, launch, and manage apps.</h3>

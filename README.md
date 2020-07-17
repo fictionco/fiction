@@ -1,11 +1,11 @@
 <div align="center">
-  <img src="https://i.imgur.com/Wv8kPKL.jpg" width="600px"  alt="Factor The JavaScript CMS">
+  <img src="./bw-logo.png" width="600px"  alt="Factor Application Framework">
 </div>
 
 <br />
 
 <div align="center">
-  <h3>The JavaScript CMS Platform</h3>
+  <h3>JavaScript Application Framework and Headless CMS</h3>
   <p>Build powerful &amp; professional JavaScript applications fast.</p>
 </div>
  
