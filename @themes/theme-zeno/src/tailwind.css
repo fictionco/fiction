@@ -1,6 +1,3 @@
-@tailwind base;
-@tailwind components;
-
 .factor-app body {
   @apply font-sans text-gray-800;
 }
@@ -38,4 +35,4 @@
     transform: none;
   }
 }
-@tailwind utilities;
+
