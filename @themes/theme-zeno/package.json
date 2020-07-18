@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-zeno",
-  "version": "1.8.18",
+  "version": "1.8.20",
   "license": "GPL-2.0",
   "description": "Zeno is a theme suited for the needs of SaaS and technology companies. Styles are powered by Tailwind, a low-level CSS framework.",
   "author": {
