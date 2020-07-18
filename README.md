@@ -5,7 +5,7 @@
 <br />
 
 <div align="center">
-  <h3>JavaScript Application Framework and Headless CMS</h3>
+  <h3>VueJS Application Framework and Headless CMS</h3>
   <p>Build powerful &amp; professional JavaScript applications fast.</p>
 </div>
  

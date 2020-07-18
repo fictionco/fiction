@@ -2,11 +2,11 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-sup">JavaScript CMS - Vue, Node, MongoDB</h1>
-        <h2 class="page-title">A platform for SaaS websites and dashboards</h2>
+        <h1 class="page-sup">Build with TypeScript, Vue, Node</h1>
+        <h2 class="page-title">VueJS Framework and Headless CMS Platform</h2>
         <h3
           class="page-title-sub"
-        >Factor is an open-source TypeScript framework plus headless CMS. Use it to develop, launch, and manage apps.</h3>
+        >Ship applications and websites fast without reinventing the wheel.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
