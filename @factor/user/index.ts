@@ -291,7 +291,7 @@ const handleAuthRouting = (): void => {
       }
 
       if ((accessLevel > 0 || auth === true) && !user) {
-        navigateToRoute({ path: "/signin", query: { redirect: path } })
+        showSignIn({ redirect: path })
       } else if (accessLevel > userAccessLevel) {
         navigateToRoute({ path: "/" })
         emitEvent("error", "403: You don't have the permissions to view that page.")
