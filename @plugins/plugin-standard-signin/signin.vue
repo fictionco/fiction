@@ -3,15 +3,113 @@
     <div class="signin-header">
       <div class="title">{{ header.title }}</div>
       <div v-if="header.subTitle" class="sub-title">{{ header.subTitle }}</div>
+    </div>
+    <factor-form ref="signin-form">
+      <transition-group name="form-inputs">
+        <template v-if="view == 'forgot-password'">
+          <dashboard-input
+            key="email-input"
+            v-model="form.email"
+            data-test="input-password-email"
+            input="factor-input-email"
+            required
+            placeholder="Email"
+            @keyup.enter="trigger('forgot-password')"
+          />
+          <div key="action-btn" class="action">
+            <factor-btn
+              ref="forgot-password"
+              :loading="loading"
+              btn="primary"
+              data-test="send-password-email"
+              text="Send Password Reset Email"
+              @click="send({ action: sendPasswordResetEmail, next: `password-email-sent` })"
+            />
+          </div>
+        </template>
 
+        <template v-else-if="view == 'reset-password'">
+          <dashboard-input
+            key="password"
+            v-model="form.password"
+            input="factor-input-password"
+            data-test="reset-password"
+            autocomplete="new-password"
+            required
+            placeholder="Password"
+            @keyup.enter="trigger('reset-password')"
+          />
+          <factor-btn
+            key="reset-password-btn"
+            ref="reset-password"
+            btn="primary"
+            :loading="loading"
+            text="Reset Password"
+            @click="
+              send({ action: verifyAndResetPassword, next: `successful-password-reset` })
+            "
+          />
+        </template>
+
+        <template v-else-if="!view && isLoggedIn()">
+          <div key="action-btn" class="action">
+            <factor-link btn="primary" text="Account Settings" path="/dashboard/account" />
+          </div>
+        </template>
+
+        <template v-else-if="!view">
+          <dashboard-input
+            v-if="newAccount"
+            key="name-input"
+            v-model="form.displayName"
+            input="factor-input-text"
+            data-test="signin-name"
+            required
+            placeholder="Full Name"
+            @keyup.enter="trigger('submit')"
+          />
+          <dashboard-input
+            key="email-input"
+            v-model="form.email"
+            input="factor-input-email"
+            data-test="signin-email"
+            required
+            placeholder="Email"
+            @keyup.enter="trigger('submit')"
+          />
+          <dashboard-input
+            key="password-input"
+            v-model="form.password"
+            input="factor-input-password"
+            data-test="signin-password"
+            :autocomplete="newAccount ? `new-password` : `current-password`"
+            required
+            placeholder="Password"
+            @keyup.enter="trigger('submit')"
+          />
+
+          <div key="action-btn" class="action">
+            <factor-btn
+              ref="submit"
+              data-test="submit-login"
+              :loading="loading"
+              btn="primary"
+              @click="signIn('email')"
+            >{{ newAccount ? "Sign Up" : "Log In" }} &rarr;</factor-btn>
+          </div>
+        </template>
+      </transition-group>
+    </factor-form>
+
+    <div class="alt-links">
       <template v-if="!isLoggedIn()">
         <div v-if="newAccount && !view" class="forgot-password alternative-action-link">
           Have an account?
           <a
             href="#"
             data-test="link-login"
-            @click.prevent="newAccount = false"
-          >Login &rarr;</a>
+            @click.prevent="setNewAccount(false)"
+          >Log in.</a>
         </div>
 
         <div v-else-if="!view" class="new-account alternative-action-link">
@@ -19,106 +117,18 @@
           <a
             href="#"
             data-test="link-register"
-            @click.prevent="newAccount = true"
-          >Sign Up &rarr;</a>
-        </div>
-      </template>
-    </div>
-    <factor-form ref="signin-form">
-      <template v-if="view == 'forgot-password'">
-        <dashboard-input
-          v-model="form.email"
-          data-test="input-password-email"
-          input="factor-input-email"
-          required
-          placeholder="Email"
-          @keyup.enter="trigger('forgot-password')"
-        />
-        <factor-btn
-          ref="forgot-password"
-          :loading="loading"
-          btn="primary"
-          data-test="send-password-email"
-          text="Send Password Reset Email"
-          @click="send({ action: sendPasswordResetEmail, next: `password-email-sent` })"
-        />
-      </template>
-
-      <template v-else-if="view == 'reset-password'">
-        <dashboard-input
-          v-model="form.password"
-          input="factor-input-password"
-          data-test="reset-password"
-          autocomplete="new-password"
-          required
-          placeholder="Password"
-          @keyup.enter="trigger('reset-password')"
-        />
-        <factor-btn
-          ref="reset-password"
-          btn="primary"
-          :loading="loading"
-          text="Reset Password"
-          @click="
-            send({ action: verifyAndResetPassword, next: `successful-password-reset` })
-          "
-        />
-      </template>
-
-      <template v-else-if="!view && isLoggedIn()">
-        <div class="action">
-          <factor-link btn="primary" text="Account Settings" path="/dashboard/account" />
+            @click.prevent="setNewAccount(true)"
+          >Sign up.</a>
         </div>
       </template>
 
-      <template v-else-if="!view">
-        <dashboard-input
-          v-if="newAccount"
-          v-model="form.displayName"
-          input="factor-input-text"
-          data-test="signin-name"
-          required
-          placeholder="Full Name"
-          @keyup.enter="trigger('submit')"
-        />
-        <dashboard-input
-          v-model="form.email"
-          input="factor-input-email"
-          data-test="signin-email"
-          required
-          placeholder="Email"
-          @keyup.enter="trigger('submit')"
-        />
-        <dashboard-input
-          v-model="form.password"
-          input="factor-input-password"
-          data-test="signin-password"
-          :autocomplete="newAccount ? `new-password` : `current-password`"
-          required
-          placeholder="Password"
-          @keyup.enter="trigger('submit')"
-        />
-
-        <div class="action">
-          <factor-btn
-            ref="submit"
-            data-test="submit-login"
-            :loading="loading"
-            btn="primary"
-            @click="signIn('email')"
-          >{{ newAccount ? "Sign Up" : "Login" }} &rarr;</factor-btn>
-        </div>
-      </template>
-    </factor-form>
-
-    <div class="alt-links">
       <template v-if="!isLoggedIn()">
         <template v-if="view">
           <div class="alternative-action-link">
             <a data-test="link-back" @click.prevent="setView()">&larr; Back to Sign In</a>
           </div>
         </template>
-        <template v-else>
+        <template v-else-if="!newAccount">
           <div class="forgot-password alternative-action-link">
             Did you
             <a
@@ -130,7 +140,7 @@
       </template>
       <div v-else-if="!view" class="forgot-password alternative-action-link">
         Sign in to another account?
-        <a @click="logout()">logout&nbsp;&rarr;</a>
+        <a @click="logout()">Log out&nbsp;&rarr;</a>
       </div>
     </div>
   </div>
@@ -160,7 +170,7 @@ export default {
     return {
       loading: false,
       form: {},
-      newAccount: true,
+
       user: undefined,
     }
   },
@@ -197,11 +207,13 @@ export default {
         }
       } else if (this.newAccount) {
         return {
-          title: "Create Account",
+          title: "Sign Up",
+          subTitle: "Create a new account.",
         }
       } else {
         return {
-          title: "Login",
+          title: "Sign In",
+          subTitle: "Log in to existing account.",
         }
       }
     },
@@ -211,23 +223,26 @@ export default {
     mode(this: any) {
       return this.$route.query.mode || "continue"
     },
+    newAccount(this: any) {
+      const isNew =
+        typeof this.$route.query.new != "undefined" && this.$route.query.new == "no"
+          ? false
+          : true
+      return isNew
+    },
     redirectPath(this: any) {
       const defaultRedirect = this.$route.name == "signin" ? "/" : false
       return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
     },
   },
   created(this: any) {
-    const { email, displayName, newAccount } = this.$route.query
+    const { email, displayName } = this.$route.query
 
     if (email) {
       this.$set(this.form, "email", email)
     }
     if (displayName) {
       this.$set(this.form, "displayName", displayName)
-    }
-
-    if (typeof newAccount !== "undefined") {
-      this.newAccount = true
     }
 
     if (this.initialView) {
@@ -239,6 +254,11 @@ export default {
     verifyAndResetPassword,
     isLoggedIn,
     logout,
+    setNewAccount(val: boolean) {
+      this.$router.replace({
+        query: { ...this.$route.query, new: val ? "yes" : "no" },
+      })
+    },
     trigger(this: any, ref: string) {
       this.$refs[ref].$el.focus()
       this.$refs[ref].$el.click()
@@ -369,6 +389,21 @@ export default {
   margin: 1em auto 1em;
   width: 300px;
   text-align: center;
+
+  .form-inputs-move {
+    transition: transform 1s;
+  }
+  .form-inputs-leave-active {
+    position: absolute;
+  }
+  .form-inputs-enter-active,
+  .form-inputs-leave-active {
+    transition: all 1s;
+  }
+  .form-inputs-enter, .form-inputs-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateX(30px);
+  }
   form {
     font-size: 1.2em;
     input {
@@ -397,10 +432,6 @@ export default {
     line-height: 1.8;
     a {
       cursor: pointer;
-      color: var(--color-primary);
-      &:hover {
-        color: var(--color-secondary);
-      }
     }
   }
 

@@ -2,11 +2,20 @@ import deepMergeLib from "deepmerge"
 import randToken from "rand-token"
 import isNode from "detect-node"
 import guid from "uniqid"
+import Vue from "vue"
 import stopwordsLib from "./resource/stopwords"
 
 export * from "./utils-lodash"
 
 export { isNode, guid }
+
+/**
+ * Global "this" value object that gets reset on server restart
+ * but not when a module is refreshed (out of module scope)
+ *
+ * Setting to Vue object for now, but may need tweak at vue3 upgrade
+ */
+export const appGlobal = Vue as Record<string, any>
 
 /**
  * Standard list format
@@ -29,7 +38,7 @@ export interface PriorityItem {
 /**
  * Get a universal global this object
  */
-export const getGlobalThis = (): typeof globalThis | NodeJS.Global => {
+export const appThis = (): typeof globalThis | NodeJS.Global => {
   if (globalThis) {
     return globalThis
   } else {

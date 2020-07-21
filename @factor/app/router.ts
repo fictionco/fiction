@@ -151,7 +151,7 @@ export const createFactorRouter = (): VueRouter => {
 }
 
 export const getRouter = (): VueRouter => {
-  return __routerInstance
+  return __routerInstance ?? {}
 }
 
 /**
@@ -283,7 +283,7 @@ export const editContentRoute = ({
   })
 }
 
-export const currentRoute = (): Route => {
+export const currentRoute = (): Route | undefined => {
   return getRouter().currentRoute
 }
 
@@ -294,5 +294,5 @@ export const navigateToRoute = (r: Location): Promise<Route> => {
 export const routeRequiresAuth = (): boolean => {
   const route = currentRoute()
 
-  return route.matched.some((_) => _.meta.auth)
+  return route ? route.matched.some((_) => _.meta.auth) : false
 }

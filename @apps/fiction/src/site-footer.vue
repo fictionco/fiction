@@ -7,8 +7,9 @@
         </factor-link>
       </div>
       <div class="footer-col">
-        <h3 class="menu-header">Platform</h3>
+        <h3 class="menu-header">Projects</h3>
         <factor-link path="https://factor.dev?ref=fiction">JavaScript CMS</factor-link>
+        <factor-link path="https://www.darwin.dev?ref=fiction">Conversion Analytics</factor-link>
       </div>
       <div class="footer-col">
         <h3 class="menu-header">Company</h3>

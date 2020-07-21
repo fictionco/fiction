@@ -1,31 +1,3 @@
-@font-face {
-  font-family: "Mark Pro";
-  src: local("Mark Pro Heavy"), local("MarkPro-Heavy"),
-    url(/markpro-heavy.woff2) format("woff2");
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: "Mark Pro";
-  src: local("Mark Pro Bold"), local("MarkPro-Bold"),
-    url(/markpro-bold.woff2) format("woff2");
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: Eina01;
-  src: local("Eina01-Regular"), local("3A2AFF_0_0"),
-    url(/eina-regular.woff2) format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: Eina01;
-  src: local("Eina01-Bold"), local("3A2AFF_0_1"), url(/eina-bold.woff2) format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
 .factor-app {
   --max-width: 1200px;
   --content-max-width: 1200px;
@@ -37,10 +9,8 @@
   --color-text: #ccc;
   --color-bg: #000;
 
-  --font-family-primary: "Eina01", -apple-system,
-    /* Chrome < 56 for OS X (San Francisco)  */ BlinkMacSystemFont,
-    /* Windows  */ "Segoe UI", /* Android  */ "Roboto",
-    /* Basic web fallback  */ "Helvetica Neue", Arial, sans-serif;
+  --font-family-primary: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
   --box-shadow-panel: 0 0 1px rgba(58, 55, 148, 0.25), 0 6px 14px 0 rgba(24, 32, 41, 0.06),
     0 12px 34px 0 rgba(24, 32, 41, 0.04);
@@ -58,14 +28,6 @@
 
   a {
     color: var(--color-primary);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5 {
-    font-family: "Mark Pro", var(--font-family-primary);
   }
 
   button.app-btn {

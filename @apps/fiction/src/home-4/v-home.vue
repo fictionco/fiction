@@ -2,11 +2,16 @@
   <div class="home-view">
     <section class="header-area">
       <div class="header-area-text">
-        <h1>Idea to App</h1>
-        <h3 class="sub">Validate, plan, develop, and fund your software company.</h3>
-        <factor-link btn="primary" size="large" path="/contact">Contact us &rarr;</factor-link>
+        <h1>Welcome to Fiction</h1>
+        <h3 class="sub">Fiction starts, buys, and invests in internet businesses.</h3>
+        <factor-link btn="primary" path="/contact">Contact us &rarr;</factor-link>
       </div>
     </section>
+
+    <!-- <blockquote>
+      <p>"Technology alone is not enough—it’s technology married with liberal arts, married with the humanities, that yields us the results that make our heart sing."</p>
+      <cite>&mdash; Steve Jobs</cite>
+    </blockquote>-->
   </div>
 </template>
 
@@ -27,7 +32,7 @@ export default {
 
   metaInfo() {
     return {
-      title: "Validate, plan, develop, and fund your software company.",
+      title: "Fiction Fund",
       description: `Fiction helps entrepreneurs develop, market and launch applications.`,
       image: fictionLogo,
     }
@@ -36,11 +41,21 @@ export default {
 </script>
 <style lang="less">
 .home-view {
+  blockquote {
+    max-width: 500px;
+    margin: 3rem auto;
+    p {
+      font-weight: 700;
+    }
+    cite {
+      opacity: 0.7;
+    }
+  }
   .header-area {
     padding: 1rem;
     max-width: 1100px;
     margin: 0 auto;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -50,13 +65,13 @@ export default {
     }
   }
   .header-area-text {
-    max-width: 540px;
+    max-width: 640px;
     margin: 0 auto;
     padding: 6em 0;
     text-align: left;
 
     h1 {
-      font-size: 5em;
+      font-size: 2em;
       font-weight: 800;
       line-height: 1.2;
       margin-bottom: 1rem;
