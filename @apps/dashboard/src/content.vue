@@ -4,12 +4,14 @@
   </div>
 </template>
 <script lang="ts">
+import { toLabel } from "@factor/api"
 export default {
   name: "ContentWrap",
   components: {},
-  metaInfo() {
+  metaInfo(this: any) {
     return {
       titleTemplate: "%s - Darwin Analytics",
+      title: toLabel(this.$route.name) || "No Name",
       link: [
         {
           vmid: "font",

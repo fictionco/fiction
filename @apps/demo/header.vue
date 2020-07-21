@@ -54,7 +54,7 @@
         class="nav-link"
         event="signin-form"
         data-test="signin-link"
-      >Demo Login / Sign Up</factor-link>
+      >Demo Log In</factor-link>
     </div>
   </div>
 </template>

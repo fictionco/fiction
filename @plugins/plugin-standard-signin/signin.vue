@@ -4,7 +4,8 @@
       <div class="title">{{ header.title }}</div>
       <div v-if="header.subTitle" class="sub-title">{{ header.subTitle }}</div>
     </div>
-    <factor-form ref="signin-form">
+    <factor-spinner v-if="authLoading" />
+    <factor-form v-else ref="signin-form">
       <transition-group name="form-inputs">
         <template v-if="view == 'forgot-password'">
           <dashboard-input
@@ -148,19 +149,25 @@
 
 <script lang="ts">
 import { logout } from "@factor/user/util"
-import { dashboardInput, factorForm, factorBtn, factorLink } from "@factor/ui"
+import {
+  dashboardInput,
+  factorForm,
+  factorBtn,
+  factorLink,
+  factorSpinner,
+} from "@factor/ui"
+import { waitFor } from "@factor/api"
 
 import { authenticate, userInitialized, isLoggedIn } from "@factor/user"
 import {
   sendPasswordResetEmail,
   verifyAndResetPassword,
 } from "@factor/user/email-request"
-import { emitEvent, waitFor } from "@factor/api"
 
 import { CurrentUserState } from "@factor/user/types"
 import { notifySignedIn } from "."
 export default {
-  components: { factorForm, factorBtn, dashboardInput, factorLink },
+  components: { factorForm, factorBtn, dashboardInput, factorLink, factorSpinner },
   props: {
     format: { type: String, default: "page" },
     redirect: { type: String, default: "" },
@@ -170,7 +177,7 @@ export default {
     return {
       loading: false,
       form: {},
-
+      authLoading: true,
       user: undefined,
     }
   },
@@ -231,8 +238,7 @@ export default {
       return isNew
     },
     redirectPath(this: any) {
-      const defaultRedirect = this.$route.name == "signin" ? "/" : false
-      return this.redirect ? this.redirect : this.$route.query.redirect || defaultRedirect
+      return this.redirect ? this.redirect : this.$route.query.redirect || "/"
     },
   },
   created(this: any) {
@@ -248,6 +254,13 @@ export default {
     if (this.initialView) {
       this.setView(this.initialView)
     }
+  },
+  async mounted() {
+    await userInitialized()
+
+    setTimeout(() => {
+      this.authLoading = false
+    }, 200)
   },
   methods: {
     sendPasswordResetEmail,
@@ -352,10 +365,6 @@ export default {
             await this.$router.push({ path: this.redirectPath })
 
             waitFor(1000)
-
-            if (newAccount) {
-              emitEvent("signin-form", { view: "account-created", user })
-            }
           }
         })
       } else {

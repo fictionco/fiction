@@ -20,7 +20,9 @@
       </div>
     </div>
     <div class="main">
-      <signin />
+      <div class="signin-area">
+        <standard-signin :redirect="redirect" />
+      </div>
       <div class="footer">
         <factor-link path="https://www.fiction.com">&copy; Fiction</factor-link>
         <factor-link path="/privacy">Privacy &amp; Terms</factor-link>
@@ -31,20 +33,24 @@
 <script lang="ts">
 import { toLabel } from "@factor/api"
 import { factorIcon, factorLink } from "@factor/ui"
+import StandardSignin from "@factor/plugin-standard-signin/signin.vue"
 export default {
   components: {
-    signin: () => import("./signin.vue"),
     logo: () => import("../el/logo.vue"),
+    StandardSignin,
     factorIcon,
     factorLink,
   },
   computed: {
-    mode(): string {
+    mode(this: any): string {
       const mode =
         this.$route.name == "login" || this.$route.query.new == "no"
           ? "login"
           : "register"
       return mode
+    },
+    redirect() {
+      return this.mode == "register" ? "/onboard" : "/"
     },
     points() {
       const benefits = [

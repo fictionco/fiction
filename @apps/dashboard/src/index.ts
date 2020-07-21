@@ -11,12 +11,17 @@ addRoutes({
     {
       name: "register",
       path: "/register",
-      component: (): Promise<any> => import("./signin/view.vue"),
+      component: (): Promise<any> => import("./signin/v-signin.vue"),
     },
     {
       name: "login",
       path: "/login",
-      component: (): Promise<any> => import("./signin/view.vue"),
+      component: (): Promise<any> => import("./signin/v-signin.vue"),
+    },
+    {
+      name: "onboard",
+      path: "/onboard",
+      component: (): Promise<any> => import("./onboard/v-onboard.vue"),
     },
   ],
 })
