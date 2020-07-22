@@ -2,34 +2,12 @@ import { applyFilters, slugify } from "@factor/api"
 import { userInitialized, userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { currentRoute } from "@factor/app/router"
+import { MenuItem, MenuGroup } from "@factor/ui/dashboard/types"
 import genericIcon from "./theme/img/generic.svg"
 import { getDashboardRoute } from "./util"
 
-export interface MenuItem {
-  name: string
-  group?: string
-  location?: "dashboard" | "development" | "admin" | "site"
-  path?: string
-  component?: () => Promise<any>
-  meta?: Record<string, any>
-  icon?: string
-  key?: string
-  items?: MenuItem[]
-  children?: (MenuItem & RouteConfig)[]
-  active?: boolean
-  priority?: number
-  query?: Record<string, any>
-  accessLevel?: number
-}
-
-export type MenuGroup = {
-  group: string
-  hideTitle?: true
-  menu: MenuItem[]
-}
-
 const setMenuState = (area: MenuGroup): MenuGroup => {
-  const { path } = currentRoute()
+  const { path } = currentRoute() ?? {}
 
   const menuWithState = area.menu.map((menuItem: MenuItem) => {
     const items = menuItem.items || []

@@ -3,7 +3,7 @@
     <div class="sidebar">
       <div class="sidebar-pad">
         <div class="logo-area">
-          <logo class="logo" />
+          <logo class="logo" scheme="light" />
         </div>
         <div class="points">
           <div v-for="(point, i) in points" :key="i" class="point">

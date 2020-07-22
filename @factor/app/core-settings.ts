@@ -9,7 +9,8 @@ export default (): Record<string, any> => {
       },
       // Must be a function to use __FIND__
       icon: (): string => require("__FIND__/static/icon.svg"),
-      avatarDefault: "https://fiction-com.s3-us-west-1.amazonaws.com/user-blank-2.png",
+      //  avatarDefault: "https://fiction-com.s3-us-west-1.amazonaws.com/user-blank-2.png",
+      avatarDefault: "retro",
       templatePath: "__FIND__/index.html",
       faviconPath: "__FIND__/static/favicon.png",
     },
