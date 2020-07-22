@@ -7,8 +7,7 @@
   },
   "factor": {
     "load": {
-      "app": "index",
-      "server": "server"
+      "app": "index"
     }
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

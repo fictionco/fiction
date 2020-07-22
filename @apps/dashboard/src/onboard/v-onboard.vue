@@ -21,7 +21,15 @@
       </div>
     </template>
     <dashboard-page title="Welcome to Darwin Analytics">
-      <dashboard-panel>test</dashboard-panel>
+      <dashboard-panel>
+        <p>The Darwin team would like to welcome you and give you a tour of the product.</p>
+        <p>
+          We are doing our best to fit Darwin to your needs, so we welcome your feedback and suggestions. Send us an email at
+          <a
+            href="mailto:hello@darwin.dev"
+          >hello@darwin.dev</a>
+        </p>
+      </dashboard-panel>
     </dashboard-page>
   </dashboard-wrapper>
 </template>
