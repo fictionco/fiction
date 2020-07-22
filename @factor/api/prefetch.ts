@@ -25,7 +25,7 @@ type PrefetchArguments = {
 export const preFetchPost = async ({ to = null, clientOnly = false } = {}): Promise<
   void
 > => {
-  const route = to || currentRoute()
+  const route = to ?? currentRoute() ?? { params: {}, query: {}, path: "" }
 
   const request = applyFilters("post-params", {
     ...route.params,

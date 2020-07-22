@@ -3,8 +3,8 @@ import { userInitialized, userCan } from "@factor/user"
 import { RouteConfig } from "vue-router"
 import { currentRoute } from "@factor/app/router"
 import { MenuItem, MenuGroup } from "@factor/ui/dashboard/types"
+import { getDashboardRoute } from "@factor/api/dashboard"
 import genericIcon from "./theme/img/generic.svg"
-import { getDashboardRoute } from "./util"
 
 const setMenuState = (area: MenuGroup): MenuGroup => {
   const { path } = currentRoute() ?? {}

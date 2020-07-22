@@ -3,11 +3,9 @@ import { toLabel, slugify, postTypesConfig, currentUrl, addRoutes } from "@facto
 import { addCallback, pushToFilter, addFilter, applyFilters } from "@factor/api/hooks"
 import { userCan } from "@factor/user"
 
+import { getDashboardRoute, dashboardBaseRoute } from "@factor/api/dashboard"
 import { DashboardMenuItem } from "./types"
-import { getDashboardRoute, dashboardBaseRoute } from "./util"
 import { preloadedDashboardRoutes } from "./menu"
-
-export * from "./util"
 
 declare global {
   interface Window {

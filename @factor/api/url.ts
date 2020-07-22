@@ -1,6 +1,6 @@
 import path from "path"
 import { setting } from "@factor/api/settings"
-import { dashboardBaseRoute } from "@factor/dashboard"
+import { dashboardBaseRoute } from "@factor/api/dashboard"
 
 interface UrlOptions {
   domainOnly?: true

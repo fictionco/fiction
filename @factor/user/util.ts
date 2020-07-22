@@ -67,7 +67,13 @@ export const logout = async (args: { redirect?: string } = {}): Promise<void> =>
   emitEvent("logout")
   emitEvent("notify", "Successfully logged out.")
 
-  if (args.redirect || currentRoute().matched.some((r) => r.meta.auth)) {
+  const theCurrentRoute = currentRoute()
+
+  if (
+    args.redirect ||
+    !theCurrentRoute ||
+    theCurrentRoute.matched.some((r) => r.meta.auth)
+  ) {
     const { redirect: path = "/" } = args
     navigateToRoute({ path })
   } else {

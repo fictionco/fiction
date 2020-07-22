@@ -26,7 +26,7 @@
 <script lang="ts">
 import { factorSpinner } from "@factor/ui"
 import * as user from "@factor/user"
-import { toLabel, getPostTypeConfig } from "@factor/api"
+import { getPostTypeConfig } from "@factor/api"
 import { Route } from "vue-router"
 
 export default {
@@ -60,7 +60,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("THIs", this.$scopedSlots)
     /**
      * Wait for user information ready before loading interface
      */

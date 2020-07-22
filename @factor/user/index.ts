@@ -264,7 +264,7 @@ const handleAuthRouting = (): void => {
     key: "authRouting",
     hook: "before-user-init",
     callback: (user: CurrentUserState) => {
-      const { path, matched, params } = currentRoute()
+      const { path = "", matched = [], params = {} } = currentRoute() ?? {}
 
       const isBot = isSearchBot()
 

@@ -44,8 +44,8 @@
           :class="['engine-input', field.input]"
           :data-test="`input-${field._id}-${selected + 1}`"
           v-bind="{...$attrs, ...field}"
-          @input="setValue(field._id, $event)"
           :values="value[selected] || {}"
+          @input="setValue(field._id, $event)"
         />
       </div>
     </div>

@@ -15,7 +15,7 @@ export default (): Record<string, any> => {
       faviconPath: "__FIND__/static/favicon.png",
     },
     dashboard: {
-      route: "/dashboard",
+      route: "/",
     },
     metaInfo: {
       titleTemplate: "%s",

@@ -210,7 +210,7 @@ export const postAction = async ({
 
 export const loadAndStoreIndex = async (): Promise<void> => {
   const route = currentRoute()
-  const { query } = route
+  const { query = {} } = route ?? {}
   const {
     tag = "",
     category = "",

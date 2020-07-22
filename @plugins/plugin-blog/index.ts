@@ -16,7 +16,7 @@ export const standardBlogSingle = setting("blog.components.standardBlogSingle")
  */
 export const loadAndStoreBlogIndex = async (): Promise<void> => {
   const route = currentRoute()
-  const { params, query } = route
+  const { params = {}, query = {} } = route ?? {}
 
   const tag = params.tag ?? query.tag ?? ""
   const category = params.category ?? query.category ?? ""

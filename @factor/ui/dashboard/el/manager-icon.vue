@@ -36,7 +36,7 @@
   </div>
 </template>
 <script lang="ts">
-import { getDashboardRoute } from "@factor/dashboard"
+import { getDashboardRoute } from "@factor/api/dashboard"
 import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
 import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
 import { currentUser } from "@factor/user"
@@ -62,7 +62,9 @@ export default {
   computed: {
     currentUser,
     actionMenu(this: any) {
-      return applyFilters("action-menu", [])
+      const m = applyFilters("action-menu", [])
+
+      return m
     },
     brandBackground(this: any) {
       const iconSetting = setting(`app.icon`)

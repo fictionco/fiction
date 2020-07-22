@@ -10,7 +10,7 @@ const baseRoute = setting("jobs.postRoute")
  */
 export const loadAndStoreJobsIndex = async (): Promise<void> => {
   const route = currentRoute()
-  const { params, query } = route
+  const { params = {}, query = {} } = route ?? {}
 
   const tag = params.tag ?? query.tag ?? ""
   const page = Number.parseInt(params.page ?? query.page ?? 1)

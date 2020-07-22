@@ -9,16 +9,15 @@
   </factor-modal>
 </template>
 <script lang="ts">
-import { FactorUserCredential } from "@factor/user/types"
 import { factorModal } from "@factor/ui"
-import { onEvent, runCallbacks } from "@factor/api"
+import { runCallbacks } from "@factor/api"
 import { Route } from "vue-router"
 import { notifySignedIn } from "."
-interface ModalArguments {
-  redirect?: string
-  view?: string | null
-  user?: FactorUserCredential
-}
+// interface ModalArguments {
+//   redirect?: string
+//   view?: string | null
+//   user?: FactorUserCredential
+// }
 export default {
   components: {
     factorModal,

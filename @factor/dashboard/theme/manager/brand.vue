@@ -37,7 +37,7 @@
   </div>
 </template>
 <script lang="ts">
-import { getDashboardRoute } from "@factor/dashboard"
+import { getDashboardRoute } from "@factor/api/dashboard"
 import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
 import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
 import { currentUser } from "@factor/user"
