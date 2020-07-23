@@ -81,7 +81,7 @@ export default {
       this.width = window.innerWidth < 900 ? window.innerWidth : 900
     })
 
-    this.runTimer()
+    //  this.runTimer()
   },
   methods: {
     getWidth(this: any) {
@@ -112,7 +112,7 @@ figure.splash-figure-container {
 
   .figure-wrap {
     margin: 0 auto;
-    width: 800px;
+    width: 700px;
     height: 500px;
     transform-origin: left center;
     @media (max-width: 1200px) {
@@ -136,6 +136,9 @@ figure.splash-figure-container {
     position: relative;
     transform-origin: center;
     perspective: 1400px;
+    .main {
+      width: 100%;
+    }
   }
   .stage {
     perspective: 800px;

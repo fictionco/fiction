@@ -2,11 +2,11 @@
   <section class="splash">
     <div class="splash-inner">
       <div class="content">
-        <h1 class="page-sup">Build with TypeScript, Vue, Node</h1>
-        <h2 class="page-title">VueJS Framework and Headless CMS Platform</h2>
+        <h1 class="page-sup">Built with TypeScript, Vue, Node</h1>
+        <h2 class="page-title">The Web Framework for Dashboards</h2>
         <h3
           class="page-title-sub"
-        >Ship applications and websites fast without reinventing the wheel.</h3>
+        >Easily create a custom Headless CMS or interactive dashboard for your app.</h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
@@ -70,7 +70,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 6em;
-    padding: 10rem 3rem 3rem;
+    padding: 8rem 3rem 3rem;
     align-items: center;
 
     @media (min-height: 1000px) {
@@ -86,6 +86,7 @@ export default {
       min-width: 0;
     }
     .content {
+      min-width: 0;
       max-width: 520px;
       justify-self: flex-end;
 
