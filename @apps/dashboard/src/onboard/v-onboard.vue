@@ -1,10 +1,5 @@
 <template>
-  <dashboard-wrapper class="onboard-view">
-    <template #head>
-      <div class="darwin-logo">
-        <logo scheme="standard" />
-      </div>
-    </template>
+  <darwin-dashboard class="onboard-view">
     <template #nav>
       <div class="onboard-menu">
         <div class="title">Getting You Started</div>
@@ -20,30 +15,30 @@
         </div>
       </div>
     </template>
-    <dashboard-page title="Welcome to Darwin Analytics">
-      <dashboard-panel>
-        <p>The Darwin team would like to welcome you and give you a tour of the product.</p>
-        <p>
-          We are doing our best to fit Darwin to your needs, so we welcome your feedback and suggestions. Send us an email at
-          <a
-            href="mailto:hello@darwin.dev"
-          >hello@darwin.dev</a>
-        </p>
-      </dashboard-panel>
-    </dashboard-page>
-  </dashboard-wrapper>
+    <template #page>
+      <dashboard-page title="Welcome to Darwin Analytics">
+        <dashboard-panel>
+          <p>The Darwin team would like to welcome you and give you a tour of the product.</p>
+          <p>
+            We are doing our best to fit Darwin to your needs, so we welcome your feedback and suggestions. Send us an email at
+            <a
+              href="mailto:hello@darwin.dev"
+            >hello@darwin.dev</a>
+          </p>
+        </dashboard-panel>
+      </dashboard-page>
+    </template>
+  </darwin-dashboard>
 </template>
 <script lang="ts">
 import { factorIcon, dashboardPage, dashboardPanel } from "@factor/ui"
-import dashboardWrapper from "@factor/ui/dashboard/wrapper.vue"
 
 export default {
   components: {
     factorIcon,
-    dashboardWrapper,
     dashboardPage,
     dashboardPanel,
-    logo: () => import("../el/logo.vue"),
+    darwinDashboard: () => import("../el/dash.vue"),
   },
 
   data() {
@@ -60,15 +55,6 @@ export default {
 </script>
 <style lang="postcss">
 .onboard-view {
-  .manager-header {
-    .darwin-logo {
-      text-align: center;
-      svg {
-        width: 120px;
-        margin-right: 0.75rem;
-      }
-    }
-  }
   .onboard-menu {
     padding: 1rem;
     .title {

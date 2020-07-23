@@ -51,6 +51,8 @@ export const factorInputSubmit = (): Promise<any> => import("./form/submit.vue")
  * DASHBOARD
  */
 export const dashboardBtn = setting("core.components.dashboardBtn")
+export const dashboardWrapper = (): Promise<any> => import("./dashboard/wrapper.vue")
+export const managerDropdown = (): Promise<any> => import("./dashboard/el/manager-dd.vue")
 export const dashboardPanel = (): Promise<any> => import("./dashboard/panel.vue")
 export const dashboardPage = (): Promise<any> => import("./dashboard/page.vue")
 export const dashboardFooter = (): Promise<any> => import("./dashboard/footer.vue")

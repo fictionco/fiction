@@ -2,29 +2,40 @@
   <div class="app-manager" :class="vis ? 'show-mobile' : 'standard'">
     <div class="manager-area manager-header">
       <slot v-if="$scopedSlots.head" name="head" />
-      <brand-area v-else mode="brand" />
+      <manager-dropdown v-else />
       <mobile-toggle :vis.sync="vis" class="show-mobile" />
     </div>
     <div class="manager-area manager-content">
       <slot v-if="$scopedSlots.nav" name="nav" />
       <nav-area v-else v-bind="$attrs" />
     </div>
-    <brand-area
-      mode="account"
+    <manager-dropdown
+      v-if="!loading"
       class="manager-area manager-footer"
       :active="active == 'account'"
+      :text="getUser(`displayName`)"
+      direction="up"
+      :menu="accountMenu()"
       @click="active = 'account'"
-    />
+    >
+      <template #icon>
+        <factor-avatar :user="getUser()" />
+      </template>
+    </manager-dropdown>
   </div>
 </template>
 
 <script lang="ts">
-import { currentUser } from "@factor/user"
+import { userInitialized, currentUser } from "@factor/user"
+
+import { factorAvatar } from "@factor/ui"
+import { applyFilters } from "@factor/api"
 export default {
   components: {
     navArea: () => import("./manager-nav.vue"),
-    brandArea: () => import("./manager-icon.vue"),
+    managerDropdown: () => import("./manager-dd.vue"),
     mobileToggle: () => import("./mobile-toggle.vue"),
+    factorAvatar,
   },
 
   data() {
@@ -32,17 +43,26 @@ export default {
       mobileVisible: false,
       active: "",
       vis: false,
+      loading: true,
     }
   },
-  mounted() {},
-  methods: {
+  computed: {
     currentUser,
+  },
+  async mounted() {
+    await userInitialized()
 
+    this.loading = false
+  },
+  methods: {
     getUser(this: any, field: string) {
       if (!field) {
         return this.currentUser
       }
       return this.currentUser ? this.currentUser[field] : undefined
+    },
+    accountMenu(this: any) {
+      return applyFilters("action-menu", [])
     },
   },
 }
@@ -60,6 +80,7 @@ export default {
   border-right: 1px solid var(--panel-border-color);
   .manager-area {
     min-width: 0;
+    padding: 3px; /* Fix overflow outside */
   }
   .manager-content {
     min-width: 0;

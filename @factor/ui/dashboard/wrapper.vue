@@ -1,5 +1,10 @@
 <template>
   <div class="app-wrap">
+    <template v-if="loading">
+      <div class="user-loading">
+        <factor-spinner width="4em" />
+      </div>
+    </template>
     <div class="app-layout" :class="toggle ? 'nav-overlay' : ''">
       <div class="app-nav">
         <dashboard-manager v-bind="$attrs">
@@ -11,12 +16,7 @@
       </div>
       <div class="app-main">
         <div class="app-main-content">
-          <template v-if="loading">
-            <div class="user-loading">
-              <factor-spinner width="4em" />
-            </div>
-          </template>
-          <slot v-else-if="$slots.default" />
+          <slot v-if="$scopedSlots.page" name="page" />
           <router-view v-else />
         </div>
       </div>

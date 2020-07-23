@@ -1,4 +1,5 @@
 import { pushToFilter, addFilter } from "@factor/api/hooks"
+import { getDashboardRoute } from "@factor/api/dashboard"
 import userIcon from "./img/users.svg"
 import { logout } from "./util"
 export const setup = (): void => {
@@ -32,7 +33,7 @@ export const setup = (): void => {
       return [
         ..._,
         {
-          path: "account",
+          path: getDashboardRoute("account"),
           name: "Profile Settings",
         },
         {

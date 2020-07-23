@@ -1,45 +1,50 @@
 <template>
-  <div class="manager-brand" @click.stop>
-    <factor-link
-      class="manager-brand-pad"
-      :path="mode == 'brand' ? currentUrl() : ''"
-      @click="toggle()"
-    >
+  <div class="manager-dropdown" @click.stop>
+    <div class="manager-dropdown-pad" @click="toggle()">
       <div class="menu-grid-item menu-media">
-        <factor-avatar v-if="mode == 'account'" :user="getUser()" />
-        <div v-else class="app-brand" :style="brandBackground" />
+        <template v-if="$scopedSlots.icon">
+          <slot name="icon" />
+        </template>
+
+        <div v-else class="app-brand" :style="iconBackground" />
       </div>
       <div class="menu-grid-item menu-name">
-        <div class="name">{{ menuName }}</div>
+        <div class="name">{{ text }}</div>
       </div>
       <div class="menu-grid-item action-icon">
         <factor-icon
-          v-if="mode == 'account'"
           :icon="`fas fa-angle-up`"
-          :class="active ? 'down' : 'up'"
+          :class="(direction == 'up' && !active) || (active && direction == 'down') ? 'up' : 'down'"
         />
       </div>
-    </factor-link>
+    </div>
 
-    <transition name="slide-up">
-      <div v-if="active" class="slide-menu">
-        <factor-link
-          v-for="(item, i) in actionMenu"
-          :key="i"
-          class="item"
-          :path="getDashboardRoute(item.path)"
-          :query="item.query"
-          @click="handleItemClick(item)"
-        >{{ item.name }}</factor-link>
+    <transition :name="`slide-${direction}`">
+      <div v-if="active" class="slide-menu" :class="direction">
+        <template v-if="$scopedSlots.menu">
+          <slot name="menu" />
+        </template>
+        <template v-if="menu.length > 0">
+          <factor-link
+            v-for="(item, i) in menu"
+            :key="i"
+            class="item"
+            :path="item.path"
+            :query="item.query"
+            @click="handleItemClick(item)"
+          >{{ item.name }}</factor-link>
+        </template>
       </div>
     </transition>
   </div>
 </template>
 <script lang="ts">
-import { getDashboardRoute } from "@factor/api/dashboard"
-import { factorAvatar, factorIcon, factorLink } from "@factor/ui"
-import { setting, applyFilters, productionUrl, currentUrl, toLabel } from "@factor/api"
+import { factorIcon, factorLink } from "@factor/ui"
+import { setting, toLabel } from "@factor/api"
 import { currentUser } from "@factor/user"
+const iconSetting = setting(`app.icon`)
+
+const appIcon = typeof iconSetting == "function" ? iconSetting() : iconSetting
 
 interface ActionMenuItem {
   path?: string
@@ -49,52 +54,29 @@ interface ActionMenuItem {
 }
 export default {
   components: {
-    factorAvatar,
     factorIcon,
     factorLink,
   },
   props: {
-    mode: { type: String, default: "brand" },
+    direction: { type: String, default: "down" },
+    text: { type: String, default: "" },
+    icon: { type: String, default: appIcon },
+    menu: { type: Array, default: () => [] },
   },
   data() {
     return { active: false }
   },
   computed: {
     currentUser,
-    actionMenu(this: any) {
-      const m = applyFilters("action-menu", [])
 
-      return m
-    },
-    brandBackground(this: any) {
-      const iconSetting = setting(`app.icon`)
-
-      const icon = typeof iconSetting == "function" ? iconSetting() : iconSetting
-
+    iconBackground(this: any) {
       return {
-        backgroundImage: `url(${icon})`,
-      }
-    },
-    menuName(this: any) {
-      if (this.mode == "brand") {
-        return setting("app.name") || "Factor"
-      } else {
-        return this.getUser("displayName")
-      }
-    },
-    menuSubName(this: any) {
-      if (this.mode == "account") {
-        return toLabel(this.getUser("role"))
-      } else {
-        return productionUrl({ domainOnly: true })
+        backgroundImage: `url(${this.icon})`,
       }
     },
   },
   methods: {
-    currentUrl,
-    setting,
     toLabel,
-    getDashboardRoute,
     handleItemClick(this: any, item: ActionMenuItem) {
       item.click ? item.click() : ""
       this.active = false
@@ -131,20 +113,16 @@ export default {
         window.removeEventListener("click", this.clickHandler)
       }
     },
-    getUser(this: any, field: string) {
-      if (!field) {
-        return this.currentUser
-      }
-      return this.currentUser ? this.currentUser[field] : undefined
-    },
   },
 }
 </script>
 <style lang="less">
-.manager-brand {
+.manager-dropdown {
   position: relative;
   --panel-movement: cubic-bezier(0.52, 0.01, 0.16, 1);
   perspective: 100px;
+  .slide-down-enter-active,
+  .slide-down-leave-active,
   .slide-up-enter-active,
   .slide-up-leave-active {
     transform-origin: 0 100%;
@@ -155,8 +133,15 @@ export default {
     transform: translateY(10px);
     opacity: 0;
   }
+  .slide-down-enter,
+  .slide-down-leave-to {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
   .slide-up-enter-to,
-  .slide-up-leave {
+  .slide-up-leave,
+  .slide-down-enter-to,
+  .slide-down-leave {
     transform: translateY(0px);
     opacity: 1;
   }
@@ -164,7 +149,13 @@ export default {
   .slide-menu {
     transform-origin: 0 100%;
     position: absolute;
-    bottom: 100%;
+    top: 100%;
+    bottom: auto;
+    &.up {
+      bottom: 100%;
+      top: auto;
+    }
+
     width: 100%;
 
     padding: 1rem;
@@ -188,7 +179,7 @@ export default {
       }
     }
   }
-  .manager-brand-pad {
+  .manager-dropdown-pad {
     cursor: pointer;
     color: inherit;
     border-radius: 5px;
@@ -197,12 +188,12 @@ export default {
     grid-template-columns: 2rem 1fr 1rem;
     padding: 0.4rem 0.5rem;
     align-items: center;
-
+    box-shadow: 0 0 0 1px var(--color-border);
     .menu-grid-item {
       min-width: 0;
     }
     .action-icon {
-      text-align: right;
+      text-align: center;
       opacity: 0.4;
       svg {
         width: 1.2rem;
@@ -236,7 +227,7 @@ export default {
     }
     .menu-media {
       .avatar {
-        width: 2.25rem;
+        width: 2rem;
         .thumb {
           border-radius: 5px;
         }
@@ -247,8 +238,8 @@ export default {
         background-position: 50%;
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
         border-radius: 5px;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 2rem;
+        height: 2rem;
         display: flex;
         align-items: center;
         justify-content: center;
