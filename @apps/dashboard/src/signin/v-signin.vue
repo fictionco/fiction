@@ -136,7 +136,7 @@ export default {
           color: var(--color-primary);
         }
         .head {
-          font-weight: 700;
+          font-weight: var(--font-weight-bold);
         }
         .sub {
           opacity: 0.7;
@@ -146,7 +146,7 @@ export default {
           display: block;
           opacity: 0.7;
           margin-top: 0.5rem;
-          font-weight: 600;
+          font-weight: var(--font-weight-bold);
         }
       }
     }

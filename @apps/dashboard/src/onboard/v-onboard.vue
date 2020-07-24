@@ -58,7 +58,7 @@ export default {
   .onboard-menu {
     padding: 1rem;
     .title {
-      font-weight: 700;
+      font-weight: var(--font-weight-bold);
       text-transform: uppercase;
       font-size: 0.85em;
       letter-spacing: 0.02em;

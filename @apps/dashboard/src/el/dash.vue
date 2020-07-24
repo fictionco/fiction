@@ -95,10 +95,14 @@ export default {
   .dash-menu-area {
     padding: 3px;
   }
+  .manager-dropdown .manager-dropdown-pad .menu-name .name {
+    font-size: 1.1em;
+    font-weight: var(--font-weight-semibold);
+  }
   .dash-menu {
-    padding: 1rem;
+    padding: 1rem 0;
     .title {
-      font-weight: 700;
+      font-weight: var(--font-weight-bold);
       text-transform: uppercase;
       font-size: 0.85em;
       letter-spacing: 0.02em;
@@ -114,8 +118,8 @@ export default {
         grid-gap: 0.5rem;
         .icon-wrap {
           display: inline-block;
-          width: 1.4rem;
-          height: 1.4rem;
+          width: 1.2rem;
+          height: 1.2rem;
           text-align: center;
           line-height: 1.5rem;
           .factor-icon {
@@ -133,13 +137,17 @@ export default {
         &.active-path {
           background: var(--color-bg-contrast);
           color: var(--color-primary);
-          font-weight: bold;
+          font-weight: var(--font-weight-semibold);
           svg {
             color: var(--color-primary);
           }
         }
       }
     }
+  }
+  .dpg .title-bar .page-title {
+    font-weight: var(--font-weight-bold);
+    letter-spacing: initial;
   }
 }
 </style>
