@@ -21,10 +21,8 @@
                 class="item"
                 :path="`/${subItem.value}`"
               >
-                <div class="icon">
-                  <div class="icon-wrap">
-                    <dash-svg icon="fas fa-check" />
-                  </div>
+                <div class="icon-wrap">
+                  <dash-svg :icon="subItem.icon" />
                 </div>
                 <div class="text">{{ subItem.name || toLabel(subItem.value) }}</div>
               </factor-link>
@@ -62,15 +60,19 @@ export default {
         ? this.menu
         : [
             {
-              items: [{ name: "Performance", value: "" }],
+              items: [{ icon: "performance", name: "Performance", value: "" }],
             },
             {
               group: "behavior",
-              items: [{ value: "replay" }, { value: "heatmap" }, { value: "optimize" }],
+              items: [
+                { icon: "replay", value: "replay" },
+                { icon: "heatmaps", value: "heatmap" },
+                { icon: "optimize", value: "optimize" },
+              ],
             },
             {
               group: "settings",
-              items: [{ value: "settings" }],
+              items: [{ icon: "settings", value: "settings" }],
             },
           ]
     },
@@ -111,18 +113,30 @@ export default {
         grid-template-columns: 2rem 1fr;
         grid-gap: 0.5rem;
         .icon-wrap {
-          border-radius: 2rem;
           display: inline-block;
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 1.4rem;
+          height: 1.4rem;
           text-align: center;
           line-height: 1.5rem;
           .factor-icon {
             font-size: 0.8em;
           }
+          svg {
+            vertical-align: middle;
+            color: #8798ad;
+          }
         }
         .text {
           font-size: 1.1em;
+        }
+
+        &.active-path {
+          background: var(--color-bg-contrast);
+          color: var(--color-primary);
+          font-weight: bold;
+          svg {
+            color: var(--color-primary);
+          }
         }
       }
     }
