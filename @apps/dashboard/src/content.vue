@@ -9,9 +9,10 @@ export default {
   name: "ContentWrap",
   components: {},
   metaInfo(this: any) {
+    const pathName = this.$route.name || this.$route.path
     return {
       titleTemplate: "%s - Darwin Analytics",
-      title: toLabel(this.$route.name) || "No Name",
+      title: toLabel(pathName) || "No Name",
       link: [
         {
           vmid: "font",

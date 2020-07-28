@@ -260,8 +260,10 @@ export const toLabel = (str?: string): string => {
   if (!str || typeof str !== "string") return ""
 
   const label = camelToKebab(str)
-    .replace(new RegExp("-|_", "g"), " ")
+    .replace(new RegExp("-|_", "g"), " ") // turn dashes to spaces
+    .replace(/\//g, " ") // remove slashes and special chars
     .replace(/\b\w/g, (l) => l.toUpperCase())
+    .trim()
 
   return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
 }
