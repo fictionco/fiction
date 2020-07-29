@@ -16,9 +16,9 @@ export default {}
 <style lang="less">
 .app-footer {
   padding: 1.5em 0 0;
-  opacity: 0.4;
-  text-align: left;
 
+  text-align: left;
+  color: var(--color-text-secondary, "inherit");
   a {
     color: inherit;
     text-decoration: underline;

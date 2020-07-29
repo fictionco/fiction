@@ -1,7 +1,7 @@
 <template>
-  <dashboard-page title="Performance Analytics">
+  <dashboard-page title="Dashboard">
     <dashboard-panel>
-      <dashboard-chart />
+      <darwin-stats />
     </dashboard-panel>
   </dashboard-page>
 </template>
@@ -12,7 +12,7 @@ export default {
   components: {
     dashboardPage,
     dashboardPanel,
-    dashboardChart: () => import("../el/chart.vue"),
+    darwinStats: () => import("./el-stats.vue"),
   },
 }
 </script>

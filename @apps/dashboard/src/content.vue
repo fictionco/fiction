@@ -18,7 +18,7 @@ export default {
           vmid: "font",
           rel: "stylesheet",
           href:
-            "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap",
+            "https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&display=fallback",
         },
       ],
     }
@@ -28,5 +28,15 @@ export default {
 
 <style lang="less">
 .content-layout {
+  .dashboard-panel,
+  .app-nav {
+    box-shadow: var(--box-shadow-panel);
+    .app-manager {
+      border: none;
+    }
+    .app-main {
+      background: #fff;
+    }
+  }
 }
 </style>

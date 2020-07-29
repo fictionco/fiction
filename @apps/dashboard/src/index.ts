@@ -41,7 +41,7 @@ addRoutes({
         },
 
         {
-          name: "Performance Analytics",
+          name: "Dashboard",
           path: "/",
           component: (): Promise<any> => import("./app/v-performance.vue"),
         },

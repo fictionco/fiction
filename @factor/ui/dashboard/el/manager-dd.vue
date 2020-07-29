@@ -188,7 +188,7 @@ export default {
     grid-template-columns: 2rem 1fr 1rem;
     padding: 0.4rem 0.5rem;
     align-items: center;
-    box-shadow: 0 0 0 1px var(--color-border);
+
     .menu-grid-item {
       min-width: 0;
     }

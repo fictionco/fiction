@@ -60,7 +60,7 @@ export default {
         ? this.menu
         : [
             {
-              items: [{ icon: "performance", name: "Performance", value: "" }],
+              items: [{ icon: "performance", name: "Dashboard", value: "" }],
             },
             {
               group: "behavior",
