@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-forum",
   "description": "Factor forum is a powerful forum solution for your factor app. This plugin comes with essential elements to run an efficient and professional community.",
-  "version": "1.8.15",
+  "version": "1.8.22",
   "license": "GPL-2.0",
   "author": {
     "name": "Fiction",
