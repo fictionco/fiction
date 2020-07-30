@@ -60,14 +60,18 @@ export default {
         ? this.menu
         : [
             {
-              items: [{ icon: "performance", name: "Dashboard", value: "" }],
+              group: "Analytics",
+              items: [
+                { icon: "performance", name: "Performance", value: "" },
+                { icon: "settings", value: "events" },
+              ],
             },
             {
               group: "behavior",
               items: [
                 { icon: "replay", value: "replay" },
                 { icon: "heatmaps", value: "heatmap" },
-                { icon: "optimize", value: "optimize" },
+                { icon: "optimize", value: "variants" },
               ],
             },
             {

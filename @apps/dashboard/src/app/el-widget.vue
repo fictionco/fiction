@@ -7,11 +7,14 @@
       <div class="widget-content">
         <div class="list">
           <div class="list-item header">
-            <div class="text">Label</div>
-            <div class="value">Label</div>
+            <div class="text">Name</div>
+            <div class="value">Value</div>
           </div>
-          <div v-for="(item, i) in 10" :key="i" class="list-item">
-            <div class="text">Text</div>
+          <div v-for="(item, i) in 10" :key="i" class="list-item row">
+            <div class="label">
+              <div class="proportion" :style="{width: `${100 - i*10}%`}" />
+              <factor-link class="text" path="/">Text</factor-link>
+            </div>
             <div class="value">Value</div>
           </div>
         </div>
@@ -20,8 +23,9 @@
   </div>
 </template>
 <script lang="ts">
+import { factorLink } from "@factor/ui"
 export default {
-  components: {},
+  components: { factorLink },
   props: {
     data: { type: String, default: "" },
   },
@@ -42,12 +46,42 @@ export default {
   }
   .list {
     .list-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 3px;
+      display: grid;
+      grid-template-columns: 1fr 4rem;
+      grid-gap: 1rem;
+      margin: 0.5rem 0;
       &.header {
         color: var(--color-text-secondary);
-        font-weight: 600;
+        font-weight: 700;
+        opacity: 0.5;
+        text-transform: uppercase;
+        font-size: 0.9em;
+      }
+      .value {
+        text-align: right;
+      }
+      &.row {
+        .label,
+        .value {
+          position: relative;
+        }
+
+        .proportion {
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+
+          border-radius: 3px;
+          background: var(--color-bg-contrast);
+        }
+        .text {
+          display: block;
+          z-index: 10;
+          position: relative;
+          color: inherit;
+          padding: 0.2rem 0.5rem;
+        }
       }
     }
   }
