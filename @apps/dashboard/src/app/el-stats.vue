@@ -4,7 +4,7 @@
       <div class="inputs">
         <div class="selector">Last 60 Days</div>
         <div class="selector">
-          <span class="value">Select Variant</span>
+          <span class="value">All Data</span>
           <svg
             class="text-pink-500 h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"

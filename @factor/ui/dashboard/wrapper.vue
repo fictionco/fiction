@@ -35,7 +35,7 @@ export default {
     dashboardManager: () => import("./el/manager.vue"),
   },
 
-  data() {
+  data(): Record<string, any> {
     return {
       vis: false,
       loading: true,

@@ -15,7 +15,7 @@
       :active="active == 'account'"
       :text="getUser(`displayName`)"
       direction="up"
-      :menu="accountMenu()"
+      :menu="accountMenu"
       @click="active = 'account'"
     >
       <template #icon>
@@ -29,13 +29,15 @@
 import { userInitialized, currentUser } from "@factor/user"
 
 import { factorAvatar } from "@factor/ui"
-import { applyFilters } from "@factor/api"
 export default {
   components: {
     navArea: () => import("./manager-nav.vue"),
     managerDropdown: () => import("./manager-dd.vue"),
     mobileToggle: () => import("./mobile-toggle.vue"),
     factorAvatar,
+  },
+  props: {
+    accountMenu: { type: Array, default: (): any => [] },
   },
 
   data() {
@@ -61,9 +63,9 @@ export default {
       }
       return this.currentUser ? this.currentUser[field] : undefined
     },
-    accountMenu(this: any) {
-      return applyFilters("action-menu", [])
-    },
+    // accountMenu(this: any) {
+    //   return applyFilters("action-menu", [])
+    // },
   },
 }
 </script>

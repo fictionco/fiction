@@ -1,5 +1,5 @@
 <template>
-  <dashboard-wrapper class="dashboard-view">
+  <dashboard-wrapper class="dashboard-view" :account-menu="accountMenu">
     <template #head>
       <div class="darwin-logo">
         <dash-logo scheme="standard" />
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { factorLink, dashboardWrapper, managerDropdown } from "@factor/ui"
 import { toLabel } from "@factor/api"
-
+import { logout } from "@factor/user/util"
 export default {
   components: {
     factorLink,
@@ -49,7 +49,7 @@ export default {
     dashSvg: () => import("../el/dash-svg.vue"),
   },
   props: {
-    menu: { type: Array, default: () => [] },
+    menu: { type: Array, default: (): any => [] },
   },
   data() {
     return {}
@@ -75,6 +75,22 @@ export default {
               items: [{ icon: "settings", value: "settings" }],
             },
           ]
+    },
+    accountMenu() {
+      return [
+        {
+          path: "/account",
+          name: "Profile Settings",
+        },
+        {
+          path: "/account",
+          name: "Billing and Invoices",
+        },
+        {
+          click: (): Promise<void> => logout(),
+          name: "Logout",
+        },
+      ]
     },
   },
   mounted() {},

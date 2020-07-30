@@ -28,15 +28,20 @@ export default {
 
 <style lang="less">
 .content-layout {
-  .dashboard-panel,
   .app-nav {
     box-shadow: var(--box-shadow-panel);
     .app-manager {
       border: none;
     }
-    .app-main {
-      background: #fff;
+  }
+  .dashboard-panel {
+    box-shadow: none;
+    .cont {
+      padding: 2rem 0;
     }
+  }
+  .app-layout .app-main {
+    background: #fff;
   }
 }
 </style>

@@ -24,18 +24,16 @@
       <div v-else-if="!loading" class="page-full">
         <slot />
       </div>
-      <dashboard-footer />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { factorSpinner, dashboardPanel, dashboardFooter } from "@factor/ui"
+import { factorSpinner, dashboardPanel } from "@factor/ui"
 
 export default {
   components: {
     factorSpinner,
     dashboardPanel,
-    dashboardFooter,
   },
   props: {
     title: { type: String, default: "" },
