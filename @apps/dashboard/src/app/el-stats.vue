@@ -42,21 +42,25 @@
     <div class="chart-area">
       <darwin-chart />
     </div>
+    <div class="widgets-area">
+      <darwin-widget data="referrers" />
+      <darwin-widget data="pages" />
+      <darwin-widget data="devices" />
+      <darwin-widget data="locations" />
+      <darwin-widget data="goals" />
+    </div>
   </div>
 </template>
 <script lang="ts">
-import { factorInputSelect, factorIcon } from "@factor/ui"
 export default {
   components: {
-    factorInputSelect,
     darwinChart: () => import("../el/chart.vue"),
-    factorIcon,
+    darwinWidget: () => import("./el-widget.vue"),
   },
 }
 </script>
 <style lang="postcss">
 .stats-wrap {
-  --item-shadow: 0 0 15px -5px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.25);
   .stat-controls,
   .top-stats {
     display: flex;
@@ -126,6 +130,12 @@ export default {
   }
   .chart-area {
     margin: 4rem 0 1rem;
+  }
+  .widgets-area {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
   }
 }
 </style>
