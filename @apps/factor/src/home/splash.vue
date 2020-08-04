@@ -3,13 +3,13 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-sup">Built with TypeScript, Vue, Node</h1>
-        <h2 class="page-title">The Web Framework for Dashboards</h2>
+        <h2 class="page-title">VueJS Headless CMS and TypeScript Framework</h2>
         <h3
           class="page-title-sub"
         >Easily create a custom Headless CMS or interactive dashboard for your app.</h3>
 
         <div class="actions">
-          <factor-link btn="primary" path="/install">Start Your App &rarr;</factor-link>
+          <factor-link btn="primary" path="/install">Install &rarr;</factor-link>
 
           <factor-link btn="link" path="https://go.factor.dev/github" target="_blank">
             <factor-icon icon="fab fa-github" />

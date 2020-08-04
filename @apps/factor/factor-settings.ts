@@ -4,6 +4,7 @@ export default {
   docsEngine: {
     nav: docNav,
     components: injectedComponents,
+    requireLoggedIn: true,
   },
   subscriptions: {
     publishableKey: {
