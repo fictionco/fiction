@@ -19,12 +19,9 @@ addRoutes({
       {
         path: "/install",
         component: (): Promise<any> => import("./home/v-install.vue"),
-        // meta: { auth: true, allowBots: true },
+        meta: { auth: true, allowBots: true },
       },
-      {
-        path: "/plans",
-        component: (): Promise<any> => import("./plans/v-plans.vue"),
-      },
+
       {
         path: "/developers",
         component: (): Promise<any> => import("./develop/v-develop.vue"),
@@ -32,10 +29,6 @@ addRoutes({
       {
         path: "/contact",
         component: (): Promise<any> => import("./v-contact.vue"),
-      },
-      {
-        path: "/vip",
-        component: (): Promise<any> => import("./vip/v-vip.vue"),
       },
       {
         path: `/themes`,
@@ -51,6 +44,7 @@ addRoutes({
             //    meta: { auth: true, allowBots: true },
           },
         ],
+        meta: { auth: true, allowBots: true },
       },
       {
         path: `/plugins`,
@@ -66,6 +60,7 @@ addRoutes({
             //    meta: { auth: true, allowBots: true },
           },
         ],
+        meta: { auth: true, allowBots: true },
       },
     ]
   },
