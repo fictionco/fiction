@@ -42,9 +42,9 @@ module.exports = {
         },
       },
     },
-    fill: (theme) => ({
-      purple: theme("colors.purple.500"),
-    }),
+    fill: {
+      current: "currentColor",
+    },
   },
   variants: {
     backgroundColor: ["responsive", "hover", "focus", "active", "even", "odd"],

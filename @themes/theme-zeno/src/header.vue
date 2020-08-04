@@ -12,7 +12,7 @@
         class="appearance-none block transition-all cursor-pointer focus:outline-none active:bg-transparent py-3 px-6"
         @click="isOpen = !isOpen"
       >
-        <svg class="h-6 w-6 fill-purple" viewBox="0 0 24 24">
+        <svg class="h-6 w-6 fill-current text-purple-500" viewBox="0 0 24 24">
           <path
             v-if="isOpen"
             fill-rule="evenodd"
