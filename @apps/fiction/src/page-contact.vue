@@ -1,9 +1,6 @@
 <template>
   <div class="view-contact">
     <div class="hhh">
-      <!-- <div class="stripes">
-        <div class="wedge" />
-      </div>-->
       <div class="text">
         <h1 class="title">Contact</h1>
         <div class="sub-title">
@@ -67,17 +64,12 @@ export default {
       z-index: 10;
       padding: 0 1rem;
       letter-spacing: -0.03em;
-
-      .arrow {
-        color: var(--color-primary);
-      }
     }
     .title {
       font-size: 3em;
       font-weight: 800;
       margin-bottom: 1rem;
       line-height: 1;
-      color: var(--color-primary);
 
       @media (max-width: 900px) {
         font-size: 2em;
@@ -87,30 +79,12 @@ export default {
     .sub-title {
       font-size: 1.6rem;
       font-weight: 500;
+      color: var(--color-text-secondary);
+
       @media (max-width: 900px) {
         font-size: 1.2em;
       }
     }
-
-    // .stripes {
-    //   pointer-events: none;
-    //   position: absolute;
-    //   left: 0;
-    //   right: 0;
-    //   bottom: -72px;
-    //   top: 50%;
-    //   transform: skewY(-6deg);
-    //   transition: opacity 0.2s ease-out;
-    //   will-change: transform;
-    //   .wedge {
-    //     position: absolute;
-    //     height: 5000px;
-    //     bottom: 0;
-    //     background: #fff;
-    //     left: 0;
-    //     right: 0;
-    //   }
-    // }
   }
   .contact-wrap {
     padding: 2em 0 4em;
@@ -122,12 +96,6 @@ export default {
       padding: 0 1em;
       max-width: 700px;
       margin: 0 auto;
-      //align-items: center;
-      // display: grid;
-      // grid-template-columns: 1fr 1fr;
-      // @media (max-width: 900px) {
-      //   grid-template-columns: 1fr;
-      // }
     }
     .aside {
       padding: 1.5em;
@@ -140,7 +108,6 @@ export default {
         font-size: 1rem;
         font-weight: 500;
         text-align: center;
-        // opacity: 0.5;
       }
     }
   }

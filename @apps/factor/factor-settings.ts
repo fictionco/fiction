@@ -119,34 +119,6 @@ export default {
       single: ["singleHeader", "entry", "social"],
     },
   },
-  jobs: {
-    indexRoute: "/careers",
-    postRoute: "/careers",
-    limit: 6,
-    returnLinkText: "All Jobs",
-    metatags: {
-      index: {
-        title: "Factor Jobs - Building Apps, Code, Remote Work",
-        description: "Factor jobs.",
-      },
-    },
-    notFound: {
-      title: "No Posts",
-      subTitle: "Couldn't find any job posts.",
-    },
-    layout: {
-      index: ["title"],
-      single: ["singleHeader", "entry", "cta"],
-    },
-    components: {
-      jobsWrap: (): Promise<any> => import("./src/jobs/wrap.vue"),
-      jobsIndex: (): Promise<any> => import("./src/jobs/index.vue"),
-      jobsSingle: (): Promise<any> => import("./src/jobs/single.vue"),
-      title: (): Promise<any> => import("./src/jobs/widget-title-override.vue"),
-      singleHeader: (): Promise<any> => import("./src/jobs/single-header.vue"),
-      cta: (): Promise<any> => import("./src/jobs/cta.vue"),
-    },
-  },
   plugins: {
     cta: {
       title: "Create and Submit Your Plugin",

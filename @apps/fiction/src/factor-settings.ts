@@ -34,6 +34,34 @@ export default {
       text: "Contact Us",
     },
   },
+  jobs: {
+    indexRoute: "/careers",
+    postRoute: "/careers",
+    limit: 6,
+    returnLinkText: "All Jobs",
+    metatags: {
+      index: {
+        title: "Factor Jobs - Building Apps, Code, Remote Work",
+        description: "Factor jobs.",
+      },
+    },
+    notFound: {
+      title: "No Posts",
+      subTitle: "Couldn't find any job posts.",
+    },
+    layout: {
+      index: ["title"],
+      single: ["singleHeader", "entry", "cta"],
+    },
+    components: {
+      jobsWrap: (): Promise<any> => import("./jobs/wrap.vue"),
+      jobsIndex: (): Promise<any> => import("./jobs/index.vue"),
+      jobsSingle: (): Promise<any> => import("./jobs/single.vue"),
+      title: (): Promise<any> => import("./jobs/widget-title-override.vue"),
+      singleHeader: (): Promise<any> => import("./jobs/single-header.vue"),
+      cta: (): Promise<any> => import("./jobs/cta.vue"),
+    },
+  },
   // jobs: {
   //   indexRoute: "/careers",
   //   postRoute: "/careers",

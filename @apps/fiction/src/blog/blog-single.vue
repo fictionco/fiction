@@ -37,16 +37,12 @@ export default {
 <style lang="less">
 .plugin-blog {
   .single-entry {
+    padding-bottom: 6rem;
+
     .entry-meta {
       max-width: 800px;
-      margin: -80px auto 0;
-      background: #fff;
-      border-radius: 0.5em;
-      padding: 3em;
-      @media (max-width: 767px) {
-        padding: 1.5em 1em 0;
-        margin: -80px 1em 3em;
-      }
+      margin: 0 auto;
+      padding: 3rem;
     }
 
     .featured-image-wrap,
@@ -72,6 +68,18 @@ export default {
     }
     .social-share {
       justify-content: center;
+      a.social {
+        color: var(--color-text-secondary);
+        &.facebook,
+        &.twitter,
+        &.linkedin,
+        &.pinterest {
+          &:hover {
+            color: var(--color-text);
+            opacity: 1;
+          }
+        }
+      }
     }
   }
 }

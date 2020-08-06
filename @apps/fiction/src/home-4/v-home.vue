@@ -71,21 +71,20 @@ export default {
     text-align: left;
 
     h1 {
-      font-size: 2em;
-      font-weight: 800;
+      font-size: 3em;
+      font-weight: 700;
       line-height: 1.2;
       margin-bottom: 1rem;
-      color: var(--color-primary);
 
       @media (max-width: 900px) {
-        font-size: 4em;
+        font-size: 2em;
       }
     }
     .sub {
-      font-family: var(--font-family-primary);
       font-size: 1.6rem;
       letter-spacing: -0.03em;
       margin-bottom: 2rem;
+      color: var(--color-text-secondary);
 
       @media (max-width: 900px) {
         font-size: 1.4rem;

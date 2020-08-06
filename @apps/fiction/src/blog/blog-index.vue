@@ -89,19 +89,14 @@ export default {
 <style lang="less">
 .plugin-blog {
   .blog-splash {
-    background: #1b223c url(./rectangles-pink.svg) no-repeat center center;
-    background-size: 80%;
-    @media (max-width: 767px) {
-      background-size: 100%;
-    }
     .splash {
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: 60px;
       align-items: center;
       text-align: left;
-      max-width: 50rem;
-      padding: 7em 0;
+      max-width: 800px;
+      padding: 7em 3rem 0rem;
       margin: 0 auto;
       @media (max-width: 767px) {
         padding: 6em 2em 6em;
@@ -141,9 +136,7 @@ export default {
   }
   .blog-posts-inner {
     max-width: 800px;
-    margin: -80px auto 0;
-    background: #fff;
-    border-radius: 0.5em;
+    margin: 0 auto;
     padding: 3em;
     @media (max-width: 767px) {
       padding: 1em;

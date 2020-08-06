@@ -13,14 +13,11 @@
       </div>
       <div class="footer-col">
         <h3 class="menu-header">Company</h3>
-        <factor-link path="https://factor.dev/careers?ref=fiction">Careers</factor-link>
+        <factor-link path="/careers">Careers</factor-link>
         <factor-link path="/contact">Contact Us</factor-link>
       </div>
       <div class="footer-col">
-        <factor-link
-          btn="primary"
-          path="https://factor.dev/careers?ref=fiction"
-        >We're Hiring! &rarr;</factor-link>
+        <factor-link btn="primary" path="/careers">We're Hiring! &rarr;</factor-link>
         <div>
           <div class="copyright">
             <span>&copy; Fiction.com Inc.</span>
@@ -57,40 +54,23 @@ export default {
     grid-gap: 0;
 
     .footer-col {
-      .pin {
-        display: block;
-        width: 35px;
-        svg path {
-          fill: #3a4854;
-          opacity: 0.2;
-        }
-      }
-
       .menu-header {
         text-transform: uppercase;
         font-weight: 600;
         margin-bottom: 0.5rem;
-        color: var(--color-primary);
       }
       a {
-        display: block;
-
-        color: inherit;
-
-        line-height: 2em;
         cursor: pointer;
+        display: block;
+        color: var(--color-text-secondary);
+        line-height: 2em;
         text-decoration: none;
         transition: opacity 0.1s;
+
         &:hover {
-          // opacity: 1;
-          color: var(--color-primary);
+          opacity: 1;
+          color: var(--color-text);
         }
-        // &.hiring {
-        //   color: var(--color-secondary);
-        //   opacity: 1;
-        //   font-weight: 700;
-        //   line-height: inherit;
-        // }
       }
       .copyright {
         margin-top: 4em;
@@ -98,12 +78,12 @@ export default {
         span,
         a {
           font-size: 0.7em;
-          opacity: 0.5;
           display: inline-block;
           margin-left: 5px;
+          color: var(--color-text-secondary);
         }
         a:hover {
-          opacity: 1;
+          color: var(--color-text);
         }
       }
     }

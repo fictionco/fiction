@@ -35,15 +35,9 @@ export default {
 <style lang="less">
 .plugin-blog {
   .single-entry .entry-header {
-    margin: 0;
-    padding: 0 2em;
-    background: #1b223c url(./rectangles-pink.svg) no-repeat center center;
-    background-size: 80%;
-
-    @media (max-width: 767px) {
-      background-size: 100%;
-      padding: 0 1em;
-    }
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 8rem 3rem 0;
 
     .splash {
       display: grid;
@@ -51,24 +45,13 @@ export default {
       grid-column-gap: 60px;
       align-items: center;
       text-align: left;
-      max-width: 50rem;
-      padding: 8em 0;
-      margin: 0 auto;
-      @media (max-width: 767px) {
-        padding: 6em 2em;
-      }
 
       .entry-title {
         font-weight: var(--font-weight-bold);
         font-size: 3em;
         letter-spacing: -0.03em;
         line-height: 1.2;
-        margin: 0.3em 0;
-        color: #f9f9f9;
-        a:hover {
-          color: inherit;
-          opacity: 0.5;
-        }
+
         @media (max-width: 767px) {
           font-size: 2em;
         }
@@ -85,7 +68,6 @@ export default {
         font-size: 1.4em;
         font-weight: 400;
         margin-bottom: 1.5em;
-        color: #fff;
 
         @media (max-width: 767px) {
           font-size: 1.2em;
@@ -104,7 +86,7 @@ export default {
       a {
         color: inherit;
         &:hover {
-          color: var(--color-primary);
+          color: var(--color-text);
         }
         &:active {
           opacity: 0.7;

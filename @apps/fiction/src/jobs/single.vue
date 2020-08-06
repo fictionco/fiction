@@ -15,15 +15,12 @@ export default {
   data() {
     return {}
   },
-  metaInfo() {
+  metaInfo(this: any) {
     return {
       title: titleTag(this.post._id),
       description: descriptionTag(this.post._id),
       image: shareImage(this.post._id),
     }
-  },
-  routeClass() {
-    return "nav-white"
   },
   computed: {
     post() {
@@ -37,12 +34,22 @@ export default {
 <style lang="less">
 .plugin-jobs.careers {
   .single-entry {
-    max-width: none;
-    padding: 0;
-    margin-bottom: 6em;
+    max-width: 50rem;
+    margin: 0 auto 10rem;
+
+    .jobs-entry {
+      margin: 0;
+      .entry-container > p:first-of-type {
+        font-weight: inherit;
+      }
+    }
+
+    .entry-title {
+      display: block;
+    }
+
     .post-entry {
       padding: 0;
-      margin: 0 auto;
       @media (max-width: 767px) {
         padding: 0 1em;
       }

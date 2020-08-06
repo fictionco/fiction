@@ -39,7 +39,7 @@ export default {
     }
 
     h1 {
-      font-size: 1.6em;
+      font-size: 1.2em;
       line-height: 1.2;
       max-width: none;
     }
@@ -48,7 +48,6 @@ export default {
       font-weight: 700;
       font-size: 0.9em;
       line-height: 1;
-      color: var(--color-text-secondary);
       text-align: right;
       @media (max-width: 767px) {
         text-align: left;
