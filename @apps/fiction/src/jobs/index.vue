@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="less">
-.view-careers {
+.plugin-jobs.careers {
   .mast {
     padding: 0 1.5em;
     line-height: 1.2;
