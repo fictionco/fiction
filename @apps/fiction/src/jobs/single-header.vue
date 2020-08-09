@@ -53,7 +53,7 @@ export default {
 }
 </script>
 <style lang="less">
-.careers {
+.plugin-jobs.careers {
   .single-entry {
     .entry-header {
       margin: 0;

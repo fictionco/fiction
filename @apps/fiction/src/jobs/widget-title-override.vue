@@ -27,7 +27,7 @@ export default {
 }
 </script>
 <style lang="less">
-.plugin-jobs {
+.plugin-jobs.careers {
   .entry-title {
     display: grid;
     grid-template-columns: 1fr 10rem 3rem;

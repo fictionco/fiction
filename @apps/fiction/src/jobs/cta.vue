@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="less">
-.careers {
+.plugin-jobs.careers {
   .single-entry {
     .job-entry-cta {
       margin: 3em auto;
