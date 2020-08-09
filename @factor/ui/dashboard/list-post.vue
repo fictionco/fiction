@@ -2,7 +2,8 @@
   <div class="post-item">
     <div class="post-item-grid">
       <div class="selector">
-        <input v-model="checked" type="checkbox" class="checkbox" />
+        <slot v-if="$slots.selector" name="selector" />
+        <input v-else v-model="checked" type="checkbox" class="checkbox" />
       </div>
       <div class="post-info">
         <div v-if="itemAvatar || $slots.avatar" class="post-media">
@@ -55,6 +56,7 @@ export default {
     post: { type: Object, default: () => {} },
     title: { type: String, default: "" },
     subTitle: { type: String, default: "" },
+    avatar: { type: String, default: "" },
     meta: { type: Array, default: () => [] },
     additional: { type: Array, default: () => [] },
     value: { type: Array, default: () => [] },
@@ -114,7 +116,8 @@ export default {
       return additional.filter((_: PostListDataItem) => _.value)
     },
     itemAvatar(this: any) {
-      if (!this.post) return
+      if (this.avatar) return this.avatar
+      else if (!this.post) return
 
       const avatar = stored(this.post.avatar)
 
@@ -219,6 +222,9 @@ export default {
 
     .data-item {
       margin-top: 0.5rem;
+    }
+    .label {
+      font-weight: 600;
     }
   }
   .toggle-additional-information {

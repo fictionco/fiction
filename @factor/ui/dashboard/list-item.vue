@@ -165,14 +165,14 @@ export default {
   .additional-information {
     margin: 1rem 0;
     padding-left: 1rem;
-    border-left: 3px solid var(--color-border);
+    border-left: 3px solid var(--color-text-secondary, --color-border);
     .data-item {
       margin: 1rem 0;
       .label {
         font-weight: var(--font-weight-bold, 700);
         text-transform: uppercase;
         font-size: 0.8em;
-        opacity: 0.4;
+        color: var(--color-text-secondary);
         margin-bottom: 0.5rem;
       }
     }
