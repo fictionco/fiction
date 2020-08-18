@@ -3,6 +3,9 @@ import log from "@factor/api/logger"
 import { Document } from "mongoose"
 import { FactorUser, FactorUserAuthentication, FactorUserCredential } from "./types"
 
+/**
+ * Sets the auth token secret or falls back to a basic one (insecure)
+ */
 const tokenSecret = (): string => {
   if (!process.env.FACTOR_AUTH_SECRET && !process.env.TOKEN_SECRET) {
     log.warn("Your authentication secret is not set (process.env.FACTOR_AUTH_SECRET)")
