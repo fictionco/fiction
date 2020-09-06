@@ -244,7 +244,7 @@ export const dbInitialize = async (): Promise<void> => {
   /**
    * This must run after DB has been initialized to determine offline/online
    */
-  await runDbUpgrades()
+  //  await runDbUpgrades()
 }
 
 /**

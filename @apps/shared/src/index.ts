@@ -14,33 +14,33 @@ import {
   CurrentUserState,
 } from "@factor/user/types"
 
-addDashboardMenu({
-  name: "Developer",
-  path: "/developer",
-  key: "developers",
-  component: (): Promise<any> => import("./developer.vue"),
-})
+// addDashboardMenu({
+//   name: "Developer",
+//   path: "/developer",
+//   key: "developers",
+//   component: (): Promise<any> => import("./developer.vue"),
+// })
 
-declare module "@factor/user/types" {
-  interface FactorUser {
-    developer?: any
-  }
-}
+// declare module "@factor/user/types" {
+//   interface FactorUser {
+//     developer?: any
+//   }
+// }
 
-addFilter({
-  key: "addApiKey",
-  hook: "schema-definition-user",
-  callback: (definition) => {
-    definition.developer = {
-      apiKey: {
-        type: String,
-        default: (): string => randomToken(50),
-        index: { unique: true },
-      },
-    }
-    return definition
-  },
-})
+// addFilter({
+//   key: "addApiKey",
+//   hook: "schema-definition-user",
+//   callback: (definition) => {
+//     definition.developer = {
+//       apiKey: {
+//         type: String,
+//         default: (): string => randomToken(50),
+//         index: { unique: true },
+//       },
+//     }
+//     return definition
+//   },
+// })
 
 interface AnalyticsEvent {
   category: string

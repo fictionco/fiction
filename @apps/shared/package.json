@@ -22,6 +22,6 @@
     "@factor/plugin-storage-s3": "^1.0.0",
     "@factor/plugin-server-analytics": "^1.0.0",
     "@factor/plugin-contact-form": "^1.0.0",
-    "flatted": "^2.0.1"
+    "flatted": "^3.0.0"
   }
 }
