@@ -32,7 +32,7 @@
       </div>
     </section>
 
-    <div class="quotes-wrap">
+    <div v-if="quotes.length > 0" class="quotes-wrap">
       <div class="quotes">
         <div class="quotes-pad">
           <article
@@ -86,8 +86,6 @@
     <section class="plugins-gallery-section content-pad">
       <plugins-gallery />
     </section>
-
-    <join-dev />
   </div>
 </template>
 
@@ -103,7 +101,7 @@ export default {
     sectionBenefits: () => import("./section-benefits.vue"),
     //joinProgram: () => import("./el-join.vue"),
     //upgradeFactor: () => import("./el-upgrade.vue"),
-    joinDev: () => import("./el-join-dev.vue"),
+    //joinDev: () => import("./el-join-dev.vue"),
     pluginsGallery: () => import("../gallery/plugins-gallery.vue"),
   },
   data(this: any) {
@@ -153,19 +151,7 @@ export default {
           link: { path: "/themes", text: "View Themes" },
         },
       ],
-      quotes: [
-        {
-          text: `Really enjoying @factordev! Brilliant design here, you can basically do everything with a plugin. #js #factordev`,
-          attribution: "Justin Keller, CEO ElasticByte",
-          img: require("./img/elastic-byte.svg"),
-          link: "https://elasticbyte.net",
-        },
-        {
-          text: `wow! So impressed with the speed and ease of use of @factordev for creating universal #vuejs apps 💨 #factorjs`,
-          attribution: "Nick Dryburgh, Relic Games co.",
-          img: require("./img/zeno.svg"),
-        },
-      ],
+      quotes: [],
     }
   },
   mounted(this: any) {
