@@ -3,7 +3,7 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-sup">Built with TypeScript, Vue, Node</h1>
-        <h2 class="page-title">Build professional websites, blogs and apps.</h2>
+        <h2 class="page-title">Build professional websites, blogs, and apps.</h2>
         <h3
           class="page-title-sub"
         >Easily create a custom Headless CMS or interactive dashboard for your app.</h3>

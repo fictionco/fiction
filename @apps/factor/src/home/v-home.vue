@@ -176,7 +176,7 @@ export default {
   methods: {},
   metaInfo() {
     return {
-      title: "Full-stack VueJS Framework and Headless CMS",
+      title: "JavaScript CMS Framework",
       description:
         "Factor is a modular JavaScript framework that helps you build websites, blogs, and eCommerce.",
     }
