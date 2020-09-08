@@ -9,7 +9,7 @@ import VueMeta from "vue-meta"
 import { emitEvent } from "@factor/api/events"
 import { createFactorRouter } from "@factor/app/router"
 import { createFactorStore } from "@factor/app/store"
-import { runCallbacks } from "@factor/api/hooks"
+import { runCallbacks, applyFilters } from "@factor/api/hooks"
 import { setting } from "@factor/api/settings"
 import { extendApp } from "./extend-app"
 import { ApplicationComponents } from "./types"
@@ -49,6 +49,8 @@ export const createApp = async ({
 
   const site = setting("app.components.site")
 
+  const options = applyFilters("add-vue-options", { store, router })
+
   const vm = new Vue({
     mounted(): void {
       /**
@@ -58,8 +60,7 @@ export const createApp = async ({
       setTimeout(() => emitEvent("app-mounted"), 0)
     },
     render: (h: CreateElement): VNode => h(site),
-    router,
-    store,
+    ...options,
   })
 
   /**
