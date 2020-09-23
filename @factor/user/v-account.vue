@@ -3,12 +3,12 @@
 </template>
 <script lang="ts">
 import { userInitialized, userId } from "@factor/user"
-import { stored } from "@factor/api"
+import { stored, setting } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 
 export default {
   components: {
-    "edit-user": () => import("./v-edit.vue"),
+    "edit-user": setting("factorUser.dashboard.edit"),
   },
 
   computed: {

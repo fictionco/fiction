@@ -1,6 +1,8 @@
 import { addPostType } from "@factor/api/post-types"
 import { schemaDefinition, schemaMiddleware } from "./schema"
 import userIcon from "./img/users.svg"
+import { setting } from "@factor/api"
+
 addPostType({
   postType: "user",
   managePosts: true,
@@ -8,9 +10,9 @@ addPostType({
   nameIndex: "Users",
   nameSingle: "User",
   namePlural: "Users",
-  listTemplate: (): Promise<any> => import("./v-list.vue"),
-  editTemplate: (): Promise<any> => import("./v-edit.vue"),
-  baseRoute: "@",
+  listTemplate: setting("factorUser.dashboard.list"),
+  editTemplate: setting("factorUser.dashboard.edit"),
+  baseRoute: setting("factorUser.baseRoute"),
   accessLevel: 500,
   noAddNew: true,
   schemaDefinition,
