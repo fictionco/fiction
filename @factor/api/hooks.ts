@@ -23,7 +23,7 @@ interface HookItem {
 }
 
 interface FilterItem extends HookItem {
-  callback: <F>(input: any, _arguments: any) => any
+  callback: (input: any, _arguments: any) => any
 }
 
 interface CallbackItem extends HookItem {

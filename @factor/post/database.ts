@@ -182,31 +182,31 @@ export const getModel = <T>(
 /**
  * Make any upgrade changes to the indexes or fields
  */
-const runDbUpgrades = async (): Promise<void> => {
-  if (!__offline) {
-    /**
-     * Create missing indexes
-     * ensureIndexes creates indexes that don't exist but can't drop indexes
-     * syncIndexes will drop indexes then recreate them, problem is that we can't do this every time
-     */
-    const _promises = Object.values(__models).map((m) => m.ensureIndexes())
+// const runDbUpgrades = async (): Promise<void> => {
+//   if (!__offline) {
+//     /**
+//      * Create missing indexes
+//      * ensureIndexes creates indexes that don't exist but can't drop indexes
+//      * syncIndexes will drop indexes then recreate them, problem is that we can't do this every time
+//      */
+//     const _promises = Object.values(__models).map((m) => m.ensureIndexes())
 
-    /**
-     * @reference version 1.1
-     * Rename subTitle to synopsis
-     * Left here for reference in future changes
-     */
-    // await getModel("post").update(
-    //   {},
-    //   { $rename: { subTitle: "synopsis" } },
-    //   { multi: true }
-    // )
+//     /**
+//      * @reference version 1.1
+//      * Rename subTitle to synopsis
+//      * Left here for reference in future changes
+//      */
+//     // await getModel("post").update(
+//     //   {},
+//     //   { $rename: { subTitle: "synopsis" } },
+//     //   { multi: true }
+//     // )
 
-    await Promise.all(_promises)
-  }
+//     await Promise.all(_promises)
+//   }
 
-  return
-}
+//   return
+// }
 
 /**
  * Get schemas and create Mongoose models

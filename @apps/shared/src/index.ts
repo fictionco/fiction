@@ -3,8 +3,6 @@ import {
   onEvent,
   addFilter,
   splitDisplayName,
-  addDashboardMenu,
-  randomToken,
 } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/email/util"
 import {

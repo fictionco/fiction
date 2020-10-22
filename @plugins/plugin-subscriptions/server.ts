@@ -19,7 +19,7 @@ const getStripe = (): Stripe => {
     throw new Error("Stripe private key is missing.")
   }
 
-  return new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2020-03-02" })
+  return new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2020-08-27" })
 }
 
 /**
