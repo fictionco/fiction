@@ -10,18 +10,12 @@ export default {
     value: { type: [String, Boolean, Array], default: false },
     label: { type: String, default: "" },
   },
-
-  data() {
-    return {
-      val: false,
-    }
-  },
   computed: {
     listeners(this: any) {
       return {
         ...this.$listeners,
         input: (event: Event & { target: HTMLInputElement }) => {
-          this.$emit("change", event.target.value)
+          this.$emit("input", event.target.value)
         },
       }
     },
