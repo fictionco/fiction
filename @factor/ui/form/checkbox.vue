@@ -15,7 +15,7 @@ export default {
       return {
         ...this.$listeners,
         input: (event: Event & { target: HTMLInputElement }) => {
-          this.$emit("input", event.target.value)
+          this.$emit("input", event.target.checked)
         },
       }
     },
