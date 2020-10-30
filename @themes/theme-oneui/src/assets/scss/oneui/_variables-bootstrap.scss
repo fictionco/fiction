@@ -1,0 +1,313 @@
+//
+// Bootstrap variables (overrides)
+// --------------------------------------------------
+
+
+//
+// Color system
+//
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$primary:       #5179d6 !default;
+$secondary:     $gray-600 !default;
+$success:       #30c78d !default;
+$info:          #5cace5 !default;
+$warning:       #e5ae67 !default;
+$danger:        #e56767 !default;
+$light:         $gray-100 !default;
+$dark:          $gray-800 !default;
+
+$theme-colors: (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+) !default;
+
+
+// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
+$yiq-contrasted-threshold: 200 !default;
+
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-validation-icons: false !default;
+
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge((
+    6: ($spacer * 4.5),
+    7: ($spacer * 6),
+    8: ($spacer * 9),
+    9: ($spacer * 12),
+    10: ($spacer * 18)
+), $spacers);
+
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                   #edf0f2 !default;
+$body-color:                #343a40 !default;
+
+
+// Links
+//
+// Style anchor elements.
+
+$link-color:                theme-color("primary") !default;
+$link-decoration:           none !default;
+$link-hover-color:          darken($link-color, 20%) !default;
+$link-hover-decoration:     none !default;
+
+
+// Grid columns
+//
+// Set the number of columns and specify the width of the gutters.
+
+$grid-gutter-width:           28px !default;
+
+
+// Components
+//
+// Define common padding and border radius sizes and more.
+
+$border-color:                darken($body-bg, 4%) !default;
+
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:      "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-monospace:       "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:            $font-family-sans-serif !default;
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                ($font-size-base * 1.25) !default;
+$font-size-sm:                ($font-size-base * .875) !default;
+
+$font-weight-bold:            600 !default;
+
+$h1-font-size:                $font-size-base * 2.25 !default;
+$h2-font-size:                $font-size-base * 1.875 !default;
+$h3-font-size:                $font-size-base * 1.5 !default;
+$h4-font-size:                $font-size-base * 1.25 !default;
+$h5-font-size:                $font-size-base * 1.125 !default;
+$h6-font-size:                $font-size-base !default;
+
+$headings-margin-bottom:      ($spacer * 1.375) !default;
+$headings-font-family:        "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$headings-font-weight:        600 !default;
+$headings-line-height:        1.25 !default;
+$headings-color:              #373737 !default;
+
+$display1-size:               6rem !default;
+$display2-size:               5.5rem !default;
+$display3-size:               4.5rem !default;
+$display4-size:               3.5rem !default;
+
+$lead-font-size:              ($font-size-base * 1.5) !default;
+
+$text-muted:                  $gray-600 !default;
+
+$hr-border-color:             darken($body-bg, 4%) !default;
+
+
+// Tables
+//
+// Customizes the `.table` component with basic values, each used across all table variations.
+
+$table-cell-padding:          .75rem !default;
+$table-cell-padding-sm:       .25rem !default;
+
+$table-bg:                    transparent !default;
+$table-accent-bg:             lighten($body-bg, 1.5%) !default;
+$table-hover-bg:              darken($body-bg, 1.5%) !default;
+$table-active-bg:             $table-hover-bg !default;
+
+$table-border-color:          darken($body-bg, 4%) !default;
+
+$table-head-bg:               darken($body-bg, 4%) !default;
+$table-head-color:            $body-color !default;
+
+$table-dark-bg:               theme-color("dark") !default;
+$table-dark-border-color:     theme-color("dark") !default;
+
+
+// Buttons + Forms
+//
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$input-btn-font-size-lg:      $font-size-base !default;
+
+
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-font-weight:             $font-weight-bold !default;
+
+
+// Forms
+
+$label-margin-bottom:               .375rem !default;
+
+$input-color:                       $body-color !default;
+$input-border-color:                darken($body-bg, 8%) !default;
+
+$form-text-margin-top:              .5rem !default;
+
+$form-group-margin-bottom:          1.5rem !default;
+
+$input-group-addon-color:           $input-color !default;
+$input-group-addon-bg:              $body-bg !default;
+$input-group-addon-border-color:    $input-border-color !default;
+
+$custom-switch-width:               2rem;
+
+// Form validation
+$form-feedback-font-size:           $font-size-sm !default;
+
+$custom-control-indicator-bg:       darken($body-bg, 8%) !default;
+
+
+// Dropdowns
+//
+// Dropdown menu container and contents.
+
+$dropdown-min-width:                11.25rem !default;
+$dropdown-border-color:             darken($body-bg, 8%) !default;
+$dropdown-divider-bg:               darken($body-bg, 4%) !default;
+$dropdown-box-shadow:               0 .25rem 2rem rgba($black, .08) !default;
+
+$dropdown-link-color:               $body-color !default;
+$dropdown-link-hover-color:         $body-color !default;
+$dropdown-link-hover-bg:            $body-bg !default;
+
+$dropdown-item-padding-y:           .5rem !default;
+$dropdown-item-padding-x:           .75rem !default;
+
+
+// Navs
+
+$nav-tabs-border-color:             darken($body-bg, 4%) !default;
+$nav-tabs-link-hover-border-color:  darken($body-bg, 4%) darken($body-bg, 4%) darken($body-bg, 4%) !default;
+$nav-tabs-link-active-color:        $body-color !default;
+$nav-tabs-link-active-bg:           $white !default;
+$nav-tabs-link-active-border-color: darken($body-bg, 4%) darken($body-bg, 4%) darken($body-bg, 4%) !default;
+
+
+// Pagination
+
+$pagination-color:                  $body-color !default;
+$pagination-bg:                     transparent !default;
+$pagination-border-width:           2px !default;
+$pagination-border-color:           transparent !default;
+
+$pagination-focus-box-shadow:       none !default;
+
+$pagination-hover-color:            theme-color("primary") !default;
+$pagination-hover-bg:               transparent !default;
+$pagination-hover-border-color:     theme-color("primary") !default;
+
+$pagination-active-color:           theme-color("primary") !default;
+$pagination-active-bg:              lighten($body-bg, 1.5%) !default;
+$pagination-active-border-color:    theme-color("primary") !default;
+
+$pagination-disabled-color:         $gray-500 !default;
+$pagination-disabled-bg:            $white !default;
+$pagination-disabled-border-color:  $white !default;
+
+
+// Tooltips
+
+$tooltip-bg:                        rgba($black, .9) !default;
+$tooltip-padding-y:                 .25rem !default;
+$tooltip-padding-x:                 .75rem !default;
+
+
+// Popovers
+
+$popover-border-color:              darken($body-bg, 4%) !default;
+$popover-box-shadow:                0 1rem 1.5rem rgba($black,.05) !default;
+
+$popover-header-bg:                 $white !default;
+$popover-header-padding-y:          .75rem !default;
+$popover-header-padding-x:          .625rem !default;
+
+$popover-body-padding-y:            .625rem !default;
+$popover-body-padding-x:            .625rem !default;
+
+
+// Modals
+
+// Padding applied to the modal body
+$modal-content-border-width:        0 !default;
+$modal-content-box-shadow-xs:       none !default;
+$modal-content-box-shadow-sm-up:    none !default;
+
+$modal-backdrop-opacity:            .25 !default;
+$modal-header-border-color:         darken($body-bg, 4%) !default;
+$modal-footer-border-color:         darken($body-bg, 4%) !default;
+
+
+// Alerts
+//
+// Define alert colors, border radius, and padding.
+
+$alert-border-width:                0 !default;
+
+
+// Progress bars
+
+$progress-height:                   1.5rem !default;
+$progress-height:                   1.25rem !default;
+$progress-font-size:                1rem !default;
+
+
+// List group
+
+$list-group-border-color:           darken($body-bg, 4%) !default;
+
+$list-group-hover-bg:               lighten($body-bg, 1.5%) !default;
+
+$list-group-action-color:           $body-color !default;
+$list-group-action-hover-color:     $body-color !default;
+
+$list-group-action-active-color:    $body-color !default;
+$list-group-action-active-bg:       darken($body-bg, 4%) !default;
+
+
+
+// Breadcrumbs
+$breadcrumb-padding-x:              0 !default;
+
+$breadcrumb-margin-bottom:          0 !default;
+
+$breadcrumb-bg:                     transparent !default;

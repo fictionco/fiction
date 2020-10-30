@@ -1,0 +1,61 @@
+//
+// Buttons
+// --------------------------------------------------
+
+.btn {
+    font-family: $font-family-base;
+
+    &.btn-square { border-radius: 0; }
+    &.btn-rounded { border-radius: 2rem; }
+
+    .si,
+    .fa {
+        position: relative;
+        top: 1px;
+    }
+
+    &.btn-sm .fa { top: 0; }
+}
+
+// Alternate variant buttons
+.btn-alt-primary {
+    @include button-alt-variant($btn-alt-primary-bg, darken(theme-color("primary"), 20%));
+}
+
+.btn-alt-secondary {
+    @include button-alt-variant($body-bg, $body-color);
+}
+
+.btn-alt-success {
+    @include button-alt-variant(theme-color("success-light"), darken(theme-color("success"), 25%));
+}
+
+.btn-alt-info {
+    @include button-alt-variant(theme-color("info-light"), darken(theme-color("info"), 25%));
+}
+
+.btn-alt-warning {
+    @include button-alt-variant(theme-color("warning-light"), darken(theme-color("warning"), 25%));
+}
+
+.btn-alt-danger {
+    @include button-alt-variant(theme-color("danger-light"), darken(theme-color("danger"), 25%));
+}
+
+.btn-alt-dark {
+    @include button-alt-variant(lighten(theme-color("dark"), 60%), theme-color("dark"));
+}
+
+.btn-alt-light {
+    @include button-alt-variant(darken(theme-color("light"), 3%), theme-color("dark"));
+}
+
+// Used for buttons that adapt to light/dark header and sidebar variations
+.btn-dual {
+    @include button-dual-variant($body-color-dark, $body-bg, $body-bg);
+}
+
+.page-header-dark #page-header .btn-dual,
+.sidebar-dark #sidebar .btn-dual {
+    @include button-dual-variant($white, lighten(theme-color("primary-darker"), 9%), lighten(theme-color("primary-darker"), 9%));
+}

@@ -1,0 +1,43 @@
+//
+// FullCalendar
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Custom styles
+.fc-theme-bootstrap {
+    .fc-h-event {
+        background-color: theme-color("primary");
+        border: theme-color("primary");
+    }
+
+    .fc-col-header-cell {
+        padding-top: .375rem;
+        padding-bottom: .375rem;
+        font-size: $font-size-sm;
+        font-weight: 600;
+        text-transform: uppercase;
+        background-color: $body-bg-light;
+    }
+
+    @include media-breakpoint-down(sm) {
+        .fc-toolbar.fc-header-toolbar {
+            display: block;
+
+            .fc-toolbar-chunk {
+                > div,
+                > .btn {
+                    margin-top: .5rem;
+                    margin-bottom: .5rem;
+                }
+
+                &:not(:first-child) {
+                    margin-top: 1rem;
+                }
+            }
+        }
+    }
+}

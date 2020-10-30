@@ -1,0 +1,138 @@
+//
+// Custom Forms
+// --------------------------------------------------
+
+// Switch controls
+.custom-switch {
+    padding-left: 0;
+
+    .custom-control-label {
+        left: 0;
+        padding-left: 2.5rem;
+
+        &::before {
+            top: (($line-height-base - 1.25rem) / 2);
+            left: 0;
+            width: 2rem;
+            height: 1.25rem;
+            border-radius: 1rem;
+            transition: background-color .15s ease-out;
+            background-color: $white;
+        }
+
+        &::after {
+            top: (($line-height-base - .875rem) / 2);
+            left: .25rem;
+            width: .875rem;
+            height: .875rem;
+            transform: none;
+            background-color: $white;
+            border-radius: 1rem;
+            background-color: gray('500');
+        }
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        background-color: $white;
+        transform: translateX(.625rem);
+        box-shadow: -.125rem 0 .125rem rgba(0,0,0,.2);
+    }
+}
+
+// Custom control label
+.custom-control-label {
+    font-weight: $font-weight-normal;
+
+    &::before {
+        background-color: $white;
+    }
+
+    &::after {
+        transition: transform .12s ease-out;
+    }
+}
+
+// Checkboxes shape variants
+.custom-checkbox {
+    &.custom-checkbox-square {
+        .custom-control-label::before {
+            border-radius: 0;
+        }
+    }
+
+    &.custom-checkbox-rounded-circle {
+        .custom-control-label::before {
+            border-radius: 1rem;
+        }
+    }
+}
+
+// Color variants for all custom controls
+.custom-control-primary {
+    @include custom-control-variant(theme-color("primary-lighter"), theme-color("primary"));
+}
+
+.custom-control-success {
+    @include custom-control-variant(theme-color("success-light"), theme-color("success"));
+}
+
+.custom-control-info {
+    @include custom-control-variant(theme-color("info-light"), theme-color("info"));
+}
+
+.custom-control-warning {
+    @include custom-control-variant(theme-color("warning-light"), theme-color("warning"));
+}
+
+.custom-control-danger {
+    @include custom-control-variant(theme-color("danger-light"), theme-color("danger"));
+}
+
+.custom-control-light {
+    @include custom-control-variant(gray("300"), gray("500"));
+}
+
+.custom-control-dark {
+    @include custom-control-variant(gray("300"), theme-color("dark"));
+}
+
+// Size variants for all custom controls
+.custom-control-lg {
+    padding-left: 1.75rem;
+
+    .custom-control-label {
+        &::before,
+        &::after {
+            top: (($line-height-base - 1.25rem) / 2);
+            left: -1.75rem;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+
+    &.custom-switch {
+        padding-left: 0;
+
+        .custom-control-label {
+            padding-left: 3.25rem;
+
+            &::before {
+                top: (($line-height-base - 1.625rem) / 2);
+                left: 0;
+                width: 2.75rem;
+                height: 1.625rem;
+            }
+
+            &::after {
+                top: (($line-height-base - 1.25rem) / 2);
+                left: .25rem;
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+
+        .custom-control-input:checked ~ .custom-control-label::after {
+            transform: translateX(1rem);
+        }
+    }
+}

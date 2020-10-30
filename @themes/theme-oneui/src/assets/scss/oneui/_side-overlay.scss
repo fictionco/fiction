@@ -1,0 +1,62 @@
+//
+// Side Overlay
+// --------------------------------------------------
+
+#side-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $zindex-side-overlay;
+    width: 100%;
+    height: 100%;
+    background-color: $side-overlay-bg;
+    overflow-y: auto;
+    transform: translateX(100%) translateY(0) translateZ(0);
+    opacity: 0;
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+
+    .side-trans-enabled & {
+        transition: transform $side-transition, opacity $side-transition;
+    }
+
+    .sidebar-r & {
+        right: auto;
+        left: 0;
+        transform: translateX(-100%) translateY(0) translateZ(0);
+    }
+
+    .side-overlay-o & {
+        transform: translateX(0) translateY(0) translateZ(0);
+        opacity: 1;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: $side-overlay-width;
+        box-shadow: 0 0 1.5rem rgba(0,0,0,.15);
+        transform: translateX(110%) translateY(0) translateZ(0);
+
+        .sidebar-r & {
+            transform: translateX(-110%) translateY(0) translateZ(0);
+        }
+
+        .side-overlay-hover & {
+            transform: translateX($side-overlay-width - 15px) translateY(0) translateZ(0);
+            opacity: 1;
+        }
+
+        .sidebar-r.side-overlay-hover & {
+            transform: translateX(-($side-overlay-width - 15px)) translateY(0) translateZ(0);
+            opacity: 1;
+        }
+
+        .side-overlay-hover &:hover,
+        .side-overlay-o &,
+        .side-overlay-o.side-overlay-hover & {
+            box-shadow: 0 0 1.25rem rgba($black,.3);
+            transform: translateX(0) translateY(0) translateZ(0);
+            opacity: 1;
+        }
+    }
+}

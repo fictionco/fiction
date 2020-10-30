@@ -1,0 +1,22 @@
+//
+// Vue Slider
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Custom styles
+.vue-slider-process {
+    background-color: theme-color('primary');
+}
+
+.vue-slider-dot-tooltip-inner {
+    background-color: theme-color('primary');
+    border-color: theme-color('primary');
+}
+
+.vue-slider-dot-handle-focus {
+    box-shadow: 0px 0px 1px 2px rgba(theme-color('primary'), .36);
+}

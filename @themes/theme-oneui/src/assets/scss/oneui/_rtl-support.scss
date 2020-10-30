@@ -1,0 +1,185 @@
+//
+// RTL Support
+// --------------------------------------------------
+
+#page-container.rtl-support {
+    direction: rtl;
+    text-align: right;
+
+    // Breadcrumb
+    .breadcrumb.breadcrumb-alt {
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "\e605";
+        }
+    }
+
+    .breadcrumb-item + .breadcrumb-item {
+        padding-right: .5rem;
+        padding-left: 0;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding-right: 0;
+        padding-left: .5rem;
+    }
+
+    // Mini Sidebar
+    @include media-breakpoint-up(lg) {
+        &.sidebar-mini.sidebar-o.sidebar-r #sidebar {
+            .content-side,
+            .content-header {
+                transform: translateX(-($sidebar-width - $sidebar-mini-width)) translateY(0) translateZ(0);
+            }
+            
+            &:hover {
+                .content-side,
+                .content-header {
+                    transform: translateX(0);
+                }
+            }
+    
+            &:not(:hover) {
+                .nav-main {
+                    transform: translateX($space-side);
+    
+                    .nav-main-link-icon {
+                        transform: translateX(-1rem);
+                    }
+                }
+            }
+        }
+    }
+
+    // Nav Main
+    .nav-main {
+        padding-left: auto;
+        padding-right: 0;
+    }
+
+    .nav-main-link {
+        .nav-main-link-icon {
+            margin-right: 0;
+            margin-left: .625rem;
+        }
+
+        .nav-main-link-badge {
+            margin-right: .625rem;
+            margin-left: auto;
+            padding-right: .375rem;
+            padding-left: .375rem;
+            font-size: .75rem;
+        }
+
+        &.nav-main-link-submenu {
+            padding-right: $space-side;
+            padding-left: 2rem;
+    
+            &::before,
+            &::after {
+                right: auto;
+                left: .625rem;
+            }
+
+            &::before {
+                content: '\f105';
+            }
+        }
+    }
+    
+    .nav-main-submenu {
+        padding-right: 2.25rem;
+        padding-left: 0;
+
+        .nav-main-link {
+            padding-right: 0;
+            padding-left: .625rem;
+
+            &.nav-main-link-submenu {
+                padding-left: 2rem;
+            }
+        }
+    
+        .nav-main-submenu {
+            padding-right: .75rem;
+            padding-left: 0;
+        }
+    }
+
+    // Active sub menu
+    .nav-main-item.open {
+        > .nav-main-link-submenu {
+            &::before {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    // Nav Main Horizontal
+    @include media-breakpoint-up(lg) {
+        .nav-main-horizontal {
+            // Link
+            .nav-main-link-submenu::before {
+                content: '\f107';
+            }
+            
+            // Sub menus
+            .nav-main-submenu {
+                left: auto;
+                right: 0;
+                padding-left: auto;
+                padding-right: 0;          
+
+                &.nav-main-submenu-left {
+                    right: auto;
+                    left: 0;
+                }
+
+                .nav-main-link {
+                    padding-left: .625rem;
+                    padding-right: 1rem;
+                }
+
+                .nav-main-link {
+                    &.nav-main-link-submenu {
+                        &::before {
+                            content: '\f104';
+                        }
+                    }
+                }
+
+                .nav-main-item.open > .nav-main-link-submenu::before {
+                    transform: scaleX(-1);
+                }
+            }
+
+            // Active sub menu
+            .nav-main-item.open {
+                > .nav-main-link-submenu::before {
+                    transform: scaleY(-1);
+                }
+            }
+
+            // Sub menus - 2++ Level
+            .nav-main-submenu .nav-main-submenu {
+                left: -100%;
+                right: auto;
+            }
+
+            &.nav-main-hover {
+                .nav-main-item:hover {
+                    > .nav-main-link-submenu {
+                        &::before {
+                            transform: scaleY(-1);
+                        }
+                    }
+                }
+            }
+
+            &.nav-main-hover .nav-main-submenu {
+                .nav-main-item:hover > .nav-main-link-submenu::before {
+                    transform: scaleX(-1);
+                }
+            }
+        }
+    }
+}

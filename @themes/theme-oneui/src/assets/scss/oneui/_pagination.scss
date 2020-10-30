@@ -1,0 +1,14 @@
+//
+// Pagination
+// --------------------------------------------------
+
+.page-link {
+    margin-right: .25rem;
+    font-weight: $font-weight-bold;
+    border-width: 0 0 $pagination-border-width 0;
+    border-radius: 0 !important;
+
+    &:focus {
+        background-color: $body-bg;
+    }
+}

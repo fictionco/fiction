@@ -1,0 +1,38 @@
+//
+// Flat Theme
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Generate color theme
+.theme-flat {
+    @include color-theme($theme-flat-primary,
+                        $theme-flat-light,
+                        $theme-flat-lighter,
+                        $theme-flat-dark,
+                        $theme-flat-darker,
+                        $theme-flat-body-bg,
+                        $theme-flat-body-bg-dark,
+                        $theme-flat-body-bg-light,
+                        $theme-flat-body-color,
+                        $theme-flat-body-color-dark,
+                        $theme-flat-body-color-light,
+                        $theme-flat-link-color,
+                        $theme-flat-link-hover-color,
+                        $theme-flat-headings-color,
+                        $theme-flat-input-btn-focus-color,
+                        $theme-flat-input-btn-focus-box-shadow,
+                        $theme-flat-input-bg,
+                        $theme-flat-input-color,
+                        $theme-flat-input-border-color,
+                        $theme-flat-input-focus-bg,
+                        $theme-flat-input-focus-color,
+                        $theme-flat-input-focus-border-color,
+                        $theme-flat-header-bg,
+                        $theme-flat-header-dark-bg,
+                        $theme-flat-sidebar-bg,
+                        $theme-flat-sidebar-dark-bg,
+                        $theme-flat-side-overlay-bg,
+                        $theme-flat-btn-alt-primary-bg);
+}

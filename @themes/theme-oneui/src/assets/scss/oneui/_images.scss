@@ -1,0 +1,88 @@
+//
+// Image (links and hover options)
+// --------------------------------------------------
+
+// Avatar
+.img-avatar {
+    display: inline-block !important;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+
+    &.img-avatar16 {
+        width: 16px;
+        height: 16px;
+    }
+
+    &.img-avatar20 {
+        width: 20px;
+        height: 20px;
+    }
+
+    &.img-avatar32 {
+        width: 32px;
+        height: 32px;
+    }
+
+    &.img-avatar48 {
+        width: 48px;
+        height: 48px;
+    }
+
+    &.img-avatar96 {
+        width: 96px;
+        height: 96px;
+    }
+
+    &.img-avatar128 {
+        width: 128px;
+        height: 128px;
+    }
+
+    &-thumb {
+        margin: .25rem;
+        box-shadow: 0 0 0 .25rem rgba(255,255,255,.3);
+    }
+
+    &.img-avatar-rounded {
+        border-radius: .25rem;
+    }
+}
+
+// Image Thumb
+.img-thumb {
+    padding: .375rem;
+    background-color: $white;
+    border-radius: .25rem;
+}
+
+// Image Link
+.img-link {
+    display: inline-block;
+    transition: transform .25s ease-out, opacity .25s ease-out;
+
+    @include hover() {
+        transform: scale(1.02);
+        opacity: .75;
+    }
+
+    &:active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    &.img-link-simple:hover {
+        transform: scale(1);
+    }
+}
+
+.img-link-zoom-in {
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
+}
+
+// Responsive
+.img-fluid.img-fluid-100,
+.img-fluid-100 .img-fluid {
+    width: 100%;
+}

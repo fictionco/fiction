@@ -19,6 +19,9 @@
     ]
   },
   "dependencies": {
-    "@factor/core": "^1.0.0"
+    "@factor/core": "^1.0.0",
+    "@themes/theme-oneui": "^1.0.0",
+    "@plugins/plugin-pug": "^1.0.0",
+    "@plugins/plugin-vue-property-decorator": "^1.0.0"
   }
 }

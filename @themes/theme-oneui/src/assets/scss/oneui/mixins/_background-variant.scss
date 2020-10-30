@@ -1,0 +1,22 @@
+//
+// Backgrounds
+// --------------------------------------------------
+
+// Original Bootstrap 4 mixin (it will be deprecated)
+@mixin bg-variant($parent, $color, $ignore-warning: false) {
+    #{$parent} {
+      background-color: $color !important;
+    }
+    a#{$parent},
+    button#{$parent} {
+      @include hover-focus() {
+        background-color: darken($color, 10%) !important;
+      }
+    }
+}
+
+@mixin bg-gradient-variant-linear($parent, $deg, $color1, $color2) {
+    #{$parent} {
+        background: $color1 linear-gradient($deg, $color1 0%, $color2 100%) !important;
+    }
+}

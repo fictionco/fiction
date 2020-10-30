@@ -1,0 +1,17 @@
+{
+  "name": "@plugins/plugin-vue-property-decorator",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@factor/core": "^1.0.0",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.0.2"
+  },
+  "factor": {
+    "load": [
+      "app",
+      "server"
+    ]
+  }
+}

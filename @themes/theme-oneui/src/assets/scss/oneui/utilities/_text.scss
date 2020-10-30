@@ -1,0 +1,108 @@
+//
+// Text
+// --------------------------------------------------
+
+// Font weight
+.font-w300 { font-weight: 300 !important; }
+.font-w400 { font-weight: 400 !important; }
+.font-w500 { font-weight: 500 !important; }
+.font-w600 { font-weight: 600 !important; }
+.font-w700 { font-weight: 700 !important; }
+
+// Font sizes
+.font-size-base { font-size: $font-size-base  !important; }
+.font-size-lg { font-size: $font-size-lg !important; }
+.font-size-sm { font-size: $font-size-sm !important; }
+
+// Helpers
+.text-wrap-break-word { word-wrap: break-word; }
+
+// Letter Spacing
+.tracking-tighter { letter-spacing: -0.05em; }
+.tracking-tight { letter-spacing: -0.025em; }
+.tracking-normal { letter-spacing: 0; }
+.tracking-wide { letter-spacing: 0.025em; }
+.tracking-wider { letter-spacing: 0.05em; }
+.tracking-widest { letter-spacing: 0.1em; }
+
+// Contextual colors
+@include text-emphasis-variant('.text-primary-dark', theme-color("primary-dark"));
+@include text-emphasis-variant('.text-primary-darker',theme-color("primary-darker"));
+@include text-emphasis-variant('.text-primary-light', theme-color("primary-light"));
+@include text-emphasis-variant('.text-primary-lighter', theme-color("primary-lighter"));
+
+@include text-emphasis-variant('.text-success-light', theme-color("success-light"));
+@include text-emphasis-variant('.text-warning-light', theme-color("warning-light"));
+@include text-emphasis-variant('.text-info-light', theme-color("info-light"));
+@include text-emphasis-variant('.text-danger-light', theme-color("danger-light"));
+
+@include text-emphasis-variant('.text-body-bg', $body-bg);
+@include text-emphasis-variant('.text-body-bg-dark', $body-bg-dark);
+@include text-emphasis-variant('.text-body-bg-light', $body-bg-light);
+@include text-emphasis-variant('.text-body-color', $body-color);
+@include text-emphasis-variant('.text-body-color-dark', $body-color-dark);
+@include text-emphasis-variant('.text-body-color-light', $body-color-light);
+
+@include text-emphasis-variant('.text-muted', $text-muted);
+@include text-emphasis-variant('.text-white', $white);
+@include text-emphasis-variant('.text-white-50', rgba($white,.50));
+@include text-emphasis-variant('.text-white-75', rgba($white,.75));
+@include text-emphasis-variant('.text-black', $black);
+@include text-emphasis-variant('.text-black-50', rgba($black,.5));
+@include text-emphasis-variant('.text-black-75', rgba($black,.75));
+
+@include text-emphasis-variant('.text-gray', gray("400"));
+@include text-emphasis-variant('.text-gray-dark', gray("600"));
+@include text-emphasis-variant('.text-gray-darker', gray("800"));
+@include text-emphasis-variant('.text-gray-light', gray("200"));
+@include text-emphasis-variant('.text-gray-lighter', gray("100"));
+
+// Contextual dual text colors (for dark header/sidebar)
+@include text-emphasis-variant('.text-dual', theme-color("primary-dark"));
+
+.page-header-dark #page-header,
+.sidebar-dark #sidebar {
+    @include text-emphasis-variant('.text-dual', $body-color-light);
+}
+
+// Default Color Theme
+@include text-emphasis-variant('.text-default', theme-color("primary"));
+@include text-emphasis-variant('.text-default-dark', theme-color("primary-dark"));
+@include text-emphasis-variant('.text-default-darker', theme-color("primary-darker"));
+@include text-emphasis-variant('.text-default-light', theme-color("primary-light"));
+@include text-emphasis-variant('.text-default-lighter', theme-color("primary-lighter"));
+
+// Amethyst Color Theme
+@include text-emphasis-variant('.text-amethyst', $theme-amethyst-primary);
+@include text-emphasis-variant('.text-amethyst-dark', $theme-amethyst-dark);
+@include text-emphasis-variant('.text-amethyst-darker', $theme-amethyst-darker);
+@include text-emphasis-variant('.text-amethyst-light', $theme-amethyst-light);
+@include text-emphasis-variant('.text-amethyst-lighter', $theme-amethyst-lighter);
+
+// City Color Theme
+@include text-emphasis-variant('.text-city', $theme-city-primary);
+@include text-emphasis-variant('.text-city-dark', $theme-city-dark);
+@include text-emphasis-variant('.text-city-darker', $theme-city-darker);
+@include text-emphasis-variant('.text-city-light', $theme-city-light);
+@include text-emphasis-variant('.text-city-lighter', $theme-city-lighter);
+
+// Flat Color Theme
+@include text-emphasis-variant('.text-flat', $theme-flat-primary);
+@include text-emphasis-variant('.text-flat-dark', $theme-flat-dark);
+@include text-emphasis-variant('.text-flat-darker', $theme-flat-darker);
+@include text-emphasis-variant('.text-flat-light', $theme-flat-light);
+@include text-emphasis-variant('.text-flat-lighter', $theme-flat-lighter);
+
+// Modern Color Theme
+@include text-emphasis-variant('.text-modern', $theme-modern-primary);
+@include text-emphasis-variant('.text-modern-dark', $theme-modern-dark);
+@include text-emphasis-variant('.text-modern-darker', $theme-modern-darker);
+@include text-emphasis-variant('.text-modern-light', $theme-modern-light);
+@include text-emphasis-variant('.text-modern-lighter', $theme-modern-lighter);
+
+// Smooth Color Theme
+@include text-emphasis-variant('.text-smooth', $theme-smooth-primary);
+@include text-emphasis-variant('.text-smooth-dark', $theme-smooth-dark);
+@include text-emphasis-variant('.text-smooth-darker', $theme-smooth-darker);
+@include text-emphasis-variant('.text-smooth-light', $theme-smooth-light);
+@include text-emphasis-variant('.text-smooth-lighter', $theme-smooth-lighter);

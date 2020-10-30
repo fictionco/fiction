@@ -1,0 +1,92 @@
+//
+// Buttons
+// --------------------------------------------------
+
+// Alternate variant
+@mixin button-alt-variant($background, $text-color,
+                            $hover-background: darken($background, 7.5%), $hover-text-color: $text-color,
+                            $active-background: darken($background, 12%), $active-text-color: darken($text-color, 15%)) {
+    $btn-alt-box-shadow: 0 0 0 0.2rem rgba($active-background, .25);
+    
+    color: $text-color;
+    @include gradient-bg($background);
+    border-color: $background;
+
+    @include hover() {
+        color: $hover-text-color;
+        @include gradient-bg($hover-background);
+        border-color: $hover-background;
+    }
+
+    &:focus,
+    &.focus {
+        color: $hover-text-color;
+        @include gradient-bg($hover-background);
+        border-color: $hover-background;
+        box-shadow: $btn-alt-box-shadow;
+    }
+
+    // Disabled comes first so active can properly restyle
+    &.disabled,
+    &:disabled {
+        color: color-yiq($background);
+        background-color: $background;
+        border-color: $background;
+
+        // Remove CSS gradients if they're enabled
+        @if $enable-gradients {
+            background-image: none;
+        }
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active,
+    .show > &.dropdown-toggle {
+        color: $active-text-color;
+        background-color: $active-background;
+        border-color: $active-background;
+
+        @if $enable-gradients {
+            background-image: none; // Remove the gradient for the pressed/active state
+        }
+
+        &:focus {
+            box-shadow: $btn-alt-box-shadow;
+        }
+    }
+}
+
+// Used for buttons that adapt to light/dark header and sidebar variations
+@mixin button-dual-variant($color, $background, $border) {
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+
+    &:hover,
+    &:focus,
+    &.focus {
+        color: $color;
+        background-color: darken($background, 8%);
+        border-color: darken($border, 12%);
+        box-shadow: none;
+    }
+
+    &.disabled,
+    &:disabled {
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    &:active,
+    &.active {
+        color: $color;
+        background-color: darken($background, 18%);
+        border-color: darken($border, 22%);
+    }
+
+    .show > &.dropdown-toggle {
+        color: $color;
+        background-color: $background;
+        border-color: $background;
+    }
+}

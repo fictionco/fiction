@@ -1,0 +1,117 @@
+//
+// OneUI - UI Framework
+// --------------------------------------------------
+
+// Bootstrap functions
+@import '~bootstrap/scss/functions';
+
+// User variables (your own variable overrides)
+@import 'custom/variables';
+
+// Custom Bootstrap variables overrides
+@import 'oneui/variables-bootstrap';
+
+// Bootstrap variables
+@import '~bootstrap/scss/variables';
+
+// Bootstrap mixins
+@import '~bootstrap/scss/mixins';
+
+// Custom mixins and Bootstrap overrides
+@import 'oneui/mixins';
+
+// Bootstrap components
+//@import '~bootstrap/scss/root';
+@import '~bootstrap/scss/reboot';
+@import '~bootstrap/scss/type';
+@import '~bootstrap/scss/images';
+@import '~bootstrap/scss/code';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/transitions';
+@import '~bootstrap/scss/dropdown';
+@import '~bootstrap/scss/button-group';
+@import '~bootstrap/scss/input-group';
+@import '~bootstrap/scss/custom-forms';
+@import '~bootstrap/scss/nav';
+//@import '~bootstrap/scss/navbar';
+//@import '~bootstrap/scss/card';
+@import '~bootstrap/scss/breadcrumb';
+@import '~bootstrap/scss/pagination';
+@import '~bootstrap/scss/badge';
+@import '~bootstrap/scss/jumbotron';
+@import '~bootstrap/scss/alert';
+@import '~bootstrap/scss/progress';
+@import '~bootstrap/scss/media';
+@import '~bootstrap/scss/list-group';
+@import '~bootstrap/scss/close';
+@import '~bootstrap/scss/toasts';
+@import '~bootstrap/scss/modal';
+@import '~bootstrap/scss/tooltip';
+@import '~bootstrap/scss/popover';
+@import '~bootstrap/scss/carousel';
+@import '~bootstrap/scss/spinners';
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/print';
+
+// Custom variables
+@import 'oneui/variables';
+@import 'oneui/variables-themes';
+
+// Extend Bootstrap styles and override the ones..
+// ..we can't alter with the provided variables
+@import 'oneui/reboot';
+@import 'oneui/type';
+@import 'oneui/grid';
+@import 'oneui/tables';
+@import 'oneui/forms';
+@import 'oneui/buttons';
+@import 'oneui/transitions';
+@import 'oneui/dropdown';
+@import 'oneui/input-group';
+@import 'oneui/custom-forms';
+@import 'oneui/nav';
+@import 'oneui/breadcrumb';
+@import 'oneui/pagination';
+@import 'oneui/badge';
+@import 'oneui/modal';
+@import 'oneui/print';
+
+// Custom layout
+@import 'oneui/layout';
+@import 'oneui/header';
+@import 'oneui/sidebar';
+@import 'oneui/side-overlay';
+@import 'oneui/layout-variations';
+@import 'oneui/hero';
+@import 'oneui/block';
+
+// Custom components
+@import 'oneui/page-loader';
+@import 'oneui/nav-main';
+@import 'oneui/images';
+@import 'oneui/lists';
+@import 'oneui/item';
+@import 'oneui/overlay';
+@import 'oneui/timeline';
+@import 'oneui/ribbon';
+
+// Utilities
+@import 'oneui/utilities';
+
+// Core third party components
+@import 'vendor/animate';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
+@import 'vendor/simple-line-icons';
+@import 'vendor/simplebar';
+
+// RTL Support
+@import 'oneui/rtl-support';
+
+// User styles (your own styles/overrides)
+@import 'custom/main';

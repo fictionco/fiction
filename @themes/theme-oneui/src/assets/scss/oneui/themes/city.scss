@@ -1,0 +1,38 @@
+//
+// City Theme
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Generate color theme
+.theme-city {
+    @include color-theme($theme-city-primary,
+                    $theme-city-light,
+                    $theme-city-lighter,
+                    $theme-city-dark,
+                    $theme-city-darker,
+                    $theme-city-body-bg,
+                    $theme-city-body-bg-dark,
+                    $theme-city-body-bg-light,
+                    $theme-city-body-color,
+                    $theme-city-body-color-dark,
+                    $theme-city-body-color-light,
+                    $theme-city-link-color,
+                    $theme-city-link-hover-color,
+                    $theme-city-headings-color,
+                    $theme-city-input-btn-focus-color,
+                    $theme-city-input-btn-focus-box-shadow,
+                    $theme-city-input-bg,
+                    $theme-city-input-color,
+                    $theme-city-input-border-color,
+                    $theme-city-input-focus-bg,
+                    $theme-city-input-focus-color,
+                    $theme-city-input-focus-border-color,
+                    $theme-city-header-bg,
+                    $theme-city-header-dark-bg,
+                    $theme-city-sidebar-bg,
+                    $theme-city-sidebar-dark-bg,
+                    $theme-city-side-overlay-bg,
+                    $theme-city-btn-alt-primary-bg);
+}

@@ -1,0 +1,38 @@
+//
+// Modern Theme
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Generate color theme
+.theme-modern {
+    @include color-theme($theme-modern-primary,
+                    $theme-modern-light,
+                    $theme-modern-lighter,
+                    $theme-modern-dark,
+                    $theme-modern-darker,
+                    $theme-modern-body-bg,
+                    $theme-modern-body-bg-dark,
+                    $theme-modern-body-bg-light,
+                    $theme-modern-body-color,
+                    $theme-modern-body-color-dark,
+                    $theme-modern-body-color-light,
+                    $theme-modern-link-color,
+                    $theme-modern-link-hover-color,
+                    $theme-modern-headings-color,
+                    $theme-modern-input-btn-focus-color,
+                    $theme-modern-input-btn-focus-box-shadow,
+                    $theme-modern-input-bg,
+                    $theme-modern-input-color,
+                    $theme-modern-input-border-color,
+                    $theme-modern-input-focus-bg,
+                    $theme-modern-input-focus-color,
+                    $theme-modern-input-focus-border-color,
+                    $theme-modern-header-bg,
+                    $theme-modern-header-dark-bg,
+                    $theme-modern-sidebar-bg,
+                    $theme-modern-sidebar-dark-bg,
+                    $theme-modern-side-overlay-bg,
+                    $theme-modern-btn-alt-primary-bg);
+}

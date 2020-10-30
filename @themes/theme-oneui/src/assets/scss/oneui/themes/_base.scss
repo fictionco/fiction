@@ -1,0 +1,25 @@
+//
+// Required files for theme creation
+// --------------------------------------------------
+
+// Bootstrap functions
+@import '~bootstrap/scss/functions';
+
+// User variables (your own variable overrides)
+@import '../../custom/variables';
+
+// Custom Bootstrap variables overrides
+@import '../variables-bootstrap';
+
+// Bootstrap variables
+@import '~bootstrap/scss/variables';
+
+// Bootstrap mixins
+@import '~bootstrap/scss/mixins';
+
+// Custom mixins and Bootstrap overrides
+@import '../mixins';
+
+// Custom variables
+@import '../variables';
+@import '../variables-themes';

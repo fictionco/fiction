@@ -1,0 +1,207 @@
+//
+// Themes variables
+// --------------------------------------------------
+
+// Amethyst Theme
+
+$theme-amethyst-primary:                       #8451d6 !default;
+$theme-amethyst-light:                         lighten($theme-amethyst-primary, 15%) !default;
+$theme-amethyst-lighter:                       lighten($theme-amethyst-primary, 28%) !default;
+$theme-amethyst-dark:                          #3e4254 !default;
+$theme-amethyst-darker:                        #2c2e3b !default;
+
+$theme-amethyst-body-bg:                       #f0f1f2 !default;
+$theme-amethyst-body-bg-dark:                  darken($theme-amethyst-body-bg, 4.5%) !default;
+$theme-amethyst-body-bg-light:                 lighten($theme-amethyst-body-bg, 3%) !default;
+
+$theme-amethyst-body-color:                    $body-color !default;
+$theme-amethyst-body-color-dark:               $body-color-dark !default;
+$theme-amethyst-body-color-light:              $theme-amethyst-body-bg-dark !default;
+
+$theme-amethyst-link-color:                    $theme-amethyst-primary !default;
+$theme-amethyst-link-hover-color:              darken($theme-amethyst-link-color, 20%) !default;
+
+$theme-amethyst-headings-color:                $theme-amethyst-body-color-dark !default;
+
+$theme-amethyst-input-btn-focus-color:         rgba($theme-amethyst-primary, .25) !default;
+$theme-amethyst-input-btn-focus-box-shadow:    0 0 0 $input-btn-focus-width $theme-amethyst-input-btn-focus-color !default;
+
+$theme-amethyst-input-bg:                      $white !default;
+$theme-amethyst-input-color:                   $theme-amethyst-body-color !default;
+$theme-amethyst-input-border-color:            darken($theme-amethyst-body-bg, 8%) !default;
+
+$theme-amethyst-input-focus-bg:                $white !default;
+$theme-amethyst-input-focus-color:             $theme-amethyst-body-color-dark !default;
+$theme-amethyst-input-focus-border-color:      lighten($theme-amethyst-primary, 25%) !default;
+
+$theme-amethyst-header-bg:                     $white !default;
+$theme-amethyst-header-dark-bg:                $theme-amethyst-darker !default;
+$theme-amethyst-sidebar-bg:                    $white !default;
+$theme-amethyst-sidebar-dark-bg:               $theme-amethyst-darker !default;
+$theme-amethyst-side-overlay-bg:               $white !default;
+
+$theme-amethyst-btn-alt-primary-bg:            lighten($theme-amethyst-lighter, 5%);
+
+
+// City Theme
+
+$theme-city-primary:                       #d65151 !default;
+$theme-city-light:                         lighten($theme-city-primary, 15%) !default;
+$theme-city-lighter:                       lighten($theme-city-primary, 28%) !default;
+$theme-city-dark:                          #4b4b4b !default;
+$theme-city-darker:                        #2b2b2b !default;
+
+$theme-city-body-bg:                       #f2f2f2 !default;
+$theme-city-body-bg-dark:                  darken($theme-city-body-bg, 4.5%) !default;
+$theme-city-body-bg-light:                 lighten($theme-city-body-bg, 3%) !default;
+
+$theme-city-body-color:                    $body-color !default;
+$theme-city-body-color-dark:               $body-color-dark !default;
+$theme-city-body-color-light:              $theme-city-body-bg-dark !default;
+
+$theme-city-link-color:                    $theme-city-primary !default;
+$theme-city-link-hover-color:              darken($theme-city-link-color, 20%) !default;
+
+$theme-city-headings-color:                $theme-city-body-color-dark !default;
+
+$theme-city-input-btn-focus-color:         rgba($theme-city-primary, .25) !default;
+$theme-city-input-btn-focus-box-shadow:    0 0 0 $input-btn-focus-width $theme-city-input-btn-focus-color !default;
+
+$theme-city-input-bg:                      $white !default;
+$theme-city-input-color:                   $theme-city-body-color !default;
+$theme-city-input-border-color:            darken($theme-city-body-bg, 8%) !default;
+
+$theme-city-input-focus-bg:                $white !default;
+$theme-city-input-focus-color:             $theme-city-body-color-dark !default;
+$theme-city-input-focus-border-color:      lighten($theme-city-primary, 25%) !default;
+
+$theme-city-header-bg:                     $white !default;
+$theme-city-header-dark-bg:                $theme-city-darker !default;
+$theme-city-sidebar-bg:                    $white !default;
+$theme-city-sidebar-dark-bg:               $theme-city-darker !default;
+$theme-city-side-overlay-bg:               $white !default;
+
+$theme-city-btn-alt-primary-bg:            lighten($theme-city-lighter, 5%);
+
+
+// Flat Theme
+
+$theme-flat-primary:                       #44b3ab !default;
+$theme-flat-light:                         lighten($theme-flat-primary, 18%) !default;
+$theme-flat-lighter:                       lighten($theme-flat-primary, 32%) !default;
+$theme-flat-dark:                          #36474d !default;
+$theme-flat-darker:                        #2a363b !default;
+
+$theme-flat-body-bg:                       #f0f2f2 !default;
+$theme-flat-body-bg-dark:                  darken($theme-flat-body-bg, 4.5%) !default;
+$theme-flat-body-bg-light:                 lighten($theme-flat-body-bg, 3%) !default;
+
+$theme-flat-body-color:                    $body-color !default;
+$theme-flat-body-color-dark:               $body-color-dark !default;
+$theme-flat-body-color-light:              $theme-flat-body-bg-dark !default;
+
+$theme-flat-link-color:                    $theme-flat-primary !default;
+$theme-flat-link-hover-color:              darken($theme-flat-link-color, 20%) !default;
+
+$theme-flat-headings-color:                $theme-flat-body-color-dark !default;
+
+$theme-flat-input-btn-focus-color:         rgba($theme-flat-primary, .25) !default;
+$theme-flat-input-btn-focus-box-shadow:    0 0 0 $input-btn-focus-width $theme-flat-input-btn-focus-color !default;
+
+$theme-flat-input-bg:                      $white !default;
+$theme-flat-input-color:                   $theme-flat-body-color !default;
+$theme-flat-input-border-color:            darken($theme-flat-body-bg, 8%) !default;
+
+$theme-flat-input-focus-bg:                $white !default;
+$theme-flat-input-focus-color:             $theme-flat-body-color-dark !default;
+$theme-flat-input-focus-border-color:      lighten($theme-flat-primary, 25%) !default;
+
+$theme-flat-header-bg:                     $white !default;
+$theme-flat-header-dark-bg:                $theme-flat-darker !default;
+$theme-flat-sidebar-bg:                    $white !default;
+$theme-flat-sidebar-dark-bg:               $theme-flat-darker !default;
+$theme-flat-side-overlay-bg:               $white !default;
+
+$theme-flat-btn-alt-primary-bg:            lighten($theme-flat-lighter, 5%);
+
+
+// Modern Theme
+
+$theme-modern-primary:                       #4cb6c7 !default;
+$theme-modern-light:                         lighten($theme-modern-primary, 18%) !default;
+$theme-modern-lighter:                       lighten($theme-modern-primary, 32%) !default;
+$theme-modern-dark:                          #323a47 !default;
+$theme-modern-darker:                        #262d3b !default;
+
+$theme-modern-body-bg:                       #f0f1f2 !default;
+$theme-modern-body-bg-dark:                  darken($theme-modern-body-bg, 4.5%) !default;
+$theme-modern-body-bg-light:                 lighten($theme-modern-body-bg, 3%) !default;
+
+$theme-modern-body-color:                    $body-color !default;
+$theme-modern-body-color-dark:               $body-color-dark !default;
+$theme-modern-body-color-light:              $theme-modern-body-bg-dark !default;
+
+$theme-modern-link-color:                    $theme-modern-primary !default;
+$theme-modern-link-hover-color:              darken($theme-modern-link-color, 20%) !default;
+
+$theme-modern-headings-color:                $theme-modern-body-color-dark !default;
+
+$theme-modern-input-btn-focus-color:         rgba($theme-modern-primary, .25) !default;
+$theme-modern-input-btn-focus-box-shadow:    0 0 0 $input-btn-focus-width $theme-modern-input-btn-focus-color !default;
+
+$theme-modern-input-bg:                      $white !default;
+$theme-modern-input-color:                   $theme-modern-body-color !default;
+$theme-modern-input-border-color:            darken($theme-modern-body-bg, 8%) !default;
+
+$theme-modern-input-focus-bg:                $white !default;
+$theme-modern-input-focus-color:             $theme-modern-body-color-dark !default;
+$theme-modern-input-focus-border-color:      lighten($theme-modern-primary, 25%) !default;
+
+$theme-modern-header-bg:                     $white !default;
+$theme-modern-header-dark-bg:                $theme-modern-darker !default;
+$theme-modern-sidebar-bg:                    $white !default;
+$theme-modern-sidebar-dark-bg:               $theme-modern-darker !default;
+$theme-modern-side-overlay-bg:               $white !default;
+
+$theme-modern-btn-alt-primary-bg:            lighten($theme-modern-lighter, 5%);
+
+
+// Smooth Theme
+
+$theme-smooth-primary:                       #ff6c9d !default;
+$theme-smooth-light:                         lighten($theme-smooth-primary, 7%) !default;
+$theme-smooth-lighter:                       lighten($theme-smooth-primary, 15%) !default;
+$theme-smooth-dark:                          #3c4554 !default;
+$theme-smooth-darker:                        #2a303b !default;
+
+$theme-smooth-body-bg:                       #f0f1f2 !default;
+$theme-smooth-body-bg-dark:                  darken($theme-smooth-body-bg, 4.5%) !default;
+$theme-smooth-body-bg-light:                 lighten($theme-smooth-body-bg, 3%) !default;
+
+$theme-smooth-body-color:                    $body-color !default;
+$theme-smooth-body-color-dark:               $body-color-dark !default;
+$theme-smooth-body-color-light:              $theme-smooth-body-bg-dark !default;
+
+$theme-smooth-link-color:                    $theme-smooth-primary !default;
+$theme-smooth-link-hover-color:              darken($theme-smooth-link-color, 20%) !default;
+
+$theme-smooth-headings-color:                $theme-smooth-body-color-dark !default;
+
+$theme-smooth-input-btn-focus-color:         rgba($theme-smooth-primary, .25) !default;
+$theme-smooth-input-btn-focus-box-shadow:    0 0 0 $input-btn-focus-width $theme-smooth-input-btn-focus-color !default;
+
+$theme-smooth-input-bg:                      $white !default;
+$theme-smooth-input-color:                   $theme-smooth-body-color !default;
+$theme-smooth-input-border-color:            darken($theme-smooth-body-bg, 8%) !default;
+
+$theme-smooth-input-focus-bg:                $white !default;
+$theme-smooth-input-focus-color:             $theme-smooth-body-color-dark !default;
+$theme-smooth-input-focus-border-color:      lighten($theme-smooth-primary, 10%) !default;
+
+$theme-smooth-header-bg:                     $white !default;
+$theme-smooth-header-dark-bg:                $theme-smooth-darker !default;
+$theme-smooth-sidebar-bg:                    $white !default;
+$theme-smooth-sidebar-dark-bg:               $theme-smooth-darker !default;
+$theme-smooth-side-overlay-bg:               $white !default;
+
+$theme-smooth-btn-alt-primary-bg:            lighten($theme-smooth-lighter, 5%);

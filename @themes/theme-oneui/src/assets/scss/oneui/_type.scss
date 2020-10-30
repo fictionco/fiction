@@ -1,0 +1,76 @@
+//
+// Typography
+// --------------------------------------------------
+
+// Headings
+.font-size-h1 { font-size: $h1-font-size; }
+.font-size-h2 { font-size: $h2-font-size; }
+.font-size-h3 { font-size: $h3-font-size; }
+.font-size-h4 { font-size: $h4-font-size; }
+.font-size-h5 { font-size: $h5-font-size; }
+.font-size-h6 { font-size: $h6-font-size; }
+
+@include media-breakpoint-down(sm) {
+    .display-1 { font-size: $display1-size / 1.5; }
+    .display-2 { font-size: $display2-size / 1.5; }
+    .display-3 { font-size: $display3-size / 1.5; }
+    .display-4 { font-size: $display4-size / 1.5; }
+
+    h1, .h1, .font-size-h1 { font-size: $h2-font-size; }
+    h2, .h2, .font-size-h2 { font-size: $h3-font-size; }
+    h3, .h3, .font-size-h3 { font-size: $h4-font-size; }
+    h4, .h4, .font-size-h4 { font-size: $h5-font-size; }
+
+    h5, .h5, .font-size-h5,
+    h6, .h6, .font-size-h6 {
+        font-size: $h6-font-size;
+    }
+}
+
+.content-heading {
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: gray("600");
+    line-height: 1.75;
+    text-transform: uppercase;
+    letter-spacing: .0625rem;
+
+    small {
+        margin-top: .25rem;
+        font-size: $font-size-sm;
+        font-weight: 400;
+        color: gray("600");
+        text-transform: none;
+        letter-spacing: normal;
+    }
+
+    @include media-breakpoint-up(md) {
+        padding-top: 1.5rem;
+
+        small {
+            margin-top: 0;
+        }
+    }
+
+    .block-content > &:first-child,
+    .content > &:first-child {
+        padding-top: 0 !important;
+    }
+
+    .dropdown {
+        line-height: $line-height-base;
+    }
+}
+
+// Emphasis
+small,
+.small {
+    font-weight: inherit;
+}
+
+// Transformations
+.text-uppercase {
+    letter-spacing: .0625rem;
+}

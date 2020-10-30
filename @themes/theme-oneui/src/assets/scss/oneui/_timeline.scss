@@ -1,0 +1,106 @@
+//
+// Timeline
+// --------------------------------------------------
+
+.timeline {
+    position: relative;
+    padding: 1rem 0;
+    @include list-unstyled();
+
+    &::before {
+        position: absolute;
+        top: 0;
+        left: 1.25rem;
+        height: 100%;
+        width: .25rem;
+        background-color: $body-bg-dark;
+        content: "";
+        border-radius: $border-radius;
+    }
+}
+
+.timeline-event {
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: $space-base;
+    }
+}
+
+.timeline-event-icon {
+    position: absolute;
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    color: $white;
+    border-radius: $border-radius;
+    z-index: 5;
+}
+
+.timeline-event-block {
+    margin-left: 3.25rem;
+    margin-bottom: 0 !important;
+}
+
+// Centered Timeline in larger screens
+@include media-breakpoint-up(xl) {
+    .timeline-centered {
+        &::before {
+            left: 50%;
+            margin-left: -.125rem;
+        }
+
+        .timeline-event-icon {
+            left: 50%;
+            margin-left: -1.25rem;
+
+            &::before {
+                right: auto;
+                left: -.625rem;
+                border-right: .625rem solid $white;
+                border-left: none;
+            }
+        }
+
+        .timeline-event-time {
+            position: absolute;
+            display: inline-block;
+            top: 1.25rem;
+            left: 50%;
+            padding: .5rem .5rem .5rem 1.75rem;
+            width: auto;
+            border-radius: $border-radius;
+            background-color: gray("100");
+            transform: translateY(-50%);
+        }
+
+        .timeline-event-block {
+            width: 46%;
+            margin-left: 0;
+        }
+
+        .timeline-event:not(:last-child) {
+            margin-bottom: $space-base * 2;
+        }
+
+        &.timeline-alt .timeline-event:nth-child(even),
+        .timeline-event.timeline-event-alt {
+            .timeline-event-icon {
+                left: 50%;
+                margin-left: -1.25rem;
+            }
+
+            .timeline-event-block {
+                margin-left: auto;
+            }
+
+            .timeline-event-time {
+                padding: .5rem 1.75rem .5rem .5rem;
+                right: 50%;
+                left: auto;
+                text-align: right;
+            }
+        }
+    }
+}

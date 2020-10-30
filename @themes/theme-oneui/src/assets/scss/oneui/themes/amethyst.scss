@@ -1,0 +1,38 @@
+//
+// Amethyst Theme
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Generate color theme
+.theme-amethyst {
+    @include color-theme($theme-amethyst-primary,
+                        $theme-amethyst-light,
+                        $theme-amethyst-lighter,
+                        $theme-amethyst-dark,
+                        $theme-amethyst-darker,
+                        $theme-amethyst-body-bg,
+                        $theme-amethyst-body-bg-dark,
+                        $theme-amethyst-body-bg-light,
+                        $theme-amethyst-body-color,
+                        $theme-amethyst-body-color-dark,
+                        $theme-amethyst-body-color-light,
+                        $theme-amethyst-link-color,
+                        $theme-amethyst-link-hover-color,
+                        $theme-amethyst-headings-color,
+                        $theme-amethyst-input-btn-focus-color,
+                        $theme-amethyst-input-btn-focus-box-shadow,
+                        $theme-amethyst-input-bg,
+                        $theme-amethyst-input-color,
+                        $theme-amethyst-input-border-color,
+                        $theme-amethyst-input-focus-bg,
+                        $theme-amethyst-input-focus-color,
+                        $theme-amethyst-input-focus-border-color,
+                        $theme-amethyst-header-bg,
+                        $theme-amethyst-header-dark-bg,
+                        $theme-amethyst-sidebar-bg,
+                        $theme-amethyst-sidebar-dark-bg,
+                        $theme-amethyst-side-overlay-bg,
+                        $theme-amethyst-btn-alt-primary-bg);
+}

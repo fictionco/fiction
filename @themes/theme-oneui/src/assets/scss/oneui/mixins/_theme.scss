@@ -1,0 +1,1065 @@
+//
+// Theme
+// --------------------------------------------------
+
+@mixin color-theme($brand-primary,
+                   $brand-light,
+                   $brand-lighter,
+                   $brand-dark,
+                   $brand-darker,
+                   $body-bg,
+                   $body-bg-dark,
+                   $body-bg-light,
+                   $body-color,
+                   $body-color-dark,
+                   $body-color-light,
+                   $link-color,
+                   $link-hover-color,
+                   $headings-color,
+                   $input-btn-focus-color,
+                   $input-btn-focus-box-shadow,
+                   $input-bg,
+                   $input-color,
+                   $input-border-color,
+                   $input-focus-bg,
+                   $input-focus-color,
+                   $input-focus-border-color,
+                   $header-bg,
+                   $header-dark-bg,
+                   $sidebar-bg,
+                   $sidebar-dark-bg,
+                   $side-overlay-bg,
+                   $btn-alt-primary-bg) {
+    // Scaffolding
+    & {
+        color: $body-color;
+        background-color: $body-bg;
+    }
+
+    // Links
+    a:not(.badge):not(.btn):not(.btn-block-option):not(.block):not(.dropdown-item):not(.nav-link):not(.page-link):not(.alert-link):not(.nav-main-link):not(.list-group-item-action):not(.close):not(.fc-event) {
+        color: $link-color;
+
+        &.link-fx::before {
+            background-color: $link-color;
+        }
+
+        @include hover() {
+            color: $link-hover-color;
+        }
+    }
+
+    // Typography
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+        color: $headings-color;
+    }
+
+    .content-heading {
+        border-bottom-color: $body-bg-dark;
+    }
+
+    hr {
+        border-top-color: $body-bg-dark;
+    }
+
+    // Contextual text colors
+    @include text-emphasis-variant('.text-primary', $brand-primary);
+    @include text-emphasis-variant('.text-primary-dark', $brand-dark);
+    @include text-emphasis-variant('.text-primary-darker', $brand-darker);
+    @include text-emphasis-variant('.text-primary-light', $brand-light);
+    @include text-emphasis-variant('.text-primary-lighter', $brand-lighter);
+
+    @include text-emphasis-variant('.text-body-bg', $body-bg);
+    @include text-emphasis-variant('.text-body-bg-light', $body-bg-light);
+    @include text-emphasis-variant('.text-body-bg-dark', $body-bg-dark);
+
+    @include text-emphasis-variant('.text-body-color', $body-color);
+    @include text-emphasis-variant('.text-body-color-dark', $body-color-dark);
+    @include text-emphasis-variant('.text-body-color-light', $body-color-light);
+
+    // Contextual dual text colors (for dark header/sidebar)
+    @include text-emphasis-variant('.text-dual', $brand-dark);
+
+    .page-header-dark #page-header,
+    .sidebar-dark #sidebar {
+        @include text-emphasis-variant('.text-dual', $body-color-light);
+    }
+
+    // Contextual background colors
+    @include bg-variant('.bg-primary', $brand-primary);
+    @include bg-variant('.bg-primary-op', rgba($brand-primary, .75));
+    @include bg-variant('.bg-primary-dark', $brand-dark);
+    @include bg-variant('.bg-primary-dark-op', rgba($brand-dark, .8));
+    @include bg-variant('.bg-primary-darker', $brand-darker);
+    @include bg-variant('.bg-primary-light', $brand-light);
+    @include bg-variant('.bg-primary-lighter', $brand-lighter);
+    @include bg-variant('.bg-body', $body-bg);
+    @include bg-variant('.bg-body-light', $body-bg-light);
+    @include bg-variant('.bg-body-dark', $body-bg-dark);
+
+    // Elements
+    @include bg-variant('.bg-header-light', $header-bg);
+    @include bg-variant('.bg-header-dark', $header-dark-bg);
+
+    @include bg-variant('.bg-sidebar-light', $sidebar-bg);
+    @include bg-variant('.bg-sidebar-dark', $sidebar-dark-bg);
+
+    // Buttons
+    .btn-link {
+        color: $link-color;
+
+        @include hover() {
+            color: $link-hover-color;
+        }
+    }
+
+    .btn-primary {
+        @include button-variant($brand-primary, $brand-primary);
+    }
+
+    .show > .btn-primary.dropdown-toggle {
+        color: color-yiq(darken($brand-primary, 10%));
+        background-color: darken($brand-primary, 10%);
+        @if $enable-gradients {
+            background-image: none; // Remove the gradient for the pressed/active state
+        }
+        border-color: darken($brand-primary, 12.5%);
+    
+        &:focus {
+            // Avoid using mixin so we can pass custom focus shadow properly
+            @if $enable-shadows and $btn-active-box-shadow != none {
+                box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($brand-primary), $brand-primary, 15%), .5);
+            } @else {
+                box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($brand-primary), $brand-primary, 15%), .5);
+            }
+        }
+    }
+
+    .btn-alt-primary {
+        @include button-alt-variant($btn-alt-primary-bg, darken($brand-primary, 20%));
+    }
+
+    .show > .btn-alt-primary.dropdown-toggle {
+        color: darken(darken($brand-primary, 20%), 15%);
+        background-color: darken($btn-alt-primary-bg, 12%);
+        border-color: darken($btn-alt-primary-bg, 12%);
+        @if $enable-gradients {
+            background-image: none; // Remove the gradient for the pressed/active state
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(darken($btn-alt-primary-bg, 12%), .25);
+        }
+    }
+
+    .btn-alt-secondary {
+        @include button-alt-variant($body-bg, $body-color);
+    }
+
+    .show > .btn-alt-secondary.dropdown-toggle {
+        color: darken($body-color, 15%);
+        background-color: darken($body-bg, 12%);
+        border-color: darken($body-bg, 12%);
+        @if $enable-gradients {
+            background-image: none; // Remove the gradient for the pressed/active state
+        }
+
+        &:focus {
+            box-shadow: 0 0 0 0.2rem rgba(darken($body-bg, 12%), .25);
+        }
+    }
+
+    .btn-outline-primary {
+        @include button-outline-variant($brand-primary);
+    }
+
+    .show > .btn-outline-primary.dropdown-toggle {
+        color: color-yiq($brand-primary);
+        background-color: $brand-primary;
+        border-color: $brand-primary;
+    
+        &:focus {
+            // Avoid using mixin so we can pass custom focus shadow properly
+            @if $enable-shadows and $btn-active-box-shadow != none {
+                box-shadow: $btn-active-box-shadow, 0 0 0 $btn-focus-width rgba($brand-primary, .5);
+            } @else {
+                box-shadow: 0 0 0 $btn-focus-width rgba($brand-primary, .5);
+            }
+        }
+    }
+
+    // Used for buttons that adapt to light/dark header and sidebar variations
+    .btn-dual {
+        @include button-dual-variant($body-color-dark, $body-bg, $body-bg);
+    }
+
+    .page-header-dark #page-header .btn-dual,
+    .sidebar-dark #sidebar .btn-dual {
+        @include button-dual-variant($white, lighten($brand-darker, 9%), lighten($brand-darker, 9%));
+    }
+
+    .page-header-dark #page-header .show > .btn-dual.dropdown-toggle,
+    .sidebar-dark #sidebar .show > .btn-dual.dropdown-toggle {
+        color: $white;
+        background-color: lighten($brand-darker, 9%);
+        border-color: lighten($brand-darker, 9%);
+    }
+
+    // Alerts
+    .alert-primary {
+        @include alert-variant($brand-lighter, $brand-lighter, $brand-dark);
+    }
+
+    // Badges
+    .badge-primary {
+        color: color-yiq($brand-primary);
+        background-color: $brand-primary;
+    }
+    
+    a.badge-primary {
+        @include hover-focus() {
+            color: color-yiq($brand-primary);
+            background-color: darken($brand-primary, 10%);
+        }
+
+        &:focus,
+        &.focus {
+            outline: 0;
+            box-shadow: 0 0 0 $badge-focus-width rgba($brand-primary, .5);
+        }
+    }
+
+    // Progress Bars
+    .progress-bar {
+        background-color: $brand-primary;
+    }
+
+    // Nav links
+    .nav-link {
+        color: $body-color;
+
+        @include hover-focus {
+            color: $brand-primary;
+        }
+    }
+
+    // Nav Pills
+    .nav-pills {
+        .nav-link {
+            color: $body-color;
+
+            @include hover-focus {
+                background-color: $body-bg;
+            }
+        }
+
+        .nav-link.active,
+        .show > .nav-link {
+            color: $white;
+            background-color: $brand-primary;
+        }
+    }
+
+    // Nav Tabs
+    .nav-tabs {
+        border-bottom-color: $body-bg-dark;
+
+        .nav-link {
+            @include hover-focus {
+                border-color: $body-bg-dark $body-bg-dark $body-bg-dark;
+            }
+        }
+
+        .nav-link.active,
+        .nav-item.show .nav-link {
+            border-color: $body-bg-dark $body-bg-dark $white;
+        }
+    }
+
+    // Tabs block variation
+    .nav-tabs-block {
+        background-color: $body-bg-light;
+
+        .nav-link {
+            border-color: transparent;
+            color: $body-color;
+
+            @include hover-focus {
+                color: $brand-primary;
+                background-color: $body-bg-light;
+                border-color: transparent;
+            }
+        }
+
+        .nav-link.active,
+        .nav-item.show .nav-link {
+            color: $body-color;
+            background-color: $white;
+            border-color: transparent;
+        }
+    }
+
+    // Tabs block alternative variation
+    .nav-tabs-alt {
+        border-bottom-color: $body-bg-dark;
+
+        .nav-link {
+            color: $body-color;
+            background-color: transparent;
+            border-color: transparent;
+
+            @include hover-focus {
+                color: $brand-primary;
+                background-color: transparent;
+                border-color: transparent;
+                box-shadow: inset 0 -3px $brand-primary;
+            }
+        }
+
+        .nav-link.active,
+        .nav-item.show .nav-link {
+            color: $body-color;
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: inset 0 -3px $brand-primary;
+        }
+    }
+
+    // Various Items Navigation
+    .nav-items {
+        a {
+            border-bottom-color: $body-bg;
+
+            @include hover() {
+                background-color: $body-bg-light;
+            }
+
+            &:active {
+                background-color: $body-bg;
+            }
+        }
+
+        > li:last-child > a {
+            border-bottom: none;
+        }
+    }
+
+    // Pagination
+    .page-item {
+        &.active .page-link {
+            color: $brand-primary;
+            background-color: $body-bg-light;
+            border-color: $brand-primary;
+        }
+    }
+
+    .page-link {
+        color: $body-color;
+
+        &:hover {
+            color: $brand-primary;
+            border-color: $brand-primary;
+        }
+
+        &:focus {
+            background-color: $body-bg;
+        }
+    }
+
+    // List Group
+    .list-group-item-action {
+        color: $body-color;
+
+        @include hover-focus {
+            color: $body-color;
+            background-color: $body-bg-light;
+        }
+
+        &:active {
+            color: $body-color;
+            background-color: $body-bg-dark;
+        }
+    }
+
+    .list-group-item {
+        border-color: $body-bg-dark;
+
+        &.active {
+            color: $white;
+            background-color: $brand-primary;
+            border-color: $brand-primary;
+        }
+    }
+
+    // Popovers
+    .popover {
+        border-color: $body-bg-dark;
+    }
+
+    .bs-popover-top {
+        .arrow::before {
+            border-top-color: fade-in($body-bg-dark, .05);
+        }
+
+        .arrow::after {
+            border-top-color: $white;
+        }
+    }
+
+    .bs-popover-right {
+        .arrow::before {
+            border-right-color: fade-in($body-bg-dark, .05);
+        }
+
+        .arrow::after {
+            border-right-color: $white;
+        }
+    }
+
+    .bs-popover-bottom {
+        .arrow::before {
+            border-bottom-color: fade-in($body-bg-dark, .05);
+        }
+
+        .arrow::after {
+            border-bottom-color: $white;
+        }
+    }
+
+    .bs-popover-left {
+        .arrow::before {
+            border-left-color: fade-in($body-bg-dark, .05);
+        }
+
+        .arrow::after {
+            border-left-color: $white;
+        }
+    }
+
+    .bs-popover-auto {
+        &[x-placement^="top"] {
+            @extend .bs-popover-top;
+        }
+        &[x-placement^="right"] {
+            @extend .bs-popover-right;
+        }
+        &[x-placement^="bottom"] {
+            @extend .bs-popover-bottom;
+        }
+        &[x-placement^="left"] {
+            @extend .bs-popover-left;
+        }
+    }
+
+    // Modals
+    .modal-header {
+        border-bottom-color: $body-bg-dark;
+    }
+
+    .modal-footer {
+        border-top-color: $body-bg-dark;
+    }
+
+    // Dropdowns
+    .dropdown-menu {
+        border-color: $body-bg-dark;
+    }
+
+    .dropdown-divider {
+        @include nav-divider($body-bg);
+    }
+
+    .dropdown-item {
+        color: $body-color;
+
+        @include hover-focus {
+            color: $body-color-dark;
+            background-color: $body-bg;
+        }
+
+        &.active,
+        &:active {
+            color: $white;
+            background-color: $brand-primary;
+        }
+    }
+
+    .dropdown-header {
+        color: $headings-color;
+    }
+
+    // Tables
+    .table {
+        th,
+        td {
+            border-top-color: $body-bg-dark;
+        }
+
+        thead th {
+            border-bottom-color: $body-bg-dark;
+        }
+
+        tbody + tbody {
+            border-top-color: $body-bg-dark;
+        }
+    }
+
+    .table-bordered {
+        &,
+        th,
+        td {
+            border-color: $body-bg-dark;
+        }
+    }
+
+    .table-striped {
+        tbody tr:nth-of-type(odd) {
+            background-color: lighten($body-bg, 1.5%);
+        }
+    }
+
+    .table-hover {
+        tbody tr {
+            @include hover() {
+                background-color: darken($body-bg, 1.5%);
+            }
+        }
+    }
+
+    @include table-row-variant("active", darken($body-bg, 1.5%));
+    @include table-row-variant("primary", $brand-lighter);
+
+    .table {
+        .thead-dark {
+            th {
+                background-color: $brand-dark;
+                border-color: $brand-dark;
+            }
+        }
+
+        .thead-light {
+            th {
+                background-color: $body-bg-dark;
+                border-color: $body-bg-dark;
+            }
+        }
+    }
+
+    // Forms
+    .form-control:not(.is-valid):not(.is-invalid) {
+        & {
+            color: $input-color;
+            background-color: $input-bg;
+            border-color: $input-border-color;
+        }
+
+        &:focus {
+            color: $input-focus-color;
+            background-color: $input-focus-bg;
+            border-color: $input-focus-border-color;
+            box-shadow: $input-btn-focus-box-shadow;
+        }
+
+        &:disabled,
+        &[readonly] {
+            background-color: $input-disabled-bg;
+        }
+    }
+
+    select.form-control:not(.is-valid):not(.is-invalid):focus::-ms-value {
+        color: $input-color;
+        background-color: $input-bg;
+    }
+
+    .custom-control-primary {
+        @include custom-control-variant($brand-lighter, $brand-primary);
+    }
+
+    .custom-control:not(.custom-control-primary):not(.custom-control-success):not(.custom-control-info):not(.custom-control-warning):not(.custom-control-danger):not(.custom-control-light):not(.custom-control-dark) {
+        .custom-control-input {
+            &:checked ~ .custom-control-label::before {
+                @include gradient-bg($brand-primary);
+                border-color: $brand-primary;
+            }
+    
+            &:focus ~ .custom-control-label::before {
+                box-shadow: 0 0 0 1px $white, $input-btn-focus-box-shadow;
+            }
+    
+            &:focus:not(:checked) ~ .custom-control-label::before {
+                border-color: $brand-primary;
+            }
+    
+            &:not(:disabled):active ~ .custom-control-label::before {
+                background-color: $brand-lighter;
+                border-color: $brand-lighter;
+            }
+        }
+    
+        .custom-checkbox {
+            .custom-control-input:checked ~ .custom-control-label {
+                &::before {
+                    @include gradient-bg($brand-primary);
+                }
+            }
+    
+            .custom-control-input:indeterminate ~ .custom-control-label {
+                &::before {
+                    @include gradient-bg($brand-primary);
+                }
+            }
+        }
+    
+        .custom-radio {
+            .custom-control-input:checked ~ .custom-control-label {
+                &::before {
+                    @include gradient-bg($brand-primary);
+                }
+            }
+        }
+    }
+
+    .custom-select {
+        border-color: $input-border-color;
+
+        &:focus {
+            border-color: $input-focus-border-color;
+            box-shadow: inset 0 1px 2px rgba($black, .075), 0 0 5px rgba($input-focus-border-color, .5);
+
+            &::-ms-value {
+                color: $input-color;
+                background-color: $input-bg;
+            }
+        }
+    }
+
+    .custom-file-input {
+        &:focus ~ .custom-file-label {
+            border-color: $input-focus-border-color;
+            box-shadow: $input-btn-focus-box-shadow;
+
+            &::after {
+                border-color: $input-focus-border-color;
+            }
+        }
+    }
+
+    .custom-file-label {
+        color: $input-color;
+        background-color: $input-bg;
+        border-color: $input-border-color;
+
+        &::after {
+            color: $input-color;
+            @include gradient-bg($body-bg-dark);
+            border-left-color: $input-border-color;
+        }
+    }
+
+    .form-control.form-control-alt:not(.is-valid):not(.is-invalid) {
+        border-color: $body-bg;
+        background-color: $body-bg;
+
+        &:focus {
+            border-color: $body-bg-dark;
+            background-color: $body-bg-dark;
+            box-shadow: none;
+        }
+    }
+
+    .input-group-text {
+        color: $input-color;
+        background-color: $body-bg;
+        border-color: $input-border-color;
+    }
+
+    .input-group-text.input-group-text-alt {
+        background-color: $body-bg-dark;
+        border-color: $body-bg-dark;
+    }
+
+    // Border
+    .border { border-color: $body-bg-dark !important; }
+    .border-top { border-top-color: $body-bg-dark !important; }
+    .border-right { border-right-color: $body-bg-dark !important; }
+    .border-bottom { border-bottom-color: $body-bg-dark !important; }
+    .border-left { border-left-color: $body-bg-dark !important; }
+
+    @each $color, $value in $theme-colors {
+        .border-#{$color} {
+            border-color: $value !important;
+        }
+    }
+
+    .border-primary { border-color: $brand-primary !important; }
+    .border-white { border-color: $white !important; }
+    .border-white-op { border-color: rgba($white,.1) !important; }
+    .border-black-op { border-color: rgba($black,.1) !important; }
+
+    // Main Structure
+    #page-header { background-color: $header-bg; }
+    #sidebar { background-color: $sidebar-bg; }
+    #side-overlay { background-color: $side-overlay-bg; }
+
+    // Layout/Style variations based on #page-container classes
+    #page-container {
+        // Page header
+        &.page-header-dark #page-header {
+            color: darken($body-color-light, 8%);
+            background-color: $header-dark-bg;
+        }
+
+        &.page-header-glass {
+            #page-header {
+                background-color: transparent;
+            }
+
+            &.page-header-fixed {
+                &.page-header-scroll #page-header {
+                    background-color: $header-bg;
+                }
+
+                &.page-header-scroll.page-header-dark #page-header {
+                    background-color: $header-dark-bg;
+                }
+            }
+        }
+
+        // Sidebar and Side Overlay
+        &.sidebar-dark #sidebar {
+            color: $body-color-light;
+            background-color: $sidebar-dark-bg;
+        }
+    }
+
+    // Blocks
+    .block-header-default { background-color: $body-bg-light; }
+
+    // Block Variations
+    .block {
+        &.block-bordered {
+            border-color: $body-bg-dark;
+        }
+
+        &.block-themed > .block-header {
+            background-color: $brand-primary;
+        }
+    }
+
+    // Block Modes
+    .block {
+        &.block-mode-loading {
+            &::after {
+                color: $brand-dark;
+            }
+
+            &.block-mode-loading-dark::after {
+                background-color: $brand-dark;
+            }
+        }
+    }
+
+    // Block Links
+    a.block {
+        color: $body-color;
+
+        @include hover() {
+            color: $body-color;
+        }
+
+        &.block-link-pop {
+            &:hover {
+                box-shadow: 0 .5rem 2rem darken($body-bg, 8%);
+            }
+
+            &:active {
+                box-shadow: 0 .25rem .75rem darken($body-bg, 1%);
+            }
+        }
+
+        &.block-link-shadow {
+            &:hover {
+                box-shadow: 0 0 2.25rem darken($body-bg, 8%);
+            }
+
+            &:active {
+                box-shadow: 0 0 1.125rem darken($body-bg, 4%);
+            }
+        }
+    }
+
+    // Block Effects
+    .block {
+        &.block-fx-shadow {
+            box-shadow: 0 0 2.25rem darken($body-bg, 8%);
+        }
+
+        &.block-fx-pop {
+            box-shadow: 0 .5rem 2rem darken($body-bg, 8%);
+        }
+    }
+
+    // Page Loader
+    #page-loader::after {
+        background-color: $brand-primary;
+    }
+
+    // Main Navigation
+    // Headings
+    .nav-main-heading {
+        color: lighten($body-color, 25%);
+    }
+
+    // Default links
+    .nav-main-link {
+        color: $body-color;
+
+        .nav-main-link-icon {
+            color: lighten($body-color, 35%);
+        }
+
+        &:hover {
+            color: $body-color;
+            background-color: $body-bg-light;
+
+            > .nav-main-link-icon {
+                color: $black;
+            }
+        }
+
+        &.active {
+            color: $black;
+
+            > .nav-main-link-icon {
+                color: $black;
+            }
+        }
+    }
+
+    // Sub menus
+    .nav-main-submenu {
+        .nav-main-link {
+            color: lighten($body-color, 10%);
+
+            &:hover,
+            &.active {
+                color: $black;
+                background-color: transparent;
+            }
+        }
+    }
+
+    // Active sub menu
+    .nav-main-item.open {
+        > .nav-main-link-submenu {
+            color: $black;
+        }
+    }
+
+    .nav-main-submenu .nav-main-item.open .nav-main-link {
+        background-color: transparent;
+    }
+
+    // Dark Sidebar Variation
+    .nav-main-dark,
+    .sidebar-dark #sidebar,
+    .page-header-dark #page-header  {
+        // Default links
+        .nav-main-link {
+            color: rgba(255,255,255,.5);
+
+            &:hover {
+                color: rgba(255,255,255,.5);
+                background-color: rgba(0,0,0,.2);
+            }
+
+            &.active {
+                color: $white;
+            }
+        }
+
+        // Sub menus
+        .nav-main-submenu {
+            .nav-main-link {
+                color: rgba(255,255,255,.4);
+
+                &:hover,
+                &.active {
+                    color: $white;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+
+    // Nav Main Horizontal
+    @include media-breakpoint-up(lg) {
+        // Light Variation
+        .nav-main-horizontal {
+            .nav-main-submenu {
+                background-color: $body-bg;
+            }
+        }
+
+        // Dark Variation
+        .nav-main-dark.nav-main-horizontal,
+        .sidebar-dark #sidebar .nav-main-horizontal,
+        .page-header-dark #page-header .nav-main-horizontal {
+            .nav-main-submenu {
+                background-color: darken($brand-darker, 3%) !important;
+            }
+        }
+    }
+
+    // Various Items Navigation
+    .nav-items {
+        a {
+            border-bottom-color: $body-bg;
+
+            @include hover() {
+                background-color: $body-bg-light;
+            }
+        }
+    }
+
+    // Activity
+    .list-activity {
+        > li {
+            border-bottom-color: $body-bg;
+        }
+    }
+
+    // Timeline
+    .timeline-event-icon {
+        box-shadow: 0 .375rem 1.5rem darken($body-bg, 8%);
+    }
+
+    // Ribbons
+    .ribbon-light {
+        @include ribbon-variation($body-bg-dark, $body-color);
+    }
+
+    .ribbon-primary {
+        @include ribbon-variation($brand-primary, $white);
+    }
+
+    // CKEditor
+    .ck {
+        &.ck-toolbar {
+            background-color: $body-bg-light !important;
+        }
+        
+        &.ck-toolbar .ck.ck-toolbar__separator {
+            background: $body-bg-dark !important;
+        }
+        
+        &.ck-toolbar,
+        &.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+            border-color: $body-bg-dark !important;
+        }
+    }
+
+    // DropzoneJS
+    .dropzone {
+        background-color: $body-bg-light;
+        border-color: $input-border-color;
+
+        .dz-message {
+            color: $body-color;
+        }
+
+        @include hover() {
+            background-color: $white;
+            border-color: $brand-primary;
+
+            .dz-message {
+                color: $brand-primary;
+            }
+        }
+    }
+
+    // FullCalendar
+    .fc-theme-bootstrap {
+        .fc-h-event {
+            background-color: $brand-primary;
+            border: $brand-primary;
+        }
+    
+        .fc-col-header-cell {
+            background-color: $body-bg-light;
+        }
+    }
+
+    // Simple Bar
+    .simplebar-scrollbar::before {
+        background: $brand-darker;
+    }
+
+    // Simple MDE
+    .editor-toolbar {
+        border-color: $body-bg-dark;
+        background-color: $body-bg-light;
+    }
+
+    .CodeMirror {
+        border-color: $body-bg-dark;
+    }
+
+    // Flatpickr
+    .flatpickr-day.selected,
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange,
+    .flatpickr-day.selected.inRange,
+    .flatpickr-day.startRange.inRange,
+    .flatpickr-day.endRange.inRange,
+    .flatpickr-day.selected:focus,
+    .flatpickr-day.startRange:focus,
+    .flatpickr-day.endRange:focus,
+    .flatpickr-day.selected:hover,
+    .flatpickr-day.startRange:hover,
+    .flatpickr-day.endRange:hover,
+    .flatpickr-day.selected.prevMonthDay,
+    .flatpickr-day.startRange.prevMonthDay,
+    .flatpickr-day.endRange.prevMonthDay,
+    .flatpickr-day.selected.nextMonthDay,
+    .flatpickr-day.startRange.nextMonthDay,
+    .flatpickr-day.endRange.nextMonthDay {
+        border-color: $brand-primary;
+        background: $brand-primary;
+    }
+
+    .flatpickr-months .flatpickr-prev-month:hover svg,
+    .flatpickr-months .flatpickr-next-month:hover svg {
+        fill: $brand-primary;
+    }
+
+    // Vue Slider
+    .vue-slider-process {
+        background-color: $brand-primary;
+    }
+
+    .vue-slider-dot-tooltip-inner {
+        background-color: $brand-primary;
+        border-color: $brand-primary;
+    }
+
+    .vue-slider-dot-handle-focus {
+        box-shadow: 0px 0px 1px 2px rgba($brand-primary, .36);
+    }
+
+    // Vue Select
+    .vs__dropdown-option--highlight {
+        background: $brand-primary;
+    }
+    
+    .vs__dropdown-toggle,
+    .vs__dropdown-menu {
+        border-color: $input-border-color;
+    }
+    
+    .vs__selected {
+        background: $body-bg;
+        border-color: $body-bg;
+    }
+}

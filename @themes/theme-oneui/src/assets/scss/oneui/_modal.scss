@@ -1,0 +1,61 @@
+//
+// Modal
+// --------------------------------------------------
+
+// Top position
+.modal-dialog.modal-dialog-top {
+    margin-top: 0 !important;
+}
+
+// Modal Transitions
+.modal {
+    &.fade .modal-dialog {
+        transition-duration: .12s;
+
+        &.modal-dialog-popin {
+            transform: scale(1.1);
+        }
+
+        &.modal-dialog-popout {
+            transform: scale(.9);
+        }
+
+        &.modal-dialog-slideup {
+            transform: translate(0, 10%);
+        }
+
+        &.modal-dialog-slideright {
+            transform: translate(-10%, 0);
+        }
+
+        &.modal-dialog-slideleft {
+            transform: translate(10%, 0);
+        }
+
+        &.modal-dialog-fromright {
+            transform: translateX(25%) rotate(10deg) scale(.9);
+        }
+
+        &.modal-dialog-fromleft {
+            transform: translateX(-25%) rotate(-10deg) scale(.9);
+        }
+    }
+
+    &.show .modal-dialog {
+        &.modal-dialog-popin,
+        &.modal-dialog-popout {
+            transform: scale(1);
+        }
+
+        &.modal-dialog-slideup,
+        &.modal-dialog-slideright,
+        &.modal-dialog-slideleft {
+            transform: translate(0, 0);
+        }
+
+        &.modal-dialog-fromright,
+        &.modal-dialog-fromleft {
+            transform: translateX(0) rotate(0) scale(1);
+        }
+    }
+}

@@ -21,6 +21,8 @@
   "private": true,
   "license": "GPL-2.0",
   "scripts": {
+    "dev:portal": "yarn workspace @apps/portal.axians.de factor dev",
+    "dev-server:portal": "yarn workspace @apps/portal.axians.de factor dev --watch-server",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "standard-version",
     "loader:dev": "yarn workspace @factor/loader poi --serve --debug",

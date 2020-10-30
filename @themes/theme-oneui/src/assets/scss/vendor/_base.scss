@@ -1,0 +1,25 @@
+//
+// Required files for separate plugins overrides
+// --------------------------------------------------
+
+// Bootstrap functions
+@import '~bootstrap/scss/functions';
+
+// User variables (your own variable overrides)
+@import '../custom/variables';
+
+// Custom Bootstrap variables overrides
+@import '../oneui/variables-bootstrap';
+
+// Bootstrap variables
+@import '~bootstrap/scss/variables';
+
+// Bootstrap mixins
+@import '~bootstrap/scss/mixins';
+
+// Custom mixins and Bootstrap overrides
+@import '../oneui/mixins';
+
+// Custom variables
+@import '../oneui/variables';
+@import '../oneui/variables-themes';

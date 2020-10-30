@@ -1,0 +1,73 @@
+//
+// Layout
+// --------------------------------------------------
+
+// Main Structure
+#page-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+#page-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: "";
+    background-color: rgba($black, .6);
+    z-index: $zindex-page-overlay;
+    opacity: 0;
+    transition: opacity $side-transition;
+    transform: translateY(-100%);
+
+    @include media-breakpoint-up(lg) {
+        .side-overlay-o.enable-page-overlay & {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    max-width: 100%;
+}
+
+// Main Content
+.content {
+    @include content-layout($space-mobile, $space-mobile);
+
+    @include media-breakpoint-up(md) {
+        @include content-layout($space-base, $space-base);
+    }
+
+    @include media-breakpoint-up(xl) {
+        &.content-narrow { width: $space-narrow !important; }
+    }
+
+    &.content-boxed { max-width: $space-boxed !important; }
+
+    &.content-top {
+        padding-top: $header-height + $space-mobile;
+
+        @include media-breakpoint-up(lg) {
+            padding-top: $header-height + $space-base;
+        }
+    }
+}
+
+.content-section-top {
+    padding-top: $header-height;
+}
+
+// Side Content
+.content-side {
+    @include content-layout($space-side, $space-side, hidden);
+}

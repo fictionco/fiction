@@ -1,0 +1,28 @@
+//
+// SimpleMDE Markdown Editor
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Custom styles
+.CodeMirror-fullscreen,
+.editor-toolbar.fullscreen,
+.editor-preview-side {
+    z-index: $zindex-modal + 2;
+}
+
+.editor-preview {
+    z-index: $zindex-modal + 1;
+}
+
+.editor-toolbar {
+    border-color: $body-bg-dark;
+    background-color: $body-bg-light;
+}
+
+.CodeMirror {
+    border-color: $body-bg-dark;
+}

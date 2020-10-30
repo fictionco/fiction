@@ -1,0 +1,38 @@
+//
+// Smooth Theme
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Generate color theme
+.theme-smooth {
+    @include color-theme($theme-smooth-primary,
+                    $theme-smooth-light,
+                    $theme-smooth-lighter,
+                    $theme-smooth-dark,
+                    $theme-smooth-darker,
+                    $theme-smooth-body-bg,
+                    $theme-smooth-body-bg-dark,
+                    $theme-smooth-body-bg-light,
+                    $theme-smooth-body-color,
+                    $theme-smooth-body-color-dark,
+                    $theme-smooth-body-color-light,
+                    $theme-smooth-link-color,
+                    $theme-smooth-link-hover-color,
+                    $theme-smooth-headings-color,
+                    $theme-smooth-input-btn-focus-color,
+                    $theme-smooth-input-btn-focus-box-shadow,
+                    $theme-smooth-input-bg,
+                    $theme-smooth-input-color,
+                    $theme-smooth-input-border-color,
+                    $theme-smooth-input-focus-bg,
+                    $theme-smooth-input-focus-color,
+                    $theme-smooth-input-focus-border-color,
+                    $theme-smooth-header-bg,
+                    $theme-smooth-header-dark-bg,
+                    $theme-smooth-sidebar-bg,
+                    $theme-smooth-sidebar-dark-bg,
+                    $theme-smooth-side-overlay-bg,
+                    $theme-smooth-btn-alt-primary-bg);
+}

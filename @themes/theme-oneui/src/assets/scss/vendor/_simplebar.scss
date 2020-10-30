@@ -1,0 +1,23 @@
+//
+// Simplebar - https://github.com/Grsmto/simplebar
+// --------------------------------------------------
+
+// Original Styles
+@import '~simplebar/dist/simplebar.css';
+
+// Custom Styles
+.simplebar-scrollbar {
+    left: auto;
+    right: 2px;
+    width: 5px;
+}
+
+.simplebar-scrollbar::before {
+    left: 0;
+    right: 0;
+    background: theme-color('primary-darker');
+
+    .sidebar-dark #sidebar & {
+        background: $white;
+    }
+}

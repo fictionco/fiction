@@ -1,0 +1,20 @@
+//
+// Breadcrumb
+// --------------------------------------------------
+
+.breadcrumb.breadcrumb-alt {
+    .breadcrumb-item {
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        position: relative;
+        top: 1px;
+        width: 1.25rem;
+        font-family: "simple-line-icons";
+        font-size: $font-size-sm;
+        color: gray("400");
+        content: "\e606";
+    }
+}

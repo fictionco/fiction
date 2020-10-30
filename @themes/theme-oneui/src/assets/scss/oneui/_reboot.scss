@@ -1,0 +1,83 @@
+//
+// Reboot
+// --------------------------------------------------
+
+// Document
+html {
+    font-size: $font-size-root;
+}
+
+// Body
+body {
+    @if $enable-text-optimize-legibility {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+b,
+strong {
+    font-weight: $font-weight-bold;
+}
+
+// Links
+a {
+    transition: color .12s ease-out;
+
+    @include media-breakpoint-up(sm) {
+        &.link-fx {
+            position: relative;
+
+            &::before {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                content: '';
+                background-color: $link-color;
+                visibility: hidden;
+                transform: scaleX(0);
+                transition: transform .12s ease-out;
+            }
+        }
+    }
+
+    @include hover() {
+        &.link-fx::before {
+            visibility: visible;
+            transform: scaleX(1);
+        }
+    }
+
+    &:focus {
+        outline-style: none !important;
+    }
+}
+
+// Paragraphs
+p {
+    line-height: $paragraph-line-height;
+    margin-bottom: $space-base;
+}
+
+.story p,
+p.story {
+    line-height: $paragraph-line-height-lg;
+    font-size: 1.125rem;
+    color: gray("700");
+}
+
+.story {
+    h2,
+    h3,
+    h4 {
+        margin-top: 3rem;
+    }
+}
+
+// Forms
+label {
+    font-weight: 600;
+}

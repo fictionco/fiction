@@ -14,10 +14,7 @@
       ]
     },
     "extend": "theme",
-    "disable": [
-      "@factor/dashboard",
-      "@factor/ui"
-    ]
+    "disable": []
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-balloon": "^23.0.0",
@@ -28,8 +25,11 @@
     "@ckeditor/ckeditor5-vue": "^1.0.3",
     "@factor/core": "^1.8.26",
     "@fortawesome/fontawesome-free": "^5.15.1",
+    "@plugins/plugin-pug": "^1.0.0",
+    "@plugins/plugin-vue-property-decorator": "^1.0.0",
     "bootstrap-vue": "^2.18.1",
     "simplebar-vue": "^1.6.0",
+    "vue-flatpickr-component": "^8",
     "vue-select": "^3.10.8"
   },
   "devDependencies": {

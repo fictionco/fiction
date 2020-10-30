@@ -1,0 +1,13 @@
+//
+// Vue Color
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Custom styles
+.vc-material {
+    box-sizing: content-box;
+}

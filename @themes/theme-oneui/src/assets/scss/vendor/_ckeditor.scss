@@ -1,0 +1,24 @@
+//
+// Ckeditor Editor
+//
+// Overwrite/Extend styles
+// --------------------------------------------------
+
+// Include base files
+@import 'base';
+
+// Custom styles
+.ck {
+    &.ck-toolbar {
+        background-color: $body-bg-light !important;
+    }
+    
+    &.ck-toolbar .ck.ck-toolbar__separator {
+        background: $body-bg-dark !important;
+    }
+    
+    &.ck-toolbar,
+    &.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+        border-color: $body-bg-dark !important;
+    }
+}

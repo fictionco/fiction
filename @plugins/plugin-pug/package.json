@@ -1,0 +1,17 @@
+{
+  "name": "@plugins/plugin-pug",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@factor/core": "^1.0.0",
+    "pug": "^3.0.0",
+    "pug-plain-loader": "^1.0.0"
+  },
+  "factor": {
+    "load": [
+      "app",
+      "server"
+    ]
+  }
+}

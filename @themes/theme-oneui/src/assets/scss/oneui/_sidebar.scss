@@ -1,0 +1,129 @@
+//
+// Sidebar
+// --------------------------------------------------
+
+// Mini Sidebar display helper classes
+.smini-visible,
+.smini-visible-block {
+    display: none;
+}
+
+.smini-show { opacity: 0; }
+
+.smini-show,
+.smini-hide {
+    transition: opacity $side-transition;
+}
+
+// Sidebar
+#sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $zindex-sidebar;
+    width: 100%;
+    height: 100%;
+    background-color: $sidebar-bg;
+    overflow-y: auto;
+    transform: translateX(-100%) translateY(0) translateZ(0);
+    -webkit-overflow-scrolling: touch;
+    will-change: transform;
+
+    .side-trans-enabled & {
+        transition: transform $side-transition;
+    }
+
+    .sidebar-r & {
+        right: 0;
+        left: auto;
+        transform: translateX(100%);
+    }
+
+    .js-sidebar-scroll {
+        height: calc(100% - #{$header-height});
+        overflow-y: auto;
+
+        &.full-height {
+            height: 100%;
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        .sidebar-o-xs & {
+            transform: translateX(0) translateY(0) translateZ(0);
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: $sidebar-width;
+
+        .sidebar-o & {
+            transform: translateX(0) translateY(0) translateZ(0);
+        }
+
+        // Mini Sidebar
+        .sidebar-mini.sidebar-o & {
+            overflow-x: hidden;
+            transform: translateX(-($sidebar-width - $sidebar-mini-width)) translateY(0) translateZ(0);
+            transition: transform $side-transition;
+        }
+
+        .sidebar-mini.sidebar-o.sidebar-r & {
+            transform: translateX($sidebar-width - $sidebar-mini-width) translateY(0) translateZ(0);
+        }
+
+        .sidebar-mini.sidebar-o & .content-side,
+        .sidebar-mini.sidebar-o & .content-header {
+            width: $sidebar-width;
+            transform: translateX(($sidebar-width - $sidebar-mini-width)) translateY(0) translateZ(0);
+            transition: transform $side-transition;
+            will-change: transform;
+        }
+
+        .sidebar-mini.sidebar-o & .content-header {
+            // Small fix for correct visibility of dropdown menu when hovering over sidebar mini and it is open
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-mini.sidebar-o &:hover,
+        .sidebar-mini.sidebar-o &:hover .content-side,
+        .sidebar-mini.sidebar-o.sidebar-r & .content-side,
+        .sidebar-mini.sidebar-o &:hover .content-header,
+        .sidebar-mini.sidebar-o.sidebar-r & .content-header {
+            transform: translateX(0);
+        }
+
+        // Mini Mode
+        .sidebar-mini.sidebar-o & {
+            // Main navigation
+            .nav-main .nav-main-heading,
+            .nav-main .nav-main-link-name,
+            .nav-main .nav-main-link-badge {
+                transition: opacity $side-transition;
+            }
+        }
+
+        // Mini Mode (styles do not apply on hover)
+        .sidebar-mini.sidebar-o &:not(:hover) {
+            // Display helper classes
+            .smini-hide { opacity: 0; }
+            .smini-show { opacity: 1; }
+
+            .smini-hidden { display: none; }
+
+            .smini-visible { display: inline-block; }
+            .smini-visible-block { display: block; }
+
+            // Main navigation
+            .nav-main > .nav-main-item > .nav-main-submenu { display: none; }
+
+            .nav-main .nav-main-heading,
+            .nav-main .nav-main-link-name,
+            .nav-main .nav-main-link-badge {
+                opacity: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,112 @@
+//
+// Nav
+// --------------------------------------------------
+
+// Links
+.nav-link {
+    font-weight: $font-weight-bold;
+}
+
+// Nav Pills
+.nav-pills {
+    .nav-link {
+        color: $body-color;
+
+        @include hover-focus {
+            background-color: $body-bg;
+        }
+    }
+
+    .nav-link.active,
+    .show > .nav-link {
+        color: $nav-pills-link-active-color;
+        background-color: $nav-pills-link-active-bg;
+    }
+}
+
+// Tabs block variation
+.nav-tabs-block {
+    background-color: $body-bg-light;
+    border-bottom: none;
+
+    .nav-item {
+        margin-bottom: 0;
+    }
+
+    .nav-link {
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+        border-color: transparent;
+        border-radius: 0;
+        color: $body-color;
+        font-size: $font-size-sm;
+
+        @include hover-focus {
+            color: theme-color("primary");
+            background-color: $body-bg-light;
+            border-color: transparent;
+        }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+        color: $body-color;
+        background-color: $white;
+        border-color: transparent;
+    }
+}
+
+// Tabs block alternative variation
+.nav-tabs-alt {
+    background-color: transparent;
+    border-bottom-color: $body-bg-dark;
+
+    .nav-item {
+        margin-bottom: -2px;
+    }
+
+    .nav-link {
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+        color: $body-color;
+        font-size: $font-size-sm;
+        background-color: transparent;
+        border: none;
+
+        @include hover-focus {
+            color: theme-color("primary");
+            background-color: transparent;
+            border-color: transparent;
+            box-shadow: inset 0 -2px theme-color("primary");
+        }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+        color: $body-color;
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: inset 0 -2px theme-color("primary");
+    }
+}
+
+// Various Items Navigation
+.nav-items {
+    @include list-unstyled;
+
+    a {
+        border-bottom: 1px solid $body-bg;
+
+        @include hover() {
+            background-color: $body-bg-light;
+        }
+
+        &:active {
+            background-color: $body-bg;
+        }
+    }
+
+    > li:last-child > a {
+        border-bottom: none;
+    }
+}

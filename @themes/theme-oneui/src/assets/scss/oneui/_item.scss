@@ -1,0 +1,74 @@
+//
+// Item
+// --------------------------------------------------
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    transition: opacity .25s ease-out, transform .25s ease-out;
+
+    @at-root {
+        a#{&} {
+            will-change: opacity;
+
+            @include hover-focus {
+                opacity: .6;
+            }
+
+            &:active {
+                opacity: 1;
+            }
+
+            &.item-link-pop {
+                will-change: transform;
+
+                @include hover-focus {
+                    opacity: 1;
+                    transform: scale(1.1);
+                }
+
+                &:active {
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+
+    &.item-tiny {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &.item-2x {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    &.item-3x {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    &.item-circle {
+        border-radius: 50%;
+    }
+
+    &.item-rounded {
+        border-radius: $border-radius;
+    }
+
+    &.item-rounded-big {
+        border-radius: 1.75rem;
+
+        &.item-2x {
+            border-radius: 2.25rem;
+        }
+
+        &.item-3x {
+            border-radius: 3rem;
+        }
+    }
+}
