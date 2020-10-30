@@ -1,0 +1,43 @@
+{
+  "name": "@themes/theme-oneui",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "factor": {
+    "title": "Axians Theme",
+    "load": {
+      "app": [
+        "index"
+      ],
+      "server": [
+        "index"
+      ]
+    },
+    "extend": "theme",
+    "disable": [
+      "@factor/dashboard",
+      "@factor/ui"
+    ]
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-balloon": "^23.0.0",
+    "@ckeditor/ckeditor5-build-balloon-block": "^23.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^23.0.0",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^23.0.0",
+    "@ckeditor/ckeditor5-build-inline": "^23.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.3",
+    "@factor/core": "^1.8.26",
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap-vue": "^2.18.1",
+    "simplebar-vue": "^1.6.0",
+    "vue-select": "^3.10.8"
+  },
+  "devDependencies": {
+    "@types/ckeditor": "^4.9.10",
+    "@types/simplebar": "^5.1.1",
+    "@types/vue-select": "^2.5.1",
+    "fibers": "^5.0.0",
+    "sass": "^1.27.0",
+    "sass-loader": "^10.0.4"
+  }
+}

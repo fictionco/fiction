@@ -1,0 +1,24 @@
+{
+  "name": "@apps/portal.axians.de",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "factor": {
+    "load": {
+      "app": "index",
+      "server": "index"
+    },
+    "app": {
+      "name": "Axians Intranet",
+      "url": "https://portal.axians.de",
+      "description": "",
+      "email": "Dominic Marx <dominic.marx@axians.de>"
+    },
+    "admins": [
+      "admin@portal.local"
+    ]
+  },
+  "dependencies": {
+    "@factor/core": "^1.0.0"
+  }
+}

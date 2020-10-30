@@ -1,1 +1,0 @@
-web: yarn workspace @apps/themes factor serve
