@@ -69,7 +69,12 @@ module.exports = {
     "import/no-cycle": 2,
     "import/no-unresolved": "off",
     "import/named": "off",
-    "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
+    "import/extensions": [
+      "warn",
+      "always",
+      "ignorePackages",
+      { ts: "never", js: "never" },
+    ],
     "unicorn/no-null": "off",
     "unicorn/no-fn-reference-in-iterator": "off",
     "unicorn/no-useless-undefined": "off",
