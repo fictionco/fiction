@@ -6,7 +6,8 @@
         :path="`/dashboard/posts/${postType}/add-new`"
         btn="primary"
         data-test="add-post"
-      >Add New &rarr;</factor-link>
+        >Add New &rarr;</factor-link
+      >
     </template>
 
     <component
@@ -22,7 +23,7 @@
 <script lang="ts">
 import { factorLink, dashboardPage } from "@factor/ui"
 import { requestPostIndex } from "@factor/post/request"
-import { getPostTypeConfig, onEvent, stored } from "@factor/api"
+import { getPostTypeConfig, onEvent, stored, setting } from "@factor/api"
 
 import { FactorPost } from "@factor/post/types"
 
@@ -50,7 +51,7 @@ export default {
     templateLoader(this: any) {
       const { listTemplate } = this.getPostTypeConfig
 
-      return listTemplate ? listTemplate : (): Promise<any> => import("./posts-list.vue")
+      return listTemplate ? listTemplate : setting("core.dashboard.postsList")
     },
     postType(this: any): string {
       return this.$route.params.postType || ""
