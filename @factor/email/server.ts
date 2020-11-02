@@ -9,9 +9,9 @@ import { renderMarkdown } from "@factor/api/markdown"
 import { EmailTransactionalConfig } from "./util"
 
 export const hasEmailService = (): boolean => {
-  const { SMTP_USERNAME, SMTP_PASSWORD, SMTP_HOST } = process.env
+  const { SMTP_HOST } = process.env
 
-  return !SMTP_USERNAME || !SMTP_PASSWORD || !SMTP_HOST ? false : true
+  return !SMTP_HOST ? false : true
 }
 
 const getEmailSMTPService = (): Transporter | void => {
