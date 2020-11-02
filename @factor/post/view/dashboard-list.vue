@@ -6,7 +6,8 @@
         :path="`/dashboard/posts/${postType}/add-new`"
         btn="primary"
         data-test="add-post"
-      >Add New &rarr;</factor-link>
+        >Add New &rarr;</factor-link
+      >
     </template>
 
     <component
@@ -74,11 +75,12 @@ export default {
         category,
         tag,
         role,
+        search,
         direction = "descending",
       } = this.$route.query
 
       sort = { [sort]: direction }
-      return { postType, page, status, category, tag, role, sort }
+      return { postType, page, status, category, tag, role, sort, search }
     },
   },
   watch: {
