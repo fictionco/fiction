@@ -286,7 +286,7 @@ export const getWebpackConfig = async (
     plugins.push(new BundleAnalyzer.BundleAnalyzerPlugin({ generateStatsFile: true }))
   }
 
-  const packageConfig = applyFilters("package-webpack-config", {})
+  const packageConfig = applyFilters("package-webpack-config", {}, _arguments)
 
   const config = merge(
     baseConfig,
