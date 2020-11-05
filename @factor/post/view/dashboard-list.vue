@@ -75,11 +75,12 @@ export default {
         category,
         tag,
         role,
+        search,
         direction = "descending",
       } = this.$route.query
 
       sort = { [sort]: direction }
-      return { postType, page, status, category, tag, role, sort }
+      return { postType, page, status, category, tag, role, sort, search }
     },
   },
   watch: {

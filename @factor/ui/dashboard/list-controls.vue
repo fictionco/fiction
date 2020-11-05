@@ -2,7 +2,12 @@
   <div class="list-controls">
     <div class="list-controls-pad">
       <div class="select-all control-col">
-        <input v-model="selectAllSelected" type="checkbox" class="checkbox" @click="selectAll()" />
+        <input
+          v-model="selectAllSelected"
+          type="checkbox"
+          class="checkbox"
+          @click="selectAll()"
+        />
       </div>
       <div class="actions control-col">
         <div class="select-action">
@@ -15,6 +20,13 @@
         </div>
       </div>
       <div class="selectors control-col">
+        <div class="set-query">
+          <factor-input-text
+            placeholder="Search ..."
+            :value="$route.query['search']"
+            @keyup.stop.enter="setQuery('search', $event.target.value)"
+          />
+        </div>
         <div class="select-status">
           <factor-input-select
             :placeholder="toLabel(statusField)"
@@ -38,11 +50,11 @@
 </template>
 
 <script lang="ts">
-import { factorInputSelect, dashboardListEmpty } from "@factor/ui"
+import { factorInputSelect, dashboardListEmpty, factorInputText } from "@factor/ui"
 import { ControlAction } from "@factor/dashboard/types"
 import { ListItem, toLabel, onEvent } from "@factor/api"
 export default {
-  components: { factorInputSelect, dashboardListEmpty },
+  components: { factorInputSelect, dashboardListEmpty, factorInputText },
   props: {
     controlActions: { type: Array, default: () => [] },
     controlStatus: { type: Array, default: () => [] },
@@ -170,7 +182,8 @@ export default {
     align-items: center;
   }
 
-  .sort-by {
+  .sort-by,
+  .select-status {
     margin-left: 1rem;
   }
   @media (max-width: 700px) {
