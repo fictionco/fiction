@@ -1,4 +1,5 @@
 import { preFetchPost } from "@factor/api/prefetch"
+import { setting } from "@factor/api"
 import { addFilter, addCallback, pushToFilter } from "@factor/api/hooks"
 
 import { RouteConfig, Route } from "vue-router"
@@ -24,23 +25,23 @@ addFilter({
     const routes = [
       {
         path: "posts",
-        component: (): Promise<any> => import("./view/dashboard-list.vue"),
+        component: setting("core.dashboard.dashboardList"),
       },
       {
         path: "posts/edit",
-        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
+        component: setting("core.dashboard.dashboardEdit"),
       },
       {
         path: "posts/:postType/edit",
-        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
+        component: setting("core.dashboard.dashboardEdit"),
       },
       {
         path: "posts/:postType/add-new",
-        component: (): Promise<any> => import("./view/dashboard-edit.vue"),
+        component: setting("core.dashboard.dashboardEdit"),
       },
       {
         path: "posts/:postType",
-        component: (): Promise<any> => import("./view/dashboard-list.vue"),
+        component: setting("core.dashboard.dashboardList"),
       },
     ].map((p) => {
       return { ...p, meta: { auth: true } }

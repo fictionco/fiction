@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { dashboardPanel } from "@factor/ui"
-import { applyFilters, stored, storeItem, getPostTypeConfig } from "@factor/api"
+import { applyFilters, stored, storeItem, getPostTypeConfig, setting } from "@factor/api"
 import { requestPostSingle } from "@factor/post/request"
 import { FactorPost } from "@factor/post/types"
 import { EditPanel } from "@factor/dashboard/types"
@@ -42,7 +42,7 @@ export default {
     templateLoader(this: any) {
       const { editTemplate } = this.getPostTypeConfig
 
-      return editTemplate ? editTemplate : () => import("./posts-edit.vue")
+      return editTemplate ? editTemplate : setting("core.dashboard.postsEdit")
     },
     editComponents(this: any): EditPanel[] {
       const components = applyFilters("post-edit-components", [], {
