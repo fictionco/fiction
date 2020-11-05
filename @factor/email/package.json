@@ -1,7 +1,7 @@
 {
   "name": "@factor/email",
   "version": "1.8.18",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

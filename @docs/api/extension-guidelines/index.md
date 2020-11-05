@@ -65,7 +65,7 @@ Below is a standard Factor extension `package.json` file.
   "name": "@factor/plugin-my-example",
   "description": "A quick description of my extension",
   "version": "1.7.10",
-  "license": "GPL-2.0",
+  "license": "MIT",
   // For author links
   "author": {
     "name": "Fiction",

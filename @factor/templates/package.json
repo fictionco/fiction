@@ -1,7 +1,7 @@
 {
   "name": "@factor/templates",
   "version": "1.8.15",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

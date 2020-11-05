@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-framework",
   "version": "1.8.27",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "description": "Framework theme is lightweight, uncluttered and simple. Focused on functionality to help you start building your new app with [Factor](https://factor.dev/).",
   "author": {
     "name": "Fiction",

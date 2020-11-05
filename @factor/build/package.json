@@ -2,7 +2,7 @@
   "name": "@factor/build",
   "description": "Bundle",
   "version": "1.8.26",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

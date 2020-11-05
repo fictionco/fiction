@@ -1,7 +1,7 @@
 {
   "name": "@factor/dashboard",
   "version": "1.8.22",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

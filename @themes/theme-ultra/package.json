@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-ultra",
   "version": "1.8.27",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "description": "Ultra, a modern single-page [Factor](https://factor.dev/) theme for creative exposure with unique effects and features.",
   "author": {
     "name": "Fiction",

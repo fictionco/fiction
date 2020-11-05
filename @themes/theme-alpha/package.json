@@ -1,7 +1,7 @@
 {
   "name": "@factor/theme-alpha",
   "version": "1.8.27",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "description": "Alpha, a minimal portfolio theme for [Factor](https://factor.dev/) ideal for individuals of creative professions.",
   "author": {
     "name": "Fiction",

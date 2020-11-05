@@ -1,7 +1,7 @@
 {
   "name": "@test/importing-build-plugin",
   "version": "1.0.0",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "factor": {
     "load": {
       "app": "index",

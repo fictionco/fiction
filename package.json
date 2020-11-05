@@ -19,7 +19,7 @@
     "test/modules/*"
   ],
   "private": true,
-  "license": "GPL-2.0",
+  "license": "MIT",
   "scripts": {
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "standard-version",

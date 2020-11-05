@@ -2,7 +2,7 @@
   "name": "@factor/ui",
   "description": "Dependency bundle",
   "version": "1.8.25",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -8,7 +8,7 @@
     "_id": "storage"
   },
   "version": "1.8.11",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

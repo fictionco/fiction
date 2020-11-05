@@ -2,7 +2,7 @@
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
   "version": "1.8.2",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "author": {
     "name": "Fiction",
     "email": "factor@fiction.com",

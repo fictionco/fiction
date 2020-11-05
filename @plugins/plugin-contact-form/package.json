@@ -2,7 +2,7 @@
   "name": "@factor/plugin-contact-form",
   "description": "This plugin makes it easy to add a contact form to your app.",
   "version": "1.8.11",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "author": {
     "name": "Fiction",
     "email": "factor@fiction.com",

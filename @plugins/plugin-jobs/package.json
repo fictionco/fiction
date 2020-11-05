@@ -2,7 +2,7 @@
   "name": "@factor/plugin-jobs",
   "description": "This plugin makes it easy to create and manage a job board in your Factor app.",
   "version": "1.8.22",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "author": {
     "name": "Fiction",
     "email": "factor@fiction.com",
