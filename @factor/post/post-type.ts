@@ -37,8 +37,8 @@ addPostType({
       title: "text",
       content: "text",
       username: "text",
-      "embedded.$.title": "text",
-      "embedded.$.content": "text",
+      "embedded.title": "text",
+      "embedded.content": "text",
     })
 
     postSchema.pre("save", function (this: FactorPost & Document, next) {
