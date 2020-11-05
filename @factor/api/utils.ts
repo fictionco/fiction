@@ -79,7 +79,7 @@ export const splitDisplayName = (
 
   let firstName = ""
   let lastName = ""
-  if (nameArray.length >= 1) {
+  if (nameArray.length > 0) {
     firstName = nameArray[0]
   }
 
@@ -198,11 +198,7 @@ export const deepMerge = <T>(
           }
         })
 
-        if (matchingObject) {
-          return deepMerge([matchingObject, higher])
-        } else {
-          return higher
-        }
+        return matchingObject ? deepMerge([matchingObject, higher]) : higher
       })
     },
   })
@@ -272,14 +268,17 @@ export const toLabel = (str?: string): string => {
  * Converts regular space delimited text into a hyphenated slug
  * @param text - string to manipulate
  */
-export const slugify = (text?: string): string | undefined => {
+export const slugify = (
+  text?: string,
+  { allowChars }: { allowChars?: string } = {}
+): string | undefined => {
   if (!text) return text
 
   return text
     .toString()
     .toLowerCase()
     .replace(/\s+/g, "-") // Replace spaces with -
-    .replace(/[^\w/-]+/g, "") // Remove all non-word chars except /
+    .replace(new RegExp(`[^w${allowChars}-]+`, "g"), "") // Remove all non-word chars except /
     .replace(/^\d+/g, "") // Remove Numbers
     .replace(/--+/g, "-") // Replace multiple - with single -
     .replace(/^-+/, "") // Trim - from start of text

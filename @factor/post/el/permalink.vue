@@ -15,7 +15,8 @@
         btn="default"
         class="edit"
         @click="setToggle()"
-      >Edit</dashboard-btn>
+        >Edit</dashboard-btn
+      >
     </div>
   </div>
 </template>
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     emit(this: any, v: string) {
-      this.$emit("input", slugify(v))
+      this.$emit("input", slugify(v, { allowChars: "/" }))
     },
 
     updateToggle(this: any, v: boolean) {
