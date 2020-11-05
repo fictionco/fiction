@@ -173,7 +173,7 @@ export const setup = (): void => {
     key: "runTemplatePermalink",
     hook: "content-routes-unmatched",
     callback: (_: RouteConfig[]) => {
-      _.unshift({ path: "/:permalink", component: () => import("./template.vue") })
+      _.unshift({ path: "/:permalink*", component: () => import("./template.vue") })
 
       return _
     },
