@@ -1,16 +1,11 @@
 version: 2.1
 
 executors:
-  node12:
+  node:
     docker:
       - image: circleci/node:lts
     working_directory: ~/project
-  node:
-    docker:
-      - image: cypress/base:12.6.0
-        environment:
-          TERM: xterm
-    working_directory: ~/project
+
 
 commands:
   attach-project:
@@ -125,13 +120,6 @@ jobs:
           name: Unit Tests
           command: yarn test:unit --runInBand
 
-  test-e2e:
-    executor: node
-    steps:
-      - attach-project
-      - run:
-          name: e2e
-          command: "yarn test:e2e"
 
   release-version:
     executor: node
@@ -152,12 +140,3 @@ workflows:
           requires: [setup, build, lint, audit, test-unit, test-integration]
           filters:
             <<: *release_branches
-  # live:
-  #   jobs:
-  #     - setup
-  #     - test-e2e: { requires: [setup] }
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 5 * * *"
-  #         filters:
-  #           <<: *release_branches

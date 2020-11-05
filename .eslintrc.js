@@ -5,8 +5,6 @@ module.exports = {
     require: false,
     module: false,
     process: false,
-    cy: false,
-    Cypress: false,
     to: false,
     describe: false,
     context: false,
@@ -22,7 +20,6 @@ module.exports = {
     es6: true,
     node: true,
     "jest/globals": true,
-    "cypress/globals": true,
   },
 
   extends: [
@@ -34,19 +31,9 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
-    "plugin:cypress/recommended",
   ],
 
-  plugins: [
-    "vue",
-    "json",
-    "prettier",
-    "unicorn",
-    "import",
-    "jest",
-    "@typescript-eslint",
-    "cypress",
-  ],
+  plugins: ["vue", "json", "prettier", "unicorn", "import", "jest", "@typescript-eslint"],
 
   rules: {
     "jest/no-disabled-tests": "off",
