@@ -3,10 +3,10 @@
     <div class="splash-inner">
       <div class="content">
         <h1 class="page-sup">Built with TypeScript, Vue, Node</h1>
-        <h2 class="page-title">Build professional websites, blogs, and apps.</h2>
-        <h3
-          class="page-title-sub"
-        >Easily create a custom Headless CMS or interactive dashboard for your app.</h3>
+        <h2 class="page-title">The Minimal CMS for JavaScript.</h2>
+        <h3 class="page-title-sub">
+          Easily create dashboards and marketing websites with JavaScript.
+        </h3>
 
         <div class="actions">
           <factor-link btn="primary" path="/install">Install &rarr;</factor-link>
@@ -149,7 +149,7 @@ export default {
       }
 
       .page-title {
-        font-size: 2.5em;
+        font-size: 4em;
         letter-spacing: -0.025em;
         line-height: 1.1;
         font-weight: 700;
