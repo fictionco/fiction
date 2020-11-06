@@ -1,6 +1,6 @@
 {
   "name": "@factor/meta",
-  "version": "1.8.11",
+  "version": "1.8.28",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

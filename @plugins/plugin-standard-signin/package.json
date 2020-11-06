@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-standard-signin",
   "description": "The standard login/signup plugin for Factor.",
-  "version": "1.8.22",
+  "version": "1.8.28",
   "license": "MIT",
   "author": {
     "name": "Fiction",

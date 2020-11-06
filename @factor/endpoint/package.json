@@ -1,6 +1,6 @@
 {
   "name": "@factor/endpoint",
-  "version": "1.8.12",
+  "version": "1.8.28",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

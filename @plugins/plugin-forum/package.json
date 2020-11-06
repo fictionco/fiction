@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-forum",
   "description": "Factor forum is a powerful forum solution for your factor app. This plugin comes with essential elements to run an efficient and professional community.",
-  "version": "1.8.22",
+  "version": "1.8.28",
   "license": "MIT",
   "author": {
     "name": "Fiction",
@@ -38,7 +38,7 @@
   },
   "homepage": "https://factor.dev/plugin/forum-factor-plugin",
   "dependencies": {
-    "@factor/plugin-highlight-code": "^1.8.2"
+    "@factor/plugin-highlight-code": "^1.8.28"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "keywords": [
