@@ -1,6 +1,6 @@
 {
   "name": "@factor/theme-framework",
-  "version": "1.8.28",
+  "version": "1.8.29",
   "license": "MIT",
   "description": "Framework theme is lightweight, uncluttered and simple. Focused on functionality to help you start building your new app with [Factor](https://factor.dev/).",
   "author": {
@@ -39,7 +39,7 @@
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "dependencies": {
-    "@factor/core": "^1.8.28",
+    "@factor/core": "^1.8.29",
     "@factor/plugin-blog": "^1.8.28",
     "@factor/plugin-contact-form": "^1.8.28",
     "@factor/plugin-email-list": "^1.8.28",
