@@ -1,7 +1,7 @@
 {
   "name": "@factor/core",
   "description": "This is the parent package for all Factor core packages.",
-  "version": "1.8.29",
+  "version": "1.8.30",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
     "_id": "core"
   },
   "dependencies": {
-    "@factor/api": "^1.8.29",
+    "@factor/api": "^1.8.30",
     "@factor/app": "^1.8.28",
     "@factor/attachment": "^1.8.28",
     "@factor/build": "^1.8.29",
