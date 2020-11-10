@@ -1,5 +1,4 @@
 import consola from "consola"
-import chalk from "chalk"
 import env from "std-env"
 import exit from "exit"
 import Vue from "vue"
@@ -17,8 +16,6 @@ test.win = isWin ? test : test.skip
 
 describe.posix = !isWin ? describe : describe.skip
 test.posix = !isWin ? test : test.skip
-
-chalk.enabled = false
 
 jest.setTimeout(60000)
 
