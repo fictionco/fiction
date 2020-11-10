@@ -54,8 +54,6 @@ jobs:
       - run:
           name: Install Dependencies
           command: yarn --frozen-lockfile --non-interactive
-      - run:
-          command: yarn cypress install
       - save_cache:
           key: dependency-cache-1-{{ checksum "yarn.lock" }}
           paths:
