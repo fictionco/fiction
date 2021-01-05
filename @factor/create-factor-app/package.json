@@ -9,7 +9,7 @@
     "template/"
   ],
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "chalk": "^4.0.0",
     "consola": "^2.6.0",
     "figures": "^3.0.0",

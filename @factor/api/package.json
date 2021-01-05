@@ -26,7 +26,7 @@
     "@types/sanitize-html": "^1.20.2",
     "@types/uniqid": "^5.2.0",
     "@types/validator": "^13.0.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.16",
     "deepmerge": "^4.1.1",
     "detect-node": "^2.0.4",
