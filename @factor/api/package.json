@@ -35,7 +35,7 @@
     "flatted": "^2.0.1",
     "front-matter": "^3.1.0",
     "jquery": "^3.5.0",
-    "lodash-es": "^4.17.15",
+    "lodash-es": "4.17.15",
     "markdown-it": "^10.0.0",
     "markdown-it-anchor": "^5.0.2",
     "markdown-it-implicit-figures": "^0.10.0",
