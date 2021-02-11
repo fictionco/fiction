@@ -1,12 +1,10 @@
-export {
-  isEqual,
-  throttle,
-  isEmpty,
-  pickBy,
-  orderBy,
-  uniq,
-  cloneDeep,
-  merge,
-  identity,
-  omit,
-} from "lodash-es"
+export { default as isEqual } from "lodash/isEqual"
+export { default as throttle } from "lodash/throttle"
+export { default as isEmpty } from "lodash/isEmpty"
+export { default as pickBy } from "lodash/pickBy"
+export { default as orderBy } from "lodash/orderBy"
+export { default as uniq } from "lodash/uniq"
+export { default as cloneDeep } from "lodash/cloneDeep"
+export { default as merge } from "lodash/merge"
+export { default as identity } from "lodash/identity"
+export { default as omit } from "lodash/omit"

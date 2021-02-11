@@ -2,7 +2,7 @@
 
 module.exports = () => {
   // https://regex101.com/r/La4C28/1
-  const transpileModules = ["@factor", ".*factor", "lodash-es"]
+  const transpileModules = ["@factor", ".*factor"]
   require("ts-node").register({
     transpileOnly: true,
     compilerOptions: {
