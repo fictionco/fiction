@@ -31,7 +31,10 @@ export interface PostTypeConfig {
   permissions?: SchemaPermissions
   schemaDefinition?: SchemaDefinition | (() => SchemaDefinition)
   schemaMiddleware?: (s: Schema) => void
-  schemaPopulated?: Record<string, PopulationContexts> | string[]
+  schemaPopulated?:
+    | Record<string, PopulationContexts>
+    | string[]
+    | Array<string | string[]>
   schemaOptions?: SchemaOptions
 }
 
@@ -56,13 +59,13 @@ export const postTypesConfig = (): PostTypeConfig[] => {
       nameIndex: label,
       nameSingle: label,
       namePlural: label,
-      ..._,
+      ..._
     }
   })
 }
 
 export const basePostTypeConfig = (): PostTypeConfig => {
-  return postTypesConfig().find((pt) => pt.postType == "post") || { postType: "post" }
+  return postTypesConfig().find(pt => pt.postType == "post") || { postType: "post" }
 }
 
 export const getPostTypeConfig = (postType?: string): PostTypeConfig => {
@@ -70,5 +73,5 @@ export const getPostTypeConfig = (postType?: string): PostTypeConfig => {
 
   if (!postType) return base
 
-  return postTypesConfig().find((pt) => pt.postType == postType) || base
+  return postTypesConfig().find(pt => pt.postType == postType) || base
 }

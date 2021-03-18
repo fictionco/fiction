@@ -1,6 +1,6 @@
 {
   "name": "create-factor-app",
-  "version": "1.8.26",
+  "version": "1.8.31",
   "description": "Create a Factor App in seconds.",
   "bin": "cli.js",
   "files": [
@@ -13,7 +13,7 @@
     "chalk": "^4.0.0",
     "consola": "^2.6.0",
     "figures": "^3.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.20",
     "sao": "^1.6.1",
     "superb": "^4.0.0",
     "ts-node": "^9.0.0",

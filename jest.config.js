@@ -27,7 +27,7 @@ module.exports = {
     "__SRC__/(.*)$": "<rootDir>/test/modules/alias/$1",
   },
 
-  transformIgnorePatterns: ["node_modules/(?!(@factor|factor|lodash-es))"],
+  transformIgnorePatterns: ["node_modules/(?!(@factor|factor))"],
 
   transform: {
     "^.+\\.ts$": "ts-jest",

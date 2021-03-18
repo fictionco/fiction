@@ -16,9 +16,10 @@ import {
   PostIndex,
   PostStatus,
   PostIndexConditions,
-  PopulationContext,
+  PopulationContext
 } from "./types"
 import { getSchemaPopulatedFields } from "./util"
+import { flatten } from "@factor/api/utils-lodash"
 
 /**
  * For lists of posts, we don't want to call/populate on every page nav if not needed
@@ -49,6 +50,34 @@ export const sendPostRequest = async <T = unknown>(
   return await endpointRequest({ id: "posts", method, params })
 }
 
+type PopulatedSchemaFields = Record<
+  string,
+  Array<Record<string, any>> | Record<string, any> | string
+>
+
+const _crawlFields = (
+  fields: Array<string>,
+  post: PopulatedSchemaFields,
+  index: number = 0
+): string[] => {
+  if (index == fields.length) {
+    return []
+  }
+
+  const field = fields[index]
+  const ptr = post[field]
+
+  if (Array.isArray(ptr)) {
+    return flatten(ptr.map(t => _crawlFields(fields, t, index + 1)))
+  } else if (typeof ptr == "string") {
+    return [ptr]
+  } else if (ptr instanceof Object) {
+    return _crawlFields(fields, ptr as PopulatedSchemaFields, index + 1)
+  } else {
+    return []
+  }
+}
+
 /**
  * Populates fields in a post as determined by its Factor schema
  * @param posts - posts to populate
@@ -60,7 +89,7 @@ export const sendPostRequest = async <T = unknown>(
 export const requestPostPopulate = async <T extends FactorPostKey>({
   posts,
   depth = 10,
-  context = PopulationContext.Any,
+  context = PopulationContext.Any
 }: {
   posts: T[]
   depth?: number
@@ -74,11 +103,16 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
     const populatedFields = getSchemaPopulatedFields({
       postType: post.postType ?? "post",
       depth,
-      context,
+      context
     })
 
-    populatedFields.forEach((field) => {
-      const v = post[field]
+    populatedFields.forEach((field: String | Array<string>) => {
+      var v
+      if (typeof field == "string") {
+        v = post[field]
+      } else if (Array.isArray(field)) {
+        v = _crawlFields(field, post)
+      }
       if (v) {
         if (Array.isArray(v)) {
           _ids = [..._ids, ...v]
@@ -95,7 +129,7 @@ export const requestPostPopulate = async <T extends FactorPostKey>({
 
   if (_idsFiltered.length > 0) {
     const posts = (await sendPostRequest("populatePosts", {
-      _ids: _idsFiltered,
+      _ids: _idsFiltered
     })) as FactorPost[]
 
     await requestPostPopulate({ posts, depth, context })
@@ -113,7 +147,7 @@ export const handlePostPopulation = async (
   post: FactorPostState,
   {
     depth = 10,
-    context = PopulationContext.Any,
+    context = PopulationContext.Any
   }: { depth?: number; context?: PopulationContext } = {}
 ): Promise<void> => {
   if (post) {
@@ -135,7 +169,7 @@ export const handlePostPopulation = async (
  */
 export const requestPostSave = async <T extends FactorPostState | never>({
   post,
-  postType,
+  postType
 }: UpdatePost): Promise<T> => {
   const _post = await sendPostRequest<T>("savePost", { data: post, postType })
 
@@ -168,7 +202,7 @@ export const requestEmbeddedPost = async <T extends FactorPostState | never>(
 export const requestPostSaveMany = async ({
   _ids,
   data,
-  postType,
+  postType
 }: UpdateManyPosts): Promise<FactorPost[]> => {
   setLocalPostTypeCache(postType)
   const result = await sendPostRequest("updateManyById", { data, _ids, postType })
@@ -178,7 +212,7 @@ export const requestPostSaveMany = async ({
 
 export const requestPostDeleteMany = async ({
   _ids,
-  postType,
+  postType
 }: UpdateManyPosts): Promise<FactorPost[]> => {
   setLocalPostTypeCache(postType)
 
@@ -199,7 +233,7 @@ export const requestPostSingle = async (
     token,
     createOnEmpty = false,
     status = "all",
-    conditions = {},
+    conditions = {}
   } = _arguments
 
   const params: PostRequestParameters = { postType, createOnEmpty, status, log }
@@ -244,7 +278,7 @@ export const requestPostIndex = async (
     search,
     cache = true,
     sameSource = false,
-    conditions = {},
+    conditions = {}
   } = _arguments
 
   let { storeKey } = _arguments
@@ -267,11 +301,11 @@ export const requestPostIndex = async (
     conditions,
     postType,
     options: { limit, skip, page, sort, order, time, search },
-    sameSource,
+    sameSource
   }
 
   const taxonomies: (keyof PostIndexConditions)[] = ["tag", "category", "status", "role"]
-  taxonomies.forEach((_) => {
+  taxonomies.forEach(_ => {
     if (_arguments[_]) params.conditions[_] = _arguments[_]
   })
 
@@ -289,8 +323,8 @@ export const requestPostIndex = async (
     storeItem(storeKey, { posts, meta })
 
     const embeddedPosts = posts
-      .map((p) => (p.embedded?.length ? p.embedded[0] : undefined))
-      .filter((_) => _) as FactorPost[] // remove undefined, but typescript doesn't understand that
+      .map(p => (p.embedded?.length ? p.embedded[0] : undefined))
+      .filter(_ => _) as FactorPost[] // remove undefined, but typescript doesn't understand that
 
     await requestPostPopulate({ posts: [...posts, ...embeddedPosts] })
 
