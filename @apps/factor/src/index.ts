@@ -1,7 +1,16 @@
-import { addRoutes } from "@factor/api"
+import { addRoutes, addFilter } from "@factor/api"
 import { addPageTemplate } from "@factor/templates"
 
 import "./extend"
+
+addFilter({
+  key: "addDarwin",
+  hook: "factor_head",
+  callback: (_: []) => {
+    return [..._, `<!-- Darwin Conversion Optimization --><script src="https://s.darwin.to/60174ba10d2ae742fc9ef253.js"></script>`]
+  },
+  priority: 200,
+})
 
 addPageTemplate({
   slug: "example",
