@@ -7,7 +7,7 @@ addFilter({
   key: "addDarwin",
   hook: "factor_head",
   callback: (_: []) => {
-    return [..._, `<!-- Darwin Conversion Optimization --><script src="https://s.darwin.to/60174ba10d2ae742fc9ef253.js"></script>`]
+    return [..._, `<!-- Darwin Conversion Optimization --><script src="https://s.darwin.to/si60806e1b47791440e0898b80.js"></script>`]
   },
   priority: 200,
 })
