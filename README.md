@@ -7,7 +7,7 @@
 
 <div align="center">
   <h3>Next-generation framework for JAMStack blogs, apps, and sites.</h3>
-
+  <p>Created and maintained by <a href="https://www.darwin.so">Darwin</a></p>
 </div>
 
 <div align="center">
