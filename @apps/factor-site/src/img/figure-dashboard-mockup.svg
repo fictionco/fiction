@@ -88,7 +88,7 @@
   <rect width="12" height="12" x="412" y="22" fill="#506677" fill-opacity=".15" rx="6"
     transform="rotate(-180 412 22)" />
   <rect width="29" height="5" x="30" y="19" fill="#506677" fill-opacity=".15" rx="1" />
-  <rect width="12" height="12" x="14" y="15" fill="#0471FF" rx="1" />
+  <rect width="12" height="12" x="14" y="15" fill="#5233ff" rx="1" />
   <path fill="#fff" fill-rule="evenodd"
     d="M16.6 21a2.57 2.57 0 012.57-2.57h1.58a2.57 2.57 0 010 5.14h-1.58A2.57 2.57 0 0116.6 21zm2.57-1.38a1.38 1.38 0 100 2.76h1.58a1.38 1.38 0 000-2.76h-1.58z"
     clip-rule="evenodd" />

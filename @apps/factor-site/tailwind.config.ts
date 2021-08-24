@@ -46,7 +46,11 @@ delete colors.lightBlue
 module.exports = {
   mode: "jit",
   purge: {
-    content: ["./src/**/*.{vue,js,ts,jsx,tsx,html}", ...tw.paths],
+    content: [
+      "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
+      "./src/**/*.{vue,js,ts,jsx,tsx,html}",
+      ...tw.paths,
+    ],
   },
   plugins: [require("@tailwindcss/forms")],
 

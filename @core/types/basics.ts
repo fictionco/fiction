@@ -6,7 +6,7 @@ export enum CliCommand {
 
 export const logCategory = {
   debug: { color: "#00ABFF", priority: 5 },
-  event: { color: "#0471FF", priority: 10 },
+  event: { color: "#5233ff", priority: 10 },
   info: { color: "#00ABFF", priority: 10 },
   notify: { color: "#FF9500", priority: 10 },
   record: { color: "#FF9500", priority: 10 },

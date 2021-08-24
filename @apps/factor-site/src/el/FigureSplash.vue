@@ -1,10 +1,6 @@
 <template>
-  <figure
-    ref="wrapper"
-    class="figure-splash-container relative"
-    @click="nextSlide()"
-  >
-    <div class="figure-wrap">
+  <figure ref="wrapper" class="figure-splash-container relative">
+    <div class="figure-wrap" @click="nextSlide()">
       <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
         <div class="stage-icons-wrap">
           <div class="stage-icons">
@@ -84,9 +80,19 @@
       </div>
     </div>
 
-    <div class="flex justify-center space-x-8 -mt-4">
-      <div class="font-semibold text-color-400 text-lg">
-        {{ activeSlide.caption }}
+    <div class="flex justify-center space-x-3">
+      <div
+        v-for="(fig, i) in figures"
+        :key="i"
+        class="font-semibold text-xs border px-4 py-1 rounded-md hover:border-primary-500 hover:text-primary-500 cursor-pointer"
+        :class="
+          activeSlide.id == fig.id
+            ? 'border-primary-500 text-primary-500'
+            : 'border-color-200 text-color-500 '
+        "
+        @click="setActive(i)"
+      >
+        {{ fig.caption }}
       </div>
     </div>
   </figure>
@@ -100,9 +106,9 @@ import codeEditor from "../img/figure-splash-code-editor.svg"
 export default {
   setup() {
     const figures = ref([
-      { id: "dashboard", caption: "Build Custom Dashboards" },
-      { id: "themes", caption: "Start with a Theme" },
-      { id: "code", caption: "Built for Web Professionals" },
+      { id: "dashboard", caption: "Build Apps" },
+      { id: "themes", caption: "Build Sites" },
+      { id: "code", caption: "Clean and Minimal Code" },
     ])
     /**
      * Initial Active figure
@@ -118,7 +124,7 @@ export default {
      * Switch Figure timer
      */
     const timer = ref()
-    const animationInterval = ref<number>(10_000)
+    const animationInterval = ref<number>(20_000)
 
     /**
      * Next Figure
@@ -133,13 +139,21 @@ export default {
       runTimer()
     }
 
+    const setActive = (ind: number) => {
+      active.value = ind
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      runTimer()
+    }
+
     const runTimer = () => {
       clearTimeout(timer.value)
       timer.value = setTimeout(() => nextSlide(), animationInterval.value)
     }
 
     return {
+      figures,
       activeSlide,
+      setActive,
       nextSlide,
       scrollerBg: codeEditor,
     }
@@ -192,14 +206,13 @@ figure.figure-splash-container {
     .main {
       border-radius: 12px;
       z-index: 10;
-      box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
-        0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
+      box-shadow: 10px 10px 6px rgb(50 50 93 / 7%), 0px 2px 3px rgb(0 0 0 / 22%);
       transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
       animation: themeTransform 1s 1 forwards;
       overflow: hidden;
       &.wrap {
         width: 100%;
-        height: 100%;
+        height: 90%;
         .scroller {
           overflow: hidden;
           box-shadow: none;
@@ -232,12 +245,10 @@ figure.figure-splash-container {
     .team {
       max-width: 35%;
       z-index: 100;
-      bottom: 9%;
+      bottom: 12%;
       left: 0rem;
       animation: tabletTransform 1s 1 forwards;
-      box-shadow: 0 5px 15px rgba(27, 34, 60, 0.1),
-        0 15px 35px rgba(27, 34, 60, 0.1),
-        20px -20px 35px rgba(80, 102, 119, 0.15);
+      box-shadow: 6px 6px 6px rgb(50 50 93 / 7%), 0px 2px 3px rgb(0 0 0 / 22%);
     }
     .pricing {
       max-width: 240px;
@@ -285,8 +296,7 @@ figure.figure-splash-container {
       transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
       position: absolute;
       border-radius: 50%;
-      box-shadow: 0px 30px 100px rgba(50, 50, 93, 0.13),
-        0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
+      box-shadow: 6px 6px 6px rgb(50 50 93 / 7%), 0px 2px 3px rgb(0 0 0 / 22%);
     }
     .icon-1 {
       top: 0;
@@ -331,8 +341,7 @@ figure.figure-splash-container {
     .main {
       border-radius: 4px;
       z-index: 10;
-      box-shadow: 0px 50px 100px rgba(50, 50, 93, 0.13),
-        0px 15px 35px rgba(50, 50, 93, 0.11), 0px 5px 15px rgba(0, 0, 0, 0.07);
+      box-shadow: 8px 8px 6px rgb(50 50 93 / 7%), 0px 2px 3px rgb(0 0 0 / 22%);
 
       animation: mainTransform 1s 1 forwards;
     }
@@ -340,21 +349,13 @@ figure.figure-splash-container {
       max-width: 18%;
       position: absolute;
       left: 32px;
-      bottom: 10px;
+      bottom: 50px;
       border-radius: 12px;
-      box-shadow: 0px 5px 15px rgba(27, 34, 60, 0.1),
-        0px 15px 35px rgba(27, 34, 60, 0.1),
-        0px 50px 100px rgba(27, 34, 60, 0.1),
-        20px -20px 35px rgba(80, 102, 119, 0.15);
+      box-shadow: 6px 6px 6px rgb(50 50 93 / 7%), 0px 2px 3px rgb(0 0 0 / 22%);
       transition: all 300ms cubic-bezier(0.165, 0.84, 0.44, 1);
       animation: mobileTransform 1s 1 forwards;
 
       &:hover {
-        box-shadow: 0px 5px 15px rgba(4, 150, 255, 0.3),
-          0px 15px 35px rgba(4, 150, 255, 0.1),
-          0px 50px 100px rgba(27, 34, 60, 0.1),
-          20px -20px 35px rgba(80, 102, 119, 0.15);
-
         transform: rotate(0deg) rotateX(0deg) rotateY(0deg) translateX(2em)
           translateZ(60px) scale(1.2);
       }

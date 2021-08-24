@@ -100,10 +100,10 @@ figure.figure-plugins {
         width: 100%;
       }
       // &.facebook {
-      //   background: #0471ff;
+      //   background: #5233ff;
       // }
       // &.twitter {
-      //   background: #0471ff;
+      //   background: #5233ff;
       // }
       &:nth-child(1) {
         top: 5%;

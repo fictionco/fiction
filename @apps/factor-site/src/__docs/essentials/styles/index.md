@@ -116,6 +116,6 @@ CSS variables must be scoped to a selector, in global cases we recommend scoping
 ```less
 // factor-styles.less
 html.factor-app {
-  --color-primary: #0471ff;
+  --color-primary: #5233ff;
 }
 ```

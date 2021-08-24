@@ -1,6 +1,6 @@
 import { isNode } from "./utils"
 export const logType = {
-  event: { color: "#0471ff" },
+  event: { color: "#5233ff" },
   info: { color: "#00ABFF" },
   record: { color: "#FF9500" },
   data: { color: "#FF9500" },

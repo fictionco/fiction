@@ -20,7 +20,7 @@ export default {
   setup() {
     useMeta({
       title: computed(() => {
-        return `FactorES JavaScript Framework by Darwin`
+        return `Factor Framework by Darwin`
       }),
       meta: [
         {
