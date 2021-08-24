@@ -53,7 +53,10 @@
                   Start &rarr;
                 </ElemButton>
 
-                <a href="https://go.factor.dev/github" target="_blank">
+                <a
+                  href="https://www.github.com/FactorJS/factor"
+                  target="_blank"
+                >
                   <ElemButton
                     class="font-bold md:py-2.5 md:px-7 md:text-lg hover:text-primary-500"
                   >
