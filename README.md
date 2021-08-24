@@ -1,5 +1,6 @@
+<br />
 <div align="center">
-  <img src="./factor.svg" width="400px"  alt="FactorJS Framework">
+  <img src="./factor.svg" width="250px"  alt="FactorJS Framework">
 </div>
 
 <br />
