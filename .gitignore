@@ -1,0 +1,36 @@
+dist
+**/rendered
+
+.DS_Store
+node_modules
+coverage
+temp
+explorations
+TODOs.md
+
+.env
+.env*
+.local
+
+# debugging
+.ts-node
+*.log
+
+# Local .terraform directories
+**/.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+
+# AWS CDK
+# CDK asset staging directory
+**/.cdk.staging
+**/cdk.out
+
+# Ansible/Python
+.venv/
+.venv*/
+*.retry
+/___*.yml

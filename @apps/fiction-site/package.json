@@ -1,0 +1,48 @@
+{
+  "name": "@fiction/site",
+  "description": "Fiction Site",
+  "version": "3.2.7",
+  "url": "https://www.fiction.com",
+  "main": "src/index.ts",
+  "author": "Fiction.com",
+  "license": "UNLICENSED",
+  "private": true,
+  "factor": {
+    "name": "Fiction",
+    "email": "andrew@fiction.com",
+    "url": "https://www.fiction.com",
+    "domain": "fiction.com"
+  },
+  "dependencies": {
+    "@factor/api": "3.2.7",
+    "@factor/entry": "3.2.7",
+    "@factor/plugin-blog": "^1.8.22",
+    "@factor/plugin-blog-engine": "3.2.7",
+    "@factor/plugin-docs-engine": "3.2.7",
+    "@factor/plugin-email-list": "^1.0.0",
+    "@factor/plugin-highlight-code": "3.2.7",
+    "@factor/plugin-jobs": "^1.0.0",
+    "@factor/plugin-notify": "3.2.7",
+    "@factor/render": "3.2.7",
+    "@factor/server": "3.2.7",
+    "@factor/server-utils": "3.2.7",
+    "@factor/test-utils": "3.2.7",
+    "@factor/types": "3.2.7",
+    "@factor/ui": "3.2.7",
+    "@tailwindcss/typography": "^0.4.1",
+    "@typeform/embed": "^1.0.0-next.15",
+    "@types/mapbox-gl": "^2.0.4",
+    "autoprefixer": "^10.2.4",
+    "mapbox-gl": "^2.0.1",
+    "postcss": "^8.2.6",
+    "react": "^17.0.1",
+    "tailwindcss": "^2.0.3",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.10"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.3.2",
+    "tailwindcss-aspect-ratio": "^3.0.0",
+    "tailwindcss-responsive-embed": "^1.0.0"
+  }
+}

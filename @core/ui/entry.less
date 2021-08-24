@@ -1,0 +1,172 @@
+.entry {
+  @apply text-base lg:text-lg leading-relaxed;
+
+  h1 {
+    @apply text-2xl lg:text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl lg:text-2xl font-bold leading-7 mt-12 mb-8;
+  }
+
+  h3 {
+    @apply text-lg lg:text-xl font-bold mt-12;
+  }
+
+  h4 {
+    @apply text-base lg:text-lg font-semibold mt-6;
+  }
+
+  hr {
+    @apply border-t border-color-300 mt-8 mb-8;
+  }
+
+  p {
+    @apply mt-4 mb-4 leading-relaxed;
+
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  .excerpt {
+    @apply text-xl lg:text-2xl leading-relaxed;
+  }
+
+  strong {
+    @apply font-semibold;
+  }
+
+  small {
+    @apply text-xs opacity-70;
+  }
+
+  a {
+    color: var(--color-primary);
+
+    &:hover {
+      @apply opacity-60;
+      //color: var(--color-secondary);
+    }
+  }
+
+  blockquote {
+    @apply border-l-4 border-color-300 bg-color-50 mt-8 mb-8 py-3 pl-4;
+    quotes: '"\\201C""\\201D""\\2018""\\2019"';
+    p {
+      @apply my-0;
+    }
+  }
+
+  ol,
+  ul {
+    @apply mt-5 mb-5 ml-6;
+
+    > li {
+      @apply relative mt-2 mb-2 pl-2;
+
+      ul {
+        @apply mt-2 mb-2 ml-6;
+      }
+    }
+  }
+
+  ul > li {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal ml-4;
+  }
+
+  code {
+    @apply inline-block bg-orange-500 bg-opacity-5 rounded-md px-1 py-1 text-sm font-mono text-orange-600;
+  }
+
+  a code {
+    @apply text-gray-900;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    @apply rounded-md overflow-x-auto px-6 py-4 my-8  border border-color-200 text-sm;
+
+    code {
+      @apply bg-transparent p-0 border-0;
+      color: inherit;
+
+      &:before {
+        content: none;
+      }
+
+      &:after {
+        content: none;
+      }
+    }
+  }
+
+  figure {
+    @apply mt-4 mb-4 text-center;
+
+    figcaption {
+      @apply text-color-500 mt-2 mb-4;
+    }
+
+    > a,
+    > img {
+      @apply text-center inline-block;
+    }
+
+    img {
+      @apply mb-0 rounded-md border border-color-200;
+    }
+  }
+
+  img {
+    max-height: 60vh;
+    @apply mt-6 mb-6 rounded-md border border-color-200 ml-auto mr-auto;
+  }
+
+  .embed-responsive {
+    margin: 0.5em 0;
+
+    @media (max-width: 767px) {
+      position: relative;
+      padding-bottom: 56.25%;
+      /* 16:9 */
+      padding-top: 25px;
+      height: 0;
+    }
+
+    iframe {
+      width: 100%;
+
+      @media (max-width: 767px) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  //Remove margin of any element after heading or hr
+  // h2 + *,
+  // h3 + *,
+  // h4 + *,
+  // hr + * {
+  //   @apply mt-0;
+  // }
+
+  // h2:first-of-type,
+  // h3:first-of-type,
+  // h4:first-of-type {
+  //   @apply mt-6;
+  // }
+}

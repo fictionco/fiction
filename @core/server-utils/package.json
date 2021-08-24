@@ -1,0 +1,23 @@
+{
+  "name": "@factor/server-utils",
+  "version": "3.2.7",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "dependencies": {
+    "@factor/api": "3.2.7",
+    "@factor/server": "3.2.7",
+    "@factor/types": "3.2.7",
+    "chalk": "^4.1.1",
+    "cli-highlight": "^2.1.4",
+    "consola": "^2.15.0",
+    "figures": "^4.0.0",
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.7",
+    "prettyoutput": "^1.2.0",
+    "ws": "^8.1.0"
+  },
+  "devDependencies": {}
+}

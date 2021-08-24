@@ -1,0 +1,27 @@
+{
+  "name": "@factor/plugin-notify",
+  "description": "Notify allows you to add toast notifications to your app with ease.",
+  "version": "3.2.7",
+  "author": "Factor",
+  "main": "index.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "factor": {
+    "extend": "plugin",
+    "title": "Notify",
+    "permalink": "notify-factor-plugin",
+    "category": [
+      "ui"
+    ],
+    "themeColor": "#ffffff"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "@factor/api": "3.2.7",
+    "@factor/types": "3.2.7",
+    "vue": "^3.0.0"
+  }
+}

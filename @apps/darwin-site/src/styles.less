@@ -1,0 +1,54 @@
+.factor-app {
+  // Colors
+  --color-brand: #5233ff; //Darwin
+  --color-primary: #5233ff;
+  --color-text: #33334f;
+
+  // Typography
+  --font-family-primary: "sohne-var", -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
+
+  color: var(--color-text);
+  font-family: var(--font-family-primary);
+
+  @font-face {
+    font-family: "sohne-var";
+    src: url("/soehne-web-buch.woff2") format("woff2"),
+      url("/soehne-web-buch.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "sohne-var";
+    src: url("/soehne-web-kraftig.woff2") format("woff2"),
+      url("/soehne-web-kraftig.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "sohne-var";
+    src: url("/soehne-web-halbfett.woff2") format("woff2"),
+      url("/soehne-web-halbfett.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "sohne-var";
+    src: url("/soehne-web-dreiviertelfett.woff2") format("woff2"),
+      url("/soehne-web-dreiviertelfett.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+.entry table {
+  display: table !important;
+}

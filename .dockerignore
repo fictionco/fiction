@@ -1,0 +1,16 @@
+**/node_modules
+
+# Prevent Recursion
+**/cdk.out
+
+.git
+.idea
+.venv
+.vscode
+.ref
+*.md
+
+clickhouse
+#docker
+docker-compose.yml
+docker-compose.*.yml

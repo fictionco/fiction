@@ -1,0 +1,45 @@
+# Factor Style Guide
+
+## File Structure and Naming
+
+### Flat Files
+
+Prefer flat file structure. Many developers are tempted to organize files into folders. However, this leads to opaque and difficult to find code.
+
+In Factor, we prefer flat file structures and use prefixes to add an element of organization.
+
+### Naming Convention
+
+- Vue files should be in `PascaleCase.vue`
+- TypeScript files should be in `snakeCase.ts`
+- Other files should be in `kebab-case.js`
+
+## Comments
+
+### How to comment
+
+In short, comments should explain the "why" not the how (which is self-evident). Comments can be super helpful--even to yourself--when you go back you've written in the past.
+
+### Block Comments
+In JS/TS, we use block comments (start with /**) to describe functions and other code blocks (e.g. interfaces).
+
+ - These are helpful as they provide hover overs when using those functions in other files.
+ - To create these just type `/** [enter]` and VSCode will generate one for you.
+ - Don't add params or type annotations to comments these are handled by TypeScript
+ - Don't add spaces between functions / block comments / functions. The comments themselves serve as the spacing.
+
+### Context Comments
+
+Use inline comments to explain code "as it's happening" or within context. These comments take less space.
+
+### Example
+
+```js
+/**
+ * Block Comment
+ **/
+const example = (): void => {
+  // context comment
+  doSomething()
+}
+```

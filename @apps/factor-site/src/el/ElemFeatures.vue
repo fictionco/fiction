@@ -1,0 +1,127 @@
+<template>
+  <section class="w-full">
+    <div v-for="(feature, i) in features" :key="i" class="py-16 lg:py-0">
+      <div
+        class="min-h-4/5 grid gap-12 items-center lg:grid-cols-2"
+        :class="[i % 2 == 0 ? 'even' : 'odd lg:grid-flow-row-dense']"
+      >
+        <div
+          class="min-w-0"
+          :class="[
+            i % 2 == 0
+              ? 'lg:col-start-1 lg:justify-self-end'
+              : 'lg:col-start-2',
+          ]"
+        >
+          <div class="max-w-full pt-12 pb-4 px-6 lg:max-w-xl lg:py-40">
+            <div
+              v-if="feature.icon"
+              class="
+                w-20
+                h-20
+                mb-6
+                rounded-lg
+                shadow-md
+                border border-color-100
+                bg-primary-500
+                flex
+                justify-center
+                items-center
+              "
+            >
+              <div class="w-10 h-10 text-white" v-html="feature.icon"></div>
+            </div>
+
+            <h2 class="mb-6 font-bold text-3xl lg:text-5xl">
+              {{ feature.title }}
+            </h2>
+            <div class="text-xl mb-4 text-color-500 lg:text-2xl">
+              {{ feature.text }}
+            </div>
+            <div v-if="feature.link" class="font-medium text-xl">
+              <router-link
+                :to="feature.link.path"
+                class="text-primary-500 hover:text-primary-400"
+              >
+                {{ feature.link.text }} &rarr;
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-center h-full min-w-0 relative"
+          :class="[
+            i % 2 == 0 ? 'lg:col-start-2' : 'lg:col-start-1 lg:justify-end',
+          ]"
+        >
+          <component :is="feature.figure" />
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script lang="ts">
+import FigureDashboard from "./FigureDashboard.vue"
+import FigureLiveChanges from "./FigureLiveChanges.vue"
+import FigurePlugins from "./FigurePlugins.vue"
+import FigurePoweredBy from "./FigurePoweredBy.vue"
+import FigureThemes from "./FigureThemes.vue"
+import FactorIcons from "../el/FactorIcons.vue"
+
+export default {
+  components: {
+    FactorIcons,
+  },
+  setup() {
+    const features = [
+      {
+        icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+</svg>`,
+        title: `100% JavaScript Sites Made Simple`,
+        text: `Build 100% JavaScript apps with best-of-class open source software.
+            No more backend and frontend, Factor has a single environment you can use to build full-stack apps.`,
+        figure: FigurePoweredBy,
+        link: { path: "/docs", text: "View Docs" },
+      },
+      {
+        icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+</svg>`,
+        title: "An Alternative to WordPress",
+        text: `Factor helps you bring together all the different tools you'll need to build great apps.
+              Add advanced features easily and quickly optimize things for SEO,
+             marketing, and performance.`,
+        figure: FigureLiveChanges,
+        link: { path: "/install", text: "Install Factor" },
+      },
+      {
+        icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+</svg>`,
+        title: "Full Stack or Static",
+        text: `Prerender your Factor apps and use on static hosting. Use the endpoint framework for a JAMStack approach.`,
+        figure: FigureDashboard,
+        link: { path: "/docs", text: "Learn More" },
+      },
+      {
+        title: `Advanced Plugins`,
+        text: `Most coding frameworks make you do way too much custom coding. Their plugins can take days to learn, install, and customize.
+          Factor focuses on making plugins dead simple. This means they "just work," but can be easily customized.`,
+        figure: FigurePlugins,
+        link: { path: "/plugins", text: "View Plugins" },
+      },
+      {
+        title: "Setup great sites quickly.",
+        text: `Leverage the app showcase for your boilerplate or build from scratch
+              Factor gives you a complete theming and rapid app development system to quickly deploy apps.`,
+        figure: FigureThemes,
+        link: { path: "/themes", text: "View Themes" },
+      },
+    ]
+
+    return { features }
+  },
+}
+</script>

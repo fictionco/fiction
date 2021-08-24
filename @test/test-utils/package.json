@@ -1,0 +1,15 @@
+{
+  "name": "@factor/test-utils",
+  "version": "3.2.7",
+  "license": "MIT",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "devDependencies": {
+    "execa": "^5.0.0",
+    "fs-extra": "^10.0.0",
+    "vue-jest": "^5.0.0-alpha.7"
+  }
+}

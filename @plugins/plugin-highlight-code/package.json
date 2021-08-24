@@ -1,0 +1,47 @@
+{
+  "name": "@factor/plugin-highlight-code",
+  "description": "Add a syntax highlighting component to your Factor app.",
+  "version": "3.2.7",
+  "main": "index.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "factor": {
+    "extend": "plugin",
+    "title": "Syntax Highlight",
+    "permalink": "highlight-code-factor-plugin",
+    "category": [
+      "ui"
+    ],
+    "themeColor": "#000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-highlight-code"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/highlight-code-factor-plugin",
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "dependencies": {
+    "@factor/api": "3.2.7",
+    "prismjs": "^1.22.0",
+    "vue": "^3.0.0"
+  },
+  "keywords": [
+    "factor",
+    "factor-plugin",
+    "syntax",
+    "highlight",
+    "markdown",
+    "code",
+    "css",
+    "javascript"
+  ],
+  "devDependencies": {
+    "less": "^4.0.0"
+  }
+}

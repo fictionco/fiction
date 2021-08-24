@@ -1,0 +1,98 @@
+<svg width="420" height="249" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 420 249">
+  <defs />
+  <path fill="#fff" d="M420 249V1C420 .9 40.05 1 0 1v248h420z" />
+  <path fill="#fff" stroke="#ADBACC" stroke-opacity=".2" stroke-width="2"
+    d="M410.11 30H113.89c-1.6 0-2.89 1.07-2.89 2.4v196.2c0 1.33 1.3 2.4 2.89 2.4h296.22c1.6 0 2.89-1.07 2.89-2.4V32.4c0-1.33-1.3-2.4-2.89-2.4z" />
+  <path fill="#4D394B" fill-opacity=".07"
+    d="M100 7H10C7.8 7 6 8.28 6 9.85v227.3c0 1.57 1.8 2.85 4 2.85h90c2.2 0 4-1.28 4-2.85V9.85c0-1.57-1.8-2.85-4-2.85z" />
+  <path fill="#F7F9FE"
+    d="M100 8H10c-1.66 0-3 .96-3 2.14v226.72c0 1.18 1.34 2.14 3 2.14h90c1.66 0 3-.96 3-2.14V10.14c0-1.18-1.34-2.14-3-2.14z" />
+  <rect width="48" height="14" x="118" y="56" fill="#fff" rx="1" />
+  <rect width="47" height="13" x="118.5" y="56.5" stroke="#ADBACC" stroke-opacity=".4" rx=".5" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M153.35 62H130.8a.8.8 0 00-.81.8v.81c0 .45.36.81.8.81h22.55a.8.8 0 00.8-.8v-.81a.8.8 0 00-.8-.81z" />
+  <rect width="17" height="14" x="169" y="56" fill="#fff" rx="1" />
+  <rect width="16" height="13" x="169.5" y="56.5" stroke="#ADBACC" stroke-opacity=".4" rx=".5" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M181.7 62h-8.4c-.17 0-.3.3-.3.67v.66c0 .37.13.67.3.67h8.4c.17 0 .3-.3.3-.67v-.66c0-.37-.13-.67-.3-.67z" />
+  <path fill="#0477FE"
+    d="M404.74 36h-57.48c-.7 0-1.26.74-1.26 1.65v10.7c0 .91.57 1.65 1.26 1.65h57.48c.7 0 1.26-.74 1.26-1.65v-10.7c0-.91-.57-1.65-1.26-1.65z" />
+  <path fill="#fff" fill-opacity=".5"
+    d="M385.37 42h-17.74c-.35 0-.63.3-.63.67v.66c0 .37.28.67.63.67h17.74c.35 0 .63-.3.63-.67v-.66a.65.65 0 00-.63-.67z"
+    opacity=".5" />
+  <rect width="27" height="5" x="139" y="77" fill="#E5E8EB" rx="1" />
+  <rect width="5" height="5" x="118" y="77" fill="#fff" rx="1" />
+  <rect width="4" height="4" x="118.5" y="77.5" stroke="#ADBACC" stroke-opacity=".4" rx=".5" />
+  <rect width="21" height="5" x="222" y="216" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="11" height="10" x="245" y="213" fill="#fff" rx="1" />
+  <rect width="10" height="9" x="245.5" y="213.5" stroke="#ADBACC" stroke-opacity=".4" rx=".5" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M251.9 217h-2.8c-.06 0-.1.3-.1.67v.66c0 .37.04.67.1.67h2.8c.06 0 .1-.3.1-.67v-.66c0-.37-.04-.67-.1-.67z" />
+  <rect width="21" height="3" x="259" y="217" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="11" height="10" x="284" y="213" fill="#fff" rx="1" />
+  <rect width="10" height="9" x="284.5" y="213.5" stroke="#ADBACC" stroke-opacity=".4" rx=".5" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M290.9 217h-2.8c-.06 0-.1.3-.1.67v.66c0 .37.05.67.1.67h2.8c.06 0 .1-.3.1-.67v-.66c0-.37-.05-.67-.1-.67z" />
+  <rect width="12" height="3" x="118" y="93" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="93" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="93" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="93" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="93" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="109" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="109" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="109" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="109" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="109" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="125" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="125" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="125" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="125" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="125" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="141" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="141" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="141" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="141" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="141" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="157" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="157" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="157" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="157" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="157" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="173" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="173" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="173" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="173" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="173" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="3" x="118" y="189" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="81" height="3" x="139" y="189" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="245" y="189" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="42" height="3" x="312" y="189" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="3" x="379" y="189" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="27" height="5" x="245" y="77" fill="#E5E8EB" rx="1" />
+  <rect width="27" height="5" x="312" y="77" fill="#E5E8EB" rx="1" />
+  <rect width="27" height="5" x="379" y="77" fill="#E5E8EB" rx="1" />
+  <path fill="#506677"
+    d="M120.68 40.25V48h1.39v-2.56h1.57c1.56 0 2.67-1.05 2.67-2.6 0-1.54-1.07-2.6-2.62-2.6h-3zm1.39 1.13h1.26c1 0 1.57.53 1.57 1.46 0 .94-.58 1.48-1.58 1.48h-1.25v-2.94zm7.42 6.73c1.67 0 2.76-1.1 2.76-2.96 0-1.84-1.1-2.96-2.76-2.96-1.66 0-2.76 1.13-2.76 2.96 0 1.85 1.09 2.96 2.76 2.96zm0-1.06c-.85 0-1.4-.68-1.4-1.9 0-1.2.56-1.9 1.4-1.9.85 0 1.4.7 1.4 1.9 0 1.22-.55 1.9-1.4 1.9zm3.51-3.11c0 .84.55 1.38 1.64 1.62l.95.21c.6.14.8.33.8.67 0 .43-.4.7-1.06.7-.67 0-1.05-.28-1.16-.84h-1.31c.1 1.1.99 1.81 2.47 1.81 1.4 0 2.39-.72 2.39-1.8 0-.82-.46-1.28-1.64-1.54l-.94-.21c-.6-.14-.84-.36-.84-.69 0-.42.4-.7.99-.7.61 0 1 .33 1.05.84h1.25c-.04-1.07-.92-1.82-2.3-1.82s-2.29.7-2.29 1.75zm5.94-2.97v1.34h-.81v1.03h.81v3.15c0 1.1.49 1.54 1.72 1.54.28 0 .55-.02.69-.06v-1.02c-.09.02-.26.03-.38.03-.47 0-.69-.22-.69-.68v-2.96h1.07V42.3h-1.07v-1.34h-1.34zm3.23 2.97c0 .84.54 1.38 1.64 1.62l.94.21c.6.14.8.33.8.67 0 .43-.4.7-1.05.7-.68 0-1.06-.28-1.16-.84h-1.32c.1 1.1.99 1.81 2.48 1.81 1.4 0 2.38-.72 2.38-1.8 0-.82-.45-1.28-1.64-1.54l-.94-.21c-.6-.14-.83-.36-.83-.69 0-.42.39-.7.98-.7.62 0 1 .33 1.05.84h1.25c-.03-1.07-.91-1.82-2.3-1.82-1.38 0-2.28.7-2.28 1.75z" />
+  <rect width="5" height="5" x="13" y="57" fill="#506677" fill-opacity=".15" rx="1" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M57.5 92h-36c-.83 0-1.5.45-1.5 1v1c0 .55.67 1 1.5 1h36c.83 0 1.5-.45 1.5-1v-1c0-.55-.67-1-1.5-1z" />
+  <rect width="5" height="5" x="13" y="91" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="5" height="5" x="13" y="117" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="5" height="5" x="13" y="130" fill="#506677" fill-opacity=".15" rx="1" />
+  <path fill="#506677" fill-opacity=".7"
+    d="M36.5 105h-15c-.83 0-1.5.45-1.5 1v1c0 .55.67 1 1.5 1h15c.83 0 1.5-.45 1.5-1v-1c0-.55-.67-1-1.5-1z" />
+  <rect width="5" height="5" x="13" y="104" fill="#506677" fill-opacity=".7" rx="1" />
+  <path fill="#506677" fill-opacity=".15"
+    d="M32.44 118H21.56c-.86 0-1.56.45-1.56 1v1c0 .55.7 1 1.56 1h10.88c.86 0 1.56-.45 1.56-1v-1c0-.55-.7-1-1.56-1zM47.47 131H21.53c-.85 0-1.53.45-1.53 1v1c0 .55.68 1 1.53 1h25.94c.85 0 1.53-.45 1.53-1v-1c0-.55-.68-1-1.53-1zM48.5 58h-27c-.83 0-1.5.45-1.5 1v1c0 .55.67 1 1.5 1h27c.83 0 1.5-.45 1.5-1v-1c0-.55-.67-1-1.5-1zM49 43H15a1 1 0 00-1 1v3a1 1 0 001 1h34a1 1 0 001-1v-3a1 1 0 00-1-1zM73 76H15a1 1 0 00-1 1v3a1 1 0 001 1h58a1 1 0 001-1v-3a1 1 0 00-1-1z" />
+  <rect width="29" height="5" x="396" y="18" fill="#506677" fill-opacity=".15" rx="1" transform="rotate(-180 396 18)" />
+  <rect width="12" height="12" x="412" y="22" fill="#506677" fill-opacity=".15" rx="6"
+    transform="rotate(-180 412 22)" />
+  <rect width="29" height="5" x="30" y="19" fill="#506677" fill-opacity=".15" rx="1" />
+  <rect width="12" height="12" x="14" y="15" fill="#0471FF" rx="1" />
+  <path fill="#fff" fill-rule="evenodd"
+    d="M16.6 21a2.57 2.57 0 012.57-2.57h1.58a2.57 2.57 0 010 5.14h-1.58A2.57 2.57 0 0116.6 21zm2.57-1.38a1.38 1.38 0 100 2.76h1.58a1.38 1.38 0 000-2.76h-1.58z"
+    clip-rule="evenodd" />
+  <path fill="#fff" fill-rule="evenodd"
+    d="M19.55 25a.14.14 0 01-.14-.14v-7.72c0-.08.06-.14.14-.14h.9c.09 0 .15.06.15.14v7.72c0 .08-.06.14-.14.14h-.91z"
+    clip-rule="evenodd" />
+</svg>

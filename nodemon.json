@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    "**/dist/*",
+    "**/rendered/*",
+    "./cdk.out/*",
+    "./**/*.vue",
+    "./**/*.json",
+    "./**/!(*server*).ts"
+  ],
+  "ext": "js,json,ts"
+}

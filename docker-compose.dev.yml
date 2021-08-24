@@ -1,0 +1,15 @@
+version: "3"
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: ./docker/dev.Dockerfile
+    command: ["--CMD=dev"]
+    ports:
+      - "3000:3000"
+      - "4242:4242"
+      - "5353:5353"
+    env_file:
+      - ".docker.env"
+    volumes:
+      - ./:/src

@@ -1,0 +1,45 @@
+{
+  "name": "@factor/plugin-blog-engine",
+  "description": "A markdown blog plugin",
+  "version": "3.2.7",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "main": "index.ts",
+  "author": {
+    "name": "Fiction",
+    "email": "factor@fiction.com",
+    "url": "https://www.fiction.com"
+  },
+  "factor": {
+    "extend": "plugin",
+    "title": "Docs Engine",
+    "permalink": "plugin-docs-engine",
+    "category": [
+      "documentation"
+    ],
+    "themeColor": "#814AE6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-docs"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factor.dev/plugin/plugin-docs-engine",
+  "dependencies": {
+    "@factor/api": "3.2.7",
+    "@factor/plugin-highlight-code": "3.2.7",
+    "@factor/server": "3.2.7",
+    "@factor/types": "3.2.7",
+    "@factor/ui": "3.2.7",
+    "@types/string-similarity": "^4.0.0",
+    "dayjs": "^1.10.6",
+    "string-similarity": "^4.0.4",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.10"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@factor/test-config",
+  "version": "3.2.7",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@jest/types": "^27.0.6",
+    "dotenv": "^10.0.0",
+    "fs-extra": "^10.0.0",
+    "jest-environment-node": "^27.0.6",
+    "jest-fetch-mock": "^3.0.3",
+    "playwright-chromium": "^1.13.0",
+    "sirv": "^1.0.12",
+    "slash": "^4.0.0",
+    "vite": "^2.4.3"
+  }
+}
