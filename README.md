@@ -8,8 +8,8 @@
 <br />
 
 <div align="center">
-  <h3>Next-generation framework for JAMStack blogs, apps, and sites.</h3>
-  <p>By <a href="https://www.darwin.so">Darwin</a></p>
+  <h3>Next-gen framework for blogs, apps, and sites by <a href="https://www.darwin.so">Darwin</a></h3>
+
 </div>
 
 <div align="center">
