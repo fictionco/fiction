@@ -45,15 +45,15 @@ export default {
     const benefits = ref([
       {
         icon: "dashboard3",
-        title: "Your dashboard",
+        title: "Dynamic Power, Static Scale",
         text:
-          "Wield a powerful post system and dashboard to simplify your backend design and add complete content-management.",
+          "Weild the scalability of a statically hosted site with the power of a full featured   endpoint framework.",
       },
       {
         icon: "themes",
-        title: "Themes that work",
+        title: "Full Control",
         text:
-          "Factor is designed for theming. Save time and start with a solid foundation, then customize.",
+          "Get a standardized structure without it getting in your way. Your app controls all features and all UI.",
       },
       {
         icon: "simple2",

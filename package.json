@@ -1,5 +1,5 @@
 {
-  "name": "factor-next",
+  "name": "factor",
   "version": "3.2.7",
   "scripts": {
     "deploy": "yarn release && yarn push-release",

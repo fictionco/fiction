@@ -18,15 +18,15 @@ export default {
       loaded.value = true
       render(
         {
-          href: "https://github.com/fiction-com/factor",
-          "aria-label": "Star fiction-com/factor on GitHub",
-          title: "Follow Factor 7",
+          href: "https://github.com/FactorJS/factor",
+          "aria-label": "Star FactorJS/factor on GitHub",
+          title: "Follow Factor",
           "data-icon": "octicon-star",
           "data-color-scheme":
             "no-preference: light; light: light; dark: light;",
           "data-size": "large",
           "data-show-count": true,
-          "data-text": "Follow Project",
+          "data-text": "Follow Factor",
         },
         function (el) {
           document.querySelector(".github-actions")?.append(el)
