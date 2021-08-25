@@ -23,7 +23,7 @@ export default {
 }
 ```
 
-> Anything added to the `variables` property in `factor.config.ts` will be available across your application as an environmental variable. For example: `process.env.FACTOR_APP_NAME` will return the name of your application if you've set it as shown above.
+> Anything added to the `variables` property in `factor.config.ts` will be available across your application as an environmental variable.
 
 ## Runtime Application Config
 
@@ -31,26 +31,16 @@ The entry point for your application code is your `index.ts` main file. This fil
 
 ```typescript
 // FILE: src/index.ts
-import { UserConfigApp } from "@factor/api" // config types helper
-import examplePlugin from "example-factor-plugin" // import an 'app' plugin
 import { doStuff } from "./do-stuff" // other custom code
 
-export const setup = (): UserConfigApp => {
+export const setup = () => {
   // initialize other app code here if you'd like
-  doServerStuff()
-
-  // get your routes together
-  const routes = [
-    {
-      path: "/",
-      component: () => import("/route/to/Component.vue"),
-    },
-  ]
+  doStuff()
 
   // return routes, plugins and any other app settings
   return {
-    routes,
-    plugins: [examplePlugin()],
+    routes: [],
+    plugins: [],
   }
 }
 ```
@@ -63,35 +53,17 @@ The primary items you'll need to export here are server/endpoint `plugins`, url 
 
 ```ts
 // FILE: src/server.ts
-import { UserConfigServer } from "@factor/api" // config types helper
-import exampleServerPlugin from "example-factor-plugin/server" // import an 'app' plugin
 import { doServerStuff } from "./server-do-stuff" // other custom code
-import { dataOnRequest } from "/endpoint-stuff"
 
 export const setup = (): UserConfigServer => {
   // initialize other server code here if you'd like
-  doStuff()
-
-  // custom endpoints (discussed in endpoints doc)
-  const myEndpoint = {
-    route: `/my-endpoint`,
-    handler: async (req: express.Request) => {
-      const data = await dataOnRequest(req)
-      return { status: "success", data }
-    },
-  }
-
-  // custom sitemaps (discussed in sitemaps doc)
-  const mySitemap = {
-    topic: "customSitemap",
-    paths: ["/something/foo", "/something/bar"],
-  }
+  doServerStuff()
 
   // return routes, plugins and any other app settings
   return {
-    endpoints: [myEndpoint],
-    sitemaps: [mySitemap],
-    plugins: [exampleServerPlugin()],
+    endpoints: [],
+    sitemaps: [],
+    plugins: [],
   }
 }
 ```
@@ -109,8 +81,7 @@ Factor will auto load a `.env` file in the root of your application.
 ```bash
 # .env
 POSTGRES_URL="http://user:password@my-db-hosting-url.com:5432/db"
-POSTGRES_PASSWORD="not-a-real-password"
 FACTOR_TOKEN_SECRET="example"
 ```
 
-These will be parsed and made available as process vars: `process.env.POSTGRES_URL`
+These will be parsed and made available as process vars.
