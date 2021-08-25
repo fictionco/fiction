@@ -3,19 +3,42 @@
     <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-36">
         <div
-          class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-12 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-16"
+          class="
+            mx-auto
+            max-w-md
+            px-4
+            sm:max-w-3xl sm:px-6
+            lg:px-12 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-16
+          "
         >
           <div>
             <div class="">
               <div>
                 <a href="#" class="inline-flex space-x-4">
                   <span
-                    class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-600 tracking-wide uppercase"
+                    class="
+                      rounded
+                      bg-primary-50
+                      px-2.5
+                      py-1
+                      text-xs
+                      font-semibold
+                      text-primary-600
+                      tracking-wide
+                      uppercase
+                    "
                   >
                     What's new
                   </span>
                   <span
-                    class="inline-flex items-center text-sm font-medium text-primary-600 space-x-1"
+                    class="
+                      inline-flex
+                      items-center
+                      text-sm
+                      font-medium
+                      text-primary-600
+                      space-x-1
+                    "
                   >
                     <span>Just shipped version 3.0.0</span>
                     <!-- Heroicon name: solid/chevron-right -->
@@ -40,8 +63,9 @@
                   The future of web development has arrived.
                 </h1>
                 <p class="mt-6 text-xl text-color-500">
-                  Introducing Factor, a next-generation JavaScript framework you
-                  can use to create blogs, landing pages, and JAMStack apps.
+                  Introducing Factor, a free next-generation JavaScript
+                  framework you can use to create blogs, landing pages, and
+                  JAMStack apps.
                 </p>
               </div>
               <div class="mt-12 sm:max-w-lg sm:w-full sm:flex space-x-6">
@@ -50,7 +74,7 @@
                   to="/install"
                   class="font-bold bg-primary-500 md:py-2.5 md:px-7 md:text-lg"
                 >
-                  Start &rarr;
+                  Start Site or App &rarr;
                 </ElemButton>
 
                 <a
@@ -58,7 +82,11 @@
                   target="_blank"
                 >
                   <ElemButton
-                    class="font-bold md:py-2.5 md:px-7 md:text-lg hover:text-primary-500"
+                    class="
+                      font-bold
+                      md:py-2.5 md:px-7 md:text-lg
+                      hover:text-primary-500
+                    "
                   >
                     <svg
                       class="h-6 mr-2"
@@ -82,7 +110,11 @@
 
         <div class="sm:mx-auto sm:max-w-3xl">
           <div
-            class="py-6 sm:relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
+            class="
+              py-6
+              sm:relative
+              lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2
+            "
           >
             <FigureSplash class="absolute inset-8 mb-16 lg:mt-6 lg:mb-0" />
           </div>

@@ -83,7 +83,14 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 export const getViteConfig = (
   options: Partial<vite.InlineConfig> = {},
 ): vite.InlineConfig => {
-  setAppGlobals()
+  const vars = setAppGlobals()
+
+  const defines = Object.fromEntries(
+    Object.entries(vars).map(([key, value]) => {
+      return [`process.env.${key}`, JSON.stringify(value)]
+    }),
+  )
+
   const root = sourceFolder()
 
   const basicConfig: vite.InlineConfig = {
@@ -118,12 +125,6 @@ export const getViteConfig = (
     },
 
     define: {
-      "process.env.FACTOR_API_ENV": JSON.stringify(
-        process.env.FACTOR_API_ENV ?? "local",
-      ),
-      "process.env.FACTOR_ENDPOINT_URL": JSON.stringify(
-        process.env.FACTOR_ENDPOINT_URL ?? "http://localhost:3210",
-      ),
       "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
       "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
         process.env.STRIPE_PUBLIC_KEY,
@@ -131,16 +132,7 @@ export const getViteConfig = (
       "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
         process.env.STRIPE_PUBLIC_KEY_TEST,
       ),
-      "process.env.FACTOR_APP_URL": JSON.stringify(process.env.FACTOR_APP_URL),
-      "process.env.FACTOR_APP_NAME": JSON.stringify(
-        process.env.FACTOR_APP_NAME,
-      ),
-      "process.env.FACTOR_APP_EMAIL": JSON.stringify(
-        process.env.FACTOR_APP_EMAIL,
-      ),
-      "process.env.FACTOR_APP_DOMAIN": JSON.stringify(
-        process.env.FACTOR_APP_DOMAIN,
-      ),
+      ...defines,
     },
 
     plugins: [

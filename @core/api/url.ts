@@ -7,10 +7,8 @@ const removeProtocol = (url: string): string => {
 }
 
 export const serverUrl = (): string => {
-  const configServerUrl = window.__factor?.endpointUrl
-
-  if (configServerUrl) {
-    return configServerUrl
+  if (process.env.FACTOR_ENDPOINT_URL) {
+    return process.env.FACTOR_ENDPOINT_URL
   } else {
     return "http://localhost:3210"
   }

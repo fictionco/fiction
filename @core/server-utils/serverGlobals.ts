@@ -2,12 +2,24 @@ import path from "path"
 import { requireIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
-import { nLog } from "./serverLogger"
+
+const defaultServerVariables = {
+  FACTOR_APP_NAME: "",
+  FACTOR_APP_EMAIL: "",
+  FACTOR_APP_URL: "",
+  FACTOR_APP_DOMAIN: "",
+  FACTOR_ENDPOINT_URL: "",
+  FACTOR_STAGE: "",
+  FACTOR_ENV: "",
+}
+
 export const packageConfig = (): Record<string, any> => {
   return require(path.join(process.cwd(), "package.json"))
 }
 
-export const getFactorConfig = (): UserConfigServer => {
+export const getFactorConfig = (
+  config: UserConfigServer = {},
+): UserConfigServer => {
   const { factor = {} } = packageConfig()
 
   const result = requireIfExists<{
@@ -15,39 +27,24 @@ export const getFactorConfig = (): UserConfigServer => {
   }>(path.join(process.cwd(), "factor.config"))
 
   const configFile = result?.default || {}
-  return deepMergeAll([factor, configFile])
+  return deepMergeAll([
+    { variables: defaultServerVariables },
+    factor,
+    configFile,
+    config,
+  ])
 }
 
-export const setAppGlobals = (): void => {
-  const conf = getFactorConfig()
+export const setAppGlobals = (
+  config: UserConfigServer = {},
+): Record<string, string> => {
+  const { variables = {} } = getFactorConfig(config)
 
-  const test: {
-    name: "appName" | "appEmail" | "appUrl" | "appDomain"
-    gl: string
-    defaultValue: string
-  }[] = [
-    { name: "appName", defaultValue: "Example", gl: "FACTOR_APP_NAME" },
-    {
-      name: "appEmail",
-      defaultValue: "email@example.com",
-      gl: "FACTOR_APP_EMAIL",
-    },
-    {
-      name: "appUrl",
-      defaultValue: "https://www.example.com",
-      gl: "FACTOR_APP_URL",
-    },
-    { name: "appDomain", defaultValue: "example.com", gl: "FACTOR_APP_DOMAIN" },
-  ]
-
-  test.forEach(({ name, defaultValue, gl }) => {
-    if (!conf[name]) {
-      nLog(
-        "error",
-        `no factor config value for "${name}" - setting to "${defaultValue}"`,
-      )
-      conf[name] = defaultValue
-    }
-    process.env[gl] = conf[name]
+  Object.entries(variables).forEach(([key, value]) => {
+    const finalValue = process.env[key] || value
+    variables[key] = finalValue
+    process.env[key] = finalValue
   })
+
+  return variables
 }

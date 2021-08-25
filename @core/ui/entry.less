@@ -55,10 +55,13 @@
   }
 
   blockquote {
-    @apply border-l-4 border-color-300 bg-color-50 mt-8 mb-8 py-3 pl-4;
+    @apply border-l-4 border-primary-500 text-primary-900  bg-primary-50 mt-8 mb-8 py-4 px-6;
     quotes: '"\\201C""\\201D""\\2018""\\2019"';
     p {
       @apply my-0;
+    }
+    code {
+      @apply bg-primary-100 text-primary-800;
     }
   }
 
@@ -94,10 +97,10 @@
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-    @apply rounded-md overflow-x-auto px-6 py-4 my-8  border border-color-200 text-sm;
+    @apply rounded-md overflow-x-auto  my-8  border border-color-200 text-sm;
 
     code {
-      @apply bg-transparent p-0 border-0;
+      @apply bg-transparent overflow-x-auto px-6 py-4 border-0 block;
       color: inherit;
 
       &:before {

@@ -1,139 +1,289 @@
-/**
- * Tailwind CSS theme for `prism.js`
- * Based on the syntax theme used in the Tailwind CSS docs, which is based on Atom's
- * `atom-dark` theme: https://github.com/atom/atom-dark-syntax
- * @author Taylor Bryant
- */
+.hl-code {
+  code .token.deleted {
+    color: #ec5975;
+  }
 
-code[class*="language-"],
-pre[class*="language-"] {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-    monospace;
-  -webkit-overflow-scrolling: touch;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-  color: #fff;
-  color: #edf2f7;
-  direction: ltr;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
+  code .token.inserted {
+    color: #3eaf7c;
+  }
 
-  tab-size: 4;
-  hyphens: none;
-}
+  div[class*="language-"] {
+    position: relative;
+    margin: 1rem -1.5rem;
+    background-color: #282c34;
+    overflow-x: auto;
+  }
 
-pre[class*="language-"] {
-  overflow: auto;
+  li > div[class*="language-"] {
+    border-radius: 6px 0 0 6px;
+    margin: 1rem -1.5rem 1rem -1.25rem;
+    line-height: initial;
+  }
 
-  border-radius: 0.5rem;
-}
+  @media (min-width: 420px) {
+    div[class*="language-"] {
+      margin: 1rem 0;
+      border-radius: 6px;
+    }
 
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-  background-color: #2d3748;
-}
+    li > div[class*="language-"] {
+      margin: 1rem 0 1rem 0rem;
+      border-radius: 6px;
+    }
+  }
 
-code.language-js .token.regex,
-pre.language-js .token.regex,
-.token.selector,
-.token.attr-name,
-.token.property,
-.token.regex,
-.token.class-name,
-.token.entity {
-  color: #ffe484;
-}
+  [class*="language-"] pre,
+  [class*="language-"] code {
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    tab-size: 4;
+    hyphens: none;
+    margin: 0;
+    border-radius: 3px;
+    padding: 1rem 1.5rem;
+    font-size: 0.85em;
+    color: #476582;
+    background-color: #282c34;
+  }
 
-code.language-diff,
-pre.language-diff {
-  color: #cbd5e0;
-}
+  [class*="language-"] pre {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 1.25rem 1.5rem;
+    background: transparent;
+    overflow-x: auto;
+  }
 
-code.language-diff .token.inserted,
-pre.language-diff .token.inserted,
-.token.url,
-.token.attr-value,
-.token.char,
-.token.string,
-.token.builtin,
-.token.inserted,
-.token.boolean,
-.token.constant {
-  color: #b5f4a5;
-}
+  [class*="language-"] code {
+    line-height: 24px;
+    font-size: 14px;
+    color: #eee;
+  }
 
-:not(pre) > code[class*="language-"] {
-  padding: 15px 20px 12px 22px;
-  //padding: 0.1em;
-  border-radius: 0.3em;
-}
+  /* Line highlighting */
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #a0aec0;
-}
+  .highlight-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1.25rem 0;
+    width: 100%;
+    line-height: 24px;
+    font-size: 14px;
+    user-select: none;
+    overflow: hidden;
+  }
 
-.namespace {
-  opacity: 0.7;
-}
+  .highlight-lines .highlighted {
+    background-color: rgba(0, 0, 0, 0.66);
+  }
 
-.token.symbol,
-.token.deleted,
-.token.tag,
-.token.number,
-code.language-js .token.boolean,
-pre.language-js .token.boolean {
-  color: #ff8383;
-}
+  /* Line numbers mode */
 
-.token.unit,
-.token.function,
-.token.punctuation,
-.token.hexcode,
-.token.operator,
-code.language-js .token.operator,
-pre.language-js .token.operator {
-  color: #93ddfd;
-}
+  div[class*="language-"].line-numbers-mode {
+    padding-left: 3.5rem;
+  }
 
-.token.atrule,
-.token.atrule > .token.property,
-.token.atrule > .token.property + .token.punctuation,
-.token.atrule
-  > .token.property
-  + .token.punctuation
-  + .token.number
-  + .token.unit,
-.token.atrule > .token.number,
-.token.atrule > .token.unit,
-code.language-js .token.punctuation,
-pre.language-js .token.punctuation,
-code.language-js .token.keyword,
-pre.language-js .token.keyword,
-code.language-bash .token.function,
-pre.language-bash .token.function {
-  color: #fff;
-}
+  .line-numbers-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 1.25rem 0;
+    width: 3.5rem;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
+    color: #888;
+  }
 
-.token.rule,
-.token.important,
-.token.variable {
-  font-weight: inherit;
-  color: #d9a9ff;
-}
+  /* Language marker */
 
-.token.bold {
-  font-weight: bold;
-}
+  div[class*="language-"]:before {
+    position: absolute;
+    top: 0.6em;
+    right: 1em;
+    z-index: 2;
+    font-size: 0.8rem;
+    color: #888;
+  }
 
-.token.italic {
-  font-style: italic;
-}
+  div[class~="language-html"]:before,
+  div[class~="language-markup"]:before {
+    content: "html";
+  }
 
-.token.entity {
-  cursor: help;
+  div[class~="language-md"]:before,
+  div[class~="language-markdown"]:before {
+    content: "md";
+  }
+
+  div[class~="language-css"]:before {
+    content: "css";
+  }
+
+  div[class~="language-sass"]:before {
+    content: "sass";
+  }
+
+  div[class~="language-scss"]:before {
+    content: "scss";
+  }
+
+  div[class~="language-less"]:before {
+    content: "less";
+  }
+
+  div[class~="language-stylus"]:before {
+    content: "styl";
+  }
+
+  div[class~="language-js"]:before,
+  div[class~="language-javascript"]:before {
+    content: "js";
+  }
+
+  div[class~="language-ts"]:before,
+  div[class~="language-typescript"]:before {
+    content: "ts";
+  }
+
+  div[class~="language-json"]:before {
+    content: "json";
+  }
+
+  div[class~="language-rb"]:before,
+  div[class~="language-ruby"]:before {
+    content: "rb";
+  }
+
+  div[class~="language-py"]:before,
+  div[class~="language-python"]:before {
+    content: "py";
+  }
+
+  div[class~="language-sh"]:before,
+  div[class~="language-bash"]:before {
+    content: "sh";
+  }
+
+  div[class~="language-php"]:before {
+    content: "php";
+  }
+
+  div[class~="language-go"]:before {
+    content: "go";
+  }
+
+  div[class~="language-rust"]:before {
+    content: "rust";
+  }
+
+  div[class~="language-java"]:before {
+    content: "java";
+  }
+
+  div[class~="language-c"]:before {
+    content: "c";
+  }
+
+  div[class~="language-yaml"]:before {
+    content: "yaml";
+  }
+
+  div[class~="language-dockerfile"]:before {
+    content: "dockerfile";
+  }
+
+  div[class~="language-vue"]:before {
+    content: "vue";
+  }
+
+  /**
+   * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML.
+   * Based on https://github.com/chriskempson/tomorrow-theme
+   *
+   * @author Rose Pritchard
+   */
+  .token.comment,
+  .token.block-comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    color: #999;
+  }
+
+  .token.punctuation {
+    color: #ccc;
+  }
+
+  .token.tag,
+  .token.attr-name,
+  .token.namespace,
+  .token.deleted {
+    color: #e2777a;
+  }
+
+  .token.function-name {
+    color: #6196cc;
+  }
+
+  .token.boolean,
+  .token.number,
+  .token.function {
+    color: #f08d49;
+  }
+
+  .token.property,
+  .token.class-name,
+  .token.constant,
+  .token.symbol {
+    color: #f8c555;
+  }
+
+  .token.selector,
+  .token.important,
+  .token.atrule,
+  .token.keyword,
+  .token.builtin {
+    color: #cc99cd;
+  }
+
+  .token.string,
+  .token.char,
+  .token.attr-value,
+  .token.regex,
+  .token.variable {
+    color: #7ec699;
+  }
+
+  .token.operator,
+  .token.entity,
+  .token.url {
+    color: #67cdcc;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.entity {
+    cursor: help;
+  }
+
+  .token.inserted {
+    color: green;
+  }
 }

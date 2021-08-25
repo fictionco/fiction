@@ -1,5 +1,5 @@
 <template>
-  <div class="hl-code" ref="code" :class="loading ? 'opacity-0' : ''">
+  <div ref="code" class="hl-code" :class="loading ? 'opacity-0' : ''">
     <slot />
   </div>
 </template>
@@ -46,21 +46,37 @@ export default {
 
 <style lang="less">
 :root {
-  --prism-foreground: #393a34;
-  --prism-background: #f8fafc;
+  --prism-foreground: #d4d4d4;
+  --prism-background: #222222;
 
-  --prism-comment: #d1dce5;
-  --prism-namespace: #444444;
-  --prism-string: #10b981;
-  --prism-punctuation: #8ba8bf;
-  --prism-literal: #ef4444;
-  --prism-keyword: #5233ff;
-  --prism-function: #d97706;
-  --prism-deleted: #ec4899;
-  --prism-class: #2b91af;
-  --prism-builtin: #ec4899;
-  --prism-property: #536573;
-  --prism-regex: #ec4899;
+  --prism-namespace: #ffffff;
+  --prism-comment: #999;
+  --prism-namespace: #e2777a;
+  --prism-string: #b8b7ff;
+  --prism-punctuation: #ccc;
+  --prism-literal: #36acaa;
+  --prism-keyword: #00e380;
+  --prism-function: #6196cc;
+  --prism-deleted: #d3000e;
+  --prism-class: #4ec9b0;
+  --prism-builtin: #d16969;
+  --prism-property: #ce9178;
+  --prism-regex: #ad502b;
 }
-@import "https://cdn.jsdelivr.net/npm/prism-theme-vars/base.css";
+:root {
+  --c-divider: var(--c-divider-light);
+
+  --c-text: var(--c-text-light-1);
+  --c-text-light: var(--c-text-light-2);
+  --c-text-lighter: var(--c-text-light-3);
+
+  --c-bg: var(--c-white);
+  --c-bg-accent: var(--c-white-dark);
+
+  --code-line-height: 24px;
+  --code-font-size: 14px;
+  --code-inline-bg-color: rgba(27, 31, 35, 0.05);
+  --code-bg-color: #282c34;
+}
+@import "./prism/theme-dark.less";
 </style>

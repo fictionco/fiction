@@ -35,31 +35,6 @@ interface RenderedHtmlParts {
   bodyAttrs: string
 }
 
-/**
- * Add client side configuration
- */
-const getInlineConfig = ({
-  url = "/",
-  mode,
-}: {
-  url?: string
-  mode: "production" | "development"
-}): string => {
-  const port = process.env.FACTOR_ENDPOINT_PORT ?? "3210"
-
-  const api = process.env.FACTOR_API_ENV ?? mode
-  const localEndpoint = `http://localhost:${port}`
-  const endpointUrl = process.env.FACTOR_ENDPOINT_URL || localEndpoint
-  const publicConfig = applyFilters("publicConfig", {
-    endpointUrl,
-    url,
-    mode,
-    api,
-  })
-
-  return `\n<script>window.__factor=${JSON.stringify(publicConfig)}</script>`
-}
-
 export const getIndexHtml = async (
   mode: "production" | "development" = "production",
   url?: string,
@@ -79,7 +54,6 @@ export const getIndexHtml = async (
   let template = rawTemplate.replace(
     "</body>",
     `<script type="module" src="${clientTemplatePath}"></script>
-    ${getInlineConfig({ mode, url })}
     </body>`,
   )
 

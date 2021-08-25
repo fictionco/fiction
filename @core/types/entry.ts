@@ -41,10 +41,7 @@ export type UserConfigServer = Partial<UserConfigServerOptions>
 export type AnyUserConfig = UserConfigApp & UserConfigServer
 
 export interface UserConfigServerOptions {
-  appName?: string
-  appEmail?: string
-  appUrl?: string
-  appDomain?: string
+  variables?: Record<string, string>
   endpoints?: EndpointConfig[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler

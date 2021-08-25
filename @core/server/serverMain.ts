@@ -15,7 +15,6 @@ import { UserConfigServer } from "@factor/types"
  * Run the Factor server
  */
 export const setup = async (): Promise<void> => {
-  setAppGlobals()
   /**
    * Require app server entry file if it exists
    */
@@ -35,6 +34,8 @@ export const setup = async (): Promise<void> => {
    * Sets config for access throughout app
    */
   const serverConfig = await setServerConfig(initialServerConfig)
+
+  setAppGlobals(serverConfig)
 
   /**
    * Load libraries
