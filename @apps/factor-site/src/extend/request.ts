@@ -1,10 +1,4 @@
-import {
-  currentRoute,
-  endpointRequest,
-  fetchPostIndex,
-  stored,
-  storeItem,
-} from "@factor/api"
+import { currentRoute, endpointRequest, stored, storeItem } from "@factor/api"
 import { EndpointParameters, EndpointResponse, PostStatus } from "@factor/types"
 
 import { endpointId, postType } from "./helpers"
@@ -35,35 +29,35 @@ export const getSingleCache = (
   return stored(`extension-${name}`)
 }
 
-/**
- * Gets the index of extensions, stores under post type
- */
-export const requestIndex = async ({
-  extensionType,
-}: {
-  extensionType: "theme" | "plugin"
-}): Promise<void> => {
-  const route = currentRoute()
-  const { params = {}, query = {} } = route ?? {}
-  const args = { ...params, ...query }
+// /**
+//  * Gets the index of extensions, stores under post type
+//  */
+// export const requestIndex = async ({
+//   extensionType,
+// }: {
+//   extensionType: "theme" | "plugin"
+// }): Promise<void> => {
+//   const route = currentRoute()
+//   const { params = {}, query = {} } = route ?? {}
+//   const args = { ...params, ...query }
 
-  const tag = params.tag ?? query.tag ?? ""
-  const category = params.category ?? query.category ?? ""
-  const page = Number.parseInt((args.page as string) ?? 1)
-  const limit = 20
+//   const tag = params.tag ?? query.tag ?? ""
+//   const category = params.category ?? query.category ?? ""
+//   const page = Number.parseInt((args.page as string) ?? 1)
+//   const limit = 20
 
-  await fetchPostIndex({
-    postType,
-    storeKey: [postType, extensionType].join(""),
-    tag,
-    category,
-    sort: "updatedAt",
-    page,
-    limit,
-    status: PostStatus.Published,
-    conditions: { extensionType, discover: { $ne: false } },
-  })
-}
+//   await fetchPostIndex({
+//     postType,
+//     storeKey: [postType, extensionType].join(""),
+//     tag,
+//     category,
+//     sort: "updatedAt",
+//     page,
+//     limit,
+//     status: PostStatus.Published,
+//     conditions: { extensionType, discover: { $ne: false } },
+//   })
+// }
 
 export const requestExtensionIndex = async ({
   type,

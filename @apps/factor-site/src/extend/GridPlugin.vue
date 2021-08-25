@@ -39,7 +39,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, stored } from "@factor/api"
+import { stored } from "@factor/api"
 import { FactorExtensionInfo } from "./types"
 
 export default {
@@ -57,7 +57,6 @@ export default {
     },
   },
   methods: {
-    setting,
     backgroundImageStyle(item: FactorExtensionInfo) {
       return { backgroundImage: `url(${this.getPrimaryScreenshot(item)})` }
     },

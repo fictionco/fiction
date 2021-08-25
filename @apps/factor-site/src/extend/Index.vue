@@ -76,7 +76,6 @@ import {
   postType,
   titleFromPackage,
 } from "./helpers"
-import { requestIndex } from "./request"
 
 export default {
   components: {
@@ -217,7 +216,7 @@ export default {
     async getPosts(this: any) {
       this.loading = true
 
-      await requestIndex({ extensionType: this.extensionType })
+      //await requestIndex({ extensionType: this.extensionType })
 
       this.loading = false
     },

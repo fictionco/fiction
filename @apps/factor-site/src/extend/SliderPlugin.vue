@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, stored } from "@factor/api"
+import { stored } from "@factor/api"
 
 import { FactorExtensionInfo } from "./types"
 
@@ -64,7 +64,6 @@ export default {
     this.runTimer()
   },
   methods: {
-    setting,
     isActive(this: any, index: number) {
       const active = this.active
       const totalActive = this.totalActive

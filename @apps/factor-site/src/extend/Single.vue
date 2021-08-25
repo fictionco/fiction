@@ -164,7 +164,6 @@
 import {
   emitEvent,
   renderMarkdown,
-  setting,
   standardDate,
   stored,
   toLabel,
@@ -275,7 +274,6 @@ export default {
     this.runTimer()
   },
   methods: {
-    setting,
     toLabel,
     standardDate,
     showLightbox(index: number) {
