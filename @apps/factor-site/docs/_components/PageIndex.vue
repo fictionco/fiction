@@ -104,7 +104,7 @@
 <script lang="ts">
 import WelcomeBanner from "./WelcomeBanner.vue"
 import { useMeta } from "@factor/api"
-import { groups } from "../map"
+import { groups, docs } from "../map"
 import { computed } from "vue"
 export default {
   components: { WelcomeBanner },
@@ -165,7 +165,7 @@ export default {
       },
     ]
 
-    const groupsToShow: string[] = []
+    const groupsToShow: string[] = ["basics", "advanced"]
 
     const groupList = computed(() => {
       return groupsToShow.map((g) => {

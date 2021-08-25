@@ -7,19 +7,11 @@ You can learn the basics for Factor in around 10 minutes. In this document, we'l
 
 ## Before You Start
 
-Before you get started, you'll need to make sure you have NodeJS version 14 or newer installed. You'll also need to be familiar with NPM and the terminal.
+Before you get started, you'll need the following:
 
-If you're new to Node app development, you may want to learn the basics first. Factor apps use a format familiar to all JavaScript/Node apps, e.g. `package.json`, `node_modules`, etc...
-
-### Vue
-
-Factor uses the latest Vue3 front end framework for all UI. While more languages may be added in the future, currently you'll need to understand Vue basics like components and routes.
-
-### TypeScript
-
-Using Factor will be easiest if you're familiar with latest JavaScript standards such as [ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) and [TypeScript](https://www.typescriptlang.org/).
-
-> In general, it is best to write as much code as possible using types (TypeScript) as it drastically reduces errors and issues at runtime.
+- NodeJS version 14 or newer installed.
+- Familiarity with NPM, terminal, basic NodeJS apps (`package.json`, `node_modules`)
+- A working knowledge of latest TypeScript/JavaScript and basic VueJS
 
 ## Hello World
 
@@ -44,11 +36,16 @@ npm install @factor/cli
 In a Factor project, there are the following "entry files",
 
 - `index.ts` - Application entry file
-- `server.ts` - Endpoint server entry file
 - `App.vue` - UI Entry file
 - `index.html` - HTML scaffold file (all pages)
 
-The entry files must exist in the same folder. Copy these files from the [Hello World example](https://github.com/FactorJS/factor-hello-world) into a folder called `src` and let `package.json` know how to find them by adding `main: src/index.ts`.
+If you plan on running an endpoint server:
+
+- `server.ts` - Endpoint server entry file (optional)
+
+The entry files must exist in the same folder.
+
+Copy these files from the [Hello World example](https://github.com/FactorJS/factor-hello-world) into a folder called `src` and let `package.json` know how to find them by adding `main: src/index.ts`.
 
 ```json
 {
@@ -70,16 +67,17 @@ Documentation for Vite/Tailwind is on their website. As for Factor, you can read
 Once set up your project structure should look like this:
 
 ```bash
-📦root
+📂root
+ ┣ 📂node_modules
  ┣ 📂src
- ┃ ┣ 📜App.vue
- ┃ ┣ 📜index.html
- ┃ ┣ 📜index.ts
- ┃ ┣ 📜server.ts
- ┣ 📜factor.config.ts
- ┣ 📜tailwind.config.js
- ┣ 📜vite.config.ts
- ┣ 📜package.json
+ ┃ ┣ 📄App.vue
+ ┃ ┣ 📄index.html
+ ┃ ┣ 📄index.ts
+ ┃ ┣ 📄server.ts
+ ┣ 📄factor.config.ts
+ ┣ 📄tailwind.config.js
+ ┣ 📄vite.config.ts
+ ┣ 📄package.json
 ```
 
 > You may also want to add standard files such as `.gitignore` and `.eslintrc`, etc.. Reference example projects for additional help getting those set up.

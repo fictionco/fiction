@@ -12,7 +12,7 @@ declare global {
     Prism: any
   }
 }
-import { onEvent } from "@factor/api"
+import { onResetUi } from "@factor/api"
 import { onMounted, PropType, ref } from "vue"
 export default {
   props: {
@@ -31,7 +31,7 @@ export default {
       prism.highlightAllUnder(code.value)
     }
 
-    onEvent("highlightSyntax", () => tryHighlight())
+    onResetUi(() => tryHighlight())
 
     onMounted(() => {
       setTimeout(() => {

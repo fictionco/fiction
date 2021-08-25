@@ -16,16 +16,7 @@
       <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
         <div v-for="(benefit, i) in benefits" :key="i">
           <div
-            class="
-              flex
-              items-center
-              justify-center
-              h-12
-              w-12
-              rounded-md
-              shadow-lg
-              overflow-hidden
-            "
+            class="h-12 w-12 rounded-md shadow-lg overflow-hidden"
             v-html="benefit.icon"
           ></div>
           <div class="mt-5">

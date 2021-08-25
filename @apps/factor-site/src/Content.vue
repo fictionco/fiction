@@ -20,12 +20,13 @@ export default {
   setup() {
     useMeta({
       title: computed(() => {
-        return `Factor Framework by Darwin`
+        return `FactorJS by Darwin - JavaScript Website Framework`
       }),
       meta: [
         {
           name: `description`,
-          content: "Next generation full-stack JavaScript Framework",
+          content:
+            "A next-generation framework for building websites, blogs, and apps with JavaScript",
         },
       ],
     })
