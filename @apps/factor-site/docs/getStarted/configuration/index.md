@@ -72,7 +72,9 @@ export const setup = (): UserConfigServer => {
 
 For many secure transactions, like working with a database, you'll need to use private environmental variables. These are where you'll store sensitive data like private keys and passwords.
 
-Most services, like Heroku or Netlify, have a standardized way of adding environmental variables in production. In other environments, e.g. development, you'll need to set these up using `.env` files based on the [Dotenv standard](https://github.com/motdotla/dotenv#readme).
+Most services, like Heroku or Netlify, have a standardized way of adding environmental variables in production.
+
+In other environments, e.g. development, you'll need to set these up using `.env` files based on the [Dotenv standard](https://github.com/motdotla/dotenv#readme).
 
 > **Note:** You should never commit `.env` files to source control (git). They are meant to be set up manually for each environment you work with.
 

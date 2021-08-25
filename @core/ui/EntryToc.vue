@@ -14,7 +14,7 @@
   >
     <div ref="nav" class="mb-8">
       <div
-        v-if="headers != ''"
+        v-if="headers.length > 0"
         class="
           uppercase
           tracking-wide
@@ -62,7 +62,7 @@
   </div>
 </template>
 <script lang="ts">
-import { setting, throttle, toLabel } from "@factor/api"
+import { throttle, toLabel } from "@factor/api"
 import { useRoute } from "vue-router"
 import { onBeforeUnmount, onMounted, watch, ref } from "vue"
 
@@ -252,7 +252,7 @@ export default {
       }
     })
 
-    return { toLabel, setting, setClick, isActive, headers }
+    return { toLabel, setClick, isActive, headers }
   },
 }
 </script>
