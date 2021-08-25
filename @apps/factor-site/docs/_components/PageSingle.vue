@@ -29,7 +29,7 @@
         </div>
       </HighlightCode>
     </div>
-    <div class="hidden xl:text-sm xl:block flex-none w-64 pl-8 mr-8">
+    <div class="hidden xl:text-sm xl:block flex-none w-64 pl-8 mr-8 pt-14">
       <EntryToc selector=".toc-content" />
     </div>
   </div>

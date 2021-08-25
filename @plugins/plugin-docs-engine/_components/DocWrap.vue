@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-full max-w-screen-2xl mx-auto">
+    <div class="w-full max-w-screen mx-auto">
       <div class="lg:flex my-8">
         <!-- <DocSearch class="lg:hidden" /> -->
         <div

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-full max-w-screen-2xl mx-auto">
+    <div class="w-full max-w-screen-xl mx-auto">
       <div class="lg:flex">
         <!-- <DocSearch class="lg:hidden" /> -->
         <div
@@ -159,9 +159,10 @@
                 pb-10
                 lg:pt-10 lg:pb-14
                 sticky
+                text-center
               "
             >
-              <ul>
+              <ul class="inline-block">
                 <template v-for="(group, i) in groups" :key="i">
                   <li v-if="group.title" class="mt-4">
                     <router-link
