@@ -1,6 +1,6 @@
 <template>
   <figure ref="wrapper" class="figure-splash-container relative">
-    <div class="figure-wrap" @click="nextSlide()">
+    <div class="figure-wrap m-auto mt-8 mb-4 md:mb-0" @click="nextSlide()">
       <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
         <div class="stage-icons-wrap">
           <div class="stage-icons">
@@ -80,11 +80,23 @@
       </div>
     </div>
 
-    <div class="flex justify-center space-x-3">
+    <div
+      class="flex flex-col md:flex-row justify-center items-center md:space-x-3"
+    >
       <div
         v-for="(fig, i) in figures"
         :key="i"
-        class="font-semibold text-xs border px-4 py-1 rounded-md hover:border-primary-500 hover:text-primary-500 cursor-pointer"
+        class="
+          mb-2
+          font-semibold
+          text-xs
+          border
+          px-4
+          py-1
+          rounded-md
+          hover:border-primary-500 hover:text-primary-500
+          cursor-pointer
+        "
         :class="
           activeSlide.id == fig.id
             ? 'border-primary-500 text-primary-500'
@@ -164,7 +176,6 @@ export default {
 <style lang="less">
 figure.figure-splash-container {
   .figure-wrap {
-    margin: 0 auto;
     width: 700px;
     height: 500px;
     transform-origin: left center;
@@ -173,7 +184,6 @@ figure.figure-splash-container {
       height: 400px;
     }
     @media (max-width: 900px) {
-      margin: 4rem auto 2rem;
       width: 450px;
       height: 300px;
     }
@@ -333,7 +343,7 @@ figure.figure-splash-container {
     .icon-6 {
       top: 0;
       left: 66%;
-      transform: scale(1.6) translateY(-61%) rotateY(-61deg) rotate(-15deg);
+      transform: scale(1.6) translateY(-41%) rotateY(-61deg) rotate(-15deg);
       animation: iconTransform 0.3s 0.4s forwards;
     }
   }

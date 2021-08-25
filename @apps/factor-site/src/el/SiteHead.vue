@@ -31,7 +31,7 @@
         >
       </div>
     </div>
-    <div class="relative bg-white">
+    <div class="relative">
       <div
         class="
           flex
