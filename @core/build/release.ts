@@ -140,7 +140,7 @@ const publishPackage = async (
     )
 
     nLog("success", `successfully published ${moduleName}@${version}`)
-  } catch (error) {
+  } catch (error: any) {
     if (/previously published/.test(error.stderr)) {
       nLog("error", `skipping already published: ${moduleName}`)
     } else {

@@ -1,7 +1,5 @@
-import { addRoute } from "@factor/api"
-import { RouteRecordRaw } from "vue-router"
 import { FactorPluginConfigApp } from "@factor/types"
-import { createSettings, docSetting } from "./helpers"
+import { createSettings } from "./helpers"
 import { DocsOptions } from "./types"
 export const postType = "docsItem"
 export * from "./helpers"

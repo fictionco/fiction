@@ -298,7 +298,7 @@ export const execute = (): void => {
 
   try {
     commander.parse(process.argv)
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error)
   }
 }

@@ -20,7 +20,7 @@ export const buildFixture = (moduleName: string): void => {
         cwd,
         stdio: "inherit",
       })
-    } catch (error_) {
+    } catch (error_: any) {
       error = error_
     }
 

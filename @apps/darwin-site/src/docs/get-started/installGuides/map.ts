@@ -1,5 +1,5 @@
 import { MarkdownFile } from "@factor/types"
-import { DocsMap, mapTypeHelper } from "@factor/plugin-docs-engine"
+import { mapTypeHelper } from "@factor/plugin-docs-engine"
 
 export const map = mapTypeHelper({
   googleTagManagerInstallation: {

@@ -1,5 +1,4 @@
 import { addFilter, applyFilters } from "./hook"
-import { setting } from "./settings"
 
 /**
  * Sets the language locale
@@ -17,6 +16,6 @@ export const setLocale = (localeCode: string): void => {
  * Gets the language locale, defaults to english (en)
  */
 export const getLocale = (): string => {
-  const locale = setting("locale") ?? "en"
+  const locale = "en"
   return applyFilters("locale", locale)
 }

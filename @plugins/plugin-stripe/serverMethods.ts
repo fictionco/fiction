@@ -196,7 +196,7 @@ export const manageSubscription: PaymentsEndpointMethodWithBearer<"manageSubscri
         })
         message = "subscription deleted"
       }
-    } catch (error) {
+    } catch (error: any) {
       throw _stop({ message: error.message })
     }
 
@@ -264,7 +264,7 @@ export const getCoupon: PaymentsEndpointMethodWithBearer<"getCoupon"> = async (
   try {
     const data = await stripe.coupons.retrieve(couponCode)
     return { status: "success", data }
-  } catch (error) {
+  } catch (error: any) {
     return { status: "error", message: error.message }
   }
 }

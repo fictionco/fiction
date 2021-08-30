@@ -5,7 +5,6 @@ import {
   sourceFolder,
 } from "@factor/server"
 import { currentUrl } from "@factor/api"
-import { applyFilters } from "@factor/api/hook"
 import { FactorAppEntry, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
 import { renderHeadToString } from "@vueuse/head"

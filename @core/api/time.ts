@@ -21,7 +21,7 @@ export const isUnixTimestamp = (value: DateTypes): boolean => {
 /**
  * Get the time manipulation library w locale
  */
-export const timeUtil = (time?: DateTypes): Dayjs => {
+export const timeUtil = (time?: dayjs.ConfigType): Dayjs => {
   if (time && isUnixTimestamp(time)) {
     time = Number.parseFloat(time.toString())
     return dayjs.unix(time)

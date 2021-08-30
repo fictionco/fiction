@@ -29,7 +29,7 @@ const setupApp = async (): Promise<UserConfigApp> => {
   if (userConfig.plugins) {
     try {
       await setupPlugins(userConfig)
-    } catch (error) {
+    } catch (error: any) {
       dLog("error", error.message, error)
     }
   }

@@ -18,6 +18,15 @@ declare global {
   }
 }
 
+declare global {
+  namespace globalThis {
+    export const page: Page
+  }
+  interface globalThis {
+    page: Page
+  }
+}
+
 let server: ViteDevServer | http.Server
 let tempDir: string
 let __err: Error
@@ -58,11 +67,6 @@ const startStaticServer = (): Promise<string> => {
 }
 
 beforeAll(async () => {
-  // global playwright chrome page added in testEnv.ts
-  const page = global.page
-  if (!page) {
-    return
-  }
   try {
     page.on("console", onConsole)
 
@@ -120,17 +124,16 @@ beforeAll(async () => {
         process.env.VITE_INLINE = "inline-serve"
         server = await (await createServer(options)).listen()
         // use resolved port/base from server
-        const url =
-          (global.factorTestUrl = `http://localhost:${server.config.server.port}`)
+        const url = `http://localhost:${server.config.server.port}`
         await page.goto(url)
       } else {
         process.env.VITE_INLINE = "inline-build"
         await build(options)
-        const url = (global.factorTestUrl = await startStaticServer())
+        const url = await startStaticServer()
         await page.goto(url)
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     // jest doesn't exit if our setup has error here
     // https://github.com/facebook/jest/issues/2713
     __err = error
@@ -138,7 +141,6 @@ beforeAll(async () => {
 }, 30_000)
 
 afterAll(async () => {
-  global.page && global.page.off("console", onConsole)
   if (server) {
     await server.close()
   }

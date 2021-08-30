@@ -22,7 +22,7 @@ export const requireIfExists = <T = unknown>(mod: string): T | undefined => {
   let result: T | undefined = undefined
   try {
     result = require(mod)
-  } catch (error) {
+  } catch (error: any) {
     const e: NodeJS.ErrnoException = error
     if (e.code != "MODULE_NOT_FOUND") {
       throw error
@@ -44,7 +44,7 @@ export const resolveIfExists = (mod: string): string | undefined => {
   let result: string | undefined = undefined
   try {
     result = require.resolve(mod)
-  } catch (error) {
+  } catch (error: any) {
     const e: NodeJS.ErrnoException = error
     if (e.code != "MODULE_NOT_FOUND") {
       throw error

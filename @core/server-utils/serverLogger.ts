@@ -31,7 +31,7 @@ const __startLogging = +Date.now()
 export const nLog = (
   prefix: keyof typeof logCategory | [keyof typeof logCategory, string],
   description: string,
-  data?: Record<string, any>,
+  data?: Record<string, any> | unknown,
 ): void => {
   const category: keyof typeof logCategory =
     typeof prefix == "string" ? prefix : prefix[0]
@@ -62,13 +62,11 @@ export const nLog = (
     data = undefined
   }
 
-  data && typeof data !== "object" ? points.push(data) : ``
-
   description = points.join(chalk.dim(` → `))
   console.log(description)
   if (data instanceof Error) {
     consola.error(data)
-  } else if (typeof data == "object" && Object.keys(data).length > 0) {
+  } else if (typeof data == "object" && data && Object.keys(data).length > 0) {
     console.log(prettyJson(data as Record<string, any>))
   }
 

@@ -34,7 +34,7 @@ export const endpointRequest = async <T = unknown>(
   try {
     const response = await axios.request(options)
     data = response.data
-  } catch (error) {
+  } catch (error: any) {
     dLog("error", "server request error", error)
     data = { status: "error", message: "server request error", data: error }
   }

@@ -1,7 +1,7 @@
-import { currentRoute, endpointRequest, stored, storeItem } from "@factor/api"
-import { EndpointParameters, EndpointResponse, PostStatus } from "@factor/types"
+import { endpointRequest, stored, storeItem } from "@factor/api"
+import { EndpointParameters, EndpointResponse } from "@factor/types"
 
-import { endpointId, postType } from "./helpers"
+import { endpointId } from "./helpers"
 import { FactorExtensionInfo } from "./types"
 
 export const sendRequest = async <T>(

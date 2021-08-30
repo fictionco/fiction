@@ -50,7 +50,7 @@ export const expressApp = async (
         })
 
         res.status(200).set({ "Content-Type": "text/html" }).end(html)
-      } catch (error) {
+      } catch (error: any) {
         viteServer && viteServer.ssrFixStacktrace(error)
         nLog("error", "ssr error", error)
         res.status(500).end(error.stack)

@@ -8,7 +8,7 @@ export const setServerConfig = async (
   if (config.plugins) {
     try {
       config = await setupPlugins(config)
-    } catch (error) {
+    } catch (error: any) {
       nLog("error", error.message, error)
     }
   }

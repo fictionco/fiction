@@ -129,7 +129,7 @@ export const initializeEndpoint = async (): Promise<void> => {
             r.user = (await getPrivateUser({ userId: r.userId })).data
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         const { query, params, bearer } = request
         nLog("error", `(billing) endpoint error: ${_method}`, error)
         nLog("error", `(billing) endpoint params: ${_method}`, {

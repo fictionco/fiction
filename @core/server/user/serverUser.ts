@@ -562,7 +562,7 @@ export const userEndpoint = {
         }
         r = await EPMap[_method](args as any)
       }
-    } catch (error) {
+    } catch (error: any) {
       const { query, params, bearer } = request
       nLog("error", `userEP err: ${_method}`, error)
       nLog("error", `userEP arg: ${_method}`, { query, params, bearer })

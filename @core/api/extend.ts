@@ -1,9 +1,4 @@
-import {
-  DataProcessor,
-  AnyUserConfig,
-  UserConfigApp,
-  UserConfigServer,
-} from "@factor/types"
+import { DataProcessor, UserConfigApp, UserConfigServer } from "@factor/types"
 import { deepMergeAll } from "./utils"
 import { omit } from "@factor/api"
 export type AppPlugin = {
@@ -46,7 +41,7 @@ export const setupPlugins = async (
 
           if (r) config.push(r)
         }
-      } catch (error) {
+      } catch (error: any) {
         error.message = `plugin setup error (${
           pluginConfig.name ?? "unknown"
         }): ${error.message}`

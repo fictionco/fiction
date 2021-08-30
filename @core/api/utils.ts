@@ -3,7 +3,6 @@ import stableStringify from "fast-json-stable-stringify"
 import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
 import stopwordsLib from "./resource/stopwords"
-import { App as VueApp } from "vue"
 import { ListItem, PriorityItem } from "@factor/types"
 
 /**

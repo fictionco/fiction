@@ -1,5 +1,5 @@
-import { FactorPluginConfig } from "@factor/types"
+import { FactorPluginConfigApp } from "@factor/types"
 
-export default (): FactorPluginConfig => {
+export default (): FactorPluginConfigApp => {
   return { name: "NotifyPlugin" }
 }
