@@ -25,14 +25,12 @@
   </svg>
 </template>
 <script lang="ts">
-import { setting } from "@factor/api"
-
 export default {
   props: {
     size: { type: String, default: "" },
     direction: { type: String, default: "" },
   },
-  methods: { setting },
+  methods: {},
 }
 </script>
 <style lang="less">
