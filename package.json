@@ -5,7 +5,6 @@
     "deploy": "yarn release && yarn push-release",
     "push-release": "git checkout release && git rebase main && git push --no-verify && git checkout main",
     "test-fixture": "TEST_FIXTURES=1 jest",
-    "dash": "yarn factor boot --workspace @darwin_/dashboard",
     "site": "yarn factor boot --workspace @darwin_/site",
     "framework": "yarn factor boot --workspace @factor/site",
     "fiction": "yarn factor boot --workspace @fiction/site",
