@@ -15,9 +15,27 @@ declare module "*.webp" {
   const value: any
   export = value
 }
-declare module "*.jpg"
-declare module "*.webp"
-declare module "*.json"
-declare module "*.svg"
-declare module "*.css"
-declare module "*.md"
+declare module "*.jpg" {
+  const value: any
+  export = value
+}
+declare module "*.webp" {
+  const value: any
+  export = value
+}
+declare module "*.json" {
+  const value: any
+  export = value
+}
+declare module "*.svg" {
+  const value: any
+  export = value
+}
+declare module "*.css" {
+  const value: any
+  export = value
+}
+declare module "*.md" {
+  const value: any
+  export = value
+}

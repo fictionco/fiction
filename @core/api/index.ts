@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./shim.d.ts" />
 export * from "@factor/types"
 export * from "./_"
 export * from "./endpoint"

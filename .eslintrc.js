@@ -87,28 +87,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    // "vue/html-indent": "off",
     "vue/no-v-html": "off",
-    // "vue/no-unused-components": "warn",
-    //"vue/script-setup-uses-vars": "off",
-    // "vue/html-self-closing": [
-    //   "error",
-    //   {
-    //     html: {
-    //       void: "always",
-    //       normal: "always",
-    //       component: "always",
-    //     },
-    //     svg: "always",
-    //     math: "always",
-    //   },
-    // ],
-    // "vue/html-closing-bracket-spacing": "off",
-    // "vue/multiline-html-element-content-newline": "off",
-    // "vue/singleline-html-element-content-newline": "off",
-    // "vue/max-attributes-per-line": "off",
-    // "vue/html-closing-bracket-newline": "off",
-    // "vue/attributes-order": "off",
   },
   overrides: [
     {
