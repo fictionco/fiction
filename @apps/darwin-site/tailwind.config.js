@@ -26,7 +26,7 @@ const darwinDark = {
   900: "#211c36",
 }
 
-const normal = {
+const color = {
   25: "#fafafa",
   50: "#F8FAFC",
   75: "#eef0fa",
@@ -115,9 +115,9 @@ module.exports = {
       transparent: "transparent",
       primary: darwin,
       dark: darwinDark,
-      bluegray: normal,
-      normal,
-      gray: normal,
+      bluegray: color,
+      color,
+      gray: color,
     },
     aspectRatio: {
       square: [1, 1],
