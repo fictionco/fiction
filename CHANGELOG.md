@@ -1,3 +1,25 @@
+## 3.2.9 (2021-08-30)
+
+
+### Bug Fixes
+
+* add shim ([249e52a](https://github.com/FactorJS/factor/commit/249e52a024c2a1b0d7713f1d3af9fd36131325de))
+* boder ([46db157](https://github.com/FactorJS/factor/commit/46db157f1e1ba753c8e47252c4567ab6a695ebe4))
+* icons ([5d41294](https://github.com/FactorJS/factor/commit/5d41294c0eec6a057f05105e0bb54c4bc5c9c82d))
+* import ([250e22d](https://github.com/FactorJS/factor/commit/250e22db688564d27515bfbe59deb461df4535d7))
+* lint ([a2ff901](https://github.com/FactorJS/factor/commit/a2ff9019f695fe4917204cda3bd04fcb95c462e0))
+* md ([8d0d4cc](https://github.com/FactorJS/factor/commit/8d0d4cc88af98c77e81abfe8b0159c5f8e5d4956))
+* setting ([1c7f47c](https://github.com/FactorJS/factor/commit/1c7f47cc8710c741fab8440c1ac87c712291fb67))
+
+
+### Features
+
+* factor 3 (beta) ([a40cbf5](https://github.com/FactorJS/factor/commit/a40cbf5f2a683ad570e8674a9fee305da60df8f5))
+* header ([4c5893e](https://github.com/FactorJS/factor/commit/4c5893efb5c098aab61e07ee752c064b291de219))
+* readme ([e17e2cc](https://github.com/FactorJS/factor/commit/e17e2ccfae7a195c1b061afe61352ea3950e980b))
+
+
+
 ## 3.2.8 (2021-08-29)
 
 
