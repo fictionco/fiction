@@ -1,15 +1,15 @@
 {
   "name": "@factor/server-utils",
-  "version": "3.2.9",
+  "version": "3.2.10",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "private": false,
   "dependencies": {
-    "@factor/api": "3.2.9",
-    "@factor/server": "3.2.9",
-    "@factor/types": "3.2.9",
+    "@factor/api": "3.2.10",
+    "@factor/server": "3.2.10",
+    "@factor/types": "3.2.10",
     "chalk": "^4.1.1",
     "cli-highlight": "^2.1.4",
     "consola": "^2.15.0",
