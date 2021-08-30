@@ -1,15 +1,15 @@
 {
   "name": "@factor/server",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "publishConfig": {
     "access": "public"
   },
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "@factor/api": "3.2.10",
-    "@factor/server-utils": "3.2.10",
-    "@factor/types": "3.2.10",
+    "@factor/api": "3.2.11",
+    "@factor/server-utils": "3.2.11",
+    "@factor/types": "3.2.11",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.10",

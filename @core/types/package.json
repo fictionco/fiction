@@ -1,6 +1,6 @@
 {
   "name": "@factor/types",
-  "version": "3.2.10",
+  "version": "3.2.11",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "private": false,
   "dependencies": {
-    "@factor/api": "3.2.10",
+    "@factor/api": "3.2.11",
     "@types/fs-extra": "^9.0.3",
     "@types/glob": "^7.1.3",
     "@types/minimist": "^1.2.0",

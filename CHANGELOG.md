@@ -1,3 +1,12 @@
+## [3.2.11](https://github.com/FactorJS/factor/compare/v3.2.10...v3.2.11) (2021-08-30)
+
+
+### Bug Fixes
+
+* global dts ([c55433a](https://github.com/FactorJS/factor/commit/c55433abd8af24b0b7c1c37812fbbe9912b46934))
+
+
+
 ## [3.2.10](https://github.com/FactorJS/factor/compare/v3.2.9...v3.2.10) (2021-08-30)
 
 
