@@ -1,0 +1,4 @@
+Sitemap: https://www.fiction.com/sitemap.xml
+
+User-agent: *
+Disallow:

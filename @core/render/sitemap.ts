@@ -67,6 +67,10 @@ export const getSitemapPaths = async (): Promise<string[]> => {
 }
 
 export const generateSitemap = async (): Promise<void> => {
+  const sitemapBaseUrl = currentUrl()
+
+  if (!sitemapBaseUrl) throw new Error("sitemap: base URL was empty")
+
   const paths = await getSitemapPaths()
 
   const sourceData = paths.map((url) => {
@@ -90,8 +94,8 @@ export const generateSitemap = async (): Promise<void> => {
   })
 
   const stream = new SitemapStream({
-    hostname: currentUrl(),
-    xslUrl: [currentUrl(), "sitemap.xsl"].join("/"),
+    hostname: sitemapBaseUrl,
+    xslUrl: [sitemapBaseUrl, "sitemap.xsl"].join("/"),
   })
 
   // Return a promise that resolves with your XML string

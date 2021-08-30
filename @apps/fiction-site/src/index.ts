@@ -1,10 +1,16 @@
-import { addRoutes } from "@factor/api/router"
-
 import ViewHome from "./el/ViewHome.vue"
+import { UserConfigApp } from "@factor/api"
 
-addRoutes([
+const routes = [
   {
     path: "/",
     component: ViewHome,
   },
-])
+]
+
+export const setup = (): UserConfigApp => {
+  return {
+    routes,
+    plugins: [],
+  }
+}
