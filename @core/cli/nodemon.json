@@ -5,6 +5,7 @@
     "./cdk.out/*",
     "./**/*.vue",
     "./**/*.json",
+    "./**/!(*server*).js",
     "./**/!(*server*).ts"
   ],
   "ext": "js,json,ts"

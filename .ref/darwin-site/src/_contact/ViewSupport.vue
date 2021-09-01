@@ -39,7 +39,7 @@
           "
           aria-labelledby="contact-heading"
         >
-          <h2 class="sr-only" id="contact-heading">Contact us</h2>
+          <h2 id="contact-heading" class="sr-only">Contact us</h2>
           <div
             class="
               grid grid-cols-1
@@ -48,6 +48,8 @@
             "
           >
             <div
+              v-for="(channel, i) in channels"
+              :key="i"
               class="
                 flex flex-col
                 bg-white
@@ -55,8 +57,6 @@
                 shadow-xl
                 border border-bluegray-200
               "
-              v-for="(channel, i) in channels"
-              :key="i"
             >
               <div class="flex-1 relative p-6">
                 <div class="w-10 h-10 text-primary-500" v-html="channel.icon" />
@@ -91,7 +91,7 @@
           "
           aria-labelledby="faq-heading"
         >
-          <h2 class="text-3xl font-extrabold" id="faq-heading">
+          <h2 id="faq-heading" class="text-3xl font-extrabold">
             Frequently answered questions
           </h2>
           <div class="mt-6 pt-10">

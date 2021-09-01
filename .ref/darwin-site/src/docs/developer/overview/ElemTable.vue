@@ -62,16 +62,16 @@
                 </td>
                 <td class="px-6 py-4 text-xs">
                   {{ field.description }}
-                  <span class="italic text-bluegray-500" v-if="field.mandate"
+                  <span v-if="field.mandate" class="italic text-bluegray-500"
                     >({{ field.mandate }})</span
                   >
                   <div v-if="field.keys" class="flex mt-2">
                     <span class="font-semibold mr-2">Fields:</span>
                     <div class="">
                       <code
-                        class="text-xs mr-1 mb-1 text-bluegray-700"
                         v-for="(k, ii) in field.keys"
                         :key="ii"
+                        class="text-xs mr-1 mb-1 text-bluegray-700"
                         >{{ k }}</code
                       >
                     </div>

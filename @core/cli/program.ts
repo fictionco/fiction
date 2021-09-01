@@ -1,5 +1,5 @@
 import "@factor/server"
-import { emitEvent, nLog } from "@factor/server-utils"
+import { emitEvent, logger } from "@factor/server-utils"
 import { CliCommand, StageId } from "@factor/types"
 
 import { Command } from "commander"
@@ -27,9 +27,12 @@ export const coreServices = {
 export type CommandOptions<T = Record<string, any>> = {
   CMD?: CliCommand
   SERVICE?: ServiceModule
-  STAGE_ENV?: StageId
+  STAGE_ENV?: "prod" | "dev" | "pre" | "local"
   NODE_ENV?: "production" | "development"
   inspect?: boolean
+  portApp?: string
+  portServer?: string
+  port?: string
 } & T
 /**
  * Is current start a nodemon restart
@@ -41,7 +44,11 @@ export const isRestart = (): boolean => {
  * CLI is done, exit process
  */
 export const done = (code: 0 | 1): never => {
-  nLog(code == 0 ? "success" : "error", `process exited (${code})`)
+  logger({
+    level: code == 0 ? "info" : "error",
+    context: "cli",
+    description: `process exited (${code})`,
+  })
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(code)
 }
@@ -65,14 +72,19 @@ export const setEnvironment = (options: CommandOptions): void => {
   }
   dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
-  const { NODE_ENV, STAGE_ENV } = options
-  process.env.NODE_ENV = NODE_ENV || "production"
-  process.env.STAGE_ENV = STAGE_ENV || StageId.Local
+  const { NODE_ENV, STAGE_ENV, port, portApp, portServer, inspect } = options
 
-  const { inspect } = options
-  if (inspect) {
-    initializeNodeInspector()
-  }
+  process.env.NODE_ENV = NODE_ENV || "production"
+  process.env.STAGE_ENV = STAGE_ENV || "local"
+
+  // set up port handling
+  process.env.FACTOR_APP_PORT = portApp || "3000"
+  process.env.FACTOR_SERVER_PORT = portServer || "3210"
+
+  if (port) process.env.PORT = port
+
+  // run with node developer tools inspector
+  if (inspect) initializeNodeInspector()
 }
 /**
  * For commands that use Nodemon to handle restarts
@@ -82,9 +94,9 @@ const restartInitializer = (options: CommandOptions): void => {
 
   setEnvironment(options)
 
-  const { CMD = "dev", workspace = "" } = options
+  const { CMD = "rdev", workspace = "" } = options
 
-  const args = []
+  const args = [`--config ${require.resolve("./nodemon.json")}`]
 
   if (workspace) {
     args.push(`--exec yarn workspace ${workspace} factor ${CMD}`)
@@ -92,6 +104,15 @@ const restartInitializer = (options: CommandOptions): void => {
     args.push(`--exec yarn factor ${CMD}`)
   }
 
+  const passArgs = commander.args
+  passArgs.shift()
+
+  args.push(passArgs.join(" "))
+
+  /**
+   * The nodemon function takes either an object (that matches the nodemon config)
+   * or can take a string that matches the arguments that would be used on the command line
+   */
   nodemon(args.join(" "))
 
   nodemon
@@ -102,7 +123,12 @@ const restartInitializer = (options: CommandOptions): void => {
     })
     .on("restart", (files: string[]) => {
       process.env.IS_RESTART = "1"
-      nLog("event", "restarted due to:", { files })
+      logger({
+        level: "info",
+        context: "nodemon",
+        description: "restarted due to:",
+        data: { files },
+      })
     })
 }
 /**
@@ -148,12 +174,13 @@ const wrapCommand = async (settings: {
 }): Promise<void> => {
   const { cb, exit, NODE_ENV, opts = commander.opts() } = settings
   opts.NODE_ENV = NODE_ENV
+
   setEnvironment(opts)
 
   try {
     await cb(opts)
   } catch (error) {
-    nLog("error", "cli", error)
+    logger({ level: "error", description: "cli error", data: error })
     done(1)
   }
   if (exit) done(0)
@@ -165,11 +192,8 @@ const wrapCommand = async (settings: {
 export const execute = (): void => {
   commander
     .version(pkg.version)
-    .description("CLI for Darwin Backend")
-    .option(
-      "--CMD <ENV>",
-      "the CLI command to run (after initializer like nodemon)",
-    )
+    .description("Factor CLI")
+
     .option("--STAGE_ENV <STAGE_ENV>", "how should the things be built")
     .option("--ENV <ENV>", "which general environment should be used")
     .option("--inspect", "run the node inspector")
@@ -193,16 +217,35 @@ export const execute = (): void => {
 
   commander
     .command("dev")
+    .allowUnknownOption()
+    .option("-c, --CMD <ENV>", "the CLI command to run ")
+    .option(
+      "-w, --workspace <workspace>",
+      "the workspace to run dev in (use for monorepo)",
+    )
+    .action((opts) => restartInitializer({ CMD: "rdev", ...opts }))
+
+  commander
+    .command("rdev")
     .option("--force", "force full restart and optimization")
-    .action((opts) => {
-      opts.mode = "development"
-      return wrapCommand({
-        cb: (_) => runDev(_),
-        NODE_ENV: "development",
-        exit: false,
-        opts,
-      })
-    })
+    .option("-pa, --port-app <number>", "primary service port")
+    .option("-ps, --port-server  <number>", "server specific port")
+    .action(
+      (opts: {
+        portApp?: string
+        portServer?: string
+        mode: "development"
+      }) => {
+        opts.mode = "development"
+
+        return wrapCommand({
+          cb: (_) => runDev(_),
+          NODE_ENV: "development",
+          exit: false,
+          opts,
+        })
+      },
+    )
 
   commander
     .command("build")
@@ -259,11 +302,6 @@ export const execute = (): void => {
         exit: opts.serve ? false : true,
       })
     })
-
-  commander
-    .command("boot")
-    .option("--workspace <workspace>", "npm/yarn workspace to run in")
-    .action((opts) => restartInitializer(opts))
 
   commander
     .command("release")
@@ -335,6 +373,6 @@ process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
 //catches uncaught exceptions
 process.on("uncaughtException", (Error) => {
-  nLog("error", "uncaught error", Error)
+  logger({ level: "error", description: "uncaught error", data: Error })
   exitHandler({ exit: true, code: 1 })
 })

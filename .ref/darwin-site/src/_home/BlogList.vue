@@ -9,13 +9,11 @@
           Data-driven marketing for startups and technical leaders.
         </p>
       </div>
-      <PostList></PostList>
+      <PostList />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import ElemAvatar from "@factor/ui/ElemAvatar.vue"
-import dayjs from "dayjs"
 import PostList from "../blog/components/PostList.vue"
 import { ref } from "vue"
 import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"

@@ -1,6 +1,6 @@
 import { UserConfigServer } from "@factor/types"
 import { dotSetting, setupPlugins } from "@factor/api"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 let __serverConfig: UserConfigServer
 export const setServerConfig = async (
   config: UserConfigServer,
@@ -9,7 +9,12 @@ export const setServerConfig = async (
     try {
       config = await setupPlugins(config)
     } catch (error: any) {
-      nLog("error", error.message, error)
+      logger({
+        level: "error",
+        description: error.message,
+        context: "server",
+        data: error,
+      })
     }
   }
 

@@ -1,4 +1,4 @@
-import { logCategory } from "./basics"
+import { logCategory, logLevel } from "./basics"
 
 export type DataProcessor<
   T = unknown,
@@ -11,7 +11,8 @@ export type DataProcessor<
 export type LogHandler = (args: {
   priority: number
   color: string
-  category: keyof typeof logCategory
+  category?: keyof typeof logCategory
+  level?: keyof typeof logLevel
   data: unknown
   description: string
 }) => void | Promise<void>

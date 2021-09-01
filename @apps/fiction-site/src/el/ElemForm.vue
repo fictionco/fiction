@@ -8,8 +8,8 @@
     @submit.prevent="handleSubmitForm()"
   >
     <div
-      id="signedUp"
       v-if="sent"
+      id="signedUp"
       class="
         p-3
         text-white

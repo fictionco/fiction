@@ -25,6 +25,7 @@
     "dayjs": "^1.10.6",
     "deepmerge": "^4.2.2",
     "express": "^4.17.1",
+    "extract-domain": "^2.3.4",
     "fs-extra": "^10.0.0",
     "glob": "^7.1.6",
     "html-minifier": "^4.0.0",

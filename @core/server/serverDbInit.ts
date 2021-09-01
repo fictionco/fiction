@@ -2,7 +2,7 @@ import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop } from "@factor/api"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 export const getDbConnection = (): string | undefined => {
   const postgresUrl =
     process.env.POSTGRES_URL ?? process.env.FACTOR_DB_CONNECTION
@@ -227,7 +227,11 @@ export const initializeDb = async (): Promise<void> => {
   const connection = getDbConnection()
 
   if (!connection) {
-    nLog("warn", "No DB: connection URL is missing (POSTGRES_URL)")
+    logger({
+      level: "warn",
+      context: "db",
+      description: "No DB connection URL (POSTGRES_URL)",
+    })
     return
   }
 

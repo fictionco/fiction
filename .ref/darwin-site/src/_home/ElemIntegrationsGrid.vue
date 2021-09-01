@@ -52,8 +52,8 @@
                 sm:w-full
                 max-w-full
               "
-              v-html="integration?.logo"
               :class="integration?.class"
+              v-html="integration?.logo"
             />
           </router-link>
         </template>

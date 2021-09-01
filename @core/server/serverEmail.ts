@@ -1,5 +1,5 @@
 import { _stop, applyFilters, renderMarkdown } from "@factor/api"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
@@ -107,7 +107,12 @@ export const sendEmail = async (
     text: plainText,
   })
 
-  nLog("info", "send transactional email", theEmail)
+  logger({
+    level: "info",
+    description: "send transactional email",
+    context: "email",
+    data: theEmail,
+  })
 
   const emailServiceClient = getEmailSMTPService()
 
@@ -116,6 +121,11 @@ export const sendEmail = async (
 
     return r
   } else {
-    nLog("warn", "smtp email is not configured", theEmail)
+    logger({
+      level: "warn",
+      description: "smtp email is not configured",
+      context: "email",
+      data: theEmail,
+    })
   }
 }

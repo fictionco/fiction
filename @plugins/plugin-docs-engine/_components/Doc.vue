@@ -14,7 +14,7 @@
         min-h-screen
       "
     >
-      <div class="p-12" v-if="loading">
+      <div v-if="loading" class="p-12">
         <ElemSpinner class="text-bluegray-200 w-12 h-12 m-auto" />
       </div>
 

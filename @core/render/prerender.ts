@@ -1,4 +1,4 @@
-import { distClient, distFolder, nLog } from "@factor/server"
+import { distClient, distFolder, logger } from "@factor/server"
 
 import compression from "compression"
 import express from "express"
@@ -31,7 +31,12 @@ export const preRenderPages = async (): Promise<void> => {
       const writePath = path.join(staticDir(), filePath)
       fs.ensureDirSync(path.dirname(writePath))
       fs.writeFileSync(writePath, html)
-      nLog("info", `pre-rendered: ${filePath}`)
+
+      logger({
+        level: "info",
+        context: "build",
+        description: `pre-rendered: ${filePath}`,
+      })
       return filePath
     }
   })
@@ -51,18 +56,32 @@ export const serveStaticApp = async (): Promise<void> => {
     if (!req.path.includes(".")) {
       req.url = `${req.url.replace(/\/$/, "")}.html`
     }
-    nLog("info", `request at ${req.url}`)
+
+    logger({
+      level: "info",
+      context: "server",
+      description: `request at ${req.url}`,
+    })
     next()
   })
   app.use(serveStatic(staticDir(), { extensions: ["html"] }))
 
   app.use("*", (req, res) => {
-    nLog("info", `serving fallback at ${req.baseUrl}`)
+    logger({
+      level: "info",
+      context: "server",
+      description: `serving fallback index.html at ${req.baseUrl}`,
+    })
     res.sendFile(path.join(staticDir(), "/index.html"))
   })
-  const port = process.env.PORT || 3000
+  const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
   await app.listen(port)
-  nLog(`success`, `static@http://localhost:${port}`)
+
+  logger({
+    level: "info",
+    context: "server",
+    description: `serving static app @ PORT:${port}`,
+  })
 }
 
 export const preRender = async (

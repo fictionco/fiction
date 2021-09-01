@@ -1,4 +1,4 @@
-import { distClient, distFolder, distServer, nLog } from "@factor/server"
+import { distClient, distFolder, distServer, logger } from "@factor/server"
 
 import * as vite from "vite"
 
@@ -19,7 +19,12 @@ export const buildApp = async (
 ): Promise<void> => {
   const { prerender, mode } = options
 
-  nLog("build", "building app", options)
+  logger({
+    level: "info",
+    context: "build",
+    description: "building app",
+    data: options,
+  })
 
   /**
    * needed for build error in vuex calling it
@@ -64,13 +69,22 @@ export const buildApp = async (
 
     await generateSitemap()
 
-    nLog("success", `application built`)
+    logger({
+      level: "info",
+      context: "build",
+      description: "application built successfully",
+    })
 
     if (prerender) {
       await preRender(options)
     }
   } catch (error) {
-    nLog("error", "build error", error)
+    logger({
+      level: "error",
+      context: "build",
+      description: "error during build",
+      data: error,
+    })
   }
 
   return

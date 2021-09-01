@@ -8,7 +8,7 @@ import {
   snakeCase,
 } from "@factor/api"
 import express from "express"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { getServerConfig } from "../serverConfig"
 import {
   EndpointResponse,
@@ -383,7 +383,11 @@ export const verifyAccountEmail: UserEndpointMethod<"verifyAccountEmail"> =
       onVerified(user)
     }
 
-    nLog("important", `user verified ${email}`)
+    logger({
+      level: "info",
+      context: "user",
+      description: `user verified ${email}`,
+    })
 
     return {
       status: "success",
@@ -442,7 +446,11 @@ export const startNewUser: UserEndpointMethod<"startNewUser"> = async (
   const user = await createUser({ email, fullName })
   await sendOneTimeCode({ email: user.email })
 
-  nLog("important", `user created ${email}:${fullName}`)
+  logger({
+    level: "info",
+    context: "user",
+    description: `user started ${email}:${fullName}`,
+  })
 
   return {
     status: "success",
@@ -463,7 +471,12 @@ export const newVerificationCode: UserEndpointMethod<"newVerificationCode"> =
 
     if (!existingUser) {
       existingUser = await createUser({ email })
-      nLog("important", `user created ${email}`)
+
+      logger({
+        level: "info",
+        context: "user",
+        description: `user created ${email}`,
+      })
     }
 
     await sendOneTimeCode({ email: existingUser.email })
@@ -514,7 +527,11 @@ export const login: UserEndpointMethod<"login"> = async (args) => {
     }
   }
 
-  nLog("important", `user logged in ${email}`)
+  logger({
+    level: "info",
+    context: "user",
+    description: `user logged in ${email}`,
+  })
 
   return {
     status: "success",
@@ -564,8 +581,20 @@ export const userEndpoint = {
       }
     } catch (error: any) {
       const { query, params, bearer } = request
-      nLog("error", `userEP err: ${_method}`, error)
-      nLog("error", `userEP arg: ${_method}`, { query, params, bearer })
+
+      logger({
+        level: "error",
+        context: "user",
+        description: `user endpoint error ${_method}`,
+        data: error,
+      })
+
+      logger({
+        level: "error",
+        context: "user",
+        description: `user endpoint error args ${_method}`,
+        data: { query, params, bearer },
+      })
 
       r = {
         status: "error",

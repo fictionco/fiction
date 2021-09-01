@@ -1,7 +1,7 @@
 import express from "express"
 import * as http from "http"
 import { _stop } from "@factor/api"
-import { addEndpoint, nLog, getPrivateUser } from "@factor/server"
+import { addEndpoint, logger, getPrivateUser } from "@factor/server"
 import { EndpointResponse } from "@factor/types"
 import Stripe from "stripe"
 import { PaymentsEndpoint, EndpointMethods } from "./serverTypes"
@@ -50,11 +50,18 @@ export const initializeEndpoint = async (): Promise<void> => {
           secret,
         )
       } catch (error) {
-        nLog(["error", "billing"], `stripe error`, error)
-        nLog(
-          ["error", "billing"],
-          `stripe error: Webhook signature verification failed. Check the env file and enter the correct webhook secret`,
-        )
+        logger({
+          level: "error",
+          context: "billing",
+          description: `stripe error`,
+          data: error,
+        })
+
+        logger({
+          level: "error",
+          context: "billing",
+          description: `stripe error: Webhook signature verification failed. Check the env file and enter the correct webhook secret`,
+        })
 
         return { status: "error" }
       }
@@ -94,7 +101,12 @@ export const initializeEndpoint = async (): Promise<void> => {
          */
         if (onSubscriptionTrialWillEnd) onSubscriptionTrialWillEnd(event)
       } else {
-        nLog("error", `unexpected event type`, event.data.object)
+        logger({
+          level: "error",
+          context: "billing",
+          description: `unexpected event type`,
+          data: event.data.object,
+        })
       }
 
       return { status: "success" }
@@ -131,11 +143,22 @@ export const initializeEndpoint = async (): Promise<void> => {
         }
       } catch (error: any) {
         const { query, params, bearer } = request
-        nLog("error", `(billing) endpoint error: ${_method}`, error)
-        nLog("error", `(billing) endpoint params: ${_method}`, {
-          query,
-          params,
-          bearer,
+
+        logger({
+          level: "error",
+          context: "billing",
+          description: `billing endpoint error: ${_method}`,
+          data: error,
+        })
+        logger({
+          level: "error",
+          context: "billing",
+          description: `billing endpoint params: ${_method}`,
+          data: {
+            query,
+            params,
+            bearer,
+          },
         })
 
         r = {

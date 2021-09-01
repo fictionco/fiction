@@ -8,9 +8,9 @@
       "
     >
       <div
-        class="flex col-span-12 md:col-span-6 flex-col"
         v-for="(count, type) in activeInteractions"
         :key="type"
+        class="flex col-span-12 md:col-span-6 flex-col"
       >
         <dt
           class="

@@ -2,6 +2,8 @@
   <div class="max-w-screen-3xl m-auto my-12 mx-4 sm:-mx-16 lg:-mx-36">
     <div class="widget-translate grid grid-cols-1 gap-4 sm:grid-cols-12">
       <div
+        v-for="(w, i) in map"
+        :key="i"
         class="
           col-span-1
           sm:col-span-4
@@ -21,8 +23,6 @@
           focus-within:ring-offset-2
           focus-within:ring-indigo-500
         "
-        v-for="(w, i) in map"
-        :key="i"
       >
         <div class="flex-shrink-0" :class="w.textColor">
           <div class="h-6 w-6" v-html="w.icon" />

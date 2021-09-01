@@ -3,12 +3,14 @@ import { requireIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
 
-const defaultServerVariables = {
-  FACTOR_APP_NAME: "",
-  FACTOR_APP_EMAIL: "",
-  FACTOR_APP_URL: "",
-  FACTOR_APP_DOMAIN: "",
-  FACTOR_ENDPOINT_URL: "",
+const getDefaultServerVariables = (): Record<string, string> => {
+  return {
+    FACTOR_APP_NAME: "",
+    FACTOR_APP_EMAIL: "",
+    FACTOR_APP_URL: "",
+    FACTOR_SERVER_URL: "",
+    NODE_ENV: process.env.NODE_ENV || "",
+  }
 }
 
 export const packageConfig = (): Record<string, any> => {
@@ -26,7 +28,7 @@ export const getFactorConfig = (
 
   const configFile = result?.default || {}
   return deepMergeAll([
-    { variables: defaultServerVariables },
+    { variables: getDefaultServerVariables },
     factor,
     configFile,
     config,

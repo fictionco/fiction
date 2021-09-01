@@ -52,8 +52,8 @@
             >
               <div
                 class="w-6 h-6"
-                v-html="feature?.icon"
                 :class="feature?.class"
+                v-html="feature?.icon"
               />
               <div class="text-lg font-semibold">{{ feature?.name }}</div>
             </div>

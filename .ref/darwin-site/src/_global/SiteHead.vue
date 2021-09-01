@@ -172,9 +172,9 @@
                 >
                   <span>{{ navItem.name }}</span>
                   <span
-                    v-html="navItem.icon"
                     class="ml-1 w-4 h-4 transition-all"
                     :class="navItem.visDropdown ? 'rotate-180' : 'rotate-0'"
+                    v-html="navItem.icon"
                   />
                 </button>
 

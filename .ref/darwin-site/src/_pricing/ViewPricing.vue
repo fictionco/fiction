@@ -35,12 +35,12 @@
           "
         >
           <router-link
-            :to="item.path ?? '/'"
             v-for="(item, i) in featuresList"
             :key="i"
+            :to="item.path ?? '/'"
             class="space-y-2"
           >
-            <div class="w-6 h-6" v-html="item?.icon" :class="item?.class" />
+            <div class="w-6 h-6" :class="item?.class" v-html="item?.icon" />
             <dt class="text-base font-medium mb-2.5">
               {{ item.name }}
             </dt>
@@ -175,8 +175,8 @@
               />
               <div v-else class="inline font-extrabold text-5xl">Custom</div>
               <div
-                class="inline text-2xl"
                 v-if="volumeTier < monthlySessions.length - 1"
+                class="inline text-2xl"
               >
                 /month
               </div>

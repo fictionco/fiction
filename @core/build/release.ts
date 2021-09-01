@@ -3,7 +3,7 @@ import fs from "fs"
 import execa from "execa"
 import { prompt } from "enquirer"
 import semver, { ReleaseType } from "semver"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { version as currentVersion } from "../../package.json"
 import { isGitDirty, getPackages } from "./utils"
 
@@ -46,7 +46,11 @@ const commit = (...commandArgs: any[]): void | execa.ExecaChildProcess => {
   const [bin, args, opts] = commandArgs
   //  Output CLI commands instead of actually run them
   if (__dry) {
-    nLog("command", `(dry) ${bin} ${args.join(" ")}`)
+    logger({
+      level: "info",
+      context: "release",
+      description: `(dry) ${bin} ${args.join(" ")}`,
+    })
   } else {
     return run(bin, args, opts)
   }
@@ -68,7 +72,11 @@ const updateDeps = (
 ): Record<string, string> => {
   Object.keys(deps).forEach((dep) => {
     if (getPackages().includes(dep)) {
-      nLog("info", `${name} > ${type} > ${dep}@${version}`)
+      logger({
+        level: "info",
+        context: "release",
+        description: `${name} > ${type} > ${dep}@${version}`,
+      })
       deps[dep] = version
     }
   })
@@ -121,7 +129,11 @@ const publishPackage = async (
   // Add a special tag for the package?
   const releaseTag = null
 
-  nLog("info", `publishing ${moduleName}...`)
+  logger({
+    level: "info",
+    context: "release",
+    description: `publishing ${moduleName}...`,
+  })
   try {
     await commit(
       "yarn",
@@ -139,10 +151,18 @@ const publishPackage = async (
       },
     )
 
-    nLog("success", `successfully published ${moduleName}@${version}`)
+    logger({
+      level: "info",
+      context: "release",
+      description: `successfully published ${moduleName}@${version}`,
+    })
   } catch (error: any) {
     if (/previously published/.test(error.stderr)) {
-      nLog("error", `skipping already published: ${moduleName}`)
+      logger({
+        level: "warn",
+        context: "release",
+        description: `skipping already published: ${moduleName}`,
+      })
     } else {
       throw error
     }
@@ -161,8 +181,16 @@ export const releaseRoutine = async (
   const { dry, patch, commitChanges } = options
   __dry = dry
 
-  nLog("command", `publish new version [${dry ? "dry" : "live"}]`)
-  nLog("info", "current version", { currentVersion })
+  logger({
+    level: "info",
+    context: "release",
+    description: `publish new version [${dry ? "dry" : "live"}]`,
+  })
+  logger({
+    level: "info",
+    context: "release",
+    description: `current version: ${currentVersion}`,
+  })
 
   if (isGitDirty() && !dry && !commitChanges) {
     throw new Error("commit changes before publishing a release")
@@ -214,39 +242,74 @@ export const releaseRoutine = async (
   }
 
   // run tests before release
-  nLog("info", "running tests...")
+  logger({
+    level: "info",
+    context: "release",
+    description: "running tests...",
+  })
   //await run("yarn", ["test-lint"])
 
   // update all package versions and inter-dependencies
-  nLog("info", "updating cross dependencies...")
+
+  logger({
+    level: "info",
+    context: "release",
+    description: "updating cross dependencies...",
+  })
   updateVersions(targetVersion)
 
   // build with rollup
-  nLog("info", "building packages...")
+
+  logger({
+    level: "info",
+    context: "release",
+    description: "building packages...",
+  })
   await run("yarn", ["factor", "bundle"])
 
   // generate changelog
-  nLog("info", "generate changelog...")
+
+  logger({
+    level: "info",
+    context: "release",
+    description: "generate changelog...",
+  })
   await run(`yarn`, ["changelog"])
 
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })
   if (stdout) {
-    nLog("info", "committing changes...")
+    logger({
+      level: "info",
+      context: "release",
+      description: "committing changes...",
+    })
     await commit("git", ["add", "-A"])
     await commit("git", ["commit", "-m", `release: v${targetVersion}`])
   } else {
-    nLog("info", "no changes to commit")
+    logger({
+      level: "info",
+      context: "release",
+      description: "no changes to commit",
+    })
   }
 
   // publish to npm
-  nLog("info", "publishing packages...")
+  logger({
+    level: "info",
+    context: "release",
+    description: "publishing packages...",
+  })
   for (const moduleName of getPackages({ publicOnly: true })) {
     await publishPackage(moduleName, targetVersion)
   }
 
   // push to github
-  nLog("info", "pushing to github...")
+  logger({
+    level: "info",
+    context: "release",
+    description: "pushing to origin...",
+  })
   await commit("git", ["tag", `v${targetVersion}`])
   await commit("git", [
     "push",
@@ -257,6 +320,10 @@ export const releaseRoutine = async (
   await commit("git", ["push", "--no-verify"])
 
   if (dry) {
-    nLog(`info`, `dry run finished - run git diff to see package changes.`)
+    logger({
+      level: "info",
+      context: "release",
+      description: `dry run finished - run git diff to see package changes.`,
+    })
   }
 }

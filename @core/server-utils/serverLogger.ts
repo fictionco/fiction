@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { logCategory, LogHandler } from "@factor/types"
+import { logCategory, logLevel, LogHandler } from "@factor/types"
 import chalk from "chalk"
 import highlight from "cli-highlight"
 import consola from "consola"
@@ -22,6 +22,51 @@ export const prettyJson = (data: Record<string, any>): string => {
       keyword: chalk.dim,
     },
   })
+}
+
+interface LoggerArgs {
+  level: keyof typeof logLevel
+  context?: "build" | "server" | "billing" | "auth" | string
+  description: string
+  data?: Record<string, any> | unknown
+}
+
+export const logger = (args: LoggerArgs): void => {
+  const { level, context, description } = args
+  let { data } = args
+
+  const priority = logLevel[level].priority
+  const color = logCategory[level].color
+
+  const points: (string | number)[] = [chalk.hex(color)(level.padEnd(5))]
+
+  if (context) {
+    points.push(chalk.hex(color).dim(`(${context})`))
+  }
+
+  points.push(chalk.dim(`: `), description)
+
+  console.log(points.join(""))
+
+  if (
+    priority < 10 &&
+    process.env.NODE_ENV !== "production" &&
+    !process.env.FACTOR_DEBUG
+  ) {
+    data = undefined
+  }
+
+  if (data instanceof Error) {
+    consola.error(data)
+  } else if (typeof data == "object" && data && Object.keys(data).length > 0) {
+    console.log(prettyJson(data as Record<string, any>))
+  }
+
+  const logger = serverConfigSetting<LogHandler>("log")
+
+  if (logger) {
+    logger({ priority, color, category: level, level, description, data })
+  }
 }
 
 /**
@@ -76,5 +121,3 @@ export const nLog = (
     logger({ priority, color, category, description, data })
   }
 }
-
-export const logger = consola

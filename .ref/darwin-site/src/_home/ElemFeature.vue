@@ -18,7 +18,7 @@
         <div class="mt-10 flex justify-start">
           <slot />
         </div>
-        <div class="mt-10" v-if="quote">
+        <div v-if="quote" class="mt-10">
           <p class="text-lg text-bluegray-500 mb-4">
             &ldquo;{{ quote }}&rdquo;
           </p>

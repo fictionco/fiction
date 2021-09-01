@@ -2,8 +2,8 @@
   <ElemForm @submit="sendToRegister()">
     <div class="flex space-x-4">
       <InputDomain
-        class="w-full text-xl"
         v-model="domain"
+        class="w-full text-xl"
         autocomplete="url"
         required
       />

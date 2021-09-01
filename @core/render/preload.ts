@@ -40,31 +40,3 @@ export const renderPreloadLinks = (
   })
   return links
 }
-
-// export const prerenderStatic = async (): Promise<void> => {
-//   const manifest = require(resolve("./dist/static/ssr-manifest.json"))
-//   const template = fs.readFileSync(resolve("./dist/static/index.html"), "utf-8")
-//   const { render } = require(resolve("./dist/server/entry-server.js"))
-
-//   // determine routes to pre-render from src/pages
-//   const routesToPrerender = fs.readdirSync(resolve("src/pages")).map((file) => {
-//     const name = file.replace(/\.vue$/, "").toLowerCase()
-//     return name === "home" ? `/` : `/${name}`
-//   })
-
-//   // pre-render each route...
-//   for (const url of routesToPrerender) {
-//     const [appHtml, preloadLinks] = await render(url, manifest)
-
-//     const html = template
-//       .replace(` <!--app-head-->`, preloadLinks)
-//       .replace(`<!--app-html-->`, appHtml)
-
-//     const filePath = `dist/static${url === "/" ? "/index" : url}.html`
-//     fs.writeFileSync(resolve(filePath), html)
-//     nLog("info", `pre-rendered: ${filePath}`)
-//   }
-
-//   // done, delete ssr manifest
-//   fs.unlinkSync(resolve("dist/static/ssr-manifest.json"))
-// }

@@ -12,9 +12,8 @@ export const clientToken = (
     return
   }
   const domain =
-    process.env.NODE_ENV == "production"
-      ? process.env.FACTOR_APP_DOMAIN
-      : undefined
+    process.env.NODE_ENV == "production" ? window.location.hostname : undefined
+
   const { action = "get", token } = args
   const TOKEN_KEY = "ffUser"
   if (action === "destroy") {

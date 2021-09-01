@@ -24,8 +24,8 @@
             <div class="block">
               <div
                 class="w-6 h-6"
-                v-html="feature?.icon"
                 :class="feature?.class"
+                v-html="feature?.icon"
               />
               <router-link
                 :to="feature?.path"

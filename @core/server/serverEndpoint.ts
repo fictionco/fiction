@@ -1,5 +1,5 @@
 import { applyFilters } from "@factor/api"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { EndpointConfig, PrivateUser, UserConfigServer } from "@factor/types"
 import express from "express"
 import cors from "cors"
@@ -68,7 +68,12 @@ export const createEndpointServer = async (
       request = await setAuthorizedUser(request)
       next()
     } catch (error) {
-      nLog("error", `endpoint setup error (${authorization})`, error)
+      logger({
+        level: "error",
+        context: "endpoint",
+        description: `endpoint setup error (${authorization})`,
+        data: error,
+      })
 
       response
         .status(200)
@@ -124,12 +129,18 @@ export const createEndpointServer = async (
    * otherwise, use 3210 or a random one if that is taken
    */
 
-  const port = process.env.PORT || "3210"
-  process.env.FACTOR_ENDPOINT_PORT = port
+  const port = process.env.PORT || process.env.FACTOR_SERVER_PORT || "3210"
+  process.env.FACTOR_SERVER_PORT = port
 
   const server = await app.listen(port)
 
-  nLog("info", `endpoint server at port:${port}`)
+  const appName = process.env.FACTOR_APP_NAME || "app"
+
+  logger({
+    level: "info",
+    context: "endpoint",
+    description: `${appName} server endpoint @PORT:${port}`,
+  })
 
   return server
 }

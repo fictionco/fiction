@@ -1,7 +1,7 @@
 <template>
   <div class="my-12">
     <div class="figure-stage m-auto relative flex justify-center">
-      <div class="w-52 -ml-8 mt-4" v-for="(th, i) in thumbs" :key="i">
+      <div v-for="(th, i) in thumbs" :key="i" class="w-52 -ml-8 mt-4">
         <img
           class="shadow-xl ring-1 ring-black ring-opacity-10 rounded-md"
           :src="th.thumb"

@@ -17,8 +17,8 @@
             <div>
               <div
                 class="w-16 h-16"
-                v-html="currentFeature?.icon"
                 :class="currentFeature?.class"
+                v-html="currentFeature?.icon"
               />
             </div>
             <div class="mt-6">

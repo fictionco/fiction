@@ -7,10 +7,10 @@ const removeProtocol = (url: string): string => {
 }
 
 export const serverUrl = (): string => {
-  if (process.env.FACTOR_ENDPOINT_URL) {
-    return process.env.FACTOR_ENDPOINT_URL
+  if (process.env.FACTOR_SERVER_URL) {
+    return process.env.FACTOR_SERVER_URL
   } else {
-    return "http://localhost:3210"
+    return `http://localhost:${process.env.FACTOR_SERVER_PORT || "3210"}`
   }
 }
 

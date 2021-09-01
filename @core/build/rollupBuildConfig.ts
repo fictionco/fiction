@@ -3,7 +3,7 @@ import ts from "rollup-plugin-typescript2"
 import replace from "@rollup/plugin-replace"
 import json from "@rollup/plugin-json"
 import { Plugin, RollupOptions, OutputOptions } from "rollup"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { terser } from "rollup-plugin-terser"
 import analyzer from "rollup-plugin-analyzer"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
@@ -124,7 +124,12 @@ const createConfig = (
     treeshake: { moduleSideEffects: false },
     onwarn: (warning: any): void => {
       if (warning.code !== "CIRCULAR_DEPENDENCY") {
-        nLog("warn", `(rollup) ${warning.message}`, warning)
+        logger({
+          level: "warn",
+          context: "rollup",
+          description: `(rollup) ${warning.message}`,
+          data: warning,
+        })
       }
     },
   }

@@ -1,4 +1,4 @@
-import { getFaviconPath, nLog, resolveDist } from "@factor/server"
+import { getFaviconPath, logger, resolveDist } from "@factor/server"
 import { RenderMode, RenderOptions } from "@factor/types"
 import compression from "compression"
 import express, { Express } from "express"
@@ -52,13 +52,24 @@ export const expressApp = async (
         res.status(200).set({ "Content-Type": "text/html" }).end(html)
       } catch (error: any) {
         viteServer && viteServer.ssrFixStacktrace(error)
-        nLog("error", "ssr error", error)
+
+        logger({
+          level: "error",
+          context: "server",
+          description: "ssr error",
+          data: error,
+        })
         res.status(500).end(error.stack)
       }
     })
     return app
   } catch (error) {
-    nLog("error", "issue creating factor express app", error)
+    logger({
+      level: "error",
+      context: "server",
+      description: "issue creating factor express app",
+      data: error,
+    })
     return app
   }
 }
@@ -70,7 +81,15 @@ export const serveApp = async (
 ): Promise<void> => {
   const app = await expressApp(options)
 
-  app.listen(process.env.PORT || 3000, () =>
-    nLog("info", `app@http://localhost:3000`),
-  )
+  const port = process.env.PORT || process.env.FACTOR_APP_PORT || "3000"
+
+  const appName = process.env.FACTOR_APP_NAME || "app"
+
+  app.listen(port, () => {
+    logger({
+      level: "info",
+      context: "server",
+      description: `${appName} @ http://localhost:${port}`,
+    })
+  })
 }

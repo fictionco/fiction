@@ -1,7 +1,7 @@
 import path from "path"
 import { performance } from "perf_hooks"
 import fs from "fs-extra"
-import { nLog } from "@factor/server-utils"
+import { logger } from "@factor/server-utils"
 import { getPackages, getCommit } from "./utils"
 import * as rollup from "rollup"
 import { getConfig } from "./rollupBuildConfig"
@@ -59,19 +59,25 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
   const t1 = performance.now()
   const bundle = await rollup.rollup(rollupOptions)
 
-  nLog(
-    "build",
-    `${packageName} - ${Math.round((performance.now() - t1) / 1000)}s`,
-  )
+  logger({
+    level: "info",
+    context: "bundle",
+    description: `${packageName} - ${Math.round(
+      (performance.now() - t1) / 1000,
+    )}s`,
+  })
 
   const output = rollupOptions.output as rollup.OutputOptions
 
   await bundle.write(output)
 
-  nLog(
-    "generate",
-    `${packageName} - dist - ${path.basename(output.file as string)}`,
-  )
+  logger({
+    level: "info",
+    context: "bundle",
+    description: `${packageName} - dist - ${path.basename(
+      output.file as string,
+    )}`,
+  })
 
   // closes the bundle
   await bundle.close()
@@ -96,7 +102,11 @@ export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
       const buildOptions = getModuleBuildOptions(packageName)
 
       if (buildOptions) {
-        nLog("info", `bundle ${packageName}`)
+        logger({
+          level: "info",
+          context: "bundle",
+          description: `bundle ${packageName}`,
+        })
         await bundle({ ...options, packageName })
       }
     }
