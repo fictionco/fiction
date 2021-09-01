@@ -34,6 +34,7 @@
     "remove-markdown": "^0.3.0",
     "spark-md5": "^3.0.1",
     "tailwindcss": "^2.0.3",
+    "vite": "^2.5.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.10"
   },
