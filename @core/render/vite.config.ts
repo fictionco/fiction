@@ -1,5 +1,5 @@
 import { sourceFolder, cwd } from "@factor/server"
-import { requireIfExists, setAppGlobals } from "@factor/server-utils"
+import { requireIfExists, setAppGlobals, nLog } from "@factor/server-utils"
 import pluginVue from "@vitejs/plugin-vue"
 
 import { deepMerge, deepMergeAll, getMarkdownUtility } from "@factor/api"
@@ -90,6 +90,8 @@ export const getViteConfig = (
       return [`process.env.${key}`, JSON.stringify(value)]
     }),
   )
+
+  nLog("info", `setting variables`, defines)
 
   const root = sourceFolder()
 

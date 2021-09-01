@@ -9,8 +9,6 @@ const defaultServerVariables = {
   FACTOR_APP_URL: "",
   FACTOR_APP_DOMAIN: "",
   FACTOR_ENDPOINT_URL: "",
-  FACTOR_STAGE: "",
-  FACTOR_ENV: "",
 }
 
 export const packageConfig = (): Record<string, any> => {
