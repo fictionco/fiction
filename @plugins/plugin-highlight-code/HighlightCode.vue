@@ -1,5 +1,9 @@
 <template>
-  <div ref="code" class="hl-code" :class="loading ? 'opacity-0' : ''">
+  <div
+    ref="code"
+    class="hl-code transition-opacity"
+    :class="loading ? 'opacity-0' : ''"
+  >
     <slot />
   </div>
 </template>
@@ -26,18 +30,17 @@ export default {
     const tryHighlight = () => {
       if (!code.value) return
 
-      const prism = window.Prism
-
-      prism.highlightAllUnder(code.value)
+      setTimeout(() => {
+        const prism = window.Prism
+        prism.highlightAllUnder(code.value)
+        loading.value = false
+      }, 300)
     }
 
     onResetUi(() => tryHighlight())
 
     onMounted(() => {
-      setTimeout(() => {
-        loading.value = false
-        tryHighlight()
-      }, 300)
+      tryHighlight()
     })
     return { loading, tries, code }
   },
