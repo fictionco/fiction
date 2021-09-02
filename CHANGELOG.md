@@ -1,3 +1,15 @@
+## [3.2.13](https://github.com/FactorJS/factor/compare/v3.2.11...v3.2.13) (2021-09-02)
+
+
+### Bug Fixes
+
+* deps ([c8740c4](https://github.com/FactorJS/factor/commit/c8740c4c74da8598b6bac6f21a9bbb7077175e51))
+* fiction site ([010360f](https://github.com/FactorJS/factor/commit/010360fb3b2ce098cbb8787f52f26ebf09a70809))
+* tweaks ([251f19f](https://github.com/FactorJS/factor/commit/251f19f86813373ac2abcf6478cecd103c8d0bed))
+* vars ([931c7b3](https://github.com/FactorJS/factor/commit/931c7b3a2feb335e1ab19a10851a0232c21682bd))
+
+
+
 ## [3.2.12](https://github.com/FactorJS/factor/compare/v3.2.11...v3.2.12) (2021-09-01)
 
 
