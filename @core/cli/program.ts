@@ -268,6 +268,8 @@ export const execute = (): void => {
     .command("prerender")
     .option("--NODE_ENV <NODE_ENV>", "environment (development/production)")
     .option("-s, --serve", "serve static site after build")
+    .option("-pa, --port-app <number>", "primary service port")
+    .option("-ps, --port-server  <number>", "server specific port")
     .action((opts) => {
       return wrapCommand({
         cb: async (opts) => {
