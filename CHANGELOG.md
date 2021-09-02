@@ -1,3 +1,13 @@
+## [3.2.15](https://github.com/FactorJS/factor/compare/v3.2.14...v3.2.15) (2021-09-02)
+
+
+### Features
+
+* add gh release ([881f342](https://github.com/FactorJS/factor/commit/881f342a24a90a8bc08eab6e67661a96e66e3652))
+* add notes ([4457fca](https://github.com/FactorJS/factor/commit/4457fca8bd941d079d6a2365af285381446bc123))
+
+
+
 ## [3.2.14](https://github.com/FactorJS/factor/compare/v3.2.13...v3.2.14) (2021-09-02)
 
 
