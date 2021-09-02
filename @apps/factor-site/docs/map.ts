@@ -46,6 +46,13 @@ export const docs = mapTypeHelper({
     title: "Server Deployment",
     fileImport: (): Promise<any> => import("./content/deployServer/index.md"),
   },
+  endpoints: {
+    title: "Custom Endpoints",
+    fileImport: (): Promise<any> => import("./content/endpoints/index.md"),
+  },
+  serverConfig: {
+    fileImport: (): Promise<any> => import("./content/serverConfig/index.md"),
+  },
 })
 
 export const groups: DocGroupRecord<keyof typeof docs> = {
@@ -85,8 +92,9 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
   </svg>`,
     path: "/docs/install",
-    menu: ["quickstart"],
+    menu: ["serverConfig", "endpoints"],
   },
+
   deployment: {
     title: "Deployment",
     description: `Learn how to take Factor to production`,
@@ -95,15 +103,5 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
   </svg>`,
     path: "/docs/install",
     menu: ["preRender", "deployServer"],
-  },
-
-  advanced: {
-    title: "Advanced",
-    path: "/docs/events-goals",
-    description: `Creating extensions, and advanced use-cases`,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-  </svg>`,
-    menu: [],
   },
 }

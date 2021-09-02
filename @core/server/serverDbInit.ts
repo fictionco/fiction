@@ -3,9 +3,9 @@ import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop } from "@factor/api"
 import { logger } from "@factor/server-utils"
+
 export const getDbConnection = (): string | undefined => {
-  const postgresUrl =
-    process.env.POSTGRES_URL ?? process.env.FACTOR_DB_CONNECTION
+  const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL
 
   return postgresUrl
 }
@@ -226,15 +226,15 @@ const createTables = async (): Promise<void> => {
 export const initializeDb = async (): Promise<void> => {
   const connection = getDbConnection()
 
-  if (!connection) {
-    logger({
-      level: "warn",
-      context: "db",
-      description: "No DB connection URL (POSTGRES_URL)",
-    })
-    return
-  }
+  if (!connection) return
 
   await getDb()
+
+  logger({
+    level: "info",
+    context: "db",
+    description: "DB Connected",
+  })
+
   await createTables()
 }
