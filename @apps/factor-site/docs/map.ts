@@ -42,6 +42,10 @@ export const docs = mapTypeHelper({
     title: "Pre-Render",
     fileImport: (): Promise<any> => import("./content/preRender/index.md"),
   },
+  deployServer: {
+    title: "Server Deployment",
+    fileImport: (): Promise<any> => import("./content/deployServer/index.md"),
+  },
 })
 
 export const groups: DocGroupRecord<keyof typeof docs> = {
@@ -74,22 +78,31 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
       "publicFolder",
     ],
   },
+  server: {
+    title: "Server",
+    description: `Add advanced functionality with Factor's endpoint server`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+  </svg>`,
+    path: "/docs/install",
+    menu: ["quickstart"],
+  },
   deployment: {
     title: "Deployment",
     description: `Learn how to take Factor to production`,
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
   </svg>`,
     path: "/docs/install",
-    menu: ["preRender"],
+    menu: ["preRender", "deployServer"],
   },
 
   advanced: {
     title: "Advanced",
     path: "/docs/events-goals",
     description: `Creating extensions, and advanced use-cases`,
-    icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
   </svg>`,
     menu: [],
   },

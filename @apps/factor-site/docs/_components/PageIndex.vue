@@ -165,7 +165,12 @@ export default {
       },
     ]
 
-    const groupsToShow: string[] = ["basics", "advanced"]
+    const groupsToShow: string[] = [
+      "basics",
+      "server",
+      "deployment",
+      "advanced",
+    ]
 
     const groupList = computed(() => {
       return groupsToShow.map((g) => {
