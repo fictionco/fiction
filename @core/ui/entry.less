@@ -87,7 +87,8 @@
   }
 
   code {
-    @apply inline-block bg-primary-50  rounded-md px-1 py-1 text-sm font-mono text-primary-700;
+    @apply inline-block bg-primary-50  rounded-md px-1 py-1 font-mono text-primary-900 mx-1;
+    font-size: 0.85em;
   }
 
   a code {
@@ -97,10 +98,10 @@
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-    @apply rounded-md overflow-x-auto  my-8  border border-color-200 text-sm;
-
+    @apply rounded-md overflow-x-auto  my-8  border border-color-200;
+    font-size: 0.85em;
     code {
-      @apply bg-transparent overflow-x-auto px-6 py-4 border-0 block;
+      @apply bg-transparent overflow-x-auto px-6 py-4 border-0 block mx-0;
       color: inherit;
 
       &:before {

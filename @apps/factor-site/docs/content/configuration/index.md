@@ -5,26 +5,47 @@ description: The basic configuration information needed in a Factor app
 
 To coordinate Factor across your development and production environments it is important to set up a few configuration settings.
 
-## Factor Config File
+The following config files are supported:
 
-Your Factor app requires a `factor.config.ts` file in its root. This file just needs to export a default object with your Factor build (or server) settings.
+```bash
+/ # root
+ ┣ package.json         # standard (manifest)
+ ┣ /node_modules        # standard (dependencies)
+ ┣ /src                 # src folder if 'main' is set to `src/index.ts`
+ ┃ ┣ App.vue            # UI entry component
+ ┃ ┣ index.html         # HTML template / scaffold
+ ┃ ┣ index.ts           # application entry file
+ ┃ ┣ server.ts          # server entry file
+ ┣ factor.config.ts     # build config
+ ┣ tailwind.config.js   # tailwindCSS config
+ ┣ vite.config.ts       # vite config
+ ┣ .env                 # private secrets (not necessarily used in production)
+```
 
-The only required items for this file are your basic application variables for name, url, email, and domain. This will help Factor add functionality and ensure everything stays properly named. Setting them looks like this:
+> Note that the `src` folder is based on the location of the `index.ts` file in your `package.json` > `main` property.
+
+## Build Config File `factor.config.ts`
+
+Your Factor app requires a `factor.config.ts` file. This file just needs to export a default object with your Factor build (or server) settings.
+
+We recommend you add the basic application variables for name, url, email.
+
+This will enable server functionality like sitemaps, and transactional emails. Setting them looks like this:
 
 ```typescript
 // FILE: factor.config.ts
 export default {
   variables: {
-    FACTOR_APP_NAME: "FactorES",
-    FACTOR_APP_EMAIL: "hi@factor.so",
-    FACTOR_APP_URL: "https://www.factor.so",
+    FACTOR_APP_NAME: "FactorES", // your application name
+    FACTOR_APP_EMAIL: "hi@factor.so", // the email your application will use (SMTP)
+    FACTOR_APP_URL: "https://www.factor.so", // the production url for your application (for sitemaps, etc.)
   },
 }
 ```
 
 > Anything added to the `variables` property in `factor.config.ts` will be available across your application as an environmental variable.
 
-## Runtime Application Config
+## Application Entry `index.ts`
 
 The entry point for your application code is your `index.ts` main file. This file should export a function named `setup` which should return configuration for your application. The primary items you'll need to export here are application `plugins` and `routes`.
 
@@ -44,7 +65,7 @@ export const setup = () => {
 }
 ```
 
-## Endpoint Server Config
+## Endpoint Server Entry `server.ts`
 
 The entry point for your app's endpoint server is a `server.ts` in your source folder. As with your app entry file, this file should export a function named `setup` which should return configuration for your endpoint server.
 
@@ -67,7 +88,7 @@ export const setup = (): UserConfigServer => {
 }
 ```
 
-## Dotenv (.env) and Private Environmental Variables
+## Private Environmental Variables `.env`
 
 For many secure transactions, like working with a database, you'll need to use private environmental variables. These are where you'll store sensitive data like private keys and passwords.
 

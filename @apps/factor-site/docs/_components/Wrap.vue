@@ -164,7 +164,7 @@
             >
               <ul class="inline-block">
                 <template v-for="(group, i) in groups" :key="i">
-                  <li v-if="group.title" class="mt-4">
+                  <li v-if="group.title" class="mt-6">
                     <router-link
                       class="
                         px-3
@@ -176,11 +176,7 @@
                         hover:text-primary-500
                       "
                       :to="group.path"
-                      :class="
-                        isCurrentNav(i)
-                          ? 'text-primary-500'
-                          : 'text-bluegray-800'
-                      "
+                      :class="isCurrentNav(i) ? 'text-primary-500' : ''"
                     >
                       <div
                         v-if="group.icon"
@@ -196,14 +192,14 @@
                             flex
                             items-center
                             px-3
-                            py-2
+                            py-1
                             hover:text-primary-500
                           "
                           :to="docRoute(docId)"
                           :class="
                             isCurrentNav(docId)
                               ? 'text-primary-500'
-                              : 'text-bluegray-500'
+                              : 'text-color-600'
                           "
                         >
                           <div class="mr-3 w-4 h-4" />
