@@ -1,9 +1,5 @@
 <template>
-  <div
-    ref="code"
-    class="hl-code transition-opacity"
-    :class="loading ? 'opacity-0' : ''"
-  >
+  <div ref="code" class="hl-code">
     <slot />
   </div>
 </template>
@@ -27,21 +23,31 @@ export default {
     const loading = ref(true)
     const tries = ref(0)
 
-    const tryHighlight = () => {
+    const setOpacity = (o: string): void => {
+      if (!code.value) return
+      code.value.querySelectorAll("pre").forEach((el: HTMLElement) => {
+        el.classList.add("transition-opacity", "duration-75")
+        el.style.opacity = o
+      })
+    }
+
+    const tryHighlight = (cb?: () => void) => {
       if (!code.value) return
 
       setTimeout(() => {
         const prism = window.Prism
         prism.highlightAllUnder(code.value)
-        loading.value = false
-      }, 300)
+
+        if (cb) cb()
+      }, 500)
     }
 
     onResetUi(() => tryHighlight())
-
     onMounted(() => {
-      tryHighlight()
+      setOpacity("0")
+      tryHighlight(() => setOpacity("1"))
     })
+
     return { loading, tries, code }
   },
 }

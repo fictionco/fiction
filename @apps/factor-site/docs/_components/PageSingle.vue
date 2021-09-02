@@ -14,10 +14,6 @@
         min-h-screen
       "
     >
-      <div v-if="loading" class="p-12">
-        <ElemSpinner class="text-bluegray-200 w-12 h-12 m-auto" />
-      </div>
-
       <HighlightCode v-if="config.component" class="shadow-none">
         <div class="entry max-w-prose m-auto lg:px-6">
           <h1 class="border-b border-bluegray-200 mb-12 pb-6">
