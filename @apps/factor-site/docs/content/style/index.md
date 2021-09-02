@@ -29,6 +29,7 @@ If you are using Factor UI or UI from Factor plugins, we recommend you configure
 Here is how `tailwind.config.ts` might look:
 
 ```ts
+// tailwind.config.ts
 module.exports = {
   // ...other config...
   theme: {

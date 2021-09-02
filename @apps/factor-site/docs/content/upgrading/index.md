@@ -20,7 +20,7 @@ npm update
 
 If you have issues, something may be caching or "locked" at an inappropriate version. To fix:
 
-1. Delete `yarn.lock`
+1. Delete `yarn.lock` or `package-lock.json`
 2. Delete `node_modules` folder
 3. Run install command
 
