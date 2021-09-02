@@ -104,7 +104,7 @@
 <script lang="ts">
 import WelcomeBanner from "./WelcomeBanner.vue"
 import { useMeta } from "@factor/api"
-import { groups, docs } from "../map"
+import { groups } from "../map"
 import { computed } from "vue"
 export default {
   components: { WelcomeBanner },

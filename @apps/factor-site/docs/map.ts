@@ -13,6 +13,9 @@ export const docs = mapTypeHelper({
   configuration: {
     fileImport: (): Promise<any> => import("./content/configuration/index.md"),
   },
+  devServer: {
+    fileImport: (): Promise<any> => import("./content/devServer/index.md"),
+  },
   upgrading: {
     fileImport: (): Promise<any> => import("./content/upgrading/index.md"),
   },
@@ -53,6 +56,12 @@ export const docs = mapTypeHelper({
   serverConfig: {
     fileImport: (): Promise<any> => import("./content/serverConfig/index.md"),
   },
+  sitemaps: {
+    fileImport: (): Promise<any> => import("./content/sitemaps/index.md"),
+  },
+  usingPlugins: {
+    fileImport: (): Promise<any> => import("./content/usingPlugins/index.md"),
+  },
 })
 
 export const groups: DocGroupRecord<keyof typeof docs> = {
@@ -83,6 +92,7 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
       "metaTags",
       "store",
       "publicFolder",
+      "usingPlugins",
     ],
   },
   server: {
@@ -92,7 +102,7 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
   </svg>`,
     path: "/docs/install",
-    menu: ["serverConfig", "endpoints"],
+    menu: ["serverConfig", "endpoints", "sitemaps"],
   },
 
   deployment: {

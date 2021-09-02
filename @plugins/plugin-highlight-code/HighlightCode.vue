@@ -39,7 +39,7 @@ export default {
         prism.highlightAllUnder(code.value)
 
         if (cb) cb()
-      }, 500)
+      }, 300)
     }
 
     onResetUi(() => tryHighlight())

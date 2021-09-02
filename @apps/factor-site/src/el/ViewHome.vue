@@ -40,7 +40,7 @@
                       space-x-1
                     "
                   >
-                    <span>Just shipped version 3.0.0</span>
+                    <span>Version 3 is now publicly available</span>
                     <!-- Heroicon name: solid/chevron-right -->
                     <svg
                       class="h-5 w-5"

@@ -107,7 +107,7 @@ export const setup = (): UserConfigApp => {
 
 > You'll want to make sure you have your `App.vue` and `Home.vue` (added via routes) set up as standard Vue3 SFCs, if you'd like this to run correctly. [Hello World example](https://github.com/FactorJS/factor-hello-world)
 
-## Run Factor
+## Run Development Server
 
 With these basic files, you're all setup to run Factor. Just run the following command:
 
