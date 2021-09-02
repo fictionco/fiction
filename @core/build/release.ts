@@ -319,6 +319,8 @@ export const releaseRoutine = async (
   ])
   await commit("git", ["push", "--no-verify"])
 
+  await commit("yarn", ["gh", "release create", targetVersion])
+
   if (dry) {
     logger({
       level: "info",
