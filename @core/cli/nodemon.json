@@ -4,9 +4,8 @@
     "**/rendered/*",
     "./cdk.out/*",
     "./**/*.vue",
-    "./**/*.json",
     "./**/!(*server*).js",
-    "./**/!(*server*).ts"
+    "./**/!(*server*|*config*).ts"
   ],
-  "ext": "js,json,ts"
+  "ext": "js,ts"
 }

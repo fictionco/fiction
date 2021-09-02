@@ -12,6 +12,7 @@
     "@factor/types": "3.2.13",
     "@factor/ui": "3.2.13",
     "@vueuse/head": "^0.6.0",
+    "less": "^4.1.1",
     "tailwindcss": "^2.2.4",
     "vue": "^3.0.2",
     "vue-router": "^4.0.0",
