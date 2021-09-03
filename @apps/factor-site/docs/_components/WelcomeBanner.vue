@@ -25,8 +25,8 @@
           <div class="uppercase text-xs mb-2 font-semibold text-bluegray-400">
             Documentation
           </div>
-          <h2 class="text-xl xl:text-3xl font-bold">
-            <span class="block">Welcome to Factor Docs</span>
+          <h2 class="text-xl xl:text-5xl font-extrabold">
+            <span class="block">The Docs</span>
           </h2>
           <p class="mt-4 leading-6 text-bluegray-500 text-lg">
             Here you can learn all about how to use and leverage Factor to
@@ -49,7 +49,7 @@
             transform
             translate-x-6 translate-y-6
             rounded-md
-            object-cover object-left-top
+            object-cover object-left
             sm:translate-x-16
             lg:translate-y-20
             shadow-xl
@@ -62,20 +62,12 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
+import screenshot from "../screenshot.webp"
 import ElemButton from "@factor/ui/ElemButton.vue"
-export default {
-  name: "DocsWelcome",
-  components: {
-    ElemButton,
-  },
-  props: {
-    title: { type: String, default: "" },
-    note: { type: String, default: "" },
-  },
-  setup() {
-    const screenshot = ""
-    return { screenshot }
-  },
-}
+
+defineProps({
+  title: { type: String, default: "" },
+  note: { type: String, default: "" },
+})
 </script>
