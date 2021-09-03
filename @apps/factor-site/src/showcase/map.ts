@@ -13,21 +13,8 @@ import DarwinScreenshot2 from "./darwin/screenshot-2.webp"
 import DarwinScreenshot3 from "./darwin/screenshot-3.webp"
 import DarwinIcon from "./darwin/icon.png"
 
-export interface ShowcaseItem {
-  name: string
-  permalink: string
-  authorName: string
-  authorUrl: string
-  icon: string
-  description: string
-  screenshots: string[]
-  url: string
-  repo: string
-  tags: string[]
-  category: string
-}
-
-export const map: Partial<ShowcaseItem>[] = [
+import { ExtendItem } from "../types"
+export const map: Partial<ExtendItem>[] = [
   {
     name: "Zeno",
     permalink: "zeno",
@@ -57,7 +44,7 @@ export const map: Partial<ShowcaseItem>[] = [
       "A simple and clean portfolio website with markdown blog. Use it to create a bio along with search-optimized content.",
     screenshots: [ApScreenshot1, ApScreenshot2],
     url: "https://www.andrewpowers.co",
-    repo: "https://github.com/FactorJS/factor-app-zeno",
+    repo: "https://github.com/arpowers/andrew-powers-site",
     category: "portfolio",
     tags: ["code", "portfolio"],
   },
