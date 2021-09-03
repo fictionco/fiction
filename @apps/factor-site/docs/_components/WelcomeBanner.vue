@@ -14,9 +14,9 @@
           pt-10
           pb-12
           px-6
-          sm:pt-16 sm:px-16
+          sm:pt-16 sm:pl-16
           lg:py-16 lg:pr-0
-          xl:py-20 xl:px-20
+          xl:py-20 xl:pl-20
           flex flex-col
           justify-center
         "
@@ -33,12 +33,13 @@
             create blogs, apps and websites.
           </p>
 
-          <div class="mt-6">
-            <ElemButton btn="primary" to="/docs/quickstart"
+          <div class="mt-6 flex space-x-3">
+            <ElemButton btn="primary" size="md" to="/docs/quickstart"
               >Quickstart &rarr;</ElemButton
             >
             <ElemButton
               btn="default"
+              size="md"
               href="https://github.com/FactorJS/factor-hello-world"
               >Hello World Example
             </ElemButton>
