@@ -12,11 +12,11 @@
     </div>
 
     <div class="m-auto max-w-screen-xl mb-24">
-      <div class="theme-grid grid grid-cols-12">
+      <div class="theme-grid grid grid-cols-12 gap-4 lg:gap-8">
         <div
           v-for="(item, index) in showcase"
           :key="index"
-          class="grid-item-theme col-span-3 cursor-pointer"
+          class="grid-item-theme col-span-4 cursor-pointer"
           @click="goToPermalink(item.permalink)"
         >
           <div
@@ -104,7 +104,7 @@ const goToPermalink = (permalink?: string) => {
   if (!permalink) return
 
   const path = `/showcase/${encodeURIComponent(permalink || "")}`
-  console.log("path", path)
+
   router.push({ path })
 }
 </script>
