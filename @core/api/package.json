@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "3.2.15",
+  "version": "3.2.16",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "private": false,
   "main": "index.ts",
   "dependencies": {
-    "@factor/api": "3.2.15",
-    "@factor/server": "3.2.15",
-    "@factor/types": "3.2.15",
-    "@factor/ui": "3.2.15",
+    "@factor/api": "3.2.16",
+    "@factor/server": "3.2.16",
+    "@factor/types": "3.2.16",
+    "@factor/ui": "3.2.16",
     "@types/blueimp-load-image": "^5.14.0",
     "@types/js-cookie": "^2.2.7",
     "@types/markdown-it": "^12.0.0",

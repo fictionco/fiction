@@ -1,3 +1,19 @@
+## [3.2.16](https://github.com/FactorJS/factor/compare/v3.2.15...v3.2.16) (2021-09-03)
+
+
+### Bug Fixes
+
+* links ([6117db3](https://github.com/FactorJS/factor/commit/6117db38885a083c9fe5767be956c5e4de47f144))
+
+
+### Features
+
+* plugins page ([77ca076](https://github.com/FactorJS/factor/commit/77ca0768f70b74f44f4093369cc5f28f3d2b5f1e))
+* screen ([c098a68](https://github.com/FactorJS/factor/commit/c098a681d1671772ecdfbee6f610a98c6a7b9e5f))
+* ui tweaks ([4ed63e1](https://github.com/FactorJS/factor/commit/4ed63e141d6b7c8f5fd70d93fb4419b16caa9362))
+
+
+
 ## [3.2.15](https://github.com/FactorJS/factor/compare/v3.2.14...v3.2.15) (2021-09-02)
 
 
