@@ -34,9 +34,14 @@
           </p>
 
           <div class="mt-6">
-            <ElemButton btn="primary" to="/docs/install"
-              >Hello World Example &rarr;</ElemButton
+            <ElemButton btn="primary" to="/docs/quickstart"
+              >Quickstart &rarr;</ElemButton
             >
+            <ElemButton
+              btn="default"
+              href="https://github.com/FactorJS/factor-hello-world"
+              >Hello World Example
+            </ElemButton>
           </div>
         </div>
       </div>

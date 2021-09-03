@@ -69,7 +69,7 @@
                 </p>
               </div>
               <div class="mt-12 sm:max-w-lg w-full flex space-x-6 items-center">
-                <ElemButton btn="primary" to="/install">
+                <ElemButton btn="primary" to="/docs">
                   Start Site or App &rarr;
                 </ElemButton>
 

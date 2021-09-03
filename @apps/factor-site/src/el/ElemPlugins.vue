@@ -19,15 +19,16 @@
     </div>
 
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-      <router-link
+      <a
         v-for="(item, i) in plugins"
         :key="i"
         class="group flex py-4 pr-4 rounded-lg transition-all hover:shadow-xl"
-        :to="`/plugin/${item.path}`"
+        :href="item.url"
+        target="_blank"
       >
         <img
           :src="item.icon"
-          :alt="item.title"
+          :alt="item.name"
           class="
             w-24
             h-24
@@ -45,38 +46,18 @@
           "
         />
         <div class="min-w-0">
-          <h1 class="text-3xl mb-2 font-bold">{{ item.title }}</h1>
+          <h1 class="text-3xl mb-2 font-bold">{{ item.name }}</h1>
           <p class="line-clamp-2 text-color-500 text-xl">
-            {{ item.content }}
+            {{ item.description }}
           </p>
         </div>
-      </router-link>
+      </a>
     </div>
   </section>
 </template>
 
-<script lang="ts">
-import { ref } from "vue"
+<script lang="ts" setup>
 import ElemButton from "@factor/ui/ElemButton.vue"
 
-import IconBlog from "../img/icon-plugin-blog.svg"
-
-export default {
-  components: {
-    ElemButton,
-  },
-  setup() {
-    const plugins = ref([
-      {
-        path: "standard-blog",
-        icon: IconBlog,
-        title: "Standard Blog",
-        content:
-          "A standard blog plugin that can be easily customized to meet any blogging need in your Factor app.",
-      },
-    ])
-
-    return { plugins }
-  },
-}
+import { map as plugins } from "../plugins/map"
 </script>
