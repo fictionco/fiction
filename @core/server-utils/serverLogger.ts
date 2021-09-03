@@ -20,6 +20,8 @@ export const prettyJson = (data: Record<string, any>): string => {
       class: chalk.dim,
       literal: chalk.dim,
       keyword: chalk.dim,
+      regexp: chalk.hex("#00ABFF"),
+      deletion: chalk.hex("#00ABFF"),
     },
   })
 }
@@ -29,10 +31,14 @@ interface LoggerArgs {
   context?: "build" | "server" | "billing" | "auth" | string
   description: string
   data?: Record<string, any> | unknown
+  disableOnRestart?: boolean
 }
 
 export const logger = (args: LoggerArgs): void => {
-  const { level, context, description } = args
+  const { level, context, description, disableOnRestart } = args
+
+  if (disableOnRestart && process.env.IS_RESTART) return
+
   let { data } = args
 
   const priority = logLevel[level].priority
@@ -56,10 +62,12 @@ export const logger = (args: LoggerArgs): void => {
     data = undefined
   }
 
+  // test
+
   if (data instanceof Error) {
     consola.error(data)
   } else if (typeof data == "object" && data && Object.keys(data).length > 0) {
-    console.log(prettyJson(data as Record<string, any>))
+    console.log(prettyOutput(data as Record<string, any>, {}, 2))
   }
 
   const logger = serverConfigSetting<LogHandler>("log")

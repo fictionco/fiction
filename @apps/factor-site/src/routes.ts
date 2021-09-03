@@ -6,7 +6,11 @@ export const routes = [
   },
   {
     path: "/showcase",
-    component: (): Promise<any> => import("./el/ViewHome.vue"),
+    component: (): Promise<any> => import("./showcase/PageIndex.vue"),
+  },
+  {
+    path: "/showcase/:slug",
+    component: (): Promise<any> => import("./showcase/PageSingle.vue"),
   },
   {
     path: "/install",

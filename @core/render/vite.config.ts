@@ -2,7 +2,7 @@ import { sourceFolder, cwd } from "@factor/server"
 import { requireIfExists, setAppGlobals, logger } from "@factor/server-utils"
 import pluginVue from "@vitejs/plugin-vue"
 
-import { deepMerge, deepMergeAll, getMarkdownUtility } from "@factor/api"
+import { deepMergeAll, getMarkdownUtility } from "@factor/api"
 import fs from "fs"
 import path from "path"
 import * as vite from "vite"
@@ -19,7 +19,7 @@ const tailwindConfig = (): Record<string, any> | undefined => {
 
   if (userTailwindConfig) c.push(userTailwindConfig)
 
-  const config = deepMerge<Record<string, any>>(c)
+  const config = deepMergeAll<Record<string, any>>(c)
 
   return config
 }
@@ -96,6 +96,7 @@ export const getViteConfig = (
     context: "build",
     description: `build variables`,
     data: defines,
+    disableOnRestart: true,
   })
 
   const root = sourceFolder()

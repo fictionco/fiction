@@ -80,7 +80,7 @@ export default {
         out = "text-white  hover:bg-white hover:bg-opacity-20 border-white"
       } else if (props.btn == "default") {
         out =
-          "border-bluegray-300 text-bluegray-800 bg-white hover:bg-bluegray-50 focus:ring-primary-500"
+          "border-color-300 text-color-800 bg-white hover:bg-color-50 focus:ring-primary-500"
       }
 
       let sizeClasses = "px-4 py-2 text-base "
@@ -91,7 +91,7 @@ export default {
       } else if (props.size == "xs") {
         sizeClasses = "px-2.5 py-1.5 text-sm lg:px-2 lg:py-1 lg:text-xs"
       } else if (props.size == "lg") {
-        sizeClasses = "px-6 py-4 text-lg"
+        sizeClasses = "px-4 py-2 text-base lg:px-6 lg:py-3 text-lg"
       }
 
       out += ` ${sizeClasses}`

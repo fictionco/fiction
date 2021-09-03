@@ -17,7 +17,6 @@
     "@factor/server-utils": "3.2.15",
     "@factor/types": "3.2.15",
     "@factor/ui": "3.2.15",
-    "@tailwindcss/typography": "^0.4.1",
     "autoprefixer": "^10.2.4",
     "axios": "^0.21.0",
     "dayjs": "^1.9.6",
@@ -34,13 +33,14 @@
     "remove-markdown": "^0.3.0",
     "spark-md5": "^3.0.1",
     "tailwindcss": "^2.0.3",
+    "tailwindcss-aspect-ratio": "^3.0.0",
     "vite": "^2.5.3",
     "vue": "^3.0.0",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.2",
-    "tailwindcss-aspect-ratio": "^3.0.0",
-    "tailwindcss-responsive-embed": "^1.0.0"
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/typography": "^0.4.1"
   }
 }

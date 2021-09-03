@@ -96,26 +96,35 @@ const restartInitializer = (options: CommandOptions): void => {
 
   const { CMD = "rdev", workspace = "" } = options
 
-  const args = [`--config ${require.resolve("./nodemon.json")}`]
+  const configPath = require.resolve("./nodemon.json")
 
-  if (workspace) {
-    args.push(`--exec yarn workspace ${workspace} factor ${CMD}`)
-  } else {
-    args.push(`--exec yarn factor ${CMD}`)
-  }
+  const conf = require("./nodemon.json")
+
+  const args = [`--config ${configPath}`]
 
   const passArgs = commander.args
   passArgs.shift()
 
-  args.push(passArgs.join(" "))
+  let script
+  if (workspace) {
+    script = `yarn workspace ${workspace} factor ${CMD}`
+  } else {
+    script = `yarn factor ${CMD}`
+  }
+
+  script = `${script} ${passArgs.join(" ")}`
+
+  args.push(`--exec ${script}`)
+  conf.exec = script
 
   /**
    * The nodemon function takes either an object (that matches the nodemon config)
    * or can take a string that matches the arguments that would be used on the command line
    */
-  nodemon(args.join(" "))
+  nodemon(conf)
 
   nodemon
+    .on("log", () => {})
     .on("start", () => {})
     .on("quit", () => {
       // eslint-disable-next-line unicorn/no-process-exit
@@ -230,6 +239,7 @@ export const execute = (): void => {
     .option("--force", "force full restart and optimization")
     .option("-pa, --port-app <number>", "primary service port")
     .option("-ps, --port-server  <number>", "server specific port")
+    .allowUnknownOption()
     .action(
       (opts: {
         portApp?: string

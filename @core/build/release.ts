@@ -225,13 +225,6 @@ export const releaseRoutine = async (
     }
   }
 
-  const { notes } = await prompt<{ notes: string }>({
-    type: "input",
-    name: "notes",
-    message: "What is the purpose of this release?",
-    initial: "",
-  })
-
   if (!targetVersion) {
     throw new Error("no target version")
   } else if (!semver.valid(targetVersion)) {
@@ -326,19 +319,26 @@ export const releaseRoutine = async (
   ])
   await commit("git", ["push", "--no-verify"])
 
-  await commit("yarn", [
-    "gh",
-    "release create",
-    targetVersion,
-    "--notes",
-    notes,
-  ])
-
   if (dry) {
     logger({
       level: "info",
       context: "release",
       description: `dry run finished - run git diff to see package changes.`,
     })
+  }
+
+  /**
+   * Create a Github release
+   * https://cli.github.com/manual/gh_release_create
+   */
+  const { notes } = await prompt<{ notes: string }>({
+    type: "input",
+    name: "notes",
+    message: "Create a github release? Add a description...",
+    initial: "",
+  })
+
+  if (notes) {
+    await commit("gh", ["release create", targetVersion, "--notes", notes])
   }
 }
