@@ -1,4 +1,4 @@
-import { stored, storeItem, camelToKebab } from "@factor/api"
+import { stored, storeItem, camelToKebab, camelize } from "@factor/api"
 import { markRaw } from "vue"
 import dayjs from "dayjs"
 import { PostEntryConfig, BlogOptions, BlogMap, BlogMapItem } from "./types"
@@ -84,7 +84,8 @@ const scanRoutes = (map: BlogMap): string[] => {
       c.status == "published" ||
       process.env.NODE_ENV == "development"
     ) {
-      routes.push(`${pathBase}/${camelToKebab(key)}`)
+      const permalink = c.permalink || camelToKebab(key)
+      routes.push(`${pathBase}/${permalink}`)
     }
   })
 
@@ -98,11 +99,11 @@ export const getPostRoutes = (): string[] => {
  * Gets the full page configuration for an individual doc
  */
 export const getPostConfig = async (
-  key?: string,
+  slug?: string,
 ): Promise<PostEntryConfig | undefined> => {
-  if (!key) return
+  if (!slug) return
 
-  const storeKey = `blog-${key}`
+  const storeKey = `blog-${slug}`
 
   if (stored(storeKey)) {
     return stored(storeKey)
@@ -114,33 +115,41 @@ export const getPostConfig = async (
 
   const map = blogSetting("map") ?? {}
 
-  let fileConfig: BlogMapItem | undefined = map[key]
+  const listWithPermalinks = Object.entries(map).map(([key, value]) => {
+    return { ...value, permalink: value.permalink || camelToKebab(key) }
+  })
+
+  let fileConfig: BlogMapItem | undefined = listWithPermalinks.find(
+    (_) => _.permalink == slug,
+  )
 
   /**
    * If 404, then get closest match
    * This helps if permalinks need to change after they've been posted
    */
   if (!fileConfig) {
-    const matches = stringSimilarity.findBestMatch(key, Object.keys(map))
+    const matches = stringSimilarity.findBestMatch(
+      slug,
+      listWithPermalinks.map((_) => _.permalink),
+    )
 
-    const matchKey = matches.bestMatch.target
-
-    fileConfig = map[matchKey]
+    fileConfig = listWithPermalinks[matches.bestMatchIndex]
   }
 
   let config: PostEntryConfig | undefined = undefined
   if (fileConfig?.fileImport) {
-    const { fileImport, imageImport, ...rest } = fileConfig
+    const { fileImport, imageImport, permalink, ...rest } = fileConfig
     const fileData = await fileImport()
     const imageModule = imageImport ? await imageImport() : ""
     const postImage = imageModule ? imageModule.default : ""
 
+    const path = `${pathBase}/${permalink}`
     config = {
       readingMinutes: readingMinutes(fileData.html),
       content: fileData.html,
       component: markRaw(fileData.VueComponent),
       attributes: { ...rest, ...fileData.attributes, postImage },
-      path: `${pathBase}/${camelToKebab(key)}`,
+      path,
       postImage,
       ...rest,
       ...fileData.attributes,
@@ -158,6 +167,7 @@ export const getIndexContent = async (
   const postIndexPromises = Object.entries(getIndex(args)).map(
     async ([key, value]) => {
       const config = await getPostConfig(key)
+
       return { key, ...value, ...config }
     },
   )

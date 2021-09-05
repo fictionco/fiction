@@ -85,21 +85,21 @@ export default {
       }[]
     >([
       {
-        heading: "Build Apps",
+        heading: "Learn",
         menu: [
           { path: "/install", name: "Install" },
           { path: "/docs", name: "Docs" },
         ],
       },
       {
-        heading: "Extend",
+        heading: "Customize",
         menu: [
-          { path: "/themes", name: "Themes" },
+          { path: "/showcase", name: "Showcase" },
           { path: "/plugins", name: "Plugins" },
         ],
       },
       {
-        heading: "Company",
+        heading: "More",
         menu: [
           {
             path: "https://www.darwin.so/about",

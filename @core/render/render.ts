@@ -11,7 +11,7 @@ import { renderHeadToString } from "@vueuse/head"
 import fs from "fs-extra"
 import path from "path"
 import { minify } from "html-minifier"
-
+import { version } from "./package.json"
 import { renderPreloadLinks } from "./preload"
 import { getViteServer } from "./vite"
 
@@ -190,7 +190,12 @@ export const getRequestHtml = async (
     .replace(`<!--app-debug-->`, `<!-- ${JSON.stringify({ url }, null, 1)} -->`)
     .replace(
       `<!--app-head-->`,
-      [headTags, preloadLinks, canonicalTag(url)].join(`\n`),
+      [
+        headTags,
+        preloadLinks,
+        canonicalTag(url),
+        `<meta name="generator" content="FactorJS ${version}" />`,
+      ].join(`\n`),
     )
     .replace(`<!--app-body-->`, appHtml)
     .replace(/<body([^>]*)>/i, `<body$1 ${bodyAttrs}>`)

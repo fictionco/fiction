@@ -10,6 +10,7 @@
   "dependencies": {
     "@factor/api": "3.2.16",
     "@factor/entry": "3.2.16",
+    "@factor/plugin-blog-engine": "^3.2.16",
     "@factor/plugin-docs-engine": "3.2.16",
     "@factor/plugin-highlight-code": "3.2.16",
     "@factor/plugin-notify": "3.2.16",
@@ -39,8 +40,8 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.2",
     "@tailwindcss/typography": "^0.4.1"
   }
 }

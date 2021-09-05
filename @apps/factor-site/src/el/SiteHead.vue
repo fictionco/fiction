@@ -48,7 +48,7 @@
       >
         <div class="flex justify-start lg:w-0 lg:flex-1">
           <router-link to="/">
-            <span class="sr-only">FactorES Framework</span>
+            <span class="sr-only">FactorJS Framework</span>
             <ElemLogo class="h-6 w-auto sm:h-6"></ElemLogo>
           </router-link>
         </div>
@@ -91,7 +91,7 @@
             </svg>
           </button>
         </div>
-        <nav class="hidden md:flex space-x-10">
+        <div class="hidden md:flex space-x-10">
           <template v-for="(item, i) in nav" :key="i">
             <template v-if="item.menu">
               <div class="relative" @mouseover="1" @mouseleave="1">
@@ -247,7 +247,7 @@
           </template>
 
           <ElemGithubStars />
-        </nav>
+        </div>
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
           <a
             href="#"
@@ -309,7 +309,7 @@
               <div class="flex items-center justify-between">
                 <div>
                   <router-link to="/">
-                    <span class="sr-only">FactorES Framework</span>
+                    <span class="sr-only">FactorJS Framework</span>
                     <ElemLogo class="h-6 w-auto sm:h-6"></ElemLogo>
                   </router-link>
                 </div>
@@ -364,6 +364,8 @@
                   >{{ item.name }}</router-link
                 >
               </div>
+
+              <ElemGithubStars class="my-8" />
               <div class="mt-6">
                 <a
                   href="#"
@@ -394,22 +396,16 @@
     </div>
   </header>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import ElemLogo from "./ElemLogo.vue"
 import ElemGithubStars from "./ElemGithubStars.vue"
 import { ref } from "vue"
 import { onResetUi } from "@factor/api"
-export default {
-  components: { ElemLogo, ElemGithubStars },
-  setup() {
-    const mobileMenu = ref(false)
-    onResetUi(() => (mobileMenu.value = false))
-    const nav = ref([
-      { path: "/plugins", name: "Plugins" },
-      { path: "/docs", name: "Docs" },
-      { path: "/showcase", name: "Showcase" },
-    ])
-    return { nav, mobileMenu }
-  },
-}
+const mobileMenu = ref(false)
+onResetUi(() => (mobileMenu.value = false))
+const nav = ref([
+  { path: "/plugins", name: "Plugins" },
+  { path: "/docs", name: "Docs" },
+  { path: "/showcase", name: "Showcase" },
+])
 </script>

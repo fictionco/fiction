@@ -1,41 +1,46 @@
 <template>
   <div
-    class="github-actions transition-opacity opacity-0"
+    class="github-actions transition-opacity"
     :class="loaded == true ? 'opacity-100' : 'opacity-0'"
   />
 </template>
-<script lang="ts">
-import { onMounted, ref } from "vue"
-export default {
-  props: {
-    text: { type: String, default: "Follow Project" },
-  },
-  setup() {
-    const loaded = ref(false)
+<script lang="ts" setup>
+import { ref, onMounted } from "vue"
 
-    onMounted(async () => {
-      const { render } = await import("github-buttons")
-      loaded.value = true
-      render(
-        {
-          href: "https://github.com/FactorJS/factor",
-          "aria-label": "Star FactorJS/factor on GitHub",
-          title: "Follow Factor",
-          "data-icon": "octicon-star",
-          "data-color-scheme":
-            "no-preference: light; light: light; dark: light;",
-          "data-size": "large",
-          "data-show-count": true,
-          "data-text": "Follow Factor",
-        },
-        function (el) {
-          document.querySelector(".github-actions")?.append(el)
-        },
-      )
-    })
-    return { loaded }
-  },
+const loaded = ref(false)
+
+defineProps({
+  text: { type: String, default: "Follow Project" },
+})
+
+const renderButton = async () => {
+  const { render } = await import("github-buttons")
+
+  render(
+    {
+      href: "https://github.com/FactorJS/factor",
+      "aria-label": "Star FactorJS/factor on GitHub",
+      title: "Follow Factor",
+      "data-icon": "octicon-star",
+      "data-color-scheme": "no-preference: light; light: light; dark: light;",
+      "data-size": "large",
+      "data-show-count": true,
+      "data-text": "Follow Factor",
+    },
+    (el) => {
+      const sels = document.querySelectorAll(".github-actions")
+      sels.forEach(async (sel) => {
+        sel.innerHTML = ""
+        sel.append(el)
+      })
+    },
+  )
+  loaded.value = true
 }
+
+onMounted(() => {
+  renderButton()
+})
 </script>
 <style lang="less">
 .github-actions {

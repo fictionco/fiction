@@ -1,4 +1,5 @@
 import { routes as docsRoutes } from "../docs/routes"
+import { routes as blogRoutes } from "../blog/routes"
 export const routes = [
   {
     path: "/",
@@ -20,6 +21,6 @@ export const routes = [
     path: "/install",
     component: (): Promise<any> => import("./el/ViewInstall.vue"),
   },
-
+  ...blogRoutes,
   ...docsRoutes,
 ]

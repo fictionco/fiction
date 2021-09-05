@@ -49,6 +49,7 @@ module.exports = {
     content: [
       "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
       "./src/**/*.{vue,js,ts,jsx,tsx,html}",
+      "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
       ...tw.paths,
     ],
   },

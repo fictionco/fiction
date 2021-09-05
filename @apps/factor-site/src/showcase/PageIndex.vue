@@ -11,12 +11,18 @@
       </div>
     </div>
 
-    <div class="m-auto max-w-screen-xl mb-24">
+    <div class="m-auto max-w-screen-xl mb-24 px-4">
       <div class="theme-grid grid grid-cols-12 gap-4 lg:gap-8">
         <div
           v-for="(item, index) in showcase"
           :key="index"
-          class="grid-item-theme col-span-4 cursor-pointer"
+          class="
+            grid-item-theme
+            col-span-12
+            md:col-span-6
+            lg:col-span-4
+            cursor-pointer
+          "
           @click="goToPermalink(item.permalink)"
         >
           <div

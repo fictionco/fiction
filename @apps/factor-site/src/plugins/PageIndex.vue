@@ -1,22 +1,28 @@
 <template>
-  <div class="extend-container">
+  <div class="extend-container px-4">
     <div class="mt-12 mb-24">
       <div class="text-center">
         <h1 class="text-center text-3xl tracking-tight font-bold sm:text-5xl">
           Factor Plugins
         </h1>
-        <h3 class="text-color-500 text-2xl mt-4">
+        <h3 class="text-color-500 text-lg lg:text-2xl mt-4">
           Simple ways to add new features to your app or site
         </h3>
       </div>
     </div>
 
     <div class="mx-auto max-w-screen-xl my-20 lg:my-36">
-      <div class="theme-grid grid grid-cols-12 gap-4 lg:gap-8">
+      <div class="theme-grid grid grid-cols-12 gap-4 gap-y-12 lg:gap-8">
         <div
           v-for="(item, index) in plugins"
           :key="index"
-          class="grid-item-theme col-span-4 cursor-pointer"
+          class="
+            grid-item-theme
+            col-span-12
+            md:col-span-6
+            lg:col-span-4
+            cursor-pointer
+          "
         >
           <div
             class="
@@ -26,6 +32,8 @@
               p-4
               lg:p-6
               relative
+              mt-6
+              lg:mt-0
             "
           >
             <div class="icon w-16 shadow-md absolute -top-8">

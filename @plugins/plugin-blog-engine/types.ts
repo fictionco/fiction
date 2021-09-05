@@ -60,9 +60,11 @@ export type PostTypes =
   | "resource"
   | "reference"
   | "update"
+  | "release"
 
 export type BlogMapItem = {
   status?: "published" | "draft"
+  permalink?: string
   publishDate?: string
   fileImport?: () => Promise<MarkdownFile>
   imageImport?: () => Promise<{ default: string }>

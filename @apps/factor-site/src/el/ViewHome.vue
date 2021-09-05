@@ -14,7 +14,10 @@
           <div>
             <div class="">
               <div>
-                <a href="#" class="inline-flex space-x-4">
+                <router-link
+                  to="/blog/factorjs-version-3-released"
+                  class="inline-flex space-x-4 group"
+                >
                   <span
                     class="
                       rounded
@@ -26,6 +29,7 @@
                       text-primary-600
                       tracking-wide
                       uppercase
+                      group-hover:text-primary-400
                     "
                   >
                     What's new
@@ -38,9 +42,10 @@
                       font-medium
                       text-primary-600
                       space-x-1
+                      hover:text-primary-400
                     "
                   >
-                    <span>Version 3 is now publicly available</span>
+                    <span>Version 3 is now available</span>
                     <!-- Heroicon name: solid/chevron-right -->
                     <svg
                       class="h-5 w-5"
@@ -56,7 +61,7 @@
                       />
                     </svg>
                   </span>
-                </a>
+                </router-link>
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -118,10 +123,12 @@
     <ElemFeatures />
 
     <ElemPlugins class="py-24" />
+
+    <BlogList />
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed } from "vue"
 import { factorVersion } from "@factor/api/about"
 import ElemButton from "@factor/ui/ElemButton.vue"
@@ -130,25 +137,9 @@ import ElemPlugins from "./ElemPlugins.vue"
 import ElemCta from "./ElemCta.vue"
 import ElemBenefits from "./ElemBenefits.vue"
 import ElemFeatures from "./ElemFeatures.vue"
+import BlogList from "./BlogList.vue"
 
-export default {
-  components: {
-    FigureSplash,
-    ElemButton,
-    ElemBenefits,
-    ElemFeatures,
-    ElemPlugins,
-    ElemCta,
-  },
-  setup() {
-    /**
-     * Current Factor Version
-     */
-    const version = computed(() => {
-      return `v${factorVersion()}`
-    })
-
-    return { version }
-  },
-}
+const version = computed(() => {
+  return `v${factorVersion()}`
+})
 </script>
