@@ -1,3 +1,17 @@
+## [3.2.17](https://github.com/FactorJS/factor/compare/v3.2.16...v3.2.17) (2021-09-06)
+
+
+### Bug Fixes
+
+* link ([6619c35](https://github.com/FactorJS/factor/commit/6619c352b77596e071ebef7d21979a87b5dd77e9))
+
+
+### Features
+
+* hn ([a70f298](https://github.com/FactorJS/factor/commit/a70f298619d75e4e9b09ab4d57951ee166899ea4))
+
+
+
 ## [3.2.16](https://github.com/FactorJS/factor/compare/v3.2.15...v3.2.16) (2021-09-03)
 
 
