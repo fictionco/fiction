@@ -1,15 +1,33 @@
 <template>
   <div class="start-container pt-20">
     <nav
-      class="nav justify-center items-center z-50 px-4 py-2 bg-white lg:flex lg:sticky lg:top-11"
+      class="
+        nav
+        justify-center
+        items-center
+        z-50
+        px-4
+        py-2
+        bg-white
+        lg:flex lg:sticky lg:top-0
+      "
     >
       <a
         v-for="(video, index) in videos"
         :key="video.id"
-        class="block mx-0 text-gray-500 font-bold uppercase px-4 py-1 rounded-md hover:bg-gray-100 hover:text-primary-500 lg:mx-4"
-        :class="
-          video.id == selected ? 'active bg-gray-100 text-primary-500' : ''
+        class="
+          block
+          mx-0
+          text-gray-500
+          font-bold
+          uppercase
+          px-4
+          py-1
+          rounded-md
+          hover:bg-color-50 hover:text-primary-500
+          lg:mx-4
         "
+        :class="video.id == selected ? 'active bg-primary-500 text-white' : ''"
         :href="`#${video.id}`"
       >
         {{ index + 1 }}. {{ toLabel(video.id) }}
@@ -23,19 +41,24 @@
         class="video-entry"
       >
         <div class="header">
-          <h1 class="title">{{ toLabel(video.id) }}</h1>
-          <div class="subtitle">
+          <h1 class="text-2xl lg:text-5xl font-bold mb-1">
+            {{ toLabel(video.id) }}
+          </h1>
+          <div class="mt-3 flex items-center">
             <div class="time">
-              <span class="tag">{{ video.duration }}</span>
+              <span
+                class="bg-primary-500 rounded-md text-white px-2 py-1 mr-6"
+                >{{ video.duration }}</span
+              >
             </div>
-            <div class="synopsis">{{ video.synopsis }}</div>
+            <div class="text-color-500 text-2xl">{{ video.synopsis }}</div>
           </div>
         </div>
         <div class="video-wrap">
           <div class="video">
             <iframe :src="video.url" frameborder="0" allowfullscreen />
           </div>
-          <div class="video-content" v-html="video.content" />
+          <div class="font-semibold" v-html="video.content" />
         </div>
       </section>
     </div>
@@ -55,25 +78,17 @@ export default {
         url: "https://www.youtube.com/embed/m0tckSo1KUg?rel=0",
         duration: "1 Minute",
         synopsis: "Get Factor running locally with a theme in 60 seconds",
-        content:
-          "In this video you'll use <p><code>npx create-factor-app</code></p> to download and scaffold your first app.",
+        content: "Set up a basic FactorJS app from scratch in around a minute.",
       },
       {
         id: "customize",
         url: "https://www.youtube.com/embed/8CwXEsZ0PHU?rel=0",
         duration: "3 Minutes",
-        synopsis: "Simple customization with 'factor-settings'",
+        synopsis: "Additional customization of your app",
         content:
-          "Factor merges settings files together taking your app's as the highest priority. ",
+          "Learn how to work with your FactorJS app. Learn how to add endpoints, sitemaps, and additional tricks.",
       },
-      {
-        id: "manage",
-        url: "https://www.youtube.com/embed/SHmjfTMrhkM?rel=0",
-        duration: "4 Minutes",
-        synopsis: "Add your own DB and run the dashboard",
-        content:
-          "Setting up your own DB takes seconds and only requires a MongoDb style connection string.",
-      },
+
       {
         id: "deploy",
         url: "https://www.youtube.com/embed/dCtGNqpuDxs?rel=0",
@@ -96,7 +111,7 @@ export default {
                 selected.value = entries[0].target.id
               }
             },
-            { threshold: [0.2] },
+            { threshold: [0.7] },
           )
 
           const el = document.querySelector(selector)
