@@ -64,7 +64,9 @@ export const storeItem = (item: string, value: any): void => {
  * Get a reactive value from the application store
  * @param key - ID in the flat store
  */
-export const stored = <T = unknown>(key?: string | number): T | undefined => {
+export const stored = <T = unknown>(
+  key?: string | number | Date,
+): T | undefined => {
   if (!key) return
 
   return getStore().getters["getItem"](key)

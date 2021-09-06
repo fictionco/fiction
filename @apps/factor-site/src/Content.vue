@@ -24,7 +24,7 @@ export default {
   setup() {
     useMeta({
       title: computed(() => {
-        return `FactorJS by Darwin - A Modern Website Framework`
+        return `FactorJS by Darwin - Build JamStack Blogs, Sites, Apps`
       }),
       meta: [
         {

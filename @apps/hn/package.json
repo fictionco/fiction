@@ -1,0 +1,37 @@
+{
+  "name": "@factor/hn",
+  "version": "3.2.16",
+  "description": "A Hacker News client built with FactorJS version 3",
+  "author": "Factor <hi@factor.so>",
+  "private": true,
+  "main": "src/index",
+  "scripts": {},
+  "dependencies": {
+    "@factor/api": "^3.2.16",
+    "@factor/cli": "^3.0.0",
+    "@factor/ui": "^3.2.16",
+    "@types/lru-cache": "^5.1.1",
+    "firebase": "4.6.2",
+    "lru-cache": "^6.0.0",
+    "tailwindcss": "^2.2.9",
+    "vue": "^3.2.9",
+    "vue-router": "^4.0.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.0.0",
+    "@typescript-eslint/parser": "^4.0.0",
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^8.0.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^24.0.0",
+    "eslint-plugin-json": "^3.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unicorn": "^35.0.0",
+    "eslint-plugin-vue": "^7.1.0",
+    "prettier": "^2.0.4",
+    "prettier-eslint": "^13.0.0"
+  }
+}

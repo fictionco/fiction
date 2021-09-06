@@ -88,6 +88,7 @@ module.exports = {
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "vue/no-v-html": "off",
+    "no-undef": "off",
   },
   overrides: [
     {
