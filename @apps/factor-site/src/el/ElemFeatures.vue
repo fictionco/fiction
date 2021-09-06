@@ -117,7 +117,7 @@ export default {
         text: `Leverage the app showcase for your boilerplate or build from scratch
               Factor gives you a complete theming and rapid app development system to quickly deploy apps.`,
         figure: FigureThemes,
-        link: { path: "/themes", text: "View Showcase" },
+        link: { path: "/showcase", text: "View Showcase" },
       },
     ]
 

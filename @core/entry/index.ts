@@ -6,6 +6,9 @@ import * as mainFile from "@src/index.ts"
 // eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
 import App from "@src/App.vue"
 
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./vue.d.ts" />
+
 import { initializeWindow } from "./init"
 import { runCallbacks } from "@factor/api/hook"
 import { getRouter, addRoutes } from "@factor/api/router"
