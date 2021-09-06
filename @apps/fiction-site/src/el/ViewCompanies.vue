@@ -5,7 +5,15 @@
     <div class="lg:relative lg:z-10">
       <div class="mx-auto max-w-7xl px-8 py-16 lg:py-24">
         <h1
-          class="pl-6 text-5xl leading-normal font-bold border-l-4 border-primary-500 text-gray-100 lg:text-7xl lg:leading-tight"
+          class="
+            pl-6
+            text-5xl
+            leading-normal
+            font-bold
+            border-l-4 border-primary-500
+            text-gray-100
+            lg:text-7xl lg:leading-tight
+          "
         >
           Fiction Companies.
         </h1>
@@ -28,7 +36,17 @@
           :key="company.title"
           :href="company.link"
           target="_blank"
-          class="flex items-center px-4 py-6 rounded-md bg-gray-900 transition-all border-2 border-transparent hover:border-primary-500 hover:shadow-xl"
+          class="
+            flex
+            items-center
+            px-4
+            py-6
+            rounded-md
+            bg-gray-900
+            transition-all
+            border-2 border-transparent
+            hover:border-primary-500 hover:shadow-xl
+          "
         >
           <div
             v-if="company"
@@ -48,19 +66,48 @@
     </div>
 
     <div
-      class="mx-auto max-w-5xl py-16 px-4 lg:py-24 text-center lg:relative lg:z-10"
+      class="
+        mx-auto
+        max-w-5xl
+        py-16
+        px-4
+        lg:py-24
+        text-center
+        lg:relative lg:z-10
+      "
     >
       <h2
-        class="mt-4 text-3xl font-bold text-gray-300 md:text-5xl md:leading-tight"
+        class="
+          mt-4
+          text-3xl
+          font-bold
+          text-gray-300
+          md:text-5xl md:leading-tight
+        "
       >
         Think your company belongs here?
       </h2>
       <a
         href="mailto:hello@fiction.com"
-        class="mt-12 inline-flex justify-center rounded-md transition-colors border-2 border-primary-500 text-gray-200 hover:bg-primary-500 hover:text-white"
+        class="
+          mt-12
+          inline-flex
+          justify-center
+          rounded-md
+          transition-colors
+          border-2 border-primary-500
+          text-gray-200
+          hover:bg-primary-500 hover:text-white
+        "
       >
         <ElemButton
-          class="px-5 py-3 focus:ring-opacity-0 sm:mt-0 md:px-8 md:py-3 md:text-lg"
+          class="
+            px-5
+            py-3
+            focus:ring-opacity-0
+            sm:mt-0
+            md:px-8 md:py-3 md:text-lg
+          "
         >
           Get in touch
           <ElemHoverArrow size="large" />
@@ -71,7 +118,17 @@
     <ElemCta class="lg:relative lg:z-10" />
 
     <svg
-      class="hidden absolute z-0 max-w-lg h-auto top-20 right-0 text-gray-700 lg:block"
+      class="
+        hidden
+        absolute
+        z-0
+        max-w-lg
+        h-auto
+        top-20
+        right-0
+        text-gray-700
+        lg:block
+      "
       viewBox="0 0 768 1948"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -117,7 +174,7 @@ export default {
         content: "Conversion analytics.",
       },
       {
-        link: "https://factor.dev/?ref=fiction",
+        link: "https://factor.so/?ref=fiction",
         icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3 20C3 12.8942 8.76036 7.1339 15.8661 7.1339H23.7739C30.8796 7.1339 36.6399 12.8942 36.6399 20C36.6399 27.1058 30.8796 32.8661 23.7738 32.8661H15.8661C8.76035 32.8661 3 27.1058 3 20ZM15.8661 13.0968C12.0536 13.0968 8.96294 16.1875 8.96294 20C8.96294 23.8125 12.0536 26.9032 15.8661 26.9032H23.7738C27.5863 26.9032 30.6771 23.8125 30.6771 20C30.6771 16.1875 27.5864 13.0968 23.7739 13.0968H15.8661Z" fill="currentColor" /> <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7319 40C17.3445 40 17.0304 39.6859 17.0304 39.2985V0.701524C17.0304 0.314082 17.3445 0 17.7319 0H22.2918C22.6792 0 22.9933 0.314081 22.9933 0.701518V39.2985C22.9933 39.6859 22.6792 40 22.2918 40H17.7319Z" fill="currentColor" /></svg>`,
         title: "Factor",
         content: "A minimal CMS for javascript.",

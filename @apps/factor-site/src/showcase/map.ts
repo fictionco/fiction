@@ -13,13 +13,16 @@ import DarwinScreenshot2 from "./darwin/screenshot-2.webp"
 import DarwinScreenshot3 from "./darwin/screenshot-3.webp"
 import DarwinIcon from "./darwin/icon.png"
 
+import HnScreenshot1 from "./hn/screenshot.webp"
+import HnIcon from "./hn/icon.svg"
+
 import { ExtendItem } from "../types"
 export const map: Partial<ExtendItem>[] = [
   {
     name: "Zeno",
     permalink: "zeno",
-    authorName: "Andrew Powers",
-    authorUrl: "https://www.andrewpowers.co",
+    authorName: "Raymond Aleman",
+    authorUrl: "https://github.com/finestpixels",
     icon: ZenoIcon,
     description:
       "Zeno is an example application/theme created specifically as a boilerplate for your project. Includes dynamic images and figures.",
@@ -60,5 +63,18 @@ export const map: Partial<ExtendItem>[] = [
     url: "https://www.darwin.so",
     category: "marketing",
     tags: ["saas", "business", "analytics", "marketing"],
+  },
+  {
+    name: "HackerNews",
+    permalink: "factorjs-hacker-news",
+    authorName: "Factor Team",
+    authorUrl: "https://www.factor.so",
+    icon: HnIcon,
+    description: "A recreation of Hacker News built with FactorJS 3.",
+    screenshots: [HnScreenshot1],
+    url: "https://factor-hn.netlify.app",
+    repo: "https://github.com/FactorJS/factor-example-hacker-news",
+    category: "miscellaneous",
+    tags: ["example", "code", "hacker-news"],
   },
 ]

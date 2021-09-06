@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/fiction-com/factor/issues"
   },
-  "homepage": "https://factor.dev/plugin/highlight-code-factor-plugin",
+  "homepage": "https://factor.so/plugin/highlight-code-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
     "@factor/api": "3.2.17",
