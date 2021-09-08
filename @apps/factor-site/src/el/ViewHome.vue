@@ -70,7 +70,7 @@
                 <p class="mt-6 text-xl text-color-500">
                   Introducing Factor, a free next-generation TypeScript
                   framework you can use to create blogs, landing pages, and
-                  JAMStack apps.
+                  JamStack apps.
                 </p>
               </div>
               <div class="mt-12 sm:max-w-lg w-full flex space-x-6 items-center">

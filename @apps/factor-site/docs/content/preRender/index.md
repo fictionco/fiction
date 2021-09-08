@@ -30,7 +30,7 @@ You can control which port the application is served at using the `--app-port` o
 
 ## Endpoint Server
 
-If you'd like to have server-oriented functionality but still host your application statically&mdash;i.e. JAMStack&mdash; then you'll want to set up an "endpoint" server in production.
+If you'd like to have server-oriented functionality but still host your application statically&mdash;i.e. JamStack&mdash; then you'll want to set up an "endpoint" server in production.
 
 For a guide on deploying your endpoint server, check out the [server docs](./server).
 

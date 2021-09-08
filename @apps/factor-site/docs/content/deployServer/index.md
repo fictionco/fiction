@@ -5,7 +5,7 @@ description: Learn the basics of setting up your endpoint server for production
 
 Once your application is ready to go to production, you'll need to set up your endpoint server.
 
-If you're running your application in JAMStack mode, then often the endpoint server will be hosted on an entirely different service as your primary app.
+If you're running your application in JamStack mode, then often the endpoint server will be hosted on an entirely different service as your primary app.
 
 Running your server requires NO build step and only needs the following:
 

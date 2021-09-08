@@ -77,7 +77,7 @@
               text-transparent
             "
           >
-            Currently Funding
+            Work with
           </a>
           <h1
             class="
@@ -91,7 +91,7 @@
             "
           >
             <span id="mainHeadline" class="block"
-              >An incubator for software and web service companies</span
+              >We'll help you improve your customer experiences.</span
             >
           </h1>
           <p
@@ -103,8 +103,9 @@
               xl:text-xl
             "
           >
-            Fiction creates, incubates and funds software services companies
-            through what is for many the hardest step, from idea to company.
+            Since 2009, we’ve helped design, develop, market, and refine
+            applications with a focus on customer experience and network
+            effects.
           </p>
           <div class="mt-10 sm:mt-12">
             <ElemForm />

@@ -42,7 +42,7 @@ Many older frameworks are hard to scale (e.g. WordPress, Rails).
 This is because they are server-rendered and servers have to work every time a user loads a page. This can be solved somewhat by caching, but becomes challenging when you want to deliver user-specific content.
 
 **Solution**
-The modern JAMStack paradigm recommends you build your application templates ahead of time and simply make calls to API endpoints when interactivity is needed. This makes Factor, and other JAMStack apps, super easy to host and scale.
+The modern JamStack paradigm recommends you build your application templates ahead of time and simply make calls to API endpoints when interactivity is needed. This makes Factor, and other JamStack apps, super easy to host and scale.
 
 ## Extend Your Apps
 
@@ -55,7 +55,7 @@ Factor provides a simple yet powerful extension interface which allows you to ea
 ## Avoid Proprietary APIs and Services
 
 **Problem**
-With JAMStack apps, it's become to easy to delegate critical functionality to services run by third-parties.
+With JamStack apps, it's become to easy to delegate critical functionality to services run by third-parties.
 
 APIs can be problematic. It is hard to work across many APIs. Things can quickly become a web of requests and integrations that are nearly impossible to work with effectively.
 
