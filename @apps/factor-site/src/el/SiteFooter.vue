@@ -86,10 +86,7 @@ export default {
     >([
       {
         heading: "Learn",
-        menu: [
-          { path: "/install", name: "Install" },
-          { path: "/docs", name: "Docs" },
-        ],
+        menu: [{ path: "/docs", name: "Docs" }],
       },
       {
         heading: "Customize",
