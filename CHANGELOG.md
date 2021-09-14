@@ -1,3 +1,17 @@
+## [3.2.18](https://github.com/FactorJS/factor/compare/v3.2.17...v3.2.18) (2021-09-14)
+
+
+### Bug Fixes
+
+* spelling ([7e5025d](https://github.com/FactorJS/factor/commit/7e5025dc1bf696cc55affd020d340383dd72c4d1))
+
+
+### Features
+
+* hn showcase ([a7da1b1](https://github.com/FactorJS/factor/commit/a7da1b15dda4d744cf8f2f1a0125317c66fc93e3))
+
+
+
 ## [3.2.17](https://github.com/FactorJS/factor/compare/v3.2.16...v3.2.17) (2021-09-06)
 
 
