@@ -1,5 +1,9 @@
 <template>
-  <figure ref="wrapper" class="figure-splash-container relative">
+  <figure
+    ref="wrapper"
+    class="figure-splash-container relative transition-opacity"
+    :class="loaded ? 'opacity-100' : 'opacity-0'"
+  >
     <div class="figure-wrap m-auto mt-8 mb-4 md:mb-0" @click="nextSlide()">
       <div v-if="activeSlide.id == 'dashboard'" class="splash-figure dashboard">
         <div class="stage-icons-wrap">
@@ -68,7 +72,7 @@
           <div class="main wrap">
             <div
               class="scroller"
-              :style="{ backgroundImage: `url(${scrollerBg})` }"
+              :style="{ backgroundImage: `url(${codeEditor})` }"
             />
           </div>
           <img
@@ -110,66 +114,57 @@
   </figure>
 </template>
 
-<script lang="ts">
-import { computed, ref } from "vue"
+<script lang="ts" setup>
+import { computed, ref, onMounted } from "vue"
 
 import codeEditor from "../img/figure-splash-code-editor.svg"
 
-export default {
-  setup() {
-    const figures = ref([
-      { id: "dashboard", caption: "Build Apps" },
-      { id: "themes", caption: "Build Sites" },
-      { id: "code", caption: "Clean and Minimal Code" },
-    ])
-    /**
-     * Initial Active figure
-     */
-    const active = ref<number>(0)
-    /**
-     * Current Active figure
-     */
-    const activeSlide = computed(() => {
-      return figures.value[active.value]
-    })
-    /**
-     * Switch Figure timer
-     */
-    const timer = ref()
-    const animationInterval = ref<number>(20_000)
+const loaded = ref(false)
 
-    /**
-     * Next Figure
-     */
-    const nextSlide = () => {
-      if (active.value == figures.value.length - 1) {
-        active.value = 0
-      } else {
-        active.value++
-      }
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      runTimer()
-    }
+onMounted(() => (loaded.value = true))
+const figures = ref([
+  { id: "dashboard", caption: "Build Apps" },
+  { id: "themes", caption: "Build Sites" },
+  { id: "code", caption: "Clean and Minimal Code" },
+])
+/**
+ * Initial Active figure
+ */
+const active = ref<number>(0)
+/**
+ * Current Active figure
+ */
+const activeSlide = computed(() => {
+  return figures.value[active.value]
+})
+/**
+ * Switch Figure timer
+ */
+const timer = ref()
+const animationInterval = ref<number>(20_000)
 
-    const setActive = (ind: number) => {
-      active.value = ind
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      runTimer()
-    }
+/**
+ * Next Figure
+ */
+const nextSlide = () => {
+  if (active.value == figures.value.length - 1) {
+    active.value = 0
+  } else {
+    active.value++
+  }
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  runTimer()
+}
 
-    const runTimer = () => {
-      clearTimeout(timer.value)
-      timer.value = setTimeout(() => nextSlide(), animationInterval.value)
-    }
+const setActive = (ind: number) => {
+  active.value = ind
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  runTimer()
+}
 
-    return {
-      figures,
-      activeSlide,
-      setActive,
-      nextSlide,
-      scrollerBg: codeEditor,
-    }
-  },
+const runTimer = () => {
+  clearTimeout(timer.value)
+  timer.value = setTimeout(() => nextSlide(), animationInterval.value)
 }
 </script>
 
