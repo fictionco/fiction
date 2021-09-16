@@ -1,3 +1,17 @@
+## [3.2.19](https://github.com/FactorJS/factor/compare/v3.2.18...v3.2.19) (2021-09-16)
+
+
+### Bug Fixes
+
+* tweak figure ([66d994f](https://github.com/FactorJS/factor/commit/66d994f8499179a5bea4cc7cf115f5fa13c6211e))
+
+
+### Features
+
+* add docs for blog engine ([4be0e3b](https://github.com/FactorJS/factor/commit/4be0e3b11bddc65bf9d32e12a006093c28e423e9))
+
+
+
 ## [3.2.18](https://github.com/FactorJS/factor/compare/v3.2.17...v3.2.18) (2021-09-14)
 
 
