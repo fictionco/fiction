@@ -1,4 +1,4 @@
-import { stored, storeItem, camelToKebab, camelize } from "@factor/api"
+import { stored, storeItem, camelToKebab } from "@factor/api"
 import { markRaw } from "vue"
 import dayjs from "dayjs"
 import { PostEntryConfig, BlogOptions, BlogMap, BlogMapItem } from "./types"

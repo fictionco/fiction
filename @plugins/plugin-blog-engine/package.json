@@ -36,6 +36,7 @@
     "@factor/server": "3.2.18",
     "@factor/types": "3.2.18",
     "@factor/ui": "3.2.18",
+    "@factor/plugin-blog-engine": "^3.2.18",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.10.6",
     "string-similarity": "^4.0.4",
