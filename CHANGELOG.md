@@ -1,3 +1,12 @@
+## [3.2.20](https://github.com/FactorJS/factor/compare/v3.2.19...v3.2.20) (2021-09-16)
+
+
+### Bug Fixes
+
+* bug on vars ([a44aa12](https://github.com/FactorJS/factor/commit/a44aa126eedbd6954006576dce3735454c573dc9))
+
+
+
 ## [3.2.19](https://github.com/FactorJS/factor/compare/v3.2.18...v3.2.19) (2021-09-16)
 
 
