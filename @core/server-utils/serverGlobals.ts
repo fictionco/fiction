@@ -28,7 +28,7 @@ export const getFactorConfig = (
 
   const configFile = result?.default || {}
   return deepMergeAll([
-    { variables: getDefaultServerVariables },
+    { variables: getDefaultServerVariables() },
     factor,
     configFile,
     config,
