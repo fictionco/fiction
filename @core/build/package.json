@@ -21,7 +21,7 @@
   "devDependencies": {
     "@aws-sdk/client-cloudfront": "^3.0.0",
     "@aws-sdk/client-s3": "^3.0.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-replace": "^3.0.0",
