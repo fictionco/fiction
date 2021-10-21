@@ -13,7 +13,7 @@
     "@factor/server": "3.2.20",
     "@factor/server-utils": "3.2.20",
     "@factor/types": "3.2.20",
-    "axios": "^0.22.0",
+    "axios": "^0.23.0",
     "commander": "^8.0.0",
     "deepmerge": "^4.2.2",
     "dotenv": "^10.0.0",

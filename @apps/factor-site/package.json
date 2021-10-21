@@ -19,7 +19,7 @@
     "@factor/types": "3.2.20",
     "@factor/ui": "3.2.20",
     "autoprefixer": "^10.2.4",
-    "axios": "^0.22.0",
+    "axios": "^0.23.0",
     "dayjs": "^1.9.6",
     "deepmerge": "^4.2.2",
     "events": "^3.2.0",
