@@ -1,6 +1,6 @@
 {
   "name": "@factor/build",
-  "version": "3.2.20",
+  "version": "3.2.21",
   "author": "Darwin",
   "license": "MIT",
   "publishConfig": {
@@ -8,7 +8,7 @@
   },
   "private": false,
   "dependencies": {
-    "@factor/server-utils": "3.2.20",
+    "@factor/server-utils": "3.2.21",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",
     "execa": "^5.0.0",
