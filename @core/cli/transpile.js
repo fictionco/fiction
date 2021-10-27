@@ -9,7 +9,7 @@ module.exports = () => {
   /**
    * Allow Node to process TypeScript
    */
-  const transpileModules = ["@factor", ".*factor", "@darwin_", "dayjs"]
+  const transpileModules = ["@factor", ".*factor", "@darwin_", "dayjs", ".pnpm"]
   require("ts-node").register({
     transpileOnly: true,
     compilerOptions: {
@@ -21,7 +21,10 @@ module.exports = () => {
       target: "es2020",
       esModuleInterop: true,
     },
-    ignore: [`node_modules/(?!(${transpileModules.join("|")}))`],
+    ignore: [
+      `node_modules/(?!(${transpileModules.join("|")}))`,
+      `node_modules/.pnpm/(?!(${transpileModules.join("|")}))`,
+    ],
   })
 
   /**
