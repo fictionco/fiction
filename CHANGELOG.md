@@ -1,3 +1,12 @@
+## [3.2.23](https://github.com/FactorJS/factor/compare/v3.2.22...v3.2.23) (2021-10-27)
+
+
+### Features
+
+* support pnpm ([5bf7985](https://github.com/FactorJS/factor/commit/5bf7985efe8ee3e9d046022468495e67cdd2858d))
+
+
+
 ## [3.2.22](https://github.com/FactorJS/factor/compare/v3.2.21...v3.2.22) (2021-10-27)
 
 

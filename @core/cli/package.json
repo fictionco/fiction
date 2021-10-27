@@ -1,18 +1,18 @@
 {
   "name": "@factor/cli",
-  "version": "3.2.22",
+  "version": "3.2.23",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "private": false,
   "dependencies": {
-    "@factor/api": "3.2.22",
-    "@factor/build": "3.2.22",
-    "@factor/render": "3.2.22",
-    "@factor/server": "3.2.22",
-    "@factor/server-utils": "3.2.22",
-    "@factor/types": "3.2.22",
+    "@factor/api": "3.2.23",
+    "@factor/build": "3.2.23",
+    "@factor/render": "3.2.23",
+    "@factor/server": "3.2.23",
+    "@factor/server-utils": "3.2.23",
+    "@factor/types": "3.2.23",
     "axios": "^0.24.0",
     "commander": "^8.0.0",
     "deepmerge": "^4.2.2",
