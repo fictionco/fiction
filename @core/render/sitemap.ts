@@ -69,7 +69,8 @@ export const getSitemapPaths = async (): Promise<string[]> => {
 export const generateSitemap = async (): Promise<void> => {
   const sitemapBaseUrl = currentUrl()
 
-  if (!sitemapBaseUrl) throw new Error("sitemap: base URL was empty")
+  if (!sitemapBaseUrl)
+    throw new Error("sitemap: base URL was empty (FACTOR_APP_URL)")
 
   const paths = await getSitemapPaths()
 
