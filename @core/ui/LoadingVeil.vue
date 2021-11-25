@@ -24,7 +24,7 @@ import { dLog, routeRequiresAuth, userInitialized } from "@factor/api"
 import ElemSpinner from "./ElemSpinner.vue"
 import { onMounted, ref } from "vue"
 export default {
-  name: "Veil",
+  name: "LoadingVeil",
   components: { ElemSpinner },
   setup() {
     const authLoading = ref(false)

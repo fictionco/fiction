@@ -132,13 +132,18 @@ export const initializeEndpoint = async (): Promise<void> => {
           r = await EPMap[_method](args)
 
           if (r.customerId) {
-            r.customerData = (
-              await getCustomerData({ ...args, customerId: r.customerId })
-            ).data
+            const dataResponse = await getCustomerData({
+              ...args,
+              customerId: r.customerId,
+            })
+            r.customerData = dataResponse.data
           }
 
           if (r.userId) {
-            r.user = (await getPrivateUser({ userId: r.userId })).data
+            const privateDataResponse = await getPrivateUser({
+              userId: r.userId,
+            })
+            r.user = privateDataResponse.data
           }
         }
       } catch (error: any) {

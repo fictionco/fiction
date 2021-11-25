@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: "/blog",
-    component: (): any => import("./components/Wrap.vue"),
+    component: (): any => import("./components/PageWrap.vue"),
     children: [
       {
         path: "/blog",

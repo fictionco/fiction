@@ -83,7 +83,7 @@
         ref="inputEl"
         :model-value="modelValue"
         v-bind="attrs"
-        @update:modelValue="updateValue($event)"
+        @update:model-value="updateValue($event)"
       >
         <slot />
       </component>

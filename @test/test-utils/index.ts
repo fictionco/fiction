@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-export */
 import path from "path"
 import fs from "fs-extra"
-import execa from "execa"
+import { execa } from "execa"
 /**
  * Build an app using it's module name
  */

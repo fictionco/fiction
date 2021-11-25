@@ -1,5 +1,4 @@
 import glob from "glob"
-import execa from "execa"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
@@ -14,8 +13,9 @@ Handlebars.registerHelper("json", function (context) {
 /**
  * Checks whether the working directory has uncommitted changes
  */
-export const isGitDirty = (): boolean => {
-  const { stdout } = execa.commandSync("git status --short")
+export const isGitDirty = async (): Promise<boolean> => {
+  const { execaCommandSync } = await import("execa")
+  const { stdout } = execaCommandSync("git status --short")
 
   return stdout.length > 0 ? true : false
 }
@@ -61,9 +61,10 @@ export const getPackages = (
 /**
  * Get last commit if we are in a git repository
  */
-export const getCommit = (length = 100): string => {
+export const getCommit = async (length = 100): Promise<string> => {
+  const { execaSync } = await import("execa")
   return fs.existsSync(`${process.cwd()}/.git`)
-    ? execa.sync("git", ["rev-parse", "HEAD"]).stdout.slice(0, length)
+    ? execaSync("git", ["rev-parse", "HEAD"]).stdout.slice(0, length)
     : "no-repo"
 }
 /**

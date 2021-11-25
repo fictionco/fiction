@@ -5,7 +5,7 @@ const baseRoute = blogSetting("baseRoute")
 export const routes = [
   {
     path: `/${baseRoute}`,
-    component: (): any => import("./components/Wrap.vue"),
+    component: (): any => import("./components/PageWrap.vue"),
     children: [
       {
         path: `/${baseRoute}`,

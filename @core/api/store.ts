@@ -1,5 +1,4 @@
 import * as Vuex from "vuex"
-import { Store } from "vuex/types"
 
 import { getAppGlobal, setAppGlobal } from "./utils"
 declare global {
@@ -10,7 +9,7 @@ declare global {
 /**
  * Create a vuex store
  */
-export const createStore = (): Store<Record<string, any>> => {
+export const createStore = (): Vuex.Store<Record<string, any>> => {
   const store = new Vuex.Store({
     strict: false,
     state: (): Record<string, any> => {
@@ -43,8 +42,8 @@ export const createStore = (): Store<Record<string, any>> => {
 /**
  * Gets the primary store and creates it if it doesn't exist
  */
-export const getStore = (): Store<Record<string, any>> => {
-  let store: Store<Record<string, any>> | undefined = getAppGlobal("store")
+export const getStore = (): Vuex.Store<Record<string, any>> => {
+  let store: Vuex.Store<Record<string, any>> | undefined = getAppGlobal("store")
   if (!store) {
     store = createStore()
     setAppGlobal("store", store)
@@ -72,6 +71,6 @@ export const stored = <T = unknown>(
   return getStore().getters["getItem"](key)
 }
 
-export const getStoreState = (): Store<Record<string, any>>["state"] => {
+export const getStoreState = (): Vuex.Store<Record<string, any>>["state"] => {
   return getStore().state
 }

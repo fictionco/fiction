@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs"
-import execa from "execa"
+import { ExecaChildProcess } from "execa"
 import { prompt } from "enquirer"
 import semver, { ReleaseType } from "semver"
 import { logger } from "@factor/server-utils"
@@ -31,18 +31,21 @@ const versionChoices = (): string[] => {
 /**
  * Run CLI command in child process
  */
-const run = (
+const run = async (
   bin: string,
   args: string[],
   opts = {},
-): execa.ExecaChildProcess => {
+): Promise<ExecaChildProcess> => {
+  const { execa } = await import("execa")
   return execa(bin, args, { stdio: "inherit", ...opts })
 }
 /**
  * Commit an action that is permanent in nature, taking into consideration
  * the dry run (--dry) option
  */
-const commit = (...commandArgs: any[]): void | execa.ExecaChildProcess => {
+const commit = async (
+  ...commandArgs: any[]
+): Promise<void | ExecaChildProcess> => {
   const [bin, args, opts] = commandArgs
   //  Output CLI commands instead of actually run them
   if (__dry) {
@@ -52,7 +55,7 @@ const commit = (...commandArgs: any[]): void | execa.ExecaChildProcess => {
       description: `(dry) ${bin} ${args.join(" ")}`,
     })
   } else {
-    return run(bin, args, opts)
+    return await run(bin, args, opts)
   }
 }
 /**
@@ -192,7 +195,8 @@ export const releaseRoutine = async (
     description: `current version: ${currentVersion}`,
   })
 
-  if (isGitDirty() && !dry && !commitChanges) {
+  const dirty = await isGitDirty()
+  if (dirty && !dry && !commitChanges) {
     throw new Error("commit changes before publishing a release")
   }
 

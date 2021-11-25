@@ -1,11 +1,11 @@
 <template>
   <Content />
-  <Veil />
-  <Toaster />
+  <LoadingVeil />
+  <NotifyToaster />
 </template>
 
 <script lang="ts" setup>
 import Content from "./Content.vue"
-import Veil from "@factor/ui/Veil.vue"
-import Toaster from "@factor/plugin-notify/Toaster.vue"
+import LoadingVeil from "@factor/ui/LoadingVeil.vue"
+import NotifyToaster from "@factor/plugin-notify/NotifyToaster.vue"
 </script>

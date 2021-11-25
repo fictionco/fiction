@@ -18,13 +18,13 @@ A standard use case for `App.vue` is to add any components which need to appear 
 ```html
 <template>
   <router-view />
-  <Veil />
-  <Toaster />
+  <LoadingVeil />
+  <NotifyToaster />
 </template>
 
 <script lang="ts" setup>
-  import Veil from "@factor/ui/Veil.vue"
-  import Toaster from "@factor/plugin-notify/Toaster.vue"
+  import LoadingVeil from "@factor/ui/LoadingVeil.vue"
+  import NotifyToaster from "@factor/plugin-notify/NotifyToaster.vue"
 </script>
 <style lang="less">
   @import "./styles.less";

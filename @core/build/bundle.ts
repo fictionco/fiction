@@ -45,7 +45,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
   if (!commit && process.env.GIT_COMMIT) {
     commit = process.env.GIT_COMMIT
   } else if (!commit) {
-    commit = getCommit()
+    commit = await getCommit()
   }
 
   const rollupOptions = await getConfig({

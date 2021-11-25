@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import ExtendIndex from "./Index.vue"
+import ExtendIndex from "./PageIndex.vue"
 
 export default {
   components: {

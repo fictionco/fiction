@@ -1,3 +1,1 @@
-import { useHead } from "@vueuse/head"
-
-export const useMeta = useHead
+export { useHead as useMeta } from "@vueuse/head"

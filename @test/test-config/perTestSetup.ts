@@ -122,7 +122,8 @@ beforeAll(async () => {
 
       if (!isBuildTest) {
         process.env.VITE_INLINE = "inline-serve"
-        server = await (await createServer(options)).listen()
+        const inst = await createServer(options)
+        server = await inst.listen()
         // use resolved port/base from server
         const url = `http://localhost:${server.config.server.port}`
         await page.goto(url)
