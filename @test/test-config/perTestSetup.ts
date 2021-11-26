@@ -81,6 +81,7 @@ beforeAll(async () => {
     if (testName) {
       const playgroundRoot = path.dirname(require.resolve("@factor/playground"))
       const srcDir = path.resolve(playgroundRoot, testName)
+
       tempDir = path.resolve(__dirname, "../temp", testName)
       await fs.copy(srcDir, tempDir, {
         dereference: true,

@@ -1,8 +1,6 @@
 module.exports = {
   root: true,
   globals: {
-    __dirname: false,
-    require: false,
     module: false,
     process: false,
     cy: false,

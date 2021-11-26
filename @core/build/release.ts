@@ -111,7 +111,8 @@ const updatePackage = (pkgRoot: string, version: string): void => {
  */
 const updateVersions = (version: string): void => {
   // update root package.json
-  updatePackage(path.resolve(__dirname, "../.."), version)
+  const dirname = new URL(".", import.meta.url).pathname
+  updatePackage(path.resolve(dirname, "../.."), version)
   // update the workspace modules
   getPackages().forEach((p) => updatePackage(getModuleDirectory(p), version))
 }
