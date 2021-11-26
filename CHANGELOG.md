@@ -1,3 +1,21 @@
+# [3.3.0](https://github.com/FactorJS/factor/compare/v3.2.23...v3.3.0) (2021-11-26)
+
+
+### Bug Fixes
+
+* delete ([503c793](https://github.com/FactorJS/factor/commit/503c79393f319c389bd988ce5519051ada5d84f9))
+* dirname ([1f71a49](https://github.com/FactorJS/factor/commit/1f71a49071e546e77ac80ac9bd83f05f0c4be020))
+* pnpm ([cb1a188](https://github.com/FactorJS/factor/commit/cb1a188e3bffd8df3792ee783a24689fcfe86c3f))
+* ts ([91a0d10](https://github.com/FactorJS/factor/commit/91a0d100a7c9c9f5672fc512c0485244119f6481))
+
+
+### Features
+
+* switch to ESM ([c2f2df4](https://github.com/FactorJS/factor/commit/c2f2df49650188779ca984468d4379f61684adfe))
+* update deps ([d2d4bf9](https://github.com/FactorJS/factor/commit/d2d4bf94c55124cd8a3e01ab89891c68f66e463d))
+
+
+
 ## [3.2.23](https://github.com/FactorJS/factor/compare/v3.2.22...v3.2.23) (2021-10-27)
 
 
