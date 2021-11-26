@@ -2,6 +2,8 @@
  * Had to create this because errors are thrown if there are variables in dynamic import()
  * Ideally, DayJs should give a programmatic way of doing this.
  */
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="./time-locale.d.ts" />
 export default {
   af: (): Promise<any> => import("dayjs/esm/locale/af"),
   ar: (): Promise<any> => import("dayjs/esm/locale/ar"),
