@@ -8,6 +8,10 @@ import path from "path"
 
 import pkg from "./package.json"
 
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
+
 const commander = new Command()
 
 export enum ServiceModule {
@@ -151,7 +155,7 @@ export const runService = async (options: CommandOptions): Promise<void> => {
     throw new Error(`no service argument is set (--SERVICE)`)
   }
 
-  const { setup } = require(SERVICE)
+  const { setup } = await import(SERVICE)
 
   if (setup) {
     await setup(options)
@@ -164,7 +168,7 @@ export const runService = async (options: CommandOptions): Promise<void> => {
  */
 export const runDev = async (options: CommandOptions): Promise<void> => {
   for (const { service } of Object.values(coreServices)) {
-    const { setup } = require(service)
+    const { setup } = await import(service)
 
     if (setup) {
       await setup(options)
@@ -265,8 +269,9 @@ export const execute = (): void => {
     .action((opts) => {
       return wrapCommand({
         cb: async (opts) => {
+          const { buildApp } = await import("@factor/render")
           await runService({ ...opts, SERVICE: ServiceModule.Server })
-          return require("@factor/render").buildApp(opts)
+          return buildApp(opts)
         },
         NODE_ENV: opts.NODE_ENV ?? "production",
         exit: opts.serve ? false : true,
@@ -284,8 +289,9 @@ export const execute = (): void => {
       return wrapCommand({
         cb: async (opts) => {
           opts.prerender = true
+          const { buildApp } = await import("@factor/render")
           await runService({ ...opts, SERVICE: ServiceModule.Server })
-          return require("@factor/render").buildApp(opts)
+          return buildApp(opts)
         },
         NODE_ENV: opts.NODE_ENV || "production",
         exit: opts.serve ? false : true,
@@ -308,7 +314,8 @@ export const execute = (): void => {
       return wrapCommand({
         opts,
         cb: async (opts) => {
-          return require("@factor/render").preRender(opts)
+          const { preRender } = await import("@factor/render")
+          return preRender(opts)
         },
         NODE_ENV: "production",
         exit: opts.serve ? false : true,
@@ -323,9 +330,9 @@ export const execute = (): void => {
     .action((opts) => {
       process.env.STAGE_ENV = StageId.Prod
       return wrapCommand({
-        cb: (_) => {
+        cb: async (_) => {
           // require to prevent devDependency errors in production
-          const { releaseRoutine } = require("@factor/build/release")
+          const { releaseRoutine } = await import("@factor/build/release")
           return releaseRoutine(_)
         },
         opts,
@@ -342,7 +349,7 @@ export const execute = (): void => {
     .option("--commit <commit>", "git commit id")
     .option("--outFile <outFile>", "name of output file")
     .action(async (opts) => {
-      const { bundleAll } = require("@factor/build/bundle")
+      const { bundleAll } = await import("@factor/build/bundle")
       await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
     })
 

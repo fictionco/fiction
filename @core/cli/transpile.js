@@ -1,7 +1,12 @@
-const path = require("path")
+import path from "path"
+import tsNode from "ts-node"
+import moduleAlias from "module-alias"
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
 const cwd = () => process.env.FACTOR_CWD || process.cwd()
 
-module.exports = () => {
+export const transpiler = async () => {
   /**
    * Use UTC time to prevent differences between local and live envs
    */
@@ -10,15 +15,15 @@ module.exports = () => {
    * Allow Node to process TypeScript
    */
   const transpileModules = ["@factor", ".*factor", "@darwin_", "dayjs", ".pnpm"]
-  require("ts-node").register({
+  tsNode.register({
     transpileOnly: true,
     compilerOptions: {
       strict: false,
       allowJs: true,
       resolveJsonModule: true,
       moduleResolution: "node",
-      module: "commonjs",
-      target: "es2020",
+      module: "ESNext",
+      target: "ES2020",
       esModuleInterop: true,
     },
     ignore: [
@@ -35,7 +40,6 @@ module.exports = () => {
 
   const primaryPackage = path.resolve(cwd(), "package.json")
   const { main = "index.js" } = require(primaryPackage)
-  const moduleAlias = require("module-alias")
 
   moduleAlias.addAlias("@src", () => path.dirname(path.resolve(cwd(), main)))
   moduleAlias.addAlias("@cwd", () => cwd())

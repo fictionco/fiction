@@ -1,6 +1,5 @@
-/* eslint-disable import/no-named-as-default-member */
-import dayjs, { Dayjs } from "dayjs/esm"
-import relativeTime from "dayjs/esm/plugin/relativeTime"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
 
 dayjs.extend(relativeTime)
 
@@ -21,7 +20,7 @@ export const isUnixTimestamp = (value: DateTypes): boolean => {
 /**
  * Get the time manipulation library w locale
  */
-export const timeUtil = (time?: dayjs.ConfigType): Dayjs => {
+export const timeUtil = (time?: dayjs.ConfigType): dayjs.Dayjs => {
   if (time && isUnixTimestamp(time)) {
     time = Number.parseFloat(time.toString())
     return dayjs.unix(time)

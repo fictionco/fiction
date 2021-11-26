@@ -13,6 +13,10 @@ import resolveCommonJS from "@rollup/plugin-commonjs"
 import vuePlugin from "rollup-plugin-vue"
 import postcss from "rollup-plugin-postcss"
 
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
+
 interface ScriptBuildConfig {
   packageName: string
   outFile?: string

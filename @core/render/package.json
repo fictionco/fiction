@@ -7,6 +7,7 @@
   },
   "private": false,
   "main": "index.ts",
+  "type": "module",
   "dependencies": {
     "@factor/api": "3.2.23",
     "@factor/entry": "3.2.23",

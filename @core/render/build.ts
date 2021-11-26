@@ -7,6 +7,10 @@ import { getIndexHtml } from "./render"
 import { getViteConfig } from "./vite.config"
 import { generateSitemap } from "./sitemap"
 
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
+
 /**
  * Builds the production application for server and client
  */
@@ -33,7 +37,7 @@ export const buildApp = async (
   //global.__VUE_PROD_DEVTOOLS__ = false
 
   try {
-    const vc = getViteConfig(options)
+    const vc = await getViteConfig(options)
 
     // build index to dist
     await getIndexHtml(mode)
@@ -58,6 +62,7 @@ export const buildApp = async (
         rollupOptions: {
           preserveEntrySignatures: "allow-extension", // not required
           input: require.resolve("@factor/entry"),
+          output: { format: "es" },
         },
       },
     }

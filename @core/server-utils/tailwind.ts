@@ -1,20 +1,25 @@
-const path = require("path")
+import path from "path"
+
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
+
 const folders = ["@factor/ui", "@factor/plugin-notify"]
 
-const resolveIfExists = (mod) => {
+const resolveIfExists = (mod: string): undefined | string | never => {
   let result = undefined
   try {
     result = require.resolve(mod)
   } catch (error) {
-    const e = error
+    const e = error as Error & { code: string }
     if (e.code != "MODULE_NOT_FOUND") {
       throw error
     } else {
       // get module missing in error message
       // https://stackoverflow.com/a/32808869
-      const m = error.message.match(/(?<=')(.*?)(?=')/g)
+      const m = e.message.match(/(?<=')(.*?)(?=')/g)
 
-      if (!mod.includes(m)) {
+      if (m && !m.includes(mod)) {
         throw error
       }
     }
@@ -35,4 +40,4 @@ const purgePath = folders
   })
   .filter((_) => _)
 
-exports.paths = purgePath
+export const paths = purgePath

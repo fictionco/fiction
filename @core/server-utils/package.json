@@ -6,6 +6,7 @@
     "access": "public"
   },
   "private": false,
+  "type": "module",
   "dependencies": {
     "@factor/api": "3.2.23",
     "@factor/server": "3.2.23",

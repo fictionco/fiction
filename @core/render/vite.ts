@@ -13,7 +13,7 @@ export const getViteServer = async (
       force: options.force,
     }
 
-    const config = getViteConfig({ server, ...options })
+    const config = await getViteConfig({ server, ...options })
 
     __viteDevServer = await vite.createServer(config)
   }

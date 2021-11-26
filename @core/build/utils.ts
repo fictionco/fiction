@@ -3,7 +3,9 @@ import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
 import { workspaces } from "../../package.json"
+import { createRequire } from "module"
 
+const require = createRequire(import.meta.url)
 /**
  * Register a helper to print raw JS objects
  */

@@ -18,7 +18,7 @@ export const setup = async (): Promise<void> => {
   /**
    * Require app server entry file if it exists
    */
-  const serverEntry = requireIfExists<{ setup?: () => UserConfigServer }>(
+  const serverEntry = await requireIfExists<{ setup?: () => UserConfigServer }>(
     path.join(sourceFolder(), "server.ts"),
   )
 
@@ -35,7 +35,7 @@ export const setup = async (): Promise<void> => {
    */
   const serverConfig = await setServerConfig(initialServerConfig)
 
-  setAppGlobals(serverConfig)
+  await setAppGlobals(serverConfig)
 
   /**
    * Load libraries

@@ -1,6 +1,7 @@
 import glob from "glob"
 import path from "path"
-
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
 export const packagePath = (): string => path.resolve(cwd(), "package.json")
 
@@ -18,10 +19,12 @@ export const distClient = (): string => path.join(distFolder(), "client")
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
  */
-export const requireIfExists = <T = unknown>(mod: string): T | undefined => {
+export const requireIfExists = async <T = unknown>(
+  mod: string,
+): Promise<T | undefined> => {
   let result: T | undefined = undefined
   try {
-    result = require(mod)
+    result = await import(mod)
   } catch (error: any) {
     const e: NodeJS.ErrnoException = error
     if (e.code != "MODULE_NOT_FOUND") {

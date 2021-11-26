@@ -3,6 +3,9 @@ import { requireIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
 
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
     FACTOR_APP_NAME: "",
@@ -17,12 +20,12 @@ export const packageConfig = (): Record<string, any> => {
   return require(path.join(process.cwd(), "package.json"))
 }
 
-export const getFactorConfig = (
+export const getFactorConfig = async (
   config: UserConfigServer = {},
-): UserConfigServer => {
+): Promise<UserConfigServer> => {
   const { factor = {} } = packageConfig()
 
-  const result = requireIfExists<{
+  const result = await requireIfExists<{
     default: UserConfigServer
   }>(path.join(process.cwd(), "factor.config"))
 
@@ -35,10 +38,10 @@ export const getFactorConfig = (
   ])
 }
 
-export const setAppGlobals = (
+export const setAppGlobals = async (
   config: UserConfigServer = {},
-): Record<string, string> => {
-  const { variables = {} } = getFactorConfig(config)
+): Promise<Record<string, string>> => {
+  const { variables = {} } = await getFactorConfig(config)
 
   Object.entries(variables).forEach(([key, value]) => {
     const finalValue = process.env[key] || value

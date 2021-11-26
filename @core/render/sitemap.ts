@@ -40,7 +40,7 @@ export const _processRouteConfigToUrls = (
 }
 
 export const getKnownRouteUrls = async (): Promise<string[]> => {
-  const { factorApp } = require(distServer())
+  const { factorApp } = await import(distServer())
   const { router } = (await factorApp({ renderUrl: "/" })) as FactorAppEntry
 
   const routeConfig = router.getRoutes()
@@ -104,8 +104,9 @@ export const generateSitemap = async (): Promise<void> => {
     Readable.from(sourceData).pipe(stream),
   )
 
+  const dirname = new URL(".", import.meta.url).pathname
   fs.copySync(
-    path.resolve(__dirname, "./sitemap.xsl"),
+    path.resolve(dirname, "./sitemap.xsl"),
     path.join(distClient(), "./sitemap.xsl"),
   )
   fs.writeFileSync(

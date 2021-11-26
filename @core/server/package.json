@@ -6,6 +6,7 @@
   },
   "private": false,
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@factor/api": "3.2.23",
     "@factor/server-utils": "3.2.23",

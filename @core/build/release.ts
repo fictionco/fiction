@@ -1,12 +1,14 @@
 import path from "path"
 import fs from "fs"
 import { ExecaChildProcess } from "execa"
-import { prompt } from "enquirer"
+import enquirer from "enquirer"
+const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
 import { logger } from "@factor/server-utils"
 import { version as currentVersion } from "../../package.json"
 import { isGitDirty, getPackages } from "./utils"
-
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
 let __dry: boolean | undefined
 
 /**

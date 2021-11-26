@@ -1,5 +1,7 @@
-const colors = require("tailwindcss/colors")
-const tw = require("@factor/server-utils/tailwind")
+import colors from "tailwindcss/colors"
+import { paths } from "@factor/server-utils/tailwind"
+import forms from "@tailwindcss/forms"
+import aspectRatio from "@tailwindcss/aspect-ratio"
 
 const darwin = {
   50: "#f6f5ff",
@@ -50,13 +52,10 @@ module.exports = {
       "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
       "./src/**/*.{vue,js,ts,jsx,tsx,html}",
       "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
-      ...tw.paths,
+      ...paths,
     ],
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/aspect-ratio"),
-  ],
+  plugins: [forms, aspectRatio],
 
   theme: {
     colors: {

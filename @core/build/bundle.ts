@@ -6,6 +6,10 @@ import { getPackages, getCommit } from "./utils"
 import * as rollup from "rollup"
 import { getConfig } from "./rollupBuildConfig"
 
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
+
 interface BundleOptions {
   packageName?: string
   NODE_ENV?: "production" | "development"
@@ -18,9 +22,10 @@ export const outputFolders = (): {
   htmlFolder: string
   renderedFolder: string
 } => {
+  const dirname = new URL(".", import.meta.url).pathname
   return {
-    htmlFolder: `${__dirname}/html`,
-    renderedFolder: `${__dirname}/rendered`,
+    htmlFolder: `${dirname}/html`,
+    renderedFolder: `${dirname}/rendered`,
   }
 }
 

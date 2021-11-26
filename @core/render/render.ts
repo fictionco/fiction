@@ -14,7 +14,9 @@ import { minify } from "html-minifier"
 import { version } from "./package.json"
 import { renderPreloadLinks } from "./preload"
 import { getViteServer } from "./vite"
+import { createRequire } from "module"
 
+const require = createRequire(import.meta.url)
 export type HtmlGenerateParts = HtmlBuildingBlocks & {
   url: string
 }
@@ -127,7 +129,7 @@ export const renderParts = async (args: {
      *
      */
     if (prod) {
-      entryModule = require(distServer())
+      entryModule = await import(distServer())
     } else {
       const srv = await getViteServer()
       entryModule = await srv.ssrLoadModule("@factor/entry")

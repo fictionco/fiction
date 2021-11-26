@@ -6,20 +6,31 @@ import { deepMergeAll, getMarkdownUtility } from "@factor/api"
 import fs from "fs"
 import path from "path"
 import * as vite from "vite"
-import pluginMarkdown, { Mode } from "vite-plugin-markdown"
+import * as pluginMarkdown from "vite-plugin-markdown"
 
-const tailwindConfig = (): Record<string, any> | undefined => {
-  const baseTailwindConfig = require("./tailwind.config")
+import { createRequire } from "module"
 
-  const c = [baseTailwindConfig]
+const require = createRequire(import.meta.url)
 
-  const userTailwindConfig = requireIfExists(
+const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
+  const baseTailwindConfig = await import("./tailwind.config")
+
+  const c: Record<string, any>[] = [baseTailwindConfig.default]
+
+  const userTailwindConfig = await requireIfExists(
     path.join(cwd(), "tailwind.config"),
   )
 
-  if (userTailwindConfig) c.push(userTailwindConfig)
+  if (userTailwindConfig) {
+    const userConf = userTailwindConfig as Record<string, any>
+    c.push(userConf.default)
+  }
 
-  const config = deepMergeAll<Record<string, any>>(c)
+  const config = deepMergeAll<Record<string, any>>(
+    c.map((_) => {
+      return { ..._ }
+    }),
+  )
 
   return config
 }
@@ -80,10 +91,10 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
   }
 }
 
-export const getViteConfig = (
+export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
-): vite.InlineConfig => {
-  const vars = setAppGlobals()
+): Promise<vite.InlineConfig> => {
+  const vars = await setAppGlobals()
 
   const defines = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -101,6 +112,8 @@ export const getViteConfig = (
 
   const root = sourceFolder()
 
+  const twConfig = await tailwindConfig()
+
   const basicConfig: vite.InlineConfig = {
     root,
     publicDir: path.join(root, "public"),
@@ -112,10 +125,7 @@ export const getViteConfig = (
     css: {
       //postcss: path.join(cwd(), "postcss.config.js"),
       postcss: {
-        plugins: [
-          require("tailwindcss")(tailwindConfig()),
-          require("autoprefixer"),
-        ],
+        plugins: [require("tailwindcss")(twConfig), require("autoprefixer")],
       },
     },
     build: {
@@ -145,8 +155,8 @@ export const getViteConfig = (
 
     plugins: [
       pluginVue(),
-      pluginMarkdown({
-        mode: [Mode.VUE, Mode.HTML],
+      pluginMarkdown.plugin({
+        mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
       /**
