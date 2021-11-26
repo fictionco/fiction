@@ -43,7 +43,7 @@ const color = {
   900: "#44525e",
 }
 
-delete colors.lightBlue
+// delete colors.lightBlue
 
 module.exports = {
   mode: "jit",
