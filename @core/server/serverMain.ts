@@ -1,6 +1,6 @@
 import { runCallbacks, deepMergeAll } from "@factor/api"
 import {
-  requireIfExists,
+  importIfExists,
   sourceFolder,
   setAppGlobals,
 } from "@factor/server-utils"
@@ -18,7 +18,7 @@ export const setup = async (): Promise<void> => {
   /**
    * Require app server entry file if it exists
    */
-  const serverEntry = await requireIfExists<{ setup?: () => UserConfigServer }>(
+  const serverEntry = await importIfExists<{ setup?: () => UserConfigServer }>(
     path.join(sourceFolder(), "server.ts"),
   )
 

@@ -1,5 +1,5 @@
 import path from "path"
-import { requireIfExists } from "./serverPaths"
+import { importIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
 
@@ -25,9 +25,9 @@ export const getFactorConfig = async (
 ): Promise<UserConfigServer> => {
   const { factor = {} } = packageConfig()
 
-  const result = await requireIfExists<{
+  const result = await importIfExists<{
     default: UserConfigServer
-  }>(path.join(process.cwd(), "factor.config"))
+  }>(path.join(process.cwd(), "factor.config.ts"))
 
   const configFile = result?.default || {}
   return deepMergeAll([

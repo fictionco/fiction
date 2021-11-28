@@ -1,5 +1,4 @@
 import colors from "tailwindcss/colors"
-import { paths } from "@factor/server-utils/tailwind"
 import forms from "@tailwindcss/forms"
 import aspectRatio from "@tailwindcss/aspect-ratio"
 
@@ -44,7 +43,9 @@ const color = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { lightBlue, ...addColors } = colors
+const added: Record<string, any> = colors
+
+delete added.lightBlue
 
 export default {
   mode: "jit",
@@ -53,14 +54,13 @@ export default {
       "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
       "./src/**/*.{vue,js,ts,jsx,tsx,html}",
       "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
-      ...paths,
     ],
   },
   plugins: [forms, aspectRatio],
 
   theme: {
     colors: {
-      ...addColors,
+      ...added,
       transparent: "transparent",
       primary: darwin,
       dark: darwinDark,

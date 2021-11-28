@@ -1,6 +1,4 @@
 const colors = require("tailwindcss/colors")
-const tw = require("@factor/server-utils/tailwind")
-
 const darwin = {
   50: "#f6f5ff",
   100: "#eeebff",
@@ -45,7 +43,7 @@ delete colors.lightBlue
 module.exports = {
   mode: "jit",
   purge: {
-    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}", ...tw.paths],
+    content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
     options: {
       safelist: ["bg-primary-600"],
     },

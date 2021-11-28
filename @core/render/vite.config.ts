@@ -1,5 +1,5 @@
 import { sourceFolder, cwd } from "@factor/server"
-import { requireIfExists, setAppGlobals, logger } from "@factor/server-utils"
+import { importIfExists, setAppGlobals, logger } from "@factor/server-utils"
 import pluginVue from "@vitejs/plugin-vue"
 
 import { deepMergeAll, getMarkdownUtility } from "@factor/api"
@@ -17,8 +17,8 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
 
   const c: Record<string, any>[] = [baseTailwindConfig.default]
 
-  const userTailwindConfig = await requireIfExists(
-    path.join(cwd(), "tailwind.config"),
+  const userTailwindConfig = await importIfExists(
+    path.join(cwd(), "tailwind.config.ts"),
   )
 
   if (userTailwindConfig) {
@@ -36,7 +36,7 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
 }
 
 const getAppViteConfig = (): Record<string, any> | undefined => {
-  return requireIfExists(path.join(cwd(), "vite.config"))
+  return importIfExists(path.join(cwd(), "vite.config.ts"))
 }
 
 const entryDir = path.dirname(require.resolve("@factor/entry"))
