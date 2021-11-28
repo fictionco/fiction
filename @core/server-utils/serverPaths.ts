@@ -19,12 +19,31 @@ export const distClient = (): string => path.join(distFolder(), "client")
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
  */
-export const requireIfExists = async <T = unknown>(
+export const importIfExists = async <T = unknown>(
   mod: string,
 ): Promise<T | undefined> => {
   let result: T | undefined = undefined
   try {
     result = await import(mod)
+  } catch (error: any) {
+    const e: NodeJS.ErrnoException = error
+    if (e.message != "MODULE_NOT_FOUND") {
+      throw error
+    }
+  }
+
+  return result
+}
+
+/**
+ * Require a path if it exists and silence any not found errors if it doesn't
+ */
+export const requireIfExists = async <T = unknown>(
+  mod: string,
+): Promise<T | undefined> => {
+  let result: T | undefined = undefined
+  try {
+    result = require(mod)
   } catch (error: any) {
     const e: NodeJS.ErrnoException = error
     if (e.code != "MODULE_NOT_FOUND") {

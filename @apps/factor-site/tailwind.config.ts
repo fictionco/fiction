@@ -43,9 +43,10 @@ const color = {
   900: "#44525e",
 }
 
-// delete colors.lightBlue
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { lightBlue, ...addColors } = colors
 
-module.exports = {
+export default {
   mode: "jit",
   purge: {
     content: [
@@ -59,7 +60,7 @@ module.exports = {
 
   theme: {
     colors: {
-      ...colors,
+      ...addColors,
       transparent: "transparent",
       primary: darwin,
       dark: darwinDark,
