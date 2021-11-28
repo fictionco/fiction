@@ -6,7 +6,7 @@ import { transformSync, build } from "esbuild"
 
 const isWindows = process.platform === "win32"
 
-const imgExtensionsRegex = /\.(webp|svg|jpg|png|gif)$/
+const imgExtensionsRegex = /\.(webp|svg|jpg|png|gif|vue)$/
 const tsExtensionsRegex = /\.m?(tsx?|json)$/
 
 const esbuildResolve = async (id, dir) => {
