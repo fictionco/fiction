@@ -1,3 +1,12 @@
+## [3.3.2](https://github.com/FactorJS/factor/compare/v3.3.1...v3.3.2) (2021-11-28)
+
+
+### Bug Fixes
+
+* lock chalk ([fc8b3e8](https://github.com/FactorJS/factor/commit/fc8b3e852ebf4245b0e29e363408cd070c140139))
+
+
+
 ## [3.3.1](https://github.com/FactorJS/factor/compare/v3.3.0...v3.3.1) (2021-11-28)
 
 
