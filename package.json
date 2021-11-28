@@ -37,7 +37,7 @@
   },
   "gitHooks": {
     "pre-push": "git pull && npm run test-lint",
-    "commit-msg": "ts-node scripts/verify-commit.ts"
+    "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
     "@jest/types": "^27.2.5",
@@ -46,7 +46,7 @@
     "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "latest",
     "eslint-plugin-html": "^6.2.0",

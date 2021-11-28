@@ -67,7 +67,7 @@ module.exports = {
 
     "no-async-promise-executor": "off",
     "import/no-cycle": 2,
-
+    "import/no-unresolved": "off",
     "import/named": "off",
     "import/extensions": ["warn", "always", { ts: "never", js: "never" }],
     "unicorn/prefer-module": "off",
