@@ -1,3 +1,12 @@
+## [3.3.3](https://github.com/FactorJS/factor/compare/v3.3.2...v3.3.3) (2021-11-28)
+
+
+### Bug Fixes
+
+* add vue to loader ([c41ad58](https://github.com/FactorJS/factor/commit/c41ad58de4fabd09337c6a64b94bed9e9846d7ee))
+
+
+
 ## [3.3.2](https://github.com/FactorJS/factor/compare/v3.3.1...v3.3.2) (2021-11-28)
 
 
