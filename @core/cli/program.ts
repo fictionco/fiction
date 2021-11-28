@@ -111,9 +111,9 @@ const restartInitializer = (options: CommandOptions): void => {
 
   let script
   if (workspace) {
-    script = `yarn workspace ${workspace} factor ${CMD}`
+    script = `npm -w ${workspace} exec factor ${CMD}`
   } else {
-    script = `yarn factor ${CMD}`
+    script = `npm exec factor ${CMD}`
   }
 
   script = `${script} ${passArgs.join(" ")}`
