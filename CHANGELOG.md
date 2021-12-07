@@ -1,3 +1,12 @@
+# [3.4.0](https://github.com/FactorJS/factor/compare/v3.3.4...v3.4.0) (2021-12-07)
+
+
+### Features
+
+* upgrade vite ([7c19e98](https://github.com/FactorJS/factor/commit/7c19e983126c11b131b0b637f19be05096f3a80a))
+
+
+
 ## [3.3.4](https://github.com/FactorJS/factor/compare/v3.3.3...v3.3.4) (2021-12-07)
 
 
