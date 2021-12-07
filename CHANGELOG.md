@@ -1,3 +1,17 @@
+## [3.3.4](https://github.com/FactorJS/factor/compare/v3.3.3...v3.3.4) (2021-12-07)
+
+
+### Bug Fixes
+
+* update deps ([581d40e](https://github.com/FactorJS/factor/commit/581d40eba65d11a5c648e1da9f854f46a31f3e49))
+
+
+### Features
+
+* remove yarn ([9ca0968](https://github.com/FactorJS/factor/commit/9ca0968c561c9c22bec5e1737d6112a0fcf91051))
+
+
+
 ## [3.3.3](https://github.com/FactorJS/factor/compare/v3.3.2...v3.3.3) (2021-11-28)
 
 
