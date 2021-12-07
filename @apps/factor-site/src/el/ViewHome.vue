@@ -3,13 +3,7 @@
     <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-36">
         <div
-          class="
-            mx-auto
-            max-w-md
-            px-4
-            sm:max-w-3xl sm:px-6
-            lg:px-12 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-16
-          "
+          class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-12 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-16"
         >
           <div>
             <div class="">
@@ -19,31 +13,12 @@
                   class="inline-flex space-x-4 group"
                 >
                   <span
-                    class="
-                      rounded
-                      bg-primary-50
-                      px-2.5
-                      py-1
-                      text-xs
-                      font-semibold
-                      text-primary-600
-                      tracking-wide
-                      uppercase
-                      group-hover:text-primary-400
-                    "
+                    class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-600 tracking-wide uppercase group-hover:text-primary-400"
                   >
                     What's new
                   </span>
                   <span
-                    class="
-                      inline-flex
-                      items-center
-                      text-sm
-                      font-medium
-                      text-primary-600
-                      space-x-1
-                      hover:text-primary-400
-                    "
+                    class="inline-flex items-center text-sm font-medium text-primary-600 space-x-1 hover:text-primary-400"
                   >
                     <span>Version 3 is now available</span>
                     <!-- Heroicon name: solid/chevron-right -->
@@ -64,8 +39,8 @@
                 </router-link>
               </div>
               <div class="mt-6 sm:max-w-xl">
-                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
-                  The future of web development has arrived.
+                <h1 class="text-4xl font-extrabold tracking-tight">
+                  A Framework for JAMStack applications and websites
                 </h1>
                 <p class="mt-6 text-xl text-color-500">
                   Introducing Factor, a free next-generation TypeScript
@@ -104,11 +79,7 @@
 
         <div class="sm:mx-auto sm:max-w-3xl">
           <div
-            class="
-              py-6
-              sm:relative
-              lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2
-            "
+            class="py-6 sm:relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
           >
             <FigureSplash class="absolute z-10 mb-16 lg:mt-12 lg:mb-0" />
           </div>
