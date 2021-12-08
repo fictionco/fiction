@@ -119,7 +119,7 @@ export const getViteConfig = async (
     publicDir: path.join(root, "public"),
     server: {
       port: 3000,
-      // fsServe: { root: path.relative(entryDir, `../../../..`) },
+      fs: { strict: false },
     },
 
     css: {

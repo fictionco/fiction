@@ -34,8 +34,11 @@ export const expressApp = async (
     app.use("*", async (req, res) => {
       const url = req.originalUrl
 
-      // if file is 404 then just send 404 response
-      if (url.includes(".") && url.split(".").pop() != "html") {
+      // This is the page catch all loader,
+      // If a file request falls through to this its 404
+      // make sure false triggers don't occur
+      const rawPath = url.split("?")[0]
+      if (rawPath.includes(".") && rawPath.split(".").pop() != "html") {
         res.status(404).end()
         return
       }
