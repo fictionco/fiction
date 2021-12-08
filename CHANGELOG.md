@@ -1,3 +1,12 @@
+## [3.4.3](https://github.com/FactorJS/factor/compare/v3.4.2...v3.4.3) (2021-12-08)
+
+
+### Bug Fixes
+
+* 404 error ([886afb1](https://github.com/FactorJS/factor/commit/886afb17e144af26165b160dec2817f85c85ac18))
+
+
+
 ## [3.4.2](https://github.com/FactorJS/factor/compare/v3.4.1...v3.4.2) (2021-12-08)
 
 
