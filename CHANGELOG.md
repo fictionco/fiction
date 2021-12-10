@@ -1,3 +1,12 @@
+## [3.4.4](https://github.com/FactorJS/factor/compare/v3.4.3...v3.4.4) (2021-12-10)
+
+
+### Features
+
+* tailwind 3 ([124a6ab](https://github.com/FactorJS/factor/commit/124a6abafc5fbdcbbb9d80c9fd4fb01ac6c975e7))
+
+
+
 ## [3.4.3](https://github.com/FactorJS/factor/compare/v3.4.2...v3.4.3) (2021-12-08)
 
 
