@@ -29,19 +29,19 @@
     "@factor/test-utils": "3.4.3",
     "@factor/types": "3.4.3",
     "@factor/ui": "3.4.3",
-    "@tailwindcss/typography": "^0.4.1",
+    "@tailwindcss/typography": "^0.5.0",
     "@typeform/embed": "^1.0.0-next.15",
     "@types/mapbox-gl": "^2.0.4",
     "autoprefixer": "^10.2.4",
     "mapbox-gl": "^2.0.1",
     "postcss": "^8.2.6",
     "react": "^17.0.1",
-    "tailwindcss": "^2.0.3",
+    "tailwindcss": "^3.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.3.2",
+    "@tailwindcss/forms": "^0.4.0",
     "tailwindcss-aspect-ratio": "^3.0.0",
     "tailwindcss-responsive-embed": "^1.0.0"
   }

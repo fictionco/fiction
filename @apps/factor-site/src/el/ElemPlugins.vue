@@ -29,21 +29,7 @@
         <img
           :src="item.icon"
           :alt="item.name"
-          class="
-            w-24
-            h-24
-            mr-8
-            rounded-lg
-            shadow-lg
-            flex-shrink-0
-            transition
-            duration-300
-            ease-in-out
-            origin-top-right
-            transform
-            scale-100
-            group-hover:scale-75
-          "
+          class="w-24 h-24 mr-8 rounded-lg shadow-lg shrink-0 transition duration-300 ease-in-out origin-top-right transform scale-100 group-hover:scale-75"
         />
         <div class="min-w-0">
           <h1 class="text-3xl mb-2 font-bold">{{ item.name }}</h1>

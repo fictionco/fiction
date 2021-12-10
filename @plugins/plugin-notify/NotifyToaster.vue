@@ -1,17 +1,7 @@
 <template>
   <div class="notifications">
     <div
-      class="
-        fixed
-        z-50
-        inset-0
-        flex flex-col
-        items-center
-        px-4
-        py-6
-        pointer-events-none
-        justify-start
-      "
+      class="fixed z-50 inset-0 flex flex-col items-center px-4 py-6 pointer-events-none justify-start"
     >
       <transition-group
         name="notification-top"
@@ -25,24 +15,12 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="
-            transition-all
-            duration-300
-            max-w-md
-            w-full
-            bg-white
-            shadow-2xl
-            rounded-lg
-            pointer-events-auto
-            ring-1 ring-black ring-opacity-10
-            overflow-hidden
-            mb-4
-          "
+          class="transition-all duration-300 max-w-md w-full bg-white shadow-2xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-10 overflow-hidden mb-4"
           :class="toast.type"
         >
           <div class="p-5">
             <div class="flex items-center">
-              <div class="flex-shrink-0">
+              <div class="shrink-0">
                 <svg
                   v-if="toast.type == 'success'"
                   class="h-6 w-6 text-primary-500"

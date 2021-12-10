@@ -1,4 +1,3 @@
-import colors from "tailwindcss/colors"
 import forms from "@tailwindcss/forms"
 import aspectRatio from "@tailwindcss/aspect-ratio"
 
@@ -42,30 +41,24 @@ const color = {
   900: "#44525e",
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const added: Record<string, any> = colors
-
-delete added.lightBlue
-
 export default {
   mode: "jit",
-  purge: {
-    content: [
-      "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
-      "./src/**/*.{vue,js,ts,jsx,tsx,html}",
-      "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
-    ],
-  },
+  content: [
+    "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
+    "./src/**/*.{vue,js,ts,jsx,tsx,html}",
+    "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
+  ],
   plugins: [forms, aspectRatio],
 
   theme: {
-    colors: {
-      ...added,
-      transparent: "transparent",
-      primary: darwin,
-      dark: darwinDark,
-      bluegray: color,
-      color,
+    extend: {
+      colors: {
+        transparent: "transparent",
+        primary: darwin,
+        dark: darwinDark,
+        bluegray: color,
+        color,
+      },
     },
   },
 }

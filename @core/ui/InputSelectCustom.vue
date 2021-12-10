@@ -13,21 +13,7 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="
-          f-input
-          group
-          relative
-          w-full
-          rounded-md
-          pl-3
-          pr-8
-          py-2
-          text-left
-          font-medium
-          cursor-pointer
-          focus:outline-none
-          border border-bluegray-400
-        "
+        class="f-input group relative w-full rounded-md pl-3 pr-8 py-2 text-left font-medium cursor-pointer focus:outline-none border border-bluegray-400"
         :class="[
           active || disabled ? 'opacity-50' : 'hover:border-bluegray-400',
           classButton,
@@ -46,7 +32,7 @@
             />
             <img
               :src="selectedItem?.icon"
-              class="flex-shrink-0 h-6 w-6 mr-2 rounded-full"
+              class="shrink-0 h-6 w-6 mr-2 rounded-full"
             />
           </template>
 
@@ -59,16 +45,7 @@
           >
         </span>
         <span
-          class="
-            absolute
-            inset-y-0
-            right-0
-            flex
-            items-center
-            pr-2
-            pointer-events-none
-            group-hover:text-primary-500
-          "
+          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none group-hover:text-primary-500"
           :class="active ? 'text-primary-500' : ''"
         >
           <svg
@@ -138,12 +115,12 @@
                     />
                     <img
                       :src="item.icon"
-                      class="flex-shrink-0 h-6 w-6 mr-2 rounded-full"
+                      class="shrink-0 h-6 w-6 mr-2 rounded-full"
                     />
                   </template>
 
                   <span
-                    class="truncate flex-shrink-0"
+                    class="truncate shrink-0"
                     :class="item.desc ? '' : 'w-full'"
                     >{{ item.name }}</span
                   >

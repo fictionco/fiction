@@ -5,7 +5,7 @@
       :key="i"
       class="flex flex-col rounded-lg border border-x-200 overflow-hidden"
     >
-      <div class="flex-shrink-0">
+      <div class="shrink-0">
         <img class="h-48 w-full object-cover" :src="post.postImage" alt="" />
       </div>
       <div class="flex-1 bg-white p-6 flex flex-col justify-between">
@@ -30,7 +30,7 @@
           </router-link>
         </div>
         <div class="mt-6 flex items-center">
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <a href="#">
               <span class="sr-only">{{ post.authorName }}</span>
 

@@ -33,18 +33,7 @@
     </div>
     <div class="relative">
       <div
-        class="
-          flex
-          justify-between
-          items-center
-          max-w-7xl
-          mx-auto
-          px-4
-          py-6
-          sm:px-6
-          md:justify-start md:space-x-10
-          lg:px-8
-        "
+        class="flex justify-between items-center max-w-7xl mx-auto px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8"
       >
         <div class="flex justify-start lg:w-0 lg:flex-1">
           <router-link to="/">
@@ -55,20 +44,7 @@
         <div class="-mr-2 -my-2 md:hidden">
           <button
             type="button"
-            class="
-              bg-white
-              rounded-md
-              p-2
-              inline-flex
-              items-center
-              justify-center
-              text-color-400
-              hover:text-color-500 hover:bg-color-100
-              focus:outline-none
-              focus:ring-2
-              focus:ring-inset
-              focus:ring-primary-500
-            "
+            class="bg-white rounded-md p-2 inline-flex items-center justify-center text-color-400 hover:text-color-500 hover:bg-color-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
             :aria-expanded="mobileMenu ? 'true' : 'false'"
             @click.stop="mobileMenu = true"
           >
@@ -98,20 +74,7 @@
                 <!-- Item active: "", Item inactive: "text-color-500" -->
                 <button
                   type="button"
-                  class="
-                    group
-                    bg-white
-                    rounded-md
-                    inline-flex
-                    items-center
-                    text-base
-                    font-semibold
-                    hover:
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-offset-2
-                    focus:ring-primary-500
-                  "
+                  class="group bg-white rounded-md inline-flex items-center text-base font-semibold hover: focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                   aria-expanded="false"
                 >
                   <span>{{ item.name }}</span>
@@ -121,13 +84,7 @@
                 Item active: "text-gray-600", Item inactive: "text-color-400"
               -->
                   <svg
-                    class="
-                      text-color-400
-                      ml-2
-                      h-5
-                      w-5
-                      group-hover:text-color-500
-                    "
+                    class="text-color-400 ml-2 h-5 w-5 group-hover:text-color-500"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -150,62 +107,22 @@
                   leave-to-class="opacity-0 translate-y-1"
                 >
                   <div
-                    class="
-                      absolute
-                      z-10
-                      -ml-4
-                      mt-3
-                      transform
-                      w-screen
-                      max-w-md
-                      lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2
-                    "
+                    class="absolute z-10 -ml-4 mt-3 transform w-screen max-w-md lg:max-w-2xl lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
                   >
                     <div
-                      class="
-                        rounded-lg
-                        shadow-lg
-                        ring-1 ring-black ring-opacity-5
-                        overflow-hidden
-                      "
+                      class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
                     >
                       <div
-                        class="
-                          relative
-                          grid
-                          gap-6
-                          bg-white
-                          px-5
-                          py-6
-                          sm:gap-8 sm:p-8
-                          lg:grid-cols-2
-                        "
+                        class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2"
                       >
                         <a
                           v-for="(sub, ii) in item.menu"
                           :key="ii"
                           href="#"
-                          class="
-                            -m-3
-                            p-3
-                            flex
-                            items-start
-                            rounded-lg
-                            hover:bg-color-50
-                          "
+                          class="-m-3 p-3 flex items-start rounded-lg hover:bg-color-50"
                         >
                           <div
-                            class="
-                              flex-shrink-0 flex
-                              items-center
-                              justify-center
-                              h-10
-                              w-10
-                              rounded-md
-                              bg-primary-500
-                              text-white
-                              sm:h-12 sm:w-12
-                            "
+                            class="shrink-0 flex items-center justify-center h-10 w-10 rounded-md bg-primary-500 text-white sm:h-12 sm:w-12"
                           >
                             <!-- Heroicon name: outline/inbox -->
                             <svg
@@ -249,28 +166,12 @@
           <ElemGithubStars />
         </div>
         <div class="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-          <a
-            href="#"
-            class="
-              ml-8
-              whitespace-nowrap
-              inline-flex
-              items-center
-              justify-center
-              bg-primary-500 bg-origin-border
-              px-4
-              py-2
-              border border-transparent
-              rounded-md
-              shadow-sm
-              text-base
-              font-semibold
-              text-white
-              hover:bg-primary-700
-            "
+          <router-link
+            to="/docs"
+            class="ml-8 whitespace-nowrap inline-flex items-center justify-center bg-primary-500 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-semibold text-white hover:bg-primary-700"
           >
             Start Site or App &rarr;
-          </a>
+          </router-link>
         </div>
       </div>
 
@@ -284,26 +185,10 @@
       >
         <div
           v-if="mobileMenu"
-          class="
-            absolute
-            z-30
-            top-0
-            inset-x-0
-            p-2
-            transition
-            transform
-            origin-top-right
-            md:hidden
-          "
+          class="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
         >
           <div
-            class="
-              rounded-lg
-              shadow-lg
-              ring-1 ring-black ring-opacity-5
-              bg-white
-              divide-y-2 divide-color-50
-            "
+            class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-color-50"
           >
             <div class="pt-5 pb-6 px-5">
               <div class="flex items-center justify-between">
@@ -316,20 +201,7 @@
                 <div class="-mr-2">
                   <button
                     type="button"
-                    class="
-                      bg-white
-                      rounded-md
-                      p-2
-                      inline-flex
-                      items-center
-                      justify-center
-                      text-color-400
-                      hover:text-color-500 hover:bg-color-100
-                      focus:outline-none
-                      focus:ring-2
-                      focus:ring-inset
-                      focus:ring-primary-500
-                    "
+                    class="bg-white rounded-md p-2 inline-flex items-center justify-center text-color-400 hover:text-color-500 hover:bg-color-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                     @click="mobileMenu = false"
                   >
                     <span class="sr-only">Close menu</span>
@@ -369,22 +241,7 @@
               <div class="mt-6">
                 <a
                   href="#"
-                  class="
-                    w-full
-                    flex
-                    items-center
-                    justify-center
-                    bg-primary-500 bg-origin-border
-                    px-4
-                    py-2
-                    border border-transparent
-                    rounded-md
-                    shadow-sm
-                    text-base
-                    font-semibold
-                    text-white
-                    hover:bg-primary-700
-                  "
+                  class="w-full flex items-center justify-center bg-primary-500 bg-origin-border px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-semibold text-white hover:bg-primary-700"
                 >
                   Start Site or App
                 </a>

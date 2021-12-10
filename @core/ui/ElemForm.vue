@@ -7,7 +7,7 @@
   >
     <div v-if="notify" class="rounded-md bg-yellow-50 p-4 my-4">
       <div class="flex">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <!-- Heroicon name: solid/exclamation -->
           <svg
             class="h-5 w-5 text-yellow-400"

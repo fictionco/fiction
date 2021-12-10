@@ -2,106 +2,41 @@
   <div>
     <div class="relative">
       <div
-        class="
-          h-80
-          w-full
-          absolute
-          bottom-0
-          lg:inset-0 lg:h-auto lg:grid lg:grid-cols-2
-        "
+        class="h-80 w-full absolute bottom-0 lg:inset-0 lg:h-auto lg:grid lg:grid-cols-2"
       >
         <div class="h-full lg:relative lg:col-start-2 lg:-mt-24">
           <img
-            class="
-              image-splash
-              w-full
-              object-cover
-              opacity-25
-              lg:absolute lg:inset-0
-            "
+            class="image-splash w-full object-cover opacity-25 lg:absolute lg:inset-0"
             :src="imageSplash"
             alt="People working on laptops"
           />
           <div
             aria-hidden="true"
-            class="
-              absolute
-              inset-x-0
-              h-1/2
-              top-0
-              bg-gradient-to-b
-              from-black
-              lg:from-gray-900
-              to-transparent
-              lg:inset-y-0 lg:left-0 lg:h-full lg:w-1/3 lg:bg-gradient-to-r
-            "
+            class="absolute inset-x-0 h-1/2 top-0 bg-gradient-to-b from-black lg:from-gray-900 to-transparent lg:inset-y-0 lg:left-0 lg:h-full lg:w-1/3 lg:bg-gradient-to-r"
           />
         </div>
       </div>
       <div
-        class="
-          max-w-4xl
-          mx-auto
-          px-4
-          sm:px-6
-          lg:max-w-7xl
-          lg:px-8
-          lg:grid
-          lg:grid-cols-2
-          lg:grid-flow-col-dense
-          lg:gap-x-8
-        "
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-x-8"
       >
         <div
-          class="
-            relative
-            pt-12
-            pb-64
-            sm:pt-24 sm:pb-64
-            lg:col-start-1 lg:pb-24
-            xl:pr-16
-          "
+          class="relative pt-12 pb-64 sm:pt-24 sm:pb-64 lg:col-start-1 lg:pb-24 xl:pr-16"
         >
           <a
             href="mailto:hello@fiction.com"
-            class="
-              inline
-              text-base
-              font-semibold
-              tracking-wide
-              uppercase
-              bg-gradient-to-r
-              from-primary-300
-              to-primary-400
-              bg-clip-text
-              text-transparent
-            "
+            class="inline text-base font-semibold tracking-wide uppercase bg-gradient-to-r from-primary-300 to-primary-400 bg-clip-text text-transparent"
           >
             Work with
           </a>
           <h1
-            class="
-              mt-4
-              text-4xl
-              tracking-tight
-              font-extrabold
-              text-white
-              sm:mt-5 sm:text-6xl
-              lg:mt-6 lg:text-6xl
-            "
+            class="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 lg:text-6xl"
           >
             <span id="mainHeadline" class="block"
               >We'll help you improve your customer experiences.</span
             >
           </h1>
           <p
-            class="
-              mt-3
-              text-base text-gray-300
-              sm:mt-5 sm:text-xl
-              lg:text-lg
-              xl:text-xl
-            "
+            class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl"
           >
             Since 2009, we’ve helped design, develop, market, and refine
             applications with a focus on customer experience and network
@@ -118,13 +53,7 @@
 
     <div class="max-w-3xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
       <p
-        class="
-          text-center text-sm
-          font-semibold
-          uppercase
-          text-gray-100
-          tracking-wide
-        "
+        class="text-center text-sm font-semibold uppercase text-gray-100 tracking-wide"
       >
         Current Companies
         <!-- #33FFFB -->
@@ -138,16 +67,7 @@
           <a
             :href="company.link"
             target="_blank"
-            class="
-              block
-              w-full
-              mx-7
-              border-2 border-gray-800
-              rounded-md
-              py-7
-              px-10
-              hover:border-gray-500
-            "
+            class="block w-full mx-7 border-2 border-gray-800 rounded-md py-7 px-10 hover:border-gray-500"
           >
             <span class="sr-only">{{ company.title }}</span>
             <div v-html="company.img" />
@@ -162,18 +82,7 @@
       <div class="xl:grid xl:grid-cols-3 xl:gap-x-8">
         <div>
           <h2
-            class="
-              inline
-              text-base
-              font-semibold
-              tracking-wide
-              uppercase
-              bg-gradient-to-r
-              from-primary-300
-              to-primary-400
-              bg-clip-text
-              text-transparent
-            "
+            class="inline text-base font-semibold tracking-wide uppercase bg-gradient-to-r from-primary-300 to-primary-400 bg-clip-text text-transparent"
           >
             Have a Company or Idea?
           </h2>
@@ -186,24 +95,15 @@
           </p>
         </div>
         <div
-          class="
-            mt-4
-            sm:mt-8
-            md:mt-10 md:grid md:grid-cols-2 md:gap-x-8
-            xl:mt-0 xl:col-span-2
-          "
+          class="mt-4 sm:mt-8 md:mt-10 md:grid md:grid-cols-2 md:gap-x-8 xl:mt-0 xl:col-span-2"
         >
           <ul
-            class="
-              border-t border-gray-700
-              divide-y divide-gray-700
-              md:border-t-0
-            "
+            class="border-t border-gray-700 divide-y divide-gray-700 md:border-t-0"
           >
             <li v-for="(why, index) in whyList1" :key="index" class="py-4 flex">
               <!-- Heroicon name: check -->
               <svg
-                class="flex-shrink-0 h-6 w-6 text-green-300"
+                class="shrink-0 h-6 w-6 text-green-300"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -224,16 +124,12 @@
           </ul>
 
           <ul
-            class="
-              border-t border-gray-700
-              divide-y divide-gray-700
-              md:border-t-0
-            "
+            class="border-t border-gray-700 divide-y divide-gray-700 md:border-t-0"
           >
             <li v-for="(why, index) in whyList2" :key="index" class="py-4 flex">
               <!-- Heroicon name: check -->
               <svg
-                class="flex-shrink-0 h-6 w-6 text-green-300"
+                class="shrink-0 h-6 w-6 text-green-300"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -262,18 +158,7 @@
       <div class="lg:grid lg:grid-cols-3 lg:gap-8">
         <div>
           <h2
-            class="
-              inline
-              text-base
-              font-semibold
-              tracking-wide
-              uppercase
-              bg-gradient-to-r
-              from-primary-300
-              to-primary-400
-              bg-clip-text
-              text-transparent
-            "
+            class="inline text-base font-semibold tracking-wide uppercase bg-gradient-to-r from-primary-300 to-primary-400 bg-clip-text text-transparent"
           >
             FAQ
           </h2>
@@ -292,7 +177,7 @@
             <div v-for="(faq, index) in faqs" :key="index">
               <dt class="flex text-lg leading-6 font-medium text-white">
                 <svg
-                  class="flex-shrink-0 h-6 w-6 text-green-300"
+                  class="shrink-0 h-6 w-6 text-green-300"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -322,13 +207,7 @@
       <div class="space-y-12 lg:grid lg:grid-cols-3 lg:gap-12 lg:space-y-0">
         <div class="space-y-5 sm:space-y-4">
           <h2
-            class="
-              text-3xl
-              font-extrabold
-              tracking-tight
-              text-white
-              sm:text-4xl
-            "
+            class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl"
           >
             About Us
           </h2>
@@ -339,11 +218,7 @@
         </div>
         <div class="lg:col-span-2">
           <ul
-            class="
-              space-y-12
-              sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0
-              lg:gap-x-16
-            "
+            class="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:gap-x-16"
           >
             <li v-for="(member, index) in team" :key="index">
               <div class="">
@@ -355,15 +230,7 @@
                   />
                 </div>
                 <div
-                  class="
-                    mt-8
-                    mb-4
-                    text-2xl
-                    leading-6
-                    font-medium
-                    text-white
-                    space-y-1
-                  "
+                  class="mt-8 mb-4 text-2xl leading-6 font-medium text-white space-y-1"
                 >
                   <h3>{{ member.name }}</h3>
                 </div>
@@ -395,19 +262,13 @@
         <div class="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-center">
           <div>
             <h2
-              class="
-                text-3xl
-                font-extrabold
-                text-white
-                tracking-tight
-                sm:text-4xl
-              "
+              class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl"
             >
               Directions
             </h2>
             <p class="flex mt-6 max-w-3xl text-lg leading-7 text-gray-300">
               <svg
-                class="flex-shrink-0 h-6 w-6 text-green-300"
+                class="shrink-0 h-6 w-6 text-green-300"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -435,7 +296,7 @@
             </p>
             <p class="flex mt-6 max-w-3xl text-lg leading-7 text-gray-300">
               <svg
-                class="flex-shrink-0 h-6 w-6 text-green-300"
+                class="shrink-0 h-6 w-6 text-green-300"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -452,12 +313,7 @@
               <span class="ml-3"
                 ><a
                   href="mailto:hello@fiction.com"
-                  class="
-                    inline-block
-                    font-medium
-                    text-gray-300
-                    hover:text-white
-                  "
+                  class="inline-block font-medium text-gray-300 hover:text-white"
                   >hello@fiction.com</a
                 >
               </span>
@@ -514,13 +370,7 @@
       <div class="border-2 border-gray-900 rounded-lg shadow-2xl p-6 lg:p-16">
         <div class="sm:text-center">
           <h2
-            class="
-              text-3xl
-              font-extrabold
-              text-white
-              tracking-tight
-              sm:text-4xl
-            "
+            class="text-3xl font-extrabold text-white tracking-tight sm:text-4xl"
           >
             Join the Email List
           </h2>

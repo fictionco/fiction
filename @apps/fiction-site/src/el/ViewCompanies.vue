@@ -5,15 +5,7 @@
     <div class="lg:relative lg:z-10">
       <div class="mx-auto max-w-7xl px-8 py-16 lg:py-24">
         <h1
-          class="
-            pl-6
-            text-5xl
-            leading-normal
-            font-bold
-            border-l-4 border-primary-500
-            text-gray-100
-            lg:text-7xl lg:leading-tight
-          "
+          class="pl-6 text-5xl leading-normal font-bold border-l-4 border-primary-500 text-gray-100 lg:text-7xl lg:leading-tight"
         >
           Fiction Companies.
         </h1>
@@ -36,21 +28,11 @@
           :key="company.title"
           :href="company.link"
           target="_blank"
-          class="
-            flex
-            items-center
-            px-4
-            py-6
-            rounded-md
-            bg-gray-900
-            transition-all
-            border-2 border-transparent
-            hover:border-primary-500 hover:shadow-xl
-          "
+          class="flex items-center px-4 py-6 rounded-md bg-gray-900 transition-all border-2 border-transparent hover:border-primary-500 hover:shadow-xl"
         >
           <div
             v-if="company"
-            class="flex-shrink-0 w-12 text-gray-100"
+            class="shrink-0 w-12 text-gray-100"
             v-html="company.icon"
           />
           <div class="ml-4">
@@ -66,48 +48,19 @@
     </div>
 
     <div
-      class="
-        mx-auto
-        max-w-5xl
-        py-16
-        px-4
-        lg:py-24
-        text-center
-        lg:relative lg:z-10
-      "
+      class="mx-auto max-w-5xl py-16 px-4 lg:py-24 text-center lg:relative lg:z-10"
     >
       <h2
-        class="
-          mt-4
-          text-3xl
-          font-bold
-          text-gray-300
-          md:text-5xl md:leading-tight
-        "
+        class="mt-4 text-3xl font-bold text-gray-300 md:text-5xl md:leading-tight"
       >
         Think your company belongs here?
       </h2>
       <a
         href="mailto:hello@fiction.com"
-        class="
-          mt-12
-          inline-flex
-          justify-center
-          rounded-md
-          transition-colors
-          border-2 border-primary-500
-          text-gray-200
-          hover:bg-primary-500 hover:text-white
-        "
+        class="mt-12 inline-flex justify-center rounded-md transition-colors border-2 border-primary-500 text-gray-200 hover:bg-primary-500 hover:text-white"
       >
         <ElemButton
-          class="
-            px-5
-            py-3
-            focus:ring-opacity-0
-            sm:mt-0
-            md:px-8 md:py-3 md:text-lg
-          "
+          class="px-5 py-3 focus:ring-opacity-0 sm:mt-0 md:px-8 md:py-3 md:text-lg"
         >
           Get in touch
           <ElemHoverArrow size="large" />
@@ -118,17 +71,7 @@
     <ElemCta class="lg:relative lg:z-10" />
 
     <svg
-      class="
-        hidden
-        absolute
-        z-0
-        max-w-lg
-        h-auto
-        top-20
-        right-0
-        text-gray-700
-        lg:block
-      "
+      class="hidden absolute z-0 max-w-lg h-auto top-20 right-0 text-gray-700 lg:block"
       viewBox="0 0 768 1948"
       xmlns="http://www.w3.org/2000/svg"
     >

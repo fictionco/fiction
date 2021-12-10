@@ -13,23 +13,7 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="
-          group
-          relative
-          w-full
-          rounded-md
-          pl-3
-          pr-10
-          py-2
-          text-left
-          cursor-pointer
-          border border-bluegray-400
-          hover:border-bluegray-500
-          focus:outline-none
-          focus:ring-1
-          focus:ring-primary-500
-          focus:border-primary-500
-        "
+        class="group relative w-full rounded-md pl-3 pr-10 py-2 text-left cursor-pointer border border-bluegray-400 hover:border-bluegray-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
         @click.prevent="toggle()"
       >
         <span class="w-full flex items-center flex-wrap">
@@ -38,34 +22,14 @@
             v-for="(val, i) in selected"
             v-else
             :key="i"
-            class="
-              select-none
-              inline-flex
-              text-xs
-              justify-center
-              mr-2
-              my-1
-              rounded-lg
-              overflow-hidden
-              bg-white
-              border border-bluegray-400
-              text-bluegray-800
-            "
+            class="select-none inline-flex text-xs justify-center mr-2 my-1 rounded-lg overflow-hidden bg-white border border-bluegray-400 text-bluegray-800"
             @click.stop
           >
             <div class="font-medium leading-none max-w-full flex-initial p-2">
               {{ getItemName(val) }}
             </div>
             <div
-              class="
-                flex flex-col
-                justify-center
-                px-1
-                border-l border-bluegray-300
-                hover:bg-bluegray-50
-                text-bluegray-400
-                cursor-pointer
-              "
+              class="flex flex-col justify-center px-1 border-l border-bluegray-300 hover:bg-bluegray-50 text-bluegray-400 cursor-pointer"
               @click.stop.prevent="removeValue(val)"
             >
               <svg
@@ -84,16 +48,7 @@
             </div>
           </div>
           <span
-            class="
-              absolute
-              inset-y-0
-              right-0
-              flex
-              items-center
-              pr-2
-              pointer-events-none
-              group-hover:text-primary-500
-            "
+            class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none group-hover:text-primary-500"
             :class="active ? 'text-primary-500' : 'text-bluegray-500'"
           >
             <svg
@@ -158,7 +113,7 @@
                     />
                     <img
                       :src="item.icon"
-                      class="flex-shrink-0 h-6 w-6 mr-2 rounded-full"
+                      class="shrink-0 h-6 w-6 mr-2 rounded-full"
                     />
                   </template>
 

@@ -79,7 +79,7 @@
                         >
                           <span
                             v-if="submenuItem.icon"
-                            class="flex-shrink-0 h-6 w-6 text-color-900"
+                            class="shrink-0 h-6 w-6 text-color-900"
                             v-html="submenuItem.icon"
                           />
 

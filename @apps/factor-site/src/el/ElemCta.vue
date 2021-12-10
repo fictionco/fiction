@@ -1,19 +1,12 @@
 <template>
   <div
-    class="
-      max-w-3xl
-      mx-auto
-      py-12
-      px-4
-      sm:px-6
-      lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between
-    "
+    class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between"
   >
     <h2 class="tracking-tight text-xl sm:text-2xl">
       <span class="block text-primary-500 font-semibold mb-2">{{ title }}</span>
       <span class="block text-color-500">{{ subtitle }}</span>
     </h2>
-    <div class="mt-4 flex lg:mt-0 lg:flex-shrink-0">
+    <div class="mt-4 flex lg:mt-0 lg:shrink-0">
       <slot>
         <ElemButton
           btn="primary"
