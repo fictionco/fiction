@@ -1,3 +1,17 @@
+## [3.4.7](https://github.com/FactorJS/factor/compare/v3.4.6...v3.4.7) (2021-12-20)
+
+
+### Bug Fixes
+
+* eslint ([d3a0216](https://github.com/FactorJS/factor/commit/d3a02167b23cfd2ec921d2faa7b0044d9ada2c48))
+
+
+### Features
+
+* refactor lint, @factor/lint ([dd9b7ba](https://github.com/FactorJS/factor/commit/dd9b7ba1c412651d4e090dbcdb9dfdf4c6adc2b3))
+
+
+
 ## [3.4.6](https://github.com/FactorJS/factor/compare/v3.4.5...v3.4.6) (2021-12-16)
 
 
