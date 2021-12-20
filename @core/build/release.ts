@@ -15,10 +15,10 @@ let __dry: boolean | undefined
  * Semver release types
  */
 const versionIncrements: ReleaseType[] = [
-  "prerelease",
   "patch",
   "minor",
   "major",
+  "prerelease",
 ]
 
 /**
