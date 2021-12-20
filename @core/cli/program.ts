@@ -325,7 +325,6 @@ export const execute = (): void => {
   commander
     .command("release")
     .description("publish a new version")
-    .option("--dry", "run in dry mode")
     .option("--patch", "patch release")
     .action((opts) => {
       process.env.STAGE_ENV = StageId.Prod

@@ -14,7 +14,7 @@
     "dev": "yarn workspace @factor/site factor dev",
     "test": "npm run test-lint && npm run test-unit",
     "test-lint": "npm run test-eslint && npm run test-types",
-    "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js -c ./@core/lint/config.cjs --no-eslintrc @core/. @apps/. @plugins/.",
+    "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js @core/. @apps/. @plugins/.",
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
     "test-unit": "npx jest --forceExit --passWithNoTests",
     "test-integration": "npx jest test/integration --forceExit --passWithNoTests",
