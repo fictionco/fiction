@@ -1,0 +1,27 @@
+{
+  "name": "@factor/lint",
+  "version": "3.4.6",
+  "license": "MIT",
+  "main": "config.cjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.1.0",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jest": "^25.2.2",
+    "eslint-plugin-json": "latest",
+    "eslint-plugin-prettier": "latest",
+    "eslint-plugin-simple-import-sort": "latest",
+    "eslint-plugin-unicorn": "^39.0.0",
+    "eslint-plugin-vue": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "prettier": "^2.4.1",
+    "prettier-eslint": "^13.0.0"
+  }
+}
