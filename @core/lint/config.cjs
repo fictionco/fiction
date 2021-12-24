@@ -107,6 +107,7 @@ module.exports = {
     "unicorn/no-useless-undefined": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/prefer-node-protocol": "off",
+    "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/prefer-namespace-keyword": "off",
     "@typescript-eslint/no-namespace": 0,
     "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
