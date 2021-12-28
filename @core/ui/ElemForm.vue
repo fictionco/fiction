@@ -34,71 +34,67 @@
     <input ref="submit" class="submit hidden" type="submit" value="" />
   </form>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { onEvent } from "@factor/api"
 import { onMounted, ref, watch } from "vue"
-export default {
-  props: {
-    save: { type: Boolean, default: false },
-    valid: { type: Boolean, default: false },
-    data: { type: Object, default: () => {} },
-    notify: { type: String, default: "" },
-  },
-  emits: ["submit", "update:valid"],
-  setup(props, { emit }) {
-    const form = ref<HTMLFormElement>()
+const props = defineProps({
+  save: { type: Boolean, default: false },
+  valid: { type: Boolean, default: false },
+  data: { type: Object, default: () => {} },
+  notify: { type: String, default: "" },
+})
 
-    const submitForm = () => {
-      const el = form.value
+const emit = defineEmits(["submit", "update:valid"])
 
-      if (el) {
-        const valid = el.reportValidity()
+const form = ref<HTMLFormElement>()
 
-        if (valid) emit("submit")
-      }
-    }
+const submitForm = () => {
+  const el = form.value
 
-    const setValid = (): void => {
-      const el = form.value
-      if (el) {
-        const valid = el.checkValidity()
-        emit("update:valid", valid)
-      }
-    }
+  if (el) {
+    const valid = el.reportValidity()
 
-    onMounted(() => {
-      setTimeout(() => {
-        setValid()
-
-        /**
-         * Listen for blur events and validate
-         */
-        const el = form.value
-        if (el) {
-          const els = el.querySelectorAll(
-            "input, select, checkbox, .f-input, textarea",
-          )
-          els.forEach((el) => el.addEventListener("blur", () => setValid()))
-        }
-      }, 300)
-    })
-
-    watch(
-      () => props.data,
-      () => {
-        // delay due to any reactive changes in form that impact validity
-        setTimeout(() => {
-          setValid()
-        }, 50)
-      },
-      { deep: true },
-    )
-
-    onEvent("submit", () => {
-      submitForm()
-    })
-
-    return { form, submitForm }
-  },
+    if (valid) emit("submit")
+  }
 }
+
+const setValid = (): void => {
+  const el = form.value
+  if (el) {
+    const valid = el.checkValidity()
+    emit("update:valid", valid)
+  }
+}
+
+onMounted(() => {
+  setTimeout(() => {
+    setValid()
+
+    /**
+     * Listen for blur events and validate
+     */
+    const el = form.value
+    if (el) {
+      const els = el.querySelectorAll(
+        "input, select, checkbox, .f-input, textarea",
+      )
+      els.forEach((el) => el.addEventListener("blur", () => setValid()))
+    }
+  }, 300)
+})
+
+watch(
+  () => props.data,
+  () => {
+    // delay due to any reactive changes in form that impact validity
+    setTimeout(() => {
+      setValid()
+    }, 50)
+  },
+  { deep: true },
+)
+
+onEvent("submit", () => {
+  submitForm()
+})
 </script>
