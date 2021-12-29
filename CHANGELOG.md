@@ -1,3 +1,12 @@
+## [3.4.11](https://github.com/FactorJS/factor/compare/v3.4.10...v3.4.11) (2021-12-29)
+
+
+### Bug Fixes
+
+* dep ([ea7962e](https://github.com/FactorJS/factor/commit/ea7962ec1a4c47f9914f5a49a398a3957b8141e0))
+
+
+
 ## [3.4.10](https://github.com/FactorJS/factor/compare/v3.4.9...v3.4.10) (2021-12-29)
 
 

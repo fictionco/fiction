@@ -1,6 +1,6 @@
 {
   "name": "@factor/entry",
-  "version": "3.4.10",
+  "version": "3.4.11",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -9,9 +9,9 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/api": "3.4.10",
-    "@factor/types": "3.4.10",
-    "@factor/ui": "3.4.10",
+    "@factor/api": "3.4.11",
+    "@factor/types": "3.4.11",
+    "@factor/ui": "3.4.11",
     "@vueuse/head": "^0.7.0",
     "less": "^4.1.1",
     "tailwindcss": "^3.0.0",
