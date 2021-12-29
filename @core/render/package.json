@@ -16,7 +16,7 @@
     "@factor/types": "3.4.9",
     "@tailwindcss/forms": "^0.4.0",
     "@types/html-minifier": "^4.0.0",
-    "@types/tailwindcss": "^2.0.2",
+    "@types/tailwindcss": "^3.0.0",
     "@vitejs/plugin-vue": "^2.0.0",
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/server-renderer": "^3.0.11",
