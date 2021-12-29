@@ -23,13 +23,12 @@
     />
   </svg>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { PropType } from "vue"
-export default {
-  props: {
-    mode: { type: String as PropType<"logo" | "icon">, default: "logo" },
-  },
-}
+
+defineProps({
+  mode: { type: String as PropType<"logo" | "icon">, default: "logo" },
+})
 </script>
 <style lang="less" scoped>
 .a,
