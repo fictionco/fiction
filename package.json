@@ -7,8 +7,6 @@
     "test-fixture": "TEST_FIXTURES=1 jest",
     "site": "yarn factor dev -w @factor/site",
     "fiction": "yarn factor dev -w @fiction/site",
-    "dsite-build": "yarn workspace @darwin_/site factor prerender",
-    "dlink": "yarn link @darwin_/query @darwin_/db @darwin_/utils @darwin_/types",
     "release": "npx factor release",
     "pack": "yarn workspace @factor/build factor pack",
     "dev": "yarn workspace @factor/site factor dev",
@@ -70,7 +68,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@darwin_/blog": "^3.1.12",
+    "@kaption/blog": "^3.1.12",
     "autoprefixer": "^10.3.7",
     "postcss": "^8.3.11",
     "tailwindcss": "^3.0.0",
