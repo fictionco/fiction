@@ -54,13 +54,13 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
     optimizeDeps: {
       exclude: [
         "@factor/*",
-        "@darwin_/*",
+        "@kaption/*",
         "@factor/api",
         "@factor/entry",
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
-        "@darwin_/blog",
-        "@darwin_/client",
+        "@kaption/blog",
+        "@kaption/client",
       ],
       include: [
         "vuex",
