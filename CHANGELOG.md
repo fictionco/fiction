@@ -1,3 +1,18 @@
+## [3.4.10](https://github.com/FactorJS/factor/compare/v3.4.9...v3.4.10) (2021-12-29)
+
+
+### Bug Fixes
+
+* dep ([92fc4ee](https://github.com/FactorJS/factor/commit/92fc4ee9d8caf594de42d91c573d00024c650042))
+* tailwind config ([fc98bc3](https://github.com/FactorJS/factor/commit/fc98bc35a2cb259a51bf730a35f89a298a00955b))
+
+
+### Features
+
+* change opt ([6ae5960](https://github.com/FactorJS/factor/commit/6ae596078a4cc8e4df52a67017dc8ec98211ac9c))
+
+
+
 ## [3.4.9](https://github.com/FactorJS/factor/compare/v3.4.8...v3.4.9) (2021-12-28)
 
 
