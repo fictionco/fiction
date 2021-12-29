@@ -1,5 +1,10 @@
 import { sourceFolder, cwd } from "@factor/server"
-import { importIfExists, setAppGlobals, logger } from "@factor/server-utils"
+import {
+  importIfExists,
+  requireIfExists,
+  setAppGlobals,
+  logger,
+} from "@factor/server-utils"
 import pluginVue from "@vitejs/plugin-vue"
 
 import { deepMergeAll, getMarkdownUtility } from "@factor/api"
@@ -17,13 +22,13 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
 
   const c: Record<string, any>[] = [baseTailwindConfig.default]
 
-  const userTailwindConfig = await importIfExists(
-    path.join(cwd(), "tailwind.config.ts"),
+  const userTailwindConfig = await requireIfExists(
+    path.join(cwd(), "tailwind.config.cjs"),
   )
 
   if (userTailwindConfig) {
     const userConf = userTailwindConfig as Record<string, any>
-    c.push(userConf.default)
+    c.push(userConf)
   }
 
   const config = deepMergeAll<Record<string, any>>(

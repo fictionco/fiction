@@ -1,6 +1,3 @@
-import forms from "@tailwindcss/forms"
-import aspectRatio from "@tailwindcss/aspect-ratio"
-
 const darwin = {
   50: "#f6f5ff",
   100: "#eeebff",
@@ -41,14 +38,14 @@ const color = {
   900: "#44525e",
 }
 
-export default {
+module.exports = {
   mode: "jit",
   content: [
     "./docs/**/*.{vue,js,ts,jsx,tsx,html}",
     "./src/**/*.{vue,js,ts,jsx,tsx,html}",
     "./blog/**/*.{vue,js,ts,jsx,tsx,html}",
   ],
-  plugins: [forms, aspectRatio],
+  plugins: [require("@tailwindcss/forms")],
 
   theme: {
     extend: {
