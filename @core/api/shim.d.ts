@@ -8,27 +8,27 @@ declare module "markdown-it-implicit-figures"
 declare module "rand-token"
 declare module "figures"
 declare module "*.png" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.webp" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.jpg" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.webp" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.json" {
-  const value: any
+  const value: any[] | Record<string, any>
   export = value
 }
 declare module "*.svg" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.css" {
