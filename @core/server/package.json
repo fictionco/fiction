@@ -1,6 +1,6 @@
 {
   "name": "@factor/server",
-  "version": "3.4.15",
+  "version": "3.4.16",
   "publishConfig": {
     "access": "public"
   },
@@ -8,9 +8,9 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "3.4.15",
-    "@factor/server-utils": "3.4.15",
-    "@factor/types": "3.4.15",
+    "@factor/api": "3.4.16",
+    "@factor/server-utils": "3.4.16",
+    "@factor/types": "3.4.16",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.10",
