@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import "./prism/prism"
 
 declare global {
@@ -14,43 +14,35 @@ declare global {
 }
 import { onResetUi } from "@factor/api"
 import { onMounted, PropType, ref } from "vue"
-export default {
-  props: {
-    theme: { type: String as PropType<"light" | "dark">, default: "light" },
-  },
-  setup() {
-    const code = ref()
-    const loading = ref(true)
-    const tries = ref(0)
+defineProps({
+  theme: { type: String as PropType<"light" | "dark">, default: "light" },
+})
+const code = ref()
 
-    const setOpacity = (o: string): void => {
-      if (!code.value) return
-      code.value.querySelectorAll("pre").forEach((el: HTMLElement) => {
-        el.classList.add("transition-opacity", "duration-75")
-        el.style.opacity = o
-      })
-    }
-
-    const tryHighlight = (cb?: () => void) => {
-      if (!code.value) return
-
-      setTimeout(() => {
-        const prism = window.Prism
-        prism.highlightAllUnder(code.value)
-
-        if (cb) cb()
-      }, 300)
-    }
-
-    onResetUi(() => tryHighlight())
-    onMounted(() => {
-      setOpacity("0")
-      tryHighlight(() => setOpacity("1"))
-    })
-
-    return { loading, tries, code }
-  },
+const setOpacity = (o: string): void => {
+  if (!code.value) return
+  code.value.querySelectorAll("pre").forEach((el: HTMLElement) => {
+    el.classList.add("transition-opacity", "duration-75")
+    el.style.opacity = o
+  })
 }
+
+const tryHighlight = (cb?: () => void) => {
+  if (!code.value) return
+
+  setTimeout(() => {
+    const prism = window.Prism
+    prism.highlightAllUnder(code.value)
+
+    if (cb) cb()
+  }, 300)
+}
+
+onResetUi(() => tryHighlight())
+onMounted(() => {
+  setOpacity("0")
+  tryHighlight(() => setOpacity("1"))
+})
 </script>
 
 <style lang="less">

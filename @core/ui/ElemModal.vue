@@ -8,18 +8,7 @@
       :class="!vis ? 'pointer-events-none' : ''"
     >
       <div
-        class="
-          flex
-          items-end
-          justify-center
-          min-h-screen
-          pt-4
-          px-4
-          pb-20
-          text-center
-          sm:block sm:p-0
-          translate-y-0
-        "
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 translate-y-0"
       >
         <transition
           enter-active-class="ease-out duration-300"
@@ -31,14 +20,9 @@
         >
           <div
             v-if="vis"
-            class="
-              fixed
-              inset-0
-              bg-bluegray-500 bg-opacity-75
-              transition-opacity
-              z-0
-            "
+            class="fixed inset-0 bg-slate-900 bg-opacity-80 transition-opacity z-0"
             aria-hidden="true"
+            @click="close()"
           />
         </transition>
         <!-- This element is to trick the browser into centering the modal contents. -->
@@ -57,38 +41,14 @@
         >
           <div
             v-if="vis"
-            class="
-              inline-block
-              align-bottom
-              bg-white
-              rounded-lg
-              px-4
-              pt-5
-              pb-4
-              text-left
-              overflow-hidden
-              shadow-xl
-              transform
-              transition-all
-              sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6
-            "
+            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-8"
             :style="{ transform: 'translateZ(0)' }"
-            :class="modalClass"
+            :class="[modalClass]"
             @click.stop
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="
-                h-8
-                w-8
-                absolute
-                z-10
-                right-4
-                text-bluegray-500
-                hover:text-primary-500
-                cursor-pointer
-                transition-all
-              "
+              class="h-8 w-8 absolute z-10 right-4 text-bluegray-500 hover:text-primary-500 cursor-pointer transition-all"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -108,30 +68,24 @@
     </div>
   </teleport>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { onResetUi } from "@factor/api"
+defineProps({
+  vis: { type: Boolean, default: false },
+  title: { type: String, default: "" },
+  sub: { type: String, default: "" },
+  modalClass: { type: String, default: "" },
+})
 
+const emit = defineEmits(["update:vis", "close"])
+const close = () => {
+  emit("update:vis", false)
+  emit("close", true)
+}
+onResetUi(() => close())
+</script>
+<script lang="ts">
 export default {
-  components: {},
   inheritAttrs: false,
-  props: {
-    vis: { type: Boolean, default: false },
-    title: { type: String, default: "" },
-    sub: { type: String, default: "" },
-    modalClass: { type: String, default: "" },
-  },
-  emits: ["update:vis", "close"],
-  setup(props, { emit }) {
-    /**
-     * Close the modal
-     */
-    const close = () => {
-      emit("update:vis", false)
-    }
-    onResetUi(() => close())
-    return {
-      close,
-    }
-  },
 }
 </script>
