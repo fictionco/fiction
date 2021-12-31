@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-blog-engine",
   "description": "A markdown blog plugin",
-  "version": "3.4.13",
+  "version": "3.4.14",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -31,12 +31,12 @@
   },
   "homepage": "https://factor.so/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/api": "3.4.13",
-    "@factor/plugin-highlight-code": "3.4.13",
-    "@factor/server": "3.4.13",
-    "@factor/types": "3.4.13",
-    "@factor/ui": "3.4.13",
-    "@factor/plugin-blog-engine": "3.4.13",
+    "@factor/api": "3.4.14",
+    "@factor/plugin-highlight-code": "3.4.14",
+    "@factor/server": "3.4.14",
+    "@factor/types": "3.4.14",
+    "@factor/ui": "3.4.14",
+    "@factor/plugin-blog-engine": "3.4.14",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.10.6",
     "string-similarity": "^4.0.4",

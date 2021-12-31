@@ -1,3 +1,12 @@
+## [3.4.14](https://github.com/FactorJS/factor/compare/v3.4.13...v3.4.14) (2021-12-31)
+
+
+### Bug Fixes
+
+* setup ([d3b08ba](https://github.com/FactorJS/factor/commit/d3b08ba6d75ea71604a34033a256836604e2a372))
+
+
+
 ## [3.4.13](https://github.com/FactorJS/factor/compare/v3.4.12...v3.4.13) (2021-12-31)
 
 
