@@ -1,6 +1,6 @@
 {
   "name": "@factor/test-utils",
-  "version": "3.4.14",
+  "version": "3.4.15",
   "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
