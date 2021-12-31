@@ -19,13 +19,11 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    width: { type: String, default: "" },
-    colorMode: { type: String, default: "primary" },
-  },
-}
+<script lang="ts" setup>
+defineProps({
+  width: { type: String, default: "" },
+  colorMode: { type: String, default: "primary" },
+})
 </script>
 
 <style lang="less">

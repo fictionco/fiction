@@ -4,7 +4,7 @@
     class="f-el-input"
     :class="[
       valid ? 'valid' : 'not-valid',
-      $attrs.class && $attrs.class.includes('my-') ? '' : 'my-8',
+      attrs.class && attrs.class.includes('my-') ? '' : 'my-8',
     ]"
   >
     <div v-if="label || description" class="flex justify-between mb-3">
@@ -12,7 +12,7 @@
         <label
           v-if="label"
           class="font-semibold"
-          :for="$attrs.for"
+          :for="attrs.for"
           v-text="label"
         />
         <div
@@ -26,18 +26,7 @@
         <div v-if="typeof valid === 'undefined'" />
         <div v-else-if="!valid" class="not-valid">
           <span
-            class="
-              group
-              inline-flex
-              items-center
-              px-2
-              py-0.5
-              rounded
-              text-xs
-              font-medium
-              hover:bg-red-100
-              text-red-700
-            "
+            class="group inline-flex items-center px-2 py-0.5 rounded text-xs font-medium hover:bg-red-100 text-red-700"
           >
             <span class="opacity-0 group-hover:opacity-80">Required</span>
             <svg
@@ -51,18 +40,7 @@
         </div>
         <div v-else class="valid">
           <span
-            class="
-              group
-              inline-flex
-              items-center
-              px-2
-              py-0.5
-              rounded
-              text-xs
-              font-medium
-              hover:bg-green-100
-              text-green-500
-            "
+            class="group inline-flex items-center px-2 py-0.5 rounded text-xs font-medium hover:bg-green-100 text-green-500"
           >
             <span class="opacity-0 group-hover:opacity-80">Valid</span>
             <svg
@@ -92,7 +70,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { inputs } from "."
 import {
   ComponentPublicInstance,
@@ -100,86 +78,66 @@ import {
   onMounted,
   PropType,
   ref,
+  useAttrs,
 } from "vue"
-export default {
-  components: {},
-  //  inheritAttrs: false,
-  props: {
-    modelValue: {
-      type: [String, Object, Array, Number, Date, Boolean],
-      default: undefined,
-    },
-    label: { type: String, default: "" },
-    description: { type: String, default: "" },
-    input: { type: String as PropType<keyof typeof inputs>, default: "" },
+
+const props = defineProps({
+  modelValue: {
+    type: [String, Object, Array, Number, Date, Boolean],
+    default: undefined,
   },
-  emits: ["update:modelValue"],
-  setup(props, { attrs, emit }) {
-    const isRequired = computed(() =>
-      typeof attrs.required != "undefined" ? true : false,
-    )
-    const isDisabled = computed(() =>
-      typeof attrs.disabled != "undefined" ? true : false,
-    )
-    const inputEl = ref<ComponentPublicInstance>()
-    const valid = ref<boolean | undefined>()
-    const inputComponent = computed(() => {
-      return props.input ? inputs[props.input] : ""
-    })
+  label: { type: String, default: "" },
+  description: { type: String, default: "" },
+  input: { type: String as PropType<keyof typeof inputs>, default: "" },
+})
+const emit = defineEmits(["update:modelValue"])
 
-    /**
-     * Set the validity of the input using the native constraint API
-     */
-    const setValidity = async (): Promise<void> => {
-      const el = inputEl.value?.$el as HTMLElement | HTMLInputElement
+const attrs = useAttrs()
 
-      if (el) {
-        if (
-          (el instanceof HTMLInputElement || el instanceof HTMLSelectElement) &&
-          el.checkValidity
-        ) {
-          valid.value = el.checkValidity()
-        } else {
-          const realEl = el.querySelector("input") ?? el.querySelector("select")
+const isRequired = computed(() =>
+  typeof attrs.required != "undefined" ? true : false,
+)
+const isDisabled = computed(() =>
+  typeof attrs.disabled != "undefined" ? true : false,
+)
+const inputEl = ref<ComponentPublicInstance>()
+const valid = ref<boolean | undefined>()
+const inputComponent = computed(() => {
+  return props.input ? inputs[props.input] : ""
+})
 
-          // for regular inputs
-          if (realEl && realEl.checkValidity) {
-            valid.value = realEl.checkValidity()
-          } else valid.value = true
-        }
-      }
+/**
+ * Set the validity of the input using the native constraint API
+ */
+const setValidity = async (): Promise<void> => {
+  const el = inputEl.value?.$el as HTMLElement | HTMLInputElement
+
+  if (el) {
+    if (
+      (el instanceof HTMLInputElement || el instanceof HTMLSelectElement) &&
+      el.checkValidity
+    ) {
+      valid.value = el.checkValidity()
+    } else {
+      const realEl = el.querySelector("input") ?? el.querySelector("select")
+
+      // for regular inputs
+      if (realEl && realEl.checkValidity) {
+        valid.value = realEl.checkValidity()
+      } else valid.value = true
     }
-
-    const updateValue = (value: any) => {
-      setValidity()
-      emit("update:modelValue", value)
-    }
-
-    onMounted(() => {
-      // Let the child els load
-      setTimeout(() => {
-        setValidity()
-      }, 300)
-    })
-
-    return {
-      updateValue,
-      attrs,
-      inputComponent,
-      setValidity,
-      valid,
-      inputEl,
-      isDisabled,
-      isRequired,
-    }
-  },
+  }
 }
+
+const updateValue = (value: any) => {
+  setValidity()
+  emit("update:modelValue", value)
+}
+
+onMounted(() => {
+  // Let the child els load
+  setTimeout(() => {
+    setValidity()
+  }, 300)
+})
 </script>
-<style>
-/* .f-el-input:first-child {
-  margin-top: 0;
-}
-.f-el-input:last-child {
-  margin-bottom: 0;
-} */
-</style>

@@ -88,7 +88,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { onEvent } from "@factor/api"
 import { computed, onMounted, ref } from "vue"
 
@@ -100,44 +100,38 @@ interface Notification {
   type: "error" | "success"
 }
 
-export default {
-  setup() {
-    // const errors = ref<Notification[]>([])
-    // const notification = ref<Notification[]>([])
-    const toasts = ref<Notification[]>([])
+// const errors = ref<Notification[]>([])
+// const notification = ref<Notification[]>([])
+const toasts = ref<Notification[]>([])
 
-    const topToasts = computed(() => {
-      const [...t] = toasts.value
-      return t.reverse()
-    })
+const topToasts = computed(() => {
+  const [...t] = toasts.value
+  return t.reverse()
+})
 
-    const showToast = (config: NotificationOptions) => {
-      const { type, message = "", more = "", duration = 4000 } = config
+const showToast = (config: NotificationOptions) => {
+  const { type, message = "", more = "", duration = 4000 } = config
 
-      const time = Date.now()
+  const time = Date.now()
 
-      toasts.value.push({ time, message, more, type })
+  toasts.value.push({ time, message, more, type })
 
-      setTimeout(() => {
-        toasts.value.shift()
-      }, duration)
-    }
+  setTimeout(() => {
+    toasts.value.shift()
+  }, duration)
+}
 
-    onMounted(() => {
-      onEvent("notifySuccess", (config) => {
-        showToast({ ...config, type: "success" })
-      })
+onMounted(() => {
+  onEvent("notifySuccess", (config) => {
+    showToast({ ...config, type: "success" })
+  })
 
-      onEvent("notifyError", (config) => {
-        showToast({ ...config, type: "error" })
-      })
-    })
+  onEvent("notifyError", (config) => {
+    showToast({ ...config, type: "error" })
+  })
+})
 
-    const removeToast = (ind: number) => {
-      toasts.value = toasts.value.filter((t, i) => i != ind)
-    }
-
-    return { toasts, topToasts, removeToast }
-  },
+const removeToast = (ind: number) => {
+  toasts.value = toasts.value.filter((t, i) => i != ind)
 }
 </script>
