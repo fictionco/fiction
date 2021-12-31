@@ -97,9 +97,9 @@ const attrs = useAttrs()
 const isRequired = computed(() =>
   typeof attrs.required != "undefined" ? true : false,
 )
-const isDisabled = computed(() =>
-  typeof attrs.disabled != "undefined" ? true : false,
-)
+// const isDisabled = computed(() =>
+//   typeof attrs.disabled != "undefined" ? true : false,
+// )
 const inputEl = ref<ComponentPublicInstance>()
 const valid = ref<boolean | undefined>()
 const inputComponent = computed(() => {

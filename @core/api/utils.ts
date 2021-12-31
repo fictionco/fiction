@@ -255,7 +255,7 @@ export const toLabel = (str?: string): string => {
     .replace(/\b\w/g, (l) => l.toUpperCase())
     .trim()
 
-  return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am"])
+  return stopWordLowercase(label, ["and", "an", "a", "the", "or", "am", "to"])
 }
 
 /**

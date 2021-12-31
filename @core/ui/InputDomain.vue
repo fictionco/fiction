@@ -11,6 +11,7 @@
       type="text"
       class="placeholder-bluegray-300 focus:ring-primary-500 focus:border-primary-500 flex-1 block w-full rounded-none rounded-r-md border-bluegray-400"
       placeholder="www.example.com"
+      autocomplete="url"
       :value="modelValue"
       @input="updateValue($event)"
     />

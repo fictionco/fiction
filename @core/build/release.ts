@@ -338,14 +338,14 @@ export const releaseRoutine = async (
    * Create a Github release
    * https://cli.github.com/manual/gh_release_create
    */
-  const { notes } = await prompt<{ notes: string }>({
-    type: "input",
-    name: "notes",
-    message: "Create a github release? Add a description...",
-    initial: "",
-  })
+  // const { notes } = await prompt<{ notes: string }>({
+  //   type: "input",
+  //   name: "notes",
+  //   message: "Create a github release? Add a description...",
+  //   initial: "",
+  // })
 
-  if (notes) {
-    await commit("gh", ["release create", targetVersion, "--notes", notes])
-  }
+  // if (notes) {
+  //   await commit("gh", ["release create", targetVersion, "--notes", notes])
+  // }
 }
