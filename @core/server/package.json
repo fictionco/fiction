@@ -27,7 +27,7 @@
     "dayjs": "^1.10.6",
     "express": "^4.17.1",
     "get-port": "^6.0.0",
-    "helmet": "^4.4.1",
+    "helmet": "^5.0.0",
     "html-to-text": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.0",
