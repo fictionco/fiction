@@ -1,3 +1,7 @@
+## [3.4.19](https://github.com/FactorJS/factor/compare/v3.4.18...v3.4.19) (2022-01-06)
+
+
+
 ## [3.4.18](https://github.com/FactorJS/factor/compare/v3.4.17...v3.4.18) (2022-01-04)
 
 
