@@ -40,8 +40,12 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
   return config
 }
 
-const getAppViteConfig = (): Record<string, any> | undefined => {
-  return importIfExists(path.join(cwd(), "vite.config.ts"))
+const getAppViteConfig = async (): Promise<Record<string, any> | undefined> => {
+  const result = (await importIfExists(path.join(cwd(), "vite.config.ts"))) as
+    | Record<string, any>
+    | undefined
+
+  return result
 }
 
 const entryDir = path.dirname(require.resolve("@factor/entry"))
@@ -70,6 +74,7 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "dayjs",
         "dayjs/plugin/timezone",
         "dayjs/plugin/utc",
+        "dayjs/plugin/relativeTime",
         "spark-md5",
         "fast-json-stable-stringify",
         "deepmerge",
@@ -189,7 +194,7 @@ export const getViteConfig = async (
   const merge = [basicConfig, options]
 
   // If the app has a vite config, merge it
-  const appViteConfig = getAppViteConfig()
+  const appViteConfig = await getAppViteConfig()
 
   if (appViteConfig?.default) {
     merge.push(appViteConfig.default)
