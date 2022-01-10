@@ -54,7 +54,6 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@kaption/blog": "^4.0.0",
     "autoprefixer": "^10.3.7",
     "postcss": "^8.3.11",
     "tailwindcss": "^3.0.0",
