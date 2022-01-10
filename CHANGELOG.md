@@ -1,3 +1,13 @@
+## [3.4.21](https://github.com/FactorJS/factor/compare/v3.4.20...v3.4.21) (2022-01-10)
+
+
+### Bug Fixes
+
+* app config input ([a2e8719](https://github.com/FactorJS/factor/commit/a2e8719ceb1698e1c6b630b19b6c7cd957049c18))
+* dep ([37fd0b0](https://github.com/FactorJS/factor/commit/37fd0b0ef7d8f791b9e60345141d0c8d81ed7a52))
+
+
+
 ## [3.4.20](https://github.com/FactorJS/factor/compare/v3.4.19...v3.4.20) (2022-01-10)
 
 
