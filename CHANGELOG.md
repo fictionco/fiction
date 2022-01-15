@@ -1,3 +1,12 @@
+## [3.5.1](https://github.com/FactorJS/factor/compare/v3.5.0...v3.5.1) (2022-01-15)
+
+
+### Bug Fixes
+
+* testing dep ([8d8c642](https://github.com/FactorJS/factor/commit/8d8c6421c6d7731e99f67a7ce46bd7d772708c90))
+
+
+
 # [3.5.0](https://github.com/FactorJS/factor/compare/v3.4.23...v3.5.0) (2022-01-15)
 
 
