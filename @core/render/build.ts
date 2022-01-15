@@ -30,12 +30,6 @@ export const buildApp = async (
     data: options,
   })
 
-  /**
-   * needed for build error in vuex calling it
-   * @remove when fixed
-   */
-  //global.__VUE_PROD_DEVTOOLS__ = false
-
   try {
     const vc = await getViteConfig(options)
 

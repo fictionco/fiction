@@ -1,0 +1,15 @@
+{
+  "name": "@factor/test",
+  "version": "3.4.22",
+  "license": "MIT",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "vitest": "^0.1.15"
+  }
+}
