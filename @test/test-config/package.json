@@ -1,6 +1,6 @@
 {
   "name": "@factor/test-config",
-  "version": "3.4.23",
+  "version": "3.5.0",
   "private": true,
   "license": "MIT",
   "main": "index.ts",
