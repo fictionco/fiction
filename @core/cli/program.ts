@@ -90,6 +90,19 @@ export const setEnvironment = (options: CommandOptions): void => {
   // run with node developer tools inspector
   if (inspect) initializeNodeInspector()
 }
+
+/**
+ * For commands that use Nodemon to handle restarts
+ */
+const unitTestInitializer = async (options: CommandOptions): Promise<void> => {
+  const { createVitest } = await import("vitest/node")
+
+  const ctx = await createVitest({
+    config: require.resolve("./vitest.config.ts"),
+  })
+  await ctx.start()
+}
+
 /**
  * For commands that use Nodemon to handle restarts
  */
@@ -225,6 +238,14 @@ export const execute = (): void => {
   commander.command("server").action(() => {
     wrapCommand({
       cb: (_) => runService({ SERVICE: ServiceModule.Server, ..._ }),
+    })
+  })
+
+  commander.command("test").action(async (opts) => {
+    return wrapCommand({
+      cb: (_) => unitTestInitializer(_),
+      exit: true,
+      opts,
     })
   })
 

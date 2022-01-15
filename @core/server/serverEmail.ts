@@ -3,17 +3,13 @@ import { logger } from "@factor/server-utils"
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
-import path from "path"
 
 import { createRequire } from "module"
 const require = createRequire(import.meta.url)
 
-const pkg = require(path.join(process.cwd(), "package.json"))
-
 const getFromAddress = (): string => {
-  const {
-    factor: { name, email },
-  } = pkg
+  const name = process.env.FACTOR_APP_NAME ?? ""
+  const email = process.env.FACTOR_APP_EMAIL ?? ""
 
   if (!name || !email) {
     throw _stop({

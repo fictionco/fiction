@@ -8,7 +8,7 @@ import {
 import pluginVue from "@vitejs/plugin-vue"
 
 import { deepMergeAll, getMarkdownUtility } from "@factor/api"
-import fs from "fs"
+
 import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
@@ -169,24 +169,24 @@ export const getViteConfig = async (
       /**
        * https://rollupjs.org/guide/en/#resolveid
        */
-      {
-        name: "resolveApp",
-        resolveId: (source: string): string | null => {
-          const match = source.match(/@alias\/app(.*)/)
+      // {
+      //   name: "resolveApp",
+      //   resolveId: (source: string): string | null => {
+      //     const match = source.match(/@alias\/app(.*)/)
 
-          if (match) {
-            const file = match[1] ?? ""
+      //     if (match) {
+      //       const file = match[1] ?? ""
 
-            const appFile = path.join(sourceFolder(), file)
+      //       const appFile = path.join(sourceFolder(), file)
 
-            const actualFile = fs.existsSync(appFile)
-              ? appFile
-              : path.join(entryDir, file)
+      //       const actualFile = fs.existsSync(appFile)
+      //         ? appFile
+      //         : path.join(entryDir, file)
 
-            return actualFile
-          } else return null
-        },
-      },
+      //       return actualFile
+      //     } else return null
+      //   },
+      // },
     ],
     ...optimizeDeps(),
   }
