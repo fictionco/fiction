@@ -18,6 +18,7 @@ export enum ServiceModule {
   Server = "@factor/server",
   Render = "@factor/render",
 }
+
 export enum ServicePort {
   Server = "3210",
   Render = "3000",
@@ -96,6 +97,8 @@ export const setEnvironment = (options: CommandOptions): void => {
  */
 const unitTestInitializer = async (options: CommandOptions): Promise<void> => {
   const { createVitest } = await import("vitest/node")
+
+  runServer(options)
 
   const ctx = await createVitest({
     config: require.resolve("./vitest.config.ts"),
@@ -177,7 +180,13 @@ export const runService = async (options: CommandOptions): Promise<void> => {
   return
 }
 /**
- * Run development environment
+ * Runs the endpoint server for CWD app
+ */
+export const runServer = async (options: CommandOptions): Promise<void> => {
+  return runService({ SERVICE: ServiceModule.Server, ...options })
+}
+/**
+ * Run development environment for CWD app
  */
 export const runDev = async (options: CommandOptions): Promise<void> => {
   for (const { service } of Object.values(coreServices)) {
@@ -188,7 +197,6 @@ export const runDev = async (options: CommandOptions): Promise<void> => {
     }
   }
 }
-
 /**
  * Standard wrap for a CLI command that exits and sanitizes input args
  */
@@ -237,7 +245,7 @@ export const execute = (): void => {
 
   commander.command("server").action(() => {
     wrapCommand({
-      cb: (_) => runService({ SERVICE: ServiceModule.Server, ..._ }),
+      cb: (_) => runServer(_),
     })
   })
 
@@ -291,7 +299,7 @@ export const execute = (): void => {
       return wrapCommand({
         cb: async (opts) => {
           const { buildApp } = await import("@factor/render")
-          await runService({ ...opts, SERVICE: ServiceModule.Server })
+          await runServer(opts)
           return buildApp(opts)
         },
         NODE_ENV: opts.NODE_ENV ?? "production",
@@ -311,7 +319,7 @@ export const execute = (): void => {
         cb: async (opts) => {
           opts.prerender = true
           const { buildApp } = await import("@factor/render")
-          await runService({ ...opts, SERVICE: ServiceModule.Server })
+          await runServer(opts)
           return buildApp(opts)
         },
         NODE_ENV: opts.NODE_ENV || "production",

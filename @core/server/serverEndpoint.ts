@@ -139,7 +139,7 @@ export const createEndpointServer = async (
   logger({
     level: "info",
     context: "endpoint",
-    description: `${appName} server endpoint @PORT:${port}`,
+    description: `serving:${appName} @port:${port}`,
   })
 
   return server

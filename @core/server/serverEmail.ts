@@ -123,7 +123,7 @@ export const sendEmail = async (
   } else {
     logger({
       level: "warn",
-      description: "smtp email is not configured",
+      description: "smtp email is not configured (SMTP_HOST)",
       context: "email",
       data: theEmail,
     })
