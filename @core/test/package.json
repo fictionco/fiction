@@ -8,8 +8,8 @@
   },
   "private": false,
   "type": "module",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "vitest": "^0.1.15"
-  }
+  },
+  "devDependencies": {}
 }

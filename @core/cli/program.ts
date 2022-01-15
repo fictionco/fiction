@@ -91,21 +91,16 @@ export const setEnvironment = (options: CommandOptions): void => {
   // run with node developer tools inspector
   if (inspect) initializeNodeInspector()
 }
-
 /**
  * For commands that use Nodemon to handle restarts
  */
 const unitTestInitializer = async (options: CommandOptions): Promise<void> => {
-  const { createVitest } = await import("vitest/node")
+  // async import since this is only installed in --dev
+  const { startUnitTestRunner } = await import("@factor/test")
 
-  runServer(options)
-
-  const ctx = await createVitest({
-    config: require.resolve("./vitest.config.ts"),
-  })
-  await ctx.start()
+  await runServer(options)
+  await startUnitTestRunner()
 }
-
 /**
  * For commands that use Nodemon to handle restarts
  */
