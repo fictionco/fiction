@@ -1,3 +1,12 @@
+## [3.4.23](https://github.com/FactorJS/factor/compare/v3.4.22...v3.4.23) (2022-01-15)
+
+
+### Features
+
+* basic test ([3efd4e5](https://github.com/FactorJS/factor/commit/3efd4e5c5f50c750ce4d3e04bf848618939f53eb))
+
+
+
 ## [3.4.22](https://github.com/FactorJS/factor/compare/v3.4.21...v3.4.22) (2022-01-14)
 
 
