@@ -28,7 +28,7 @@ export type UserEndpoint = {
     }
   }
   newVerificationCode: {
-    request: { email: string }
+    request: { email: string; newAccount?: boolean }
     response: EndpointResponse<{ exists: boolean }>
   }
   verifyAccountEmail: {

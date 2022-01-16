@@ -9,7 +9,9 @@
   "private": false,
   "type": "module",
   "dependencies": {
-    "vitest": "^0.1.15"
+    "vite": "^2.7.12",
+    "vitest": "^0.1.15",
+    "@factor/render": "3.5.1"
   },
   "devDependencies": {}
 }

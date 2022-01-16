@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import "@factor/server"
 import { emitEvent, logger } from "@factor/server-utils"
 import { CliCommand, StageId } from "@factor/types"
@@ -38,6 +42,7 @@ export type CommandOptions<T = Record<string, any>> = {
   portApp?: string
   portServer?: string
   port?: string
+  workspace?: string
 } & T
 /**
  * Is current start a nodemon restart
@@ -234,12 +239,12 @@ export const execute = (): void => {
   commander
     .command("start")
     .option("--SERVICE <SERVICE>", "Which module to run")
-    .action((opts) => {
-      wrapCommand({ cb: (_) => runService(_), opts })
+    .action(async (opts) => {
+      await wrapCommand({ cb: (_) => runService(_), opts })
     })
 
-  commander.command("server").action(() => {
-    wrapCommand({
+  commander.command("server").action(async () => {
+    await wrapCommand({
       cb: (_) => runServer(_),
     })
   })

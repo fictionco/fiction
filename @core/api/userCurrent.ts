@@ -1,4 +1,4 @@
-import type { UserFetch, UserEndpoint } from "@factor/server/user"
+import type { UserFetch, UserEndpoint } from "@factor/server/user/serverTypes"
 import { FullUser, PrivateUser } from "@factor/types"
 import { computed } from "vue"
 import { emitEvent } from "./event"

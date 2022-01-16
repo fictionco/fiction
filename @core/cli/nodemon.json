@@ -8,5 +8,6 @@
     "./**/!(*server*|*config*).js",
     "./**/!(*server*|*config*).ts"
   ],
+  "ignoreRoot": [".git", "node_modules/!(@factor)/**/*"],
   "ext": "js,ts,cjs,mjs,cts,mts"
 }

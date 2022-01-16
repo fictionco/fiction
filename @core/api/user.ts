@@ -2,7 +2,7 @@ import type {
   UserFetch,
   UserEndpointMethod,
   UserEndpoint,
-} from "@factor/server/user"
+} from "@factor/server/user/serverTypes"
 import { PublicUser, FullUser } from "@factor/types"
 import { endpointFetch } from "./endpoint"
 import { emitEvent } from "./event"
@@ -47,20 +47,21 @@ export const fetchPublicUser = async ({
 /**
  * sends request for a one time verification code to be emailed
  */
-export const requestSendOneTimeCode: UserEndpointMethod<"sendOneTimeCode"> =
-  async (args) => {
-    const { email } = args
-    if (!validateEmail(email)) {
-      const message = "Email is invalid"
-      emitEvent("notifyError", { message })
-      return { status: "error", message }
-    }
-
-    const ep = "/user/sendOneTimeCode"
-    const r = await endpointFetch<UserFetch<"sendOneTimeCode">>(ep, args)
-
-    return r
+export const requestSendOneTimeCode: UserEndpointMethod<
+  "sendOneTimeCode"
+> = async (args) => {
+  const { email } = args
+  if (!validateEmail(email)) {
+    const message = "Email is invalid"
+    emitEvent("notifyError", { message })
+    return { status: "error", message }
   }
+
+  const ep = "/user/sendOneTimeCode"
+  const r = await endpointFetch<UserFetch<"sendOneTimeCode">>(ep, args)
+
+  return r
+}
 
 export const getJsonUserFields = (): (keyof FullUser)[] => {
   return ["settings", "profile"]

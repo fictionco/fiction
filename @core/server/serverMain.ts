@@ -7,7 +7,7 @@ import {
 import path from "path"
 import { initializeDb } from "./serverDb"
 import { createEndpointServer } from "./serverEndpoint"
-import { userEndpoint } from "./user"
+import { userEndpoint } from "./user/serverUser"
 import { setServerConfig } from "./serverConfig"
 import { UserConfigServer } from "@factor/types"
 

@@ -6,6 +6,7 @@ import {
   getPublicUserFields,
   validateEmail,
   snakeCase,
+  ErrorConfig,
 } from "@factor/api"
 import express from "express"
 import { logger } from "@factor/server-utils"
@@ -15,6 +16,7 @@ import {
   FactorTable,
   FullUser,
   PublicUser,
+  PrivateUser,
 } from "@factor/types"
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
@@ -256,80 +258,81 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
  * Updates the current user with new info
  * Detecting if auth fields have changed and verifying account code
  */
-export const updateCurrentUser: UserEndpointMethodWithBearer<"updateCurrentUser"> =
-  async (userFields) => {
-    const db = await getDb()
-    const { email, userId, password, verificationCode, bearer } = userFields
+export const updateCurrentUser: UserEndpointMethodWithBearer<
+  "updateCurrentUser"
+> = async (userFields) => {
+  const db = await getDb()
+  const { email, userId, password, verificationCode, bearer } = userFields
 
-    let fields: Partial<FullUser> = {}
+  let fields: Partial<FullUser> = {}
 
-    getEditableUserFields().forEach((f) => {
-      if (typeof userFields[f] != "undefined") {
-        fields = { ...fields, [f]: userFields[f] }
-      }
-    })
+  getEditableUserFields().forEach((f) => {
+    if (typeof userFields[f] != "undefined") {
+      fields = { ...fields, [f]: userFields[f] }
+    }
+  })
 
-    getJsonUserFields().forEach((f) => {
-      if (typeof userFields[f] != "undefined") {
-        const jsn = JSON.stringify(userFields[f])
+  getJsonUserFields().forEach((f) => {
+    if (typeof userFields[f] != "undefined") {
+      const jsn = JSON.stringify(userFields[f])
 
-        const setter = db.raw(
-          `coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`,
-          jsn,
-        )
-
-        fields = { ...fields, [f]: setter }
-      }
-    })
-
-    if (password) {
-      const hashedPassword = await hashPassword(password)
-
-      const dbUser = await findOneUser<FullUser>({
-        userId: bearer.userId,
-        select: ["*"],
-      })
-
-      if (!dbUser) throw _stop({ message: "couldn't find user" })
-
-      const correctPassword = await comparePassword(
-        password,
-        dbUser.hashedPassword ?? "",
+      const setter = db.raw(
+        `coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`,
+        jsn,
       )
 
-      if (verificationCode) {
-        await verifyCode({ email, userId, verificationCode })
-      }
+      fields = { ...fields, [f]: setter }
+    }
+  })
 
-      if (!correctPassword && !verificationCode) {
-        throw _stop({ message: "account verification required" })
-      }
+  if (password) {
+    const hashedPassword = await hashPassword(password)
 
-      if (email && email != dbUser.email) {
-        await verifyNewEmail(email)
+    const dbUser = await findOneUser<FullUser>({
+      userId: bearer.userId,
+      select: ["*"],
+    })
 
-        fields.email = email
-      } else {
-        fields.hashedPassword = hashedPassword
-      }
+    if (!dbUser) throw _stop({ message: "couldn't find user" })
+
+    const correctPassword = await comparePassword(
+      password,
+      dbUser.hashedPassword ?? "",
+    )
+
+    if (verificationCode) {
+      await verifyCode({ email, userId, verificationCode })
     }
 
-    let user, token
-    if (Object.keys(fields).length > 0) {
-      user = await updateUser({ userId: bearer.userId, fields })
-
-      // if email or password were changed, create new token
-      token = password ? createClientToken(user) : undefined
+    if (!correctPassword && !verificationCode) {
+      throw _stop({ message: "account verification required" })
     }
 
-    return {
-      status: "success",
-      data: user,
-      message: "changes saved",
-      token,
-      user,
+    if (email && email != dbUser.email) {
+      await verifyNewEmail(email)
+
+      fields.email = email
+    } else {
+      fields.hashedPassword = hashedPassword
     }
   }
+
+  let user, token
+  if (Object.keys(fields).length > 0) {
+    user = await updateUser({ userId: bearer.userId, fields })
+
+    // if email or password were changed, create new token
+    token = password ? createClientToken(user) : undefined
+  }
+
+  return {
+    status: "success",
+    data: user,
+    message: "changes saved",
+    token,
+    user,
+  }
+}
 /**
  * Sets a new user password
  * @note
@@ -363,39 +366,40 @@ export const setPassword: UserEndpointMethodWithBearer<"setPassword"> = async (
 /**
  * Verify an email address with code
  */
-export const verifyAccountEmail: UserEndpointMethod<"verifyAccountEmail"> =
-  async ({ email, verificationCode }) => {
-    if (!email) throw _stop({ message: "email is required" })
-    if (!verificationCode) throw _stop({ message: "confirm code is required" })
+export const verifyAccountEmail: UserEndpointMethod<
+  "verifyAccountEmail"
+> = async ({ email, verificationCode }) => {
+  if (!email) throw _stop({ message: "email is required" })
+  if (!verificationCode) throw _stop({ message: "confirm code is required" })
 
-    await verifyCode({ email, verificationCode })
+  await verifyCode({ email, verificationCode })
 
-    const user = await updateUser({
-      email,
-      fields: { emailVerified: true },
-    })
+  const user = await updateUser({
+    email,
+    fields: { emailVerified: true },
+  })
 
-    const config = getServerConfig()
+  const config = getServerConfig()
 
-    const onVerified = config.user?.onVerified
+  const onVerified = config.user?.onVerified
 
-    if (onVerified) {
-      onVerified(user)
-    }
-
-    logger({
-      level: "info",
-      context: "user",
-      description: `user verified ${email}`,
-    })
-
-    return {
-      status: "success",
-      data: user,
-      message: "verification successful",
-      token: createClientToken(user),
-    }
+  if (onVerified) {
+    onVerified(user)
   }
+
+  logger({
+    level: "info",
+    context: "user",
+    description: `user verified ${email}`,
+  })
+
+  return {
+    status: "success",
+    data: user,
+    message: "verification successful",
+    token: createClientToken(user),
+  }
+}
 /**
  * Sends a confirmation code to reset password to a user's email
  */
@@ -428,7 +432,7 @@ export const createUser = async (
       codeExpiresAt: dayjs().add(7, "day").toISOString(),
     })
     .into(FactorTable.User)
-    .returning("*")
+    .returning<FullUser[]>("*")
 
   const user = r && r.length > 0 ? r[0] : undefined
 
@@ -449,7 +453,7 @@ export const startNewUser: UserEndpointMethod<"startNewUser"> = async (
   logger({
     level: "info",
     context: "user",
-    description: `user started ${email}:${fullName}`,
+    description: `user started ${email}:${fullName ?? "(no name)"}`,
   })
 
   return {
@@ -461,32 +465,35 @@ export const startNewUser: UserEndpointMethod<"startNewUser"> = async (
   }
 }
 
-export const newVerificationCode: UserEndpointMethod<"newVerificationCode"> =
-  async (args) => {
-    const { email } = args
+export const newVerificationCode: UserEndpointMethod<
+  "newVerificationCode"
+> = async (args) => {
+  const { email, newAccount } = args
 
-    let existingUser = await findOneUser({ email })
+  let existingUser = await findOneUser({ email })
 
-    const exists = existingUser ? true : false
+  const exists = existingUser ? true : false
 
-    if (!existingUser) {
-      existingUser = await createUser({ email })
+  if (newAccount && exists) {
+    throw _stop({ message: "email exists", data: { exists } })
+  } else if (!existingUser) {
+    existingUser = await createUser({ email })
 
-      logger({
-        level: "info",
-        context: "user",
-        description: `user created ${email}`,
-      })
-    }
-
-    await sendOneTimeCode({ email: existingUser.email })
-
-    return {
-      status: "success",
-      data: { exists },
-      message: "verification code sent",
-    }
+    logger({
+      level: "info",
+      context: "user",
+      description: `user created ${email}`,
+    })
   }
+
+  await sendOneTimeCode({ email: existingUser.email })
+
+  return {
+    status: "success",
+    data: { exists },
+    message: "verification code sent",
+  }
+}
 
 /**
  * Login a user and return a signed token
@@ -554,55 +561,76 @@ export const EPMap: EndpointMethods = {
   getPublicUser,
   newVerificationCode,
 }
+/**
+ * A unit-testable endpoint handler
+ */
+export const userEndpointHandler = async <
+  T extends keyof UserEndpoint,
+>(config: {
+  _method: T
+  args: UserEndpoint[T]["request"] & { email?: string }
+  bearer?: PrivateUser
+  query?: Record<string, any>
+  params?: Record<string, any>
+}): Promise<EndpointResponse> => {
+  const { _method, args, bearer, query, params } = config
 
+  let r: EndpointResponse = {
+    status: "fail",
+    message: "Server Error (No Method)",
+  }
+
+  try {
+    if (EPMap[_method]) {
+      const _args = { ...args, bearer }
+
+      if (bearerRequired.includes(_method) && !_args.bearer) {
+        throw _stop({ message: "only logged in users can do this" })
+      }
+      // email should always be lower case to prevent duplicates
+      if (_args.email) {
+        _args.email = _args.email.toLowerCase()
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      r = await EPMap[_method](_args as any)
+    }
+  } catch (error: unknown) {
+    logger({
+      level: "error",
+      context: "user",
+      description: `user endpoint error ${_method}`,
+      data: error,
+    })
+
+    logger({
+      level: "error",
+      context: "user",
+      description: `user endpoint error args ${_method}`,
+      data: { query, params, bearer },
+    })
+
+    const err = error as ErrorConfig
+
+    r = {
+      status: "error",
+      message: err.expose ? err.message : "an internal error occurred",
+      code: err.code,
+      data: err.data,
+    }
+  }
+
+  return r
+}
+/**
+ * The Factor Endpoint handler wrapper
+ */
 export const userEndpoint = {
   name: "userEndpoint",
   route: "/user/:_method",
   handler: async (request: express.Request): Promise<EndpointResponse> => {
     const _method = request.params._method as keyof UserEndpoint
-    const args: Record<string, any> = request.body
-
-    let r: EndpointResponse = {
-      status: "fail",
-      message: "Server Error (No Method)",
-    }
-
-    try {
-      if (EPMap[_method]) {
-        args.bearer = request.bearer
-        if (bearerRequired.includes(_method) && !args.bearer) {
-          throw _stop({ message: "only logged in users can do this" })
-        }
-        // email should always be lower case to prevent duplicates
-        if (args.email) {
-          args.email = args.email.toLowerCase()
-        }
-        r = await EPMap[_method](args as any)
-      }
-    } catch (error: any) {
-      const { query, params, bearer } = request
-
-      logger({
-        level: "error",
-        context: "user",
-        description: `user endpoint error ${_method}`,
-        data: error,
-      })
-
-      logger({
-        level: "error",
-        context: "user",
-        description: `user endpoint error args ${_method}`,
-        data: { query, params, bearer },
-      })
-
-      r = {
-        status: "error",
-        message: error.expose ? error.message : "an internal error occurred",
-        code: error.code,
-      }
-    }
-
-    return r
+    const args = request.body as Record<string, any>
+    const { query, params, bearer } = request
+    return await userEndpointHandler({ _method, args, query, params, bearer })
   },
 }

@@ -8,7 +8,7 @@ import bodyParser from "body-parser"
 import helmet from "helmet"
 import { Server } from "http"
 import { decodeClientToken } from "./serverJwt"
-import { findOneUser } from "./user"
+import { findOneUser } from "./user/serverUser"
 // import getPort from "get-port"
 /**
  * Takes authorization header with bearer token and converts it into a user for subsequent endpoint operations
@@ -71,7 +71,7 @@ export const createEndpointServer = async (
       logger({
         level: "error",
         context: "endpoint",
-        description: `endpoint setup error (${authorization})`,
+        description: `endpoint setup error (${authorization ?? ""})`,
         data: error,
       })
 
@@ -121,7 +121,14 @@ export const createEndpointServer = async (
    * Send a health check response
    */
   app.use("/", (request, response) => {
-    response.status(200).send({ status: "success", message: "health ok" }).end()
+    response
+      .status(200)
+      .send({
+        status: "success",
+        message: "health ok",
+        data: { url: request.url },
+      })
+      .end()
   })
 
   /**

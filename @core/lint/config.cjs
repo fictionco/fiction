@@ -83,7 +83,7 @@ module.exports = {
     "no-undef": "off",
     "func-style": ["warn", "expression"],
     "no-async-promise-executor": "off",
-    "import/no-cycle": "off",
+    "import/no-cycle": "warn",
     "import/no-unresolved": "off",
     "import/named": "off",
     "import/extensions": [

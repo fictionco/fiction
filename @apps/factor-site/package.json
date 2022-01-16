@@ -41,8 +41,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
-    "@tailwindcss/typography": "^0.5.0"
+    "vitest": "^0.1.15"
   }
 }

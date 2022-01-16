@@ -63,7 +63,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/entry",
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
-
         "@kaption/client",
       ],
       include: [
