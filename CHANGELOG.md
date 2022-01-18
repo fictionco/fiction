@@ -1,3 +1,12 @@
+## [3.5.3](https://github.com/FactorJS/factor/compare/v3.5.2...v3.5.3) (2022-01-18)
+
+
+### Bug Fixes
+
+* core issues ([3b8a401](https://github.com/FactorJS/factor/commit/3b8a40123b12d552e07aa7f40601933b2d164d67))
+
+
+
 ## [3.5.2](https://github.com/FactorJS/factor/compare/v3.5.1...v3.5.2) (2022-01-17)
 
 
