@@ -8,10 +8,12 @@ export const setServerConfig = async (
   if (config.plugins) {
     try {
       config = await setupPlugins(config)
-    } catch (error: any) {
+    } catch (error: unknown) {
+
+      const e = error as Error
       logger({
         level: "error",
-        description: error.message,
+        description: e.message,
         context: "server",
         data: error,
       })

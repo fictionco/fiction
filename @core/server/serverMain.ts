@@ -14,6 +14,11 @@ import { UserConfigServer } from "@factor/types"
  */
 export const setup = async (): Promise<void> => {
   /**
+   * Set initial globals (this will run again after extension)
+   */
+  await setAppGlobals()
+
+  /**
    * Require app server entry file if it exists
    */
   const serverEntry = await importIfExists<{ setup?: () => UserConfigServer }>(
@@ -32,13 +37,13 @@ export const setup = async (): Promise<void> => {
    * Sets config for access throughout app
    */
   const serverConfig = await setServerConfig(initialServerConfig)
-
+  /**
+   * Set globals again with any plugin stuff
+   */
   await setAppGlobals(serverConfig)
-
   /**
    * Load libraries
    */
-
   await initializeDb()
 
   /**

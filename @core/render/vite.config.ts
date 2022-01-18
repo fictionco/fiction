@@ -39,13 +39,26 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
 
   return config
 }
+/**
+ * Get the vite config from the CWD app
+ */
+const getAppViteConfig = async (): Promise<vite.InlineConfig | undefined> => {
+  const _module = await importIfExists<{
+    default: vite.InlineConfig | (() => Promise<vite.InlineConfig>)
+  }>(path.join(cwd(), "vite.config.ts"))
 
-const getAppViteConfig = async (): Promise<Record<string, any> | undefined> => {
-  const result = (await importIfExists(path.join(cwd(), "vite.config.ts"))) as
-    | Record<string, any>
-    | undefined
+  let config: vite.InlineConfig | undefined = undefined
+  const result = _module?.default
 
-  return result
+  if (result) {
+    if (typeof result == "function") {
+      config = await result()
+    } else {
+      config = result
+    }
+  }
+
+  return config
 }
 
 const entryDir = path.dirname(require.resolve("@factor/entry"))
@@ -120,6 +133,10 @@ export const getViteConfig = async (
 
   const twConfig = await tailwindConfig()
 
+  const twPlugin = require("tailwindcss") as (
+    c?: Record<string, any>,
+  ) => vite.PluginOption
+
   const basicConfig: vite.InlineConfig = {
     root,
     publicDir: path.join(root, "public"),
@@ -131,7 +148,7 @@ export const getViteConfig = async (
     css: {
       //postcss: path.join(cwd(), "postcss.config.js"),
       postcss: {
-        plugins: [require("tailwindcss")(twConfig), require("autoprefixer")],
+        plugins: [twPlugin(twConfig), require("autoprefixer")],
       },
     },
     build: {
@@ -195,8 +212,8 @@ export const getViteConfig = async (
   // If the app has a vite config, merge it
   const appViteConfig = await getAppViteConfig()
 
-  if (appViteConfig?.default) {
-    merge.push(appViteConfig.default)
+  if (appViteConfig) {
+    merge.push(appViteConfig)
   }
 
   const conf: vite.InlineConfig = deepMergeAll(merge)
