@@ -1,7 +1,7 @@
 <template>
   <div class="f-input flex">
     <span
-      class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-bluegray-400 bg-bluegray-50 text-bluegray-500"
+      class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-400 bg-slate-50 text-slate-500"
     >
       https://
     </span>
@@ -9,7 +9,7 @@
     <input
       v-bind="$attrs"
       type="text"
-      class="placeholder-bluegray-300 focus:ring-primary-500 focus:border-primary-500 flex-1 block w-full rounded-none rounded-r-md border-bluegray-400"
+      class="placeholder-slate-300 focus:ring-primary-500 focus:border-primary-500 flex-1 block w-full rounded-none rounded-r-md border-slate-400"
       placeholder="www.example.com"
       autocomplete="url"
       :value="modelValue"

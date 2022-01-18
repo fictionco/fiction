@@ -81,7 +81,7 @@
                   <!--
                 Heroicon name: solid/chevron-down
 
-                Item active: "text-gray-600", Item inactive: "text-color-400"
+                Item active: "text-slate-600", Item inactive: "text-color-400"
               -->
                   <svg
                     class="text-color-400 ml-2 h-5 w-5 group-hover:text-color-500"

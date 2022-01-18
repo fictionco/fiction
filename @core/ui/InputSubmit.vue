@@ -1,11 +1,10 @@
 <template>
-  <ElemButton type="submit" btn="primary" v-bind="$attrs">
+  <ElemButton type="submit" btn="primary" v-bind="attrs">
     <slot />
   </ElemButton>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
+import { useAttrs } from "vue"
 import ElemButton from "./ElemButton.vue"
-export default {
-  components: { ElemButton },
-}
+const attrs = useAttrs()
 </script>

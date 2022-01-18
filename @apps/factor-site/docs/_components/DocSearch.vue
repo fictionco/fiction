@@ -16,17 +16,7 @@
         />
       </svg>
       <input
-        class="
-          doc-search
-          w-full
-          py-2
-          pl-8
-          text-lg
-          border-0
-          placeholder-gray-400
-          text-gray-500
-          focus:ring-0
-        "
+        class="doc-search w-full py-2 pl-8 text-lg border-0 placeholder-slate-400 text-slate-500 focus:ring-0"
         type="search"
         placeholder="Search docs"
       />

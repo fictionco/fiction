@@ -5,25 +5,12 @@
         <input
           v-bind="$attrs"
           type="checkbox"
-          class="
-            form-checkbox
-            text-primary-500
-            rounded-md
-            h-5
-            w-5
-            mr-4
-            appearance-none
-            border border-bluegray-400
-          "
+          class="form-checkbox text-primary-500 rounded-md h-5 w-5 mr-4 appearance-none border border-slate-400"
           :checked="isSelected(item.value)"
           @input="selectValue(item, $event.target.checked)"
         />
         <span
-          class="
-            checkbox-label
-            text-sm text-bluegray-800
-            hover:text-primary-500
-          "
+          class="checkbox-label text-sm text-slate-800 hover:text-primary-500"
         >
           {{ item.name }}
         </span>

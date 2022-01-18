@@ -4,40 +4,16 @@
       <h1 class="mb-8">
         <span
           v-if="config.publishDate"
-          class="
-            block
-            text-base text-center text-bluegray-500
-            font-semibold
-            tracking-wide
-            uppercase
-            xl:text-lg
-          "
+          class="block text-base text-center text-slate-500 font-semibold tracking-wide uppercase xl:text-lg"
           >{{ dayjs(config.publishDate).format("MMM DD, YYYY") }}</span
         >
         <span
-          class="
-            mt-4
-            block
-            text-3xl text-center
-            leading-8
-            font-extrabold
-            tracking-tight
-            sm:text-4xl
-            xl:text-6xl
-          "
+          class="mt-4 block text-3xl text-center leading-8 font-extrabold tracking-tight sm:text-4xl xl:text-6xl"
           >{{ config.title }}</span
         >
       </h1>
       <div
-        class="
-          py-1
-          lg:py-4
-          block
-          justify-center
-          items-center
-          space-x-4
-          lg:flex lg:text-lg
-        "
+        class="py-1 lg:py-4 block justify-center items-center space-x-4 lg:flex lg:text-lg"
       >
         <div class="author flex justify-center items-center space-x-4">
           <ElemAvatar
@@ -50,14 +26,14 @@
 
           <a
             v-if="config.authorTwitter"
-            class="text-bluegray-500 hover:text-primary-500"
+            class="text-slate-500 hover:text-primary-500"
             :href="`https://www.twitter.com/${config.authorTwitter}`"
             target="_blank"
             >@{{ config.authorTwitter }}</a
           >
         </div>
         <div class="date flex justify-center items-center space-x-4">
-          <span class="italic text-bluegray-500">on</span>
+          <span class="italic text-slate-500">on</span>
           <time
             class="font-medium"
             itemprop="datePublished"
@@ -71,19 +47,10 @@
     <div class="lg:grid grid-cols-12 gap-8">
       <div class="col-span-2">
         <div
-          class="
-            mb-10
-            mt-10
-            mx-4
-            border border-bluegray-200
-            text-center
-            lg:mx-0 lg:mt-0 lg:text-right
-            p-4
-            rounded-md
-          "
+          class="mb-10 mt-10 mx-4 border border-slate-200 text-center lg:mx-0 lg:mt-0 lg:text-right p-4 rounded-md"
         >
           <h4 class="font-semibold mb-1">About FactorJS</h4>
-          <div class="text-sm text-bluegray-500">
+          <div class="text-sm text-slate-500">
             FactorJS is a next-generationframework for sites and apps.
           </div>
           <a
@@ -95,7 +62,7 @@
       </div>
       <div class="col-span-8">
         <div v-if="loading" class="p-12">
-          <ElemSpinner class="text-bluegray-200 w-12 h-12 m-auto" />
+          <ElemSpinner class="text-slate-200 w-12 h-12 m-auto" />
         </div>
         <div v-else-if="!config.component">
           <div class="py-40">
@@ -105,18 +72,13 @@
               >
                 404 Not Found
               </h1>
-              <p class="mt-2 text-base text-bluegray-500">
+              <p class="mt-2 text-base text-slate-500">
                 We couldn’t find the page you’re looking for.
               </p>
               <div class="mt-6">
                 <router-link
                   :to="baseRoute"
-                  class="
-                    text-base
-                    font-medium
-                    text-primary-600
-                    hover:text-primary-500
-                  "
+                  class="text-base font-medium text-primary-600 hover:text-primary-500"
                   >Back to Index
                   <span aria-hidden="true"> &rarr;</span></router-link
                 >
@@ -131,18 +93,10 @@
             </div>
             <div>
               <div
-                class="
-                  max-w-7xl
-                  mx-auto
-                  py-6
-                  px-6
-                  md:py-12 md:px-12
-                  bg-color-50
-                  my-12
-                "
+                class="max-w-7xl mx-auto py-6 px-6 md:py-12 md:px-12 bg-color-50 my-12"
               >
                 <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-                  <span class="block text-bluegray-500"
+                  <span class="block text-slate-500"
                     >Hope you enjoyed this post.</span
                   >
                   <span class="block font-bold"

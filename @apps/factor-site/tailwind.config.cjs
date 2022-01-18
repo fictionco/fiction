@@ -53,7 +53,7 @@ module.exports = {
         transparent: "transparent",
         primary: darwin,
         dark: darwinDark,
-        bluegray: color,
+        slate: color,
         color,
       },
     },

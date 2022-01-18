@@ -17,7 +17,7 @@
         />
         <div
           v-if="description"
-          class="text-bluegray-500 text-sm"
+          class="text-slate-500 text-sm"
           v-text="description"
         />
       </div>

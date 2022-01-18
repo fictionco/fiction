@@ -3,7 +3,7 @@
     <div class="px-4 sm:px-6 xl:px-8 pt-10 pb-16">
       <div class="my-6">
         <h1 class="text-3xl font-bold mb-4">Documentation</h1>
-        <p class="text-xl text-bluegray-500">
+        <p class="text-xl text-slate-500">
           Explore everything you can do with Darwin.
         </p>
       </div>
@@ -11,30 +11,12 @@
       <section class="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-8">
         <div v-for="(group, groupId) in groupList" :key="groupId" class="flex">
           <router-link
-            class="
-              w-full
-              relative
-              overflow-hidden
-              rounded-xl
-              flex
-              border border-bluegray-300
-              hover:border-bluegray-400 hover:shadow-sm
-              col-span-1
-            "
+            class="w-full relative overflow-hidden rounded-xl flex border border-slate-300 hover:border-slate-400 hover:shadow-sm col-span-1"
             :to="group.path || '/'"
           >
             <div class="w-full flex md:flex-col">
               <div
-                class="
-                  sm:max-w-lg sm:flex-none
-                  md:w-auto md:flex-auto
-                  flex
-                  items-start
-                  relative
-                  z-10
-                  p-6
-                  xl:p-8
-                "
+                class="sm:max-w-lg sm:flex-none md:w-auto md:flex-auto flex items-start relative z-10 p-6 xl:p-8"
               >
                 <div class="mr-8">
                   <div class="w-12 h-12 text-primary-500" v-html="group.icon" />
@@ -43,7 +25,7 @@
                   <h2 class="text-2xl font-semibold mb-2">
                     {{ group.title }}
                   </h2>
-                  <p class="text-bluegray-500 text-xl">
+                  <p class="text-slate-500 text-xl">
                     {{ group.description }}
                   </p>
                 </div>
@@ -59,7 +41,7 @@
       <section>
         <div class="mt-16 mb-8">
           <h2 class="text-2xl font-bold">Groups and Discussion</h2>
-          <p class="text-bluegray-500 text-lg mt-2">
+          <p class="text-slate-500 text-lg mt-2">
             Let's have a conversation...
           </p>
         </div>
@@ -68,30 +50,15 @@
             <a
               :href="social.path"
               target="_blank"
-              class="
-                cursor-pointer
-                flex
-                items-center
-                space-x-6
-                hover:opacity-70
-              "
+              class="cursor-pointer flex items-center space-x-6 hover:opacity-70"
               ><div
-                class="
-                  flex
-                  justify-center
-                  items-center
-                  rounded-full
-                  w-12
-                  h-12
-                  border-2 border-primary-500
-                  text-primary-500
-                "
+                class="flex justify-center items-center rounded-full w-12 h-12 border-2 border-primary-500 text-primary-500"
               >
                 <div class="w-4 h-4" v-html="social.icon" />
               </div>
               <div class="flex-1">
                 <h3 class="font-medium text-xl">{{ social.title }}</h3>
-                <p class="text-bluegray-500">{{ social.description }}</p>
+                <p class="text-slate-500">{{ social.description }}</p>
               </div>
             </a>
           </li>

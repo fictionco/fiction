@@ -41,10 +41,10 @@
             </a>
           </div>
           <div class="ml-3">
-            <p class="text-sm font-medium text-gray-900">
+            <p class="text-sm font-medium text-slate-900">
               <a href="#" class="hover:underline">{{ post.authorName }}</a>
             </p>
-            <div class="flex space-x-1 text-sm text-gray-500">
+            <div class="flex space-x-1 text-sm text-slate-500">
               <time datetime="2020-03-16">{{
                 dayjs(post.publishDate).format("MMM DD, YYYY")
               }}</time>

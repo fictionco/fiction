@@ -5,7 +5,7 @@
         <h2 class="text-3xl tracking-tight font-extrabold sm:text-4xl">
           {{ title }}
         </h2>
-        <p class="mt-3 text-xl text-bluegray-500 sm:mt-4">
+        <p class="mt-3 text-xl text-slate-500 sm:mt-4">
           {{ description }}
         </p>
       </div>

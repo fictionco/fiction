@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="authLoading"
-    class="loading-veil bg-white fixed top-0 left-0 w-full h-full flex items-center justify-center text-bluegray-300"
+    class="loading-veil bg-white fixed top-0 left-0 w-full h-full flex items-center justify-center text-slate-300"
   >
     <ElemSpinner class="w-12 h-12" />
   </div>

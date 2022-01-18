@@ -10,13 +10,7 @@
         :id="option.value"
         v-model="selected"
         type="radio"
-        class="
-          form-radio
-          text-primary-600
-          focus:outline-none focus:ring-primary-500 focus:border-primary-200
-          appearance-none
-          border border-bluegray-400
-        "
+        class="form-radio text-primary-600 focus:outline-none focus:ring-primary-500 focus:border-primary-200 appearance-none border border-slate-400"
         name="radio-colors"
         :value="option.value"
         v-bind="$attrs"
@@ -25,26 +19,23 @@
     </label>
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { normalizeList } from "@factor/api"
 import { ListItem } from "@factor/types"
 import { PropType, ref, watch } from "vue"
-export default {
-  props: {
-    modelValue: { type: String, default: "" },
-    list: { type: Array as PropType<ListItem[]>, default: () => [] },
+
+const props = defineProps({
+  modelValue: { type: String, default: "" },
+  list: { type: Array as PropType<ListItem[]>, default: () => [] },
+})
+
+const emit = defineEmits(["update:modelValue"])
+const selected = ref<string>(props.modelValue)
+const parsedList = normalizeList(props.list)
+watch(
+  () => selected.value,
+  (v) => {
+    emit("update:modelValue", v)
   },
-  emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    const selected = ref<string>(props.modelValue)
-    const parsedList = normalizeList(props.list)
-    watch(
-      () => selected.value,
-      (v) => {
-        emit("update:modelValue", v)
-      },
-    )
-    return { parsedList, selected }
-  },
-}
+)
 </script>

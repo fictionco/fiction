@@ -58,12 +58,12 @@
                 <p class="font-semibold">
                   {{ toast.message }}
                 </p>
-                <p v-if="toast.more" class="mt-1 text-sm text-bluegray-400">
+                <p v-if="toast.more" class="mt-1 text-sm text-slate-400">
                   {{ toast.more }}
                 </p>
               </div>
               <div
-                class="ml-4 text-bluegray-400 hover:text-primary-500"
+                class="ml-4 text-slate-400 hover:text-primary-500"
                 @click="removeToast(i)"
               >
                 <svg

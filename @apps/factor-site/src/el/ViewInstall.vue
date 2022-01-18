@@ -1,32 +1,12 @@
 <template>
   <div class="start-container pt-20">
     <nav
-      class="
-        nav
-        justify-center
-        items-center
-        z-50
-        px-4
-        py-2
-        bg-white
-        lg:flex lg:sticky lg:top-0
-      "
+      class="nav justify-center items-center z-50 px-4 py-2 bg-white lg:flex lg:sticky lg:top-0"
     >
       <a
         v-for="(video, index) in videos"
         :key="video.id"
-        class="
-          block
-          mx-0
-          text-gray-500
-          font-bold
-          uppercase
-          px-4
-          py-1
-          rounded-md
-          hover:bg-color-50 hover:text-primary-500
-          lg:mx-4
-        "
+        class="block mx-0 text-slate-500 font-bold uppercase px-4 py-1 rounded-md hover:bg-color-50 hover:text-primary-500 lg:mx-4"
         :class="video.id == selected ? 'active bg-primary-500 text-white' : ''"
         :href="`#${video.id}`"
       >

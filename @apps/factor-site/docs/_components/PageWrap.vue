@@ -4,36 +4,12 @@
       <div class="lg:flex">
         <!-- <DocSearch class="lg:hidden" /> -->
         <div
-          class="
-            flex
-            items-center
-            justify-center
-            px-4
-            sm:px-6
-            xl:px-8
-            lg:hidden
-          "
+          class="flex items-center justify-center px-4 sm:px-6 xl:px-8 lg:hidden"
         >
           <button
             id="main-menu"
             type="button"
-            class="
-              rounded-md
-              -mr-2
-              p-2
-              inline-flex
-              items-center
-              justify-center
-              text-primary-500
-              font-semibold
-              hover:text-primary-500 hover:bg-primary-100
-              focus:text-primary-500
-              focus:bg-primary-100
-              focus:outline-none
-              focus:ring-2
-              focus:ring-inset
-              focus:ring-primary-500
-            "
+            class="rounded-md -mr-2 p-2 inline-flex items-center justify-center text-primary-500 font-semibold hover:text-primary-500 hover:bg-primary-100 focus:text-primary-500 focus:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
             aria-haspopup="true"
             aria-expanded="true"
             @click.stop="toggleDocsNav()"
@@ -60,18 +36,7 @@
         </div>
         <div
           id="sidebar"
-          class="
-            fixed
-            z-10
-            inset-0
-            flex-none
-            h-full
-            bg-opacity-25
-            w-full
-            lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-60
-            xl:w-72
-            lg:block
-          "
+          class="fixed z-10 inset-0 flex-none h-full bg-opacity-25 w-full lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-60 xl:w-72 lg:block"
           :class="
             vis ? 'block h-screen absolute top-16 z-50 lg:hidden p-2' : 'hidden'
           "
@@ -79,49 +44,13 @@
           <DocSearch v-if="search" class="hidden lg:block lg:pt-8" />
           <div
             id="navWrapper"
-            class="
-              rounded-lg
-              shadow-xl
-              ring-1 ring-black ring-opacity-20
-              bg-white
-              overflow-y-auto
-              scrolling-touch
-              overflow-hidden
-              lg:shadow-none
-              lg:ring-0
-              lg:h-auto
-              lg:block
-              lg:sticky
-              lg:bg-transparent
-              lg:top-16
-            "
+            class="rounded-lg shadow-xl ring-1 ring-black ring-opacity-20 bg-white overflow-y-auto scrolling-touch overflow-hidden lg:shadow-none lg:ring-0 lg:h-auto lg:block lg:sticky lg:bg-transparent lg:top-16"
           >
             <div
-              class="
-                hidden
-                lg:block
-                h-12
-                pointer-events-none
-                absolute
-                inset-x-0
-                z-10
-                bg-gradient-to-b
-                from-white
-              "
+              class="hidden lg:block h-12 pointer-events-none absolute inset-x-0 z-10 bg-gradient-to-b from-white"
             />
             <div
-              class="
-                absolute
-                right-2
-                top-2
-                px-5
-                pt-4
-                flex
-                items-center
-                justify-end
-                lg:hidden
-                z-20
-              "
+              class="absolute right-2 top-2 px-5 pt-4 flex items-center justify-end lg:hidden z-20"
             >
               <div class="-mr-3">
                 <ElemButton btn="default" @click="vis = !vis">
@@ -147,34 +76,13 @@
             </div>
             <nav
               id="nav"
-              class="
-                px-1
-                pt-6
-                overflow-y-auto
-                font-normal
-                text-base
-                sm:px-3
-                xl:px-5
-                lg:text-sm
-                pb-10
-                lg:pt-10 lg:pb-14
-                sticky
-                text-center
-              "
+              class="px-1 pt-6 overflow-y-auto font-normal text-base sm:px-3 xl:px-5 lg:text-sm pb-10 lg:pt-10 lg:pb-14 sticky text-center"
             >
               <ul class="inline-block">
                 <template v-for="(group, i) in groups" :key="i">
                   <li v-if="group.title" class="mt-6">
                     <router-link
-                      class="
-                        px-3
-                        mb-2
-                        font-medium
-                        text-base
-                        flex
-                        items-center
-                        hover:text-primary-500
-                      "
+                      class="px-3 mb-2 font-medium text-base flex items-center hover:text-primary-500"
                       :to="group.path"
                       :class="isCurrentNav(i) ? 'text-primary-500' : ''"
                     >
@@ -188,13 +96,7 @@
                     <ul class="group-items">
                       <li v-for="(docId, ii) in group.menu" :key="ii">
                         <router-link
-                          class="
-                            flex
-                            items-center
-                            px-3
-                            py-1
-                            hover:text-primary-500
-                          "
+                          class="flex items-center px-3 py-1 hover:text-primary-500"
                           :to="docRoute(docId)"
                           :class="
                             isCurrentNav(docId)
@@ -211,16 +113,7 @@
                   <template v-else>
                     <li v-for="(docId, ii) in group.menu" :key="ii">
                       <a
-                        class="
-                          flex
-                          items-center
-                          px-3
-                          py-2
-                          transition-colors
-                          duration-200
-                          text-bluegray-500
-                          hover:text-primary-500
-                        "
+                        class="flex items-center px-3 py-2 transition-colors duration-200 text-slate-500 hover:text-primary-500"
                         :href="docRoute(docId)"
                       >
                         {{ docTitle(docId) }}
@@ -235,12 +128,7 @@
 
         <div
           id="content-wrapper"
-          class="
-            min-w-0
-            w-full
-            flex-auto
-            lg:static lg:max-h-full lg:overflow-visible
-          "
+          class="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible"
         >
           <router-view />
         </div>

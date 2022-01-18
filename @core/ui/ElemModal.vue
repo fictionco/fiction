@@ -48,7 +48,7 @@
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8 absolute z-10 right-4 text-bluegray-500 hover:text-primary-500 cursor-pointer transition-all"
+              class="h-8 w-8 absolute z-10 right-4 text-slate-500 hover:text-primary-500 cursor-pointer transition-all"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

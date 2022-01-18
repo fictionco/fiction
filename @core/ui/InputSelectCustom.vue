@@ -13,9 +13,9 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="f-input group relative w-full rounded-md pl-3 pr-8 py-2 text-left font-medium cursor-pointer focus:outline-none border border-bluegray-400"
+        class="f-input group relative w-full rounded-md pl-3 pr-8 py-2 text-left font-medium cursor-pointer focus:outline-none border border-slate-400"
         :class="[
-          active || disabled ? 'opacity-50' : 'hover:border-bluegray-400',
+          active || disabled ? 'opacity-50' : 'hover:border-slate-400',
           classButton,
           disabled
             ? 'cursor-not-allowed'
@@ -40,7 +40,7 @@
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
           <span
-            class="select-description ml-2 text-xs truncate text-bluegray-400"
+            class="select-description ml-2 text-xs truncate text-slate-400"
             >{{ selectedItem?.desc }}</span
           >
         </span>
@@ -87,11 +87,11 @@
           >
             <template v-for="(item, i) of li" :key="i">
               <li v-if="item.format == 'divider'" class="">
-                <div class="w-full border-t border-bluegray-200" />
+                <div class="w-full border-t border-slate-200" />
               </li>
               <li
                 v-else-if="item.format == 'title'"
-                class="mt-4 mb-2 text-bluegray-500"
+                class="mt-4 mb-2 text-slate-500"
               >
                 <div class="uppercase text-xs font-semibold px-4">
                   {{ item.name }}
@@ -162,135 +162,119 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { ListItem, normalizeList, onResetUi, toLabel } from "@factor/api"
+<script lang="ts" setup>
+import { ListItem, normalizeList, onResetUi } from "@factor/api"
 import { computed, PropType, ref } from "vue"
 import { useRouter } from "vue-router"
-export default {
-  components: {},
-  props: {
-    modelValue: { type: [Number, String, Boolean], default: "" },
-    list: {
-      type: Array as PropType<string[] | ListItem[]>,
-      default: () => [],
-    },
-    defaultValue: { type: [Number, String, Boolean], default: "" },
-    defaultText: { type: String, default: "" },
-    listSuffix: { type: String, default: "" },
-    classButton: { type: String, default: "" },
-    classOption: { type: String, default: "" },
-    disabled: { type: Boolean, default: false },
+
+const props = defineProps({
+  modelValue: { type: [Number, String, Boolean], default: "" },
+  list: {
+    type: Array as PropType<string[] | ListItem[]>,
+    default: () => [],
   },
-  emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    const router = useRouter()
-    const active = ref(false)
-    const hovered = ref(-1)
+  defaultValue: { type: [Number, String, Boolean], default: "" },
+  defaultText: { type: String, default: "" },
+  listSuffix: { type: String, default: "" },
+  classButton: { type: String, default: "" },
+  classOption: { type: String, default: "" },
+  disabled: { type: Boolean, default: false },
+})
+const emit = defineEmits(["update:modelValue"])
+const router = useRouter()
+const active = ref(false)
+const hovered = ref(-1)
 
-    if (!props.modelValue && props.defaultValue) {
-      emit("update:modelValue", props.defaultValue)
+if (!props.modelValue && props.defaultValue) {
+  emit("update:modelValue", props.defaultValue)
+}
+
+const li = computed(() => normalizeList(props.list ?? []))
+
+const selectedItem = computed<ListItem | undefined>(() => {
+  let f = li.value.find((l) => l.value == props.modelValue)
+  // If can't find value and default prop is set, use that
+  if (!f && props.defaultValue) {
+    f = li.value.find((l) => l.value == props.defaultValue)
+  }
+  return f
+})
+
+const selectedIndex = computed<number>(() => {
+  return li.value.findIndex((_) => _.value == props.modelValue)
+})
+
+const reset = () => {
+  hovered.value = -1
+}
+
+/**
+ * Handle click of a drop down value
+ */
+const selectValue = async (item: Record<string, string>) => {
+  active.value = false
+
+  if (item?.route) {
+    await router.push(item.route)
+  } else {
+    emit("update:modelValue", item.value)
+  }
+
+  reset()
+}
+/**
+ * Select by index in list
+ */
+const selectByIndex = async (index: number) => {
+  const item = li.value[index]
+  if (item) {
+    await selectValue(item)
+  }
+}
+/**
+ * Close on all global resets
+ */
+onResetUi(() => (active.value = false))
+/**
+ * Toggle dropdown visibility
+ */
+const toggle = () => {
+  if (props.disabled) return
+
+  if (active.value) {
+    reset()
+  } else {
+    hovered.value = selectedIndex.value
+    active.value = true
+  }
+}
+
+const isSelected = (value: string): boolean => {
+  return props.modelValue == value ? true : false
+}
+
+const listItemClass = (item: ListItem, i: number): string => {
+  let out = []
+
+  if (item.disabled) {
+    out.push("text-slate-300")
+  } else {
+    if (
+      (isSelected(item.value) && hovered.value === -1) ||
+      hovered.value === i
+    ) {
+      out.push("bg-primary-600 text-white font-medium")
+    } else if (isSelected(item.value)) {
+      out.push("bg-slate-50 font-medium")
+    } else {
+      out.push("font-normal")
     }
+    out.push(
+      "cursor-pointer focus:text-white focus:bg-primary-500 hover:text-white hover:bg-primary-500",
+    )
+  }
 
-    const li = computed(() => normalizeList(props.list ?? []))
-
-    const selectedItem = computed<ListItem | undefined>(() => {
-      let f = li.value.find((l) => l.value == props.modelValue)
-      // If can't find value and default prop is set, use that
-      if (!f && props.defaultValue) {
-        f = li.value.find((l) => l.value == props.defaultValue)
-      }
-      return f
-    })
-
-    const selectedIndex = computed<number>(() => {
-      return li.value.findIndex((_) => _.value == props.modelValue)
-    })
-
-    const reset = () => {
-      hovered.value = -1
-    }
-
-    /**
-     * Handle click of a drop down value
-     */
-    const selectValue = (item: any) => {
-      active.value = false
-
-      if (item?.route) {
-        router.push(item.route)
-      } else {
-        emit("update:modelValue", item.value)
-      }
-
-      reset()
-    }
-    /**
-     * Select by index in list
-     */
-    const selectByIndex = (index: any) => {
-      const item = li.value[index]
-      if (item) selectValue(item)
-    }
-    /**
-     * Close on all global resets
-     */
-    onResetUi(() => (active.value = false))
-    /**
-     * Toggle dropdown visibility
-     */
-    const toggle = () => {
-      if (props.disabled) return
-
-      if (active.value) {
-        reset()
-      } else {
-        hovered.value = selectedIndex.value
-        active.value = true
-      }
-    }
-
-    const isSelected = (value: string): boolean => {
-      return props.modelValue == value ? true : false
-    }
-
-    const listItemClass = (item: ListItem, i: number): string => {
-      let out = []
-
-      if (item.disabled) {
-        out.push("text-gray-300")
-      } else {
-        if (
-          (isSelected(item.value) && hovered.value === -1) ||
-          hovered.value === i
-        ) {
-          out.push("bg-primary-600 text-white font-medium")
-        } else if (isSelected(item.value)) {
-          out.push("bg-gray-50 font-medium")
-        } else {
-          out.push("font-normal")
-        }
-        out.push(
-          "cursor-pointer focus:text-white focus:bg-primary-500 hover:text-white hover:bg-primary-500",
-        )
-      }
-
-      return out.join(" ")
-    }
-
-    return {
-      listItemClass,
-      toLabel,
-      toggle,
-      selectValue,
-      selectByIndex,
-      active,
-      li,
-      selectedItem,
-      selectedIndex,
-      isSelected,
-      hovered,
-    }
-  },
+  return out.join(" ")
 }
 </script>
 <style lang="less" scoped>

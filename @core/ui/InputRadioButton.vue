@@ -4,21 +4,7 @@
       v-for="(li, i) in list"
       :key="i"
       type="button"
-      class="
-        relative
-        inline-flex
-        items-center
-        px-4
-        py-2
-        border
-        text-sm
-        font-medium
-        focus:z-10
-        focus:outline-none
-        focus:ring-1
-        focus:ring-indigo-500
-        focus:border-indigo-500
-      "
+      class="relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
       :class="buttonClass(li, i)"
       @click="select(li)"
     >
@@ -54,10 +40,10 @@ export default {
       }
 
       if (props.modelValue == v.value) {
-        out.push("bg-bluegray-100 text-bluegray-900 border-bluegray-400")
+        out.push("bg-slate-100 text-slate-900 border-slate-400")
       } else {
         out.push(
-          "bg-white text-bluegray-700 border-bluegray-300 hover:border-bluegray-400",
+          "bg-white text-slate-700 border-slate-300 hover:border-slate-400",
         )
       }
 

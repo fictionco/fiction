@@ -1,43 +1,19 @@
 <template>
   <div
-    class="
-      flex flex-col
-      justify-between
-      overflow-y-auto
-      max-h-screen
-      pt-0
-      pb-6
-      sticky
-      top-32
-    "
+    class="flex flex-col justify-between overflow-y-auto max-h-screen pt-0 pb-6 sticky top-32"
     @click.stop
   >
     <div ref="nav" class="mb-8">
       <div
         v-if="headers.length > 0"
-        class="
-          uppercase
-          tracking-wide
-          font-medium
-          mb-3
-          text-xs text-bluegray-300
-        "
+        class="uppercase tracking-wide font-medium mb-3 text-xs text-slate-300"
       >
         On this page
       </div>
       <ul class="overflow-x-hidden">
         <li v-for="(h2, i) in headers" :key="i">
           <a
-            class="
-              block
-              transform
-              transition-colors
-              duration-200
-              text-bluegray-500
-              py-1.5
-              hover:text-primary-500
-              text-xs
-            "
+            class="block transform transition-colors duration-200 text-slate-500 py-1.5 hover:text-primary-500 text-xs"
             :href="h2.anchor"
             :class="isActive(h2.anchor) ? 'font-medium' : ''"
             @click.prevent="setClick(h2.anchor)"
@@ -48,7 +24,7 @@
           <!-- <ul>
             <li v-for="(h3, ii) in h2.sub" :key="ii" class="ml-4">
               <a
-                class="block transform transition-colors duration-200 text-gray-500 py-2 hover:text-black"
+                class="block transform transition-colors duration-200 text-slate-500 py-2 hover:text-black"
                 :href="h3.anchor"
                 @click.prevent="setClick(h3.anchor)"
               >

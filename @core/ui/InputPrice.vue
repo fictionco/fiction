@@ -1,29 +1,13 @@
 <template>
   <div class="relative rounded-md shadow-sm">
     <div
-      class="
-        absolute
-        inset-y-0
-        left-0
-        pl-3
-        flex
-        items-center
-        pointer-events-none
-      "
+      class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
     >
-      <span class="text-bluegray-500 sm:text-sm"> $ </span>
+      <span class="text-slate-500 sm:text-sm"> $ </span>
     </div>
     <input
       type="number"
-      class="
-        focus:ring-primary-500 focus:border-primary-500
-        block
-        pl-7
-        pr-12
-        sm:text-sm
-        border-bluegray-400
-        rounded-md
-      "
+      class="focus:ring-primary-500 focus:border-primary-500 block pl-7 pr-12 sm:text-sm border-slate-400 rounded-md"
       placeholder="0.00"
       :value="modelValue"
       step=".01"

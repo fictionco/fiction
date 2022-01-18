@@ -1,22 +1,11 @@
 <template>
   <div class="w-full flex">
     <div
-      class="
-        doc-selector
-        min-w-0
-        flex-auto
-        px-4
-        py-12
-        pb-24
-        sm:px-6
-        xl:px-8
-        lg:pb-16
-        min-h-screen
-      "
+      class="doc-selector min-w-0 flex-auto px-4 py-12 pb-24 sm:px-6 xl:px-8 lg:pb-16 min-h-screen"
     >
       <HighlightCode v-if="config.component" class="shadow-none">
         <div class="entry max-w-prose m-auto lg:px-6">
-          <h1 class="border-b border-bluegray-200 mb-12 pb-6">
+          <h1 class="border-b border-slate-200 mb-12 pb-6">
             {{ config?.title }}
           </h1>
           <div class="toc-content entry">

@@ -3,13 +3,7 @@
     <div class="extend-index-head">
       <div class="content-pad">
         <h1
-          class="
-            text-center text-3xl
-            tracking-tight
-            font-bold
-            text-gray-500
-            sm:text-5xl
-          "
+          class="text-center text-3xl tracking-tight font-bold text-slate-500 sm:text-5xl"
         >
           {{ describe.title }}
         </h1>
@@ -20,18 +14,7 @@
     </div>
     <div
       v-if="extensionType == 'plugin'"
-      class="
-        extensions-wrap
-        plugins-wrap
-        max-w-7xl
-        mx-auto
-        py-12
-        px-4
-        sm:px-6
-        lg:py-16 lg:px-8
-        grid grid-cols-5
-        gap-16
-      "
+      class="extensions-wrap plugins-wrap max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 grid grid-cols-5 gap-16"
     >
       <SliderPlugin
         :title="`Featured`"

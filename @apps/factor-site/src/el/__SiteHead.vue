@@ -6,14 +6,7 @@
     <div class="relative">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <nav
-          class="
-            relative
-            flex
-            items-center
-            justify-between
-            sm:h-10
-            lg:justify-center
-          "
+          class="relative flex items-center justify-between sm:h-10 lg:justify-center"
           aria-label="Global"
         >
           <div
@@ -27,21 +20,7 @@
                 <button
                   id="main-menu"
                   type="button"
-                  class="
-                    rounded-md
-                    p-2
-                    inline-flex
-                    items-center
-                    justify-center
-                    text-color-500
-                    hover:text-primary-500 hover:bg-primary-100
-                    focus:text-primary-500
-                    focus:bg-primary-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-inset
-                    focus:ring-primary-500
-                  "
+                  class="rounded-md p-2 inline-flex items-center justify-center text-color-500 hover:text-primary-500 hover:bg-primary-100 focus:text-primary-500 focus:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                   aria-haspopup="true"
                   aria-expanded="true"
                   @click.stop="toggleVisibility()"
@@ -72,24 +51,16 @@
               <a
                 v-if="navItem.submenu == null"
                 :href="navItem.path"
-                class="text-gray-500 hover:text-primary-500"
+                class="text-slate-500 hover:text-primary-500"
               >
                 {{ navItem.name }}
               </a>
               <div v-else class="relative">
                 <button
                   type="button"
-                  class="
-                    group
-                    rounded-md
-                    inline-flex
-                    items-center
-                    text-base
-                    hover:text-primary-500
-                    focus:outline-none
-                  "
+                  class="group rounded-md inline-flex items-center text-base hover:text-primary-500 focus:outline-none"
                   :class="
-                    navItem.visDropdown ? 'text-primary-500' : 'text-gray-500'
+                    navItem.visDropdown ? 'text-primary-500' : 'text-slate-500'
                   "
                   @click.stop="toggleVisibilityDropdown(navItem)"
                 >
@@ -97,7 +68,9 @@
                   <svg
                     class="ml-2 h-5 w-5 group-hover:text-primary-500"
                     :class="
-                      navItem.visDropdown ? 'text-primary-500' : 'text-gray-500'
+                      navItem.visDropdown
+                        ? 'text-primary-500'
+                        : 'text-slate-500'
                     "
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
@@ -122,58 +95,27 @@
                 >
                   <div
                     v-show="navItem.visDropdown"
-                    class="
-                      absolute
-                      z-50
-                      left-1/2
-                      transform
-                      -translate-x-1/2
-                      mt-3
-                      px-2
-                      w-screen
-                      max-w-md
-                      sm:px-0
-                    "
+                    class="absolute z-50 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-md sm:px-0"
                   >
                     <div
-                      class="
-                        rounded-lg
-                        shadow-lg
-                        ring-1 ring-black ring-opacity-5
-                        overflow-hidden
-                      "
+                      class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden"
                     >
                       <div
-                        class="
-                          relative
-                          bg-white
-                          py-6
-                          px-5
-                          grid
-                          gap-6
-                          sm:gap-8 sm:p-8
-                        "
+                        class="relative bg-white py-6 px-5 grid gap-6 sm:gap-8 sm:p-8"
                       >
                         <a
                           v-for="(submenuItem, ii) in navItem.submenu"
                           :key="ii"
                           :href="submenuItem.path"
-                          class="
-                            -m-3
-                            p-3
-                            flex
-                            items-start
-                            rounded-lg
-                            hover:bg-primary-50
-                          "
+                          class="-m-3 p-3 flex items-start rounded-lg hover:bg-primary-50"
                         >
                           <div class="ml-4">
-                            <p class="text-base font-medium text-gray-500">
+                            <p class="text-base font-medium text-slate-500">
                               {{ submenuItem.name }}
                             </p>
                             <p
                               v-if="submenuItem.content"
-                              class="mt-1 text-sm text-gray-500"
+                              class="mt-1 text-sm text-slate-500"
                             >
                               {{ submenuItem.content }}
                             </p>
@@ -188,15 +130,7 @@
             <ElemGithubStars />
           </div>
           <div
-            class="
-              hidden
-              lg:absolute
-              lg:flex
-              lg:items-center
-              lg:justify-end
-              lg:inset-y-0
-              lg:right-0
-            "
+            class="hidden lg:absolute lg:flex lg:items-center lg:justify-end lg:inset-y-0 lg:right-0"
           >
             <ElemButton
               v-if="$route.path != '/install'"
@@ -221,26 +155,10 @@
       >
         <div
           v-show="vis"
-          class="
-            absolute
-            top-0
-            inset-x-0
-            p-2
-            z-50
-            transition
-            transform
-            origin-top-right
-            lg:hidden
-          "
+          class="absolute top-0 inset-x-0 p-2 z-50 transition transform origin-top-right lg:hidden"
         >
           <div
-            class="
-              rounded-lg
-              shadow-xl
-              bg-white
-              ring-1 ring-black ring-opacity-5
-              overflow-x-hidden
-            "
+            class="rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 overflow-x-hidden"
           >
             <div class="px-5 pt-4 flex items-center justify-between">
               <div>
@@ -248,21 +166,7 @@
               </div>
               <div class="-mr-3">
                 <ElemButton
-                  class="
-                    rounded-md
-                    pl-2
-                    pr-2
-                    inline-flex
-                    items-center
-                    justify-center
-                    text-gray-500
-                    bg-gray-50
-                    hover:text-primary-500 hover:bg-primary-100
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-inset
-                    focus:ring-primary-500
-                  "
+                  class="rounded-md pl-2 pr-2 inline-flex items-center justify-center text-slate-500 bg-slate-50 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                   @click="vis = !vis"
                 >
                   <span class="sr-only">Close menu</span>
@@ -289,7 +193,7 @@
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="main-menu"
-              class="divide-y-2 divide-gray-100"
+              class="divide-y-2 divide-slate-100"
             >
               <div class="px-2 pt-2 pb-3" role="none">
                 <template v-for="(navItem, iii) in siteNav" :key="iii">
@@ -297,16 +201,7 @@
                     v-if="navItem.submenu == null"
                     :key="navItem.path"
                     :href="navItem.path"
-                    class="
-                      block
-                      px-3
-                      py-2
-                      rounded-md
-                      text-base
-                      font-medium
-                      text-gray-500
-                      hover:text-primary-500 hover:bg-primary-50
-                    "
+                    class="block px-3 py-2 rounded-md text-base font-medium text-slate-500 hover:text-primary-500 hover:bg-primary-50"
                     role="menuitem"
                   >
                     {{ navItem.name }}
@@ -317,16 +212,7 @@
                       :key="ii"
                       :href="submenuItem.path"
                       role="menuitem"
-                      class="
-                        block
-                        px-3
-                        py-2
-                        rounded-md
-                        text-base
-                        font-medium
-                        text-gray-500
-                        hover:text-primary-500 hover:bg-primary-50
-                      "
+                      class="block px-3 py-2 rounded-md text-base font-medium text-slate-500 hover:text-primary-500 hover:bg-primary-50"
                     >
                       {{ submenuItem.name }}
                     </a>
@@ -338,15 +224,7 @@
                   v-if="$route.path != '/install'"
                   to="/install"
                   btn="primary"
-                  class="
-                    w-full
-                    flex
-                    items-center
-                    justify-center
-                    px-4
-                    py-2
-                    font-bold
-                  "
+                  class="w-full flex items-center justify-center px-4 py-2 font-bold"
                 >
                   Start Your App &rarr;
                 </ElemButton>
