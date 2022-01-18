@@ -121,14 +121,7 @@ export const createEndpointServer = async (
    * Send a health check response
    */
   app.use("/", (request, response) => {
-    response
-      .status(200)
-      .send({
-        status: "success",
-        message: "health ok",
-        data: { url: request.url },
-      })
-      .end()
+    response.status(404).end()
   })
 
   /**
@@ -139,14 +132,14 @@ export const createEndpointServer = async (
   const port = process.env.PORT || process.env.FACTOR_SERVER_PORT || "3210"
   process.env.FACTOR_SERVER_PORT = port
 
-  const server = await app.listen(port)
+  const server = app.listen(port, () => {
+    const appName = process.env.FACTOR_APP_NAME || "app"
 
-  const appName = process.env.FACTOR_APP_NAME || "app"
-
-  logger({
-    level: "info",
-    context: "endpoint",
-    description: `serving:${appName} @port:${port}`,
+    logger({
+      level: "info",
+      context: "endpoint",
+      description: `endpoint server @app:${appName} @port:${port}`,
+    })
   })
 
   return server

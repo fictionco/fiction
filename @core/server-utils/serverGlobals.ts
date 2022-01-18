@@ -3,9 +3,6 @@ import { importIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
 
-import { createRequire } from "module"
-const require = createRequire(import.meta.url)
-
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
     FACTOR_APP_NAME: "",
@@ -16,15 +13,9 @@ const getDefaultServerVariables = (): Record<string, string> => {
   }
 }
 
-export const packageConfig = (): Record<string, any> => {
-  return require(path.join(process.cwd(), "package.json"))
-}
-
 export const getFactorConfig = async (
   config: UserConfigServer = {},
 ): Promise<UserConfigServer> => {
-  const { factor = {} } = packageConfig()
-
   const result = await importIfExists<{
     default: UserConfigServer
   }>(path.join(process.cwd(), "factor.config.ts"))
@@ -32,12 +23,16 @@ export const getFactorConfig = async (
   const configFile = result?.default || {}
   return deepMergeAll([
     { variables: getDefaultServerVariables() },
-    factor,
     configFile,
     config,
   ])
 }
 
+/**
+ * This runs multiple times, variables from config are public
+ * and the full added list should be returned
+ */
+const __variables: Record<string, string> = {}
 export const setAppGlobals = async (
   config: UserConfigServer = {},
 ): Promise<Record<string, string>> => {
@@ -45,9 +40,9 @@ export const setAppGlobals = async (
 
   Object.entries(variables).forEach(([key, value]) => {
     const finalValue = process.env[key] || value
-    variables[key] = finalValue
+    __variables[key] = finalValue
     process.env[key] = finalValue
   })
 
-  return variables
+  return __variables
 }

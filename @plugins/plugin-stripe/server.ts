@@ -1,5 +1,4 @@
 import { initializeEndpoint } from "./serverEndpoint"
-import { addFilter } from "@factor/api/hook"
 import { StripeOptions } from "./types"
 import { createSettings } from "./util"
 import { stripeEnv } from "./serverMethods"
@@ -15,11 +14,11 @@ export default async (
     setup: async (): Promise<void> => {
       const stripePublicKey =
         stripeEnv() == "production"
-          ? process.env.STRIPE_PUBLIC_KEY
+          ? process.env.STRIPE_PUBLIC_KEY_LIVE
           : process.env.STRIPE_PUBLIC_KEY_TEST
       const stripeSecretKey =
         stripeEnv() == "production"
-          ? process.env.STRIPE_SECRET_KEY
+          ? process.env.STRIPE_SECRET_KEY_LIVE
           : process.env.STRIPE_SECRET_KEY_TEST
 
       if (!stripePublicKey) {
@@ -29,14 +28,6 @@ export default async (
       if (!stripeSecretKey) {
         throw new Error(`Stripe secret key is missing: '${stripeEnv()}'`)
       }
-      addFilter({
-        key: "stripePublic",
-        hook: "publicConfig",
-        callback: (_) => {
-          _.stripePublicKey = stripePublicKey
-          return _
-        },
-      })
 
       await initializeEndpoint()
     },

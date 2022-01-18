@@ -5,21 +5,21 @@ export type AppPlugin = {
   install: (options: Record<string, any>) => void | Promise<void>
 }
 
-type OptionType<T> = T extends {
-  install: (option: infer R) => void | Promise<void>
-}
-  ? R
-  : Record<string, any>
+// type OptionType<T> = T extends {
+//   install: (option: infer R) => void | Promise<void>
+// }
+//   ? R
+//   : Record<string, any>
 
 /**
  * Install a Factor application plugin
  */
-export const installPlugin = <T extends AppPlugin = AppPlugin>(
-  plugin: T,
-  options: Partial<OptionType<T>> = {},
-): void => {
-  plugin.install(options)
-}
+// export const installPlugin = <T extends AppPlugin = AppPlugin>(
+//   plugin: T,
+//   options: Partial<OptionType<T>> = {},
+// ): void => {
+//   plugin.install(options)
+// }
 
 type UserConfig = UserConfigApp | UserConfigServer
 export const setupPlugins = async (
@@ -41,11 +41,12 @@ export const setupPlugins = async (
 
           if (r) config.push(r)
         }
-      } catch (error: any) {
-        error.message = `plugin setup error (${
-          pluginConfig.name ?? "unknown"
-        }): ${error.message}`
-        throw error
+      } catch (error: unknown) {
+        const e = error as Error
+        e.message = `plugin setup error (${pluginConfig.name ?? "unknown"}): ${
+          e.message
+        }`
+        throw e
       }
     }
   }
