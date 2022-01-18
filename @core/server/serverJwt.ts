@@ -1,5 +1,5 @@
 import { _stop } from "@factor/api"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 import { FullUser } from "@factor/types"
 import jwt from "jsonwebtoken"
 interface TokenFields {

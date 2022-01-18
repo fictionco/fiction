@@ -1,6 +1,6 @@
 import { UserConfigServer } from "@factor/types"
 import { dotSetting, setupPlugins } from "@factor/api"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 let __serverConfig: UserConfigServer
 export const setServerConfig = async (
   config: UserConfigServer,

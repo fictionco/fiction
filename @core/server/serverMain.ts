@@ -1,9 +1,7 @@
 import { runCallbacks, deepMergeAll } from "@factor/api"
-import {
-  importIfExists,
-  sourceFolder,
-  setAppGlobals,
-} from "@factor/server-utils"
+
+import { importIfExists, sourceFolder } from "@factor/server-utils/serverPaths"
+import { setAppGlobals } from "@factor/server-utils/serverGlobals"
 import path from "path"
 import { initializeDb } from "./serverDb"
 import { createEndpointServer } from "./serverEndpoint"

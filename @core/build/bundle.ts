@@ -1,7 +1,7 @@
 import path from "path"
 import { performance } from "perf_hooks"
 import fs from "fs-extra"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 import { getPackages, getCommit } from "./utils"
 import * as rollup from "rollup"
 import { getConfig } from "./rollupBuildConfig"

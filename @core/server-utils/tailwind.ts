@@ -36,7 +36,7 @@ const purgePath = folders
 
     const parts = f.split("/")
     const parentFolder = parts.splice(0, parts.length - 1).join("/")
-    return `${parentFolder}/**/*.vue`
+    return `${parentFolder}/**/*.{vue,html,ts}`
   })
   .filter((_) => _)
 

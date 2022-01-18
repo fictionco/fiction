@@ -9,7 +9,7 @@ import {
   ErrorConfig,
 } from "@factor/api"
 import express from "express"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 import { getServerConfig } from "../serverConfig"
 import {
   EndpointResponse,

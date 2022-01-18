@@ -1,5 +1,5 @@
 import { applyFilters } from "@factor/api"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 import { EndpointConfig, PrivateUser, UserConfigServer } from "@factor/types"
 import express from "express"
 import cors from "cors"

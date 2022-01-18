@@ -2,7 +2,7 @@ import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop } from "@factor/api"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/server-utils/serverLogger"
 
 export const getDbConnection = (): string | undefined => {
   const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL

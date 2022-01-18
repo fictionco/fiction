@@ -26,7 +26,8 @@ const versionIncrements: ReleaseType[] = [
  */
 const versionChoices = (): string[] => {
   const choices = versionIncrements.map((i) => {
-    return `${i} (${semver.inc(currentVersion, i, "beta")})`
+    const v = semver.inc(currentVersion, i, "beta") ?? ""
+    return `${i} (${v})`
   })
   return [...choices, "custom"]
 }
@@ -92,7 +93,7 @@ const updateDeps = (
  */
 const updatePackage = (pkgRoot: string, version: string): void => {
   const pkgPath = path.resolve(pkgRoot, "package.json")
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"))
+  const pkg = JSON.parse(fs.readFileSync(pkgPath))
   pkg.version = version
 
   const depType = ["dependencies", "peerDependencies", "devDependencies"]

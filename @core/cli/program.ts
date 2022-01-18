@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import "@factor/server"
-import { emitEvent, logger } from "@factor/server-utils"
+import { emitEvent } from "@factor/server-utils/serverEvent"
+import { logger } from "@factor/server-utils/serverLogger"
 import { CliCommand, StageId } from "@factor/types"
 
 import { Command } from "commander"

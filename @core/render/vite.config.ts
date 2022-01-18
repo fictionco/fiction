@@ -2,9 +2,9 @@ import { sourceFolder, cwd } from "@factor/server"
 import {
   importIfExists,
   requireIfExists,
-  setAppGlobals,
-  logger,
-} from "@factor/server-utils"
+} from "@factor/server-utils/serverPaths"
+import { setAppGlobals } from "@factor/server-utils/serverGlobals"
+import { logger } from "@factor/server-utils/serverLogger"
 import pluginVue from "@vitejs/plugin-vue"
 
 import { deepMergeAll, getMarkdownUtility } from "@factor/api"
