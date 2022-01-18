@@ -1,3 +1,17 @@
+## [3.5.4](https://github.com/FactorJS/factor/compare/v3.5.3...v3.5.4) (2022-01-18)
+
+
+### Bug Fixes
+
+* circular import ([e7cc555](https://github.com/FactorJS/factor/commit/e7cc5551296e044311c0f60712577b523f4148c9))
+
+
+### Features
+
+* ui upgrades ([76586c5](https://github.com/FactorJS/factor/commit/76586c577636d8c7ebed89ed93f4333283f87aea))
+
+
+
 ## [3.5.3](https://github.com/FactorJS/factor/compare/v3.5.2...v3.5.3) (2022-01-18)
 
 
