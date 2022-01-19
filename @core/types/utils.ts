@@ -31,6 +31,7 @@ export type MenuItem = {
   icon?: string
   route?: string
   url?: string
+  path?: string
   onClick?: (item: MenuItem) => void
   action?: "navigate" | "callback" | string
   [key: string]: any
