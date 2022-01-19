@@ -1,5 +1,4 @@
 declare module "*package"
-declare module "jest"
 declare module "std-env"
 declare module "gravatar"
 declare module "markdown-it-video"

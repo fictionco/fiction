@@ -39,7 +39,5 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.10"
   },
-  "devDependencies": {
-    "@jest/types": "^27.0.6"
-  }
+  "devDependencies": {}
 }

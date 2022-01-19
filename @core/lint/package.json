@@ -16,7 +16,6 @@
     "eslint-plugin-html": "^6.2.0",
     "eslint-plugin-implicit-dependencies": "^1.1.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^25.2.2",
     "eslint-plugin-json": "latest",
     "eslint-plugin-prettier": "latest",
     "eslint-plugin-simple-import-sort": "latest",
