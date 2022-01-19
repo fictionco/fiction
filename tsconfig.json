@@ -14,7 +14,7 @@
     "esModuleInterop": true,
     "rootDir": ".",
     "removeComments": true,
-    "types": ["jest", "node"],
+    "types": ["node"],
     "lib": ["ES2020", "DOM"], // vue/vetur needs this
     "skipLibCheck": true
   },

@@ -19,7 +19,7 @@ export const isDev = (): boolean => {
  * Stringify and hash
  * https://github.com/joliss/fast-js-hash-benchmark
  */
-export const fastHash = (data: any): string => {
+export const fastHash = (data: Record<string, any> | any[] | string | number): string => {
   return md5.hash(stableStringify(data)).toString()
 }
 /**
@@ -357,7 +357,7 @@ export const toPascalCase = (text: string): string => {
     .replace(new RegExp(/[^\s\w]/, "g"), "")
     .replace(
       new RegExp(/\s+(.)(\w+)/, "g"),
-      ($1, $2, $3) => `${$2.toUpperCase() + $3.toLowerCase()}`,
+      ($1, $2: string, $3: string) => `${$2.toUpperCase() + $3.toLowerCase()}`,
     )
     .replace(new RegExp(/\s/, "g"), "")
     .replace(new RegExp(/\w/), (s) => s.toUpperCase())
@@ -376,7 +376,10 @@ export const validateEmail = (email?: string): boolean => {
 /**
  * Normalize Domain for display
  */
-export const displayDomain = (url: string): string => {
+export const displayDomain = (url?: string): string => {
+  if (!url) {
+    return ""
+  }
   // remove protocol, make www and naked the same, and remove slashes on start or end
   return url
     .replace(/^https?:\/\//, "")

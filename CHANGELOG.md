@@ -1,3 +1,12 @@
+# [3.6.0](https://github.com/FactorJS/factor/compare/v3.5.4...v3.6.0) (2022-01-19)
+
+
+### Features
+
+* no more jest ([b5124d0](https://github.com/FactorJS/factor/commit/b5124d0f0233f314ae17550fb6e2e61b461afbf7))
+
+
+
 ## [3.5.4](https://github.com/FactorJS/factor/compare/v3.5.3...v3.5.4) (2022-01-18)
 
 

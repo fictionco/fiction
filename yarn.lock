@@ -1884,9 +1884,9 @@
     "@types/express" "*"
 
 "@types/node@*", "@types/node@>=8.1.0", "@types/node@^17.0.0", "@types/node@^17.0.5":
-  version "17.0.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.9.tgz#0b7f161afb5b1cc12518d29b2cdc7175d5490628"
-  integrity sha512-5dNBXu/FOER+EXnyah7rn8xlNrfMOQb/qXnw4NQgLkCygKBKhdmF/CA5oXVOKZLBEahw8s2WP9LxIcN/oDDRgQ==
+  version "17.0.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.10.tgz#616f16e9d3a2a3d618136b1be244315d95bd7cab"
+  integrity sha512-S/3xB4KzyFxYGCppyDt68yzBU9ysL88lSdIah4D6cptdcltc4NCPCAMc0+PCpg/lLIyC7IPvj2Z52OJWeIUkog==
 
 "@types/nodemailer-html-to-text@^3.1.0":
   version "3.1.0"
@@ -4049,9 +4049,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.17:
-  version "1.4.47"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.47.tgz#5d5535cdbca2b9264abee4d6ea121995e9554bbe"
-  integrity sha512-ZHc8i3/cgeCRK/vC7W2htAG6JqUmOUgDNn/f9yY9J8UjfLjwzwOVEt4MWmgJAdvmxyrsR5KIFA/6+kUHGY0eUA==
+  version "1.4.48"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.48.tgz#1948b5227aa0ca1ed690945eae1adbe9e7904575"
+  integrity sha512-RT3SEmpv7XUA+tKXrZGudAWLDpa7f8qmhjcLaM6OD/ERxjQ/zAojT8/Vvo0BSzbArkElFZ1WyZ9FuwAYbkdBNA==
 
 elliptic@^6.5.3:
   version "6.5.4"
@@ -10543,9 +10543,9 @@ vite@>=2.7.12, vite@^2.3.6, vite@^2.4.3, vite@^2.5.3, vite@^2.7.12:
     fsevents "~2.3.2"
 
 vitest@^0.1.15:
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.1.20.tgz#8af378bcaa9893d658bb6a1c93676a1c80f190d0"
-  integrity sha512-UhbBDhQOVNHapOI+OcyEtryRWFmTTy3zSiyMZYtsrGuS+ARiGz/pDlHJdS1CK7ef3/5oyYd0jzsVcqVowd7Img==
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.1.21.tgz#72cb4ec5e93daafecc67bf46c23a1a48cf18cf12"
+  integrity sha512-dtVFqZS0LJ30hD4KgGVYUAm/gHjE1sURI/EgUFVLjTAH1DZqFWPwz6OPAXM1lOppf1JwoGJ8TGkdEXgjsYSZkw==
   dependencies:
     "@types/chai" "^4.3.0"
     "@types/chai-subset" "^1.3.3"
