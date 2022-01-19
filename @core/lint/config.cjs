@@ -107,6 +107,7 @@ module.exports = {
     "unicorn/no-useless-undefined": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/prefer-node-protocol": "off",
+    "unicorn/prefer-json-parse-buffer": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-unsafe-assignment": "warn",
     "@typescript-eslint/no-unsafe-member-access": "warn",
