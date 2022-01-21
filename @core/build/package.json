@@ -1,6 +1,6 @@
 {
   "name": "@factor/build",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "author": "Darwin",
   "license": "MIT",
   "publishConfig": {
@@ -9,7 +9,7 @@
   "private": false,
   "type": "module",
   "dependencies": {
-    "@factor/server-utils": "3.6.1",
+    "@factor/server-utils": "3.6.2",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",
     "execa": "^6.0.0",
