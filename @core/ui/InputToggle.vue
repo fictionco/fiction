@@ -6,14 +6,14 @@
       type="checkbox"
       :value="val"
       :checked="val"
-      @input="$emit('update:modelValue', $event.target.checked)"
+      @input="emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
     />
     <button
       type="button"
       aria-pressed="false"
       :class="val == true ? 'bg-primary-500' : 'bg-slate-300'"
       class="relative inline-flex shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-      @click.stop="$emit('update:modelValue', !val)"
+      @click.stop="emit('update:modelValue', !val)"
     >
       <span class="sr-only">{{ val ? "on" : "off" }}</span>
 
@@ -32,24 +32,19 @@
     </span>
   </label>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { computed } from "vue"
-export default {
-  props: {
-    modelValue: { type: [Boolean, String], default: false },
-    textOff: { type: String, default: "" },
-    textOn: { type: String, default: "" },
-  },
-  emits: ["update:modelValue"],
-  setup(props) {
-    const val = computed<boolean>(() => {
-      const mv = props.modelValue
-      if (typeof mv == "string") {
-        if (mv == "on" || mv == "true") return true
-        else return false
-      } else return mv
-    })
-    return { val }
-  },
-}
+const props = defineProps({
+  modelValue: { type: [Boolean, String], default: false },
+  textOff: { type: String, default: "" },
+  textOn: { type: String, default: "" },
+})
+const emit = defineEmits(["update:modelValue"])
+const val = computed<boolean>(() => {
+  const mv = props.modelValue
+  if (typeof mv == "string") {
+    if (mv == "on" || mv == "true") return true
+    else return false
+  } else return mv
+})
 </script>

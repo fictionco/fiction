@@ -4,7 +4,7 @@
     class="f-el-input"
     :class="[
       valid ? 'valid' : 'not-valid',
-      attrs.class && attrs.class.includes('my-') ? '' : 'my-8',
+      attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
     ]"
   >
     <div v-if="label || description" class="flex justify-between mb-3">
@@ -129,15 +129,15 @@ const setValidity = async (): Promise<void> => {
   }
 }
 
-const updateValue = (value: any) => {
-  setValidity()
+const updateValue = async (value: any) => {
+  await setValidity()
   emit("update:modelValue", value)
 }
 
 onMounted(() => {
   // Let the child els load
-  setTimeout(() => {
-    setValidity()
+  setTimeout(async () => {
+    await setValidity()
   }, 300)
 })
 </script>

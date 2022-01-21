@@ -10,7 +10,7 @@ export interface MenuListItem extends ListItem {
 }
 export type ListItem = {
   name?: string
-  value?: any
+  value?: string
   desc?: string
   selected?: boolean
   [key: string]: any

@@ -19,7 +19,9 @@ export const isDev = (): boolean => {
  * Stringify and hash
  * https://github.com/joliss/fast-js-hash-benchmark
  */
-export const fastHash = (data: Record<string, any> | any[] | string | number): string => {
+export const fastHash = (
+  data: Record<string, any> | any[] | string | number,
+): string => {
   return md5.hash(stableStringify(data)).toString()
 }
 /**

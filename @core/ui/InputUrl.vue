@@ -9,7 +9,7 @@
     <input
       v-bind="attrs"
       type="text"
-      class="placeholder-slate-400 focus:ring-primary-500 focus:border-primary-500 flex-1 block w-full rounded-none rounded-r-md border-slate-200"
+      class="placeholder-slate-400 focus:ring-primary-500 focus:border-primary-500 flex-1 block w-full rounded-none rounded-r-md border-slate-400"
       placeholder="www.example.com"
       :value="modelValue"
       @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"

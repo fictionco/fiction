@@ -12,16 +12,13 @@
       :value="modelValue"
       step=".01"
       min="0"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>
-<script lang="ts">
-export default {
-  name: "InputPrice",
-  props: {
-    modelValue: { type: [String], default: "" },
-  },
-  emits: ["update:modelValue"],
-}
+<script lang="ts" setup>
+defineProps({
+  modelValue: { type: [String], default: "" },
+})
+defineEmits(["update:modelValue"])
 </script>
