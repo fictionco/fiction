@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { logCategory, logLevel, LogHandler } from "@factor/types"
 import chalk from "chalk"
-import highlight from "cli-highlight"
+import { highlight } from "cli-highlight"
 import consola from "consola"
 import prettyOutput from "prettyoutput"
 import Handlebars from "handlebars"
@@ -10,7 +10,8 @@ import { serverConfigSetting } from "@factor/server/serverConfig"
  * Output JSON nicely to the CLI
  */
 export const prettyJson = (data: Record<string, any>): string => {
-  return highlight(prettyOutput(data, { noColor: true }), {
+  const out = prettyOutput(data, { noColor: true }) as string
+  return highlight(out, {
     theme: {
       string: chalk.hex("#00ABFF"),
       built_in: chalk.dim,
@@ -73,7 +74,16 @@ export const logger = (args: LoggerArgs): void => {
   const logger = serverConfigSetting<LogHandler>("log")
 
   if (logger) {
-    logger({ priority, color, category: level, level, description, data })
+    Promise.resolve(
+      logger({
+        priority,
+        color,
+        category: level,
+        level,
+        description,
+        data,
+      }),
+    ).catch((error) => console.error(error))
   }
 }
 
@@ -126,6 +136,8 @@ export const nLog = (
   const logger = serverConfigSetting<LogHandler>("log")
 
   if (logger) {
-    logger({ priority, color, category, description, data })
+    Promise.resolve(
+      logger({ priority, color, category, description, data }),
+    ).catch((error) => console.error(error))
   }
 }
