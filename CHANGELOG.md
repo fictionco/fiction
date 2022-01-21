@@ -1,3 +1,12 @@
+## [3.6.3](https://github.com/FactorJS/factor/compare/v3.6.2...v3.6.3) (2022-01-21)
+
+
+### Features
+
+* fix bug ([0abc315](https://github.com/FactorJS/factor/commit/0abc3156e283b8f66ca6814a1678f69a9f3e20b1))
+
+
+
 ## [3.6.2](https://github.com/FactorJS/factor/compare/v3.6.1...v3.6.2) (2022-01-21)
 
 
