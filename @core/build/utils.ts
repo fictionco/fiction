@@ -4,7 +4,7 @@ import Handlebars from "handlebars"
 import fs from "fs-extra"
 import { workspaces } from "../../package.json"
 import { createRequire } from "module"
-
+import { PackageJson } from "@factor/types"
 const require = createRequire(import.meta.url)
 /**
  * Register a helper to print raw JS objects
@@ -49,7 +49,7 @@ export const getPackages = (
         const manifestPath = `../../${f}/package.json`
         if (!fs.statSync(f).isDirectory()) return ""
         else {
-          const manifest = require(manifestPath)
+          const manifest = require(manifestPath) as PackageJson
           return publicOnly && manifest.private ? "" : manifest.name
         }
       })
