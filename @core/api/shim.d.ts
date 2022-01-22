@@ -31,10 +31,11 @@ declare module "*.svg" {
   export = value
 }
 declare module "*.css" {
-  const value: any
+  const value: string
   export = value
 }
 declare module "*.md" {
-  const value: any
+  import { MarkdownFile } from "@factor/types"
+  const value: MarkdownFile
   export = value
 }

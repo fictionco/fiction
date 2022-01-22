@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs"
-import { ExecaChildProcess } from "execa"
+import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
@@ -8,6 +8,7 @@ import { logger } from "@factor/server-utils"
 import { version as currentVersion } from "../../package.json"
 import { isGitDirty, getPackages } from "./utils"
 import { createRequire } from "module"
+import { PackageJson } from "@factor/types"
 const require = createRequire(import.meta.url)
 let __dry: boolean | undefined
 
@@ -47,7 +48,7 @@ const run = async (
  * the dry run (--dry) option
  */
 const commit = async (
-  ...commandArgs: any[]
+  ...commandArgs: [string, string[], Record<string, string>?]
 ): Promise<void | ExecaChildProcess> => {
   const [bin, args, opts] = commandArgs
   //  Output CLI commands instead of actually run them
@@ -93,13 +94,13 @@ const updateDeps = (
  */
 const updatePackage = (pkgRoot: string, version: string): void => {
   const pkgPath = path.resolve(pkgRoot, "package.json")
-  const pkg = JSON.parse(fs.readFileSync(pkgPath))
+  const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
   pkg.version = version
 
   const depType = ["dependencies", "peerDependencies", "devDependencies"]
 
   depType.forEach((t) => {
-    const existing = pkg[t]
+    const existing = pkg[t] as Record<string, string> | undefined
     if (existing) {
       pkg[t] = updateDeps(pkg.name, t, existing, version)
     }
@@ -125,7 +126,7 @@ const publishPackage = async (
   version: string,
 ): Promise<void> => {
   const pkgRoot = getModuleDirectory(moduleName)
-  const pkg = require(`${moduleName}/package.json`)
+  const pkg = require(`${moduleName}/package.json`) as PackageJson
 
   if (pkg.private) {
     return
@@ -163,15 +164,16 @@ const publishPackage = async (
       context: "release",
       description: `successfully published ${moduleName}@${version}`,
     })
-  } catch (error: any) {
-    if (/previously published/.test(error.stderr)) {
+  } catch (error: unknown) {
+    const e = error as ExecaError
+    if (/previously published/.test(e.stderr)) {
       logger({
         level: "warn",
         context: "release",
         description: `skipping already published: ${moduleName}`,
       })
     } else {
-      throw error
+      throw e
     }
   }
 }
