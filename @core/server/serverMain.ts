@@ -1,8 +1,8 @@
-import { runHooks, runCallbacks, deepMergeAll } from "@factor/api"
+import { runHooks, deepMergeAll } from "@factor/api"
 
-import { importIfExists, sourceFolder } from "@factor/server-utils/serverPaths"
+import { importServerEntry } from "@factor/server-utils/serverPaths"
 import { setAppGlobals } from "@factor/server-utils/serverGlobals"
-import path from "path"
+
 import { initializeDb } from "./serverDb"
 import { createEndpointServer } from "./serverEndpoint"
 import { userEndpoint } from "./user/serverUser"
@@ -10,33 +10,20 @@ import { setServerConfig } from "./serverConfig"
 import { UserConfigServer } from "@factor/types"
 
 /**
- * Run the Factor server
+ * Set up all config variables on server
  */
-export const setup = async (): Promise<void> => {
+export const setupEnvironment = async (
+  entryServerConfig: UserConfigServer,
+): Promise<void> => {
   /**
    * Set initial globals (this will run again after extension)
    */
   await setAppGlobals()
 
   /**
-   * Require app server entry file if it exists
-   */
-  const serverEntry = await importIfExists<{ setup?: () => UserConfigServer }>(
-    path.join(sourceFolder(), "server.ts"),
-  )
-
-  const merge: UserConfigServer[] = [{ endpoints: [userEndpoint] }]
-
-  if (serverEntry?.setup) {
-    merge.unshift(serverEntry.setup())
-  }
-
-  const initialServerConfig: UserConfigServer = deepMergeAll(merge)
-
-  /**
    * Sets config for access throughout app
    */
-  const serverConfig = await setServerConfig(initialServerConfig)
+  const serverConfig = await setServerConfig(entryServerConfig)
   /**
    * Set globals again with any plugin stuff
    */
@@ -45,27 +32,49 @@ export const setup = async (): Promise<void> => {
    * Load libraries
    */
   await initializeDb()
-
   /**
    * Allow hooks
    */
   await runHooks({
     hook: "afterServerSetup",
-    config: initialServerConfig,
+    config: serverConfig,
     args: [],
   })
   /**
    * Create the server
    */
-  await createEndpointServer(serverConfig)
+  if (serverConfig.endpointPort) {
+    await createEndpointServer(serverConfig)
+  }
   /**
    * Allow hooks
    */
   await runHooks({
     hook: "afterServerCreated",
-    config: initialServerConfig,
+    config: serverConfig,
     args: [],
   })
+}
+/**
+ * Run the Factor server
+ */
+export const setup = async (): Promise<void> => {
+  const merge: UserConfigServer[] = [
+    { endpoints: [userEndpoint], endpointPort: 3210 },
+  ]
+
+  /**
+   * Require app server entry file if it exists
+   */
+  const entryServerConfig = await importServerEntry()
+
+  if (entryServerConfig) {
+    merge.unshift(entryServerConfig)
+  }
+
+  const mergedServerConfig: UserConfigServer = deepMergeAll(merge)
+
+  await setupEnvironment(mergedServerConfig)
 
   return
 }

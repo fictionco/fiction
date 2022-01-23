@@ -129,7 +129,13 @@ export const createEndpointServer = async (
    * otherwise, use 3210 or a random one if that is taken
    */
 
-  const port = process.env.PORT || process.env.FACTOR_SERVER_PORT || "3210"
+  const port =
+    String(config.endpointPort) ||
+    process.env.PORT ||
+    process.env.FACTOR_SERVER_PORT ||
+    "3210"
+
+  // Set this global to enable URL calc
   process.env.FACTOR_SERVER_PORT = port
 
   const server = app.listen(port, () => {

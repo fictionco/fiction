@@ -80,9 +80,11 @@ export const setEnvironment = (options: CommandOptions): void => {
   dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
   if (options.NODE_ENV == "development") {
-    const devEnv = path.resolve(process.cwd(), ".dev.env")
+    dotenv.config({ path: path.resolve(process.cwd(), ".dev.env") })
+  }
 
-    dotenv.config({ path: devEnv })
+  if (process.env.TEST_ENV) {
+    dotenv.config({ path: path.resolve(process.cwd(), ".test.env") })
   }
 
   const { NODE_ENV, STAGE_ENV, port, portApp, portServer, inspect } = options

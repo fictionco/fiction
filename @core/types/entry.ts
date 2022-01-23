@@ -55,6 +55,7 @@ type HookType<T extends Record<string, any[]>> = {
 export interface UserConfigServerOptions {
   variables?: Record<string, string>
   endpoints?: EndpointConfig[]
+  endpointPort?: number
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]

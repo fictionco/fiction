@@ -1,7 +1,9 @@
 import { UserConfigServer } from "@factor/types"
 import { dotSetting, setupPlugins } from "@factor/api"
 import { logger } from "@factor/server-utils/serverLogger"
-let __serverConfig: UserConfigServer
+
+let __serverConfig: UserConfigServer | undefined
+
 export const setServerConfig = async (
   config: UserConfigServer,
 ): Promise<UserConfigServer> => {
@@ -9,7 +11,6 @@ export const setServerConfig = async (
     try {
       config = await setupPlugins(config)
     } catch (error: unknown) {
-
       const e = error as Error
       logger({
         level: "error",
@@ -25,7 +26,7 @@ export const setServerConfig = async (
   return config
 }
 
-export const getServerConfig = (): UserConfigServer => {
+export const getServerConfig = (): UserConfigServer | undefined => {
   return __serverConfig
 }
 

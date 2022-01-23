@@ -2,6 +2,8 @@ import glob from "glob"
 import path from "path"
 import { createRequire } from "module"
 import fs from "fs"
+import { UserConfigServer } from "@factor/types"
+
 const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
 export const packagePath = (): string => path.resolve(cwd(), "package.json")
@@ -10,9 +12,17 @@ const mainFile = (): string => {
   const pkg = require(packagePath())
   return pkg.main ?? "index"
 }
-export const sourceFolder = (): string => {
-  return path.dirname(path.resolve(cwd(), mainFile()))
+/**
+ * Get source folder for CWD or optional moduleName
+ */
+export const sourceFolder = (moduleName?: string): string => {
+  const appPath = moduleName
+    ? require.resolve(moduleName)
+    : path.resolve(cwd(), mainFile())
+
+  return path.dirname(appPath)
 }
+
 export const distFolder = (): string => path.join(cwd(), "dist")
 export const distServer = (): string => path.join(distFolder(), "server")
 export const distClient = (): string => path.join(distFolder(), "client")
@@ -26,6 +36,18 @@ export const importIfExists = async <T = unknown>(
   if (fs.existsSync(mod)) {
     return await import(mod)
   } else return
+}
+
+export const importServerEntry = async (
+  moduleName?: string,
+): Promise<Promise<UserConfigServer>> => {
+  const mod = await importIfExists<{ setup?: () => UserConfigServer }>(
+    path.join(sourceFolder(moduleName), "server.ts"),
+  )
+
+  const serverConfig = mod?.setup ? await mod.setup() : {}
+
+  return serverConfig
 }
 
 /**

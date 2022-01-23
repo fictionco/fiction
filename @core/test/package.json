@@ -10,7 +10,7 @@
   "type": "module",
   "dependencies": {
     "vite": "^2.7.12",
-    "vitest": "^0.1.15",
+    "vitest": "^0.2.0",
     "@factor/render": "3.6.4"
   },
   "devDependencies": {}

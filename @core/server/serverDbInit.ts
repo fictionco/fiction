@@ -215,7 +215,7 @@ export const getDb = async (): Promise<Knex> => {
 
     __db = knex(opts)
 
-    await extendDb(__db)
+    // await extendDb(__db)
 
     await createTables(__db)
   }

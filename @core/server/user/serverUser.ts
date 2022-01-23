@@ -65,7 +65,7 @@ export const findOneUser = async <T = PublicUser>(args: {
   const returnFields = [...getPublicUserFields(), ...select]
 
   const user = await db
-    .select(...returnFields)
+    .select<T | undefined>(...returnFields)
     .from(FactorTable.User)
     .where(where)
     .first()
@@ -83,7 +83,7 @@ const refineUser = async (
   meta = meta || { private: true }
   const config = getServerConfig()
 
-  const processors = config.user?.processors ?? []
+  const processors = config?.user?.processors ?? []
 
   if (processors && processors.length > 0) {
     const result = await runProcessors<FullUser>(processors, user, meta)
@@ -105,12 +105,10 @@ export const updateUser = async (args: {
   const where = userId ? { userId } : { email }
   const db = await getDb()
   const returnFields = [...getPublicUserFields(), ...select]
-  const r: any[] = await db(FactorTable.User)
+  const [user] = await db(FactorTable.User)
     .update(fields)
     .where(where)
-    .returning(returnFields)
-
-  const user = r?.[0]
+    .returning<FullUser[]>(returnFields)
 
   if (!user) throw _stop({ message: "can't find user", data: where })
 
@@ -384,7 +382,7 @@ export const verifyAccountEmail: UserEndpointMethod<
   const onVerified = config.user?.onVerified
 
   if (onVerified) {
-    onVerified(user)
+    Promise.resolve(onVerified(user)).catch((error) => console.error(error))
   }
 
   logger({
