@@ -33,7 +33,7 @@ export const find = async (
     offset = page * limit - limit
   }
 
-  const query = await db
+  const query = db
     .table(postTableName)
     .select()
     .where(snakeCaseKeys(conditions))

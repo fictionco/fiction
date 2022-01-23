@@ -3,76 +3,19 @@ import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop } from "@factor/api"
 import { logger } from "@factor/server-utils/serverLogger"
+import { extendDb } from "./serverDbExtend"
 
-export const getDbConnection = (): string | undefined => {
-  const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL
+const statusTypes = [
+  "pending",
+  "active",
+  "inactive",
+  "suspended",
+  "expired",
+  "removed",
+  "disabled",
+  "draft",
+]
 
-  return postgresUrl
-}
-/**
- * the db client singleton
- */
-let __db: Knex
-/**
- * Return the DB client singleton
- */
-export const getDb = async (): Promise<Knex> => {
-  if (!__db) {
-    const postgresUrl = getDbConnection()
-
-    if (!postgresUrl) {
-      throw _stop({ message: "DB not available" })
-    }
-
-    const conf = new URL(postgresUrl)
-
-    // pre-selected db - // remove slashes from pathname
-    const database =
-      process.env.POSTGRES_DB ??
-      conf.pathname.replace(/^\/|\/$/g, "") ??
-      "factor"
-
-    const password = process.env.POSTGRES_PASSWORD ?? conf.password ?? undefined
-
-    const config = {
-      user: conf.username,
-      host: conf.hostname,
-
-      database,
-      password,
-      port: Number.parseInt(conf.port),
-    }
-
-    const knexOptions: Knex.Config & {
-      recursiveStringcase: (obj: any, name: string) => boolean
-    } = {
-      client: "pg",
-      version: "11.8",
-      connection: config,
-      // https://github.com/knex/knex/issues/3523#issuecomment-722574083
-      pool: {
-        min: 0,
-        max: 4,
-      },
-      // change all nested snake_case results to camelCase
-      recursiveStringcase: (obj: any, name: string): boolean => {
-        if (name.includes("site_events")) {
-          return false
-        } else return true
-      },
-    }
-
-    /**
-     * Add stringcase lib that transforms snake_case and camelCase
-     * if conflicts or issues occur, then best to change to a custom version at that time
-     * https://www.npmjs.com/package/knex-stringcase
-     */
-    const opts = knexStringcase(knexOptions)
-
-    __db = knex(opts)
-  }
-  return __db
-}
 type ColumnGroup = {
   columns: string[]
   cb: (t: Knex.AlterTableBuilder, col: string, hasColumn: boolean) => void
@@ -82,12 +25,12 @@ type ColumnGroup = {
  * Checks to see if column exists first
  */
 export const runChangeset = async (
+  db: Knex,
   changes: {
     table: string
     columnGroups: ColumnGroup[]
   }[],
 ): Promise<void> => {
-  const db = await getDb()
   // change table loop
   const _tableChangePromises = changes.map(async ({ table, columnGroups }) => {
     // group of columns change loop
@@ -111,29 +54,17 @@ export const runChangeset = async (
   return
 }
 
-const statusTypes = [
-  "pending",
-  "active",
-  "inactive",
-  "suspended",
-  "expired",
-  "removed",
-  "disabled",
-  "draft",
-]
 /**
  * Create the standard Factor tables
  */
-const createTables = async (): Promise<void> => {
-  const db = await getDb()
-
+const createTables = async (db: Knex): Promise<void> => {
   const existsUser = await db.schema.hasTable(FactorTable.User)
 
   if (!existsUser) {
     await db.schema.createTable(FactorTable.User, (t) => {
       t.string("user_id", 32)
         .primary()
-        .defaultTo(db.raw(`generate_object_id(user_)`))
+        .defaultTo(db.raw(`generate_object_id('us')`))
 
       t.string("email").notNullable().unique()
       t.string("username").unique()
@@ -143,7 +74,9 @@ const createTables = async (): Promise<void> => {
 
       t.string("site")
       t.string("github")
+      t.integer("github_followers")
       t.string("twitter")
+      t.integer("twitter_followers")
       t.string("facebook")
       t.string("linkedin")
       t.string("work_seniority")
@@ -202,7 +135,7 @@ const createTables = async (): Promise<void> => {
       table: FactorTable.User,
       columnGroups: [
         {
-          columns: ["twitter_followers", "github_followers"],
+          columns: [],
           cb: (
             t: Knex.AlterTableBuilder,
             col: string,
@@ -217,7 +150,76 @@ const createTables = async (): Promise<void> => {
     },
   ]
 
-  await runChangeset(changes)
+  await runChangeset(db, changes)
+}
+
+export const getDbConnection = (): string | undefined => {
+  const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL
+
+  return postgresUrl
+}
+/**
+ * the db client singleton
+ */
+let __db: Knex
+/**
+ * Return the DB client singleton
+ */
+export const getDb = async (): Promise<Knex> => {
+  if (!__db) {
+    const postgresUrl = getDbConnection()
+
+    if (!postgresUrl) {
+      throw _stop({ message: "DB not available" })
+    }
+
+    const conf = new URL(postgresUrl)
+
+    // pre-selected db - // remove slashes from pathname
+    process.env.POSTGRES_DB =
+      process.env.POSTGRES_DB ?? conf.pathname.replace(/^\/|\/$/g, "") ?? "test"
+
+    const password = process.env.POSTGRES_PASSWORD ?? conf.password ?? undefined
+
+    const connection = {
+      user: conf.username,
+      host: conf.hostname,
+      password,
+      port: Number.parseInt(conf.port),
+      database: process.env.POSTGRES_DB,
+    }
+
+    const knexOptions: Knex.Config & {
+      recursiveStringcase: (obj: any, name: string) => boolean
+    } = {
+      client: "pg",
+      version: "11.8",
+      connection,
+      // https://github.com/knex/knex/issues/3523#issuecomment-722574083
+      pool: { min: 0, max: 4 },
+      // change all nested snake_case results to camelCase
+      recursiveStringcase: (obj: any, name: string): boolean => {
+        if (name.includes("project_events")) {
+          return false
+        } else return true
+      },
+    }
+
+    /**
+     * Add stringcase lib that transforms snake_case and camelCase
+     * if conflicts or issues occur, then best to change to a custom version at that time
+     * https://www.npmjs.com/package/knex-stringcase
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config
+
+    __db = knex(opts)
+
+    await extendDb(__db)
+
+    await createTables(__db)
+  }
+  return __db
 }
 
 /**
@@ -235,6 +237,4 @@ export const initializeDb = async (): Promise<void> => {
     context: "db",
     description: "DB Connected",
   })
-
-  await createTables()
 }

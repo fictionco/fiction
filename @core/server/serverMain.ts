@@ -1,4 +1,4 @@
-import { runCallbacks, deepMergeAll } from "@factor/api"
+import { runHooks, runCallbacks, deepMergeAll } from "@factor/api"
 
 import { importIfExists, sourceFolder } from "@factor/server-utils/serverPaths"
 import { setAppGlobals } from "@factor/server-utils/serverGlobals"
@@ -49,7 +49,11 @@ export const setup = async (): Promise<void> => {
   /**
    * Allow hooks
    */
-  await runCallbacks("afterServerSetup")
+  await runHooks({
+    hook: "afterServerSetup",
+    config: initialServerConfig,
+    args: [],
+  })
   /**
    * Create the server
    */
@@ -57,7 +61,11 @@ export const setup = async (): Promise<void> => {
   /**
    * Allow hooks
    */
-  await runCallbacks("afterServerCreated")
+  await runHooks({
+    hook: "afterServerCreated",
+    config: initialServerConfig,
+    args: [],
+  })
 
   return
 }

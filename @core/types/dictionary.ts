@@ -47,4 +47,5 @@ export interface CallbackDictionary {
   routeQueryAction: [RouteLocationNormalized]
   afterServerSetup: []
   afterServerCreated: []
+  [key: string]: any[]
 }

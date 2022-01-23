@@ -56,7 +56,7 @@ export const factorApp = async (
 
   // only run in  browser
   if (typeof window !== "undefined") {
-    initializeUser()
+    initializeUser().catch((error) => console.error(error))
   }
 
   const app: VueApp = renderUrl ? createSSRApp(App) : createApp(App)
@@ -77,7 +77,7 @@ export const factorApp = async (
   const head = createHead()
   app.use(head)
 
-  runCallbacks("appReady", { app, head })
+  runCallbacks("appReady", { app, head }).catch((error) => console.error(error))
 
   return { app, head, router, store }
 }
@@ -86,11 +86,13 @@ export const factorApp = async (
  */
 if (!isNode) {
   // add window watchers
-  initializeWindow()
+  initializeWindow().catch((error) => console.error(error))
 
-  factorApp().then(({ app }) => {
-    app.mount("#app")
-    document.querySelector("#app")?.classList.add("loaded")
-    document.querySelector(".styles-loading")?.remove()
-  })
+  factorApp()
+    .then(({ app }) => {
+      app.mount("#app")
+      document.querySelector("#app")?.classList.add("loaded")
+      document.querySelector(".styles-loading")?.remove()
+    })
+    .catch((error) => console.error(error))
 }

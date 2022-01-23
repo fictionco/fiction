@@ -30,18 +30,18 @@ export type AuthenticationParameters = {
  */
 export interface PublicUser {
   userId: string
-  createdAt: string
-  updatedAt: string
-  avatar: string
-  status: string
+  createdAt?: string
+  updatedAt?: string
+  avatar?: string
+  status?: string
   lastSeen?: string | number | Date
   username?: string
   fullName?: string
   email: string
   emailVerified?: boolean
   role?: UserRoles
-  profile: Record<string, any>
-  settings: Record<string, any>
+  profile?: Record<string, any>
+  settings?: Record<string, any>
 }
 /**
  * Information regarding a user profile (e.g. birthday, cover, tags)
@@ -74,7 +74,7 @@ export interface ProfileUser extends PublicUser {
  * current user.
  */
 export interface PrivateUser extends PublicUser {
-  birthday: string
+  birthday?: string
   phoneNumber?: string
   hashedPassword?: string
   token?: string

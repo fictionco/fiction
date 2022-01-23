@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 
 services:
   postgres:
@@ -7,9 +7,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: factor
-      POSTGRES_PASSWORD: dev
-      POSTGRES_DB: factor
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./docker/postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh

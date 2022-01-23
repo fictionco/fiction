@@ -1,7 +1,26 @@
-import { CallbackDictionary, HookDictionary } from "@factor/types"
+import {
+  CallbackDictionary,
+  HookDictionary,
+  UserConfigServer,
+} from "@factor/types"
 
 import { omit } from "./_"
 import { getGlobalThis, sortPriority } from "./utils"
+
+export const runHooks = async <T extends keyof CallbackDictionary>(options: {
+  config: UserConfigServer
+  hook: T
+  args: CallbackDictionary[typeof options.hook]
+}): Promise<any[]> => {
+  const { config, hook, args } = options
+  const callbacks = config.hooks
+    ?.filter((_) => _.hook == hook)
+    .map((_) => _.callback)
+
+  const _promises = callbacks?.map((cb) => cb(...args)) ?? []
+
+  return await Promise.all(_promises)
+}
 
 export type FilterCallbacks = Record<any, FilterItem>
 
@@ -58,9 +77,8 @@ export const getFilters = (
   return hooks
 }
 
-type ReturnType<
-  T extends keyof HookDictionary
-> = T extends keyof CallbackDictionary ? any[] : HookDictionary[T]
+type ReturnType<T extends keyof HookDictionary> =
+  T extends keyof CallbackDictionary ? any[] : HookDictionary[T]
 
 /**
  * Apply function callbacks that are hooked to an identifier when and fired with this function.
@@ -72,7 +90,7 @@ type ReturnType<
  */
 export const applyFilters = <
   T extends keyof HookDictionary,
-  V extends any[] = any[]
+  V extends any[] = any[],
 >(
   hook: T,
   data: ReturnType<T>,
@@ -141,7 +159,7 @@ export const addFilter = <T extends keyof HookDictionary>(config: {
  */
 export const pushToFilter = <
   T extends keyof HookDictionary,
-  X = HookDictionary[T]
+  X = HookDictionary[T],
 >(options: {
   hook: T
   key: string

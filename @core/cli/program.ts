@@ -44,6 +44,7 @@ export type CommandOptions<T = Record<string, any>> = {
   portServer?: string
   port?: string
   workspace?: string
+  noDotenv?: boolean
 } & T
 /**
  * Is current start a nodemon restart
@@ -76,12 +77,13 @@ const initializeNodeInspector = async (): Promise<void> => {
  * Sets Node process and environmental variables
  */
 export const setEnvironment = (options: CommandOptions): void => {
+  dotenv.config({ path: path.resolve(process.cwd(), ".env") })
+
   if (options.NODE_ENV == "development") {
     const devEnv = path.resolve(process.cwd(), ".dev.env")
 
     dotenv.config({ path: devEnv })
   }
-  dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
   const { NODE_ENV, STAGE_ENV, port, portApp, portServer, inspect } = options
 
@@ -95,7 +97,7 @@ export const setEnvironment = (options: CommandOptions): void => {
   if (port) process.env.PORT = port
 
   // run with node developer tools inspector
-  if (inspect) initializeNodeInspector()
+  if (inspect) initializeNodeInspector().catch((error) => console.error(error))
 }
 /**
  * For commands that use Nodemon to handle restarts
@@ -113,9 +115,9 @@ const unitTestInitializer = async (options: CommandOptions): Promise<void> => {
 const restartInitializer = (options: CommandOptions): void => {
   const nodemon = require("nodemon")
 
-  setEnvironment(options)
-
   const { CMD = "rdev", workspace = "" } = options
+
+  setEnvironment({ noDotenv: workspace ? false : true, ...options })
 
   const configPath = require.resolve("./nodemon.json")
 

@@ -75,12 +75,13 @@ export const serveStaticApp = async (): Promise<void> => {
     res.sendFile(path.join(staticDir(), "/index.html"))
   })
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
-  await app.listen(port)
 
-  logger({
-    level: "info",
-    context: "server",
-    description: `serving static app @ PORT:${port}`,
+  app.listen(port, () => {
+    logger({
+      level: "info",
+      context: "server",
+      description: `serving static app @ PORT:${port}`,
+    })
   })
 }
 

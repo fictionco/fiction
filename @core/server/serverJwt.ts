@@ -15,7 +15,7 @@ const getTokenSecret = (): string => {
   if (!secret) {
     logger({
       level: "warn",
-      description: "JWT token secret is missing (FACTOR_TOKEN_SECRET)",
+      description: "JWT token secret is missing (TOKEN_SECRET)",
       context: "auth",
     })
   }
