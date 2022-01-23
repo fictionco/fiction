@@ -3,7 +3,7 @@ import * as http from "http"
 import { _stop } from "@factor/api"
 import { getPrivateUser } from "@factor/server/user/serverUser"
 import { addEndpoint, logger } from "@factor/server"
-import { EndpointResponse } from "@factor/types"
+import { EndpointResponse, ErrorConfig } from "@factor/types"
 import Stripe from "stripe"
 import { PaymentsEndpoint, EndpointMethods } from "./serverTypes"
 import {
@@ -147,7 +147,7 @@ export const initializeEndpoint = async (): Promise<void> => {
             r.user = privateDataResponse.data
           }
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         const { query, params, bearer } = request
 
         logger({
@@ -167,10 +167,13 @@ export const initializeEndpoint = async (): Promise<void> => {
           },
         })
 
+        const e = error as ErrorConfig
+
         r = {
           status: "error",
-          message: error.expose ? error.message : "an internal error occurred",
-          code: error.code,
+          message: e.expose ? e.message : "",
+          code: e.code,
+          expose: e.expose,
         }
       }
 

@@ -215,7 +215,10 @@ export const verifyCode = async (args: {
 
   const db = await getDb()
   const r = await db
-    .select(["verificationCode", "codeExpiresAt"])
+    .select<{ verificationCode: string; codeExpiresAt: string }[]>([
+      "verificationCode",
+      "codeExpiresAt",
+    ])
     .from(FactorTable.User)
     .where(where)
 
@@ -379,7 +382,7 @@ export const verifyAccountEmail: UserEndpointMethod<
 
   const config = getServerConfig()
 
-  const onVerified = config.user?.onVerified
+  const onVerified = config?.user?.onVerified
 
   if (onVerified) {
     Promise.resolve(onVerified(user)).catch((error) => console.error(error))
@@ -611,9 +614,10 @@ export const userEndpointHandler = async <
 
     r = {
       status: "error",
-      message: err.expose ? err.message : "an internal error occurred",
+      message: err.expose ? err.message : "",
       code: err.code,
       data: err.data,
+      expose: err.expose,
     }
   }
 

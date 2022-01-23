@@ -1,6 +1,6 @@
 import { updateUser } from "@factor/api"
 import { serverUrl } from "@factor/api/url"
-import { EndpointResponse } from "@factor/types"
+import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig } from "axios"
 
 import { emitEvent } from "./event"
@@ -13,7 +13,7 @@ import { dLog } from "./logger"
  */
 export const endpointRequest = async <T = unknown>(
   options: AxiosRequestConfig = {},
-): Promise<EndpointResponse<T>> => {
+): Promise<EndpointResponse<T | Error>> => {
   const { headers = {}, method } = options
 
   // Must be capitalized as name is a standard
@@ -30,13 +30,14 @@ export const endpointRequest = async <T = unknown>(
 
   dLog("info", "http request", options)
 
-  let data: EndpointResponse<T>
+  let data: EndpointResponse<T | Error>
   try {
-    const response = await axios.request(options)
+    const response = await axios.request<EndpointResponse<T>>(options)
     data = response.data
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const e = error as Error
     dLog("error", "server request error", error)
-    data = { status: "error", message: "server request error", data: error }
+    data = { status: "error", message: "server request error", data: e }
   }
 
   dLog("info", "http response", data)
@@ -67,11 +68,11 @@ export const endpointFetch = async <T extends EndpointAction>(
   }
 
   if (r.user) {
-    updateUser(() => r.user)
+    await updateUser(() => r.user as PrivateUser)
   }
 
   if (r.token) {
-    clientToken({ action: "set", token: r.token })
+    clientToken({ action: "set", token: r.token as string })
   }
 
   return r
