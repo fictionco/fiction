@@ -1,6 +1,6 @@
 {
   "name": "@factor/server-utils",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,9 +8,9 @@
   "private": false,
   "type": "module",
   "dependencies": {
-    "@factor/api": "3.6.5",
-    "@factor/server": "3.6.5",
-    "@factor/types": "3.6.5",
+    "@factor/api": "3.6.6",
+    "@factor/server": "3.6.6",
+    "@factor/types": "3.6.6",
     "chalk": "^5.0.0",
     "cli-highlight": "^2.1.4",
     "consola": "^2.15.0",
