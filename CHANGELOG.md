@@ -1,3 +1,13 @@
+## [3.6.8](https://github.com/FactorJS/factor/compare/v3.6.7...v3.6.8) (2022-01-24)
+
+
+### Bug Fixes
+
+* test ([38a3c4a](https://github.com/FactorJS/factor/commit/38a3c4a5305be7ca9248c9c5e97f94a50f87fc59))
+* ts ([1b1e3f2](https://github.com/FactorJS/factor/commit/1b1e3f22b56875daccd7ef486efb75ef990d0024))
+
+
+
 ## [3.6.7](https://github.com/FactorJS/factor/compare/v3.6.6...v3.6.7) (2022-01-24)
 
 
