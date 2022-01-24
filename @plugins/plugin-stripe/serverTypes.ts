@@ -102,7 +102,7 @@ export type PaymentsEndpointMethod<U extends keyof PaymentsEndpoint> = (
 export type PaymentsEndpointMethodWithBearer<U extends keyof PaymentsEndpoint> =
   (
     args: PaymentsEndpoint[U]["request"] & {
-      bearer: PublicUser
+      bearer: PrivateUser
       userId: string
     },
   ) => Promise<PaymentsEndpoint[U]["response"]>

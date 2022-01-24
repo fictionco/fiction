@@ -2,8 +2,12 @@ import express from "express"
 import * as http from "http"
 import { _stop } from "@factor/api"
 import { getPrivateUser } from "@factor/server/user/serverUser"
-import { addEndpoint, logger } from "@factor/server"
-import { EndpointResponse, ErrorConfig } from "@factor/types"
+import {
+  processEndpointRequest,
+  endpointErrorResponse,
+  logger,
+} from "@factor/server"
+import { EndpointResponse, ErrorConfig, EndpointConfig } from "@factor/types"
 import Stripe from "stripe"
 import { PaymentsEndpoint, EndpointMethods } from "./serverTypes"
 import {
@@ -31,8 +35,8 @@ export const EPMap: EndpointMethods = {
   getCoupon,
 }
 
-export const initializeEndpoint = async (): Promise<void> => {
-  addEndpoint({
+export const initializeEndpoint = async (): Promise<EndpointConfig[]> => {
+  const webhookEndpoint = {
     route: "/stripe-webhook",
     handler: async (
       request: http.IncomingMessage,
@@ -112,72 +116,51 @@ export const initializeEndpoint = async (): Promise<void> => {
 
       return { status: "success" }
     },
-  })
-  addEndpoint({
+  }
+  const paymentsEndpoint = {
     route: "/payments/:_method",
     handler: async (request: express.Request): Promise<EndpointResponse> => {
-      const _method = request.params._method as keyof PaymentsEndpoint
-      const args = request.body
-      const { userId } = request.bearer ?? {}
+      const { args, _method } =
+        processEndpointRequest<PaymentsEndpoint>(request)
 
       let r: EndpointResponse = {
         status: "error",
         message: `method missing in endpoint map /payments/${_method}`,
+        customerId: "",
+        userId: "",
       }
 
       try {
-        if (!userId) throw _stop({ message: "you must be logged in" })
-        args.userId = userId
-        args.bearer = request.bearer
-        if (EPMap[_method]) {
-          r = await EPMap[_method](args)
+        if (!args.bearer?.userId) {
+          throw _stop({ message: "you must be logged in" })
+        }
+
+        if (_method && EPMap[_method]) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          r = await EPMap[_method](args as any)
 
           if (r.customerId) {
             const dataResponse = await getCustomerData({
               ...args,
-              customerId: r.customerId,
+              customerId: r.customerId as string,
             })
             r.customerData = dataResponse.data
           }
 
           if (r.userId) {
             const privateDataResponse = await getPrivateUser({
-              userId: r.userId,
+              userId: r.userId as string,
             })
             r.user = privateDataResponse.data
           }
         }
       } catch (error: unknown) {
-        const { query, params, bearer } = request
-
-        logger({
-          level: "error",
-          context: "billing",
-          description: `billing endpoint error: ${_method}`,
-          data: error,
-        })
-        logger({
-          level: "error",
-          context: "billing",
-          description: `billing endpoint params: ${_method}`,
-          data: {
-            query,
-            params,
-            bearer,
-          },
-        })
-
-        const e = error as ErrorConfig
-
-        r = {
-          status: "error",
-          message: e.expose ? e.message : "",
-          code: e.code,
-          expose: e.expose,
-        }
+        r = endpointErrorResponse(error as ErrorConfig, request)
       }
 
       return r
     },
-  })
+  }
+
+  return [webhookEndpoint, paymentsEndpoint]
 }

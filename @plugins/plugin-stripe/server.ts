@@ -2,7 +2,7 @@ import { initializeEndpoint } from "./serverEndpoint"
 import { StripeOptions } from "./types"
 import { createSettings } from "./util"
 import { stripeEnv } from "./serverMethods"
-import { FactorPluginConfigServer } from "@factor/types"
+import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
 
 export default async (
   options: Partial<StripeOptions>,
@@ -11,7 +11,7 @@ export default async (
 
   return {
     name: "StripePluginServer",
-    setup: async (): Promise<void> => {
+    setup: async (): Promise<UserConfigServer> => {
       const stripePublicKey =
         stripeEnv() == "production"
           ? process.env.STRIPE_PUBLIC_KEY_LIVE
@@ -29,7 +29,9 @@ export default async (
         throw new Error(`Stripe secret key is missing: '${stripeEnv()}'`)
       }
 
-      await initializeEndpoint()
+      const endpoints = await initializeEndpoint()
+
+      return { endpoints }
     },
   }
 }
