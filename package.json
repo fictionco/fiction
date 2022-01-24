@@ -10,6 +10,7 @@
     "pack": "yarn workspace @factor/build factor pack",
     "dev": "yarn workspace @factor/site factor dev",
     "test": "npm run test-lint && npm run test-unit",
+    "test-unit": "npm exec vitest run",
     "test-lint": "npm run test-eslint && npm run test-types",
     "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js @core/. @apps/. @plugins/.",
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
@@ -31,7 +32,7 @@
     "node": ">=16.0.0"
   },
   "gitHooks": {
-    "pre-push": "git pull && npm run test-lint",
+    "pre-push": "git pull && npm run test",
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
@@ -44,6 +45,7 @@
     "sirv": "^2.0.0",
     "tailwindcss-cli": "^0.1.2",
     "tslib": "^2.3.1",
+    "vite": "^2.7.13",
     "yorkie": "^2.0.0"
   },
   "dependencies": {

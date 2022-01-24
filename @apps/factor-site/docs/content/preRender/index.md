@@ -38,5 +38,5 @@ Once you've deployed, you'll have a base URL where your server is hosted and rea
 
 ```bash
 #dotenv
-FACTOR_SERVER_URL='https://server.factor.so'
+FACTOR_SERVER_URL='https://server.factorjs.org'
 ```

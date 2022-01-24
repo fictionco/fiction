@@ -1,4 +1,4 @@
-import { _stop, applyFilters, renderMarkdown } from "@factor/api"
+import { _stop, renderMarkdown } from "@factor/api"
 import { logger } from "@factor/server-utils/serverLogger"
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
@@ -13,8 +13,7 @@ const getFromAddress = (): string => {
 
   if (!name || !email) {
     throw _stop({
-      message:
-        "can't send email. name or email are missing in app package.json",
+      message: "can't send email. name or email are not available",
     })
   }
 
@@ -61,8 +60,6 @@ const getEmailSMTPService = (): Transporter | void => {
 export const sendEmail = async (
   _arguments: EmailTransactionalConfig,
 ): Promise<void> => {
-  _arguments = applyFilters("transactionalEmailConfig", _arguments)
-
   const {
     emailId = "none",
     subject,
@@ -95,9 +92,12 @@ export const sendEmail = async (
   const contentHtml = lines.join("")
   const html = `<div style="width: 500px;font-size: 1.1em;">${contentHtml}</div>`
 
-  const plainText = require("html-to-text").fromString(html)
+  const htmlToText = require("html-to-text") as {
+    fromString: (s: string) => string
+  }
+  const plainText = htmlToText.fromString(html) as string
 
-  const theEmail = applyFilters("transactionalEmail", {
+  const theEmail = {
     ..._arguments,
     emailId,
     from,
@@ -105,7 +105,7 @@ export const sendEmail = async (
     subject,
     html,
     text: plainText,
-  })
+  }
 
   logger({
     level: "info",
@@ -117,9 +117,9 @@ export const sendEmail = async (
   const emailServiceClient = getEmailSMTPService()
 
   if (emailServiceClient) {
-    const r = await emailServiceClient.sendMail(theEmail)
+    await emailServiceClient.sendMail(theEmail)
 
-    return r
+    return
   } else {
     logger({
       level: "warn",

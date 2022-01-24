@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/fiction-com/factor/issues"
   },
-  "homepage": "https://factor.so/plugin/plugin-docs-engine",
+  "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
     "@factor/api": "3.6.7",
     "@factor/plugin-highlight-code": "3.6.7",

@@ -55,7 +55,7 @@
           </div>
           <a
             class="text-sm block text-primary-500 mt-2"
-            href="http://www.factor.so"
+            href="http://www.factorjs.org"
             >Learn More &rarr;</a
           >
         </div>
@@ -104,7 +104,7 @@
                   >
                 </h2>
                 <div class="mt-8 flex space-x-4">
-                  <ElemButton href="https://www.factor.so" btn="primary"
+                  <ElemButton href="https://www.factorjs.org" btn="primary"
                     >Learn More</ElemButton
                   >
                 </div>

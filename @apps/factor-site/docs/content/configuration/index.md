@@ -37,8 +37,8 @@ This will enable server functionality like sitemaps, and transactional emails. S
 export default {
   variables: {
     FACTOR_APP_NAME: "FactorES", // your application name
-    FACTOR_APP_EMAIL: "hi@factor.so", // the email your application will use (SMTP)
-    FACTOR_APP_URL: "https://www.factor.so", // the production url for your application (for sitemaps, etc.)
+    FACTOR_APP_EMAIL: "hi@factorjs.org", // the email your application will use (SMTP)
+    FACTOR_APP_URL: "https://www.factorjs.org", // the production url for your application (for sitemaps, etc.)
   },
 }
 ```

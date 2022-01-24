@@ -11,7 +11,8 @@
   "dependencies": {
     "vite": "^2.7.12",
     "vitest": "^0.2.0",
-    "@factor/render": "3.6.7"
+    "@factor/render": "3.6.7",
+    "@factor/server": "3.6.7"
   },
   "devDependencies": {}
 }

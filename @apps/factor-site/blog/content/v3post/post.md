@@ -54,7 +54,7 @@ FactorJS 3 was developed as the architecture and engine for [Darwin Analytics' w
 
 During this process we worked through and improved any usability and stability issues that might come up.
 
-You can view the [Factor Showcase](https://www.factor.so/showcase) for site examples as well as links to code (if available).
+You can view the [Factor Showcase](https://www.factorjs.org/showcase) for site examples as well as links to code (if available).
 
 ## A Vision of the Future
 

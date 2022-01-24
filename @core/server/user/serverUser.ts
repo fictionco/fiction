@@ -54,7 +54,7 @@ const comparePassword = async (
 /**
  * Find a single user or return undefined if they don't exist
  */
-export const findOneUser = async <T = PublicUser>(args: {
+export const findOneUser = async <T extends PublicUser = PublicUser>(args: {
   email?: string
   userId?: string
   select?: (keyof FullUser)[] | ["*"]
@@ -64,7 +64,7 @@ export const findOneUser = async <T = PublicUser>(args: {
   const db = await getDb()
   const returnFields = [...getPublicUserFields(), ...select]
 
-  const user = await db
+  const user: T | undefined = await db
     .select<T | undefined>(...returnFields)
     .from(FactorTable.User)
     .where(where)
@@ -351,10 +351,13 @@ export const setPassword: UserEndpointMethodWithBearer<"setPassword"> = async (
   // code verification is needed because on password reset the user is logged out
   await verifyCode({ email, verificationCode })
   const hashedPassword = await hashPassword(password)
+
   const user = await updateUser({
     email,
     fields: { hashedPassword },
   })
+
+  user.hashedPassword = hashedPassword
 
   return {
     status: "success",
@@ -379,6 +382,8 @@ export const verifyAccountEmail: UserEndpointMethod<
     email,
     fields: { emailVerified: true },
   })
+  // send it back for convenience
+  user.verificationCode = verificationCode
 
   const config = getServerConfig()
 

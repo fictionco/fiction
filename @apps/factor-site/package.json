@@ -2,7 +2,7 @@
   "name": "@factor/site",
   "description": "Factor Site",
   "version": "3.6.7",
-  "url": "https://www.factor.so",
+  "url": "https://www.factorjs.org",
   "main": "src/index.ts",
   "author": "Fiction.com",
   "license": "UNLICENSED",

@@ -257,7 +257,8 @@ export const releaseRoutine = async (
     context: "release",
     description: "running tests...",
   })
-  //await run("yarn", ["test-lint"])
+
+  await run("npm", ["run", "test"])
 
   // update all package versions and inter-dependencies
 

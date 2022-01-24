@@ -58,7 +58,7 @@ Copy these files from the [Hello World example](https://github.com/FactorJS/fact
 
 In the root of your project, you can now add configuration files:
 
-- [Factor](https://www.factor.so) as `factor.config.ts`
+- [Factor](https://www.factorjs.org) as `factor.config.ts`
 - [Vite](https://vitejs.dev/) as `vite.config.ts` (optional but recommended)
 - [TailwindCSS](https://tailwindcss.com/) as `tailwind.config.ts` (optional but recommended)
 

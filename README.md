@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-  <a href="https://www.factor.so">
+  <a href="https://www.factorjs.org">
   <img src="./factor.svg" width="250px"  alt="FactorJS Framework">
   </a>
 </div>
@@ -14,7 +14,7 @@
 
 <div align="center">
   <h3>
-    <a href="https://www.factor.so">
+    <a href="https://www.factorjs.org">
       Start &rarr;
     </a>
   </h3>
