@@ -4,7 +4,7 @@ import { computed } from "vue"
 import { emitEvent } from "./event"
 import { clientToken } from "./jwt"
 import { dLog } from "./logger"
-import { getRouter, loginRoute, routeAuthRedirects } from "./router"
+import { getRouter, routeAuthRedirects } from "./router"
 import { stored, storeItem } from "./store"
 import { endpointFetch } from "./endpoint"
 
@@ -118,8 +118,8 @@ export const logout = async (
     !theCurrentRoute ||
     theCurrentRoute.matched.some((r) => r.meta.auth)
   ) {
-    const { redirect: path = loginRoute() } = args
-    getRouter().push({ path })
+    const { redirect: path = "/" } = args
+    await getRouter().push({ path })
   } else {
     emitEvent("resetUi")
   }

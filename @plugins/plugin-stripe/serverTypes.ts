@@ -1,4 +1,4 @@
-import { PublicUser, PrivateUser, EndpointResponse } from "@factor/types"
+import { PrivateUser, EndpointResponse } from "@factor/types"
 import Stripe from "stripe"
 import { CustomerData } from "./types"
 

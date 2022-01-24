@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { describe, it, beforeEach, expect, test, vi } from "vitest"
+import { expect, test, vi } from "vitest"
 import { createUser } from "../user/serverUser"
 import { FullUser } from "@factor/types"
 import * as ep from "../user/serverUser"
-import * as em from "../serverEmail"
 import bcrypt from "bcrypt"
 
 vi.mock("../serverEmail", async () => {

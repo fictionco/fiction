@@ -162,6 +162,7 @@ export const getDbConnection = (): string | undefined => {
  * the db client singleton
  */
 let __db: Knex
+let __initial = true
 /**
  * Return the DB client singleton
  */
@@ -215,9 +216,15 @@ export const getDb = async (): Promise<Knex> => {
 
     __db = knex(opts)
 
-    // await extendDb(__db)
+    /**
+     * Run on initial server start, not multiple tests, etc.
+     */
+    if (__initial) {
+      __initial = false
+      await extendDb(__db)
 
-    await createTables(__db)
+      await createTables(__db)
+    }
   }
   return __db
 }

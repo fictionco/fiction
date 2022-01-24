@@ -7,7 +7,7 @@ import { FactorExtensionInfo } from "./types"
 export const sendRequest = async <T>(
   method: string,
   params: EndpointParameters,
-): Promise<EndpointResponse<T>> => {
+): Promise<EndpointResponse<T | Error>> => {
   const result = await endpointRequest<T>({
     url: endpointId,
 

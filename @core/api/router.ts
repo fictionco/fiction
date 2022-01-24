@@ -16,14 +16,14 @@ import { isNode, isSearchBot, getAppGlobal, setAppGlobal } from "./utils"
  * Add the hooks on changes
  */
 const routerHooks = (router: Router): void => {
-  router.afterEach((to) => {
+  router.afterEach(async (to) => {
     /**
      * Add query hook functionality
      * uses _action param to call a hook from query
      */
     const queryHook = to.query._action
     if (queryHook) {
-      runCallbacks(`routeQueryAction`, to)
+      await runCallbacks(`routeQueryAction`, to)
     }
   })
 }
@@ -99,10 +99,6 @@ interface RouteAuthConfig {
   required?: boolean
   redirect?: string
   allowBots?: boolean
-}
-
-export const loginRoute = (): string => {
-  return applyFilters("loginRoute", "/login")
 }
 
 export const routeAuthRedirects = async (
