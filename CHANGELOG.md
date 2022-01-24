@@ -1,3 +1,12 @@
+## [3.6.7](https://github.com/FactorJS/factor/compare/v3.6.6...v3.6.7) (2022-01-24)
+
+
+### Features
+
+* refactor endpoint method ([0e21285](https://github.com/FactorJS/factor/commit/0e212852af1e57be4c34596e5d41efb800a4b643))
+
+
+
 ## [3.6.6](https://github.com/FactorJS/factor/compare/v3.6.4...v3.6.6) (2022-01-23)
 
 
