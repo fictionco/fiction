@@ -3,6 +3,7 @@ import { setupEnvironment, importServerEntry } from "@factor/server"
 
 process.env.POSTGRES_URL = "http://test:test@localhost:5432/test"
 process.env.POSTGRES_PASSWORD = "test"
+process.env.TEST_ENV = "unit"
 
 beforeEach(async () => {
   const serverConfig = await importServerEntry("@factor/site")

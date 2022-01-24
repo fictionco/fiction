@@ -139,7 +139,7 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
 
     // If there is a token error, then delete it and force login
     if (status == "error" && code == "TOKEN_ERROR") {
-      logout()
+      await logout()
     }
 
     user = data
@@ -176,5 +176,5 @@ export const updateUser = async (
  * @important only run in browser
  */
 export const initializeUser = async (): Promise<void> => {
-  userInitialized()
+  await userInitialized()
 }
