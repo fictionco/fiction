@@ -2,6 +2,9 @@ import path from "path"
 import { importIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
+import { createRequire } from "module"
+
+const require = createRequire(import.meta.url)
 
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
@@ -15,17 +18,19 @@ const getDefaultServerVariables = (): Record<string, string> => {
 }
 
 export const getFactorConfig = async (
-  config: UserConfigServer = {},
+  initialConfig?: UserConfigServer,
 ): Promise<UserConfigServer> => {
+  const configPath = process.cwd()
+
   const result = await importIfExists<{
     default: UserConfigServer
-  }>(path.join(process.cwd(), "factor.config.ts"))
+  }>(path.join(configPath, "factor.config.ts"))
 
   const configFile = result?.default || {}
   return deepMergeAll([
     { variables: getDefaultServerVariables() },
     configFile,
-    config,
+    initialConfig,
   ])
 }
 
@@ -37,12 +42,12 @@ const __variables: Record<string, string> = {}
 export const setAppGlobals = async (
   config: UserConfigServer = {},
 ): Promise<Record<string, string>> => {
-  const { variables = {} } = await getFactorConfig(config)
+  const { variables = {} } = config
 
   Object.entries(variables).forEach(([key, value]) => {
     const finalValue = process.env[key] || value
-    __variables[key] = finalValue
-    process.env[key] = finalValue
+    __variables[key] = String(finalValue)
+    process.env[key] = String(finalValue)
   })
 
   return __variables

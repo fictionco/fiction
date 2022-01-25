@@ -53,7 +53,7 @@ type HookType<T extends Record<string, any[]>> = {
 }[keyof T]
 
 export interface UserConfigServerOptions {
-  variables?: Record<string, string>
+  variables?: Record<string, string | number>
   endpoints?: EndpointConfig[]
   endpointPort?: number
   sitemaps?: SiteMapConfig[]
