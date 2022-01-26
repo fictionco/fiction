@@ -72,7 +72,7 @@ module.exports = {
       { peer: true, dev: true, optional: true },
     ],
     semi: ["error", "never"],
-    curly: ["warn", "all"],
+    curly: ["warn", "multi-line"],
     "no-console": ["error", { allow: ["warn", "error"] }],
     "no-debugger": "error",
 
