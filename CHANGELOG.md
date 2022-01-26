@@ -1,3 +1,13 @@
+## [3.6.9](https://github.com/FactorJS/factor/compare/v3.6.8...v3.6.9) (2022-01-26)
+
+
+### Bug Fixes
+
+* dep ([94b0569](https://github.com/FactorJS/factor/commit/94b056982db9361c0f2b5883e1eff7eff988e01d))
+* lint ([f40a818](https://github.com/FactorJS/factor/commit/f40a818bbe7f1bc18e2469c68d88a2b9edd7ed76))
+
+
+
 ## [3.6.8](https://github.com/FactorJS/factor/compare/v3.6.7...v3.6.8) (2022-01-24)
 
 
