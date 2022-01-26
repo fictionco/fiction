@@ -2,9 +2,6 @@ import path from "path"
 import { importIfExists } from "./serverPaths"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
-import { createRequire } from "module"
-
-const require = createRequire(import.meta.url)
 
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
