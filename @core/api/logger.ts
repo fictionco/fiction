@@ -63,7 +63,11 @@ class Logger {
   srv: {
     chalk?: ChalkInstance
     consola?: Consola
-    prettyOutput?: (a: Record<string, any>, b: {}, c: number) => string
+    prettyOutput?: (
+      a: Record<string, any>,
+      b: Record<string, any>,
+      c: number,
+    ) => string
   }
   constructor() {
     this.isNode = typeof window === "undefined" ? true : false
