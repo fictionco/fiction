@@ -7,7 +7,6 @@ import { PublicUser, FullUser } from "@factor/types"
 import { endpointFetch } from "./endpoint"
 import { emitEvent } from "./event"
 import { validateEmail } from "./utils"
-import { applyFilters } from "./hook"
 
 type EndpointProp<
   T extends keyof UserEndpoint,
@@ -77,7 +76,7 @@ export const getEditableUserFields = (): (keyof FullUser)[] => {
     "about",
   ]
 
-  return applyFilters("userEditableFields", baseEditable)
+  return baseEditable
 }
 
 export const getPublicUserFields = (): (keyof PublicUser)[] => {
@@ -98,24 +97,3 @@ export const getPublicUserFields = (): (keyof PublicUser)[] => {
   ]
   return baseEditable
 }
-
-// export const editableUserFields: (keyof PublicUser)[] = [
-//   "username",
-//   "fullName",
-//   "avatar",
-// ]
-
-// export const publicUserFields: (keyof PublicUser)[] = [
-//   "userId",
-//   "email",
-//   "emailVerified",
-//   "role",
-//   "username",
-//   "fullName",
-//   "createdAt",
-//   "updatedAt",
-//   "avatar",
-//   "status",
-//   "lastSeen",
-//   "username",
-// ]

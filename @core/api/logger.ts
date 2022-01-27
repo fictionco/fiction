@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/import-style */
 /* eslint-disable no-console */
 import { isNode } from "./utils"
 import { logCategory, logLevel } from "@factor/types"
@@ -23,7 +24,7 @@ export const logType = {
 export const dLog = (
   category: keyof typeof logType,
   description: string,
-  data?: any,
+  data?: string | Record<string, any>,
 ): void => {
   // designed for browser, don't log in NODE
   if (isNode) return
@@ -62,7 +63,7 @@ class Logger {
   srv: {
     chalk?: ChalkInstance
     consola?: Consola
-    prettyOutput?: Function
+    prettyOutput?: (a: Record<string, any>, b: {}, c: number) => string
   }
   constructor() {
     this.isNode = typeof window === "undefined" ? true : false
