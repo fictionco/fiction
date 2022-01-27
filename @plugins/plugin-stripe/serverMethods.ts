@@ -157,7 +157,7 @@ export const manageSubscription: PaymentsEndpointMethodWithBearer<
 
   // attach payment method to customer
   if (paymentMethodId && customerId) {
-    managePaymentMethod({
+    await managePaymentMethod({
       ...args,
       customerId,
       paymentMethodId,
@@ -272,7 +272,10 @@ export const getCoupon: PaymentsEndpointMethodWithBearer<"getCoupon"> = async (
     const data = await stripe.coupons.retrieve(couponCode)
     return { status: "success", data }
   } catch (error: unknown) {
-    throw _stop({ message: "payment API error", data: error })
+    throw _stop({
+      message: "payment API error",
+      data: error as Stripe.Errors["StripeError"],
+    })
   }
 }
 

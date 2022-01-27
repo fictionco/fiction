@@ -14,6 +14,7 @@
     "@factor/server": "3.6.9",
     "@factor/server-utils": "3.6.9",
     "@factor/types": "3.6.9",
+    "@types/nodemon": "^1.19.1",
     "axios": "^0.25.0",
     "commander": "^8.0.0",
     "deepmerge": "^4.2.2",
@@ -29,7 +30,6 @@
     "typescript": "^4.0.0",
     "vue": "^3.0.2"
   },
-  "devDependencies": {},
   "bin": {
     "factor": "./cli.js"
   }

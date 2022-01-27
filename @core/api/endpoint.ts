@@ -36,7 +36,7 @@ export const endpointRequest = async <T = unknown>(
     data = response.data
   } catch (error: unknown) {
     const e = error as Error
-    dLog("error", "server request error", error)
+    dLog("error", "server request error", e)
     data = { status: "error", message: "server request error", data: e }
   }
 

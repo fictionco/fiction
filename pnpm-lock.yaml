@@ -273,6 +273,7 @@ importers:
       '@factor/server': 3.6.9
       '@factor/server-utils': 3.6.9
       '@factor/types': 3.6.9
+      '@types/nodemon': ^1.19.1
       axios: ^0.25.0
       commander: ^8.0.0
       deepmerge: ^4.2.2
@@ -294,6 +295,7 @@ importers:
       '@factor/server': link:../server
       '@factor/server-utils': link:../server-utils
       '@factor/types': link:../types
+      '@types/nodemon': 1.19.1
       axios: 0.25.0
       commander: 8.3.0
       deepmerge: 4.2.2
@@ -1956,6 +1958,12 @@ packages:
     resolution: {integrity: sha512-Ksw4t7iliXeYGvIQcSIgWQ5BLuC/mljIEbjf615svhZL10PE9t+ei8O9gDaD3FPCasUJn9KTLwz2JFJyiiyuqw==}
     dependencies:
       '@types/node': 16.11.6
+    dev: false
+
+  /@types/nodemon/1.19.1:
+    resolution: {integrity: sha512-3teAFqCFba3W9zk4dAGUZ+rW/nrQBrSGXWyK9HfJuWxmITk2z2d3u/5cy7oFqNG2fZxPwSAWkP+a8q/QC6UU5Q==}
+    dependencies:
+      '@types/node': 17.0.12
     dev: false
 
   /@types/normalize-package-data/2.4.1:

@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import "@factor/server"
 import { emitEvent } from "@factor/server-utils/serverEvent"
 import { logger } from "@factor/server-utils/serverLogger"
-import { CliCommand, StageId } from "@factor/types"
 
-import { Command } from "commander"
+import { Command, OptionValues } from "commander"
 import dotenv from "dotenv"
 import path from "path"
 
@@ -35,7 +30,7 @@ export const coreServices = {
 }
 
 export type CommandOptions<T = Record<string, any>> = {
-  CMD?: CliCommand
+  CMD?: "rdev" | "dev" | "server" | "prerender"
   SERVICE?: ServiceModule
   STAGE_ENV?: "prod" | "dev" | "pre" | "local"
   NODE_ENV?: "production" | "development"
@@ -69,9 +64,9 @@ export const done = (code: 0 | 1): never => {
  * https://nodejs.org/api/inspector.html
  */
 const initializeNodeInspector = async (): Promise<void> => {
-  const inspector = require("inspector")
+  const inspector = await import("inspector")
   inspector.close()
-  await inspector.open()
+  inspector.open()
 }
 /**
  * Sets Node process and environmental variables
@@ -101,45 +96,23 @@ export const setEnvironment = (options: CommandOptions): void => {
   // run with node developer tools inspector
   if (inspect) initializeNodeInspector().catch((error) => console.error(error))
 }
+
 /**
  * For commands that use Nodemon to handle restarts
  */
-const unitTestInitializer = async (options: CommandOptions): Promise<void> => {
-  // async import since this is only installed in --dev
-  const { startUnitTestRunner } = await import("@factor/test")
+const restartInitializer = async (options: CommandOptions): Promise<void> => {
+  const { default: nodemon } = await import("nodemon")
 
-  await runServer(options)
-  await startUnitTestRunner()
-}
-/**
- * For commands that use Nodemon to handle restarts
- */
-const restartInitializer = (options: CommandOptions): void => {
-  const nodemon = require("nodemon")
-
-  const { CMD = "rdev", workspace = "" } = options
+  const { workspace = "" } = options
 
   setEnvironment({ noDotenv: workspace ? false : true, ...options })
 
-  const configPath = require.resolve("./nodemon.json")
-
-  const conf = require("./nodemon.json")
-
-  const args = [`--config ${configPath}`]
+  const conf = require("./nodemon.json") as Record<string, any>
 
   const passArgs = commander.args
   passArgs.shift()
 
-  let script
-  if (workspace) {
-    script = `npm -w ${workspace} exec factor ${CMD}`
-  } else {
-    script = `npm exec factor ${CMD}`
-  }
-
-  script = `${script} ${passArgs.join(" ")}`
-
-  args.push(`--exec ${script}`)
+  const script = `npm exec -c 'factor rdev ${passArgs.join(" ")}'`
   conf.exec = script
 
   /**
@@ -244,21 +217,13 @@ export const execute = (): void => {
   commander
     .command("start")
     .option("--SERVICE <SERVICE>", "Which module to run")
-    .action(async (opts) => {
+    .action(async (opts: OptionValues) => {
       await wrapCommand({ cb: (_) => runService(_), opts })
     })
 
   commander.command("server").action(async () => {
     await wrapCommand({
       cb: (_) => runServer(_),
-    })
-  })
-
-  commander.command("test").action(async (opts) => {
-    return wrapCommand({
-      cb: (_) => unitTestInitializer(_),
-      exit: true,
-      opts,
     })
   })
 
@@ -270,7 +235,7 @@ export const execute = (): void => {
       "-w, --workspace <workspace>",
       "the workspace to run dev in (use for monorepo)",
     )
-    .action((opts) => restartInitializer({ CMD: "rdev", ...opts }))
+    .action((opts: OptionValues) => restartInitializer({ ...opts }))
 
   commander
     .command("rdev")
@@ -361,7 +326,7 @@ export const execute = (): void => {
     .description("publish a new version")
     .option("--patch", "patch release")
     .action((opts) => {
-      process.env.STAGE_ENV = StageId.Prod
+      process.env.STAGE_ENV = "prod"
       return wrapCommand({
         cb: async (_) => {
           // require to prevent devDependency errors in production
@@ -386,11 +351,7 @@ export const execute = (): void => {
       await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
     })
 
-  try {
-    commander.parse(process.argv)
-  } catch (error: any) {
-    throw new Error(error)
-  }
+  commander.parse(process.argv)
 }
 /**
  * Handle exit events
