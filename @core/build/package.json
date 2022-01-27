@@ -1,6 +1,6 @@
 {
   "name": "@factor/build",
-  "version": "3.6.9",
+  "version": "3.6.10",
   "author": "Darwin",
   "license": "MIT",
   "publishConfig": {
@@ -9,7 +9,7 @@
   "private": false,
   "type": "module",
   "dependencies": {
-    "@factor/server-utils": "3.6.9",
+    "@factor/server-utils": "3.6.10",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",
     "execa": "^6.0.0",
@@ -20,7 +20,7 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
-    "@factor/types": "3.6.9",
+    "@factor/types": "3.6.10",
     "@aws-sdk/client-cloudfront": "^3.0.0",
     "@aws-sdk/client-s3": "^3.0.0",
     "@rollup/plugin-commonjs": "^21.0.0",

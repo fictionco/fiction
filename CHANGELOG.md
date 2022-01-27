@@ -1,3 +1,20 @@
+## [3.6.10](https://github.com/FactorJS/factor/compare/v3.6.9...v3.6.10) (2022-01-27)
+
+
+### Bug Fixes
+
+* lint ([5143f8c](https://github.com/FactorJS/factor/commit/5143f8c258679488975e7d45fd395177581d50a5))
+* lint ([7b6c5a8](https://github.com/FactorJS/factor/commit/7b6c5a80fa31622573593213139817ed88622cda))
+* lint ([007a7b9](https://github.com/FactorJS/factor/commit/007a7b94669dd5a4d07915f594dbabb265071d52))
+* lint 2 ([4345b76](https://github.com/FactorJS/factor/commit/4345b7684afee2ce35808148216d21274e8a57f4))
+
+
+### Features
+
+* logger ([559bd45](https://github.com/FactorJS/factor/commit/559bd45ab322f5b43329af57619be819afaa8d19))
+
+
+
 ## [3.6.9](https://github.com/FactorJS/factor/compare/v3.6.8...v3.6.9) (2022-01-26)
 
 
