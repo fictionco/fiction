@@ -8,7 +8,7 @@ export const _stop = (config: ErrorConfig): EndpointResponse => {
     status = "error",
     message,
     code = "STOP",
-    data = null,
+    data = undefined,
     expose = true,
   } = config
   return { status, message, code, data, expose }

@@ -1,4 +1,8 @@
+/* eslint-disable no-console */
 import { isNode } from "./utils"
+import { logCategory, logLevel } from "@factor/types"
+import type { ChalkInstance } from "chalk"
+import type { Consola } from "consola"
 export const logType = {
   event: { color: "#5233ff" },
   info: { color: "#00ABFF" },
@@ -42,3 +46,130 @@ export const dLog = (
     )
   }
 }
+
+interface LoggerArgs {
+  level: keyof typeof logLevel
+  context?: string
+  description: string
+  data?: Record<string, any> | unknown
+  disableOnRestart?: boolean
+  priority?: number
+  color?: string
+}
+
+class Logger {
+  isNode: boolean
+  srv: {
+    chalk?: ChalkInstance
+    consola?: Consola
+    prettyOutput?: Function
+  }
+  constructor() {
+    this.isNode = typeof window === "undefined" ? true : false
+    this.srv = {}
+    if (this.isNode) {
+      this.serverInit().catch((error) => console.error(error))
+    }
+  }
+
+  async serverInit(): Promise<void> {
+    const [
+      { default: chalk },
+      { default: prettyOutput },
+      { default: consola },
+    ] = await Promise.all([
+      import("chalk"),
+      import("prettyoutput"),
+      import("consola"),
+    ])
+
+    this.srv = {
+      chalk,
+      prettyOutput,
+      consola,
+    }
+  }
+
+  logBrowser(config: LoggerArgs): void {
+    const { description, context, color, data } = config
+    const shouldLog =
+      process.env.NODE_ENV == "development" ||
+      (typeof localStorage !== "undefined" && localStorage.getItem("dLog"))
+        ? true
+        : false
+
+    if (shouldLog) {
+      const additional = ""
+
+      // eslint-disable-next-line no-console
+      console.log(
+        `%c${context} > ${description}`,
+        `font-weight:bold;color: ${color};padding: 5px 0;${additional}`,
+        data ?? "",
+      )
+    }
+  }
+
+  logServer(config: LoggerArgs): void {
+    const {
+      level,
+      disableOnRestart,
+      context,
+      color = "#dddddd",
+      data,
+      description,
+    } = config
+
+    if (!this.srv.chalk) return
+    if (!this.srv.consola) return
+    if (!this.srv.prettyOutput) return
+
+    if (disableOnRestart && process.env.IS_RESTART) return
+    const points: (string | number)[] = [
+      this.srv.chalk.hex(color)(level.padEnd(5)),
+    ]
+
+    if (context) {
+      points.push(this.srv.chalk.hex(color).dim(`(${context})`))
+    }
+
+    points.push(this.srv.chalk.dim(`: `), description)
+
+    console.log(points.join(""))
+
+    // test
+
+    if (data instanceof Error) {
+      this.srv.consola.error(data)
+    } else if (
+      typeof data == "object" &&
+      data &&
+      Object.keys(data).length > 0
+    ) {
+      console.log(this.srv.prettyOutput(data as Record<string, any>, {}, 2))
+    }
+  }
+
+  log(config: LoggerArgs): void {
+    const { level } = config
+
+    config.priority = logLevel[level].priority
+    config.color = logCategory[level].color
+
+    if (
+      config.priority < 10 &&
+      process.env.NODE_ENV !== "production" &&
+      !process.env.FACTOR_DEBUG
+    ) {
+      config.data = undefined
+    }
+
+    if (this.isNode) {
+      this.logServer(config)
+    } else {
+      this.logBrowser(config)
+    }
+  }
+}
+
+export const logger = new Logger()

@@ -1,5 +1,4 @@
-import { _stop } from "@factor/api"
-import { logger } from "@factor/server-utils/serverLogger"
+import { _stop, logger } from "@factor/api"
 import { FullUser } from "@factor/types"
 import jwt from "jsonwebtoken"
 interface TokenFields {
@@ -13,7 +12,7 @@ interface TokenFields {
 const getTokenSecret = (): string => {
   const secret = process.env.TOKEN_SECRET || process.env.FACTOR_TOKEN_SECRET
   if (!secret) {
-    logger({
+    logger.log({
       level: "warn",
       description: "JWT token secret is missing (TOKEN_SECRET)",
       context: "auth",

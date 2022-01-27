@@ -7,6 +7,6 @@ export interface ErrorConfig {
   message: string
   code?: ErrorCode
   httpStatus?: number
-  data?: any
+  data?: Record<string, any> | Error
   expose?: boolean
 }
