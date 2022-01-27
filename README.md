@@ -8,7 +8,7 @@
 <br />
 
 <div align="center">
-  <h3>Next-gen framework for blogs, apps, and sites by <a href="https://www.darwin.so">Darwin</a></h3>
+  <h3>Next-gen framework for blogs, apps, and sites by <a href="https://www.kaption.co">Kaption Co.</a></h3>
 
 </div>
 
