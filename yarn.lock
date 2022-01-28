@@ -8462,9 +8462,9 @@ tinypool@^0.1.1:
   integrity sha512-sW2fQZ2BRb/GX5v55NkHiTrbMLx0eX0xNpP+VGhOe2f7Oo04+LeClDyM19zCE/WCy7jJ8kzIJ0Ojrxj3UhN9Sg==
 
 tinyspy@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/tinyspy/-/tinyspy-0.2.8.tgz#b821b3d43a7d5ae47bc575a5d8627e84fdf4e809"
-  integrity sha512-4VXqQzzh9gC5uOLk77cLr9R3wqJq07xJlgM9IUdCNJCet139r+046ETKbU1x7mGs7B0k7eopyH5U6yflbBXNyA==
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/tinyspy/-/tinyspy-0.2.10.tgz#7f684504bda345620f7a6a8462c618ef3d055517"
+  integrity sha512-Qij6rGWCDjWIejxCXXVi6bNgvrYBp3PbqC4cBP/0fD6WHDOHCw09Zd13CsxrDqSR5PFq01WeqDws8t5lz5sH0A==
 
 tmp@^0.0.33:
   version "0.0.33"

@@ -42,7 +42,7 @@ export const dLog = (
     // eslint-disable-next-line no-console
     console.log(
       `%c${category} > ${description}`,
-      `font-weight:bold;color: ${color};padding: 5px 0;${additional}`,
+      `color: ${color};padding: 5px 0;${additional}`,
       data ?? "",
     )
   }
@@ -51,7 +51,7 @@ export const dLog = (
 interface LoggerArgs {
   level: keyof typeof logLevel
   context?: string
-  description: string
+  description?: string
   data?: Record<string, any> | unknown
   disableOnRestart?: boolean
   priority?: number
@@ -96,7 +96,7 @@ class Logger {
   }
 
   logBrowser(config: LoggerArgs): void {
-    const { description, context, color, data } = config
+    const { level, description, context, color, data } = config
     const shouldLog =
       process.env.NODE_ENV == "development" ||
       (typeof localStorage !== "undefined" && localStorage.getItem("dLog"))
@@ -104,12 +104,11 @@ class Logger {
         : false
 
     if (shouldLog) {
-      const additional = ""
-
       // eslint-disable-next-line no-console
       console.log(
-        `%c${context} > ${description}`,
-        `font-weight:bold;color: ${color};padding: 5px 0;${additional}`,
+        `%c${level} (${context}):`,
+        `color: ${color};`,
+        description,
         data ?? "",
       )
     }
@@ -131,14 +130,12 @@ class Logger {
 
     if (disableOnRestart && process.env.IS_RESTART) return
     const points: (string | number)[] = [
-      this.srv.chalk.hex(color)(level.padEnd(5)),
+      this.srv.chalk.hex(color).dim(level.padEnd(5)),
     ]
 
-    if (context) {
-      points.push(this.srv.chalk.hex(color).dim(`(${context})`))
-    }
+    points.push(this.srv.chalk.hex(color)(`(${context ?? "???"}): `.padEnd(10)))
 
-    points.push(this.srv.chalk.dim(`: `), description)
+    if (description) points.push(description)
 
     console.log(points.join(""))
 
