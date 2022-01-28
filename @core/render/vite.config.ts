@@ -77,6 +77,9 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
         "@kaption/client",
+        "chalk",
+        "prettyoutput",
+        "consola",
       ],
       include: [
         "vuex",
