@@ -102,14 +102,16 @@ class Logger {
     const { level, description, context, color, data } = config
     const shouldLog =
       process.env.NODE_ENV == "development" ||
-      (typeof localStorage !== "undefined" && localStorage.getItem("dLog"))
+      (typeof localStorage !== "undefined" && localStorage.getItem("logger"))
         ? true
         : false
 
     if (shouldLog) {
       // eslint-disable-next-line no-console
       console.log(
-        `%c${level} (${context}):`,
+        `%c${level} `,
+        `color: ${color};opacity: .6;`,
+        `(${context}):`,
         `color: ${color};`,
         description,
         data ?? "",
