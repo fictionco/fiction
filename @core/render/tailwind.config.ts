@@ -1,5 +1,8 @@
-import { paths } from "@factor/server-utils/tailwind"
 export default {
   mode: "jit",
-  content: ["./src/**/*.{vue,js,ts,jsx,tsx,html}", ...paths],
+  content: [
+    "./src/**/*.{vue,js,ts,jsx,tsx,html}",
+    "@factor/ui/*.vue",
+    "@factor/plugin-notify/*.vue",
+  ],
 } as Record<string, any>

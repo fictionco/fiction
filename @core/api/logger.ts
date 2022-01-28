@@ -109,7 +109,7 @@ class Logger {
     if (shouldLog) {
       // eslint-disable-next-line no-console
       console.log(
-        `%c${level} `,
+        `%c${level}`,
         `color: ${color};opacity: .6;`,
         `(${context}):`,
         `color: ${color};`,

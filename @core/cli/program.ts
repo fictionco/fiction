@@ -110,6 +110,7 @@ const restartInitializer = async (options: CommandOptions): Promise<void> => {
   const conf = require("./nodemon.json") as Record<string, any>
 
   const passArgs = commander.args
+
   passArgs.shift()
 
   const script = `npm exec -c 'factor rdev ${passArgs.join(" ")}'`
@@ -231,17 +232,21 @@ export const execute = (): void => {
     .command("dev")
     .allowUnknownOption()
     .option("-c, --CMD <ENV>", "the CLI command to run ")
+    .option("-i, --inspect", "run the node inspector")
     .option(
       "-w, --workspace <workspace>",
       "the workspace to run dev in (use for monorepo)",
     )
-    .action((opts: OptionValues) => restartInitializer({ ...opts }))
+    .action((opts: OptionValues, _) => {
+      return restartInitializer({ ...opts })
+    })
 
   commander
     .command("rdev")
     .option("--force", "force full restart and optimization")
     .option("-pa, --port-app <number>", "primary service port")
     .option("-ps, --port-server  <number>", "server specific port")
+    .option("-i, --inspect", "run the node inspector")
     .allowUnknownOption()
     .action(
       (opts: {
