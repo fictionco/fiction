@@ -1,3 +1,12 @@
+## [3.6.11](https://github.com/FactorJS/factor/compare/v3.6.10...v3.6.11) (2022-01-28)
+
+
+### Bug Fixes
+
+* dep ([acf6c07](https://github.com/FactorJS/factor/commit/acf6c07a41ecf775c1223462264f7c19aa63df42))
+
+
+
 ## [3.6.10](https://github.com/FactorJS/factor/compare/v3.6.9...v3.6.10) (2022-01-27)
 
 
