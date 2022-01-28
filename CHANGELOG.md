@@ -1,3 +1,12 @@
+## [3.6.12](https://github.com/FactorJS/factor/compare/v3.6.11...v3.6.12) (2022-01-28)
+
+
+### Bug Fixes
+
+* update logger ([978fa07](https://github.com/FactorJS/factor/commit/978fa07ebf281f46e292e57f0bc4747cb8240cc6))
+
+
+
 ## [3.6.11](https://github.com/FactorJS/factor/compare/v3.6.10...v3.6.11) (2022-01-28)
 
 
