@@ -9,7 +9,7 @@ import {
 } from "vue-router"
 
 import { applyFilters, runCallbacks } from "./hook"
-import { dLog } from "./logger"
+import { logger } from "./logger"
 import { isNode, isSearchBot, getAppGlobal, setAppGlobal } from "./utils"
 
 /**
@@ -121,7 +121,12 @@ export const routeAuthRedirects = async (
       const redirect = await auth({ user, searchBot: isSearchBot() })
 
       if (redirect) {
-        dLog("event", "auth required redirect", { redirect })
+        logger.log({
+          level: "info",
+          context: "router",
+          description: "auth required redirect",
+          data: { redirect },
+        })
         await router.push({ path: redirect })
       }
     }

@@ -1,5 +1,5 @@
-import { distClient, distFolder, logger } from "@factor/server"
-
+import { distClient, distFolder } from "@factor/server"
+import { logger } from "@factor/api"
 import compression from "compression"
 import express from "express"
 import fs from "fs-extra"
@@ -32,7 +32,7 @@ export const preRenderPages = async (): Promise<void> => {
       fs.ensureDirSync(path.dirname(writePath))
       fs.writeFileSync(writePath, html)
 
-      logger({
+      logger.log({
         level: "info",
         context: "build",
         description: `pre-rendered: ${filePath}`,
@@ -57,7 +57,7 @@ export const serveStaticApp = async (): Promise<void> => {
       req.url = `${req.url.replace(/\/$/, "")}.html`
     }
 
-    logger({
+    logger.log({
       level: "info",
       context: "server",
       description: `request at ${req.url}`,
@@ -67,7 +67,7 @@ export const serveStaticApp = async (): Promise<void> => {
   app.use(serveStatic(staticDir(), { extensions: ["html"] }))
 
   app.use("*", (req, res) => {
-    logger({
+    logger.log({
       level: "info",
       context: "server",
       description: `serving fallback index.html at ${req.baseUrl}`,
@@ -77,7 +77,7 @@ export const serveStaticApp = async (): Promise<void> => {
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
 
   app.listen(port, () => {
-    logger({
+    logger.log({
       level: "info",
       context: "server",
       description: `serving static app @ PORT:${port}`,

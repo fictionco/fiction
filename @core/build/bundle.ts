@@ -1,7 +1,7 @@
 import path from "path"
 import { performance } from "perf_hooks"
 import fs from "fs-extra"
-import { logger } from "@factor/server-utils/serverLogger"
+import { logger } from "@factor/api"
 import { getPackages, getCommit } from "./utils"
 import * as rollup from "rollup"
 import { getConfig } from "./rollupBuildConfig"
@@ -64,7 +64,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
   const t1 = performance.now()
   const bundle = await rollup.rollup(rollupOptions)
 
-  logger({
+  logger.log({
     level: "info",
     context: "bundle",
     description: `${packageName} - ${Math.round(
@@ -76,7 +76,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
 
   await bundle.write(output)
 
-  logger({
+  logger.log({
     level: "info",
     context: "bundle",
     description: `${packageName} - dist - ${path.basename(
@@ -107,7 +107,7 @@ export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
       const buildOptions = getModuleBuildOptions(packageName)
 
       if (buildOptions) {
-        logger({
+        logger.log({
           level: "info",
           context: "bundle",
           description: `bundle ${packageName}`,

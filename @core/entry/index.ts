@@ -14,7 +14,7 @@ import { runCallbacks } from "@factor/api/hook"
 import { getRouter, addRoutes } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
 import { setupPlugins } from "@factor/api/extend"
-import { dLog } from "@factor/api/logger"
+import { logger } from "@factor/api/logger"
 import { FactorAppEntry, UserConfigApp } from "@factor/types"
 import { createHead } from "@vueuse/head"
 import { App as VueApp, createSSRApp, createApp } from "vue"
@@ -32,8 +32,9 @@ const setupApp = async (): Promise<UserConfigApp> => {
   if (userConfig.plugins) {
     try {
       await setupPlugins(userConfig)
-    } catch (error: any) {
-      dLog("error", error.message, error)
+    } catch (error: unknown) {
+      const e = error as Error
+      logger.log({ level: "error", description: e.message, data: error })
     }
   }
 

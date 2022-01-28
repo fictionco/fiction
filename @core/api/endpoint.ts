@@ -5,7 +5,7 @@ import axios, { AxiosRequestConfig } from "axios"
 
 import { emitEvent } from "./event"
 import { clientToken } from "./jwt"
-import { dLog } from "./logger"
+import { logger } from "./logger"
 
 /**
  * Make a request with Authorization header which represents the auth
@@ -28,7 +28,12 @@ export const endpointRequest = async <T = unknown>(
 
   options.baseURL = serverUrl()
 
-  dLog("info", "http request", options)
+  logger.log({
+    level: "info",
+    context: "endpointRequest",
+    description: `url:${options.url}`,
+    data: { options },
+  })
 
   let data: EndpointResponse<T | Error>
   try {
@@ -36,11 +41,25 @@ export const endpointRequest = async <T = unknown>(
     data = response.data
   } catch (error: unknown) {
     const e = error as Error
-    dLog("error", "server request error", e)
-    data = { status: "error", message: "server request error", data: e }
+    logger.log({
+      level: "error",
+      context: "endpointRequest",
+      description: "request error",
+      data: { e },
+    })
+    data = {
+      status: "error",
+      message: "request error",
+      data: e,
+    }
   }
 
-  dLog("info", "http response", data)
+  logger.log({
+    level: "info",
+    context: "endpointRequest",
+    description: `response:${options.url}`,
+    data,
+  })
 
   return data
 }

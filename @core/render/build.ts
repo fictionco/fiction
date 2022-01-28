@@ -1,5 +1,5 @@
-import { distClient, distFolder, distServer, logger } from "@factor/server"
-
+import { distClient, distFolder, distServer } from "@factor/server"
+import { logger } from "@factor/api"
 import * as vite from "vite"
 
 import { preRender } from "./prerender"
@@ -23,7 +23,7 @@ export const buildApp = async (
 ): Promise<void> => {
   const { prerender, mode } = options
 
-  logger({
+  logger.log({
     level: "info",
     context: "build",
     description: "building app",
@@ -68,7 +68,7 @@ export const buildApp = async (
 
     await generateSitemap()
 
-    logger({
+    logger.log({
       level: "info",
       context: "build",
       description: "application built successfully",
@@ -78,7 +78,7 @@ export const buildApp = async (
       await preRender(options)
     }
   } catch (error) {
-    logger({
+    logger.log({
       level: "error",
       context: "build",
       description: "error during build",

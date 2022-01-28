@@ -1,8 +1,7 @@
 import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
-import { snakeCase, _stop } from "@factor/api"
-import { logger } from "@factor/server-utils/serverLogger"
+import { snakeCase, _stop, logger } from "@factor/api"
 import { extendDb } from "./serverDbExtend"
 
 const statusTypes = [
@@ -237,7 +236,7 @@ export const initializeDb = async (): Promise<void> => {
 
   await getDb()
 
-  logger({
+  logger.log({
     level: "info",
     context: "db",
     description: "DB Connected",

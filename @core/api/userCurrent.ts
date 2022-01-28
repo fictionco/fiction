@@ -3,7 +3,7 @@ import { FullUser, PrivateUser } from "@factor/types"
 import { computed } from "vue"
 import { emitEvent } from "./event"
 import { clientToken } from "./jwt"
-import { dLog } from "./logger"
+import { logger } from "./logger"
 import { getRouter, routeAuthRedirects } from "./router"
 import { stored, storeItem } from "./store"
 import { endpointFetch } from "./endpoint"
@@ -79,7 +79,11 @@ export const cacheUser = ({ user }: { user: Partial<FullUser> }): void => {
  * Logs out current user and deletes local data
  */
 export const deleteCurrentUser = (): void => {
-  dLog("info", "deleted current user")
+  logger.log({
+    level: "info",
+    context: "user",
+    description: "deleted current user",
+  })
   clientToken({ action: "destroy" })
   storeItem("currentUser", undefined)
 }
@@ -152,7 +156,12 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
   // redirect before resolve
   await routeAuthRedirects(user)
 
-  dLog("info", "user loaded", user)
+  logger.log({
+    level: "info",
+    context: "user",
+    description: "current user loaded",
+    data: { user },
+  })
 
   return user
 }

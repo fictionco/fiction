@@ -1,6 +1,7 @@
 /* eslint-disable unicorn/import-style */
 /* eslint-disable no-console */
 import { isNode } from "./utils"
+
 import { logCategory, logLevel } from "@factor/types"
 import type { ChalkInstance } from "chalk"
 import type { Consola } from "consola"
@@ -73,7 +74,9 @@ class Logger {
     this.isNode = typeof window === "undefined" ? true : false
     this.srv = {}
     if (this.isNode) {
-      this.serverInit().catch((error) => console.error(error))
+      this.serverInit().catch((error) =>
+        this.logServer({ level: "error", context: "log", data: error }),
+      )
     }
   }
 

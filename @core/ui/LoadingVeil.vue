@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { dLog, routeRequiresAuth, userInitialized } from "@factor/api"
+import { routeRequiresAuth, userInitialized } from "@factor/api"
 import ElemSpinner from "./ElemSpinner.vue"
 import { onMounted, ref } from "vue"
 
@@ -18,12 +18,8 @@ if (routeRequiresAuth()) {
   authLoading.value = true
 }
 onMounted(async () => {
-  try {
-    await userInitialized()
-    authLoading.value = false
-  } catch (error) {
-    dLog("error", "user loading error", error)
-  }
+  await userInitialized()
+  authLoading.value = false
 })
 </script>
 <style lang="less" scoped>

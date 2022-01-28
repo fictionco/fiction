@@ -4,7 +4,7 @@ import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
-import { logger } from "@factor/server-utils"
+import { logger } from "@factor/api"
 import { version as currentVersion } from "../../package.json"
 import { isGitDirty, getPackages } from "./utils"
 import { createRequire } from "module"
@@ -53,7 +53,7 @@ const commit = async (
   const [bin, args, opts] = commandArgs
   //  Output CLI commands instead of actually run them
   if (__dry) {
-    logger({
+    logger.log({
       level: "info",
       context: "release",
       description: `(dry) ${bin} ${args.join(" ")}`,
@@ -79,7 +79,7 @@ const updateDeps = (
 ): Record<string, string> => {
   Object.keys(deps).forEach((dep) => {
     if (getPackages().includes(dep)) {
-      logger({
+      logger.log({
         level: "info",
         context: "release",
         description: `${name} > ${type} > ${dep}@${version}`,
@@ -137,7 +137,7 @@ const publishPackage = async (
   // Add a special tag for the package?
   const releaseTag = null
 
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: `publishing ${moduleName}...`,
@@ -159,7 +159,7 @@ const publishPackage = async (
       },
     )
 
-    logger({
+    logger.log({
       level: "info",
       context: "release",
       description: `successfully published ${moduleName}@${version}`,
@@ -167,7 +167,7 @@ const publishPackage = async (
   } catch (error: unknown) {
     const e = error as ExecaError
     if (/previously published/.test(e.stderr)) {
-      logger({
+      logger.log({
         level: "warn",
         context: "release",
         description: `skipping already published: ${moduleName}`,
@@ -190,12 +190,12 @@ export const releaseRoutine = async (
   const { dry, patch, commitChanges } = options
   __dry = dry
 
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: `publish new version [${dry ? "dry" : "live"}]`,
   })
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: `current version: ${currentVersion}`,
@@ -252,7 +252,7 @@ export const releaseRoutine = async (
   }
 
   // run tests before release
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "running tests...",
@@ -262,7 +262,7 @@ export const releaseRoutine = async (
 
   // update all package versions and inter-dependencies
 
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "updating cross dependencies...",
@@ -271,7 +271,7 @@ export const releaseRoutine = async (
 
   // build with rollup
 
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "building packages...",
@@ -280,7 +280,7 @@ export const releaseRoutine = async (
 
   // generate changelog
 
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "generate changelog...",
@@ -290,7 +290,7 @@ export const releaseRoutine = async (
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })
   if (stdout) {
-    logger({
+    logger.log({
       level: "info",
       context: "release",
       description: "committing changes...",
@@ -298,7 +298,7 @@ export const releaseRoutine = async (
     await commit("git", ["add", "-A"])
     await commit("git", ["commit", "-m", `release: v${targetVersion}`])
   } else {
-    logger({
+    logger.log({
       level: "info",
       context: "release",
       description: "no changes to commit",
@@ -306,7 +306,7 @@ export const releaseRoutine = async (
   }
 
   // publish to npm
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "publishing packages...",
@@ -316,7 +316,7 @@ export const releaseRoutine = async (
   }
 
   // push to github
-  logger({
+  logger.log({
     level: "info",
     context: "release",
     description: "pushing to origin...",
@@ -331,7 +331,7 @@ export const releaseRoutine = async (
   await commit("git", ["push", "--no-verify"])
 
   if (dry) {
-    logger({
+    logger.log({
       level: "info",
       context: "release",
       description: `dry run finished - run git diff to see package changes.`,

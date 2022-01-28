@@ -10,6 +10,7 @@
   "type": "module",
   "dependencies": {
     "@factor/server-utils": "3.6.11",
+    "@factor/api": "3.6.11",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",
     "execa": "^6.0.0",
