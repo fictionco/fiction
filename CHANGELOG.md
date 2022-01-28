@@ -1,3 +1,14 @@
+## [3.6.13](https://github.com/FactorJS/factor/compare/v3.6.12...v3.6.13) (2022-01-28)
+
+
+### Bug Fixes
+
+* basics ([814761f](https://github.com/FactorJS/factor/commit/814761f8c1d324ddde4187653ea34869260507cf))
+* basics ([cb5fdab](https://github.com/FactorJS/factor/commit/cb5fdab37abbc9e28ac37c83fb697a3b15f090be))
+* var ([62b3a78](https://github.com/FactorJS/factor/commit/62b3a7843410b6e333273f5585008cbf2787d94b))
+
+
+
 ## [3.6.12](https://github.com/FactorJS/factor/compare/v3.6.11...v3.6.12) (2022-01-28)
 
 
