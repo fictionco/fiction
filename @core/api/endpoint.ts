@@ -1,11 +1,32 @@
 import { updateUser } from "@factor/api"
 import { serverUrl } from "@factor/api/url"
-import { EndpointResponse, PrivateUser } from "@factor/types"
+import { EndpointResponse, PrivateUser, ErrorConfig } from "@factor/types"
 import axios, { AxiosRequestConfig } from "axios"
 
 import { emitEvent } from "./event"
 import { clientToken } from "./jwt"
 import { logger } from "./logger"
+
+type ErrorResponse = {
+  error: ErrorConfig | Error | unknown
+  params?: any
+  context?: string
+  description?: string
+}
+export const endpointErrorResponse = (
+  options?: ErrorResponse,
+): EndpointResponse => {
+  const { error, params, context = "???", description = "???" } = options ?? {}
+
+  logger.log({ level: "error", context, description, data: params })
+  const e = error as ErrorConfig
+  return {
+    status: "error",
+    message: e.expose ? e.message : "",
+    code: e.code,
+    error,
+  }
+}
 
 /**
  * Make a request with Authorization header which represents the auth
