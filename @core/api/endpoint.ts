@@ -13,9 +13,9 @@ type ErrorResponse = {
   context?: string
   description?: string
 }
-export const endpointErrorResponse = (
+export const endpointErrorResponse = <T = undefined>(
   options?: ErrorResponse,
-): EndpointResponse => {
+): EndpointResponse<T> => {
   const { error, params, context = "???", description = "???" } = options ?? {}
 
   logger.log({ level: "error", context, description, data: params })

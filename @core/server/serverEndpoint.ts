@@ -1,45 +1,12 @@
-import { applyFilters } from "@factor/api"
 import { logger } from "@factor/server-utils/serverLogger"
-import { EndpointConfig, PrivateUser, UserConfigServer } from "@factor/types"
+import { EndpointConfig, UserConfigServer } from "@factor/types"
 import express from "express"
 import cors from "cors"
 import compression from "compression"
 import bodyParser from "body-parser"
 import helmet from "helmet"
 import { Server } from "http"
-import { decodeClientToken } from "./serverJwt"
-import { findOneUser } from "./user/serverUser"
-// import getPort from "get-port"
-/**
- * Takes authorization header with bearer token and converts it into a user for subsequent endpoint operations
- * @param bearerToken - JWT token sent from client in authorization header
- *
- * @category server
- */
-export const setAuthorizedUser = async (
-  request: express.Request,
-): Promise<express.Request> => {
-  const bearerToken = request.headers.authorization
-
-  if (bearerToken && bearerToken.startsWith("Bearer ")) {
-    const token = bearerToken.split("Bearer ")[1]
-    request.bearerToken = token
-    if (request.bearerToken) {
-      const { email } = decodeClientToken(request.bearerToken)
-
-      const user = await findOneUser<PrivateUser>({ email, select: ["*"] })
-
-      if (user) {
-        request.bearer = user
-        request.bearer.token = token
-      } else {
-        request.bearer = undefined
-      }
-    }
-  }
-
-  return request
-}
+import { endpointAuthorization } from "./serverEndpointUtils"
 
 /**
  * Creates the API endpoint server
@@ -57,34 +24,7 @@ export const createEndpointServer = async (
    * General entry point for server
    * @preprocess
    */
-  app.use(async (request, response, next) => {
-    if (request.path === "/favicon.ico") return
-
-    const {
-      headers: { authorization },
-    } = request
-
-    try {
-      request = await setAuthorizedUser(request)
-      next()
-    } catch (error) {
-      logger({
-        level: "error",
-        context: "endpoint",
-        description: `endpoint setup error (${authorization ?? ""})`,
-        data: error,
-      })
-
-      response
-        .status(200)
-        .send({
-          status: "error",
-          message: "authorization error",
-          code: "TOKEN_ERROR",
-        })
-        .end()
-    }
-  })
+  app.use(endpointAuthorization)
 
   app.use(
     bodyParser.json({
@@ -104,12 +44,8 @@ export const createEndpointServer = async (
    * Standard and extended endpoints
    */
   const endpoints: EndpointConfig[] = config.endpoints ?? []
-  /**
-   * Add endpoint routes
-   */
-  const allEndpoints = applyFilters("endpoints", endpoints)
 
-  allEndpoints.forEach(({ route, handler }) => {
+  endpoints.forEach(({ route, handler }) => {
     app.use(route, async (request, response) => {
       const result = await handler(request)
 

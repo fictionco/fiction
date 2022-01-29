@@ -120,7 +120,7 @@ export const initializeEndpoint = async (): Promise<EndpointConfig[]> => {
   const paymentsEndpoint = {
     route: "/payments/:_method",
     handler: async (request: express.Request): Promise<EndpointResponse> => {
-      const { args, _method } =
+      const { params, _method } =
         processEndpointRequest<PaymentsEndpoint>(request)
 
       let r: EndpointResponse = {
@@ -131,17 +131,17 @@ export const initializeEndpoint = async (): Promise<EndpointConfig[]> => {
       }
 
       try {
-        if (!args.bearer?.userId) {
+        if (!params.bearer?.userId) {
           throw _stop({ message: "you must be logged in" })
         }
 
         if (_method && EPMap[_method]) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-          r = await EPMap[_method](args as any)
+          r = await EPMap[_method](params as any)
 
           if (r.customerId) {
             const dataResponse = await getCustomerData({
-              ...args,
+              ...params,
               customerId: r.customerId as string,
             })
             r.customerData = dataResponse.data

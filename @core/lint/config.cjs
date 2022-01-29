@@ -88,6 +88,7 @@ module.exports = {
       "ignorePackages",
       { ts: "never", js: "never" },
     ],
+
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
     "unicorn/filename-case": "off",
@@ -112,7 +113,15 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/prefer-namespace-keyword": "off",
     "@typescript-eslint/no-namespace": 0,
-    "@typescript-eslint/explicit-function-return-type": "off", // overridden for .ts files
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        allowHigherOrderFunctions: true,
+        allowTypedFunctionExpressions: true,
+        allowExpressions: true,
+        allowConciseArrowFunctionExpressionsStartingWithVoid: true,
+      },
+    ], // overridden for .ts files
     "@typescript-eslint/no-use-before-define": "warn", // can cause organization issues
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
@@ -131,13 +140,20 @@ module.exports = {
     ...tsLintRules,
   },
   overrides: [
-    {
-      // enable the rule specifically for TypeScript files
-      files: ["*.ts", "*.tsx"],
-      rules: {
-        "@typescript-eslint/explicit-function-return-type": ["warn"],
-      },
-    },
+    // {
+    //   // enable the rule specifically for TypeScript files
+    //   files: ["*.ts", "*.tsx"],
+    //   rules: {
+    //     "@typescript-eslint/explicit-function-return-type": [
+    //       "warn",
+    //       {
+    //         allowHigherOrderFunctions: true,
+    //         allowTypedFunctionExpressions: true,
+    //         allowExpressions: true,
+    //       },
+    //     ],
+    //   },
+    // },
     {
       files: "*.vue",
       rules: {
