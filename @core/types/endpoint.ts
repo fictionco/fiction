@@ -6,7 +6,7 @@ import { CurrentUserState } from "./user"
 
 export type EndpointResponse<T = unknown> = {
   status: "success" | "error" | "fail" | "loading"
-  data?: T | unknown
+  data?: T
   message?: string
   error?: Error | unknown
   code?: ErrorCode

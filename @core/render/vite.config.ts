@@ -183,6 +183,26 @@ export const getViteConfig = async (
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
+      {
+        name: "serverOnly",
+        enforce: "pre",
+        transform(src, id) {
+          const match = src.match(/server-only-file/)
+
+          if (match) {
+            logger.log({
+              level: "error",
+              context: "vite",
+              description: "server only file loaded in browser",
+              data: { id },
+            })
+            return {
+              code: `console.error("server only file: ${id}")`,
+              map: null, // provide source map if available
+            }
+          }
+        },
+      },
       /**
        * https://rollupjs.org/guide/en/#resolveid
        */

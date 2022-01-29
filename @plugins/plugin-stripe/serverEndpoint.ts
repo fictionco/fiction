@@ -7,7 +7,7 @@ import {
   endpointErrorResponse,
   logger,
 } from "@factor/server"
-import { EndpointResponse, ErrorConfig, EndpointConfig } from "@factor/types"
+import { EndpointResponse, EndpointConfig } from "@factor/types"
 import Stripe from "stripe"
 import { PaymentsEndpoint, EndpointMethods } from "./serverTypes"
 import {
@@ -155,7 +155,8 @@ export const initializeEndpoint = async (): Promise<EndpointConfig[]> => {
           }
         }
       } catch (error: unknown) {
-        r = endpointErrorResponse(error as ErrorConfig, request)
+        const e = error as Stripe.StripeAPIError
+        r = endpointErrorResponse(new Error(e.message), request)
       }
 
       return r
