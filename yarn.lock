@@ -1471,9 +1471,9 @@
   integrity sha512-dMS4S07fbtY1AILG/RhuwmptmzK1Ql8scmAebOTJ/8iBtK/KI17NwGwKzu1uipjj8Kk+3mfPxum56kKZE93mzQ==
 
 "@types/tailwindcss@^3.0.0":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.3.tgz#909d907d7e4825d053162a582777e9d096d584e2"
-  integrity sha512-SWOyuROXgBlH1MQfl5gAcjunX37l4z1bx1lrQGh2nHqJyKU/FWYymKoBOgqGjyGamiZHtYQKoNgf2IahONL+og==
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.4.tgz#ece342b039cb067cf46104c416bb9f9fec128691"
+  integrity sha512-ICFSmSeBMqPCpa3/fIGt4jjLbbIxqpV3pZeniosFIZ3dEWxSJH+6j0Gm3GOLnUQ18/bOiIFjuH3Tha+WhogiOA==
 
 "@types/tern@*":
   version "0.23.4"
@@ -2639,6 +2639,11 @@ commander@^8.0.0, commander@^8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
+commander@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-9.0.0.tgz#86d58f24ee98126568936bd1d3574e0308a99a40"
+  integrity sha512-JJfP2saEKbQqvW+FI93OYUB4ByV5cizMpFMiiJI8xDbBvQvSkIk0VvQdn1CZ8mqAO8Loq2h0gYTYtDFUZUeERw==
 
 commander@~2.1.0:
   version "2.1.0"

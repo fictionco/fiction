@@ -4,10 +4,8 @@ import {
   requireIfExists,
 } from "@factor/server-utils/serverPaths"
 import { setAppGlobals } from "@factor/server-utils/serverGlobals"
-import { logger } from "@factor/server-utils/serverLogger"
+import { logger, deepMergeAll, getMarkdownUtility } from "@factor/api"
 import pluginVue from "@vitejs/plugin-vue"
-
-import { deepMergeAll, getMarkdownUtility } from "@factor/api"
 
 import path from "path"
 import * as vite from "vite"
@@ -124,7 +122,7 @@ export const getViteConfig = async (
     }),
   )
 
-  logger({
+  logger.log({
     level: "info",
     context: "build",
     description: `build variables`,

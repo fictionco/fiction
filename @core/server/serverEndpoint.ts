@@ -1,4 +1,4 @@
-import { logger } from "@factor/server-utils/serverLogger"
+import { logger } from "@factor/api"
 import { EndpointConfig, UserConfigServer } from "@factor/types"
 import express from "express"
 import cors from "cors"
@@ -77,7 +77,7 @@ export const createEndpointServer = async (
   const server = app.listen(port, () => {
     const appName = process.env.FACTOR_APP_NAME || "app"
 
-    logger({
+    logger.log({
       level: "info",
       context: "endpoint",
       description: `endpoint server @app:${appName} @port:${port}`,

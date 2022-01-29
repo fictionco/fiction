@@ -16,7 +16,7 @@
     "@factor/types": "3.6.13",
     "@types/nodemon": "^1.19.1",
     "axios": "^0.25.0",
-    "commander": "^8.0.0",
+    "commander": "^9.0.0",
     "deepmerge": "^4.2.2",
     "dotenv": "^14.0.0",
     "esbuild": "^0.14.0",
