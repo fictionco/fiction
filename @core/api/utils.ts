@@ -389,11 +389,34 @@ export const displayDomain = (url?: string): string => {
     .replace(/\/$/, "")
 }
 
+/**
+ * Gets a favicon image based on a URL
+ * @depends on DuckDuckGo Favicon URL
+ */
+export const getFavicon = (url: string | undefined): string => {
+  let hostname: string
+
+  if (!url) return ""
+
+  if (!url.includes("http")) {
+    url = `http://${url}`
+  }
+
+  if (!url) {
+    hostname = ""
+  } else {
+    const _url = new URL(url)
+
+    hostname = _url.hostname
+  }
+
+  return `https://icons.duckduckgo.com/ip3/${hostname}.ico`
+}
+
 export const capitalize = (s?: string): string => {
   if (typeof s !== "string") return ""
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
-
 
 export const urlPath = (...parts: string[]): string => {
   const separator = "/"

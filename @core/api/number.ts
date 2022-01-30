@@ -11,13 +11,13 @@ export const numberFormatter = (num: number | string): string | number => {
   if (num >= THOUSAND && num < MILLION) {
     const thousands = num / THOUSAND
     return thousands === Math.floor(thousands) || num >= HUNDRED_THOUSAND
-      ? Math.floor(thousands) + "k"
-      : Math.floor(thousands * 10) / 10 + "k"
+      ? `${Math.floor(thousands)}k`
+      : `${Math.floor(thousands * 10) / 10}k`
   } else if (num >= MILLION && num < HUNDRED_MILLION) {
     const millions = num / MILLION
     return millions === Math.floor(millions)
-      ? Math.floor(millions) + "m"
-      : Math.floor(millions * 10) / 10 + "m"
+      ? `${Math.floor(millions)}m`
+      : `${Math.floor(millions * 10) / 10}m`
   } else {
     return num
   }

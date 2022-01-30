@@ -53,6 +53,33 @@ export const standardTime = (time: dayjs.ConfigType): string => {
   return timeUtil(time).format("h:mma (MM/D)")
 }
 /**
+ * [date] at [time]
+ */
+export const displayDateTime = (isoDate?: string | number): string => {
+  if (!isoDate) return ""
+  const m = standardDate(isoDate)
+  const h = standardTime(isoDate)
+
+  return `${m} at ${h}`
+}
+
+export const getMonths = (): string[] => {
+  return [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+}
+/**
  * Get date in international format "YYYY-M-DD"
  */
 export const internationalDate = (time: dayjs.ConfigType): string => {
