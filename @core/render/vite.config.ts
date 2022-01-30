@@ -111,6 +111,32 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
   }
 }
 
+/**
+ * /0 prefix prevents other plugins from messing with module
+ * https://rollupjs.org/guide/en/#conventions
+ */
+const serverModuleReplacer = (): vite.Plugin => {
+  const virtualModuleIds = new Set(["knex", "chalk", "express"])
+  const resolvedVirtualModuleIds = new Set(
+    [...virtualModuleIds].map((_) => `\0${_}`),
+  )
+
+  return {
+    name: "serverModuleReplacer", // required, will show up in warnings and errors
+    enforce: "pre",
+    resolveId(id) {
+      if (virtualModuleIds.has(id)) {
+        return `\0${id}`
+      }
+    },
+    load(id) {
+      if (resolvedVirtualModuleIds.has(id)) {
+        return `export default "SERVER ONLY MODULE REPLACED IN BROWSER"`
+      }
+    },
+  }
+}
+
 export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
 ): Promise<vite.InlineConfig> => {
@@ -179,6 +205,7 @@ export const getViteConfig = async (
 
     plugins: [
       pluginVue(),
+      serverModuleReplacer(),
       pluginMarkdown.plugin({
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
@@ -203,6 +230,7 @@ export const getViteConfig = async (
           }
         },
       },
+
       /**
        * https://rollupjs.org/guide/en/#resolveid
        */

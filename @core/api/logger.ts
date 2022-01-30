@@ -1,10 +1,11 @@
 /* eslint-disable unicorn/import-style */
 /* eslint-disable no-console */
 import { isNode } from "./utils"
-
+import dayjs from "dayjs"
 import { logCategory, logLevel } from "@factor/types"
 import type { ChalkInstance } from "chalk"
 import type { Consola } from "consola"
+import safeStringify from "fast-safe-stringify"
 export const logType = {
   event: { color: "#5233ff" },
   info: { color: "#00ABFF" },
@@ -118,6 +119,29 @@ class Logger {
     }
   }
 
+  refineDataRecursive(
+    obj: Record<string, any>,
+    depth = 0,
+  ): Record<string, any> {
+    depth++
+    return Object.fromEntries(
+      Object.entries(obj).map(([k, v]) => {
+        if (dayjs.isDayjs(v)) {
+          v = `DAYJS: ${v.toISOString()}`
+        } else if (typeof v === "object" && v && Object.keys(v).length > 0) {
+          const len = safeStringify(v)
+          if (len.length > 10_000 && !process.env.DEBUG) {
+            v = `LARGE OBJECT(${len.length}): ${len.slice(0, 100)}...`
+          } else if (depth < 4) {
+            v = this.refineDataRecursive(v, depth)
+          }
+        }
+
+        return [k, v]
+      }),
+    )
+  }
+
   logServer(config: LoggerArgs): void {
     const {
       level,
@@ -152,7 +176,13 @@ class Logger {
       data &&
       Object.keys(data).length > 0
     ) {
-      console.log(this.srv.prettyOutput(data as Record<string, any>, {}, 2))
+      console.log(
+        this.srv.prettyOutput(
+          this.refineDataRecursive(data) as Record<string, any>,
+          {},
+          2,
+        ),
+      )
     }
   }
 

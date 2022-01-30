@@ -12,17 +12,18 @@ type ErrorResponse = {
   params?: any
   context?: string
   description?: string
+  data?: any
 }
 export const endpointErrorResponse = <T = undefined>(
   options?: ErrorResponse,
 ): EndpointResponse<T> => {
-  const { error, params, context = "???" } = options ?? {}
+  const { error, params, context = "???", data } = options ?? {}
   const e = error as ErrorConfig
   logger.log({
     level: "error",
     context,
     description: e.message,
-    data: params,
+    data: { data, params, stack: e.stack },
   })
 
   return {

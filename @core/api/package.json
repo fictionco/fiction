@@ -28,6 +28,7 @@
     "deepmerge": "^4.1.1",
     "events": "^3.2.0",
     "fast-json-stable-stringify": "^2.1.0",
+    "fast-safe-stringify": "^2.1.1",
     "front-matter": "^4.0.0",
     "htmlparser2": "^7.0.0",
     "js-cookie": "^3.0.0",
