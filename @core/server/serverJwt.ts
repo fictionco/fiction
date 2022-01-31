@@ -1,7 +1,7 @@
 import { _stop, logger } from "@factor/api"
 import { FullUser } from "@factor/types"
 import jwt from "jsonwebtoken"
-interface TokenFields {
+export interface TokenFields {
   userId: number
   email: string
   role: string
