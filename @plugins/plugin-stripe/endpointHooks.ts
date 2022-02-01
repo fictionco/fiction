@@ -3,8 +3,8 @@ import { logger } from "@factor/server"
 import { EndpointResponse } from "@factor/types"
 import Stripe from "stripe"
 import { FactorEndpoint } from "@factor/engine"
-import { getStripe } from "./serverMethods"
-import { paymentsSetting } from "./util"
+import { getStripe } from "./endpoints"
+import { paymentsSetting } from "."
 
 const stripeHookHandler = async (
   request: http.IncomingMessage,

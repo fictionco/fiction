@@ -30,8 +30,8 @@ export const getServerConfig = (): UserConfigServer | undefined => {
   return __serverConfig
 }
 
-export const serverConfigSetting = <T = unknown>(
-  key: keyof UserConfigServer,
-): T | undefined => {
-  return dotSetting<T>({ key, settings: getServerConfig() ?? {} })
+export const serverConfigSetting = <T extends keyof UserConfigServer>(
+  key: T,
+): UserConfigServer[T] => {
+  return dotSetting({ key, settings: getServerConfig() ?? {} })
 }

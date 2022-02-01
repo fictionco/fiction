@@ -1,6 +1,5 @@
-import { StripeOptions } from "./types"
-import { createSettings } from "./util"
-import { stripeEnv, PaymentEndpoints } from "./serverMethods"
+import { StripeOptions, createSettings, stripeEnv } from "."
+import { paymentEndpoints } from "./endpoints"
 import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
 
@@ -30,7 +29,8 @@ export default async (
       }
 
       return {
-        endpoints: [...PaymentEndpoints, new EndpointMethodStripeHooks()],
+        endpoints: [...paymentEndpoints, new EndpointMethodStripeHooks()],
+        serverOnlyImports: ["stripe"],
       }
     },
   }

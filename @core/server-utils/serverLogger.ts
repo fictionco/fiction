@@ -71,7 +71,7 @@ export const logger = (args: LoggerArgs): void => {
     console.log(prettyOutput(data as Record<string, any>, {}, 2))
   }
 
-  const logger = serverConfigSetting<LogHandler>("log")
+  const logger = serverConfigSetting("log")
 
   if (logger) {
     Promise.resolve(
@@ -133,7 +133,7 @@ export const nLog = (
     console.log(prettyJson(data as Record<string, any>))
   }
 
-  const logger = serverConfigSetting<LogHandler>("log")
+  const logger = serverConfigSetting("log")
 
   if (logger) {
     Promise.resolve(

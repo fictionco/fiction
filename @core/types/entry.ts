@@ -56,6 +56,7 @@ export interface UserConfigServerOptions {
   variables?: Record<string, string | number>
   endpoints?: Endpoint[]
   endpointPort?: number
+  serverOnlyImports?: string[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]

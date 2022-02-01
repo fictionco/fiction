@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { _stop, objectId, EndpointResponse, PrivateUser } from "@factor/api"
+import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
 import { getPrivateUser } from "@factor/server"
 import {
   FactorQuery,
@@ -7,10 +7,8 @@ import {
   EndpointMeta,
   EndpointManageAction,
   EndpointMethodOptions,
-  Endpoint,
 } from "@factor/engine"
-import { paymentsSetting } from "./util"
-import { CustomerData } from "./types"
+import { paymentsSetting, CustomerData, stripeEnv } from "."
 import Stripe from "stripe"
 
 type RefineResult = {
@@ -46,12 +44,6 @@ abstract class FactorQueryPayments extends FactorQuery {
   }
 }
 
-export const stripeEnv = (): "production" | "development" => {
-  const env = process.env.STRIPE_ENV || process.env.NODE_ENV || "development"
-
-  return env as "production" | "development"
-}
-
 export const stripeSecretKey = (): string => {
   const stripeSecretKey =
     stripeEnv() == "production"
@@ -66,6 +58,8 @@ export const stripeSecretKey = (): string => {
 }
 
 export const getStripe = (): Stripe => {
+  if (!isNode) throw new Error("Stripe is server only")
+
   return new Stripe(stripeSecretKey(), { apiVersion: "2020-08-27" })
 }
 
@@ -171,7 +165,7 @@ class QueryPaymentMethod extends FactorQueryPayments {
           meta,
         )
       } else if (_action == "setDefault") {
-        if (!paymentMethodId) throw _stop({ message: "no payment id" })
+        if (!paymentMethodId) throw this.stop({ message: "no payment id" })
         await stripe.customers.update(customerId, {
           invoice_settings: {
             default_payment_method: paymentMethodId,
@@ -308,7 +302,7 @@ class QueryManageSubscription extends FactorQueryPayments {
       }
     } catch (error: unknown) {
       const e = error as Error
-      throw _stop({ message: e.message })
+      throw this.stop({ message: e.message })
     }
 
     if (sub && onSubscriptionUpdate) {
@@ -489,4 +483,5 @@ export const getPaymentEndpointsMap = (): EndpointMap => {
   ) as EndpointMap
 }
 
-export const PaymentEndpoints = Object.values(getPaymentEndpointsMap())
+export const paymentEndpointsMap = getPaymentEndpointsMap()
+export const paymentEndpoints = Object.values(paymentEndpointsMap)

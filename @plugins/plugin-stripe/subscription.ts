@@ -1,6 +1,5 @@
 import type stripeNode from "stripe"
-import { getStripeClient } from "./util"
-import { SubscriptionDetails } from "./types"
+import { getStripeClient, SubscriptionDetails } from "."
 export const handleCardSetupRequired = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {

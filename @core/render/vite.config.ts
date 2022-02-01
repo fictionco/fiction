@@ -6,7 +6,7 @@ import {
 import { setAppGlobals } from "@factor/server-utils/serverGlobals"
 import { logger, deepMergeAll, getMarkdownUtility } from "@factor/api"
 import pluginVue from "@vitejs/plugin-vue"
-
+import { serverConfigSetting } from "@factor/server/serverConfig"
 import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
@@ -116,7 +116,8 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
  * https://rollupjs.org/guide/en/#conventions
  */
 const serverModuleReplacer = (): vite.Plugin => {
-  const virtualModuleIds = new Set(["knex", "chalk", "express"])
+  const serverOnly = serverConfigSetting("serverOnlyImports") ?? []
+  const virtualModuleIds = new Set(["knex", "chalk", "express", ...serverOnly])
   const resolvedVirtualModuleIds = new Set(
     [...virtualModuleIds].map((_) => `\0${_}`),
   )
