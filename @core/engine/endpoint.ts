@@ -1,29 +1,48 @@
 import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
-import { clientToken, logger } from "@factor/api"
-import { Query } from "./query"
-
+import { clientToken, logger, serverUrl } from "@factor/api"
+import { FactorQuery, Query } from "./query"
+import type express from "express"
 export type EndpointOptions = {
   baseURL: string
   basePath: string
 }
 export type EndpointMethodOptions<T extends Query> = {
-  queryHandler: T
+  queryHandler?: T
+  requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   key?: string
 }
 
-export class Endpoint<T extends Query> {
+export type EndpointMeta = {
+  bearer?: PrivateUser
+}
+
+export type EndpointManageAction =
+  | "create"
+  | "retrieve"
+  | "update"
+  | "delete"
+  | "list"
+  | "cancel"
+  | "restore"
+  | "setDefault"
+  | "attach"
+  | "transfer"
+
+export class Endpoint<T extends Query = Query> {
   readonly baseURL: string
   readonly basePath: string
   readonly key?: string
-  queryHandler: T
+  queryHandler?: T
+  requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
-    const { baseURL, basePath, queryHandler, key } = options
+    const { baseURL, basePath, queryHandler, requestHandler, key } = options
     this.basePath = basePath
     this.baseURL = baseURL
     this.key = key
 
     this.queryHandler = queryHandler
+    this.requestHandler = requestHandler
   }
 
   public request(
@@ -35,9 +54,17 @@ export class Endpoint<T extends Query> {
   }
 
   public async serveRequest(
-    params: Record<string, unknown>,
+    request: express.Request,
   ): Promise<EndpointResponse> {
-    return await this.queryHandler.run(params)
+    if (this.requestHandler) {
+      return await this.requestHandler(request)
+    } else if (this.queryHandler) {
+      const params = request.body as Record<string, any>
+      const meta = { bearer: request.bearer }
+      return await this.queryHandler.run(params, meta)
+    } else {
+      return { status: "error", more: "no query or request handler" }
+    }
   }
 
   public async http<U>(
@@ -94,5 +121,13 @@ export class Endpoint<T extends Query> {
     })
 
     return responseData
+  }
+}
+
+export class FactorEndpoint<
+  T extends FactorQuery = FactorQuery,
+> extends Endpoint<T> {
+  constructor(options: { basePath: string } & EndpointMethodOptions<T>) {
+    super({ baseURL: serverUrl(), ...options })
   }
 }

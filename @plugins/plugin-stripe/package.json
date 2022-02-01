@@ -11,6 +11,7 @@
     "@factor/api": "3.6.13",
     "@factor/server": "3.6.13",
     "@factor/types": "3.6.13",
+    "@factor/engine": "3.6.13",
     "@stripe/stripe-js": "^1.13.2",
     "express": "^4.17.1",
     "stripe": "^8.49.0"

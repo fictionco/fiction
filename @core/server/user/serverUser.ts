@@ -7,6 +7,7 @@ import {
   validateEmail,
   snakeCase,
   logger,
+  serverUrl,
 } from "@factor/api"
 
 import { getServerConfig } from "../serverConfig"
@@ -24,9 +25,7 @@ import { getDb } from "@factor/engine/db"
 import { sendEmail } from "../serverEmail"
 import { createClientToken, decodeClientToken } from "../serverJwt"
 
-import { QueryFactor } from "../query"
-import { serverUrl } from "@factor/api"
-import { EndpointMethodOptions, Endpoint } from "@factor/engine/endpoint"
+import { EndpointMethodOptions, Endpoint, FactorQuery } from "@factor/engine"
 
 /**
  * A random 6 digit number, ideal for verification code
@@ -114,7 +113,7 @@ export const updateUser = async (args: {
   return refined
 }
 
-class QueryCurrentUser extends QueryFactor {
+class QueryCurrentUser extends FactorQuery {
   constructor() {
     super()
   }
@@ -145,7 +144,7 @@ export const getPublicUser = async (args: {
 
   return { status: "success", data: user }
 }
-class QueryGetPublicUser extends QueryFactor {
+class QueryGetPublicUser extends FactorQuery {
   constructor() {
     super()
   }
@@ -209,7 +208,7 @@ export const sendOneTimeCode = async (params: {
 
   return { status: "success", data: true }
 }
-class QuerySendOneTimeCode extends QueryFactor {
+class QuerySendOneTimeCode extends FactorQuery {
   constructor() {
     super()
   }
@@ -287,7 +286,7 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
  * Updates the current user with new info
  * Detecting if auth fields have changed and verifying account code
  */
-class QueryUpdateCurrentUser extends QueryFactor {
+class QueryUpdateCurrentUser extends FactorQuery {
   constructor() {
     super()
   }
@@ -371,7 +370,7 @@ class QueryUpdateCurrentUser extends QueryFactor {
   }
 }
 
-class QuerySetPassword extends QueryFactor {
+class QuerySetPassword extends FactorQuery {
   constructor() {
     super()
   }
@@ -410,7 +409,7 @@ class QuerySetPassword extends QueryFactor {
   }
 }
 
-class QueryVerifyAccountEmail extends QueryFactor {
+class QueryVerifyAccountEmail extends FactorQuery {
   constructor() {
     super()
   }
@@ -471,7 +470,7 @@ class QueryVerifyAccountEmail extends QueryFactor {
 //     message: "verification code sent",
 //   }
 // }
-class QueryResetPassword extends QueryFactor {
+class QueryResetPassword extends FactorQuery {
   constructor() {
     super()
   }
@@ -514,7 +513,7 @@ export const createUser = async (
   return user
 }
 
-class QueryStartNewUser extends QueryFactor {
+class QueryStartNewUser extends FactorQuery {
   constructor() {
     super()
   }
@@ -546,7 +545,7 @@ class QueryStartNewUser extends QueryFactor {
   }
 }
 
-class QueryLogin extends QueryFactor {
+class QueryLogin extends FactorQuery {
   constructor() {
     super()
   }
@@ -610,7 +609,7 @@ class QueryLogin extends QueryFactor {
   }
 }
 
-class QueryNewVerificationCode extends QueryFactor {
+class QueryNewVerificationCode extends FactorQuery {
   constructor() {
     super()
   }
@@ -648,7 +647,7 @@ class QueryNewVerificationCode extends QueryFactor {
   }
 }
 
-export class UserMethod<T extends QueryFactor> extends Endpoint<T> {
+export class UserMethod<T extends FactorQuery> extends Endpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ baseURL: serverUrl(), basePath: "/user", ...options })
   }

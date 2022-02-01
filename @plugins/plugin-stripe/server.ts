@@ -1,8 +1,8 @@
-import { initializeEndpoint } from "./serverEndpoint"
 import { StripeOptions } from "./types"
 import { createSettings } from "./util"
-import { stripeEnv } from "./serverMethods"
+import { stripeEnv, PaymentEndpoints } from "./serverMethods"
 import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
+import { EndpointMethodStripeHooks } from "./endpointHooks"
 
 export default async (
   options: Partial<StripeOptions>,
@@ -29,9 +29,9 @@ export default async (
         throw new Error(`Stripe secret key is missing: '${stripeEnv()}'`)
       }
 
-      const endpoints = await initializeEndpoint()
-
-      return { endpoints }
+      return {
+        endpoints: [...PaymentEndpoints, new EndpointMethodStripeHooks()],
+      }
     },
   }
 }

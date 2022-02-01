@@ -21,18 +21,6 @@ export type EndpointConfig = {
   availableActions?: string[]
 }
 
-export type EndpointManageAction =
-  | "create"
-  | "retrieve"
-  | "update"
-  | "delete"
-  | "list"
-  | "cancel"
-  | "restore"
-  | "setDefault"
-  | "attach"
-  | "transfer"
-
 /**
  * @deprecated
  */

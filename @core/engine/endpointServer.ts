@@ -10,7 +10,7 @@ import { ErrorConfig, EndpointResponse, PrivateUser } from "@factor/types"
 import { logger, _stop } from "@factor/api"
 import { Endpoint } from "./endpoint"
 import { findOneUser } from "@factor/server"
-
+import { Query } from "./query"
 type CustomServerHandler = (
   app: express.Express,
 ) => Promise<http.Server> | http.Server
@@ -19,14 +19,14 @@ type MiddlewareHandler = (app: express.Express) => Promise<void> | void
 
 export type EndpointServerOptions = {
   port: string
-  endpoints: Endpoint[]
+  endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
 }
 
 export class EndpointServer {
   port: string
-  endpoints: Endpoint[]
+  endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
 
@@ -47,19 +47,13 @@ export class EndpointServer {
     app.use(compression())
 
     this.endpoints.forEach((endpoint) => {
-      app.use(
-        `${endpoint.basePath}/${endpoint.methodName}`,
-        this.endpointAuthorization,
-      )
-      app.use(
-        `${endpoint.basePath}/${endpoint.methodName}`,
-        async (request, response) => {
-          const { params } = this.processEndpointRequest(request)
-          const result = await endpoint.serveRequest(params)
+      const { basePath, key } = endpoint
+      app.use(`${basePath}/${key}`, this.endpointAuthorization)
+      app.use(`${basePath}/${key}`, async (request, response) => {
+        const result = await endpoint.serveRequest(request)
 
-          response.status(200).send(result).end()
-        },
-      )
+        response.status(200).send(result).end()
+      })
     })
 
     app.use("/health", (request, response) => {
@@ -145,40 +139,15 @@ export class EndpointServer {
     }
   }
 
-  processEndpointRequest = <
-    T extends Record<string, any> = Record<string, any>,
-  >(
-    request: express.Request,
-  ): {
-    params: T & {
-      userId?: string
-      bearer?: PrivateUser
-    }
-    _method?: string
-    url: string
-  } => {
-    const _method = request.params._method as string | undefined
-    const params = request.body as T & {
-      userId?: string
-      bearer?: PrivateUser
-    }
-    const { userId } = request.bearer ?? {}
-
-    params.userId = userId
-    params.bearer = request.bearer
-
-    return { _method: String(_method), params, url: request.url }
-  }
-
   endpointErrorResponse = (
     error: ErrorConfig,
     request: express.Request,
   ): EndpointResponse => {
-    const details = this.processEndpointRequest(request)
+    const details = request.body as Record<string, any>
     logger.log({
       level: "error",
       context: "endpointErrorResponse",
-      description: `error: ${details.url}`,
+      description: `error: ${request.url}`,
       data: { error, ...details },
     })
 

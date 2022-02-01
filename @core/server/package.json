@@ -9,6 +9,7 @@
   "type": "module",
   "dependencies": {
     "@factor/api": "3.6.13",
+    "@factor/engine": "3.6.13",
     "@factor/server-utils": "3.6.13",
     "@factor/types": "3.6.13",
     "@types/bcrypt": "^5.0.0",

@@ -79,7 +79,7 @@ export type PaymentsEndpoint = {
     response: EndpointResponse<Stripe.Product>
   }
   getAllProducts: {
-    request: Record<string, any>
+    request: undefined
     response: EndpointResponse<Stripe.Product[]>
   }
   getCoupon: {
