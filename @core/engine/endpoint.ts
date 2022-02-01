@@ -29,17 +29,17 @@ export type EndpointManageAction =
   | "attach"
   | "transfer"
 
-export class Endpoint<T extends Query = Query> {
+export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly baseURL: string
   readonly basePath: string
-  readonly key?: string
+  readonly key?: U
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
     const { baseURL, basePath, queryHandler, requestHandler, key } = options
     this.basePath = basePath
     this.baseURL = baseURL
-    this.key = key
+    this.key = key as U
 
     this.queryHandler = queryHandler
     this.requestHandler = requestHandler
