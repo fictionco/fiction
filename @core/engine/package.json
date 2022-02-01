@@ -1,6 +1,6 @@
 {
   "name": "@factor/engine",
-  "version": "3.6.13",
+  "version": "3.7.0",
   "publishConfig": {
     "access": "public"
   },
@@ -8,10 +8,10 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "3.6.13",
-    "@factor/server-utils": "3.6.13",
-    "@factor/types": "3.6.13",
-    "@factor/server": "3.6.13",
+    "@factor/api": "3.7.0",
+    "@factor/server-utils": "3.7.0",
+    "@factor/types": "3.7.0",
+    "@factor/server": "3.7.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",

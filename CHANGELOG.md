@@ -1,3 +1,22 @@
+# [3.7.0](https://github.com/FactorJS/factor/compare/v3.6.13...v3.7.0) (2022-02-01)
+
+
+### Bug Fixes
+
+* lint ([a680b26](https://github.com/FactorJS/factor/commit/a680b26acd1fb284a6bb87daf6227bb41a7db1ab))
+* lint ([6fb1c10](https://github.com/FactorJS/factor/commit/6fb1c1033b4fbc4c0fa0f3f57cecea04b016040e))
+* no cycle ([dd29209](https://github.com/FactorJS/factor/commit/dd292093c0edde727fa8604459e699967b603071))
+
+
+### Features
+
+* new endpoint and query structure ([0d30419](https://github.com/FactorJS/factor/commit/0d30419011999bbd3d388875030cc16243d1addb))
+* new endpoint structure and stripe refactor ([b8451db](https://github.com/FactorJS/factor/commit/b8451db53d6b54d276669ab0bceac0fedd4a1e94))
+* server only pragma ([8794849](https://github.com/FactorJS/factor/commit/8794849477f2290d0b7896d6a488b03d462cdeb0))
+* serverMod Replace ([0fdd23d](https://github.com/FactorJS/factor/commit/0fdd23d7f55ce63dd3dc14142d92c75ba7e97d30))
+
+
+
 ## [3.6.13](https://github.com/FactorJS/factor/compare/v3.6.12...v3.6.13) (2022-01-28)
 
 
