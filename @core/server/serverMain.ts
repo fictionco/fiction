@@ -6,9 +6,9 @@ import {
   getFactorConfig,
 } from "@factor/server-utils/serverGlobals"
 
-import { initializeDb } from "./serverDb"
+import { initializeDb } from "@factor/engine/db"
 import { createEndpointServer } from "./serverEndpoint"
-import { userEndpoint } from "./user/serverUser"
+import { endpoints } from "./endpoint"
 import { setServerConfig } from "./serverConfig"
 import { UserConfigServer } from "@factor/types"
 
@@ -62,7 +62,7 @@ export const setupEnvironment = async (
  */
 export const setup = async (): Promise<void> => {
   const appConfig = await getFactorConfig({
-    endpoints: [userEndpoint],
+    endpoints,
     endpointPort: 3210,
   })
 

@@ -9,23 +9,31 @@ import { decodeClientToken } from "@factor/server/serverJwt"
 import { ErrorConfig, EndpointResponse, PrivateUser } from "@factor/types"
 import { logger, _stop } from "@factor/api"
 import { Endpoint } from "./endpoint"
-import { Query } from "./query"
 import { findOneUser } from "@factor/server"
+
+type CustomServerHandler = (
+  app: express.Express,
+) => Promise<http.Server> | http.Server
+
+type MiddlewareHandler = (app: express.Express) => Promise<void> | void
 
 export type EndpointServerOptions = {
   port: string
-  endpointMap: Record<string, Endpoint<Query>>
-  customServer?: (app: express.Express) => Promise<http.Server> | http.Server
+  endpoints: Endpoint[]
+  customServer?: CustomServerHandler
+  middleware?: MiddlewareHandler
 }
 
 export class EndpointServer {
   port: string
-  endpointMap: Record<string, Endpoint<Query>>
-  customServer?: (app: express.Express) => Promise<http.Server> | http.Server
+  endpoints: Endpoint[]
+  customServer?: CustomServerHandler
+  middleware?: MiddlewareHandler
+
   constructor(options: EndpointServerOptions) {
-    const { port, endpointMap, customServer } = options
+    const { port, endpoints, customServer } = options
     this.port = port
-    this.endpointMap = endpointMap
+    this.endpoints = endpoints
     this.customServer = customServer
   }
 
@@ -38,19 +46,29 @@ export class EndpointServer {
     app.use(bodyParser.text())
     app.use(compression())
 
-    Object.entries(this.endpointMap).forEach(([key, endpoint]) => {
-      app.use(`${endpoint.basePath}/${key}`, this.endpointAuthorization)
-      app.use(`${endpoint.basePath}/${key}`, async (request, response) => {
-        const { params } = this.processEndpointRequest(request)
-        const result = await endpoint.serveRequest(params)
+    this.endpoints.forEach((endpoint) => {
+      app.use(
+        `${endpoint.basePath}/${endpoint.methodName}`,
+        this.endpointAuthorization,
+      )
+      app.use(
+        `${endpoint.basePath}/${endpoint.methodName}`,
+        async (request, response) => {
+          const { params } = this.processEndpointRequest(request)
+          const result = await endpoint.serveRequest(params)
 
-        response.status(200).send(result).end()
-      })
+          response.status(200).send(result).end()
+        },
+      )
     })
 
     app.use("/health", (request, response) => {
       response.status(200).send({ status: "success", message: "ok" }).end()
     })
+
+    if (this.middleware) {
+      await this.middleware(app)
+    }
 
     let server: http.Server
 

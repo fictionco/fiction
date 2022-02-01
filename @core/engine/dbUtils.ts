@@ -1,7 +1,7 @@
 import { snakeCaseKeys } from "@factor/api"
 import { FactorPost } from "@factor/types"
 
-import { getDb } from "./serverDbInit"
+import { getDb } from "./db"
 
 interface QueryOptions {
   upsert: boolean

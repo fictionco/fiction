@@ -1,4 +1,4 @@
-import { EndpointResponse } from "@factor/types"
+import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
 import { clientToken, logger } from "@factor/api"
 import { Query } from "./query"
@@ -8,25 +8,29 @@ export type EndpointOptions = {
   basePath: string
 }
 export type EndpointMethodOptions<T extends Query> = {
-  key: string
   queryHandler: T
+  key?: string
 }
 
 export class Endpoint<T extends Query> {
   readonly baseURL: string
   readonly basePath: string
-  readonly key: string
+  readonly key?: string
   queryHandler: T
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
-    const { baseURL, basePath, key, queryHandler } = options
+    const { baseURL, basePath, queryHandler, key } = options
     this.basePath = basePath
     this.baseURL = baseURL
-
     this.key = key
+
     this.queryHandler = queryHandler
   }
 
-  public request(params: Parameters<T["run"]>[0]): ReturnType<T["run"]> {
+  public request(
+    params: Parameters<T["run"]>[0] & { bearer?: PrivateUser; userId?: string },
+  ): ReturnType<T["run"]> {
+    if (!this.key) throw new Error("method key not set")
+
     return this.http(this.key, params) as ReturnType<T["run"]>
   }
 

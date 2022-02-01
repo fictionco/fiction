@@ -3,7 +3,7 @@ import { App } from "vue"
 import { Router, RouteRecordRaw } from "vue-router"
 import { Store } from "vuex"
 import { FullUser } from "./user"
-import { EndpointConfig } from "./endpoint"
+import { Endpoint } from "@factor/engine/endpoint"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 import { CallbackDictionary } from "./dictionary"
 export interface FactorAppEntry {
@@ -54,7 +54,7 @@ type HookType<T extends Record<string, any[]>> = {
 
 export interface UserConfigServerOptions {
   variables?: Record<string, string | number>
-  endpoints?: EndpointConfig[]
+  endpoints?: Endpoint[]
   endpointPort?: number
   sitemaps?: SiteMapConfig[]
   log?: LogHandler

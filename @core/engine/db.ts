@@ -2,7 +2,7 @@ import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop, logger } from "@factor/api"
-import { extendDb } from "./serverDbExtend"
+import { extendDb } from "./dbExtend"
 
 const statusTypes = [
   "pending",
@@ -152,7 +152,7 @@ const createTables = async (db: Knex): Promise<void> => {
   await runChangeset(db, changes)
 }
 
-export const getDbConnection = (): string | undefined => {
+export const postgresConnectionUrl = (): string | undefined => {
   const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL
 
   return postgresUrl
@@ -166,7 +166,7 @@ let __db: Knex
  */
 export const getDb = async (): Promise<Knex> => {
   if (!__db) {
-    const postgresUrl = getDbConnection()
+    const postgresUrl = postgresConnectionUrl()
 
     if (!postgresUrl) {
       throw _stop({ message: "DB not available" })
@@ -230,7 +230,7 @@ export const getDb = async (): Promise<Knex> => {
  * Sets up a connected DB as soon as possible
  */
 export const initializeDb = async (): Promise<void> => {
-  const connection = getDbConnection()
+  const connection = postgresConnectionUrl()
 
   if (!connection) return
 
@@ -238,7 +238,7 @@ export const initializeDb = async (): Promise<void> => {
 
   logger.log({
     level: "info",
-    context: "db",
+    context: "initializeDb",
     description: "DB Connected",
   })
 }
