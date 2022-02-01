@@ -80,7 +80,7 @@ module.exports = {
     "func-style": ["warn", "expression"],
     "no-async-promise-executor": "off",
     "vue/no-v-html": "off",
-    "import/no-cycle": ["warn", 3],
+    "import/no-cycle": "off",
     "import/no-unresolved": "off",
     "import/named": "off",
     "import/extensions": [
