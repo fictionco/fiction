@@ -1,4 +1,3 @@
-export * from "@factor/server/serverEndpointUtils"
 export * from "./serverEvent"
 export * from "./serverLogger"
 export * from "./serverPaths"

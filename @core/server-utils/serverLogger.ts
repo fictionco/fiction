@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { logCategory, logLevel, LogHandler } from "@factor/types"
+import { logCategory, logLevel } from "@factor/types"
 import chalk from "chalk"
 import { highlight } from "cli-highlight"
 import consola from "consola"

@@ -33,7 +33,7 @@ test("createUser", async () => {
 })
 
 test("verifyAccountEmail", async () => {
-  const response = await ep.verifyAccountEmail({
+  const response = await ep.Queries.VerifyAccountEmail.run({
     email: user.email,
     verificationCode: user.verificationCode ?? "",
   })
@@ -49,13 +49,14 @@ test("verifyAccountEmail", async () => {
 })
 
 test("setPassword", async () => {
-  const response = await ep.setPassword({
-    email: user.email,
-    verificationCode: user.verificationCode ?? "",
-    password: "test",
-    bearer: user,
-    userId: user.userId,
-  })
+  const response = await ep.Queries.SetPassword.run(
+    {
+      email: user.email,
+      verificationCode: user.verificationCode ?? "",
+      password: "test",
+    },
+    { bearer: user },
+  )
   expect(response.message).toContain("password created")
   user = response.data as FullUser
 
@@ -64,7 +65,7 @@ test("setPassword", async () => {
 })
 
 test("resetPassword", async () => {
-  const response = await ep.resetPassword({
+  const response = await ep.Queries.ResetPassword.run({
     email: user.email,
   })
 
