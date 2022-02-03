@@ -11,6 +11,7 @@
     "@factor/api": "4.0.1",
     "@factor/build": "4.0.1",
     "@factor/render": "4.0.1",
+    "@factor/server": "4.0.1",
     "@factor/types": "4.0.1",
     "@types/nodemon": "^1.19.1",
     "axios": "^0.25.0",
