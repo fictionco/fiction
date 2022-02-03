@@ -1,3 +1,17 @@
+# [4.0.0](https://github.com/FactorJS/factor/compare/v3.7.0...v4.0.0) (2022-02-03)
+
+
+### Bug Fixes
+
+* tailwind ([9953b9b](https://github.com/FactorJS/factor/commit/9953b9b9b0b0bfff84579b265b00838078fe7c73))
+
+
+### Features
+
+* rename elem to el ([04ec69d](https://github.com/FactorJS/factor/commit/04ec69db46e849c2d3f2be5c6ff79bafad28eeb8))
+
+
+
 # [3.7.0](https://github.com/FactorJS/factor/compare/v3.6.13...v3.7.0) (2022-02-01)
 
 
