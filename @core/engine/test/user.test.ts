@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { expect, test, vi } from "vitest"
-import { createUser } from "../user"
+import { Queries } from "../user"
 import { FullUser } from "@factor/types"
 import * as ep from "../user"
 import bcrypt from "bcrypt"
@@ -22,10 +22,14 @@ let user: FullUser
 const key = Math.random().toString().slice(2, 8)
 
 test("createUser", async () => {
-  user = await createUser({
-    email: `arpowers+${key}@gmail.com`,
-    fullName: "test",
+  const response = await Queries.ManageUser.run({
+    _action: "create",
+    fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
   })
+
+  if (!response.data) throw new Error("problem creating user")
+
+  user = response.data
 
   expect(user?.userId).toBeTruthy()
   expect(user?.fullName).toBe("test")

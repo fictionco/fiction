@@ -12,7 +12,7 @@ export type QueryOptions = {
 export abstract class Query {
   readonly dbName: string
   qu!: Knex // always set on server
-  db!: typeof getDb // always set on server
+  getDb!: typeof getDb // always set on server
   isNode: typeof isNode
   readonly dayjs: typeof dayjs
   stop: typeof _stop
@@ -28,7 +28,7 @@ export abstract class Query {
     this.stop = _stop
     if (this.isNode) {
       this.qu = knex({ client: "pg" })
-      this.db = getDb
+      this.getDb = getDb
     }
   }
 
@@ -39,8 +39,6 @@ export abstract class Query {
 }
 
 export abstract class FactorQuery extends Query {
-  readonly cacheQuery?: boolean
-  readonly cacheKey?: string
   constructor() {
     super({ dbName: process.env.POSTGRES_DB ?? "factor" })
   }

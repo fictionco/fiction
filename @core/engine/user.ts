@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { _stop } from "@factor/api/error"
 import { runProcessors } from "@factor/api/extend"
 import {
@@ -46,27 +47,6 @@ const comparePassword = async (
 ): Promise<boolean> => {
   return await bcrypt.compare(password, hashedPassword)
 }
-/**
- * Find a single user or return undefined if they don't exist
- */
-export const findOneUser = async <T extends PublicUser = PublicUser>(args: {
-  email?: string
-  userId?: string
-  select?: (keyof FullUser)[] | ["*"]
-}): Promise<T | undefined> => {
-  const { userId, email, select = [] } = args
-  const where = userId ? { userId } : { email }
-  const db = await getDb()
-  const returnFields = [...getPublicUserFields(), ...select]
-
-  const user: T | undefined = await db
-    .select<T | undefined>(...returnFields)
-    .from(FactorTable.User)
-    .where(where)
-    .first()
-
-  return user
-}
 
 /**
  * Add user data about the current user
@@ -87,86 +67,106 @@ const processUser = async (
     return user
   }
 }
-/**
- * Update a user
- */
-export const updateUser = async (args: {
-  email?: string
-  userId?: string
-  fields: Partial<FullUser>
-  select?: (keyof FullUser)[] | ["*"]
-}): Promise<FullUser> => {
-  const { userId, email, fields, select = [] } = args
-  const where = userId ? { userId } : { email }
-  const db = await getDb()
-  const returnFields = [...getPublicUserFields(), ...select]
-  const [user] = await db(FactorTable.User)
-    .update(fields)
-    .where(where)
-    .returning<FullUser[]>(returnFields)
-
-  if (!user) throw _stop({ message: "can't find user", data: where })
-
-  const refined = await processUser(user)
-
-  return refined
-}
 
 /**
- * Get a single user
+ * Verify a new user email is valid and unique
  */
-export const getPublicUser = async (args: {
-  email?: string
-  userId?: string
-}): Promise<EndpointResponse<PublicUser | false>> => {
-  const user = (await findOneUser(args)) ?? false
+export const verifyNewEmail = async (email?: string): Promise<true> => {
+  if (!email) throw _stop({ message: "email is required" })
+  if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
 
-  return { status: "success", data: user }
-}
+  const { data: exists } = await Queries.ManageUser.run(
+    {
+      _action: "getPublic",
+      email,
+    },
+    {},
+  )
 
-/**
- * Gets user with private information accessible by admins or
- */
-export const getPrivateUser = async (args: {
-  email?: string
-  userId?: string
-}): Promise<EndpointResponse<FullUser | undefined>> => {
-  let user = (await findOneUser<FullUser>(args)) ?? undefined
-
-  if (user) {
-    user = await processUser(user)
+  if (exists) {
+    throw _stop({ message: "email already exists", data: { email } })
   }
 
-  return { status: "success", data: user as FullUser }
+  return true
 }
 
 class QueryManageUser extends FactorQuery {
-  async run(params: {
-    email?: string
-    userId?: string
-    _action: "getPrivate" | "getPublic"
-    select?: (keyof FullUser)[] | ["*"]
-  }): Promise<EndpointResponse<FullUser>> {
+  async run(
+    params:
+      | { _action: "create"; fields: Partial<FullUser> & { email: string } }
+      | {
+          _action: "update"
+          fields: Partial<FullUser>
+          email?: string
+          userId?: string
+        }
+      | {
+          _action: "getPrivate" | "getPublic"
+          email?: string
+          userId?: string
+          select?: (keyof FullUser)[] | ["*"]
+        },
+    _meta?: EndpointMeta,
+  ): Promise<EndpointResponse<FullUser>> {
     const { _action } = params
 
+    const db = await this.getDb()
+
     let user: FullUser | undefined
+
+    const publicFields = getPublicUserFields()
 
     if (_action == "getPrivate" || _action == "getPublic") {
       const { userId, email } = params
       const where = userId ? { userId } : { email }
-      const db = await this.db()
-      const returnFields =
-        _action == "getPrivate" ? ["*"] : getPublicUserFields()
+
+      const returnFields = _action == "getPrivate" ? ["*"] : publicFields
 
       user = await db
         .select(...returnFields)
         .from(FactorTable.User)
         .where(where)
         .first<FullUser>()
-    }
 
-    if (user && _action == "getPrivate") {
+      if (user && _action == "getPrivate") {
+        user = await processUser(user)
+      }
+    } else if (_action == "update") {
+      const { userId, email, fields } = params
+      if (!fields || (!userId && !email)) {
+        throw this.stop("missing required fields")
+      }
+
+      const where = userId ? { userId } : { email }
+
+      ;[user] = await db(FactorTable.User)
+        .update(fields)
+        .where(where)
+        .returning<FullUser[]>("*")
+
+      if (!user) throw this.stop({ message: "user not found", data: where })
+
       user = await processUser(user)
+    } else if (_action == "create") {
+      const { fields } = params
+
+      if (!fields) throw this.stop("fields required")
+
+      const { email } = fields
+
+      if (!email) throw this.stop("email required")
+
+      await verifyNewEmail(email)
+      ;[user] = await db
+        .insert({
+          ...fields,
+          verificationCode: getSixDigitRandom(),
+          codeExpiresAt: dayjs().add(7, "day").toISOString(),
+        })
+        .into(FactorTable.User)
+        .returning<FullUser[]>("*")
+
+      if (!user) throw this.stop("problem creating user")
     }
 
     return { status: "success", data: user }
@@ -181,7 +181,8 @@ class QueryCurrentUser extends FactorQuery {
 
     const { email } = decodeClientToken(token)
 
-    const user = await updateUser({
+    const { data: user } = await Queries.ManageUser.run({
+      _action: "update",
       email,
       fields: { lastSeen: dayjs().toISOString() },
     })
@@ -194,7 +195,7 @@ class QueryGetPublicUser extends FactorQuery {
   async run(
     params: { email: string } | { userId: string },
   ): Promise<EndpointResponse<PublicUser | false>> {
-    return getPublicUser(params)
+    return Queries.ManageUser.run({ _action: "getPublic", ...params })
   }
 }
 
@@ -227,7 +228,7 @@ export const sendOneTimeCode = async (params: {
     codeExpiresAt: dayjs().add(1, "day").toISOString(),
   }
 
-  await updateUser({ ...params, fields })
+  await Queries.ManageUser.run({ _action: "update", email, fields })
 
   await sendVerificationEmail({ email, code })
 
@@ -287,21 +288,6 @@ export const verifyCode = async (args: {
 
   return true
 }
-/**
- * Verify a new user email is valid and unique
- */
-export const verifyNewEmail = async (email?: string): Promise<true> => {
-  if (!email) throw _stop({ message: "email is required" })
-  if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
-
-  const exists = await findOneUser({ email })
-
-  if (exists) {
-    throw _stop({ message: "email already exists", data: { email } })
-  }
-
-  return true
-}
 
 /**
  * Updates the current user with new info
@@ -341,10 +327,13 @@ class QueryUpdateCurrentUser extends FactorQuery {
     if (password) {
       const hashedPassword = await hashPassword(password)
 
-      const dbUser = await findOneUser<FullUser>({
-        userId: bearer.userId,
-        select: ["*"],
-      })
+      const { data: dbUser } = await Queries.ManageUser.run(
+        {
+          _action: "getPrivate",
+          userId: bearer.userId,
+        },
+        meta,
+      )
 
       if (!dbUser) throw this.stop({ message: "couldn't find user" })
 
@@ -372,7 +361,15 @@ class QueryUpdateCurrentUser extends FactorQuery {
 
     let user, token
     if (Object.keys(fields).length > 0) {
-      user = await updateUser({ userId: bearer.userId, fields })
+      const response = await Queries.ManageUser.run({
+        _action: "update",
+        userId: bearer.userId,
+        fields,
+      })
+
+      user = response.data
+
+      if (!user) throw this.stop("problem updating user")
 
       // if email or password were changed, create new token
       token = password ? createClientToken(user) : undefined
@@ -410,10 +407,13 @@ class QuerySetPassword extends FactorQuery {
     await verifyCode({ email, verificationCode })
     const hashedPassword = await hashPassword(password)
 
-    const user = await updateUser({
+    const { data: user } = await Queries.ManageUser.run({
+      _action: "update",
       email,
       fields: { hashedPassword },
     })
+
+    if (!user) throw this.stop("problem updating user")
 
     user.hashedPassword = hashedPassword
 
@@ -441,10 +441,14 @@ class QueryVerifyAccountEmail extends FactorQuery {
 
     await verifyCode({ email, verificationCode })
 
-    const user = await updateUser({
+    const { data: user } = await Queries.ManageUser.run({
+      _action: "update",
       email,
       fields: { emailVerified: true },
     })
+
+    if (!user) throw this.stop("problem updating user")
+
     // send it back for convenience
     user.verificationCode = verificationCode
 
@@ -486,31 +490,6 @@ class QueryResetPassword extends FactorQuery {
   }
 }
 
-export const createUser = async (
-  userFields: Partial<FullUser>,
-): Promise<FullUser> => {
-  const { email } = userFields
-
-  await verifyNewEmail(email)
-
-  const db = await getDb()
-
-  const r = await db
-    .insert({
-      ...userFields,
-      verificationCode: getSixDigitRandom(),
-      codeExpiresAt: dayjs().add(7, "day").toISOString(),
-    })
-    .into(FactorTable.User)
-    .returning<FullUser[]>("*")
-
-  const user = r && r.length > 0 ? r[0] : undefined
-
-  if (!user) throw _stop({ message: "problem creating user" })
-
-  return user
-}
-
 class QueryStartNewUser extends FactorQuery {
   async run(params: { email: string; fullName?: string }): Promise<
     EndpointResponse<Partial<FullUser>> & {
@@ -521,7 +500,13 @@ class QueryStartNewUser extends FactorQuery {
     if (!this.qu) throw new Error("no knex")
 
     const { email, fullName } = params
-    const user = await createUser({ email, fullName })
+    const { data: user } = await Queries.ManageUser.run({
+      _action: "create",
+      fields: { email, fullName },
+    })
+
+    if (!user) throw this.stop("problem creating user")
+
     await sendOneTimeCode({ email: user.email })
 
     logger.log({
@@ -541,20 +526,24 @@ class QueryStartNewUser extends FactorQuery {
 }
 
 class QueryLogin extends FactorQuery {
-  async run(params: { email: string; password: string }): Promise<
+  async run(
+    params: { email: string; password: string },
+    _meta: EndpointMeta,
+  ): Promise<
     EndpointResponse<FullUser> & {
       token: string
       user: FullUser
       next?: "verify"
     }
   > {
-    if (!this.qu) throw new Error("no knex")
-
     const { email, password } = params
-    let user = await findOneUser<FullUser>({
-      email,
-      select: ["hashedPassword"],
-    })
+    let { data: user } = await Queries.ManageUser.run(
+      {
+        _action: "getPrivate",
+        email,
+      },
+      _meta,
+    )
 
     if (!user) throw this.stop({ message: "user does not exist" })
 
@@ -602,22 +591,39 @@ class QueryLogin extends FactorQuery {
 }
 
 class QueryNewVerificationCode extends FactorQuery {
-  async run(params: {
-    email: string
-    newAccount?: boolean
-  }): Promise<EndpointResponse<{ exists: boolean }>> {
+  async run(
+    params: {
+      email: string
+      newAccount?: boolean
+    },
+    meta: EndpointMeta,
+  ): Promise<EndpointResponse<{ exists: boolean }>> {
     if (!this.qu) throw new Error("no knex")
 
     const { email, newAccount } = params
 
-    let existingUser = await findOneUser({ email })
+    let { data: existingUser } = await Queries.ManageUser.run(
+      {
+        _action: "getPrivate",
+        email,
+      },
+      meta,
+    )
 
     const exists = existingUser ? true : false
 
     if (newAccount && exists) {
-      throw _stop({ message: "email exists", data: { exists } })
+      throw this.stop({ message: "email exists", data: { exists } })
     } else if (!existingUser) {
-      existingUser = await createUser({ email })
+      const { data: createdUser } = await Queries.ManageUser.run(
+        {
+          _action: "create",
+          fields: { email },
+        },
+        meta,
+      )
+
+      existingUser = createdUser
 
       logger.log({
         level: "info",
@@ -625,6 +631,8 @@ class QueryNewVerificationCode extends FactorQuery {
         description: `user created ${email}`,
       })
     }
+
+    if (!existingUser) throw this.stop("no user")
 
     await sendOneTimeCode({ email: existingUser.email })
 
