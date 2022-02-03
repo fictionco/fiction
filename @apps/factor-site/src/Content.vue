@@ -5,7 +5,7 @@
     <SiteFooter />
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { useMeta } from "@factor/api"
 import { computed } from "vue"
 import SiteHead from "./el/SiteHead.vue"
@@ -15,14 +15,7 @@ import ImgShare from "/share.jpg"
 // eslint-disable-next-line import/no-unresolved
 import ImgIcon from "/icon.jpg"
 
-export default {
-  name: "ContentWrap",
-  components: {
-    SiteHead,
-    SiteFooter,
-  },
-  setup() {
-    useMeta({
+ useMeta({
       title: computed(() => {
         return `FactorJS by Darwin - Build JamStack Blogs, Sites, Apps`
       }),
@@ -44,8 +37,6 @@ export default {
         },
       ],
     })
-  },
-}
 </script>
 
 <style lang="less">

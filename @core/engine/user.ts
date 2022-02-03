@@ -1,16 +1,14 @@
+import { _stop } from "@factor/api/error"
+import { runProcessors } from "@factor/api/extend"
 import {
-  _stop,
-  runProcessors,
-  getEditableUserFields,
-  getJsonUserFields,
   getPublicUserFields,
-  validateEmail,
-  snakeCase,
-  logger,
-  serverUrl,
-} from "@factor/api"
-
-import { getServerConfig } from "../serverConfig"
+  getJsonUserFields,
+  getEditableUserFields,
+} from "@factor/api/user"
+import { serverUrl } from "@factor/api/url"
+import { validateEmail, snakeCase } from "@factor/api/utils"
+import { logger } from "@factor/api/logger"
+import { getServerConfig } from "../server/config"
 import {
   EndpointResponse,
   FactorTable,
@@ -20,16 +18,13 @@ import {
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
-import { getDb } from "@factor/engine/db"
-import { sendEmail } from "../serverEmail"
-import { createClientToken, decodeClientToken } from "../serverJwt"
+import { getDb } from "./db"
+import { sendEmail } from "./email"
+import { createClientToken, decodeClientToken } from "./jwt"
 
-import {
-  EndpointMethodOptions,
-  Endpoint,
-  FactorQuery,
-  EndpointMeta,
-} from "@factor/engine"
+import { EndpointMethodOptions, Endpoint, EndpointMeta } from "./endpoint"
+
+import { FactorQuery } from "./query"
 
 /**
  * A random 6 digit number, ideal for verification code
@@ -76,7 +71,7 @@ export const findOneUser = async <T extends PublicUser = PublicUser>(args: {
 /**
  * Add user data about the current user
  */
-const refineUser = async (
+const processUser = async (
   user: FullUser,
   meta?: { private: boolean },
 ): Promise<FullUser> => {
@@ -112,7 +107,7 @@ export const updateUser = async (args: {
 
   if (!user) throw _stop({ message: "can't find user", data: where })
 
-  const refined = await refineUser(user)
+  const refined = await processUser(user)
 
   return refined
 }
@@ -127,6 +122,55 @@ export const getPublicUser = async (args: {
   const user = (await findOneUser(args)) ?? false
 
   return { status: "success", data: user }
+}
+
+/**
+ * Gets user with private information accessible by admins or
+ */
+export const getPrivateUser = async (args: {
+  email?: string
+  userId?: string
+}): Promise<EndpointResponse<FullUser | undefined>> => {
+  let user = (await findOneUser<FullUser>(args)) ?? undefined
+
+  if (user) {
+    user = await processUser(user)
+  }
+
+  return { status: "success", data: user as FullUser }
+}
+
+class QueryManageUser extends FactorQuery {
+  async run(params: {
+    email?: string
+    userId?: string
+    _action: "getPrivate" | "getPublic"
+    select?: (keyof FullUser)[] | ["*"]
+  }): Promise<EndpointResponse<FullUser>> {
+    const { _action } = params
+
+    let user: FullUser | undefined
+
+    if (_action == "getPrivate" || _action == "getPublic") {
+      const { userId, email } = params
+      const where = userId ? { userId } : { email }
+      const db = await this.db()
+      const returnFields =
+        _action == "getPrivate" ? ["*"] : getPublicUserFields()
+
+      user = await db
+        .select(...returnFields)
+        .from(FactorTable.User)
+        .where(where)
+        .first<FullUser>()
+    }
+
+    if (user && _action == "getPrivate") {
+      user = await processUser(user)
+    }
+
+    return { status: "success", data: user }
+  }
 }
 
 class QueryCurrentUser extends FactorQuery {
@@ -147,34 +191,13 @@ class QueryCurrentUser extends FactorQuery {
 }
 
 class QueryGetPublicUser extends FactorQuery {
-  constructor() {
-    super()
-  }
   async run(
     params: { email: string } | { userId: string },
   ): Promise<EndpointResponse<PublicUser | false>> {
-    if (!this.qu) {
-      throw new Error("no knex")
-    }
     return getPublicUser(params)
   }
 }
 
-/**
- * Gets user with private information accessible by admins or
- */
-export const getPrivateUser = async (args: {
-  email?: string
-  userId?: string
-}): Promise<EndpointResponse<FullUser | undefined>> => {
-  let user = (await findOneUser<FullUser>(args)) ?? undefined
-
-  if (user) {
-    user = await refineUser(user)
-  }
-
-  return { status: "success", data: user as FullUser }
-}
 /**
  * Send a verification email with code
  */
@@ -546,7 +569,7 @@ class QueryLogin extends FactorQuery {
 
     delete user.hashedPassword
 
-    user = await refineUser(user)
+    user = await processUser(user)
 
     const token = createClientToken(user)
 
@@ -630,6 +653,7 @@ export const Queries = {
   VerifyAccountEmail: new QueryVerifyAccountEmail(),
   StartNewUser: new QueryStartNewUser(),
   CurrentUser: new QueryCurrentUser(),
+  ManageUser: new QueryManageUser(),
 }
 
 type EndpointMap = {

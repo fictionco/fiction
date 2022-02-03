@@ -12,7 +12,7 @@
     "@factor/api": "4.0.1",
     "@factor/entry": "4.0.1",
     "@factor/server": "4.0.1",
-    "@factor/server-utils": "4.0.1",
+    "@factor/engine": "4.0.1",
     "@factor/types": "4.0.1",
     "@tailwindcss/forms": "^0.4.0",
     "@types/html-minifier": "^4.0.0",

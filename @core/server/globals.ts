@@ -1,5 +1,5 @@
 import path from "path"
-import { importIfExists } from "./serverPaths"
+import { importIfExists } from "@factor/engine/nodeUtils"
 import { deepMergeAll } from "@factor/api"
 import { UserConfigServer } from "@factor/types"
 

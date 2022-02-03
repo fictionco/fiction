@@ -3,7 +3,7 @@ import {
   distServer,
   resolveDist,
   sourceFolder,
-} from "@factor/server"
+} from "@factor/engine/nodeUtils"
 import { currentUrl } from "@factor/api"
 import { FactorAppEntry, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
@@ -42,8 +42,9 @@ export const getIndexHtml = async (
 ): Promise<string> => {
   const srcHtml = path.join(sourceFolder(), "index.html")
 
-  if (!fs.existsSync(srcHtml))
+  if (!fs.existsSync(srcHtml)) {
     throw new Error(`no index.html in app (${srcHtml})`)
+  }
 
   const rawTemplate = fs.readFileSync(srcHtml, "utf-8")
 

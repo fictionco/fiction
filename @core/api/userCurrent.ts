@@ -1,4 +1,3 @@
-import type { UserFetch, UserEndpoint } from "@factor/server/user/serverTypes"
 import { FullUser, PrivateUser } from "@factor/types"
 import { computed } from "vue"
 import { emitEvent } from "./event"
@@ -6,8 +5,7 @@ import { clientToken } from "./jwt"
 import { logger } from "./logger"
 import { getRouter, routeAuthRedirects } from "./router"
 import { stored, storeItem } from "./store"
-import { endpointFetch } from "./endpoint"
-
+import { endpointsMap } from "@factor/engine/user"
 /**
  * Information for the currently logged in user
  */
@@ -50,25 +48,6 @@ export const userInitialized = async (
   if (callback) callback(currentUser())
 
   return currentUser()
-}
-
-type EndpointProp<
-  T extends keyof UserEndpoint,
-  U extends "endpoint" | "request" | "response" | "method",
-> = UserFetch<T>[U]
-
-export const requestUserEndpoint = async <T extends keyof UserEndpoint>(
-  method: EndpointProp<T, "method">,
-  data: EndpointProp<T, "request">,
-): Promise<EndpointProp<T, "response">> => {
-  if (method !== "currentUser") {
-    await userInitialized()
-  }
-
-  const endpoint = `/user/${method}` as `/user/${T}`
-  const r = await endpointFetch<UserFetch<T>>(endpoint, data)
-
-  return r
 }
 
 export const cacheUser = ({ user }: { user: Partial<FullUser> }): void => {
@@ -137,7 +116,7 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
   let user: FullUser | undefined = undefined
 
   if (token) {
-    const { status, data, code } = await requestUserEndpoint("currentUser", {
+    const { status, data, code } = await endpointsMap.CurrentUser.request({
       token,
     })
 

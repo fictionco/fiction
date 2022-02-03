@@ -9,7 +9,6 @@
   "private": false,
   "type": "module",
   "dependencies": {
-    "@factor/server-utils": "4.0.1",
     "@factor/api": "4.0.1",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",

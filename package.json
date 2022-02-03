@@ -10,7 +10,7 @@
     "dev": "npx -w @factor/site factor dev",
     "test": "npm run test-lint && npm run test-unit",
     "test-unit": "npm exec vitest run",
-    "test-lint": "npm run test-eslint && npm run test-types",
+    "test-lint": "npm run test-types && npm run test-eslint",
     "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js @core/. @apps/. @plugins/.",
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
     "format-all": "pnpm prettier --ext .ts,.js,.vue,.json . --write",

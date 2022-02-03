@@ -1,6 +1,5 @@
 import "@factor/server"
-import { emitEvent } from "@factor/server-utils/serverEvent"
-import { logger } from "@factor/server-utils/serverLogger"
+import { emitEvent, logger } from "@factor/api"
 
 import { Command, OptionValues } from "commander"
 import dotenv from "dotenv"
@@ -51,7 +50,7 @@ export const isRestart = (): boolean => {
  * CLI is done, exit process
  */
 export const done = (code: 0 | 1): never => {
-  logger({
+  logger.log({
     level: code == 0 ? "info" : "error",
     context: "cli",
     description: `process exited (${code})`,
@@ -131,7 +130,7 @@ const restartInitializer = async (options: CommandOptions): Promise<void> => {
     })
     .on("restart", (files: string[]) => {
       process.env.IS_RESTART = "1"
-      logger({
+      logger.log({
         level: "info",
         context: "nodemon",
         description: "restarted due to:",
@@ -193,7 +192,7 @@ const wrapCommand = async (settings: {
   try {
     await cb(opts)
   } catch (error) {
-    logger({ level: "error", description: "cli error", data: error })
+    logger.log({ level: "error", description: "cli error", data: error })
     done(1)
   }
   if (exit) done(0)
@@ -391,6 +390,6 @@ process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
 //catches uncaught exceptions
 process.on("uncaughtException", (Error) => {
-  logger({ level: "error", description: "uncaught error", data: Error })
+  logger.log({ level: "error", description: "uncaught error", data: Error })
   exitHandler({ exit: true, code: 1 })
 })

@@ -1,3 +1,3 @@
-import { endpointsList as userEndpoints } from "./user/serverUser"
+import { endpointsList as userEndpoints } from "@factor/engine/user"
 
 export const endpoints = [...userEndpoints]

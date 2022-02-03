@@ -93,7 +93,7 @@
 
     <ElemFeatures />
 
-    <ElemPlugins class="py-24" />
+    <ElPlugins class="py-24" />
 
     <BlogList />
   </div>
@@ -104,7 +104,7 @@ import { computed } from "vue"
 import { factorVersion } from "@factor/api/about"
 import ElButton from "@factor/ui/ElButton.vue"
 import FigureSplash from "./FigureSplash.vue"
-import ElemPlugins from "./ElemPlugins.vue"
+import ElPlugins from "./ElPlugins.vue"
 import ElemCta from "./ElemCta.vue"
 import ElemBenefits from "./ElemBenefits.vue"
 import ElemFeatures from "./ElemFeatures.vue"

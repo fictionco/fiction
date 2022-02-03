@@ -1,6 +1,6 @@
 import { beforeEach } from "vitest"
-import { setupEnvironment, importServerEntry } from "@factor/server"
-
+import { importServerEntry } from "@factor/engine/nodeUtils"
+import { setupEnvironment } from "@factor/server"
 process.env.POSTGRES_URL = "http://test:test@localhost:5432/test"
 process.env.POSTGRES_PASSWORD = "test"
 process.env.TEST_ENV = "unit"

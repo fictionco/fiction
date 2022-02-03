@@ -1,5 +1,5 @@
 import * as http from "http"
-import { logger } from "@factor/server"
+import { logger } from "@factor/api"
 import { EndpointResponse } from "@factor/types"
 import Stripe from "stripe"
 import { FactorEndpoint } from "@factor/engine"
@@ -23,14 +23,14 @@ const stripeHookHandler = async (
       secret,
     )
   } catch (error) {
-    logger({
+    logger.log({
       level: "error",
       context: "billing",
       description: `stripe error`,
       data: error,
     })
 
-    logger({
+    logger.log({
       level: "error",
       context: "billing",
       description: `stripe error: Webhook signature verification failed. Check the env file and enter the correct webhook secret`,
@@ -76,7 +76,7 @@ const stripeHookHandler = async (
      */
     if (onSubscriptionTrialWillEnd) onSubscriptionTrialWillEnd(event)
   } else {
-    logger({
+    logger.log({
       level: "error",
       context: "billing",
       description: `unexpected event type`,

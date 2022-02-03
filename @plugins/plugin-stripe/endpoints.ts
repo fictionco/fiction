@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
-import { getPrivateUser } from "@factor/server"
+import { getPrivateUser } from "@factor/engine"
 import {
   FactorQuery,
   FactorEndpoint,
@@ -16,10 +16,6 @@ type RefineResult = {
   user?: PrivateUser
 }
 abstract class FactorQueryPayments extends FactorQuery {
-  constructor() {
-    super()
-  }
-
   async refine(
     params: { customerId?: string; userId?: string },
     meta: EndpointMeta,

@@ -5,11 +5,11 @@ import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
 import cors from "cors"
-import { decodeClientToken } from "@factor/server/serverJwt"
-import { ErrorConfig, EndpointResponse, PrivateUser } from "@factor/types"
+import { decodeClientToken } from "./jwt"
+import { ErrorConfig, EndpointResponse } from "@factor/types"
 import { logger, _stop } from "@factor/api"
 import { Endpoint } from "./endpoint"
-import { findOneUser } from "@factor/server"
+import { Queries } from "./user"
 import { Query } from "./query"
 type CustomServerHandler = (
   app: express.Express,
@@ -92,11 +92,14 @@ export class EndpointServer {
       if (request.bearerToken) {
         const { email } = decodeClientToken(request.bearerToken)
 
-        const user = await findOneUser<PrivateUser>({ email, select: ["*"] })
+        const { data: user } = await Queries.ManageUser.run({
+          email,
+          _action: "getPrivate",
+        })
 
         if (user) {
           request.bearer = user
-          request.bearer.token = token
+          request.bearerToken = token
         } else {
           request.bearer = undefined
         }

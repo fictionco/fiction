@@ -62,17 +62,12 @@
     </div>
   </footer>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue"
 
 import ElemLogo from "./ElemLogo.vue"
 
-export default {
-  components: {
-    ElemLogo,
-  },
-  setup() {
-    const columns = ref<
+const columns = ref<
       {
         heading?: string
         class?: string
@@ -129,10 +124,4 @@ export default {
         ],
       },
     ])
-
-    return {
-      columns,
-    }
-  },
-}
 </script>

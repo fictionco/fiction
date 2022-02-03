@@ -16,7 +16,6 @@
     "@factor/plugin-highlight-code": "4.0.1",
     "@factor/plugin-notify": "4.0.1",
     "@factor/render": "4.0.1",
-    "@factor/server-utils": "4.0.1",
     "@factor/types": "4.0.1",
     "@factor/ui": "4.0.1",
     "autoprefixer": "^10.2.4",

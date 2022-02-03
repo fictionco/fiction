@@ -1,4 +1,5 @@
-import { distServer, getSitemaps, distClient } from "@factor/server"
+import { distServer, distClient } from "@factor/engine/nodeUtils"
+import { getSitemaps } from "@factor/engine/sitemap"
 import { FactorAppEntry } from "@factor/types"
 import { RouteRecordRaw } from "vue-router"
 import { currentUrl } from "@factor/api"

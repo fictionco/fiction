@@ -138,7 +138,7 @@ watch(
   { immediate: true },
 )
 
-const nextScreenshot = () => {
+const nextScreenshot = (): void => {
   if (screenshots.value.length <= 1) return
 
   const removed = screenshots.value.splice(0, 1)
@@ -151,7 +151,7 @@ const nextScreenshot = () => {
   runTimer()
 }
 
-const runTimer = () => {
+const runTimer = (): void => {
   if (screenshots.value.length <= 1) return
   clearTimeout(timer.value)
   timer.value = setTimeout(() => nextScreenshot(), animationInterval)

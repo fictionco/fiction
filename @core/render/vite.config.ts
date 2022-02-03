@@ -1,12 +1,13 @@
-import { sourceFolder, cwd } from "@factor/server"
 import {
   importIfExists,
   requireIfExists,
-} from "@factor/server-utils/serverPaths"
-import { setAppGlobals } from "@factor/server-utils/serverGlobals"
+  sourceFolder,
+  cwd,
+} from "@factor/engine/nodeUtils"
+import { setAppGlobals } from "@factor/server/globals"
 import { logger, deepMergeAll, getMarkdownUtility } from "@factor/api"
 import pluginVue from "@vitejs/plugin-vue"
-import { serverConfigSetting } from "@factor/server/serverConfig"
+import { serverConfigSetting } from "@factor/server/config"
 import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
@@ -111,13 +112,21 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
   }
 }
 
+const coreServerOnlyImports = [
+  "knex",
+  "chalk",
+  "express",
+  "nodemailer",
+  "nodemailer-html-to-text",
+]
+
 /**
  * /0 prefix prevents other plugins from messing with module
  * https://rollupjs.org/guide/en/#conventions
  */
 const serverModuleReplacer = (): vite.Plugin => {
   const serverOnly = serverConfigSetting("serverOnlyImports") ?? []
-  const virtualModuleIds = new Set(["knex", "chalk", "express", ...serverOnly])
+  const virtualModuleIds = new Set([...coreServerOnlyImports, ...serverOnly])
   const resolvedVirtualModuleIds = new Set(
     [...virtualModuleIds].map((_) => `\0${_}`),
   )

@@ -1,5 +1,5 @@
-import { _stop, renderMarkdown } from "@factor/api"
-import { logger } from "@factor/server-utils/serverLogger"
+import { _stop, renderMarkdown, logger } from "@factor/api"
+
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
@@ -107,7 +107,7 @@ export const sendEmail = async (
     text: plainText,
   }
 
-  logger({
+  logger.log({
     level: "info",
     description: "send transactional email",
     context: "email",
@@ -121,7 +121,7 @@ export const sendEmail = async (
 
     return
   } else {
-    logger({
+    logger.log({
       level: "warn",
       description: "smtp email is not configured (SMTP_HOST)",
       context: "email",

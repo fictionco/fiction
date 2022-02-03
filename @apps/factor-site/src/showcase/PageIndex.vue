@@ -106,12 +106,11 @@ import { map as showcase } from "./map"
 import { useRouter } from "vue-router"
 const router = useRouter()
 
-const goToPermalink = (permalink?: string) => {
+const goToPermalink = async (permalink?: string): Promise<void> => {
   if (!permalink) return
 
   const path = `/showcase/${encodeURIComponent(permalink || "")}`
 
-  router.push({ path })
+  await router.push({ path })
 }
 </script>
-<style lang="less"></style>

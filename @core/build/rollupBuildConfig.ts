@@ -2,8 +2,8 @@ import path from "path"
 import ts from "rollup-plugin-typescript2"
 import replace from "@rollup/plugin-replace"
 import json from "@rollup/plugin-json"
-import { Plugin, RollupOptions, OutputOptions } from "rollup"
-import { logger } from "@factor/server-utils"
+import { Plugin, RollupOptions, OutputOptions, RollupWarning } from "rollup"
+import { logger } from "@factor/api"
 import { terser } from "rollup-plugin-terser"
 import analyzer from "rollup-plugin-analyzer"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
@@ -126,9 +126,9 @@ const createConfig = (
     ],
 
     treeshake: { moduleSideEffects: false },
-    onwarn: (warning: any): void => {
+    onwarn: (warning: RollupWarning): void => {
       if (warning.code !== "CIRCULAR_DEPENDENCY") {
-        logger({
+        logger.log({
           level: "warn",
           context: "rollup",
           description: `(rollup) ${warning.message}`,
