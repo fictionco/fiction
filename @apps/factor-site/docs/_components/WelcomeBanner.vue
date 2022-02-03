@@ -19,15 +19,15 @@
           </p>
 
           <div class="mt-6 flex space-x-3">
-            <ElemButton btn="primary" size="md" to="/docs/quickstart"
-              >Quickstart &rarr;</ElemButton
+            <ElButton btn="primary" size="md" to="/docs/quickstart"
+              >Quickstart &rarr;</ElButton
             >
-            <ElemButton
+            <ElButton
               btn="default"
               size="md"
               href="https://github.com/FactorJS/factor-hello-world"
               >Hello World Example
-            </ElemButton>
+            </ElButton>
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@
 </template>
 <script lang="ts" setup>
 import screenshot from "../screenshot.webp"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 
 defineProps({
   title: { type: String, default: "" },

@@ -145,12 +145,9 @@
       subtitle="Submit Your Extension"
     >
       <a href="mailto:hello@fiction.com">
-        <ElemButton
-          btn="primary"
-          class="font-bold md:py-2.5 md:px-7 md:text-lg"
-        >
+        <ElButton btn="primary" class="font-bold md:py-2.5 md:px-7 md:text-lg">
           Submit &rarr;
-        </ElemButton>
+        </ElButton>
       </a>
     </ElemCta>
     <!-- <ElemLightbox
@@ -605,7 +602,7 @@ export default {
       .actions {
         margin-top: 2rem;
         font-size: 1.2em;
-        .ElemButton {
+        .ElButton {
           padding: 1rem 2rem;
           margin-right: 1rem;
         }

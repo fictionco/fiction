@@ -1,6 +1,9 @@
 declare module "*package"
 declare module "std-env"
-declare module "gravatar"
+declare module "gravatar" {
+  const value: { url: (a: string, b: Record<string, any>) => string }
+  export = value
+}
 declare module "markdown-it-video"
 declare module "markdown-it-link-attributes"
 declare module "markdown-it-implicit-figures"

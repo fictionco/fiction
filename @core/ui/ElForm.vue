@@ -48,7 +48,7 @@ const emit = defineEmits(["submit", "update:valid"])
 
 const form = ref<HTMLFormElement>()
 
-const submitForm = () => {
+const submitForm = (): void => {
   const el = form.value
 
   if (el) {

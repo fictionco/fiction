@@ -132,14 +132,14 @@
           <div
             class="hidden lg:absolute lg:flex lg:items-center lg:justify-end lg:inset-y-0 lg:right-0"
           >
-            <ElemButton
+            <ElButton
               v-if="$route.path != '/install'"
               to="/install"
               btn="primary"
               class="font-bold"
             >
               Start Your App &rarr;
-            </ElemButton>
+            </ElButton>
           </div>
         </nav>
       </div>
@@ -165,7 +165,7 @@
                 <ElemLogo mode="icon" class="scheme-standard h-8 w-auto" />
               </div>
               <div class="-mr-3">
-                <ElemButton
+                <ElButton
                   class="rounded-md pl-2 pr-2 inline-flex items-center justify-center text-slate-500 bg-slate-50 hover:text-primary-500 hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                   @click="vis = !vis"
                 >
@@ -186,7 +186,7 @@
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                </ElemButton>
+                </ElButton>
               </div>
             </div>
             <div
@@ -220,14 +220,14 @@
                 </template>
               </div>
               <div role="none" class="py-6 px-5 space-y-6">
-                <ElemButton
+                <ElButton
                   v-if="$route.path != '/install'"
                   to="/install"
                   btn="primary"
                   class="w-full flex items-center justify-center px-4 py-2 font-bold"
                 >
                   Start Your App &rarr;
-                </ElemButton>
+                </ElButton>
               </div>
             </div>
           </div>
@@ -238,7 +238,7 @@
 </template>
 <script lang="ts">
 import { resetUi, onResetUi, isDev } from "@factor/api"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 import { ref, onMounted } from "vue"
 
 import ElemLogo from "./ElemLogo.vue"
@@ -248,7 +248,7 @@ export default {
   components: {
     ElemLogo,
     ElemGithubStars,
-    ElemButton,
+    ElButton,
   },
   setup() {
     /* Nav visibility */

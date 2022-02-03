@@ -16,7 +16,7 @@
         class="py-1 lg:py-4 block justify-center items-center space-x-4 lg:flex lg:text-lg"
       >
         <div class="author flex justify-center items-center space-x-4">
-          <ElemAvatar
+          <ElAvatar
             class="inline-block h-8 w-8 rounded-full"
             :email="config.authorEmail"
           />
@@ -62,7 +62,7 @@
       </div>
       <div class="col-span-8">
         <div v-if="loading" class="p-12">
-          <ElemSpinner class="text-slate-200 w-12 h-12 m-auto" />
+          <ElSpinner class="text-slate-200 w-12 h-12 m-auto" />
         </div>
         <div v-else-if="!config.component">
           <div class="py-40">
@@ -104,8 +104,8 @@
                   >
                 </h2>
                 <div class="mt-8 flex space-x-4">
-                  <ElemButton href="https://www.factorjs.org" btn="primary"
-                    >Learn More</ElemButton
+                  <ElButton href="https://www.factorjs.org" btn="primary"
+                    >Learn More</ElButton
                   >
                 </div>
               </div>
@@ -125,11 +125,11 @@
 </template>
 
 <script lang="ts">
-import ElemButton from "@factor/ui/ElemButton.vue"
-import ElemAvatar from "@factor/ui/ElemAvatar.vue"
+import ElButton from "@factor/ui/ElButton.vue"
+import ElAvatar from "@factor/ui/ElAvatar.vue"
 import { useMeta } from "@factor/api"
 import { useRouter } from "vue-router"
-import ElemSpinner from "@factor/ui/ElemSpinner.vue"
+import ElSpinner from "@factor/ui/ElSpinner.vue"
 import { ref, computed, onServerPrefetch } from "vue"
 import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
 import { blogSetting, getPostConfig } from "@factor/plugin-blog-engine/helpers"
@@ -137,10 +137,10 @@ import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
 export default {
   components: {
-    ElemSpinner,
+    ElSpinner,
     EntryToc,
-    ElemAvatar,
-    ElemButton,
+    ElAvatar,
+    ElButton,
   },
   setup() {
     const baseRoute = ref(blogSetting("baseRoute"))

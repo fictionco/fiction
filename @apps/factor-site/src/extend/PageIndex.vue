@@ -37,7 +37,7 @@
       subtitle="Submit Your Extension"
     >
       <a href="mailto:hello@fiction.com">
-        <ElemButton btn="primary" class="font-bold"> Submit &rarr; </ElemButton>
+        <ElButton btn="primary" class="font-bold"> Submit &rarr; </ElButton>
       </a>
     </ElemCta>
   </div>
@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { isLoggedIn, stored } from "@factor/api"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 import ElemCta from "../el/ElemCta.vue"
 import IconPlaceholder from "../img/icon-plugin-blog.svg"
 import ScreenshotPlaceholder from "../img/screenshot-wide.jpg"
@@ -63,7 +63,7 @@ import {
 export default {
   components: {
     ElemCta,
-    ElemButton,
+    ElButton,
     SliderPlugin: def(() => import("./SliderPlugin.vue")),
     GridPlugin: def(() => import("./GridPlugin.vue")),
     GridTheme: def(() => import("./GridTheme.vue")),

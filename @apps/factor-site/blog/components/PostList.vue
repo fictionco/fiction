@@ -34,7 +34,7 @@
             <a href="#">
               <span class="sr-only">{{ post.authorName }}</span>
 
-              <ElemAvatar
+              <ElAvatar
                 class="inline-block h-8 w-8 rounded-full"
                 :email="post.authorEmail"
               />
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import ElemAvatar from "@factor/ui/ElemAvatar.vue"
+import ElAvatar from "@factor/ui/ElAvatar.vue"
 import dayjs from "dayjs"
 import { ref } from "vue"
 import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"

@@ -1,14 +1,5 @@
 import { defineAsyncComponent as def } from "vue"
 
-export const elements = {
-  form: def(() => import("@factor/ui/ElemForm.vue")),
-  button: def(() => import("@factor/ui/ElemButton.vue")),
-  input: def(() => import("@factor/ui/ElemInput.vue")),
-  modal: def(() => import("@factor/ui/ElemModal.vue")),
-  spinner: def(() => import("@factor/ui/ElemSpinner.vue")),
-  avatar: def(() => import("@factor/ui/ElemAvatar.vue")),
-}
-
 export const inputs = {
   email: def(() => import("@factor/ui/InputEmail.vue")),
   oneTimeCode: def(() => import("@factor/ui/InputOneTimeCode.vue")),

@@ -53,7 +53,7 @@
               class="absolute right-2 top-2 px-5 pt-4 flex items-center justify-end lg:hidden z-20"
             >
               <div class="-mr-3">
-                <ElemButton btn="default" @click="vis = !vis">
+                <ElButton btn="default" @click="vis = !vis">
                   <span class="sr-only">Close menu</span>
                   <!-- Heroicon name: x -->
                   <svg
@@ -71,7 +71,7 @@
                       d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
-                </ElemButton>
+                </ElButton>
               </div>
             </div>
             <nav
@@ -145,7 +145,7 @@ import {
   camelToKebab,
   camelize,
 } from "@factor/api"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 import { ref } from "vue"
 
 import { docs, groups } from "../map"
@@ -153,7 +153,7 @@ import DocSearch from "./DocSearch.vue"
 import { useRouter } from "vue-router"
 export default {
   components: {
-    ElemButton,
+    ElButton,
     DocSearch,
   },
   setup() {

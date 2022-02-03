@@ -8,13 +8,13 @@
         </div>
       </div>
       <div class="mt-3 lg:mt-0">
-        <ElemButton
+        <ElButton
           btn="default"
           to="/plugins"
           class="font-bold hover:text-primary-500"
         >
           Browse All &rarr;
-        </ElemButton>
+        </ElButton>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 
 import { map as plugins } from "../plugins/map"
 </script>

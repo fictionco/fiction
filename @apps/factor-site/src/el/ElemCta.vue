@@ -8,13 +8,13 @@
     </h2>
     <div class="mt-4 flex lg:mt-0 lg:shrink-0">
       <slot>
-        <ElemButton
+        <ElButton
           btn="primary"
           to="/install"
           class="font-bold shadow md:py-2.5 md:px-7 md:text-lg md:ml-3"
         >
           Start Now &rarr;
-        </ElemButton>
+        </ElButton>
       </slot>
     </div>
   </div>
@@ -22,11 +22,11 @@
 
 <script lang="ts">
 import { emitEvent } from "@factor/api"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 
 export default {
   components: {
-    ElemButton,
+    ElButton,
   },
   props: {
     title: {

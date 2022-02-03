@@ -16,25 +16,10 @@
         <div
           v-for="(item, index) in plugins"
           :key="index"
-          class="
-            grid-item-theme
-            col-span-12
-            md:col-span-6
-            lg:col-span-4
-            cursor-pointer
-          "
+          class="grid-item-theme col-span-12 md:col-span-6 lg:col-span-4 cursor-pointer"
         >
           <div
-            class="
-              bg-white
-              ring-1 ring-black ring-opacity-10
-              shadow-lg
-              p-4
-              lg:p-6
-              relative
-              mt-6
-              lg:mt-0
-            "
+            class="bg-white ring-1 ring-black ring-opacity-10 shadow-lg p-4 lg:p-6 relative mt-6 lg:mt-0"
           >
             <div class="icon w-16 shadow-md absolute -top-8">
               <img class="rounded-lg" :src="item.icon" />
@@ -45,26 +30,26 @@
             </p>
             <div class="actions mt-6 space-x-4 flex justify-between">
               <div class="space-x-4 flex">
-                <ElemButton
+                <ElButton
                   :href="item.url"
                   target="_blank"
                   size="sm"
                   btn="primary"
                   >Install &rarr;
-                </ElemButton>
+                </ElButton>
 
-                <ElemButton
+                <ElButton
                   v-if="item.demo"
                   :href="item.demo"
                   target="_blank"
                   size="sm"
                   btn="default"
                   >Demo
-                </ElemButton>
+                </ElButton>
               </div>
 
               <div>
-                <ElemButton
+                <ElButton
                   v-if="item.repo"
                   :href="item.repo"
                   target="_blank"
@@ -83,7 +68,7 @@
                       clip-rule="evenodd"
                     ></path>
                   </svg>
-                </ElemButton>
+                </ElButton>
               </div>
             </div>
           </div>
@@ -94,7 +79,7 @@
 </template>
 
 <script lang="ts" setup>
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 import { map as plugins } from "./map"
 </script>
 <style lang="less"></style>

@@ -49,11 +49,11 @@
                 </p>
               </div>
               <div class="mt-12 sm:max-w-lg w-full flex space-x-6 items-center">
-                <ElemButton btn="primary" to="/docs">
+                <ElButton btn="primary" to="/docs">
                   Start Site or App &rarr;
-                </ElemButton>
+                </ElButton>
 
-                <ElemButton
+                <ElButton
                   href="https://www.github.com/FactorJS/factor"
                   target="_blank"
                   btn="default"
@@ -71,7 +71,7 @@
                     />
                   </svg>
                   <span>{{ version }}</span>
-                </ElemButton>
+                </ElButton>
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@
 <script lang="ts" setup>
 import { computed } from "vue"
 import { factorVersion } from "@factor/api/about"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 import FigureSplash from "./FigureSplash.vue"
 import ElemPlugins from "./ElemPlugins.vue"
 import ElemCta from "./ElemCta.vue"

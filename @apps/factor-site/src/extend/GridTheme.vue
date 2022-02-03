@@ -138,7 +138,7 @@ export default {
       }
       .action {
         margin-top: 1rem;
-        .ElemButton {
+        .ElButton {
           margin-right: 1rem;
         }
       }

@@ -3,40 +3,14 @@
     <section class="splash">
       <div class="relative overflow-hidden mb-24">
         <div
-          class="
-            overlay
-            absolute
-            w-full
-            h-full
-            top-0
-            left-0
-            z-20
-            pointer-events-none
-            select-none
-            custom-shadow-inset
-          "
+          class="overlay absolute w-full h-full top-0 left-0 z-20 pointer-events-none select-none custom-shadow-inset"
         ></div>
         <div
-          class="
-            grid grid-cols-12
-            m-auto
-            max-w-screen-xl
-            pt-16
-            px-8
-            z-0
-            relative
-          "
+          class="grid grid-cols-12 m-auto max-w-screen-xl pt-16 px-8 z-0 relative"
         >
           <div class="content col-span-6 py-24">
             <router-link
-              class="
-                uppercase
-                font-semibold
-                text-color-400 text-xs
-                tracking-wider
-                inline-block
-                mb-8
-              "
+              class="uppercase font-semibold text-color-400 text-xs tracking-wider inline-block mb-8"
               to="/showcase"
             >
               <span> &larr; Back to Showcase </span>
@@ -71,28 +45,22 @@
                   </div>
                 </div>
                 <h3
-                  class="
-                    description
-                    text-color-700 text-lg
-                    lg:text-xl
-                    max-w-md
-                    mt-6
-                  "
+                  class="description text-color-700 text-lg lg:text-xl max-w-md mt-6"
                 >
                   {{ item.description }}
                 </h3>
 
                 <div class="actions mt-8 flex space-x-6">
-                  <ElemButton btn="primary" size="lg" :href="item.url">
-                    View Site</ElemButton
+                  <ElButton btn="primary" size="lg" :href="item.url">
+                    View Site</ElButton
                   >
-                  <ElemButton
+                  <ElButton
                     v-if="item.repo"
                     btn="default"
                     size="lg"
                     :href="item.repo"
                   >
-                    View Code</ElemButton
+                    View Code</ElButton
                   >
                 </div>
                 <div
@@ -112,42 +80,16 @@
                 <div
                   v-for="(img, i) in screenshots"
                   :key="img"
-                  class="
-                    duration-500
-                    w-96
-                    h-full
-                    absolute
-                    origin-bottom-right
-                    transition-all
-                    left-20
-                  "
+                  class="duration-500 w-96 h-full absolute origin-bottom-right transition-all left-20"
                   :style="screenshotStyle(i)"
                 >
                   <div
-                    class="
-                      cursor-pointer
-                      shadow-lg
-                      ring-1 ring-opacity-10 ring-black
-                      aspect-h-12 aspect-w-8
-                      -bottom-12
-                      absolute
-                      w-full
-                      h-full
-                      bg-white
-                      rounded-md
-                      overflow-hidden
-                    "
+                    class="cursor-pointer shadow-lg ring-1 ring-opacity-10 ring-black aspect-h-12 aspect-w-8 -bottom-12 absolute w-full h-full bg-white rounded-md overflow-hidden"
                     :class="`sc-${i + 1}`"
                     @click="nextScreenshot()"
                   >
                     <div
-                      class="
-                        screenshot-image
-                        bg-center bg-cover
-                        absolute
-                        h-full
-                        w-full
-                      "
+                      class="screenshot-image bg-center bg-cover absolute h-full w-full"
                       :style="{ backgroundImage: `url('${img}')` }"
                     />
                   </div>
@@ -158,17 +100,7 @@
                 class="arrow-wrap z-20 absolute bottom-4 text-center"
               >
                 <div
-                  class="
-                    arrow
-                    text-6xl
-                    w-full
-                    text-center
-                    cursor-pointer
-                    transition-opacity
-                    opacity-20
-                    hover:opacity-50
-                    text-color-500
-                  "
+                  class="arrow text-6xl w-full text-center cursor-pointer transition-opacity opacity-20 hover:opacity-50 text-color-500"
                   @click="nextScreenshot()"
                 >
                   &rarr;
@@ -185,7 +117,7 @@
 import { computed, ref, watch, onMounted } from "vue"
 import { map as showcase } from "./map"
 import { useRouter } from "vue-router"
-import ElemButton from "@factor/ui/ElemButton.vue"
+import ElButton from "@factor/ui/ElButton.vue"
 
 const animationInterval = 3000
 const timer = ref()

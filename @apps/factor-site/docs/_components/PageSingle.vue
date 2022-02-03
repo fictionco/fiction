@@ -24,7 +24,7 @@
 import HighlightCode from "@factor/plugin-highlight-code/HighlightCode.vue"
 import { useMeta, camelize, toLabel } from "@factor/api"
 import { useRouter } from "vue-router"
-import ElemSpinner from "@factor/ui/ElemSpinner.vue"
+import ElSpinner from "@factor/ui/ElSpinner.vue"
 import {
   shallowRef,
   ref,
@@ -39,7 +39,7 @@ import { getDocConfig, DocPageConfig } from "@factor/plugin-docs-engine"
 import EntryToc from "@factor/ui/EntryToc.vue"
 export default {
   components: {
-    ElemSpinner,
+    ElSpinner,
 
     EntryToc,
     HighlightCode,

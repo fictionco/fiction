@@ -129,7 +129,7 @@ const setValidity = async (): Promise<void> => {
   }
 }
 
-const updateValue = async (value: any) => {
+const updateValue = async (value: any): Promise<void> => {
   await setValidity()
   emit("update:modelValue", value)
 }
