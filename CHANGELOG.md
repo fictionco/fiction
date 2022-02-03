@@ -1,3 +1,14 @@
+## [4.0.2](https://github.com/FactorJS/factor/compare/v4.0.1...v4.0.2) (2022-02-03)
+
+
+### Bug Fixes
+
+* circular ([27e8fb0](https://github.com/FactorJS/factor/commit/27e8fb0683b297e2127c42ef1c87b233fd8c9e21))
+* lint ([e22eff7](https://github.com/FactorJS/factor/commit/e22eff7ac4cad39a1d59ebb58a700bf268dc2ea7))
+* lint ([01d3daa](https://github.com/FactorJS/factor/commit/01d3daa226f6f272ac56bc6de2800948085c9846))
+
+
+
 ## [4.0.1](https://github.com/FactorJS/factor/compare/v4.0.0...v4.0.1) (2022-02-03)
 
 
