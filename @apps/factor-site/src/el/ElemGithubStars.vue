@@ -13,7 +13,7 @@ defineProps({
   text: { type: String, default: "Follow Project" },
 })
 
-const renderButton = async () => {
+const renderButton = async (): Promise<void> => {
   const { render } = await import("github-buttons")
 
   render(
@@ -38,8 +38,8 @@ const renderButton = async () => {
   loaded.value = true
 }
 
-onMounted(() => {
-  renderButton()
+onMounted(async () => {
+  await renderButton()
 })
 </script>
 <style lang="less">

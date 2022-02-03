@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
-import { getPrivateUser } from "@factor/engine"
+import { endpointsMap } from "@factor/engine/user"
+import { FactorQuery } from "@factor/engine/query"
 import {
-  FactorQuery,
   FactorEndpoint,
   EndpointMeta,
   EndpointManageAction,
   EndpointMethodOptions,
-} from "@factor/engine"
+} from "@factor/engine/endpoint"
 import { paymentsSetting, CustomerData, stripeEnv, getStripeProducts } from "."
 import Stripe from "stripe"
 
@@ -30,8 +30,9 @@ abstract class FactorQueryPayments extends FactorQuery {
     }
 
     if (userId) {
-      const privateDataResponse = await getPrivateUser({
+      const privateDataResponse = await endpointsMap.ManageUser.request({
         userId,
+        _action: "getPrivate",
       })
       out.user = privateDataResponse.data
     }

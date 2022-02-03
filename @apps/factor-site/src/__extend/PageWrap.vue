@@ -8,17 +8,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import ExtendIndex from "./PageIndex.vue"
-
-export default {
-  components: {
-    ExtendIndex,
-  },
-  setup() {
-    return {}
-  },
-}
 </script>
 <style lang="less">
 .factor-extend {

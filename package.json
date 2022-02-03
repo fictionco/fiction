@@ -11,6 +11,7 @@
     "test": "npm run test-lint && npm run test-unit",
     "test-unit": "npm exec vitest run",
     "test-lint": "npm run test-types && npm run test-eslint",
+    "test-vue": "eslint --ext .vue @core/. @apps/. @plugins/.",
     "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js @core/. @apps/. @plugins/.",
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
     "format-all": "pnpm prettier --ext .ts,.js,.vue,.json . --write",

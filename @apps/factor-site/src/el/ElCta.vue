@@ -20,28 +20,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { emitEvent } from "@factor/api"
+<script lang="ts" setup>
 import ElButton from "@factor/ui/ElButton.vue"
 
-export default {
-  components: {
-    ElButton,
+defineProps({
+  title: {
+    type: String,
+    default: "Ready to try it?",
   },
-  props: {
-    title: {
-      type: String,
-      default: "Ready to try it?",
-    },
-    subtitle: {
-      type: String,
-      default: "Create a live website in 10 Minutes",
-    },
+  subtitle: {
+    type: String,
+    default: "Create a live website in 10 Minutes",
   },
-  setup() {
-    return {
-      emitEvent,
-    }
-  },
-}
+})
 </script>

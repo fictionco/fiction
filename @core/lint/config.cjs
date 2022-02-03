@@ -45,6 +45,8 @@ module.exports = {
     "cdk.out/**",
     "**/regex*",
     "*eslint*",
+    "**/.ref/*",
+    "**/.ref*",
   ],
   extends: [
     "plugin:unicorn/recommended",

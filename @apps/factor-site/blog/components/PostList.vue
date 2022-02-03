@@ -71,5 +71,5 @@ const setContent = async () => {
   return
 }
 
-setContent()
+setContent().catch((error) => console.error(error))
 </script>

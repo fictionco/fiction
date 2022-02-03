@@ -124,7 +124,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import ElButton from "@factor/ui/ElButton.vue"
 import ElAvatar from "@factor/ui/ElAvatar.vue"
 import { useMeta } from "@factor/api"
@@ -135,96 +135,79 @@ import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
 import { blogSetting, getPostConfig } from "@factor/plugin-blog-engine/helpers"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
-export default {
-  components: {
-    ElSpinner,
-    EntryToc,
-    ElAvatar,
-    ElButton,
-  },
-  setup() {
-    const baseRoute = ref(blogSetting("baseRoute"))
-    const router = useRouter()
-    const loading = ref(false)
-    const nav = ref(blogSetting("map"))
-    const config = ref<PostEntryConfig>({ attributes: {} })
-    const at = computed<PostEntryConfig>(() => {
-      return {
-        publishDate: "2021-01-01",
-        title: "",
-        description: "",
-        postImage: "",
-        authorName: "Andrew Powers",
-        readingMinutes: 1,
-        ...config.value.attributes,
-      }
-    })
+const baseRoute = ref(blogSetting("baseRoute"))
+const router = useRouter()
+const loading = ref(false)
+const config = ref<PostEntryConfig>({ attributes: {} })
+const at = computed<PostEntryConfig>(() => {
+  return {
+    publishDate: "2021-01-01",
+    title: "",
+    description: "",
+    postImage: "",
+    authorName: "Andrew Powers",
+    readingMinutes: 1,
+    ...config.value.attributes,
+  }
+})
 
-    const subHeaders = computed(() => {
-      return config.value.attributes || {}
-    })
+const getContent = async (): Promise<void> => {
+  loading.value = true
 
-    const getContent = async (): Promise<void> => {
-      loading.value = true
+  const slug = router.currentRoute.value.params.slug as string | undefined
 
-      const slug = router.currentRoute.value.params.slug as string | undefined
+  const c = await getPostConfig(slug)
 
-      const c = await getPostConfig(slug)
+  config.value = c || { attributes: {} }
 
-      config.value = c || { attributes: {} }
-
-      loading.value = false
-    }
-
-    onServerPrefetch(async () => {
-      await getContent()
-    })
-
-    getContent()
-
-    useMeta({
-      title: computed(() => {
-        return (at.value.title as string) ?? "Blog"
-      }),
-      meta: [
-        {
-          name: `description`,
-          content: computed(() => {
-            return at.value.description ?? ""
-          }),
-        },
-        {
-          property: `og:title`,
-          content: computed(() => at.value.title),
-        },
-        {
-          property: `og:image`,
-          content: computed(() => {
-            return at.value.postImage ?? ""
-          }),
-        },
-        {
-          property: `og:type`,
-          content: "article",
-        },
-        {
-          property: "article:published_time",
-          content: dayjs(at.value.publishDate as string).toISOString(),
-        },
-        { name: "twitter:card", content: "summary" },
-        { name: "twitter:label1", content: "Written by" },
-        { name: "twitter:data1", content: computed(() => at.value.authorName) },
-        { name: "twitter:label2", content: "Est. reading time" },
-        {
-          name: "twitter:data2",
-          content: computed(() => `${at.value.readingMinutes} minutes`),
-        },
-      ],
-    })
-
-    return { nav, config, loading, subHeaders, getContent, dayjs, baseRoute }
-  },
+  loading.value = false
 }
+
+onServerPrefetch(async () => {
+  await getContent()
+})
+
+getContent().catch((error) => console.error(error))
+
+useMeta({
+  title: computed(() => {
+    return (at.value.title as string) ?? "Blog"
+  }),
+  meta: [
+    {
+      name: `description`,
+      content: computed(() => {
+        return at.value.description ?? ""
+      }),
+    },
+    {
+      property: `og:title`,
+      content: computed(() => at.value.title),
+    },
+    {
+      property: `og:image`,
+      content: computed(() => {
+        return at.value.postImage ?? ""
+      }),
+    },
+    {
+      property: `og:type`,
+      content: "article",
+    },
+    {
+      property: "article:published_time",
+      content: dayjs(at.value.publishDate as string).toISOString(),
+    },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:label1", content: "Written by" },
+    { name: "twitter:data1", content: computed(() => at.value.authorName) },
+    { name: "twitter:label2", content: "Est. reading time" },
+    {
+      name: "twitter:data2",
+      content: computed(() => `${at.value.readingMinutes} minutes`),
+    },
+  ],
+})
 </script>
 <style lang="less">
 @import "@factor/ui/entry.less";

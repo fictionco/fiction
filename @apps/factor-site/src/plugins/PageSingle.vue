@@ -20,44 +20,15 @@
           @click="goToPermalink(item.permalink)"
         >
           <div
-            class="
-              theme-wrap
-              bg-cover bg-top
-              aspect-h-12 aspect-w-8
-              rounded-md
-              shadow-lg
-              ring-1 ring-opacity-10 ring-black
-              relative
-              overflow-hidden
-            "
+            class="theme-wrap bg-cover bg-top aspect-h-12 aspect-w-8 rounded-md shadow-lg ring-1 ring-opacity-10 ring-black relative overflow-hidden"
             :style="{ backgroundImage: `url(${item.screenshots?.[0]})` }"
           >
             <div class="overlay" />
             <div
-              class="
-                entry-content
-                absolute
-                top-0
-                bottom-0
-                w-full
-                z-10
-                flex
-                justify-end
-                flex-col
-              "
+              class="entry-content absolute top-0 bottom-0 w-full z-10 flex justify-end flex-col"
             >
               <div
-                class="
-                  text
-                  bg-white bg-opacity-100
-                  border-t border-black border-opacity-10
-                  w-full
-                  p-4
-                  flex
-                  justify-between
-                  items-center
-                  font-bold
-                "
+                class="text bg-white bg-opacity-100 border-t border-black border-opacity-10 w-full p-4 flex justify-between items-center font-bold"
                 @click.stop
               >
                 <div class="flex space-x-3">
@@ -100,12 +71,12 @@ import { map as plugins } from "./map"
 import { useRouter } from "vue-router"
 const router = useRouter()
 
-const goToPermalink = (permalink?: string) => {
+const goToPermalink = async (permalink?: string): Promise<void> => {
   if (!permalink) return
 
   const path = `/showcase/${encodeURIComponent(permalink || "")}`
 
-  router.push({ path })
+  await router.push({ path })
 }
 </script>
 <style lang="less"></style>

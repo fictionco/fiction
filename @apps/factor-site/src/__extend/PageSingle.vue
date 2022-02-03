@@ -166,7 +166,7 @@ import {
   toLabel,
 } from "@factor/api"
 
-import ElemCta from "../el/ElemCta.vue"
+import ElemCta from "../el/ElCta.vue"
 //import ElemLightbox from "@factor/ui/ElemLightbox.vue"
 //import { defineAsyncComponent } from "vue"
 export default {

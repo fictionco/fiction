@@ -20,11 +20,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import HighlightCode from "@factor/plugin-highlight-code/HighlightCode.vue"
 import { useMeta, camelize, toLabel } from "@factor/api"
 import { useRouter } from "vue-router"
-import ElSpinner from "@factor/ui/ElSpinner.vue"
 import {
   shallowRef,
   ref,
@@ -37,100 +36,84 @@ import {
 import { getDocConfig, DocPageConfig } from "@factor/plugin-docs-engine"
 
 import EntryToc from "@factor/ui/EntryToc.vue"
-export default {
-  components: {
-    ElSpinner,
+const router = useRouter()
+const loading = ref(false)
 
-    EntryToc,
-    HighlightCode,
-  },
-  setup() {
-    const router = useRouter()
-    const loading = ref(false)
+const config = shallowRef<DocPageConfig>({})
 
-    const config = shallowRef<DocPageConfig>({})
+const docId = computed<string | undefined>(() => {
+  const params = router.currentRoute.value.params
+  const id = camelize(params.slug as string)
 
-    const docId = computed<string | undefined>(() => {
-      const params = router.currentRoute.value.params
-      const id = camelize(params.slug as string)
+  return id
+})
 
-      return id
-    })
+const getContent = async (): Promise<void> => {
+  loading.value = true
 
-    const subHeaders = computed(() => {
-      return config.value.attributes || {}
-    })
+  const c = await getDocConfig(docId.value)
 
-    const getContent = async (): Promise<void> => {
-      loading.value = true
+  config.value = markRaw(c || {})
 
-      const c = await getDocConfig(docId.value)
-
-      config.value = markRaw(c || {})
-
-      loading.value = false
-    }
-
-    onServerPrefetch(async () => {
-      await getContent()
-    })
-
-    watch(
-      () => router.currentRoute.value.path,
-      () => {
-        getContent()
-      },
-      { immediate: true },
-    )
-
-    const metaTitle = computed(() => {
-      const r = router.currentRoute.value
-      const routeTitle = `${toLabel((r.name || r.path) as string)}`
-      const getTitle = config.value.attributes?.title ?? routeTitle
-      return getTitle
-    })
-
-    const metaDescription = computed(() => {
-      return config.value.attributes?.description ?? ""
-    })
-
-    useMeta({
-      title: metaTitle,
-      meta: [
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          name: "description",
-          content: metaDescription,
-        },
-        {
-          property: "og:title",
-          content: metaTitle,
-        },
-        {
-          property: "og:description",
-          content: metaDescription,
-        },
-        {
-          name: "twitter:card",
-          content: "summary",
-        },
-        {
-          name: "twitter:title",
-          content: metaTitle,
-        },
-        {
-          name: "twitter:description",
-          content: metaDescription,
-        },
-      ],
-    })
-
-    return { config, loading, subHeaders, getContent }
-  },
+  loading.value = false
 }
+
+onServerPrefetch(async () => {
+  await getContent()
+})
+
+watch(
+  () => router.currentRoute.value.path,
+  async () => {
+    await getContent()
+  },
+  { immediate: true },
+)
+
+const metaTitle = computed(() => {
+  const r = router.currentRoute.value
+  const routeTitle = `${toLabel((r.name || r.path) as string)}`
+  const getTitle = config.value.attributes?.title ?? routeTitle
+  return getTitle
+})
+
+const metaDescription = computed(() => {
+  return config.value.attributes?.description ?? ""
+})
+
+useMeta({
+  title: metaTitle,
+  meta: [
+    {
+      name: `description`,
+      content: metaDescription,
+    },
+    {
+      name: "description",
+      content: metaDescription,
+    },
+    {
+      property: "og:title",
+      content: metaTitle,
+    },
+    {
+      property: "og:description",
+      content: metaDescription,
+    },
+    {
+      name: "twitter:card",
+      content: "summary",
+    },
+    {
+      name: "twitter:title",
+      content: metaTitle,
+    },
+    {
+      name: "twitter:description",
+      content: metaDescription,
+    },
+  ],
+})
 </script>
 <style lang="less">
 @import "@factor/ui/entry.less";

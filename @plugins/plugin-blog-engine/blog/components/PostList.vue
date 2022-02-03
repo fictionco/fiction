@@ -65,11 +65,11 @@ import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"
 
 const content = ref<PostEntryConfig[]>([])
 
-const setContent = async () => {
+const setContent = async (): Promise<void> => {
   content.value = await getIndexContent()
 
   return
 }
 
-setContent()
+setContent().catch((error) => console.error(error))
 </script>

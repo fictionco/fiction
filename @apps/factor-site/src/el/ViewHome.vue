@@ -87,11 +87,11 @@
       </div>
     </div>
 
-    <ElemBenefits />
+    <ElBenefits />
 
-    <ElemCta />
+    <ElCta />
 
-    <ElemFeatures />
+    <ElFeatures />
 
     <ElPlugins class="py-24" />
 
@@ -105,9 +105,9 @@ import { factorVersion } from "@factor/api/about"
 import ElButton from "@factor/ui/ElButton.vue"
 import FigureSplash from "./FigureSplash.vue"
 import ElPlugins from "./ElPlugins.vue"
-import ElemCta from "./ElemCta.vue"
-import ElemBenefits from "./ElemBenefits.vue"
-import ElemFeatures from "./ElemFeatures.vue"
+import ElCta from "./ElCta.vue"
+import ElBenefits from "./ElBenefits.vue"
+import ElFeatures from "./ElFeatures.vue"
 import BlogList from "./BlogList.vue"
 
 const version = computed(() => {
