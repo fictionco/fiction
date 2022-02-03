@@ -1,7 +1,8 @@
 import dayjs from "dayjs"
 import knex, { Knex } from "knex"
 import { EndpointResponse } from "@factor/types"
-import { _stop, isNode } from "@factor/api"
+import { _stop } from "@factor/api/error"
+import { isNode } from "@factor/api/utils"
 import { getDb } from "./db"
 import { EndpointMeta } from "./endpoint"
 export type QueryOptions = {
@@ -12,7 +13,7 @@ export abstract class Query {
   readonly dbName: string
   qu!: Knex // always set on server
   db!: typeof getDb // always set on server
-  isNode: boolean
+  isNode: typeof isNode
   readonly dayjs: typeof dayjs
   stop: typeof _stop
   constructor(options: QueryOptions) {
@@ -25,7 +26,6 @@ export abstract class Query {
     this.dayjs = dayjs
     this.isNode = isNode
     this.stop = _stop
-
     if (this.isNode) {
       this.qu = knex({ client: "pg" })
       this.db = getDb

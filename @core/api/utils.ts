@@ -8,7 +8,10 @@ import { ListItem, PriorityItem } from "@factor/types"
 /**
  * Are we in Node or browser?
  */
-export const isNode = typeof window === "undefined" ? true : false
+export const isNode =
+  typeof process !== "undefined" && process.versions && process.versions.node
+    ? true
+    : false
 /**
  * Are we in development mode?
  */

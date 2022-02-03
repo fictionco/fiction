@@ -3,7 +3,7 @@ import * as Vuex from "vuex"
 import { getAppGlobal, setAppGlobal } from "./utils"
 declare global {
   interface Window {
-    __INITIAL_STATE__: any
+    __INITIAL_STATE__: Record<string, any>
   }
 }
 /**
@@ -23,7 +23,10 @@ export const createStore = (): Vuex.Store<Record<string, any>> => {
         },
     },
     mutations: {
-      setItem: (state, { item, value }): void => {
+      setItem: (
+        state,
+        { item, value }: { item: string; value: unknown },
+      ): void => {
         state[item] = value
       },
     },
@@ -56,7 +59,7 @@ export const getStore = (): Vuex.Store<Record<string, any>> => {
  * If a typical app function is used in an endpoint, then there will be no store
  * However we don't want to break code that would otherwise work
  */
-export const storeItem = (item: string, value: any): void => {
+export const storeItem = <T = unknown>(item: string, value: T): void => {
   return getStore().commit("setItem", { item, value })
 }
 /**
