@@ -1,19 +1,20 @@
 import dayjs from "dayjs"
 import knex, { Knex } from "knex"
-import { EndpointResponse, ErrorConfig, PrivateUser } from "@factor/types"
+import { EndpointResponse } from "@factor/types"
 import { _stop, isNode } from "@factor/api"
-import { getDb, postgresConnectionUrl } from "./db"
+import { getDb } from "./db"
+import { EndpointMeta } from "./endpoint"
 export type QueryOptions = {
   dbName: string
 }
 
 export abstract class Query {
   readonly dbName: string
-  readonly dayjs: () => dayjs.Dayjs
-  qu?: Knex
-  db?: Promise<Knex>
+  qu!: Knex // always set on server
+  db!: typeof getDb // always set on server
   isNode: boolean
-  stop: (config: ErrorConfig) => EndpointResponse
+  readonly dayjs: typeof dayjs
+  stop: typeof _stop
   constructor(options: QueryOptions) {
     const { dbName } = options ?? {}
 
@@ -21,21 +22,19 @@ export abstract class Query {
     /**
      * Add standard utilities
      */
-    this.dayjs = (): dayjs.Dayjs => dayjs()
+    this.dayjs = dayjs
     this.isNode = isNode
     this.stop = _stop
 
     if (this.isNode) {
       this.qu = knex({ client: "pg" })
-      if (postgresConnectionUrl()) {
-        this.db = getDb()
-      }
+      this.db = getDb
     }
   }
 
   abstract run(
     params: unknown,
-    meta: { bearer?: PrivateUser },
+    meta: EndpointMeta,
   ): Promise<EndpointResponse<unknown>>
 }
 

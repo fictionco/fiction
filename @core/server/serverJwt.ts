@@ -1,11 +1,8 @@
 import { _stop, logger } from "@factor/api"
-import { FullUser } from "@factor/types"
+import { FullUser, PrivateUser } from "@factor/types"
 import jwt from "jsonwebtoken"
-export interface TokenFields {
-  userId: number
-  email: string
-  role: string
-}
+
+export type TokenFields = Partial<PrivateUser> & { userId: string }
 /**
  * Sets the auth token secret or falls back to a basic one (insecure)
  */

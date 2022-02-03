@@ -2,7 +2,7 @@ import { FactorPluginConfigApp } from "@factor/types"
 import * as StripeJS from "@stripe/stripe-js"
 import type Stripe from "stripe"
 
-export * from "./request"
+export * from "./util"
 export * from "./endpoints"
 
 export interface StripePlanInfo {
@@ -35,12 +35,6 @@ export type CreateSubscriptionArgs = Partial<SubscriptionDetails> &
   Stripe.SubscriptionCreateParams
 
 export type StripeOptions = {
-  products: {
-    value: string
-    productId?: string
-    priceId?: string
-    primary?: true
-  }[]
   hooks?: {
     beforeCreateSubscription?: (
       args: CreateSubscriptionArgs,
@@ -68,7 +62,7 @@ export const stripeEnv = (): "production" | "development" => {
 /**
  * Doc engine settings utility
  */
-let __settings: Partial<StripeOptions> = { products: [] }
+let __settings: Partial<StripeOptions> = {}
 export const paymentsSetting = <T extends keyof StripeOptions>(
   key: T,
 ): Partial<StripeOptions>[T] => {

@@ -5,7 +5,7 @@ export {}
 
 declare module "express" {
   export interface Request {
-    bearer?: PrivateUser
+    bearer?: Partial<PrivateUser> & { userId: string }
     bearerToken?: string
   }
 }
@@ -13,5 +13,7 @@ declare module "express" {
 declare module "http" {
   export interface IncomingMessage {
     rawBody: Buffer | string
+    bearer?: Partial<PrivateUser> & { userId: string }
+    bearerToken?: string
   }
 }

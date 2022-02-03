@@ -8,7 +8,7 @@ import {
   EndpointManageAction,
   EndpointMethodOptions,
 } from "@factor/engine"
-import { paymentsSetting, CustomerData, stripeEnv } from "."
+import { paymentsSetting, CustomerData, stripeEnv, getStripeProducts } from "."
 import Stripe from "stripe"
 
 type RefineResult = {
@@ -376,7 +376,7 @@ class QueryGetProduct extends FactorQueryPayments {
 
 class QueryAllProducts extends FactorQueryPayments {
   async run(_params: undefined): Promise<EndpointResponse<Stripe.Product[]>> {
-    const products = paymentsSetting(`products`) ?? []
+    const products = getStripeProducts()
 
     const productIds = products
       .map((_) => _.productId)

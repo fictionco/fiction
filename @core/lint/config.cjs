@@ -84,7 +84,7 @@ module.exports = {
     "import/no-unresolved": "off",
     "import/named": "off",
     "import/extensions": [
-      "warn",
+      "error",
       "ignorePackages",
       { ts: "never", js: "never" },
     ],

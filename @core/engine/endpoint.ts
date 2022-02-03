@@ -14,7 +14,7 @@ export type EndpointMethodOptions<T extends Query> = {
 }
 
 export type EndpointMeta = {
-  bearer?: PrivateUser
+  bearer?: Partial<PrivateUser> & { userId: string }
 }
 
 export type EndpointManageAction =
@@ -45,9 +45,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     this.requestHandler = requestHandler
   }
 
-  public request(
-    params: Parameters<T["run"]>[0] & { bearer?: PrivateUser; userId?: string },
-  ): ReturnType<T["run"]> {
+  public request(params: Parameters<T["run"]>[0]): ReturnType<T["run"]> {
     if (!this.key) throw new Error("method key not set")
 
     return this.http(this.key, params) as ReturnType<T["run"]>

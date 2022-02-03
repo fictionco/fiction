@@ -117,6 +117,18 @@ export const updateUser = async (args: {
   return refined
 }
 
+/**
+ * Get a single user
+ */
+export const getPublicUser = async (args: {
+  email?: string
+  userId?: string
+}): Promise<EndpointResponse<PublicUser | false>> => {
+  const user = (await findOneUser(args)) ?? false
+
+  return { status: "success", data: user }
+}
+
 class QueryCurrentUser extends FactorQuery {
   async run(params: { token: string }): Promise<EndpointResponse<FullUser>> {
     const { token } = params
@@ -134,17 +146,6 @@ class QueryCurrentUser extends FactorQuery {
   }
 }
 
-/**
- * Get a single user
- */
-export const getPublicUser = async (args: {
-  email?: string
-  userId?: string
-}): Promise<EndpointResponse<PublicUser | false>> => {
-  const user = (await findOneUser(args)) ?? false
-
-  return { status: "success", data: user }
-}
 class QueryGetPublicUser extends FactorQuery {
   constructor() {
     super()
