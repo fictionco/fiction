@@ -11,6 +11,7 @@ export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   key?: string
+  basePath?: string
 }
 
 export type EndpointMeta = {
