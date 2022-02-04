@@ -9,6 +9,7 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
+    "@factor/cjs": "4.0.3",
     "@factor/api": "4.0.3",
     "@factor/entry": "4.0.3",
     "@factor/server": "4.0.3",

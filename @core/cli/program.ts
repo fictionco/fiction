@@ -11,6 +11,8 @@ import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 
+type EntryFile = { setup: (options: CommandOptions) => Promise<void> }
+
 const commander = new Command()
 
 export enum ServiceModule {
@@ -149,7 +151,7 @@ export const runService = async (options: CommandOptions): Promise<void> => {
     throw new Error(`no service argument is set (--SERVICE)`)
   }
 
-  const { setup } = await import(SERVICE)
+  const { setup } = (await import(SERVICE)) as EntryFile
 
   if (setup) {
     await setup(options)
@@ -168,7 +170,7 @@ export const runServer = async (options: CommandOptions): Promise<void> => {
  */
 export const runDev = async (options: CommandOptions): Promise<void> => {
   for (const { service } of Object.values(coreServices)) {
-    const { setup } = await import(service)
+    const { setup } = (await import(service)) as EntryFile
 
     if (setup) {
       await setup(options)
@@ -182,7 +184,7 @@ const wrapCommand = async (settings: {
   NODE_ENV?: "production" | "development"
   cb: (options: Record<string, any>) => Promise<void>
   exit?: boolean
-  opts?: Record<string, string>
+  opts?: Record<string, string | boolean>
 }): Promise<void> => {
   const { cb, exit, NODE_ENV, opts = commander.opts() } = settings
   opts.NODE_ENV = NODE_ENV
@@ -269,18 +271,20 @@ export const execute = (): void => {
     .option("--NODE_ENV <NODE_ENV>", "environment (development/production)")
     .option("--prerender", "prerender pages")
     .option("-s, --serve", "serve static site after build")
-    .action((opts) => {
-      return wrapCommand({
-        cb: async (opts) => {
-          const { buildApp } = await import("@factor/render")
-          await runServer(opts)
-          return buildApp(opts)
-        },
-        NODE_ENV: opts.NODE_ENV ?? "production",
-        exit: opts.serve ? false : true,
-        opts,
-      })
-    })
+    .action(
+      (opts: { NODE_ENV?: "production" | "development"; serve?: boolean }) => {
+        return wrapCommand({
+          cb: async (opts) => {
+            const { buildApp } = await import("@factor/render")
+            await runServer(opts)
+            return buildApp(opts)
+          },
+          NODE_ENV: opts.NODE_ENV ?? "production",
+          exit: opts.serve ? false : true,
+          opts,
+        })
+      },
+    )
 
   commander
     .command("prerender")
@@ -288,19 +292,21 @@ export const execute = (): void => {
     .option("-s, --serve", "serve static site after build")
     .option("-pa, --port-app <number>", "primary service port")
     .option("-ps, --port-server  <number>", "server specific port")
-    .action((opts) => {
-      return wrapCommand({
-        cb: async (opts) => {
-          opts.prerender = true
-          const { buildApp } = await import("@factor/render")
-          await runServer(opts)
-          return buildApp(opts)
-        },
-        NODE_ENV: opts.NODE_ENV || "production",
-        exit: opts.serve ? false : true,
-        opts,
-      })
-    })
+    .action(
+      (opts: { NODE_ENV?: "production" | "development"; serve?: boolean }) => {
+        return wrapCommand({
+          cb: async (opts) => {
+            opts.prerender = true
+            const { buildApp } = await import("@factor/render")
+            await runServer(opts)
+            return buildApp(opts)
+          },
+          NODE_ENV: opts.NODE_ENV || "production",
+          exit: opts.serve ? false : true,
+          opts,
+        })
+      },
+    )
 
   commander.command("serve").action(() => {
     return wrapCommand({
@@ -313,7 +319,7 @@ export const execute = (): void => {
   commander
     .command("render")
     .option("-s, --serve", "serve static site after build")
-    .action((opts) => {
+    .action((opts: OptionValues) => {
       return wrapCommand({
         opts,
         cb: async (opts) => {

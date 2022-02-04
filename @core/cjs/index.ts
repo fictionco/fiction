@@ -2,13 +2,30 @@ import { Plugin, ResolveIdResult, LoadResult } from "rollup"
 
 export type ServerModuleDef = {
   id: string
-  exports: string[]
+  exports?: string[]
   resolvedId?: string
 }
-export const getRollupPlugins = (
-  serverModules: ServerModuleDef[],
+
+/**
+ * Remove and replace modules only meant for server
+ *
+ * /0 prefix prevents other plugins from messing with module
+ * https://rollupjs.org/guide/en/#conventions
+ */
+export const getCustomBuildPlugins = (
+  serverModules: ServerModuleDef[] = [],
 ): Plugin[] => {
-  const fullServerModules = serverModules.map((_) => {
+  const serverOnlyModules = [
+    { id: "knex" },
+    { id: "chalk" },
+    { id: "express" },
+    { id: "nodemailer" },
+    { id: "nodemailer-html-to-text" },
+    { id: "prettyoutput" },
+    { id: "module", exports: ["createRequire"] },
+    ...serverModules,
+  ]
+  const fullServerModules = serverOnlyModules.map((_) => {
     return { ..._, exports: _.exports || ["default"], resolvedId: `\0${_.id}` }
   })
 

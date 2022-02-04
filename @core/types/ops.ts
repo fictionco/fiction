@@ -5,6 +5,13 @@ export enum StageId {
   Local = "local",
 }
 
+export type PackageBuildOptions = {
+  entryName?: string
+  entryFile?: string
+  outputDir?: string
+  outputDirDev?: string
+}
+
 export interface PackageJson {
   name: string
   version: string
@@ -17,12 +24,7 @@ export interface PackageJson {
   publishConfig?: {
     access: "public" | "restricted"
   }
-  buildOptions: {
-    entryName?: string
-    entryFile?: string
-    outputDir?: string
-    outputDirDev?: string
-  }
+  buildOptions: PackageBuildOptions
   [key: string]:
     | undefined
     | boolean

@@ -30,7 +30,7 @@ export default async (
 
       return {
         endpoints: [...paymentEndpoints, new EndpointMethodStripeHooks()],
-        serverOnlyImports: ["stripe"],
+        serverOnlyImports: [{ id: "stripe" }],
       }
     },
   }

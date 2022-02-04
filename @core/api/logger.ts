@@ -23,32 +23,6 @@ export const logType = {
  * Log only in development mode
  * @reference https://itnext.io/console-rules-b30560fc2367
  */
-export const dLog = (
-  category: keyof typeof logType,
-  description: string,
-  data?: string | Record<string, any>,
-): void => {
-  // designed for browser, don't log in NODE
-  if (isNode) return
-
-  const shouldLog =
-    process.env.NODE_ENV == "development" ||
-    (typeof localStorage !== "undefined" && localStorage.getItem("dLog"))
-      ? true
-      : false
-
-  if (shouldLog) {
-    const color = logType[category].color
-    const additional = ""
-
-    // eslint-disable-next-line no-console
-    console.log(
-      `%c${category} > ${description}`,
-      `color: ${color};padding: 5px 0;${additional}`,
-      data ?? "",
-    )
-  }
-}
 
 interface LoggerArgs {
   level: keyof typeof logLevel
@@ -72,7 +46,7 @@ class Logger {
     ) => string
   }
   constructor() {
-    this.isNode = typeof window === "undefined" ? true : false
+    this.isNode = isNode
     this.srv = {}
     if (this.isNode) {
       this.serverInit().catch((error) =>

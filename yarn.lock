@@ -1340,9 +1340,9 @@
     "@types/express" "*"
 
 "@types/node@*", "@types/node@>=8.1.0", "@types/node@^17.0.0", "@types/node@^17.0.5":
-  version "17.0.14"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.14.tgz#33b9b94f789a8fedd30a68efdbca4dbb06b61f20"
-  integrity sha512-SbjLmERksKOGzWzPNuW7fJM7fk3YXVTFiZWB/Hs99gwhk+/dnrQRPBQjPW9aO+fi1tAffi9PrwFvsmOKmDTyng==
+  version "17.0.15"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.15.tgz#97779282c09c09577120a2162e71d8380003590a"
+  integrity sha512-zWt4SDDv1S9WRBNxLFxFRHxdD9tvH8f5/kg5/IaLFdnSNXsDY4eL3Q3XXN+VxUnWIhyVFDwcsmAprvwXoM/ClA==
 
 "@types/nodemailer-html-to-text@^3.1.0":
   version "3.1.0"
@@ -1819,9 +1819,9 @@ ajv@^6.10.0, ajv@^6.12.4:
     uri-js "^4.2.2"
 
 ajv@^8.0.1:
-  version "8.9.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.9.0.tgz#738019146638824dea25edcf299dcba1b0e7eb18"
-  integrity sha512-qOKJyNj/h+OWx7s5DePL6Zu1KeM9jPZhwBqs+7DzP6bGOvqzVCSf0xueYmVuaC/oQ/VtS2zLMLHdQFbkka+XDQ==
+  version "8.10.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.10.0.tgz#e573f719bd3af069017e3b66538ab968d040e54d"
+  integrity sha512-bzqAEZOjkrUMl2afH8dknrq5KEk2SrwdBROR+vH1EKVQTqaUbJVPdc/gEdggTMM0Se+s+Ja4ju4TlNcStKl2Hw==
   dependencies:
     fast-deep-equal "^3.1.1"
     json-schema-traverse "^1.0.0"
@@ -2325,9 +2325,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001286, caniuse-lite@^1.0.30001297:
-  version "1.0.30001306"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001306.tgz#582592afe243bad2223081b8abab07bf289cc699"
-  integrity sha512-Wd1OuggRzg1rbnM5hv1wXs2VkxJH/AA+LuudlIqvZiCvivF+wJJe2mgBZC8gPMgI7D76PP5CTx8Luvaqc1V6OQ==
+  version "1.0.30001307"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001307.tgz#27a67f13ebc4aa9c977e6b8256a11d5eafb30f27"
+  integrity sha512-+MXEMczJ4FuxJAUp0jvAl6Df0NI/OfW1RWEE61eSmzS7hw6lz4IKutbhbXendwq8BljfFuHtu26VWsg4afQ7Ng==
 
 chai@^4.3.6:
   version "4.3.6"
@@ -3677,9 +3677,9 @@ eslint-plugin-unicorn@^40.0.0:
     strip-indent "^3.0.0"
 
 eslint-plugin-vue@^8.0.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-8.4.0.tgz#16e59b356386b4428fb7d886b6d8ee5df2bbc09d"
-  integrity sha512-Ga96QRG8GA9AyzKtEDxqYRCMt/VJM4SLkcNmm4FvUiFBE4jpaBr25unRBi9iVmHLYhA9EZ/4I+jD8n1vfWzyAA==
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-8.4.1.tgz#0a25493bbfee6baa21614e637e3fd390617c0bb4"
+  integrity sha512-nmWOhNmDx9TZ+yP9ZhezTkZUupSHsYA2TocRm+efPSXMOyFrVczVlaIuQcLBjCtI8CbkBiUQ3VcyQsjlIhDrhA==
   dependencies:
     eslint-utils "^3.0.0"
     natural-compare "^1.4.0"
@@ -6493,10 +6493,10 @@ pg-int8@1.0.1:
   resolved "https://registry.yarnpkg.com/pg-int8/-/pg-int8-1.0.1.tgz#943bd463bf5b71b4170115f80f8efc9a0c0eb78c"
   integrity sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==
 
-pg-pool@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-3.4.1.tgz#0e71ce2c67b442a5e862a9c182172c37eda71e9c"
-  integrity sha512-TVHxR/gf3MeJRvchgNHxsYsTCHQ+4wm3VIHSS19z8NC0+gioEhq1okDY1sm/TYbfoP6JLFx01s0ShvZ3puP/iQ==
+pg-pool@^3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-3.5.1.tgz#f499ce76f9bf5097488b3b83b19861f28e4ed905"
+  integrity sha512-6iCR0wVrro6OOHFsyavV+i6KYL4lVNyYAB9RD18w66xSzN+d8b66HiwuP30Gp1SH5O9T82fckkzsRjlrhD0ioQ==
 
 pg-protocol@*, pg-protocol@^1.5.0:
   version "1.5.0"
@@ -6515,14 +6515,14 @@ pg-types@^2.1.0, pg-types@^2.2.0:
     postgres-interval "^1.1.0"
 
 pg@^8.5.1:
-  version "8.7.1"
-  resolved "https://registry.yarnpkg.com/pg/-/pg-8.7.1.tgz#9ea9d1ec225980c36f94e181d009ab9f4ce4c471"
-  integrity sha512-7bdYcv7V6U3KAtWjpQJJBww0UEsWuh4yQ/EjNf2HeO/NnvKjpvhEIe/A/TleP6wtmSKnUnghs5A9jUoK6iDdkA==
+  version "8.7.3"
+  resolved "https://registry.yarnpkg.com/pg/-/pg-8.7.3.tgz#8a5bdd664ca4fda4db7997ec634c6e5455b27c44"
+  integrity sha512-HPmH4GH4H3AOprDJOazoIcpI49XFsHCe8xlrjHkWiapdbHK+HLtbm/GQzXYAZwmPju/kzKhjaSfMACG+8cgJcw==
   dependencies:
     buffer-writer "2.0.0"
     packet-reader "1.0.0"
     pg-connection-string "^2.5.0"
-    pg-pool "^3.4.1"
+    pg-pool "^3.5.1"
     pg-protocol "^1.5.0"
     pg-types "^2.1.0"
     pgpass "1.x"
@@ -8566,9 +8566,9 @@ vite@>=2.7.13, vite@^2.3.6, vite@^2.5.3, vite@^2.7.12, vite@^2.7.13:
     fsevents "~2.3.2"
 
 vitest@^0.2.0:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.2.6.tgz#1a658c3deec3893f34d5a0b00f81da7329fd1b1e"
-  integrity sha512-qjjWJm+rpmqOmG3uSoFAh/8m9iZWzYmoWJTqqLKZYKRZSo0P+ibC05Atu8l1JRUrEgsgJIGot4JcPO4N42TX9Q==
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.2.7.tgz#a4c1bb927a08c4e0e2d1daa340b4f3c0fec8feca"
+  integrity sha512-rKbmtADi6jsxYrwBrw4+sdYPLm3eiTmx7ojoZXQshScxnGWbHP18hWNa2NUEOYgowatkIiWPDVIyFB1kPnhokw==
   dependencies:
     "@types/chai" "^4.3.0"
     "@types/chai-subset" "^1.3.3"

@@ -11,10 +11,13 @@ import { serverConfigSetting } from "@factor/server/config"
 import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
-
 import { createRequire } from "module"
-
+import { getCustomBuildPlugins } from "@factor/cjs"
 const require = createRequire(import.meta.url)
+
+/**
+ * type import("@factor/cjs")
+ */
 
 const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
   const baseTailwindConfig = await import("./tailwind.config")
@@ -112,40 +115,12 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
   }
 }
 
-const coreServerOnlyImports = [
-  "knex",
-  "chalk",
-  "express",
-  "nodemailer",
-  "nodemailer-html-to-text",
-]
-
-/**
- * /0 prefix prevents other plugins from messing with module
- * https://rollupjs.org/guide/en/#conventions
- */
-const serverModuleReplacer = (): vite.Plugin => {
-  const serverOnly = serverConfigSetting("serverOnlyImports") ?? []
-  const virtualModuleIds = new Set([...coreServerOnlyImports, ...serverOnly])
-  const resolvedVirtualModuleIds = new Set(
-    [...virtualModuleIds].map((_) => `\0${_}`),
+const customVitePlugins = (): vite.Plugin[] => {
+  return getCustomBuildPlugins(serverConfigSetting("serverOnlyImports")).map(
+    (_) => {
+      return { ..._, enforce: "pre" as const }
+    },
   )
-
-  return {
-    name: "serverModuleReplacer", // required, will show up in warnings and errors
-    enforce: "pre",
-    resolveId(id) {
-      if (virtualModuleIds.has(id)) {
-        return `\0${id}`
-      }
-    },
-    load(id) {
-      if (resolvedVirtualModuleIds.has(id)) {
-        return `const txt="SERVER ONLY MODULE"
-                export {default: txt}`
-      }
-    },
-  }
 }
 
 export const getViteConfig = async (
@@ -216,53 +191,11 @@ export const getViteConfig = async (
 
     plugins: [
       pluginVue(),
-      serverModuleReplacer(),
       pluginMarkdown.plugin({
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
-      {
-        name: "serverOnly",
-        enforce: "pre",
-        transform(src, id) {
-          const match = src.match(/server-only-file/)
-
-          if (match) {
-            logger.log({
-              level: "error",
-              context: "vite",
-              description: "server only file loaded in browser",
-              data: { id },
-            })
-            return {
-              code: `console.error("server only file: ${id}")`,
-              map: null, // provide source map if available
-            }
-          }
-        },
-      },
-
-      /**
-       * https://rollupjs.org/guide/en/#resolveid
-       */
-      // {
-      //   name: "resolveApp",
-      //   resolveId: (source: string): string | null => {
-      //     const match = source.match(/@alias\/app(.*)/)
-
-      //     if (match) {
-      //       const file = match[1] ?? ""
-
-      //       const appFile = path.join(sourceFolder(), file)
-
-      //       const actualFile = fs.existsSync(appFile)
-      //         ? appFile
-      //         : path.join(entryDir, file)
-
-      //       return actualFile
-      //     } else return null
-      //   },
-      // },
+      ...customVitePlugins(),
     ],
     ...optimizeDeps(),
   }

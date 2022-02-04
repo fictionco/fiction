@@ -123,6 +123,14 @@ export const resolve = async (specifier, context, defaultResolve) => {
         format: "module",
       }
     }
+    // https://github.com/nodejs/modules/issues/488#issuecomment-589541566
+    else if (/^file:\/{3}.*\/bin\//.test(url.href) && !path.extname(url.href)) {
+      return {
+        url: url.href,
+        format: "commonjs",
+      }
+    }
+
     // Else, for other types, use default resolve with the valid path
     return defaultResolve(url.href, context, defaultResolve)
   }

@@ -1,7 +1,7 @@
 import path from "path"
 import { performance } from "perf_hooks"
 import fs from "fs-extra"
-import { logger } from "@factor/api"
+import { logger, PackageJson, PackageBuildOptions } from "@factor/api"
 import { getPackages, getCommit } from "./utils"
 import * as rollup from "rollup"
 import { getConfig } from "./rollupBuildConfig"
@@ -88,8 +88,8 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
   await bundle.close()
 }
 
-const getModuleBuildOptions = (pkg: string): BundleOptions => {
-  const { buildOptions } = require(`${pkg}/package.json`)
+const getModuleBuildOptions = (pkg: string): PackageBuildOptions => {
+  const { buildOptions } = require(`${pkg}/package.json`) as PackageJson
 
   return buildOptions
 }
@@ -109,7 +109,7 @@ export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
       if (buildOptions) {
         logger.log({
           level: "info",
-          context: "bundle",
+          context: "bundleAll",
           description: `bundle ${packageName}`,
         })
         await bundle({ ...options, packageName })

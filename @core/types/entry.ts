@@ -63,7 +63,7 @@ export interface UserConfigServerOptions {
   >
   endpoints?: Endpoint[]
   endpointPort?: number
-  serverOnlyImports?: string[]
+  serverOnlyImports?: { id: string; exports?: string[] }[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]
