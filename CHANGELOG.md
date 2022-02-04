@@ -1,3 +1,12 @@
+## [4.0.4](https://github.com/FactorJS/factor/compare/v4.0.3...v4.0.4) (2022-02-04)
+
+
+### Bug Fixes
+
+* allow base ([7c28ea9](https://github.com/FactorJS/factor/commit/7c28ea9d5027a8865256ccf9f50a9c439e3cb1a1))
+
+
+
 ## [4.0.3](https://github.com/FactorJS/factor/compare/v4.0.2...v4.0.3) (2022-02-03)
 
 

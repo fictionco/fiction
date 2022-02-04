@@ -1,6 +1,6 @@
 {
   "name": "@factor/cjs",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
