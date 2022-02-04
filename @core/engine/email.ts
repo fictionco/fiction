@@ -1,5 +1,5 @@
+/* server-only-file */
 import { _stop, renderMarkdown, logger } from "@factor/api"
-
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"

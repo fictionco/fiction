@@ -141,7 +141,8 @@ const serverModuleReplacer = (): vite.Plugin => {
     },
     load(id) {
       if (resolvedVirtualModuleIds.has(id)) {
-        return `export default "SERVER ONLY MODULE REPLACED IN BROWSER"`
+        return `const txt="SERVER ONLY MODULE"
+                export {default: txt}`
       }
     },
   }
