@@ -32,7 +32,7 @@ export type EndpointManageAction =
 export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly baseURL: string
   readonly basePath: string
-  readonly key?: U
+  readonly key: string
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
@@ -46,8 +46,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   public request(params: Parameters<T["run"]>[0]): ReturnType<T["run"]> {
-    if (!this.key) throw new Error("method key not set")
-
     return this.http(this.key, params) as ReturnType<T["run"]>
   }
 
