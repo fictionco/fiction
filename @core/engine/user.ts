@@ -20,7 +20,7 @@ import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
 import { getDb } from "./db"
-import { sendEmail } from "./email"
+
 import { createClientToken, decodeClientToken } from "./jwt"
 
 import { EndpointMethodOptions, Endpoint, EndpointMeta } from "./endpoint"
@@ -206,6 +206,7 @@ export const sendVerificationEmail = async (args: {
   email: string
   code: string | number
 }): Promise<void> => {
+  const { sendEmail } = await import("./email")
   const { code, email } = args
   await sendEmail({
     subject: `${code} is your verification code`,

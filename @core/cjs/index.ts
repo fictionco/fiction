@@ -26,7 +26,7 @@ export const getCustomBuildPlugins = (
     ...serverModules,
   ]
   const fullServerModules = serverOnlyModules.map((_) => {
-    return { ..._, exports: _.exports || ["default"], resolvedId: `\0${_.id}` }
+    return { ..._, exports: _.exports || [], resolvedId: `\0${_.id}` }
   })
 
   return [
@@ -58,8 +58,10 @@ export const getCustomBuildPlugins = (
       load(id: string): LoadResult {
         const found = fullServerModules.find((_) => _.resolvedId == id)
         if (found) {
-          return `const txt = "SERVER_ONLY_MODULE"
-                  export {${found.exports.map((_) => `${_} = txt`).join(",")}}`
+          return `const _ = () => "SERVER_ONLY_MODULE"
+                  export default _
+                  ${found.exports.map((_) => `const ${_} = _\n`)}
+                  export {${found.exports.map((_) => _).join(",")}}`
         }
       },
     },
