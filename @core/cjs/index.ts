@@ -1,5 +1,5 @@
-import { Plugin, ResolveIdResult, LoadResult } from "rollup"
-
+import { ResolveIdResult, LoadResult } from "rollup"
+import * as vite from "vite"
 export type ServerModuleDef = {
   id: string
   exports?: string[]
@@ -14,14 +14,16 @@ export type ServerModuleDef = {
  */
 export const getCustomBuildPlugins = (
   serverModules: ServerModuleDef[] = [],
-): Plugin[] => {
+): vite.Plugin[] => {
   const serverOnlyModules = [
     { id: "knex" },
+    { id: "bcrypt" },
     { id: "chalk" },
     { id: "express" },
     { id: "nodemailer" },
     { id: "nodemailer-html-to-text" },
     { id: "prettyoutput" },
+    { id: "consola" },
     { id: "module", exports: ["createRequire"] },
     ...serverModules,
   ]
@@ -29,18 +31,17 @@ export const getCustomBuildPlugins = (
     return { ..._, exports: _.exports || [], resolvedId: `\0${_.id}` }
   })
 
-  return [
+  const plugins: vite.Plugin[] = [
     {
       name: "serverOnly",
-
+      enforce: "pre",
       transform(src: string, id: string) {
         const match = src.match(/server-only-file/)
 
         if (match) {
-          console.warn(`server only in build`, { id })
-
           return {
-            code: `console.error("server only file: ${id}")`,
+            code: `console.warn("server only file: ${id}")
+                   export default {}`,
             map: null, // provide source map if available
           }
         }
@@ -48,7 +49,7 @@ export const getCustomBuildPlugins = (
     },
     {
       name: "serverModuleReplacer", // required, will show up in warnings and errors
-
+      enforce: "pre",
       resolveId(id: string): ResolveIdResult {
         const found = fullServerModules.find((_) => _.id == id)
         if (found) {
@@ -58,12 +59,24 @@ export const getCustomBuildPlugins = (
       load(id: string): LoadResult {
         const found = fullServerModules.find((_) => _.resolvedId == id)
         if (found) {
-          return `const _ = () => "SERVER_ONLY_MODULE"
+          return `// module ${id} replaced
+                  const _ = () => "SERVER_ONLY_MODULE"
                   export default _
                   ${found.exports.map((_) => `const ${_} = _\n`)}
                   export {${found.exports.map((_) => _).join(",")}}`
         }
       },
+      config: () => {
+        return {
+          build: {
+            rollupOptions: {
+              external: serverOnlyModules.map((_) => _.id),
+            },
+          },
+        }
+      },
     },
   ]
+
+  return plugins
 }

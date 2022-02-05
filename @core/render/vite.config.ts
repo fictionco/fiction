@@ -126,6 +126,7 @@ const customVitePlugins = (): vite.Plugin[] => {
 export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
 ): Promise<vite.InlineConfig> => {
+  const { mode } = options
   const vars = await setAppGlobals()
 
   const defines = Object.fromEntries(
@@ -135,10 +136,10 @@ export const getViteConfig = async (
   )
 
   logger.log({
-    level: "info",
+    level: mode == "development" ? "debug" : "info",
     context: "build",
     description: `build variables`,
-    data: defines,
+    data: vars,
     disableOnRestart: true,
   })
 
@@ -159,7 +160,6 @@ export const getViteConfig = async (
     },
 
     css: {
-      //postcss: path.join(cwd(), "postcss.config.js"),
       postcss: {
         plugins: [twPlugin(twConfig), require("autoprefixer")],
       },
@@ -168,6 +168,11 @@ export const getViteConfig = async (
       manifest: true,
       emptyOutDir: true,
       minify: false,
+      rollupOptions: {
+        // make sure to externalize deps that shouldn't be bundled
+        // into your library
+        external: ["vue"],
+      },
     },
     resolve: {
       alias: {
