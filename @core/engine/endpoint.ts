@@ -75,7 +75,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     const options: AxiosRequestConfig = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${bearerToken}`,
+        Authorization: `Bearer ${bearerToken ?? ""}`,
         from: "dashboard",
       },
       baseURL: this.baseURL,
@@ -85,7 +85,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     logger.log({
       level: "info",
-      context: `Endpoint:${this.basePath}`,
+      context: `ep:${url}`,
       description: `request:${url}`,
       data: options,
     })
@@ -99,7 +99,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
       logger.log({
         level: "error",
-        context: `Endpoint:${this.basePath}`,
+        context: `ep:${url}`,
         description: `error: ${method}`,
         data: e,
       })
@@ -112,7 +112,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     logger.log({
       level: "info",
-      context: `Endpoint:${this.basePath}`,
+      context: `ep:${url}`,
       description: "http response",
       data: responseData,
     })

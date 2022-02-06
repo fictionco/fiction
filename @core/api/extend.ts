@@ -50,6 +50,7 @@ export const setupPlugins = async (
       }
     }
   }
+
   const r = deepMergeAll<UserConfig>(config)
 
   return r

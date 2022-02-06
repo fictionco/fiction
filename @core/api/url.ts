@@ -7,6 +7,8 @@ const removeProtocol = (url: string): string => {
 }
 
 export const serverUrl = (): string => {
+  if (typeof window !== "undefined") (window as Window).process = { env: {} }
+
   if (process.env.FACTOR_SERVER_URL) {
     return process.env.FACTOR_SERVER_URL
   } else {
