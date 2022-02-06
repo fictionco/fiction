@@ -29,4 +29,11 @@ export abstract class Query {
     params: unknown,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<unknown>>
+
+  async serve(
+    params: unknown,
+    meta: EndpointMeta,
+  ): Promise<EndpointResponse<unknown>> {
+    return this.run(params, meta)
+  }
 }

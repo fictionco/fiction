@@ -93,7 +93,6 @@ export class EndpointServer {
       if (request.bearerToken) {
         const { email } = decodeClientToken(request.bearerToken)
 
-        console.log("GET AUTH", request.url)
         const { data: user } = await Queries.ManageUser.run({
           email,
           _action: "getPrivate",

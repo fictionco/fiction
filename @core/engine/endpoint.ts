@@ -58,7 +58,11 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     } else if (this.queryHandler) {
       const params = request.body as Record<string, any>
       const meta = { bearer: request.bearer }
-      return await this.queryHandler.run(params, meta)
+      try {
+        return await this.queryHandler.run(params, meta)
+      } catch (error) {
+        return error
+      }
     } else {
       return { status: "error", more: "no query or request handler" }
     }

@@ -1,9 +1,14 @@
+/// <reference path="./shim.d.ts" />
+
 interface UrlOptions {
   domainOnly?: true
   location?: string
 }
-const removeProtocol = (url: string): string => {
-  return url.replace(/(^\w+:|^)\/\//, "")
+
+declare global {
+  interface Window {
+    process: { env?: Record<string, string> }
+  }
 }
 
 export const serverUrl = (): string => {
@@ -14,6 +19,10 @@ export const serverUrl = (): string => {
   } else {
     return `http://localhost:${process.env.FACTOR_SERVER_PORT || "3210"}`
   }
+}
+
+const removeProtocol = (url: string): string => {
+  return url.replace(/(^\w+:|^)\/\//, "")
 }
 
 /**

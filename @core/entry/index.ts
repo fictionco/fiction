@@ -6,9 +6,6 @@ import * as mainFile from "@src/index.ts"
 // eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
 import App from "@src/App.vue"
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./vue.d.ts" />
-
 import { initializeWindow } from "./init"
 import { isNode } from "@factor/api/utils"
 import { runCallbacks } from "@factor/api/hook"
@@ -24,9 +21,6 @@ import { initializeUser } from "@factor/api/userCurrent"
 /**
  * Define process.env to prevent errors on any node code that runs
  */
-if (!isNode) {
-  window.process.env = {}
-}
 
 const setupApp = async (): Promise<UserConfigApp> => {
   let userConfig: UserConfigApp = {}

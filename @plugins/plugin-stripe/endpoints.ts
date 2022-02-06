@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
-import { endpointsMap } from "@factor/engine/user"
+import { endpointsMap, Queries as UserQueries } from "@factor/engine/user"
 import { Query } from "@factor/engine/query"
 import {
   FactorEndpoint,
@@ -30,7 +30,7 @@ abstract class QueryPayments extends Query {
     }
 
     if (userId) {
-      const privateDataResponse = await endpointsMap.ManageUser.request({
+      const privateDataResponse = await UserQueries.ManageUser.run({
         userId,
         _action: "getPrivate",
       })
@@ -415,9 +415,6 @@ class QueryGetCoupon extends QueryPayments {
 }
 
 class QueryGetCustomerData extends QueryPayments {
-  constructor() {
-    super()
-  }
   async run(
     {
       customerId,
@@ -426,27 +423,31 @@ class QueryGetCustomerData extends QueryPayments {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<CustomerData>> {
-    const [customer, subscriptions, invoices, paymentMethods, allProducts] =
-      await Promise.all([
-        Queries.ManageCustomer.run({ customerId, _action: "retrieve" }, meta),
-        Queries.ListSubscriptions.run({ customerId }),
-        Queries.GetInvoices.run({ customerId }, meta),
-        Queries.ManagePaymentMethod.run(
-          { customerId, _action: "retrieve" },
-          meta,
-        ),
-        Queries.AllProducts.run(undefined),
-      ])
+    try {
+      const [customer, subscriptions, invoices, paymentMethods, allProducts] =
+        await Promise.all([
+          Queries.ManageCustomer.run({ customerId, _action: "retrieve" }, meta),
+          Queries.ListSubscriptions.run({ customerId }),
+          Queries.GetInvoices.run({ customerId }, meta),
+          Queries.ManagePaymentMethod.run(
+            { customerId, _action: "retrieve" },
+            meta,
+          ),
+          Queries.AllProducts.run(undefined),
+        ])
 
-    const data: CustomerData = {
-      subscriptions: subscriptions.data,
-      customer: customer.data,
-      invoices: invoices.data,
-      paymentMethods: paymentMethods.data,
-      allProducts: allProducts.data,
-      idempotencyKey: objectId(),
+      const data: CustomerData = {
+        subscriptions: subscriptions.data,
+        customer: customer.data,
+        invoices: invoices.data,
+        paymentMethods: paymentMethods.data,
+        allProducts: allProducts.data,
+        idempotencyKey: objectId(),
+      }
+      return { status: "success", data }
+    } catch (error: unknown) {
+      throw this.stop(error as Error)
     }
-    return { status: "success", data }
   }
 }
 

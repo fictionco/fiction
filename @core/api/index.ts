@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./shim.d.ts" />
 
 if (typeof window !== "undefined") window.process.env = {}
