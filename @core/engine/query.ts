@@ -26,17 +26,25 @@ export abstract class Query {
     }
   }
 
+  /**
+   * Base query method
+   */
   abstract run(
     params: unknown,
     meta?: EndpointMeta,
   ): Promise<EndpointResponse<unknown>>
 
-  serve(
+  /**
+   * Wrapper to catch errors
+   * @note must await the result of run or it wont catch
+   */
+  async serve(
     params: Parameters<this["run"]>[0],
     meta: Parameters<this["run"]>[1],
-  ): ReturnType<this["run"]> {
+  ): Promise<Awaited<ReturnType<this["run"]>>> {
     try {
-      return this.run(params, meta) as ReturnType<this["run"]>
+      const result = await this.run(params, meta)
+      return result as Awaited<ReturnType<this["run"]>>
     } catch (error: unknown) {
       const e = error as ErrorConfig
 
@@ -55,7 +63,14 @@ export abstract class Query {
         context: this.constructor.name,
       }
 
-      return response as ReturnType<this["run"]>
+      return response as Awaited<ReturnType<this["run"]>>
     }
+  }
+
+  async serveRequest(
+    params: Parameters<this["run"]>[0],
+    meta: Parameters<this["run"]>[1],
+  ): Promise<Awaited<ReturnType<this["run"]>>> {
+    return await this.serve(params, meta)
   }
 }

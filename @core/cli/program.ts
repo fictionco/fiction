@@ -396,6 +396,11 @@ process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
 //catches uncaught exceptions
 process.on("uncaughtException", (Error) => {
-  logger.log({ level: "error", description: "uncaught error", data: Error })
-  exitHandler({ exit: true, code: 1 })
+  logger.log({
+    level: "error",
+    description: "uncaught error!",
+    context: "uncaughtException",
+    data: Error,
+  })
+  done(1)
 })

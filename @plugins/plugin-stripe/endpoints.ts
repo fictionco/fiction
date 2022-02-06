@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
-import { endpointsMap, Queries as UserQueries } from "@factor/engine/user"
+import {
+  isNode,
+  objectId,
+  EndpointResponse,
+  PrivateUser,
+  logger,
+  ErrorConfig,
+} from "@factor/api"
+import { Queries as UserQueries } from "@factor/engine/user"
 import { Query } from "@factor/engine/query"
 import {
   FactorEndpoint,
@@ -42,6 +49,28 @@ abstract class QueryPayments extends Query {
 
     return out
   }
+
+  async serveRequest(
+    params: Parameters<this["run"]>[0],
+    meta: EndpointMeta,
+  ): Promise<Awaited<ReturnType<this["run"]>> & RefineResult> {
+    const result = await this.serve(params, meta)
+
+    if (result.status == "success") {
+      const r = result as Awaited<ReturnType<this["run"]>> & {
+        customerId?: string
+        userId?: string
+      }
+
+      const { customerId, userId } = r
+
+      const fullResponse = await this.refine({ customerId, userId }, meta)
+
+      return { ...r, ...fullResponse }
+    } else {
+      return result as Awaited<ReturnType<this["run"]>> & RefineResult
+    }
+  }
 }
 
 export const stripeSecretKey = (): string => {
@@ -51,7 +80,7 @@ export const stripeSecretKey = (): string => {
       : process.env.STRIPE_SECRET_KEY_TEST
 
   if (!stripeSecretKey) {
-    throw new Error(`Stripe secret key missing: ${stripeEnv()}`)
+    throw new Error(`stripe secret key missing: ${stripeEnv()}`)
   }
 
   return stripeSecretKey
@@ -72,7 +101,7 @@ class QueryManageCustomer extends QueryPayments {
       email?: string
       _action: EndpointManageAction
     },
-    meta: EndpointMeta,
+    _meta: EndpointMeta,
   ): Promise<
     EndpointResponse<Stripe.Customer | Stripe.DeletedCustomer> & {
       customerId: string
@@ -102,21 +131,13 @@ class QueryManageCustomer extends QueryPayments {
     } else if (customerId) {
       customer = await stripe.customers.retrieve(customerId)
     } else {
-      throw this.stop({ message: "could not get Stripe customer" })
+      throw this.stop("could not get stripe customer")
     }
-
-    const { customerData } = await this.refine(
-      {
-        customerId: customer.id,
-      },
-      meta,
-    )
 
     return {
       status: "success",
       data: customer,
       customerId: customer.id,
-      customerData,
     }
   }
 }
@@ -201,9 +222,12 @@ class QueryPaymentMethod extends QueryPayments {
 }
 
 class QueryListSubscriptions extends QueryPayments {
-  async run(params: {
-    customerId: string
-  }): Promise<EndpointResponse<Stripe.ApiList<Stripe.Subscription>>> {
+  async run(
+    params: {
+      customerId: string
+    },
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<Stripe.ApiList<Stripe.Subscription>>> {
     const { customerId } = params
 
     if (!customerId) throw this.stop({ message: "no customer id" })
@@ -309,21 +333,12 @@ class QueryManageSubscription extends QueryPayments {
       await onSubscriptionUpdate(sub)
     }
 
-    const { customerData, user } = await this.refine(
-      {
-        customerId,
-        userId: meta.bearer?.userId,
-      },
-      meta,
-    )
-
     return {
       status: "success",
       data: sub,
       customerId,
-      customerData,
       userId: meta.bearer?.userId,
-      user,
+
       message,
     }
   }
@@ -336,7 +351,7 @@ class QueryGetInvoices extends QueryPayments {
       limit?: number
       startingAfter?: string
     },
-    meta: EndpointMeta,
+    _meta: EndpointMeta,
   ): Promise<
     EndpointResponse<Stripe.ApiList<Stripe.Invoice>> & {
       customerId: string
@@ -351,21 +366,17 @@ class QueryGetInvoices extends QueryPayments {
       limit,
     })
 
-    const { customerData } = await this.refine(
-      {
-        customerId,
-      },
-      meta,
-    )
-
-    return { status: "success", data, customerId, customerData }
+    return { status: "success", data, customerId }
   }
 }
 
 class QueryGetProduct extends QueryPayments {
-  async run(params: {
-    productId: string
-  }): Promise<EndpointResponse<Stripe.Product>> {
+  async run(
+    params: {
+      productId: string
+    },
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<Stripe.Product>> {
     const { productId } = params
     const stripe = getStripe()
     const product = await stripe.products.retrieve(productId)
@@ -375,7 +386,10 @@ class QueryGetProduct extends QueryPayments {
 }
 
 class QueryAllProducts extends QueryPayments {
-  async run(_params: undefined): Promise<EndpointResponse<Stripe.Product[]>> {
+  async run(
+    _params: undefined,
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<Stripe.Product[]>> {
     const products = getStripeProducts()
 
     const productIds = products
@@ -384,7 +398,7 @@ class QueryAllProducts extends QueryPayments {
 
     const responsePlans = await Promise.all(
       productIds.map((productId: string) =>
-        Queries.GetProduct.serve({ productId }, undefined),
+        Queries.GetProduct.serve({ productId }, {}),
       ),
     )
     const data = responsePlans
@@ -429,13 +443,13 @@ class QueryGetCustomerData extends QueryPayments {
     const [customer, subscriptions, invoices, paymentMethods, allProducts] =
       await Promise.all([
         Queries.ManageCustomer.serve({ customerId, _action: "retrieve" }, meta),
-        Queries.ListSubscriptions.serve({ customerId }, undefined),
+        Queries.ListSubscriptions.serve({ customerId }, meta),
         Queries.GetInvoices.serve({ customerId }, meta),
         Queries.ManagePaymentMethod.serve(
           { customerId, _action: "retrieve" },
           meta,
         ),
-        Queries.AllProducts.serve(undefined, undefined),
+        Queries.AllProducts.serve(undefined, meta),
       ])
 
     const data: CustomerData = {
@@ -450,7 +464,7 @@ class QueryGetCustomerData extends QueryPayments {
   }
 }
 
-const Queries = {
+export const Queries = {
   ManageCustomer: new QueryManageCustomer(),
   ListSubscriptions: new QueryListSubscriptions(),
   GetInvoices: new QueryGetInvoices(),

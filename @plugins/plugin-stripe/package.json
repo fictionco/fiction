@@ -15,5 +15,9 @@
     "@stripe/stripe-js": "^1.13.2",
     "express": "^4.17.1",
     "stripe": "^8.49.0"
+  },
+  "devDependencies": {
+    "vitest": "^0.2.0",
+    "dotenv": "^16.0.0"
   }
 }
