@@ -9,6 +9,7 @@
   "private": false,
   "dependencies": {
     "@factor/api": "4.0.5",
+    "@factor/cjs": "4.0.5",
     "@factor/engine": "4.0.5",
     "@types/fs-extra": "^9.0.3",
     "@types/glob": "^7.1.3",

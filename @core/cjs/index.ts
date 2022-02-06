@@ -1,4 +1,5 @@
 import { ResolveIdResult, LoadResult } from "rollup"
+import { serverConfigSetting } from "@factor/server/config"
 import * as vite from "vite"
 export type ServerModuleDef = {
   id: string
@@ -6,17 +7,12 @@ export type ServerModuleDef = {
   resolvedId?: string
 }
 
-/**
- * Remove and replace modules only meant for server
- *
- * /0 prefix prevents other plugins from messing with module
- * https://rollupjs.org/guide/en/#conventions
- */
-export const getCustomBuildPlugins = (
-  serverModules: ServerModuleDef[] = [],
-): vite.Plugin[] => {
-  const serverOnlyModules = [
+export const getServerOnlyModules = (): ServerModuleDef[] => {
+  const s = serverConfigSetting("serverOnlyImports") ?? []
+
+  return [
     { id: "knex" },
+    { id: "knex-stringcase" },
     { id: "bcrypt" },
     { id: "chalk" },
     { id: "express" },
@@ -24,9 +20,25 @@ export const getCustomBuildPlugins = (
     { id: "nodemailer-html-to-text" },
     { id: "prettyoutput" },
     { id: "consola" },
+    { id: "jsonwebtoken" },
+    { id: "lodash" },
+    { id: "body-parser" },
+    { id: "cors" },
+    { id: "helmet" },
+
     { id: "module", exports: ["createRequire"] },
-    ...serverModules,
+    ...s,
   ]
+}
+/**
+ * Remove and replace modules only meant for server
+ *
+ * /0 prefix prevents other plugins from messing with module
+ * https://rollupjs.org/guide/en/#conventions
+ */
+export const getCustomBuildPlugins = (): vite.Plugin[] => {
+  const serverOnlyModules = getServerOnlyModules()
+
   const fullServerModules = serverOnlyModules.map((_) => {
     return { ..._, exports: _.exports || [], resolvedId: `\0${_.id}` }
   })

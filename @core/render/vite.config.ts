@@ -7,12 +7,11 @@ import {
 import { setAppGlobals } from "@factor/server/globals"
 import { logger, deepMergeAll, getMarkdownUtility } from "@factor/api"
 import pluginVue from "@vitejs/plugin-vue"
-import { serverConfigSetting } from "@factor/server/config"
 import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
 import { createRequire } from "module"
-import { getCustomBuildPlugins } from "@factor/cjs"
+import { getCustomBuildPlugins, getServerOnlyModules } from "@factor/cjs"
 const require = createRequire(import.meta.url)
 
 /**
@@ -79,9 +78,7 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
         "@kaption/client",
-        "chalk",
-        "prettyoutput",
-        "consola",
+        ...getServerOnlyModules().map((_) => _.id),
       ],
       include: [
         "vuex",
@@ -113,14 +110,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
       ],
     },
   }
-}
-
-const customVitePlugins = (): vite.Plugin[] => {
-  return getCustomBuildPlugins(serverConfigSetting("serverOnlyImports")).map(
-    (_) => {
-      return { ..._, enforce: "pre" as const }
-    },
-  )
 }
 
 export const getViteConfig = async (
@@ -200,7 +189,7 @@ export const getViteConfig = async (
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
-      ...customVitePlugins(),
+      ...getCustomBuildPlugins(),
     ],
     ...optimizeDeps(),
   }

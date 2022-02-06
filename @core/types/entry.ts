@@ -6,6 +6,7 @@ import { FullUser } from "./user"
 import { Endpoint } from "@factor/engine/endpoint"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 import { CallbackDictionary } from "./dictionary"
+import type { ServerModuleDef } from "@factor/cjs"
 export interface FactorAppEntry {
   app: App
   head: HeadClient
@@ -63,7 +64,7 @@ export interface UserConfigServerOptions {
   >
   endpoints?: Endpoint[]
   endpointPort?: number
-  serverOnlyImports?: { id: string; exports?: string[] }[]
+  serverOnlyImports?: ServerModuleDef[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]
