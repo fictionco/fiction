@@ -1,4 +1,4 @@
-import { EndpointResponse, PrivateUser } from "@factor/types"
+import { EndpointResponse, PrivateUser, ErrorConfig } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
 import { clientToken, logger, serverUrl } from "@factor/api"
 import { Query } from "./query"
@@ -58,11 +58,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     } else if (this.queryHandler) {
       const params = request.body as Record<string, any>
       const meta = { bearer: request.bearer }
-      try {
-        return await this.queryHandler.run(params, meta)
-      } catch (error) {
-        return error
-      }
+      return await this.queryHandler.serve(params, meta)
     } else {
       return { status: "error", more: "no query or request handler" }
     }

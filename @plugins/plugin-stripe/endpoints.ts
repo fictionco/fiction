@@ -25,15 +25,18 @@ abstract class QueryPayments extends Query {
     const out: RefineResult = {}
 
     if (customerId) {
-      const r = await Queries.GetCustomerData.run({ customerId }, meta)
+      const r = await Queries.GetCustomerData.serve({ customerId }, meta)
       out.customerData = r.data
     }
 
     if (userId) {
-      const privateDataResponse = await UserQueries.ManageUser.run({
-        userId,
-        _action: "getPrivate",
-      })
+      const privateDataResponse = await UserQueries.ManageUser.serve(
+        {
+          userId,
+          _action: "getPrivate",
+        },
+        meta,
+      )
       out.user = privateDataResponse.data
     }
 
@@ -153,7 +156,7 @@ class QueryPaymentMethod extends QueryPayments {
           usage: "off_session",
         })
 
-        await this.run(
+        await this.serve(
           {
             _action: "setDefault",
             customerId,
@@ -175,7 +178,7 @@ class QueryPaymentMethod extends QueryPayments {
           customer: customerId,
         })
 
-        await this.run(
+        await this.serve(
           {
             _action: "setDefault",
             customerId,
@@ -252,7 +255,7 @@ class QueryManageSubscription extends QueryPayments {
 
     // attach payment method to customer
     if (paymentMethodId && customerId) {
-      await Queries.ManagePaymentMethod.run(
+      await Queries.ManagePaymentMethod.serve(
         {
           customerId,
           paymentMethodId,
@@ -381,7 +384,7 @@ class QueryAllProducts extends QueryPayments {
 
     const responsePlans = await Promise.all(
       productIds.map((productId: string) =>
-        Queries.GetProduct.run({ productId }),
+        Queries.GetProduct.serve({ productId }, undefined),
       ),
     )
     const data = responsePlans
@@ -423,31 +426,27 @@ class QueryGetCustomerData extends QueryPayments {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<CustomerData>> {
-    try {
-      const [customer, subscriptions, invoices, paymentMethods, allProducts] =
-        await Promise.all([
-          Queries.ManageCustomer.run({ customerId, _action: "retrieve" }, meta),
-          Queries.ListSubscriptions.run({ customerId }),
-          Queries.GetInvoices.run({ customerId }, meta),
-          Queries.ManagePaymentMethod.run(
-            { customerId, _action: "retrieve" },
-            meta,
-          ),
-          Queries.AllProducts.run(undefined),
-        ])
+    const [customer, subscriptions, invoices, paymentMethods, allProducts] =
+      await Promise.all([
+        Queries.ManageCustomer.serve({ customerId, _action: "retrieve" }, meta),
+        Queries.ListSubscriptions.serve({ customerId }, undefined),
+        Queries.GetInvoices.serve({ customerId }, meta),
+        Queries.ManagePaymentMethod.serve(
+          { customerId, _action: "retrieve" },
+          meta,
+        ),
+        Queries.AllProducts.serve(undefined, undefined),
+      ])
 
-      const data: CustomerData = {
-        subscriptions: subscriptions.data,
-        customer: customer.data,
-        invoices: invoices.data,
-        paymentMethods: paymentMethods.data,
-        allProducts: allProducts.data,
-        idempotencyKey: objectId(),
-      }
-      return { status: "success", data }
-    } catch (error: unknown) {
-      throw this.stop(error as Error)
+    const data: CustomerData = {
+      subscriptions: subscriptions.data,
+      customer: customer.data,
+      invoices: invoices.data,
+      paymentMethods: paymentMethods.data,
+      allProducts: allProducts.data,
+      idempotencyKey: objectId(),
     }
+    return { status: "success", data }
   }
 }
 

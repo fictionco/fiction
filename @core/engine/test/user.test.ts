@@ -22,10 +22,13 @@ let user: FullUser
 const key = Math.random().toString().slice(2, 8)
 
 test("createUser", async () => {
-  const response = await Queries.ManageUser.run({
-    _action: "create",
-    fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
-  })
+  const response = await Queries.ManageUser.serve(
+    {
+      _action: "create",
+      fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
+    },
+    undefined,
+  )
 
   if (!response.data) throw new Error("problem creating user")
 
@@ -37,10 +40,13 @@ test("createUser", async () => {
 })
 
 test("verifyAccountEmail", async () => {
-  const response = await ep.Queries.VerifyAccountEmail.run({
-    email: user.email,
-    verificationCode: user.verificationCode ?? "",
-  })
+  const response = await ep.Queries.VerifyAccountEmail.serve(
+    {
+      email: user.email,
+      verificationCode: user.verificationCode ?? "",
+    },
+    undefined,
+  )
 
   expect(response.data).toBeTruthy()
   expect(response.status).toBe("success")
@@ -53,7 +59,7 @@ test("verifyAccountEmail", async () => {
 })
 
 test("setPassword", async () => {
-  const response = await ep.Queries.SetPassword.run(
+  const response = await ep.Queries.SetPassword.serve(
     {
       email: user.email,
       verificationCode: user.verificationCode ?? "",
@@ -69,9 +75,12 @@ test("setPassword", async () => {
 })
 
 test("resetPassword", async () => {
-  const response = await ep.Queries.ResetPassword.run({
-    email: user.email,
-  })
+  const response = await ep.Queries.ResetPassword.serve(
+    {
+      email: user.email,
+    },
+    undefined,
+  )
 
   expect(response.status).toBe("success")
 })

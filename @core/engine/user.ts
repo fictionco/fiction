@@ -75,7 +75,7 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
   if (!email) throw _stop({ message: "email is required" })
   if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
 
-  const { data: exists } = await Queries.ManageUser.run(
+  const { data: exists } = await Queries.ManageUser.serve(
     {
       _action: "getPublic",
       email,
@@ -181,21 +181,16 @@ class QueryCurrentUser extends Query {
 
     const { email } = decodeClientToken(token)
 
-    const { data: user } = await Queries.ManageUser.run({
-      _action: "update",
-      email,
-      fields: { lastSeen: dayjs().toISOString() },
-    })
+    const { data: user } = await Queries.ManageUser.serve(
+      {
+        _action: "update",
+        email,
+        fields: { lastSeen: dayjs().toISOString() },
+      },
+      undefined,
+    )
 
     return { status: "success", data: user }
-  }
-}
-
-class QueryGetPublicUser extends Query {
-  async run(
-    params: { email: string } | { userId: string },
-  ): Promise<EndpointResponse<PublicUser | false>> {
-    return Queries.ManageUser.run({ _action: "getPublic", ...params })
   }
 }
 
@@ -229,7 +224,10 @@ export const sendOneTimeCode = async (params: {
     codeExpiresAt: dayjs().add(1, "day").toISOString(),
   }
 
-  await Queries.ManageUser.run({ _action: "update", email, fields })
+  await Queries.ManageUser.serve(
+    { _action: "update", email, fields },
+    undefined,
+  )
 
   await sendVerificationEmail({ email, code })
 
@@ -328,7 +326,7 @@ class QueryUpdateCurrentUser extends Query {
     if (password) {
       const hashedPassword = await hashPassword(password)
 
-      const { data: dbUser } = await Queries.ManageUser.run(
+      const { data: dbUser } = await Queries.ManageUser.serve(
         {
           _action: "getPrivate",
           userId: bearer.userId,
@@ -362,11 +360,14 @@ class QueryUpdateCurrentUser extends Query {
 
     let user, token
     if (Object.keys(fields).length > 0) {
-      const response = await Queries.ManageUser.run({
-        _action: "update",
-        userId: bearer.userId,
-        fields,
-      })
+      const response = await Queries.ManageUser.serve(
+        {
+          _action: "update",
+          userId: bearer.userId,
+          fields,
+        },
+        meta,
+      )
 
       user = response.data
 
@@ -408,11 +409,14 @@ class QuerySetPassword extends Query {
     await verifyCode({ email, verificationCode })
     const hashedPassword = await hashPassword(password)
 
-    const { data: user } = await Queries.ManageUser.run({
-      _action: "update",
-      email,
-      fields: { hashedPassword },
-    })
+    const { data: user } = await Queries.ManageUser.serve(
+      {
+        _action: "update",
+        email,
+        fields: { hashedPassword },
+      },
+      meta,
+    )
 
     if (!user) throw this.stop("problem updating user")
 
@@ -442,11 +446,14 @@ class QueryVerifyAccountEmail extends Query {
 
     await verifyCode({ email, verificationCode })
 
-    const { data: user } = await Queries.ManageUser.run({
-      _action: "update",
-      email,
-      fields: { emailVerified: true },
-    })
+    const { data: user } = await Queries.ManageUser.serve(
+      {
+        _action: "update",
+        email,
+        fields: { emailVerified: true },
+      },
+      undefined,
+    )
 
     if (!user) throw this.stop("problem updating user")
 
@@ -501,10 +508,13 @@ class QueryStartNewUser extends Query {
     if (!this.qu) throw new Error("no knex")
 
     const { email, fullName } = params
-    const { data: user } = await Queries.ManageUser.run({
-      _action: "create",
-      fields: { email, fullName },
-    })
+    const { data: user } = await Queries.ManageUser.serve(
+      {
+        _action: "create",
+        fields: { email, fullName },
+      },
+      undefined,
+    )
 
     if (!user) throw this.stop("problem creating user")
 
@@ -538,7 +548,7 @@ class QueryLogin extends Query {
     }
   > {
     const { email, password } = params
-    let { data: user } = await Queries.ManageUser.run(
+    let { data: user } = await Queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -603,7 +613,7 @@ class QueryNewVerificationCode extends Query {
 
     const { email, newAccount } = params
 
-    let { data: existingUser } = await Queries.ManageUser.run(
+    let { data: existingUser } = await Queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -616,7 +626,7 @@ class QueryNewVerificationCode extends Query {
     if (newAccount && exists) {
       throw this.stop({ message: "email exists", data: { exists } })
     } else if (!existingUser) {
-      const { data: createdUser } = await Queries.ManageUser.run(
+      const { data: createdUser } = await Queries.ManageUser.serve(
         {
           _action: "create",
           fields: { email },
@@ -655,7 +665,6 @@ export const Queries = {
   Login: new QueryLogin(),
   NewVerificationCode: new QueryNewVerificationCode(),
   SetPassword: new QuerySetPassword(),
-  GetPublicUser: new QueryGetPublicUser(),
   ResetPassword: new QueryResetPassword(),
   UpdateCurrentUser: new QueryUpdateCurrentUser(),
   SendOneTimeCode: new QuerySendOneTimeCode(),

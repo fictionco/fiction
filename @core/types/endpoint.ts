@@ -11,6 +11,7 @@ export type EndpointResponse<T = unknown> = {
   error?: Error | unknown
   code?: ErrorCode
   expose?: boolean
+  context?: string
   [key: string]: any
 }
 
