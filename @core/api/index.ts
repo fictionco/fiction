@@ -1,5 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./shim.d.ts" />
+
+if (typeof window !== "undefined") window.process.env = {}
+console.log("hello")
 export * from "@factor/types"
 export * from "./_"
 export * from "./endpoint"

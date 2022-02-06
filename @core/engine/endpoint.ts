@@ -1,7 +1,7 @@
 import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
 import { clientToken, logger, serverUrl } from "@factor/api"
-import { FactorQuery, Query } from "./query"
+import { Query } from "./query"
 import type express from "express"
 export type EndpointOptions = {
   baseURL: string
@@ -121,9 +121,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 }
 
-export class FactorEndpoint<
-  T extends FactorQuery = FactorQuery,
-> extends Endpoint<T> {
+export class FactorEndpoint<T extends Query = Query> extends Endpoint<T> {
   constructor(options: { basePath: string } & EndpointMethodOptions<T>) {
     super({ baseURL: serverUrl(), ...options })
   }

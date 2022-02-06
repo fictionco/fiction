@@ -10,6 +10,7 @@ import App from "@src/App.vue"
 /// <reference path="./vue.d.ts" />
 
 import { initializeWindow } from "./init"
+import { isNode } from "@factor/api/utils"
 import { runCallbacks } from "@factor/api/hook"
 import { getRouter, addRoutes } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
@@ -20,7 +21,12 @@ import { createHead } from "@vueuse/head"
 import { App as VueApp, createSSRApp, createApp } from "vue"
 import { initializeUser } from "@factor/api/userCurrent"
 
-const isNode = typeof window !== "undefined" ? false : true
+/**
+ * Define process.env to prevent errors on any node code that runs
+ */
+if (!isNode) {
+  window.process.env = {}
+}
 
 const setupApp = async (): Promise<UserConfigApp> => {
   let userConfig: UserConfigApp = {}

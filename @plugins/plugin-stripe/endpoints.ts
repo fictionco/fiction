@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
 import { endpointsMap } from "@factor/engine/user"
-import { FactorQuery } from "@factor/engine/query"
+import { Query } from "@factor/engine/query"
 import {
   FactorEndpoint,
   EndpointMeta,
@@ -15,7 +15,7 @@ type RefineResult = {
   customerData?: CustomerData
   user?: PrivateUser
 }
-abstract class FactorQueryPayments extends FactorQuery {
+abstract class QueryPayments extends Query {
   async refine(
     params: { customerId?: string; userId?: string },
     meta: EndpointMeta,
@@ -60,7 +60,7 @@ export const getStripe = (): Stripe => {
   return new Stripe(stripeSecretKey(), { apiVersion: "2020-08-27" })
 }
 
-class QueryManageCustomer extends FactorQueryPayments {
+class QueryManageCustomer extends QueryPayments {
   async run(
     params: {
       customerId?: string
@@ -118,7 +118,7 @@ class QueryManageCustomer extends FactorQueryPayments {
   }
 }
 
-class QueryPaymentMethod extends FactorQueryPayments {
+class QueryPaymentMethod extends QueryPayments {
   async run(
     params: {
       customerId: string
@@ -197,7 +197,7 @@ class QueryPaymentMethod extends FactorQueryPayments {
   }
 }
 
-class QueryListSubscriptions extends FactorQueryPayments {
+class QueryListSubscriptions extends QueryPayments {
   async run(params: {
     customerId: string
   }): Promise<EndpointResponse<Stripe.ApiList<Stripe.Subscription>>> {
@@ -212,7 +212,7 @@ class QueryListSubscriptions extends FactorQueryPayments {
   }
 }
 
-class QueryManageSubscription extends FactorQueryPayments {
+class QueryManageSubscription extends QueryPayments {
   async run(
     params: {
       _action?: EndpointManageAction
@@ -326,7 +326,7 @@ class QueryManageSubscription extends FactorQueryPayments {
   }
 }
 
-class QueryGetInvoices extends FactorQueryPayments {
+class QueryGetInvoices extends QueryPayments {
   async run(
     params: {
       customerId: string
@@ -359,7 +359,7 @@ class QueryGetInvoices extends FactorQueryPayments {
   }
 }
 
-class QueryGetProduct extends FactorQueryPayments {
+class QueryGetProduct extends QueryPayments {
   async run(params: {
     productId: string
   }): Promise<EndpointResponse<Stripe.Product>> {
@@ -371,7 +371,7 @@ class QueryGetProduct extends FactorQueryPayments {
   }
 }
 
-class QueryAllProducts extends FactorQueryPayments {
+class QueryAllProducts extends QueryPayments {
   async run(_params: undefined): Promise<EndpointResponse<Stripe.Product[]>> {
     const products = getStripeProducts()
 
@@ -392,7 +392,7 @@ class QueryAllProducts extends FactorQueryPayments {
   }
 }
 
-class QueryGetCoupon extends FactorQueryPayments {
+class QueryGetCoupon extends QueryPayments {
   async run({
     couponCode,
   }: {
@@ -414,7 +414,7 @@ class QueryGetCoupon extends FactorQueryPayments {
   }
 }
 
-class QueryGetCustomerData extends FactorQueryPayments {
+class QueryGetCustomerData extends QueryPayments {
   constructor() {
     super()
   }
@@ -462,7 +462,7 @@ const Queries = {
   GetCoupon: new QueryGetCoupon(),
 }
 
-class EndpointMethodPayments<T extends FactorQuery> extends FactorEndpoint<T> {
+class EndpointMethodPayments<T extends Query> extends FactorEndpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ basePath: "/payments", ...options })
   }

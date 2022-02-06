@@ -25,7 +25,7 @@ import { createClientToken, decodeClientToken } from "./jwt"
 
 import { EndpointMethodOptions, Endpoint, EndpointMeta } from "./endpoint"
 
-import { FactorQuery } from "./query"
+import { Query } from "./query"
 
 /**
  * A random 6 digit number, ideal for verification code
@@ -90,7 +90,7 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
   return true
 }
 
-class QueryManageUser extends FactorQuery {
+class QueryManageUser extends Query {
   async run(
     params:
       | { _action: "create"; fields: Partial<FullUser> & { email: string } }
@@ -173,7 +173,7 @@ class QueryManageUser extends FactorQuery {
   }
 }
 
-class QueryCurrentUser extends FactorQuery {
+class QueryCurrentUser extends Query {
   async run(params: { token: string }): Promise<EndpointResponse<FullUser>> {
     const { token } = params
 
@@ -191,7 +191,7 @@ class QueryCurrentUser extends FactorQuery {
   }
 }
 
-class QueryGetPublicUser extends FactorQuery {
+class QueryGetPublicUser extends Query {
   async run(
     params: { email: string } | { userId: string },
   ): Promise<EndpointResponse<PublicUser | false>> {
@@ -235,7 +235,7 @@ export const sendOneTimeCode = async (params: {
 
   return { status: "success", data: true }
 }
-class QuerySendOneTimeCode extends FactorQuery {
+class QuerySendOneTimeCode extends Query {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
     if (!this.qu) throw new Error("no knex")
 
@@ -294,7 +294,7 @@ export const verifyCode = async (args: {
  * Updates the current user with new info
  * Detecting if auth fields have changed and verifying account code
  */
-class QueryUpdateCurrentUser extends FactorQuery {
+class QueryUpdateCurrentUser extends Query {
   async run(
     params: Partial<FullUser> & { password?: string },
     meta: EndpointMeta,
@@ -386,7 +386,7 @@ class QueryUpdateCurrentUser extends FactorQuery {
   }
 }
 
-class QuerySetPassword extends FactorQuery {
+class QuerySetPassword extends Query {
   async run(
     params: {
       password: string
@@ -428,7 +428,7 @@ class QuerySetPassword extends FactorQuery {
   }
 }
 
-class QueryVerifyAccountEmail extends FactorQuery {
+class QueryVerifyAccountEmail extends Query {
   async run(params: {
     email: string
     verificationCode: string
@@ -476,7 +476,7 @@ class QueryVerifyAccountEmail extends FactorQuery {
   }
 }
 
-class QueryResetPassword extends FactorQuery {
+class QueryResetPassword extends Query {
   async run({ email }: { email: string }): Promise<EndpointResponse<FullUser>> {
     if (!this.qu) throw new Error("no knex")
 
@@ -491,7 +491,7 @@ class QueryResetPassword extends FactorQuery {
   }
 }
 
-class QueryStartNewUser extends FactorQuery {
+class QueryStartNewUser extends Query {
   async run(params: { email: string; fullName?: string }): Promise<
     EndpointResponse<Partial<FullUser>> & {
       token: string
@@ -526,7 +526,7 @@ class QueryStartNewUser extends FactorQuery {
   }
 }
 
-class QueryLogin extends FactorQuery {
+class QueryLogin extends Query {
   async run(
     params: { email: string; password: string },
     _meta: EndpointMeta,
@@ -591,7 +591,7 @@ class QueryLogin extends FactorQuery {
   }
 }
 
-class QueryNewVerificationCode extends FactorQuery {
+class QueryNewVerificationCode extends Query {
   async run(
     params: {
       email: string
@@ -645,7 +645,7 @@ class QueryNewVerificationCode extends FactorQuery {
   }
 }
 
-export class UserMethod<T extends FactorQuery> extends Endpoint<T> {
+export class UserMethod<T extends Query> extends Endpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ baseURL: serverUrl(), basePath: "/user", ...options })
   }
