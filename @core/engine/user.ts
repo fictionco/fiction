@@ -215,7 +215,7 @@ export const sendVerificationEmail = async (args: {
  */
 export const sendOneTimeCode = async (params: {
   email: string
-}): Promise<EndpointResponse<boolean>> => {
+}): Promise<string> => {
   const { email } = params
 
   const code = getSixDigitRandom()
@@ -231,13 +231,13 @@ export const sendOneTimeCode = async (params: {
 
   await sendVerificationEmail({ email, code })
 
-  return { status: "success", data: true }
+  return code
 }
 class QuerySendOneTimeCode extends Query {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
-    if (!this.qu) throw new Error("no knex")
+    await sendOneTimeCode(params)
 
-    return sendOneTimeCode(params)
+    return { status: "success", data: true }
   }
 }
 
@@ -396,15 +396,14 @@ class QuerySetPassword extends Query {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<FullUser> & { token: string }> {
-    if (!this.qu) throw new Error("no knex")
     if (!meta.bearer) throw this.stop({ message: "must be logged in" })
 
     const { password, email: emailArg, verificationCode } = params
 
     const email = emailArg ?? meta.bearer.email
-    if (!email) {
-      throw _stop({ message: `email must be verified to set new password` })
-    }
+
+    if (!email) throw this.stop(`email must be verified to set new password`)
+
     // code verification is needed because on password reset the user is logged out
     await verifyCode({ email, verificationCode })
     const hashedPassword = await hashPassword(password)
@@ -484,16 +483,19 @@ class QueryVerifyAccountEmail extends Query {
 }
 
 class QueryResetPassword extends Query {
-  async run({ email }: { email: string }): Promise<EndpointResponse<FullUser>> {
-    if (!this.qu) throw new Error("no knex")
-
+  async run({
+    email,
+  }: {
+    email: string
+  }): Promise<EndpointResponse<FullUser> & { internal: string }> {
     if (!email) throw this.stop({ message: "email is required" })
 
-    await sendOneTimeCode({ email })
+    const code = await sendOneTimeCode({ email })
 
     return {
       status: "success",
       message: "verification code sent",
+      internal: code,
     }
   }
 }

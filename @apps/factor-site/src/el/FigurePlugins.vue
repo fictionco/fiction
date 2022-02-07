@@ -18,7 +18,7 @@
   </figure>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue"
 
 import IconAnalytics from "../img/icon-analytics.svg"
@@ -35,27 +35,21 @@ import iSub from "../img/icon-subscriptions.svg"
 import iSyntax from "../img/icon-plugin-syntax-highlight.svg"
 import iThemes from "../img/icon-themes.svg"
 
-export default {
-  setup() {
-    const plugins = ref([
-      { image: iDocs, alt: "Docs Icon" },
-      { image: IconAnalytics, alt: "Analytics Icon" },
-      { image: iForms, alt: "Forms Icon" },
-      { image: iGallery, alt: "Gallery Icon" },
-      { image: iFeed, alt: "Feed Icon" },
-      { image: iSitemap, alt: "Sitemap Icon" },
-      { image: iSyntax, alt: "Syntax Icon" },
-      { image: iThemes, alt: "Themes Icon" },
-      { image: IconAws, alt: "AWS Icon" },
-      { image: iSub, alt: "Subscriptions Icon" },
-      { image: iJobs, alt: "Jobs Icon" },
-      { image: iSocial, alt: "Socialize Icon" },
-      { image: iSEO, alt: "SEO Icon" },
-    ])
-
-    return { plugins }
-  },
-}
+const plugins = ref([
+  { image: iDocs, alt: "Docs Icon", class: "" },
+  { image: IconAnalytics, alt: "Analytics Icon" },
+  { image: iForms, alt: "Forms Icon" },
+  { image: iGallery, alt: "Gallery Icon" },
+  { image: iFeed, alt: "Feed Icon" },
+  { image: iSitemap, alt: "Sitemap Icon" },
+  { image: iSyntax, alt: "Syntax Icon" },
+  { image: iThemes, alt: "Themes Icon" },
+  { image: IconAws, alt: "AWS Icon" },
+  { image: iSub, alt: "Subscriptions Icon" },
+  { image: iJobs, alt: "Jobs Icon" },
+  { image: iSocial, alt: "Socialize Icon" },
+  { image: iSEO, alt: "SEO Icon" },
+])
 </script>
 
 <style lang="less">

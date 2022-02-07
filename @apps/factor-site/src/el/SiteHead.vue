@@ -68,7 +68,7 @@
           </button>
         </div>
         <div class="hidden md:flex space-x-10">
-          <template v-for="(item, i) in nav" :key="i">
+          <template v-for="item in nav" :key="item.name">
             <template v-if="item.menu">
               <div class="relative" @mouseover="1" @mouseleave="1">
                 <!-- Item active: "", Item inactive: "text-color-500" -->
@@ -254,15 +254,22 @@
   </header>
 </template>
 <script lang="ts" setup>
-import ElemLogo from "./ElemLogo.vue"
-import ElemGithubStars from "./ElemGithubStars.vue"
+import ElemLogo from "./ElLogo.vue"
+import ElemGithubStars from "./ElGithubStars.vue"
 import { ref } from "vue"
 import { onResetUi } from "@factor/api"
 const mobileMenu = ref(false)
 onResetUi(() => (mobileMenu.value = false))
-const nav = ref([
-  { path: "/plugins", name: "Plugins" },
-  { path: "/docs", name: "Docs" },
-  { path: "/showcase", name: "Showcase" },
+
+const nav = ref<
+  {
+    path: string
+    name: string
+    menu?: { name: string; description: string }[]
+  }[]
+>([
+  { path: "/plugins", name: "Plugins", menu: undefined },
+  { path: "/docs", name: "Docs", menu: undefined },
+  { path: "/showcase", name: "Showcase", menu: undefined },
 ])
 </script>

@@ -78,8 +78,6 @@ export const factorApp = async (
   const head = createHead()
   app.use(head)
 
-  runCallbacks("appReady", { app, head }).catch((error) => console.error(error))
-
   return { app, head, router, store }
 }
 /**

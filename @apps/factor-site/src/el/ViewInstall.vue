@@ -45,66 +45,60 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { toLabel } from "@factor/api"
 import { onMounted, ref } from "vue"
 
-export default {
-  setup() {
-    const selected = ref("install")
-    const videos = ref([
-      {
-        id: "install",
-        url: "https://www.youtube.com/embed/m0tckSo1KUg?rel=0",
-        duration: "1 Minute",
-        synopsis: "Get Factor running locally with a theme in 60 seconds",
-        content: "Set up a basic FactorJS app from scratch in around a minute.",
-      },
-      {
-        id: "customize",
-        url: "https://www.youtube.com/embed/8CwXEsZ0PHU?rel=0",
-        duration: "3 Minutes",
-        synopsis: "Additional customization of your app",
-        content:
-          "Learn how to work with your FactorJS app. Learn how to add endpoints, sitemaps, and additional tricks.",
-      },
+const selected = ref("install")
+const videos = ref([
+  {
+    id: "install",
+    url: "https://www.youtube.com/embed/m0tckSo1KUg?rel=0",
+    duration: "1 Minute",
+    synopsis: "Get Factor running locally with a theme in 60 seconds",
+    content: "Set up a basic FactorJS app from scratch in around a minute.",
+  },
+  {
+    id: "customize",
+    url: "https://www.youtube.com/embed/8CwXEsZ0PHU?rel=0",
+    duration: "3 Minutes",
+    synopsis: "Additional customization of your app",
+    content:
+      "Learn how to work with your FactorJS app. Learn how to add endpoints, sitemaps, and additional tricks.",
+  },
 
-      {
-        id: "deploy",
-        url: "https://www.youtube.com/embed/dCtGNqpuDxs?rel=0",
-        duration: "3 Minutes",
-        synopsis: "Create a repo and continuously deploy to Heroku",
-        content: `Deploying a Factor app is simple and takes two steps: <ul class="list-inside list-decimal"><li>Build</li><li>Serve</li></ul>`,
-      },
-    ])
+  {
+    id: "deploy",
+    url: "https://www.youtube.com/embed/dCtGNqpuDxs?rel=0",
+    duration: "3 Minutes",
+    synopsis: "Create a repo and continuously deploy to Heroku",
+    content: `Deploying a Factor app is simple and takes two steps: <ul class="list-inside list-decimal"><li>Build</li><li>Serve</li></ul>`,
+  },
+])
 
-    onMounted(() => {
-      /**
-       * Scrolling changes, sometimes IntersectionObserver isn't available
-       */
-      if (IntersectionObserver) {
-        videos.value.forEach((video: any) => {
-          const selector = `#${video.id}`
-          const observer = new IntersectionObserver(
-            (entries) => {
-              if (entries[0].isIntersecting) {
-                selected.value = entries[0].target.id
-              }
-            },
-            { threshold: [0.7] },
-          )
-
-          const el = document.querySelector(selector)
-          if (el) {
-            observer.observe(el)
+onMounted(() => {
+  /**
+   * Scrolling changes, sometimes IntersectionObserver isn't available
+   */
+  if (IntersectionObserver) {
+    videos.value.forEach((video: any) => {
+      const selector = `#${video.id}`
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            selected.value = entries[0].target.id
           }
-        })
+        },
+        { threshold: [0.7] },
+      )
+
+      const el = document.querySelector(selector)
+      if (el) {
+        observer.observe(el)
       }
     })
-
-    return { selected, videos, toLabel }
-  },
-}
+  }
+})
 </script>
 <style lang="less">
 .start-container {

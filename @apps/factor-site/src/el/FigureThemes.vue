@@ -14,60 +14,54 @@
   </figure>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue"
 
 import themeAlpha from "../img/theme-alpha.jpg"
 import themeYellow from "../img/theme-alpha-yellow.jpg"
 import themeUltra from "../img/theme-ultra.jpg"
-export default {
-  setup() {
-    const wrapper = ref()
-    const width = ref<number>(500)
-    const screenshots = ref([
-      {
-        img: themeAlpha,
-        alt: "Alpha Theme",
-      },
-      {
-        img: themeUltra,
-        alt: "Ultra Theme",
-      },
-      {
-        img: themeYellow,
-        alt: "Alpha Theme (yellow)",
-      },
-    ])
-
-    /**
-     * Get figure width
-     */
-    const getWidth = () => {
-      return wrapper.value ? wrapper.value.clientWidth : 100
-    }
-    /**
-     * Scale figure based on width
-     */
-    const scale = computed(() => {
-      return Math.max(Math.min(width.value / 500, 1), 0.5)
-    })
-
-    onMounted(() => {
-      /**
-       * Get figure width
-       */
-      width.value = getWidth()
-      /**
-       * Update stage width on window resize
-       */
-      window.addEventListener("resize", () => {
-        width.value = getWidth()
-      })
-    })
-
-    return { wrapper, scale, screenshots }
+const wrapper = ref()
+const width = ref<number>(500)
+const screenshots = ref([
+  {
+    img: themeAlpha,
+    alt: "Alpha Theme",
   },
+  {
+    img: themeUltra,
+    alt: "Ultra Theme",
+  },
+  {
+    img: themeYellow,
+    alt: "Alpha Theme (yellow)",
+  },
+])
+
+/**
+ * Get figure width
+ */
+const getWidth = () => {
+  return wrapper.value ? wrapper.value.clientWidth : 100
 }
+/**
+ * Scale figure based on width
+ */
+const scale = computed(() => {
+  return Math.max(Math.min(width.value / 500, 1), 0.5)
+})
+
+onMounted(() => {
+  /**
+   * Get figure width
+   */
+  width.value = getWidth()
+  /**
+   * Update stage width on window resize
+   */
+  window.addEventListener("resize", () => {
+    width.value = getWidth()
+  })
+})
 </script>
 
 <style lang="less">

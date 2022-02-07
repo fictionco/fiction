@@ -51,44 +51,37 @@
   </figure>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref } from "vue"
-import ElemLogo from "../el/ElemLogo.vue"
-export default {
-  components: { ElemLogo },
-  setup() {
-    const wrapper = ref()
-    const width = ref<number>(500)
+import ElemLogo from "./ElLogo.vue"
+const wrapper = ref()
+const width = ref<number>(500)
 
-    /**
-     * Get figure width
-     */
-    const getWidth = () => {
-      return wrapper.value ? wrapper.value.clientWidth : 100
-    }
-    /**
-     * Scale figure based on width
-     */
-    const scale = computed(() => {
-      return Math.max(Math.min(width.value / 500, 1), 0.5)
-    })
-
-    onMounted(() => {
-      /**
-       * Get figure width
-       */
-      width.value = getWidth()
-      /**
-       * Update stage width on window resize
-       */
-      window.addEventListener("resize", () => {
-        width.value = getWidth()
-      })
-    })
-
-    return { wrapper, scale }
-  },
+/**
+ * Get figure width
+ */
+const getWidth = (): number => {
+  return wrapper.value ? wrapper.value.clientWidth : 100
 }
+/**
+ * Scale figure based on width
+ */
+const scale = computed(() => {
+  return Math.max(Math.min(width.value / 500, 1), 0.5)
+})
+
+onMounted(() => {
+  /**
+   * Get figure width
+   */
+  width.value = getWidth()
+  /**
+   * Update stage width on window resize
+   */
+  window.addEventListener("resize", () => {
+    width.value = getWidth()
+  })
+})
 </script>
 
 <style lang="less">

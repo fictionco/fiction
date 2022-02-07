@@ -20,7 +20,8 @@ import Stripe from "stripe"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
-// const key = Math.random().toString().slice(2, 8)
+let subscription: Stripe.Subscription | undefined
+const key = () => Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
   it("has .env file", () => {
@@ -149,5 +150,104 @@ describe("stripe tests", () => {
     expect(customerData.invoice_settings.default_payment_method).toBe(
       setupIntent?.payment_method,
     )
+  })
+
+  it("creates a subscription", async () => {
+    if (!customer?.id) throw new Error("customer required")
+
+    const product = await stripeEngine.getStripe().products.create({
+      name: "Gold Special",
+    })
+
+    const price = await stripeEngine.getStripe().prices.create({
+      unit_amount: 50_000,
+      currency: "usd",
+      recurring: { interval: "month" },
+      product: product.id,
+    })
+
+    const result = await stripeEngine.Queries.ManageSubscription.serve(
+      {
+        customerId: customer.id,
+        _action: "create",
+        priceId: price.id,
+        idempotencyKey: key(),
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.id).toContain("sub_")
+    subscription = result.data
+  })
+
+  it("retrieves a subscription", async () => {
+    if (!customer?.id) throw new Error("customer required")
+    if (!subscription?.id) throw new Error("subscription required")
+
+    const result = await stripeEngine.Queries.ManageSubscription.serve(
+      {
+        customerId: customer.id,
+        _action: "retrieve",
+        subscriptionId: subscription.id,
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.id).toContain("sub_")
+  })
+
+  it("deletes a subscription", async () => {
+    if (!customer?.id) throw new Error("customer required")
+    if (!subscription?.id) throw new Error("subscription required")
+
+    const result = await stripeEngine.Queries.ManageSubscription.serve(
+      {
+        customerId: customer.id,
+        _action: "delete",
+        subscriptionId: subscription.id,
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+  })
+
+  it("gets the coupon", async () => {
+    if (!customer?.id) throw new Error("customer required")
+    if (!subscription?.id) throw new Error("subscription required")
+
+    const couponId = `TEST_COUPON_${key()}`
+
+    const coupon = await stripeEngine.getStripe().coupons.create({
+      percent_off: 50,
+      id: couponId,
+    })
+
+    const result = await stripeEngine.Queries.GetCoupon.serve(
+      {
+        couponCode: coupon.id,
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.id).toContain("TEST_COUPON")
+  })
+
+  it("get invoices", async () => {
+    if (!customer?.id) throw new Error("customer required")
+    if (!subscription?.id) throw new Error("subscription required")
+
+    const result = await stripeEngine.Queries.GetInvoices.serve(
+      {
+        customerId: customer.id,
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.data.length).toBeGreaterThan(0)
   })
 })

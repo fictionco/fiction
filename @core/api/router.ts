@@ -8,7 +8,6 @@ import {
   RouteRecordRaw,
 } from "vue-router"
 
-import { applyFilters, runCallbacks } from "./hook"
 import { logger } from "./logger"
 import { isNode, isSearchBot, getAppGlobal, setAppGlobal } from "./utils"
 
@@ -23,7 +22,7 @@ const routerHooks = (router: Router): void => {
      */
     const queryHook = to.query._action
     if (queryHook) {
-      await runCallbacks(`routeQueryAction`, to)
+      //await runCallbacks(`routeQueryAction`, to)
     }
   })
 }
@@ -33,11 +32,9 @@ const routerHooks = (router: Router): void => {
 export const createFactorRouter = (): Router => {
   const history = !isNode ? createWebHistory() : createMemoryHistory()
 
-  const routes = applyFilters("routes", [])
-
   const router = createRouter({
     history,
-    routes,
+    routes: [],
     scrollBehavior: (to, from, savedPosition) => {
       if (savedPosition) {
         return savedPosition

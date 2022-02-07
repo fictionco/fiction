@@ -93,7 +93,7 @@ export default {
 
     @media (max-width: 700px) {
       min-width: 350px;
-      max-width: calc(~"100%-2em");
+      max-width: calc(~"100% - 2em");
     }
   }
   .algolia-docsearch-footer {

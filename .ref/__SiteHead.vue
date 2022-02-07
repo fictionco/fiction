@@ -241,8 +241,8 @@ import { resetUi, onResetUi, isDev } from "@factor/api"
 import ElButton from "@factor/ui/ElButton.vue"
 import { ref, onMounted } from "vue"
 
-import ElemLogo from "./ElemLogo.vue"
-import ElemGithubStars from "./ElemGithubStars.vue"
+import ElemLogo from "./ElLogo.vue"
+import ElemGithubStars from "./ElGithubStars.vue"
 
 export default {
   components: {

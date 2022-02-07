@@ -51,7 +51,7 @@ export class EndpointServer {
       app.use(`${basePath}/${key}`, this.endpointAuthorization)
       app.use(`${basePath}/${key}`, async (request, response) => {
         const result = await endpoint.serveRequest(request)
-
+        delete result.internal
         response.status(200).send(result).end()
       })
     })

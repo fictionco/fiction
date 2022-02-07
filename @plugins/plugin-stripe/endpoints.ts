@@ -234,16 +234,24 @@ class QueryListSubscriptions extends QueryPayments {
 
 class QueryManageSubscription extends QueryPayments {
   async run(
-    params: {
-      _action?: EndpointManageAction
-      customerId?: string
-      paymentMethodId?: string
-      priceId?: string
-      idempotencyKey?: string
-      coupon?: string
-      subscriptionId?: string
-      note?: string
-    },
+    params: { customerId: string } & (
+      | {
+          _action: "create"
+
+          idempotencyKey: string
+          priceId: string
+          paymentMethodId?: string
+          coupon?: string
+        }
+      | {
+          _action: "delete"
+          subscriptionId: string
+          customerId: string
+          note?: string
+        }
+      | { _action: "retrieve"; customerId?: string; subscriptionId: string }
+    ),
+
     meta: EndpointMeta,
   ): Promise<
     EndpointResponse<Stripe.Subscription> & {
@@ -253,39 +261,33 @@ class QueryManageSubscription extends QueryPayments {
       user?: PrivateUser
     }
   > {
-    const {
-      customerId,
-      _action,
-      paymentMethodId,
-      priceId,
-      coupon,
-      idempotencyKey,
-      subscriptionId,
-      note,
-    } = params
+    const { _action, customerId } = params
 
     if (!_action) throw this.stop({ message: "no _action provided" })
-    if (!customerId) throw this.stop({ message: "no customer id" })
 
     const stripe = getStripe()
-    const { onSubscriptionUpdate } = paymentsSetting("hooks") ?? {}
-
-    // attach payment method to customer
-    if (paymentMethodId && customerId) {
-      await Queries.ManagePaymentMethod.serve(
-        {
-          customerId,
-          paymentMethodId,
-          _action: "attach",
-        },
-        meta,
-      )
-    }
 
     let sub: Stripe.Subscription | undefined
     let message: string | undefined = undefined
     try {
       if (_action == "create") {
+        const { customerId, paymentMethodId, priceId, coupon, idempotencyKey } =
+          params
+
+        if (!customerId) throw this.stop({ message: "no customer id" })
+
+        // attach payment method to customer
+        if (paymentMethodId && customerId) {
+          await Queries.ManagePaymentMethod.serve(
+            {
+              customerId,
+              paymentMethodId,
+              _action: "attach",
+            },
+            meta,
+          )
+        }
+
         const { beforeCreateSubscription } = paymentsSetting("hooks") ?? {}
 
         let args: Stripe.SubscriptionCreateParams = {
@@ -305,10 +307,12 @@ class QueryManageSubscription extends QueryPayments {
         const suffix = coupon ? ` with code ${coupon}` : ""
         message = `subscription created ${suffix}`
       } else if (_action == "retrieve") {
+        const { subscriptionId } = params
         if (!subscriptionId) throw this.stop({ message: "no subscription id" })
 
         sub = await stripe.subscriptions.retrieve(subscriptionId)
       } else if (_action == "delete") {
+        const { subscriptionId, customerId, note } = params
         if (!subscriptionId) throw this.stop({ message: "no subscription id" })
 
         sub = await stripe.subscriptions.del(subscriptionId)
@@ -322,6 +326,8 @@ class QueryManageSubscription extends QueryPayments {
       throw this.stop({ message: e.message })
     }
 
+    const { onSubscriptionUpdate } = paymentsSetting("hooks") ?? {}
+
     if (sub && onSubscriptionUpdate) {
       await onSubscriptionUpdate(sub)
     }
@@ -331,7 +337,6 @@ class QueryManageSubscription extends QueryPayments {
       data: sub,
       customerId,
       userId: meta.bearer?.userId,
-
       message,
     }
   }
@@ -403,11 +408,14 @@ class QueryAllProducts extends QueryPayments {
 }
 
 class QueryGetCoupon extends QueryPayments {
-  async run({
-    couponCode,
-  }: {
-    couponCode: string
-  }): Promise<EndpointResponse<Stripe.Response<Stripe.Coupon>>> {
+  async run(
+    {
+      couponCode,
+    }: {
+      couponCode: string
+    },
+    _meta: EndpointMeta,
+  ): Promise<EndpointResponse<Stripe.Response<Stripe.Coupon>>> {
     if (!couponCode) throw this.stop({ message: "no code was provided" })
 
     const stripe = getStripe()

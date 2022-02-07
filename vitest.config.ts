@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { defineConfig } from "vite"
 
 export default defineConfig({
@@ -11,6 +10,7 @@ export default defineConfig({
       ".git",
       ".cache",
     ],
+    include: ["**/*.test.ts"],
     globalSetup: ["./@core/test/setupGlobal.ts"],
     setupFiles: ["./@core/test/setupTest.ts"],
   },

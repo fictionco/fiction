@@ -44,6 +44,7 @@ export abstract class Query {
   ): Promise<Awaited<ReturnType<this["run"]>>> {
     try {
       const result = await this.run(params, meta)
+
       return result as Awaited<ReturnType<this["run"]>>
     } catch (error: unknown) {
       const e = error as ErrorConfig

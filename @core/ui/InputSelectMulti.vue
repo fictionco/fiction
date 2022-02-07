@@ -270,7 +270,7 @@ onResetUi(() => (active.value = false))
 /**
  * Toggle dropdown visibility
  */
-const toggle = () => {
+const toggle = (): void => {
   if (active.value) {
     reset()
   } else {

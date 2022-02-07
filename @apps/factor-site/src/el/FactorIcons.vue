@@ -556,10 +556,8 @@
   </figure>
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    icon: { type: String, default: "" },
-  },
-}
+<script lang="ts" setup>
+defineProps({
+  icon: { type: String, default: "" },
+})
 </script>

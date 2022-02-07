@@ -12,6 +12,7 @@ export type EndpointResponse<T = unknown> = {
   code?: ErrorCode
   expose?: boolean
   context?: string
+  internal?: unknown
   [key: string]: any
 }
 
