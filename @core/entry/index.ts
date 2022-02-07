@@ -8,7 +8,6 @@ import App from "@src/App.vue"
 
 import { initializeWindow } from "./init"
 import { isNode } from "@factor/api/utils"
-import { runCallbacks } from "@factor/api/hook"
 import { getRouter, addRoutes } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
 import { setupPlugins } from "@factor/api/extend"
@@ -24,9 +23,11 @@ import { initializeUser } from "@factor/api/userCurrent"
 
 const setupApp = async (): Promise<UserConfigApp> => {
   let userConfig: UserConfigApp = {}
+
+  const appMainEntry = mainFile as { setup?: () => Promise<UserConfigApp> }
   // run the app main file
-  if (mainFile.setup) {
-    userConfig = mainFile.setup()
+  if (appMainEntry.setup) {
+    userConfig = await appMainEntry.setup()
   }
 
   if (userConfig.plugins) {

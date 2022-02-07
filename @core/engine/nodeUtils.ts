@@ -34,15 +34,16 @@ export const importIfExists = async <T = unknown>(
   mod: string,
 ): Promise<T | undefined> => {
   if (fs.existsSync(mod)) {
-    return await import(mod)
+    return (await import(mod)) as T
   } else return
 }
 
 export const importServerEntry = async (
   moduleName?: string,
 ): Promise<Promise<UserConfigServer>> => {
+  const serverEntry = path.join(sourceFolder(moduleName), "server.ts")
   const mod = await importIfExists<{ setup?: () => UserConfigServer }>(
-    path.join(sourceFolder(moduleName), "server.ts"),
+    serverEntry,
   )
 
   const serverConfig = mod?.setup ? await mod.setup() : {}

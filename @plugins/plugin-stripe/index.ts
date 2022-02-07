@@ -54,7 +54,13 @@ export type StripeOptions = {
 }
 
 export const stripeEnv = (): "production" | "development" => {
-  const env = process.env.STRIPE_ENV || process.env.NODE_ENV || "development"
+  let env = ""
+
+  if (process.env.TEST_ENV) {
+    env = "development"
+  } else {
+    env = process.env.STRIPE_ENV || process.env.NODE_ENV || "development"
+  }
 
   return env as "production" | "development"
 }

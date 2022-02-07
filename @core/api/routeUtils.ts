@@ -1,4 +1,3 @@
-import { applyFilters } from "@factor/api"
 import { RouteRecordRaw } from "vue-router"
 /**
  * Pull routes for sitemap out of a router config
@@ -38,8 +37,7 @@ export const getRouterPaths = (
  * then remove duplicated and dynamic routes (which include a colon (:))
  */
 export const getKnownRoutePaths = (): string[] => {
-  const contentRoutes = applyFilters("content-routes", [])
-  const allPaths = getRouterPaths(contentRoutes)
+  const allPaths = getRouterPaths([])
   const theRoutes = allPaths.filter((fullPath: string, index: number) => {
     return !fullPath.includes(":") && allPaths.indexOf(fullPath) == index
   })

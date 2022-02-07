@@ -25,16 +25,26 @@ export const omit: Omit = (obj, ...keys) => {
  * Throttle a function to run only every period
  */
 export const throttle = (
-  func: (...args: any[]) => any,
+  cb: (...args: any[]) => any,
   period: number,
 ): ((...args: any) => any) => {
-  let inThrottle: boolean
+  let inThrottle = false
+  let throttled = false
 
   return function (this: any, ...args: any[]): any {
     if (!inThrottle) {
       inThrottle = true
-      func.apply(this, args)
-      setTimeout(() => (inThrottle = false), period)
+      throttled = false
+      cb.apply(this, args)
+      setTimeout(() => {
+        inThrottle = false
+        // if throttled, catch last call
+        if (throttled) {
+          cb.apply(this, args)
+        }
+      }, period)
+    } else {
+      throttled = true
     }
   }
 }

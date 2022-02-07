@@ -2,15 +2,14 @@ import { objectId } from "@factor/api"
 import { paymentEndpointsMap } from "./endpoints"
 import { checkPaymentMethod } from "./subscription"
 
-type ManageParams = Parameters<
-  typeof paymentEndpointsMap.ManageSubscription.request
->[0]
 type ManageResult = ReturnType<
   typeof paymentEndpointsMap.ManageSubscription.request
 >
-export const requestCreateSubscription = async (
-  args: ManageParams,
-): Promise<ManageResult> => {
+export const requestCreateSubscription = async (args: {
+  customerId: string
+  paymentMethodId: string
+  priceId: string
+}): Promise<ManageResult> => {
   const { customerId, paymentMethodId, priceId } = args
 
   let result = await paymentEndpointsMap.ManageSubscription.request({
@@ -47,7 +46,6 @@ export const requestCreateSubscription = async (
     result = await paymentEndpointsMap.ManageSubscription.request({
       customerId,
       _action: "retrieve",
-      idempotencyKey: objectId(),
       subscriptionId: subscription.id,
     })
   }

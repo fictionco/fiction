@@ -1,5 +1,8 @@
 import { defineConfig } from "vite"
-
+import path from "path"
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+const testPath = path.dirname(require.resolve("@factor/test"))
 export default defineConfig({
   test: {
     exclude: [
@@ -11,7 +14,7 @@ export default defineConfig({
       ".cache",
     ],
     include: ["**/*.test.ts"],
-    globalSetup: ["./@core/test/setupGlobal.ts"],
-    setupFiles: ["./@core/test/setupTest.ts"],
+    globalSetup: [`${testPath}/setupGlobal.ts`],
+    setupFiles: [`${testPath}/setupTest.ts`],
   },
 })
