@@ -7,6 +7,8 @@ import dotenv from "dotenv"
 import fs from "fs"
 import path from "path"
 import Stripe from "stripe"
+import { getStripeClient } from ".."
+import { PaymentMethodCreateParams } from "@stripe/stripe-js"
 // vi.mock("../serverEmail", async () => {
 //   const actual = (await vi.importActual("../serverEmail")) as Record<
 //     string,
@@ -21,6 +23,7 @@ import Stripe from "stripe"
 // })
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
+let setupIntent: Stripe.SetupIntent | undefined
 const key = Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
@@ -94,5 +97,61 @@ describe("stripe tests", () => {
     expect(customerId).toBe(data?.id)
     expect(customerData).toBeTruthy()
     expect(Object.keys(customerData ?? {}).length).toMatchSnapshot()
+  })
+
+  it("adds a payment method", async () => {
+    if (!customer?.id) throw new Error("customer required")
+
+    const paymentMethod = await stripeEngine.getStripe().paymentMethods.create({
+      type: "card",
+      card: {
+        number: "4242424242424242",
+        exp_month: 2,
+        exp_year: 2023,
+        cvc: "314",
+      },
+    })
+
+    const result = await stripeEngine.Queries.ManagePaymentMethod.serve(
+      {
+        customerId: customer?.id,
+        paymentMethodId: paymentMethod.id,
+        _action: "create",
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.data.length).toBeGreaterThan(0)
+    expect(result.setupIntent).toBeTruthy()
+    setupIntent = result.setupIntent
+  })
+
+  it("gets payment methods", async () => {
+    if (!customer?.id) throw new Error("customer required")
+
+    const result = await stripeEngine.Queries.ManagePaymentMethod.serve(
+      {
+        customerId: customer?.id,
+        _action: "retrieve",
+      },
+      { server: true },
+    )
+
+    expect(result.status).toBe("success")
+    expect(result.data?.data.length).toBeGreaterThan(0)
+  })
+
+  it("set the default payment method", async () => {
+    if (!customer?.id) throw new Error("customer required")
+
+    const customerData = (await stripeEngine
+      .getStripe()
+      .customers.retrieve(customer.id)) as Stripe.Customer
+
+    expect(customerData).toBeTruthy()
+    expect(customerData.invoice_settings.default_payment_method).toBe(
+      setupIntent?.payment_method,
+    )
   })
 })
