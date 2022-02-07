@@ -1,7 +1,0 @@
-packages:
-  - "@core/*"
-  - "@engine/*"
-  - "@apps/*"
-  - "@plugins/*"
-  - "@test/*"
-  - "cdk"

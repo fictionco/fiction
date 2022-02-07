@@ -8,6 +8,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@factor/site": "4.0.7",
     "@factor/engine": "4.0.7",
     "@factor/render": "4.0.7",
     "@factor/server": "4.0.7",

@@ -1,12 +1,13 @@
 {
   "name": "@factor/site",
-  "description": "Factor Site",
   "version": "4.0.7",
   "url": "https://www.factorjs.org",
   "main": "src/index.ts",
-  "author": "Fiction.com",
   "license": "UNLICENSED",
   "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "dependencies": {
     "@factor/api": "4.0.7",
