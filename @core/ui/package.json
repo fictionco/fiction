@@ -6,7 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "dependencies": {
     "@factor/api": "4.0.7",
     "@factor/types": "4.0.7",

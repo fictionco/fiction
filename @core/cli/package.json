@@ -6,7 +6,6 @@
     "access": "public"
   },
   "type": "module",
-  "private": false,
   "dependencies": {
     "@factor/api": "4.0.7",
     "@factor/build": "4.0.7",
@@ -31,5 +30,8 @@
   },
   "bin": {
     "factor": "./cli.js"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.16"
   }
 }

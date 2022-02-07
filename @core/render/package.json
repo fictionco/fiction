@@ -5,15 +5,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/cjs": "4.0.7",
     "@factor/api": "4.0.7",
+    "@factor/cjs": "4.0.7",
+    "@factor/engine": "4.0.7",
     "@factor/entry": "4.0.7",
     "@factor/server": "4.0.7",
-    "@factor/engine": "4.0.7",
     "@factor/types": "4.0.7",
     "@tailwindcss/forms": "^0.4.0",
     "@types/html-minifier": "^4.0.0",
@@ -32,6 +31,8 @@
     "glob": "^7.1.6",
     "html-minifier": "^4.0.0",
     "mime": "^3.0.0",
+    "postcss": "^8.4.6",
+    "react": "^17.0.2",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.14.1",
     "sitemap": "^7.0.0",

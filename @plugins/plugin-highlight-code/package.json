@@ -7,7 +7,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "factor": {
     "extend": "plugin",
     "title": "Syntax Highlight",

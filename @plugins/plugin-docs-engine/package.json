@@ -6,7 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "main": "index.ts",
   "author": {
     "name": "Fiction",
@@ -38,6 +37,5 @@
     "@factor/ui": "4.0.7",
     "vue": "^3.0.0",
     "vue-router": "^4.0.10"
-  },
-  "devDependencies": {}
+  }
 }

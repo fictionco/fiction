@@ -6,7 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "dependencies": {
     "@factor/api": "4.0.7",
     "@factor/cjs": "4.0.7",
@@ -19,6 +18,5 @@
     "vue": "^3.1.5",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.2"
-  },
-  "devDependencies": {}
+  }
 }

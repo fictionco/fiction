@@ -6,18 +6,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "dependencies": {
     "@factor/api": "4.0.7",
+    "@factor/engine": "4.0.7",
     "@factor/server": "4.0.7",
     "@factor/types": "4.0.7",
-    "@factor/engine": "4.0.7",
     "@stripe/stripe-js": "^1.13.2",
     "express": "^4.17.1",
     "stripe": "^8.49.0"
   },
   "devDependencies": {
-    "vitest": "^0.2.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "vitest": "^0.2.0"
   }
 }

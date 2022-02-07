@@ -1,6 +1,5 @@
 {
   "name": "@factor/playground",
   "version": "4.0.7",
-  "private": true,
-  "devDependencies": {}
+  "private": true
 }

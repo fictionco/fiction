@@ -6,7 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "main": "index.ts",
   "author": {
     "name": "Fiction",
@@ -32,11 +31,11 @@
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
     "@factor/api": "4.0.7",
+    "@factor/plugin-blog-engine": "4.0.7",
     "@factor/plugin-highlight-code": "4.0.7",
     "@factor/server": "4.0.7",
     "@factor/types": "4.0.7",
     "@factor/ui": "4.0.7",
-    "@factor/plugin-blog-engine": "4.0.7",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.10.6",
     "string-similarity": "^4.0.4",

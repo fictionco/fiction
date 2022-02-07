@@ -6,7 +6,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "private": false,
   "type": "module",
   "dependencies": {
     "@factor/api": "4.0.7",
@@ -20,9 +19,9 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
-    "@factor/types": "4.0.7",
     "@aws-sdk/client-cloudfront": "^3.0.0",
     "@aws-sdk/client-s3": "^3.0.0",
+    "@factor/types": "4.0.7",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -50,6 +49,7 @@
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-tslib-resolve-id": "^0.0.0",
     "rollup-plugin-typescript2": "^0.31.0",
-    "rollup-plugin-vue": "^6.0.0"
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": "^4.5.5"
   }
 }
