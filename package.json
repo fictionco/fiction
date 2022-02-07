@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "4.0.7",
+  "version": "4.0.8",
   "scripts": {
     "deploy": "pnpm release && pnpm push-release",
     "push-release": "git checkout release && git rebase main && git push --no-verify && git checkout main",
@@ -49,7 +49,7 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@factor/cli": "^4.0.7",
+    "@factor/cli": "4.0.8",
     "autoprefixer": "^10.3.7",
     "c8": "^7.11.0",
     "postcss": "^8.3.11",

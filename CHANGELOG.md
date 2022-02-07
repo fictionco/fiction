@@ -1,3 +1,18 @@
+## [4.0.8](https://github.com/FactorJS/factor/compare/v4.0.7...v4.0.8) (2022-02-07)
+
+
+### Bug Fixes
+
+* clean up ([29888b9](https://github.com/FactorJS/factor/commit/29888b9ad6f60bbfff666f6b2085d23e1d272e69))
+* dep ([4eea8ee](https://github.com/FactorJS/factor/commit/4eea8eec68eaf901d02f535da16e193270a57c9b))
+
+
+### Features
+
+* yarn 2 ([7d8c408](https://github.com/FactorJS/factor/commit/7d8c4083e44bebb49991c51a6fef47e6b4829ab8))
+
+
+
 ## [4.0.7](https://github.com/FactorJS/factor/compare/v4.0.6...v4.0.7) (2022-02-07)
 
 
