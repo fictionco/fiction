@@ -1,3 +1,14 @@
+## [4.0.6](https://github.com/FactorJS/factor/compare/v4.0.5...v4.0.6) (2022-02-07)
+
+
+### Bug Fixes
+
+* lint ([0350e38](https://github.com/FactorJS/factor/commit/0350e38b2ca84d799b00c1f67d255a89381cb51d))
+* serve catch ([876e1d2](https://github.com/FactorJS/factor/commit/876e1d2fef7ad13a6739d2be31c4c7631c6c60ce))
+* stripe endpoint ([7dd34cb](https://github.com/FactorJS/factor/commit/7dd34cbda9b6a67a1a4523821710fd299d7413f7))
+
+
+
 ## [4.0.5](https://github.com/FactorJS/factor/compare/v4.0.4...v4.0.5) (2022-02-05)
 
 

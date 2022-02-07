@@ -1,6 +1,6 @@
 {
   "name": "@factor/test",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
@@ -11,9 +11,9 @@
   "dependencies": {
     "vite": "^2.7.12",
     "vitest": "^0.2.0",
-    "@factor/render": "4.0.5",
-    "@factor/engine": "4.0.5",
-    "@factor/server": "4.0.5"
+    "@factor/render": "4.0.6",
+    "@factor/engine": "4.0.6",
+    "@factor/server": "4.0.6"
   },
   "devDependencies": {}
 }

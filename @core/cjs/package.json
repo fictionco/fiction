@@ -1,6 +1,6 @@
 {
   "name": "@factor/cjs",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
   "type": "commonjs",
   "dependencies": {},
   "devDependencies": {
-    "@factor/server": "^4.0.0",
+    "@factor/server": "4.0.6",
     "rollup": "^2.28.1",
     "vite": "^2.3.6"
   }
