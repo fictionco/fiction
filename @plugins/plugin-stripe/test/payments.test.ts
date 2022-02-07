@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { expect, it, describe, vi } from "vitest"
-import { FullUser } from "@factor/types"
-import * as userEngine from "@factor/engine/user"
+import { expect, it, describe } from "vitest"
 import * as stripeEngine from "../endpoints"
 import dotenv from "dotenv"
 import fs from "fs"
 import path from "path"
 import Stripe from "stripe"
-import { getStripeClient } from ".."
-import { PaymentMethodCreateParams } from "@stripe/stripe-js"
 // vi.mock("../serverEmail", async () => {
 //   const actual = (await vi.importActual("../serverEmail")) as Record<
 //     string,
@@ -24,7 +20,7 @@ import { PaymentMethodCreateParams } from "@stripe/stripe-js"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
-const key = Math.random().toString().slice(2, 8)
+// const key = Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
   it("has .env file", () => {

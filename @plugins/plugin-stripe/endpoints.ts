@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import {
-  isNode,
-  objectId,
-  EndpointResponse,
-  PrivateUser,
-  logger,
-  ErrorConfig,
-} from "@factor/api"
+import { isNode, objectId, EndpointResponse, PrivateUser } from "@factor/api"
 import { Queries as UserQueries } from "@factor/engine/user"
 import { Query } from "@factor/engine/query"
 import {
