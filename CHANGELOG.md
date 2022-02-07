@@ -1,3 +1,12 @@
+## [4.0.7](https://github.com/FactorJS/factor/compare/v4.0.6...v4.0.7) (2022-02-07)
+
+
+### Features
+
+* testing ([00929d4](https://github.com/FactorJS/factor/commit/00929d445785b6de9d0672ea42c3fb4dbf8c397a))
+
+
+
 ## [4.0.6](https://github.com/FactorJS/factor/compare/v4.0.5...v4.0.6) (2022-02-07)
 
 

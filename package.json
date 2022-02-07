@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "4.0.6",
+  "version": "4.0.7",
   "scripts": {
     "deploy": "pnpm release && pnpm push-release",
     "push-release": "git checkout release && git rebase main && git push --no-verify && git checkout main",
