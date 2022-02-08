@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-notify",
   "description": "Notify allows you to add toast notifications to your app with ease.",
-  "version": "4.0.15",
+  "version": "4.0.16",
   "author": "Kaption Co.",
   "main": "index.ts",
   "license": "MIT",
@@ -19,8 +19,8 @@
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@factor/api": "4.0.15",
-    "@factor/types": "4.0.15",
+    "@factor/api": "4.0.16",
+    "@factor/types": "4.0.16",
     "vue": "^3.0.0"
   }
 }
