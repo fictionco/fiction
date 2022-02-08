@@ -135,30 +135,16 @@ const publishPackage = async (
 
   const access = pkg.publishConfig?.access ?? "restricted"
 
-  // Add a special tag for the package?
-  const releaseTag = null
-
   logger.log({
     level: "info",
     context: "release",
     description: `publishing ${moduleName}...`,
   })
   try {
-    await commit(
-      "pnpm",
-      [
-        "publish",
-        "--new-version",
-        version,
-        ...(releaseTag ? ["--tag", releaseTag] : []),
-        "--access",
-        access,
-      ],
-      {
-        cwd: pkgRoot,
-        stdio: "pipe",
-      },
-    )
+    await commit("pnpm", ["publish", "--tag", version, "--access", access], {
+      cwd: pkgRoot,
+      stdio: "pipe",
+    })
 
     logger.log({
       level: "info",
