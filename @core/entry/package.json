@@ -10,6 +10,7 @@
   "dependencies": {
     "@factor/api": "4.0.15",
     "@factor/types": "4.0.15",
+    "@factor/engine": "4.0.15",
     "@factor/ui": "4.0.15",
     "@vueuse/head": "^0.7.0",
     "autoprefixer": "^10.4.2",

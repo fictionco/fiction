@@ -22,5 +22,8 @@
     "eslint-plugin-vue": "^8.0.0",
     "prettier": "^2.4.1",
     "prettier-eslint": "^13.0.0"
+  },
+  "devDependencies": {
+    "npm-package-json-lint": "^5.4.2"
   }
 }

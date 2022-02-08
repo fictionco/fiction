@@ -1,6 +1,7 @@
 {
   "name": "@factor/server",
   "version": "4.0.15",
+  "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },

@@ -2,6 +2,7 @@
   "name": "@factor/cli",
   "version": "4.0.15",
   "license": "MIT",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },

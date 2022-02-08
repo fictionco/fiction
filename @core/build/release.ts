@@ -140,14 +140,10 @@ const publishPackage = async (
     description: `publishing ${moduleName}...`,
   })
   try {
-    await commit(
-      "pnpm",
-      ["publish", "--filter", moduleName, "--access", access],
-      {
-        cwd: pkgRoot,
-        stdio: "pipe",
-      },
-    )
+    await commit("npm", ["publish", "-w", moduleName, "--access", access], {
+      cwd: pkgRoot,
+      stdio: "pipe",
+    })
 
     logger.log({
       level: "info",
@@ -263,7 +259,7 @@ export const releaseRoutine = async (
     context: "release",
     description: "building packages...",
   })
-  await run("pnpm", ["exec", "--", "factor", "bundle"])
+  await run("npm", ["exec", "--", "factor", "bundle"])
 
   // generate changelog
 
@@ -272,7 +268,7 @@ export const releaseRoutine = async (
     context: "release",
     description: "generate changelog...",
   })
-  await run(`pnpm`, ["run", "changelog"])
+  await run(`npm`, ["run", "changelog"])
 
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })

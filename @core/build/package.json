@@ -1,8 +1,9 @@
 {
   "name": "@factor/build",
   "version": "4.0.15",
-  "author": "Darwin",
+  "author": "Kaption Co.",
   "license": "MIT",
+  "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },

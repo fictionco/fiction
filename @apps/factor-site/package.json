@@ -11,6 +11,7 @@
   "type": "module",
   "dependencies": {
     "@factor/api": "4.0.15",
+    "@factor/engine": "4.0.15",
     "@factor/entry": "4.0.15",
     "@factor/plugin-blog-engine": "4.0.15",
     "@factor/plugin-docs-engine": "4.0.15",

@@ -7,11 +7,7 @@
     "access": "public"
   },
   "main": "index.ts",
-  "author": {
-    "name": "Fiction",
-    "email": "factor@fiction.com",
-    "url": "https://www.fiction.com"
-  },
+  "author": "Kaption Co.",
   "factor": {
     "extend": "plugin",
     "title": "Docs Engine",

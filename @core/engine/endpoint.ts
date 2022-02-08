@@ -1,8 +1,16 @@
 import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
-import { clientToken, logger, serverUrl } from "@factor/api"
+import {
+  clientToken,
+  logger,
+  serverUrl,
+  emitEvent,
+  updateUser,
+} from "@factor/api"
+
 import { Query } from "./query"
 import type express from "express"
+
 export type EndpointOptions = {
   baseURL: string
   basePath: string
@@ -47,8 +55,25 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     this.requestHandler = requestHandler
   }
 
-  public request(params: Parameters<T["run"]>[0]): ReturnType<T["run"]> {
-    return this.http(this.key, params) as ReturnType<T["run"]>
+  public async request(
+    params: Parameters<T["run"]>[0],
+  ): Promise<Awaited<ReturnType<T["run"]>>> {
+    const r = await this.http(this.key, params)
+
+    if (r.message) {
+      const notifyType = r.status == "error" ? "notifyError" : "notifySuccess"
+      emitEvent(notifyType, { message: r.message, more: r.more })
+    }
+
+    if (r.user) {
+      await updateUser(() => r.user as PrivateUser)
+    }
+
+    if (r.token) {
+      clientToken({ action: "set", token: r.token as string })
+    }
+
+    return r as Awaited<ReturnType<T["run"]>>
   }
 
   public async serveRequest(

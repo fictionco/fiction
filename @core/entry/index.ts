@@ -15,7 +15,7 @@ import { logger } from "@factor/api/logger"
 import { FactorAppEntry, UserConfigApp } from "@factor/types"
 import { createHead } from "@vueuse/head"
 import { App as VueApp, createSSRApp, createApp } from "vue"
-import { initializeUser } from "@factor/api/userCurrent"
+import { initializeUser } from "@factor/engine/userInit"
 
 /**
  * Define process.env to prevent errors on any node code that runs
@@ -58,7 +58,7 @@ export const factorApp = async (
 
   // only run in  browser
   if (typeof window !== "undefined") {
-    initializeUser().catch((error) => console.error(error))
+    initializeUser().catch((error: any) => console.error(error))
   }
 
   const app: VueApp = renderUrl ? createSSRApp(App) : createApp(App)

@@ -6,6 +6,7 @@
     "access": "public"
   },
   "type": "module",
+  "license": "MIT",
   "dependencies": {
     "@factor/site": "4.0.15",
     "@factor/engine": "4.0.15",

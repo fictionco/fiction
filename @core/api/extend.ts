@@ -1,6 +1,6 @@
 import { DataProcessor, UserConfigApp, UserConfigServer } from "@factor/types"
 import { deepMergeAll } from "./utils"
-import { omit } from "@factor/api"
+import { omit } from "./_"
 export type AppPlugin = {
   install: (options: Record<string, any>) => void | Promise<void>
 }

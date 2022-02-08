@@ -9,6 +9,7 @@
   "dependencies": {
     "@factor/api": "4.0.15",
     "@factor/types": "4.0.15",
+    "@factor/engine": "4.0.15",
     "easymde": "^2.9.0",
     "gravatar": "^1.8.0",
     "sortablejs": "^1.12.0",

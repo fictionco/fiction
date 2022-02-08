@@ -8,7 +8,8 @@
 </template>
 
 <script lang="ts" setup>
-import { routeRequiresAuth, userInitialized } from "@factor/api"
+import { routeRequiresAuth } from "@factor/api"
+import { userInitialized } from "@factor/engine"
 import ElSpinner from "./ElSpinner.vue"
 import { onMounted, ref } from "vue"
 

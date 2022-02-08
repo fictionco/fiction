@@ -2,7 +2,7 @@
   "name": "@factor/plugin-notify",
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "version": "4.0.15",
-  "author": "Factor",
+  "author": "Kaption Co.",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
