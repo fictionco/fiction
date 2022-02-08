@@ -140,10 +140,21 @@ const publishPackage = async (
     description: `publishing ${moduleName}...`,
   })
   try {
-    await commit("npm", ["publish", "-w", moduleName, "--access", access], {
-      cwd: pkgRoot,
-      stdio: "pipe",
-    })
+    await commit(
+      "npm",
+      [
+        "publish",
+        "--new-version",
+        version,
+        ...(version ? ["--tag", version] : []),
+        "--access",
+        access,
+      ],
+      {
+        cwd: pkgRoot,
+        stdio: "pipe",
+      },
+    )
 
     logger.log({
       level: "info",
