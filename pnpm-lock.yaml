@@ -197,7 +197,21 @@ importers:
       '@factor/api': ^4.0.0
       '@factor/cjs': ^4.0.0
       '@factor/cli': ^4.0.0
+      '@factor/engine': ^4.0.0
+      '@factor/entry': ^4.0.0
+      '@factor/lint': ^4.0.0
+      '@factor/playground': ^4.0.0
+      '@factor/plugin-blog-engine': ^4.0.0
+      '@factor/plugin-docs-engine': ^4.0.0
+      '@factor/plugin-highlight-code': ^4.0.0
+      '@factor/plugin-notify': ^4.0.0
+      '@factor/plugin-stripe': ^4.0.0
+      '@factor/render': ^4.0.0
+      '@factor/server': ^4.0.0
+      '@factor/site': ^4.0.0
+      '@factor/test': ^4.0.0
       '@factor/types': ^4.0.0
+      '@factor/ui': ^4.0.0
       '@rollup/plugin-commonjs': ^21.0.0
       '@rollup/plugin-json': ^4.0.0
       '@rollup/plugin-node-resolve': ^13.0.0
@@ -239,6 +253,21 @@ importers:
       '@factor/api': link:../api
       '@factor/cjs': link:../cjs
       '@factor/cli': link:../cli
+      '@factor/engine': link:../engine
+      '@factor/entry': link:../entry
+      '@factor/lint': link:../lint
+      '@factor/playground': link:../playground
+      '@factor/plugin-blog-engine': link:../../@plugins/plugin-blog-engine
+      '@factor/plugin-docs-engine': link:../../@plugins/plugin-docs-engine
+      '@factor/plugin-highlight-code': link:../../@plugins/plugin-highlight-code
+      '@factor/plugin-notify': link:../../@plugins/plugin-notify
+      '@factor/plugin-stripe': link:../../@plugins/plugin-stripe
+      '@factor/render': link:../render
+      '@factor/server': link:../server
+      '@factor/site': link:../../@apps/factor-site
+      '@factor/test': link:../test
+      '@factor/types': link:../types
+      '@factor/ui': link:../ui
       cors: 2.8.5
       enquirer: 2.3.6
       execa: 6.0.0
@@ -250,7 +279,6 @@ importers:
     devDependencies:
       '@aws-sdk/client-cloudfront': 3.49.0
       '@aws-sdk/client-s3': 3.49.0
-      '@factor/types': link:../types
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.67.1
       '@rollup/plugin-json': 4.1.0_rollup@2.67.1
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.1

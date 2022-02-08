@@ -145,7 +145,7 @@ const publishPackage = async (
   })
   try {
     await commit(
-      "yarn",
+      "pnpm",
       [
         "publish",
         "--new-version",
@@ -274,7 +274,7 @@ export const releaseRoutine = async (
     context: "release",
     description: "building packages...",
   })
-  await run("yarn", ["factor", "bundle"])
+  await run("pnpm", ["exec", "--", "factor", "bundle"])
 
   // generate changelog
 
@@ -283,7 +283,7 @@ export const releaseRoutine = async (
     context: "release",
     description: "generate changelog...",
   })
-  await run(`yarn`, ["changelog"])
+  await run(`pnpm`, ["run", "changelog"])
 
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })
