@@ -11,7 +11,6 @@
     "@factor/api": "4.0.21",
     "@factor/ui": "4.0.21",
     "@factor/cli": "4.0.21",
-    "@factor/cjs": "4.0.21",
     "@factor/engine": "4.0.21",
     "@factor/entry": "4.0.21",
     "@factor/server": "4.0.21",

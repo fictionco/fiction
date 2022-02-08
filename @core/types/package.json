@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@factor/api": "4.0.21",
-    "@factor/cjs": "4.0.21",
+    "@factor/render": "4.0.21",
     "@factor/engine": "4.0.21",
     "@types/fs-extra": "^9.0.3",
     "@types/glob": "^7.1.3",

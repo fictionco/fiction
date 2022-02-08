@@ -6,7 +6,7 @@ import { FullUser } from "./user"
 import { Endpoint } from "@factor/engine/endpoint"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 import { CallbackDictionary } from "./dictionary"
-import type { ServerModuleDef } from "@factor/cjs"
+import type { ServerModuleDef } from "@factor/render/buildPlugins"
 export interface FactorAppEntry {
   app: App
   head: HeadClient

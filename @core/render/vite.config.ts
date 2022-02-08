@@ -11,12 +11,8 @@ import path from "path"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
 import { createRequire } from "module"
-import { getCustomBuildPlugins, getServerOnlyModules } from "@factor/cjs"
+import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
 const require = createRequire(import.meta.url)
-
-/**
- * type import("@factor/cjs")
- */
 
 const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
   const baseTailwindConfig = await import("./tailwind.config")
@@ -157,11 +153,6 @@ export const getViteConfig = async (
       manifest: true,
       emptyOutDir: true,
       minify: false,
-      rollupOptions: {
-        // make sure to externalize deps that shouldn't be bundled
-        // into your library
-        external: ["vue"],
-      },
     },
     resolve: {
       alias: {
