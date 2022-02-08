@@ -1,6 +1,6 @@
 {
   "name": "@factor/cjs",
-  "version": "4.0.20",
+  "version": "4.0.21",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,7 +8,7 @@
   "main": "index.ts",
   "type": "commonjs",
   "devDependencies": {
-    "@factor/server": "4.0.20",
+    "@factor/server": "4.0.21",
     "rollup": "^2.28.1",
     "vite": "^2.3.6"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@factor/render",
-  "version": "4.0.20",
+  "version": "4.0.21",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,15 +8,15 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.20",
-    "@factor/ui": "4.0.20",
-    "@factor/cli": "4.0.20",
-    "@factor/cjs": "4.0.20",
-    "@factor/engine": "4.0.20",
-    "@factor/entry": "4.0.20",
-    "@factor/server": "4.0.20",
-    "@factor/types": "4.0.20",
-    "@factor/plugin-notify": "4.0.20",
+    "@factor/api": "4.0.21",
+    "@factor/ui": "4.0.21",
+    "@factor/cli": "4.0.21",
+    "@factor/cjs": "4.0.21",
+    "@factor/engine": "4.0.21",
+    "@factor/entry": "4.0.21",
+    "@factor/server": "4.0.21",
+    "@factor/types": "4.0.21",
+    "@factor/plugin-notify": "4.0.21",
     "@tailwindcss/forms": "^0.4.0",
     "@types/html-minifier": "^4.0.0",
     "@types/tailwindcss": "^3.0.0",
@@ -48,7 +48,7 @@
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@factor/cli": "4.0.20",
+    "@factor/cli": "4.0.21",
     "@types/compression": "^1.7.0",
     "execa": "^6.0.0",
     "fs-extra": "^10.0.0",
