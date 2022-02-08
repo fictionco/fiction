@@ -142,14 +142,7 @@ const publishPackage = async (
   try {
     await commit(
       "npm",
-      [
-        "publish",
-        "--new-version",
-        version,
-        ...(version ? ["--tag", version] : []),
-        "--access",
-        access,
-      ],
+      ["publish", "--new-version", version, "--access", access],
       {
         cwd: pkgRoot,
         stdio: "pipe",

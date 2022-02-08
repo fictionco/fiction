@@ -1,3 +1,12 @@
+## [4.0.17](https://github.com/FactorJS/factor/compare/v4.0.15...v4.0.17) (2022-02-08)
+
+
+### Bug Fixes
+
+* cmd ([ebab15c](https://github.com/FactorJS/factor/commit/ebab15c107a3d7f8bffd51c85793e411ad92d9a2))
+
+
+
 ## [4.0.16](https://github.com/FactorJS/factor/compare/v4.0.15...v4.0.16) (2022-02-08)
 
 
