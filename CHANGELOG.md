@@ -1,3 +1,12 @@
+## [4.0.14](https://github.com/FactorJS/factor/compare/v4.0.13...v4.0.14) (2022-02-08)
+
+
+### Bug Fixes
+
+* dep ([2fafcb1](https://github.com/FactorJS/factor/commit/2fafcb1877f7aa7f4160a79743953288d7d20f01))
+
+
+
 ## [4.0.13](https://github.com/FactorJS/factor/compare/v4.0.12...v4.0.13) (2022-02-08)
 
 

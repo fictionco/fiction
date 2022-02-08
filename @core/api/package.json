@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "4.0.13",
+  "version": "4.0.14",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -11,10 +11,10 @@
     "idk": "echo 'ok'"
   },
   "dependencies": {
-    "@factor/api": "4.0.13",
-    "@factor/engine": "4.0.13",
-    "@factor/types": "4.0.13",
-    "@factor/ui": "4.0.13",
+    "@factor/api": "4.0.14",
+    "@factor/engine": "4.0.14",
+    "@factor/types": "4.0.14",
+    "@factor/ui": "4.0.14",
     "@types/blueimp-load-image": "^5.14.0",
     "@types/js-cookie": "^3.0.0",
     "@types/markdown-it": "^12.0.0",
