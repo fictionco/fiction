@@ -1,16 +1,16 @@
 {
   "name": "@factor/test",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },
   "type": "module",
   "dependencies": {
-    "@factor/site": "4.0.12",
-    "@factor/engine": "4.0.12",
-    "@factor/render": "4.0.12",
-    "@factor/server": "4.0.12",
+    "@factor/site": "4.0.13",
+    "@factor/engine": "4.0.13",
+    "@factor/render": "4.0.13",
+    "@factor/server": "4.0.13",
     "vite": "^2.7.12",
     "vitest": "^0.2.0"
   }

@@ -1,15 +1,15 @@
 {
   "name": "@factor/engine",
-  "version": "4.0.12",
+  "version": "4.0.13",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.12",
-    "@factor/server": "4.0.12",
-    "@factor/types": "4.0.12",
+    "@factor/api": "4.0.13",
+    "@factor/server": "4.0.13",
+    "@factor/types": "4.0.13",
     "axios": "^0.25.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
