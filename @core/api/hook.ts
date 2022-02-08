@@ -1,4 +1,4 @@
-import { CallbackDictionary, UserConfigServer } from "."
+import { CallbackDictionary, UserConfigServer } from "@factor/types"
 
 export const runHooks = async <T extends keyof CallbackDictionary>(options: {
   config: UserConfigServer

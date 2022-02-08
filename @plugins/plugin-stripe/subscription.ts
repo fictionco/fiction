@@ -1,5 +1,7 @@
+import { objectId } from "@factor/api"
 import type stripeNode from "stripe"
-import { getStripeClient, SubscriptionDetails } from "."
+import { getStripeClient, SubscriptionDetails } from "./util"
+import { paymentEndpointsMap } from "./endpoints"
 export const handleCardSetupRequired = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
@@ -117,7 +119,9 @@ export const handleRequiresPaymentMethod = async (
     return args
   }
 }
-
+type ManageResult = ReturnType<
+  typeof paymentEndpointsMap.ManageSubscription.request
+>
 export const checkPaymentMethod = async (
   args: SubscriptionDetails,
 ): Promise<void> => {
@@ -126,4 +130,52 @@ export const checkPaymentMethod = async (
   await handlePaymentThatRequiresCustomerAction(args)
 
   await handleRequiresPaymentMethod(args)
+}
+
+export const requestCreateSubscription = async (args: {
+  customerId: string
+  paymentMethodId: string
+  priceId: string
+}): Promise<ManageResult> => {
+  const { customerId, paymentMethodId, priceId } = args
+
+  let result = await paymentEndpointsMap.ManageSubscription.request({
+    customerId,
+    paymentMethodId,
+    priceId,
+    _action: "create",
+    idempotencyKey: objectId(),
+  })
+
+  const subscription = result.data
+
+  if (
+    result.status == "success" &&
+    subscription &&
+    paymentMethodId &&
+    priceId &&
+    customerId
+  ) {
+    const checkArgs = {
+      subscription,
+      customerId,
+      paymentMethodId,
+      priceId,
+    }
+    /**
+     * Run through stripe payment checks
+     * https://github.com/stripe-samples/subscription-use-cases/blob/master/usage-based-subscriptions/client/script.js
+     */
+    await checkPaymentMethod(checkArgs)
+    /**
+     * If successful, retrieving subscription again will update its backend status
+     */
+    result = await paymentEndpointsMap.ManageSubscription.request({
+      customerId,
+      _action: "retrieve",
+      subscriptionId: subscription.id,
+    })
+  }
+
+  return result
 }

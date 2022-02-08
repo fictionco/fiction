@@ -1,6 +1,4 @@
-import "@factor/server"
 import { emitEvent, logger } from "@factor/api"
-
 import { Command, OptionValues } from "commander"
 import dotenv from "dotenv"
 import path from "path"

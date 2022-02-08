@@ -7,6 +7,15 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.10",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mime-types": "^2.1.0",
+    "@types/multer": "^1.4.5",
+    "@types/nodemailer": "^6.4.4",
+    "@types/nodemailer-html-to-text": "^3.1.0",
+    "@types/pg": "^8.0.0",
     "@factor/api": "4.0.14",
     "@factor/server": "4.0.14",
     "@factor/types": "4.0.14",
@@ -32,15 +41,6 @@
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/compression": "^1.7.0",
-    "@types/cors": "^2.8.10",
-    "@types/jsonwebtoken": "^8.5.0",
-    "@types/mime-types": "^2.1.0",
-    "@types/multer": "^1.4.5",
-    "@types/nodemailer": "^6.4.4",
-    "@types/nodemailer-html-to-text": "^3.1.0",
-    "@types/pg": "^8.0.0",
     "vitest": "^0.2.0"
   }
 }

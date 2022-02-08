@@ -41,6 +41,6 @@
     "javascript"
   ],
   "devDependencies": {
-    "less": "^4.0.0"
+    "less": "^4.1.1"
   }
 }

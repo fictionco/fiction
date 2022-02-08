@@ -5,7 +5,7 @@ import { logger } from "@factor/api"
 import { _stop } from "@factor/api/error"
 import { isNode } from "@factor/api/utils"
 import { getDb } from "./db"
-import { EndpointMeta } from "./endpoint"
+import type { EndpointMeta } from "./endpoint"
 
 export abstract class Query {
   qu!: Knex // always set on server

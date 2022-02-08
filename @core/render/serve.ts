@@ -6,7 +6,7 @@ import express, { Express } from "express"
 import serveFavicon from "serve-favicon"
 import serveStatic from "serve-static"
 import * as vite from "vite"
-import { CliOptions } from "@factor/cli/program"
+import type { CliOptions } from "@factor/cli/program"
 import { getRequestHtml, htmlGenerators } from "./render"
 import { getViteServer } from "./vite"
 

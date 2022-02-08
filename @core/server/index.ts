@@ -8,7 +8,7 @@ import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
 import { setServerConfig } from "./config"
 import { UserConfigServer } from "@factor/types"
-import { CliOptions } from "@factor/cli/program"
+import type { CliOptions } from "@factor/cli/program"
 
 export const setupServerEnv = async (
   entryServerConfig: UserConfigServer = {},

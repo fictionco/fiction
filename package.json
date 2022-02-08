@@ -48,9 +48,11 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
+    "@factor/api": "^4.0.14",
     "@factor/cli": "4.0.14",
-    "@factor/test": "4.0.14",
+    "@factor/engine": "^4.0.14",
     "@factor/site": "4.0.14",
+    "@factor/test": "4.0.14",
     "autoprefixer": "^10.4.2",
     "c8": "^7.11.0",
     "postcss": "^8.4.6",

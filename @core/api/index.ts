@@ -1,7 +1,5 @@
 /// <reference path="./shim.d.ts" />
 
-if (typeof window !== "undefined") window.process.env = {}
-
 export * from "@factor/types"
 export * from "./_"
 export * from "./endpoint"
