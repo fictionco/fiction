@@ -13,7 +13,8 @@ const getFromAddress = (): string => {
 
   if (!name || !email) {
     throw _stop({
-      message: "can't send email. name or email are not available",
+      message:
+        "node email misconfigured: (FACTOR_APP_NAME or FACTOR_APP_EMAIL)",
     })
   }
 

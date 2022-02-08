@@ -20,10 +20,10 @@
   },
   "license": "MIT",
   "workspaces": [
-    "@core/*",
-    "@engine/*",
     "@apps/*",
     "@plugins/*",
+    "@core/*",
+    "@engine/*",
     "@test/*",
     "cdk"
   ],

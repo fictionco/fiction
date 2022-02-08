@@ -14,7 +14,6 @@ export default defineConfig({
       ".git",
       ".cache",
     ],
-    include: ["**/*.test.ts"],
     globalSetup: [`${testPath}/setupGlobal.ts`],
     setupFiles: [`${testPath}/setupTest.ts`],
   },

@@ -8,7 +8,7 @@ import { logger } from "@factor/api/logger"
 import { isGitDirty, getPackages } from "./utils"
 import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
-import { CliOptions } from "@factor/cli/program"
+import type { CliOptions } from "@factor/cli/program"
 
 const require = createRequire(import.meta.url)
 

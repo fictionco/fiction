@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { expect, it, vi, describe } from "vitest"
 import { Queries } from "../user"
 import { FullUser } from "@factor/types"
@@ -76,6 +75,7 @@ describe("user tests", () => {
   })
 
   it("resets password", async () => {
+    if (!user.email) throw new Error("email required")
     const response = await ep.Queries.ResetPassword.serve(
       {
         email: user.email,
