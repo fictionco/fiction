@@ -10,7 +10,6 @@ describe("factor site", () => {
       },
     )
 
-    console.log("STDOUT", r.stdout, r.stderr)
     expect(r.stdout).toContain("built successfully")
   })
 })
