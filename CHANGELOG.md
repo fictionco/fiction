@@ -1,3 +1,12 @@
+## [4.0.20](https://github.com/FactorJS/factor/compare/v4.0.19...v4.0.20) (2022-02-08)
+
+
+### Features
+
+* bundle ([2c14cd2](https://github.com/FactorJS/factor/commit/2c14cd2a5f466d1632f982f56a521e5a7d9a47b1))
+
+
+
 ## [4.0.19](https://github.com/FactorJS/factor/compare/v4.0.15...v4.0.19) (2022-02-08)
 
 

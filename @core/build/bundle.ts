@@ -1,11 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import {
-  logger,
-  PackageJson,
-  PackageBuildOptions,
-  deepMergeAll,
-} from "@factor/api"
+import { logger, PackageJson, deepMergeAll } from "@factor/api"
 import { getPackages, getCommit } from "./utils"
 import { execa } from "execa"
 import * as vite from "vite"
