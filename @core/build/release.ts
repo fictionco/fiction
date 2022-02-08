@@ -59,7 +59,6 @@ const commit = async (
   ...commandArgs: [string, string[], Record<string, string>?]
 ): Promise<void | ExecaChildProcess> => {
   const [bin, args, opts] = commandArgs
-  //  Output CLI commands instead of actually run them
   return await run(bin, args, opts)
 }
 /**
@@ -141,10 +140,14 @@ const publishPackage = async (
     description: `publishing ${moduleName}...`,
   })
   try {
-    await commit("pnpm", ["publish", "--tag", version, "--access", access], {
-      cwd: pkgRoot,
-      stdio: "pipe",
-    })
+    await commit(
+      "pnpm",
+      ["publish", "--filter", moduleName, "--tag", version, "--access", access],
+      {
+        cwd: pkgRoot,
+        stdio: "pipe",
+      },
+    )
 
     logger.log({
       level: "info",
