@@ -5,7 +5,7 @@ import {
   sourceFolder,
 } from "@factor/engine/nodeUtils"
 import { currentUrl } from "@factor/api"
-import { FactorAppEntry, RenderMode } from "@factor/types"
+import { EntryModuleExports, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
 import { renderHeadToString } from "@vueuse/head"
 import fs from "fs-extra"
@@ -96,7 +96,10 @@ export const htmlGenerators = async (
   if (mode == "production") {
     fs.ensureDirSync(path.join(distFolder(), "client"))
     out.template = fs.readFileSync(resolveDist("./client/index.html"), "utf-8")
-    out.manifest = require(resolveDist("./client/ssr-manifest.json"))
+    out.manifest = require(resolveDist("./client/ssr-manifest.json")) as Record<
+      string,
+      any
+    >
   } else {
     out.template = await getIndexHtml(mode)
   }
@@ -130,14 +133,17 @@ export const renderParts = async (args: {
      *
      */
     if (prod) {
-      entryModule = await import(distServer())
+      entryModule = (await import(distServer())) as Record<string, any>
     } else {
       const srv = await getViteServer()
       entryModule = await srv.ssrLoadModule("@factor/entry")
     }
 
-    const { factorApp } = entryModule
-    const factorAppEntry: FactorAppEntry = await factorApp({ renderUrl: url })
+    const { factorApp } = entryModule as EntryModuleExports
+    const factorAppEntry = await factorApp({
+      renderUrl: url,
+    })
+
     const { app, head } = factorAppEntry
 
     /**

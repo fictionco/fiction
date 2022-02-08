@@ -52,15 +52,6 @@ export const getGlobalThis = (): any => {
   return typeof window != "undefined" ? window : global
 }
 
-export const getAppGlobal = <T = unknown>(key: string): T | undefined => {
-  const __this = getGlobalThis()
-  return __this.factor?.[key]
-}
-export const setAppGlobal = <T = unknown>(key: string, value: T): void => {
-  const __this = getGlobalThis()
-  if (!__this.factor) __this.factor = {}
-  __this.factor[key] = value
-}
 /**
  * Detect if visitor is actually a search bot
  */

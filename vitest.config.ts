@@ -3,6 +3,7 @@ import path from "path"
 import { createRequire } from "module"
 const require = createRequire(import.meta.url)
 const testPath = path.dirname(require.resolve("@factor/test"))
+
 export default defineConfig({
   test: {
     exclude: [

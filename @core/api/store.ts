@@ -1,6 +1,6 @@
 import * as Vuex from "vuex"
 
-import { getAppGlobal, setAppGlobal } from "./utils"
+import { getGlobal, setGlobal } from "./global"
 declare global {
   interface Window {
     __INITIAL_STATE__: Record<string, any>
@@ -46,10 +46,10 @@ export const createStore = (): Vuex.Store<Record<string, any>> => {
  * Gets the primary store and creates it if it doesn't exist
  */
 export const getStore = (): Vuex.Store<Record<string, any>> => {
-  let store: Vuex.Store<Record<string, any>> | undefined = getAppGlobal("store")
+  let store: Vuex.Store<Record<string, any>> | undefined = getGlobal("store")
   if (!store) {
     store = createStore()
-    setAppGlobal("store", store)
+    setGlobal("store", store)
   }
   return store
 }

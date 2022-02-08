@@ -1,6 +1,6 @@
 import { distServer, distClient } from "@factor/engine/nodeUtils"
 import { getSitemaps } from "@factor/engine/sitemap"
-import { FactorAppEntry } from "@factor/types"
+import { EntryModuleExports } from "@factor/types"
 import { RouteRecordRaw } from "vue-router"
 import { currentUrl } from "@factor/api"
 import dayjs from "dayjs"
@@ -41,8 +41,8 @@ export const _processRouteConfigToUrls = (
 }
 
 export const getKnownRouteUrls = async (): Promise<string[]> => {
-  const { factorApp } = await import(distServer())
-  const { router } = (await factorApp({ renderUrl: "/" })) as FactorAppEntry
+  const { factorApp } = (await import(distServer())) as EntryModuleExports
+  const { router } = await factorApp({ renderUrl: "/" })
 
   const routeConfig = router.getRoutes()
 
@@ -70,8 +70,9 @@ export const getSitemapPaths = async (): Promise<string[]> => {
 export const generateSitemap = async (): Promise<void> => {
   const sitemapBaseUrl = currentUrl()
 
-  if (!sitemapBaseUrl)
+  if (!sitemapBaseUrl) {
     throw new Error("sitemap: base URL was empty (FACTOR_APP_URL)")
+  }
 
   const paths = await getSitemapPaths()
 

@@ -9,8 +9,8 @@ import {
 } from "vue-router"
 
 import { logger } from "./logger"
-import { isNode, isSearchBot, getAppGlobal, setAppGlobal } from "./utils"
-
+import { isNode, isSearchBot } from "./utils"
+import { getGlobal, setGlobal } from "./global"
 /**
  * Add the hooks on changes
  */
@@ -52,10 +52,10 @@ export const createFactorRouter = (): Router => {
  * Gets the primary router and creates it if it doesn't exist
  */
 export const getRouter = (): Router => {
-  let router: Router | undefined = getAppGlobal("router")
+  let router: Router | undefined = getGlobal("router")
   if (!router) {
     router = createFactorRouter()
-    setAppGlobal("router", router)
+    setGlobal("router", router)
   }
   return router
 }

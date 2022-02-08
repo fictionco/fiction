@@ -7,6 +7,9 @@
   },
   "main": "index.ts",
   "type": "module",
+  "scripts": {
+    "idk": "echo 'ok'"
+  },
   "dependencies": {
     "@factor/api": "4.0.8",
     "@factor/engine": "4.0.8",

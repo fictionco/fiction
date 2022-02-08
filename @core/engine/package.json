@@ -38,7 +38,7 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mime-types": "^2.1.0",
     "@types/multer": "^1.4.5",
-    "@types/nodemailer": "^6.4.0",
+    "@types/nodemailer": "^6.4.4",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/pg": "^8.0.0",
     "vitest": "^0.2.0"

@@ -14,6 +14,10 @@ export interface FactorAppEntry {
   store: Store<Record<string, any>>
 }
 
+export type EntryModuleExports = {
+  factorApp: (c: { renderUrl: string }) => Promise<FactorAppEntry>
+}
+
 export type FactorPluginConfig<T> = {
   name: string
   // need a generic to fix typing error in setupPlugins function
