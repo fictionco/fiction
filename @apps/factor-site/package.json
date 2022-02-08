@@ -4,7 +4,7 @@
   "url": "https://www.factorjs.org",
   "main": "src/index.ts",
   "license": "UNLICENSED",
-  "private": true,
+  "private": false,
   "publishConfig": {
     "access": "public"
   },
