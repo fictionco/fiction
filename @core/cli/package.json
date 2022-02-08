@@ -1,18 +1,18 @@
 {
   "name": "@factor/cli",
-  "version": "4.0.11",
+  "version": "4.0.12",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.11",
-    "@factor/build": "4.0.11",
-    "@factor/cli": "4.0.11",
-    "@factor/render": "4.0.11",
-    "@factor/server": "4.0.11",
-    "@factor/types": "4.0.11",
+    "@factor/api": "4.0.12",
+    "@factor/build": "4.0.12",
+    "@factor/cli": "4.0.12",
+    "@factor/render": "4.0.12",
+    "@factor/server": "4.0.12",
+    "@factor/types": "4.0.12",
     "@types/nodemon": "^1.19.1",
     "axios": "^0.25.0",
     "commander": "^9.0.0",
