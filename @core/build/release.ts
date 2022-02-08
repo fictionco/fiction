@@ -9,8 +9,8 @@ import { version as currentVersion } from "../../package.json"
 import { isGitDirty, getPackages } from "./utils"
 import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
+import { CliOptions } from "@factor/cli/program"
 const require = createRequire(import.meta.url)
-let __dry: boolean | undefined
 
 /**
  * Semver release types
@@ -52,15 +52,7 @@ const commit = async (
 ): Promise<void | ExecaChildProcess> => {
   const [bin, args, opts] = commandArgs
   //  Output CLI commands instead of actually run them
-  if (__dry) {
-    logger.log({
-      level: "info",
-      context: "release",
-      description: `(dry) ${bin} ${args.join(" ")}`,
-    })
-  } else {
-    return await run(bin, args, opts)
-  }
+  return await run(bin, args, opts)
 }
 /**
  * Get the directory of a module given it's name
@@ -181,19 +173,14 @@ const publishPackage = async (
  * The main release routine controller
  */
 export const releaseRoutine = async (
-  options: {
-    dry?: boolean
-    patch?: boolean
-    commitChanges?: boolean
-  } = {},
+  options: CliOptions = {},
 ): Promise<void> => {
-  const { dry, patch, commitChanges } = options
-  __dry = dry
+  const { patch } = options
 
   logger.log({
     level: "info",
     context: "release",
-    description: `publish new version [${dry ? "dry" : "live"}]`,
+    description: `publish new version [live]`,
   })
   logger.log({
     level: "info",
@@ -202,7 +189,7 @@ export const releaseRoutine = async (
   })
 
   const dirty = await isGitDirty()
-  if (dirty && !dry && !commitChanges) {
+  if (dirty) {
     throw new Error("commit changes before publishing a release")
   }
 
@@ -329,14 +316,6 @@ export const releaseRoutine = async (
     `refs/tags/v${targetVersion}`,
   ])
   await commit("git", ["push", "--no-verify"])
-
-  if (dry) {
-    logger.log({
-      level: "info",
-      context: "release",
-      description: `dry run finished - run git diff to see package changes.`,
-    })
-  }
 
   /**
    * Create a Github release

@@ -11,7 +11,7 @@ import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 
-type EntryFile = { setup: (options: CommandOptions) => Promise<void> }
+type EntryFile = { setup: (options: CliOptions) => Promise<void> }
 
 const commander = new Command()
 
@@ -30,18 +30,17 @@ export const coreServices = {
   render: { port: ServicePort.Render, service: ServiceModule.Render },
 }
 
-export type CommandOptions<T = Record<string, any>> = {
-  CMD?: "rdev" | "dev" | "server" | "prerender"
-  SERVICE?: ServiceModule
+export type CliOptions = {
+  SERVICE?: string
   STAGE_ENV?: "prod" | "dev" | "pre" | "local"
   NODE_ENV?: "production" | "development"
-  inspect?: boolean
+  inspector?: boolean
   portApp?: string
-  portServer?: string
   port?: string
-  workspace?: string
-  noDotenv?: boolean
-} & T
+  serve?: boolean
+  prerender?: boolean
+  patch?: boolean
+}
 /**
  * Is current start a nodemon restart
  */
@@ -72,7 +71,7 @@ const initializeNodeInspector = async (): Promise<void> => {
 /**
  * Sets Node process and environmental variables
  */
-export const setEnvironment = (options: CommandOptions): void => {
+export const setEnvironment = (options: CliOptions): void => {
   dotenv.config({ path: path.resolve(process.cwd(), ".env") })
 
   if (options.NODE_ENV == "development") {
@@ -83,30 +82,28 @@ export const setEnvironment = (options: CommandOptions): void => {
     dotenv.config({ path: path.resolve(process.cwd(), ".test.env") })
   }
 
-  const { NODE_ENV, STAGE_ENV, port, portApp, portServer, inspect } = options
+  const { NODE_ENV, STAGE_ENV, portApp, port, inspector } = options
 
   process.env.NODE_ENV = NODE_ENV || "production"
   process.env.STAGE_ENV = STAGE_ENV || "local"
 
   // set up port handling
   process.env.FACTOR_APP_PORT = portApp || "3000"
-  process.env.FACTOR_SERVER_PORT = portServer || "3210"
-
-  if (port) process.env.PORT = port
+  process.env.PORT = process.env.FACTOR_SERVER_PORT = port || "3210"
 
   // run with node developer tools inspector
-  if (inspect) initializeNodeInspector().catch((error) => console.error(error))
+  if (inspector) {
+    initializeNodeInspector().catch((error) => console.error(error))
+  }
 }
 
 /**
  * For commands that use Nodemon to handle restarts
  */
-const restartInitializer = async (options: CommandOptions): Promise<void> => {
+const restartInitializer = async (options: OptionValues): Promise<void> => {
   const { default: nodemon } = await import("nodemon")
 
-  const { workspace = "" } = options
-
-  setEnvironment({ noDotenv: workspace ? false : true, ...options })
+  setEnvironment(options as CliOptions)
 
   const conf = require("./nodemon.json") as Record<string, any>
 
@@ -144,7 +141,7 @@ const restartInitializer = async (options: CommandOptions): Promise<void> => {
  * Runs a command entered in the CLI
  * @param options - command options
  */
-export const runService = async (options: CommandOptions): Promise<void> => {
+export const runService = async (options: CliOptions): Promise<void> => {
   const { SERVICE } = options
 
   if (!SERVICE) {
@@ -162,13 +159,13 @@ export const runService = async (options: CommandOptions): Promise<void> => {
 /**
  * Runs the endpoint server for CWD app
  */
-export const runServer = async (options: CommandOptions): Promise<void> => {
+export const runServer = async (options: CliOptions): Promise<void> => {
   return runService({ SERVICE: ServiceModule.Server, ...options })
 }
 /**
  * Run development environment for CWD app
  */
-export const runDev = async (options: CommandOptions): Promise<void> => {
+export const runDev = async (options: CliOptions): Promise<void> => {
   for (const { service } of Object.values(coreServices)) {
     const { setup } = (await import(service)) as EntryFile
 
@@ -182,11 +179,11 @@ export const runDev = async (options: CommandOptions): Promise<void> => {
  */
 const wrapCommand = async (settings: {
   NODE_ENV?: "production" | "development"
-  cb: (options: Record<string, any>) => Promise<void>
+  cb: (options: CliOptions) => Promise<void>
   exit?: boolean
-  opts?: Record<string, string | boolean>
+  opts?: CliOptions
 }): Promise<void> => {
-  const { cb, exit, NODE_ENV, opts = commander.opts() } = settings
+  const { cb, exit, NODE_ENV, opts = commander.opts() as CliOptions } = settings
   opts.NODE_ENV = NODE_ENV
 
   setEnvironment(opts)
@@ -219,7 +216,7 @@ export const execute = (): void => {
   commander
     .command("start")
     .option("--SERVICE <SERVICE>", "Which module to run")
-    .action(async (opts: OptionValues) => {
+    .action(async (opts: CliOptions) => {
       await wrapCommand({ cb: (_) => runService(_), opts })
     })
 
@@ -234,57 +231,42 @@ export const execute = (): void => {
     .allowUnknownOption()
     .option("-c, --CMD <ENV>", "the CLI command to run ")
     .option("-i, --inspect", "run the node inspector")
-    .option(
-      "-w, --workspace <workspace>",
-      "the workspace to run dev in (use for monorepo)",
-    )
-    .action((opts: OptionValues, _) => {
-      return restartInitializer({ ...opts })
+    .action((opts: CliOptions, _) => {
+      return restartInitializer(opts)
     })
 
   commander
     .command("rdev")
-    .option("--force", "force full restart and optimization")
-    .option("-pa, --port-app <number>", "primary service port")
-    .option("-ps, --port-server  <number>", "server specific port")
-    .option("-i, --inspect", "run the node inspector")
+    .option("-pa, --port-app <string>", "front-end port")
+    .option("-p, --port  <string>", "server port")
+    .option("-i, --inspector", "run the node inspector")
     .allowUnknownOption()
-    .action(
-      (opts: {
-        portApp?: string
-        portServer?: string
-        mode: "development"
-      }) => {
-        opts.mode = "development"
-
-        return wrapCommand({
-          cb: (_) => runDev(_),
-          NODE_ENV: "development",
-          exit: false,
-          opts,
-        })
-      },
-    )
+    .action((opts: CliOptions) => {
+      return wrapCommand({
+        cb: (_) => runDev(_),
+        NODE_ENV: "development",
+        exit: false,
+        opts,
+      })
+    })
 
   commander
     .command("build")
     .option("--NODE_ENV <NODE_ENV>", "environment (development/production)")
     .option("--prerender", "prerender pages")
     .option("-s, --serve", "serve static site after build")
-    .action(
-      (opts: { NODE_ENV?: "production" | "development"; serve?: boolean }) => {
-        return wrapCommand({
-          cb: async (opts) => {
-            const { buildApp } = await import("@factor/render")
-            await runServer(opts)
-            return buildApp(opts)
-          },
-          NODE_ENV: opts.NODE_ENV ?? "production",
-          exit: opts.serve ? false : true,
-          opts,
-        })
-      },
-    )
+    .action((opts: CliOptions) => {
+      return wrapCommand({
+        cb: async (opts) => {
+          const { buildApp } = await import("@factor/render")
+          await runServer(opts)
+          return buildApp(opts)
+        },
+        NODE_ENV: opts.NODE_ENV ?? "production",
+        exit: opts.serve ? false : true,
+        opts,
+      })
+    })
 
   commander
     .command("prerender")
@@ -292,21 +274,19 @@ export const execute = (): void => {
     .option("-s, --serve", "serve static site after build")
     .option("-pa, --port-app <number>", "primary service port")
     .option("-p, --port <number>", "server specific port")
-    .action(
-      (opts: { NODE_ENV?: "production" | "development"; serve?: boolean }) => {
-        return wrapCommand({
-          cb: async (opts) => {
-            opts.prerender = true
-            const { buildApp } = await import("@factor/render")
-            await runServer(opts)
-            return buildApp(opts)
-          },
-          NODE_ENV: opts.NODE_ENV || "production",
-          exit: opts.serve ? false : true,
-          opts,
-        })
-      },
-    )
+    .action((opts: CliOptions) => {
+      return wrapCommand({
+        cb: async (opts) => {
+          opts.prerender = true
+          const { buildApp } = await import("@factor/render")
+          await runServer(opts)
+          return buildApp(opts)
+        },
+        NODE_ENV: opts.NODE_ENV || "production",
+        exit: opts.serve ? false : true,
+        opts,
+      })
+    })
 
   commander.command("serve").action(() => {
     return wrapCommand({
@@ -319,7 +299,7 @@ export const execute = (): void => {
   commander
     .command("render")
     .option("-s, --serve", "serve static site after build")
-    .action((opts: OptionValues) => {
+    .action((opts: CliOptions) => {
       return wrapCommand({
         opts,
         cb: async (opts) => {
@@ -335,13 +315,16 @@ export const execute = (): void => {
     .command("release")
     .description("publish a new version")
     .option("--patch", "patch release")
-    .action((opts) => {
+    .action((opts: CliOptions) => {
       process.env.STAGE_ENV = "prod"
       return wrapCommand({
-        cb: async (_) => {
+        cb: async (opts) => {
           // require to prevent devDependency errors in production
+          /**
+           * @type {import("@factor/build/release")}
+           */
           const { releaseRoutine } = await import("@factor/build/release")
-          return releaseRoutine(_)
+          return releaseRoutine(opts)
         },
         opts,
         exit: true,
@@ -356,7 +339,7 @@ export const execute = (): void => {
     .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
     .option("--commit <commit>", "git commit id")
     .option("--outFile <outFile>", "name of output file")
-    .action(async (opts) => {
+    .action(async (opts: CliOptions) => {
       const { bundleAll } = await import("@factor/build/bundle")
       await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
     })

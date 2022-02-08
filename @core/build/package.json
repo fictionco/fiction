@@ -9,6 +9,7 @@
   "type": "module",
   "dependencies": {
     "@factor/api": "4.0.8",
+    "@factor/cli": "4.0.8",
     "cors": "^2.8.5",
     "enquirer": "^2.3.5",
     "execa": "^6.0.0",

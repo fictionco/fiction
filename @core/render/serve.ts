@@ -6,7 +6,7 @@ import express, { Express } from "express"
 import serveFavicon from "serve-favicon"
 import serveStatic from "serve-static"
 import * as vite from "vite"
-
+import { CliOptions } from "@factor/cli/program"
 import { getRequestHtml, htmlGenerators } from "./render"
 import { getViteServer } from "./vite"
 
@@ -80,14 +80,15 @@ export const expressApp = async (
 /**
  * Serves a built app from [cwd]/dist
  */
-export const serveApp = async (
-  options: Partial<RenderOptions> = {},
-): Promise<void> => {
-  const app = await expressApp(options)
-
+export const serveApp = async (options: CliOptions = {}): Promise<void> => {
+  const { NODE_ENV } = options
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || "3000"
 
   const appName = process.env.FACTOR_APP_NAME || "app"
+
+  const mode = NODE_ENV
+
+  const app = await expressApp({ mode })
 
   app.listen(port, () => {
     logger.log({

@@ -8,6 +8,7 @@ import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
 import { setServerConfig } from "./config"
 import { UserConfigServer } from "@factor/types"
+import { CliOptions } from "@factor/cli/program"
 
 export const setupServerEnv = async (
   entryServerConfig: UserConfigServer = {},
@@ -57,10 +58,11 @@ export const setupEnvironment = async (
 /**
  * Run the Factor server
  */
-export const setup = async (): Promise<void> => {
+export const setup = async (options: CliOptions): Promise<void> => {
+  const { port = "3210" } = options
   const appConfig = await getFactorConfig({
     endpoints,
-    endpointPort: 3210,
+    endpointPort: port,
   })
 
   const merge: UserConfigServer[] = [appConfig]

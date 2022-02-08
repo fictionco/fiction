@@ -9,6 +9,7 @@
   "type": "module",
   "dependencies": {
     "@factor/api": "4.0.8",
+    "@factor/cli": "4.0.8",
     "@factor/cjs": "4.0.8",
     "@factor/engine": "4.0.8",
     "@factor/entry": "4.0.8",
