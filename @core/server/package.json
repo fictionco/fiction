@@ -1,16 +1,16 @@
 {
   "name": "@factor/server",
-  "version": "4.0.14",
+  "version": "4.0.15",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.14",
-    "@factor/cli": "4.0.14",
-    "@factor/engine": "4.0.14",
-    "@factor/types": "4.0.14",
+    "@factor/api": "4.0.15",
+    "@factor/cli": "4.0.15",
+    "@factor/engine": "4.0.15",
+    "@factor/types": "4.0.15",
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
