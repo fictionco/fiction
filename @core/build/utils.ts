@@ -51,7 +51,8 @@ export const getPackages = (
       .sync(w)
       .map((f): string => {
         const manifestPath = path.resolve(process.cwd(), `${f}/package.json`)
-        if (!fs.statSync(f).isDirectory()) return ""
+        const exists = fs.existsSync(manifestPath)
+        if (!fs.statSync(f).isDirectory() || !exists) return ""
         else {
           const manifest = require(manifestPath) as PackageJson
           return publicOnly && manifest.private ? "" : manifest.name

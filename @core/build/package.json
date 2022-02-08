@@ -20,7 +20,9 @@
     "fs-extra": "^10.0.0",
     "handlebars": "^4.7.6",
     "minimist": "^1.2.5",
-    "semver": "^7.3.2"
+    "semver": "^7.3.2",
+    "vite": "^2.7.13",
+    "tsup": "^5.11.13"
   },
   "devDependencies": {
     "@factor/entry": "4.0.19",

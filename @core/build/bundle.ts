@@ -1,14 +1,22 @@
 import path from "path"
-import { performance } from "perf_hooks"
 import fs from "fs-extra"
-import { logger, PackageJson, PackageBuildOptions } from "@factor/api"
+import {
+  logger,
+  PackageJson,
+  PackageBuildOptions,
+  deepMergeAll,
+} from "@factor/api"
 import { getPackages, getCommit } from "./utils"
-import * as rollup from "rollup"
-import { getConfig } from "./rollupBuildConfig"
-
+import { execa } from "execa"
+import * as vite from "vite"
+import { getViteConfig } from "@factor/render/vite.config"
 import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
+
+export const packageDir = (packageName: string): string => {
+  return path.dirname(require.resolve(`${packageName}/package.json`))
+}
 
 interface BundleOptions {
   packageName?: string
@@ -29,70 +37,103 @@ export const outputFolders = (): {
   }
 }
 
-/**
- * Run a child process for rollup that builds scripts based on options
- */
-export const bundle = async (options: BundleOptions): Promise<void> => {
-  const {
-    packageName,
-    NODE_ENV = "production",
-    sourceMap,
-    outFile = "",
-  } = options
-
-  if (!packageName) throw new Error("no pkg name available")
-
-  let { commit } = options
-
-  fs.removeSync(`${packageName}/dist`)
-
-  // pass in git commit via env var
-  if (!commit && process.env.GIT_COMMIT) {
-    commit = process.env.GIT_COMMIT
-  } else if (!commit) {
-    commit = await getCommit()
-  }
-
-  const rollupOptions = await getConfig({
-    packageName,
-    commit,
-    outFile,
-    sourceMap,
-    NODE_ENV,
-  })
-
-  const t1 = performance.now()
-  const bundle = await rollup.rollup(rollupOptions)
-
-  logger.log({
-    level: "info",
-    context: "bundle",
-    description: `${packageName} - ${Math.round(
-      (performance.now() - t1) / 1000,
-    )}s`,
-  })
-
-  const output = rollupOptions.output as rollup.OutputOptions
-
-  await bundle.write(output)
-
-  logger.log({
-    level: "info",
-    context: "bundle",
-    description: `${packageName} - dist - ${path.basename(
-      output.file as string,
-    )}`,
-  })
-
-  // closes the bundle
-  await bundle.close()
-}
-
-const getModuleBuildOptions = (pkg: string): PackageBuildOptions => {
+const getModuleBuildOptions = (
+  pkg: string,
+): PackageJson["buildOptions"] | undefined => {
   const { buildOptions } = require(`${pkg}/package.json`) as PackageJson
 
   return buildOptions
 }
+
+/**
+ * Run a child process for rollup that builds scripts based on options
+ */
+export const bundle = async (options: BundleOptions): Promise<void> => {
+  const { packageName, NODE_ENV } = options
+  try {
+    if (!packageName) throw new Error("no pkg name available")
+    const buildOptions = getModuleBuildOptions(packageName)
+
+    logger.log({
+      level: "info",
+      description: `bundling ${packageName}`,
+      context: "cli bundle",
+    })
+
+    let { commit } = options
+
+    const pkgDir = packageDir(packageName)
+
+    fs.removeSync(`${pkgDir}/dist`)
+
+    // pass in git commit via env var
+    if (!commit && process.env.GIT_COMMIT) {
+      commit = process.env.GIT_COMMIT
+    } else if (!commit) {
+      commit = await getCommit()
+    }
+
+    const vc = await getViteConfig({ mode: NODE_ENV })
+
+    const root = packageDir(packageName)
+
+    if (!buildOptions?.entryFile) throw new Error("no entry file")
+
+    const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
+      vc,
+      {
+        root: root,
+        build: {
+          outDir: path.join(
+            packageDir(packageName),
+            "/dist",
+            buildOptions.outputDir ?? "",
+          ),
+          emptyOutDir: true,
+          lib: {
+            formats: ["es"],
+            entry: buildOptions?.entryFile,
+            name: buildOptions.entryName,
+            fileName: () => `index.js`,
+          },
+        },
+        plugins: [],
+      },
+    ])
+
+    await vite.build(clientBuildOptions)
+
+    if (NODE_ENV == "production") {
+      /**
+       * Create type declarations
+       * https://tsup.egoist.sh/
+       */
+      await execa(
+        "tsup",
+        [
+          buildOptions?.entryFile,
+          "--format",
+          "esm",
+          "--dts-only",
+          "--out-dir",
+          `dist/${buildOptions.outputDir}`,
+        ],
+        {
+          stdio: "inherit",
+          cwd: packageDir(packageName),
+        },
+      )
+    }
+  } catch (error) {
+    logger.log({
+      level: "error",
+      description: `error during ${packageName} build`,
+      context: "cli bundle",
+      data: error,
+    })
+  }
+}
+
 /**
  * Bundle all packages or just a specified one
  */

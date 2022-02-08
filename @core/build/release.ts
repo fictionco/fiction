@@ -111,9 +111,7 @@ const updatePackage = (pkgRoot: string, version: string): void => {
  * Update all manifest version numbers
  */
 const updateVersions = (version: string): void => {
-  // update root package.json
-  const dirname = new URL(".", import.meta.url).pathname
-  updatePackage(path.resolve(dirname, "../.."), version)
+  updatePackage(path.resolve(process.cwd()), version)
   // update the workspace modules
   getPackages().forEach((p) => updatePackage(getModuleDirectory(p), version))
 }
