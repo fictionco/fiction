@@ -322,10 +322,12 @@ export const execute = (): void => {
       return wrapCommand({
         cb: async (opts) => {
           // require to prevent devDependency errors in production
+
           /**
            * @type {import("@factor/build/release")}
            */
           const { releaseRoutine } = await import("@factor/build/release")
+
           return releaseRoutine(opts)
         },
         opts,

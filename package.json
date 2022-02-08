@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "^4.0.0",
+  "version": "4.0.8",
   "scripts": {
     "deploy": "pnpm release && pnpm push-release",
     "site": "pnpm --filter @factor/site exec -- factor dev --inspector",

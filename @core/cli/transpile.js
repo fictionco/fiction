@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import path from "path"
 import tsNode from "ts-node"
 import moduleAlias from "module-alias"
@@ -39,6 +41,7 @@ export const transpiler = async () => {
    */
 
   const primaryPackage = path.resolve(cwd(), "package.json")
+
   const { main = "index.js" } = require(primaryPackage)
 
   moduleAlias.addAlias("@src", () => path.dirname(path.resolve(cwd(), main)))

@@ -21,6 +21,7 @@ export interface PackageJson {
   peerDependencies?: Record<string, string>
   devDependencies?: Record<string, string>
   private?: boolean
+  workspaces: string[]
   publishConfig?: {
     access: "public" | "restricted"
   }

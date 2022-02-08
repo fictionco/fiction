@@ -4,9 +4,9 @@ importers:
 
   .:
     specifiers:
-      '@factor/cli': 4.0.8
-      '@factor/site': 4.0.8
-      '@factor/test': 4.0.8
+      '@factor/cli': ^4.0.0
+      '@factor/site': ^4.0.0
+      '@factor/test': ^4.0.0
       '@types/express': ^4.17.13
       '@types/node': ^17.0.16
       autoprefixer: ^10.4.2
@@ -45,15 +45,15 @@ importers:
 
   '@apps/factor-site':
     specifiers:
-      '@factor/api': 4.0.8
-      '@factor/entry': 4.0.8
-      '@factor/plugin-blog-engine': 4.0.8
-      '@factor/plugin-docs-engine': 4.0.8
-      '@factor/plugin-highlight-code': 4.0.8
-      '@factor/plugin-notify': 4.0.8
-      '@factor/render': 4.0.8
-      '@factor/types': 4.0.8
-      '@factor/ui': 4.0.8
+      '@factor/api': ^4.0.0
+      '@factor/entry': ^4.0.0
+      '@factor/plugin-blog-engine': ^4.0.0
+      '@factor/plugin-docs-engine': ^4.0.0
+      '@factor/plugin-highlight-code': ^4.0.0
+      '@factor/plugin-notify': ^4.0.0
+      '@factor/render': ^4.0.0
+      '@factor/types': ^4.0.0
+      '@factor/ui': ^4.0.0
       '@tailwindcss/forms': ^0.4.0
       autoprefixer: ^10.2.4
       axios: ^0.25.0
@@ -114,10 +114,10 @@ importers:
 
   '@core/api':
     specifiers:
-      '@factor/api': 4.0.8
-      '@factor/engine': 4.0.8
-      '@factor/types': 4.0.8
-      '@factor/ui': 4.0.8
+      '@factor/api': ^4.0.0
+      '@factor/engine': ^4.0.0
+      '@factor/types': ^4.0.0
+      '@factor/ui': ^4.0.0
       '@types/blueimp-load-image': ^5.14.0
       '@types/js-cookie': ^3.0.0
       '@types/markdown-it': ^12.0.0
@@ -194,9 +194,10 @@ importers:
     specifiers:
       '@aws-sdk/client-cloudfront': ^3.0.0
       '@aws-sdk/client-s3': ^3.0.0
-      '@factor/api': 4.0.8
-      '@factor/cli': 4.0.8
-      '@factor/types': 4.0.8
+      '@factor/api': ^4.0.0
+      '@factor/cjs': ^4.0.0
+      '@factor/cli': ^4.0.0
+      '@factor/types': ^4.0.0
       '@rollup/plugin-commonjs': ^21.0.0
       '@rollup/plugin-json': ^4.0.0
       '@rollup/plugin-node-resolve': ^13.0.0
@@ -236,6 +237,7 @@ importers:
       typescript: ^4.5.5
     dependencies:
       '@factor/api': link:../api
+      '@factor/cjs': link:../cjs
       '@factor/cli': link:../cli
       cors: 2.8.5
       enquirer: 2.3.6

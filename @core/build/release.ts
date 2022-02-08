@@ -4,12 +4,12 @@ import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
-import { logger } from "@factor/api"
-import { version as currentVersion } from "../../package.json"
+import { logger } from "@factor/api/logger"
 import { isGitDirty, getPackages } from "./utils"
 import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
 import { CliOptions } from "@factor/cli/program"
+
 const require = createRequire(import.meta.url)
 
 /**
@@ -22,12 +22,20 @@ const versionIncrements: ReleaseType[] = [
   "prerelease",
 ]
 
+const currentVersion = (): string => {
+  const pkg = require(path.resolve(
+    process.cwd(),
+    "./package.json",
+  )) as PackageJson
+  return pkg.version
+}
+
 /**
  * Get possible version choices
  */
 const versionChoices = (): string[] => {
   const choices = versionIncrements.map((i) => {
-    const v = semver.inc(currentVersion, i, "beta") ?? ""
+    const v = semver.inc(currentVersion(), i, "beta") ?? ""
     return `${i} (${v})`
   })
   return [...choices, "custom"]
@@ -118,6 +126,7 @@ const publishPackage = async (
   version: string,
 ): Promise<void> => {
   const pkgRoot = getModuleDirectory(moduleName)
+
   const pkg = require(`${moduleName}/package.json`) as PackageJson
 
   if (pkg.private) {
@@ -185,7 +194,7 @@ export const releaseRoutine = async (
   logger.log({
     level: "info",
     context: "release",
-    description: `current version: ${currentVersion}`,
+    description: `current version: ${currentVersion()}`,
   })
 
   const dirty = await isGitDirty()
@@ -196,7 +205,7 @@ export const releaseRoutine = async (
   let targetVersion: string | undefined
 
   if (patch) {
-    targetVersion = semver.inc(currentVersion, "patch") as string
+    targetVersion = semver.inc(currentVersion(), "patch") as string
   }
 
   if (!targetVersion) {
@@ -213,7 +222,7 @@ export const releaseRoutine = async (
         type: "input",
         name: "version",
         message: "Input custom version",
-        initial: currentVersion,
+        initial: currentVersion(),
       })
       targetVersion = version
     } else {

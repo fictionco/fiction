@@ -2,9 +2,10 @@ import glob from "glob"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
-import { workspaces } from "../../package.json"
+import path from "path"
 import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
+
 const require = createRequire(import.meta.url)
 /**
  * Register a helper to print raw JS objects
@@ -42,11 +43,14 @@ export const getPackages = (
   let folders: string[] = []
   const { publicOnly } = options
 
+  const root = path.resolve(process.cwd(), "package.json")
+  const { workspaces = [] } = require(root) as PackageJson
+
   workspaces.forEach((w) => {
     const files = glob
       .sync(w)
       .map((f): string => {
-        const manifestPath = `../../${f}/package.json`
+        const manifestPath = path.resolve(process.cwd(), `${f}/package.json`)
         if (!fs.statSync(f).isDirectory()) return ""
         else {
           const manifest = require(manifestPath) as PackageJson
