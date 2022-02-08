@@ -40,6 +40,7 @@ export type CliOptions = {
   serve?: boolean
   prerender?: boolean
   patch?: boolean
+  skipTests?: boolean
 }
 /**
  * Is current start a nodemon restart
@@ -315,6 +316,7 @@ export const execute = (): void => {
     .command("release")
     .description("publish a new version")
     .option("--patch", "patch release")
+    .option("--skip-tests", "patch release")
     .action((opts: CliOptions) => {
       process.env.STAGE_ENV = "prod"
       return wrapCommand({

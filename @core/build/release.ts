@@ -175,7 +175,7 @@ const publishPackage = async (
 export const releaseRoutine = async (
   options: CliOptions = {},
 ): Promise<void> => {
-  const { patch } = options
+  const { patch, skipTests } = options
 
   logger.log({
     level: "info",
@@ -242,10 +242,12 @@ export const releaseRoutine = async (
   logger.log({
     level: "info",
     context: "release",
-    description: "running tests...",
+    description: `${skipTests ? "skipping" : "running"} tests...`,
   })
 
-  await run("npm", ["run", "test"])
+  if (!skipTests) {
+    await run("npm", ["run", "test"])
+  }
 
   // update all package versions and inter-dependencies
 
