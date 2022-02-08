@@ -1,6 +1,6 @@
 {
   "name": "@factor/test",
-  "version": "4.0.18",
+  "version": "4.0.19",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@factor/site": "4.0.18",
-    "@factor/engine": "4.0.18",
-    "@factor/render": "4.0.18",
-    "@factor/server": "4.0.18",
+    "@factor/site": "4.0.19",
+    "@factor/engine": "4.0.19",
+    "@factor/render": "4.0.19",
+    "@factor/server": "4.0.19",
     "vite": "^2.7.12",
     "vitest": "0.2.7"
   }
