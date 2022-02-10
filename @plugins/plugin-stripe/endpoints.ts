@@ -499,6 +499,3 @@ export const getPaymentEndpointsMap = (): EndpointMap => {
     }),
   ) as EndpointMap
 }
-
-export const paymentEndpointsMap = getPaymentEndpointsMap()
-export const paymentEndpoints = Object.values(paymentEndpointsMap)

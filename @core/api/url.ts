@@ -1,14 +1,28 @@
+import { UserConfigServer } from "@factor/types"
+import { _stop } from "./error"
 /// <reference path="./shim.d.ts" />
-
-interface UrlOptions {
-  domainOnly?: true
-  location?: string
-}
 
 declare global {
   interface Window {
     process: { env?: Record<string, string> }
   }
+}
+
+export const getServerPort = (
+  config: UserConfigServer = {},
+): string | undefined => {
+  const port = config.port || process.env.PORT || process.env.FACTOR_SERVER_PORT
+
+  return port
+}
+
+export const getAppPort = (
+  config: UserConfigServer = {},
+): string | undefined => {
+  const port =
+    config.portApp || process.env.PORT_APP || process.env.FACTOR_SERVER_PORT_APP
+
+  return port
 }
 
 export const serverUrl = (): string => {
@@ -17,51 +31,41 @@ export const serverUrl = (): string => {
   if (process.env.FACTOR_SERVER_URL) {
     return process.env.FACTOR_SERVER_URL
   } else {
-    return `http://localhost:${process.env.FACTOR_SERVER_PORT || "3210"}`
+    return `http://localhost:${getServerPort() || "3210"}`
   }
-}
-
-const removeProtocol = (url: string): string => {
-  return url.replace(/(^\w+:|^)\/\//, "")
 }
 
 /**
  * Gets the localhost url based on port and protocol
  */
-export const localhostUrl = (options: UrlOptions = {}): string => {
-  const port = process.env.PORT || 3000
+export const localhostAppUrl = (): string => {
+  const port = getServerPort() || "3000"
   const routine = process.env.HTTP_PROTOCOL || "http"
 
-  let url = `${routine}://localhost:${port}`
-
-  if (url && options.domainOnly) {
-    url = removeProtocol(url)
-  }
+  const url = `${routine}://localhost:${port}`
 
   return url
 }
 /**
  * Gets production URL as configured
  */
-export const productionUrl = (options: UrlOptions = {}): string => {
-  let url = process.env.FACTOR_APP_URL
+export const productionAppUrl = (): string => {
+  const url = process.env.FACTOR_APP_URL
 
-  if (url && options.domainOnly) {
-    url = removeProtocol(url)
-  }
+  if (!url) throw _stop("process.env.FACTOR_APP_URL is required in production")
 
-  return url ? url : ""
+  return url
 }
 /**
  * Gets current URl based on NODE_ENV - localhost or production
  */
-export const currentUrl = (options: UrlOptions = {}): string => {
+export const currentUrl = (): string => {
   const env = process.env.NODE_ENV
 
   const url =
-    env == "development" || process.env.FACTOR_ENV == "test"
-      ? localhostUrl(options)
-      : productionUrl(options)
+    env == "development" || process.env.TEST_ENV == "unit"
+      ? localhostAppUrl()
+      : productionAppUrl()
 
   return url
 }

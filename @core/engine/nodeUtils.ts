@@ -2,14 +2,14 @@ import glob from "glob"
 import path from "path"
 import { createRequire } from "module"
 import fs from "fs"
-import { UserConfigServer } from "@factor/types"
+import { UserConfigServer, PackageJson } from "@factor/types"
 
 const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
 export const packagePath = (): string => path.resolve(cwd(), "package.json")
 
 const mainFile = (): string => {
-  const pkg = require(packagePath())
+  const pkg = require(packagePath()) as PackageJson
   return pkg.main ?? "index"
 }
 /**
@@ -38,11 +38,12 @@ export const importIfExists = async <T = unknown>(
   } else return
 }
 
-export const importServerEntry = async (
-  moduleName?: string,
-): Promise<Promise<UserConfigServer>> => {
+export const importServerEntry = async (params: {
+  moduleName?: string
+}): Promise<Promise<UserConfigServer>> => {
+  const { moduleName } = params
   const serverEntry = path.join(sourceFolder(moduleName), "server.ts")
-  const mod = await importIfExists<{ setup?: () => UserConfigServer }>(
+  const mod = await importIfExists<{ setup?: () => Promise<UserConfigServer> }>(
     serverEntry,
   )
 
@@ -59,17 +60,17 @@ export const requireIfExists = async <T = unknown>(
 ): Promise<T | undefined> => {
   let result: T | undefined = undefined
   try {
-    result = require(mod)
+    result = require(mod) as T
   } catch (error: any) {
-    const e: NodeJS.ErrnoException = error
+    const e = error as NodeJS.ErrnoException
     if (e.code != "MODULE_NOT_FOUND") {
       throw error
     } else {
       // get module missing in error message
       // https://stackoverflow.com/a/32808869
-      const m = error.message.match(/(?<=')(.*?)(?=')/g)
+      const m = e.message.match(/(?<=')(.*?)(?=')/g)
 
-      if (!mod.includes(m)) {
+      if (m && !m.includes(mod)) {
         throw error
       }
     }
@@ -83,15 +84,15 @@ export const resolveIfExists = (mod: string): string | undefined => {
   try {
     result = require.resolve(mod)
   } catch (error: any) {
-    const e: NodeJS.ErrnoException = error
+    const e = error as NodeJS.ErrnoException
     if (e.code != "MODULE_NOT_FOUND") {
       throw error
     } else {
       // get module missing in error message
       // https://stackoverflow.com/a/32808869
-      const m = error.message.match(/(?<=')(.*?)(?=')/g)
+      const m = e.message.match(/(?<=')(.*?)(?=')/g)
 
-      if (!mod.includes(m)) {
+      if (m && !m.includes(mod)) {
         throw error
       }
     }

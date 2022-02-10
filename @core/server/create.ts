@@ -5,15 +5,10 @@ import { EndpointServer } from "@factor/engine"
 import http from "http"
 
 export const createEndpointServer = async (
+  port: string,
   config: UserConfigServer,
 ): Promise<http.Server> => {
-  const { endpoints = [], endpointPort } = config
-
-  const port =
-    String(endpointPort) ||
-    process.env.PORT ||
-    process.env.FACTOR_SERVER_PORT ||
-    "3210"
+  const { endpoints = [] } = config
 
   // Set this global to enable URL calc
   process.env.FACTOR_SERVER_PORT = port

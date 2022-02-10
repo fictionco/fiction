@@ -1,4 +1,4 @@
-import { runHooks, deepMergeAll } from "@factor/api"
+import { runHooks, deepMergeAll, getServerPort } from "@factor/api"
 
 import { importServerEntry } from "@factor/engine/nodeUtils"
 import { setAppGlobals, getFactorConfig } from "./globals"
@@ -45,8 +45,10 @@ export const setupEnvironment = async (
     args: [],
   })
 
-  if (serverConfig.endpointPort) {
-    await createEndpointServer(serverConfig)
+  const port = getServerPort(serverConfig)
+
+  if (port) {
+    await createEndpointServer(port, serverConfig)
   }
 
   await runHooks({
@@ -59,10 +61,10 @@ export const setupEnvironment = async (
  * Run the Factor server
  */
 export const setup = async (options: CliOptions): Promise<void> => {
-  const { port = "3210" } = options
+  const { port, moduleName } = options
   const appConfig = await getFactorConfig({
-    endpoints,
-    endpointPort: port,
+    config: { endpoints, port },
+    moduleName,
   })
 
   const merge: UserConfigServer[] = [appConfig]
@@ -70,7 +72,7 @@ export const setup = async (options: CliOptions): Promise<void> => {
   /**
    * Require app server entry file if it exists
    */
-  const entryServerConfig = await importServerEntry()
+  const entryServerConfig = await importServerEntry({ moduleName })
 
   if (entryServerConfig) {
     merge.unshift(entryServerConfig)

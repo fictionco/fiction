@@ -14,10 +14,15 @@ const getDefaultServerVariables = (): Record<string, string> => {
   }
 }
 
-export const getFactorConfig = async (
-  initialConfig?: UserConfigServer,
-): Promise<UserConfigServer> => {
-  const configPath = process.cwd()
+export const getFactorConfig = async (params: {
+  config?: UserConfigServer
+  moduleName?: string
+}): Promise<UserConfigServer> => {
+  const { config, moduleName } = params
+
+  const configPath = moduleName
+    ? path.dirname(require.resolve(`${moduleName}/package.json`))
+    : process.cwd()
 
   const result = await importIfExists<{
     default: UserConfigServer
@@ -27,7 +32,7 @@ export const getFactorConfig = async (
   return deepMergeAll([
     { variables: getDefaultServerVariables() },
     configFile,
-    initialConfig,
+    config,
   ])
 }
 

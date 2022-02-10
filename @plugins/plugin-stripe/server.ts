@@ -1,5 +1,5 @@
 import { StripeOptions, createSettings, stripeEnv } from "."
-import { paymentEndpoints } from "./endpoints"
+import { getPaymentEndpointsMap } from "./endpoints"
 import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
 
@@ -29,7 +29,10 @@ export default async (
       }
 
       return {
-        endpoints: [...paymentEndpoints, new EndpointMethodStripeHooks()],
+        endpoints: [
+          ...Object.values(getPaymentEndpointsMap()),
+          new EndpointMethodStripeHooks(),
+        ],
         serverOnlyImports: [{ id: "stripe" }],
       }
     },

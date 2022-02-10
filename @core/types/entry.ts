@@ -66,8 +66,10 @@ export interface UserConfigServerOptions {
     | string[]
     | Record<string, string>[]
   >
+  cwd?: string
   endpoints?: Endpoint[]
-  endpointPort?: string
+  port?: string
+  portApp?: string
   serverOnlyImports?: ServerModuleDef[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler

@@ -1,7 +1,7 @@
 import { objectId } from "@factor/api"
 import type stripeNode from "stripe"
 import { getStripeClient, SubscriptionDetails } from "./util"
-import { paymentEndpointsMap } from "./endpoints"
+import { getPaymentEndpointsMap, Queries } from "./endpoints"
 export const handleCardSetupRequired = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
@@ -119,9 +119,7 @@ export const handleRequiresPaymentMethod = async (
     return args
   }
 }
-type ManageResult = ReturnType<
-  typeof paymentEndpointsMap.ManageSubscription.request
->
+type ManageResult = ReturnType<typeof Queries.ManageSubscription.run>
 export const checkPaymentMethod = async (
   args: SubscriptionDetails,
 ): Promise<void> => {
@@ -139,7 +137,7 @@ export const requestCreateSubscription = async (args: {
 }): Promise<ManageResult> => {
   const { customerId, paymentMethodId, priceId } = args
 
-  let result = await paymentEndpointsMap.ManageSubscription.request({
+  let result = await getPaymentEndpointsMap().ManageSubscription.request({
     customerId,
     paymentMethodId,
     priceId,
@@ -170,7 +168,7 @@ export const requestCreateSubscription = async (args: {
     /**
      * If successful, retrieving subscription again will update its backend status
      */
-    result = await paymentEndpointsMap.ManageSubscription.request({
+    result = await getPaymentEndpointsMap().ManageSubscription.request({
       customerId,
       _action: "retrieve",
       subscriptionId: subscription.id,

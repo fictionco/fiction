@@ -1,3 +1,3 @@
-import { endpointsList as userEndpoints } from "@factor/engine/user"
+import { getEndpointsMap as getUserEndpointsMap } from "@factor/engine/user"
 
-export const endpoints = [...userEndpoints]
+export const endpoints = [...Object.values(getUserEndpointsMap())]

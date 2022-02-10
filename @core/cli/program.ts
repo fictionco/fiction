@@ -39,6 +39,7 @@ export type CliOptions = {
   prerender?: boolean
   patch?: boolean
   skipTests?: boolean
+  moduleName?: string
 }
 /**
  * Is current start a nodemon restart

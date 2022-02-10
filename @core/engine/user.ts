@@ -10,18 +10,13 @@ import { serverUrl } from "@factor/api/url"
 import { validateEmail, snakeCase } from "@factor/api/utils"
 import { logger } from "@factor/api/logger"
 import { getServerConfig } from "../server/config"
-import {
-  EndpointResponse,
-  FactorTable,
-  FullUser,
-  PublicUser,
-} from "@factor/types"
+import { EndpointResponse, FactorTable, FullUser } from "@factor/types"
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
 import { getDb } from "./db"
 
-import { createClientToken, decodeClientToken } from "./jwt"
+import { createClientToken, decodeClientToken } from "@factor/api/jwt"
 
 import { EndpointMethodOptions, Endpoint, EndpointMeta } from "./endpoint"
 
@@ -169,6 +164,10 @@ class QueryManageUser extends Query {
       if (!user) throw this.stop("problem creating user")
     }
 
+    // don't return authority info to client
+    delete user?.verificationCode
+    delete user?.hashedPassword
+
     return { status: "success", data: user }
   }
 }
@@ -272,7 +271,7 @@ export const verifyCode = async (args: {
   const codeDetails = r && r.length > 0 ? r[0] : undefined
 
   // allow short circuit in development
-  if (process.env.NODE_ENV == "development" && verificationCode == "123456") {
+  if (process.env.NODE_ENV !== "production" && verificationCode == "test") {
     return true
   }
 
@@ -504,7 +503,7 @@ class QueryStartNewUser extends Query {
   async run(params: { email: string; fullName?: string }): Promise<
     EndpointResponse<Partial<FullUser>> & {
       token: string
-      user: PublicUser
+      user: FullUser
     }
   > {
     if (!this.qu) throw new Error("no knex")
@@ -688,5 +687,5 @@ export const getEndpointsMap = (): EndpointMap => {
   ) as EndpointMap
 }
 
-export const endpointsMap = getEndpointsMap()
-export const endpointsList = Object.values(endpointsMap)
+// export const endpointsMap = getEndpointsMap()
+// export const endpointsList = Object.values(endpointsMap)

@@ -3,7 +3,7 @@ import { FullUser, PrivateUser } from "@factor/types"
 import { clientToken } from "@factor/api/jwt"
 import { logger } from "@factor/api/logger"
 import { routeAuthRedirects } from "@factor/api/router"
-import { endpointsMap } from "./user"
+import { getEndpointsMap } from "./user"
 import { currentUser, setCurrentUser, logout } from "@factor/api"
 
 /**
@@ -41,7 +41,7 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
   let user: FullUser | undefined = undefined
 
   if (token) {
-    const { status, data, code } = await endpointsMap.CurrentUser.request({
+    const { status, data, code } = await getEndpointsMap().CurrentUser.request({
       token,
     })
 

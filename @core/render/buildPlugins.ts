@@ -52,9 +52,9 @@ export const getCustomBuildPlugins = (): vite.Plugin[] => {
 
         if (match) {
           return {
-            code: `console.warn("server only file: ${id}")
+            code: `// server only file: ${id}
                    export default {}`,
-            map: null, // provide source map if available
+            map: null,
           }
         }
       },

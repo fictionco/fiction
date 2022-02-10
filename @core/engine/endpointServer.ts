@@ -5,9 +5,8 @@ import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
 import cors from "cors"
-import { decodeClientToken } from "./jwt"
 import { ErrorConfig, EndpointResponse } from "@factor/types"
-import { logger, _stop } from "@factor/api"
+import { logger, _stop, decodeClientToken } from "@factor/api"
 import { Endpoint } from "./endpoint"
 import { Queries } from "./user"
 import { Query } from "./query"
@@ -48,6 +47,7 @@ export class EndpointServer {
 
     this.endpoints.forEach((endpoint) => {
       const { basePath, key } = endpoint
+
       app.use(`${basePath}/${key}`, this.endpointAuthorization)
       app.use(`${basePath}/${key}`, async (request, response) => {
         const result = await endpoint.serveRequest(request)
@@ -64,14 +64,15 @@ export class EndpointServer {
       await this.middleware(app)
     }
 
-    let server: http.Server
-
-    if (this.customServer) {
-      server = await this.customServer(app)
-      server.listen(this.port)
-    } else {
-      server = app.listen(this.port)
-    }
+    const server: http.Server = await new Promise(async (resolve) => {
+      let s: http.Server
+      if (this.customServer) {
+        s = await this.customServer(app)
+        s.listen(this.port, () => resolve(s))
+      } else {
+        s = app.listen(this.port, () => resolve(s))
+      }
+    })
 
     return server
   }

@@ -44,6 +44,9 @@
     "validator": "^13.5.2",
     "vue": "^3.0.2",
     "vue-router": "^4.0.10",
-    "vuex": "^4.0.0-rc.1"
-  }
+    "vuex": "^4.0.0-rc.1",
+    "jsonwebtoken": "^8.5.1",
+    "@types/jsonwebtoken": "^8.5.0"
+  },
+  "devDependencies": { "vitest": "0.2.7"}
 }

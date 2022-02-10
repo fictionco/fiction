@@ -60,7 +60,7 @@ const getEmailSMTPService = (): Transporter | void => {
  */
 export const sendEmail = async (
   _arguments: EmailTransactionalConfig,
-): Promise<void> => {
+): Promise<EmailTransactionalConfig> => {
   const {
     emailId = "none",
     subject,
@@ -119,8 +119,6 @@ export const sendEmail = async (
 
   if (emailServiceClient) {
     await emailServiceClient.sendMail(theEmail)
-
-    return
   } else {
     logger.log({
       level: "warn",
@@ -129,4 +127,6 @@ export const sendEmail = async (
       data: theEmail,
     })
   }
+
+  return theEmail
 }
