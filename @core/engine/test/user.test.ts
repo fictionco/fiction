@@ -36,14 +36,14 @@ describe("user tests", () => {
 
     expect(user?.userId).toBeTruthy()
     expect(user?.fullName).toBe("test")
-    expect(user?.verificationCode).toBeTruthy()
+    expect(user?.verificationCode).toBeFalsy()
   })
 
   it("verifies account email", async () => {
     const response = await ep.Queries.VerifyAccountEmail.serve(
       {
         email: user.email,
-        verificationCode: user.verificationCode ?? "",
+        verificationCode: "test",
       },
       undefined,
     )
@@ -55,14 +55,14 @@ describe("user tests", () => {
     user = response.data as FullUser
 
     expect(user?.emailVerified).toBeTruthy()
-    expect(user?.verificationCode).toBeTruthy()
+    expect(user?.verificationCode).toBeFalsy()
   })
 
   it("sets password", async () => {
     const response = await ep.Queries.SetPassword.serve(
       {
         email: user.email,
-        verificationCode: user.verificationCode ?? "",
+        verificationCode: "test",
         password: "test",
       },
       { bearer: user },

@@ -6,7 +6,7 @@ import {
   getJsonUserFields,
   getEditableUserFields,
 } from "@factor/api/user"
-import { serverUrl } from "@factor/api/url"
+import { serverUrl } from "./url"
 import { validateEmail, snakeCase } from "@factor/api/utils"
 import { logger } from "@factor/api/logger"
 import { getServerConfig } from "../server/config"
@@ -84,6 +84,23 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
 
   return true
 }
+
+// abstract class QueryUser extends Query {
+//   async serveRequest(
+//     params: Parameters<this["run"]>[0],
+//     meta: EndpointMeta,
+//   ): Promise<Awaited<ReturnType<this["run"]>>> {
+//     const result = await this.serve(params, meta)
+
+//     if (result.status == "success") {
+//       const r = result as Awaited<ReturnType<this["run"]>>
+
+//       return r
+//     }
+
+//     return result as Awaited<ReturnType<this["run"]>>
+//   }
+// }
 
 class QueryManageUser extends Query {
   async run(
@@ -471,6 +488,8 @@ class QueryVerifyAccountEmail extends Query {
       context: "QueryVerifyAccountEmail",
       description: `user verified ${email}`,
     })
+
+    delete user?.verificationCode
 
     return {
       status: "success",

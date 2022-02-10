@@ -4,7 +4,7 @@ import {
   resolveDist,
   sourceFolder,
 } from "@factor/engine/nodeUtils"
-import { currentUrl } from "@factor/api"
+import { currentUrl } from "@factor/engine/url"
 import { EntryModuleExports, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
 import { renderHeadToString } from "@vueuse/head"

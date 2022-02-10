@@ -1,8 +1,8 @@
-import { runHooks, deepMergeAll, getServerPort } from "@factor/api"
+import { runHooks, deepMergeAll } from "@factor/api"
 
 import { importServerEntry } from "@factor/engine/nodeUtils"
 import { setAppGlobals, getFactorConfig } from "./globals"
-
+import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
