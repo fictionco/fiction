@@ -1,3 +1,17 @@
+## [4.0.24](https://github.com/FactorJS/factor/compare/v4.0.23...v4.0.24) (2022-02-11)
+
+
+### Bug Fixes
+
+* cli opts ([923d61c](https://github.com/FactorJS/factor/commit/923d61cfc4c52ab4c610beb33a3903b971bd12d5))
+
+
+### Features
+
+* unit testing ([122daaa](https://github.com/FactorJS/factor/commit/122daaaa0757fb31abf333b8c5154136fd8368ab))
+
+
+
 ## [4.0.23](https://github.com/FactorJS/factor/compare/v4.0.22...v4.0.23) (2022-02-11)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "4.0.23",
+  "version": "4.0.24",
   "main": "index.ts",
   "publishConfig": {},
   "scripts": {
@@ -52,11 +52,11 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@factor/api": "4.0.23",
-    "@factor/cli": "4.0.23",
-    "@factor/engine": "4.0.23",
-    "@factor/site": "4.0.23",
-    "@factor/test": "4.0.23",
+    "@factor/api": "4.0.24",
+    "@factor/cli": "4.0.24",
+    "@factor/engine": "4.0.24",
+    "@factor/site": "4.0.24",
+    "@factor/test": "4.0.24",
     "autoprefixer": "^10.4.2",
     "c8": "^7.11.0",
     "postcss": "^8.4.6",
