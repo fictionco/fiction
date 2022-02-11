@@ -48,5 +48,7 @@
     "jsonwebtoken": "^8.5.1",
     "@types/jsonwebtoken": "^8.5.0"
   },
-  "devDependencies": { "vitest": "0.2.7"}
+  "devDependencies": {
+    "vitest": "^0.3.2"
+  }
 }

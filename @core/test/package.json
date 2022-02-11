@@ -13,6 +13,6 @@
     "@factor/render": "4.0.22",
     "@factor/server": "4.0.22",
     "vite": "^2.7.12",
-    "vitest": "0.2.7"
+    "vitest": "^0.3.2"
   }
 }
