@@ -1,7 +1,7 @@
 import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
-import { snakeCase, _stop, logger } from "@factor/api"
+import { snakeCase, _stop, logger, onEvent } from "@factor/api"
 import { extendDb } from "./dbExtend"
 
 const statusTypes = [
@@ -160,7 +160,7 @@ export const postgresConnectionUrl = (): string | undefined => {
 /**
  * the db client singleton
  */
-let __db: Knex
+let __db: Knex | undefined
 /**
  * Return the DB client singleton
  */
@@ -222,6 +222,14 @@ export const getDb = async (): Promise<Knex> => {
 
       await createTables(__db)
     }
+
+    // Destroy connection if manually shutdown
+    onEvent("shutdown", async () => {
+      if (__db) {
+        await __db.destroy()
+        __db = undefined
+      }
+    })
   }
   return __db
 }

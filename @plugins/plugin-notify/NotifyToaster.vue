@@ -109,7 +109,7 @@ const topToasts = computed(() => {
   return t.reverse()
 })
 
-const showToast = (config: NotificationOptions) => {
+const showToast = (config: NotificationOptions): void => {
   const { type, message = "", more = "", duration = 4000 } = config
 
   const time = Date.now()
@@ -122,16 +122,16 @@ const showToast = (config: NotificationOptions) => {
 }
 
 onMounted(() => {
-  onEvent("notifySuccess", (config) => {
+  onEvent("notifySuccess", (config: NotificationOptions) => {
     showToast({ ...config, type: "success" })
   })
 
-  onEvent("notifyError", (config) => {
+  onEvent("notifyError", (config: NotificationOptions) => {
     showToast({ ...config, type: "error" })
   })
 })
 
-const removeToast = (ind: number) => {
+const removeToast = (ind: number): void => {
   toasts.value = toasts.value.filter((t, i) => i != ind)
 }
 </script>

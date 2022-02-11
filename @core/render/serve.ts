@@ -1,11 +1,12 @@
 import { getFaviconPath, resolveDist } from "@factor/engine/nodeUtils"
-import { logger } from "@factor/api"
+import { logger, onEvent } from "@factor/api"
 import { RenderMode, RenderOptions } from "@factor/types"
 import compression from "compression"
 import express, { Express } from "express"
 import serveFavicon from "serve-favicon"
 import serveStatic from "serve-static"
 import * as vite from "vite"
+import http from "http"
 import type { CliOptions } from "@factor/cli/program"
 import { getRequestHtml, htmlGenerators } from "./render"
 import { getViteServer } from "./vite"
@@ -54,8 +55,9 @@ export const expressApp = async (
         })
 
         res.status(200).set({ "Content-Type": "text/html" }).end(html)
-      } catch (error: any) {
-        viteServer && viteServer.ssrFixStacktrace(error)
+      } catch (error: unknown) {
+        const e = error as Error
+        viteServer && viteServer.ssrFixStacktrace(e)
 
         logger.log({
           level: "error",
@@ -63,7 +65,7 @@ export const expressApp = async (
           description: "ssr error",
           data: error,
         })
-        res.status(500).end(error.stack)
+        res.status(500).end(e.stack)
       }
     })
     return app
@@ -82,7 +84,12 @@ export const expressApp = async (
  */
 export const serveApp = async (options: CliOptions = {}): Promise<void> => {
   const { NODE_ENV } = options
-  const port = process.env.PORT || process.env.FACTOR_APP_PORT || "3000"
+
+  // use PORT if in production mode since app can run in a dedicated service
+  const port =
+    NODE_ENV == "production" && process.env.PORT
+      ? process.env.PORT
+      : process.env.FACTOR_APP_PORT || "3000"
 
   const appName = process.env.FACTOR_APP_NAME || "app"
 
@@ -90,11 +97,17 @@ export const serveApp = async (options: CliOptions = {}): Promise<void> => {
 
   const app = await expressApp({ mode })
 
-  app.listen(port, () => {
-    logger.log({
-      level: "info",
-      context: "server",
-      description: `${appName} @ http://localhost:${port}`,
-    })
+  let server: http.Server
+
+  await new Promise<void>((resolve) => {
+    server = app.listen(port, () => resolve())
   })
+
+  logger.log({
+    level: "info",
+    context: "serveApp",
+    description: `serving app:${appName} http://localhost:${port}`,
+  })
+
+  onEvent("shutdown", () => server.close())
 }

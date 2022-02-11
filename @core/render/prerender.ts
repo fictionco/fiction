@@ -1,5 +1,5 @@
 import { distClient, distFolder } from "@factor/engine/nodeUtils"
-import { logger } from "@factor/api"
+import { logger, onEvent } from "@factor/api"
 import compression from "compression"
 import express from "express"
 import fs from "fs-extra"
@@ -76,12 +76,16 @@ export const serveStaticApp = async (): Promise<void> => {
   })
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
 
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     logger.log({
       level: "info",
       context: "server",
       description: `serving static app @ PORT:${port}`,
     })
+  })
+
+  onEvent("shutdown", () => {
+    server.close()
   })
 }
 

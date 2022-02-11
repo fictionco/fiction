@@ -5,7 +5,7 @@
   "publishConfig": {},
   "scripts": {
     "deploy": "npm release && npm push-release",
-    "site": "npm -w @factor/site exec -- factor dev --inspector",
+    "site": "npm -w @factor/site exec -- factor dev",
     "release": "npm exec -- factor release",
     "pack": "npm -w @factor/build exec -- factor pack",
     "dev": "npm -w @factor/site exec -- factor dev",

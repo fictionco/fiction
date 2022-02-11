@@ -6,7 +6,7 @@ import compression from "compression"
 import helmet from "helmet"
 import cors from "cors"
 import { ErrorConfig, EndpointResponse } from "@factor/types"
-import { logger, _stop, decodeClientToken } from "@factor/api"
+import { logger, _stop, decodeClientToken, onEvent } from "@factor/api"
 import { Endpoint } from "./endpoint"
 import { Queries } from "./user"
 import { Query } from "./query"
@@ -72,6 +72,10 @@ export class EndpointServer {
       } else {
         s = app.listen(this.port, () => resolve(s))
       }
+    })
+
+    onEvent("shutdown", () => {
+      server.close()
     })
 
     return server

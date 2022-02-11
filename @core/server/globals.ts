@@ -10,6 +10,7 @@ const getDefaultServerVariables = (): Record<string, string> => {
     FACTOR_APP_URL: "",
     FACTOR_SERVER_URL: "",
     FACTOR_SERVER_PORT: "",
+    FACTOR_APP_PORT: "",
     NODE_ENV: process.env.NODE_ENV || "",
   }
 }

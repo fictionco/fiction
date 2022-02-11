@@ -33,6 +33,7 @@ export type CliOptions = {
   STAGE_ENV?: "prod" | "dev" | "pre" | "local"
   NODE_ENV?: "production" | "development"
   inspector?: boolean
+  exit?: boolean
   portApp?: string
   port?: string
   serve?: boolean
@@ -56,6 +57,7 @@ export const done = (code: 0 | 1): never => {
     context: "cli",
     description: `process exited (${code})`,
   })
+
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(code)
 }
@@ -64,6 +66,11 @@ export const done = (code: 0 | 1): never => {
  * https://nodejs.org/api/inspector.html
  */
 const initializeNodeInspector = async (): Promise<void> => {
+  logger.log({
+    level: "info",
+    context: "cli",
+    description: `[initializing inspector]`,
+  })
   const inspector = await import("inspector")
   inspector.close()
   inspector.open()
@@ -123,10 +130,7 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
   nodemon
     .on("log", () => {})
     .on("start", () => {})
-    .on("quit", () => {
-      // eslint-disable-next-line unicorn/no-process-exit
-      process.exit()
-    })
+    .on("quit", () => done(0))
     .on("restart", (files: string[]) => {
       process.env.IS_RESTART = "1"
       logger.log({
@@ -204,10 +208,13 @@ export const execute = (): void => {
   commander
     .version(pkg.version)
     .description("Factor CLI")
-
-    .option("--STAGE_ENV <STAGE_ENV>", "how should the things be built")
-    .option("--ENV <ENV>", "which general environment should be used")
-    .option("--inspect", "run the node inspector")
+    .option("--STAGE_ENV <string>", "how should the things be built")
+    .option("--NODE_ENV <string>", "environment (development/production)")
+    .option("--exit", "exit after successful setup")
+    .option("--inspector", "run the node inspector")
+    .option("-a, --port-app <number>", "primary service port")
+    .option("-p, --port <number>", "server specific port")
+    .option("-s, --serve", "serve static site after build")
     .option(
       "--NODE_ENV <NODE_ENV>",
       "node environment (development or production)",
@@ -216,7 +223,8 @@ export const execute = (): void => {
   commander
     .command("start")
     .option("--SERVICE <SERVICE>", "Which module to run")
-    .action(async (opts: CliOptions) => {
+    .action(async () => {
+      const opts = commander.opts() as CliOptions
       await wrapCommand({ cb: (_) => runService(_), opts })
     })
 
@@ -229,33 +237,27 @@ export const execute = (): void => {
   commander
     .command("dev")
     .allowUnknownOption()
-    .option("-c, --CMD <ENV>", "the CLI command to run ")
-    .option("-i, --inspect", "run the node inspector")
-    .action((opts: CliOptions, _) => {
+    .action(() => {
+      const opts = commander.opts() as CliOptions
       return restartInitializer(opts)
     })
 
-  commander
-    .command("rdev")
-    .option("-pa, --port-app <string>", "front-end port")
-    .option("-p, --port  <string>", "server port")
-    .option("-i, --inspector", "run the node inspector")
-    .allowUnknownOption()
-    .action((opts: CliOptions) => {
-      return wrapCommand({
-        cb: (_) => runDev(_),
-        NODE_ENV: "development",
-        exit: false,
-        opts,
-      })
+  commander.command("rdev").action(() => {
+    const opts = commander.opts() as CliOptions
+
+    return wrapCommand({
+      cb: (_) => runDev(_),
+      NODE_ENV: "development",
+      exit: opts.exit ?? false,
+      opts: commander.opts(),
     })
+  })
 
   commander
     .command("build")
-    .option("--NODE_ENV <NODE_ENV>", "environment (development/production)")
     .option("--prerender", "prerender pages")
-    .option("-s, --serve", "serve static site after build")
-    .action((opts: CliOptions) => {
+    .action(() => {
+      const opts = commander.opts() as CliOptions
       return wrapCommand({
         cb: async (opts) => {
           const { buildApp } = await import("@factor/render")
@@ -268,60 +270,57 @@ export const execute = (): void => {
       })
     })
 
-  commander
-    .command("prerender")
-    .option("--NODE_ENV <NODE_ENV>", "environment (development/production)")
-    .option("-s, --serve", "serve static site after build")
-    .option("-pa, --port-app <number>", "primary service port")
-    .option("-p, --port <number>", "server specific port")
-    .action((opts: CliOptions) => {
-      return wrapCommand({
-        cb: async (opts) => {
-          opts.prerender = true
-          const { buildApp } = await import("@factor/render")
-          await runServer(opts)
-          return buildApp(opts)
-        },
-        NODE_ENV: opts.NODE_ENV || "production",
-        exit: opts.serve ? false : true,
-        opts,
-      })
-    })
-
-  commander.command("serve").action(() => {
+  commander.command("prerender").action(() => {
+    const opts = commander.opts() as CliOptions
     return wrapCommand({
-      cb: (opts) => require("@factor/render").serveApp(opts),
-      NODE_ENV: "production",
-      exit: false,
+      cb: async (opts) => {
+        opts.prerender = true
+        const { buildApp } = await import("@factor/render")
+        await runServer(opts)
+        return buildApp(opts)
+      },
+      NODE_ENV: opts.NODE_ENV || "production",
+      exit: opts.serve ? false : true,
+      opts,
     })
   })
 
-  commander
-    .command("render")
-    .option("-s, --serve", "serve static site after build")
-    .action((opts: CliOptions) => {
-      return wrapCommand({
-        opts,
-        cb: async (opts) => {
-          const { preRender } = await import("@factor/render")
-          return preRender(opts)
-        },
-        NODE_ENV: "production",
-        exit: opts.serve ? false : true,
-      })
+  commander.command("serve").action(() => {
+    const opts = commander.opts() as CliOptions
+    return wrapCommand({
+      cb: async (opts) => {
+        const { serveApp } = await import("@factor/render")
+        return serveApp(opts)
+      },
+      NODE_ENV: opts.NODE_ENV ?? "production",
+      exit: false,
+      opts,
     })
+  })
+
+  commander.command("render").action(() => {
+    const opts = commander.opts() as CliOptions
+    return wrapCommand({
+      opts,
+      cb: async (opts) => {
+        const { preRender } = await import("@factor/render")
+        return preRender(opts)
+      },
+      NODE_ENV: "production",
+      exit: opts.serve ? false : true,
+    })
+  })
 
   commander
     .command("release")
     .description("publish a new version")
     .option("--patch", "patch release")
     .option("--skip-tests", "patch release")
-    .action((opts: CliOptions) => {
+    .action(() => {
+      const opts = commander.opts() as CliOptions
       process.env.STAGE_ENV = "prod"
       return wrapCommand({
         cb: async (opts) => {
-          // require to prevent devDependency errors in production
-
           /**
            * @type {import("@factor/build/release")}
            */
@@ -342,7 +341,8 @@ export const execute = (): void => {
     .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
     .option("--commit <commit>", "git commit id")
     .option("--outFile <outFile>", "name of output file")
-    .action(async (opts: CliOptions) => {
+    .action(async () => {
+      const opts = commander.opts() as CliOptions
       const { bundleAll } = await import("@factor/build/bundle")
       await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
     })

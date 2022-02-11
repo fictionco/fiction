@@ -111,7 +111,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
 ): Promise<vite.InlineConfig> => {
-  const { mode } = options
   const vars = await setAppGlobals()
 
   const defines = Object.fromEntries(
@@ -121,7 +120,7 @@ export const getViteConfig = async (
   )
 
   logger.log({
-    level: mode == "development" ? "debug" : "info",
+    level: "info",
     context: "build",
     description: `build variables`,
     data: vars,
