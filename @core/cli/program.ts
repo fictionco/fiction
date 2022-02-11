@@ -195,7 +195,12 @@ const wrapCommand = async (settings: {
   try {
     await cb(opts)
   } catch (error) {
-    logger.log({ level: "error", description: "cli error", data: error })
+    logger.log({
+      level: "error",
+      context: "wrapCommand",
+      description: "command execution error",
+      data: error,
+    })
     done(1)
   }
   if (exit) done(0)
@@ -208,6 +213,7 @@ export const execute = (): void => {
   commander
     .version(pkg.version)
     .description("Factor CLI")
+    .option("--SERVICE <SERVICE>", "Which module to run")
     .option("--STAGE_ENV <string>", "how should the things be built")
     .option("--NODE_ENV <string>", "environment (development/production)")
     .option("--exit", "exit after successful setup")
@@ -215,18 +221,16 @@ export const execute = (): void => {
     .option("-a, --port-app <number>", "primary service port")
     .option("-p, --port <number>", "server specific port")
     .option("-s, --serve", "serve static site after build")
+
     .option(
       "--NODE_ENV <NODE_ENV>",
       "node environment (development or production)",
     )
 
-  commander
-    .command("start")
-    .option("--SERVICE <SERVICE>", "Which module to run")
-    .action(async () => {
-      const opts = commander.opts() as CliOptions
-      await wrapCommand({ cb: (_) => runService(_), opts })
-    })
+  commander.command("start").action(async () => {
+    const opts = commander.opts() as CliOptions
+    await wrapCommand({ cb: (_) => runService(_), opts })
+  })
 
   commander.command("server").action(async () => {
     await wrapCommand({
@@ -313,11 +317,11 @@ export const execute = (): void => {
 
   commander
     .command("release")
-    .description("publish a new version")
-    .option("--patch", "patch release")
-    .option("--skip-tests", "patch release")
-    .action(() => {
-      const opts = commander.opts() as CliOptions
+    .option("-pa, --patch", "patch release")
+    .option("-st, --skip-tests", "skip tests")
+    .action((o) => {
+      const opts = { ...commander.opts(), ...o } as CliOptions
+
       process.env.STAGE_ENV = "prod"
       return wrapCommand({
         cb: async (opts) => {
@@ -341,8 +345,8 @@ export const execute = (): void => {
     .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
     .option("--commit <commit>", "git commit id")
     .option("--outFile <outFile>", "name of output file")
-    .action(async () => {
-      const opts = commander.opts() as CliOptions
+    .action(async (o) => {
+      const opts = { ...commander.opts(), ...o } as CliOptions
       const { bundleAll } = await import("@factor/build/bundle")
       await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
     })
