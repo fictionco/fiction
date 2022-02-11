@@ -1,3 +1,13 @@
+## [4.0.23](https://github.com/FactorJS/factor/compare/v4.0.22...v4.0.23) (2022-02-11)
+
+
+### Bug Fixes
+
+* back to yarn ([1cd5a24](https://github.com/FactorJS/factor/commit/1cd5a2400d1bdf41ec4d3e1ea9254d4f8c8a29a6))
+* tweaks ([83dfee8](https://github.com/FactorJS/factor/commit/83dfee8e082330d2ed10fe1ed5e7129787092978))
+
+
+
 ## [4.0.22](https://github.com/FactorJS/factor/compare/v4.0.21...v4.0.22) (2022-02-08)
 
 
