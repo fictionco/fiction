@@ -59,11 +59,18 @@ describe("build tests", () => {
         errorLogs.push(message.text())
       }
     })
-    await page.goto("http://localhost:2345")
+
+    page.on("pageerror", (err) => {
+      errorLogs.push(err.message)
+    })
+    await page.goto(`http://localhost:${appPort}`)
+
+    const html = await page.innerHTML("body")
 
     await browser.close()
 
     expect(errorLogs.length).toBe(0)
+    expect(html).toBeTruthy()
 
     if (_process) {
       _process.cancel()
