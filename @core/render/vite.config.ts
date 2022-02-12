@@ -70,7 +70,11 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/*",
         "@kaption/*",
         "@factor/api",
+        "@factor/build",
         "@factor/entry",
+        "@factor/engine",
+        "@factor/server",
+        "@factor/cli",
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
         "@kaption/client",
@@ -135,6 +139,8 @@ export const getViteConfig = async (
     c?: Record<string, any>,
   ) => vite.PluginOption
 
+  const customPlugins = await getCustomBuildPlugins()
+
   const basicConfig: vite.InlineConfig = {
     root,
     publicDir: path.join(root, "public"),
@@ -179,7 +185,7 @@ export const getViteConfig = async (
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
-      ...getCustomBuildPlugins(),
+      ...customPlugins,
     ],
     ...optimizeDeps(),
   }

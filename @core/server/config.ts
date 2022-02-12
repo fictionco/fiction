@@ -1,7 +1,11 @@
 import { UserConfigServer } from "@factor/types"
-import { dotSetting, setupPlugins, logger } from "@factor/api"
-
-let __serverConfig: UserConfigServer | undefined
+import {
+  dotSetting,
+  setupPlugins,
+  logger,
+  storeItem,
+  stored,
+} from "@factor/api"
 
 export const setServerConfig = async (
   config: UserConfigServer,
@@ -20,13 +24,13 @@ export const setServerConfig = async (
     }
   }
 
-  __serverConfig = config
+  storeItem("serverConfig", config)
 
   return config
 }
 
 export const getServerConfig = (): UserConfigServer | undefined => {
-  return __serverConfig
+  return stored("serverConfig")
 }
 
 export const serverConfigSetting = <T extends keyof UserConfigServer>(
