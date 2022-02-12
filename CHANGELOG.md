@@ -1,3 +1,14 @@
+## [4.0.25](https://github.com/FactorJS/factor/compare/v4.0.24...v4.0.25) (2022-02-12)
+
+
+### Bug Fixes
+
+* server module loader ([db53e54](https://github.com/FactorJS/factor/commit/db53e5407d6abc01e096834b0d7356eef9a421b3))
+* test ([9e18160](https://github.com/FactorJS/factor/commit/9e18160f219b753da1498a7432350b7413ac6a90))
+* test ([fd3d374](https://github.com/FactorJS/factor/commit/fd3d374ac388cc0bf08b655e0a0828230e92f841))
+
+
+
 ## [4.0.24](https://github.com/FactorJS/factor/compare/v4.0.23...v4.0.24) (2022-02-11)
 
 
