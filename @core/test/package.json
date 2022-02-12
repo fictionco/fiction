@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@factor/site": "4.0.24",
+    "@factor/api": "4.0.24",
     "@factor/engine": "4.0.24",
     "@factor/render": "4.0.24",
     "@factor/server": "4.0.24",

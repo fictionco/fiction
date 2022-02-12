@@ -1,11 +1,14 @@
 import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium } from "playwright"
+import { randomBetween } from "@factor/api"
+const serverPort = randomBetween(1000, 9000)
+const appPort = randomBetween(1000, 9000)
 
 describe("build tests", () => {
   it("prerenders", () => {
     const r = execaCommandSync(
-      "npm exec -w @factor/site -- factor prerender --port 3434",
+      `npm exec -w @factor/site -- factor prerender --port ${serverPort}`,
       {
         env: { TEST_ENV: "unit" },
         timeout: 30_000,
@@ -17,7 +20,7 @@ describe("build tests", () => {
 
   it("runs dev", () => {
     const r = execaCommandSync(
-      "npm exec -w @factor/site -- factor rdev --exit --port 1234 --port-app 2345",
+      `npm exec -w @factor/site -- factor rdev --exit --port ${serverPort} --port-app ${appPort}`,
       {
         env: { TEST_ENV: "unit" },
         timeout: 20_000,
@@ -25,8 +28,8 @@ describe("build tests", () => {
     )
 
     expect(r.stdout).toContain("build variables")
-    expect(r.stdout).toContain("1234")
-    expect(r.stdout).toContain("2345")
+    expect(r.stdout).toContain(serverPort)
+    expect(r.stdout).toContain(appPort)
     expect(r.stdout).toContain("serving app")
   })
 
@@ -35,7 +38,7 @@ describe("build tests", () => {
 
     await new Promise<void>((resolve) => {
       _process = execaCommand(
-        "npm exec -w @factor/site -- factor rdev --port 1234 --port-app 2345",
+        `npm exec -w @factor/site -- factor rdev --port ${serverPort} --port-app ${appPort}`,
         {
           env: { TEST_ENV: "unit" },
         },

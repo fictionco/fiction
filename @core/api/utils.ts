@@ -110,6 +110,9 @@ export const objectId = (idLength = 16): string => {
     " ".repeat(idLength).replace(/./g, () => nts(Math.random() * idLength))
   )
 }
+export const randomBetween = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 /**
  * Ensure there is a slash at end of string
  * @param path
@@ -119,7 +122,7 @@ export const ensureTrailingSlash = (path: string): string => {
   return path
 }
 // Sort objects in an array by a priority value that defaults to 100
-export const sortPriority = <TPri extends any[]>(arr: TPri): TPri => {
+export const sortPriority = <T extends { priority?: number }[]>(arr: T): T => {
   if (!arr || arr.length === 0) return arr
 
   return arr.sort((a, b) => {
