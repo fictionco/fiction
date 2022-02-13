@@ -43,7 +43,9 @@ export const getUserGeolocationSync = (): UserGeolocation | void => {
  * Get IP address on network
  */
 export const getNetworkIp = async (): Promise<string> => {
-  const { data } = await axios.get("https://www.cloudflare.com/cdn-cgi/trace")
+  const { data } = await axios.get<string>(
+    "https://www.cloudflare.com/cdn-cgi/trace",
+  )
 
   const rawText = data.split(`\n`).find((_: string) => _.includes("ip="))
 
@@ -51,6 +53,7 @@ export const getNetworkIp = async (): Promise<string> => {
 
   return ip
 }
+
 /**
  * Gets user location data based on their IP
  * @reference

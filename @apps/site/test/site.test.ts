@@ -69,6 +69,10 @@ describe("build tests", () => {
 
     await browser.close()
 
+    if (errorLogs.length > 0) {
+      console.error(errorLogs)
+    }
+
     expect(errorLogs.length).toBe(0)
     expect(html).toBeTruthy()
 

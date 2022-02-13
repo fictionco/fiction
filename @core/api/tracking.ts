@@ -1,4 +1,14 @@
-import { isNode } from "./utils"
+import { fastHash, isNode } from "./utils"
+import { finder } from "@medv/finder"
+
+export interface ClickOffsetPosition {
+  targetWidth: number
+  targetHeight: number
+  offsetX: number
+  offsetY: number
+  xPercent: number
+  yPercent: number
+}
 
 export type BrowserEvent =
   | "load"
@@ -240,4 +250,87 @@ export const onRageClick = (cb: (event: MouseEvent) => void): void => {
     },
     document,
   )
+}
+
+/**
+ * Get the selector of an element from its DOM element
+ * https://github.com/antonmedv/finder
+ */
+export const cssPath = (el?: HTMLElement | null): string => {
+  if (!el) return ""
+
+  return finder(el, {
+    idName: () => true,
+    tagName: () => true,
+
+    seedMinLength: 3,
+  })
+}
+/**
+ * Get identifying information from an HTMLElement
+ */
+export const elementId = (
+  el: HTMLElement,
+): { selector: string; hash: string } => {
+  const selector = el.dataset.selector || cssPath(el)
+  const pathname = location.pathname
+  return {
+    selector,
+    hash: el.dataset.hash || fastHash([pathname, selector, el.innerHTML]),
+  }
+}
+/**
+ * Get analytics information for click events
+ */
+export const clickId = (
+  event: MouseEvent,
+): {
+  selector: string
+  hash: string
+  position: ClickOffsetPosition
+} => {
+  const target = event.target as HTMLElement
+  const { hash, selector } = elementId(target)
+
+  // left/top are relative to viewport
+  const {
+    width: targetWidth,
+    height: targetHeight,
+    left,
+    top,
+  } = target.getBoundingClientRect()
+
+  // clientX, clientY are relative to viewport
+
+  const clientX = event.clientX
+  const clientY = event.clientY
+
+  // offset within the target
+  const offsetX = clientX - left
+  const offsetY = clientY - top
+
+  const xPercentFloat = offsetX / targetWidth
+  const xPercent = Math.round(xPercentFloat * 10_000) / 10_000
+
+  const yPercentFloat = offsetY / targetHeight
+  const yPercent = Math.round(yPercentFloat * 10_000) / 10_000
+
+  const position: ClickOffsetPosition = {
+    targetWidth,
+    targetHeight,
+    offsetX,
+    offsetY,
+    xPercent,
+    yPercent,
+  }
+
+  return { hash, selector, position }
+}
+
+export const getDeviceType = (): "mobile" | "tablet" | "laptop" | "desktop" => {
+  const width = screen.width
+  if (width < 600) return "mobile"
+  else if (width < 950) return "tablet"
+  else if (width <= 1550) return "laptop"
+  else return "desktop"
 }

@@ -428,3 +428,46 @@ export const urlPath = (...parts: string[]): string => {
   })
   return parts.join(separator).replace(/\/+$/, "")
 }
+
+export const isValidJson = (str?: string): undefined | unknown => {
+  if (!str) return undefined
+  try {
+    const r = JSON.parse(str) as unknown
+    return r
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * In an iFrame?
+ * https://stackoverflow.com/a/326076/1858322
+ */
+export const inIFrame = (): boolean => {
+  if (isNode) return false
+  try {
+    return window.self !== window.top
+  } catch {
+    return true
+  }
+}
+/**
+ * group array into elements by key
+ */
+export const groupBy = <
+  T extends Record<string, any[]> = Record<string, any[]>,
+>(
+  items: any[],
+  key: string,
+): T => {
+  // eslint-disable-next-line unicorn/prefer-object-from-entries, @typescript-eslint/no-unsafe-return
+  return items.reduce(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    (result, item) => ({
+      ...result,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,  @typescript-eslint/no-unsafe-assignment
+      [item[key]]: [...(result[item[key]] || []), item],
+    }),
+    {},
+  )
+}

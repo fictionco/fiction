@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@factor/types": "4.0.27",
+    "@medv/finder": "^2.1.0",
     "@types/blueimp-load-image": "^5.14.0",
     "@types/js-cookie": "^3.0.0",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/markdown-it": "^12.0.0",
     "@types/remove-markdown": "^0.3.0",
     "@types/spark-md5": "^3.0.2",
@@ -31,6 +33,7 @@
     "htmlparser2": "^7.0.0",
     "js-cookie": "^3.0.0",
     "json-stable-stringify": "^1.0.1",
+    "jsonwebtoken": "^8.5.1",
     "markdown-it": "^12.0.0",
     "markdown-it-anchor": "^8.0.0",
     "markdown-it-implicit-figures": "^0.10.0",
@@ -43,9 +46,7 @@
     "validator": "^13.5.2",
     "vue": "^3.0.2",
     "vue-router": "^4.0.10",
-    "vuex": "^4.0.0-rc.1",
-    "jsonwebtoken": "^8.5.1",
-    "@types/jsonwebtoken": "^8.5.0"
+    "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "vitest": "^0.3.2"
