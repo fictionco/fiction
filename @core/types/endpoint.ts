@@ -1,7 +1,7 @@
+import express from "express"
 import { ErrorCode } from "./error"
 import { UserGeolocation } from "./geo"
 import { UserRoles } from "./roles"
-import express from "express"
 import { CurrentUserState } from "./user"
 
 export type EndpointResponse<T = unknown> = {

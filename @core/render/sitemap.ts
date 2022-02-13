@@ -1,3 +1,5 @@
+import { Readable } from "stream"
+import path from "path"
 import { distServer, distClient } from "@factor/engine/nodeUtils"
 import { getSitemaps } from "@factor/engine/sitemap"
 import { EntryModuleExports } from "@factor/types"
@@ -5,9 +7,7 @@ import { RouteRecordRaw } from "vue-router"
 import { currentUrl } from "@factor/engine/url"
 import dayjs from "dayjs"
 import { SitemapStream, streamToPromise } from "sitemap"
-import { Readable } from "stream"
 import fs from "fs-extra"
-import path from "path"
 /**
  * Recursively process route config to string urls
  */

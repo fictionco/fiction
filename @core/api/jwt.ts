@@ -1,8 +1,8 @@
+import { FullUser, PrivateUser } from "@factor/types"
+import jwt from "jsonwebtoken"
 import { setCookie, getCookie, removeCookie } from "./cookie"
 import { _stop } from "./error"
 import { logger } from "./logger"
-import { FullUser, PrivateUser } from "@factor/types"
-import jwt from "jsonwebtoken"
 /**
  * Gets, Sets or Destroys the user JWT token out of local storage
  */

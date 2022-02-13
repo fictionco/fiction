@@ -1,7 +1,7 @@
-import { StripeOptions, createSettings, stripeEnv } from "."
-import { getPaymentEndpointsMap } from "./endpoints"
 import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
+import { getPaymentEndpointsMap } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
+import { StripeOptions, createSettings, stripeEnv } from "."
 
 export default async (
   options: Partial<StripeOptions>,

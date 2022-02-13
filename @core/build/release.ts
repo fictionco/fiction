@@ -1,14 +1,14 @@
 import path from "path"
 import fs from "fs"
+import { createRequire } from "module"
 import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
 import { logger } from "@factor/api/logger"
-import { isGitDirty, getPackages } from "./utils"
-import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
 import type { CliOptions } from "@factor/cli/program"
+import { isGitDirty, getPackages } from "./utils"
 
 const require = createRequire(import.meta.url)
 

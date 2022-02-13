@@ -1,11 +1,11 @@
 /* eslint-disable unicorn/import-style */
 /* eslint-disable no-console */
-import { isNode } from "./utils"
 import dayjs from "dayjs"
 import { logCategory, logLevel } from "@factor/types"
 import type { ChalkInstance } from "chalk"
 import type { Consola } from "consola"
 import safeStringify from "fast-safe-stringify"
+import { isNode } from "./utils"
 export const logType = {
   event: { color: "#5233ff" },
   info: { color: "#00ABFF" },

@@ -1,5 +1,5 @@
-import { fastHash, isNode } from "./utils"
 import { finder } from "@medv/finder"
+import { fastHash, isNode } from "./utils"
 
 export interface ClickOffsetPosition {
   targetWidth: number

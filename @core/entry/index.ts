@@ -6,7 +6,6 @@ import * as mainFile from "@src/index.ts"
 // eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
 import App from "@src/App.vue"
 
-import { initializeWindow } from "./init"
 import { isNode } from "@factor/api/utils"
 import { getRouter, addRoutes } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
@@ -16,6 +15,7 @@ import { FactorAppEntry, UserConfigApp } from "@factor/types"
 import { createHead } from "@vueuse/head"
 import { App as VueApp, createSSRApp, createApp } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
+import { initializeWindow } from "./init"
 
 /**
  * Define process.env to prevent errors on any node code that runs

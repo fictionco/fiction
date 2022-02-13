@@ -1,10 +1,10 @@
 /* server-only-file */
+import { createRequire } from "module"
 import { _stop, renderMarkdown, logger } from "@factor/api"
 import { EmailTransactionalConfig } from "@factor/types"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 
-import { createRequire } from "module"
 const require = createRequire(import.meta.url)
 
 const getFromAddress = (): string => {

@@ -3,8 +3,8 @@ import { FullUser, PrivateUser } from "@factor/types"
 import { clientToken } from "@factor/api/jwt"
 import { logger } from "@factor/api/logger"
 import { routeAuthRedirects } from "@factor/api/router"
-import { getEndpointsMap } from "./user"
 import { currentUser, setCurrentUser, logout } from "@factor/api"
+import { getEndpointsMap } from "./user"
 
 /**
  * Utility function that calls a callback when the user is set initially

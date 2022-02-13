@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { expect, it, describe } from "vitest"
-import * as stripeEngine from "../endpoints"
-import dotenv from "dotenv"
 import fs from "fs"
 import path from "path"
+import dotenv from "dotenv"
+import { expect, it, describe } from "vitest"
 import Stripe from "stripe"
+import * as stripeEngine from "../endpoints"
 // vi.mock("../serverEmail", async () => {
 //   const actual = (await vi.importActual("../serverEmail")) as Record<
 //     string,
@@ -21,7 +21,7 @@ import Stripe from "stripe"
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
 let subscription: Stripe.Subscription | undefined
-const key = () => Math.random().toString().slice(2, 8)
+const key = (): string => Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
   it("has .env file", () => {

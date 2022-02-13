@@ -1,10 +1,10 @@
-import { EndpointResponse, PrivateUser } from "@factor/types"
 import axios, { AxiosRequestConfig, AxiosError } from "axios"
+import type express from "express"
 import { clientToken, logger, emitEvent, updateUser } from "@factor/api"
+import { EndpointResponse, PrivateUser } from "@factor/types"
 import { serverUrl } from "./url"
 
 import { Query } from "./query"
-import type express from "express"
 
 export type EndpointOptions = {
   baseURL: string

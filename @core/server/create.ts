@@ -1,8 +1,8 @@
+import http from "http"
 import { UserConfigServer } from "@factor/types"
 
 import bodyParser from "body-parser"
 import { EndpointServer } from "@factor/engine"
-import http from "http"
 
 export const getAppPort = (
   config: UserConfigServer = {},

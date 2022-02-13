@@ -1,6 +1,6 @@
-import type { FullUser } from "./user"
 import { App } from "vue"
 import { RouteLocationNormalized } from "vue-router"
+import type { FullUser } from "./user"
 
 /**
  * Callback hook names and arguments provided

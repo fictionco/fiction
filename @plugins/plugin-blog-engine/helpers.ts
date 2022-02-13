@@ -1,8 +1,8 @@
 import { stored, storeItem, camelToKebab } from "@factor/api"
 import { markRaw } from "vue"
 import dayjs from "dayjs"
-import { PostEntryConfig, BlogOptions, BlogMap, BlogMapItem } from "./types"
 import stringSimilarity from "string-similarity"
+import { PostEntryConfig, BlogOptions, BlogMap, BlogMapItem } from "./types"
 /**
  * Doc engine settings utility
  */

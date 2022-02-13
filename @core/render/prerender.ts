@@ -1,9 +1,9 @@
+import path from "path"
 import { distClient, distFolder } from "@factor/engine/nodeUtils"
 import { logger, onEvent } from "@factor/api"
 import compression from "compression"
 import express from "express"
 import fs from "fs-extra"
-import path from "path"
 import serveStatic from "serve-static"
 
 import { getRequestHtml, htmlGenerators } from "./render"

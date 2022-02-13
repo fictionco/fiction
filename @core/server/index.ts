@@ -1,14 +1,14 @@
 import { runHooks, deepMergeAll } from "@factor/api"
 
 import { importServerEntry } from "@factor/engine/nodeUtils"
-import { setAppGlobals, getFactorConfig } from "./globals"
 import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
+import { UserConfigServer } from "@factor/types"
+import type { CliOptions } from "@factor/cli/program"
+import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
 import { setServerConfig } from "./config"
-import { UserConfigServer } from "@factor/types"
-import type { CliOptions } from "@factor/cli/program"
 
 export const setupServerEnv = async (
   entryServerConfig: UserConfigServer = {},

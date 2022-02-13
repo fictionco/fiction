@@ -1,3 +1,4 @@
+import { ExtendItem } from "../types"
 import ZenoScreenshot1 from "./zeno/screenshot-tall-1.jpg"
 import ZenoScreenshot2 from "./zeno/screenshot-tall-2.jpg"
 import ZenoScreenshot3 from "./zeno/screenshot-tall-3.jpg"
@@ -16,7 +17,6 @@ import DarwinIcon from "./darwin/icon.png"
 import HnScreenshot1 from "./hn/screenshot.webp"
 import HnIcon from "./hn/icon.svg"
 
-import { ExtendItem } from "../types"
 export const map: Partial<ExtendItem>[] = [
   {
     name: "Zeno",

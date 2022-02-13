@@ -1,3 +1,5 @@
+import path from "path"
+import { createRequire } from "module"
 import {
   distFolder,
   distServer,
@@ -9,12 +11,10 @@ import { EntryModuleExports, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
 import { renderHeadToString } from "@vueuse/head"
 import fs from "fs-extra"
-import path from "path"
 import { minify } from "html-minifier"
 import { version } from "./package.json"
 import { renderPreloadLinks } from "./preload"
 import { getViteServer } from "./vite"
-import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 export type HtmlGenerateParts = HtmlBuildingBlocks & {

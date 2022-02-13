@@ -1,9 +1,9 @@
+import path from "path"
+import { createRequire } from "module"
 import { emitEvent, logger } from "@factor/api"
 import { Command, OptionValues } from "commander"
 import dotenv from "dotenv"
-import path from "path"
 import pkg from "./package.json"
-import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 

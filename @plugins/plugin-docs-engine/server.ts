@@ -1,6 +1,6 @@
+import { FactorPluginConfigServer } from "@factor/types"
 import { createSettings, getDocRoutes } from "./helpers"
 import { DocsOptions } from "./types"
-import { FactorPluginConfigServer } from "@factor/types"
 
 export default (
   options: Partial<DocsOptions> = {},

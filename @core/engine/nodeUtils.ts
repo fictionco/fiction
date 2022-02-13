@@ -1,7 +1,7 @@
-import glob from "glob"
 import path from "path"
 import { createRequire } from "module"
 import fs from "fs"
+import glob from "glob"
 import { UserConfigServer, PackageJson } from "@factor/types"
 
 const require = createRequire(import.meta.url)

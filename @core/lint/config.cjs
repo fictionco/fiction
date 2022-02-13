@@ -81,7 +81,20 @@ module.exports = {
     "no-undef": "off",
     "func-style": ["warn", "expression"],
     "no-async-promise-executor": "off",
+
     "vue/no-v-html": "off",
+    "import/order": [
+      "warn",
+      {
+        pathGroups: [
+          {
+            pattern: "@factor/**",
+            group: "internal",
+            position: "before",
+          },
+        ],
+      },
+    ],
     "import/no-cycle": [
       "error",
       {

@@ -1,6 +1,6 @@
+import { Component } from "vue"
 import { ListItem } from "./utils"
 import { TemplateSetting } from "./templates"
-import { Component } from "vue"
 
 export interface PostTypeConfig {
   baseRoute?: string

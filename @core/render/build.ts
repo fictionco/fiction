@@ -1,3 +1,4 @@
+import { createRequire } from "module"
 import { distClient, distFolder, distServer } from "@factor/engine/nodeUtils"
 import { logger } from "@factor/api"
 import * as vite from "vite"
@@ -7,7 +8,6 @@ import { getIndexHtml } from "./render"
 import { getViteConfig } from "./vite.config"
 import { generateSitemap } from "./sitemap"
 
-import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 

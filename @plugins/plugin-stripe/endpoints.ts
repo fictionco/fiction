@@ -8,13 +8,13 @@ import {
   EndpointManageAction,
   EndpointMethodOptions,
 } from "@factor/engine/endpoint"
+import Stripe from "stripe"
 import {
   paymentsSetting,
   CustomerData,
   stripeEnv,
   getStripeProducts,
 } from "./util"
-import Stripe from "stripe"
 
 type RefineResult = {
   customerData?: CustomerData

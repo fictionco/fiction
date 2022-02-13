@@ -1,8 +1,8 @@
 import { expect, it, vi, describe } from "vitest"
-import { Queries } from "../user"
 import { FullUser } from "@factor/types"
-import * as ep from "../user"
 import bcrypt from "bcrypt"
+import { Queries } from "../user"
+import * as ep from "../user"
 
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<

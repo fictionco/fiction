@@ -1,6 +1,6 @@
+import { FactorPluginConfigApp } from "@factor/types"
 import { createSettings } from "./helpers"
 import { BlogOptions } from "./types"
-import { FactorPluginConfigApp } from "@factor/types"
 
 export * from "./helpers"
 export * from "./types"

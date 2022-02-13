@@ -2,8 +2,8 @@ import deepMergeUtility from "deepmerge"
 import stableStringify from "fast-json-stable-stringify"
 import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
-import stopwordsLib from "./resource/stopwords"
 import { ListItem, PriorityItem } from "@factor/types"
+import stopwordsLib from "./resource/stopwords"
 
 /**
  * Are we in Node or browser?

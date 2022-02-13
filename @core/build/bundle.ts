@@ -1,11 +1,11 @@
 import path from "path"
+import { createRequire } from "module"
 import fs from "fs-extra"
 import { logger, PackageJson, deepMergeAll } from "@factor/api"
-import { getPackages, getCommit } from "./utils"
 import { execa } from "execa"
 import * as vite from "vite"
 import { getViteConfig } from "@factor/render/vite.config"
-import { createRequire } from "module"
+import { getPackages, getCommit } from "./utils"
 
 const require = createRequire(import.meta.url)
 

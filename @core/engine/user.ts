@@ -6,17 +6,17 @@ import {
   getJsonUserFields,
   getEditableUserFields,
 } from "@factor/api/user"
-import { serverUrl } from "./url"
 import { validateEmail, snakeCase } from "@factor/api/utils"
 import { logger } from "@factor/api/logger"
-import { getServerConfig } from "../server/config"
 import { EndpointResponse, FactorTable, FullUser } from "@factor/types"
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
-import { getDb } from "./db"
 
 import { createClientToken, decodeClientToken } from "@factor/api/jwt"
+import { getServerConfig } from "../server/config"
+import { getDb } from "./db"
+import { serverUrl } from "./url"
 
 import { EndpointMethodOptions, Endpoint, EndpointMeta } from "./endpoint"
 

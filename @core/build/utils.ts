@@ -1,9 +1,9 @@
+import path from "path"
+import { createRequire } from "module"
 import glob from "glob"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
-import path from "path"
-import { createRequire } from "module"
 import { PackageJson } from "@factor/types"
 
 const require = createRequire(import.meta.url)

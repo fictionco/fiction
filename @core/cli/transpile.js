@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import path from "path"
+import { createRequire } from "module"
 import tsNode from "ts-node"
 import moduleAlias from "module-alias"
-import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 const cwd = () => process.env.FACTOR_CWD || process.cwd()

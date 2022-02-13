@@ -2,11 +2,11 @@ import { HeadClient } from "@vueuse/head"
 import { App } from "vue"
 import { Router, RouteRecordRaw } from "vue-router"
 import { Store } from "vuex"
-import { FullUser } from "./user"
 import { Endpoint } from "@factor/engine/endpoint"
+import type { ServerModuleDef } from "@factor/render/buildPlugins"
+import { FullUser } from "./user"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 import { CallbackDictionary } from "./dictionary"
-import type { ServerModuleDef } from "@factor/render/buildPlugins"
 export interface FactorAppEntry {
   app: App
   head: HeadClient
