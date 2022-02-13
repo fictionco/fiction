@@ -1,3 +1,12 @@
+## [4.0.28](https://github.com/FactorJS/factor/compare/v4.0.27...v4.0.28) (2022-02-13)
+
+
+### Features
+
+* api tracking ([3a0e401](https://github.com/FactorJS/factor/commit/3a0e401d741593896e15785e92967ab7253736a3))
+
+
+
 ## [4.0.27](https://github.com/FactorJS/factor/compare/v4.0.26...v4.0.27) (2022-02-13)
 
 

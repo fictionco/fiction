@@ -1,6 +1,6 @@
 {
   "name": "@factor/render",
-  "version": "4.0.27",
+  "version": "4.0.28",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,14 +8,14 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.27",
-    "@factor/cli": "4.0.27",
-    "@factor/engine": "4.0.27",
-    "@factor/entry": "4.0.27",
-    "@factor/plugin-notify": "4.0.27",
-    "@factor/server": "4.0.27",
-    "@factor/types": "4.0.27",
-    "@factor/ui": "4.0.27",
+    "@factor/api": "4.0.28",
+    "@factor/cli": "4.0.28",
+    "@factor/engine": "4.0.28",
+    "@factor/entry": "4.0.28",
+    "@factor/plugin-notify": "4.0.28",
+    "@factor/server": "4.0.28",
+    "@factor/types": "4.0.28",
+    "@factor/ui": "4.0.28",
     "@tailwindcss/forms": "^0.4.0",
     "@types/html-minifier": "^4.0.0",
     "@types/serve-favicon": "^2.5.2",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.0",
-    "@factor/cli": "4.0.27",
+    "@factor/cli": "4.0.28",
     "@types/compression": "^1.7.0",
     "cjs-module-lexer": "^1.2.2",
     "es-module-lexer": "^0.9.3",
