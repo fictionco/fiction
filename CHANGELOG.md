@@ -1,3 +1,12 @@
+## [4.0.27](https://github.com/FactorJS/factor/compare/v4.0.26...v4.0.27) (2022-02-13)
+
+
+### Features
+
+* api functions ([ff31329](https://github.com/FactorJS/factor/commit/ff313290d6394e0447ef05fa86ccc4252cd6a259))
+
+
+
 ## [4.0.26](https://github.com/FactorJS/factor/compare/v4.0.25...v4.0.26) (2022-02-13)
 
 
