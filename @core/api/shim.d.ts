@@ -3,10 +3,14 @@
 declare global {
   interface Window {
     process: { env?: Record<string, string> }
+    GlobalInstance: any
   }
   namespace NodeJS {
-    interface Global {}
+    interface Global {
+      GlobalInstance: any
+    }
   }
+  const GlobalInstance: any
 }
 
 declare module "*.vue" {

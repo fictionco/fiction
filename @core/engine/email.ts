@@ -21,15 +21,17 @@ const getFromAddress = (): string => {
   return `${name} <${email}>`
 }
 export const hasEmailService = (): boolean => {
-  const { SMTP_HOST } = process.env
+  const { SMTP_HOST, SMTP_USERNAME, SMTP_PASSWORD } = process.env
 
-  return !SMTP_HOST ? false : true
+  return !SMTP_HOST || !SMTP_PASSWORD || !SMTP_USERNAME ? false : true
 }
 /**
  * Gets the email sending service
  */
 const getEmailSMTPService = (): Transporter | void => {
-  if (!hasEmailService()) return
+  if (!hasEmailService()) {
+    return
+  }
 
   const {
     SMTP_USERNAME = "",
@@ -122,7 +124,7 @@ export const sendEmail = async (
   } else {
     logger.log({
       level: "warn",
-      description: "smtp email is not configured (SMTP_HOST)",
+      description: "smtp email is not configured",
       context: "email",
       data: theEmail,
     })
