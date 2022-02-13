@@ -9,16 +9,20 @@ import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
 
-export const packageDir = (packageName: string): string => {
+export const packageDir = (packageName?: string): string => {
+  if (!packageName) return ""
+
   return path.dirname(require.resolve(`${packageName}/package.json`))
 }
 
 interface BundleOptions {
+  cwd?: string
   packageName?: string
   NODE_ENV?: "production" | "development"
+  STAGE_ENV?: "prod" | "pre" | "local"
   commit?: string
   sourceMap?: boolean
-  outFile?: string
+  bundleType?: "script" | "app"
 }
 
 export const outputFolders = (): {
@@ -32,34 +36,32 @@ export const outputFolders = (): {
   }
 }
 
-const getModuleBuildOptions = (
-  pkg: string,
-): PackageJson["buildOptions"] | undefined => {
-  const { buildOptions } = require(`${pkg}/package.json`) as PackageJson
-
-  return buildOptions
+const getPkg = (pkg: string): PackageJson | undefined => {
+  return require(`${pkg}/package.json`) as PackageJson
 }
 
 /**
  * Run a child process for rollup that builds scripts based on options
  */
 export const bundle = async (options: BundleOptions): Promise<void> => {
-  const { packageName, NODE_ENV } = options
+  const { packageName, cwd, NODE_ENV, bundleType } = options
   try {
-    if (!packageName) throw new Error("no pkg name available")
-    const buildOptions = getModuleBuildOptions(packageName)
+    if (!packageName && !cwd) throw new Error("no pkg name available")
+
+    const _cwd = cwd ? cwd : packageDir(packageName)
+
+    const pkg = getPkg(_cwd)
+    const buildOptions = pkg?.buildOptions ?? {}
 
     logger.log({
       level: "info",
-      description: `bundling ${packageName}`,
-      context: "cli bundle",
+      description: `bundling ${pkg?.name}`,
+      context: "build:bundle",
     })
 
     let { commit } = options
 
-    const pkgDir = packageDir(packageName)
-
-    fs.removeSync(`${pkgDir}/dist`)
+    fs.removeSync(`${cwd}/dist`)
 
     // pass in git commit via env var
     if (!commit && process.env.GIT_COMMIT) {
@@ -68,22 +70,16 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
       commit = await getCommit()
     }
 
-    const vc = await getViteConfig({ mode: NODE_ENV })
-
-    const root = packageDir(packageName)
+    const vc = await getViteConfig({ mode: NODE_ENV }, { bundleType })
 
     if (!buildOptions?.entryFile) throw new Error("no entry file")
 
     const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
       vc,
       {
-        root: root,
+        root: _cwd,
         build: {
-          outDir: path.join(
-            packageDir(packageName),
-            "/dist",
-            buildOptions.outputDir ?? "",
-          ),
+          outDir: path.join(_cwd, "/dist", buildOptions.outputDir ?? ""),
           emptyOutDir: true,
           lib: {
             formats: ["es"],
@@ -92,6 +88,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
             fileName: () => `index.js`,
           },
         },
+        logLevel: NODE_ENV == "production" ? "info" : "warn",
         plugins: [],
       },
     ])
@@ -115,15 +112,20 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
         ],
         {
           stdio: "inherit",
-          cwd: packageDir(packageName),
+          cwd: _cwd,
         },
       )
     }
+    logger.log({
+      level: "info",
+      description: `done bundling ${pkg?.name}`,
+      context: "build:bundle",
+    })
   } catch (error) {
     logger.log({
       level: "error",
       description: `error during ${packageName} build`,
-      context: "cli bundle",
+      context: "build:bundle",
       data: error,
     })
   }
@@ -138,11 +140,11 @@ export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
     await bundle(options)
   } else {
     // Outfile won't work in multi-build mode
-    delete options.outFile
-    for (const packageName of getPackages()) {
-      const buildOptions = getModuleBuildOptions(packageName)
 
-      if (buildOptions) {
+    for (const packageName of getPackages()) {
+      const pkg = getPkg(packageName)
+
+      if (pkg?.buildOptions) {
         logger.log({
           level: "info",
           context: "bundleAll",

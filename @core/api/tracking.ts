@@ -1,3 +1,5 @@
+import { isNode } from "./utils"
+
 export type BrowserEvent =
   | "load"
   | "mousemove"
@@ -128,4 +130,114 @@ export const activityTrigger = ({
     if (__timer) clearTimeout(__timer)
     clearWatchers.forEach((clearWatcher) => clearWatcher())
   }
+}
+
+/**
+ * Gets the URL if set by <link ref="canonical"> tag
+ */
+export const canonicalUrlFromTag = (): string | undefined => {
+  if (isNode) return
+
+  const tags = document.querySelectorAll("link")
+  for (let i = 0, tag; (tag = tags[i]); i++) {
+    if (tag.getAttribute("rel") === "canonical") {
+      return tag.getAttribute("href") ?? undefined
+    }
+  }
+  return undefined
+}
+/**
+ * Return the canonical URL and remove the hash.
+ */
+export const getCanonicalUrl = (): string | undefined => {
+  if (isNode) return
+
+  const { search = "" } = location
+  const canonical = canonicalUrlFromTag()
+  let url
+  if (!canonical) {
+    url = window.location.href.replace(/#.*$/, "")
+  } else if (/\?/.test(canonical)) {
+    url = canonical
+  } else {
+    url = canonical + search
+  }
+  return url
+}
+
+interface ClickTime {
+  event: MouseEvent
+  time: Date
+}
+
+export const detectMultiClick = ({
+  count,
+  interval,
+  clicks,
+  radius,
+}: {
+  count: number
+  interval: number
+  clicks: ClickTime[]
+  radius: number
+}): boolean => {
+  if (clicks.length < count) {
+    return false
+  }
+
+  const last = clicks.length - 1
+  const lastClickTime = clicks[last].time.getTime()
+  const firstClickTime = clicks[0].time.getTime()
+  const timeDiff = (lastClickTime - firstClickTime) / 1000
+  //returns false if it event period is longer than interval
+  if (timeDiff > interval) return false
+
+  //check click distance
+  const radiusSquare = Math.pow(radius, 2)
+  let maxDistanceSquare = 0
+  for (let i = last - count + 1; i < last; i++) {
+    for (let j = i + 1; j <= last; j++) {
+      const distanceSquare =
+        Math.pow(clicks[i].event.clientX - clicks[j].event.clientX, 2) +
+        Math.pow(clicks[i].event.clientY - clicks[j].event.clientY, 2)
+      if (distanceSquare > maxDistanceSquare) maxDistanceSquare = distanceSquare
+      if (distanceSquare > radiusSquare) return false
+    }
+  }
+  return true
+}
+/**
+ * Triggers a callback when a rage click occurs
+ * A "rage click" is when a user clicks three times on the same things out of frustration
+ */
+export const onRageClick = (cb: (event: MouseEvent) => void): void => {
+  let clicks: ClickTime[] = []
+  const radius = 50 //certain circle area
+  const possible = 3
+  onBrowserEvent(
+    "click",
+    (event: MouseEvent) => {
+      clicks.push({ event, time: new Date() })
+
+      //remain only required number of click events and remove left of them.
+      if (clicks.length > possible) {
+        clicks.splice(0, clicks.length - possible)
+      }
+
+      //detect 3 click in .5 sec
+      if (clicks.length >= 3) {
+        const result = detectMultiClick({
+          count: possible,
+          interval: 0.5,
+          clicks,
+          radius,
+        })
+        if (result) {
+          cb(event)
+          clicks = []
+        }
+      }
+    },
+    document,
+  )
 }

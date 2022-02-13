@@ -5,9 +5,9 @@ const hasStorage = (): boolean => {
   if (
     typeof localStorage == "undefined" ||
     typeof sessionStorage == "undefined"
-  )
+  ) {
     return false
-  else return true
+  } else return true
 }
 
 interface SetLocalBase {
@@ -63,7 +63,7 @@ export const getLocal: loc = (args) => {
 
   if (raw) return v
 
-  return v ? JSON.parse(v) : undefined
+  return v ? (JSON.parse(v) as loc) : undefined
 }
 
 export const removeLocal = (args: LocalArgs): void => {

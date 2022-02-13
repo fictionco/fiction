@@ -2,9 +2,7 @@ import { emitEvent, logger } from "@factor/api"
 import { Command, OptionValues } from "commander"
 import dotenv from "dotenv"
 import path from "path"
-
 import pkg from "./package.json"
-
 import { createRequire } from "module"
 
 const require = createRequire(import.meta.url)
@@ -28,9 +26,11 @@ export const coreServices = {
   render: { port: ServicePort.Render, service: ServiceModule.Render },
 }
 
+type BuildStages = "prod" | "pre" | "local"
+
 export type CliOptions = {
   SERVICE?: string
-  STAGE_ENV?: "prod" | "dev" | "pre" | "local"
+  STAGE_ENV?: BuildStages
   NODE_ENV?: "production" | "development"
   inspector?: boolean
   exit?: boolean

@@ -114,7 +114,9 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 
 export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
+  otherConfig: { bundleType?: "script" | "app" } = {},
 ): Promise<vite.InlineConfig> => {
+  const { bundleType } = otherConfig
   const vars = await setAppGlobals()
 
   const defines = Object.fromEntries(
@@ -123,13 +125,15 @@ export const getViteConfig = async (
     }),
   )
 
-  logger.log({
-    level: "info",
-    context: "build",
-    description: `build variables`,
-    data: vars,
-    disableOnRestart: true,
-  })
+  if (bundleType != "script") {
+    logger.log({
+      level: "info",
+      context: "build",
+      description: `build variables`,
+      data: vars,
+      disableOnRestart: true,
+    })
+  }
 
   const root = sourceFolder()
 
