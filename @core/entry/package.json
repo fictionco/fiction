@@ -1,6 +1,6 @@
 {
   "name": "@factor/entry",
-  "version": "4.0.28",
+  "version": "4.0.29",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.0.28",
-    "@factor/types": "4.0.28",
-    "@factor/engine": "4.0.28",
-    "@factor/ui": "4.0.28",
+    "@factor/api": "4.0.29",
+    "@factor/types": "4.0.29",
+    "@factor/engine": "4.0.29",
+    "@factor/ui": "4.0.29",
     "@vueuse/head": "^0.7.0",
     "autoprefixer": "^10.4.2",
     "less": "^4.1.1",
