@@ -1,3 +1,12 @@
+## [4.0.26](https://github.com/FactorJS/factor/compare/v4.0.25...v4.0.26) (2022-02-13)
+
+
+### Bug Fixes
+
+* tweaks ([94cd65b](https://github.com/FactorJS/factor/commit/94cd65bf455fee46651dc61ed6d8be9a76fb1fbf))
+
+
+
 ## [4.0.25](https://github.com/FactorJS/factor/compare/v4.0.24...v4.0.25) (2022-02-12)
 
 
