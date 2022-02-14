@@ -1,3 +1,17 @@
+## [4.0.30](https://github.com/FactorJS/factor/compare/v4.0.29...v4.0.30) (2022-02-14)
+
+
+### Bug Fixes
+
+* utils ([d67ee28](https://github.com/FactorJS/factor/commit/d67ee284321b9d8b32fe373304a9aecb207adddc))
+
+
+### Features
+
+* extnd cli ([6b5bfd4](https://github.com/FactorJS/factor/commit/6b5bfd4b50fbb53cd6b543535c327286895b53d1))
+
+
+
 ## [4.0.29](https://github.com/FactorJS/factor/compare/v4.0.28...v4.0.29) (2022-02-13)
 
 

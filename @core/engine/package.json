@@ -1,6 +1,6 @@
 {
   "name": "@factor/engine",
-  "version": "4.0.29",
+  "version": "4.0.30",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -17,9 +17,9 @@
     "@types/nodemailer": "^6.4.4",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/pg": "^8.0.0",
-    "@factor/api": "4.0.29",
-    "@factor/server": "4.0.29",
-    "@factor/types": "4.0.29",
+    "@factor/api": "4.0.30",
+    "@factor/server": "4.0.30",
+    "@factor/types": "4.0.30",
     "axios": "^0.26.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
