@@ -29,6 +29,7 @@ interface LoggerArgs {
   context?: string
   description?: string
   data?: Record<string, any> | unknown
+  error?: Error
   disableOnRestart?: boolean
   priority?: number
   color?: string
@@ -74,7 +75,7 @@ class Logger {
   }
 
   logBrowser(config: LoggerArgs): void {
-    const { level, description, context, color, data } = config
+    const { level, description, context, color, data, error } = config
     const shouldLog =
       process.env.NODE_ENV == "development" ||
       (typeof localStorage !== "undefined" && localStorage.getItem("logger"))
@@ -90,6 +91,10 @@ class Logger {
         description,
         data ?? "",
       )
+
+      if (error) {
+        console.error(error)
+      }
     }
   }
 
@@ -124,6 +129,7 @@ class Logger {
       color = "#dddddd",
       data,
       description,
+      error,
     } = config
 
     if (!this.srv.chalk) return
@@ -157,6 +163,10 @@ class Logger {
           2,
         ),
       )
+    }
+
+    if (error) {
+      this.srv.consola.error(error)
     }
   }
 

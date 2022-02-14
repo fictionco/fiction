@@ -1,15 +1,14 @@
 /** server-only-file */
 import http from "http"
 import express from "express"
-import bodyParser from "body-parser"
-import compression from "compression"
-import helmet from "helmet"
-import cors from "cors"
+
 import { ErrorConfig, EndpointResponse } from "@factor/types"
 import { logger, _stop, decodeClientToken, onEvent } from "@factor/api"
 import { Endpoint } from "./endpoint"
 import { Queries } from "./user"
 import { Query } from "./query"
+import { createExpressApp } from "./nodeUtils"
+
 type CustomServerHandler = (
   app: express.Express,
 ) => Promise<http.Server> | http.Server
@@ -37,13 +36,7 @@ export class EndpointServer {
   }
 
   async serverCreate(): Promise<http.Server> {
-    const app = express()
-
-    app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }))
-    app.use(cors())
-    app.use(bodyParser.json())
-    app.use(bodyParser.text())
-    app.use(compression())
+    const app = createExpressApp()
 
     this.endpoints.forEach((endpoint) => {
       const { basePath, key } = endpoint

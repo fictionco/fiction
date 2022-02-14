@@ -327,8 +327,9 @@ export const clickId = (
   return { hash, selector, position }
 }
 
-export const getDeviceType = (): "mobile" | "tablet" | "laptop" | "desktop" => {
-  const width = screen.width
+export const getDeviceType = (
+  width: number,
+): "mobile" | "tablet" | "laptop" | "desktop" => {
   if (width < 600) return "mobile"
   else if (width < 950) return "tablet"
   else if (width <= 1550) return "laptop"

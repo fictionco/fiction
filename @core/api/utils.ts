@@ -173,8 +173,8 @@ export const dotSetting = <T = unknown>({
  * If the lower priority array has objects with _item or _ attribute,
  * then we merge with the higher priority array if it has object w same _item or _
  */
-export const deepMerge = <T>(
-  items: (T | undefined)[],
+export const deepMerge = <T extends Record<string, any>>(
+  items: (T | Partial<T> | undefined)[],
   options: { mergeArrays?: boolean } = {},
 ): T => {
   const mergeItems = items.filter((_) => _) as T[]
@@ -186,7 +186,7 @@ export const deepMerge = <T>(
       }
       return higherPriority
     },
-  })
+  }) as T
 
   return merged
 }

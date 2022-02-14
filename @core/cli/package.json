@@ -15,7 +15,7 @@
     "@factor/server": "4.0.29",
     "@factor/types": "4.0.29",
     "@types/nodemon": "^1.19.1",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "commander": "^9.0.0",
     "deepmerge": "^4.2.2",
     "dotenv": "^16.0.0",
