@@ -2,9 +2,10 @@ import path from "path"
 import { createRequire } from "module"
 import { emitEvent, logger } from "@factor/api"
 import { Command, OptionValues } from "commander"
-import dotenv from "dotenv"
-import pkg from "./package.json"
 
+import fs from "fs-extra"
+import pkg from "./package.json"
+import { CliOptions, done, wrapCommand, setEnvironment } from "./utils"
 const require = createRequire(import.meta.url)
 
 type EntryFile = { setup: (options: CliOptions) => Promise<void> }
@@ -26,82 +27,11 @@ export const coreServices = {
   render: { port: ServicePort.Render, service: ServiceModule.Render },
 }
 
-type BuildStages = "prod" | "pre" | "local"
-
-export type CliOptions = {
-  SERVICE?: string
-  STAGE_ENV?: BuildStages
-  NODE_ENV?: "production" | "development"
-  inspector?: boolean
-  exit?: boolean
-  portApp?: string
-  port?: string
-  serve?: boolean
-  prerender?: boolean
-  patch?: boolean
-  skipTests?: boolean
-  moduleName?: string
-}
 /**
  * Is current start a nodemon restart
  */
 export const isRestart = (): boolean => {
   return process.env.IS_RESTART == "1"
-}
-/**
- * CLI is done, exit process
- */
-export const done = (code: 0 | 1): never => {
-  logger.log({
-    level: code == 0 ? "info" : "error",
-    context: "cli",
-    description: `process exited (${code})`,
-  })
-
-  // eslint-disable-next-line unicorn/no-process-exit
-  process.exit(code)
-}
-/**
- * Opens the node inspector port
- * https://nodejs.org/api/inspector.html
- */
-const initializeNodeInspector = async (): Promise<void> => {
-  logger.log({
-    level: "info",
-    context: "cli",
-    description: `[initializing inspector]`,
-  })
-  const inspector = await import("inspector")
-  inspector.close()
-  inspector.open()
-}
-/**
- * Sets Node process and environmental variables
- */
-export const setEnvironment = (options: CliOptions): void => {
-  dotenv.config({ path: path.resolve(process.cwd(), ".env") })
-
-  if (options.NODE_ENV == "development") {
-    dotenv.config({ path: path.resolve(process.cwd(), ".dev.env") })
-  }
-
-  if (process.env.TEST_ENV) {
-    dotenv.config({ path: path.resolve(process.cwd(), ".test.env") })
-  }
-
-  const { NODE_ENV, STAGE_ENV, portApp, port, inspector } = options
-
-  process.env.NODE_ENV = NODE_ENV || "production"
-  process.env.STAGE_ENV = STAGE_ENV || "local"
-
-  // set up port handling
-  process.env.FACTOR_APP_PORT = portApp || "3000"
-  process.env.PORT = process.env.FACTOR_SERVER_PORT = port || "3210"
-
-  // run with node developer tools inspector
-  if (inspector) {
-    initializeNodeInspector().catch((error) => console.error(error))
-  }
 }
 
 /**
@@ -178,38 +108,12 @@ export const runDev = async (options: CliOptions): Promise<void> => {
     }
   }
 }
-/**
- * Standard wrap for a CLI command that exits and sanitizes input args
- */
-const wrapCommand = async (settings: {
-  NODE_ENV?: "production" | "development"
-  cb: (options: CliOptions) => Promise<void>
-  exit?: boolean
-  opts?: CliOptions
-}): Promise<void> => {
-  const { cb, exit, NODE_ENV, opts = commander.opts() as CliOptions } = settings
-  opts.NODE_ENV = NODE_ENV
 
-  setEnvironment(opts)
-
-  try {
-    await cb(opts)
-  } catch (error) {
-    logger.log({
-      level: "error",
-      context: "wrapCommand",
-      description: "command execution error",
-      data: error,
-    })
-    done(1)
-  }
-  if (exit) done(0)
-}
 /**
  * Handle the CLI using Commander
  * Set up initial Node environment
  */
-export const execute = (): void => {
+export const execute = async (): Promise<void> => {
   commander
     .version(pkg.version)
     .description("Factor CLI")
@@ -221,20 +125,28 @@ export const execute = (): void => {
     .option("-a, --port-app <number>", "primary service port")
     .option("-p, --port <number>", "server specific port")
     .option("-s, --serve", "serve static site after build")
-
     .option(
       "--NODE_ENV <NODE_ENV>",
       "node environment (development or production)",
     )
 
+  const extendCliFile = path.join(process.cwd(), "program.ts")
+  if (fs.existsSync(extendCliFile)) {
+    const extendCli = (await import(extendCliFile)) as {
+      setup: (c: Command) => void
+    }
+
+    extendCli.setup(commander)
+  }
+
   commander.command("start").action(async () => {
-    const opts = commander.opts() as CliOptions
-    await wrapCommand({ cb: (_) => runService(_), opts })
+    await wrapCommand({ cb: (_) => runService(_), opts: commander.opts() })
   })
 
   commander.command("server").action(async () => {
     await wrapCommand({
       cb: (_) => runServer(_),
+      opts: commander.opts(),
     })
   })
 
@@ -247,13 +159,12 @@ export const execute = (): void => {
     })
 
   commander.command("rdev").action(() => {
-    const opts = commander.opts() as CliOptions
-
     return wrapCommand({
       cb: (_) => runDev(_),
-      NODE_ENV: "development",
-      exit: opts.exit ?? false,
-      opts: commander.opts(),
+      opts: {
+        NODE_ENV: "development",
+        ...commander.opts(),
+      },
     })
   })
 
@@ -261,21 +172,24 @@ export const execute = (): void => {
     .command("build")
     .option("--prerender", "prerender pages")
     .action(() => {
-      const opts = commander.opts() as CliOptions
+      const cliOpts = commander.opts() as CliOptions
       return wrapCommand({
         cb: async (opts) => {
           const { buildApp } = await import("@factor/render")
           await runServer(opts)
           return buildApp(opts)
         },
-        NODE_ENV: opts.NODE_ENV ?? "production",
-        exit: opts.serve ? false : true,
-        opts,
+
+        opts: {
+          NODE_ENV: "production",
+          exit: cliOpts.serve ? false : true,
+          ...cliOpts,
+        },
       })
     })
 
   commander.command("prerender").action(() => {
-    const opts = commander.opts() as CliOptions
+    const cliOpts = commander.opts() as CliOptions
     return wrapCommand({
       cb: async (opts) => {
         opts.prerender = true
@@ -283,35 +197,40 @@ export const execute = (): void => {
         await runServer(opts)
         return buildApp(opts)
       },
-      NODE_ENV: opts.NODE_ENV || "production",
-      exit: opts.serve ? false : true,
-      opts,
+      opts: {
+        NODE_ENV: "production",
+        exit: cliOpts.serve ? false : true,
+        ...cliOpts,
+      },
     })
   })
 
   commander.command("serve").action(() => {
-    const opts = commander.opts() as CliOptions
     return wrapCommand({
       cb: async (opts) => {
         const { serveApp } = await import("@factor/render")
         return serveApp(opts)
       },
-      NODE_ENV: opts.NODE_ENV ?? "production",
-      exit: false,
-      opts,
+      opts: {
+        NODE_ENV: "production",
+        exit: false,
+        ...commander.opts(),
+      },
     })
   })
 
   commander.command("render").action(() => {
-    const opts = commander.opts() as CliOptions
+    const cliOpts = commander.opts() as CliOptions
     return wrapCommand({
-      opts,
       cb: async (opts) => {
         const { preRender } = await import("@factor/render")
         return preRender(opts)
       },
-      NODE_ENV: "production",
-      exit: opts.serve ? false : true,
+      opts: {
+        NODE_ENV: "production",
+        exit: cliOpts.serve ? false : true,
+        ...cliOpts,
+      },
     })
   })
 
@@ -320,7 +239,7 @@ export const execute = (): void => {
     .option("-pa, --patch", "patch release")
     .option("-st, --skip-tests", "skip tests")
     .action((o) => {
-      const opts = { ...commander.opts(), ...o } as CliOptions
+      const cliOpts = { ...commander.opts(), ...o } as CliOptions
 
       process.env.STAGE_ENV = "prod"
       return wrapCommand({
@@ -332,8 +251,10 @@ export const execute = (): void => {
 
           return releaseRoutine(opts)
         },
-        opts,
-        exit: true,
+        opts: {
+          exit: true,
+          ...cliOpts,
+        },
       })
     })
 
@@ -346,9 +267,15 @@ export const execute = (): void => {
     .option("--commit <commit>", "git commit id")
     .option("--outFile <outFile>", "name of output file")
     .action(async (o) => {
-      const opts = { ...commander.opts(), ...o } as CliOptions
+      const cliOpts = { ...commander.opts(), ...o } as CliOptions
       const { bundleAll } = await import("@factor/build/bundle")
-      await wrapCommand({ cb: (_) => bundleAll(_), opts, exit: true })
+      await wrapCommand({
+        cb: (_) => bundleAll(_),
+        opts: {
+          exit: true,
+          ...cliOpts,
+        },
+      })
     })
 
   commander.parse(process.argv)
@@ -358,39 +285,39 @@ export const execute = (): void => {
  * This is so we can do clean up whenever node exits (if needed)
  * https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
  */
-process.stdin.resume() //so the program will not close instantly
+// process.stdin.resume() //so the program will not close instantly
 
-const exitHandler = (options: {
-  exit?: boolean
-  shutdown?: boolean
-  code?: 0 | 1
-}): void | never => {
-  const { exit, shutdown, code = 0 } = options
-  if (shutdown) {
-    emitEvent("shutdown")
-  }
-  if (exit) {
-    done(code)
-  }
-}
+// const exitHandler = (options: {
+//   exit?: boolean
+//   shutdown?: boolean
+//   code?: 0 | 1
+// }): void | never => {
+//   const { exit, shutdown, code = 0 } = options
+//   if (shutdown) {
+//     emitEvent("shutdown")
+//   }
+//   if (exit) {
+//     done(code)
+//   }
+// }
 
-//do something when app is closing
-process.on("exit", () => exitHandler({ shutdown: true }))
+// //do something when app is closing
+// process.on("exit", () => exitHandler({ shutdown: true }))
 
-//catches ctrl+c event
-process.on("SIGINT", () => exitHandler({ exit: true }))
+// //catches ctrl+c event
+// process.on("SIGINT", () => exitHandler({ exit: true }))
 
-// catches "kill pid" (for example: nodemon restart)
-process.on("SIGUSR1", () => exitHandler({ exit: true }))
-process.on("SIGUSR2", () => exitHandler({ exit: true }))
+// // catches "kill pid" (for example: nodemon restart)
+// process.on("SIGUSR1", () => exitHandler({ exit: true }))
+// process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
-//catches uncaught exceptions
-process.on("uncaughtException", (Error) => {
-  logger.log({
-    level: "error",
-    description: "uncaught error!",
-    context: "uncaughtException",
-    data: Error,
-  })
-  done(1)
-})
+// //catches uncaught exceptions
+// process.on("uncaughtException", (Error) => {
+//   logger.log({
+//     level: "error",
+//     description: "uncaught error!",
+//     context: "uncaughtException",
+//     data: Error,
+//   })
+//   done(1)
+// })

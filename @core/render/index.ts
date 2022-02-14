@@ -1,4 +1,4 @@
-import type { CliOptions } from "@factor/cli/program"
+import type { CliOptions } from "@factor/cli/utils"
 
 import { serveApp } from "./serve"
 

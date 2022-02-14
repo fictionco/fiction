@@ -7,7 +7,7 @@ const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
 import { logger } from "@factor/api/logger"
 import { PackageJson } from "@factor/types"
-import type { CliOptions } from "@factor/cli/program"
+import type { CliOptions } from "@factor/cli/utils"
 import { isGitDirty, getPackages } from "./utils"
 
 const require = createRequire(import.meta.url)
