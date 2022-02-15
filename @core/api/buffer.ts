@@ -110,6 +110,12 @@ export class WriteBuffer<T> extends EventEmitter {
     this.checkLimit()
   }
 
+  public batch(batch: T[]): void {
+    this.items.push(...batch)
+
+    this.checkLimit()
+  }
+
   private checkLimit(): void {
     if (this.maxQueueSizeReached()) {
       this.flushBuffer()

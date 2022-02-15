@@ -65,7 +65,7 @@ export const setEnvironment = (options: CliOptions): void => {
 
   // set up port handling
   process.env.FACTOR_APP_PORT = portApp || "3000"
-  process.env.PORT = process.env.FACTOR_SERVER_PORT = port || "3210"
+  process.env.FACTOR_SERVER_PORT = port || "3210"
 
   // run with node developer tools inspector
   if (inspector) {
