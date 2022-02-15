@@ -6,6 +6,7 @@ import * as vite from "vite"
 export type ServerModuleDef = {
   id: string
   exports?: string[]
+  external?: boolean
   resolvedId?: string
 }
 
@@ -111,7 +112,9 @@ export const getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
         return {
           build: {
             rollupOptions: {
-              external: serverOnlyModules.map((_) => _.id),
+              external: serverOnlyModules
+                .filter((_) => _.external)
+                .map((_) => _.id),
             },
           },
         }

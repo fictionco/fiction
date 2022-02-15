@@ -1,5 +1,4 @@
-type LocalScope = "functional" | "tracking" | "session"
-type LocalType = "session" | "persistent" | "all"
+type LocalPersistence = "session" | "forever" | "all"
 
 const hasStorage = (): boolean => {
   if (
@@ -12,8 +11,7 @@ const hasStorage = (): boolean => {
 
 interface SetLocalBase {
   key: string
-  scope?: LocalScope
-  type?: LocalType
+  persist?: LocalPersistence
 }
 
 type SetLocalArgs<T = unknown> = T extends string
@@ -21,7 +19,7 @@ type SetLocalArgs<T = unknown> = T extends string
   : SetLocalBase & { raw?: undefined; value: T }
 
 export const setLocal = <T = unknown>(args: SetLocalArgs<T>): void => {
-  const { key, value, type = "persistent", raw } = args
+  const { key, value, persist = "forever", raw } = args
 
   if (!hasStorage()) return
 
@@ -32,7 +30,7 @@ export const setLocal = <T = unknown>(args: SetLocalArgs<T>): void => {
     v = JSON.stringify(value)
   }
 
-  if (type == "session") {
+  if (persist == "session") {
     sessionStorage.setItem(key, v)
   } else {
     localStorage.setItem(key, v)
@@ -41,7 +39,7 @@ export const setLocal = <T = unknown>(args: SetLocalArgs<T>): void => {
 
 interface LocalArgs {
   key: string
-  type?: LocalType
+  persist?: LocalPersistence
   raw?: boolean
 }
 

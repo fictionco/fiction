@@ -1,5 +1,6 @@
 import { finder } from "@medv/finder"
 import { fastHash, isNode } from "./utils"
+import { logger } from "./logger"
 
 export interface ClickOffsetPosition {
   targetWidth: number
@@ -25,6 +26,7 @@ export type BrowserEvent =
   | "beforeunload"
   | "visibilitychange"
   | "dragstart"
+  | "error"
 
 type BrowserEventObject<T> = T extends "mousemove" | "mousedown" | "click"
   ? MouseEvent
@@ -34,6 +36,8 @@ type BrowserEventObject<T> = T extends "mousemove" | "mousedown" | "click"
   ? KeyboardEvent
   : T extends "dragstart"
   ? DragEvent
+  : T extends "error"
+  ? ErrorEvent
   : Event
 
 /**
@@ -75,73 +79,99 @@ export const onBrowserEvent = <T extends BrowserEvent>(
  * Watches browser activity and calls functions based on
  * changes of state or idle time (no interactions)
  */
-export const activityTrigger = ({
-  onIdle = (): void => {},
-  onActive = (): void => {},
-  onEngage = (): void => {},
-  idleSeconds = 5,
-}: {
-  onIdle?: (t: number) => void
-  onActive?: (b: BrowserEvent) => void
-  onEngage?: (b: BrowserEvent) => void
-  idleSeconds?: number
-}): (() => void) => {
-  let __timer: NodeJS.Timeout | undefined = undefined
-  let __isIdle = false
-  let __lastEngage: number
-  let __activeStart: number = +Date.now()
-  const __timeWindow: number = idleSeconds * 1000
-
-  const setIdle = (timeIdle = 0): void => {
-    __isIdle = true
-    onIdle(timeIdle)
+export class ActivityTrigger {
+  private onIdle: (t: number) => void
+  private onActive: (ev: BrowserEvent) => void
+  private onEngage: (ev: BrowserEvent) => void
+  private idleSeconds: number
+  private timer: NodeJS.Timeout | undefined = undefined
+  private lastEngage: number
+  private activeStart: number
+  private isIdle = false
+  private clear: (() => void)[] = []
+  constructor({
+    onIdle = (): void => {},
+    onActive = (): void => {},
+    onEngage = (): void => {},
+    idleSeconds = 5,
+  }: {
+    onIdle?: (t: number) => void
+    onActive?: (b: BrowserEvent) => void
+    onEngage?: (b: BrowserEvent) => void
+    idleSeconds?: number
+  }) {
+    this.onIdle = onIdle
+    this.onActive = onActive
+    this.onEngage = onEngage
+    this.idleSeconds = idleSeconds
+    this.activeStart = +Date.now()
+    this.lastEngage = +Date.now()
+    this.watch()
   }
 
-  const setActive = (browserEvent: BrowserEvent): void => {
-    __activeStart = +Date.now()
-    __isIdle = false
-    onActive(browserEvent)
+  public reset(): void {
+    if (this.clear.length > 0) {
+      this.clear.forEach((cb) => cb())
+    }
   }
 
-  const setEngage = (browserEvent: BrowserEvent): void => {
-    __lastEngage = +Date.now()
+  private timeWindow(): number {
+    return this.idleSeconds * 1000
+  }
 
-    // user has gone from idle to active
-    if (__isIdle) {
-      setActive(browserEvent)
+  private setIdle(timeIdle = 0): void {
+    this.isIdle = true
+    this.onIdle(timeIdle)
+  }
+
+  private setActive(browserEvent: BrowserEvent): void {
+    this.activeStart = +Date.now()
+    this.isIdle = false
+    this.onActive(browserEvent)
+  }
+
+  private setEngage(browserEvent: BrowserEvent): void {
+    this.lastEngage = +Date.now()
+    if (this.isIdle) {
+      this.setActive(browserEvent)
     }
 
-    if (onEngage) onEngage(browserEvent)
+    this.onEngage(browserEvent)
   }
 
-  __timer = setInterval(() => {
-    if (!__isIdle) {
-      const now = +Date.now()
-      if (now > __lastEngage + __timeWindow) {
-        const secondsActive = Math.round((__lastEngage - __activeStart) / 1000)
-        setIdle(secondsActive + 5) // 5 seconds grace period
+  private watch(): void {
+    this.setEngage("init")
+
+    const clearWatchers = [
+      onBrowserEvent("load", () => this.setEngage("load")),
+      onBrowserEvent("mousemove", () => this.setEngage("mousemove")),
+      onBrowserEvent("mousedown", () => this.setEngage("mousedown")),
+      onBrowserEvent("touchstart", () => this.setEngage("touchstart")),
+      onBrowserEvent("click", () => this.setEngage("click")),
+      onBrowserEvent("keypress", () => this.setEngage("keypress")),
+      onBrowserEvent("scroll", () => this.setEngage("scroll")),
+    ]
+
+    this.timer = setInterval(() => {
+      if (!this.isIdle) {
+        const now = +Date.now()
+        if (now > this.lastEngage + this.timeWindow()) {
+          const secondsActive = Math.round(
+            (this.lastEngage - this.activeStart) / 1000,
+          )
+          this.setIdle(secondsActive + 5) // 5 seconds grace period
+        }
       }
-    }
-  }, 1000)
+    }, 1000)
 
-  setEngage("init")
-
-  const clearWatchers = [
-    onBrowserEvent("load", () => setEngage("load")),
-    onBrowserEvent("mousemove", () => setEngage("mousemove")),
-    onBrowserEvent("mousedown", () => setEngage("mousedown")),
-    onBrowserEvent("touchstart", () => setEngage("touchstart")),
-    onBrowserEvent("click", () => setEngage("click")),
-    onBrowserEvent("keypress", () => setEngage("keypress")),
-    onBrowserEvent("scroll", () => setEngage("scroll")),
-  ]
-
-  return (): void => {
-    if (__timer) clearTimeout(__timer)
-    clearWatchers.forEach((clearWatcher) => clearWatcher())
+    this.clear = [
+      () => {
+        if (this.timer) clearInterval(this.timer)
+      },
+      ...clearWatchers,
+    ]
   }
 }
-
 /**
  * Gets the URL if set by <link ref="canonical"> tag
  */
@@ -335,3 +365,83 @@ export const getDeviceType = (
   else if (width <= 1550) return "laptop"
   else return "desktop"
 }
+
+export type OffloadEvent =
+  | "pagehide"
+  | "unload"
+  | "visibilitychange"
+  | "historyChange"
+  | "leftIdle"
+  | "windowBlur"
+  | "expireSession"
+
+type EventCallback = (offloadType: OffloadEvent) => void
+
+class UnloadHandler {
+  private unloadCallbacks: EventCallback[] = []
+  private unloadWatchers: (() => void)[] = []
+  public unloaded: boolean = false
+  focused: boolean = true
+  private timer: NodeJS.Timeout | undefined = undefined
+
+  public clear(): void {
+    this.unloadWatchers.forEach((clearWatcher) => clearWatcher())
+    this.unloadWatchers = []
+    this.unloadCallbacks = []
+  }
+
+  private unload(offloadType: OffloadEvent): void {
+    logger.log({
+      level: "info",
+      context: "unload",
+      description: `maybe unload: ${this.unloaded}`,
+    })
+    if (!this.unloaded) {
+      this.unloadCallbacks.forEach((cb) => cb(offloadType))
+      this.unloaded = true
+    }
+  }
+
+  private timedUnload(args: { reason: OffloadEvent; wait?: number }): void {
+    const { reason, wait = 30_000 } = args
+    if (this.timer) clearTimeout(this.timer)
+
+    this.focused = true
+    this.timer = setTimeout(() => {
+      if (!this.focused) {
+        this.unload(reason)
+      }
+    }, wait)
+  }
+
+  public onUnload(cb: EventCallback): void {
+    this.unloadCallbacks.push(cb)
+    if (this.unloadWatchers.length == 0) {
+      this.unloadWatchers = [
+        onBrowserEvent("pagehide", () => this.unload("pagehide")),
+        onBrowserEvent("beforeunload", () => this.unload("unload")),
+        onBrowserEvent(
+          "visibilitychange",
+          () => {
+            const v = document.visibilityState
+            if (v === "hidden") {
+              this.timedUnload({ reason: "visibilitychange" })
+            } else if (v == "visible") {
+              this.focused = true
+            }
+          },
+          document,
+        ),
+        // blur events should only trigger exit if the window isn't
+        // refocused within 60s
+        onBrowserEvent("blur", () => {
+          this.timedUnload({ reason: "windowBlur", wait: 120_000 })
+        }),
+        onBrowserEvent("focus", () => (this.focused = true)),
+        onBrowserEvent("mousemove", () => (this.focused = true)),
+      ]
+    }
+  }
+}
+
+export const UnloadUtility = new UnloadHandler()
