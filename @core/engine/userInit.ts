@@ -1,9 +1,9 @@
-import { FullUser, PrivateUser } from "@factor/types"
+import { FullUser, PrivateUser, AuthCallback } from "@factor/types"
 
 import { clientToken } from "@factor/api/jwt"
 import { logger } from "@factor/api/logger"
-import { routeAuthRedirects } from "@factor/api/router"
-import { currentUser, setCurrentUser, logout } from "@factor/api"
+import { currentUser, setCurrentUser, logout, isSearchBot } from "@factor/api"
+import { getRouter } from "@factor/api/router"
 import { getEndpointsMap } from "./user"
 
 /**
@@ -30,6 +30,44 @@ export const userInitialized = async (
   if (callback) callback(currentUser())
 
   return currentUser()
+}
+
+interface RouteAuthConfig {
+  required?: boolean
+  redirect?: string
+  allowBots?: boolean
+}
+
+export const routeAuthRedirects = async (
+  user: FullUser | undefined,
+): Promise<void> => {
+  const router = getRouter()
+  await router.isReady()
+  const { matched } = router.currentRoute.value
+
+  let authConfig: RouteAuthConfig = { redirect: "/" }
+  matched.forEach(({ meta: { auth } }) => {
+    if (auth) {
+      authConfig = { ...authConfig, ...(auth as RouteAuthConfig) }
+    }
+  })
+
+  for (const matchedRoute of matched) {
+    const auth = matchedRoute.meta.auth as AuthCallback
+    if (auth) {
+      const redirect = await auth({ user, searchBot: isSearchBot() })
+
+      if (redirect) {
+        logger.log({
+          level: "info",
+          context: "router",
+          description: "auth required redirect",
+          data: { redirect },
+        })
+        await router.push({ path: redirect })
+      }
+    }
+  }
 }
 
 /**

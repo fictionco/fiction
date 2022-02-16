@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@factor/types": "4.0.31",
+    "@factor/engine": "4.0.31",
     "@medv/finder": "^2.1.0",
     "@types/blueimp-load-image": "^5.14.0",
     "@types/js-cookie": "^3.0.0",

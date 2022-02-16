@@ -1,4 +1,5 @@
-import { resetUi, getRouter } from "@factor/api"
+import { resetUi } from "@factor/api"
+import { getRouter } from "@factor/api/router"
 import { watch } from "vue"
 export const initializeWindow = async (): Promise<void> => {
   const router = getRouter()

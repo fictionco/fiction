@@ -1,8 +1,8 @@
 import { HeadClient } from "@vueuse/head"
 import { App } from "vue"
-import { Router, RouteRecordRaw } from "vue-router"
+import { Router } from "vue-router"
 import { Store } from "vuex"
-import { AppRoute } from "@factor/engine/routes"
+import { AppRoute } from "@factor/api/router"
 import { Endpoint } from "@factor/engine/endpoint"
 import type { ServerModuleDef } from "@factor/render/buildPlugins"
 import { FullUser } from "./user"
@@ -86,6 +86,6 @@ export type UserConfigApp = Partial<UserConfigAppOptions>
 
 export interface UserConfigAppOptions {
   name?: string
-  routes: AppRoute[]
+  routes: AppRoute<string>[]
   plugins: FactorPluginConfig<UserConfigAppOptions>[]
 }

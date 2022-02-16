@@ -27,6 +27,7 @@ export interface PriorityItem {
 export type RawListItem = ListItem | string
 
 export type MenuItem = {
+  key?: string
   name: string
   icon?: string
   route?: string

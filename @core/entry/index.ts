@@ -7,7 +7,7 @@ import * as mainFile from "@src/index.ts"
 import App from "@src/App.vue"
 
 import { isNode } from "@factor/api/utils"
-import { getRouter, addRoutes } from "@factor/api/router"
+import { getRouter, setupRouter } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
 import { setupPlugins } from "@factor/api/extend"
 import { logger } from "@factor/api/logger"
@@ -40,7 +40,7 @@ const setupApp = async (): Promise<UserConfigApp> => {
   }
 
   if (userConfig.routes) {
-    addRoutes(userConfig.routes)
+    setupRouter(userConfig.routes)
   }
 
   return userConfig

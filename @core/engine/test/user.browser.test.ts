@@ -1,6 +1,6 @@
 import { expect, it, describe, vi } from "vitest"
 import { FullUser } from "@factor/types"
-import { decodeClientToken } from "@factor/api"
+import { decodeClientToken } from "@factor/api/jwt"
 import { getEndpointsMap } from "../user"
 import * as em from "../email"
 let user: Partial<FullUser>

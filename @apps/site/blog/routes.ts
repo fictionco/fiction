@@ -1,16 +1,21 @@
+import { AppRoute } from "@factor/api"
+
 export const routes = [
-  {
+  new AppRoute({
+    key: "blog",
     path: "/blog",
     component: (): any => import("./components/PageWrap.vue"),
-    children: [
-      {
-        path: "/blog",
-        component: (): any => import("./components/PageIndex.vue"),
-      },
-      {
-        path: `/blog/:slug`,
-        component: (): any => import("./components/PageSingle.vue"),
-      },
-    ],
-  },
+  }),
+  new AppRoute({
+    key: "blogIndex",
+    path: "/blog",
+    parent: "blog",
+    component: (): any => import("./components/PageIndex.vue"),
+  }),
+  new AppRoute({
+    key: "blogSingle",
+    path: `/blog/:slug`,
+    parent: "blog",
+    component: (): any => import("./components/PageSingle.vue"),
+  }),
 ]
