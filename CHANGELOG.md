@@ -1,3 +1,17 @@
+# [4.1.0](https://github.com/FactorJS/factor/compare/v4.0.31...v4.1.0) (2022-02-16)
+
+
+### Bug Fixes
+
+* import order ([2361957](https://github.com/FactorJS/factor/commit/236195779918a3f5846ab3c9dd8696e739455425))
+
+
+### Features
+
+* new route system ([7ad2610](https://github.com/FactorJS/factor/commit/7ad261032f43a683761a4afad38ed57683367574))
+
+
+
 ## [4.0.31](https://github.com/FactorJS/factor/compare/v4.0.30...v4.0.31) (2022-02-16)
 
 
