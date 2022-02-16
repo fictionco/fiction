@@ -148,9 +148,9 @@ import {
 import ElButton from "@factor/ui/ElButton.vue"
 import { ref } from "vue"
 
+import { useRouter } from "vue-router"
 import { docs, groups } from "../map"
 import DocSearch from "./DocSearch.vue"
-import { useRouter } from "vue-router"
 export default {
   components: {
     ElButton,

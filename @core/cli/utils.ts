@@ -18,12 +18,14 @@ export type CliOptions = {
   moduleName?: string
 }
 
-export const done = (code: 0 | 1): never => {
-  logger.log({
-    level: code == 0 ? "info" : "error",
-    context: "cli",
-    description: `process exited (${code})`,
-  })
+export const done = (code: 0 | 1, log = `exited process`): never => {
+  if (log) {
+    logger.log({
+      level: code == 0 ? "info" : "error",
+      context: "cli",
+      description: `${log} (${code})`,
+    })
+  }
 
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(code)

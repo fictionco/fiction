@@ -102,8 +102,8 @@
 </template>
 
 <script lang="ts" setup>
-import { map as showcase } from "./map"
 import { useRouter } from "vue-router"
+import { map as showcase } from "./map"
 const router = useRouter()
 
 const goToPermalink = async (permalink?: string): Promise<void> => {

@@ -29,7 +29,7 @@ interface LoggerArgs {
   context?: string
   description?: string
   data?: Record<string, any> | unknown
-  error?: Error
+  error?: Error | unknown
   disableOnRestart?: boolean
   priority?: number
   color?: string

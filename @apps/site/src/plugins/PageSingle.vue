@@ -67,8 +67,8 @@
 </template>
 
 <script lang="ts" setup>
-import { map as plugins } from "./map"
 import { useRouter } from "vue-router"
+import { map as plugins } from "./map"
 const router = useRouter()
 
 const goToPermalink = async (permalink?: string): Promise<void> => {

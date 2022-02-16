@@ -60,7 +60,7 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
   nodemon
     .on("log", () => {})
     .on("start", () => {})
-    .on("quit", () => done(0))
+    .on("quit", () => done(0, "exited nodemon"))
     .on("restart", (files: string[]) => {
       process.env.IS_RESTART = "1"
       logger.log({
@@ -304,12 +304,12 @@ const exitHandler = (options: {
 //do something when app is closing
 process.on("exit", () => exitHandler({ shutdown: true }))
 
-//catches ctrl+c event
-process.on("SIGINT", () => exitHandler({ exit: true }))
+// //catches ctrl+c event
+// process.on("SIGINT", () => exitHandler({ exit: true }))
 
-// catches "kill pid" (for example: nodemon restart)
-process.on("SIGUSR1", () => exitHandler({ exit: true }))
-process.on("SIGUSR2", () => exitHandler({ exit: true }))
+// // catches "kill pid" (for example: nodemon restart)
+// process.on("SIGUSR1", () => exitHandler({ exit: true }))
+// process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
 //catches uncaught exceptions
 process.on("uncaughtException", (Error) => {

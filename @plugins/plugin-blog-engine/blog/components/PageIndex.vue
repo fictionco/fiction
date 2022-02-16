@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import PostList from "./PostList.vue"
 
 import dayjs from "dayjs"
 import { useMeta } from "@factor/api"
+import PostList from "./PostList.vue"
 export default {
   components: {
     PostList,

@@ -71,7 +71,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inputs } from "."
 import {
   ComponentPublicInstance,
   computed,
@@ -80,6 +79,7 @@ import {
   ref,
   useAttrs,
 } from "vue"
+import { inputs } from "."
 
 const props = defineProps({
   modelValue: {

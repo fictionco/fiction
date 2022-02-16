@@ -254,10 +254,10 @@
   </header>
 </template>
 <script lang="ts" setup>
-import ElemLogo from "./ElLogo.vue"
-import ElemGithubStars from "./ElGithubStars.vue"
 import { ref } from "vue"
 import { onResetUi } from "@factor/api"
+import ElemLogo from "./ElLogo.vue"
+import ElemGithubStars from "./ElGithubStars.vue"
 const mobileMenu = ref(false)
 onResetUi(() => (mobileMenu.value = false))
 

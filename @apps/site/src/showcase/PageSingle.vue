@@ -115,9 +115,9 @@
 </template>
 <script lang="ts" setup>
 import { computed, ref, watch, onMounted } from "vue"
-import { map as showcase } from "./map"
 import { useRouter } from "vue-router"
 import ElButton from "@factor/ui/ElButton.vue"
+import { map as showcase } from "./map"
 
 const animationInterval = 3000
 const timer = ref()

@@ -10,8 +10,8 @@
 <script lang="ts" setup>
 import { routeRequiresAuth } from "@factor/api"
 import { userInitialized } from "@factor/engine"
-import ElSpinner from "./ElSpinner.vue"
 import { onMounted, ref } from "vue"
+import ElSpinner from "./ElSpinner.vue"
 
 const authLoading = ref(false)
 

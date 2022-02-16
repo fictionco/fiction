@@ -30,7 +30,7 @@ export const serverUrl = (): string => {
 export const createEndpointServer = async (
   port: string,
   config: UserConfigServer,
-): Promise<http.Server> => {
+): Promise<http.Server | undefined> => {
   const { endpoints = [] } = config
 
   // Set this global to enable URL calc

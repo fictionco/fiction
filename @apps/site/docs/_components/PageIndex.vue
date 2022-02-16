@@ -69,10 +69,10 @@
 </template>
 
 <script lang="ts">
-import WelcomeBanner from "./WelcomeBanner.vue"
 import { useMeta } from "@factor/api"
-import { groups } from "../map"
 import { computed } from "vue"
+import { groups } from "../map"
+import WelcomeBanner from "./WelcomeBanner.vue"
 export default {
   components: { WelcomeBanner },
   setup() {

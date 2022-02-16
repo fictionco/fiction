@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import Content from "./Content.vue"
 import LoadingVeil from "@factor/ui/LoadingVeil.vue"
 import NotifyToaster from "@factor/plugin-notify/NotifyToaster.vue"
+import Content from "./Content.vue"
 </script>

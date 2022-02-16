@@ -14,9 +14,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import PostList from "../../blog/components/PostList.vue"
 import { ref } from "vue"
 import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"
+import PostList from "../../blog/components/PostList.vue"
 
 const content = ref<PostEntryConfig[]>([])
 

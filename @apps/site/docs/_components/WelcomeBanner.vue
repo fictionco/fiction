@@ -45,8 +45,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import screenshot from "../screenshot.webp"
 import ElButton from "@factor/ui/ElButton.vue"
+import screenshot from "../screenshot.webp"
 
 defineProps({
   title: { type: String, default: "" },

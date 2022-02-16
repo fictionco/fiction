@@ -35,43 +35,52 @@ export class EndpointServer {
     this.customServer = customServer
   }
 
-  async serverCreate(): Promise<http.Server> {
-    const app = createExpressApp()
+  async serverCreate(): Promise<http.Server | undefined> {
+    try {
+      const app = createExpressApp()
 
-    this.endpoints.forEach((endpoint) => {
-      const { basePath, key } = endpoint
+      this.endpoints.forEach((endpoint) => {
+        const { basePath, key } = endpoint
 
-      app.use(`${basePath}/${key}`, this.endpointAuthorization)
-      app.use(`${basePath}/${key}`, async (request, response) => {
-        const result = await endpoint.serveRequest(request)
-        delete result.internal
-        response.status(200).send(result).end()
+        app.use(`${basePath}/${key}`, this.endpointAuthorization)
+        app.use(`${basePath}/${key}`, async (request, response) => {
+          const result = await endpoint.serveRequest(request)
+          delete result.internal
+          response.status(200).send(result).end()
+        })
       })
-    })
 
-    app.use("/health", (request, response) => {
-      response.status(200).send({ status: "success", message: "ok" }).end()
-    })
+      app.use("/health", (request, response) => {
+        response.status(200).send({ status: "success", message: "ok" }).end()
+      })
 
-    if (this.middleware) {
-      await this.middleware(app)
-    }
-
-    const server: http.Server = await new Promise(async (resolve) => {
-      let s: http.Server
-      if (this.customServer) {
-        s = await this.customServer(app)
-        s.listen(this.port, () => resolve(s))
-      } else {
-        s = app.listen(this.port, () => resolve(s))
+      if (this.middleware) {
+        await this.middleware(app)
       }
-    })
 
-    onEvent("shutdown", () => {
-      server.close()
-    })
+      const server: http.Server = await new Promise(async (resolve) => {
+        let s: http.Server
+        if (this.customServer) {
+          s = await this.customServer(app)
+          s.listen(this.port, () => resolve(s))
+        } else {
+          s = app.listen(this.port, () => resolve(s))
+        }
+      })
 
-    return server
+      onEvent("shutdown", () => {
+        server.close()
+      })
+
+      return server
+    } catch (error) {
+      logger.log({
+        level: "error",
+        context: "serverCreate",
+        description: "server create err",
+        error,
+      })
+    }
   }
   /**
    * Takes authorization header with bearer token and converts it into a user for subsequent endpoint operations
