@@ -380,8 +380,8 @@ type EventCallback = (offloadType: OffloadEvent) => void
 class UnloadHandler {
   private unloadCallbacks: EventCallback[] = []
   private unloadWatchers: (() => void)[] = []
-  public unloaded: boolean = false
-  focused: boolean = true
+  public unloaded = false
+  focused = true
   private timer: NodeJS.Timeout | undefined = undefined
 
   public clear(): void {

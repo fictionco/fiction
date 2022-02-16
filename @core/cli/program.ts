@@ -285,39 +285,39 @@ export const execute = async (): Promise<void> => {
  * This is so we can do clean up whenever node exits (if needed)
  * https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
  */
-// process.stdin.resume() //so the program will not close instantly
+process.stdin.resume() //so the program will not close instantly
 
-// const exitHandler = (options: {
-//   exit?: boolean
-//   shutdown?: boolean
-//   code?: 0 | 1
-// }): void | never => {
-//   const { exit, shutdown, code = 0 } = options
-//   if (shutdown) {
-//     emitEvent("shutdown")
-//   }
-//   if (exit) {
-//     done(code)
-//   }
-// }
+const exitHandler = (options: {
+  exit?: boolean
+  shutdown?: boolean
+  code?: 0 | 1
+}): void | never => {
+  const { exit, shutdown, code = 0 } = options
+  if (shutdown) {
+    emitEvent("shutdown")
+  }
+  if (exit) {
+    done(code)
+  }
+}
 
-// //do something when app is closing
-// process.on("exit", () => exitHandler({ shutdown: true }))
+//do something when app is closing
+process.on("exit", () => exitHandler({ shutdown: true }))
 
-// //catches ctrl+c event
-// process.on("SIGINT", () => exitHandler({ exit: true }))
+//catches ctrl+c event
+process.on("SIGINT", () => exitHandler({ exit: true }))
 
-// // catches "kill pid" (for example: nodemon restart)
-// process.on("SIGUSR1", () => exitHandler({ exit: true }))
-// process.on("SIGUSR2", () => exitHandler({ exit: true }))
+// catches "kill pid" (for example: nodemon restart)
+process.on("SIGUSR1", () => exitHandler({ exit: true }))
+process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
-// //catches uncaught exceptions
-// process.on("uncaughtException", (Error) => {
-//   logger.log({
-//     level: "error",
-//     description: "uncaught error!",
-//     context: "uncaughtException",
-//     data: Error,
-//   })
-//   done(1)
-// })
+//catches uncaught exceptions
+process.on("uncaughtException", (Error) => {
+  logger.log({
+    level: "error",
+    description: "uncaught error!",
+    context: "uncaughtException",
+    data: Error,
+  })
+  done(1)
+})

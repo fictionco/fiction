@@ -80,5 +80,5 @@ describe("build tests", () => {
       _process.cancel()
       _process.kill("SIGTERM")
     }
-  })
+  }, 20_000)
 })
