@@ -1,3 +1,4 @@
+/// <reference path="./shim.d.ts" />
 import { FactorTable } from "@factor/types"
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
