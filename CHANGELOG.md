@@ -1,3 +1,19 @@
+## [4.0.31](https://github.com/FactorJS/factor/compare/v4.0.30...v4.0.31) (2022-02-16)
+
+
+### Bug Fixes
+
+* f ([5004b90](https://github.com/FactorJS/factor/commit/5004b9088bec7441c017237a1b9a1aeef72223ba))
+* lint ([2e24680](https://github.com/FactorJS/factor/commit/2e246801a6dbe2c2ffa137ff1c149e3a42b17b61))
+* tsc ([6674a5b](https://github.com/FactorJS/factor/commit/6674a5bc69be0100a8e1573d78ea8561388d221e))
+
+
+### Features
+
+* new tracking api stuff ([17968c4](https://github.com/FactorJS/factor/commit/17968c4eecc96096764f3c8d2c3ac11d336d9e68))
+
+
+
 ## [4.0.30](https://github.com/FactorJS/factor/compare/v4.0.29...v4.0.30) (2022-02-14)
 
 
