@@ -1,16 +1,16 @@
 {
   "name": "@factor/plugin-stripe",
-  "version": "4.1.2",
+  "version": "4.1.3",
   "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "4.1.2",
-    "@factor/engine": "4.1.2",
-    "@factor/server": "4.1.2",
-    "@factor/types": "4.1.2",
+    "@factor/api": "4.1.3",
+    "@factor/engine": "4.1.3",
+    "@factor/server": "4.1.3",
+    "@factor/types": "4.1.3",
     "@stripe/stripe-js": "^1.13.2",
     "express": "^4.17.1",
     "stripe": "^8.49.0"
