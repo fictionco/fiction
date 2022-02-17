@@ -4,6 +4,7 @@
   "main": "index.ts",
   "publishConfig": {},
   "scripts": {
+    "prerender": "npm exec -w @factor/site -- factor prerender",
     "deploy": "npm release && npm push-release",
     "site": "npm -w @factor/site exec -- factor dev",
     "release": "npm exec -- factor release",

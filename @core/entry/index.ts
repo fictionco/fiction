@@ -1,10 +1,5 @@
 import "@factor/api"
 import "tailwindcss/tailwind.css"
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import * as mainFile from "@src/index.ts"
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import App from "@src/App.vue"
 
 import { isNode } from "@factor/api/utils"
 import { getRouter, setupRouter } from "@factor/api/router"
@@ -15,6 +10,12 @@ import { FactorAppEntry, UserConfigApp } from "@factor/types"
 import { createHead } from "@vueuse/head"
 import { App as VueApp, createSSRApp, createApp } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
+
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
+import * as mainFile from "@src/index.ts"
+// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
+import App from "@src/App.vue"
 import { initializeWindow } from "./init"
 
 /**

@@ -46,7 +46,7 @@ export const getIndexHtml = async (
     throw new Error(`no index.html in app (${srcHtml})`)
   }
 
-  const rawTemplate = fs.readFileSync(srcHtml, "utf-8")
+  const rawTemplate = fs.readFileSync(srcHtml, "utf8")
 
   const clientTemplatePath =
     mode == "production"
@@ -95,7 +95,7 @@ export const htmlGenerators = async (
   const out = { mode, template: "", manifest: {} }
   if (mode == "production") {
     fs.ensureDirSync(path.join(distFolder(), "client"))
-    out.template = fs.readFileSync(resolveDist("./client/index.html"), "utf-8")
+    out.template = fs.readFileSync(resolveDist("./client/index.html"), "utf8")
     out.manifest = require(resolveDist("./client/ssr-manifest.json")) as Record<
       string,
       any
@@ -152,8 +152,9 @@ export const renderParts = async (args: {
      * on the context. Allowing us to orchestrate based on this.
      */
 
-    const ctx: { modules?: string[] } = { modules: [] }
+    const ctx: { modules?: string[] } = {}
     out.appHtml = await renderToString(app, ctx)
+
     /**
      * SSR manifest maps assets which allows us to render preload links for performance
      */

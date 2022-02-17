@@ -44,14 +44,14 @@
     "vite": "^2.3.6",
     "vite-plugin-markdown": "^2.0.0",
     "vue": "^3.0.11",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "cjs-module-lexer": "^1.2.2",
+    "es-module-lexer": "^0.9.3"
   },
   "devDependencies": {
     "@babel/parser": "^7.17.0",
     "@factor/cli": "4.1.1",
     "@types/compression": "^1.7.0",
-    "cjs-module-lexer": "^1.2.2",
-    "es-module-lexer": "^0.9.3",
     "execa": "^6.0.0",
     "fs-extra": "^10.0.0",
     "handlebars": "^4.7.6",
