@@ -45,8 +45,6 @@ export type FactorPluginConfigApp = FactorPluginConfig<UserConfigAppOptions>
 
 export type UserConfigServer = Partial<UserConfigServerOptions>
 
-export type AnyUserConfig = UserConfigApp & UserConfigServer
-
 /**
  * Determine callback by hook
  * https://github.com/microsoft/TypeScript/issues/36444

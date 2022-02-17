@@ -18,12 +18,16 @@ type IsActiveCallback = (c: {
   menuItem?: MenuItem
 }) => boolean | undefined
 
+export type RouteKeysUnion<T extends AppRoute<string>[]> = {
+  [K in keyof T]: T[K] extends AppRoute<infer T> ? T : never
+}[number]
+
 export type AppRouteParams<T extends string> = {
   key: T
   name?: string
   path: string
   icon?: string
-
+  menus?: string[]
   isActive?: IsActiveCallback
   parent?: string
   priority?: number
@@ -39,6 +43,7 @@ export class AppRoute<T extends string> {
   key: T
   name: string
   path: string
+  menus: string[]
   icon?: string
   component?: (() => Promise<Component>) | Component
   isActive?: IsActiveCallback
@@ -60,6 +65,7 @@ export class AppRoute<T extends string> {
       parent,
       priority,
       external,
+      menus,
     } = params
     this.key = key
     this.name = name || toLabel(key)
@@ -71,6 +77,7 @@ export class AppRoute<T extends string> {
     this.parent = parent
     this.external = external
     this.priority = priority ? priority : parent ? 200 : 100
+    this.menus = menus || []
   }
 }
 
