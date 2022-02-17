@@ -23,7 +23,7 @@ const renderPreloadLink = (file: string): string => {
 
 export const renderPreloadLinks = (
   modules: string[],
-  manifest: Record<string, any>,
+  manifest: Record<string, any[]>,
 ): string => {
   let links = ""
   const seen = new Set()

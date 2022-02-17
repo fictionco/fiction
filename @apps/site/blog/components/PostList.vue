@@ -65,7 +65,7 @@ import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"
 
 const content = ref<PostEntryConfig[]>([])
 
-const setContent = async () => {
+const setContent = async (): void => {
   content.value = await getIndexContent()
 
   return

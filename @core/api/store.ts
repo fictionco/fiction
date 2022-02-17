@@ -45,7 +45,7 @@ export const createStore = (): Vuex.Store<Record<string, any>> => {
 /**
  * Gets the primary store and creates it if it doesn't exist
  */
-export const getStore = (): Vuex.Store<Record<string, any>> => {
+export const getStore = (): Vuex.Store<Record<string, unknown>> => {
   let store: Vuex.Store<Record<string, any>> | undefined = getGlobal("store")
   if (!store) {
     store = createStore()
@@ -71,7 +71,11 @@ export const stored = <T = unknown>(
 ): T | undefined => {
   if (!key) return
 
-  return getStore().getters["getItem"](key)
+  const getters = getStore().getters as {
+    getItem: (s: string | number | Date) => T | undefined
+  }
+
+  return getters["getItem"](key)
 }
 
 export const getStoreState = (): Vuex.Store<Record<string, any>>["state"] => {

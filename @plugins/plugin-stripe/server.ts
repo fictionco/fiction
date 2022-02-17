@@ -1,8 +1,9 @@
 import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
+import { logger } from "@factor/api"
+import { Endpoint } from "@factor/engine"
 import { getPaymentEndpointsMap } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
 import { StripeOptions, createSettings, stripeEnv } from "."
-
 export default async (
   options: Partial<StripeOptions>,
 ): Promise<FactorPluginConfigServer> => {
@@ -20,19 +21,28 @@ export default async (
           ? process.env.STRIPE_SECRET_KEY_LIVE
           : process.env.STRIPE_SECRET_KEY_TEST
 
+      let endpoints: Endpoint[] = []
       if (!stripePublicKey) {
-        throw new Error(`Stripe public key is missing: '${stripeEnv()}'`)
-      }
-
-      if (!stripeSecretKey) {
-        throw new Error(`Stripe secret key is missing: '${stripeEnv()}'`)
+        logger.log({
+          level: "error",
+          context: "StripePlugin",
+          description: `Stripe public key is missing: '${stripeEnv()}'`,
+        })
+      } else if (!stripeSecretKey) {
+        logger.log({
+          level: "error",
+          context: "StripePlugin",
+          description: `Stripe secret key is missing: '${stripeEnv()}'`,
+        })
+      } else {
+        endpoints = [
+          ...Object.values(getPaymentEndpointsMap()),
+          new EndpointMethodStripeHooks(),
+        ]
       }
 
       return {
-        endpoints: [
-          ...Object.values(getPaymentEndpointsMap()),
-          new EndpointMethodStripeHooks(),
-        ],
+        endpoints,
         serverOnlyImports: [{ id: "stripe" }],
       }
     },

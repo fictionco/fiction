@@ -1,10 +1,3 @@
-declare global {
-  interface Window {
-    process: { env?: Record<string, string> }
-    GlobalInstance: FactorGlobal
-  }
-}
-
 class FactorGlobal {
   public globalItems: Record<string, any>
   constructor() {
@@ -12,15 +5,22 @@ class FactorGlobal {
   }
 }
 
-const _window =
-  typeof window !== "undefined" ? window : ({} as Record<string, FactorGlobal>)
+declare global {
+  // eslint-disable-next-line no-var
+  var factorGlobals: FactorGlobal
+  interface Window {
+    process: { env?: Record<string, string> }
+  }
+}
 
-_window.GlobalInstance = new FactorGlobal()
+const _globalThis = typeof window !== "undefined" ? window : global
+
+_globalThis.factorGlobals = new FactorGlobal()
 
 export const setGlobal = <T = unknown>(key: string, value: T): void => {
-  _window.GlobalInstance.globalItems[key] = value
+  _globalThis.factorGlobals.globalItems[key] = value
 }
 
 export const getGlobal = <T = unknown>(key: string): T | undefined => {
-  return _window.GlobalInstance.globalItems[key] as T | undefined
+  return _globalThis.factorGlobals.globalItems[key] as T | undefined
 }

@@ -42,7 +42,13 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
 
   setEnvironment(options as CliOptions)
 
-  const conf = require("./nodemon.json") as Record<string, any>
+  let conf: Record<string, any> = {}
+
+  const configPath = path.join(process.cwd(), "./.nodemon.json")
+
+  if (fs.existsSync(configPath)) {
+    conf = require(configPath) as Record<string, any>
+  }
 
   const passArgs = commander.args
 
