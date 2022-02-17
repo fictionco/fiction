@@ -1,3 +1,12 @@
+## [4.1.1](https://github.com/FactorJS/factor/compare/v4.1.0...v4.1.1) (2022-02-17)
+
+
+### Bug Fixes
+
+* bits ([7d9177f](https://github.com/FactorJS/factor/commit/7d9177f0649c72548ad1b82a3ec4f8d22432b3da))
+
+
+
 # [4.1.0](https://github.com/FactorJS/factor/compare/v4.0.31...v4.1.0) (2022-02-16)
 
 
