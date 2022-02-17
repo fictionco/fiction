@@ -152,7 +152,7 @@ export const renderParts = async (args: {
      * on the context. Allowing us to orchestrate based on this.
      */
 
-    const ctx: { modules?: string[] } = {}
+    const ctx: { modules?: string[] } = { modules: [] }
     out.appHtml = await renderToString(app, ctx)
     /**
      * SSR manifest maps assets which allows us to render preload links for performance
