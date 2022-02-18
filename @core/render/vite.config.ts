@@ -128,7 +128,7 @@ export const getViteConfig = async (
     }),
   )
 
-  if (bundleType == "app") {
+  if (bundleType !== "script" || process.env.NODE_ENV == "production") {
     logger.log({
       level: "info",
       context: "build",
