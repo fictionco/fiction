@@ -44,7 +44,7 @@ const getPkg = (pkg: string): PackageJson | undefined => {
  * Run a child process for rollup that builds scripts based on options
  */
 export const bundle = async (options: BundleOptions): Promise<void> => {
-  const { packageName, cwd, NODE_ENV, bundleType } = options
+  const { packageName, cwd, NODE_ENV, bundleType, STAGE_ENV = "prod" } = options
   try {
     if (!packageName && !cwd) throw new Error("no pkg name available")
 
@@ -70,7 +70,10 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
       commit = await getCommit()
     }
 
-    const vc = await getViteConfig({ mode: NODE_ENV }, { bundleType })
+    const vc = await getViteConfig(
+      { mode: NODE_ENV },
+      { bundleType, variables: { STAGE_ENV } },
+    )
 
     if (!buildOptions?.entryFile) throw new Error("no entry file")
 

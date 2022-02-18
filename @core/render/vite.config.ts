@@ -114,10 +114,13 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 
 export const getViteConfig = async (
   options: Partial<vite.InlineConfig> = {},
-  otherConfig: { bundleType?: "script" | "app" } = {},
+  otherConfig: {
+    bundleType?: "script" | "app"
+    variables?: Record<string, string>
+  } = {},
 ): Promise<vite.InlineConfig> => {
   const { bundleType } = otherConfig
-  const vars = await setAppGlobals()
+  const vars = await setAppGlobals(otherConfig)
 
   const defines = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -125,7 +128,7 @@ export const getViteConfig = async (
     }),
   )
 
-  if (bundleType != "script") {
+  if (bundleType == "app") {
     logger.log({
       level: "info",
       context: "build",

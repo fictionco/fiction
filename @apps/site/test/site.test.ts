@@ -1,7 +1,12 @@
+import { URL } from "url" // in Browser, the URL in native accessible on window
+import path from "path"
 import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium } from "playwright"
 import { randomBetween } from "@factor/api"
+import fs from "fs-extra"
+
+const __dirname = new URL(".", import.meta.url).pathname
 const serverPort = randomBetween(1000, 9000)
 const appPort = randomBetween(1000, 9000)
 
@@ -16,6 +21,7 @@ describe("build tests", () => {
     )
 
     expect(r.stdout).toContain("built successfully")
+    fs.existsSync(path.join(__dirname, "../dist/static"))
   })
 
   it("runs dev", () => {

@@ -15,28 +15,28 @@ import ImgShare from "/share.jpg"
 // eslint-disable-next-line import/no-unresolved
 import ImgIcon from "/icon.jpg"
 
- useMeta({
-      title: computed(() => {
-        return `FactorJS by Darwin - Build JamStack Blogs, Sites, Apps`
-      }),
-      meta: [
-        {
-          name: `description`,
-          content:
-            "A next-generation framework for building websites, blogs, and apps with JavaScript. Powered by Node, TypeScript, Vite.",
-        },
-        {
-          vmid: "og:image",
-          property: "og:image",
-          content: ImgShare,
-        },
-        {
-          vmid: "icon",
-          rel: "icon",
-          href: ImgIcon,
-        },
-      ],
-    })
+useMeta({
+  title: computed(() => {
+    return `FactorJS Static Site Framework by Kaption Co.`
+  }),
+  meta: [
+    {
+      name: `description`,
+      content:
+        "A next-generation framework for building websites, blogs, and apps with JavaScript. Powered by Node, TypeScript, Vite.",
+    },
+    {
+      vmid: "og:image",
+      property: "og:image",
+      content: ImgShare,
+    },
+    {
+      vmid: "icon",
+      rel: "icon",
+      href: ImgIcon,
+    },
+  ],
+})
 </script>
 
 <style lang="less">
