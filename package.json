@@ -3,6 +3,7 @@
   "version": "4.1.4",
   "main": "index.ts",
   "publishConfig": {},
+  "type": "module",
   "scripts": {
     "prerender": "npm exec -w @factor/site -- factor prerender",
     "deploy": "npm release && npm push-release",
@@ -58,8 +59,10 @@
     "@factor/api": "4.1.4",
     "@factor/cli": "4.1.4",
     "@factor/engine": "4.1.4",
+    "@factor/render": "4.1.4",
     "@factor/site": "4.1.4",
     "@factor/test": "4.1.4",
+    "@vitejs/plugin-vue": "^2.2.2",
     "autoprefixer": "^10.4.2",
     "c8": "^7.11.0",
     "postcss": "^8.4.6",

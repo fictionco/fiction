@@ -11,3 +11,4 @@ export const startUnitTestRunner = async (): Promise<void> => {
 }
 
 export * from "./utils"
+export * from "./vitest.config"

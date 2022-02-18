@@ -15,6 +15,6 @@
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
-    "vitest": "^0.3.2"
+    "vitest": "^0.4.1"
   }
 }
