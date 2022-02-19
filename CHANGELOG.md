@@ -1,3 +1,12 @@
+## [4.1.5](https://github.com/FactorJS/factor/compare/v4.1.4...v4.1.5) (2022-02-19)
+
+
+### Bug Fixes
+
+* blog types ([b69013d](https://github.com/FactorJS/factor/commit/b69013dd726f2f5cb8332720d752b1eb5f47ba3c))
+
+
+
 ## [4.1.4](https://github.com/FactorJS/factor/compare/v4.1.3...v4.1.4) (2022-02-18)
 
 
