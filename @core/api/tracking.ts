@@ -49,7 +49,7 @@ export const onBrowserEvent = <T extends BrowserEvent>(
   target?: HTMLElement | Window | Document,
 ): (() => void) => {
   // in case on server
-  if (typeof window == "undefined") {
+  if (isNode) {
     return (): void => {}
   }
 
@@ -416,7 +416,7 @@ class UnloadHandler {
 
   public onUnload(cb: EventCallback): void {
     this.unloadCallbacks.push(cb)
-    if (this.unloadWatchers.length == 0) {
+    if (!isNode && this.unloadWatchers.length == 0) {
       this.unloadWatchers = [
         onBrowserEvent("pagehide", () => this.unload("pagehide")),
         onBrowserEvent("beforeunload", () => this.unload("unload")),
