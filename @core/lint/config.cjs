@@ -32,7 +32,7 @@ module.exports = {
     sourceType: "module",
     parser: "@typescript-eslint/parser",
     project: "./tsconfig.json",
-    extraFileExtensions: [".vue", ".json", ".cjs", ".mjs"],
+    extraFileExtensions: [".vue", ".json"],
   },
   env: {
     browser: true,

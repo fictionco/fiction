@@ -1,5 +1,5 @@
-import { MarkdownFile } from "@factor/types"
 import { Component } from "vue"
+import { slugify, MarkdownFile } from "@factor/api"
 
 interface PostAttributes {
   title?: string
@@ -62,7 +62,8 @@ export type PostTypes =
   | "update"
   | "release"
 
-export type BlogMapItem = {
+export type BlogPostParams<T extends string> = {
+  key: T
   status?: "published" | "draft"
   permalink?: string
   publishDate?: string
@@ -71,9 +72,33 @@ export type BlogMapItem = {
   type?: PostTypes[]
   category?: string[]
 }
-export type BlogMap = Record<string, BlogMapItem>
+
+export class BlogPost<T extends string> {
+  key: T
+  status: "published" | "draft"
+  permalink: string
+  publishDate?: string
+  fileImport?: () => Promise<MarkdownFile>
+  imageImport?: () => Promise<{ default: string }>
+  type?: PostTypes[]
+  category?: string[]
+  constructor(params: BlogPostParams<T>) {
+    this.key = params.key
+    this.status = params.status ?? "draft"
+    this.permalink = params.permalink || slugify(params.key) || ""
+    this.publishDate = params.publishDate
+    this.fileImport = params.fileImport
+    this.imageImport = params.imageImport
+    this.type = params.type
+    this.category = params.category
+  }
+}
+
+export type BlogPostKeysUtility<T extends BlogPost<string>[]> = {
+  [K in keyof T]: T[K] extends BlogPost<infer T> ? T : never
+}[number]
 
 export interface BlogOptions {
   baseRoute: string
-  map: BlogMap
+  posts: BlogPost<string>[]
 }

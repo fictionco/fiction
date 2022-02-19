@@ -94,7 +94,7 @@ describe("stripe tests", () => {
     expect(customerId).toBe(data?.id)
     expect(customerData).toBeTruthy()
     expect(Object.keys(customerData ?? {}).length).toMatchSnapshot()
-  })
+  }, 12_000)
 
   it("adds a payment method", async () => {
     if (!customer?.id) throw new Error("customer required")
