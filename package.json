@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "4.1.7",
+  "version": "4.1.8",
   "main": "index.ts",
   "publishConfig": {},
   "type": "module",
@@ -56,12 +56,12 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@factor/api": "4.1.7",
-    "@factor/cli": "4.1.7",
-    "@factor/engine": "4.1.7",
-    "@factor/render": "4.1.7",
-    "@factor/site": "4.1.7",
-    "@factor/test": "4.1.7",
+    "@factor/api": "4.1.8",
+    "@factor/cli": "4.1.8",
+    "@factor/engine": "4.1.8",
+    "@factor/render": "4.1.8",
+    "@factor/site": "4.1.8",
+    "@factor/test": "4.1.8",
     "@vitejs/plugin-vue": "^2.2.2",
     "autoprefixer": "^10.4.2",
     "c8": "^7.11.0",
