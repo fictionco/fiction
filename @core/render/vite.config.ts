@@ -151,6 +151,7 @@ export const getViteConfig = async (
   const basicConfig: vite.InlineConfig = {
     root,
     publicDir: path.join(root, "public"),
+
     server: {
       port: 3000,
       fs: { strict: false },

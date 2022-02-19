@@ -36,8 +36,8 @@ export const outputFolders = (): {
   }
 }
 
-const getPkg = (pkg: string): PackageJson | undefined => {
-  return require(`${pkg}/package.json`) as PackageJson
+const getPkg = async (pkg: string): Promise<PackageJson | undefined> => {
+  return (await import(`${pkg}/package.json`)) as PackageJson
 }
 
 /**
@@ -50,7 +50,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
 
     const _cwd = cwd ? cwd : packageDir(packageName)
 
-    const pkg = getPkg(_cwd)
+    const pkg = await getPkg(_cwd)
     const buildOptions = pkg?.buildOptions ?? {}
 
     logger.log({
@@ -145,7 +145,7 @@ export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
     // Outfile won't work in multi-build mode
 
     for (const packageName of getPackages()) {
-      const pkg = getPkg(packageName)
+      const pkg = await getPkg(packageName)
 
       if (pkg?.buildOptions) {
         logger.log({

@@ -61,11 +61,14 @@ export const setupEnvironment = async (
  * Run the Factor server
  */
 export const setup = async (options: CliOptions): Promise<void> => {
+
   const { port, moduleName } = options
   const appConfig = await getFactorConfig({
     config: { endpoints, port },
     moduleName,
   })
+
+
 
   const merge: UserConfigServer[] = [appConfig]
 

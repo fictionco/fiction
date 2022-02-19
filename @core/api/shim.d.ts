@@ -20,44 +20,43 @@ declare module "*.vue" {
 }
 
 declare module "*.png" {
-  const value: string
-  export = value
+  const src: string
+  export = src
 }
+
 declare module "*.webp" {
-  const value: string
-  export = value
+  const src: string
+  export = src
 }
+
 declare module "*.jpg" {
-  const value: string
-  export = value
+  const src: string
+  export = src
 }
-declare module "*.webp" {
-  const value: string
-  export = value
-}
+
 declare module "*.json" {
-  const value: any[] | Record<string, any>
-  export = value
+  const src: any[] | Record<string, any>
+  export = src
 }
 declare module "*.svg" {
-  const value: string
-  export = value
+  const src: string
+  export = src
 }
 declare module "*.css" {
-  const value: string
-  export = value
+  const src: string
+  export = src
 }
 declare module "*.md" {
   import { MarkdownFile } from "@factor/types"
-  const value: MarkdownFile
-  export = value
+  const src: MarkdownFile
+  export = src
 }
 
 declare module "*package"
 declare module "std-env"
 declare module "gravatar" {
-  const value: { url: (a: string, b: Record<string, any>) => string }
-  export = value
+  const src: { url: (a: string, b: Record<string, any>) => string }
+  export = src
 }
 declare module "markdown-it-video"
 declare module "markdown-it-link-attributes"

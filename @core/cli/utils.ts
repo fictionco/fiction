@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 export type BuildStages = "prod" | "pre" | "local"
 
 export type CliOptions = {
+  name?: string
   SERVICE?: string
   STAGE_ENV?: BuildStages
   NODE_ENV?: "production" | "development"
@@ -63,7 +64,7 @@ export const setEnvironment = (options: CliOptions): void => {
   const { NODE_ENV, STAGE_ENV, portApp, port, inspector } = options
 
   process.env.NODE_ENV = NODE_ENV || "production"
-  process.env.STAGE_ENV = STAGE_ENV || "local"
+  process.env.STAGE_ENV = STAGE_ENV || "prod"
 
   // set up port handling
   process.env.FACTOR_APP_PORT = portApp || "3000"
@@ -94,7 +95,8 @@ export const wrapCommand = async (params: {
       level: "error",
       context: "wrapCommand",
       description: "command execution error",
-      data: error,
+      error,
+      data: opts,
     })
     done(1)
   }

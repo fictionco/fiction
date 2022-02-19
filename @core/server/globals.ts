@@ -15,28 +15,6 @@ const getDefaultServerVariables = (): Record<string, string> => {
   }
 }
 
-export const getFactorConfig = async (params: {
-  config?: UserConfigServer
-  moduleName?: string
-}): Promise<UserConfigServer> => {
-  const { config, moduleName } = params
-
-  const configPath = moduleName
-    ? path.dirname(require.resolve(`${moduleName}/package.json`))
-    : process.cwd()
-
-  const result = await importIfExists<{
-    default: UserConfigServer
-  }>(path.join(configPath, "factor.config.ts"))
-
-  const configFile = result?.default || {}
-  return deepMergeAll([
-    { variables: getDefaultServerVariables() },
-    configFile,
-    config,
-  ])
-}
-
 /**
  * This runs multiple times, variables from config are public
  * and the full added list should be returned
@@ -59,4 +37,30 @@ export const setAppGlobals = async (
   })
 
   return __variables
+}
+
+export const getFactorConfig = async (params: {
+  config?: UserConfigServer
+  moduleName?: string
+}): Promise<UserConfigServer> => {
+  const { config, moduleName } = params
+
+  const configPath = moduleName
+    ? path.dirname(require.resolve(`${moduleName}/package.json`))
+    : process.cwd()
+
+  const result = await importIfExists<{
+    default: UserConfigServer
+  }>(path.join(configPath, "factor.config.ts"))
+
+  const configFile = result?.default || {}
+  const baseConfig = deepMergeAll([
+    { variables: getDefaultServerVariables() },
+    configFile,
+    config,
+  ])
+
+  await setAppGlobals(baseConfig)
+
+  return baseConfig
 }

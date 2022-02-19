@@ -169,6 +169,7 @@ export const execute = async (): Promise<void> => {
       cb: (_) => runDev(_),
       opts: {
         NODE_ENV: "development",
+        STAGE_ENV: "local",
         ...commander.opts(),
       },
     })
@@ -204,6 +205,7 @@ export const execute = async (): Promise<void> => {
         return buildApp(opts)
       },
       opts: {
+        name: commander.name(),
         NODE_ENV: "production",
         exit: cliOpts.serve ? false : true,
         ...cliOpts,
@@ -271,9 +273,12 @@ export const execute = async (): Promise<void> => {
     .option("--no-sourceMap", "disable sourcemap")
     .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
     .option("--commit <commit>", "git commit id")
-    .option("--outFile <outFile>", "name of output file")
     .action(async (o) => {
-      const cliOpts = { ...commander.opts(), ...o } as CliOptions
+      const cliOpts = {
+        name: commander.name(),
+        ...commander.opts(),
+        ...o,
+      } as CliOptions
       const { bundleAll } = await import("@factor/build/bundle")
       await wrapCommand({
         cb: (_) => bundleAll(_),

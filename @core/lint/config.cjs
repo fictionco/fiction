@@ -102,7 +102,7 @@ module.exports = {
         ignoreExternal: true,
       },
     ],
-    "import/no-unresolved": "off",
+
     "import/named": "off",
     "import/extensions": [
       "error",
