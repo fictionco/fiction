@@ -1,3 +1,12 @@
+## [4.1.6](https://github.com/FactorJS/factor/compare/v4.1.5...v4.1.6) (2022-02-19)
+
+
+### Features
+
+* no more npmrc ([eb78a64](https://github.com/FactorJS/factor/commit/eb78a641a449461a6b1181b5f66f070371f30c29))
+
+
+
 ## [4.1.5](https://github.com/FactorJS/factor/compare/v4.1.4...v4.1.5) (2022-02-19)
 
 
