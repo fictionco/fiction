@@ -2,7 +2,7 @@ import { stored, storeItem, camelToKebab } from "@factor/api"
 import { markRaw } from "vue"
 import dayjs from "dayjs"
 import stringSimilarity from "string-similarity"
-import { PostEntryConfig, BlogOptions, BlogMap, BlogMapItem } from "./types"
+import { PostEntryConfig, BlogOptions, BlogPost } from "./types"
 /**
  * Doc engine settings utility
  */
@@ -26,20 +26,20 @@ export const readingMinutes = (content?: string): number => {
   return time
 }
 
-export const getMap = (): BlogMap => {
-  return blogSetting("map") ?? {}
+export const getPosts = (): BlogPost<string>[] => {
+  return blogSetting("posts") ?? {}
 }
 
 interface IndexArgs {
   total?: number
   category?: string
 }
-export const getIndex = (args: IndexArgs = {}): BlogMap => {
+export const getIndex = (args: IndexArgs = {}): BlogPost<string>[] => {
   const { total = 10, category } = args
 
-  const map = getMap()
+  const posts = getPosts()
 
-  let entries = Object.entries(map).sort(([_keyA, valA], [_keyB, valB]) => {
+  let entries = posts.sort((valA, valB) => {
     if (!valB.publishDate || !valA.publishDate) return 0
 
     const after = dayjs(valB.publishDate).isAfter(dayjs(valA.publishDate))
@@ -48,22 +48,20 @@ export const getIndex = (args: IndexArgs = {}): BlogMap => {
   })
 
   if (category) {
-    entries = entries.filter(([_key, item]) => {
+    entries = entries.filter((item) => {
       return item.category && item.category.includes(category)
     })
   }
 
   entries = entries.slice(0, total)
 
-  const sortedMap = Object.fromEntries(entries)
-
-  return sortedMap
+  return entries
 }
 
 export const createSettings = (options: Partial<BlogOptions>): void => {
   const defaultSettings: BlogOptions = {
     baseRoute: "/blog",
-    map: {},
+    posts: [],
   }
 
   storeItem("blogSettings", { ...defaultSettings, ...options })
@@ -71,20 +69,19 @@ export const createSettings = (options: Partial<BlogOptions>): void => {
 /**
  * Gets all the routes for docs
  */
-const scanRoutes = (map: BlogMap): string[] => {
+const scanRoutes = (posts: BlogPost<string>[]): string[] => {
   const routes: string[] = []
   const baseRoute = blogSetting("baseRoute") ?? "/blog"
 
   const pathBase = baseRoute == "/" ? "" : baseRoute
 
-  Object.keys(map).forEach((key) => {
-    const c = map[key]
+  posts.forEach((c) => {
     if (
       !c.status ||
       c.status == "published" ||
       process.env.NODE_ENV == "development"
     ) {
-      const permalink = c.permalink || camelToKebab(key)
+      const permalink = c.permalink || camelToKebab(c.key)
       routes.push(`${pathBase}/${permalink}`)
     }
   })
@@ -92,7 +89,7 @@ const scanRoutes = (map: BlogMap): string[] => {
   return routes
 }
 export const getPostRoutes = (): string[] => {
-  return scanRoutes(getMap())
+  return scanRoutes(getPosts())
 }
 
 /**
@@ -113,13 +110,13 @@ export const getPostConfig = async (
 
   const pathBase = baseRoute == "/" ? "" : baseRoute
 
-  const map = blogSetting("map") ?? {}
+  const posts = blogSetting("posts") ?? {}
 
-  const listWithPermalinks = Object.entries(map).map(([key, value]) => {
-    return { ...value, permalink: value.permalink || camelToKebab(key) }
+  const listWithPermalinks = posts.map((value) => {
+    return { ...value, permalink: value.permalink || camelToKebab(value.key) }
   })
 
-  let fileConfig: BlogMapItem | undefined = listWithPermalinks.find(
+  let fileConfig: BlogPost<string> | undefined = listWithPermalinks.find(
     (_) => _.permalink == slug,
   )
 
@@ -164,13 +161,11 @@ export const getPostConfig = async (
 export const getIndexContent = async (
   args: IndexArgs = {},
 ): Promise<PostEntryConfig[]> => {
-  const postIndexPromises = Object.entries(getIndex(args)).map(
-    async ([key, value]) => {
-      const config = await getPostConfig(key)
+  const postIndexPromises = getIndex(args).map(async (value) => {
+    const config = await getPostConfig(value.key)
 
-      return { key, ...value, ...config }
-    },
-  )
+    return { ...value, ...config }
+  })
 
   const r = await Promise.all(postIndexPromises)
 

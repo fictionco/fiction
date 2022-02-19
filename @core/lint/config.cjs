@@ -109,7 +109,10 @@ module.exports = {
       "ignorePackages",
       { ts: "never", js: "never" },
     ],
-
+    "import/no-unresolved": [
+      "error",
+      { commonjs: true, caseSensitiveStrict: true, amd: true },
+    ],
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
     "unicorn/filename-case": "off",

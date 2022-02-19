@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import path from "path"
@@ -44,6 +47,7 @@ export const transpiler = async () => {
 
   const { main = "index.js" } = require(primaryPackage)
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   moduleAlias.addAlias("@src", () => path.dirname(path.resolve(cwd(), main)))
   moduleAlias.addAlias("@cwd", () => cwd())
   require.extensions[".vue"] = () => {}

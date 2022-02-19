@@ -1,7 +1,6 @@
 <template>
   <input
-    v-if="isRequired"
-    ref="customValidity"
+    ref="customValidityEl"
     :name="$attrs['data-test'] ? `custom-validity-${$attrs['data-test']}` : ''"
     :title="customValidity"
     type="text"
@@ -10,26 +9,24 @@
   />
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    customValidity: {
-      type: [String, Boolean],
-      default: "",
-    },
+<script lang="ts" setup>
+import { watch, ref } from "vue"
+const props = defineProps({
+  customValidity: {
+    type: String,
+    default: "",
   },
-  mounted() {
-    this.$watch(
-      "customValidity",
-      function (this: any, v?: string | boolean) {
-        if (typeof v === "string" && this.$refs.customValidity) {
-          this.$refs.customValidity.setCustomValidity(v)
-        }
-      },
-      { immediate: true },
-    )
+})
+const customValidityEl = ref<HTMLInputElement>()
+watch(
+  () => props.customValidity,
+  function (this: any, v?: string | boolean) {
+    if (typeof v === "string" && customValidityEl.value) {
+      customValidityEl.value.setCustomValidity(v)
+    }
   },
-}
+  { immediate: true },
+)
 </script>
 <style lang="less">
 .validity-input {

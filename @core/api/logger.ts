@@ -62,6 +62,7 @@ class Logger {
       { default: prettyOutput },
       { default: consola },
     ] = await Promise.all([
+      // eslint-disable-next-line import/no-unresolved
       import("chalk"),
       import("prettyoutput"),
       import("consola"),

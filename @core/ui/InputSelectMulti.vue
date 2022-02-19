@@ -196,24 +196,24 @@ const selected = computed<string[]>({
   },
 })
 
-const removeValue = (value: string) => {
+const removeValue = (value: string): void => {
   const index = selected.value.indexOf(value)
   if (index > -1) {
     selected.value.splice(index, 1)
     selected.value = [...selected.value]
   }
 }
-const selectValue = async (item: ListItem) => {
-  const value = item.value
-
+const selectValue = async (
+  item: ListItem & { route?: string },
+): Promise<void> => {
   if (item.disabled) return
-
+  const val = item.value ?? ""
   if (item.route) {
     await router.push(item.route)
-  } else if (!selected.value.includes(value)) {
-    selected.value = [...selected.value, value]
+  } else if (!selected.value.includes(val)) {
+    selected.value = [...selected.value, val]
   } else {
-    removeValue(value)
+    removeValue(val)
   }
 }
 
