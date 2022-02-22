@@ -221,27 +221,25 @@ const getItemName = (val: string): string | undefined => {
   return li.value.find((_) => _.value == val)?.name
 }
 
-const isSelected = (value: string): boolean => {
-  return selected.value.includes(value)
+const isSelected = (value?: string): boolean => {
+  return value ? selected.value.includes(value) : false
 }
 
-const reset = () => {
+const reset = (): void => {
   hovered.value = -1
   resetUi()
 }
 
 const listItemClass = (item: ListItem, i: number): string => {
   let out = []
+  const val = item.value ?? ""
 
   if (item.disabled) {
     out.push("text-slate-300")
   } else {
-    if (
-      (isSelected(item.value) && hovered.value === -1) ||
-      hovered.value === i
-    ) {
+    if ((isSelected(val) && hovered.value === -1) || hovered.value === i) {
       out.push("bg-primary-600 text-white font-medium")
-    } else if (isSelected(item.value)) {
+    } else if (isSelected(val)) {
       out.push("bg-slate-50 font-medium")
     } else {
       out.push("font-normal")
@@ -257,7 +255,7 @@ const listItemClass = (item: ListItem, i: number): string => {
 /**
  * Select by index in list
  */
-const selectByIndex = async (index: number) => {
+const selectByIndex = async (index: number): Promise<void> => {
   const v = li.value[index]
   if (v) {
     await selectValue(v)
