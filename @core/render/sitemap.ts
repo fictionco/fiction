@@ -8,6 +8,7 @@ import { currentUrl } from "@factor/engine/url"
 import dayjs from "dayjs"
 import { SitemapStream, streamToPromise } from "sitemap"
 import fs from "fs-extra"
+import { logger } from "@factor/api"
 /**
  * Recursively process route config to string urls
  */
@@ -68,6 +69,11 @@ export const getSitemapPaths = async (): Promise<string[]> => {
 }
 
 export const generateSitemap = async (): Promise<void> => {
+  logger.log({
+    level: "info",
+    context: "sitemap",
+    description: "starting build",
+  })
   const sitemapBaseUrl = currentUrl()
 
   if (!sitemapBaseUrl) {
@@ -115,4 +121,10 @@ export const generateSitemap = async (): Promise<void> => {
     path.join(distClient(), "./sitemap.xml"),
     sitemapXmlData.toString(),
   )
+
+  logger.log({
+    level: "info",
+    context: "sitemap",
+    description: "built!",
+  })
 }

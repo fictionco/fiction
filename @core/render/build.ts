@@ -8,7 +8,6 @@ import { getIndexHtml } from "./render"
 import { getViteConfig } from "./vite.config"
 import { generateSitemap } from "./sitemap"
 
-
 const require = createRequire(import.meta.url)
 
 /**
@@ -66,13 +65,13 @@ export const buildApp = async (
       vite.build(serverBuildOptions),
     ])
 
-    await generateSitemap()
-
     logger.log({
       level: "info",
       context: "build",
       description: "application built successfully",
     })
+
+    await generateSitemap()
 
     if (prerender) {
       await preRender(options)

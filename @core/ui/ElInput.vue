@@ -121,7 +121,7 @@ const setValidity = async (): Promise<void> => {
       el.checkValidity
     ) {
       valid.value = el.checkValidity()
-    } else {
+    } else if (el.querySelector) {
       const realEl = el.querySelector("input") ?? el.querySelector("select")
 
       // for regular inputs

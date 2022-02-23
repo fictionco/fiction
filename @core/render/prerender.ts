@@ -92,10 +92,26 @@ export const serveStaticApp = async (): Promise<void> => {
 export const preRender = async (
   options: { serve?: boolean } = {},
 ): Promise<void> => {
+  logger.log({
+    level: "info",
+    context: "prerender",
+    description: "starting",
+  })
   const { serve } = options
   await preRenderPages()
 
+  logger.log({
+    level: "info",
+    context: "prerender",
+    description: "done!",
+  })
+
   if (serve) {
+    logger.log({
+      level: "info",
+      context: "prerender:serve",
+      description: "serving...",
+    })
     await serveStaticApp()
   }
 }
