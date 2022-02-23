@@ -204,14 +204,14 @@ const selectedIndex = computed<number>(() => {
   return li.value.findIndex((_) => _.value == props.modelValue)
 })
 
-const reset = () => {
+const reset = (): void => {
   hovered.value = -1
 }
 
 /**
  * Handle click of a drop down value
  */
-const selectValue = async (item: Record<string, string>) => {
+const selectValue = async (item: Record<string, string>): Promise<void> => {
   active.value = false
 
   if (item?.route) {
@@ -225,7 +225,7 @@ const selectValue = async (item: Record<string, string>) => {
 /**
  * Select by index in list
  */
-const selectByIndex = async (index: number) => {
+const selectByIndex = async (index: number): Promise<void> => {
   const item = li.value[index]
   if (item) {
     await selectValue(item)
@@ -238,7 +238,7 @@ onResetUi(() => (active.value = false))
 /**
  * Toggle dropdown visibility
  */
-const toggle = () => {
+const toggle = (): void => {
   if (props.disabled) return
 
   if (active.value) {
@@ -249,8 +249,8 @@ const toggle = () => {
   }
 }
 
-const isSelected = (value: string): boolean => {
-  return props.modelValue == value ? true : false
+const isSelected = (value?: string): boolean => {
+  return value && props.modelValue == value ? true : false
 }
 
 const listItemClass = (item: ListItem, i: number): string => {

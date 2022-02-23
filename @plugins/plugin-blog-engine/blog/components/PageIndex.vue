@@ -14,51 +14,36 @@
   </div>
 </template>
 
-<script lang="ts">
-
-import dayjs from "dayjs"
+<script lang="ts" setup>
 import { useMeta } from "@factor/api"
 import PostList from "./PostList.vue"
-export default {
-  components: {
-    PostList,
-  },
-  setup() {
-    const title = "Blog"
+const title = "Blog"
 
-    const description = "News and Insights"
+const description = "News and Insights"
 
-    useMeta({
-      title: title,
-      meta: [
-        {
-          name: "description",
-          content: description,
-        },
-        {
-          property: "og:title",
-          content: title,
-        },
-        {
-          property: "og:description",
-          content: description,
-        },
-        {
-          name: "twitter:title",
-          content: title,
-        },
-        {
-          name: "twitter:description",
-          content: description,
-        },
-      ],
-    })
-
-    return {
-      dayjs,
-      title,
-      description,
-    }
-  },
-}
+useMeta({
+  title: title,
+  meta: [
+    {
+      name: "description",
+      content: description,
+    },
+    {
+      property: "og:title",
+      content: title,
+    },
+    {
+      property: "og:description",
+      content: description,
+    },
+    {
+      name: "twitter:title",
+      content: title,
+    },
+    {
+      name: "twitter:description",
+      content: description,
+    },
+  ],
+})
 </script>

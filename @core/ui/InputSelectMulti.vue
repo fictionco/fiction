@@ -19,18 +19,18 @@
         <span class="w-full flex items-center flex-wrap">
           <span v-if="selected.length === 0" class="truncate">Select</span>
           <div
-            v-for="(val, i) in selected"
+            v-for="(v, i) in selected"
             v-else
             :key="i"
             class="select-none inline-flex text-xs justify-center mr-2 my-1 rounded-lg overflow-hidden bg-white border border-slate-400 text-slate-800"
             @click.stop
           >
             <div class="font-medium leading-none max-w-full flex-initial p-2">
-              {{ getItemName(val) }}
+              {{ getItemName(v) }}
             </div>
             <div
               class="flex flex-col justify-center px-1 border-l border-slate-300 hover:bg-slate-50 text-slate-400 cursor-pointer"
-              @click.stop.prevent="removeValue(val)"
+              @click.stop.prevent="removeValue(v)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

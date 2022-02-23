@@ -7,17 +7,13 @@
 <script lang="ts" setup>
 import "./prism/prism"
 
-declare global {
-  interface Window {
-    Prism: any
-  }
-}
 import { onResetUi } from "@factor/api"
 import { onMounted, PropType, ref } from "vue"
+import "./types"
 defineProps({
   theme: { type: String as PropType<"light" | "dark">, default: "light" },
 })
-const code = ref()
+const code = ref<HTMLElement>()
 
 const setOpacity = (o: string): void => {
   if (!code.value) return
@@ -27,10 +23,10 @@ const setOpacity = (o: string): void => {
   })
 }
 
-const tryHighlight = (cb?: () => void) => {
+const tryHighlight = (cb?: () => void): void => {
   if (!code.value) return
 
-  setTimeout(() => {
+  setTimeout((): void => {
     const prism = window.Prism
     prism.highlightAllUnder(code.value)
 

@@ -11,7 +11,7 @@
 </template>
 <script lang="ts" setup>
 import { PropType } from "vue"
-import { InputColorTheme, inputTheme } from "."
+import { InputColorTheme, inputTheme } from "./theme"
 
 const props = defineProps({
   modelValue: { type: [String], default: "" },

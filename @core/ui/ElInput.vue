@@ -60,7 +60,7 @@
         v-if="inputComponent"
         ref="inputEl"
         :model-value="modelValue"
-        v-bind="attrs"
+        v-bind="passAttrs"
         @update:model-value="updateValue($event)"
       >
         <slot />
@@ -94,6 +94,8 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"])
 
 const attrs = useAttrs() as { for?: string; class?: string; required?: string }
+
+const { class: _class, ...passAttrs } = attrs
 
 const isRequired = computed(() =>
   typeof attrs.required != "undefined" ? true : false,
