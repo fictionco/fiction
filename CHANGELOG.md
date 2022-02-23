@@ -1,3 +1,12 @@
+## [4.1.11](https://github.com/FactorJS/factor/compare/v4.1.10...v4.1.11) (2022-02-23)
+
+
+### Bug Fixes
+
+* lint ([21a68f1](https://github.com/FactorJS/factor/commit/21a68f1cfd9d3e1d7af094d119238d36a4f4b2f0))
+
+
+
 ## [4.1.10](https://github.com/FactorJS/factor/compare/v4.1.9...v4.1.10) (2022-02-23)
 
 
