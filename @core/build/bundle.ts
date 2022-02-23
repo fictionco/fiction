@@ -45,6 +45,7 @@ const getPkg = async (pkg: string): Promise<PackageJson | undefined> => {
  */
 export const bundle = async (options: BundleOptions): Promise<void> => {
   const { packageName, cwd, NODE_ENV, bundleType, STAGE_ENV = "prod" } = options
+
   try {
     if (!packageName && !cwd) throw new Error("no pkg name available")
 
@@ -55,8 +56,8 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
 
     logger.log({
       level: "info",
-      description: `bundling ${pkg?.name}`,
-      context: "build:bundle",
+      description: `start build`,
+      context: `bundle:${packageName}`,
     })
 
     let { commit } = options
@@ -121,14 +122,14 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
     }
     logger.log({
       level: "info",
-      description: `done bundling ${pkg?.name}`,
-      context: "build:bundle",
+      description: `done!`,
+      context: `bundle:${packageName}`,
     })
   } catch (error) {
     logger.log({
       level: "error",
-      description: `error during ${packageName} build`,
-      context: "build:bundle",
+      description: `error during build`,
+      context: `bundle:${packageName}`,
       data: error,
     })
   }

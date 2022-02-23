@@ -7,7 +7,7 @@
       attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
     ]"
   >
-    <div v-if="label || description" class="flex justify-between mb-3">
+    <div v-if="label || description" class="flex justify-between mb-2">
       <div class="text">
         <label
           v-if="label"
@@ -78,6 +78,7 @@ import {
   PropType,
   ref,
   useAttrs,
+  defineAsyncComponent,
 } from "vue"
 import { inputs } from "."
 
@@ -92,7 +93,7 @@ const props = defineProps({
 })
 const emit = defineEmits(["update:modelValue"])
 
-const attrs = useAttrs()
+const attrs = useAttrs() as { for?: string; class?: string; required?: string }
 
 const isRequired = computed(() =>
   typeof attrs.required != "undefined" ? true : false,
@@ -103,7 +104,7 @@ const isRequired = computed(() =>
 const inputEl = ref<ComponentPublicInstance>()
 const valid = ref<boolean | undefined>()
 const inputComponent = computed(() => {
-  return props.input ? inputs[props.input] : ""
+  return props.input ? defineAsyncComponent(inputs[props.input]) : ""
 })
 
 /**

@@ -170,7 +170,7 @@ export const getDb = async (): Promise<Knex> => {
     const postgresUrl = postgresConnectionUrl()
 
     if (!postgresUrl) {
-      throw _stop({ message: "DB not available" })
+      throw _stop(`DB URL is required (POSTGRES_URL)`)
     }
 
     const conf = new URL(postgresUrl)
