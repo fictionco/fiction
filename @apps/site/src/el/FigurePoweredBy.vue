@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue"
 import ElemLogo from "./ElLogo.vue"
-const wrapper = ref()
+const wrapper = ref<HTMLElement>()
 const width = ref<number>(500)
 
 /**

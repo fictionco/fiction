@@ -137,7 +137,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
   toLabel,
   resetUi,
@@ -151,55 +151,36 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { docs, groups } from "../map"
 import DocSearch from "./DocSearch.vue"
-export default {
-  components: {
-    ElButton,
-    DocSearch,
-  },
-  setup() {
-    const baseRoute = ref("/docs")
-    const router = useRouter()
-    const vis = ref(false)
-    const search = ref(false)
+const baseRoute = ref("/docs")
+const router = useRouter()
+const vis = ref(false)
+const search = ref(false)
 
-    onResetUi(() => (vis.value = false))
+onResetUi(() => (vis.value = false))
 
-    const toggleDocsNav = (): void => {
-      if (!vis.value) {
-        resetUi()
-        vis.value = true
-      } else {
-        vis.value = false
-      }
-    }
+const toggleDocsNav = (): void => {
+  if (!vis.value) {
+    resetUi()
+    vis.value = true
+  } else {
+    vis.value = false
+  }
+}
 
-    const docRoute = (docId?: string): string => {
-      return docId ? `${baseRoute.value}/${camelToKebab(docId)}` : ""
-    }
+const docRoute = (docId?: string): string => {
+  return docId ? `${baseRoute.value}/${camelToKebab(docId)}` : ""
+}
 
-    const docTitle = (docId: keyof typeof docs): string => {
-      const doc = docs[docId] ?? {}
-      return doc.title || toLabel(docId)
-    }
+const docTitle = (docId: keyof typeof docs): string => {
+  const doc = docs[docId] ?? {}
+  return doc.title || toLabel(docId)
+}
 
-    const isCurrentNav = (docId: string): boolean => {
-      const route = router.currentRoute.value
-      const slug = route.params.slug as string | undefined
-      const routeDocId = camelize(slug || "docs")
+const isCurrentNav = (docId: string): boolean => {
+  const route = router.currentRoute.value
+  const slug = route.params.slug as string | undefined
+  const routeDocId = camelize(slug || "docs")
 
-      return routeDocId == docId
-    }
-
-    return {
-      vis,
-      toggleDocsNav,
-      docRoute,
-      docTitle,
-      isCurrentNav,
-      groups,
-      search,
-      toLabel,
-    }
-  },
+  return routeDocId == docId
 }
 </script>

@@ -90,17 +90,7 @@
       <div
         v-for="(fig, i) in figures"
         :key="i"
-        class="
-          mb-2
-          font-semibold
-          text-xs
-          border
-          px-4
-          py-1
-          rounded-md
-          hover:border-primary-500 hover:text-primary-500
-          cursor-pointer
-        "
+        class="mb-2 font-semibold text-xs border px-4 py-1 rounded-md hover:border-primary-500 hover:text-primary-500 cursor-pointer"
         :class="
           activeSlide.id == fig.id
             ? 'border-primary-500 text-primary-500'
@@ -140,13 +130,13 @@ const activeSlide = computed(() => {
 /**
  * Switch Figure timer
  */
-const timer = ref()
+let timer: NodeJS.Timeout | undefined = undefined
 const animationInterval = ref<number>(20_000)
 
 /**
  * Next Figure
  */
-const nextSlide = () => {
+const nextSlide = (): void => {
   if (active.value == figures.value.length - 1) {
     active.value = 0
   } else {
@@ -156,15 +146,15 @@ const nextSlide = () => {
   runTimer()
 }
 
-const setActive = (ind: number) => {
+const setActive = (ind: number): void => {
   active.value = ind
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
   runTimer()
 }
 
-const runTimer = () => {
-  clearTimeout(timer.value)
-  timer.value = setTimeout(() => nextSlide(), animationInterval.value)
+const runTimer = (): void => {
+  if (timer) clearTimeout(timer)
+  timer = setTimeout(() => nextSlide(), animationInterval.value)
 }
 </script>
 

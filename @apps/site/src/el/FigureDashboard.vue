@@ -21,13 +21,13 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue"
-const wrapper = ref()
+const wrapper = ref<HTMLElement>()
 const width = ref<number>(500)
 
 /**
  * Get figure width
  */
-const getWidth = () => {
+const getWidth = (): number => {
   return wrapper.value ? wrapper.value.clientWidth : 100
 }
 /**
