@@ -91,6 +91,7 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "dayjs/plugin/relativeTime",
         "spark-md5",
         "fast-json-stable-stringify",
+        "@medv/finder",
         "deepmerge",
         "events",
         "js-cookie",
