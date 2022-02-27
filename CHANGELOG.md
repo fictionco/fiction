@@ -1,3 +1,17 @@
+## [4.1.12](https://github.com/FactorJS/factor/compare/v4.1.11...v4.1.12) (2022-02-27)
+
+
+### Bug Fixes
+
+* update snap ([6e57bff](https://github.com/FactorJS/factor/commit/6e57bff7fbb1312c53272d2f06ab47fcefe4afbb))
+
+
+### Features
+
+* up ([0dfe27b](https://github.com/FactorJS/factor/commit/0dfe27be0aa0688836bb324da3482a9bfa376a89))
+
+
+
 ## [4.1.11](https://github.com/FactorJS/factor/compare/v4.1.10...v4.1.11) (2022-02-23)
 
 
