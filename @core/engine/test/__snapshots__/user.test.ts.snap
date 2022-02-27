@@ -1,7 +1,3 @@
 // Vitest Snapshot v1
 
-exports[`setPassword 1`] = `undefined`;
-
-exports[`user tests > setPassword 1`] = `undefined`;
-
 exports[`user tests > sets password 1`] = `undefined`;

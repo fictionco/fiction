@@ -41,7 +41,10 @@ describe("user tests", () => {
       verificationCode: "test",
     })
 
-    if (!response.data) throw new Error("problem verifying user")
+    if (!response.data) {
+      console.warn(response)
+      throw new Error("problem verifying user")
+    }
 
     user = response.data
 

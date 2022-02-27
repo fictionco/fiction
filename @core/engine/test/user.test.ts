@@ -71,7 +71,7 @@ describe("user tests", () => {
     user = response.data as FullUser
 
     expect(bcrypt.compare("test", user?.hashedPassword ?? "")).toBeTruthy()
-    expect(user?.token).toMatchSnapshot()
+    expect(user?.token).toMatchInlineSnapshot()
   })
 
   it("resets password", async () => {
