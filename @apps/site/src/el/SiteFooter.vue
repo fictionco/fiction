@@ -87,12 +87,12 @@ const columns = ref<
     heading: "More",
     menu: [
       {
-        path: "https://www.darwin.so/about",
+        path: "https://www.kaption.co/about",
         target: "_blank",
         name: "About",
       },
       {
-        path: "https://www.darwin.so/support",
+        path: "https://www.kaption.co/support",
         target: "_blank",
         name: "Support",
       },

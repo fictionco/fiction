@@ -17,7 +17,7 @@
 <script lang="ts" setup>
 import { useMeta } from "@factor/api"
 import PostList from "./PostList.vue"
-const title = "Darwin Blog"
+const title = "Blog"
 
 const description = "Digital, Marketing, and Business Analytics Insights"
 

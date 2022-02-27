@@ -110,8 +110,14 @@ export const objectId = (idLength = 16): string => {
     " ".repeat(idLength).replace(/./g, () => nts(Math.random() * idLength))
   )
 }
-export const randomBetween = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+export const randomBetween = (
+  min: number,
+  max: number,
+  decimalPlaces = 0,
+): number => {
+  const rand = Math.random() * (max - min) + min
+  const power = Math.pow(10, decimalPlaces)
+  return Math.floor(rand * power) / power
 }
 /**
  * Ensure there is a slash at end of string

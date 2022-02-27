@@ -26,7 +26,7 @@ export const map: Partial<ExtendItem>[] = [
     screenshots: [],
     url: "https://www.npmjs.com/package/@factor/plugin-blog-engine",
     repo: "https://github.com/FactorJS/factor/blob/version3/%40plugins/plugin-blog-engine/README.md",
-    demo: "https://www.darwin.so/docs",
+    demo: "https://www.kaption.co/docs",
     tags: ["minimal", "blog"],
     category: "blog",
   },

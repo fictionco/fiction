@@ -14,7 +14,7 @@ Running your server requires NO build step and only needs the following:
 
 ## Example: Heroku
 
-Heroku is a cheap and simple way to run your endpoint server. It's what we use at [Darwin](https://www.darwin.so). Here is a quick example of how that works.
+Heroku is a cheap and simple way to run your endpoint server. It's what we use at [Kaption](https://www.kaption.co). Here is a quick example of how that works.
 
 To run your endpoint server on Heroku, follow these steps:
 

@@ -83,7 +83,7 @@ Here is a comparison table to help you quickly see how things compare:
 
 ### The Backstory
 
-Factor was created as an internal framework for building our own apps at [Darwin](https://www.darwin.so).
+Factor was created as an internal framework for building our own apps at [Kaption](https://www.kaption.co).
 
 After wasting many months reading technical documentation, debugging, reinventing the wheel, and discovering undisclosed limitations of various services; we decided we needed to formalize our software approach and build something simple and standard.
 

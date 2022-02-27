@@ -4,7 +4,7 @@
       <div class="px-8 m-auto max-w-7xl flex justify-between text-white">
         <a
           class="hover:opacity-80 flex items-center"
-          href="https://www.darwin.so"
+          href="https://www.kaption.co"
           ><svg
             class="w-4 h-4 mr-1"
             viewBox="0 0 200 200"
@@ -24,10 +24,10 @@
               fill="currentColor"
             />
           </svg>
-          <span class="">Built by Darwin</span></a
+          <span class="">Built by Kaption.co</span></a
         >
-        <a class="hover:opacity-80" href="https://www.darwin.so"
-          >Start optimizing your site &rarr;</a
+        <a class="hover:opacity-80" href="https://www.kaption.co"
+          >Start optimizing your experience &rarr;</a
         >
       </div>
     </div>

@@ -50,7 +50,7 @@ For months now, FactorJS v3 has been working in production with the most cutting
 
 ## In The Wild
 
-FactorJS 3 was developed as the architecture and engine for [Darwin Analytics' website](https://www.darwin.so) and also it's [dashboard](https://app.darwin.so). In these applications, we are managing users, API handling, DB, email, etc...
+FactorJS 3 was developed as the architecture and engine for [Kaption.co's website](https://www.darwin.so) and also it's [dashboard](https://app.darwin.so). In these applications, we are managing users, API handling, DB, email, etc...
 
 During this process we worked through and improved any usability and stability issues that might come up.
 
