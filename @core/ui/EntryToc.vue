@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-between overflow-y-auto max-h-screen pt-0 pb-6 sticky top-32"
+    class="flex flex-col justify-between overflow-y-auto max-h-screen pt-0 pb-6 sticky top-16"
     @click.stop
   >
     <div ref="nav" class="mb-8">
