@@ -44,7 +44,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.0",
     "execa": "^6.0.0",
     "playwright": "^1.18.1",
     "puppeteer": "^13.3.1",

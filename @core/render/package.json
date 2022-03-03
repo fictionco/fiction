@@ -16,7 +16,7 @@
     "@factor/server": "4.1.12",
     "@factor/types": "4.1.12",
     "@factor/ui": "4.1.12",
-    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.0",
     "@types/html-minifier": "^4.0.0",
     "@types/serve-favicon": "^2.5.2",
     "@types/tailwindcss": "^3.0.0",
