@@ -1,3 +1,12 @@
+## [4.1.13](https://github.com/FactorJS/factor/compare/v4.1.12...v4.1.13) (2022-03-03)
+
+
+### Bug Fixes
+
+* change top ([c84f138](https://github.com/FactorJS/factor/commit/c84f13816482773247d4892e3be6a1cc20873e43))
+
+
+
 ## [4.1.12](https://github.com/FactorJS/factor/compare/v4.1.11...v4.1.12) (2022-02-27)
 
 
