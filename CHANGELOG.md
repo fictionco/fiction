@@ -1,3 +1,12 @@
+## [4.1.15](https://github.com/FactorJS/factor/compare/v4.1.14...v4.1.15) (2022-03-03)
+
+
+### Bug Fixes
+
+* build err in sitemap ([b4d545e](https://github.com/FactorJS/factor/commit/b4d545e046df9b62038d4076b702f3c6732c34b5))
+
+
+
 ## [4.1.14](https://github.com/FactorJS/factor/compare/v4.1.13...v4.1.14) (2022-03-03)
 
 
