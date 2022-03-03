@@ -13,7 +13,7 @@
     "easymde": "^2.9.0",
     "gravatar": "^1.8.0",
     "sortablejs": "^1.12.0",
-    "vue": "^3.0.0",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.10"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

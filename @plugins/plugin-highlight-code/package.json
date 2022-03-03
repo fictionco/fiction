@@ -28,7 +28,7 @@
   "dependencies": {
     "@factor/api": "4.1.13",
     "prismjs": "^1.22.0",
-    "vue": "^3.0.0"
+    "vue": "^3.2.31"
   },
   "keywords": [
     "factor",

@@ -35,7 +35,7 @@
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.10.6",
     "string-similarity": "^4.0.4",
-    "vue": "^3.0.0",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.10"
   }
 }

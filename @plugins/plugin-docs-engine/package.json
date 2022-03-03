@@ -31,7 +31,7 @@
     "@factor/server": "4.1.13",
     "@factor/types": "4.1.13",
     "@factor/ui": "4.1.13",
-    "vue": "^3.0.0",
+    "vue": "^3.2.31",
     "vue-router": "^4.0.10"
   }
 }
