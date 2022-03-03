@@ -1,6 +1,6 @@
 import { createRequire } from "module"
 import { distClient, distFolder, distServer } from "@factor/engine/nodeUtils"
-import { logger } from "@factor/api"
+import { logger, isNode } from "@factor/api"
 import * as vite from "vite"
 
 import { preRender } from "./prerender"
@@ -26,7 +26,7 @@ export const buildApp = async (
     level: "info",
     context: "build",
     description: "building app",
-    data: options,
+    data: { ...options, isNode },
   })
 
   try {
