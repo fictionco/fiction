@@ -1,3 +1,13 @@
+## [4.1.14](https://github.com/FactorJS/factor/compare/v4.1.13...v4.1.14) (2022-03-03)
+
+
+### Bug Fixes
+
+* isNode ([f2e13a7](https://github.com/FactorJS/factor/commit/f2e13a7c56f3e46ec01555688663b75dba9fbbca))
+* upgrade vue ([fcd3da7](https://github.com/FactorJS/factor/commit/fcd3da7b9715e684ce7b4386209add393dc9eb88))
+
+
+
 ## [4.1.13](https://github.com/FactorJS/factor/compare/v4.1.12...v4.1.13) (2022-03-03)
 
 
