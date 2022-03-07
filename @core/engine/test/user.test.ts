@@ -72,7 +72,7 @@ describe("user tests", () => {
 
     expect(bcrypt.compare("test", user?.hashedPassword ?? "")).toBeTruthy()
     expect(response?.token).toBeTruthy()
-    expect(response?.token).toMatchInlineSnapshot()
+    expect(response?.token).toMatchInlineSnapshot('"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzNjIyNjcwYjMwMzU4NTQwOGU5MGU2NmMxIiwiZW1haWwiOiJhcnBvd2VycysxOTAwMjFAZ21haWwuY29tIiwiaWF0IjoxNjQ2Njg2Mzg3fQ.Y-rcEyHobdptB5dQDWH_-AB-99q_DsmkgNosjUTIlaY"')
   })
 
   it("resets password", async () => {
