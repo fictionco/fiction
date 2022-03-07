@@ -24,6 +24,6 @@
     "prettier-eslint": "^13.0.0"
   },
   "devDependencies": {
-    "npm-package-json-lint": "^5.4.2"
+    "npm-package-json-lint": "^6.0.0"
   }
 }
