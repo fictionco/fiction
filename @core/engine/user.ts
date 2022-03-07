@@ -12,7 +12,6 @@ import { EndpointResponse, FactorTable, FullUser } from "@factor/types"
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
-
 import { createClientToken, decodeClientToken } from "@factor/api/jwt"
 import { getServerConfig } from "../server/config"
 import { getDb } from "./db"
@@ -293,7 +292,9 @@ export const verifyCode = async (args: {
   }
 
   if (!codeDetails || codeDetails.verificationCode !== verificationCode) {
-    throw _stop({ message: `verification code is not a match` })
+    throw _stop({
+      message: `verification code is not a match (${process.env.NODE_ENV})`,
+    })
   } else if (
     !codeDetails.codeExpiresAt ||
     dayjs().isAfter(codeDetails.codeExpiresAt)
