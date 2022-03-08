@@ -1,4 +1,5 @@
 export const setup = async (): Promise<void> => {
+  process.env.NODE_ENV = "test"
   process.env.POSTGRES_URL = "http://test:test@localhost:5432/test"
   process.env.POSTGRES_PASSWORD = "test"
 }
