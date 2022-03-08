@@ -1,3 +1,12 @@
+## [4.1.18](https://github.com/FactorJS/factor/compare/v4.1.17...v4.1.18) (2022-03-08)
+
+
+### Bug Fixes
+
+* auth and tests ([58aa116](https://github.com/FactorJS/factor/commit/58aa116fd7f4cc0218e01e8a1569d072eda08019))
+
+
+
 ## [4.1.17](https://github.com/FactorJS/factor/compare/v4.1.16...v4.1.17) (2022-03-08)
 
 
