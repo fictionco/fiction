@@ -65,6 +65,7 @@ export abstract class Query {
         message: e.message,
         expose: e.expose,
         code: e.code,
+        data: e.data,
         context: this.constructor.name,
       }
 
