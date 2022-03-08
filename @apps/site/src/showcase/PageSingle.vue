@@ -120,7 +120,7 @@ import ElButton from "@factor/ui/ElButton.vue"
 import { map as showcase } from "./map"
 
 const animationInterval = 3000
-const timer = ref()
+const timer = ref<NodeJS.Timeout>()
 const router = useRouter()
 const screenshots = ref<string[]>([])
 
@@ -153,11 +153,14 @@ const nextScreenshot = (): void => {
 
 const runTimer = (): void => {
   if (screenshots.value.length <= 1) return
-  clearTimeout(timer.value)
+  if (timer.value) clearTimeout(timer.value)
+
   timer.value = setTimeout(() => nextScreenshot(), animationInterval)
 }
 
-const screenshotStyle = (index: number) => {
+const screenshotStyle = (
+  index: number,
+): { transform: string; zIndex: number } => {
   const style = {
     transform: `translate(${index * (15 - index)}%, ${index}%) scale(${
       1 - index * 0.05

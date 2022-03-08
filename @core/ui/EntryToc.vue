@@ -55,7 +55,7 @@ const props = defineProps({
 const route = useRoute()
 
 const clicked = ref(false)
-const scroller = ref()
+const scroller = ref<HTMLElement>()
 const headers = ref<PageHeaders[]>([])
 const allHeaders = ref<HTMLHeadingElement[]>([])
 const activeHash = ref(route.hash)
@@ -135,7 +135,9 @@ const setActiveHash = (): void => {
   )
 
   const headers = props.subHeader ? "h2, h3" : "h2"
-  const anchors: HTMLElement[] = scroller.value.querySelectorAll(headers)
+
+  const anchorEls = scroller.value.querySelectorAll<HTMLElement>(headers)
+  const anchors = Array.prototype.slice.call(anchorEls) as HTMLElement[]
 
   for (const entry of anchors.entries()) {
     const [i, anchor] = entry
@@ -161,7 +163,7 @@ const setActiveHash = (): void => {
   }
 }
 
-const onScroll = () => {
+const onScroll = (): (() => void) => {
   return throttle(() => {
     setActiveHash()
   }, 100)
@@ -174,7 +176,7 @@ const setMenu = (): void => {
 
   // Make sure new content is loaded before scanning for h2, h3
   __timer = setTimeout(() => {
-    scroller.value = document.querySelectorAll(props.selector)[0]
+    scroller.value = document.querySelectorAll<HTMLElement>(props.selector)[0]
 
     if (scroller.value) {
       headers.value = getHeaders(scroller.value)

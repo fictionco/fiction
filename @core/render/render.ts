@@ -61,21 +61,10 @@ export const getIndexHtml = async (
 
   if (mode !== "production" && url) {
     const srv = await getViteServer()
-    template = template
-      .replace(
-        /<body([^>]*)>/i,
-        `<body$1>
-          <div class="styles-loading" style="font-family: arial; padding: 20px; font-size: 10px"><span>building...</span></div>`,
-      )
-      .replace(
-        "</head>",
-        `
-        <style type="text/css">#app{transition: opacity .2s; }#app:not(.loaded){opacity: 0;}</style>
-      </head>`,
-      )
-
     template = await srv.transformIndexHtml(url, template)
-  } else {
+  }
+
+  if (mode == "production") {
     fs.ensureDirSync(distFolder())
     fs.writeFileSync(path.join(distFolder(), "index.html"), template)
   }

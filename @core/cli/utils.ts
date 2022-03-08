@@ -17,6 +17,7 @@ export type CliOptions = {
   patch?: boolean
   skipTests?: boolean
   moduleName?: string
+  cwd?: string
 }
 
 export const done = (code: 0 | 1, log = `exited process`): never => {

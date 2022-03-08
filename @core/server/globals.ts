@@ -42,10 +42,13 @@ export const setAppGlobals = async (
 export const getFactorConfig = async (params: {
   config?: UserConfigServer
   moduleName?: string
+  cwd?: string
 }): Promise<UserConfigServer> => {
-  const { config, moduleName } = params
+  const { config, moduleName, cwd } = params
 
-  const configPath = moduleName
+  const configPath = cwd
+    ? cwd
+    : moduleName
     ? path.dirname(require.resolve(`${moduleName}/package.json`))
     : process.cwd()
 

@@ -18,17 +18,23 @@ const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
 export const packagePath = (): string => path.resolve(cwd(), "package.json")
 
-const mainFile = (): string => {
-  const pkg = require(packagePath()) as PackageJson
+const mainFile = (_cwd?: string): string => {
+  const pkgPath = path.resolve(_cwd ?? cwd(), "package.json")
+  const pkg = require(pkgPath) as PackageJson
   return pkg.main ?? "index"
 }
 /**
  * Get source folder for CWD or optional moduleName
  */
-export const sourceFolder = (moduleName?: string): string => {
-  const appPath = moduleName
-    ? require.resolve(moduleName)
-    : path.resolve(cwd(), mainFile())
+export const sourceFolder = (
+  params: {
+    moduleName?: string
+    cwd?: string
+  } = {},
+): string => {
+  const appPath = params.moduleName
+    ? require.resolve(params.moduleName)
+    : path.resolve(params.cwd ?? cwd(), mainFile(params.cwd))
 
   return path.dirname(appPath)
 }
@@ -50,9 +56,11 @@ export const importIfExists = async <T = unknown>(
 
 export const importServerEntry = async (params: {
   moduleName?: string
+  cwd?: string
 }): Promise<Promise<UserConfigServer>> => {
-  const { moduleName } = params
-  const serverEntry = path.join(sourceFolder(moduleName), "server.ts")
+  const { moduleName, cwd } = params
+
+  const serverEntry = path.join(sourceFolder({ moduleName, cwd }), "server.ts")
   const mod = await importIfExists<{ setup?: () => Promise<UserConfigServer> }>(
     serverEntry,
   )

@@ -61,21 +61,19 @@ export const setupEnvironment = async (
  * Run the Factor server
  */
 export const setup = async (options: CliOptions): Promise<void> => {
-
-  const { port, moduleName } = options
+  const { port, moduleName, cwd } = options
   const appConfig = await getFactorConfig({
     config: { endpoints, port },
     moduleName,
+    cwd,
   })
-
-
 
   const merge: UserConfigServer[] = [appConfig]
 
   /**
    * Require app server entry file if it exists
    */
-  const entryServerConfig = await importServerEntry({ moduleName })
+  const entryServerConfig = await importServerEntry({ moduleName, cwd })
 
   if (entryServerConfig) {
     merge.unshift(entryServerConfig)

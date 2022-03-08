@@ -54,7 +54,7 @@ const isSelected = (value?: string): boolean => {
   return !!value && selected.value.includes(value)
 }
 
-const removeValue = (value: string) => {
+const removeValue = (value: string): void => {
   const index = selected.value.indexOf(value)
   if (index > -1) {
     selected.value.splice(index, 1)
@@ -62,7 +62,7 @@ const removeValue = (value: string) => {
   }
 }
 
-const selectValue = (item: ListItem) => {
+const selectValue = (item: ListItem): void => {
   const value = item.value
 
   if (!value) return
