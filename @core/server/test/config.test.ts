@@ -6,6 +6,7 @@ const require = createRequire(import.meta.url)
 
 describe("config tests", () => {
   it("get config with cwd", async () => {
+    process.env.NODE_ENV = "development"
     const cwd = path.dirname(require.resolve("@factor/site/package.json"))
 
     const config = await getFactorConfig({
@@ -25,7 +26,7 @@ describe("config tests", () => {
           "FACTOR_APP_URL": "https://www.factorjs.org",
           "FACTOR_SERVER_PORT": "",
           "FACTOR_SERVER_URL": "",
-          "NODE_ENV": "test",
+          "NODE_ENV": "development",
         },
       }
     `)
