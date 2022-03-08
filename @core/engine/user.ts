@@ -141,6 +141,8 @@ class QueryManageUser extends Query {
 
       if (user && _action == "getPrivate") {
         user = await processUser(user)
+      } else {
+        delete user?.hashedPassword
       }
     } else if (_action == "update") {
       const { userId, email, fields } = params
@@ -182,7 +184,6 @@ class QueryManageUser extends Query {
 
     // don't return authority info to client
     delete user?.verificationCode
-    delete user?.hashedPassword
 
     return { status: "success", data: user }
   }
@@ -578,6 +579,7 @@ class QueryLogin extends Query {
     )
 
     if (!user) throw this.stop({ message: "user does not exist" })
+    if (!user.hashedPassword) throw this.stop({ message: "password error" })
 
     const correctPassword = await comparePassword(
       password,

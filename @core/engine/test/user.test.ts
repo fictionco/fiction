@@ -1,5 +1,6 @@
 import { expect, it, vi, describe } from "vitest"
 import { FullUser } from "@factor/types"
+import { decodeClientToken } from "@factor/api/jwt"
 import bcrypt from "bcrypt"
 import { Queries } from "../user"
 import * as ep from "../user"
@@ -72,7 +73,23 @@ describe("user tests", () => {
 
     expect(bcrypt.compare("test", user?.hashedPassword ?? "")).toBeTruthy()
     expect(response?.token).toBeTruthy()
-    expect(response?.token).toMatchInlineSnapshot('"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic3Vic2NyaWJlciIsInVzZXJJZCI6InVzNjIyNjcwYjMwMzU4NTQwOGU5MGU2NmMxIiwiZW1haWwiOiJhcnBvd2VycysxOTAwMjFAZ21haWwuY29tIiwiaWF0IjoxNjQ2Njg2Mzg3fQ.Y-rcEyHobdptB5dQDWH_-AB-99q_DsmkgNosjUTIlaY"')
+
+    const result = decodeClientToken(response?.token)
+    expect(result?.email).toBe(user.email)
+  })
+
+  it("logs in with password", async () => {
+    const response = await ep.Queries.Login.serve(
+      {
+        email: user.email,
+        password: "test",
+      },
+      {},
+    )
+    expect(response.message).toMatchInlineSnapshot('"successfully logged in"')
+    user = response.data as FullUser
+
+    expect(user).toBeTruthy()
   })
 
   it("resets password", async () => {

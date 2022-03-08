@@ -15,10 +15,10 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="transition-all duration-300 max-w-md w-full bg-white shadow-2xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-10 overflow-hidden mb-4"
+          class="transition-all duration-300 max-w-md w-full text-sm bg-white shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-20 overflow-hidden mb-4"
           :class="toast.type"
         >
-          <div class="p-5">
+          <div class="p-4">
             <div class="flex items-center">
               <div class="shrink-0">
                 <svg
@@ -45,25 +45,25 @@
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  stroke-width="2"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5 capitalize">
-                <p class="font-semibold">
+                <div class="font-semibold">
                   {{ toast.message }}
-                </p>
-                <p v-if="toast.more" class="mt-1 text-sm text-slate-400">
+                </div>
+                <div v-if="toast.more" class="mt-1 text-sm text-slate-400">
                   {{ toast.more }}
-                </p>
+                </div>
               </div>
               <div
-                class="ml-4 text-slate-400 hover:text-primary-500"
+                class="ml-4 text-slate-400 hover:text-primary-500 cursor-pointer"
                 @click="removeToast(i)"
               >
                 <svg
