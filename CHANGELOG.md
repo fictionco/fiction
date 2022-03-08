@@ -1,3 +1,12 @@
+## [4.1.19](https://github.com/FactorJS/factor/compare/v4.1.18...v4.1.19) (2022-03-08)
+
+
+### Features
+
+* testing organization ([aa176c6](https://github.com/FactorJS/factor/commit/aa176c6553c7fc1a0e4126d94c42585ef66be821))
+
+
+
 ## [4.1.18](https://github.com/FactorJS/factor/compare/v4.1.17...v4.1.18) (2022-03-08)
 
 
