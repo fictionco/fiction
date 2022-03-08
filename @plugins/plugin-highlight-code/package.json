@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "4.1.16",
+  "version": "4.1.17",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
@@ -26,7 +26,7 @@
   "homepage": "https://factorjs.org/plugin/highlight-code-factor-plugin",
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
-    "@factor/api": "4.1.16",
+    "@factor/api": "4.1.17",
     "prismjs": "^1.22.0",
     "vue": "^3.2.31"
   },

@@ -1,3 +1,13 @@
+## [4.1.17](https://github.com/FactorJS/factor/compare/v4.1.16...v4.1.17) (2022-03-08)
+
+
+### Bug Fixes
+
+* errors send data ([12f746a](https://github.com/FactorJS/factor/commit/12f746a272a1241d39ae2118c0cdaa016941dbb6))
+* new event ([f6979d1](https://github.com/FactorJS/factor/commit/f6979d16a0cb821374baf487593b2ec11b37f886))
+
+
+
 ## [4.1.16](https://github.com/FactorJS/factor/compare/v4.1.15...v4.1.16) (2022-03-07)
 
 
