@@ -1,15 +1,15 @@
 {
   "name": "@factor/ui",
-  "version": "4.1.20",
+  "version": "4.1.21",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "4.1.20",
-    "@factor/types": "4.1.20",
-    "@factor/engine": "4.1.20",
+    "@factor/api": "4.1.21",
+    "@factor/types": "4.1.21",
+    "@factor/engine": "4.1.21",
     "easymde": "^2.9.0",
     "gravatar": "^1.8.0",
     "sortablejs": "^1.12.0",
