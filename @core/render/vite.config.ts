@@ -167,6 +167,7 @@ export const getViteConfig = async (
       manifest: true,
       emptyOutDir: true,
       minify: false,
+      sourcemap: process.env.NODE_ENV !== "production",
     },
     resolve: {
       alias: {

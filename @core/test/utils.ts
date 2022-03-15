@@ -8,12 +8,18 @@ import fs from "fs-extra"
 
 const require = createRequire(import.meta.url)
 
-export const appBuildTests = (config: { moduleName: string }): void => {
+export const appBuildTests = (config: {
+  moduleName?: string
+  cwd?: string
+}): void => {
   const { moduleName } = config
+  let { cwd = "" } = config
   const serverPort = randomBetween(1000, 9000)
   const appPort = randomBetween(1000, 9000)
 
-  const cwd = path.dirname(require.resolve(`${moduleName}/package.json`))
+  cwd = cwd || path.dirname(require.resolve(`${moduleName}/package.json`))
+
+  if (!cwd) throw new Error("cwd is not defined")
 
   describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
