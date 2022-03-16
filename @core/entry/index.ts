@@ -18,10 +18,6 @@ import * as mainFile from "@src/index.ts"
 import App from "@src/App.vue"
 import { initializeWindow } from "./init"
 
-/**
- * Define process.env to prevent errors on any node code that runs
- */
-
 const setupApp = async (): Promise<UserConfigApp> => {
   let userConfig: UserConfigApp = {}
 

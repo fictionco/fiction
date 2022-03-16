@@ -2,10 +2,14 @@
 /* eslint-disable no-console */
 import dayjs from "dayjs"
 import { logCategory, logLevel } from "@factor/types"
-import type { ChalkInstance } from "chalk"
-import type { Consola } from "consola"
+
 import safeStringify from "fast-safe-stringify"
+
+import chalk from "chalk"
+import prettyoutput from "prettyoutput"
+import consola from "consola"
 import { isNode } from "./utils"
+
 export const logType = {
   event: { color: "#5233ff" },
   info: { color: "#00ABFF" },
@@ -37,42 +41,9 @@ interface LoggerArgs {
 
 class Logger {
   isNode: boolean
-  srv: {
-    chalk?: ChalkInstance
-    consola?: Consola
-    prettyOutput?: (
-      a: Record<string, any>,
-      b: Record<string, any>,
-      c: number,
-    ) => string
-  }
+
   constructor() {
     this.isNode = isNode
-    this.srv = {}
-    if (this.isNode) {
-      this.serverInit().catch((error) =>
-        this.logServer({ level: "error", context: "log", data: error }),
-      )
-    }
-  }
-
-  async serverInit(): Promise<void> {
-    const [
-      { default: chalk },
-      { default: prettyOutput },
-      { default: consola },
-    ] = await Promise.all([
-      // eslint-disable-next-line import/no-unresolved
-      import("chalk"),
-      import("prettyoutput"),
-      import("consola"),
-    ])
-
-    this.srv = {
-      chalk,
-      prettyOutput,
-      consola,
-    }
   }
 
   logBrowser(config: LoggerArgs): void {
@@ -133,16 +104,12 @@ class Logger {
       error,
     } = config
 
-    if (!this.srv.chalk) return
-    if (!this.srv.consola) return
-    if (!this.srv.prettyOutput) return
+    if (disableOnRestart && process.env.IS_RESTART) {
+      return
+    }
+    const points: (string | number)[] = [chalk.hex(color).dim(level.padEnd(5))]
 
-    if (disableOnRestart && process.env.IS_RESTART) return
-    const points: (string | number)[] = [
-      this.srv.chalk.hex(color).dim(level.padEnd(5)),
-    ]
-
-    points.push(this.srv.chalk.hex(color)(`(${context ?? "???"}): `.padEnd(10)))
+    points.push(chalk.hex(color)(`(${context ?? "???"}): `.padEnd(10)))
 
     if (description) points.push(description)
 
@@ -151,14 +118,14 @@ class Logger {
     // test
 
     if (data instanceof Error) {
-      this.srv.consola.error(data)
+      consola.error(data)
     } else if (
       typeof data == "object" &&
       data &&
       Object.keys(data).length > 0
     ) {
       console.log(
-        this.srv.prettyOutput(
+        prettyoutput(
           this.refineDataRecursive(data) as Record<string, any>,
           {},
           2,
@@ -167,7 +134,7 @@ class Logger {
     }
 
     if (error) {
-      this.srv.consola.error(error)
+      consola.error(error)
     }
   }
 

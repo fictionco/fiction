@@ -18,7 +18,7 @@ export const getServerOnlyModules = (): ServerModuleDef[] => {
     { id: "knex-stringcase" },
     { id: "bcrypt" },
     { id: "chalk" },
-
+    { id: "google-auth-library" },
     { id: "express" },
     { id: "nodemailer" },
     { id: "nodemailer-html-to-text" },

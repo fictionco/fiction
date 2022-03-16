@@ -5,6 +5,39 @@ import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop, logger, onEvent } from "@factor/api"
 import { extendDb } from "./dbExtend"
 
+const changes: ChangesetConfig = [
+  {
+    table: FactorTable.User,
+    columnGroups: [
+      {
+        columns: [
+          { col: "google_id", type: "string" } as const,
+          { col: "first_name", type: "string" },
+          { col: "last_name", type: "string" },
+          { col: "picture", type: "string" },
+        ],
+        cb: (
+          t: Knex.AlterTableBuilder,
+          col: string,
+          hasColumn: boolean,
+          type?: ChangesetColumnTypes,
+          specific?: string,
+        ): void => {
+          if (!hasColumn) {
+            if (specific) {
+              t.specificType(col, specific)
+            } else if (type) {
+              t[type](col)
+            } else {
+              // custom
+            }
+          }
+        },
+      },
+    ],
+  },
+]
+
 const statusTypes = [
   "pending",
   "active",
@@ -16,10 +49,23 @@ const statusTypes = [
   "draft",
 ]
 
-type ColumnGroup = {
-  columns: string[]
-  cb: (t: Knex.AlterTableBuilder, col: string, hasColumn: boolean) => void
+export type ChangesetColumnTypes = "integer" | "string" | "jsonb"
+
+export type ChangesetColumnGroup = {
+  columns: { col: string; type?: ChangesetColumnTypes; specific?: string }[]
+  cb: (
+    t: Knex.AlterTableBuilder,
+    col: string,
+    hasColumn: boolean,
+    type?: ChangesetColumnTypes,
+    specific?: string,
+  ) => void
 }
+
+export type ChangesetConfig = {
+  table: string | FactorTable
+  columnGroups: ChangesetColumnGroup[]
+}[]
 /**
  * Run a changeset to existing table
  * Checks to see if column exists first
@@ -28,20 +74,24 @@ export const runChangeset = async (
   db: Knex,
   changes: {
     table: string
-    columnGroups: ColumnGroup[]
+    columnGroups: ChangesetColumnGroup[]
   }[],
 ): Promise<void> => {
   // change table loop
   const _tableChangePromises = changes.map(async ({ table, columnGroups }) => {
     // group of columns change loop
     const _groupChangePromises = columnGroups.map(
-      async (group: ColumnGroup): Promise<void> => {
+      async (group: ChangesetColumnGroup): Promise<void> => {
         // individual column change
-        const _colChangePromises = group.columns.map(async (col) => {
-          const hasColumn = await db.schema.hasColumn(table, snakeCase(col))
+        const _colChangePromises = group.columns.map(
+          async ({ col, type, specific }) => {
+            const hasColumn = await db.schema.hasColumn(table, snakeCase(col))
 
-          await db.schema.table(table, (t) => group.cb(t, col, hasColumn))
-        })
+            await db.schema.table(table, (t) =>
+              group.cb(t, col, hasColumn, type, specific),
+            )
+          },
+        )
         await Promise.all(_colChangePromises)
       },
     )
@@ -68,7 +118,11 @@ const createTables = async (db: Knex): Promise<void> => {
 
       t.string("email").notNullable().unique()
       t.string("username").unique()
+      t.string("google_id").unique()
+
       t.string("full_name")
+      t.string("first_name")
+      t.string("last_name")
       t.string("role").notNullable().defaultTo("subscriber")
       t.string("status").notNullable().defaultTo("active")
 
@@ -129,28 +183,6 @@ const createTables = async (db: Knex): Promise<void> => {
       t.timestamps(true, true)
     })
   }
-
-  const changes = [
-    {
-      table: FactorTable.User,
-      columnGroups: [
-        {
-          columns: [],
-          cb: (
-            t: Knex.AlterTableBuilder,
-            col: string,
-            hasColumn: boolean,
-          ): void => {
-            if (!hasColumn) {
-              t.integer(col)
-            }
-          },
-        },
-      ],
-    },
-  ]
-
-  await runChangeset(db, changes)
 }
 
 export const postgresConnectionUrl = (): string | undefined => {
@@ -222,6 +254,8 @@ export const getDb = async (): Promise<Knex> => {
       await extendDb(__db)
 
       await createTables(__db)
+
+      await runChangeset(__db, changes)
     }
 
     // Destroy connection if manually shutdown

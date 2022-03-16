@@ -1,6 +1,7 @@
-import { expect, it, describe, vi } from "vitest"
+import { expect, it, describe, vi, beforeAll } from "vitest"
 import { FullUser } from "@factor/types"
 import { decodeClientToken } from "@factor/api/jwt"
+import { setup } from "@factor/server"
 import { getEndpointsMap } from "../user"
 import * as em from "../email"
 let user: Partial<FullUser>
@@ -8,6 +9,9 @@ let token: string
 const key = Math.random().toString().slice(2, 8)
 
 describe("user tests", () => {
+  beforeAll(async () => {
+    await setup({ moduleName: "@factor/site" })
+  })
   it("creates user", async () => {
     const spy = vi.spyOn(em, "sendEmail")
     const response = await getEndpointsMap().StartNewUser.request({

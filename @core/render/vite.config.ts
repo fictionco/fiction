@@ -6,7 +6,7 @@ import {
   sourceFolder,
   cwd,
 } from "@factor/engine/nodeUtils"
-import { setAppGlobals } from "@factor/server/globals"
+import { getFactorConfig, setAppGlobals } from "@factor/server/globals"
 import { logger, deepMergeAll, getMarkdownUtility } from "@factor/api"
 import pluginVue from "@vitejs/plugin-vue"
 import * as vite from "vite"
@@ -68,7 +68,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
     optimizeDeps: {
       exclude: [
         "@factor/*",
-        "@kaption/*",
         "@factor/api",
         "@factor/build",
         "@factor/entry",
@@ -121,7 +120,8 @@ export const getViteConfig = async (
   } = {},
 ): Promise<vite.InlineConfig> => {
   const { bundleType } = otherConfig
-  const vars = await setAppGlobals(otherConfig)
+  const userConfig = await getFactorConfig({ cwd: process.cwd() })
+  const vars = await setAppGlobals(deepMergeAll([userConfig, otherConfig]))
 
   const defines = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -137,6 +137,17 @@ export const getViteConfig = async (
       data: vars,
       disableOnRestart: true,
     })
+  }
+
+  const define = {
+    "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
+    "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
+      process.env.STRIPE_PUBLIC_KEY,
+    ),
+    "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
+      process.env.STRIPE_PUBLIC_KEY_TEST,
+    ),
+    ...defines,
   }
 
   const root = sourceFolder()
@@ -178,16 +189,7 @@ export const getViteConfig = async (
       },
     },
 
-    define: {
-      "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
-      "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
-        process.env.STRIPE_PUBLIC_KEY,
-      ),
-      "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
-        process.env.STRIPE_PUBLIC_KEY_TEST,
-      ),
-      ...defines,
-    },
+    define,
 
     plugins: [
       pluginVue(),

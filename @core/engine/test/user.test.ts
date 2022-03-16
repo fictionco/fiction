@@ -1,10 +1,12 @@
-import { expect, it, vi, describe } from "vitest"
+import { expect, it, vi, describe, beforeAll } from "vitest"
 import { FullUser } from "@factor/types"
 import { decodeClientToken } from "@factor/api/jwt"
 import bcrypt from "bcrypt"
+import { setup } from "@factor/server"
+import { getTestEmail } from "@factor/test"
 import { Queries } from "../user"
-import * as ep from "../user"
 
+import * as ep from "../user"
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<
     string,
@@ -19,14 +21,16 @@ vi.mock("../serverEmail", async () => {
 })
 
 let user: FullUser
-const key = Math.random().toString().slice(2, 8)
 
 describe("user tests", () => {
+  beforeAll(async () => {
+    await setup({ moduleName: "@factor/site" })
+  })
   it("creates user", async () => {
     const response = await Queries.ManageUser.serve(
       {
         _action: "create",
-        fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
+        fields: { email: getTestEmail(), fullName: "test" },
       },
       undefined,
     )

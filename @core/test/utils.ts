@@ -8,6 +8,11 @@ import fs from "fs-extra"
 
 const require = createRequire(import.meta.url)
 
+export const getTestEmail = (): string => {
+  const key = Math.random().toString().slice(2, 8)
+  return `arpowers+${key}@gmail.com`
+}
+
 export const appBuildTests = (config: {
   moduleName?: string
   cwd?: string

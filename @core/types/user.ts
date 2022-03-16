@@ -37,6 +37,8 @@ export interface PublicUser {
   lastSeen?: string | number | Date
   username?: string
   fullName?: string
+  firstName?: string
+  lastName?: string
   email: string
   emailVerified?: boolean
   role?: UserRoles
@@ -77,6 +79,7 @@ export interface PrivateUser extends PublicUser {
   birthday?: string
   phoneNumber?: string
   hashedPassword?: string
+  googleId?: string
   token?: string
   setting?: Record<string, any>
   meta?: Record<string, any>
