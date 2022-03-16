@@ -6,6 +6,8 @@ import {
   Router,
   RouteRecordRaw,
   RouteLocationNormalizedLoaded,
+  useRoute,
+  useRouter,
 } from "vue-router"
 import type { RouteLocation } from "vue-router"
 import type { Component } from "vue"
@@ -119,6 +121,8 @@ export const getRouter = (): Router => {
   }
   return router
 }
+
+export { useRoute, useRouter }
 
 /**
  * Adds multiple routes to the router

@@ -13,8 +13,55 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 
+export const createDevServer = async (params: {
+  moduleName: string
+  appPort?: number
+  serverPort?: number
+}): Promise<{
+  _process: ExecaChildProcess
+  appPort: number
+  serverPort: number
+  destroy: () => void
+}> => {
+  const { moduleName } = params
+  let { serverPort, appPort } = params
+  serverPort = serverPort || randomBetween(1000, 9000)
+  appPort = appPort || randomBetween(1000, 9000)
+
+  let _process: ExecaChildProcess | undefined
+
+  await new Promise<void>((resolve) => {
+    _process = execaCommand(
+      `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`,
+      {
+        env: { TEST_ENV: "unit" },
+      },
+    )
+
+    _process.stdout?.on("data", (d: Buffer) => {
+      const out = d.toString()
+
+      if (out.includes("serving app")) resolve()
+    })
+  })
+
+  if (!_process) throw new Error("Could not start dev server")
+
+  return {
+    _process,
+    appPort,
+    serverPort,
+    destroy: () => {
+      if (_process) {
+        _process.cancel()
+        _process.kill("SIGTERM")
+      }
+    },
+  }
+}
+
 export const appBuildTests = (config: {
-  moduleName?: string
+  moduleName: string
   cwd?: string
 }): void => {
   const { moduleName } = config
@@ -56,21 +103,10 @@ export const appBuildTests = (config: {
     })
 
     it("renders", async () => {
-      let _process: ExecaChildProcess | undefined
-
-      await new Promise<void>((resolve) => {
-        _process = execaCommand(
-          `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`,
-          {
-            env: { TEST_ENV: "unit" },
-          },
-        )
-
-        _process.stdout?.on("data", (d: Buffer) => {
-          const out = d.toString()
-
-          if (out.includes("serving app")) resolve()
-        })
+      const { destroy } = await createDevServer({
+        moduleName,
+        appPort,
+        serverPort,
       })
 
       const browser = await chromium.launch()
@@ -98,10 +134,7 @@ export const appBuildTests = (config: {
       expect(errorLogs.length).toBe(0)
       expect(html).toBeTruthy()
 
-      if (_process) {
-        _process.cancel()
-        _process.kill("SIGTERM")
-      }
+      destroy()
     }, 20_000)
   })
 }

@@ -11,8 +11,8 @@
     "idk": "echo 'ok'"
   },
   "dependencies": {
-    "@factor/types": "4.1.23",
     "@factor/engine": "4.1.23",
+    "@factor/types": "4.1.23",
     "@medv/finder": "^2.1.0",
     "@types/blueimp-load-image": "^5.14.0",
     "@types/js-cookie": "^3.0.0",
@@ -51,6 +51,7 @@
     "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
+    "@vue/test-utils": "^2.0.0-rc.17",
     "vitest": "^0.6.0"
   }
 }
