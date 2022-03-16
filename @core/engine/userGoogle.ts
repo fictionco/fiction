@@ -28,6 +28,11 @@ export class QueryUserGoogleAuth extends Query {
   ): Promise<EndpointResponse<FullUser>> {
     const client = await this.getClient()
 
+    let user: FullUser | undefined = undefined
+    let isNew = false
+    let message = ""
+    let token = ""
+
     if (params._action == "loginWithCredential") {
       const { credential } = params
       const ticket = await client.verifyIdToken({
@@ -35,6 +40,8 @@ export class QueryUserGoogleAuth extends Query {
         audience: this.clientId,
       })
       const payload = ticket.getPayload()
+
+      if (!payload || !payload.email) throw new Error("no payload email")
 
       logger.log({
         level: "info",
@@ -48,18 +55,46 @@ export class QueryUserGoogleAuth extends Query {
           _action: "getPrivate",
           email: payload?.email,
         },
+        _meta,
+      )
+
+      // no user, create one
+      if (!existingUser) {
+        await UserAuthQueries.ManageUser.serve(
+          {
+            _action: "create",
+            fields: {
+              email: payload?.email,
+              emailVerified: payload?.email_verified,
+              googleId: payload.sub,
+              fullName: payload?.name,
+              firstName: payload?.given_name,
+              lastName: payload?.family_name,
+              picture: payload?.picture,
+            },
+          },
+          _meta,
+        )
+
+        isNew = true
+      }
+
+      const loginResponse = await UserAuthQueries.Login.serve(
+        {
+          email: payload.email,
+          googleId: payload.sub,
+          emailVerified: payload?.email_verified,
+        },
         { server: true },
       )
 
-      logger.log({
-        level: "info",
-        description: "Google exist",
-        context: "auth",
-        data: existingUser,
-      })
+      user = loginResponse.data
+      token = loginResponse.token
+
+      message = isNew ? "new user created" : "login successful"
     }
 
-    return { status: "success", data: undefined }
+    return { status: "success", data: user, isNew, message, token }
   }
 }
 

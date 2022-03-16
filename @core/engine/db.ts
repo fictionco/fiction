@@ -72,10 +72,7 @@ export type ChangesetConfig = {
  */
 export const runChangeset = async (
   db: Knex,
-  changes: {
-    table: string
-    columnGroups: ChangesetColumnGroup[]
-  }[],
+  changes: ChangesetConfig,
 ): Promise<void> => {
   // change table loop
   const _tableChangePromises = changes.map(async ({ table, columnGroups }) => {

@@ -1,1 +1,1 @@
-export { useHead as useMeta } from "@vueuse/head"
+export { useHead as useMeta, createHead as getMeta } from "@vueuse/head"

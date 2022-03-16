@@ -10,7 +10,7 @@ import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 import { CallbackDictionary } from "./dictionary"
 export interface FactorAppEntry {
   app: App
-  head: HeadClient
+  meta: HeadClient
   router: Router
   store: Store<Record<string, any>>
 }

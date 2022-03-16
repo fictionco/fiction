@@ -7,7 +7,7 @@ import { getStore } from "@factor/api/store"
 import { setupPlugins } from "@factor/api/extend"
 import { logger } from "@factor/api/logger"
 import { FactorAppEntry, UserConfigApp } from "@factor/types"
-import { createHead } from "@vueuse/head"
+import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
 
@@ -73,10 +73,10 @@ export const factorApp = async (
 
   await router.isReady()
 
-  const head = createHead()
-  app.use(head)
+  const meta = getMeta()
+  app.use(meta)
 
-  return { app, head, router, store }
+  return { app, meta, router, store }
 }
 /**
  * In client mode, mount the app

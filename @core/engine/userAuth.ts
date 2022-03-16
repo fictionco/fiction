@@ -31,8 +31,8 @@ const getSixDigitRandom = (): string => {
  * @remarks
  * 6 salt rounds - https://security.stackexchange.com/a/83382
  */
-const hashPassword = async (password: string): Promise<string> => {
-  return await bcrypt.hash(password, 6)
+const hashPassword = async (password?: string): Promise<string | undefined> => {
+  return password ? await bcrypt.hash(password, 6) : undefined
 }
 const comparePassword = async (
   password: string,
@@ -100,6 +100,21 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
 //   }
 // }
 
+const checkServerFields = (
+  fields: Partial<FullUser>,
+  _meta: EndpointMeta = {},
+): void => {
+  if (
+    !_meta?.server &&
+    (fields.emailVerified || fields.googleId || fields.hashedPassword)
+  ) {
+    throw _stop({
+      message: "server mete required for fields",
+      data: { fields },
+    })
+  }
+}
+
 class QueryManageUser extends Query {
   async run(
     params:
@@ -107,25 +122,19 @@ class QueryManageUser extends Query {
           _action: "create"
           fields: {
             email: string
-            fullName?: string
-          }
-        }
-      | {
-          _action: "createGoogle"
-          fields: {
-            email: string
+            password?: string
             fullName?: string
             firstName?: string
             lastName?: string
-            googleId: string
-            emailVerified: boolean
+            googleId?: string
+            emailVerified?: boolean
+            picture?: string
           }
         }
       | {
           _action: "update"
           fields: Partial<FullUser>
-          email?: string
-          userId?: string
+          email: string
         }
       | {
           _action: "getPrivate" | "getPublic"
@@ -134,7 +143,11 @@ class QueryManageUser extends Query {
           select?: (keyof FullUser)[] | ["*"]
         },
     _meta?: EndpointMeta,
-  ): Promise<EndpointResponse<FullUser>> {
+  ): Promise<
+    EndpointResponse<FullUser> & {
+      isNew: boolean
+    }
+  > {
     const { _action } = params
 
     const db = await this.getDb()
@@ -142,6 +155,8 @@ class QueryManageUser extends Query {
     let user: FullUser | undefined
 
     const publicFields = getPublicUserFields()
+
+    let isNew = false
 
     if (_action == "getPrivate" || _action == "getPublic") {
       const { userId, email } = params
@@ -161,12 +176,14 @@ class QueryManageUser extends Query {
         delete user?.hashedPassword
       }
     } else if (_action == "update") {
-      const { userId, email, fields } = params
-      if (!fields || (!userId && !email)) {
-        throw this.stop("missing required fields")
+      const { email, fields } = params
+      if (!fields || !email) {
+        throw this.stop("update user requires email and fields")
       }
 
-      const where = userId ? { userId } : { email }
+      checkServerFields(fields, _meta)
+
+      const where = { email }
 
       ;[user] = await db(FactorTable.User)
         .update(fields)
@@ -181,29 +198,49 @@ class QueryManageUser extends Query {
 
       if (!fields) throw this.stop("fields required")
 
-      const { email } = fields
+      const {
+        email,
+        fullName,
+        firstName,
+        lastName,
+        password,
+        googleId,
+        emailVerified = false,
+        picture,
+      } = fields
+
+      checkServerFields(fields, _meta)
+
+      const hashedPassword = await hashPassword(password)
 
       if (!email) throw this.stop("email required")
 
-      await verifyNewEmail(email)
+      if (!emailVerified) await verifyNewEmail(email)
       ;[user] = await db
         .insert({
-          ...fields,
+          email,
+          fullName,
+          firstName,
+          lastName,
+          googleId,
+          emailVerified,
+          hashedPassword,
+          picture,
           verificationCode: getSixDigitRandom(),
           codeExpiresAt: dayjs().add(7, "day").toISOString(),
         })
-        .onConflict("email")
-        .merge()
         .into(FactorTable.User)
         .returning<FullUser[]>("*")
 
       if (!user) throw this.stop("problem creating user")
+
+      isNew = true
     }
 
     // don't return authority info to client
     delete user?.verificationCode
 
-    return { status: "success", data: user }
+    return { status: "success", data: user, isNew }
   }
 }
 
@@ -211,9 +248,11 @@ class QueryCurrentUser extends Query {
   async run(params: { token: string }): Promise<EndpointResponse<FullUser>> {
     const { token } = params
 
-    if (!token) throw this.stop({ message: "auth info not sent (token)" })
+    if (!token) throw this.stop("auth info not sent (token)")
 
     const { email } = decodeClientToken(token)
+
+    if (!email) throw this.stop("email missing in token")
 
     const { data: user } = await Queries.ManageUser.serve(
       {
@@ -338,6 +377,9 @@ class QueryUpdateCurrentUser extends Query {
 
     const { email, userId, password, verificationCode } = params
     const { bearer } = meta
+
+    if (!bearer || !bearer.email) throw this.stop("bearer email required")
+
     let fields: Partial<FullUser> = {}
 
     for (const f of getEditableUserFields()) {
@@ -399,7 +441,7 @@ class QueryUpdateCurrentUser extends Query {
       const response = await Queries.ManageUser.serve(
         {
           _action: "update",
-          userId: bearer.userId,
+          email: bearer.email,
           fields,
         },
         meta,
@@ -439,6 +481,7 @@ class QuerySetPassword extends Query {
     const email = emailArg ?? meta.bearer.email
 
     if (!email) throw this.stop(`email must be verified to set new password`)
+    if (!password) throw this.stop(`password required`)
 
     // code verification is needed because on password reset the user is logged out
     await verifyCode({ email, verificationCode })
@@ -576,18 +619,25 @@ class QueryStartNewUser extends Query {
   }
 }
 
+type LoginResponse = Promise<
+  EndpointResponse<FullUser> & {
+    token: string
+    user: FullUser
+    next?: "verify"
+  }
+>
+
 class QueryLogin extends Query {
-  async run(
-    params: { email: string; password: string },
+  public async run(
+    params: {
+      email: string
+      password?: string
+      googleId?: string
+      emailVerified?: boolean
+    },
     _meta: EndpointMeta,
-  ): Promise<
-    EndpointResponse<FullUser> & {
-      token: string
-      user: FullUser
-      next?: "verify"
-    }
-  > {
-    const { email, password } = params
+  ): LoginResponse {
+    const { email, password, googleId, emailVerified } = params
     let { data: user } = await Queries.ManageUser.serve(
       {
         _action: "getPrivate",
@@ -596,30 +646,53 @@ class QueryLogin extends Query {
       _meta,
     )
 
+    let message = ""
+
     if (!user) throw this.stop({ message: "user does not exist" })
-    if (!user.hashedPassword) throw this.stop({ message: "password error" })
 
-    const correctPassword = await comparePassword(
-      password,
-      user.hashedPassword ?? "",
-    )
+    if (googleId && _meta.server) {
+      if (!user.googleId && emailVerified) {
+        await Queries.ManageUser.serve(
+          {
+            _action: "update",
+            email,
+            fields: { googleId, emailVerified },
+          },
+          _meta,
+        )
+        message = "linked google account"
+      } else if (user.googleId != googleId) {
+        throw this.stop({ message: "user linked to another google account" })
+      }
+    } else if (password) {
+      if (!user.hashedPassword) throw this.stop({ message: "password error" })
 
-    if (!correctPassword) {
-      throw this.stop({ message: "password is incorrect" })
+      const correctPassword = await comparePassword(
+        password,
+        user.hashedPassword ?? "",
+      )
+
+      if (!correctPassword) {
+        throw this.stop({ message: "password is incorrect" })
+      }
+
+      delete user.hashedPassword
     }
-
-    delete user.hashedPassword
 
     user = await processUser(user)
 
     const token = createClientToken(user)
 
+    if (!message) message = "successfully logged in"
+
     if (!user.emailVerified) {
       await sendOneTimeCode({ email: user.email })
+
+      message = "verification email sent"
       return {
         status: "success",
         data: user,
-        message: "verification email sent",
+        message,
         next: "verify",
         token,
         user,
@@ -635,7 +708,7 @@ class QueryLogin extends Query {
     return {
       status: "success",
       data: user,
-      message: "successfully logged in",
+      message,
       token,
       user,
     }
