@@ -1,3 +1,12 @@
+## [4.1.27](https://github.com/FactorJS/factor/compare/v4.1.26...v4.1.27) (2022-03-17)
+
+
+### Bug Fixes
+
+* add user to enable handling on response ([409fbd4](https://github.com/FactorJS/factor/commit/409fbd439dc9d46bab7f19f32c9ab2b77f0a7c7a))
+
+
+
 ## [4.1.26](https://github.com/FactorJS/factor/compare/v4.1.25...v4.1.26) (2022-03-17)
 
 
