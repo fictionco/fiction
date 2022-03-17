@@ -109,7 +109,7 @@ const checkServerFields = (
     (fields.emailVerified || fields.googleId || fields.hashedPassword)
   ) {
     throw _stop({
-      message: "server mete required for fields",
+      message: "server meta required for fields",
       data: { fields },
     })
   }
@@ -493,7 +493,7 @@ class QuerySetPassword extends Query {
         email,
         fields: { hashedPassword },
       },
-      meta,
+      { ...meta, server: true },
     )
 
     if (!user) throw this.stop("problem updating user")
@@ -530,7 +530,7 @@ class QueryVerifyAccountEmail extends Query {
         email,
         fields: { emailVerified: true },
       },
-      undefined,
+      { server: true },
     )
 
     if (!user) throw this.stop("problem updating user")
