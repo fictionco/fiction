@@ -9,7 +9,7 @@ import {
 import { currentUrl } from "@factor/engine/url"
 import { EntryModuleExports, RenderMode } from "@factor/types"
 import { renderToString } from "@vue/server-renderer"
-import { renderHeadToString } from "@vueuse/head"
+import { renderMeta } from "@factor/api/meta"
 import fs from "fs-extra"
 import { minify } from "html-minifier"
 import { version } from "./package.json"
@@ -133,7 +133,7 @@ export const renderParts = async (args: {
       renderUrl: url,
     })
 
-    const { app, head } = factorAppEntry
+    const { app, meta } = factorAppEntry
 
     /**
      * Pass context for rendering (available useSSRContext())
@@ -151,7 +151,7 @@ export const renderParts = async (args: {
     /**
      * Meta/Head Rendering
      */
-    const { headTags, htmlAttrs, bodyAttrs } = renderHeadToString(head)
+    const { headTags, htmlAttrs, bodyAttrs } = renderMeta(meta)
     out.headTags = headTags
     out.htmlAttrs = htmlAttrs
     out.bodyAttrs = bodyAttrs
