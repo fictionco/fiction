@@ -48,7 +48,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "vitest": "^0.6.0",
+    "vitest": "^0.7.0",
     "@factor/test": "4.1.25"
   }
 }
