@@ -20,7 +20,7 @@ import { computed, onMounted, ref } from "vue"
 import themeAlpha from "../img/theme-alpha.jpg"
 import themeYellow from "../img/theme-alpha-yellow.jpg"
 import themeUltra from "../img/theme-ultra.jpg"
-const wrapper = ref()
+const wrapper = ref<HTMLElement>()
 const width = ref<number>(500)
 const screenshots = ref([
   {
@@ -40,7 +40,7 @@ const screenshots = ref([
 /**
  * Get figure width
  */
-const getWidth = () => {
+const getWidth = (): number => {
   return wrapper.value ? wrapper.value.clientWidth : 100
 }
 /**

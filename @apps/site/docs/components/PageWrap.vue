@@ -2,7 +2,6 @@
   <div>
     <div class="w-full max-w-screen-xl mx-auto">
       <div class="lg:flex">
-        <!-- <DocSearch class="lg:hidden" /> -->
         <div
           class="flex items-center justify-center px-4 sm:px-6 xl:px-8 lg:hidden"
         >
@@ -41,7 +40,6 @@
             vis ? 'block h-screen absolute top-16 z-50 lg:hidden p-2' : 'hidden'
           "
         >
-          <DocSearch v-if="search" class="hidden lg:block lg:pt-8" />
           <div
             id="navWrapper"
             class="rounded-lg shadow-xl ring-1 ring-black ring-opacity-20 bg-white overflow-y-auto scrolling-touch overflow-hidden lg:shadow-none lg:ring-0 lg:h-auto lg:block lg:sticky lg:bg-transparent lg:top-16"
@@ -150,7 +148,6 @@ import { ref } from "vue"
 
 import { useRouter } from "vue-router"
 import { docs, groups } from "../map"
-import DocSearch from "./DocSearch.vue"
 const baseRoute = ref("/docs")
 const router = useRouter()
 const vis = ref(false)

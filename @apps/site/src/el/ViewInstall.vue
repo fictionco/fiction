@@ -81,7 +81,7 @@ onMounted(() => {
    * Scrolling changes, sometimes IntersectionObserver isn't available
    */
   if (IntersectionObserver) {
-    videos.value.forEach((video: any) => {
+    videos.value.forEach((video: { id: string }) => {
       const selector = `#${video.id}`
       const observer = new IntersectionObserver(
         (entries) => {

@@ -78,7 +78,7 @@ defineProps({
 })
 
 const emit = defineEmits(["update:vis", "close"])
-const close = () => {
+const close = (): void => {
   emit("update:vis", false)
   emit("close", true)
 }
