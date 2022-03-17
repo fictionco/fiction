@@ -1,6 +1,6 @@
 {
   "name": "@factor/cli",
-  "version": "4.1.25",
+  "version": "4.1.26",
   "license": "MIT",
   "main": "index.js",
   "publishConfig": {
@@ -8,12 +8,12 @@
   },
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.1.25",
-    "@factor/build": "4.1.25",
-    "@factor/cli": "4.1.25",
-    "@factor/render": "4.1.25",
-    "@factor/server": "4.1.25",
-    "@factor/types": "4.1.25",
+    "@factor/api": "4.1.26",
+    "@factor/build": "4.1.26",
+    "@factor/cli": "4.1.26",
+    "@factor/render": "4.1.26",
+    "@factor/server": "4.1.26",
+    "@factor/types": "4.1.26",
     "@types/nodemon": "^1.19.1",
     "axios": "^0.26.0",
     "commander": "^9.0.0",
