@@ -64,6 +64,7 @@ describe("google auth", () => {
     expect(response.data?.email).toBe(email)
     expect(response.data?.googleId).toBe(googleId)
     expect(response.data?.fullName).toBe("test test")
+    expect(response.user?.userId).toBeTruthy()
   })
 
   it("if user exists, returns login token, isNew = false", async () => {
@@ -82,6 +83,7 @@ describe("google auth", () => {
     expect(response.data?.fullName).toBe("test test")
     expect(response.data?.email).toBeTruthy()
     expect(response.data?.googleId).toBe(googleId)
+    expect(response.user?.userId).toBeTruthy()
   })
 
   it("if google login user exists with email and no googleId, if email is verified it links the googleId to the user", async () => {
@@ -107,6 +109,9 @@ describe("google auth", () => {
     expect(responseLoginGoogle.status).toBe("success")
     expect(responseLoginGoogle.isNew).toBe(false)
     expect(responseLoginGoogle.token).toBeTruthy()
-    expect(responseLoginGoogle.message).toMatchInlineSnapshot('"login successful"')
+    expect(responseLoginGoogle.message).toMatchInlineSnapshot(
+      '"login successful"',
+    )
+    expect(responseLoginGoogle.user?.userId).toBeTruthy()
   })
 })

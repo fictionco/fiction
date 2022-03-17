@@ -88,6 +88,13 @@ export const setCurrentUser = (args: {
 
   if (!user) return deleteCurrentUser()
 
+  logger.log({
+    level: "info",
+    context: "user",
+    description: "set current user",
+    data: user,
+  })
+
   storeItem("currentUser", user)
   cacheUser({ user })
 

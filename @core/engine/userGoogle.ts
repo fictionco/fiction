@@ -25,7 +25,13 @@ export class QueryUserGoogleAuth extends Query {
   async run(
     params: { _action: "loginWithCredential"; credential: string },
     _meta?: EndpointMeta,
-  ): Promise<EndpointResponse<FullUser>> {
+  ): Promise<
+    EndpointResponse<FullUser> & {
+      isNew?: boolean
+      token?: string
+      user?: FullUser
+    }
+  > {
     const client = await this.getClient()
 
     let user: FullUser | undefined = undefined
@@ -94,7 +100,7 @@ export class QueryUserGoogleAuth extends Query {
       message = isNew ? "new user created" : "login successful"
     }
 
-    return { status: "success", data: user, isNew, message, token }
+    return { status: "success", data: user, isNew, message, token, user }
   }
 }
 
