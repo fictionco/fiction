@@ -1,3 +1,14 @@
+## [4.1.25](https://github.com/FactorJS/factor/compare/v4.1.24...v4.1.25) (2022-03-17)
+
+
+### Bug Fixes
+
+* change cookie handling ([10a7d10](https://github.com/FactorJS/factor/commit/10a7d10eb93b2f005282cebda64ad425e68d6916))
+* module handling ([b7967d2](https://github.com/FactorJS/factor/commit/b7967d2357dedb123d63a9a884ae68d4db213a5d))
+* security check ([b7c355c](https://github.com/FactorJS/factor/commit/b7c355c0ad7b00c319cab39d555872fe502534ca))
+
+
+
 ## [4.1.24](https://github.com/FactorJS/factor/compare/v4.1.23...v4.1.24) (2022-03-16)
 
 
