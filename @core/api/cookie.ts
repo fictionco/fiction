@@ -33,7 +33,7 @@ export const removeCookie = (
  */
 export const getTopDomain = (): string => {
   let i = 0
-  let domain = document.domain
+  let domain = window.location.hostname
   const p = domain.split(".")
   const s = `_gd${Date.now()}`
   while (i < p.length - 1 && !document.cookie.includes(s + "=" + s)) {

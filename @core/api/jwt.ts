@@ -1,6 +1,6 @@
 import { FullUser, PrivateUser } from "@factor/types"
 import jwt from "jsonwebtoken"
-import { setCookie, getCookie, removeCookie } from "./cookie"
+import { setCookie, getCookie, removeCookie, getTopDomain } from "./cookie"
 import { _stop } from "./error"
 import { logger } from "./logger"
 /**
@@ -16,23 +16,17 @@ export const clientToken = (
     return
   }
   const domain =
-    process.env.NODE_ENV == "production" ? window.location.hostname : undefined
+    process.env.NODE_ENV == "production" ? getTopDomain() : undefined
 
   const { action = "get", token } = args
   const TOKEN_KEY = "ffUser"
   if (action === "destroy") {
     removeCookie(TOKEN_KEY, { domain })
-    //localStorage.removeItem(TOKEN_KEY)
   } else if (action == "set" && token) {
     setCookie(TOKEN_KEY, token, { expires: 14, domain })
-    // localStorage.setItem(TOKEN_KEY, token)
   } else {
-    // let localValue = localStorage.getItem(TOKEN_KEY)
     const cookieValue = getCookie(TOKEN_KEY)
-    // if (!localValue && cookieValue) {
-    //   localStorage.setItem(TOKEN_KEY, cookieValue)
-    //   localValue = cookieValue
-    // }
+
     return cookieValue ? cookieValue : ""
   }
 }
