@@ -4,7 +4,7 @@ import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
-import { randomBetween } from "@factor/api"
+import { randomBetween, logger } from "@factor/api"
 import fs from "fs-extra"
 
 const require = createRequire(import.meta.url)
@@ -30,21 +30,28 @@ export const createTestServer = async (params: {
   appPort?: number
   serverPort?: number
   headless?: boolean
+  slowMo?: number
 }): Promise<TestServerConfig> => {
-  const { moduleName, headless = true } = params
+  const { moduleName, headless = true, slowMo } = params
   let { serverPort, appPort } = params
   serverPort = serverPort || randomBetween(1000, 9000)
   appPort = appPort || randomBetween(1000, 9000)
 
   let _process: ExecaChildProcess | undefined
 
+  logger.log({
+    level: "info",
+    context: "createTestServer",
+    description: `Creating test server for ${moduleName}`,
+    data: { serverPort, appPort, cwd: process.cwd() },
+  })
+
   await new Promise<void>((resolve) => {
-    _process = execaCommand(
-      `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`,
-      {
-        env: { TEST_ENV: "unit" },
-      },
-    )
+    const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
+
+    _process = execaCommand(cmd, { env: { TEST_ENV: "unit" } })
+    _process.stdout?.pipe(process.stdout)
+    _process.stderr?.pipe(process.stderr)
 
     _process.stdout?.on("data", (d: Buffer) => {
       const out = d.toString()
@@ -57,7 +64,7 @@ export const createTestServer = async (params: {
 
   const appUrl = `http://localhost:${appPort}`
 
-  const browser = await chromium.launch({ headless })
+  const browser = await chromium.launch({ headless, slowMo })
   const page = await browser.newPage()
 
   return {

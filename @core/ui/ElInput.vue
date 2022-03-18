@@ -70,6 +70,12 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
+</script>
+
 <script lang="ts" setup>
 import {
   ComponentPublicInstance,

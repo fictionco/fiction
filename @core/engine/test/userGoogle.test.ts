@@ -13,8 +13,8 @@ const basicCredentialData = {
   email_verified: true,
   iss: "https://accounts.google.com",
   nbf: 1_647_376_804,
-  aud: process.env.GOOGLE_CLIENT_ID,
-  azp: process.env.GOOGLE_CLIENT_ID,
+  aud: "not an id",
+  azp: "not an id",
   name: "test test",
   picture:
     "https://lh3.googleusercontent.com/a-/AOh14GhI8nBQQUi1e3yVZt76sMwxw_PNfaHNxCBxK0R2Occ=s96-c",

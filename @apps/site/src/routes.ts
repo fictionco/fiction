@@ -33,6 +33,12 @@ export const routes = [
     path: "/install",
     component: (): Promise<any> => import("./el/ViewInstall.vue"),
   }),
+  new AppRoute({
+    key: "testing",
+    name: "Testing",
+    path: "/testing",
+    component: (): Promise<any> => import("./FactorTesting.vue"),
+  }),
   ...blogRoutes,
   ...docsRoutes,
 ]

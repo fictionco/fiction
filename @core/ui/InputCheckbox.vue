@@ -12,6 +12,12 @@
     </span>
   </label>
 </template>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
+</script>
+
 <script lang="ts" setup>
 import { useAttrs } from "vue"
 

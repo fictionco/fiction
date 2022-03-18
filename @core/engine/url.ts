@@ -1,8 +1,6 @@
 import { UserConfigServer } from "@factor/types"
 import { _stop } from "@factor/api/error"
 
-if (typeof window !== "undefined") (window as Window).process = { env: {} }
-
 export const getAppPort = (
   config: UserConfigServer = {},
 ): string | undefined => {

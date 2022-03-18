@@ -9,8 +9,16 @@ import { Query } from "./query"
 
 export class QueryUserGoogleAuth extends Query {
   private client?: OAuth2Client
-  private clientId = process.env.GOOGLE_CLIENT_ID
-  private clientSecret = process.env.GOOGLE_CLIENT_SECRET
+  private clientId?: string
+  private clientSecret?: string
+
+  constructor() {
+    super()
+    if (this.isNode) {
+      this.clientId = process.env.GOOGLE_CLIENT_ID
+      this.clientSecret = process.env.GOOGLE_CLIENT_SECRET
+    }
+  }
 
   async getClient(): Promise<OAuth2Client> {
     if (!this.client) {

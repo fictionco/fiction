@@ -140,13 +140,13 @@ export const getViteConfig = async (
   }
 
   const define = {
-    "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
-    "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
-      process.env.STRIPE_PUBLIC_KEY,
-    ),
-    "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
-      process.env.STRIPE_PUBLIC_KEY_TEST,
-    ),
+    // "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
+    // "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
+    //   process.env.STRIPE_PUBLIC_KEY,
+    // ),
+    // "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
+    //   process.env.STRIPE_PUBLIC_KEY_TEST,
+    // ),
     ...defines,
   }
 

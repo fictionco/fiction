@@ -12,6 +12,8 @@ const getDefaultServerVariables = (): Record<string, string> => {
     FACTOR_SERVER_PORT: "",
     FACTOR_APP_PORT: "",
     NODE_ENV: process.env.NODE_ENV || "",
+    TEST_ENV: "",
+    HTTP_PROTOCOL: "",
   }
 }
 
@@ -32,8 +34,7 @@ export const setAppGlobals = async (
       ? JSON.stringify(value)
       : String(value)
 
-    __variables[key] = finalValue
-    process.env[key] = finalValue
+    __variables[key] = process.env[key] = finalValue
   })
 
   return __variables
