@@ -2,7 +2,8 @@ import path from "path"
 import { createRequire } from "module"
 import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
-import { chromium } from "playwright"
+import { chromium, Browser, Page } from "playwright"
+import { expect as expectUi, Expect } from "@playwright/test"
 import { randomBetween } from "@factor/api"
 import fs from "fs-extra"
 
@@ -13,17 +14,24 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 
-export const createDevServer = async (params: {
-  moduleName: string
-  appPort?: number
-  serverPort?: number
-}): Promise<{
+export type TestServerConfig = {
   _process: ExecaChildProcess
   appPort: number
   serverPort: number
-  destroy: () => void
-}> => {
-  const { moduleName } = params
+  destroy: () => Promise<void>
+  browser: Browser
+  page: Page
+  expectUi: Expect
+  appUrl: string
+}
+
+export const createTestServer = async (params: {
+  moduleName: string
+  appPort?: number
+  serverPort?: number
+  headless?: boolean
+}): Promise<TestServerConfig> => {
+  const { moduleName, headless = true } = params
   let { serverPort, appPort } = params
   serverPort = serverPort || randomBetween(1000, 9000)
   appPort = appPort || randomBetween(1000, 9000)
@@ -47,15 +55,25 @@ export const createDevServer = async (params: {
 
   if (!_process) throw new Error("Could not start dev server")
 
+  const appUrl = `http://localhost:${appPort}`
+
+  const browser = await chromium.launch({ headless })
+  const page = await browser.newPage()
+
   return {
     _process,
     appPort,
     serverPort,
-    destroy: () => {
+    appUrl,
+    browser,
+    page,
+    expectUi,
+    destroy: async () => {
       if (_process) {
         _process.cancel()
         _process.kill("SIGTERM")
       }
+      await browser.close()
     },
   }
 }
@@ -103,14 +121,12 @@ export const appBuildTests = (config: {
     })
 
     it("renders", async () => {
-      const { destroy } = await createDevServer({
+      const { destroy, page, appUrl } = await createTestServer({
         moduleName,
         appPort,
         serverPort,
       })
 
-      const browser = await chromium.launch()
-      const page = await browser.newPage()
       const errorLogs: string[] = []
       page.on("console", (message) => {
         if (message.type() === "error") {
@@ -121,11 +137,9 @@ export const appBuildTests = (config: {
       page.on("pageerror", (err) => {
         errorLogs.push(err.message)
       })
-      await page.goto(`http://localhost:${appPort}`)
+      await page.goto(appUrl)
 
       const html = await page.innerHTML("body")
-
-      await browser.close()
 
       if (errorLogs.length > 0) {
         console.error(errorLogs)
@@ -134,7 +148,7 @@ export const appBuildTests = (config: {
       expect(errorLogs.length).toBe(0)
       expect(html).toBeTruthy()
 
-      destroy()
+      await destroy()
     }, 20_000)
   })
 }
