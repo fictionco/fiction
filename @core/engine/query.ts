@@ -62,7 +62,7 @@ export abstract class Query {
 
       const response = {
         status: "error",
-        message: e.message,
+        message: e.expose ? e.message : "",
         expose: e.expose,
         code: e.code,
         data: e.data,
