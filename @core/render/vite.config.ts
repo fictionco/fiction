@@ -129,12 +129,16 @@ export const getViteConfig = async (
     }),
   )
 
+  const listVars = Object.fromEntries(
+    Object.entries(vars).filter(([_key, value]) => value),
+  )
+
   if (bundleType !== "script" || process.env.NODE_ENV == "production") {
     logger.log({
       level: "info",
       context: "build",
       description: `build variables`,
-      data: vars,
+      data: listVars,
       disableOnRestart: true,
     })
   }
