@@ -1,3 +1,17 @@
+## [4.1.30](https://github.com/FactorJS/factor/compare/v4.1.29...v4.1.30) (2022-03-18)
+
+
+### Bug Fixes
+
+* define vars ([e6c50d7](https://github.com/FactorJS/factor/commit/e6c50d7dede31be85d57fa8b0ab2ecb0b9f17f8e))
+
+
+### Features
+
+* clean up listing ([11f96fd](https://github.com/FactorJS/factor/commit/11f96fd6479618398789fab61fc7c508d1b9dd24))
+
+
+
 ## [4.1.29](https://github.com/FactorJS/factor/compare/v4.1.28...v4.1.29) (2022-03-18)
 
 
