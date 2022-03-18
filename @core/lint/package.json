@@ -1,6 +1,6 @@
 {
   "name": "@factor/lint",
-  "version": "4.1.27",
+  "version": "4.1.28",
   "license": "MIT",
   "main": "config.cjs",
   "publishConfig": {

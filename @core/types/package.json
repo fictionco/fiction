@@ -1,15 +1,15 @@
 {
   "name": "@factor/types",
-  "version": "4.1.27",
+  "version": "4.1.28",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "4.1.27",
-    "@factor/render": "4.1.27",
-    "@factor/engine": "4.1.27",
+    "@factor/api": "4.1.28",
+    "@factor/render": "4.1.28",
+    "@factor/engine": "4.1.28",
     "@types/fs-extra": "^9.0.3",
     "@types/glob": "^7.1.3",
     "@types/minimist": "^1.2.0",

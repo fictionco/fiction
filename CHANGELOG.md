@@ -1,3 +1,12 @@
+## [4.1.28](https://github.com/FactorJS/factor/compare/v4.1.27...v4.1.28) (2022-03-18)
+
+
+### Bug Fixes
+
+* ui fixe ([efdca11](https://github.com/FactorJS/factor/commit/efdca11730e440efd38a2473f92f84a270a92ffa))
+
+
+
 ## [4.1.27](https://github.com/FactorJS/factor/compare/v4.1.26...v4.1.27) (2022-03-17)
 
 
