@@ -93,15 +93,16 @@ export const createTestServer = async (params: {
 }
 
 export const appBuildTests = (config: {
-  moduleName: string
+  moduleName?: string
   cwd?: string
 }): void => {
-  const { moduleName } = config
-  let { cwd = "" } = config
+  let { cwd = "", moduleName } = config
   const serverPort = randomBetween(1000, 9000)
   const appPort = randomBetween(1000, 9000)
 
   cwd = cwd || path.dirname(require.resolve(`${moduleName}/package.json`))
+
+  moduleName = moduleName || getModuleName(cwd)
 
   if (!cwd) throw new Error("cwd is not defined")
 

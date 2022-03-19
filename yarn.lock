@@ -2755,9 +2755,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001317:
-  version "1.0.30001317"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001317.tgz#0548fb28fd5bc259a70b8c1ffdbe598037666a1b"
-  integrity sha512-xIZLh8gBm4dqNX0gkzrBeyI86J2eCjWzYAs40q88smG844YIrN4tVQl/RhquHvKEKImWWFIVh1Lxe5n1G/N+GQ==
+  version "1.0.30001319"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001319.tgz#eb4da4eb3ecdd409f7ba1907820061d56096e88f"
+  integrity sha512-xjlIAFHucBRSMUo1kb5D4LYgcN1M45qdKP++lhqowDpwJwGkpIRTt5qQqnhxjj1vHcI7nrJxWhCC1ATrCEBTcw==
 
 caseless@^0.12.0, caseless@~0.12.0:
   version "0.12.0"
@@ -3249,7 +3249,7 @@ debug@2.6.9, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.3:
+debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -3454,9 +3454,9 @@ domexception@^4.0.0:
     webidl-conversions "^7.0.0"
 
 domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.0.tgz#16c658c626cf966967e306f966b431f77d4a5626"
-  integrity sha512-fC0aXNQXqKSFTr2wDNZDhsEYjCiYsDWl3D01kwt25hm1YIPyDGHvvi3rw+PLqHAl/m71MaiF7d5zvBr0p5UB2g==
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.1.tgz#8d792033416f59d68bc03a5aa7b018c1ca89279c"
+  integrity sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==
   dependencies:
     domelementtype "^2.2.0"
 
@@ -6311,15 +6311,15 @@ normalize-url@^4.1.0:
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
 
 npm-package-json-lint@^6.0.0:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-6.0.3.tgz#968f354c9ddabf17971426642cb2f55ed2036016"
-  integrity sha512-moxJVEJ6yzT+xQxbmZ4dPUuZBphiBYkScvfja8RuZnG3X212eb81D6+s4OrZoe09/Wh06wlYHyfdY4SXipBfmg==
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-6.2.0.tgz#a59be0af09ec2974fc70192e6ada24f3b033aad5"
+  integrity sha512-cEmwHc2l2oU8KTd9mLPQ+0buinuEM4DjAhiEC0URIYl+ukltoyEgRSGTCmpOv65Jqgu57HKkf166fpUksAXeXQ==
   dependencies:
     ajv "^6.12.6"
     ajv-errors "^1.0.1"
     chalk "^4.1.2"
     cosmiconfig "^7.0.1"
-    debug "^4.3.3"
+    debug "^4.3.4"
     globby "^11.1.0"
     ignore "^5.2.0"
     is-plain-obj "^3.0.0"
@@ -8328,9 +8328,9 @@ type-fest@^0.8.1:
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
 type-fest@^2.12.0:
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.12.0.tgz#ce342f58cab9114912f54b493d60ab39c3fc82b6"
-  integrity sha512-Qe5GRT+n/4GoqCNGGVp5Snapg1Omq3V7irBJB3EaKsp7HWDo5Gv2d/67gfNyV+d5EXD+x/RF5l1h4yJ7qNkcGA==
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-2.12.1.tgz#d2be8f50bf5f8f0a5fd916d29bf3e98c17e960be"
+  integrity sha512-AiknQSEqKVGDDjtZqeKrUoTlcj7FKhupmnVUgz6KoOKtvMwRGE6hUNJ/nVear+h7fnUPO1q/htSkYKb1pyntkQ==
 
 type-is@^1.6.4, type-is@~1.6.18:
   version "1.6.18"
@@ -8542,9 +8542,9 @@ vite@^2.3.6, vite@^2.5.3, vite@^2.7.10, vite@^2.7.12, vite@^2.7.13:
     fsevents "~2.3.2"
 
 vitest@^0.7.0, vitest@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.7.4.tgz#5a1c77506a53be83028f033bb0d855ad7a7c60f1"
-  integrity sha512-6kyJ/YZJFVj/zEVVHFyvLvAZlbg05yAyJrk7oP+FOCFanGRYK7bBEz4qsIpNHxX+dlf5vRkbBDjpdXzGL7udeA==
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.7.6.tgz#f4199ff621333084bbe483b52cc5de1286f110ae"
+  integrity sha512-fqk0cn0I2BUpzwLfeZ725JeXJ7WGwDtVcVBksQ6SdyjrBi6aex8t3w70TWgyLOXgylS7FJ8C9DRap4MMgpkqYw==
   dependencies:
     "@types/chai" "^4.3.0"
     "@types/chai-subset" "^1.3.3"
