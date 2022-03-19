@@ -8,7 +8,7 @@ export const getAppPort = (
   config: UserConfigServer = {},
 ): string | undefined => {
   const port =
-    config.portApp || process.env.PORT_APP || process.env.FACTOR_SERVER_PORT_APP
+    config.portApp || process.env.PORT_APP || process.env.FACTOR_APP_PORT
 
   return port
 }

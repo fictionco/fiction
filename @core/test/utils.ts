@@ -4,10 +4,15 @@ import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
-import { randomBetween, logger } from "@factor/api"
+import { randomBetween, logger, PackageJson } from "@factor/api"
 import fs from "fs-extra"
 
 const require = createRequire(import.meta.url)
+
+const getModuleName = (cwd: string): string => {
+  const pkg = require(`${cwd}/package.json`) as PackageJson
+  return pkg.name
+}
 
 export const getTestEmail = (): string => {
   const key = Math.random().toString().slice(2, 8)
@@ -26,16 +31,18 @@ export type TestServerConfig = {
 }
 
 export const createTestServer = async (params: {
-  moduleName: string
+  cwd?: string
+  moduleName?: string
   appPort?: number
   serverPort?: number
   headless?: boolean
   slowMo?: number
 }): Promise<TestServerConfig> => {
-  const { moduleName, headless = true, slowMo } = params
-  let { serverPort, appPort } = params
+  const { headless = true, slowMo } = params
+  let { serverPort, appPort, moduleName } = params
   serverPort = serverPort || randomBetween(1000, 9000)
   appPort = appPort || randomBetween(1000, 9000)
+  moduleName = moduleName || getModuleName(params.cwd || process.cwd())
 
   let _process: ExecaChildProcess | undefined
 

@@ -2,7 +2,7 @@
   <div class="p-12 space-y-6 text-center">
     <div v-for="(item, i) in list" :key="i" class="">
       <div class="text-slate-500">{{ item.title }}</div>
-      <div id="server-port" class="font-bold">{{ item.value }}</div>
+      <div :id="item.id" class="font-bold">{{ item.value }}</div>
     </div>
   </div>
 </template>
@@ -10,9 +10,12 @@
 import { getServerPort, currentUrl } from "@factor/engine/url"
 
 const list = [
-  { title: "Server Port", value: getServerPort() },
-  { title: "Current URL", value: currentUrl() },
-  { title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
-  { title: "NODE_ENV", value: process.env.NODE_ENV },
+  { id: "server-port", title: "Server Port", value: getServerPort() },
+  { id: "current-url", title: "Current URL", value: currentUrl() },
+  { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
+  { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },
+  { id: "app-name", title: "APP_NAME", value: process.env.FACTOR_APP_NAME },
+  { id: "app-email", title: "APP_EMAIL", value: process.env.FACTOR_APP_EMAIL },
+  { id: "app-url", title: "APP_URL", value: process.env.FACTOR_APP_URL },
 ]
 </script>

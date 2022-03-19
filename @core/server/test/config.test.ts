@@ -26,7 +26,9 @@ describe("config tests", () => {
           "FACTOR_APP_URL": "https://www.factorjs.org",
           "FACTOR_SERVER_PORT": "",
           "FACTOR_SERVER_URL": "",
+          "HTTP_PROTOCOL": "",
           "NODE_ENV": "development",
+          "TEST_ENV": "",
         },
       }
     `)

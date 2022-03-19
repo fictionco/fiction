@@ -137,7 +137,7 @@ export const getViteConfig = async (
     logger.log({
       level: "info",
       context: "build",
-      description: `build variables`,
+      description: `build variables (${Object.keys(listVars).length} total)`,
       data: listVars,
       disableOnRestart: true,
     })
