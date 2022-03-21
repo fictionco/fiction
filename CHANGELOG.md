@@ -1,3 +1,12 @@
+## [4.1.33](https://github.com/FactorJS/factor/compare/v4.1.32...v4.1.33) (2022-03-21)
+
+
+### Features
+
+* tailwind lint ([a70f945](https://github.com/FactorJS/factor/commit/a70f945cdce12b567917f18339d5cd2f5721c77a))
+
+
+
 ## [4.1.32](https://github.com/FactorJS/factor/compare/v4.1.31...v4.1.32) (2022-03-19)
 
 
