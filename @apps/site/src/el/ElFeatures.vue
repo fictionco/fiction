@@ -2,7 +2,7 @@
   <section class="w-full">
     <div v-for="(feature, i) in features" :key="i" class="py-16 lg:py-0">
       <div
-        class="min-h-4/5 grid gap-12 items-center lg:grid-cols-2"
+        class="min-h-4/5 grid items-center gap-12 lg:grid-cols-2"
         :class="[i % 2 == 0 ? 'even' : 'odd lg:grid-flow-row-dense']"
       >
         <div
@@ -13,21 +13,21 @@
               : 'lg:col-start-2',
           ]"
         >
-          <div class="max-w-full pt-12 pb-4 px-6 lg:max-w-xl lg:py-40">
+          <div class="max-w-full px-6 pt-12 pb-4 lg:max-w-xl lg:py-40">
             <div
               v-if="feature.icon"
-              class="w-20 h-20 mb-6 rounded-lg shadow-md border border-color-100 bg-primary-500 flex justify-center items-center"
+              class="mb-6 flex h-20 w-20 items-center justify-center rounded-lg border border-color-100 bg-primary-500 shadow-md"
             >
-              <div class="w-10 h-10 text-white" v-html="feature.icon"></div>
+              <div class="h-10 w-10 text-white" v-html="feature.icon"></div>
             </div>
 
-            <h2 class="mb-6 font-bold text-3xl lg:text-5xl">
+            <h2 class="mb-6 text-3xl font-bold lg:text-5xl">
               {{ feature.title }}
             </h2>
-            <div class="text-xl mb-4 text-color-500 lg:text-2xl">
+            <div class="mb-4 text-xl text-color-500 lg:text-2xl">
               {{ feature.text }}
             </div>
-            <div v-if="feature.link" class="font-medium text-xl">
+            <div v-if="feature.link" class="text-xl font-medium">
               <router-link
                 :to="feature.link.path"
                 class="text-primary-500 hover:text-primary-400"
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div
-          class="flex items-center justify-center h-full min-w-0 relative"
+          class="relative flex h-full min-w-0 items-center justify-center"
           :class="[
             i % 2 == 0 ? 'lg:col-start-2' : 'lg:col-start-1 lg:justify-end',
           ]"

@@ -1,7 +1,7 @@
 <template>
   <textarea
     ref="textareaElement"
-    class="f-input block w-full appearance-none px-3 py-2 rounded-md border border-slate-400 placeholder-slate-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 disabled:cursor-not-allowed disabled:text-slate-500 disabled:bg-slate-50 standard-textarea"
+    class="f-input standard-textarea block w-full appearance-none rounded-md border border-slate-400 px-3 py-2 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
     :class="modelValue ? 'set' : 'empty'"
     :value="modelValue"
     @input="send($event.target)"

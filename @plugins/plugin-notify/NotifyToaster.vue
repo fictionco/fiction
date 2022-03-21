@@ -1,7 +1,7 @@
 <template>
   <div class="notifications">
     <div
-      class="fixed z-50 inset-0 flex flex-col items-center px-4 py-6 pointer-events-none justify-start"
+      class="pointer-events-none fixed inset-0 z-50 flex flex-col items-center justify-start px-4 py-6"
     >
       <transition-group
         name="notification-top"
@@ -15,7 +15,7 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="transition-all duration-300 max-w-md w-full text-sm bg-white shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-20 overflow-hidden mb-4"
+          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-xl ring-1 ring-black ring-opacity-20 transition-all duration-300"
           :class="toast.type"
         >
           <div class="p-4">
@@ -63,7 +63,7 @@
                 </div>
               </div>
               <div
-                class="ml-4 text-slate-400 hover:text-primary-500 cursor-pointer"
+                class="ml-4 cursor-pointer text-slate-400 hover:text-primary-500"
                 @click="removeToast(i)"
               >
                 <svg

@@ -2,34 +2,34 @@
   <div class="extend-container px-4">
     <div class="mt-12 mb-24">
       <div class="text-center">
-        <h1 class="text-center text-3xl tracking-tight font-bold sm:text-5xl">
+        <h1 class="text-center text-3xl font-bold tracking-tight sm:text-5xl">
           Factor Plugins
         </h1>
-        <h3 class="text-color-500 text-lg lg:text-2xl mt-4">
+        <h3 class="mt-4 text-lg text-color-500 lg:text-2xl">
           Simple ways to add new features to your app or site
         </h3>
       </div>
     </div>
 
-    <div class="mx-auto max-w-screen-xl my-20 lg:my-36">
+    <div class="mx-auto my-20 max-w-screen-xl lg:my-36">
       <div class="theme-grid grid grid-cols-12 gap-4 gap-y-12 lg:gap-8">
         <div
           v-for="(item, index) in plugins"
           :key="index"
-          class="grid-item-theme col-span-12 md:col-span-6 lg:col-span-4 cursor-pointer"
+          class="grid-item-theme col-span-12 cursor-pointer md:col-span-6 lg:col-span-4"
         >
           <div
-            class="bg-white ring-1 ring-black ring-opacity-10 shadow-lg p-4 lg:p-6 relative mt-6 lg:mt-0"
+            class="relative mt-6 bg-white p-4 shadow-lg ring-1 ring-black ring-opacity-10 lg:mt-0 lg:p-6"
           >
-            <div class="icon w-16 shadow-md absolute -top-8">
+            <div class="icon absolute -top-8 w-16 shadow-md">
               <img class="rounded-lg" :src="item.icon" />
             </div>
-            <h3 class="mt-6 font-bold text-xl lg:text-2xl">{{ item.name }}</h3>
-            <p class="text-color-500 text-lg mt-3">
+            <h3 class="mt-6 text-xl font-bold lg:text-2xl">{{ item.name }}</h3>
+            <p class="mt-3 text-lg text-color-500">
               {{ item.description }}
             </p>
-            <div class="actions mt-6 space-x-4 flex justify-between">
-              <div class="space-x-4 flex">
+            <div class="actions mt-6 flex justify-between space-x-4">
+              <div class="flex space-x-4">
                 <ElButton
                   :href="item.url"
                   target="_blank"
@@ -57,7 +57,7 @@
                   btn="default"
                 >
                   <svg
-                    class="w-5 h-5"
+                    class="h-5 w-5"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"

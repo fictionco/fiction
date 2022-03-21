@@ -1,10 +1,10 @@
 <template>
-  <span class="relative z-0 inline-flex shadow-sm rounded-md">
+  <span class="relative z-0 inline-flex rounded-md shadow-sm">
     <button
       v-for="(r, i) in range"
       :key="i"
       type="button"
-      class="relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
+      class="relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
       :class="buttonClass(r, i)"
       @click="select(r)"
     >

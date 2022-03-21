@@ -5,7 +5,7 @@
     autocomplete="on"
     @submit.prevent="submitForm()"
   >
-    <div v-if="notify" class="rounded-md bg-yellow-50 p-4 my-4">
+    <div v-if="notify" class="my-4 rounded-md bg-yellow-50 p-4">
       <div class="flex">
         <div class="shrink-0">
           <!-- Heroicon name: solid/exclamation -->

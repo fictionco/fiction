@@ -1,6 +1,6 @@
 <template>
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="lg:flex justify-between items-center py-8">
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="items-center justify-between py-8 lg:flex">
       <div>
         <h2 class="text-3xl font-bold">Plugins</h2>
         <div class="text-color-500">
@@ -22,18 +22,18 @@
       <a
         v-for="(item, i) in plugins"
         :key="i"
-        class="group flex py-4 pr-4 rounded-lg transition-all hover:shadow-xl"
+        class="group flex rounded-lg py-4 pr-4 transition-all hover:shadow-xl"
         :href="item.url"
         target="_blank"
       >
         <img
           :src="item.icon"
           :alt="item.name"
-          class="w-24 h-24 mr-8 rounded-lg shadow-lg shrink-0 transition duration-300 ease-in-out origin-top-right transform scale-100 group-hover:scale-75"
+          class="mr-8 h-24 w-24 shrink-0 origin-top-right scale-100 rounded-lg shadow-lg transition duration-300 ease-in-out group-hover:scale-75"
         />
         <div class="min-w-0">
-          <h1 class="text-3xl mb-2 font-bold">{{ item.name }}</h1>
-          <p class="line-clamp-2 text-color-500 text-xl">
+          <h1 class="mb-2 text-3xl font-bold">{{ item.name }}</h1>
+          <p class="line-clamp-2 text-xl text-color-500">
             {{ item.description }}
           </p>
         </div>

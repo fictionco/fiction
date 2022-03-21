@@ -1,36 +1,36 @@
 <template>
   <div>
-    <div class="px-4 sm:px-6 xl:px-8 pt-10 pb-16">
+    <div class="px-4 pt-10 pb-16 sm:px-6 xl:px-8">
       <div class="my-6">
-        <h1 class="text-3xl font-bold mb-4">Documentation</h1>
+        <h1 class="mb-4 text-3xl font-bold">Documentation</h1>
         <p class="text-xl text-slate-500">Explore everything you can do.</p>
       </div>
-      <WelcomeBanner class="max-w-7xl mx-auto my-8" />
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-8">
+      <WelcomeBanner class="mx-auto my-8 max-w-7xl" />
+      <section class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:gap-8">
         <div v-for="(group, groupId) in groupList" :key="groupId" class="flex">
           <router-link
-            class="w-full relative overflow-hidden rounded-xl flex border border-slate-300 hover:border-slate-400 hover:shadow-sm col-span-1"
+            class="relative col-span-1 flex w-full overflow-hidden rounded-xl border border-slate-300 hover:border-slate-400 hover:shadow-sm"
             :to="group.path || '/'"
           >
-            <div class="w-full flex md:flex-col">
+            <div class="flex w-full md:flex-col">
               <div
-                class="sm:max-w-lg sm:flex-none md:w-auto md:flex-auto flex items-start relative z-10 p-6 xl:p-8"
+                class="relative z-10 flex items-start p-6 sm:max-w-lg sm:flex-none md:w-auto md:flex-auto xl:p-8"
               >
                 <div class="mr-8">
-                  <div class="w-12 h-12 text-primary-500" v-html="group.icon" />
+                  <div class="h-12 w-12 text-primary-500" v-html="group.icon" />
                 </div>
                 <div class="">
-                  <h2 class="text-2xl font-semibold mb-2">
+                  <h2 class="mb-2 text-2xl font-semibold">
                     {{ group.title }}
                   </h2>
-                  <p class="text-slate-500 text-xl">
+                  <p class="text-xl text-slate-500">
                     {{ group.description }}
                   </p>
                 </div>
               </div>
             </div>
             <div
-              class="absolute bottom-0 left-0 right-0 h-20 hidden sm:block"
+              class="absolute inset-x-0 bottom-0 hidden h-20 sm:block"
             />
           </router-link>
         </div>
@@ -39,23 +39,23 @@
       <section>
         <div class="mt-16 mb-8">
           <h2 class="text-2xl font-bold">Groups and Discussion</h2>
-          <p class="text-slate-500 text-lg mt-2">
+          <p class="mt-2 text-lg text-slate-500">
             Let's have a conversation...
           </p>
         </div>
-        <ul class="grid sm:grid-cols-2 gap-6 xl:gap-12">
+        <ul class="grid gap-6 sm:grid-cols-2 xl:gap-12">
           <li v-for="(social, i) in socials" :key="i">
             <a
               :href="social.path"
               target="_blank"
-              class="cursor-pointer flex items-center space-x-6 hover:opacity-70"
+              class="flex cursor-pointer items-center space-x-6 hover:opacity-70"
               ><div
-                class="flex justify-center items-center rounded-full w-12 h-12 border-2 border-primary-500 text-primary-500"
+                class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary-500 text-primary-500"
               >
-                <div class="w-4 h-4" v-html="social.icon" />
+                <div class="h-4 w-4" v-html="social.icon" />
               </div>
               <div class="flex-1">
-                <h3 class="font-medium text-xl">{{ social.title }}</h3>
+                <h3 class="text-xl font-medium">{{ social.title }}</h3>
                 <p class="text-slate-500">{{ social.description }}</p>
               </div>
             </a>

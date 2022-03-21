@@ -1,19 +1,19 @@
 <template>
   <div>
     <div
-      class="bg-white rounded-lg overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4 border border-slate-300"
+      class="overflow-hidden rounded-lg border border-slate-300 bg-white lg:grid lg:grid-cols-2 lg:gap-4"
     >
       <div
-        class="pt-10 pb-12 px-6 sm:pt-16 sm:pl-16 lg:py-16 lg:pr-0 xl:py-20 xl:pl-20 flex flex-col justify-center"
+        class="flex flex-col justify-center px-6 pt-10 pb-12 sm:pt-16 sm:pl-16 lg:py-16 lg:pr-0 xl:py-20 xl:pl-20"
       >
         <div class="lg:self-center">
-          <div class="uppercase text-xs mb-2 font-semibold text-slate-400">
+          <div class="mb-2 text-xs font-semibold uppercase text-slate-400">
             Documentation
           </div>
-          <h2 class="text-xl xl:text-5xl font-extrabold">
+          <h2 class="text-xl font-extrabold xl:text-5xl">
             <span class="block">The Docs</span>
           </h2>
-          <p class="mt-4 leading-6 text-slate-500 text-lg">
+          <p class="mt-4 text-lg leading-6 text-slate-500">
             Here you can learn all about how to use and leverage Factor to
             create blogs, apps and websites.
           </p>
@@ -33,10 +33,10 @@
       </div>
       <div
         v-if="screenshot"
-        class="-mt-6 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1"
+        class="aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1 -mt-6"
       >
         <img
-          class="transform translate-x-6 translate-y-6 rounded-md object-cover object-left sm:translate-x-16 lg:translate-y-20 shadow-xl ring-1 ring-black ring-opacity-10"
+          class="translate-x-6 translate-y-6 rounded-md object-cover object-left shadow-xl ring-1 ring-black/10 sm:translate-x-16 lg:translate-y-20"
           :src="screenshot"
           alt="App screenshot"
         />

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-12 space-y-6 text-center">
+  <div class="space-y-6 p-12 text-center">
     <div v-for="(item, i) in list" :key="i" class="">
       <div class="text-slate-500">{{ item.title }}</div>
       <div :id="item.id" class="font-bold">{{ item.value }}</div>

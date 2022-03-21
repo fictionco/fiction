@@ -1,14 +1,14 @@
 <template>
-  <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
+  <div class="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
     <div
       v-for="(post, i) in content"
       :key="i"
-      class="flex flex-col rounded-lg border border-x-200 overflow-hidden"
+      class="border-x-200 flex flex-col overflow-hidden rounded-lg border"
     >
       <div class="shrink-0">
         <img class="h-48 w-full object-cover" :src="post.postImage" alt="" />
       </div>
-      <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+      <div class="flex flex-1 flex-col justify-between bg-white p-6">
         <div class="flex-1">
           <p class="text-sm font-medium text-indigo-600">
             <a
@@ -20,11 +20,11 @@
               {{ type }}
             </a>
           </p>
-          <router-link :to="post.path" class="block mt-2">
+          <router-link :to="post.path" class="mt-2 block">
             <p class="text-xl font-semibold">
               {{ post.title }}
             </p>
-            <p class="mt-3 text-base text-normal-500">
+            <p class="text-normal-500 mt-3 text-base">
               {{ post.excerpt || post.description }}
             </p>
           </router-link>

@@ -1,6 +1,6 @@
 <template>
   <input
-    class="block w-full appearance-none focus:outline-none disabled:cursor-not-allowed px-3 py-2 rounded-md border"
+    class="block w-full appearance-none rounded-md border px-3 py-2 focus:outline-none disabled:cursor-not-allowed"
     :class="[inputTheme(props.theme)]"
     type="email"
     autocomplete="email"

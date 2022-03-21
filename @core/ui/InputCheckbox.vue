@@ -3,7 +3,7 @@
     <input
       v-bind="attrs"
       type="checkbox"
-      class="form-checkbox text-primary-500 rounded-md h-5 w-5 mr-4 appearance-none border border-slate-400"
+      class="form-checkbox mr-4 h-5 w-5 appearance-none rounded-md border border-slate-400 text-primary-500"
       :value="modelValue"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
     />

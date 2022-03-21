@@ -1,9 +1,9 @@
 <template>
   <footer class="bg-white" aria-labelledby="footerHeading">
     <h2 id="footerHeading" class="sr-only">Footer</h2>
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-      <div class="pb-8 grid grid-cols-2 xl:grid xl:grid-cols-5 xl:gap-8">
-        <div class="mt-12 col-span-2 lg:col-span-1 lg:mt-0">
+    <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div class="grid grid-cols-2 pb-8 xl:grid xl:grid-cols-5 xl:gap-8">
+        <div class="col-span-2 mt-12 lg:col-span-1 lg:mt-0">
           <router-link to="/">
             <ElemLogo mode="icon" class="scheme-standard h-10 w-auto" />
           </router-link>
@@ -12,7 +12,7 @@
         <div v-for="(col, i) in columns" :key="i" class="mt-12 md:mt-0">
           <h3
             v-if="col.heading"
-            class="mb-4 text-xs font-semibold text-color-400 tracking-wider uppercase"
+            class="mb-4 text-xs font-semibold uppercase tracking-wider text-color-400"
           >
             {{ col.heading }}
           </h3>
@@ -26,7 +26,7 @@
                 <template v-if="item.icon">
                   <span class="sr-only">{{ item.name }}</span>
                   <div
-                    class="w-6 h-6 text-color-500 hover:text-primary-500"
+                    class="h-6 w-6 text-color-500 hover:text-primary-500"
                     v-html="item.icon"
                   />
                 </template>

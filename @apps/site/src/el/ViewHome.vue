@@ -1,24 +1,24 @@
 <template>
   <div class="view-home overflow-hidden">
     <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
-      <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-36">
+      <div class="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-36">
         <div
-          class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-12 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-16"
+          class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-16 lg:px-12"
         >
           <div>
             <div class="">
               <div>
                 <router-link
                   to="/blog/factorjs-version-3-released"
-                  class="inline-flex space-x-4 group"
+                  class="group inline-flex space-x-4"
                 >
                   <span
-                    class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-600 tracking-wide uppercase group-hover:text-primary-400"
+                    class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600 group-hover:text-primary-400"
                   >
                     What's new
                   </span>
                   <span
-                    class="inline-flex items-center text-sm font-medium text-primary-600 space-x-1 hover:text-primary-400"
+                    class="inline-flex items-center space-x-1 text-sm font-medium text-primary-600 hover:text-primary-400"
                   >
                     <span>Version 3 is now available</span>
                     <!-- Heroicon name: solid/chevron-right -->
@@ -48,7 +48,7 @@
                   JamStack apps.
                 </p>
               </div>
-              <div class="mt-12 sm:max-w-lg w-full flex space-x-6 items-center">
+              <div class="mt-12 flex w-full items-center space-x-6 sm:max-w-lg">
                 <ElButton btn="primary" to="/docs">
                   Start Site or App &rarr;
                 </ElButton>
@@ -59,7 +59,7 @@
                   btn="default"
                 >
                   <svg
-                    class="h-6 mr-2"
+                    class="mr-2 h-6"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"

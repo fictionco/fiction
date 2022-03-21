@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-row h-10 rounded-md relative bg-transparent mt-1 bg-white border border-slate-400 w-56"
+    class="relative mt-1 flex h-10 w-56 flex-row rounded-md border border-slate-400 bg-transparent"
   >
     <button
-      class="hover:bg-slate-50 h-full w-20 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 select-none"
+      class="h-full w-20 select-none rounded-md hover:bg-slate-50 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
       :class="
         minNumber >= modelValue ? 'disabled opacity-40' : 'cursor-pointer'
       "
@@ -13,7 +13,7 @@
     </button>
     <input
       type="number"
-      class="mx-1 rounded-md border-transparent focus:outline-none text-center w-full font-semibold text-md md:text-basecursor-default flex items-center outline-none select-none focus:ring-primary-500 focus:border-primary-500"
+      class="text-md md:text-basecursor-default mx-1 flex w-full select-none items-center rounded-md border-transparent text-center font-semibold outline-none focus:border-primary-500 focus:outline-none focus:ring-primary-500"
       name="custom-input-number"
       :min="min"
       :max="max"
@@ -21,7 +21,7 @@
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
     <button
-      class="hover:bg-slate-50 h-full w-20 rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+      class="h-full w-20 rounded-md hover:bg-slate-50 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
       :class="
         maxNumber <= modelValue ? 'disabled opacity-40' : 'cursor-pointer'
       "

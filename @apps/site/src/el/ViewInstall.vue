@@ -1,12 +1,12 @@
 <template>
   <div class="start-container pt-20">
     <nav
-      class="nav justify-center items-center z-50 px-4 py-2 bg-white lg:flex lg:sticky lg:top-0"
+      class="nav z-50 items-center justify-center bg-white px-4 py-2 lg:sticky lg:top-0 lg:flex"
     >
       <a
         v-for="(video, index) in videos"
         :key="video.id"
-        class="block mx-0 text-slate-500 font-bold uppercase px-4 py-1 rounded-md hover:bg-color-50 hover:text-primary-500 lg:mx-4"
+        class="mx-0 block rounded-md px-4 py-1 font-bold uppercase text-slate-500 hover:bg-color-50 hover:text-primary-500 lg:mx-4"
         :class="video.id == selected ? 'active bg-primary-500 text-white' : ''"
         :href="`#${video.id}`"
       >
@@ -21,17 +21,17 @@
         class="video-entry"
       >
         <div class="header">
-          <h1 class="text-2xl lg:text-5xl font-bold mb-1">
+          <h1 class="mb-1 text-2xl font-bold lg:text-5xl">
             {{ toLabel(video.id) }}
           </h1>
           <div class="mt-3 flex items-center">
             <div class="time">
               <span
-                class="bg-primary-500 rounded-md text-white px-2 py-1 mr-6"
+                class="mr-6 rounded-md bg-primary-500 px-2 py-1 text-white"
                 >{{ video.duration }}</span
               >
             </div>
-            <div class="text-color-500 text-2xl">{{ video.synopsis }}</div>
+            <div class="text-2xl text-color-500">{{ video.synopsis }}</div>
           </div>
         </div>
         <div class="video-wrap">

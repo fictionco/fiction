@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="w-full max-w-screen-xl mx-auto">
+    <div class="mx-auto w-full max-w-screen-xl">
       <div class="lg:flex">
         <div
-          class="flex items-center justify-center px-4 sm:px-6 xl:px-8 lg:hidden"
+          class="flex items-center justify-center px-4 sm:px-6 lg:hidden xl:px-8"
         >
           <button
             id="main-menu"
             type="button"
-            class="rounded-md -mr-2 p-2 inline-flex items-center justify-center text-primary-500 font-semibold hover:text-primary-500 hover:bg-primary-100 focus:text-primary-500 focus:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="-mr-2 inline-flex items-center justify-center rounded-md p-2 font-semibold text-primary-500 hover:bg-primary-100 hover:text-primary-500 focus:bg-primary-100 focus:text-primary-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
             aria-haspopup="true"
             aria-expanded="true"
             @click.stop="toggleDocsNav()"
@@ -17,7 +17,7 @@
             <span class="sr-only">Open docs menu</span>
             <!-- Heroicon name: menu -->
             <svg
-              class="h-6 w-6 ml-2"
+              class="ml-2 h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -35,20 +35,20 @@
         </div>
         <div
           id="sidebar"
-          class="fixed z-10 inset-0 flex-none h-full bg-opacity-25 w-full lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-60 xl:w-72 lg:block"
+          class="fixed inset-0 z-10 h-full w-full flex-none bg-opacity-25 lg:static lg:block lg:h-auto lg:w-60 lg:overflow-y-visible lg:pt-0 xl:w-72"
           :class="
             vis ? 'block h-screen absolute top-16 z-50 lg:hidden p-2' : 'hidden'
           "
         >
           <div
             id="navWrapper"
-            class="rounded-lg shadow-xl ring-1 ring-black ring-opacity-20 bg-white overflow-y-auto scrolling-touch overflow-hidden lg:shadow-none lg:ring-0 lg:h-auto lg:block lg:sticky lg:bg-transparent lg:top-16"
+            class="scrolling-touch overflow-hidden overflow-y-auto rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-20 lg:sticky lg:top-16 lg:block lg:h-auto lg:bg-transparent lg:shadow-none lg:ring-0"
           >
             <div
-              class="hidden lg:block h-12 pointer-events-none absolute inset-x-0 z-10 bg-gradient-to-b from-white"
+              class="pointer-events-none absolute inset-x-0 z-10 hidden h-12 bg-gradient-to-b from-white lg:block"
             />
             <div
-              class="absolute right-2 top-2 px-5 pt-4 flex items-center justify-end lg:hidden z-20"
+              class="absolute right-2 top-2 z-20 flex items-center justify-end px-5 pt-4 lg:hidden"
             >
               <div class="-mr-3">
                 <ElButton btn="default" @click="vis = !vis">
@@ -74,19 +74,19 @@
             </div>
             <nav
               id="nav"
-              class="px-1 pt-6 overflow-y-auto font-normal text-base sm:px-3 xl:px-5 lg:text-sm pb-10 lg:pt-10 lg:pb-14 sticky text-center"
+              class="sticky overflow-y-auto px-1 pt-6 pb-10 text-center text-base font-normal sm:px-3 lg:pt-10 lg:pb-14 lg:text-sm xl:px-5"
             >
               <ul class="inline-block">
                 <template v-for="(group, i) in groups" :key="i">
                   <li v-if="group.title" class="mt-6">
                     <router-link
-                      class="px-3 mb-2 font-medium text-base flex items-center hover:text-primary-500"
+                      class="mb-2 flex items-center px-3 text-base font-medium hover:text-primary-500"
                       :to="group.path"
                       :class="isCurrentNav(i) ? 'text-primary-500' : ''"
                     >
                       <div
                         v-if="group.icon"
-                        class="mr-3 w-4 h-4 rounded-md overflow-hidden"
+                        class="mr-3 h-4 w-4 overflow-hidden rounded-md"
                         v-html="group.icon"
                       />
                       <span class="title">{{ group.title }}</span>
@@ -102,7 +102,7 @@
                               : 'text-color-600'
                           "
                         >
-                          <div class="mr-3 w-4 h-4" />
+                          <div class="mr-3 h-4 w-4" />
                           <span class="title">{{ docTitle(docId) }}</span>
                         </router-link>
                       </li>
@@ -111,7 +111,7 @@
                   <template v-else>
                     <li v-for="(docId, ii) in group.menu" :key="ii">
                       <a
-                        class="flex items-center px-3 py-2 transition-colors duration-200 text-slate-500 hover:text-primary-500"
+                        class="flex items-center px-3 py-2 text-slate-500 transition-colors duration-200 hover:text-primary-500"
                         :href="docRoute(docId)"
                       >
                         {{ docTitle(docId) }}
@@ -126,7 +126,7 @@
 
         <div
           id="content-wrapper"
-          class="min-w-0 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible"
+          class="w-full min-w-0 flex-auto lg:static lg:max-h-full lg:overflow-visible"
         >
           <router-view />
         </div>

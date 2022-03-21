@@ -2,16 +2,16 @@
   <div class="extend-container">
     <div class="mt-12 mb-24">
       <div class="text-center">
-        <h1 class="text-center text-3xl tracking-tight font-bold sm:text-5xl">
+        <h1 class="text-center text-3xl font-bold tracking-tight sm:text-5xl">
           Plugins
         </h1>
-        <h3 class="text-color-500 text-2xl mt-4">
+        <h3 class="mt-4 text-2xl text-color-500">
           Simple ways to add new features to your app or site
         </h3>
       </div>
     </div>
 
-    <div class="m-auto max-w-screen-xl mb-24">
+    <div class="m-auto mb-24 max-w-screen-xl">
       <div class="theme-grid grid grid-cols-12 gap-4 lg:gap-8">
         <div
           v-for="(item, index) in plugins"
@@ -20,19 +20,19 @@
           @click="goToPermalink(item.permalink)"
         >
           <div
-            class="theme-wrap bg-cover bg-top aspect-h-12 aspect-w-8 rounded-md shadow-lg ring-1 ring-opacity-10 ring-black relative overflow-hidden"
+            class="theme-wrap aspect-h-12 aspect-w-8 relative overflow-hidden rounded-md bg-cover bg-top shadow-lg ring-1 ring-black ring-opacity-10"
             :style="{ backgroundImage: `url(${item.screenshots?.[0]})` }"
           >
             <div class="overlay" />
             <div
-              class="entry-content absolute top-0 bottom-0 w-full z-10 flex justify-end flex-col"
+              class="entry-content absolute inset-y-0 z-10 flex w-full flex-col justify-end"
             >
               <div
-                class="text bg-white bg-opacity-100 border-t border-black border-opacity-10 w-full p-4 flex justify-between items-center font-bold"
+                class="text flex w-full items-center justify-between border-t border-black border-opacity-10 bg-white bg-opacity-100 p-4 font-bold"
                 @click.stop
               >
                 <div class="flex space-x-3">
-                  <div v-if="item.icon" class="w-6 mt-0.5">
+                  <div v-if="item.icon" class="mt-0.5 w-6">
                     <img
                       :src="item.icon"
                       :alt="`${item.name} Logo`"

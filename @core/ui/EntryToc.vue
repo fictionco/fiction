@@ -1,19 +1,19 @@
 <template>
   <div
-    class="flex flex-col justify-between overflow-y-auto max-h-screen pt-0 pb-6 sticky top-16"
+    class="sticky top-16 flex max-h-screen flex-col justify-between overflow-y-auto pt-0 pb-6"
     @click.stop
   >
     <div ref="nav" class="mb-8">
       <div
         v-if="headers.length > 0"
-        class="uppercase tracking-wide font-medium mb-3 text-xs text-slate-300"
+        class="mb-3 text-xs font-medium uppercase tracking-wide text-slate-300"
       >
         On this page
       </div>
       <ul class="overflow-x-hidden">
         <li v-for="(h2, i) in headers" :key="i">
           <a
-            class="block transform transition-colors duration-200 text-slate-500 py-1.5 hover:text-primary-500 text-xs"
+            class="block py-1.5 text-xs text-slate-500 transition-colors duration-200 hover:text-primary-500"
             :href="h2.anchor"
             :class="isActive(h2.anchor) ? 'font-medium' : ''"
             @click.prevent="setClick(h2.anchor)"

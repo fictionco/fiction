@@ -1,7 +1,7 @@
 <template>
   <div class="spinner">
     <svg
-      class="ring-circular origin-center h-full w-full"
+      class="ring-circular h-full w-full origin-center"
       viewBox="25 25 50 50"
     >
       <circle

@@ -20,8 +20,6 @@ module.exports = {
   globals: {
     module: false,
     process: false,
-    cy: false,
-    Cypress: false,
     to: false,
     describe: false,
     context: false,
@@ -57,6 +55,7 @@ module.exports = {
     tsLintConfig,
     "plugin:vue/vue3-recommended",
     "prettier",
+    "plugin:tailwindcss/recommended",
   ],
 
   plugins: [
@@ -66,6 +65,7 @@ module.exports = {
     "import",
     "@typescript-eslint",
     "implicit-dependencies",
+    "tailwindcss",
   ],
 
   rules: {
@@ -161,7 +161,7 @@ module.exports = {
     ],
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
-
+    "tailwindcss/no-custom-classname": "off",
     ...tsLintRules,
   },
   overrides: [
@@ -187,5 +187,10 @@ module.exports = {
     },
   ],
 
-  settings: {},
+  settings: {
+    tailwindcss: {
+      config: require.resolve("@factor/site/tailwind.config.cjs"),
+      officialSorting: true,
+    },
+  },
 }

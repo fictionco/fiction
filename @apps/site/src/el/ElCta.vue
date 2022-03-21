@@ -1,9 +1,9 @@
 <template>
   <div
-    class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between"
+    class="mx-auto max-w-3xl py-12 px-4 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-24 lg:px-8"
   >
-    <h2 class="tracking-tight text-xl sm:text-2xl">
-      <span class="block text-primary-500 font-semibold mb-2">{{ title }}</span>
+    <h2 class="text-xl tracking-tight sm:text-2xl">
+      <span class="mb-2 block font-semibold text-primary-500">{{ title }}</span>
       <span class="block text-color-500">{{ subtitle }}</span>
     </h2>
     <div class="mt-4 flex lg:mt-0 lg:shrink-0">
@@ -11,7 +11,7 @@
         <ElButton
           btn="primary"
           to="/install"
-          class="font-bold shadow md:py-2.5 md:px-7 md:text-lg md:ml-3"
+          class="font-bold shadow md:ml-3 md:py-2.5 md:px-7 md:text-lg"
         >
           Start Now &rarr;
         </ElButton>

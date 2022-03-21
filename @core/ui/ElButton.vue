@@ -3,13 +3,13 @@
     :is="href ? 'a' : to ? 'router-link' : 'button'"
     :to="to"
     :href="href"
-    class="relative inline-flex items-center border rounded-md shadow-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2"
+    class="relative inline-flex items-center rounded-md border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
     :class="btnClass"
   >
     <transition v-if="loading" name="fade">
-      <div class="absolute left-0 w-full flex items-center justify-center">
+      <div class="absolute left-0 flex w-full items-center justify-center">
         <svg
-          class="animate-spin h-4 w-4"
+          class="h-4 w-4 animate-spin"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

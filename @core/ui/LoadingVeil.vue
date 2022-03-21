@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="authLoading"
-    class="loading-veil bg-white fixed top-0 left-0 w-full h-full flex items-center justify-center text-slate-300"
+    class="loading-veil fixed top-0 left-0 flex h-full w-full items-center justify-center bg-white text-slate-300"
   >
-    <ElSpinner class="w-12 h-12" />
+    <ElSpinner class="h-12 w-12" />
   </div>
 </template>
 

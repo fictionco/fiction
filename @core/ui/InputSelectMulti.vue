@@ -1,5 +1,5 @@
 <template>
-  <label class="block mt-4 max-w-prose" @click.stop @keyup.stop @keydown.stop>
+  <label class="mt-4 block max-w-prose" @click.stop @keyup.stop @keydown.stop>
     <div
       class="relative"
       @keydown.down.prevent="
@@ -13,28 +13,28 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="group relative w-full rounded-md pl-3 pr-10 py-2 text-left cursor-pointer border border-slate-400 hover:border-slate-500 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500"
+        class="group relative w-full cursor-pointer rounded-md border border-slate-400 py-2 pl-3 pr-10 text-left hover:border-slate-500 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
         @click.prevent="toggle()"
       >
-        <span class="w-full flex items-center flex-wrap">
+        <span class="flex w-full flex-wrap items-center">
           <span v-if="selected.length === 0" class="truncate">Select</span>
           <div
             v-for="(v, i) in selected"
             v-else
             :key="i"
-            class="select-none inline-flex text-xs justify-center mr-2 my-1 rounded-lg overflow-hidden bg-white border border-slate-400 text-slate-800"
+            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-slate-400 bg-white text-xs text-slate-800"
             @click.stop
           >
-            <div class="font-medium leading-none max-w-full flex-initial p-2">
+            <div class="max-w-full flex-initial p-2 font-medium leading-none">
               {{ getItemName(v) }}
             </div>
             <div
-              class="flex flex-col justify-center px-1 border-l border-slate-300 hover:bg-slate-50 text-slate-400 cursor-pointer"
+              class="flex cursor-pointer flex-col justify-center border-l border-slate-300 px-1 text-slate-400 hover:bg-slate-50"
               @click.stop.prevent="removeValue(v)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4"
+                class="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -48,7 +48,7 @@
             </div>
           </div>
           <span
-            class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none group-hover:text-primary-500"
+            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 group-hover:text-primary-500"
             :class="active ? 'text-primary-500' : 'text-slate-500'"
           >
             <svg
@@ -75,7 +75,7 @@
       >
         <div
           v-if="active"
-          class="z-50 absolute mt-1 w-full rounded-md bg-white shadow-xl"
+          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl"
         >
           <ul
             role="listbox"
@@ -90,7 +90,7 @@
                 v-else-if="item.format == 'title'"
                 class="mt-4 mb-2 text-slate-300"
               >
-                <div class="uppercase text-xs font-semibold px-4">
+                <div class="px-4 text-xs font-semibold uppercase">
                   {{ item.name }}
                 </div>
               </li>
@@ -100,7 +100,7 @@
                 :key="i"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group select-none relative py-2 px-4"
+                class="group relative select-none py-2 px-4"
                 @click.prevent="selectValue(item)"
                 @mouseover="hovered = i"
               >
@@ -108,19 +108,19 @@
                   <template v-if="item.icon">
                     <span
                       v-if="item.icon.includes('svg')"
-                      class="h-6 w-6 mr-2"
+                      class="mr-2 h-6 w-6"
                       v-html="item.icon"
                     />
                     <img
                       :src="item.icon"
-                      class="shrink-0 h-6 w-6 mr-2 rounded-full"
+                      class="mr-2 h-6 w-6 shrink-0 rounded-full"
                     />
                   </template>
 
                   <span class="truncate">{{ item.name }}</span>
                   <span
                     v-if="item.desc"
-                    class="ml-2 text-sm truncate opacity-60"
+                    class="ml-2 truncate text-sm opacity-60"
                     >{{ item.desc }}</span
                   >
                   <span

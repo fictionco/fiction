@@ -1,10 +1,10 @@
 <template>
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-center text-2xl tracking-tight font-bold sm:text-4xl">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <h2 class="text-center text-2xl font-bold tracking-tight sm:text-4xl">
         Why you'll love using Factor
       </h2>
-      <p class="text-center mt-4 text-lg text-color-500 md:text-xl">
+      <p class="mt-4 text-center text-lg text-color-500 md:text-xl">
         Factor will help you launch websites and applications faster.
       </p>
     </div>
@@ -13,14 +13,14 @@
       <h2 class="sr-only">
         Factor will help you launch websites and applications faster.
       </h2>
-      <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-8">
+      <dl class="space-y-10 md:grid md:grid-cols-3 md:gap-8 md:space-y-0">
         <div v-for="(benefit, i) in benefits" :key="i">
           <div
-            class="h-12 w-12 rounded-md shadow-lg overflow-hidden"
+            class="h-12 w-12 overflow-hidden rounded-md shadow-lg"
             v-html="benefit.icon"
           ></div>
           <div class="mt-5">
-            <dt class="text-xl leading-6 font-bold">
+            <dt class="text-xl font-bold leading-6">
               {{ benefit.title }}
             </dt>
             <dd class="mt-2 text-base text-color-500">

@@ -7,7 +7,7 @@
       attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
     ]"
   >
-    <div v-if="label || description" class="flex justify-between mb-1">
+    <div v-if="label || description" class="mb-1 flex justify-between">
       <div class="text">
         <label
           v-if="label"
@@ -17,7 +17,7 @@
         />
         <div
           v-if="description"
-          class="text-slate-500 text-sm"
+          class="text-sm text-slate-500"
           v-text="description"
         />
       </div>
@@ -26,7 +26,7 @@
         <div v-if="typeof valid === 'undefined'" />
         <div v-else-if="!valid" class="not-valid">
           <span
-            class="group inline-flex items-center px-2 py-0.5 rounded text-xs font-medium hover:bg-red-100 text-red-700"
+            class="group inline-flex items-center rounded px-2 py-0.5 text-xs font-medium text-red-700 hover:bg-red-100"
           >
             <span class="opacity-0 group-hover:opacity-80">Required</span>
             <svg
@@ -40,7 +40,7 @@
         </div>
         <div v-else class="valid">
           <span
-            class="group inline-flex items-center px-2 py-0.5 rounded text-xs font-medium hover:bg-green-100 text-green-500"
+            class="group inline-flex items-center rounded px-2 py-0.5 text-xs font-medium text-green-500 hover:bg-green-100"
           >
             <span class="opacity-0 group-hover:opacity-80">Valid</span>
             <svg

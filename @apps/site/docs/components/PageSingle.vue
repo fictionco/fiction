@@ -1,11 +1,11 @@
 <template>
-  <div class="w-full flex">
+  <div class="flex w-full">
     <div
-      class="doc-selector min-w-0 flex-auto px-4 py-12 pb-24 sm:px-6 xl:px-8 lg:pb-16 min-h-screen"
+      class="doc-selector min-h-screen min-w-0 flex-auto px-4 py-12 pb-24 sm:px-6 lg:pb-16 xl:px-8"
     >
       <HighlightCode v-if="config.component" class="shadow-none">
-        <div class="entry max-w-prose m-auto lg:px-6">
-          <h1 class="border-b border-slate-200 mb-12 pb-6">
+        <div class="entry m-auto max-w-prose lg:px-6">
+          <h1 class="mb-12 border-b border-slate-200 pb-6">
             {{ config?.title }}
           </h1>
           <div class="toc-content entry">
@@ -14,7 +14,7 @@
         </div>
       </HighlightCode>
     </div>
-    <div class="hidden xl:text-sm xl:block flex-none w-64 pl-8 mr-8 pt-14">
+    <div class="mr-8 hidden w-64 flex-none pl-8 pt-14 xl:block xl:text-sm">
       <EntryToc selector=".toc-content" />
     </div>
   </div>

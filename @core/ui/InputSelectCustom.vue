@@ -13,7 +13,7 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="f-input group relative w-full rounded-md pl-3 pr-8 py-2 text-left font-medium cursor-pointer focus:outline-none border border-slate-400"
+        class="f-input group relative w-full cursor-pointer rounded-md border border-slate-400 py-2 pl-3 pr-8 text-left font-medium focus:outline-none"
         :class="[
           active || disabled ? 'opacity-50' : 'hover:border-slate-400',
           classButton,
@@ -23,16 +23,16 @@
         ]"
         @click="toggle()"
       >
-        <span class="w-full flex items-baseline truncate">
+        <span class="flex w-full items-baseline truncate">
           <template v-if="selectedItem?.icon">
             <span
               v-if="selectedItem?.icon.includes('svg')"
-              class="h-6 w-6 mr-2"
+              class="mr-2 h-6 w-6"
               v-html="selectedItem?.icon"
             />
             <img
               :src="selectedItem?.icon"
-              class="shrink-0 h-6 w-6 mr-2 rounded-full"
+              class="mr-2 h-6 w-6 shrink-0 rounded-full"
             />
           </template>
 
@@ -40,12 +40,12 @@
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
           <span
-            class="select-description ml-2 text-xs truncate text-slate-400"
+            class="select-description ml-2 truncate text-xs text-slate-400"
             >{{ selectedItem?.desc }}</span
           >
         </span>
         <span
-          class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none group-hover:text-primary-500"
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 group-hover:text-primary-500"
           :class="active ? 'text-primary-500' : ''"
         >
           <svg
@@ -65,7 +65,7 @@
       </button>
       <!-- For validation -->
       <input
-        class="absolute opacity-0 w-0 h-0 block float-left p-0"
+        class="absolute float-left block h-0 w-0 p-0 opacity-0"
         v-bind="$attrs"
         type="text"
         :value="modelValue"
@@ -77,7 +77,7 @@
       >
         <div
           v-if="active"
-          class="z-50 absolute mt-1 w-full rounded-md bg-white shadow-xl"
+          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl"
         >
           <ul
             role="listbox"
@@ -93,7 +93,7 @@
                 v-else-if="item.format == 'title'"
                 class="mt-4 mb-2 text-slate-500"
               >
-                <div class="uppercase text-xs font-semibold px-4">
+                <div class="px-4 text-xs font-semibold uppercase">
                   {{ item.name }}
                 </div>
               </li>
@@ -102,7 +102,7 @@
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group select-none relative py-2 px-4"
+                class="group relative select-none py-2 px-4"
                 @click="selectValue(item)"
                 @mouseover="hovered = i"
               >
@@ -110,23 +110,23 @@
                   <template v-if="item.icon">
                     <span
                       v-if="item.icon.includes('svg')"
-                      class="h-6 w-6 mr-2"
+                      class="mr-2 h-6 w-6"
                       v-html="item.icon"
                     />
                     <img
                       :src="item.icon"
-                      class="shrink-0 h-6 w-6 mr-2 rounded-full"
+                      class="mr-2 h-6 w-6 shrink-0 rounded-full"
                     />
                   </template>
 
                   <span
-                    class="truncate shrink-0"
+                    class="shrink-0 truncate"
                     :class="item.desc ? '' : 'w-full'"
                     >{{ item.name }}</span
                   >
                   <span
                     v-if="item.desc"
-                    class="ml-2 text-xs truncate opacity-50"
+                    class="ml-2 truncate text-xs opacity-50"
                     >{{ item.desc }}</span
                   >
                   <span

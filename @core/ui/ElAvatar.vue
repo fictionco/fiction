@@ -1,6 +1,6 @@
 <template>
   <div
-    class="factor-avatar avatar bg-center bg-cover"
+    class="factor-avatar avatar bg-cover bg-center"
     :style="{ backgroundImage: `url(${src})` }"
     :data-test="src"
   />

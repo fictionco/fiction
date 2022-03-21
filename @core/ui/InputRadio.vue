@@ -3,14 +3,14 @@
     <label
       v-for="(option, i) in parsedList"
       :key="i"
-      class="flex items-center my-2"
+      class="my-2 flex items-center"
       :for="option.value"
     >
       <input
         :id="option.value"
         v-model="selected"
         type="radio"
-        class="form-radio text-primary-600 focus:outline-none focus:ring-primary-500 focus:border-primary-200 appearance-none border border-slate-400"
+        class="form-radio appearance-none border border-slate-400 text-primary-600 focus:border-primary-200 focus:outline-none focus:ring-primary-500"
         name="radio-colors"
         :value="option.value"
         v-bind="$attrs"
