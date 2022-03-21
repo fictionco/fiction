@@ -6311,9 +6311,9 @@ normalize-url@^4.1.0:
   integrity sha512-9UZCFRHQdNrfTpGg8+1INIg93B6zE0aXMVFkw1WFwvO4SlZywU6aLg5Of0Ap/PgcbSw4LNxvMWXMeugwMCX0AA==
 
 npm-package-json-lint@^6.0.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-6.2.0.tgz#a59be0af09ec2974fc70192e6ada24f3b033aad5"
-  integrity sha512-cEmwHc2l2oU8KTd9mLPQ+0buinuEM4DjAhiEC0URIYl+ukltoyEgRSGTCmpOv65Jqgu57HKkf166fpUksAXeXQ==
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/npm-package-json-lint/-/npm-package-json-lint-6.3.0.tgz#25cd21782b34a3bd40e7568ddccfcc4a938fed5e"
+  integrity sha512-wOCWHSssQUzNvo85NYZweec5SNr9LtkB9tQzjOHjucoABJivtkOLcH/A/cfp6X+cPAC8UNzRC0K08HCm7G+rTA==
   dependencies:
     ajv "^6.12.6"
     ajv-errors "^1.0.1"
@@ -7664,9 +7664,9 @@ socks@^2.6.1:
     smart-buffer "^4.2.0"
 
 sortablejs@^1.12.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.14.0.tgz#6d2e17ccbdb25f464734df621d4f35d4ab35b3d8"
-  integrity sha512-pBXvQCs5/33fdN1/39pPL0NZF20LeRbLQ5jtnheIPN9JQAaufGjKdWduZn4U7wCtVuzKhmRkI0DFYHYRbB2H1w==
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.15.0.tgz#53230b8aa3502bb77a29e2005808ffdb4a5f7e2a"
+  integrity sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
 
 source-map-js@^1.0.2:
   version "1.0.2"

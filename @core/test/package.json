@@ -18,9 +18,8 @@
     "playwright": "^1.18.1",
     "puppeteer": "^13.3.1",
     "vite": "^2.7.12",
-    "vitest": "^0.7.0"
-  },
-  "devDependencies": {
+    "vitest": "^0.7.0",
     "@playwright/test": "^1.20.0"
-  }
+  },
+  "devDependencies": {}
 }
