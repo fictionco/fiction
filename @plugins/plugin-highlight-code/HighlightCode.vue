@@ -5,11 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import "./prism/prism"
-
 import { onResetUi } from "@factor/api"
 import { onMounted, PropType, ref } from "vue"
-import "./types"
+import hljs from "highlight.js"
 defineProps({
   theme: { type: String as PropType<"light" | "dark">, default: "light" },
 })
@@ -24,11 +22,11 @@ const setOpacity = (o: string): void => {
 }
 
 const tryHighlight = (cb?: () => void): void => {
-  if (!code.value) return
-
   setTimeout((): void => {
-    const prism = window.Prism
-    prism.highlightAllUnder(code.value)
+    if (!code.value) return
+    code.value.querySelectorAll<HTMLElement>("pre code").forEach((el) => {
+      hljs.highlightElement(el)
+    })
 
     if (cb) cb()
   }, 300)
@@ -40,40 +38,9 @@ onMounted(() => {
   tryHighlight(() => setOpacity("1"))
 })
 </script>
-
 <style lang="less">
-:root {
-  --prism-foreground: #d4d4d4;
-  --prism-background: #222222;
-
-  --prism-namespace: #ffffff;
-  --prism-comment: #999;
-  --prism-namespace: #e2777a;
-  --prism-string: #b8b7ff;
-  --prism-punctuation: #ccc;
-  --prism-literal: #36acaa;
-  --prism-keyword: #00e380;
-  --prism-function: #6196cc;
-  --prism-deleted: #d3000e;
-  --prism-class: #4ec9b0;
-  --prism-builtin: #d16969;
-  --prism-property: #ce9178;
-  --prism-regex: #ad502b;
+@import "highlight.js/styles/agate.css";
+pre code.hljs {
+  padding: 1.5em;
 }
-:root {
-  --c-divider: var(--c-divider-light);
-
-  --c-text: var(--c-text-light-1);
-  --c-text-light: var(--c-text-light-2);
-  --c-text-lighter: var(--c-text-light-3);
-
-  --c-bg: var(--c-white);
-  --c-bg-accent: var(--c-white-dark);
-
-  --code-line-height: 24px;
-  --code-font-size: 14px;
-  --code-inline-bg-color: rgba(27, 31, 35, 0.05);
-  --code-bg-color: #282c34;
-}
-@import "./prism/theme-dark.less";
 </style>

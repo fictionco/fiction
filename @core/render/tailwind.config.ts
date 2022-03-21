@@ -12,5 +12,6 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx,html}",
     `${modulePath("@factor/ui")}/*.vue`,
     `${modulePath("@factor/plugin-notify")}/*.vue`,
+    `${modulePath("@factor/plugin-highlight-code")}/*.vue`,
   ],
 } as Record<string, any>
