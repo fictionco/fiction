@@ -57,6 +57,13 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
   const script = `npm exec -c 'factor rdev ${passArgs.join(" ")}'`
   conf.exec = script
 
+  logger.log({
+    level: "info",
+    context: "restartInitializer",
+    description: "nodemon",
+    data: conf,
+  })
+
   /**
    * The nodemon function takes either an object (that matches the nodemon config)
    * or can take a string that matches the arguments that would be used on the command line

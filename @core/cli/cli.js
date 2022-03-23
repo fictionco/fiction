@@ -17,4 +17,4 @@ await transpiler()
 
 const { execute } = await import("./program")
 
-execute()
+execute().catch(console.error)

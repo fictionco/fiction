@@ -1793,9 +1793,9 @@
     "@types/express" "*"
 
 "@types/node@*", "@types/node@>=8.1.0", "@types/node@^17.0.16", "@types/node@^17.0.5":
-  version "17.0.22"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.22.tgz#38b6c4b9b2f3ed9f2e376cce42a298fb2375251e"
-  integrity sha512-8FwbVoG4fy+ykY86XCAclKZDORttqE5/s7dyWZKLXTdv3vRy5HozBEinG5IqhvPXXzIZEcTVbuHlQEI6iuwcmw==
+  version "17.0.23"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
+  integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
 
 "@types/node@^10.0.3":
   version "10.17.60"
@@ -3515,9 +3515,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.4.84:
-  version "1.4.89"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.89.tgz#33c06592812a17a7131873f4596579084ce33ff8"
-  integrity sha512-z1Axg0Fu54fse8wN4fd+GAINdU5mJmLtcl6bqIcYyzNVGONcfHAeeJi88KYMQVKalhXlYuVPzKkFIU5VD0raUw==
+  version "1.4.91"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.91.tgz#842bbc97fd639abe7e46e7da530e3af5f6ca2831"
+  integrity sha512-Z7Jkc4+ouEg8F6RrrgLOs0kkJjI0cnyFQmnGVpln8pPifuKBNbUr37GMgJsCTSwy6Z9TK7oTwW33Oe+3aERYew==
 
 email-validator@^2.0.4:
   version "2.0.4"
@@ -4636,9 +4636,9 @@ globby@^11.0.3, globby@^11.0.4, globby@^11.1.0:
     slash "^3.0.0"
 
 google-auth-library@^7.14.0:
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.0.tgz#9d6a20592f7b4d4c463cd3e93934c4b1711d5dc6"
-  integrity sha512-or8r7qUqGVI3W8lVSdPh0ZpeFyQHeE73g5c0p+bLNTTUFXJ+GSeDQmZRZ2p4H8cF/RJYa4PNvi/A1ar1uVNLFA==
+  version "7.14.1"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-7.14.1.tgz#e3483034162f24cc71b95c8a55a210008826213c"
+  integrity sha512-5Rk7iLNDFhFeBYc3s8l1CqzbEBcdhwR193RlD4vSNFajIcINKI8W8P0JLmBpwymHqqWbX34pJDQu39cSy/6RsA==
   dependencies:
     arrify "^2.0.0"
     base64-js "^1.3.0"
@@ -7910,9 +7910,9 @@ strip-json-comments@~2.0.1:
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
 stripe@^8.49.0:
-  version "8.210.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.210.0.tgz#6e5ede9abd36406d39b89d9129df86fb33f43db3"
-  integrity sha512-NDQNEInrr1avwSEDB7Phe7PYNejtU9EkhOBlPa90Aomc3WvSXgOuX8MpswQ1mTw+W/lGpePwVqMsUvrvhUjZfA==
+  version "8.211.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.211.0.tgz#658f2399238c5854687a8f54eca34cd4ec004020"
+  integrity sha512-dnX/rLj6fOodpjmnorQ2xflmZxvWazUiW5PDRvqeVnF0uqr7w5hlwUjAxFh+xibN2M0ygp0DCsOT+1SNIo5LYw==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
@@ -8566,9 +8566,9 @@ vite@^2.3.6, vite@^2.5.3, vite@^2.7.12, vite@^2.7.13, vite@^2.8.6:
     fsevents "~2.3.2"
 
 vitest@^0.7.0, vitest@^0.7.4:
-  version "0.7.7"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.7.7.tgz#8cdf9a163e01547be380b5a7530331d3126c9463"
-  integrity sha512-xU7BTB7T7GbcjFBdbZAAp/dIQUwn8bygI+cbw6Yq1oXj60oGRJ+nJ7AXvSOJyaHMTmglEoaqazyDGnCHJBXftw==
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.7.10.tgz#cdc28f27b9e0053360a24198d3662e149cbdbae8"
+  integrity sha512-We5a7cnY2aUpX4tAO+w2KRhJiJ4FznfWjYKkqWoAqs4x4pKgyRsMJNZ7OSY/lFHOoRz3yv0mgwfVlZiRc0/mmA==
   dependencies:
     "@types/chai" "^4.3.0"
     "@types/chai-subset" "^1.3.3"

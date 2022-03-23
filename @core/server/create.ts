@@ -37,6 +37,7 @@ export const createEndpointServer = async (
   process.env.FACTOR_SERVER_PORT = port
 
   const factorEndpointServer = new EndpointServer({
+    name: "factor",
     port,
     endpoints,
     middleware: (app) => {

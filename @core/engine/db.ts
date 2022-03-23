@@ -182,10 +182,10 @@ const createTables = async (db: Knex): Promise<void> => {
   }
 }
 
-export const postgresConnectionUrl = (): string | undefined => {
+export const postgresConnectionUrl = (): URL | undefined => {
   const postgresUrl = process.env.POSTGRES_URL || process.env.FACTOR_DB_URL
 
-  return postgresUrl
+  return postgresUrl ? new URL(postgresUrl) : undefined
 }
 /**
  * the db client singleton
@@ -196,13 +196,11 @@ let __db: Knex | undefined
  */
 export const getDb = async (): Promise<Knex> => {
   if (!__db) {
-    const postgresUrl = postgresConnectionUrl()
+    const conf = postgresConnectionUrl()
 
-    if (!postgresUrl) {
+    if (!conf) {
       throw _stop(`DB URL is required (POSTGRES_URL)`)
     }
-
-    const conf = new URL(postgresUrl)
 
     // pre-selected db - // remove slashes from pathname
     process.env.POSTGRES_DB =
@@ -279,6 +277,7 @@ export const initializeDb = async (): Promise<void> => {
   logger.log({
     level: "info",
     context: "initializeDb",
-    description: "DB Connected",
+    description: "db connected",
+    data: { url: connection.hostname, port: connection.port },
   })
 }

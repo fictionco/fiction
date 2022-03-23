@@ -56,10 +56,13 @@ export const setupPlugins = async (
   return r
 }
 
-export const runProcessors = async <T = unknown>(
-  processors: DataProcessor<T>[],
+export const runProcessors = async <
+  T = unknown,
+  U extends Record<string, any> = Record<string, any>,
+>(
+  processors: DataProcessor<T, U>[],
   initial: T,
-  meta: Record<string, any>,
+  meta: U,
 ): Promise<T> => {
   const callbacks = processors.map((_) => _.handler)
 

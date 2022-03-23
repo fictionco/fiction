@@ -17,12 +17,14 @@ type MiddlewareHandler = (app: express.Express) => Promise<void> | void
 
 export type EndpointServerOptions = {
   port: string
+  name: string
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
 }
 
 export class EndpointServer {
+  name: string
   port: string
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
@@ -30,6 +32,7 @@ export class EndpointServer {
 
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer } = options
+    this.name = options.name
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
@@ -66,6 +69,13 @@ export class EndpointServer {
         } else {
           s = app.listen(this.port, () => resolve(s))
         }
+      })
+
+      logger.log({
+        level: "info",
+        context: "serverCreate",
+        description: `endpoint server`,
+        data: { name: this.name, port: this.port },
       })
 
       onEvent("shutdown", () => {

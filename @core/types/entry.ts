@@ -78,7 +78,7 @@ export interface UserConfigServerOptions {
   user?: {
     processors?: DataProcessor<
       FullUser,
-      { meta: EndpointMeta; params: ManageUserParams }
+      { meta?: EndpointMeta; params?: ManageUserParams }
     >[]
     onVerified?: (user: FullUser) => Promise<void> | void
   }

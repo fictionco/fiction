@@ -106,7 +106,11 @@ export const serveApp = async (options: CliOptions = {}): Promise<void> => {
   logger.log({
     level: "info",
     context: "serveApp",
-    description: `serving app:${appName} http://localhost:${port}`,
+    description: `serving factor app`,
+    data: {
+      name: appName,
+      url: `http://localhost:${port}`,
+    },
   })
 
   onEvent("shutdown", () => server.close())

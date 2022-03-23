@@ -41,19 +41,25 @@ const comparePassword = async (
   return await bcrypt.compare(password, hashedPassword)
 }
 
+type ProcessorMeta = { params?: ManageUserParams; meta?: EndpointMeta }
+
 /**
  * Add user data about the current user
  */
 const processUser = async (
   user: FullUser,
-  meta: { params?: Record<string, any>; meta?: EndpointMeta } = {},
+  meta: ProcessorMeta,
 ): Promise<FullUser> => {
   const config = getServerConfig()
 
   const processors = config?.user?.processors ?? []
 
   if (processors && processors.length > 0) {
-    const result = await runProcessors<FullUser>(processors, user, meta)
+    const result = await runProcessors<FullUser, ProcessorMeta>(
+      processors,
+      user,
+      meta,
+    )
     return result
   } else {
     return user
@@ -262,7 +268,7 @@ class QueryCurrentUser extends Query {
         email,
         fields: { lastSeen: dayjs().toISOString() },
       },
-      undefined,
+      { server: true },
     )
 
     return { status: "success", data: user }
@@ -301,7 +307,7 @@ export const sendOneTimeCode = async (params: {
 
   await Queries.ManageUser.serve(
     { _action: "update", email, fields },
-    undefined,
+    { server: true },
   )
 
   await sendVerificationEmail({ email, code })
@@ -640,7 +646,7 @@ class QueryLogin extends Query {
     _meta: EndpointMeta,
   ): LoginResponse {
     const { email, password, googleId, emailVerified } = params
-    let { data: user } = await Queries.ManageUser.serve(
+    const { data: user } = await Queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -679,9 +685,9 @@ class QueryLogin extends Query {
       }
 
       delete user.hashedPassword
+    } else {
+      throw this.stop({ message: "no auth provided" })
     }
-
-    user = await processUser(user, { params, meta: _meta })
 
     const token = createClientToken(user)
 
