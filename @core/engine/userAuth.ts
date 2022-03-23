@@ -46,9 +46,8 @@ const comparePassword = async (
  */
 const processUser = async (
   user: FullUser,
-  meta?: { private: boolean },
+  meta: { params?: Record<string, any>; meta?: EndpointMeta } = {},
 ): Promise<FullUser> => {
-  meta = meta || { private: true }
   const config = getServerConfig()
 
   const processors = config?.user?.processors ?? []
@@ -115,33 +114,36 @@ const checkServerFields = (
   }
 }
 
+export type ManageUserParams =
+  | {
+      _action: "create"
+      fields: {
+        email: string
+        password?: string
+        fullName?: string
+        firstName?: string
+        lastName?: string
+        googleId?: string
+        emailVerified?: boolean
+        picture?: string
+        invitedBy?: string
+      }
+    }
+  | {
+      _action: "update"
+      fields: Partial<FullUser>
+      email: string
+    }
+  | {
+      _action: "getPrivate" | "getPublic"
+      email?: string
+      userId?: string
+      select?: (keyof FullUser)[] | ["*"]
+    }
+
 class QueryManageUser extends Query {
   async run(
-    params:
-      | {
-          _action: "create"
-          fields: {
-            email: string
-            password?: string
-            fullName?: string
-            firstName?: string
-            lastName?: string
-            googleId?: string
-            emailVerified?: boolean
-            picture?: string
-          }
-        }
-      | {
-          _action: "update"
-          fields: Partial<FullUser>
-          email: string
-        }
-      | {
-          _action: "getPrivate" | "getPublic"
-          email?: string
-          userId?: string
-          select?: (keyof FullUser)[] | ["*"]
-        },
+    params: ManageUserParams,
     _meta?: EndpointMeta,
   ): Promise<
     EndpointResponse<FullUser> & {
@@ -171,7 +173,7 @@ class QueryManageUser extends Query {
         .first<FullUser>()
 
       if (user && _action == "getPrivate") {
-        user = await processUser(user)
+        user = await processUser(user, { params, meta: _meta })
       } else {
         delete user?.hashedPassword
       }
@@ -192,7 +194,7 @@ class QueryManageUser extends Query {
 
       if (!user) throw this.stop({ message: "user not found", data: where })
 
-      user = await processUser(user)
+      user = await processUser(user, { params, meta: _meta })
     } else if (_action == "create") {
       const { fields } = params
 
@@ -679,7 +681,7 @@ class QueryLogin extends Query {
       delete user.hashedPassword
     }
 
-    user = await processUser(user)
+    user = await processUser(user, { params, meta: _meta })
 
     const token = createClientToken(user)
 

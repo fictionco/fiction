@@ -3,7 +3,8 @@ import { App } from "vue"
 import { Router } from "vue-router"
 import { Store } from "vuex"
 import { AppRoute } from "@factor/api/router"
-import { Endpoint } from "@factor/engine/endpoint"
+import { ManageUserParams } from "@factor/engine/userAuth"
+import { Endpoint, EndpointMeta } from "@factor/engine/endpoint"
 import type { ServerModuleDef } from "@factor/render/buildPlugins"
 import { FullUser } from "./user"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
@@ -75,7 +76,10 @@ export interface UserConfigServerOptions {
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]
   hooks?: HookType<CallbackDictionary>[]
   user?: {
-    processors?: DataProcessor<FullUser>[]
+    processors?: DataProcessor<
+      FullUser,
+      { meta: EndpointMeta; params: ManageUserParams }
+    >[]
     onVerified?: (user: FullUser) => Promise<void> | void
   }
 }

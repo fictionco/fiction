@@ -13,7 +13,7 @@ import { getEndpointsMap } from "./user"
  *  - recursions - watch for recursions while making the request
  *  - promise - many requests should share the same promise
  */
-let __userInitialized: Promise<true>
+let __userInitialized: Promise<boolean>
 export const userInitialized = async (
   callback?: (u: PrivateUser | undefined) => void,
 ): Promise<PrivateUser | undefined> => {
@@ -30,6 +30,12 @@ export const userInitialized = async (
   if (callback) callback(currentUser())
 
   return currentUser()
+}
+/**
+ * Set the user to initialized
+ */
+export const setUserInitialized = (init = true): void => {
+  __userInitialized = Promise.resolve(init)
 }
 
 interface RouteAuthConfig {

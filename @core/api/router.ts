@@ -17,7 +17,7 @@ import { isNode, sortPriority, toLabel } from "./utils"
 
 type IsActiveCallback = (c: {
   route: RouteLocation
-  menuItem?: MenuItem
+  appRoute?: AppRoute<string>
 }) => boolean | undefined
 
 export type RouteKeysUnion<T extends AppRoute<string>[]> = {
