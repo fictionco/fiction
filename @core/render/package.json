@@ -1,6 +1,6 @@
 {
   "name": "@factor/render",
-  "version": "4.1.35",
+  "version": "4.1.36",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -8,16 +8,16 @@
   "main": "index.ts",
   "type": "module",
   "dependencies": {
-    "@factor/site": "4.1.35",
-    "@factor/api": "4.1.35",
-    "@factor/cli": "4.1.35",
-    "@factor/engine": "4.1.35",
-    "@factor/entry": "4.1.35",
-    "@factor/plugin-notify": "4.1.35",
-    "@factor/server": "4.1.35",
-    "@factor/test": "4.1.35",
-    "@factor/types": "4.1.35",
-    "@factor/ui": "4.1.35",
+    "@factor/site": "4.1.36",
+    "@factor/api": "4.1.36",
+    "@factor/cli": "4.1.36",
+    "@factor/engine": "4.1.36",
+    "@factor/entry": "4.1.36",
+    "@factor/plugin-notify": "4.1.36",
+    "@factor/server": "4.1.36",
+    "@factor/test": "4.1.36",
+    "@factor/types": "4.1.36",
+    "@factor/ui": "4.1.36",
     "@tailwindcss/forms": "^0.5.0",
     "@types/html-minifier": "^4.0.0",
     "@types/serve-favicon": "^2.5.2",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.0",
-    "@factor/cli": "4.1.35",
+    "@factor/cli": "4.1.36",
     "@types/compression": "^1.7.0",
     "execa": "^6.0.0",
     "fs-extra": "^10.0.0",
