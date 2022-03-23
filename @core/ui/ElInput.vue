@@ -7,7 +7,7 @@
       attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
     ]"
   >
-    <div v-if="label || description" class="mb-1 flex justify-between">
+    <div v-if="label || description" class="mb-1.5 flex justify-between">
       <div class="text">
         <label
           v-if="label"
