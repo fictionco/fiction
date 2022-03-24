@@ -1,3 +1,12 @@
+## [4.1.41](https://github.com/FactorJS/factor/compare/v4.1.40...v4.1.41) (2022-03-24)
+
+
+### Bug Fixes
+
+* favicon path ([eeb8919](https://github.com/FactorJS/factor/commit/eeb8919013ab876c96e0348645406319459cb478))
+
+
+
 ## [4.1.40](https://github.com/FactorJS/factor/compare/v4.1.39...v4.1.40) (2022-03-24)
 
 
