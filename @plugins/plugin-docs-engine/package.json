@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
-  "version": "4.1.38",
+  "version": "4.1.39",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -26,11 +26,11 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/api": "4.1.38",
-    "@factor/plugin-highlight-code": "4.1.38",
-    "@factor/server": "4.1.38",
-    "@factor/types": "4.1.38",
-    "@factor/ui": "4.1.38",
+    "@factor/api": "4.1.39",
+    "@factor/plugin-highlight-code": "4.1.39",
+    "@factor/server": "4.1.39",
+    "@factor/types": "4.1.39",
+    "@factor/ui": "4.1.39",
     "vue": "^3.2.31",
     "vue-router": "^4.0.10"
   }
