@@ -20,7 +20,7 @@
           @click="goToPermalink(item.permalink)"
         >
           <div
-            class="theme-wrap aspect-h-12 aspect-w-8 relative overflow-hidden rounded-md bg-cover bg-top shadow-lg ring-1 ring-black ring-opacity-10"
+            class="theme-wrap aspect-h-12 aspect-w-8 relative overflow-hidden rounded-md bg-cover bg-top shadow-lg ring-1 ring-black/10"
             :style="{ backgroundImage: `url(${item.screenshots?.[0]})` }"
           >
             <div class="overlay" />
@@ -28,7 +28,7 @@
               class="entry-content absolute inset-y-0 z-10 flex w-full flex-col justify-end"
             >
               <div
-                class="text flex w-full items-center justify-between border-t border-black border-opacity-10 bg-white bg-opacity-100 p-4 font-bold"
+                class="text flex w-full items-center justify-between border-t border-black/10 bg-white/100 p-4 font-bold"
                 @click.stop
               >
                 <div class="flex space-x-3">

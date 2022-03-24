@@ -79,7 +79,7 @@ const collectH3s = (h: HTMLHeadingElement): HTMLHeadingElement[] => {
 const getHeaderText = (h: HTMLHeadingElement): string => {
   const text = Array.prototype.slice
     .call(h.childNodes)
-    .map((node: any): string => {
+    .map((node: HTMLElement): string => {
       return node.textContent?.replace("#", "") ?? ""
       // if (node.nodeType === Node.TEXT_NODE) {
       //   return node.nodeValue

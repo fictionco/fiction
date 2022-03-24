@@ -18,7 +18,6 @@ describe("server entry handling", () => {
     expect(Object.keys(config)).toMatchInlineSnapshot(`
       [
         "routes",
-        "plugins",
         "variables",
         "endpoints",
         "port",

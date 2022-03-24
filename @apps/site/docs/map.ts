@@ -87,6 +87,8 @@ export type DocKeysUnion<T extends Doc<string>[]> = {
   [K in keyof T]: T[K] extends Doc<infer T> ? T : never
 }[number]
 
+export type DocKeys = DocKeysUnion<typeof docs>
+
 export const groups: DocGroupRecord<DocKeysUnion<typeof docs>> = {
   docs: {
     title: "Docs Home",

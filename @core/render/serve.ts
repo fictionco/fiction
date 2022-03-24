@@ -109,7 +109,7 @@ export const serveApp = async (options: CliOptions = {}): Promise<void> => {
   logger.log({
     level: "info",
     context: "serveApp",
-    description: `serving factor app`,
+    description: `serving factor app [ready]`,
     data: {
       name: appName,
       url: `http://localhost:${port}`,

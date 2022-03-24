@@ -35,14 +35,14 @@
         </div>
         <div
           id="sidebar"
-          class="fixed inset-0 z-10 h-full w-full flex-none bg-opacity-25 lg:static lg:block lg:h-auto lg:w-60 lg:overflow-y-visible lg:pt-0 xl:w-72"
+          class="fixed inset-0 z-10 h-full w-full flex-none lg:static lg:block lg:h-auto lg:w-60 lg:overflow-y-visible lg:pt-0 xl:w-72"
           :class="
             vis ? 'block h-screen absolute top-16 z-50 lg:hidden p-2' : 'hidden'
           "
         >
           <div
             id="navWrapper"
-            class="scrolling-touch overflow-hidden overflow-y-auto rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-20 lg:sticky lg:top-16 lg:block lg:h-auto lg:bg-transparent lg:shadow-none lg:ring-0"
+            class="scrolling-touch overflow-hidden overflow-y-auto rounded-lg bg-white shadow-xl ring-1 ring-black/20 lg:sticky lg:top-16 lg:block lg:h-auto lg:bg-transparent lg:shadow-none lg:ring-0"
           >
             <div
               class="pointer-events-none absolute inset-x-0 z-10 hidden h-12 bg-gradient-to-b from-white lg:block"
@@ -147,11 +147,10 @@ import ElButton from "@factor/ui/ElButton.vue"
 import { ref } from "vue"
 
 import { useRouter } from "vue-router"
-import { docs, groups } from "../map"
+import { docs, groups, DocKeys } from "../map"
 const baseRoute = ref("/docs")
 const router = useRouter()
 const vis = ref(false)
-const search = ref(false)
 
 onResetUi(() => (vis.value = false))
 
@@ -168,9 +167,9 @@ const docRoute = (docId?: string): string => {
   return docId ? `${baseRoute.value}/${camelToKebab(docId)}` : ""
 }
 
-const docTitle = (docId: keyof typeof docs): string => {
-  const doc = docs[docId] ?? {}
-  return doc.title || toLabel(docId)
+const docTitle = (docId: DocKeys): string => {
+  const doc = docs.find((d) => d.key == docId)
+  return doc?.title || toLabel(docId)
 }
 
 const isCurrentNav = (docId: string): boolean => {

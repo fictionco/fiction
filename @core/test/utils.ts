@@ -46,16 +46,16 @@ export const createTestServer = async (params: {
 
   let _process: ExecaChildProcess | undefined
 
+  const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
+
   logger.log({
     level: "info",
     context: "createTestServer",
     description: `Creating test server for ${moduleName}`,
-    data: { serverPort, appPort, cwd: process.cwd() },
+    data: { serverPort, appPort, cwd: process.cwd(), cmd },
   })
 
   await new Promise<void>((resolve) => {
-    const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
-
     _process = execaCommand(cmd, { env: { TEST_ENV: "unit" } })
     _process.stdout?.pipe(process.stdout)
     _process.stderr?.pipe(process.stderr)
@@ -63,7 +63,7 @@ export const createTestServer = async (params: {
     _process.stdout?.on("data", (d: Buffer) => {
       const out = d.toString()
 
-      if (out.includes("serving app")) resolve()
+      if (out.includes("[ready]")) resolve()
     })
   })
 
@@ -132,7 +132,7 @@ export const appBuildTests = (config: {
       expect(r.stdout).toContain("build variables")
       expect(r.stdout).toContain(serverPort)
       expect(r.stdout).toContain(appPort)
-      expect(r.stdout).toContain("serving app")
+      expect(r.stdout).toContain("[ready]")
     })
 
     it("renders", async () => {

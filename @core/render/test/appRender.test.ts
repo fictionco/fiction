@@ -24,7 +24,7 @@ describe("renders app code correctly", () => {
       cwd,
       headless: false,
     })
-  })
+  }, 15_000)
   it("handles defined globals", async () => {
     if (!_s) throw new Error("no test server")
 
@@ -46,5 +46,5 @@ describe("renders app code correctly", () => {
 
     const appUrlText = await page().locator(`#app-url`).textContent()
     expect(appUrlText).toBe(appVars.variables.FACTOR_APP_URL)
-  }, 12_000)
+  }, 16_000)
 })

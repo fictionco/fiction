@@ -19,7 +19,7 @@
           class="grid-item-theme col-span-12 cursor-pointer md:col-span-6 lg:col-span-4"
         >
           <div
-            class="relative mt-6 bg-white p-4 shadow-lg ring-1 ring-black ring-opacity-10 lg:mt-0 lg:p-6"
+            class="relative mt-6 bg-white p-4 shadow-lg ring-1 ring-black/10 lg:mt-0 lg:p-6"
           >
             <div class="icon absolute -top-8 w-16 shadow-md">
               <img class="rounded-lg" :src="item.icon" />
