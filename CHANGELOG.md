@@ -1,3 +1,12 @@
+## [4.1.40](https://github.com/FactorJS/factor/compare/v4.1.39...v4.1.40) (2022-03-24)
+
+
+### Features
+
+* plugin api updates ([d38144a](https://github.com/FactorJS/factor/commit/d38144ab3886eb77eac1c74fbb4607f31654ee8d))
+
+
+
 ## [4.1.39](https://github.com/FactorJS/factor/compare/v4.1.38...v4.1.39) (2022-03-24)
 
 
