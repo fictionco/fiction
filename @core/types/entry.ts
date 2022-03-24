@@ -71,6 +71,7 @@ export interface UserConfigServerOptions {
   port?: string
   portApp?: string
   serverOnlyImports?: ServerModuleDef[]
+  routes?: AppRoute<string>[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]

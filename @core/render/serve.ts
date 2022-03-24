@@ -18,7 +18,10 @@ export const expressApp = async (
   try {
     const { mode = "production", renderMode = RenderMode.SSR } = options
 
-    app.use(serveFavicon(getFaviconPath()))
+    const faviconFile = getFaviconPath()
+    if (faviconFile) {
+      app.use(faviconFile)
+    }
 
     let viteServer: vite.ViteDevServer | undefined = undefined
 

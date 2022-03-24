@@ -142,13 +142,6 @@ export const getFaviconPath = (): string => {
     }
   })
 
-  if (!faviconPath) {
-    faviconPath = path.join(
-      path.dirname(require.resolve("@factor/entry")),
-      "favicon.png",
-    )
-  }
-
   return faviconPath
 }
 
