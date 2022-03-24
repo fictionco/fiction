@@ -1,3 +1,12 @@
+## [4.1.43](https://github.com/FactorJS/factor/compare/v4.1.42...v4.1.43) (2022-03-24)
+
+
+### Bug Fixes
+
+* footer ([79a2f5f](https://github.com/FactorJS/factor/commit/79a2f5f1b377c1b5f280d7bc2f078196bdf9617e))
+
+
+
 ## [4.1.42](https://github.com/FactorJS/factor/compare/v4.1.41...v4.1.42) (2022-03-24)
 
 

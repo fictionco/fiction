@@ -1,6 +1,6 @@
 {
   "name": "@factor/test",
-  "version": "4.1.42",
+  "version": "4.1.43",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -8,11 +8,11 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
-    "@factor/api": "4.1.42",
-    "@factor/engine": "4.1.42",
-    "@factor/render": "4.1.42",
-    "@factor/server": "4.1.42",
-    "@factor/site": "4.1.42",
+    "@factor/api": "4.1.43",
+    "@factor/engine": "4.1.43",
+    "@factor/render": "4.1.43",
+    "@factor/server": "4.1.43",
+    "@factor/site": "4.1.43",
     "execa": "^6.0.0",
     "fs-extra": "^10.0.0",
     "playwright": "^1.18.1",
