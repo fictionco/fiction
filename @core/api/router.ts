@@ -11,7 +11,7 @@ import {
 } from "vue-router"
 import type { RouteLocation } from "vue-router"
 import type { Component } from "vue"
-import { AuthCallback, MenuItem } from "@factor/types"
+import { AuthCallback } from "@factor/types"
 import { getGlobal, setGlobal } from "./global"
 import { isNode, sortPriority, toLabel } from "./utils"
 

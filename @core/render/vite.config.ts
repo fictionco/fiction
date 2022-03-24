@@ -67,7 +67,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
   return {
     optimizeDeps: {
       exclude: [
-        "@factor/*",
         "@factor/api",
         "@factor/build",
         "@factor/entry",
@@ -90,7 +89,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "dayjs/plugin/relativeTime",
         "spark-md5",
         "fast-json-stable-stringify",
-        "@medv/finder",
         "deepmerge",
         "events",
         "js-cookie",
