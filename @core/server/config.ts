@@ -1,4 +1,4 @@
-import { UserConfigServer } from "@factor/types"
+import { UserConfig } from "@factor/types"
 import {
   dotSetting,
   setupPlugins,
@@ -8,8 +8,8 @@ import {
 } from "@factor/api"
 
 export const setServerConfig = async (
-  config: UserConfigServer,
-): Promise<UserConfigServer> => {
+  config: UserConfig,
+): Promise<UserConfig> => {
   if (config.plugins) {
     try {
       config = await setupPlugins(config)
@@ -29,12 +29,12 @@ export const setServerConfig = async (
   return config
 }
 
-export const getServerConfig = (): UserConfigServer | undefined => {
+export const getServerConfig = (): UserConfig | undefined => {
   return stored("serverConfig")
 }
 
-export const serverConfigSetting = <T extends keyof UserConfigServer>(
+export const serverConfigSetting = <T extends keyof UserConfig>(
   key: T,
-): UserConfigServer[T] => {
+): UserConfig[T] => {
   return dotSetting({ key, settings: getServerConfig() ?? {} })
 }

@@ -1,8 +1,8 @@
 import { deepMergeAll } from "@factor/api"
-import { importServerEntry } from "@factor/engine/nodeUtils"
+import { importEntryFile } from "@factor/engine/nodeUtils"
 import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
-import { UserConfigServer } from "@factor/types"
+import { UserConfig } from "@factor/types"
 import type { CliOptions } from "@factor/cli/utils"
 import { runHooks } from "./hook"
 import { setAppGlobals, getFactorConfig } from "./globals"
@@ -11,8 +11,8 @@ import { endpoints } from "./endpoint"
 import { setServerConfig } from "./config"
 
 export const setupServerEnv = async (
-  entryServerConfig: UserConfigServer = {},
-): Promise<UserConfigServer> => {
+  entryServerConfig: UserConfig = {},
+): Promise<UserConfig> => {
   /**
    * Set initial globals (this will run again after extension)
    */
@@ -33,16 +33,13 @@ export const setupServerEnv = async (
  * Set up all config variables on server
  */
 export const setupEnvironment = async (
-  entryServerConfig: UserConfigServer,
+  entryServerConfig: UserConfig,
 ): Promise<void> => {
   const serverConfig = await setupServerEnv(entryServerConfig)
 
   await initializeDb()
 
-  await runHooks({
-    hook: "afterServerSetup",
-    args: [],
-  })
+  await runHooks({ hook: "afterServerSetup", args: [] })
 
   const port = getServerPort(serverConfig)
 
@@ -50,10 +47,7 @@ export const setupEnvironment = async (
     await createEndpointServer(port, serverConfig)
   }
 
-  await runHooks({
-    hook: "afterServerCreated",
-    args: [],
-  })
+  await runHooks({ hook: "afterServerCreated", args: [] })
 }
 /**
  * Run the Factor server
@@ -66,18 +60,18 @@ export const setup = async (options: CliOptions): Promise<void> => {
     cwd,
   })
 
-  const merge: UserConfigServer[] = [appConfig]
+  const merge: UserConfig[] = [appConfig]
 
   /**
    * Require app server entry file if it exists
    */
-  const entryServerConfig = await importServerEntry({ moduleName, cwd })
+  const entryServerConfig = await importEntryFile({ moduleName, cwd })
 
   if (entryServerConfig) {
     merge.unshift(entryServerConfig)
   }
 
-  const mergedServerConfig: UserConfigServer = deepMergeAll(merge)
+  const mergedServerConfig: UserConfig = deepMergeAll(merge)
 
   await setupEnvironment(mergedServerConfig)
 

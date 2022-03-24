@@ -1,9 +1,10 @@
-import { FactorPluginConfigServer, UserConfigServer } from "@factor/types"
+import { FactorPluginConfigServer, UserConfig } from "@factor/types"
 import { logger } from "@factor/api"
 import { Endpoint } from "@factor/engine"
 import { getPaymentEndpointsMap } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
 import { StripeOptions, createSettings, stripeEnv } from "."
+
 export default async (
   options: Partial<StripeOptions>,
 ): Promise<FactorPluginConfigServer> => {
@@ -11,7 +12,7 @@ export default async (
 
   return {
     name: "StripePluginServer",
-    setup: async (): Promise<UserConfigServer> => {
+    setup: async (): Promise<UserConfig> => {
       const stripePublicKey =
         stripeEnv() == "production"
           ? process.env.STRIPE_PUBLIC_KEY_LIVE

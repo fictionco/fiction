@@ -1,20 +1,16 @@
 import http from "http"
-import { UserConfigServer } from "@factor/types"
+import { UserConfig } from "@factor/types"
 
 import bodyParser from "body-parser"
 import { EndpointServer } from "@factor/engine"
 
-export const getAppPort = (
-  config: UserConfigServer = {},
-): string | undefined => {
+export const getAppPort = (config: UserConfig = {}): string | undefined => {
   const port =
     config.portApp || process.env.PORT_APP || process.env.FACTOR_APP_PORT
 
   return port
 }
-export const getServerPort = (
-  config: UserConfigServer = {},
-): string | undefined => {
+export const getServerPort = (config: UserConfig = {}): string | undefined => {
   const port = config.port || process.env.PORT || process.env.FACTOR_SERVER_PORT
 
   return port
@@ -29,7 +25,7 @@ export const serverUrl = (): string => {
 
 export const createEndpointServer = async (
   port: string,
-  config: UserConfigServer,
+  config: UserConfig,
 ): Promise<http.Server | undefined> => {
   const { endpoints = [] } = config
 

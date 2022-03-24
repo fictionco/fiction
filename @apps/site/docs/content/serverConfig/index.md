@@ -15,7 +15,7 @@ As with your app entry file, this file should export a function named `setup` wh
 // FILE: src/server.ts
 import { doServerStuff } from "./server-do-stuff" // other custom code
 
-export const setup = (): UserConfigServer => {
+export const setup = (): UserConfig => {
   // initialize other server code here if you'd like
   doServerStuff()
 

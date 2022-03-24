@@ -36,15 +36,15 @@ export type FactorPluginConfigServer = {
   name: string
   // need a generic to fix typing error in setupPlugins function
   setup?: () =>
-    | UserConfigServerOptions
+    | UserConfigOptions
     | undefined
     | void
-    | Promise<UserConfigServerOptions | undefined | void>
-} & UserConfigServerOptions
+    | Promise<UserConfigOptions | undefined | void>
+} & UserConfigOptions
 
 export type FactorPluginConfigApp = FactorPluginConfig<UserConfigAppOptions>
 
-export type UserConfigServer = Partial<UserConfigServerOptions>
+export type UserConfig = Partial<UserConfigOptions>
 
 /**
  * Determine callback by hook
@@ -57,7 +57,7 @@ type HookType<T extends Record<string, any[]>> = {
   }
 }[keyof T]
 
-export interface UserConfigServerOptions {
+export interface UserConfigOptions {
   variables?: Record<
     string,
     | string

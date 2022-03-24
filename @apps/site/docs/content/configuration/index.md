@@ -75,7 +75,7 @@ The primary items you'll need to export here are server/endpoint `plugins`, url 
 // FILE: src/server.ts
 import { doServerStuff } from "./server-do-stuff" // other custom code
 
-export const setup = (): UserConfigServer => {
+export const setup = (): UserConfig => {
   // initialize other server code here if you'd like
   doServerStuff()
 

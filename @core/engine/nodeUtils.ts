@@ -7,7 +7,7 @@ import glob from "glob"
 import requestIp from "request-ip"
 import ipUtil from "ipaddr.js"
 import { getNetworkIp } from "@factor/api"
-import { UserConfigServer, PackageJson } from "@factor/types"
+import { UserConfig, PackageJson } from "@factor/types"
 import bodyParser from "body-parser"
 import compression from "compression"
 import helmet from "helmet"
@@ -54,14 +54,14 @@ export const importIfExists = async <T = unknown>(
   } else return
 }
 
-export const importServerEntry = async (params: {
+export const importEntryFile = async (params: {
   moduleName?: string
   cwd?: string
-}): Promise<Promise<UserConfigServer>> => {
+}): Promise<Promise<UserConfig>> => {
   const { moduleName, cwd } = params
 
   const serverEntry = path.join(sourceFolder({ moduleName, cwd }), "server.ts")
-  const mod = await importIfExists<{ setup?: () => Promise<UserConfigServer> }>(
+  const mod = await importIfExists<{ setup?: () => Promise<UserConfig> }>(
     serverEntry,
   )
 

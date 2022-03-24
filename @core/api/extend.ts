@@ -1,4 +1,4 @@
-import { DataProcessor, UserConfigApp, UserConfigServer } from "@factor/types"
+import { DataProcessor, UserConfigApp, UserConfig } from "@factor/types"
 import { deepMergeAll } from "./utils"
 import { omit } from "./_"
 export type AppPlugin = {
@@ -21,7 +21,6 @@ export type AppPlugin = {
 //   plugin.install(options)
 // }
 
-type UserConfig = UserConfigApp | UserConfigServer
 export const setupPlugins = async (
   userConfig: UserConfig,
 ): Promise<UserConfig> => {
@@ -37,7 +36,7 @@ export const setupPlugins = async (
 
       try {
         if (pluginConfig.setup) {
-          const r = await pluginConfig.setup<UserConfig>()
+          const r = await pluginConfig.setup()
 
           if (r) config.push(r)
         }

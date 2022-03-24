@@ -32,11 +32,11 @@ export const setup = (): UserConfigApp => {
 
 ```ts
 // server.ts
-import { UserConfigServer } from "@factor/api"
+import { UserConfig } from "@factor/api"
 import { map } from "../blog/map"
 import blogEngineServer from "@factor/plugin-blog-engine/server"
 
-export const setup = (): UserConfigServer => {
+export const setup = (): UserConfig => {
   return {
     plugins: [blogEngineServer({ map, baseRoute: "/blog" })],
   }
