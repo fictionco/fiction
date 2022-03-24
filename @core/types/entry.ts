@@ -75,13 +75,10 @@ export interface UserConfigServerOptions {
   log?: LogHandler
   plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]
   hooks?: HookType<CallbackDictionary>[]
-  user?: {
-    processors?: DataProcessor<
-      FullUser,
-      { meta?: EndpointMeta; params?: ManageUserParams }
-    >[]
-    onVerified?: (user: FullUser) => Promise<void> | void
-  }
+  userProcessors?: DataProcessor<
+    FullUser,
+    { meta?: EndpointMeta; params?: ManageUserParams }
+  >[]
 }
 
 export type UserConfigApp = Partial<UserConfigAppOptions>

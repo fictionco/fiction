@@ -13,6 +13,7 @@ import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
 import { createClientToken, decodeClientToken } from "@factor/api/jwt"
+import { runHooks } from "@factor/server/hook"
 import { getServerConfig } from "../server/config"
 import { getDb } from "./db"
 
@@ -52,7 +53,7 @@ const processUser = async (
 ): Promise<FullUser> => {
   const config = getServerConfig()
 
-  const processors = config?.user?.processors ?? []
+  const processors = config?.userProcessors ?? []
 
   if (processors && processors.length > 0) {
     const result = await runProcessors<FullUser, ProcessorMeta>(
@@ -546,13 +547,10 @@ class QueryVerifyAccountEmail extends Query {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    const config = getServerConfig()
-
-    const onVerified = config?.user?.onVerified
-
-    if (onVerified) {
-      Promise.resolve(onVerified(user)).catch((error) => console.error(error))
-    }
+    await runHooks({
+      hook: "onUserVerified",
+      args: [user],
+    })
 
     logger.log({
       level: "info",

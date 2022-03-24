@@ -1,10 +1,10 @@
-import { runHooks, deepMergeAll } from "@factor/api"
-
+import { deepMergeAll } from "@factor/api"
 import { importServerEntry } from "@factor/engine/nodeUtils"
 import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
 import { UserConfigServer } from "@factor/types"
 import type { CliOptions } from "@factor/cli/utils"
+import { runHooks } from "./hook"
 import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
@@ -41,7 +41,6 @@ export const setupEnvironment = async (
 
   await runHooks({
     hook: "afterServerSetup",
-    config: serverConfig,
     args: [],
   })
 
@@ -53,7 +52,6 @@ export const setupEnvironment = async (
 
   await runHooks({
     hook: "afterServerCreated",
-    config: serverConfig,
     args: [],
   })
 }
