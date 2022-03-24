@@ -45,6 +45,7 @@ export type DocParams<T extends string> = {
   imageImport?: () => Promise<{ default: string }>
   category?: string[]
   title?: string
+  components?: Record<string, Component>
 }
 
 export class Doc<T extends string> {
@@ -56,6 +57,7 @@ export class Doc<T extends string> {
   imageImport?: () => Promise<{ default: string }>
   category?: string[]
   title?: string
+  components?: Record<string, Component>
   constructor(params: DocParams<T>) {
     this.key = params.key
     this.status = params.status ?? "draft"
@@ -65,5 +67,6 @@ export class Doc<T extends string> {
     this.imageImport = params.imageImport
     this.category = params.category
     this.title = params.title
+    this.components = params.components
   }
 }

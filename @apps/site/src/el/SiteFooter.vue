@@ -41,7 +41,8 @@
 
       <div class="mt-8 pt-4 text-sm text-color-500">
         <div class="text-center">
-          &copy; 2021 &middot; Released under MIT license
+          &copy; {{ dayjs().format("YYYY") }} &middot; An Open Source project by
+          <a href="https://www.kaption.co">Kaption.co</a>
         </div>
         <!-- <div class="text-right">
           <router-link to="/terms-of-service" class="hover:text-primary-500">
@@ -56,6 +57,7 @@
   </footer>
 </template>
 <script lang="ts" setup>
+import dayjs from "dayjs"
 import { ref } from "vue"
 
 import ElemLogo from "./ElLogo.vue"
