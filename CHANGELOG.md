@@ -1,3 +1,17 @@
+## [4.1.42](https://github.com/FactorJS/factor/compare/v4.1.41...v4.1.42) (2022-03-24)
+
+
+### Bug Fixes
+
+* tests ([2747121](https://github.com/FactorJS/factor/commit/274712179ba4dba27211cbf3ea85c765ed9cdbae))
+
+
+### Features
+
+* new plugin api ([cbaa77a](https://github.com/FactorJS/factor/commit/cbaa77ab2d962bb539c3149b437cabb5de686956))
+
+
+
 ## [4.1.41](https://github.com/FactorJS/factor/compare/v4.1.40...v4.1.41) (2022-03-24)
 
 
