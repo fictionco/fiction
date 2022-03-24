@@ -1,18 +1,18 @@
-import { FactorPluginConfigApp } from "@factor/types"
-import { createSettings } from "./helpers"
+import { UserConfig } from "@factor/types"
+import { createSettings, getPostRoutes } from "./helpers"
 import { BlogOptions } from "./types"
 
 export * from "./helpers"
 export * from "./types"
 
-/**
- * Install as a Factor plugin
- */
-export default (options: Partial<BlogOptions> = {}): FactorPluginConfigApp => {
+export const setup = (options: Partial<BlogOptions> = {}): UserConfig => {
   createSettings(options)
 
   return {
-    name: "BlogEngineApp",
-    setup: (): void => {},
+    name: "blogEngine",
+    sitemaps: [{ topic: "posts", paths: getPostRoutes() }],
+    server: () => {
+      return { variables: { TEST_BLOG_PLUGIN: "TEST_BLOG_PLUGIN" } }
+    },
   }
 }

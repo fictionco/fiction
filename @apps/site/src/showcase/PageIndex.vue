@@ -20,7 +20,7 @@
           @click="goToPermalink(item.permalink)"
         >
           <div
-            class="theme-wrap aspect-h-12 aspect-w-8 relative overflow-hidden rounded-md bg-cover bg-top shadow-lg ring-1 ring-black/10"
+            class="theme-wrap relative aspect-[2/3] overflow-hidden rounded-md bg-cover bg-top shadow-lg ring-1 ring-black/10"
             :style="{ backgroundImage: `url(${item.screenshots?.[0]})` }"
           >
             <div class="overlay" />

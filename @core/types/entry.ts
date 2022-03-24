@@ -20,31 +20,15 @@ export type EntryModuleExports = {
   factorApp: (c: { renderUrl: string }) => Promise<FactorAppEntry>
 }
 
-export type FactorPluginConfig<T> = {
-  name: string
-  // need a generic to fix typing error in setupPlugins function
-  setup?: <U = T>() =>
-    | U
-    | Promise<U>
-    | undefined
-    | void
-    | Promise<undefined>
-    | Promise<void>
-}
-
-export type FactorPluginConfigServer = {
-  name: string
-  // need a generic to fix typing error in setupPlugins function
-  setup?: () =>
-    | UserConfigOptions
-    | undefined
-    | void
-    | Promise<UserConfigOptions | undefined | void>
-} & UserConfigOptions
-
-export type FactorPluginConfigApp = FactorPluginConfig<UserConfigAppOptions>
-
-export type UserConfig = Partial<UserConfigOptions>
+// export type FactorPluginConfig = {
+//   name: string
+//   // need a generic to fix typing error in setupPlugins function
+//   server?: () =>
+//     | UserConfigOptions
+//     | undefined
+//     | void
+//     | Promise<UserConfigOptions | undefined | void>
+// } & UserConfigOptions
 
 /**
  * Determine callback by hook
@@ -57,7 +41,14 @@ type HookType<T extends Record<string, any[]>> = {
   }
 }[keyof T]
 
-export interface UserConfigOptions {
+export interface UserConfig {
+  name?: string
+  // need a generic to fix typing error in setupPlugins function
+  server?: () =>
+    | UserConfig
+    | undefined
+    | void
+    | Promise<UserConfig | undefined | void>
   variables?: Record<
     string,
     | string
@@ -74,18 +65,10 @@ export interface UserConfigOptions {
   routes?: AppRoute<string>[]
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
-  plugins?: (FactorPluginConfigServer | Promise<FactorPluginConfigServer>)[]
+  plugins?: (UserConfig | Promise<UserConfig>)[]
   hooks?: HookType<CallbackDictionary>[]
   userProcessors?: DataProcessor<
     FullUser,
     { meta?: EndpointMeta; params?: ManageUserParams }
   >[]
-}
-
-export type UserConfigApp = Partial<UserConfigAppOptions>
-
-export interface UserConfigAppOptions {
-  name?: string
-  routes: AppRoute<string>[]
-  plugins: FactorPluginConfig<UserConfigAppOptions>[]
 }

@@ -6,7 +6,7 @@ import fs from "fs"
 import glob from "glob"
 import requestIp from "request-ip"
 import ipUtil from "ipaddr.js"
-import { getNetworkIp } from "@factor/api"
+import { getNetworkIp, deepMergeAll } from "@factor/api"
 import { UserConfig, PackageJson } from "@factor/types"
 import bodyParser from "body-parser"
 import compression from "compression"
@@ -18,25 +18,28 @@ const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
 export const packagePath = (): string => path.resolve(cwd(), "package.json")
 
-const mainFile = (_cwd?: string): string => {
+const mainFileRel = (_cwd?: string): string => {
   const pkgPath = path.resolve(_cwd ?? cwd(), "package.json")
   const pkg = require(pkgPath) as PackageJson
   return pkg.main ?? "index"
 }
+
+type WhichModule = {
+  moduleName?: string
+  cwd?: string
+}
+
+export const mainFilePath = (params: WhichModule = {}): string => {
+  return params.moduleName
+    ? require.resolve(params.moduleName)
+    : path.resolve(params.cwd ?? cwd(), mainFileRel(params.cwd))
+}
+
 /**
  * Get source folder for CWD or optional moduleName
  */
-export const sourceFolder = (
-  params: {
-    moduleName?: string
-    cwd?: string
-  } = {},
-): string => {
-  const appPath = params.moduleName
-    ? require.resolve(params.moduleName)
-    : path.resolve(params.cwd ?? cwd(), mainFile(params.cwd))
-
-  return path.dirname(appPath)
+export const sourceFolder = (params: WhichModule = {}): string => {
+  return path.dirname(mainFilePath(params))
 }
 
 export const distFolder = (): string => path.join(cwd(), "dist")
@@ -54,20 +57,25 @@ export const importIfExists = async <T = unknown>(
   } else return
 }
 
-export const importEntryFile = async (params: {
-  moduleName?: string
-  cwd?: string
-}): Promise<Promise<UserConfig>> => {
-  const { moduleName, cwd } = params
+export const serverRenderEntryConfig = async (
+  params: WhichModule,
+): Promise<Promise<UserConfig>> => {
+  const mod = await importIfExists<{
+    setup?: () => Promise<UserConfig> | UserConfig
+  }>(mainFilePath(params))
 
-  const serverEntry = path.join(sourceFolder({ moduleName, cwd }), "server.ts")
-  const mod = await importIfExists<{ setup?: () => Promise<UserConfig> }>(
-    serverEntry,
-  )
+  // get universal setup
+  let entryConfig = mod?.setup ? await mod.setup() : {}
 
-  const serverConfig = mod?.setup ? await mod.setup() : {}
+  if (entryConfig.server) {
+    const serverConfig = await entryConfig.server()
 
-  return serverConfig
+    entryConfig = deepMergeAll([entryConfig, serverConfig ?? {}])
+
+    delete entryConfig.server
+  }
+
+  return entryConfig
 }
 
 /**

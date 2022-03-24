@@ -4,7 +4,7 @@ import { EndpointResponse } from "@factor/types"
 import Stripe from "stripe"
 import { FactorEndpoint } from "@factor/engine"
 import { getStripe } from "./endpoints"
-import { paymentsSetting } from "."
+import { paymentsSetting } from "./util"
 
 const stripeHookHandler = async (
   request: http.IncomingMessage,

@@ -1,5 +1,4 @@
-import { defineAsyncComponent } from "vue"
-
-export const HighlightCode = defineAsyncComponent(
-  () => import("./HighlightCode.vue"),
-)
+import { UserConfig } from "@factor/types"
+export const setup = (): UserConfig => {
+  return { name: "HighlightCode" }
+}

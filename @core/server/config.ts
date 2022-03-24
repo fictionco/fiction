@@ -1,18 +1,13 @@
 import { UserConfig } from "@factor/types"
-import {
-  dotSetting,
-  setupPlugins,
-  logger,
-  storeItem,
-  stored,
-} from "@factor/api"
+import { dotSetting, logger, storeItem, stored } from "@factor/api"
+import { installPlugins } from "@factor/engine/plugins"
 
 export const setServerConfig = async (
   config: UserConfig,
 ): Promise<UserConfig> => {
   if (config.plugins) {
     try {
-      config = await setupPlugins(config)
+      config = await installPlugins({ userConfig: config, isServer: true })
     } catch (error: unknown) {
       const e = error as Error
       logger.log({

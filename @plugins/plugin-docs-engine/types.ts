@@ -1,3 +1,4 @@
+import { slugify } from "@factor/api"
 import { MarkdownFile } from "@factor/types"
 import { Component } from "vue"
 
@@ -31,25 +32,38 @@ export type DocPageConfig = {
 
 export interface DocsOptions {
   baseRoute: string
-  docs: Record<string, DocItem>
+  docs: Doc<string>[]
   groups: DocGroupRecord
 }
 
-// export interface DocSingle {
-//   nav?: boolean
-//   title?: string
-//   key?: string
-//   file?: () => Promise<MarkdownFile>
-//   path?: string
-//   components?: Record<string, Component>
-// }
-// export type DocsNavGroup = {
-//   title?: string
-//   description?: string
-//   icon?: string
-//   key?: string
-//   pages?: Record<string, DocSingle>
-//   docId?: string
-// } & DocSingle
+export type DocParams<T extends string> = {
+  key: T
+  status?: "published" | "draft"
+  permalink?: string
+  publishDate?: string
+  fileImport?: () => Promise<MarkdownFile>
+  imageImport?: () => Promise<{ default: string }>
+  category?: string[]
+  title?: string
+}
 
-// export type DocsMap = Record<string, DocsNavGroup>
+export class Doc<T extends string> {
+  key: T
+  status: "published" | "draft"
+  permalink: string
+  publishDate?: string
+  fileImport?: () => Promise<MarkdownFile>
+  imageImport?: () => Promise<{ default: string }>
+  category?: string[]
+  title?: string
+  constructor(params: DocParams<T>) {
+    this.key = params.key
+    this.status = params.status ?? "draft"
+    this.permalink = params.permalink || slugify(params.key) || ""
+    this.publishDate = params.publishDate
+    this.fileImport = params.fileImport
+    this.imageImport = params.imageImport
+    this.category = params.category
+    this.title = params.title
+  }
+}

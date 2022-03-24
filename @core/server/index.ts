@@ -1,5 +1,5 @@
 import { deepMergeAll } from "@factor/api"
-import { importEntryFile } from "@factor/engine/nodeUtils"
+import { serverRenderEntryConfig } from "@factor/engine/nodeUtils"
 import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
 import { UserConfig } from "@factor/types"
@@ -34,7 +34,7 @@ export const setupServerEnv = async (
  */
 export const setupEnvironment = async (
   entryServerConfig: UserConfig,
-): Promise<void> => {
+): Promise<UserConfig> => {
   const serverConfig = await setupServerEnv(entryServerConfig)
 
   await initializeDb()
@@ -48,11 +48,13 @@ export const setupEnvironment = async (
   }
 
   await runHooks({ hook: "afterServerCreated", args: [] })
+
+  return serverConfig
 }
 /**
  * Run the Factor server
  */
-export const setup = async (options: CliOptions): Promise<void> => {
+export const setup = async (options: CliOptions): Promise<UserConfig> => {
   const { port, moduleName, cwd } = options
   const appConfig = await getFactorConfig({
     config: { endpoints, port },
@@ -65,7 +67,7 @@ export const setup = async (options: CliOptions): Promise<void> => {
   /**
    * Require app server entry file if it exists
    */
-  const entryServerConfig = await importEntryFile({ moduleName, cwd })
+  const entryServerConfig = await serverRenderEntryConfig({ moduleName, cwd })
 
   if (entryServerConfig) {
     merge.unshift(entryServerConfig)
@@ -73,7 +75,5 @@ export const setup = async (options: CliOptions): Promise<void> => {
 
   const mergedServerConfig: UserConfig = deepMergeAll(merge)
 
-  await setupEnvironment(mergedServerConfig)
-
-  return
+  return await setupEnvironment(mergedServerConfig)
 }

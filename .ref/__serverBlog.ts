@@ -1,6 +1,9 @@
 import { FactorPluginConfigServer } from "@factor/types"
-import { createSettings, getPostRoutes } from "./helpers"
-import { BlogOptions } from "./types"
+import {
+  createSettings,
+  getPostRoutes,
+} from "../@plugins/plugin-blog-engine/helperslugin-blog-engine/helpers"
+import { BlogOptions } from "../@plugins/plugin-blog-engine/types/plugin-blog-engine/types"
 
 export default (
   options: Partial<BlogOptions> = {},

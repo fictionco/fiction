@@ -1,7 +1,7 @@
 import { stored, storeItem, camelToKebab } from "@factor/api"
 import { toRaw, markRaw, Component } from "vue"
 
-import { DocPageConfig, DocsOptions, DocItem } from "./types"
+import { DocPageConfig, DocsOptions, DocItem, Doc } from "./types"
 
 /**
  * Creates a record with specific types
@@ -30,7 +30,7 @@ export const docSetting = <T extends keyof DocsOptions>(
 export const createSettings = (options: Partial<DocsOptions>): void => {
   const defaultSettings: DocsOptions = {
     baseRoute: "/docs",
-    docs: {},
+    docs: [],
     groups: {},
   }
 
@@ -39,11 +39,12 @@ export const createSettings = (options: Partial<DocsOptions>): void => {
 /**
  * Gets all the routes for docs
  */
-const scanRoutes = (docs: Record<string, DocItem>): string[] => {
+const scanRoutes = (docs: Doc<string>[]): string[] => {
   const baseRoute = docSetting("baseRoute") ?? "/docs"
 
-  return Object.keys(docs).map((k) => `${baseRoute}/${camelToKebab(k)}`)
+  return docs.map((k) => `${baseRoute}/${camelToKebab(k.key)}`)
 }
+
 export const getDocRoutes = (): string[] => {
   return scanRoutes(docSetting("docs") ?? {})
 }
@@ -53,9 +54,9 @@ export const getDocRoutes = (): string[] => {
  */
 export const scanDocs = (
   key: string,
-  docs: Record<string, DocItem>,
+  docs: Doc<string>[],
 ): DocPageConfig | undefined => {
-  const found: DocPageConfig | undefined = docs[key]
+  const found: DocPageConfig | undefined = docs.find((k) => k.key === key)
 
   if (!found) return
 

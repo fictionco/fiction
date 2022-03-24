@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { _stop } from "@factor/api/error"
-import { runProcessors } from "@factor/api/extend"
+import { runProcessors } from "@factor/api/processor"
 import {
   getPublicUserFields,
   getJsonUserFields,

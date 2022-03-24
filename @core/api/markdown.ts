@@ -12,6 +12,7 @@ let markdownUtility: MarkdownIt
 interface MarkdownRenderOptions {
   variables?: boolean
   permalink?: true
+  html?: boolean
 }
 
 export const getMarkdownUtility = (
@@ -19,7 +20,7 @@ export const getMarkdownUtility = (
 ): MarkdownIt => {
   if (!markdownUtility) {
     markdownUtility = MarkdownIt({
-      html: true,
+      html: options.html || false,
       linkify: false,
       typographer: false,
       breaks: true,
@@ -77,24 +78,3 @@ export const renderMarkdownWithMeta = (
     content: renderMarkdown(body, options),
   }
 }
-
-// export const injectMarkdownComponents = (): void => {
-//   if (!document) return
-
-//   const injected = document.querySelectorAll(".inject-component:not(.injected)")
-
-//   injected.forEach(async (el) => {
-//     const asyncComponent = setting(el.id)
-//     if (asyncComponent) {
-//       const { default: component } = await asyncComponent()
-
-//       const instance = createApp(component, {
-//         router: getRouter(),
-//         store: getStore(),
-//       }).mount("")
-
-//       el.append(instance.$el)
-//       el.classList.add("injected")
-//     }
-//   })
-// }

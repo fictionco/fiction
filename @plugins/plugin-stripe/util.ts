@@ -1,4 +1,4 @@
-import { FactorPluginConfigApp } from "@factor/types"
+import { UserConfig } from "@factor/types"
 import * as StripeJS from "@stripe/stripe-js"
 import type Stripe from "stripe"
 
@@ -138,7 +138,7 @@ export const getStripeClient = async (): Promise<StripeJS.Stripe> => {
   return __stripeClient
 }
 
-export default (options: Partial<StripeOptions>): FactorPluginConfigApp => {
+export default (options: Partial<StripeOptions>): UserConfig => {
   createSettings(options)
   return { name: "StripeApp" }
 }

@@ -20,5 +20,8 @@
     "vue": "^3.2.31",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^0.7.0"
   }
 }

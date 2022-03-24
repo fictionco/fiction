@@ -8,8 +8,17 @@
 import { onResetUi } from "@factor/api"
 import { onMounted, PropType, ref } from "vue"
 import hljs from "highlight.js"
-defineProps({
-  theme: { type: String as PropType<"light" | "dark">, default: "light" },
+
+const themes = {
+  github: () => import(`highlight.js/styles/github.css`),
+  agate: () => import(`highlight.js/styles/agate.css`),
+  atomOneLight: () => import(`highlight.js/styles/atom-one-light.css`),
+  atomOneDark: () => import(`highlight.js/styles/atom-one-dark.css`),
+  vs: () => import(`highlight.js/styles/vs.css`),
+}
+
+const props = defineProps({
+  theme: { type: String as PropType<keyof typeof themes>, default: undefined },
 })
 const code = ref<HTMLElement>()
 
@@ -33,13 +42,15 @@ const tryHighlight = (cb?: () => void): void => {
 }
 
 onResetUi(() => tryHighlight())
-onMounted(() => {
+onMounted(async () => {
   setOpacity("0")
+  const key = props.theme || "github"
+  await themes[key]()
+
   tryHighlight(() => setOpacity("1"))
 })
 </script>
 <style lang="less">
-@import "highlight.js/styles/agate.css";
 pre code.hljs {
   padding: 1.5em;
 }

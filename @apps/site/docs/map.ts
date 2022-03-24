@@ -1,70 +1,93 @@
-import { DocGroupRecord, mapTypeHelper } from "@factor/plugin-docs-engine"
+import { Doc, DocGroupRecord } from "@factor/plugin-docs-engine/types"
 
-export const docs = mapTypeHelper({
-  introduction: {
+export const docs = [
+  new Doc({
+    key: "introduction",
     fileImport: (): Promise<any> => import("./content/introduction/index.md"),
-  },
-  coreConcepts: {
+  }),
+  new Doc({
+    key: "coreConcepts",
     fileImport: (): Promise<any> => import("./content/coreConcepts/index.md"),
-  },
-  quickstart: {
+  }),
+  new Doc({
+    key: "quickstart",
     fileImport: (): Promise<any> => import("./content/quickstart/index.md"),
-  },
-  configuration: {
+  }),
+  new Doc({
+    key: "configuration",
     fileImport: (): Promise<any> => import("./content/configuration/index.md"),
-  },
-  devServer: {
+  }),
+  new Doc({
+    key: "devServer",
     fileImport: (): Promise<any> => import("./content/devServer/index.md"),
-  },
-  upgrading: {
+  }),
+  new Doc({
+    key: "upgrading",
     fileImport: (): Promise<any> => import("./content/upgrading/index.md"),
-  },
-  styling: {
+  }),
+  new Doc({
+    key: "styling",
     fileImport: (): Promise<any> => import("./content/style/index.md"),
-  },
-  template: {
+  }),
+  new Doc({
+    key: "template",
     title: "HTML Template",
     fileImport: (): Promise<any> => import("./content/template/index.md"),
-  },
-  metaTags: {
+  }),
+  new Doc({
+    key: "metaTags",
     fileImport: (): Promise<any> => import("./content/metaTags/index.md"),
-  },
-  routes: {
+  }),
+  new Doc({
+    key: "routes",
     fileImport: (): Promise<any> => import("./content/routes/index.md"),
-  },
-  appComponent: {
+  }),
+  new Doc({
+    key: "appComponent",
     fileImport: (): Promise<any> => import("./content/appComponent/index.md"),
-  },
-  store: {
+  }),
+  new Doc({
+    key: "store",
     fileImport: (): Promise<any> => import("./content/store/index.md"),
-  },
-  publicFolder: {
+  }),
+  new Doc({
+    key: "publicFolder",
     fileImport: (): Promise<any> => import("./content/publicFolder/index.md"),
-  },
-  preRender: {
+  }),
+  new Doc({
+    key: "preRender",
     title: "Pre-Render",
     fileImport: (): Promise<any> => import("./content/preRender/index.md"),
-  },
-  deployServer: {
+  }),
+  new Doc({
+    key: "deployServer",
     title: "Server Deployment",
     fileImport: (): Promise<any> => import("./content/deployServer/index.md"),
-  },
-  endpoints: {
+  }),
+  new Doc({
+    key: "endpoints",
     title: "Custom Endpoints",
     fileImport: (): Promise<any> => import("./content/endpoints/index.md"),
-  },
-  serverConfig: {
+  }),
+  new Doc({
+    key: "serverConfig",
     fileImport: (): Promise<any> => import("./content/serverConfig/index.md"),
-  },
-  sitemaps: {
+  }),
+  new Doc({
+    key: "sitemaps",
     fileImport: (): Promise<any> => import("./content/sitemaps/index.md"),
-  },
-  usingPlugins: {
+  }),
+  new Doc({
+    key: "usingPlugins",
     fileImport: (): Promise<any> => import("./content/usingPlugins/index.md"),
-  },
-})
+  }),
+]
 
-export const groups: DocGroupRecord<keyof typeof docs> = {
+export type DocKeysUnion<T extends Doc<string>[]> = {
+  [K in keyof T]: T[K] extends Doc<infer T> ? T : never
+}[number]
+
+export const groups: DocGroupRecord<DocKeysUnion<typeof docs>> = {
   docs: {
     title: "Docs Home",
     description: `Learn how to work with Factor.`,
@@ -80,7 +103,7 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
   </svg>`,
-    path: "/docs/install",
+    path: "/docs/quickstart",
     menu: [
       "quickstart",
       "configuration",
@@ -101,7 +124,7 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
   </svg>`,
-    path: "/docs/install",
+    path: "/docs/server-config",
     menu: ["serverConfig", "endpoints", "sitemaps"],
   },
 
@@ -111,7 +134,7 @@ export const groups: DocGroupRecord<keyof typeof docs> = {
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
   </svg>`,
-    path: "/docs/install",
+    path: "/docs/pre-render",
     menu: ["preRender", "deployServer"],
   },
 }

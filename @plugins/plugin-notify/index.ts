@@ -1,5 +1,5 @@
-import { FactorPluginConfigApp } from "@factor/types"
+import { UserConfig } from "@factor/types"
 
-export default (): FactorPluginConfigApp => {
+export const setup = (): UserConfig => {
   return { name: "NotifyPlugin" }
 }

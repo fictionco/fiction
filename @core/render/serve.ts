@@ -20,7 +20,7 @@ export const expressApp = async (
 
     const faviconFile = getFaviconPath()
     if (faviconFile) {
-      app.use(faviconFile)
+      app.use(serveFavicon(faviconFile))
     }
 
     let viteServer: vite.ViteDevServer | undefined = undefined

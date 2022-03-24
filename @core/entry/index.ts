@@ -4,9 +4,9 @@ import "tailwindcss/tailwind.css"
 import { isNode } from "@factor/api/utils"
 import { getRouter, setupRouter } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
-import { setupPlugins } from "@factor/api/extend"
+import { installPlugins } from "@factor/engine/plugins"
 import { logger } from "@factor/api/logger"
-import { FactorAppEntry, UserConfigApp } from "@factor/types"
+import { FactorAppEntry, UserConfig } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
@@ -18,10 +18,10 @@ import * as mainFile from "@src/index.ts"
 import App from "@src/App.vue"
 import { initializeWindow } from "./init"
 
-const setupApp = async (): Promise<UserConfigApp> => {
-  let userConfig: UserConfigApp = {}
+export const setupApp = async (): Promise<UserConfig> => {
+  let userConfig: UserConfig = {}
 
-  const appMainEntry = mainFile as { setup?: () => Promise<UserConfigApp> }
+  const appMainEntry = mainFile as { setup?: () => Promise<UserConfig> }
   // run the app main file
   if (appMainEntry.setup) {
     userConfig = await appMainEntry.setup()
@@ -29,7 +29,7 @@ const setupApp = async (): Promise<UserConfigApp> => {
 
   if (userConfig.plugins) {
     try {
-      await setupPlugins(userConfig)
+      userConfig = await installPlugins({ userConfig, isServer: false })
     } catch (error: unknown) {
       const e = error as Error
       logger.log({ level: "error", description: e.message, data: error })

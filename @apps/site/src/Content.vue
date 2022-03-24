@@ -10,10 +10,8 @@ import { useMeta } from "@factor/api"
 import { computed } from "vue"
 import SiteHead from "./el/SiteHead.vue"
 import SiteFooter from "./el/SiteFooter.vue"
-// eslint-disable-next-line import/no-unresolved
-import ImgShare from "/share.jpg"
-// eslint-disable-next-line import/no-unresolved
-import ImgIcon from "/icon.jpg"
+import ImgShare from "./img/share.jpg"
+import ImgIcon from "./img/icon.jpg"
 
 useMeta({
   title: computed(() => {

@@ -16,8 +16,8 @@
               <div
                 class="relative z-10 flex items-start p-6 sm:max-w-lg sm:flex-none md:w-auto md:flex-auto xl:p-8"
               >
-                <div class="mr-8">
-                  <div class="h-12 w-12 text-primary-500" v-html="group.icon" />
+                <div class="mr-6">
+                  <div class="h-8 w-8 text-slate-500" v-html="group.icon" />
                 </div>
                 <div class="">
                   <h2 class="mb-2 text-2xl font-semibold">
@@ -29,9 +29,7 @@
                 </div>
               </div>
             </div>
-            <div
-              class="absolute inset-x-0 bottom-0 hidden h-20 sm:block"
-            />
+            <div class="absolute inset-x-0 bottom-0 hidden h-20 sm:block" />
           </router-link>
         </div>
       </section>
