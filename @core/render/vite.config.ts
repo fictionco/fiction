@@ -81,6 +81,7 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
       include: [
         "vuex",
         "vue-router",
+        "@medv/finder",
         "@vueuse/head",
         "vue",
         "dayjs",
@@ -117,11 +118,11 @@ export const getViteConfig = async (
     variables?: Record<string, string>
   } = {},
 ): Promise<vite.InlineConfig> => {
-  const { bundleType } = otherConfig
+  const { bundleType, variables } = otherConfig
   const userConfig = await getFactorConfig({ cwd: process.cwd() })
-  const vars = await setAppGlobals(deepMergeAll([userConfig, otherConfig]))
+  const vars = await setAppGlobals(deepMergeAll([userConfig, { variables }]))
 
-  const defines = Object.fromEntries(
+  const define = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
       return [`process.env.${key}`, JSON.stringify(value)]
     }),
@@ -139,17 +140,6 @@ export const getViteConfig = async (
       data: listVars,
       disableOnRestart: true,
     })
-  }
-
-  const define = {
-    // "process.env.STRIPE_ENV": JSON.stringify(process.env.STRIPE_ENV),
-    // "process.env.STRIPE_PUBLIC_KEY": JSON.stringify(
-    //   process.env.STRIPE_PUBLIC_KEY,
-    // ),
-    // "process.env.STRIPE_PUBLIC_KEY_TEST": JSON.stringify(
-    //   process.env.STRIPE_PUBLIC_KEY_TEST,
-    // ),
-    ...defines,
   }
 
   const root = sourceFolder()

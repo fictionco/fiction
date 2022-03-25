@@ -54,7 +54,7 @@ export const buildApp = async (
         ssr: true,
         rollupOptions: {
           preserveEntrySignatures: "allow-extension", // not required
-          input: require.resolve("@factor/entry"),
+          input: require.resolve("@factor/entry/mount.ts"),
           output: { format: "es" },
         },
       },
@@ -68,7 +68,7 @@ export const buildApp = async (
     logger.log({
       level: "info",
       context: "build",
-      description: "application built successfully",
+      description: "[done] application built successfully",
     })
 
     await generateSitemap()

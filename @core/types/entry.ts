@@ -1,5 +1,5 @@
 import { HeadClient } from "@vueuse/head"
-import { App } from "vue"
+import { App, Component } from "vue"
 import { Router } from "vue-router"
 import { Store } from "vuex"
 import { AppRoute } from "@factor/api/router"
@@ -17,18 +17,10 @@ export interface FactorAppEntry {
 }
 
 export type EntryModuleExports = {
-  factorApp: (c: { renderUrl: string }) => Promise<FactorAppEntry>
+  runApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
+  RootComponent: Component
+  mainFile: MainFile
 }
-
-// export type FactorPluginConfig = {
-//   name: string
-//   // need a generic to fix typing error in setupPlugins function
-//   server?: () =>
-//     | UserConfigOptions
-//     | undefined
-//     | void
-//     | Promise<UserConfigOptions | undefined | void>
-// } & UserConfigOptions
 
 /**
  * Determine callback by hook
@@ -41,6 +33,7 @@ type HookType<T extends Record<string, any[]>> = {
   }
 }[keyof T]
 
+export type MainFile = { setup?: () => Promise<UserConfig> | UserConfig }
 export interface UserConfig {
   name?: string
   // need a generic to fix typing error in setupPlugins function

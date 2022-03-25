@@ -1,9 +1,9 @@
 import { expect, it, describe } from "vitest"
+import * as mainFile from "@factor/site"
 import { setupApp } from ".."
-
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
-    const config = await setupApp()
+    const config = await setupApp({ mainFile })
 
     expect(config.variables?.TEST_BLOG_PLUGIN).toBe(undefined)
     expect(config.server).toBe(undefined)

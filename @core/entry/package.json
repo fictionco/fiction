@@ -22,6 +22,7 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "vitest": "^0.7.0"
+    "vitest": "^0.7.0",
+    "@factor/site": "4.0.0"
   }
 }

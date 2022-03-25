@@ -80,7 +80,8 @@ export const serveStaticApp = async (): Promise<void> => {
     logger.log({
       level: "info",
       context: "server",
-      description: `serving static app @ PORT:${port}`,
+      description: `serving static app [ready]`,
+      data: { port },
     })
   })
 
@@ -95,7 +96,7 @@ export const preRender = async (
   logger.log({
     level: "info",
     context: "prerender",
-    description: "starting",
+    description: "prerender starting",
   })
   const { serve } = options
   await preRenderPages()
@@ -103,7 +104,7 @@ export const preRender = async (
   logger.log({
     level: "info",
     context: "prerender",
-    description: "done!",
+    description: "prerender complete",
   })
 
   if (serve) {

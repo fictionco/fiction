@@ -44,6 +44,7 @@ export const sourceFolder = (params: WhichModule = {}): string => {
 
 export const distFolder = (): string => path.join(cwd(), "dist")
 export const distServer = (): string => path.join(distFolder(), "server")
+export const distServerEntry = (): string => path.join(distServer(), "mount")
 export const distClient = (): string => path.join(distFolder(), "client")
 
 /**

@@ -1,6 +1,6 @@
 import { Readable } from "stream"
 import path from "path"
-import { distServer, distClient } from "@factor/engine/nodeUtils"
+import { distServerEntry, distClient } from "@factor/engine/nodeUtils"
 import { getSitemaps } from "@factor/engine/sitemap"
 import { EntryModuleExports } from "@factor/types"
 import { RouteRecordRaw } from "vue-router"
@@ -42,8 +42,8 @@ export const _processRouteConfigToUrls = (
 }
 
 export const getKnownRouteUrls = async (): Promise<string[]> => {
-  const { factorApp } = (await import(distServer())) as EntryModuleExports
-  const { router } = await factorApp({ renderUrl: "/" })
+  const { runApp } = (await import(distServerEntry())) as EntryModuleExports
+  const { router } = await runApp({ renderUrl: "/" })
 
   const routeConfig = router.getRoutes()
 
@@ -72,7 +72,7 @@ export const generateSitemap = async (): Promise<void> => {
   logger.log({
     level: "info",
     context: "sitemap",
-    description: "starting build",
+    description: "sitemap generation starting",
   })
   const sitemapBaseUrl = currentUrl()
 
@@ -125,6 +125,6 @@ export const generateSitemap = async (): Promise<void> => {
   logger.log({
     level: "info",
     context: "sitemap",
-    description: "built!",
+    description: "sitemap built successfully",
   })
 }

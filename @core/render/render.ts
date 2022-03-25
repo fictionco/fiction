@@ -2,7 +2,7 @@ import path from "path"
 import { createRequire } from "module"
 import {
   distFolder,
-  distServer,
+  distServerEntry,
   resolveDist,
   sourceFolder,
 } from "@factor/engine/nodeUtils"
@@ -15,7 +15,6 @@ import { minify } from "html-minifier"
 import { version } from "./package.json"
 import { renderPreloadLinks } from "./preload"
 import { getViteServer } from "./vite"
-
 const require = createRequire(import.meta.url)
 export type HtmlGenerateParts = HtmlBuildingBlocks & {
   url: string
@@ -50,8 +49,8 @@ export const getIndexHtml = async (
 
   const clientTemplatePath =
     mode == "production"
-      ? `@entry/index.ts`
-      : `/@fs${require.resolve("@factor/entry")}`
+      ? `@entry/mount.ts`
+      : `/@fs${require.resolve("@factor/entry/mount.ts")}`
 
   let template = rawTemplate.replace(
     "</body>",
@@ -122,14 +121,18 @@ export const renderParts = async (args: {
      *
      */
     if (prod) {
-      entryModule = (await import(distServer())) as Record<string, any>
+      entryModule = (await import(path.join(distServerEntry()))) as Record<
+        string,
+        any
+      >
     } else {
       const srv = await getViteServer()
-      entryModule = await srv.ssrLoadModule("@factor/entry")
+      entryModule = await srv.ssrLoadModule("@factor/entry/mount.ts")
     }
 
-    const { factorApp } = entryModule as EntryModuleExports
-    const factorAppEntry = await factorApp({
+    const { runApp } = entryModule as EntryModuleExports
+
+    const factorAppEntry = await runApp({
       renderUrl: url,
     })
 

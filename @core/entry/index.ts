@@ -6,25 +6,23 @@ import { getRouter, setupRouter } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
 import { installPlugins } from "@factor/engine/plugins"
 import { logger } from "@factor/api/logger"
-import { FactorAppEntry, UserConfig } from "@factor/types"
+import { FactorAppEntry, UserConfig, MainFile } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
-import { App as VueApp, createSSRApp, createApp } from "vue"
+import { App as VueApp, createSSRApp, createApp, Component } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
 
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import * as mainFile from "@src/index.ts"
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import App from "@src/App.vue"
+import EmptyApp from "./EmptyApp.vue"
 import { initializeWindow } from "./init"
 
-export const setupApp = async (): Promise<UserConfig> => {
-  let userConfig: UserConfig = {}
+export const setupApp = async (params: {
+  mainFile?: MainFile
+}): Promise<UserConfig> => {
+  const { mainFile = {} } = params
 
-  const appMainEntry = mainFile as { setup?: () => Promise<UserConfig> }
+  let userConfig: UserConfig = {}
   // run the app main file
-  if (appMainEntry.setup) {
-    userConfig = await appMainEntry.setup()
+  if (mainFile.setup) {
+    userConfig = await mainFile.setup()
   }
 
   if (userConfig.plugins) {
@@ -47,18 +45,23 @@ export const setupApp = async (): Promise<UserConfig> => {
  * Create the main Vue app
  */
 export const factorApp = async (
-  context: { renderUrl?: string } = {},
+  context: {
+    renderUrl?: string
+    mainFile?: MainFile
+    RootComponent?: Component
+  } = {},
 ): Promise<FactorAppEntry> => {
-  await setupApp()
-
-  const renderUrl = context.renderUrl
+  const { renderUrl, mainFile, RootComponent = EmptyApp } = context
+  await setupApp({ mainFile })
 
   // only run in  browser
   if (typeof window !== "undefined") {
-    initializeUser().catch((error: any) => console.error(error))
+    initializeUser().catch(console.error)
   }
 
-  const app: VueApp = renderUrl ? createSSRApp(App) : createApp(App)
+  const app: VueApp = renderUrl
+    ? createSSRApp(RootComponent)
+    : createApp(RootComponent)
 
   // add router and store
   const router = getRouter()
@@ -78,18 +81,27 @@ export const factorApp = async (
 
   return { app, meta, router, store }
 }
-/**
- * In client mode, mount the app
- */
-if (!isNode) {
-  // add window watchers
-  initializeWindow().catch((error) => console.error(error))
 
-  factorApp()
-    .then(({ app }) => {
-      app.mount("#app")
-      document.querySelector("#app")?.classList.add("loaded")
-      document.querySelector(".styles-loading")?.remove()
-    })
-    .catch((error) => console.error(error))
+export const mountApp = async (params: {
+  id: string
+  mainFile: MainFile
+  RootComponent?: Component
+  renderUrl?: string
+}): Promise<void> => {
+  const {
+    id = "#app",
+    mainFile = {},
+    RootComponent = EmptyApp,
+    renderUrl,
+  } = params
+
+  if (!isNode) {
+    const entry = await factorApp({ mainFile, RootComponent, renderUrl })
+
+    initializeWindow().catch(console.error)
+
+    entry.app.mount(id)
+    document.querySelector(id)?.classList.add("loaded")
+    document.querySelector(".styles-loading")?.remove()
+  }
 }
