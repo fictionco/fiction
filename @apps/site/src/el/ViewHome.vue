@@ -25,7 +25,8 @@
                     <svg
                       class="h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
+                      vie
+                      wBox="0 0 20 20"
                       fill="currentColor"
                       aria-hidden="true"
                     >
@@ -40,12 +41,11 @@
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1 class="text-4xl font-extrabold tracking-tight">
-                  A Framework for JAMStack applications and websites
+                  Create awesome apps and websites with TypeScript
                 </h1>
                 <p class="mt-6 text-xl text-color-500">
-                  Introducing Factor, a free next-generation TypeScript
-                  framework you can use to create blogs, landing pages, and
-                  JamStack apps.
+                  FactorJS is a JamStack oriented TypeScript framework with
+                  auth, routing, and more...
                 </p>
               </div>
               <div class="mt-12 flex w-full items-center space-x-6 sm:max-w-lg">
