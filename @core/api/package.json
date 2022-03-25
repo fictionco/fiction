@@ -51,7 +51,6 @@
     "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
-    "@vue/test-utils": "^2.0.0-rc.17",
     "vitest": "^0.7.0"
   }
 }

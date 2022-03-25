@@ -1,1 +1,1 @@
-export * from "@vue/test-utils"
+export default {}
