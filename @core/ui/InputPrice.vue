@@ -7,7 +7,7 @@
     </div>
     <input
       type="number"
-      class="block rounded-md border-slate-400 pl-7 pr-12 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+      class="block rounded-md border-slate-300 pl-7 pr-12 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
       placeholder="0.00"
       :value="modelValue"
       step=".01"

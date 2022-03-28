@@ -10,7 +10,7 @@
         :id="option.value"
         v-model="selected"
         type="radio"
-        class="form-radio appearance-none border border-slate-400 text-primary-600 focus:border-primary-200 focus:outline-none focus:ring-primary-500"
+        class="form-radio appearance-none border border-slate-300 text-primary-600 focus:border-primary-200 focus:outline-none focus:ring-primary-500"
         name="radio-colors"
         :value="option.value"
         v-bind="$attrs"

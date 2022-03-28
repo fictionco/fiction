@@ -1,7 +1,7 @@
 <template>
   <select
     :value="modelValue"
-    class="f-input block w-full appearance-none overflow-hidden text-ellipsis rounded-md border border-slate-400 px-3 py-2 pr-8 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
+    class="f-input block w-full appearance-none overflow-hidden text-ellipsis rounded-md border border-slate-300 px-3 py-2 pr-8 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
     @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
   >
     <option disabled value>{{ attrs.placeholder || "Select" }}</option>

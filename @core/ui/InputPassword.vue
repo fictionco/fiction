@@ -1,6 +1,6 @@
 <template>
   <input
-    class="f-input f-input-password block w-full appearance-none rounded-md border border-slate-400 px-3 py-2 placeholder:text-slate-300 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
+    class="f-input f-input-password block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder:text-slate-300 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
     :value="modelValue"
     :autocomplete="attrs.autocomplete || 'current-password'"
     type="password"

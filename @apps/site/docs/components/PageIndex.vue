@@ -9,7 +9,7 @@
       <section class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:gap-8">
         <div v-for="(group, groupId) in groupList" :key="groupId" class="flex">
           <router-link
-            class="relative col-span-1 flex w-full overflow-hidden rounded-xl border border-slate-300 hover:border-slate-400 hover:shadow-sm"
+            class="relative col-span-1 flex w-full overflow-hidden rounded-xl border border-slate-300 hover:border-slate-300 hover:shadow-sm"
             :to="group.path || '/'"
           >
             <div class="flex w-full md:flex-col">

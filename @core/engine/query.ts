@@ -57,7 +57,7 @@ export abstract class Query {
         level: "error",
         context: this.constructor.name,
         description: `QueryError: ${e.message}`,
-        data: e,
+        error: e,
       })
 
       const response = {

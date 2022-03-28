@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative mt-1 flex h-10 w-56 flex-row rounded-md border border-slate-400 bg-transparent"
+    class="relative mt-1 flex h-10 w-56 flex-row rounded-md border border-slate-300 bg-transparent"
   >
     <button
       class="h-full w-20 select-none rounded-md hover:bg-slate-50 focus:border-primary-500 focus:outline-none focus:ring-primary-500"

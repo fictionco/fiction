@@ -13,9 +13,9 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="f-input group relative w-full cursor-pointer rounded-md border border-slate-400 py-2 pl-3 pr-8 text-left font-medium focus:outline-none"
+        class="f-input group relative w-full cursor-pointer rounded-md border border-slate-300 py-2 pl-3 pr-8 text-left font-medium focus:outline-none"
         :class="[
-          active || disabled ? 'opacity-50' : 'hover:border-slate-400',
+          active || disabled ? 'opacity-50' : 'hover:border-slate-300',
           classButton,
           disabled
             ? 'cursor-not-allowed'

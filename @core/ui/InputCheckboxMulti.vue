@@ -5,7 +5,7 @@
         <input
           v-bind="$attrs"
           type="checkbox"
-          class="form-checkbox mr-4 h-5 w-5 appearance-none rounded-md border border-slate-400 text-primary-500"
+          class="form-checkbox mr-4 h-5 w-5 appearance-none rounded-md border border-slate-300 text-primary-500"
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         />

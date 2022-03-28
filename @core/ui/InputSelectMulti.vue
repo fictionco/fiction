@@ -13,7 +13,7 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="group relative w-full cursor-pointer rounded-md border border-slate-400 py-2 pl-3 pr-10 text-left hover:border-slate-500 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+        class="group relative w-full cursor-pointer rounded-md border border-slate-300 py-2 pl-3 pr-10 text-left hover:border-slate-500 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
         @click.prevent="toggle()"
       >
         <span class="flex w-full flex-wrap items-center">
@@ -22,7 +22,7 @@
             v-for="(v, i) in selected"
             v-else
             :key="i"
-            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-slate-400 bg-white text-xs text-slate-800"
+            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-slate-300 bg-white text-xs text-slate-800"
             @click.stop
           >
             <div class="max-w-full flex-initial p-2 font-medium leading-none">

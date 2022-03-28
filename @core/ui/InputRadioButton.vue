@@ -39,9 +39,9 @@ const buttonClass = (v: ListItem, i: number): string => {
   }
 
   if (props.modelValue == v.value) {
-    out.push("bg-slate-100 text-slate-900 border-slate-400")
+    out.push("bg-slate-100 text-slate-900 border-slate-300")
   } else {
-    out.push("bg-white text-slate-700 border-slate-300 hover:border-slate-400")
+    out.push("bg-white text-slate-700 border-slate-300 hover:border-slate-300")
   }
 
   return out.join(" ")
