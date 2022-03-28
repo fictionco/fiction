@@ -5,9 +5,13 @@
     :class="[
       valid ? 'valid' : 'not-valid',
       attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
+      attrs.class
     ]"
   >
-    <div v-if="label || description" class="mb-1.5 flex justify-between">
+    <div
+      v-if="label || description"
+      class="mb-1.5 flex justify-between text-sm"
+    >
       <div class="text">
         <label
           v-if="label"
@@ -15,11 +19,7 @@
           :for="attrs.for"
           v-text="label"
         />
-        <div
-          v-if="description"
-          class="text-sm text-slate-500"
-          v-text="description"
-        />
+        <div v-if="description" class="text-slate-500" v-text="description" />
       </div>
 
       <div v-if="isRequired" class="valid-marker">
