@@ -1,3 +1,12 @@
+## [4.1.46](https://github.com/FactorJS/factor/compare/v4.1.45...v4.1.46) (2022-03-28)
+
+
+### Bug Fixes
+
+* inputs ([4a6666d](https://github.com/FactorJS/factor/commit/4a6666dc2765127bd6137980cf13814e5326c6b4))
+
+
+
 ## [4.1.45](https://github.com/FactorJS/factor/compare/v4.1.44...v4.1.45) (2022-03-25)
 
 
