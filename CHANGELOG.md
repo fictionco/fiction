@@ -1,3 +1,12 @@
+## [4.1.55](https://github.com/FactorJS/factor/compare/v4.1.54...v4.1.55) (2022-03-29)
+
+
+### Bug Fixes
+
+* stripe path ([36c09b4](https://github.com/FactorJS/factor/commit/36c09b41a02c87fd0f7a7017bee03a3ee10fb246))
+
+
+
 ## [4.1.54](https://github.com/FactorJS/factor/compare/v4.1.53...v4.1.54) (2022-03-29)
 
 
