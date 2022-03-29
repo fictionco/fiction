@@ -39,7 +39,7 @@
     "html-minifier": "^4.0.0",
     "mime": "^3.0.0",
     "postcss": "^8.4.6",
-    "react": "^17.0.2",
+    "react": "^18.0.0",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.14.1",
     "sitemap": "^7.0.0",
@@ -59,9 +59,9 @@
     "handlebars": "^4.7.6",
     "minimist": "^1.2.5",
     "playwright": "^1.20.0",
-    "react-dom": "^17.0.1",
+    "react-dom": "^18.0.0",
     "rollup": "^2.28.1",
     "semver": "^7.3.2",
-    "vitest": "^0.7.4"
+    "vitest": "^0.8.0"
   }
 }

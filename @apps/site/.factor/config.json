@@ -1,35 +1,35 @@
 {
   "routes": [
-    "home",
-    "plugins",
-    "showcase",
-    "showcaseSingle",
-    "install",
-    "testing",
     "blog",
     "blogIndex",
     "blogSingle",
     "docs",
     "docsIndex",
-    "docsSingle"
+    "docsSingle",
+    "home",
+    "install",
+    "plugins",
+    "showcase",
+    "showcaseSingle",
+    "testing"
   ],
   "paths": [
-    "/Users/arpowers/projects/factor/@plugins/plugin-notify/",
-    "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
     "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/",
-    "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/"
+    "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/",
+    "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
+    "/Users/arpowers/projects/factor/@plugins/plugin-notify/"
   ],
   "endpoints": [
-    "Login",
-    "NewVerificationCode",
-    "SetPassword",
-    "ResetPassword",
-    "UpdateCurrentUser",
-    "SendOneTimeCode",
-    "VerifyAccountEmail",
-    "StartNewUser",
     "CurrentUser",
+    "Login",
     "ManageUser",
-    "UserGoogleAuth"
+    "NewVerificationCode",
+    "ResetPassword",
+    "SendOneTimeCode",
+    "SetPassword",
+    "StartNewUser",
+    "UpdateCurrentUser",
+    "UserGoogleAuth",
+    "VerifyAccountEmail"
   ]
 }

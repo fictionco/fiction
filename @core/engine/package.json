@@ -52,6 +52,6 @@
   },
   "devDependencies": {
     "@factor/test": "4.1.55",
-    "vitest": "^0.7.0"
+    "vitest": "^0.8.0"
   }
 }

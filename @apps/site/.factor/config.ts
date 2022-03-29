@@ -7,30 +7,30 @@
 
 export interface CompiledUserConfig {
   endpoints?:
-    | "Login"
-    | "NewVerificationCode"
-    | "SetPassword"
-    | "ResetPassword"
-    | "UpdateCurrentUser"
-    | "SendOneTimeCode"
-    | "VerifyAccountEmail"
-    | "StartNewUser"
     | "CurrentUser"
+    | "Login"
     | "ManageUser"
-    | "UserGoogleAuth";
+    | "NewVerificationCode"
+    | "ResetPassword"
+    | "SendOneTimeCode"
+    | "SetPassword"
+    | "StartNewUser"
+    | "UpdateCurrentUser"
+    | "UserGoogleAuth"
+    | "VerifyAccountEmail";
   routes:
-    | "home"
-    | "plugins"
-    | "showcase"
-    | "showcaseSingle"
-    | "install"
-    | "testing"
     | "blog"
     | "blogIndex"
     | "blogSingle"
     | "docs"
     | "docsIndex"
-    | "docsSingle";
+    | "docsSingle"
+    | "home"
+    | "install"
+    | "plugins"
+    | "showcase"
+    | "showcaseSingle"
+    | "testing";
   paths?: string[];
   [k: string]: unknown;
 }
