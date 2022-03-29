@@ -1,5 +1,6 @@
 dist
 **/rendered
+**/.generated
 
 .DS_Store
 node_modules
@@ -23,7 +24,6 @@ TODOs.md
 *.tfstate
 *.tfstate.*
 
-
 # AWS CDK
 # CDK asset staging directory
 **/.cdk.staging
@@ -34,4 +34,3 @@ TODOs.md
 .venv*/
 *.retry
 /___*.yml
-

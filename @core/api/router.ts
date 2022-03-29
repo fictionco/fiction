@@ -168,7 +168,7 @@ export const generateRoutes = (
 
   list.forEach((r) => {
     if (r.parent) {
-      const children = mapped[r.parent].children
+      const children = mapped[r.parent]?.children ?? []
       mapped[r.parent].children = [...children, r]
     } else {
       mapped[r.name] = r

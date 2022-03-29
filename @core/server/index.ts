@@ -4,12 +4,12 @@ import { getServerPort } from "@factor/engine/url"
 import { initializeDb } from "@factor/engine/db"
 import { UserConfig } from "@factor/types"
 import type { CliOptions } from "@factor/cli/utils"
+import { generateStaticConfig } from "@factor/engine/generate"
 import { runHooks } from "./hook"
 import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
 import { setServerConfig } from "./config"
-
 export const setupServerEnv = async (
   entryServerConfig: UserConfig = {},
 ): Promise<UserConfig> => {
@@ -26,6 +26,8 @@ export const setupServerEnv = async (
    * Set globals again with any plugin stuff
    */
   await setAppGlobals(serverConfig)
+
+  await generateStaticConfig(serverConfig)
 
   return serverConfig
 }

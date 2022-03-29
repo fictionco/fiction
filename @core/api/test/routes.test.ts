@@ -3,27 +3,27 @@ import { AppRoute, generateRoutes } from "../router"
 
 const routes = [
   new AppRoute({
-    key: "home",
-    name: "Home",
+    name: "home",
+    niceName: "Home",
     path: "/",
     component: () => import("@factor/engine/test/ElTest.vue"),
   }),
   new AppRoute({
-    key: "app",
-    name: "App",
+    name: "app",
+    niceName: "App",
     path: "/app",
     component: () => import("@factor/engine/test/ElTest.vue"),
   }),
   new AppRoute({
-    key: "notFound404",
-    name: "404",
+    name: "notFound404",
+    niceName: "404",
     path: "/:pathMatch(.*)*",
     priority: 1000,
     component: () => import("@factor/engine/test/ElTest.vue"),
   }),
   new AppRoute({
-    key: "dashboard",
-    name: "Dashboard",
+    name: "dashboard",
+    niceName: "Dashboard",
     parent: "app",
     path: "/project/:projectId",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,8 +32,8 @@ const routes = [
     component: () => import("@factor/engine/test/ElTest.vue"),
   }),
   new AppRoute({
-    key: "dashboardSingle",
-    name: "Dashboard View",
+    name: "dashboardSingle",
+    niceName: "Dashboard View",
     parent: "app",
     path: "/project/:projectId/dash/:dashboardId",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

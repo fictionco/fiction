@@ -18,6 +18,8 @@ export const isNode =
 export const isDev = (): boolean => {
   return process.env.NODE_ENV == "development" ? true : false
 }
+
+export const stringify = stableStringify
 /**
  * Stringify and hash
  * https://github.com/joliss/fast-js-hash-benchmark
