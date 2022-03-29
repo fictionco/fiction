@@ -25,8 +25,8 @@ export type RouteKeysUnion<T extends AppRoute<string>[]> = {
 }[number]
 
 export type AppRouteParams<T extends string> = {
-  key: T
-  name?: string
+  name: T
+  niceName?: string
   path: string
   icon?: string
   menus?: string[]
@@ -42,8 +42,8 @@ export type AppRouteParams<T extends string> = {
   | { component: (() => Promise<Component>) | Component; external?: undefined }
 )
 export class AppRoute<T extends string> {
-  key: T
-  name: string
+  name: T
+  niceName: string
   path: string
   menus: string[]
   icon?: string
@@ -57,8 +57,8 @@ export class AppRoute<T extends string> {
   redirect?: RouteRecordRedirectOption
   constructor(params: AppRouteParams<T>) {
     const {
-      key,
       name,
+      niceName,
       path,
       icon,
       component,
@@ -69,8 +69,8 @@ export class AppRoute<T extends string> {
       external,
       menus,
     } = params
-    this.key = key
-    this.name = name || toLabel(key)
+    this.name = name
+    this.niceName = niceName || toLabel(name)
     this.path = path
     this.icon = icon
     this.component = component
@@ -147,13 +147,12 @@ const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
         path: li.path,
         name: li.name,
         component: li.component,
+        meta: { niceName: li.niceName, ...li.meta },
       }
 
       if (li.children.length > 0) {
         out.children = convertAppRouteToRoute(li.children) // recursive
       }
-
-      if (li.meta) out.meta = li.meta
 
       return out
     })
@@ -172,7 +171,7 @@ export const generateRoutes = (
       const children = mapped[r.parent].children
       mapped[r.parent].children = [...children, r]
     } else {
-      mapped[r.key] = r
+      mapped[r.name] = r
     }
   })
 
