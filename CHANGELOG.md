@@ -1,3 +1,12 @@
+## [4.1.48](https://github.com/FactorJS/factor/compare/v4.1.47...v4.1.48) (2022-03-29)
+
+
+### Features
+
+* config generate ([7dbabc3](https://github.com/FactorJS/factor/commit/7dbabc3676ffae3aad7dc249a47bdbd336e26f23))
+
+
+
 ## [4.1.47](https://github.com/FactorJS/factor/compare/v4.1.46...v4.1.47) (2022-03-29)
 
 
