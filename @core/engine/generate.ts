@@ -11,16 +11,23 @@ export const generateStaticConfig = async (
   const userConfigSchema: JSONSchema = {
     title,
     type: "object",
-    properties: { routes: config.routes?.map((_) => _.name) ?? [] },
+    properties: {
+      routes: {
+        enum: config.routes?.map((_) => _.name) ?? [],
+        type: "string",
+      },
+    },
   }
 
   const stringed = JSON.stringify(userConfigSchema, null, 2)
 
   const genConfigPath = path.join(process.cwd(), "/.factor")
   const configJson = path.join(genConfigPath, "config.json")
+
+  fs.emptyDirSync(genConfigPath)
   fs.ensureFileSync(configJson)
   fs.writeFileSync(configJson, stringed)
 
   const ts = await compile(userConfigSchema, title)
-  fs.writeFileSync(path.join(genConfigPath, "config.d.ts"), ts)
+  fs.writeFileSync(path.join(genConfigPath, "config.ts"), ts)
 }
