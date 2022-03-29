@@ -10,5 +10,6 @@ export const setup = (options: Partial<DocsOptions> = {}): UserConfig => {
   return {
     name: "DocsEngine",
     sitemaps: [{ topic: "docs", paths: getDocRoutes() }],
+    paths: [new URL(".", import.meta.url).pathname],
   }
 }

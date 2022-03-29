@@ -21,7 +21,7 @@ export const generateStaticConfig = async (
         type: "string",
       },
     },
-    required: ["routes", "paths"],
+    required: ["routes"],
   }
 
   const stringed = JSON.stringify(userConfigSchema, null, 2)

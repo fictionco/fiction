@@ -1,1 +1,35 @@
-{"properties":{"routes":["home","plugins","showcase","showcaseSingle","install","testing","blog","blogIndex","blogSingle","docs","docsIndex","docsSingle"]},"title":"CompiledUserConfig","type":"object"}
+{
+  "title": "CompiledUserConfig",
+  "type": "object",
+  "properties": {
+    "routes": {
+      "enum": [
+        "home",
+        "plugins",
+        "showcase",
+        "showcaseSingle",
+        "install",
+        "testing",
+        "blog",
+        "blogIndex",
+        "blogSingle",
+        "docs",
+        "docsIndex",
+        "docsSingle"
+      ],
+      "type": "string"
+    },
+    "paths": {
+      "enum": [
+        "/Users/arpowers/projects/factor/@plugins/plugin-notify/",
+        "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
+        "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/",
+        "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "routes"
+  ]
+}
