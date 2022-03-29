@@ -51,6 +51,7 @@ export interface UserConfig {
     | Record<string, string>[]
   >
   cwd?: string
+  paths?: string[]
   endpoints?: Endpoint[]
   port?: string
   portApp?: string

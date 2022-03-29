@@ -147,7 +147,7 @@ const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
         path: li.path,
         name: li.name,
         component: li.component,
-        meta: { niceName: li.niceName, ...li.meta },
+        meta: { niceName: li.niceName, menus: li.menus, ...li.meta },
       }
 
       if (li.children.length > 0) {

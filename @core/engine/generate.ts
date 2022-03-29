@@ -16,8 +16,12 @@ export const generateStaticConfig = async (
         enum: config.routes?.map((_) => _.name) ?? [],
         type: "string",
       },
+      paths: {
+        enum: config.paths ?? [],
+        type: "string",
+      },
     },
-    required: ["routes"],
+    required: ["routes", "paths"],
   }
 
   const stringed = JSON.stringify(userConfigSchema, null, 2)
