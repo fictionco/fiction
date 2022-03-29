@@ -12,7 +12,7 @@ export const generateStaticConfig = async (
 
   const conf = {
     routes: config.routes?.map((_) => _.name) ?? [],
-    paths: config.paths ?? [],
+    paths: config.paths || [],
   }
 
   const typeSchema: JSONSchema = {
@@ -22,6 +22,12 @@ export const generateStaticConfig = async (
       routes: {
         enum: conf.routes,
         type: "string",
+      },
+      paths: {
+        type: "array",
+        items: {
+          type: "string",
+        },
       },
     },
     required: ["routes"],

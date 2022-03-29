@@ -19,5 +19,6 @@ export interface CompiledUserConfig {
     | "docs"
     | "docsIndex"
     | "docsSingle";
+  paths?: string[];
   [k: string]: unknown;
 }
