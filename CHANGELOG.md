@@ -1,3 +1,12 @@
+## [4.1.50](https://github.com/FactorJS/factor/compare/v4.1.49...v4.1.50) (2022-03-29)
+
+
+### Bug Fixes
+
+* req ([43382b7](https://github.com/FactorJS/factor/commit/43382b7714f996d41e3d0fed08ad4f98f255c01a))
+
+
+
 ## [4.1.49](https://github.com/FactorJS/factor/compare/v4.1.48...v4.1.49) (2022-03-29)
 
 
