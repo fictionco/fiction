@@ -19,10 +19,5 @@ export interface CompiledUserConfig {
     | "docs"
     | "docsIndex"
     | "docsSingle";
-  paths?:
-    | "/Users/arpowers/projects/factor/@plugins/plugin-notify/"
-    | "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/"
-    | "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/"
-    | "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/";
   [k: string]: unknown;
 }
