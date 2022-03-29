@@ -51,5 +51,6 @@ export const setup = async (
         serverOnlyImports: [{ id: "stripe" }],
       }
     },
+    paths: [new URL(".", import.meta.url).pathname],
   }
 }
