@@ -1,3 +1,12 @@
+## [4.1.51](https://github.com/FactorJS/factor/compare/v4.1.50...v4.1.51) (2022-03-29)
+
+
+### Bug Fixes
+
+* menus ([e23e7d3](https://github.com/FactorJS/factor/commit/e23e7d31b4c91d6a0b0146a68a53dfd4cf399894))
+
+
+
 ## [4.1.50](https://github.com/FactorJS/factor/compare/v4.1.49...v4.1.50) (2022-03-29)
 
 
