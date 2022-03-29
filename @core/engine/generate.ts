@@ -11,21 +11,28 @@ export const generateStaticConfig = async (
   const title = "CompiledUserConfig"
 
   const conf = {
-    routes: config.routes?.map((_) => _.name) ?? [],
-    paths: config.paths || [],
-    endpoints: config.endpoints?.map((_) => _.key) ?? [""],
+    routes:
+      config.routes
+        ?.map((_) => _.name)
+        .filter((_) => _)
+        .sort() ?? [],
+    paths: config.paths?.sort() || [],
+    endpoints: config.endpoints
+      ?.map((_) => _.key)
+      .sort()
+      .filter((_) => _) ?? [""],
   }
 
   const typeSchema: JSONSchema = {
     title,
     type: "object",
     properties: {
-      routes: {
-        enum: conf.routes,
-        type: "string",
-      },
       endpoints: {
         enum: conf.endpoints,
+        type: "string",
+      },
+      routes: {
+        enum: conf.routes,
         type: "string",
       },
       paths: {
@@ -43,8 +50,8 @@ export const generateStaticConfig = async (
   const configJson = path.join(genConfigPath, "config.json")
   const ts = await compile(typeSchema, title, { format: true })
 
-  fs.emptyDirSync(genConfigPath)
-  fs.ensureFileSync(configJson)
-  fs.writeFileSync(configJson, stringed)
-  fs.writeFileSync(path.join(genConfigPath, "config.ts"), ts)
+  await fs.emptyDir(genConfigPath)
+  await fs.ensureFile(configJson)
+  await fs.writeFile(configJson, stringed)
+  await fs.writeFile(path.join(genConfigPath, "config.ts"), ts)
 }

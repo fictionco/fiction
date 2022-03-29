@@ -18,5 +18,18 @@
     "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
     "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/",
     "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/"
+  ],
+  "endpoints": [
+    "Login",
+    "NewVerificationCode",
+    "SetPassword",
+    "ResetPassword",
+    "UpdateCurrentUser",
+    "SendOneTimeCode",
+    "VerifyAccountEmail",
+    "StartNewUser",
+    "CurrentUser",
+    "ManageUser",
+    "UserGoogleAuth"
   ]
 }

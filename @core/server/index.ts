@@ -27,7 +27,7 @@ export const setupServerEnv = async (
    */
   await setAppGlobals(serverConfig)
 
-  await generateStaticConfig(serverConfig)
+  generateStaticConfig(serverConfig).catch(console.error)
 
   return serverConfig
 }

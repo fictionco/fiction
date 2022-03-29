@@ -6,6 +6,18 @@
  */
 
 export interface CompiledUserConfig {
+  endpoints?:
+    | "Login"
+    | "NewVerificationCode"
+    | "SetPassword"
+    | "ResetPassword"
+    | "UpdateCurrentUser"
+    | "SendOneTimeCode"
+    | "VerifyAccountEmail"
+    | "StartNewUser"
+    | "CurrentUser"
+    | "ManageUser"
+    | "UserGoogleAuth";
   routes:
     | "home"
     | "plugins"
