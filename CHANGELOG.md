@@ -1,3 +1,12 @@
+## [4.1.52](https://github.com/FactorJS/factor/compare/v4.1.51...v4.1.52) (2022-03-29)
+
+
+### Features
+
+* plugin paths ([25e3e65](https://github.com/FactorJS/factor/commit/25e3e657ff996ce3da87e90bed5fb8fde349bcfb))
+
+
+
 ## [4.1.51](https://github.com/FactorJS/factor/compare/v4.1.50...v4.1.51) (2022-03-29)
 
 
