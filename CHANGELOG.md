@@ -1,3 +1,12 @@
+## [4.1.56](https://github.com/FactorJS/factor/compare/v4.1.55...v4.1.56) (2022-03-29)
+
+
+### Features
+
+* add endpoints ([5969bb1](https://github.com/FactorJS/factor/commit/5969bb1b6249f09aae1ee1eb93127d90352b3495))
+
+
+
 ## [4.1.55](https://github.com/FactorJS/factor/compare/v4.1.54...v4.1.55) (2022-03-29)
 
 
