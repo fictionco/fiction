@@ -1,3 +1,12 @@
+## [4.1.57](https://github.com/FactorJS/factor/compare/v4.1.56...v4.1.57) (2022-03-30)
+
+
+### Features
+
+* hooks implemented ([de02e65](https://github.com/FactorJS/factor/commit/de02e65d0713f38e3f0f8be5033eb8acd9aa212e))
+
+
+
 ## [4.1.56](https://github.com/FactorJS/factor/compare/v4.1.55...v4.1.56) (2022-03-29)
 
 
