@@ -14,7 +14,11 @@ export const runHooks = async <T extends keyof HookDictionary>(options: {
   let result = args[0]
   if (callbacks && callbacks.length > 0) {
     for (const cb of callbacks) {
-      result = await cb(result, ...args.slice(1))
+      const returnResult = await cb(result, ...args.slice(1))
+
+      if (returnResult !== undefined) {
+        result = returnResult
+      }
     }
   }
 

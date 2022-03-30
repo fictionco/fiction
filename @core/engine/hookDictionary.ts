@@ -8,5 +8,4 @@ export interface HookDictionary {
   staticConfig: {
     args: [{ staticConfig: Record<string, any>; staticSchema: JSONSchema }]
   }
-  [key: string]: { args: unknown[] }
 }

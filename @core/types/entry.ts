@@ -6,9 +6,9 @@ import { AppRoute } from "@factor/api/router"
 import { ManageUserParams } from "@factor/engine/userAuth"
 import { Endpoint, EndpointMeta } from "@factor/engine/endpoint"
 import type { ServerModuleDef } from "@factor/render/buildPlugins"
+import { HookDictionary } from "@factor/engine/hookDictionary"
 import { FullUser } from "./user"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
-import { CallbackDictionary } from "./dictionary"
 export interface FactorAppEntry {
   app: App
   meta: HeadClient
@@ -22,16 +22,14 @@ export type EntryModuleExports = {
   mainFile: MainFile
 }
 
-/**
- * Determine callback by hook
- * https://github.com/microsoft/TypeScript/issues/36444
- */
-type HookType<T extends Record<string, any[]>> = {
-  [K in keyof T]: {
+type HookType = {
+  [K in keyof HookDictionary]: {
     hook: K
-    callback: (..._arguments: T[K]) => Promise<void>
+    callback: (
+      ...args: HookDictionary[K]["args"]
+    ) => Promise<HookDictionary[K]["args"][0] | undefined | void>
   }
-}[keyof T]
+}[keyof HookDictionary]
 
 export type MainFile = { setup?: () => Promise<UserConfig> | UserConfig }
 export interface UserConfig {
@@ -60,7 +58,7 @@ export interface UserConfig {
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (UserConfig | Promise<UserConfig>)[]
-  hooks?: HookType<CallbackDictionary>[]
+  hooks?: HookType[]
   userProcessors?: DataProcessor<
     FullUser,
     { meta?: EndpointMeta; params?: ManageUserParams }
