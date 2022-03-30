@@ -5,11 +5,11 @@ import { initializeDb } from "@factor/engine/db"
 import { UserConfig } from "@factor/types"
 import type { CliOptions } from "@factor/cli/utils"
 import { generateStaticConfig } from "@factor/engine/generate"
-import { runHooks } from "./hook"
+import { setUserConfig } from "@factor/engine/plugins"
+import { runHooks } from "@factor/engine/hook"
 import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
-import { setServerConfig } from "./config"
 export const setupServerEnv = async (
   entryServerConfig: UserConfig = {},
 ): Promise<UserConfig> => {
@@ -21,7 +21,9 @@ export const setupServerEnv = async (
   /**
    * Sets config for access throughout app
    */
-  const serverConfig = await setServerConfig(entryServerConfig)
+  const serverConfig = await setUserConfig(entryServerConfig, {
+    isServer: true,
+  })
   /**
    * Set globals again with any plugin stuff
    */

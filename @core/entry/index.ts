@@ -4,8 +4,7 @@ import "tailwindcss/tailwind.css"
 import { isNode } from "@factor/api/utils"
 import { getRouter, setupRouter } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
-import { installPlugins } from "@factor/engine/plugins"
-import { logger } from "@factor/api/logger"
+import { setUserConfig } from "@factor/engine/plugins"
 import { FactorAppEntry, UserConfig, MainFile } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
@@ -25,14 +24,7 @@ export const setupApp = async (params: {
     userConfig = await mainFile.setup()
   }
 
-  if (userConfig.plugins) {
-    try {
-      userConfig = await installPlugins({ userConfig, isServer: false })
-    } catch (error: unknown) {
-      const e = error as Error
-      logger.log({ level: "error", description: e.message, data: error })
-    }
-  }
+  await setUserConfig(userConfig, { isServer: false })
 
   if (userConfig.routes) {
     setupRouter(userConfig.routes)

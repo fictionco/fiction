@@ -1,7 +1,7 @@
 import { SiteMapConfig } from "@factor/types"
-import { serverConfigSetting } from "@factor/server/config"
+import { userConfigSetting } from "./plugins"
 
 export const getSitemaps = (): SiteMapConfig[] => {
-  const initial = serverConfigSetting("sitemaps") || []
+  const initial = userConfigSetting("sitemaps") || []
   return initial
 }

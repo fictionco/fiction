@@ -117,7 +117,7 @@
                     class="absolute z-10 -ml-4 mt-3 w-screen max-w-md lg:left-1/2 lg:ml-0 lg:max-w-2xl lg:-translate-x-1/2"
                   >
                     <div
-                      class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+                      class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5"
                     >
                       <div
                         class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 lg:grid-cols-2"
@@ -195,7 +195,7 @@
           class="absolute inset-x-0 top-0 z-30 origin-top-right p-2 transition md:hidden"
         >
           <div
-            class="divide-y-2 divide-color-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+            class="divide-y-2 divide-color-50 rounded-lg bg-white shadow-lg ring-1 ring-black/5"
           >
             <div class="px-5 pt-5 pb-6">
               <div class="flex items-center justify-between">

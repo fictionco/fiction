@@ -13,8 +13,8 @@ import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 
 import { createClientToken, decodeClientToken } from "@factor/api/jwt"
-import { runHooks } from "@factor/server/hook"
-import { getServerConfig } from "../server/config"
+import { runHooks } from "./hook"
+import { getUserConfig } from "./plugins"
 import { getDb } from "./db"
 
 import { EndpointMeta } from "./endpoint"
@@ -51,7 +51,7 @@ const processUser = async (
   user: FullUser,
   meta: ProcessorMeta,
 ): Promise<FullUser> => {
-  const config = getServerConfig()
+  const config = getUserConfig()
 
   const processors = config?.userProcessors ?? []
 

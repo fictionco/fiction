@@ -1,5 +1,12 @@
 import { UserConfig } from "@factor/types"
-import { deepMergeAll, omit } from "@factor/api"
+import {
+  deepMergeAll,
+  omit,
+  dotSetting,
+  logger,
+  storeItem,
+  stored,
+} from "@factor/api"
 
 export const installPlugins = async (params: {
   userConfig: UserConfig
@@ -38,4 +45,38 @@ export const installPlugins = async (params: {
   delete r.server
 
   return r
+}
+
+export const setUserConfig = async (
+  config: UserConfig,
+  options?: { isServer?: boolean },
+): Promise<UserConfig> => {
+  const { isServer = false } = options || {}
+  if (config.plugins) {
+    try {
+      config = await installPlugins({ userConfig: config, isServer })
+    } catch (error: unknown) {
+      const e = error as Error
+      logger.log({
+        level: "error",
+        description: e.message,
+        context: "setUserConfig",
+        error,
+      })
+    }
+  }
+
+  storeItem("userConfig", config)
+
+  return config
+}
+
+export const getUserConfig = (): UserConfig | undefined => {
+  return stored("userConfig")
+}
+
+export const userConfigSetting = <T extends keyof UserConfig>(
+  key: T,
+): UserConfig[T] => {
+  return dotSetting({ key, settings: getUserConfig() ?? {} })
 }

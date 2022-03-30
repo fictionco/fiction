@@ -1,4 +1,4 @@
-import { serverConfigSetting } from "@factor/server/config"
+import { userConfigSetting } from "@factor/engine/plugins"
 import * as esLexer from "es-module-lexer"
 import * as cjsLexer from "cjs-module-lexer"
 import * as vite from "vite"
@@ -11,7 +11,7 @@ export type ServerModuleDef = {
 }
 
 export const getServerOnlyModules = (): ServerModuleDef[] => {
-  const s = serverConfigSetting("serverOnlyImports") ?? []
+  const s = userConfigSetting("serverOnlyImports") ?? []
 
   return [
     { id: "knex" },
