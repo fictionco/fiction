@@ -1,3 +1,12 @@
+## [4.1.58](https://github.com/FactorJS/factor/compare/v4.1.57...v4.1.58) (2022-03-30)
+
+
+### Bug Fixes
+
+* hooks and plugin export ([9f05bf9](https://github.com/FactorJS/factor/commit/9f05bf997855c63e308a5cce68252d3cb37c35d4))
+
+
+
 ## [4.1.57](https://github.com/FactorJS/factor/compare/v4.1.56...v4.1.57) (2022-03-30)
 
 
