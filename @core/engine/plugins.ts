@@ -1,4 +1,3 @@
-import { UserConfig } from "@factor/types"
 import {
   deepMergeAll,
   omit,
@@ -7,6 +6,8 @@ import {
   storeItem,
   stored,
 } from "@factor/api"
+
+import { UserConfig } from "@factor/types"
 
 export const installPlugins = async (params: {
   userConfig: UserConfig

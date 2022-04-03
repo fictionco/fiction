@@ -24,7 +24,7 @@ export const setupApp = async (params: {
     userConfig = await mainFile.setup()
   }
 
-  await setUserConfig(userConfig, { isServer: false })
+  userConfig = await setUserConfig(userConfig, { isServer: false })
 
   if (userConfig.routes) {
     setupRouter(userConfig.routes)
