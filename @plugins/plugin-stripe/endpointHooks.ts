@@ -89,6 +89,7 @@ const stripeHookHandler = async (
 export class EndpointMethodStripeHooks extends FactorEndpoint {
   constructor() {
     super({
+      key: "stripeWebhooks",
       basePath: "/stripe-webhook",
       requestHandler: stripeHookHandler,
     })

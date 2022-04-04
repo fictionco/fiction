@@ -51,29 +51,49 @@ describe("route handling", () => {
       [
         {
           "component": [Function],
-          "name": "Home",
+          "meta": {
+            "menus": [],
+            "niceName": "Home",
+          },
+          "name": "home",
           "path": "/",
         },
         {
           "children": [
             {
               "component": [Function],
-              "name": "Dashboard",
+              "meta": {
+                "menus": [],
+                "niceName": "Dashboard",
+              },
+              "name": "dashboard",
               "path": "/project/:projectId",
             },
             {
               "component": [Function],
-              "name": "Dashboard View",
+              "meta": {
+                "menus": [],
+                "niceName": "Dashboard View",
+              },
+              "name": "dashboardSingle",
               "path": "/project/:projectId/dash/:dashboardId",
             },
           ],
           "component": [Function],
-          "name": "App",
+          "meta": {
+            "menus": [],
+            "niceName": "App",
+          },
+          "name": "app",
           "path": "/app",
         },
         {
           "component": [Function],
-          "name": "404",
+          "meta": {
+            "menus": [],
+            "niceName": "404",
+          },
+          "name": "notFound404",
           "path": "/:pathMatch(.*)*",
         },
       ]

@@ -166,8 +166,10 @@ export const dotSetting = <T = unknown>({
   const subKeys = key.slice(key.indexOf(".") + 1)
 
   if (typeof settings[key] !== "undefined") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return settings[key]
   } else if (typeof settings[currentKey] == "object") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return dotSetting({ key: subKeys, settings: settings[currentKey] })
   } else {
     return undefined
@@ -185,7 +187,7 @@ export const deepMerge = <T extends Record<string, any>>(
   items: (T | Partial<T> | undefined)[],
   options: { mergeArrays?: boolean } = {},
 ): T => {
-  const mergeItems = items.filter((_) => _) as T[]
+  const mergeItems = items.filter(Boolean) as T[]
 
   const merged: T = deepMergeUtility.all(mergeItems, {
     arrayMerge: (lowerPriority: unknown[], higherPriority: unknown[]) => {
@@ -202,7 +204,7 @@ export const deepMerge = <T extends Record<string, any>>(
  * merges all and concatenates arrays
  */
 export const deepMergeAll = <T>(items: (Partial<T> | undefined)[]): T => {
-  const i = items.filter((_) => _) as T[]
+  const i = items.filter(Boolean) as T[]
   return deepMerge<T>(i, { mergeArrays: true })
 }
 
@@ -308,6 +310,7 @@ export const snakeCaseKeys = (
 ): Record<string, any> => {
   const newObject: Record<string, any> = {}
   for (const camel in original) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     newObject[snakeCase(camel)] = original[camel]
   }
   return newObject

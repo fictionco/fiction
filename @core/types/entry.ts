@@ -6,7 +6,7 @@ import { AppRoute } from "@factor/api/router"
 import { ManageUserParams } from "@factor/engine/userAuth"
 import { Endpoint, EndpointMeta } from "@factor/engine/endpoint"
 import type { ServerModuleDef } from "@factor/render/buildPlugins"
-import { HookType, HookDictionary } from "@factor/engine/hookDictionary"
+import { HookType } from "@factor/engine/hookDictionary"
 import { FullUser } from "./user"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 export interface FactorAppEntry {
@@ -40,6 +40,7 @@ export interface UserConfig {
     | Record<string, string>[]
   >
   cwd?: string
+  root?: string
   paths?: string[]
   endpoints?: Endpoint[]
   port?: string

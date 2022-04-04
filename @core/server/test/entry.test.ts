@@ -17,11 +17,15 @@ describe("server entry handling", () => {
 
     expect(Object.keys(config)).toMatchInlineSnapshot(`
       [
+        "port",
+        "portApp",
         "routes",
         "variables",
+        "root",
         "endpoints",
-        "port",
         "sitemaps",
+        "paths",
+        "serverOnlyImports",
       ]
     `)
   })

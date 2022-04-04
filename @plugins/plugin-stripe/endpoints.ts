@@ -397,7 +397,7 @@ class QueryAllProducts extends QueryPayments {
 
     const productIds = products
       .map((_) => _.productId)
-      .filter((_) => _) as string[]
+      .filter(Boolean) as string[]
 
     const responsePlans = await Promise.all(
       productIds.map((productId: string) =>
@@ -406,7 +406,7 @@ class QueryAllProducts extends QueryPayments {
     )
     const data = responsePlans
       .map((product) => product.data)
-      .filter((_) => _) as Stripe.Product[]
+      .filter(Boolean) as Stripe.Product[]
 
     return { status: "success", data }
   }

@@ -85,7 +85,7 @@
     </div>
 
     <div
-      class="flex flex-col items-center justify-center md:flex-row md:space-x-3"
+      class="-mt-4 flex flex-col items-center justify-center md:flex-row md:space-x-3"
     >
       <div
         v-for="(fig, i) in figures"

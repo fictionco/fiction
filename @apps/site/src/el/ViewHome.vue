@@ -41,7 +41,7 @@
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1 class="text-4xl font-extrabold tracking-tight">
-                  Create awesome apps and websites with TypeScript
+                  A Framework for JAMStack Websites Powered by TypeScript
                 </h1>
                 <p class="mt-6 text-xl text-color-500">
                   FactorJS is a JamStack oriented TypeScript framework with

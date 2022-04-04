@@ -8,7 +8,11 @@ import { runHooks } from "./hook"
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
-  logger.info("generating static config")
+  logger.log({
+    level: "info",
+    description: "generating",
+    context: "generateStaticConfig",
+  })
 
   const genConfigPath = path.join(process.cwd(), "/.factor")
   const title = "CompiledUserConfig"
@@ -56,11 +60,19 @@ export const generateStaticConfig = async (
 
   const stringed = JSON.stringify(schema.staticConfig, null, 2)
 
-  const configJson = path.join(genConfigPath, "config.json")
+  const json = path.join(genConfigPath, "config.json")
   const ts = await compile(schema.staticSchema, title, { format: true })
 
   await fs.emptyDir(genConfigPath)
-  await fs.ensureFile(configJson)
-  await fs.writeFile(configJson, stringed)
-  await fs.writeFile(path.join(genConfigPath, "config.ts"), ts)
+  await fs.ensureFile(json)
+
+  const types = path.join(genConfigPath, "config.ts")
+  await Promise.all([fs.writeFile(json, stringed), fs.writeFile(types, ts)])
+
+  logger.log({
+    level: "info",
+    description: "done",
+    context: "generateStaticConfig",
+    data: { json, types },
+  })
 }

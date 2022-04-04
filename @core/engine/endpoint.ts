@@ -13,7 +13,7 @@ export type EndpointOptions = {
 export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
-  key?: string
+  key: string
   basePath?: string
 }
 
@@ -147,4 +147,19 @@ export class FactorEndpoint<T extends Query = Query> extends Endpoint<T> {
   constructor(options: { basePath: string } & EndpointMethodOptions<T>) {
     super({ baseURL: () => serverUrl(), ...options })
   }
+}
+
+type RequestMap<T extends Record<string, Query>> = {
+  [P in keyof T]: FactorEndpoint<T[P]>
+}
+
+export const GetRequestMap = <T extends Record<string, Query>>(
+  Queries: T,
+  endpointClass: new (options: any) => FactorEndpoint,
+): RequestMap<T> => {
+  return Object.fromEntries(
+    Object.entries(Queries).map(([key, query]) => {
+      return [key, new endpointClass({ key, queryHandler: query })]
+    }),
+  ) as RequestMap<T>
 }

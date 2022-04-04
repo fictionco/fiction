@@ -28,7 +28,7 @@ export const isBot = (): {
       "callPhantom" in window,
       "_phantom" in window,
       "phantom" in window,
-    ].some((val: boolean) => val)
+    ].some(Boolean)
   ) {
     return { result: true, failed: ["phantom"] }
   }

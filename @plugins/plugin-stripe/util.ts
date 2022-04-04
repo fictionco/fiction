@@ -110,7 +110,7 @@ export const paymentsSetting = <T extends keyof StripeOptions>(
   return v
 }
 
-export const createSettings = (options: Partial<StripeOptions>): void => {
+export const createSettings = (options?: Partial<StripeOptions>): void => {
   const defaultSettings: Partial<StripeOptions> = {}
 
   __settings = { ...defaultSettings, ...options }

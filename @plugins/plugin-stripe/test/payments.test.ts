@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs"
-import path from "path"
+import { createRequire } from "module"
 import dotenv from "dotenv"
 import { expect, it, describe } from "vitest"
 import Stripe from "stripe"
+import { logger } from "@factor/api"
 import * as stripeEngine from "../endpoints"
+const require = createRequire(import.meta.url)
 // vi.mock("../serverEmail", async () => {
 //   const actual = (await vi.importActual("../serverEmail")) as Record<
 //     string,
@@ -25,32 +27,18 @@ const key = (): string => Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
   it("has .env file", () => {
-    const dirname = new URL(".", import.meta.url).pathname
-    const p = path.resolve(dirname, "../.env")
-    dotenv.config({ path: path.resolve(dirname, "../.env") })
+    const p = require.resolve("@factor/site/.env")
 
     const exists = fs.existsSync(p)
 
     expect(exists).toBeTruthy()
+
+    if (!exists) {
+      logger.warn("skipping stripe tests config missing")
+    } else {
+      dotenv.config({ path: p })
+    }
   })
-
-  // it("create new user", async () => {
-  //   const response = await userEngine.Queries.ManageUser.serve(
-  //     {
-  //       _action: "create",
-  //       fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
-  //     },
-  //     undefined,
-  //   )
-
-  //   if (!response.data) throw new Error("problem creating user")
-
-  //   user = response.data
-
-  //   expect(user?.userId).toBeTruthy()
-  //   expect(user?.fullName).toBe("test")
-  //   expect(user?.verificationCode).toBeTruthy()
-  // })
 
   it("creates a customer for new user", async () => {
     const { status, data } = await stripeEngine.Queries.ManageCustomer.serve(
@@ -250,4 +238,22 @@ describe("stripe tests", () => {
     expect(result.status).toBe("success")
     expect(result.data?.data.length).toBeGreaterThan(0)
   })
+
+  // it("create new user", async () => {
+  //   const response = await userEngine.Queries.ManageUser.serve(
+  //     {
+  //       _action: "create",
+  //       fields: { email: `arpowers+${key}@gmail.com`, fullName: "test" },
+  //     },
+  //     undefined,
+  //   )
+
+  //   if (!response.data) throw new Error("problem creating user")
+
+  //   user = response.data
+
+  //   expect(user?.userId).toBeTruthy()
+  //   expect(user?.fullName).toBe("test")
+  //   expect(user?.verificationCode).toBeTruthy()
+  // })
 })

@@ -32,7 +32,7 @@ export const getUserGeolocationName = (
     out.unshift(city)
   }
 
-  return out.filter((_) => _).join(", ")
+  return out.filter(Boolean).join(", ")
 }
 
 export const getUserGeolocationSync = (): UserGeolocation | void => {
