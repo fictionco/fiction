@@ -156,7 +156,7 @@ const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
 
       return out
     })
-    .filter((_) => _) as RouteRecordRaw[]
+    .filter(Boolean) as RouteRecordRaw[]
 }
 
 export const generateRoutes = (

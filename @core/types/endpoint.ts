@@ -8,6 +8,7 @@ export type EndpointResponse<T = unknown> = {
   status: "success" | "error" | "fail" | "loading"
   data?: T
   message?: string
+  more?: string
   error?: Error | unknown
   code?: ErrorCode
   expose?: boolean

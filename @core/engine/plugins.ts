@@ -67,6 +67,12 @@ export const setUserConfig = async (
     }
   }
 
+  config = {
+    port: process.env.FACTOR_SERVER_PORT || process.env.PORT,
+    portApp: process.env.FACTOR_APP_PORT || process.env.PORT_APP,
+    ...config,
+  }
+
   storeItem("userConfig", config)
 
   return config

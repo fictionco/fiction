@@ -169,7 +169,7 @@ export const getIndexContent = async (
 
   const r = await Promise.all(postIndexPromises)
 
-  return r.filter((_) => _) as PostEntryConfig[]
+  return r.filter(Boolean)
 }
 
 export const activePostGroup = async (doc: string): Promise<string> => {

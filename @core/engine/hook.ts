@@ -1,23 +1,31 @@
 import { getUserConfig } from "./plugins"
 
-import { HookDictionary } from "./hookDictionary"
+import { HookDictionary, HookDictionaryIndexed } from "./hookDictionary"
 
-export const runHooks = async <T extends keyof HookDictionary>(options: {
-  hook: T
-  args: HookDictionary[typeof options.hook]["args"]
-}): Promise<HookDictionary[typeof options.hook]["args"][0]> => {
-  const { hook, args = [] } = options
-  const callbacks = getUserConfig()
+type Callbacks = (...args: unknown[]) => Promise<unknown>
+
+const getCallbacks = <T extends keyof HookDictionaryIndexed>(
+  hook: T,
+): Callbacks[] | undefined => {
+  return getUserConfig()
     ?.hooks?.filter((_) => _.hook == hook)
-    .map((_) => _.callback)
+    .map((_) => _.callback) as Callbacks[]
+}
 
-  let result = args[0]
+export const runHooks = async <T extends keyof HookDictionary>(
+  hook: T,
+  ...args: HookDictionary[T]["args"]
+): Promise<HookDictionary[T]["args"][0]> => {
+  const hookArgs = args || []
+  const callbacks = getCallbacks(hook)
+
+  let result = hookArgs[0]
   if (callbacks && callbacks.length > 0) {
     for (const cb of callbacks) {
-      const returnResult = await cb(result, ...args.slice(1))
+      const returnResult = await cb(result, ...hookArgs.slice(1))
 
       if (returnResult !== undefined) {
-        result = returnResult
+        result = returnResult as HookDictionary[T]["args"][0]
       }
     }
   }

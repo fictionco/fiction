@@ -3,14 +3,13 @@ import { _stop } from "@factor/api/error"
 
 import { Queries as UserAuthQueries } from "./userAuth"
 import { Queries as UserGoogleAuthQueries } from "./userGoogle"
-import { serverUrl } from "./url"
 
-import { EndpointMethodOptions, Endpoint } from "./endpoint"
+import { EndpointMethodOptions, FactorEndpoint } from "./endpoint"
 
 import { Query } from "./query"
-export class UserMethod<T extends Query> extends Endpoint<T> {
+export class UserMethod<T extends Query> extends FactorEndpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
-    super({ baseURL: serverUrl(), basePath: "/user", ...options })
+    super({ basePath: "/user", ...options })
   }
 }
 

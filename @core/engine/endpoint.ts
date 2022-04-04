@@ -7,7 +7,7 @@ import { serverUrl } from "./url"
 import { Query } from "./query"
 
 export type EndpointOptions = {
-  baseURL: string
+  baseURL: () => string
   basePath: string
 }
 export type EndpointMethodOptions<T extends Query> = {
@@ -35,7 +35,7 @@ export type EndpointManageAction =
   | "transfer"
 
 export class Endpoint<T extends Query = Query, U extends string = string> {
-  readonly baseURL: string
+  readonly baseURL: () => string
   readonly basePath: string
   readonly key: string
   queryHandler?: T
@@ -100,7 +100,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         Authorization: `Bearer ${bearerToken ?? ""}`,
         from: "dashboard",
       },
-      baseURL: this.baseURL,
+      baseURL: this.baseURL(),
       url,
       data,
     }
@@ -145,6 +145,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
 export class FactorEndpoint<T extends Query = Query> extends Endpoint<T> {
   constructor(options: { basePath: string } & EndpointMethodOptions<T>) {
-    super({ baseURL: serverUrl(), ...options })
+    super({ baseURL: () => serverUrl(), ...options })
   }
 }

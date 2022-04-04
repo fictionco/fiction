@@ -6,7 +6,7 @@ import { AppRoute } from "@factor/api/router"
 import { ManageUserParams } from "@factor/engine/userAuth"
 import { Endpoint, EndpointMeta } from "@factor/engine/endpoint"
 import type { ServerModuleDef } from "@factor/render/buildPlugins"
-import { HookDictionary } from "@factor/engine/hookDictionary"
+import { HookType, HookDictionary } from "@factor/engine/hookDictionary"
 import { FullUser } from "./user"
 import { LogHandler, DataProcessor, SiteMapConfig } from "./server"
 export interface FactorAppEntry {
@@ -21,15 +21,6 @@ export type EntryModuleExports = {
   RootComponent: Component
   mainFile: MainFile
 }
-
-type HookType = {
-  [K in keyof HookDictionary]: {
-    hook: K
-    callback: (
-      ...args: HookDictionary[K]["args"]
-    ) => Promise<HookDictionary[K]["args"][0] | undefined | void>
-  }
-}[keyof HookDictionary]
 
 export type MainFile = { setup?: () => Promise<UserConfig> | UserConfig }
 export interface UserConfig {

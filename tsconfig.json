@@ -15,7 +15,8 @@
     "removeComments": true,
     "types": ["node"],
     "lib": ["ES2020", "DOM"], // vue/vetur needs this
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noEmit": true
   },
   "exclude": [
     "node_modules",

@@ -158,6 +158,18 @@ class Logger {
       this.logBrowser(config)
     }
   }
+
+  warn(description: string, config?: LoggerArgs): void {
+    this.log({ level: "warn", ...config, description })
+  }
+
+  error(description: string, config?: LoggerArgs): void {
+    this.log({ level: "error", ...config, description })
+  }
+
+  info(description: string, config?: LoggerArgs): void {
+    this.log({ level: "info", ...config, description })
+  }
 }
 
 export const logger = new Logger()

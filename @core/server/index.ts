@@ -24,6 +24,7 @@ export const setupServerEnv = async (
   const serverConfig = await setUserConfig(entryServerConfig, {
     isServer: true,
   })
+
   /**
    * Set globals again with any plugin stuff
    */
@@ -43,15 +44,15 @@ export const setupEnvironment = async (
 
   await initializeDb()
 
-  await runHooks({ hook: "afterServerSetup", args: [] })
+  await runHooks("afterServerSetup")
 
-  const port = getServerPort(serverConfig)
+  const port = getServerPort()
 
   if (port) {
     await createEndpointServer(port, serverConfig)
   }
 
-  await runHooks({ hook: "afterServerCreated", args: [] })
+  await runHooks("afterServerCreated")
 
   return serverConfig
 }

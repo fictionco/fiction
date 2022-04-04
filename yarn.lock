@@ -2873,7 +2873,7 @@ check-error@^1.0.2:
   resolved "https://registry.yarnpkg.com/check-error/-/check-error-1.0.2.tgz#574d312edd88bb5dd8912e9286dd6c0aed4aac82"
   integrity sha1-V00xLt2Iu13YkS6Sht1sCu1KrII=
 
-chokidar@^3.4.2, chokidar@^3.5.1, chokidar@^3.5.2, chokidar@^3.5.3:
+chokidar@^3.5.1, chokidar@^3.5.2, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
   integrity sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==
@@ -8550,9 +8550,9 @@ tslib@^2.3.0, tslib@^2.3.1:
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tsup@^5.11.13:
-  version "5.12.3"
-  resolved "https://registry.yarnpkg.com/tsup/-/tsup-5.12.3.tgz#bc7db9a10b2d3cd77b4071889380e6ff4c492f6e"
-  integrity sha512-H1NANXhG01koKC5DWblNiPzsIwFBzGDvoEdxR1jrlNcWN0ydIEMsPhafrz5mhLNrYFn2suGlOwYZWfJO0HIPEg==
+  version "5.12.4"
+  resolved "https://registry.yarnpkg.com/tsup/-/tsup-5.12.4.tgz#5139e6d7735727cb8d0c4cdad721aaef7888f77f"
+  integrity sha512-uUraITfIj2h6rXAdeaVUYrZ2Is9joLFyEGZN5mGAke874JojCizb2MCUcE0wGdcERtyob5mbbFUKkMgal8SlFw==
   dependencies:
     bundle-require "^3.0.2"
     cac "^6.7.12"
@@ -8655,7 +8655,7 @@ typescript@^3.9.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
 
-typescript@^4.0.0, typescript@^4.5.5:
+typescript@^4.6.0:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
   integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==

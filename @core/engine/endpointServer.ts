@@ -46,6 +46,7 @@ export class EndpointServer {
         const { basePath, key } = endpoint
 
         app.use(`${basePath}/${key}`, this.endpointAuthorization)
+        console.log("CREATE EP", `${basePath}/${key}`)
         app.use(`${basePath}/${key}`, async (request, response) => {
           const result = await endpoint.serveRequest(request)
           delete result.internal

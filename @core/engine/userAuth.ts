@@ -155,6 +155,7 @@ class QueryManageUser extends Query {
   ): Promise<
     EndpointResponse<FullUser> & {
       isNew: boolean
+      token?: string
     }
   > {
     const { _action } = params
@@ -166,6 +167,7 @@ class QueryManageUser extends Query {
     const publicFields = getPublicUserFields()
 
     let isNew = false
+    let token: string | undefined = undefined
 
     if (_action == "getPrivate" || _action == "getPublic") {
       const { userId, email } = params
@@ -242,14 +244,14 @@ class QueryManageUser extends Query {
         .returning<FullUser[]>("*")
 
       if (!user) throw this.stop("problem creating user")
-
+      token = createClientToken(user)
       isNew = true
     }
 
     // don't return authority info to client
     delete user?.verificationCode
 
-    return { status: "success", data: user, isNew }
+    return { status: "success", data: user, isNew, token }
   }
 }
 
@@ -547,10 +549,7 @@ class QueryVerifyAccountEmail extends Query {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await runHooks({
-      hook: "onUserVerified",
-      args: [user],
-    })
+    await runHooks("onUserVerified", user)
 
     logger.log({
       level: "info",

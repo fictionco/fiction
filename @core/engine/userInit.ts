@@ -14,11 +14,16 @@ import { getEndpointsMap } from "./user"
  *  - promise - many requests should share the same promise
  */
 let __userInitialized: Promise<boolean>
+let __promiseResolve:
+  | undefined
+  | ((value: boolean | PromiseLike<boolean>) => void)
+
 export const userInitialized = async (
   callback?: (u: PrivateUser | undefined) => void,
 ): Promise<PrivateUser | undefined> => {
   if (!__userInitialized) {
     __userInitialized = new Promise(async (resolve) => {
+      __promiseResolve = resolve
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       await requestCurrentUser()
       resolve(true)
@@ -34,8 +39,8 @@ export const userInitialized = async (
 /**
  * Set the user to initialized
  */
-export const setUserInitialized = (init = true): void => {
-  __userInitialized = Promise.resolve(init)
+export const setUserInitialized = (): void => {
+  if (__promiseResolve) __promiseResolve(true)
 }
 
 interface RouteAuthConfig {

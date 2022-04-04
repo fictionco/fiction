@@ -1,17 +1,12 @@
-import { UserConfig } from "@factor/types"
 import { _stop } from "@factor/api/error"
+import { userConfigSetting } from "./plugins"
 
-export const getAppPort = (config: UserConfig = {}): string | undefined => {
-  const port =
-    config.portApp || process.env.PORT_APP || process.env.FACTOR_APP_PORT
-
-  return port
+export const getAppPort = (): string | undefined => {
+  return userConfigSetting("portApp")
 }
 
-export const getServerPort = (config: UserConfig = {}): string | undefined => {
-  const port = config.port || process.env.PORT || process.env.FACTOR_SERVER_PORT
-
-  return port
+export const getServerPort = (): string | undefined => {
+  return userConfigSetting("port")
 }
 
 export const serverUrl = (): string => {

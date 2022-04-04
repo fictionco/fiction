@@ -2,11 +2,14 @@ import path from "path"
 import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
 import { UserConfig } from "@factor/types"
+import { logger } from "@factor/api"
 import { runHooks } from "./hook"
 
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
+  logger.info("generating static config")
+
   const genConfigPath = path.join(process.cwd(), "/.factor")
   const title = "CompiledUserConfig"
 
@@ -14,13 +17,13 @@ export const generateStaticConfig = async (
     routes:
       config.routes
         ?.map((_) => _.name)
-        .filter((_) => _)
+        .filter(Boolean)
         .sort() ?? [],
     paths: config.paths?.sort() || [],
     endpoints: config.endpoints
       ?.map((_) => _.key)
       .sort()
-      .filter((_) => _) ?? [""],
+      .filter(Boolean) ?? [""],
   }
 
   const staticSchema: JSONSchema = {
@@ -45,10 +48,11 @@ export const generateStaticConfig = async (
     required: ["routes"],
   }
 
-  const schema = await runHooks({
-    hook: "staticConfig",
-    args: [{ staticConfig, staticSchema }],
-  })
+  const schema = await runHooks(
+    "staticConfig",
+    { staticConfig, staticSchema },
+    config,
+  )
 
   const stringed = JSON.stringify(schema.staticConfig, null, 2)
 

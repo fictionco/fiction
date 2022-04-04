@@ -58,7 +58,7 @@ export const getPackages = (
           return publicOnly && manifest.private ? "" : manifest.name
         }
       })
-      .filter((_) => _)
+      .filter(Boolean)
 
     folders = [...folders, ...files]
   })
