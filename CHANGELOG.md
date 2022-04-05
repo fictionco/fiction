@@ -1,3 +1,12 @@
+## [4.1.65](https://github.com/FactorJS/factor/compare/v4.1.64...v4.1.65) (2022-04-05)
+
+
+### Features
+
+* socket utilities ([8e080e6](https://github.com/FactorJS/factor/commit/8e080e67acdea7e40dc55d024b3a38dca09be214))
+
+
+
 ## [4.1.64](https://github.com/FactorJS/factor/compare/v4.1.63...v4.1.64) (2022-04-05)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@factor/engine",
-  "version": "4.1.64",
+  "version": "4.1.65",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -8,9 +8,9 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.1.64",
-    "@factor/server": "4.1.64",
-    "@factor/types": "4.1.64",
+    "@factor/api": "4.1.65",
+    "@factor/server": "4.1.65",
+    "@factor/types": "4.1.65",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.10",
@@ -52,7 +52,7 @@
     "@types/ws": "^8.0.0"
   },
   "devDependencies": {
-    "@factor/test": "4.1.64",
+    "@factor/test": "4.1.65",
     "vitest": "^0.8.0"
   }
 }
