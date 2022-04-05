@@ -1,3 +1,12 @@
+## [4.1.66](https://github.com/FactorJS/factor/compare/v4.1.65...v4.1.66) (2022-04-05)
+
+
+### Features
+
+* add response functionality to server socket ([d2b4377](https://github.com/FactorJS/factor/commit/d2b4377d2a2befb807b9535f96a89b6acd9c0121))
+
+
+
 ## [4.1.65](https://github.com/FactorJS/factor/compare/v4.1.64...v4.1.65) (2022-04-05)
 
 
