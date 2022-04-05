@@ -2,17 +2,14 @@ import path from "path"
 import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
 import { UserConfig } from "@factor/types"
-import { logger } from "@factor/api"
+import { log } from "@factor/api"
 import { runHooks } from "./hook"
 
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
-  logger.log({
-    level: "debug",
-    description: "generating",
-    context: "generateStaticConfig",
-  })
+  const context = "generateStaticConfig"
+  log.debug(context, "generating")
 
   const genConfigPath = path.join(config.root || process.cwd(), "/.factor")
   const title = "CompiledUserConfig"
@@ -48,7 +45,6 @@ export const generateStaticConfig = async (
         },
       },
     },
-    required: ["routes"],
   }
 
   const schema = await runHooks(
@@ -57,10 +53,14 @@ export const generateStaticConfig = async (
     config,
   )
 
+  const fullStaticSchema = schema.staticSchema
+
+  fullStaticSchema.required = Object.keys(fullStaticSchema.properties ?? {})
+
   const stringed = JSON.stringify(schema.staticConfig, null, 2)
 
   const json = path.join(genConfigPath, "config.json")
-  const ts = await compile(schema.staticSchema, title, { format: true })
+  const ts = await compile(fullStaticSchema, title, { format: true })
 
   await fs.emptyDir(genConfigPath)
   await fs.ensureFile(json)
@@ -68,10 +68,5 @@ export const generateStaticConfig = async (
   const types = path.join(genConfigPath, "config.ts")
   await Promise.all([fs.writeFile(json, stringed), fs.writeFile(types, ts)])
 
-  logger.log({
-    level: "debug",
-    description: "done",
-    context: "generateStaticConfig",
-    data: { json, types },
-  })
+  log.debug(context, "done", { data: { json, types } })
 }

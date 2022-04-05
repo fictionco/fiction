@@ -23,7 +23,8 @@
     "**/node_modules",
     "cdk.out",
     ".ref/**",
-    "**/dist"
+    "**/dist",
+    "**/__*"
   ],
   "ts-node": {
     "transpileOnly": true,

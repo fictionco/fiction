@@ -159,17 +159,39 @@ class Logger {
     }
   }
 
-  warn(description: string, config?: LoggerArgs): void {
-    this.log({ level: "warn", ...config, description })
+  warn(
+    context: string,
+    description: string,
+    config?: Omit<LoggerArgs, "level" | "context" | "description">,
+  ): void {
+    this.log({ level: "warn", context, description, ...config })
   }
 
-  error(description: string, config?: LoggerArgs): void {
-    this.log({ level: "error", ...config, description })
+  error(
+    context: string,
+    description: string,
+    config?: Omit<LoggerArgs, "level" | "context" | "description">,
+  ): void {
+    this.log({ level: "error", context, description, ...config })
   }
 
-  info(description: string, config?: LoggerArgs): void {
-    this.log({ level: "info", ...config, description })
+  info(
+    context: string,
+    description: string,
+    config?: Omit<LoggerArgs, "level" | "context" | "description">,
+  ): void {
+    this.log({ level: "info", context, description, ...config })
+  }
+
+  debug(
+    context: string,
+    description: string,
+    config?: Omit<LoggerArgs, "level" | "context" | "description">,
+  ): void {
+    this.log({ level: "debug", context, description, ...config })
   }
 }
 
 export const logger = new Logger()
+
+export const log = logger

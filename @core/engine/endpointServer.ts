@@ -3,7 +3,7 @@ import http from "http"
 import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "@factor/types"
-import { logger, _stop, decodeClientToken, onEvent } from "@factor/api"
+import { log, _stop, decodeClientToken, onEvent } from "@factor/api"
 import { Endpoint } from "./endpoint"
 import { Queries } from "./user"
 import { Query } from "./query"
@@ -29,7 +29,8 @@ export class EndpointServer {
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
-
+  context = "endpointServer"
+  server?: http.Server
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer } = options
     this.name = options.name
@@ -38,7 +39,7 @@ export class EndpointServer {
     this.customServer = customServer
   }
 
-  async serverCreate(): Promise<http.Server | undefined> {
+  async runServer(): Promise<http.Server | undefined> {
     try {
       const app = createExpressApp()
 
@@ -61,7 +62,7 @@ export class EndpointServer {
         await this.middleware(app)
       }
 
-      const server: http.Server = await new Promise(async (resolve) => {
+      this.server = await new Promise(async (resolve) => {
         let s: http.Server
         if (this.customServer) {
           s = await this.customServer(app)
@@ -71,25 +72,15 @@ export class EndpointServer {
         }
       })
 
-      logger.log({
-        level: "info",
-        context: "serverCreate",
-        description: `endpoint server`,
+      log.info(this.context, `endpoint server`, {
         data: { name: this.name, port: this.port },
       })
 
-      onEvent("shutdown", () => {
-        server.close()
-      })
+      onEvent("shutdown", () => this.server?.close())
 
-      return server
+      return this.server
     } catch (error) {
-      logger.log({
-        level: "error",
-        context: "serverCreate",
-        description: "server create err",
-        error,
-      })
+      log.error(this.context, "server create err", { error })
     }
   }
   /**
@@ -145,11 +136,8 @@ export class EndpointServer {
       request = await this.setAuthorizedUser(request)
       next()
     } catch (error) {
-      logger.log({
-        level: "error",
-        context: "endpoint",
-        description: `endpoint setup error (${authorization ?? ""})`,
-        data: error,
+      log.error(this.context, `endpoint setup error (${authorization ?? ""})`, {
+        error,
       })
 
       response
@@ -168,7 +156,7 @@ export class EndpointServer {
     request: express.Request,
   ): EndpointResponse => {
     const details = request.body as Record<string, any>
-    logger.log({
+    log.log({
       level: "error",
       context: "endpointErrorResponse",
       description: `error: ${request.url}`,

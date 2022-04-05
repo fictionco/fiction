@@ -2,7 +2,13 @@ import { FullUser, PrivateUser, AuthCallback } from "@factor/types"
 
 import { clientToken } from "@factor/api/jwt"
 import { logger } from "@factor/api/logger"
-import { currentUser, setCurrentUser, logout, isSearchBot } from "@factor/api"
+import {
+  currentUser,
+  setCurrentUser,
+  logout,
+  isSearchBot,
+  isNode,
+} from "@factor/api"
 import { getRouter } from "@factor/api/router"
 import { getEndpointsMap } from "./user"
 
@@ -52,8 +58,14 @@ interface RouteAuthConfig {
 export const routeAuthRedirects = async (
   user: FullUser | undefined,
 ): Promise<void> => {
+  // don't worry about redirects on server
+  // if runs in node, this hangs causing test problems
+  if (isNode) return
+
   const router = getRouter()
+
   await router.isReady()
+
   const { matched } = router.currentRoute.value
 
   let authConfig: RouteAuthConfig = { redirect: "/" }

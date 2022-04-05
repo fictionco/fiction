@@ -31,7 +31,7 @@ export const clientToken = (
   }
 }
 
-export type TokenFields = Partial<PrivateUser> & { userId: string }
+export type TokenFields = Partial<PrivateUser> & { userId: string; iat: number }
 /**
  * Sets the auth token secret or falls back to a basic one (insecure)
  */
@@ -61,7 +61,10 @@ export const decodeClientToken = (token: string): TokenFields => {
   const r = jwt.verify(token, getTokenSecret()) as TokenFields
 
   if (!r.userId || !r.email) {
-    throw _stop({ message: "token error", code: "TOKEN_ERROR" })
+    throw _stop({
+      message: "token missing userId or email",
+      code: "TOKEN_ERROR",
+    })
   }
 
   return r

@@ -14,12 +14,14 @@ export const getServerOnlyModules = (): ServerModuleDef[] => {
   const s = userConfigSetting("serverOnlyImports") ?? []
 
   return [
+    { id: "http" },
     { id: "knex" },
     { id: "knex-stringcase" },
     { id: "bcrypt" },
     { id: "chalk" },
     { id: "google-auth-library" },
     { id: "express" },
+    { id: "ws" },
     { id: "nodemailer" },
     { id: "nodemailer-html-to-text" },
     { id: "prettyoutput" },

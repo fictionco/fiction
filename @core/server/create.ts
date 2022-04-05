@@ -33,5 +33,5 @@ export const createEndpointServer = async (
     },
   })
 
-  return await factorEndpointServer.serverCreate()
+  return await factorEndpointServer.runServer()
 }

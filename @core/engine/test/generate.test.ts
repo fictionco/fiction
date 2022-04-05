@@ -1,4 +1,3 @@
-import { createRequire } from "module"
 import path from "path"
 import { UserConfig } from "@factor/types"
 import { expect, it, describe, beforeAll } from "vitest"

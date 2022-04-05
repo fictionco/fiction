@@ -18,7 +18,7 @@ export type EndpointMethodOptions<T extends Query> = {
 }
 
 export type EndpointMeta = {
-  bearer?: Partial<PrivateUser> & { userId: string }
+  bearer?: Partial<PrivateUser> & { userId: string; iat?: number }
   server?: boolean
 }
 

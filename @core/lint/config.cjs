@@ -45,6 +45,7 @@ module.exports = {
     "*eslint*",
     "**/.ref/*",
     "**/.ref*",
+    "**/__*",
   ],
   extends: [
     "plugin:unicorn/recommended",
