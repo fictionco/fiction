@@ -55,9 +55,15 @@ export const currentUser = (): PrivateUser | undefined => {
 /**
  * Active user computed
  */
-export const activeUser = computed(() => {
-  return currentUser()
+export const activeUser = computed<PrivateUser | undefined>({
+  get: () => {
+    return stored<PrivateUser>("currentUser")
+  },
+  set: (v) => {
+    storeItem("currentUser", v)
+  },
 })
+
 /**
  * Is the current visitor logged in?
  */

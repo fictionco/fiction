@@ -9,12 +9,12 @@ export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
   logger.log({
-    level: "info",
+    level: "debug",
     description: "generating",
     context: "generateStaticConfig",
   })
 
-  const genConfigPath = path.join(process.cwd(), "/.factor")
+  const genConfigPath = path.join(config.root || process.cwd(), "/.factor")
   const title = "CompiledUserConfig"
 
   const staticConfig = {
@@ -70,7 +70,7 @@ export const generateStaticConfig = async (
   await Promise.all([fs.writeFile(json, stringed), fs.writeFile(types, ts)])
 
   logger.log({
-    level: "info",
+    level: "debug",
     description: "done",
     context: "generateStaticConfig",
     data: { json, types },
