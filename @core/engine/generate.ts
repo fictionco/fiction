@@ -18,12 +18,11 @@ export const generateStaticConfig = async (
   const title = "CompiledUserConfig"
 
   const staticConfig = {
-    routes:
-      config.routes
-        ?.map((_) => _.name)
-        .filter(Boolean)
-        .sort() ?? [],
-    paths: config.paths?.sort() || [],
+    routes: config.routes
+      ?.map((_) => _.name)
+      .filter(Boolean)
+      .sort() ?? [""],
+    paths: config.paths?.sort() || [""],
     endpoints: config.endpoints
       ?.map((_) => _.key)
       .sort()

@@ -29,5 +29,6 @@ export default defineConfig({
     ],
 
     setupFiles: [`${testPath}/setupTest.ts`],
+    watchIgnore: [/\/node_modules\//, /\/dist\//, /\/.factor\//],
   },
 })
