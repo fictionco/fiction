@@ -4,7 +4,7 @@ import { clientToken, emitEvent, log, waitFor, _stop } from "@factor/api"
 
 import express from "express"
 
-import { WebSocketServer } from "ws"
+import * as ws from "ws"
 import { decodeClientToken, TokenFields } from "@factor/api/jwt"
 import { userInitialized } from "./userInit"
 import { Endpoint, EndpointMeta } from "./endpoint"
@@ -24,6 +24,10 @@ type ClientSocketOptions = {
   host: string
   token?: string
 }
+export type ResponseFunction<
+  T extends Record<string, unknown>,
+  V extends keyof EventMap<T>,
+> = (config: { event: V; payload: EventMap<T>[V] }) => void
 
 export declare interface ClientSocket<T extends Record<string, unknown>> {
   on<U extends keyof EventMap<T>>(
@@ -35,7 +39,13 @@ export declare interface ClientSocket<T extends Record<string, unknown>> {
 export declare interface NodeSocketServer<T extends Record<string, unknown>> {
   on<U extends keyof EventMap<T>>(
     event: U,
-    listener: (message: EventMap<T>[U], meta: EndpointMeta) => void,
+    listener: (
+      message: EventMap<T>[U],
+      meta: EndpointMeta & {
+        connection: ws.WebSocket
+        respond: ResponseFunction<T, U>
+      },
+    ) => void,
   ): this
   on(event: string, listener: () => {}): this
 }
@@ -197,14 +207,14 @@ export class NodeSocketServer<
 > extends EventEmitter {
   public app?: express.Express
   public server?: http.Server
-  public wss?: WebSocketServer
+  public wss?: ws.WebSocketServer
   private context = "socketServer"
 
   public createServer({ app }: { app: express.Express }): http.Server {
     this.app = app
     const socketServer = http.createServer(this.app)
 
-    this.wss = new WebSocketServer({
+    this.wss = new ws.WebSocketServer({
       noServer: true,
       maxPayload: 10_000_000,
     })
@@ -264,7 +274,16 @@ export class NodeSocketServer<
 
         if (event === "ping") connection.pong(message)
 
-        this.emit(event as string, payload, { bearer: request.bearer })
+        this.emit(event as string, payload, {
+          connection,
+          bearer: request.bearer,
+          respond: <V extends keyof EventMap<T>>(config: {
+            event: V
+            payload: EventMap<T>[V]
+          }): void => {
+            return this.send({ ...config, connection })
+          },
+        })
       })
 
       this.wss?.on("error", (error) => {
@@ -276,6 +295,18 @@ export class NodeSocketServer<
       log.error(this.context, "ws connection error", { error })
     })
     return socketServer
+  }
+
+  public send<V extends keyof EventMap<T>>(config: {
+    event: V
+    payload: EventMap<T>[V]
+    connection: ws.WebSocket
+  }): void {
+    const { event, payload, connection } = config
+    const message: SocketMessage<T> = [event, payload]
+    log.info(this.context, "sending message", { data: { message } })
+    connection.send(JSON.stringify(message))
+    return
   }
 }
 
