@@ -1,3 +1,12 @@
+## [4.1.64](https://github.com/FactorJS/factor/compare/v4.1.63...v4.1.64) (2022-04-05)
+
+
+### Features
+
+* gen tests ([e286be6](https://github.com/FactorJS/factor/commit/e286be60c1fb450f09640b34ddfa5815f2a9fbac))
+
+
+
 ## [4.1.63](https://github.com/FactorJS/factor/compare/v4.1.62...v4.1.63) (2022-04-05)
 
 
