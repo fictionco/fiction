@@ -1,13 +1,6 @@
 import { EventEmitter } from "events"
 import http from "http"
-import {
-  clientToken,
-  emitEvent,
-  log,
-  waitFor,
-  logger,
-  _stop,
-} from "@factor/api"
+import { clientToken, emitEvent, log, waitFor, _stop } from "@factor/api"
 
 import express from "express"
 
@@ -37,14 +30,14 @@ export declare interface ClientSocket<T extends Record<string, unknown>> {
     event: U,
     listener: (message: EventMap<T>[U]) => void,
   ): this
-  on(event: string, listener: Function): this
+  on(event: string, listener: () => {}): this
 }
 export declare interface NodeSocketServer<T extends Record<string, unknown>> {
   on<U extends keyof EventMap<T>>(
     event: U,
     listener: (message: EventMap<T>[U], meta: EndpointMeta) => void,
   ): this
-  on(event: string, listener: Function): this
+  on(event: string, listener: () => {}): this
 }
 
 export class ClientSocket<

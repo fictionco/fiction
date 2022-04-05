@@ -4,21 +4,9 @@ import { createRequire } from "module"
 import dotenv from "dotenv"
 import { expect, it, describe } from "vitest"
 import Stripe from "stripe"
-import { logger } from "@factor/api"
+import { log } from "@factor/api"
 import * as stripeEngine from "../endpoints"
 const require = createRequire(import.meta.url)
-// vi.mock("../serverEmail", async () => {
-//   const actual = (await vi.importActual("../serverEmail")) as Record<
-//     string,
-//     any
-//   >
-//   return {
-//     ...actual,
-//     getEmailSMTPService: vi.fn(() => {
-//       return { sendEmail: vi.fn() }
-//     }),
-//   }
-// })
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
@@ -34,7 +22,7 @@ describe("stripe tests", () => {
     expect(exists).toBeTruthy()
 
     if (!exists) {
-      logger.warn("skipping stripe tests config missing")
+      log.warn("stripeTests", "skipping stripe tests config missing")
     } else {
       dotenv.config({ path: p })
     }
