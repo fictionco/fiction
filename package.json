@@ -37,7 +37,6 @@
     "node": ">=16.0.0"
   },
   "gitHooks": {
-    "pre-push": "git pull && npm run test",
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
