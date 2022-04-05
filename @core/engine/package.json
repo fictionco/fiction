@@ -1,6 +1,6 @@
 {
   "name": "@factor/engine",
-  "version": "4.1.62",
+  "version": "4.1.63",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -8,9 +8,9 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.1.62",
-    "@factor/server": "4.1.62",
-    "@factor/types": "4.1.62",
+    "@factor/api": "4.1.63",
+    "@factor/server": "4.1.63",
+    "@factor/types": "4.1.63",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.10",
@@ -50,7 +50,7 @@
     "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "@factor/test": "4.1.62",
+    "@factor/test": "4.1.63",
     "vitest": "^0.8.0"
   }
 }

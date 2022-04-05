@@ -1,3 +1,12 @@
+## [4.1.63](https://github.com/FactorJS/factor/compare/v4.1.62...v4.1.63) (2022-04-05)
+
+
+### Features
+
+* set active user ([69bc911](https://github.com/FactorJS/factor/commit/69bc9116b1f8d5ed63cd03f29c378f7205cca54d))
+
+
+
 ## [4.1.62](https://github.com/FactorJS/factor/compare/v4.1.61...v4.1.62) (2022-04-04)
 
 
