@@ -17,6 +17,6 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
-    "vitest": "^0.8.0"
+    "vitest": "^0.9.0"
   }
 }
