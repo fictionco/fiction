@@ -10,49 +10,49 @@ import { userInitialized } from "./userInit"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
 
-export type EventMap<U extends Record<string, unknown>> = {
-  ping: any
-  welcome: TokenFields
-} & U
+/**
+ *   ping: {}
+  welcome: { res: TokenFields }
+ */
+export type EventMap = {
+  [key: string]: { req?: unknown; res?: unknown }
+}
 
-export type SocketMessage<U extends Record<string, unknown>> = [
-  keyof EventMap<U>,
-  EventMap<U>[keyof EventMap<U>],
-]
+export type SocketMessage<
+  U extends EventMap,
+  V extends keyof U,
+  W extends "req" | "res",
+> = [V, U[V][W]]
+
+export type SocketMeta<T extends EventMap, U extends keyof T> = EndpointMeta & {
+  connection: ws.WebSocket
+  respond: ResponseFunction<T, U>
+}
+export type ResponseFunction<T extends EventMap, U extends keyof T> = (
+  response: T[U]["res"],
+) => void
 
 type ClientSocketOptions = {
   host: string
   token?: string
 }
-export type ResponseFunction<
-  T extends Record<string, unknown>,
-  V extends keyof EventMap<T>,
-> = (config: { event: V; payload: EventMap<T>[V] }) => void
 
-export declare interface ClientSocket<T extends Record<string, unknown>> {
-  on<U extends keyof EventMap<T>>(
+export declare interface ClientSocket<T extends EventMap> {
+  on<U extends keyof T>(
     event: U,
-    listener: (message: EventMap<T>[U]) => void,
+    listener: (message: T[U]["res"]) => void,
   ): this
   on(event: string, listener: () => {}): this
 }
-export declare interface NodeSocketServer<T extends Record<string, unknown>> {
-  on<U extends keyof EventMap<T>>(
+export declare interface NodeSocketServer<T extends EventMap> {
+  on<U extends keyof T>(
     event: U,
-    listener: (
-      message: EventMap<T>[U],
-      meta: EndpointMeta & {
-        connection: ws.WebSocket
-        respond: ResponseFunction<T, U>
-      },
-    ) => void,
+    listener: (message: T[U]["req"], meta: SocketMeta<T, U>) => void,
   ): this
   on(event: string, listener: () => {}): this
 }
 
-export class ClientSocket<
-  T extends Record<string, unknown>,
-> extends EventEmitter {
+export class ClientSocket<T extends EventMap> extends EventEmitter {
   host: string
   socket?: WebSocket | undefined
   socketPromise?: Promise<WebSocket | undefined> | undefined
@@ -109,7 +109,11 @@ export class ClientSocket<
         log.info(this.context, `connected at ${this.host}`)
 
         sock.addEventListener("message", (event: MessageEvent<string>) => {
-          const [name, data] = JSON.parse(event.data) as SocketMessage<T>
+          const [name, data] = JSON.parse(event.data) as SocketMessage<
+            T,
+            keyof T,
+            "req"
+          >
 
           log.info(this.context, `message received: ${name}`, { data })
 
@@ -179,11 +183,11 @@ export class ClientSocket<
     return this.socket
   }
 
-  public async sendMessage<U extends keyof EventMap<T>>(
+  public async sendMessage<U extends keyof T>(
     type: U,
-    payload: EventMap<T>[U],
+    payload: T[U]["req"],
   ): Promise<void> {
-    const message: SocketMessage<T> = [type, payload]
+    const message: SocketMessage<T, U, "req"> = [type, payload]
     log.info(this.context, "sending message", { data: { message } })
     try {
       const socket = await this.getSocket()
@@ -202,9 +206,7 @@ export class ClientSocket<
   }
 }
 
-export class NodeSocketServer<
-  T extends Record<string, unknown>,
-> extends EventEmitter {
+export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public app?: express.Express
   public server?: http.Server
   public wss?: ws.WebSocketServer
@@ -270,18 +272,15 @@ export class NodeSocketServer<
           return
         }
 
-        const [event, payload] = parsed as SocketMessage<T>
+        const [event, payload] = parsed as SocketMessage<T, keyof T, "req">
 
         if (event === "ping") connection.pong(message)
 
         this.emit(event as string, payload, {
           connection,
           bearer: request.bearer,
-          respond: <V extends keyof EventMap<T>>(config: {
-            event: V
-            payload: EventMap<T>[V]
-          }): void => {
-            return this.send({ ...config, connection })
+          respond: <V extends keyof T>(payload: T[V]["res"]): void => {
+            return this.send({ event, payload, connection })
           },
         })
       })
@@ -297,27 +296,25 @@ export class NodeSocketServer<
     return socketServer
   }
 
-  public send<V extends keyof EventMap<T>>(config: {
+  public send<V extends keyof T>(config: {
     event: V
-    payload: EventMap<T>[V]
+    payload: T[V]["res"]
     connection: ws.WebSocket
   }): void {
     const { event, payload, connection } = config
-    const message: SocketMessage<T> = [event, payload]
+    const message: SocketMessage<T, keyof T, "res"> = [event, payload]
     log.info(this.context, "sending message", { data: { message } })
     connection.send(JSON.stringify(message))
     return
   }
 }
 
-export type SocketServerComponents<T extends Record<string, unknown>> = {
+export type SocketServerComponents<T extends EventMap> = {
   socketServer: NodeSocketServer<T>
   endpointServer: EndpointServer
 }
 
-export const createSocketServer = async <
-  T extends Record<string, unknown>,
->(args: {
+export const createSocketServer = async <T extends EventMap>(args: {
   name: string
   port: string
   endpoints?: Endpoint[]
