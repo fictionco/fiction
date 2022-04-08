@@ -22,7 +22,7 @@ type EndpointMap = {
   [P in keyof typeof Queries]: UserMethod<typeof Queries[P]>
 }
 
-export const getEndpointsMap = (): EndpointMap => {
+export const userEndpoints = (): EndpointMap => {
   return Object.fromEntries(
     Object.entries(Queries).map(([key, query]) => {
       return [key, new UserMethod({ key, queryHandler: query })]

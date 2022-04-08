@@ -2,7 +2,7 @@ import { expect, it, describe, vi, beforeAll } from "vitest"
 import { FullUser } from "@factor/types"
 import { decodeClientToken } from "@factor/api/jwt"
 import { setup } from "@factor/server"
-import { getEndpointsMap } from "../user"
+import { userEndpoints } from "../user"
 import * as em from "../email"
 let user: Partial<FullUser>
 let token: string
@@ -14,7 +14,7 @@ describe("user tests", () => {
   })
   it("creates user", async () => {
     const spy = vi.spyOn(em, "sendEmail")
-    const response = await getEndpointsMap().StartNewUser.request({
+    const response = await userEndpoints().StartNewUser.request({
       email: `arpowers+${key}@gmail.com`,
       fullName: "test",
     })
@@ -40,7 +40,7 @@ describe("user tests", () => {
   })
 
   it("verifies with code", async () => {
-    const response = await getEndpointsMap().VerifyAccountEmail.request({
+    const response = await userEndpoints().VerifyAccountEmail.request({
       email: `arpowers+${key}@gmail.com`,
       verificationCode: "test",
     })

@@ -87,6 +87,7 @@ export interface PrivateUser extends PublicUser {
   codeExpiresAt?: string | number | Date
   geo?: UserGeolocation
   invitedBy?: string
+  lastProject?: string
 }
 /**
  * All user information

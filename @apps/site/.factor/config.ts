@@ -6,7 +6,7 @@
  */
 
 export interface CompiledUserConfig {
-  endpoints?:
+  endpoints:
     | "AllProducts"
     | "CurrentUser"
     | "GetCoupon"
@@ -41,6 +41,6 @@ export interface CompiledUserConfig {
     | "showcase"
     | "showcaseSingle"
     | "testing";
-  paths?: string[];
+  paths: string[];
   [k: string]: unknown;
 }

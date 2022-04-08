@@ -10,12 +10,7 @@ const changes: ChangesetConfig = [
     table: FactorTable.User,
     columnGroups: [
       {
-        columns: [
-          { col: "google_id", type: "string" } as const,
-          { col: "first_name", type: "string" },
-          { col: "last_name", type: "string" },
-          { col: "picture", type: "string" },
-        ],
+        columns: [{ col: "last_project", type: "string" } as const],
         cb: (
           t: Knex.AlterTableBuilder,
           col: string,

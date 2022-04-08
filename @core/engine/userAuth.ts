@@ -136,17 +136,18 @@ export type ManageUserParams =
         invitedBy?: string
       }
     }
-  | {
+  | ({
       _action: "update"
       fields: Partial<FullUser>
-      email: string
-    }
-  | {
-      _action: "getPrivate" | "getPublic"
       email?: string
       userId?: string
+    } & ({ email: string } | { userId: string }))
+  | ({
+      _action: "getPrivate" | "getPublic"
       select?: (keyof FullUser)[] | ["*"]
-    }
+      email?: string
+      userId?: string
+    } & ({ email: string } | { userId: string }))
 
 class QueryManageUser extends Query {
   async run(
@@ -181,20 +182,18 @@ class QueryManageUser extends Query {
         .where(where)
         .first<FullUser>()
 
-      if (user && _action == "getPrivate") {
-        user = await processUser(user, { params, meta: _meta })
-      } else {
+      if (user && _action == "getPublic") {
         delete user?.hashedPassword
       }
     } else if (_action == "update") {
-      const { email, fields } = params
-      if (!fields || !email) {
-        throw this.stop("update user requires email and fields")
+      const { email, userId, fields } = params
+      if (!fields || (!email && !userId)) {
+        throw this.stop("update user requires email, or user, and fields")
       }
 
       checkServerFields(fields, _meta)
 
-      const where = { email }
+      const where = userId ? { userId } : { email }
 
       ;[user] = await db(FactorTable.User)
         .update(fields)
@@ -202,8 +201,6 @@ class QueryManageUser extends Query {
         .returning<FullUser[]>("*")
 
       if (!user) throw this.stop({ message: "user not found", data: where })
-
-      user = await processUser(user, { params, meta: _meta })
     } else if (_action == "create") {
       const { fields } = params
 
@@ -246,6 +243,13 @@ class QueryManageUser extends Query {
       if (!user) throw this.stop("problem creating user")
       token = createClientToken(user)
       isNew = true
+    }
+
+    if (
+      user &&
+      (_action == "getPrivate" || _action == "update" || _action == "create")
+    ) {
+      user = await processUser(user, { params, meta: _meta })
     }
 
     // don't return authority info to client

@@ -1,7 +1,7 @@
 import { FullUser, PrivateUser, AuthCallback } from "@factor/types"
 
 import { clientToken } from "@factor/api/jwt"
-import { logger } from "@factor/api/logger"
+import { log } from "@factor/api/logger"
 import {
   currentUser,
   setCurrentUser,
@@ -10,7 +10,7 @@ import {
   isNode,
 } from "@factor/api"
 import { getRouter } from "@factor/api/router"
-import { getEndpointsMap } from "./user"
+import { userEndpoints } from "./user"
 
 /**
  * Utility function that calls a callback when the user is set initially
@@ -63,10 +63,11 @@ export const routeAuthRedirects = async (
   if (isNode) return
 
   const router = getRouter()
+  const currentRoute = router.currentRoute.value
 
-  await router.isReady()
+  if (!currentRoute) return
 
-  const { matched } = router.currentRoute.value
+  const { matched } = currentRoute
 
   let authConfig: RouteAuthConfig = { redirect: "/" }
   matched.forEach(({ meta: { auth } }) => {
@@ -81,10 +82,7 @@ export const routeAuthRedirects = async (
       const redirect = await auth({ user, searchBot: isSearchBot() })
 
       if (redirect) {
-        logger.log({
-          level: "info",
-          context: "router",
-          description: "auth required redirect",
+        log.info("routeAuthRedirects", "auth required redirect", {
           data: { redirect },
         })
         await router.push({ path: redirect })
@@ -102,7 +100,7 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
   let user: FullUser | undefined = undefined
 
   if (token) {
-    const { status, data, code } = await getEndpointsMap().CurrentUser.request({
+    const { status, data, code } = await userEndpoints().CurrentUser.request({
       token,
     })
 
@@ -121,12 +119,7 @@ export const requestCurrentUser = async (): Promise<FullUser | undefined> => {
   // redirect before resolve
   await routeAuthRedirects(user)
 
-  logger.log({
-    level: "info",
-    context: "user",
-    description: "current user loaded",
-    data: { user },
-  })
+  log.debug("requestCurrentUser", "user loaded", { data: { user } })
 
   return user
 }

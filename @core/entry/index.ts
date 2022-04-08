@@ -2,36 +2,16 @@ import "@factor/api"
 import "tailwindcss/tailwind.css"
 
 import { isNode } from "@factor/api/utils"
-import { getRouter, setupRouter } from "@factor/api/router"
+import { getRouter } from "@factor/api/router"
 import { getStore } from "@factor/api/store"
-import { setUserConfig } from "@factor/engine/plugins"
-import { FactorAppEntry, UserConfig, MainFile } from "@factor/types"
+import { FactorAppEntry, MainFile } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
 import { initializeUser } from "@factor/engine/userInit"
 
+import { setupAppFromMainFile } from "@factor/engine/setup"
 import EmptyApp from "./EmptyApp.vue"
 import { initializeWindow } from "./init"
-
-export const setupApp = async (params: {
-  mainFile?: MainFile
-}): Promise<UserConfig> => {
-  const { mainFile = {} } = params
-
-  let userConfig: UserConfig = {}
-  // run the app main file
-  if (mainFile.setup) {
-    userConfig = await mainFile.setup()
-  }
-
-  userConfig = await setUserConfig(userConfig, { isServer: false })
-
-  if (userConfig.routes) {
-    setupRouter(userConfig.routes)
-  }
-
-  return userConfig
-}
 
 /**
  * Create the main Vue app
@@ -44,7 +24,7 @@ export const factorApp = async (
   } = {},
 ): Promise<FactorAppEntry> => {
   const { renderUrl, mainFile, RootComponent = EmptyApp } = context
-  await setupApp({ mainFile })
+  await setupAppFromMainFile({ mainFile })
 
   // only run in  browser
   if (typeof window !== "undefined") {

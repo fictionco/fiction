@@ -3,7 +3,7 @@ import { computed } from "vue"
 import { getRouter } from "./router"
 import { emitEvent } from "./event"
 import { clientToken } from "./jwt"
-import { logger } from "./logger"
+import { log } from "./logger"
 import { stored, storeItem } from "./store"
 
 export const getJsonUserFields = (): (keyof FullUser)[] => {
@@ -74,11 +74,8 @@ export const isLoggedIn = (): boolean => {
  * Logs out current user and deletes local data
  */
 export const deleteCurrentUser = (): void => {
-  logger.log({
-    level: "info",
-    context: "user",
-    description: "deleted current user",
-  })
+  log.info("deleteCurrentUser", `deleted current user`)
+
   clientToken({ action: "destroy" })
   storeItem("currentUser", undefined)
 }
@@ -94,10 +91,7 @@ export const setCurrentUser = (args: {
 
   if (!user) return deleteCurrentUser()
 
-  logger.log({
-    level: "info",
-    context: "user",
-    description: "set current user",
+  log.debug("setCurrentUser", `set ${user.email}`, {
     data: user,
   })
 

@@ -15,15 +15,9 @@ export const generateStaticConfig = async (
   const title = "CompiledUserConfig"
 
   const staticConfig = {
-    routes: config.routes
-      ?.map((_) => _.name)
-      .filter(Boolean)
-      .sort() ?? [""],
-    paths: config.paths?.sort() || [""],
-    endpoints: config.endpoints
-      ?.map((_) => _.key)
-      .sort()
-      .filter(Boolean) ?? [""],
+    routes: config.routes,
+    paths: config.paths?.sort(),
+    endpoints: config.endpoints,
   }
 
   const staticSchema: JSONSchema = {
@@ -31,11 +25,17 @@ export const generateStaticConfig = async (
     type: "object",
     properties: {
       endpoints: {
-        enum: staticConfig.endpoints,
+        enum: config.endpoints
+          ?.map((_) => _.key)
+          .sort()
+          .filter(Boolean) ?? [""],
         type: "string",
       },
       routes: {
-        enum: staticConfig.routes,
+        enum: config.routes
+          ?.map((_) => _.name)
+          .filter(Boolean)
+          .sort() ?? [""],
         type: "string",
       },
       paths: {
