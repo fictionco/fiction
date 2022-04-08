@@ -1,3 +1,13 @@
+## [4.1.67](https://github.com/FactorJS/factor/compare/v4.1.66...v4.1.67) (2022-04-08)
+
+
+### Bug Fixes
+
+* field ([7721368](https://github.com/FactorJS/factor/commit/7721368834f068d51bff6d0a93a243d1188053e8))
+* types ([3e3a4c1](https://github.com/FactorJS/factor/commit/3e3a4c1fb1240e5e511333181b4274e09393327b))
+
+
+
 ## [4.1.66](https://github.com/FactorJS/factor/compare/v4.1.65...v4.1.66) (2022-04-05)
 
 
