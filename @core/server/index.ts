@@ -48,9 +48,7 @@ export const setupEnvironment = async (
 
   const port = getServerPort()
 
-  if (port) {
-    await createEndpointServer(port, serverConfig)
-  }
+  await createEndpointServer(port, serverConfig)
 
   await runHooks("afterServerCreated")
 

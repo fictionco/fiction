@@ -1,12 +1,12 @@
 import { _stop } from "@factor/api/error"
 import { userConfigSetting } from "./plugins"
 
-export const getAppPort = (): string | undefined => {
-  return userConfigSetting("portApp") || process.env.PORT_APP
+export const getAppPort = (): string => {
+  return userConfigSetting("portApp") || process.env.PORT_APP || "3000"
 }
 
-export const getServerPort = (): string | undefined => {
-  return userConfigSetting("port") || process.env.PORT
+export const getServerPort = (): string => {
+  return userConfigSetting("port") || process.env.PORT || "3210"
 }
 
 export const serverUrl = (): string => {
