@@ -1,3 +1,17 @@
+## [4.1.68](https://github.com/FactorJS/factor/compare/v4.1.67...v4.1.68) (2022-04-08)
+
+
+### Bug Fixes
+
+* server ([10be5fe](https://github.com/FactorJS/factor/commit/10be5fe186766d5ba156d32b960dab2e3501324e))
+
+
+### Features
+
+* new store and tests ([64944b5](https://github.com/FactorJS/factor/commit/64944b5c030eeda64b605cfeac92eabdd90c6ab2))
+
+
+
 ## [4.1.67](https://github.com/FactorJS/factor/compare/v4.1.66...v4.1.67) (2022-04-08)
 
 
