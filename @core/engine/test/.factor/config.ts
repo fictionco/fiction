@@ -6,9 +6,9 @@
  */
 
 export interface CompiledUserConfig {
-  endpoints?: "";
+  endpoints: "";
   routes: "";
-  paths?: string[];
-  test?: "test";
+  paths: string[];
+  test: "test";
   [k: string]: unknown;
 }

@@ -79,7 +79,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         ...getServerOnlyModules().map((_) => _.id),
       ],
       include: [
-        "vuex",
         "vue-router",
         "@medv/finder",
         "@vueuse/head",

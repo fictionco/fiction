@@ -4,24 +4,27 @@
  */
 import { expect, it, describe, beforeAll, afterAll } from "vitest"
 import { waitFor, createClientToken } from "@factor/api"
-import * as ws from "ws"
+
 import {
   createSocketServer,
   ClientSocket,
   SocketServerComponents,
+  SocketMeta,
 } from "../socket"
-import { EndpointMeta } from "../endpoint"
-type EventMap = { test: string; res: string }
+type EventMap = {
+  test: { req: "ping"; res: "pong" }
+}
 
 let s: SocketServerComponents<EventMap> | undefined = undefined
 const port = "1221"
 const host = `ws://localhost:${port}`
-type EventMeta = EndpointMeta & {
-  connection: ws.WebSocket
-  respond: (config: { event: string; payload: any }) => {}
-}
-const serverEvents: [keyof EventMap, EventMap[keyof EventMap], EventMeta][] = []
-const clientEvents: [keyof EventMap, EventMap[keyof EventMap]][] = []
+
+const serverEvents: [
+  keyof EventMap,
+  EventMap[keyof EventMap]["req"],
+  SocketMeta<EventMap, "test">,
+][] = []
+const clientEvents: [keyof EventMap, EventMap[keyof EventMap]["res"]][] = []
 describe("sockets", () => {
   beforeAll(async () => {
     s = await createSocketServer<EventMap>({
@@ -43,7 +46,7 @@ describe("sockets", () => {
         meta.bearer = { ...meta.bearer, iat: 888 }
       }
 
-      serverEvents.push(["test", message, meta as EventMeta])
+      serverEvents.push(["test", message, meta])
     })
   })
 
@@ -57,10 +60,10 @@ describe("sockets", () => {
       token,
     })
 
-    await clientSocket.sendMessage("test", "hello")
+    await clientSocket.sendMessage("test", "ping")
 
-    clientSocket?.on("res", (data) => {
-      clientEvents.push(["res", data])
+    clientSocket?.on("test", (data) => {
+      clientEvents.push(["test", data])
     })
 
     await waitFor(100)
@@ -75,7 +78,7 @@ describe("sockets", () => {
       [
         [
           "test",
-          "hello",
+          "ping",
           {
             "bearer": {
               "email": "hello@world.com",
@@ -89,7 +92,7 @@ describe("sockets", () => {
       ]
     `)
 
-    expect(serverEvents.find((_) => _[1] == "hello")).toBeTruthy()
+    expect(serverEvents.find((_) => _[1] == "ping")).toBeTruthy()
   })
 
   it("handles bearer on request", async () => {
@@ -100,19 +103,28 @@ describe("sockets", () => {
   it("sends a message back to client", async () => {
     expect(clientEvents).toMatchInlineSnapshot("[]")
 
-    const testEvent = serverEvents.find((_) => _[1] == "hello")
+    const testEvent = serverEvents.find((_) => _[1] == "ping")
 
-    testEvent?.[2].respond({ event: "res", payload: "world" })
+    testEvent?.[2].respond("pong")
 
     await waitFor(100)
-
-    expect(clientEvents.find((_) => _[1] == "world")).toBeTruthy()
 
     expect(clientEvents).toMatchInlineSnapshot(`
       [
         [
-          "res",
-          "world",
+          "test",
+          "pong",
+        ],
+      ]
+    `)
+
+    expect(clientEvents.find((_) => _[1] == "pong")).toBeTruthy()
+
+    expect(clientEvents).toMatchInlineSnapshot(`
+      [
+        [
+          "test",
+          "pong",
         ],
       ]
     `)

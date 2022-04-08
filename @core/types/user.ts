@@ -53,8 +53,8 @@ export interface ProfileUser extends PublicUser {
   birthday?: Date | string
   gender?: Gender
   about?: string
-  tag: string[]
-  category: string[]
+  tag?: string[]
+  category?: string[]
   site?: string
   github?: string
   githubFollowers?: number

@@ -47,10 +47,10 @@
     "spark-md5": "^3.0.1",
     "validator": "^13.5.2",
     "vue": "^3.2.31",
-    "vue-router": "^4.0.10",
-    "vuex": "^4.0.0-rc.1"
+    "vue-router": "^4.0.10"
   },
   "devDependencies": {
-    "vitest": "^0.9.0"
+    "vitest": "^0.9.0",
+    "@factor/test": "4.1.67"
   }
 }

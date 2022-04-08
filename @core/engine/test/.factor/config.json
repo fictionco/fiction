@@ -1,13 +1,4 @@
 {
-  "routes": [
-    ""
-  ],
-  "paths": [
-    ""
-  ],
-  "endpoints": [
-    ""
-  ],
   "test": [
     "test"
   ]

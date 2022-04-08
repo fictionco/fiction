@@ -47,22 +47,23 @@ export const cacheUser = ({ user }: { user: Partial<FullUser> }): void => {
 }
 
 /**
- * Information for the currently logged in user
- */
-export const currentUser = (): PrivateUser | undefined => {
-  return stored("currentUser")
-}
-/**
  * Active user computed
  */
-export const activeUser = computed<PrivateUser | undefined>({
+export const activeUser = computed<FullUser | undefined>({
   get: () => {
-    return stored<PrivateUser>("currentUser")
+    return stored<FullUser>("currentUser")
   },
   set: (v) => {
     storeItem("currentUser", v)
   },
 })
+
+/**
+ * Information for the currently logged in user
+ */
+export const currentUser = (): FullUser | undefined => {
+  return activeUser.value
+}
 
 /**
  * Is the current visitor logged in?
@@ -77,14 +78,14 @@ export const deleteCurrentUser = (): void => {
   log.info("deleteCurrentUser", `deleted current user`)
 
   clientToken({ action: "destroy" })
-  storeItem("currentUser", undefined)
+  activeUser.value = undefined
 }
 
 /**
  * Set persistent user info
  */
 export const setCurrentUser = (args: {
-  user: (PrivateUser & Partial<FullUser>) | undefined
+  user: FullUser | undefined
   token?: string
 }): void => {
   const { user, token = "" } = args
@@ -95,12 +96,13 @@ export const setCurrentUser = (args: {
     data: user,
   })
 
-  storeItem("currentUser", user)
-  cacheUser({ user })
-
   if (token) {
     clientToken({ action: "set", token })
   }
+
+  activeUser.value = user
+
+  cacheUser({ user })
 }
 /**
  * Logs out the current user
@@ -131,11 +133,10 @@ export const logout = async (
  */
 export const updateUser = async (
   cb: (
-    user: PrivateUser | undefined,
-  ) => PrivateUser | undefined | Promise<PrivateUser | undefined>,
+    user: FullUser | undefined,
+  ) => FullUser | undefined | Promise<FullUser | undefined>,
 ): Promise<void> => {
-  const user = currentUser()
-  const newUser = await cb(user)
+  const newUser = await cb(activeUser.value)
   if (newUser) {
     setCurrentUser({ user: newUser })
   }

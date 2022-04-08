@@ -101,19 +101,20 @@ export class EndpointServer {
       if (request.bearerToken) {
         const { email } = decodeClientToken(request.bearerToken)
 
-        const { data: user } = await Queries.ManageUser.serve(
-          {
-            email,
-            _action: "getPrivate",
-          },
-          undefined,
-        )
+        request.bearer = undefined
 
-        if (user) {
-          request.bearer = user
-          request.bearerToken = token
-        } else {
-          request.bearer = undefined
+        if (email) {
+          const { data: user } = await Queries.ManageUser.serve(
+            {
+              email,
+              _action: "getPrivate",
+            },
+            { server: true },
+          )
+
+          if (user) {
+            request.bearer = user
+          }
         }
       }
     }

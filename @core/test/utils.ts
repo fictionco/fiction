@@ -4,8 +4,18 @@ import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
-import { randomBetween, logger, PackageJson } from "@factor/api"
+import {
+  randomBetween,
+  logger,
+  PackageJson,
+  FullUser,
+  setCurrentUser,
+  MainFile,
+} from "@factor/api"
+import { Queries } from "@factor/engine/user"
 import fs from "fs-extra"
+import { setupAppFromMainFile, setUserInitialized } from "@factor/engine"
+import * as defaultMainFile from "@factor/site"
 
 const require = createRequire(import.meta.url)
 
@@ -28,6 +38,46 @@ export type TestServerConfig = {
   page: Page
   expectUi: Expect
   appUrl: string
+}
+
+export type TestUser = {
+  user: FullUser | undefined
+  token: string
+  email: string
+}
+
+export const createTestUser = async (): Promise<TestUser> => {
+  const key = Math.random().toString().slice(2, 12)
+  const email = `arpowers+${key}@gmail.com`
+  const r = await Queries.ManageUser.serve(
+    {
+      fields: { email: `arpowers+${key}@gmail.com`, emailVerified: true },
+      _action: "create",
+    },
+    { server: true },
+  )
+
+  const user = r.data
+  const token = r.token
+
+  if (!token) throw new Error("token not returned")
+  if (!user) throw new Error("no user created")
+
+  return { user, token, email }
+}
+
+export const setTestCurrentUser = async (
+  mainFile: MainFile = defaultMainFile,
+): Promise<TestUser> => {
+  await setupAppFromMainFile({ mainFile })
+
+  const testUser = await createTestUser()
+
+  setCurrentUser({ user: testUser.user, token: testUser.token })
+
+  setUserInitialized()
+
+  return testUser
 }
 
 export const createTestServer = async (params: {

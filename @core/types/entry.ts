@@ -1,7 +1,6 @@
 import { HeadClient } from "@vueuse/head"
 import { App, Component } from "vue"
 import { Router } from "vue-router"
-import { Store } from "vuex"
 import { AppRoute } from "@factor/api/router"
 import { ManageUserParams } from "@factor/engine/userAuth"
 import { Endpoint, EndpointMeta } from "@factor/engine/endpoint"
@@ -13,7 +12,6 @@ export interface FactorAppEntry {
   app: App
   meta: HeadClient
   router: Router
-  store: Store<Record<string, any>>
 }
 
 export type EntryModuleExports = {

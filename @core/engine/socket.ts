@@ -42,14 +42,14 @@ export declare interface ClientSocket<T extends EventMap> {
     event: U,
     listener: (message: T[U]["res"]) => void,
   ): this
-  on(event: string, listener: () => {}): this
+  on(event: string, listener: () => void): this
 }
 export declare interface NodeSocketServer<T extends EventMap> {
   on<U extends keyof T>(
     event: U,
     listener: (message: T[U]["req"], meta: SocketMeta<T, U>) => void,
   ): this
-  on(event: string, listener: () => {}): this
+  on(event: string, listener: () => void): this
 }
 
 export class ClientSocket<T extends EventMap> extends EventEmitter {

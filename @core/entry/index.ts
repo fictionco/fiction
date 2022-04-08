@@ -3,7 +3,6 @@ import "tailwindcss/tailwind.css"
 
 import { isNode } from "@factor/api/utils"
 import { getRouter } from "@factor/api/router"
-import { getStore } from "@factor/api/store"
 import { FactorAppEntry, MainFile } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
@@ -37,10 +36,8 @@ export const factorApp = async (
 
   // add router and store
   const router = getRouter()
-  const store = getStore()
 
   app.use(router)
-  app.use(store)
 
   if (renderUrl) {
     await router.replace({ path: renderUrl })
@@ -51,7 +48,7 @@ export const factorApp = async (
   const meta = getMeta()
   app.use(meta)
 
-  return { app, meta, router, store }
+  return { app, meta, router }
 }
 
 export const mountApp = async (params: {
