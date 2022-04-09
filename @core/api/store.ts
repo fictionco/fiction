@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { reactive } from "vue"
-import { getGlobal, setGlobal } from "./global"
 declare global {
   interface Window {
     __INITIAL_STATE__: Record<string, any>
   }
 }
+
+const globalObject = (): any => (typeof window != "undefined" ? window : global)
 
 export const getState = (): Record<string, any> => {
   return reactive({})
@@ -15,13 +14,12 @@ export const getState = (): Record<string, any> => {
 /**
  * Gets the primary store and creates it if it doesn't exist
  */
-export const getStore = () => {
-  let state: Record<string, any> | undefined = getGlobal("store")
-  if (!state) {
-    state = getState()
-    setGlobal("store", state)
+export const getStore = (): Record<string, any> => {
+  if (!globalObject().factorState) {
+    globalObject().factorState = getState()
   }
-  return state
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return globalObject().factorState
 }
 /**
  * Store an item in application store/cache
