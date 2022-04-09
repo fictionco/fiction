@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-const globalObject = (): any => (typeof window != "undefined" ? window : global)
+const globalObject = (): any => (typeof window != "undefined" ? window : {})
 
 export const getState = (): Record<string, any> => {
   return reactive({})

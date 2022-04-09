@@ -1,12 +1,18 @@
 import { EventEmitter } from "events"
 import http from "http"
-import { clientToken, emitEvent, log, waitFor, _stop } from "@factor/api"
+import {
+  clientToken,
+  emitEvent,
+  log,
+  waitFor,
+  _stop,
+  userInitialized,
+} from "@factor/api"
 
 import express from "express"
 
 import * as ws from "ws"
 import { decodeClientToken } from "@factor/api/jwt"
-import { userInitialized } from "./userInit"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
 

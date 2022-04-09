@@ -36,7 +36,6 @@ export type MenuItem = {
   active?: boolean
   onClick?: (item: MenuItem) => void
   action?: "navigate" | "callback" | string
-  [key: string]: any
 }
 
 export interface MenuGroup {
