@@ -1,3 +1,12 @@
+## [4.1.69](https://github.com/FactorJS/factor/compare/v4.1.68...v4.1.69) (2022-04-09)
+
+
+### Features
+
+* store gloval ([12862f7](https://github.com/FactorJS/factor/commit/12862f7272d391c4404764edd4da14704e9b6bae))
+
+
+
 ## [4.1.68](https://github.com/FactorJS/factor/compare/v4.1.67...v4.1.68) (2022-04-08)
 
 

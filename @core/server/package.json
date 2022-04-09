@@ -1,6 +1,6 @@
 {
   "name": "@factor/server",
-  "version": "4.1.68",
+  "version": "4.1.69",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
-    "@factor/api": "4.1.68",
-    "@factor/cli": "4.1.68",
-    "@factor/engine": "4.1.68",
-    "@factor/types": "4.1.68",
+    "@factor/api": "4.1.69",
+    "@factor/cli": "4.1.69",
+    "@factor/engine": "4.1.69",
+    "@factor/types": "4.1.69",
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
