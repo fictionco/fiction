@@ -15,8 +15,8 @@
     "test-pkg": "npx npmPkgJsonLint .",
     "test-unit": "npm exec -- vitest run",
     "test-lint": "npm run test-pkg && npm run test-types && npm run test-eslint && npm run test-vue",
-    "test-vue": "eslint --ext .vue @core/. @apps/. @plugins/.",
-    "test-eslint": "LINT_ENV=basic eslint --ext .ts,.js @core/. @apps/. @plugins/.",
+    "test-vue": "eslint --ext .vue packages/.",
+    "test-eslint": "eslint --ext .ts,.js packages/.",
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
     "format-all": "npm prettier --ext .ts,.js,.vue,.json . --write",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
@@ -25,12 +25,7 @@
   },
   "license": "MIT",
   "workspaces": [
-    "@apps/*",
-    "@plugins/*",
-    "@core/*",
-    "@engine/*",
-    "@test/*",
-    "cdk"
+    "packages/*"
   ],
   "private": true,
   "engines": {
@@ -57,11 +52,7 @@
   },
   "dependencies": {
     "@factor/api": "4.1.70",
-    "@factor/cli": "4.1.70",
-    "@factor/engine": "4.1.70",
-    "@factor/render": "4.1.70",
     "@factor/site": "4.1.70",
-    "@factor/test": "4.1.70",
     "@vitejs/plugin-vue": "^2.2.2",
     "autoprefixer": "^10.4.2",
     "c8": "^7.11.0",

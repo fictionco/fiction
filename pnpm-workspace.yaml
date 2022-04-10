@@ -1,5 +1,2 @@
 packages:
-  - "@core/*"
-  - "@apps/*"
-  - "@plugins/*"
-  - "cdk"
+  - "packages/*"

@@ -3,8 +3,8 @@ import { createRequire } from "module"
 import { defineConfig } from "vite"
 import pluginVue from "@vitejs/plugin-vue"
 const require = createRequire(import.meta.url)
-const testPath = path.dirname(require.resolve("@factor/test"))
-const entryDir = path.dirname(require.resolve("@factor/entry"))
+const testPath = path.dirname(require.resolve("@factor/api/test-utils"))
+const entryDir = path.dirname(require.resolve("@factor/api/entry"))
 const srcDir = path.dirname(require.resolve("@factor/site"))
 const cwd = path.dirname(require.resolve("@factor/site"))
 export default defineConfig({

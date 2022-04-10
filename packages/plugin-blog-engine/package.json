@@ -1,0 +1,39 @@
+{
+  "name": "@factor/plugin-blog-engine",
+  "description": "A markdown blog plugin",
+  "version": "4.1.70",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.ts",
+  "author": "Kaption Co.",
+  "factor": {
+    "extend": "plugin",
+    "title": "Docs Engine",
+    "permalink": "plugin-docs-engine",
+    "category": [
+      "documentation"
+    ],
+    "themeColor": "#814AE6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-docs"
+  },
+  "bugs": {
+    "url": "https://github.com/fiction-com/factor/issues"
+  },
+  "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
+  "dependencies": {
+    "@factor/api": "4.1.70",
+    "@factor/plugin-blog-engine": "4.1.70",
+    "@factor/plugin-highlight-code": "4.1.70",
+    "@factor/ui": "4.1.70",
+    "@types/string-similarity": "^4.0.0",
+    "dayjs": "^1.10.6",
+    "string-similarity": "^4.0.4",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.10"
+  }
+}

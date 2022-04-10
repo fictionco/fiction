@@ -1,0 +1,43 @@
+{
+  "name": "@factor/site",
+  "version": "4.1.70",
+  "url": "https://www.factorjs.org",
+  "main": "src/index.ts",
+  "license": "UNLICENSED",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "dependencies": {
+    "@factor/api": "4.1.70",
+    "@factor/plugin-blog-engine": "4.1.70",
+    "@factor/plugin-stripe": "4.1.70",
+    "@factor/plugin-docs-engine": "4.1.70",
+    "@factor/plugin-highlight-code": "4.1.70",
+    "@factor/plugin-notify": "4.1.70",
+    "@factor/ui": "4.1.70",
+    "autoprefixer": "^10.2.4",
+    "axios": "^0.26.0",
+    "dayjs": "^1.9.6",
+    "deepmerge": "^4.2.2",
+    "events": "^3.2.0",
+    "fast-json-stable-stringify": "^2.1.0",
+    "front-matter": "^4.0.2",
+    "fs-extra": "^10.0.0",
+    "github-buttons": "^2.14.0",
+    "postcss": "^8.2.6",
+    "remove-markdown": "^0.3.0",
+    "spark-md5": "^3.0.1",
+    "tailwindcss": "^3.0.0",
+    "vite": "^2.5.3",
+    "vue": "^3.2.31",
+    "vue-router": "^4.0.10"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.0",
+    "execa": "^6.0.0",
+    "puppeteer": "^13.3.1",
+    "vitest": "^0.9.0"
+  }
+}
