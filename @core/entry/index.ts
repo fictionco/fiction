@@ -6,7 +6,7 @@ import { getRouter } from "@factor/api/router"
 import { FactorAppEntry, MainFile } from "@factor/types"
 import { getMeta } from "@factor/api/meta"
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
-import { initializeUser } from "@factor/engine/userInit"
+import { initializeUser } from "@factor/api/userInit"
 
 import { setupAppFromMainFile } from "@factor/engine/setup"
 import EmptyApp from "./EmptyApp.vue"

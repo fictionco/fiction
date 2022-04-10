@@ -54,7 +54,7 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
 
   passArgs.shift()
 
-  const script = `npm exec -c 'factor rdev ${passArgs.join(" ")}'`
+  const script = `npm exec -- factor rdev ${passArgs.join(" ")}`
   conf.exec = script
 
   logger.log({

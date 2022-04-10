@@ -200,7 +200,12 @@ class QueryManageUser extends Query {
         .where(where)
         .returning<FullUser[]>("*")
 
-      if (!user) throw this.stop({ message: "user not found", data: where })
+      if (!user) {
+        throw this.stop({
+          message: "user not found",
+          data: where,
+        })
+      }
     } else if (_action == "create") {
       const { fields } = params
 
@@ -269,14 +274,20 @@ class QueryCurrentUser extends Query {
 
     if (!email) throw this.stop("email missing in token")
 
-    const { data: user } = await Queries.ManageUser.serve(
-      {
-        _action: "update",
-        email,
-        fields: { lastSeen: dayjs().toISOString() },
-      },
-      { server: true },
-    )
+    let user: FullUser | undefined
+    try {
+      const r = await Queries.ManageUser.serve(
+        {
+          _action: "update",
+          email,
+          fields: { lastSeen: dayjs().toISOString() },
+        },
+        { server: true },
+      )
+      user = r.data
+    } catch (error) {
+      throw { ...(error as Error), code: "TOKEN_ERROR" }
+    }
 
     return { status: "success", data: user }
   }
