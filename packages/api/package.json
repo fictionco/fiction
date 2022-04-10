@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "4.1.70",
+  "version": "5.0.0",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -105,7 +105,7 @@
     "module-alias": "^2.2.2"
   },
   "devDependencies": {
-    "@factor/site": "4.1.70",
+    "@factor/site": "5.0.0",
     "@babel/parser": "^7.17.0",
     "@types/compression": "^1.7.0",
     "execa": "^6.0.0",
