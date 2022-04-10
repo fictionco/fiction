@@ -31,9 +31,9 @@ export const getMarkdownUtility = (
       permalink: options.permalink ?? false,
       permalinkSymbol: "#",
     })
-    markdownUtility.use(mdVideo)
-    markdownUtility.use(mdLinkAttributes)
-    markdownUtility.use(mdImplicitFigures, {
+    markdownUtility.use(mdVideo as MarkdownIt.PluginSimple)
+    markdownUtility.use(mdLinkAttributes as MarkdownIt.PluginSimple)
+    markdownUtility.use(mdImplicitFigures as MarkdownIt.PluginSimple, {
       dataType: true, // <figure data-type="image">, default: false
       figcaption: true, // <figcaption>alternative text</figcaption>, default: false
       tabindex: false, // <figure tabindex="1+n">..., default: false

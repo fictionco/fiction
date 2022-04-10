@@ -261,7 +261,7 @@ export const execute = async (): Promise<void> => {
       return wrapCommand({
         cb: async (opts) => {
           /**
-           * @type {import("@factor/build/release")}
+           * @type {import("@factor/api/build/release")}
            */
           const { releaseRoutine } = await import("../build/release")
 

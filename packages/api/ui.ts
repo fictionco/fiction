@@ -14,13 +14,13 @@ export const resetUi = (scope: ResetUiScope = "all"): void => {
  * Large amount of listeners triggers memory leak warnings, etc.
  */
 let __listener = false
-const __callbacks: { (scope: ResetUiScope): any }[] = []
+const __callbacks: { (scope: ResetUiScope): void }[] = []
 export const onResetUi = (cb: (scope: ResetUiScope) => void): void => {
   __callbacks.push(cb)
 
   if (!__listener) {
     __listener = true
-    onEvent("resetUi", (scope) => {
+    onEvent("resetUi", (scope: ResetUiScope) => {
       __callbacks.forEach((cb) => cb(scope))
     })
   }

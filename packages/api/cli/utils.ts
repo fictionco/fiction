@@ -67,13 +67,16 @@ export const setEnvironment = (options: CliOptions): void => {
   process.env.NODE_ENV = NODE_ENV || "production"
   process.env.STAGE_ENV = STAGE_ENV || "prod"
 
-  // set up port handling
-  process.env.FACTOR_APP_PORT = portApp || "3000"
-  process.env.FACTOR_SERVER_PORT = port || "3210"
+  if (portApp) {
+    process.env.FACTOR_APP_PORT = portApp
+  }
+  if (port) {
+    process.env.FACTOR_SERVER_PORT = port
+  }
 
   // run with node developer tools inspector
   if (inspector) {
-    initializeNodeInspector().catch((error) => console.error(error))
+    initializeNodeInspector().catch(console.error)
   }
 }
 

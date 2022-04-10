@@ -77,12 +77,16 @@ class Logger {
       Object.entries(obj).map(([k, v]) => {
         if (dayjs.isDayjs(v)) {
           v = `DAYJS: ${v.toISOString()}`
-        } else if (typeof v === "object" && v && Object.keys(v).length > 0) {
+        } else if (
+          typeof v === "object" &&
+          v &&
+          Object.keys(v as Record<string, any>).length > 0
+        ) {
           const len = safeStringify(v)
           if (len.length > 10_000 && !process.env.DEBUG) {
             v = `LARGE OBJECT(${len.length}): ${len.slice(0, 100)}...`
           } else if (depth < 4) {
-            v = this.refineDataRecursive(v, depth)
+            v = this.refineDataRecursive(v as Record<string, any>, depth)
           }
         }
 

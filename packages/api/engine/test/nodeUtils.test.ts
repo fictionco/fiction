@@ -18,7 +18,7 @@ describe("node utils", () => {
     const filePath = mainFilePath({ cwd })
 
     expect(filePath).toMatchInlineSnapshot(
-      '"/Users/arpowers/projects/factor/@apps/site/src/index.ts"',
+      '"/Users/arpowers/projects/factor/packages/site/src/index.ts"',
     )
   })
 
@@ -49,7 +49,7 @@ describe("node utils", () => {
           {
             "name": "DocsEngine",
             "paths": [
-              "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/",
+              "/Users/arpowers/projects/factor/packages/plugin-docs-engine/",
             ],
             "sitemaps": [
               {
@@ -81,7 +81,7 @@ describe("node utils", () => {
           {
             "name": "blogEngine",
             "paths": [
-              "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/",
+              "/Users/arpowers/projects/factor/packages/plugin-blog-engine/",
             ],
             "server": [Function],
             "sitemaps": [
@@ -96,18 +96,18 @@ describe("node utils", () => {
           {
             "name": "HighlightCode",
             "paths": [
-              "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
+              "/Users/arpowers/projects/factor/packages/plugin-highlight-code/",
             ],
           },
           {
             "name": "NotifyPlugin",
             "paths": [
-              "/Users/arpowers/projects/factor/@plugins/plugin-notify/",
+              "/Users/arpowers/projects/factor/packages/plugin-notify/",
             ],
           },
           Promise {},
         ],
-        "root": "/Users/arpowers/projects/factor/@apps/site",
+        "root": "/Users/arpowers/projects/factor/packages/site",
         "routes": [
           AppRoute {
             "children": [],

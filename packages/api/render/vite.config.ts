@@ -58,7 +58,10 @@ const getAppViteConfig = async (): Promise<vite.InlineConfig | undefined> => {
   return config
 }
 
-const entryDir = path.dirname(require.resolve("@factor/api/entry"))
+const entryDir = path.join(
+  path.dirname(require.resolve("@factor/api")),
+  "/entry",
+)
 
 /**
  * Common vite options for all builds

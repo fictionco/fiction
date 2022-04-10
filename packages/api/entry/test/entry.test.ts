@@ -3,6 +3,7 @@ import * as mainFile from "@factor/site"
 import { setupAppFromMainFile } from "../../engine"
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
+    expect(process.env.PORT).toBeDefined()
     const config = await setupAppFromMainFile({ mainFile })
 
     expect(config.variables?.TEST_BLOG_PLUGIN).toBe(undefined)

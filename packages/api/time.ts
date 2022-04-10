@@ -5,8 +5,11 @@ dayjs.extend(relativeTime)
 
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
 
-const _isNumber = (value: unknown): boolean => {
-  return !!(!Number.isNaN(Number.parseFloat(value)) && Number.isFinite(value))
+const _isNumber = (value: DateTypes): boolean => {
+  if (typeof value == "undefined") return false
+  return !!(
+    !Number.isNaN(Number.parseFloat(value as string)) && Number.isFinite(value)
+  )
 }
 
 export const isUnixTimestamp = (value: DateTypes): boolean => {

@@ -1,5 +1,5 @@
 #!/bin/sh
-":" //# comment; exec /usr/bin/env node --no-warnings --experimental-loader=@factor/cli/loader.mjs --experimental-json-modules --noharmony "$0" "$@"
+":" //# comment; exec /usr/bin/env node --no-warnings --experimental-loader=@factor/api/cli/loader.mjs --experimental-json-modules --noharmony "$0" "$@"
 
 /**
  * @remarks

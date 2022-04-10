@@ -21,7 +21,6 @@
   "exclude": [
     "node_modules",
     "**/node_modules",
-    "cdk.out",
     ".ref/**",
     "**/dist",
     "**/__*"

@@ -28,11 +28,13 @@ export const setAppGlobals = async (
   const { variables = {} } = config
 
   Object.entries(variables).forEach(([key, value]) => {
-    const finalValue = process.env[key]
-      ? String(process.env[key])
+    const setVal = process.env[key]
+      ? process.env[key]
       : typeof value == "object"
       ? JSON.stringify(value)
-      : String(value)
+      : value
+
+    const finalValue = setVal ? String(setVal) : ""
 
     __variables[key] = process.env[key] = finalValue
   })

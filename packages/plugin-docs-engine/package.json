@@ -8,15 +8,6 @@
   },
   "main": "index.ts",
   "author": "Kaption Co.",
-  "factor": {
-    "extend": "plugin",
-    "title": "Docs Engine",
-    "permalink": "plugin-docs-engine",
-    "category": [
-      "documentation"
-    ],
-    "themeColor": "#814AE6"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-docs"

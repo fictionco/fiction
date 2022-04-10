@@ -15,7 +15,7 @@ describe("plugin and config tests", () => {
     const filePath = mainFilePath({ cwd })
 
     expect(filePath).toMatchInlineSnapshot(
-      '"/Users/arpowers/projects/factor/@apps/site/src/index.ts"',
+      '"/Users/arpowers/projects/factor/packages/site/src/index.ts"',
     )
   })
 
@@ -66,11 +66,11 @@ describe("plugin and config tests", () => {
 
     expect(userConfig.paths).toMatchInlineSnapshot(`
       [
-        "/Users/arpowers/projects/factor/@plugins/plugin-stripe/",
-        "/Users/arpowers/projects/factor/@plugins/plugin-notify/",
-        "/Users/arpowers/projects/factor/@plugins/plugin-highlight-code/",
-        "/Users/arpowers/projects/factor/@plugins/plugin-blog-engine/",
-        "/Users/arpowers/projects/factor/@plugins/plugin-docs-engine/",
+        "/Users/arpowers/projects/factor/packages/plugin-stripe/",
+        "/Users/arpowers/projects/factor/packages/plugin-notify/",
+        "/Users/arpowers/projects/factor/packages/plugin-highlight-code/",
+        "/Users/arpowers/projects/factor/packages/plugin-blog-engine/",
+        "/Users/arpowers/projects/factor/packages/plugin-docs-engine/",
       ]
     `)
   })
