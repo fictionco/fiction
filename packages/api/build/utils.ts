@@ -1,12 +1,10 @@
 import path from "path"
-import { createRequire } from "module"
 import glob from "glob"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
 import { PackageJson } from "../types"
 
-const require = createRequire(import.meta.url)
 /**
  * Register a helper to print raw JS objects
  */
@@ -33,18 +31,16 @@ export const createFile = (
   const template = Handlebars.compile(html)
   return template(settings)
 }
-
 /**
  * Get all workspace package names
  * Cache results to avoid unnecessary filesystem reads
  */
-
-let __packageNames: PackageJson[] | undefined = undefined
+let __packages: PackageJson[] | undefined = undefined
 export const getPackages = (
   options: { publicOnly?: boolean } = {},
 ): PackageJson[] => {
-  if (!__packageNames) {
-    __packageNames = []
+  if (!__packages) {
+    __packages = []
     const { publicOnly } = options
 
     const root = path.resolve(process.cwd(), "package.json")
@@ -61,16 +57,17 @@ export const getPackages = (
           if (!fs.statSync(f).isDirectory() || !exists) return undefined
           else {
             const manifest = fs.readJsonSync(manifestPath) as PackageJson
+            manifest.moduleRoot = moduleRoot
             return !publicOnly || !manifest.private ? manifest : undefined
           }
         })
         .filter(Boolean) as PackageJson[]
 
-      __packageNames = [...(__packageNames || []), ...files]
+      __packages = [...(__packages || []), ...files]
     })
   }
 
-  return __packageNames
+  return __packages
 }
 /**
  * Get last commit if we are in a git repository

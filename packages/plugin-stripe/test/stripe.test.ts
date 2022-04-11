@@ -1,9 +1,9 @@
 import fs from "fs"
-import { createRequire } from "module"
+import path from "path"
 import dotenv from "dotenv"
 import { expect, it, describe } from "vitest"
 import Stripe from "stripe"
-import { log } from "@factor/api"
+import { log } from "@factor/api/logger"
 import * as stripeEngine from "../endpoints"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
@@ -12,9 +12,9 @@ let subscription: Stripe.Subscription | undefined
 const key = (): string => Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
-  it("has .env file", () => {
-    const p = createRequire(import.meta.url).resolve("@factor/site/.env")
-
+  it("has stripe test .env file", () => {
+    const dirname = new URL(".", import.meta.url).pathname
+    const p = path.resolve(dirname, ".env")
     const exists = fs.existsSync(p)
 
     expect(exists).toBeTruthy()
@@ -67,7 +67,7 @@ describe("stripe tests", () => {
     expect(data?.id).toBeTruthy()
     expect(customerId).toBe(data?.id)
     expect(customerData).toBeTruthy()
-    expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot()
+    expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot('6')
   }, 12_000)
 
   it("adds a payment method", async () => {

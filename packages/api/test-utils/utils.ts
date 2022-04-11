@@ -5,7 +5,6 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-import * as defaultMainFile from "@factor/site"
 import { randomBetween, logger, setCurrentUser } from ".."
 import { PackageJson, FullUser, MainFile } from "../types"
 import { Queries } from "../engine/user"
@@ -62,7 +61,7 @@ export const createTestUser = async (): Promise<TestUser> => {
 }
 
 export const setTestCurrentUser = async (
-  mainFile: MainFile = defaultMainFile,
+  mainFile: MainFile,
 ): Promise<TestUser> => {
   await setupAppFromMainFile({ mainFile })
 

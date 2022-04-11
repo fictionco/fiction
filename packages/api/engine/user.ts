@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import { _stop } from "../error"
-
+import { EndpointMethodOptions, FactorEndpoint } from "./endpoint"
 import { Queries as UserAuthQueries } from "./userAuth"
 import { Queries as UserGoogleAuthQueries } from "./userGoogle"
-
-import { EndpointMethodOptions, FactorEndpoint } from "./endpoint"
-
 import { Query } from "./query"
+
 export class UserMethod<T extends Query> extends FactorEndpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ basePath: "/user", ...options })

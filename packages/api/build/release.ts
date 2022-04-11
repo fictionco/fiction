@@ -74,11 +74,7 @@ const updateDeps = (
   const packages = getPackages()
   Object.keys(deps).forEach((dep) => {
     if (packages.map((_) => _.name).includes(dep)) {
-      log.log({
-        level: "info",
-        context: "release",
-        description: `${name} > ${type} > ${dep}@${version}`,
-      })
+      log.info("release", `${name} > ${type} > ${dep}@${version}`)
       deps[dep] = version
     }
   })
@@ -87,11 +83,9 @@ const updateDeps = (
 /**
  * Update the version numbers for the module by dir
  */
-const updatePackage = async (
-  moduleRoot?: string,
-  version?: string,
-): Promise<void> => {
-  if (!moduleRoot || !version) throw new Error("moduleRoot is required")
+const updatePackage = (moduleRoot?: string, version?: string): void => {
+  if (!moduleRoot) throw new Error("moduleRoot is required")
+  if (!version) throw new Error("version is required")
 
   const pkgPath = path.resolve(moduleRoot, "package.json")
   const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
@@ -112,8 +106,14 @@ const updatePackage = async (
  * Update all manifest version numbers
  */
 const updateVersions = async (version: string): Promise<void> => {
-  await updatePackage(path.resolve(process.cwd()), version)
-  getPackages().forEach((p) => updatePackage(p.moduleRoot, version))
+  const workspaceRoot = path.resolve(process.cwd())
+  updatePackage(workspaceRoot, version)
+  getPackages().forEach((p) => {
+    if (!p.moduleRoot) {
+      log.error("updateVersions", `no moduleRoot`, { data: p })
+    }
+    updatePackage(p.moduleRoot, version)
+  })
 }
 /**
  * Publish a module to NPM registry

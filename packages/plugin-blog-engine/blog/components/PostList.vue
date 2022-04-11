@@ -61,7 +61,7 @@
 import ElAvatar from "@factor/ui/ElAvatar.vue"
 import dayjs from "dayjs"
 import { ref } from "vue"
-import { getIndexContent, PostEntryConfig } from "@factor/plugin-blog-engine"
+import { getIndexContent, PostEntryConfig } from "../.."
 
 const content = ref<PostEntryConfig[]>([])
 

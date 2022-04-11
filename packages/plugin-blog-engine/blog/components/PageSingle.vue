@@ -131,10 +131,10 @@ import { useMeta } from "@factor/api"
 import { useRouter } from "vue-router"
 import ElSpinner from "@factor/ui/ElSpinner.vue"
 import { ref, computed, onServerPrefetch } from "vue"
-import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
-import { blogSetting, getPostConfig } from "@factor/plugin-blog-engine/helpers"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
+import { PostEntryConfig } from "../../types"
+import { blogSetting, getPostConfig } from "../../helpers"
 const baseRoute = ref(blogSetting("baseRoute"))
 const router = useRouter()
 const loading = ref(false)
