@@ -12,8 +12,7 @@
     "@types/prismjs": "^1.26.0",
     "highlight.js": "^11.5.0",
     "prismjs": "^1.27.0",
-    "vue": "^3.2.31",
-    "@factor/types": "4.1.70"
+    "vue": "^3.2.31"
   },
   "keywords": [
     "factor",

@@ -1,4 +1,4 @@
-import { UserConfig } from "@factor/api/types"
+import { UserConfig, safeDirname } from "@factor/api"
 import { createSettings, getPostRoutes } from "./helpers"
 import { BlogOptions } from "./types"
 
@@ -14,6 +14,6 @@ export const setup = (options: Partial<BlogOptions> = {}): UserConfig => {
     server: () => {
       return { variables: { TEST_BLOG_PLUGIN: "TEST_BLOG_PLUGIN" } }
     },
-    paths: [new URL(".", import.meta.url).pathname],
+    paths: [safeDirname(import.meta.url)],
   }
 }

@@ -6,20 +6,21 @@ import { SitemapStream, streamToPromise } from "sitemap"
 import fs from "fs-extra"
 import { logger } from ".."
 import { currentUrl } from "../engine/url"
-import { EntryModuleExports } from "../types"
 import { getSitemaps } from "../engine/sitemap"
-import { distServerEntry, distClient } from "../engine/nodeUtils"
+import { generateRoutes } from "../router"
+import { distClient } from "../engine/nodeUtils"
+import { userConfigSetting } from "../engine/plugins"
 /**
  * Recursively process route config to string urls
  */
 export const _processRouteConfigToUrls = (
-  routes: RouteRecordRaw[],
+  routes?: RouteRecordRaw[],
   parent = "",
 ): string[] => {
   let out: string[] = []
 
   routes
-    .filter((_) => _.path !== "*" && (_.component || _.components))
+    ?.filter((_) => _.path !== "*" && (_.component || _.components))
     .forEach((_) => {
       if (_.path) {
         let _p = _.path
@@ -38,18 +39,17 @@ export const _processRouteConfigToUrls = (
       }
     })
 
-  return out
+  return out.filter(
+    (_) => !_.includes(":") && !_.includes("?") && !_.includes("*"),
+  )
 }
 
 export const getKnownRouteUrls = async (): Promise<string[]> => {
-  const { runApp } = (await import(distServerEntry())) as EntryModuleExports
-  const { router } = await runApp({ renderUrl: "/" })
+  const urls = _processRouteConfigToUrls(
+    generateRoutes(userConfigSetting("routes")),
+  )
 
-  const routeConfig = router.getRoutes()
-
-  const urls = _processRouteConfigToUrls(routeConfig)
-
-  return urls.filter((_) => !_.includes(":") && !_.includes("?"))
+  return urls
 }
 
 export const getSitemapPaths = async (): Promise<string[]> => {

@@ -1,5 +1,4 @@
-import { UserConfig } from "@factor/api/types"
-import { logger } from "@factor/api"
+import { UserConfig, logger, safeDirname } from "@factor/api"
 import { Endpoint } from "@factor/api/engine"
 import { getPaymentEndpointsMap } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
@@ -49,6 +48,6 @@ export const setup = async (
         serverOnlyImports: [{ id: "stripe" }],
       }
     },
-    paths: [new URL(".", import.meta.url).pathname],
+    paths: [safeDirname(import.meta.url)],
   }
 }

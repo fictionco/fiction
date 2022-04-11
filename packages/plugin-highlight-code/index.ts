@@ -1,7 +1,7 @@
-import { UserConfig } from "@factor/api"
+import { UserConfig, safeDirname } from "@factor/api"
 export const setup = (): UserConfig => {
   return {
     name: "HighlightCode",
-    paths: [new URL(".", import.meta.url).pathname],
+    paths: [safeDirname(import.meta.url)],
   }
 }

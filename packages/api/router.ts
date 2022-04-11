@@ -160,9 +160,9 @@ const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
 }
 
 export const generateRoutes = (
-  routeList: AppRoute<string>[],
+  routeList?: AppRoute<string>[],
 ): RouteRecordRaw[] => {
-  const list = sortPriority(routeList)
+  const list = sortPriority(routeList || [])
 
   const mapped: Record<string, AppRoute<string>> = {}
 

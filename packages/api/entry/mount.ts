@@ -1,5 +1,5 @@
-import ".."
 import "tailwindcss/tailwind.css"
+
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
 import * as mainFile from "@src/index.ts"
@@ -8,8 +8,6 @@ import RootComponent from "@src/App.vue"
 import { FactorAppEntry, MainFile } from "../types"
 
 import { mountApp, factorApp } from "."
-
-export { RootComponent, mainFile }
 
 export const runApp = (
   params: { renderUrl?: string } = {},

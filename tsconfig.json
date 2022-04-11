@@ -16,7 +16,8 @@
     "types": ["node"],
     "lib": ["ES2020", "DOM"], // vue/vetur needs this
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "jsx": "preserve"
   },
   "exclude": [
     "node_modules",

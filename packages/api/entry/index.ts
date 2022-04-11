@@ -1,6 +1,3 @@
-import ".."
-import "tailwindcss/tailwind.css"
-
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
 import { FactorAppEntry, MainFile } from "../types"
 import { setupAppFromMainFile } from "../engine/setup"

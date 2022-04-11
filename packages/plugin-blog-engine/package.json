@@ -18,9 +18,7 @@
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
     "@factor/api": "5.0.0",
-    "@factor/plugin-blog-engine": "5.0.0",
     "@factor/plugin-highlight-code": "5.0.0",
-    "@factor/ui": "5.0.0",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.10.6",
     "string-similarity": "^4.0.4",

@@ -1,3 +1,4 @@
+import { safeDirname, UserConfig } from "@factor/api"
 import { Component } from "vue"
 
 export const inputs: Record<string, () => Promise<Component>> = {
@@ -22,4 +23,11 @@ export const inputs: Record<string, () => Promise<Component>> = {
   textarea: () => import("./InputTextarea.vue"),
   weight: () => import("./InputWeight.vue"),
   number: () => import("./InputNumber.vue"),
+}
+
+export const setup = (): UserConfig => {
+  return {
+    name: "FactorUi",
+    paths: [safeDirname(import.meta.url)],
+  }
 }

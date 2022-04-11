@@ -47,7 +47,6 @@ export const buildApp = async (
 
     const serverBuildOptions: vite.InlineConfig = {
       ...vc,
-
       build: {
         emptyOutDir: true,
         outDir: distServer(),

@@ -1,17 +1,9 @@
-import path from "path"
-import { createRequire } from "module"
+import { userConfigSetting } from "../engine/plugins"
 
-const require = createRequire(import.meta.url)
-
-const modulePath = (mod: string): string =>
-  path.dirname(require.resolve(`${mod}/package.json`))
+const pluginPaths = userConfigSetting("paths") || []
+const paths = pluginPaths.map((p) => `${p}**/*.vue`)
 
 export default {
   mode: "jit",
-  content: [
-    "./src/**/*.{vue,js,ts,jsx,tsx,html}",
-    `${modulePath("@factor/ui")}/*.vue`,
-    `${modulePath("@factor/plugin-notify")}/*.vue`,
-    `${modulePath("@factor/plugin-highlight-code")}/*.vue`,
-  ],
+  content: ["./src/**/*.{vue,js,ts,html}", ...paths],
 } as Record<string, any>

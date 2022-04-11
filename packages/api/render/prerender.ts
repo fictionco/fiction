@@ -4,7 +4,7 @@ import express from "express"
 import fs from "fs-extra"
 import serveStatic from "serve-static"
 import { onEvent } from "../event"
-import { logger } from "../logger"
+import { log } from "../logger"
 import { distClient, distFolder } from "../engine/nodeUtils"
 
 import { getRequestHtml, htmlGenerators } from "./render"
@@ -26,18 +26,16 @@ export const preRenderPages = async (): Promise<void> => {
    */
   const _asyncFunctions = urls.map((url: string) => {
     return async (): Promise<string> => {
+      const filePath = `${url === "/" ? "/index" : url}.html`
+      log.info("preRenderPages", `pre-rendering: ${filePath}`)
+
       const html = await getRequestHtml({ ...generators, url })
 
-      const filePath = `${url === "/" ? "/index" : url}.html`
       const writePath = path.join(staticDir(), filePath)
       fs.ensureDirSync(path.dirname(writePath))
       fs.writeFileSync(writePath, html)
 
-      logger.log({
-        level: "info",
-        context: "build",
-        description: `pre-rendered: ${filePath}`,
-      })
+      log.info("preRenderPages", `pre-rendered: ${filePath}`)
       return filePath
     }
   })
@@ -58,7 +56,7 @@ export const serveStaticApp = async (): Promise<void> => {
       req.url = `${req.url.replace(/\/$/, "")}.html`
     }
 
-    logger.log({
+    log.log({
       level: "info",
       context: "server",
       description: `request at ${req.url}`,
@@ -68,17 +66,13 @@ export const serveStaticApp = async (): Promise<void> => {
   app.use(serveStatic(staticDir(), { extensions: ["html"] }))
 
   app.use("*", (req, res) => {
-    logger.log({
-      level: "info",
-      context: "server",
-      description: `serving fallback index.html at ${req.baseUrl}`,
-    })
+    log.info("serveStaticApp", `serving fallback index.html at ${req.baseUrl}`)
     res.sendFile(path.join(staticDir(), "/index.html"))
   })
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
 
   const server = app.listen(port, () => {
-    logger.log({
+    log.log({
       level: "info",
       context: "server",
       description: `serving static app [ready]`,
@@ -94,7 +88,7 @@ export const serveStaticApp = async (): Promise<void> => {
 export const preRender = async (
   options: { serve?: boolean } = {},
 ): Promise<void> => {
-  logger.log({
+  log.log({
     level: "info",
     context: "prerender",
     description: "prerender starting",
@@ -102,14 +96,14 @@ export const preRender = async (
   const { serve } = options
   await preRenderPages()
 
-  logger.log({
+  log.log({
     level: "info",
     context: "prerender",
     description: "prerender complete",
   })
 
   if (serve) {
-    logger.log({
+    log.log({
       level: "info",
       context: "prerender:serve",
       description: "serving...",

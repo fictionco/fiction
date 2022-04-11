@@ -1,4 +1,4 @@
-import { UserConfig } from "@factor/api/types"
+import { UserConfig, safeDirname } from "@factor/api"
 import { createSettings, getDocRoutes } from "./helpers"
 import { DocsOptions } from "./types"
 export const postType = "docsItem"
@@ -10,6 +10,6 @@ export const setup = (options: Partial<DocsOptions> = {}): UserConfig => {
   return {
     name: "DocsEngine",
     sitemaps: [{ topic: "docs", paths: getDocRoutes() }],
-    paths: [new URL(".", import.meta.url).pathname],
+    paths: [safeDirname(import.meta.url)],
   }
 }

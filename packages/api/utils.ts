@@ -18,6 +18,14 @@ export const isNode =
 export const isDev = (): boolean => {
   return process.env.NODE_ENV == "development" ? true : false
 }
+/**
+ * Safely get the dirname with import.meta.url
+ * This variable is undefined in SSR so needs to be checked
+ */
+export const safeDirname = (url?: string): string => {
+  if (!url) return ""
+  return new URL(".", url).pathname
+}
 
 export const stringify = stableStringify
 /**

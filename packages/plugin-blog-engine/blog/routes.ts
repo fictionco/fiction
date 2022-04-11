@@ -1,4 +1,4 @@
-import { blogSetting } from "@factor/plugin-blog-engine/helpers"
+import { blogSetting } from "../helpers"
 
 const baseRoute = blogSetting("baseRoute")
 
