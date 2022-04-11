@@ -224,7 +224,7 @@ export const releaseRoutine = async (
   await run("npm", ["exec", "--", "factor", "bundle"])
 
   log.info("release", "generate changelog...")
-  await run(`npm`, ["run", "changelog"])
+  await run("npm", ["run", "changelog"])
 
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })
