@@ -1,12 +1,12 @@
 {
   "name": "@factor/plugin-tester",
-  "version": "5.0.0",
+  "version": "5.0.4",
   "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "5.0.0"
+    "@factor/api": "5.0.4"
   }
 }
