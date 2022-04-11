@@ -26,6 +26,7 @@ export interface PackageJson {
     access: "public" | "restricted"
   }
   buildOptions: PackageBuildOptions
+  moduleRoot?: string
   [key: string]:
     | undefined
     | boolean

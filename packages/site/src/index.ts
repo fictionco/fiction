@@ -23,7 +23,7 @@ export const setup = (): UserConfig => {
     server: () => {
       return {
         variables: { TEST_SERVER: "TEST" },
-        root: safeDirname(import.meta.url),
+        root: safeDirname(import.meta.url, ".."),
       }
     },
   }

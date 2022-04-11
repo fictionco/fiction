@@ -15,7 +15,6 @@ export default defineConfig({
       "@src": srcDir,
       "@cwd": cwd,
       "@entry": entryDir,
-      "@alias/app": entryDir,
     },
   },
 

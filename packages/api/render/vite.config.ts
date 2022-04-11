@@ -174,7 +174,8 @@ export const getViteConfig = async (
         "@src": root,
         "@cwd": cwd(),
         "@entry": entryDir,
-        "@alias/app": entryDir,
+        // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
+        path: "path-browserify",
       },
     },
 

@@ -35,35 +35,42 @@ export const createFile = (
 }
 
 /**
- * Get all workspace packages
+ * Get all workspace package names
+ * Cache results to avoid unnecessary filesystem reads
  */
+
+let __packageNames: PackageJson[] | undefined = undefined
 export const getPackages = (
   options: { publicOnly?: boolean } = {},
-): string[] => {
-  let folders: string[] = []
-  const { publicOnly } = options
+): PackageJson[] => {
+  if (!__packageNames) {
+    __packageNames = []
+    const { publicOnly } = options
 
-  const root = path.resolve(process.cwd(), "package.json")
-  const { workspaces = [] } = require(root) as PackageJson
+    const root = path.resolve(process.cwd(), "package.json")
+    const { workspaces = [] } = fs.readJsonSync(root) as PackageJson
 
-  workspaces.forEach((w) => {
-    const files = glob
-      .sync(w)
-      .map((f): string => {
-        const manifestPath = path.resolve(process.cwd(), `${f}/package.json`)
-        const exists = fs.existsSync(manifestPath)
-        if (!fs.statSync(f).isDirectory() || !exists) return ""
-        else {
-          const manifest = require(manifestPath) as PackageJson
-          return publicOnly && manifest.private ? "" : manifest.name
-        }
-      })
-      .filter(Boolean)
+    workspaces.forEach((w) => {
+      const files = glob
+        .sync(w)
+        .map((f): PackageJson | undefined => {
+          const cwd = process.cwd()
+          const moduleRoot = path.resolve(cwd, f)
+          const manifestPath = `${moduleRoot}/package.json`
+          const exists = fs.existsSync(manifestPath)
+          if (!fs.statSync(f).isDirectory() || !exists) return undefined
+          else {
+            const manifest = fs.readJsonSync(manifestPath) as PackageJson
+            return !publicOnly || !manifest.private ? manifest : undefined
+          }
+        })
+        .filter(Boolean) as PackageJson[]
 
-    folders = [...folders, ...files]
-  })
+      __packageNames = [...(__packageNames || []), ...files]
+    })
+  }
 
-  return folders
+  return __packageNames
 }
 /**
  * Get last commit if we are in a git repository

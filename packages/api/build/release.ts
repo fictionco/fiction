@@ -5,7 +5,7 @@ import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
-import { logger } from "../logger"
+import { log } from "../logger"
 import type { CliOptions } from "../cli/utils"
 import { PackageJson } from "../types"
 import { isGitDirty, getPackages } from "./utils"
@@ -61,12 +61,7 @@ const commit = async (
   const [bin, args, opts] = commandArgs
   return await run(bin, args, opts)
 }
-/**
- * Get the directory of a module given it's name
- */
-const getModuleDirectory = (moduleName: string): string => {
-  return path.dirname(require.resolve(`${moduleName}/package.json`))
-}
+
 /**
  * Update the dependencies in manifest object
  */
@@ -76,9 +71,10 @@ const updateDeps = (
   deps: Record<string, string>,
   version: string,
 ): Record<string, string> => {
+  const packages = getPackages()
   Object.keys(deps).forEach((dep) => {
-    if (getPackages().includes(dep)) {
-      logger.log({
+    if (packages.map((_) => _.name).includes(dep)) {
+      log.log({
         level: "info",
         context: "release",
         description: `${name} > ${type} > ${dep}@${version}`,
@@ -91,14 +87,19 @@ const updateDeps = (
 /**
  * Update the version numbers for the module by dir
  */
-const updatePackage = (pkgRoot: string, version: string): void => {
-  const pkgPath = path.resolve(pkgRoot, "package.json")
+const updatePackage = async (
+  moduleRoot?: string,
+  version?: string,
+): Promise<void> => {
+  if (!moduleRoot || !version) throw new Error("moduleRoot is required")
+
+  const pkgPath = path.resolve(moduleRoot, "package.json")
   const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
   pkg.version = version
 
   const depType = ["dependencies", "peerDependencies", "devDependencies"]
 
-  depType.forEach((t) => {
+  depType.map((t) => {
     const existing = pkg[t] as Record<string, string> | undefined
     if (existing) {
       pkg[t] = updateDeps(pkg.name, t, existing, version)
@@ -110,52 +111,39 @@ const updatePackage = (pkgRoot: string, version: string): void => {
 /**
  * Update all manifest version numbers
  */
-const updateVersions = (version: string): void => {
-  updatePackage(path.resolve(process.cwd()), version)
-  // update the workspace modules
-  getPackages().forEach((p) => updatePackage(getModuleDirectory(p), version))
+const updateVersions = async (version: string): Promise<void> => {
+  await updatePackage(path.resolve(process.cwd()), version)
+  getPackages().forEach((p) => updatePackage(p.moduleRoot, version))
 }
 /**
  * Publish a module to NPM registry
  */
 const publishPackage = async (
-  moduleName: string,
+  pkg: PackageJson,
   version: string,
 ): Promise<void> => {
-  const pkgRoot = getModuleDirectory(moduleName)
-
-  const pkg = require(`${moduleName}/package.json`) as PackageJson
-
   if (pkg.private) {
     return
   }
 
+  if (!pkg.moduleRoot) {
+    throw new Error("moduleRoot is required")
+  }
+
   const access = pkg.publishConfig?.access ?? "restricted"
 
-  logger.log({
-    level: "info",
-    context: "release",
-    description: `publishing ${moduleName}...`,
-  })
+  log.info("release", `publishing ${pkg.name}...`)
   try {
     await commit("npm", ["publish", "--access", access], {
-      cwd: pkgRoot,
+      cwd: pkg.moduleRoot,
       stdio: "pipe",
     })
 
-    logger.log({
-      level: "info",
-      context: "release",
-      description: `successfully published ${moduleName}@${version}`,
-    })
+    log.info("release", `successfully published ${pkg.name}@${version}`)
   } catch (error: unknown) {
     const e = error as ExecaError
     if (/previously published/.test(e.stderr)) {
-      logger.log({
-        level: "warn",
-        context: "release",
-        description: `skipping already published: ${moduleName}`,
-      })
+      log.info("release", `skipping already published: ${pkg.name}`)
     } else {
       throw e
     }
@@ -169,16 +157,8 @@ export const releaseRoutine = async (
 ): Promise<void> => {
   const { patch, skipTests } = options
 
-  logger.log({
-    level: "info",
-    context: "release",
-    description: `publish new version [live]`,
-  })
-  logger.log({
-    level: "info",
-    context: "release",
-    description: `current version: ${currentVersion()}`,
-  })
+  log.info("release", `publish new version [live]`)
+  log.info("release", `current version: ${currentVersion()}`)
 
   const dirty = await isGitDirty()
   if (dirty) {
@@ -231,47 +211,25 @@ export const releaseRoutine = async (
   }
 
   // run tests before release
-  logger.log({
-    level: "info",
-    context: "release",
-    description: `${skipTests ? "skipping" : "running"} tests...`,
-  })
+  log.info("release", `${skipTests ? "skipping" : "running"} tests...`)
 
   if (!skipTests) {
     await run("npm", ["run", "test"])
   }
 
-  // update all package versions and inter-dependencies
+  log.info("release", "updating cross dependencies...")
+  await updateVersions(targetVersion)
 
-  logger.log({
-    level: "info",
-    context: "release",
-    description: "updating cross dependencies...",
-  })
-  updateVersions(targetVersion)
-
-  // build with rollup
-
-  logger.log({
-    level: "info",
-    context: "release",
-    description: "building packages...",
-  })
+  log.info("release", "building packages...")
   await run("npm", ["exec", "--", "factor", "bundle"])
 
-  // generate changelog
-
-  logger.log({
-    level: "info",
-    context: "release",
-    description: "generate changelog...",
-  })
+  log.info("release", "generate changelog...")
   await run(`npm`, ["run", "changelog"])
 
   // commit version change
   const { stdout } = await run("git", ["diff"], { stdio: "pipe" })
   if (stdout) {
-    logger.log({
+    log.log({
       level: "info",
       context: "release",
       description: "committing changes...",
@@ -279,7 +237,7 @@ export const releaseRoutine = async (
     await commit("git", ["add", "-A"])
     await commit("git", ["commit", "-m", `release: v${targetVersion}`])
   } else {
-    logger.log({
+    log.log({
       level: "info",
       context: "release",
       description: "no changes to commit",
@@ -287,21 +245,19 @@ export const releaseRoutine = async (
   }
 
   // publish to npm
-  logger.log({
+  log.log({
     level: "info",
     context: "release",
     description: "publishing packages...",
   })
-  for (const moduleName of getPackages({ publicOnly: true })) {
-    await publishPackage(moduleName, targetVersion)
+  const publicPackages = getPackages({ publicOnly: true })
+
+  for (const pkg of publicPackages) {
+    await publishPackage(pkg, targetVersion)
   }
 
-  // push to github
-  logger.log({
-    level: "info",
-    context: "release",
-    description: "pushing to origin...",
-  })
+  log.info("release", "pushing to origin...")
+
   await commit("git", ["tag", `v${targetVersion}`])
   await commit("git", [
     "push",

@@ -1,10 +1,10 @@
+import path from "path"
 import deepMergeUtility from "deepmerge"
 import stableStringify from "fast-json-stable-stringify"
 import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
 import { ListItem, PriorityItem } from "./types"
 import stopwordsLib from "./resource/stopwords"
-
 /**
  * Are we in Node or browser?
  */
@@ -22,9 +22,9 @@ export const isDev = (): boolean => {
  * Safely get the dirname with import.meta.url
  * This variable is undefined in SSR so needs to be checked
  */
-export const safeDirname = (url?: string): string => {
+export const safeDirname = (url?: string, relativePath = ""): string => {
   if (!url) return ""
-  return new URL(".", url).pathname
+  return path.join(new URL(".", url).pathname, relativePath)
 }
 
 export const stringify = stableStringify

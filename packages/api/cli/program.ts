@@ -277,7 +277,6 @@ export const execute = async (): Promise<void> => {
   commander
     .command("bundle")
     .description("bundle all packages")
-    .option("--packageName <packageName>", "package to bundle")
     .option("--no-sourceMap", "disable sourcemap")
     .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
     .option("--commit <commit>", "git commit id")

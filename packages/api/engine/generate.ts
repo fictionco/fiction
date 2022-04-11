@@ -8,6 +8,8 @@ import { runHooks } from "./hook"
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
+  if (Object.keys(config).length === 0) return
+
   const context = "generateStaticConfig"
   log.debug(context, "generating")
 

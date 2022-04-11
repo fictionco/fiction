@@ -106,6 +106,12 @@ describe("node utils", () => {
             ],
           },
           Promise {},
+          {
+            "name": "FactorUi",
+            "paths": [
+              "/Users/arpowers/projects/factor/packages/ui/",
+            ],
+          },
         ],
         "root": "/Users/arpowers/projects/factor/packages/site",
         "routes": [

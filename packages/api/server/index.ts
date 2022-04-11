@@ -10,6 +10,7 @@ import type { CliOptions } from "../cli/utils"
 import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
 import { endpoints } from "./endpoint"
+
 export const setupServerEnv = async (
   entryServerConfig: UserConfig = {},
 ): Promise<UserConfig> => {

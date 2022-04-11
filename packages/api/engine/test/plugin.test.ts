@@ -66,6 +66,7 @@ describe("plugin and config tests", () => {
 
     expect(userConfig.paths).toMatchInlineSnapshot(`
       [
+        "/Users/arpowers/projects/factor/packages/ui/",
         "/Users/arpowers/projects/factor/packages/plugin-stripe/",
         "/Users/arpowers/projects/factor/packages/plugin-notify/",
         "/Users/arpowers/projects/factor/packages/plugin-highlight-code/",

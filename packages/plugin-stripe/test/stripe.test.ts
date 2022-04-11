@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import fs from "fs"
 import { createRequire } from "module"
 import dotenv from "dotenv"
@@ -6,7 +5,6 @@ import { expect, it, describe } from "vitest"
 import Stripe from "stripe"
 import { log } from "@factor/api"
 import * as stripeEngine from "../endpoints"
-const require = createRequire(import.meta.url)
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
@@ -15,7 +13,7 @@ const key = (): string => Math.random().toString().slice(2, 8)
 
 describe("stripe tests", () => {
   it("has .env file", () => {
-    const p = require.resolve("@factor/site/.env")
+    const p = createRequire(import.meta.url).resolve("@factor/site/.env")
 
     const exists = fs.existsSync(p)
 
@@ -69,7 +67,7 @@ describe("stripe tests", () => {
     expect(data?.id).toBeTruthy()
     expect(customerId).toBe(data?.id)
     expect(customerData).toBeTruthy()
-    expect(Object.keys(customerData ?? {}).length).toMatchSnapshot()
+    expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot()
   }, 12_000)
 
   it("adds a payment method", async () => {

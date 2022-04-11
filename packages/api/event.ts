@@ -1,5 +1,5 @@
 import events from "events"
-import { logger } from "./logger"
+import { log } from "./logger"
 import { getGlobal, setGlobal } from "./global"
 
 const getGlobalEventBus = (): NodeJS.EventEmitter => {
@@ -17,12 +17,7 @@ const getGlobalEventBus = (): NodeJS.EventEmitter => {
  */
 export const emitEvent = (event: string, ...data: unknown[]): void => {
   getGlobalEventBus().emit(event, ...data)
-  logger.log({
-    level: "info",
-    context: "emitEvent",
-    description: `new event: ${event}`,
-    data,
-  })
+  log.debug("emitEvent", `new event: ${event}`, { data })
 }
 /**
  * Listens for an event emitted by emitEvent

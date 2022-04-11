@@ -3,7 +3,7 @@ import { createRequire } from "module"
 import fs from "fs-extra"
 import { execa } from "execa"
 import * as vite from "vite"
-import { logger } from "../logger"
+import { log } from "../logger"
 import { PackageJson } from "../types"
 import { deepMergeAll } from "../utils"
 import { getViteConfig } from "../render/vite.config"
@@ -19,7 +19,7 @@ export const packageDir = (packageName?: string): string => {
 
 interface BundleOptions {
   cwd?: string
-  packageName?: string
+  pkg?: PackageJson
   NODE_ENV?: "production" | "development"
   STAGE_ENV?: "prod" | "pre" | "local"
   commit?: string
@@ -38,33 +38,21 @@ export const outputFolders = (): {
   }
 }
 
-const getPkg = async (pkg: string): Promise<PackageJson | undefined> => {
-  return (await import(`${pkg}/package.json`)) as PackageJson
-}
-
 /**
  * Run a child process for rollup that builds scripts based on options
  */
 export const bundle = async (options: BundleOptions): Promise<void> => {
-  const { packageName, cwd, NODE_ENV, bundleType, STAGE_ENV = "prod" } = options
+  const { pkg, NODE_ENV, bundleType, STAGE_ENV = "prod" } = options
 
   try {
-    if (!packageName && !cwd) throw new Error("no pkg name available")
+    if (!pkg) throw new Error("package data missing")
+    if (!pkg.moduleRoot) throw new Error("package root missing")
 
-    const _cwd = cwd ? cwd : packageDir(packageName)
-
-    const pkg = await getPkg(_cwd)
     const buildOptions = pkg?.buildOptions ?? {}
 
-    logger.log({
-      level: "info",
-      description: `start build`,
-      context: `bundle:${packageName}`,
-    })
+    log.info("bundle", `start build ${pkg.name}`)
 
     let { commit } = options
-
-    fs.removeSync(`${cwd}/dist`)
 
     // pass in git commit via env var
     if (!commit && process.env.GIT_COMMIT) {
@@ -78,18 +66,23 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
       { bundleType, variables: { STAGE_ENV } },
     )
 
-    if (!buildOptions?.entryFile) throw new Error("no entry file")
+    const distDir = path.join("dist", buildOptions.outputDir ?? "")
+
+    const entry = buildOptions?.entryFile || pkg.main || "index.ts"
+    const outDir = path.join(pkg.moduleRoot, distDir)
+
+    fs.removeSync(distDir)
 
     const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
       vc,
       {
-        root: _cwd,
+        root: pkg.moduleRoot,
         build: {
-          outDir: path.join(_cwd, "/dist", buildOptions.outputDir ?? ""),
+          outDir,
           emptyOutDir: true,
           lib: {
             formats: ["es"],
-            entry: buildOptions?.entryFile,
+            entry,
             name: buildOptions.entryName,
             fileName: () => `index.js`,
           },
@@ -108,32 +101,17 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
        */
       await execa(
         "tsup",
-        [
-          buildOptions?.entryFile,
-          "--format",
-          "esm",
-          "--dts-only",
-          "--out-dir",
-          `dist/${buildOptions.outputDir}`,
-        ],
+        [entry, "--format", "esm", "--dts-only", "--out-dir", distDir],
         {
           stdio: "inherit",
-          cwd: _cwd,
+          cwd: pkg.moduleRoot,
         },
       )
     }
-    logger.log({
-      level: "info",
-      description: `done!`,
-      context: `bundle:${packageName}`,
-    })
+
+    log.info("bundle", `done building ${pkg.name}`)
   } catch (error) {
-    logger.log({
-      level: "error",
-      description: `error during build`,
-      context: `bundle:${packageName}`,
-      data: error,
-    })
+    log.error("bundle", `error building ${pkg?.name}`, { error })
   }
 }
 
@@ -142,21 +120,15 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
  */
 export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
   // If pkg is set, just bundle that one
-  if (options.packageName) {
-    await bundle(options)
+  const packages = getPackages().filter((pkg) => pkg.buildOptions)
+  if (packages.length === 0) {
+    log.info("bundleAll", `no packages with buildOptions found`)
   } else {
+    log.info("bundleAll", `bundling ${packages.length} packages`)
     // Outfile won't work in multi-build mode
-
-    for (const packageName of getPackages()) {
-      const pkg = await getPkg(packageName)
-
+    for (const pkg of packages) {
       if (pkg?.buildOptions) {
-        logger.log({
-          level: "info",
-          context: "bundleAll",
-          description: `bundle ${packageName}`,
-        })
-        await bundle({ ...options, packageName })
+        await bundle({ ...options, pkg })
       }
     }
   }
