@@ -12,10 +12,8 @@
     "express": "^4.17.1",
     "stripe": "^8.49.0"
   },
-  "devDependencies": {
-    "dotenv": "^16.0.0"
-  },
   "optionalDependencies": {
+    "dotenv": "^16.0.0",
     "vitest": "^0.9.0"
   }
 }
