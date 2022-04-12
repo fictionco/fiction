@@ -15,7 +15,7 @@
   "devDependencies": {
     "dotenv": "^16.0.0"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "vitest": "^0.9.0"
   }
 }

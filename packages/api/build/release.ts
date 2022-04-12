@@ -91,7 +91,12 @@ const updatePackage = (moduleRoot?: string, version?: string): void => {
   const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
   pkg.version = version
 
-  const depType = ["dependencies", "peerDependencies", "devDependencies"]
+  const depType = [
+    "dependencies",
+    "peerDependencies",
+    "devDependencies",
+    "optionalDependencies",
+  ]
 
   depType.map((t) => {
     const existing = pkg[t] as Record<string, string> | undefined

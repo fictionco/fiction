@@ -37,7 +37,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "execa": "^6.0.0",
     "vitest": "^0.9.0",
     "playwright": "^1.20.0"

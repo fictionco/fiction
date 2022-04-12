@@ -129,8 +129,9 @@
     "typescript": "^4.6.0",
     "vite": "^2.7.12"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "@factor/site": "5.0.4",
-    "vitest": "^0.9.0"
+    "vitest": "*",
+    "commander": "*"
   }
 }
