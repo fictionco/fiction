@@ -334,8 +334,8 @@ importers:
   packages/plugin-blog-engine:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-highlight-code': 5.0.7
-      '@factor/ui': 5.0.7
+      '@factor/plugin-highlight-code': 5.0.8
+      '@factor/ui': 5.0.8
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.10.6
       string-similarity: ^4.0.4
@@ -354,8 +354,8 @@ importers:
   packages/plugin-docs-engine:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-highlight-code': 5.0.7
-      '@factor/ui': 5.0.7
+      '@factor/plugin-highlight-code': 5.0.8
+      '@factor/ui': 5.0.8
       vue: ^3.2.31
       vue-router: ^4.0.10
     dependencies:
@@ -408,12 +408,12 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': 5.0.7
-      '@factor/plugin-docs-engine': 5.0.7
-      '@factor/plugin-highlight-code': 5.0.7
-      '@factor/plugin-notify': 5.0.7
-      '@factor/plugin-stripe': 5.0.7
-      '@factor/ui': 5.0.7
+      '@factor/plugin-blog-engine': 5.0.8
+      '@factor/plugin-docs-engine': 5.0.8
+      '@factor/plugin-highlight-code': 5.0.8
+      '@factor/plugin-notify': 5.0.8
+      '@factor/plugin-stripe': 5.0.8
+      '@factor/ui': 5.0.8
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.2.4
       axios: ^0.26.0
@@ -988,7 +988,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.16.7
       '@babel/parser': 7.17.9
       '@babel/types': 7.17.0
-      debug: 4.3.3
+      debug: 4.3.4
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -3914,7 +3914,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.3
+      debug: 4.3.4
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -7087,7 +7087,7 @@ packages:
     engines: {node: '>= 10'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.3
+      debug: 4.3.4
       socks: 2.6.2
     transitivePeerDependencies:
       - supports-color

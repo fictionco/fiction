@@ -12,6 +12,8 @@ import {
 import { getFactorConfig, setAppGlobals } from "../server/globals"
 import { logger, deepMergeAll, getMarkdownUtility } from ".."
 import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
+import ComponentsAutoLoad from "unplugin-vue-components/vite"
+
 const require = createRequire(import.meta.url)
 
 const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
@@ -183,6 +185,7 @@ export const getViteConfig = async (
         mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
         markdownIt: getMarkdownUtility(),
       }),
+      ComponentsAutoLoad({ dts: true }),
       ...customPlugins,
     ],
     ...optimizeDeps(),
