@@ -128,6 +128,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -142,6 +143,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/plugins",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -156,6 +158,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/showcase",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -170,6 +173,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/showcase/:slug",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -184,6 +188,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/install",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -198,6 +203,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/testing",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -212,6 +218,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/blog",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -226,6 +233,7 @@ describe("node utils", () => {
             "parent": "blog",
             "path": "/blog",
             "priority": 200,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -240,6 +248,7 @@ describe("node utils", () => {
             "parent": "blog",
             "path": "/blog/:slug",
             "priority": 200,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -254,6 +263,7 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/docs",
             "priority": 100,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -268,6 +278,7 @@ describe("node utils", () => {
             "parent": "docs",
             "path": "/docs",
             "priority": 200,
+            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -282,6 +293,7 @@ describe("node utils", () => {
             "parent": "docs",
             "path": "/docs/:slug",
             "priority": 200,
+            "redirect": undefined,
           },
         ],
         "variables": {

@@ -1,3 +1,5 @@
+const { defineConfig } = require("eslint-define-config")
+
 const BASIC_ONLY = process.env.LINT_ENV == "basic" ? true : false
 
 const tsLintConfig = BASIC_ONLY
@@ -15,7 +17,7 @@ const tsLintRules = BASIC_ONLY
       "@typescript-eslint/no-unsafe-argument": "warn",
     }
 
-module.exports = {
+module.exports = defineConfig({
   root: true,
   globals: {
     module: false,
@@ -195,4 +197,4 @@ module.exports = {
       officialSorting: true,
     },
   },
-}
+})

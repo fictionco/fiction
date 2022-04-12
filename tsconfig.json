@@ -3,10 +3,10 @@
     "baseUrl": ".",
     "outDir": "dist",
     "sourceMap": false,
-    "target": "es2020",
     "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
-    "allowJs": false,
+    "allowJs": true,
     "strict": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
@@ -14,18 +14,13 @@
     "rootDir": ".",
     "removeComments": true,
     "types": ["node"],
-    "lib": ["ES2020", "DOM"], // vue/vetur needs this
+    "lib": ["ESNext", "DOM"], // vue/vetur needs this
     "skipLibCheck": true,
     "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "preserve"
   },
-  "exclude": [
-    "node_modules",
-    "**/node_modules",
-    ".ref/**",
-    "**/dist",
-    "**/__*"
-  ],
+  "exclude": ["node_modules", "dist", ".ref", "**/__*"],
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {

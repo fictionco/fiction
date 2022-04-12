@@ -129,9 +129,20 @@
     "semver": "^7.3.2",
     "vite": "^2.7.12"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "@factor/site": "5.0.6",
     "vitest": "*",
     "commander": "*"
+  },
+  "peerDependenciesMeta": {
+    "@factor/site": {
+      "optional": true
+    },
+    "vitest": {
+      "optional": true
+    },
+    "commander": {
+      "optional": true
+    }
   }
 }

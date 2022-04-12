@@ -23,7 +23,7 @@
     "up": "docker-compose up",
     "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "clean-install": "pnpm clear-modules && pnpm install"
+    "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm install"
   },
   "license": "MIT",
   "workspaces": [
@@ -37,37 +37,36 @@
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
+    "@factor/lint": "workspace:*",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.23",
+    "c8": "^7.11.0",
     "chalk": "^5.0.1",
     "concurrently": "^7.1.0",
     "happy-dom": "^2.55.0",
     "jsdom": "^19.0.0",
     "nodemon": "^2.0.15",
     "npm-package-json-lint": "^6.3.0",
-    "npm-run-all": "^4.1.5",
-    "sirv": "^2.0.2",
-    "tailwindcss-cli": "^0.1.2",
     "tslib": "^2.3.1",
     "vite": "^2.9.1",
-    "yorkie": "^2.0.0",
-    "vitest": "^0.9.0"
+    "vitest": "^0.9.3",
+    "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@factor/api": "5.0.6",
-    "@factor/site": "5.0.6",
+    "@factor/api": "workspace:*",
+    "@factor/site": "workspace:*",
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.4",
-    "c8": "^7.11.0",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.6.3",
-    "vue": "^3.2.31"
+    "vue": "^3.2.32"
   },
   "pnpm": {
     "overrides": {
       "@factor/api": "workspace:*",
-      "@factor/site": "workspace:*"
+      "@factor/site": "workspace:*",
+      "@factor/lint": "workspace:*"
     }
   }
 }

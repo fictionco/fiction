@@ -12,8 +12,16 @@
     "express": "^4.17.1",
     "stripe": "^8.49.0"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "dotenv": "^16.0.0",
     "vitest": "^0.9.0"
+  },
+  "peerDependenciesMeta": {
+    "dotenv": {
+      "optional": true
+    },
+    "vitest": {
+      "optional": true
+    }
   }
 }
