@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "5.0.6",
+  "version": "5.0.7",
   "main": "index.ts",
   "publishConfig": {},
   "type": "module",
@@ -37,7 +37,7 @@
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
-    "@factor/lint": "workspace:*",
+    "@factor/lint": "5.0.7",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.23",
     "c8": "^7.11.0",
@@ -53,8 +53,8 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@factor/api": "workspace:*",
-    "@factor/site": "workspace:*",
+    "@factor/api": "5.0.7",
+    "@factor/site": "5.0.7",
     "@vitejs/plugin-vue": "^2.3.1",
     "autoprefixer": "^10.4.4",
     "postcss": "^8.4.12",
