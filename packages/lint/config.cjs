@@ -1,4 +1,7 @@
-const { defineConfig } = require("eslint-define-config")
+/**
+ * @type import("eslint-define-config")
+ */
+const defineConfig = require("eslint-define-config")
 
 const BASIC_ONLY = process.env.LINT_ENV == "basic" ? true : false
 
@@ -149,7 +152,7 @@ module.exports = defineConfig({
         allowExpressions: true,
         allowConciseArrowFunctionExpressionsStartingWithVoid: true,
       },
-    ], // overridden for .ts files
+    ],
     "@typescript-eslint/no-use-before-define": "warn", // can cause organization issues
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-var-requires": "off", // overridden for transpiled .ts files
@@ -157,34 +160,21 @@ module.exports = defineConfig({
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/member-delimiter-style": "off",
-
-    "no-unused-vars": "off", // use ts one instead
-    "@typescript-eslint/no-unused-vars": [
+    "@typescript-eslint/no-unused-vars": "off",
+    "no-unused-vars": [
       "warn",
       { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
     ],
+
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "tailwindcss/no-custom-classname": "off",
+
     ...tsLintRules,
   },
   overrides: [
-    // {
-    //   // enable the rule specifically for TypeScript files
-    //   files: ["*.ts", "*.tsx"],
-    //   rules: {
-    //     "@typescript-eslint/explicit-function-return-type": [
-    //       "warn",
-    //       {
-    //         allowHigherOrderFunctions: true,
-    //         allowTypedFunctionExpressions: true,
-    //         allowExpressions: true,
-    //       },
-    //     ],
-    //   },
-    // },
     {
-      files: "*.vue",
+      files: ["*.vue"],
       rules: {
         "unicorn/consistent-function-scoping": "off",
       },
@@ -193,7 +183,7 @@ module.exports = defineConfig({
 
   settings: {
     tailwindcss: {
-      config: require.resolve("@factor/site/tailwind.config.cjs"),
+      config: "tailwind.config.cjs",
       officialSorting: true,
     },
   },

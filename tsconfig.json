@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist",
-    "sourceMap": false,
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",

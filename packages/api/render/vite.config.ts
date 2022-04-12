@@ -77,10 +77,6 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         ...getServerOnlyModules().map((_) => _.id),
       ],
       include: [
-        "vue-router",
-        "@medv/finder",
-        "@vueuse/head",
-        "vue",
         "dayjs",
         "dayjs/plugin/timezone",
         "dayjs/plugin/utc",

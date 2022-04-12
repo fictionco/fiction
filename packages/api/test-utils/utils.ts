@@ -5,7 +5,7 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-import { randomBetween, logger, setCurrentUser } from ".."
+import { randomBetween, setCurrentUser, log } from ".."
 import { PackageJson, FullUser, MainFile } from "../types"
 import { Queries } from "../engine/user"
 import { setupAppFromMainFile } from "../engine"
@@ -92,10 +92,7 @@ export const createTestServer = async (params: {
 
   const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
 
-  logger.log({
-    level: "info",
-    context: "createTestServer",
-    description: `Creating test server for ${moduleName}`,
+  log.info("createTestServer", `Creating test server for ${moduleName}`, {
     data: { serverPort, appPort, cwd: process.cwd(), cmd },
   })
 
@@ -152,13 +149,13 @@ export const appBuildTests = (config: {
 
   describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const r = execaCommandSync(
-        `npm exec -w ${moduleName} -- factor prerender --port ${serverPort}`,
-        {
-          env: { TEST_ENV: "unit" },
-          timeout: 30_000,
-        },
-      )
+      const command = `npm exec -w ${moduleName} -- factor prerender --port ${serverPort}`
+
+      log.info("appBuildTests", "running prerender command", { data: command })
+      const r = execaCommandSync(command, {
+        env: { TEST_ENV: "unit" },
+        timeout: 30_000,
+      })
 
       expect(r.stdout).toContain("built successfully")
       fs.existsSync(path.join(cwd, "./dist/static"))
