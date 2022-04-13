@@ -171,5 +171,10 @@ module.exports = defineConfig({
       config: require.resolve("@factor/site/tailwind.config.cjs"),
       officialSorting: true,
     },
+    "import/resolver": {
+      node: {
+        extensions: [".js", ".mjs", ".ts", ".d.ts", ".vue", ".md"],
+      },
+    },
   },
 })

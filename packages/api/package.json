@@ -73,7 +73,7 @@
     "json-schema-to-typescript": "^10.1.5",
     "json-stable-stringify": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^1.0.0",
+    "knex": "^1.0.7",
     "knex-stringcase": "^1.4.3",
     "less": "^4.1.1",
     "markdown-it": "^12.0.0",
@@ -106,7 +106,6 @@
     "tsup": "^5.11.13",
     "typescript": "^4.6.0",
     "validator": "^13.5.2",
-    "vite": "^2.3.6",
     "vite-plugin-markdown": "^2.0.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.0",
@@ -126,13 +125,13 @@
     "playwright": "^1.20.0",
     "react-dom": "^18.0.0",
     "rollup": "^2.28.1",
-    "semver": "^7.3.2",
-    "vite": "^2.7.12"
+    "semver": "^7.3.2"
   },
   "peerDependencies": {
-    "@factor/site": "5.0.10",
+    "@factor/site": "^5.0.10",
     "commander": "*",
-    "vitest": "*"
+    "vitest": "*",
+    "vite": "*"
   },
   "peerDependenciesMeta": {
     "@factor/site": {
