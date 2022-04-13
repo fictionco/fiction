@@ -1,3 +1,12 @@
+## [5.0.12](https://github.com/FactorJS/factor/compare/v5.0.11...v5.0.12) (2022-04-13)
+
+
+### Features
+
+* clean up afterApphook ([9c01778](https://github.com/FactorJS/factor/commit/9c01778f2596d45e0716fdc4130c48b825f7ac8d))
+
+
+
 ## [5.0.11](https://github.com/FactorJS/factor/compare/v5.0.10...v5.0.11) (2022-04-13)
 
 
