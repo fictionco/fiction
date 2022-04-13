@@ -1,6 +1,6 @@
 {
   "name": "@factor/lint",
-  "version": "5.0.8",
+  "version": "5.0.9",
   "license": "MIT",
   "main": "config.cjs",
   "publishConfig": {
@@ -32,7 +32,7 @@
     "typescript": "^4.6.0"
   },
   "peerDependencies": {
-    "@factor/site": "workspace:*"
+    "@factor/site": "5.0.9"
   },
   "peerDependenciesMeta": {
     "@factor/site": {

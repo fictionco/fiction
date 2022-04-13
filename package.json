@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "5.0.8",
+  "version": "5.0.9",
   "main": "index.ts",
   "publishConfig": {},
   "type": "module",
