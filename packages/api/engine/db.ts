@@ -2,10 +2,10 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { snakeCase, _stop, logger, onEvent } from ".."
-
+import { log } from "../logger"
 import { extendDb } from "./dbExtend"
 
-export type FactorDBTables = "factor_user" | "factor_post"
+export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 
 const changes: ChangesetConfig = [
   {
@@ -102,9 +102,25 @@ export const runChangeset = async (
  * Create the standard Factor tables
  */
 const createTables = async (db: Knex): Promise<void> => {
+  const existsVersion = await db.schema.hasTable("factor_version")
+
+  if (!existsVersion) {
+    log.info("createTable", "creating [factor_version] table")
+    await db.schema.createTable("factor_version", (t) => {
+      t.increments("version_id").primary()
+      t.string("version_name")
+      t.string("version_number").unique()
+      t.string("applied_by")
+      t.specificType("requires", "text ARRAY")
+      t.specificType("conflicts", "text ARRAY")
+      t.timestamps(true, true)
+    })
+  }
+
   const existsUser = await db.schema.hasTable("factor_user")
 
   if (!existsUser) {
+    log.info("createTable", "creating [factor_user] table")
     await db.schema.createTable("factor_user", (t) => {
       t.string("user_id", 32)
         .primary()
@@ -137,7 +153,7 @@ const createTables = async (db: Knex): Promise<void> => {
       t.boolean("email_verified").notNullable().defaultTo(false)
       t.string("verification_code")
       t.dateTime("code_expires_at")
-
+      t.string("picture")
       t.string("avatar")
       t.string("about")
       t.enum("gender", ["male", "female", "other"])
@@ -156,6 +172,7 @@ const createTables = async (db: Knex): Promise<void> => {
   const existsPost = await db.schema.hasTable("factor_post")
 
   if (!existsPost) {
+    log.info("createTable", "creating [factor_post] table")
     await db.schema.createTable("factor_post", (t) => {
       t.string(`post_id`, 32)
         .primary()
@@ -242,7 +259,7 @@ export const getDb = async (): Promise<Knex> => {
     /**
      * Run on initial server start, not multiple tests, etc.
      */
-    if (!process.env.TEST_ENV) {
+    if (!process.env.TEST_ENV || process.env.FACTOR_INIT_ENV) {
       await extendDb(__db)
 
       await createTables(__db)

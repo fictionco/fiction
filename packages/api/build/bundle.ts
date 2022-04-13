@@ -24,7 +24,7 @@ interface BundleOptions {
   STAGE_ENV?: "prod" | "pre" | "local"
   commit?: string
   sourceMap?: boolean
-  bundleType?: "script" | "app"
+  bundleMode?: "script" | "app"
 }
 
 export const outputFolders = (): {
@@ -42,7 +42,7 @@ export const outputFolders = (): {
  * Run a child process for rollup that builds scripts based on options
  */
 export const bundle = async (options: BundleOptions): Promise<void> => {
-  const { pkg, NODE_ENV, bundleType, STAGE_ENV = "prod" } = options
+  const { pkg, NODE_ENV, bundleMode, STAGE_ENV = "prod" } = options
 
   try {
     if (!pkg) throw new Error("package data missing")
@@ -63,7 +63,8 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
 
     const vc = await getViteConfig(
       { mode: NODE_ENV },
-      { bundleType, variables: { STAGE_ENV } },
+      { variables: { STAGE_ENV } },
+      { bundleMode },
     )
 
     const distDir = path.join("dist", buildOptions.outputDir ?? "")

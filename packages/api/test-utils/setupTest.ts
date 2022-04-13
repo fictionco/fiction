@@ -14,4 +14,5 @@ beforeAll(async () => {
   process.env.PORT = String(randomBetween(1000, 10_000))
   process.env.FACTOR_APP_NAME = "FactorJS"
   process.env.FACTOR_APP_EMAIL = "hi@factorjs.org"
+  //process.env.FACTOR_INIT_ENV = "true"
 })

@@ -9,8 +9,11 @@ import {
   sourceFolder,
   cwd,
 } from "../engine/nodeUtils"
-import { getFactorConfig, setAppGlobals } from "../server/globals"
-import { logger, deepMergeAll, getMarkdownUtility } from ".."
+import { setAppGlobals } from "../server/globals"
+import { deepMergeAll, getMarkdownUtility } from ".."
+import { logger } from "../logger"
+import { UserConfig } from "../types"
+import { getUserConfig } from "../engine/plugins"
 import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
 
 const require = createRequire(import.meta.url)
@@ -76,8 +79,13 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/plugin-stripe",
         "@kaption/client",
         ...getServerOnlyModules().map((_) => _.id),
+        "vue",
+        "@vueuse/head",
+        "vue-router",
+        "@medv/finder",
       ],
       include: [
+        "path-browserify",
         "dayjs",
         "dayjs/plugin/timezone",
         "dayjs/plugin/utc",
@@ -106,15 +114,16 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 }
 
 export const getViteConfig = async (
-  options: Partial<vite.InlineConfig> = {},
-  otherConfig: {
-    bundleType?: "script" | "app"
-    variables?: Record<string, string>
+  viteConfig: Partial<vite.InlineConfig> = {},
+  addUserConfig: UserConfig = {},
+  options: {
+    bundleMode?: "script" | "app"
   } = {},
 ): Promise<vite.InlineConfig> => {
-  const { bundleType, variables } = otherConfig
-  const userConfig = await getFactorConfig({ cwd: process.cwd() })
-  const vars = await setAppGlobals(deepMergeAll([userConfig, { variables }]))
+  const { bundleMode } = options
+  const userConfig = getUserConfig()
+  const allUserConfig = deepMergeAll<UserConfig>([userConfig, addUserConfig])
+  const vars = await setAppGlobals(allUserConfig)
 
   const define = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -126,7 +135,7 @@ export const getViteConfig = async (
     Object.entries(vars).filter(([_key, value]) => value),
   )
 
-  if (bundleType !== "script" || process.env.NODE_ENV == "production") {
+  if (bundleMode !== "script" || process.env.NODE_ENV == "production") {
     logger.log({
       level: "info",
       context: "build",
@@ -190,7 +199,11 @@ export const getViteConfig = async (
     ...optimizeDeps(),
   }
 
-  const merge = [basicConfig, options]
+  const merge = [basicConfig, viteConfig]
+
+  if (allUserConfig.vite) {
+    merge.push(allUserConfig.vite)
+  }
 
   // If the app has a vite config, merge it
   const appViteConfig = await getAppViteConfig()
@@ -199,7 +212,7 @@ export const getViteConfig = async (
     merge.push(appViteConfig)
   }
 
-  const conf: vite.InlineConfig = deepMergeAll(merge)
+  const conf = deepMergeAll<Partial<vite.InlineConfig>>(merge)
 
   return conf
 }

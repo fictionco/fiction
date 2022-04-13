@@ -48,6 +48,11 @@ export const setup = async (
         serverOnlyImports: [{ id: "stripe" }],
       }
     },
+    vite: {
+      optimizeDeps: {
+        exclude: ["@stripe/stripe-js"],
+      },
+    },
     paths: [safeDirname(import.meta.url)],
   }
 }

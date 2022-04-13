@@ -12,9 +12,6 @@ import SiteHead from "./el/SiteHead.vue"
 import SiteFooter from "./el/SiteFooter.vue"
 import ImgShare from "./img/share.jpg"
 import ImgIcon from "./img/icon.jpg"
-
-const test = "24"
-
 useMeta({
   title: computed(() => {
     return `FactorJS Static Site Framework by Kaption Co.`

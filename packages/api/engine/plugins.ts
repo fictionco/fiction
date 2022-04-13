@@ -1,4 +1,4 @@
-import { deepMergeAll, omit, dotSetting, logger, storeItem, stored } from ".."
+import { deepMergeAll, omit, dotSetting, log, storeItem, stored } from ".."
 
 import { UserConfig } from "../types"
 
@@ -51,20 +51,14 @@ export const setUserConfig = async (
       config = await installPlugins({ userConfig: config, isServer })
     } catch (error: unknown) {
       const e = error as Error
-      logger.log({
-        level: "error",
-        description: e.message,
-        context: "setUserConfig",
-        error,
-      })
+      log.error("setUserConfig", e.message, { error })
     }
   }
 
-  config = {
-    port: process.env.FACTOR_SERVER_PORT || process.env.PORT,
-    portApp: process.env.FACTOR_APP_PORT || process.env.PORT_APP,
-    ...config,
-  }
+  const port = process.env.FACTOR_SERVER_PORT || process.env.PORT
+  const portApp = process.env.FACTOR_APP_PORT || process.env.PORT_APP
+
+  config = deepMergeAll<UserConfig>([{ port, portApp }, config])
 
   storeItem("userConfig", config)
 

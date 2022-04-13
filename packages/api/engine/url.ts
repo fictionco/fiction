@@ -6,7 +6,9 @@ export const getAppPort = (): string => {
 }
 
 export const getServerPort = (): string => {
-  return userConfigSetting("port") || process.env.PORT || "3210"
+  const port = userConfigSetting("port") || process.env.PORT || "3210"
+
+  return port
 }
 
 export const serverUrl = (): string => {

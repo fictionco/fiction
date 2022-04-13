@@ -1,6 +1,6 @@
 import path from "path"
 import dotenv from "dotenv"
-import { logger } from "../logger"
+import { log } from "../logger"
 export type BuildStages = "prod" | "pre" | "local"
 
 export type CliOptions = {
@@ -20,12 +20,12 @@ export type CliOptions = {
   cwd?: string
 }
 
-export const done = (code: 0 | 1, log = `exited process`): never => {
-  if (log) {
-    logger.log({
+export const done = (code: 0 | 1, message = `exited process`): never => {
+  if (message) {
+    log.log({
       level: code == 0 ? "info" : "error",
       context: "cli",
-      description: `${log} (${code})`,
+      description: `${message} (${code})`,
     })
   }
 
@@ -38,11 +38,7 @@ export const done = (code: 0 | 1, log = `exited process`): never => {
  * https://nodejs.org/api/inspector.html
  */
 const initializeNodeInspector = async (): Promise<void> => {
-  logger.log({
-    level: "info",
-    context: "cli",
-    description: `[initializing inspector]`,
-  })
+  log.info("initializeNodeInspector", `[initializing inspector]`)
   const inspector = await import("inspector")
   inspector.close()
   inspector.open()
@@ -70,6 +66,7 @@ export const setEnvironment = (options: CliOptions): void => {
   if (portApp) {
     process.env.FACTOR_APP_PORT = portApp
   }
+
   if (port) {
     process.env.FACTOR_SERVER_PORT = port
   }
@@ -95,7 +92,7 @@ export const wrapCommand = async (params: {
   try {
     await cb(opts)
   } catch (error) {
-    logger.log({
+    log.log({
       level: "error",
       context: "wrapCommand",
       description: "command execution error",

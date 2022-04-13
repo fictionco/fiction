@@ -3,23 +3,6 @@
  */
 const { defineConfig } = require("eslint-define-config")
 
-const BASIC_ONLY = process.env.LINT_ENV == "basic" ? true : false
-
-const tsLintConfig = BASIC_ONLY
-  ? "plugin:@typescript-eslint/recommended"
-  : "plugin:@typescript-eslint/recommended-requiring-type-checking"
-
-const tsLintRules = BASIC_ONLY
-  ? {
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-    }
-  : {
-      "@typescript-eslint/explicit-module-boundary-types": "warn",
-      "@typescript-eslint/no-unsafe-return": "warn",
-      "@typescript-eslint/no-unsafe-argument": "warn",
-    }
-
 module.exports = defineConfig({
   root: true,
   globals: {
@@ -53,13 +36,13 @@ module.exports = defineConfig({
     "**/__*",
   ],
   extends: [
+    "plugin:vue/vue3-recommended",
     "plugin:unicorn/recommended",
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    tsLintConfig,
-    "plugin:vue/vue3-recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
     "plugin:tailwindcss/recommended",
   ],
@@ -170,7 +153,9 @@ module.exports = defineConfig({
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "tailwindcss/no-custom-classname": "off",
 
-    ...tsLintRules,
+    "@typescript-eslint/explicit-module-boundary-types": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
   },
   overrides: [
     {

@@ -2,7 +2,7 @@ import path from "path"
 import { createRequire } from "module"
 import fs from "fs-extra"
 import { Command, OptionValues } from "commander"
-import { logger } from "../logger"
+import { log } from "../logger"
 
 import { emitEvent } from "../event"
 import pkg from "../package.json"
@@ -58,12 +58,7 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
   const script = `npm exec -- factor rdev ${passArgs.join(" ")}`
   conf.exec = script
 
-  logger.log({
-    level: "info",
-    context: "restartInitializer",
-    description: "nodemon",
-    data: conf,
-  })
+  log.debug("restartInitializer", `running [${script}]`, { data: conf })
 
   /**
    * The nodemon function takes either an object (that matches the nodemon config)
@@ -74,10 +69,16 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
   nodemon
     .on("log", () => {})
     .on("start", () => {})
+    .on("exit", () => {
+      log.error("nodemon", "exit")
+    })
+    .on("crash", () => {
+      log.error("nodemon", "crash")
+    })
     .on("quit", () => done(0, "exited nodemon"))
     .on("restart", (files: string[]) => {
       process.env.IS_RESTART = "1"
-      logger.log({
+      log.log({
         level: "info",
         context: "nodemon",
         description: "restarted due to:",
@@ -322,20 +323,15 @@ const exitHandler = (options: {
 //do something when app is closing
 process.on("exit", () => exitHandler({ shutdown: true }))
 
-// //catches ctrl+c event
-// process.on("SIGINT", () => exitHandler({ exit: true }))
+//catches ctrl+c event
+process.on("SIGINT", () => exitHandler({ exit: true }))
 
-// // catches "kill pid" (for example: nodemon restart)
-// process.on("SIGUSR1", () => exitHandler({ exit: true }))
-// process.on("SIGUSR2", () => exitHandler({ exit: true }))
+// catches "kill pid" (for example: nodemon restart)
+process.on("SIGUSR1", () => exitHandler({ exit: true }))
+process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
 //catches uncaught exceptions
-process.on("uncaughtException", (Error) => {
-  logger.log({
-    level: "error",
-    description: "uncaught error!",
-    context: "uncaughtException",
-    data: Error,
-  })
+process.on("uncaughtException", (error) => {
+  log.error("uncaughtException", "uncaught error!", { error })
   done(1)
 })

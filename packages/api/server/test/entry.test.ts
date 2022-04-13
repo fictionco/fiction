@@ -25,6 +25,7 @@ describe("server entry handling", () => {
         "endpoints",
         "sitemaps",
         "paths",
+        "vite",
         "serverOnlyImports",
       ]
     `)

@@ -1,6 +1,7 @@
 import { HeadClient } from "@vueuse/head"
 import { App, Component } from "vue"
 import { Router } from "vue-router"
+import { InlineConfig as ViteInlineConfig } from "vite"
 import type { AppRoute } from "../router"
 import type { ManageUserParams } from "../engine/userAuth"
 import type { Endpoint, EndpointMeta } from "../engine/endpoint"
@@ -9,6 +10,7 @@ import type { HookType } from "../engine/hookDictionary"
 import { DataProcessor } from "../processor"
 import { FullUser } from "./user"
 import { LogHandler, SiteMapConfig } from "./server"
+
 export interface FactorAppEntry {
   app: App
   meta: HeadClient
@@ -50,6 +52,7 @@ export interface UserConfig {
   log?: LogHandler
   plugins?: (UserConfig | Promise<UserConfig>)[]
   hooks?: HookType[]
+  vite?: Partial<ViteInlineConfig>
   userProcessors?: DataProcessor<
     FullUser,
     { meta?: EndpointMeta; params?: ManageUserParams }
