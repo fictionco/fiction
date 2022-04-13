@@ -128,7 +128,7 @@
     "semver": "^7.3.2"
   },
   "peerDependencies": {
-    "@factor/site": "5.0.12",
+    "@factor/site": "*",
     "commander": "*",
     "vitest": "*",
     "vite": "*"
