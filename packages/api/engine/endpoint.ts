@@ -53,6 +53,10 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     this.requestHandler = requestHandler
   }
 
+  public pathname(): string {
+    return `${this.basePath}/${this.key}`
+  }
+
   public async request(
     params: Parameters<T["run"]>[0],
   ): Promise<Awaited<ReturnType<T["run"]>>> {
@@ -108,10 +112,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       data,
     }
 
-    logger.log({
-      level: "info",
-      context: `ep:${url}`,
-      description: `request:${url}`,
+    logger.debug("Endpoint", `request at ${url}`, {
       data: options,
     })
 
@@ -120,25 +121,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       const response = await axios.request<EndpointResponse<U>>(options)
       responseData = response.data
     } catch (error: unknown) {
-      const e = error as AxiosError
+      logger.error("Endpoint", `error: ${method}`, { error })
 
-      logger.log({
-        level: "error",
-        context: `ep:${url}`,
-        description: `error: ${method}`,
-        data: e,
-      })
-
-      responseData = {
-        status: "error",
-        message: "http request error",
-      }
+      responseData = { status: "error", message: "http request error" }
     }
 
-    logger.log({
-      level: "info",
-      context: `ep:${url}`,
-      description: "http response",
+    logger.debug("Endpoint", `response from ${url}`, {
       data: responseData,
     })
 
