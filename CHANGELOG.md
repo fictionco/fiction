@@ -1,3 +1,12 @@
+## [5.0.13](https://github.com/FactorJS/factor/compare/v5.0.12...v5.0.13) (2022-04-13)
+
+
+### Features
+
+* add endpoint pathnames ([ee13ccf](https://github.com/FactorJS/factor/commit/ee13ccf70dcfd2328a8b0d2f8c85c0ede601b806))
+
+
+
 ## [5.0.12](https://github.com/FactorJS/factor/compare/v5.0.11...v5.0.12) (2022-04-13)
 
 
