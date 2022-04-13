@@ -1,7 +1,7 @@
 /**
  * @type import("eslint-define-config")
  */
-const defineConfig = require("eslint-define-config")
+const { defineConfig } = require("eslint-define-config")
 
 const BASIC_ONLY = process.env.LINT_ENV == "basic" ? true : false
 
@@ -160,11 +160,11 @@ module.exports = defineConfig({
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/member-delimiter-style": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "no-unused-vars": [
+    "@typescript-eslint/no-unused-vars": [
       "warn",
       { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
     ],
+    "no-unused-vars": "off",
 
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
@@ -183,7 +183,7 @@ module.exports = defineConfig({
 
   settings: {
     tailwindcss: {
-      config: "tailwind.config.cjs",
+      config: require.resolve("@factor/site/tailwind.config.cjs"),
       officialSorting: true,
     },
   },

@@ -63,7 +63,7 @@ export interface SubscriptionDetails {
   customerId: string
 }
 
-type StripeHookCallback = (event: Stripe.Event) => Promise<any> | any
+type StripeHookCallback = (_event: Stripe.Event) => Promise<any> | any
 
 export type CreateSubscriptionArgs = Partial<SubscriptionDetails> &
   Stripe.SubscriptionCreateParams
@@ -71,14 +71,14 @@ export type CreateSubscriptionArgs = Partial<SubscriptionDetails> &
 export type StripeOptions = {
   hooks?: {
     beforeCreateSubscription?: (
-      args: CreateSubscriptionArgs,
+      _args: CreateSubscriptionArgs,
     ) => Promise<CreateSubscriptionArgs> | CreateSubscriptionArgs
-    onSubscriptionUpdate?: (sub: Stripe.Subscription) => Promise<any> | any
+    onSubscriptionUpdate?: (_sub: Stripe.Subscription) => Promise<any> | any
     onSubscriptionTrialWillEnd?: StripeHookCallback
     onInvoicePayment?: StripeHookCallback
     onInvoicePaymentFailed?: StripeHookCallback
     onCustomerSubscriptionDeleted?: StripeHookCallback
-    onCustomerCreated: (args: {
+    onCustomerCreated: (_args: {
       customer: Stripe.Customer
       id: string
       name?: string
