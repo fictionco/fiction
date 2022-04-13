@@ -4,7 +4,6 @@ import { compile, JSONSchema } from "json-schema-to-typescript"
 import { UserConfig } from "../types"
 import { log } from ".."
 import { runHooks } from "./hook"
-
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
@@ -17,7 +16,7 @@ export const generateStaticConfig = async (
   const title = "CompiledUserConfig"
 
   const staticConfig = {
-    routes: config.routes,
+    routes: config.routes?.sort(),
     paths: config.paths?.sort(),
     endpoints: config.endpoints,
   }

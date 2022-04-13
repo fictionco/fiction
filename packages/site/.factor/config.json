@@ -1,104 +1,104 @@
 {
   "routes": [
     {
+      "children": [],
       "name": "home",
       "niceName": "Home",
       "path": "/",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "plugins",
       "niceName": "Plugins",
       "path": "/plugins",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "showcase",
       "niceName": "Showcase",
       "path": "/showcase",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "showcaseSingle",
       "niceName": "Showcase Item",
       "path": "/showcase/:slug",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "install",
       "niceName": "Install",
       "path": "/install",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "testing",
       "niceName": "Testing",
       "path": "/testing",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "blog",
       "niceName": "Blog",
       "path": "/blog",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "blogIndex",
       "niceName": "Blog Index",
       "path": "/blog",
-      "menus": [],
       "parent": "blog",
       "priority": 200,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "blogSingle",
       "niceName": "Blog Single",
       "path": "/blog/:slug",
-      "menus": [],
       "parent": "blog",
       "priority": 200,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "docs",
       "niceName": "Docs",
       "path": "/docs",
-      "menus": [],
       "priority": 100,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "docsIndex",
       "niceName": "Docs Index",
       "path": "/docs",
-      "menus": [],
       "parent": "docs",
       "priority": 200,
-      "children": []
+      "menus": []
     },
     {
+      "children": [],
       "name": "docsSingle",
       "niceName": "Docs Single",
       "path": "/docs/:slug",
-      "menus": [],
       "parent": "docs",
       "priority": 200,
-      "children": []
+      "menus": []
     }
   ],
   "paths": [
@@ -251,7 +251,8 @@
       "basePath": "/user",
       "key": "UserGoogleAuth",
       "queryHandler": {
-        "isNode": true
+        "isNode": true,
+        "clientSecret": "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"
       }
     }
   ]
