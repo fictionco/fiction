@@ -6,7 +6,7 @@ export interface HookDictionary {
   onUserVerified: { args: [FullUser] }
   afterServerSetup: { args: [] }
   afterServerCreated: { args: [] }
-  afterAppSetup: { args: [UserConfig] }
+  afterAppSetup: { args: [{ userConfig: UserConfig; isSSR?: boolean }] }
   staticConfig: {
     args: [
       { staticConfig: Record<string, any>; staticSchema: JSONSchema },

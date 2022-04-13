@@ -134,6 +134,7 @@ export const renderParts = async (args: {
 
     const factorAppEntry = await runApp({
       renderUrl: url,
+      isSSR: true,
     })
 
     const { app, meta } = factorAppEntry

@@ -3,22 +3,28 @@ import { MainFile, UserConfig } from "../types"
 import { runHooks } from "./hook"
 import { setUserConfig } from "./plugins"
 
-export const setupApp = async (userConfig: UserConfig): Promise<UserConfig> => {
-  userConfig = await setUserConfig(userConfig, { isServer: false })
+export const setupApp = async (params: {
+  userConfig: UserConfig
+  isSSR?: boolean
+}): Promise<UserConfig> => {
+  const { isSSR } = params
+
+  const userConfig = await setUserConfig(params.userConfig, { isServer: false })
 
   if (userConfig.routes) {
     setupRouter(userConfig.routes)
   }
 
-  await runHooks("afterAppSetup", userConfig)
+  await runHooks("afterAppSetup", { userConfig, isSSR })
 
   return userConfig
 }
 
 export const setupAppFromMainFile = async (params: {
   mainFile?: MainFile
+  isSSR?: boolean
 }): Promise<UserConfig> => {
-  const { mainFile = {} } = params
+  const { mainFile = {}, isSSR } = params
 
   let userConfig: UserConfig = {}
   // run the app main file
@@ -26,5 +32,5 @@ export const setupAppFromMainFile = async (params: {
     userConfig = await mainFile.setup()
   }
 
-  return await setupApp(userConfig)
+  return await setupApp({ userConfig, isSSR })
 }

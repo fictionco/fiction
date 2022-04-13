@@ -10,9 +10,13 @@ import { FactorAppEntry, MainFile } from "../types"
 import { mountApp, factorApp } from "."
 
 export const runApp = (
-  params: { renderUrl?: string } = {},
+  params: { renderUrl?: string; isSSR?: boolean } = {},
 ): Promise<FactorAppEntry> => {
-  return factorApp({ ...params, RootComponent, mainFile: mainFile as MainFile })
+  return factorApp({
+    ...params,
+    RootComponent,
+    mainFile: mainFile as MainFile,
+  })
 }
 
 mountApp({

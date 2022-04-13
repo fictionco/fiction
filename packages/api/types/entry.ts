@@ -18,7 +18,10 @@ export interface FactorAppEntry {
 }
 
 export type EntryModuleExports = {
-  runApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
+  runApp: (c: {
+    renderUrl?: string
+    isSSR?: boolean
+  }) => Promise<FactorAppEntry>
   RootComponent: Component
   mainFile: MainFile
 }

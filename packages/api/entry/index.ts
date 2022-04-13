@@ -17,10 +17,11 @@ export const factorApp = async (
     renderUrl?: string
     mainFile?: MainFile
     RootComponent?: Component
+    isSSR?: boolean
   } = {},
 ): Promise<FactorAppEntry> => {
-  const { renderUrl, mainFile, RootComponent = EmptyApp } = context
-  await setupAppFromMainFile({ mainFile })
+  const { renderUrl, mainFile, RootComponent = EmptyApp, isSSR } = context
+  await setupAppFromMainFile({ mainFile, isSSR })
 
   // only run in  browser
   if (typeof window !== "undefined") {
