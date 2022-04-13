@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "5.0.10",
+  "version": "5.0.11",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -128,7 +128,7 @@
     "semver": "^7.3.2"
   },
   "peerDependencies": {
-    "@factor/site": "^5.0.10",
+    "@factor/site": "5.0.11",
     "commander": "*",
     "vitest": "*",
     "vite": "*"
