@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-blog-engine",
   "description": "A markdown blog plugin",
-  "version": "5.0.21",
+  "version": "5.0.22",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -17,7 +17,7 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/plugin-highlight-code": "5.0.21",
+    "@factor/plugin-highlight-code": "5.0.22",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.0",
     "string-similarity": "^4.0.4"
