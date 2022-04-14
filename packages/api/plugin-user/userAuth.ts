@@ -149,16 +149,16 @@ export type ManageUserParams =
       userId?: string
     } & ({ email: string } | { userId: string }))
 
+type ManageUserResponse = EndpointResponse<FullUser> & {
+  isNew: boolean
+  token?: string
+  user?: FullUser
+}
 class QueryManageUser extends Query {
   async run(
     params: ManageUserParams,
     _meta?: EndpointMeta,
-  ): Promise<
-    EndpointResponse<FullUser> & {
-      isNew: boolean
-      token?: string
-    }
-  > {
+  ): Promise<ManageUserResponse> {
     const { _action } = params
 
     const db = await this.getDb()
@@ -260,7 +260,18 @@ class QueryManageUser extends Query {
     // don't return authority info to client
     delete user?.verificationCode
 
-    return { status: "success", data: user, isNew, token }
+    const response: ManageUserResponse = {
+      status: "success",
+      data: user,
+      isNew,
+      token,
+    }
+
+    if (_meta?.bearer && _meta?.bearer.userId == user?.userId) {
+      response.user = user
+    }
+
+    return response
   }
 }
 

@@ -1,7 +1,7 @@
 import { userConfigSetting } from "../engine/plugins"
 
 const pluginPaths = userConfigSetting("paths") || []
-const paths = pluginPaths.map((p) => `${p}**/*.vue`)
+const paths = pluginPaths.flatMap((p) => [`${p}/*.vue`, `${p}/**/*.vue`])
 
 export default {
   mode: "jit",

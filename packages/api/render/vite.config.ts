@@ -75,6 +75,7 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
     optimizeDeps: {
       exclude: [
         "@factor/api",
+        "@factor/ui",
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
         "@kaption/client",

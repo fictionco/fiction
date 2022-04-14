@@ -7,14 +7,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "5.0.19",
-    "easymde": "^2.9.0",
-    "gravatar": "^1.8.0",
-    "sortablejs": "^1.12.0"
+    "@factor/api": "workspace:*",
+    "easymde": "^2.16.1",
+    "gravatar": "^1.8.2",
+    "sortablejs": "^1.15.0"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "devDependencies": {
-    "less": "^4.1.1"
+    "less": "^4.1.2"
   },
   "peerDependencies": {
     "vue": "^3.2.33",
