@@ -1,3 +1,12 @@
+## [5.0.21](https://github.com/FactorJS/factor/compare/v5.0.20...v5.0.21) (2022-04-14)
+
+
+### Bug Fixes
+
+* vite build ([33d7319](https://github.com/FactorJS/factor/commit/33d7319c00b9544637c53608db16db9a6665ec50))
+
+
+
 ## [5.0.20](https://github.com/FactorJS/factor/compare/v5.0.19...v5.0.20) (2022-04-14)
 
 
