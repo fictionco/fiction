@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "5.0.17",
+  "version": "5.0.18",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
