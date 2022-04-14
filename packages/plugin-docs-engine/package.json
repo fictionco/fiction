@@ -17,9 +17,14 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/api": "5.0.15",
     "@factor/plugin-highlight-code": "5.0.15",
-    "@factor/ui": "5.0.15",
+    "@types/string-similarity": "^4.0.0",
+    "dayjs": "^1.10.6",
+    "string-similarity": "^4.0.4"
+  },
+  "peerDependencies": {
+    "@factor/api": "^5.0.0",
+    "@factor/ui": "^5.0.0",
     "vue": "^3.2.31",
     "vue-router": "^4.0.10"
   }
