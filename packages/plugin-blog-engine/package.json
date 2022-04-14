@@ -25,7 +25,7 @@
   "peerDependencies": {
     "@factor/api": "^5.0.0",
     "@factor/ui": "^5.0.0",
-    "vue": "^3.2.31",
+    "vue": "^3.2.33",
     "vue-router": "^4.0.10"
   }
 }
