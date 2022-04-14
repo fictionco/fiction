@@ -1,3 +1,12 @@
+## [5.0.19](https://github.com/FactorJS/factor/compare/v5.0.18...v5.0.19) (2022-04-14)
+
+
+### Bug Fixes
+
+* dep ([ef68d13](https://github.com/FactorJS/factor/commit/ef68d139c790065355d769e97bd5f6d867ab5d7c))
+
+
+
 ## [5.0.18](https://github.com/FactorJS/factor/compare/v5.0.17...v5.0.18) (2022-04-14)
 
 
