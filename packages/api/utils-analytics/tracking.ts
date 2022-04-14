@@ -1,6 +1,6 @@
 import { finder } from "@medv/finder"
-import { fastHash, isNode } from "./utils"
-import { logger } from "./logger"
+import { fastHash, isNode } from "../utils"
+import { logger } from "../logger"
 
 export interface ClickOffsetPosition {
   targetWidth: number

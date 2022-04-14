@@ -56,6 +56,7 @@ describe("vite config", () => {
           "process.env.FACTOR_SERVER_PORT": "\\"9191\\"",
           "process.env.FACTOR_SERVER_URL": "\\"\\"",
           "process.env.HTTP_PROTOCOL": "\\"\\"",
+          "process.env.IS_VITE": "\\"yes\\"",
           "process.env.NODE_ENV": "\\"development\\"",
           "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
           "process.env.TEST_ENV": "\\"unit\\"",
@@ -65,6 +66,7 @@ describe("vite config", () => {
           "exclude": [
             "@stripe/stripe-js",
             "@factor/api",
+            "@factor/ui",
             "@factor/plugin-notify",
             "@factor/plugin-stripe",
             "@kaption/client",

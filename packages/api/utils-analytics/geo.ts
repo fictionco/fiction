@@ -1,8 +1,8 @@
 import axios from "axios"
-import { UserGeolocation } from "./types"
+import { UserGeolocation } from "../types"
 
-import { stored, storeItem } from "./store"
-import { isNode } from "./utils"
+import { stored, storeItem } from "../store"
+import { isNode } from "../utils"
 
 interface FreeGeoIp {
   ip: string

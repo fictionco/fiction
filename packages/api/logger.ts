@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/import-style */
 /* eslint-disable no-console */
 import dayjs from "dayjs"
 import safeStringify from "fast-safe-stringify"
@@ -6,7 +5,7 @@ import chalk from "chalk"
 import prettyoutput from "prettyoutput"
 import consola from "consola"
 import { logCategory, logLevel } from "./types"
-import { isNode } from "./utils"
+import { isNode, isVite } from "./utils"
 
 export const logType = {
   event: { color: "#5233ff" },
@@ -154,7 +153,7 @@ class Logger {
       config.data = undefined
     }
 
-    if (this.isNode) {
+    if (this.isNode && !isVite()) {
       this.logServer(config)
     } else {
       this.logBrowser(config)
