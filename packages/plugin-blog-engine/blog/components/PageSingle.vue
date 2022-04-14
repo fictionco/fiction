@@ -92,9 +92,7 @@
               <component :is="config.component" />
             </div>
             <div>
-              <div
-                class="mx-auto my-12 max-w-7xl bg-color-50 p-6 md:p-12"
-              >
+              <div class="mx-auto my-12 max-w-7xl bg-color-50 p-6 md:p-12">
                 <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
                   <span class="block text-slate-500"
                     >Hope you enjoyed this post.</span

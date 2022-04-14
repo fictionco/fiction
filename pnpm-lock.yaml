@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 overrides:
   '@factor/api': workspace:*
   '@factor/site': workspace:*
+  '@factor/ui': workspace:*
   '@factor/lint': workspace:*
 
 importers:
@@ -12,6 +13,7 @@ importers:
       '@factor/api': workspace:*
       '@factor/lint': workspace:*
       '@factor/site': workspace:*
+      '@factor/ui': workspace:*
       '@types/express': ^4.17.13
       '@types/node': ^17.0.24
       '@vitejs/plugin-vue': ^2.3.1
@@ -37,6 +39,7 @@ importers:
       '@factor/api': link:packages/api
       '@factor/lint': link:packages/lint
       '@factor/site': link:packages/site
+      '@factor/ui': link:packages/ui
       '@types/express': 4.17.13
       '@types/node': 17.0.24
       '@vitejs/plugin-vue': 2.3.1_vite@2.9.5+vue@3.2.33
@@ -337,37 +340,27 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/api': workspace:*
-      '@factor/plugin-highlight-code': 5.0.14
-      '@factor/ui': 5.0.14
+      '@factor/plugin-highlight-code': 5.0.16
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.10.6
       string-similarity: ^4.0.4
-      vue: ^3.2.31
-      vue-router: ^4.0.10
     dependencies:
-      '@factor/api': link:../api
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
-      '@factor/ui': link:../ui
       '@types/string-similarity': 4.0.0
       dayjs: 1.11.0
       string-similarity: 4.0.4
-      vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/api': workspace:*
-      '@factor/plugin-highlight-code': 5.0.14
-      '@factor/ui': 5.0.14
-      vue: ^3.2.31
-      vue-router: ^4.0.10
+      '@factor/plugin-highlight-code': 5.0.16
+      '@types/string-similarity': ^4.0.0
+      dayjs: ^1.10.6
+      string-similarity: ^4.0.4
     dependencies:
-      '@factor/api': link:../api
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
-      '@factor/ui': link:../ui
-      vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
+      '@types/string-similarity': 4.0.0
+      dayjs: 1.11.0
+      string-similarity: 4.0.4
 
   packages/plugin-highlight-code:
     specifiers:
@@ -412,12 +405,12 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': 5.0.14
-      '@factor/plugin-docs-engine': 5.0.14
-      '@factor/plugin-highlight-code': 5.0.14
-      '@factor/plugin-notify': 5.0.14
-      '@factor/plugin-stripe': 5.0.14
-      '@factor/ui': 5.0.14
+      '@factor/plugin-blog-engine': 5.0.16
+      '@factor/plugin-docs-engine': 5.0.16
+      '@factor/plugin-highlight-code': 5.0.16
+      '@factor/plugin-notify': 5.0.16
+      '@factor/plugin-stripe': 5.0.16
+      '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.2.4
       axios: ^0.26.0

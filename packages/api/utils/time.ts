@@ -1,9 +1,14 @@
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-
+import utc from "dayjs/plugin/utc"
+import tz from "dayjs/plugin/timezone"
 dayjs.extend(relativeTime)
+dayjs.extend(utc)
+dayjs.extend(tz)
 
 type DateTypes = string | number | Date | dayjs.Dayjs | undefined
+
+export { dayjs }
 
 const _isNumber = (value: DateTypes): boolean => {
   if (typeof value == "undefined") return false
