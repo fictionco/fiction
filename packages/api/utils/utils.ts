@@ -12,6 +12,10 @@ export const isNode =
   typeof process !== "undefined" && process.versions && process.versions.node
     ? true
     : false
+
+export const isVite = (): boolean => {
+  return process.env.IS_VITE ? true : false
+}
 /**
  * Are we in development mode?
  */

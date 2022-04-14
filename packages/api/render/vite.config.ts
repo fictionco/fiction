@@ -186,7 +186,7 @@ export const getViteConfig = async (
       },
     },
 
-    define,
+    define: { ...define, "process.env.IS_VITE": JSON.stringify("yes") },
 
     plugins: [
       pluginVue(),

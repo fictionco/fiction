@@ -2,7 +2,7 @@ import dayjs from "dayjs"
 import knex, { Knex } from "knex"
 import { logger } from "../logger"
 import { _stop } from "../error"
-import { isNode } from "../utils"
+import { isNode, isVite } from "../utils"
 import type { EndpointResponse, ErrorConfig } from "../types"
 import { getDb } from "./db"
 import type { EndpointMeta } from "./endpoint"
@@ -24,7 +24,7 @@ export abstract class Query {
     // set knex utility if node
     // w sitemap we use the built server app so knex is replaced
     // thus need to check if is a function also
-    if (this.isNode && typeof knex == "function") {
+    if (this.isNode && !isVite() && typeof knex == "function") {
       this.qu = knex({ client: "pg" })
       this.getDb = getDb
     }
@@ -53,10 +53,7 @@ export abstract class Query {
     } catch (error: unknown) {
       const e = error as ErrorConfig
 
-      logger.log({
-        level: "error",
-        context: this.constructor.name,
-        description: `QueryError: ${e.message}`,
+      logger.error(this.constructor.name, `QueryError: ${e.message}`, {
         error: e,
       })
 
