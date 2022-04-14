@@ -43,11 +43,10 @@ export const setAppGlobals = async (
 }
 
 export const getFactorConfig = async (params: {
-  config?: UserConfig
   moduleName?: string
   cwd?: string
 }): Promise<UserConfig> => {
-  const { config, moduleName, cwd } = params
+  const { moduleName, cwd } = params
 
   const configPath = cwd
     ? cwd
@@ -63,7 +62,6 @@ export const getFactorConfig = async (params: {
   const baseConfig = deepMergeAll([
     { variables: getDefaultServerVariables() },
     configFile,
-    config,
   ])
 
   await setAppGlobals(baseConfig)

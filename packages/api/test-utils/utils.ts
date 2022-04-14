@@ -7,9 +7,9 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { randomBetween, setCurrentUser, log } from ".."
 import { PackageJson, FullUser, MainFile } from "../types"
-import { Queries } from "../engine/user"
+import { Queries } from "../plugin-user/user"
 import { setupAppFromMainFile } from "../engine"
-import { setUserInitialized } from "../userInit"
+import { setUserInitialized } from "../plugin-user/userInit"
 
 const require = createRequire(import.meta.url)
 

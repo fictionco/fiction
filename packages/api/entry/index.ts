@@ -4,7 +4,7 @@ import { setupAppFromMainFile } from "../engine/setup"
 import { isNode } from "../utils"
 import { getRouter } from "../router"
 import { getMeta } from "../meta"
-import { initializeUser } from "../userInit"
+import { initializeUser } from "../plugin-user"
 
 import { initializeResetUi } from "../ui"
 import EmptyApp from "./EmptyApp.vue"

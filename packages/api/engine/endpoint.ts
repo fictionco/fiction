@@ -1,10 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosError } from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 import type express from "express"
 import { EndpointResponse, PrivateUser } from "../types"
 import { clientToken } from "../jwt"
 import { logger } from "../logger"
 import { emitEvent } from "../event"
-import { updateUser } from "../user"
+import { updateUser } from "../plugin-user/userClient"
 import { serverUrl } from "./url"
 
 import { Query } from "./query"

@@ -4,8 +4,8 @@ import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "../types"
 import { log, _stop, decodeClientToken, onEvent } from ".."
+import { Queries } from "../plugin-user/user"
 import { Endpoint } from "./endpoint"
-import { Queries } from "./user"
 import { Query } from "./query"
 import { createExpressApp } from "./nodeUtils"
 

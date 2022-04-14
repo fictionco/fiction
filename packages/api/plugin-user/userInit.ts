@@ -1,11 +1,11 @@
-import { FullUser, PrivateUser, AuthCallback } from "./types"
+import { FullUser, PrivateUser, AuthCallback } from "../types"
 
-import { userEndpoints } from "./engine/user"
-import { clientToken } from "./jwt"
-import { log } from "./logger"
-import { getRouter } from "./router"
-import { isSearchBot, isNode } from "./utils"
-import { currentUser, setCurrentUser, logout } from "./user"
+import { clientToken } from "../jwt"
+import { log } from "../logger"
+import { getRouter } from "../router"
+import { isSearchBot, isNode } from "../utils"
+import { userEndpoints } from "./user"
+import { currentUser, setCurrentUser, logout } from "./userClient"
 
 /**
  * Utility function that calls a callback when the user is set initially

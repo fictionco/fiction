@@ -5,21 +5,21 @@ import { createClientToken, decodeClientToken } from "../jwt"
 import { EndpointResponse, FactorTable, FullUser } from "../types"
 import { _stop } from "../error"
 import { runProcessors } from "../processor"
+import { validateEmail, snakeCase } from "../utils"
+import { logger } from "../logger"
+
+import { runHooks } from "../engine/hook"
+import { getUserConfig } from "../engine/plugins"
+import { getDb } from "../engine/db"
+
+import { EndpointMeta } from "../engine/endpoint"
+
+import { Query } from "../engine/query"
 import {
   getPublicUserFields,
   getJsonUserFields,
   getEditableUserFields,
-} from "../user"
-import { validateEmail, snakeCase } from "../utils"
-import { logger } from "../logger"
-
-import { runHooks } from "./hook"
-import { getUserConfig } from "./plugins"
-import { getDb } from "./db"
-
-import { EndpointMeta } from "./endpoint"
-
-import { Query } from "./query"
+} from "./userClient"
 
 /**
  * A random 6 digit number, ideal for verification code
@@ -300,7 +300,7 @@ export const sendVerificationEmail = async (args: {
   email: string
   code: string | number
 }): Promise<void> => {
-  const { sendEmail } = await import("./email")
+  const { sendEmail } = await import("../engine/email")
   const { code, email } = args
   await sendEmail({
     subject: `${code} is your verification code`,

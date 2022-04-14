@@ -4,9 +4,9 @@ import { getTestEmail } from "../../test-utils"
 import { FullUser } from "../../types"
 import { decodeClientToken } from "../../jwt"
 import { setup } from "../../server"
-import { Queries } from "../user"
+import { Queries } from "../../plugin-user/user"
 
-import * as ep from "../user"
+import * as ep from "../../plugin-user/user"
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<
     string,

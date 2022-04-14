@@ -22,10 +22,10 @@ describe("server entry handling", () => {
         "routes",
         "variables",
         "root",
-        "endpoints",
         "sitemaps",
         "paths",
         "vite",
+        "endpoints",
         "serverOnlyImports",
       ]
     `)

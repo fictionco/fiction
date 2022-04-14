@@ -1,8 +1,8 @@
 import { _stop } from "../error"
-import { EndpointMethodOptions, FactorEndpoint } from "./endpoint"
+import { EndpointMethodOptions, FactorEndpoint } from "../engine/endpoint"
+import { Query } from "../engine/query"
 import { Queries as UserAuthQueries } from "./userAuth"
 import { Queries as UserGoogleAuthQueries } from "./userGoogle"
-import { Query } from "./query"
 
 export class UserMethod<T extends Query> extends FactorEndpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {

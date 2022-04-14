@@ -34,6 +34,17 @@ describe("plugin and config tests", () => {
 
     expect(userConfig.endpoints?.map((_) => _.key)).toMatchInlineSnapshot(`
       [
+        "Login",
+        "NewVerificationCode",
+        "SetPassword",
+        "ResetPassword",
+        "UpdateCurrentUser",
+        "SendOneTimeCode",
+        "VerifyAccountEmail",
+        "StartNewUser",
+        "CurrentUser",
+        "ManageUser",
+        "UserGoogleAuth",
         "ManageCustomer",
         "ListSubscriptions",
         "GetInvoices",

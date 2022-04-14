@@ -3,7 +3,7 @@ import { setup } from "../../server"
 import { decodeClientToken } from "../../jwt"
 import { FullUser } from "../../types"
 import { userEndpoints } from "../user"
-import * as em from "../email"
+import * as em from "../../engine/email"
 let user: Partial<FullUser>
 let token: string
 const key = Math.random().toString().slice(2, 8)

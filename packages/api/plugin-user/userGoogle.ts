@@ -3,9 +3,9 @@ import { OAuth2Client } from "google-auth-library"
 import { _stop } from "../error"
 import { logger } from "../logger"
 import { EndpointResponse, FullUser } from "../types"
-import { EndpointMeta } from "./endpoint"
+import { EndpointMeta } from "../engine/endpoint"
+import { Query } from "../engine/query"
 import { Queries as UserAuthQueries } from "./userAuth"
-import { Query } from "./query"
 
 export class QueryUserGoogleAuth extends Query {
   private client?: OAuth2Client

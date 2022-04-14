@@ -9,7 +9,6 @@ import { deepMergeAll } from "../utils"
 import type { CliOptions } from "../cli/utils"
 import { setAppGlobals, getFactorConfig } from "./globals"
 import { createEndpointServer } from "./create"
-import { endpoints } from "./endpoint"
 
 export const setupServerEnv = async (
   entryServerConfig: UserConfig = {},
@@ -61,12 +60,11 @@ export const setupEnvironment = async (
 export const setup = async (options: CliOptions): Promise<UserConfig> => {
   const { port, moduleName, cwd } = options
   const appConfig = await getFactorConfig({
-    config: { endpoints, port },
     moduleName,
     cwd,
   })
 
-  const merge: UserConfig[] = [appConfig]
+  const merge: UserConfig[] = [{ port }, appConfig]
 
   /**
    * Require app server entry file if it exists

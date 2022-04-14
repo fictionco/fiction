@@ -112,6 +112,156 @@ describe("node utils", () => {
               "/Users/arpowers/Projects/factor/packages/ui/",
             ],
           },
+          {
+            "endpoints": [
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "Login",
+                "queryHandler": QueryLogin {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "NewVerificationCode",
+                "queryHandler": QueryNewVerificationCode {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "SetPassword",
+                "queryHandler": QuerySetPassword {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "ResetPassword",
+                "queryHandler": QueryResetPassword {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "UpdateCurrentUser",
+                "queryHandler": QueryUpdateCurrentUser {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "SendOneTimeCode",
+                "queryHandler": QuerySendOneTimeCode {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "VerifyAccountEmail",
+                "queryHandler": QueryVerifyAccountEmail {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "StartNewUser",
+                "queryHandler": QueryStartNewUser {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "CurrentUser",
+                "queryHandler": QueryCurrentUser {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "ManageUser",
+                "queryHandler": QueryManageUser {
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+              UserMethod {
+                "basePath": "/user",
+                "baseURL": [Function],
+                "key": "UserGoogleAuth",
+                "queryHandler": QueryUserGoogleAuth {
+                  "clientId": undefined,
+                  "clientSecret": undefined,
+                  "dayjs": [Function],
+                  "getDb": [Function],
+                  "isNode": true,
+                  "qu": [Function],
+                  "stop": [Function],
+                },
+                "requestHandler": undefined,
+              },
+            ],
+            "name": "FactorUser",
+          },
         ],
         "root": "/Users/arpowers/Projects/factor/packages/site",
         "routes": [
@@ -128,7 +278,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -143,7 +292,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/plugins",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -158,7 +306,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/showcase",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -173,7 +320,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/showcase/:slug",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -188,7 +334,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/install",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -203,7 +348,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/testing",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -218,7 +362,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/blog",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -233,7 +376,6 @@ describe("node utils", () => {
             "parent": "blog",
             "path": "/blog",
             "priority": 200,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -248,7 +390,6 @@ describe("node utils", () => {
             "parent": "blog",
             "path": "/blog/:slug",
             "priority": 200,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -263,7 +404,6 @@ describe("node utils", () => {
             "parent": undefined,
             "path": "/docs",
             "priority": 100,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -278,7 +418,6 @@ describe("node utils", () => {
             "parent": "docs",
             "path": "/docs",
             "priority": 200,
-            "redirect": undefined,
           },
           AppRoute {
             "children": [],
@@ -293,7 +432,6 @@ describe("node utils", () => {
             "parent": "docs",
             "path": "/docs/:slug",
             "priority": 200,
-            "redirect": undefined,
           },
         ],
         "variables": {
