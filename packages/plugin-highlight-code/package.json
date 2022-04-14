@@ -1,14 +1,14 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "5.0.15",
+  "version": "5.0.16",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "5.0.15",
+    "@factor/api": "5.0.16",
     "@types/prismjs": "^1.26.0",
     "highlight.js": "^11.5.0",
     "prismjs": "^1.27.0",
