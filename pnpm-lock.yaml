@@ -174,7 +174,7 @@ importers:
       validator: ^13.5.2
       vite: ^2.9.4
       vite-plugin-markdown: ^2.0.0
-      vue: ^3.2.25
+      vue: ^3.2.33
       vue-router: ^4.0.0
       ws: ^8.5.0
     dependencies:
@@ -340,7 +340,7 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/plugin-highlight-code': 5.0.16
+      '@factor/plugin-highlight-code': 5.0.18
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.10.6
       string-similarity: ^4.0.4
@@ -352,7 +352,7 @@ importers:
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/plugin-highlight-code': 5.0.16
+      '@factor/plugin-highlight-code': 5.0.18
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.10.6
       string-similarity: ^4.0.4
@@ -364,25 +364,21 @@ importers:
 
   packages/plugin-highlight-code:
     specifiers:
-      '@factor/api': workspace:*
       '@types/prismjs': ^1.26.0
       highlight.js: ^11.5.0
       less: ^4.1.1
       prismjs: ^1.27.0
-      vue: ^3.2.31
     dependencies:
-      '@factor/api': link:../api
       '@types/prismjs': 1.26.0
       highlight.js: 11.5.1
       prismjs: 1.27.0
-      vue: 3.2.33
     devDependencies:
       less: 4.1.2
 
   packages/plugin-notify:
     specifiers:
       '@factor/api': workspace:*
-      vue: ^3.2.31
+      vue: ^3.2.33
     dependencies:
       '@factor/api': link:../api
       vue: 3.2.33
@@ -405,11 +401,11 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': 5.0.16
-      '@factor/plugin-docs-engine': 5.0.16
-      '@factor/plugin-highlight-code': 5.0.16
-      '@factor/plugin-notify': 5.0.16
-      '@factor/plugin-stripe': 5.0.16
+      '@factor/plugin-blog-engine': 5.0.18
+      '@factor/plugin-docs-engine': 5.0.18
+      '@factor/plugin-highlight-code': 5.0.18
+      '@factor/plugin-notify': 5.0.18
+      '@factor/plugin-stripe': 5.0.18
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.2.4
@@ -425,8 +421,6 @@ importers:
       remove-markdown: ^0.3.0
       spark-md5: ^3.0.1
       tailwindcss: ^3.0.0
-      vue: ^3.2.31
-      vue-router: ^4.0.10
     dependencies:
       '@factor/api': link:../api
       '@factor/plugin-blog-engine': link:../plugin-blog-engine
@@ -448,8 +442,6 @@ importers:
       remove-markdown: 0.3.0
       spark-md5: 3.0.2
       tailwindcss: 3.0.24
-      vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
     devDependencies:
       '@tailwindcss/forms': 0.5.0_tailwindcss@3.0.24
 
@@ -460,15 +452,11 @@ importers:
       gravatar: ^1.8.0
       less: ^4.1.1
       sortablejs: ^1.12.0
-      vue: ^3.2.31
-      vue-router: ^4.0.10
     dependencies:
       '@factor/api': link:../api
       easymde: 2.16.1
       gravatar: 1.8.2
       sortablejs: 1.15.0
-      vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
     devDependencies:
       less: 4.1.2
 
@@ -1768,7 +1756,7 @@ packages:
       vite: ^2.5.10
       vue: ^3.2.25
     dependencies:
-      vite: 2.9.5_less@4.1.2
+      vite: 2.9.5
       vue: 3.2.33
 
   /@vue/compiler-core/3.2.33:

@@ -23,7 +23,7 @@
     "javascript"
   ],
   "peerDependencies": {
-    "@factor/api": "5.0.17",
+    "@factor/api": "^5.0.0",
     "vue": "^3.2.33"
   },
   "devDependencies": {
