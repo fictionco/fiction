@@ -112,6 +112,7 @@ export const serveApp = async (options: CliOptions = {}): Promise<void> => {
     description: `serving factor app [ready]`,
     data: {
       name: appName,
+      port: `[${port}]`,
       url: `http://localhost:${port}`,
     },
   })

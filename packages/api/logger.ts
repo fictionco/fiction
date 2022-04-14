@@ -145,15 +145,15 @@ class Logger {
     config.priority = logLevel[level].priority
     config.color = logCategory[level].color
 
-    if (
-      config.priority < 10 &&
-      process.env.NODE_ENV !== "production" &&
-      !process.env.FACTOR_DEBUG
-    ) {
-      config.data = undefined
-    }
-
     if (this.isNode && !isVite()) {
+      if (
+        config.priority < 10 &&
+        process.env.NODE_ENV !== "production" &&
+        !process.env.FACTOR_DEBUG
+      ) {
+        config.data = undefined
+      }
+
       this.logServer(config)
     } else {
       this.logBrowser(config)

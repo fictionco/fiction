@@ -51,7 +51,7 @@ const restartInitializer = async (options: OptionValues): Promise<void> => {
     conf = require(configPath) as Record<string, any>
   }
 
-  const passArgs = commander.args
+  const passArgs = process.argv.slice(process.argv.findIndex((_) => _ == "dev"))
 
   passArgs.shift()
 

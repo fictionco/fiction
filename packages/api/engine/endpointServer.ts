@@ -73,7 +73,7 @@ export class EndpointServer {
       log.info(this.context, `endpoint server`, {
         data: {
           name: this.name,
-          port: this.port,
+          port: `[${this.port}]`,
           endpoints: this.endpoints.map((ep) => ep.pathname()),
         },
       })
