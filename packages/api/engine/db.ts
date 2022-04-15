@@ -288,10 +288,7 @@ export const initializeDb = async (): Promise<void> => {
 
   await getDb()
 
-  logger.log({
-    level: "info",
-    context: "initializeDb",
-    description: "db connected",
-    data: { url: connection.hostname, port: connection.port },
+  logger.info("initializeDb", "db connected", {
+    data: { url: connection.hostname, port: `[ ${connection.port} ]` },
   })
 }

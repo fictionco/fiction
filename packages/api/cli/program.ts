@@ -14,18 +14,13 @@ type EntryFile = { setup: (options: CliOptions) => Promise<void> }
 const commander = new Command()
 
 export enum ServiceModule {
-  Server = "@factor/api/server",
+  Server = "@factor/api/entry/serverEntry",
   Render = "@factor/api/render",
 }
 
-export enum ServicePort {
-  Server = "3210",
-  Render = "3000",
-}
-
 export const coreServices = {
-  server: { port: ServicePort.Server, service: ServiceModule.Server },
-  render: { port: ServicePort.Render, service: ServiceModule.Render },
+  server: { servicePath: ServiceModule.Server },
+  render: { servicePath: ServiceModule.Render },
 }
 
 /**
@@ -41,7 +36,7 @@ export const isRestart = (): boolean => {
 const restartInitializer = async (options: OptionValues): Promise<void> => {
   const { default: nodemon } = await import("nodemon")
 
-  setEnvironment(options as CliOptions)
+  await setEnvironment(options as CliOptions)
 
   let conf: Record<string, any> = {}
 
@@ -115,8 +110,8 @@ export const runServer = async (options: CliOptions): Promise<void> => {
  * Run development environment for CWD app
  */
 export const runDev = async (options: CliOptions): Promise<void> => {
-  for (const { service } of Object.values(coreServices)) {
-    const { setup } = (await import(service)) as EntryFile
+  for (const { servicePath } of Object.values(coreServices)) {
+    const { setup } = (await import(servicePath)) as EntryFile
 
     if (setup) {
       await setup(options)
@@ -210,6 +205,7 @@ export const execute = async (): Promise<void> => {
       cb: async (opts) => {
         opts.prerender = true
         const { buildApp } = await import("../render")
+
         await runServer(opts)
         return buildApp(opts)
       },

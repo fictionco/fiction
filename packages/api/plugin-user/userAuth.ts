@@ -2,19 +2,20 @@
 import bcrypt from "bcrypt"
 import dayjs from "dayjs"
 import { createClientToken, decodeClientToken } from "../jwt"
-import { EndpointResponse, FactorTable, FullUser } from "../types"
+import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../error"
 import { runProcessors } from "../processor"
 import { validateEmail, snakeCase } from "../utils"
 import { logger } from "../logger"
 
-import { runHooks } from "../engine/hook"
-import { getUserConfig } from "../engine/plugins"
+import { runHooks } from "../config/hook"
+import { getUserConfig } from "../config/plugins"
 import { getDb } from "../engine/db"
 
 import { EndpointMeta } from "../engine/endpoint"
 
 import { Query } from "../engine/query"
+import { FullUser } from "./types"
 import {
   getPublicUserFields,
   getJsonUserFields,

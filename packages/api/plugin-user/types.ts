@@ -1,6 +1,6 @@
-import { UserGeolocation } from "./geo"
-import { FactorPost, PopulatedPosts, PostActions } from "./post"
-import { UserRoles } from "./roles"
+import { UserGeolocation } from "../types/geo"
+import { FactorPost, PopulatedPosts, PostActions } from "../types/post"
+import { UserRoles } from "../types/roles"
 
 export type CurrentUserState = PrivateUser | undefined
 

@@ -1,9 +1,10 @@
 import path from "path"
 import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
-import { UserConfig } from "../types"
 import { log } from ".."
+import { UserConfig } from "./types"
 import { runHooks } from "./hook"
+
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {

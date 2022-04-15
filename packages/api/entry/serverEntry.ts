@@ -1,17 +1,19 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { UserConfig } from "../types"
+import { UserConfig } from "../config/types"
+import { initializeDb } from "../engine/db"
+import { runHooks } from "../config/hook"
+import type { RunConfig } from "../cli/utils"
+
 import { log } from "../logger"
 import { EndpointServer } from "../engine"
 
 export const createEndpointServer = async (
-  port: string,
-  config: UserConfig,
+  userConfig: UserConfig,
 ): Promise<http.Server | undefined> => {
-  const { endpoints = [] } = config
+  const { endpoints = [], port } = userConfig
 
-  // Set this global to enable URL calc
-  process.env.FACTOR_SERVER_PORT = port
+  if (!port) throw new Error("port is required")
 
   try {
     const factorEndpointServer = new EndpointServer({
@@ -40,4 +42,28 @@ export const createEndpointServer = async (
   }
 
   return
+}
+
+/**
+ * Set up all config variables on server
+ */
+export const createServer = async (params: {
+  userConfig: UserConfig
+}): Promise<UserConfig> => {
+  const { userConfig } = params
+  await initializeDb()
+
+  await runHooks("afterServerSetup")
+
+  await createEndpointServer(userConfig)
+
+  await runHooks("afterServerCreated")
+
+  return params.userConfig
+}
+/**
+ * Run the Factor server
+ */
+export const setup = async (options: RunConfig): Promise<UserConfig> => {
+  return await createServer({ userConfig: options.userConfig ?? {} })
 }

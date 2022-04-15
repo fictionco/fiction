@@ -1,5 +1,4 @@
-import { FullUser, PrivateUser, AuthCallback } from "../types"
-
+import { FullUser, PrivateUser, AuthCallback } from "../plugin-user/types"
 import { clientToken } from "../jwt"
 import { log } from "../logger"
 import { getRouter } from "../router"

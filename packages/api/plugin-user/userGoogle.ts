@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { OAuth2Client } from "google-auth-library"
+import type { OAuth2Client } from "google-auth-library"
 import { _stop } from "../error"
 import { logger } from "../logger"
-import { EndpointResponse, FullUser } from "../types"
+import { FullUser } from "../plugin-user/types"
+import { EndpointResponse } from "../types"
 import { EndpointMeta } from "../engine/endpoint"
 import { Query } from "../engine/query"
 import { Queries as UserAuthQueries } from "./userAuth"
@@ -21,6 +22,7 @@ export class QueryUserGoogleAuth extends Query {
   }
 
   async getClient(): Promise<OAuth2Client> {
+    const { OAuth2Client } = await import("google-auth-library")
     if (!this.client) {
       this.client = new OAuth2Client({
         clientId: this.clientId,

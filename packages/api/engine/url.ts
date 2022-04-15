@@ -1,12 +1,12 @@
 import { _stop } from "../error"
-import { userConfigSetting } from "./plugins"
+import { userConfigSetting } from "../config/plugins"
 
 export const getAppPort = (): string => {
   return userConfigSetting("portApp") || process.env.PORT_APP || "3000"
 }
 
 export const getServerPort = (): string => {
-  const port = userConfigSetting("port") || process.env.PORT || "3210"
+  const port = userConfigSetting("port") || process.env.PORT || "3333"
 
   return port
 }
@@ -15,7 +15,7 @@ export const serverUrl = (): string => {
   if (process.env.FACTOR_SERVER_URL) {
     return process.env.FACTOR_SERVER_URL
   } else {
-    return `http://localhost:${getServerPort() || "3210"}`
+    return `http://localhost:${getServerPort()}`
   }
 }
 

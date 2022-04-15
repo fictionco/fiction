@@ -3,28 +3,29 @@ import { createRequire } from "module"
 import pluginVue from "@vitejs/plugin-vue"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
-import {
-  importIfExists,
-  requireIfExists,
-  sourceFolder,
-  cwd,
-} from "../engine/nodeUtils"
-import { setAppGlobals } from "../server/globals"
+import { importIfExists, requireIfExists, cwd } from "../engine/nodeUtils"
+import { setAppGlobals } from "../config/globals"
 import { deepMergeAll, getMarkdownUtility } from ".."
 import { logger } from "../logger"
-import { UserConfig } from "../types"
-import { getUserConfig } from "../engine/plugins"
+import { UserConfig } from "../config/types"
+import { RunConfig } from "../cli/utils"
 import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
 
 const require = createRequire(import.meta.url)
 
-const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
+const tailwindConfig = async (
+  options: RunConfig,
+): Promise<Record<string, any> | undefined> => {
+  const { cwd } = options
+
+  if (!cwd) throw new Error("cwd is required")
+
   const baseTailwindConfig = await import("./tailwind.config")
 
   const c: Record<string, any>[] = [baseTailwindConfig.default]
 
   const userTailwindConfig = await requireIfExists(
-    path.join(cwd(), "tailwind.config.cjs"),
+    path.join(cwd, "tailwind.config.cjs"),
   )
 
   if (userTailwindConfig) {
@@ -43,10 +44,15 @@ const tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
 /**
  * Get the vite config from the CWD app
  */
-const getAppViteConfig = async (): Promise<vite.InlineConfig | undefined> => {
+const getAppViteConfig = async (
+  options: RunConfig,
+): Promise<vite.InlineConfig | undefined> => {
+  const { cwd } = options
+
+  if (!cwd) throw new Error("cwd is required")
   const _module = await importIfExists<{
     default: vite.InlineConfig | (() => Promise<vite.InlineConfig>)
-  }>(path.join(cwd(), "vite.config.ts"))
+  }>(path.join(cwd, "vite.config.ts"))
 
   let config: vite.InlineConfig | undefined = undefined
   const result = _module?.default
@@ -62,16 +68,18 @@ const getAppViteConfig = async (): Promise<vite.InlineConfig | undefined> => {
   return config
 }
 
-const entryDir = path.join(
-  path.dirname(require.resolve("@factor/api")),
-  "/entry",
-)
-
 /**
  * Common vite options for all builds
  */
-const optimizeDeps = (): Partial<vite.InlineConfig> => {
+const optimizeDeps = (userConfig: UserConfig): Partial<vite.InlineConfig> => {
+  const configExcludeIds = getServerOnlyModules(userConfig).map((_) => _.id)
+
   return {
+    server: {
+      watch: {
+        ignored: ["!**/node_modules/@factor/**"],
+      },
+    },
     optimizeDeps: {
       exclude: [
         "@factor/api",
@@ -79,11 +87,11 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
         "@kaption/client",
-        ...getServerOnlyModules().map((_) => _.id),
         "vue",
         "@vueuse/head",
         "vue-router",
         "@medv/finder",
+        ...configExcludeIds,
       ],
       include: [
         "path-browserify",
@@ -115,16 +123,27 @@ const optimizeDeps = (): Partial<vite.InlineConfig> => {
 }
 
 export const getViteConfig = async (
-  viteConfig: Partial<vite.InlineConfig> = {},
-  addUserConfig: UserConfig = {},
-  options: {
-    bundleMode?: "script" | "app"
-  } = {},
+  options: RunConfig & {
+    sourceDir: string
+    publicDir: string
+    entryDir: string
+  },
 ): Promise<vite.InlineConfig> => {
-  const { bundleMode } = options
-  const userConfig = getUserConfig()
-  const allUserConfig = deepMergeAll<UserConfig>([userConfig, addUserConfig])
-  const vars = await setAppGlobals(allUserConfig)
+  const {
+    bundleMode,
+    viteConfig = {},
+    userConfig = {},
+    sourceDir,
+    publicDir,
+    entryDir,
+    portApp,
+  } = options
+
+  if (!sourceDir) throw new Error("sourceDir is required")
+  if (!publicDir) throw new Error("publicDir is required")
+  if (!entryDir) throw new Error("entryDir is required")
+
+  const vars = await setAppGlobals(userConfig)
 
   const define = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -137,31 +156,33 @@ export const getViteConfig = async (
   )
 
   if (bundleMode !== "script" || process.env.NODE_ENV == "production") {
-    logger.log({
-      level: "info",
-      context: "build",
-      description: `build variables (${Object.keys(listVars).length} total)`,
-      data: listVars,
-      disableOnRestart: true,
-    })
+    logger.info(
+      "getViteConfig",
+      `build variables (${Object.keys(listVars).length} total)`,
+      {
+        data: listVars,
+        disableOnRestart: true,
+      },
+    )
   }
 
-  const root = sourceFolder()
+  const root = sourceDir
 
-  const twConfig = await tailwindConfig()
+  const twConfig = await tailwindConfig(options)
 
   const twPlugin = require("tailwindcss") as (
     c?: Record<string, any>,
   ) => vite.PluginOption
 
-  const customPlugins = await getCustomBuildPlugins()
+  const customPlugins = await getCustomBuildPlugins(userConfig)
+
+  const optimizeDepsConfig = optimizeDeps(userConfig)
 
   const basicConfig: vite.InlineConfig = {
     root,
-    publicDir: path.join(root, "public"),
-
+    publicDir,
     server: {
-      port: 3000,
+      port: portApp ? Number.parseInt(portApp) : 3000,
       fs: { strict: false },
     },
 
@@ -197,17 +218,17 @@ export const getViteConfig = async (
 
       ...customPlugins,
     ],
-    ...optimizeDeps(),
+    ...optimizeDepsConfig,
   }
 
   const merge = [basicConfig, viteConfig]
 
-  if (allUserConfig.vite) {
-    merge.push(allUserConfig.vite)
+  if (userConfig.vite) {
+    merge.push(userConfig.vite)
   }
 
   // If the app has a vite config, merge it
-  const appViteConfig = await getAppViteConfig()
+  const appViteConfig = await getAppViteConfig(options)
 
   if (appViteConfig) {
     merge.push(appViteConfig)

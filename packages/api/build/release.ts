@@ -6,7 +6,7 @@ import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
 import { log } from "../logger"
-import type { CliOptions } from "../cli/utils"
+import type { RunConfig } from "../cli/utils"
 import { PackageJson } from "../types"
 import { isGitDirty, getPackages } from "./utils"
 
@@ -152,9 +152,7 @@ const publishPackage = async (
 /**
  * The main release routine controller
  */
-export const releaseRoutine = async (
-  options: CliOptions = {},
-): Promise<void> => {
+export const releaseRoutine = async (options: RunConfig): Promise<void> => {
   const { patch, skipTests } = options
 
   log.info("release", `publish new version [live]`)

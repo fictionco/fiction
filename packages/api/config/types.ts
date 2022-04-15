@@ -6,10 +6,10 @@ import type { AppRoute } from "../router"
 import type { ManageUserParams } from "../plugin-user"
 import type { Endpoint, EndpointMeta } from "../engine/endpoint"
 import type { ServerModuleDef } from "../render/buildPlugins"
-import type { HookType } from "../engine/hookDictionary"
 import { DataProcessor } from "../processor"
-import { FullUser } from "./user"
-import { LogHandler, SiteMapConfig } from "./server"
+import { LogHandler, SiteMapConfig } from "../types/server"
+import { FullUser } from "../plugin-user/types"
+import type { HookType } from "./hookDictionary"
 
 export interface FactorAppEntry {
   app: App

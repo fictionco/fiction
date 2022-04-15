@@ -1,8 +1,12 @@
 import { beforeAll, describe, expect, it } from "vitest"
 import { computed } from "vue"
 import { createTestUser } from "../test-utils"
-import { FullUser } from "../types"
-import { activeUser, setCurrentUser, updateUser } from "../plugin-user"
+import {
+  FullUser,
+  activeUser,
+  setCurrentUser,
+  updateUser,
+} from "../plugin-user"
 
 let user: FullUser | undefined = undefined
 describe("active user handling", () => {

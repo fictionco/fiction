@@ -1,5 +1,5 @@
 import { expect, it, describe } from "vitest"
-import { setupAppFromMainFile } from "../../engine/setup"
+import { setupAppFromMainFile } from "../setupApp"
 import * as mainFile from "./mainFile"
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
@@ -9,11 +9,14 @@ describe("server entry handling", () => {
     expect(config.variables?.TEST_BLOG_PLUGIN).toBe(undefined)
     expect(config.server).toBe(undefined)
     expect(config.plugins).toBe(undefined)
+    expect(config.variables).toBe(undefined)
+
+    expect(config.port).toBe(process.env.PORT)
     expect(Object.keys(config)).toMatchInlineSnapshot(`
       [
+        "routes",
         "port",
         "portApp",
-        "routes",
       ]
     `)
     expect(config.port).toBe(process.env.PORT)

@@ -6,9 +6,11 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { randomBetween, setCurrentUser, log } from ".."
-import { PackageJson, FullUser, MainFile } from "../types"
+import { MainFile } from "../config"
+import { FullUser } from "../plugin-user"
+import { PackageJson } from "../types"
 import { Queries } from "../plugin-user/user"
-import { setupAppFromMainFile } from "../engine"
+import { setupAppFromMainFile } from "../entry/setupApp"
 import { setUserInitialized } from "../plugin-user/userInit"
 
 const require = createRequire(import.meta.url)
@@ -16,6 +18,10 @@ const require = createRequire(import.meta.url)
 const getModuleName = (cwd: string): string => {
   const pkg = require(`${cwd}/package.json`) as PackageJson
   return pkg.name
+}
+
+export const getTestCwd = (): string => {
+  return path.dirname(require.resolve("@factor/site/package.json"))
 }
 
 export const getTestEmail = (): string => {
@@ -149,7 +155,7 @@ export const appBuildTests = (config: {
 
   describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor prerender --port ${serverPort}`
+      const command = `npm exec -w ${moduleName} -- factor prerender --port ${serverPort} --port-app ${appPort}`
 
       log.info("appBuildTests", "running prerender command", { data: command })
       const r = execaCommandSync(command, {
@@ -171,8 +177,8 @@ export const appBuildTests = (config: {
       )
 
       expect(r.stdout).toContain("build variables")
-      expect(r.stdout).toContain(serverPort)
-      expect(r.stdout).toContain(appPort)
+      expect(r.stdout).toContain(`[ ${serverPort} ]`)
+      expect(r.stdout).toContain(`[ ${appPort} ]`)
       expect(r.stdout).toContain("[ready]")
     })
 

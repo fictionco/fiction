@@ -1,4 +1,4 @@
-import { PrivateUser } from "./user"
+import { PrivateUser } from "../plugin-user/types"
 import { Request } from "express"
 // https://stackoverflow.com/questions/57132428/augmentations-for-the-global-scope-can-only-be-directly-nested-in-external-modul
 export {}

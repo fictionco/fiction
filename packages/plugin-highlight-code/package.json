@@ -8,20 +8,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/prismjs": "^1.26.0",
-    "highlight.js": "^11.5.1",
-    "prismjs": "^1.27.0"
+    "highlight.js": "^11.5.1"
   },
-  "keywords": [
-    "factor",
-    "factor-plugin",
-    "syntax",
-    "highlight",
-    "markdown",
-    "code",
-    "css",
-    "javascript"
-  ],
   "peerDependencies": {
     "@factor/api": "^5.0.0",
     "vue": "^3.2.33"

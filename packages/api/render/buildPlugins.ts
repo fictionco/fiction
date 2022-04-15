@@ -1,7 +1,7 @@
 import * as esLexer from "es-module-lexer"
 import * as cjsLexer from "cjs-module-lexer"
 import * as vite from "vite"
-import { userConfigSetting } from "../engine/plugins"
+import { UserConfig } from "../config/types"
 
 export type ServerModuleDef = {
   id: string
@@ -10,9 +10,9 @@ export type ServerModuleDef = {
   resolvedId?: string
 }
 
-export const getServerOnlyModules = (): ServerModuleDef[] => {
-  const s = userConfigSetting("serverOnlyImports") ?? []
-
+export const getServerOnlyModules = (
+  userConfig: UserConfig,
+): ServerModuleDef[] => {
   return [
     { id: "http" },
     { id: "knex" },
@@ -32,8 +32,10 @@ export const getServerOnlyModules = (): ServerModuleDef[] => {
     { id: "cors" },
     { id: "helmet" },
     { id: "fast-safe-stringify" },
+    { id: "json-schema-to-typescript" },
+    { id: "fs-extra" },
     { id: "module", exports: ["createRequire"] },
-    ...s,
+    ...(userConfig.serverOnlyImports || []),
   ]
 }
 
@@ -77,8 +79,10 @@ const getReplacedModule = (opts: {
  * /0 prefix prevents other plugins from messing with module
  * https://rollupjs.org/guide/en/#conventions
  */
-export const getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
-  const serverOnlyModules = getServerOnlyModules()
+export const getCustomBuildPlugins = async (
+  userConfig: UserConfig,
+): Promise<vite.Plugin[]> => {
+  const serverOnlyModules = getServerOnlyModules(userConfig)
 
   const fullServerModules = serverOnlyModules.map((_) => {
     return {
@@ -108,7 +112,7 @@ export const getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
 
         if (isServerPackage || isServerFile) {
           const code = getReplacedModule({ src, id, type: "map" })
-          return { code, map: null }
+          return { code }
         }
       },
       config: () => {

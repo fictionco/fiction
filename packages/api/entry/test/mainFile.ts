@@ -1,5 +1,5 @@
 import { safeDirname } from "../../utils"
-import { UserConfig } from "../../types"
+import { UserConfig } from "../../config"
 export const setup = (): UserConfig => {
   return {
     routes: [],

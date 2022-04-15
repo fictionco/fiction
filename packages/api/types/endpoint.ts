@@ -1,8 +1,8 @@
 import express from "express"
+import { CurrentUserState } from "../plugin-user/types"
 import { ErrorCode } from "./error"
 import { UserGeolocation } from "./geo"
 import { UserRoles } from "./roles"
-import { CurrentUserState } from "./user"
 
 export type EndpointResponse<T = unknown> = {
   status: "success" | "error" | "fail" | "loading"

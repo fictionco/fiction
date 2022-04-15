@@ -5,9 +5,9 @@ import "tailwindcss/tailwind.css"
 import * as mainFile from "@src/index.ts"
 // eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
 import RootComponent from "@src/App.vue"
-import { FactorAppEntry, MainFile } from "../types"
+import { FactorAppEntry, MainFile } from "../config/types"
 
-import { mountApp, factorApp } from "."
+import { mountApp, factorApp } from "./setupApp"
 
 export const runApp = (
   params: { renderUrl?: string; isSSR?: boolean } = {},

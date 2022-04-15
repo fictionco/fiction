@@ -1,12 +1,13 @@
 import { expect, it, vi, describe, beforeAll } from "vitest"
 import bcrypt from "bcrypt"
 import { getTestEmail } from "../../test-utils"
-import { FullUser } from "../../types"
+import { FullUser } from "../types"
 import { decodeClientToken } from "../../jwt"
-import { setup } from "../../server"
+import { createServer } from "../../entry/serverEntry"
 import { Queries } from "../../plugin-user/user"
-
+import { getServerUserConfig } from "../../config"
 import * as ep from "../../plugin-user/user"
+
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<
     string,
@@ -24,7 +25,8 @@ let user: FullUser
 
 describe("user tests", () => {
   beforeAll(async () => {
-    await setup({ moduleName: "@factor/site" })
+    const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
+    await createServer({ userConfig })
   })
   it("creates user", async () => {
     const response = await Queries.ManageUser.serve(

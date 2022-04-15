@@ -2,7 +2,7 @@ import { createRequire } from "module"
 import path from "path"
 import { Page } from "playwright"
 import { describe, it, beforeAll, expect } from "vitest"
-import appVars from "@factor/site/factor.config"
+import * as mainFile from "@factor/site"
 import { createTestServer, TestServerConfig } from "../../test-utils"
 const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
@@ -32,6 +32,8 @@ describe("renders app code correctly", () => {
 
     await page().waitForSelector("#server-port")
 
+    const mainConfig = mainFile.setup()
+
     const serverPortText = await page().locator(`#server-port`).textContent()
     expect(serverPortText).toBe(_s.serverPort.toString())
 
@@ -39,12 +41,12 @@ describe("renders app code correctly", () => {
     expect(currentUrlText).toBe(_s.appUrl)
 
     const appNameText = await page().locator(`#app-name`).textContent()
-    expect(appNameText).toBe(appVars.variables.FACTOR_APP_NAME)
+    expect(appNameText).toBe(mainConfig?.variables?.FACTOR_APP_NAME)
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toBe(appVars.variables.FACTOR_APP_EMAIL)
+    expect(appEmailText).toBe(mainConfig?.variables?.FACTOR_APP_EMAIL)
 
     const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toBe(appVars.variables.FACTOR_APP_URL)
+    expect(appUrlText).toBe(mainConfig?.variables?.FACTOR_APP_URL)
   }, 16_000)
 })

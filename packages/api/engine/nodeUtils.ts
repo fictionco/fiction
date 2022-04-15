@@ -11,8 +11,8 @@ import compression from "compression"
 import helmet from "helmet"
 import cors from "cors"
 import express from "express"
-import { UserConfig, PackageJson } from "../types"
-import { getNetworkIp, deepMergeAll } from ".."
+import { PackageJson } from "../types"
+import { getNetworkIp } from ".."
 
 const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
@@ -29,7 +29,7 @@ type WhichModule = {
   cwd?: string
 }
 
-export const mainFilePath = (params: WhichModule = {}): string => {
+export const getMainFilePath = (params: WhichModule = {}): string => {
   return params.moduleName
     ? require.resolve(params.moduleName)
     : path.resolve(params.cwd ?? cwd(), mainFileRel(params.cwd))
@@ -39,13 +39,13 @@ export const mainFilePath = (params: WhichModule = {}): string => {
  * Get source folder for CWD or optional moduleName
  */
 export const sourceFolder = (params: WhichModule = {}): string => {
-  return path.dirname(mainFilePath(params))
+  return path.dirname(getMainFilePath(params))
 }
 
-export const distFolder = (): string => path.join(cwd(), "dist")
-export const distServer = (): string => path.join(distFolder(), "server")
-export const distServerEntry = (): string => path.join(distServer(), "mount")
-export const distClient = (): string => path.join(distFolder(), "client")
+// export const distFolder = (): string => path.join(cwd(), "dist")
+// export const distServer = (): string => path.join(distFolder(), "server")
+// export const distServerEntry = (): string => path.join(distServer(), "mount")
+// export const distClient = (): string => path.join(distFolder(), "client")
 
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
@@ -58,26 +58,26 @@ export const importIfExists = async <T = unknown>(
   } else return
 }
 
-export const serverRenderEntryConfig = async (
-  params: WhichModule,
-): Promise<Promise<UserConfig>> => {
-  const mod = await importIfExists<{
-    setup?: () => Promise<UserConfig> | UserConfig
-  }>(mainFilePath(params))
+// export const serverRenderEntryConfig = async (
+//   params: WhichModule,
+// ): Promise<Promise<UserConfig>> => {
+//   const mod = await importIfExists<{
+//     setup?: () => Promise<UserConfig> | UserConfig
+//   }>(mainFilePath(params))
 
-  // get universal setup
-  let entryConfig = mod?.setup ? await mod.setup() : {}
+//   // get universal setup
+//   let entryConfig = mod?.setup ? await mod.setup() : {}
 
-  if (entryConfig.server) {
-    const serverConfig = await entryConfig.server()
+//   if (entryConfig.server) {
+//     const serverConfig = await entryConfig.server()
 
-    entryConfig = deepMergeAll([entryConfig, serverConfig ?? {}])
+//     entryConfig = deepMergeAll([entryConfig, serverConfig ?? {}])
 
-    delete entryConfig.server
-  }
+//     delete entryConfig.server
+//   }
 
-  return entryConfig
-}
+//   return entryConfig
+// }
 
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
@@ -128,17 +128,9 @@ export const resolveIfExists = (mod: string): string | undefined => {
   return result
 }
 
-export const resolveCwd = (p: string): string => path.resolve(cwd(), p)
-export const resolveSrc = (p: string): string => path.resolve(sourceFolder(), p)
-export const resolveDist = (p: string): string => path.resolve(distFolder(), p)
-
-export const getFaviconPath = (): string => {
+export const getFaviconPath = (src: string): string => {
   let faviconPath = ""
-  const paths = [
-    `${sourceFolder()}/favicon*`,
-    `${sourceFolder()}/**/favicon*`,
-    `${sourceFolder()}/icon*`,
-  ]
+  const paths = [`${src}/favicon*`, `${src}/**/favicon*`, `${src}/icon*`]
 
   paths.some((paths) => {
     const r = glob.sync(paths)

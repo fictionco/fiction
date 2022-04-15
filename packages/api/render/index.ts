@@ -1,4 +1,4 @@
-import type { CliOptions } from "../cli/utils"
+import type { RunConfig } from "../cli/utils"
 
 import { serveApp } from "./serve"
 
@@ -9,7 +9,7 @@ export * from "./serve"
 /**
  * Run the application build
  */
-export const setup = async (options: CliOptions): Promise<void> => {
+export const setup = async (options: RunConfig): Promise<void> => {
   await serveApp(options)
 
   return

@@ -184,8 +184,7 @@
       "basePath": "/user",
       "key": "UserGoogleAuth",
       "queryHandler": {
-        "isNode": true,
-        "clientSecret": "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"
+        "isNode": true
       }
     },
     {

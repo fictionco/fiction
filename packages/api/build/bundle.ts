@@ -4,11 +4,11 @@ import fs from "fs-extra"
 import { execa } from "execa"
 import * as vite from "vite"
 import { log } from "../logger"
-import { PackageJson } from "../types"
+//import { PackageJson } from "../types"
 import { deepMergeAll } from "../utils"
 import { getViteConfig } from "../render/vite.config"
+import { RunConfig } from "../cli/utils"
 import { getPackages, getCommit } from "./utils"
-
 const require = createRequire(import.meta.url)
 
 export const packageDir = (packageName?: string): string => {
@@ -17,15 +17,15 @@ export const packageDir = (packageName?: string): string => {
   return path.dirname(require.resolve(`${packageName}/package.json`))
 }
 
-interface BundleOptions {
-  cwd?: string
-  pkg?: PackageJson
-  NODE_ENV?: "production" | "development"
-  STAGE_ENV?: "prod" | "pre" | "local"
-  commit?: string
-  sourceMap?: boolean
-  bundleMode?: "script" | "app"
-}
+// interface BundleOptions {
+//   cwd?: string
+//   pkg?: PackageJson
+//   NODE_ENV?: "production" | "development"
+//   STAGE_ENV?: "prod" | "pre" | "local"
+//   commit?: string
+//   sourceMap?: boolean
+//   bundleMode?: "script" | "app"
+// }
 
 export const outputFolders = (): {
   htmlFolder: string
@@ -41,8 +41,8 @@ export const outputFolders = (): {
 /**
  * Run a child process for rollup that builds scripts based on options
  */
-export const bundle = async (options: BundleOptions): Promise<void> => {
-  const { pkg, NODE_ENV, bundleMode, STAGE_ENV = "prod" } = options
+export const bundle = async (options: RunConfig): Promise<void> => {
+  const { pkg, NODE_ENV } = options
 
   try {
     if (!pkg) throw new Error("package data missing")
@@ -61,11 +61,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
       commit = await getCommit()
     }
 
-    const vc = await getViteConfig(
-      { mode: NODE_ENV },
-      { variables: { STAGE_ENV } },
-      { bundleMode },
-    )
+    const vc = await getViteConfig(options)
 
     const distDir = path.join("dist", buildOptions.outputDir ?? "")
 
@@ -119,7 +115,7 @@ export const bundle = async (options: BundleOptions): Promise<void> => {
 /**
  * Bundle all packages or just a specified one
  */
-export const bundleAll = async (options: BundleOptions = {}): Promise<void> => {
+export const bundleAll = async (options: RunConfig): Promise<void> => {
   // If pkg is set, just bundle that one
   const packages = getPackages().filter((pkg) => pkg.buildOptions)
   if (packages.length === 0) {

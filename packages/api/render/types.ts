@@ -8,5 +8,4 @@ export interface RenderOptions {
   mode: "production" | "development"
   renderMode: RenderMode
   debug?: boolean
-  force?: boolean
 }

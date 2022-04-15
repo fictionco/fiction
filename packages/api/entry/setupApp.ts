@@ -1,13 +1,42 @@
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
-import { FactorAppEntry, MainFile } from "../types"
-import { setupAppFromMainFile } from "../engine/setup"
+import { FactorAppEntry, MainFile, UserConfig } from "../config/types"
+
 import { isNode } from "../utils"
-import { getRouter } from "../router"
+import { getRouter, setupRouter } from "../router"
 import { getMeta } from "../meta"
 import { initializeUser } from "../plugin-user"
 
 import { initializeResetUi } from "../ui"
+
+import { runHooks } from "../config/hook"
+import { createUserConfig } from "../config/entry"
 import EmptyApp from "./EmptyApp.vue"
+
+export const setupApp = async (params: {
+  userConfig: UserConfig
+  isSSR?: boolean
+}): Promise<UserConfig> => {
+  const { isSSR, userConfig } = params
+
+  if (userConfig.routes) {
+    setupRouter(userConfig.routes)
+  }
+
+  await runHooks("afterAppSetup", { userConfig, isSSR })
+
+  return userConfig
+}
+
+export const setupAppFromMainFile = async (params: {
+  mainFile?: MainFile
+  isSSR?: boolean
+}): Promise<UserConfig> => {
+  const { mainFile = {}, isSSR } = params
+
+  const userConfig = await createUserConfig({ mainFile, isApp: true })
+
+  return await setupApp({ userConfig, isSSR })
+}
 
 /**
  * Create the main Vue app

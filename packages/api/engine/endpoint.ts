@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios"
 import type express from "express"
-import { EndpointResponse, PrivateUser } from "../types"
+import { PrivateUser } from "../plugin-user/types"
+import { EndpointResponse } from "../types"
 import { clientToken } from "../jwt"
 import { logger } from "../logger"
 import { emitEvent } from "../event"

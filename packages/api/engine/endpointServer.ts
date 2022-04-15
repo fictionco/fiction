@@ -32,8 +32,9 @@ export class EndpointServer {
   context = "endpointServer"
   server?: http.Server
   constructor(options: EndpointServerOptions) {
-    const { port, endpoints, customServer } = options
-    this.name = options.name
+    const { port, endpoints, customServer, name } = options
+
+    this.name = name
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
@@ -73,7 +74,7 @@ export class EndpointServer {
       log.info(this.context, `endpoint server`, {
         data: {
           name: this.name,
-          port: `[${this.port}]`,
+          port: `[ ${this.port} ]`,
           endpoints: this.endpoints.map((ep) => ep.pathname()),
         },
       })

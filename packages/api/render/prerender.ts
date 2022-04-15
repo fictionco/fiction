@@ -5,20 +5,25 @@ import fs from "fs-extra"
 import serveStatic from "serve-static"
 import { onEvent } from "../event"
 import { log } from "../logger"
-import { distClient, distFolder } from "../engine/nodeUtils"
 
-import { getRequestHtml, htmlGenerators } from "./render"
+import { RunConfig } from "../cli/utils"
+import { getRequestHtml, htmlGenerators } from "./serve"
 import { getSitemapPaths } from "./sitemap"
-const staticDir = (): string => path.join(distFolder(), "static")
 
-export const preRenderPages = async (): Promise<void> => {
-  const generators = await htmlGenerators("production")
+export const preRenderPages = async (params: RunConfig): Promise<void> => {
+  const { distStatic, distClient } = params
+
+  if (!distStatic || !distClient) {
+    throw new Error("distStatic and distClient required for prerender")
+  }
+
+  const generators = await htmlGenerators(params)
 
   const urls = await getSitemapPaths()
 
-  fs.ensureDirSync(staticDir())
-  fs.emptyDirSync(staticDir())
-  fs.copySync(distClient(), staticDir())
+  fs.ensureDirSync(distStatic)
+  fs.emptyDirSync(distStatic)
+  fs.copySync(distClient, distStatic)
 
   /**
    * @important pre-render in series
@@ -31,7 +36,7 @@ export const preRenderPages = async (): Promise<void> => {
 
       const html = await getRequestHtml({ ...generators, url })
 
-      const writePath = path.join(staticDir(), filePath)
+      const writePath = path.join(distStatic, filePath)
       fs.ensureDirSync(path.dirname(writePath))
       fs.writeFileSync(writePath, html)
 
@@ -47,7 +52,11 @@ export const preRenderPages = async (): Promise<void> => {
   return
 }
 
-export const serveStaticApp = async (): Promise<void> => {
+export const serveStaticApp = async (options: RunConfig): Promise<void> => {
+  const { distStatic } = options
+
+  if (!distStatic) throw new Error("distStatic required for serveStaticApp")
+
   const app = express()
 
   app.use(compression())
@@ -63,11 +72,11 @@ export const serveStaticApp = async (): Promise<void> => {
     })
     next()
   })
-  app.use(serveStatic(staticDir(), { extensions: ["html"] }))
+  app.use(serveStatic(distStatic, { extensions: ["html"] }))
 
   app.use("*", (req, res) => {
     log.info("serveStaticApp", `serving fallback index.html at ${req.baseUrl}`)
-    res.sendFile(path.join(staticDir(), "/index.html"))
+    res.sendFile(path.join(distStatic, "/index.html"))
   })
   const port = process.env.PORT || process.env.FACTOR_APP_PORT || 3000
 
@@ -80,21 +89,17 @@ export const serveStaticApp = async (): Promise<void> => {
     })
   })
 
-  onEvent("shutdown", () => {
-    server.close()
-  })
+  onEvent("shutdown", () => server.close())
 }
 
-export const preRender = async (
-  options: { serve?: boolean } = {},
-): Promise<void> => {
+export const preRender = async (options: RunConfig): Promise<void> => {
   log.log({
     level: "info",
     context: "prerender",
     description: "prerender starting",
   })
   const { serve } = options
-  await preRenderPages()
+  await preRenderPages(options)
 
   log.log({
     level: "info",
@@ -108,6 +113,6 @@ export const preRender = async (
       context: "prerender:serve",
       description: "serving...",
     })
-    await serveStaticApp()
+    await serveStaticApp(options)
   }
 }

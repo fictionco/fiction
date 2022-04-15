@@ -1,4 +1,4 @@
-import { userConfigSetting } from "../engine/plugins"
+import { userConfigSetting } from "../config/plugins"
 
 const pluginPaths = userConfigSetting("paths") || []
 const paths = pluginPaths.flatMap((p) => [`${p}/*.vue`, `${p}/**/*.vue`])

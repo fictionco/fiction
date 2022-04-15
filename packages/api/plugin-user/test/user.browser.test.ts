@@ -1,16 +1,18 @@
 import { expect, it, describe, vi, beforeAll } from "vitest"
-import { setup } from "../../server"
+import { createServer } from "../../entry/serverEntry"
 import { decodeClientToken } from "../../jwt"
-import { FullUser } from "../../types"
+import { FullUser } from "../types"
 import { userEndpoints } from "../user"
 import * as em from "../../engine/email"
+import { getServerUserConfig } from "../../config/entry"
 let user: Partial<FullUser>
 let token: string
 const key = Math.random().toString().slice(2, 8)
 
 describe("user tests", () => {
   beforeAll(async () => {
-    await setup({ moduleName: "@factor/site" })
+    const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
+    await createServer({ userConfig })
   })
   it("creates user", async () => {
     const spy = vi.spyOn(em, "sendEmail")

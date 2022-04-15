@@ -1,5 +1,5 @@
 import { SiteMapConfig } from "../types"
-import { userConfigSetting } from "./plugins"
+import { userConfigSetting } from "../config/plugins"
 
 export const getSitemaps = (): SiteMapConfig[] => {
   const initial = userConfigSetting("sitemaps") || []

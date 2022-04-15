@@ -24,9 +24,10 @@ export abstract class Query {
     // set knex utility if node
     // w sitemap we use the built server app so knex is replaced
     // thus need to check if is a function also
+
     if (this.isNode && !isVite() && typeof knex == "function") {
       this.qu = knex({ client: "pg" })
-      this.getDb = getDb
+      this.getDb = () => getDb()
     }
   }
 

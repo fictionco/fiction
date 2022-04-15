@@ -1,6 +1,6 @@
-import { JSONSchema } from "json-schema-to-typescript"
-import { FullUser } from "../types"
-import type { UserConfig } from "../types"
+import type { JSONSchema } from "json-schema-to-typescript"
+import type { FullUser } from "../plugin-user/types"
+import type { UserConfig } from "./types"
 
 export interface HookDictionary {
   onUserVerified: { args: [FullUser] }

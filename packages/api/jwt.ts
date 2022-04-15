@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { FullUser, PrivateUser } from "./types"
+import { FullUser, PrivateUser } from "./plugin-user/types"
 import { setCookie, getCookie, removeCookie, getTopDomain } from "./cookie"
 import { _stop } from "./error"
 import { logger } from "./logger"

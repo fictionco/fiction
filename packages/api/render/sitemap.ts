@@ -8,8 +8,8 @@ import { logger } from ".."
 import { currentUrl } from "../engine/url"
 import { getSitemaps } from "../engine/sitemap"
 import { generateRoutes } from "../router"
-import { distClient } from "../engine/nodeUtils"
-import { userConfigSetting } from "../engine/plugins"
+import { userConfigSetting } from "../config/plugins"
+import { RunConfig } from "../cli/utils"
 /**
  * Recursively process route config to string urls
  */
@@ -68,12 +68,12 @@ export const getSitemapPaths = async (): Promise<string[]> => {
   return [...urls]
 }
 
-export const generateSitemap = async (): Promise<void> => {
-  logger.log({
-    level: "info",
-    context: "sitemap",
-    description: "sitemap generation starting",
-  })
+export const generateSitemap = async (params: RunConfig): Promise<void> => {
+  const { distClient } = params
+
+  if (!distClient) throw new Error("distClient is required for sitemap")
+
+  logger.info("generateSitemap", "starting")
   const sitemapBaseUrl = currentUrl()
 
   if (!sitemapBaseUrl) {
@@ -115,16 +115,12 @@ export const generateSitemap = async (): Promise<void> => {
   const dirname = new URL(".", import.meta.url).pathname
   fs.copySync(
     path.resolve(dirname, "./sitemap.xsl"),
-    path.join(distClient(), "./sitemap.xsl"),
+    path.join(distClient, "./sitemap.xsl"),
   )
   fs.writeFileSync(
-    path.join(distClient(), "./sitemap.xml"),
+    path.join(distClient, "./sitemap.xml"),
     sitemapXmlData.toString(),
   )
 
-  logger.log({
-    level: "info",
-    context: "sitemap",
-    description: "sitemap built successfully",
-  })
+  logger.info("generateSitemap", "built")
 }

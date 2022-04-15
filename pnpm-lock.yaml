@@ -210,11 +210,11 @@ importers:
       body-parser: 1.20.0
       chalk: 5.0.1
       cjs-module-lexer: 1.2.2
-      commander: 9.1.0
+      commander: 9.2.0
       compression: 1.7.4
       consola: 2.15.3
       cors: 2.8.5
-      dayjs: 1.11.0
+      dayjs: 1.11.1
       deepmerge: 4.2.2
       domhandler: 5.0.2
       dotenv: 16.0.0
@@ -289,7 +289,7 @@ importers:
       minimist: 1.2.6
       playwright: 1.21.0
       react-dom: 18.0.0_react@18.0.0
-      rollup: 2.70.1
+      rollup: 2.70.2
       semver: 7.3.7
       vite: 2.9.5_less@4.1.2
 
@@ -340,38 +340,34 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.0.19
+      '@factor/plugin-highlight-code': 5.0.23
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.0
       string-similarity: ^4.0.4
     dependencies:
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
       '@types/string-similarity': 4.0.0
-      dayjs: 1.11.0
+      dayjs: 1.11.1
       string-similarity: 4.0.4
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.0.19
+      '@factor/plugin-highlight-code': 5.0.23
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.0
       string-similarity: ^4.0.4
     dependencies:
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
       '@types/string-similarity': 4.0.0
-      dayjs: 1.11.0
+      dayjs: 1.11.1
       string-similarity: 4.0.4
 
   packages/plugin-highlight-code:
     specifiers:
-      '@types/prismjs': ^1.26.0
       highlight.js: ^11.5.1
       less: ^4.1.2
-      prismjs: ^1.27.0
     dependencies:
-      '@types/prismjs': 1.26.0
       highlight.js: 11.5.1
-      prismjs: 1.27.0
     devDependencies:
       less: 4.1.2
 
@@ -401,11 +397,11 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.0.19
-      '@factor/plugin-docs-engine': workspace:5.0.19
-      '@factor/plugin-highlight-code': workspace:5.0.19
-      '@factor/plugin-notify': workspace:5.0.19
-      '@factor/plugin-stripe': workspace:5.0.19
+      '@factor/plugin-blog-engine': 5.0.23
+      '@factor/plugin-docs-engine': 5.0.23
+      '@factor/plugin-highlight-code': 5.0.23
+      '@factor/plugin-notify': 5.0.23
+      '@factor/plugin-stripe': 5.0.23
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.4.4
@@ -431,7 +427,7 @@ importers:
       '@factor/ui': link:../ui
       autoprefixer: 10.4.4_postcss@8.4.12
       axios: 0.26.1
-      dayjs: 1.11.0
+      dayjs: 1.11.1
       deepmerge: 4.2.2
       events: 3.3.0
       fast-json-stable-stringify: 2.1.0
@@ -1083,7 +1079,7 @@ packages:
     hasBin: true
     dependencies:
       detect-libc: 2.0.1
-      https-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
       make-dir: 3.1.0
       node-fetch: 2.6.7
       nopt: 5.0.0
@@ -1447,10 +1443,6 @@ packages:
 
   /@types/prettier/2.6.0:
     resolution: {integrity: sha512-G/AdOadiZhnJp0jXCaBQU449W2h716OW/EoXeYkCytxKL06X1WCXB4DZpp8TpZ8eyIJVS1cw4lrlkkSYU21cDw==}
-    dev: false
-
-  /@types/prismjs/1.26.0:
-    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
     dev: false
 
   /@types/qs/6.9.7:
@@ -2045,7 +2037,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
       es-abstract: 1.19.5
       get-intrinsic: 1.1.1
       is-string: 1.0.7
@@ -2060,7 +2052,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
       es-abstract: 1.19.5
       es-shim-unscopables: 1.0.0
     dev: false
@@ -2221,7 +2213,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001332
-      electron-to-chromium: 1.4.107
+      electron-to-chromium: 1.4.110
       escalade: 3.1.1
       node-releases: 2.0.3
       picocolors: 1.0.0
@@ -2581,8 +2573,8 @@ packages:
     engines: {node: '>= 12'}
     dev: true
 
-  /commander/9.1.0:
-    resolution: {integrity: sha512-i0/MaqBtdbnJ4XQs4Pmyb+oFQl+q0lsAmokVUH92SlSw4fkeAcG3bVon+Qt7hmtF+u3Het6o4VgrcY3qAoEB6w==}
+  /commander/9.2.0:
+    resolution: {integrity: sha512-e2i4wANQiSXgnrBlIatyHtP1odfUp0BbV5Y5nEGbxtIrStkEOAAzCUirvLBNXHLr7kwLvJl6V+4V3XV9x7Wd9w==}
     engines: {node: ^12.20.0 || >=14}
     dev: false
 
@@ -2783,8 +2775,8 @@ packages:
     engines: {node: '>=0.11'}
     dev: true
 
-  /dayjs/1.11.0:
-    resolution: {integrity: sha512-JLC809s6Y948/FuCZPm5IX8rRhQwOiyMb2TfVVQEixG7P8Lm/gt5S7yoQZmC8x1UehI9Pb7sksEt4xx14m+7Ug==}
+  /dayjs/1.11.1:
+    resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
     dev: false
 
   /debug/2.6.9:
@@ -2870,10 +2862,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /define-properties/1.1.3:
-    resolution: {integrity: sha512-3MqfYKj2lLzdMSf8ZIZE/V+Zuy+BgD6f164e8K2w7dgnpKArBDerGYpM46IYYcjnkdPNMjPk9A6VFB8+3SKlXQ==}
+  /define-properties/1.1.4:
+    resolution: {integrity: sha512-uckOqKcfaVvtBdsVkdPv3XjveQJsNQqmhXgRi8uhvWWuPYZCNlzT8qAyblUgNoXdHdjMTzAqeGjAoli8f+bzPA==}
     engines: {node: '>= 0.4'}
     dependencies:
+      has-property-descriptors: 1.0.0
       object-keys: 1.1.1
 
   /defined/1.0.0:
@@ -3042,8 +3035,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.107:
-    resolution: {integrity: sha512-Huen6taaVrUrSy8o7mGStByba8PfOWWluHNxSHGBrCgEdFVLtvdQDBr9LBCF9Uci8SYxh28QNNMO0oC17wbGAg==}
+  /electron-to-chromium/1.4.110:
+    resolution: {integrity: sha512-TvHZrkj9anfWkxgblHlNr4IMQdm2N6D0o8Wu1BDpSL/RKT4DHyUt/tvDFtApgZ+LGFL3U9EO4LRZ1eSlQ8xMYA==}
 
   /email-validator/2.0.4:
     resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
@@ -4105,7 +4098,7 @@ packages:
     dependencies:
       abort-controller: 3.0.0
       extend: 3.0.2
-      https-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
       is-stream: 2.0.1
       node-fetch: 2.6.7
     transitivePeerDependencies:
@@ -4391,6 +4384,11 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
+  /has-property-descriptors/1.0.0:
+    resolution: {integrity: sha512-62DVLZGoiEBDHQyqG4w9xCuZ7eJEwNmJRWw2VY84Oedb7WFcA27fiEVe8oUQx9hAUJ4ekurquucTGwsyO1XGdQ==}
+    dependencies:
+      get-intrinsic: 1.1.1
+
   /has-symbols/1.0.3:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
     engines: {node: '>= 0.4'}
@@ -4561,6 +4559,16 @@ packages:
 
   /https-proxy-agent/5.0.0:
     resolution: {integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==}
+    engines: {node: '>= 6'}
+    dependencies:
+      agent-base: 6.0.2
+      debug: 4.3.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /https-proxy-agent/5.0.1:
+    resolution: {integrity: sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==}
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
@@ -5014,7 +5022,7 @@ packages:
       form-data: 4.0.0
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
-      https-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.0
       parse5: 6.0.1
@@ -5221,7 +5229,7 @@ packages:
         optional: true
     dependencies:
       colorette: 2.0.16
-      commander: 9.1.0
+      commander: 9.2.0
       debug: 4.3.4
       escalade: 3.1.1
       esm: 3.2.25
@@ -5927,7 +5935,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
       has-symbols: 1.0.3
       object-keys: 1.1.1
 
@@ -5936,7 +5944,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
       es-abstract: 1.19.5
     dev: false
 
@@ -6489,11 +6497,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /prismjs/1.27.0:
-    resolution: {integrity: sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==}
-    engines: {node: '>=6'}
-    dev: false
-
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
 
@@ -6815,8 +6818,8 @@ packages:
     dependencies:
       glob: 7.2.0
 
-  /rollup/2.70.1:
-    resolution: {integrity: sha512-CRYsI5EuzLbXdxC6RnYhOuRdtz4bhejPMSWjsFLfVM/7w/85n2szZv6yExqUXsBdz5KT8eoubeyDUDjhLHEslA==}
+  /rollup/2.70.2:
+    resolution: {integrity: sha512-EitogNZnfku65I1DD5Mxe8JYRUCy0hkK5X84IlDtUs+O6JRMpRciXTzyCUuX11b5L5pvjH+OmFXiQ3XjabcXgg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -7157,14 +7160,14 @@ packages:
     resolution: {integrity: sha512-y9xCjw1P23Awk8EvTpcyL2NIr1j7wJ39f+k6lvRnSMz+mz9CGz9NYPelDk42kOz6+ql8xjfK8oYzy3jAP5QU5A==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
     dev: false
 
   /string.prototype.trimstart/1.0.4:
     resolution: {integrity: sha512-jh6e984OBfvxS50tdY2nRZnoC5/mLFKOREQfw8t5yytkoUsJRNxvI/E39qu1sD0OtWI3OC0XgKSmcWwziwYuZw==}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.3
+      define-properties: 1.1.4
     dev: false
 
   /string_decoder/0.10.31:
@@ -7581,7 +7584,7 @@ packages:
       joycon: 3.1.1
       postcss-load-config: 3.1.4_postcss@8.4.12+ts-node@10.7.0
       resolve-from: 5.0.0
-      rollup: 2.70.1
+      rollup: 2.70.2
       source-map: 0.7.3
       sucrase: 3.21.0
       tree-kill: 1.2.2
@@ -7843,7 +7846,7 @@ packages:
       esbuild: 0.14.36
       postcss: 8.4.12
       resolve: 1.22.0
-      rollup: 2.70.1
+      rollup: 2.70.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -7868,7 +7871,7 @@ packages:
       less: 4.1.2
       postcss: 8.4.12
       resolve: 1.22.0
-      rollup: 2.70.1
+      rollup: 2.70.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true

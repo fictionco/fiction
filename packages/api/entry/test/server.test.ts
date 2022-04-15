@@ -1,13 +1,13 @@
 import { expect, it, describe } from "vitest"
 import axios from "axios"
 import { EndpointResponse } from "../../types"
-import { setupEnvironment } from ".."
+import { createServer } from "../serverEntry"
 
 describe("server test", () => {
   it("starts endpoint server", async () => {
     const port = process.env.PORT
 
-    await setupEnvironment({ port })
+    await createServer({ userConfig: { port } })
 
     const response = await axios.get<EndpointResponse>(
       `http://localhost:${port}/health`,
