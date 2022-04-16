@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -17,7 +17,7 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/plugin-highlight-code": "workspace:5.1.0",
+    "@factor/plugin-highlight-code": "5.1.1",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.1",
     "string-similarity": "^4.0.4"

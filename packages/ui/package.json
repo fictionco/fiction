@@ -1,13 +1,13 @@
 {
   "name": "@factor/ui",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "workspace:*",
+    "@factor/api": "5.1.1",
     "easymde": "^2.16.1",
     "gravatar": "^1.8.2",
     "sortablejs": "^1.15.0"
