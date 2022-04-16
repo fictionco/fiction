@@ -1,3 +1,12 @@
+# [5.1.0](https://github.com/FactorJS/factor/compare/v5.0.23...v5.1.0) (2022-04-16)
+
+
+### Features
+
+* functional build ([b28db41](https://github.com/FactorJS/factor/commit/b28db41e3d9dc8a12640da9fb0611d6aef85b681))
+
+
+
 ## [5.0.23](https://github.com/FactorJS/factor/compare/v5.0.22...v5.0.23) (2022-04-14)
 
 
