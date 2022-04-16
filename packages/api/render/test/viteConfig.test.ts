@@ -25,6 +25,9 @@ describe("vite config", () => {
 
     expect(Object.keys(userConfigStored ?? {}).sort()).toMatchInlineSnapshot(`
       [
+        "appEmail",
+        "appName",
+        "appUrl",
         "endpoints",
         "paths",
         "port",
@@ -89,6 +92,9 @@ describe("vite config", () => {
     `)
     expect(Object.keys(userConfig ?? {}).sort()).toMatchInlineSnapshot(`
       [
+        "appEmail",
+        "appName",
+        "appUrl",
         "endpoints",
         "paths",
         "port",

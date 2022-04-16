@@ -23,7 +23,7 @@ vi.mock("../serverEmail", async () => {
 
 let user: FullUser
 
-describe("user tests", () => {
+describe.skip("user tests", () => {
   beforeAll(async () => {
     const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
     await createServer({ userConfig })

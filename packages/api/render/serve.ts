@@ -320,27 +320,21 @@ export const expressApp = async (params: RunConfig): Promise<Express> => {
  * Serves a built app from [cwd]/dist
  */
 export const serveApp = async (options: RunConfig): Promise<void> => {
-  const { NODE_ENV, portApp } = options
-
-  // use PORT if in production mode since app can run in a dedicated service
-  const listenPort =
-    NODE_ENV == "production" && process.env.PORT ? process.env.PORT : portApp
-
-  const appName = process.env.FACTOR_APP_NAME || "app"
+  const { userConfig: { appName = "app", portApp } = {} } = options
 
   const app = await expressApp(options)
 
   let server: http.Server
 
   await new Promise<void>((resolve) => {
-    server = app.listen(listenPort, () => resolve())
+    server = app.listen(portApp, () => resolve())
   })
 
   logger.info("serveApp", `serving factor app [ready]`, {
     data: {
       name: appName,
-      port: `[ ${listenPort} ]`,
-      url: `http://localhost:${listenPort}`,
+      port: `[ ${portApp} ]`,
+      url: `http://localhost:${portApp}`,
     },
   })
 

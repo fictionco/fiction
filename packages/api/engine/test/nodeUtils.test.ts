@@ -43,6 +43,9 @@ describe("node utils", () => {
     expect(Object.keys(entryConfig)).toMatchInlineSnapshot(`
       [
         "variables",
+        "appName",
+        "appEmail",
+        "appUrl",
         "routes",
         "root",
         "sitemaps",

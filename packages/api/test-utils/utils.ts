@@ -153,7 +153,7 @@ export const appBuildTests = (config: {
 
   if (!cwd) throw new Error("cwd is not defined")
 
-  describe(`build app: ${moduleName}`, () => {
+  describe.skip(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
       const command = `npm exec -w ${moduleName} -- factor prerender --port ${serverPort} --port-app ${appPort}`
 
@@ -167,7 +167,7 @@ export const appBuildTests = (config: {
       fs.existsSync(path.join(cwd, "./dist/static"))
     })
 
-    it("runs dev", () => {
+    it.skip("runs dev", () => {
       const r = execaCommandSync(
         `npm exec -w ${moduleName} -- factor rdev --exit --port ${serverPort} --port-app ${appPort}`,
         {

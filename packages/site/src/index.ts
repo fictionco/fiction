@@ -11,6 +11,9 @@ import { posts } from "../blog/map"
 import { routes } from "./routes"
 export const setup = (): UserConfig => {
   return {
+    appName: "FactorJS",
+    appEmail: "hi@factorjs.org",
+    appUrl: "https://www.factorjs.org",
     routes,
     plugins: [
       docsEngine.setup({ docs, groups, baseRoute: "/docs" }),

@@ -29,6 +29,9 @@ export type EntryModuleExports = {
 export type MainFile = { setup?: () => Promise<UserConfig> | UserConfig }
 export interface UserConfig {
   name?: string
+  appName?: string
+  appEmail?: string
+  appUrl?: string
   // need a generic to fix typing error in setupPlugins function
   server?: () =>
     | UserConfig
