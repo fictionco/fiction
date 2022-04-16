@@ -102,11 +102,11 @@ importers:
       body-parser: ^1.20.0
       chalk: ^5.0.1
       cjs-module-lexer: ^1.2.2
-      commander: ^9.1.0
+      commander: ^9.2.0
       compression: ^1.7.4
       consola: ^2.15.3
       cors: ^2.8.5
-      dayjs: ^1.11.0
+      dayjs: ^1.11.1
       deepmerge: ^4.2.2
       domhandler: ^5.0.2
       dotenv: ^16.0.0
@@ -160,7 +160,7 @@ importers:
       react-dom: ^18.0.0
       remove-markdown: ^0.3.0
       request-ip: ^2.1.3
-      rollup: ^2.70.1
+      rollup: ^2.70.2
       semver: ^7.3.7
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -340,9 +340,9 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/plugin-highlight-code': 5.0.23
+      '@factor/plugin-highlight-code': workspace:5.1.0
       '@types/string-similarity': ^4.0.0
-      dayjs: ^1.11.0
+      dayjs: ^1.11.1
       string-similarity: ^4.0.4
     dependencies:
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
@@ -352,9 +352,9 @@ importers:
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/plugin-highlight-code': 5.0.23
+      '@factor/plugin-highlight-code': workspace:5.1.0
       '@types/string-similarity': ^4.0.0
-      dayjs: ^1.11.0
+      dayjs: ^1.11.1
       string-similarity: ^4.0.4
     dependencies:
       '@factor/plugin-highlight-code': link:../plugin-highlight-code
@@ -397,16 +397,16 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': 5.0.23
-      '@factor/plugin-docs-engine': 5.0.23
-      '@factor/plugin-highlight-code': 5.0.23
-      '@factor/plugin-notify': 5.0.23
-      '@factor/plugin-stripe': 5.0.23
+      '@factor/plugin-blog-engine': workspace:5.1.0
+      '@factor/plugin-docs-engine': workspace:5.1.0
+      '@factor/plugin-highlight-code': workspace:5.1.0
+      '@factor/plugin-notify': workspace:5.1.0
+      '@factor/plugin-stripe': workspace:5.1.0
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.4.4
       axios: ^0.26.1
-      dayjs: ^1.11.0
+      dayjs: ^1.11.1
       deepmerge: ^4.2.2
       events: ^3.3.0
       fast-json-stable-stringify: ^2.1.0
@@ -7546,7 +7546,7 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.6.3
-      v8-compile-cache-lib: 3.0.0
+      v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
 
@@ -7778,8 +7778,8 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: false
 
-  /v8-compile-cache-lib/3.0.0:
-    resolution: {integrity: sha512-mpSYqfsFvASnSn5qMiwrr4VKfumbPyONLCOPmsR3A6pTY/r0+tSaVbgPWSAIuzbk3lCTa+FForeTiO+wBQGkjA==}
+  /v8-compile-cache-lib/3.0.1:
+    resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: false
 
   /v8-compile-cache/2.3.0:
