@@ -17,6 +17,7 @@ describe("server entry handling", () => {
         "port",
         "portApp",
         "serverUrl",
+        "appUrl",
         "mode",
         "routes",
       ]

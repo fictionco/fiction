@@ -32,11 +32,10 @@ export type MainFile = {
 export interface UserConfig {
   name?: string
   mode?: "development" | "production"
-  appMeta?: {
-    name: string
-    email: string
-    url: string
-  }
+
+  appName?: string
+  appEmail?: string
+  appUrl?: string
 
   // need a generic to fix typing error in setupPlugins function
   server?: () =>
@@ -59,7 +58,7 @@ export interface UserConfig {
   port?: string
   portApp?: string
   serverUrl?: string
-  appUrl?: string
+
   serverOnlyImports?: ServerModuleDef[]
   routes?: AppRoute<string>[]
   sitemaps?: SiteMapConfig[]

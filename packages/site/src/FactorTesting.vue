@@ -10,7 +10,9 @@
 import { currentUrl } from "@factor/api/engine/url"
 import { userConfigSetting } from "@factor/api/config"
 
-const appMeta = userConfigSetting("appMeta")
+const appName = userConfigSetting("appName")
+const appEmail = userConfigSetting("appEmail")
+const appUrl = userConfigSetting("appUrl")
 const list = [
   {
     id: "server-url",
@@ -24,8 +26,8 @@ const list = [
   },
   { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
   { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },
-  { id: "app-name", title: "APP_NAME", value: appMeta?.name },
-  { id: "app-email", title: "APP_EMAIL", value: appMeta?.email },
-  { id: "app-url", title: "APP_URL", value: appMeta?.url },
+  { id: "app-name", title: "APP_NAME", value: appName },
+  { id: "app-email", title: "APP_EMAIL", value: appEmail },
+  { id: "app-url", title: "APP_URL", value: appUrl },
 ]
 </script>

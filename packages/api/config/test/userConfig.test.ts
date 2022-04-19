@@ -19,6 +19,7 @@ describe("user config", () => {
     expect(Object.keys(userConfig.variables ?? {})).toMatchInlineSnapshot(`
       [
         "FACTOR_SERVER_URL",
+        "FACTOR_APP_URL",
         "NODE_ENV",
         "TEST_ENV",
         "TEST_SERVER",

@@ -320,7 +320,7 @@ export const expressApp = async (params: RunConfig): Promise<Express> => {
  * Serves a built app from [cwd]/dist
  */
 export const serveApp = async (options: RunConfig): Promise<void> => {
-  const { userConfig: { appMeta, portApp } = {} } = options
+  const { userConfig: { appName, portApp } = {} } = options
 
   const app = await expressApp(options)
 
@@ -332,7 +332,7 @@ export const serveApp = async (options: RunConfig): Promise<void> => {
 
   logger.info("serveApp", `serving factor app [ready]`, {
     data: {
-      name: appMeta?.name || "Unnamed App",
+      name: appName || "Unnamed App",
       port: `[ ${portApp} ]`,
       url: `http://localhost:${portApp}`,
     },

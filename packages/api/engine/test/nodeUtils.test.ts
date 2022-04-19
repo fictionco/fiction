@@ -27,6 +27,7 @@ describe("node utils", () => {
         "docsPlugin",
         "setup",
         "stripePlugin",
+        "userPlugin",
       ]
     `)
   })
@@ -51,8 +52,10 @@ describe("node utils", () => {
         "port",
         "portApp",
         "serverUrl",
+        "appUrl",
         "mode",
-        "appMeta",
+        "appName",
+        "appEmail",
         "routes",
         "root",
         "sitemaps",

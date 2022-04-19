@@ -25,7 +25,9 @@ describe("vite config", () => {
 
     expect(Object.keys(userConfigStored ?? {}).sort()).toMatchInlineSnapshot(`
       [
-        "appMeta",
+        "appEmail",
+        "appName",
+        "appUrl",
         "endpoints",
         "mode",
         "paths",
@@ -60,6 +62,7 @@ describe("vite config", () => {
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
+        "FACTOR_APP_URL": "http://localhost:3000",
         "FACTOR_SERVER_URL": "http://localhost:9191",
         "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
@@ -73,6 +76,7 @@ describe("vite config", () => {
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
+        "FACTOR_APP_URL": "http://localhost:3000",
         "FACTOR_SERVER_URL": "http://localhost:9191",
         "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
@@ -82,7 +86,9 @@ describe("vite config", () => {
     `)
     expect(Object.keys(userConfig ?? {}).sort()).toMatchInlineSnapshot(`
       [
-        "appMeta",
+        "appEmail",
+        "appName",
+        "appUrl",
         "endpoints",
         "mode",
         "paths",
@@ -117,6 +123,7 @@ describe("vite config", () => {
     expect(viteConfig.optimizeDeps?.exclude).toContain("@stripe/stripe-js")
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
+        "process.env.FACTOR_APP_URL": "\\"http://localhost:3000\\"",
         "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
         "process.env.IS_VITE": "\\"yes\\"",
         "process.env.NODE_ENV": "\\"development\\"",

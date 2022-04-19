@@ -46,12 +46,12 @@ describe("renders app code correctly", () => {
     expect(currentUrlText).toBe(_s.appUrl)
 
     const appNameText = await page().locator(`#app-name`).textContent()
-    expect(appNameText).toBe(mainConfig?.variables?.FACTOR_APP_NAME)
+    expect(appNameText).toBe(mainConfig?.appName)
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toBe(mainConfig?.variables?.FACTOR_APP_EMAIL)
+    expect(appEmailText).toBe(mainConfig?.appEmail)
 
     const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toBe(mainConfig?.variables?.FACTOR_APP_URL)
+    expect(appUrlText).toBe(mainConfig?.appUrl)
   }, 16_000)
 })

@@ -37,15 +37,11 @@ export const stripePlugin = new FactorStripe({
 
 export const blogPlugin = new FactorBlogEngine({ posts, baseRoute: "/blog" })
 
-const appMeta = {
-  name: "FactorJS",
-  email: "hi@factorjs.org",
-  url: "https://www.factorjs.org",
-}
-
 export const setup = (): UserConfig => {
   return {
-    appMeta,
+    appName: "FactorJS",
+    appEmail: "hi@factorjs.org",
+    appUrl: "https://www.factorjs.org",
     routes,
     plugins: [
       docsPlugin.setup(),
