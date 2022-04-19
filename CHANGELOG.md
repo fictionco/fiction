@@ -1,3 +1,17 @@
+## [5.1.2](https://github.com/FactorJS/factor/compare/v5.1.1...v5.1.2) (2022-04-19)
+
+
+### Bug Fixes
+
+* url ([49f5ae8](https://github.com/FactorJS/factor/commit/49f5ae8d70cd149fd9437269f7757033159b1a0c))
+
+
+### Features
+
+* plugin API ([fd165ec](https://github.com/FactorJS/factor/commit/fd165ecbe6beb117fe0639d36be4c1618fe1cb95))
+
+
+
 ## [5.1.1](https://github.com/FactorJS/factor/compare/v5.1.0...v5.1.1) (2022-04-16)
 
 
