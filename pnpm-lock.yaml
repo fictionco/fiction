@@ -65,6 +65,7 @@ importers:
   packages/api:
     specifiers:
       '@babel/parser': ^7.17.9
+      '@factor/api': workspace:*
       '@medv/finder': ^2.1.0
       '@playwright/test': ^1.21.1
       '@types/bcrypt': ^5.0.0
@@ -275,6 +276,7 @@ importers:
       ws: 8.5.0
     devDependencies:
       '@babel/parser': 7.17.9
+      '@factor/api': 'link:'
       '@playwright/test': 1.21.1
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
@@ -336,7 +338,7 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.1.2
+      '@factor/plugin-highlight-code': workspace:5.2.0
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -348,7 +350,7 @@ importers:
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.1.2
+      '@factor/plugin-highlight-code': workspace:5.2.0
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -393,11 +395,11 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.1.2
-      '@factor/plugin-docs-engine': workspace:5.1.2
-      '@factor/plugin-highlight-code': workspace:5.1.2
-      '@factor/plugin-notify': workspace:5.1.2
-      '@factor/plugin-stripe': workspace:5.1.2
+      '@factor/plugin-blog-engine': workspace:5.2.0
+      '@factor/plugin-docs-engine': workspace:5.2.0
+      '@factor/plugin-highlight-code': workspace:5.2.0
+      '@factor/plugin-notify': workspace:5.2.0
+      '@factor/plugin-stripe': workspace:5.2.0
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.4.4
@@ -4366,8 +4368,8 @@ packages:
       ansi-regex: 2.1.1
     dev: false
 
-  /has-bigints/1.0.1:
-    resolution: {integrity: sha512-LSBS2LjbNBTf6287JEbEzvJgftkF5qFkmCo9hDRpAzKhUOlJ+hx8dd4USs00SgsUNwc4617J9ki5YtEClM2ffA==}
+  /has-bigints/1.0.2:
+    resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
     dev: false
 
   /has-flag/3.0.0:
@@ -4686,7 +4688,7 @@ packages:
   /is-bigint/1.0.4:
     resolution: {integrity: sha512-zB9CruMamjym81i2JZ3UMn54PKGsQzsJeo6xvN3HJJ4CAsQNB6iRutp2To77OfCNuoxspsIhzaPoO1zyCEhFOg==}
     dependencies:
-      has-bigints: 1.0.1
+      has-bigints: 1.0.2
     dev: false
 
   /is-binary-path/2.1.0:
@@ -7691,7 +7693,7 @@ packages:
     resolution: {integrity: sha512-tZU/3NqK3dA5gpE1KtyiJUrEB0lxnGkMFHptJ7q6ewdZ8s12QrODwNbhIJStmJkd1QDXa1NRA8aF2A1zk/Ypyw==}
     dependencies:
       function-bind: 1.1.1
-      has-bigints: 1.0.1
+      has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
     dev: false
