@@ -1,7 +1,7 @@
 import { UserConfig } from "../config"
 import { FactorPlugin } from "../config/plugin"
 import { Query } from "../engine/query"
-import { EndpointMethodOptions, FactorEndpoint } from "../engine/endpoint"
+import { EndpointMethodOptions, Endpoint } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
 import { clientToken } from "../utils/jwt"
 import { FactorEmail } from "../plugin-email"
@@ -26,7 +26,7 @@ export * from "./userClient"
 export * from "./types"
 export type { ManageUserParams }
 
-export class UserEndpoint<T extends Query> extends FactorEndpoint<T> {
+export class UserEndpoint<T extends Query> extends Endpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ basePath: "/user", ...options })
   }
@@ -37,10 +37,11 @@ type UserPluginSettings = {
   factorEmail: FactorEmail
   googleClientId?: string
   googleClientSecret?: string
+  serverUrl: string
 }
 
 type EndpointMap<T extends Record<string, Query>> = {
-  [P in keyof T]: FactorEndpoint<T[P]>
+  [P in keyof T]: Endpoint<T[P]>
 }
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
@@ -51,13 +52,14 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   private endpointHandler = UserEndpoint
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-
+  serverUrl: string
   constructor(settings: UserPluginSettings) {
     super(settings)
+    this.serverUrl = settings.serverUrl
     this.factorDb = settings.factorDb
     this.factorEmail = settings.factorEmail
     this.queries = this.createQueries()
-    this.requests = this.createRequests()
+    this.requests = this.createRequests(settings.serverUrl)
   }
 
   async setup(): Promise<UserConfig> {
@@ -97,10 +99,17 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     } as const
   }
 
-  private createRequests(): EndpointMap<typeof this.queries> {
+  private createRequests(serverUrl: string): EndpointMap<typeof this.queries> {
     const requests = Object.fromEntries(
       Object.entries(this.queries).map(([key, query]) => {
-        return [key, new this.endpointHandler({ key, queryHandler: query })]
+        return [
+          key,
+          new this.endpointHandler({
+            key,
+            queryHandler: query,
+            serverUrl,
+          }),
+        ]
       }),
     ) as EndpointMap<typeof this.queries>
 

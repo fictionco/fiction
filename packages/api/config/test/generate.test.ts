@@ -3,12 +3,11 @@ import { expect, it, describe, beforeAll } from "vitest"
 import fs from "fs-extra"
 import { UserConfig } from "../types"
 import { generateStaticConfig } from "../generate"
-import { setUserConfig } from "../plugins"
 
 const root = new URL(".", import.meta.url).pathname
 describe("test config generator", () => {
   beforeAll(async () => {
-    const config: UserConfig = await setUserConfig({
+    const config: UserConfig = {
       root,
       generateStaticConfig: true,
       hooks: [
@@ -31,7 +30,7 @@ describe("test config generator", () => {
           },
         },
       ],
-    })
+    }
 
     await generateStaticConfig(config)
   })

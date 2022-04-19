@@ -1,5 +1,5 @@
 import { contextLogger } from "../logger"
-import { _stop } from "../error"
+import { _stop } from "../utils/error"
 import type { EndpointResponse, ErrorConfig } from "../types"
 import * as utils from "../utils"
 import type { EndpointMeta } from "./endpoint"

@@ -2,7 +2,7 @@ import { createRequire } from "module"
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import { getMainFilePath } from "../../engine/nodeUtils"
-import { setUserConfig, userConfigSetting } from "../plugins"
+import { storeUserConfig, userConfigSetting } from "../plugins"
 import { getServerUserConfig } from "../entry"
 const require = createRequire(import.meta.url)
 
@@ -28,7 +28,7 @@ describe("plugin and config tests", () => {
 
     expect(entryConfig.root).toEqual(cwd)
 
-    const userConfig = await setUserConfig(entryConfig)
+    const userConfig = await storeUserConfig(entryConfig)
 
     expect(userConfigSetting("port")).toBe(process.env.PORT)
 

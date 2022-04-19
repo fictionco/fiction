@@ -4,7 +4,7 @@ import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "../types"
 import { log } from "../logger"
-import { _stop } from "../error"
+import { _stop } from "../utils/error"
 import { decodeClientToken } from "../utils/jwt"
 import { onEvent } from "../utils/event"
 import { FactorUser } from "../plugin-user"

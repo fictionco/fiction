@@ -9,6 +9,5 @@ export interface CompiledUserConfig {
   endpoints: "";
   routes: "";
   paths: string[];
-  test: "test";
   [k: string]: unknown;
 }

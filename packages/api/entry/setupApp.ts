@@ -3,9 +3,9 @@ import { FactorAppEntry, MainFile, UserConfig } from "../config/types"
 
 import { isNode } from "../utils"
 import { getRouter, setupRouter } from "../router"
-import { getMeta } from "../meta"
+import { getMeta } from "../utils/meta"
 
-import { initializeResetUi } from "../ui"
+import { initializeResetUi } from "../utils/ui"
 
 import { runHooks } from "../config/hook"
 import { createUserConfig } from "../config/entry"

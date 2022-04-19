@@ -29,12 +29,12 @@ export const preRenderPages = async (params: RunConfig): Promise<void> => {
    * @important pre-render in series
    * if pre-rendering isn't in series than parallel builds can interfere with one-another
    */
-  const _asyncFunctions = urls.map((url: string) => {
+  const _asyncFunctions = urls.map((pathname: string) => {
     return async (): Promise<string> => {
-      const filePath = `${url === "/" ? "/index" : url}.html`
+      const filePath = `${pathname === "/" ? "/index" : pathname}.html`
       log.info("preRenderPages", `pre-rendering: ${filePath}`)
 
-      const html = await getRequestHtml({ ...generators, url })
+      const html = await getRequestHtml({ ...generators, pathname })
 
       const writePath = path.join(distStatic, filePath)
       fs.ensureDirSync(path.dirname(writePath))

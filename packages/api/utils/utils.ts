@@ -46,26 +46,37 @@ export const safeDirname = (url?: string, relativePath = ""): string => {
 export const getEnvVars = <
   T extends readonly string[],
   U extends readonly string[],
+  V extends readonly string[],
 >(params: {
-  vars: T
-  varsLive?: U
+  serverVars?: T
+  serverVarsProduction?: U
+  appVars?: V
   isTest?: boolean
-}): Record<T[number] | U[number], string> => {
+}): Record<T[number] | U[number] | V[number], string> => {
   const env: Record<string, string> = {}
+  const {
+    serverVars = [],
+    serverVarsProduction = [],
+    appVars = [],
+    isTest,
+  } = params
 
-  if (isBrowser()) return env
+  const checkVars: string[] = []
+  const allVars: string[] = [...serverVars, ...serverVarsProduction, ...appVars]
 
-  const { vars, varsLive, isTest } = params
-
-  const allVars = [...vars]
-  if (!isTest && varsLive) {
-    allVars.push(...varsLive)
+  if (isBrowser()) {
+    checkVars.push(...appVars)
+  } else {
+    checkVars.push(...serverVars)
+    if (!isTest && serverVarsProduction) {
+      checkVars.push(...serverVarsProduction)
+    }
   }
 
-  vars.forEach((v) => {
+  allVars.forEach((v) => {
     if (process.env[v]) {
       env[v] = process.env[v] as string
-    } else {
+    } else if (checkVars.includes(v)) {
       log.warn("getEnv", `env var: (${v}) is not set`)
     }
   })

@@ -5,7 +5,7 @@ import mdImplicitFigures from "markdown-it-implicit-figures"
 import mdLinkAttributes from "markdown-it-link-attributes"
 import mdVideo from "markdown-it-video"
 
-import { slugify } from "./utils"
+import { slugify } from "."
 
 let markdownUtility: MarkdownIt
 

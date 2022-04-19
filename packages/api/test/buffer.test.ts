@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { WriteBuffer } from "../buffer"
+import { WriteBuffer } from "../utils/buffer"
 import { waitFor } from "../utils"
 
 describe("buffer", () => {

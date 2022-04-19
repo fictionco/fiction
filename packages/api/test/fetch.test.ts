@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { describe, it, expect } from "vitest"
-import { fetchAdvanced } from "../fetch"
+import { fetchAdvanced } from "../utils/fetch"
 
 describe("fetch", () => {
   it("fetches data", async () => {

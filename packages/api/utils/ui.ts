@@ -1,6 +1,6 @@
 import { watch } from "vue"
-import { emitEvent, onEvent } from "./utils/event"
-import { getRouter } from "./router"
+import { getRouter } from "../router"
+import { emitEvent, onEvent } from "./event"
 
 type ResetUiScope = "all" | "inputs"
 /**

@@ -2,11 +2,9 @@ import * as vueUtils from "vue"
 import * as store from "../store"
 import { Endpoint } from "../engine/endpoint"
 import { contextLogger } from "../logger"
-import { _stop } from "../error"
+import { _stop } from "../utils/error"
 import * as utils from "../utils"
 import { UserConfig } from "./types"
-
-type NodeEnv = "development" | "production"
 
 export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   public endpoints?: Endpoint[]
@@ -16,13 +14,11 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   protected utils = utils
   protected vue = vueUtils
   protected store = store
-  protected serverUrl: string = process.env.FACTOR_SERVER_URL ?? ""
-  protected mode: "development" | "production"
+  protected serverUrl?: string
   public isTest: boolean = false
 
   constructor(settings: T) {
     this.settings = settings
-    this.mode = (process.env.NODE_ENV as NodeEnv) ?? "production"
   }
 
   abstract setup(settings?: Partial<T>): UserConfig | Promise<UserConfig>

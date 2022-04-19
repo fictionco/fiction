@@ -2,7 +2,7 @@ import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorPlugin } from "../config/plugin"
 import type { UserConfig } from "../config"
-import { renderMarkdown } from "../markdown"
+import { renderMarkdown } from "../utils/markdown"
 import { EmailTransactionalConfig } from "./types"
 
 type FactorEmailSettings = {

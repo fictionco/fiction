@@ -44,9 +44,7 @@ describe("node utils", () => {
     expect(entryConfig.root).toEqual(cwd)
 
     expect(entryConfig.port).toBe(process.env.PORT)
-    expect(entryConfig.variables?.FACTOR_SERVER_URL).toBe(
-      `http://localhost:${process.env.PORT}`,
-    )
+    expect(entryConfig.serverUrl).toBe(`http://localhost:${process.env.PORT}`)
     expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [
         "appEmail",

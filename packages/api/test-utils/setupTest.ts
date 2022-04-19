@@ -19,10 +19,7 @@ beforeAll(async () => {
   process.env.PORT = process.env.FACTOR_SERVER_PORT = String(
     randomBetween(1000, 10_000),
   )
-  process.env.FACTOR_SERVER_URL =
-    process.env.FACTOR_SERVER_URL ||
-    `http://localhost:${process.env.FACTOR_SERVER_PORT}`
-
+  process.env.FACTOR_SERVER_URL = ""
   process.env.POSTGRES_URL = "http://test:test@localhost:5432/test"
   process.env.POSTGRES_PASSWORD = "test"
   process.env.NODE_ENV = "development"

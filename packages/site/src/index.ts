@@ -12,21 +12,32 @@ import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { routes } from "./routes"
 
-const vars = [
+const serverVars = [
   "POSTGRES_URL",
   "GOOGLE_CLIENT_SECRET",
   "STRIPE_SECRET_KEY_TEST",
 ] as const
 
-const varsLive = ["SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD"] as const
-
-const env = getEnvVars({ vars, varsLive, isTest: isTest() })
+const serverVarsProduction = [
+  "SMTP_HOST",
+  "SMTP_USER",
+  "SMTP_PASSWORD",
+] as const
+const appVars = ["FACTOR_SERVER_URL"] as const
+const env = getEnvVars({
+  serverVars,
+  serverVarsProduction,
+  appVars,
+  isTest: isTest(),
+})
 
 const appMeta = {
   appName: "FactorJS",
   appEmail: "hi@factorjs.org",
   appUrl: "https://www.factorjs.org",
 }
+
+const serverUrl = env.FACTOR_SERVER_URL
 
 const factorDb = new FactorDb({ connectionUrl: env.POSTGRES_URL })
 export const factorEmail = new FactorEmail({
@@ -44,6 +55,7 @@ export const factorUser = new FactorUser({
   googleClientId:
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
   googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+  serverUrl,
 })
 export const docsPlugin = new FactorDocsEngine({
   docs,
@@ -59,6 +71,7 @@ export const stripePlugin = new FactorStripe({
   hooks: {},
   products: [],
   factorUser,
+  serverUrl,
 })
 
 export const blogPlugin = new FactorBlogEngine({ posts, baseRoute: "/blog" })

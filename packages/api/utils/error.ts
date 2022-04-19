@@ -1,4 +1,4 @@
-import { EndpointResponse, ErrorConfig } from "./types"
+import { EndpointResponse, ErrorConfig } from "../types"
 /**
  * An object meant to be thrown, stop execution and report issues to users
  */

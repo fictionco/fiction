@@ -13,15 +13,9 @@ describe("user config", () => {
     const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
 
     expect(userConfigSetting("port")).toBeTruthy()
-    expect(process.env.TEST_SERVER).toBeTruthy()
-    expect(process.env.TEST_SERVER).toMatchInlineSnapshot('"TEST"')
     expect(userConfig.variables?.TEST_SERVER).toBe("TEST")
     expect(Object.keys(userConfig.variables ?? {})).toMatchInlineSnapshot(`
       [
-        "FACTOR_SERVER_URL",
-        "FACTOR_APP_URL",
-        "NODE_ENV",
-        "TEST_ENV",
         "TEST_SERVER",
         "TEST_BLOG_PLUGIN",
       ]

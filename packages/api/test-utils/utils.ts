@@ -7,7 +7,7 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { getEnvVars } from "../utils"
 import { randomBetween, setCurrentUser, log } from ".."
-import { MainFile } from "../config"
+import { getServerUserConfig, MainFile } from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { setupAppFromMainFile } from "../entry/setupApp"
@@ -49,15 +49,18 @@ export type TestUtils = {
   factorDb: FactorDb
   factorUser: FactorUser
   factorEmail: FactorEmail
+  serverUrl: string
 }
 
 export const createTestUtils = async (): Promise<TestUtils> => {
-  const vars = [
+  const serverVars = [
     "POSTGRES_URL",
     "GOOGLE_CLIENT_ID",
     "GOOGLE_CLIENT_SECRET",
   ] as const
-  const env = getEnvVars({ vars, isTest: true })
+  const env = getEnvVars({ serverVars, isTest: true })
+
+  const serverUrl = `http://localhost:${process.env.FACTOR_SERVER_PORT}`
 
   const factorEmail = new FactorEmail({
     appEmail: "arpowers@gmail.com",
@@ -72,6 +75,7 @@ export const createTestUtils = async (): Promise<TestUtils> => {
     factorEmail,
     googleClientId: env.GOOGLE_CLIENT_ID,
     googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+    serverUrl,
   })
 
   const key = Math.random().toString().slice(2, 12)
@@ -90,7 +94,7 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   if (!token) throw new Error("token not returned")
   if (!user) throw new Error("no user created")
 
-  return { user, token, email, factorUser, factorDb, factorEmail }
+  return { user, token, email, factorUser, factorDb, factorEmail, serverUrl }
 }
 
 export const setTestCurrentUser = async (params: {
@@ -123,6 +127,8 @@ export const createTestServer = async (params: {
   appPort = appPort || randomBetween(1000, 9000)
   moduleName = moduleName || getModuleName(params.cwd || process.cwd())
 
+  const userConfig = await getServerUserConfig({ moduleName })
+
   let _process: ExecaChildProcess | undefined
 
   const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
@@ -132,7 +138,9 @@ export const createTestServer = async (params: {
   })
 
   await new Promise<void>((resolve) => {
-    _process = execaCommand(cmd, { env: { TEST_ENV: "unit" } })
+    _process = execaCommand(cmd, {
+      env: { TEST_ENV: "unit" },
+    })
     _process.stdout?.pipe(process.stdout)
     _process.stderr?.pipe(process.stderr)
 
@@ -145,8 +153,7 @@ export const createTestServer = async (params: {
 
   if (!_process) throw new Error("Could not start dev server")
 
-  const appUrl = `http://localhost:${appPort}`
-  const serverUrl = `http://localhost:${serverPort}`
+  const { appUrl = "", serverUrl = "" } = userConfig
 
   const browser = await chromium.launch({ headless, slowMo })
   const page = await browser.newPage()

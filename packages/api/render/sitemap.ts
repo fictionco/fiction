@@ -5,7 +5,6 @@ import dayjs from "dayjs"
 import { SitemapStream, streamToPromise } from "sitemap"
 import fs from "fs-extra"
 import { logger } from ".."
-import { currentUrl } from "../engine/url"
 import { getSitemaps } from "../engine/sitemap"
 import { generateRoutes } from "../router"
 import { userConfigSetting } from "../config/plugins"
@@ -69,12 +68,12 @@ export const getSitemapPaths = async (): Promise<string[]> => {
 }
 
 export const generateSitemap = async (params: RunConfig): Promise<void> => {
-  const { distClient } = params
+  const { distClient, userConfig } = params
 
   if (!distClient) throw new Error("distClient is required for sitemap")
 
   logger.info("generateSitemap", "starting")
-  const sitemapBaseUrl = currentUrl()
+  const sitemapBaseUrl = userConfig?.appUrl
 
   if (!sitemapBaseUrl) {
     throw new Error("sitemap: base URL was empty (FACTOR_APP_URL)")

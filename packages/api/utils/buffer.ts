@@ -1,5 +1,5 @@
 import { EventEmitter } from "events"
-import { onEvent } from "./utils/event"
+import { onEvent } from "./event"
 
 type BufferConfig<T = Record<string, any>> = {
   name?: string

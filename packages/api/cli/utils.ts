@@ -28,7 +28,7 @@ export type CliOptions = {
   bundleMode?: "script" | "app"
   pkg?: PackageJson
   commit?: string
-  url?: string
+  pathname?: string
   cwd?: string
   mode?: NodeEnv
 }

@@ -1,8 +1,8 @@
 import { importIfExists, getMainFilePath } from "../engine/nodeUtils"
 import { deepMergeAll } from "../utils"
 import { omit, log } from ".."
-import { setAppGlobals } from "./globals"
-import { setUserConfig } from "./plugins"
+
+import { storeUserConfig } from "./plugins"
 import { UserConfig, MainFile } from "./types"
 
 type WhichModule = {
@@ -11,14 +11,6 @@ type WhichModule = {
   mainFilePath?: string
 }
 
-const getDefaultServerVariables = (): Record<string, string> => {
-  return {
-    FACTOR_SERVER_URL: "",
-    FACTOR_APP_URL: "",
-    NODE_ENV: process.env.NODE_ENV || "",
-    TEST_ENV: "",
-  }
-}
 /**
  * Generate static files, note that this uses server-only utilities
  * @server
@@ -119,9 +111,6 @@ export const createUserConfig = async (params: {
   const merge = [userConfig, entryConfig]
 
   if (!isApp && entryConfig.server) {
-    // set default variables in server
-    merge.unshift({ variables: getDefaultServerVariables() })
-
     // get server specific config from main files
     const serverConfig = await entryConfig.server()
 
@@ -140,27 +129,15 @@ export const createUserConfig = async (params: {
     try {
       userConfig = await installPlugins({ userConfig, isApp })
     } catch (error: unknown) {
-      const e = error as Error
-      log.error("setUserConfig", e.message, { error })
+      log.error("createUserConfig", "plugin install error", { error })
     }
   }
 
-  if (!isApp) {
-    // Set initial globals (this will run again after extension)
-    userConfig.variables = await setAppGlobals(userConfig)
-
-    // Sets config for access throughout app
-    userConfig = await setUserConfig(userConfig)
-
-    // Set globals again with any plugin stuff
-    userConfig.variables = await setAppGlobals(userConfig)
-
-    if (userConfig.generateStaticConfig) {
-      generateFiles(userConfig).catch(console.error)
-    }
-  } else {
-    userConfig = await setUserConfig(userConfig)
+  if (!isApp && userConfig.generateStaticConfig) {
+    generateFiles(userConfig).catch(console.error)
   }
+
+  userConfig = await storeUserConfig(userConfig)
 
   return userConfig
 }

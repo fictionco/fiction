@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import { FullUser, PrivateUser } from "../plugin-user/types"
-import { _stop } from "../error"
 import { logger } from "../logger"
+import { _stop } from "./error"
 import { setCookie, getCookie, removeCookie, getTopDomain } from "./cookie"
 /**
  * Gets, Sets or Destroys the user JWT token out of local storage

@@ -2,7 +2,7 @@ import * as http from "http"
 import { logger } from "@factor/api"
 import { EndpointResponse } from "@factor/api/types"
 import Stripe from "stripe"
-import { FactorEndpoint } from "@factor/api/engine"
+import { Endpoint } from "@factor/api/engine"
 
 import type { FactorStripe } from "."
 
@@ -86,12 +86,13 @@ const stripeHookHandler =
 
     return { status: "success" }
   }
-export class EndpointMethodStripeHooks extends FactorEndpoint {
-  constructor(settings: { stripePlugin: FactorStripe }) {
+export class EndpointMethodStripeHooks extends Endpoint {
+  constructor(settings: { stripePlugin: FactorStripe; serverUrl: string }) {
     super({
       key: "stripeWebhooks",
       basePath: "/stripe-webhook",
       requestHandler: stripeHookHandler(settings.stripePlugin),
+      serverUrl: settings.serverUrl,
     })
   }
 }

@@ -62,25 +62,14 @@ describe("vite config", () => {
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
-        "FACTOR_APP_URL": "http://localhost:3000",
-        "FACTOR_SERVER_URL": "http://localhost:9191",
-        "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
-        "TEST_ENV": "unit",
         "TEST_SERVER": "TEST",
       }
     `)
-    expect(userConfig?.variables?.["FACTOR_SERVER_URL"]).toBe(
-      "http://localhost:9191",
-    )
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
-        "FACTOR_APP_URL": "http://localhost:3000",
-        "FACTOR_SERVER_URL": "http://localhost:9191",
-        "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
-        "TEST_ENV": "unit",
         "TEST_SERVER": "TEST",
       }
     `)
@@ -123,12 +112,10 @@ describe("vite config", () => {
     expect(viteConfig.optimizeDeps?.exclude).toContain("@stripe/stripe-js")
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
-        "process.env.FACTOR_APP_URL": "\\"http://localhost:3000\\"",
+        "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
         "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
         "process.env.IS_VITE": "\\"yes\\"",
-        "process.env.NODE_ENV": "\\"development\\"",
         "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
-        "process.env.TEST_ENV": "\\"unit\\"",
         "process.env.TEST_SERVER": "\\"TEST\\"",
       }
     `)

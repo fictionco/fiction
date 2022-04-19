@@ -1,9 +1,5 @@
 import { UserConfig, FactorPlugin } from "@factor/api"
-import {
-  EndpointMethodOptions,
-  FactorEndpoint,
-  Query,
-} from "@factor/api/engine"
+import { EndpointMethodOptions, Endpoint, Query } from "@factor/api/engine"
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
@@ -30,13 +26,14 @@ type StripePluginSettings = {
   secretKeyTest?: string
   hooks: StripeHookCallbacks
   products: StripeProductConfig[]
+  serverUrl: string
 }
 
 type EndpointMap<T extends Record<string, Query>> = {
-  [P in keyof T]: FactorEndpoint<T[P]>
+  [P in keyof T]: Endpoint<T[P]>
 }
 
-export class EndpointMethodPayments<T extends Query> extends FactorEndpoint<T> {
+export class EndpointMethodPayments<T extends Query> extends Endpoint<T> {
   constructor(options: EndpointMethodOptions<T>) {
     super({ basePath: "/payments", ...options })
   }
@@ -51,11 +48,13 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   private stripeMode: "test" | "live" = "test"
   private hooks: StripeHookCallbacks
   products: StripeProductConfig[]
+  serverUrl: string
   constructor(settings: StripePluginSettings) {
     super(settings)
+    this.serverUrl = settings.serverUrl
     this.factorUser = settings.factorUser
     this.queries = this.createQueries()
-    this.requests = this.createRequests()
+    this.requests = this.createRequests(settings.serverUrl)
     this.stripeMode = settings.stripeMode
     this.hooks = settings.hooks
     this.products = settings.products
@@ -66,7 +65,10 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       name: this.constructor.name,
       endpoints: [
         ...Object.values(this.requests),
-        new EndpointMethodStripeHooks({ stripePlugin: this }),
+        new EndpointMethodStripeHooks({
+          stripePlugin: this,
+          serverUrl: this.serverUrl,
+        }),
       ],
       vite: {
         optimizeDeps: {
@@ -94,10 +96,17 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     } as const
   }
 
-  private createRequests(): EndpointMap<typeof this.queries> {
+  private createRequests(serverUrl: string): EndpointMap<typeof this.queries> {
     const requests = Object.fromEntries(
       Object.entries(this.queries).map(([key, query]) => {
-        return [key, new this.endpointHandler({ key, queryHandler: query })]
+        return [
+          key,
+          new this.endpointHandler({
+            key,
+            queryHandler: query,
+            serverUrl,
+          }),
+        ]
       }),
     ) as EndpointMap<typeof this.queries>
 
@@ -165,52 +174,3 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return product
   }
 }
-
-// export const setup = async (
-//   options?: Partial<StripeOptions>,
-// ): Promise<UserConfig> => {
-//   createSettings(options)
-
-//   return {
-//     name: "StripePluginServer",
-//     server: async (): Promise<UserConfig> => {
-//       const endpoints: Endpoint[] = [
-//         ...Object.values(getPaymentEndpointsMap()),
-//         new EndpointMethodStripeHooks(),
-//       ]
-//       const stripePublicKey =
-//         stripeEnv() == "production"
-//           ? process.env.STRIPE_PUBLIC_KEY_LIVE
-//           : process.env.STRIPE_PUBLIC_KEY_TEST
-//       const stripeSecretKey =
-//         stripeEnv() == "production"
-//           ? process.env.STRIPE_SECRET_KEY_LIVE
-//           : process.env.STRIPE_SECRET_KEY_TEST
-
-//       if (!stripePublicKey) {
-//         logger.log({
-//           level: "warn",
-//           context: "StripePlugin",
-//           description: `Stripe public key is missing: '${stripeEnv()}'`,
-//         })
-//       } else if (!stripeSecretKey) {
-//         logger.log({
-//           level: "warn",
-//           context: "StripePlugin",
-//           description: `Stripe secret key is missing: '${stripeEnv()}'`,
-//         })
-//       }
-
-//       return {
-//         endpoints,
-//         serverOnlyImports: [{ id: "stripe" }],
-//       }
-//     },
-//     vite: {
-//       optimizeDeps: {
-//         exclude: ["@stripe/stripe-js"],
-//       },
-//     },
-//     paths: [safeDirname(import.meta.url)],
-//   }
-// }

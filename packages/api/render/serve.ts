@@ -13,16 +13,15 @@ import type { RunConfig } from "../cli/utils"
 import { logger, onEvent } from ".."
 import { getFaviconPath } from "../engine/nodeUtils"
 import { deepMergeAll } from "../utils"
-import { currentUrl } from "../engine/url"
 import { EntryModuleExports } from "../config/types"
-import { renderMeta } from "../meta"
+import { renderMeta } from "../utils/meta"
 import { version } from "../package.json"
 import { getViteConfig } from "./vite.config"
 import { RenderMode } from "./types"
 import { renderPreloadLinks } from "./preload"
 
 export type RenderConfig = {
-  url?: string
+  pathname?: string
   manifest?: Record<string, any>
   renderMode?: RenderMode
   template?: string
@@ -66,7 +65,7 @@ export const getViteServer = async (
 }
 
 export const getIndexHtml = async (params: RunConfig): Promise<string> => {
-  const { mode = "production", url, dist, sourceDir } = params
+  const { mode = "production", pathname, dist, sourceDir } = params
 
   if (!dist) throw new Error("dist is required")
   if (!sourceDir) throw new Error("sourceDir is required")
@@ -90,9 +89,9 @@ export const getIndexHtml = async (params: RunConfig): Promise<string> => {
     </body>`,
   )
 
-  if (mode !== "production" && url) {
+  if (mode !== "production" && pathname) {
     const srv = await getViteServer(params)
-    template = await srv.transformIndexHtml(url, template)
+    template = await srv.transformIndexHtml(pathname, template)
   }
 
   if (mode == "production") {
@@ -140,7 +139,7 @@ export const renderParts = async (
   params: RenderConfig,
 ): Promise<RenderedHtmlParts> => {
   const mode = params.mode || "production"
-  const { url, manifest, distServerEntry } = params
+  const { pathname, manifest, distServerEntry } = params
   const prod = mode == "production" ? true : false
 
   if (!distServerEntry) throw new Error("distServerEntry is required")
@@ -174,7 +173,7 @@ export const renderParts = async (
     const { runApp } = entryModule as EntryModuleExports
 
     const factorAppEntry = await runApp({
-      renderUrl: url,
+      renderUrl: pathname,
       isSSR: true,
     })
 
@@ -207,22 +206,12 @@ export const renderParts = async (
   return out
 }
 
-export const canonicalTag = (pathname?: string): string => {
-  if (!pathname) return ""
-
-  const parts = [currentUrl(), pathname]
-    .map((_) => _.replace(/\/$/, ""))
-    .join("")
-
-  return `<link href="${parts}" rel="canonical">`
-}
-
 export const getRequestHtml = async (params: RenderConfig): Promise<string> => {
   const mode = params.mode || "production"
-  const { url, manifest, renderMode, template } = params
+  const { pathname, manifest, renderMode, template, userConfig } = params
 
   const { appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs } =
-    await renderParts({ ...params, url, manifest, renderMode })
+    await renderParts({ ...params, pathname, manifest, renderMode })
 
   // In development, get the index.html each request
   if (mode != "production") {
@@ -231,14 +220,21 @@ export const getRequestHtml = async (params: RenderConfig): Promise<string> => {
 
   if (!template) throw new Error("html template required")
 
+  const canonicalUrl = [userConfig?.appUrl || "", pathname || ""]
+    .map((_: string) => _.replace(/\/$/, ""))
+    .join("")
+
   const html = template
-    .replace(`<!--app-debug-->`, `<!-- ${JSON.stringify({ url }, null, 1)} -->`)
+    .replace(
+      `<!--app-debug-->`,
+      `<!-- ${JSON.stringify({ pathname }, null, 1)} -->`,
+    )
     .replace(
       `<!--app-head-->`,
       [
         headTags,
         preloadLinks,
-        canonicalTag(url),
+        `<link href="${canonicalUrl}" rel="canonical">`,
         `<meta name="generator" content="FactorJS ${version}" />`,
       ].join(`\n`),
     )
@@ -278,12 +274,12 @@ export const expressApp = async (params: RunConfig): Promise<Express> => {
 
     // server side rendering
     app.use("*", async (req, res) => {
-      const url = req.originalUrl
+      const pathname = req.originalUrl
 
       // This is the page catch all loader,
       // If a file request falls through to this its 404
       // make sure false triggers don't occur
-      const rawPath = url.split("?")[0]
+      const rawPath = pathname.split("?")[0]
       if (rawPath.includes(".") && rawPath.split(".").pop() != "html") {
         res.status(404).end()
         return
@@ -296,7 +292,7 @@ export const expressApp = async (params: RunConfig): Promise<Express> => {
           ...params,
           template,
           renderMode,
-          url,
+          pathname,
           manifest,
         })
 

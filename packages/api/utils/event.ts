@@ -1,6 +1,6 @@
 import events from "events"
 import { log } from "../logger"
-import { getGlobal, setGlobal } from "../global"
+import { getGlobal, setGlobal } from "./global"
 
 const getGlobalEventBus = (): NodeJS.EventEmitter => {
   let eventBus: NodeJS.EventEmitter | undefined = getGlobal("eventBus")

@@ -4,7 +4,7 @@ import pluginVue from "@vitejs/plugin-vue"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
 import { importIfExists, requireIfExists, cwd } from "../engine/nodeUtils"
-import { setAppGlobals } from "../config/globals"
+
 import { deepMergeAll, getMarkdownUtility } from ".."
 import { logger } from "../logger"
 import { UserConfig } from "../config/types"
@@ -135,13 +135,19 @@ export const getViteConfig = async (
     publicDir,
     entryDir,
     portApp,
+    mode,
   } = options
 
   if (!sourceDir) throw new Error("sourceDir is required")
   if (!publicDir) throw new Error("publicDir is required")
   if (!entryDir) throw new Error("entryDir is required")
 
-  const vars = await setAppGlobals(userConfig)
+  const { variables, serverUrl, appUrl } = userConfig
+  const vars = {
+    ...variables,
+    FACTOR_SERVER_URL: serverUrl,
+    FACTOR_APP_URL: appUrl,
+  }
 
   const define = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -149,16 +155,12 @@ export const getViteConfig = async (
     }),
   )
 
-  const listVars = Object.fromEntries(
-    Object.entries(vars).filter(([_key, value]) => value),
-  )
-
-  if (bundleMode !== "script" || process.env.NODE_ENV == "production") {
+  if (bundleMode !== "script" || mode == "production") {
     logger.info(
       "getViteConfig",
-      `build variables (${Object.keys(listVars).length} total)`,
+      `build variables (${Object.keys(vars).length} total)`,
       {
-        data: listVars,
+        data: vars,
         disableOnRestart: true,
       },
     )
