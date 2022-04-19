@@ -66,6 +66,7 @@ export interface UserConfig {
   plugins?: (UserConfig | Promise<UserConfig>)[]
   hooks?: HookType[]
   vite?: Partial<ViteInlineConfig>
+  generateStaticConfig?: boolean
   userProcessors?: DataProcessor<
     FullUser,
     { meta?: EndpointMeta; params?: ManageUserParams }

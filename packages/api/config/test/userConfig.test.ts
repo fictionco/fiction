@@ -74,6 +74,9 @@ describe("user config", () => {
     expect(userConfig.serverOnlyImports).toMatchInlineSnapshot(`
       [
         {
+          "id": "html-to-text",
+        },
+        {
           "id": "stripe",
         },
       ]

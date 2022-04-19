@@ -1,34 +1,15 @@
-import { Knex } from "knex"
 import { contextLogger } from "../logger"
 import { _stop } from "../error"
 import type { EndpointResponse, ErrorConfig } from "../types"
 import * as utils from "../utils"
-import type { FactorDb } from "../plugin-db"
 import type { EndpointMeta } from "./endpoint"
 
-type QuerySettings =
-  | {
-      db?: FactorDb
-    }
-  | undefined
-
-export abstract class Query<T extends QuerySettings = {}> {
-  db?: FactorDb
+export abstract class Query {
   stop = _stop
   utils = utils
   log = contextLogger(this.constructor.name)
 
-  constructor(settings?: T) {
-    this.db = settings?.db
-  }
-
-  getDb(): Knex {
-    const dbClient = this.db?.client()
-
-    if (!dbClient) throw new Error("no db client")
-
-    return dbClient
-  }
+  constructor() {}
 
   /**
    * Base query method

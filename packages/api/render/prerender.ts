@@ -3,7 +3,7 @@ import compression from "compression"
 import express from "express"
 import fs from "fs-extra"
 import serveStatic from "serve-static"
-import { onEvent } from "../event"
+import { onEvent } from "../utils/event"
 import { log } from "../logger"
 
 import { RunConfig } from "../cli/utils"

@@ -22,7 +22,7 @@ import { EndpointMethodStripeHooks } from "./endpointHooks"
 import { StripeProductConfig, StripeHookCallbacks } from "./types"
 
 type StripePluginSettings = {
-  userPlugin: FactorUser
+  factorUser: FactorUser
   stripeMode: "test" | "live"
   publicKeyLive?: string
   publicKeyTest?: string
@@ -43,7 +43,7 @@ export class EndpointMethodPayments<T extends Query> extends FactorEndpoint<T> {
 }
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
-  private userPlugin: FactorUser
+  private factorUser: FactorUser
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
   private endpointHandler = EndpointMethodPayments
@@ -53,7 +53,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   products: StripeProductConfig[]
   constructor(settings: StripePluginSettings) {
     super(settings)
-    this.userPlugin = settings.userPlugin
+    this.factorUser = settings.factorUser
     this.queries = this.createQueries()
     this.requests = this.createRequests()
     this.stripeMode = settings.stripeMode
@@ -80,7 +80,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private createQueries() {
-    const deps = { userPlugin: this.userPlugin, stripePlugin: this }
+    const deps = { factorUser: this.factorUser, stripePlugin: this }
     return {
       ManageCustomer: new QueryManageCustomer(deps),
       ListSubscriptions: new QueryListSubscriptions(deps),

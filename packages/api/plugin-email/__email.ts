@@ -23,9 +23,9 @@ const getFromAddress = (): string => {
   return `${name} <${email}>`
 }
 export const hasEmailService = (): boolean => {
-  const { SMTP_HOST, SMTP_USERNAME, SMTP_PASSWORD } = process.env
+  const { SMTP_HOST, SMTP_USER, SMTP_PASSWORD } = process.env
 
-  return !SMTP_HOST || !SMTP_PASSWORD || !SMTP_USERNAME ? false : true
+  return !SMTP_HOST || !SMTP_PASSWORD || !SMTP_USER ? false : true
 }
 /**
  * Gets the email sending service
@@ -36,7 +36,7 @@ const getEmailSMTPService = (): Transporter | void => {
   }
 
   const {
-    SMTP_USERNAME = "",
+    SMTP_USER = "",
     SMTP_PASSWORD = "",
     SMTP_HOST = "",
     SMTP_PORT = 587,
@@ -47,7 +47,7 @@ const getEmailSMTPService = (): Transporter | void => {
     port: SMTP_PORT as number,
     secure: false, // true for 587, false for other ports
     auth: {
-      user: SMTP_USERNAME,
+      user: SMTP_USER,
       pass: SMTP_PASSWORD,
     },
   }

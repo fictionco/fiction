@@ -1,14 +1,15 @@
 import { expect, it, vi, describe, beforeAll } from "vitest"
 import bcrypt from "bcrypt"
-import { getTestEmail } from "../../test-utils"
+import {
+  getTestEmail,
+  createTestUtils,
+  TestUtils,
+} from "@factor/api/test-utils"
+import { decodeClientToken } from "@factor/api/utils/jwt"
+import { createServer } from "@factor/api/entry/serverEntry"
+import { getServerUserConfig } from "@factor/api/config"
+
 import { FullUser } from "../types"
-import { decodeClientToken } from "../../jwt"
-import { createServer } from "../../entry/serverEntry"
-
-import { getServerUserConfig } from "../../config"
-
-import { FactorUser } from ".."
-import { FactorDb } from "../../plugin-db"
 
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<
@@ -24,18 +25,17 @@ vi.mock("../serverEmail", async () => {
 })
 
 let user: FullUser
-let dbPlugin: undefined | FactorDb = undefined
-let userPlugin: undefined | FactorUser = undefined
 
+let testUtils: undefined | TestUtils = undefined
 describe.skip("user tests", () => {
   beforeAll(async () => {
-    dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
-    userPlugin = new FactorUser({ db: dbPlugin })
+    testUtils = await createTestUtils()
+
     const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
     await createServer({ userConfig })
   })
   it("creates user", async () => {
-    const response = await userPlugin?.queries.ManageUser.serve(
+    const response = await testUtils?.factorUser?.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email: getTestEmail(), fullName: "test" },
@@ -53,13 +53,14 @@ describe.skip("user tests", () => {
   })
 
   it("verifies account email", async () => {
-    const response = await userPlugin?.queries.VerifyAccountEmail.serve(
-      {
-        email: user.email,
-        verificationCode: "test",
-      },
-      undefined,
-    )
+    const response =
+      await testUtils?.factorUser?.queries.VerifyAccountEmail.serve(
+        {
+          email: user.email,
+          verificationCode: "test",
+        },
+        undefined,
+      )
 
     expect(response?.data).toBeTruthy()
     expect(response?.status).toBe("success")
@@ -72,7 +73,7 @@ describe.skip("user tests", () => {
   })
 
   it("sets password", async () => {
-    const response = await userPlugin?.queries.SetPassword.serve(
+    const response = await testUtils?.factorUser?.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: "test",
@@ -92,7 +93,7 @@ describe.skip("user tests", () => {
   })
 
   it("logs in with password", async () => {
-    const response = await userPlugin?.queries.Login.serve(
+    const response = await testUtils?.factorUser?.queries.Login.serve(
       {
         email: user.email,
         password: "test",
@@ -107,7 +108,7 @@ describe.skip("user tests", () => {
 
   it("resets password", async () => {
     if (!user.email) throw new Error("email required")
-    const response = await userPlugin?.queries.ResetPassword.serve(
+    const response = await testUtils?.factorUser?.queries.ResetPassword.serve(
       {
         email: user.email,
       },
@@ -118,7 +119,7 @@ describe.skip("user tests", () => {
 
     if (!response?.internal) throw new Error("code required")
 
-    const response2 = await userPlugin?.queries.SetPassword.serve(
+    const response2 = await testUtils?.factorUser?.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: response?.internal,
@@ -131,7 +132,7 @@ describe.skip("user tests", () => {
   })
 
   it("updates the user", async () => {
-    const response = await userPlugin?.queries.ManageUser.serve(
+    const response = await testUtils?.factorUser?.queries.ManageUser.serve(
       {
         _action: "update",
         email: user.email,

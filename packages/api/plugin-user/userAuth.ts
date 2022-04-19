@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import bcrypt from "bcrypt"
 import { dayjs, validateEmail, snakeCase } from "../utils"
-import { createClientToken, decodeClientToken } from "../jwt"
+import { createClientToken, decodeClientToken } from "../utils/jwt"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../error"
 import { runProcessors } from "../processor"
 import { runHooks } from "../config/hook"
 import { getUserConfig } from "../config/plugins"
-import { getDb } from "../plugin-db/db"
 
 import { EndpointMeta } from "../engine/endpoint"
 import type { FactorDb } from "../plugin-db"
 import { Query } from "../engine/query"
+import { FactorEmail } from "../plugin-email"
 import { FullUser } from "./types"
 import {
   getPublicUserFields,
@@ -21,11 +21,19 @@ import {
 import type { FactorUser } from "."
 
 export abstract class UserQuery extends Query {
-  userPlugin: FactorUser
-  constructor(settings: { userPlugin: FactorUser; db: FactorDb }) {
-    super(settings)
+  factorUser: FactorUser
+  factorEmail: FactorEmail
+  factorDb: FactorDb
+  constructor(settings: {
+    factorUser: FactorUser
+    factorDb: FactorDb
+    factorEmail: FactorEmail
+  }) {
+    super()
 
-    this.userPlugin = settings.userPlugin
+    this.factorUser = settings.factorUser
+    this.factorEmail = settings.factorEmail
+    this.factorDb = settings.factorDb
   }
 }
 
@@ -80,13 +88,13 @@ const processUser = async (
  */
 export const verifyNewEmail = async (params: {
   email?: string
-  userPlugin: FactorUser
+  factorUser: FactorUser
 }): Promise<true> => {
-  const { email, userPlugin } = params
+  const { email, factorUser } = params
   if (!email) throw _stop({ message: "email is required" })
   if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
 
-  const { data: exists } = await userPlugin.queries.ManageUser.serve(
+  const { data: exists } = await factorUser.queries.ManageUser.serve(
     {
       _action: "getPublic",
       email,
@@ -173,7 +181,7 @@ export class QueryManageUser extends UserQuery {
   ): Promise<ManageUserResponse> {
     const { _action } = params
 
-    const db = this.getDb()
+    const db = this.factorDb.client()
 
     let user: FullUser | undefined
 
@@ -241,7 +249,7 @@ export class QueryManageUser extends UserQuery {
       if (!email) throw this.stop("email required")
 
       if (!emailVerified) {
-        await verifyNewEmail({ email, userPlugin: this.userPlugin })
+        await verifyNewEmail({ email, factorUser: this.factorUser })
       }
       ;[user] = await db
         .insert({
@@ -301,7 +309,7 @@ export class QueryCurrentUser extends UserQuery {
 
     let user: FullUser | undefined
     try {
-      const r = await this.userPlugin.queries.ManageUser.serve(
+      const r = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "update",
           email,
@@ -324,10 +332,10 @@ export class QueryCurrentUser extends UserQuery {
 export const sendVerificationEmail = async (args: {
   email: string
   code: string | number
+  factorEmail: FactorEmail
 }): Promise<void> => {
-  const { sendEmail } = await import("../plugin-email/email")
-  const { code, email } = args
-  await sendEmail({
+  const { code, email, factorEmail } = args
+  await factorEmail.sendEmail({
     subject: `${code} is your verification code`,
     text: `This email is to verify your account using a one-time code.\n\n Your code is: **${code}**`,
     to: email,
@@ -339,9 +347,10 @@ export const sendVerificationEmail = async (args: {
  */
 export const sendOneTimeCode = async (params: {
   email: string
-  userPlugin: FactorUser
+  factorUser: FactorUser
+  factorEmail: FactorEmail
 }): Promise<string> => {
-  const { email, userPlugin } = params
+  const { email, factorUser, factorEmail } = params
 
   const code = getSixDigitRandom()
   const fields = {
@@ -349,18 +358,22 @@ export const sendOneTimeCode = async (params: {
     codeExpiresAt: dayjs().add(1, "day").toISOString(),
   }
 
-  await userPlugin.queries.ManageUser.serve(
+  await factorUser.queries.ManageUser.serve(
     { _action: "update", email, fields },
     { server: true },
   )
 
-  await sendVerificationEmail({ email, code })
+  await sendVerificationEmail({ email, code, factorEmail })
 
   return code
 }
 export class QuerySendOneTimeCode extends UserQuery {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
-    await sendOneTimeCode({ ...params, userPlugin: this.userPlugin })
+    await sendOneTimeCode({
+      ...params,
+      factorUser: this.factorUser,
+      factorEmail: this.factorEmail,
+    })
 
     return { status: "success", data: true }
   }
@@ -373,8 +386,9 @@ export const verifyCode = async (args: {
   email?: string
   userId?: string
   verificationCode: string
+  factorDb: FactorDb
 }): Promise<true> => {
-  const { email, verificationCode, userId } = args
+  const { email, verificationCode, userId, factorDb } = args
 
   if (!verificationCode) {
     throw _stop({ message: `no code provided` })
@@ -385,7 +399,7 @@ export const verifyCode = async (args: {
 
   const where = userId ? { userId } : { email }
 
-  const db = await getDb()
+  const db = factorDb.client()
   const r = await db
     .select<{ verificationCode: string; codeExpiresAt: string }[]>([
       "verificationCode",
@@ -443,10 +457,9 @@ export class QueryUpdateCurrentUser extends UserQuery {
       if (typeof params[f] != "undefined") {
         const jsn = JSON.stringify(params[f])
 
-        const setter = this.getDb().raw(
-          `coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`,
-          jsn,
-        )
+        const setter = this.factorDb
+          .client()
+          .raw(`coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`, jsn)
 
         fields = { ...fields, [f]: setter }
       }
@@ -455,7 +468,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
     if (password) {
       const hashedPassword = await hashPassword(password)
 
-      const { data: dbUser } = await this.userPlugin.queries.ManageUser.serve(
+      const { data: dbUser } = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "getPrivate",
           userId: bearer.userId,
@@ -471,7 +484,12 @@ export class QueryUpdateCurrentUser extends UserQuery {
       )
 
       if (verificationCode) {
-        await verifyCode({ email, userId, verificationCode })
+        await verifyCode({
+          email,
+          userId,
+          verificationCode,
+          factorDb: this.factorDb,
+        })
       }
 
       if (!correctPassword && !verificationCode) {
@@ -479,7 +497,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       }
 
       if (email && email != dbUser.email) {
-        await verifyNewEmail({ email, userPlugin: this.userPlugin })
+        await verifyNewEmail({ email, factorUser: this.factorUser })
 
         fields.email = email
       } else {
@@ -489,7 +507,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
 
     let user, token
     if (Object.keys(fields).length > 0) {
-      const response = await this.userPlugin.queries.ManageUser.serve(
+      const response = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "update",
           email: bearer.email,
@@ -535,10 +553,10 @@ export class QuerySetPassword extends UserQuery {
     if (!password) throw this.stop(`password required`)
 
     // code verification is needed because on password reset the user is logged out
-    await verifyCode({ email, verificationCode })
+    await verifyCode({ email, verificationCode, factorDb: this.factorDb })
     const hashedPassword = await hashPassword(password)
 
-    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
+    const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
         _action: "update",
         email,
@@ -573,9 +591,9 @@ export class QueryVerifyAccountEmail extends UserQuery {
       throw this.stop({ message: "confirm code is required" })
     }
 
-    await verifyCode({ email, verificationCode })
+    await verifyCode({ email, verificationCode, factorDb: this.factorDb })
 
-    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
+    const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
         _action: "update",
         email,
@@ -612,7 +630,11 @@ export class QueryResetPassword extends UserQuery {
   }): Promise<EndpointResponse<FullUser> & { internal: string }> {
     if (!email) throw this.stop({ message: "email is required" })
 
-    const code = await sendOneTimeCode({ email, userPlugin: this.userPlugin })
+    const code = await sendOneTimeCode({
+      email,
+      factorUser: this.factorUser,
+      factorEmail: this.factorEmail,
+    })
 
     return {
       status: "success",
@@ -630,7 +652,7 @@ export class QueryStartNewUser extends UserQuery {
     }
   > {
     const { email, fullName } = params
-    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
+    const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email, fullName },
@@ -640,7 +662,11 @@ export class QueryStartNewUser extends UserQuery {
 
     if (!user) throw this.stop("problem creating user")
 
-    await sendOneTimeCode({ email: user.email, userPlugin: this.userPlugin })
+    await sendOneTimeCode({
+      email: user.email,
+      factorUser: this.factorUser,
+      factorEmail: this.factorEmail,
+    })
 
     this.log.info(`user started ${email}:${fullName ?? "(no name)"}`)
 
@@ -673,7 +699,7 @@ export class QueryLogin extends UserQuery {
     _meta: EndpointMeta,
   ): LoginResponse {
     const { email, password, googleId, emailVerified } = params
-    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
+    const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -687,7 +713,7 @@ export class QueryLogin extends UserQuery {
 
     if (googleId && _meta.server) {
       if (!user.googleId && emailVerified) {
-        await this.userPlugin.queries.ManageUser.serve(
+        await this.factorUser.queries.ManageUser.serve(
           {
             _action: "update",
             email,
@@ -721,7 +747,11 @@ export class QueryLogin extends UserQuery {
     if (!message) message = "successfully logged in"
 
     if (!user.emailVerified) {
-      await sendOneTimeCode({ email: user.email, userPlugin: this.userPlugin })
+      await sendOneTimeCode({
+        email: user.email,
+        factorUser: this.factorUser,
+        factorEmail: this.factorEmail,
+      })
 
       message = "verification email sent"
       return {
@@ -756,7 +786,7 @@ export class QueryNewVerificationCode extends UserQuery {
   ): Promise<EndpointResponse<{ exists: boolean }>> {
     const { email, newAccount } = params
 
-    let { data: existingUser } = await this.userPlugin.queries.ManageUser.serve(
+    let { data: existingUser } = await this.factorUser.queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -770,7 +800,7 @@ export class QueryNewVerificationCode extends UserQuery {
       throw this.stop({ message: "email exists", data: { exists } })
     } else if (!existingUser) {
       const { data: createdUser } =
-        await this.userPlugin.queries.ManageUser.serve(
+        await this.factorUser.queries.ManageUser.serve(
           {
             _action: "create",
             fields: { email },
@@ -787,7 +817,8 @@ export class QueryNewVerificationCode extends UserQuery {
 
     await sendOneTimeCode({
       email: existingUser.email,
-      userPlugin: this.userPlugin,
+      factorUser: this.factorUser,
+      factorEmail: this.factorEmail,
     })
 
     return {

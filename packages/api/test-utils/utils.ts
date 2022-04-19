@@ -5,12 +5,14 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
+import { getEnvVars } from "../utils"
 import { randomBetween, setCurrentUser, log } from ".."
 import { MainFile } from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { setupAppFromMainFile } from "../entry/setupApp"
 import { FactorDb } from "../plugin-db"
+import { FactorEmail } from "../plugin-email"
 
 const require = createRequire(import.meta.url)
 
@@ -44,17 +46,37 @@ export type TestUtils = {
   user: FullUser | undefined
   token: string
   email: string
-  dbPlugin: FactorDb
-  userPlugin: FactorUser
+  factorDb: FactorDb
+  factorUser: FactorUser
+  factorEmail: FactorEmail
 }
 
 export const createTestUtils = async (): Promise<TestUtils> => {
-  const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
-  const userPlugin = new FactorUser({ db: dbPlugin })
+  const vars = [
+    "POSTGRES_URL",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+  ] as const
+  const env = getEnvVars({ vars, isTest: true })
+
+  const factorEmail = new FactorEmail({
+    appEmail: "arpowers@gmail.com",
+    appName: "TestApp",
+    isTest: true,
+  })
+
+  const factorDb = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+
+  const factorUser = new FactorUser({
+    factorDb,
+    factorEmail,
+    googleClientId: env.GOOGLE_CLIENT_ID,
+    googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+  })
 
   const key = Math.random().toString().slice(2, 12)
   const email = `arpowers+${key}@gmail.com`
-  const r = await userPlugin.queries.ManageUser.serve(
+  const r = await factorUser.queries.ManageUser.serve(
     {
       fields: { email: `arpowers+${key}@gmail.com`, emailVerified: true },
       _action: "create",
@@ -68,21 +90,21 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   if (!token) throw new Error("token not returned")
   if (!user) throw new Error("no user created")
 
-  return { user, token, email, userPlugin, dbPlugin }
+  return { user, token, email, factorUser, factorDb, factorEmail }
 }
 
 export const setTestCurrentUser = async (params: {
   mainFile: MainFile
-  userPlugin: FactorUser
+  factorUser: FactorUser
 }): Promise<TestUtils> => {
-  const { mainFile, userPlugin } = params
+  const { mainFile, factorUser } = params
   await setupAppFromMainFile({ mainFile })
 
   const testUtils = await createTestUtils()
 
   setCurrentUser({ user: testUtils.user, token: testUtils.token })
 
-  userPlugin.setUserInitialized()
+  factorUser.setUserInitialized()
 
   return testUtils
 }

@@ -56,9 +56,9 @@ describe("sockets", () => {
   })
 
   it("creates a client server", async () => {
-    const userPlugin = testUtils?.userPlugin
+    const factorUser = testUtils?.factorUser
 
-    if (!userPlugin) throw new Error("no userPlugin")
+    if (!factorUser) throw new Error("no factorUser")
 
     const token = createClientToken({
       email: "hello@world.com",
@@ -67,7 +67,7 @@ describe("sockets", () => {
     const clientSocket = new ClientSocket<EventMap>({
       host,
       token,
-      userPlugin,
+      factorUser,
     })
 
     await clientSocket.sendMessage("test", "ping")

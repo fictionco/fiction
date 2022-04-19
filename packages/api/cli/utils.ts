@@ -141,10 +141,6 @@ export const setEnvironment = async (
     dotenv.config({ path: path.resolve(cwd, ".dev.env") })
   }
 
-  if (process.env.TEST_ENV) {
-    dotenv.config({ path: path.resolve(cwd, ".test.env") })
-  }
-
   const { NODE_ENV, STAGE_ENV, portApp, port, inspector } = options
 
   const mode = NODE_ENV || "production"

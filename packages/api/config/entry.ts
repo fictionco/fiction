@@ -155,7 +155,9 @@ export const createUserConfig = async (params: {
     // Set globals again with any plugin stuff
     userConfig.variables = await setAppGlobals(userConfig)
 
-    generateFiles(userConfig).catch(console.error)
+    if (userConfig.generateStaticConfig) {
+      generateFiles(userConfig).catch(console.error)
+    }
   } else {
     userConfig = await setUserConfig(userConfig)
   }

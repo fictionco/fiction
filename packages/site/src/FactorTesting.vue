@@ -7,7 +7,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { currentUrl } from "@factor/api/engine/url"
 import { userConfigSetting } from "@factor/api/config"
 
 const appName = userConfigSetting("appName")

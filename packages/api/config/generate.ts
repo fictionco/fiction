@@ -20,7 +20,10 @@ export const generateStaticConfig = async (
   const staticConfig = {
     routes: config.routes?.sort(),
     paths: config.paths?.sort(),
-    endpoints: config.endpoints,
+    endpoints: config.endpoints?.map((ep) => ({
+      key: ep.key,
+      path: ep.pathname(),
+    })),
   }
 
   const staticSchema: JSONSchema = {

@@ -10,6 +10,7 @@ describe("test config generator", () => {
   beforeAll(async () => {
     const config: UserConfig = await setUserConfig({
       root,
+      generateStaticConfig: true,
       hooks: [
         {
           hook: "staticConfig",

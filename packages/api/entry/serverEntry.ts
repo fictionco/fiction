@@ -1,7 +1,6 @@
 import http from "http"
 import bodyParser from "body-parser"
 import { UserConfig } from "../config/types"
-import { initializeDb } from "../plugin-db/db"
 import { runHooks } from "../config/hook"
 import type { RunConfig } from "../cli/utils"
 
@@ -51,7 +50,6 @@ export const createServer = async (params: {
   userConfig: UserConfig
 }): Promise<UserConfig> => {
   const { userConfig } = params
-  await initializeDb()
 
   await runHooks("afterServerSetup")
 

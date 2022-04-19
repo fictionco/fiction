@@ -5,7 +5,7 @@ import express from "express"
 
 import * as ws from "ws"
 import { clientToken, emitEvent, log, waitFor, _stop } from ".."
-import { decodeClientToken } from "../jwt"
+import { decodeClientToken } from "../utils/jwt"
 import { FactorUser } from "../plugin-user"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
@@ -35,7 +35,7 @@ export type ResponseFunction<T extends EventMap, U extends keyof T> = (
 type ClientSocketOptions = {
   host: string
   token?: string
-  userPlugin: FactorUser
+  factorUser: FactorUser
 }
 
 export declare interface ClientSocket<T extends EventMap> {
@@ -60,18 +60,18 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   waiting = false
   context = "clientSocket"
   token?: string
-  userPlugin: FactorUser
+  factorUser: FactorUser
   constructor(options: ClientSocketOptions) {
     super()
     this.host = options.host
     this.token = options.token
-    this.userPlugin = options.userPlugin
+    this.factorUser = options.factorUser
   }
 
   private async getToken(): Promise<string> {
     if (this.token) return this.token
 
-    await this.userPlugin.userInitialized()
+    await this.factorUser.userInitialized()
 
     return clientToken({ action: "get" }) ?? ""
   }

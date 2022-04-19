@@ -17,10 +17,10 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/plugin-highlight-code": "5.1.2",
+    "@factor/plugin-highlight-code": "workspace:5.1.2",
     "@types/string-similarity": "^4.0.0",
-    "string-similarity": "^4.0.4",
-    "dayjs": "^1.11.1"
+    "dayjs": "^1.11.1",
+    "string-similarity": "^4.0.4"
   },
   "peerDependencies": {
     "@factor/api": "^5.0.0",

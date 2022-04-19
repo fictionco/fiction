@@ -1,6 +1,6 @@
 <template>
   <Content />
-  <LoadingVeil :user-plugin="userPlugin" />
+  <LoadingVeil :factor-user="factorUser" />
   <NotifyToaster />
 </template>
 
@@ -8,5 +8,5 @@
 import LoadingVeil from "@factor/ui/LoadingVeil.vue"
 import NotifyToaster from "@factor/plugin-notify/NotifyToaster.vue"
 import Content from "./Content.vue"
-import { userPlugin } from "."
+import { factorUser } from "."
 </script>

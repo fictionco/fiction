@@ -10,20 +10,20 @@ import type { FactorUser } from "."
 type GoogleQuerySettings = {
   clientId?: string
   clientSecret?: string
-  userPlugin: FactorUser
+  factorUser: FactorUser
 }
 
 export class QueryUserGoogleAuth extends Query {
   private client?: OAuth2Client
   private clientId?: string
   private clientSecret?: string
-  private userPlugin: FactorUser
+  private factorUser: FactorUser
   constructor(settings: GoogleQuerySettings) {
-    super(settings)
+    super()
 
     this.clientId = settings.clientId
     this.clientSecret = settings.clientSecret
-    this.userPlugin = settings.userPlugin
+    this.factorUser = settings.factorUser
   }
 
   async getClient(): Promise<OAuth2Client> {
@@ -70,7 +70,7 @@ export class QueryUserGoogleAuth extends Query {
       this.log.info("Google login", { data: payload })
 
       const { data: existingUser } =
-        await this.userPlugin.queries.ManageUser.serve(
+        await this.factorUser.queries.ManageUser.serve(
           {
             _action: "getPrivate",
             email: payload?.email,
@@ -80,7 +80,7 @@ export class QueryUserGoogleAuth extends Query {
 
       // no user, create one
       if (!existingUser) {
-        await this.userPlugin.queries.ManageUser.serve(
+        await this.factorUser.queries.ManageUser.serve(
           {
             _action: "create",
             fields: {
@@ -99,7 +99,7 @@ export class QueryUserGoogleAuth extends Query {
         isNew = true
       }
 
-      const loginResponse = await this.userPlugin.queries.Login.serve(
+      const loginResponse = await this.factorUser.queries.Login.serve(
         {
           email: payload.email,
           googleId: payload.sub,

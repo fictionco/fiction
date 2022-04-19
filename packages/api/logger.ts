@@ -5,7 +5,6 @@ import chalk from "chalk"
 import prettyoutput from "prettyoutput"
 import consola from "consola"
 import { logCategory, logLevel } from "./types"
-import { isNode, isVite } from "./utils"
 
 export const logType = {
   event: { color: "#5233ff" },
@@ -38,9 +37,16 @@ interface LoggerArgs {
 
 class Logger {
   isNode: boolean
-
+  isVite: boolean
   constructor() {
-    this.isNode = isNode
+    this.isNode =
+      typeof process !== "undefined" &&
+      process.versions &&
+      process.versions.node
+        ? true
+        : false
+
+    this.isVite = process.env.IS_VITE ? true : false
   }
 
   logBrowser(config: LoggerArgs): void {
@@ -145,7 +151,7 @@ class Logger {
     config.priority = logLevel[level].priority
     config.color = logCategory[level].color
 
-    if (this.isNode && !isVite()) {
+    if (this.isNode && !this.isVite) {
       if (
         config.priority < 10 &&
         process.env.NODE_ENV !== "production" &&

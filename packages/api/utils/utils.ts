@@ -5,6 +5,7 @@ import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
 import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
+import { log } from "../logger"
 /**
  * Are we in Node or browser?
  */
@@ -20,6 +21,10 @@ export const isVite = (): boolean => {
 export const isBrowser = (): boolean => {
   return process.env.IS_VITE ? true : false
 }
+
+export const isTest = (): boolean => {
+  return process.env.TEST_ENV == "unit" ? true : false
+}
 /**
  * Are we in development mode?
  */
@@ -34,8 +39,49 @@ export const safeDirname = (url?: string, relativePath = ""): string => {
   if (!url) return ""
   return path.join(new URL(".", url).pathname, relativePath)
 }
+/**
+ * Gets environmental variables
+ * and logs warnings/errors if they are not set
+ */
+export const getEnvVars = <
+  T extends readonly string[],
+  U extends readonly string[],
+>(params: {
+  vars: T
+  varsLive?: U
+  isTest?: boolean
+}): Record<T[number] | U[number], string> => {
+  const env: Record<string, string> = {}
 
-export const stringify = stableStringify
+  if (isBrowser()) return env
+
+  const { vars, varsLive, isTest } = params
+
+  const allVars = [...vars]
+  if (!isTest && varsLive) {
+    allVars.push(...varsLive)
+  }
+
+  vars.forEach((v) => {
+    if (process.env[v]) {
+      env[v] = process.env[v] as string
+    } else {
+      log.warn("getEnv", `env var: (${v}) is not set`)
+    }
+  })
+  return env
+}
+
+export const stringify = (data: unknown): string =>
+  stableStringify(
+    data,
+    (_key, value): unknown => {
+      if (value === "[Circular]") return
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      else return value
+    },
+    2,
+  )
 /**
  * Stringify and hash
  * https://github.com/joliss/fast-js-hash-benchmark

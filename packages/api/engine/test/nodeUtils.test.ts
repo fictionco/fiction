@@ -25,9 +25,10 @@ describe("node utils", () => {
       [
         "blogPlugin",
         "docsPlugin",
+        "factorEmail",
+        "factorUser",
         "setup",
         "stripePlugin",
-        "userPlugin",
       ]
     `)
   })
@@ -46,23 +47,23 @@ describe("node utils", () => {
     expect(entryConfig.variables?.FACTOR_SERVER_URL).toBe(
       `http://localhost:${process.env.PORT}`,
     )
-    expect(Object.keys(entryConfig)).toMatchInlineSnapshot(`
+    expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [
-        "variables",
+        "appEmail",
+        "appName",
+        "appUrl",
+        "endpoints",
+        "mode",
+        "paths",
         "port",
         "portApp",
-        "serverUrl",
-        "appUrl",
-        "mode",
-        "appName",
-        "appEmail",
-        "routes",
         "root",
-        "sitemaps",
-        "paths",
-        "vite",
-        "endpoints",
+        "routes",
         "serverOnlyImports",
+        "serverUrl",
+        "sitemaps",
+        "variables",
+        "vite",
       ]
     `)
   })

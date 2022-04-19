@@ -13,15 +13,15 @@ type RefineResult = {
 }
 
 abstract class QueryPayments extends Query {
-  userPlugin: FactorUser
+  factorUser: FactorUser
   stripePlugin: FactorStripe
   constructor(settings: {
-    userPlugin: FactorUser
+    factorUser: FactorUser
     stripePlugin: FactorStripe
   }) {
-    super(settings)
+    super()
 
-    this.userPlugin = settings.userPlugin
+    this.factorUser = settings.factorUser
     this.stripePlugin = settings.stripePlugin
   }
   async refine(
@@ -42,7 +42,7 @@ abstract class QueryPayments extends Query {
 
     if (userId) {
       const privateDataResponse =
-        await this.userPlugin.queries.ManageUser.serve(
+        await this.factorUser.queries.ManageUser.serve(
           {
             userId,
             _action: "getPrivate",

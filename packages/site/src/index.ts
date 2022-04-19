@@ -6,18 +6,44 @@ import { FactorStripe } from "@factor/plugin-stripe"
 import { FactorUi } from "@factor/ui"
 import { FactorDb } from "@factor/api/plugin-db"
 import { FactorUser } from "@factor/api/plugin-user"
-import { safeDirname, UserConfig } from "@factor/api"
+import { safeDirname, UserConfig, getEnvVars, isTest } from "@factor/api"
+import { FactorEmail } from "@factor/api/plugin-email"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { routes } from "./routes"
 
-const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+const vars = [
+  "POSTGRES_URL",
+  "GOOGLE_CLIENT_SECRET",
+  "STRIPE_SECRET_KEY_TEST",
+] as const
 
-export const userPlugin = new FactorUser({
-  db: dbPlugin,
+const varsLive = ["SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD"] as const
+
+const env = getEnvVars({ vars, varsLive, isTest: isTest() })
+
+const appMeta = {
+  appName: "FactorJS",
+  appEmail: "hi@factorjs.org",
+  appUrl: "https://www.factorjs.org",
+}
+
+const factorDb = new FactorDb({ connectionUrl: env.POSTGRES_URL })
+export const factorEmail = new FactorEmail({
+  appName: appMeta.appName,
+  appEmail: appMeta.appEmail,
+  smtpHost: env.SMTP_HOST,
+  smtpPassword: env.SMTP_PASSWORD,
+  smtpUsername: env.SMTP_USER,
+  isTest: isTest(),
+})
+
+export const factorUser = new FactorUser({
+  factorDb,
+  factorEmail,
   googleClientId:
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
-  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  googleClientSecret: env.GOOGLE_CLIENT_SECRET,
 })
 export const docsPlugin = new FactorDocsEngine({
   docs,
@@ -28,20 +54,18 @@ export const docsPlugin = new FactorDocsEngine({
 export const stripePlugin = new FactorStripe({
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
-  secretKeyTest: process.env.STRIPE_SECRET_KEY_TEST,
+  secretKeyTest: env.STRIPE_SECRET_KEY_TEST,
   stripeMode: "test",
   hooks: {},
   products: [],
-  userPlugin,
+  factorUser,
 })
 
 export const blogPlugin = new FactorBlogEngine({ posts, baseRoute: "/blog" })
 
 export const setup = (): UserConfig => {
   return {
-    appName: "FactorJS",
-    appEmail: "hi@factorjs.org",
-    appUrl: "https://www.factorjs.org",
+    ...appMeta,
     routes,
     plugins: [
       docsPlugin.setup(),
@@ -50,8 +74,8 @@ export const setup = (): UserConfig => {
       new FactorNotify().setup(),
       stripePlugin.setup(),
       new FactorUi().setup(),
-      userPlugin.setup(),
-      dbPlugin.setup(),
+      factorUser.setup(),
+      factorDb.setup(),
     ],
     server: () => {
       return {

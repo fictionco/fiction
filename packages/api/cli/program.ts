@@ -4,7 +4,7 @@ import fs from "fs-extra"
 import { Command, OptionValues } from "commander"
 import { log } from "../logger"
 
-import { emitEvent } from "../event"
+import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { CliOptions, done, wrapCommand, setEnvironment } from "./utils"
 const require = createRequire(import.meta.url)

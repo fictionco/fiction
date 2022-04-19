@@ -1,8 +1,9 @@
 import { expect, it, describe, vi, beforeAll } from "vitest"
+import * as mainFile from "@factor/site"
 import { createServer } from "../../entry/serverEntry"
-import { decodeClientToken } from "../../jwt"
+import { decodeClientToken } from "../../utils/jwt"
 import { FullUser } from "../types"
-import * as em from "../../plugin-email/email"
+
 import { getServerUserConfig } from "../../config/entry"
 import { createTestUtils, TestUtils } from "../../test-utils"
 let user: Partial<FullUser>
@@ -12,19 +13,24 @@ const key = Math.random().toString().slice(2, 8)
 let testUtils: TestUtils | undefined = undefined
 describe("user tests", () => {
   beforeAll(async () => {
-    const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
+    let userConfig = mainFile.setup()
+    userConfig = await getServerUserConfig({ userConfig })
+
     await createServer({ userConfig })
     testUtils = await createTestUtils()
   })
   it("creates user", async () => {
-    const spy = vi.spyOn(em, "sendEmail")
-    const { userPlugin } = testUtils ?? {}
-    const response = await userPlugin?.requests.StartNewUser.request({
+    if (!testUtils?.factorEmail) throw new Error("no email plugin")
+
+    const spy = vi.spyOn(mainFile.factorEmail, "sendEmail")
+
+    const { factorUser } = testUtils ?? {}
+    const response = await factorUser?.requests.StartNewUser.request({
       email: `arpowers+${key}@gmail.com`,
       fullName: "test",
     })
 
-    if (!response?.data) throw new Error("problem creating user")
+    expect(response?.data).toBeTruthy()
 
     user = response?.user
     token = response?.token
@@ -45,8 +51,8 @@ describe("user tests", () => {
   })
 
   it("verifies with code", async () => {
-    const { userPlugin } = testUtils ?? {}
-    const response = await userPlugin?.requests.VerifyAccountEmail.request({
+    const { factorUser } = testUtils ?? {}
+    const response = await factorUser?.requests.VerifyAccountEmail.request({
       email: `arpowers+${key}@gmail.com`,
       verificationCode: "test",
     })

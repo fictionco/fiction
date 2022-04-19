@@ -5,8 +5,8 @@ import express from "express"
 import { ErrorConfig, EndpointResponse } from "../types"
 import { log } from "../logger"
 import { _stop } from "../error"
-import { decodeClientToken } from "../jwt"
-import { onEvent } from "../event"
+import { decodeClientToken } from "../utils/jwt"
+import { onEvent } from "../utils/event"
 import { FactorUser } from "../plugin-user"
 import { Endpoint } from "./endpoint"
 import { Query } from "./query"
@@ -24,7 +24,7 @@ export type EndpointServerOptions = {
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
-  userPlugin?: FactorUser
+  factorUser?: FactorUser
 }
 
 export class EndpointServer {
@@ -35,7 +35,7 @@ export class EndpointServer {
   middleware?: MiddlewareHandler
   context = "endpointServer"
   server?: http.Server
-  userPlugin?: FactorUser
+  factorUser?: FactorUser
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer, name } = options
 
@@ -43,7 +43,7 @@ export class EndpointServer {
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
-    this.userPlugin = options.userPlugin
+    this.factorUser = options.factorUser
   }
 
   async runServer(): Promise<http.Server | undefined> {
@@ -51,7 +51,7 @@ export class EndpointServer {
       const app = createExpressApp()
 
       this.endpoints.forEach((endpoint) => {
-        if (this.userPlugin) {
+        if (this.factorUser) {
           app.use(endpoint.pathname(), this.endpointAuthorization)
         }
 
@@ -115,8 +115,8 @@ export class EndpointServer {
 
         request.bearer = undefined
 
-        if (email && this.userPlugin) {
-          const { data: user } = await this.userPlugin.queries.ManageUser.serve(
+        if (email && this.factorUser) {
+          const { data: user } = await this.factorUser.queries.ManageUser.serve(
             {
               email,
               _action: "getPrivate",

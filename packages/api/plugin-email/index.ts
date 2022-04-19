@@ -1,4 +1,3 @@
-import { createRequire } from "module"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorPlugin } from "../config/plugin"
@@ -6,34 +5,44 @@ import type { UserConfig } from "../config"
 import { renderMarkdown } from "../markdown"
 import { EmailTransactionalConfig } from "./types"
 
-const require = createRequire(import.meta.url)
-
 type FactorEmailSettings = {
-  smtpHost: string
-  smtpUsername: string
-  smtpPassword: string
   smtpPort?: number
-  isTest?: boolean
   appName: string
   appEmail: string
-}
+} & (
+  | {
+      isTest: true
+      smtpHost?: string
+      smtpUsername?: string
+      smtpPassword?: string
+    }
+  | {
+      isTest?: false
+      smtpHost: string
+      smtpUsername: string
+      smtpPassword: string
+    }
+)
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
-  isTest: boolean = false
   client?: Transporter
-  smtpHost: string
-  smtpUsername: string
-  smtpPassword: string
+  smtpHost?: string
+  smtpUsername?: string
+  smtpPassword?: string
   smtpPort: number
   appName: string
   appEmail: string
+
   constructor(settings: FactorEmailSettings) {
     super(settings)
 
+    this.isTest = settings.isTest || false
+
     this.smtpHost = settings.smtpHost
     this.smtpPassword = settings.smtpPassword
-    this.smtpPort = settings.smtpPort || 587
     this.smtpUsername = settings.smtpUsername
+
+    this.smtpPort = settings.smtpPort || 587
     this.appEmail = settings.appEmail
     this.appName = settings.appName
 
@@ -48,23 +57,21 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
         pass: this.smtpPassword,
       },
     }
-    if (
-      !this.smtpPassword ||
-      !this.smtpUsername ||
-      !this.smtpHost ||
-      !this.appEmail ||
-      !this.appName
-    ) {
-      this.log.error("email settings are missing", { data: options })
-      return
+
+    const valid = this.validateRequiredFields({
+      plugin: this,
+      fields: ["appEmail", "appName"],
+      fieldsLive: ["smtpPassword", "smtpUsername", "smtpHost"],
+    })
+
+    if (valid && !this.isTest) {
+      const emailServiceClient = nodeMailer.createTransport(options)
+
+      // https://github.com/andris9/nodemailer-html-to-text
+      emailServiceClient.use("compile", nodeMailerHtmlToText.htmlToText())
+
+      this.client = emailServiceClient
     }
-
-    const emailServiceClient = nodeMailer.createTransport(options)
-
-    // https://github.com/andris9/nodemailer-html-to-text
-    emailServiceClient.use("compile", nodeMailerHtmlToText.htmlToText())
-
-    this.client = emailServiceClient
   }
 
   async init(): Promise<void> {}
@@ -78,7 +85,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   }
 
   sendEmail = async (
-    _arguments: EmailTransactionalConfig,
+    params: EmailTransactionalConfig,
   ): Promise<EmailTransactionalConfig> => {
     const {
       emailId = "none",
@@ -88,9 +95,9 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       linkText,
       linkUrl,
       textFooter,
-    } = _arguments
+    } = params
 
-    let { from } = _arguments
+    let { from } = params
 
     if (!from) {
       from = this.getFromAddress()
@@ -112,13 +119,13 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     const contentHtml = lines.join("")
     const html = `<div style="width: 500px;font-size: 1.1em;">${contentHtml}</div>`
 
-    const htmlToText = require("html-to-text") as {
-      fromString: (s: string) => string
+    const { default: htmlToText } = (await import("html-to-text")) as {
+      default: { fromString: (s: string) => string }
     }
     const plainText = htmlToText.fromString(html) as string
 
     const theEmail = {
-      ..._arguments,
+      ...params,
       emailId,
       from,
       to,

@@ -3,8 +3,8 @@
  * https://vitest.dev/config/#environment
  */
 import { expect, describe, it } from "vitest"
-import { clientToken } from "../jwt"
-import { getCookie, getTopDomain } from "../cookie"
+import { clientToken } from "../utils/jwt"
+import { getCookie, getTopDomain } from "../utils/cookie"
 
 describe("user token", () => {
   it("saves the token in a parent domain cookie", () => {

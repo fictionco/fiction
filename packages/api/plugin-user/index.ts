@@ -3,7 +3,8 @@ import { FactorPlugin } from "../config/plugin"
 import { Query } from "../engine/query"
 import { EndpointMethodOptions, FactorEndpoint } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
-import { clientToken } from "../jwt"
+import { clientToken } from "../utils/jwt"
+import { FactorEmail } from "../plugin-email"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   ManageUserParams,
@@ -32,7 +33,8 @@ export class UserEndpoint<T extends Query> extends FactorEndpoint<T> {
 }
 
 type UserPluginSettings = {
-  db: FactorDb
+  factorDb: FactorDb
+  factorEmail: FactorEmail
   googleClientId?: string
   googleClientSecret?: string
 }
@@ -42,7 +44,8 @@ type EndpointMap<T extends Record<string, Query>> = {
 }
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
-  private db: FactorDb
+  private factorDb: FactorDb
+  private factorEmail: FactorEmail
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
   private endpointHandler = UserEndpoint
@@ -51,7 +54,8 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
 
   constructor(settings: UserPluginSettings) {
     super(settings)
-    this.db = settings.db
+    this.factorDb = settings.factorDb
+    this.factorEmail = settings.factorEmail
     this.queries = this.createQueries()
     this.requests = this.createRequests()
   }
@@ -63,12 +67,17 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     return {
       name: this.constructor.name,
       endpoints: Object.values(this.requests),
+      serverOnlyImports: [{ id: "html-to-text" }],
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private createQueries() {
-    const deps = { userPlugin: this, db: this.db }
+    const deps = {
+      factorUser: this,
+      factorDb: this.factorDb,
+      factorEmail: this.factorEmail,
+    }
     return {
       UserGoogleAuth: new QueryUserGoogleAuth({
         clientId: this.settings.googleClientId,

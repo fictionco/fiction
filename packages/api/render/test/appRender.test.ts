@@ -22,7 +22,7 @@ describe("renders app code correctly", () => {
 
     _s = await createTestServer({
       cwd,
-      headless: false,
+      headless: true,
     })
   }, 15_000)
 
