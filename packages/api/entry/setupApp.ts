@@ -4,7 +4,6 @@ import { FactorAppEntry, MainFile, UserConfig } from "../config/types"
 import { isNode } from "../utils"
 import { getRouter, setupRouter } from "../router"
 import { getMeta } from "../meta"
-import { initializeUser } from "../plugin-user"
 
 import { initializeResetUi } from "../ui"
 
@@ -51,11 +50,6 @@ export const factorApp = async (
 ): Promise<FactorAppEntry> => {
   const { renderUrl, mainFile, RootComponent = EmptyApp, isSSR } = context
   await setupAppFromMainFile({ mainFile, isSSR })
-
-  // only run in  browser
-  if (typeof window !== "undefined") {
-    initializeUser().catch(console.error)
-  }
 
   const app: VueApp = renderUrl
     ? createSSRApp(RootComponent)

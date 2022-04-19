@@ -134,6 +134,7 @@ module.exports = defineConfig({
         allowTypedFunctionExpressions: true,
         allowExpressions: true,
         allowConciseArrowFunctionExpressionsStartingWithVoid: true,
+        allowDirectConstAssertionInArrowFunctions: true,
       },
     ],
     "@typescript-eslint/no-use-before-define": "warn", // can cause organization issues

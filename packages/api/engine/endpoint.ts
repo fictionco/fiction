@@ -6,12 +6,13 @@ import { clientToken } from "../jwt"
 import { logger } from "../logger"
 import { emitEvent } from "../event"
 import { updateUser } from "../plugin-user/userClient"
-import { serverUrl } from "./url"
 
 import { Query } from "./query"
 
+type EndpointServerUrl = (() => string | undefined) | string | undefined
+
 export type EndpointOptions = {
-  baseURL: () => string
+  serverUrl: EndpointServerUrl
   basePath: string
 }
 export type EndpointMethodOptions<T extends Query> = {
@@ -39,15 +40,15 @@ export type EndpointManageAction =
   | "transfer"
 
 export class Endpoint<T extends Query = Query, U extends string = string> {
-  readonly baseURL: () => string
+  readonly serverUrl: EndpointServerUrl
   readonly basePath: string
   readonly key: string
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
-    const { baseURL, basePath, queryHandler, requestHandler, key } = options
+    const { serverUrl, basePath, queryHandler, requestHandler, key } = options
     this.basePath = basePath
-    this.baseURL = baseURL
+    this.serverUrl = serverUrl
     this.key = key as U
 
     this.queryHandler = queryHandler
@@ -94,6 +95,17 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     }
   }
 
+  private getBaseUrl(): string {
+    const baseUrl =
+      typeof this.serverUrl == "function" ? this.serverUrl() : this.serverUrl
+
+    if (!baseUrl) {
+      throw new Error("serverUrl is missing")
+    }
+
+    return baseUrl
+  }
+
   public async http<U>(
     method: string,
     data: unknown,
@@ -108,7 +120,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         Authorization: `Bearer ${bearerToken ?? ""}`,
         from: "dashboard",
       },
-      baseURL: this.baseURL(),
+      baseURL: this.getBaseUrl(),
       url,
       data,
     }
@@ -137,7 +149,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
 export class FactorEndpoint<T extends Query = Query> extends Endpoint<T> {
   constructor(options: { basePath: string } & EndpointMethodOptions<T>) {
-    super({ baseURL: () => serverUrl(), ...options })
+    super({ serverUrl: process.env.FACTOR_SERVER_URL, ...options })
   }
 }
 

@@ -1,28 +1,55 @@
-import * as docsEngine from "@factor/plugin-docs-engine"
-import * as blogEngine from "@factor/plugin-blog-engine"
-import * as hlCode from "@factor/plugin-highlight-code"
-import * as notifyPlugin from "@factor/plugin-notify"
-import * as stripePlugin from "@factor/plugin-stripe"
-import * as ui from "@factor/ui"
-import * as user from "@factor/api/plugin-user"
+import { FactorDocsEngine } from "@factor/plugin-docs-engine"
+import { FactorBlogEngine } from "@factor/plugin-blog-engine"
+import { FactorHighlightCode } from "@factor/plugin-highlight-code"
+import { FactorNotify } from "@factor/plugin-notify"
+import { FactorStripe } from "@factor/plugin-stripe"
+import { FactorUi } from "@factor/ui"
+import { FactorDb } from "@factor/api/plugin-db"
+import { FactorUser } from "@factor/api/plugin-user"
 import { safeDirname, UserConfig } from "@factor/api"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { routes } from "./routes"
+
+const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+const userPlugin = new FactorUser({
+  db: dbPlugin,
+  googleClientId:
+    "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+})
+const docsPlugin = new FactorDocsEngine({ docs, groups, baseRoute: "/docs" })
+const stripePlugin = new FactorStripe({
+  publicKeyTest:
+    "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
+  secretKeyTest: process.env.STRIPE_SECRET_KEY_TEST,
+  stripeMode: "test",
+  hooks: {},
+  products: [],
+  userPlugin,
+})
+
+export const blogPlugin = new FactorBlogEngine({ posts, baseRoute: "/blog" })
+
+const appMeta = {
+  name: "FactorJS",
+  email: "hi@factorjs.org",
+  url: "https://www.factorjs.org",
+}
+
 export const setup = (): UserConfig => {
   return {
-    appName: "FactorJS",
-    appEmail: "hi@factorjs.org",
-    appUrl: "https://www.factorjs.org",
+    appMeta,
     routes,
     plugins: [
-      docsEngine.setup({ docs, groups, baseRoute: "/docs" }),
-      blogEngine.setup({ posts, baseRoute: "/blog" }),
-      hlCode.setup(),
-      notifyPlugin.setup(),
+      docsPlugin.setup(),
+      blogPlugin.setup(),
+      new FactorHighlightCode().setup(),
+      new FactorNotify().setup(),
       stripePlugin.setup(),
-      ui.setup(),
-      user.setup(),
+      new FactorUi().setup(),
+      userPlugin.setup(),
+      dbPlugin.setup(),
     ],
     server: () => {
       return {
@@ -30,10 +57,6 @@ export const setup = (): UserConfig => {
         root: safeDirname(import.meta.url, ".."),
       }
     },
-    variables: {
-      FACTOR_APP_NAME: "FactorJS",
-      FACTOR_APP_EMAIL: "hi@factorjs.org",
-      FACTOR_APP_URL: "https://www.factorjs.org",
-    },
+    variables: {},
   }
 }

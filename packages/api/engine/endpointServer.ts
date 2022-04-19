@@ -3,11 +3,14 @@ import http from "http"
 import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "../types"
-import { log, _stop, decodeClientToken, onEvent } from ".."
-import { Queries } from "../plugin-user/user"
+import { log } from "../logger"
+import { _stop } from "../error"
+import { decodeClientToken } from "../jwt"
+import { onEvent } from "../event"
 import { Endpoint } from "./endpoint"
 import { Query } from "./query"
 import { createExpressApp } from "./nodeUtils"
+import { FactorUser } from "../plugin-user"
 
 type CustomServerHandler = (
   app: express.Express,
@@ -21,6 +24,7 @@ export type EndpointServerOptions = {
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
+  userPlugin?: FactorUser
 }
 
 export class EndpointServer {
@@ -31,6 +35,7 @@ export class EndpointServer {
   middleware?: MiddlewareHandler
   context = "endpointServer"
   server?: http.Server
+  userPlugin?: FactorUser
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer, name } = options
 
@@ -38,6 +43,7 @@ export class EndpointServer {
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
+    this.userPlugin = options.userPlugin
   }
 
   async runServer(): Promise<http.Server | undefined> {
@@ -45,7 +51,10 @@ export class EndpointServer {
       const app = createExpressApp()
 
       this.endpoints.forEach((endpoint) => {
-        app.use(endpoint.pathname(), this.endpointAuthorization)
+        if (this.userPlugin) {
+          app.use(endpoint.pathname(), this.endpointAuthorization)
+        }
+
         app.use(endpoint.pathname(), async (request, response) => {
           const result = await endpoint.serveRequest(request)
           delete result.internal
@@ -106,8 +115,8 @@ export class EndpointServer {
 
         request.bearer = undefined
 
-        if (email) {
-          const { data: user } = await Queries.ManageUser.serve(
+        if (email && this.userPlugin) {
+          const { data: user } = await this.userPlugin.queries.ManageUser.serve(
             {
               email,
               _action: "getPrivate",

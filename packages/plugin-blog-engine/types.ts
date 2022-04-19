@@ -98,7 +98,12 @@ export type BlogPostKeysUtility<T extends BlogPost<string>[]> = {
   [K in keyof T]: T[K] extends BlogPost<infer T> ? T : never
 }[number]
 
-export interface BlogOptions {
+export type BlogOptions = {
   baseRoute: string
   posts: BlogPost<string>[]
+}
+
+export interface IndexArgs {
+  total?: number
+  category?: string
 }

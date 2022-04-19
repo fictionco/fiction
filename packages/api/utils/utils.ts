@@ -16,6 +16,10 @@ export const isNode =
 export const isVite = (): boolean => {
   return process.env.IS_VITE ? true : false
 }
+
+export const isBrowser = (): boolean => {
+  return process.env.IS_VITE ? true : false
+}
 /**
  * Are we in development mode?
  */

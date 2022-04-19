@@ -1,12 +1,12 @@
 import http from "http"
 import bodyParser from "body-parser"
 import { UserConfig } from "../config/types"
-import { initializeDb } from "../engine/db"
+import { initializeDb } from "../plugin-db/db"
 import { runHooks } from "../config/hook"
 import type { RunConfig } from "../cli/utils"
 
 import { log } from "../logger"
-import { EndpointServer } from "../engine"
+import { EndpointServer } from "../engine/endpointServer"
 
 export const createEndpointServer = async (
   userConfig: UserConfig,

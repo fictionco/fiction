@@ -4,15 +4,9 @@ import http from "http"
 import express from "express"
 
 import * as ws from "ws"
-import {
-  clientToken,
-  emitEvent,
-  log,
-  waitFor,
-  _stop,
-  userInitialized,
-} from ".."
+import { clientToken, emitEvent, log, waitFor, _stop } from ".."
 import { decodeClientToken } from "../jwt"
+import { FactorUser } from "../plugin-user"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
 
@@ -41,6 +35,7 @@ export type ResponseFunction<T extends EventMap, U extends keyof T> = (
 type ClientSocketOptions = {
   host: string
   token?: string
+  userPlugin: FactorUser
 }
 
 export declare interface ClientSocket<T extends EventMap> {
@@ -65,16 +60,18 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   waiting = false
   context = "clientSocket"
   token?: string
+  userPlugin: FactorUser
   constructor(options: ClientSocketOptions) {
     super()
     this.host = options.host
     this.token = options.token
+    this.userPlugin = options.userPlugin
   }
 
   private async getToken(): Promise<string> {
     if (this.token) return this.token
 
-    await userInitialized()
+    await this.userPlugin.userInitialized()
 
     return clientToken({ action: "get" }) ?? ""
   }

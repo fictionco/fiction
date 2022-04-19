@@ -11,6 +11,8 @@ import {
   SocketServerComponents,
   SocketMeta,
 } from "../socket"
+
+import { createTestUtils, TestUtils } from "../../test-utils"
 type EventMap = {
   test: { req: "ping"; res: "pong" }
 }
@@ -25,12 +27,15 @@ const serverEvents: [
   SocketMeta<EventMap, "test">,
 ][] = []
 const clientEvents: [keyof EventMap, EventMap[keyof EventMap]["res"]][] = []
+
+let testUtils: TestUtils | undefined = undefined
 describe("sockets", () => {
   beforeAll(async () => {
     s = await createSocketServer<EventMap>({
       name: "testServer",
       port,
     })
+    testUtils = await createTestUtils()
   })
   afterAll(async () => {
     s?.endpointServer.server?.close()
@@ -51,6 +56,10 @@ describe("sockets", () => {
   })
 
   it("creates a client server", async () => {
+    const userPlugin = testUtils?.userPlugin
+
+    if (!userPlugin) throw new Error("no userPlugin")
+
     const token = createClientToken({
       email: "hello@world.com",
       userId: "hello",
@@ -58,6 +67,7 @@ describe("sockets", () => {
     const clientSocket = new ClientSocket<EventMap>({
       host,
       token,
+      userPlugin,
     })
 
     await clientSocket.sendMessage("test", "ping")

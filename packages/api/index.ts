@@ -1,6 +1,7 @@
 /// <reference path="./shim.d.ts" />
 
 export * from "./types"
+export * from "./config/plugin"
 export * from "./config/types"
 export * from "./_"
 export * from "./router"
@@ -16,7 +17,6 @@ export * from "./meta"
 export * from "./utils"
 export * from "./plugin-user/types"
 export * from "./plugin-user/userClient"
-export * from "./plugin-user/userInit"
 export * from "./ui"
 export * from "./validation"
 export * from "./utils-analytics"

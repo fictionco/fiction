@@ -1,27 +1,35 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import type { OAuth2Client } from "google-auth-library"
-import { _stop } from "../error"
-import { logger } from "../logger"
-import { FullUser } from "../plugin-user/types"
-import { EndpointResponse } from "../types"
-import { EndpointMeta } from "../engine/endpoint"
+
+import type { FullUser } from "../plugin-user/types"
+import type { EndpointResponse } from "../types"
+import type { EndpointMeta } from "../engine/endpoint"
 import { Query } from "../engine/query"
-import { Queries as UserAuthQueries } from "./userAuth"
+import type { FactorUser } from "."
+
+type GoogleQuerySettings = {
+  clientId?: string
+  clientSecret?: string
+  userPlugin: FactorUser
+}
 
 export class QueryUserGoogleAuth extends Query {
   private client?: OAuth2Client
   private clientId?: string
   private clientSecret?: string
+  private userPlugin: FactorUser
+  constructor(settings: GoogleQuerySettings) {
+    super(settings)
 
-  constructor() {
-    super()
-    if (this.isNode) {
-      this.clientId = process.env.GOOGLE_CLIENT_ID
-      this.clientSecret = process.env.GOOGLE_CLIENT_SECRET
-    }
+    this.clientId = settings.clientId
+    this.clientSecret = settings.clientSecret
+    this.userPlugin = settings.userPlugin
   }
 
   async getClient(): Promise<OAuth2Client> {
+    if (!this.clientId) throw new Error("missing clientId")
+    if (!this.clientSecret) throw new Error("missing clientSecret")
+
     const { OAuth2Client } = await import("google-auth-library")
     if (!this.client) {
       this.client = new OAuth2Client({
@@ -59,24 +67,20 @@ export class QueryUserGoogleAuth extends Query {
 
       if (!payload || !payload.email) throw new Error("no payload email")
 
-      logger.log({
-        level: "info",
-        description: "Google login",
-        context: "auth",
-        data: payload,
-      })
+      this.log.info("Google login", { data: payload })
 
-      const { data: existingUser } = await UserAuthQueries.ManageUser.serve(
-        {
-          _action: "getPrivate",
-          email: payload?.email,
-        },
-        _meta,
-      )
+      const { data: existingUser } =
+        await this.userPlugin.queries.ManageUser.serve(
+          {
+            _action: "getPrivate",
+            email: payload?.email,
+          },
+          _meta,
+        )
 
       // no user, create one
       if (!existingUser) {
-        await UserAuthQueries.ManageUser.serve(
+        await this.userPlugin.queries.ManageUser.serve(
           {
             _action: "create",
             fields: {
@@ -95,7 +99,7 @@ export class QueryUserGoogleAuth extends Query {
         isNew = true
       }
 
-      const loginResponse = await UserAuthQueries.Login.serve(
+      const loginResponse = await this.userPlugin.queries.Login.serve(
         {
           email: payload.email,
           googleId: payload.sub,
@@ -114,6 +118,6 @@ export class QueryUserGoogleAuth extends Query {
   }
 }
 
-export const Queries = {
-  UserGoogleAuth: new QueryUserGoogleAuth(),
-}
+// export const Queries = {
+//   UserGoogleAuth: new QueryUserGoogleAuth(),
+// }

@@ -1,5 +1,5 @@
-import { dotSetting, storeItem, stored } from ".."
-
+import { storeItem, stored } from "../store"
+import { dotSetting } from "../utils"
 import { UserConfig } from "./types"
 
 export const setUserConfig = async (

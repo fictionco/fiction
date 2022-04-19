@@ -6,7 +6,6 @@ import { log } from "../logger"
 import { getServerUserConfig } from "../config/entry"
 import { UserConfig } from "../config/types"
 import { PackageJson } from "../types"
-import "../engine/db"
 
 const require = createRequire(import.meta.url)
 
@@ -38,7 +37,6 @@ export type CliOptions = {
 export type Configurations = {
   pkg?: PackageJson
   userConfig?: UserConfig
-  viteConfig?: vite.InlineConfig & { mode?: NodeEnv }
 }
 
 export type RunConfig = CliOptions & StandardPaths & Configurations

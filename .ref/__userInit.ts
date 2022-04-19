@@ -1,10 +1,12 @@
-import { FullUser, PrivateUser, AuthCallback } from "../plugin-user/types"
-import { clientToken } from "../jwt"
-import { log } from "../logger"
-import { getRouter } from "../router"
-import { isSearchBot, isNode } from "../utils"
-import { userEndpoints } from "./user"
-import { currentUser, setCurrentUser, logout } from "./userClient"
+import { FullUser, PrivateUser } from "@factor/api/plugin-user/typesages/api/plugin-user/types"
+import { clientToken } from "@factor/api/jwtkages/api/jwt"
+import { log } from "@factor/api/loggeres/api/logger"
+import { userEndpoints } from "./__user
+import {@factor/api/plugin-user/userClient
+  currentUser,
+  setCurrentUser,
+  logout,
+} from "../packages/api/plugin-user/userClient"
 
 /**
  * Utility function that calls a callback when the user is set initially
@@ -41,48 +43,6 @@ export const userInitialized = async (
  */
 export const setUserInitialized = (): void => {
   if (__promiseResolve) __promiseResolve(true)
-}
-
-interface RouteAuthConfig {
-  required?: boolean
-  redirect?: string
-  allowBots?: boolean
-}
-
-export const routeAuthRedirects = async (
-  user: FullUser | undefined,
-): Promise<void> => {
-  // don't worry about redirects on server
-  // if runs in node, this hangs causing test problems
-  if (isNode) return
-
-  const router = getRouter()
-  const currentRoute = router.currentRoute.value
-
-  if (!currentRoute) return
-
-  const { matched } = currentRoute
-
-  let authConfig: RouteAuthConfig = { redirect: "/" }
-  matched.forEach(({ meta: { auth } }) => {
-    if (auth) {
-      authConfig = { ...authConfig, ...(auth as RouteAuthConfig) }
-    }
-  })
-
-  for (const matchedRoute of matched) {
-    const auth = matchedRoute.meta.auth as AuthCallback
-    if (auth) {
-      const redirect = await auth({ user, searchBot: isSearchBot() })
-
-      if (redirect) {
-        log.info("routeAuthRedirects", "auth required redirect", {
-          data: { redirect },
-        })
-        await router.push({ path: redirect })
-      }
-    }
-  }
 }
 
 /**

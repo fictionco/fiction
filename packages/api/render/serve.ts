@@ -55,7 +55,7 @@ export const getViteServer = async (
   if (!__viteDevServer) {
     params = deepMergeAll([
       params,
-      { viteConfig: { server: { middlewareMode: "ssr" } } },
+      { userConfig: { vite: { server: { middlewareMode: "ssr" } } } },
     ])
     const config = await getViteConfig(params)
 
@@ -320,7 +320,7 @@ export const expressApp = async (params: RunConfig): Promise<Express> => {
  * Serves a built app from [cwd]/dist
  */
 export const serveApp = async (options: RunConfig): Promise<void> => {
-  const { userConfig: { appName = "app", portApp } = {} } = options
+  const { userConfig: { appMeta, portApp } = {} } = options
 
   const app = await expressApp(options)
 
@@ -332,7 +332,7 @@ export const serveApp = async (options: RunConfig): Promise<void> => {
 
   logger.info("serveApp", `serving factor app [ready]`, {
     data: {
-      name: appName,
+      name: appMeta?.name || "Unnamed App",
       port: `[ ${portApp} ]`,
       url: `http://localhost:${portApp}`,
     },

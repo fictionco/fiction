@@ -4,9 +4,11 @@ import { getTestEmail } from "../../test-utils"
 import { FullUser } from "../types"
 import { decodeClientToken } from "../../jwt"
 import { createServer } from "../../entry/serverEntry"
-import { Queries } from "../../plugin-user/user"
+
 import { getServerUserConfig } from "../../config"
-import * as ep from "../../plugin-user/user"
+
+import { FactorUser } from ".."
+import { FactorDb } from "../../plugin-db"
 
 vi.mock("../serverEmail", async () => {
   const actual = (await vi.importActual("../serverEmail")) as Record<
@@ -22,6 +24,8 @@ vi.mock("../serverEmail", async () => {
 })
 
 let user: FullUser
+const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+const userPlugin = new FactorUser({ db: dbPlugin })
 
 describe.skip("user tests", () => {
   beforeAll(async () => {
@@ -29,7 +33,7 @@ describe.skip("user tests", () => {
     await createServer({ userConfig })
   })
   it("creates user", async () => {
-    const response = await Queries.ManageUser.serve(
+    const response = await userPlugin.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email: getTestEmail(), fullName: "test" },
@@ -47,7 +51,7 @@ describe.skip("user tests", () => {
   })
 
   it("verifies account email", async () => {
-    const response = await ep.Queries.VerifyAccountEmail.serve(
+    const response = await userPlugin.queries.VerifyAccountEmail.serve(
       {
         email: user.email,
         verificationCode: "test",
@@ -66,7 +70,7 @@ describe.skip("user tests", () => {
   })
 
   it("sets password", async () => {
-    const response = await ep.Queries.SetPassword.serve(
+    const response = await userPlugin.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: "test",
@@ -85,7 +89,7 @@ describe.skip("user tests", () => {
   })
 
   it("logs in with password", async () => {
-    const response = await ep.Queries.Login.serve(
+    const response = await userPlugin.queries.Login.serve(
       {
         email: user.email,
         password: "test",
@@ -100,7 +104,7 @@ describe.skip("user tests", () => {
 
   it("resets password", async () => {
     if (!user.email) throw new Error("email required")
-    const response = await ep.Queries.ResetPassword.serve(
+    const response = await userPlugin.queries.ResetPassword.serve(
       {
         email: user.email,
       },
@@ -111,7 +115,7 @@ describe.skip("user tests", () => {
 
     if (!response.internal) throw new Error("code required")
 
-    const response2 = await ep.Queries.SetPassword.serve(
+    const response2 = await userPlugin.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: response.internal,
@@ -124,7 +128,7 @@ describe.skip("user tests", () => {
   })
 
   it("updates the user", async () => {
-    const response = await ep.Queries.ManageUser.serve(
+    const response = await userPlugin.queries.ManageUser.serve(
       {
         _action: "update",
         email: user.email,

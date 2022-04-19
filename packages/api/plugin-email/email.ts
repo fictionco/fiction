@@ -2,8 +2,10 @@
 import { createRequire } from "module"
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
-import { _stop, renderMarkdown, logger } from ".."
-import { EmailTransactionalConfig } from "../types"
+import { _stop } from "../error"
+import { renderMarkdown } from "../markdown"
+import { logger } from "../logger"
+import { EmailTransactionalConfig } from "./types"
 
 const require = createRequire(import.meta.url)
 

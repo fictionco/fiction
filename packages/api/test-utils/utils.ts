@@ -7,11 +7,10 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { randomBetween, setCurrentUser, log } from ".."
 import { MainFile } from "../config"
-import { FullUser } from "../plugin-user"
+import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
-import { Queries } from "../plugin-user/user"
 import { setupAppFromMainFile } from "../entry/setupApp"
-import { setUserInitialized } from "../plugin-user/userInit"
+import { FactorDb } from "../plugin-db"
 
 const require = createRequire(import.meta.url)
 
@@ -40,16 +39,21 @@ export type TestServerConfig = {
   appUrl: string
 }
 
-export type TestUser = {
+export type TestUtils = {
   user: FullUser | undefined
   token: string
   email: string
+  dbPlugin: FactorDb
+  userPlugin: FactorUser
 }
 
-export const createTestUser = async (): Promise<TestUser> => {
+export const createTestUtils = async (): Promise<TestUtils> => {
+  const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+  const userPlugin = new FactorUser({ db: dbPlugin })
+
   const key = Math.random().toString().slice(2, 12)
   const email = `arpowers+${key}@gmail.com`
-  const r = await Queries.ManageUser.serve(
+  const r = await userPlugin.queries.ManageUser.serve(
     {
       fields: { email: `arpowers+${key}@gmail.com`, emailVerified: true },
       _action: "create",
@@ -63,21 +67,23 @@ export const createTestUser = async (): Promise<TestUser> => {
   if (!token) throw new Error("token not returned")
   if (!user) throw new Error("no user created")
 
-  return { user, token, email }
+  return { user, token, email, userPlugin, dbPlugin }
 }
 
-export const setTestCurrentUser = async (
-  mainFile: MainFile,
-): Promise<TestUser> => {
+export const setTestCurrentUser = async (params: {
+  mainFile: MainFile
+  userPlugin: FactorUser
+}): Promise<TestUtils> => {
+  const { mainFile, userPlugin } = params
   await setupAppFromMainFile({ mainFile })
 
-  const testUser = await createTestUser()
+  const testUtils = await createTestUtils()
 
-  setCurrentUser({ user: testUser.user, token: testUser.token })
+  setCurrentUser({ user: testUtils.user, token: testUtils.token })
 
-  setUserInitialized()
+  userPlugin.setUserInitialized()
 
-  return testUser
+  return testUtils
 }
 
 export const createTestServer = async (params: {

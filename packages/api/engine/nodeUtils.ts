@@ -12,7 +12,7 @@ import helmet from "helmet"
 import cors from "cors"
 import express from "express"
 import { PackageJson } from "../types"
-import { getNetworkIp } from ".."
+import { getNetworkIp } from "../utils-analytics"
 
 const require = createRequire(import.meta.url)
 export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()

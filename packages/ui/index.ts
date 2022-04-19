@@ -1,4 +1,4 @@
-import { safeDirname, UserConfig } from "@factor/api"
+import { UserConfig, FactorPlugin } from "@factor/api"
 import { Component } from "vue"
 
 export const inputs: Record<string, () => Promise<Component>> = {
@@ -25,9 +25,14 @@ export const inputs: Record<string, () => Promise<Component>> = {
   number: () => import("./InputNumber.vue"),
 }
 
-export const setup = (): UserConfig => {
-  return {
-    name: "FactorUi",
-    paths: [safeDirname(import.meta.url)],
+export class FactorUi extends FactorPlugin<{}> {
+  constructor() {
+    super({})
+  }
+  setup = (): UserConfig => {
+    return {
+      name: this.constructor.name,
+      paths: [this.utils.safeDirname(import.meta.url)],
+    }
   }
 }

@@ -1,34 +1,33 @@
-import dayjs from "dayjs"
-import knex, { Knex } from "knex"
-import { logger } from "../logger"
+import { Knex } from "knex"
+import { contextLogger } from "../logger"
 import { _stop } from "../error"
-import { isNode, isVite } from "../utils"
 import type { EndpointResponse, ErrorConfig } from "../types"
-import { getDb } from "./db"
+import * as utils from "../utils"
+import type { FactorDb } from "../plugin-db"
 import type { EndpointMeta } from "./endpoint"
 
-export abstract class Query {
-  qu!: Knex // always set on server
-  getDb!: typeof getDb // always set on server
-  isNode: typeof isNode
-  readonly dayjs: typeof dayjs
-  stop: typeof _stop
-  constructor() {
-    /**
-     * Add standard utilities
-     */
-    this.dayjs = dayjs
-    this.isNode = isNode
-    this.stop = _stop
-
-    // set knex utility if node
-    // w sitemap we use the built server app so knex is replaced
-    // thus need to check if is a function also
-
-    if (this.isNode && !isVite() && typeof knex == "function") {
-      this.qu = knex({ client: "pg" })
-      this.getDb = () => getDb()
+type QuerySettings =
+  | {
+      db?: FactorDb
     }
+  | undefined
+
+export abstract class Query<T extends QuerySettings = {}> {
+  db?: FactorDb
+  stop = _stop
+  utils = utils
+  log = contextLogger(this.constructor.name)
+
+  constructor(settings?: T) {
+    this.db = settings?.db
+  }
+
+  getDb(): Knex {
+    const dbClient = this.db?.client()
+
+    if (!dbClient) throw new Error("no db client")
+
+    return dbClient
   }
 
   /**
@@ -54,9 +53,7 @@ export abstract class Query {
     } catch (error: unknown) {
       const e = error as ErrorConfig
 
-      logger.error(this.constructor.name, `QueryError: ${e.message}`, {
-        error: e,
-      })
+      this.log.error(`QueryError: ${e.message}`, { error: e })
 
       const response = {
         status: "error",

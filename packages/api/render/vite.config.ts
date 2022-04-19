@@ -131,7 +131,6 @@ export const getViteConfig = async (
 ): Promise<vite.InlineConfig> => {
   const {
     bundleMode,
-    viteConfig = {},
     userConfig = {},
     sourceDir,
     publicDir,
@@ -221,7 +220,7 @@ export const getViteConfig = async (
     ...optimizeDepsConfig,
   }
 
-  const merge = [basicConfig, viteConfig]
+  const merge = [basicConfig]
 
   if (userConfig.vite) {
     merge.push(userConfig.vite)

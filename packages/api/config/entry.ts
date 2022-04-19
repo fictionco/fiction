@@ -13,15 +13,9 @@ type WhichModule = {
 
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
-    FACTOR_APP_NAME: "",
-    FACTOR_APP_EMAIL: "",
-    FACTOR_APP_URL: "",
     FACTOR_SERVER_URL: "",
-    FACTOR_SERVER_PORT: "",
-    FACTOR_APP_PORT: "",
     NODE_ENV: process.env.NODE_ENV || "",
     TEST_ENV: "",
-    HTTP_PROTOCOL: "",
   }
 }
 /**
@@ -73,9 +67,14 @@ export const installPlugins = async (params: {
   return r
 }
 
-const handlePorts = (
+const handleCrossEnv = (
   userConfig?: UserConfig,
-): { port: string; portApp: string } => {
+): {
+  port: string
+  portApp: string
+  serverUrl: string
+  mode: "production" | "development"
+} => {
   const port =
     userConfig?.port ||
     process.env.FACTOR_SERVER_PORT ||
@@ -96,7 +95,21 @@ const handlePorts = (
     process.env.FACTOR_APP_PORT = portApp
   }
 
-  return { ...userConfig, port, portApp }
+  const serverUrl =
+    userConfig?.serverUrl ||
+    process.env.FACTOR_SERVER_URL ||
+    `http://localhost:${process.env.FACTOR_SERVER_PORT}`
+
+  process.env.FACTOR_SERVER_URL = serverUrl
+
+  const mode =
+    userConfig?.mode ||
+    (process.env.NODE_ENV as "development" | "production") ||
+    "production"
+
+  process.env.NODE_ENV = mode
+
+  return { ...userConfig, port, portApp, serverUrl, mode }
 }
 
 export const createUserConfig = async (params: {
@@ -107,8 +120,10 @@ export const createUserConfig = async (params: {
   const { mainFile, isApp } = params
   let { userConfig } = params
 
+  userConfig = handleCrossEnv(userConfig)
+
   // get universal setup
-  const entryConfig = mainFile?.setup ? await mainFile.setup() : {}
+  const entryConfig = mainFile?.setup ? await mainFile.setup(userConfig) : {}
 
   const merge = [entryConfig]
 
@@ -138,8 +153,6 @@ export const createUserConfig = async (params: {
       log.error("setUserConfig", e.message, { error })
     }
   }
-
-  userConfig = handlePorts(userConfig)
 
   if (!isApp) {
     // Set initial globals (this will run again after extension)

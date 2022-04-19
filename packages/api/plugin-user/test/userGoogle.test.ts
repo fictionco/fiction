@@ -2,8 +2,8 @@ import { expect, it, vi, describe } from "vitest"
 //import { FullUser } from "@factor/api"
 import { getTestEmail } from "../../test-utils"
 import { objectId } from "../.."
-import { Queries as UserAuthQueries } from "../userAuth"
-import { Queries as UserGoogleAuthQueries } from "../userGoogle"
+import { FactorDb } from "../../plugin-db"
+import { FactorUser } from "../../plugin-user"
 
 const email = getTestEmail()
 const googleId = objectId()
@@ -47,9 +47,12 @@ vi.mock("google-auth-library", () => {
   }
 })
 
+const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+const userPlugin = new FactorUser({ db: dbPlugin })
+
 describe("google auth", () => {
   it("if no user exists, creates one with isNew = true, returns token", async () => {
-    const response = await UserGoogleAuthQueries.UserGoogleAuth.serve(
+    const response = await userPlugin.queries.UserGoogleAuth.serve(
       {
         credential: "not a token",
         _action: "loginWithCredential",
@@ -68,7 +71,7 @@ describe("google auth", () => {
   })
 
   it("if user exists, returns login token, isNew = false", async () => {
-    const response = await UserGoogleAuthQueries.UserGoogleAuth.serve(
+    const response = await userPlugin.queries.UserGoogleAuth.serve(
       {
         credential: "not a token",
         _action: "loginWithCredential",
@@ -87,7 +90,7 @@ describe("google auth", () => {
   })
 
   it("if google login user exists with email and no googleId, if email is verified it links the googleId to the user", async () => {
-    const responseCreate = await UserAuthQueries.ManageUser.serve(
+    const responseCreate = await userPlugin.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email: email2, fullName: "test", password: "test" },
@@ -97,14 +100,13 @@ describe("google auth", () => {
 
     expect(responseCreate.status).toBe("success")
 
-    const responseLoginGoogle =
-      await UserGoogleAuthQueries.UserGoogleAuth.serve(
-        {
-          credential: "not a token",
-          _action: "loginWithCredential",
-        },
-        { server: true },
-      )
+    const responseLoginGoogle = await userPlugin.queries.UserGoogleAuth.serve(
+      {
+        credential: "not a token",
+        _action: "loginWithCredential",
+      },
+      { server: true },
+    )
 
     expect(responseLoginGoogle.status).toBe("success")
     expect(responseLoginGoogle.isNew).toBe(false)

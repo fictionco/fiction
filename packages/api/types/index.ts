@@ -3,7 +3,6 @@
 export * from "./attachment"
 export * from "./basics"
 export * from "./db"
-export * from "./email"
 export * from "./endpoint"
 export * from "./error"
 export * from "./geo"

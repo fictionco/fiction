@@ -29,7 +29,7 @@ export type DocPageConfig = {
   component?: Component
 } & Partial<DocItem>
 
-export interface DocsOptions {
+export type DocsOptions = {
   baseRoute: string
   docs: Doc<string>[]
   groups: DocGroupRecord

@@ -1,11 +1,12 @@
 import { objectId } from "@factor/api"
 import type stripeNode from "stripe"
-import { getStripeClient, SubscriptionDetails } from "./util"
-import { getPaymentEndpointsMap, Queries } from "./endpoints"
+import { ManageSubscriptionResult, SubscriptionDetails } from "./types"
+
+import { FactorStripe } from "./plugin"
 export const handleCardSetupRequired = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription, paymentMethodId } = args
+  const { subscription, paymentMethodId, stripePlugin } = args
   const setupIntent = subscription.pending_setup_intent
 
   if (
@@ -14,7 +15,7 @@ export const handleCardSetupRequired = async (
     setupIntent.status === "requires_action" &&
     setupIntent.client_secret
   ) {
-    const stripe = await getStripeClient()
+    const stripe = await stripePlugin.getBrowserClient()
 
     const setupResult = await stripe.confirmCardSetup(
       setupIntent.client_secret,
@@ -44,7 +45,7 @@ export const handleCardSetupRequired = async (
 export const handlePaymentThatRequiresCustomerAction = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription, paymentMethodId, invoice, isRetry } = args
+  const { subscription, paymentMethodId, invoice, isRetry, stripePlugin } = args
 
   let paymentIntent: stripeNode.PaymentIntent | undefined | null | string
 
@@ -66,7 +67,7 @@ export const handlePaymentThatRequiresCustomerAction = async (
         paymentIntent.status === "requires_payment_method")) &&
     paymentIntent.client_secret
   ) {
-    const stripe = await getStripeClient()
+    const stripe = await stripePlugin.getBrowserClient()
 
     const setupResult = await stripe.confirmCardSetup(
       paymentIntent.client_secret,
@@ -96,7 +97,7 @@ export const handlePaymentThatRequiresCustomerAction = async (
 export const handleRequiresPaymentMethod = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription } = args
+  const { subscription, stripePlugin } = args
   if (subscription.status === "active") {
     // subscription is active, no customer actions required.
     return args
@@ -119,7 +120,7 @@ export const handleRequiresPaymentMethod = async (
     return args
   }
 }
-type ManageResult = ReturnType<typeof Queries.ManageSubscription.run>
+
 export const checkPaymentMethod = async (
   args: SubscriptionDetails,
 ): Promise<void> => {
@@ -134,10 +135,11 @@ export const requestCreateSubscription = async (args: {
   customerId: string
   paymentMethodId: string
   priceId: string
-}): Promise<ManageResult> => {
-  const { customerId, paymentMethodId, priceId } = args
+  stripePlugin: FactorStripe
+}): Promise<ManageSubscriptionResult> => {
+  const { customerId, paymentMethodId, priceId, stripePlugin } = args
 
-  let result = await getPaymentEndpointsMap().ManageSubscription.request({
+  let result = await stripePlugin.requests.ManageSubscription.request({
     customerId,
     paymentMethodId,
     priceId,
@@ -159,6 +161,7 @@ export const requestCreateSubscription = async (args: {
       customerId,
       paymentMethodId,
       priceId,
+      stripePlugin,
     }
     /**
      * Run through stripe payment checks
@@ -168,7 +171,7 @@ export const requestCreateSubscription = async (args: {
     /**
      * If successful, retrieving subscription again will update its backend status
      */
-    result = await getPaymentEndpointsMap().ManageSubscription.request({
+    result = await stripePlugin.requests.ManageSubscription.request({
       customerId,
       _action: "retrieve",
       subscriptionId: subscription.id,

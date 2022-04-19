@@ -26,12 +26,18 @@ export type EntryModuleExports = {
   mainFile: MainFile
 }
 
-export type MainFile = { setup?: () => Promise<UserConfig> | UserConfig }
+export type MainFile = {
+  setup?: (userConfig: UserConfig) => Promise<UserConfig> | UserConfig
+}
 export interface UserConfig {
   name?: string
-  appName?: string
-  appEmail?: string
-  appUrl?: string
+  mode?: "development" | "production"
+  appMeta?: {
+    name: string
+    email: string
+    url: string
+  }
+
   // need a generic to fix typing error in setupPlugins function
   server?: () =>
     | UserConfig
@@ -52,6 +58,7 @@ export interface UserConfig {
   endpoints?: Endpoint[]
   port?: string
   portApp?: string
+  serverUrl?: string
   serverOnlyImports?: ServerModuleDef[]
   routes?: AppRoute<string>[]
   sitemaps?: SiteMapConfig[]

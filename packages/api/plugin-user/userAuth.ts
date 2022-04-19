@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import bcrypt from "bcrypt"
-import dayjs from "dayjs"
+import { dayjs, validateEmail, snakeCase } from "../utils"
 import { createClientToken, decodeClientToken } from "../jwt"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../error"
 import { runProcessors } from "../processor"
-import { validateEmail, snakeCase } from "../utils"
-import { logger } from "../logger"
-
 import { runHooks } from "../config/hook"
 import { getUserConfig } from "../config/plugins"
-import { getDb } from "../engine/db"
+import { getDb } from "../plugin-db/db"
 
 import { EndpointMeta } from "../engine/endpoint"
-
+import type { FactorDb } from "../plugin-db"
 import { Query } from "../engine/query"
 import { FullUser } from "./types"
 import {
@@ -21,6 +18,16 @@ import {
   getJsonUserFields,
   getEditableUserFields,
 } from "./userClient"
+import type { FactorUser } from "."
+
+export abstract class UserQuery extends Query {
+  userPlugin: FactorUser
+  constructor(settings: { userPlugin: FactorUser; db: FactorDb }) {
+    super(settings)
+
+    this.userPlugin = settings.userPlugin
+  }
+}
 
 /**
  * A random 6 digit number, ideal for verification code
@@ -71,16 +78,20 @@ const processUser = async (
 /**
  * Verify a new user email is valid and unique
  */
-export const verifyNewEmail = async (email?: string): Promise<true> => {
+export const verifyNewEmail = async (params: {
+  email?: string
+  userPlugin: FactorUser
+}): Promise<true> => {
+  const { email, userPlugin } = params
   if (!email) throw _stop({ message: "email is required" })
   if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
 
-  const { data: exists } = await Queries.ManageUser.serve(
+  const { data: exists } = await userPlugin.queries.ManageUser.serve(
     {
       _action: "getPublic",
       email,
     },
-    {},
+    { server: true },
   )
 
   if (exists) {
@@ -90,7 +101,7 @@ export const verifyNewEmail = async (email?: string): Promise<true> => {
   return true
 }
 
-// abstract class QueryUser extends Query {
+// abstract export class QueryUser extends UserQuery {
 //   async serveRequest(
 //     params: Parameters<this["run"]>[0],
 //     meta: EndpointMeta,
@@ -155,14 +166,14 @@ type ManageUserResponse = EndpointResponse<FullUser> & {
   token?: string
   user?: FullUser
 }
-class QueryManageUser extends Query {
+export class QueryManageUser extends UserQuery {
   async run(
     params: ManageUserParams,
     _meta?: EndpointMeta,
   ): Promise<ManageUserResponse> {
     const { _action } = params
 
-    const db = await this.getDb()
+    const db = this.getDb()
 
     let user: FullUser | undefined
 
@@ -229,7 +240,9 @@ class QueryManageUser extends Query {
 
       if (!email) throw this.stop("email required")
 
-      if (!emailVerified) await verifyNewEmail(email)
+      if (!emailVerified) {
+        await verifyNewEmail({ email, userPlugin: this.userPlugin })
+      }
       ;[user] = await db
         .insert({
           email,
@@ -241,7 +254,7 @@ class QueryManageUser extends Query {
           hashedPassword,
           picture,
           verificationCode: getSixDigitRandom(),
-          codeExpiresAt: dayjs().add(7, "day").toISOString(),
+          codeExpiresAt: this.utils.dayjs().add(7, "day").toISOString(),
         })
         .into(FactorTable.User)
         .returning<FullUser[]>("*")
@@ -276,7 +289,7 @@ class QueryManageUser extends Query {
   }
 }
 
-class QueryCurrentUser extends Query {
+export class QueryCurrentUser extends UserQuery {
   async run(params: { token: string }): Promise<EndpointResponse<FullUser>> {
     const { token } = params
 
@@ -288,11 +301,11 @@ class QueryCurrentUser extends Query {
 
     let user: FullUser | undefined
     try {
-      const r = await Queries.ManageUser.serve(
+      const r = await this.userPlugin.queries.ManageUser.serve(
         {
           _action: "update",
           email,
-          fields: { lastSeen: dayjs().toISOString() },
+          fields: { lastSeen: this.utils.dayjs().toISOString() },
         },
         { server: true },
       )
@@ -312,7 +325,7 @@ export const sendVerificationEmail = async (args: {
   email: string
   code: string | number
 }): Promise<void> => {
-  const { sendEmail } = await import("../engine/email")
+  const { sendEmail } = await import("../plugin-email/email")
   const { code, email } = args
   await sendEmail({
     subject: `${code} is your verification code`,
@@ -326,8 +339,9 @@ export const sendVerificationEmail = async (args: {
  */
 export const sendOneTimeCode = async (params: {
   email: string
+  userPlugin: FactorUser
 }): Promise<string> => {
-  const { email } = params
+  const { email, userPlugin } = params
 
   const code = getSixDigitRandom()
   const fields = {
@@ -335,7 +349,7 @@ export const sendOneTimeCode = async (params: {
     codeExpiresAt: dayjs().add(1, "day").toISOString(),
   }
 
-  await Queries.ManageUser.serve(
+  await userPlugin.queries.ManageUser.serve(
     { _action: "update", email, fields },
     { server: true },
   )
@@ -344,9 +358,9 @@ export const sendOneTimeCode = async (params: {
 
   return code
 }
-class QuerySendOneTimeCode extends Query {
+export class QuerySendOneTimeCode extends UserQuery {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
-    await sendOneTimeCode(params)
+    await sendOneTimeCode({ ...params, userPlugin: this.userPlugin })
 
     return { status: "success", data: true }
   }
@@ -405,12 +419,11 @@ export const verifyCode = async (args: {
  * Updates the current user with new info
  * Detecting if auth fields have changed and verifying account code
  */
-class QueryUpdateCurrentUser extends Query {
+export class QueryUpdateCurrentUser extends UserQuery {
   async run(
     params: Partial<FullUser> & { password?: string },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<FullUser> & { token?: string }> {
-    if (!this.qu) throw new Error("no knex")
     if (!meta.bearer) throw this.stop({ message: "must be logged in" })
 
     const { email, userId, password, verificationCode } = params
@@ -430,7 +443,7 @@ class QueryUpdateCurrentUser extends Query {
       if (typeof params[f] != "undefined") {
         const jsn = JSON.stringify(params[f])
 
-        const setter = this.qu.raw(
+        const setter = this.getDb().raw(
           `coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`,
           jsn,
         )
@@ -442,7 +455,7 @@ class QueryUpdateCurrentUser extends Query {
     if (password) {
       const hashedPassword = await hashPassword(password)
 
-      const { data: dbUser } = await Queries.ManageUser.serve(
+      const { data: dbUser } = await this.userPlugin.queries.ManageUser.serve(
         {
           _action: "getPrivate",
           userId: bearer.userId,
@@ -466,7 +479,7 @@ class QueryUpdateCurrentUser extends Query {
       }
 
       if (email && email != dbUser.email) {
-        await verifyNewEmail(email)
+        await verifyNewEmail({ email, userPlugin: this.userPlugin })
 
         fields.email = email
       } else {
@@ -476,7 +489,7 @@ class QueryUpdateCurrentUser extends Query {
 
     let user, token
     if (Object.keys(fields).length > 0) {
-      const response = await Queries.ManageUser.serve(
+      const response = await this.userPlugin.queries.ManageUser.serve(
         {
           _action: "update",
           email: bearer.email,
@@ -503,7 +516,7 @@ class QueryUpdateCurrentUser extends Query {
   }
 }
 
-class QuerySetPassword extends Query {
+export class QuerySetPassword extends UserQuery {
   async run(
     params: {
       password: string
@@ -525,7 +538,7 @@ class QuerySetPassword extends Query {
     await verifyCode({ email, verificationCode })
     const hashedPassword = await hashPassword(password)
 
-    const { data: user } = await Queries.ManageUser.serve(
+    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
       {
         _action: "update",
         email,
@@ -548,21 +561,21 @@ class QuerySetPassword extends Query {
   }
 }
 
-class QueryVerifyAccountEmail extends Query {
+export class QueryVerifyAccountEmail extends UserQuery {
   async run(params: {
     email: string
     verificationCode: string
   }): Promise<EndpointResponse<FullUser>> {
-    if (!this.qu) throw new Error("no knex")
-
     const { email, verificationCode } = params
 
-    if (!email) throw _stop({ message: "email is required" })
-    if (!verificationCode) throw _stop({ message: "confirm code is required" })
+    if (!email) throw this.stop({ message: "email is required" })
+    if (!verificationCode) {
+      throw this.stop({ message: "confirm code is required" })
+    }
 
     await verifyCode({ email, verificationCode })
 
-    const { data: user } = await Queries.ManageUser.serve(
+    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
       {
         _action: "update",
         email,
@@ -578,11 +591,7 @@ class QueryVerifyAccountEmail extends Query {
 
     await runHooks("onUserVerified", user)
 
-    logger.log({
-      level: "info",
-      context: "QueryVerifyAccountEmail",
-      description: `user verified ${email}`,
-    })
+    this.log.info(`user verified ${email}`)
 
     delete user?.verificationCode
 
@@ -595,7 +604,7 @@ class QueryVerifyAccountEmail extends Query {
   }
 }
 
-class QueryResetPassword extends Query {
+export class QueryResetPassword extends UserQuery {
   async run({
     email,
   }: {
@@ -603,7 +612,7 @@ class QueryResetPassword extends Query {
   }): Promise<EndpointResponse<FullUser> & { internal: string }> {
     if (!email) throw this.stop({ message: "email is required" })
 
-    const code = await sendOneTimeCode({ email })
+    const code = await sendOneTimeCode({ email, userPlugin: this.userPlugin })
 
     return {
       status: "success",
@@ -613,17 +622,15 @@ class QueryResetPassword extends Query {
   }
 }
 
-class QueryStartNewUser extends Query {
+export class QueryStartNewUser extends UserQuery {
   async run(params: { email: string; fullName?: string }): Promise<
     EndpointResponse<Partial<FullUser>> & {
       token: string
       user: FullUser
     }
   > {
-    if (!this.qu) throw new Error("no knex")
-
     const { email, fullName } = params
-    const { data: user } = await Queries.ManageUser.serve(
+    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email, fullName },
@@ -633,13 +640,9 @@ class QueryStartNewUser extends Query {
 
     if (!user) throw this.stop("problem creating user")
 
-    await sendOneTimeCode({ email: user.email })
+    await sendOneTimeCode({ email: user.email, userPlugin: this.userPlugin })
 
-    logger.log({
-      level: "info",
-      context: "QueryStartNewUser",
-      description: `user started ${email}:${fullName ?? "(no name)"}`,
-    })
+    this.log.info(`user started ${email}:${fullName ?? "(no name)"}`)
 
     return {
       status: "success",
@@ -659,7 +662,7 @@ type LoginResponse = Promise<
   }
 >
 
-class QueryLogin extends Query {
+export class QueryLogin extends UserQuery {
   public async run(
     params: {
       email: string
@@ -670,7 +673,7 @@ class QueryLogin extends Query {
     _meta: EndpointMeta,
   ): LoginResponse {
     const { email, password, googleId, emailVerified } = params
-    const { data: user } = await Queries.ManageUser.serve(
+    const { data: user } = await this.userPlugin.queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -684,7 +687,7 @@ class QueryLogin extends Query {
 
     if (googleId && _meta.server) {
       if (!user.googleId && emailVerified) {
-        await Queries.ManageUser.serve(
+        await this.userPlugin.queries.ManageUser.serve(
           {
             _action: "update",
             email,
@@ -718,7 +721,7 @@ class QueryLogin extends Query {
     if (!message) message = "successfully logged in"
 
     if (!user.emailVerified) {
-      await sendOneTimeCode({ email: user.email })
+      await sendOneTimeCode({ email: user.email, userPlugin: this.userPlugin })
 
       message = "verification email sent"
       return {
@@ -731,11 +734,7 @@ class QueryLogin extends Query {
       }
     }
 
-    logger.log({
-      level: "info",
-      context: "QueryLogin",
-      description: `user logged in ${email}`,
-    })
+    this.log.info(`user logged in ${email}`)
 
     return {
       status: "success",
@@ -747,7 +746,7 @@ class QueryLogin extends Query {
   }
 }
 
-class QueryNewVerificationCode extends Query {
+export class QueryNewVerificationCode extends UserQuery {
   async run(
     params: {
       email: string
@@ -755,11 +754,9 @@ class QueryNewVerificationCode extends Query {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<{ exists: boolean }>> {
-    if (!this.qu) throw new Error("no knex")
-
     const { email, newAccount } = params
 
-    let { data: existingUser } = await Queries.ManageUser.serve(
+    let { data: existingUser } = await this.userPlugin.queries.ManageUser.serve(
       {
         _action: "getPrivate",
         email,
@@ -772,26 +769,26 @@ class QueryNewVerificationCode extends Query {
     if (newAccount && exists) {
       throw this.stop({ message: "email exists", data: { exists } })
     } else if (!existingUser) {
-      const { data: createdUser } = await Queries.ManageUser.serve(
-        {
-          _action: "create",
-          fields: { email },
-        },
-        meta,
-      )
+      const { data: createdUser } =
+        await this.userPlugin.queries.ManageUser.serve(
+          {
+            _action: "create",
+            fields: { email },
+          },
+          meta,
+        )
 
       existingUser = createdUser
 
-      logger.log({
-        level: "info",
-        context: "user",
-        description: `user created ${email}`,
-      })
+      this.log.info(`user created ${email}`)
     }
 
     if (!existingUser) throw this.stop("no user")
 
-    await sendOneTimeCode({ email: existingUser.email })
+    await sendOneTimeCode({
+      email: existingUser.email,
+      userPlugin: this.userPlugin,
+    })
 
     return {
       status: "success",
@@ -801,15 +798,15 @@ class QueryNewVerificationCode extends Query {
   }
 }
 
-export const Queries = {
-  Login: new QueryLogin(),
-  NewVerificationCode: new QueryNewVerificationCode(),
-  SetPassword: new QuerySetPassword(),
-  ResetPassword: new QueryResetPassword(),
-  UpdateCurrentUser: new QueryUpdateCurrentUser(),
-  SendOneTimeCode: new QuerySendOneTimeCode(),
-  VerifyAccountEmail: new QueryVerifyAccountEmail(),
-  StartNewUser: new QueryStartNewUser(),
-  CurrentUser: new QueryCurrentUser(),
-  ManageUser: new QueryManageUser(),
-}
+// export const Queries = {
+//   Login: new QueryLogin(),
+//   NewVerificationCode: new QueryNewVerificationCode(),
+//   SetPassword: new QuerySetPassword(),
+//   ResetPassword: new QueryResetPassword(),
+//   UpdateCurrentUser: new QueryUpdateCurrentUser(),
+//   SendOneTimeCode: new QuerySendOneTimeCode(),
+//   VerifyAccountEmail: new QueryVerifyAccountEmail(),
+//   StartNewUser: new QueryStartNewUser(),
+//   CurrentUser: new QueryCurrentUser(),
+//   ManageUser: new QueryManageUser(),
+// }

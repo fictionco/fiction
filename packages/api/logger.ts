@@ -196,3 +196,20 @@ class Logger {
 export const logger = new Logger()
 
 export const log = logger
+
+const levels = ["info", "debug", "warn", "error", "trace"] as const
+type LogHelper = Record<
+  typeof levels[number],
+  (description: string, data?: unknown) => void
+>
+
+export const contextLogger = (context: string): LogHelper => {
+  const out: Record<string, any> = {}
+
+  levels.forEach((level) => {
+    out[level] = (description: string, data?: unknown): void =>
+      logger.log({ level, description, context, data })
+  })
+
+  return out as LogHelper
+}

@@ -61,12 +61,13 @@
 import ElAvatar from "@factor/ui/ElAvatar.vue"
 import dayjs from "dayjs"
 import { ref } from "vue"
-import { getIndexContent, PostEntryConfig } from "../.."
+import { blogPlugin } from ".."
+import { PostEntryConfig } from "../../types"
 
 const content = ref<PostEntryConfig[]>([])
 
 const setContent = async (): Promise<void> => {
-  content.value = await getIndexContent()
+  content.value = await blogPlugin.getIndexContent()
 
   return
 }

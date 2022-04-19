@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest"
 import { computed } from "vue"
-import { createTestUser } from "../test-utils"
+import { createTestUtils } from "../test-utils"
 import {
   FullUser,
   activeUser,
@@ -11,7 +11,7 @@ import {
 let user: FullUser | undefined = undefined
 describe("active user handling", () => {
   beforeAll(async () => {
-    const { user: createdUser } = await createTestUser()
+    const { user: createdUser } = await createTestUtils()
     user = createdUser
   })
   it("should set the user to initialized", async () => {
