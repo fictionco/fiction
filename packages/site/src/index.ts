@@ -12,14 +12,20 @@ import { posts } from "../blog/map"
 import { routes } from "./routes"
 
 const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
-const userPlugin = new FactorUser({
+
+export const userPlugin = new FactorUser({
   db: dbPlugin,
   googleClientId:
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
 })
-const docsPlugin = new FactorDocsEngine({ docs, groups, baseRoute: "/docs" })
-const stripePlugin = new FactorStripe({
+export const docsPlugin = new FactorDocsEngine({
+  docs,
+  groups,
+  baseRoute: "/docs",
+})
+
+export const stripePlugin = new FactorStripe({
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
   secretKeyTest: process.env.STRIPE_SECRET_KEY_TEST,

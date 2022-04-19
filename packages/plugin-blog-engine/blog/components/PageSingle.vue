@@ -132,8 +132,8 @@ import { ref, computed, onServerPrefetch } from "vue"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
 import { PostEntryConfig } from "../../types"
-import { blogSetting, getPostConfig } from "../../helpers"
-const baseRoute = ref(blogSetting("baseRoute"))
+import { blogPlugin } from ".."
+const baseRoute = ref(blogPlugin.setting("baseRoute"))
 const router = useRouter()
 const loading = ref(false)
 const config = ref<PostEntryConfig>({ attributes: {} })
@@ -154,7 +154,7 @@ const getContent = async (): Promise<void> => {
 
   const slug = router.currentRoute.value.params.slug as string | undefined
 
-  const c = await getPostConfig(slug)
+  const c = await blogPlugin.getPostConfig(slug)
 
   config.value = c || { attributes: {} }
 

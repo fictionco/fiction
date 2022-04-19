@@ -19,7 +19,8 @@
   "dependencies": {
     "@factor/plugin-highlight-code": "5.1.1",
     "@types/string-similarity": "^4.0.0",
-    "string-similarity": "^4.0.4"
+    "string-similarity": "^4.0.4",
+    "dayjs": "^1.11.1"
   },
   "peerDependencies": {
     "@factor/api": "^5.0.0",

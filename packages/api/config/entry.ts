@@ -107,8 +107,6 @@ const handleCrossEnv = (
     (process.env.NODE_ENV as "development" | "production") ||
     "production"
 
-  process.env.NODE_ENV = mode
-
   return { ...userConfig, port, portApp, serverUrl, mode }
 }
 
@@ -125,7 +123,7 @@ export const createUserConfig = async (params: {
   // get universal setup
   const entryConfig = mainFile?.setup ? await mainFile.setup(userConfig) : {}
 
-  const merge = [entryConfig]
+  const merge = [userConfig, entryConfig]
 
   if (!isApp && entryConfig.server) {
     // set default variables in server

@@ -25,16 +25,16 @@ describe("vite config", () => {
 
     expect(Object.keys(userConfigStored ?? {}).sort()).toMatchInlineSnapshot(`
       [
-        "appEmail",
-        "appName",
-        "appUrl",
+        "appMeta",
         "endpoints",
+        "mode",
         "paths",
         "port",
         "portApp",
         "root",
         "routes",
         "serverOnlyImports",
+        "serverUrl",
         "sitemaps",
         "variables",
         "vite",
@@ -60,30 +60,20 @@ describe("vite config", () => {
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
-        "FACTOR_APP_EMAIL": "hi@factorjs.org",
-        "FACTOR_APP_NAME": "FactorJS",
-        "FACTOR_APP_PORT": "3000",
-        "FACTOR_APP_URL": "https://www.factorjs.org",
-        "FACTOR_SERVER_PORT": "9191",
-        "FACTOR_SERVER_URL": "",
-        "HTTP_PROTOCOL": "",
+        "FACTOR_SERVER_URL": "http://localhost:9191",
         "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
         "TEST_ENV": "unit",
         "TEST_SERVER": "TEST",
       }
     `)
-    expect(userConfig?.variables?.["FACTOR_SERVER_PORT"]).toBe("9191")
+    expect(userConfig?.variables?.["FACTOR_SERVER_URL"]).toBe(
+      "http://localhost:9191",
+    )
 
     expect(userConfig?.variables).toMatchInlineSnapshot(`
       {
-        "FACTOR_APP_EMAIL": "hi@factorjs.org",
-        "FACTOR_APP_NAME": "FactorJS",
-        "FACTOR_APP_PORT": "3000",
-        "FACTOR_APP_URL": "https://www.factorjs.org",
-        "FACTOR_SERVER_PORT": "9191",
-        "FACTOR_SERVER_URL": "",
-        "HTTP_PROTOCOL": "",
+        "FACTOR_SERVER_URL": "http://localhost:9191",
         "NODE_ENV": "development",
         "TEST_BLOG_PLUGIN": "TEST_BLOG_PLUGIN",
         "TEST_ENV": "unit",
@@ -92,16 +82,16 @@ describe("vite config", () => {
     `)
     expect(Object.keys(userConfig ?? {}).sort()).toMatchInlineSnapshot(`
       [
-        "appEmail",
-        "appName",
-        "appUrl",
+        "appMeta",
         "endpoints",
+        "mode",
         "paths",
         "port",
         "portApp",
         "root",
         "routes",
         "serverOnlyImports",
+        "serverUrl",
         "sitemaps",
         "variables",
         "vite",
@@ -127,13 +117,7 @@ describe("vite config", () => {
     expect(viteConfig.optimizeDeps?.exclude).toContain("@stripe/stripe-js")
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
-        "process.env.FACTOR_APP_EMAIL": "\\"hi@factorjs.org\\"",
-        "process.env.FACTOR_APP_NAME": "\\"FactorJS\\"",
-        "process.env.FACTOR_APP_PORT": "\\"3000\\"",
-        "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
-        "process.env.FACTOR_SERVER_PORT": "\\"9191\\"",
-        "process.env.FACTOR_SERVER_URL": "\\"\\"",
-        "process.env.HTTP_PROTOCOL": "\\"\\"",
+        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
         "process.env.IS_VITE": "\\"yes\\"",
         "process.env.NODE_ENV": "\\"development\\"",
         "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
@@ -141,146 +125,18 @@ describe("vite config", () => {
         "process.env.TEST_SERVER": "\\"TEST\\"",
       }
     `)
-    expect(viteConfig).toMatchInlineSnapshot(`
-      {
-        "build": {
-          "emptyOutDir": true,
-          "manifest": true,
-          "minify": false,
-          "sourcemap": true,
-        },
-        "css": {
-          "postcss": {
-            "plugins": [
-              {
-                "plugins": [
-                  [Function],
-                ],
-                "postcssPlugin": "tailwindcss",
-              },
-              [Function],
-            ],
-          },
-        },
-        "define": {
-          "process.env.FACTOR_APP_EMAIL": "\\"hi@factorjs.org\\"",
-          "process.env.FACTOR_APP_NAME": "\\"FactorJS\\"",
-          "process.env.FACTOR_APP_PORT": "\\"3000\\"",
-          "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
-          "process.env.FACTOR_SERVER_PORT": "\\"9191\\"",
-          "process.env.FACTOR_SERVER_URL": "\\"\\"",
-          "process.env.HTTP_PROTOCOL": "\\"\\"",
-          "process.env.IS_VITE": "\\"yes\\"",
-          "process.env.NODE_ENV": "\\"development\\"",
-          "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
-          "process.env.TEST_ENV": "\\"unit\\"",
-          "process.env.TEST_SERVER": "\\"TEST\\"",
-        },
-        "optimizeDeps": {
-          "exclude": [
-            "@stripe/stripe-js",
-            "@factor/api",
-            "@factor/ui",
-            "@factor/plugin-notify",
-            "@factor/plugin-stripe",
-            "@kaption/client",
-            "vue",
-            "@vueuse/head",
-            "vue-router",
-            "@medv/finder",
-            "http",
-            "knex",
-            "knex-stringcase",
-            "bcrypt",
-            "chalk",
-            "google-auth-library",
-            "express",
-            "ws",
-            "nodemailer",
-            "nodemailer-html-to-text",
-            "prettyoutput",
-            "consola",
-            "jsonwebtoken",
-            "lodash",
-            "body-parser",
-            "cors",
-            "helmet",
-            "fast-safe-stringify",
-            "json-schema-to-typescript",
-            "fs-extra",
-            "module",
-            "stripe",
-          ],
-          "include": [
-            "github-buttons",
-            "highlight.js",
-            "path-browserify",
-            "dayjs",
-            "dayjs/plugin/timezone",
-            "dayjs/plugin/utc",
-            "dayjs/plugin/relativeTime",
-            "spark-md5",
-            "fast-json-stable-stringify",
-            "deepmerge",
-            "events",
-            "js-cookie",
-            "axios",
-            "qs",
-            "nanoid",
-            "front-matter",
-            "string-similarity",
-            "markdown-it",
-            "markdown-it-link-attributes",
-            "markdown-it-video",
-            "markdown-it-anchor",
-            "markdown-it-implicit-figures",
-            "remove-markdown",
-            "gravatar",
-            "validator",
-          ],
-        },
-        "plugins": [
-          {
-            "buildStart": [Function],
-            "config": [Function],
-            "configResolved": [Function],
-            "configureServer": [Function],
-            "handleHotUpdate": [Function],
-            "load": [Function],
-            "name": "vite:vue",
-            "resolveId": [Function],
-            "transform": [Function],
-          },
-          {
-            "enforce": "pre",
-            "name": "vite-plugin-markdown",
-            "transform": [Function],
-          },
-          {
-            "config": [Function],
-            "enforce": "pre",
-            "name": "serverModuleReplacer",
-            "transform": [Function],
-          },
-        ],
-        "publicDir": "/Users/arpowers/Projects/factor/packages/site/src/public",
-        "resolve": {
-          "alias": {
-            "@cwd": "/Users/arpowers/Projects/factor",
-            "@entry": "/Users/arpowers/Projects/factor/packages/api/entry",
-            "@src": "/Users/arpowers/Projects/factor/packages/site/src",
-            "path": "path-browserify",
-          },
-        },
-        "root": "/Users/arpowers/Projects/factor/packages/site/src",
-        "server": {
-          "watch": {
-            "ignored": [
-              "!**/node_modules/@factor/**",
-            ],
-          },
-        },
-      }
+    expect(Object.keys(viteConfig)).toMatchInlineSnapshot(`
+      [
+        "root",
+        "publicDir",
+        "server",
+        "css",
+        "build",
+        "resolve",
+        "define",
+        "plugins",
+        "optimizeDeps",
+      ]
     `)
   })
 })

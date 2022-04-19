@@ -1,7 +1,8 @@
 import path from "path"
 import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
-import { log } from ".."
+import { log } from "../logger"
+import { stringify } from "../utils"
 import { UserConfig } from "./types"
 import { runHooks } from "./hook"
 
@@ -59,7 +60,7 @@ export const generateStaticConfig = async (
 
   fullStaticSchema.required = Object.keys(fullStaticSchema.properties ?? {})
 
-  const stringed = JSON.stringify(schema.staticConfig, null, 2)
+  const stringed = stringify(schema.staticConfig)
 
   const json = path.join(genConfigPath, "config.json")
   const ts = await compile(fullStaticSchema, title, { format: true })

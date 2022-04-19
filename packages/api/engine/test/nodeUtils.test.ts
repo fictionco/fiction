@@ -20,12 +20,14 @@ describe("node utils", () => {
   })
 
   it("imports files if it exists", async () => {
-    const importFile = await importIfExists(cwd)
-    expect(importFile).toMatchInlineSnapshot(`
-      {
-        "setup": [Function],
-        Symbol(Symbol.toStringTag): "Module",
-      }
+    const importFile = (await importIfExists(cwd)) as Record<string, any>
+    expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(`
+      [
+        "blogPlugin",
+        "docsPlugin",
+        "setup",
+        "stripePlugin",
+      ]
     `)
   })
 
@@ -38,14 +40,19 @@ describe("node utils", () => {
     expect(entryConfig.variables?.TEST_SERVER).toEqual("TEST")
 
     expect(entryConfig.root).toEqual(cwd)
+
     expect(entryConfig.port).toBe(process.env.PORT)
-    expect(entryConfig.variables?.FACTOR_SERVER_PORT).toBe(process.env.PORT)
+    expect(entryConfig.variables?.FACTOR_SERVER_URL).toBe(
+      `http://localhost:${process.env.PORT}`,
+    )
     expect(Object.keys(entryConfig)).toMatchInlineSnapshot(`
       [
         "variables",
-        "appName",
-        "appEmail",
-        "appUrl",
+        "port",
+        "portApp",
+        "serverUrl",
+        "mode",
+        "appMeta",
         "routes",
         "root",
         "sitemaps",
@@ -53,8 +60,6 @@ describe("node utils", () => {
         "vite",
         "endpoints",
         "serverOnlyImports",
-        "port",
-        "portApp",
       ]
     `)
   })

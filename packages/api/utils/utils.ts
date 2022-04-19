@@ -1,6 +1,6 @@
 import path from "path"
 import deepMergeUtility from "deepmerge"
-import stableStringify from "fast-json-stable-stringify"
+import stableStringify from "fast-safe-stringify"
 import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
 import { ListItem, PriorityItem } from "../types"

@@ -97,7 +97,7 @@ export const handlePaymentThatRequiresCustomerAction = async (
 export const handleRequiresPaymentMethod = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription, stripePlugin } = args
+  const { subscription } = args
   if (subscription.status === "active") {
     // subscription is active, no customer actions required.
     return args

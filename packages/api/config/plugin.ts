@@ -1,10 +1,9 @@
 import * as vueUtils from "vue"
 import * as store from "../store"
-import { Endpoint, FactorEndpoint } from "../engine/endpoint"
+import { Endpoint } from "../engine/endpoint"
 import { contextLogger } from "../logger"
 import { _stop } from "../error"
 import * as utils from "../utils"
-import type { Query } from "../engine/query"
 import { UserConfig } from "./types"
 
 type NodeEnv = "development" | "production"

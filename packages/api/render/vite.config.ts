@@ -100,7 +100,6 @@ const optimizeDeps = (userConfig: UserConfig): Partial<vite.InlineConfig> => {
         "dayjs/plugin/utc",
         "dayjs/plugin/relativeTime",
         "spark-md5",
-        "fast-json-stable-stringify",
         "deepmerge",
         "events",
         "js-cookie",

@@ -24,16 +24,18 @@ vi.mock("../serverEmail", async () => {
 })
 
 let user: FullUser
-const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
-const userPlugin = new FactorUser({ db: dbPlugin })
+let dbPlugin: undefined | FactorDb = undefined
+let userPlugin: undefined | FactorUser = undefined
 
 describe.skip("user tests", () => {
   beforeAll(async () => {
+    dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+    userPlugin = new FactorUser({ db: dbPlugin })
     const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
     await createServer({ userConfig })
   })
   it("creates user", async () => {
-    const response = await userPlugin.queries.ManageUser.serve(
+    const response = await userPlugin?.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email: getTestEmail(), fullName: "test" },
@@ -41,9 +43,9 @@ describe.skip("user tests", () => {
       undefined,
     )
 
-    if (!response.data) throw new Error("problem creating user")
+    if (!response?.data) throw new Error("problem creating user")
 
-    user = response.data
+    user = response?.data
 
     expect(user?.userId).toBeTruthy()
     expect(user?.fullName).toBe("test")
@@ -51,7 +53,7 @@ describe.skip("user tests", () => {
   })
 
   it("verifies account email", async () => {
-    const response = await userPlugin.queries.VerifyAccountEmail.serve(
+    const response = await userPlugin?.queries.VerifyAccountEmail.serve(
       {
         email: user.email,
         verificationCode: "test",
@@ -59,18 +61,18 @@ describe.skip("user tests", () => {
       undefined,
     )
 
-    expect(response.data).toBeTruthy()
-    expect(response.status).toBe("success")
-    expect(response.message).toBe("verification successful")
+    expect(response?.data).toBeTruthy()
+    expect(response?.status).toBe("success")
+    expect(response?.message).toBe("verification successful")
 
-    user = response.data as FullUser
+    user = response?.data as FullUser
 
     expect(user?.emailVerified).toBeTruthy()
     expect(user?.verificationCode).toBeFalsy()
   })
 
   it("sets password", async () => {
-    const response = await userPlugin.queries.SetPassword.serve(
+    const response = await userPlugin?.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: "test",
@@ -78,57 +80,58 @@ describe.skip("user tests", () => {
       },
       { bearer: user },
     )
-    expect(response.message).toContain("password created")
-    user = response.data as FullUser
+    expect(response?.message).toContain("password created")
+    user = response?.data as FullUser
 
     expect(bcrypt.compare("test", user?.hashedPassword ?? "")).toBeTruthy()
     expect(response?.token).toBeTruthy()
 
-    const result = decodeClientToken(response?.token)
+    const result = decodeClientToken(response?.token as string)
+
     expect(result?.email).toBe(user.email)
   })
 
   it("logs in with password", async () => {
-    const response = await userPlugin.queries.Login.serve(
+    const response = await userPlugin?.queries.Login.serve(
       {
         email: user.email,
         password: "test",
       },
       {},
     )
-    expect(response.message).toMatchInlineSnapshot('"successfully logged in"')
-    user = response.data as FullUser
+    expect(response?.message).toMatchInlineSnapshot('"successfully logged in"')
+    user = response?.data as FullUser
 
     expect(user).toBeTruthy()
   })
 
   it("resets password", async () => {
     if (!user.email) throw new Error("email required")
-    const response = await userPlugin.queries.ResetPassword.serve(
+    const response = await userPlugin?.queries.ResetPassword.serve(
       {
         email: user.email,
       },
       undefined,
     )
 
-    expect(response.status).toBe("success")
+    expect(response?.status).toBe("success")
 
-    if (!response.internal) throw new Error("code required")
+    if (!response?.internal) throw new Error("code required")
 
-    const response2 = await userPlugin.queries.SetPassword.serve(
+    const response2 = await userPlugin?.queries.SetPassword.serve(
       {
         email: user.email,
-        verificationCode: response.internal,
+        verificationCode: response?.internal,
         password: "test",
       },
       { bearer: user },
     )
 
-    expect(response2.status).toBe("success")
+    expect(response2?.status).toBe("success")
   })
 
   it("updates the user", async () => {
-    const response = await userPlugin.queries.ManageUser.serve(
+    const response = await userPlugin?.queries.ManageUser.serve(
       {
         _action: "update",
         email: user.email,
@@ -140,8 +143,8 @@ describe.skip("user tests", () => {
       { bearer: user },
     )
 
-    expect(response.status).toBe("success")
-    expect(response.data?.fullName).toBe("testUpdate")
-    expect(response.data?.facebook).toBe("https://www.facebook.com/apowers")
+    expect(response?.status).toBe("success")
+    expect(response?.data?.fullName).toBe("testUpdate")
+    expect(response?.data?.facebook).toBe("https://www.facebook.com/apowers")
   })
 })

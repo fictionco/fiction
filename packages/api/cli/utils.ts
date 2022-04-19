@@ -1,7 +1,6 @@
 import path from "path"
 import { createRequire } from "module"
 import dotenv from "dotenv"
-import * as vite from "vite"
 import { log } from "../logger"
 import { getServerUserConfig } from "../config/entry"
 import { UserConfig } from "../config/types"

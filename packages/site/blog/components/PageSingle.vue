@@ -92,9 +92,7 @@
               <component :is="config.component" />
             </div>
             <div>
-              <div
-                class="mx-auto my-12 max-w-7xl bg-color-50 p-6 md:p-12"
-              >
+              <div class="mx-auto my-12 max-w-7xl bg-color-50 p-6 md:p-12">
                 <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
                   <span class="block text-slate-500"
                     >Hope you enjoyed this post.</span
@@ -132,10 +130,10 @@ import { useRouter } from "vue-router"
 import ElSpinner from "@factor/ui/ElSpinner.vue"
 import { ref, computed, onServerPrefetch } from "vue"
 import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
-import { blogSetting, getPostConfig } from "@factor/plugin-blog-engine/helpers"
+import { blogPlugin } from "@factor/site"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
-const baseRoute = ref(blogSetting("baseRoute"))
+const baseRoute = ref(blogPlugin.setting("baseRoute"))
 const router = useRouter()
 const loading = ref(false)
 const config = ref<PostEntryConfig>({ attributes: {} })
@@ -156,7 +154,7 @@ const getContent = async (): Promise<void> => {
 
   const slug = router.currentRoute.value.params.slug as string | undefined
 
-  const c = await getPostConfig(slug)
+  const c = await blogPlugin.getPostConfig(slug)
 
   config.value = c || { attributes: {} }
 

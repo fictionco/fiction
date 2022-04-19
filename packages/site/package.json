@@ -22,7 +22,6 @@
     "dayjs": "^1.11.1",
     "deepmerge": "^4.2.2",
     "events": "^3.3.0",
-    "fast-json-stable-stringify": "^2.1.0",
     "front-matter": "^4.0.2",
     "fs-extra": "^10.0.1",
     "github-buttons": "^2.21.1",
@@ -40,13 +39,17 @@
     "vite": "*",
     "vitest": "^0.9.0",
     "vue": "^3.2.33",
-    "vue-router": "^4.0.10"
+    "vue-router": "^4.0.10",
+    "@factor/site": "*"
   },
   "peerDependenciesMeta": {
     "execa": {
       "optional": true
     },
     "vitest": {
+      "optional": true
+    },
+    "@factor/site": {
       "optional": true
     },
     "playwright": {

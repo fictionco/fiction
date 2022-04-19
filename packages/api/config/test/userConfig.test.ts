@@ -18,21 +18,16 @@ describe("user config", () => {
     expect(userConfig.variables?.TEST_SERVER).toBe("TEST")
     expect(Object.keys(userConfig.variables ?? {})).toMatchInlineSnapshot(`
       [
-        "FACTOR_APP_NAME",
-        "FACTOR_APP_EMAIL",
-        "FACTOR_APP_URL",
         "FACTOR_SERVER_URL",
-        "FACTOR_SERVER_PORT",
-        "FACTOR_APP_PORT",
         "NODE_ENV",
         "TEST_ENV",
-        "HTTP_PROTOCOL",
         "TEST_SERVER",
         "TEST_BLOG_PLUGIN",
       ]
     `)
     expect(userConfig.endpoints?.map((_) => _.key)).toMatchInlineSnapshot(`
       [
+        "UserGoogleAuth",
         "Login",
         "NewVerificationCode",
         "SetPassword",
@@ -43,7 +38,6 @@ describe("user config", () => {
         "StartNewUser",
         "CurrentUser",
         "ManageUser",
-        "UserGoogleAuth",
         "ManageCustomer",
         "ListSubscriptions",
         "GetInvoices",

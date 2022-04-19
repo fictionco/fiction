@@ -78,6 +78,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private createQueries() {
     const deps = { userPlugin: this.userPlugin, stripePlugin: this }
     return {
@@ -108,8 +109,8 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     const key =
       this.stripeMode == "live"
-        ? this.settings.publicKeyLive
-        : this.settings.publicKeyTest
+        ? this.settings.secretKeyLive
+        : this.settings.secretKeyTest
 
     if (!key) throw new Error("Stripe secret key not found")
 
@@ -120,8 +121,8 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     if (!this.client) {
       const publicKey =
         this.stripeMode == "live"
-          ? process.env.STRIPE_PUBLIC_KEY
-          : process.env.STRIPE_PUBLIC_KEY_TEST
+          ? this.settings.publicKeyLive
+          : this.settings.publicKeyTest
 
       if (!publicKey) throw new Error("no stripe public key")
 

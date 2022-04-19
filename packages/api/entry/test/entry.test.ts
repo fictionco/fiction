@@ -14,9 +14,11 @@ describe("server entry handling", () => {
     expect(config.port).toBe(process.env.PORT)
     expect(Object.keys(config)).toMatchInlineSnapshot(`
       [
-        "routes",
         "port",
         "portApp",
+        "serverUrl",
+        "mode",
+        "routes",
       ]
     `)
     expect(config.port).toBe(process.env.PORT)

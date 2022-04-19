@@ -7,10 +7,10 @@ import { log } from "../logger"
 import { _stop } from "../error"
 import { decodeClientToken } from "../jwt"
 import { onEvent } from "../event"
+import { FactorUser } from "../plugin-user"
 import { Endpoint } from "./endpoint"
 import { Query } from "./query"
 import { createExpressApp } from "./nodeUtils"
-import { FactorUser } from "../plugin-user"
 
 type CustomServerHandler = (
   app: express.Express,

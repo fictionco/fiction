@@ -7,10 +7,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { getServerPort, currentUrl } from "@factor/api/engine/url"
+import { currentUrl } from "@factor/api/engine/url"
 
 const list = [
-  { id: "server-port", title: "Server Port", value: getServerPort() },
+  {
+    id: "server-url",
+    title: "Server URL",
+    value: process.env.FACTOR_SERVER_URL,
+  },
   { id: "current-url", title: "Current URL", value: currentUrl() },
   { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
   { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },

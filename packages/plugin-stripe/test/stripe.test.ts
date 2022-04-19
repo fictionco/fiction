@@ -1,17 +1,21 @@
 import fs from "fs"
 import path from "path"
 import dotenv from "dotenv"
-import { expect, it, describe } from "vitest"
+import { expect, it, describe, beforeAll } from "vitest"
 import Stripe from "stripe"
 import { log } from "@factor/api/logger"
-import * as stripeEngine from "../endpoints"
+import { stripePlugin } from "@factor/site"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
 let subscription: Stripe.Subscription | undefined
 const key = (): string => Math.random().toString().slice(2, 8)
 
+//const testUtils: TestUtils | undefined = undefined
+
 describe("stripe tests", () => {
+  beforeAll(async () => {})
+
   it("has stripe test .env file", () => {
     const dirname = new URL(".", import.meta.url).pathname
     const p = path.resolve(dirname, ".env")
@@ -27,7 +31,7 @@ describe("stripe tests", () => {
   })
 
   it("creates a customer for new user", async () => {
-    const { status, data } = await stripeEngine.Queries.ManageCustomer.serve(
+    const { status, data } = await stripePlugin.queries.ManageCustomer.serve(
       {
         customerId: "",
         _action: "retrieve",
@@ -41,7 +45,7 @@ describe("stripe tests", () => {
   })
 
   it("gets the customer", async () => {
-    const { status, data } = await stripeEngine.Queries.ManageCustomer.serve(
+    const { status, data } = await stripePlugin.queries.ManageCustomer.serve(
       {
         customerId: customer?.id,
         _action: "retrieve",
@@ -55,7 +59,7 @@ describe("stripe tests", () => {
 
   it("gets the refined customer in requests", async () => {
     const { status, data, customerData, customerId } =
-      await stripeEngine.Queries.ManageCustomer.serveRequest(
+      await stripePlugin.queries.ManageCustomer.serveRequest(
         {
           customerId: customer?.id,
           _action: "retrieve",
@@ -67,23 +71,25 @@ describe("stripe tests", () => {
     expect(data?.id).toBeTruthy()
     expect(customerId).toBe(data?.id)
     expect(customerData).toBeTruthy()
-    expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot('6')
+    expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot("6")
   }, 12_000)
 
   it("adds a payment method", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const paymentMethod = await stripeEngine.getStripe().paymentMethods.create({
-      type: "card",
-      card: {
-        number: "4242424242424242",
-        exp_month: 2,
-        exp_year: 2023,
-        cvc: "314",
-      },
-    })
+    const paymentMethod = await stripePlugin
+      .getServerClient()
+      .paymentMethods.create({
+        type: "card",
+        card: {
+          number: "4242424242424242",
+          exp_month: 2,
+          exp_year: 2023,
+          cvc: "314",
+        },
+      })
 
-    const result = await stripeEngine.Queries.ManagePaymentMethod.serve(
+    const result = await stripePlugin.queries.ManagePaymentMethod.serve(
       {
         customerId: customer?.id,
         paymentMethodId: paymentMethod.id,
@@ -101,7 +107,7 @@ describe("stripe tests", () => {
   it("gets payment methods", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const result = await stripeEngine.Queries.ManagePaymentMethod.serve(
+    const result = await stripePlugin.queries.ManagePaymentMethod.serve(
       {
         customerId: customer?.id,
         _action: "retrieve",
@@ -116,8 +122,8 @@ describe("stripe tests", () => {
   it("set the default payment method", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const customerData = (await stripeEngine
-      .getStripe()
+    const customerData = (await stripePlugin
+      .getServerClient()
       .customers.retrieve(customer.id)) as Stripe.Customer
 
     expect(customerData).toBeTruthy()
@@ -129,18 +135,18 @@ describe("stripe tests", () => {
   it("creates a subscription", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const product = await stripeEngine.getStripe().products.create({
+    const product = await stripePlugin.getServerClient().products.create({
       name: "Gold Special",
     })
 
-    const price = await stripeEngine.getStripe().prices.create({
+    const price = await stripePlugin.getServerClient().prices.create({
       unit_amount: 50_000,
       currency: "usd",
       recurring: { interval: "month" },
       product: product.id,
     })
 
-    const result = await stripeEngine.Queries.ManageSubscription.serve(
+    const result = await stripePlugin.queries.ManageSubscription.serve(
       {
         customerId: customer.id,
         _action: "create",
@@ -159,7 +165,7 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await stripeEngine.Queries.ManageSubscription.serve(
+    const result = await stripePlugin.queries.ManageSubscription.serve(
       {
         customerId: customer.id,
         _action: "retrieve",
@@ -176,7 +182,7 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await stripeEngine.Queries.ManageSubscription.serve(
+    const result = await stripePlugin.queries.ManageSubscription.serve(
       {
         customerId: customer.id,
         _action: "delete",
@@ -194,12 +200,12 @@ describe("stripe tests", () => {
 
     const couponId = `TEST_COUPON_${key()}`
 
-    const coupon = await stripeEngine.getStripe().coupons.create({
+    const coupon = await stripePlugin.getServerClient().coupons.create({
       percent_off: 50,
       id: couponId,
     })
 
-    const result = await stripeEngine.Queries.GetCoupon.serve(
+    const result = await stripePlugin.queries.GetCoupon.serve(
       {
         couponCode: coupon.id,
       },
@@ -214,7 +220,7 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await stripeEngine.Queries.GetInvoices.serve(
+    const result = await stripePlugin.queries.GetInvoices.serve(
       {
         customerId: customer.id,
       },

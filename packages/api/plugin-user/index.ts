@@ -66,6 +66,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private createQueries() {
     const deps = { userPlugin: this, db: this.db }
     return {

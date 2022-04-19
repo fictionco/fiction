@@ -16,10 +16,14 @@
     "dotenv": "^16.0.0"
   },
   "peerDependencies": {
-    "vitest": "^0.9.0"
+    "vitest": "^0.9.0",
+    "@factor/site": "^5.1.1"
   },
   "peerDependenciesMeta": {
     "vitest": {
+      "optional": true
+    },
+    "@factor/site": {
       "optional": true
     }
   }

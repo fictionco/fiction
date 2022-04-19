@@ -1,4 +1,4 @@
-import { expect, it, vi, describe } from "vitest"
+import { expect, it, vi, describe, beforeAll } from "vitest"
 //import { FullUser } from "@factor/api"
 import { getTestEmail } from "../../test-utils"
 import { objectId } from "../.."
@@ -47,12 +47,23 @@ vi.mock("google-auth-library", () => {
   }
 })
 
-const dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
-const userPlugin = new FactorUser({ db: dbPlugin })
+let dbPlugin: undefined | FactorDb = undefined
+let userPlugin: undefined | FactorUser = undefined
 
 describe("google auth", () => {
+  beforeAll(() => {
+    dbPlugin = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+    userPlugin = new FactorUser({
+      db: dbPlugin,
+      googleClientId: process.env.GOOGLE_CLIENT_ID,
+      googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    })
+  })
+  it("has POSTGRES_URL", () => {
+    expect(process.env.POSTGRES_URL).toBeTruthy()
+  })
   it("if no user exists, creates one with isNew = true, returns token", async () => {
-    const response = await userPlugin.queries.UserGoogleAuth.serve(
+    const response = await userPlugin?.queries.UserGoogleAuth.serve(
       {
         credential: "not a token",
         _action: "loginWithCredential",
@@ -60,18 +71,18 @@ describe("google auth", () => {
       { server: true },
     )
 
-    expect(response.status).toBe("success")
-    expect(response.isNew).toBe(true)
-    expect(response.token).toBeTruthy()
-    expect(response.data?.userId).toBeTruthy()
-    expect(response.data?.email).toBe(email)
-    expect(response.data?.googleId).toBe(googleId)
-    expect(response.data?.fullName).toBe("test test")
-    expect(response.user?.userId).toBeTruthy()
+    expect(response?.status).toBe("success")
+    expect(response?.isNew).toBe(true)
+    expect(response?.token).toBeTruthy()
+    expect(response?.data?.userId).toBeTruthy()
+    expect(response?.data?.email).toBe(email)
+    expect(response?.data?.googleId).toBe(googleId)
+    expect(response?.data?.fullName).toBe("test test")
+    expect(response?.user?.userId).toBeTruthy()
   })
 
   it("if user exists, returns login token, isNew = false", async () => {
-    const response = await userPlugin.queries.UserGoogleAuth.serve(
+    const response = await userPlugin?.queries.UserGoogleAuth.serve(
       {
         credential: "not a token",
         _action: "loginWithCredential",
@@ -79,18 +90,18 @@ describe("google auth", () => {
       { server: true },
     )
 
-    expect(response.status).toBe("success")
-    expect(response.isNew).toBe(false)
-    expect(response.token).toBeTruthy()
-    expect(response.data?.userId).toBeTruthy()
-    expect(response.data?.fullName).toBe("test test")
-    expect(response.data?.email).toBeTruthy()
-    expect(response.data?.googleId).toBe(googleId)
-    expect(response.user?.userId).toBeTruthy()
+    expect(response?.status).toBe("success")
+    expect(response?.isNew).toBe(false)
+    expect(response?.token).toBeTruthy()
+    expect(response?.data?.userId).toBeTruthy()
+    expect(response?.data?.fullName).toBe("test test")
+    expect(response?.data?.email).toBeTruthy()
+    expect(response?.data?.googleId).toBe(googleId)
+    expect(response?.user?.userId).toBeTruthy()
   })
 
   it("if google login user exists with email and no googleId, if email is verified it links the googleId to the user", async () => {
-    const responseCreate = await userPlugin.queries.ManageUser.serve(
+    const responseCreate = await userPlugin?.queries.ManageUser.serve(
       {
         _action: "create",
         fields: { email: email2, fullName: "test", password: "test" },
@@ -98,9 +109,9 @@ describe("google auth", () => {
       undefined,
     )
 
-    expect(responseCreate.status).toBe("success")
+    expect(responseCreate?.status).toBe("success")
 
-    const responseLoginGoogle = await userPlugin.queries.UserGoogleAuth.serve(
+    const responseLoginGoogle = await userPlugin?.queries.UserGoogleAuth.serve(
       {
         credential: "not a token",
         _action: "loginWithCredential",
@@ -108,12 +119,12 @@ describe("google auth", () => {
       { server: true },
     )
 
-    expect(responseLoginGoogle.status).toBe("success")
-    expect(responseLoginGoogle.isNew).toBe(false)
-    expect(responseLoginGoogle.token).toBeTruthy()
-    expect(responseLoginGoogle.message).toMatchInlineSnapshot(
+    expect(responseLoginGoogle?.status).toBe("success")
+    expect(responseLoginGoogle?.isNew).toBe(false)
+    expect(responseLoginGoogle?.token).toBeTruthy()
+    expect(responseLoginGoogle?.message).toMatchInlineSnapshot(
       '"login successful"',
     )
-    expect(responseLoginGoogle.user?.userId).toBeTruthy()
+    expect(responseLoginGoogle?.user?.userId).toBeTruthy()
   })
 })
