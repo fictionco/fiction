@@ -32,6 +32,7 @@ export type TestServerConfig = {
   _process: ExecaChildProcess
   appPort: number
   serverPort: number
+  serverUrl: string
   destroy: () => Promise<void>
   browser: Browser
   page: Page
@@ -123,6 +124,7 @@ export const createTestServer = async (params: {
   if (!_process) throw new Error("Could not start dev server")
 
   const appUrl = `http://localhost:${appPort}`
+  const serverUrl = `http://localhost:${serverPort}`
 
   const browser = await chromium.launch({ headless, slowMo })
   const page = await browser.newPage()
@@ -132,6 +134,7 @@ export const createTestServer = async (params: {
     appPort,
     serverPort,
     appUrl,
+    serverUrl,
     browser,
     page,
     expectUi,

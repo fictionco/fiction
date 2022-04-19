@@ -59,6 +59,7 @@ export interface UserConfig {
   port?: string
   portApp?: string
   serverUrl?: string
+  appUrl?: string
   serverOnlyImports?: ServerModuleDef[]
   routes?: AppRoute<string>[]
   sitemaps?: SiteMapConfig[]

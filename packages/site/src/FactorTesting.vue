@@ -8,18 +8,24 @@
 </template>
 <script lang="ts" setup>
 import { currentUrl } from "@factor/api/engine/url"
+import { userConfigSetting } from "@factor/api/config"
 
+const appMeta = userConfigSetting("appMeta")
 const list = [
   {
     id: "server-url",
     title: "Server URL",
     value: process.env.FACTOR_SERVER_URL,
   },
-  { id: "current-url", title: "Current URL", value: currentUrl() },
+  {
+    id: "current-url",
+    title: "Current URL",
+    value: process.env.FACTOR_APP_URL,
+  },
   { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
   { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },
-  { id: "app-name", title: "APP_NAME", value: process.env.FACTOR_APP_NAME },
-  { id: "app-email", title: "APP_EMAIL", value: process.env.FACTOR_APP_EMAIL },
-  { id: "app-url", title: "APP_URL", value: process.env.FACTOR_APP_URL },
+  { id: "app-name", title: "APP_NAME", value: appMeta?.name },
+  { id: "app-email", title: "APP_EMAIL", value: appMeta?.email },
+  { id: "app-url", title: "APP_URL", value: appMeta?.url },
 ]
 </script>

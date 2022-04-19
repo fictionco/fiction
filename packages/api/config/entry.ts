@@ -14,6 +14,7 @@ type WhichModule = {
 const getDefaultServerVariables = (): Record<string, string> => {
   return {
     FACTOR_SERVER_URL: "",
+    FACTOR_APP_URL: "",
     NODE_ENV: process.env.NODE_ENV || "",
     TEST_ENV: "",
   }
@@ -67,19 +68,13 @@ export const installPlugins = async (params: {
   return r
 }
 
-const handleCrossEnv = (
-  userConfig?: UserConfig,
-): {
-  port: string
-  portApp: string
-  serverUrl: string
-  mode: "production" | "development"
-} => {
+const handleCrossEnv = (userConfig?: UserConfig): UserConfig => {
   const port =
     userConfig?.port ||
     process.env.FACTOR_SERVER_PORT ||
     process.env.PORT ||
     "3333"
+  process.env.FACTOR_SERVER_PORT = port
 
   const portApp =
     userConfig?.portApp ||
@@ -87,27 +82,25 @@ const handleCrossEnv = (
     process.env.PORT_APP ||
     "3000"
 
-  if (port) {
-    process.env.FACTOR_SERVER_PORT = port
-  }
-
-  if (portApp) {
-    process.env.FACTOR_APP_PORT = portApp
-  }
+  process.env.FACTOR_APP_PORT = portApp
 
   const serverUrl =
     userConfig?.serverUrl ||
     process.env.FACTOR_SERVER_URL ||
-    `http://localhost:${process.env.FACTOR_SERVER_PORT}`
+    `http://localhost:${port}`
 
   process.env.FACTOR_SERVER_URL = serverUrl
+
+  const appUrl = process.env.FACTOR_APP_URL || `http://localhost:${portApp}`
+
+  process.env.FACTOR_APP_URL = appUrl
 
   const mode =
     userConfig?.mode ||
     (process.env.NODE_ENV as "development" | "production") ||
     "production"
 
-  return { ...userConfig, port, portApp, serverUrl, mode }
+  return { ...userConfig, port, portApp, serverUrl, appUrl, mode }
 }
 
 export const createUserConfig = async (params: {

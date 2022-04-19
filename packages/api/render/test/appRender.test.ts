@@ -1,7 +1,7 @@
 import { createRequire } from "module"
 import path from "path"
 import { Page } from "playwright"
-import { describe, it, beforeAll, expect } from "vitest"
+import { describe, it, beforeAll, expect, afterAll } from "vitest"
 import * as mainFile from "@factor/site"
 import { createTestServer, TestServerConfig } from "../../test-utils"
 const require = createRequire(import.meta.url)
@@ -25,17 +25,22 @@ describe("renders app code correctly", () => {
       headless: false,
     })
   }, 15_000)
+
+  afterAll(async () => {
+    await _s?.destroy()
+  })
+
   it("handles defined globals", async () => {
     if (!_s) throw new Error("no test server")
 
     await page().goto(url("/testing"))
 
-    await page().waitForSelector("#server-port")
+    await page().waitForSelector("#server-url")
 
     const mainConfig = mainFile.setup()
 
-    const serverPortText = await page().locator(`#server-port`).textContent()
-    expect(serverPortText).toBe(_s.serverPort.toString())
+    const serverUrlText = await page().locator(`#server-url`).textContent()
+    expect(serverUrlText).toBe(_s.serverUrl.toString())
 
     const currentUrlText = await page().locator(`#current-url`).textContent()
     expect(currentUrlText).toBe(_s.appUrl)
