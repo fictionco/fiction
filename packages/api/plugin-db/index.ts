@@ -1,20 +1,30 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
+import { runHooks, HookType } from "@factor/api"
 import { UserConfig } from "../config"
 import { FactorPlugin } from "../config/plugin"
 
 type FactorDbSettings = {
   connectionUrl?: string
   isTest?: boolean
+  hooks?: HookType<HookDictionary>[]
+}
+
+export * from "./types"
+
+export type HookDictionary = {
+  onStart: { args: [FactorDb] }
 }
 
 export class FactorDb extends FactorPlugin<FactorDbSettings> {
   private db!: Knex
   connectionUrl!: URL
   isTest: boolean = false
-
+  hooks: HookType<HookDictionary>[]
   constructor(settings: FactorDbSettings) {
     super(settings)
+
+    this.hooks = settings.hooks || []
 
     if (this.utils.isBrowser()) return
 
@@ -82,6 +92,12 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     await createTables(this.db)
 
     await runChangeset(this.db)
+
+    await runHooks<HookDictionary>({
+      list: this.hooks,
+      hook: "onStart",
+      args: [this],
+    })
   }
 
   public async setup(): Promise<UserConfig> {

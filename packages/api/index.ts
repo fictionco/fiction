@@ -1,6 +1,7 @@
 /// <reference path="./shim.d.ts" />
 
 export * from "./types"
+export * from "./engine"
 export * from "./config/plugin"
 export * from "./config/types"
 export * from "./utils/_"

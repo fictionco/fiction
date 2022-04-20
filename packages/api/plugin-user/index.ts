@@ -1,10 +1,11 @@
 import { UserConfig } from "../config"
 import { FactorPlugin } from "../config/plugin"
-import { Query } from "../engine/query"
-import { EndpointMethodOptions, Endpoint } from "../engine/endpoint"
+import { EndpointMap, Endpoint, EndpointMeta } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
 import { clientToken } from "../utils/jwt"
 import { FactorEmail } from "../plugin-email"
+import { DataProcessor } from "../processor"
+import { HookType } from "../utils"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   ManageUserParams,
@@ -26,11 +27,10 @@ export * from "./userClient"
 export * from "./types"
 export type { ManageUserParams }
 
-export class UserEndpoint<T extends Query> extends Endpoint<T> {
-  constructor(options: EndpointMethodOptions<T>) {
-    super({ basePath: "/user", ...options })
-  }
-}
+type UserProcessor = DataProcessor<
+  FullUser,
+  { meta?: EndpointMeta; params?: ManageUserParams }
+>
 
 type UserPluginSettings = {
   factorDb: FactorDb
@@ -38,10 +38,15 @@ type UserPluginSettings = {
   googleClientId?: string
   googleClientSecret?: string
   serverUrl: string
+  processors?: UserProcessor[]
+  hooks?: HookType<HookDictionary>[]
 }
 
-type EndpointMap<T extends Record<string, Query>> = {
-  [P in keyof T]: Endpoint<T[P]>
+export type HookDictionary = {
+  onUserVerified: { args: [FullUser] }
+  processUser: {
+    args: [FullUser, { params: ManageUserParams; meta: EndpointMeta }]
+  }
 }
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
@@ -49,10 +54,12 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   private factorEmail: FactorEmail
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
-  private endpointHandler = UserEndpoint
+
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   serverUrl: string
+  public processors: UserProcessor[]
+  public hooks: HookType<HookDictionary>[]
   constructor(settings: UserPluginSettings) {
     super(settings)
     this.serverUrl = settings.serverUrl
@@ -60,6 +67,8 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     this.factorEmail = settings.factorEmail
     this.queries = this.createQueries()
     this.requests = this.createRequests(settings.serverUrl)
+    this.processors = this.settings.processors || []
+    this.hooks = this.settings.hooks || []
   }
 
   async setup(): Promise<UserConfig> {
@@ -104,16 +113,25 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
       Object.entries(this.queries).map(([key, query]) => {
         return [
           key,
-          new this.endpointHandler({
+          new Endpoint({
             key,
             queryHandler: query,
             serverUrl,
+            basePath: "/user",
           }),
         ]
       }),
     ) as EndpointMap<typeof this.queries>
 
     return requests
+  }
+
+  public addProcessor(processor: UserProcessor): void {
+    this.processors.push(processor)
+  }
+
+  public addHook(hook: HookType<HookDictionary>): void {
+    this.hooks.push(hook)
   }
 
   requestCurrentUser = async (): Promise<FullUser | undefined> => {

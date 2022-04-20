@@ -14,15 +14,15 @@ type RefineResult = {
 
 abstract class QueryPayments extends Query {
   factorUser: FactorUser
-  stripePlugin: FactorStripe
+  factorStripe: FactorStripe
   constructor(settings: {
     factorUser: FactorUser
-    stripePlugin: FactorStripe
+    factorStripe: FactorStripe
   }) {
     super()
 
     this.factorUser = settings.factorUser
-    this.stripePlugin = settings.stripePlugin
+    this.factorStripe = settings.factorStripe
   }
   async refine(
     params: { customerId?: string; userId?: string },
@@ -33,7 +33,7 @@ abstract class QueryPayments extends Query {
     const out: RefineResult = {}
 
     if (customerId) {
-      const r = await this.stripePlugin.queries.GetCustomerData.serve(
+      const r = await this.factorStripe.queries.GetCustomerData.serve(
         { customerId },
         meta,
       )
@@ -94,9 +94,9 @@ export class QueryManageCustomer extends QueryPayments {
       customerData?: CustomerData
     }
   > {
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
 
-    const { onCustomerCreated } = this.stripePlugin.setting("hooks") ?? {}
+    const { onCustomerCreated } = this.factorStripe.setting("hooks") ?? {}
 
     const { _action, customerId } = params
 
@@ -148,7 +148,7 @@ export class QueryPaymentMethod extends QueryPayments {
     if (!_action) throw this.stop({ message: "no _action provided" })
     if (!customerId) throw this.stop({ message: "no customer id" })
 
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
 
     // https://stripe.com/docs/api/setup_intents
     let setupIntent: Stripe.SetupIntent | undefined
@@ -218,7 +218,7 @@ export class QueryListSubscriptions extends QueryPayments {
 
     if (!customerId) throw this.stop({ message: "no customer id" })
 
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
     const data = await stripe.subscriptions.list({ customer: customerId })
 
     return { status: "success", data }
@@ -251,7 +251,7 @@ export class QueryManageSubscription extends QueryPayments {
 
     if (!_action) throw this.stop({ message: "no _action provided" })
 
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
 
     let sub: Stripe.Subscription | undefined
     let message: string | undefined = undefined
@@ -264,7 +264,7 @@ export class QueryManageSubscription extends QueryPayments {
 
         // attach payment method to customer
         if (paymentMethodId && customerId) {
-          await this.stripePlugin.queries.ManagePaymentMethod.serve(
+          await this.factorStripe.queries.ManagePaymentMethod.serve(
             {
               customerId,
               paymentMethodId,
@@ -275,7 +275,7 @@ export class QueryManageSubscription extends QueryPayments {
         }
 
         const { beforeCreateSubscription } =
-          this.stripePlugin.setting("hooks") ?? {}
+          this.factorStripe.setting("hooks") ?? {}
 
         let args: Stripe.SubscriptionCreateParams = {
           customer: customerId,
@@ -313,7 +313,7 @@ export class QueryManageSubscription extends QueryPayments {
       throw this.stop({ message: e.message })
     }
 
-    const { onSubscriptionUpdate } = this.stripePlugin.setting("hooks") ?? {}
+    const { onSubscriptionUpdate } = this.factorStripe.setting("hooks") ?? {}
 
     if (sub && onSubscriptionUpdate) {
       await onSubscriptionUpdate(sub)
@@ -344,7 +344,7 @@ export class QueryGetInvoices extends QueryPayments {
     }
   > {
     const { customerId, startingAfter, limit } = params
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
     const data = await stripe.invoices.list({
       customer: customerId,
       starting_after: startingAfter,
@@ -363,7 +363,7 @@ export class QueryGetProduct extends QueryPayments {
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<Stripe.Product>> {
     const { productId } = params
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
     const product = await stripe.products.retrieve(productId)
 
     return { status: "success", data: product }
@@ -375,7 +375,7 @@ export class QueryAllProducts extends QueryPayments {
     _params: undefined,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<Stripe.Product[]>> {
-    const products = this.stripePlugin.getProducts()
+    const products = this.factorStripe.getProducts()
 
     const productIds = products
       .map((_) => _.productId)
@@ -383,7 +383,7 @@ export class QueryAllProducts extends QueryPayments {
 
     const responsePlans = await Promise.all(
       productIds.map((productId: string) =>
-        this.stripePlugin.queries.GetProduct.serve({ productId }, {}),
+        this.factorStripe.queries.GetProduct.serve({ productId }, {}),
       ),
     )
     const data = responsePlans
@@ -405,7 +405,7 @@ export class QueryGetCoupon extends QueryPayments {
   ): Promise<EndpointResponse<Stripe.Response<Stripe.Coupon>>> {
     if (!couponCode) throw this.stop({ message: "no code was provided" })
 
-    const stripe = this.stripePlugin.getServerClient()
+    const stripe = this.factorStripe.getServerClient()
 
     try {
       const data = await stripe.coupons.retrieve(couponCode)
@@ -430,17 +430,17 @@ export class QueryGetCustomerData extends QueryPayments {
   ): Promise<EndpointResponse<CustomerData>> {
     const [customer, subscriptions, invoices, paymentMethods, allProducts] =
       await Promise.all([
-        this.stripePlugin.queries.ManageCustomer.serve(
+        this.factorStripe.queries.ManageCustomer.serve(
           { customerId, _action: "retrieve" },
           meta,
         ),
-        this.stripePlugin.queries.ListSubscriptions.serve({ customerId }, meta),
-        this.stripePlugin.queries.GetInvoices.serve({ customerId }, meta),
-        this.stripePlugin.queries.ManagePaymentMethod.serve(
+        this.factorStripe.queries.ListSubscriptions.serve({ customerId }, meta),
+        this.factorStripe.queries.GetInvoices.serve({ customerId }, meta),
+        this.factorStripe.queries.ManagePaymentMethod.serve(
           { customerId, _action: "retrieve" },
           meta,
         ),
-        this.stripePlugin.queries.AllProducts.serve(undefined, meta),
+        this.factorStripe.queries.AllProducts.serve(undefined, meta),
       ])
 
     const data: CustomerData = {

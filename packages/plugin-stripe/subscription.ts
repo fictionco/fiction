@@ -6,7 +6,7 @@ import { FactorStripe } from "./plugin"
 export const handleCardSetupRequired = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription, paymentMethodId, stripePlugin } = args
+  const { subscription, paymentMethodId, factorStripe } = args
   const setupIntent = subscription.pending_setup_intent
 
   if (
@@ -15,7 +15,7 @@ export const handleCardSetupRequired = async (
     setupIntent.status === "requires_action" &&
     setupIntent.client_secret
   ) {
-    const stripe = await stripePlugin.getBrowserClient()
+    const stripe = await factorStripe.getBrowserClient()
 
     const setupResult = await stripe.confirmCardSetup(
       setupIntent.client_secret,
@@ -45,7 +45,7 @@ export const handleCardSetupRequired = async (
 export const handlePaymentThatRequiresCustomerAction = async (
   args: SubscriptionDetails,
 ): Promise<SubscriptionDetails | undefined> => {
-  const { subscription, paymentMethodId, invoice, isRetry, stripePlugin } = args
+  const { subscription, paymentMethodId, invoice, isRetry, factorStripe } = args
 
   let paymentIntent: stripeNode.PaymentIntent | undefined | null | string
 
@@ -67,7 +67,7 @@ export const handlePaymentThatRequiresCustomerAction = async (
         paymentIntent.status === "requires_payment_method")) &&
     paymentIntent.client_secret
   ) {
-    const stripe = await stripePlugin.getBrowserClient()
+    const stripe = await factorStripe.getBrowserClient()
 
     const setupResult = await stripe.confirmCardSetup(
       paymentIntent.client_secret,
@@ -135,11 +135,11 @@ export const requestCreateSubscription = async (args: {
   customerId: string
   paymentMethodId: string
   priceId: string
-  stripePlugin: FactorStripe
+  factorStripe: FactorStripe
 }): Promise<ManageSubscriptionResult> => {
-  const { customerId, paymentMethodId, priceId, stripePlugin } = args
+  const { customerId, paymentMethodId, priceId, factorStripe } = args
 
-  let result = await stripePlugin.requests.ManageSubscription.request({
+  let result = await factorStripe.requests.ManageSubscription.request({
     customerId,
     paymentMethodId,
     priceId,
@@ -161,7 +161,7 @@ export const requestCreateSubscription = async (args: {
       customerId,
       paymentMethodId,
       priceId,
-      stripePlugin,
+      factorStripe,
     }
     /**
      * Run through stripe payment checks
@@ -171,7 +171,7 @@ export const requestCreateSubscription = async (args: {
     /**
      * If successful, retrieving subscription again will update its backend status
      */
-    result = await stripePlugin.requests.ManageSubscription.request({
+    result = await factorStripe.requests.ManageSubscription.request({
       customerId,
       _action: "retrieve",
       subscriptionId: subscription.id,

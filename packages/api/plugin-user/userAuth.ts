@@ -5,8 +5,7 @@ import { createClientToken, decodeClientToken } from "../utils/jwt"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
 import { runProcessors } from "../processor"
-import { runHooks } from "../config/hook"
-import { getUserConfig } from "../config/plugins"
+import { runHooks } from "../utils/hook"
 
 import { EndpointMeta } from "../engine/endpoint"
 import type { FactorDb } from "../plugin-db"
@@ -18,7 +17,7 @@ import {
   getJsonUserFields,
   getEditableUserFields,
 } from "./userClient"
-import type { FactorUser } from "."
+import type { FactorUser, HookDictionary } from "."
 
 export abstract class UserQuery extends Query {
   factorUser: FactorUser
@@ -66,10 +65,9 @@ type ProcessorMeta = { params?: ManageUserParams; meta?: EndpointMeta }
 const processUser = async (
   user: FullUser,
   meta: ProcessorMeta,
+  factorUser: FactorUser,
 ): Promise<FullUser> => {
-  const config = getUserConfig()
-
-  const processors = config?.userProcessors ?? []
+  const processors = factorUser.processors ?? []
 
   if (processors && processors.length > 0) {
     const result = await runProcessors<FullUser, ProcessorMeta>(
@@ -274,9 +272,14 @@ export class QueryManageUser extends UserQuery {
 
     if (
       user &&
-      (_action == "getPrivate" || _action == "update" || _action == "create")
+      (_action == "getPrivate" || _action == "update" || _action == "create") &&
+      _meta
     ) {
-      user = await processUser(user, { params, meta: _meta })
+      user = await runHooks<HookDictionary>({
+        list: this.factorUser.hooks,
+        hook: "processUser",
+        args: [user, { params, meta: _meta }],
+      })
     }
 
     // don't return authority info to client
@@ -607,7 +610,11 @@ export class QueryVerifyAccountEmail extends UserQuery {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await runHooks("onUserVerified", user)
+    await runHooks<HookDictionary>({
+      list: this.factorUser.hooks,
+      hook: "onUserVerified",
+      args: [user],
+    })
 
     this.log.info(`user verified ${email}`)
 

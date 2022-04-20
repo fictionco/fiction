@@ -9,6 +9,7 @@ type FactorEmailSettings = {
   smtpPort?: number
   appName: string
   appEmail: string
+  appUrl: string
 } & (
   | {
       isTest: true
@@ -32,6 +33,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   smtpPort: number
   appName: string
   appEmail: string
+  appUrl: string
 
   constructor(settings: FactorEmailSettings) {
     super(settings)
@@ -45,6 +47,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     this.smtpPort = settings.smtpPort || 587
     this.appEmail = settings.appEmail
     this.appName = settings.appName
+    this.appUrl = settings.appUrl
 
     if (this.utils.isBrowser()) return
 
@@ -60,7 +63,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
 
     const valid = this.validateRequiredFields({
       plugin: this,
-      fields: ["appEmail", "appName"],
+      fields: ["appEmail", "appName", "appUrl"],
       fieldsLive: ["smtpPassword", "smtpUsername", "smtpHost"],
     })
 

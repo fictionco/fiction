@@ -1,7 +1,7 @@
 import http from "http"
 import bodyParser from "body-parser"
 import { UserConfig } from "../config/types"
-import { runHooks } from "../config/hook"
+import { runHooks } from "../utils/hook"
 import type { RunConfig } from "../cli/utils"
 
 import { log } from "../logger"
@@ -51,11 +51,11 @@ export const createServer = async (params: {
 }): Promise<UserConfig> => {
   const { userConfig } = params
 
-  await runHooks("afterServerSetup")
+  await runHooks({ list: userConfig.hooks, hook: "afterServerSetup" })
 
   await createEndpointServer(userConfig)
 
-  await runHooks("afterServerCreated")
+  await runHooks({ list: userConfig.hooks, hook: "afterServerCreated" })
 
   return params.userConfig
 }

@@ -1,5 +1,5 @@
-import { UserConfig, FactorPlugin } from "@factor/api"
-import { EndpointMethodOptions, Endpoint, Query } from "@factor/api/engine"
+import { UserConfig, FactorPlugin, EndpointMap, Endpoint } from "@factor/api"
+
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
@@ -29,21 +29,10 @@ type StripePluginSettings = {
   serverUrl: string
 }
 
-type EndpointMap<T extends Record<string, Query>> = {
-  [P in keyof T]: Endpoint<T[P]>
-}
-
-export class EndpointMethodPayments<T extends Query> extends Endpoint<T> {
-  constructor(options: EndpointMethodOptions<T>) {
-    super({ basePath: "/payments", ...options })
-  }
-}
-
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   private factorUser: FactorUser
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
-  private endpointHandler = EndpointMethodPayments
   public client?: StripeJS.Stripe
   private stripeMode: "test" | "live" = "test"
   private hooks: StripeHookCallbacks
@@ -66,7 +55,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       endpoints: [
         ...Object.values(this.requests),
         new EndpointMethodStripeHooks({
-          stripePlugin: this,
+          factorStripe: this,
           serverUrl: this.serverUrl,
         }),
       ],
@@ -82,7 +71,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private createQueries() {
-    const deps = { factorUser: this.factorUser, stripePlugin: this }
+    const deps = { factorUser: this.factorUser, factorStripe: this }
     return {
       ManageCustomer: new QueryManageCustomer(deps),
       ListSubscriptions: new QueryListSubscriptions(deps),
@@ -101,10 +90,11 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       Object.entries(this.queries).map(([key, query]) => {
         return [
           key,
-          new this.endpointHandler({
+          new Endpoint({
             key,
             queryHandler: query,
             serverUrl,
+            basePath: "/payments",
           }),
         ]
       }),

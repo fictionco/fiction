@@ -3,9 +3,9 @@ import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
 import { log } from "../logger"
 import { stringify } from "../utils"
+import { runHooks } from "../utils/hook"
 import { UserConfig } from "./types"
-import { runHooks } from "./hook"
-
+import { HookDictionary } from "./hookDictionary"
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {
@@ -53,13 +53,13 @@ export const generateStaticConfig = async (
     },
   }
 
-  const schema = await runHooks(
-    "staticConfig",
-    { staticConfig, staticSchema },
-    config,
-  )
+  const schema = await runHooks<HookDictionary, "staticConfig">({
+    list: config.hooks ?? [],
+    hook: "staticConfig",
+    args: [{ staticConfig, staticSchema }, config],
+  })
 
-  const fullStaticSchema = schema.staticSchema
+  const fullStaticSchema = schema?.staticSchema
 
   fullStaticSchema.required = Object.keys(fullStaticSchema.properties ?? {})
 

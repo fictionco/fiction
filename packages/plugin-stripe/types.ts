@@ -23,7 +23,7 @@ export interface CustomerData {
 }
 
 export interface SubscriptionDetails {
-  stripePlugin: FactorStripe
+  factorStripe: FactorStripe
   subscription: Stripe.Subscription
   invoice?: Stripe.Invoice
   isRetry?: boolean

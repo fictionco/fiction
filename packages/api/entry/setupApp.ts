@@ -6,8 +6,8 @@ import { getRouter, setupRouter } from "../router"
 import { getMeta } from "../utils/meta"
 
 import { initializeResetUi } from "../utils/ui"
-
-import { runHooks } from "../config/hook"
+import { HookDictionary } from "../config/hookDictionary"
+import { runHooks } from "../utils/hook"
 import { createUserConfig } from "../config/entry"
 import EmptyApp from "./EmptyApp.vue"
 
@@ -21,7 +21,11 @@ export const setupApp = async (params: {
     setupRouter(userConfig.routes)
   }
 
-  await runHooks("afterAppSetup", { userConfig, isSSR })
+  await runHooks<HookDictionary, "afterAppSetup">({
+    list: userConfig.hooks,
+    hook: "afterAppSetup",
+    args: [{ userConfig, isSSR }],
+  })
 
   return userConfig
 }

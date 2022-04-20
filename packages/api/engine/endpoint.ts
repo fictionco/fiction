@@ -40,6 +40,10 @@ export type EndpointManageAction =
   | "attach"
   | "transfer"
 
+export type EndpointMap<T extends Record<string, Query>> = {
+  [P in keyof T]: Endpoint<T[P]>
+}
+
 export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string

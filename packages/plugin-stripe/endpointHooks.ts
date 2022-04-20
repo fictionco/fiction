@@ -7,10 +7,10 @@ import { Endpoint } from "@factor/api/engine"
 import type { FactorStripe } from "."
 
 const stripeHookHandler =
-  (stripePlugin: FactorStripe) =>
+  (factorStripe: FactorStripe) =>
   async (request: http.IncomingMessage): Promise<EndpointResponse> => {
     let event: Stripe.Event
-    const stripe = stripePlugin.getServerClient()
+    const stripe = factorStripe.getServerClient()
     try {
       const secret = process.env.STRIPE_WEBHOOK_SECRET
       if (!secret) {
@@ -44,7 +44,7 @@ const stripeHookHandler =
       onInvoicePaymentFailed,
       onCustomerSubscriptionDeleted,
       onSubscriptionTrialWillEnd,
-    } = stripePlugin.setting("hooks") ?? {}
+    } = factorStripe.setting("hooks") ?? {}
 
     // Handle the event
     // Review important events for Billing webhooks
@@ -87,11 +87,11 @@ const stripeHookHandler =
     return { status: "success" }
   }
 export class EndpointMethodStripeHooks extends Endpoint {
-  constructor(settings: { stripePlugin: FactorStripe; serverUrl: string }) {
+  constructor(settings: { factorStripe: FactorStripe; serverUrl: string }) {
     super({
       key: "stripeWebhooks",
       basePath: "/stripe-webhook",
-      requestHandler: stripeHookHandler(settings.stripePlugin),
+      requestHandler: stripeHookHandler(settings.factorStripe),
       serverUrl: settings.serverUrl,
     })
   }

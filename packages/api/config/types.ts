@@ -9,8 +9,8 @@ import type { ServerModuleDef } from "../render/buildPlugins"
 import { DataProcessor } from "../processor"
 import { LogHandler, SiteMapConfig } from "../types/server"
 import { FullUser } from "../plugin-user/types"
-import type { HookType } from "./hookDictionary"
-
+import { HookType } from "../utils/hook"
+import type { HookDictionary } from "./hookDictionary"
 export interface FactorAppEntry {
   app: App
   meta: HeadClient
@@ -64,7 +64,7 @@ export interface UserConfig {
   sitemaps?: SiteMapConfig[]
   log?: LogHandler
   plugins?: (UserConfig | Promise<UserConfig>)[]
-  hooks?: HookType[]
+  hooks?: HookType<HookDictionary>[]
   vite?: Partial<ViteInlineConfig>
   generateStaticConfig?: boolean
   userProcessors?: DataProcessor<
