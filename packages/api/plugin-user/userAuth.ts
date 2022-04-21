@@ -4,7 +4,6 @@ import { dayjs, validateEmail, snakeCase } from "../utils"
 import { createClientToken, decodeClientToken } from "../utils/jwt"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
-import { runProcessors } from "../processor"
 import { runHooks } from "../utils/hook"
 
 import { EndpointMeta } from "../engine/endpoint"
@@ -55,30 +54,6 @@ const comparePassword = async (
   hashedPassword: string,
 ): Promise<boolean> => {
   return await bcrypt.compare(password, hashedPassword)
-}
-
-type ProcessorMeta = { params?: ManageUserParams; meta?: EndpointMeta }
-
-/**
- * Add user data about the current user
- */
-const processUser = async (
-  user: FullUser,
-  meta: ProcessorMeta,
-  factorUser: FactorUser,
-): Promise<FullUser> => {
-  const processors = factorUser.processors ?? []
-
-  if (processors && processors.length > 0) {
-    const result = await runProcessors<FullUser, ProcessorMeta>(
-      processors,
-      user,
-      meta,
-    )
-    return result
-  } else {
-    return user
-  }
 }
 
 /**

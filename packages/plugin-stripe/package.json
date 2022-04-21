@@ -7,7 +7,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "5.2.1",
+    "@factor/api": "workspace:*",
     "@stripe/stripe-js": "^1.27.0",
     "express": "^4.17.3",
     "stripe": "^8.218.0"

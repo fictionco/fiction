@@ -1,4 +1,4 @@
-import { UserConfig, FactorPlugin, EndpointMap, Endpoint } from "@factor/api"
+import { UserConfig, FactorPlugin, EndpointMap } from "@factor/api"
 
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
@@ -43,7 +43,11 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     this.serverUrl = settings.serverUrl
     this.factorUser = settings.factorUser
     this.queries = this.createQueries()
-    this.requests = this.createRequests(settings.serverUrl)
+
+    this.requests = this.createRequests({
+      queries: this.queries,
+      serverUrl: settings.serverUrl,
+    })
     this.stripeMode = settings.stripeMode
     this.hooks = settings.hooks
     this.products = settings.products
@@ -69,8 +73,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private createQueries() {
+  protected createQueries() {
     const deps = { factorUser: this.factorUser, factorStripe: this }
     return {
       ManageCustomer: new QueryManageCustomer(deps),
@@ -83,24 +86,6 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       GetProduct: new QueryGetProduct(deps),
       GetCoupon: new QueryGetCoupon(deps),
     } as const
-  }
-
-  private createRequests(serverUrl: string): EndpointMap<typeof this.queries> {
-    const requests = Object.fromEntries(
-      Object.entries(this.queries).map(([key, query]) => {
-        return [
-          key,
-          new Endpoint({
-            key,
-            queryHandler: query,
-            serverUrl,
-            basePath: "/payments",
-          }),
-        ]
-      }),
-    ) as EndpointMap<typeof this.queries>
-
-    return requests
   }
 
   getServerClient(): Stripe {

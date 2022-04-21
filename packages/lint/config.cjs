@@ -127,8 +127,10 @@ module.exports = defineConfig({
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/prefer-namespace-keyword": "off",
     "@typescript-eslint/no-namespace": 0,
+    "explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/explicit-function-return-type": [
-      "warn",
+      "off",
       {
         allowHigherOrderFunctions: true,
         allowTypedFunctionExpressions: true,
@@ -153,8 +155,6 @@ module.exports = defineConfig({
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "tailwindcss/no-custom-classname": "off",
-
-    "@typescript-eslint/explicit-module-boundary-types": "warn",
     "@typescript-eslint/no-unsafe-return": "warn",
     "@typescript-eslint/no-unsafe-argument": "warn",
   },

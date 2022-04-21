@@ -61,10 +61,12 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   const env = getEnvVars({ serverVars, isTest: true })
 
   const serverUrl = `http://localhost:${process.env.FACTOR_SERVER_PORT}`
+  const appUrl = `http://localhost:${process.env.FACTOR_APP_PORT}`
 
   const factorEmail = new FactorEmail({
     appEmail: "arpowers@gmail.com",
     appName: "TestApp",
+    appUrl,
     isTest: true,
   })
 

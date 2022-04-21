@@ -3,12 +3,10 @@ import { App, Component } from "vue"
 import { Router } from "vue-router"
 import { InlineConfig as ViteInlineConfig } from "vite"
 import type { AppRoute } from "../router"
-import type { ManageUserParams } from "../plugin-user"
-import type { Endpoint, EndpointMeta } from "../engine/endpoint"
+import type { Endpoint } from "../engine/endpoint"
 import type { ServerModuleDef } from "../render/buildPlugins"
-import { DataProcessor } from "../processor"
+
 import { LogHandler, SiteMapConfig } from "../types/server"
-import { FullUser } from "../plugin-user/types"
 import { HookType } from "../utils/hook"
 import type { HookDictionary } from "./hookDictionary"
 export interface FactorAppEntry {
@@ -67,8 +65,4 @@ export interface UserConfig {
   hooks?: HookType<HookDictionary>[]
   vite?: Partial<ViteInlineConfig>
   generateStaticConfig?: boolean
-  userProcessors?: DataProcessor<
-    FullUser,
-    { meta?: EndpointMeta; params?: ManageUserParams }
-  >[]
 }
