@@ -7,6 +7,7 @@
     "moduleResolution": "node",
     "allowJs": true,
     "strict": true,
+    "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,

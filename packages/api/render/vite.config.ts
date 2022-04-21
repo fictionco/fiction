@@ -181,6 +181,7 @@ export const getViteConfig = async (
   const basicConfig: vite.InlineConfig = {
     root,
     publicDir,
+
     server: {
       port: portApp ? Number.parseInt(portApp) : 3000,
       fs: { strict: false },
@@ -199,6 +200,7 @@ export const getViteConfig = async (
     },
     resolve: {
       alias: {
+        "~/": `${root}/`,
         "@src": root,
         "@cwd": cwd(),
         "@entry": entryDir,
