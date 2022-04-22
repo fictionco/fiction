@@ -1,3 +1,12 @@
+## [5.2.2](https://github.com/FactorJS/factor/compare/v5.2.1...v5.2.2) (2022-04-22)
+
+
+### Features
+
+* extension improvements ([0e3ef89](https://github.com/FactorJS/factor/commit/0e3ef8941bc24fd8d8cc04e18784c250f700e569))
+
+
+
 ## [5.2.1](https://github.com/FactorJS/factor/compare/v5.2.0...v5.2.1) (2022-04-19)
 
 
