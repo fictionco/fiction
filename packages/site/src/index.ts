@@ -20,19 +20,19 @@ const appMeta = {
   appUrl: "https://www.factorjs.org",
 }
 
-const serverUrl = env.FACTOR_SERVER_URL
+const serverUrl = env.serverUrl
 
 const factorDb = new FactorDb({
-  connectionUrl: env.POSTGRES_URL,
+  connectionUrl: env.postgresUrl,
   isTest: isTest(),
 })
 export const factorEmail = new FactorEmail({
   appName: appMeta.appName,
   appEmail: appMeta.appEmail,
   appUrl: appMeta.appUrl,
-  smtpHost: env.SMTP_HOST,
-  smtpPassword: env.SMTP_PASSWORD,
-  smtpUsername: env.SMTP_USER,
+  smtpHost: env.smtpHost,
+  smtpPassword: env.smtpPassword,
+  smtpUser: env.smtpUser,
   isTest: isTest(),
 })
 
@@ -41,14 +41,14 @@ export const factorUser = new FactorUser({
   factorEmail,
   googleClientId:
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
-  googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+  googleClientSecret: env.googleClientSecret,
   serverUrl,
 })
 
 export const factorStripe = new FactorStripe({
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
-  secretKeyTest: env.STRIPE_SECRET_KEY_TEST,
+  secretKeyTest: env.stripeSecretKeyTest,
   stripeMode: "test",
   hooks: [],
   products: [],

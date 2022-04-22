@@ -40,7 +40,7 @@ export type Configurations = {
 
 export type RunConfig = CliOptions & StandardPaths & Configurations
 
-interface StandardPaths {
+export interface StandardPaths {
   cwd: string
   dist: string
   distServer: string
@@ -50,7 +50,8 @@ interface StandardPaths {
   sourceDir: string
   publicDir: string
   mainFilePath: string
-  entryDir: string
+  rootComponentPath: string
+  mountFilePath: string
 }
 
 // type WhichModule = {
@@ -99,19 +100,20 @@ export const sourceFolder = (cwd: string): string => {
   return path.dirname(getMainFilePath(cwd))
 }
 
-export const getStandardPaths = (options: { cwd: string }): StandardPaths => {
-  const { cwd } = options
+export const getStandardPaths = ({ cwd }: { cwd: string }): StandardPaths => {
   const dist = path.join(cwd, "dist")
   const distServer = path.join(dist, "server")
   const distClient = path.join(dist, "client")
   const distStatic = path.join(dist, "static")
   const distServerEntry = path.join(distServer, "mount")
   const mainFilePath = path.resolve(cwd, packageMainFile(cwd))
+
   const sourceDir = path.dirname(mainFilePath)
+  const rootComponentPath = path.join(sourceDir, "App.vue")
   const publicDir = path.join(sourceDir, "public")
-  const entryDir = path.join(
+  const mountFilePath = path.join(
     path.dirname(require.resolve("@factor/api")),
-    "/entry",
+    "/entry/mount.ts",
   )
 
   return {
@@ -123,8 +125,23 @@ export const getStandardPaths = (options: { cwd: string }): StandardPaths => {
     distServerEntry,
     sourceDir,
     publicDir,
-    entryDir,
+    mountFilePath,
     mainFilePath,
+    rootComponentPath,
+  }
+}
+
+export const getStaticPathAliases = ({
+  cwd,
+}: {
+  cwd: string
+}): Record<string, string> => {
+  const paths = getStandardPaths({ cwd })
+  return {
+    "~/": `${paths.sourceDir}/`,
+    "@MAIN_FILE_ALIAS": paths.mainFilePath,
+    "@ROOT_COMPONENT_ALIAS": paths.rootComponentPath,
+    "@MOUNT_FILE_ALIAS": paths.mountFilePath,
   }
 }
 

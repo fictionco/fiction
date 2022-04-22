@@ -4,7 +4,7 @@ import type { UserConfig } from "./types"
 export type HookDictionary = {
   afterServerSetup: { args: [] }
   afterServerCreated: { args: [] }
-  afterAppSetup: { args: [{ userConfig: UserConfig; isSSR?: boolean }] }
+  afterAppSetup: { args: [{ userConfig: UserConfig }] }
   staticConfig: {
     args: [
       { staticConfig: Record<string, any>; staticSchema: JSONSchema },

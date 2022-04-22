@@ -1,4 +1,4 @@
-import { importIfExists, getMainFilePath } from "../engine/nodeUtils"
+import { getMainFilePath } from "../engine/nodeUtils"
 import { deepMergeAll } from "../utils"
 import { omit, log } from ".."
 
@@ -69,24 +69,14 @@ export const handleCrossEnv = (
   appUrl: string
   mode: "development" | "production"
 } => {
-  const {
-    FACTOR_SERVER_PORT,
-    FACTOR_APP_PORT,
-    FACTOR_SERVER_URL,
-    FACTOR_APP_URL,
-    PORT,
-    PORT_APP,
-    NODE_ENV,
-  } = process.env
-
   const vars: Record<string, string | undefined> = {
-    FACTOR_SERVER_PORT,
-    FACTOR_APP_PORT,
-    FACTOR_SERVER_URL,
-    FACTOR_APP_URL,
-    PORT,
-    PORT_APP,
-    NODE_ENV,
+    FACTOR_SERVER_PORT: process.env.FACTOR_SERVER_PORT,
+    FACTOR_APP_PORT: process.env.FACTOR_APP_PORT,
+    FACTOR_SERVER_URL: process.env.FACTOR_SERVER_URL,
+    FACTOR_APP_URL: process.env.FACTOR_APP_URL,
+    PORT: process.env.PORT,
+    PORT_APP: process.env.PORT_APP,
+    NODE_ENV: process.env.NODE_ENV,
   }
 
   // check for stringified 'undefined'
@@ -112,10 +102,12 @@ export const handleCrossEnv = (
 
   const mode = userConfig?.mode || vars.NODE_ENV || "production"
 
-  process.env.FACTOR_SERVER_PORT = port
-  process.env.FACTOR_SERVER_URL = serverUrl
-  process.env.FACTOR_APP_PORT = portApp
-  process.env.FACTOR_APP_URL = appUrl
+  if (typeof process != "undefined") {
+    process.env.FACTOR_SERVER_PORT = port
+    process.env.FACTOR_SERVER_URL = serverUrl
+    process.env.FACTOR_APP_PORT = portApp
+    process.env.FACTOR_APP_URL = appUrl
+  }
 
   return {
     ...userConfig,
@@ -128,17 +120,35 @@ export const handleCrossEnv = (
 }
 
 export const createUserConfig = async (params: {
-  mainFile: MainFile
+  mainFilePath?: string
   isApp: boolean
   userConfig?: UserConfig
 }): Promise<UserConfig> => {
-  const { mainFile, isApp } = params
   let { userConfig } = params
 
   userConfig = handleCrossEnv(userConfig)
 
-  // get universal setup
-  const entryConfig = mainFile?.setup ? await mainFile.setup(userConfig) : {}
+  const { mainFilePath, isApp } = params
+
+  let mainFile: MainFile | undefined = undefined
+
+  /**
+   * In the app, use aliased path so rollup/vite can analyze it
+   * If not app, a dynamic path is fine, but tell vite to ignore or it will print a warning
+   */
+  if (isApp) {
+    // @ts-ignore
+    // eslint-disable-next-line import/no-unresolved
+    mainFile = (await import("@MAIN_FILE_ALIAS")) as MainFile
+  } else if (mainFilePath) {
+    mainFile = (await import(/* @vite-ignore */ mainFilePath)) as MainFile
+  }
+
+  let entryConfig: UserConfig = {}
+  if (mainFile) {
+    // get universal setup
+    entryConfig = mainFile?.setup ? await mainFile.setup(userConfig) : {}
+  }
 
   const merge = [userConfig, entryConfig]
 
@@ -174,22 +184,13 @@ export const createUserConfig = async (params: {
   return userConfig
 }
 
-export const getServerMainFile = async (
-  params: WhichModule,
-): Promise<MainFile> => {
-  const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
-  const mod = await importIfExists<MainFile>(mainFilePath)
-
-  return mod ?? {}
-}
-
 export const getServerUserConfig = async (
   params: WhichModule & { userConfig?: UserConfig },
 ): Promise<UserConfig> => {
-  const mainFile = await getServerMainFile(params)
+  const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
   const userConfig = await createUserConfig({
-    mainFile,
+    mainFilePath,
     isApp: false,
     userConfig: params.userConfig,
   })

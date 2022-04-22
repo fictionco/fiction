@@ -1,26 +1,11 @@
 import "tailwindcss/tailwind.css"
-
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import * as mainFile from "@src/index.ts"
-// eslint-disable-next-line import/no-unresolved, import/extensions, implicit-dependencies/no-implicit
-import RootComponent from "@src/App.vue"
-import { FactorAppEntry, MainFile } from "../config/types"
-
+import { FactorAppEntry } from "../config/types"
 import { mountApp, factorApp } from "./setupApp"
 
 export const runApp = (
-  params: { renderUrl?: string; isSSR?: boolean } = {},
+  params: { renderUrl?: string } = {},
 ): Promise<FactorAppEntry> => {
-  return factorApp({
-    ...params,
-    RootComponent,
-    mainFile: mainFile as MainFile,
-  })
+  return factorApp(params)
 }
 
-mountApp({
-  mainFile: mainFile as MainFile,
-  id: "#app",
-  RootComponent,
-}).catch(console.error)
+mountApp({ id: "#app" }).catch(console.error)

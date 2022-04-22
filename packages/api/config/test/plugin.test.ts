@@ -33,7 +33,31 @@ describe("plugin and config tests", () => {
     expect(userConfigSetting("port")).toBe(process.env.PORT)
 
     expect(userConfig.endpoints?.map((_) => _.key).sort())
-      .toMatchInlineSnapshot('undefined')
+      .toMatchInlineSnapshot(`
+        [
+          "AllProducts",
+          "CurrentUser",
+          "GetCoupon",
+          "GetCustomerData",
+          "GetInvoices",
+          "GetProduct",
+          "ListSubscriptions",
+          "Login",
+          "ManageCustomer",
+          "ManagePaymentMethod",
+          "ManageSubscription",
+          "ManageUser",
+          "NewVerificationCode",
+          "ResetPassword",
+          "SendOneTimeCode",
+          "SetPassword",
+          "StartNewUser",
+          "UpdateCurrentUser",
+          "UserGoogleAuth",
+          "VerifyAccountEmail",
+          "stripeWebhooks",
+        ]
+      `)
 
     expect(userConfig.routes?.map((r) => r.path).sort()).toMatchInlineSnapshot(`
       [
@@ -52,6 +76,15 @@ describe("plugin and config tests", () => {
       ]
     `)
 
-    expect(userConfig.paths?.sort()).toMatchInlineSnapshot('undefined')
+    expect(userConfig.paths?.sort()).toMatchInlineSnapshot(`
+      [
+        "/Users/arpowers/Projects/factor/packages/plugin-blog-engine/",
+        "/Users/arpowers/Projects/factor/packages/plugin-docs-engine/",
+        "/Users/arpowers/Projects/factor/packages/plugin-highlight-code/",
+        "/Users/arpowers/Projects/factor/packages/plugin-notify/",
+        "/Users/arpowers/Projects/factor/packages/plugin-stripe/",
+        "/Users/arpowers/Projects/factor/packages/ui/",
+      ]
+    `)
   })
 })

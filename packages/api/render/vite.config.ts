@@ -3,12 +3,12 @@ import { createRequire } from "module"
 import pluginVue from "@vitejs/plugin-vue"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
-import { importIfExists, requireIfExists, cwd } from "../engine/nodeUtils"
+import { importIfExists, requireIfExists } from "../engine/nodeUtils"
 
 import { deepMergeAll, getMarkdownUtility } from ".."
 import { logger } from "../logger"
 import { UserConfig } from "../config/types"
-import { RunConfig } from "../cli/utils"
+import { getStaticPathAliases, RunConfig } from "../cli/utils"
 import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
 
 const require = createRequire(import.meta.url)
@@ -126,7 +126,6 @@ export const getViteConfig = async (
   options: RunConfig & {
     sourceDir: string
     publicDir: string
-    entryDir: string
   },
 ): Promise<vite.InlineConfig> => {
   const {
@@ -134,21 +133,26 @@ export const getViteConfig = async (
     userConfig = {},
     sourceDir,
     publicDir,
-    entryDir,
     portApp,
     mode,
+    mainFilePath,
+    rootComponentPath,
   } = options
 
   if (!sourceDir) throw new Error("sourceDir is required")
   if (!publicDir) throw new Error("publicDir is required")
-  if (!entryDir) throw new Error("entryDir is required")
 
   const { variables, serverUrl, appUrl } = userConfig
   const vars = {
     ...variables,
     FACTOR_SERVER_URL: serverUrl,
     FACTOR_APP_URL: appUrl,
+    IS_VITE: "true",
+    MAIN_FILE: mainFilePath,
+    ROOT_COMPONENT: rootComponentPath,
   }
+
+  const staticBuildAliases = getStaticPathAliases({ cwd: options.cwd })
 
   const define = Object.fromEntries(
     Object.entries(vars).map(([key, value]) => {
@@ -180,6 +184,7 @@ export const getViteConfig = async (
   const optimizeDepsConfig = optimizeDeps(userConfig)
 
   const basicConfig: vite.InlineConfig = {
+    define,
     root,
     publicDir,
 
@@ -201,16 +206,11 @@ export const getViteConfig = async (
     },
     resolve: {
       alias: {
-        "~/": `${root}/`,
-        "@src": root,
-        "@cwd": cwd(),
-        "@entry": entryDir,
+        ...staticBuildAliases,
         // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
         path: "path-browserify",
       },
     },
-
-    define: { ...define, "process.env.IS_VITE": JSON.stringify("yes") },
 
     plugins: [
       pluginVue(),

@@ -3,7 +3,6 @@ import { beforeAll } from "vitest"
 
 import dotenv from "dotenv"
 import { randomBetween } from "../utils"
-import { handleCrossEnv } from "../config"
 
 process.env.TEST_ENV = "unit"
 
@@ -27,5 +26,4 @@ beforeAll(async () => {
   process.env.FACTOR_TOKEN_SECRET = "test"
   process.env.FACTOR_APP_NAME = "FactorJS"
   process.env.FACTOR_APP_EMAIL = "hi@factorjs.org"
-  handleCrossEnv()
 })

@@ -14,13 +14,13 @@ type FactorEmailSettings = {
   | {
       isTest: true
       smtpHost?: string
-      smtpUsername?: string
+      smtpUser?: string
       smtpPassword?: string
     }
   | {
       isTest?: false
       smtpHost: string
-      smtpUsername: string
+      smtpUser: string
       smtpPassword: string
     }
 )
@@ -29,7 +29,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly types = types
   readonly client?: Transporter
   smtpHost?: string
-  smtpUsername?: string
+  smtpUser?: string
   smtpPassword?: string
   smtpPort: number
   readonly appName: string
@@ -43,7 +43,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
 
     this.smtpHost = settings.smtpHost
     this.smtpPassword = settings.smtpPassword
-    this.smtpUsername = settings.smtpUsername
+    this.smtpUser = settings.smtpUser
 
     this.smtpPort = settings.smtpPort || 587
     this.appEmail = settings.appEmail
@@ -57,7 +57,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       port: this.smtpPort,
       secure: false, // true for 587, false for other ports
       auth: {
-        user: this.smtpUsername,
+        user: this.smtpUser,
         pass: this.smtpPassword,
       },
     }
@@ -65,7 +65,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     const valid = this.validateRequiredFields({
       plugin: this,
       fields: ["appEmail", "appName", "appUrl"],
-      fieldsLive: ["smtpPassword", "smtpUsername", "smtpHost"],
+      fieldsLive: ["smtpPassword", "smtpUser", "smtpHost"],
     })
 
     if (valid && !this.isTest) {
@@ -115,7 +115,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     }
 
     if (linkText && linkUrl) {
-      lines.push(`<p><a href="${linkUrl}"  >${linkText}</a></p>`)
+      lines.push(`<p><a href="${linkUrl}">${linkText}</a></p>`)
     }
 
     if (textFooter) lines.push(`<p>—\n${textFooter}</p>`)

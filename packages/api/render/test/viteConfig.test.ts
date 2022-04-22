@@ -3,15 +3,18 @@ import * as vite from "vite"
 import { createServer } from "@factor/api/entry/serverEntry"
 import { getUserConfig, userConfigSetting } from "@factor/api/config/plugins"
 import { getServerUserConfig } from "@factor/api/config/entry"
-import { getStandardPaths } from "@factor/api/cli/utils"
+import { getStandardPaths, StandardPaths } from "@factor/api/cli/utils"
 import { UserConfig } from "@factor/api/config"
 import { getTestCwd } from "@factor/api/test-utils"
 import { getViteConfig } from "../vite.config"
+
 let userConfig: UserConfig | undefined = undefined
 let viteConfig: vite.InlineConfig | undefined = undefined
-const standardPaths = getStandardPaths({ cwd: getTestCwd() })
+let standardPaths: StandardPaths | undefined = undefined
+
 describe("vite config", () => {
   beforeAll(async () => {
+    standardPaths = getStandardPaths({ cwd: getTestCwd() })
     userConfig = await getServerUserConfig({
       mainFilePath: standardPaths.mainFilePath,
       userConfig: { port: "9191" },
@@ -19,6 +22,7 @@ describe("vite config", () => {
     await createServer({ userConfig })
   })
   it("gets and merges vite config", async () => {
+    if (!standardPaths) throw new Error("standardPaths is required")
     const userConfigStored = getUserConfig()
 
     viteConfig = await getViteConfig({ ...standardPaths, userConfig })
@@ -53,9 +57,10 @@ describe("vite config", () => {
         "distServer": "/Users/arpowers/Projects/factor/packages/site/dist/server",
         "distServerEntry": "/Users/arpowers/Projects/factor/packages/site/dist/server/mount",
         "distStatic": "/Users/arpowers/Projects/factor/packages/site/dist/static",
-        "entryDir": "/Users/arpowers/Projects/factor/packages/api/entry",
         "mainFilePath": "/Users/arpowers/Projects/factor/packages/site/src/index.ts",
+        "mountFilePath": "/Users/arpowers/Projects/factor/packages/api/entry/mount.ts",
         "publicDir": "/Users/arpowers/Projects/factor/packages/site/src/public",
+        "rootComponentPath": "/Users/arpowers/Projects/factor/packages/site/src/App.vue",
         "sourceDir": "/Users/arpowers/Projects/factor/packages/site/src",
       }
     `)
@@ -110,24 +115,27 @@ describe("vite config", () => {
 
     expect(viteConfig).toBeTruthy()
     expect(viteConfig.optimizeDeps?.exclude).toContain("@stripe/stripe-js")
+
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
         "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
-        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:7781\\"",
-        "process.env.IS_VITE": "\\"yes\\"",
+        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
+        "process.env.IS_VITE": "\\"true\\"",
+        "process.env.MAIN_FILE": "\\"/Users/arpowers/Projects/factor/packages/site/src/index.ts\\"",
+        "process.env.ROOT_COMPONENT": "\\"/Users/arpowers/Projects/factor/packages/site/src/App.vue\\"",
         "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
         "process.env.TEST_SERVER": "\\"TEST\\"",
       }
     `)
     expect(Object.keys(viteConfig)).toMatchInlineSnapshot(`
       [
+        "define",
         "root",
         "publicDir",
         "server",
         "css",
         "build",
         "resolve",
-        "define",
         "plugins",
         "optimizeDeps",
       ]

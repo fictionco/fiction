@@ -1,5 +1,5 @@
 import { expect, it, describe, vi, beforeAll } from "vitest"
-
+import { handleCrossEnv } from "@factor/api/config"
 import { createServer } from "@factor/api/entry/serverEntry"
 import { decodeClientToken } from "@factor/api/utils/jwt"
 import { getServerUserConfig } from "@factor/api/config/entry"
@@ -15,6 +15,7 @@ let testUtils: TestUtils | undefined = undefined
 let factorEmail: FactorEmail | undefined = undefined
 describe("user tests", () => {
   beforeAll(async () => {
+    handleCrossEnv()
     const mainFile = await import("@factor/site")
     let userConfig = mainFile.setup()
     factorEmail = mainFile.factorEmail

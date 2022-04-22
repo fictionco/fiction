@@ -24,7 +24,12 @@ export const isProd = () => !isDev()
  * Gets environmental variables
  * and logs warnings/errors if they are not set
  */
-type VarConfig = { v: string; live?: boolean; app?: boolean }
+type VarConfig = {
+  v: string
+  val: string | undefined
+  live?: boolean
+  app?: boolean
+}
 export const getEnvVars = <T extends readonly VarConfig[]>(params: {
   vars?: T
   isApp: boolean
@@ -44,9 +49,9 @@ export const getEnvVars = <T extends readonly VarConfig[]>(params: {
     }
   }
 
-  vars.forEach(({ v }) => {
-    if (process.env[v]) {
-      env[v] = process.env[v] as string
+  vars.forEach(({ v, val }) => {
+    if (val) {
+      env[v] = val
     } else if (checkVars.some((check) => check.v == v)) {
       log.warn(
         "getEnv",

@@ -1,5 +1,5 @@
 import { App as VueApp, createSSRApp, createApp, Component } from "vue"
-import { FactorAppEntry, MainFile, UserConfig } from "../config/types"
+import { FactorAppEntry, UserConfig } from "../config/types"
 
 import { isNode } from "../utils"
 import { getRouter, setupRouter } from "../utils/router"
@@ -9,13 +9,11 @@ import { initializeResetUi } from "../utils/ui"
 import { HookDictionary } from "../config/hookDictionary"
 import { runHooks } from "../utils/hook"
 import { createUserConfig } from "../config/entry"
-import EmptyApp from "./EmptyApp.vue"
 
 export const setupApp = async (params: {
   userConfig: UserConfig
-  isSSR?: boolean
 }): Promise<UserConfig> => {
-  const { isSSR, userConfig } = params
+  const { userConfig } = params
 
   if (userConfig.routes) {
     setupRouter(userConfig.routes)
@@ -24,36 +22,33 @@ export const setupApp = async (params: {
   await runHooks<HookDictionary, "afterAppSetup">({
     list: userConfig.hooks,
     hook: "afterAppSetup",
-    args: [{ userConfig, isSSR }],
+    args: [{ userConfig }],
   })
 
   return userConfig
 }
 
-export const setupAppFromMainFile = async (params: {
-  mainFile?: MainFile
-  isSSR?: boolean
-}): Promise<UserConfig> => {
-  const { mainFile = {}, isSSR } = params
+export const setupAppFromMainFile = async (): Promise<UserConfig> => {
+  const userConfig = await createUserConfig({ isApp: true })
 
-  const userConfig = await createUserConfig({ mainFile, isApp: true })
-
-  return await setupApp({ userConfig, isSSR })
+  return await setupApp({ userConfig })
 }
 
 /**
  * Create the main Vue app
  */
 export const factorApp = async (
-  context: {
-    renderUrl?: string
-    mainFile?: MainFile
-    RootComponent?: Component
-    isSSR?: boolean
-  } = {},
+  context: { renderUrl?: string } = {},
 ): Promise<FactorAppEntry> => {
-  const { renderUrl, mainFile, RootComponent = EmptyApp, isSSR } = context
-  await setupAppFromMainFile({ mainFile, isSSR })
+  const { renderUrl } = context
+  await setupAppFromMainFile()
+
+  // @ts-ignore
+  // eslint-disable-next-line import/no-unresolved
+  const imported = (await import("@ROOT_COMPONENT_ALIAS")) as {
+    default: Component
+  }
+  const RootComponent = imported.default
 
   const app: VueApp = renderUrl
     ? createSSRApp(RootComponent)
@@ -78,19 +73,12 @@ export const factorApp = async (
 
 export const mountApp = async (params: {
   id: string
-  mainFile: MainFile
-  RootComponent?: Component
   renderUrl?: string
 }): Promise<void> => {
-  const {
-    id = "#app",
-    mainFile = {},
-    RootComponent = EmptyApp,
-    renderUrl,
-  } = params
+  const { id = "#app", renderUrl } = params
 
   if (!isNode()) {
-    const entry = await factorApp({ mainFile, RootComponent, renderUrl })
+    const entry = await factorApp({ renderUrl })
 
     initializeResetUi().catch(console.error)
 

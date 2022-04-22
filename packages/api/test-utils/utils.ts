@@ -7,15 +7,9 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { getEnvVars, deepMergeAll } from "../utils"
 import { randomBetween, setCurrentUser, log } from ".."
-import {
-  getServerUserConfig,
-  handleCrossEnv,
-  MainFile,
-  UserConfig,
-} from "../config"
+import { getServerUserConfig, handleCrossEnv, UserConfig } from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
-import { setupAppFromMainFile } from "../entry/setupApp"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 
@@ -60,9 +54,9 @@ export type TestUtils = {
 
 export const createTestUtils = async (): Promise<TestUtils> => {
   const vars = [
-    { v: "POSTGRES_URL" },
-    { v: "GOOGLE_CLIENT_ID" },
-    { v: "GOOGLE_CLIENT_SECRET" },
+    { v: "postgresUrl", val: process.env.POSTGRES_URL },
+    { v: "googleClientId", val: process.env.GOOGLE_CLIENT_ID },
+    { v: "googleClientSecret", val: process.env.GOOGLE_CLIENT_SECRET },
   ] as const
 
   const env = getEnvVars({
@@ -81,13 +75,13 @@ export const createTestUtils = async (): Promise<TestUtils> => {
     isTest: true,
   })
 
-  const factorDb = new FactorDb({ connectionUrl: process.env.POSTGRES_URL })
+  const factorDb = new FactorDb({ connectionUrl: env.postgresUrl })
 
   const factorUser = new FactorUser({
     factorDb,
     factorEmail,
-    googleClientId: env.GOOGLE_CLIENT_ID,
-    googleClientSecret: env.GOOGLE_CLIENT_SECRET,
+    googleClientId: env.googleClientId,
+    googleClientSecret: env.googleClientSecret,
     serverUrl,
   })
 
@@ -111,11 +105,9 @@ export const createTestUtils = async (): Promise<TestUtils> => {
 }
 
 export const setTestCurrentUser = async (params: {
-  mainFile: MainFile
   factorUser: FactorUser
 }): Promise<TestUtils> => {
-  const { mainFile, factorUser } = params
-  await setupAppFromMainFile({ mainFile })
+  const { factorUser } = params
 
   const testUtils = await createTestUtils()
 

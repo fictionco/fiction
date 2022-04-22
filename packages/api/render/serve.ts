@@ -78,9 +78,10 @@ export const getIndexHtml = async (params: RunConfig): Promise<string> => {
 
   const rawTemplate = fs.readFileSync(srcHtml, "utf8")
 
+  // alias is need for vite/rollup to handle correctly
   const clientTemplatePath =
     mode == "production"
-      ? `@entry/mount.ts`
+      ? `@MOUNT_FILE_ALIAS`
       : `/@fs${require.resolve("@factor/api/entry/mount.ts")}`
 
   let template = rawTemplate.replace(
@@ -174,7 +175,6 @@ export const renderParts = async (
 
     const factorAppEntry = await runApp({
       renderUrl: pathname,
-      isSSR: true,
     })
 
     const { app, meta } = factorAppEntry
