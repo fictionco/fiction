@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@factor/api": "workspace:*",
-    "@stripe/stripe-js": "^1.27.0",
+    "@stripe/stripe-js": "^1.28.0",
     "express": "^4.17.3",
     "stripe": "^8.218.0"
   },

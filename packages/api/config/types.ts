@@ -41,6 +41,25 @@ export interface UserConfig {
     | undefined
     | void
     | Promise<UserConfig | undefined | void>
+
+  cwd?: string
+  root?: string
+  port?: string
+  portApp?: string
+  serverUrl?: string
+  log?: LogHandler
+  // extend
+  paths?: string[]
+  endpoints?: Endpoint[]
+  routes?: AppRoute<string>[]
+  sitemaps?: SiteMapConfig[]
+  plugins?: (UserConfig | Promise<UserConfig>)[]
+  hooks?: HookType<HookDictionary>[]
+  service?: { key: string; run: () => Promise<void> | void }[]
+  // build
+  vite?: Partial<ViteInlineConfig>
+  serverOnlyImports?: ServerModuleDef[]
+  generateStaticConfig?: boolean
   variables?: Record<
     string,
     | string
@@ -49,20 +68,4 @@ export interface UserConfig {
     | string[]
     | Record<string, string>[]
   >
-  cwd?: string
-  root?: string
-  paths?: string[]
-  endpoints?: Endpoint[]
-  port?: string
-  portApp?: string
-  serverUrl?: string
-
-  serverOnlyImports?: ServerModuleDef[]
-  routes?: AppRoute<string>[]
-  sitemaps?: SiteMapConfig[]
-  log?: LogHandler
-  plugins?: (UserConfig | Promise<UserConfig>)[]
-  hooks?: HookType<HookDictionary>[]
-  vite?: Partial<ViteInlineConfig>
-  generateStaticConfig?: boolean
 }

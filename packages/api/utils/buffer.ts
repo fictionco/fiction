@@ -11,14 +11,14 @@ type BufferConfig<T = Record<string, any>> = {
 }
 
 export class WriteBuffer<T> extends EventEmitter {
-  name: string
-  items: T[]
-  maxSeconds: number
-  limit: number
-  limitType: "item" | "size" | "time"
-  flush: (items: T[]) => void | Promise<void>
-  intervalId?: NodeJS.Timeout
-  key: string
+  readonly name: string
+  readonly key: string
+  private items: T[]
+  private maxSeconds: number
+  private limit: number
+  private limitType: "item" | "size" | "time"
+  private flushCallback?: (items: T[]) => void | Promise<void>
+  private intervalId?: NodeJS.Timeout
 
   constructor(config: BufferConfig<T>) {
     super()
@@ -32,13 +32,13 @@ export class WriteBuffer<T> extends EventEmitter {
       key,
     } = config
 
+    this.key = key ?? "_id"
     this.name = name
     this.items = []
     this.limit = limit ?? 5000
     this.limitType = limitType ?? "item"
     this.maxSeconds = maxSeconds ?? 2
-    this.flush = flush ?? this.onFlush
-    this.key = key ?? "_id"
+    this.flushCallback = flush
 
     // Flush on process shutdown
     onEvent("shutdown", () => this.flushBuffer())
@@ -46,7 +46,7 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Default flush
    */
-  protected onFlush(this: void, _items: T[]): void {}
+  protected flush(_items: T[]): void {}
   /**
    * Remove items in buffer without a flush callback
    */
@@ -62,10 +62,14 @@ export class WriteBuffer<T> extends EventEmitter {
 
     this.stopTimeout()
     // use resolve to ensure is a promise
-    Promise.resolve(this.flush(this.items)).catch((error) => {
-      console.error(error)
-    })
+    Promise.resolve(this.flush(this.items)).catch(console.error)
+
+    if (this.flushCallback) {
+      Promise.resolve(this.flushCallback(this.items)).catch(console.error)
+    }
+
     this.emit("flush", this.items)
+
     this.items = []
   }
 

@@ -66,7 +66,7 @@ export const setUserGeolocation = async (): Promise<UserGeolocation | void> => {
    */
   if (stored("geo")) {
     return stored("geo")
-  } else if (isNode) {
+  } else if (isNode()) {
     return
   }
 

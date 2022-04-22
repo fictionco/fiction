@@ -53,12 +53,17 @@ export type TestUtils = {
 }
 
 export const createTestUtils = async (): Promise<TestUtils> => {
-  const serverVars = [
-    "POSTGRES_URL",
-    "GOOGLE_CLIENT_ID",
-    "GOOGLE_CLIENT_SECRET",
+  const vars = [
+    { v: "POSTGRES_URL" },
+    { v: "GOOGLE_CLIENT_ID" },
+    { v: "GOOGLE_CLIENT_SECRET" },
   ] as const
-  const env = getEnvVars({ serverVars, isTest: true })
+
+  const env = getEnvVars({
+    vars,
+    isLive: false,
+    isApp: true,
+  })
 
   const serverUrl = `http://localhost:${process.env.FACTOR_SERVER_PORT}`
   const appUrl = `http://localhost:${process.env.FACTOR_APP_PORT}`

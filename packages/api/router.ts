@@ -87,7 +87,7 @@ export class AppRoute<T extends string> {
  * Creates a vue router
  */
 export const createFactorRouter = (): Router => {
-  const history = !isNode ? createWebHistory() : createMemoryHistory()
+  const history = !isNode() ? createWebHistory() : createMemoryHistory()
 
   const router = createRouter({
     history,

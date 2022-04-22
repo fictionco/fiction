@@ -1,4 +1,4 @@
-import { UserConfig, FactorPlugin, EndpointMap } from "@factor/api"
+import { UserConfig, FactorPlugin, EndpointMap, HookType } from "@factor/api"
 
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
@@ -15,7 +15,7 @@ import {
   QueryPaymentMethod,
 } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
-import { StripeProductConfig, StripeHookCallbacks } from "./types"
+import { StripeProductConfig, HookDictionary } from "./types"
 
 type StripePluginSettings = {
   factorUser: FactorUser
@@ -24,7 +24,7 @@ type StripePluginSettings = {
   publicKeyTest?: string
   secretKeyLive?: string
   secretKeyTest?: string
-  hooks: StripeHookCallbacks
+  hooks: HookType<HookDictionary>[]
   products: StripeProductConfig[]
   serverUrl: string
 }
@@ -35,7 +35,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   public requests: EndpointMap<typeof this.queries>
   public client?: StripeJS.Stripe
   private stripeMode: "test" | "live" = "test"
-  private hooks: StripeHookCallbacks
+  hooks: HookType<HookDictionary>[]
   products: StripeProductConfig[]
   serverUrl: string
   constructor(settings: StripePluginSettings) {
@@ -89,7 +89,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   }
 
   getServerClient(): Stripe {
-    if (!this.utils.isNode) throw new Error("Stripe is server only")
+    if (!this.utils.isNode()) throw new Error("Stripe is server only")
 
     const key =
       this.stripeMode == "live"

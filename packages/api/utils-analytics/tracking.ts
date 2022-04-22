@@ -49,7 +49,7 @@ export const onBrowserEvent = <T extends BrowserEvent>(
   target?: HTMLElement | Window | Document,
 ): (() => void) => {
   // in case on server
-  if (isNode) {
+  if (isNode()) {
     return (): void => {}
   }
 
@@ -176,7 +176,7 @@ export class ActivityTrigger {
  * Gets the URL if set by <link ref="canonical"> tag
  */
 export const canonicalUrlFromTag = (): string | undefined => {
-  if (isNode) return
+  if (isNode()) return
 
   const tags = document.querySelectorAll("link")
   for (let i = 0, tag; (tag = tags[i]); i++) {
@@ -190,7 +190,7 @@ export const canonicalUrlFromTag = (): string | undefined => {
  * Return the canonical URL and remove the hash.
  */
 export const getCanonicalUrl = (): string | undefined => {
-  if (isNode) return
+  if (isNode()) return
 
   const { search = "" } = location
   const canonical = canonicalUrlFromTag()
@@ -416,7 +416,7 @@ class UnloadHandler {
 
   public onUnload(cb: EventCallback): void {
     this.unloadCallbacks.push(cb)
-    if (!isNode && this.unloadWatchers.length == 0) {
+    if (!isNode() && this.unloadWatchers.length == 0) {
       this.unloadWatchers = [
         onBrowserEvent("pagehide", () => this.unload("pagehide")),
         onBrowserEvent("beforeunload", () => this.unload("unload")),

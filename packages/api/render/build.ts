@@ -17,7 +17,9 @@ const require = createRequire(import.meta.url)
 export const buildApp = async (options: RunConfig): Promise<void> => {
   const { prerender, dist, distClient, distServer } = options
 
-  logger.info("build", "building application", { data: { ...options, isNode } })
+  logger.info("build", "building application", {
+    data: { ...options, isNode: isNode() },
+  })
 
   try {
     const vc = await getViteConfig(options)

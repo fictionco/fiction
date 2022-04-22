@@ -13,7 +13,7 @@ export const routeAuthRedirects = async (
 ): Promise<void> => {
   // don't worry about redirects on server
   // if runs in node, this hangs causing test problems
-  if (isNode) return
+  if (isNode()) return
 
   const router = getRouter()
   const currentRoute = router.currentRoute.value

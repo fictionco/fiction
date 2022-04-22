@@ -1,20 +1,21 @@
-import { getEnvVars, isTest } from "@factor/api"
+import { getEnvVars, isTest, isApp } from "@factor/api"
 
-const serverVars = [
-  "POSTGRES_URL",
-  "GOOGLE_CLIENT_SECRET",
-  "STRIPE_SECRET_KEY_TEST",
+const vars = [
+  { v: "NODE_ENV", app: true },
+  { v: "FACTOR_SERVER_URL", app: true },
+  { v: "FACTOR_APP_URL", app: true },
+  { v: "SMTP_HOST", live: true },
+  { v: "SMTP_USER", live: true },
+  { v: "SMTP_PASSWORD", live: true },
+  { v: "POSTGRES_URL" },
+  { v: "GOOGLE_CLIENT_SECRET" },
+  { v: "STRIPE_SECRET_KEY_TEST" },
 ] as const
 
-const serverVarsProduction = [
-  "SMTP_HOST",
-  "SMTP_USER",
-  "SMTP_PASSWORD",
-] as const
-const appVars = ["FACTOR_SERVER_URL", "FACTOR_APP_URL"] as const
 export const env = getEnvVars({
-  serverVars,
-  serverVarsProduction,
-  appVars,
-  isTest: isTest(),
+  vars,
+  isLive: !isTest(),
+  isApp: isApp(),
 })
+
+export type EnvVars = typeof env

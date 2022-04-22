@@ -54,6 +54,36 @@ export type StripeHookCallbacks = {
   }) => Promise<any> | any
 }
 
+export type HookDictionary = {
+  onCustomerCreated: {
+    args: [
+      {
+        customer: Stripe.Customer
+        id: string
+        name?: string
+        email?: string
+      },
+      { factorStripe: FactorStripe },
+    ]
+  }
+  onCustomerSubscriptionDeleted: {
+    args: [Stripe.Event, { factorStripe: FactorStripe }]
+  }
+  onInvoicePaymentFailed: {
+    args: [Stripe.Event, { factorStripe: FactorStripe }]
+  }
+  onInvoicePayment: { args: [Stripe.Event, { factorStripe: FactorStripe }] }
+  onSubscriptionTrialWillEnd: {
+    args: [Stripe.Event, { factorStripe: FactorStripe }]
+  }
+  onSubscriptionUpdate: {
+    args: [Stripe.Subscription, { factorStripe: FactorStripe }]
+  }
+  beforeCreateSubscription: {
+    args: [CreateSubscriptionArgs, { factorStripe: FactorStripe }]
+  }
+}
+
 export type ManageSubscriptionResult = EndpointResponse<Stripe.Subscription> & {
   customerId: string
   customerData?: CustomerData

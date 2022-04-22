@@ -50,7 +50,7 @@ export const factorStripe = new FactorStripe({
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
   secretKeyTest: env.STRIPE_SECRET_KEY_TEST,
   stripeMode: "test",
-  hooks: {},
+  hooks: [],
   products: [],
   factorUser,
   serverUrl,

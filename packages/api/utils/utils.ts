@@ -5,32 +5,12 @@ import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
 import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
-import { log } from "../logger"
+import { isNode } from "./vars"
+
 /**
  * Are we in Node or browser?
  */
-export const isNode =
-  typeof process !== "undefined" && process.versions && process.versions.node
-    ? true
-    : false
 
-export const isVite = (): boolean => {
-  return process.env.IS_VITE ? true : false
-}
-
-export const isBrowser = (): boolean => {
-  return process.env.IS_VITE ? true : false
-}
-
-export const isTest = (): boolean => {
-  return process.env.TEST_ENV == "unit" ? true : false
-}
-/**
- * Are we in development mode?
- */
-export const isDev = (): boolean => {
-  return process.env.NODE_ENV == "development" ? true : false
-}
 /**
  * Safely get the dirname with import.meta.url
  * This variable is undefined in SSR so needs to be checked
@@ -38,49 +18,6 @@ export const isDev = (): boolean => {
 export const safeDirname = (url?: string, relativePath = ""): string => {
   if (!url) return ""
   return path.join(new URL(".", url).pathname, relativePath)
-}
-/**
- * Gets environmental variables
- * and logs warnings/errors if they are not set
- */
-export const getEnvVars = <
-  T extends readonly string[],
-  U extends readonly string[],
-  V extends readonly string[],
->(params: {
-  serverVars?: T
-  serverVarsProduction?: U
-  appVars?: V
-  isTest?: boolean
-}): Record<T[number] | U[number] | V[number], string> => {
-  const env: Record<string, string> = {}
-  const {
-    serverVars = [],
-    serverVarsProduction = [],
-    appVars = [],
-    isTest,
-  } = params
-
-  const checkVars: string[] = []
-  const allVars: string[] = [...serverVars, ...serverVarsProduction, ...appVars]
-
-  if (isBrowser()) {
-    checkVars.push(...appVars)
-  } else {
-    checkVars.push(...serverVars)
-    if (!isTest && serverVarsProduction) {
-      checkVars.push(...serverVarsProduction)
-    }
-  }
-
-  allVars.forEach((v) => {
-    if (process.env[v]) {
-      env[v] = process.env[v] as string
-    } else if (checkVars.includes(v)) {
-      log.warn("getEnv", `env var: (${v}) is not set`)
-    }
-  })
-  return env
 }
 
 export const stringify = (data: unknown): string =>
@@ -343,8 +280,8 @@ export const toLabel = (str?: string): string => {
 /**
  * Converts regular space delimited text into a hyphenated slug
  */
-export const slugify = (text?: string): string | undefined => {
-  if (!text) return text
+export const slugify = (text?: string): string => {
+  if (!text) return ""
 
   return text
     .toString()
@@ -528,7 +465,7 @@ export const isValidJson = (str?: string): undefined | unknown => {
  * https://stackoverflow.com/a/326076/1858322
  */
 export const inIFrame = (): boolean => {
-  if (isNode) return false
+  if (isNode()) return false
   try {
     return window.self !== window.top
   } catch {

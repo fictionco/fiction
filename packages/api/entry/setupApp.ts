@@ -89,7 +89,7 @@ export const mountApp = async (params: {
     renderUrl,
   } = params
 
-  if (!isNode) {
+  if (!isNode()) {
     const entry = await factorApp({ mainFile, RootComponent, renderUrl })
 
     initializeResetUi().catch(console.error)

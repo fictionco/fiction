@@ -1,11 +1,10 @@
-import { objectId } from "@factor/api"
+import { objectId, runHooks } from "@factor/api"
 import type { EndpointResponse, PrivateUser } from "@factor/api"
 import { Query } from "@factor/api/engine/query"
 import { EndpointMeta, EndpointManageAction } from "@factor/api/engine/endpoint"
 import Stripe from "stripe"
 import { FactorUser } from "@factor/api/plugin-user"
-
-import { CustomerData, ManageSubscriptionResult } from "./types"
+import { CustomerData, HookDictionary, ManageSubscriptionResult } from "./types"
 import type { FactorStripe } from "."
 type RefineResult = {
   customerData?: CustomerData
@@ -96,8 +95,6 @@ export class QueryManageCustomer extends QueryPayments {
   > {
     const stripe = this.factorStripe.getServerClient()
 
-    const { onCustomerCreated } = this.factorStripe.setting("hooks") ?? {}
-
     const { _action, customerId } = params
 
     let customer: Stripe.Customer | Stripe.DeletedCustomer
@@ -111,9 +108,14 @@ export class QueryManageCustomer extends QueryPayments {
         metadata: { id },
       })
 
-      if (onCustomerCreated) {
-        await onCustomerCreated({ customer, email, id, name })
-      }
+      await runHooks<HookDictionary>({
+        list: this.factorStripe.hooks,
+        hook: "onCustomerCreated",
+        args: [
+          { customer, email, id, name },
+          { factorStripe: this.factorStripe },
+        ],
+      })
     } else if (customerId) {
       customer = await stripe.customers.retrieve(customerId)
     } else {
@@ -274,9 +276,6 @@ export class QueryManageSubscription extends QueryPayments {
           )
         }
 
-        const { beforeCreateSubscription } =
-          this.factorStripe.setting("hooks") ?? {}
-
         let args: Stripe.SubscriptionCreateParams = {
           customer: customerId,
           items: [{ price: priceId }],
@@ -285,8 +284,17 @@ export class QueryManageSubscription extends QueryPayments {
           trial_period_days: 14,
         }
 
-        if (beforeCreateSubscription) {
-          args = await beforeCreateSubscription(args)
+        const hookResult = await runHooks<
+          HookDictionary,
+          "beforeCreateSubscription"
+        >({
+          list: this.factorStripe.hooks,
+          hook: "beforeCreateSubscription",
+          args: [args, { factorStripe: this.factorStripe }],
+        })
+
+        if (hookResult) {
+          args = hookResult
         }
 
         sub = await stripe.subscriptions.create(args, { idempotencyKey })
@@ -313,10 +321,12 @@ export class QueryManageSubscription extends QueryPayments {
       throw this.stop({ message: e.message })
     }
 
-    const { onSubscriptionUpdate } = this.factorStripe.setting("hooks") ?? {}
-
-    if (sub && onSubscriptionUpdate) {
-      await onSubscriptionUpdate(sub)
+    if (sub) {
+      await runHooks<HookDictionary, "onSubscriptionUpdate">({
+        list: this.factorStripe.hooks,
+        hook: "onSubscriptionUpdate",
+        args: [sub, { factorStripe: this.factorStripe }],
+      })
     }
 
     return {

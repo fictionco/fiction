@@ -40,10 +40,12 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     R extends Record<string, Query> = Record<string, Query>,
   >(params: {
     queries: R
-    serverUrl: string
+    serverUrl?: string
     basePath?: string
     endpointHandler?: typeof Endpoint
   }): M {
+    if (!params.serverUrl) return {} as M
+
     const { queries, serverUrl, basePath, endpointHandler = Endpoint } = params
     const q = queries ?? {}
 
