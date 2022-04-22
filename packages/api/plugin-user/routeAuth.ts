@@ -1,5 +1,5 @@
 import { log } from "../logger"
-import { getRouter } from "../router"
+import { getRouter } from "../utils/router"
 import { isNode, isSearchBot } from "../utils"
 import { AuthCallback, FullUser } from "./types"
 interface RouteAuthConfig {

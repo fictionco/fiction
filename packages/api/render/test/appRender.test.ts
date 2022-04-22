@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
 
 const url = (route: string): string => {
-  return `http://localhost:${_s?.appPort}${route}`
+  return `http://localhost:${_s?.portApp}${route}`
 }
 
 const page = (): Page => {
@@ -20,7 +20,7 @@ describe("renders app code correctly", () => {
     const cwd = path.dirname(require.resolve("@factor/site/package.json"))
 
     _s = await createTestServer({ cwd, headless: false })
-  }, 15_000)
+  }, 8000)
 
   afterAll(async () => {
     await _s?.destroy()

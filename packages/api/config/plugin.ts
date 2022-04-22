@@ -1,5 +1,5 @@
 import * as vueUtils from "vue"
-import * as store from "../store"
+import * as store from "../utils/store"
 import { Endpoint, EndpointMap } from "../engine/endpoint"
 import { contextLogger } from "../logger"
 import { _stop } from "../utils/error"
@@ -44,7 +44,10 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     basePath?: string
     endpointHandler?: typeof Endpoint
   }): M {
-    if (!params.serverUrl) return {} as M
+    if (!params.serverUrl) {
+      this.log.warn("serverUrl missing - cannot create endpoints")
+      return {} as M
+    }
 
     const { queries, serverUrl, basePath, endpointHandler = Endpoint } = params
     const q = queries ?? {}

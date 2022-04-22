@@ -1,8 +1,7 @@
-import { UserConfig } from "../config"
-import { FactorPlugin } from "../config/plugin"
+import { UserConfig, FactorPlugin } from "../config"
 import { EndpointMap, Endpoint, EndpointMeta } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
-import { clientToken } from "../utils/jwt"
+
 import { FactorEmail } from "../plugin-email"
 import { HookType } from "../utils"
 import { QueryUserGoogleAuth } from "./userGoogle"
@@ -19,9 +18,10 @@ import {
   QueryUpdateCurrentUser,
   QueryVerifyAccountEmail,
 } from "./userAuth"
-import { FullUser, PrivateUser } from "./types"
+
 import { currentUser, logout, setCurrentUser } from "./userClient"
 import { routeAuthRedirects } from "./routeAuth"
+import * as types from "./types"
 export * from "./userClient"
 export * from "./types"
 export type { ManageUserParams }
@@ -36,13 +36,14 @@ type UserPluginSettings = {
 }
 
 export type HookDictionary = {
-  onUserVerified: { args: [FullUser] }
+  onUserVerified: { args: [types.FullUser] }
   processUser: {
-    args: [FullUser, { params: ManageUserParams; meta: EndpointMeta }]
+    args: [types.FullUser, { params: ManageUserParams; meta: EndpointMeta }]
   }
 }
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
+  readonly types = types
   private factorDb: FactorDb
   private factorEmail: FactorEmail
   public queries: ReturnType<typeof this.createQueries>
@@ -110,10 +111,10 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     this.hooks.push(hook)
   }
 
-  requestCurrentUser = async (): Promise<FullUser | undefined> => {
-    const token = clientToken({ action: "get" })
+  requestCurrentUser = async (): Promise<types.FullUser | undefined> => {
+    const token = this.utils.clientToken({ action: "get" })
 
-    let user: FullUser | undefined = undefined
+    let user: types.FullUser | undefined = undefined
 
     if (token && this.requests) {
       const { status, data, code } = await this.requests.CurrentUser.request({
@@ -145,8 +146,8 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   }
 
   userInitialized = async (
-    callback?: (u: PrivateUser | undefined) => void,
-  ): Promise<PrivateUser | undefined> => {
+    callback?: (u: types.PrivateUser | undefined) => void,
+  ): Promise<types.PrivateUser | undefined> => {
     if (!this.initialized) {
       this.initialized = new Promise(async (resolve) => {
         this.resolveUser = resolve

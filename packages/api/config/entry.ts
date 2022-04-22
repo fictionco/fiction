@@ -60,39 +60,71 @@ export const installPlugins = async (params: {
   return r
 }
 
-const handleCrossEnv = (userConfig?: UserConfig): UserConfig => {
+export const handleCrossEnv = (
+  userConfig?: UserConfig,
+): UserConfig & {
+  port: string
+  portApp: string
+  serverUrl: string
+  appUrl: string
+  mode: "development" | "production"
+} => {
+  const {
+    FACTOR_SERVER_PORT,
+    FACTOR_APP_PORT,
+    FACTOR_SERVER_URL,
+    FACTOR_APP_URL,
+    PORT,
+    PORT_APP,
+    NODE_ENV,
+  } = process.env
+
+  const vars: Record<string, string | undefined> = {
+    FACTOR_SERVER_PORT,
+    FACTOR_APP_PORT,
+    FACTOR_SERVER_URL,
+    FACTOR_APP_URL,
+    PORT,
+    PORT_APP,
+    NODE_ENV,
+  }
+
+  // check for stringified 'undefined'
+  Object.entries(vars).forEach(([k, v]) => {
+    if (v === "undefined" && vars[k]) {
+      console.error('string "undefined" found in env var, use "null" instead')
+      delete vars[k]
+    }
+  })
+
   const port =
-    userConfig?.port ||
-    process.env.FACTOR_SERVER_PORT ||
-    process.env.PORT ||
-    "3333"
-  process.env.FACTOR_SERVER_PORT = port
+    userConfig?.port || vars.FACTOR_SERVER_PORT || vars.PORT || "3333"
 
   const portApp =
-    userConfig?.portApp ||
-    process.env.FACTOR_APP_PORT ||
-    process.env.PORT_APP ||
-    "3000"
-
-  process.env.FACTOR_APP_PORT = portApp
+    userConfig?.portApp || vars.FACTOR_APP_PORT || vars.PORT_APP || "3000"
 
   const serverUrl =
     userConfig?.serverUrl ||
-    process.env.FACTOR_SERVER_URL ||
+    vars.FACTOR_SERVER_URL ||
     `http://localhost:${port}`
-
-  process.env.FACTOR_SERVER_URL = serverUrl
 
   const appUrl = process.env.FACTOR_APP_URL || `http://localhost:${portApp}`
 
+  const mode = userConfig?.mode || vars.NODE_ENV || "production"
+
+  process.env.FACTOR_SERVER_PORT = port
+  process.env.FACTOR_SERVER_URL = serverUrl
+  process.env.FACTOR_APP_PORT = portApp
   process.env.FACTOR_APP_URL = appUrl
 
-  const mode =
-    userConfig?.mode ||
-    (process.env.NODE_ENV as "development" | "production") ||
-    "production"
-
-  return { ...userConfig, port, portApp, serverUrl, appUrl, mode }
+  return {
+    ...userConfig,
+    port,
+    portApp,
+    serverUrl,
+    appUrl,
+    mode: mode as "development" | "production",
+  }
 }
 
 export const createUserConfig = async (params: {

@@ -1,9 +1,9 @@
 import { computed } from "vue"
-import { getRouter } from "../router"
+import { getRouter } from "../utils/router"
 import { emitEvent } from "../utils/event"
 import { clientToken } from "../utils/jwt"
 import { log } from "../logger"
-import { stored, storeItem } from "../store"
+import { stored, storeItem } from "../utils/store"
 import { PublicUser, FullUser } from "./types"
 
 export const getJsonUserFields = (): (keyof FullUser)[] => {

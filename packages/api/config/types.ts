@@ -2,7 +2,7 @@ import { HeadClient } from "@vueuse/head"
 import { App, Component } from "vue"
 import { Router } from "vue-router"
 import { InlineConfig as ViteInlineConfig } from "vite"
-import type { AppRoute } from "../router"
+import type { AppRoute } from "../utils/router"
 import type { Endpoint } from "../engine/endpoint"
 import type { ServerModuleDef } from "../render/buildPlugins"
 
@@ -26,6 +26,7 @@ export type EntryModuleExports = {
 
 export type MainFile = {
   setup?: (userConfig: UserConfig) => Promise<UserConfig> | UserConfig
+  [key: string]: unknown
 }
 export interface UserConfig {
   name?: string

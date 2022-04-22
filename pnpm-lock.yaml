@@ -75,7 +75,7 @@ importers:
       '@types/fs-extra': ^9.0.13
       '@types/glob': ^7.2.0
       '@types/html-minifier': ^4.0.2
-      '@types/js-cookie': ^3.0.1
+      '@types/js-cookie': ^3.0.2
       '@types/jsonwebtoken': ^8.5.8
       '@types/markdown-it': ^12.2.3
       '@types/mime-types': ^2.1.1
@@ -183,7 +183,7 @@ importers:
       '@types/compression': 1.7.2
       '@types/cors': 2.8.12
       '@types/html-minifier': 4.0.2
-      '@types/js-cookie': 3.0.1
+      '@types/js-cookie': 3.0.2
       '@types/jsonwebtoken': 8.5.8
       '@types/markdown-it': 12.2.3
       '@types/mime-types': 2.1.1
@@ -340,7 +340,7 @@ importers:
 
   packages/plugin-blog-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.2.2
+      '@factor/plugin-highlight-code': workspace:5.2.3
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -352,7 +352,7 @@ importers:
 
   packages/plugin-docs-engine:
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.2.2
+      '@factor/plugin-highlight-code': workspace:5.2.3
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -382,13 +382,13 @@ importers:
   packages/plugin-stripe:
     specifiers:
       '@factor/api': workspace:*
-      '@stripe/stripe-js': ^1.28.0
+      '@stripe/stripe-js': ^1.29.0
       dotenv: ^16.0.0
       express: ^4.17.3
       stripe: ^8.219.0
     dependencies:
       '@factor/api': link:../api
-      '@stripe/stripe-js': 1.28.0
+      '@stripe/stripe-js': 1.29.0
       express: 4.17.3
       stripe: 8.219.0
     devDependencies:
@@ -397,11 +397,11 @@ importers:
   packages/site:
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.2.2
-      '@factor/plugin-docs-engine': workspace:5.2.2
-      '@factor/plugin-highlight-code': workspace:5.2.2
-      '@factor/plugin-notify': workspace:5.2.2
-      '@factor/plugin-stripe': workspace:5.2.2
+      '@factor/plugin-blog-engine': workspace:5.2.3
+      '@factor/plugin-docs-engine': workspace:5.2.3
+      '@factor/plugin-highlight-code': workspace:5.2.3
+      '@factor/plugin-notify': workspace:5.2.3
+      '@factor/plugin-stripe': workspace:5.2.3
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       autoprefixer: ^10.4.4
@@ -989,8 +989,8 @@ packages:
       '@cspotcode/source-map-consumer': 0.8.0
     dev: false
 
-  /@eslint/eslintrc/1.2.1:
-    resolution: {integrity: sha512-bxvbYnBPN1Gibwyp6NrpnFzA3YtRL3BBAyEAFVIpNTm2Rn4Vy87GA5M4aSn3InRrlsbX5N0GW7XIx+U4SAEKdQ==}
+  /@eslint/eslintrc/1.2.2:
+    resolution: {integrity: sha512-lTVWHs7O2hjBFZunXTZYnYqtB9GakA1lnxIf+gKq2nY5gxkkNi/lQvveW6t8gFdOHTg6nG50Xs95PrLqVpcaLg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
@@ -1150,8 +1150,8 @@ packages:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==}
     engines: {node: '>=6'}
 
-  /@stripe/stripe-js/1.28.0:
-    resolution: {integrity: sha512-KWcsWqgdaetLAxb02AjFrx8B8KXEe2A2NW2x96xzTwESfqIKeocLqiJivtuQWd1FvyQ/Cvmvyx5DVDB/RgprvA==}
+  /@stripe/stripe-js/1.29.0:
+    resolution: {integrity: sha512-OsUxk0VLlum8E2d6onlEdKuQcvLMs7qTrOXCnl/BGV3fAm65qr6h3e1IZ5AX4lgUlPRrzRcddSOA5DvkKKYLvg==}
     dev: false
 
   /@szmarczak/http-timer/1.1.2:
@@ -1311,8 +1311,8 @@ packages:
       '@types/istanbul-lib-report': 3.0.0
     dev: true
 
-  /@types/js-cookie/3.0.1:
-    resolution: {integrity: sha512-7wg/8gfHltklehP+oyJnZrz9XBuX5ZPP4zB6UsI84utdlkRYLnOm2HfpLXazTwZA+fpGn0ir8tGNgVnMEleBGQ==}
+  /@types/js-cookie/3.0.2:
+    resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -3473,7 +3473,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@eslint/eslintrc': 1.2.1
+      '@eslint/eslintrc': 1.2.2
       '@humanwhocodes/config-array': 0.9.5
       ajv: 6.12.6
       chalk: 4.1.2

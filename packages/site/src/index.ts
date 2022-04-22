@@ -29,7 +29,7 @@ const factorDb = new FactorDb({
 export const factorEmail = new FactorEmail({
   appName: appMeta.appName,
   appEmail: appMeta.appEmail,
-  appUrl: env.FACTOR_APP_URL,
+  appUrl: appMeta.appUrl,
   smtpHost: env.SMTP_HOST,
   smtpPassword: env.SMTP_PASSWORD,
   smtpUsername: env.SMTP_USER,

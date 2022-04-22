@@ -16,7 +16,7 @@
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
     "@types/html-minifier": "^4.0.2",
-    "@types/js-cookie": "^3.0.1",
+    "@types/js-cookie": "^3.0.2",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/markdown-it": "^12.2.3",
     "@types/mime-types": "^2.1.1",
@@ -113,7 +113,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.9",
-    "@factor/api": "5.2.3",
+    "@factor/api": "workspace:*",
     "@playwright/test": "^1.21.1",
     "@types/body-parser": "^1.19.2",
     "@types/compression": "^1.7.0",

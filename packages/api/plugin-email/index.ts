@@ -3,7 +3,7 @@ import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorPlugin } from "../config/plugin"
 import type { UserConfig } from "../config"
 import { renderMarkdown } from "../utils/markdown"
-import { EmailTransactionalConfig } from "./types"
+import * as types from "./types"
 
 type FactorEmailSettings = {
   smtpPort?: number
@@ -26,14 +26,15 @@ type FactorEmailSettings = {
 )
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
-  client?: Transporter
+  readonly types = types
+  readonly client?: Transporter
   smtpHost?: string
   smtpUsername?: string
   smtpPassword?: string
   smtpPort: number
-  appName: string
-  appEmail: string
-  appUrl: string
+  readonly appName: string
+  readonly appEmail: string
+  readonly appUrl: string
 
   constructor(settings: FactorEmailSettings) {
     super(settings)
@@ -88,8 +89,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   }
 
   sendEmail = async (
-    params: EmailTransactionalConfig,
-  ): Promise<EmailTransactionalConfig> => {
+    params: types.EmailTransactionalConfig,
+  ): Promise<types.EmailTransactionalConfig> => {
     const {
       emailId = "none",
       subject,

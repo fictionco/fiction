@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeAll } from "vitest"
 import * as vite from "vite"
-import { createServer } from "../../entry/serverEntry"
-import { getUserConfig, userConfigSetting } from "../../config/plugins"
-import { getServerUserConfig } from "../../config/entry"
+import { createServer } from "@factor/api/entry/serverEntry"
+import { getUserConfig, userConfigSetting } from "@factor/api/config/plugins"
+import { getServerUserConfig } from "@factor/api/config/entry"
+import { getStandardPaths } from "@factor/api/cli/utils"
+import { UserConfig } from "@factor/api/config"
+import { getTestCwd } from "@factor/api/test-utils"
 import { getViteConfig } from "../vite.config"
-import { getStandardPaths } from "../../cli/utils"
-import { UserConfig } from "../../config"
-import { getTestCwd } from "../../test-utils"
 let userConfig: UserConfig | undefined = undefined
 let viteConfig: vite.InlineConfig | undefined = undefined
 const standardPaths = getStandardPaths({ cwd: getTestCwd() })
@@ -113,7 +113,7 @@ describe("vite config", () => {
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
         "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
-        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
+        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:7781\\"",
         "process.env.IS_VITE": "\\"yes\\"",
         "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
         "process.env.TEST_SERVER": "\\"TEST\\"",

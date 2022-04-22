@@ -1,4 +1,4 @@
-import { storeItem, stored } from "../store"
+import { storeItem, stored } from "../utils/store"
 import { dotSetting } from "../utils"
 import { UserConfig } from "./types"
 

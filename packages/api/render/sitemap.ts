@@ -6,7 +6,7 @@ import { SitemapStream, streamToPromise } from "sitemap"
 import fs from "fs-extra"
 import { logger } from ".."
 import { getSitemaps } from "../engine/sitemap"
-import { generateRoutes } from "../router"
+import { generateRoutes } from "../utils/router"
 import { userConfigSetting } from "../config/plugins"
 import { RunConfig } from "../cli/utils"
 /**

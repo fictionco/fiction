@@ -38,7 +38,7 @@ export const getEnvVars = <T extends readonly VarConfig[]>(params: {
   if (isBrowser()) {
     checkVars.push(...vars.filter(({ app }) => app))
   } else {
-    checkVars.push(...vars.filter(({ live }) => !live))
+    checkVars.push(...vars.filter(({ live, app }) => !live && !app))
     if (isLive) {
       checkVars.push(...vars.filter(({ live }) => live))
     }

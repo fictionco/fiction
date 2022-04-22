@@ -26,9 +26,9 @@ describe("node utils", () => {
         "blogPlugin",
         "docsPlugin",
         "factorEmail",
+        "factorStripe",
         "factorUser",
         "setup",
-        "stripePlugin",
       ]
     `)
   })

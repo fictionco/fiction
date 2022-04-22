@@ -15,31 +15,20 @@ import {
   QueryPaymentMethod,
 } from "./endpoints"
 import { EndpointMethodStripeHooks } from "./endpointHooks"
-import { StripeProductConfig, HookDictionary } from "./types"
+import * as types from "./types"
 
-type StripePluginSettings = {
-  factorUser: FactorUser
-  stripeMode: "test" | "live"
-  publicKeyLive?: string
-  publicKeyTest?: string
-  secretKeyLive?: string
-  secretKeyTest?: string
-  hooks?: HookType<HookDictionary>[]
-  products: StripeProductConfig[]
-  serverUrl: string
-}
-
-export class FactorStripe extends FactorPlugin<StripePluginSettings> {
+export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
   private factorUser: FactorUser
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
   public client?: StripeJS.Stripe
   private stripeMode: "test" | "live" = "test"
-  public hooks: HookType<HookDictionary>[]
-  public products: StripeProductConfig[]
+  public hooks: HookType<types.HookDictionary>[]
+  public products: types.StripeProductConfig[]
+  readonly types = types
   readonly serverUrl: string
 
-  constructor(settings: StripePluginSettings) {
+  constructor(settings: types.StripePluginSettings) {
     super(settings)
     this.serverUrl = settings.serverUrl
     this.factorUser = settings.factorUser
@@ -55,15 +44,17 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   }
 
   async setup(): Promise<UserConfig> {
+    const endpoints = [
+      ...Object.values(this.requests),
+      new EndpointMethodStripeHooks({
+        factorStripe: this,
+        serverUrl: this.serverUrl,
+      }),
+    ]
+
     return {
       name: this.constructor.name,
-      endpoints: [
-        ...Object.values(this.requests),
-        new EndpointMethodStripeHooks({
-          factorStripe: this,
-          serverUrl: this.serverUrl,
-        }),
-      ],
+      endpoints,
       vite: {
         optimizeDeps: {
           exclude: ["@stripe/stripe-js"],
@@ -74,7 +65,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     }
   }
 
-  public addHook(hook: HookType<HookDictionary>): void {
+  public addHook(hook: HookType<types.HookDictionary>): void {
     this.hooks.push(hook)
   }
 
@@ -123,23 +114,23 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return this.client
   }
 
-  getProducts = (): StripeProductConfig[] => {
+  getProducts = (): types.StripeProductConfig[] => {
     const config = process.env.STRIPE_PRODUCTS
 
     if (!config) throw new Error("no stripe products configured")
 
-    return JSON.parse(config) as StripeProductConfig[]
+    return JSON.parse(config) as types.StripeProductConfig[]
   }
 
   getStripeProduct = (params: {
     key?: string
     productId?: string
-  }): StripeProductConfig | void => {
+  }): types.StripeProductConfig | void => {
     if (!params.key && !params.productId) return
 
     const p = this.getProducts()
 
-    let product: StripeProductConfig | undefined = undefined
+    let product: types.StripeProductConfig | undefined = undefined
 
     if (params.key) {
       product = p.find((_) => _.key == params.key)

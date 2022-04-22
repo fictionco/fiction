@@ -2,7 +2,7 @@ import path from "path"
 import { createRequire } from "module"
 import dotenv from "dotenv"
 import { log } from "../logger"
-import { getServerUserConfig } from "../config/entry"
+import { getServerUserConfig, handleCrossEnv } from "../config/entry"
 import { UserConfig } from "../config/types"
 import { PackageJson } from "../types"
 
@@ -134,43 +134,38 @@ export const getStandardPaths = (options: { cwd: string }): StandardPaths => {
 export const setEnvironment = async (
   options: CliOptions,
 ): Promise<RunConfig> => {
-  const { cwd = process.cwd() } = options
+  const { cwd = process.cwd(), NODE_ENV = "production" } = options
+
   dotenv.config({ path: path.resolve(cwd, ".env") })
 
   if (options.NODE_ENV == "development") {
     dotenv.config({ path: path.resolve(cwd, ".dev.env") })
   }
 
-  const { NODE_ENV, STAGE_ENV, portApp, port, inspector } = options
-
-  const mode = NODE_ENV || "production"
-  process.env.NODE_ENV = mode
-  process.env.STAGE_ENV = STAGE_ENV || "prod"
-
-  if (portApp) {
-    process.env.FACTOR_APP_PORT = portApp
-  }
-
-  if (port) {
-    process.env.FACTOR_SERVER_PORT = port
-  }
-
   // run with node developer tools inspector
-  if (inspector) {
+  if (options.inspector) {
     initializeNodeInspector().catch(console.error)
   }
+
+  process.env.NODE_ENV = NODE_ENV ?? "production"
+
+  const crossVars = handleCrossEnv({
+    port: options.port,
+    portApp: options.portApp,
+    mode: options.NODE_ENV,
+  })
 
   const standardPaths = getStandardPaths({ cwd })
 
   const userConfig = await getServerUserConfig({
     mainFilePath: standardPaths.mainFilePath,
-    userConfig: { port, portApp, vite: { mode } },
+    userConfig: crossVars,
   })
 
   return {
     ...options,
     ...standardPaths,
-    mode,
+    mode: crossVars.mode,
     userConfig,
   }
 }

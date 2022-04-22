@@ -3,25 +3,17 @@ import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
 import { UserConfig } from "../config"
 import { FactorPlugin } from "../config/plugin"
-
-type FactorDbSettings = {
-  connectionUrl?: string
-  isTest?: boolean
-  hooks?: HookType<HookDictionary>[]
-}
+import * as types from "./types"
 
 export * from "./types"
 
-export type HookDictionary = {
-  onStart: { args: [FactorDb] }
-}
-
-export class FactorDb extends FactorPlugin<FactorDbSettings> {
+export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
+  types = types
   private db!: Knex
   connectionUrl!: URL
   isTest: boolean = false
-  hooks: HookType<HookDictionary>[]
-  constructor(settings: FactorDbSettings) {
+  hooks: HookType<types.HookDictionary>[]
+  constructor(settings: types.FactorDbSettings) {
     super(settings)
 
     this.hooks = settings.hooks || []
@@ -93,7 +85,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
 
     await runChangeset(this.db)
 
-    await runHooks<HookDictionary>({
+    await runHooks<types.HookDictionary>({
       list: this.hooks,
       hook: "onStart",
       args: [this],

@@ -5,9 +5,14 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-import { getEnvVars } from "../utils"
+import { getEnvVars, deepMergeAll } from "../utils"
 import { randomBetween, setCurrentUser, log } from ".."
-import { getServerUserConfig, MainFile } from "../config"
+import {
+  getServerUserConfig,
+  handleCrossEnv,
+  MainFile,
+  UserConfig,
+} from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { setupAppFromMainFile } from "../entry/setupApp"
@@ -32,9 +37,10 @@ export const getTestEmail = (): string => {
 
 export type TestServerConfig = {
   _process: ExecaChildProcess
-  appPort: number
-  serverPort: number
+  portApp: string
+  port: string
   serverUrl: string
+  userConfig: UserConfig
   destroy: () => Promise<void>
   browser: Browser
   page: Page
@@ -123,29 +129,46 @@ export const setTestCurrentUser = async (params: {
 export const createTestServer = async (params: {
   cwd?: string
   moduleName?: string
-  appPort?: number
-  serverPort?: number
   headless?: boolean
   slowMo?: number
+  userConfig?: UserConfig
 }): Promise<TestServerConfig> => {
+  const { port, portApp } = params.userConfig || {}
   const { headless = true, slowMo } = params
-  let { serverPort, appPort, moduleName } = params
-  serverPort = serverPort || randomBetween(1000, 9000)
-  appPort = appPort || randomBetween(1000, 9000)
-  moduleName = moduleName || getModuleName(params.cwd || process.cwd())
+  let { moduleName } = params
+  const cwd = params.cwd || process.cwd()
 
-  const userConfig = await getServerUserConfig({ moduleName })
+  moduleName = moduleName || getModuleName(cwd)
+
+  const crossVars = handleCrossEnv({
+    port: String(port || randomBetween(1000, 9000)),
+    portApp: String(portApp || randomBetween(1000, 9000)),
+    mode: "development",
+  })
+
+  const mainFilePath = require.resolve(moduleName)
+  const userConfig = await getServerUserConfig({
+    mainFilePath,
+    userConfig: deepMergeAll([crossVars, params.userConfig || {}]),
+  })
 
   let _process: ExecaChildProcess | undefined
 
-  const cmd = `npm exec -w ${moduleName} -- factor rdev --port ${serverPort} --port-app ${appPort}`
+  const cmd = [
+    `npm exec -w ${moduleName} --`,
+    `factor rdev`,
+    `--port ${crossVars.port}`,
+    `--port-app ${crossVars.portApp}`,
+  ]
+
+  const runCmd = cmd.join(" ")
 
   log.info("createTestServer", `Creating test server for ${moduleName}`, {
-    data: { serverPort, appPort, cwd: process.cwd(), cmd },
+    data: { ...crossVars, cwd: process.cwd(), cmd: runCmd },
   })
 
   await new Promise<void>((resolve) => {
-    _process = execaCommand(cmd, {
+    _process = execaCommand(runCmd, {
       env: { TEST_ENV: "unit" },
     })
     _process.stdout?.pipe(process.stdout)
@@ -160,20 +183,16 @@ export const createTestServer = async (params: {
 
   if (!_process) throw new Error("Could not start dev server")
 
-  const { appUrl = "", serverUrl = "" } = userConfig
-
   const browser = await chromium.launch({ headless, slowMo })
   const page = await browser.newPage()
 
   return {
     _process,
-    appPort,
-    serverPort,
-    appUrl,
-    serverUrl,
+    ...crossVars,
     browser,
     page,
     expectUi,
+    userConfig,
     destroy: async () => {
       if (_process) {
         _process.cancel()
@@ -189,8 +208,8 @@ export const appBuildTests = (config: {
   cwd?: string
 }): void => {
   let { cwd = "", moduleName } = config
-  const serverPort = randomBetween(1000, 9000)
-  const appPort = randomBetween(1000, 9000)
+  const port = String(randomBetween(1000, 9000))
+  const portApp = String(randomBetween(1000, 9000))
 
   cwd = cwd || path.dirname(require.resolve(`${moduleName}/package.json`))
 
@@ -200,7 +219,7 @@ export const appBuildTests = (config: {
 
   describe.skip(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor prerender --port ${serverPort} --port-app ${appPort}`
+      const command = `npm exec -w ${moduleName} -- factor prerender --port ${port} --port-app ${portApp}`
 
       log.info("appBuildTests", "running prerender command", { data: command })
       const r = execaCommandSync(command, {
@@ -214,7 +233,7 @@ export const appBuildTests = (config: {
 
     it.skip("runs dev", () => {
       const r = execaCommandSync(
-        `npm exec -w ${moduleName} -- factor rdev --exit --port ${serverPort} --port-app ${appPort}`,
+        `npm exec -w ${moduleName} -- factor rdev --exit --port ${port} --port-app ${portApp}`,
         {
           env: { TEST_ENV: "unit" },
           timeout: 20_000,
@@ -222,16 +241,15 @@ export const appBuildTests = (config: {
       )
 
       expect(r.stdout).toContain("build variables")
-      expect(r.stdout).toContain(`[ ${serverPort} ]`)
-      expect(r.stdout).toContain(`[ ${appPort} ]`)
+      expect(r.stdout).toContain(`[ ${port} ]`)
+      expect(r.stdout).toContain(`[ ${portApp} ]`)
       expect(r.stdout).toContain("[ready]")
     })
 
     it("renders", async () => {
       const { destroy, page, appUrl } = await createTestServer({
         moduleName,
-        appPort,
-        serverPort,
+        userConfig: { port, portApp },
       })
 
       const errorLogs: string[] = []

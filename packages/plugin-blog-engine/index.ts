@@ -1,11 +1,10 @@
 import { UserConfig, FactorPlugin } from "@factor/api"
 import stringSimilarity from "string-similarity"
-import { BlogOptions, BlogPost, IndexArgs, PostEntryConfig } from "./types"
-
+import * as types from "./types"
 export * from "./types"
 
-export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
-  constructor(settings: BlogOptions) {
+export class FactorBlogEngine extends FactorPlugin<types.BlogOptions> {
+  constructor(settings: types.BlogOptions) {
     super(settings)
   }
   setup = (): UserConfig => {
@@ -28,11 +27,11 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
     return time
   }
 
-  getPosts = (): BlogPost<string>[] => {
+  getPosts = (): types.BlogPost<string>[] => {
     return this.setting("posts") ?? []
   }
 
-  getIndex = (args: IndexArgs = {}): BlogPost<string>[] => {
+  getIndex = (args: types.IndexArgs = {}): types.BlogPost<string>[] => {
     const { total = 10, category } = args
 
     const posts = this.getPosts()
@@ -58,8 +57,8 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
     return entries
   }
 
-  createSettings = (options: Partial<BlogOptions>): void => {
-    const defaultSettings: BlogOptions = {
+  createSettings = (options: Partial<types.BlogOptions>): void => {
+    const defaultSettings: types.BlogOptions = {
       baseRoute: "/blog",
       posts: [],
     }
@@ -69,7 +68,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
   /**
    * Gets all the routes for docs
    */
-  scanRoutes = (posts: BlogPost<string>[]): string[] => {
+  scanRoutes = (posts: types.BlogPost<string>[]): string[] => {
     const routes: string[] = []
     const baseRoute = this.setting("baseRoute") ?? "/blog"
 
@@ -97,7 +96,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
    */
   getPostConfig = async (
     slug?: string,
-  ): Promise<PostEntryConfig | undefined> => {
+  ): Promise<types.PostEntryConfig | undefined> => {
     if (!slug) return
 
     const storeKey = `blog-${slug}`
@@ -119,9 +118,8 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       }
     })
 
-    let fileConfig: BlogPost<string> | undefined = listWithPermalinks.find(
-      (_) => _.permalink == slug,
-    )
+    let fileConfig: types.BlogPost<string> | undefined =
+      listWithPermalinks.find((_) => _.permalink == slug)
 
     /**
      * If 404, then get closest match
@@ -136,7 +134,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       fileConfig = listWithPermalinks[matches.bestMatchIndex]
     }
 
-    let config: PostEntryConfig | undefined = undefined
+    let config: types.PostEntryConfig | undefined = undefined
     if (fileConfig?.fileImport) {
       const { fileImport, imageImport, permalink, ...rest } = fileConfig
       const fileData = await fileImport()
@@ -162,8 +160,8 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
   }
 
   getIndexContent = async (
-    args: IndexArgs = {},
-  ): Promise<PostEntryConfig[]> => {
+    args: types.IndexArgs = {},
+  ): Promise<types.PostEntryConfig[]> => {
     const postIndexPromises = this.getIndex(args).map(async (value) => {
       const config = await this.getPostConfig(value.key)
 

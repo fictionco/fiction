@@ -94,6 +94,7 @@ const optimizeDeps = (userConfig: UserConfig): Partial<vite.InlineConfig> => {
         ...configExcludeIds,
       ],
       include: [
+        "ohmyfetch",
         "path-browserify",
         "dayjs",
         "dayjs/plugin/timezone",

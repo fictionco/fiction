@@ -2,7 +2,7 @@ import { App as VueApp, createSSRApp, createApp, Component } from "vue"
 import { FactorAppEntry, MainFile, UserConfig } from "../config/types"
 
 import { isNode } from "../utils"
-import { getRouter, setupRouter } from "../router"
+import { getRouter, setupRouter } from "../utils/router"
 import { getMeta } from "../utils/meta"
 
 import { initializeResetUi } from "../utils/ui"

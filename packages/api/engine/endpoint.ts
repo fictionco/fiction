@@ -130,7 +130,9 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       data,
     }
 
-    logger.debug("Endpoint", `request at ${url}`, {
+    const fullUrl = `${this.getBaseUrl()}${url}`
+
+    logger.debug("Endpoint", `request at ${fullUrl}`, {
       data: options,
     })
 

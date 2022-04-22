@@ -1,7 +1,7 @@
 import axios from "axios"
 import { UserGeolocation } from "../types"
 
-import { stored, storeItem } from "../store"
+import { stored, storeItem } from "../utils/store"
 import { isNode } from "../utils"
 
 interface FreeGeoIp {

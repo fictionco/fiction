@@ -1,5 +1,5 @@
 import { expect, it, describe } from "vitest"
-import { AppRoute, generateRoutes } from "../router"
+import { AppRoute, generateRoutes } from "../utils/router"
 
 const routes = [
   new AppRoute({

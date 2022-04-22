@@ -11,9 +11,10 @@ import {
 } from "vue-router"
 import type { RouteLocation } from "vue-router"
 import type { Component } from "vue"
-import { AuthCallback } from "./plugin-user/types"
-import { getGlobal, setGlobal } from "./utils/global"
-import { isNode, sortPriority, toLabel } from "./utils"
+import { AuthCallback } from "../plugin-user/types"
+import { getGlobal, setGlobal } from "./global"
+import { isNode } from "./vars"
+import { sortPriority, toLabel } from "./utils"
 
 type IsActiveCallback = (c: {
   route: RouteLocation
