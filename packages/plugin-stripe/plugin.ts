@@ -24,7 +24,7 @@ type StripePluginSettings = {
   publicKeyTest?: string
   secretKeyLive?: string
   secretKeyTest?: string
-  hooks: HookType<HookDictionary>[]
+  hooks?: HookType<HookDictionary>[]
   products: StripeProductConfig[]
   serverUrl: string
 }
@@ -35,9 +35,10 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   public requests: EndpointMap<typeof this.queries>
   public client?: StripeJS.Stripe
   private stripeMode: "test" | "live" = "test"
-  hooks: HookType<HookDictionary>[]
-  products: StripeProductConfig[]
-  serverUrl: string
+  public hooks: HookType<HookDictionary>[]
+  public products: StripeProductConfig[]
+  readonly serverUrl: string
+
   constructor(settings: StripePluginSettings) {
     super(settings)
     this.serverUrl = settings.serverUrl
@@ -49,7 +50,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       serverUrl: settings.serverUrl,
     })
     this.stripeMode = settings.stripeMode
-    this.hooks = settings.hooks
+    this.hooks = settings.hooks ?? []
     this.products = settings.products
   }
 
@@ -71,6 +72,10 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       paths: [this.utils.safeDirname(import.meta.url)],
       serverOnlyImports: [{ id: "stripe" }],
     }
+  }
+
+  public addHook(hook: HookType<HookDictionary>): void {
+    this.hooks.push(hook)
   }
 
   protected createQueries() {
