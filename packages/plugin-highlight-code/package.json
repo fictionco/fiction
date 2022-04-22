@@ -1,7 +1,7 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "5.2.4",
+  "version": "5.2.5",
   "main": "index.ts",
   "license": "MIT",
   "publishConfig": {
