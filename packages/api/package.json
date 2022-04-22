@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "5.2.3",
+  "version": "5.2.4",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -113,7 +113,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.9",
-    "@factor/api": "workspace:*",
+    "@factor/api": "5.2.4",
     "@playwright/test": "^1.21.1",
     "@types/body-parser": "^1.19.2",
     "@types/compression": "^1.7.0",

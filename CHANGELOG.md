@@ -1,3 +1,12 @@
+## [5.2.4](https://github.com/FactorJS/factor/compare/v5.2.3...v5.2.4) (2022-04-22)
+
+
+### Bug Fixes
+
+* make optional ([4b8a453](https://github.com/FactorJS/factor/commit/4b8a4536e8e6058b948d8c2525853bcc3b80e93a))
+
+
+
 ## [5.2.3](https://github.com/FactorJS/factor/compare/v5.2.2...v5.2.3) (2022-04-22)
 
 
