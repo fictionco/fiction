@@ -53,7 +53,7 @@
     "dotenv": "^16.0.0",
     "enquirer": "^2.3.6",
     "es-module-lexer": "^0.10.5",
-    "esbuild": "^0.14.37",
+    "esbuild": "^0.14.38",
     "events": "^3.3.0",
     "express": "^4.17.3",
     "extract-domain": "^2.4.1",
@@ -113,7 +113,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.9",
-    "@factor/api": "5.2.2",
+    "@factor/api": "workspace:*",
     "@playwright/test": "^1.21.1",
     "@types/body-parser": "^1.19.2",
     "@types/compression": "^1.7.0",
