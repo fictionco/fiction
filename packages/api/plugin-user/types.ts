@@ -1,8 +1,37 @@
-import { UserGeolocation } from "../types/geo"
-import { FactorPost, PopulatedPosts, PostActions } from "../types/post"
-import { UserRoles } from "../types/roles"
+import type { EndpointMeta } from "@factor/api/engine"
+import type { FactorDb } from "@factor/api/plugin-db"
+import type { FactorEmail } from "@factor/api/plugin-email"
+import { UserGeolocation } from "@factor/api/types/geo"
+import { FactorPost, PopulatedPosts, PostActions } from "@factor/api/types/post"
+import { UserRoles } from "@factor/api/types/roles"
+import type { HookType } from "@factor/api/utils"
+import type { ManageUserParams } from "./endpoints"
 
 export type CurrentUserState = PrivateUser | undefined
+
+export type { ManageUserParams }
+
+export type TokenFields = Partial<PrivateUser> & { userId: string; iat: number }
+
+export type UserPluginSettings = {
+  factorDb: FactorDb
+  factorEmail: FactorEmail
+  googleClientId?: string
+  googleClientSecret?: string
+  serverUrl: string
+  hooks?: HookType<HookDictionary>[]
+  tokenSecret: string
+  mode: "production" | "development"
+}
+
+export type HookDictionary = {
+  onLogout: { args: [] }
+  onUserVerified: { args: [FullUser] }
+  requestCurrentUser: { args: [FullUser | undefined] }
+  processUser: {
+    args: [FullUser, { params: ManageUserParams; meta: EndpointMeta }]
+  }
+}
 
 enum Gender {
   Male = "male",

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import bcrypt from "bcrypt"
 import { dayjs, validateEmail, snakeCase } from "../utils"
-import { createClientToken, decodeClientToken } from "../utils/jwt"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
 import { runHooks } from "../utils/hook"
@@ -15,7 +14,7 @@ import {
   getPublicUserFields,
   getJsonUserFields,
   getEditableUserFields,
-} from "./userClient"
+} from "./utils"
 import type { FactorUser, HookDictionary } from "."
 
 export abstract class UserQuery extends Query {
@@ -241,7 +240,7 @@ export class QueryManageUser extends UserQuery {
         .returning<FullUser[]>("*")
 
       if (!user) throw this.stop("problem creating user")
-      token = createClientToken(user)
+      token = this.factorUser.createClientToken(user)
       isNew = true
     }
 
@@ -281,7 +280,7 @@ export class QueryCurrentUser extends UserQuery {
 
     if (!token) throw this.stop("auth info not sent (token)")
 
-    const { email } = decodeClientToken(token)
+    const { email } = this.factorUser.decodeClientToken(token)
 
     if (!email) throw this.stop("email missing in token")
 
@@ -499,7 +498,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       if (!user) throw this.stop("problem updating user")
 
       // if email or password were changed, create new token
-      token = password ? createClientToken(user) : undefined
+      token = password ? this.factorUser.createClientToken(user) : undefined
     }
 
     return {
@@ -551,7 +550,7 @@ export class QuerySetPassword extends UserQuery {
       status: "success",
       data: user,
       message: "new password created",
-      token: createClientToken(user),
+      token: this.factorUser.createClientToken(user),
       user,
     }
   }
@@ -599,7 +598,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
       status: "success",
       data: user,
       message: "verification successful",
-      token: createClientToken(user),
+      token: this.factorUser.createClientToken(user),
     }
   }
 }
@@ -657,7 +656,7 @@ export class QueryStartNewUser extends UserQuery {
       data: { userId: user.userId, fullName: user.fullName, email: user.email },
       message: "verification code sent",
       user,
-      token: createClientToken(user),
+      token: this.factorUser.createClientToken(user),
     }
   }
 }
@@ -724,7 +723,7 @@ export class QueryLogin extends UserQuery {
       throw this.stop({ message: "no auth provided" })
     }
 
-    const token = createClientToken(user)
+    const token = this.factorUser.createClientToken(user)
 
     if (!message) message = "successfully logged in"
 
@@ -810,16 +809,3 @@ export class QueryNewVerificationCode extends UserQuery {
     }
   }
 }
-
-// export const Queries = {
-//   Login: new QueryLogin(),
-//   NewVerificationCode: new QueryNewVerificationCode(),
-//   SetPassword: new QuerySetPassword(),
-//   ResetPassword: new QueryResetPassword(),
-//   UpdateCurrentUser: new QueryUpdateCurrentUser(),
-//   SendOneTimeCode: new QuerySendOneTimeCode(),
-//   VerifyAccountEmail: new QueryVerifyAccountEmail(),
-//   StartNewUser: new QueryStartNewUser(),
-//   CurrentUser: new QueryCurrentUser(),
-//   ManageUser: new QueryManageUser(),
-// }

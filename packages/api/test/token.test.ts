@@ -2,13 +2,17 @@
  * @vitest-environment jsdom
  * https://vitest.dev/config/#environment
  */
-import { expect, describe, it } from "vitest"
-import { clientToken } from "../utils/jwt"
+import { expect, describe, it, beforeAll } from "vitest"
+import { createTestUtils, TestUtils } from "../test-utils"
 import { getCookie, getTopDomain } from "../utils/cookie"
 
+let testUtils: TestUtils | undefined = undefined
 describe("user token", () => {
+  beforeAll(async () => {
+    testUtils = await createTestUtils()
+  })
   it("saves the token in a parent domain cookie", () => {
-    clientToken({ action: "set", token: "test" })
+    testUtils?.factorUser.clientToken({ action: "set", token: "test" })
     const cookieToken = getCookie("ffUser")
 
     expect(cookieToken).toEqual("test")
@@ -16,12 +20,12 @@ describe("user token", () => {
   })
 
   it("gets token", () => {
-    const token = clientToken({ action: "get" })
+    const token = testUtils?.factorUser.clientToken({ action: "get" })
     expect(token).toEqual("test")
   })
 
   it("removes the token", () => {
-    clientToken({ action: "destroy" })
+    testUtils?.factorUser.clientToken({ action: "destroy" })
     const cookieToken = getCookie("ffUser")
 
     expect(cookieToken).toBeFalsy()

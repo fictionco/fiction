@@ -1,7 +1,6 @@
 import { expect, it, describe, vi, beforeAll } from "vitest"
 import { handleCrossEnv } from "@factor/api/config"
 import { createServer } from "@factor/api/entry/serverEntry"
-import { decodeClientToken } from "@factor/api/utils/jwt"
 import { getServerUserConfig } from "@factor/api/config/entry"
 import { createTestUtils, TestUtils } from "@factor/api/test-utils"
 
@@ -13,6 +12,7 @@ const key = Math.random().toString().slice(2, 8)
 
 let testUtils: TestUtils | undefined = undefined
 let factorEmail: FactorEmail | undefined = undefined
+
 describe("user tests", () => {
   beforeAll(async () => {
     handleCrossEnv()
@@ -47,7 +47,7 @@ describe("user tests", () => {
     expect(token).toBeTruthy()
     expect(user?.verificationCode).toBeFalsy()
     expect(user?.emailVerified).toBeFalsy()
-    const fields = decodeClientToken(token as string)
+    const fields = testUtils?.factorUser.decodeClientToken(token as string)
 
     expect(fields).toBeTruthy()
   })

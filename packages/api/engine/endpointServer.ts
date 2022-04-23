@@ -5,7 +5,6 @@ import express from "express"
 import { ErrorConfig, EndpointResponse } from "../types"
 import { log } from "../logger"
 import { _stop } from "../utils/error"
-import { decodeClientToken } from "../utils/jwt"
 import { onEvent } from "../utils/event"
 import { FactorUser } from "../plugin-user"
 import { Endpoint } from "./endpoint"
@@ -104,6 +103,8 @@ export class EndpointServer {
   setAuthorizedUser = async (
     request: express.Request,
   ): Promise<express.Request> => {
+    if (!this.factorUser) return request
+
     const bearerToken = request.headers.authorization
 
     if (bearerToken && bearerToken.startsWith("Bearer ")) {
@@ -111,7 +112,8 @@ export class EndpointServer {
       request.bearerToken = token
 
       if (request.bearerToken) {
-        const { email } = decodeClientToken(request.bearerToken)
+        const { email } =
+          this.factorUser.decodeClientToken(request.bearerToken) ?? {}
 
         request.bearer = undefined
 

@@ -30,11 +30,16 @@ type VarConfig = {
   live?: boolean
   app?: boolean
 }
+
+export type VarType<T extends readonly VarConfig[]> = {
+  [P in T[number]["v"]]: NonNullable<T[number]["val"]>
+}
+
 export const getEnvVars = <T extends readonly VarConfig[]>(params: {
   vars?: T
   isApp: boolean
   isLive: boolean
-}): Record<T[number]["v"], string> => {
+}): VarType<T> => {
   const env: Record<string, string> = {}
   const { vars = [], isApp, isLive } = params
 
@@ -59,5 +64,6 @@ export const getEnvVars = <T extends readonly VarConfig[]>(params: {
       )
     }
   })
-  return env
+
+  return env as VarType<T>
 }

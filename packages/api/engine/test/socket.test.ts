@@ -3,7 +3,7 @@
  * https://vitest.dev/config/#environment
  */
 import { expect, it, describe, beforeAll, afterAll } from "vitest"
-import { waitFor, createClientToken } from "../.."
+import { waitFor } from "@factor/api/utils"
 
 import {
   createSocketServer,
@@ -31,11 +31,12 @@ const clientEvents: [keyof EventMap, EventMap[keyof EventMap]["res"]][] = []
 let testUtils: TestUtils | undefined = undefined
 describe("sockets", () => {
   beforeAll(async () => {
+    testUtils = await createTestUtils()
     s = await createSocketServer<EventMap>({
       name: "testServer",
       port,
+      factorUser: testUtils.factorUser,
     })
-    testUtils = await createTestUtils()
   })
   afterAll(async () => {
     s?.endpointServer.server?.close()
@@ -60,7 +61,7 @@ describe("sockets", () => {
 
     if (!factorUser) throw new Error("no factorUser")
 
-    const token = createClientToken({
+    const token = testUtils?.factorUser.createClientToken({
       email: "hello@world.com",
       userId: "hello",
     })

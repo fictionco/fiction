@@ -4,8 +4,9 @@ import http from "http"
 import express from "express"
 
 import * as ws from "ws"
-import { clientToken, emitEvent, log, waitFor, _stop } from ".."
-import { decodeClientToken } from "../utils/jwt"
+import { log } from "@factor/api/logger"
+import { emitEvent, waitFor, _stop } from "../utils"
+
 import { FactorUser } from "../plugin-user"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
@@ -73,7 +74,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     await this.factorUser.userInitialized()
 
-    return clientToken({ action: "get" }) ?? ""
+    return this.factorUser.clientToken({ action: "get" }) ?? ""
   }
 
   private async socketUrl(): Promise<URL | undefined> {
@@ -214,6 +215,11 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public server?: http.Server
   public wss?: ws.WebSocketServer
   private context = "socketServer"
+  factorUser: FactorUser
+  constructor(settings: { factorUser: FactorUser }) {
+    super()
+    this.factorUser = settings.factorUser
+  }
 
   public createServer({ app }: { app: express.Express }): http.Server {
     this.app = app
@@ -237,7 +243,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
         request.bearerToken = undefined
 
         if (token) {
-          const tokenData = decodeClientToken(token)
+          const tokenData = this.factorUser.decodeClientToken(token)
           request.bearer = tokenData
           request.bearerToken = token
         }
@@ -321,10 +327,11 @@ export const createSocketServer = async <T extends EventMap>(args: {
   name: string
   port: string
   endpoints?: Endpoint[]
+  factorUser: FactorUser
 }): Promise<SocketServerComponents<T>> => {
-  const { port, name, endpoints = [] } = args
+  const { port, name, endpoints = [], factorUser } = args
 
-  const socketServer = new NodeSocketServer<T>()
+  const socketServer = new NodeSocketServer<T>({ factorUser })
 
   const endpointServer = new EndpointServer({
     name,

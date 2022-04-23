@@ -4,43 +4,7 @@ import { emitEvent } from "../utils/event"
 import { clientToken } from "../utils/jwt"
 import { log } from "../logger"
 import { stored, storeItem } from "../utils/store"
-import { PublicUser, FullUser } from "./types"
-
-export const getJsonUserFields = (): (keyof FullUser)[] => {
-  return ["settings", "profile"]
-}
-
-export const getEditableUserFields = (): (keyof FullUser)[] => {
-  const baseEditable: (keyof FullUser)[] = [
-    "fullName",
-    "avatar",
-    "birthday",
-    "cover",
-    "gender",
-    "about",
-  ]
-
-  return baseEditable
-}
-
-export const getPublicUserFields = (): (keyof PublicUser)[] => {
-  const baseEditable: (keyof PublicUser)[] = [
-    "userId",
-    "email",
-    "emailVerified",
-    "role",
-    "username",
-    "fullName",
-    "createdAt",
-    "updatedAt",
-    "avatar",
-    "status",
-    "lastSeen",
-    "username",
-    "profile",
-  ]
-  return baseEditable
-}
+import { FullUser } from "./types"
 
 export const cacheUser = ({ user }: { user: Partial<FullUser> }): void => {
   if (user && user.userId) storeItem(user.userId, user)
@@ -92,9 +56,7 @@ export const setCurrentUser = (args: {
 
   if (!user) return deleteCurrentUser()
 
-  log.debug("setCurrentUser", `set ${user.email}`, {
-    data: user,
-  })
+  log.debug("setCurrentUser", `set ${user.email}`, { data: user })
 
   if (token) {
     clientToken({ action: "set", token })

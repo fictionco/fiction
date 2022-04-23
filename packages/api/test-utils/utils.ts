@@ -6,7 +6,7 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { getEnvVars, deepMergeAll } from "../utils"
-import { randomBetween, setCurrentUser, log } from ".."
+import { randomBetween, log } from ".."
 import { getServerUserConfig, handleCrossEnv, UserConfig } from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
@@ -83,6 +83,8 @@ export const createTestUtils = async (): Promise<TestUtils> => {
     googleClientId: env.googleClientId,
     googleClientSecret: env.googleClientSecret,
     serverUrl,
+    mode: "development",
+    tokenSecret: "test",
   })
 
   const key = Math.random().toString().slice(2, 12)
@@ -101,21 +103,11 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   if (!token) throw new Error("token not returned")
   if (!user) throw new Error("no user created")
 
-  return { user, token, email, factorUser, factorDb, factorEmail, serverUrl }
-}
-
-export const setTestCurrentUser = async (params: {
-  factorUser: FactorUser
-}): Promise<TestUtils> => {
-  const { factorUser } = params
-
-  const testUtils = await createTestUtils()
-
-  setCurrentUser({ user: testUtils.user, token: testUtils.token })
+  factorUser.setCurrentUser({ user, token })
 
   factorUser.setUserInitialized()
 
-  return testUtils
+  return { user, token, email, factorUser, factorDb, factorEmail, serverUrl }
 }
 
 export const createTestServer = async (params: {

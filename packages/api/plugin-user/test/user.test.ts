@@ -5,7 +5,6 @@ import {
   createTestUtils,
   TestUtils,
 } from "@factor/api/test-utils"
-import { decodeClientToken } from "@factor/api/utils/jwt"
 import { createServer } from "@factor/api/entry/serverEntry"
 import { getServerUserConfig } from "@factor/api/config"
 
@@ -87,7 +86,9 @@ describe.skip("user tests", () => {
     expect(bcrypt.compare("test", user?.hashedPassword ?? "")).toBeTruthy()
     expect(response?.token).toBeTruthy()
 
-    const result = decodeClientToken(response?.token as string)
+    const result = testUtils?.factorUser.decodeClientToken(
+      response?.token as string,
+    )
 
     expect(result?.email).toBe(user.email)
   })

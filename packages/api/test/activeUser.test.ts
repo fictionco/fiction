@@ -1,36 +1,34 @@
 import { beforeAll, describe, expect, it } from "vitest"
 import { computed } from "vue"
-import { createTestUtils } from "../test-utils"
-import {
-  FullUser,
-  activeUser,
-  setCurrentUser,
-  updateUser,
-} from "../plugin-user"
+import { createTestUtils, TestUtils } from "../test-utils"
+import { FullUser } from "../plugin-user"
 
-let user: FullUser | undefined = undefined
+let testUtils: TestUtils | undefined = undefined
 describe("active user handling", () => {
   beforeAll(async () => {
-    const { user: createdUser } = await createTestUtils()
-    user = createdUser
+    testUtils = await createTestUtils()
   })
   it("should set the user to initialized", async () => {
+    if (!testUtils) throw new Error("testUtils not defined")
+    testUtils.factorUser.setCurrentUser({ user: undefined })
     const computedVar = computed(() => {
-      return `id-${activeUser.value?.userId ?? ""}`
+      return `id-${testUtils?.factorUser.activeUser.value?.userId ?? ""}`
     })
 
-    expect(activeUser.value).toBeUndefined()
+    expect(testUtils.factorUser.activeUser.value).toBeUndefined()
     expect(computedVar.value).toBe("id-")
 
-    setCurrentUser({ user })
+    testUtils.factorUser.setCurrentUser({ user: testUtils.user })
 
-    expect(activeUser.value?.userId).toBe(user?.userId)
+    expect(testUtils.factorUser.activeUser.value?.userId).toBe(
+      testUtils.user?.userId,
+    )
 
-    expect(computedVar.value).toBe(`id-${user?.userId}`)
+    expect(computedVar.value).toBe(`id-${testUtils?.user?.userId}`)
   })
 
   it("updates user", async () => {
-    await updateUser((user: FullUser | undefined) => {
+    await testUtils?.factorUser?.updateUser((user: FullUser | undefined) => {
       if (!user) return
       return { ...user, fullName: "test" }
     })

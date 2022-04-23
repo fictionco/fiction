@@ -43,6 +43,8 @@ export const factorUser = new FactorUser({
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
   googleClientSecret: env.googleClientSecret,
   serverUrl,
+  tokenSecret: env.tokenSecret,
+  mode: env.mode as "development" | "production",
 })
 
 export const factorStripe = new FactorStripe({

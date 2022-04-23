@@ -2,11 +2,11 @@ import axios, { AxiosRequestConfig } from "axios"
 import type express from "express"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
-import { clientToken } from "../utils/jwt"
+
 import { logger } from "../logger"
 import { emitEvent } from "../utils/event"
-import { updateUser } from "../plugin-user/userClient"
 
+import type { FactorUser } from "../plugin-user"
 import { Query } from "./query"
 
 type EndpointServerUrl = (() => string | undefined) | string | undefined
@@ -14,6 +14,7 @@ type EndpointServerUrl = (() => string | undefined) | string | undefined
 export type EndpointOptions = {
   serverUrl: EndpointServerUrl
   basePath: string
+  factorUser?: FactorUser
 }
 export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
@@ -48,6 +49,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string
   readonly key: string
+  factorUser?: FactorUser
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
@@ -58,6 +60,11 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.queryHandler = queryHandler
     this.requestHandler = requestHandler
+    this.factorUser = options.factorUser
+  }
+
+  setup() {
+    return {}
   }
 
   public pathname(): string {
@@ -74,12 +81,14 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       emitEvent(notifyType, { message: r.message, more: r.more })
     }
 
-    if (r.user) {
-      await updateUser(() => r.user as PrivateUser)
-    }
+    if (this.factorUser) {
+      if (r.user) {
+        await this.factorUser.updateUser(() => r.user as PrivateUser)
+      }
 
-    if (r.token) {
-      clientToken({ action: "set", token: r.token as string })
+      if (r.token) {
+        this.factorUser.clientToken({ action: "set", token: r.token as string })
+      }
     }
 
     return r as Awaited<ReturnType<T["run"]>>
@@ -115,7 +124,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     method: string,
     data: unknown,
   ): Promise<EndpointResponse<U>> {
-    const bearerToken = clientToken({ action: "get" })
+    const bearerToken = this.factorUser?.clientToken({ action: "get" })
 
     const url = `${this.basePath}/${method}`
 
@@ -146,9 +155,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       responseData = { status: "error", message: "http request error" }
     }
 
-    logger.debug("Endpoint", `response from ${url}`, {
-      data: responseData,
-    })
+    logger.debug("Endpoint", `response from ${url}`, { data: responseData })
 
     return responseData
   }
