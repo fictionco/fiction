@@ -11,4 +11,5 @@ export type HookDictionary = {
       UserConfig,
     ]
   }
+  afterConfigCreated: { args: [UserConfig] }
 }

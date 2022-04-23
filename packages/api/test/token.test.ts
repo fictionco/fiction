@@ -13,7 +13,7 @@ describe("user token", () => {
   })
   it("saves the token in a parent domain cookie", () => {
     testUtils?.factorUser.clientToken({ action: "set", token: "test" })
-    const cookieToken = getCookie("ffUser")
+    const cookieToken = getCookie(testUtils?.factorUser.clientTokenKey ?? "")
 
     expect(cookieToken).toEqual("test")
     expect(getTopDomain()).toEqual("localhost")
@@ -26,7 +26,7 @@ describe("user token", () => {
 
   it("removes the token", () => {
     testUtils?.factorUser.clientToken({ action: "destroy" })
-    const cookieToken = getCookie("ffUser")
+    const cookieToken = getCookie(testUtils?.factorUser.clientTokenKey ?? "")
 
     expect(cookieToken).toBeFalsy()
   })

@@ -33,6 +33,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   public hooks: HookType<types.HookDictionary>[]
   public tokenSecret: string
   private mode: "production" | "development"
+  public clientTokenKey = "ffUser"
   constructor(settings: types.UserPluginSettings) {
     super(settings)
 
@@ -212,19 +213,22 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
       token?: string
     } = {},
   ): string | undefined => {
-    if (this.utils.isNode()) return
+    if (typeof window == "undefined") {
+      this.log.warn("browser functions not available, set client token")
+      return
+    }
 
     const domain =
       this.mode == "production" ? this.utils.getTopDomain() : undefined
 
     const { action = "get", token } = args
-    const TOKEN_KEY = "ffUser"
+
     if (action === "destroy") {
-      this.utils.removeCookie(TOKEN_KEY, { domain })
+      this.utils.removeCookie(this.clientTokenKey, { domain })
     } else if (action == "set" && token) {
-      this.utils.setCookie(TOKEN_KEY, token, { expires: 14, domain })
+      this.utils.setCookie(this.clientTokenKey, token, { expires: 14, domain })
     } else {
-      const cookieValue = this.utils.getCookie(TOKEN_KEY)
+      const cookieValue = this.utils.getCookie(this.clientTokenKey)
 
       return cookieValue ? cookieValue : ""
     }

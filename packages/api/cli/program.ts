@@ -3,10 +3,10 @@ import { createRequire } from "module"
 import fs from "fs-extra"
 import { Command, OptionValues } from "commander"
 import { log } from "../logger"
-
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { CliOptions, done, wrapCommand, setEnvironment } from "./utils"
+
 const require = createRequire(import.meta.url)
 
 type EntryFile = { setup: (options: CliOptions) => Promise<void> }

@@ -8,6 +8,7 @@ import type { ServerModuleDef } from "../render/buildPlugins"
 
 import { LogHandler, SiteMapConfig } from "../types/server"
 import { HookType } from "../utils/hook"
+import type { RunConfig } from "../cli/utils"
 import type { HookDictionary } from "./hookDictionary"
 export interface FactorAppEntry {
   app: App
@@ -53,7 +54,10 @@ export interface UserConfig {
   sitemaps?: SiteMapConfig[]
   plugins?: (UserConfig | Promise<UserConfig>)[]
   hooks?: HookType<HookDictionary>[]
-  service?: { key: string; run: () => Promise<void> | void }[]
+  service?: {
+    key: string
+    run: (runConfig: RunConfig) => Promise<void> | void
+  }[]
   // build
   vite?: Partial<ViteInlineConfig>
   serverOnlyImports?: ServerModuleDef[]
