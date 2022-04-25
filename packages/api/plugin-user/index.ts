@@ -1,10 +1,11 @@
 import { Ref } from "vue"
 import jwt from "jsonwebtoken"
 import { UserConfig, FactorPlugin } from "../config"
-import { EndpointMap, Endpoint } from "../engine/endpoint"
+import { EndpointMap } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 import { HookType } from "../utils"
+import type { FactorServer } from "../plugin-server"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   QueryCurrentUser,
@@ -23,6 +24,7 @@ export * from "./types"
 
 export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   readonly types = types
+  private factorServer: FactorServer
   private factorDb: FactorDb
   private factorEmail: FactorEmail
   public queries: ReturnType<typeof this.createQueries>
@@ -37,14 +39,16 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   constructor(settings: types.UserPluginSettings) {
     super(settings)
 
+    this.factorServer = settings.factorServer
     this.factorDb = settings.factorDb
     this.factorEmail = settings.factorEmail
     this.queries = this.createQueries()
     this.requests = this.createRequests({
       queries: this.queries,
-      serverUrl: settings.serverUrl,
       basePath: "/user",
+      factorServer: this.factorServer,
     })
+
     this.hooks = this.settings.hooks || []
     this.activeUser = this.vue.ref()
     this.tokenSecret = settings.tokenSecret
@@ -57,13 +61,8 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     }
     return {
       name: this.constructor.name,
-      endpoints: this.endpoints,
       serverOnlyImports: [{ id: "html-to-text" }],
     }
-  }
-
-  get endpoints(): Endpoint[] {
-    return Object.values(this.requests)
   }
 
   createQueries() {

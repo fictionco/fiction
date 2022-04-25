@@ -8,7 +8,7 @@ describe("server entry handling", () => {
     expect(config.variables?.TEST_BLOG_PLUGIN).toBe(undefined)
     expect(config.server).toBe(undefined)
     expect(config.plugins).toBe(undefined)
-    expect(config.variables).toMatchInlineSnapshot('{}')
+    expect(config.variables).toMatchInlineSnapshot("{}")
 
     expect(config.port).toBe(process.env.PORT)
     expect(Object.keys(config)).toMatchInlineSnapshot(`

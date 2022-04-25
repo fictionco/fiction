@@ -17,7 +17,7 @@
     "@factor/plugin-notify": "workspace:5.2.5",
     "@factor/plugin-stripe": "workspace:5.2.5",
     "@factor/ui": "workspace:*",
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^10.4.5",
     "axios": "^0.26.1",
     "dayjs": "^1.11.1",
     "deepmerge": "^4.2.2",
@@ -38,7 +38,7 @@
     "execa": "^6.0.0",
     "playwright": "^1.20.0",
     "vite": "*",
-    "vitest": "^0.9.0",
+    "vitest": "^0.10.0",
     "vue": "^3.2.33",
     "vue-router": "^4.0.10"
   },

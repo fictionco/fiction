@@ -1,4 +1,5 @@
 import type { JSONSchema } from "json-schema-to-typescript"
+import type { RunConfig } from "../cli/utils"
 import type { UserConfig } from "./types"
 
 export type HookDictionary = {
@@ -12,4 +13,5 @@ export type HookDictionary = {
     ]
   }
   afterConfigCreated: { args: [UserConfig] }
+  run: { args: [RunConfig] }
 }

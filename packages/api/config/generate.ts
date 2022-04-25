@@ -5,7 +5,7 @@ import { log } from "../logger"
 import { stringify } from "../utils"
 import { runHooks } from "../utils/hook"
 import { UserConfig } from "./types"
-import { HookDictionary } from "./hookDictionary"
+import type { HookDictionary } from "./hookDictionary"
 export const generateStaticConfig = async (
   config: UserConfig,
 ): Promise<void> => {

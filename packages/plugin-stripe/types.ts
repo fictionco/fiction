@@ -1,9 +1,11 @@
 import { EndpointResponse, HookType, PrivateUser } from "@factor/api"
 import { FactorUser } from "@factor/api/plugin-user"
+import { FactorServer } from "@factor/api/plugin-server"
 import type Stripe from "stripe"
 import type { FactorStripe } from "."
 
 export type StripePluginSettings = {
+  factorServer: FactorServer
   factorUser: FactorUser
   stripeMode: "test" | "live"
   publicKeyLive?: string
@@ -12,7 +14,6 @@ export type StripePluginSettings = {
   secretKeyTest?: string
   hooks?: HookType<HookDictionary>[]
   products: StripeProductConfig[]
-  serverUrl: string
 }
 export type StripeProductConfig = {
   priceId?: string

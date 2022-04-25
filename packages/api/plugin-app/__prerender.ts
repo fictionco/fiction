@@ -7,7 +7,7 @@ import { onEvent } from "../utils/event"
 import { log } from "../logger"
 
 import { RunConfig } from "../cli/utils"
-import { getRequestHtml, htmlGenerators } from "./serve"
+//import { getRequestHtml, htmlGenerators } from "./__serveve"
 import { getSitemapPaths } from "./sitemap"
 
 export const preRenderPages = async (params: RunConfig): Promise<void> => {

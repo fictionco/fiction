@@ -16,14 +16,13 @@ import { deepMergeAll } from "../utils"
 import { EntryModuleExports } from "../config/types"
 import { renderMeta } from "../utils/meta"
 import { version } from "../package.json"
-import { getViteConfig } from "./vite.config"
+import { getViteConfig } from "../plugin-build/vite.configld/vite.config"
 import { RenderMode } from "./types"
-import { renderPreloadLinks } from "./preload"
+import { renderPreloadLinks } from "./utils/preload"
 
 export type RenderConfig = {
   pathname?: string
   manifest?: Record<string, any>
-  renderMode?: RenderMode
   template?: string
 } & RunConfig
 
@@ -35,7 +34,6 @@ export type HtmlGenerateParts = HtmlBuildingBlocks & {
 export interface HtmlBuildingBlocks {
   template: string
   mode: "production" | "development"
-  renderMode?: RenderMode
   manifest: Record<string, any>
 }
 
@@ -82,7 +80,7 @@ export const getIndexHtml = async (params: RunConfig): Promise<string> => {
   const clientTemplatePath =
     mode == "production"
       ? `@MOUNT_FILE_ALIAS`
-      : `/@fs${require.resolve("@factor/api/entry/mount.ts")}`
+      : `/@fs${require.resolve("./mount.ts")}`
 
   let template = rawTemplate.replace(
     "</body>",
@@ -168,7 +166,7 @@ export const renderParts = async (
       >
     } else {
       const srv = await getViteServer(params)
-      entryModule = await srv.ssrLoadModule("@factor/api/entry/mount.ts")
+      entryModule = await srv.ssrLoadModule("./mount.ts")
     }
 
     const { runApp } = entryModule as EntryModuleExports
@@ -208,10 +206,10 @@ export const renderParts = async (
 
 export const getRequestHtml = async (params: RenderConfig): Promise<string> => {
   const mode = params.mode || "production"
-  const { pathname, manifest, renderMode, template, userConfig } = params
+  const { pathname, manifest, template, userConfig } = params
 
   const { appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs } =
-    await renderParts({ ...params, pathname, manifest, renderMode })
+    await renderParts({ ...params, pathname, manifest })
 
   // In development, get the index.html each request
   if (mode != "production") {

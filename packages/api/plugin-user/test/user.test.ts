@@ -5,8 +5,6 @@ import {
   createTestUtils,
   TestUtils,
 } from "@factor/api/test-utils"
-import { createServer } from "@factor/api/entry/serverEntry"
-import { getServerUserConfig } from "@factor/api/config"
 
 import { FullUser } from "../types"
 
@@ -29,9 +27,6 @@ let testUtils: undefined | TestUtils = undefined
 describe.skip("user tests", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
-
-    const userConfig = await getServerUserConfig({ moduleName: "@factor/site" })
-    await createServer({ userConfig })
   })
   it("creates user", async () => {
     const response = await testUtils?.factorUser?.queries.ManageUser.serve(

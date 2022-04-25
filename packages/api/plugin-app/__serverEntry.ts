@@ -1,12 +1,11 @@
 import http from "http"
 import bodyParser from "body-parser"
 import { UserConfig } from "../config/types"
-import { HookType, runHooks } from "../utils/hook"
+import { runHooks } from "../utils/hook"
 import type { RunConfig } from "../cli/utils"
 
 import { log } from "../logger"
 import { EndpointServer } from "../engine/endpointServer"
-import { FactorPlugin } from "../config"
 
 export const createEndpointServer = async (
   userConfig: UserConfig,
@@ -65,20 +64,4 @@ export const createServer = async (params: {
  */
 export const setup = async (options: RunConfig): Promise<UserConfig> => {
   return await createServer({ userConfig: options.userConfig ?? {} })
-}
-
-export type HookDictionary = {
-  afterServerSetup: { args: [] }
-  afterServerCreated: { args: [] }
-}
-
-type FactorServerSettings = {
-  hooks: HookType<HookDictionary>
-}
-
-export class FactorServer extends FactorPlugin<FactorServerSettings> {
-  public hooks: HookType<types.HookDictionary>[]
-  constructor(settings: FactorServerSettings) {
-    super(settings)
-  }
 }

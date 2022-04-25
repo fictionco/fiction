@@ -5,6 +5,7 @@ import { UserGeolocation } from "@factor/api/types/geo"
 import { FactorPost, PopulatedPosts, PostActions } from "@factor/api/types/post"
 import { UserRoles } from "@factor/api/types/roles"
 import type { HookType } from "@factor/api/utils"
+import type { FactorServer } from "../plugin-server"
 import type { ManageUserParams } from "./endpoints"
 
 export type CurrentUserState = PrivateUser | undefined
@@ -14,11 +15,11 @@ export type { ManageUserParams }
 export type TokenFields = Partial<PrivateUser> & { userId: string; iat: number }
 
 export type UserPluginSettings = {
+  factorServer: FactorServer
   factorDb: FactorDb
   factorEmail: FactorEmail
   googleClientId?: string
   googleClientSecret?: string
-  serverUrl: string
   hooks?: HookType<HookDictionary>[]
   tokenSecret: string
   mode: "production" | "development"

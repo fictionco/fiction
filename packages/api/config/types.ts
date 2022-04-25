@@ -4,7 +4,7 @@ import { Router } from "vue-router"
 import { InlineConfig as ViteInlineConfig } from "vite"
 import type { AppRoute } from "../utils/router"
 import type { Endpoint } from "../engine/endpoint"
-import type { ServerModuleDef } from "../render/buildPlugins"
+import type { ServerModuleDef } from "../plugin-build/types"
 
 import { LogHandler, SiteMapConfig } from "../types/server"
 import { HookType } from "../utils/hook"

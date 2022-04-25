@@ -5,6 +5,7 @@ import { contextLogger } from "../logger"
 import { _stop } from "../utils/error"
 import * as utils from "../utils"
 import { Query } from "../engine/query"
+import type { FactorServer } from "../plugin-server"
 import { UserConfig } from "./types"
 
 export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
@@ -42,6 +43,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     queries: R
     serverUrl?: string
     basePath?: string
+    factorServer: FactorServer
     endpointHandler?: typeof Endpoint
   }): M {
     if (!params.serverUrl) {
@@ -49,8 +51,15 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
       return {} as M
     }
 
-    const { queries, serverUrl, basePath, endpointHandler = Endpoint } = params
+    const {
+      queries,
+      factorServer,
+      basePath,
+      endpointHandler = Endpoint,
+    } = params
     const q = queries ?? {}
+
+    const serverUrl = factorServer.serverUrl
 
     const entries = Object.entries(q)
       .map(([key, query]) => {
@@ -67,6 +76,8 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
       .filter(Boolean) as [string, Endpoint][]
 
     const requests = Object.fromEntries(entries)
+
+    factorServer.addEndpoints(Object.values(requests))
 
     return requests as M
   }

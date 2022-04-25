@@ -3,6 +3,7 @@ import { UserConfig, FactorPlugin, EndpointMap, HookType } from "@factor/api"
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
+import { FactorServer } from "@factor/api/plugin-server"
 import {
   QueryAllProducts,
   QueryGetCoupon,
@@ -19,6 +20,7 @@ import * as types from "./types"
 
 export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
   private factorUser: FactorUser
+  private factorServer: FactorServer
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
   public client?: StripeJS.Stripe
@@ -26,17 +28,16 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
   public hooks: HookType<types.HookDictionary>[]
   public products: types.StripeProductConfig[]
   readonly types = types
-  readonly serverUrl: string
 
   constructor(settings: types.StripePluginSettings) {
     super(settings)
-    this.serverUrl = settings.serverUrl
+    this.factorServer = settings.factorServer
     this.factorUser = settings.factorUser
     this.queries = this.createQueries()
 
     this.requests = this.createRequests({
       queries: this.queries,
-      serverUrl: settings.serverUrl,
+      factorServer: this.factorServer,
     })
     this.stripeMode = settings.stripeMode
     this.hooks = settings.hooks ?? []
@@ -48,7 +49,7 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
       ...Object.values(this.requests),
       new EndpointMethodStripeHooks({
         factorStripe: this,
-        serverUrl: this.serverUrl,
+        serverUrl: this.factorServer.serverUrl,
       }),
     ]
 

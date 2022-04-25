@@ -3,7 +3,7 @@ import http from "http"
 import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "../types"
-import { log } from "../logger"
+import { contextLogger } from "../logger"
 import { _stop } from "../utils/error"
 import { onEvent } from "../utils/event"
 import { FactorUser } from "../plugin-user"
@@ -32,9 +32,9 @@ export class EndpointServer {
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
-  context = "endpointServer"
   server?: http.Server
   factorUser?: FactorUser
+  log = contextLogger(this.constructor.name)
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer, name } = options
 
@@ -79,7 +79,7 @@ export class EndpointServer {
         }
       })
 
-      log.info(this.context, `endpoint server`, {
+      this.log.info(`started`, {
         data: {
           name: this.name,
           port: `[ ${this.port} ]`,
@@ -91,7 +91,7 @@ export class EndpointServer {
 
       return this.server
     } catch (error) {
-      log.error(this.context, "server create err", { error })
+      this.log.error("creation error", { error })
     }
   }
   /**
@@ -151,7 +151,7 @@ export class EndpointServer {
       request = await this.setAuthorizedUser(request)
       next()
     } catch (error) {
-      log.error(this.context, `endpoint setup error (${authorization ?? ""})`, {
+      this.log.error(`endpoint setup error (${authorization ?? ""})`, {
         error,
       })
 
@@ -171,12 +171,7 @@ export class EndpointServer {
     request: express.Request,
   ): EndpointResponse => {
     const details = request.body as Record<string, any>
-    log.log({
-      level: "error",
-      context: "endpointErrorResponse",
-      description: `error: ${request.url}`,
-      data: { error, ...details },
-    })
+    this.log.error(`error: ${request.url}`, { data: { error, ...details } })
 
     return {
       status: "error",

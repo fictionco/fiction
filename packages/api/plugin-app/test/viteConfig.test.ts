@@ -1,12 +1,10 @@
 import { describe, it, expect, beforeAll } from "vitest"
 import * as vite from "vite"
-import { createServer } from "@factor/api/entry/serverEntry"
 import { getUserConfig, userConfigSetting } from "@factor/api/config/plugins"
 import { getServerUserConfig } from "@factor/api/config/entry"
 import { getStandardPaths, StandardPaths } from "@factor/api/cli/utils"
 import { UserConfig } from "@factor/api/config"
 import { getTestCwd } from "@factor/api/test-utils"
-import { getViteConfig } from "../vite.config"
 
 let userConfig: UserConfig | undefined = undefined
 let viteConfig: vite.InlineConfig | undefined = undefined

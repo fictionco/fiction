@@ -5,6 +5,7 @@ import { log } from "../logger"
 import { getServerUserConfig, handleCrossEnv } from "../config/entry"
 import { UserConfig } from "../config/types"
 import { PackageJson } from "../types"
+import { runHooks } from "../utils"
 
 const require = createRequire(import.meta.url)
 
@@ -31,6 +32,7 @@ export type CliOptions = {
   pathname?: string
   cwd?: string
   mode?: NodeEnv
+  command?: string
 }
 
 export type Configurations = {
@@ -113,7 +115,7 @@ export const getStandardPaths = ({ cwd }: { cwd: string }): StandardPaths => {
   const publicDir = path.join(sourceDir, "public")
   const mountFilePath = path.join(
     path.dirname(require.resolve("@factor/api")),
-    "/entry/mount.ts",
+    "/plugin-app/mount.ts",
   )
 
   return {
@@ -128,20 +130,6 @@ export const getStandardPaths = ({ cwd }: { cwd: string }): StandardPaths => {
     mountFilePath,
     mainFilePath,
     rootComponentPath,
-  }
-}
-
-export const getStaticPathAliases = ({
-  cwd,
-}: {
-  cwd: string
-}): Record<string, string> => {
-  const paths = getStandardPaths({ cwd })
-  return {
-    "~/": `${paths.sourceDir}/`,
-    "@MAIN_FILE_ALIAS": paths.mainFilePath,
-    "@ROOT_COMPONENT_ALIAS": paths.rootComponentPath,
-    "@MOUNT_FILE_ALIAS": paths.mountFilePath,
   }
 }
 
@@ -202,11 +190,19 @@ export const wrapCommand = async (params: {
   try {
     await cb(renderConfig)
   } catch (error) {
-    log.error("wrapCommand", "command exec", {
-      error,
-      data: { ...opts, args: process.argv },
-    })
+    const data = { ...opts, args: process.argv }
+    log.error("wrapCommand", "command exec", { error, data })
     done(1)
   }
   if (exit) done(0)
+}
+
+export const runCommand = async (command: string, opts: CliOptions) => {
+  const runConfig = await setEnvironment({ ...opts, command })
+
+  await runHooks({
+    list: runConfig.userConfig?.hooks ?? [],
+    hook: "run",
+    args: [runConfig],
+  })
 }

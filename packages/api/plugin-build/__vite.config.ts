@@ -9,7 +9,7 @@ import { deepMergeAll, getMarkdownUtility } from ".."
 import { logger } from "../logger"
 import { UserConfig } from "../config/types"
 import { getStaticPathAliases, RunConfig } from "../cli/utils"
-import { getCustomBuildPlugins, getServerOnlyModules } from "./buildPlugins"
+import { getCustomBuildPlugins, getServerOnlyModules } from "./__buildPlugins"
 
 const require = createRequire(import.meta.url)
 

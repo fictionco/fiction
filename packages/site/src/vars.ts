@@ -2,6 +2,8 @@ import { getEnvVars, isTest, isApp } from "@factor/api"
 
 const vars = [
   { v: "mode", val: process.env.NODE_ENV as "development" | "production" },
+  { v: "port", val: process.env.FACTOR_SERVER_PORT || process.env.PORT },
+  { v: "portApp", val: process.env.FACTOR_APP_PORT },
   { v: "serverUrl", val: process.env.FACTOR_SERVER_URL, app: true },
   { v: "appUrl", val: process.env.FACTOR_APP_URL, app: true },
   { v: "smtpHost", val: process.env.SMTP_HOST, live: true },

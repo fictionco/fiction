@@ -12,6 +12,7 @@ import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
+import { FactorServer } from "../plugin-server"
 
 const require = createRequire(import.meta.url)
 
@@ -65,6 +66,11 @@ export const createTestUtils = async (): Promise<TestUtils> => {
     isApp: true,
   })
 
+  const factorServer = new FactorServer({
+    port: randomBetween(1000, 10_000),
+  })
+  const factorDb = new FactorDb({ connectionUrl: env.postgresUrl })
+
   const serverUrl = `http://localhost:${process.env.FACTOR_SERVER_PORT}`
   const appUrl = `http://localhost:${process.env.FACTOR_APP_PORT}`
 
@@ -75,14 +81,12 @@ export const createTestUtils = async (): Promise<TestUtils> => {
     isTest: true,
   })
 
-  const factorDb = new FactorDb({ connectionUrl: env.postgresUrl })
-
   const factorUser = new FactorUser({
     factorDb,
     factorEmail,
     googleClientId: env.googleClientId,
     googleClientSecret: env.googleClientSecret,
-    serverUrl,
+    factorServer,
     mode: "development",
     tokenSecret: "test",
   })

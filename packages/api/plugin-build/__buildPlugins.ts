@@ -10,35 +10,6 @@ export type ServerModuleDef = {
   resolvedId?: string
 }
 
-export const getServerOnlyModules = (
-  userConfig: UserConfig,
-): ServerModuleDef[] => {
-  return [
-    { id: "http" },
-    { id: "knex" },
-    { id: "knex-stringcase" },
-    { id: "bcrypt" },
-    { id: "chalk" },
-    { id: "google-auth-library" },
-    { id: "express" },
-    { id: "ws" },
-    { id: "nodemailer" },
-    { id: "nodemailer-html-to-text" },
-    { id: "prettyoutput" },
-    { id: "consola" },
-    { id: "jsonwebtoken" },
-    { id: "lodash" },
-    { id: "body-parser" },
-    { id: "cors" },
-    { id: "helmet" },
-    { id: "fast-safe-stringify" },
-    { id: "json-schema-to-typescript" },
-    { id: "fs-extra" },
-    { id: "module", exports: ["createRequire"] },
-    ...(userConfig.serverOnlyImports || []),
-  ]
-}
-
 const getReplacedModule = (opts: {
   id?: string
   src: string

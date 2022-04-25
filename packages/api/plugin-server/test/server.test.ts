@@ -1,13 +1,14 @@
 import { expect, it, describe } from "vitest"
 import axios from "axios"
 import { EndpointResponse } from "../../types"
-import { createServer } from "../serverEntry"
+import { FactorServer } from ".."
 
 describe("server test", () => {
   it("starts endpoint server", async () => {
+    const factorServer = new FactorServer({ port: 9929 })
     const port = process.env.PORT
 
-    await createServer({ userConfig: { port } })
+    const server = await factorServer.createServer()
 
     const response = await axios.get<EndpointResponse>(
       `http://localhost:${port}/health`,
@@ -23,5 +24,7 @@ describe("server test", () => {
     `)
 
     expect(response.data.message).toBe("ok")
+
+    server?.close()
   })
 })

@@ -17,7 +17,7 @@ export default defineConfig({
       "~/": `${cwd}/src`,
       "@MAIN_FILE_ALIAS": `${cwd}/src/index.ts`,
       "@ROOT_COMPONENT_ALIAS": `${cwd}/src/App.vue`,
-      "@MOUNT_FILE_ALIAS": `${apiDir}/entry/mount.ts`,
+      "@MOUNT_FILE_ALIAS": `${apiDir}/plugin-app/mount.ts`,
     },
   },
 

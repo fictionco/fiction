@@ -3,80 +3,68 @@ import bodyParser from "body-parser"
 import { UserConfig } from "../config/types"
 import { HookType } from "../utils/hook"
 import type { RunConfig } from "../cli/utils"
-
 import { EndpointServer } from "../engine/endpointServer"
 import { FactorPlugin } from "../config"
+import type { Endpoint } from "../engine"
 import * as types from "./types"
-
-/**
- * Set up all config variables on server
- */
-
-/**
- * Run the Factor server
- */
 
 export class FactorServer extends FactorPlugin<types.FactorServerSettings> {
   types = types
   public hooks: HookType<types.HookDictionary>[]
+  readonly port: number
+  endpoints: Endpoint[]
+  serverUrl: string
   constructor(settings: types.FactorServerSettings) {
     super(settings)
     this.hooks = settings.hooks ?? []
+    this.port = settings.port ?? 3333
+    this.serverUrl = settings.serverUrl ?? `http://localhost:${this.port}`
+    this.endpoints = settings.endpoints ?? []
+  }
+
+  addEndpoints(endpoints: Endpoint[]) {
+    this.endpoints = [...this.endpoints, ...endpoints]
   }
 
   async setup(): Promise<UserConfig> {
     return {
       hooks: [
         {
-          hook: "afterConfigCreated",
-          callback: async (userConfig: UserConfig) => {
-            await this.createServer({ userConfig })
+          hook: "run",
+          callback: async (runConfig: RunConfig) => {
+            const commands = new Set(["bundle", "build", "serve", "rdev"])
+            if (commands.has(runConfig.command ?? "")) {
+              await this.createServer()
+            }
           },
         },
       ],
-      service: [
-        {
-          key: "server",
-          run: async (runConfig: RunConfig) => {
-            await this.createServer({ userConfig: runConfig.userConfig })
-          },
-        },
-      ],
+      serverOnlyImports: [{ id: "http" }, { id: "body-parser" }],
     }
   }
 
-  createServer = async (params: {
-    userConfig?: UserConfig
-  }): Promise<UserConfig> => {
-    const { userConfig = {} } = params
-
+  createServer = async (): Promise<http.Server | undefined> => {
     await this.utils.runHooks({
       list: this.hooks,
       hook: "afterServerSetup",
     })
 
-    await this.createEndpointServer(userConfig)
+    const server = await this.createEndpointServer()
 
     await this.utils.runHooks({
       list: this.hooks,
       hook: "afterServerCreated",
     })
 
-    return userConfig
+    return server
   }
 
-  createEndpointServer = async (
-    userConfig: UserConfig,
-  ): Promise<http.Server | undefined> => {
-    const { endpoints = [], port } = userConfig
-
-    if (!port) throw new Error("port is required")
-
+  createEndpointServer = async (): Promise<http.Server | undefined> => {
     try {
       const factorEndpointServer = new EndpointServer({
         name: "factor",
-        port,
-        endpoints,
+        port: String(this.port),
+        endpoints: this.endpoints,
         middleware: (app) => {
           app.use(
             bodyParser.json({

@@ -5,8 +5,8 @@ import { logger, isNode } from ".."
 
 import { RunConfig } from "../cli/utils"
 import { preRender } from "./prerender"
-import { getIndexHtml } from "./serve"
-import { getViteConfig } from "./vite.config"
+import { getIndexHtml } from "./__serve"
+import { getViteConfig } from "../plugin-build/vite.configld/vite.config"
 import { generateSitemap } from "./sitemap"
 
 const require = createRequire(import.meta.url)

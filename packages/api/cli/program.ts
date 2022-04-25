@@ -5,23 +5,19 @@ import { Command, OptionValues } from "commander"
 import { log } from "../logger"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
-import { CliOptions, done, wrapCommand, setEnvironment } from "./utils"
+import {
+  CliOptions,
+  done,
+  wrapCommand,
+  setEnvironment,
+  runCommand,
+} from "./utils"
 
 const require = createRequire(import.meta.url)
 
 type EntryFile = { setup: (options: CliOptions) => Promise<void> }
 
 const commander = new Command()
-
-export enum ServiceModule {
-  Server = "@factor/api/entry/serverEntry",
-  Render = "@factor/api/render",
-}
-
-export const coreServices = {
-  server: { servicePath: ServiceModule.Server },
-  render: { servicePath: ServiceModule.Render },
-}
 
 /**
  * Is current start a nodemon restart
@@ -103,21 +99,21 @@ export const runService = async (options: CliOptions): Promise<void> => {
 /**
  * Runs the endpoint server for CWD app
  */
-export const runServer = async (options: CliOptions): Promise<void> => {
-  return runService({ SERVICE: ServiceModule.Server, ...options })
-}
-/**
- * Run development environment for CWD app
- */
-export const runDev = async (options: CliOptions): Promise<void> => {
-  for (const { servicePath } of Object.values(coreServices)) {
-    const { setup } = (await import(servicePath)) as EntryFile
+// export const runServer = async (options: CliOptions): Promise<void> => {
+//   return runService({ SERVICE: ServiceModule.Server, ...options })
+// }
+// /**
+//  * Run development environment for CWD app
+//  */
+// export const runDev = async (options: CliOptions): Promise<void> => {
+//   for (const { servicePath } of Object.values(coreServices)) {
+//     const { setup } = (await import(servicePath)) as EntryFile
 
-    if (setup) {
-      await setup(options)
-    }
-  }
-}
+//     if (setup) {
+//       await setup(options)
+//     }
+//   }
+// }
 
 /**
  * Handle the CLI using Commander
@@ -135,10 +131,7 @@ export const execute = async (): Promise<void> => {
     .option("-a, --port-app <number>", "primary service port")
     .option("-p, --port <number>", "server specific port")
     .option("-s, --serve", "serve static site after build")
-    .option(
-      "--NODE_ENV <NODE_ENV>",
-      "node environment (development or production)",
-    )
+    .option("--mode <mode>", "node environment (development or production)")
 
   const extendCliFile = path.join(process.cwd(), "program.ts")
   if (fs.existsSync(extendCliFile)) {
@@ -149,16 +142,16 @@ export const execute = async (): Promise<void> => {
     extendCli.setup(commander)
   }
 
-  commander.command("start").action(async () => {
-    await wrapCommand({ cb: (_) => runService(_), opts: commander.opts() })
-  })
+  // commander.command("start").action(async () => {
+  //   await wrapCommand({ cb: (_) => runService(_), opts: commander.opts() })
+  // })
 
-  commander.command("server").action(async () => {
-    await wrapCommand({
-      cb: (_) => runServer(_),
-      opts: commander.opts(),
-    })
-  })
+  // commander.command("server").action(async () => {
+  //   await wrapCommand({
+  //     cb: (_) => runServer(_),
+  //     opts: commander.opts(),
+  //   })
+  // })
 
   commander
     .command("dev")
@@ -168,84 +161,84 @@ export const execute = async (): Promise<void> => {
       return restartInitializer(opts)
     })
 
-  commander.command("rdev").action(() => {
-    return wrapCommand({
-      cb: (_) => runDev(_),
-      opts: {
-        NODE_ENV: "development",
-        STAGE_ENV: "local",
-        ...commander.opts(),
-      },
-    })
-  })
+  // commander.command("rdev").action(() => {
+  //   return wrapCommand({
+  //     cb: (_) => runDev(_),
+  //     opts: {
+  //       NODE_ENV: "development",
+  //       STAGE_ENV: "local",
+  //       ...commander.opts(),
+  //     },
+  //   })
+  // })
 
-  commander
-    .command("build")
-    .option("--prerender", "prerender pages")
-    .action(() => {
-      const cliOpts = commander.opts() as CliOptions
-      return wrapCommand({
-        cb: async (opts) => {
-          const { buildApp } = await import("../render")
-          await runServer(opts)
-          return buildApp(opts)
-        },
+  // commander
+  //   .command("build")
+  //   .option("--prerender", "prerender pages")
+  //   .action(() => {
+  //     const cliOpts = commander.opts() as CliOptions
+  //     return wrapCommand({
+  //       cb: async (opts) => {
+  //         const { buildApp } = await import("../render")
+  //         await runServer(opts)
+  //         return buildApp(opts)
+  //       },
 
-        opts: {
-          NODE_ENV: "production",
-          exit: cliOpts.serve ? false : true,
-          ...cliOpts,
-        },
-      })
-    })
+  //       opts: {
+  //         NODE_ENV: "production",
+  //         exit: cliOpts.serve ? false : true,
+  //         ...cliOpts,
+  //       },
+  //     })
+  //   })
 
-  commander.command("prerender").action(() => {
-    const cliOpts = commander.opts() as CliOptions
-    return wrapCommand({
-      cb: async (opts) => {
-        opts.prerender = true
-        const { buildApp } = await import("../render")
+  // commander.command("prerender").action(() => {
+  //   const cliOpts = commander.opts() as CliOptions
+  //   return wrapCommand({
+  //     cb: async (opts) => {
+  //       opts.prerender = true
+  //       const { buildApp } = await import("../render")
 
-        await runServer(opts)
-        return buildApp(opts)
-      },
-      opts: {
-        name: commander.name(),
-        NODE_ENV: "production",
-        exit: cliOpts.serve ? false : true,
-        ...cliOpts,
-      },
-    })
-  })
+  //       await runServer(opts)
+  //       return buildApp(opts)
+  //     },
+  //     opts: {
+  //       name: commander.name(),
+  //       NODE_ENV: "production",
+  //       exit: cliOpts.serve ? false : true,
+  //       ...cliOpts,
+  //     },
+  //   })
+  // })
 
-  commander.command("serve").action(() => {
-    return wrapCommand({
-      cb: async (opts) => {
-        const { serveApp } = await import("../render")
-        return serveApp(opts)
-      },
-      opts: {
-        NODE_ENV: "production",
-        exit: false,
-        ...commander.opts(),
-      },
-    })
-  })
+  // commander.command("serve").action(() => {
+  //   return wrapCommand({
+  //     cb: async (opts) => {
+  //       const { serveApp } = await import("../render")
+  //       return serveApp(opts)
+  //     },
+  //     opts: {
+  //       NODE_ENV: "production",
+  //       exit: false,
+  //       ...commander.opts(),
+  //     },
+  //   })
+  // })
 
-  commander.command("render").action(() => {
-    const cliOpts = commander.opts() as CliOptions
-    return wrapCommand({
-      cb: async (opts) => {
-        const { preRender } = await import("../render")
-        return preRender(opts)
-      },
-      opts: {
-        NODE_ENV: "production",
-        exit: cliOpts.serve ? false : true,
-        ...cliOpts,
-      },
-    })
-  })
+  // commander.command("render").action(() => {
+  //   const cliOpts = commander.opts() as CliOptions
+  //   return wrapCommand({
+  //     cb: async (opts) => {
+  //       const { preRender } = await import("../render")
+  //       return preRender(opts)
+  //     },
+  //     opts: {
+  //       NODE_ENV: "production",
+  //       exit: cliOpts.serve ? false : true,
+  //       ...cliOpts,
+  //     },
+  //   })
+  // })
 
   commander
     .command("release")
@@ -260,7 +253,7 @@ export const execute = async (): Promise<void> => {
           /**
            * @type {import("@factor/api/build/release")}
            */
-          const { releaseRoutine } = await import("../build/release")
+          const { releaseRoutine } = await import("../plugin-build/release")
 
           return releaseRoutine(opts)
         },
@@ -271,36 +264,37 @@ export const execute = async (): Promise<void> => {
       })
     })
 
+  // commander
+  //   .command("bundle")
+  //   .description("bundle all packages")
+  //   .option("--no-sourceMap", "disable sourcemap")
+  //   .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
+  //   .option("--commit <commit>", "git commit id")
+  //   .action(async (o) => {
+  //     const cliOpts = {
+  //       name: commander.name(),
+  //       ...commander.opts(),
+  //       ...o,
+  //     } as CliOptions
+  //     const { bundleAll } = await import("../build/bundle")
+  //     await wrapCommand({
+  //       cb: (_) => bundleAll(_),
+  //       opts: {
+  //         exit: true,
+  //         ...cliOpts,
+  //       },
+  //     })
+  //   })
+
   commander
-    .command("bundle")
-    .description("bundle all packages")
-    .option("--no-sourceMap", "disable sourcemap")
-    .option("--NODE_ENV <NODE_ENV>", "development or production bundling")
-    .option("--commit <commit>", "git commit id")
-    .action(async (o) => {
-      const cliOpts = {
-        name: commander.name(),
-        ...commander.opts(),
-        ...o,
-      } as CliOptions
-      const { bundleAll } = await import("../build/bundle")
-      await wrapCommand({
-        cb: (_) => bundleAll(_),
-        opts: {
-          exit: true,
-          ...cliOpts,
-        },
-      })
+    .command("run")
+    .argument("<command>", "command to run")
+    .action(async (command: string) => {
+      await runCommand(command, commander.opts())
     })
 
   commander.parse(process.argv)
 }
-/**
- * Handle exit events
- * This is so we can do clean up whenever node exits (if needed)
- * https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
- */
-process.stdin.resume() //so the program will not close instantly
 
 const exitHandler = (options: {
   exit?: boolean
@@ -315,6 +309,13 @@ const exitHandler = (options: {
     done(code)
   }
 }
+
+// /**
+//  * Handle exit events
+//  * This is so we can do clean up whenever node exits (if needed)
+//  * https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
+//  */
+process.stdin.resume() //so the program will not close instantly
 
 //do something when app is closing
 process.on("exit", () => exitHandler({ shutdown: true }))
