@@ -1,11 +1,26 @@
 import "tailwindcss/tailwind.css"
 import { FactorAppEntry } from "../config/types"
-import { mountApp, factorApp } from "./setupApp"
+import { isNode } from "../utils"
+import { compileApplication } from "../config/entry"
 
-export const runApp = (
+export const runViteApp = async (
   params: { renderUrl?: string } = {},
 ): Promise<FactorAppEntry> => {
-  return factorApp(params)
+  const { renderUrl } = params
+  const { userConfig, mainFile } = await compileApplication({ isApp: true })
+  const { factorApp } = mainFile
+
+  if (!factorApp) {
+    throw new Error("no factorApp exported from mainFile")
+  }
+
+  return await factorApp.mountApp({ renderUrl, userConfig })
 }
 
-mountApp({ id: "#app" }).catch(console.error)
+/**
+ * Run automatically in browser,
+ * 'runViteApp' is called directly on server side for prerender
+ */
+if (!isNode()) {
+  runViteApp().catch(console.error)
+}

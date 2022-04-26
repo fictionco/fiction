@@ -1,5 +1,12 @@
-import { UserConfig, FactorPlugin, EndpointMap, HookType } from "@factor/api"
-
+import http from "http"
+import {
+  UserConfig,
+  FactorPlugin,
+  EndpointMap,
+  HookType,
+  Endpoint,
+  EndpointResponse,
+} from "@factor/api"
 import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
@@ -15,7 +22,6 @@ import {
   QueryManageSubscription,
   QueryPaymentMethod,
 } from "./endpoints"
-import { EndpointMethodStripeHooks } from "./endpointHooks"
 import * as types from "./types"
 
 export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
@@ -28,7 +34,11 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
   public hooks: HookType<types.HookDictionary>[]
   public products: types.StripeProductConfig[]
   readonly types = types
-
+  publicKeyLive?: string
+  publicKeyTest?: string
+  secretKeyLive?: string
+  secretKeyTest?: string
+  webhookSecret?: string
   constructor(settings: types.StripePluginSettings) {
     super(settings)
     this.factorServer = settings.factorServer
@@ -42,20 +52,25 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
     this.stripeMode = settings.stripeMode
     this.hooks = settings.hooks ?? []
     this.products = settings.products
+    this.publicKeyLive = settings.publicKeyLive
+    this.publicKeyTest = settings.publicKeyTest
+    this.webhookSecret = settings.webhookSecret
+    this.secretKeyLive = settings.secretKeyLive
+    this.secretKeyTest = settings.secretKeyTest
+
+    const stripeWebhookEndpoint = new Endpoint({
+      requestHandler: (_) => this.stripeHookHandler(_),
+      key: "stripeWebhooks",
+      basePath: "/stripe-webhook",
+      serverUrl: this.factorServer.serverUrl,
+    })
+
+    this.factorServer.addEndpoints([stripeWebhookEndpoint])
   }
 
   async setup(): Promise<UserConfig> {
-    const endpoints = [
-      ...Object.values(this.requests),
-      new EndpointMethodStripeHooks({
-        factorStripe: this,
-        serverUrl: this.factorServer.serverUrl,
-      }),
-    ]
-
     return {
       name: this.constructor.name,
-      endpoints,
       vite: {
         optimizeDeps: {
           exclude: ["@stripe/stripe-js"],
@@ -144,5 +159,83 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
     }
 
     return product
+  }
+
+  stripeHookHandler = async (
+    request: http.IncomingMessage,
+  ): Promise<EndpointResponse> => {
+    let event: Stripe.Event
+    const stripe = this.getServerClient()
+    try {
+      const secret = this.webhookSecret
+      if (!secret) {
+        throw new Error("no webhookSecret")
+      }
+
+      event = stripe.webhooks.constructEvent(
+        request.rawBody,
+        request.headers["stripe-signature"] as string,
+        secret,
+      )
+    } catch (error) {
+      this.log.error(`stripe error`, { error })
+
+      this.log.error(
+        `stripe error: Webhook signature verification failed. Check the env file and enter the correct webhook secret`,
+      )
+
+      return { status: "error" }
+    }
+
+    // Handle the event
+    // Review important events for Billing webhooks
+    // https://stripe.com/docs/billing/webhooks
+    // Remove comment to see the various objects sent for this sample
+    if (event.type == "invoice.paid") {
+      // Used to provision services after the trial has ended.
+      // The status of the invoice will show up as paid. Store the status in your
+      // database to reference when a user accesses your service to avoid hitting rate limits.
+      await this.utils.runHooks({
+        list: this.hooks,
+        hook: "onInvoicePayment",
+        args: [event, { factorStripe: this }],
+      })
+    } else if (event.type == "invoice.payment_failed") {
+      // If the payment fails or the customer does not have a valid payment method,
+      //  an invoice.payment_failed event is sent, the subscription becomes past_due.
+      // Use this webhook to notify your user that their payment has
+      // failed and to retrieve new card details.
+      await this.utils.runHooks({
+        list: this.hooks,
+        hook: "onInvoicePaymentFailed",
+        args: [event, { factorStripe: this }],
+      })
+    } else if (event.type == "customer.subscription.deleted") {
+      /**
+       * if event.request is null, then it was cancelled from settings vs request
+       */
+      await this.utils.runHooks({
+        list: this.hooks,
+        hook: "onCustomerSubscriptionDeleted",
+        args: [event, { factorStripe: this }],
+      })
+    } else if (event.type == "customer.subscription.trial_will_end") {
+      /**
+       * Three days before the trial period is up, a customer.subscription.trial_will_end event is sent to your webhook endpoint.
+       * You can use that notification as a trigger to take any necessary actions, such as informing the customer that billing is about to begin.
+       * https://stripe.com/docs/billing/subscriptions/trials
+       */
+      await this.utils.runHooks({
+        list: this.hooks,
+        hook: "onSubscriptionTrialWillEnd",
+        args: [event, { factorStripe: this }],
+      })
+    } else {
+      this.log.error(`unexpected event type`, {
+        data: event.data.object,
+      })
+    }
+
+    return { status: "success" }
   }
 }

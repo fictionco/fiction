@@ -28,11 +28,18 @@ export class FactorServer extends FactorPlugin<types.FactorServerSettings> {
 
   async setup(): Promise<UserConfig> {
     return {
+      name: this.constructor.name,
       hooks: [
         {
-          hook: "run",
+          hook: "runCommand",
           callback: async (runConfig: RunConfig) => {
-            const commands = new Set(["bundle", "build", "serve", "rdev"])
+            const commands = new Set([
+              "bundle",
+              "build",
+              "server",
+              "dev",
+              "prerender",
+            ])
             if (commands.has(runConfig.command ?? "")) {
               await this.createServer()
             }

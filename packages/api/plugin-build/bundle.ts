@@ -25,7 +25,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     return {
       hooks: [
         {
-          hook: "run",
+          hook: "runCommand",
           callback: async (runConfig: RunConfig) => {
             const { command } = runConfig
 
@@ -74,7 +74,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         commit = await getCommit()
       }
 
-      const vc = await this.factorBuild.getViteConfig(runConfig)
+      const vc = await this.factorBuild.getCommonViteConfig(runConfig)
 
       const distDir = path.join("dist", buildOptions.outputDir ?? "")
 

@@ -2,6 +2,7 @@ import { HeadClient } from "@vueuse/head"
 import { App } from "vue"
 import { Router } from "vue-router"
 import { RunConfig } from "../cli/utils"
+import type { FactorApp } from "."
 
 export interface RenderOptions {
   mode: "production" | "development"
@@ -39,5 +40,6 @@ export interface FactorAppEntry {
 }
 
 export type EntryModuleExports = {
-  runApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
+  runViteApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
+  [key: string]: unknown
 }

@@ -3,9 +3,6 @@ import type { RunConfig } from "../cli/utils"
 import type { UserConfig } from "./types"
 
 export type HookDictionary = {
-  afterServerSetup: { args: [] }
-  afterServerCreated: { args: [] }
-  afterAppSetup: { args: [{ userConfig: UserConfig }] }
   staticConfig: {
     args: [
       { staticConfig: Record<string, any>; staticSchema: JSONSchema },
@@ -13,5 +10,5 @@ export type HookDictionary = {
     ]
   }
   afterConfigCreated: { args: [UserConfig] }
-  run: { args: [RunConfig] }
+  runCommand: { args: [RunConfig] }
 }

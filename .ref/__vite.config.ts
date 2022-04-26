@@ -3,13 +3,16 @@ import { createRequire } from "module"
 import pluginVue from "@vitejs/plugin-vue"
 import * as vite from "vite"
 import * as pluginMarkdown from "vite-plugin-markdown"
-import { importIfExists, requireIfExists } from "../engine/nodeUtils"
+import { importIfExists, requireIfExists } from "@factor/api/engine/nodeUtils"
 
-import { deepMergeAll, getMarkdownUtility } from ".."
-import { logger } from "../logger"
-import { UserConfig } from "../config/types"
-import { getStaticPathAliases, RunConfig } from "../cli/utils"
-import { getCustomBuildPlugins, getServerOnlyModules } from "./__buildPlugins"
+import { deepMergeAll, getMarkdownUtility } from "@factor/api"
+import { logger } from "@factor/api/logger"
+import { UserConfig } from "@factor/api/config/types"
+import { getStaticPathAliases, RunConfig } from "@factor/api/cli/utils"
+import {
+  getCustomBuildPlugins,
+  getServerOnlyModules,
+} from "@factor/api/plugin-build./../../.ref/__buildPlugins"
 
 const require = createRequire(import.meta.url)
 
@@ -20,7 +23,9 @@ const tailwindConfig = async (
 
   if (!cwd) throw new Error("cwd is required")
 
-  const baseTailwindConfig = await import("./tailwind.config")
+  const baseTailwindConfig = await import(
+    "@factor/api/plugin-build/tailwind.config"
+  )
 
   const c: Record<string, any>[] = [baseTailwindConfig.default]
 

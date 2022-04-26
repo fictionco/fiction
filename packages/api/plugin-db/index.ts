@@ -70,6 +70,8 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
   }
 
   async init(): Promise<void> {
+    this.log.info("initializing db")
+
     const imports = [
       import("./dbExtend"),
       import("./createTables"),
@@ -90,18 +92,18 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
       hook: "onStart",
       args: [this],
     })
+
+    this.log.info("db connected", {
+      data: {
+        url: this.connectionUrl.hostname,
+        port: `[ ${this.connectionUrl.port} ]`,
+      },
+    })
   }
 
   public async setup(): Promise<UserConfig> {
     if (!this.isTest && !this.utils.isBrowser()) {
-      await this.init()
-
-      this.log.info("db connected", {
-        data: {
-          url: this.connectionUrl.hostname,
-          port: `[ ${this.connectionUrl.port} ]`,
-        },
-      })
+      // await this.init()
     }
 
     return { name: this.constructor.name }

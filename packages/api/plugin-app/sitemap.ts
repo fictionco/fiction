@@ -1,11 +1,9 @@
-import { Readable } from "stream"
 import path from "path"
 import { RouteRecordRaw } from "vue-router"
-import { SitemapStream, streamToPromise } from "sitemap"
 import fs from "fs-extra"
 import { FactorPlugin } from "../config"
 import { AppRoute, generateRoutes } from "../utils/router"
-import { RunConfig } from "../cli/utils"
+import type { RunConfig } from "../cli/utils"
 
 export class FactorSitemap extends FactorPlugin {
   constructor() {
@@ -45,13 +43,16 @@ export class FactorSitemap extends FactorPlugin {
       }
     })
 
-    const stream = new SitemapStream({
+    const sitemap = await import(/* @vite-ignore */ "sitemap")
+    const { Readable } = await import(/* @vite-ignore */ "stream")
+
+    const stream = new sitemap.SitemapStream({
       hostname: appUrl,
       xslUrl: [appUrl, "sitemap.xsl"].join("/"),
     })
 
     // Return a promise that resolves with your XML string
-    const sitemapXmlData = await streamToPromise(
+    const sitemapXmlData = await sitemap.streamToPromise(
       Readable.from(sourceData).pipe(stream),
     )
 

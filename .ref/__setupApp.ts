@@ -8,7 +8,7 @@ import { getMeta } from "../utils/meta"
 import { initializeResetUi } from "../utils/ui"
 import { HookDictionary } from "../config/hookDictionary"
 import { runHooks } from "../utils/hook"
-import { createUserConfig } from "../config/entry"
+import { compileApplication } from "../config/entry"
 
 export const setupApp = async (params: {
   userConfig: UserConfig
@@ -29,7 +29,7 @@ export const setupApp = async (params: {
 }
 
 export const setupAppFromMainFile = async (): Promise<UserConfig> => {
-  const userConfig = await createUserConfig({ isApp: true })
+  const userConfig = await compileApplication({ isApp: true })
 
   return await setupApp({ userConfig })
 }

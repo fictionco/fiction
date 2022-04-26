@@ -119,11 +119,11 @@ export const handleCrossEnv = (
   }
 }
 
-export const createUserConfig = async (params: {
+export const compileApplication = async (params: {
   mainFilePath?: string
   isApp: boolean
   userConfig?: UserConfig
-}): Promise<UserConfig> => {
+}): Promise<{ userConfig: UserConfig; mainFile: MainFile }> => {
   let { userConfig } = params
 
   userConfig = handleCrossEnv(userConfig)
@@ -144,11 +144,14 @@ export const createUserConfig = async (params: {
     mainFile = (await import(/* @vite-ignore */ mainFilePath)) as MainFile
   }
 
+  if (!mainFile) throw new Error("no mainFile")
+
   let entryConfig: UserConfig = {}
   if (mainFile) {
     // get universal setup
     entryConfig = mainFile?.setup ? await mainFile.setup(userConfig) : {}
   }
+  const t0 = performance.now()
 
   const merge = [userConfig, entryConfig]
 
@@ -171,7 +174,7 @@ export const createUserConfig = async (params: {
     try {
       userConfig = await installPlugins({ userConfig, isApp })
     } catch (error: unknown) {
-      log.error("createUserConfig", "plugin install error", { error })
+      log.error("compileApplication", "plugin install error", { error })
     }
   }
 
@@ -181,7 +184,7 @@ export const createUserConfig = async (params: {
 
   userConfig = await storeUserConfig(userConfig)
 
-  return userConfig
+  return { userConfig, mainFile }
 }
 
 export const getServerUserConfig = async (
@@ -189,7 +192,7 @@ export const getServerUserConfig = async (
 ): Promise<UserConfig> => {
   const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
-  const userConfig = await createUserConfig({
+  const { userConfig } = await compileApplication({
     mainFilePath,
     isApp: false,
     userConfig: params.userConfig,

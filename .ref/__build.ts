@@ -1,13 +1,13 @@
 import { createRequire } from "module"
 
 import * as vite from "vite"
-import { logger, isNode } from ".."
+import { logger, isNode } from "../packages/api"
 
-import { RunConfig } from "../cli/utils"
+import { RunConfig } from "../packages/api/cli/utils"
 import { preRender } from "./prerender"
 import { getIndexHtml } from "./__serve"
 import { getViteConfig } from "../plugin-build/vite.configld/vite.config"
-import { generateSitemap } from "./sitemap"
+import { generateSitemap } from "../packages/api/plugin-app/sitemap"
 
 const require = createRequire(import.meta.url)
 

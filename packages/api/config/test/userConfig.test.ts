@@ -1,13 +1,16 @@
 import { createRequire } from "module"
 import { describe, it, expect } from "vitest"
-import { getServerUserConfig, createUserConfig } from "../entry"
+import { getServerUserConfig, compileApplication } from "../entry"
 import { userConfigSetting } from "../plugins"
 
 const require = createRequire(import.meta.url)
 describe("user config", () => {
   it("gets correct client-side user config", async () => {
     const mainFilePath = require.resolve("@factor/site")
-    const userConfig = await createUserConfig({ mainFilePath, isApp: true })
+    const { userConfig } = await compileApplication({
+      mainFilePath,
+      isApp: true,
+    })
     expect(userConfig.variables?.TEST_SERVER).toBeFalsy()
     expect(userConfigSetting("routes")?.length).toMatchInlineSnapshot("12")
   })

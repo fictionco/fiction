@@ -1,34 +1,323 @@
+import { compileApplication } from "@factor/api/config"
 import { expect, it, describe } from "vitest"
-import { setupAppFromMainFile } from "../setupApp"
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
-    expect(process.env.PORT).toBeDefined()
-    const config = await setupAppFromMainFile()
+    const { userConfig } = await compileApplication({ isApp: true })
 
-    expect(config.variables?.TEST_BLOG_PLUGIN).toBe(undefined)
-    expect(config.server).toBe(undefined)
-    expect(config.plugins).toBe(undefined)
-    expect(config.variables).toMatchInlineSnapshot("{}")
+    expect(userConfig.variables?.TEST_BLOG_PLUGIN).toBe(undefined)
+    expect(userConfig.server).toBe(undefined)
+    expect(userConfig.plugins).toBe(undefined)
+    expect(userConfig.variables).toMatchInlineSnapshot("{}")
 
-    expect(config.port).toBe(process.env.PORT)
-    expect(Object.keys(config)).toMatchInlineSnapshot(`
-      [
-        "port",
-        "portApp",
-        "serverUrl",
-        "appUrl",
-        "mode",
-        "appName",
-        "appEmail",
-        "routes",
-        "variables",
-        "sitemaps",
-        "paths",
-        "vite",
-        "endpoints",
-        "serverOnlyImports",
-      ]
+    expect(userConfig).toMatchInlineSnapshot(`
+      {
+        "appEmail": "hi@factorjs.org",
+        "appName": "FactorJS",
+        "appUrl": "https://www.factorjs.org",
+        "hooks": [
+          {
+            "callback": [Function],
+            "hook": "runCommand",
+          },
+          {
+            "callback": [Function],
+            "hook": "runCommand",
+          },
+        ],
+        "mode": "development",
+        "paths": [
+          "/Users/arpowers/Projects/factor/packages/ui/",
+          "/Users/arpowers/Projects/factor/packages/plugin-notify/",
+          "/Users/arpowers/Projects/factor/packages/plugin-highlight-code/",
+          "/Users/arpowers/Projects/factor/packages/plugin-blog-engine/",
+          "/Users/arpowers/Projects/factor/packages/plugin-docs-engine/",
+          "/Users/arpowers/Projects/factor/packages/plugin-stripe/",
+        ],
+        "port": "3333",
+        "portApp": "3000",
+        "routes": [
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "home",
+            "niceName": "Home",
+            "parent": undefined,
+            "path": "/",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "plugins",
+            "niceName": "Plugins",
+            "parent": undefined,
+            "path": "/plugins",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "showcase",
+            "niceName": "Showcase",
+            "parent": undefined,
+            "path": "/showcase",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "showcaseSingle",
+            "niceName": "Showcase Item",
+            "parent": undefined,
+            "path": "/showcase/:slug",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "install",
+            "niceName": "Install",
+            "parent": undefined,
+            "path": "/install",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "testing",
+            "niceName": "Testing",
+            "parent": undefined,
+            "path": "/testing",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "blog",
+            "niceName": "Blog",
+            "parent": undefined,
+            "path": "/blog",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "blogIndex",
+            "niceName": "Blog Index",
+            "parent": "blog",
+            "path": "/blog",
+            "priority": 200,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "blogSingle",
+            "niceName": "Blog Single",
+            "parent": "blog",
+            "path": "/blog/:slug",
+            "priority": 200,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "docs",
+            "niceName": "Docs",
+            "parent": undefined,
+            "path": "/docs",
+            "priority": 100,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "docsIndex",
+            "niceName": "Docs Index",
+            "parent": "docs",
+            "path": "/docs",
+            "priority": 200,
+            "redirect": undefined,
+          },
+          AppRoute {
+            "children": [],
+            "component": [Function],
+            "external": undefined,
+            "icon": undefined,
+            "isActive": undefined,
+            "menus": [],
+            "meta": undefined,
+            "name": "docsSingle",
+            "niceName": "Docs Single",
+            "parent": "docs",
+            "path": "/docs/:slug",
+            "priority": 200,
+            "redirect": undefined,
+          },
+        ],
+        "serverOnlyImports": [
+          {
+            "id": "stripe",
+          },
+          {
+            "id": "html-to-text",
+          },
+          {
+            "id": "http",
+          },
+          {
+            "id": "body-parser",
+          },
+          {
+            "id": "compression",
+          },
+          {
+            "id": "serve-favicon",
+          },
+          {
+            "id": "html-minifier",
+          },
+          {
+            "id": "serve-static",
+          },
+          {
+            "id": "fs-extra",
+          },
+          {
+            "id": "stream",
+          },
+          {
+            "id": "@vue/server-renderer",
+          },
+          {
+            "id": "sitemap",
+          },
+          {
+            "id": "glob",
+          },
+          {
+            "id": "vite-plugin-markdown",
+          },
+          {
+            "id": "vite/dist/node",
+          },
+          {
+            "id": "es-module-lexer",
+          },
+          {
+            "id": "cjs-module-lexer",
+          },
+          {
+            "id": "@vitejs/plugin-vue",
+          },
+        ],
+        "serverUrl": "http://localhost:3333",
+        "sitemaps": [
+          {
+            "paths": [
+              "/blog/factorjs-version-3-released",
+            ],
+            "topic": "posts",
+          },
+          {
+            "paths": [
+              "/docs/introduction",
+              "/docs/core-concepts",
+              "/docs/quickstart",
+              "/docs/configuration",
+              "/docs/dev-server",
+              "/docs/upgrading",
+              "/docs/styling",
+              "/docs/template",
+              "/docs/meta-tags",
+              "/docs/routes",
+              "/docs/app-component",
+              "/docs/store",
+              "/docs/public-folder",
+              "/docs/pre-render",
+              "/docs/deploy-server",
+              "/docs/endpoints",
+              "/docs/server-config",
+              "/docs/sitemaps",
+              "/docs/using-plugins",
+            ],
+            "topic": "docs",
+          },
+        ],
+        "variables": {},
+        "vite": {
+          "optimizeDeps": {
+            "exclude": [
+              "@stripe/stripe-js",
+            ],
+            "include": [
+              "highlight.js",
+            ],
+          },
+        },
+      }
     `)
-    expect(config.port).toBe(process.env.PORT)
-  })
+  }, 10_000)
 })

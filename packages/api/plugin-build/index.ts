@@ -1,8 +1,7 @@
-import pluginVue from "@vitejs/plugin-vue"
-import * as vite from "vite"
-import * as esLexer from "es-module-lexer"
-import * as cjsLexer from "cjs-module-lexer"
-import { RunConfig } from "../cli/utils"
+import type * as vite from "vite"
+import type * as esLexer from "es-module-lexer"
+import type * as cjsLexer from "cjs-module-lexer"
+import type { RunConfig } from "../cli/utils"
 import { FactorPlugin, UserConfig } from "../config"
 import * as types from "./types"
 
@@ -13,15 +12,27 @@ type FactorBuildSettings = {
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   types = types
   serverOnlyModules: types.ServerModuleDef[]
+  esLexer?: typeof esLexer
+  cjsLexer?: typeof cjsLexer
   constructor(settings: FactorBuildSettings = {}) {
     super(settings)
     this.serverOnlyModules = settings.serverOnlyModules ?? []
+    this.getLexers().catch(console.error)
   }
 
-  setup(): UserConfig {
-    return {
-      hooks: [],
+  async getLexers() {
+    if (!this.utils.isApp()) {
+      const [esLexer, cjsLexer] = await Promise.all([
+        import(/* @vite-ignore */ "es-module-lexer"),
+        import(/* @vite-ignore */ "cjs-module-lexer"),
+      ])
+      this.esLexer = esLexer
+      this.cjsLexer = cjsLexer
     }
+  }
+
+  async setup(): Promise<UserConfig> {
+    return {}
   }
 
   getReplacedModule = (opts: {
@@ -31,13 +42,17 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   }): string => {
     const { src, id = "?" } = opts
 
+    if (!this.esLexer || !this.cjsLexer) {
+      throw new Error("module parsers missing")
+    }
+
     const fileExports: string[] = []
 
     if (src.includes("exports")) {
-      const { exports: cjsExports } = cjsLexer.parse(src)
+      const { exports: cjsExports } = this.cjsLexer.parse(src)
       fileExports.push(...cjsExports)
     } else {
-      const [_imports, esExports] = esLexer.parse(src)
+      const [_imports, esExports] = this.esLexer.parse(src)
       fileExports.push(...esExports)
     }
 
@@ -76,7 +91,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       }
     })
 
-    await Promise.all([esLexer.init, cjsLexer.init()])
+    if (!this.esLexer || !this.cjsLexer) {
+      throw new Error("getCustomBuildPlugins: module parsers missing")
+    }
+
+    await Promise.all([this.esLexer.init, this.cjsLexer.init()])
 
     const plugins: vite.Plugin[] = [
       {
@@ -88,12 +107,12 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         //     return found.resolvedId
         //   }
         // },
-        transform: (src: string, id: string) => {
+        transform: async (src: string, id: string) => {
           const isServerPackage = fullServerModules.find((_) => {
             return id.includes(`node_modules/${_.id}`)
           })
 
-          const isServerFile = /server-only-file/.test(src)
+          const isServerFile = /server-only-file/.test(src.slice(0, 300))
 
           if (isServerPackage || isServerFile) {
             const code = this.getReplacedModule({ src, id, type: "map" })
@@ -148,60 +167,56 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   /**
    * Common vite options for all builds
    */
-  optimizeDeps = (userConfig: UserConfig): Partial<vite.InlineConfig> => {
+  getOptimizeDeps = (
+    userConfig: UserConfig,
+  ): Partial<vite.InlineConfig["optimizeDeps"]> => {
     const configExcludeIds = this.getServerOnlyModules(userConfig).map(
       (_) => _.id,
     )
 
     return {
-      server: {
-        watch: {
-          ignored: ["!**/node_modules/@factor/**"],
-        },
-      },
-      optimizeDeps: {
-        exclude: [
-          "@factor/api",
-          "@factor/ui",
-          "@factor/plugin-notify",
-          "@factor/plugin-stripe",
-          "@kaption/client",
-          "vue",
-          "@vueuse/head",
-          "vue-router",
-          "@medv/finder",
-          ...configExcludeIds,
-        ],
-        include: [
-          "ohmyfetch",
-          "path-browserify",
-          "dayjs",
-          "dayjs/plugin/timezone",
-          "dayjs/plugin/utc",
-          "dayjs/plugin/relativeTime",
-          "spark-md5",
-          "deepmerge",
-          "events",
-          "js-cookie",
-          "axios",
-          "qs",
-          "nanoid",
-          "front-matter",
-          "string-similarity",
-          "markdown-it",
-          "markdown-it-link-attributes",
-          "markdown-it-video",
-          "markdown-it-anchor",
-          "markdown-it-implicit-figures",
-          "remove-markdown",
-          "gravatar",
-          "validator",
-        ],
-      },
+      exclude: [
+        "@factor/api",
+        "@factor/ui",
+        "@factor/plugin-notify",
+        "@factor/plugin-stripe",
+        "@kaption/client",
+        "vue",
+        "vite",
+        "@vueuse/head",
+        "vue-router",
+        "@medv/finder",
+        ...configExcludeIds,
+      ],
+      include: [
+        "ohmyfetch",
+        "path-browserify",
+        "dayjs",
+        "dayjs/plugin/timezone",
+        "dayjs/plugin/utc",
+        "dayjs/plugin/relativeTime",
+        "spark-md5",
+        "deepmerge",
+        "events",
+        "js-cookie",
+        "axios",
+        "qs",
+        "nanoid",
+        "front-matter",
+        "string-similarity",
+        "markdown-it",
+        "markdown-it-link-attributes",
+        "markdown-it-video",
+        "markdown-it-anchor",
+        "markdown-it-implicit-figures",
+        "remove-markdown",
+        "gravatar",
+        "validator",
+      ],
     }
   }
 
-  getViteConfig = async (
+  getCommonViteConfig = async (
     options: RunConfig & {
       sourceDir: string
       publicDir: string
@@ -216,7 +231,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins(userConfig)
 
-    const optimizeDepsConfig = this.optimizeDeps(userConfig)
+    const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
     const basicConfig: vite.InlineConfig = {
       mode,
@@ -224,6 +239,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       publicDir,
       server: {
         fs: { strict: false },
+        watch: {
+          ignored: ["!**/node_modules/@factor/**"],
+        },
       },
 
       build: {
@@ -240,17 +258,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
 
       plugins: [pluginVue(), ...customPlugins],
-      ...optimizeDepsConfig,
+      optimizeDeps: this.getOptimizeDeps(userConfig),
     }
 
-    const merge = [basicConfig]
-
-    if (userConfig.vite) {
-      merge.push(userConfig.vite)
-    }
-
-    const conf = this.utils.deepMergeAll<Partial<vite.InlineConfig>>(merge)
-
-    return conf
+    return basicConfig
   }
 }

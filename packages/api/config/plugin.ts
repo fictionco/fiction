@@ -46,20 +46,21 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     factorServer: FactorServer
     endpointHandler?: typeof Endpoint
   }): M {
-    if (!params.serverUrl) {
-      this.log.warn("serverUrl missing - cannot create endpoints")
-      return {} as M
-    }
-
     const {
       queries,
       factorServer,
       basePath,
       endpointHandler = Endpoint,
     } = params
-    const q = queries ?? {}
 
     const serverUrl = factorServer.serverUrl
+
+    if (!serverUrl) {
+      this.log.warn("serverUrl missing - cannot create endpoints")
+      return {} as M
+    }
+
+    const q = queries ?? {}
 
     const entries = Object.entries(q)
       .map(([key, query]) => {

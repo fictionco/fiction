@@ -12,6 +12,7 @@ export type StripePluginSettings = {
   publicKeyTest?: string
   secretKeyLive?: string
   secretKeyTest?: string
+  webhookSecret?: string
   hooks?: HookType<HookDictionary>[]
   products: StripeProductConfig[]
 }

@@ -22,22 +22,25 @@ const appMeta = {
   appUrl: "https://www.factorjs.org",
 }
 
-const factorDb = new FactorDb({
+const mode = env.mode as "development" | "production"
+
+export const factorDb = new FactorDb({
   connectionUrl: env.postgresUrl,
   isTest: isTest(),
 })
 
-const factorServer = new FactorServer({
+export const factorServer = new FactorServer({
   port: env.port ? Number.parseInt(env.port) : 3333,
   serverUrl: env.serverUrl,
 })
 
-const factorApp = new FactorApp({
+export const factorApp = new FactorApp({
   appName: "FactorJS",
   appUrl: env.appUrl,
   factorServer,
   portApp: env.portApp ? Number.parseInt(env.portApp) : 3333,
   rootComponent: App,
+  mode,
 })
 
 export const factorEmail = new FactorEmail({
@@ -58,7 +61,7 @@ export const factorUser = new FactorUser({
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
   googleClientSecret: env.googleClientSecret,
   tokenSecret: env.tokenSecret,
-  mode: env.mode as "development" | "production",
+  mode,
 })
 
 export const factorStripe = new FactorStripe({
@@ -85,14 +88,14 @@ export const setup = (): UserConfig => {
     plugins: [
       factorApp.setup(),
       factorServer.setup(),
+      factorUser.setup(),
+      factorDb.setup(),
+      factorStripe.setup(),
       docsPlugin.setup(),
       blogPlugin.setup(),
       new FactorHighlightCode().setup(),
       new FactorNotify().setup(),
-      factorStripe.setup(),
       new FactorUi().setup(),
-      factorUser.setup(),
-      factorDb.setup(),
     ],
     server: () => {
       return {

@@ -32,8 +32,78 @@ export type CliOptions = {
   pathname?: string
   cwd?: string
   mode?: NodeEnv
-  command?: string
+  command?: Commands
 }
+
+class CliCommand<T extends string> {
+  public command: T
+  public description: string
+  public options: CliOptions
+
+  constructor(settings: {
+    command: T
+    description: string
+    options: CliOptions
+  }) {
+    this.command = settings.command
+    this.description = settings.description
+    this.options = settings.options
+  }
+
+  setOptions(options: CliOptions): this {
+    this.options = { ...this.options, ...options }
+    return this
+  }
+}
+
+const commands = [
+  new CliCommand({
+    command: "build",
+    description: "builds the app",
+    options: { mode: "production", exit: true },
+  }),
+  new CliCommand({
+    command: "bundle",
+    description: "bundles JS packages",
+    options: { mode: "production", exit: true },
+  }),
+  new CliCommand({
+    command: "start",
+    description: "serves a built app",
+    options: { mode: "production", exit: false },
+  }),
+  new CliCommand({
+    command: "prerender",
+    description: "prerenders app",
+    options: { mode: "production", exit: true },
+  }),
+  new CliCommand({
+    command: "server",
+    description: "runs endpoint server",
+    options: { mode: "production", exit: false },
+  }),
+  new CliCommand({
+    command: "dev",
+    description: "runs services in dev mode",
+    options: { mode: "development", exit: false },
+  }),
+  new CliCommand({
+    command: "rdev",
+    description: "runs dev with nodemon",
+    options: { mode: "development", exit: false },
+  }),
+  new CliCommand({
+    command: "release",
+    description: "builds and releases packages on NPM",
+    options: { mode: "production", exit: true },
+  }),
+]
+
+export type CommandKeysUtil<T extends CliCommand<string>[]> = {
+  [K in keyof T]: T[K] extends CliCommand<infer T> ? T : never
+}[number]
+
+type Commands = CommandKeysUtil<typeof commands>
 
 export type Configurations = {
   pkg?: PackageJson
@@ -137,27 +207,33 @@ export const getStandardPaths = ({ cwd }: { cwd: string }): StandardPaths => {
  * Sets Node process and environmental variables
  */
 export const setEnvironment = async (
-  options: CliOptions,
+  cliCommand: CliCommand<Commands>,
 ): Promise<RunConfig> => {
-  const { cwd = process.cwd(), NODE_ENV = "production" } = options
+  const {
+    cwd = process.cwd(),
+    mode = "production",
+    inspector = false,
+    port,
+    portApp,
+  } = cliCommand.options
 
   dotenv.config({ path: path.resolve(cwd, ".env") })
 
-  if (options.NODE_ENV == "development") {
+  if (mode == "development") {
     dotenv.config({ path: path.resolve(cwd, ".dev.env") })
   }
 
   // run with node developer tools inspector
-  if (options.inspector) {
+  if (inspector) {
     initializeNodeInspector().catch(console.error)
   }
 
-  process.env.NODE_ENV = NODE_ENV ?? "production"
+  process.env.NODE_ENV = mode ?? "production"
 
   const crossVars = handleCrossEnv({
-    port: options.port,
-    portApp: options.portApp,
-    mode: options.NODE_ENV,
+    port: port,
+    portApp: portApp,
+    mode,
   })
 
   const standardPaths = getStandardPaths({ cwd })
@@ -168,7 +244,8 @@ export const setEnvironment = async (
   })
 
   return {
-    ...options,
+    command: cliCommand.command,
+    ...cliCommand.options,
     ...standardPaths,
     mode: crossVars.mode,
     userConfig,
@@ -178,31 +255,42 @@ export const setEnvironment = async (
 /**
  * Standard wrap for a CLI command that exits and sanitizes input args
  */
-export const wrapCommand = async (params: {
-  cb: (options: RunConfig) => Promise<void>
-  opts?: CliOptions
-}): Promise<void> => {
-  const { cb, opts = {} } = params
-  const { exit } = opts
+// export const wrapCommand = async (params: {
+//   cb: (options: RunConfig) => Promise<void>
+//   opts?: CliOptions
+// }): Promise<void> => {
+//   const { cb, opts = {} } = params
+//   const { exit } = opts
 
-  const renderConfig = await setEnvironment(opts)
+//   const renderConfig = await setEnvironment(opts)
 
-  try {
-    await cb(renderConfig)
-  } catch (error) {
-    const data = { ...opts, args: process.argv }
-    log.error("wrapCommand", "command exec", { error, data })
-    done(1)
-  }
-  if (exit) done(0)
-}
+//   try {
+//     await cb(renderConfig)
+//   } catch (error) {
+//     const data = { ...opts, args: process.argv }
+//     log.error("wrapCommand", "command exec", { error, data })
+//     done(1)
+//   }
+//   if (exit) done(0)
+// }
 
 export const runCommand = async (command: string, opts: CliOptions) => {
-  const runConfig = await setEnvironment({ ...opts, command })
+  const cmd = command as Commands
+  const cliCommand = commands.find((_) => _.command === cmd)?.setOptions(opts)
 
-  await runHooks({
-    list: runConfig.userConfig?.hooks ?? [],
-    hook: "run",
-    args: [runConfig],
-  })
+  if (!cliCommand) {
+    log.error("runCommand", "command not found", { data: { command, opts } })
+    done(1)
+  } else {
+    const runConfig = await setEnvironment(cliCommand)
+    await runHooks({
+      list: runConfig.userConfig?.hooks ?? [],
+      hook: "runCommand",
+      args: [runConfig],
+    })
+
+    if (cliCommand.options.exit) {
+      done(0)
+    }
+  }
 }

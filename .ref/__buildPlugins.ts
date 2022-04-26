@@ -1,7 +1,7 @@
 import * as esLexer from "es-module-lexer"
 import * as cjsLexer from "cjs-module-lexer"
 import * as vite from "vite"
-import { UserConfig } from "../config/types"
+import { UserConfig } from "@factor/api/config/types/config/types"
 
 export type ServerModuleDef = {
   id: string

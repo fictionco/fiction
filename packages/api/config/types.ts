@@ -5,11 +5,13 @@ import { InlineConfig as ViteInlineConfig } from "vite"
 import type { AppRoute } from "../utils/router"
 import type { Endpoint } from "../engine/endpoint"
 import type { ServerModuleDef } from "../plugin-build/types"
-
 import { LogHandler, SiteMapConfig } from "../types/server"
 import { HookType } from "../utils/hook"
 import type { RunConfig } from "../cli/utils"
+import type { FactorApp } from "../plugin-app"
+import type { FactorServer } from "../plugin-server"
 import type { HookDictionary } from "./hookDictionary"
+
 export interface FactorAppEntry {
   app: App
   meta: HeadClient
@@ -24,6 +26,8 @@ export type EntryModuleExports = {
 
 export type MainFile = {
   setup?: (userConfig: UserConfig) => Promise<UserConfig> | UserConfig
+  factorApp?: FactorApp
+  factorServer?: FactorServer
   [key: string]: unknown
 }
 export interface UserConfig {

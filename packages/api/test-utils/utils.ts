@@ -13,6 +13,8 @@ import { PackageJson } from "../types"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 import { FactorServer } from "../plugin-server"
+import { FactorApp } from "../plugin-app"
+import EmptyApp from "./EmptyApp.vue"
 
 const require = createRequire(import.meta.url)
 
@@ -69,10 +71,17 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   const factorServer = new FactorServer({
     port: randomBetween(1000, 10_000),
   })
+
+  const factorApp = new FactorApp({
+    appName: "Test App",
+    portApp: randomBetween(1000, 10_000),
+    rootComponent: EmptyApp,
+    factorServer,
+  })
   const factorDb = new FactorDb({ connectionUrl: env.postgresUrl })
 
-  const serverUrl = `http://localhost:${process.env.FACTOR_SERVER_PORT}`
-  const appUrl = `http://localhost:${process.env.FACTOR_APP_PORT}`
+  const serverUrl = factorServer.serverUrl
+  const appUrl = factorApp.appUrl
 
   const factorEmail = new FactorEmail({
     appEmail: "arpowers@gmail.com",
