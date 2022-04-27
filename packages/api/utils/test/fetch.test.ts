@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { describe, it, expect } from "vitest"
-import { fetchAdvanced, $fetch } from "../utils/fetch"
+import { fetchAdvanced, $fetch } from "@factor/api/utils/fetch"
 
 describe("fetch", () => {
   it("fetch advanced with timeout", async () => {

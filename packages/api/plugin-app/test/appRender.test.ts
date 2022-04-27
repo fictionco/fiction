@@ -2,7 +2,7 @@ import { createRequire } from "module"
 import path from "path"
 import { Page } from "playwright"
 import { describe, it, beforeAll, expect, afterAll } from "vitest"
-import { createTestServer, TestServerConfig } from "../../test-utils"
+import { createTestServer, TestServerConfig } from "@factor/api/testUtils"
 const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
 
@@ -39,12 +39,12 @@ describe("renders app code correctly", () => {
     expect(currentUrlText).toBe(_s.appUrl)
 
     const appNameText = await page().locator(`#app-name`).textContent()
-    expect(appNameText).toMatchInlineSnapshot()
+    expect(appNameText).toMatchInlineSnapshot('"FactorJS"')
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toMatchInlineSnapshot()
+    expect(appEmailText).toMatchInlineSnapshot('"hi@factorjs.org"')
 
     const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toMatchInlineSnapshot()
+    expect(appUrlText).toMatchInlineSnapshot('"https://www.factorjs.org"')
   }, 16_000)
 })

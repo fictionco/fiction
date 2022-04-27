@@ -1,18 +1,16 @@
 import path from "path"
 import fs from "fs"
-import { createRequire } from "module"
 import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
-const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
-import { log } from "../logger"
-
-import { PackageJson } from "../types"
-import { FactorPlugin } from "../plugin"
-import { CliOptions, FactorEnv } from "../plugin-env"
+import { CliOptions, FactorEnv } from "@factor/api/plugin-env"
+import { log } from "@factor/api/logger"
+import { getRequire } from "@factor/api/utils"
+import { PackageJson } from "@factor/api/types"
+import { FactorPlugin } from "@factor/api/plugin"
 import { isGitDirty, getPackages } from "./utils"
 
-const require = createRequire(import.meta.url)
+const { prompt } = enquirer
 
 type FactorReleaseSettings = {
   factorEnv: FactorEnv<string>
@@ -24,6 +22,8 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   constructor(settings: FactorReleaseSettings) {
     super(settings)
     this.factorEnv = settings.factorEnv
+
+    this.addToCli()
   }
 
   setup() {
@@ -36,6 +36,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
         hook: "runCommand",
         callback: async (command: string, opts: CliOptions) => {
           const { patch = false, skipTests = false } = opts
+
           if (command == "release") {
             await this.releaseRoutine({ patch, skipTests })
           }
@@ -45,10 +46,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   }
 
   currentVersion = (): string => {
-    const pkg = require(path.resolve(
-      process.cwd(),
-      "./package.json",
-    )) as PackageJson
+    const pkg = getRequire()(
+      path.resolve(process.cwd(), "./package.json"),
+    ) as PackageJson
     return pkg.version
   }
 
@@ -124,13 +124,8 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   }
 
   publishPackage = async (pkg: PackageJson, version: string): Promise<void> => {
-    if (pkg.private) {
-      return
-    }
-
-    if (!pkg.moduleRoot) {
-      throw new Error("moduleRoot is required")
-    }
+    if (pkg.private) return
+    if (!pkg.moduleRoot) throw new Error("moduleRoot is required")
 
     const access = pkg.publishConfig?.access ?? "restricted"
 

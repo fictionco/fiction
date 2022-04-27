@@ -3,7 +3,7 @@
  * https://vitest.dev/config/#environment
  */
 import { expect, it, describe, vi, beforeAll } from "vitest"
-import { createTestUtils, TestUtils } from "@factor/api/test-utils"
+import { createTestUtils, TestUtils } from "@factor/api/testUtils"
 
 import { FullUser } from "../types"
 let user: Partial<FullUser> | undefined

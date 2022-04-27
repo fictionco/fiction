@@ -6,9 +6,9 @@ import { ErrorConfig, EndpointResponse } from "../types"
 import { contextLogger } from "../logger"
 import { _stop } from "../utils/error"
 import { onEvent } from "../utils/event"
-import { FactorUser } from "../plugin-user"
+import type { FactorUser } from "../plugin-user"
+import type { Query } from "../query"
 import { Endpoint } from "./endpoint"
-import { Query } from "./query"
 import { createExpressApp } from "./nodeUtils"
 
 type CustomServerHandler = (

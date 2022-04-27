@@ -1,5 +1,9 @@
-import { getMainFilePath } from "../engine/nodeUtils"
-import { deepMergeAll, storeItem, omit } from "../utils"
+import {
+  getMainFilePath,
+  deepMergeAll,
+  storeItem,
+  omit,
+} from "@factor/api/utils"
 import { log } from "../logger"
 import { UserConfig, MainFile } from "./types"
 import type { FactorEnv } from "."

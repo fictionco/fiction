@@ -11,7 +11,7 @@ export const isApp = (): boolean => {
 }
 export const isServer = () => !isApp()
 export const isTest = (): boolean => {
-  return process.env.TEST_ENV == "unit" ? true : false
+  return process.env.IS_TEST ? true : false
 }
 export const isDev = (): boolean => {
   return process.env.NODE_ENV == "development" ? true : false

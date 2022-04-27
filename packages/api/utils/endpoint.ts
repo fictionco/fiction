@@ -2,12 +2,10 @@ import axios, { AxiosRequestConfig } from "axios"
 import type express from "express"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
-
-import { logger } from "../logger"
-import { emitEvent } from "../utils/event"
-
+import { log } from "../logger"
 import type { FactorUser } from "../plugin-user"
-import { Query } from "./query"
+import type { Query } from "../query"
+import { emitEvent } from "./event"
 
 type EndpointServerUrl = (() => string | undefined) | string | undefined
 
@@ -141,7 +139,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     const fullUrl = `${this.getBaseUrl()}${url}`
 
-    logger.debug("Endpoint", `request at ${fullUrl}`, {
+    log.debug("Endpoint", `request at ${fullUrl}`, {
       data: options,
     })
 
@@ -150,12 +148,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       const response = await axios.request<EndpointResponse<U>>(options)
       responseData = response.data
     } catch (error: unknown) {
-      logger.error("Endpoint", `error: ${method}`, { error })
+      log.error("Endpoint", `error: ${method}`, { error })
 
       responseData = { status: "error", message: "http request error" }
     }
 
-    logger.debug("Endpoint", `response from ${url}`, { data: responseData })
+    log.debug("Endpoint", `response from ${url}`, { data: responseData })
 
     return responseData
   }

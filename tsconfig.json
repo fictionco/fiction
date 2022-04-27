@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "paths": {
+      "@ROOT_COMPONENT_ALIAS": ["./packages/site/src/App.vue"],
+      "@ROUTES_ALIAS/*": ["./packages/site/src/routes.ts"]
+    },
     "outDir": "dist",
     "module": "ESNext",
     "target": "ESNext",

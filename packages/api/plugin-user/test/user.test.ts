@@ -1,10 +1,6 @@
 import { expect, it, vi, describe, beforeAll } from "vitest"
 import bcrypt from "bcrypt"
-import {
-  getTestEmail,
-  createTestUtils,
-  TestUtils,
-} from "@factor/api/test-utils"
+import { getTestEmail, createTestUtils, TestUtils } from "@factor/api/testUtils"
 
 import { FullUser } from "../types"
 

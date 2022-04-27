@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest"
 import { computed } from "vue"
-import { createTestUtils, TestUtils } from "../test-utils"
-import { FullUser } from "../plugin-user"
+import { createTestUtils, TestUtils } from "@factor/api/testUtils"
+import { FullUser } from "@factor/api/plugin-user"
 
 let testUtils: TestUtils | undefined = undefined
 describe("active user handling", () => {

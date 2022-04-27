@@ -6,6 +6,5 @@
  */
 
 export interface CompiledUserConfig {
-  routes: "";
   [k: string]: unknown;
 }

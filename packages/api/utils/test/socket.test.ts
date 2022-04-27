@@ -4,7 +4,6 @@
  */
 import { expect, it, describe, beforeAll, afterAll } from "vitest"
 import { waitFor } from "@factor/api/utils"
-
 import {
   createSocketServer,
   ClientSocket,
@@ -12,7 +11,7 @@ import {
   SocketMeta,
 } from "../socket"
 
-import { createTestUtils, TestUtils } from "../../test-utils"
+import { createTestUtils, TestUtils } from "../../testUtils"
 type EventMap = {
   test: { req: "ping"; res: "pong" }
 }

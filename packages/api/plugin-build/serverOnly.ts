@@ -1,9 +1,14 @@
 import { ServerModuleDef } from "./types"
 export const commonServerOnlyModules = (): ServerModuleDef[] => {
   return [
+    { id: "@playwright/test" },
     { id: "http" },
     { id: "enquirer" },
+    { id: "execa" },
+    { id: "playwright" },
+    { id: "puppeteer" },
     { id: "clearbit" },
+    { id: "minimist" },
     { id: "knex" },
     { id: "knex-stringcase" },
     { id: "bcrypt" },
@@ -33,6 +38,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "@vue/server-renderer" },
     { id: "sitemap" },
     { id: "glob" },
+    { id: "vitest" },
     { id: "vite-plugin-markdown" },
     { id: "vite/dist/node" },
     { id: "es-module-lexer" },
@@ -41,5 +47,16 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "stripe" },
     { id: "html-to-text" },
     { id: "dotenv" },
+    { id: "request-ip" },
+    { id: "ipaddr.js" },
+    { id: "ioredis" },
+    { id: "@aws-sdk/client-s3" },
+    { id: "@aws-sdk/client-cloudfront" },
+    { id: "metascraper" },
+    { id: "metascraper-title" },
+    { id: "metascraper-image" },
+    { id: "metascraper-image" },
+    { id: "uuid-apikey" },
+    { id: "clearbit" },
   ]
 }

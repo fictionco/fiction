@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { computed } from "vue"
-import { storeItem, stored } from "../utils/store"
+import { storeItem, stored } from "../store"
 
 describe("store", () => {
   it("stores and gets items", () => {

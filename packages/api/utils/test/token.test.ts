@@ -3,8 +3,8 @@
  * https://vitest.dev/config/#environment
  */
 import { expect, describe, it, beforeAll } from "vitest"
-import { createTestUtils, TestUtils } from "../test-utils"
-import { getCookie, getTopDomain } from "../utils/cookie"
+import { createTestUtils, TestUtils } from "../../testUtils"
+import { getCookie, getTopDomain } from "../cookie"
 
 let testUtils: TestUtils | undefined = undefined
 describe("user token", () => {

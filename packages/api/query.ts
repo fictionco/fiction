@@ -1,8 +1,8 @@
-import { contextLogger } from "../logger"
-import { _stop } from "../utils/error"
-import type { EndpointResponse, ErrorConfig } from "../types"
-import * as utils from "../utils"
-import type { EndpointMeta } from "./endpoint"
+import { contextLogger } from "./logger"
+import { _stop } from "./utils/error"
+import type { EndpointResponse, ErrorConfig } from "./types"
+import * as utils from "./utils"
+import type { EndpointMeta } from "./utils/endpoint"
 
 export abstract class Query {
   stop = _stop

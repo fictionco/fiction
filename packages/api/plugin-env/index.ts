@@ -1,9 +1,8 @@
 import path from "path"
-import * as mod from "module"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
 import { PackageJson } from "../types"
-import { HookType } from "../utils"
+import { HookType, requireIfExists, getRequire } from "../utils"
 import { getServerUserConfig } from "./entry"
 import * as types from "./types"
 import { HookDictionary } from "./types"
@@ -39,7 +38,7 @@ export type FactorControlSettings<S extends string> = {
   envFiles?: string[]
   cwd: string
   inspector?: boolean
-  envVars: () => EnvVar<S>[]
+  envVars?: () => EnvVar<S>[]
 }
 
 export class FactorEnv<S extends string> extends FactorPlugin<
@@ -56,6 +55,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
   mode: "development" | "production"
   serverPort?: number
   appPort?: number
+  envVars: () => EnvVar<S>[]
   constructor(settings: FactorControlSettings<S>) {
     super(settings)
 
@@ -63,6 +63,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     this.hooks = settings.hooks || []
     this.envFiles = settings.envFiles || []
     this.cwd = settings.cwd
+    this.envVars = settings.envVars || (() => [])
     this.mode =
       (process.env.NODE_ENV as "development" | "production") || "production"
 
@@ -74,7 +75,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     /**
      * Needs to come last so env vars are set
      */
-    this.vars = [...this.coreVars(), ...settings.envVars()]
+    this.vars = [...this.coreVars(), ...this.envVars()]
   }
 
   nodeInit() {
@@ -98,14 +99,10 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     this.hooks.push(hook)
   }
 
-  getRequire() {
-    return mod.Module.createRequire(import.meta.url)
-  }
-
   packageMainFile = (cwd: string): string => {
     const pkgPath = path.resolve(cwd, "package.json")
-    const pkg = this.getRequire()(pkgPath) as PackageJson
-    return pkg.main ?? "index"
+    const pkg = requireIfExists(pkgPath) as PackageJson | undefined
+    return pkg?.main ?? "index"
   }
 
   initializeNodeInspector = async (): Promise<void> => {
@@ -128,7 +125,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     const rootComponentPath = path.join(sourceDir, "App.vue")
     const publicDir = path.join(sourceDir, "public")
     const mountFilePath = path.join(
-      path.dirname(this.getRequire().resolve("@factor/api")),
+      path.dirname(getRequire().resolve("@factor/api")),
       "/plugin-app/mount.ts",
     )
 
@@ -224,7 +221,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
 
   var<T = string>(
     variable: EnvVarUtil<
-      ReturnType<this["settings"]["envVars"]> | ReturnType<this["coreVars"]>
+      ReturnType<this["envVars"]> | ReturnType<this["coreVars"]>
     >,
   ): T | undefined {
     const envVar = this.vars.find((_) => _.name === variable)

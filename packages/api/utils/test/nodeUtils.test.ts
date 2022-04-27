@@ -23,11 +23,19 @@ describe("node utils", () => {
     const importFile = (await importIfExists(cwd)) as Record<string, any>
     expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(`
       [
+        "appEmail",
+        "appName",
+        "appUrl",
         "blogPlugin",
         "docsPlugin",
+        "factorApp",
+        "factorDb",
         "factorEmail",
+        "factorEnv",
+        "factorServer",
         "factorStripe",
         "factorUser",
+        "mode",
         "setup",
       ]
     `)
@@ -38,24 +46,10 @@ describe("node utils", () => {
 
     const entryConfig = await getServerUserConfig({ cwd })
 
-    expect(entryConfig.variables?.TEST_SERVER).toEqual("TEST")
-
     expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [
-        "appEmail",
-        "appName",
-        "appUrl",
-        "endpoints",
-        "mode",
         "paths",
-        "port",
-        "portApp",
-        "root",
-        "routes",
         "serverOnlyImports",
-        "serverUrl",
-        "sitemaps",
-        "variables",
         "vite",
       ]
     `)

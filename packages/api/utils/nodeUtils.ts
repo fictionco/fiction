@@ -1,7 +1,7 @@
 /* server-only-file */
 import path from "path"
 import http from "http"
-import { createRequire } from "module"
+import * as mod from "module"
 import fs from "fs"
 import glob from "glob"
 import requestIp from "request-ip"
@@ -13,39 +13,37 @@ import cors from "cors"
 import express from "express"
 import { PackageJson } from "../types"
 import { getNetworkIp } from "../utils-analytics"
-
-const require = createRequire(import.meta.url)
-export const cwd = (): string => process.env.FACTOR_CWD ?? process.cwd()
-export const packagePath = (): string => path.resolve(cwd(), "package.json")
-
-const mainFileRel = (_cwd?: string): string => {
-  const pkgPath = path.resolve(_cwd ?? cwd(), "package.json")
-  const pkg = require(pkgPath) as PackageJson
-  return pkg.main ?? "index"
-}
+import { isNode } from "./vars"
 
 type WhichModule = {
   moduleName?: string
   cwd?: string
 }
 
-export const getMainFilePath = (params: WhichModule = {}): string => {
-  return params.moduleName
-    ? require.resolve(params.moduleName)
-    : path.resolve(params.cwd ?? cwd(), mainFileRel(params.cwd))
+export const getRequire = () => {
+  if (!isNode()) {
+    throw new Error("getRequire: not a node environment")
+  }
+
+  return mod.Module.createRequire(import.meta.url)
 }
 
-/**
- * Get source folder for CWD or optional moduleName
- */
-export const sourceFolder = (params: WhichModule = {}): string => {
-  return path.dirname(getMainFilePath(params))
+const mainFileRel = (cwd: string): string => {
+  const pkgPath = path.resolve(cwd, "package.json")
+  const pkg = getRequire()(pkgPath) as PackageJson | undefined
+  return pkg?.main ?? "index"
 }
 
-// export const distFolder = (): string => path.join(cwd(), "dist")
-// export const distServer = (): string => path.join(distFolder(), "server")
-// export const distServerEntry = (): string => path.join(distServer(), "mount")
-// export const distClient = (): string => path.join(distFolder(), "client")
+export const getMainFilePath = (
+  params: WhichModule = {},
+): string | undefined => {
+  const { cwd, moduleName } = params
+  return moduleName
+    ? getRequire().resolve(moduleName)
+    : cwd
+    ? path.resolve(cwd, mainFileRel(cwd))
+    : undefined
+}
 
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
@@ -58,36 +56,13 @@ export const importIfExists = async <T = unknown>(
   } else return
 }
 
-// export const serverRenderEntryConfig = async (
-//   params: WhichModule,
-// ): Promise<Promise<UserConfig>> => {
-//   const mod = await importIfExists<{
-//     setup?: () => Promise<UserConfig> | UserConfig
-//   }>(mainFilePath(params))
-
-//   // get universal setup
-//   let entryConfig = mod?.setup ? await mod.setup() : {}
-
-//   if (entryConfig.server) {
-//     const serverConfig = await entryConfig.server()
-
-//     entryConfig = deepMergeAll([entryConfig, serverConfig ?? {}])
-
-//     delete entryConfig.server
-//   }
-
-//   return entryConfig
-// }
-
 /**
  * Require a path if it exists and silence any not found errors if it doesn't
  */
-export const requireIfExists = async <T = unknown>(
-  mod: string,
-): Promise<T | undefined> => {
+export const requireIfExists = <T = unknown>(mod: string): T | undefined => {
   let result: T | undefined = undefined
   try {
-    result = require(mod) as T
+    result = getRequire()(mod) as T
   } catch (error: any) {
     const e = error as NodeJS.ErrnoException
     if (e.code != "MODULE_NOT_FOUND") {
@@ -109,7 +84,7 @@ export const requireIfExists = async <T = unknown>(
 export const resolveIfExists = (mod: string): string | undefined => {
   let result: string | undefined = undefined
   try {
-    result = require.resolve(mod)
+    result = getRequire().resolve(mod)
   } catch (error: any) {
     const e = error as NodeJS.ErrnoException
     if (e.code != "MODULE_NOT_FOUND") {

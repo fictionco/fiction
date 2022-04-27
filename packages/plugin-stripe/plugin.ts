@@ -10,6 +10,7 @@ import { FactorUser } from "@factor/api/plugin-user"
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
 import { FactorServer } from "@factor/api/plugin-server"
+import { FactorApp } from "@factor/api/plugin-app"
 import {
   QueryAllProducts,
   QueryGetCoupon,
@@ -23,9 +24,24 @@ import {
 } from "./endpoints"
 import * as types from "./types"
 
-export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
-  private factorUser: FactorUser
-  private factorServer: FactorServer
+export type StripePluginSettings = {
+  factorApp: FactorApp
+  factorServer: FactorServer
+  factorUser: FactorUser
+  stripeMode: "test" | "live"
+  publicKeyLive?: string
+  publicKeyTest?: string
+  secretKeyLive?: string
+  secretKeyTest?: string
+  webhookSecret?: string
+  hooks?: HookType<types.HookDictionary>[]
+  products: types.StripeProductConfig[]
+}
+
+export class FactorStripe extends FactorPlugin<StripePluginSettings> {
+  factorUser: FactorUser
+  factorServer: FactorServer
+  factorApp: FactorApp
   public queries: ReturnType<typeof this.createQueries>
   public requests: EndpointMap<typeof this.queries>
   public client?: StripeJS.Stripe
@@ -38,8 +54,9 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
   secretKeyLive?: string
   secretKeyTest?: string
   webhookSecret?: string
-  constructor(settings: types.StripePluginSettings) {
+  constructor(settings: StripePluginSettings) {
     super(settings)
+    this.factorApp = settings.factorApp
     this.factorServer = settings.factorServer
     this.factorUser = settings.factorUser
     this.queries = this.createQueries()
@@ -65,17 +82,25 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
     })
 
     this.factorServer.addEndpoints([stripeWebhookEndpoint])
+
+    this.factorApp.addHook({
+      hook: "viteConfig",
+      callback: (config) => {
+        return [
+          ...config,
+          {
+            optimizeDeps: {
+              exclude: ["@stripe/stripe-js"],
+            },
+          },
+        ]
+      },
+    })
   }
 
   async setup() {
     return {
       name: this.constructor.name,
-      vite: {
-        optimizeDeps: {
-          exclude: ["@stripe/stripe-js"],
-        },
-      },
-      paths: [this.utils.safeDirname(import.meta.url)],
     }
   }
 

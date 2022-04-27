@@ -14,7 +14,6 @@ import { FactorEmail } from "@factor/api/plugin-email"
 import { FactorEnv, UserConfig } from "@factor/api/plugin-env"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
-import { routes } from "./routes"
 import { envVars } from "./vars"
 
 const cwd = safeDirname(import.meta.url, "..")
@@ -25,10 +24,10 @@ export const factorEnv = new FactorEnv({
   envVars,
 })
 
-const appName = "FactorJS"
-const appEmail = "hi@factorjs.org"
-const appUrl = "https://www.factorjs.org"
-const mode = factorEnv.var<"development" | "production">("mode")
+export const appName = "FactorJS"
+export const appEmail = "hi@factorjs.org"
+export const appUrl = "https://www.factorjs.org"
+export const mode = factorEnv.var<"development" | "production">("mode")
 
 export const factorDb = new FactorDb({
   connectionUrl: factorEnv.var("postgresUrl"),
@@ -42,13 +41,13 @@ export const factorServer = new FactorServer({
 })
 
 export const factorApp = new FactorApp({
+  mode,
   appName,
   appUrl,
   factorServer,
   port: +(factorEnv.var("appPort") || 3000),
-  rootComponent: path.join(cwd, "./src/App.vue"),
-  mode,
-  routes,
+  rootComponentPath: path.join(cwd, "./src/App.vue"),
+  routesPath: path.join(cwd, "./src/routes.ts"),
   uiPaths: [path.join(cwd, "./src/**/*.{vue,js,ts,html}")],
   factorEnv,
 })
@@ -75,14 +74,15 @@ export const factorUser = new FactorUser({
 })
 
 export const factorStripe = new FactorStripe({
+  factorApp,
   factorServer,
+  factorUser,
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
   secretKeyTest: factorEnv.var("stripeSecretKeyTest"),
   stripeMode: "test",
   hooks: [],
   products: [],
-  factorUser,
 })
 export const docsPlugin = new FactorDocsEngine({
   docs,

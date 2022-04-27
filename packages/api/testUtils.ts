@@ -5,15 +5,16 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-import { safeDirname } from "../utils"
-import { randomBetween, log } from ".."
-import { UserConfig, EnvVar, FactorEnv } from "../plugin-env"
-import { FactorUser, FullUser } from "../plugin-user"
-import { PackageJson } from "../types"
-import { FactorDb } from "../plugin-db"
-import { FactorEmail } from "../plugin-email"
-import { FactorServer } from "../plugin-server"
-import { FactorApp } from "../plugin-app"
+
+import { safeDirname, randomBetween } from "./utils"
+import { log } from "./logger"
+import { UserConfig, EnvVar, FactorEnv } from "./plugin-env"
+import { FactorUser, FullUser } from "./plugin-user"
+import { PackageJson } from "./types"
+import { FactorDb } from "./plugin-db"
+import { FactorEmail } from "./plugin-email"
+import { FactorServer } from "./plugin-server"
+import { FactorApp } from "./plugin-app"
 
 const require = createRequire(import.meta.url)
 
@@ -48,6 +49,7 @@ export type TestUtils = {
   token: string
   email: string
   factorApp: FactorApp
+  factorServer: FactorServer
   factorEnv: FactorEnv<string>
   factorDb: FactorDb
   factorUser: FactorUser
@@ -75,13 +77,13 @@ const envVars = () => [
 export const createTestUtils = async (opts?: {
   serverPort?: number
   appPort?: number
+  cwd?: string
 }): Promise<TestUtils> => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
+    cwd = safeDirname(import.meta.url),
   } = opts || {}
-
-  const cwd = safeDirname(import.meta.url)
 
   const factorEnv = new FactorEnv({
     envFiles: [path.join(cwd, "./.env")],
@@ -93,8 +95,9 @@ export const createTestUtils = async (opts?: {
 
   const factorApp = new FactorApp({
     appName: "Test App",
-    appPort,
-    rootComponent: path.join(cwd, "./EmptyApp.vue"),
+    port: appPort,
+    rootComponentPath: path.join(cwd, "./resource/EmptyApp.vue"),
+    routesPath: path.join(cwd, "./resource/emptyRoutes.js"),
     factorServer,
     factorEnv,
   })
@@ -148,6 +151,7 @@ export const createTestUtils = async (opts?: {
     email,
     factorEnv,
     factorApp,
+    factorServer,
     factorUser,
     factorDb,
     factorEmail,
@@ -188,7 +192,7 @@ export const createTestServer = async (params: {
 
   await new Promise<void>((resolve) => {
     _process = execaCommand(runCmd, {
-      env: { TEST_ENV: "unit" },
+      env: { IS_TEST: "1" },
     })
     _process.stdout?.pipe(process.stdout)
     _process.stderr?.pipe(process.stderr)
@@ -245,7 +249,7 @@ export const appBuildTests = (config: {
 
       log.info("appBuildTests", "running prerender command", { data: command })
       const r = execaCommandSync(command, {
-        env: { TEST_ENV: "unit" },
+        env: { IS_TEST: "1", TEST_ENV: "unit" },
         timeout: 30_000,
       })
 
@@ -257,7 +261,7 @@ export const appBuildTests = (config: {
       const r = execaCommandSync(
         `npm exec -w ${moduleName} -- factor rdev --exit --server-port ${serverPort} --app-port ${appPort}`,
         {
-          env: { TEST_ENV: "unit" },
+          env: { IS_TEST: "1", TEST_ENV: "unit" },
           timeout: 20_000,
         },
       )

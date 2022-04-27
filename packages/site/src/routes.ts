@@ -2,7 +2,8 @@ import { AppRoute } from "@factor/api"
 
 import { routes as docsRoutes } from "../docs/routes"
 import { routes as blogRoutes } from "../blog/routes"
-export const routes = [
+
+export default [
   new AppRoute({
     name: "home",
     niceName: "Home",

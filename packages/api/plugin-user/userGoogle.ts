@@ -3,8 +3,8 @@ import type { OAuth2Client } from "google-auth-library"
 
 import type { FullUser } from "../plugin-user/types"
 import type { EndpointResponse } from "../types"
-import type { EndpointMeta } from "../engine/endpoint"
-import { Query } from "../engine/query"
+import type { EndpointMeta } from "../utils/endpoint"
+import { Query } from "../query"
 import type { FactorUser } from "."
 
 type GoogleQuerySettings = {

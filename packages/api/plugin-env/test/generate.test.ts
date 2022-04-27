@@ -1,12 +1,15 @@
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import fs from "fs-extra"
-import { generateStaticConfig } from "../../plugin-env/generate"
-import { createTestUtils } from "../../test-utils"
+import { safeDirname } from "@factor/api/utils"
+import { generateStaticConfig } from "@factor/api/plugin-env/generate"
+import { createTestUtils } from "@factor/api/testUtils"
 const root = new URL(".", import.meta.url).pathname
 describe("test config generator", () => {
   beforeAll(async () => {
-    const testUtils = await createTestUtils()
+    const testUtils = await createTestUtils({
+      cwd: safeDirname(import.meta.url),
+    })
 
     testUtils.factorEnv.addHook({
       hook: "staticConfig",
@@ -29,7 +32,7 @@ describe("test config generator", () => {
   })
 
   it("has hooked data", async () => {
-    const config = await import("../../engine/test/.factor/config.json")
+    const config = await import("./.factor/config.json")
     expect(config.test[0]).toBe("test")
   })
 })

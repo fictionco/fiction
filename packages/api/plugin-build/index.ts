@@ -204,7 +204,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   }
 
   getCommonViteConfig = async (): Promise<vite.InlineConfig> => {
-    const { sourceDir, publicDir } = this.factorEnv.standardPaths
+    const { sourceDir, publicDir } = this.factorEnv.standardPaths || {}
 
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")

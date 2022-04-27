@@ -10,18 +10,25 @@ import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
 import { Component, App as VueApp } from "vue"
-import type { CliOptions, StandardPaths } from "../plugin-env/types"
-import { UserConfig, FactorEnv } from "../plugin-env"
-import { HookType } from "../utils/hook"
-import { FactorPlugin } from "../plugin"
-import { getMeta, renderMeta } from "../utils/meta"
+import type { CliOptions, StandardPaths } from "@factor/api/plugin-env/types"
+import { UserConfig, FactorEnv } from "@factor/api/plugin-env"
+import { FactorPlugin } from "@factor/api/plugin"
+import { FactorBuild } from "@factor/api/plugin-build"
+import {
+  importIfExists,
+  AppRoute,
+  getRouter,
+  setupRouter,
+  initializeResetUi,
+  getMeta,
+  renderMeta,
+  HookType,
+  requireIfExists,
+} from "@factor/api/utils"
+import { FactorServer } from "@factor/api/plugin-server"
 import { version } from "../package.json"
-import { FactorBuild } from "../plugin-build"
-import { importIfExists } from "../engine/nodeUtils"
-import { FactorServer } from "../plugin-server"
-import { initializeResetUi } from "../utils/ui"
-import { AppRoute, getRouter, setupRouter } from "../utils"
 import { ServerModuleDef } from "../plugin-build/types"
+import { FactorDevRestart } from "../plugin-env/restart"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
@@ -39,7 +46,8 @@ export type FactorAppSettings = {
   port: number
   factorServer: FactorServer
   factorEnv: FactorEnv<string>
-  rootComponent: string
+  rootComponentPath: string
+  routesPath: string
   routes?: AppRoute<string>[]
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
@@ -53,13 +61,15 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   routes: AppRoute<string>[]
   uiPaths: string[]
   serverOnlyImports: ServerModuleDef[]
-  rootComponent: string
+  routesPath: string
+  rootComponentPath: string
   factorBuild?: FactorBuild
+  factorDevRestart?: FactorDevRestart
   factorSitemap?: FactorSitemap
   factorServer: FactorServer
   factorEnv?: FactorEnv<string>
   appName: string
-  appUrl?: string
+  appUrl: string
   port?: number
   mode?: "production" | "development"
   sitemaps: types.SitemapConfig[]
@@ -73,24 +83,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.uiPaths = settings.uiPaths ?? []
     this.serverOnlyImports = settings.serverOnlyImports ?? []
     this.appName = settings.appName
-
-    this.rootComponent = settings.rootComponent
+    this.routesPath = settings.routesPath
+    this.rootComponentPath = settings.rootComponentPath
     this.factorServer = settings.factorServer
     this.factorEnv = settings.factorEnv
     this.standardPaths = this.factorEnv.standardPaths
 
-    this.initialize()
-
-    this.addToCli()
-  }
-
-  setup() {
-    return {
-      name: this.constructor.name,
-    }
-  }
-
-  initialize() {
     this.mode = this.settings.mode || "production"
     this.port = this.settings.port || 3000
     this.appUrl =
@@ -98,12 +96,30 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         ? this.settings.appUrl
         : `http://localhost:${this.port}`
 
-    if (!this.utils.isApp() && this.factorEnv) {
+    const cwd = this.standardPaths?.cwd
+
+    /**
+     * node application init
+     */
+    if (cwd && !this.utils.isApp() && this.factorEnv) {
       this.factorBuild = new FactorBuild({
         factorEnv: this.factorEnv,
         mode: this.mode,
       })
       this.factorSitemap = new FactorSitemap()
+
+      this.factorDevRestart = new FactorDevRestart({
+        factorEnv: this.factorEnv,
+        nodemonConfigPath: path.join(cwd, "./.nodemon.json"),
+      })
+    }
+
+    this.addToCli()
+  }
+
+  setup() {
+    return {
+      name: this.constructor.name,
     }
   }
 
@@ -153,6 +169,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     }
   }
 
+  public addHook(hook: HookType<HookDictionary>): void {
+    this.hooks.push(hook)
+  }
+
   addRoutes(routes: AppRoute<string>[]) {
     this.routes = [...this.routes, ...routes]
   }
@@ -169,13 +189,57 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.serverOnlyImports = [...this.serverOnlyImports, ...serverOnlyImports]
   }
 
+  getStaticPathAliases = (): Record<string, string> => {
+    const { mainFilePath, mountFilePath } = this.standardPaths || {}
+
+    if (!mainFilePath || !mountFilePath) {
+      throw new Error("standardPaths missing")
+    }
+
+    return {
+      "@MAIN_FILE_ALIAS": mainFilePath,
+      "@MOUNT_FILE_ALIAS": mountFilePath,
+      "@ROOT_COMPONENT_ALIAS": this.rootComponentPath,
+      "@ROUTES_ALIAS": this.routesPath,
+    }
+  }
+
+  /**
+   * In order to prevent circular imports, we import dynamically
+   * Vite requires an alias in order to understand the path
+   */
+  async getSpecialAppImports(): Promise<{
+    rootComponent: Component
+    routes: AppRoute<string>[]
+  }> {
+    /* eslint-disable import/no-unresolved*/
+    const appImports = [
+      // @ts-ignore
+      import("@ROOT_COMPONENT_ALIAS"),
+      // @ts-ignore
+      import("@ROUTES_ALIAS"),
+    ]
+    /* eslint-enable */
+
+    const awaitedAppImports = (await Promise.all(appImports)) as [
+      { default: Component },
+      { default: AppRoute<string>[] },
+    ]
+
+    const [{ default: rootComponent }, { default: routes }] = awaitedAppImports
+
+    return { rootComponent, routes }
+  }
+
   createVueApp = async (params: {
     renderUrl?: string
     userConfig: UserConfig
   }): Promise<types.FactorAppEntry> => {
     const { renderUrl, userConfig } = params
 
-    setupRouter(this.routes)
+    const { rootComponent, routes } = await this.getSpecialAppImports()
+
+    setupRouter(routes)
 
     await this.utils.runHooks<HookDictionary, "afterAppSetup">({
       list: this.hooks,
@@ -183,14 +247,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       args: [{ userConfig }],
     })
 
-    // @ts-ignore
-    // eslint-disable-next-line import/no-unresolved
-    const m = (await import("@ROOT_COMPONENT_ALIAS")) as { default: Component }
-    const { default: appComponent } = m
-
     const app: VueApp = renderUrl
-      ? this.vue.createSSRApp(appComponent)
-      : this.vue.createApp(appComponent)
+      ? this.vue.createSSRApp(rootComponent)
+      : this.vue.createApp(rootComponent)
 
     // add router and store
     const router = getRouter()
@@ -503,20 +562,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.utils.onEvent("shutdown", () => server.close())
   }
 
-  getStaticPathAliases = (): Record<string, string> => {
-    const { mainFilePath, mountFilePath } = this.standardPaths || {}
-
-    if (!mainFilePath || !mountFilePath) {
-      throw new Error("standardPaths missing")
-    }
-
-    return {
-      "@MAIN_FILE_ALIAS": mainFilePath,
-      "@MOUNT_FILE_ALIAS": mountFilePath,
-      "@ROOT_COMPONENT_ALIAS": this.rootComponent,
-    }
-  }
-
   tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
     const cwd = this.standardPaths?.cwd
 
@@ -525,8 +570,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const fullUiPaths = this.uiPaths.map((p) => p.replace("~", cwd))
 
     const c: Record<string, any>[] = [{ mode: "jit", content: fullUiPaths }]
-
-    const { requireIfExists } = await import("../engine/nodeUtils")
 
     const userTailwindConfig = await requireIfExists(
       path.join(cwd, "tailwind.config.cjs"),
@@ -578,6 +621,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       IS_VITE: "true",
       FACTOR_SERVER_URL: this.factorServer.serverUrl,
       FACTOR_APP_URL: this.appUrl,
+      MODE: this.mode,
+      IS_TEST: this.utils.isTest(),
     }
 
     const define = Object.fromEntries(

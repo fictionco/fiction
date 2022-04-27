@@ -37,6 +37,7 @@
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
+    "dotenv": "^16.0.0",
     "@factor/api": "workspace:*",
     "@factor/lint": "workspace:*",
     "@factor/site": "workspace:*",

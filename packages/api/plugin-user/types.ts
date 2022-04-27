@@ -1,10 +1,9 @@
-import type { EndpointMeta } from "@factor/api/engine"
+import type { EndpointMeta, HookType } from "@factor/api/utils"
 import type { FactorDb } from "@factor/api/plugin-db"
 import type { FactorEmail } from "@factor/api/plugin-email"
 import { UserGeolocation } from "@factor/api/types/geo"
 import { FactorPost, PopulatedPosts, PostActions } from "@factor/api/types/post"
 import { UserRoles } from "@factor/api/types/roles"
-import type { HookType } from "@factor/api/utils"
 import type { FactorServer } from "../plugin-server"
 import type { ManageUserParams } from "./endpoints"
 

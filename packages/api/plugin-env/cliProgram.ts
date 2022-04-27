@@ -6,8 +6,9 @@ import { camelToUpperSnake } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { PackageJson } from "../types"
-import { MainFile } from "../plugin-env"
 import { commands } from "./commands"
+import { MainFile, FactorEnv } from "."
+
 const commander = new Command()
 
 const packageMainFile = async (cwd: string): Promise<string> => {
@@ -23,6 +24,15 @@ export const runCommand = async (
   const cwd = process.cwd()
   const mainFileRelPath = await packageMainFile(cwd)
   const mainFilePath = path.resolve(cwd, mainFileRelPath)
+
+  const mainFile = (await import(mainFilePath)) as MainFile
+
+  let factorEnv = mainFile.factorEnv
+
+  if (!factorEnv) {
+    log.warn("cli", `no factorEnv at [${mainFilePath}] - creating one...`)
+    factorEnv = new FactorEnv({ cwd })
+  }
 
   const cliCommand = commands
     .find((_) => _.command === command)
@@ -43,9 +53,7 @@ export const runCommand = async (
     }
   })
 
-  const mainFile = (await import(mainFilePath)) as MainFile
-
-  await mainFile.factorEnv?.runCommand(cliCommand)
+  await factorEnv.runCommand(cliCommand)
 }
 
 /**

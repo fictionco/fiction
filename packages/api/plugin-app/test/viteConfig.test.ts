@@ -1,60 +1,58 @@
 import { describe, it, expect, beforeAll } from "vitest"
 import * as vite from "vite"
 
-import { createTestUtils, TestUtils } from "@factor/api/test-utils"
+import { createTestUtils, TestUtils } from "@factor/api/testUtils"
 
 let viteConfig: vite.InlineConfig | undefined = undefined
 let testUtils: TestUtils | undefined = undefined
 describe("vite config", () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils({ serverPort: 9191 })
+    testUtils = await createTestUtils({ serverPort: 20_220, appPort: 1234 })
   })
   it("gets and merges vite config", async () => {
-    viteConfig = await testUtils?.factorApp.getViteConfig()
-
-    expect(testUtils?.factorApp.appPort).toBe("9191")
+    expect(testUtils?.factorServer.port).toBe(20_220)
 
     expect(testUtils?.factorApp.standardPaths).toMatchInlineSnapshot(`
       {
-        "cwd": "/Users/arpowers/Projects/factor/packages/site",
-        "dist": "/Users/arpowers/Projects/factor/packages/site/dist",
-        "distClient": "/Users/arpowers/Projects/factor/packages/site/dist/client",
-        "distServer": "/Users/arpowers/Projects/factor/packages/site/dist/server",
-        "distServerEntry": "/Users/arpowers/Projects/factor/packages/site/dist/server/mount",
-        "distStatic": "/Users/arpowers/Projects/factor/packages/site/dist/static",
-        "mainFilePath": "/Users/arpowers/Projects/factor/packages/site/src/index.ts",
-        "mountFilePath": "/Users/arpowers/Projects/factor/packages/api/entry/mount.ts",
-        "publicDir": "/Users/arpowers/Projects/factor/packages/site/src/public",
-        "rootComponentPath": "/Users/arpowers/Projects/factor/packages/site/src/App.vue",
-        "sourceDir": "/Users/arpowers/Projects/factor/packages/site/src",
+        "cwd": "/Users/arpowers/Projects/factor/packages/api/",
+        "dist": "/Users/arpowers/Projects/factor/packages/api/dist",
+        "distClient": "/Users/arpowers/Projects/factor/packages/api/dist/client",
+        "distServer": "/Users/arpowers/Projects/factor/packages/api/dist/server",
+        "distServerEntry": "/Users/arpowers/Projects/factor/packages/api/dist/server/mount",
+        "distStatic": "/Users/arpowers/Projects/factor/packages/api/dist/static",
+        "mainFilePath": "/Users/arpowers/Projects/factor/packages/api/index.ts",
+        "mountFilePath": "/Users/arpowers/Projects/factor/packages/api/plugin-app/mount.ts",
+        "publicDir": "/Users/arpowers/Projects/factor/packages/api/public",
+        "rootComponentPath": "/Users/arpowers/Projects/factor/packages/api/App.vue",
+        "sourceDir": "/Users/arpowers/Projects/factor/packages/api",
       }
     `)
 
+    viteConfig = await testUtils?.factorApp.getViteConfig()
+
     expect(viteConfig).toBeTruthy()
-    expect(viteConfig?.optimizeDeps?.exclude).toContain("@stripe/stripe-js")
 
     expect(viteConfig?.define).toMatchInlineSnapshot(`
       {
-        "process.env.FACTOR_APP_URL": "\\"https://www.factorjs.org\\"",
-        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:9191\\"",
+        "process.env.FACTOR_APP_URL": "\\"http://localhost:1234\\"",
+        "process.env.FACTOR_SERVER_URL": "\\"http://localhost:20220\\"",
+        "process.env.IS_TEST": "true",
         "process.env.IS_VITE": "\\"true\\"",
-        "process.env.MAIN_FILE": "\\"/Users/arpowers/Projects/factor/packages/site/src/index.ts\\"",
-        "process.env.ROOT_COMPONENT": "\\"/Users/arpowers/Projects/factor/packages/site/src/App.vue\\"",
-        "process.env.TEST_BLOG_PLUGIN": "\\"TEST_BLOG_PLUGIN\\"",
-        "process.env.TEST_SERVER": "\\"TEST\\"",
+        "process.env.MODE": "\\"production\\"",
       }
     `)
     expect(Object.keys(viteConfig ?? {})).toMatchInlineSnapshot(`
       [
-        "define",
+        "mode",
         "root",
         "publicDir",
         "server",
-        "css",
         "build",
         "resolve",
         "plugins",
         "optimizeDeps",
+        "css",
+        "define",
       ]
     `)
   })

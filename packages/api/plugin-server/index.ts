@@ -1,10 +1,9 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { UserConfig, FactorEnv, CliOptions } from "../plugin-env"
-import { HookType } from "../utils/hook"
-import { EndpointServer } from "../engine/endpointServer"
-import { FactorPlugin } from "../plugin"
-import type { Endpoint } from "../engine"
+import { UserConfig, FactorEnv, CliOptions } from "@factor/api/plugin-env"
+import { HookType, EndpointServer } from "@factor/api/utils"
+import type { Endpoint } from "@factor/api/utils"
+import { FactorPlugin } from "@factor/api/plugin"
 
 export type HookDictionary = {
   afterServerSetup: { args: [] }

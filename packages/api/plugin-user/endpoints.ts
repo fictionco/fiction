@@ -5,9 +5,9 @@ import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
 import { runHooks } from "../utils/hook"
 
-import { EndpointMeta } from "../engine/endpoint"
+import { EndpointMeta } from "../utils/endpoint"
 import type { FactorDb } from "../plugin-db"
-import { Query } from "../engine/query"
+import { Query } from "../query"
 import { FactorEmail } from "../plugin-email"
 import { FullUser } from "./types"
 import {

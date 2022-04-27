@@ -1,7 +1,7 @@
 import { Ref } from "vue"
 import jwt from "jsonwebtoken"
 import { FactorPlugin } from "../plugin"
-import { EndpointMap } from "../engine/endpoint"
+import { EndpointMap } from "../utils/endpoint"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 import { UserConfig } from "../plugin-env"

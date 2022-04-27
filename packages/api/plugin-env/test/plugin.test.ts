@@ -2,8 +2,8 @@ import { createRequire } from "module"
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import * as mainFile from "@factor/site"
-import { getMainFilePath } from "../../engine/nodeUtils"
-import { getServerUserConfig } from "../../plugin-env/entry"
+import { getMainFilePath } from "@factor/api/utils"
+
 const require = createRequire(import.meta.url)
 
 let cwd = ""
@@ -21,10 +21,6 @@ describe("plugin and config tests", () => {
   })
 
   it("gets correct server entry config", async () => {
-    const entryConfig = await getServerUserConfig({ cwd })
-
-    expect(entryConfig.variables?.TEST_SERVER).toEqual("TEST")
-
     expect(mainFile.factorServer.endpoints?.map((_) => _.key).sort())
       .toMatchInlineSnapshot(`
         [

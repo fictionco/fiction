@@ -14,7 +14,10 @@ export const generateStaticConfig = async (
   const context = "generateStaticConfig"
   log.debug(context, "generating")
 
-  const cwd = factorEnv.standardPaths.cwd
+  const cwd = factorEnv.standardPaths?.cwd
+
+  if (!cwd) throw new Error(`${context}: cwd not found`)
+
   const genConfigPath = path.join(cwd, "/.factor")
   const title = "CompiledUserConfig"
 
@@ -24,10 +27,18 @@ export const generateStaticConfig = async (
     args: [{}],
   })
 
-  const staticSchemaProps = await runHooks<HookDictionary, "staticSchema">({
+  const _staticSchemaProps = await runHooks<HookDictionary, "staticSchema">({
     list: factorEnv.hooks ?? [],
     hook: "staticSchema",
     args: [{}],
+  })
+  const staticSchemaProps = _staticSchemaProps || {}
+
+  // remove empty arrays from static schema to prevent errors.
+  Object.entries(staticSchemaProps || {}).map(([key, value]) => {
+    if (typeof value["enum"] && (!value.enum || value.enum.length === 0)) {
+      staticSchemaProps[key].enum = [""]
+    }
   })
 
   const staticSchema: JSONSchema = {

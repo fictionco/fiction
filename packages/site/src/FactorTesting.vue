@@ -1,12 +1,18 @@
 <template>
   <div class="space-y-6 p-12 text-center">
-    <div v-for="(item, i) in list" :key="i" class="">
-      <div class="text-slate-500">{{ item.title }}</div>
-      <div :id="item.id" class="font-bold">{{ item.value }}</div>
+    <div v-for="(item, i) in list" :key="i" class="my-6">
+      <div class="text-xs font-bold uppercase tracking-wider text-slate-500">
+        {{ item.title }}
+      </div>
+      <div :id="item.id" class="text-sm font-bold">
+        <span v-if="item.value" class="text-slate-800">{{ item.value }}</span>
+        <span v-else class="text-red-500">[not set]</span>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { appName, appEmail, appUrl } from "."
 const list = [
   {
     id: "server-url",
@@ -18,7 +24,36 @@ const list = [
     title: "Current URL",
     value: process.env.FACTOR_APP_URL,
   },
-  { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
-  { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },
+  {
+    id: "is-test",
+    title: "IS_TEST",
+    value: process.env.IS_TEST,
+  },
+  {
+    id: "node-env",
+    title: "NODE_ENV",
+    value: process.env.NODE_ENV,
+  },
+  { id: "mode", title: "MODE", value: process.env.MODE },
+  {
+    id: "is-vite",
+    title: "IS_VITE",
+    value: process.env.IS_VITE,
+  },
+  {
+    id: "app-name",
+    title: "App Name",
+    value: appName,
+  },
+  {
+    id: "app-email",
+    title: "App Name",
+    value: appEmail,
+  },
+  {
+    id: "app-url",
+    title: "Production App Name",
+    value: appUrl,
+  },
 ]
 </script>

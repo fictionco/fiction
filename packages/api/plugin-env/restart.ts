@@ -1,16 +1,18 @@
-import path from "path"
 import fs from "fs-extra"
 import { FactorPlugin } from "../plugin"
 import { FactorEnv } from "."
 
 type FactorDevRestartSettings = {
   factorEnv: FactorEnv<string>
+  nodemonConfigPath: string
 }
 export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
   factorEnv: FactorEnv<string>
+  nodemonConfigPath: string
   constructor(settings: FactorDevRestartSettings) {
     super(settings)
     this.factorEnv = settings.factorEnv
+    this.nodemonConfigPath = settings.nodemonConfigPath
     this.addToCli()
   }
 
@@ -40,10 +42,10 @@ export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
 
     let conf: Record<string, any> = {}
 
-    const configPath = path.join(process.cwd(), "./.nodemon.json")
+    const configPath = this.nodemonConfigPath
 
     if (fs.existsSync(configPath)) {
-      conf = require(configPath) as Record<string, any>
+      conf = (await import(configPath)) as Record<string, any>
     }
 
     const passArgs = process.argv.slice(
