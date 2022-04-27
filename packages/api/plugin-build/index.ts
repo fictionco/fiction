@@ -1,12 +1,15 @@
 import type * as vite from "vite"
 import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
-import type { RunConfig } from "../cli/utils"
 import { FactorPlugin, UserConfig } from "../config"
+import { FactorEnv } from "../plugin-env"
 import * as types from "./types"
+import { commonServerOnlyModules } from "./serverOnly"
 
 type FactorBuildSettings = {
   serverOnlyModules?: types.ServerModuleDef[]
+  factorEnv: FactorEnv<string>
+  mode?: "production" | "development"
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
@@ -14,10 +17,14 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   serverOnlyModules: types.ServerModuleDef[]
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
-  constructor(settings: FactorBuildSettings = {}) {
+  factorEnv: FactorEnv<string>
+  mode: "development" | "production"
+  constructor(settings: FactorBuildSettings) {
     super(settings)
     this.serverOnlyModules = settings.serverOnlyModules ?? []
     this.getLexers().catch(console.error)
+    this.factorEnv = settings.factorEnv
+    this.mode = settings.mode || "production"
   }
 
   async getLexers() {
@@ -79,10 +86,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
    * /0 prefix prevents other plugins from messing with module
    * https://rollupjs.org/guide/en/#conventions
    */
-  getCustomBuildPlugins = async (
-    userConfig: UserConfig,
-  ): Promise<vite.Plugin[]> => {
-    const serverOnlyModules = this.getServerOnlyModules(userConfig)
+  getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
+    const serverOnlyModules = this.getServerOnlyModules()
 
     const fullServerModules = serverOnlyModules.map((_) => {
       return {
@@ -136,43 +141,15 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     return plugins
   }
 
-  getServerOnlyModules = (userConfig: UserConfig): types.ServerModuleDef[] => {
-    return [
-      { id: "http" },
-      { id: "knex" },
-      { id: "knex-stringcase" },
-      { id: "bcrypt" },
-      { id: "chalk" },
-      { id: "google-auth-library" },
-      { id: "express" },
-      { id: "ws" },
-      { id: "nodemailer" },
-      { id: "nodemailer-html-to-text" },
-      { id: "prettyoutput" },
-      { id: "consola" },
-      { id: "jsonwebtoken" },
-      { id: "lodash" },
-      { id: "body-parser" },
-      { id: "cors" },
-      { id: "helmet" },
-      { id: "fast-safe-stringify" },
-      { id: "json-schema-to-typescript" },
-      { id: "fs-extra" },
-      { id: "module", exports: ["createRequire"] },
-      ...(userConfig.serverOnlyImports || []),
-      ...(this.serverOnlyModules || []),
-    ]
+  getServerOnlyModules = (): types.ServerModuleDef[] => {
+    return [...commonServerOnlyModules(), ...(this.serverOnlyModules || [])]
   }
 
   /**
    * Common vite options for all builds
    */
-  getOptimizeDeps = (
-    userConfig: UserConfig,
-  ): Partial<vite.InlineConfig["optimizeDeps"]> => {
-    const configExcludeIds = this.getServerOnlyModules(userConfig).map(
-      (_) => _.id,
-    )
+  getOptimizeDeps = (): Partial<vite.InlineConfig["optimizeDeps"]> => {
+    const configExcludeIds = this.getServerOnlyModules().map((_) => _.id)
 
     return {
       exclude: [
@@ -216,25 +193,20 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  getCommonViteConfig = async (
-    options: RunConfig & {
-      sourceDir: string
-      publicDir: string
-    },
-  ): Promise<vite.InlineConfig> => {
-    const { userConfig = {}, sourceDir, publicDir, mode } = options
+  getCommonViteConfig = async (): Promise<vite.InlineConfig> => {
+    const { sourceDir, publicDir } = this.factorEnv.standardPaths
 
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
     const root = sourceDir
 
-    const customPlugins = await this.getCustomBuildPlugins(userConfig)
+    const customPlugins = await this.getCustomBuildPlugins()
 
     const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
     const basicConfig: vite.InlineConfig = {
-      mode,
+      mode: this.mode,
       root,
       publicDir,
       server: {
@@ -248,7 +220,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         manifest: true,
         emptyOutDir: true,
         minify: false,
-        sourcemap: mode !== "production",
+        sourcemap: this.mode !== "production",
       },
       resolve: {
         alias: {
@@ -258,7 +230,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
 
       plugins: [pluginVue(), ...customPlugins],
-      optimizeDeps: this.getOptimizeDeps(userConfig),
+      optimizeDeps: this.getOptimizeDeps(),
     }
 
     return basicConfig

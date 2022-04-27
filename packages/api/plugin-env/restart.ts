@@ -1,26 +1,33 @@
 import path from "path"
 import fs from "fs-extra"
-import { FactorPlugin, UserConfig } from "../config"
-import { done, RunConfig } from "./utils"
+import { FactorPlugin } from "../config"
+import { FactorEnv } from "."
 
-export class FactorDevRestart extends FactorPlugin {
-  constructor() {
-    super({})
+type FactorDevRestartSettings = {
+  factorEnv: FactorEnv<string>
+}
+export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
+  factorEnv: FactorEnv<string>
+  constructor(settings: FactorDevRestartSettings) {
+    super(settings)
+    this.factorEnv = settings.factorEnv
+    this.addToCli()
   }
-  setup(): UserConfig {
-    return {
-      hooks: [
-        {
-          hook: "runCommand",
-          callback: async (runConfig: RunConfig) => {
-            const { command } = runConfig
 
-            if (command == "rdev") {
-              await this.restartInitializer()
-            }
-          },
+  setup() {
+    return {}
+  }
+
+  addToCli() {
+    if (this.factorEnv) {
+      this.factorEnv.addHook({
+        hook: "runCommand",
+        callback: async (command: string) => {
+          if (command == "rdev") {
+            await this.restartInitializer()
+          }
         },
-      ],
+      })
     }
   }
 
@@ -66,7 +73,7 @@ export class FactorDevRestart extends FactorPlugin {
       .on("crash", () => {
         this.log.error("crash")
       })
-      .on("quit", () => done(0, "exited nodemon"))
+      .on("quit", () => this.factorEnv.done(0, "exited nodemon"))
       .on("restart", (files: string[]) => {
         process.env.IS_RESTART = "1"
         this.log.info("restarted due to:", { data: { files } })

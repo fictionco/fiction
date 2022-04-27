@@ -7,11 +7,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { userConfigSetting } from "@factor/api/config"
-
-const appName = userConfigSetting("appName")
-const appEmail = userConfigSetting("appEmail")
-const appUrl = userConfigSetting("appUrl")
 const list = [
   {
     id: "server-url",
@@ -25,8 +20,5 @@ const list = [
   },
   { id: "test-env", title: "TEST_ENV", value: process.env.TEST_ENV || "-" },
   { id: "node-env", title: "NODE_ENV", value: process.env.NODE_ENV },
-  { id: "app-name", title: "APP_NAME", value: appName },
-  { id: "app-email", title: "APP_EMAIL", value: appEmail },
-  { id: "app-url", title: "APP_URL", value: appUrl },
 ]
 </script>

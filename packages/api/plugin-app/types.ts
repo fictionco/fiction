@@ -1,8 +1,6 @@
 import { HeadClient } from "@vueuse/head"
 import { App } from "vue"
 import { Router } from "vue-router"
-import { RunConfig } from "../cli/utils"
-import type { FactorApp } from "."
 
 export interface RenderOptions {
   mode: "production" | "development"
@@ -13,7 +11,7 @@ export type RenderConfig = {
   pathname?: string
   manifest?: Record<string, any>
   template?: string
-} & RunConfig
+}
 
 export interface HtmlBuildingBlocks {
   template: string
@@ -42,4 +40,9 @@ export interface FactorAppEntry {
 export type EntryModuleExports = {
   runViteApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
   [key: string]: unknown
+}
+
+export interface SitemapConfig {
+  paths: string[]
+  topic: string
 }

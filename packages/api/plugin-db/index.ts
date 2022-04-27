@@ -1,8 +1,8 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
-import { UserConfig } from "../config"
-import { FactorPlugin } from "../config/plugin"
+import { UserConfig } from "../plugin-env"
+import { FactorPlugin } from "../plugin"
 import * as types from "./types"
 
 export * from "./types"
@@ -103,7 +103,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
 
   public async setup(): Promise<UserConfig> {
     if (!this.isTest && !this.utils.isBrowser()) {
-      // await this.init()
+      await this.init()
     }
 
     return { name: this.constructor.name }

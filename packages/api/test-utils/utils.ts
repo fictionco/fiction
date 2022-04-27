@@ -5,15 +5,16 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-import { getEnvVars, deepMergeAll } from "../utils"
+import { safeDirname } from "../utils"
 import { randomBetween, log } from ".."
-import { getServerUserConfig, handleCrossEnv, UserConfig } from "../config"
+import { UserConfig } from "../config"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 import { FactorServer } from "../plugin-server"
 import { FactorApp } from "../plugin-app"
+import { EnvVar, FactorEnv } from "../plugin-env"
 import EmptyApp from "./EmptyApp.vue"
 
 const require = createRequire(import.meta.url)
@@ -34,51 +35,72 @@ export const getTestEmail = (): string => {
 
 export type TestServerConfig = {
   _process: ExecaChildProcess
-  portApp: string
-  port: string
+  portApp: number
+  port: number
+  appUrl: string
   serverUrl: string
-  userConfig: UserConfig
   destroy: () => Promise<void>
   browser: Browser
   page: Page
   expectUi: Expect
-  appUrl: string
 }
 
 export type TestUtils = {
   user: FullUser | undefined
   token: string
   email: string
+  factorApp: FactorApp
+  factorEnv: FactorEnv<string>
   factorDb: FactorDb
   factorUser: FactorUser
   factorEmail: FactorEmail
   serverUrl: string
 }
 
-export const createTestUtils = async (): Promise<TestUtils> => {
-  const vars = [
-    { v: "postgresUrl", val: process.env.POSTGRES_URL },
-    { v: "googleClientId", val: process.env.GOOGLE_CLIENT_ID },
-    { v: "googleClientSecret", val: process.env.GOOGLE_CLIENT_SECRET },
-  ] as const
+const envVars = () => [
+  new EnvVar({
+    name: "googleClientId",
+    val: process.env.GOOGLE_CLIENT_ID,
+  }),
+  new EnvVar({
+    name: "googleClientSecret",
+    val: process.env.GOOGLE_CLIENT_SECRET,
+  }),
+  new EnvVar({
+    name: "stripeSecretKeyTest",
+    val: process.env.STRIPE_SECRET_KEY_TEST,
+  }),
+  new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
+  new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
+]
 
-  const env = getEnvVars({
-    vars,
-    isLive: false,
-    isApp: true,
+export const createTestUtils = async (opts?: {
+  port?: number
+  portApp?: number
+}): Promise<TestUtils> => {
+  const {
+    port = randomBetween(10_000, 20_000),
+    portApp = randomBetween(1000, 10_000),
+  } = opts || {}
+
+  const cwd = safeDirname(import.meta.url)
+
+  const factorEnv = new FactorEnv({
+    envFiles: [path.join(cwd, "./.env")],
+    cwd,
+    envVars,
   })
 
-  const factorServer = new FactorServer({
-    port: randomBetween(1000, 10_000),
-  })
+  const factorServer = new FactorServer({ port })
 
   const factorApp = new FactorApp({
     appName: "Test App",
-    portApp: randomBetween(1000, 10_000),
+    portApp,
     rootComponent: EmptyApp,
     factorServer,
+    factorEnv,
   })
-  const factorDb = new FactorDb({ connectionUrl: env.postgresUrl })
+  const factorDb = new FactorDb({ connectionUrl: factorEnv.var("postgresUrl") })
 
   const serverUrl = factorServer.serverUrl
   const appUrl = factorApp.appUrl
@@ -93,12 +115,14 @@ export const createTestUtils = async (): Promise<TestUtils> => {
   const factorUser = new FactorUser({
     factorDb,
     factorEmail,
-    googleClientId: env.googleClientId,
-    googleClientSecret: env.googleClientSecret,
+    googleClientId: factorEnv.var("googleClientId"),
+    googleClientSecret: factorEnv.var("googleClientSecret"),
     factorServer,
     mode: "development",
     tokenSecret: "test",
   })
+
+  await factorServer.createServer()
 
   const key = Math.random().toString().slice(2, 12)
   const email = `arpowers+${key}@gmail.com`
@@ -120,7 +144,17 @@ export const createTestUtils = async (): Promise<TestUtils> => {
 
   factorUser.setUserInitialized()
 
-  return { user, token, email, factorUser, factorDb, factorEmail, serverUrl }
+  return {
+    user,
+    token,
+    email,
+    factorEnv,
+    factorApp,
+    factorUser,
+    factorDb,
+    factorEmail,
+    serverUrl,
+  }
 }
 
 export const createTestServer = async (params: {
@@ -130,38 +164,28 @@ export const createTestServer = async (params: {
   slowMo?: number
   userConfig?: UserConfig
 }): Promise<TestServerConfig> => {
-  const { port, portApp } = params.userConfig || {}
   const { headless = true, slowMo } = params
   let { moduleName } = params
   const cwd = params.cwd || process.cwd()
 
   moduleName = moduleName || getModuleName(cwd)
 
-  const crossVars = handleCrossEnv({
-    port: String(port || randomBetween(1000, 9000)),
-    portApp: String(portApp || randomBetween(1000, 9000)),
-    mode: "development",
-  })
-
-  const mainFilePath = require.resolve(moduleName)
-  const userConfig = await getServerUserConfig({
-    mainFilePath,
-    userConfig: deepMergeAll([crossVars, params.userConfig || {}]),
-  })
-
   let _process: ExecaChildProcess | undefined
+
+  const port = randomBetween(1000, 10_000)
+  const portApp = randomBetween(1000, 10_000)
 
   const cmd = [
     `npm exec -w ${moduleName} --`,
-    `factor rdev`,
-    `--port ${crossVars.port}`,
-    `--port-app ${crossVars.portApp}`,
+    `factor run dev`,
+    `--port ${port}`,
+    `--port-app ${portApp}`,
   ]
 
   const runCmd = cmd.join(" ")
 
   log.info("createTestServer", `Creating test server for ${moduleName}`, {
-    data: { ...crossVars, cwd: process.cwd(), cmd: runCmd },
+    data: { cwd: process.cwd(), cmd: runCmd },
   })
 
   await new Promise<void>((resolve) => {
@@ -184,12 +208,15 @@ export const createTestServer = async (params: {
   const page = await browser.newPage()
 
   return {
+    port,
+    portApp,
+    appUrl: `http://localhost:${portApp}`,
+    serverUrl: `http://localhost:${port}`,
     _process,
-    ...crossVars,
     browser,
     page,
     expectUi,
-    userConfig,
+
     destroy: async () => {
       if (_process) {
         _process.cancel()
@@ -244,10 +271,7 @@ export const appBuildTests = (config: {
     })
 
     it("renders", async () => {
-      const { destroy, page, appUrl } = await createTestServer({
-        moduleName,
-        userConfig: { port, portApp },
-      })
+      const { destroy, page, appUrl } = await createTestServer({ moduleName })
 
       const errorLogs: string[] = []
       page.on("console", (message) => {

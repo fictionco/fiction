@@ -2,7 +2,6 @@ import { createRequire } from "module"
 import path from "path"
 import { Page } from "playwright"
 import { describe, it, beforeAll, expect, afterAll } from "vitest"
-import * as mainFile from "@factor/site"
 import { createTestServer, TestServerConfig } from "../../test-utils"
 const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
@@ -33,8 +32,6 @@ describe("renders app code correctly", () => {
 
     await page().waitForSelector("#server-url")
 
-    const mainConfig = mainFile.setup()
-
     const serverUrlText = await page().locator(`#server-url`).textContent()
     expect(serverUrlText).toBe(_s.serverUrl.toString())
 
@@ -42,12 +39,12 @@ describe("renders app code correctly", () => {
     expect(currentUrlText).toBe(_s.appUrl)
 
     const appNameText = await page().locator(`#app-name`).textContent()
-    expect(appNameText).toBe(mainConfig?.appName)
+    expect(appNameText).toMatchInlineSnapshot()
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toBe(mainConfig?.appEmail)
+    expect(appEmailText).toMatchInlineSnapshot()
 
     const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toBe(mainConfig?.appUrl)
+    expect(appUrlText).toMatchInlineSnapshot()
   }, 16_000)
 })

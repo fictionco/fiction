@@ -1,3 +1,4 @@
+import path from "path"
 import { FactorDocsEngine } from "@factor/plugin-docs-engine"
 import { FactorBlogEngine } from "@factor/plugin-blog-engine"
 import { FactorHighlightCode } from "@factor/plugin-highlight-code"
@@ -8,48 +9,58 @@ import { FactorApp } from "@factor/api/plugin-app"
 import { FactorDb } from "@factor/api/plugin-db"
 import { FactorUser } from "@factor/api/plugin-user"
 import { FactorServer } from "@factor/api/plugin-server"
-import { safeDirname, UserConfig, isTest } from "@factor/api"
+import { isTest, safeDirname } from "@factor/api"
 import { FactorEmail } from "@factor/api/plugin-email"
+import { FactorEnv, UserConfig } from "@factor/api/plugin-env"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { routes } from "./routes"
-
-import { env } from "./vars"
+import { envVars } from "./vars"
 import App from "./App.vue"
-const appMeta = {
-  appName: "FactorJS",
-  appEmail: "hi@factorjs.org",
-  appUrl: "https://www.factorjs.org",
-}
 
-const mode = env.mode as "development" | "production"
+const cwd = safeDirname(import.meta.url, "..")
+
+export const factorEnv = new FactorEnv({
+  envFiles: [path.join(cwd, "./.env")],
+  cwd,
+  envVars,
+})
+
+const appName = "FactorJS"
+const appEmail = "hi@factorjs.org"
+const appUrl = "https://www.factorjs.org"
+const mode = factorEnv.var<"development" | "production">("mode")
 
 export const factorDb = new FactorDb({
-  connectionUrl: env.postgresUrl,
+  connectionUrl: factorEnv.var("postgresUrl"),
   isTest: isTest(),
 })
 
 export const factorServer = new FactorServer({
-  port: env.port ? Number.parseInt(env.port) : 3333,
-  serverUrl: env.serverUrl,
+  port: +(factorEnv.var("port") || 3333),
+  serverUrl: factorEnv.var("serverUrl"),
+  factorEnv,
 })
 
 export const factorApp = new FactorApp({
-  appName: "FactorJS",
-  appUrl: env.appUrl,
+  appName,
+  appUrl,
   factorServer,
-  portApp: env.portApp ? Number.parseInt(env.portApp) : 3333,
+  portApp: +(factorEnv.var("portApp") || 3000),
   rootComponent: App,
   mode,
+  routes,
+  uiPaths: ["~/src/**/*.{vue,js,ts,html}"],
+  factorEnv,
 })
 
 export const factorEmail = new FactorEmail({
-  appName: appMeta.appName,
-  appEmail: appMeta.appEmail,
-  appUrl: appMeta.appUrl,
-  smtpHost: env.smtpHost,
-  smtpPassword: env.smtpPassword,
-  smtpUser: env.smtpUser,
+  appName,
+  appEmail,
+  appUrl,
+  smtpHost: factorEnv.var("smtpHost"),
+  smtpPassword: factorEnv.var("smtpPassword"),
+  smtpUser: factorEnv.var("smtpUser"),
   isTest: isTest(),
 })
 
@@ -59,8 +70,8 @@ export const factorUser = new FactorUser({
   factorEmail,
   googleClientId:
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
-  googleClientSecret: env.googleClientSecret,
-  tokenSecret: env.tokenSecret,
+  googleClientSecret: factorEnv.var("googleClientSecret"),
+  tokenSecret: factorEnv.var("tokenSecret"),
   mode,
 })
 
@@ -68,7 +79,7 @@ export const factorStripe = new FactorStripe({
   factorServer,
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
-  secretKeyTest: env.stripeSecretKeyTest,
+  secretKeyTest: factorEnv.var("stripeSecretKeyTest"),
   stripeMode: "test",
   hooks: [],
   products: [],
@@ -78,31 +89,27 @@ export const docsPlugin = new FactorDocsEngine({
   docs,
   groups,
   baseRoute: "/docs",
+  factorApp,
 })
-export const blogPlugin = new FactorBlogEngine({ posts, baseRoute: "/blog" })
+export const blogPlugin = new FactorBlogEngine({
+  posts,
+  baseRoute: "/blog",
+  factorApp,
+})
 
 export const setup = (): UserConfig => {
   return {
-    ...appMeta,
-    routes,
     plugins: [
-      factorApp.setup(),
-      factorServer.setup(),
-      factorUser.setup(),
-      factorDb.setup(),
-      factorStripe.setup(),
-      docsPlugin.setup(),
-      blogPlugin.setup(),
-      new FactorHighlightCode().setup(),
-      new FactorNotify().setup(),
-      new FactorUi().setup(),
+      factorApp,
+      factorServer,
+      factorUser,
+      factorDb,
+      factorStripe,
+      docsPlugin,
+      blogPlugin,
+      new FactorHighlightCode(),
+      new FactorNotify(),
+      new FactorUi(),
     ],
-    server: () => {
-      return {
-        variables: { TEST_SERVER: "TEST" },
-        root: safeDirname(import.meta.url, ".."),
-      }
-    },
-    variables: {},
   }
 }

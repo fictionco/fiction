@@ -1,14 +1,13 @@
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import fs from "fs-extra"
-import { UserConfig } from "../types"
-import { generateStaticConfig } from "../generate"
+import { UserConfig } from "../../plugin-env/types"
+import { generateStaticConfig } from "../../plugin-env/generate"
 
 const root = new URL(".", import.meta.url).pathname
 describe("test config generator", () => {
   beforeAll(async () => {
     const config: UserConfig = {
-      root,
       generateStaticConfig: true,
       hooks: [
         {

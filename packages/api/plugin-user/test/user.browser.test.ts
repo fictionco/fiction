@@ -1,33 +1,25 @@
+/**
+ * @vitest-environment jsdom
+ * https://vitest.dev/config/#environment
+ */
 import { expect, it, describe, vi, beforeAll } from "vitest"
-import { handleCrossEnv } from "@factor/api/config"
-import { createServer } from "@factor/api/entry/serverEntry"
-import { getServerUserConfig } from "@factor/api/config/entry"
 import { createTestUtils, TestUtils } from "@factor/api/test-utils"
 
-import { FactorEmail } from "@factor/api/plugin-email"
 import { FullUser } from "../types"
 let user: Partial<FullUser> | undefined
 let token: string | undefined
 const key = Math.random().toString().slice(2, 8)
 
 let testUtils: TestUtils | undefined = undefined
-let factorEmail: FactorEmail | undefined = undefined
 
 describe("user tests", () => {
   beforeAll(async () => {
-    handleCrossEnv()
-    const mainFile = await import("@factor/site")
-    let userConfig = mainFile.setup()
-    factorEmail = mainFile.factorEmail
-    userConfig = await getServerUserConfig({ userConfig })
-
-    await createServer({ userConfig })
     testUtils = await createTestUtils()
   })
   it("creates user", async () => {
-    if (!factorEmail) throw new Error("no email plugin")
+    if (!testUtils?.factorEmail) throw new Error("no email plugin")
 
-    const spy = vi.spyOn(factorEmail, "sendEmail")
+    const spy = vi.spyOn(testUtils?.factorEmail, "sendEmail")
 
     const { factorUser } = testUtils ?? {}
     const response = await factorUser?.requests.StartNewUser.request({

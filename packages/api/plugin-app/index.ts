@@ -10,20 +10,23 @@ import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
 import { Component, App as VueApp } from "vue"
-import type { RunConfig } from "../cli/utils"
-import { UserConfig } from "../config/types"
+import type { CliOptions, StandardPaths } from "../plugin-env/types"
+import { UserConfig } from "../plugin-env"
 import { HookType } from "../utils/hook"
-import { FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import { getMeta, renderMeta } from "../utils/meta"
 import { version } from "../package.json"
 import { FactorBuild } from "../plugin-build"
 import { importIfExists } from "../engine/nodeUtils"
 import { FactorServer } from "../plugin-server"
 import { initializeResetUi } from "../utils/ui"
-import { getRouter, setupRouter } from "../utils"
+import { AppRoute, getRouter, setupRouter } from "../utils"
+import { ServerModuleDef } from "../plugin-build/types"
+import { FactorEnv } from "../plugin-env"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
+import type { JSONSchema } from "json-schema-to-typescript"
 
 type HookDictionary = {
   afterAppSetup: { args: [{ userConfig: UserConfig }] }
@@ -36,25 +39,40 @@ export type FactorAppSettings = {
   appUrl?: string
   portApp: number
   factorServer: FactorServer
+  factorEnv: FactorEnv<string>
   rootComponent: Component
+  routes?: AppRoute<string>[]
+  sitemaps?: types.SitemapConfig[]
+  uiPaths?: string[]
+  serverOnlyImports?: ServerModuleDef[]
 }
 
 export class FactorApp extends FactorPlugin<FactorAppSettings> {
   types = types
   viteDevServer?: vite.ViteDevServer
   hooks: HookType<HookDictionary>[]
+  routes: AppRoute<string>[]
+  uiPaths: string[]
+  serverOnlyImports: ServerModuleDef[]
   rootComponent: Component
   factorBuild?: FactorBuild
   factorSitemap?: FactorSitemap
   factorServer: FactorServer
+  factorEnv?: FactorEnv<string>
   appName: string
   appUrl: string
   portApp: number
   mode: "production" | "development"
+  sitemaps: types.SitemapConfig[]
+  standardPaths: StandardPaths
   constructor(settings: FactorAppSettings) {
     super(settings)
     this.mode = settings.mode ?? "production"
     this.hooks = settings.hooks ?? []
+    this.routes = settings.routes ?? []
+    this.sitemaps = settings.sitemaps ?? []
+    this.uiPaths = settings.uiPaths ?? []
+    this.serverOnlyImports = settings.serverOnlyImports ?? []
     this.appName = settings.appName
     this.portApp = settings.portApp ?? 3000
     this.appUrl =
@@ -62,50 +80,87 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         ? settings.appUrl
         : `http://localhost:${this.portApp}`
 
-    if (!this.utils.isApp()) {
-      this.factorBuild = new FactorBuild()
-      this.factorSitemap = new FactorSitemap()
-    }
     this.rootComponent = settings.rootComponent
     this.factorServer = settings.factorServer
+    this.factorEnv = settings.factorEnv
+    this.standardPaths = this.factorEnv.standardPaths
+
+    if (!this.utils.isApp()) {
+      this.factorBuild = new FactorBuild({
+        factorEnv: this.factorEnv,
+        mode: this.mode,
+      })
+      this.factorSitemap = new FactorSitemap()
+    }
+
+    this.addToCli()
+  }
+
+  addToCli() {
+    if (this.factorEnv) {
+      this.factorEnv.addHook({
+        hook: "runCommand",
+        callback: async (command: string, opts: CliOptions) => {
+          const { serve, prerender } = opts
+          if (command == "dev") {
+            await this.serveApp()
+          } else if (command == "build") {
+            await this.buildApp({ serve, prerender })
+          } else if (command == "prerender") {
+            await this.buildApp({ serve, prerender })
+          }
+        },
+      })
+
+      this.factorEnv.addHook({
+        hook: "staticSchema",
+        callback: async (existing) => {
+          const keys = this.routes
+            ?.map((_) => _.name)
+            .filter(Boolean)
+            .sort() ?? [""]
+
+          return {
+            ...existing,
+            routes: { enum: keys, type: "string" },
+          }
+        },
+      })
+
+      this.factorEnv.addHook({
+        hook: "staticConfig",
+        callback: (
+          schema: Record<string, unknown>,
+        ): Record<string, unknown> => {
+          return {
+            ...schema,
+            routes: this.routes?.sort(),
+          }
+        },
+      })
+    }
   }
 
   setup(): UserConfig {
     return {
       name: this.constructor.name,
-      hooks: [
-        {
-          hook: "runCommand",
-          callback: async (runConfig: RunConfig) => {
-            const { command } = runConfig
-
-            if (command == "dev") {
-              await this.serveApp(runConfig)
-            } else if (command == "build") {
-              await this.buildApp(runConfig)
-            } else if (command == "prerender") {
-              await this.buildApp({ ...runConfig, prerender: true })
-            }
-          },
-        },
-      ],
-      serverOnlyImports: [
-        { id: "compression" },
-        { id: "serve-favicon" },
-        { id: "html-minifier" },
-        { id: "serve-static" },
-        { id: "fs-extra" },
-        { id: "stream" },
-        { id: "@vue/server-renderer" },
-        { id: "sitemap" },
-        { id: "glob" },
-        { id: "vite-plugin-markdown" },
-        { id: "vite/dist/node" },
-        { id: "es-module-lexer" },
-        { id: "cjs-module-lexer" },
-        { id: "@vitejs/plugin-vue" },
-      ],
     }
+  }
+
+  addRoutes(routes: AppRoute<string>[]) {
+    this.routes = [...this.routes, ...routes]
+  }
+
+  addSitemaps(sitemaps: types.SitemapConfig[]) {
+    this.sitemaps = [...this.sitemaps, ...sitemaps]
+  }
+
+  addUiPaths(uiPaths: string[]) {
+    this.uiPaths = [...this.uiPaths, ...uiPaths]
+  }
+
+  addServerOnlyImports(serverOnlyImports: ServerModuleDef[]) {
+    this.serverOnlyImports = [...this.serverOnlyImports, ...serverOnlyImports]
   }
 
   createVueApp = async (params: {
@@ -114,9 +169,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }): Promise<types.FactorAppEntry> => {
     const { renderUrl, userConfig } = params
 
-    if (userConfig.routes) {
-      setupRouter(userConfig.routes)
-    }
+    setupRouter(this.routes)
 
     await this.utils.runHooks<HookDictionary, "afterAppSetup">({
       list: this.hooks,
@@ -165,24 +218,26 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return entry
   }
 
-  getViteServer = async (
-    params: types.RenderConfig,
-  ): Promise<vite.ViteDevServer> => {
+  getViteServer = async (): Promise<vite.ViteDevServer> => {
     if (!this.viteDevServer) {
-      params = this.utils.deepMergeAll([
-        params,
-        { userConfig: { vite: { server: { middlewareMode: "ssr" } } } },
-      ])
-      const config = await this.getViteConfig(params)
+      const config = await this.getViteConfig()
 
-      this.viteDevServer = await vite.createServer(config)
+      const serverConfig = this.utils.deepMergeAll([
+        config,
+        {
+          server: { middlewareMode: "ssr" },
+        },
+      ])
+
+      this.viteDevServer = await vite.createServer(serverConfig)
     }
 
     return this.viteDevServer
   }
 
-  getIndexHtml = async (params: RunConfig): Promise<string> => {
-    const { pathname, dist, sourceDir, mountFilePath } = params
+  getIndexHtml = async (params?: { pathname: string }): Promise<string> => {
+    const { pathname = "/" } = params || {}
+    const { dist, sourceDir, mountFilePath } = this.standardPaths || {}
 
     if (!dist) throw new Error("dist is required")
     if (!sourceDir) throw new Error("sourceDir is required")
@@ -206,7 +261,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     )
 
     if (this.mode !== "production" && pathname) {
-      const srv = await this.getViteServer(params)
+      const srv = await this.getViteServer()
       template = await srv.transformIndexHtml(pathname, template)
     }
 
@@ -224,12 +279,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
    *  - in production takes from pre-generated client
    *  - in development, looks in SRC folder for index.html
    */
-  htmlGenerators = async (params: RunConfig): Promise<types.RenderConfig> => {
-    const { distClient } = params
+  htmlGenerators = async (): Promise<types.RenderConfig> => {
+    const { distClient } = this.standardPaths || {}
 
     if (!distClient) throw new Error("dist is required")
 
-    const out: types.RenderConfig = { ...params, template: "", manifest: {} }
+    const out: types.RenderConfig = { template: "", manifest: {} }
 
     if (this.mode == "production") {
       fs.ensureDirSync(distClient)
@@ -241,7 +296,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         any
       >
     } else {
-      out.template = await this.getIndexHtml(params)
+      out.template = await this.getIndexHtml({ pathname: "/" })
     }
 
     return out
@@ -250,11 +305,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   renderParts = async (
     params: types.RenderConfig,
   ): Promise<types.RenderedHtmlParts> => {
-    const { pathname, manifest, distServerEntry, userConfig } = params
+    const { pathname, manifest } = params
+    const { distServerEntry } = this.standardPaths || {}
     const prod = this.mode == "production" ? true : false
 
     if (!distServerEntry) throw new Error("distServerEntry is missing")
-    if (!userConfig) throw new Error("userConfig is missing")
 
     const out = {
       appHtml: "",
@@ -277,7 +332,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           /* @vite-ignore */ path.join(distServerEntry)
         )) as Record<string, any>
       } else {
-        const srv = await this.getViteServer(params)
+        const srv = await this.getViteServer()
         entryModule = await srv.ssrLoadModule("./mount.ts")
       }
 
@@ -315,10 +370,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   getRequestHtml = async (params: types.RenderConfig): Promise<string> => {
-    const { pathname, manifest, template, userConfig } = params
+    const { pathname, manifest, template } = params
 
     const { appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs } =
-      await this.renderParts({ ...params, pathname, manifest })
+      await this.renderParts({ template, pathname, manifest })
 
     // In development, get the index.html each request
     if (this.mode != "production") {
@@ -327,7 +382,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     if (!template) throw new Error("html template required")
 
-    const canonicalUrl = [userConfig?.appUrl || "", pathname || ""]
+    const canonicalUrl = [this.appUrl || "", pathname || ""]
       .map((_: string) => _.replace(/\/$/, ""))
       .join("")
 
@@ -352,8 +407,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return minify(html, { continueOnParseError: true })
   }
 
-  expressApp = async (runConfig: RunConfig): Promise<Express> => {
-    const { distClient, sourceDir } = runConfig
+  expressApp = async (): Promise<Express> => {
+    const { distClient, sourceDir } = this.standardPaths || {}
 
     if (!distClient || !sourceDir) {
       throw new Error("distClient && sourceDir are required")
@@ -369,10 +424,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
       let viteServer: vite.ViteDevServer | undefined = undefined
 
-      const { manifest, template } = await this.htmlGenerators(runConfig)
+      const { manifest, template } = await this.htmlGenerators()
 
       if (this.mode != "production") {
-        viteServer = await this.getViteServer(runConfig)
+        viteServer = await this.getViteServer()
         app.use(viteServer.middlewares)
       } else {
         app.use(compression())
@@ -394,7 +449,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
         try {
           const html = await this.getRequestHtml({
-            ...runConfig,
             template,
             pathname,
             manifest,
@@ -417,8 +471,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     }
   }
 
-  serveApp = async (options: RunConfig): Promise<void> => {
-    const app = await this.expressApp(options)
+  serveApp = async (): Promise<void> => {
+    const app = await this.expressApp()
 
     let server: http.Server
 
@@ -438,24 +492,27 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.utils.onEvent("shutdown", () => server.close())
   }
 
-  getStaticPathAliases = (runConfig: RunConfig): Record<string, string> => {
+  getStaticPathAliases = (): Record<string, string> => {
+    const { mainFilePath, mountFilePath } = this.standardPaths || {}
+
     return {
-      "~/": `${runConfig.sourceDir}/`,
-      "@MAIN_FILE_ALIAS": runConfig.mainFilePath,
-      "@MOUNT_FILE_ALIAS": runConfig.mountFilePath,
+      "@MAIN_FILE_ALIAS": mainFilePath,
+      "@MOUNT_FILE_ALIAS": mountFilePath,
     }
   }
 
-  tailwindConfig = async (
-    options: RunConfig,
-  ): Promise<Record<string, any> | undefined> => {
-    const { cwd } = options
+  tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
+    const cwd = this.standardPaths.cwd
 
     if (!cwd) throw new Error("cwd is required")
 
-    const baseTailwindConfig = await import("./tailwind.config")
-
-    const c: Record<string, any>[] = [baseTailwindConfig.default]
+    const fullUiPaths = this.uiPaths.map((p) => p.replace("~", cwd))
+    const c: Record<string, any>[] = [
+      {
+        mode: "jit",
+        content: fullUiPaths,
+      },
+    ]
 
     const { requireIfExists } = await import("../engine/nodeUtils")
 
@@ -477,10 +534,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return config
   }
 
-  getAppViteConfigFile = async (
-    options: RunConfig,
-  ): Promise<vite.InlineConfig | undefined> => {
-    const { cwd } = options
+  getAppViteConfigFile = async (): Promise<vite.InlineConfig | undefined> => {
+    const cwd = this.standardPaths.cwd
 
     if (!cwd) throw new Error("cwd is required")
     const _module = await importIfExists<{
@@ -501,21 +556,14 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return config
   }
 
-  async getViteConfig(runConfig: RunConfig): Promise<vite.InlineConfig> {
-    const {
-      userConfig = {},
-      sourceDir,
-      publicDir,
-      mainFilePath,
-      rootComponentPath,
-    } = runConfig
+  async getViteConfig(): Promise<vite.InlineConfig> {
+    const { sourceDir, publicDir, mainFilePath, rootComponentPath } =
+      this.standardPaths || {}
 
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
-    const { variables } = userConfig
     const vars = {
-      ...variables,
       IS_VITE: "true",
       FACTOR_SERVER_URL: this.factorServer.serverUrl,
       FACTOR_APP_URL: this.appUrl,
@@ -534,7 +582,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       disableOnRestart: true,
     })
 
-    const twConfig = await this.tailwindConfig(runConfig)
+    const twConfig = await this.tailwindConfig()
 
     const require = mod.Module.createRequire(import.meta.url)
 
@@ -545,9 +593,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const pluginMarkdown = await import("vite-plugin-markdown")
     const { getMarkdownUtility } = await import("../utils/markdown")
 
-    const commonVite = await this.factorBuild?.getCommonViteConfig(runConfig)
-    const userConfigVite = userConfig.vite
-    const appViteConfigFile = await this.getAppViteConfigFile(runConfig)
+    const commonVite = await this.factorBuild?.getCommonViteConfig()
+
+    const appViteConfigFile = await this.getAppViteConfigFile()
 
     const merge: vite.InlineConfig[] = [
       commonVite || {},
@@ -561,7 +609,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           port: this.portApp,
         },
         resolve: {
-          alias: this.getStaticPathAliases(runConfig),
+          alias: this.getStaticPathAliases(),
         },
         define,
         plugins: [
@@ -571,7 +619,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           }),
         ],
       },
-      userConfigVite || {},
       appViteConfigFile || {},
     ]
 
@@ -580,18 +627,26 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return vite
   }
 
-  buildApp = async (runConfig: RunConfig): Promise<void> => {
-    const { prerender, dist, distClient, distServer } = runConfig
+  buildApp = async (options: {
+    prerender?: boolean
+    serve?: boolean
+  }): Promise<void> => {
+    const { prerender = true, serve = false } = options
+    const { dist, distClient, distServer } = this.factorEnv?.standardPaths || {}
+
+    if (!dist || !distClient || !distServer) {
+      throw new Error("dist paths are missing")
+    }
 
     this.log.info("building application", {
-      data: { ...runConfig, isNode: this.utils.isNode() },
+      data: { isNode: this.utils.isNode() },
     })
 
     try {
-      const vc = await this.getViteConfig(runConfig)
+      const vc = await this.getViteConfig()
 
       // build index to dist
-      await this.getIndexHtml(runConfig)
+      await this.getIndexHtml()
 
       const clientBuildOptions: vite.InlineConfig = {
         ...vc,
@@ -624,10 +679,15 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
       this.log.info("[done] application built successfully")
 
-      await this.factorSitemap?.generateSitemap(runConfig)
+      await this.factorSitemap?.generateSitemap({
+        appUrl: this.appUrl,
+        sitemaps: this.sitemaps,
+        routes: this.routes,
+        distClient,
+      })
 
       if (prerender) {
-        await this.preRender(runConfig)
+        await this.preRender({ serve })
       }
     } catch (error) {
       this.log.error("[error] failed to build application", { error })
@@ -636,16 +696,20 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return
   }
 
-  preRenderPages = async (runConfig: RunConfig): Promise<void> => {
-    const { distStatic, distClient } = runConfig
+  preRenderPages = async (): Promise<void> => {
+    const { distStatic, distClient } = this.standardPaths || {}
 
     if (!distStatic || !distClient) {
       throw new Error("distStatic and distClient required for prerender")
     }
 
-    const generators = await this.htmlGenerators(runConfig)
+    const generators = await this.htmlGenerators()
 
-    const urls = (await this.factorSitemap?.getSitemapPaths(runConfig)) || []
+    const urls =
+      (await this.factorSitemap?.getSitemapPaths({
+        sitemaps: this.sitemaps,
+        routes: this.routes,
+      })) || []
 
     fs.ensureDirSync(distStatic)
     fs.emptyDirSync(distStatic)
@@ -678,8 +742,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return
   }
 
-  serveStaticApp = async (runConfig: RunConfig): Promise<void> => {
-    const { distStatic } = runConfig
+  serveStaticApp = async (): Promise<void> => {
+    const { distStatic } = this.standardPaths || {}
 
     if (!distStatic) throw new Error("distStatic required for serveStaticApp")
 
@@ -710,16 +774,18 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.utils.onEvent("shutdown", () => server.close())
   }
 
-  preRender = async (runConfig: RunConfig): Promise<void> => {
+  preRender = async (opts?: { serve: boolean }): Promise<void> => {
+    const { serve = false } = opts || {}
+
     this.log.info("prerender starting")
-    const { serve } = runConfig
-    await this.preRenderPages(runConfig)
+
+    await this.preRenderPages()
 
     this.log.info("prerender complete")
 
     if (serve) {
       this.log.info("serving...")
-      await this.serveStaticApp(runConfig)
+      await this.serveStaticApp()
     }
   }
 }

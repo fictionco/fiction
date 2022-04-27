@@ -1,7 +1,7 @@
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
-import { FactorPlugin } from "../config/plugin"
-import type { UserConfig } from "../config"
+import { FactorPlugin } from "../plugin"
+import type { UserConfig } from "../plugin-env"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
@@ -10,20 +10,11 @@ type FactorEmailSettings = {
   appName: string
   appEmail: string
   appUrl: string
-} & (
-  | {
-      isTest: true
-      smtpHost?: string
-      smtpUser?: string
-      smtpPassword?: string
-    }
-  | {
-      isTest?: false
-      smtpHost: string
-      smtpUser: string
-      smtpPassword: string
-    }
-)
+  isTest: boolean
+  smtpHost?: string
+  smtpUser?: string
+  smtpPassword?: string
+}
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly types = types
@@ -35,7 +26,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly appName: string
   readonly appEmail: string
   readonly appUrl: string
-
+  readonly isTest: boolean
   constructor(settings: FactorEmailSettings) {
     super(settings)
 
@@ -77,8 +68,6 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       this.client = emailServiceClient
     }
   }
-
-  async init(): Promise<void> {}
 
   public async setup(): Promise<UserConfig> {
     return { name: this.constructor.name }

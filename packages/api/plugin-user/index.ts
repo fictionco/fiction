@@ -1,9 +1,10 @@
 import { Ref } from "vue"
 import jwt from "jsonwebtoken"
-import { UserConfig, FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import { EndpointMap } from "../engine/endpoint"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
+import { UserConfig } from "../plugin-env"
 import { HookType } from "../utils"
 import type { FactorServer } from "../plugin-server"
 import { QueryUserGoogleAuth } from "./userGoogle"
@@ -34,7 +35,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   public requests: EndpointMap<typeof this.queries>
   public hooks: HookType<types.HookDictionary>[]
   public tokenSecret: string
-  private mode: "production" | "development"
+  private mode: "production" | "development" = "production"
   public clientTokenKey = "ffUser"
   constructor(settings: types.UserPluginSettings) {
     super(settings)
@@ -51,14 +52,15 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
 
     this.hooks = this.settings.hooks || []
     this.activeUser = this.vue.ref()
-    this.tokenSecret = settings.tokenSecret
-    this.mode = settings.mode
-  }
+    this.tokenSecret = settings.tokenSecret || "secret"
+    this.mode = settings.mode || "production"
 
-  async setup(): Promise<UserConfig> {
     if (this.utils.isBrowser()) {
       this.userInitialized().catch(console.error)
     }
+  }
+
+  async setup(): Promise<UserConfig> {
     return {
       name: this.constructor.name,
       serverOnlyImports: [{ id: "html-to-text" }],

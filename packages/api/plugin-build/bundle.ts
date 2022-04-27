@@ -3,8 +3,8 @@ import fs from "fs-extra"
 import { execa } from "execa"
 import * as vite from "vite"
 import { deepMergeAll } from "../utils"
-import { RunConfig } from "../cli/utils"
 import { FactorPlugin, UserConfig } from "../config"
+import { CliOptions, FactorEnv } from "../plugin-env"
 import { getPackages, getCommit } from "./utils"
 import { FactorBuild } from "."
 
@@ -13,32 +13,38 @@ import { FactorBuild } from "."
  */
 type FactorBundleSettings = {
   factorBuild: FactorBuild
+  factorEnv: FactorEnv<string>
 }
 export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   factorBuild: FactorBuild
+  factorEnv: FactorEnv<string>
   constructor(settings: FactorBundleSettings) {
     super(settings)
     this.factorBuild = settings.factorBuild
+    this.factorEnv = settings.factorEnv
+
+    this.addToCli()
   }
 
-  setup(): UserConfig {
-    return {
-      hooks: [
-        {
-          hook: "runCommand",
-          callback: async (runConfig: RunConfig) => {
-            const { command } = runConfig
-
-            if (command == "bundle") {
-              await this.bundleAll(runConfig)
-            }
-          },
+  addToCli() {
+    if (this.factorEnv) {
+      this.factorEnv.addHook({
+        hook: "runCommand",
+        callback: async (command: string, opts: CliOptions) => {
+          const { mode, commit } = opts
+          if (command == "bundle") {
+            await this.bundleAll({ mode, commit })
+          }
         },
-      ],
+      })
     }
   }
 
-  bundleAll = async (options: RunConfig): Promise<void> => {
+  setup(): UserConfig {
+    return {}
+  }
+
+  bundleAll = async (options: CliOptions): Promise<void> => {
     // If pkg is set, just bundle that one
     const packages = getPackages().filter((pkg) => pkg.buildOptions)
     if (packages.length === 0) {
@@ -54,8 +60,8 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     }
   }
 
-  bundle = async (runConfig: RunConfig): Promise<void> => {
-    const { pkg, mode } = runConfig
+  bundle = async (options: CliOptions): Promise<void> => {
+    const { pkg, mode } = options
 
     try {
       if (!pkg) throw new Error("package data missing")
@@ -65,7 +71,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
       this.log.info(`start build ${pkg.name}`)
 
-      let { commit } = runConfig
+      let { commit } = options
 
       // pass in git commit via env var
       if (!commit && process.env.GIT_COMMIT) {
@@ -74,7 +80,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         commit = await getCommit()
       }
 
-      const vc = await this.factorBuild.getCommonViteConfig(runConfig)
+      const vc = await this.factorBuild.getCommonViteConfig()
 
       const distDir = path.join("dist", buildOptions.outputDir ?? "")
 

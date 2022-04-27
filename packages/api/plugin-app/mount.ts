@@ -1,7 +1,7 @@
 import "tailwindcss/tailwind.css"
-import { FactorAppEntry } from "../config/types"
+import { FactorAppEntry } from "../plugin-env/types"
 import { isNode } from "../utils"
-import { compileApplication } from "../config/entry"
+import { compileApplication } from "../plugin-env/entry"
 
 export const runViteApp = async (
   params: { renderUrl?: string } = {},

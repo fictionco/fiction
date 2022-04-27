@@ -18,8 +18,3 @@ export interface RestArguments {
   tag?: string[]
   search?: string
 }
-
-export interface SiteMapConfig {
-  paths: string[]
-  topic: string
-}

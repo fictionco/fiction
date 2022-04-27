@@ -1,21 +1,31 @@
 import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorApp } from "@factor/api/plugin-app"
 import type { Component } from "vue"
 
 export const postType = "docsItem"
 import * as types from "./types"
 export * from "./types"
 
-export class FactorDocsEngine extends FactorPlugin<types.DocsOptions> {
+export type DocsSettings = {
+  baseRoute: string
+  docs: types.Doc<string>[]
+  groups: types.DocGroupRecord
+  factorApp: FactorApp
+}
+
+export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
   readonly types = types
-  constructor(settings: types.DocsOptions) {
+  factorApp: FactorApp
+  constructor(settings: DocsSettings) {
     super(settings)
+
+    this.factorApp = settings.factorApp
+
+    this.factorApp.addSitemaps([{ topic: "docs", paths: this.getDocRoutes() }])
   }
   setup = (): UserConfig => {
     return {
       name: this.constructor.name,
-      sitemaps: [{ topic: "docs", paths: this.getDocRoutes() }],
-
-      paths: [this.utils.safeDirname(import.meta.url)],
     }
   }
 

@@ -21,8 +21,8 @@ export type UserPluginSettings = {
   googleClientId?: string
   googleClientSecret?: string
   hooks?: HookType<HookDictionary>[]
-  tokenSecret: string
-  mode: "production" | "development"
+  tokenSecret?: string
+  mode?: "production" | "development"
 }
 
 export type HookDictionary = {

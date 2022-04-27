@@ -3,7 +3,7 @@ import { RouteRecordRaw } from "vue-router"
 import fs from "fs-extra"
 import { FactorPlugin } from "../config"
 import { AppRoute, generateRoutes } from "../utils/router"
-import type { RunConfig } from "../cli/utils"
+import { SitemapConfig } from "./types"
 
 export class FactorSitemap extends FactorPlugin {
   constructor() {
@@ -14,14 +14,19 @@ export class FactorSitemap extends FactorPlugin {
     return {}
   }
 
-  generateSitemap = async (runConfig: RunConfig): Promise<void> => {
-    const { userConfig: { appUrl } = {}, distClient } = runConfig
+  generateSitemap = async (params: {
+    routes: AppRoute<string>[]
+    sitemaps: SitemapConfig[]
+    appUrl: string
+    distClient: string
+  }): Promise<void> => {
+    const { appUrl, distClient } = params
 
     if (!distClient) throw new Error("distClient is required for sitemap")
 
     this.log.info("starting")
 
-    const paths = await this.getSitemapPaths(runConfig)
+    const paths = await this.getSitemapPaths(params)
 
     const sourceData = paths.map((url) => {
       const slashes = url.split("/").length
@@ -106,8 +111,11 @@ export class FactorSitemap extends FactorPlugin {
     return urls
   }
 
-  getSitemapPaths = async (runConfig: RunConfig): Promise<string[]> => {
-    const { userConfig: { routes = [], sitemaps = [] } = {} } = runConfig
+  getSitemapPaths = async (params: {
+    routes: AppRoute<string>[]
+    sitemaps: SitemapConfig[]
+  }): Promise<string[]> => {
+    const { routes = [], sitemaps = [] } = params
     const main = await this.getKnownRouteUrls(routes)
 
     let out: string[] = []

@@ -1,12 +1,12 @@
 import * as vueUtils from "vue"
-import * as store from "../utils/store"
-import { Endpoint, EndpointMap } from "../engine/endpoint"
-import { contextLogger } from "../logger"
-import { _stop } from "../utils/error"
-import * as utils from "../utils"
-import { Query } from "../engine/query"
-import type { FactorServer } from "../plugin-server"
-import { UserConfig } from "./types"
+import { Endpoint, EndpointMap } from "./engine/endpoint"
+import { contextLogger } from "./logger"
+import { Query } from "./engine/query"
+import type { FactorServer } from "./plugin-server"
+import { UserConfig } from "./plugin-env/types"
+import { _stop } from "./utils/error"
+import * as store from "./utils/store"
+import * as utils from "./utils"
 
 export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   public settings: T

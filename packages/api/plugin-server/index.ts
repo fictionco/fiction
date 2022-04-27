@@ -1,25 +1,82 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { UserConfig } from "../config/types"
+import { UserConfig, FactorEnv } from "../plugin-env"
 import { HookType } from "../utils/hook"
-import type { RunConfig } from "../cli/utils"
 import { EndpointServer } from "../engine/endpointServer"
-import { FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import type { Endpoint } from "../engine"
-import * as types from "./types"
 
-export class FactorServer extends FactorPlugin<types.FactorServerSettings> {
-  types = types
-  public hooks: HookType<types.HookDictionary>[]
+export type HookDictionary = {
+  afterServerSetup: { args: [] }
+  afterServerCreated: { args: [] }
+}
+
+export type FactorServerSettings = {
+  port: number
+  hooks?: HookType<HookDictionary>[]
+  endpoints?: Endpoint[]
+  serverUrl?: string
+  factorEnv?: FactorEnv<string>
+}
+
+export class FactorServer extends FactorPlugin<FactorServerSettings> {
+  public hooks: HookType<HookDictionary>[]
   readonly port: number
   endpoints: Endpoint[]
   serverUrl: string
-  constructor(settings: types.FactorServerSettings) {
+  factorEnv?: FactorEnv<string>
+  constructor(settings: FactorServerSettings) {
     super(settings)
     this.hooks = settings.hooks ?? []
     this.port = settings.port ?? 3333
     this.serverUrl = settings.serverUrl ?? `http://localhost:${this.port}`
     this.endpoints = settings.endpoints ?? []
+    this.factorEnv = settings.factorEnv
+
+    this.addToCli()
+  }
+
+  addToCli() {
+    if (this.factorEnv) {
+      this.factorEnv.addHook({
+        hook: "runCommand",
+        callback: async (command: string) => {
+          if (
+            new Set(["bundle", "build", "server", "dev", "prerender"]).has(
+              command,
+            )
+          ) {
+            await this.createServer()
+          }
+        },
+      })
+
+      this.factorEnv.addHook({
+        hook: "staticSchema",
+        callback: async () => {
+          const keys = this.endpoints
+            ?.map((_) => _.key)
+            .filter(Boolean)
+            .sort() ?? [""]
+
+          return {
+            routes: { enum: keys, type: "string" },
+          }
+        },
+      })
+
+      this.factorEnv.addHook({
+        hook: "staticConfig",
+        callback: (): Record<string, unknown> => {
+          return {
+            endpoints: this.endpoints?.map((ep) => ({
+              key: ep.key,
+              path: ep.pathname(),
+            })),
+          }
+        },
+      })
+    }
   }
 
   addEndpoints(endpoints: Endpoint[]) {
@@ -29,23 +86,6 @@ export class FactorServer extends FactorPlugin<types.FactorServerSettings> {
   async setup(): Promise<UserConfig> {
     return {
       name: this.constructor.name,
-      hooks: [
-        {
-          hook: "runCommand",
-          callback: async (runConfig: RunConfig) => {
-            const commands = new Set([
-              "bundle",
-              "build",
-              "server",
-              "dev",
-              "prerender",
-            ])
-            if (commands.has(runConfig.command ?? "")) {
-              await this.createServer()
-            }
-          },
-        },
-      ],
       serverOnlyImports: [{ id: "http" }, { id: "body-parser" }],
     }
   }

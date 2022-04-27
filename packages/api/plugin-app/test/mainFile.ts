@@ -1,8 +1,7 @@
 import { safeDirname } from "../../utils"
-import { UserConfig } from "../../config"
+import { UserConfig } from "../../plugin-env"
 export const setup = (): UserConfig => {
   return {
-    routes: [],
     plugins: [],
     server: () => {
       return {

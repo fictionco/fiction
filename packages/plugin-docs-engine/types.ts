@@ -29,12 +29,6 @@ export type DocPageConfig = {
   component?: Component
 } & Partial<DocItem>
 
-export type DocsOptions = {
-  baseRoute: string
-  docs: Doc<string>[]
-  groups: DocGroupRecord
-}
-
 export type DocParams<T extends string> = {
   key: T
   status?: "published" | "draft"

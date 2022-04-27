@@ -1,4 +1,4 @@
-import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorPlugin } from "@factor/api"
 import { Component } from "vue"
 
 export const inputs: Record<string, () => Promise<Component>> = {
@@ -29,7 +29,7 @@ export class FactorUi extends FactorPlugin<{}> {
   constructor() {
     super({})
   }
-  setup = (): UserConfig => {
+  setup = () => {
     return {
       name: this.constructor.name,
       paths: [this.utils.safeDirname(import.meta.url)],

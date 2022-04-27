@@ -2,14 +2,12 @@ import { HeadClient } from "@vueuse/head"
 import { App, Component } from "vue"
 import { Router } from "vue-router"
 import { InlineConfig as ViteInlineConfig } from "vite"
-import type { AppRoute } from "../utils/router"
-import type { Endpoint } from "../engine/endpoint"
 import type { ServerModuleDef } from "../plugin-build/types"
-import { LogHandler, SiteMapConfig } from "../types/server"
-import { HookType } from "../utils/hook"
-import type { RunConfig } from "../cli/utils"
 import type { FactorApp } from "../plugin-app"
+import type { HookType } from "../utils/hook"
 import type { FactorServer } from "../plugin-server"
+import type { FactorEnv } from "../plugin-env"
+import type { FactorPlugin } from "../utils/plugin"
 import type { HookDictionary } from "./hookDictionary"
 
 export interface FactorAppEntry {
@@ -28,17 +26,12 @@ export type MainFile = {
   setup?: (userConfig: UserConfig) => Promise<UserConfig> | UserConfig
   factorApp?: FactorApp
   factorServer?: FactorServer
+  factorEnv?: FactorEnv<string>
   [key: string]: unknown
 }
 export interface UserConfig {
   name?: string
-  mode?: "development" | "production"
 
-  appName?: string
-  appEmail?: string
-  appUrl?: string
-
-  // need a generic to fix typing error in setupPlugins function
   server?: () =>
     | UserConfig
     | undefined
@@ -46,22 +39,12 @@ export interface UserConfig {
     | Promise<UserConfig | undefined | void>
 
   cwd?: string
-  root?: string
-  port?: string
-  portApp?: string
-  serverUrl?: string
-  log?: LogHandler
-  // extend
+
   paths?: string[]
-  endpoints?: Endpoint[]
-  routes?: AppRoute<string>[]
-  sitemaps?: SiteMapConfig[]
-  plugins?: (UserConfig | Promise<UserConfig>)[]
+
+  plugins?: FactorPlugin[]
   hooks?: HookType<HookDictionary>[]
-  service?: {
-    key: string
-    run: (runConfig: RunConfig) => Promise<void> | void
-  }[]
+
   // build
   vite?: Partial<ViteInlineConfig>
   serverOnlyImports?: ServerModuleDef[]

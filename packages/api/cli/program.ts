@@ -4,7 +4,7 @@ import { Command } from "commander"
 import { log } from "../logger"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
-import { done, runCommand } from "./utils"
+import { runCommand } from "./utils"
 
 const commander = new Command()
 
@@ -53,7 +53,8 @@ const exitHandler = (options: {
     emitEvent("shutdown")
   }
   if (exit) {
-    done(code)
+    // eslint-disable-next-line unicorn/no-process-exit
+    process.exit(code)
   }
 }
 
@@ -77,5 +78,5 @@ process.on("SIGUSR2", () => exitHandler({ exit: true }))
 //catches uncaught exceptions
 process.on("uncaughtException", (error) => {
   log.error("uncaughtException", "uncaught error!", { error })
-  done(1)
+  process.exit(1)
 })

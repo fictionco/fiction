@@ -6,32 +6,41 @@ import enquirer from "enquirer"
 const { prompt } = enquirer
 import semver, { ReleaseType } from "semver"
 import { log } from "../logger"
-import type { RunConfig } from "../cli/utils"
+
 import { PackageJson } from "../types"
-import { FactorPlugin, UserConfig } from "../config"
+import { FactorPlugin } from "../config"
+import { CliOptions, FactorEnv } from "../plugin-env"
 import { isGitDirty, getPackages } from "./utils"
 
 const require = createRequire(import.meta.url)
 
-export class FactorRelease extends FactorPlugin {
-  versionIncrements: ReleaseType[] = ["patch", "minor", "major", "prerelease"]
-  constructor() {
-    super({})
-  }
-  setup(): UserConfig {
-    return {
-      hooks: [
-        {
-          hook: "runCommand",
-          callback: async (runConfig: RunConfig) => {
-            const { command } = runConfig
+type FactorReleaseSettings = {
+  factorEnv: FactorEnv<string>
+}
 
-            if (command == "release") {
-              await this.releaseRoutine(runConfig)
-            }
-          },
+export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
+  versionIncrements: ReleaseType[] = ["patch", "minor", "major", "prerelease"]
+  factorEnv: FactorEnv<string>
+  constructor(settings: FactorReleaseSettings) {
+    super(settings)
+    this.factorEnv = settings.factorEnv
+  }
+
+  setup() {
+    return {}
+  }
+
+  addToCli() {
+    if (this.factorEnv) {
+      this.factorEnv.addHook({
+        hook: "runCommand",
+        callback: async (command: string, opts: CliOptions) => {
+          const { patch = false, skipTests = false } = opts
+          if (command == "release") {
+            await this.releaseRoutine({ patch, skipTests })
+          }
         },
-      ],
+      })
     }
   }
 
@@ -143,8 +152,11 @@ export class FactorRelease extends FactorPlugin {
     }
   }
 
-  releaseRoutine = async (options: RunConfig): Promise<void> => {
-    const { patch, skipTests } = options
+  releaseRoutine = async (options?: {
+    patch?: boolean
+    skipTests?: boolean
+  }): Promise<void> => {
+    const { patch, skipTests } = options || {}
 
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)

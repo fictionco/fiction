@@ -2,8 +2,7 @@
 
 export * from "./types"
 export * from "./engine"
-export * from "./config/plugin"
-export * from "./config/types"
+export * from "./plugin"
 export * from "./utils/excerpt"
 export * from "./logger"
 export * from "./utils/markdown"

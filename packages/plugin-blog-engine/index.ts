@@ -1,20 +1,31 @@
 import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorApp } from "@factor/api/plugin-app"
 import stringSimilarity from "string-similarity"
 import * as types from "./types"
 export * from "./types"
 
-export class FactorBlogEngine extends FactorPlugin<types.BlogOptions> {
-  constructor(settings: types.BlogOptions) {
+export type BlogOptions = {
+  baseRoute: string
+  posts: types.BlogPost<string>[]
+  factorApp?: FactorApp
+}
+
+export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
+  factorApp?: FactorApp
+  constructor(settings: BlogOptions) {
     super(settings)
+
+    this.factorApp = settings.factorApp
+
+    if (this.factorApp) {
+      this.factorApp.addSitemaps([
+        { topic: "posts", paths: this.getPostRoutes() },
+      ])
+    }
   }
   setup = (): UserConfig => {
     return {
       name: this.constructor.name,
-      sitemaps: [{ topic: "posts", paths: this.getPostRoutes() }],
-      server: () => {
-        return { variables: { TEST_BLOG_PLUGIN: "TEST_BLOG_PLUGIN" } }
-      },
-      paths: [this.utils.safeDirname(import.meta.url)],
     }
   }
 
@@ -57,14 +68,6 @@ export class FactorBlogEngine extends FactorPlugin<types.BlogOptions> {
     return entries
   }
 
-  createSettings = (options: Partial<types.BlogOptions>): void => {
-    const defaultSettings: types.BlogOptions = {
-      baseRoute: "/blog",
-      posts: [],
-    }
-
-    this.store.storeItem("blogSettings", { ...defaultSettings, ...options })
-  }
   /**
    * Gets all the routes for docs
    */
