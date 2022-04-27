@@ -8,7 +8,7 @@
   "main": "index.ts",
   "type": "module",
   "bin": {
-    "factor": "./cli/index.js"
+    "factor": "./plugin-env/cli.js"
   },
   "dependencies": {
     "@medv/finder": "^2.1.0",

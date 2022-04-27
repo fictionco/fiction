@@ -1,4 +1,4 @@
-import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorPlugin } from "@factor/api"
 import { FactorApp } from "@factor/api/plugin-app"
 import type { Component } from "vue"
 
@@ -23,7 +23,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
 
     this.factorApp.addSitemaps([{ topic: "docs", paths: this.getDocRoutes() }])
   }
-  setup = (): UserConfig => {
+  setup = () => {
     return {
       name: this.constructor.name,
     }

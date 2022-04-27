@@ -16,7 +16,6 @@ import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { routes } from "./routes"
 import { envVars } from "./vars"
-import App from "./App.vue"
 
 const cwd = safeDirname(import.meta.url, "..")
 
@@ -37,7 +36,7 @@ export const factorDb = new FactorDb({
 })
 
 export const factorServer = new FactorServer({
-  port: +(factorEnv.var("port") || 3333),
+  port: +(factorEnv.var("serverPort") || 3333),
   serverUrl: factorEnv.var("serverUrl"),
   factorEnv,
 })
@@ -46,11 +45,11 @@ export const factorApp = new FactorApp({
   appName,
   appUrl,
   factorServer,
-  portApp: +(factorEnv.var("portApp") || 3000),
-  rootComponent: App,
+  port: +(factorEnv.var("appPort") || 3000),
+  rootComponent: path.join(cwd, "./src/App.vue"),
   mode,
   routes,
-  uiPaths: ["~/src/**/*.{vue,js,ts,html}"],
+  uiPaths: [path.join(cwd, "./src/**/*.{vue,js,ts,html}")],
   factorEnv,
 })
 
@@ -109,7 +108,7 @@ export const setup = (): UserConfig => {
       blogPlugin,
       new FactorHighlightCode(),
       new FactorNotify(),
-      new FactorUi(),
+      new FactorUi({ factorApp }),
     ],
   }
 }

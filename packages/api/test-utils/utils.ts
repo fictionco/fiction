@@ -7,15 +7,13 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { safeDirname } from "../utils"
 import { randomBetween, log } from ".."
-import { UserConfig } from "../config"
+import { UserConfig, EnvVar, FactorEnv } from "../plugin-env"
 import { FactorUser, FullUser } from "../plugin-user"
 import { PackageJson } from "../types"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
 import { FactorServer } from "../plugin-server"
 import { FactorApp } from "../plugin-app"
-import { EnvVar, FactorEnv } from "../plugin-env"
-import EmptyApp from "./EmptyApp.vue"
 
 const require = createRequire(import.meta.url)
 
@@ -35,8 +33,8 @@ export const getTestEmail = (): string => {
 
 export type TestServerConfig = {
   _process: ExecaChildProcess
-  portApp: number
-  port: number
+  appPort: number
+  serverPort: number
   appUrl: string
   serverUrl: string
   destroy: () => Promise<void>
@@ -75,12 +73,12 @@ const envVars = () => [
 ]
 
 export const createTestUtils = async (opts?: {
-  port?: number
-  portApp?: number
+  serverPort?: number
+  appPort?: number
 }): Promise<TestUtils> => {
   const {
-    port = randomBetween(10_000, 20_000),
-    portApp = randomBetween(1000, 10_000),
+    serverPort = randomBetween(10_000, 20_000),
+    appPort = randomBetween(1000, 10_000),
   } = opts || {}
 
   const cwd = safeDirname(import.meta.url)
@@ -91,12 +89,12 @@ export const createTestUtils = async (opts?: {
     envVars,
   })
 
-  const factorServer = new FactorServer({ port })
+  const factorServer = new FactorServer({ port: serverPort })
 
   const factorApp = new FactorApp({
     appName: "Test App",
-    portApp,
-    rootComponent: EmptyApp,
+    appPort,
+    rootComponent: path.join(cwd, "./EmptyApp.vue"),
     factorServer,
     factorEnv,
   })
@@ -172,14 +170,14 @@ export const createTestServer = async (params: {
 
   let _process: ExecaChildProcess | undefined
 
-  const port = randomBetween(1000, 10_000)
-  const portApp = randomBetween(1000, 10_000)
+  const serverPort = randomBetween(1000, 10_000)
+  const appPort = randomBetween(1000, 10_000)
 
   const cmd = [
     `npm exec -w ${moduleName} --`,
     `factor run dev`,
-    `--port ${port}`,
-    `--port-app ${portApp}`,
+    `--server-port ${serverPort}`,
+    `--app-port ${appPort}`,
   ]
 
   const runCmd = cmd.join(" ")
@@ -208,10 +206,10 @@ export const createTestServer = async (params: {
   const page = await browser.newPage()
 
   return {
-    port,
-    portApp,
-    appUrl: `http://localhost:${portApp}`,
-    serverUrl: `http://localhost:${port}`,
+    serverPort,
+    appPort,
+    appUrl: `http://localhost:${appPort}`,
+    serverUrl: `http://localhost:${serverPort}`,
     _process,
     browser,
     page,
@@ -232,8 +230,8 @@ export const appBuildTests = (config: {
   cwd?: string
 }): void => {
   let { cwd = "", moduleName } = config
-  const port = String(randomBetween(1000, 9000))
-  const portApp = String(randomBetween(1000, 9000))
+  const serverPort = String(randomBetween(1000, 9000))
+  const appPort = String(randomBetween(1000, 9000))
 
   cwd = cwd || path.dirname(require.resolve(`${moduleName}/package.json`))
 
@@ -243,7 +241,7 @@ export const appBuildTests = (config: {
 
   describe.skip(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor prerender --port ${port} --port-app ${portApp}`
+      const command = `npm exec -w ${moduleName} -- factor prerender --server-port ${serverPort} --app-port ${appPort}`
 
       log.info("appBuildTests", "running prerender command", { data: command })
       const r = execaCommandSync(command, {
@@ -257,7 +255,7 @@ export const appBuildTests = (config: {
 
     it.skip("runs dev", () => {
       const r = execaCommandSync(
-        `npm exec -w ${moduleName} -- factor rdev --exit --port ${port} --port-app ${portApp}`,
+        `npm exec -w ${moduleName} -- factor rdev --exit --server-port ${serverPort} --app-port ${appPort}`,
         {
           env: { TEST_ENV: "unit" },
           timeout: 20_000,
@@ -265,8 +263,8 @@ export const appBuildTests = (config: {
       )
 
       expect(r.stdout).toContain("build variables")
-      expect(r.stdout).toContain(`[ ${port} ]`)
-      expect(r.stdout).toContain(`[ ${portApp} ]`)
+      expect(r.stdout).toContain(`[ ${serverPort} ]`)
+      expect(r.stdout).toContain(`[ ${appPort} ]`)
       expect(r.stdout).toContain("[ready]")
     })
 

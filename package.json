@@ -7,7 +7,7 @@
   "scripts": {
     "prerender": "pnpm exec --filter @factor/site -- factor prerender",
     "deploy": "pnpm release && pnpm push-release",
-    "site": "pnpm --filter @factor/site exec -- factor dev --port-app 3232",
+    "site": "pnpm --filter @factor/site exec -- factor run dev --app-port 3232 --server-port 21212",
     "release": "pnpm exec -- factor release",
     "pack": "pnpm --filter @factor/api/build exec -- factor pack",
     "dev": "pnpm --filter @factor/site exec -- factor dev",

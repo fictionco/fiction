@@ -7,12 +7,12 @@ let viteConfig: vite.InlineConfig | undefined = undefined
 let testUtils: TestUtils | undefined = undefined
 describe("vite config", () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils({ port: 9191 })
+    testUtils = await createTestUtils({ serverPort: 9191 })
   })
   it("gets and merges vite config", async () => {
     viteConfig = await testUtils?.factorApp.getViteConfig()
 
-    expect(testUtils?.factorApp.portApp).toBe("9191")
+    expect(testUtils?.factorApp.appPort).toBe("9191")
 
     expect(testUtils?.factorApp.standardPaths).toMatchInlineSnapshot(`
       {

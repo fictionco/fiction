@@ -1,5 +1,5 @@
 #!/bin/sh
-":" //# comment; exec /usr/bin/env node --no-warnings --experimental-loader=@factor/api/cli/loader.mjs --experimental-json-modules --noharmony "$0" "$@"
+":" //# comment; exec /usr/bin/env node --no-warnings --experimental-loader=@factor/api/plugin-env/loader.mjs --experimental-json-modules --noharmony "$0" "$@"
 
 /**
  * @remarks
@@ -15,6 +15,6 @@ import { transpiler } from "./transpile"
 
 await transpiler()
 
-const { execute } = await import("./program")
+const { execute } = await import("./cliProgram")
 
 execute().catch(console.error)

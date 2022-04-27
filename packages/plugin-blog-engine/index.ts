@@ -1,4 +1,4 @@
-import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorPlugin } from "@factor/api"
 import { FactorApp } from "@factor/api/plugin-app"
 import stringSimilarity from "string-similarity"
 import * as types from "./types"
@@ -23,7 +23,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       ])
     }
   }
-  setup = (): UserConfig => {
+  setup = () => {
     return {
       name: this.constructor.name,
     }

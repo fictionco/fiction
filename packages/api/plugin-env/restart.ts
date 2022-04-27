@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import { FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import { FactorEnv } from "."
 
 type FactorDevRestartSettings = {

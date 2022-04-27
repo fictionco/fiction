@@ -1,6 +1,6 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { UserConfig, FactorEnv } from "../plugin-env"
+import { UserConfig, FactorEnv, CliOptions } from "../plugin-env"
 import { HookType } from "../utils/hook"
 import { EndpointServer } from "../engine/endpointServer"
 import { FactorPlugin } from "../plugin"
@@ -21,7 +21,7 @@ export type FactorServerSettings = {
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks: HookType<HookDictionary>[]
-  readonly port: number
+  port: number
   endpoints: Endpoint[]
   serverUrl: string
   factorEnv?: FactorEnv<string>
@@ -40,7 +40,11 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     if (this.factorEnv) {
       this.factorEnv.addHook({
         hook: "runCommand",
-        callback: async (command: string) => {
+        callback: async (command: string, opts: CliOptions) => {
+          if (opts.serverPort) {
+            this.port = opts.serverPort
+          }
+
           if (
             new Set(["bundle", "build", "server", "dev", "prerender"]).has(
               command,

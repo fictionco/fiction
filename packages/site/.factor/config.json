@@ -1,4 +1,90 @@
 {
+  "endpoints": [
+    {
+      "key": "UserGoogleAuth",
+      "path": "/user/UserGoogleAuth"
+    },
+    {
+      "key": "Login",
+      "path": "/user/Login"
+    },
+    {
+      "key": "NewVerificationCode",
+      "path": "/user/NewVerificationCode"
+    },
+    {
+      "key": "SetPassword",
+      "path": "/user/SetPassword"
+    },
+    {
+      "key": "ResetPassword",
+      "path": "/user/ResetPassword"
+    },
+    {
+      "key": "UpdateCurrentUser",
+      "path": "/user/UpdateCurrentUser"
+    },
+    {
+      "key": "SendOneTimeCode",
+      "path": "/user/SendOneTimeCode"
+    },
+    {
+      "key": "VerifyAccountEmail",
+      "path": "/user/VerifyAccountEmail"
+    },
+    {
+      "key": "StartNewUser",
+      "path": "/user/StartNewUser"
+    },
+    {
+      "key": "CurrentUser",
+      "path": "/user/CurrentUser"
+    },
+    {
+      "key": "ManageUser",
+      "path": "/user/ManageUser"
+    },
+    {
+      "key": "ManageCustomer",
+      "path": "/factorstripe/ManageCustomer"
+    },
+    {
+      "key": "ListSubscriptions",
+      "path": "/factorstripe/ListSubscriptions"
+    },
+    {
+      "key": "GetInvoices",
+      "path": "/factorstripe/GetInvoices"
+    },
+    {
+      "key": "ManageSubscription",
+      "path": "/factorstripe/ManageSubscription"
+    },
+    {
+      "key": "ManagePaymentMethod",
+      "path": "/factorstripe/ManagePaymentMethod"
+    },
+    {
+      "key": "GetCustomerData",
+      "path": "/factorstripe/GetCustomerData"
+    },
+    {
+      "key": "AllProducts",
+      "path": "/factorstripe/AllProducts"
+    },
+    {
+      "key": "GetProduct",
+      "path": "/factorstripe/GetProduct"
+    },
+    {
+      "key": "GetCoupon",
+      "path": "/factorstripe/GetCoupon"
+    },
+    {
+      "key": "stripeWebhooks",
+      "path": "/stripe-webhook/stripeWebhooks"
+    }
+  ],
   "routes": [
     {
       "children": [],
@@ -99,100 +185,6 @@
       "parent": "docs",
       "priority": 200,
       "menus": []
-    }
-  ],
-  "paths": [
-    "/Users/arpowers/Projects/factor/packages/plugin-blog-engine/",
-    "/Users/arpowers/Projects/factor/packages/plugin-docs-engine/",
-    "/Users/arpowers/Projects/factor/packages/plugin-highlight-code/",
-    "/Users/arpowers/Projects/factor/packages/plugin-notify/",
-    "/Users/arpowers/Projects/factor/packages/plugin-stripe/",
-    "/Users/arpowers/Projects/factor/packages/ui/"
-  ],
-  "endpoints": [
-    {
-      "key": "UserGoogleAuth",
-      "path": "/user/UserGoogleAuth"
-    },
-    {
-      "key": "Login",
-      "path": "/user/Login"
-    },
-    {
-      "key": "NewVerificationCode",
-      "path": "/user/NewVerificationCode"
-    },
-    {
-      "key": "SetPassword",
-      "path": "/user/SetPassword"
-    },
-    {
-      "key": "ResetPassword",
-      "path": "/user/ResetPassword"
-    },
-    {
-      "key": "UpdateCurrentUser",
-      "path": "/user/UpdateCurrentUser"
-    },
-    {
-      "key": "SendOneTimeCode",
-      "path": "/user/SendOneTimeCode"
-    },
-    {
-      "key": "VerifyAccountEmail",
-      "path": "/user/VerifyAccountEmail"
-    },
-    {
-      "key": "StartNewUser",
-      "path": "/user/StartNewUser"
-    },
-    {
-      "key": "CurrentUser",
-      "path": "/user/CurrentUser"
-    },
-    {
-      "key": "ManageUser",
-      "path": "/user/ManageUser"
-    },
-    {
-      "key": "ManageCustomer",
-      "path": "/payments/ManageCustomer"
-    },
-    {
-      "key": "ListSubscriptions",
-      "path": "/payments/ListSubscriptions"
-    },
-    {
-      "key": "GetInvoices",
-      "path": "/payments/GetInvoices"
-    },
-    {
-      "key": "ManageSubscription",
-      "path": "/payments/ManageSubscription"
-    },
-    {
-      "key": "ManagePaymentMethod",
-      "path": "/payments/ManagePaymentMethod"
-    },
-    {
-      "key": "GetCustomerData",
-      "path": "/payments/GetCustomerData"
-    },
-    {
-      "key": "AllProducts",
-      "path": "/payments/AllProducts"
-    },
-    {
-      "key": "GetProduct",
-      "path": "/payments/GetProduct"
-    },
-    {
-      "key": "GetCoupon",
-      "path": "/payments/GetCoupon"
-    },
-    {
-      "key": "stripeWebhooks",
-      "path": "/stripe-webhook/stripeWebhooks"
     }
   ]
 }

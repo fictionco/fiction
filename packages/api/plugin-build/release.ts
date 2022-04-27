@@ -8,7 +8,7 @@ import semver, { ReleaseType } from "semver"
 import { log } from "../logger"
 
 import { PackageJson } from "../types"
-import { FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import { CliOptions, FactorEnv } from "../plugin-env"
 import { isGitDirty, getPackages } from "./utils"
 

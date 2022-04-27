@@ -87,7 +87,7 @@ module.exports = defineConfig({
     "import/no-cycle": [
       "error",
       {
-        maxDepth: 3,
+        maxDepth: 5,
         ignoreExternal: true,
       },
     ],

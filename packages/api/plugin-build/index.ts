@@ -1,7 +1,7 @@
 import type * as vite from "vite"
 import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
-import { FactorPlugin, UserConfig } from "../config"
+import { FactorPlugin } from "../plugin"
 import { FactorEnv } from "../plugin-env"
 import * as types from "./types"
 import { commonServerOnlyModules } from "./serverOnly"
@@ -38,7 +38,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  async setup(): Promise<UserConfig> {
+  async setup() {
     return {}
   }
 
@@ -46,8 +46,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     id?: string
     src: string
     type: "comment" | "map"
+    additional: string[]
   }): string => {
-    const { src, id = "?" } = opts
+    const { src, id = "?", additional } = opts
 
     if (!this.esLexer || !this.cjsLexer) {
       throw new Error("module parsers missing")
@@ -69,13 +70,15 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const namedExports =
       modExports.length > 0
-        ? modExports.map((_) => `export const ${_} = ${mock}`).join(`\n`)
-        : ""
+        ? modExports.map((_) => `export const ${_} = ${mock}`)
+        : []
+
+    namedExports.push(...additional)
 
     const newSource = [
       `// replaced file: ${id}`,
       `export default ${mock}`,
-      `${namedExports}`,
+      `${namedExports.join(`\n`)}`,
     ].join(`\n`)
 
     return newSource
@@ -113,14 +116,21 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         //   }
         // },
         transform: async (src: string, id: string) => {
-          const isServerPackage = fullServerModules.find((_) => {
+          const replaceConfig = fullServerModules.find((_) => {
             return id.includes(`node_modules/${_.id}`)
           })
 
           const isServerFile = /server-only-file/.test(src.slice(0, 300))
 
-          if (isServerPackage || isServerFile) {
-            const code = this.getReplacedModule({ src, id, type: "map" })
+          if (replaceConfig || isServerFile) {
+            const additional = replaceConfig?.additional ?? []
+
+            const code = this.getReplacedModule({
+              src,
+              id,
+              type: "map",
+              additional,
+            })
             return { code }
           }
         },

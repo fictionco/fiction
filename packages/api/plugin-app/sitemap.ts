@@ -1,7 +1,7 @@
 import path from "path"
 import { RouteRecordRaw } from "vue-router"
 import fs from "fs-extra"
-import { FactorPlugin } from "../config"
+import { FactorPlugin } from "../plugin"
 import { AppRoute, generateRoutes } from "../utils/router"
 import { SitemapConfig } from "./types"
 

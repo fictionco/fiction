@@ -1,37 +1,28 @@
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import fs from "fs-extra"
-import { UserConfig } from "../../plugin-env/types"
 import { generateStaticConfig } from "../../plugin-env/generate"
-
+import { createTestUtils } from "../../test-utils"
 const root = new URL(".", import.meta.url).pathname
 describe("test config generator", () => {
   beforeAll(async () => {
-    const config: UserConfig = {
-      generateStaticConfig: true,
-      hooks: [
-        {
-          hook: "staticConfig",
-          callback: async (schema) => {
-            const test = ["test"]
+    const testUtils = await createTestUtils()
 
-            const staticConfig = {
-              ...schema.staticConfig,
-              test,
-            }
+    testUtils.factorEnv.addHook({
+      hook: "staticConfig",
+      callback: async (schema) => {
+        const test = ["test"]
 
-            schema.staticSchema.properties = {
-              ...schema.staticSchema.properties,
-              test: { enum: test, type: "string" },
-            }
+        const staticConfig = {
+          ...schema,
+          test,
+        }
 
-            return { ...schema, staticConfig }
-          },
-        },
-      ],
-    }
+        return staticConfig
+      },
+    })
 
-    await generateStaticConfig(config)
+    await generateStaticConfig(testUtils.factorEnv)
   })
   it("generates into correct folder", async () => {
     expect(fs.existsSync(path.join(root, "/.factor"))).toBe(true)

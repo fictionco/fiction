@@ -1,11 +1,22 @@
 import path from "path"
 import { createRequire } from "module"
 
-import { MainFile } from "../config/types"
+import { MainFile } from "../plugin-env/types"
 import { PackageJson } from "../types"
 
 const require = createRequire(import.meta.url)
 
+export const runCommand = async (
+  command: string,
+  opts: Record<string, unknown>,
+) => {
+  const cwd = process.cwd()
+  const mainFilePath = path.resolve(cwd, packageMainFile(cwd))
+
+  const mainFile = (await import(mainFilePath)) as MainFile
+
+  console.log("mainFile", mainFile, mainFilePath)
+}
 // export type BuildStages = "prod" | "pre" | "local"
 // type NodeEnv = "production" | "development"
 
@@ -227,32 +238,20 @@ const packageMainFile = (cwd: string): string => {
 //   }
 // }
 
-export const runCommand = async (
-  command: string,
-  opts: Record<string, unknown>,
-) => {
-  const cwd = process.cwd()
-  const mainFilePath = path.resolve(cwd, packageMainFile(cwd))
+// const cliCommand = commands.find((_) => _.command === cmd)?.setOptions(opts)
 
-  const mainFile = (await import(mainFilePath)) as MainFile
+// if (!cliCommand) {
+//   log.error("runCommand", "command not found", { data: { command, opts } })
+//   done(1)
+// } else {
+//   const runConfig = await setEnvironment(cliCommand)
+//   await runHooks({
+//     list: runConfig.userConfig?.hooks ?? [],
+//     hook: "runCommand",
+//     args: [runConfig],
+//   })
 
-  console.log("mainFile", mainFile, mainFilePath)
-
-  // const cliCommand = commands.find((_) => _.command === cmd)?.setOptions(opts)
-
-  // if (!cliCommand) {
-  //   log.error("runCommand", "command not found", { data: { command, opts } })
-  //   done(1)
-  // } else {
-  //   const runConfig = await setEnvironment(cliCommand)
-  //   await runHooks({
-  //     list: runConfig.userConfig?.hooks ?? [],
-  //     hook: "runCommand",
-  //     args: [runConfig],
-  //   })
-
-  //   if (cliCommand.options.exit) {
-  //     done(0)
-  //   }
-  // }
-}
+//   if (cliCommand.options.exit) {
+//     done(0)
+//   }
+// }

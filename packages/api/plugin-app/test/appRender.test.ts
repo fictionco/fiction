@@ -7,7 +7,7 @@ const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
 
 const url = (route: string): string => {
-  return `http://localhost:${_s?.portApp}${route}`
+  return `http://localhost:${_s?.appPort}${route}`
 }
 
 const page = (): Page => {

@@ -1,5 +1,3 @@
-import { log } from "../logger"
-
 export const isNode = (): boolean => {
   return typeof process !== "undefined" &&
     process.versions &&

@@ -1,4 +1,5 @@
 import { FactorPlugin } from "@factor/api"
+import { FactorApp } from "@factor/api/plugin-app"
 import { Component } from "vue"
 
 export const inputs: Record<string, () => Promise<Component>> = {
@@ -25,14 +26,21 @@ export const inputs: Record<string, () => Promise<Component>> = {
   number: () => import("./InputNumber.vue"),
 }
 
-export class FactorUi extends FactorPlugin<{}> {
-  constructor() {
-    super({})
+type FactorUiSettings = {
+  factorApp: FactorApp
+}
+export class FactorUi extends FactorPlugin<FactorUiSettings> {
+  factorApp: FactorApp
+  root = this.utils.safeDirname(import.meta.url)
+  constructor(settings: FactorUiSettings) {
+    super(settings)
+    this.factorApp = settings.factorApp
+
+    this.factorApp.addUiPaths([`${this.root}/*.vue`])
   }
   setup = () => {
     return {
       name: this.constructor.name,
-      paths: [this.utils.safeDirname(import.meta.url)],
     }
   }
 }

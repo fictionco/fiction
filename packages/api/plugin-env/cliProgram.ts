@@ -2,11 +2,51 @@ import path from "path"
 import fs from "fs-extra"
 import { Command } from "commander"
 import { log } from "../logger"
+import { camelToUpperSnake } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
-import { runCommand } from "./utils"
-
+import { PackageJson } from "../types"
+import { MainFile } from "../plugin-env"
+import { commands } from "./commands"
 const commander = new Command()
+
+const packageMainFile = async (cwd: string): Promise<string> => {
+  const pkgPath = path.resolve(cwd, "package.json")
+  const pkg = (await import(pkgPath)) as PackageJson
+  return pkg.main ?? "index"
+}
+
+export const runCommand = async (
+  command: string,
+  opts: Record<string, unknown>,
+) => {
+  const cwd = process.cwd()
+  const mainFileRelPath = await packageMainFile(cwd)
+  const mainFilePath = path.resolve(cwd, mainFileRelPath)
+
+  const cliCommand = commands
+    .find((_) => _.command === command)
+    ?.setOptions(opts)
+
+  if (!cliCommand) throw new Error(`Command ${command} not found`)
+
+  const fullOpts = cliCommand?.options ?? {}
+
+  if (fullOpts.mode) {
+    process.env.NODE_ENV = fullOpts.mode
+  }
+
+  Object.entries(fullOpts).forEach(([key, value]) => {
+    if (value) {
+      const processKey = `FACTOR_${camelToUpperSnake(key)}`
+      process.env[processKey] = String(value)
+    }
+  })
+
+  const mainFile = (await import(mainFilePath)) as MainFile
+
+  await mainFile.factorEnv?.runCommand(cliCommand)
+}
 
 /**
  * Handle the CLI using Commander
@@ -17,8 +57,8 @@ export const execute = async (): Promise<void> => {
     .version(pkg.version)
     .option("-e, --exit", "exit after successful setup")
     .option("-i, --inspector", "run the node inspector")
-    .option("-a, --port-app <number>", "primary service port")
-    .option("-p, --port <number>", "server specific port")
+    .option("-a, --app-port <number>", "primary service port")
+    .option("-p, --server-port <number>", "server specific port")
     .option("-s, --serve", "serve static site after build")
     .option("-m, --mode <mode>", "node environment (development or production)")
     .option("-pa, --patch", "patch release")

@@ -1,10 +1,10 @@
-import { UserConfig, FactorPlugin } from "@factor/api"
+import { FactorPlugin } from "@factor/api"
 
 export class FactorNotify extends FactorPlugin<{}> {
   constructor() {
     super({})
   }
-  setup = (): UserConfig => {
+  setup = () => {
     return {
       name: this.constructor.name,
       paths: [this.utils.safeDirname(import.meta.url)],

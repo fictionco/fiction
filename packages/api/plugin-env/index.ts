@@ -7,6 +7,7 @@ import { HookType } from "../utils"
 import { getServerUserConfig } from "./entry"
 import * as types from "./types"
 import { HookDictionary } from "./types"
+import { CliCommand, CommandKeys, commands } from "./commands"
 export * from "./types"
 
 type EnvVarSettings<X extends string> = {
@@ -29,76 +30,6 @@ export class EnvVar<X extends string> {
   }
 }
 
-class CliCommand<T extends string> {
-  public command: T
-  public description: string
-  public options: types.CliOptions
-
-  constructor(settings: {
-    command: T
-    description: string
-    options: types.CliOptions
-  }) {
-    this.command = settings.command
-    this.description = settings.description
-    this.options = settings.options
-  }
-
-  setOptions(options: types.CliOptions): this {
-    this.options = { ...this.options, ...options }
-    return this
-  }
-}
-
-const commands = [
-  new CliCommand({
-    command: "build",
-    description: "builds the app",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "bundle",
-    description: "bundles JS packages",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "start",
-    description: "serves a built app",
-    options: { mode: "production", exit: false },
-  }),
-  new CliCommand({
-    command: "prerender",
-    description: "prerenders app",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "server",
-    description: "runs endpoint server",
-    options: { mode: "production", exit: false },
-  }),
-  new CliCommand({
-    command: "dev",
-    description: "runs services in dev mode",
-    options: { mode: "development", exit: false },
-  }),
-  new CliCommand({
-    command: "rdev",
-    description: "runs dev with nodemon",
-    options: { mode: "development", exit: false },
-  }),
-  new CliCommand({
-    command: "release",
-    description: "builds and releases packages on NPM",
-    options: { mode: "production", exit: true },
-  }),
-]
-
-export type CommandKeysUtil<T extends CliCommand<string>[]> = {
-  [K in keyof T]: T[K] extends CliCommand<infer T> ? T : never
-}[number]
-
-type CommandKeys = CommandKeysUtil<typeof commands> | string
-
 type EnvVarUtil<T extends EnvVar<string>[]> = {
   [K in keyof T]: T[K] extends EnvVar<infer T> ? T : never
 }[number]
@@ -110,18 +41,21 @@ export type FactorControlSettings<S extends string> = {
   inspector?: boolean
   envVars: () => EnvVar<S>[]
 }
+
 export class FactorEnv<S extends string> extends FactorPlugin<
   FactorControlSettings<S>
 > {
   commands: CliCommand<string>[]
   hooks: HookType<HookDictionary>[]
   envFiles: string[]
-  standardPaths: types.StandardPaths
+  standardPaths?: types.StandardPaths
   cwd: string
   inspector: boolean
   vars: EnvVar<string>[]
   context = process.env.IS_VITE ? "app" : "server"
-  mode: "development" | "production" = "production"
+  mode: "development" | "production"
+  serverPort?: number
+  appPort?: number
   constructor(settings: FactorControlSettings<S>) {
     super(settings)
 
@@ -129,11 +63,31 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     this.hooks = settings.hooks || []
     this.envFiles = settings.envFiles || []
     this.cwd = settings.cwd
-    this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
-    this.inspector = settings.inspector || false
-    this.setEnvironment()
+    this.mode =
+      (process.env.NODE_ENV as "development" | "production") || "production"
 
+    this.inspector = settings.inspector || false
+
+    if (!this.utils.isApp()) {
+      this.nodeInit()
+    }
+    /**
+     * Needs to come last so env vars are set
+     */
     this.vars = [...this.coreVars(), ...settings.envVars()]
+  }
+
+  nodeInit() {
+    this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
+
+    this.envFiles.forEach((envFile) => {
+      dotenv.config({ path: path.resolve(envFile) })
+    })
+
+    // run with node developer tools inspector
+    if (this.inspector) {
+      this.initializeNodeInspector().catch(console.error)
+    }
   }
 
   setup() {
@@ -167,7 +121,8 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     const distClient = path.join(dist, "client")
     const distStatic = path.join(dist, "static")
     const distServerEntry = path.join(distServer, "mount")
-    const mainFilePath = path.resolve(cwd, this.packageMainFile(cwd))
+    const relMain = this.packageMainFile(cwd)
+    const mainFilePath = path.resolve(cwd, relMain)
 
     const sourceDir = path.dirname(mainFilePath)
     const rootComponentPath = path.join(sourceDir, "App.vue")
@@ -192,16 +147,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     }
   }
 
-  setEnvironment = (): void => {
-    this.envFiles.forEach((envFile) => {
-      dotenv.config({ path: path.resolve(envFile) })
-    })
-
-    // run with node developer tools inspector
-    if (this.inspector) {
-      this.initializeNodeInspector().catch(console.error)
-    }
-  }
+  setEnvironment = (): void => {}
 
   onCommand(
     commands: CommandKeys[],
@@ -220,29 +166,10 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     })
   }
 
-  runCommand = async (
-    command: CommandKeys,
-    options: types.CliOptions,
-  ): Promise<void> => {
-    const cliCommand = this.commands
-      .find((_) => _.command === command)
-      ?.setOptions(options)
+  runCommand = async (cliCommand: CliCommand<string>): Promise<void> => {
+    if (!this.standardPaths) throw new Error("standard paths not set")
 
-    if (!cliCommand) {
-      throw new Error(`Command ${command} not found`)
-    }
-
-    const { mode = "production", port, portApp } = cliCommand.options
-
-    process.env.NODE_ENV = mode ?? "production"
-
-    if (port) {
-      process.env.FACTOR_SERVER_PORT = port
-    }
-
-    if (portApp) {
-      process.env.FACTOR_APP_PORT = portApp
-    }
+    this.log.info(`Running command ${cliCommand.command}`, { data: cliCommand })
 
     const userConfig = await getServerUserConfig({
       mainFilePath: this.standardPaths.mainFilePath,
@@ -251,14 +178,13 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     const runConfig = {
       command: cliCommand.command,
       ...cliCommand.options,
-      mode,
       userConfig,
     }
 
     await this.utils.runHooks<HookDictionary>({
       list: this.hooks,
       hook: "runCommand",
-      args: [command, runConfig],
+      args: [cliCommand.command, runConfig],
     })
 
     if (cliCommand.options.exit) {
@@ -277,12 +203,15 @@ export class FactorEnv<S extends string> extends FactorPlugin<
 
   coreVars() {
     const baseVars = [
-      new EnvVar({ name: "mode", val: process.env.NODE_ENV }),
       new EnvVar({
-        name: "port",
+        name: "mode",
+        val: process.env.NODE_ENV,
+      }),
+      new EnvVar({
+        name: "serverPort",
         val: process.env.FACTOR_SERVER_PORT || process.env.PORT,
       }),
-      new EnvVar({ name: "portApp", val: process.env.FACTOR_APP_PORT }),
+      new EnvVar({ name: "appPort", val: process.env.FACTOR_APP_PORT }),
       new EnvVar({
         name: "serverUrl",
         val: process.env.FACTOR_SERVER_URL,

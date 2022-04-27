@@ -6,28 +6,6 @@
  */
 
 export interface CompiledUserConfig {
-  endpoints:
-    | "AllProducts"
-    | "CurrentUser"
-    | "GetCoupon"
-    | "GetCustomerData"
-    | "GetInvoices"
-    | "GetProduct"
-    | "ListSubscriptions"
-    | "Login"
-    | "ManageCustomer"
-    | "ManagePaymentMethod"
-    | "ManageSubscription"
-    | "ManageUser"
-    | "NewVerificationCode"
-    | "ResetPassword"
-    | "SendOneTimeCode"
-    | "SetPassword"
-    | "StartNewUser"
-    | "UpdateCurrentUser"
-    | "UserGoogleAuth"
-    | "VerifyAccountEmail"
-    | "stripeWebhooks";
   routes:
     | "blog"
     | "blogIndex"
@@ -41,6 +19,5 @@ export interface CompiledUserConfig {
     | "showcase"
     | "showcaseSingle"
     | "testing";
-  paths: string[];
   [k: string]: unknown;
 }

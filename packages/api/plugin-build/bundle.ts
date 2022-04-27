@@ -3,7 +3,7 @@ import fs from "fs-extra"
 import { execa } from "execa"
 import * as vite from "vite"
 import { deepMergeAll } from "../utils"
-import { FactorPlugin, UserConfig } from "../config"
+import { FactorPlugin } from "../plugin"
 import { CliOptions, FactorEnv } from "../plugin-env"
 import { getPackages, getCommit } from "./utils"
 import { FactorBuild } from "."
@@ -40,7 +40,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     }
   }
 
-  setup(): UserConfig {
+  setup() {
     return {}
   }
 

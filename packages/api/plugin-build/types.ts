@@ -1,6 +1,6 @@
 export type ServerModuleDef = {
   id: string
-  exports?: string[]
+  additional?: string[]
   external?: boolean
   resolvedId?: string
 }

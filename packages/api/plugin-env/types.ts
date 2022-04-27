@@ -74,8 +74,8 @@ export type CliOptions = {
   name?: string
   inspector?: boolean
   exit?: boolean
-  portApp?: string
-  port?: string
+  appPort?: number
+  serverPort?: number
   serve?: boolean
   prerender?: boolean
   patch?: boolean

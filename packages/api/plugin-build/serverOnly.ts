@@ -23,7 +23,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "fast-safe-stringify" },
     { id: "json-schema-to-typescript" },
     { id: "fs-extra" },
-    { id: "module", exports: ["createRequire"] },
+    { id: "module", additional: ["export const createRequire = () => {}"] },
     { id: "compression" },
     { id: "serve-favicon" },
     { id: "html-minifier" },

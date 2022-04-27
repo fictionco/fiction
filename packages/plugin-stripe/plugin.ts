@@ -1,6 +1,5 @@
 import http from "http"
 import {
-  UserConfig,
   FactorPlugin,
   EndpointMap,
   HookType,
@@ -68,7 +67,7 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
     this.factorServer.addEndpoints([stripeWebhookEndpoint])
   }
 
-  async setup(): Promise<UserConfig> {
+  async setup() {
     return {
       name: this.constructor.name,
       vite: {
@@ -77,7 +76,6 @@ export class FactorStripe extends FactorPlugin<types.StripePluginSettings> {
         },
       },
       paths: [this.utils.safeDirname(import.meta.url)],
-      serverOnlyImports: [{ id: "stripe" }],
     }
   }
 

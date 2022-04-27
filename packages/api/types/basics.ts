@@ -1,9 +1,3 @@
-export enum CliCommand {
-  Start = "start",
-  Dev = "dev",
-  Build = "build",
-}
-
 export const logLevel = {
   trace: { color: "#5233ff", priority: 5 },
   debug: { color: "#00BD0C", priority: 5 },
