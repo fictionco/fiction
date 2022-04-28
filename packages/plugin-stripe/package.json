@@ -1,13 +1,13 @@
 {
   "name": "@factor/plugin-stripe",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "license": "MIT",
   "main": "index.ts",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "workspace:*",
+    "@factor/api": "5.3.2",
     "@stripe/stripe-js": "^1.29.0",
     "express": "^4.18.0",
     "stripe": "^8.219.0"

@@ -1,3 +1,12 @@
+## [5.3.2](https://github.com/FactorJS/factor/compare/v5.3.1...v5.3.2) (2022-04-28)
+
+
+### Features
+
+* refactor logger ([4ad9137](https://github.com/FactorJS/factor/commit/4ad9137ea5fe378bf49627de8b8105641f18b6d1))
+
+
+
 ## [5.3.1](https://github.com/FactorJS/factor/compare/v5.3.0...v5.3.1) (2022-04-28)
 
 
