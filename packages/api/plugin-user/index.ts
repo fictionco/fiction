@@ -33,7 +33,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   public requests: EndpointMap<typeof this.queries>
-  public hooks: HookType<types.HookDictionary>[]
+  public hooks: HookType<types.FactorUserHookDictionary>[]
   public tokenSecret: string
   private mode: "production" | "development" = "production"
   public clientTokenKey = "ffUser"
@@ -92,7 +92,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     } as const
   }
 
-  public addHook(hook: HookType<types.HookDictionary>): void {
+  public addHook(hook: HookType<types.FactorUserHookDictionary>): void {
     this.hooks.push(hook)
   }
 

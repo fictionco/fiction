@@ -10,7 +10,7 @@ import type { FactorServer } from "../plugin-server"
 import type { FactorEnv } from "../plugin-env"
 import type { FactorPlugin } from "../plugin"
 
-export type HookDictionary = {
+export type FactorEnvHookDictionary = {
   runCommand: {
     args: [string, CliOptions]
   }

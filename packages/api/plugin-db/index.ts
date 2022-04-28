@@ -11,8 +11,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
   types = types
   private db!: Knex
   connectionUrl!: URL
-  isTest: boolean = false
-  hooks: HookType<types.HookDictionary>[]
+  hooks: HookType<types.FactorDbHookDictionary>[]
   constructor(settings: types.FactorDbSettings) {
     super(settings)
 
@@ -87,7 +86,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
 
     await runChangeset(this.db)
 
-    await runHooks<types.HookDictionary>({
+    await runHooks<types.FactorDbHookDictionary>({
       list: this.hooks,
       hook: "onStart",
       args: [this],

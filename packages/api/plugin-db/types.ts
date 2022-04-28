@@ -3,12 +3,11 @@ import type { FactorDb } from "."
 
 export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 
-export type HookDictionary = {
+export type FactorDbHookDictionary = {
   onStart: { args: [FactorDb] }
 }
 
 export type FactorDbSettings = {
   connectionUrl?: string
-  isTest?: boolean
-  hooks?: HookType<HookDictionary>[]
+  hooks?: HookType<FactorDbHookDictionary>[]
 }

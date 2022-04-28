@@ -5,21 +5,21 @@ import { HookType, EndpointServer } from "@factor/api/utils"
 import type { Endpoint } from "@factor/api/utils"
 import { FactorPlugin } from "@factor/api/plugin"
 
-export type HookDictionary = {
+export type FactorServerHookDictionary = {
   afterServerSetup: { args: [] }
   afterServerCreated: { args: [] }
 }
 
 export type FactorServerSettings = {
   port: number
-  hooks?: HookType<HookDictionary>[]
+  hooks?: HookType<FactorServerHookDictionary>[]
   endpoints?: Endpoint[]
   serverUrl?: string
   factorEnv?: FactorEnv<string>
 }
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
-  public hooks: HookType<HookDictionary>[]
+  public hooks: HookType<FactorServerHookDictionary>[]
   port: number
   endpoints: Endpoint[]
   serverUrl: string

@@ -5,7 +5,7 @@ import { PackageJson } from "../types"
 import { HookType, requireIfExists, getRequire } from "../utils"
 import { getServerUserConfig } from "./entry"
 import * as types from "./types"
-import { HookDictionary } from "./types"
+import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, CommandKeys, commands } from "./commands"
 export * from "./types"
 
@@ -34,7 +34,7 @@ type EnvVarUtil<T extends EnvVar<string>[]> = {
 }[number]
 
 export type FactorControlSettings<S extends string> = {
-  hooks?: HookType<HookDictionary>[]
+  hooks?: HookType<FactorEnvHookDictionary>[]
   envFiles?: string[]
   cwd: string
   inspector?: boolean
@@ -45,7 +45,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
   FactorControlSettings<S>
 > {
   commands: CliCommand<string>[]
-  hooks: HookType<HookDictionary>[]
+  hooks: HookType<FactorEnvHookDictionary>[]
   envFiles: string[]
   standardPaths?: types.StandardPaths
   cwd: string
@@ -95,7 +95,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
     return {}
   }
 
-  public addHook(hook: HookType<HookDictionary>): void {
+  public addHook(hook: HookType<FactorEnvHookDictionary>): void {
     this.hooks.push(hook)
   }
 
@@ -178,7 +178,7 @@ export class FactorEnv<S extends string> extends FactorPlugin<
       userConfig,
     }
 
-    await this.utils.runHooks<HookDictionary>({
+    await this.utils.runHooks<FactorEnvHookDictionary>({
       list: this.hooks,
       hook: "runCommand",
       args: [cliCommand.command, runConfig],

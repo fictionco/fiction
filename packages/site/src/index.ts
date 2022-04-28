@@ -6,13 +6,16 @@ import { FactorHighlightCode } from "@factor/plugin-highlight-code"
 import { FactorNotify } from "@factor/plugin-notify"
 import { FactorStripe } from "@factor/plugin-stripe"
 import { FactorUi } from "@factor/ui"
-import { FactorApp } from "@factor/api/plugin-app"
-import { FactorDb } from "@factor/api/plugin-db"
-import { FactorUser } from "@factor/api/plugin-user"
-import { FactorServer } from "@factor/api/plugin-server"
-import { isTest, safeDirname } from "@factor/api"
-import { FactorEmail } from "@factor/api/plugin-email"
-import { FactorEnv, UserConfig } from "@factor/api/plugin-env"
+import {
+  FactorApp,
+  safeDirname,
+  FactorDb,
+  FactorUser,
+  FactorServer,
+  FactorEmail,
+  FactorEnv,
+  UserConfig,
+} from "@factor/api"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { envVars } from "./vars"
@@ -32,7 +35,6 @@ export const mode = factorEnv.var<"development" | "production">("mode")
 
 export const factorDb = new FactorDb({
   connectionUrl: factorEnv.var("postgresUrl"),
-  isTest: isTest(),
 })
 
 export const factorServer = new FactorServer({
@@ -42,7 +44,6 @@ export const factorServer = new FactorServer({
 })
 
 export const factorApp = new FactorApp({
-  mode,
   appName,
   appUrl,
   factorServer,
@@ -70,7 +71,6 @@ export const factorUser = new FactorUser({
     "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
   googleClientSecret: factorEnv.var("googleClientSecret"),
   tokenSecret: factorEnv.var("tokenSecret"),
-  mode,
 })
 
 export const factorStripe = new FactorStripe({

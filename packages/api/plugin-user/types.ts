@@ -19,12 +19,12 @@ export type UserPluginSettings = {
   factorEmail: FactorEmail
   googleClientId?: string
   googleClientSecret?: string
-  hooks?: HookType<HookDictionary>[]
+  hooks?: HookType<FactorUserHookDictionary>[]
   tokenSecret?: string
   mode?: "production" | "development"
 }
 
-export type HookDictionary = {
+export type FactorUserHookDictionary = {
   onLogout: { args: [] }
   onUserVerified: { args: [FullUser] }
   requestCurrentUser: { args: [FullUser | undefined] }

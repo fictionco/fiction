@@ -58,11 +58,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   types = types
   viteDevServer?: vite.ViteDevServer
   hooks: HookType<HookDictionary>[]
-  routes: AppRoute<string>[]
   uiPaths: string[]
   serverOnlyImports: ServerModuleDef[]
   routesPath: string
+  routes: AppRoute<string>[]
   rootComponentPath: string
+  rootComponent?: Component
   factorBuild?: FactorBuild
   factorDevRestart?: FactorDevRestart
   factorSitemap?: FactorSitemap
@@ -90,7 +91,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.factorEnv = settings.factorEnv
     this.standardPaths = this.factorEnv.standardPaths
 
-    this.mode = this.settings.mode || "production"
+    this.mode = this.settings.mode || this.utils.mode() || "production"
     this.port = this.settings.port || 3000
     this.appUrl =
       this.settings.appUrl && this.mode == "production"
@@ -118,7 +119,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.addToCli()
   }
 
-  setup() {
+  async setup() {
     return {
       name: this.constructor.name,
     }
@@ -240,7 +241,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const { rootComponent, routes } = await this.getSpecialAppImports()
 
-    setupRouter(routes)
+    setupRouter([...routes, ...this.routes])
 
     await this.utils.runHooks<HookDictionary, "afterAppSetup">({
       list: this.hooks,

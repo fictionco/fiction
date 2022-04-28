@@ -24,7 +24,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     this.serverOnlyModules = settings.serverOnlyModules ?? []
     this.getLexers().catch(console.error)
     this.factorEnv = settings.factorEnv
-    this.mode = settings.mode || "production"
+    this.mode = settings.mode || this.utils.mode() || "production"
   }
 
   async getLexers() {
