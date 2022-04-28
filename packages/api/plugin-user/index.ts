@@ -53,7 +53,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     this.hooks = this.settings.hooks || []
     this.activeUser = this.vue.ref()
     this.tokenSecret = settings.tokenSecret || "secret"
-    this.mode = settings.mode || "production"
+    this.mode = settings.mode || this.utils.mode()
 
     if (this.utils.isBrowser()) {
       this.userInitialized().catch(console.error)

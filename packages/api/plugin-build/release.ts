@@ -4,7 +4,7 @@ import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 import semver, { ReleaseType } from "semver"
 import { CliOptions, FactorEnv } from "@factor/api/plugin-env"
-import { log } from "@factor/api/logger"
+import { log } from "@factor/api"
 import { getRequire } from "@factor/api/utils"
 import { PackageJson } from "@factor/api/types"
 import { FactorPlugin } from "@factor/api/plugin"
@@ -225,27 +225,15 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     // commit version change
     const { stdout } = await this.run("git", ["diff"], { stdio: "pipe" })
     if (stdout) {
-      log.log({
-        level: "info",
-        context: "release",
-        description: "committing changes...",
-      })
+      this.log.info("committing changes...")
       await this.commit("git", ["add", "-A"])
       await this.commit("git", ["commit", "-m", `release: v${targetVersion}`])
     } else {
-      log.log({
-        level: "info",
-        context: "release",
-        description: "no changes to commit",
-      })
+      this.log.info("no changes to commit")
     }
 
     // publish to npm
-    log.log({
-      level: "info",
-      context: "release",
-      description: "publishing packages...",
-    })
+    this.log.info("publishing packages...")
     const publicPackages = getPackages({ publicOnly: true })
 
     for (const pkg of publicPackages) {

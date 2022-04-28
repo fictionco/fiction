@@ -1,4 +1,4 @@
-import { contextLogger } from "./logger"
+import { log } from "./plugin-log"
 import { _stop } from "./utils/error"
 import type { EndpointResponse, ErrorConfig } from "./types"
 import * as utils from "./utils"
@@ -7,7 +7,7 @@ import type { EndpointMeta } from "./utils/endpoint"
 export abstract class Query {
   stop = _stop
   utils = utils
-  log = contextLogger(this.constructor.name)
+  log = log.contextLogger(this.constructor.name)
 
   constructor() {}
 

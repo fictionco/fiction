@@ -1,4 +1,4 @@
-import { log } from "../logger"
+import { log } from "@factor/api/plugin-log"
 import { getRouter } from "../utils/router"
 import { isNode, isSearchBot } from "../utils"
 import { AuthCallback, FullUser } from "./types"

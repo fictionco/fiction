@@ -1,28 +1,17 @@
 /* eslint-disable no-console */
-import dayjs from "dayjs"
-import safeStringify from "fast-safe-stringify"
-import chalk from "chalk"
+/**
+ * Since many files use this logger, be careful for
+ * circular dependencies
+ */
+import { HookType } from "@factor/api/utils"
 import prettyoutput from "prettyoutput"
 import consola from "consola"
-import { logCategory, logLevel } from "./types"
-
-export const logType = {
-  event: { color: "#5233ff" },
-  info: { color: "#00ABFF" },
-  record: { color: "#FF9500" },
-  data: { color: "#FF9500" },
-  command: { color: "#FF9500" },
-  send: { color: "#00BD0C" },
-  error: { color: "#FF0076" },
-  warn: { color: "#FF0076" },
-  notify: { color: "#FF9500" },
-  success: { color: "#00BD0C" },
-}
-
-/**
- * Log only in development mode
- * @reference https://itnext.io/console-rules-b30560fc2367
- */
+import { runHooks } from "../utils/hook"
+import { dayjs, chalk } from "../utils/libraries"
+import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
+import { stringify } from "../utils/utils"
+import { logCategory, logLevel, LogHelper } from "./types"
+export * from "./types"
 
 interface LoggerArgs {
   level: keyof typeof logLevel
@@ -35,24 +24,30 @@ interface LoggerArgs {
   color?: string
 }
 
-class Logger {
-  isNode: boolean
-  isVite: boolean
-  constructor() {
-    this.isNode =
-      typeof process !== "undefined" &&
-      process.versions &&
-      process.versions.node
-        ? true
-        : false
-
-    this.isVite = process.env.IS_VITE ? true : false
+export type FactorLogHookDictionary = {
+  logServer: { args: [LoggerArgs] }
+}
+type FactorLogSettings = {
+  hooks?: HookType<FactorLogHookDictionary>[]
+}
+export class FactorLog {
+  hooks: HookType<FactorLogHookDictionary>[]
+  constructor(settings: FactorLogSettings = {}) {
+    this.hooks = settings.hooks ?? []
   }
 
-  logBrowser(config: LoggerArgs): void {
+  setup = () => {
+    return {}
+  }
+
+  addHook(hook: HookType<FactorLogHookDictionary>): void {
+    this.hooks.unshift(hook)
+  }
+
+  private logBrowser(config: LoggerArgs): void {
     const { level, description, context, color, data, error } = config
     const shouldLog =
-      process.env.NODE_ENV == "development" ||
+      isDev() ||
       (typeof localStorage !== "undefined" && localStorage.getItem("logger"))
         ? true
         : false
@@ -73,7 +68,7 @@ class Logger {
     }
   }
 
-  refineDataRecursive(
+  private refineDataRecursive(
     obj: Record<string, any>,
     depth = 0,
   ): Record<string, any> {
@@ -87,7 +82,7 @@ class Logger {
           v &&
           Object.keys(v as Record<string, any>).length > 0
         ) {
-          const len = safeStringify(v)
+          const len = stringify(v)
           if (len.length > 10_000 && !process.env.DEBUG) {
             v = `LARGE OBJECT(${len.length}): ${len.slice(0, 100)}...`
           } else if (depth < 4) {
@@ -100,7 +95,7 @@ class Logger {
     )
   }
 
-  logServer(config: LoggerArgs): void {
+  private logServer(config: LoggerArgs): void {
     const {
       level,
       disableOnRestart,
@@ -111,7 +106,7 @@ class Logger {
       error,
     } = config
 
-    if (disableOnRestart && process.env.IS_RESTART) {
+    if (disableOnRestart && isRestart()) {
       return
     }
     const points: (string | number)[] = [chalk.hex(color).dim(level.padEnd(5))]
@@ -143,20 +138,22 @@ class Logger {
     if (error) {
       consola.error(error)
     }
+
+    runHooks<FactorLogHookDictionary, "logServer">({
+      list: this.hooks,
+      hook: "logServer",
+      args: [config],
+    }).catch(console.error)
   }
 
-  log(config: LoggerArgs): void {
+  l(config: LoggerArgs): void {
     const { level } = config
 
     config.priority = logLevel[level].priority
     config.color = logCategory[level].color
 
-    if (this.isNode && !this.isVite) {
-      if (
-        config.priority < 10 &&
-        process.env.NODE_ENV !== "production" &&
-        !process.env.FACTOR_DEBUG
-      ) {
+    if (isNode()) {
+      if (config.priority < 10 && isDev() && !isDebug()) {
         config.data = undefined
       }
 
@@ -171,7 +168,7 @@ class Logger {
     description: string,
     config?: Omit<LoggerArgs, "level" | "context" | "description">,
   ): void {
-    this.log({ level: "warn", context, description, ...config })
+    this.l({ level: "warn", context, description, ...config })
   }
 
   error(
@@ -179,7 +176,7 @@ class Logger {
     description: string,
     config?: Omit<LoggerArgs, "level" | "context" | "description">,
   ): void {
-    this.log({ level: "error", context, description, ...config })
+    this.l({ level: "error", context, description, ...config })
   }
 
   info(
@@ -187,7 +184,7 @@ class Logger {
     description: string,
     config?: Omit<LoggerArgs, "level" | "context" | "description">,
   ): void {
-    this.log({ level: "info", context, description, ...config })
+    this.l({ level: "info", context, description, ...config })
   }
 
   debug(
@@ -195,27 +192,23 @@ class Logger {
     description: string,
     config?: Omit<LoggerArgs, "level" | "context" | "description">,
   ): void {
-    this.log({ level: "debug", context, description, ...config })
+    this.l({ level: "debug", context, description, ...config })
+  }
+
+  contextLogger = (context: string): LogHelper => {
+    const out: Record<string, any> = {}
+
+    const levels = Object.keys(logLevel) as (keyof typeof logLevel)[]
+
+    levels.forEach((level) => {
+      out[level] = (
+        description: string,
+        config?: Omit<LoggerArgs, "level" | "context" | "description">,
+      ): void => this.l({ level, description, context, ...config })
+    })
+
+    return out as LogHelper
   }
 }
 
-export const logger = new Logger()
-
-export const log = logger
-
-const levels = ["info", "debug", "warn", "error", "trace"] as const
-type LogHelper = Record<
-  typeof levels[number],
-  (description: string, data?: unknown) => void
->
-
-export const contextLogger = (context: string): LogHelper => {
-  const out: Record<string, any> = {}
-
-  levels.forEach((level) => {
-    out[level] = (description: string, data?: unknown): void =>
-      logger.log({ level, description, context, data })
-  })
-
-  return out as LogHelper
-}
+export const log = new FactorLog()

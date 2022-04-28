@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs-extra"
 import { Command } from "commander"
-import { log } from "../logger"
+import { log } from "@factor/api/plugin-log"
 import { camelToUpperSnake } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"

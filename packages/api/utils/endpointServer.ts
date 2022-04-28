@@ -3,7 +3,7 @@ import http from "http"
 import express from "express"
 
 import { ErrorConfig, EndpointResponse } from "../types"
-import { contextLogger } from "../logger"
+import { log } from "../plugin-log"
 import { _stop } from "../utils/error"
 import { onEvent } from "../utils/event"
 import type { FactorUser } from "../plugin-user"
@@ -34,7 +34,7 @@ export class EndpointServer {
   middleware?: MiddlewareHandler
   server?: http.Server
   factorUser?: FactorUser
-  log = contextLogger(this.constructor.name)
+  log = log.contextLogger(this.constructor.name)
   constructor(options: EndpointServerOptions) {
     const { port, endpoints, customServer, name } = options
 

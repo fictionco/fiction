@@ -7,7 +7,7 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 
 import { safeDirname, randomBetween } from "./utils"
-import { log } from "./logger"
+import { log } from "./plugin-log"
 import { UserConfig, EnvVar, FactorEnv } from "./plugin-env"
 import { FactorUser, FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
@@ -110,7 +110,6 @@ export const createTestUtils = async (opts?: {
     appEmail: "arpowers@gmail.com",
     appName: "TestApp",
     appUrl,
-    isTest: true,
   })
 
   const factorUser = new FactorUser({

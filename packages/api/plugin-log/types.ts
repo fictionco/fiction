@@ -1,3 +1,8 @@
+export type LogHelper = Record<
+  keyof typeof logLevel,
+  (description: string, data?: unknown) => void
+>
+
 export const logLevel = {
   trace: { color: "#5233ff", priority: 5 },
   debug: { color: "#00BD0C", priority: 5 },

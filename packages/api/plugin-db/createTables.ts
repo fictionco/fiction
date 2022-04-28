@@ -1,5 +1,5 @@
 import { Knex } from "knex"
-import { log } from "../logger"
+import { log } from "../plugin-log"
 import { snakeCase } from "../utils"
 const statusTypes = [
   "pending",

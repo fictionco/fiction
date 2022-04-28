@@ -3,7 +3,7 @@ import path from "path"
 import dotenv from "dotenv"
 import { expect, it, describe, beforeAll } from "vitest"
 import Stripe from "stripe"
-import { log } from "@factor/api/logger"
+import { log } from "@factor/api"
 import { factorStripe } from "@factor/site"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined

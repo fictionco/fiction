@@ -4,7 +4,7 @@ import http from "http"
 import express from "express"
 
 import * as ws from "ws"
-import { log } from "@factor/api/logger"
+import { log } from "@factor/api"
 import { emitEvent, waitFor, _stop } from "../utils"
 
 import { FactorUser } from "../plugin-user"
@@ -62,6 +62,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   context = "clientSocket"
   token?: string
   factorUser: FactorUser
+  log = log.contextLogger(this.constructor.name)
   constructor(options: ClientSocketOptions) {
     super()
     this.host = options.host
@@ -105,12 +106,12 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     }
 
     return new Promise<WebSocket | undefined>((resolve, reject) => {
-      log.info(this.context, `connecting at ${this.host}`)
+      this.log.info(`connecting at ${this.host}`)
 
       const sock = new WebSocket(url.toString())
 
       sock.addEventListener("open", () => {
-        log.info(this.context, `connected at ${this.host}`)
+        this.log.info(`connected at ${this.host}`)
 
         sock.addEventListener("message", (event: MessageEvent<string>) => {
           const [name, data] = JSON.parse(event.data) as SocketMessage<
@@ -119,7 +120,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
             "req"
           >
 
-          log.info(this.context, `message received: ${name}`, { data })
+          this.log.info(`message received: ${name}`, { data })
 
           emitEvent(name as string, data)
 
@@ -152,7 +153,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   ): Promise<WebSocket | undefined> {
     if (this.waiting) return
 
-    log.info(this.context, `(${reason}) retrying in ${seconds}s`)
+    this.log.info(`(${reason}) retrying in ${seconds}s`)
     this.waiting = true
     await waitFor(seconds * 1000)
     this.resetSocket()
@@ -171,7 +172,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     try {
       if (!this.socketPromise) {
-        log.info(this.context, "attempt connection")
+        this.log.info("attempt connection")
         this.socketPromise = this.initialize()
       }
 
@@ -192,7 +193,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     payload: T[U]["req"],
   ): Promise<void> {
     const message: SocketMessage<T, U, "req"> = [type, payload]
-    log.info(this.context, "sending message", { data: { message } })
+    this.log.info("sending message", { data: { message } })
     try {
       const socket = await this.getSocket()
 
@@ -216,6 +217,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public wss?: ws.WebSocketServer
   private context = "socketServer"
   factorUser: FactorUser
+  log = log.contextLogger(this.constructor.name)
   constructor(settings: { factorUser: FactorUser }) {
     super()
     this.factorUser = settings.factorUser
@@ -312,7 +314,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   }): void {
     const { event, payload, connection } = config
     const message: SocketMessage<T, keyof T, "res"> = [event, payload]
-    log.info(this.context, "sending message", { data: { message } })
+    this.log.info("sending message", { data: { message } })
     connection.send(JSON.stringify(message))
     return
   }

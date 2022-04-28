@@ -1,6 +1,7 @@
 import path from "path"
 import { FactorDocsEngine } from "@factor/plugin-docs-engine"
 import { FactorBlogEngine } from "@factor/plugin-blog-engine"
+
 import { FactorHighlightCode } from "@factor/plugin-highlight-code"
 import { FactorNotify } from "@factor/plugin-notify"
 import { FactorStripe } from "@factor/plugin-stripe"
@@ -59,7 +60,6 @@ export const factorEmail = new FactorEmail({
   smtpHost: factorEnv.var("smtpHost"),
   smtpPassword: factorEnv.var("smtpPassword"),
   smtpUser: factorEnv.var("smtpUser"),
-  isTest: isTest(),
 })
 
 export const factorUser = new FactorUser({
@@ -84,6 +84,7 @@ export const factorStripe = new FactorStripe({
   hooks: [],
   products: [],
 })
+
 export const docsPlugin = new FactorDocsEngine({
   docs,
   groups,

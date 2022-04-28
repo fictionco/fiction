@@ -102,7 +102,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
   }
 
   public async setup(): Promise<UserConfig> {
-    if (!this.isTest && !this.utils.isBrowser()) {
+    if (!this.utils.isTest() && !this.utils.isApp()) {
       await this.init()
     }
 

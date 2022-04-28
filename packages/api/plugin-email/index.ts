@@ -10,7 +10,6 @@ type FactorEmailSettings = {
   appName: string
   appEmail: string
   appUrl: string
-  isTest: boolean
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
@@ -26,11 +25,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly appName: string
   readonly appEmail: string
   readonly appUrl: string
-  readonly isTest: boolean
   constructor(settings: FactorEmailSettings) {
     super(settings)
-
-    this.isTest = settings.isTest || false
 
     this.smtpHost = settings.smtpHost
     this.smtpPassword = settings.smtpPassword
@@ -53,13 +49,18 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       },
     }
 
-    const valid = this.validateRequiredFields({
-      plugin: this,
-      fields: ["appEmail", "appName", "appUrl"],
-      fieldsLive: ["smtpPassword", "smtpUser", "smtpHost"],
-    })
+    if (!this.appEmail || !this.appName || !this.appUrl) {
+      throw new Error(`missing required fields`)
+    }
 
-    if (valid && !this.isTest) {
+    if (
+      this.utils.isProd() &&
+      (!this.smtpPassword || !this.smtpUser || !this.smtpUser)
+    ) {
+      throw new Error(`missing required production fields`)
+    }
+
+    if (!this.utils.isTest()) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text

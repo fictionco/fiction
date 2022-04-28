@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs-extra"
 import { compile, JSONSchema } from "json-schema-to-typescript"
-import { log } from "../logger"
+import { log } from "../plugin-log"
 import { stringify } from "../utils"
 import { runHooks } from "../utils/hook"
 

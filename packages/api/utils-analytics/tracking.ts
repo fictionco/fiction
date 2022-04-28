@@ -1,7 +1,7 @@
 import { finder } from "@medv/finder"
+import { log } from "@factor/api/plugin-log"
 import { fastHash } from "../utils/utils"
 import { isNode } from "../utils/vars"
-import { logger } from "../logger"
 
 export interface ClickOffsetPosition {
   targetWidth: number
@@ -392,11 +392,7 @@ class UnloadHandler {
   }
 
   private unload(offloadType: OffloadEvent): void {
-    logger.log({
-      level: "info",
-      context: "unload",
-      description: `maybe unload: ${this.unloaded}`,
-    })
+    log.info("unload", `maybe unload: ${this.unloaded}`)
     if (!this.unloaded) {
       this.unloadCallbacks.forEach((cb) => cb(offloadType))
       this.unloaded = true

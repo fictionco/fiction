@@ -4,7 +4,7 @@ import {
   storeItem,
   omit,
 } from "@factor/api/utils"
-import { log } from "../logger"
+import { log } from "../plugin-log"
 import { UserConfig, MainFile } from "./types"
 import type { FactorEnv } from "."
 

@@ -2,7 +2,7 @@
 
 export * from "./types"
 export * from "./utils/excerpt"
-export * from "./logger"
+export * from "./plugin-log"
 export * from "./utils/markdown"
 export * from "./utils"
 export * from "./plugin-user/types"

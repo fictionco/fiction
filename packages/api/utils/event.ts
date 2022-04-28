@@ -1,5 +1,5 @@
 import events from "events"
-import { log } from "../logger"
+import { log } from "../plugin-log"
 import { getGlobal, setGlobal } from "./global"
 
 const getGlobalEventBus = (): NodeJS.EventEmitter => {
