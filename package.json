@@ -23,7 +23,7 @@
     "up": "docker-compose up",
     "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm install"
+    "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm i && pnpm up -r && pnpm outdated"
   },
   "license": "MIT",
   "workspaces": [
@@ -37,10 +37,10 @@
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
-    "@factor/api": "5.3.1",
-    "@factor/lint": "5.3.1",
-    "@factor/site": "5.3.1",
-    "@factor/ui": "5.3.1",
+    "@factor/api": "workspace:*",
+    "@factor/lint": "workspace:*",
+    "@factor/site": "workspace:*",
+    "@factor/ui": "workspace:*",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.29",
     "@vitejs/plugin-vue": "^2.3.1",
