@@ -1,3 +1,18 @@
+# [5.3.0](https://github.com/FactorJS/factor/compare/v5.2.5...v5.3.0) (2022-04-28)
+
+
+### Bug Fixes
+
+* release ([da8a158](https://github.com/FactorJS/factor/commit/da8a15881e2ac3e81120434221bda405dbe12862))
+
+
+### Features
+
+* fix tests, finish org ([2c2a69c](https://github.com/FactorJS/factor/commit/2c2a69c30250e24e87642527b58ca9fbeb8af67e))
+* new module system ([f07386c](https://github.com/FactorJS/factor/commit/f07386c1acd5b1fb1a4ca9dacb2ab41602335d74))
+
+
+
 ## [5.2.5](https://github.com/FactorJS/factor/compare/v5.2.4...v5.2.5) (2022-04-22)
 
 
