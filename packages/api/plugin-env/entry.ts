@@ -128,7 +128,7 @@ export const compileApplication = async (params: {
   }
 
   if (!isApp && mainFile.factorEnv) {
-    generateFiles(mainFile.factorEnv).catch(console.error)
+    await generateFiles(mainFile.factorEnv)
   }
 
   userConfig = await storeUserConfig(userConfig)

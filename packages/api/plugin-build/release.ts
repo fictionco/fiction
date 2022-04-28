@@ -217,7 +217,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     await this.updateVersions(targetVersion)
 
     this.log.info("building packages...")
-    await this.run("npm", ["exec", "--", "factor", "bundle"])
+    await this.run("npm", ["exec", "--", "factor", "run", "bundle"])
 
     this.log.info("generate changelog...")
     await this.run("npm", ["run", "changelog"])

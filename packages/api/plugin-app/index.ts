@@ -81,6 +81,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.routes = settings.routes ?? []
     this.sitemaps = settings.sitemaps ?? []
     this.uiPaths = settings.uiPaths ?? []
+
     this.serverOnlyImports = settings.serverOnlyImports ?? []
     this.appName = settings.appName
     this.routesPath = settings.routesPath

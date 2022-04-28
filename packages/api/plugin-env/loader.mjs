@@ -77,7 +77,10 @@ const getTsCompatSpecifier = (parentURL, specifier) => {
   } else {
     // Bare import
     tsSpecifier = specifier
-    search = ""
+
+    const url = new URL(specifier, parentURL)
+
+    search = url.search
   }
 
   return {
@@ -110,6 +113,7 @@ export const resolve = async (specifier, context, defaultResolve) => {
     // and construct a valid url.
 
     const parsed = getTsCompatSpecifier(parentURL, specifier)
+
     const _path = await esbuildResolve(
       parsed.tsSpecifier,
       path.dirname(fileURLToPath(parentURL)),

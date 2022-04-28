@@ -7,7 +7,7 @@ import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { PackageJson } from "../types"
 import { commands } from "./commands"
-import { MainFile, FactorEnv } from "."
+import { MainFile } from "."
 
 const commander = new Command()
 
@@ -25,15 +25,6 @@ export const runCommand = async (
   const mainFileRelPath = await packageMainFile(cwd)
   const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
-  const mainFile = (await import(mainFilePath)) as MainFile
-
-  let factorEnv = mainFile.factorEnv
-
-  if (!factorEnv) {
-    log.warn("cli", `no factorEnv at [${mainFilePath}] - creating one...`)
-    factorEnv = new FactorEnv({ cwd })
-  }
-
   const cliCommand = commands
     .find((_) => _.command === command)
     ?.setOptions(opts)
@@ -42,16 +33,32 @@ export const runCommand = async (
 
   const fullOpts = cliCommand?.options ?? {}
 
+  const params: Record<string, string> = {}
+
   if (fullOpts.mode) {
     process.env.NODE_ENV = fullOpts.mode
   }
 
   Object.entries(fullOpts).forEach(([key, value]) => {
     if (value) {
+      params[key] = String(value)
       const processKey = `FACTOR_${camelToUpperSnake(key)}`
       process.env[processKey] = String(value)
     }
   })
+
+  /**
+   * ! THIS MUST COME AFTER ENV VARIABLES ARE SET
+   *   Plugins expect the CLI vars (mode, port, etc. )
+   *   At the time of initial load
+   */
+  const mainFile = (await import(mainFilePath)) as MainFile
+
+  const factorEnv = mainFile.factorEnv
+
+  if (!factorEnv) {
+    throw new Error(`no factorEnv at [${mainFilePath}]`)
+  }
 
   await factorEnv.runCommand(cliCommand)
 }

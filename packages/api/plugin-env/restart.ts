@@ -1,4 +1,5 @@
 import fs from "fs-extra"
+import nodemon from "nodemon"
 import { FactorPlugin } from "../plugin"
 import { FactorEnv } from "."
 
@@ -38,14 +39,15 @@ export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
   }
 
   restartInitializer = async (): Promise<void> => {
-    const { default: nodemon } = await import("nodemon")
-
     let conf: Record<string, any> = {}
 
     const configPath = this.nodemonConfigPath
 
     if (fs.existsSync(configPath)) {
-      conf = (await import(configPath)) as Record<string, any>
+      conf = (await import(/* @vite-ignore */ configPath)) as Record<
+        string,
+        any
+      >
     }
 
     const passArgs = process.argv.slice(

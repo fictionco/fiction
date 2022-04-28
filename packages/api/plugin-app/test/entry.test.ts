@@ -5,7 +5,6 @@ describe("server entry handling", () => {
     const { userConfig } = await compileApplication({ isApp: true })
 
     expect(userConfig.server).toBe(undefined)
-    expect(userConfig.plugins).toBe(undefined)
 
     expect(userConfig).toMatchInlineSnapshot(`
       {
