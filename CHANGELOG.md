@@ -1,3 +1,12 @@
+## [5.3.3](https://github.com/FactorJS/factor/compare/v5.3.2...v5.3.3) (2022-04-29)
+
+
+### Features
+
+* component injection ([b06781b](https://github.com/FactorJS/factor/commit/b06781bea761763e3b97a2a418d3312f1a25c88a))
+
+
+
 ## [5.3.2](https://github.com/FactorJS/factor/compare/v5.3.1...v5.3.2) (2022-04-28)
 
 
