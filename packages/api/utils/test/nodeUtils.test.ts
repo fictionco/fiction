@@ -2,7 +2,7 @@ import { createRequire } from "module"
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
 import { getMainFilePath, importIfExists } from "../nodeUtils"
-import { getServerUserConfig } from "../../plugin-env/entry"
+import { getServerServiceConfig } from "../../plugin-env/entry"
 const require = createRequire(import.meta.url)
 
 let cwd = ""
@@ -44,7 +44,7 @@ describe("node utils", () => {
   it("gets correct server entry config", async () => {
     const cwd = path.dirname(require.resolve("@factor/site/package.json"))
 
-    const entryConfig = await getServerUserConfig({ cwd })
+    const entryConfig = await getServerServiceConfig({ cwd })
 
     expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [

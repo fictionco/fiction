@@ -11,7 +11,7 @@ import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
 import { Component, App as VueApp } from "vue"
 import type { CliOptions, StandardPaths } from "@factor/api/plugin-env/types"
-import { UserConfig, FactorEnv } from "@factor/api/plugin-env"
+import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
 import { FactorBuild } from "@factor/api/plugin-build"
 import {
@@ -34,7 +34,7 @@ import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
 
 type HookDictionary = {
-  afterAppSetup: { args: [{ userConfig: UserConfig }] }
+  afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
   viteConfig: { args: [vite.InlineConfig[]] }
 }
 
@@ -120,9 +120,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   async setup() {
-    return {
-      name: this.constructor.name,
-    }
+    return {}
   }
 
   addToCli() {
@@ -235,9 +233,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   createVueApp = async (params: {
     renderUrl?: string
-    userConfig: UserConfig
+    serviceConfig: ServiceConfig
   }): Promise<types.FactorAppEntry> => {
-    const { renderUrl, userConfig } = params
+    const { renderUrl, serviceConfig } = params
 
     const { rootComponent, routes } = await this.getSpecialAppImports()
 
@@ -246,21 +244,22 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     await this.utils.runHooks<HookDictionary, "afterAppSetup">({
       list: this.hooks,
       hook: "afterAppSetup",
-      args: [{ userConfig }],
+      args: [{ serviceConfig }],
     })
+
+    const { service = {} } = serviceConfig
 
     const app: VueApp = renderUrl
       ? this.vue.createSSRApp(rootComponent)
       : this.vue.createApp(rootComponent)
 
+    app.provide("service", service)
     // add router and store
     const router = getRouter()
 
     app.use(router)
 
-    if (renderUrl) {
-      await router.replace({ path: renderUrl })
-    }
+    if (renderUrl) await router.replace({ path: renderUrl })
 
     await router.isReady()
 
@@ -273,7 +272,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   mountApp = async (params: {
     id?: string
     renderUrl?: string
-    userConfig: UserConfig
+    serviceConfig: ServiceConfig
   }): Promise<types.FactorAppEntry> => {
     const { id = "#app" } = params
 

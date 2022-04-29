@@ -35,31 +35,28 @@ export type EntryModuleExports = {
 }
 
 export type MainFile = {
-  setup?: (userConfig: UserConfig) => Promise<UserConfig> | UserConfig
+  setup?: (
+    serviceConfig: ServiceConfig,
+  ) => Promise<ServiceConfig> | ServiceConfig
   factorApp?: FactorApp
   factorServer?: FactorServer
   factorEnv?: FactorEnv<string>
   [key: string]: unknown
 }
-export interface UserConfig {
+export interface ServiceConfig {
   name?: string
 
   server?: () =>
-    | UserConfig
+    | ServiceConfig
     | undefined
     | void
-    | Promise<UserConfig | undefined | void>
+    | Promise<ServiceConfig | undefined | void>
 
   cwd?: string
-
   paths?: string[]
-
-  plugins?: FactorPlugin[]
-
-  // build
+  service?: Record<string, FactorPlugin | string>
   vite?: Partial<ViteInlineConfig>
   serverOnlyImports?: ServerModuleDef[]
-  generateStaticConfig?: boolean
   variables?: Record<
     string,
     | string
@@ -68,6 +65,7 @@ export interface UserConfig {
     | string[]
     | Record<string, string>[]
   >
+  [key: string]: unknown
 }
 
 export type CliOptions = {
@@ -92,7 +90,7 @@ export type CliOptions = {
 
 export type Configurations = {
   pkg?: PackageJson
-  userConfig?: UserConfig
+  serviceConfig?: ServiceConfig
 }
 
 export type RunConfig = CliOptions

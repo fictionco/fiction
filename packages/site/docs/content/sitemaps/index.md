@@ -14,7 +14,7 @@ However, they enable further functionality which can be used by plugins. For exa
 ```ts
 // FILE: server.ts
 
-export const setup = (): UserConfig | undefined => {
+export const setup = (): ServiceConfig | undefined => {
   return {
     sitemaps: [
       {

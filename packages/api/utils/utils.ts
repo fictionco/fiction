@@ -3,10 +3,10 @@ import deepMergeUtility from "deepmerge"
 import stableStringify from "fast-safe-stringify"
 import md5 from "spark-md5"
 import { customAlphabet } from "nanoid"
+import { isPlainObject } from "is-plain-object"
 import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
 import { isNode } from "./vars"
-
 /**
  * Are we in Node or browser?
  */
@@ -195,18 +195,30 @@ export const dotSetting = <T = unknown>({
  */
 export const deepMerge = <T extends Record<string, any>>(
   items: (T | Partial<T> | undefined)[],
-  options: { mergeArrays?: boolean } = {},
+  options: {
+    mergeArrays?: boolean
+    isMergeableObject?: (o: any) => boolean
+    plainOnly?: boolean
+  } = {},
 ): T => {
   const mergeItems = items.filter(Boolean) as T[]
 
-  const merged: T = deepMergeUtility.all(mergeItems, {
+  const mergeOptions: deepMergeUtility.Options = {
     arrayMerge: (lowerPriority: unknown[], higherPriority: unknown[]) => {
       if (options.mergeArrays) {
         return [...higherPriority, ...lowerPriority]
       }
       return higherPriority
     },
-  }) as T
+  }
+
+  if (options.plainOnly) {
+    mergeOptions.isMergeableObject = isPlainObject
+  } else if (options.isMergeableObject) {
+    mergeOptions.isMergeableObject = options.isMergeableObject
+  }
+
+  const merged: T = deepMergeUtility.all(mergeItems, mergeOptions) as T
 
   return merged
 }
@@ -215,6 +227,7 @@ export const deepMerge = <T extends Record<string, any>>(
  */
 export const deepMergeAll = <T>(items: (Partial<T> | undefined)[]): T => {
   const i = items.filter(Boolean) as T[]
+
   return deepMerge<T>(i, { mergeArrays: true })
 }
 

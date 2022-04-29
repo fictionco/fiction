@@ -12,6 +12,7 @@ import {
 import type { RouteLocation } from "vue-router"
 import type { Component } from "vue"
 import { AuthCallback } from "../plugin-user/types"
+import type { FactorPlugin } from "../plugin"
 import { getGlobal, setGlobal } from "./global"
 import { isNode } from "./vars"
 import { sortPriority, toLabel } from "./utils"
@@ -34,6 +35,7 @@ export type AppRouteParams<T extends string> = {
   isActive?: IsActiveCallback
   parent?: string
   priority?: number
+  services?: Record<string, FactorPlugin>
   meta?: {
     auth: AuthCallback
     [key: string]: unknown
@@ -56,6 +58,7 @@ export class AppRoute<T extends string> {
   children: AppRoute<T>[] = []
   external?: boolean
   redirect?: RouteRecordRedirectOption
+  services: Record<string, FactorPlugin>
   constructor(params: AppRouteParams<T>) {
     const {
       name,
@@ -81,6 +84,7 @@ export class AppRoute<T extends string> {
     this.external = external
     this.priority = priority ? priority : parent ? 200 : 100
     this.menus = menus || []
+    this.services = params.services || {}
   }
 }
 
@@ -149,6 +153,7 @@ const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
         name: li.name,
         component: li.component,
         meta: { niceName: li.niceName, menus: li.menus, ...li.meta },
+        props: { services: li.services },
       }
 
       if (li.children.length > 0) {

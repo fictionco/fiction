@@ -176,6 +176,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         ...configExcludeIds,
       ],
       include: [
+        "is-plain-object",
         "ohmyfetch",
         "path-browserify",
         "dayjs",

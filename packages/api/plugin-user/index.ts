@@ -4,8 +4,8 @@ import { FactorPlugin } from "../plugin"
 import { EndpointMap } from "../utils/endpoint"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
-import { UserConfig } from "../plugin-env"
-import { HookType } from "../utils"
+import { ServiceConfig } from "../plugin-env"
+import { HookType } from "../utils/hook"
 import type { FactorServer } from "../plugin-server"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
@@ -60,7 +60,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     }
   }
 
-  async setup(): Promise<UserConfig> {
+  async setup(): Promise<ServiceConfig> {
     return {
       name: this.constructor.name,
       serverOnlyImports: [{ id: "html-to-text" }],

@@ -1,8 +1,8 @@
-import { safeDirname } from "../../utils"
-import { UserConfig } from "../../plugin-env"
-export const setup = (): UserConfig => {
+import { safeDirname } from "@factor/api/utils"
+import { ServiceConfig } from "@factor/api/plugin-env"
+export const setup = (): ServiceConfig => {
   return {
-    plugins: [],
+    plugins: {},
     server: () => {
       return {
         variables: { TEST_SERVER: "TEST" },

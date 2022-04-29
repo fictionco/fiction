@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import bcrypt from "bcrypt"
-import { dayjs, validateEmail, snakeCase } from "../utils"
+import { dayjs } from "../utils/libraries"
+import { validateEmail, snakeCase } from "../utils/utils"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
 import { runHooks } from "../utils/hook"
@@ -9,13 +10,13 @@ import { EndpointMeta } from "../utils/endpoint"
 import type { FactorDb } from "../plugin-db"
 import { Query } from "../query"
 import { FactorEmail } from "../plugin-email"
-import { FullUser } from "./types"
+import { FullUser, FactorUserHookDictionary } from "./types"
 import {
   getPublicUserFields,
   getJsonUserFields,
   getEditableUserFields,
 } from "./utils"
-import type { FactorUser, HookDictionary } from "."
+import type { FactorUser } from "."
 
 export abstract class UserQuery extends Query {
   factorUser: FactorUser
@@ -249,7 +250,7 @@ export class QueryManageUser extends UserQuery {
       (_action == "getPrivate" || _action == "update" || _action == "create") &&
       _meta
     ) {
-      user = await runHooks<HookDictionary>({
+      user = await runHooks<FactorUserHookDictionary>({
         list: this.factorUser.hooks,
         hook: "processUser",
         args: [user, { params, meta: _meta }],
@@ -584,7 +585,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await runHooks<HookDictionary>({
+    await runHooks<FactorUserHookDictionary>({
       list: this.factorUser.hooks,
       hook: "onUserVerified",
       args: [user],

@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
 import { PackageJson } from "../types"
 import { HookType, requireIfExists, getRequire } from "../utils"
-import { getServerUserConfig } from "./entry"
+import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, CommandKeys, commands } from "./commands"
@@ -168,14 +168,14 @@ export class FactorEnv<S extends string> extends FactorPlugin<
 
     this.log.info(`Running command ${cliCommand.command}`, { data: cliCommand })
 
-    const userConfig = await getServerUserConfig({
+    const serviceConfig = await getServerServiceConfig({
       mainFilePath: this.standardPaths.mainFilePath,
     })
 
     const runConfig = {
       command: cliCommand.command,
       ...cliCommand.options,
-      userConfig,
+      serviceConfig,
     }
 
     await this.utils.runHooks<FactorEnvHookDictionary>({

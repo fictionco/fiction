@@ -1,13 +1,12 @@
 import { EventEmitter } from "events"
 import http from "http"
-
 import express from "express"
-
 import * as ws from "ws"
 import { log } from "@factor/api"
-import { emitEvent, waitFor, _stop } from "../utils"
-
-import { FactorUser } from "../plugin-user"
+import type { FactorUser } from "../plugin-user"
+import { _stop } from "./error"
+import { emitEvent } from "./event"
+import { waitFor } from "./utils"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
 

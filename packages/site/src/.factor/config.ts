@@ -5,7 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface CompiledUserConfig {
+export interface CompiledServiceConfig {
   endpoints:
     | "AllProducts"
     | "CurrentUser"
@@ -27,7 +27,7 @@ export interface CompiledUserConfig {
     | "UpdateCurrentUser"
     | "UserGoogleAuth"
     | "VerifyAccountEmail"
-    | "stripeWebhooks";
+    | "stripeWebhooks"
   routes:
     | "blog"
     | "blogIndex"
@@ -40,7 +40,7 @@ export interface CompiledUserConfig {
     | "plugins"
     | "showcase"
     | "showcaseSingle"
-    | "testing";
-  paths: string[];
-  [k: string]: unknown;
+    | "testing"
+  paths: string[]
+  [k: string]: unknown
 }

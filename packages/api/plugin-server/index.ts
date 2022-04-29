@@ -1,6 +1,6 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { UserConfig, FactorEnv, CliOptions } from "@factor/api/plugin-env"
+import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { HookType, EndpointServer } from "@factor/api/utils"
 import type { Endpoint } from "@factor/api/utils"
 import { FactorPlugin } from "@factor/api/plugin"
@@ -11,27 +11,36 @@ export type FactorServerHookDictionary = {
 }
 
 export type FactorServerSettings = {
-  port: number
+  port?: number
   hooks?: HookType<FactorServerHookDictionary>[]
   endpoints?: Endpoint[]
   serverUrl?: string
   factorEnv?: FactorEnv<string>
+  onCommands?: string[]
 }
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks: HookType<FactorServerHookDictionary>[]
-  port: number
+  port?: number
   endpoints: Endpoint[]
   serverUrl: string
   factorEnv?: FactorEnv<string>
+  onCommands: string[]
   constructor(settings: FactorServerSettings) {
     super(settings)
     this.hooks = settings.hooks ?? []
-    this.port = settings.port ?? 3333
+    this.port = settings.port
     this.serverUrl = settings.serverUrl ?? `http://localhost:${this.port}`
     this.endpoints = settings.endpoints ?? []
     this.factorEnv = settings.factorEnv
 
+    this.onCommands = settings.onCommands || [
+      "bundle",
+      "build",
+      "server",
+      "dev",
+      "prerender",
+    ]
     this.addToCli()
   }
 
@@ -39,16 +48,8 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     if (this.factorEnv) {
       this.factorEnv.addHook({
         hook: "runCommand",
-        callback: async (command: string, opts: CliOptions) => {
-          if (opts.serverPort) {
-            this.port = opts.serverPort
-          }
-
-          if (
-            new Set(["bundle", "build", "server", "dev", "prerender"]).has(
-              command,
-            )
-          ) {
+        callback: async (command: string) => {
+          if (new Set(this.onCommands).has(command)) {
             await this.createServer()
           }
         },
@@ -86,10 +87,9 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     this.endpoints = [...this.endpoints, ...endpoints]
   }
 
-  async setup(): Promise<UserConfig> {
+  async setup(): Promise<ServiceConfig> {
     return {
       name: this.constructor.name,
-      serverOnlyImports: [{ id: "http" }, { id: "body-parser" }],
     }
   }
 

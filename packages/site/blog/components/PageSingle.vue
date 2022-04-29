@@ -130,10 +130,10 @@ import { useRouter } from "vue-router"
 import ElSpinner from "@factor/ui/ElSpinner.vue"
 import { ref, computed, onServerPrefetch } from "vue"
 import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
-import { blogPlugin } from "@factor/site"
+import { factorBlog } from "@factor/site"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import dayjs from "dayjs"
-const baseRoute = ref(blogPlugin.setting("baseRoute"))
+const baseRoute = ref(factorBlog.setting("baseRoute"))
 const router = useRouter()
 const loading = ref(false)
 const config = ref<PostEntryConfig>({ attributes: {} })
@@ -154,7 +154,7 @@ const getContent = async (): Promise<void> => {
 
   const slug = router.currentRoute.value.params.slug as string | undefined
 
-  const c = await blogPlugin.getPostConfig(slug)
+  const c = await factorBlog.getPostConfig(slug)
 
   config.value = c || { attributes: {} }
 

@@ -1,11 +1,7 @@
-import {
-  getMainFilePath,
-  deepMergeAll,
-  storeItem,
-  omit,
-} from "@factor/api/utils"
+import { getMainFilePath, deepMerge, storeItem, omit } from "@factor/api/utils"
 import { log } from "../plugin-log"
-import { UserConfig, MainFile } from "./types"
+import { FactorPlugin } from "../plugin"
+import { ServiceConfig, MainFile } from "./types"
 import type { FactorEnv } from "."
 
 type WhichModule = {
@@ -14,12 +10,12 @@ type WhichModule = {
   mainFilePath?: string
 }
 
-export const storeUserConfig = async (
-  userConfig: UserConfig,
-): Promise<UserConfig> => {
-  storeItem("userConfig", userConfig)
+export const storeServiceConfig = async (
+  serviceConfig: ServiceConfig,
+): Promise<ServiceConfig> => {
+  storeItem("serviceConfig", serviceConfig)
 
-  return userConfig
+  return serviceConfig
 }
 
 /**
@@ -33,14 +29,18 @@ const generateFiles = async (factorEnv: FactorEnv<string>): Promise<void> => {
 }
 
 export const installPlugins = async (params: {
-  userConfig: UserConfig
+  serviceConfig: ServiceConfig
   isApp: boolean
-}): Promise<UserConfig> => {
-  const { userConfig, isApp } = params
-  const { plugins = [] } = userConfig
-  const config: UserConfig[] = [userConfig]
-  if (plugins.length > 0) {
-    for (const plugin of plugins) {
+}): Promise<ServiceConfig> => {
+  const { serviceConfig, isApp } = params
+  const { service = {}, ...rest } = serviceConfig
+  const config: ServiceConfig[] = [rest]
+  const pluginList = Object.values(service).filter(
+    (_) => _ instanceof FactorPlugin,
+  ) as FactorPlugin[]
+
+  if (pluginList.length > 0) {
+    for (const plugin of pluginList) {
       const pluginConfig = await plugin.setup()
 
       const c = omit(pluginConfig, "server", "name")
@@ -55,17 +55,20 @@ export const installPlugins = async (params: {
         }
       } catch (error: unknown) {
         const e = error as Error
-        e.message = `plugin setup error (${pluginConfig.name ?? "unknown"}): ${
-          e.message
-        }`
+        const name = pluginConfig.constructor.name ?? "unknown"
+        e.message = `plugin setup error (${name}): ${e.message}`
         throw e
       }
     }
   }
 
-  const r = deepMergeAll<UserConfig>(config)
+  const r = deepMerge<ServiceConfig>(config, {
+    mergeArrays: true,
+    plainOnly: true,
+  })
 
-  delete r.plugins
+  r.service = service
+
   delete r.server
 
   return r
@@ -74,9 +77,9 @@ export const installPlugins = async (params: {
 export const compileApplication = async (params: {
   mainFilePath?: string
   isApp: boolean
-  userConfig?: UserConfig
-}): Promise<{ userConfig: UserConfig; mainFile: MainFile }> => {
-  let { userConfig } = params
+  serviceConfig?: ServiceConfig
+}): Promise<{ serviceConfig: ServiceConfig; mainFile: MainFile }> => {
+  let { serviceConfig } = params
 
   const { mainFilePath, isApp } = params
 
@@ -96,13 +99,15 @@ export const compileApplication = async (params: {
 
   if (!mainFile) throw new Error("no mainFile")
 
-  let entryConfig: UserConfig = {}
+  let entryConfig: ServiceConfig = {}
   if (mainFile) {
     // get universal setup
-    entryConfig = mainFile?.setup ? await mainFile.setup(userConfig || {}) : {}
+    entryConfig = mainFile?.setup
+      ? await mainFile.setup(serviceConfig || {})
+      : {}
   }
 
-  const merge = [userConfig, entryConfig]
+  const merge = [serviceConfig, entryConfig]
 
   if (!isApp && entryConfig.server) {
     // get server specific config from main files
@@ -111,17 +116,20 @@ export const compileApplication = async (params: {
     merge.push(serverConfig ?? {})
   }
 
-  merge.push(params.userConfig ?? {})
+  merge.push(params.serviceConfig ?? {})
 
-  const merged = deepMergeAll<UserConfig>(merge)
+  const merged = deepMerge<ServiceConfig>(merge, {
+    mergeArrays: true,
+    plainOnly: true,
+  })
 
   delete merged.server
 
-  userConfig = merged
+  serviceConfig = merged
 
-  if (userConfig.plugins) {
+  if (serviceConfig.service) {
     try {
-      userConfig = await installPlugins({ userConfig, isApp })
+      serviceConfig = await installPlugins({ serviceConfig, isApp })
     } catch (error: unknown) {
       log.error("compileApplication", "plugin install error", { error })
     }
@@ -131,21 +139,21 @@ export const compileApplication = async (params: {
     await generateFiles(mainFile.factorEnv)
   }
 
-  userConfig = await storeUserConfig(userConfig)
+  serviceConfig = await storeServiceConfig(serviceConfig)
 
-  return { userConfig, mainFile }
+  return { serviceConfig, mainFile }
 }
 
-export const getServerUserConfig = async (
-  params: WhichModule & { userConfig?: UserConfig },
-): Promise<UserConfig> => {
+export const getServerServiceConfig = async (
+  params: WhichModule & { serviceConfig?: ServiceConfig },
+): Promise<ServiceConfig> => {
   const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
-  const { userConfig } = await compileApplication({
+  const { serviceConfig } = await compileApplication({
     mainFilePath,
     isApp: false,
-    userConfig: params.userConfig,
+    serviceConfig: params.serviceConfig,
   })
 
-  return userConfig
+  return serviceConfig
 }

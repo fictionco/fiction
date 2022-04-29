@@ -7,14 +7,14 @@ export const runViteApp = async (
   params: { renderUrl?: string } = {},
 ): Promise<FactorAppEntry> => {
   const { renderUrl } = params
-  const { userConfig, mainFile } = await compileApplication({ isApp: true })
+  const { serviceConfig, mainFile } = await compileApplication({ isApp: true })
   const { factorApp } = mainFile
 
   if (!factorApp) {
     throw new Error("no factorApp exported from mainFile")
   }
 
-  return await factorApp.mountApp({ renderUrl, userConfig })
+  return await factorApp.mountApp({ renderUrl, serviceConfig })
 }
 
 /**

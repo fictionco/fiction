@@ -8,7 +8,7 @@ import fs from "fs-extra"
 
 import { safeDirname, randomBetween } from "./utils"
 import { log } from "./plugin-log"
-import { UserConfig, EnvVar, FactorEnv } from "./plugin-env"
+import { ServiceConfig, EnvVar, FactorEnv } from "./plugin-env"
 import { FactorUser, FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
 import { FactorDb } from "./plugin-db"
@@ -163,7 +163,7 @@ export const createTestServer = async (params: {
   moduleName?: string
   headless?: boolean
   slowMo?: number
-  userConfig?: UserConfig
+  serviceConfig?: ServiceConfig
 }): Promise<TestServerConfig> => {
   const { headless = true, slowMo } = params
   let { moduleName } = params

@@ -1,7 +1,7 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
-import { UserConfig } from "../plugin-env"
+import { ServiceConfig } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import * as types from "./types"
 
@@ -100,7 +100,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
     })
   }
 
-  public async setup(): Promise<UserConfig> {
+  public async setup(): Promise<ServiceConfig> {
     if (!this.utils.isTest() && !this.utils.isApp()) {
       await this.init()
     }

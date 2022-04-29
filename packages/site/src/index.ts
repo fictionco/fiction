@@ -1,7 +1,6 @@
 import path from "path"
 import { FactorDocsEngine } from "@factor/plugin-docs-engine"
 import { FactorBlogEngine } from "@factor/plugin-blog-engine"
-
 import { FactorHighlightCode } from "@factor/plugin-highlight-code"
 import { FactorNotify } from "@factor/plugin-notify"
 import { FactorStripe } from "@factor/plugin-stripe"
@@ -14,7 +13,7 @@ import {
   FactorServer,
   FactorEmail,
   FactorEnv,
-  UserConfig,
+  ServiceConfig,
 } from "@factor/api"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
@@ -85,31 +84,36 @@ export const factorStripe = new FactorStripe({
   products: [],
 })
 
-export const docsPlugin = new FactorDocsEngine({
+export const factorDocs = new FactorDocsEngine({
   docs,
   groups,
   baseRoute: "/docs",
   factorApp,
 })
-export const blogPlugin = new FactorBlogEngine({
+export const factorBlog = new FactorBlogEngine({
   posts,
   baseRoute: "/blog",
   factorApp,
 })
 
-export const setup = (): UserConfig => {
-  return {
-    plugins: [
-      factorApp,
-      factorServer,
-      factorUser,
-      factorDb,
-      factorStripe,
-      docsPlugin,
-      blogPlugin,
-      new FactorHighlightCode(),
-      new FactorNotify(),
-      new FactorUi({ factorApp }),
-    ],
-  }
+export const service = {
+  appName,
+  appUrl,
+  appEmail,
+  factorApp,
+  factorServer,
+  factorUser,
+  factorDb,
+  factorStripe,
+  factorDocs,
+  factorBlog,
+  factorHighlightCode: new FactorHighlightCode(),
+  factorNotify: new FactorNotify(),
+  factorUi: new FactorUi({ factorApp }),
+}
+
+export type ServiceContainer = typeof service
+
+export const setup = (): ServiceConfig => {
+  return { service }
 }

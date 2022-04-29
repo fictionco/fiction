@@ -5,7 +5,7 @@ import { log } from "../plugin-log"
 import { stringify } from "../utils"
 import { runHooks } from "../utils/hook"
 
-import { HookDictionary } from "./types"
+import { FactorEnvHookDictionary } from "./types"
 import type { FactorEnv } from "."
 
 export const generateStaticConfig = async (
@@ -19,15 +19,18 @@ export const generateStaticConfig = async (
   if (!cwd) throw new Error(`${context}: cwd not found`)
 
   const genConfigPath = path.join(cwd, "/.factor")
-  const title = "CompiledUserConfig"
+  const title = "CompiledServiceConfig"
 
-  const staticConfig = await runHooks<HookDictionary, "staticConfig">({
+  const staticConfig = await runHooks<FactorEnvHookDictionary, "staticConfig">({
     list: factorEnv.hooks ?? [],
     hook: "staticConfig",
     args: [{}],
   })
 
-  const _staticSchemaProps = await runHooks<HookDictionary, "staticSchema">({
+  const _staticSchemaProps = await runHooks<
+    FactorEnvHookDictionary,
+    "staticSchema"
+  >({
     list: factorEnv.hooks ?? [],
     hook: "staticSchema",
     args: [{}],

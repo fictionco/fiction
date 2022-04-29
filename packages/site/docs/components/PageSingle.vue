@@ -35,7 +35,7 @@ import {
 
 import { DocPageConfig } from "@factor/plugin-docs-engine"
 import EntryToc from "@factor/ui/EntryToc.vue"
-import { docsPlugin } from "@factor/site"
+import { factorDocs } from "@factor/site"
 
 const router = useRouter()
 const loading = ref(false)
@@ -52,7 +52,7 @@ const docId = computed<string | undefined>(() => {
 const getContent = async (): Promise<void> => {
   loading.value = true
 
-  const c = await docsPlugin.getDocConfig(docId.value)
+  const c = await factorDocs.getDocConfig(docId.value)
 
   config.value = markRaw(c || {})
 

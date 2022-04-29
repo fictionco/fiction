@@ -16,13 +16,13 @@
 <script lang="ts" setup>
 import { ref } from "vue"
 import type { PostEntryConfig } from "@factor/plugin-blog-engine"
-import { blogPlugin } from ".."
+import { factorBlog } from ".."
 import PostList from "../../blog/components/PostList.vue"
 
 const content = ref<PostEntryConfig[]>([])
 
 const setContent = async (): Promise<void> => {
-  content.value = await blogPlugin.getIndexContent()
+  content.value = await factorBlog.getIndexContent()
 
   return
 }

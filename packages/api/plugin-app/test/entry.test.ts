@@ -2,11 +2,11 @@ import { compileApplication } from "@factor/api/plugin-env/entry"
 import { expect, it, describe } from "vitest"
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
-    const { userConfig } = await compileApplication({ isApp: true })
+    const { serviceConfig } = await compileApplication({ isApp: true })
 
-    expect(userConfig.server).toBe(undefined)
+    expect(serviceConfig.server).toBe(undefined)
 
-    expect(userConfig).toMatchInlineSnapshot(`
+    expect(serviceConfig).toMatchInlineSnapshot(`
       {
         "paths": [
           "/Users/arpowers/Projects/factor/packages/plugin-notify/",

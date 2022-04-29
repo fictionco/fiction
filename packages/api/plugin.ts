@@ -3,7 +3,7 @@ import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log } from "./plugin-log"
 import { Query } from "./query"
 import type { FactorServer } from "./plugin-server"
-import { UserConfig } from "./plugin-env/types"
+import { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as store from "./utils/store"
 import * as utils from "./utils"
@@ -24,7 +24,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     this.basePath = `/${utils.slugify(this.constructor.name)}`
   }
 
-  abstract setup(settings?: Partial<T>): UserConfig | Promise<UserConfig>
+  abstract setup(settings?: Partial<T>): ServiceConfig | Promise<ServiceConfig>
 
   public setting<K extends keyof T>(key: K): T[K] | undefined {
     if (!this.settings) return undefined

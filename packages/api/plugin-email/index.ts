@@ -1,7 +1,7 @@
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorPlugin } from "../plugin"
-import type { UserConfig } from "../plugin-env"
+import type { ServiceConfig } from "../plugin-env"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
@@ -70,7 +70,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     }
   }
 
-  public async setup(): Promise<UserConfig> {
+  public async setup(): Promise<ServiceConfig> {
     return { name: this.constructor.name }
   }
 

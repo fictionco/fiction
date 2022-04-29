@@ -25,11 +25,11 @@ To add the Blog Engine plugin, add it to both `server.ts` and `index.ts`
 ```ts
 // SERVER PLUGIN
 // FILE: server.ts
-import { UserConfig } from "@factor/api"
+import { ServiceConfig } from "@factor/api"
 import blogEngineServer from "@factor/plugin-blog-engine/server"
 import { map } from "./blog-article-map"
 
-export const setup = (): UserConfig => {
+export const setup = (): ServiceConfig => {
   return {
     plugins: [blogEngineServer({ map, baseRoute: "/blog" })],
   }
@@ -40,11 +40,11 @@ export const setup = (): UserConfig => {
 // APP PLUGIN
 // FILE: index.ts
 
-import { UserConfigApp } from "@factor/api"
+import { ServiceConfigApp } from "@factor/api"
 import blogEngine from "@factor/plugin-blog-engine"
 import { map } from "./blog-article-map"
 
-export const setup = (): UserConfigApp => {
+export const setup = (): ServiceConfigApp => {
   return {
     plugins: [blogEngine({ map, baseRoute: "/blog" })],
   }

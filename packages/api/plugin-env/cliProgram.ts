@@ -7,7 +7,7 @@ import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { PackageJson } from "../types"
 import { commands } from "./commands"
-import { MainFile } from "."
+import { MainFile } from "./types"
 
 const commander = new Command()
 

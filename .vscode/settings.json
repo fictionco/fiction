@@ -177,6 +177,7 @@
     "maxmind",
     "medv",
     "memlock",
+    "Mergeable",
     "metascraper",
     "mget",
     "middlewares",

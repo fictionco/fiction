@@ -90,9 +90,9 @@ The `index.ts` entry file should export a function with the name `setup` which r
 
 ```ts
 // index.ts
-import { UserConfigApp } from "@factor/api"
+import { ServiceConfigApp } from "@factor/api"
 
-export const setup = (): UserConfigApp => {
+export const setup = (): ServiceConfigApp => {
   return {
     routes: [
       {
