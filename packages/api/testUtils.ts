@@ -15,6 +15,7 @@ import { FactorDb } from "./plugin-db"
 import { FactorEmail } from "./plugin-email"
 import { FactorServer } from "./plugin-server"
 import { FactorApp } from "./plugin-app"
+import EmptyApp from "./resource/EmptyApp.vue"
 
 const require = createRequire(import.meta.url)
 
@@ -96,8 +97,8 @@ export const createTestUtils = async (opts?: {
   const factorApp = new FactorApp({
     appName: "Test App",
     port: appPort,
-    rootComponentPath: path.join(cwd, "./resource/EmptyApp.vue"),
-    routesPath: path.join(cwd, "./resource/emptyRoutes.js"),
+    rootComponent: EmptyApp,
+    routes: [],
     factorServer,
     factorEnv,
   })

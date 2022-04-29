@@ -85,5 +85,118 @@
       "path": "/stripe-webhook/stripeWebhooks"
     }
   ],
-  "routes": []
+  "routes": [
+    {
+      "children": [],
+      "name": "home",
+      "niceName": "Home",
+      "path": "/",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "plugins",
+      "niceName": "Plugins",
+      "path": "/plugins",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "showcase",
+      "niceName": "Showcase",
+      "path": "/showcase",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "showcaseSingle",
+      "niceName": "Showcase Item",
+      "path": "/showcase/:slug",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "install",
+      "niceName": "Install",
+      "path": "/install",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "testing",
+      "niceName": "Testing",
+      "path": "/testing",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "blog",
+      "niceName": "Blog",
+      "path": "/blog",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "blogIndex",
+      "niceName": "Blog Index",
+      "path": "/blog",
+      "parent": "blog",
+      "priority": 200,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "blogSingle",
+      "niceName": "Blog Single",
+      "path": "/blog/:slug",
+      "parent": "blog",
+      "priority": 200,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "docs",
+      "niceName": "Docs",
+      "path": "/docs",
+      "priority": 100,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "docsIndex",
+      "niceName": "Docs Index",
+      "path": "/docs",
+      "parent": "docs",
+      "priority": 200,
+      "menus": [],
+      "services": {}
+    },
+    {
+      "children": [],
+      "name": "docsSingle",
+      "niceName": "Docs Single",
+      "path": "/docs/:slug",
+      "parent": "docs",
+      "priority": 200,
+      "menus": [],
+      "services": {}
+    }
+  ]
 }

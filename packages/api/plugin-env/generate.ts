@@ -35,6 +35,7 @@ export const generateStaticConfig = async (
     hook: "staticSchema",
     args: [{}],
   })
+
   const staticSchemaProps = _staticSchemaProps || {}
 
   // remove empty arrays from static schema to prevent errors.

@@ -102,6 +102,7 @@ module.exports = defineConfig({
       "error",
       { commonjs: true, caseSensitiveStrict: true, amd: true },
     ],
+    "unicorn/consistent-function-scoping": "off",
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
     "unicorn/filename-case": "off",

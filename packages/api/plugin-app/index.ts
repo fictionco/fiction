@@ -17,13 +17,13 @@ import { FactorBuild } from "@factor/api/plugin-build"
 import {
   importIfExists,
   AppRoute,
-  getRouter,
   setupRouter,
   initializeResetUi,
   getMeta,
   renderMeta,
   HookType,
   requireIfExists,
+  storeItem,
 } from "@factor/api/utils"
 import { FactorServer } from "@factor/api/plugin-server"
 import { version } from "../package.json"
@@ -32,6 +32,7 @@ import { FactorDevRestart } from "../plugin-env/restart"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
+import { Nav } from "./nav"
 
 type HookDictionary = {
   afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
@@ -46,24 +47,27 @@ export type FactorAppSettings = {
   port: number
   factorServer: FactorServer
   factorEnv: FactorEnv<string>
-  rootComponentPath: string
-  routesPath: string
+  rootComponent: Component
   routes?: AppRoute<string>[]
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   serverOnlyImports?: ServerModuleDef[]
+  ui?: Record<string, () => Promise<Component>>
+  routeReplacers?: types.RouteReplacer[]
 }
 
-export class FactorApp extends FactorPlugin<FactorAppSettings> {
+export class FactorApp<
+  C extends types.BaseCompiledConfig = types.BaseCompiledConfig,
+> extends FactorPlugin<FactorAppSettings> {
   types = types
   viteDevServer?: vite.ViteDevServer
   hooks: HookType<HookDictionary>[]
   uiPaths: string[]
   serverOnlyImports: ServerModuleDef[]
-  routesPath: string
-  routes: AppRoute<string>[]
-  rootComponentPath: string
-  rootComponent?: Component
+  nav: Nav<C>
+  routes: AppRoute<C["routes"]>[]
+  ui: Record<C["ui"], () => Promise<Component>>
+  rootComponent: Component
   factorBuild?: FactorBuild
   factorDevRestart?: FactorDevRestart
   factorSitemap?: FactorSitemap
@@ -75,21 +79,22 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   mode?: "production" | "development"
   sitemaps: types.SitemapConfig[]
   standardPaths?: StandardPaths
+  routeReplacers: types.RouteReplacer[]
   constructor(settings: FactorAppSettings) {
     super(settings)
 
     this.hooks = settings.hooks ?? []
+    this.rootComponent = settings.rootComponent
     this.routes = settings.routes ?? []
     this.sitemaps = settings.sitemaps ?? []
     this.uiPaths = settings.uiPaths ?? []
-
+    this.routeReplacers = settings.routeReplacers || []
     this.serverOnlyImports = settings.serverOnlyImports ?? []
     this.appName = settings.appName
-    this.routesPath = settings.routesPath
-    this.rootComponentPath = settings.rootComponentPath
     this.factorServer = settings.factorServer
     this.factorEnv = settings.factorEnv
     this.standardPaths = this.factorEnv.standardPaths
+    this.ui = settings.ui || {}
 
     this.mode = this.settings.mode || this.utils.mode() || "production"
     this.port = this.settings.port || 3000
@@ -99,6 +104,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         : `http://localhost:${this.port}`
 
     const cwd = this.standardPaths?.cwd
+
+    this.nav = new Nav<C>({
+      replacers: this.routeReplacers,
+    })
 
     /**
      * node application init
@@ -143,14 +152,18 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       this.factorEnv.addHook({
         hook: "staticSchema",
         callback: async (existing) => {
-          const keys = this.routes
+          const routeKeys = this.routes
             ?.map((_) => _.name)
             .filter(Boolean)
-            .sort() ?? [""]
+            .sort()
+
+          const uiKeys = Object.keys(this.ui).sort()
 
           return {
             ...existing,
-            routes: { enum: keys, type: "string" },
+            routes: { enum: routeKeys, type: "string" },
+            ui: { enum: uiKeys, type: "string" },
+            menus: { enum: [""], type: "string" },
           }
         },
       })
@@ -176,6 +189,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   addRoutes(routes: AppRoute<string>[]) {
     this.routes = [...this.routes, ...routes]
   }
+  addUi(components: Record<string, () => Promise<Component>>) {
+    this.ui = { ...this.ui, ...components }
+  }
 
   addSitemaps(sitemaps: types.SitemapConfig[]) {
     this.sitemaps = [...this.sitemaps, ...sitemaps]
@@ -199,36 +215,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return {
       "@MAIN_FILE_ALIAS": mainFilePath,
       "@MOUNT_FILE_ALIAS": mountFilePath,
-      "@ROOT_COMPONENT_ALIAS": this.rootComponentPath,
-      "@ROUTES_ALIAS": this.routesPath,
     }
-  }
-
-  /**
-   * In order to prevent circular imports, we import dynamically
-   * Vite requires an alias in order to understand the path
-   */
-  async getSpecialAppImports(): Promise<{
-    rootComponent: Component
-    routes: AppRoute<string>[]
-  }> {
-    /* eslint-disable import/no-unresolved*/
-    const appImports = [
-      // @ts-ignore
-      import("@ROOT_COMPONENT_ALIAS"),
-      // @ts-ignore
-      import("@ROUTES_ALIAS"),
-    ]
-    /* eslint-enable */
-
-    const awaitedAppImports = (await Promise.all(appImports)) as [
-      { default: Component },
-      { default: AppRoute<string>[] },
-    ]
-
-    const [{ default: rootComponent }, { default: routes }] = awaitedAppImports
-
-    return { rootComponent, routes }
   }
 
   createVueApp = async (params: {
@@ -237,9 +224,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }): Promise<types.FactorAppEntry> => {
     const { renderUrl, serviceConfig } = params
 
-    const { rootComponent, routes } = await this.getSpecialAppImports()
+    const router = setupRouter(this.routes)
 
-    setupRouter([...routes, ...this.routes])
+    this.nav?.initialize({ router })
 
     await this.utils.runHooks<HookDictionary, "afterAppSetup">({
       list: this.hooks,
@@ -250,12 +237,14 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const { service = {} } = serviceConfig
 
     const app: VueApp = renderUrl
-      ? this.vue.createSSRApp(rootComponent)
-      : this.vue.createApp(rootComponent)
+      ? this.vue.createSSRApp(this.rootComponent)
+      : this.vue.createApp(this.rootComponent)
 
     app.provide("service", service)
-    // add router and store
-    const router = getRouter()
+    app.provide("ui", this.ui)
+
+    storeItem("service", service)
+    storeItem("ui", this.ui)
 
     app.use(router)
 

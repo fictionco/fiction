@@ -1,6 +1,19 @@
 import { HeadClient } from "@vueuse/head"
-import { App } from "vue"
+import { App, Ref } from "vue"
 import { Router } from "vue-router"
+
+export type BaseCompiledConfig = {
+  routes: string
+  ui: string
+  endpoints: string
+  commands: string
+  menus: string
+}
+
+export type RouteReplacer = {
+  key: string
+  replace: () => Ref<Record<string, string>>
+}
 
 export interface RenderOptions {
   mode: "production" | "development"

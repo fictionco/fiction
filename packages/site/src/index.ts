@@ -17,8 +17,10 @@ import {
 } from "@factor/api"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
+import { CompiledServiceConfig } from "../.factor/config"
 import { envVars } from "./vars"
-
+import routes from "./routes"
+import App from "./App.vue"
 const cwd = safeDirname(import.meta.url, "..")
 
 export const factorEnv = new FactorEnv({
@@ -42,13 +44,13 @@ export const factorServer = new FactorServer({
   factorEnv,
 })
 
-export const factorApp = new FactorApp({
+export const factorApp = new FactorApp<CompiledServiceConfig>({
   appName,
   appUrl,
   factorServer,
   port: +(factorEnv.var("appPort") || 3000),
-  rootComponentPath: path.join(cwd, "./src/App.vue"),
-  routesPath: path.join(cwd, "./src/routes.ts"),
+  rootComponent: App,
+  routes,
   uiPaths: [path.join(cwd, "./src/**/*.{vue,js,ts,html}")],
   factorEnv,
 })

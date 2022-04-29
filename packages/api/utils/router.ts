@@ -132,11 +132,13 @@ export { useRoute, useRouter }
 /**
  * Adds multiple routes to the router
  */
-export const addRoutes = (routes: RouteRecordRaw[]): void => {
+export const addRoutes = (routes: RouteRecordRaw[]): Router => {
   const router = getRouter()
   routes.forEach((r) => {
     router.addRoute(r)
   })
+
+  return router
 }
 
 const convertAppRouteToRoute = (list: AppRoute<string>[]): RouteRecordRaw[] => {
@@ -184,10 +186,10 @@ export const generateRoutes = (
   return convertAppRouteToRoute(Object.values(mapped))
 }
 
-export const setupRouter = (routeList: AppRoute<string>[]): void => {
+export const setupRouter = (routeList: AppRoute<string>[]): Router => {
   const vueRouteList = generateRoutes(routeList)
 
-  addRoutes(vueRouteList)
+  return addRoutes(vueRouteList)
 }
 
 /**

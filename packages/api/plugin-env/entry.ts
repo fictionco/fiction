@@ -36,12 +36,12 @@ export const installPlugins = async (params: {
   const { service = {}, ...rest } = serviceConfig
   const config: ServiceConfig[] = [rest]
   const pluginList = Object.values(service).filter(
-    (_) => _ instanceof FactorPlugin,
+    (_) => typeof _ == "object" && _ instanceof FactorPlugin,
   ) as FactorPlugin[]
 
   if (pluginList.length > 0) {
     for (const plugin of pluginList) {
-      const pluginConfig = await plugin.setup()
+      const pluginConfig = (await plugin.setup()) || {}
 
       const c = omit(pluginConfig, "server", "name")
 
@@ -135,9 +135,9 @@ export const compileApplication = async (params: {
     }
   }
 
-  if (!isApp && mainFile.factorEnv) {
-    await generateFiles(mainFile.factorEnv)
-  }
+  storeItem("service", serviceConfig.service)
+
+  console.log("STORE", serviceConfig.service)
 
   serviceConfig = await storeServiceConfig(serviceConfig)
 
@@ -149,11 +149,15 @@ export const getServerServiceConfig = async (
 ): Promise<ServiceConfig> => {
   const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
-  const { serviceConfig } = await compileApplication({
+  const { serviceConfig, mainFile } = await compileApplication({
     mainFilePath,
     isApp: false,
     serviceConfig: params.serviceConfig,
   })
+
+  if (mainFile.factorEnv) {
+    await generateFiles(mainFile.factorEnv)
+  }
 
   return serviceConfig
 }

@@ -24,7 +24,9 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     this.basePath = `/${utils.slugify(this.constructor.name)}`
   }
 
-  abstract setup(settings?: Partial<T>): ServiceConfig | Promise<ServiceConfig>
+  abstract setup(
+    settings?: Partial<T>,
+  ): ServiceConfig | Promise<ServiceConfig> | void
 
   public setting<K extends keyof T>(key: K): T[K] | undefined {
     if (!this.settings) return undefined

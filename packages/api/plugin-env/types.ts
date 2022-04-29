@@ -54,7 +54,7 @@ export interface ServiceConfig {
 
   cwd?: string
   paths?: string[]
-  service?: Record<string, FactorPlugin | string>
+  service?: Record<string, FactorPlugin | string | object | unknown[]>
   vite?: Partial<ViteInlineConfig>
   serverOnlyImports?: ServerModuleDef[]
   variables?: Record<

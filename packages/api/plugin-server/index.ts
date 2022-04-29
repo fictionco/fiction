@@ -57,14 +57,15 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
 
       this.factorEnv.addHook({
         hook: "staticSchema",
-        callback: async () => {
-          const keys = this.endpoints
+        callback: async (existing) => {
+          const endpointKeys = this.endpoints
             ?.map((_) => _.key)
             .filter(Boolean)
-            .sort() ?? [""]
+            .sort()
 
           return {
-            routes: { enum: keys, type: "string" },
+            ...existing,
+            endpoints: { enum: endpointKeys, type: "string" },
           }
         },
       })

@@ -43,6 +43,9 @@ export type EndpointMap<T extends Record<string, Query>> = {
   [P in keyof T]: Endpoint<T[P]>
 }
 
+export type EndpointSettings<T extends Query = Query> = EndpointOptions &
+  EndpointMethodOptions<T>
+
 export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string
@@ -50,7 +53,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   factorUser?: FactorUser
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
-  constructor(options: EndpointOptions & EndpointMethodOptions<T>) {
+  constructor(options: EndpointSettings<T>) {
     const { serverUrl, basePath, queryHandler, requestHandler, key } = options
     this.basePath = basePath
     this.serverUrl = serverUrl

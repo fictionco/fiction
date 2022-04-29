@@ -6,6 +6,69 @@
  */
 
 export interface CompiledServiceConfig {
-  routes: "";
+  commands: "build" | "bundle" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
+  endpoints:
+    | "AllProducts"
+    | "CurrentUser"
+    | "GetCoupon"
+    | "GetCustomerData"
+    | "GetInvoices"
+    | "GetProduct"
+    | "ListSubscriptions"
+    | "Login"
+    | "ManageCustomer"
+    | "ManagePaymentMethod"
+    | "ManageSubscription"
+    | "ManageUser"
+    | "NewVerificationCode"
+    | "ResetPassword"
+    | "SendOneTimeCode"
+    | "SetPassword"
+    | "StartNewUser"
+    | "UpdateCurrentUser"
+    | "UserGoogleAuth"
+    | "VerifyAccountEmail"
+    | "stripeWebhooks";
+  routes:
+    | "blog"
+    | "blogIndex"
+    | "blogSingle"
+    | "docs"
+    | "docsIndex"
+    | "docsSingle"
+    | "home"
+    | "install"
+    | "plugins"
+    | "showcase"
+    | "showcaseSingle"
+    | "testing";
+  ui:
+    | "ElAvatar"
+    | "ElButton"
+    | "ElForm"
+    | "ElInput"
+    | "ElModal"
+    | "ElSpinner"
+    | "InputCheckbox"
+    | "InputCheckboxMulti"
+    | "InputDomain"
+    | "InputEmail"
+    | "InputNumber"
+    | "InputOneTimeCode"
+    | "InputPassword"
+    | "InputPhone"
+    | "InputPrice"
+    | "InputRadio"
+    | "InputRadioButton"
+    | "InputSelect"
+    | "InputSelectCustom"
+    | "InputSelectMulti"
+    | "InputSubmit"
+    | "InputText"
+    | "InputTextarea"
+    | "InputTimezone"
+    | "InputToggle"
+    | "InputUrl"
+    | "InputWeight";
   [k: string]: unknown;
 }

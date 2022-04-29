@@ -76,6 +76,18 @@ export class FactorEnv<S extends string> extends FactorPlugin<
      * Needs to come last so env vars are set
      */
     this.vars = [...this.coreVars(), ...this.envVars()]
+
+    this.addHook({
+      hook: "staticSchema",
+      callback: async (existing) => {
+        const commandKeys = this.commands?.map((_) => _.command).sort()
+
+        return {
+          ...existing,
+          commands: { enum: commandKeys, type: "string" },
+        }
+      },
+    })
   }
 
   nodeInit() {
@@ -168,9 +180,8 @@ export class FactorEnv<S extends string> extends FactorPlugin<
 
     this.log.info(`Running command ${cliCommand.command}`, { data: cliCommand })
 
-    const serviceConfig = await getServerServiceConfig({
-      mainFilePath: this.standardPaths.mainFilePath,
-    })
+    const mainFilePath = this.standardPaths.mainFilePath
+    const serviceConfig = await getServerServiceConfig({ mainFilePath })
 
     const runConfig = {
       command: cliCommand.command,

@@ -62,6 +62,11 @@ export const commands = [
     description: "builds and releases packages on NPM",
     options: { mode: "production", exit: true },
   }),
+  new CliCommand({
+    command: "generate",
+    description: "builds static schemas and config",
+    options: { mode: "production", exit: true },
+  }),
 ]
 
 export type CommandKeysUtil<T extends CliCommand<string>[]> = {
