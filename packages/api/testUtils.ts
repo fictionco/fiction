@@ -58,6 +58,12 @@ export type TestUtils = {
   serverUrl: string
 }
 
+export type TestUtilSettings = {
+  serverPort?: number
+  appPort?: number
+  cwd?: string
+}
+
 const envVars = () => [
   new EnvVar({
     name: "googleClientId",
@@ -75,11 +81,9 @@ const envVars = () => [
   new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
 ]
 
-export const createTestUtils = async (opts?: {
-  serverPort?: number
-  appPort?: number
-  cwd?: string
-}): Promise<TestUtils> => {
+export const createTestUtils = async (
+  opts?: TestUtilSettings,
+): Promise<TestUtils> => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),

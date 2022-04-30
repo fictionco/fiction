@@ -18,7 +18,7 @@ type CustomServerHandler = (
 type MiddlewareHandler = (app: express.Express) => Promise<void> | void
 
 export type EndpointServerOptions = {
-  port: string
+  port: number
   name: string
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
@@ -28,7 +28,7 @@ export type EndpointServerOptions = {
 
 export class EndpointServer {
   name: string
-  port: string
+  port: number
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler

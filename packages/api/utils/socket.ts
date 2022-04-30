@@ -326,7 +326,7 @@ export type SocketServerComponents<T extends EventMap> = {
 
 export const createSocketServer = async <T extends EventMap>(args: {
   name: string
-  port: string
+  port: number
   endpoints?: Endpoint[]
   factorUser: FactorUser
 }): Promise<SocketServerComponents<T>> => {
