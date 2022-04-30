@@ -1,6 +1,6 @@
 {
   "name": "factor",
-  "version": "5.3.4",
+  "version": "5.3.5",
   "main": "index.ts",
   "publishConfig": {},
   "type": "module",
@@ -37,10 +37,10 @@
     "commit-msg": "ts-node scripts/verify-commit.mjs"
   },
   "devDependencies": {
-    "@factor/api": "5.3.4",
-    "@factor/lint": "5.3.4",
-    "@factor/site": "5.3.4",
-    "@factor/ui": "5.3.4",
+    "@factor/api": "5.3.5",
+    "@factor/lint": "5.3.5",
+    "@factor/site": "5.3.5",
+    "@factor/ui": "5.3.5",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.30",
     "@vitejs/plugin-vue": "^2.3.1",
