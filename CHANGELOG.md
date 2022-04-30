@@ -1,3 +1,13 @@
+## [5.3.4](https://github.com/FactorJS/factor/compare/v5.3.3...v5.3.4) (2022-04-30)
+
+
+### Bug Fixes
+
+* generation and types ([5d2be11](https://github.com/FactorJS/factor/commit/5d2be115ad8a302378531f8880b1b09619cec502))
+* lint issues ([0952717](https://github.com/FactorJS/factor/commit/095271728baea972d9ae92dc0b80e9538458775c))
+
+
+
 ## [5.3.3](https://github.com/FactorJS/factor/compare/v5.3.2...v5.3.3) (2022-04-29)
 
 
