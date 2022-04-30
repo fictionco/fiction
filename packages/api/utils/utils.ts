@@ -7,9 +7,6 @@ import { isPlainObject } from "is-plain-object"
 import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
 import { isNode } from "./vars"
-/**
- * Are we in Node or browser?
- */
 
 /**
  * Safely get the dirname with import.meta.url
