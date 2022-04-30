@@ -19,13 +19,12 @@ export const generateStaticConfig = async (
   if (!cwd) throw new Error(`${context}: cwd not found`)
 
   const genConfigPath = path.join(cwd, "/.factor")
-  const title = "CompiledServiceConfig"
+  await fs.emptyDir(genConfigPath)
 
-  const staticConfig = await runHooks<FactorEnvHookDictionary, "staticConfig">({
-    list: factorEnv.hooks ?? [],
-    hook: "staticConfig",
-    args: [{}],
-  })
+  /**
+   * Handle Schema
+   */
+  const title = "CompiledServiceConfig"
 
   const _staticSchemaProps = await runHooks<
     FactorEnvHookDictionary,
@@ -53,15 +52,28 @@ export const generateStaticConfig = async (
 
   staticSchema.required = Object.keys(staticSchema.properties ?? {})
 
+  const ts = await compile(staticSchema, title, { format: true })
+
+  const types = path.join(genConfigPath, "config.ts")
+
+  /**
+   * Handle config
+   */
+  const staticConfig = await runHooks<FactorEnvHookDictionary, "staticConfig">({
+    list: factorEnv.hooks ?? [],
+    hook: "staticConfig",
+    args: [{}],
+  })
+
   const stringed = stringify(staticConfig)
 
   const json = path.join(genConfigPath, "config.json")
-  const ts = await compile(staticSchema, title, { format: true })
 
-  await fs.emptyDir(genConfigPath)
   await fs.ensureFile(json)
 
-  const types = path.join(genConfigPath, "config.ts")
+  /**
+   * Write files
+   */
   await Promise.all([fs.writeFile(json, stringed), fs.writeFile(types, ts)])
 
   log.debug(context, "done", { data: { json, types } })

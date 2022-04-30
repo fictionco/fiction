@@ -87,116 +87,52 @@
   ],
   "routes": [
     {
-      "children": [],
-      "name": "home",
-      "niceName": "Home",
-      "path": "/",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "home",
+      "path": "/"
     },
     {
-      "children": [],
-      "name": "plugins",
-      "niceName": "Plugins",
-      "path": "/plugins",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "plugins",
+      "path": "/plugins"
     },
     {
-      "children": [],
-      "name": "showcase",
-      "niceName": "Showcase",
-      "path": "/showcase",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "showcase",
+      "path": "/showcase"
     },
     {
-      "children": [],
-      "name": "showcaseSingle",
-      "niceName": "Showcase Item",
-      "path": "/showcase/:slug",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "showcaseSingle",
+      "path": "/showcase/:slug"
     },
     {
-      "children": [],
-      "name": "install",
-      "niceName": "Install",
-      "path": "/install",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "install",
+      "path": "/install"
     },
     {
-      "children": [],
-      "name": "testing",
-      "niceName": "Testing",
-      "path": "/testing",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "testing",
+      "path": "/testing"
     },
     {
-      "children": [],
-      "name": "blog",
-      "niceName": "Blog",
-      "path": "/blog",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "blog",
+      "path": "/blog"
     },
     {
-      "children": [],
-      "name": "blogIndex",
-      "niceName": "Blog Index",
-      "path": "/blog",
-      "parent": "blog",
-      "priority": 200,
-      "menus": [],
-      "services": {}
+      "key": "blogIndex",
+      "path": "/blog"
     },
     {
-      "children": [],
-      "name": "blogSingle",
-      "niceName": "Blog Single",
-      "path": "/blog/:slug",
-      "parent": "blog",
-      "priority": 200,
-      "menus": [],
-      "services": {}
+      "key": "blogSingle",
+      "path": "/blog/:slug"
     },
     {
-      "children": [],
-      "name": "docs",
-      "niceName": "Docs",
-      "path": "/docs",
-      "priority": 100,
-      "menus": [],
-      "services": {}
+      "key": "docs",
+      "path": "/docs"
     },
     {
-      "children": [],
-      "name": "docsIndex",
-      "niceName": "Docs Index",
-      "path": "/docs",
-      "parent": "docs",
-      "priority": 200,
-      "menus": [],
-      "services": {}
+      "key": "docsIndex",
+      "path": "/docs"
     },
     {
-      "children": [],
-      "name": "docsSingle",
-      "niceName": "Docs Single",
-      "path": "/docs/:slug",
-      "parent": "docs",
-      "priority": 200,
-      "menus": [],
-      "services": {}
+      "key": "docsSingle",
+      "path": "/docs/:slug"
     }
   ]
 }

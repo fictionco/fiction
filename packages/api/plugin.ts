@@ -1,4 +1,3 @@
-import * as vueUtils from "vue"
 import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log } from "./plugin-log"
 import { Query } from "./query"
@@ -13,7 +12,6 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   public log = log.contextLogger(this.constructor.name)
   protected stop = _stop
   protected utils = utils
-  protected vue = vueUtils
   protected store = store
 
   protected basePath: string

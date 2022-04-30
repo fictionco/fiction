@@ -70,5 +70,6 @@ export interface CompiledServiceConfig {
     | "InputToggle"
     | "InputUrl"
     | "InputWeight";
+  menus: "";
   [k: string]: unknown;
 }

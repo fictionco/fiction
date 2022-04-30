@@ -1,4 +1,4 @@
-import { Ref } from "vue"
+import { Ref, ref } from "vue"
 import jwt from "jsonwebtoken"
 import { FactorPlugin } from "../plugin"
 import { EndpointMap } from "../utils/endpoint"
@@ -51,7 +51,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     })
 
     this.hooks = this.settings.hooks || []
-    this.activeUser = this.vue.ref()
+    this.activeUser = ref()
     this.tokenSecret = settings.tokenSecret || "secret"
     this.mode = settings.mode || this.utils.mode()
 

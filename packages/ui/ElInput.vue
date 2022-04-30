@@ -86,7 +86,7 @@ import {
   useAttrs,
   defineAsyncComponent,
 } from "vue"
-import { inputs } from "."
+import { inputs } from "./inputs"
 
 const props = defineProps({
   modelValue: {

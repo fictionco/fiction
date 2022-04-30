@@ -12,7 +12,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { appName, appEmail, appUrl } from "."
+import { useFactorService } from "./inject"
+
+const { appName, appEmail, appUrl } = useFactorService()
+
 const list = [
   {
     id: "server-url",

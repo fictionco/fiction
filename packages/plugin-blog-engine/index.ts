@@ -1,6 +1,7 @@
 import { FactorPlugin } from "@factor/api"
 import { FactorApp } from "@factor/api/plugin-app"
 import stringSimilarity from "string-similarity"
+import { markRaw } from "vue"
 import * as types from "./types"
 export * from "./types"
 
@@ -148,7 +149,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       config = {
         readingMinutes: this.readingMinutes(fileData.html),
         content: fileData.html,
-        component: this.vue.markRaw(fileData.VueComponent),
+        component: markRaw(fileData.VueComponent),
         attributes: { ...rest, ...fileData.attributes, postImage },
         path,
         postImage,

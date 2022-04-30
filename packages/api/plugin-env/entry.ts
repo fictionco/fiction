@@ -2,7 +2,7 @@ import { getMainFilePath, deepMerge, storeItem, omit } from "@factor/api/utils"
 import { log } from "../plugin-log"
 import { FactorPlugin } from "../plugin"
 import { ServiceConfig, MainFile } from "./types"
-import type { FactorEnv } from "."
+import { generateStaticConfig } from "./generate"
 
 type WhichModule = {
   moduleName?: string
@@ -16,16 +16,6 @@ export const storeServiceConfig = async (
   storeItem("serviceConfig", serviceConfig)
 
   return serviceConfig
-}
-
-/**
- * Generate static files, note that this uses server-only utilities
- * @server
- */
-const generateFiles = async (factorEnv: FactorEnv<string>): Promise<void> => {
-  const { generateStaticConfig } = await import("./generate")
-
-  await generateStaticConfig(factorEnv)
 }
 
 export const installPlugins = async (params: {
@@ -137,8 +127,6 @@ export const compileApplication = async (params: {
 
   storeItem("service", serviceConfig.service)
 
-  console.log("STORE", serviceConfig.service)
-
   serviceConfig = await storeServiceConfig(serviceConfig)
 
   return { serviceConfig, mainFile }
@@ -156,7 +144,7 @@ export const getServerServiceConfig = async (
   })
 
   if (mainFile.factorEnv) {
-    await generateFiles(mainFile.factorEnv)
+    await generateStaticConfig(mainFile.factorEnv)
   }
 
   return serviceConfig

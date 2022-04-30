@@ -9,7 +9,7 @@ import { minify } from "html-minifier"
 import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
-import { Component, App as VueApp } from "vue"
+import { Component, App as VueApp, createApp, createSSRApp } from "vue"
 import type { CliOptions, StandardPaths } from "@factor/api/plugin-env/types"
 import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
@@ -175,7 +175,10 @@ export class FactorApp<
         ): Record<string, unknown> => {
           return {
             ...schema,
-            routes: this.routes?.sort(),
+            routes: this.routes?.map((ep) => ({
+              key: ep.name,
+              path: ep.path,
+            })),
           }
         },
       })
@@ -237,8 +240,8 @@ export class FactorApp<
     const { service = {} } = serviceConfig
 
     const app: VueApp = renderUrl
-      ? this.vue.createSSRApp(this.rootComponent)
-      : this.vue.createApp(this.rootComponent)
+      ? createSSRApp(this.rootComponent)
+      : createApp(this.rootComponent)
 
     app.provide("service", service)
     app.provide("ui", this.ui)
