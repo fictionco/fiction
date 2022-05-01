@@ -28,6 +28,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   onCommands: string[]
   constructor(settings: FactorServerSettings) {
     super(settings)
+
     this.hooks = settings.hooks ?? []
     this.port = settings.port
     this.serverUrl = settings.serverUrl ?? `http://localhost:${this.port}`
@@ -111,10 +112,11 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   }
 
   createEndpointServer = async (): Promise<http.Server | undefined> => {
+    if (!this.port) throw new Error("port not defined")
     try {
       const factorEndpointServer = new EndpointServer({
         name: "factor",
-        port: String(this.port),
+        port: this.port,
         endpoints: this.endpoints,
         middleware: (app) => {
           app.use(

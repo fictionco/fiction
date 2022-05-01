@@ -1,3 +1,5 @@
+/// <reference path="./shim.d.ts" />
+
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"

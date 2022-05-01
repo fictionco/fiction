@@ -18,6 +18,7 @@ import {
   importIfExists,
   AppRoute,
   setupRouter,
+  getRouter,
   initializeResetUi,
   getMeta,
   renderMeta,
@@ -107,6 +108,7 @@ export class FactorApp<
 
     this.nav = new Nav<C>({
       replacers: this.routeReplacers,
+      router: getRouter(),
     })
 
     /**

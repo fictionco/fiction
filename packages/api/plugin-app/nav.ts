@@ -6,15 +6,17 @@ import { AppRoute } from "../utils"
 import { BaseCompiledConfig, RouteReplacer } from "./types"
 type NavSettings = {
   replacers?: RouteReplacer[]
+  router: Router
 }
 
 export class Nav<C extends BaseCompiledConfig = BaseCompiledConfig> {
   routes: Ref<RouteRecordNormalized[]>
   replacers: RouteReplacer[]
   log = log.contextLogger(this.constructor.name)
-  router?: Router
+  router: Router
   constructor(settings: NavSettings) {
-    this.routes = ref([])
+    this.router = settings.router
+    this.routes = ref(this.router.getRoutes())
     this.replacers = settings.replacers || []
   }
 

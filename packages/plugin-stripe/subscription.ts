@@ -136,8 +136,9 @@ export const requestCreateSubscription = async (args: {
   paymentMethodId: string
   priceId: string
   factorStripe: FactorStripe
+  coupon?: string
 }): Promise<ManageSubscriptionResult> => {
-  const { customerId, paymentMethodId, priceId, factorStripe } = args
+  const { customerId, paymentMethodId, priceId, factorStripe, coupon } = args
 
   let result = await factorStripe.requests.ManageSubscription.request({
     customerId,
@@ -145,6 +146,7 @@ export const requestCreateSubscription = async (args: {
     priceId,
     _action: "create",
     idempotencyKey: objectId(),
+    coupon,
   })
 
   const subscription = result.data
