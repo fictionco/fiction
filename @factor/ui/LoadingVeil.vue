@@ -8,19 +8,22 @@
 </template>
 
 <script lang="ts" setup>
-import { routeRequiresAuth } from "@factor/api"
 import { onMounted, ref, PropType } from "vue"
-import { FactorUser } from "@factor/api/plugin-user"
+import { FactorUser, FactorRouter } from "@factor/api"
 import ElSpinner from "./ElSpinner.vue"
 const props = defineProps({
   factorUser: {
     type: Object as PropType<FactorUser>,
     required: true,
   },
+  factorRouter: {
+    type: Object as PropType<FactorRouter>,
+    required: true,
+  },
 })
 const authLoading = ref(false)
 
-if (routeRequiresAuth()) {
+if (props.factorRouter.routeRequiresAuth()) {
   authLoading.value = true
 }
 onMounted(async () => {

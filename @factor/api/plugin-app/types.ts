@@ -1,5 +1,5 @@
 import { HeadClient } from "@vueuse/head"
-import { App, Ref } from "vue"
+import { App } from "vue"
 import { Router } from "vue-router"
 
 export interface RenderOptions {

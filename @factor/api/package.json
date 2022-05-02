@@ -37,7 +37,7 @@
     "@vue/compiler-sfc": "^3.2.33",
     "@vue/server-renderer": "^3.2.33",
     "@vueuse/head": "^0.7.6",
-    "autoprefixer": "^10.4.6",
+    "autoprefixer": "10.4.5",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",

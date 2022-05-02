@@ -14,7 +14,7 @@ describe("user config", () => {
 
     expect(
       mainFile.factorApp.factorRouter.routes.value?.length,
-    ).toMatchInlineSnapshot("0")
+    ).toMatchInlineSnapshot('12')
   })
 
   it("gets correct server user config", async () => {
@@ -48,6 +48,21 @@ describe("user config", () => {
       `)
     expect(
       mainFile.factorApp.factorRouter.routes.value?.map((_) => _.name),
-    ).toMatchInlineSnapshot("[]")
+    ).toMatchInlineSnapshot(`
+      [
+        "home",
+        "plugins",
+        "showcase",
+        "showcaseSingle",
+        "install",
+        "testing",
+        "blog",
+        "docs",
+        "blogIndex",
+        "blogSingle",
+        "docsIndex",
+        "docsSingle",
+      ]
+    `)
   })
 })

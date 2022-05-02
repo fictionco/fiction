@@ -1,7 +1,7 @@
 import { Ref, ComputedRef, shallowRef, computed } from "vue"
 import * as vueRouter from "vue-router"
 import { FactorPlugin } from "../plugin"
-import { MenuItem } from "../types"
+import { MenuItem } from "../types/utils"
 import { AppRoute } from "./appRoute"
 import { RouteReplacer } from "./types"
 export * from "./types"

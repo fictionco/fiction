@@ -615,13 +615,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       disableOnRestart: true,
     })
 
-    const twConfig = await this.tailwindConfig()
-
     const require = mod.Module.createRequire(import.meta.url)
-
-    const twPlugin = require("tailwindcss") as (
-      c?: Record<string, any>,
-    ) => vite.PluginOption
 
     const pluginMarkdown = await import("vite-plugin-markdown")
     const { getMarkdownUtility } = await import("../utils/markdown")
@@ -630,12 +624,17 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
+    const twPlugin = require("tailwindcss")
+    const twConfig = (await this.tailwindConfig()) as Parameters<
+      typeof twPlugin
+    >
+
     let merge: vite.InlineConfig[] = [
       commonVite || {},
       {
         css: {
           postcss: {
-            plugins: [twPlugin(twConfig), require("autoprefixer")],
+            plugins: [twPlugin(twConfig)],
           },
         },
         server: {

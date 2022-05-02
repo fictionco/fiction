@@ -115,16 +115,16 @@
       "path": "/blog"
     },
     {
+      "key": "docs",
+      "path": "/docs"
+    },
+    {
       "key": "blogIndex",
       "path": "/blog"
     },
     {
       "key": "blogSingle",
       "path": "/blog/:slug"
-    },
-    {
-      "key": "docs",
-      "path": "/docs"
     },
     {
       "key": "docsIndex",

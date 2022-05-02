@@ -1,36 +1,38 @@
 import { compileApplication } from "@factor/api/plugin-env/entry"
 import { expect, it, describe } from "vitest"
+
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {
     const { serviceConfig } = await compileApplication({ isApp: true })
 
     expect(serviceConfig.server).toBe(undefined)
 
-    expect(serviceConfig).toMatchInlineSnapshot(`
-      {
-        "paths": [
-          "/Users/arpowers/Projects/factor/@factor/plugin-notify/",
-          "/Users/arpowers/Projects/factor/@factor/plugin-highlight-code/",
-        ],
-        "serverOnlyImports": [
-          {
-            "id": "html-to-text",
-          },
-          {
-            "id": "http",
-          },
-          {
-            "id": "body-parser",
-          },
-        ],
-        "vite": {
-          "optimizeDeps": {
-            "include": [
-              "highlight.js",
-            ],
-          },
-        },
-      }
+    expect(Object.keys(serviceConfig)).toMatchInlineSnapshot(`
+      [
+        "serverOnlyImports",
+        "paths",
+        "vite",
+        "service",
+      ]
     `)
-  }, 10_000)
+
+    expect(Object.keys(serviceConfig.service ?? {})).toMatchInlineSnapshot(`
+      [
+        "appName",
+        "appUrl",
+        "appEmail",
+        "factorApp",
+        "factorRouter",
+        "factorServer",
+        "factorUser",
+        "factorDb",
+        "factorStripe",
+        "factorDocs",
+        "factorBlog",
+        "factorHighlightCode",
+        "factorNotify",
+        "factorUi",
+      ]
+    `)
+  })
 })

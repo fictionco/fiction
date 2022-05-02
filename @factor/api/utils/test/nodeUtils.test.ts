@@ -26,16 +26,18 @@ describe("node utils", () => {
         "appEmail",
         "appName",
         "appUrl",
-        "blogPlugin",
-        "docsPlugin",
         "factorApp",
+        "factorBlog",
         "factorDb",
+        "factorDocs",
         "factorEmail",
         "factorEnv",
+        "factorRouter",
         "factorServer",
         "factorStripe",
         "factorUser",
         "mode",
+        "service",
         "setup",
       ]
     `)
@@ -50,6 +52,7 @@ describe("node utils", () => {
       [
         "paths",
         "serverOnlyImports",
+        "service",
         "vite",
       ]
     `)

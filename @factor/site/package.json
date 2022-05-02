@@ -17,7 +17,6 @@
     "@factor/plugin-notify": "workspace:5.3.5",
     "@factor/plugin-stripe": "workspace:5.3.5",
     "@factor/ui": "workspace:*",
-    "autoprefixer": "^10.4.6",
     "axios": "^0.26.1",
     "dayjs": "^1.11.1",
     "deepmerge": "^4.2.2",

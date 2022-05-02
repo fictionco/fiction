@@ -38,7 +38,7 @@ describe("vite config", () => {
         "process.env.FACTOR_SERVER_URL": "\\"http://localhost:20220\\"",
         "process.env.IS_TEST": "true",
         "process.env.IS_VITE": "\\"true\\"",
-        "process.env.MODE": "\\"production\\"",
+        "process.env.MODE": "\\"development\\"",
       }
     `)
     expect(Object.keys(viteConfig ?? {})).toMatchInlineSnapshot(`

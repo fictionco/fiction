@@ -108,6 +108,7 @@ export const service = {
   appUrl,
   appEmail,
   factorApp,
+  factorRouter,
   factorServer,
   factorUser,
   factorDb,

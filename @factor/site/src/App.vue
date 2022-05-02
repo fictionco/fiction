@@ -1,6 +1,9 @@
 <template>
   <AppContent />
-  <LoadingVeil :factor-user="service.factorUser" />
+  <LoadingVeil
+    :factor-user="service.factorUser"
+    :factor-router="service.factorRouter"
+  />
   <NotifyToaster />
 </template>
 

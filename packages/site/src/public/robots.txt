@@ -1,4 +1,0 @@
-Sitemap: https://www.darwin.so/sitemap.xml
-
-User-agent: *
-Disallow:

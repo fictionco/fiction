@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ["./packages/lint/config.cjs"],
+  extends: ["./@factor/lint/config.cjs"],
 }

@@ -1,6 +1,6 @@
 import { RouteRecordRedirectOption, RouteLocation } from "vue-router"
 import type { Component } from "vue"
-import { AuthCallback } from "../plugin-user/types"
+import type { AuthCallback } from "../plugin-user/types"
 import type { FactorPlugin } from "../plugin"
 import { toLabel } from "../utils/utils"
 
