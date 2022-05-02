@@ -1,3 +1,18 @@
+## [5.3.6](https://github.com/FactorJS/factor/compare/v5.3.5...v5.3.6) (2022-05-02)
+
+
+### Bug Fixes
+
+* sync pkg ([9c5cb0a](https://github.com/FactorJS/factor/commit/9c5cb0a68da6532aea0761056b80f1a3bf993c59))
+* various issues ([ff6c310](https://github.com/FactorJS/factor/commit/ff6c3109550fd8c9d150a27ed0d340e4eb7d9cde))
+
+
+### Features
+
+* factorRouter ([b110464](https://github.com/FactorJS/factor/commit/b11046495e617a8546b8680c1044bcc94c8fcd86))
+
+
+
 ## [5.3.5](https://github.com/FactorJS/factor/compare/v5.3.4...v5.3.5) (2022-04-30)
 
 
