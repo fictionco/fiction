@@ -23,6 +23,7 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.31",
     "@types/nodemailer": "^6.4.4",
+    "@types/nodemon": "^1.19.1",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/pg": "^8.6.5",
     "@types/remove-markdown": "^0.3.1",

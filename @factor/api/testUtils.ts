@@ -51,6 +51,7 @@ export type TestUtils = {
   token: string
   email: string
   factorApp: FactorApp
+  factorRouter: FactorRouter
   factorServer: FactorServer
   factorEnv: FactorEnv<string>
   factorDb: FactorDb
@@ -158,6 +159,7 @@ export const createTestUtils = async (
     email,
     factorEnv,
     factorApp,
+    factorRouter,
     factorServer,
     factorUser,
     factorDb,
