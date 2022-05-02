@@ -177,6 +177,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       ],
       include: [
         "is-plain-object",
+        "fast-safe-stringify",
         "ohmyfetch",
         "path-browserify",
         "dayjs",

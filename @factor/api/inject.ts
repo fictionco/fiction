@@ -1,9 +1,9 @@
-import { Component } from "vue"
+import { Component, inject } from "vue"
 import { stored } from "./utils/store"
 import { ServiceConfig } from "./plugin-env"
 
 export const useService = <T extends ServiceConfig["service"]>(): T => {
-  const service = stored<T>("service")
+  const service = inject<T>("service")
 
   if (!service) throw new Error("service for injection not found")
 
@@ -11,7 +11,7 @@ export const useService = <T extends ServiceConfig["service"]>(): T => {
 }
 
 export const useUi = <T extends Record<string, Component>>(): T => {
-  const ui = stored<T>("ui")
+  const ui = inject<T>("ui")
 
   if (!ui) throw new Error("ui for injection not found")
 

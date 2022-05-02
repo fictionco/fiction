@@ -1,6 +1,7 @@
-import { Ref, ComputedRef, shallowRef, computed } from "vue"
+import { Ref, ComputedRef, shallowRef, computed, watch } from "vue"
 import * as vueRouter from "vue-router"
 import { FactorPlugin } from "../plugin"
+import { randomBetween } from "../utils"
 import { MenuItem } from "../types/utils"
 import { AppRoute } from "./appRoute"
 import { RouteReplacer } from "./types"
@@ -16,8 +17,9 @@ export class FactorRouter<
   ROUTEKEY extends string = string,
   MENUKEY extends string = string,
 > extends FactorPlugin<FactorRouteSettings> {
-  routes: Ref<AppRoute<string>[]>
+  readonly routes: Ref<AppRoute<string>[]>
   router: vueRouter.Router
+  key = randomBetween(1, 10000)
   replacers: RouteReplacer[]
   constructor(settings: FactorRouteSettings = {}) {
     super(settings)

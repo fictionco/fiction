@@ -16,7 +16,7 @@ export class Nav<C extends BaseCompiledConfig = BaseCompiledConfig> {
   router: Router
   constructor(settings: NavSettings) {
     this.router = settings.router
-    this.routes = ref(this.router.getRoutes())
+
     this.replacers = settings.replacers || []
   }
 

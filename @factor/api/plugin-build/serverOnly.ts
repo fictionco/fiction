@@ -27,7 +27,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "body-parser" },
     { id: "cors" },
     { id: "helmet" },
-    { id: "fast-safe-stringify" },
     { id: "json-schema-to-typescript" },
     { id: "fs-extra" },
     { id: "module", additional: ["export const createRequire = () => {}"] },
