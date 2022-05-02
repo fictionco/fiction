@@ -1,5 +1,4 @@
 import { Component, inject } from "vue"
-import { stored } from "./utils/store"
 import { ServiceConfig } from "./plugin-env"
 
 export const useService = <T extends ServiceConfig["service"]>(): T => {

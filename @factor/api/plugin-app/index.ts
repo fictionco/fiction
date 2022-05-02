@@ -13,6 +13,7 @@ import { Component, App as VueApp, createApp, createSSRApp } from "vue"
 import type { CliOptions, StandardPaths } from "@factor/api/plugin-env/types"
 import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
+import type tailwindcss from "tailwindcss"
 import { FactorBuild } from "@factor/api/plugin-build"
 import {
   importIfExists,
@@ -624,10 +625,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
-    const twPlugin = require("tailwindcss")
+    const twPlugin = require("tailwindcss") as typeof tailwindcss
     const twConfig = (await this.tailwindConfig()) as Parameters<
       typeof twPlugin
-    >
+    >[0]
 
     let merge: vite.InlineConfig[] = [
       commonVite || {},
