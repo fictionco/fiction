@@ -1,0 +1,30 @@
+{
+  "name": "@factor/plugin-stripe",
+  "version": "5.3.5",
+  "license": "MIT",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@stripe/stripe-js": "^1.29.0",
+    "express": "^4.18.1",
+    "stripe": "^8.219.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  },
+  "peerDependencies": {
+    "@factor/site": "^5.1.1",
+    "vitest": "^0.10.0"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    },
+    "@factor/site": {
+      "optional": true
+    }
+  }
+}

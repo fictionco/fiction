@@ -1,0 +1,20 @@
+{
+  "name": "@factor/plugin-highlight-code",
+  "description": "Add a syntax highlighting component to your Factor app.",
+  "version": "5.3.5",
+  "main": "index.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "highlight.js": "^11.5.1"
+  },
+  "peerDependencies": {
+    "@factor/api": "^5.0.0",
+    "vue": "^3.2.33"
+  },
+  "devDependencies": {
+    "less": "^4.1.2"
+  }
+}
