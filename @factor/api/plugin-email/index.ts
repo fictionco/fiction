@@ -1,5 +1,6 @@
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
+import { FactorApp } from "../plugin-app"
 import { FactorPlugin } from "../plugin"
 import type { ServiceConfig } from "../plugin-env"
 import { renderMarkdown } from "../utils/markdown"
@@ -7,9 +8,7 @@ import * as types from "./types"
 
 type FactorEmailSettings = {
   smtpPort?: number
-  appName: string
-  appEmail: string
-  appUrl: string
+  factorApp: FactorApp
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
@@ -25,6 +24,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly appName: string
   readonly appEmail: string
   readonly appUrl: string
+  factorApp: FactorApp
   constructor(settings: FactorEmailSettings) {
     super(settings)
 
@@ -33,9 +33,10 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     this.smtpUser = settings.smtpUser
 
     this.smtpPort = settings.smtpPort || 587
-    this.appEmail = settings.appEmail
-    this.appName = settings.appName
-    this.appUrl = settings.appUrl
+    this.factorApp = settings.factorApp
+    this.appEmail = this.factorApp.appEmail
+    this.appName = this.factorApp.appName
+    this.appUrl = this.factorApp.appUrl
 
     if (this.utils.isBrowser()) return
 
@@ -75,7 +76,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   }
 
   getFromAddress = (): string => {
-    return `${this.settings.appName ?? ""} <${this.settings.appEmail}>`
+    return `${this.appName ?? ""} <${this.appEmail}>`
   }
 
   sendEmail = async (

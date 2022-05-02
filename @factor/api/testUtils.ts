@@ -6,7 +6,7 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 
-import { safeDirname, randomBetween } from "./utils"
+import { safeDirname, randomBetween, stringify } from "./utils"
 import { log } from "./plugin-log"
 import { ServiceConfig, EnvVar, FactorEnv } from "./plugin-env"
 import { FactorUser, FullUser } from "./plugin-user"
@@ -30,8 +30,32 @@ export const getTestCwd = (): string => {
 }
 
 export const getTestEmail = (): string => {
-  const key = Math.random().toString().slice(2, 8)
+  const key = Math.random().toString().slice(2, 12)
   return `arpowers+${key}@gmail.com`
+}
+
+export const snap = (
+  obj?: Record<string, any>,
+): Record<string, any> | undefined => {
+  if (!obj) return undefined
+
+  const newObj = {} as Record<string, unknown>
+  for (const key in obj) {
+    if (key.endsWith("Id") && obj[key]) {
+      newObj[key] = `[id]`
+    } else if (key.endsWith("At") && obj[key]) {
+      newObj[key] = `[date]`
+    } else if (key.endsWith("Name") && obj[key]) {
+      newObj[key] = `[name]`
+    } else if (key.toLowerCase().endsWith("email") && obj[key]) {
+      newObj[key] = `[date]`
+    } else if (obj[key] && typeof obj[key] === "object") {
+      newObj[key] = snap(obj[key] as Record<string, unknown>)
+    } else {
+      newObj[key] = obj[key]
+    }
+  }
+  return JSON.parse(stringify(newObj)) as Record<string, any>
 }
 
 export type TestServerConfig = {
@@ -46,19 +70,22 @@ export type TestServerConfig = {
   expectUi: Expect
 }
 
-export type TestUtils = {
-  user: FullUser | undefined
-  token: string
-  email: string
+export type TestUtilServices = {
+  factorEnv: FactorEnv<string>
   factorApp: FactorApp
   factorRouter: FactorRouter
   factorServer: FactorServer
-  factorEnv: FactorEnv<string>
   factorDb: FactorDb
   factorUser: FactorUser
   factorEmail: FactorEmail
-  serverUrl: string
 }
+export type TestUtils = {
+  initialized: {
+    user: FullUser | undefined
+    token: string
+    email: string
+  }
+} & TestUtilServices
 
 export type TestUtilSettings = {
   serverPort?: number
@@ -83,61 +110,15 @@ const envVars = () => [
   new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
 ]
 
-export const createTestUtils = async (
-  opts?: TestUtilSettings,
-): Promise<TestUtils> => {
-  const {
-    serverPort = randomBetween(10_000, 20_000),
-    appPort = randomBetween(1000, 10_000),
-    cwd = safeDirname(import.meta.url),
-  } = opts || {}
+export const initializeTestUtils = async (services: TestUtilServices) => {
+  const { factorUser, factorServer } = services
 
-  const factorEnv = new FactorEnv({
-    envFiles: [path.join(cwd, "./.env")],
-    cwd,
-    envVars,
-  })
+  await factorServer.createServer({ factorUser })
 
-  const factorServer = new FactorServer({ port: serverPort })
-
-  const factorRouter = new FactorRouter()
-
-  const factorApp = new FactorApp({
-    appName: "Test App",
-    port: appPort,
-    rootComponent: EmptyApp,
-    factorRouter,
-    factorServer,
-    factorEnv,
-  })
-  const factorDb = new FactorDb({ connectionUrl: factorEnv.var("postgresUrl") })
-
-  const serverUrl = factorServer.serverUrl
-  const appUrl = factorApp.appUrl
-
-  const factorEmail = new FactorEmail({
-    appEmail: "arpowers@gmail.com",
-    appName: "TestApp",
-    appUrl,
-  })
-
-  const factorUser = new FactorUser({
-    factorDb,
-    factorEmail,
-    googleClientId: factorEnv.var("googleClientId"),
-    googleClientSecret: factorEnv.var("googleClientSecret"),
-    factorServer,
-    mode: "development",
-    tokenSecret: "test",
-  })
-
-  await factorServer.createServer()
-
-  const key = Math.random().toString().slice(2, 12)
-  const email = `arpowers+${key}@gmail.com`
+  const email = getTestEmail()
   const r = await factorUser.queries.ManageUser.serve(
     {
-      fields: { email: `arpowers+${key}@gmail.com`, emailVerified: true },
+      fields: { email, emailVerified: true },
       _action: "create",
     },
     { server: true },
@@ -153,10 +134,57 @@ export const createTestUtils = async (
 
   factorUser.setUserInitialized()
 
-  return {
-    user,
-    token,
-    email,
+  return { user, token, email }
+}
+
+export const createTestUtilServices = async (
+  opts?: TestUtilSettings,
+): Promise<TestUtilServices> => {
+  const {
+    serverPort = randomBetween(10_000, 20_000),
+    appPort = randomBetween(1000, 10_000),
+    cwd = safeDirname(import.meta.url),
+  } = opts || {}
+
+  const factorEnv = new FactorEnv({
+    envFiles: [path.join(cwd, "./.env")],
+    cwd,
+    envVars,
+  })
+
+  const factorServer = new FactorServer({
+    port: serverPort,
+    serverName: "testUtilServer",
+  })
+
+  const factorRouter = new FactorRouter()
+
+  const factorApp = new FactorApp({
+    appName: "Test App",
+    appEmail: "arpowers@gmail.com",
+    port: appPort,
+    rootComponent: EmptyApp,
+    factorRouter,
+    factorServer,
+    factorEnv,
+  })
+  const factorDb = new FactorDb({ connectionUrl: factorEnv.var("postgresUrl") })
+
+  const factorEmail = new FactorEmail({
+    factorApp: factorApp,
+  })
+
+  const factorUser = new FactorUser({
+    factorDb,
+    factorEmail,
+    googleClientId: factorEnv.var("googleClientId"),
+    googleClientSecret: factorEnv.var("googleClientSecret"),
+    factorServer,
+    mode: "development",
+    tokenSecret: "test",
+  })
+
+  const services = {
     factorEnv,
     factorApp,
     factorRouter,
@@ -164,7 +192,19 @@ export const createTestUtils = async (
     factorUser,
     factorDb,
     factorEmail,
-    serverUrl,
+  }
+
+  return services
+}
+
+export const createTestUtils = async (
+  opts?: TestUtilSettings,
+): Promise<TestUtils> => {
+  const testUtilServices = await createTestUtilServices(opts)
+  const initialized = await initializeTestUtils(testUtilServices)
+  return {
+    initialized,
+    ...testUtilServices,
   }
 }
 

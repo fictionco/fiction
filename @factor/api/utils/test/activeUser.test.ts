@@ -18,13 +18,13 @@ describe("active user handling", () => {
     expect(testUtils.factorUser.activeUser.value).toBeUndefined()
     expect(computedVar.value).toBe("id-")
 
-    testUtils.factorUser.setCurrentUser({ user: testUtils.user })
+    testUtils.factorUser.setCurrentUser({ user: testUtils.initialized.user })
 
     expect(testUtils.factorUser.activeUser.value?.userId).toBe(
-      testUtils.user?.userId,
+      testUtils.initialized.user?.userId,
     )
 
-    expect(computedVar.value).toBe(`id-${testUtils?.user?.userId}`)
+    expect(computedVar.value).toBe(`id-${testUtils?.initialized.user?.userId}`)
   })
 
   it("updates user", async () => {

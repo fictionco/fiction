@@ -9,7 +9,6 @@ describe("server entry handling", () => {
 
     expect(Object.keys(serviceConfig)).toMatchInlineSnapshot(`
       [
-        "serverOnlyImports",
         "paths",
         "vite",
         "service",
@@ -18,9 +17,6 @@ describe("server entry handling", () => {
 
     expect(Object.keys(serviceConfig.service ?? {})).toMatchInlineSnapshot(`
       [
-        "appName",
-        "appUrl",
-        "appEmail",
         "factorApp",
         "factorRouter",
         "factorServer",

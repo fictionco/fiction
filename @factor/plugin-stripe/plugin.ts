@@ -64,6 +64,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     this.requests = this.createRequests({
       queries: this.queries,
       factorServer: this.factorServer,
+      factorUser: this.factorUser,
     })
     this.stripeMode = settings.stripeMode
     this.hooks = settings.hooks ?? []
@@ -79,6 +80,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       key: "stripeWebhooks",
       basePath: "/stripe-webhook",
       serverUrl: this.factorServer.serverUrl,
+      factorUser: this.factorUser,
     })
 
     this.factorServer.addEndpoints([stripeWebhookEndpoint])

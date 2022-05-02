@@ -63,7 +63,7 @@ export interface PublicUser {
   updatedAt?: string
   avatar?: string
   status?: string
-  lastSeen?: string | number | Date
+  lastSeenAt?: string | number | Date
   username?: string
   fullName?: string
   firstName?: string
@@ -116,7 +116,7 @@ export interface PrivateUser extends PublicUser {
   codeExpiresAt?: string | number | Date
   geo?: UserGeolocation
   invitedBy?: string
-  lastProject?: string
+  lastProjectId?: string
 }
 /**
  * All user information

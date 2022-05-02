@@ -325,20 +325,21 @@ export type SocketServerComponents<T extends EventMap> = {
 }
 
 export const createSocketServer = async <T extends EventMap>(args: {
-  name: string
+  serverName: string
   port: number
   endpoints?: Endpoint[]
   factorUser: FactorUser
 }): Promise<SocketServerComponents<T>> => {
-  const { port, name, endpoints = [], factorUser } = args
+  const { port, serverName, endpoints = [], factorUser } = args
 
   const socketServer = new NodeSocketServer<T>({ factorUser })
 
   const endpointServer = new EndpointServer({
-    name,
+    serverName,
     port,
     endpoints,
     customServer: (app) => socketServer.createServer({ app }),
+    factorUser,
   })
 
   await endpointServer.runServer()

@@ -32,7 +32,7 @@ describe("sockets", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
     s = await createSocketServer<EventMap>({
-      name: "testServer",
+      serverName: "testSocketServer",
       port,
       factorUser: testUtils.factorUser,
     })

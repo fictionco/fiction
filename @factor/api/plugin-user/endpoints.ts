@@ -291,7 +291,7 @@ export class QueryCurrentUser extends UserQuery {
         {
           _action: "update",
           email,
-          fields: { lastSeen: this.utils.dayjs().toISOString() },
+          fields: { lastSeenAt: this.utils.dayjs().toISOString() },
         },
         { server: true },
       )

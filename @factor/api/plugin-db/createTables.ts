@@ -162,7 +162,7 @@ export const createTables = async (db: Knex): Promise<void> => {
       t.jsonb("settings")
       t.jsonb("profile")
       t.string("invited_by").references(`${"factor_user"}.user_id`)
-      t.dateTime("last_seen").defaultTo(db.fn.now())
+      t.dateTime("last_seen_at").defaultTo(db.fn.now())
       t.timestamps(true, true)
     })
   }

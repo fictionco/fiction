@@ -4,7 +4,6 @@ import { FactorPlugin } from "../plugin"
 import { EndpointMap } from "../utils/endpoint"
 import { FactorDb } from "../plugin-db"
 import { FactorEmail } from "../plugin-email"
-import { ServiceConfig } from "../plugin-env"
 import { HookType } from "../utils/hook"
 import type { FactorServer } from "../plugin-server"
 import { QueryUserGoogleAuth } from "./userGoogle"
@@ -43,29 +42,25 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     this.factorServer = settings.factorServer
     this.factorDb = settings.factorDb
     this.factorEmail = settings.factorEmail
+    this.hooks = this.settings.hooks || []
+    this.activeUser = ref()
+    this.tokenSecret = settings.tokenSecret || "secret"
+    this.mode = settings.mode || this.utils.mode()
+
     this.queries = this.createQueries()
     this.requests = this.createRequests({
       queries: this.queries,
       basePath: "/user",
       factorServer: this.factorServer,
+      factorUser: this,
     })
-
-    this.hooks = this.settings.hooks || []
-    this.activeUser = ref()
-    this.tokenSecret = settings.tokenSecret || "secret"
-    this.mode = settings.mode || this.utils.mode()
 
     if (this.utils.isBrowser()) {
       this.userInitialized().catch(console.error)
     }
   }
 
-  async setup(): Promise<ServiceConfig> {
-    return {
-      name: this.constructor.name,
-      serverOnlyImports: [{ id: "html-to-text" }],
-    }
-  }
+  setup() {}
 
   createQueries() {
     const deps = {
@@ -114,7 +109,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
 
     if (!user) return this.deleteCurrentUser()
 
-    this.log.debug(`set ${user.email}`, { data: user })
+    this.log.debug(`set current user: ${user.email}`, { data: user, token })
 
     if (token) {
       this.clientToken({ action: "set", token })

@@ -51,7 +51,6 @@ describe("node utils", () => {
     expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [
         "paths",
-        "serverOnlyImports",
         "service",
         "vite",
       ]

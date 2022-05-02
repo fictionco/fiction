@@ -19,7 +19,7 @@ type MiddlewareHandler = (app: express.Express) => Promise<void> | void
 
 export type EndpointServerOptions = {
   port: number
-  name: string
+  serverName: string
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
@@ -27,7 +27,7 @@ export type EndpointServerOptions = {
 }
 
 export class EndpointServer {
-  name: string
+  serverName: string
   port: number
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
@@ -35,14 +35,14 @@ export class EndpointServer {
   server?: http.Server
   factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
-  constructor(options: EndpointServerOptions) {
-    const { port, endpoints, customServer, name } = options
+  constructor(settings: EndpointServerOptions) {
+    const { port, endpoints, customServer, serverName } = settings
 
-    this.name = name
+    this.serverName = serverName
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
-    this.factorUser = options.factorUser
+    this.factorUser = settings.factorUser
   }
 
   async runServer(): Promise<http.Server | undefined> {
@@ -81,7 +81,8 @@ export class EndpointServer {
 
       this.log.info(`started`, {
         data: {
-          name: this.name,
+          serverName: this.serverName,
+          auth: this.factorUser ? "enabled" : "disabled",
           port: `[ ${this.port} ]`,
           endpoints: this.endpoints.map((ep) => ep.pathname()),
         },

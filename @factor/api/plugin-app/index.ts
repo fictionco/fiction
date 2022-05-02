@@ -10,7 +10,7 @@ import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
 import { Component, App as VueApp, createApp, createSSRApp } from "vue"
-import type { CliOptions, StandardPaths } from "@factor/api/plugin-env/types"
+import type { StandardPaths } from "@factor/api/plugin-env/types"
 import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
 import type tailwindcss from "tailwindcss"
@@ -42,6 +42,7 @@ export type FactorAppSettings = {
   hooks?: HookType<HookDictionary>[]
   mode?: "production" | "development"
   appName: string
+  appEmail: string
   appUrl?: string
   port: number
   factorServer: FactorServer
@@ -69,6 +70,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   factorServer: FactorServer
   factorEnv?: FactorEnv<string>
   appName: string
+  appEmail: string
   appUrl: string
   port?: number
   mode?: "production" | "development"
@@ -84,6 +86,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.uiPaths = settings.uiPaths ?? []
     this.serverOnlyImports = settings.serverOnlyImports ?? []
     this.appName = settings.appName
+    this.appEmail = settings.appEmail
     this.factorServer = settings.factorServer
     this.factorEnv = settings.factorEnv
     this.factorRouter = settings.factorRouter
@@ -126,21 +129,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   addToCli() {
     if (this.factorEnv) {
-      this.factorEnv.addHook({
-        hook: "runCommand",
-        callback: async (command: string, opts: CliOptions) => {
-          const { serve, prerender } = opts
-
-          if (command == "dev") {
-            await this.serveApp()
-          } else if (command == "build") {
-            await this.buildApp({ serve, prerender })
-          } else if (command == "prerender") {
-            await this.buildApp({ serve, prerender })
-          }
-        },
-      })
-
       this.factorEnv.addHook({
         hook: "staticSchema",
         callback: async (existing) => {

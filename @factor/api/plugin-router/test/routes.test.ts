@@ -12,12 +12,7 @@ describe("route handling", () => {
         path: "/",
         component: () => import("./ElTest.vue"),
       }),
-      new AppRoute({
-        name: "app",
-        niceName: "App",
-        path: "/app",
-        component: () => import("./ElTest.vue"),
-      }),
+
       new AppRoute({
         name: "notFound404",
         niceName: "404",
@@ -45,24 +40,20 @@ describe("route handling", () => {
     </svg>`,
         component: () => import("./ElTest.vue"),
       }),
+
+      new AppRoute({
+        name: "app",
+        niceName: "App",
+        path: "/app",
+        component: () => import("./ElTest.vue"),
+        priority: 10,
+      }),
     ]
 
     const factorRouter = new FactorRouter({ routes })
 
     expect(factorRouter.vueRoutes.value).toMatchInlineSnapshot(`
       [
-        {
-          "component": [Function],
-          "meta": {
-            "menus": [],
-            "niceName": "Home",
-          },
-          "name": "home",
-          "path": "/",
-          "props": {
-            "services": {},
-          },
-        },
         {
           "children": [
             {
@@ -73,9 +64,6 @@ describe("route handling", () => {
               },
               "name": "dashboard",
               "path": "/project/:projectId",
-              "props": {
-                "services": {},
-              },
             },
             {
               "component": [Function],
@@ -85,9 +73,6 @@ describe("route handling", () => {
               },
               "name": "dashboardSingle",
               "path": "/project/:projectId/dash/:dashboardId",
-              "props": {
-                "services": {},
-              },
             },
           ],
           "component": [Function],
@@ -97,9 +82,15 @@ describe("route handling", () => {
           },
           "name": "app",
           "path": "/app",
-          "props": {
-            "services": {},
+        },
+        {
+          "component": [Function],
+          "meta": {
+            "menus": [],
+            "niceName": "Home",
           },
+          "name": "home",
+          "path": "/",
         },
         {
           "component": [Function],
@@ -109,9 +100,6 @@ describe("route handling", () => {
           },
           "name": "notFound404",
           "path": "/:pathMatch(.*)*",
-          "props": {
-            "services": {},
-          },
         },
       ]
     `)

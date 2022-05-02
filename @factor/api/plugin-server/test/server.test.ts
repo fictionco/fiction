@@ -5,7 +5,10 @@ import { FactorServer } from ".."
 
 describe("server test", () => {
   it("starts endpoint server", async () => {
-    const factorServer = new FactorServer({ port: 9929 })
+    const factorServer = new FactorServer({
+      serverName: "testServer",
+      port: 9929,
+    })
 
     const server = await factorServer.createServer()
 

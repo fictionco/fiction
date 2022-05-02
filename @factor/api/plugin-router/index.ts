@@ -80,7 +80,16 @@ export class FactorRouter<
           name: li.name,
           component: li.component,
           meta: { niceName: li.niceName, menus: li.menus, ...li.meta },
-          props: { services: li.services },
+        }
+
+        const props: Record<string, any> = {}
+
+        if (li.services && out.props) {
+          props.services = li.services
+        }
+
+        if (Object.keys(props).length > 0) {
+          out.props = props
         }
 
         if (li.children.length > 0) {
@@ -101,8 +110,12 @@ export class FactorRouter<
 
     list.forEach((r) => {
       if (r.parent) {
-        const children = mapped[r.parent]?.children ?? []
-        mapped[r.parent].children = [...children, r]
+        // sometimes with added routes, the parent hasn't been added yet
+        // it will be updated later
+        if (mapped[r.parent]) {
+          const children = mapped[r.parent]?.children ?? []
+          mapped[r.parent].children = [...children, r]
+        }
       } else {
         mapped[r.name] = r
       }

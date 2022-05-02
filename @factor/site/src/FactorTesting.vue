@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { useFactorService } from "./inject"
 
-const { appName, appEmail, appUrl } = useFactorService()
+const { factorApp } = useFactorService()
 
 const list = [
   {
@@ -46,17 +46,17 @@ const list = [
   {
     id: "app-name",
     title: "App Name",
-    value: appName,
+    value: factorApp.appName,
   },
   {
     id: "app-email",
     title: "App Name",
-    value: appEmail,
+    value: factorApp.appEmail,
   },
   {
     id: "app-url",
     title: "Production App Name",
-    value: appUrl,
+    value: factorApp.appUrl,
   },
 ]
 </script>

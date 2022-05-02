@@ -45,6 +45,6 @@ describe("renders app code correctly", () => {
     expect(appEmailText).toMatchInlineSnapshot('"hi@factorjs.org"')
 
     const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toMatchInlineSnapshot('"https://www.factorjs.org"')
+    expect(appUrlText).toMatchInlineSnapshot('"http://localhost:3000"')
   }, 16_000)
 })

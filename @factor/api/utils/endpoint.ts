@@ -12,8 +12,8 @@ type EndpointServerUrl = (() => string | undefined) | string | undefined
 export type EndpointOptions = {
   serverUrl: EndpointServerUrl
   basePath: string
-  factorUser?: FactorUser
-}
+} & ({ unauthorized: true } | { unauthorized?: false; factorUser: FactorUser })
+
 export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
@@ -54,14 +54,24 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   queryHandler?: T
   requestHandler?: (e: express.Request) => Promise<EndpointResponse>
   constructor(options: EndpointSettings<T>) {
-    const { serverUrl, basePath, queryHandler, requestHandler, key } = options
+    const {
+      serverUrl,
+      basePath,
+      queryHandler,
+      requestHandler,
+      key,
+      unauthorized,
+    } = options
     this.basePath = basePath
     this.serverUrl = serverUrl
     this.key = key as U
 
     this.queryHandler = queryHandler
     this.requestHandler = requestHandler
-    this.factorUser = options.factorUser
+
+    if (!unauthorized) {
+      this.factorUser = options.factorUser
+    }
   }
 
   setup() {

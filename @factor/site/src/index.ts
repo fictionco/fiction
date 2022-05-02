@@ -15,6 +15,7 @@ import {
   FactorEnv,
   ServiceConfig,
   FactorRouter,
+  CliOptions,
 } from "@factor/api"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
@@ -40,6 +41,7 @@ export const factorDb = new FactorDb({
 })
 
 export const factorServer = new FactorServer({
+  serverName: "FactorMain",
   port: +(factorEnv.var("serverPort") || 3333),
   serverUrl: factorEnv.var("serverUrl"),
   factorEnv,
@@ -51,6 +53,7 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig["routes"]>({
 
 export const factorApp = new FactorApp({
   appName,
+  appEmail,
   appUrl,
   factorServer,
   port: +(factorEnv.var("appPort") || 3000),
@@ -61,9 +64,7 @@ export const factorApp = new FactorApp({
 })
 
 export const factorEmail = new FactorEmail({
-  appName,
-  appEmail,
-  appUrl,
+  factorApp,
   smtpHost: factorEnv.var("smtpHost"),
   smtpPassword: factorEnv.var("smtpPassword"),
   smtpUser: factorEnv.var("smtpUser"),
@@ -103,10 +104,24 @@ export const factorBlog = new FactorBlogEngine({
   factorApp,
 })
 
+factorEnv.addHook({
+  hook: "runCommand",
+  callback: async (command: string, opts: CliOptions) => {
+    const { serve, prerender } = opts
+
+    await factorServer.createServer({ factorUser })
+
+    if (command == "dev") {
+      await factorApp.serveApp()
+    } else if (command == "build") {
+      await factorApp.buildApp({ serve, prerender })
+    } else if (command == "prerender") {
+      await factorApp.buildApp({ serve, prerender })
+    }
+  },
+})
+
 export const service = {
-  appName,
-  appUrl,
-  appEmail,
   factorApp,
   factorRouter,
   factorServer,

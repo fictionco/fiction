@@ -1,3 +1,4 @@
+import { FactorUser } from "@factor/api"
 import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log } from "./plugin-log"
 import type { Query } from "./query"
@@ -40,14 +41,15 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     R extends Record<string, Query> = Record<string, Query>,
   >(params: {
     queries: R
-    serverUrl?: string
     basePath?: string
     factorServer: FactorServer
+    factorUser: FactorUser
     endpointHandler?: typeof Endpoint
   }): M {
     const {
       queries,
       factorServer,
+      factorUser,
       basePath,
       endpointHandler = Endpoint,
     } = params
@@ -70,6 +72,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
             queryHandler: query,
             serverUrl,
             basePath: basePath || this.basePath,
+            factorUser,
           }),
         ]
       })
