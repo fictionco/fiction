@@ -57,10 +57,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       this.utils.isProd() &&
       (!this.smtpPassword || !this.smtpUser || !this.smtpUser)
     ) {
-      throw new Error(`missing required production fields`)
-    }
-
-    if (!this.utils.isTest()) {
+      this.log.warn("email disabled, missing production smtp credentials")
+    } else if (!this.utils.isTest()) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text
