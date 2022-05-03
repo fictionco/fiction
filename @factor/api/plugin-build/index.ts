@@ -56,12 +56,17 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const fileExports: string[] = []
 
-    if (src.includes("exports")) {
-      const { exports: cjsExports } = this.cjsLexer.parse(src)
-      fileExports.push(...cjsExports)
-    } else {
-      const [_imports, esExports] = this.esLexer.parse(src)
-      fileExports.push(...esExports)
+    try {
+      if (src.includes("exports")) {
+        const { exports: cjsExports } = this.cjsLexer.parse(src)
+        fileExports.push(...cjsExports)
+      } else {
+        const [_imports, esExports] = this.esLexer.parse(src)
+        fileExports.push(...esExports)
+      }
+    } catch (error) {
+      this.log.error(`Error parsing module ${id}`, error)
+      console.error(error)
     }
 
     const modExports = fileExports.filter((_) => _ != "default")

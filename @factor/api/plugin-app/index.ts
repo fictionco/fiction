@@ -23,6 +23,7 @@ import {
   requireIfExists,
   storeItem,
   getRequire,
+  safeDirname,
 } from "@factor/api/utils"
 import { FactorServer } from "@factor/api/plugin-server"
 import { FactorRouter } from "@factor/api/plugin-router"
@@ -509,6 +510,17 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     }
   }
 
+  logReady(): void {
+    const name = this.appName || "Unnamed App"
+    const port = `[ ${this.port} ]`
+    const url = this.appUrl
+    const mode = this.mode
+
+    this.log.info(`serving app [ready]`, {
+      data: { name, port, url, mode },
+    })
+  }
+
   serveApp = async (): Promise<void> => {
     const app = await this.expressApp()
 
@@ -518,14 +530,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       server = app.listen(this.port, () => resolve())
     })
 
-    const name = this.appName || "Unnamed App"
-    const port = `[ ${this.port} ]`
-    const url = this.appUrl
-    const mode = this.mode
-
-    this.log.info(`serving factor app [ready]`, {
-      data: { name, port, url, mode },
-    })
+    this.logReady()
 
     this.utils.onEvent("shutdown", () => server.close())
   }
@@ -693,7 +698,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           ssr: true,
           rollupOptions: {
             preserveEntrySignatures: "allow-extension", // not required
-            input: require.resolve("./mount.ts"),
+            input: path.join(safeDirname(import.meta.url), "./mount.ts"),
             output: { format: "es" },
           },
         },
@@ -791,9 +796,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     })
 
     const server = app.listen(this.port, () => {
-      this.log.info(`serving static app [ready]`, {
-        data: { port: this.port },
-      })
+      this.logReady()
     })
 
     this.utils.onEvent("shutdown", () => server.close())

@@ -16,6 +16,8 @@ export class CliCommand<T extends string> {
   }
 
   setOptions(options: CliOptions): this {
+    if (options.serve) options.exit = false
+
     this.options = { ...this.options, ...options }
     return this
   }

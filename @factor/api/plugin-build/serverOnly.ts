@@ -42,8 +42,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "vitest" },
     { id: "vite-plugin-markdown" },
     { id: "vite/dist/node" },
-    { id: "es-module-lexer" },
-    { id: "cjs-module-lexer" },
     { id: "@vitejs/plugin-vue" },
     { id: "stripe" },
     { id: "html-to-text" },
