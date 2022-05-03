@@ -44,15 +44,10 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     basePath?: string
     factorServer: FactorServer
     factorUser: FactorUser
-    endpointHandler?: typeof Endpoint
+    endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
   }): M {
-    const {
-      queries,
-      factorServer,
-      factorUser,
-      basePath,
-      endpointHandler = Endpoint,
-    } = params
+    const { queries, factorServer, factorUser, basePath, endpointHandler } =
+      params
 
     const serverUrl = factorServer.serverUrl
 
@@ -64,17 +59,20 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     const q = queries ?? {}
 
     const entries = Object.entries(q)
-      .map(([key, query]) => {
-        return [
+      .map(([key, queryHandler]) => {
+        const opts = {
           key,
-          new endpointHandler({
-            key,
-            queryHandler: query,
-            serverUrl,
-            basePath: basePath || this.basePath,
-            factorUser,
-          }),
-        ]
+          queryHandler,
+          serverUrl,
+          basePath: basePath || this.basePath,
+          factorUser,
+        }
+
+        const handler = endpointHandler
+          ? endpointHandler(opts)
+          : new Endpoint(opts)
+
+        return [key, handler]
       })
       .filter(Boolean) as [string, Endpoint][]
 

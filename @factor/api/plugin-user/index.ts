@@ -55,7 +55,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
       factorUser: this,
     })
 
-    if (this.utils.isBrowser()) {
+    if (this.utils.isActualBrowser()) {
       this.userInitialized().catch(console.error)
     }
   }

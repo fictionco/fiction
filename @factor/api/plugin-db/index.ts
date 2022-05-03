@@ -3,7 +3,6 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
-import { ServiceConfig } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import * as types from "./types"
 
@@ -19,7 +18,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
 
     this.hooks = settings.hooks || []
 
-    if (this.utils.isBrowser()) return
+    if (this.utils.isActualBrowser()) return
 
     if (!settings.connectionUrl) {
       throw new Error("DB connectionUrl is required")
@@ -64,7 +63,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
   }
 
   client(): Knex {
-    if (this.utils.isBrowser()) {
+    if (this.utils.isActualBrowser()) {
       throw new Error("Cannot use client() in browser")
     }
     return this.db
@@ -102,11 +101,9 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
     })
   }
 
-  public async setup(): Promise<ServiceConfig> {
+  public async setup() {
     if (!this.utils.isTest() && !this.utils.isApp()) {
       await this.init()
     }
-
-    return { name: this.constructor.name }
   }
 }

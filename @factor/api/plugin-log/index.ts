@@ -36,9 +36,7 @@ export class FactorLog {
     this.hooks = settings.hooks ?? []
   }
 
-  setup = () => {
-    return {}
-  }
+  setup = () => {}
 
   addHook(hook: HookType<FactorLogHookDictionary>): void {
     this.hooks.unshift(hook)

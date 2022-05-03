@@ -8,6 +8,7 @@ import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, CommandKeys, commands } from "./commands"
 export * from "./types"
+export * from "./entry"
 
 type EnvVarSettings<X extends string> = {
   name: X

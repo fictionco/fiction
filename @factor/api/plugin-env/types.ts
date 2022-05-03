@@ -1,10 +1,8 @@
 import { HeadClient } from "@vueuse/head"
 import { App, Component } from "vue"
 import { Router } from "vue-router"
-import { InlineConfig as ViteInlineConfig } from "vite"
 import type { JSONSchema } from "json-schema-to-typescript"
 import { PackageJson } from "../types"
-import type { ServerModuleDef } from "../plugin-build/types"
 import type { FactorApp } from "../plugin-app"
 import type { FactorServer } from "../plugin-server"
 import type { FactorEnv } from "../plugin-env"
@@ -43,28 +41,14 @@ export type MainFile = {
   factorEnv?: FactorEnv<string>
   [key: string]: unknown
 }
+
+export type ServiceList = Record<
+  string,
+  FactorPlugin | string | object | unknown[]
+>
+
 export interface ServiceConfig {
-  name?: string
-
-  server?: () =>
-    | ServiceConfig
-    | undefined
-    | void
-    | Promise<ServiceConfig | undefined | void>
-
-  cwd?: string
-  paths?: string[]
-  service?: Record<string, FactorPlugin | string | object | unknown[]>
-  vite?: Partial<ViteInlineConfig>
-  serverOnlyImports?: ServerModuleDef[]
-  variables?: Record<
-    string,
-    | string
-    | number
-    | Record<string, string>
-    | string[]
-    | Record<string, string>[]
-  >
+  service?: ServiceList
   [key: string]: unknown
 }
 

@@ -50,6 +50,7 @@ describe("node utils", () => {
 
     expect(Object.keys(entryConfig).sort()).toMatchInlineSnapshot(`
       [
+        "name",
         "paths",
         "service",
         "vite",

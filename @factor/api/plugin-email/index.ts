@@ -38,7 +38,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     this.appName = this.factorApp.appName
     this.appUrl = this.factorApp.appUrl
 
-    if (this.utils.isBrowser()) return
+    if (this.utils.isActualBrowser()) return
 
     const options = {
       host: this.smtpHost,
@@ -71,9 +71,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     }
   }
 
-  public async setup(): Promise<ServiceConfig> {
-    return { name: this.constructor.name }
-  }
+  public async setup() {}
 
   getFromAddress = (): string => {
     return `${this.appName ?? ""} <${this.appEmail}>`

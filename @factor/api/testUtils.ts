@@ -5,10 +5,15 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
-
+import { FactorPlugin } from "./plugin"
 import { safeDirname, randomBetween, stringify } from "./utils"
 import { log } from "./plugin-log"
-import { ServiceConfig, EnvVar, FactorEnv } from "./plugin-env"
+import {
+  ServiceConfig,
+  EnvVar,
+  FactorEnv,
+  runServicesSetup,
+} from "./plugin-env"
 import { FactorUser, FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
 import { FactorDb } from "./plugin-db"
@@ -35,9 +40,13 @@ export const getTestEmail = (): string => {
 }
 
 export const snap = (
-  obj?: Record<string, any>,
+  obj?: Record<string, any> | Record<string, any>[],
 ): Record<string, any> | undefined => {
   if (!obj) return undefined
+
+  if(Array.isArray(obj)) {
+    return obj.map(snap)
+  }
 
   const newObj = {} as Record<string, unknown>
   for (const key in obj) {
@@ -110,8 +119,12 @@ const envVars = () => [
   new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
 ]
 
-export const initializeTestUtils = async (services: TestUtilServices) => {
-  const { factorUser, factorServer } = services
+export const initializeTestUtils = async (
+  service: TestUtilServices & { [key: string]: FactorPlugin },
+) => {
+  await runServicesSetup({ service })
+
+  const { factorUser, factorServer } = service
 
   await factorServer.createServer({ factorUser })
 

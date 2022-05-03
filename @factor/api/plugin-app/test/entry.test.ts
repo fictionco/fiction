@@ -9,6 +9,7 @@ describe("server entry handling", () => {
 
     expect(Object.keys(serviceConfig)).toMatchInlineSnapshot(`
       [
+        "name",
         "paths",
         "vite",
         "service",
