@@ -44,8 +44,8 @@ export const snap = (
 ): Record<string, any> | undefined => {
   if (!obj) return undefined
 
-  if(Array.isArray(obj)) {
-    return obj.map(snap)
+  if (Array.isArray(obj)) {
+    return obj.map((o) => snap(o))
   }
 
   const newObj = {} as Record<string, unknown>

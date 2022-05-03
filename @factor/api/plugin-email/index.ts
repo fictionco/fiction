@@ -2,7 +2,6 @@ import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorApp } from "../plugin-app"
 import { FactorPlugin } from "../plugin"
-import type { ServiceConfig } from "../plugin-env"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
