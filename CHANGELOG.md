@@ -1,3 +1,7 @@
+## [5.3.10](https://github.com/FactorJS/factor/compare/v5.3.9...v5.3.10) (2022-05-03)
+
+
+
 ## [5.3.9](https://github.com/FactorJS/factor/compare/v5.3.8...v5.3.9) (2022-05-03)
 
 
