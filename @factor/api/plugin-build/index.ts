@@ -167,6 +167,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "@factor/ui",
         "@factor/plugin-notify",
         "@factor/plugin-stripe",
+        "@factor/plugin-highlight-code",
         "@kaption/client",
         "vue",
         "vite",

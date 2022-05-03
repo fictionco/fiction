@@ -1,6 +1,5 @@
 import http from "http"
 import path from "path"
-import * as mod from "module"
 import compression from "compression"
 import serveFavicon from "serve-favicon"
 import serveStatic from "serve-static"
@@ -23,6 +22,7 @@ import {
   HookType,
   requireIfExists,
   storeItem,
+  getRequire,
 } from "@factor/api/utils"
 import { FactorServer } from "@factor/api/plugin-server"
 import { FactorRouter } from "@factor/api/plugin-router"
@@ -604,8 +604,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       disableOnRestart: true,
     })
 
-    const require = mod.Module.createRequire(import.meta.url)
-
     const pluginMarkdown = await import("vite-plugin-markdown")
     const { getMarkdownUtility } = await import("../utils/markdown")
 
@@ -613,7 +611,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
-    const twPlugin = require("tailwindcss") as typeof tailwindcss
+    const twPlugin = getRequire()("tailwindcss") as typeof tailwindcss
     const twConfig = (await this.tailwindConfig()) as Parameters<
       typeof twPlugin
     >[0]
@@ -623,7 +621,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       {
         css: {
           postcss: {
-            plugins: [twPlugin(twConfig)],
+            plugins: [twPlugin(twConfig), getRequire()("autoprefixer")],
           },
         },
         server: {

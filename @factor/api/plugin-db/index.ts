@@ -13,6 +13,7 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
   private db!: Knex
   connectionUrl!: URL
   hooks: HookType<types.FactorDbHookDictionary>[]
+  defaultConnectionUrl = "http://test:test@localhost:5432/test"
   constructor(settings: types.FactorDbSettings) {
     super(settings)
 
@@ -21,10 +22,15 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
     if (this.utils.isActualBrowser()) return
 
     if (!settings.connectionUrl) {
-      throw new Error("DB connectionUrl is required")
+      this.log.warn(
+        `No connectionUrl provided for db.
+        Using default: ${this.defaultConnectionUrl}`,
+      )
     }
 
-    this.connectionUrl = new URL(settings.connectionUrl)
+    this.connectionUrl = new URL(
+      settings.connectionUrl || this.defaultConnectionUrl,
+    )
 
     const connection = {
       user: this.connectionUrl.username,

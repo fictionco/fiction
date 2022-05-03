@@ -32,7 +32,7 @@ importers:
       tslib: ^2.4.0
       typescript: ^4.6.4
       vite: ^2.9.7
-      vitest: ^0.10.1
+      vitest: ^0.10.2
       vue: ^3.2.33
       yorkie: ^2.0.0
     devDependencies:
@@ -58,7 +58,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.6.4
       vite: 2.9.7
-      vitest: 0.10.1_sjc3ipbkg5thyuwckyil2qbf5e
+      vitest: 0.10.2_sjc3ipbkg5thyuwckyil2qbf5e
       vue: 3.2.33
       yorkie: 2.0.0
 
@@ -147,7 +147,7 @@ importers:
       minimist: ^1.2.6
       module-alias: ^2.2.2
       multer: ^1.4.4
-      nanoid: ^3.3.3
+      nanoid: ^3.3.4
       nodemailer: ^6.7.4
       nodemailer-html-to-text: ^3.2.0
       nodemon: ^2.0.16
@@ -253,7 +253,7 @@ importers:
       mime-types: 2.1.35
       module-alias: 2.2.2
       multer: 1.4.4
-      nanoid: 3.3.3
+      nanoid: 3.3.4
       nodemailer: 6.7.4
       nodemailer-html-to-text: 3.2.0
       nodemon: 2.0.16
@@ -379,7 +379,7 @@ importers:
       minimist: ^1.2.6
       module-alias: ^2.2.2
       multer: ^1.4.4
-      nanoid: ^3.3.3
+      nanoid: ^3.3.4
       nodemailer: ^6.7.4
       nodemailer-html-to-text: ^3.2.0
       nodemon: ^2.0.16
@@ -483,7 +483,7 @@ importers:
       mime-types: 2.1.35
       module-alias: 2.2.2
       multer: 1.4.4
-      nanoid: 3.3.3
+      nanoid: 3.3.4
       nodemailer: 6.7.4
       nodemailer-html-to-text: 3.2.0
       nodemon: 2.0.16
@@ -571,7 +571,7 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.7
+      '@factor/plugin-highlight-code': workspace:5.3.9
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -583,7 +583,7 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.7
+      '@factor/plugin-highlight-code': workspace:5.3.9
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -616,23 +616,23 @@ importers:
       '@stripe/stripe-js': ^1.29.0
       dotenv: ^16.0.0
       express: ^4.18.1
-      stripe: ^8.219.0
+      stripe: ^8.220.0
     dependencies:
       '@factor/api': link:../api
       '@stripe/stripe-js': 1.29.0
       express: 4.18.1
-      stripe: 8.219.0
+      stripe: 8.220.0
     devDependencies:
       dotenv: 16.0.0
 
   '@factor/site':
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.3.7
-      '@factor/plugin-docs-engine': workspace:5.3.7
-      '@factor/plugin-highlight-code': workspace:5.3.7
-      '@factor/plugin-notify': workspace:5.3.7
-      '@factor/plugin-stripe': workspace:5.3.7
+      '@factor/plugin-blog-engine': workspace:5.3.9
+      '@factor/plugin-docs-engine': workspace:5.3.9
+      '@factor/plugin-highlight-code': workspace:5.3.9
+      '@factor/plugin-notify': workspace:5.3.9
+      '@factor/plugin-stripe': workspace:5.3.9
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.0
       axios: ^0.26.1
@@ -2325,7 +2325,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.129
+      electron-to-chromium: 1.4.131
       escalade: 3.1.1
       node-releases: 2.0.4
       picocolors: 1.0.0
@@ -3147,8 +3147,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.129:
-    resolution: {integrity: sha512-GgtN6bsDtHdtXJtlMYZWGB/uOyjZWjmRDumXTas7dGBaB9zUyCjzHet1DY2KhyHN8R0GLbzZWqm4efeddqqyRQ==}
+  /electron-to-chromium/1.4.131:
+    resolution: {integrity: sha512-oi3YPmaP87hiHn0c4ePB67tXaF+ldGhxvZnT19tW9zX6/Ej+pLN0Afja5rQ6S+TND7I9EuwQTT8JYn1k7R7rrw==}
 
   /email-validator/2.0.4:
     resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
@@ -3222,8 +3222,8 @@ packages:
       object-inspect: 1.12.0
       object-keys: 1.1.1
       object.assign: 4.1.2
-      string.prototype.trimend: 1.0.4
-      string.prototype.trimstart: 1.0.4
+      string.prototype.trimend: 1.0.5
+      string.prototype.trimstart: 1.0.5
       unbox-primitive: 1.0.2
     dev: false
 
@@ -5728,8 +5728,8 @@ packages:
       thenify-all: 1.6.0
     dev: false
 
-  /nanoid/3.3.3:
-    resolution: {integrity: sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==}
+  /nanoid/3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -6445,7 +6445,7 @@ packages:
     resolution: {integrity: sha512-jtL6eTBrza5MPzy8oJLFuUscHDXTV5KcLlqAWHl5q5WYRfnNRGSmOZmOZ1T6Gy7A99mOZfqungmZMpMmCVJ8ZA==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.3
+      nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
@@ -7141,18 +7141,20 @@ packages:
       is-fullwidth-code-point: 3.0.0
       strip-ansi: 6.0.1
 
-  /string.prototype.trimend/1.0.4:
-    resolution: {integrity: sha512-y9xCjw1P23Awk8EvTpcyL2NIr1j7wJ39f+k6lvRnSMz+mz9CGz9NYPelDk42kOz6+ql8xjfK8oYzy3jAP5QU5A==}
+  /string.prototype.trimend/1.0.5:
+    resolution: {integrity: sha512-I7RGvmjV4pJ7O3kdf+LXFpVfdNOxtCW/2C8f6jNiW4+PQchwxkCDzlk1/7p+Wl4bqFIZeF47qAHXLuHHWKAxog==}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
+      es-abstract: 1.19.5
     dev: false
 
-  /string.prototype.trimstart/1.0.4:
-    resolution: {integrity: sha512-jh6e984OBfvxS50tdY2nRZnoC5/mLFKOREQfw8t5yytkoUsJRNxvI/E39qu1sD0OtWI3OC0XgKSmcWwziwYuZw==}
+  /string.prototype.trimstart/1.0.5:
+    resolution: {integrity: sha512-THx16TJCGlsN0o6dl2o6ncWUsdgnLRSA23rRE5pyGBw/mLr3Ej/R2LaqCtgP8VNMGZsvMWnf9ooZPyY2bHvUFg==}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
+      es-abstract: 1.19.5
     dev: false
 
   /string_decoder/0.10.31:
@@ -7227,8 +7229,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  /stripe/8.219.0:
-    resolution: {integrity: sha512-leQj9h2T4jhEz4Ta4irNTNgErPmXfF9h4nRYblTTrkTqldOmEWZQZIgXkNp1u6/UbOmMDRvxgh57UHyxwwfw0Q==}
+  /stripe/8.220.0:
+    resolution: {integrity: sha512-hE3NapEqNCiiQD1lMQPccKgJsu2aANR+oDudUHcuvRnNUJ3GrbntwACs7Op45PvHpJ/RY4l46XDwTMgdWJAm3w==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 17.0.31
@@ -7843,8 +7845,8 @@ packages:
       fsevents: 2.3.2
     dev: false
 
-  /vitest/0.10.1_sjc3ipbkg5thyuwckyil2qbf5e:
-    resolution: {integrity: sha512-jFNObjJ48WnfJzxpopJOrd7ZnRCE3OGgE2KSQ1AGmKxNPTgadMCLx81GBrIcxIjuz2E/8qmGBPtC5VH01ihl7A==}
+  /vitest/0.10.2_sjc3ipbkg5thyuwckyil2qbf5e:
+    resolution: {integrity: sha512-41D+nhswCco5vy1NXmpAjZX11Aj+HMnyhjWQD12piwHibf4bvdTGtni56UcFWcvONVoIForgDuLrKSohHJjwQA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
