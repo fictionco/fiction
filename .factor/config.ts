@@ -6,6 +6,15 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "build" | "bundle" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
-  [k: string]: unknown;
+  commands:
+    | "build"
+    | "bundle"
+    | "dev"
+    | "generate"
+    | "prerender"
+    | "rdev"
+    | "release"
+    | "server"
+    | "start"
+  [k: string]: unknown
 }

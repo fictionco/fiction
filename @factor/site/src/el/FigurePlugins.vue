@@ -1,8 +1,5 @@
 <template>
-  <figure
-    ref="wrapper"
-    class="figure-plugins relative -mx-6 h-full w-full"
-  >
+  <figure ref="wrapper" class="figure-plugins relative -mx-6 h-full w-full">
     <div class="stage-wrap">
       <div class="stage">
         <div

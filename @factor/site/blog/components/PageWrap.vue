@@ -4,12 +4,7 @@
       <div class="py-12 lg:flex">
         <div
           id="content-wrapper"
-          class="
-            w-full
-            min-w-0
-            flex-auto
-            lg:static lg:max-h-full lg:overflow-visible
-          "
+          class="w-full min-w-0 flex-auto lg:static lg:max-h-full lg:overflow-visible"
         >
           <router-view />
         </div>
