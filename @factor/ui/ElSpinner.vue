@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner">
+  <div class="spinner max-w-sm">
     <svg
       class="ring-circular h-full w-full origin-center"
       viewBox="25 25 50 50"

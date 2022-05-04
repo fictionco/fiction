@@ -1,8 +1,10 @@
-import { safeDirname } from "@factor/api"
-import { FactorEnv } from "@factor/api/plugin-env"
-import { FactorRelease } from "@factor/api/plugin-build/release"
-import { FactorBundle } from "@factor/api/plugin-build/bundle"
-import { FactorBuild } from "@factor/api/plugin-build"
+import {
+  safeDirname,
+  FactorEnv,
+  FactorRelease,
+  FactorBundle,
+  FactorBuild,
+} from "@factor/api"
 
 const cwd = safeDirname(import.meta.url)
 

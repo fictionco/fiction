@@ -6,7 +6,7 @@ import { deepMergeAll } from "../utils"
 import { FactorPlugin } from "../plugin"
 import { CliOptions, FactorEnv } from "../plugin-env"
 import { getPackages, getCommit } from "./utils"
-import { FactorBuild } from "."
+import type { FactorBuild } from "."
 
 /**
  * Bundle all packages or just a specified one
@@ -115,6 +115,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
          * Create type declarations
          * https://tsup.egoist.sh/
          */
+        this.log.info(`creating type definitions for ${pkg.name}`)
         await execa(
           "tsup",
           [entry, "--format", "esm", "--dts-only", "--out-dir", distDir],

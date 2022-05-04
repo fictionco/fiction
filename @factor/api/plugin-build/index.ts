@@ -5,26 +5,24 @@ import { FactorPlugin } from "../plugin"
 import { FactorEnv } from "../plugin-env"
 import * as types from "./types"
 import { commonServerOnlyModules } from "./serverOnly"
+export * from "./types"
+export * from "./plugin-bundle"
+export * from "./plugin-release"
 
 type FactorBuildSettings = {
   serverOnlyModules?: types.ServerModuleDef[]
   factorEnv: FactorEnv<string>
-  mode?: "production" | "development"
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   types = types
-  serverOnlyModules: types.ServerModuleDef[]
+  serverOnlyModules = this.settings.serverOnlyModules ?? []
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
-  factorEnv: FactorEnv<string>
-  mode: "development" | "production"
+  factorEnv = this.settings.factorEnv
   constructor(settings: FactorBuildSettings) {
     super(settings)
-    this.serverOnlyModules = settings.serverOnlyModules ?? []
     this.getLexers().catch(console.error)
-    this.factorEnv = settings.factorEnv
-    this.mode = settings.mode || this.utils.mode() || "production"
   }
 
   async getLexers() {
@@ -205,9 +203,23 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "markdown-it-anchor",
         "markdown-it-implicit-figures",
         "remove-markdown",
+        "gravatar-url",
         "gravatar",
         "validator",
       ],
+    }
+  }
+
+  getStaticPathAliases = (): Record<string, string> => {
+    const { mainFilePath, mountFilePath } = this.factorEnv.standardPaths || {}
+
+    if (!mainFilePath || !mountFilePath) {
+      throw new Error("standardPaths missing")
+    }
+
+    return {
+      "@MAIN_FILE_ALIAS": mainFilePath,
+      "@MOUNT_FILE_ALIAS": mountFilePath,
     }
   }
 
@@ -224,7 +236,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
     const basicConfig: vite.InlineConfig = {
-      mode: this.mode,
+      mode: this.utils.mode(),
       root,
       publicDir,
       server: {
@@ -238,10 +250,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         manifest: true,
         emptyOutDir: true,
         minify: false,
-        sourcemap: this.mode !== "production",
+        sourcemap: this.utils.mode() !== "production",
       },
       resolve: {
         alias: {
+          ...this.getStaticPathAliases(),
           // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
           path: "path-browserify",
         },

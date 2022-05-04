@@ -2,13 +2,13 @@ import path from "path"
 import fs from "fs-extra"
 import { Command } from "commander"
 import { log } from "@factor/api/plugin-log"
-import { camelToUpperSnake } from "../utils"
+import minimist from "minimist"
+import { camelToUpperSnake, camelize } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
 import { PackageJson } from "../types"
 import { commands } from "./commands"
 import { MainFile } from "./types"
-
 const commander = new Command()
 
 const packageMainFile = async (cwd: string): Promise<string> => {
@@ -68,31 +68,19 @@ export const runCommand = async (
  * Set up initial Node environment
  */
 export const execute = async (): Promise<void> => {
-  commander
-    .version(pkg.version)
-    .option("-e, --exit", "exit after successful setup")
-    .option("-i, --inspector", "run the node inspector")
-    .option("-a, --app-port <number>", "primary service port")
-    .option("-p, --server-port <number>", "server specific port")
-    .option("-s, --serve", "serve static site after build")
-    .option("-m, --mode <mode>", "node environment (development or production)")
-    .option("-pa, --patch", "patch release")
-    .option("-st, --skip-tests", "skip tests")
-
-  const extendCliFile = path.join(process.cwd(), "program.ts")
-  if (fs.existsSync(extendCliFile)) {
-    const extendCli = (await import(extendCliFile)) as {
-      setup: (c: Command) => void
-    }
-
-    extendCli.setup(commander)
-  }
+  commander.version(pkg.version).allowUnknownOption()
 
   commander
     .command("run")
+    .allowUnknownOption()
     .argument("<command>", "command to run")
     .action(async (command: string) => {
-      await runCommand(command, commander.opts())
+      const opts = Object.fromEntries(
+        Object.entries(minimist(process.argv.slice(2))).map(([rawKey, val]) => {
+          return [camelize(rawKey), val] as [string, unknown]
+        }),
+      )
+      await runCommand(command, opts)
     })
 
   commander.parse(process.argv)

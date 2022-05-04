@@ -9,8 +9,8 @@ export const useService = <T extends ServiceConfig["service"]>(): T => {
   return service
 }
 
-export const useUi = <T extends Record<string, Component>>(): T => {
-  const ui = inject<T>("ui")
+export const useUi = <T extends string>(): Record<T, Component> => {
+  const ui = inject<Record<T, Component>>("ui")
 
   if (!ui) throw new Error("ui for injection not found")
 

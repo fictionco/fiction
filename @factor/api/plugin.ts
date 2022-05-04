@@ -16,7 +16,6 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   protected store = store
 
   protected basePath: string
-  public queries: ReturnType<typeof this.createQueries> = {}
 
   constructor(settings: T) {
     this.settings = settings

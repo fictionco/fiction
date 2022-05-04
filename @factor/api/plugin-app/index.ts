@@ -8,8 +8,13 @@ import { minify } from "html-minifier"
 import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
-import { Component, App as VueApp, createApp, createSSRApp } from "vue"
-import type { StandardPaths } from "@factor/api/plugin-env/types"
+import {
+  Component,
+  App as VueApp,
+  createApp,
+  createSSRApp,
+  defineAsyncComponent,
+} from "vue"
 import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
 import type tailwindcss from "tailwindcss"
@@ -21,7 +26,6 @@ import {
   renderMeta,
   HookType,
   requireIfExists,
-  storeItem,
   getRequire,
   safeDirname,
 } from "@factor/api/utils"
@@ -59,57 +63,44 @@ export type FactorAppSettings = {
 export class FactorApp extends FactorPlugin<FactorAppSettings> {
   types = types
   viteDevServer?: vite.ViteDevServer
-  hooks: HookType<HookDictionary>[]
-  uiPaths: string[]
-  serverOnlyImports: ServerModuleDef[]
-  factorRouter: FactorRouter
-  ui: Record<string, () => Promise<Component>>
-  rootComponent: Component
+  hooks = this.settings.hooks ?? []
+  uiPaths = this.settings.uiPaths ?? []
+  serverOnlyImports = this.settings.serverOnlyImports ?? []
+  factorRouter = this.settings.factorRouter
+  ui = this.settings.ui || {}
+
+  rootComponent = this.settings.rootComponent
   factorBuild?: FactorBuild
   factorDevRestart?: FactorDevRestart
   factorSitemap?: FactorSitemap
-  factorServer: FactorServer
-  factorEnv?: FactorEnv<string>
-  appName: string
-  appEmail: string
-  appUrl: string
-  port?: number
-  mode?: "production" | "development"
-  sitemaps: types.SitemapConfig[]
-  standardPaths?: StandardPaths
+  factorServer = this.settings.factorServer
+  factorEnv = this.settings.factorEnv
+  appName = this.settings.appName
+  appEmail = this.settings.appEmail
+  sitemaps = this.settings.sitemaps ?? []
+  standardPaths = this.factorEnv.standardPaths
+  port = this.settings.port || 3000
+  appUrl =
+    this.settings.appUrl && this.utils.mode() == "production"
+      ? this.settings.appUrl
+      : `http://localhost:${this.port}`
+  vars: Record<string, string | boolean | number> = {
+    MODE: this.utils.mode(),
+    IS_TEST: this.utils.isTest(),
+    IS_VITE: "true",
+    FACTOR_SERVER_URL: this.factorServer.serverUrl,
+    FACTOR_APP_URL: this.appUrl,
+  }
   constructor(settings: FactorAppSettings) {
     super(settings)
 
-    this.hooks = settings.hooks ?? []
-    this.rootComponent = settings.rootComponent
-
-    this.sitemaps = settings.sitemaps ?? []
-    this.uiPaths = settings.uiPaths ?? []
-    this.serverOnlyImports = settings.serverOnlyImports ?? []
-    this.appName = settings.appName
-    this.appEmail = settings.appEmail
-    this.factorServer = settings.factorServer
-    this.factorEnv = settings.factorEnv
-    this.factorRouter = settings.factorRouter
-    this.standardPaths = this.factorEnv.standardPaths
-    this.ui = settings.ui || {}
-
-    this.mode = this.settings.mode || this.utils.mode() || "production"
-    this.port = this.settings.port || 3000
-    this.appUrl =
-      this.settings.appUrl && this.mode == "production"
-        ? this.settings.appUrl
-        : `http://localhost:${this.port}`
-
     const cwd = this.standardPaths?.cwd
-
     /**
      * node application init
      */
     if (cwd && !this.utils.isApp() && this.factorEnv) {
       this.factorBuild = new FactorBuild({
         factorEnv: this.factorEnv,
-        mode: this.mode,
       })
       this.factorSitemap = new FactorSitemap({
         factorRouter: this.factorRouter,
@@ -121,14 +112,14 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       })
     }
 
-    this.addToCli()
+    this.addSchema()
   }
 
   async setup() {
     return {}
   }
 
-  addToCli() {
+  addSchema() {
     if (this.factorEnv) {
       this.factorEnv.addHook({
         hook: "staticSchema",
@@ -174,6 +165,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.ui = { ...this.ui, ...components }
   }
 
+  addVars(vars: Record<string, string>) {
+    this.vars = { ...this.vars, ...vars }
+  }
+
   addSitemaps(sitemaps: types.SitemapConfig[]) {
     this.sitemaps = [...this.sitemaps, ...sitemaps]
   }
@@ -186,17 +181,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.serverOnlyImports = [...this.serverOnlyImports, ...serverOnlyImports]
   }
 
-  getStaticPathAliases = (): Record<string, string> => {
-    const { mainFilePath, mountFilePath } = this.standardPaths || {}
-
-    if (!mainFilePath || !mountFilePath) {
-      throw new Error("standardPaths missing")
-    }
-
-    return {
-      "@MAIN_FILE_ALIAS": mainFilePath,
-      "@MOUNT_FILE_ALIAS": mountFilePath,
-    }
+  createUi = (ui: Record<string, () => Promise<Component>>) => {
+    return Object.fromEntries(
+      Object.entries(ui).map(([key, component]) => {
+        return [key, defineAsyncComponent(component)]
+      }),
+    )
   }
 
   createVueApp = async (params: {
@@ -220,11 +210,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       : createApp(this.rootComponent)
 
     app.provide("service", service)
-    app.provide("ui", this.ui)
-
-    storeItem("service", service)
-    storeItem("ui", this.ui)
-
+    app.provide("ui", this.createUi(this.ui))
     app.use(router)
 
     if (renderUrl) await router.replace({ path: renderUrl })
@@ -291,7 +277,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     // alias is need for vite/rollup to handle correctly
     const clientTemplatePath =
-      this.mode == "production" ? `@MOUNT_FILE_ALIAS` : `/@fs${mountFilePath}`
+      this.utils.mode() == "production"
+        ? `@MOUNT_FILE_ALIAS`
+        : `/@fs${mountFilePath}`
 
     let template = rawTemplate.replace(
       "</body>",
@@ -299,12 +287,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     </body>`,
     )
 
-    if (this.mode !== "production" && pathname) {
+    if (this.utils.mode() !== "production" && pathname) {
       const srv = await this.getViteServer()
       template = await srv.transformIndexHtml(pathname, template)
     }
 
-    if (this.mode == "production") {
+    if (this.utils.mode() == "production") {
       fs.ensureDirSync(dist)
       fs.writeFileSync(path.join(dist, "index.html"), template)
     }
@@ -325,7 +313,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const out: types.RenderConfig = { template: "", manifest: {} }
 
-    if (this.mode == "production") {
+    if (this.utils.mode() == "production") {
       fs.ensureDirSync(distClient)
       const indexHtmlPath = path.resolve(distClient, "./index.html")
       out.template = fs.readFileSync(indexHtmlPath, "utf8")
@@ -346,7 +334,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   ): Promise<types.RenderedHtmlParts> => {
     const { pathname, manifest } = params
     const { distServerEntry } = this.standardPaths || {}
-    const prod = this.mode == "production" ? true : false
+    const prod = this.utils.mode() == "production" ? true : false
 
     if (!distServerEntry) throw new Error("distServerEntry is missing")
 
@@ -415,7 +403,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       await this.renderParts({ template, pathname, manifest })
 
     // In development, get the index.html each request
-    if (this.mode != "production") {
+    if (this.utils.mode() != "production") {
       // template = await getIndexHtml(mode, url)
     }
 
@@ -465,7 +453,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
       const { manifest, template } = await this.htmlGenerators()
 
-      if (this.mode != "production") {
+      if (this.utils.mode() != "production") {
         viteServer = await this.getViteServer()
         app.use(viteServer.middlewares)
       } else {
@@ -514,7 +502,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const name = this.appName || "Unnamed App"
     const port = `[ ${this.port} ]`
     const url = this.appUrl
-    const mode = this.mode
+    const mode = this.utils.mode()
 
     this.log.info(`serving app [ready]`, {
       data: { name, port, url, mode },
@@ -590,24 +578,19 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
-    const vars = {
-      IS_VITE: "true",
-      FACTOR_SERVER_URL: this.factorServer.serverUrl,
-      FACTOR_APP_URL: this.appUrl,
-      MODE: this.mode,
-      IS_TEST: this.utils.isTest(),
-    }
-
     const define = Object.fromEntries(
-      Object.entries(vars).map(([key, value]) => {
+      Object.entries(this.vars).map(([key, value]) => {
         return [`process.env.${key}`, JSON.stringify(value)]
       }),
     )
 
-    this.log.info(`build variables (${Object.keys(vars).length} total)`, {
-      data: vars,
-      disableOnRestart: true,
-    })
+    this.log.info(
+      `transfer variables (${Object.keys(this.vars).length} total)`,
+      {
+        data: this.vars,
+        disableOnRestart: true,
+      },
+    )
 
     const pluginMarkdown = await import("vite-plugin-markdown")
     const { getMarkdownUtility } = await import("../utils/markdown")
@@ -631,9 +614,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         },
         server: {
           port: this.port,
-        },
-        resolve: {
-          alias: this.getStaticPathAliases(),
         },
         define,
         plugins: [

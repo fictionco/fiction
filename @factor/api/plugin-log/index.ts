@@ -3,15 +3,14 @@
  * Since many files use this logger, be careful for
  * circular dependencies
  */
-import { HookType } from "@factor/api/utils"
 import prettyoutput from "prettyoutput"
 import consola from "consola"
-import { runHooks } from "../utils/hook"
+import { HookType, runHooks } from "../utils/hook"
 import { dayjs, chalk } from "../utils/libraries"
 import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
 import { stringify } from "../utils/utils"
-import { logCategory, logLevel, LogHelper } from "./types"
-export * from "./types"
+import { logCategory, logLevel, LogHelper } from "./t"
+export * from "./t"
 
 interface LoggerArgs {
   level: keyof typeof logLevel

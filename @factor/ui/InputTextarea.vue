@@ -6,7 +6,6 @@
     :value="modelValue"
     @input="send($event.target)"
   />
-  {{ modelValue }}
 </template>
 
 <script lang="ts" setup>

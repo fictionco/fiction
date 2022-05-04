@@ -1,5 +1,3 @@
-import { $fetch as ohmyfetch } from "ohmyfetch"
-
 /**
  * Advanced fetch function that adds a timeout and format option to native fetch
  */
@@ -23,5 +21,3 @@ export const fetchAdvanced = async <T = unknown>(
 
   return out
 }
-
-export const $fetch = ohmyfetch

@@ -6,14 +6,9 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { FactorPlugin } from "./plugin"
-import { safeDirname, randomBetween, stringify } from "./utils"
+import { safeDirname, randomBetween, stringify, camelToKebab } from "./utils"
 import { log } from "./plugin-log"
-import {
-  ServiceConfig,
-  EnvVar,
-  FactorEnv,
-  runServicesSetup,
-} from "./plugin-env"
+import { EnvVar, FactorEnv, runServicesSetup } from "./plugin-env"
 import { FactorUser, FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
 import { FactorDb } from "./plugin-db"
@@ -221,13 +216,21 @@ export const createTestUtils = async (
   }
 }
 
-export const createTestServer = async (params: {
-  cwd?: string
-  moduleName?: string
-  headless?: boolean
-  slowMo?: number
-  serviceConfig?: ServiceConfig
-}): Promise<TestServerConfig> => {
+export const createTestServer = async (
+  params: {
+    cwd?: string
+    moduleName?: string
+    headless?: boolean
+    slowMo?: number
+    args?: Record<string, string | number>
+  } & TestUtilSettings,
+): Promise<TestServerConfig> => {
+  const {
+    serverPort = randomBetween(10_000, 20_000),
+    appPort = randomBetween(1000, 10_000),
+    args = {},
+  } = params || {}
+
   const { headless = true, slowMo } = params
   let { moduleName } = params
   const cwd = params.cwd || process.cwd()
@@ -236,14 +239,16 @@ export const createTestServer = async (params: {
 
   let _process: ExecaChildProcess | undefined
 
-  const serverPort = randomBetween(1000, 10_000)
-  const appPort = randomBetween(1000, 10_000)
+  const additionalArgs = Object.entries(args).map(([key, val]) => {
+    return `--${camelToKebab(key)} ${val}`
+  })
 
   const cmd = [
     `npm exec -w ${moduleName} --`,
     `factor run dev`,
     `--server-port ${serverPort}`,
     `--app-port ${appPort}`,
+    ...additionalArgs,
   ]
 
   const runCmd = cmd.join(" ")
@@ -272,15 +277,14 @@ export const createTestServer = async (params: {
   const page = await browser.newPage()
 
   return {
+    _process,
     serverPort,
     appPort,
     appUrl: `http://localhost:${appPort}`,
     serverUrl: `http://localhost:${serverPort}`,
-    _process,
     browser,
     page,
     expectUi,
-
     destroy: async () => {
       if (_process) {
         _process.cancel()

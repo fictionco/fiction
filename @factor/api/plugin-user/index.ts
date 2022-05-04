@@ -1,11 +1,7 @@
-import { Ref, ref } from "vue"
+import { ref } from "vue"
 import jwt from "jsonwebtoken"
 import { FactorPlugin } from "../plugin"
-import { EndpointMap } from "../utils/endpoint"
-import { FactorDb } from "../plugin-db"
-import { FactorEmail } from "../plugin-email"
 import { HookType } from "../utils/hook"
-import type { FactorServer } from "../plugin-server"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   QueryCurrentUser,
@@ -24,36 +20,26 @@ export * from "./types"
 
 export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   readonly types = types
-  private factorServer: FactorServer
-  private factorDb: FactorDb
-  private factorEmail: FactorEmail
-  public queries: ReturnType<typeof this.createQueries>
-  public activeUser: Ref<types.FullUser | undefined>
+  private factorServer = this.settings.factorServer
+  private factorDb = this.settings.factorDb
+  private factorEmail = this.settings.factorEmail
+
+  public activeUser = ref<types.FullUser>()
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-  public requests: EndpointMap<typeof this.queries>
-  public hooks: HookType<types.FactorUserHookDictionary>[]
-  public tokenSecret: string
-  private mode: "production" | "development" = "production"
+  public queries = this.createQueries()
+  public requests = this.createRequests({
+    queries: this.queries,
+    basePath: "/user",
+    factorServer: this.factorServer,
+    factorUser: this,
+  })
+  public hooks = this.settings.hooks || []
+  public tokenSecret = this.settings.tokenSecret || "secret"
+
   public clientTokenKey = "ffUser"
   constructor(settings: types.UserPluginSettings) {
     super(settings)
-
-    this.factorServer = settings.factorServer
-    this.factorDb = settings.factorDb
-    this.factorEmail = settings.factorEmail
-    this.hooks = this.settings.hooks || []
-    this.activeUser = ref()
-    this.tokenSecret = settings.tokenSecret || "secret"
-    this.mode = settings.mode || this.utils.mode()
-
-    this.queries = this.createQueries()
-    this.requests = this.createRequests({
-      queries: this.queries,
-      basePath: "/user",
-      factorServer: this.factorServer,
-      factorUser: this,
-    })
 
     if (this.utils.isActualBrowser()) {
       this.userInitialized().catch(console.error)
@@ -212,7 +198,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     }
 
     const domain =
-      this.mode == "production" ? this.utils.getTopDomain() : undefined
+      this.utils.mode() == "production" ? this.utils.getTopDomain() : undefined
 
     const { action = "get", token } = args
 
