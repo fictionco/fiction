@@ -2,6 +2,8 @@ import { ServerModuleDef } from "./types"
 export const commonServerOnlyModules = (): ServerModuleDef[] => {
   return [
     { id: "nodemon" },
+    { id: "handlebars" },
+    { id: "semver" },
     { id: "chokidar" },
     { id: "@playwright/test" },
     { id: "http" },

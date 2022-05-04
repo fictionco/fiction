@@ -1,5 +1,4 @@
 import path from "path"
-import fs from "fs-extra"
 import { Command } from "commander"
 import { log } from "@factor/api/plugin-log"
 import minimist from "minimist"

@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 import { stored, PublicUser } from "@factor/api"
-import gravatar from "gravatar"
+import gravatarUrl from "gravatar-url"
 import { computed } from "vue"
 
 const props = defineProps({
@@ -27,7 +27,7 @@ const src = computed<string>(() => {
     return user.value.avatar
   } else if (user.value || props.email) {
     const email = user.value ? user.value.email : props.email
-    return gravatar.url(email, { s: "200", d: "retro" }) || ""
+    return gravatarUrl(email, { size: 200, default: "retro" }) || ""
   } else {
     return ""
   }

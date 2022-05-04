@@ -54,10 +54,6 @@ declare module "*.md" {
 
 declare module "*package"
 declare module "std-env"
-declare module "gravatar" {
-  const src: { url: (a: string, b: Record<string, any>) => string }
-  export = src
-}
 declare module "markdown-it-video"
 declare module "markdown-it-link-attributes"
 declare module "markdown-it-implicit-figures"

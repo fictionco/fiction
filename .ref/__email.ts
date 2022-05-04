@@ -5,7 +5,7 @@ import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { _stop } from "../error"
 import { renderMarkdown } from "../markdown"
 import { logger } from "../logger"
-import { EmailTransactionalConfig } from "./types"
+import { EmailTransactionalConfig } from "../@factor/api/plugin-email/typestor/api/plugin-email/types"
 
 const require = createRequire(import.meta.url)
 

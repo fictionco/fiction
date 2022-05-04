@@ -1,8 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@factor/lint/tsconfig.json",
   "compilerOptions": {
     "paths": {
       "~/*": ["src/*"]
-    }
+    },
+    "baseUrl": ".",
+    "rootDir": "."
   }
 }

@@ -44,9 +44,5 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
     this.factorApp.addUiPaths([`${this.root}/*.vue`])
     this.factorApp.addUi(this.ui)
   }
-  setup = () => {
-    return {
-      name: this.constructor.name,
-    }
-  }
+  setup() {}
 }

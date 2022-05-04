@@ -26,8 +26,7 @@ module.exports = defineConfig({
     node: true,
   },
   ignorePatterns: [
-    "node_modules",
-    "**/node_modules/**",
+    "**/node_modules/!(@factor|@kaption)/**",
     "cdk.out/**",
     "**/regex*",
     "*eslint*",

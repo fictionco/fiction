@@ -3,7 +3,7 @@ title: Introduction and Backstory
 description: What is Factor and why is it useful? Learn how it solves common development problems and how it compares to alternative approaches.
 ---
 
-Factor is an open-source JavaScript platform designed to be minimal but create enough structure to enforce best practices for modern apps.
+Factor is an open-source JavaScript platform designed to be minimal and stable. It provides just enough structure to enforce best practices for modern apps.
 
 It is designed for people who want control and don't like limitations. It's also nice for teams who need power and flexibility but have deadlines.
 
@@ -15,13 +15,9 @@ Every day Factor powers some of the most powerful yet scalable apps on the inter
 
 ## The Problem Factor Solves
 
-Building quality JavaScript apps is hard.
+With JavaScript apps things become complicated quickly; the language was not originally designed for full stack applications. There are many left over pitfalls from the days when JS was just for scripting. If you're not incredibly careful, months or years can be wasted.
 
-Developers are forced to adopt too much code and things become complicated quickly. Months can be wasted on boilerplate functionality that doesn't add distinct value to your app.
-
-The solution is using a core framework that helps you with best practices and structure; and then gives you the ability to easily work with your own code to reach your mission-specific goals.
-
-Factor is here to help you with this.
+Here we provide a core structure with best practices and structure; and then gives you the ability to easily work with your own code to reach your mission-specific goals.
 
 ## How Factor Is Different
 

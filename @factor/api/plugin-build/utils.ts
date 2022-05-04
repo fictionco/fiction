@@ -3,14 +3,8 @@ import glob from "glob"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
-import { PackageJson } from "../types"
+import { PackageJson } from "@factor/api/types"
 
-/**
- * Register a helper to print raw JS objects
- */
-Handlebars.registerHelper("json", function (context) {
-  return JSON.stringify(context, null, 4)
-})
 /**
  * Checks whether the working directory has uncommitted changes
  */
@@ -27,6 +21,12 @@ export const createFile = (
   templatePath: string,
   settings: Record<string, string> = {},
 ): string => {
+  /**
+   * Register a helper to print raw JS objects
+   */
+  Handlebars.registerHelper("json", (context) =>
+    JSON.stringify(context, null, 4),
+  )
   const html = fs.readFileSync(templatePath, "utf8")
   const template = Handlebars.compile(html)
   return template(settings)

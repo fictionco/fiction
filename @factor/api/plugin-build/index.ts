@@ -204,7 +204,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "markdown-it-implicit-figures",
         "remove-markdown",
         "gravatar-url",
-        "gravatar",
         "validator",
       ],
     }

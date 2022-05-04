@@ -1,38 +1,7 @@
 {
+  "extends": "./@factor/lint/tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@ROOT_COMPONENT_ALIAS": ["./@factor/site/src/App.vue"],
-      "@ROUTES_ALIAS/*": ["./@factor/site/src/routes.ts"]
-    },
-    "outDir": "dist",
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "strict": true,
-    "useDefineForClassFields": true,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "rootDir": ".",
-    "removeComments": true,
-    "types": ["node"],
-    "lib": ["ESNext", "DOM"], // vue/vetur needs this
-    "skipLibCheck": true,
-    "noEmit": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "preserve"
-  },
-  "exclude": ["node_modules", "dist", ".ref", "**/__*"],
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "strict": false,
-      "allowJs": true,
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "skipLibCheck": true
-    }
+    "rootDir": "."
   }
 }

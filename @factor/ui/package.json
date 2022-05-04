@@ -9,7 +9,7 @@
   "dependencies": {
     "@factor/api": "workspace:*",
     "easymde": "^2.16.1",
-    "gravatar": "^1.8.2",
+    "gravatar-url": "^4.0.1",
     "sortablejs": "^1.15.0"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",

@@ -198,7 +198,7 @@ export class FactorRouter<
     return `${route}${searchParams}`
   }
 
-  public menuItem(name: ROUTEKEY): MenuItem {
+  public getRouteMenuItem(name: ROUTEKEY): MenuItem {
     const val = this.routes.value.find((r) => name == r.name)
 
     const route = this.router?.currentRoute.value
@@ -206,28 +206,30 @@ export class FactorRouter<
     if (!val) throw new Error(`AppRoute ${String(name)} missing`)
     if (!route) throw new Error("no current route")
 
-    const isActive = val.meta?.isActive as AppRoute<ROUTEKEY>["isActive"]
+    const isActive = val.isActive as AppRoute<ROUTEKEY>["isActive"]
     const active = isActive ? isActive({ route }) : route?.name == val.name
 
     return {
       key: val.name as string,
-      name: val.meta?.niceName as string,
-      icon: val.meta?.icon as string,
+      name: val.niceName as string,
+      icon: val.icon as string,
       active,
       route: this.routeRef(name).value,
     }
   }
 
-  public menu(location: MENUKEY): MenuItem[] {
-    const items: MenuItem[] = []
+  menu(location: MENUKEY): ComputedRef<MenuItem[]> {
+    return computed<MenuItem[]>(() => {
+      const items: MenuItem[] = []
 
-    this.routes.value.forEach((li) => {
-      const menus = (li.meta?.menus || []) as string[]
+      this.routes.value.forEach((li) => {
+        const menus = (li.menus || []) as string[]
 
-      if (menus.includes(location)) {
-        items.push(this.menuItem(li.name as ROUTEKEY))
-      }
+        if (menus.includes(location)) {
+          items.push(this.getRouteMenuItem(li.name as ROUTEKEY))
+        }
+      })
+      return items
     })
-    return items
   }
 }

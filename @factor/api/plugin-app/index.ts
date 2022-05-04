@@ -619,7 +619,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         plugins: [
           pluginMarkdown.plugin({
             mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
-            markdownIt: getMarkdownUtility(),
+            markdownIt: getMarkdownUtility({ html: true }),
           }),
         ],
       },

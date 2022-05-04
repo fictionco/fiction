@@ -1,10 +1,10 @@
 import { computed } from "vue"
-import { getRouter } from "../utils/router"
-import { emitEvent } from "../utils/event"
+import { getRouter } from "../@factor/api/utils/routerutils/router"
+import { emitEvent } from "../@factor/api/utils/event/utils/event"
 import { clientToken } from "../utils/jwt"
 import { log } from "../logger"
-import { stored, storeItem } from "../utils/store"
-import { FullUser } from "./types"
+import { stored, storeItem } from "../@factor/api/utils/store/utils/store"
+import { FullUser } from "../@factor/api/plugin-user/typestor/api/plugin-user/types"
 
 export const cacheUser = ({ user }: { user: Partial<FullUser> }): void => {
   if (user && user.userId) storeItem(user.userId, user)

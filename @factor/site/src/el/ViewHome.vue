@@ -3,7 +3,7 @@
     <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div class="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-36">
         <div
-          class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-16 lg:px-12"
+          class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:grid lg:max-w-6xl lg:grid-cols-2 lg:gap-16 lg:px-12"
         >
           <div>
             <div class="">
@@ -15,37 +15,17 @@
                   <span
                     class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600 group-hover:text-primary-400"
                   >
-                    What's new
-                  </span>
-                  <span
-                    class="inline-flex items-center space-x-1 text-sm font-medium text-primary-600 hover:text-primary-400"
-                  >
-                    <span>Version 3 is now available</span>
-                    <!-- Heroicon name: solid/chevron-right -->
-                    <svg
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      vie
-                      wBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    Currently Under Development
                   </span>
                 </router-link>
               </div>
               <div class="mt-6 sm:max-w-xl">
                 <h1 class="text-4xl font-extrabold tracking-tight">
-                  A Framework for JAMStack Websites Powered by TypeScript
+                  The simple &amp; modern framework for professional websites
                 </h1>
-                <p class="mt-6 text-xl text-color-500">
-                  FactorJS is a JamStack oriented TypeScript framework with
-                  auth, routing, and more...
+                <p class="mt-6 text-xl text-slate-700">
+                  Quickly build modern websites with the latest JavaScript
+                  technology.
                 </p>
               </div>
               <div class="mt-12 flex w-full items-center space-x-6 sm:max-w-lg">
