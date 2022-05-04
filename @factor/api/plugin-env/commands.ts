@@ -65,6 +65,11 @@ export const commands = [
     options: { mode: "production", exit: true },
   }),
   new CliCommand({
+    command: "deploy",
+    description: "deploys changes to 'deploy' branch",
+    options: { mode: "production", exit: true },
+  }),
+  new CliCommand({
     command: "generate",
     description: "builds static schemas and config",
     options: { mode: "production", exit: true },

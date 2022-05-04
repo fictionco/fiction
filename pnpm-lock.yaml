@@ -571,7 +571,7 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.10
+      '@factor/plugin-highlight-code': workspace:5.3.11
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -583,7 +583,7 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.10
+      '@factor/plugin-highlight-code': workspace:5.3.11
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -628,11 +628,11 @@ importers:
   '@factor/site':
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.3.10
-      '@factor/plugin-docs-engine': workspace:5.3.10
-      '@factor/plugin-highlight-code': workspace:5.3.10
-      '@factor/plugin-notify': workspace:5.3.10
-      '@factor/plugin-stripe': workspace:5.3.10
+      '@factor/plugin-blog-engine': workspace:5.3.11
+      '@factor/plugin-docs-engine': workspace:5.3.11
+      '@factor/plugin-highlight-code': workspace:5.3.11
+      '@factor/plugin-notify': workspace:5.3.11
+      '@factor/plugin-stripe': workspace:5.3.11
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.1
       axios: ^0.26.1

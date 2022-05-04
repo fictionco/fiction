@@ -20,46 +20,51 @@ export const runCommand = async (
   command: string,
   opts: Record<string, unknown>,
 ) => {
-  const cwd = process.cwd()
-  const mainFileRelPath = await packageMainFile(cwd)
-  const mainFilePath = path.resolve(cwd, mainFileRelPath)
+  try {
+    const cwd = process.cwd()
+    const mainFileRelPath = await packageMainFile(cwd)
+    const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
-  const cliCommand = commands
-    .find((_) => _.command === command)
-    ?.setOptions(opts)
+    const cliCommand = commands
+      .find((_) => _.command === command)
+      ?.setOptions(opts)
 
-  if (!cliCommand) throw new Error(`Command ${command} not found`)
+    if (!cliCommand) throw new Error(`command [${command}] not found`)
 
-  const fullOpts = cliCommand?.options ?? {}
+    const fullOpts = cliCommand?.options ?? {}
 
-  const params: Record<string, string> = {}
+    const params: Record<string, string> = {}
 
-  if (fullOpts.mode) {
-    process.env.NODE_ENV = fullOpts.mode
-  }
-
-  Object.entries(fullOpts).forEach(([key, value]) => {
-    if (value) {
-      params[key] = String(value)
-      const processKey = `FACTOR_${camelToUpperSnake(key)}`
-      process.env[processKey] = String(value)
+    if (fullOpts.mode) {
+      process.env.NODE_ENV = fullOpts.mode
     }
-  })
 
-  /**
-   * ! THIS MUST COME AFTER ENV VARIABLES ARE SET
-   *   Plugins expect the CLI vars (mode, port, etc. )
-   *   At the time of initial load
-   */
-  const mainFile = (await import(mainFilePath)) as MainFile
+    Object.entries(fullOpts).forEach(([key, value]) => {
+      if (value) {
+        params[key] = String(value)
+        const processKey = `FACTOR_${camelToUpperSnake(key)}`
+        process.env[processKey] = String(value)
+      }
+    })
 
-  const factorEnv = mainFile.factorEnv
+    /**
+     * ! THIS MUST COME AFTER ENV VARIABLES ARE SET
+     *   Plugins expect the CLI vars (mode, port, etc. )
+     *   At the time of initial load
+     */
+    const mainFile = (await import(mainFilePath)) as MainFile
 
-  if (!factorEnv) {
-    throw new Error(`no factorEnv at [${mainFilePath}]`)
+    const factorEnv = mainFile.factorEnv
+
+    if (!factorEnv) {
+      throw new Error(`no factorEnv at [${mainFilePath}]`)
+    }
+
+    await factorEnv.runCommand(cliCommand)
+  } catch (error) {
+    log.error("CLI", `Error Running CLI Command [${command}]`, { error })
+    exitHandler({ exit: true })
   }
-
-  await factorEnv.runCommand(cliCommand)
 }
 
 /**

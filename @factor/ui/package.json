@@ -7,7 +7,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@factor/api": "5.3.11",
+    "@factor/api": "workspace:*",
     "easymde": "^2.16.1",
     "gravatar-url": "^4.0.1",
     "sortablejs": "^1.15.0"

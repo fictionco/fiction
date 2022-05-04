@@ -22,28 +22,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   constructor(settings: FactorReleaseSettings) {
     super(settings)
     this.factorEnv = settings.factorEnv
-
-    this.addToCli()
   }
 
-  setup() {
-    return {}
-  }
-
-  addToCli() {
-    if (this.factorEnv) {
-      this.factorEnv.addHook({
-        hook: "runCommand",
-        callback: async (command: string, opts: CliOptions) => {
-          const { patch = false, skipTests = false } = opts
-
-          if (command == "release") {
-            await this.releaseRoutine({ patch, skipTests })
-          }
-        },
-      })
-    }
-  }
+  setup() {}
 
   currentVersion = (): string => {
     const pkg = getRequire()(
@@ -113,6 +94,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   }
 
   updateVersions = async (version: string): Promise<void> => {
+    this.log.info(`updating cross dependencies to v${version}`)
     const workspaceRoot = path.resolve(process.cwd())
     this.updatePackage(workspaceRoot, version)
     getPackages().forEach((p) => {
@@ -147,6 +129,49 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     }
   }
 
+  runTests = async (): Promise<void> => {
+    this.log.info(`Running tests...`)
+    await this.run("npm", ["run", "test"])
+  }
+
+  ensureCleanGit = async (
+    options: {
+      withChanges?: boolean
+    } = {},
+  ): Promise<void> => {
+    const dirty = await isGitDirty()
+    if (dirty && options.withChanges) {
+      await this.commit("git", ["add", "-A"])
+      await this.commit("git", ["commit", "-m", `chore: pre-release`])
+      await this.commit("git", ["push"])
+    } else if (dirty) {
+      throw new Error("commit changes before publishing")
+    }
+  }
+
+  deployRoutine = async (options?: {
+    skipTests?: boolean
+    withChanges?: boolean
+  }): Promise<void> => {
+    const { skipTests, withChanges } = options || {}
+
+    await this.ensureCleanGit({ withChanges })
+
+    if (!skipTests) {
+      await this.runTests()
+    }
+
+    const targetVersion = this.currentVersion()
+
+    await this.updateVersions(targetVersion)
+    await this.commit("git", ["add", "-A"])
+    await this.commit("git", ["commit", "-m", `deploy: v${targetVersion}`])
+    await this.commit("git", ["checkout", "deploy"])
+    await this.commit("git", ["merge", "dev"])
+    await this.commit("git", ["push"])
+    await this.commit("git", ["checkout", "dev"])
+  }
+
   releaseRoutine = async (options?: {
     patch?: boolean
     skipTests?: boolean
@@ -156,10 +181,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)
 
-    const dirty = await isGitDirty()
-    if (dirty) {
-      throw new Error("commit changes before publishing a release")
-    }
+    await this.ensureCleanGit()
 
     let targetVersion: string | undefined
 
@@ -206,14 +228,10 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       if (!yes) return
     }
 
-    // run tests before release
-    this.log.info(`${skipTests ? "skipping" : "running"} tests...`)
-
     if (!skipTests) {
-      await this.run("npm", ["run", "test"])
+      await this.runTests()
     }
 
-    this.log.info("updating cross dependencies...")
     await this.updateVersions(targetVersion)
 
     this.log.info("building packages...")

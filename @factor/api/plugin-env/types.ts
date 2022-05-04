@@ -70,6 +70,7 @@ export type CliOptions = {
   cwd?: string
   mode?: "development" | "production"
   command?: string
+  [key: string]: unknown
 }
 
 export type Configurations = {
