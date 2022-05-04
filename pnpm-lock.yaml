@@ -148,7 +148,7 @@ importers:
       module-alias: ^2.2.2
       multer: ^1.4.4
       nanoid: ^3.3.4
-      nodemailer: ^6.7.4
+      nodemailer: ^6.7.5
       nodemailer-html-to-text: ^3.2.0
       nodemon: ^2.0.16
       ohmyfetch: ^0.4.16
@@ -176,7 +176,7 @@ importers:
       vite: ^2.9.7
       vite-plugin-markdown: ^2.0.2
       vue: ^3.2.33
-      vue-router: ^4.0.14
+      vue-router: ^4.0.15
       ws: ^8.6.0
     dependencies:
       '@medv/finder': 2.1.0
@@ -254,7 +254,7 @@ importers:
       module-alias: 2.2.2
       multer: 1.4.4
       nanoid: 3.3.4
-      nodemailer: 6.7.4
+      nodemailer: 6.7.5
       nodemailer-html-to-text: 3.2.0
       nodemon: 2.0.16
       ohmyfetch: 0.4.16
@@ -278,7 +278,7 @@ importers:
       vite: 2.9.7_less@4.1.2
       vite-plugin-markdown: 2.0.2_vite@2.9.7
       vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
+      vue-router: 4.0.15_vue@3.2.33
       ws: 8.6.0
     devDependencies:
       '@babel/parser': 7.17.10
@@ -380,7 +380,7 @@ importers:
       module-alias: ^2.2.2
       multer: ^1.4.4
       nanoid: ^3.3.4
-      nodemailer: ^6.7.4
+      nodemailer: ^6.7.5
       nodemailer-html-to-text: ^3.2.0
       nodemon: ^2.0.16
       ohmyfetch: ^0.4.16
@@ -408,7 +408,7 @@ importers:
       vite: ^2.9.7
       vite-plugin-markdown: ^2.0.2
       vue: ^3.2.33
-      vue-router: ^4.0.14
+      vue-router: ^4.0.15
       ws: ^8.6.0
     dependencies:
       '@medv/finder': 2.1.0
@@ -484,7 +484,7 @@ importers:
       module-alias: 2.2.2
       multer: 1.4.4
       nanoid: 3.3.4
-      nodemailer: 6.7.4
+      nodemailer: 6.7.5
       nodemailer-html-to-text: 3.2.0
       nodemon: 2.0.16
       ohmyfetch: 0.4.16
@@ -508,7 +508,7 @@ importers:
       vite: 2.9.7_less@4.1.2
       vite-plugin-markdown: 2.0.2_vite@2.9.7
       vue: 3.2.33
-      vue-router: 4.0.14_vue@3.2.33
+      vue-router: 4.0.15_vue@3.2.33
       ws: 8.6.0
     devDependencies:
       '@babel/parser': 7.17.10
@@ -571,7 +571,7 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.9
+      '@factor/plugin-highlight-code': workspace:5.3.10
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -583,7 +583,7 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.9
+      '@factor/plugin-highlight-code': workspace:5.3.10
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -628,13 +628,13 @@ importers:
   '@factor/site':
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.3.9
-      '@factor/plugin-docs-engine': workspace:5.3.9
-      '@factor/plugin-highlight-code': workspace:5.3.9
-      '@factor/plugin-notify': workspace:5.3.9
-      '@factor/plugin-stripe': workspace:5.3.9
+      '@factor/plugin-blog-engine': workspace:5.3.10
+      '@factor/plugin-docs-engine': workspace:5.3.10
+      '@factor/plugin-highlight-code': workspace:5.3.10
+      '@factor/plugin-notify': workspace:5.3.10
+      '@factor/plugin-stripe': workspace:5.3.10
       '@factor/ui': workspace:*
-      '@tailwindcss/forms': ^0.5.0
+      '@tailwindcss/forms': ^0.5.1
       axios: ^0.26.1
       dayjs: ^1.11.1
       deepmerge: ^4.2.2
@@ -666,7 +666,7 @@ importers:
       spark-md5: 3.0.2
       tailwindcss: 3.0.24
     devDependencies:
-      '@tailwindcss/forms': 0.5.0_tailwindcss@3.0.24
+      '@tailwindcss/forms': 0.5.1_tailwindcss@3.0.24
 
   '@factor/ui':
     specifiers:
@@ -1402,8 +1402,8 @@ packages:
     dependencies:
       defer-to-connect: 1.1.3
 
-  /@tailwindcss/forms/0.5.0_tailwindcss@3.0.24:
-    resolution: {integrity: sha512-KzWugryEBFkmoaYcBE18rs6gthWCFHHO7cAZm2/hv3hwD67AzwP7udSCa22E7R1+CEJL/FfhYsJWrc0b1aeSzw==}
+  /@tailwindcss/forms/0.5.1_tailwindcss@3.0.24:
+    resolution: {integrity: sha512-QSwsFORnC2BAP0lRzQkz1pw+EzIiiPdk4e27vGQjyXkwJPeC7iLIRVndJzf9CJVbcrrIcirb/TfxF3gRTyFEVA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
@@ -2160,8 +2160,8 @@ packages:
     resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
     dev: false
 
-  /array-includes/3.1.4:
-    resolution: {integrity: sha512-ZTNSQkmWumEbiHO2GF4GmWxYVTiQyJy2XOTa15sdQSrvKn7l+180egQMqlrMOUMCyLMD7pmyQe4mMDUT6Behrw==}
+  /array-includes/3.1.5:
+    resolution: {integrity: sha512-iSDYZMMyTPkiFasVqfuAQnWAYcvO/SeBSCGKePoEthjp4LEMTe4uLc7b025o4jAZpHhihh8xPo99TNWUWWkGDQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -2226,7 +2226,7 @@ packages:
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.15.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -2325,7 +2325,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.131
+      electron-to-chromium: 1.4.132
       escalade: 3.1.1
       node-releases: 2.0.4
       picocolors: 1.0.0
@@ -3147,8 +3147,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.131:
-    resolution: {integrity: sha512-oi3YPmaP87hiHn0c4ePB67tXaF+ldGhxvZnT19tW9zX6/Ej+pLN0Afja5rQ6S+TND7I9EuwQTT8JYn1k7R7rrw==}
+  /electron-to-chromium/1.4.132:
+    resolution: {integrity: sha512-JYdZUw/1068NWN+SwXQ7w6Ue0bWYGihvSUNNQwurvcDV/SM7vSiGZ3NuFvFgoEiCs4kB8xs3cX2an3wB7d4TBw==}
 
   /email-validator/2.0.4:
     resolution: {integrity: sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==}
@@ -3553,7 +3553,7 @@ packages:
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
       doctrine: 2.1.0
@@ -4034,8 +4034,8 @@ packages:
   /flatted/3.2.5:
     resolution: {integrity: sha512-WIWGi2L3DyTUvUrwRKgGi9TwxQMUEqPOPQBVi71R96jZXJdFskXEmf54BoZaS1kknGODoIGASGEzBUYdyMCBJg==}
 
-  /follow-redirects/1.14.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+  /follow-redirects/1.15.0:
+    resolution: {integrity: sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -5820,8 +5820,8 @@ packages:
       html-to-text: 7.1.1
     dev: false
 
-  /nodemailer/6.7.4:
-    resolution: {integrity: sha512-TBSS3qS8WG45ycUwEvEA/3UM1o3sLz9jUl4TPUKPz4ImWWM6UgRCb5pLO+HOouDKEj57yNLOrzQlO8+9IjWZoA==}
+  /nodemailer/6.7.5:
+    resolution: {integrity: sha512-6VtMpwhsrixq1HDYSBBHvW0GwiWawE75dS3oal48VqRhUvKJNnKnJo2RI/bCVQubj1vgrgscMNW4DHaD6xtMCg==}
     engines: {node: '>=6.0.0'}
     dev: false
 
@@ -7924,8 +7924,8 @@ packages:
       - supports-color
     dev: false
 
-  /vue-router/4.0.14_vue@3.2.33:
-    resolution: {integrity: sha512-wAO6zF9zxA3u+7AkMPqw9LjoUCjSxfFvINQj3E/DceTt6uEz1XZLraDhdg2EYmvVwTBSGlLYsUw8bDmx0754Mw==}
+  /vue-router/4.0.15_vue@3.2.33:
+    resolution: {integrity: sha512-xa+pIN9ZqORdIW1MkN2+d9Ui2pCM1b/UMgwYUCZOiFYHAvz/slKKBDha8DLrh5aCG/RibtrpyhKjKOZ85tYyWg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
