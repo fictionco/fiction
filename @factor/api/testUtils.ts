@@ -8,15 +8,19 @@ import fs from "fs-extra"
 import { FactorPlugin } from "./plugin"
 import { safeDirname, randomBetween, stringify, camelToKebab } from "./utils"
 import { log } from "./plugin-log"
-import { EnvVar, FactorEnv, runServicesSetup } from "./plugin-env"
-import { FactorUser, FullUser } from "./plugin-user"
+import { EnvVar, runServicesSetup } from "./plugin-env"
+import { FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
-import { FactorDb } from "./plugin-db"
-import { FactorRouter } from "./plugin-router"
-import { FactorEmail } from "./plugin-email"
-import { FactorServer } from "./plugin-server"
-import { FactorApp } from "./plugin-app"
 import EmptyApp from "./resource/EmptyApp.vue"
+import {
+  FactorEnv,
+  FactorApp,
+  FactorServer,
+  FactorEmail,
+  FactorRouter,
+  FactorDb,
+  FactorUser,
+} from "."
 
 const require = createRequire(import.meta.url)
 

@@ -1,5 +1,6 @@
 import express from "express"
 import axios from "axios"
+import knex from "knex"
 import * as vue from "vue"
 import dayjs from "dayjs"
 import chalk from "chalk"
@@ -10,4 +11,4 @@ dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(tz)
 
-export { dayjs, express, axios, vue, chalk }
+export { dayjs, express, axios, knex, vue, chalk }

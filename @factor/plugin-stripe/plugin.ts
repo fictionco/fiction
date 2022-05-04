@@ -1,16 +1,16 @@
 import http from "http"
 import {
   FactorPlugin,
-  EndpointMap,
   HookType,
   Endpoint,
   EndpointResponse,
+  FactorApp,
+  FactorServer,
+  FactorUser,
 } from "@factor/api"
-import { FactorUser } from "@factor/api/plugin-user"
+
 import * as StripeJS from "@stripe/stripe-js"
 import Stripe from "stripe"
-import { FactorServer } from "@factor/api/plugin-server"
-import { FactorApp } from "@factor/api/plugin-app"
 import {
   QueryAllProducts,
   QueryGetCoupon,
@@ -39,41 +39,27 @@ export type StripePluginSettings = {
 }
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
-  factorUser: FactorUser
-  factorServer: FactorServer
-  factorApp: FactorApp
-  public queries: ReturnType<typeof this.createQueries>
-  public requests: EndpointMap<typeof this.queries>
+  factorUser = this.settings.factorUser
+  factorServer = this.settings.factorServer
+  factorApp = this.settings.factorApp
+  public queries = this.createQueries()
+  public requests = this.createRequests({
+    queries: this.queries,
+    factorServer: this.factorServer,
+    factorUser: this.factorUser,
+  })
   public client?: StripeJS.Stripe
-  private stripeMode: "test" | "live" = "test"
-  public hooks: HookType<types.HookDictionary>[]
-  public products: types.StripeProductConfig[]
+  private stripeMode = this.settings.stripeMode
+  public hooks = this.settings.hooks ?? []
+  public products = this.settings.products
   readonly types = types
-  publicKeyLive?: string
-  publicKeyTest?: string
-  secretKeyLive?: string
-  secretKeyTest?: string
-  webhookSecret?: string
+  publicKeyLive = this.settings.publicKeyLive
+  publicKeyTest = this.settings.publicKeyTest
+  secretKeyLive = this.settings.secretKeyLive
+  secretKeyTest = this.settings.secretKeyTest
+  webhookSecret = this.settings.webhookSecret
   constructor(settings: StripePluginSettings) {
     super(settings)
-    this.factorApp = settings.factorApp
-    this.factorServer = settings.factorServer
-    this.factorUser = settings.factorUser
-    this.queries = this.createQueries()
-
-    this.requests = this.createRequests({
-      queries: this.queries,
-      factorServer: this.factorServer,
-      factorUser: this.factorUser,
-    })
-    this.stripeMode = settings.stripeMode
-    this.hooks = settings.hooks ?? []
-    this.products = settings.products
-    this.publicKeyLive = settings.publicKeyLive
-    this.publicKeyTest = settings.publicKeyTest
-    this.webhookSecret = settings.webhookSecret
-    this.secretKeyLive = settings.secretKeyLive
-    this.secretKeyTest = settings.secretKeyTest
 
     const stripeWebhookEndpoint = new Endpoint({
       requestHandler: (_) => this.stripeHookHandler(_),
