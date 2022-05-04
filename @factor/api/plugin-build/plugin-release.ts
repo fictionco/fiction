@@ -3,7 +3,7 @@ import fs from "fs"
 import { ExecaChildProcess, ExecaError } from "execa"
 import enquirer from "enquirer"
 import semver, { ReleaseType } from "semver"
-import { CliOptions, FactorEnv } from "@factor/api/plugin-env"
+import { FactorEnv } from "@factor/api/plugin-env"
 import { log } from "@factor/api"
 import { getRequire } from "@factor/api/utils"
 import { PackageJson } from "@factor/api/types"
@@ -166,6 +166,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     await this.updateVersions(targetVersion)
     await this.commit("git", ["add", "-A"])
     await this.commit("git", ["commit", "-m", `deploy: v${targetVersion}`])
+    await this.commit("git", ["push"])
     await this.commit("git", ["checkout", "deploy"])
     await this.commit("git", ["merge", "dev"])
     await this.commit("git", ["push"])

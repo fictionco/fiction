@@ -42,7 +42,7 @@ export type FactorControlSettings<S extends string> = {
   envVars?: () => EnvVar<S>[]
 }
 
-export class FactorEnv<S extends string> extends FactorPlugin<
+export class FactorEnv<S extends string = string> extends FactorPlugin<
   FactorControlSettings<S>
 > {
   commands: CliCommand<string>[]
