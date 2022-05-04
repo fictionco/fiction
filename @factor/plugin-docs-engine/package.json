@@ -17,7 +17,7 @@
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "dependencies": {
-    "@factor/plugin-highlight-code": "workspace:5.3.11",
+    "@factor/plugin-highlight-code": "5.3.11",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.1",
     "string-similarity": "^4.0.4"
