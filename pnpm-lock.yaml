@@ -22,7 +22,7 @@ importers:
       concurrently: ^7.1.0
       dotenv: ^16.0.0
       eslint: ^8.14.0
-      happy-dom: ^3.1.0
+      happy-dom: ^3.1.1
       jsdom: ^19.0.0
       nodemon: ^2.0.16
       npm-package-json-lint: ^6.3.0
@@ -32,7 +32,7 @@ importers:
       tslib: ^2.4.0
       typescript: ^4.6.4
       vite: ^2.9.8
-      vitest: ^0.10.2
+      vitest: ^0.10.4
       vue: ^3.2.33
       yorkie: ^2.0.0
     devDependencies:
@@ -48,7 +48,7 @@ importers:
       concurrently: 7.1.0
       dotenv: 16.0.0
       eslint: 8.14.0
-      happy-dom: 3.1.0
+      happy-dom: 3.1.1
       jsdom: 19.0.0
       nodemon: 2.0.16
       npm-package-json-lint: 6.3.0
@@ -58,7 +58,7 @@ importers:
       tslib: 2.4.0
       typescript: 4.6.4
       vite: 2.9.8
-      vitest: 0.10.2_sjc3ipbkg5thyuwckyil2qbf5e
+      vitest: 0.10.4_kiqqlujntxwausu7qxmrpd3qou
       vue: 3.2.33
       yorkie: 2.0.0
 
@@ -138,7 +138,7 @@ importers:
       knex-stringcase: ^1.4.6
       less: ^4.1.2
       markdown-it: ^12.3.2
-      markdown-it-anchor: ^8.6.2
+      markdown-it-anchor: ^8.6.3
       markdown-it-implicit-figures: ^0.10.0
       markdown-it-link-attributes: ^4.0.0
       markdown-it-video: ^0.6.3
@@ -161,7 +161,7 @@ importers:
       react-dom: ^18.1.0
       remove-markdown: ^0.3.0
       request-ip: ^2.1.3
-      rollup: ^2.71.1
+      rollup: ^2.72.0
       semver: ^7.3.7
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -170,7 +170,7 @@ importers:
       string-similarity: ^4.0.4
       tailwindcss: ^3.0.24
       ts-node: ^10.7.0
-      tsup: ^5.12.6
+      tsup: ^5.12.7
       typescript: ^4.6.4
       validator: ^13.7.0
       vite: ^2.9.8
@@ -245,7 +245,7 @@ importers:
       knex-stringcase: 1.4.6
       less: 4.1.2
       markdown-it: 12.3.2
-      markdown-it-anchor: 8.6.2_2zb4u3vubltivolgu556vv4aom
+      markdown-it-anchor: 8.6.3_2zb4u3vubltivolgu556vv4aom
       markdown-it-implicit-figures: 0.10.0
       markdown-it-link-attributes: 4.0.0
       markdown-it-video: 0.6.3
@@ -272,7 +272,7 @@ importers:
       string-similarity: 4.0.4
       tailwindcss: 3.0.24_ts-node@10.7.0
       ts-node: 10.7.0_l47be6km5p57gglrggidw5gsgm
-      tsup: 5.12.6_264h3sw46u7df5g3xb5chlrp74
+      tsup: 5.12.7_264h3sw46u7df5g3xb5chlrp74
       typescript: 4.6.4
       validator: 13.7.0
       vite: 2.9.8_less@4.1.2
@@ -292,7 +292,7 @@ importers:
       minimist: 1.2.6
       playwright: 1.21.1
       react-dom: 18.1.0_react@18.1.0
-      rollup: 2.71.1
+      rollup: 2.72.0
       semver: 7.3.7
 
   '@factor/dep':
@@ -370,7 +370,7 @@ importers:
       knex-stringcase: ^1.4.6
       less: ^4.1.2
       markdown-it: ^12.3.2
-      markdown-it-anchor: ^8.6.2
+      markdown-it-anchor: ^8.6.3
       markdown-it-implicit-figures: ^0.10.0
       markdown-it-link-attributes: ^4.0.0
       markdown-it-video: ^0.6.3
@@ -393,7 +393,7 @@ importers:
       react-dom: ^18.1.0
       remove-markdown: ^0.3.0
       request-ip: ^2.1.3
-      rollup: ^2.71.1
+      rollup: ^2.72.0
       semver: ^7.3.7
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -402,7 +402,7 @@ importers:
       string-similarity: ^4.0.4
       tailwindcss: ^3.0.24
       ts-node: ^10.7.0
-      tsup: ^5.12.6
+      tsup: ^5.12.7
       typescript: ^4.6.4
       validator: ^13.7.0
       vite: ^2.9.8
@@ -475,7 +475,7 @@ importers:
       knex-stringcase: 1.4.6
       less: 4.1.2
       markdown-it: 12.3.2
-      markdown-it-anchor: 8.6.2_2zb4u3vubltivolgu556vv4aom
+      markdown-it-anchor: 8.6.3_2zb4u3vubltivolgu556vv4aom
       markdown-it-implicit-figures: 0.10.0
       markdown-it-link-attributes: 4.0.0
       markdown-it-video: 0.6.3
@@ -502,7 +502,7 @@ importers:
       string-similarity: 4.0.4
       tailwindcss: 3.0.24_ts-node@10.7.0
       ts-node: 10.7.0_l47be6km5p57gglrggidw5gsgm
-      tsup: 5.12.6_264h3sw46u7df5g3xb5chlrp74
+      tsup: 5.12.7_264h3sw46u7df5g3xb5chlrp74
       typescript: 4.6.4
       validator: 13.7.0
       vite: 2.9.8_less@4.1.2
@@ -523,7 +523,7 @@ importers:
       minimist: 1.2.6
       playwright: 1.21.1
       react-dom: 18.1.0_react@18.1.0
-      rollup: 2.71.1
+      rollup: 2.72.0
       semver: 7.3.7
 
   '@factor/lint':
@@ -571,7 +571,7 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.11
+      '@factor/plugin-highlight-code': workspace:5.3.12
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -583,7 +583,7 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/plugin-highlight-code': workspace:5.3.11
+      '@factor/plugin-highlight-code': workspace:5.3.12
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.1
       string-similarity: ^4.0.4
@@ -616,23 +616,23 @@ importers:
       '@stripe/stripe-js': ^1.29.0
       dotenv: ^16.0.0
       express: ^4.18.1
-      stripe: ^8.220.0
+      stripe: ^8.222.0
     dependencies:
       '@factor/api': link:../api
       '@stripe/stripe-js': 1.29.0
       express: 4.18.1
-      stripe: 8.220.0
+      stripe: 8.222.0
     devDependencies:
       dotenv: 16.0.0
 
   '@factor/site':
     specifiers:
       '@factor/api': workspace:*
-      '@factor/plugin-blog-engine': workspace:5.3.11
-      '@factor/plugin-docs-engine': workspace:5.3.11
-      '@factor/plugin-highlight-code': workspace:5.3.11
-      '@factor/plugin-notify': workspace:5.3.11
-      '@factor/plugin-stripe': workspace:5.3.11
+      '@factor/plugin-blog-engine': workspace:5.3.12
+      '@factor/plugin-docs-engine': workspace:5.3.12
+      '@factor/plugin-highlight-code': workspace:5.3.12
+      '@factor/plugin-notify': workspace:5.3.12
+      '@factor/plugin-stripe': workspace:5.3.12
       '@factor/ui': workspace:*
       '@tailwindcss/forms': ^0.5.1
       axios: ^0.26.1
@@ -2215,7 +2215,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.3
-      caniuse-lite: 1.0.30001335
+      caniuse-lite: 1.0.30001336
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2324,8 +2324,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.133
+      caniuse-lite: 1.0.30001336
+      electron-to-chromium: 1.4.134
       escalade: 3.1.1
       node-releases: 2.0.4
       picocolors: 1.0.0
@@ -2467,8 +2467,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  /caniuse-lite/1.0.30001335:
-    resolution: {integrity: sha512-ddP1Tgm7z2iIxu6QTtbZUv6HJxSaV/PZeSrWFZtbY4JZ69tOeNhBCl3HyRQgeNZKE5AOn1kpV7fhljigy0Ty3w==}
+  /caniuse-lite/1.0.30001336:
+    resolution: {integrity: sha512-/YxSlBmL7iKXTbIJ48IQTnAOBk7XmWsxhBF1PZLOko5Dt9qc4Pl+84lfqG3Tc4EuavurRn1QLoVJGxY2iSycfw==}
 
   /caseless/0.12.0:
     resolution: {integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=}
@@ -3141,8 +3141,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.133:
-    resolution: {integrity: sha512-ZiIO/VXWqY9WME7vztTySSqwm4+A8o66upAb4AmxPwOLejUM8dffcDKY+Hj6oBq/1de7w75n4GxYFxF52ewnUQ==}
+  /electron-to-chromium/1.4.134:
+    resolution: {integrity: sha512-OdD7M2no4Mi8PopfvoOuNcwYDJ2mNFxaBfurA6okG3fLBaMcFah9S+si84FhX+FIWLKkdaiHfl4A+5ep/gOVrg==}
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4385,8 +4385,8 @@ packages:
       uglify-js: 3.15.4
     dev: true
 
-  /happy-dom/3.1.0:
-    resolution: {integrity: sha512-BewZQwLdu6JS9HYT7enB2toju80OjSjl44+3HXMB3hT+2skC9Mja+/N/b+SbtnwJCMbQqiZVzy/RXevPPuBIXQ==}
+  /happy-dom/3.1.1:
+    resolution: {integrity: sha512-yomqZv0JJ3FSQ/OZXiDSNOqw/vxZEzrFpxXausyyGPMICZs3KIGfQt+X/007abXkQWRb1SDeetM4PqOM0cagfQ==}
     dependencies:
       css.escape: 1.5.1
       he: 1.2.0
@@ -5474,8 +5474,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /markdown-it-anchor/8.6.2_2zb4u3vubltivolgu556vv4aom:
-    resolution: {integrity: sha512-JNaekTlIwwyYGBN3zifZDxgz4bSL8sbEj58fdTZGmPSMMGXBZapFjcZk2I33Jy79c1fvCKHpF7MA/67FOTjvzA==}
+  /markdown-it-anchor/8.6.3_2zb4u3vubltivolgu556vv4aom:
+    resolution: {integrity: sha512-3IiHYh/kJHY2IcuKv5qv+IKNxDwXjVoYQ5FvbBUPywcwCQ4ICLIw5z0QrhYBtcD7h88MfFK3zKAkABTvPMxm7A==}
     peerDependencies:
       '@types/markdown-it': '*'
       markdown-it: '*'
@@ -6830,8 +6830,8 @@ packages:
     dependencies:
       glob: 7.2.0
 
-  /rollup/2.71.1:
-    resolution: {integrity: sha512-lMZk3XfUBGjrrZQpvPSoXcZSfKcJ2Bgn+Z0L1MoW2V8Wh7BVM+LOBJTPo16yul2MwL59cXedzW1ruq3rCjSRgw==}
+  /rollup/2.72.0:
+    resolution: {integrity: sha512-KqtR2YcO35/KKijg4nx4STO3569aqCUeGRkKWnJ6r+AvBBrVY9L4pmf4NHVrQr4mTOq6msbohflxr2kpihhaOA==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -7214,8 +7214,8 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  /stripe/8.220.0:
-    resolution: {integrity: sha512-hE3NapEqNCiiQD1lMQPccKgJsu2aANR+oDudUHcuvRnNUJ3GrbntwACs7Op45PvHpJ/RY4l46XDwTMgdWJAm3w==}
+  /stripe/8.222.0:
+    resolution: {integrity: sha512-hrA79fjmN2Eb6K3kxkDzU4ODeVGGjXQsuVaAPSUro6I9MM3X+BvIsVqdphm3BXWfimAGFvUqWtPtHy25mICY1w==}
     engines: {node: ^8.1 || >=10.*}
     dependencies:
       '@types/node': 17.0.31
@@ -7526,8 +7526,8 @@ packages:
   /tslib/2.4.0:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
 
-  /tsup/5.12.6_264h3sw46u7df5g3xb5chlrp74:
-    resolution: {integrity: sha512-tpePOgdMRKRgazF+ujq9k1Fo44PUFUJJjRLtxq87pQrYW/Ub/fu1GpFGLzdUF9qjJ4FX1ykhf2d9mWCNy+jAtg==}
+  /tsup/5.12.7_264h3sw46u7df5g3xb5chlrp74:
+    resolution: {integrity: sha512-+OxYroGLByY0Fm8DLZaB4nVMlD59VsQoNXdhnO9wOG+cOsKXUwN3ER9gaKOjZJG26eKUXebmDme0Cy3emfRvOQ==}
     hasBin: true
     peerDependencies:
       typescript: ^4.1.0
@@ -7545,7 +7545,7 @@ packages:
       joycon: 3.1.1
       postcss-load-config: 3.1.4_4jqnslpwnj4ifyjfqbkuebd4fy
       resolve-from: 5.0.0
-      rollup: 2.71.1
+      rollup: 2.72.0
       source-map: 0.7.3
       sucrase: 3.21.0
       tree-kill: 1.2.2
@@ -7805,7 +7805,7 @@ packages:
       esbuild: 0.14.38
       postcss: 8.4.13
       resolve: 1.22.0
-      rollup: 2.71.1
+      rollup: 2.72.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -7830,13 +7830,13 @@ packages:
       less: 4.1.2
       postcss: 8.4.13
       resolve: 1.22.0
-      rollup: 2.71.1
+      rollup: 2.72.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
 
-  /vitest/0.10.2_sjc3ipbkg5thyuwckyil2qbf5e:
-    resolution: {integrity: sha512-41D+nhswCco5vy1NXmpAjZX11Aj+HMnyhjWQD12piwHibf4bvdTGtni56UcFWcvONVoIForgDuLrKSohHJjwQA==}
+  /vitest/0.10.4_kiqqlujntxwausu7qxmrpd3qou:
+    resolution: {integrity: sha512-FJ2av2PVozmyz9nqHRoC3H8j2z0OQXj8P8jS5oyMY9mfPWB06GS5k/1Ot++TkVBLQRHZCcVzjbK4BO7zqAJZGQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -7858,7 +7858,7 @@ packages:
       '@types/chai-subset': 1.3.3
       c8: 7.11.2
       chai: 4.3.6
-      happy-dom: 3.1.0
+      happy-dom: 3.1.1
       jsdom: 19.0.0
       local-pkg: 0.4.1
       tinypool: 0.1.3

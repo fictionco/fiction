@@ -189,7 +189,7 @@ export class FactorRouter<
 
   public link(
     key: ROUTEKEY,
-    replace: Record<string, string | Ref<string>> = {},
+    replace: Record<string, string | undefined | Ref<string | undefined>> = {},
     query?: Record<string, any> | undefined,
   ): Ref<string> {
     return computed(() => {
@@ -205,7 +205,7 @@ export class FactorRouter<
 
   public to(
     key: ROUTEKEY,
-    replace: Record<string, string> = {},
+    replace: Record<string, string | undefined> = {},
     query?: Record<string, any> | undefined,
   ): string {
     return this.link(key, replace, query).value
