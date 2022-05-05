@@ -51,9 +51,9 @@ export type FactorAppSettings = {
   appUrl?: string
   port: number
   factorServer: FactorServer
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
   rootComponent: Component
-  factorRouter: FactorRouter<string, string>
+  factorRouter: FactorRouter
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   serverOnlyImports?: ServerModuleDef[]

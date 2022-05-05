@@ -2325,7 +2325,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.132
+      electron-to-chromium: 1.4.133
       escalade: 3.1.1
       node-releases: 2.0.4
       picocolors: 1.0.0
@@ -3141,8 +3141,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.132:
-    resolution: {integrity: sha512-JYdZUw/1068NWN+SwXQ7w6Ue0bWYGihvSUNNQwurvcDV/SM7vSiGZ3NuFvFgoEiCs4kB8xs3cX2an3wB7d4TBw==}
+  /electron-to-chromium/1.4.133:
+    resolution: {integrity: sha512-ZiIO/VXWqY9WME7vztTySSqwm4+A8o66upAb4AmxPwOLejUM8dffcDKY+Hj6oBq/1de7w75n4GxYFxF52ewnUQ==}
 
   /emoji-regex/8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}

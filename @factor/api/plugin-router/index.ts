@@ -1,4 +1,4 @@
-import { Ref, ComputedRef, shallowRef, computed } from "vue"
+import { Ref, ComputedRef, shallowRef, computed, isRef } from "vue"
 import * as vueRouter from "vue-router"
 import { FactorPlugin } from "../plugin"
 import { randomBetween } from "../utils"
@@ -24,10 +24,14 @@ export class FactorRouter<
   constructor(settings: FactorRouteSettings = {}) {
     super(settings)
     this.replacers = settings.replacers || []
-    this.routes = shallowRef(settings.routes || []) as Ref<AppRoute<ROUTEKEY>[]>
+    this.routes = shallowRef(settings.routes || []) as Ref<AppRoute<string>[]>
     this.router = this.createFactorRouter()
   }
   setup() {}
+
+  addReplacers(replacers: RouteReplacer[]) {
+    this.replacers = [...this.replacers, ...replacers]
+  }
 
   public vueRoutes = computed<vueRouter.RouteRecordRaw[]>(() => {
     return this.convertAppRoutesToRoutes(this.routes.value)
@@ -162,20 +166,16 @@ export class FactorRouter<
 
   private routeRef(
     name: ROUTEKEY,
-    replace: Record<string, any> = {},
+    replacers: RouteReplacer[] = [],
   ): ComputedRef<string> {
     return computed<string>(() => {
       let r = this.rawPath(name)
 
-      Object.entries(replace).forEach(([key, value]) => {
-        if (typeof value == "string") {
-          r = r.replace(`:${key}`, value)
-        }
-      })
+      const rep = [...replacers, ...this.replacers]
+      rep.forEach(({ key, val }) => {
+        const v = isRef(val) ? val.value : val
 
-      this.replacers.forEach(({ key, replace }) => {
-        const active = replace().value
-        r = r.replace(`:${key}`, active[key] ?? "---")
+        r = r.replace(`:${key}`, v ?? "--")
       })
 
       return r
@@ -187,15 +187,39 @@ export class FactorRouter<
     return this.vueRoutes.value.find((r) => route?.name == r.name)
   }
 
+  public link(
+    key: ROUTEKEY,
+    replace: Record<string, string | Ref<string>> = {},
+    query?: Record<string, any> | undefined,
+  ): Ref<string> {
+    return computed(() => {
+      const searchParams = query ? `?${new URLSearchParams(query)}` : ""
+      const replacers = Object.entries(replace).map(([key, val]) => {
+        return { key, val }
+      })
+      const route = this.routeRef(key, replacers).value
+
+      return `${route}${searchParams}`
+    })
+  }
+
   public to(
     key: ROUTEKEY,
-    replace: Record<string, any> = {},
+    replace: Record<string, string> = {},
     query?: Record<string, any> | undefined,
   ): string {
-    const searchParams = query ? `?${new URLSearchParams(query)}` : ""
-    const route = this.routeRef(key, replace).value
+    return this.link(key, replace, query).value
+  }
 
-    return `${route}${searchParams}`
+  private activeRef(name: ROUTEKEY): ComputedRef<boolean> {
+    const val = this.routes.value.find((r) => name == r.name)
+    const isActive = val?.isActive
+
+    return computed(() => {
+      const route = this.router?.currentRoute.value
+      const active = isActive ? isActive({ route }) : route?.name == val?.name
+      return active || false
+    })
   }
 
   public getRouteMenuItem(name: ROUTEKEY): MenuItem {
@@ -206,30 +230,25 @@ export class FactorRouter<
     if (!val) throw new Error(`AppRoute ${String(name)} missing`)
     if (!route) throw new Error("no current route")
 
-    const isActive = val.isActive as AppRoute<ROUTEKEY>["isActive"]
-    const active = isActive ? isActive({ route }) : route?.name == val.name
-
     return {
-      key: val.name as string,
-      name: val.niceName as string,
-      icon: val.icon as string,
-      active,
-      route: this.routeRef(name).value,
+      key: val.name,
+      name: val.niceName,
+      icon: val.icon,
+      active: this.activeRef(name as ROUTEKEY),
+      route: this.routeRef(name),
     }
   }
 
-  menu(location: MENUKEY): ComputedRef<MenuItem[]> {
-    return computed<MenuItem[]>(() => {
-      const items: MenuItem[] = []
+  menu(location: MENUKEY): MenuItem[] {
+    const items: MenuItem[] = []
 
-      this.routes.value.forEach((li) => {
-        const menus = (li.menus || []) as string[]
+    this.routes.value.forEach((li) => {
+      const menus = (li.menus || []) as string[]
 
-        if (menus.includes(location)) {
-          items.push(this.getRouteMenuItem(li.name as ROUTEKEY))
-        }
-      })
-      return items
+      if (menus.includes(location)) {
+        items.push(this.getRouteMenuItem(li.name as ROUTEKEY))
+      }
     })
+    return items
   }
 }

@@ -112,9 +112,9 @@ describe("route handling", () => {
   })
 
   it("gets menu items", () => {
-    const testMenuItems = factorRouter.menu("test").value
+    const testMenuItems = factorRouter.menu("test")
     expect(testMenuItems.length).toBe(2)
-    expect(factorRouter.menu("test").value).toMatchInlineSnapshot(`
+    expect(factorRouter.menu("test")).toMatchInlineSnapshot(`
       [
         {
           "active": false,

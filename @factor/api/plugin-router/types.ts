@@ -10,5 +10,5 @@ export type BaseCompiledConfig = {
 
 export type RouteReplacer = {
   key: string
-  replace: () => Ref<Record<string, string>>
+  val: Ref<string | undefined> | string | undefined
 }
