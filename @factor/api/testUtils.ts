@@ -38,29 +38,47 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 
+const rep = (nm: string, val: string) => `[${nm}:${val.length}]`
+const snapString = ( value: string | Date | number, key?: string): string => {
+  let out = ''
+  const val = String(value)
+
+  if (key?.endsWith("Id") && val) {
+    out = rep('id', val)
+  } else if ((key?.endsWith("At") || key?.endsWith("Iso")) && val) {
+    out = rep('date', val)
+  } else if (key?.endsWith("Name") && val) {
+    out = rep('name', val)
+  } else if (key?.toLowerCase().endsWith("email") && val) {
+    out = rep('email', val)
+  } else if (val.length === 32){
+    out = rep('hash', val)
+  }
+
+  return out
+}
+
 export const snap = (
   obj?: Record<string, any> | Record<string, any>[],
 ): Record<string, any> | undefined => {
   if (!obj) return undefined
 
   if (Array.isArray(obj)) {
-    return obj.map((o) => snap(o))
+    return obj.map((o ) => {
+      return (typeof o === 'object') ? snap(o) : snapString(o)
+    })
   }
 
   const newObj = {} as Record<string, unknown>
+
   for (const key in obj) {
-    if (key.endsWith("Id") && obj[key]) {
-      newObj[key] = `[id]`
-    } else if (key.endsWith("At") && obj[key]) {
-      newObj[key] = `[date]`
-    } else if (key.endsWith("Name") && obj[key]) {
-      newObj[key] = `[name]`
-    } else if (key.toLowerCase().endsWith("email") && obj[key]) {
-      newObj[key] = `[date]`
-    } else if (obj[key] && typeof obj[key] === "object") {
-      newObj[key] = snap(obj[key] as Record<string, unknown>)
+    const value = obj[key]
+    if (value && typeof value === "object") {
+      newObj[key] = snap(value as Record<string, unknown>)
+    } else if(value){
+      newObj[key] = snapString(value, key)
     } else {
-      newObj[key] = obj[key]
+      newObj[key] = value
     }
   }
   return JSON.parse(stringify(newObj)) as Record<string, any>
@@ -87,12 +105,16 @@ export type TestUtilServices = {
   factorUser: FactorUser
   factorEmail: FactorEmail
 }
+
+type InitializedTestUtils= {
+  user: FullUser | undefined
+  token: string
+  email: string
+}
 export type TestUtils = {
-  initialized: {
-    user: FullUser | undefined
-    token: string
-    email: string
-  }
+  init: () => Promise<InitializedTestUtils>
+  initialized?: InitializedTestUtils
+  [key: string]: any
 } & TestUtilServices
 
 export type TestUtilSettings = {
@@ -213,9 +235,9 @@ export const createTestUtils = async (
   opts?: TestUtilSettings,
 ): Promise<TestUtils> => {
   const testUtilServices = await createTestUtilServices(opts)
-  const initialized = await initializeTestUtils(testUtilServices)
+
   return {
-    initialized,
+    init: () => initializeTestUtils(testUtilServices),
     ...testUtilServices,
   }
 }

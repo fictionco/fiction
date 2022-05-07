@@ -18,7 +18,7 @@
     "@factor/plugin-stripe": "workspace:5.3.12",
     "@factor/ui": "workspace:*",
     "axios": "^0.26.1",
-    "dayjs": "^1.11.1",
+    "dayjs": "^1.11.2",
     "deepmerge": "^4.2.2",
     "events": "^3.3.0",
     "front-matter": "^4.0.2",

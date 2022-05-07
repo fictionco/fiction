@@ -27,7 +27,7 @@ export abstract class UserQuery extends Query {
     factorDb: FactorDb
     factorEmail: FactorEmail
   }) {
-    super()
+    super(settings)
 
     this.factorUser = settings.factorUser
     this.factorEmail = settings.factorEmail

@@ -22,7 +22,7 @@ abstract class QueryPayments extends Query {
     factorUser: FactorUser
     factorStripe: FactorStripe
   }) {
-    super()
+    super(settings)
 
     this.factorUser = settings.factorUser
     this.factorStripe = settings.factorStripe

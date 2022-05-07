@@ -177,6 +177,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "@vueuse/head",
         "vue-router",
         "@medv/finder",
+        "es-module-lexer",
+        "cjs-module-lexer",
         ...configExcludeIds,
       ],
       include: [
@@ -240,9 +242,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       publicDir,
       server: {
         fs: { strict: false },
-        watch: {
-          ignored: ["!**/node_modules/@factor/**"],
-        },
+        watch: {},
+        // SET A CUSTOM HMR PORT
+        // randomly if the same port is used, it can conflict silently
+        // preventing HMR from working. Setting this way prevents it .
+        hmr: { port: this.utils.randomBetween(10_000, 20_000) },
       },
 
       build: {

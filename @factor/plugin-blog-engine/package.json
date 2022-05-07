@@ -19,7 +19,7 @@
   "dependencies": {
     "@factor/plugin-highlight-code": "workspace:5.3.12",
     "@types/string-similarity": "^4.0.0",
-    "dayjs": "^1.11.1",
+    "dayjs": "^1.11.2",
     "string-similarity": "^4.0.4"
   },
   "peerDependencies": {

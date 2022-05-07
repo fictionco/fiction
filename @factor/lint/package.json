@@ -10,7 +10,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.4.0",
     "eslint-plugin-html": "^6.2.0",

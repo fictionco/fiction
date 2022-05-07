@@ -36,6 +36,7 @@ export type MenuItem = {
   url?: Ref<string>
   active?: Ref<boolean>
   onClick?: (item: MenuItem) => void
+  priority?: number
 }
 
 export interface MenuGroup {

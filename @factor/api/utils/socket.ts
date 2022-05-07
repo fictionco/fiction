@@ -94,6 +94,9 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     this.socketPromise = undefined
   }
 
+  /**
+   * Don't call from external, use getSocket instead
+   */
   private async initialize(): Promise<WebSocket | undefined> {
     const url = await this.socketUrl()
 
@@ -138,9 +141,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
       sock.addEventListener("close", (event) => {
         this.resetSocket()
-        log.error(this.context, "connection closed", {
-          data: { event },
-        })
+        log.error(this.context, "connection closed", { data: { event } })
         reject()
       })
     })
@@ -171,7 +172,6 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     try {
       if (!this.socketPromise) {
-        this.log.info("attempt connection")
         this.socketPromise = this.initialize()
       }
 

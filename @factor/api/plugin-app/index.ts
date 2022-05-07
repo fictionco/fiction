@@ -612,9 +612,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
             plugins: [twPlugin(twConfig), getRequire()("autoprefixer")],
           },
         },
-        server: {
-          port: this.port,
-        },
+        server: {},
         define,
         plugins: [
           pluginMarkdown.plugin({

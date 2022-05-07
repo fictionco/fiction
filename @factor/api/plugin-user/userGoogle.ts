@@ -19,7 +19,7 @@ export class QueryUserGoogleAuth extends Query {
   private clientSecret?: string
   private factorUser: FactorUser
   constructor(settings: GoogleQuerySettings) {
-    super()
+    super(settings)
 
     this.clientId = settings.clientId
     this.clientSecret = settings.clientSecret

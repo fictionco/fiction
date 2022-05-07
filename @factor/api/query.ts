@@ -4,12 +4,15 @@ import type { EndpointResponse, ErrorConfig } from "./types"
 import * as utils from "./utils"
 import type { EndpointMeta } from "./utils/endpoint"
 
-export abstract class Query {
+export abstract class Query<T extends Record<string, unknown> = {}> {
+  settings: T
   stop = _stop
   utils = utils
   log = log.contextLogger(this.constructor.name)
 
-  constructor() {}
+  constructor(settings: T) {
+    this.settings = settings
+  }
 
   /**
    * Base query method
