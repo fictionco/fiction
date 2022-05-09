@@ -1,5 +1,4 @@
-import { FactorPlugin } from "@factor/api"
-import { FactorApp } from "@factor/api/plugin-app"
+import { FactorPlugin, FactorApp} from "@factor/api"
 import { Component } from "vue"
 
 type FactorUiSettings = {

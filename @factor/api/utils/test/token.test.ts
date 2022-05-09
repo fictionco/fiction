@@ -10,6 +10,7 @@ let testUtils: TestUtils | undefined = undefined
 describe("user token", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
+    testUtils.initialized = await testUtils.init()
   })
   it("saves the token in a parent domain cookie", () => {
     testUtils?.factorUser.clientToken({ action: "set", token: "test" })

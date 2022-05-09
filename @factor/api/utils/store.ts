@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { reactive } from "vue"
+import { vue } from "./libraries"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -11,7 +11,7 @@ declare global {
 const globalObject = typeof window != "undefined" ? window : global
 
 export const getState = (): Record<string, any> => {
-  return reactive({})
+  return vue.reactive({})
 }
 /**
  * Gets the primary store and creates it if it doesn't exist

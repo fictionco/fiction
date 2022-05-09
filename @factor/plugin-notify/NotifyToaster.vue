@@ -89,8 +89,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onEvent } from "@factor/api"
-import { computed, onMounted, ref } from "vue"
+import { onEvent, vue } from "@factor/api"
 
 import { NotificationOptions } from "./types"
 interface Notification {
@@ -102,9 +101,9 @@ interface Notification {
 
 // const errors = ref<Notification[]>([])
 // const notification = ref<Notification[]>([])
-const toasts = ref<Notification[]>([])
+const toasts = vue.ref<Notification[]>([])
 
-const topToasts = computed(() => {
+const topToasts = vue.computed(() => {
   const [...t] = toasts.value
   return t.reverse()
 })
@@ -121,7 +120,7 @@ const showToast = (config: NotificationOptions): void => {
   }, duration)
 }
 
-onMounted(() => {
+vue.onMounted(() => {
   onEvent("notifySuccess", (config: NotificationOptions) => {
     showToast({ ...config, type: "success" })
   })

@@ -1,6 +1,5 @@
-import { watch } from "vue"
 import type { FactorRouter } from "../plugin-router"
-
+import { vue } from "./libraries"
 import { emitEvent, onEvent } from "./event"
 
 type ResetUiScope = "all" | "inputs"
@@ -34,7 +33,7 @@ export const initializeResetUi = async (
     if (e.key === "Escape") resetUi()
   })
   window.addEventListener("click", () => resetUi())
-  watch(
+  vue.watch(
     () => factorRouter.router.currentRoute.value.path,
     (r, old) => {
       if (r != old) resetUi()

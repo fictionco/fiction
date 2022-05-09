@@ -1,7 +1,6 @@
 import { HeadClient } from "@vueuse/head"
-import { App, Component } from "vue"
-import { Router } from "vue-router"
 import type { JSONSchema } from "json-schema-to-typescript"
+import { vue, vueRouter } from "../utils"
 import { PackageJson } from "../types"
 import type { FactorApp } from "../plugin-app"
 import type { FactorServer } from "../plugin-server"
@@ -21,14 +20,14 @@ export type FactorEnvHookDictionary = {
 }
 
 export interface FactorAppEntry {
-  app: App
+  app: vue.App
   meta: HeadClient
-  router: Router
+  router: vueRouter.Router
 }
 
 export type EntryModuleExports = {
   runApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
-  RootComponent: Component
+  RootComponent: vue.Component
   mainFile: MainFile
 }
 

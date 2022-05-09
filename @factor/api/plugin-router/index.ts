@@ -1,7 +1,5 @@
-import { Ref, ComputedRef, shallowRef, computed, isRef } from "vue"
-import * as vueRouter from "vue-router"
 import { FactorPlugin } from "../plugin"
-import { randomBetween } from "../utils"
+import { randomBetween, vue, vueRouter } from "../utils"
 import { MenuItem } from "../types/utils"
 import { AppRoute } from "./appRoute"
 import { RouteReplacer } from "./types"
@@ -17,14 +15,16 @@ export class FactorRouter<
   ROUTEKEY extends string = string,
   MENUKEY extends string = string,
 > extends FactorPlugin<FactorRouteSettings> {
-  readonly routes: Ref<AppRoute<string>[]>
+  readonly routes: vue.Ref<AppRoute<string>[]>
   router: vueRouter.Router
   key = randomBetween(1, 10_000)
   replacers: RouteReplacer[]
   constructor(settings: FactorRouteSettings = {}) {
     super(settings)
     this.replacers = settings.replacers || []
-    this.routes = shallowRef(settings.routes || []) as Ref<AppRoute<string>[]>
+    this.routes = vue.shallowRef(settings.routes || []) as vue.Ref<
+      AppRoute<string>[]
+    >
     this.router = this.createFactorRouter()
   }
   setup() {}
@@ -33,7 +33,7 @@ export class FactorRouter<
     this.replacers = [...this.replacers, ...replacers]
   }
 
-  public vueRoutes = computed<vueRouter.RouteRecordRaw[]>(() => {
+  public vueRoutes = vue.computed<vueRouter.RouteRecordRaw[]>(() => {
     return this.convertAppRoutesToRoutes(this.routes.value)
   })
 
@@ -167,13 +167,13 @@ export class FactorRouter<
   private routeRef(
     name: ROUTEKEY,
     replacers: RouteReplacer[] = [],
-  ): ComputedRef<string> {
-    return computed<string>(() => {
+  ): vue.ComputedRef<string> {
+    return vue.computed<string>(() => {
       let r = this.rawPath(name)
 
       const rep = [...replacers, ...this.replacers]
       rep.forEach(({ key, val }) => {
-        const v = isRef(val) ? val.value : val
+        const v = vue.isRef(val) ? val.value : val
 
         r = r.replace(`:${key}`, v ?? "--")
       })
@@ -189,10 +189,13 @@ export class FactorRouter<
 
   public link(
     key: ROUTEKEY,
-    replace: Record<string, string | undefined | Ref<string | undefined>> = {},
+    replace: Record<
+      string,
+      string | undefined | vue.Ref<string | undefined>
+    > = {},
     query?: Record<string, any> | undefined,
-  ): Ref<string> {
-    return computed(() => {
+  ): vue.Ref<string> {
+    return vue.computed(() => {
       const searchParams = query ? `?${new URLSearchParams(query)}` : ""
       const replacers = Object.entries(replace).map(([key, val]) => {
         return { key, val }
@@ -211,11 +214,11 @@ export class FactorRouter<
     return this.link(key, replace, query).value
   }
 
-  private activeRef(name: ROUTEKEY): ComputedRef<boolean> {
+  private activeRef(name: ROUTEKEY): vue.ComputedRef<boolean> {
     const val = this.routes.value.find((r) => name == r.name)
     const isActive = val?.isActive
 
-    return computed(() => {
+    return vue.computed(() => {
       const route = this.router?.currentRoute.value
       const active = isActive ? isActive({ route }) : route?.name == val?.name
       return active || false

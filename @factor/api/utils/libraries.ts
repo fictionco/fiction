@@ -2,6 +2,7 @@ import express from "express"
 import axios from "axios"
 import knex from "knex"
 import * as vue from "vue"
+import * as vueRouter from "vue-router"
 import dayjs from "dayjs"
 import chalk from "chalk"
 import relativeTime from "dayjs/plugin/relativeTime"
@@ -11,4 +12,4 @@ dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(tz)
 
-export { dayjs, express, axios, knex, vue, chalk }
+export { dayjs, express, axios, knex, vue, vueRouter, chalk }

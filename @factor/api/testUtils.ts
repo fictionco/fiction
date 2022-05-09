@@ -39,43 +39,45 @@ export const getTestEmail = (): string => {
 }
 
 const rep = (nm: string, val: string) => `[${nm}:${val.length}]`
-const snapString = ( value: string | Date | number, key?: string): string => {
-  let out = ''
+const snapString = (value: unknown, key?: string): string => {
+  let out = ""
   const val = String(value)
 
   if (key?.endsWith("Id") && val) {
-    out = rep('id', val)
+    out = rep("id", val)
   } else if ((key?.endsWith("At") || key?.endsWith("Iso")) && val) {
-    out = rep('date', val)
+    out = rep("date", val)
   } else if (key?.endsWith("Name") && val) {
-    out = rep('name', val)
+    out = rep("name", val)
   } else if (key?.toLowerCase().endsWith("email") && val) {
-    out = rep('email', val)
-  } else if (val.length === 32){
-    out = rep('hash', val)
+    out = rep("email", val)
+  } else if (val.length === 32) {
+    out = rep("hash", val)
   }
 
   return out
 }
 
 export const snap = (
-  obj?: Record<string, any> | Record<string, any>[],
-): Record<string, any> | undefined => {
+  obj?: Record<any, any> | Record<any, any>[] | unknown[] | undefined,
+): Record<string, unknown> | unknown[] | undefined => {
   if (!obj) return undefined
 
   if (Array.isArray(obj)) {
-    return obj.map((o ) => {
-      return (typeof o === 'object') ? snap(o) : snapString(o)
+    return obj.map((o) => {
+      return typeof o === "object" && o
+        ? snap(o as Record<string, unknown>)
+        : snapString(o)
     })
   }
 
   const newObj = {} as Record<string, unknown>
 
   for (const key in obj) {
-    const value = obj[key]
+    const value = obj[key] as unknown
     if (value && typeof value === "object") {
       newObj[key] = snap(value as Record<string, unknown>)
-    } else if(value){
+    } else if (value) {
       newObj[key] = snapString(value, key)
     } else {
       newObj[key] = value
@@ -106,7 +108,7 @@ export type TestUtilServices = {
   factorEmail: FactorEmail
 }
 
-type InitializedTestUtils= {
+type InitializedTestUtils = {
   user: FullUser | undefined
   token: string
   email: string

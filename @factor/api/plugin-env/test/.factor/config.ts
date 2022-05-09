@@ -6,7 +6,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "build" | "bundle" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
+  commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
   routes: "";
   ui: "";
   menus: "";

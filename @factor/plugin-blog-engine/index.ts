@@ -1,5 +1,4 @@
-import { FactorPlugin } from "@factor/api"
-import { FactorApp } from "@factor/api/plugin-app"
+import { FactorPlugin, FactorApp } from "@factor/api"
 import stringSimilarity from "string-similarity"
 import { markRaw } from "vue"
 import * as types from "./types"

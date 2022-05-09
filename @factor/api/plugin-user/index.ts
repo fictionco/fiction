@@ -1,4 +1,3 @@
-import { ref } from "vue"
 import jwt from "jsonwebtoken"
 import { FactorPlugin } from "../plugin"
 import { HookType } from "../utils/hook"
@@ -24,7 +23,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   private factorDb = this.settings.factorDb
   private factorEmail = this.settings.factorEmail
 
-  public activeUser = ref<types.FullUser>()
+  public activeUser = this.utils.vue.ref<types.FullUser>()
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   public queries = this.createQueries()
@@ -36,7 +35,9 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   })
   public hooks = this.settings.hooks || []
   public tokenSecret = this.settings.tokenSecret || "secret"
-
+  public activePath = this.utils.vue.ref(
+    this.utils.safeDirname(import.meta.url),
+  )
   public clientTokenKey = "ffUser"
   constructor(settings: types.UserPluginSettings) {
     super(settings)
@@ -50,7 +51,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
 
   createQueries() {
     const deps = {
-      factorUser: this,
+      factorUser: this as FactorUser,
       factorDb: this.factorDb,
       factorEmail: this.factorEmail,
     }
@@ -100,7 +101,6 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     if (token) {
       this.clientToken({ action: "set", token })
     }
-
     this.activeUser.value = user
 
     this.cacheUser({ user })

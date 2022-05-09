@@ -15,6 +15,7 @@ let testUtils: TestUtils | undefined = undefined
 describe("user tests", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
+    testUtils.initialized = await testUtils.init()
   })
   it("creates user", async () => {
     if (!testUtils?.factorEmail) throw new Error("no email plugin")

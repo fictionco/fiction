@@ -13,7 +13,7 @@
     "dev": "pnpm --filter @factor/site exec -- factor dev",
     "test": "pnpm run test-unit && pnpm run test-lint",
     "test-pkg": "pnpm exec -- npmPkgJsonLint .",
-    "test-unit": "pnpm exec -- vitest run",
+    "test-unit": "npm exec -- vitest run",
     "test-lint": "pnpm run test-pkg && pnpm run test-types && pnpm run test-eslint && pnpm run test-vue",
     "test-vue": "pnpm exec -- eslint --ext .vue @factor/.",
     "test-eslint": "pnpm exec -- eslint --ext .ts,.js @factor/.",
@@ -59,13 +59,14 @@
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "vite": "2.9.8",
-    "vitest": "^0.10.5",
-    "vue": "^3.2.33",
+    "vitest": "0.12.0",
+    "vue": "3.2.33",
     "yorkie": "^2.0.0"
   },
   "pnpm": {
     "overrides": {
-      "vite": "2.9.8"
+      "vite": "2.9.8",
+      "vue": "3.2.33"
     }
   }
 }

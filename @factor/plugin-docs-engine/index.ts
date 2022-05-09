@@ -1,7 +1,5 @@
-import { FactorPlugin } from "@factor/api"
-import { FactorApp } from "@factor/api/plugin-app"
-import { Component, markRaw, toRaw } from "vue"
-
+import { FactorPlugin, FactorApp, vue } from "@factor/api"
+import { toRaw, markRaw } from "vue"
 export const postType = "docsItem"
 import * as types from "./types"
 export * from "./types"
@@ -92,7 +90,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
     if (config?.fileImport) {
       const fileData = await config.fileImport()
 
-      const childComponents: Record<string, Component> = {}
+      const childComponents: Record<string, vue.Component> = {}
 
       Object.entries(config.components || {}).map(([nm, c]) => {
         childComponents[nm] = toRaw(c)

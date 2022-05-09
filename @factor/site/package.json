@@ -34,12 +34,12 @@
   },
   "peerDependencies": {
     "@factor/site": "*",
-    "execa": "^6.0.0",
-    "playwright": "^1.20.0",
+    "execa": "*",
+    "playwright": "*",
     "vite": "*",
-    "vitest": "^0.10.0",
-    "vue": "^3.2.33",
-    "vue-router": "^4.0.10"
+    "vitest": "*",
+    "vue": "*",
+    "vue-router": "*"
   },
   "peerDependenciesMeta": {
     "execa": {

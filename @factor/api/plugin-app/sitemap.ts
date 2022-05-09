@@ -1,5 +1,5 @@
 import path from "path"
-import { RouteRecordRaw } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 import fs from "fs-extra"
 import { FactorPlugin } from "../plugin"
 import { FactorRouter } from "../plugin-router"

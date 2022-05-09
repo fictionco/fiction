@@ -3,11 +3,11 @@ import {
   runHooks,
   EndpointMeta,
   EndpointManageAction,
+  FactorUser,
+  Query
 } from "@factor/api"
 import type { EndpointResponse, PrivateUser } from "@factor/api"
-import { Query } from "@factor/api/query"
 import Stripe from "stripe"
-import { FactorUser } from "@factor/api/plugin-user"
 import { CustomerData, HookDictionary, ManageSubscriptionResult } from "./types"
 import type { FactorStripe } from "."
 type RefineResult = {

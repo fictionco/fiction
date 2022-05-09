@@ -9,17 +9,7 @@ import { Express } from "express"
 import vite from "vite"
 import { renderToString } from "@vue/server-renderer"
 import {
-  Component,
-  App as VueApp,
-  createApp,
-  createSSRApp,
-  defineAsyncComponent,
-} from "vue"
-import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
-import { FactorPlugin } from "@factor/api/plugin"
-import type tailwindcss from "tailwindcss"
-import { FactorBuild } from "@factor/api/plugin-build"
-import {
+  vue,
   importIfExists,
   initializeResetUi,
   getMeta,
@@ -29,6 +19,10 @@ import {
   getRequire,
   safeDirname,
 } from "@factor/api/utils"
+import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
+import { FactorPlugin } from "@factor/api/plugin"
+import type tailwindcss from "tailwindcss"
+import { FactorBuild } from "@factor/api/plugin-build"
 import { FactorServer } from "@factor/api/plugin-server"
 import { FactorRouter } from "@factor/api/plugin-router"
 import { version } from "../package.json"
@@ -52,12 +46,12 @@ export type FactorAppSettings = {
   port: number
   factorServer: FactorServer
   factorEnv: FactorEnv
-  rootComponent: Component
+  rootComponent: vue.Component
   factorRouter: FactorRouter
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   serverOnlyImports?: ServerModuleDef[]
-  ui?: Record<string, () => Promise<Component>>
+  ui?: Record<string, () => Promise<vue.Component>>
 }
 
 export class FactorApp extends FactorPlugin<FactorAppSettings> {
@@ -161,7 +155,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.hooks.push(hook)
   }
 
-  addUi(components: Record<string, () => Promise<Component>>) {
+  addUi(components: Record<string, () => Promise<vue.Component>>) {
     this.ui = { ...this.ui, ...components }
   }
 
@@ -181,10 +175,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.serverOnlyImports = [...this.serverOnlyImports, ...serverOnlyImports]
   }
 
-  createUi = (ui: Record<string, () => Promise<Component>>) => {
+  createUi = (ui: Record<string, () => Promise<vue.Component>>) => {
     return Object.fromEntries(
       Object.entries(ui).map(([key, component]) => {
-        return [key, defineAsyncComponent(component)]
+        return [key, vue.defineAsyncComponent(component)]
       }),
     )
   }
@@ -205,9 +199,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const { service = {} } = serviceConfig
 
-    const app: VueApp = renderUrl
-      ? createSSRApp(this.rootComponent)
-      : createApp(this.rootComponent)
+    const app: vue.App = renderUrl
+      ? vue.createSSRApp(this.rootComponent)
+      : vue.createApp(this.rootComponent)
 
     app.provide("service", service)
     app.provide("ui", this.createUi(this.ui))

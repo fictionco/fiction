@@ -11,6 +11,6 @@
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "dependencies": {
     "@factor/api": "workspace:*",
-    "vue": "^3.2.33"
+    "vue": "3.2.33"
   }
 }

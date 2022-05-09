@@ -7,6 +7,7 @@ let testUtils: TestUtils | undefined = undefined
 describe("active user handling", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
+    testUtils.initialized = await testUtils.init()
   })
   it("should set the user to initialized", async () => {
     if (!testUtils) throw new Error("testUtils not defined")
@@ -18,13 +19,13 @@ describe("active user handling", () => {
     expect(testUtils.factorUser.activeUser.value).toBeUndefined()
     expect(computedVar.value).toBe("id-")
 
-    testUtils.factorUser.setCurrentUser({ user: testUtils.initialized.user })
+    testUtils.factorUser.setCurrentUser({ user: testUtils.initialized?.user })
 
     expect(testUtils.factorUser.activeUser.value?.userId).toBe(
-      testUtils.initialized.user?.userId,
+      testUtils.initialized?.user?.userId,
     )
 
-    expect(computedVar.value).toBe(`id-${testUtils?.initialized.user?.userId}`)
+    expect(computedVar.value).toBe(`id-${testUtils?.initialized?.user?.userId}`)
   })
 
   it("updates user", async () => {
