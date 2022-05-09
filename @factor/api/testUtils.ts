@@ -113,11 +113,12 @@ type InitializedTestUtils = {
   token: string
   email: string
 }
-export type TestUtils = {
+export type TestUtils<T extends Record<string, any> = Record<string, any>> = {
   init: () => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   [key: string]: any
-} & TestUtilServices
+} & T &
+  TestUtilServices
 
 export type TestUtilSettings = {
   serverPort?: number

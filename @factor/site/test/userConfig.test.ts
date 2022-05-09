@@ -1,7 +1,7 @@
 import { createRequire } from "module"
 import { describe, it, expect } from "vitest"
-import * as mainFile from "@factor/site"
-import { compileApplication } from "../../plugin-env/entry"
+import { compileApplication } from "@factor/api/plugin-env/entry"
+import * as mainFile from "../src"
 const require = createRequire(import.meta.url)
 describe("user config", () => {
   it("gets correct client-side user config", async () => {

@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from "vue-router"
+import { vueRouter } from "@factor/api"
 
 export interface MenuItem {
   name: string
@@ -10,7 +10,7 @@ export interface MenuItem {
   icon?: string
   key?: string
   items?: MenuItem[]
-  children?: (MenuItem & RouteRecordRaw)[]
+  children?: (MenuItem & vueRouter.RouteRecordRaw)[]
   active?: boolean
   priority?: number
   query?: Record<string, any>

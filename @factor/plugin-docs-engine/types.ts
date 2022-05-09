@@ -1,5 +1,4 @@
-import { slugify, MarkdownFile } from "@factor/api"
-import { Component } from "vue"
+import { slugify, MarkdownFile, vue } from "@factor/api"
 
 export type DocGroupRecord<T extends string = string> = Record<
   string,
@@ -17,7 +16,7 @@ export type DocGroup<T extends string = string> = {
 export type DocItem = {
   title?: string
   fileImport: () => Promise<MarkdownFile>
-  components?: Record<string, Component>
+  components?: Record<string, vue.Component>
 }
 
 export type DocPageConfig = {
@@ -26,7 +25,7 @@ export type DocPageConfig = {
   markdown?: string
   content?: string
   parentGroup?: DocGroup
-  component?: Component
+  component?: vue.Component
 } & Partial<DocItem>
 
 export type DocParams<T extends string> = {
@@ -38,7 +37,7 @@ export type DocParams<T extends string> = {
   imageImport?: () => Promise<{ default: string }>
   category?: string[]
   title?: string
-  components?: Record<string, Component>
+  components?: Record<string, vue.Component>
 }
 
 export class Doc<T extends string> {
@@ -50,7 +49,7 @@ export class Doc<T extends string> {
   imageImport?: () => Promise<{ default: string }>
   category?: string[]
   title?: string
-  components?: Record<string, Component>
+  components?: Record<string, vue.Component>
   constructor(params: DocParams<T>) {
     this.key = params.key
     this.status = params.status ?? "draft"

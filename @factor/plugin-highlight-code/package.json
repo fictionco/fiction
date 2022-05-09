@@ -8,7 +8,7 @@
   "license": "MIT",
   "main": "index.ts",
   "peerDependencies": {
-    "@factor/api": "5.3.13"
+    "@factor/api": "*"
   },
   "publishConfig": {
     "access": "public"

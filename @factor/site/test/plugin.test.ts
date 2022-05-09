@@ -1,8 +1,8 @@
 import { createRequire } from "module"
 import path from "path"
 import { expect, it, describe, beforeAll } from "vitest"
-import * as mainFile from "@factor/site"
 import { getMainFilePath } from "@factor/api/utils"
+import * as mainFile from "../src"
 
 const require = createRequire(import.meta.url)
 

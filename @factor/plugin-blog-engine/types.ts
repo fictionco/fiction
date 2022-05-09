@@ -1,5 +1,4 @@
-import { Component } from "vue"
-import { slugify, MarkdownFile } from "@factor/api"
+import { slugify, MarkdownFile, vue } from "@factor/api"
 
 interface PostAttributes {
   title?: string
@@ -22,7 +21,7 @@ export type PostEntryConfig = {
   markdown?: string
   content?: string
   parentGroup?: PostNavGroup
-  component?: Component
+  component?: vue.Component
 
   [key: string]:
     | string
@@ -30,7 +29,7 @@ export type PostEntryConfig = {
     | number
     | boolean
     | PostNavGroup
-    | Component
+    | vue.Component
     | undefined
 } & PostSingle &
   PostAttributes

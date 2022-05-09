@@ -1,6 +1,6 @@
-import { Component } from "vue"
+import { vue } from "@factor/api"
 
-export const inputs: Record<string, () => Promise<Component>> = {
+export const inputs: Record<string, () => Promise<vue.Component>> = {
   email: () => import("./InputEmail.vue"),
   oneTimeCode: () => import("./InputOneTimeCode.vue"),
   text: () => import("./InputText.vue"),

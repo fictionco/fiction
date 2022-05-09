@@ -1,5 +1,4 @@
-import { FactorPlugin, FactorApp} from "@factor/api"
-import { Component } from "vue"
+import { FactorPlugin, FactorApp, vue } from "@factor/api"
 
 type FactorUiSettings = {
   factorApp: FactorApp
@@ -7,7 +6,7 @@ type FactorUiSettings = {
 export class FactorUi extends FactorPlugin<FactorUiSettings> {
   factorApp: FactorApp
   root = this.utils.safeDirname(import.meta.url)
-  ui: Record<string, () => Promise<Component>> = {
+  ui: Record<string, () => Promise<vue.Component>> = {
     ElAvatar: () => import("./ElAvatar.vue"),
     ElButton: () => import("./ElButton.vue"),
     ElForm: () => import("./ElForm.vue"),

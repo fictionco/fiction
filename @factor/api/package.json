@@ -111,7 +111,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.10",
-    "@factor/api": "5.3.14",
+    "@factor/api": "workspace:5.3.14",
     "@playwright/test": "^1.21.1",
     "@types/body-parser": "^1.19.2",
     "@types/compression": "^1.7.2",
@@ -130,14 +130,10 @@
   "license": "MIT",
   "main": "index.ts",
   "peerDependencies": {
-    "@factor/site": "5.3.13",
     "commander": "*",
     "vitest": "*"
   },
   "peerDependenciesMeta": {
-    "@factor/site": {
-      "optional": true
-    },
     "vitest": {
       "optional": true
     },

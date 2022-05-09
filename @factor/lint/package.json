@@ -26,14 +26,6 @@
   },
   "license": "MIT",
   "main": "config.cjs",
-  "peerDependencies": {
-    "@factor/site": "5.3.13"
-  },
-  "peerDependenciesMeta": {
-    "@factor/site": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "access": "public"
   },

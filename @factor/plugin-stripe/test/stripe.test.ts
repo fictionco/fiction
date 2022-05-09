@@ -4,7 +4,8 @@ import dotenv from "dotenv"
 import { expect, it, describe, beforeAll } from "vitest"
 import Stripe from "stripe"
 import { log } from "@factor/api"
-import { factorStripe } from "@factor/site"
+import { createTestUtils, TestUtils } from "@factor/api/testUtils"
+import { FactorStripe } from "../plugin"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let setupIntent: Stripe.SetupIntent | undefined
@@ -12,9 +13,25 @@ let subscription: Stripe.Subscription | undefined
 const key = (): string => Math.random().toString().slice(2, 8)
 
 //const testUtils: TestUtils | undefined = undefined
-
+let testUtils: TestUtils<{ factorStripe: FactorStripe }>
 describe("stripe tests", () => {
-  beforeAll(async () => {})
+  beforeAll(async () => {
+    const utils = await createTestUtils()
+
+    utils.factorStripe = new FactorStripe({
+      factorApp: utils.factorApp,
+      factorServer: utils.factorServer,
+      factorUser: utils.factorUser,
+      publicKeyTest:
+        "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
+      secretKeyTest: utils.factorEnv.var("stripeSecretKeyTest"),
+      stripeMode: "test",
+      hooks: [],
+      products: [],
+    })
+
+    testUtils = utils as TestUtils<{ factorStripe: FactorStripe }>
+  })
 
   it("has stripe test .env file", () => {
     const dirname = new URL(".", import.meta.url).pathname
@@ -31,13 +48,14 @@ describe("stripe tests", () => {
   })
 
   it("creates a customer for new user", async () => {
-    const { status, data } = await factorStripe.queries.ManageCustomer.serve(
-      {
-        customerId: "",
-        _action: "retrieve",
-      },
-      { server: true },
-    )
+    const { status, data } =
+      await testUtils.factorStripe.queries.ManageCustomer.serve(
+        {
+          customerId: "",
+          _action: "retrieve",
+        },
+        { server: true },
+      )
 
     expect(status).toBe("success")
     expect(data?.id).toBeTruthy()
@@ -45,13 +63,14 @@ describe("stripe tests", () => {
   })
 
   it("gets the customer", async () => {
-    const { status, data } = await factorStripe.queries.ManageCustomer.serve(
-      {
-        customerId: customer?.id,
-        _action: "retrieve",
-      },
-      { server: true },
-    )
+    const { status, data } =
+      await testUtils.factorStripe.queries.ManageCustomer.serve(
+        {
+          customerId: customer?.id,
+          _action: "retrieve",
+        },
+        { server: true },
+      )
 
     expect(status).toBe("success")
     expect(data?.id).toBeTruthy()
@@ -59,7 +78,7 @@ describe("stripe tests", () => {
 
   it("gets the refined customer in requests", async () => {
     const { status, data, customerData, customerId } =
-      await factorStripe.queries.ManageCustomer.serveRequest(
+      await testUtils.factorStripe.queries.ManageCustomer.serveRequest(
         {
           customerId: customer?.id,
           _action: "retrieve",
@@ -77,7 +96,7 @@ describe("stripe tests", () => {
   it("adds a payment method", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const paymentMethod = await factorStripe
+    const paymentMethod = await testUtils.factorStripe
       .getServerClient()
       .paymentMethods.create({
         type: "card",
@@ -89,14 +108,15 @@ describe("stripe tests", () => {
         },
       })
 
-    const result = await factorStripe.queries.ManagePaymentMethod.serve(
-      {
-        customerId: customer?.id,
-        paymentMethodId: paymentMethod.id,
-        _action: "create",
-      },
-      { server: true },
-    )
+    const result =
+      await testUtils.factorStripe.queries.ManagePaymentMethod.serve(
+        {
+          customerId: customer?.id,
+          paymentMethodId: paymentMethod.id,
+          _action: "create",
+        },
+        { server: true },
+      )
 
     expect(result.status).toBe("success")
     expect(result.data?.data.length).toBeGreaterThan(0)
@@ -107,13 +127,14 @@ describe("stripe tests", () => {
   it("gets payment methods", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const result = await factorStripe.queries.ManagePaymentMethod.serve(
-      {
-        customerId: customer?.id,
-        _action: "retrieve",
-      },
-      { server: true },
-    )
+    const result =
+      await testUtils.factorStripe.queries.ManagePaymentMethod.serve(
+        {
+          customerId: customer?.id,
+          _action: "retrieve",
+        },
+        { server: true },
+      )
 
     expect(result.status).toBe("success")
     expect(result.data?.data.length).toBeGreaterThan(0)
@@ -122,7 +143,7 @@ describe("stripe tests", () => {
   it("set the default payment method", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const customerData = (await factorStripe
+    const customerData = (await testUtils.factorStripe
       .getServerClient()
       .customers.retrieve(customer.id)) as Stripe.Customer
 
@@ -135,26 +156,29 @@ describe("stripe tests", () => {
   it("creates a subscription", async () => {
     if (!customer?.id) throw new Error("customer required")
 
-    const product = await factorStripe.getServerClient().products.create({
-      name: "Gold Special",
-    })
+    const product = await testUtils.factorStripe
+      .getServerClient()
+      .products.create({
+        name: "Gold Special",
+      })
 
-    const price = await factorStripe.getServerClient().prices.create({
+    const price = await testUtils.factorStripe.getServerClient().prices.create({
       unit_amount: 50_000,
       currency: "usd",
       recurring: { interval: "month" },
       product: product.id,
     })
 
-    const result = await factorStripe.queries.ManageSubscription.serve(
-      {
-        customerId: customer.id,
-        _action: "create",
-        priceId: price.id,
-        idempotencyKey: key(),
-      },
-      { server: true },
-    )
+    const result =
+      await testUtils.factorStripe.queries.ManageSubscription.serve(
+        {
+          customerId: customer.id,
+          _action: "create",
+          priceId: price.id,
+          idempotencyKey: key(),
+        },
+        { server: true },
+      )
 
     expect(result.status).toBe("success")
     expect(result.data?.id).toContain("sub_")
@@ -165,14 +189,15 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await factorStripe.queries.ManageSubscription.serve(
-      {
-        customerId: customer.id,
-        _action: "retrieve",
-        subscriptionId: subscription.id,
-      },
-      { server: true },
-    )
+    const result =
+      await testUtils.factorStripe.queries.ManageSubscription.serve(
+        {
+          customerId: customer.id,
+          _action: "retrieve",
+          subscriptionId: subscription.id,
+        },
+        { server: true },
+      )
 
     expect(result.status).toBe("success")
     expect(result.data?.id).toContain("sub_")
@@ -182,14 +207,15 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await factorStripe.queries.ManageSubscription.serve(
-      {
-        customerId: customer.id,
-        _action: "delete",
-        subscriptionId: subscription.id,
-      },
-      { server: true },
-    )
+    const result =
+      await testUtils.factorStripe.queries.ManageSubscription.serve(
+        {
+          customerId: customer.id,
+          _action: "delete",
+          subscriptionId: subscription.id,
+        },
+        { server: true },
+      )
 
     expect(result.status).toBe("success")
   })
@@ -200,12 +226,14 @@ describe("stripe tests", () => {
 
     const couponId = `TEST_COUPON_${key()}`
 
-    const coupon = await factorStripe.getServerClient().coupons.create({
-      percent_off: 50,
-      id: couponId,
-    })
+    const coupon = await testUtils.factorStripe
+      .getServerClient()
+      .coupons.create({
+        percent_off: 50,
+        id: couponId,
+      })
 
-    const result = await factorStripe.queries.GetCoupon.serve(
+    const result = await testUtils.factorStripe.queries.GetCoupon.serve(
       {
         couponCode: coupon.id,
       },
@@ -220,7 +248,7 @@ describe("stripe tests", () => {
     if (!customer?.id) throw new Error("customer required")
     if (!subscription?.id) throw new Error("subscription required")
 
-    const result = await factorStripe.queries.GetInvoices.serve(
+    const result = await testUtils.factorStripe.queries.GetInvoices.serve(
       {
         customerId: customer.id,
       },
