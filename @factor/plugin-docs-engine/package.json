@@ -2,30 +2,23 @@
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
   "version": "5.3.13",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "index.ts",
   "author": "Kaption Co.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fiction-com/factor/tree/development/@plugins/plugin-docs"
-  },
-  "bugs": {
-    "url": "https://github.com/fiction-com/factor/issues"
-  },
-  "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
+  "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/plugin-highlight-code": "5.3.13",
+    "@factor/plugin-highlight-code": "workspace:5.3.13",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.2",
     "string-similarity": "^4.0.4"
   },
+  "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
+  "license": "MIT",
+  "main": "index.ts",
   "peerDependencies": {
-    "@factor/api": "^5.0.0",
-    "@factor/ui": "^5.0.0",
-    "vue": "^3.2.33",
-    "vue-router": "^4.0.10"
-  }
+    "@factor/api": "5.3.13",
+    "@factor/ui": "5.3.13"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "fiction-com/factor/tree/development/@plugins/plugin-docs"
 }

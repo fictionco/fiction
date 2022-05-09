@@ -1,22 +1,14 @@
 {
   "name": "@factor/site",
   "version": "5.3.13",
-  "url": "https://www.factorjs.org",
-  "main": "src/index.ts",
-  "license": "UNLICENSED",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
   "dependencies": {
-    "@factor/api": "5.3.13",
-    "@factor/plugin-blog-engine": "5.3.13",
-    "@factor/plugin-docs-engine": "5.3.13",
-    "@factor/plugin-highlight-code": "5.3.13",
-    "@factor/plugin-notify": "5.3.13",
-    "@factor/plugin-stripe": "5.3.13",
-    "@factor/ui": "5.3.13",
+    "@factor/api": "workspace:5.3.13",
+    "@factor/plugin-blog-engine": "workspace:5.3.13",
+    "@factor/plugin-docs-engine": "workspace:5.3.13",
+    "@factor/plugin-highlight-code": "workspace:5.3.13",
+    "@factor/plugin-notify": "workspace:5.3.13",
+    "@factor/plugin-stripe": "workspace:5.3.13",
+    "@factor/ui": "workspace:5.3.13",
     "axios": "^0.26.1",
     "dayjs": "^1.11.2",
     "deepmerge": "^4.2.2",
@@ -32,14 +24,13 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.1"
   },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
   "peerDependencies": {
-    "@factor/site": "*",
     "execa": "*",
     "playwright": "*",
     "vite": "*",
-    "vitest": "*",
-    "vue": "*",
-    "vue-router": "*"
+    "vitest": "*"
   },
   "peerDependenciesMeta": {
     "execa": {
@@ -54,5 +45,11 @@
     "playwright": {
       "optional": true
     }
-  }
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.factorjs.org"
 }

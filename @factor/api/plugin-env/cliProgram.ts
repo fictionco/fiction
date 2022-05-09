@@ -110,20 +110,20 @@ const exitHandler = (options: {
 //  * This is so we can do clean up whenever node exits (if needed)
 //  * https://stackoverflow.com/questions/14031763/doing-a-cleanup-action-just-before-node-js-exits
 //  */
-process.stdin.resume() //so the program will not close instantly
+// process.stdin.resume() //so the program will not close instantly
 
-//do something when app is closing
-process.on("exit", () => exitHandler({ shutdown: true }))
+// //do something when app is closing
+// process.on("exit", () => exitHandler({ shutdown: true }))
 
-//catches ctrl+c event
-process.on("SIGINT", () => exitHandler({ exit: true }))
+// //catches ctrl+c event
+// process.on("SIGINT", () => exitHandler({ exit: true }))
 
-// catches "kill pid" (for example: nodemon restart)
-process.on("SIGUSR1", () => exitHandler({ exit: true }))
-process.on("SIGUSR2", () => exitHandler({ exit: true }))
+// // catches "kill pid" (for example: nodemon restart)
+// process.on("SIGUSR1", () => exitHandler({ exit: true }))
+// process.on("SIGUSR2", () => exitHandler({ exit: true }))
 
-//catches uncaught exceptions
-process.on("uncaughtException", (error) => {
-  log.error("uncaughtException", "uncaught error!", { error })
-  process.exit(1)
-})
+// //catches uncaught exceptions
+// process.on("uncaughtException", (error) => {
+//   log.error("uncaughtException", "uncaught error!", { error })
+//   process.exit(1)
+// })

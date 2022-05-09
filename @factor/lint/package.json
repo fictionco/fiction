@@ -1,12 +1,6 @@
 {
   "name": "@factor/lint",
   "version": "5.3.13",
-  "license": "MIT",
-  "main": "config.cjs",
-  "publishConfig": {
-    "access": "public"
-  },
-  "type": "module",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
@@ -30,12 +24,18 @@
     "postcss": "^8.4.13",
     "typescript": "^4.6.4"
   },
+  "license": "MIT",
+  "main": "config.cjs",
   "peerDependencies": {
-    "@factor/site": "*"
+    "@factor/site": "5.3.13"
   },
   "peerDependenciesMeta": {
     "@factor/site": {
       "optional": true
     }
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module"
 }

@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="href ? 'a' : to ? 'router-link' : 'button'"
+    :is="href ? 'a' : to ? RouterLink : 'button'"
     :to="to"
     :href="href"
     class="relative inline-flex items-center rounded-md border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -36,17 +36,20 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, PropType } from "vue"
-
+import { vue, vueRouter } from "@factor/api"
+const RouterLink = vueRouter.RouterLink
 const props = defineProps({
   loading: { type: Boolean, default: false },
   btn: { type: String, default: "" },
-  size: { type: String as PropType<"xs" | "sm" | "md" | "lg">, default: "" },
+  size: {
+    type: String as vue.PropType<"xs" | "sm" | "md" | "lg">,
+    default: "",
+  },
   to: { type: String, default: "" },
   href: { type: String, default: "" },
   disabled: { type: Boolean, default: false },
 })
-const btnClass = computed(() => {
+const btnClass = vue.computed(() => {
   let out = ""
   if (props.btn == "danger") {
     out =

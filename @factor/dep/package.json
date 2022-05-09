@@ -1,12 +1,6 @@
 {
   "name": "@factor/dep",
   "version": "5.3.13",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "index.ts",
-  "type": "module",
   "dependencies": {
     "@medv/finder": "^2.1.0",
     "@types/bcrypt": "^5.0.0",
@@ -39,7 +33,7 @@
     "body-parser": "^1.20.0",
     "chalk": "^5.0.1",
     "cjs-module-lexer": "^1.2.2",
-    "commander": "^9.2.0",
+    "commander": "*",
     "compression": "^1.7.4",
     "consola": "^2.15.3",
     "cors": "^2.8.5",
@@ -105,29 +99,31 @@
     "vite": "2.9.8",
     "vite-plugin-markdown": "^2.0.2",
     "vue": "3.2.33",
-    "vue-router": "^4.0.15",
+    "vue-router": "*",
     "ws": "^8.6.0"
   },
   "devDependencies": {
     "@babel/parser": "^7.17.10",
-    "@factor/api": "5.3.13",
+    "@factor/api": "workspace:5.3.13",
     "@playwright/test": "^1.21.1",
     "@types/body-parser": "^1.19.2",
-    "@types/compression": "^1.7.0",
+    "@types/compression": "^1.7.2",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "^7.2.0",
     "@types/nodemon": "^1.19.1",
-    "execa": "^6.1.0",
-    "fs-extra": "^10.0.0",
+    "execa": "*",
+    "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
     "minimist": "^1.2.6",
-    "playwright": "^1.21.1",
+    "playwright": "*",
     "react-dom": "^18.1.0",
     "rollup": "^2.72.1",
     "semver": "^7.3.7"
   },
+  "license": "MIT",
+  "main": "index.ts",
   "peerDependencies": {
-    "@factor/site": "*",
+    "@factor/site": "5.3.13",
     "commander": "*",
     "vitest": "*"
   },
@@ -141,5 +137,9 @@
     "commander": {
       "optional": true
     }
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module"
 }

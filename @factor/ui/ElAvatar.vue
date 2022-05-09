@@ -6,21 +6,20 @@
   />
 </template>
 <script lang="ts" setup>
-import { stored, PublicUser } from "@factor/api"
+import { stored, PublicUser, vue } from "@factor/api"
 import gravatarUrl from "gravatar-url"
-import { computed } from "vue"
 
 const props = defineProps({
   userId: { type: String, default: "" },
   url: { type: String, default: "" },
   email: { type: String, default: "" },
 })
-const user = computed<PublicUser | undefined>(() => {
+const user = vue.computed<PublicUser | undefined>(() => {
   if (!props.userId) return undefined
   return stored(props.userId) ?? undefined
 })
 
-const src = computed<string>(() => {
+const src = vue.computed<string>(() => {
   if (props.url) {
     return props.url
   } else if (user.value && user.value.avatar) {

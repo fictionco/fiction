@@ -3,14 +3,13 @@
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "version": "5.3.13",
   "author": "Kaption Co.",
-  "main": "index.ts",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
+  "dependencies": {
+    "@factor/api": "workspace:5.3.13"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
-  "dependencies": {
-    "@factor/api": "5.3.13",
-    "vue": "3.2.33"
+  "license": "MIT",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
   }
 }

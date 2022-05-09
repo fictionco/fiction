@@ -1,46 +1,11 @@
 {
   "name": "factor",
   "version": "5.3.13",
-  "main": "index.ts",
-  "publishConfig": {},
-  "type": "module",
-  "scripts": {
-    "prerender": "pnpm exec --filter @factor/site -- factor prerender",
-    "deploy": "pnpm release && pnpm push-release",
-    "site": "pnpm --filter @factor/site exec -- factor run dev --app-port 3232 --server-port 21212",
-    "release": "pnpm exec -- factor release",
-    "pack": "pnpm --filter @factor/api/build exec -- factor pack",
-    "dev": "pnpm --filter @factor/site exec -- factor dev",
-    "test": "pnpm run test-unit && pnpm run test-lint",
-    "test-pkg": "pnpm exec -- npmPkgJsonLint .",
-    "test-unit": "npm exec -- vitest run",
-    "test-lint": "pnpm run test-pkg && pnpm run test-types && pnpm run test-eslint && pnpm run test-vue",
-    "test-vue": "pnpm exec -- eslint --ext .vue @factor/.",
-    "test-eslint": "pnpm exec -- eslint --ext .ts,.js @factor/.",
-    "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
-    "format-all": "pnpm prettier --ext .ts,.js,.vue,.json . --write",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "up": "docker-compose up",
-    "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
-    "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm i && pnpm up -r && pnpm outdated"
-  },
-  "license": "MIT",
-  "workspaces": [
-    "@factor/*"
-  ],
-  "private": true,
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "gitHooks": {
-    "commit-msg": "ts-node scripts/verify-commit.mjs"
-  },
   "devDependencies": {
-    "@factor/api": "5.3.13",
-    "@factor/lint": "5.3.13",
-    "@factor/site": "5.3.13",
-    "@factor/ui": "5.3.13",
+    "@factor/api": "workspace:5.3.13",
+    "@factor/lint": "workspace:5.3.13",
+    "@factor/site": "workspace:5.3.13",
+    "@factor/ui": "workspace:5.3.13",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.31",
     "@vitejs/plugin-vue": "^2.3.2",
@@ -53,20 +18,55 @@
     "jsdom": "^19.0.0",
     "nodemon": "^2.0.16",
     "npm-package-json-lint": "^6.3.0",
-    "playwright": "^1.21.1",
+    "playwright": "*",
     "postcss": "^8.4.13",
     "tailwindcss": "^3.0.24",
     "tslib": "^2.4.0",
     "typescript": "^4.6.4",
     "vite": "2.9.8",
-    "vitest": "0.12.0",
+    "vitest": "*",
     "vue": "3.2.33",
     "yorkie": "^2.0.0"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "gitHooks": {
+    "commit-msg": "ts-node scripts/verify-commit.mjs"
+  },
+  "license": "MIT",
+  "main": "index.ts",
   "pnpm": {
     "overrides": {
       "vite": "2.9.8",
       "vue": "3.2.33"
     }
-  }
+  },
+  "private": true,
+  "publishConfig": {},
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm i && pnpm up -r && pnpm outdated",
+    "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
+    "deploy": "pnpm release && pnpm push-release",
+    "dev": "pnpm --filter @factor/site exec -- factor dev",
+    "format-all": "pnpm prettier --ext .ts,.js,.vue,.json . --write",
+    "pack": "pnpm --filter @factor/api/build exec -- factor pack",
+    "prerender": "pnpm exec --filter @factor/site -- factor prerender",
+    "release": "pnpm exec -- factor release",
+    "site": "pnpm --filter @factor/site exec -- factor run dev --app-port 3232 --server-port 21212",
+    "test": "pnpm run test-unit && pnpm run test-lint",
+    "test-eslint": "pnpm exec -- eslint --ext .ts,.js @factor/.",
+    "test-lint": "pnpm run test-pkg && pnpm run test-types && pnpm run test-eslint && pnpm run test-vue",
+    "test-pkg": "pnpm exec -- npmPkgJsonLint .",
+    "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
+    "test-unit": "npm exec -- vitest run",
+    "test-vue": "pnpm exec -- eslint --ext .vue @factor/.",
+    "up": "docker-compose up",
+    "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up"
+  },
+  "type": "module",
+  "workspaces": [
+    "@factor/*"
+  ]
 }
