@@ -264,6 +264,7 @@
     "stopwords",
     "strikethrough",
     "Stringcase",
+    "syncpack",
     "sysctls",
     "tabindex",
     "tailwindcss",

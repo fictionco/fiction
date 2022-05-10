@@ -3,13 +3,11 @@
   "description": "Add a syntax highlighting component to your Factor app.",
   "version": "5.3.15",
   "dependencies": {
+    "@factor/api": "5.3.15",
     "highlight.js": "^11.5.1"
   },
   "license": "MIT",
   "main": "index.ts",
-  "peerDependencies": {
-    "@factor/api": "*"
-  },
   "publishConfig": {
     "access": "public"
   }

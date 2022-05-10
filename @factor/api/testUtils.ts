@@ -22,6 +22,9 @@ import {
   FactorUser,
 } from "."
 
+export * from "vitest"
+export * from "playwright"
+
 const require = createRequire(import.meta.url)
 
 const getModuleName = (cwd: string): string => {

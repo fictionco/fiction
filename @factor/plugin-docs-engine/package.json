@@ -5,7 +5,9 @@
   "author": "Kaption Co.",
   "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/plugin-highlight-code": "5.3.15",
+    "@factor/api": "5.3.15",
+    "@factor/ui": "5.3.15",
+    "@factor/plugin-highlight-code": "workspace:5.3.15",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.2",
     "string-similarity": "^4.0.4"
@@ -13,10 +15,6 @@
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
   "license": "MIT",
   "main": "index.ts",
-  "peerDependencies": {
-    "@factor/api": "*",
-    "@factor/ui": "*"
-  },
   "publishConfig": {
     "access": "public"
   },

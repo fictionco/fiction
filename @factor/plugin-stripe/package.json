@@ -12,14 +12,6 @@
   },
   "license": "MIT",
   "main": "index.ts",
-  "peerDependencies": {
-    "vitest": "*"
-  },
-  "peerDependenciesMeta": {
-    "vitest": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "access": "public"
   }

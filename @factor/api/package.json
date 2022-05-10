@@ -103,7 +103,7 @@
     "tsup": "^5.12.7",
     "typescript": "^4.6.4",
     "validator": "^13.7.0",
-    "vite": "2.9.8",
+    "vite": "*",
     "vite-plugin-markdown": "^2.0.2",
     "vue": "3.2.33",
     "vue-router": "*",
@@ -118,6 +118,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "^7.2.0",
     "@types/nodemon": "^1.19.1",
+    "@vitest/ui": "^0.12.3",
     "execa": "*",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
@@ -129,18 +130,6 @@
   },
   "license": "MIT",
   "main": "index.ts",
-  "peerDependencies": {
-    "commander": "*",
-    "vitest": "*"
-  },
-  "peerDependenciesMeta": {
-    "vitest": {
-      "optional": true
-    },
-    "commander": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "access": "public"
   },
