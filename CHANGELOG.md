@@ -1,39 +1,25 @@
 ## [5.3.16](https://github.com/FactorJS/factor/compare/v5.3.15...v5.3.16) (2022-05-10)
 
-
-
 ## [5.3.15](https://github.com/FactorJS/factor/compare/v5.3.14...v5.3.15) (2022-05-09)
-
-
 
 ## [5.3.14](https://github.com/FactorJS/factor/compare/v5.3.13...v5.3.14) (2022-05-09)
 
-
-
 ## [5.3.13](https://github.com/FactorJS/factor/compare/v5.3.12...v5.3.13) (2022-05-09)
-
-
 
 ## [5.3.12](https://github.com/FactorJS/factor/compare/v5.3.11...v5.3.12) (2022-05-05)
 
-
-
 ## [5.3.11](https://github.com/FactorJS/factor/compare/v5.3.10...v5.3.11) (2022-05-04)
-
 
 ### Bug Fixes
 
-* build issues ([e2e4451](https://github.com/FactorJS/factor/commit/e2e4451a37c4283a90db2c57efb994d2cf854e64))
-* don't kill build w error ([e69db3d](https://github.com/FactorJS/factor/commit/e69db3dfe5c3a7c4e71950f3b3a58f15e61d8830))
-* prettier ([463d657](https://github.com/FactorJS/factor/commit/463d65752329464db07f68fda4db07b550ae3ddd))
-* routes and tests ([602cac9](https://github.com/FactorJS/factor/commit/602cac92ff5864a5919bcb51e67324b657881839))
-
+- build issues ([e2e4451](https://github.com/FactorJS/factor/commit/e2e4451a37c4283a90db2c57efb994d2cf854e64))
+- don't kill build w error ([e69db3d](https://github.com/FactorJS/factor/commit/e69db3dfe5c3a7c4e71950f3b3a58f15e61d8830))
+- prettier ([463d657](https://github.com/FactorJS/factor/commit/463d65752329464db07f68fda4db07b550ae3ddd))
+- routes and tests ([602cac9](https://github.com/FactorJS/factor/commit/602cac92ff5864a5919bcb51e67324b657881839))
 
 ### Features
 
-* bundling ([8a7bc4d](https://github.com/FactorJS/factor/commit/8a7bc4d823534b1b991ec32f0295c44ef072e09b))
-
-
+- bundling ([8a7bc4d](https://github.com/FactorJS/factor/commit/8a7bc4d823534b1b991ec32f0295c44ef072e09b))
 
 ## [5.3.10](https://github.com/FactorJS/factor/compare/v5.3.9...v5.3.10) (2022-05-03)
 

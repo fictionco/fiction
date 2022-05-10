@@ -4,7 +4,7 @@ import {
   EndpointMeta,
   EndpointManageAction,
   FactorUser,
-  Query
+  Query,
 } from "@factor/api"
 import type { EndpointResponse, PrivateUser } from "@factor/api"
 import Stripe from "stripe"
