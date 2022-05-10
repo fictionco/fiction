@@ -126,7 +126,8 @@
     "playwright": "*",
     "react-dom": "^18.1.0",
     "rollup": "^2.72.1",
-    "semver": "^7.3.7"
+    "semver": "^7.3.7",
+    "unocss": "^0.33.2"
   },
   "license": "MIT",
   "main": "index.ts",

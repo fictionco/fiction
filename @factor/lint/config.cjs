@@ -163,7 +163,6 @@ module.exports = defineConfig({
 
   settings: {
     tailwindcss: {
-      config: require.resolve("@factor/site/tailwind.config.cjs"),
       officialSorting: true,
     },
     "import/resolver": {
