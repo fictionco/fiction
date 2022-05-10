@@ -1,9 +1,14 @@
 import path from "path"
-import { expect, it, describe, beforeAll } from "vitest"
+import {
+  expect,
+  it,
+  describe,
+  beforeAll,
+  createTestUtils,
+} from "@factor/api/testUtils"
 import fs from "fs-extra"
 import { safeDirname } from "@factor/api/utils"
 import { generateStaticConfig } from "@factor/api/plugin-env/generate"
-import { createTestUtils } from "@factor/api/testUtils"
 const root = new URL(".", import.meta.url).pathname
 describe("test config generator", () => {
   beforeAll(async () => {

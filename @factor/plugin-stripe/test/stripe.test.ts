@@ -1,10 +1,16 @@
 import fs from "fs"
 import path from "path"
 import dotenv from "dotenv"
-import { expect, it, describe, beforeAll } from "vitest"
 import Stripe from "stripe"
 import { log } from "@factor/api"
-import { createTestUtils, TestUtils } from "@factor/api/testUtils"
+import {
+  createTestUtils,
+  TestUtils,
+  expect,
+  it,
+  describe,
+  beforeAll,
+} from "@factor/api/testUtils"
 import { FactorStripe } from "../plugin"
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined

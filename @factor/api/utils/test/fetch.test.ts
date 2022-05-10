@@ -1,7 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, it, expect } from "vitest"
+import { describe, it, expect } from "@factor/api/testUtils"
 import { fetchAdvanced } from "@factor/api/utils/fetch"
 
 describe("fetch", () => {

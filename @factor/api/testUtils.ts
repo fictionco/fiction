@@ -1,6 +1,6 @@
 import path from "path"
 import { createRequire } from "module"
-import { expect, it, describe } from "vitest"
+import { expect, it, describe } from "@factor/api/testUtils"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
@@ -23,7 +23,7 @@ import {
 } from "."
 
 export * from "vitest"
-export * from "playwright"
+export * as playwright from "playwright"
 
 const require = createRequire(import.meta.url)
 

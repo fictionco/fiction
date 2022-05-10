@@ -1,8 +1,15 @@
-import { expect, it, vi, describe, beforeAll } from "vitest"
 //import { FullUser } from "@factor/api"
-import { createTestUtils, getTestEmail, TestUtils } from "../../testUtils"
+import { vi } from "vitest"
+import {
+  createTestUtils,
+  getTestEmail,
+  TestUtils,
+  expect,
+  it,
+  describe,
+  beforeAll,
+} from "../../testUtils"
 import { objectId } from "../.."
-
 const email = getTestEmail()
 const googleId = objectId()
 const email2 = getTestEmail()

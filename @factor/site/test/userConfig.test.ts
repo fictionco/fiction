@@ -1,5 +1,5 @@
 import { createRequire } from "module"
-import { describe, it, expect } from "vitest"
+import { describe, it, expect } from "@factor/api/testUtils"
 import { compileApplication } from "@factor/api/plugin-env/entry"
 import * as mainFile from "../src"
 const require = createRequire(import.meta.url)

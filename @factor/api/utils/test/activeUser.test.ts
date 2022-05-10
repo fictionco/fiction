@@ -1,6 +1,12 @@
-import { beforeAll, describe, expect, it } from "vitest"
 import { computed } from "vue"
-import { createTestUtils, TestUtils } from "@factor/api/testUtils"
+import {
+  createTestUtils,
+  TestUtils,
+  beforeAll,
+  describe,
+  expect,
+  it,
+} from "@factor/api/testUtils"
 import { FullUser } from "@factor/api/plugin-user"
 
 let testUtils: TestUtils | undefined = undefined

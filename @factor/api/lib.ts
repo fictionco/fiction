@@ -1,1 +1,1 @@
-export * from "vite"
+export * as vite from "vite"

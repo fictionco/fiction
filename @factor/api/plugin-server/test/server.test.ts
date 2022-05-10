@@ -1,5 +1,5 @@
-import { expect, it, describe } from "vitest"
-import axios, { AxiosResponse } from "axios"
+import { expect, it, describe } from "@factor/api/testUtils"
+import { axios } from "@factor/api/utils"
 import { EndpointResponse } from "@factor/api/types"
 import { FactorServer } from ".."
 
@@ -18,9 +18,9 @@ describe("server test", () => {
       '"http://localhost:9929"',
     )
 
-    let response: AxiosResponse<EndpointResponse> | undefined
+    let response: axios.AxiosResponse<EndpointResponse> | undefined
     try {
-      response = await axios.get<EndpointResponse>(
+      response = await axios.default.get<EndpointResponse>(
         `http://localhost:${factorServer.port}/health`,
       )
     } catch (error) {

@@ -2,7 +2,6 @@
  * @vitest-environment jsdom
  * https://vitest.dev/config/#environment
  */
-import { expect, it, describe, beforeAll, afterAll } from "vitest"
 import { waitFor } from "@factor/api/utils"
 import {
   createSocketServer,
@@ -11,7 +10,15 @@ import {
   SocketMeta,
 } from "../socket"
 
-import { createTestUtils, TestUtils } from "../../testUtils"
+import {
+  createTestUtils,
+  TestUtils,
+  expect,
+  it,
+  describe,
+  beforeAll,
+  afterAll,
+} from "../../testUtils"
 type EventMap = {
   test: { req: "ping"; res: "pong" }
 }

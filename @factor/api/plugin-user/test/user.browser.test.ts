@@ -2,8 +2,15 @@
  * @vitest-environment jsdom
  * https://vitest.dev/config/#environment
  */
-import { expect, it, describe, vi, beforeAll } from "vitest"
-import { createTestUtils, TestUtils } from "@factor/api/testUtils"
+import {
+  createTestUtils,
+  TestUtils,
+  expect,
+  it,
+  describe,
+  vi,
+  beforeAll,
+} from "@factor/api/testUtils"
 
 import { FullUser } from "../types"
 let user: Partial<FullUser> | undefined

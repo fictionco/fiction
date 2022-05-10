@@ -8,7 +8,6 @@
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.4.0",
     "eslint-plugin-html": "^6.2.0",
-    "eslint-plugin-implicit-dependencies": "^1.1.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-json": "latest",
     "eslint-plugin-prettier": "latest",

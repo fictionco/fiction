@@ -1,7 +1,14 @@
-import { expect, it, vi, describe, beforeAll } from "vitest"
 import bcrypt from "bcrypt"
-import { getTestEmail, createTestUtils, TestUtils } from "@factor/api/testUtils"
-
+import {
+  getTestEmail,
+  createTestUtils,
+  TestUtils,
+  expect,
+  it,
+  describe,
+  beforeAll,
+} from "@factor/api/testUtils"
+import { vi } from "vitest"
 import { FullUser } from "../types"
 
 vi.mock("../serverEmail", async () => {

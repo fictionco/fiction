@@ -1,7 +1,7 @@
-import { defineConfig } from "vite"
+import { vite } from "@factor/api/lib"
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default vite.defineConfig({
   plugins: [],
   optimizeDeps: {
     include: ["github-buttons"],

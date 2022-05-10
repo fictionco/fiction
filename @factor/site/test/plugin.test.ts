@@ -1,6 +1,6 @@
 import { createRequire } from "module"
 import path from "path"
-import { expect, it, describe, beforeAll } from "vitest"
+import { expect, it, describe, beforeAll } from "@factor/api/testUtils"
 import { getMainFilePath } from "@factor/api/utils"
 import * as mainFile from "../src"
 

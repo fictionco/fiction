@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest"
-import { computed } from "vue"
+import { describe, it, expect } from "../../testUtils"
+import { vue } from "../libraries"
 import { storeItem, stored } from "../store"
 
 describe("store", () => {
@@ -20,7 +20,7 @@ describe("store", () => {
   })
 
   it("is reactive", () => {
-    const computedVar = computed(() => {
+    const computedVar = vue.computed(() => {
       return stored("socrates")
     })
 
@@ -32,7 +32,7 @@ describe("store", () => {
   })
 
   it("works with writable computed", () => {
-    const anotherVar = computed({
+    const anotherVar = vue.computed({
       get: () => {
         return stored("plato")
       },
@@ -41,7 +41,7 @@ describe("store", () => {
       },
     })
 
-    const yetAnother = computed(() => {
+    const yetAnother = vue.computed(() => {
       return anotherVar.value
     })
 

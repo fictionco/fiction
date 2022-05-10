@@ -1,5 +1,5 @@
 import { compileApplication } from "@factor/api/plugin-env/entry"
-import { expect, it, describe } from "vitest"
+import { expect, it, describe } from "@factor/api/testUtils"
 
 describe("server entry handling", () => {
   it("gets entry and runs server function if exists", async () => {

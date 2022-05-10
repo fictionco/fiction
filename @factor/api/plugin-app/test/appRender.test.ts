@@ -1,8 +1,16 @@
 import { createRequire } from "module"
 import path from "path"
-import { Page } from "playwright"
-import { describe, it, beforeAll, expect, afterAll } from "vitest"
-import { createTestServer, TestServerConfig } from "@factor/api/testUtils"
+
+import {
+  createTestServer,
+  TestServerConfig,
+  describe,
+  it,
+  beforeAll,
+  expect,
+  afterAll,
+  playwright,
+} from "@factor/api/testUtils"
 const require = createRequire(import.meta.url)
 let _s: TestServerConfig | undefined = undefined
 
@@ -10,7 +18,7 @@ const url = (route: string): string => {
   return `http://localhost:${_s?.appPort}${route}`
 }
 
-const page = (): Page => {
+const page = (): playwright.Page => {
   if (!_s?.page) throw new Error("no app page")
   return _s?.page ?? ""
 }

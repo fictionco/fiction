@@ -1,6 +1,6 @@
 import { createRequire } from "module"
 import path from "path"
-import { expect, it, describe, beforeAll } from "vitest"
+import { expect, it, describe, beforeAll } from "@factor/api/testUtils"
 import { getMainFilePath, importIfExists } from "../nodeUtils"
 import { getServerServiceConfig } from "../../plugin-env/entry"
 const require = createRequire(import.meta.url)

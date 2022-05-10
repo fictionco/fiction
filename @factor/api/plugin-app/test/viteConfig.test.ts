@@ -1,7 +1,12 @@
-import { describe, it, expect, beforeAll } from "vitest"
+import {
+  describe,
+  it,
+  expect,
+  beforeAll,
+  createTestUtils,
+  TestUtils,
+} from "@factor/api/testUtils"
 import * as vite from "vite"
-
-import { createTestUtils, TestUtils } from "@factor/api/testUtils"
 
 let viteConfig: vite.InlineConfig | undefined = undefined
 let testUtils: TestUtils | undefined = undefined

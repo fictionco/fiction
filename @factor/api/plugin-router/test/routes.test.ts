@@ -1,4 +1,4 @@
-import { expect, it, describe } from "vitest"
+import { expect, it, describe } from "@factor/api/testUtils"
 import { AppRoute } from "../appRoute"
 import { FactorRouter } from ".."
 

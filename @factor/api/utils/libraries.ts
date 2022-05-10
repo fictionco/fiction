@@ -1,5 +1,5 @@
 import express from "express"
-import axios from "axios"
+import * as axios from "axios"
 import knex from "knex"
 import * as vue from "vue"
 import * as vueRouter from "vue-router"

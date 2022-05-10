@@ -52,15 +52,10 @@ module.exports = defineConfig({
     "unicorn",
     "import",
     "@typescript-eslint",
-    "implicit-dependencies",
     "tailwindcss",
   ],
 
   rules: {
-    "implicit-dependencies/no-implicit": [
-      "error",
-      { peer: true, dev: true, optional: true },
-    ],
     semi: ["error", "never"],
     curly: ["warn", "multi-line"],
     "no-console": ["error", { allow: ["warn", "error"] }],
@@ -90,7 +85,6 @@ module.exports = defineConfig({
         ignoreExternal: true,
       },
     ],
-
     "import/named": "off",
     "import/extensions": [
       "error",

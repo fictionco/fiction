@@ -2,8 +2,14 @@
  * @vitest-environment jsdom
  * https://vitest.dev/config/#environment
  */
-import { expect, describe, it, beforeAll } from "vitest"
-import { createTestUtils, TestUtils } from "../../testUtils"
+import {
+  createTestUtils,
+  TestUtils,
+  expect,
+  describe,
+  it,
+  beforeAll,
+} from "../../testUtils"
 import { getCookie, getTopDomain } from "../cookie"
 
 let testUtils: TestUtils | undefined = undefined
