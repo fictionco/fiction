@@ -34,9 +34,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { vue } from "@factor/api"
 
-const benefits = ref([
+const benefits = vue.ref([
   {
     icon: `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 48V0h48v48H0z" fill="#40CF8F"/><path d="M14.3 36.4a2.5 2.5 0 002.7.3 15 15 0 0114 0c.9.5 2 .3 2.8-.3a15 15 0 10-19.5 0z" fill="#D5FAD0"/><path d="M12 23v-.3a12 12 0 015.5-8.6l1.4-.7.7-.3.8-.3.8-.2.8-.2 1.6-.2a12.2 12.2 0 017.5 2.2c.4.3.9.5 1.2.9l1 1 .8 1c1.1 1.4 2 3.1 2.3 5a1 1 0 01-2.1.4v-.4a11.2 11.2 0 00-1.8-4l-.6-.8-.9-.9c-.2-.3-.6-.5-1-.8a11 11 0 00-6.4-2h-1.4l-.7.2c-.2 0-.5 0-.7.2l-.7.2-.6.2-1.2.6a10.8 10.8 0 00-5.3 7.6v.4a.5.5 0 01-1-.1z" fill="#40CF8F"/><path d="M23 24l9.8-8.8a.7.7 0 011 1L25 26a1.5 1.5 0 01-2-2z" fill="#008167"/>
 </svg>`,

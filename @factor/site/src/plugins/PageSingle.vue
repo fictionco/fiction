@@ -67,9 +67,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from "vue-router"
+import { vueRouter } from "@factor/api"
 import { map as plugins } from "./map"
-const router = useRouter()
+const router = vueRouter.useRouter()
 
 const goToPermalink = async (permalink?: string): Promise<void> => {
   if (!permalink) return

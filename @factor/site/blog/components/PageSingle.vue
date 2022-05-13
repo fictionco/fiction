@@ -92,7 +92,7 @@
               <component :is="config.component" />
             </div>
             <div>
-              <div class="mx-auto my-12 max-w-7xl bg-color-50 p-6 md:p-12">
+              <div class="mx-auto my-12 max-w-7xl bg-slate-50 p-6 md:p-12">
                 <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
                   <span class="block text-slate-500"
                     >Hope you enjoyed this post.</span
@@ -125,19 +125,18 @@
 <script lang="ts" setup>
 import ElButton from "@factor/ui/ElButton.vue"
 import ElAvatar from "@factor/ui/ElAvatar.vue"
-import { useMeta } from "@factor/api"
-import { useRouter } from "vue-router"
+import { useMeta, vue, vueRouter, dayjs } from "@factor/api"
 import ElSpinner from "@factor/ui/ElSpinner.vue"
-import { ref, computed, onServerPrefetch } from "vue"
 import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
-import { factorBlog } from "@factor/site"
+
 import EntryToc from "@factor/ui/EntryToc.vue"
-import dayjs from "dayjs"
-const baseRoute = ref(factorBlog.setting("baseRoute"))
-const router = useRouter()
-const loading = ref(false)
-const config = ref<PostEntryConfig>({ attributes: {} })
-const at = computed<PostEntryConfig>(() => {
+import { useFactorService } from "../../src/inject"
+const { factorBlog } = useFactorService()
+const baseRoute = vue.ref(factorBlog.setting("baseRoute"))
+const router = vueRouter.useRouter()
+const loading = vue.ref(false)
+const config = vue.ref<PostEntryConfig>({ attributes: {} })
+const at = vue.computed<PostEntryConfig>(() => {
   return {
     publishDate: "2021-01-01",
     title: "",
@@ -161,30 +160,30 @@ const getContent = async (): Promise<void> => {
   loading.value = false
 }
 
-onServerPrefetch(async () => {
+vue.onServerPrefetch(async () => {
   await getContent()
 })
 
 getContent().catch((error) => console.error(error))
 
 useMeta({
-  title: computed(() => {
+  title: vue.computed(() => {
     return (at.value.title as string) ?? "Blog"
   }),
   meta: [
     {
       name: `description`,
-      content: computed(() => {
+      content: vue.computed(() => {
         return at.value.description ?? ""
       }),
     },
     {
       property: `og:title`,
-      content: computed(() => at.value.title),
+      content: vue.computed(() => at.value.title),
     },
     {
       property: `og:image`,
-      content: computed(() => {
+      content: vue.computed(() => {
         return at.value.postImage ?? ""
       }),
     },
@@ -198,11 +197,11 @@ useMeta({
     },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:label1", content: "Written by" },
-    { name: "twitter:data1", content: computed(() => at.value.authorName) },
+    { name: "twitter:data1", content: vue.computed(() => at.value.authorName) },
     { name: "twitter:label2", content: "Est. reading time" },
     {
       name: "twitter:data2",
-      content: computed(() => `${at.value.readingMinutes} minutes`),
+      content: vue.computed(() => `${at.value.readingMinutes} minutes`),
     },
   ],
 })

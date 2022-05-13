@@ -23,7 +23,7 @@ To set up Tailwind, just add a `tailwind.config.ts` to the root of your applicat
 
 If you are using Factor UI or UI from Factor plugins, we recommend you configure at least two custom Tailwind color schemes: `color` and `primary`.
 
-- **"color" scheme:** The contrast color scheme associated with text and borders. Allowing standard classes for these common elements: `text-slate-500` or `border-color-200`.
+- **"color" scheme:** The contrast color scheme associated with text and borders. Allowing standard classes for these common elements: `text-slate-500` or `border-slate-200`.
 - **"primary" scheme** Typically applications pick a primary color (purple in Factor's case) and use this often. Setting this scheme allows UI libraries to stylize according to your brand.
 
 Here is how `tailwind.config.ts` might look:

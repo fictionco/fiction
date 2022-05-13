@@ -79,8 +79,8 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
 
     const storeKey = `docs-${key}`
 
-    if (this.store.stored(storeKey)) {
-      return this.store.stored(storeKey)
+    if (this.utils.stored(storeKey)) {
+      return this.utils.stored(storeKey)
     }
 
     const docs = this.setting("docs") ?? []
@@ -106,7 +106,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
       }
     }
 
-    this.store.storeItem(storeKey, config)
+    this.utils.storeItem(storeKey, config)
 
     return config
   }

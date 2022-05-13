@@ -14,12 +14,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue"
+import { vue } from "@factor/api"
 import type { PostEntryConfig } from "@factor/plugin-blog-engine"
 import { factorBlog } from ".."
 import PostList from "../../blog/components/PostList.vue"
 
-const content = ref<PostEntryConfig[]>([])
+const content = vue.ref<PostEntryConfig[]>([])
 
 const setContent = async (): Promise<void> => {
   content.value = await factorBlog.getIndexContent()

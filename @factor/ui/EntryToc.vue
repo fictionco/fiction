@@ -38,9 +38,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { throttle } from "@factor/api"
-import { useRoute } from "vue-router"
-import { onBeforeUnmount, onMounted, watch, ref } from "vue"
+import { throttle, vue, vueRouter } from "@factor/api"
 
 interface PageHeaders {
   text: string
@@ -52,17 +50,15 @@ const props = defineProps({
   selector: { type: String, default: "" },
 })
 
-const route = useRoute()
+const route = vueRouter.useRoute()
 
-const clicked = ref(false)
-const scroller = ref<HTMLElement>()
-const headers = ref<PageHeaders[]>([])
-const allHeaders = ref<HTMLHeadingElement[]>([])
-const activeHash = ref(route.hash)
-const hydrated = ref(false)
-const loading = ref(false)
-
-onBeforeUnmount(() => {})
+const clicked = vue.ref(false)
+const scroller = vue.ref<HTMLElement>()
+const headers = vue.ref<PageHeaders[]>([])
+const allHeaders = vue.ref<HTMLHeadingElement[]>([])
+const activeHash = vue.ref(route.hash)
+const hydrated = vue.ref(false)
+const loading = vue.ref(false)
 
 const collectH3s = (h: HTMLHeadingElement): HTMLHeadingElement[] => {
   const h3s = []
@@ -189,7 +185,7 @@ const setMenu = (): void => {
 }
 
 let lastPath = route.path
-watch(
+vue.watch(
   () => route,
   (to, from) => {
     if (to.path != lastPath) {
@@ -225,7 +221,7 @@ const isActive = (anchorName: string, anchorList?: string[]): boolean => {
   }
 }
 
-onMounted(() => {
+vue.onMounted(() => {
   hydrated.value = true
   setMenu()
 

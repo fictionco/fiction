@@ -57,12 +57,10 @@
   </footer>
 </template>
 <script lang="ts" setup>
-import dayjs from "dayjs"
-import { ref } from "vue"
-
+import { dayjs, vue } from "@factor/api"
 import ElemLogo from "./ElLogo.vue"
 
-const columns = ref<
+const columns = vue.ref<
   {
     heading?: string
     class?: string

@@ -6,7 +6,7 @@
       <a
         v-for="(video, index) in videos"
         :key="video.id"
-        class="mx-0 block rounded-md px-4 py-1 font-bold uppercase text-slate-500 hover:bg-color-50 hover:text-primary-500 lg:mx-4"
+        class="mx-0 block rounded-md px-4 py-1 font-bold uppercase text-slate-500 hover:bg-slate-50 hover:text-primary-500 lg:mx-4"
         :class="video.id == selected ? 'active bg-primary-500 text-white' : ''"
         :href="`#${video.id}`"
       >
@@ -46,11 +46,10 @@
 </template>
 
 <script lang="ts" setup>
-import { toLabel } from "@factor/api"
-import { onMounted, ref } from "vue"
+import { toLabel, vue } from "@factor/api"
 
-const selected = ref("install")
-const videos = ref([
+const selected = vue.ref("install")
+const videos = vue.ref([
   {
     id: "install",
     url: "https://www.youtube.com/embed/m0tckSo1KUg?rel=0",
@@ -76,7 +75,7 @@ const videos = ref([
   },
 ])
 
-onMounted(() => {
+vue.onMounted(() => {
   /**
    * Scrolling changes, sometimes IntersectionObserver isn't available
    */

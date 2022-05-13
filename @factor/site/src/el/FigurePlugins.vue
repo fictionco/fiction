@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { vue } from "@factor/api"
 
 import IconAnalytics from "../img/icon-analytics.svg"
 import IconAws from "../img/icon-aws.svg"
@@ -32,7 +32,7 @@ import iSub from "../img/icon-subscriptions.svg"
 import iSyntax from "../img/icon-plugin-syntax-highlight.svg"
 import iThemes from "../img/icon-themes.svg"
 
-const plugins = ref([
+const plugins = vue.ref([
   { image: iDocs, alt: "Docs Icon", class: "" },
   { image: IconAnalytics, alt: "Analytics Icon" },
   { image: iForms, alt: "Forms Icon" },

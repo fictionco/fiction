@@ -94,7 +94,7 @@
         :class="
           activeSlide.id == fig.id
             ? 'border-primary-500 text-primary-500'
-            : 'border-color-200 text-slate-500 '
+            : 'border-slate-200 text-slate-500 '
         "
         @click="setActive(i)"
       >
@@ -105,14 +105,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted } from "vue"
+import { vue } from "@factor/api"
 
 import codeEditor from "../img/figure-splash-code-editor.svg"
 
-const loaded = ref(false)
+const loaded = vue.ref(false)
 
-onMounted(() => (loaded.value = true))
-const figures = ref([
+vue.onMounted(() => (loaded.value = true))
+const figures = vue.ref([
   { id: "dashboard", caption: "Build Apps" },
   { id: "themes", caption: "Build Sites" },
   { id: "code", caption: "Clean and Minimal Code" },
@@ -120,18 +120,18 @@ const figures = ref([
 /**
  * Initial Active figure
  */
-const active = ref<number>(0)
+const active = vue.ref<number>(0)
 /**
  * Current Active figure
  */
-const activeSlide = computed(() => {
+const activeSlide = vue.computed(() => {
   return figures.value[active.value]
 })
 /**
  * Switch Figure timer
  */
 let timer: NodeJS.Timeout | undefined = undefined
-const animationInterval = ref<number>(20_000)
+const animationInterval = vue.ref<number>(20_000)
 
 /**
  * Next Figure

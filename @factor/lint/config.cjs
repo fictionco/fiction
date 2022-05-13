@@ -95,7 +95,14 @@ module.exports = defineConfig({
       "error",
       { commonjs: true, caseSensitiveStrict: true, amd: true },
     ],
-    "import/no-extraneous-dependencies": ["error"],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: true,
+        peerDependencies: true,
+        optionalDependencies: false,
+      },
+    ],
     "unicorn/consistent-function-scoping": "off",
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",
@@ -158,6 +165,14 @@ module.exports = defineConfig({
       files: ["*.vue"],
       rules: {
         "unicorn/consistent-function-scoping": "off",
+      },
+    },
+    {
+      files: ["**/*test*"],
+      rules: {
+        "no-console": "off",
+        "unicorn/no-abusive-eslint-disable": "off",
+        "import/no-extraneous-dependencies": "off",
       },
     },
   ],

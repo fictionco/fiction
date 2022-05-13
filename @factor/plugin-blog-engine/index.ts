@@ -104,8 +104,8 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
 
     const storeKey = `blog-${slug}`
 
-    if (this.store.stored(storeKey)) {
-      return this.store.stored(storeKey)
+    if (this.utils.stored(storeKey)) {
+      return this.utils.stored(storeKey)
     }
 
     const baseRoute = this.setting("baseRoute") ?? "/blog"
@@ -157,7 +157,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       }
     }
 
-    this.store.storeItem(storeKey, config)
+    this.utils.storeItem(storeKey, config)
 
     return config
   }

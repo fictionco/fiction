@@ -35,8 +35,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-import { onEvent } from "@factor/api"
-import { onMounted, ref, watch } from "vue"
+import { onEvent, vue } from "@factor/api"
 const props = defineProps({
   save: { type: Boolean, default: false },
   valid: { type: Boolean, default: false },
@@ -46,7 +45,7 @@ const props = defineProps({
 
 const emit = defineEmits(["submit", "update:valid"])
 
-const form = ref<HTMLFormElement>()
+const form = vue.ref<HTMLFormElement>()
 
 const submitForm = (): void => {
   const el = form.value
@@ -66,7 +65,7 @@ const setValid = (): void => {
   }
 }
 
-onMounted(() => {
+vue.onMounted(() => {
   setTimeout(() => {
     setValid()
 
@@ -83,7 +82,7 @@ onMounted(() => {
   }, 300)
 })
 
-watch(
+vue.watch(
   () => props.data,
   () => {
     // delay due to any reactive changes in form that impact validity

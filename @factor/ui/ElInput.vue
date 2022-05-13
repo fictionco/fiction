@@ -77,15 +77,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import {
-  ComponentPublicInstance,
-  computed,
-  onMounted,
-  PropType,
-  ref,
-  useAttrs,
-  defineAsyncComponent,
-} from "vue"
+import { vue } from "@factor/api"
 import { inputs } from "./inputs"
 
 const props = defineProps({
@@ -95,24 +87,28 @@ const props = defineProps({
   },
   label: { type: String, default: "" },
   description: { type: String, default: "" },
-  input: { type: String as PropType<keyof typeof inputs>, default: "" },
+  input: { type: String as vue.PropType<keyof typeof inputs>, default: "" },
 })
 const emit = defineEmits(["update:modelValue"])
 
-const attrs = useAttrs() as { for?: string; class?: string; required?: string }
+const attrs = vue.useAttrs() as {
+  for?: string
+  class?: string
+  required?: string
+}
 
 const { class: _class, ...passAttrs } = attrs
 
-const isRequired = computed(() =>
+const isRequired = vue.computed(() =>
   typeof attrs.required != "undefined" ? true : false,
 )
 // const isDisabled = computed(() =>
 //   typeof attrs.disabled != "undefined" ? true : false,
 // )
-const inputEl = ref<ComponentPublicInstance>()
-const valid = ref<boolean | undefined>()
-const inputComponent = computed(() => {
-  return props.input ? defineAsyncComponent(inputs[props.input]) : ""
+const inputEl = vue.ref<vue.ComponentPublicInstance>()
+const valid = vue.ref<boolean | undefined>()
+const inputComponent = vue.computed(() => {
+  return props.input ? vue.defineAsyncComponent(inputs[props.input]) : ""
 })
 
 /**
@@ -143,7 +139,7 @@ const updateValue = async (value: any): Promise<void> => {
   emit("update:modelValue", value)
 }
 
-onMounted(() => {
+vue.onMounted(() => {
   // Let the child els load
   setTimeout(async () => {
     await setValidity()

@@ -16,7 +16,7 @@
           <div class="max-w-full px-6 pt-12 pb-4 lg:max-w-xl lg:py-40">
             <div
               v-if="feature.icon"
-              class="mb-6 flex h-20 w-20 items-center justify-center rounded-lg border border-color-100 bg-primary-500 shadow-md"
+              class="mb-6 flex h-20 w-20 items-center justify-center rounded-lg border border-slate-100 bg-primary-500 shadow-md"
             >
               <div class="h-10 w-10 text-white" v-html="feature.icon"></div>
             </div>

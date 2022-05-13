@@ -52,10 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue"
+import { vue } from "@factor/api"
 import ElemLogo from "./ElLogo.vue"
-const wrapper = ref<HTMLElement>()
-const width = ref<number>(500)
+const wrapper = vue.ref<HTMLElement>()
+const width = vue.ref<number>(500)
 
 /**
  * Get figure width
@@ -66,11 +66,11 @@ const getWidth = (): number => {
 /**
  * Scale figure based on width
  */
-const scale = computed(() => {
+const scale = vue.computed(() => {
   return Math.max(Math.min(width.value / 500, 1), 0.5)
 })
 
-onMounted(() => {
+vue.onMounted(() => {
   /**
    * Get figure width
    */

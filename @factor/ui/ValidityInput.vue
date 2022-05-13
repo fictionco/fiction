@@ -10,15 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref } from "vue"
+import { vue } from "@factor/api"
 const props = defineProps({
   customValidity: {
     type: String,
     default: "",
   },
 })
-const customValidityEl = ref<HTMLInputElement>()
-watch(
+const customValidityEl = vue.ref<HTMLInputElement>()
+vue.watch(
   () => props.customValidity,
   function (this: any, v?: string | boolean) {
     if (typeof v === "string" && customValidityEl.value) {

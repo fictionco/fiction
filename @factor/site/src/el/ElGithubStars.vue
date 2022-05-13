@@ -5,9 +5,9 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from "vue"
+import { vue } from "@factor/api"
 
-const loaded = ref(false)
+const loaded = vue.ref(false)
 
 defineProps({
   text: { type: String, default: "Follow Project" },
@@ -38,7 +38,7 @@ const renderButton = async (): Promise<void> => {
   loaded.value = true
 }
 
-onMounted(async () => {
+vue.onMounted(async () => {
   await renderButton()
 })
 </script>

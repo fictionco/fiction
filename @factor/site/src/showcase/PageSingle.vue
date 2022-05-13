@@ -114,23 +114,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch, onMounted } from "vue"
-import { useRouter } from "vue-router"
+import { vue, vueRouter } from "@factor/api"
 import ElButton from "@factor/ui/ElButton.vue"
 import { map as showcase } from "./map"
 
 const animationInterval = 3000
-const timer = ref<NodeJS.Timeout>()
-const router = useRouter()
-const screenshots = ref<string[]>([])
+const timer = vue.ref<NodeJS.Timeout>()
+const router = vueRouter.useRouter()
+const screenshots = vue.ref<string[]>([])
 
-const item = computed(() => {
+const item = vue.computed(() => {
   const slug = router.currentRoute.value.params.slug
 
   return showcase.find((_) => _.permalink == slug) || {}
 })
 
-watch(
+vue.watch(
   () => item.value,
   () => {
     screenshots.value = item.value.screenshots || []
@@ -171,7 +170,7 @@ const screenshotStyle = (
   return style
 }
 
-onMounted(() => runTimer())
+vue.onMounted(() => runTimer())
 </script>
 
 <style lang="less">

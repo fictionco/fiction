@@ -142,15 +142,15 @@ import {
   onResetUi,
   camelToKebab,
   camelize,
+  vue,
+  vueRouter,
 } from "@factor/api"
 import ElButton from "@factor/ui/ElButton.vue"
-import { ref } from "vue"
 
-import { useRouter } from "vue-router"
 import { docs, groups, DocKeys } from "../map"
-const baseRoute = ref("/docs")
-const router = useRouter()
-const vis = ref(false)
+const baseRoute = vue.ref("/docs")
+const router = vueRouter.useRouter()
+const vis = vue.ref(false)
 
 onResetUi(() => (vis.value = false))
 

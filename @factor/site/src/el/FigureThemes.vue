@@ -15,14 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue"
-
+import { vue } from "@factor/api"
 import themeAlpha from "../img/theme-alpha.jpg"
 import themeYellow from "../img/theme-alpha-yellow.jpg"
 import themeUltra from "../img/theme-ultra.jpg"
-const wrapper = ref<HTMLElement>()
-const width = ref<number>(500)
-const screenshots = ref([
+const wrapper = vue.ref<HTMLElement>()
+const width = vue.ref<number>(500)
+const screenshots = vue.ref([
   {
     img: themeAlpha,
     alt: "Alpha Theme",
@@ -46,11 +45,11 @@ const getWidth = (): number => {
 /**
  * Scale figure based on width
  */
-const scale = computed(() => {
+const scale = vue.computed(() => {
   return Math.max(Math.min(width.value / 500, 1), 0.5)
 })
 
-onMounted(() => {
+vue.onMounted(() => {
   /**
    * Get figure width
    */

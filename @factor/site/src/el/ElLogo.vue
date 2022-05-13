@@ -24,10 +24,10 @@
   </svg>
 </template>
 <script lang="ts" setup>
-import { PropType } from "vue"
+import { vue } from "@factor/api"
 
 defineProps({
-  mode: { type: String as PropType<"logo" | "icon">, default: "logo" },
+  mode: { type: String as vue.PropType<"logo" | "icon">, default: "logo" },
 })
 </script>
 <style lang="less" scoped>

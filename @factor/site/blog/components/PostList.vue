@@ -59,12 +59,11 @@
 </template>
 <script lang="ts" setup>
 import ElAvatar from "@factor/ui/ElAvatar.vue"
-import dayjs from "dayjs"
-import { ref } from "vue"
+import { vue, dayjs } from "@factor/api"
 import type { PostEntryConfig } from "@factor/plugin-blog-engine"
 import { factorBlog } from "../.."
 
-const content = ref<PostEntryConfig[]>([])
+const content = vue.ref<PostEntryConfig[]>([])
 
 const setContent = async (): Promise<void> => {
   content.value = await factorBlog.getIndexContent()

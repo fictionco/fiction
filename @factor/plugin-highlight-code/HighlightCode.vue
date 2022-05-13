@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onResetUi } from "@factor/api"
-import { onMounted, PropType, ref } from "vue"
+import { onResetUi, vue } from "@factor/api"
 import hljs from "highlight.js"
 
 const themes = {
@@ -18,9 +17,12 @@ const themes = {
 }
 
 const props = defineProps({
-  theme: { type: String as PropType<keyof typeof themes>, default: undefined },
+  theme: {
+    type: String as vue.PropType<keyof typeof themes>,
+    default: undefined,
+  },
 })
-const code = ref<HTMLElement>()
+const code = vue.ref<HTMLElement>()
 
 const setOpacity = (o: string): void => {
   if (!code.value) return
@@ -42,7 +44,7 @@ const tryHighlight = (cb?: () => void): void => {
 }
 
 onResetUi(() => tryHighlight())
-onMounted(async () => {
+vue.onMounted(async () => {
   setOpacity("0")
   const key = props.theme || "github"
   await themes[key]()

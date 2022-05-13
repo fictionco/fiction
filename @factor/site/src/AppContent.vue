@@ -6,14 +6,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useMeta } from "@factor/api"
-import { computed } from "vue"
+import { useMeta, vue } from "@factor/api"
 import SiteHead from "./el/SiteHead.vue"
 import SiteFooter from "./el/SiteFooter.vue"
 import ImgShare from "./img/share.jpg"
 import ImgIcon from "./img/icon.jpg"
 useMeta({
-  title: computed(() => {
+  title: vue.computed(() => {
     return `FactorJS Static Site Framework by Kaption Co.`
   }),
   meta: [

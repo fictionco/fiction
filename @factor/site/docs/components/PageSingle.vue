@@ -22,27 +22,18 @@
 
 <script lang="ts" setup>
 import HighlightCode from "@factor/plugin-highlight-code/HighlightCode.vue"
-import { useMeta, camelize, toLabel } from "@factor/api"
-import { useRouter } from "vue-router"
-import {
-  shallowRef,
-  ref,
-  computed,
-  onServerPrefetch,
-  watch,
-  markRaw,
-} from "vue"
+import { useMeta, camelize, toLabel, vueRouter, vue } from "@factor/api"
 
 import { DocPageConfig } from "@factor/plugin-docs-engine"
 import EntryToc from "@factor/ui/EntryToc.vue"
-import { factorDocs } from "@factor/site"
+import { useFactorService } from "../../src/inject"
+const { factorDocs } = useFactorService()
+const router = vueRouter.useRouter()
+const loading = vue.ref(false)
 
-const router = useRouter()
-const loading = ref(false)
+const config = vue.shallowRef<DocPageConfig>({})
 
-const config = shallowRef<DocPageConfig>({})
-
-const docId = computed<string | undefined>(() => {
+const docId = vue.computed<string | undefined>(() => {
   const params = router.currentRoute.value.params
   const id = camelize(params.slug as string)
 
@@ -54,16 +45,16 @@ const getContent = async (): Promise<void> => {
 
   const c = await factorDocs.getDocConfig(docId.value)
 
-  config.value = markRaw(c || {})
+  config.value = vue.markRaw(c || {})
 
   loading.value = false
 }
 
-onServerPrefetch(async () => {
+vue.onServerPrefetch(async () => {
   await getContent()
 })
 
-watch(
+vue.watch(
   () => router.currentRoute.value.path,
   async () => {
     await getContent()
@@ -71,14 +62,14 @@ watch(
   { immediate: true },
 )
 
-const metaTitle = computed(() => {
+const metaTitle = vue.computed(() => {
   const r = router.currentRoute.value
   const routeTitle = `${toLabel((r.name || r.path) as string)}`
   const getTitle = config.value.attributes?.title ?? routeTitle
   return getTitle
 })
 
-const metaDescription = computed(() => {
+const metaDescription = vue.computed(() => {
   return config.value.attributes?.description ?? ""
 })
 

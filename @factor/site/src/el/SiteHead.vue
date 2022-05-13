@@ -51,7 +51,7 @@
         <div class="-my-2 -mr-2 md:hidden">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-color-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
             :aria-expanded="mobileMenu ? 'true' : 'false'"
             @click.stop="mobileMenu = true"
           >
@@ -126,7 +126,7 @@
                           v-for="(sub, ii) in item.menu"
                           :key="ii"
                           href="#"
-                          class="-m-3 flex items-start rounded-lg p-3 hover:bg-color-50"
+                          class="-m-3 flex items-start rounded-lg p-3 hover:bg-slate-50"
                         >
                           <div
                             class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-500 text-white sm:h-12 sm:w-12"
@@ -195,7 +195,7 @@
           class="absolute inset-x-0 top-0 z-30 origin-top-right p-2 transition md:hidden"
         >
           <div
-            class="divide-y-2 divide-color-50 rounded-lg bg-white shadow-lg ring-1 ring-black/5"
+            class="divide-color-50 divide-y-2 rounded-lg bg-white shadow-lg ring-1 ring-black/5"
           >
             <div class="px-5 pt-5 pb-6">
               <div class="flex items-center justify-between">
@@ -208,7 +208,7 @@
                 <div class="-mr-2">
                   <button
                     type="button"
-                    class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-color-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+                    class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                     @click="mobileMenu = false"
                   >
                     <span class="sr-only">Close menu</span>
@@ -261,14 +261,13 @@
   </header>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue"
-import { onResetUi } from "@factor/api"
+import { onResetUi, vue } from "@factor/api"
 import ElemLogo from "./ElLogo.vue"
 import ElemGithubStars from "./ElGithubStars.vue"
-const mobileMenu = ref(false)
+const mobileMenu = vue.ref(false)
 onResetUi(() => (mobileMenu.value = false))
 
-const nav = ref<
+const nav = vue.ref<
   {
     path: string
     name: string

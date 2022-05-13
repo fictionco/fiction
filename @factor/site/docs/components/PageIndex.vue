@@ -65,8 +65,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useMeta } from "@factor/api"
-import { computed } from "vue"
+import { useMeta, vue } from "@factor/api"
 import { groups } from "../map"
 import WelcomeBanner from "./WelcomeBanner.vue"
 const metaTitle = "Documentation and Guides"
@@ -126,7 +125,7 @@ const socials = [
 
 const groupsToShow: string[] = ["basics", "server", "deployment"]
 
-const groupList = computed(() => {
+const groupList = vue.computed(() => {
   return groupsToShow.map((g) => {
     return groups[g] || {}
   })
