@@ -9,6 +9,7 @@ export const textInputClasses = (mode: "standard" | "basic" = "standard") => {
     "py-input-y",
     "text-input-size",
     "bg-input-base",
+    "text-input-body",
     "focus:outline-none",
     "disabled:cursor-not-allowed",
     "border-input-edge",
@@ -18,7 +19,9 @@ export const textInputClasses = (mode: "standard" | "basic" = "standard") => {
     "disabled:opacity-70",
   ]
   if (mode == "standard") {
-    out.push("max-w-sm")
+    out.push("max-w-input")
+  } else {
+    out.push("max-w-input-lg")
   }
   return out
 }

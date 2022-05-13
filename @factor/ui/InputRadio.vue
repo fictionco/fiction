@@ -3,38 +3,52 @@
     <label
       v-for="(option, i) in parsedList"
       :key="i"
-      class="my-2 flex items-center"
+      class="my-2 flex cursor-pointer items-center text-input-size"
       :for="option.value"
     >
       <input
         :id="option.value"
         v-model="selected"
         type="radio"
-        class="form-radio appearance-none border border-slate-300 text-primary-600 focus:border-primary-200 focus:outline-none focus:ring-primary-500"
+        :class="classes"
         name="radio-colors"
         :value="option.value"
         v-bind="$attrs"
       />
-      <span class="ml-2">{{ option.name }}</span>
+      <span class="ml-2 text-input-body hover:text-input-body-light">{{
+        option.name
+      }}</span>
     </label>
   </div>
 </template>
 <script lang="ts" setup>
-import { normalizeList, ListItem } from "@factor/api"
-import { PropType, ref, watch } from "vue"
+import { normalizeList, ListItem, vue } from "@factor/api"
 
 const props = defineProps({
   modelValue: { type: String, default: "" },
-  list: { type: Array as PropType<ListItem[]>, default: () => [] },
+  list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },
 })
 
-const emit = defineEmits(["update:modelValue"])
-const selected = ref<string>(props.modelValue)
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
+const selected = vue.ref<string>(props.modelValue)
 const parsedList = normalizeList(props.list)
-watch(
+vue.watch(
   () => selected.value,
   (v) => {
     emit("update:modelValue", v)
   },
 )
+
+const classes = [
+  "form-radio",
+  "appearance-none",
+  "border",
+  "border-input-edge",
+  "text-input-primary",
+  "focus:border-input-primary",
+  "focus:outline-none",
+  "focus:ring-input-primary",
+]
 </script>

@@ -4,8 +4,6 @@ export const inputs: Record<string, () => Promise<vue.Component>> = {
   email: () => import("./InputEmail.vue"),
   oneTimeCode: () => import("./InputOneTimeCode.vue"),
   text: () => import("./InputText.vue"),
-  url: () => import("./InputUrl.vue"),
-  domain: () => import("./InputDomain.vue"),
   toggle: () => import("./InputToggle.vue"),
   checkbox: () => import("./InputCheckbox.vue"),
   checkboxMulti: () => import("./InputCheckboxMulti.vue"),

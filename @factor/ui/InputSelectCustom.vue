@@ -1,7 +1,7 @@
 <template>
   <div @click.stop @keyup.stop @keydown.stop>
     <div
-      class="relative"
+      class="max-w-input relative"
       @keydown.down.prevent="
         hovered = hovered == li.length - 1 ? 0 : hovered + 1
       "
@@ -13,13 +13,13 @@
         aria-haspopup="listbox"
         :aria-expanded="active ? 'true' : 'false'"
         aria-labelledby="listbox-label"
-        class="f-input group relative w-full cursor-pointer rounded-md border border-slate-300 py-2 pl-3 pr-8 text-left font-medium focus:outline-none"
         :class="[
-          active || disabled ? 'opacity-50' : 'hover:border-slate-300',
+          buttonClasses,
+          active || disabled ? 'opacity-50' : 'hover:border-input-edge',
           classButton,
           disabled
             ? 'cursor-not-allowed'
-            : 'focus:ring-1 focus:ring-primary-500 focus:border-primary-500',
+            : 'focus:ring-1 focus:ring-input-primary focus:border-input-primary',
         ]"
         @click="toggle()"
       >
@@ -40,13 +40,13 @@
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
           <span
-            class="select-description ml-2 truncate text-xs text-slate-400"
+            class="select-description ml-2 truncate text-xs text-input-body-light"
             >{{ selectedItem?.desc }}</span
           >
         </span>
         <span
-          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 group-hover:text-primary-500"
-          :class="active ? 'text-primary-500' : ''"
+          class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 group-hover:text-input-primary"
+          :class="active ? 'text-input-primary' : ''"
         >
           <svg
             class="h-5 w-5"
@@ -87,11 +87,11 @@
           >
             <template v-for="(item, i) of li" :key="i">
               <li v-if="item.format == 'divider'" class="">
-                <div class="w-full border-t border-slate-200" />
+                <div class="w-full border-t border-input-edge" />
               </li>
               <li
                 v-else-if="item.format == 'title'"
-                class="mt-4 mb-2 text-slate-500"
+                class="mt-4 mb-2 text-input-body-light"
               >
                 <div class="px-4 text-xs font-semibold uppercase">
                   {{ item.name }}
@@ -102,7 +102,7 @@
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group relative select-none py-2 px-4"
+                class="group relative select-none py-input-y px-input-x text-input-size"
                 @click="selectValue(item)"
                 @mouseover="hovered = i"
               >
@@ -124,17 +124,15 @@
                     :class="item.desc ? '' : 'w-full'"
                     >{{ item.name }}</span
                   >
-                  <span
-                    v-if="item.desc"
-                    class="ml-2 truncate text-xs opacity-50"
-                    >{{ item.desc }}</span
-                  >
+                  <span v-if="item.desc" class="ml-2 truncate opacity-50">{{
+                    item.desc
+                  }}</span>
                   <span
                     v-if="isSelected(item.value)"
                     class="absolute inset-y-0 right-0 flex items-center pr-3"
                     :class="
                       hovered !== i
-                        ? 'text-primary-500 group-hover:text-white'
+                        ? 'text-input-primary group-hover:text-white'
                         : ''
                     "
                   >
@@ -255,25 +253,44 @@ const listItemClass = (item: ListItem, i: number): string => {
   let out = []
 
   if (item.disabled) {
-    out.push("text-slate-300")
+    out.push("opacity-60")
   } else {
     if (
       (isSelected(item.value) && hovered.value === -1) ||
       hovered.value === i
     ) {
-      out.push("bg-primary-600 text-white font-medium")
+      out.push("bg-input-primary text-input-primary-text font-medium")
     } else if (isSelected(item.value)) {
-      out.push("bg-slate-50 font-medium")
+      out.push("bg-input-base-alt font-medium")
     } else {
       out.push("font-normal")
     }
     out.push(
-      "cursor-pointer focus:text-white focus:bg-primary-500 hover:text-white hover:bg-primary-500",
+      "cursor-pointer focus:text-white focus:bg-input-primary hover:text-white hover:bg-input-primary",
     )
   }
 
   return out.join(" ")
 }
+
+const buttonClasses = [
+  "f-input",
+  "group",
+  "relative",
+  "w-full",
+  "cursor-pointer",
+  "rounded-md",
+  "border",
+  "border-input-edge",
+  "bg-input-base",
+  "py-input-y",
+  "pl-3",
+  "pr-8",
+  "text-left",
+  "text-input-size",
+  "text-input-body",
+  "focus:outline-none",
+]
 </script>
 <style lang="less" scoped>
 .select-description {

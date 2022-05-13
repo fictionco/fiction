@@ -1,5 +1,5 @@
 <template>
-  <div class="f-input flex max-w-sm">
+  <div class="f-input flex max-w-input">
     <span :class="protocolClasses"> {{ protocol || "https://" }} </span>
 
     <input
@@ -14,6 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { vue } from "@factor/api"
+import { textInputClasses } from "./theme"
 const attrs = vue.useAttrs()
 defineProps({
   modelValue: { type: [String, Number], default: "" },
@@ -47,19 +48,9 @@ const protocolClasses = [
   "text-input-body-light",
 ]
 const classes = [
-  "block",
-  "w-full",
   "flex-1",
-  "px-input-x",
-  "py-input-y",
-
   "rounded-none",
   "rounded-r-md",
-  "border-input-edge",
-  "bg-input-base",
-  "text-input-size",
-  "placeholder:text-input-placeholder",
-  "focus:border-input-primary",
-  "focus:ring-0",
+  ...textInputClasses(),
 ]
 </script>

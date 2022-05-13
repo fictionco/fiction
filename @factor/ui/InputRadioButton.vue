@@ -1,11 +1,10 @@
 <template>
-  <span class="relative z-0 inline-flex rounded-md shadow-sm">
+  <span class="relative z-0 inline-flex rounded-lg shadow-sm">
     <button
-      v-for="(li, i) in list"
+      v-for="(li, i) in parsedList"
       :key="i"
       type="button"
-      class="relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-      :class="buttonClass(li, i)"
+      :class="[classes, buttonClass(li, i)]"
       @click="select(li)"
     >
       {{ li.name }}
@@ -13,16 +12,15 @@
   </span>
 </template>
 <script lang="ts" setup>
-import { normalizeList, ListItem } from "@factor/api"
-import { PropType, computed } from "vue"
+import { normalizeList, ListItem, vue } from "@factor/api"
 
 const props = defineProps({
   modelValue: { type: [String, Number], default: "" },
-  list: { type: Array as PropType<ListItem[]>, default: () => [] },
+  list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },
 })
 
 const emit = defineEmits(["update:modelValue"])
-const parsedList = computed(() => normalizeList(props.list))
+const parsedList = vue.computed(() => normalizeList(props.list))
 
 const buttonClass = (v: ListItem, i: number): string => {
   const out: string[] = []
@@ -38,9 +36,11 @@ const buttonClass = (v: ListItem, i: number): string => {
   }
 
   if (props.modelValue == v.value) {
-    out.push("bg-slate-100 text-slate-900 border-slate-300")
+    out.push("bg-input-primary  border-input-primary text-input-primary-text")
   } else {
-    out.push("bg-white text-slate-700 border-slate-300 hover:border-slate-300")
+    out.push(
+      "bg-input-base text-input-body  border-input-edge hover:border-input-edge",
+    )
   }
 
   return out.join(" ")
@@ -48,4 +48,19 @@ const buttonClass = (v: ListItem, i: number): string => {
 const select = (v: ListItem): void => {
   emit("update:modelValue", v.value)
 }
+
+const classes = [
+  "relative",
+  "inline-flex",
+  "items-center",
+  "border",
+  "px-input-x",
+  "py-input-y",
+  "text-input-size",
+  "text-input-body",
+  "focus:z-10",
+  "focus:border-input-primary",
+  "focus:outline-none",
+  "focus:ring-0",
+]
 </script>

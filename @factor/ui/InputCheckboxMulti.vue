@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div v-if="li.length == 0" class="text-input-placeholder">No Items</div>
-    <div v-for="(item, i) of li" v-else :key="i" class="my-2">
+    <div v-for="(item, i) of li" v-else :key="i" class="my-1">
       <label class="f-input inline-flex cursor-pointer items-center">
         <input
           v-bind="attrs"

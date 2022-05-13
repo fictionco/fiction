@@ -4,6 +4,10 @@ module.exports = {
 
   theme: {
     extend: {
+      maxWidth: {
+        input: "var(--input-max-width, 100%)",
+        "input-lg": "var(--input-max-width-lg, 100%)",
+      },
       fontSize: {
         "input-size": [
           "var(--input-size)",

@@ -4,7 +4,7 @@
   </ElButton>
 </template>
 <script lang="ts" setup>
-import { useAttrs } from "vue"
+import { vue } from "@factor/api"
 import ElButton from "./ElButton.vue"
-const attrs = useAttrs()
+const attrs = vue.useAttrs()
 </script>

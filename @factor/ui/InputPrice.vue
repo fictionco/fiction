@@ -3,22 +3,33 @@
     <div
       class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
     >
-      <span class="text-slate-500 sm:text-sm"> $ </span>
+      <span class="text-input-body-light sm:text-sm"> $ </span>
     </div>
     <input
       type="number"
-      class="block rounded-md border-slate-300 pl-7 pr-12 focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+      :class="classes"
       placeholder="0.00"
       :value="modelValue"
       step=".01"
       min="0"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="handleEmit($event.target)"
     />
   </div>
 </template>
 <script lang="ts" setup>
+import { textInputClasses } from "./theme"
 defineProps({
-  modelValue: { type: [String], default: "" },
+  modelValue: { type: [String, Number], default: "" },
 })
-defineEmits(["update:modelValue"])
+
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
+
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
+  emit("update:modelValue", el.value)
+}
+
+const classes = ["pl-7", ...textInputClasses()]
 </script>

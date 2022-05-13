@@ -11,15 +11,18 @@ type ColorScale =
   | 900
   | 1000
 
-export type ThemeColor =
-  | "amber"
-  | "pink"
-  | "primary"
-  | "emerald"
-  | "sky"
-  | "slate"
-  | "black"
-  | "white"
+export const colors = [
+  "amber",
+  "pink",
+  "primary",
+  "emerald",
+  "sky",
+  "slate",
+  "black",
+  "white",
+] as const
+
+export type ThemeColor = typeof colors[number]
 
 type ColorRecord = {
   [P in ColorScale]?: string
