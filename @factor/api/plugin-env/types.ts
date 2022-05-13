@@ -47,6 +47,7 @@ export type ServiceList = Record<
 >
 
 export interface ServiceConfig {
+  paths?: string[]
   service?: ServiceList
   [key: string]: unknown
 }

@@ -1,18 +1,28 @@
 <template>
   <input
-    class="f-input block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
+    :class="textInputClasses()"
     type="tel"
     :value="modelValue"
     :autocomplete="attrs.autocomplete || 'tel'"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    @input="handleEmit($event.target)"
   />
 </template>
 <script lang="ts" setup>
-import { useAttrs } from "vue"
-defineEmits(["update:modelValue"])
+import { vue } from "@factor/api"
+import { textInputClasses } from "./theme"
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
+
 defineProps({
   modelValue: { type: [String], default: "" },
 })
 
-const attrs = useAttrs() as { autocomplete: string; [key: string]: string }
+const attrs = vue.useAttrs() as { autocomplete: string; [key: string]: string }
+
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
+
+  emit("update:modelValue", el.value)
+}
 </script>

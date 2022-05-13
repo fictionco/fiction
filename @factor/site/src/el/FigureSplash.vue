@@ -94,7 +94,7 @@
         :class="
           activeSlide.id == fig.id
             ? 'border-primary-500 text-primary-500'
-            : 'border-color-200 text-color-500 '
+            : 'border-color-200 text-slate-500 '
         "
         @click="setActive(i)"
       >

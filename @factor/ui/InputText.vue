@@ -1,15 +1,24 @@
 <template>
   <input
-    class="f-input block w-full appearance-none rounded-md border border-slate-300 bg-slate-50 px-3 py-2 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
+    :class="textInputClasses()"
     type="text"
     :value="modelValue"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    spellcheck="false"
+    @input="handleEmit($event.target)"
   />
 </template>
 <script lang="ts" setup>
+import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: [String, Number], default: "" },
 })
 
-defineEmits(["update:modelValue"])
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
+
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
+  emit("update:modelValue", el.value)
+}
 </script>

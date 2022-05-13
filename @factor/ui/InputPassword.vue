@@ -1,20 +1,27 @@
 <template>
   <input
-    class="f-input f-input-password block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder:text-slate-300 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
+    :class="textInputClasses()"
     :value="modelValue"
     :autocomplete="attrs.autocomplete || 'current-password'"
     type="password"
     minlength="6"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    @input="handleEmit($event.target)"
   />
 </template>
 <script lang="ts" setup>
-import { useAttrs } from "vue"
+import { vue } from "@factor/api"
+import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: String, default: "" },
 })
+const attrs = vue.useAttrs() as { autocomplete: string; [key: string]: any }
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
 
-defineEmits(["update:modelValue"])
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
 
-const attrs = useAttrs() as { autocomplete: string; [key: string]: any }
+  emit("update:modelValue", el.value)
+}
 </script>

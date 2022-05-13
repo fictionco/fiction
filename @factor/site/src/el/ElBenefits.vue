@@ -4,7 +4,7 @@
       <h2 class="text-center text-2xl font-bold tracking-tight sm:text-4xl">
         Why you'll love using Factor
       </h2>
-      <p class="mt-4 text-center text-lg text-color-500 md:text-xl">
+      <p class="mt-4 text-center text-lg text-slate-500 md:text-xl">
         Factor will help you launch websites and applications faster.
       </p>
     </div>
@@ -23,7 +23,7 @@
             <dt class="text-xl font-bold leading-6">
               {{ benefit.title }}
             </dt>
-            <dd class="mt-2 text-base text-color-500">
+            <dd class="mt-2 text-base text-slate-500">
               {{ benefit.text }}
             </dd>
           </div>

@@ -111,6 +111,10 @@
       "path": "/testing"
     },
     {
+      "key": "testInputs",
+      "path": "/test-inputs"
+    },
+    {
       "key": "blog",
       "path": "/blog"
     },

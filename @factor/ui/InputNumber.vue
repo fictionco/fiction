@@ -1,19 +1,17 @@
 <template>
-  <div
-    class="relative mt-1 flex h-10 w-56 flex-row rounded-md border border-slate-300 bg-transparent"
-  >
+  <div :class="wrapClasses">
     <button
-      class="h-full w-20 select-none rounded-md hover:bg-slate-50 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
-      :class="
-        minNumber >= modelValue ? 'disabled opacity-40' : 'cursor-pointer'
-      "
+      :class="[
+        buttonClasses,
+        minNumber >= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
+      ]"
       @click.prevent="increment(-1)"
     >
-      <span class="m-auto text-2xl font-thin">−</span>
+      <span class="m-auto text-input-size font-bold">−</span>
     </button>
     <input
       type="number"
-      class="text-md md:text-basecursor-default mx-1 flex w-full select-none items-center rounded-md border-transparent text-center font-semibold outline-none focus:border-primary-500 focus:outline-none focus:ring-primary-500"
+      :class="inputClasses"
       name="custom-input-number"
       :min="min"
       :max="max"
@@ -21,13 +19,13 @@
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
     <button
-      class="h-full w-20 rounded-md hover:bg-slate-50 focus:border-primary-500 focus:outline-none focus:ring-primary-500"
-      :class="
-        maxNumber <= modelValue ? 'disabled opacity-40' : 'cursor-pointer'
-      "
+      :class="[
+        buttonClasses,
+        maxNumber <= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
+      ]"
       @click.prevent="increment(1)"
     >
-      <span class="m-auto text-2xl font-thin">+</span>
+      <span class="m-auto text-input-size font-bold">+</span>
     </button>
   </div>
 </template>
@@ -55,4 +53,49 @@ const increment = (v: number): void => {
     emit("update:modelValue", newValue)
   }
 }
+
+const inputClasses = [
+  "cursor-default",
+  "flex",
+  "w-full",
+  "select-none",
+  "items-center",
+  "rounded-md",
+  "border-transparent",
+  "text-center",
+  "outline-none",
+  "bg-input-base",
+  "text-input-size",
+  "text-input-body",
+  "focus:border-input-primary",
+  "focus:outline-none",
+  "focus:ring-0",
+  "px-input-x",
+  "py-input-y",
+]
+const wrapClasses = [
+  "bg-input-base",
+  "relative",
+  "flex",
+
+  "w-56",
+  "flex-row",
+  "rounded-md",
+  "border",
+  "border-input-edge",
+]
+
+const buttonClasses = [
+  "px-input-x",
+  "py-input-y",
+  "h-full",
+  "w-20",
+  "rounded-full",
+  "select-none",
+  "text-input-body",
+  "hover:text-input-body-light",
+  "focus:border-input-primary",
+  "focus:outline-none",
+  "focus:ring-input-primary",
+]
 </script>

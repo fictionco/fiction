@@ -12,7 +12,7 @@
         <div v-for="(col, i) in columns" :key="i" class="mt-12 md:mt-0">
           <h3
             v-if="col.heading"
-            class="mb-4 text-xs font-semibold uppercase tracking-wider text-color-400"
+            class="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-400"
           >
             {{ col.heading }}
           </h3>
@@ -26,7 +26,7 @@
                 <template v-if="item.icon">
                   <span class="sr-only">{{ item.name }}</span>
                   <div
-                    class="h-6 w-6 text-color-500 hover:text-primary-500"
+                    class="h-6 w-6 text-slate-500 hover:text-primary-500"
                     v-html="item.icon"
                   />
                 </template>
@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="mt-8 pt-4 text-sm text-color-500">
+      <div class="mt-8 pt-4 text-sm text-slate-500">
         <div class="text-center">
           &copy; {{ dayjs().format("YYYY") }} &middot; An Open Source project by
           <a href="https://www.kaption.co">Kaption.co</a>

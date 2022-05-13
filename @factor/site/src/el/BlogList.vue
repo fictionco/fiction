@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
           Updates
         </h2>
-        <p class="mx-auto mt-3 max-w-2xl text-xl text-color-500 sm:mt-4">
+        <p class="mx-auto mt-3 max-w-2xl text-xl text-slate-500 sm:mt-4">
           Latest updates on Factor.
         </p>
       </div>

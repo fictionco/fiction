@@ -5,16 +5,23 @@ import type { Query } from "./query"
 import type { FactorServer } from "./plugin-server"
 import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
-import * as store from "./utils/store"
 import * as utils from "./utils"
+
+export abstract class FactorObj<T extends Record<string, unknown> = {}> {
+  public settings: T
+  public log = log.contextLogger(this.constructor.name)
+  protected stop = _stop
+  protected utils = utils
+  constructor(settings: T) {
+    this.settings = settings
+  }
+}
 
 export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   public settings: T
   public log = log.contextLogger(this.constructor.name)
   protected stop = _stop
   protected utils = utils
-  protected store = store
-
   protected basePath: string
 
   constructor(settings: T) {

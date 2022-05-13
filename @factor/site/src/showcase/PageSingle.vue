@@ -10,7 +10,7 @@
         >
           <div class="content col-span-6 py-24">
             <router-link
-              class="mb-8 inline-block text-xs font-semibold uppercase tracking-wider text-color-400"
+              class="mb-8 inline-block text-xs font-semibold uppercase tracking-wider text-slate-400"
               to="/showcase"
             >
               <span> &larr; Back to Showcase </span>
@@ -45,7 +45,7 @@
                   </div>
                 </div>
                 <h3
-                  class="description mt-6 max-w-md text-lg text-color-700 lg:text-xl"
+                  class="description mt-6 max-w-md text-lg text-slate-700 lg:text-xl"
                 >
                   {{ item.description }}
                 </h3>
@@ -65,7 +65,7 @@
                 </div>
                 <div
                   v-if="item.tags"
-                  class="tags mt-8 text-xs font-semibold text-color-300"
+                  class="tags mt-8 text-xs font-semibold text-slate-300"
                 >
                   <span v-for="tag in item.tags" :key="tag" class="mr-2">{{
                     tag
@@ -100,7 +100,7 @@
                 class="arrow-wrap absolute bottom-4 z-20 text-center"
               >
                 <div
-                  class="arrow w-full cursor-pointer text-center text-6xl text-color-500 opacity-20 transition-opacity hover:opacity-50"
+                  class="arrow w-full cursor-pointer text-center text-6xl text-slate-500 opacity-20 transition-opacity hover:opacity-50"
                   @click="nextScreenshot()"
                 >
                   &rarr;

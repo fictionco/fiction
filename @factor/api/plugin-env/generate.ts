@@ -1,16 +1,19 @@
 import path from "path"
 import fs from "fs-extra"
 import type { JSONSchema } from "json-schema-to-typescript"
-import { log } from "../plugin-log"
-import { stringify } from "../utils"
-import { runHooks } from "../utils/hook"
 
+import { log } from "../plugin-log"
+import { mode } from "../utils/vars"
+import { stringify } from "../utils/utils"
+import { runHooks } from "../utils/hook"
 import { FactorEnvHookDictionary } from "./types"
 import type { FactorEnv } from "."
 
 export const generateStaticConfig = async (
   factorEnv: FactorEnv<string>,
 ): Promise<void> => {
+  if (mode() == "production") return
+
   const context = "generateStaticConfig"
   log.debug(context, "generating")
 

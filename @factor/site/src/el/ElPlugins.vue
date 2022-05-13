@@ -3,7 +3,7 @@
     <div class="items-center justify-between py-8 lg:flex">
       <div>
         <h2 class="text-3xl font-bold">Plugins</h2>
-        <div class="text-color-500">
+        <div class="text-slate-500">
           Create and run your web app with Factor and extensions.
         </div>
       </div>
@@ -33,7 +33,7 @@
         />
         <div class="min-w-0">
           <h1 class="mb-2 text-3xl font-bold">{{ item.name }}</h1>
-          <p class="line-clamp-2 text-xl text-color-500">
+          <p class="line-clamp-2 text-xl text-slate-500">
             {{ item.description }}
           </p>
         </div>

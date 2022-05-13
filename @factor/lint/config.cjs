@@ -95,6 +95,7 @@ module.exports = defineConfig({
       "error",
       { commonjs: true, caseSensitiveStrict: true, amd: true },
     ],
+    "import/no-extraneous-dependencies": ["error"],
     "unicorn/consistent-function-scoping": "off",
     "unicorn/no-abusive-eslint-disable": 0,
     "unicorn/prevent-abbreviations": "off",

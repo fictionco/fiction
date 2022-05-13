@@ -3,12 +3,15 @@
     <input
       v-bind="attrs"
       type="checkbox"
-      class="form-checkbox mr-4 h-5 w-5 appearance-none rounded-md border border-slate-300 text-primary-500"
+      :class="classes"
       :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).checked)"
+      @input="handleEmit($event.target)"
     />
-    <span class="checkbox-label">
-      <slot />
+    <span
+      class="checkbox-label text-input-size text-input-body hover:text-input-body-light"
+    >
+      <template v-if="slots.default"> <slot /></template>
+      <template v-else>{{ text }}</template>
     </span>
   </label>
 </template>
@@ -19,13 +22,38 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { useAttrs } from "vue"
+import { vue } from "@factor/api"
 
 defineProps({
   modelValue: { type: Boolean, default: false },
   text: { type: String, default: "" },
 })
-defineEmits(["update:modelValue"])
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: boolean): void
+}>()
 
-const attrs = useAttrs()
+const attrs = vue.useAttrs()
+const slots = vue.useSlots()
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
+  emit("update:modelValue", el.checked)
+}
+
+const classes = [
+  "form-checkbox",
+  "cursor-pointer",
+  "mr-4",
+  "h-5",
+  "w-5",
+  "appearance-none",
+  "rounded-md",
+  "border",
+  "focus:outline-none",
+  "focus:ring-0",
+  "border-input-edge",
+  "text-input-primary",
+  "bg-input-base",
+  "text-input-body",
+  "hover:bg-input-base-alt",
+]
 </script>

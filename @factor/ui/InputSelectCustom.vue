@@ -163,14 +163,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ListItem, normalizeList, onResetUi } from "@factor/api"
-import { computed, PropType, ref } from "vue"
-import { useRouter } from "vue-router"
+import { ListItem, normalizeList, onResetUi, vue, vueRouter } from "@factor/api"
 
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: "" },
   list: {
-    type: Array as PropType<string[] | ListItem[]>,
+    type: Array as vue.PropType<string[] | ListItem[]>,
     default: () => [],
   },
   defaultValue: { type: [Number, String, Boolean], default: "" },
@@ -181,17 +179,17 @@ const props = defineProps({
   disabled: { type: Boolean, default: false },
 })
 const emit = defineEmits(["update:modelValue"])
-const router = useRouter()
-const active = ref(false)
-const hovered = ref(-1)
+const router = vueRouter.useRouter()
+const active = vue.ref(false)
+const hovered = vue.ref(-1)
 
 if (!props.modelValue && props.defaultValue) {
   emit("update:modelValue", props.defaultValue)
 }
 
-const li = computed(() => normalizeList(props.list ?? []))
+const li = vue.computed(() => normalizeList(props.list ?? []))
 
-const selectedItem = computed<ListItem | undefined>(() => {
+const selectedItem = vue.computed<ListItem | undefined>(() => {
   let f = li.value.find((l) => l.value == props.modelValue)
   // If can't find value and default prop is set, use that
   if (!f && props.defaultValue) {
@@ -200,7 +198,7 @@ const selectedItem = computed<ListItem | undefined>(() => {
   return f
 })
 
-const selectedIndex = computed<number>(() => {
+const selectedIndex = vue.computed<number>(() => {
   return li.value.findIndex((_) => _.value == props.modelValue)
 })
 

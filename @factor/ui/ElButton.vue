@@ -73,7 +73,7 @@ const btnClass = vue.computed(() => {
     out = "text-white  hover:bg-white hover:bg-opacity-20 border-white"
   } else if (props.btn == "default") {
     out =
-      "border-color-300 text-color-800 bg-white hover:bg-color-50 focus:ring-primary-500"
+      "border-color-300 text-slate-800 bg-white hover:bg-color-50 focus:ring-primary-500"
   }
 
   let sizeClasses = "px-4 py-2 text-base "

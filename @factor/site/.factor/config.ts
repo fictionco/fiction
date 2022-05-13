@@ -41,35 +41,9 @@ export interface CompiledServiceConfig {
     | "plugins"
     | "showcase"
     | "showcaseSingle"
+    | "testInputs"
     | "testing";
-  ui:
-    | "ElAvatar"
-    | "ElButton"
-    | "ElForm"
-    | "ElInput"
-    | "ElModal"
-    | "ElSpinner"
-    | "InputCheckbox"
-    | "InputCheckboxMulti"
-    | "InputDomain"
-    | "InputEmail"
-    | "InputNumber"
-    | "InputOneTimeCode"
-    | "InputPassword"
-    | "InputPhone"
-    | "InputPrice"
-    | "InputRadio"
-    | "InputRadioButton"
-    | "InputSelect"
-    | "InputSelectCustom"
-    | "InputSelectMulti"
-    | "InputSubmit"
-    | "InputText"
-    | "InputTextarea"
-    | "InputTimezone"
-    | "InputToggle"
-    | "InputUrl"
-    | "InputWeight";
+  ui: "";
   menus: "";
   [k: string]: unknown;
 }

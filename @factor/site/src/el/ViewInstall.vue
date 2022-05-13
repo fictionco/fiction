@@ -31,7 +31,7 @@
                 >{{ video.duration }}</span
               >
             </div>
-            <div class="text-2xl text-color-500">{{ video.synopsis }}</div>
+            <div class="text-2xl text-slate-500">{{ video.synopsis }}</div>
           </div>
         </div>
         <div class="video-wrap">

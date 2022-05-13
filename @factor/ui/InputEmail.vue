@@ -1,22 +1,25 @@
 <template>
   <input
-    class="block w-full appearance-none rounded-md border px-3 py-2 focus:outline-none disabled:cursor-not-allowed"
-    :class="[inputTheme(props.theme)]"
+    :class="textInputClasses()"
     type="email"
     autocomplete="email"
-    placeholder="name@company.com"
     :value="modelValue"
-    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    @input="handleEmit($event.target)"
   />
 </template>
 <script lang="ts" setup>
-import { PropType } from "vue"
-import { InputColorTheme, inputTheme } from "./theme"
-
-const props = defineProps({
+import { textInputClasses } from "./theme"
+defineProps({
   modelValue: { type: [String], default: "" },
-  theme: { type: String as PropType<InputColorTheme>, default: "standard" },
 })
 
-defineEmits(["update:modelValue"])
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string): void
+}>()
+
+const handleEmit = (target: EventTarget | null): void => {
+  const el = target as HTMLInputElement
+
+  emit("update:modelValue", el.value)
+}
 </script>

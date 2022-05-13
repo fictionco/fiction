@@ -30,15 +30,18 @@ export default [
   }),
   new AppRoute({
     name: "install",
-    niceName: "Install",
     path: "/install",
     component: (): Promise<any> => import("./el/ViewInstall.vue"),
   }),
   new AppRoute({
     name: "testing",
-    niceName: "Testing",
     path: "/testing",
-    component: (): Promise<any> => import("./FactorTesting.vue"),
+    component: (): Promise<any> => import("./test-ui/FactorTesting.vue"),
+  }),
+  new AppRoute({
+    name: "testInputs",
+    path: "/test-inputs",
+    component: (): Promise<any> => import("./test-ui/FactorInputs.vue"),
   }),
   ...blogRoutes,
   ...docsRoutes,

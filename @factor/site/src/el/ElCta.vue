@@ -4,7 +4,7 @@
   >
     <h2 class="text-xl tracking-tight sm:text-2xl">
       <span class="mb-2 block font-semibold text-primary-500">{{ title }}</span>
-      <span class="block text-color-500">{{ subtitle }}</span>
+      <span class="block text-slate-500">{{ subtitle }}</span>
     </h2>
     <div class="mt-4 flex lg:mt-0 lg:shrink-0">
       <slot>

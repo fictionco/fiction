@@ -24,7 +24,7 @@
             <h2 class="mb-6 text-3xl font-bold lg:text-5xl">
               {{ feature.title }}
             </h2>
-            <div class="mb-4 text-xl text-color-500 lg:text-2xl">
+            <div class="mb-4 text-xl text-slate-500 lg:text-2xl">
               {{ feature.text }}
             </div>
             <div v-if="feature.link" class="text-xl font-medium">

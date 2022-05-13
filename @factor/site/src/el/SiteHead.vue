@@ -51,7 +51,7 @@
         <div class="-my-2 -mr-2 md:hidden">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-color-400 hover:bg-color-100 hover:text-color-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-color-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
             :aria-expanded="mobileMenu ? 'true' : 'false'"
             @click.stop="mobileMenu = true"
           >
@@ -78,7 +78,7 @@
           <template v-for="item in nav" :key="item.name">
             <template v-if="item.menu">
               <div class="relative" @mouseover="1" @mouseleave="1">
-                <!-- Item active: "", Item inactive: "text-color-500" -->
+                <!-- Item active: "", Item inactive: "text-slate-500" -->
                 <button
                   type="button"
                   class="group hover: inline-flex items-center rounded-md bg-white text-base font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
@@ -88,10 +88,10 @@
                   <!--
                 Heroicon name: solid/chevron-down
 
-                Item active: "text-slate-600", Item inactive: "text-color-400"
+                Item active: "text-slate-600", Item inactive: "text-slate-400"
               -->
                   <svg
-                    class="ml-2 h-5 w-5 text-color-400 group-hover:text-color-500"
+                    class="ml-2 h-5 w-5 text-slate-400 group-hover:text-slate-500"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -150,7 +150,7 @@
                           </div>
                           <div class="ml-4">
                             <p class="font-semibold">{{ sub.name }}</p>
-                            <p class="mt-1 text-sm text-color-500">
+                            <p class="mt-1 text-sm text-slate-500">
                               {{ sub.description }}
                             </p>
                           </div>
@@ -208,7 +208,7 @@
                 <div class="-mr-2">
                   <button
                     type="button"
-                    class="inline-flex items-center justify-center rounded-md bg-white p-2 text-color-400 hover:bg-color-100 hover:text-color-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+                    class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-color-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
                     @click="mobileMenu = false"
                   >
                     <span class="sr-only">Close menu</span>

@@ -1,16 +1,17 @@
 <template>
-  <div class="mt-6">
-    <div v-for="(item, i) of li" :key="i" class="my-2">
+  <div class="">
+    <div v-if="li.length == 0" class="text-input-placeholder">No Items</div>
+    <div v-for="(item, i) of li" v-else :key="i" class="my-2">
       <label class="f-input inline-flex cursor-pointer items-center">
         <input
-          v-bind="$attrs"
+          v-bind="attrs"
           type="checkbox"
-          class="form-checkbox mr-4 h-5 w-5 appearance-none rounded-md border border-slate-300 text-primary-500"
+          :class="classes"
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         />
         <span
-          class="checkbox-label text-sm text-slate-800 hover:text-primary-500"
+          class="checkbox-label text-input-size text-input-body hover:text-input-primary"
         >
           {{ item.name }}
         </span>
@@ -19,28 +20,31 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { normalizeList, ListItem } from "@factor/api"
-import { computed, PropType } from "vue"
+import { normalizeList, ListItem, vue } from "@factor/api"
 
 const props = defineProps({
   modelValue: {
     type: [Array, String],
     default: () => [],
   },
-  list: { type: Array as PropType<ListItem[]>, default: () => {} },
+  list: { type: Array as vue.PropType<ListItem[]>, default: () => {} },
 })
-const emit = defineEmits(["update:modelValue"])
-const li = computed(() => {
-  return normalizeList(props.list ?? ["no items"])
+const attrs = vue.useAttrs()
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: string[]): void
+}>()
+
+const li = vue.computed(() => {
+  return normalizeList(props.list ?? [])
 })
 
-const val = computed<string[]>(() => {
+const val = vue.computed<string[]>(() => {
   return typeof props.modelValue == "string"
     ? props.modelValue.split(",").map((_) => _.trim())
     : (props.modelValue as string[])
 })
 
-const selected = computed<string[]>({
+const selected = vue.computed<string[]>({
   get: () => {
     return val.value
   },
@@ -72,4 +76,20 @@ const selectValue = (item: ListItem): void => {
     removeValue(value)
   }
 }
+
+const classes = [
+  "form-checkbox",
+  "mr-4",
+  "h-5",
+  "w-5",
+  "appearance-none",
+  "rounded-md",
+  "border",
+  "focus:outline-none",
+  "focus:ring-0",
+  "border-input-edge",
+  "text-input-primary",
+  "bg-input-base",
+  "hover:bg-input-base-alt",
+]
 </script>

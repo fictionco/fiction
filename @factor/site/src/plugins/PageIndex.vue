@@ -5,7 +5,7 @@
         <h1 class="text-center text-3xl font-bold tracking-tight sm:text-5xl">
           Factor Plugins
         </h1>
-        <h3 class="mt-4 text-lg text-color-500 lg:text-2xl">
+        <h3 class="mt-4 text-lg text-slate-500 lg:text-2xl">
           Simple ways to add new features to your app or site
         </h3>
       </div>
@@ -25,7 +25,7 @@
               <img class="rounded-lg" :src="item.icon" />
             </div>
             <h3 class="mt-6 text-xl font-bold lg:text-2xl">{{ item.name }}</h3>
-            <p class="mt-3 text-lg text-color-500">
+            <p class="mt-3 text-lg text-slate-500">
               {{ item.description }}
             </p>
             <div class="actions mt-6 flex justify-between space-x-4">

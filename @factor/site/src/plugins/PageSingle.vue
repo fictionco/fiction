@@ -5,7 +5,7 @@
         <h1 class="text-center text-3xl font-bold tracking-tight sm:text-5xl">
           Plugins
         </h1>
-        <h3 class="mt-4 text-2xl text-color-500">
+        <h3 class="mt-4 text-2xl text-slate-500">
           Simple ways to add new features to your app or site
         </h3>
       </div>
@@ -41,7 +41,7 @@
                   </div>
                   <div>
                     <h3 class="title font-bold">{{ item.name }}</h3>
-                    <div v-if="item.authorName" class="text-xs text-color-400">
+                    <div v-if="item.authorName" class="text-xs text-slate-400">
                       <div class="author">by {{ item.authorName }}</div>
                     </div>
                   </div>

@@ -1,16 +1,15 @@
 <template>
   <textarea
     ref="textareaElement"
-    class="f-input standard-textarea block w-full appearance-none rounded-md border border-slate-300 px-3 py-2 placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500"
-    :class="modelValue ? 'set' : 'empty'"
+    :class="[textInputClasses('basic'), modelValue ? 'set' : 'empty']"
     :value="modelValue"
     @input="send($event.target)"
   />
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue"
-
+import { vue } from "@factor/api"
+import { textInputClasses } from "./theme"
 const props = defineProps({
   modelValue: { type: String, default: "" },
 })
@@ -19,7 +18,7 @@ const emit = defineEmits<{
   (event: "update:modelValue", payload: string): void
 }>()
 
-const textareaElement = ref<HTMLElement>()
+const textareaElement = vue.ref<HTMLElement>()
 
 const setHeight = (): void => {
   if (!textareaElement.value) return
@@ -28,15 +27,11 @@ const setHeight = (): void => {
   const sh = textareaElement.value?.scrollHeight
   ta.style.height = `${sh}px`
 }
-onMounted(() => {
-  setHeight()
-})
+vue.onMounted(() => setHeight())
 
-watch(
+vue.watch(
   () => props.modelValue,
-  () => {
-    setHeight()
-  },
+  () => setHeight(),
 )
 
 const send = (el: EventTarget | null): void => {

@@ -37,9 +37,9 @@ Here is a comparison table to help you quickly see how things compare:
   <thead>
     <tr>
       <th scope="col"></th>
-      <th scope="col">Factor<br/><small class="text-color-500 text-xs font-medium">(JavaScript CMS)</small></th>
-      <th scope="col">PHP CMS<br/><small class="text-color-500 text-xs font-medium">(eg. WordPress)</small></th>
-      <th scope="col">Webpack Frameworks<br/><small class="text-color-500 text-xs font-medium">(eg. Gatsby, Nuxt, Next)</small></th>
+      <th scope="col">Factor<br/><small class="text-slate-500 text-xs font-medium">(JavaScript CMS)</small></th>
+      <th scope="col">PHP CMS<br/><small class="text-slate-500 text-xs font-medium">(eg. WordPress)</small></th>
+      <th scope="col">Webpack Frameworks<br/><small class="text-slate-500 text-xs font-medium">(eg. Gatsby, Nuxt, Next)</small></th>
     </tr>
   </thead>
   <tbody>

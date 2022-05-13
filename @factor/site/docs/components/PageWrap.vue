@@ -99,7 +99,7 @@
                           :class="
                             isCurrentNav(docId)
                               ? 'text-primary-500'
-                              : 'text-color-600'
+                              : 'text-slate-600'
                           "
                         >
                           <div class="mr-3 h-4 w-4" />

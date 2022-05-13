@@ -1,9 +1,11 @@
+import path from "path"
 import { getMainFilePath, deepMerge } from "@factor/api/utils"
+import chokidar from "chokidar"
 import { log } from "../plugin-log"
+import { mode } from "../utils/vars"
 import { FactorPlugin } from "../plugin"
 import { ServiceConfig, MainFile } from "./types"
 import { generateStaticConfig } from "./generate"
-
 type WhichModule = {
   moduleName?: string
   cwd?: string
@@ -102,7 +104,10 @@ export const compileApplication = async (params: {
 
   return { serviceConfig, mainFile }
 }
-
+/**
+ * Compiles the application in the server environment
+ * Generates development schemas
+ */
 export const getServerServiceConfig = async (
   params: WhichModule & { serviceConfig?: ServiceConfig },
 ): Promise<ServiceConfig> => {
@@ -114,8 +119,18 @@ export const getServerServiceConfig = async (
     serviceConfig: params.serviceConfig,
   })
 
-  if (mainFile.factorEnv) {
-    await generateStaticConfig(mainFile.factorEnv)
+  if (mainFile.factorEnv && mode() !== "production") {
+    const factorEnv = mainFile.factorEnv
+    await generateStaticConfig(factorEnv)
+
+    if (serviceConfig.paths) {
+      const watchRoutes = serviceConfig.paths.map((_) =>
+        path.join(_, "**/routes.ts"),
+      )
+      chokidar.watch(watchRoutes).on("change", async () => {
+        await generateStaticConfig(factorEnv)
+      })
+    }
   }
 
   return serviceConfig

@@ -4,7 +4,6 @@
       v-for="(r, i) in range"
       :key="i"
       type="button"
-      class="relative inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
       :class="buttonClass(r, i)"
       @click="select(r)"
     >
@@ -13,26 +12,40 @@
   </span>
 </template>
 <script lang="ts" setup>
-import { computed } from "vue"
+import { vue } from "@factor/api"
 
 const props = defineProps({
-  min: { type: String, default: "1" },
-  max: { type: String, default: "10" },
+  min: { type: [String, Number], default: "1" },
+  max: { type: [String, Number], default: "10" },
   modelValue: { type: [String, Number], default: "" },
 })
 
-const emit = defineEmits(["update:modelValue"])
-const range = computed(() => {
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: number): void
+}>()
+
+const range = vue.computed(() => {
   const out = []
-  const min = Number.parseInt(props.min)
-  const max = Number.parseInt(props.max)
+  const min = +props.min
+  const max = +props.max
   for (let i = min; i <= max; i++) {
     out.push(i)
   }
   return out
 })
 const buttonClass = (v: number, i: number): string => {
-  const out: string[] = []
+  const out: string[] = [
+    "relative",
+    "inline-flex",
+    "items-center",
+    "border",
+    "px-3",
+    "py-input-y",
+    "text-input-size",
+    "focus:z-10",
+    "focus:outline-none",
+    "focus:border-input-primary",
+  ]
 
   if (i == 0) {
     out.push("rounded-l-md")
@@ -44,10 +57,12 @@ const buttonClass = (v: number, i: number): string => {
     out.push("-ml-px")
   }
 
-  if (props.modelValue == v) {
-    out.push("bg-primary-500 text-white border-primary-500")
+  if (props.modelValue === v) {
+    out.push("bg-input-primary text-input-primary-text border-input-primary")
   } else {
-    out.push("bg-white border-slate-300 hover:bg-slate-50")
+    out.push(
+      "bg-input-base text-input-body border-input-edge hover:bg-input-base-alt",
+    )
   }
 
   return out.join(" ")
