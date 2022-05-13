@@ -115,7 +115,7 @@ const input = vue.computed(() => {
 <style>
 .input-area {
   --input-primary: v-bind("input.primary");
-  --input-primary-text: v-bind("input.primaryText");
+  --input-primary-body: v-bind("input.primaryText");
   --input-edge: v-bind("input.edge");
   --input-edge-light: v-bind("input.edgeLight");
   --input-placeholder: v-bind("input.placeholder");

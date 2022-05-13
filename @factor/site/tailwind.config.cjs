@@ -36,7 +36,7 @@ module.exports = {
         },
         input: {
           primary: "var(--input-primary, var(--color-primary))",
-          "primary-text": "var(--input-primary-text,var(--color-primary-text))",
+          "primary-body": "var(--input-primary-body,var(--color-primary-body))",
           edge: "var(--input-edge, var(--color-edge))",
           "edge-light": "var(--input-edge-light, , var(--color-edge-light))",
           body: "var(--input-body, var(--color-body))",

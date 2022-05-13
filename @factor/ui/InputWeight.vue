@@ -58,7 +58,7 @@ const buttonClass = (v: number, i: number): string => {
   }
 
   if (props.modelValue === v) {
-    out.push("bg-input-primary text-input-primary-text border-input-primary")
+    out.push("bg-input-primary text-input-primary-body border-input-primary")
   } else {
     out.push(
       "bg-input-base text-input-body border-input-edge hover:bg-input-base-alt",

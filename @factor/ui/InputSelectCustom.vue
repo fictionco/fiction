@@ -259,7 +259,7 @@ const listItemClass = (item: ListItem, i: number): string => {
       (isSelected(item.value) && hovered.value === -1) ||
       hovered.value === i
     ) {
-      out.push("bg-input-primary text-input-primary-text font-medium")
+      out.push("bg-input-primary text-input-primary-body font-medium")
     } else if (isSelected(item.value)) {
       out.push("bg-input-base-alt font-medium")
     } else {

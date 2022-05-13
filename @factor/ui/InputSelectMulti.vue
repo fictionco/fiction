@@ -128,7 +128,7 @@
                     class="absolute inset-y-0 right-0 flex items-center pr-4"
                     :class="
                       hovered > -1 && hovered !== i
-                        ? 'text-input-primary group-hover:text-input-primary-text'
+                        ? 'text-input-primary group-hover:text-input-primary-body'
                         : ''
                     "
                   >
@@ -236,14 +236,14 @@ const listItemClass = (item: ListItem, i: number): string => {
     out.push("text-input-edge")
   } else {
     if ((isSelected(val) && hovered.value === -1) || hovered.value === i) {
-      out.push("bg-input-primary text-input-primary-text font-medium ")
+      out.push("bg-input-primary text-input-primary-body font-medium ")
     } else if (isSelected(val)) {
       out.push("bg-input-base-alt font-medium text-input-body")
     } else {
       out.push("font-normal")
     }
     out.push(
-      "cursor-pointer focus:text-input-primary-text focus:bg-input-primary hover:text-input-primary-text hover:bg-input-primary",
+      "cursor-pointer focus:text-input-primary-body focus:bg-input-primary hover:text-input-primary-body hover:bg-input-primary",
     )
   }
 

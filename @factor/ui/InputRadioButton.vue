@@ -36,7 +36,7 @@ const buttonClass = (v: ListItem, i: number): string => {
   }
 
   if (props.modelValue == v.value) {
-    out.push("bg-input-primary  border-input-primary text-input-primary-text")
+    out.push("bg-input-primary  border-input-primary text-input-primary-body")
   } else {
     out.push(
       "bg-input-base text-input-body  border-input-edge hover:border-input-edge",

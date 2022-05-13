@@ -21,8 +21,8 @@
         aria-hidden="true"
         :class="
           val == true
-            ? 'translate-x-5 bg-input-primary-text'
-            : 'translate-x-0 bg-input-primary-text'
+            ? 'translate-x-5 bg-input-primary-body'
+            : 'translate-x-0 bg-input-primary-body'
         "
         class="inline-block h-4 w-4 rounded-full shadow ring-0 transition duration-200 ease-in-out"
       />
