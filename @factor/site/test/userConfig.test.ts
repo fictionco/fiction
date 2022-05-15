@@ -14,7 +14,7 @@ describe("user config", () => {
 
     expect(
       mainFile.factorApp.factorRouter.routes.value?.length,
-    ).toMatchInlineSnapshot('13')
+    ).toMatchInlineSnapshot("13")
   })
 
   it("gets correct server user config", async () => {
