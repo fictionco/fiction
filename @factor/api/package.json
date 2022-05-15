@@ -112,7 +112,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.17.10",
-    "@factor/api": "5.3.19",
+    "@factor/api": "workspace:5.3.19",
     "@playwright/test": "^1.22.0",
     "@tailwindcss/forms": "^0.5.1",
     "@types/body-parser": "^1.19.2",

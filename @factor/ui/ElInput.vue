@@ -11,7 +11,7 @@
       <div class="text">
         <label
           v-if="label"
-          class="font-semibold"
+          class="font-medium"
           :for="attrs.for"
           v-text="label"
         />
