@@ -1,10 +1,10 @@
 {
   "name": "@factor/plugin-notify",
   "description": "Notify allows you to add toast notifications to your app with ease.",
-  "version": "5.3.17",
+  "version": "5.3.18",
   "author": "Kaption Co.",
   "dependencies": {
-    "@factor/api": "workspace:5.3.17"
+    "@factor/api": "5.3.18"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "license": "MIT",
