@@ -1,6 +1,6 @@
 import { Knex } from "knex"
 import { snakeCase } from "../utils"
-import { FactorDBTables } from "./types"
+import type { FactorDBTables } from "."
 
 const changes: ChangesetConfig = [
   {

@@ -524,7 +524,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const fullUiPaths = this.uiPaths.map((p) => path.normalize(p))
 
-    const c: Record<string, any>[] = [{ mode: "jit", content: fullUiPaths }]
+    const c: Record<string, any>[] = [
+      {
+        mode: "jit",
+        content: fullUiPaths,
+      },
+    ]
 
     const userTailwindConfig = await requireIfExists(
       path.join(cwd, "tailwind.config.cjs"),

@@ -7,7 +7,7 @@ import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as utils from "./utils"
 
-export abstract class FactorObj<T extends Record<string, unknown> = {}> {
+export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   public settings: T
   public log = log.contextLogger(this.constructor.name)
   protected stop = _stop

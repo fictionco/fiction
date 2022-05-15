@@ -4,17 +4,29 @@ import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
 import { FactorPlugin } from "../plugin"
-import * as types from "./types"
+import { FactorDbTable } from "./objects"
+import { versionTable } from "./tables"
+export * from "./objects"
 
-export * from "./types"
+export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 
-export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
-  types = types
-  private db!: Knex
+export type FactorDbHookDictionary = {
+  onStart: { args: [FactorDb] }
+}
+
+export type FactorDbSettings = {
+  connectionUrl?: string
+  hooks?: HookType<FactorDbHookDictionary>[]
+  tables?: FactorDbTable<string>[]
+}
+
+export class FactorDb extends FactorPlugin<FactorDbSettings> {
+  db!: Knex
   connectionUrl!: URL
-  hooks: HookType<types.FactorDbHookDictionary>[]
+  hooks: HookType<FactorDbHookDictionary>[]
   defaultConnectionUrl = "http://test:test@localhost:5432/test"
-  constructor(settings: types.FactorDbSettings) {
+  tables = this.settings.tables || []
+  constructor(settings: FactorDbSettings) {
     super(settings)
 
     this.hooks = settings.hooks || []
@@ -66,6 +78,13 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
     const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config
 
     this.db = knex(opts)
+
+    // add table schemas
+    this.addTable(versionTable)
+  }
+
+  addTable(table: FactorDbTable<string>) {
+    this.tables.push(table)
   }
 
   client(): Knex {
@@ -89,11 +108,11 @@ export class FactorDb extends FactorPlugin<types.FactorDbSettings> {
 
     await extendDb(this.db)
 
-    await createTables(this.db)
+    await createTables(this)
 
     await runChangeset(this.db)
 
-    await runHooks<types.FactorDbHookDictionary>({
+    await runHooks<FactorDbHookDictionary>({
       list: this.hooks,
       hook: "onStart",
       args: [this],

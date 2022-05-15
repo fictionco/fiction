@@ -2,11 +2,7 @@
   <div
     :key="label"
     class="f-el-input"
-    :class="[
-      valid ? 'valid' : 'not-valid',
-      attrs.class && (attrs.class as string).includes('my-') ? '' : 'my-8',
-      attrs.class
-    ]"
+    :class="[valid ? 'valid' : 'not-valid', attrs.class]"
   >
     <div
       v-if="label || description"
@@ -108,7 +104,7 @@ const isRequired = vue.computed(() =>
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
-  return props.input ? vue.defineAsyncComponent(inputs[props.input]) : ""
+  return props.input ? inputs[props.input] : ""
 })
 
 /**

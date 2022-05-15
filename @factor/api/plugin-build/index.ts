@@ -242,7 +242,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       publicDir,
       server: {
         fs: { strict: false },
-        watch: {},
+        watch: {
+          ignored: ["!**/node_modules/@factor/**"],
+        },
         // SET A CUSTOM HMR PORT
         // randomly if the same port is used, it can conflict silently
         // preventing HMR from working. Setting this way prevents it .

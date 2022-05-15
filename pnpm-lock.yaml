@@ -8,10 +8,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': workspace:5.3.16
-      '@factor/lint': workspace:5.3.16
-      '@factor/site': workspace:5.3.16
-      '@factor/ui': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
+      '@factor/lint': workspace:5.3.17
+      '@factor/site': workspace:5.3.17
+      '@factor/ui': workspace:5.3.17
       '@types/express': ^4.17.13
       '@types/node': ^17.0.33
       '@vitejs/plugin-vue': ^2.3.3
@@ -63,9 +63,10 @@ importers:
   '@factor/api':
     specifiers:
       '@babel/parser': ^7.17.10
-      '@factor/api': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
       '@medv/finder': ^2.1.0
       '@playwright/test': ^1.22.0
+      '@tailwindcss/forms': ^0.5.1
       '@types/bcrypt': ^5.0.0
       '@types/body-parser': ^1.19.2
       '@types/compression': ^1.7.2
@@ -290,6 +291,7 @@ importers:
       '@babel/parser': 7.17.10
       '@factor/api': 'link:'
       '@playwright/test': 1.22.0
+      '@tailwindcss/forms': 0.5.1_tailwindcss@3.0.24
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -346,9 +348,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': workspace:5.3.16
-      '@factor/plugin-highlight-code': workspace:5.3.16
-      '@factor/ui': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
+      '@factor/plugin-highlight-code': workspace:5.3.17
+      '@factor/ui': workspace:5.3.17
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -360,9 +362,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': workspace:5.3.16
-      '@factor/plugin-highlight-code': workspace:5.3.16
-      '@factor/ui': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
+      '@factor/plugin-highlight-code': workspace:5.3.17
+      '@factor/ui': workspace:5.3.17
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.2
       string-similarity: ^4.0.4
@@ -376,7 +378,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
       highlight.js: ^11.5.1
     dependencies:
       '@factor/api': link:../api
@@ -384,13 +386,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
       '@stripe/stripe-js': ^1.29.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -405,13 +407,13 @@ importers:
 
   '@factor/site':
     specifiers:
-      '@factor/api': workspace:5.3.16
-      '@factor/plugin-blog-engine': workspace:5.3.16
-      '@factor/plugin-docs-engine': workspace:5.3.16
-      '@factor/plugin-highlight-code': workspace:5.3.16
-      '@factor/plugin-notify': workspace:5.3.16
-      '@factor/plugin-stripe': workspace:5.3.16
-      '@factor/ui': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
+      '@factor/plugin-blog-engine': workspace:5.3.17
+      '@factor/plugin-docs-engine': workspace:5.3.17
+      '@factor/plugin-highlight-code': workspace:5.3.17
+      '@factor/plugin-notify': workspace:5.3.17
+      '@factor/plugin-stripe': workspace:5.3.17
+      '@factor/ui': workspace:5.3.17
       '@tailwindcss/forms': ^0.5.1
       axios: ^0.26.1
       dayjs: ^1.11.2
@@ -448,7 +450,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': workspace:5.3.16
+      '@factor/api': workspace:5.3.17
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -686,7 +688,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.0.24
+      tailwindcss: 3.0.24_ts-node@10.7.0
     dev: true
 
   /@tootallnate/once/2.0.0:
@@ -1589,7 +1591,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.20.3
-      caniuse-lite: 1.0.30001340
+      caniuse-lite: 1.0.30001341
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1693,7 +1695,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001340
+      caniuse-lite: 1.0.30001341
       electron-to-chromium: 1.4.137
       escalade: 3.1.1
       node-releases: 2.0.4
@@ -1827,8 +1829,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  /caniuse-lite/1.0.30001340:
-    resolution: {integrity: sha512-jUNz+a9blQTQVu4uFcn17uAD8IDizPzQkIKh3LCJfg9BkyIqExYYdyc/ZSlWUSKb8iYiXxKsxbv4zYSvkqjrxw==}
+  /caniuse-lite/1.0.30001341:
+    resolution: {integrity: sha512-2SodVrFFtvGENGCv0ChVJIDQ0KPaS1cg7/qtfMaICgeMolDdo/Z2OD32F0Aq9yl6F4YFwGPBS5AaPqNYiW4PoA==}
     dev: false
 
   /caseless/0.12.0:

@@ -1,6 +1,5 @@
-import { Knex } from "knex"
 import { log } from "../plugin-log"
-import { snakeCase } from "../utils"
+import type { FactorDb } from "."
 const statusTypes = [
   "pending",
   "active",
@@ -12,109 +11,19 @@ const statusTypes = [
   "draft",
 ]
 
-type CreateCol = (params: {
-  col: Knex.CreateTableBuilder
-  pgKey: string
-  db: Knex
-}) => void
-
-type ColumnParams<T extends string, U> = {
-  key: T
-  type: U
-  description?: string
-  create: CreateCol
-}
-class Column<T extends string, U> {
-  readonly key?: T
-  readonly type?: U
-  readonly description?: string
-  create: CreateCol
-  constructor(params: ColumnParams<T, U>) {
-    const { description } = params || {}
-    this.description = description
-    this.create = params.create
-  }
-}
-type FactorTableParams<T extends string> = {
-  key: T
-  columns: Column<string, any>[]
-  db: Knex
-}
-
-class FactorTable<T extends string> {
-  readonly key: T
-  readonly pgKey: string
-  columns: Column<string, any>[]
-  db: Knex
-  constructor(params: FactorTableParams<T>) {
-    this.key = params.key
-    this.pgKey = snakeCase(params.key)
-    this.db = params.db
-    this.columns = params.columns
-    this.create().catch(console.error)
-  }
-
-  async create(): Promise<void> {
-    const existsVersion = await this.db.schema.hasTable(this.pgKey)
-
-    if (!existsVersion) {
-      log.info("createTable", `creating [${this.pgKey}] table`)
-      await this.db.schema.createTable(this.pgKey, (table) => {
-        this.columns.forEach((column) => {
-          column.create({ col: table, pgKey: this.pgKey, db: this.db })
-        })
-      })
-    }
-  }
-}
-
-const versionTableCols = [
-  new Column({
-    key: "versionId",
-    type: "",
-    create: ({ col, pgKey }) => col.increments(pgKey).primary(),
-  }),
-  new Column({
-    key: "versionName",
-    type: "",
-    create: ({ col, pgKey }) => col.string(pgKey),
-  }),
-  new Column({
-    key: "versionNumber",
-    type: "",
-    create: ({ col, pgKey }) => col.string(pgKey).unique(),
-  }),
-  new Column({
-    key: "requires",
-    type: [""],
-    create: ({ col, pgKey }) => col.specificType(pgKey, "text ARRAY"),
-  }),
-  new Column({
-    key: "createdAt",
-    type: "",
-    create: ({ col, pgKey }) => {
-      col.timestamp(pgKey).notNullable().defaultTo("CURRENT_TIMESTAMP")
-    },
-  }),
-  new Column({
-    key: "updatedAt",
-    type: "",
-    create: ({ col, pgKey }) => {
-      col.timestamp(pgKey).notNullable().defaultTo("CURRENT_TIMESTAMP")
-    },
-  }),
-]
-
 /**
  * Create the standard Factor tables
  */
-export const createTables = async (db: Knex): Promise<void> => {
-  new FactorTable({
-    key: "factorVersion",
-    columns: versionTableCols,
-    db,
-  })
+export const createTables = async (factorDb: FactorDb): Promise<void> => {
+  const db = factorDb.db
 
+  if (factorDb.tables.length > 0) {
+    for (const table of factorDb.tables) {
+      await table.create(db)
+    }
+  }
+
+  // Old tables, update to new format at some point
   const existsUser = await db.schema.hasTable("factor_user")
 
   if (!existsUser) {
