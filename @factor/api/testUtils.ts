@@ -41,10 +41,12 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 
-const rep = (nm: string, val: string) => `[${nm}:${val.length}]`
+const rep = (nm: string, val: string) => `[${nm}:${val.length > 3 ? val.length : 'small'}]`
 const snapString = (value: unknown, key?: string): string => {
-  let out = ""
+
   const val = String(value)
+
+  let out = val
 
   if (key?.endsWith("Id") && val) {
     out = rep("id", val)
@@ -68,9 +70,12 @@ export const snap = (
 
   if (Array.isArray(obj)) {
     return obj.map((o) => {
-      return typeof o === "object" && o
+
+      const res = typeof o === "object" && o
         ? snap(o as Record<string, unknown>)
         : snapString(o)
+
+      return res
     })
   }
 
@@ -78,7 +83,7 @@ export const snap = (
 
   for (const key in obj) {
     const value = obj[key] as unknown
-    if (value && typeof value === "object") {
+    if (value && typeof value === "object" && !(value instanceof Date)) {
       newObj[key] = snap(value as Record<string, unknown>)
     } else if (value) {
       newObj[key] = snapString(value, key)
@@ -86,7 +91,10 @@ export const snap = (
       newObj[key] = value
     }
   }
-  return JSON.parse(stringify(newObj)) as Record<string, any>
+
+  const out =  JSON.parse(stringify(newObj)) as Record<string, any>
+
+  return out
 }
 
 export type TestServerConfig = {

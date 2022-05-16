@@ -20,9 +20,9 @@ export abstract class FactorObject<T extends Record<string, unknown> = {}> {
 export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   public settings: T
   public log = log.contextLogger(this.constructor.name)
-  protected stop = _stop
-  protected utils = utils
-  protected basePath: string
+  public stop = _stop
+  public utils = utils
+  public basePath: string
 
   constructor(settings: T) {
     this.settings = settings
@@ -88,4 +88,15 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
 
     return requests as M
   }
+
+  // toJSON() {
+  //   const clone: Partial<this> = Object.assign({}, this)
+
+  //   delete clone.log
+  //   delete clone.settings
+  //   delete clone.stop
+  //   delete clone.utils
+
+  //   return clone
+  // }
 }

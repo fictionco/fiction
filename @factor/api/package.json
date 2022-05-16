@@ -59,7 +59,7 @@
     "get-port": "^6.1.2",
     "glob": "^7.2.3",
     "google-auth-library": "^7.14.1",
-    "happy-dom": "^3.2.0",
+    "happy-dom": "^3.2.1",
     "helmet": "^5.0.2",
     "html-minifier": "^4.0.0",
     "html-to-text": "^8.2.0",

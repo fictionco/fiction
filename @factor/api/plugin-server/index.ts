@@ -23,31 +23,26 @@ export type FactorServerSettings = {
 }
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
-  public hooks: HookType<FactorServerHookDictionary>[]
-  port?: number
-  endpoints: Endpoint[]
-  serverUrl: string
-  factorEnv?: FactorEnv<string>
-  factorUser?: FactorUser
-  onCommands: string[]
-  serverName: string
+  public hooks = this.settings.hooks ?? []
+  port = this.settings.port
+  endpoints = this.settings.endpoints || []
+  serverUrl =
+    this.utils.mode() == "production" && this.settings.serverUrl
+      ? this.settings.serverUrl
+      : `http://localhost:${this.port}`
+  factorEnv? = this.settings.factorEnv
+  factorUser? = this.settings.factorUser
+  onCommands = this.settings.onCommands || [
+    "bundle",
+    "build",
+    "server",
+    "dev",
+    "prerender",
+  ]
+  serverName = this.settings.serverName
   constructor(settings: FactorServerSettings) {
     super(settings)
-    this.serverName = settings.serverName
-    this.hooks = settings.hooks ?? []
-    this.port = settings.port
-    this.serverUrl = settings.serverUrl ?? `http://localhost:${this.port}`
-    this.endpoints = settings.endpoints ?? []
-    this.factorEnv = settings.factorEnv
-    this.factorUser = settings.factorUser
 
-    this.onCommands = settings.onCommands || [
-      "bundle",
-      "build",
-      "server",
-      "dev",
-      "prerender",
-    ]
     this.addToCli()
   }
 

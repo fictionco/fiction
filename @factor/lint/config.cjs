@@ -168,7 +168,7 @@ module.exports = defineConfig({
       },
     },
     {
-      files: ["**/*test*"],
+      files: ["**/*test*", "**/*test*/**"],
       rules: {
         "no-console": "off",
         "unicorn/no-abusive-eslint-disable": "off",
