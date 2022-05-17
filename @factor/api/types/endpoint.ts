@@ -1,8 +1,12 @@
 import express from "express"
-import { CurrentUserState } from "../plugin-user/types"
 import { ErrorCode } from "./error"
-import { UserGeolocation } from "./geo"
 import { UserRoles } from "./roles"
+
+export type IndexMeta = {
+  count?: number
+  offset?: number
+  limit?: number
+}
 
 export type EndpointResponse<T = unknown> = {
   status: "success" | "error" | "fail" | "loading"
@@ -14,6 +18,8 @@ export type EndpointResponse<T = unknown> = {
   expose?: boolean
   context?: string
   internal?: unknown
+  loading?: any | Promise<any>
+  indexMeta?: IndexMeta
   [key: string]: any
 }
 
@@ -22,38 +28,4 @@ export type EndpointConfig = {
   auth?: UserRoles
   handler: (ctx: express.Request) => Promise<EndpointResponse>
   availableActions?: string[]
-}
-
-/**
- * @deprecated
- */
-export interface PostEndpointMeta {
-  bearer?: CurrentUserState
-}
-
-/**
- * @deprecated
- */
-export interface EndpointRequestConfig {
-  url: string
-  data?: EndpointParameters
-  params?: EndpointParameters
-  headers?: Record<string, any>
-}
-
-/**
- * @deprecated
- */
-export interface EndpointParameters {
-  token?: string
-  [key: string]: Record<string, any> | string | number | undefined | boolean
-}
-
-/**
- * @deprecated
- */
-export interface StandardEndpointRequestData {
-  method: string
-  params: EndpointParameters
-  geo?: UserGeolocation
 }

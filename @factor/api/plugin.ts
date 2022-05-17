@@ -1,4 +1,4 @@
-import { FactorUser } from "@factor/api"
+import { FactorUser, omit } from "@factor/api"
 import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log } from "./plugin-log"
 import type { Query } from "./query"
@@ -8,12 +8,16 @@ import { _stop } from "./utils/error"
 import * as utils from "./utils"
 
 export abstract class FactorObject<T extends Record<string, unknown> = {}> {
-  public settings: T
-  public log = log.contextLogger(this.constructor.name)
-  protected stop = _stop
-  protected utils = utils
+  settings: T
+  log = log.contextLogger(this.constructor.name)
+  stop = _stop
+  utils = utils
   constructor(settings: T) {
     this.settings = settings
+  }
+
+  toJSON = () => {
+    return omit(this, "utils", "stop", "log", "settings", "toJSON")
   }
 }
 
@@ -89,14 +93,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     return requests as M
   }
 
-  // toJSON() {
-  //   const clone: Partial<this> = Object.assign({}, this)
-
-  //   delete clone.log
-  //   delete clone.settings
-  //   delete clone.stop
-  //   delete clone.utils
-
-  //   return clone
-  // }
+  toJSON = () => {
+    return omit(this, "utils", "stop", "log", "settings", "toJSON")
+  }
 }

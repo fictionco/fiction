@@ -1,4 +1,4 @@
-import { expect, it, describe } from "@factor/api/testUtils"
+import { expect, it, describe, createTestUtils } from "@factor/api/testUtils"
 import { AppRoute } from "../appRoute"
 import { FactorRouter } from ".."
 
@@ -194,5 +194,17 @@ describe("route handling", () => {
         },
       ]
     `)
+  })
+
+  it("goes to route by key", async () => {
+    await factorRouter.goto("dashboard", { projectId: "testProjectId" })
+
+    expect(factorRouter.router.currentRoute.value.path).toBe(
+      "/project/testProjectId",
+    )
+
+    await factorRouter.goto("home")
+
+    expect(factorRouter.router.currentRoute.value.path).toBe("/")
   })
 })

@@ -206,6 +206,22 @@ export class FactorRouter<
     })
   }
 
+  public async goto(
+    key: ROUTEKEY,
+    replace: Record<
+      string,
+      string | undefined | vue.Ref<string | undefined>
+    > = {},
+    query?: Record<string, any> | undefined,
+  ): Promise<void> {
+    const path = this.link(key, replace, query).value
+    await this.router.push(path)
+  }
+
+  /**
+   * @deprecated
+   * replace by link
+   */
   public to(
     key: ROUTEKEY,
     replace: Record<string, string | undefined> = {},
