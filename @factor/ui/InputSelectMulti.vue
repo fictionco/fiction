@@ -1,5 +1,5 @@
 <template>
-  <label class="block max-w-input-lg" @click.stop @keyup.stop @keydown.stop>
+  <label class="block" @click.stop @keyup.stop @keydown.stop>
     <div
       class="relative"
       @keydown.down.prevent="

@@ -8,7 +8,7 @@ describe("fetch", () => {
   it("has window and fetch", () => {
     expect(typeof window).toMatchInlineSnapshot('"object"')
     expect(typeof window.fetch).toMatchInlineSnapshot('"function"')
-    expect(typeof fetch).toMatchInlineSnapshot('"undefined"')
+    expect(typeof fetch).toMatchInlineSnapshot('"function"')
   })
   it("fetch advanced with timeout", async () => {
     const result = await fetchAdvanced<Record<string, any>>(

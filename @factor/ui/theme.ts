@@ -1,4 +1,4 @@
-export const textInputClasses = (mode: "standard" | "basic" = "standard") => {
+export const textInputClasses = () => {
   const out = [
     "block",
     "w-full",
@@ -18,10 +18,6 @@ export const textInputClasses = (mode: "standard" | "basic" = "standard") => {
     "focus:border-input-primary",
     "disabled:opacity-70",
   ]
-  if (mode == "standard") {
-    out.push("max-w-input")
-  } else {
-    out.push("max-w-input-lg")
-  }
+
   return out
 }

@@ -17,38 +17,6 @@
         />
         <div v-if="description" class="text-slate-500" v-text="description" />
       </div>
-
-      <div v-if="isRequired" class="valid-marker">
-        <div v-if="typeof valid === 'undefined'" />
-        <div v-else-if="!valid" class="not-valid">
-          <span
-            class="group inline-flex items-center rounded px-2 py-0.5 text-xs font-medium text-red-700 hover:bg-red-100"
-          >
-            <span class="opacity-0 group-hover:opacity-80">Required</span>
-            <svg
-              class="ml-1.5 h-2 w-2 text-red-400"
-              fill="currentColor"
-              viewBox="0 0 8 8"
-            >
-              <circle cx="4" cy="4" r="3" />
-            </svg>
-          </span>
-        </div>
-        <div v-else class="valid">
-          <span
-            class="group inline-flex items-center rounded px-2 py-0.5 text-xs font-medium text-green-500 hover:bg-green-100"
-          >
-            <span class="opacity-0 group-hover:opacity-80">Valid</span>
-            <svg
-              class="ml-1.5 h-2 w-2 text-green-400"
-              fill="currentColor"
-              viewBox="0 0 8 8"
-            >
-              <circle cx="4" cy="4" r="3" />
-            </svg>
-          </span>
-        </div>
-      </div>
     </div>
     <div class="input-area">
       <component
@@ -95,12 +63,6 @@ const attrs = vue.useAttrs() as {
 
 const { class: _class, ...passAttrs } = attrs
 
-const isRequired = vue.computed(() =>
-  typeof attrs.required != "undefined" ? true : false,
-)
-// const isDisabled = computed(() =>
-//   typeof attrs.disabled != "undefined" ? true : false,
-// )
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {

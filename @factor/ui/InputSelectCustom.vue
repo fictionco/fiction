@@ -1,7 +1,7 @@
 <template>
   <div @click.stop @keyup.stop @keydown.stop>
     <div
-      class="relative max-w-input"
+      class="relative"
       @keydown.down.prevent="
         hovered = hovered == li.length - 1 ? 0 : hovered + 1
       "

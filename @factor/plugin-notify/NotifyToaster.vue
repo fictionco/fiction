@@ -15,7 +15,7 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-xl ring-1 ring-black/20 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-lg ring-1 ring-black/5 transition-all duration-300"
           :class="toast.type"
         >
           <div class="p-4">
@@ -89,18 +89,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onEvent, vue } from "@factor/api"
+import { onEvent, vue, Notification } from "@factor/api"
 
-import { NotificationOptions } from "./types"
-interface Notification {
-  time: number
-  message: string
-  more?: string
-  type: "error" | "success"
-}
-
-// const errors = ref<Notification[]>([])
-// const notification = ref<Notification[]>([])
 const toasts = vue.ref<Notification[]>([])
 
 const topToasts = vue.computed(() => {
@@ -108,12 +98,12 @@ const topToasts = vue.computed(() => {
   return t.reverse()
 })
 
-const showToast = (config: NotificationOptions): void => {
+const showToast = (config: Notification): void => {
   const { type, message = "", more = "", duration = 4000 } = config
 
-  const time = Date.now()
+  const shownAt = Date.now()
 
-  toasts.value.push({ time, message, more, type })
+  toasts.value.push({ shownAt, message, more, type })
 
   setTimeout(() => {
     toasts.value.shift()
@@ -121,13 +111,7 @@ const showToast = (config: NotificationOptions): void => {
 }
 
 vue.onMounted(() => {
-  onEvent("notifySuccess", (config: NotificationOptions) => {
-    showToast({ ...config, type: "success" })
-  })
-
-  onEvent("notifyError", (config: NotificationOptions) => {
-    showToast({ ...config, type: "error" })
-  })
+  onEvent("notify", (config: Notification) => showToast(config))
 })
 
 const removeToast = (ind: number): void => {

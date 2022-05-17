@@ -1,5 +1,5 @@
 <template>
-  <div class="f-input flex max-w-input">
+  <div class="f-input flex">
     <span :class="protocolClasses"> {{ protocol || "https://" }} </span>
 
     <input
