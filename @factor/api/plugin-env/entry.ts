@@ -123,14 +123,19 @@ export const getServerServiceConfig = async (
     const factorEnv = mainFile.factorEnv
     await generateStaticConfig(factorEnv)
 
-    if (serviceConfig.paths) {
-      const watchRoutes = serviceConfig.paths.map((_) =>
-        path.join(_, "**/routes.ts"),
-      )
-      chokidar.watch(watchRoutes).on("change", async () => {
-        await generateStaticConfig(factorEnv)
-      })
-    }
+    // if (serviceConfig.paths) {
+    //   const watchRoutes = serviceConfig.paths.map((_) =>
+    //     path.join(_, "**/routes.ts"),
+    //   )
+
+    //   chokidar
+    //     .watch(watchRoutes, {
+    //       ignored: ["**/node_modules/**/*", "**/.git/**/*"],
+    //     })
+    //     .on("change", async (f) => {
+    //       await generateStaticConfig(factorEnv)
+    //     })
+    // }
   }
 
   return serviceConfig

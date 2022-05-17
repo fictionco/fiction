@@ -7,6 +7,7 @@ import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, CommandKeys, commands } from "./commands"
+import { done } from "./utils"
 export * from "./types"
 export * from "./entry"
 
@@ -40,6 +41,7 @@ export type FactorControlSettings<S extends string> = {
   cwd: string
   inspector?: boolean
   envVars?: () => EnvVar<S>[]
+  nodemonConfigPath?: string
 }
 
 export class FactorEnv<S extends string = string> extends FactorPlugin<
@@ -104,9 +106,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     }
   }
 
-  setup() {
-    return {}
-  }
+  setup() {}
 
   public addHook(hook: HookType<FactorEnvHookDictionary>): void {
     this.hooks.push(hook)
@@ -179,7 +179,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
   runCommand = async (cliCommand: CliCommand<string>): Promise<void> => {
     if (!this.standardPaths) throw new Error("standard paths not set")
 
-    this.log.info(`Running command ${cliCommand.command}`, { data: cliCommand })
+    this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })
 
     const mainFilePath = this.standardPaths.mainFilePath
     const serviceConfig = await getServerServiceConfig({ mainFilePath })
@@ -197,17 +197,8 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     })
 
     if (cliCommand.options.exit) {
-      this.done(0)
+      done(0)
     }
-  }
-
-  done = (code: 0 | 1, message = `exited process`): never => {
-    if (message) {
-      this.log.info(`${message} (${code})`)
-    }
-
-    // eslint-disable-next-line unicorn/no-process-exit
-    process.exit(code)
   }
 
   coreVars() {

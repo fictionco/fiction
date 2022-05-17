@@ -18,7 +18,7 @@ const packageMainFile = async (cwd: string): Promise<string> => {
 
 export const runCommand = async (
   command: string,
-  opts: Record<string, unknown>,
+  optionsFromCli: Record<string, unknown>,
 ) => {
   try {
     const cwd = process.cwd()
@@ -27,7 +27,7 @@ export const runCommand = async (
 
     const cliCommand = commands
       .find((_) => _.command === command)
-      ?.setOptions(opts)
+      ?.setOptions(optionsFromCli)
 
     if (!cliCommand) throw new Error(`command [${command}] not found`)
 
@@ -79,11 +79,13 @@ export const execute = async (): Promise<void> => {
     .allowUnknownOption()
     .argument("<command>", "command to run")
     .action(async (command: string) => {
+      const originalCliOptions = process.argv.slice(2)
       const opts = Object.fromEntries(
-        Object.entries(minimist(process.argv.slice(2))).map(([rawKey, val]) => {
+        Object.entries(minimist(originalCliOptions)).map(([rawKey, val]) => {
           return [camelize(rawKey), val] as [string, unknown]
         }),
       )
+      delete opts._ // delete this added by minimist
       await runCommand(command, opts)
     })
 

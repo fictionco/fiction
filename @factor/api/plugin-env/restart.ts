@@ -1,53 +1,31 @@
 import fs from "fs-extra"
 import nodemon from "nodemon"
 import { FactorPlugin } from "../plugin"
-import { FactorEnv } from "."
+import { done } from "./utils"
 
-type FactorDevRestartSettings = {
-  factorEnv: FactorEnv<string>
-  nodemonConfigPath: string
-}
-export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
-  factorEnv: FactorEnv<string>
-  nodemonConfigPath: string
-  constructor(settings: FactorDevRestartSettings) {
-    super(settings)
-    this.factorEnv = settings.factorEnv
-    this.nodemonConfigPath = settings.nodemonConfigPath
-    this.addToCli()
+export class FactorDevRestart extends FactorPlugin {
+  constructor() {
+    super({})
   }
-
-  setup() {
-    return {}
-  }
-
-  addToCli() {
-    if (this.factorEnv) {
-      this.factorEnv.addHook({
-        hook: "runCommand",
-        callback: async (command: string) => {
-          if (command == "rdev") {
-            await this.restartInitializer()
-          }
-        },
-      })
-    }
-  }
+  setup() {}
 
   isRestart = (): boolean => {
     return process.env.IS_RESTART == "1"
   }
 
-  restartInitializer = async (): Promise<void> => {
+  restartInitializer = async (args: {
+    command: string
+    configPath: string
+  }): Promise<void> => {
+    const { command, configPath } = args
     let conf: Record<string, any> = {}
 
-    const configPath = this.nodemonConfigPath
+    if (configPath && fs.existsSync(configPath)) {
+      const fileConfig = (await import(
+        /* @vite-ignore */ configPath
+      )) as Record<string, any>
 
-    if (fs.existsSync(configPath)) {
-      conf = (await import(/* @vite-ignore */ configPath)) as Record<
-        string,
-        any
-      >
+      conf = { ...fileConfig }
     }
 
     const passArgs = process.argv.slice(
@@ -56,7 +34,7 @@ export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
 
     passArgs.shift()
 
-    const script = [`npm exec --`, `factor run dev`, passArgs.join(" ")]
+    const script = [`npm exec --`, `factor run ${command}`, passArgs.join(" ")]
     const runScript = script.join(" ")
     conf.exec = runScript
 
@@ -77,7 +55,7 @@ export class FactorDevRestart extends FactorPlugin<FactorDevRestartSettings> {
       .on("crash", () => {
         this.log.error("crash")
       })
-      .on("quit", () => this.factorEnv.done(0, "exited nodemon"))
+      .on("quit", () => done(0, "exited nodemon"))
       .on("restart", (files: string[]) => {
         process.env.IS_RESTART = "1"
         this.log.info("restarted due to:", { data: { files } })

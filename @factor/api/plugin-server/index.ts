@@ -40,10 +40,10 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   constructor(settings: FactorServerSettings) {
     super(settings)
 
-    this.addToCli()
+    this.addConfig()
   }
 
-  addToCli() {
+  addConfig() {
     if (this.factorEnv) {
       this.factorEnv.addHook({
         hook: "staticSchema",

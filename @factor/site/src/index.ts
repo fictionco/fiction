@@ -17,6 +17,7 @@ import {
   FactorRouter,
   CliOptions,
 } from "@factor/api"
+import { FactorDevRestart } from "@factor/api/plugin-env/restart"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
@@ -109,14 +110,21 @@ factorEnv.addHook({
   callback: async (command: string, opts: CliOptions) => {
     const { serve, prerender } = opts
 
-    await factorServer.createServer({ factorUser })
+    if (command == "rdev") {
+      await new FactorDevRestart().restartInitializer({
+        command: "dev",
+        configPath: path.join(cwd, "./.nodemon.json"),
+      })
+    } else {
+      await factorServer.createServer({ factorUser })
 
-    if (command == "dev") {
-      await factorApp.serveApp()
-    } else if (command == "build") {
-      await factorApp.buildApp({ serve, prerender })
-    } else if (command == "prerender") {
-      await factorApp.buildApp({ serve, prerender })
+      if (command == "dev") {
+        await factorApp.serveApp()
+      } else if (command == "build") {
+        await factorApp.buildApp({ serve, prerender })
+      } else if (command == "prerender") {
+        await factorApp.buildApp({ serve, prerender })
+      }
     }
   },
 })

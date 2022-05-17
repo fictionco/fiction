@@ -99,11 +99,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       this.factorSitemap = new FactorSitemap({
         factorRouter: this.factorRouter,
       })
-
-      this.factorDevRestart = new FactorDevRestart({
-        factorEnv: this.factorEnv,
-        nodemonConfigPath: path.join(cwd, "./.nodemon.json"),
-      })
     }
 
     this.addSchema()

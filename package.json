@@ -53,7 +53,7 @@
     "pack": "pnpm --filter @factor/api/build exec -- factor pack",
     "prerender": "pnpm exec --filter @factor/site -- factor prerender",
     "release": "pnpm exec -- factor release",
-    "site": "pnpm --filter @factor/site exec -- factor run dev --app-port 3232 --server-port 21212",
+    "site": "pnpm --filter @factor/site exec -- factor run rdev --app-port 3232 --server-port 21212",
     "test": "pnpm run test-unit && pnpm run test-lint",
     "fix": "pnpm run fix-deps && pnpm run fix-format",
     "fix-deps": "syncpack fix-mismatches",
