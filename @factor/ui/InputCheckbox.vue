@@ -4,9 +4,10 @@
       v-bind="attrs"
       type="checkbox"
       :class="classes"
-      :value="modelValue"
+      :checked="modelValue"
       @input="handleEmit($event.target)"
     />
+
     <span
       class="checkbox-label text-input-size text-input-body hover:text-input-body-light"
     >
@@ -42,9 +43,9 @@ const handleEmit = (target: EventTarget | null): void => {
 const classes = [
   "form-checkbox",
   "cursor-pointer",
-  "mr-4",
-  "h-5",
-  "w-5",
+  "mt-0.5",
+  "h-4",
+  "w-4",
   "appearance-none",
   "rounded-md",
   "border",
