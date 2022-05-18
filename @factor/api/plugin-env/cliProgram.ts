@@ -8,6 +8,7 @@ import pkg from "../package.json"
 import { commands } from "./commands"
 import { MainFile } from "./types"
 import { packageMainFile } from "./utils"
+
 const commander = new Command()
 
 export const runCommand = async (

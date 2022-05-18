@@ -39,6 +39,11 @@ export declare interface MenuItem {
   priority?: number
 }
 
+export type ActionItem = MenuItem & {
+  btn?: "primary" | "default"
+  size?: "sm" | "lg" | "md"
+}
+
 export interface MenuGroup {
   groupName?: string
   menu: MenuItem[]

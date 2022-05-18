@@ -1,8 +1,5 @@
-import path from "path"
-import fs from "fs-extra"
 import nodemon from "nodemon"
 import { FactorPlugin } from "../plugin"
-import { getRequire } from "../utils"
 import { done } from "./utils"
 
 export class FactorDevRestart extends FactorPlugin {
@@ -21,6 +18,20 @@ export class FactorDevRestart extends FactorPlugin {
   }): Promise<void> => {
     const { command, config } = args
 
+    const defaultConfig = {
+      verbose: true,
+      ignore: [
+        "**/dist/**",
+        "**/node_modules/**",
+        "**/__*/**",
+        "**/.ref/**",
+        "**/.git/**",
+      ],
+      ext: "js,ts,cjs,mjs",
+    }
+
+    const fullConfig = { ...defaultConfig, ...config }
+
     const passArgs = process.argv.slice(
       process.argv.findIndex((_) => _ == "rdev"),
     )
@@ -29,16 +40,16 @@ export class FactorDevRestart extends FactorPlugin {
 
     const script = [`npm exec --`, `factor run ${command}`, passArgs.join(" ")]
     const runScript = script.join(" ")
-    config.exec = runScript
-    config.cwd = process.cwd()
+    fullConfig.exec = runScript
+    fullConfig.cwd = process.cwd()
 
-    this.log.info(`running [${runScript}]`, { data: config })
+    this.log.info(`running [${runScript}]`, { data: fullConfig })
 
     /**
      * The nodemon function takes either an object (that matches the nodemon config)
      * or can take a string that matches the arguments that would be used on the command line
      */
-    nodemon(config)
+    nodemon(fullConfig)
 
     nodemon
       .on("log", () => {})

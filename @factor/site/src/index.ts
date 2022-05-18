@@ -114,9 +114,6 @@ factorEnv.addHook({
       await new FactorDevRestart().restartInitializer({
         command: "dev",
         config: {
-          verbose: true,
-          ignore: ["**/dist/*", "**/rendered/*", "**/node_modules/**"],
-          ext: "js,ts,cjs,mjs",
           watch: [safeDirname(import.meta.url, "../..")],
         },
       })
