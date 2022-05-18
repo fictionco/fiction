@@ -1,7 +1,7 @@
 import express from "express"
 import * as axios from "axios"
 import knex from "knex"
-
+import dompurify from "dompurify"
 import * as vue from "vue"
 import * as vueRouter from "vue-router"
 import dayjs from "dayjs"
@@ -13,4 +13,6 @@ dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(tz)
 
-export { dayjs, express, axios, knex, chalk, vue, vueRouter }
+const clean = dompurify.sanitize
+
+export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean }

@@ -6,7 +6,6 @@ import { log } from "../plugin-log"
 import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
 import { notify } from "./notify"
-import { emitEvent } from "./event"
 
 type EndpointServerUrl = (() => string | undefined) | string | undefined
 
