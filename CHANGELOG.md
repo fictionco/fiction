@@ -1,3 +1,18 @@
+## [5.3.21](https://github.com/FactorJS/factor/compare/v5.3.20...v5.3.21) (2022-05-18)
+
+
+### Bug Fixes
+
+* import and nodemon ([ac1b57f](https://github.com/FactorJS/factor/commit/ac1b57f415211c931c3e6c4c61a1c8f0256af5cd))
+
+
+### Features
+
+* checkbox improvements ([1c6b31b](https://github.com/FactorJS/factor/commit/1c6b31b957c7c232ab96a81b816ee1ca18847c15))
+* nodemon ([487a49d](https://github.com/FactorJS/factor/commit/487a49dfcc31daaa5bca2ab4bccaf7647d1cbd48))
+
+
+
 ## [5.3.20](https://github.com/FactorJS/factor/compare/v5.3.19...v5.3.20) (2022-05-17)
 
 
