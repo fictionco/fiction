@@ -113,6 +113,7 @@
   "devDependencies": {
     "@babel/parser": "^7.17.12",
     "@factor/api": "5.3.21",
+    "@iconify-json/carbon": "^1.1.5",
     "@playwright/test": "^1.22.0",
     "@tailwindcss/forms": "^0.5.1",
     "@types/body-parser": "^1.19.2",
@@ -120,6 +121,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "^7.2.0",
     "@types/nodemon": "^1.19.1",
+    "@unocss/preset-icons": "^0.33.5",
     "@vitest/ui": "^0.12.6",
     "execa": "*",
     "fs-extra": "^10.1.0",

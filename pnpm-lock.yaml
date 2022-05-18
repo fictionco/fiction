@@ -63,7 +63,8 @@ importers:
   '@factor/api':
     specifiers:
       '@babel/parser': ^7.17.12
-      '@factor/api': workspace:5.3.19
+      '@factor/api': 5.3.21
+      '@iconify-json/carbon': ^1.1.5
       '@medv/finder': ^2.1.0
       '@playwright/test': ^1.22.0
       '@tailwindcss/forms': ^0.5.1
@@ -92,6 +93,7 @@ importers:
       '@types/tailwindcss': ^3.0.10
       '@types/validator': ^13.7.2
       '@types/ws': ^8.5.3
+      '@unocss/preset-icons': ^0.33.5
       '@vitejs/plugin-vue': ^2.3.3
       '@vitest/ui': ^0.12.6
       '@vue/compiler-sfc': ^3.2.33
@@ -290,11 +292,13 @@ importers:
     devDependencies:
       '@babel/parser': 7.17.12
       '@factor/api': 'link:'
+      '@iconify-json/carbon': 1.1.5
       '@playwright/test': 1.22.0
       '@tailwindcss/forms': 0.5.1_tailwindcss@3.0.24
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
+      '@unocss/preset-icons': 0.33.5
       '@vitest/ui': 0.12.6
       execa: 6.1.0
       handlebars: 4.7.7
@@ -558,6 +562,12 @@ packages:
 
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+
+  /@iconify-json/carbon/1.1.5:
+    resolution: {integrity: sha512-ENl8CIEo+7JcRzpJ/58i+dDc3fkNOO7gyNGg4S4JN5cAiVpvltYTVO86Oei7rpl8bKypJ0vk3B0BbzzTw7DclA==}
+    dependencies:
+      '@iconify/types': 1.1.0
+    dev: true
 
   /@iconify/types/1.1.0:
     resolution: {integrity: sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==}

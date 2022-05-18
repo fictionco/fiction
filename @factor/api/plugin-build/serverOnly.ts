@@ -1,6 +1,8 @@
 import { ServerModuleDef } from "./types"
 export const commonServerOnlyModules = (): ServerModuleDef[] => {
   return [
+    { id: "unocss" },
+    { id: "@unocss/preset-icons" },
     { id: "nodemon" },
     { id: "handlebars" },
     { id: "semver" },

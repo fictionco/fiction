@@ -7,6 +7,9 @@ import fs from "fs-extra"
 import { minify } from "html-minifier"
 import { Express } from "express"
 import vite from "vite"
+import unocss from "unocss/vite"
+import presetIcons from "@unocss/preset-icons"
+
 import { renderToString } from "@vue/server-renderer"
 import {
   vue,
@@ -613,6 +616,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
             mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
             markdownIt: getMarkdownUtility({ html: true }),
           }),
+          unocss({ presets: [presetIcons()] }),
         ],
       },
       appViteConfigFile || {},
