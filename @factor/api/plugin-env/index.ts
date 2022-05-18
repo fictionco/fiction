@@ -1,13 +1,12 @@
 import path from "path"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
-import { PackageJson } from "../types"
-import { HookType, requireIfExists, getRequire } from "../utils"
+import { HookType, getRequire } from "../utils"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, CommandKeys, commands } from "./commands"
-import { done } from "./utils"
+import { done, packageMainFile } from "./utils"
 export * from "./types"
 export * from "./entry"
 
@@ -112,12 +111,6 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     this.hooks.push(hook)
   }
 
-  packageMainFile = (cwd: string): string => {
-    const pkgPath = path.resolve(cwd, "package.json")
-    const pkg = requireIfExists(pkgPath) as PackageJson | undefined
-    return pkg?.main ?? "index"
-  }
-
   initializeNodeInspector = async (): Promise<void> => {
     this.log.info(`[initializing inspector]`)
     const inspector = await import(/* @vite-ignore */ "inspector")
@@ -131,7 +124,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     const distClient = path.join(dist, "client")
     const distStatic = path.join(dist, "static")
     const distServerEntry = path.join(distServer, "mount")
-    const relMain = this.packageMainFile(cwd)
+    const relMain = packageMainFile(cwd)
     const mainFilePath = path.resolve(cwd, relMain)
 
     const sourceDir = path.dirname(mainFilePath)

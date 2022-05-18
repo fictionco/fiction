@@ -5,16 +5,10 @@ import minimist from "minimist"
 import { camelToUpperSnake, camelize } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
-import { PackageJson } from "../types"
 import { commands } from "./commands"
 import { MainFile } from "./types"
+import { packageMainFile } from "./utils"
 const commander = new Command()
-
-const packageMainFile = async (cwd: string): Promise<string> => {
-  const pkgPath = path.resolve(cwd, "package.json")
-  const pkg = (await import(pkgPath)) as PackageJson
-  return pkg.main ?? "index"
-}
 
 export const runCommand = async (
   command: string,
@@ -22,7 +16,7 @@ export const runCommand = async (
 ) => {
   try {
     const cwd = process.cwd()
-    const mainFileRelPath = await packageMainFile(cwd)
+    const mainFileRelPath = packageMainFile(cwd)
     const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
     const cliCommand = commands

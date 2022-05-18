@@ -1,6 +1,8 @@
+import path from "path"
 import fs from "fs-extra"
 import nodemon from "nodemon"
 import { FactorPlugin } from "../plugin"
+import { getRequire } from "../utils"
 import { done } from "./utils"
 
 export class FactorDevRestart extends FactorPlugin {
@@ -15,18 +17,9 @@ export class FactorDevRestart extends FactorPlugin {
 
   restartInitializer = async (args: {
     command: string
-    configPath: string
+    config: nodemon.Settings
   }): Promise<void> => {
-    const { command, configPath } = args
-    let conf: Record<string, any> = {}
-
-    if (configPath && fs.existsSync(configPath)) {
-      const fileConfig = (await import(
-        /* @vite-ignore */ configPath
-      )) as Record<string, any>
-
-      conf = { ...fileConfig }
-    }
+    const { command, config } = args
 
     const passArgs = process.argv.slice(
       process.argv.findIndex((_) => _ == "rdev"),
@@ -36,24 +29,25 @@ export class FactorDevRestart extends FactorPlugin {
 
     const script = [`npm exec --`, `factor run ${command}`, passArgs.join(" ")]
     const runScript = script.join(" ")
-    conf.exec = runScript
+    config.exec = runScript
+    config.cwd = process.cwd()
 
-    this.log.debug(`running [${runScript}]`, { data: conf })
+    this.log.info(`running [${runScript}]`, { data: config })
 
     /**
      * The nodemon function takes either an object (that matches the nodemon config)
      * or can take a string that matches the arguments that would be used on the command line
      */
-    nodemon(conf)
+    nodemon(config)
 
     nodemon
       .on("log", () => {})
       .on("start", () => {})
       .on("exit", () => {
-        this.log.error("exit")
+        this.log.error("nodemon exit")
       })
       .on("crash", () => {
-        this.log.error("crash")
+        this.log.error("nodemon crash")
       })
       .on("quit", () => done(0, "exited nodemon"))
       .on("restart", (files: string[]) => {

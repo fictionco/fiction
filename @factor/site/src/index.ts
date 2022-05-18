@@ -113,7 +113,12 @@ factorEnv.addHook({
     if (command == "rdev") {
       await new FactorDevRestart().restartInitializer({
         command: "dev",
-        configPath: path.join(cwd, "./.nodemon.json"),
+        config: {
+          verbose: true,
+          ignore: ["**/dist/*", "**/rendered/*", "**/node_modules/**"],
+          ext: "js,ts,cjs,mjs",
+          watch: [safeDirname(import.meta.url, "../..")],
+        },
       })
     } else {
       await factorServer.createServer({ factorUser })

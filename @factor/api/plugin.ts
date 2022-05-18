@@ -1,4 +1,5 @@
-import { FactorUser, omit } from "@factor/api"
+import type { FactorUser } from "./plugin-user"
+import { omit } from "./utils"
 import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log } from "./plugin-log"
 import type { Query } from "./query"

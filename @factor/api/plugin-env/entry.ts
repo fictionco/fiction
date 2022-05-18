@@ -1,6 +1,7 @@
-import path from "path"
+// import path from "path"
+// import chokidar from "chokidar"
 import { getMainFilePath, deepMerge } from "@factor/api/utils"
-import chokidar from "chokidar"
+
 import { log } from "../plugin-log"
 import { mode } from "../utils/vars"
 import { FactorPlugin } from "../plugin"
