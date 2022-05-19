@@ -23,4 +23,5 @@ export const inputs = {
   InputTextarea: def(() => import("./InputTextarea.vue")),
   InputWeight: def(() => import("./InputWeight.vue")),
   InputNumber: def(() => import("./InputNumber.vue")),
+  InputMedia: def(() => import("./InputMedia.vue")),
 }

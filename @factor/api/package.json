@@ -33,8 +33,8 @@
     "@types/ws": "^8.5.3",
     "@unocss/preset-icons": "^0.33.5",
     "@vitejs/plugin-vue": "^2.3.3",
-    "@vue/compiler-sfc": "^3.2.33",
-    "@vue/server-renderer": "^3.2.33",
+    "@vue/compiler-sfc": "^3.2.34",
+    "@vue/server-renderer": "^3.2.34",
     "@vueuse/head": "^0.7.6",
     "autoprefixer": "10.4.5",
     "axios": "^0.26.1",
@@ -112,7 +112,7 @@
     "validator": "^13.7.0",
     "vite": "2.9.9",
     "vite-plugin-markdown": "^2.0.2",
-    "vue": "3.2.33",
+    "vue": "3.2.34",
     "vue-router": "4.0.15",
     "ws": "^8.6.0"
   },
@@ -133,7 +133,7 @@
     "minimist": "^1.2.6",
     "playwright": "*",
     "react-dom": "^18.1.0",
-    "rollup": "^2.73.0",
+    "rollup": "^2.74.0",
     "semver": "^7.3.7"
   },
   "license": "MIT",

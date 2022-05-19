@@ -1,12 +1,12 @@
 <template>
   <div
     :key="label"
-    class="f-el-input"
+    class="f-el-input space-y-1.5"
     :class="[valid ? 'valid' : 'not-valid', attrs.class]"
   >
     <div
       v-if="label || description"
-      class="mb-1.5 flex justify-between text-sm"
+      class="flex justify-between text-input-label-size"
     >
       <div class="text">
         <label
@@ -51,7 +51,10 @@ const props = defineProps({
   },
   label: { type: String, default: "" },
   description: { type: String, default: "" },
-  input: { type: String as vue.PropType<keyof typeof inputs>, default: "" },
+  input: {
+    type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component>,
+    default: undefined,
+  },
 })
 const emit = defineEmits(["update:modelValue"])
 
@@ -66,7 +69,11 @@ const { class: _class, ...passAttrs } = attrs
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
-  return props.input ? inputs[props.input] : ""
+  if (props.input && typeof props.input == "string") {
+    return inputs[props.input]
+  } else {
+    return props.input || ""
+  }
 })
 
 /**

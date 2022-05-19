@@ -15,6 +15,12 @@ module.exports = {
             lineHeight: "calc(var(--input-size) * 1.4)",
           },
         ],
+        "input-label-size": [
+          "var(--input-label-size, .875rem)",
+          {
+            lineHeight: "calc(var(--input-label-size) * 1.4)",
+          },
+        ],
       },
       spacing: {
         "input-x": "var(--input-x, .75rem)",
@@ -39,7 +45,7 @@ module.exports = {
           primary: "var(--input-primary, var(--color-primary))",
           "primary-body": "var(--input-primary-body,var(--color-primary-body))",
           edge: "var(--input-edge, var(--color-edge))",
-          "edge-light": "var(--input-edge-light, , var(--color-edge-light))",
+          "edge-light": "var(--input-edge-light, var(--color-edge-light))",
           body: "var(--input-body, var(--color-body))",
           "body-light": "var(--input-body-light, var(--color-body-light))",
           base: "var(--input-base, var(--color-base))",

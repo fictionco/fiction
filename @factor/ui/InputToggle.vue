@@ -27,7 +27,11 @@
         class="inline-block h-4 w-4 rounded-full shadow ring-0 transition duration-200 ease-in-out"
       />
     </button>
-    <span id="toggleLabel" class="ml-4 text-input-size">
+    <span
+      id="toggleLabel"
+      class="ml-4 text-input-size"
+      v-if="textOn || textOff"
+    >
       <span v-if="val" class="text-input-body">{{ textOn }}</span>
       <span v-else class="text-input-body">{{ textOff }}</span>
     </span>
