@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ElButton btn="input" @click.stop.prevent="vis = true" size="sm">
+    <ElButton btn="input" size="sm" @click.stop.prevent="vis = true">
       <div class="i-carbon-image mr-2"></div>
       <span>Add Media</span>
     </ElButton>
     <ElModal v-model:vis="vis" modal-class="max-w-xl">
-      <div class="media-gallery py-2 px-4 text-sm grid grid-cols-12">
+      <div class="media-gallery grid grid-cols-12 py-2 px-4 text-sm">
         <div class="nav col-span-12">
           <div class="grid grid-cols-2 items-center justify-center text-xs">
             <div
@@ -27,7 +27,7 @@
       <div class="media-body p-4" @dragover.prevent @drop.prevent>
         <div
           v-if="navItemActive == 'upload'"
-          class="mt-1 flex justify-center px-6 pt-8 pb-10 border-2 border-slate-200 hover:border-slate-300 border-dashed rounded-md"
+          class="mt-1 flex justify-center rounded-md border-2 border-dashed border-slate-200 px-6 pt-8 pb-10 hover:border-slate-300"
           :class="[]"
           @drop="handleDropFile"
           @dragover="draggingOver = true"
@@ -35,12 +35,12 @@
         >
           <div class="space-y-1 text-center">
             <div class="text-center">
-              <div class="i-carbon-upload text-3xl inline-block"></div>
+              <div class="i-carbon-upload inline-block text-3xl"></div>
             </div>
             <div class="flex text-sm text-slate-500">
               <label
                 for="file-upload"
-                class="relative cursor-pointer bg-white rounded-md font-medium text-primary-500 hover:text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary-500"
+                class="relative cursor-pointer rounded-md bg-white font-medium text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 hover:text-primary-500"
               >
                 <span>Upload a file</span>
                 <input
@@ -64,10 +64,10 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { vue, toLabel, FactorMedia } from "@factor/api"
 import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"
 
-import { vue, toLabel, FactorMedia } from "@factor/api"
 defineProps({
   modelValue: { type: [String], default: "" },
   factorMedia: { type: Object as vue.PropType<FactorMedia>, required: true },

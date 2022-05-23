@@ -55,7 +55,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     factorServer: FactorServer
     factorUser: FactorUser
     endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
-    middleware?: utils.express.RequestHandler[]
+    middleware?: () => utils.express.RequestHandler[]
   }): M {
     const {
       queries,

@@ -13,6 +13,6 @@ dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(tz)
 
-const clean = dompurify.sanitize
+const clean = (text: string) => dompurify.sanitize(text)
 
 export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean }

@@ -24,7 +24,7 @@ describe("stripe tests", () => {
   beforeAll(async () => {
     const utils = await createTestUtils()
 
-    utils.factorStripe = new FactorStripe({
+    const factorStripe = new FactorStripe({
       factorApp: utils.factorApp,
       factorServer: utils.factorServer,
       factorUser: utils.factorUser,
@@ -36,7 +36,9 @@ describe("stripe tests", () => {
       products: [],
     })
 
-    testUtils = utils as TestUtils<{ factorStripe: FactorStripe }>
+    testUtils = { ...utils, factorStripe } as TestUtils<{
+      factorStripe: FactorStripe
+    }>
   })
 
   it("has stripe test .env file", () => {

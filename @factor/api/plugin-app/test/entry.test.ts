@@ -26,6 +26,7 @@ describe("server entry handling", () => {
         "factorStripe",
         "factorDocs",
         "factorBlog",
+        "factorMedia",
         "factorHighlightCode",
         "factorNotify",
         "factorUi",

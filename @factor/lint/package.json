@@ -2,9 +2,9 @@
   "name": "@factor/lint",
   "version": "5.3.21",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.25.0",
-    "@typescript-eslint/parser": "^5.25.0",
-    "eslint": "^8.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint": "^8.16.0",
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.4.1",
     "eslint-plugin-html": "^6.2.0",

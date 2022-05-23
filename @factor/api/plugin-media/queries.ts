@@ -103,6 +103,7 @@ type MediaActionParams = {
   _action: "delete"
   url: string
   userId?: string
+  deleteStorage?: boolean
 }
 
 export class QueryMediaAction extends MediaQuery {
@@ -125,12 +126,14 @@ export class QueryMediaAction extends MediaQuery {
       .where({ userId, url })
       .returning<MediaConfig[]>("*")
 
-    const filePath = new URL(url).pathname.replace(/^\/+/g, "")
+    if (params.deleteStorage) {
+      const filePath = new URL(url).pathname.replace(/^\/+/g, "")
 
-    await this.factorAws.deleteS3({
-      filePath,
-      bucket: this.factorMedia.bucket,
-    })
+      await this.factorAws.deleteS3({
+        filePath,
+        bucket: this.factorMedia.bucket,
+      })
+    }
 
     return { status: "success", data: r, message: "" }
   }

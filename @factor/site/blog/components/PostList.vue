@@ -61,7 +61,8 @@
 import ElAvatar from "@factor/ui/ElAvatar.vue"
 import { vue, dayjs } from "@factor/api"
 import type { PostEntryConfig } from "@factor/plugin-blog-engine"
-import { factorBlog } from "../.."
+import { useFactorService } from "../../src/inject"
+const { factorBlog } = useFactorService()
 
 const content = vue.ref<PostEntryConfig[]>([])
 

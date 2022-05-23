@@ -7,12 +7,13 @@ import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
 import { notify } from "./notify"
 import { deepMergeAll } from "./utils"
+import { isApp } from "./vars"
 type EndpointServerUrl = (() => string | undefined) | string | undefined
 
 export type EndpointOptions = {
   serverUrl: EndpointServerUrl
   basePath: string
-  middleware?: express.RequestHandler[]
+  middleware?: () => express.RequestHandler[]
 } & ({ unauthorized: true } | { unauthorized?: false; factorUser: FactorUser })
 
 type RequestHandler = (
@@ -77,7 +78,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.queryHandler = queryHandler
     this.requestHandler = requestHandler
-    this.middleware = middleware || []
+
+    this.middleware = middleware && !isApp() ? middleware() : []
 
     if (!unauthorized) {
       this.factorUser = options.factorUser

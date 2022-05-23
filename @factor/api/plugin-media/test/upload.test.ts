@@ -12,7 +12,7 @@ import {
   createTestUtils,
   TestUtils,
 } from "../../testUtils"
-import { axios, fetchAdvanced } from "../../utils"
+import { axios } from "../../utils"
 import { FactorMedia } from ".."
 import { FactorAws } from "../../plugin-aws"
 let testUtils: (TestUtils & { factorMedia?: FactorMedia }) | undefined =
@@ -46,6 +46,7 @@ describe("user tests", () => {
       factorServer: testUtils.factorServer,
       factorAws,
       bucket: "factor-testing",
+      unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
     })
     testUtils.initialized = await testUtils.init()
   })
@@ -69,15 +70,15 @@ describe("user tests", () => {
           "alt": null,
           "bucket": "factor-testing",
           "contentEncoding": null,
-          "createdAt": "2022-05-23T17:18:52.621Z",
+          "createdAt": "2022-05-23T21:00:46.319Z",
           "etag": null,
-          "filePath": "us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
+          "filePath": "us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
           "height": null,
-          "mediaId": "628bc1fbcc92bfda37f3903c",
+          "mediaId": "628bf5fc704c52fc975d569c",
           "mime": "image/jpeg",
           "size": null,
-          "url": "https://factor-testing.s3.amazonaws.com/us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
-          "userId": "us628bc1fa18ea682e9bbfa757",
+          "url": "https://factor-testing.s3.amazonaws.com/us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
+          "userId": "us628bf5fb2b42d22fed51bf9e",
           "width": null,
         },
         "message": "uploaded successfully",
@@ -103,15 +104,15 @@ describe("user tests", () => {
             "alt": null,
             "bucket": "factor-testing",
             "contentEncoding": null,
-            "createdAt": "2022-05-23T17:18:52.621Z",
+            "createdAt": "2022-05-23T21:00:46.319Z",
             "etag": null,
-            "filePath": "us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
+            "filePath": "us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
             "height": null,
-            "mediaId": "628bc1fbcc92bfda37f3903c",
+            "mediaId": "628bf5fc704c52fc975d569c",
             "mime": "image/jpeg",
             "size": null,
-            "url": "https://factor-testing.s3.amazonaws.com/us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
-            "userId": "us628bc1fa18ea682e9bbfa757",
+            "url": "https://factor-testing.s3.amazonaws.com/us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
+            "userId": "us628bf5fb2b42d22fed51bf9e",
             "width": null,
           },
         ],
@@ -127,12 +128,13 @@ describe("user tests", () => {
     const r = await testUtils?.factorMedia?.requests.MediaAction.request({
       _action: "delete",
       url,
+      deleteStorage: true,
     })
 
     const pathname = new URL(url).pathname.replace(/^\/+/g, "")
 
     expect(pathname).toMatchInlineSnapshot(
-      '"us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg"',
+      '"us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg"',
     )
 
     expect(r?.data).toMatchInlineSnapshot(`
@@ -141,15 +143,15 @@ describe("user tests", () => {
           "alt": null,
           "bucket": "factor-testing",
           "contentEncoding": null,
-          "createdAt": "2022-05-23T17:18:52.621Z",
+          "createdAt": "2022-05-23T21:00:46.319Z",
           "etag": null,
-          "filePath": "us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
+          "filePath": "us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
           "height": null,
-          "mediaId": "628bc1fbcc92bfda37f3903c",
+          "mediaId": "628bf5fc704c52fc975d569c",
           "mime": "image/jpeg",
           "size": null,
-          "url": "https://factor-testing.s3.amazonaws.com/us628bc1fa18ea682e9bbfa757/628bc1fbcc92bfda37f3903c-random.jpg",
-          "userId": "us628bc1fa18ea682e9bbfa757",
+          "url": "https://factor-testing.s3.amazonaws.com/us628bf5fb2b42d22fed51bf9e/628bf5fc704c52fc975d569c-random.jpg",
+          "userId": "us628bf5fb2b42d22fed51bf9e",
           "width": null,
         },
       ]
@@ -157,5 +159,24 @@ describe("user tests", () => {
 
     const img = await nodeFetch(url)
     expect(img.status).toBe(403)
+  })
+
+  it("gets unsplash photos", async () => {
+    const r = await testUtils?.factorMedia?.requests.Unsplash.request({
+      _action: "random",
+    })
+
+    expect(r?.status).toBe("success")
+    const urls = r?.data?.map((d) => d.urls).filter(Boolean)
+    expect(urls?.length).toBe(30)
+
+    const r2 = await testUtils?.factorMedia?.requests.Unsplash.request({
+      _action: "search",
+      query: "dog",
+    })
+
+    expect(r2?.status).toBe("success")
+    const urls2 = r?.data?.map((d) => d.urls).filter(Boolean)
+    expect(urls2?.length).toBe(30)
   })
 })

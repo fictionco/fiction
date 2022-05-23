@@ -6,7 +6,6 @@ import type {
   GetObjectCommandOutput,
   DeleteObjectCommandOutput,
 } from "@aws-sdk/client-s3"
-import type { MediaConfig } from "../plugin-media"
 
 type FactorAwsSettings = {
   awsAccessKey?: string

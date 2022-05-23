@@ -44,6 +44,10 @@ describe("user config", () => {
           "GetProduct",
           "GetCoupon",
           "stripeWebhooks",
+          "SaveMedia",
+          "MediaIndex",
+          "MediaAction",
+          "Unsplash",
         ]
       `)
     expect(mainFile.factorApp.factorRouter.routes.value?.map((_) => _.name))

@@ -16,9 +16,10 @@
 <script lang="ts" setup>
 import { vue } from "@factor/api"
 import type { PostEntryConfig } from "@factor/plugin-blog-engine"
-import { factorBlog } from ".."
+import { useFactorService } from "../inject"
 import PostList from "../../blog/components/PostList.vue"
 
+const { factorBlog } = useFactorService()
 const content = vue.ref<PostEntryConfig[]>([])
 
 const setContent = async (): Promise<void> => {

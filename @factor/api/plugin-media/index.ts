@@ -44,7 +44,7 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
     basePath: "/media",
     factorServer: this.factorServer,
     factorUser: this.factorUser,
-    middleware: [multer().single(this.imageFieldName)],
+    middleware: () => [multer().single(this.imageFieldName)],
   })
 
   constructor(settings: FactorMediaSettings) {

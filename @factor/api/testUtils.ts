@@ -135,9 +135,10 @@ export type TestUtilSettings = {
   serverPort?: number
   appPort?: number
   cwd?: string
+  envFiles?: string[]
 }
 
-const envVars = () => [
+const standardEnvVars = () => [
   new EnvVar({
     name: "googleClientId",
     val: process.env.GOOGLE_CLIENT_ID,
@@ -195,12 +196,13 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
     cwd = safeDirname(import.meta.url),
+    envFiles = [],
   } = opts || {}
 
   const factorEnv = new FactorEnv({
-    envFiles: [path.join(cwd, "./.env")],
+    envFiles: [path.join(cwd, "./.env"), ...envFiles],
     cwd,
-    envVars,
+    envVars: standardEnvVars,
   })
 
   const factorServer = new FactorServer({

@@ -28,9 +28,9 @@
       />
     </button>
     <span
+      v-if="textOn || textOff"
       id="toggleLabel"
       class="ml-4 text-input-size"
-      v-if="textOn || textOff"
     >
       <span v-if="val" class="text-input-body">{{ textOn }}</span>
       <span v-else class="text-input-body">{{ textOff }}</span>
