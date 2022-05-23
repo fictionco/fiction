@@ -1,3 +1,14 @@
+## [5.3.22](https://github.com/FactorJS/factor/compare/v5.3.21...v5.3.22) (2022-05-23)
+
+
+### Features
+
+* clean html ([c55d675](https://github.com/FactorJS/factor/commit/c55d675363c96d6a15d8f7bd79a7c311b1e26469))
+* restart confiug ([68ae71f](https://github.com/FactorJS/factor/commit/68ae71fd202ab03c72df4514f5a973e0734df206))
+* unocss ([aa63c29](https://github.com/FactorJS/factor/commit/aa63c298cec4e6629c2f7b1013436e97be18ada6))
+
+
+
 ## [5.3.21](https://github.com/FactorJS/factor/compare/v5.3.20...v5.3.21) (2022-05-18)
 
 
