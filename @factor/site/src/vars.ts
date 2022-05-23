@@ -26,4 +26,9 @@ export const envVars = () => [
     val: process.env.STRIPE_SECRET_KEY_TEST,
   }),
   new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
+  new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
+  new EnvVar({
+    name: "awsAccessKeySecret",
+    val: process.env.AWS_ACCESS_KEY_SECRET,
+  }),
 ]

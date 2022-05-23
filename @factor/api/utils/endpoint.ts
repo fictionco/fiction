@@ -6,17 +6,22 @@ import { log } from "../plugin-log"
 import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
 import { notify } from "./notify"
-
+import { deepMergeAll } from "./utils"
 type EndpointServerUrl = (() => string | undefined) | string | undefined
 
 export type EndpointOptions = {
   serverUrl: EndpointServerUrl
   basePath: string
+  middleware?: express.RequestHandler[]
 } & ({ unauthorized: true } | { unauthorized?: false; factorUser: FactorUser })
 
+type RequestHandler = (
+  req: express.Request,
+  res: express.Response,
+) => Promise<EndpointResponse>
 export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
-  requestHandler?: (e: express.Request) => Promise<EndpointResponse>
+  requestHandler?: RequestHandler
   key: string
   basePath?: string
   serverUrl: string
@@ -25,6 +30,8 @@ export type EndpointMethodOptions<T extends Query> = {
 export type EndpointMeta = {
   bearer?: Partial<PrivateUser> & { userId: string; iat?: number }
   server?: boolean
+  request?: express.Request
+  response?: express.Response
 }
 
 export type EndpointManageAction =
@@ -52,7 +59,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly key: string
   factorUser?: FactorUser
   queryHandler?: T
-  requestHandler?: (e: express.Request) => Promise<EndpointResponse>
+  requestHandler?: RequestHandler
+  middleware: express.RequestHandler[]
   constructor(options: EndpointSettings<T>) {
     const {
       serverUrl,
@@ -61,6 +69,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       requestHandler,
       key,
       unauthorized,
+      middleware,
     } = options
     this.basePath = basePath
     this.serverUrl = serverUrl
@@ -68,6 +77,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.queryHandler = queryHandler
     this.requestHandler = requestHandler
+    this.middleware = middleware || []
 
     if (!unauthorized) {
       this.factorUser = options.factorUser
@@ -82,10 +92,30 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return `${this.basePath}/${this.key}`
   }
 
+  get requestUrl(): string {
+    return `${this.getBaseUrl()}${this.basePath}/${this.key}`
+  }
+
+  async upload(data: FormData): Promise<ReturnType<T["run"]>> {
+    const response = await axios.post<ReturnType<T["run"]>>(
+      this.requestUrl,
+      data,
+      {
+        headers: {
+          Authorization: this.bearerHeader,
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    )
+
+    return response.data as Awaited<ReturnType<T["run"]>>
+  }
+
   public async request(
     params: Parameters<T["run"]>[0],
+    userRequestConfig?: AxiosRequestConfig,
   ): Promise<Awaited<ReturnType<T["run"]>>> {
-    const r = await this.http(this.key, params)
+    const r = await this.http(this.key, params, userRequestConfig)
 
     if (r.message) {
       notify.emit(r.status as "success" | "error", r.message)
@@ -106,12 +136,13 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
   public async serveRequest(
     request: express.Request,
+    response: express.Response,
   ): Promise<EndpointResponse> {
     if (this.requestHandler) {
-      return await this.requestHandler(request)
+      return await this.requestHandler(request, response)
     } else if (this.queryHandler) {
       const params = request.body as Record<string, any>
-      const meta = { bearer: request.bearer }
+      const meta: EndpointMeta = { bearer: request.bearer, request, response }
 
       return await this.queryHandler.serveRequest(params, meta)
     } else {
@@ -130,23 +161,30 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return baseUrl
   }
 
+  get bearerHeader() {
+    const bearerToken = this.factorUser?.clientToken({ action: "get" })
+    return `Bearer ${bearerToken ?? ""}`
+  }
+
   public async http<U>(
     method: string,
     data: unknown,
+    userRequestConfig?: AxiosRequestConfig,
   ): Promise<EndpointResponse<U>> {
-    const bearerToken = this.factorUser?.clientToken({ action: "get" })
-
     const url = `${this.basePath}/${method}`
 
-    const options: AxiosRequestConfig = {
+    let options: AxiosRequestConfig = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${bearerToken ?? ""}`,
-        from: "dashboard",
+        Authorization: this.bearerHeader,
       },
       baseURL: this.getBaseUrl(),
       url,
       data,
+    }
+
+    if (userRequestConfig) {
+      options = deepMergeAll([options, userRequestConfig])
     }
 
     const fullUrl = `${this.getBaseUrl()}${url}`

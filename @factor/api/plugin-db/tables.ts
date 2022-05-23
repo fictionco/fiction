@@ -6,8 +6,11 @@ export const versionTable = new FactorDbTable({
     new FactorDbColumn({
       columnKey: "versionId",
       type: "", // dummy for type
-      create: ({ schema, column }) => {
-        schema.increments(column.columnKey).primary()
+      create: ({ schema, column, db }) => {
+        schema
+          .string(column.columnKey)
+          .primary()
+          .defaultTo(db.raw(`generate_object_id()`))
       },
     }),
     new FactorDbColumn({

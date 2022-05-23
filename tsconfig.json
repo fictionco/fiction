@@ -18,7 +18,7 @@
     "esModuleInterop": true,
     "removeComments": true,
     "types": ["node"],
-    "lib": ["ESNext", "DOM"], // vue/vetur needs this
+    "lib": ["ESNext", "DOM", "DOM.Iterable"], // vue/vetur needs this
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "noEmit": true,

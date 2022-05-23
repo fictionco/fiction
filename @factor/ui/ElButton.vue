@@ -39,7 +39,21 @@
 import { vue } from "@factor/api"
 const props = defineProps({
   loading: { type: [Boolean, String], default: false },
-  btn: { type: String, default: "" },
+  btn: {
+    type: String as vue.PropType<
+      | "primary"
+      | "default"
+      | "input"
+      | "danger"
+      | "warning"
+      | "green"
+      | "subtle"
+      | "secondary"
+      | "outline"
+      | "outlineWhite"
+    >,
+    required: true,
+  },
   size: {
     type: String as vue.PropType<"xs" | "sm" | "md" | "lg">,
     default: "",
@@ -52,56 +66,65 @@ const props = defineProps({
     default: "inline",
   },
 })
-const btnClass = vue.ref("")
+const btnClass = vue.computed(() => {
+  const btn = props.btn
 
-if (props.btn == "danger") {
-  btnClass.value =
-    "text-red-600 bg-white hover:bg-red-600 focus:ring-red-600 border-red-600 hover:text-white"
-} else if (props.btn == "warning") {
-  btnClass.value =
-    "text-orange-500 bg-white hover:bg-orange-500 focus:ring-orange-500 border-orange-500 hover:text-white"
-} else if (props.btn == "secondary") {
-  btnClass.value =
-    "text-primary-600 bg-primary-50 hover:bg-primary-500 hover:bg-primary-500 hover:text-white focus:ring-primary-500 border-primary-50 hover:border-primary-500"
-} else if (props.btn == "primary") {
-  btnClass.value =
-    "text-white bg-primary-600 hover:bg-primary-700 focus:ring-primary-100 border-primary-500"
-} else if (props.btn == "outline") {
-  btnClass.value =
-    "text-primary-500  hover:bg-primary-50 focus:ring-primary-100 border-primary-500"
-} else if (props.btn == "outlineWhite") {
-  btnClass.value =
-    "text-white hover:bg-white bg-opacity-05 focus:ring-white border-white"
-} else if (props.btn == "green") {
-  btnClass.value =
-    "text-green-600 bg-green-50 hover:bg-green-500 hover:bg-green-500 hover:text-white focus:ring-green-500 border-green-50 hover:border-green-500"
-} else if (props.btn == "subtle") {
-  btnClass.value =
-    "border-slate-200 text-slate-500  hover:border-slate-400 focus:ring-primary-100"
-} else {
-  btnClass.value =
-    "border-slate-300 text-slate-700 bg-white hover:border-slate-400 focus:ring-primary-100"
-}
+  let out = ""
 
-let sizeClasses = "px-2.5 py-1.5 text-sm"
-if (props.size == "md") {
-  sizeClasses = "px-3 py-1.5 text-base"
-} else if (props.size == "sm") {
-  sizeClasses = "px-2 py-1 text-xs"
-} else if (props.size == "xs") {
-  sizeClasses = "px-2 py-1 text-xs"
-} else if (props.size == "lg") {
-  sizeClasses = "px-4 py-2 text-base rounded-md"
-}
+  if (btn == "danger") {
+    out =
+      "text-red-600 bg-white hover:bg-red-600 focus:ring-red-600 border-red-600 hover:text-white"
+  } else if (btn == "warning") {
+    out =
+      "text-orange-500 bg-white hover:bg-orange-500 focus:ring-orange-500 border-orange-500 hover:text-white"
+  } else if (btn == "secondary") {
+    out =
+      "text-primary-600 bg-primary-50 hover:bg-primary-500 hover:bg-primary-500 hover:text-white focus:ring-primary-500 border-primary-50 hover:border-primary-500"
+  } else if (btn == "primary") {
+    out =
+      "text-white bg-primary-600 hover:bg-primary-700 focus:ring-primary-100 border-primary-500"
+  } else if (btn == "outline") {
+    out =
+      "text-primary-500  hover:bg-primary-50 focus:ring-primary-100 border-primary-500"
+  } else if (btn == "outlineWhite") {
+    out =
+      "text-white hover:bg-white bg-opacity-05 focus:ring-white border-white"
+  } else if (btn == "green") {
+    out =
+      "text-green-600 bg-green-50 hover:bg-green-500 hover:bg-green-500 hover:text-white focus:ring-green-500 border-green-50 hover:border-green-500"
+  } else if (btn == "subtle") {
+    out =
+      "border-slate-200 text-slate-500  hover:border-slate-400 focus:ring-primary-100"
+  } else if (btn == "input") {
+    out =
+      "border-input-edge text-input-body bg-input-base hover:bg-input-base-alt focus:ring-primary-100"
+  } else {
+    out =
+      "border-slate-300 text-slate-700 bg-white hover:border-slate-400 focus:ring-primary-100"
+  }
 
-let formatClasses = "inline-flex"
-if (props.format == "block") {
-  formatClasses = "flex justify-center w-full"
-}
+  let sizeClasses = "px-2.5 py-1.5 text-sm"
+  if (props.size == "md") {
+    sizeClasses = "px-3 py-1.5 text-base"
+  } else if (props.size == "sm") {
+    sizeClasses = "px-2 py-1 text-xs"
+  } else if (props.size == "xs") {
+    sizeClasses = "px-2 py-1 text-xs"
+  } else if (props.size == "lg") {
+    sizeClasses = "px-4 py-2 text-base rounded-md"
+  }
 
-btnClass.value += ` ${sizeClasses} ${formatClasses}`
+  let formatClasses = "inline-flex"
+  if (props.format == "block") {
+    formatClasses = "flex justify-center w-full"
+  }
 
-if (props.disabled) {
-  btnClass.value = btnClass.value + " opacity-40 cursor-not-allowed"
-}
+  out += ` ${sizeClasses} ${formatClasses}`
+
+  if (props.disabled) {
+    out = btnClass.value + " opacity-40 cursor-not-allowed"
+  }
+
+  return out
+})
 </script>

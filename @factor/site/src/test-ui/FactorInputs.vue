@@ -10,6 +10,7 @@
       >
     </div>
     <div class="input-area mx-auto my-12 max-w-lg rounded-md">
+      <TestInput input-name="Media" :input-el="InputMedia" />
       <TestInput
         input-name="Radio"
         :input-el="InputRadio"
@@ -90,6 +91,7 @@ const {
   InputPrice,
   InputRadio,
   InputRadioButton,
+  InputMedia,
 } = inputs
 
 const theme = vue.ref<ThemeColor>("sky")

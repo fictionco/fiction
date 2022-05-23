@@ -27,6 +27,7 @@ export class FactorDbColumn<T extends string, U> {
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
+    log.info("FactorDbTable", `creating column: ${this.columnKey}`)
     return this.create({ schema, column: this, db })
   }
 }
@@ -51,7 +52,6 @@ export class FactorDbTable<T extends string> {
       const hasColumn = await db.schema.hasColumn(this.tableKey, col.columnKey)
 
       if (!hasColumn) {
-        log.info("FactorDbTable", `creating column: ${col.columnKey}`)
         await db.schema.table(this.tableKey, (t) => col.createColumn(t, db))
       }
     })

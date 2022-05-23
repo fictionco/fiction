@@ -54,11 +54,18 @@ export class EndpointServer {
           app.use(endpoint.pathname(), this.endpointAuthorization)
         }
 
-        app.use(endpoint.pathname(), async (request, response) => {
-          const result = await endpoint.serveRequest(request)
-          delete result.internal
-          response.status(200).send(result).end()
-        })
+        const pathMiddleware: express.RequestHandler[] =
+          endpoint.middleware || []
+
+        app.use(
+          endpoint.pathname(),
+          ...pathMiddleware,
+          async (request, response) => {
+            const result = await endpoint.serveRequest(request, response)
+            delete result.internal
+            response.status(200).send(result).end()
+          },
+        )
       })
 
       app.use("/health", (request, response) => {

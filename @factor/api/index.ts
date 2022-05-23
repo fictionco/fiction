@@ -16,5 +16,6 @@ export * from "./plugin-env"
 export * from "./plugin-app"
 export * from "./plugin-build"
 export * from "./plugin-router"
+export * from "./plugin-media"
 
 export * from "./inject"

@@ -16,8 +16,10 @@ import {
   ServiceConfig,
   FactorRouter,
   CliOptions,
+  FactorMedia,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
+import { FactorAws } from "@factor/api/plugin-aws"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
@@ -93,13 +95,26 @@ export const factorStripe = new FactorStripe({
   products: [],
 })
 
-export const factorDocs = new FactorDocsEngine({
+const factorAws = new FactorAws({
+  awsAccessKey: factorEnv.var("awsAccessKey"),
+  awsAccessKeySecret: factorEnv.var("awsAccessKeySecret"),
+})
+
+const factorMedia = new FactorMedia({
+  factorDb,
+  factorUser,
+  factorServer,
+  factorAws,
+  bucket: "factor-testing",
+})
+
+const factorDocs = new FactorDocsEngine({
   docs,
   groups,
   baseRoute: "/docs",
   factorApp,
 })
-export const factorBlog = new FactorBlogEngine({
+const factorBlog = new FactorBlogEngine({
   posts,
   baseRoute: "/blog",
   factorApp,
@@ -140,6 +155,7 @@ export const service = {
   factorStripe,
   factorDocs,
   factorBlog,
+  factorMedia,
   factorHighlightCode: new FactorHighlightCode(),
   factorNotify: new FactorNotify(),
   factorUi: new FactorUi({ factorApp }),

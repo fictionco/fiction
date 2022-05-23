@@ -7,7 +7,6 @@ import type { FactorServer } from "./plugin-server"
 import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as utils from "./utils"
-
 export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   settings: T
   log = log.contextLogger(this.constructor.name)
@@ -56,9 +55,16 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     factorServer: FactorServer
     factorUser: FactorUser
     endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
+    middleware?: utils.express.RequestHandler[]
   }): M {
-    const { queries, factorServer, factorUser, basePath, endpointHandler } =
-      params
+    const {
+      queries,
+      factorServer,
+      factorUser,
+      basePath,
+      endpointHandler,
+      middleware,
+    } = params
 
     const serverUrl = factorServer.serverUrl
 
@@ -77,6 +83,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
           serverUrl,
           basePath: basePath || this.basePath,
           factorUser,
+          middleware,
         }
 
         const handler = endpointHandler

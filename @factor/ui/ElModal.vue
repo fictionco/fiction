@@ -48,7 +48,7 @@ const props = defineProps({
   vis: { type: Boolean, default: false },
   title: { type: String, default: "" },
   sub: { type: String, default: "" },
-  modalClass: { type: String, default: "" },
+  modalClass: { type: String, default: undefined },
 })
 
 const emit = defineEmits(["update:vis", "close"])
@@ -58,19 +58,19 @@ const close = (): void => {
 }
 onResetUi(() => close())
 
+const modalClass = [props.modalClass] || ["p-12", "sm:max-w-sm"]
+
 const classes = [
   "relative",
   "rounded-xl",
   "shadow-xl",
-  "p-12",
   "text-left",
   "overflow-hidden",
   "bg-white",
   "transform",
   "transition-all",
-  "sm:max-w-sm",
   "sm:w-full",
-  ...props.modalClass,
+  ...modalClass,
 ]
 </script>
 <script lang="ts">

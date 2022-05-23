@@ -1,6 +1,6 @@
 import path from "path"
 import { createRequire } from "module"
-import { expect, it, describe } from "@factor/api/testUtils"
+import { expect, it, describe } from "vitest"
 import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
@@ -41,9 +41,9 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 
-const rep = (nm: string, val: string) => `[${nm}:${val.length > 3 ? val.length : 'small'}]`
+const rep = (nm: string, val: string) =>
+  `[${nm}:${val.length > 3 ? val.length : "small"}]`
 const snapString = (value: unknown, key?: string): string => {
-
   const val = String(value)
 
   let out = val
@@ -70,10 +70,10 @@ export const snap = (
 
   if (Array.isArray(obj)) {
     return obj.map((o) => {
-
-      const res = typeof o === "object" && o
-        ? snap(o as Record<string, unknown>)
-        : snapString(o)
+      const res =
+        typeof o === "object" && o
+          ? snap(o as Record<string, unknown>)
+          : snapString(o)
 
       return res
     })
@@ -92,7 +92,7 @@ export const snap = (
     }
   }
 
-  const out =  JSON.parse(stringify(newObj)) as Record<string, any>
+  const out = JSON.parse(stringify(newObj)) as Record<string, any>
 
   return out
 }
@@ -129,7 +129,7 @@ export type TestUtils<T extends Record<string, any> = Record<string, any>> = {
   initialized?: InitializedTestUtils
   [key: string]: any
 } & T &
-  TestUtilServices
+  Awaited<ReturnType<typeof createTestUtils>>
 
 export type TestUtilSettings = {
   serverPort?: number
@@ -152,6 +152,11 @@ const envVars = () => [
   }),
   new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
   new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
+  new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
+  new EnvVar({
+    name: "awsAccessKeySecret",
+    val: process.env.AWS_ACCESS_KEY_SECRET,
+  }),
 ]
 
 export const initializeTestUtils = async (
@@ -185,9 +190,7 @@ export const initializeTestUtils = async (
   return { user, token, email }
 }
 
-export const createTestUtilServices = async (
-  opts?: TestUtilSettings,
-): Promise<TestUtilServices> => {
+export const createTestUtilServices = async (opts?: TestUtilSettings) => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
@@ -245,9 +248,7 @@ export const createTestUtilServices = async (
   return services
 }
 
-export const createTestUtils = async (
-  opts?: TestUtilSettings,
-): Promise<TestUtils> => {
+export const createTestUtils = async (opts?: TestUtilSettings) => {
   const testUtilServices = await createTestUtilServices(opts)
 
   return {

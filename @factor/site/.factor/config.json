@@ -83,6 +83,22 @@
     {
       "key": "stripeWebhooks",
       "path": "/stripe-webhook/stripeWebhooks"
+    },
+    {
+      "key": "SaveMedia",
+      "path": "/media/SaveMedia"
+    },
+    {
+      "key": "MediaIndex",
+      "path": "/media/MediaIndex"
+    },
+    {
+      "key": "MediaAction",
+      "path": "/media/MediaAction"
+    },
+    {
+      "key": "Unsplash",
+      "path": "/media/Unsplash"
     }
   ],
   "routes": [
