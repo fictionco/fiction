@@ -14,7 +14,9 @@ export type EndpointOptions = {
   serverUrl: EndpointServerUrl
   basePath: string
   middleware?: () => express.RequestHandler[]
-} & ({ unauthorized: true } | { unauthorized?: false; factorUser: FactorUser })
+  factorUser?: FactorUser
+  unauthorized?: boolean
+}
 
 type RequestHandler = (
   req: express.Request,
@@ -81,7 +83,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.middleware = middleware && !isApp() ? middleware() : []
 
-    if (!unauthorized) {
+    if (!unauthorized && options.factorUser) {
       this.factorUser = options.factorUser
     }
   }

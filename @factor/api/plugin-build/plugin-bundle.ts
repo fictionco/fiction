@@ -13,11 +13,11 @@ import type { FactorBuild } from "."
  */
 type FactorBundleSettings = {
   factorBuild: FactorBuild
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
 }
 export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   factorBuild: FactorBuild
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
   constructor(settings: FactorBundleSettings) {
     super(settings)
     this.factorBuild = settings.factorBuild
@@ -40,9 +40,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     }
   }
 
-  setup() {
-    return {}
-  }
+  setup() {}
 
   bundleAll = async (options: CliOptions): Promise<void> => {
     // If pkg is set, just bundle that one

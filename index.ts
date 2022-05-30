@@ -9,7 +9,11 @@ import {
 
 const cwd = safeDirname(import.meta.url)
 
-export const factorEnv = new FactorEnv({ cwd })
+export const factorEnv = new FactorEnv({
+  cwd,
+  appName: "FactorJS Monorepo",
+  appEmail: "",
+})
 
 export const factorRelease = new FactorRelease({ factorEnv })
 const factorBuild = new FactorBuild({ factorEnv })

@@ -1,41 +1,33 @@
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
-import { FactorApp } from "../plugin-app"
+import { FactorEnv } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
 type FactorEmailSettings = {
   smtpPort?: number
-  factorApp: FactorApp
+  factorEnv: FactorEnv
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
+  appUrl?: string
 }
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   readonly types = types
   readonly client?: Transporter
-  smtpHost?: string
-  smtpUser?: string
-  smtpPassword?: string
-  smtpPort: number
-  readonly appName: string
-  readonly appEmail: string
-  readonly appUrl: string
-  factorApp: FactorApp
+  smtpHost = this.settings.smtpHost
+  smtpUser = this.settings.smtpUser
+  smtpPassword = this.settings.smtpPassword
+  smtpPort = this.settings.smtpPort || 587
+
+  appUrl = this.settings.appUrl ?? ""
+  factorEnv = this.settings.factorEnv
+  appName = this.factorEnv.appName
+  appEmail = this.factorEnv.appEmail
   constructor(settings: FactorEmailSettings) {
     super(settings)
-
-    this.smtpHost = settings.smtpHost
-    this.smtpPassword = settings.smtpPassword
-    this.smtpUser = settings.smtpUser
-
-    this.smtpPort = settings.smtpPort || 587
-    this.factorApp = settings.factorApp
-    this.appEmail = this.factorApp.appEmail
-    this.appName = this.factorApp.appName
-    this.appUrl = this.factorApp.appUrl
 
     if (this.utils.isActualBrowser()) return
 
@@ -47,10 +39,6 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
         user: this.smtpUser,
         pass: this.smtpPassword,
       },
-    }
-
-    if (!this.appEmail || !this.appName || !this.appUrl) {
-      throw new Error(`missing required fields`)
     }
 
     if (

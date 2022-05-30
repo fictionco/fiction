@@ -5,7 +5,7 @@ import { HookType, getRequire } from "../utils"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
-import { CliCommand, CommandKeys, commands } from "./commands"
+import { CliCommand, standardAppCommands } from "./commands"
 import { done, packageMainFile } from "./utils"
 export * from "./types"
 export * from "./entry"
@@ -30,48 +30,49 @@ export class EnvVar<X extends string> {
   }
 }
 
-type EnvVarUtil<T extends EnvVar<string>[]> = {
-  [K in keyof T]: T[K] extends EnvVar<infer T> ? T : never
-}[number]
-
-export type FactorControlSettings<S extends string> = {
+export type FactorControlSettings = {
   hooks?: HookType<FactorEnvHookDictionary>[]
   envFiles?: string[]
   cwd: string
   inspector?: boolean
-  envVars?: () => EnvVar<S>[]
+  envVars?: () => EnvVar<string>[]
   nodemonConfigPath?: string
+  appName: string
+  appEmail: string
+  appUrl?: string
+  commands?: CliCommand<string>[]
 }
 
-export class FactorEnv<S extends string = string> extends FactorPlugin<
-  FactorControlSettings<S>
-> {
-  commands: CliCommand<string>[]
-  hooks: HookType<FactorEnvHookDictionary>[]
-  envFiles: string[]
+interface BaseCompiled {
+  commands: string
+  vars: string
+  [key: string]: any
+}
+
+export class FactorEnv<
+  S extends BaseCompiled = BaseCompiled,
+> extends FactorPlugin<FactorControlSettings> {
+  commands = this.settings.commands || standardAppCommands
+  hooks = this.settings.hooks || []
+  envFiles = this.settings.envFiles || []
   standardPaths?: types.StandardPaths
-  cwd: string
-  inspector: boolean
+  cwd = this.settings.cwd
+  inspector = this.settings.inspector || false
   vars: EnvVar<string>[]
-  context = process.env.IS_VITE ? "app" : "server"
-  mode: "development" | "production"
-  serverPort?: number
-  appPort?: number
-  envVars: () => EnvVar<S>[]
-  constructor(settings: FactorControlSettings<S>) {
+  context = this.utils.isApp() ? "app" : "server"
+
+  appName = this.settings.appName
+  appEmail = this.settings.appEmail
+  // needs to be set from factorApp as it takes into account port
+  appUrl?: string
+  envVars = this.settings.envVars || (() => [])
+  currentCommand: CliCommand<string> | undefined
+  currentCommandOpts: types.CliOptions | undefined
+  constructor(settings: FactorControlSettings) {
     super(settings)
 
-    this.commands = commands
-    this.hooks = settings.hooks || []
-    this.envFiles = settings.envFiles || []
-    this.cwd = settings.cwd
-    this.envVars = settings.envVars || (() => [])
-    this.mode =
-      (process.env.NODE_ENV as "development" | "production") || "production"
-
-    this.inspector = settings.inspector || false
-
     if (!this.utils.isApp()) {
+      this.envInit()
       this.nodeInit()
     }
     /**
@@ -83,13 +84,46 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
       hook: "staticSchema",
       callback: async (existing) => {
         const commandKeys = this.commands?.map((_) => _.command).sort()
-
+        const envVarKeys = this.vars.map((_) => _.name).sort()
         return {
           ...existing,
           commands: { enum: commandKeys, type: "string" },
+          vars: { enum: envVarKeys, type: "string" },
         }
       },
     })
+  }
+
+  envInit() {
+    const commandName = process.env.FACTOR_ENV_COMMAND || ""
+    const commandOpts = JSON.parse(
+      process.env.FACTOR_ENV_COMMAND_OPTS || "{}",
+    ) as types.CliOptions
+
+    if (!commandName) throw new Error(`commandName missing`)
+
+    const cliCommand = this.commands
+      .find((_) => _.command === commandName)
+      ?.setOptions(commandOpts)
+
+    if (!cliCommand) throw new Error(`command [${commandName}] not found`)
+
+    const fullOpts = cliCommand?.options ?? {}
+
+    Object.entries(fullOpts).forEach(([key, value]) => {
+      if (value) {
+        const processKey = `FACTOR_${this.utils.camelToUpperSnake(key)}`
+        process.env[processKey] = String(value)
+      }
+    })
+
+    if (fullOpts.mode) {
+      // use literal to prevent substitution in app
+      process.env["NODE_ENV"] = fullOpts.mode
+    }
+
+    this.currentCommand = cliCommand
+    this.currentCommandOpts = fullOpts
   }
 
   nodeInit() {
@@ -153,15 +187,12 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
   setEnvironment = (): void => {}
 
   onCommand(
-    commands: CommandKeys[],
-    callback: (
-      command: CommandKeys,
-      options: types.CliOptions,
-    ) => Promise<void>,
+    commands: string[],
+    callback: (command: string, options: types.CliOptions) => Promise<void>,
   ): void {
     this.hooks.push({
       hook: "runCommand",
-      callback: async (command: CommandKeys, opts: types.CliOptions) => {
+      callback: async (command: string, opts: types.CliOptions) => {
         if (commands.includes(command)) {
           await callback(command, opts)
         }
@@ -169,8 +200,11 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     })
   }
 
-  runCommand = async (cliCommand: CliCommand<string>): Promise<void> => {
+  runCurrentCommand = async (): Promise<void> => {
+    if (!this.currentCommand) throw new Error("currentCommand not set")
     if (!this.standardPaths) throw new Error("standard paths not set")
+
+    const cliCommand = this.currentCommand
 
     this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })
 
@@ -215,11 +249,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     return baseVars
   }
 
-  var<T = string>(
-    variable: EnvVarUtil<
-      ReturnType<this["envVars"]> | ReturnType<this["coreVars"]>
-    >,
-  ): T | undefined {
+  var(variable: S["vars"]): string | undefined {
     const envVar = this.vars.find((_) => _.name === variable)
 
     if (!envVar) {
@@ -227,7 +257,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     }
 
     const logData = {
-      data: { envVar: envVar, context: this.context, mode: this.mode },
+      data: { envVar: envVar, context: this.context, mode: this.utils.mode() },
     }
 
     if (!envVar.val && envVar.context == "app" && this.context == "app") {
@@ -237,7 +267,7 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
     if (
       !envVar.val &&
       envVar.mode == "production" &&
-      this.mode == "production"
+      this.utils.mode() == "production"
     ) {
       this.log.warn(`production EnvVar missing`, logData)
     }
@@ -246,6 +276,6 @@ export class FactorEnv<S extends string = string> extends FactorPlugin<
       this.log.warn(`server EnvVar missing`, logData)
     }
 
-    return envVar.val as T | undefined
+    return envVar.val as string | undefined
   }
 }

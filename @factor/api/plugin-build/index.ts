@@ -11,7 +11,7 @@ export * from "./plugin-release"
 
 type FactorBuildSettings = {
   serverOnlyModules?: types.ServerModuleDef[]
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {

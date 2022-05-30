@@ -13,12 +13,12 @@ import { isGitDirty, getPackages } from "./utils"
 const { prompt } = enquirer
 
 type FactorReleaseSettings = {
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
 }
 
 export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   versionIncrements: ReleaseType[] = ["patch", "minor", "major", "prerelease"]
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
   constructor(settings: FactorReleaseSettings) {
     super(settings)
     this.factorEnv = settings.factorEnv

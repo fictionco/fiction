@@ -53,7 +53,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
     queries: R
     basePath?: string
     factorServer: FactorServer
-    factorUser: FactorUser
+    factorUser?: FactorUser
     endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
     middleware?: () => utils.express.RequestHandler[]
   }): M {

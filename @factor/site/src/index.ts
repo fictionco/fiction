@@ -28,16 +28,18 @@ import routes from "./routes"
 import App from "./App.vue"
 const cwd = safeDirname(import.meta.url, "..")
 
+export const appName = "FactorJS"
+export const appEmail = "hi@factorjs.org"
+export const appUrl = "https://www.factorjs.org"
+
 export const factorEnv = new FactorEnv({
   envFiles: [path.join(cwd, "./.env")],
   cwd,
   envVars,
+  appName,
+  appEmail,
+  appUrl,
 })
-
-export const appName = "FactorJS"
-export const appEmail = "hi@factorjs.org"
-export const appUrl = "https://www.factorjs.org"
-export const mode = factorEnv.var<"development" | "production">("mode")
 
 export const factorDb = new FactorDb({
   connectionUrl: factorEnv.var("postgresUrl"),
@@ -55,19 +57,21 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig["routes"]>({
 })
 
 export const factorApp = new FactorApp({
-  appName,
-  appEmail,
   appUrl,
   factorServer,
   port: +(factorEnv.var("appPort") || 3000),
   rootComponent: App,
   factorRouter,
-  uiPaths: [path.join(cwd, "./src/**/*.{vue,js,ts,html}")],
+  uiPaths: [
+    path.join(cwd, "./src/**/*.{vue,js,ts,html}"),
+    path.join(cwd, "./blog/**/*.vue"),
+    path.join(cwd, "./docs/**/*.vue"),
+  ],
   factorEnv,
 })
 
 export const factorEmail = new FactorEmail({
-  factorApp,
+  factorEnv,
   smtpHost: factorEnv.var("smtpHost"),
   smtpPassword: factorEnv.var("smtpPassword"),
   smtpUser: factorEnv.var("smtpUser"),

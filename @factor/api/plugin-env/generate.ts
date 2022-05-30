@@ -10,7 +10,7 @@ import { FactorEnvHookDictionary } from "./types"
 import type { FactorEnv } from "."
 
 export const generateStaticConfig = async (
-  factorEnv: FactorEnv<string>,
+  factorEnv: FactorEnv,
 ): Promise<void> => {
   if (mode() == "production") return
 

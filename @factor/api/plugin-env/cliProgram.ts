@@ -2,10 +2,9 @@ import path from "path"
 import { Command } from "commander"
 import { log } from "@factor/api/plugin-log"
 import minimist from "minimist"
-import { camelToUpperSnake, camelize } from "../utils"
+import { camelize } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
-import { commands } from "./commands"
 import { MainFile } from "./types"
 import { packageMainFile } from "./utils"
 
@@ -20,28 +19,8 @@ export const runCommand = async (
     const mainFileRelPath = packageMainFile(cwd)
     const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
-    const cliCommand = commands
-      .find((_) => _.command === command)
-      ?.setOptions(optionsFromCli)
-
-    if (!cliCommand) throw new Error(`command [${command}] not found`)
-
-    const fullOpts = cliCommand?.options ?? {}
-
-    const params: Record<string, string> = {}
-
-    if (fullOpts.mode) {
-      process.env.NODE_ENV = fullOpts.mode
-    }
-
-    Object.entries(fullOpts).forEach(([key, value]) => {
-      if (value) {
-        params[key] = String(value)
-        const processKey = `FACTOR_${camelToUpperSnake(key)}`
-        process.env[processKey] = String(value)
-      }
-    })
-
+    process.env.FACTOR_ENV_COMMAND = command
+    process.env.FACTOR_ENV_COMMAND_OPTS = JSON.stringify(optionsFromCli || {})
     /**
      * ! THIS MUST COME AFTER ENV VARIABLES ARE SET
      *   Plugins expect the CLI vars (mode, port, etc. )
@@ -55,7 +34,7 @@ export const runCommand = async (
       throw new Error(`no factorEnv at [${mainFilePath}]`)
     }
 
-    await factorEnv.runCommand(cliCommand)
+    await factorEnv.runCurrentCommand()
   } catch (error) {
     log.error("CLI", `Error Running CLI Command [${command}]`, { error })
     exitHandler({ exit: true })

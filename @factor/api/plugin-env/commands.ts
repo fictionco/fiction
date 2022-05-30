@@ -1,6 +1,6 @@
 import { CliOptions } from "./types"
 
-export class CliCommand<T extends string> {
+export class CliCommand<T extends string = string> {
   public command: T
   public description: string
   public options: CliOptions
@@ -23,7 +23,7 @@ export class CliCommand<T extends string> {
   }
 }
 
-export const commands = [
+export const standardAppCommands = [
   new CliCommand({
     command: "build",
     description: "builds the app",
@@ -75,9 +75,3 @@ export const commands = [
     options: { mode: "production", exit: true },
   }),
 ]
-
-export type CommandKeysUtil<T extends CliCommand<string>[]> = {
-  [K in keyof T]: T[K] extends CliCommand<infer T> ? T : never
-}[number]
-
-export type CommandKeys = CommandKeysUtil<typeof commands> | string

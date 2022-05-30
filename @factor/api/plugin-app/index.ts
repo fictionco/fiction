@@ -43,8 +43,7 @@ type HookDictionary = {
 export type FactorAppSettings = {
   hooks?: HookType<HookDictionary>[]
   mode?: "production" | "development"
-  appName: string
-  appEmail: string
+
   appUrl?: string
   port: number
   factorServer: FactorServer
@@ -72,8 +71,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   factorSitemap?: FactorSitemap
   factorServer = this.settings.factorServer
   factorEnv = this.settings.factorEnv
-  appName = this.settings.appName
-  appEmail = this.settings.appEmail
+  appName: string
+  appEmail: string
   sitemaps = this.settings.sitemaps ?? []
   standardPaths = this.factorEnv.standardPaths
   port = this.settings.port || 3000
@@ -92,6 +91,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     super(settings)
 
     const cwd = this.standardPaths?.cwd
+
+    this.appEmail = this.factorEnv.appEmail
+    this.appName = this.factorEnv.appName
     /**
      * node application init
      */

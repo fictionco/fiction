@@ -37,7 +37,7 @@ export type MainFile = {
   ) => Promise<ServiceConfig> | ServiceConfig
   factorApp?: FactorApp
   factorServer?: FactorServer
-  factorEnv?: FactorEnv<string>
+  factorEnv?: FactorEnv
   [key: string]: unknown
 }
 

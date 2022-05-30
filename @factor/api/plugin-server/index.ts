@@ -17,7 +17,7 @@ export type FactorServerSettings = {
   hooks?: HookType<FactorServerHookDictionary>[]
   endpoints?: Endpoint[]
   serverUrl?: string
-  factorEnv?: FactorEnv<string>
+  factorEnv?: FactorEnv
   factorUser?: FactorUser
   onCommands?: string[]
 }

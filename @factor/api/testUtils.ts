@@ -110,7 +110,7 @@ export type TestServerConfig = {
 }
 
 export type TestUtilServices = {
-  factorEnv: FactorEnv<string>
+  factorEnv: FactorEnv
   factorApp: FactorApp
   factorRouter: FactorRouter
   factorServer: FactorServer
@@ -203,6 +203,8 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     envFiles: [path.join(cwd, "./.env"), ...envFiles],
     cwd,
     envVars: standardEnvVars,
+    appName: "Test App",
+    appEmail: "arpowers@gmail.com",
   })
 
   const factorServer = new FactorServer({
@@ -213,8 +215,6 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
   const factorRouter = new FactorRouter()
 
   const factorApp = new FactorApp({
-    appName: "Test App",
-    appEmail: "arpowers@gmail.com",
     port: appPort,
     rootComponent: EmptyApp,
     factorRouter,
@@ -224,7 +224,7 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
   const factorDb = new FactorDb({ connectionUrl: factorEnv.var("postgresUrl") })
 
   const factorEmail = new FactorEmail({
-    factorApp: factorApp,
+    factorEnv,
   })
 
   const factorUser = new FactorUser({
