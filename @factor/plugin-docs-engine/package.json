@@ -5,9 +5,9 @@
   "author": "Kaption Co.",
   "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/api": "5.3.22",
-    "@factor/plugin-highlight-code": "5.3.22",
-    "@factor/ui": "5.3.22",
+    "@factor/api": "workspace:5.3.22",
+    "@factor/plugin-highlight-code": "workspace:5.3.22",
+    "@factor/ui": "workspace:5.3.22",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.2",
     "string-similarity": "^4.0.4"

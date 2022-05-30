@@ -122,7 +122,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
             "req"
           >
 
-          this.log.info(`message received: ${name}`, { data })
+          this.log.info(`message received: ${String(name)}`, { data })
 
           emitEvent(name as string, data)
 

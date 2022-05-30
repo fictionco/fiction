@@ -17,5 +17,5 @@ export * from "./plugin-app"
 export * from "./plugin-build"
 export * from "./plugin-router"
 export * from "./plugin-media"
-
+export * from "./plugin-aws"
 export * from "./inject"

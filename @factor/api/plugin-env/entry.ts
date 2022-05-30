@@ -1,7 +1,7 @@
 // import path from "path"
 // import chokidar from "chokidar"
 import { getMainFilePath, deepMerge } from "@factor/api/utils"
-
+import {vue} from '../utils'
 import { log } from "../plugin-log"
 import { mode } from "../utils/vars"
 import { FactorPlugin } from "../plugin"
@@ -19,7 +19,11 @@ export const runServicesSetup = async (
   const { service = {}, ...rest } = serviceConfig
   const config: ServiceConfig[] = [rest]
   const pluginList = Object.values(service).filter(
-    (_) => typeof _ == "object" && _ instanceof FactorPlugin,
+    (_) =>
+      typeof _ == "object" &&
+      !Array.isArray(_) &&
+      !vue.isRef(_) &&
+      typeof _.setup != "undefined",
   ) as FactorPlugin[]
 
   if (pluginList.length > 0) {

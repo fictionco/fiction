@@ -43,7 +43,7 @@ export type MainFile = {
 
 export type ServiceList = Record<
   string,
-  FactorPlugin | string | object | unknown[]
+  FactorPlugin | string | Record<string, unknown> | unknown[] | vue.Ref<unknown>
 >
 
 export interface ServiceConfig {
