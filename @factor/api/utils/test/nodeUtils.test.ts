@@ -34,7 +34,6 @@ describe("node utils", () => {
         "factorServer",
         "factorStripe",
         "factorUser",
-        "mode",
         "service",
         "setup",
       ]

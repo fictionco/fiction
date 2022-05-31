@@ -100,7 +100,7 @@ export class FactorEnv<
       process.env.FACTOR_ENV_COMMAND_OPTS || "{}",
     ) as types.CliOptions
 
-    if (!commandName) throw new Error(`commandName missing`)
+    if (!commandName) return
 
     const cliCommand = this.commands
       .find((_) => _.command === commandName)

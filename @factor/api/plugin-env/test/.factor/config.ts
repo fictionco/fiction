@@ -7,6 +7,18 @@
 
 export interface CompiledServiceConfig {
   commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
+  vars:
+    | "appPort"
+    | "awsAccessKey"
+    | "awsAccessKeySecret"
+    | "googleClientId"
+    | "googleClientSecret"
+    | "mode"
+    | "postgresUrl"
+    | "serverPort"
+    | "serverUrl"
+    | "stripeSecretKeyTest"
+    | "tokenSecret";
   routes: "";
   ui: "";
   menus: "";

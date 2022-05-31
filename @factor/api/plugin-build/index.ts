@@ -20,9 +20,10 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   factorEnv = this.settings.factorEnv
+  loadingPromise: Promise<void> | undefined
   constructor(settings: FactorBuildSettings) {
     super(settings)
-    this.getLexers().catch(console.error)
+    this.loadingPromise = this.getLexers().catch(console.error)
   }
 
   async getLexers() {
@@ -93,6 +94,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
    * https://rollupjs.org/guide/en/#conventions
    */
   getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
+    await this.loadingPromise
+
     const serverOnlyModules = this.getServerOnlyModules()
 
     const fullServerModules = serverOnlyModules.map((_) => {
