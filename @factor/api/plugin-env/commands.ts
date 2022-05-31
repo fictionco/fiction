@@ -2,12 +2,12 @@ import { CliOptions } from "./types"
 
 export class CliCommand<T extends string = string> {
   public command: T
-  public description: string
+  public description?: string
   public options: CliOptions
 
   constructor(settings: {
     command: T
-    description: string
+    description?: string
     options: CliOptions
   }) {
     this.command = settings.command

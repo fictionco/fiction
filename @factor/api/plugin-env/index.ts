@@ -9,6 +9,7 @@ import { CliCommand, standardAppCommands } from "./commands"
 import { done, packageMainFile } from "./utils"
 export * from "./types"
 export * from "./entry"
+export * from "./commands"
 
 type EnvVarSettings<X extends string> = {
   name: X
