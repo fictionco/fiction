@@ -213,7 +213,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public app?: express.Express
   public server?: http.Server
-  public wss?: ws.WebSocketServer
+  public wss?: ws.WebSocketServer // type not available in browser/build
   private context = "socketServer"
   factorUser: FactorUser
   log = log.contextLogger(this.constructor.name)

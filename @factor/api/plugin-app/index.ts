@@ -98,9 +98,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
      * node application init
      */
     if (cwd && !this.utils.isApp() && this.factorEnv) {
-      this.factorBuild = new FactorBuild({
-        factorEnv: this.factorEnv,
-      })
+      this.factorBuild = new FactorBuild()
       this.factorSitemap = new FactorSitemap({
         factorRouter: this.factorRouter,
       })
@@ -571,9 +569,23 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return config
   }
 
-  async getViteConfig(): Promise<vite.InlineConfig> {
-    const { sourceDir, publicDir } = this.standardPaths || {}
+  getStaticPathAliases = (): Record<string, string> => {
+    const { mainFilePath, mountFilePath } = this.factorEnv.standardPaths || {}
 
+    if (!mainFilePath || !mountFilePath) {
+      throw new Error("standardPaths missing")
+    }
+
+    return {
+      "@MAIN_FILE_ALIAS": mainFilePath,
+      "@MOUNT_FILE_ALIAS": mountFilePath,
+    }
+  }
+
+  async getViteConfig(): Promise<vite.InlineConfig> {
+    const { cwd, sourceDir, publicDir } = this.standardPaths || {}
+
+    if (!cwd) throw new Error("cwd is required")
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
@@ -594,7 +606,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const pluginMarkdown = await import("vite-plugin-markdown")
     const { getMarkdownUtility } = await import("../utils/markdown")
 
-    const commonVite = await this.factorBuild?.getCommonViteConfig()
+    const commonVite = await this.factorBuild?.getCommonViteConfig({
+      mode: this.utils.mode(),
+    })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
 
@@ -606,6 +620,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     let merge: vite.InlineConfig[] = [
       commonVite || {},
       {
+        publicDir,
         css: {
           postcss: {
             plugins: [twPlugin(twConfig), getRequire()("autoprefixer")],

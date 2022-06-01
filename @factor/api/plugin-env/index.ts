@@ -44,7 +44,7 @@ export type FactorControlSettings = {
   commands?: CliCommand<string>[]
 }
 
-interface BaseCompiled {
+type BaseCompiled = {
   commands: string
   vars: string
   [key: string]: any
@@ -210,6 +210,7 @@ export class FactorEnv<
     this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })
 
     const mainFilePath = this.standardPaths.mainFilePath
+
     const serviceConfig = await getServerServiceConfig({ mainFilePath })
 
     const runConfig = {

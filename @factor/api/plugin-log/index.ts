@@ -9,11 +9,16 @@ import { HookType, runHooks } from "../utils/hook"
 import { dayjs, chalk } from "../utils/libraries"
 import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
 import { stringify } from "../utils/utils"
-import { logCategory, logLevel, LogHelper } from "./t"
-export * from "./t"
+
+type Levels = "error" | "warn" | "info" | "debug" | "trace"
+
+export type LogHelper = Record<
+  Levels,
+  (description: string, data?: unknown) => void
+>
 
 interface LoggerArgs {
-  level: keyof typeof logLevel
+  level: Levels
   context?: string
   description?: string
   data?: Record<string, any> | unknown
@@ -36,6 +41,14 @@ export class FactorLog {
   }
 
   setup = () => {}
+
+  logLevel = {
+    trace: { color: "#5233ff", priority: 5 },
+    debug: { color: "#00BD0C", priority: 5 },
+    info: { color: "#00ABFF", priority: 10 },
+    warn: { color: "#ffa500", priority: 30 },
+    error: { color: "#FF0000", priority: 40 },
+  }
 
   addHook(hook: HookType<FactorLogHookDictionary>): void {
     this.hooks.unshift(hook)
@@ -146,8 +159,8 @@ export class FactorLog {
   l(config: LoggerArgs): void {
     const { level } = config
 
-    config.priority = logLevel[level].priority
-    config.color = logCategory[level].color
+    config.priority = this.logLevel[level].priority
+    config.color = this.logLevel[level].color
 
     if (isNode()) {
       if (config.priority < 10 && isDev() && !isDebug()) {
@@ -195,7 +208,7 @@ export class FactorLog {
   contextLogger = (context: string): LogHelper => {
     const out: Record<string, any> = {}
 
-    const levels = Object.keys(logLevel) as (keyof typeof logLevel)[]
+    const levels = Object.keys(this.logLevel) as Levels[]
 
     levels.forEach((level) => {
       out[level] = (

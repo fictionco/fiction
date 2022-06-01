@@ -46,7 +46,7 @@ export type ServiceList = Record<
   FactorPlugin | string | Record<string, unknown> | unknown[] | vue.Ref<unknown>
 >
 
-export interface ServiceConfig {
+export type ServiceConfig = {
   paths?: string[]
   service?: ServiceList
   [key: string]: unknown

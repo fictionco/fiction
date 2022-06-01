@@ -14,7 +14,7 @@
     "concurrently": "^7.2.1",
     "dotenv": "^16.0.1",
     "eslint": "^8.16.0",
-    "happy-dom": "^4.1.0",
+    "happy-dom": "^5.0.0",
     "jsdom": "^19.0.0",
     "nodemon": "^2.0.16",
     "npm-package-json-lint": "^6.3.0",

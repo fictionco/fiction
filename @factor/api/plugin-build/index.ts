@@ -1,17 +1,16 @@
+import path from "path"
 import type * as vite from "vite"
 import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
 import { FactorPlugin } from "../plugin"
-import { FactorEnv } from "../plugin-env"
+import { getMainFilePath, safeDirname } from "../utils"
 import * as types from "./types"
 import { commonServerOnlyModules } from "./serverOnly"
 export * from "./types"
-export * from "./plugin-bundle"
 export * from "./plugin-release"
 
 type FactorBuildSettings = {
   serverOnlyModules?: types.ServerModuleDef[]
-  factorEnv: FactorEnv
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
@@ -19,9 +18,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   serverOnlyModules = this.settings.serverOnlyModules ?? []
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
-  factorEnv = this.settings.factorEnv
   loadingPromise: Promise<void> | undefined
-  constructor(settings: FactorBuildSettings) {
+  constructor(settings: FactorBuildSettings = {}) {
     super(settings)
     this.loadingPromise = this.getLexers().catch(console.error)
   }
@@ -137,7 +135,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
               type: "map",
               additional,
             })
-            return { code }
+            return { code, map: null }
           }
         },
         config: () => {
@@ -214,35 +212,34 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  getStaticPathAliases = (): Record<string, string> => {
-    const { mainFilePath, mountFilePath } = this.factorEnv.standardPaths || {}
-
-    if (!mainFilePath || !mountFilePath) {
-      throw new Error("standardPaths missing")
-    }
+  getStaticPathAliases = (opts: { cwd: string }): Record<string, string> => {
+    const { cwd } = opts
+    const mainFile = getMainFilePath({ cwd })
+    if (!mainFile) throw new Error("no main file")
 
     return {
-      "@MAIN_FILE_ALIAS": mainFilePath,
-      "@MOUNT_FILE_ALIAS": mountFilePath,
+      "@MAIN_FILE_ALIAS": mainFile,
+      "@MOUNT_FILE_ALIAS": path.join(
+        safeDirname(import.meta.url, ".."),
+        "/plugin-app/mount.ts",
+      ),
     }
   }
 
-  getCommonViteConfig = async (): Promise<vite.InlineConfig> => {
-    const { sourceDir, publicDir } = this.factorEnv.standardPaths || {}
-
-    if (!sourceDir) throw new Error("sourceDir is required")
-    if (!publicDir) throw new Error("publicDir is required")
-
-    const root = sourceDir
+  getCommonViteConfig = async (options: {
+    mode?: "production" | "development"
+    cwd?: string
+  }): Promise<vite.InlineConfig> => {
+    const { mode = "production", cwd = process.cwd() } = options || {}
 
     const customPlugins = await this.getCustomBuildPlugins()
 
     const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
     const basicConfig: vite.InlineConfig = {
-      mode: this.utils.mode(),
-      root,
-      publicDir,
+      mode,
+      // root must be set to optimize output file size
+      root: cwd,
       server: {
         fs: { strict: false },
         watch: {
@@ -258,11 +255,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         manifest: true,
         emptyOutDir: true,
         minify: false,
-        sourcemap: this.utils.mode() !== "production",
+        sourcemap: mode !== "production",
       },
       resolve: {
         alias: {
-          ...this.getStaticPathAliases(),
+          ...this.getStaticPathAliases({ cwd }),
           // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
           path: "path-browserify",
         },
@@ -270,6 +267,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
       plugins: [pluginVue(), ...customPlugins],
       optimizeDeps: this.getOptimizeDeps(),
+      logLevel: mode == "production" ? "info" : "warn",
     }
 
     return basicConfig

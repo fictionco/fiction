@@ -16,8 +16,7 @@ export const factorEnv = new FactorEnv({
 })
 
 export const factorRelease = new FactorRelease({ factorEnv })
-const factorBuild = new FactorBuild({ factorEnv })
-export const factorBundle = new FactorBundle({ factorEnv, factorBuild })
+export const factorBundle = new FactorBundle()
 
 factorEnv.addHook({
   hook: "runCommand",
@@ -26,6 +25,8 @@ factorEnv.addHook({
       await factorRelease.releaseRoutine(opts)
     } else if (command == "deploy") {
       await factorRelease.deployRoutine(opts)
+    } else if (command == "bundle") {
+      await factorBundle.bundleAll(opts)
     }
   },
 })

@@ -1,0 +1,38 @@
+{
+  "name": "@playground/spa",
+  "version": "4.0.6",
+  "private": true,
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "@factor/api": "file:~/Projects/factor/@factor/api",
+    "vue": "^3.2.36",
+    "vue-router": "^4.0.15"
+  },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.1.5",
+    "@unocss/preset-attributify": "^0.37.1",
+    "@unocss/preset-icons": "^0.33.5",
+    "@unocss/preset-uno": "^0.37.1",
+    "@unocss/reset": "^0.37.1",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "typescript": "^4.7.2",
+    "unocss": "^0.33.5",
+    "vite": "^2.9.9",
+    "vue-tsc": "^0.34.17"
+  },
+  "buildOptions": {
+    "entryName": "PlaygroundSpa",
+    "entryFile": "src/index.ts",
+    "outputDir": "spa"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  }
+}

@@ -3,8 +3,8 @@ import type { RouteRecordRaw } from "vue-router"
 import fs from "fs-extra"
 import { FactorPlugin } from "../plugin"
 import { FactorRouter } from "../plugin-router"
+import { safeDirname } from "../utils"
 import { SitemapConfig } from "./types"
-
 type FactorSitemapSettings = {
   factorRouter: FactorRouter
 }
@@ -64,7 +64,7 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
       Readable.from(sourceData).pipe(stream),
     )
 
-    const dirname = new URL(".", import.meta.url).pathname
+    const dirname = safeDirname(import.meta.url)
     fs.copySync(
       path.resolve(dirname, "./sitemap.xsl"),
       path.join(distClient, "./sitemap.xsl"),
