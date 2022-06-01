@@ -10,10 +10,6 @@ import { waitFor } from "./utils"
 import { Endpoint, EndpointMeta } from "./endpoint"
 import { EndpointServer } from "./endpointServer"
 
-/**
- *   ping: {}
-  welcome: { res: TokenFields }
- */
 export type EventMap = {
   [key: string]: { req?: unknown; res?: unknown }
 }
@@ -222,11 +218,17 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
     this.factorUser = settings.factorUser
   }
 
-  public createServer({ app }: { app: express.Express }): http.Server {
+  async createServer({ app }: { app: express.Express }): Promise<http.Server> {
     this.app = app
     const socketServer = http.createServer(this.app)
 
-    this.wss = new ws.WebSocketServer({
+    /**
+     * This import doesn't exist in browser/build and needs to be ignored by vite to
+     * prevent "'WebSocketServer' is not exported by..." error
+     */
+    const { WebSocketServer } = await import(/* @vite-ignore */ "ws")
+
+    this.wss = new WebSocketServer({
       noServer: true,
       maxPayload: 10_000_000,
     })

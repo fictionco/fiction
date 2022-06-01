@@ -26,7 +26,7 @@ export interface PackageJson {
     access: "public" | "restricted"
   }
   buildOptions: PackageBuildOptions
-  moduleRoot?: string
+  cwd?: string // added dynamically for parsing reasons
   [key: string]:
     | undefined
     | boolean

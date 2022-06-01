@@ -3,9 +3,9 @@ import vue from "@vitejs/plugin-vue"
 import unocss from "unocss/vite"
 import presetIcons from "@unocss/preset-icons"
 import { presetAttributify, presetUno, presetWind } from "unocss"
-import { safeDirname } from "@factor/api"
+import { safeDirname } from "../utils"
 
-export const createTestApp = async (options: {
+export const createTestingApp = async (options: {
   port?: number
   head?: string
 }) => {
@@ -35,8 +35,6 @@ export const createTestApp = async (options: {
     ],
   })
   await server.listen()
-
-  server.printUrls()
 
   return server
 }

@@ -1,7 +1,7 @@
 import { it, describe, expect, beforeAll, afterAll } from "vitest"
 import { ViteDevServer } from "vite"
 import { chromium, Browser, Page } from "playwright"
-import { createTestApp } from "../run"
+import { createTestingApp } from ".."
 
 let server: ViteDevServer | undefined = undefined
 let browser: Browser | undefined = undefined
@@ -9,7 +9,7 @@ let page: Page | undefined = undefined
 const port = 1234
 describe("spa test app server", () => {
   beforeAll(async () => {
-    server = await createTestApp({
+    server = await createTestingApp({
       port,
       head: `<meta name="author" content="John Doe">`,
     })

@@ -347,6 +347,5 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useRouter, RouterLink } from "vue-router"
-const router = useRouter()
+import { RouterLink } from "vue-router"
 </script>

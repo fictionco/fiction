@@ -43,7 +43,7 @@
                 </a>
                 <a
                   href="#"
-                  class="flex items-center justify-center rounded-md border border-transparent bg-indigo-500 bg-opacity-60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8"
+                  class="flex items-center justify-center rounded-md border border-transparent bg-indigo-500/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:opacity-70 sm:px-8"
                 >
                   Live demo
                 </a>
@@ -201,7 +201,7 @@
               class="-mr-48 pl-4 sm:pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0"
             >
               <img
-                class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                class="w-full rounded-xl shadow-xl ring-1 ring-black/5 lg:absolute lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                 src="https://tailwindui.com/img/component-images/inbox-app-screenshot-1.jpg"
                 alt="Inbox user interface"
               />
@@ -267,7 +267,7 @@
               class="-ml-48 pr-4 sm:pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0"
             >
               <img
-                class="w-full rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
+                class="w-full rounded-xl shadow-xl ring-1 ring-black/5 lg:absolute lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
                 src="https://tailwindui.com/img/component-images/inbox-app-screenshot-2.jpg"
                 alt="Customer profile user interface"
               />
@@ -295,7 +295,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/inbox -->
                 <svg
@@ -327,7 +327,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/users -->
                 <svg
@@ -361,7 +361,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/trash -->
                 <svg
@@ -393,7 +393,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/pencil-alt -->
                 <svg
@@ -427,7 +427,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/document-report -->
                 <svg
@@ -459,7 +459,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/reply -->
                 <svg
@@ -491,7 +491,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/chat-alt -->
                 <svg
@@ -523,7 +523,7 @@
           <div>
             <div>
               <span
-                class="flex h-12 w-12 items-center justify-center rounded-md bg-white bg-opacity-10"
+                class="flex h-12 w-12 items-center justify-center rounded-md bg-white/10"
               >
                 <!-- Heroicon name: outline/heart -->
                 <svg

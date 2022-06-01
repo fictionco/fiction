@@ -4,6 +4,7 @@ import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
 import { PackageJson } from "@factor/api/types"
+import { getRequire } from "../utils"
 
 /**
  * Checks whether the working directory has uncommitted changes
@@ -49,15 +50,15 @@ export const getPackages = (
     workspaces.forEach((w) => {
       const files = glob
         .sync(w)
-        .map((f): PackageJson | undefined => {
+        .map((folder): PackageJson | undefined => {
           const cwd = process.cwd()
-          const moduleRoot = path.resolve(cwd, f)
+          const moduleRoot = path.resolve(cwd, folder)
           const manifestPath = `${moduleRoot}/package.json`
           const exists = fs.existsSync(manifestPath)
-          if (!fs.statSync(f).isDirectory() || !exists) return undefined
+          if (!fs.statSync(folder).isDirectory() || !exists) return undefined
           else {
-            const manifest = fs.readJsonSync(manifestPath) as PackageJson
-            manifest.moduleRoot = moduleRoot
+            const manifest = getRequire()(manifestPath) as PackageJson
+            manifest.cwd = moduleRoot
             return !publicOnly || !manifest.private ? manifest : undefined
           }
         })

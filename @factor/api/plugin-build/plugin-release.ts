@@ -73,11 +73,11 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     return deps
   }
 
-  updatePackage = (moduleRoot?: string, version?: string): void => {
-    if (!moduleRoot) throw new Error("moduleRoot is required")
+  updatePackage = (cwd?: string, version?: string): void => {
+    if (!cwd) throw new Error("package cwd is required")
     if (!version) throw new Error("version is required")
 
-    const pkgPath = path.resolve(moduleRoot, "package.json")
+    const pkgPath = path.resolve(cwd, "package.json")
     const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
     pkg.version = version
 
@@ -98,23 +98,23 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     const workspaceRoot = path.resolve(process.cwd())
     this.updatePackage(workspaceRoot, version)
     getPackages().forEach((p) => {
-      if (!p.moduleRoot) {
-        log.error("updateVersions", `no moduleRoot`, { data: p })
+      if (!p.cwd) {
+        log.error("updateVersions", `no package cwd`, { data: p })
       }
-      this.updatePackage(p.moduleRoot, version)
+      this.updatePackage(p.cwd, version)
     })
   }
 
   publishPackage = async (pkg: PackageJson, version: string): Promise<void> => {
     if (pkg.private) return
-    if (!pkg.moduleRoot) throw new Error("moduleRoot is required")
+    if (!pkg.cwd) throw new Error("package cwd is required")
 
     const access = pkg.publishConfig?.access ?? "restricted"
 
     this.log.info(`publishing ${pkg.name}...`)
     try {
       await this.commit("npm", ["publish", "--access", access], {
-        cwd: pkg.moduleRoot,
+        cwd: pkg.cwd,
         stdio: "pipe",
       })
 

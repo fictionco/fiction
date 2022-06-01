@@ -139,7 +139,7 @@ export class FactorLog {
       console.log(
         prettyoutput(
           this.refineDataRecursive(data) as Record<string, any>,
-          {},
+          { colors: { number: "yellow" } },
           2,
         ),
       )

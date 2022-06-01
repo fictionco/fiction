@@ -2,16 +2,17 @@ import path from "path"
 import fs from "fs-extra"
 import { execa } from "execa"
 import * as vite from "vite"
+import type { RollupWatcher, RollupWatcherEvent } from "rollup"
 import { deepMergeAll, getRequire } from "../utils"
 import { FactorPlugin } from "../plugin"
 import { CliOptions } from "../plugin-env"
 import { PackageJson } from "../types"
 import { getPackages, getCommit } from "./utils"
 import { FactorBuild } from "."
-
 export class FactorBundle extends FactorPlugin {
   factorBuild: FactorBuild
-
+  bundlingTotal = 0
+  bundlingCurrent = 0
   constructor() {
     super({})
     this.factorBuild = new FactorBuild()
@@ -20,7 +21,7 @@ export class FactorBundle extends FactorPlugin {
   setup() {}
 
   bundleAll = async (options: CliOptions): Promise<void> => {
-    const { mode } = options
+    const { mode = "production" } = options
     // If pkg is set, just bundle that one
     const packages = getPackages().filter((pkg) => pkg.buildOptions)
     const packageNames = packages.map((pkg) => pkg.name)
@@ -30,67 +31,119 @@ export class FactorBundle extends FactorPlugin {
       this.log.info(`bundling ${packages.length} packages`, {
         data: packageNames,
       })
-      // Outfile won't work in multi-build mode
-      for (const pkg of packages) {
-        if (pkg?.buildOptions) {
-          const { name, moduleRoot, main } = pkg
-          const { outputDir, entryFile } = pkg.buildOptions
-          await this.bundle({
-            name,
-            moduleRoot,
-            main,
-            mode,
-            outputDir,
-            entryFile,
-          })
-        }
-      }
-    }
-  }
 
-  bundlePackages = async (options: {
-    moduleRoots: string[]
-    mode: "development" | "production"
-  }): Promise<void> => {
-    const { moduleRoots, mode } = options
-    for (const moduleRoot of moduleRoots) {
-      const pkg = getRequire()(
-        path.resolve(moduleRoot, "./package.json"),
-      ) as PackageJson
-      const { name, main } = pkg
-      const { outputDir, entryFile } = pkg.buildOptions
-      await this.bundle({
-        name,
-        moduleRoot,
-        main,
+      await this.bundlePackages({
+        cwds: packages.map((pkg) => pkg.cwd).filter(Boolean) as string[],
         mode,
-        outputDir,
-        entryFile,
+        watch: false,
       })
     }
   }
 
+  bundlePackages = async (options: {
+    cwds: string[]
+    mode: "development" | "production"
+    watch?: boolean
+    onAllBuilt?: () => Promise<void> | void
+  }): Promise<RollupWatcher[]> => {
+    const { cwds, mode, onAllBuilt, watch } = options
+    this.bundlingTotal = cwds.length
+    this.bundlingCurrent = 0
+
+    // setup async handling of first build
+    let __resolve: ((w: RollupWatcher[]) => void) | undefined = undefined
+    const finished = new Promise<RollupWatcher[]>((resolve) => (__resolve = resolve))
+
+    const watchers: RollupWatcher[] = []
+    for (const cwd of cwds) {
+      const require = getRequire()
+      const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
+      const { name, main } = pkg
+      const { outputDir, entryFile } = pkg.buildOptions
+      const w = await this.bundle({
+        name,
+        cwd,
+        main,
+        mode,
+        outputDir,
+        entryFile,
+        watch,
+        onBuilt: async () => {
+          this.bundlingCurrent++
+
+          if (this.bundlingCurrent == this.bundlingTotal) {
+            this.bundlingCurrent = 0
+            this.log.info(`bundling complete`)
+            if (onAllBuilt) {
+              await onAllBuilt()
+              // allows for async handling of method
+              if (__resolve) __resolve(watchers)
+            }
+          }
+        },
+      })
+
+      if(w) watchers.push(w)
+    }
+
+    return finished
+  }
+
+  doneBuilding = async (opts: {
+    name: string
+    mode: "production" | "development"
+    entry: string
+    distDir: string
+    cwd: string
+  }): Promise<void> => {
+    const { name, mode, entry, distDir, cwd } = opts
+    if (mode == "production") {
+      /**
+       * Create type declarations
+       * https://tsup.egoist.sh/
+       */
+      this.log.info(`creating type definitions for ${name}`)
+      await execa(
+        "tsup",
+        [entry, "--format", "esm", "--dts-only", "--out-dir", distDir],
+        {
+          stdio: "inherit",
+          cwd,
+        },
+      )
+    }
+
+    this.log.info(`done building [${name}]`)
+  }
+
   bundle = async (options: {
     name: string
-    moduleRoot?: string
+    cwd?: string
     outputDir?: string
     entryFile?: string
     entryName?: string
     main?: string
     mode?: "production" | "development"
     commit?: string
-  }): Promise<void> => {
+    onBuilt?: (opts: {
+      name: string
+      event: RollupWatcherEvent
+    }) => Promise<void> | void
+    watch?: boolean
+  }): Promise<RollupWatcher | undefined> => {
     const {
       name,
-      moduleRoot,
+      cwd,
       main,
       mode = "production",
       outputDir,
       entryFile,
+      onBuilt,
+      watch,
     } = options
 
     try {
-      if (!moduleRoot) throw new Error("package root missing")
+      if (!cwd) throw new Error("package root missing")
 
       this.log.info(`start bundle [${name}] in ${mode} mode`)
 
@@ -102,12 +155,12 @@ export class FactorBundle extends FactorPlugin {
 
       const entry = entryFile || main || "index.ts"
       const distDir = path.join("dist", outputDir || "")
-      const outDir = path.join(moduleRoot, distDir)
+      const outDir = path.join(cwd, distDir)
 
       fs.removeSync(distDir)
 
       const vc = await this.factorBuild.getCommonViteConfig({
-        cwd: moduleRoot,
+        cwd: cwd,
         mode,
       })
       const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
@@ -121,29 +174,34 @@ export class FactorBundle extends FactorPlugin {
               entry,
               fileName: () => `index.js`,
             },
+            watch: {},
           },
         },
       ])
 
-      await vite.build(clientBuildOptions)
+      const watcher = (await vite.build(clientBuildOptions)) as RollupWatcher
 
-      if (mode == "production") {
-        /**
-         * Create type declarations
-         * https://tsup.egoist.sh/
-         */
-        this.log.info(`creating type definitions for ${name}`)
-        await execa(
-          "tsup",
-          [entry, "--format", "esm", "--dts-only", "--out-dir", distDir],
-          {
-            stdio: "inherit",
-            cwd: moduleRoot,
-          },
-        )
-      }
+      watcher.on("event", async (event: RollupWatcherEvent) => {
+        if (event.code == "END") {
+          await this.doneBuilding({
+            name,
+            mode,
+            entry,
+            distDir,
+            cwd,
+          })
+          if (onBuilt) {
+            await onBuilt({ name, event })
+          }
+          if (!watch) {
+            await watcher.close()
+          }
+        } else if (event.code == "ERROR") {
+          this.log.error(`error building ${name}`, { error: event.error })
+        }
+      })
 
-      this.log.info(`done building [${name}]\n\n`)
+      return watcher
     } catch (error) {
       this.log.error(`error building ${name}`, { error })
     }
