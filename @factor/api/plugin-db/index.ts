@@ -4,9 +4,15 @@ import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
 import { FactorPlugin } from "../plugin"
+import { vars, EnvVar } from "../plugin-env"
 import { FactorDbTable } from "./objects"
 import { versionTable } from "./tables"
+
 export * from "./objects"
+
+vars.register(() => [
+  new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
+])
 
 export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 

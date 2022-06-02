@@ -1,7 +1,7 @@
 // import path from "path"
 // import chokidar from "chokidar"
 import { getMainFilePath, deepMerge } from "@factor/api/utils"
-import {vue} from '../utils'
+import { vue } from "../utils"
 import { log } from "../plugin-log"
 import { mode } from "../utils/vars"
 import { FactorPlugin } from "../plugin"
@@ -118,30 +118,25 @@ export const getServerServiceConfig = async (
 ): Promise<ServiceConfig> => {
   const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
-  const { serviceConfig, mainFile } = await compileApplication({
+  const { serviceConfig } = await compileApplication({
     mainFilePath,
     isApp: false,
     serviceConfig: params.serviceConfig,
   })
 
-  if (mainFile.factorEnv && mode() !== "production") {
-    const factorEnv = mainFile.factorEnv
-    await generateStaticConfig(factorEnv)
+  // if (serviceConfig.paths) {
+  //   const watchRoutes = serviceConfig.paths.map((_) =>
+  //     path.join(_, "**/routes.ts"),
+  //   )
 
-    // if (serviceConfig.paths) {
-    //   const watchRoutes = serviceConfig.paths.map((_) =>
-    //     path.join(_, "**/routes.ts"),
-    //   )
-
-    //   chokidar
-    //     .watch(watchRoutes, {
-    //       ignored: ["**/node_modules/**/*", "**/.git/**/*"],
-    //     })
-    //     .on("change", async (f) => {
-    //       await generateStaticConfig(factorEnv)
-    //     })
-    // }
-  }
+  //   chokidar
+  //     .watch(watchRoutes, {
+  //       ignored: ["**/node_modules/**/*", "**/.git/**/*"],
+  //     })
+  //     .on("change", async (f) => {
+  //       await generateStaticConfig(factorEnv)
+  //     })
+  // }
 
   return serviceConfig
 }

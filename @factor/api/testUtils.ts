@@ -136,6 +136,7 @@ export type TestUtilSettings = {
   appPort?: number
   cwd?: string
   envFiles?: string[]
+  envVars?: () => EnvVar<string>[]
 }
 
 const standardEnvVars = () => [
@@ -151,15 +152,16 @@ const standardEnvVars = () => [
     name: "stripeSecretKeyTest",
     val: process.env.STRIPE_SECRET_KEY_TEST,
   }),
-  new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
-  new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
   new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
   new EnvVar({
     name: "awsAccessKeySecret",
     val: process.env.AWS_ACCESS_KEY_SECRET,
   }),
 ]
-
+/**
+ * Runs services 'setup' functions
+ * Creates a new user
+ */
 export const initializeTestUtils = async (
   service: TestUtilServices & { [key: string]: FactorPlugin },
 ) => {
@@ -197,12 +199,13 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     appPort = randomBetween(1000, 10_000),
     cwd = safeDirname(import.meta.url),
     envFiles = [],
+    envVars = () => [],
   } = opts || {}
 
   const factorEnv = new FactorEnv({
     envFiles: [path.join(cwd, "./.env"), ...envFiles],
     cwd,
-    envVars: standardEnvVars,
+    envVars: () => [...standardEnvVars(), ...envVars()],
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
   })

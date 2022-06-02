@@ -1,7 +1,7 @@
 import path from "path"
 import fs from "fs-extra"
 import type { JSONSchema } from "json-schema-to-typescript"
-
+import { dayjs } from "../utils/libraries"
 import { log } from "../plugin-log"
 import { mode } from "../utils/vars"
 import { stringify } from "../utils/utils"
@@ -15,7 +15,6 @@ export const generateStaticConfig = async (
   if (mode() == "production") return
 
   const context = "generateStaticConfig"
-  log.debug(context, "generating")
 
   const cwd = factorEnv.standardPaths?.cwd
 
@@ -57,7 +56,10 @@ export const generateStaticConfig = async (
 
   const { compile } = await import("json-schema-to-typescript")
 
-  const ts = await compile(staticSchema, title, { format: true })
+  const ts = await compile(staticSchema, title, {
+    format: true,
+    bannerComment: `/* tslint:disable */\n/**\n* Automatically generated file, do not modify by hand.\n*/`,
+  })
 
   const types = path.join(genConfigPath, "config.ts")
 
@@ -81,5 +83,5 @@ export const generateStaticConfig = async (
    */
   await Promise.all([fs.writeFile(json, stringed), fs.writeFile(types, ts)])
 
-  log.debug(context, "done", { data: { json, types } })
+  log.debug(context, "generated static schema", { data: { json, types } })
 }

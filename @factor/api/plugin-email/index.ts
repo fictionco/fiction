@@ -1,9 +1,27 @@
 import nodeMailer, { Transporter } from "nodemailer"
 import nodeMailerHtmlToText from "nodemailer-html-to-text"
-import { FactorEnv } from "../plugin-env"
+import { FactorEnv, vars, EnvVar } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
+
+vars.register(() => [
+  new EnvVar({
+    name: "smtpHost",
+    val: process.env.SMTP_HOST,
+    mode: "production",
+  }),
+  new EnvVar({
+    name: "smtpUser",
+    val: process.env.SMTP_USER,
+    mode: "production",
+  }),
+  new EnvVar({
+    name: "smtpPassword",
+    val: process.env.SMTP_PASSWORD,
+    mode: "production",
+  }),
+])
 
 type FactorEmailSettings = {
   smtpPort?: number

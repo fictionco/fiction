@@ -569,19 +569,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return config
   }
 
-  getStaticPathAliases = (): Record<string, string> => {
-    const { mainFilePath, mountFilePath } = this.factorEnv.standardPaths || {}
-
-    if (!mainFilePath || !mountFilePath) {
-      throw new Error("standardPaths missing")
-    }
-
-    return {
-      "@MAIN_FILE_ALIAS": mainFilePath,
-      "@MOUNT_FILE_ALIAS": mountFilePath,
-    }
-  }
-
   async getViteConfig(): Promise<vite.InlineConfig> {
     const { cwd, sourceDir, publicDir } = this.standardPaths || {}
 

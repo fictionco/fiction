@@ -7,6 +7,7 @@ import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, standardAppCommands } from "./commands"
 import { done, packageMainFile } from "./utils"
+import { generateStaticConfig } from "./generate"
 export * from "./types"
 export * from "./entry"
 export * from "./commands"
@@ -30,6 +31,20 @@ export class EnvVar<X extends string> {
     this.context = settings.context || "server"
   }
 }
+
+class EnvVarList {
+  list: (() => EnvVar<string>[])[] = []
+
+  register(v: () => EnvVar<string>[]) {
+    this.list.push(v)
+  }
+}
+/**
+ * Singleton of var callbacks.
+ * Register envVars (as a side-effect on import) from plugins and then call the functions
+ * once FactorEnv has set up.
+ */
+export const vars = new EnvVarList()
 
 export type FactorControlSettings = {
   hooks?: HookType<FactorEnvHookDictionary>[]
@@ -79,7 +94,11 @@ export class FactorEnv<
     /**
      * Needs to come last so env vars are set
      */
-    this.vars = [...this.coreVars(), ...this.envVars()]
+    this.vars = [
+      ...vars.list.flatMap((cb) => cb()),
+      ...this.coreVars(),
+      ...this.envVars(),
+    ]
 
     this.addHook({
       hook: "staticSchema",
@@ -140,7 +159,11 @@ export class FactorEnv<
     }
   }
 
-  setup() {}
+  async setup() {
+    if (this.utils.mode() !== "production") {
+      await generateStaticConfig(this)
+    }
+  }
 
   public addHook(hook: HookType<FactorEnvHookDictionary>): void {
     this.hooks.push(hook)

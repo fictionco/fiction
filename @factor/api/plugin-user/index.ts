@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import { FactorPlugin } from "../plugin"
 import { HookType } from "../utils/hook"
+import { vars, EnvVar } from "../plugin-env"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   QueryCurrentUser,
@@ -16,6 +17,14 @@ import {
 } from "./endpoints"
 import * as types from "./types"
 export * from "./types"
+
+vars.register(() => [
+  new EnvVar({
+    name: "googleClientSecret",
+    val: process.env.GOOGLE_CLIENT_SECRET,
+  }),
+  new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
+])
 
 export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
   readonly types = types

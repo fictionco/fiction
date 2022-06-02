@@ -26,6 +26,7 @@ import { CompiledServiceConfig } from "../.factor/config"
 import { envVars } from "./vars"
 import routes from "./routes"
 import App from "./App.vue"
+
 const cwd = safeDirname(import.meta.url, "..")
 
 export const appName = "FactorJS"
@@ -151,6 +152,7 @@ factorEnv.addHook({
 })
 
 export const service = {
+  factorEnv,
   factorApp,
   factorRouter,
   factorServer,

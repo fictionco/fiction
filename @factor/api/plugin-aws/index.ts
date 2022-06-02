@@ -6,6 +6,15 @@ import type {
   GetObjectCommandOutput,
   DeleteObjectCommandOutput,
 } from "@aws-sdk/client-s3"
+import { vars, EnvVar } from "../plugin-env"
+
+vars.register(() => [
+  new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
+  new EnvVar({
+    name: "awsAccessKeySecret",
+    val: process.env.AWS_ACCESS_KEY_SECRET,
+  }),
+])
 
 type FactorAwsSettings = {
   awsAccessKey?: string
