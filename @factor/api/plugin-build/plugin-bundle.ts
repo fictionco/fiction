@@ -52,10 +52,12 @@ export class FactorBundle extends FactorPlugin {
 
     // setup async handling of first build
     let __resolve: ((w: RollupWatcher[]) => void) | undefined = undefined
-    const finished = new Promise<RollupWatcher[]>((resolve) => (__resolve = resolve))
+    const finished = new Promise<RollupWatcher[]>(
+      (resolve) => (__resolve = resolve),
+    )
 
     const watchers: RollupWatcher[] = []
-    for (const cwd of cwds) {
+    const _promises = cwds.map(async (cwd) => {
       const require = getRequire()
       const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
       const { name, main } = pkg
@@ -83,8 +85,10 @@ export class FactorBundle extends FactorPlugin {
         },
       })
 
-      if(w) watchers.push(w)
-    }
+      if (w) watchers.push(w)
+    })
+
+    await Promise.all(_promises)
 
     return finished
   }

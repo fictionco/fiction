@@ -19,13 +19,22 @@
           <div
             class="hidden items-center justify-end space-x-4 md:flex md:flex-1 lg:w-0"
           >
+            <a
+              id="nav-error"
+              class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
+              @click.stop="makeError()"
+            >
+              Error
+            </a>
             <RouterLink
+              id="nav-home"
               to="/page"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Page
             </RouterLink>
             <RouterLink
+              id="nav-page"
               to="/"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
@@ -348,4 +357,8 @@
 </template>
 <script lang="ts" setup>
 import { RouterLink } from "vue-router"
+
+const makeError = () => {
+  throw new Error("Deliberate Error")
+}
 </script>

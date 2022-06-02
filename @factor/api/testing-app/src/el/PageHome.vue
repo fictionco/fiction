@@ -245,13 +245,13 @@
                 >
                   Better understand your customers
                 </h2>
-                <p class="mt-4 text-lg text-gray-500">
+                <p id="test-1" class="mt-4 text-lg text-gray-500">
                   Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis
                   bibendum malesuada faucibus lacinia porttitor. Pulvinar
                   laoreet sagittis viverra duis. In venenatis sem arcu pretium
                   pharetra at. Lectus viverra dui tellus ornare pharetra.
                 </p>
-                <div class="mt-6">
+                <div id="test-2" class="mt-6">
                   <a
                     href="#"
                     class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
@@ -347,7 +347,7 @@
                 </svg>
               </span>
             </div>
-            <div class="mt-6">
+            <div id="test-3" class="mt-6">
               <h3 class="text-lg font-medium text-white">
                 Manage Team Members
               </h3>
@@ -448,7 +448,9 @@
               </span>
             </div>
             <div class="mt-6">
-              <h3 class="text-lg font-medium text-white">Team Reporting</h3>
+              <h3 id="test-4" class="text-lg font-medium text-white">
+                Team Reporting
+              </h3>
               <p class="mt-2 text-base text-purple-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.

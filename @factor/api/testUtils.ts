@@ -120,12 +120,14 @@ export type TestUtilServices = {
 }
 
 type InitializedTestUtils = {
-  user: FullUser | undefined
+  user: FullUser
   token: string
   email: string
 }
 export type TestUtils<T extends Record<string, any> = Record<string, any>> = {
-  init: () => Promise<InitializedTestUtils>
+  init: (
+    services?: Record<string, FactorPlugin>,
+  ) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   [key: string]: any
 } & T &
@@ -403,6 +405,10 @@ export const appBuildTests = (config: {
 
       if (errorLogs.length > 0) {
         console.error(errorLogs)
+      }
+
+      if (errorLogs.length > 0) {
+        errorLogs.forEach((e) => console.error(e))
       }
 
       expect(errorLogs.length).toBe(0)
