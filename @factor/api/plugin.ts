@@ -52,7 +52,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   >(params: {
     queries: R
     basePath?: string
-    factorServer: FactorServer
+    factorServer?: FactorServer
     factorUser?: FactorUser
     endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
     middleware?: () => utils.express.RequestHandler[]
@@ -66,10 +66,9 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
       middleware,
     } = params
 
-    const serverUrl = factorServer.serverUrl
+    const serverUrl = factorServer?.serverUrl
 
     if (!serverUrl) {
-      this.log.warn("serverUrl missing - cannot create endpoints")
       return {} as M
     }
 

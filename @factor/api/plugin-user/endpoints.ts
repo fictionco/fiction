@@ -18,20 +18,17 @@ import {
 } from "./utils"
 import type { FactorUser } from "."
 
-export abstract class UserQuery extends Query {
+type UserQuerySettings = {
   factorUser: FactorUser
-  factorEmail: FactorEmail
   factorDb: FactorDb
-  constructor(settings: {
-    factorUser: FactorUser
-    factorDb: FactorDb
-    factorEmail: FactorEmail
-  }) {
+  factorEmail?: FactorEmail
+}
+export abstract class UserQuery extends Query<UserQuerySettings> {
+  factorUser = this.settings.factorUser
+  factorEmail = this.settings.factorEmail
+  factorDb = this.settings.factorDb
+  constructor(settings: UserQuerySettings) {
     super(settings)
-
-    this.factorUser = settings.factorUser
-    this.factorEmail = settings.factorEmail
-    this.factorDb = settings.factorDb
   }
 }
 
@@ -347,6 +344,8 @@ export const sendOneTimeCode = async (params: {
 }
 export class QuerySendOneTimeCode extends UserQuery {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
+    if (!this.factorEmail) throw new Error("no factorEmail")
+
     await sendOneTimeCode({
       ...params,
       factorUser: this.factorUser,
@@ -611,6 +610,7 @@ export class QueryResetPassword extends UserQuery {
     email: string
   }): Promise<EndpointResponse<FullUser> & { internal: string }> {
     if (!email) throw this.stop({ message: "email is required" })
+    if (!this.factorEmail) throw new Error("no factorEmail")
 
     const code = await sendOneTimeCode({
       email,
@@ -633,6 +633,7 @@ export class QueryStartNewUser extends UserQuery {
       user: FullUser
     }
   > {
+    if (!this.factorEmail) throw new Error("no factorEmail")
     const { email, fullName } = params
     const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
@@ -680,6 +681,7 @@ export class QueryLogin extends UserQuery {
     },
     _meta: EndpointMeta,
   ): LoginResponse {
+    if (!this.factorEmail) throw new Error("no factorEmail")
     const { email, password, googleId, emailVerified } = params
     const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
@@ -766,6 +768,7 @@ export class QueryNewVerificationCode extends UserQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<{ exists: boolean }>> {
+    if (!this.factorEmail) throw new Error("no factorEmail")
     const { email, newAccount } = params
 
     let { data: existingUser } = await this.factorUser.queries.ManageUser.serve(

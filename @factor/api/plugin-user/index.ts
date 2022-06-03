@@ -1,9 +1,14 @@
 import jwt from "jsonwebtoken"
+import type { EndpointMeta } from "../utils"
 import { FactorPlugin } from "../plugin"
-import { HookType } from "../utils/hook"
+import type { HookType } from "../utils/hook"
 import { vars, EnvVar } from "../plugin-env"
+import type { FactorServer } from "../plugin-server"
+import type { FactorDb } from "../plugin-db"
+import type { FactorEmail } from "../plugin-email"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
+  ManageUserParams,
   QueryCurrentUser,
   QueryLogin,
   QueryManageUser,
@@ -26,7 +31,27 @@ vars.register(() => [
   new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
 ])
 
-export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
+export type FactorUserHookDictionary = {
+  onLogout: { args: [] }
+  onUserVerified: { args: [types.FullUser] }
+  requestCurrentUser: { args: [types.FullUser | undefined] }
+  processUser: {
+    args: [types.FullUser, { params: ManageUserParams; meta: EndpointMeta }]
+  }
+}
+
+export type UserPluginSettings = {
+  factorServer?: FactorServer
+  factorDb: FactorDb
+  factorEmail?: FactorEmail
+  googleClientId?: string
+  googleClientSecret?: string
+  hooks?: HookType<FactorUserHookDictionary>[]
+  tokenSecret?: string
+  mode?: "production" | "development"
+}
+
+export class FactorUser extends FactorPlugin<UserPluginSettings> {
   readonly types = types
   private factorServer = this.settings.factorServer
   private factorDb = this.settings.factorDb
@@ -48,7 +73,7 @@ export class FactorUser extends FactorPlugin<types.UserPluginSettings> {
     this.utils.safeDirname(import.meta.url),
   )
   public clientTokenKey = "ffUser"
-  constructor(settings: types.UserPluginSettings) {
+  constructor(settings: UserPluginSettings) {
     super(settings)
 
     if (this.utils.isActualBrowser()) {

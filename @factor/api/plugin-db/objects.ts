@@ -4,64 +4,65 @@ import { log } from "../plugin-log"
 
 type CreateCol = (params: {
   schema: Knex.AlterTableBuilder
-  column: FactorDbColumn<string, unknown>
+  column: FactorDbCol
   db: Knex
 }) => void
 
-type FactorDbColumnParams<T extends string, U> = {
-  columnKey: T
-  type: U
+export type FactorDbColSettings = {
+  readonly key: string
   description?: string
   create: CreateCol
 }
-export class FactorDbColumn<T extends string, U> {
-  readonly columnKey: T
-  readonly type?: U
+export class FactorDbCol<T = unknown> {
+  readonly type?: T
+  readonly key: string
+  readonly pgKey: string
   readonly description?: string
   create: CreateCol
-  constructor(params: FactorDbColumnParams<T, U>) {
+  constructor(params: FactorDbColSettings) {
     const { description } = params || {}
     this.description = description
-    this.columnKey = snakeCase(params.columnKey) as T
+    this.key = params.key
+    this.pgKey = snakeCase(params.key)
     this.create = params.create
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
-    log.info("FactorDbTable", `creating column: ${this.columnKey}`)
+    log.info("FactorDbTable", `creating column: ${this.pgKey}`)
     return this.create({ schema, column: this, db })
   }
 }
-type FactorDbTableParams<T extends string> = {
-  tableKey: T
-  columns: FactorDbColumn<string, any>[]
+export type FactorDbTableSettings = {
+  tableKey: string
+  columns: FactorDbCol[]
 }
 
-export class FactorDbTable<T extends string> {
-  readonly tableKey: T
-  readonly pgKey: string
-  columns: FactorDbColumn<string, any>[]
+export class FactorDbTable {
+  readonly tableKey: string
+  readonly pgTableKey: string
+  columns: FactorDbCol[]
 
-  constructor(params: FactorDbTableParams<T>) {
-    this.tableKey = snakeCase(params.tableKey) as T
-    this.pgKey = snakeCase(params.tableKey)
+  constructor(params: FactorDbTableSettings) {
+    this.tableKey = params.tableKey
+    this.pgTableKey = snakeCase(params.tableKey)
     this.columns = params.columns
   }
 
   createColumns(db: Knex) {
     this.columns.forEach(async (col) => {
-      const hasColumn = await db.schema.hasColumn(this.tableKey, col.columnKey)
+      const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
 
       if (!hasColumn) {
-        await db.schema.table(this.tableKey, (t) => col.createColumn(t, db))
+        await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
       }
     })
   }
 
   async create(db: Knex): Promise<void> {
-    const tableExists = await db.schema.hasTable(this.tableKey)
+    const tableExists = await db.schema.hasTable(this.pgTableKey)
     if (!tableExists) {
-      log.info("FactorDbTable", `creating table: ${this.tableKey}`)
-      await db.schema.createTable(this.tableKey, (t) => {
+      log.info("FactorDbTable", `creating table: ${this.pgTableKey}`)
+      await db.schema.createTable(this.pgTableKey, (t) => {
         this.columns.forEach(async (col) => col.createColumn(t, db))
       })
     } else {

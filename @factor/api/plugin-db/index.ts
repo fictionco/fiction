@@ -23,7 +23,7 @@ export type FactorDbHookDictionary = {
 export type FactorDbSettings = {
   connectionUrl?: string
   hooks?: HookType<FactorDbHookDictionary>[]
-  tables?: FactorDbTable<string>[]
+  tables?: FactorDbTable[]
 }
 
 export class FactorDb extends FactorPlugin<FactorDbSettings> {
@@ -89,7 +89,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     this.addTable(versionTable)
   }
 
-  addTable(table: FactorDbTable<string>) {
+  addTable(table: FactorDbTable) {
     this.tables.push(table)
   }
 
