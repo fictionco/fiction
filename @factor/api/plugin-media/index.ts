@@ -50,7 +50,7 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   constructor(settings: FactorMediaSettings) {
     super(settings)
 
-    this.factorDb.addTable(mediaTable)
+    this.factorDb.addTables([mediaTable])
   }
   setup() {}
 

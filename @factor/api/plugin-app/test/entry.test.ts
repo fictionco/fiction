@@ -18,6 +18,7 @@ describe("server entry handling", () => {
 
     expect(Object.keys(serviceConfig.service ?? {})).toMatchInlineSnapshot(`
       [
+        "factorEnv",
         "factorApp",
         "factorRouter",
         "factorServer",

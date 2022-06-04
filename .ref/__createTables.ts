@@ -1,5 +1,5 @@
-import { log } from "../plugin-log"
-import type { FactorDb } from "."
+import { log } from "../@factor/api/plugin-log"
+import type { FactorDb } from "../@factor/api/plugin-db"
 const statusTypes = [
   "pending",
   "active",

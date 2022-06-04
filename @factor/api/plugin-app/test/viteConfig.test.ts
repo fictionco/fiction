@@ -50,12 +50,13 @@ describe("vite config", () => {
       [
         "mode",
         "root",
-        "publicDir",
         "server",
         "build",
         "resolve",
         "plugins",
         "optimizeDeps",
+        "logLevel",
+        "publicDir",
         "css",
         "define",
       ]

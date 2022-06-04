@@ -13,7 +13,7 @@
     "chalk": "^5.0.1",
     "concurrently": "^7.2.1",
     "dotenv": "^16.0.1",
-    "eslint": "^8.16.0",
+    "eslint": "^8.17.0",
     "happy-dom": "^5.0.0",
     "jsdom": "^19.0.0",
     "nodemon": "^2.0.16",

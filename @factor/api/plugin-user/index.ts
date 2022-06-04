@@ -21,6 +21,7 @@ import {
   QueryVerifyAccountEmail,
 } from "./endpoints"
 import * as types from "./types"
+import { userTable } from "./tables"
 export * from "./types"
 
 vars.register(() => [
@@ -79,6 +80,8 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     if (this.utils.isActualBrowser()) {
       this.userInitialized().catch(console.error)
     }
+
+    this.factorDb.addTables([userTable])
   }
 
   setup() {}

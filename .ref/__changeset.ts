@@ -1,6 +1,6 @@
 import { Knex } from "knex"
-import { snakeCase } from "../utils"
-import type { FactorDBTables } from "."
+import { snakeCase } from "../@factor/api/utils"
+import type { FactorDBTables } from "../@factor/api/plugin-db"
 
 const changes: ChangesetConfig = [
   {

@@ -6,7 +6,6 @@ import { runHooks, HookType } from "@factor/api"
 import { FactorPlugin } from "../plugin"
 import { vars, EnvVar } from "../plugin-env"
 import { FactorDbTable } from "./objects"
-import { versionTable } from "./tables"
 
 export * from "./objects"
 
@@ -84,13 +83,10 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config
 
     this.db = knex(opts)
-
-    // add table schemas
-    this.addTable(versionTable)
   }
 
-  addTable(table: FactorDbTable) {
-    this.tables.push(table)
+  addTables(tables: FactorDbTable[]) {
+    this.tables.push(...tables)
   }
 
   client(): Knex {
@@ -103,20 +99,15 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   async init(): Promise<void> {
     this.log.info("initializing db")
 
-    const imports = [
-      import("./dbExtend"),
-      import("./createTables"),
-      import("./changeset"),
-    ] as const
-
-    const [{ extendDb }, { createTables }, { runChangeset }] =
-      await Promise.all(imports)
+    const { extendDb } = await import("./dbExtend")
 
     await extendDb(this.db)
 
-    await createTables(this)
-
-    await runChangeset(this.db)
+    if (this.tables.length > 0) {
+      for (const table of this.tables) {
+        await table.create(this.db)
+      }
+    }
 
     await runHooks<FactorDbHookDictionary>({
       list: this.hooks,

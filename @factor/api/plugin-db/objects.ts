@@ -32,9 +32,10 @@ export class FactorDbCol<T = unknown> {
     return this.create({ schema, column: this, db })
   }
 }
-export type FactorDbTableSettings  ={
+export type FactorDbTableSettings = {
   tableKey: string
-    columns: readonly FactorDbCol[]
+  timestamps?: boolean
+  columns: readonly FactorDbCol[]
 }
 
 export class FactorDbTable {
@@ -42,10 +43,34 @@ export class FactorDbTable {
   readonly pgTableKey: string
   columns: readonly FactorDbCol[]
 
-  constructor(  params: FactorDbTableSettings) {
+  constructor(params: FactorDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = snakeCase(params.tableKey)
-    this.columns = params.columns
+
+    const tsCols = params.timestamps
+      ? [
+          new FactorDbCol({
+            key: "createdAt",
+            create: ({ schema, column }) => {
+              schema
+                .timestamp(column.pgKey)
+                .notNullable()
+                .defaultTo("CURRENT_TIMESTAMP")
+            },
+          }),
+          new FactorDbCol({
+            key: "updatedAt",
+            create: ({ schema, column }) => {
+              schema
+                .timestamp(column.pgKey)
+                .notNullable()
+                .defaultTo("CURRENT_TIMESTAMP")
+            },
+          }),
+        ]
+      : []
+
+    this.columns = [...params.columns, ...tsCols]
   }
 
   createColumns(db: Knex) {
