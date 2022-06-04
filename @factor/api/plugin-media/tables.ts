@@ -1,87 +1,74 @@
-import { FactorDbColumn, FactorDbTable } from "../plugin-db"
+import { FactorDbCol, FactorDbTable } from "../plugin-db"
 
 export const mediaTable = new FactorDbTable({
   tableKey: "factor_media",
   columns: [
-    new FactorDbColumn({
-      columnKey: "mediaId",
-      type: "", // dummy for type
+    new FactorDbCol({
+      key: "mediaId",
       create: ({ schema, column, db }) => {
         schema
-          .string(column.columnKey)
+          .string(column.pgKey)
           .primary()
           .defaultTo(db.raw(`generate_object_id()`))
       },
     }),
-    new FactorDbColumn({
-      columnKey: "userId",
-      type: "", // dummy for type
+    new FactorDbCol({
+      key: "userId",
       create: ({ schema, column }) => {
         schema
-          .string(column.columnKey, 32)
+          .string(column.pgKey, 32)
           .references(`factor_user.user_id`)
           .onUpdate("CASCADE")
       },
     }),
-    new FactorDbColumn({
-      columnKey: "url",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "url",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "filePath",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "filePath",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "mime",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "mime",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "width",
-      type: 1, // dummy for type
-      create: ({ schema, column }) => schema.integer(column.columnKey),
+    new FactorDbCol({
+      key: "width",
+      create: ({ schema, column }) => schema.integer(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "height",
-      type: 1, // dummy for type
-      create: ({ schema, column }) => schema.integer(column.columnKey),
+    new FactorDbCol({
+      key: "height",
+      create: ({ schema, column }) => schema.integer(column.pgKey),
     }),
 
-    new FactorDbColumn({
-      columnKey: "alt",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "alt",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
 
-    new FactorDbColumn({
-      columnKey: "contentEncoding",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "contentEncoding",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "etag",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "etag",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "bucket",
-      type: "", // dummy for type
-      create: ({ schema, column }) => schema.string(column.columnKey),
+    new FactorDbCol({
+      key: "bucket",
+      create: ({ schema, column }) => schema.string(column.pgKey),
     }),
-    new FactorDbColumn({
-      columnKey: "size",
-      type: 1, // dummy for type
-      create: ({ schema, column }) => schema.integer(column.columnKey),
+    new FactorDbCol({
+      key: "size",
+      create: ({ schema, column }) => schema.integer(column.pgKey),
     }),
 
-    new FactorDbColumn({
-      columnKey: "createdAt",
-      type: "", // dummy for type
+    new FactorDbCol({
+      key: "createdAt",
       create: ({ schema, column, db }) => {
         schema
-          .timestamp(column.columnKey)
+          .timestamp(column.pgKey)
           .notNullable()
           .defaultTo(db.raw("CURRENT_TIMESTAMP"))
       },

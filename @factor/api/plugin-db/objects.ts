@@ -32,17 +32,17 @@ export class FactorDbCol<T = unknown> {
     return this.create({ schema, column: this, db })
   }
 }
-export type FactorDbTableSettings = {
+export type FactorDbTableSettings  ={
   tableKey: string
-  columns: FactorDbCol[]
+    columns: readonly FactorDbCol[]
 }
 
 export class FactorDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
-  columns: FactorDbCol[]
+  columns: readonly FactorDbCol[]
 
-  constructor(params: FactorDbTableSettings) {
+  constructor(  params: FactorDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = snakeCase(params.tableKey)
     this.columns = params.columns

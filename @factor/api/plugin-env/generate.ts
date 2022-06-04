@@ -1,7 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
 import type { JSONSchema } from "json-schema-to-typescript"
-import { dayjs } from "../utils/libraries"
 import { log } from "../plugin-log"
 import { mode } from "../utils/vars"
 import { stringify } from "../utils/utils"

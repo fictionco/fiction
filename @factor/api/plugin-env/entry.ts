@@ -3,10 +3,8 @@
 import { getMainFilePath, deepMerge } from "@factor/api/utils"
 import { vue } from "../utils"
 import { log } from "../plugin-log"
-import { mode } from "../utils/vars"
 import { FactorPlugin } from "../plugin"
 import { ServiceConfig, MainFile } from "./types"
-import { generateStaticConfig } from "./generate"
 type WhichModule = {
   moduleName?: string
   cwd?: string
