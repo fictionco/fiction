@@ -1,3 +1,19 @@
+## [5.3.23](https://github.com/FactorJS/factor/compare/v5.3.22...v5.3.23) (2022-06-04)
+
+
+### Bug Fixes
+
+* export commands ([fe32ee5](https://github.com/FactorJS/factor/commit/fe32ee560aa26779ea3f283f27a5ab23eeeb764d))
+* tests ([45d34f9](https://github.com/FactorJS/factor/commit/45d34f9ca74237104c2f05114af46f6c59a32250))
+
+
+### Features
+
+* bundle improvements ([7662536](https://github.com/FactorJS/factor/commit/76625360646b802c0e51306b0b8802a6bcd288e7))
+* data schemas ([7c87a18](https://github.com/FactorJS/factor/commit/7c87a18accba85e86115b22165ab30d59704e0cc))
+
+
+
 ## [5.3.22](https://github.com/FactorJS/factor/compare/v5.3.21...v5.3.22) (2022-05-23)
 
 
