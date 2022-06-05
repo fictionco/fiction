@@ -11,6 +11,7 @@ type CreateCol = (params: {
 export type FactorDbColSettings = {
   readonly key: string
   description?: string
+  isComposite?: boolean
   create: CreateCol
 }
 export class FactorDbCol<T = unknown> {
@@ -18,6 +19,7 @@ export class FactorDbCol<T = unknown> {
   readonly key: string
   readonly pgKey: string
   readonly description?: string
+  isComposite?: boolean
   create: CreateCol
   constructor(params: FactorDbColSettings) {
     const { description } = params || {}
@@ -25,6 +27,7 @@ export class FactorDbCol<T = unknown> {
     this.key = params.key
     this.pgKey = snakeCase(params.key)
     this.create = params.create
+    this.isComposite = params.isComposite
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
@@ -74,13 +77,15 @@ export class FactorDbTable {
   }
 
   createColumns(db: Knex) {
-    this.columns.forEach(async (col) => {
-      const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
+    this.columns
+      .filter((c) => !c.isComposite)
+      .forEach(async (col) => {
+        const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
 
-      if (!hasColumn) {
-        await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
-      }
-    })
+        if (!hasColumn) {
+          await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
+        }
+      })
   }
 
   async create(db: Knex): Promise<void> {
