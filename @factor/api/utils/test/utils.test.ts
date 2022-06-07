@@ -1,10 +1,10 @@
 import { describe, test, expect } from "@factor/api/testUtils"
-import { isValidJson, groupBy } from "../utils"
+import { isJson, groupBy } from "../utils"
 
 describe("utils", () => {
-  test("isValidJson", async () => {
-    const invalid = isValidJson("not valid json")
-    const valid = isValidJson(`{"valid": "yes"}`)
+  test("isJson", async () => {
+    const invalid = isJson("not valid json")
+    const valid = isJson(`{"valid": "yes"}`)
     expect(invalid).toBeFalsy()
     expect(valid).toBeTruthy()
   })

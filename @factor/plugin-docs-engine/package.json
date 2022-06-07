@@ -9,7 +9,7 @@
     "@factor/plugin-highlight-code": "workspace:5.3.23",
     "@factor/ui": "workspace:5.3.23",
     "@types/string-similarity": "^4.0.0",
-    "dayjs": "^1.11.2",
+    "dayjs": "^1.11.3",
     "string-similarity": "^4.0.4"
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",

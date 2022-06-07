@@ -191,7 +191,7 @@ export const canonicalUrlFromTag = (): string | undefined => {
  * Return the canonical URL and remove the hash.
  */
 export const getCanonicalUrl = (): string | undefined => {
-  if (isNode()) return
+  if (typeof window === 'undefined') return
 
   const { search = "" } = location
   const canonical = canonicalUrlFromTag()

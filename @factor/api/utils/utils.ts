@@ -465,13 +465,13 @@ export const urlPath = (...parts: string[]): string => {
   return parts.join(separator).replace(/\/+$/, "")
 }
 
-export const isValidJson = (str?: string): undefined | unknown => {
+export const isJson = <T = unknown>(str?: string): false | undefined | T => {
   if (!str) return undefined
   try {
-    const r = JSON.parse(str) as unknown
+    const r = JSON.parse(str) as T
     return r
   } catch {
-    return undefined
+    return false
   }
 }
 

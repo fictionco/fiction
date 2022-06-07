@@ -119,7 +119,7 @@ export type TestUtilServices = {
   factorEmail: FactorEmail
 }
 
-type InitializedTestUtils = {
+export type InitializedTestUtils = {
   user: FullUser
   token: string
   email: string
