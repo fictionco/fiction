@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import type { EndpointMeta } from "../utils"
+import type { EndpointMap, EndpointMeta } from "../utils"
 import { FactorPlugin } from "../plugin"
 import type { HookType } from "../utils/hook"
 import { vars, EnvVar } from "../plugin-env"
@@ -62,7 +62,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   private initialized?: Promise<boolean>
   private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   public queries = this.createQueries()
-  public requests = this.createRequests({
+  public requests: EndpointMap<typeof this.queries> = this.createRequests({
     queries: this.queries,
     basePath: "/user",
     factorServer: this.factorServer,

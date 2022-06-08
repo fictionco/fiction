@@ -3,7 +3,6 @@ import {
   FactorEnv,
   FactorRelease,
   FactorBundle,
-  FactorBuild,
   CliOptions,
 } from "@factor/api"
 
