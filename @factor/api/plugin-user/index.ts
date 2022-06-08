@@ -54,26 +54,24 @@ export type UserPluginSettings = {
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
   readonly types = types
-  private factorServer = this.settings.factorServer
-  private factorDb = this.settings.factorDb
-  private factorEmail = this.settings.factorEmail
+  factorServer = this.settings.factorServer
+  factorDb = this.settings.factorDb
+  factorEmail = this.settings.factorEmail
 
-  public activeUser = this.utils.vue.ref<types.FullUser>()
-  private initialized?: Promise<boolean>
-  private resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-  public queries = this.createQueries()
-  public requests: EndpointMap<typeof this.queries> = this.createRequests({
+  activeUser = this.utils.vue.ref<types.FullUser>()
+  initialized?: Promise<boolean>
+  resolveUser?: (value: boolean | PromiseLike<boolean>) => void
+  queries = this.createQueries()
+  requests = this.createRequests({
     queries: this.queries,
     basePath: "/user",
     factorServer: this.factorServer,
     factorUser: this,
   })
-  public hooks = this.settings.hooks || []
-  public tokenSecret = this.settings.tokenSecret || "secret"
-  public activePath = this.utils.vue.ref(
-    this.utils.safeDirname(import.meta.url),
-  )
-  public clientTokenKey = "ffUser"
+  hooks = this.settings.hooks || []
+  tokenSecret = this.settings.tokenSecret || "secret"
+  activePath = this.utils.vue.ref(this.utils.safeDirname(import.meta.url))
+  clientTokenKey = "ffUser"
   constructor(settings: UserPluginSettings) {
     super(settings)
 
@@ -111,7 +109,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     } as const
   }
 
-  public addHook(hook: HookType<types.FactorUserHookDictionary>): void {
+  addHook(hook: HookType<types.FactorUserHookDictionary>): void {
     this.hooks.push(hook)
   }
 
