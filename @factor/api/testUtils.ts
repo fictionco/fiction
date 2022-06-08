@@ -50,7 +50,7 @@ const snapString = (value: unknown, key?: string): string => {
 
   if (key?.endsWith("Id") && val) {
     out = rep("id", val)
-  } else if ((key?.endsWith("At") || key?.endsWith("Iso")) && val) {
+  } else if ((key?.endsWith("At") || key?.endsWith("Iso") || key == 'duration' || key=="timestamp" ) && val) {
     out = rep("date", val)
   } else if (key?.endsWith("Name") && val) {
     out = rep("name", val)

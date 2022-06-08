@@ -14,20 +14,19 @@ export type FactorDbColSettings = {
   isComposite?: boolean
   create: CreateCol
 }
-export class FactorDbCol<T = unknown> {
-  readonly type?: T
+export class FactorDbCol  {
   readonly key: string
   readonly pgKey: string
   readonly description?: string
   isComposite?: boolean
   create: CreateCol
-  constructor(params: FactorDbColSettings) {
-    const { description } = params || {}
+  constructor(settings: FactorDbColSettings) {
+    const { description } = settings || {}
     this.description = description
-    this.key = params.key
-    this.pgKey = snakeCase(params.key)
-    this.create = params.create
-    this.isComposite = params.isComposite
+    this.key = settings.key
+    this.pgKey = snakeCase(settings.key)
+    this.create = settings.create
+    this.isComposite = settings.isComposite
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {

@@ -65,5 +65,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "uuid-apikey" },
     { id: "clearbit" },
     { id: "node-fetch" },
+    { id: "@sinclair/typebox" },
   ]
 }

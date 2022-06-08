@@ -4,6 +4,7 @@ import { onEvent } from "./event"
 type BufferConfig<T = Record<string, any>> = {
   name?: string
   maxSeconds?: number
+  flushIntervalMs?: number
   limit?: number
   limitType?: "item" | "size" | "time"
   flush?: (items: T[]) => any | Promise<any>
@@ -14,18 +15,18 @@ export class WriteBuffer<T> extends EventEmitter {
   readonly name: string
   readonly key: string
   private items: T[]
-  private maxSeconds: number
   private limit: number
   private limitType: "item" | "size" | "time"
   private flushCallback?: (items: T[]) => void | Promise<void>
   private intervalId?: NodeJS.Timeout
-
+  private flushIntervalMs: number
   constructor(config: BufferConfig<T>) {
     super()
 
     const {
       name = "unknown",
       maxSeconds,
+      flushIntervalMs,
       limit,
       limitType,
       flush,
@@ -37,7 +38,12 @@ export class WriteBuffer<T> extends EventEmitter {
     this.items = []
     this.limit = limit ?? 5000
     this.limitType = limitType ?? "item"
-    this.maxSeconds = maxSeconds ?? 2
+
+    this.flushIntervalMs = flushIntervalMs
+      ? flushIntervalMs
+      : maxSeconds
+      ? maxSeconds * 1000
+      : 1000
     this.flushCallback = flush
 
     // Flush on process shutdown
@@ -74,16 +80,16 @@ export class WriteBuffer<T> extends EventEmitter {
   }
 
   private startTimeout(): void {
-    if (!this.intervalId && this.maxSeconds) {
+    if (!this.intervalId) {
       this.intervalId = setTimeout(
         () => this.flushBuffer(),
-        this.maxSeconds * 1000,
+        this.flushIntervalMs,
       )
     }
   }
 
   private stopTimeout(): void {
-    if (this.intervalId && this.maxSeconds) {
+    if (this.intervalId) {
       clearTimeout(this.intervalId)
       this.intervalId = undefined
     }

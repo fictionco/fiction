@@ -25,6 +25,12 @@ export default defineConfig({
     ],
 
     setupFiles: [require.resolve(`./scripts/setupTest.ts`)],
-    watchIgnore: [/\/node_modules\//, /\/dist\//, /\/.factor\//],
+    watchExclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.factor/**",
+      "**/.ref/**",
+      "**/__*",
+    ],
   },
 })
