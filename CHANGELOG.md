@@ -1,3 +1,17 @@
+## [5.4.3](https://github.com/FactorJS/factor/compare/v5.4.2...v5.4.3) (2022-06-09)
+
+
+### Bug Fixes
+
+* log env ([9bc5668](https://github.com/FactorJS/factor/commit/9bc56687616e4fec462a37d22fb47b86dad3ceba))
+
+
+### Features
+
+* install with pnpm ([3eacb14](https://github.com/FactorJS/factor/commit/3eacb143ee4bf628c62131921af6858e0877deb2))
+
+
+
 ## [5.4.2](https://github.com/FactorJS/factor/compare/v5.4.1...v5.4.2) (2022-06-09)
 
 
