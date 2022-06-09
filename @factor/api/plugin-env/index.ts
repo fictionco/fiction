@@ -158,6 +158,7 @@ export class FactorEnv<
     }
 
     this.envFiles.forEach((envFile) => {
+      this.log.info(`loading envFile: ${envFile}`)
       dotenv.config({ path: path.resolve(envFile) })
     })
 
