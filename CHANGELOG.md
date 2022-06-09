@@ -1,3 +1,12 @@
+## [5.4.2](https://github.com/FactorJS/factor/compare/v5.4.1...v5.4.2) (2022-06-09)
+
+
+### Features
+
+* prod env file ([a9013db](https://github.com/FactorJS/factor/commit/a9013db901b08b4fd7644abe3afec8ccfa466e59))
+
+
+
 ## [5.4.1](https://github.com/FactorJS/factor/compare/v5.4.0...v5.4.1) (2022-06-09)
 
 
