@@ -17,6 +17,16 @@ export const safeDirname = (url?: string, relativePath = ""): string => {
   if (!url) return ""
   return path.join(new URL(".", url).pathname, relativePath)
 }
+export const safeUrl = (url?: string): URL | undefined => {
+  if (!url) return
+  try {
+    const u = new URL(url)
+    return u
+  } catch {
+    console.warn(`url is invalid: ${url}`)
+    return undefined
+  }
+}
 export const safeResolve = (modulePath: string): string => {
   if (!isNode()) return ""
   return getRequire().resolve(modulePath)

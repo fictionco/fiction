@@ -14,7 +14,7 @@ export type FactorDbColSettings = {
   isComposite?: boolean
   create: CreateCol
 }
-export class FactorDbCol  {
+export class FactorDbCol {
   readonly key: string
   readonly pgKey: string
   readonly description?: string
@@ -53,20 +53,20 @@ export class FactorDbTable {
       ? [
           new FactorDbCol({
             key: "createdAt",
-            create: ({ schema, column }) => {
+            create: ({ schema, column, db }) => {
               schema
                 .timestamp(column.pgKey)
                 .notNullable()
-                .defaultTo("CURRENT_TIMESTAMP")
+                .defaultTo(db.fn.now())
             },
           }),
           new FactorDbCol({
             key: "updatedAt",
-            create: ({ schema, column }) => {
+            create: ({ schema, column, db }) => {
               schema
                 .timestamp(column.pgKey)
                 .notNullable()
-                .defaultTo("CURRENT_TIMESTAMP")
+                .defaultTo(db.fn.now())
             },
           }),
         ]

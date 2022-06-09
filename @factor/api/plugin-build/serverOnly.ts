@@ -62,6 +62,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "metascraper-title" },
     { id: "metascraper-image" },
     { id: "metascraper-image" },
+    { id: "metadata-scraper" },
     { id: "uuid-apikey" },
     { id: "clearbit" },
     { id: "node-fetch" },

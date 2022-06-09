@@ -2,6 +2,7 @@ import { FactorDbCol, FactorDbTable } from "../plugin-db"
 
 export const mediaTable = new FactorDbTable({
   tableKey: "factor_media",
+  timestamps: true,
   columns: [
     new FactorDbCol({
       key: "mediaId",
@@ -62,16 +63,6 @@ export const mediaTable = new FactorDbTable({
     new FactorDbCol({
       key: "size",
       create: ({ schema, column }) => schema.integer(column.pgKey),
-    }),
-
-    new FactorDbCol({
-      key: "createdAt",
-      create: ({ schema, column, db }) => {
-        schema
-          .timestamp(column.pgKey)
-          .notNullable()
-          .defaultTo(db.raw("CURRENT_TIMESTAMP"))
-      },
     }),
   ],
 })
