@@ -5,8 +5,8 @@
     "factor": "./plugin-env/cli.js"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.105.0",
-    "@aws-sdk/client-s3": "^3.105.0",
+    "@aws-sdk/client-cloudfront": "^3.107.0",
+    "@aws-sdk/client-s3": "^3.107.0",
     "@iconify-json/carbon": "^1.1.5",
     "@iconify-json/heroicons-outline": "^1.1.1",
     "@medv/finder": "^2.1.0",
@@ -70,7 +70,7 @@
     "get-port": "^6.1.2",
     "glob": "^7.2.3",
     "google-auth-library": "^7.14.1",
-    "happy-dom": "^5.1.0",
+    "happy-dom": "^5.2.0",
     "helmet": "^5.1.0",
     "html-minifier": "^4.0.0",
     "html-to-text": "^8.2.0",
@@ -95,7 +95,7 @@
     "multer": "1.4.5-lts.1",
     "multer-s3": "^2.10.0",
     "nanoid": "^3.3.4",
-    "node-fetch": "^3.2.5",
+    "node-fetch": "^3.2.6",
     "nodemailer": "^6.7.5",
     "nodemailer-html-to-text": "^3.2.0",
     "nodemon": "^2.0.16",
@@ -113,7 +113,7 @@
     "sitemap": "^7.1.1",
     "spark-md5": "^3.0.2",
     "string-similarity": "^4.0.4",
-    "tailwindcss": "^3.0.24",
+    "tailwindcss": "^3.1.1",
     "ts-node": "^10.8.1",
     "tsup": "^5.12.9",
     "typescript": "^4.7.3",
@@ -124,11 +124,11 @@
     "vite-plugin-markdown": "^2.0.2",
     "vue": "^3.2.37",
     "vue-router": "4.0.15",
-    "ws": "^8.7.0"
+    "ws": "^8.8.0"
   },
   "devDependencies": {
     "@babel/parser": "^7.18.4",
-    "@factor/api": "5.4.1",
+    "@factor/api": "workspace:5.4.1",
     "@playwright/test": "^1.22.2",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",

@@ -50,6 +50,7 @@ export const vars = new EnvVarList()
 export type FactorControlSettings = {
   hooks?: HookType<FactorEnvHookDictionary>[]
   envFiles?: string[]
+  envFilesProd?: string[]
   cwd: string
   inspector?: boolean
   envVars?: () => EnvVar<string>[]
@@ -72,12 +73,13 @@ export class FactorEnv<
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
   envFiles = this.settings.envFiles || []
+  envFilesProd = this.settings.envFilesProd || []
   standardPaths?: types.StandardPaths
   cwd = this.settings.cwd
   inspector = this.settings.inspector || false
   vars: EnvVar<string>[]
   context = this.utils.isApp() ? "app" : "server"
-
+  mode: "production" | "development" | "unknown" = "unknown"
   appName = this.settings.appName
   appEmail = this.settings.appEmail
   // needs to be set from factorApp as it takes into account port
@@ -139,6 +141,7 @@ export class FactorEnv<
     })
 
     if (fullOpts.mode) {
+      this.mode = fullOpts.mode
       // use literal to prevent substitution in app
       process.env["NODE_ENV"] = fullOpts.mode
     }
@@ -149,6 +152,10 @@ export class FactorEnv<
 
   nodeInit() {
     this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
+
+    if (this.mode == "production") {
+      this.envFiles.push(...this.envFilesProd)
+    }
 
     this.envFiles.forEach((envFile) => {
       dotenv.config({ path: path.resolve(envFile) })
