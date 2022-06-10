@@ -3,7 +3,7 @@
   "description": "Add a syntax highlighting component to your Factor app.",
   "version": "5.4.3",
   "dependencies": {
-    "@factor/api": "5.4.3",
+    "@factor/api": "workspace:5.4.3",
     "highlight.js": "^11.5.1"
   },
   "license": "MIT",

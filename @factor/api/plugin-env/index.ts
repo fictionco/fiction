@@ -158,8 +158,18 @@ export class FactorEnv<
     }
 
     this.envFiles.forEach((envFile) => {
-      this.log.info(`loading envFile: ${envFile}`)
-      dotenv.config({ path: path.resolve(envFile) })
+      const { error, parsed } = dotenv.config({ path: path.resolve(envFile) })
+      if (parsed) {
+        this.log.info(`loaded envFile: ${envFile}`, {
+          data: {
+            keys: Object.entries(parsed || {})
+              .map(([key, v]) => `${key}(${v.length})`)
+              .join(", "),
+          },
+        })
+      } else if (error) {
+        this.log.warn(`failed to load envFile: ${envFile}`)
+      }
     })
 
     // run with node developer tools inspector
