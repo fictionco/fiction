@@ -1,3 +1,13 @@
+## [5.4.4](https://github.com/FactorJS/factor/compare/v5.4.3...v5.4.4) (2022-06-10)
+
+
+### Bug Fixes
+
+* dep ([6e16dac](https://github.com/FactorJS/factor/commit/6e16dacbf3dd1d3ee3bb964557a28c4e3eff6347))
+* netlify ([a238ea8](https://github.com/FactorJS/factor/commit/a238ea87bcedd95f63f9083992173aeb0e62823f))
+
+
+
 ## [5.4.3](https://github.com/FactorJS/factor/compare/v5.4.2...v5.4.3) (2022-06-09)
 
 
