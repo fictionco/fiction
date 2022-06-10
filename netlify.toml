@@ -1,2 +1,2 @@
 [build.environment]
-    NPM_FLAGS="--prefix=/"
+  NPM_FLAGS="--prefix=/dev/null"
