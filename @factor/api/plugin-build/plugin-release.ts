@@ -176,13 +176,14 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   releaseRoutine = async (options?: {
     patch?: boolean
     skipTests?: boolean
+    withChanges?: boolean
   }): Promise<void> => {
     const { patch, skipTests } = options || {}
 
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)
 
-    await this.ensureCleanGit()
+    await this.ensureCleanGit(options)
 
     let targetVersion: string | undefined
 
