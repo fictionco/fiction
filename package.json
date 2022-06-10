@@ -46,7 +46,7 @@
   "publishConfig": {},
   "scripts": {
     "build-site": "npm run in && npm exec -w @factor/site -- factor run prerender",
-    "in": "[[ $CI = true ]] && npx pnpm i -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
+    "in": "npx pnpm i -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm i && pnpm up -r && pnpm outdated",
     "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
