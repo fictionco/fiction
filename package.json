@@ -2,10 +2,10 @@
   "name": "factor",
   "version": "5.4.4",
   "devDependencies": {
-    "@factor/api": "5.4.4",
-    "@factor/lint": "5.4.4",
-    "@factor/site": "5.4.4",
-    "@factor/ui": "5.4.4",
+    "@factor/api": "workspace:5.4.4",
+    "@factor/lint": "workspace:5.4.4",
+    "@factor/site": "workspace:5.4.4",
+    "@factor/ui": "workspace:5.4.4",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.41",
     "@vitejs/plugin-vue": "^2.3.3",
@@ -20,12 +20,12 @@
     "npm-package-json-lint": "^6.3.0",
     "playwright": "*",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.1",
+    "tailwindcss": "^3.1.2",
     "tslib": "^2.4.0",
     "typescript": "^4.7.3",
-    "vite": "2.9.10",
+    "vite": "*",
     "vitest": "*",
-    "vue": "^3.2.37",
+    "vue": "*",
     "yorkie": "^2.0.0"
   },
   "engines": {
@@ -38,8 +38,8 @@
   "main": "index.ts",
   "pnpm": {
     "overrides": {
-      "vite": "2.9.10",
-      "vue": "^3.2.36"
+      "vite": "*",
+      "vue": "*"
     }
   },
   "private": true,
@@ -76,6 +76,6 @@
   ],
   "dependencies": {
     "cross-env": "^7.0.3",
-    "pnpm": "^7.1.9"
+    "pnpm": "^7.2.0"
   }
 }
