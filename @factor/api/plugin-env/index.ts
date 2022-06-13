@@ -13,28 +13,40 @@ export * from "./types"
 export * from "./entry"
 export * from "./commands"
 
+type VerifyVar = (params: {
+  factorEnv: FactorEnv
+  value: string | undefined
+}) => boolean
+
 type EnvVarSettings<X extends string> = {
   name: X
   val: string | undefined
-  mode?: "production" | "development" | "all"
-  context?: "server" | "app"
+  verify?: VerifyVar
+  isOptional?: boolean
 }
 
 export class EnvVar<X extends string> {
   name: X
-  mode?: "production" | "development" | "all"
-  context?: "server" | "app"
   val: string | undefined
+  verify?: VerifyVar
+  isOptional: boolean
   constructor(settings: EnvVarSettings<X>) {
     this.name = settings.name
     this.val = settings.val
-    this.mode = settings.mode || "all"
-    this.context = settings.context || "server"
+    this.verify = settings.verify
+    this.isOptional = settings.isOptional || false
   }
 }
 
 class EnvVarList {
-  list: (() => EnvVar<string>[])[] = []
+  list: (() => EnvVar<string>[])[] = [
+    () => [
+      new EnvVar({
+        name: "NODE_ENV",
+        val: process.env.NODE_ENV,
+      }),
+    ],
+  ]
 
   register(v: () => EnvVar<string>[]) {
     this.list.push(v)
@@ -53,7 +65,6 @@ export type FactorControlSettings = {
   envFilesProd?: string[]
   cwd: string
   inspector?: boolean
-  envVars?: () => EnvVar<string>[]
   nodemonConfigPath?: string
   appName: string
   appEmail: string
@@ -80,11 +91,14 @@ export class FactorEnv<
   vars: EnvVar<string>[]
   context = this.utils.isApp() ? "app" : "server"
   mode: "production" | "development" | "unknown" = "unknown"
+  isApp: () => boolean = () => this.utils.isApp()
+  isServer: () => boolean = () => !this.isApp
+  isProd: () => boolean = () => this.utils.mode() === "production"
+  isDev: () => boolean = () => this.utils.mode() === "development"
   appName = this.settings.appName
   appEmail = this.settings.appEmail
   // needs to be set from factorApp as it takes into account port
   appUrl?: string
-  envVars = this.settings.envVars || (() => [])
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   constructor(settings: FactorControlSettings) {
@@ -97,11 +111,9 @@ export class FactorEnv<
     /**
      * Needs to come last so env vars are set
      */
-    this.vars = [
-      ...vars.list.flatMap((cb) => cb()),
-      ...this.coreVars(),
-      ...this.envVars(),
-    ]
+    this.vars = vars.list.flatMap((cb) => cb())
+
+    this.verifyEnv()
 
     this.addHook({
       hook: "staticSchema",
@@ -135,7 +147,7 @@ export class FactorEnv<
 
     Object.entries(fullOpts).forEach(([key, value]) => {
       if (value) {
-        const processKey = `FACTOR_${this.utils.camelToUpperSnake(key)}`
+        const processKey = this.utils.camelToUpperSnake(key)
         process.env[processKey] = String(value)
       }
     })
@@ -176,6 +188,26 @@ export class FactorEnv<
     if (this.inspector) {
       this.initializeNodeInspector().catch(console.error)
     }
+  }
+
+  verifyEnv() {
+    /**
+     * Verify variables and issue warnings if something is missing
+     */
+    this.vars.forEach((v) => {
+      const { name, val, verify, isOptional } = v
+
+      let r: boolean
+      if (verify) {
+        r = verify({ factorEnv: this, value: val })
+      } else if (!this.isApp && !isOptional) {
+        r = val ? true : false
+      } else {
+        r = true
+      }
+
+      if (!r) this.log.warn(`var missing: ${name}`)
+    })
   }
 
   async setup() {
@@ -272,52 +304,11 @@ export class FactorEnv<
     }
   }
 
-  coreVars() {
-    const baseVars = [
-      new EnvVar({
-        name: "mode",
-        val: process.env.NODE_ENV,
-      }),
-      new EnvVar({
-        name: "serverPort",
-        val: process.env.FACTOR_SERVER_PORT || process.env.PORT,
-      }),
-      new EnvVar({ name: "appPort", val: process.env.FACTOR_APP_PORT }),
-      new EnvVar({
-        name: "serverUrl",
-        val: process.env.FACTOR_SERVER_URL,
-        context: "app",
-      }),
-    ]
-
-    return baseVars
-  }
-
   var(variable: S["vars"]): string | undefined {
     const envVar = this.vars.find((_) => _.name === variable)
 
     if (!envVar) {
-      throw new Error(`EnvVar ${variable} not found`)
-    }
-
-    const logData = {
-      data: { envVar: envVar, context: this.context, mode: this.utils.mode() },
-    }
-
-    if (!envVar.val && envVar.context == "app" && this.context == "app") {
-      this.log.warn(`app EnvVar missing`, logData)
-    }
-
-    if (
-      !envVar.val &&
-      envVar.mode == "production" &&
-      this.utils.mode() == "production"
-    ) {
-      this.log.warn(`production EnvVar missing`, logData)
-    }
-
-    if (!envVar.val && envVar.context == "server" && this.context == "serer") {
-      this.log.warn(`server EnvVar missing`, logData)
+      throw new Error(`environmental variable missing: ${variable}`)
     }
 
     return envVar.val as string | undefined

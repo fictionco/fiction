@@ -50,7 +50,13 @@ const snapString = (value: unknown, key?: string): string => {
 
   if (key?.endsWith("Id") && val) {
     out = rep("id", val)
-  } else if ((key?.endsWith("At") || key?.endsWith("Iso") || key == 'duration' || key=="timestamp" ) && val) {
+  } else if (
+    (key?.endsWith("At") ||
+      key?.endsWith("Iso") ||
+      key == "duration" ||
+      key == "timestamp") &&
+    val
+  ) {
     out = rep("date", val)
   } else if (key?.endsWith("Name") && val) {
     out = rep("name", val)
@@ -141,25 +147,6 @@ export type TestUtilSettings = {
   envVars?: () => EnvVar<string>[]
 }
 
-const standardEnvVars = () => [
-  new EnvVar({
-    name: "googleClientId",
-    val: process.env.GOOGLE_CLIENT_ID,
-  }),
-  new EnvVar({
-    name: "googleClientSecret",
-    val: process.env.GOOGLE_CLIENT_SECRET,
-  }),
-  new EnvVar({
-    name: "stripeSecretKeyTest",
-    val: process.env.STRIPE_SECRET_KEY_TEST,
-  }),
-  new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
-  new EnvVar({
-    name: "awsAccessKeySecret",
-    val: process.env.AWS_ACCESS_KEY_SECRET,
-  }),
-]
 /**
  * Runs services 'setup' functions
  * Creates a new user
@@ -201,13 +188,11 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     appPort = randomBetween(1000, 10_000),
     cwd = safeDirname(import.meta.url),
     envFiles = [],
-    envVars = () => [],
   } = opts || {}
 
   const factorEnv = new FactorEnv({
     envFiles: [path.join(cwd, "./.env"), ...envFiles],
     cwd,
-    envVars: () => [...standardEnvVars(), ...envVars()],
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
   })
@@ -226,7 +211,9 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     factorServer,
     factorEnv,
   })
-  const factorDb = new FactorDb({ connectionUrl: factorEnv.var("postgresUrl") })
+  const factorDb = new FactorDb({
+    connectionUrl: factorEnv.var("POSTGRES_URL"),
+  })
 
   const factorEmail = new FactorEmail({
     factorEnv,
@@ -235,8 +222,8 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
   const factorUser = new FactorUser({
     factorDb,
     factorEmail,
-    googleClientId: factorEnv.var("googleClientId"),
-    googleClientSecret: factorEnv.var("googleClientSecret"),
+    googleClientId: factorEnv.var("GOOGLE_CLIENT_ID"),
+    googleClientSecret: factorEnv.var("GOOGLE_CLIENT_SECRET"),
     factorServer,
     mode: "development",
     tokenSecret: "test",

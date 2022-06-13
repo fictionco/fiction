@@ -29,7 +29,7 @@ export type MediaConfig = {
 }
 
 export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
-  imageFieldName = "image"
+  imageFieldName = "imageFile"
   tableName = "factor_media"
   factorUser = this.settings.factorUser
   factorDb = this.settings.factorDb

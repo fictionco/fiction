@@ -23,7 +23,7 @@ import { FactorAws } from "@factor/api/plugin-aws"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
-import { envVars } from "./vars"
+import { commands } from "./commands"
 import routes from "./routes"
 import App from "./App.vue"
 
@@ -33,23 +33,23 @@ export const appName = "FactorJS"
 export const appEmail = "hi@factorjs.org"
 export const appUrl = "https://www.factorjs.org"
 
-export const factorEnv = new FactorEnv({
+export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(cwd, "./.env")],
   cwd,
-  envVars,
+  commands,
   appName,
   appEmail,
   appUrl,
 })
 
 export const factorDb = new FactorDb({
-  connectionUrl: factorEnv.var("postgresUrl"),
+  connectionUrl: factorEnv.var("POSTGRES_URL"),
 })
 
 export const factorServer = new FactorServer({
   serverName: "FactorMain",
-  port: +(factorEnv.var("serverPort") || 3333),
-  serverUrl: factorEnv.var("serverUrl"),
+  port: +(factorEnv.var("SERVER_PORT") || 3333),
+  serverUrl: factorEnv.var("SERVER_URL"),
   factorEnv,
 })
 
@@ -60,7 +60,7 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig["routes"]>({
 export const factorApp = new FactorApp({
   appUrl,
   factorServer,
-  port: +(factorEnv.var("appPort") || 3000),
+  port: +(factorEnv.var("APP_PORT") || 3000),
   rootComponent: App,
   factorRouter,
   uiPaths: [
@@ -73,19 +73,18 @@ export const factorApp = new FactorApp({
 
 export const factorEmail = new FactorEmail({
   factorEnv,
-  smtpHost: factorEnv.var("smtpHost"),
-  smtpPassword: factorEnv.var("smtpPassword"),
-  smtpUser: factorEnv.var("smtpUser"),
+  smtpHost: factorEnv.var("SMTP_HOST"),
+  smtpPassword: factorEnv.var("SMTP_PASSWORD"),
+  smtpUser: factorEnv.var("SMTP_USER"),
 })
 
 export const factorUser = new FactorUser({
   factorServer,
   factorDb,
   factorEmail,
-  googleClientId:
-    "985105007162-9ku5a8ds7t3dq7br0hr2t74mapm4eqc0.apps.googleusercontent.com",
-  googleClientSecret: factorEnv.var("googleClientSecret"),
-  tokenSecret: factorEnv.var("tokenSecret"),
+  googleClientId: factorEnv.var("GOOGLE_CLIENT_ID"),
+  googleClientSecret: factorEnv.var("GOOGLE_CLIENT_SECRET"),
+  tokenSecret: factorEnv.var("TOKEN_SECRET"),
 })
 
 export const factorStripe = new FactorStripe({
@@ -94,15 +93,15 @@ export const factorStripe = new FactorStripe({
   factorUser,
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
-  secretKeyTest: factorEnv.var("stripeSecretKeyTest"),
+  secretKeyTest: factorEnv.var("STRIPE_SECRET_KEY_TEST"),
   stripeMode: "test",
   hooks: [],
   products: [],
 })
 
 const factorAws = new FactorAws({
-  awsAccessKey: factorEnv.var("awsAccessKey"),
-  awsAccessKeySecret: factorEnv.var("awsAccessKeySecret"),
+  awsAccessKey: factorEnv.var("AWS_ACCESS_KEY"),
+  awsAccessKeySecret: factorEnv.var("AWS_ACCESS_KEY_SECRET"),
 })
 
 const factorMedia = new FactorMedia({

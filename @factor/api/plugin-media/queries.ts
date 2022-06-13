@@ -31,8 +31,8 @@ export class QuerySaveMedia extends MediaQuery {
     const file = meta.request?.file
     const userId = meta.bearer?.userId
 
-    if (!file) throw this.stop("no file")
-    if (!userId) throw this.stop("no userId")
+    if (!file) throw this.stop("no file in request")
+    if (!userId) throw this.stop("no userId (bearer)")
 
     const mime = file?.mimetype
     const bucket = this.factorMedia.bucket

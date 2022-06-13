@@ -30,7 +30,7 @@ describe("stripe tests", () => {
       factorUser: utils.factorUser,
       publicKeyTest:
         "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
-      secretKeyTest: utils.factorEnv.var("stripeSecretKeyTest"),
+      secretKeyTest: utils.factorEnv.var("STRIPE_SECRET_KEY_TEST"),
       stripeMode: "test",
       hooks: [],
       products: [],

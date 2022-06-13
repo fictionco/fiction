@@ -208,6 +208,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "remove-markdown",
         "gravatar-url",
         "validator",
+        "highlight.js",
       ],
     }
   }
@@ -243,7 +244,10 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       server: {
         fs: { strict: false },
         watch: {
-          ignored: ["!**/node_modules/@factor/**"],
+          ignored: [
+            "!**/node_modules/@factor/**",
+            "!**/node_modules/**/@factor/**",
+          ],
         },
         // SET A CUSTOM HMR PORT
         // randomly if the same port is used, it can conflict silently

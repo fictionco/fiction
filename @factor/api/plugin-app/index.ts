@@ -31,9 +31,33 @@ import { FactorRouter } from "@factor/api/plugin-router"
 import { version } from "../package.json"
 import { ServerModuleDef } from "../plugin-build/types"
 import { FactorDevRestart } from "../plugin-env/restart"
+import { vars, EnvVar } from "../plugin-env"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
+
+vars.register(() => [
+  new EnvVar({
+    name: "SERVER_PORT",
+    val: process.env.SERVER_PORT,
+    isOptional: true,
+  }),
+  new EnvVar({
+    name: "SERVER_URL",
+    val: process.env.SERVER_URL,
+    verify: ({ factorEnv, value }) => {
+      return factorEnv.isApp() && !value ? false : true
+    },
+  }),
+  new EnvVar({ name: "APP_PORT", val: process.env.APP_PORT, isOptional: true }),
+  new EnvVar({
+    name: "APP_URL",
+    val: process.env.APP_URL,
+    verify: ({ factorEnv, value }) => {
+      return factorEnv.isApp() && !value ? false : true
+    },
+  }),
+])
 
 type HookDictionary = {
   afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
@@ -84,8 +108,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     MODE: this.utils.mode(),
     IS_TEST: this.utils.isTest(),
     IS_VITE: "true",
-    FACTOR_SERVER_URL: this.factorServer.serverUrl,
-    FACTOR_APP_URL: this.appUrl,
+    SERVER_URL: this.factorServer.serverUrl,
+    APP_URL: this.appUrl,
   }
   constructor(settings: FactorAppSettings) {
     super(settings)

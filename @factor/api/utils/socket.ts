@@ -194,7 +194,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
       if (!socket) {
         log.error(this.context, "not available", {
-          data: { apiEnv: process.env.FACTOR_API_ENV, socket },
+          data: { socket },
         })
         return
       }

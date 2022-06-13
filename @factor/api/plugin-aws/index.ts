@@ -9,9 +9,9 @@ import type {
 import { vars, EnvVar } from "../plugin-env"
 
 vars.register(() => [
-  new EnvVar({ name: "awsAccessKey", val: process.env.AWS_ACCESS_KEY }),
+  new EnvVar({ name: "AWS_ACCESS_KEY", val: process.env.AWS_ACCESS_KEY }),
   new EnvVar({
-    name: "awsAccessKeySecret",
+    name: "AWS_ACCESS_KEY_SECRET",
     val: process.env.AWS_ACCESS_KEY_SECRET,
   }),
 ])

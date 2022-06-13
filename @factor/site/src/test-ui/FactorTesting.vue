@@ -20,12 +20,12 @@ const list = [
   {
     id: "server-url",
     title: "Server URL",
-    value: process.env.FACTOR_SERVER_URL,
+    value: process.env.SERVER_URL,
   },
   {
     id: "current-url",
     title: "Current URL",
-    value: process.env.FACTOR_APP_URL,
+    value: process.env.APP_URL,
   },
   {
     id: "is-test",

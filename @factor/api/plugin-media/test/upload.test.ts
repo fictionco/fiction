@@ -37,8 +37,8 @@ describe("user tests", () => {
     testUtils = await createTestUtils()
 
     const factorAws = new FactorAws({
-      awsAccessKey: testUtils.factorEnv.var("awsAccessKey"),
-      awsAccessKeySecret: testUtils.factorEnv.var("awsAccessKeySecret"),
+      awsAccessKey: testUtils.factorEnv.var("AWS_ACCESS_KEY"),
+      awsAccessKeySecret: testUtils.factorEnv.var("AWS_ACCESS_KEY_SECRET"),
     })
     testUtils.factorMedia = new FactorMedia({
       factorDb: testUtils.factorDb,
@@ -53,6 +53,8 @@ describe("user tests", () => {
 
   it("uploads a file", async () => {
     const file = await randomImageFile()
+
+    expect(file).toBeTruthy()
 
     const r = await testUtils?.factorMedia?.uploadFile(file)
 

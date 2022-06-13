@@ -5,21 +5,25 @@ import { FactorPlugin } from "../plugin"
 import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
+const verify: EnvVar<string>["verify"] = ({ factorEnv, value }) => {
+  return !value && factorEnv.isProd() ? false : true
+}
+
 vars.register(() => [
   new EnvVar({
-    name: "smtpHost",
+    name: "SMTP_HOST",
     val: process.env.SMTP_HOST,
-    mode: "production",
+    verify,
   }),
   new EnvVar({
-    name: "smtpUser",
+    name: "SMTP_USER",
     val: process.env.SMTP_USER,
-    mode: "production",
+    verify,
   }),
   new EnvVar({
-    name: "smtpPassword",
+    name: "SMTP_PASSWORD",
     val: process.env.SMTP_PASSWORD,
-    mode: "production",
+    verify,
   }),
 ])
 

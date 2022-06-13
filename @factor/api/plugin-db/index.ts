@@ -10,7 +10,7 @@ import { FactorDbTable } from "./objects"
 export * from "./objects"
 
 vars.register(() => [
-  new EnvVar({ name: "postgresUrl", val: process.env.POSTGRES_URL }),
+  new EnvVar({ name: "POSTGRES_URL", val: process.env.POSTGRES_URL }),
 ])
 
 export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"

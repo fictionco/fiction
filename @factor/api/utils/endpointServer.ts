@@ -59,8 +59,12 @@ export class EndpointServer {
 
         app.use(
           endpoint.pathname(),
+          (req, res, next) => {
+            // debug
+            next()
+          },
           ...pathMiddleware,
-          async (request, response) => {
+          async (request: express.Request, response) => {
             const result = await endpoint.serveRequest(request, response)
             delete result.internal
             response.status(200).send(result).end()

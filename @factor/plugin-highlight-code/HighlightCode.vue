@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { onResetUi, vue } from "@factor/api"
-import hljs from "highlight.js"
+import * as hljs from "highlight.js"
 
 const themes = {
   github: () => import(`highlight.js/styles/github.css`),
@@ -36,7 +36,7 @@ const tryHighlight = (cb?: () => void): void => {
   setTimeout((): void => {
     if (!code.value) return
     code.value.querySelectorAll<HTMLElement>("pre code").forEach((el) => {
-      hljs.highlightElement(el)
+      hljs.default.highlightElement(el)
     })
 
     if (cb) cb()

@@ -1,10 +1,9 @@
-import axios, { AxiosRequestConfig } from "axios"
-import type express from "express"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"
 import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
+import { express, axios } from "./libraries"
 import { notify } from "./notify"
 import { deepMergeAll } from "./utils"
 import { isApp } from "./vars"
@@ -101,23 +100,20 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   async upload(data: FormData): Promise<ReturnType<T["run"]>> {
-    const response = await axios.post<ReturnType<T["run"]>>(
-      this.requestUrl,
-      data,
-      {
-        headers: {
-          Authorization: this.bearerHeader,
-          "Content-Type": "multipart/form-data",
-        },
-      },
-    )
+    //console.log("UPLOADING DATA", data)
+    const r = await fetch(this.requestUrl, {
+      method: "POST",
+      body: data,
+    })
 
-    return response.data as Awaited<ReturnType<T["run"]>>
+    const response = await r.text()
+
+    return response as Awaited<ReturnType<T["run"]>>
   }
 
   public async request(
     params: Parameters<T["run"]>[0],
-    userRequestConfig?: AxiosRequestConfig,
+    userRequestConfig?: axios.AxiosRequestConfig,
   ): Promise<Awaited<ReturnType<T["run"]>>> {
     const r = await this.http(this.key, params, userRequestConfig)
 
@@ -173,11 +169,11 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   public async http<U>(
     method: string,
     data: unknown,
-    userRequestConfig?: AxiosRequestConfig,
+    userRequestConfig?: axios.AxiosRequestConfig,
   ): Promise<EndpointResponse<U>> {
     const url = `${this.basePath}/${method}`
 
-    let options: AxiosRequestConfig = {
+    let options: axios.AxiosRequestConfig = {
       method: "POST",
       headers: {
         Authorization: this.bearerHeader,
@@ -199,7 +195,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     let responseData: EndpointResponse<U>
     try {
-      const response = await axios.request<EndpointResponse<U>>(options)
+      const response = await axios.default.request<EndpointResponse<U>>(options)
       responseData = response.data
     } catch (error: unknown) {
       log.error("Endpoint", `error: ${method}`, { error })

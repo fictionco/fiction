@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import type { EndpointMap, EndpointMeta } from "../utils"
+import type { EndpointMeta } from "../utils"
 import { FactorPlugin } from "../plugin"
 import type { HookType } from "../utils/hook"
 import { vars, EnvVar } from "../plugin-env"
@@ -26,10 +26,16 @@ export * from "./types"
 
 vars.register(() => [
   new EnvVar({
-    name: "googleClientSecret",
-    val: process.env.GOOGLE_CLIENT_SECRET,
+    name: "GOOGLE_CLIENT_ID",
+    val: process.env.GOOGLE_CLIENT_ID,
+    isOptional: true,
   }),
-  new EnvVar({ name: "tokenSecret", val: process.env.FACTOR_TOKEN_SECRET }),
+  new EnvVar({
+    name: "GOOGLE_CLIENT_SECRET",
+    val: process.env.GOOGLE_CLIENT_SECRET,
+    isOptional: true,
+  }),
+  new EnvVar({ name: "TOKEN_SECRET", val: process.env.TOKEN_SECRET }),
 ])
 
 export type FactorUserHookDictionary = {
@@ -252,7 +258,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
    * Sets the auth token secret or falls back to a basic one (insecure)
    */
   getTokenSecret = (): string => {
-    const secret = process.env.TOKEN_SECRET || process.env.FACTOR_TOKEN_SECRET
+    const secret = process.env.TOKEN_SECRET
     if (!secret) {
       this.log.warn("JWT token secret is missing (TOKEN_SECRET)")
     }

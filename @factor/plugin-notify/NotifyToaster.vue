@@ -89,7 +89,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onEvent, vue, Notification } from "@factor/api"
+import { onEvent, vue, Notification, log } from "@factor/api"
 
 const toasts = vue.ref<Notification[]>([])
 
@@ -99,6 +99,8 @@ const topToasts = vue.computed(() => {
 })
 
 const showToast = (config: Notification): void => {
+  log.info("notifyPlugin", "notification", { data: config })
+
   const { type, message = "", more = "", duration = 4000 } = config
 
   const shownAt = Date.now()

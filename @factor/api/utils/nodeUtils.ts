@@ -137,5 +137,6 @@ export const createExpressApp = (): express.Express => {
   app.use(bodyParser.json())
   app.use(bodyParser.text())
   app.use(compression())
+
   return app
 }

@@ -12,6 +12,7 @@ const getGlobalEventBus = (): NodeJS.EventEmitter => {
 
   return eventBus
 }
+
 /**
  * Emits an event which can be listened to from onEvent
  */

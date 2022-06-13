@@ -6,19 +6,22 @@
 export interface CompiledServiceConfig {
   commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "rdev" | "release" | "server" | "start";
   vars:
-    | "appPort"
-    | "awsAccessKey"
-    | "awsAccessKeySecret"
-    | "googleClientSecret"
-    | "mode"
-    | "postgresUrl"
-    | "serverPort"
-    | "serverUrl"
-    | "smtpHost"
-    | "smtpPassword"
-    | "smtpUser"
-    | "stripeSecretKeyTest"
-    | "tokenSecret";
+    | "APP_PORT"
+    | "APP_URL"
+    | "AWS_ACCESS_KEY"
+    | "AWS_ACCESS_KEY_SECRET"
+    | "GOOGLE_CLIENT_ID"
+    | "GOOGLE_CLIENT_SECRET"
+    | "NODE_ENV"
+    | "POSTGRES_URL"
+    | "SERVER_PORT"
+    | "SERVER_URL"
+    | "SMTP_HOST"
+    | "SMTP_PASSWORD"
+    | "SMTP_USER"
+    | "STRIPE_SECRET_KEY_PROD"
+    | "STRIPE_SECRET_KEY_TEST"
+    | "TOKEN_SECRET";
   endpoints:
     | "AllProducts"
     | "CurrentUser"
