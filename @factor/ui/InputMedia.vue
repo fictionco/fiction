@@ -102,7 +102,7 @@ const handleEmit = (val: string = ""): void => {
 const uploadFiles = async (files?: FileList | null) => {
   if (!files) return
   uploading.value = true
-  const result = await factorMedia.uploadFiles(files)
+  const result = await factorMedia.uploadFiles({ files })
   if (result[0]?.status == "success") {
     handleEmit(result[0].data?.url)
   }

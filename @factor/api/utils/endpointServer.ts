@@ -49,6 +49,20 @@ export class EndpointServer {
     try {
       const app = createExpressApp()
 
+      // app.use("*", (req, res, next) => {
+      //   if (req.originalUrl.includes("SaveMedia")) {
+      //     console.log(
+      //       "REQ",
+      //       req.originalUrl,
+      //       req.headers,
+      //       req.body,
+      //       req.rawBody,
+      //     )
+      //   }
+
+      //   next()
+      // })
+
       this.endpoints.forEach((endpoint) => {
         if (this.factorUser) {
           app.use(endpoint.pathname(), this.endpointAuthorization)
@@ -59,10 +73,6 @@ export class EndpointServer {
 
         app.use(
           endpoint.pathname(),
-          (req, res, next) => {
-            // debug
-            next()
-          },
           ...pathMiddleware,
           async (request: express.Request, response) => {
             const result = await endpoint.serveRequest(request, response)

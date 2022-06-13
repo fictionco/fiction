@@ -3,7 +3,11 @@
  * https://vitest.dev/config/#environment
  */
 
+import path from "path"
 import nodeFetch from "node-fetch"
+import { FormData } from "formdata-node"
+// eslint-disable-next-line import/no-unresolved
+import { fileFromPathSync } from "formdata-node/file-from-path"
 import {
   it,
   describe,
@@ -12,25 +16,26 @@ import {
   createTestUtils,
   TestUtils,
 } from "../../testUtils"
-import { axios } from "../../utils"
+import { safeDirname } from "../../utils"
 import { FactorMedia } from ".."
 import { FactorAws } from "../../plugin-aws"
 let testUtils: (TestUtils & { factorMedia?: FactorMedia }) | undefined =
   undefined
 
 let url: string | undefined = undefined
-const randomImageFile = async () => {
-  const response = await axios.default.get<Blob>(
-    "https://source.unsplash.com/random",
-    {
-      responseType: "blob",
-    },
-  )
+const thisDir = safeDirname(import.meta.url)
+// const randomImageFile = async () => {
+//   const response = await axios.default.get<Blob>(
+//     "https://source.unsplash.com/random",
+//     {
+//       responseType: "blob",
+//     },
+//   )
 
-  const file = new File([response.data], "random.jpg", { type: "image/jpeg" })
+//   const file = new File([response.data], "random.jpg", { type: "image/jpeg" })
 
-  return file
-}
+//   return file
+// }
 
 describe("user tests", () => {
   beforeAll(async () => {
@@ -52,11 +57,23 @@ describe("user tests", () => {
   })
 
   it("uploads a file", async () => {
-    const file = await randomImageFile()
+    // const file = await randomImageFile()
 
-    expect(file).toBeTruthy()
+    // expect(file).toBeTruthy()
 
-    const r = await testUtils?.factorMedia?.uploadFile(file)
+    const file = fileFromPathSync(path.join(thisDir, "./test.png"), {
+      type: "image/png",
+    })
+
+    const formData = new FormData()
+
+    formData.set("imageFile", file)
+
+    const r = await testUtils?.factorMedia?.uploadFile({
+      formData,
+    })
+
+    console.log("RESPONSE", r)
 
     expect(r?.data?.mediaId).toBeDefined()
 
@@ -64,7 +81,7 @@ describe("user tests", () => {
 
     if (!url) throw new Error("no url")
     expect(url).toContain("factor-testing")
-    expect(url).toContain("random.jpg")
+    expect(url).toContain("test.png")
 
     expect(r).toMatchInlineSnapshot(`
       {
@@ -72,15 +89,16 @@ describe("user tests", () => {
           "alt": null,
           "bucket": "factor-testing",
           "contentEncoding": null,
-          "createdAt": "2022-06-04T06:23:44.155Z",
+          "createdAt": "2022-06-13T23:38:57.942Z",
           "etag": null,
-          "filePath": "us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
+          "filePath": "us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
           "height": null,
-          "mediaId": "629afa6e449e82b0cfba7cfc",
-          "mime": "image/jpeg",
-          "size": null,
-          "url": "https://factor-testing.s3.amazonaws.com/us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
-          "userId": "us629afa6ee2d76a05817494fd",
+          "mediaId": "62a7ca916126f913ef2ca564",
+          "mime": "image/png",
+          "size": 6914,
+          "updatedAt": "2022-06-13T23:38:57.942Z",
+          "url": "https://factor-testing.s3.amazonaws.com/us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
+          "userId": "us62a7ca90f841d8033b3ba9a6",
           "width": null,
         },
         "message": "uploaded successfully",
@@ -106,15 +124,16 @@ describe("user tests", () => {
             "alt": null,
             "bucket": "factor-testing",
             "contentEncoding": null,
-            "createdAt": "2022-06-04T06:23:44.155Z",
+            "createdAt": "2022-06-13T23:38:57.942Z",
             "etag": null,
-            "filePath": "us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
+            "filePath": "us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
             "height": null,
-            "mediaId": "629afa6e449e82b0cfba7cfc",
-            "mime": "image/jpeg",
-            "size": null,
-            "url": "https://factor-testing.s3.amazonaws.com/us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
-            "userId": "us629afa6ee2d76a05817494fd",
+            "mediaId": "62a7ca916126f913ef2ca564",
+            "mime": "image/png",
+            "size": 6914,
+            "updatedAt": "2022-06-13T23:38:57.942Z",
+            "url": "https://factor-testing.s3.amazonaws.com/us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
+            "userId": "us62a7ca90f841d8033b3ba9a6",
             "width": null,
           },
         ],
@@ -136,7 +155,7 @@ describe("user tests", () => {
     const pathname = new URL(url).pathname.replace(/^\/+/g, "")
 
     expect(pathname).toMatchInlineSnapshot(
-      '"us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg"',
+      '"us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png"',
     )
 
     expect(r?.data).toMatchInlineSnapshot(`
@@ -145,15 +164,16 @@ describe("user tests", () => {
           "alt": null,
           "bucket": "factor-testing",
           "contentEncoding": null,
-          "createdAt": "2022-06-04T06:23:44.155Z",
+          "createdAt": "2022-06-13T23:38:57.942Z",
           "etag": null,
-          "filePath": "us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
+          "filePath": "us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
           "height": null,
-          "mediaId": "629afa6e449e82b0cfba7cfc",
-          "mime": "image/jpeg",
-          "size": null,
-          "url": "https://factor-testing.s3.amazonaws.com/us629afa6ee2d76a05817494fd/629afa6e449e82b0cfba7cfc-random.jpg",
-          "userId": "us629afa6ee2d76a05817494fd",
+          "mediaId": "62a7ca916126f913ef2ca564",
+          "mime": "image/png",
+          "size": 6914,
+          "updatedAt": "2022-06-13T23:38:57.942Z",
+          "url": "https://factor-testing.s3.amazonaws.com/us62a7ca90f841d8033b3ba9a6/62a7ca916126f913ef2ca564-test.png",
+          "userId": "us62a7ca90f841d8033b3ba9a6",
           "width": null,
         },
       ]

@@ -45,7 +45,7 @@ export class QuerySaveMedia extends MediaQuery {
       })
       .toBuffer()
 
-    const { url } = await this.factorAws.uploadS3({
+    const { url, headObject } = await this.factorAws.uploadS3({
       data: img,
       filePath,
       mime,
@@ -54,7 +54,15 @@ export class QuerySaveMedia extends MediaQuery {
 
     const db = this.factorDb.client()
 
-    const mediaConfig = { mediaId, url, mime, bucket, userId, filePath }
+    const mediaConfig = {
+      mediaId,
+      url,
+      mime: headObject.ContentType || mime,
+      bucket,
+      userId,
+      filePath,
+      size: headObject.ContentLength,
+    }
 
     const r = await db
       .insert(mediaConfig)

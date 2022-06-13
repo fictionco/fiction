@@ -1,4 +1,5 @@
 import multer from "multer"
+import type { FormData as FormDataNode } from "formdata-node"
 import { FactorPlugin } from "../plugin"
 import { FactorDb } from "../plugin-db"
 import { FactorServer } from "../plugin-server"
@@ -7,7 +8,6 @@ import { FactorAws } from "../plugin-aws"
 import { QueryMediaAction, QueryMediaIndex, QuerySaveMedia } from "./queries"
 import { QueryUnsplash } from "./query-unsplash"
 import { mediaTable } from "./tables"
-
 type FactorMediaSettings = {
   factorUser: FactorUser
   factorDb: FactorDb
@@ -54,15 +54,24 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   }
   setup() {}
 
-  async uploadFile(file: File) {
-    const formData = new FormData()
-    formData.append(this.imageFieldName, file)
+  async uploadFile(params: {
+    file?: File
+    formData?: FormData | FormDataNode
+  }) {
+    const { file, formData = new FormData() } = params
+
+    if (file) {
+      formData.set(this.imageFieldName, file)
+    }
 
     return await this.requests.SaveMedia.upload(formData)
   }
 
-  uploadFiles(files: FileList) {
-    return Promise.all([...files].map((file) => this.uploadFile(file)))
+  uploadFiles(params: { files: FileList; formData?: FormData | FormDataNode }) {
+    const { files, formData = new FormData() } = params
+    return Promise.all(
+      [...files].map((file) => this.uploadFile({ file, formData })),
+    )
   }
 
   createQueries() {

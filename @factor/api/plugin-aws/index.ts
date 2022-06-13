@@ -5,6 +5,7 @@ import type {
   PutObjectCommandOutput,
   GetObjectCommandOutput,
   DeleteObjectCommandOutput,
+  HeadObjectCommandOutput,
 } from "@aws-sdk/client-s3"
 import { vars, EnvVar } from "../plugin-env"
 
@@ -127,6 +128,7 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
   }: S3UploadOptions): Promise<{
     url: string
     result: PutObjectCommandOutput
+    headObject: HeadObjectCommandOutput
   }> => {
     if (!bucket) throw new Error("no bucket set")
     const s3 = await this.getS3()
@@ -138,9 +140,12 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
       ACL: accessControl,
     })
 
+    const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
+
     return {
       url: `https://${bucket}.s3.amazonaws.com/${filePath}`,
       result,
+      headObject,
     }
   }
   deleteS3 = async ({

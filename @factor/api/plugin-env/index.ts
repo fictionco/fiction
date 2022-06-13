@@ -108,6 +108,7 @@ export class FactorEnv<
       this.envInit()
       this.nodeInit()
     }
+
     /**
      * Needs to come last so env vars are set
      */
@@ -308,7 +309,7 @@ export class FactorEnv<
     const envVar = this.vars.find((_) => _.name === variable)
 
     if (!envVar) {
-      throw new Error(`environmental variable missing: ${variable}`)
+      throw new Error(`var missing: ${variable}`)
     }
 
     return envVar.val as string | undefined

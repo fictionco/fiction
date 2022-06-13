@@ -23,6 +23,7 @@ import {
   QueryPaymentMethod,
 } from "./endpoints"
 import * as types from "./types"
+import "./register"
 
 export type StripePluginSettings = {
   factorApp: FactorApp

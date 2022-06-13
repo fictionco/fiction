@@ -1,3 +1,4 @@
+import type { FormData as FormDataNode } from "formdata-node"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"
@@ -99,16 +100,18 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return `${this.getBaseUrl()}${this.basePath}/${this.key}`
   }
 
-  async upload(data: FormData): Promise<ReturnType<T["run"]>> {
-    //console.log("UPLOADING DATA", data)
+  async upload(data: FormData | FormDataNode): Promise<ReturnType<T["run"]>> {
     const r = await fetch(this.requestUrl, {
-      method: "POST",
-      body: data,
+      body: data as BodyInit,
+      method: "post",
+      headers: {
+        Authorization: this.bearerHeader,
+      },
     })
 
-    const response = await r.text()
+    const response = (await r.json()) as Awaited<ReturnType<T["run"]>>
 
-    return response as Awaited<ReturnType<T["run"]>>
+    return response
   }
 
   public async request(
