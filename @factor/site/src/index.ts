@@ -53,7 +53,7 @@ export const factorServer = new FactorServer({
   factorEnv,
 })
 
-export const factorRouter = new FactorRouter<CompiledServiceConfig["routes"]>({
+export const factorRouter = new FactorRouter<CompiledServiceConfig>({
   routes,
 })
 

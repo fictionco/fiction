@@ -1,5 +1,5 @@
 import { FactorPlugin } from "../plugin"
-import { randomBetween, vue, vueRouter } from "../utils"
+import { vue, vueRouter } from "../utils"
 import { MenuItem } from "../types/utils"
 import { AppRoute } from "./appRoute"
 import { RouteReplacer } from "./types"
@@ -11,13 +11,17 @@ type FactorRouteSettings = {
   replacers?: RouteReplacer[]
 }
 
+type BaseCompiled = {
+  routes: string
+  menus: string
+  [key: string]: any
+}
+
 export class FactorRouter<
-  ROUTEKEY extends string = string,
-  MENUKEY extends string = string,
+  S extends BaseCompiled = BaseCompiled,
 > extends FactorPlugin<FactorRouteSettings> {
   readonly routes: vue.Ref<AppRoute<string>[]>
   router: vueRouter.Router
-  key = randomBetween(1, 10_000)
   replacers: RouteReplacer[]
   constructor(settings: FactorRouteSettings = {}) {
     super(settings)
@@ -145,7 +149,7 @@ export class FactorRouter<
       : false
   }
 
-  public rawPath(name: ROUTEKEY, replace?: Record<string, string>): string {
+  public rawPath(name: S["routes"], replace?: Record<string, string>): string {
     const val = this.routes.value.find((r) => name == r.name)
 
     let out = val?.path
@@ -165,7 +169,7 @@ export class FactorRouter<
   }
 
   private routeRef(
-    name: ROUTEKEY,
+    name: S["routes"],
     replacers: RouteReplacer[] = [],
   ): vue.ComputedRef<string> {
     return vue.computed<string>(() => {
@@ -188,7 +192,7 @@ export class FactorRouter<
   }
 
   public link(
-    key: ROUTEKEY,
+    key: S["routes"],
     replace: Record<
       string,
       string | undefined | vue.Ref<string | undefined>
@@ -207,7 +211,7 @@ export class FactorRouter<
   }
 
   public async goto(
-    key: ROUTEKEY,
+    key: S["routes"],
     replace: Record<
       string,
       string | undefined | vue.Ref<string | undefined>
@@ -223,14 +227,14 @@ export class FactorRouter<
    * replace by link
    */
   public to(
-    key: ROUTEKEY,
+    key: S["routes"],
     replace: Record<string, string | undefined> = {},
     query?: Record<string, any> | undefined,
   ): string {
     return this.link(key, replace, query).value
   }
 
-  private activeRef(name: ROUTEKEY): vue.ComputedRef<boolean> {
+  private activeRef(name: S["routes"]): vue.ComputedRef<boolean> {
     const val = this.routes.value.find((r) => name == r.name)
     const isActive = val?.isActive
 
@@ -241,7 +245,7 @@ export class FactorRouter<
     })
   }
 
-  public getRouteMenuItem(name: ROUTEKEY): MenuItem {
+  public getRouteMenuItem(name: S["routes"]): MenuItem {
     const val = this.routes.value.find((r) => name == r.name)
 
     const route = this.router?.currentRoute.value
@@ -253,19 +257,19 @@ export class FactorRouter<
       key: val.name,
       name: val.niceName,
       icon: val.icon,
-      active: this.activeRef(name as ROUTEKEY),
+      active: this.activeRef(name as S["routes"]),
       route: this.routeRef(name),
     }
   }
 
-  menu(location: MENUKEY): MenuItem[] {
+  menu(location: S["menus"]): MenuItem[] {
     const items: MenuItem[] = []
 
     this.routes.value.forEach((li) => {
       const menus = (li.menus || []) as string[]
 
       if (menus.includes(location)) {
-        items.push(this.getRouteMenuItem(li.name as ROUTEKEY))
+        items.push(this.getRouteMenuItem(li.name as S["routes"]))
       }
     })
     return items

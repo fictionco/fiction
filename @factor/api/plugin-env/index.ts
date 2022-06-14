@@ -81,6 +81,7 @@ type BaseCompiled = {
 export class FactorEnv<
   S extends BaseCompiled = BaseCompiled,
 > extends FactorPlugin<FactorControlSettings> {
+  generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
   envFiles = this.settings.envFiles || []
@@ -212,7 +213,7 @@ export class FactorEnv<
   }
 
   async setup() {
-    if (this.utils.mode() !== "production") {
+    if (!this.isProd() && !this.isApp()) {
       await generateStaticConfig(this)
     }
   }

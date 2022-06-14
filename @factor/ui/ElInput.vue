@@ -15,7 +15,11 @@
           :for="attrs.for"
           v-text="label"
         />
-        <div v-if="description" class="text-slate-500" v-text="description" />
+        <div
+          v-if="description"
+          class="text-sm text-slate-400"
+          v-text="description"
+        />
       </div>
     </div>
     <div class="input-area">
