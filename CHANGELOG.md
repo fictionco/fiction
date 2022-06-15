@@ -1,3 +1,12 @@
+## [5.4.7](https://github.com/FactorJS/factor/compare/v5.4.6...v5.4.7) (2022-06-15)
+
+
+### Features
+
+* auth redirects ([1e77d20](https://github.com/FactorJS/factor/commit/1e77d2054a0eb73a6e5e43a2ee6bc177fba95d48))
+
+
+
 ## [5.4.6](https://github.com/FactorJS/factor/compare/v5.4.5...v5.4.6) (2022-06-13)
 
 
