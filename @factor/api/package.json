@@ -5,8 +5,8 @@
     "factor": "./plugin-env/cli.js"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.107.0",
-    "@aws-sdk/client-s3": "^3.107.0",
+    "@aws-sdk/client-cloudfront": "^3.109.0",
+    "@aws-sdk/client-s3": "^3.109.0",
     "@iconify-json/carbon": "^1.1.5",
     "@iconify-json/heroicons-outline": "^1.1.1",
     "@medv/finder": "^2.1.0",
@@ -72,7 +72,7 @@
     "get-port": "^6.1.2",
     "glob": "^7.2.3",
     "google-auth-library": "^7.14.1",
-    "happy-dom": "^5.2.0",
+    "happy-dom": "^5.3.1",
     "helmet": "^5.1.0",
     "html-minifier": "^4.0.0",
     "html-to-text": "^8.2.0",
@@ -130,7 +130,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.18.5",
-    "@factor/api": "5.4.6",
+    "@factor/api": "workspace:5.4.6",
     "@playwright/test": "^1.22.2",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",

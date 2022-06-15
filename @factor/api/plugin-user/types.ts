@@ -122,8 +122,3 @@ export interface PrivateUser extends PublicUser {
  * All user information
  */
 export type FullUser = PrivateUser & ProfileUser
-
-export type AuthCallback = (args: {
-  user?: FullUser
-  searchBot: boolean
-}) => string | undefined | Promise<string | undefined>

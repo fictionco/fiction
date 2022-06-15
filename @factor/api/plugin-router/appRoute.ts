@@ -1,11 +1,10 @@
-import { RouteRecordRedirectOption, RouteLocation } from "vue-router"
-import type { Component } from "vue"
-import type { AuthCallback } from "../plugin-user/types"
-import type { FactorPlugin } from "../plugin"
+import { vue, vueRouter } from "../utils/libraries"
+import { FactorObject, FactorPlugin } from "../plugin"
 import { toLabel } from "../utils/utils"
+import type { RouteAuthCallback } from "./types"
 
 type IsActiveCallback = (c: {
-  route: RouteLocation
+  route: vueRouter.RouteLocation
   appRoute?: AppRoute<string>
 }) => boolean | undefined
 
@@ -23,54 +22,37 @@ export type AppRouteParams<T extends string> = {
   parent?: string
   priority?: number
   services?: Record<string, FactorPlugin>
+  auth?: RouteAuthCallback
   meta?: {
-    auth: AuthCallback
     [key: string]: unknown
   }
 } & (
   | { external: true; component?: undefined }
-  | { component: (() => Promise<Component>) | Component; external?: undefined }
+  | {
+      component: (() => Promise<vue.Component>) | vue.Component
+      external?: undefined
+    }
 )
-export class AppRoute<T extends string> {
-  name: T
-  niceName: string
-  path: string
-  menus: string[]
-  icon?: string
-  component?: (() => Promise<Component>) | Component
-  isActive?: IsActiveCallback
-  meta?: Record<string, unknown>
-  parent?: string
-  priority: number
+export class AppRoute<T extends string> extends FactorObject<
+  AppRouteParams<T>
+> {
+  name = this.settings.name
+  niceName = this.settings.niceName || toLabel(this.name)
+  path = this.settings.path
+  menus = this.settings.menus || []
+  icon? = this.settings.icon
+  component? = this.settings.component
+  isActive? = this.settings.isActive
+  meta = this.settings.meta || {}
+  parent? = this.settings.parent
+  priority = this.settings.priority || this.parent ? 200 : 100
   children: AppRoute<T>[] = []
-  external?: boolean
-  redirect?: RouteRecordRedirectOption
-  services: Record<string, FactorPlugin>
+  external? = this.settings.external
+  redirect?: vueRouter.RouteRecordRedirectOption
+  services = this.settings.services || {}
+  auth: RouteAuthCallback =
+    this.settings.auth || (() => ({ navigate: true, id: this.name }))
   constructor(params: AppRouteParams<T>) {
-    const {
-      name,
-      niceName,
-      path,
-      icon,
-      component,
-      isActive,
-      meta,
-      parent,
-      priority,
-      external,
-      menus,
-    } = params
-    this.name = name
-    this.niceName = niceName || toLabel(name)
-    this.path = path
-    this.icon = icon
-    this.component = component
-    this.isActive = isActive
-    this.meta = meta
-    this.parent = parent
-    this.external = external
-    this.priority = priority ? priority : parent ? 200 : 100
-    this.menus = menus || []
-    this.services = params.services || {}
+    super(params)
   }
 }

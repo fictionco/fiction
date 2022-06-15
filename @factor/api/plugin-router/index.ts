@@ -1,14 +1,15 @@
 import { FactorPlugin } from "../plugin"
-import { vue, vueRouter } from "../utils"
+import { HookType, vue, vueRouter } from "../utils"
 import { MenuItem } from "../types/utils"
 import { AppRoute } from "./appRoute"
-import { RouteReplacer } from "./types"
+import { RouteReplacer, NavigateRoute } from "./types"
 export * from "./types"
 export * from "./appRoute"
 
 type FactorRouteSettings = {
   routes?: AppRoute<string>[]
   replacers?: RouteReplacer[]
+  hooks?: HookType<FactorRouterHookDictionary>[]
 }
 
 type BaseCompiled = {
@@ -17,11 +18,32 @@ type BaseCompiled = {
   [key: string]: any
 }
 
+export type FactorRouterHookDictionary = {
+  beforeEach: {
+    args: [
+      {
+        to: vueRouter.RouteLocationNormalized
+        from: vueRouter.RouteLocationNormalized
+        navigate: NavigateRoute
+      },
+    ]
+  }
+  afterEach: {
+    args: [
+      {
+        to: vueRouter.RouteLocationNormalized
+        from: vueRouter.RouteLocationNormalized
+      },
+    ]
+  }
+}
+
 export class FactorRouter<
   S extends BaseCompiled = BaseCompiled,
 > extends FactorPlugin<FactorRouteSettings> {
   readonly routes: vue.Ref<AppRoute<string>[]>
   router: vueRouter.Router
+  hooks = this.settings.hooks || []
   replacers: RouteReplacer[]
   constructor(settings: FactorRouteSettings = {}) {
     super(settings)
@@ -32,6 +54,10 @@ export class FactorRouter<
     this.router = this.createFactorRouter()
   }
   setup() {}
+
+  addHook(hook: HookType<FactorRouterHookDictionary>): void {
+    this.hooks.push(hook)
+  }
 
   addReplacers(replacers: RouteReplacer[]) {
     this.replacers = [...this.replacers, ...replacers]
@@ -56,6 +82,27 @@ export class FactorRouter<
           return { top: 0 }
         }
       },
+    })
+
+    router.beforeEach(async (to, from) => {
+      const result = await this.utils.runHooks<
+        FactorRouterHookDictionary,
+        "beforeEach"
+      >({
+        list: this.hooks,
+        hook: "beforeEach",
+        args: [{ to, from, navigate: true }],
+      })
+
+      return result.navigate
+    })
+
+    router.afterEach(async (to, from) => {
+      await this.utils.runHooks<FactorRouterHookDictionary>({
+        list: this.hooks,
+        hook: "afterEach",
+        args: [{ to, from, navigate: true }],
+      })
     })
 
     return router
@@ -87,7 +134,12 @@ export class FactorRouter<
           path: li.path,
           name: li.name,
           component: li.component,
-          meta: { niceName: li.niceName, menus: li.menus, ...li.meta },
+          meta: {
+            niceName: li.niceName,
+            menus: li.menus,
+            auth: li.auth,
+            ...li.meta,
+          },
         }
 
         const props: Record<string, any> = {}
@@ -210,6 +262,24 @@ export class FactorRouter<
     })
   }
 
+  public async push(
+    location: vueRouter.RouteLocationRaw,
+    options?: { id?: string },
+  ) {
+    const { id = "unknown" } = options || {}
+    this.log.info(`pushing route [${id}]`, location)
+    await this.router.push(location)
+  }
+
+  public async replace(
+    location: vueRouter.RouteLocationRaw,
+    options?: { id?: string },
+  ) {
+    const { id = "unknown" } = options || {}
+    this.log.info(`replacing route [${id}]`, location)
+    await this.router.replace(location)
+  }
+
   public async goto(
     key: S["routes"],
     replace: Record<
@@ -219,7 +289,7 @@ export class FactorRouter<
     query?: Record<string, any> | undefined,
   ): Promise<void> {
     const path = this.link(key, replace, query).value
-    await this.router.push(path)
+    await this.push(path, { id: `goto:${key}` })
   }
 
   /**

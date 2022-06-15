@@ -182,7 +182,18 @@ export const initializeTestUtils = async (
   return { user, token, email }
 }
 
-export const createTestUtilServices = async (opts?: TestUtilSettings) => {
+export type TestBaseCompiled = {
+  commands: string
+  vars: string
+  routes: string
+  menus: string
+  [key: string]: any
+}
+
+
+export const createTestUtilServices = async  <
+S extends TestBaseCompiled = TestBaseCompiled,
+>(opts?: TestUtilSettings) => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
@@ -190,7 +201,7 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     envFiles = [],
   } = opts || {}
 
-  const factorEnv = new FactorEnv({
+  const factorEnv = new FactorEnv<S>({
     envFiles: [path.join(cwd, "./.env"), ...envFiles],
     cwd,
     appName: "Test App",
@@ -202,7 +213,7 @@ export const createTestUtilServices = async (opts?: TestUtilSettings) => {
     serverName: "testUtilServer",
   })
 
-  const factorRouter = new FactorRouter()
+  const factorRouter = new FactorRouter<S>()
 
   const factorApp = new FactorApp({
     port: appPort,
@@ -248,6 +259,7 @@ export const createTestUtils = async (opts?: TestUtilSettings) => {
   return {
     init: () => initializeTestUtils(testUtilServices),
     ...testUtilServices,
+    close: () => {}
   }
 }
 

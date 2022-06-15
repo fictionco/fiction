@@ -100,6 +100,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   sitemaps = this.settings.sitemaps ?? []
   standardPaths = this.factorEnv.standardPaths
   port = this.settings.port || 3000
+  appServer?: http.Server
+  staticServer?: http.Server
   appUrl =
     this.settings.appUrl && this.utils.mode() == "production"
       ? this.settings.appUrl
@@ -229,13 +231,16 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     app.provide("ui", this.createUi(this.ui))
     app.use(router)
 
-    if (renderUrl) await router.replace({ path: renderUrl })
-
+    if (renderUrl) {
+      await this.factorRouter.replace(
+        { path: renderUrl },
+        { id: "createVueApp" },
+      )
+    }
     await router.isReady()
 
     const meta = getMeta()
     app.use(meta)
-
     return { app, meta, router }
   }
 
@@ -528,15 +533,16 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   serveApp = async (): Promise<void> => {
     const app = await this.expressApp()
 
-    let server: http.Server
-
     await new Promise<void>((resolve) => {
-      server = app.listen(this.port, () => resolve())
+      this.appServer = app.listen(this.port, () => resolve())
     })
 
     this.logReady()
+  }
 
-    this.utils.onEvent("shutdown", () => server.close())
+  close(): void {
+    this.appServer?.close()
+    this.staticServer?.close()
   }
 
   tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
@@ -619,6 +625,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       mode: this.utils.mode(),
+      cwd,
     })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
@@ -799,11 +806,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       res.sendFile(path.join(distStatic, "/index.html"))
     })
 
-    const server = app.listen(this.port, () => {
+    this.staticServer = app.listen(this.port, () => {
       this.logReady()
     })
-
-    this.utils.onEvent("shutdown", () => server.close())
   }
 
   preRender = async (opts?: { serve: boolean }): Promise<void> => {

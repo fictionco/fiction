@@ -96,6 +96,7 @@ export class FactorEnv<
   isServer: () => boolean = () => !this.isApp
   isProd: () => boolean = () => this.utils.mode() === "production"
   isDev: () => boolean = () => this.utils.mode() === "development"
+  isTest: () => boolean = () => this.utils.isTest()
   appName = this.settings.appName
   appEmail = this.settings.appEmail
   // needs to be set from factorApp as it takes into account port
@@ -213,7 +214,7 @@ export class FactorEnv<
   }
 
   async setup() {
-    if (!this.isProd() && !this.isApp()) {
+    if (!this.isProd() && !this.isApp() && !this.isTest()) {
       await generateStaticConfig(this)
     }
   }

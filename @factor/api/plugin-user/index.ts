@@ -6,6 +6,12 @@ import { vars, EnvVar } from "../plugin-env"
 import type { FactorServer } from "../plugin-server"
 import type { FactorDb } from "../plugin-db"
 import type { FactorEmail } from "../plugin-email"
+import {
+  FactorRouter,
+  NavigateRoute,
+  RouteAuthCallback,
+} from "../plugin-router"
+import { vueRouter } from "../utils/libraries"
 import { QueryUserGoogleAuth } from "./userGoogle"
 import {
   ManageUserParams,
@@ -51,6 +57,7 @@ export type UserPluginSettings = {
   factorServer?: FactorServer
   factorDb: FactorDb
   factorEmail?: FactorEmail
+  factorRouter?: FactorRouter
   googleClientId?: string
   googleClientSecret?: string
   hooks?: HookType<FactorUserHookDictionary>[]
@@ -63,7 +70,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   factorServer = this.settings.factorServer
   factorDb = this.settings.factorDb
   factorEmail = this.settings.factorEmail
-
+  factorRouter = this.settings.factorRouter
   activeUser = this.utils.vue.ref<types.FullUser>()
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
@@ -86,9 +93,56 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     }
 
     this.factorDb.addTables([userTable])
+    this.factorRouter?.addHook({
+      hook: "beforeEach",
+      callback: async (params) => {
+        const r = await this.verifyRouteAuth({
+          route: params.to,
+        })
+
+        params.navigate = r
+
+        return params
+      },
+    })
   }
 
   setup() {}
+
+  async verifyRouteAuth(params: {
+    route: vueRouter.RouteLocationNormalized
+  }): Promise<NavigateRoute> {
+    const { route } = params
+    const user = await this.userInitialized()
+
+    const { matched } = route
+
+    const results = await Promise.all(
+      matched.map(async (r) => {
+        const auth = r.meta.auth as RouteAuthCallback
+        return await auth({
+          user,
+          isSearchBot: this.utils.isSearchBot(),
+          factorRouter: this.factorRouter,
+          route,
+        })
+      }),
+    )
+
+    const changeNav = results
+      .reverse()
+      .find(
+        (params) =>
+          params?.navigate === false || typeof params?.navigate == "object",
+      )
+
+    if (changeNav) {
+      this.log.debug(`route altered by ${changeNav.id}`, { data: changeNav })
+      return changeNav.navigate
+    } else {
+      return true
+    }
+  }
 
   createQueries() {
     const deps = {
@@ -150,7 +204,6 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   logout = async (): Promise<void> => {
     this.deleteCurrentUser()
     this.utils.emitEvent("logout")
-    this.utils.emitEvent("notify", "Successfully logged out.")
     this.utils.emitEvent("resetUi")
 
     await this.utils.runHooks({
@@ -214,6 +267,15 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     if (callback) callback(this.activeUser.value)
 
     return this.activeUser.value
+  }
+
+  pageInitialized = async (): Promise<void> => {
+    await Promise.all([
+      this.userInitialized(),
+      this.factorRouter?.router.isReady(),
+    ])
+
+    return
   }
 
   updateUser = async (

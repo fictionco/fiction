@@ -55,7 +55,11 @@ export const compileApplication = async (params: {
   mainFilePath?: string
   isApp: boolean
   serviceConfig?: ServiceConfig
-}): Promise<{ serviceConfig: ServiceConfig; mainFile: MainFile }> => {
+}): Promise<{
+  serviceConfig: ServiceConfig
+  mainFile: MainFile
+  mainFilePath?: string
+}> => {
   let { serviceConfig } = params
 
   const { mainFilePath, isApp } = params
@@ -105,7 +109,7 @@ export const compileApplication = async (params: {
     }
   }
 
-  return { serviceConfig, mainFile }
+  return { serviceConfig, mainFile, mainFilePath }
 }
 /**
  * Compiles the application in the server environment
