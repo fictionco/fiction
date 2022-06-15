@@ -31,7 +31,7 @@ const cwd = safeDirname(import.meta.url, "..")
 
 export const appName = "FactorJS"
 export const appEmail = "hi@factorjs.org"
-export const appUrl = "https://www.factorjs.org"
+export const productionUrl = "https://www.factorjs.org"
 
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(cwd, "./.env")],
@@ -39,7 +39,7 @@ export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   commands,
   appName,
   appEmail,
-  appUrl,
+  productionUrl,
 })
 
 export const factorDb = new FactorDb({
@@ -58,7 +58,7 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig>({
 })
 
 export const factorApp = new FactorApp({
-  appUrl,
+  productionUrl,
   factorServer,
   port: +(factorEnv.var("APP_PORT") || 3000),
   rootComponent: App,
@@ -76,6 +76,7 @@ export const factorEmail = new FactorEmail({
   smtpHost: factorEnv.var("SMTP_HOST"),
   smtpPassword: factorEnv.var("SMTP_PASSWORD"),
   smtpUser: factorEnv.var("SMTP_USER"),
+  appUrl: factorApp.appUrl,
 })
 
 export const factorUser = new FactorUser({

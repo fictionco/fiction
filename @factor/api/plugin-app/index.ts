@@ -68,7 +68,7 @@ export type FactorAppSettings = {
   hooks?: HookType<HookDictionary>[]
   mode?: "production" | "development"
 
-  appUrl?: string
+  productionUrl?: string
   port: number
   factorServer: FactorServer
   factorEnv: FactorEnv
@@ -103,8 +103,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   appServer?: http.Server
   staticServer?: http.Server
   appUrl =
-    this.settings.appUrl && this.utils.mode() == "production"
-      ? this.settings.appUrl
+    this.settings.productionUrl && this.utils.mode() == "production"
+      ? this.settings.productionUrl
       : `http://localhost:${this.port}`
   vars: Record<string, string | boolean | number> = {
     MODE: this.utils.mode(),

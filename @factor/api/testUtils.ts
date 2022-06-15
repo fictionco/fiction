@@ -228,6 +228,7 @@ S extends TestBaseCompiled = TestBaseCompiled,
 
   const factorEmail = new FactorEmail({
     factorEnv,
+    appUrl: factorApp.appUrl,
   })
 
   const factorUser = new FactorUser({

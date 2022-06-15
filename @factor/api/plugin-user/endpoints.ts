@@ -147,7 +147,7 @@ type ManageUserResponse = EndpointResponse<FullUser> & {
 export class QueryManageUser extends UserQuery {
   async run(
     params: ManageUserParams,
-    _meta?: EndpointMeta,
+    meta?: EndpointMeta,
   ): Promise<ManageUserResponse> {
     const { _action } = params
 
@@ -181,7 +181,7 @@ export class QueryManageUser extends UserQuery {
         throw this.stop("update user requires email, or user, and fields")
       }
 
-      checkServerFields(fields, _meta)
+      checkServerFields(fields, meta)
 
       const where = userId ? { userId } : { email }
 
@@ -212,7 +212,7 @@ export class QueryManageUser extends UserQuery {
         picture,
       } = fields
 
-      checkServerFields(fields, _meta)
+      checkServerFields(fields, meta)
 
       const hashedPassword = await hashPassword(password)
 
@@ -245,17 +245,20 @@ export class QueryManageUser extends UserQuery {
     if (
       user &&
       (_action == "getPrivate" || _action == "update" || _action == "create") &&
-      _meta
+      meta
     ) {
       user = await runHooks<FactorUserHookDictionary>({
         list: this.factorUser.hooks,
         hook: "processUser",
-        args: [user, { params, meta: _meta }],
+        args: [user, { params, meta: meta }],
       })
     }
 
     // don't return authority info to client
-    delete user?.verificationCode
+    if(!meta?.server) {
+      delete user?.verificationCode
+    }
+
 
     const response: ManageUserResponse = {
       status: "success",
@@ -264,7 +267,7 @@ export class QueryManageUser extends UserQuery {
       token,
     }
 
-    if (_meta?.bearer && _meta?.bearer.userId == user?.userId) {
+    if (meta?.bearer && meta?.bearer.userId == user?.userId) {
       response.user = user
     }
 

@@ -33,7 +33,7 @@ type FactorEmailSettings = {
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
-  appUrl?: string
+  appUrl: string
 }
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
@@ -44,7 +44,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   smtpPassword = this.settings.smtpPassword
   smtpPort = this.settings.smtpPort || 587
 
-  appUrl = this.settings.appUrl ?? ""
+  appUrl = this.settings.appUrl
   factorEnv = this.settings.factorEnv
   appName = this.factorEnv.appName
   appEmail = this.factorEnv.appEmail
@@ -63,12 +63,23 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       },
     }
 
-    if (
-      this.utils.isProd() &&
-      (!this.smtpPassword || !this.smtpUser || !this.smtpUser)
-    ) {
-      this.log.warn("email disabled, missing production smtp credentials")
-    } else if (!this.utils.isTest()) {
+    const req = {
+      SMTP_HOST: this.smtpHost,
+      SMTP_USER: this.smtpUser,
+      SMTP_PASSWORD: this.smtpPassword,
+    }
+
+    const missing = Object.entries(req)
+      .map(([v, value]) => (value ? undefined : v))
+      .filter(Boolean)
+
+    if (missing.length > 0) {
+      this.log.warn("email is log only (missing creds)", {
+        data: { vars: missing.join(", ") },
+      })
+    }
+
+    if (!this.utils.isTest() && missing.length == 0) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text

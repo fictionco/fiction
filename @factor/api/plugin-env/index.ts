@@ -68,7 +68,7 @@ export type FactorControlSettings = {
   nodemonConfigPath?: string
   appName: string
   appEmail: string
-  appUrl?: string
+  productionUrl?: string
   commands?: CliCommand<string>[]
 }
 
@@ -100,7 +100,7 @@ export class FactorEnv<
   appName = this.settings.appName
   appEmail = this.settings.appEmail
   // needs to be set from factorApp as it takes into account port
-  appUrl?: string
+  productionUrl = this.settings.productionUrl
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   constructor(settings: FactorControlSettings) {
