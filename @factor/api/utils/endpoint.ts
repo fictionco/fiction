@@ -33,6 +33,7 @@ export type EndpointMethodOptions<T extends Query> = {
 export type EndpointMeta = {
   bearer?: Partial<PrivateUser> & { userId: string; iat?: number }
   server?: boolean
+  returnAuthInfo?: boolean
   request?: express.Request
   response?: express.Response
 }
@@ -203,7 +204,10 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     } catch (error: unknown) {
       log.error("Endpoint", `error: ${method}`, { error })
 
-      responseData = { status: "error", message: "http request error" }
+      responseData = {
+        status: "error",
+        message: `http request error @${options.url}`,
+      }
     }
 
     log.debug("Endpoint", `response from ${url}`, { data: responseData })

@@ -255,10 +255,10 @@ export class QueryManageUser extends UserQuery {
     }
 
     // don't return authority info to client
-    if(!meta?.server) {
+    // some functions (email endpoint) need code though
+    if (!meta?.returnAuthInfo) {
       delete user?.verificationCode
     }
-
 
     const response: ManageUserResponse = {
       status: "success",

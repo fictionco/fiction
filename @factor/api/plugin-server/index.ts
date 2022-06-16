@@ -40,6 +40,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     "prerender",
   ]
   serverName = this.settings.serverName
+  server?: http.Server
   constructor(settings: FactorServerSettings) {
     super(settings)
 
@@ -113,11 +114,19 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
         },
       })
 
-      return await factorEndpointServer.runServer()
+      this.server = await factorEndpointServer.runServer()
+
+      return this.server
     } catch (error) {
       this.log.error(`endpoint start`, { error })
     }
 
     return
+  }
+
+  close() {
+    if (this.server) {
+      this.server.close()
+    }
   }
 }

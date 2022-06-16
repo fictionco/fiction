@@ -62,7 +62,7 @@ const snapString = (value: unknown, key?: string): string => {
     out = rep("name", val)
   } else if (key?.toLowerCase().endsWith("email") && val) {
     out = rep("email", val)
-  } else if (val.length === 32) {
+  } else if (val.length === 32 || key?.endsWith('Code')) {
     out = rep("hash", val)
   }
 
@@ -270,12 +270,14 @@ export const createTestServer = async (
     moduleName?: string
     headless?: boolean
     slowMo?: number
+    widgetPort?: number
     args?: Record<string, string | number>
   } & TestUtilSettings,
 ): Promise<TestServerConfig> => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
+    widgetPort = randomBetween(1000, 10_000),
     args = {},
   } = params || {}
 

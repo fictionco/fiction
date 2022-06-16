@@ -13,6 +13,7 @@ export class FactorBundle extends FactorPlugin {
   factorBuild: FactorBuild
   bundlingTotal = 0
   bundlingCurrent = 0
+  watchers: RollupWatcher[] = []
   constructor() {
     super({})
     this.factorBuild = new FactorBuild()
@@ -40,13 +41,31 @@ export class FactorBundle extends FactorPlugin {
     }
   }
 
+  async onBuilt(
+    onAllBuilt?: () => Promise<void> | void,
+    __resolve?: (w: RollupWatcher[]) => void,
+  ) {
+    this.bundlingCurrent++
+
+    if (this.bundlingCurrent == this.bundlingTotal) {
+      this.bundlingCurrent = 0
+      this.log.info(`bundling complete`)
+      if (onAllBuilt) {
+        await onAllBuilt()
+        // allows for async handling of method
+        if (__resolve) __resolve(this.watchers)
+      }
+    }
+  }
+
   bundlePackages = async (options: {
     cwds: string[]
     mode: "development" | "production"
     watch?: boolean
     onAllBuilt?: () => Promise<void> | void
+    isTest?: boolean
   }): Promise<RollupWatcher[]> => {
-    const { cwds, mode, onAllBuilt, watch } = options
+    const { cwds, mode, onAllBuilt, watch, isTest } = options
     this.bundlingTotal = cwds.length
     this.bundlingCurrent = 0
 
@@ -56,12 +75,23 @@ export class FactorBundle extends FactorPlugin {
       (resolve) => (__resolve = resolve),
     )
 
-    const watchers: RollupWatcher[] = []
+    this.watchers = []
     const _promises = cwds.map(async (cwd) => {
       const require = getRequire()
       const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
       const { name, main } = pkg
-      const { outputDir, entryFile } = pkg.buildOptions
+      const { entryFile } = pkg.buildOptions
+      let { outputDir } = pkg.buildOptions
+
+      const distDir = path.join("dist", outputDir || "")
+      const outFileEntry = path.join(cwd, distDir, 'index.js')
+
+      // dont build again if is test
+      if (isTest && fs.existsSync(outFileEntry)) {
+        await this.onBuilt(onAllBuilt, __resolve)
+        return
+      }
+
       const w = await this.bundle({
         name,
         cwd,
@@ -70,22 +100,10 @@ export class FactorBundle extends FactorPlugin {
         outputDir,
         entryFile,
         watch,
-        onBuilt: async () => {
-          this.bundlingCurrent++
-
-          if (this.bundlingCurrent == this.bundlingTotal) {
-            this.bundlingCurrent = 0
-            this.log.info(`bundling complete`)
-            if (onAllBuilt) {
-              await onAllBuilt()
-              // allows for async handling of method
-              if (__resolve) __resolve(watchers)
-            }
-          }
-        },
+        onBuilt: async () => this.onBuilt(onAllBuilt, __resolve),
       })
 
-      if (w) watchers.push(w)
+      if (w) this.watchers.push(w)
     })
 
     await Promise.all(_promises)
