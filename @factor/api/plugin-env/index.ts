@@ -1,7 +1,7 @@
 import path from "path"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
-import { HookType, getRequire } from "../utils"
+import { HookType, safeDirname } from "../utils"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
@@ -242,10 +242,7 @@ export class FactorEnv<
     const sourceDir = path.dirname(mainFilePath)
     const rootComponentPath = path.join(sourceDir, "App.vue")
     const publicDir = path.join(sourceDir, "public")
-    const mountFilePath = path.join(
-      path.dirname(getRequire().resolve("@factor/api")),
-      "/plugin-app/mount.ts",
-    )
+    const mountFilePath = path.join(safeDirname(import.meta.url), "mount.ts")
 
     return {
       cwd,

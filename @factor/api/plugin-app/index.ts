@@ -381,7 +381,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         )) as Record<string, any>
       } else {
         const srv = await this.getViteServer()
-        entryModule = await srv.ssrLoadModule("./mount.ts")
+        entryModule = await srv.ssrLoadModule("../plugin-env/mount.ts")
       }
 
       const { runViteApp } = entryModule as types.EntryModuleExports
@@ -433,6 +433,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const canonicalUrl = [this.appUrl || "", pathname || ""]
       .map((_: string) => _.replace(/\/$/, ""))
       .join("")
+
+    console.log("TEMPLATE", template)
 
     const html = template
       .replace(
@@ -710,7 +712,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           ssr: true,
           rollupOptions: {
             preserveEntrySignatures: "allow-extension", // not required
-            input: path.join(safeDirname(import.meta.url), "./mount.ts"),
+            input: path.join(
+              safeDirname(import.meta.url, ".."),
+              "./plugin-env/mount.ts",
+            ),
             output: { format: "es" },
           },
         },
