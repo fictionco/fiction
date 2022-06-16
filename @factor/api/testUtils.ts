@@ -6,8 +6,15 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { FactorPlugin } from "./plugin"
-import { safeDirname, randomBetween, stringify, camelToKebab } from "./utils"
+import {
+  safeDirname,
+  randomBetween,
+  stringify,
+  camelToKebab,
+  vue,
+} from "./utils"
 import { log } from "./plugin-log"
+
 import { EnvVar, runServicesSetup } from "./plugin-env"
 import { FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
@@ -21,7 +28,7 @@ import {
   FactorDb,
   FactorUser,
 } from "."
-
+import { FactorUi } from "@factor/ui"
 export * from "vitest"
 export * as playwright from "playwright"
 
@@ -40,9 +47,10 @@ export const getTestEmail = (): string => {
   const key = Math.random().toString().slice(2, 12)
   return `arpowers+${key}@gmail.com`
 }
-
+// regex all numbers and letters
+const regex = /[a-zA-Z0-9]/g
 const rep = (nm: string, val: string) =>
-  `[${nm}:${val.length > 3 ? val.length : "small"}]`
+  `[${nm}:${String(val).replace(/[A-Za-z0-9]/g, "*")}]`
 const snapString = (value: unknown, key?: string): string => {
   const val = String(value)
 
@@ -62,8 +70,10 @@ const snapString = (value: unknown, key?: string): string => {
     out = rep("name", val)
   } else if (key?.toLowerCase().endsWith("email") && val) {
     out = rep("email", val)
-  } else if (val.length === 32 || key?.endsWith('Code')) {
+  } else if (val.length === 32 || key?.endsWith("Code")) {
     out = rep("hash", val)
+  } else if (key == "latitude" || key == "longitude" || key == "ip") {
+    out = rep("geo", val)
   }
 
   return out
@@ -144,6 +154,8 @@ export type TestUtilSettings = {
   appPort?: number
   cwd?: string
   envFiles?: string[]
+  rootComponent?: vue.Component
+  uiPaths?: string[]
   envVars?: () => EnvVar<string>[]
 }
 
@@ -190,15 +202,18 @@ export type TestBaseCompiled = {
   [key: string]: any
 }
 
-
-export const createTestUtilServices = async  <
-S extends TestBaseCompiled = TestBaseCompiled,
->(opts?: TestUtilSettings) => {
+export const createTestUtilServices = async <
+  S extends TestBaseCompiled = TestBaseCompiled,
+>(
+  opts?: TestUtilSettings,
+) => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
     cwd = safeDirname(import.meta.url),
     envFiles = [],
+    rootComponent = EmptyApp,
+    uiPaths = [],
   } = opts || {}
 
   const factorEnv = new FactorEnv<S>({
@@ -217,10 +232,11 @@ S extends TestBaseCompiled = TestBaseCompiled,
 
   const factorApp = new FactorApp({
     port: appPort,
-    rootComponent: EmptyApp,
+    rootComponent,
     factorRouter,
     factorServer,
     factorEnv,
+    uiPaths,
   })
   const factorDb = new FactorDb({
     connectionUrl: factorEnv.var("POSTGRES_URL"),
@@ -249,6 +265,7 @@ S extends TestBaseCompiled = TestBaseCompiled,
     factorUser,
     factorDb,
     factorEmail,
+    factorUi: new FactorUi({ factorApp }),
   }
 
   return services
@@ -260,7 +277,7 @@ export const createTestUtils = async (opts?: TestUtilSettings) => {
   return {
     init: () => initializeTestUtils(testUtilServices),
     ...testUtilServices,
-    close: () => {}
+    close: () => {},
   }
 }
 
@@ -338,7 +355,7 @@ export const createTestServer = async (
     destroy: async () => {
       if (_process) {
         _process.cancel()
-        _process.kill("SIGTERM")
+        _process.kill()
       }
       await browser.close()
     },
@@ -359,9 +376,9 @@ export const appBuildTests = (config: {
 
   if (!cwd) throw new Error("cwd is not defined")
 
-  describe.skip(`build app: ${moduleName}`, () => {
+  describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor prerender --server-port ${serverPort} --app-port ${appPort}`
+      const command = `npm exec -w ${moduleName} -- factor run prerender --server-port ${serverPort} --app-port ${appPort}`
 
       log.info("appBuildTests", "running prerender command", { data: command })
       const r = execaCommandSync(command, {
@@ -373,9 +390,9 @@ export const appBuildTests = (config: {
       fs.existsSync(path.join(cwd, "./dist/static"))
     })
 
-    it.skip("runs dev", () => {
+    it("runs dev", () => {
       const r = execaCommandSync(
-        `npm exec -w ${moduleName} -- factor rdev --exit --server-port ${serverPort} --app-port ${appPort}`,
+        `npm exec -w ${moduleName} -- factor run dev --exit --server-port ${serverPort} --app-port ${appPort}`,
         {
           env: { IS_TEST: "1", TEST_ENV: "unit" },
           timeout: 20_000,

@@ -27,7 +27,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: hello@darwin.so
+      PGADMIN_DEFAULT_EMAIL: hello@kaption.co
       PGADMIN_DEFAULT_PASSWORD: password
     volumes:
       - pgadmin:/root/.pgadmin

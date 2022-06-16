@@ -541,6 +541,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   close(): void {
+    this.log.info("close app")
     this.appServer?.close()
     this.staticServer?.close()
   }
