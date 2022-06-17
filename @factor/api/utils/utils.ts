@@ -80,7 +80,7 @@ export const getGlobalThis = (): any => {
  * Detect if visitor is actually a search bot
  */
 export const isSearchBot = (): boolean => {
-  if (!window || !window.navigator) {
+  if (typeof window == "undefined" || !window.navigator) {
     return false
   }
   const result =

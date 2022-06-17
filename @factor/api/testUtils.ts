@@ -5,6 +5,7 @@ import { execaCommandSync, execaCommand, ExecaChildProcess } from "execa"
 import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
+import { FactorUi } from "@factor/ui"
 import { FactorPlugin } from "./plugin"
 import {
   safeDirname,
@@ -28,7 +29,6 @@ import {
   FactorDb,
   FactorUser,
 } from "."
-import { FactorUi } from "@factor/ui"
 export * from "vitest"
 export * as playwright from "playwright"
 
@@ -48,9 +48,8 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 // regex all numbers and letters
-const regex = /[a-zA-Z0-9]/g
 const rep = (nm: string, val: string) =>
-  `[${nm}:${String(val).replace(/[A-Za-z0-9]/g, "*")}]`
+  `[${nm}:${String(val).replace(/[\dA-Za-z]/g, "*")}]`
 const snapString = (value: unknown, key?: string): string => {
   const val = String(value)
 
@@ -237,7 +236,7 @@ export const createTestUtilServices = async <
     factorServer,
     factorEnv,
     uiPaths,
-    isTest: true
+    isTest: true,
   })
   const factorDb = new FactorDb({
     connectionUrl: factorEnv.var("POSTGRES_URL"),

@@ -311,7 +311,8 @@ export class FactorEnv<
     const envVar = this.vars.find((_) => _.name === variable)
 
     if (!envVar) {
-      throw new Error(`var missing: ${variable}`)
+      this.log.warn(`envVar missing: ${variable}`)
+      return undefined
     }
 
     return envVar.val as string | undefined

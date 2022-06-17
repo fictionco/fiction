@@ -734,7 +734,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         vite.build(serverBuildOptions),
       ])
 
-      this.log.info("[done] application built successfully")
+      this.log.info("[done:build] application built successfully")
 
       await this.factorSitemap?.generateSitemap({
         appUrl: this.appUrl,
@@ -777,7 +777,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const _asyncFunctions = urls.map((pathname: string) => {
       return async (): Promise<string> => {
         const filePath = `${pathname === "/" ? "/index" : pathname}.html`
-        this.log.info("preRenderPages", `pre-rendering: ${filePath}`)
+        this.log.info(`pre-rendering: ${filePath}`)
 
         const html = await this.getRequestHtml({ ...generators, pathname })
 
@@ -785,7 +785,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         fs.ensureDirSync(path.dirname(writePath))
         fs.writeFileSync(writePath, html)
 
-        this.log.info("preRenderPages", `pre-rendered: ${filePath}`)
+        this.log.info(`pre-rendered: ${filePath}`)
         return filePath
       }
     })
@@ -793,7 +793,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     for (const fn of _asyncFunctions) {
       await fn()
     }
-
+    this.log.info(`[done:prerender]`)
     return
   }
 

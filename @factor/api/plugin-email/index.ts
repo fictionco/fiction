@@ -48,6 +48,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   factorEnv = this.settings.factorEnv
   appName = this.factorEnv.appName
   appEmail = this.factorEnv.appEmail
+  isTest = this.utils.isTest()
+  isApp = this.utils.isApp()
   constructor(settings: FactorEmailSettings) {
     super(settings)
 
@@ -79,7 +81,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       })
     }
 
-    if (!this.utils.isTest() && missing.length == 0) {
+    if (!this.isTest && !this.isApp && missing.length == 0) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text
