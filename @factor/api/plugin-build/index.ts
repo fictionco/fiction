@@ -222,7 +222,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       "@MAIN_FILE_ALIAS": mainFile,
       "@MOUNT_FILE_ALIAS": path.join(
         safeDirname(import.meta.url, ".."),
-        "/plugin-env/mount.ts",
+        "/plugin-app/mount.ts",
       ),
     }
   }

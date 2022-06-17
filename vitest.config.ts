@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@MAIN_FILE_ALIAS": `${process.cwd()}/@factor/site/src/index.ts`,
-      "@MOUNT_FILE_ALIAS": `${process.cwd()}/@factor/plugin-env/mount.ts`,
+      "@MOUNT_FILE_ALIAS": `${process.cwd()}/@factor/plugin-app/mount.ts`,
     },
   },
 

@@ -237,6 +237,7 @@ export const createTestUtilServices = async <
     factorServer,
     factorEnv,
     uiPaths,
+    isTest: true
   })
   const factorDb = new FactorDb({
     connectionUrl: factorEnv.var("POSTGRES_URL"),

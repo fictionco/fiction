@@ -242,7 +242,10 @@ export class FactorEnv<
     const sourceDir = path.dirname(mainFilePath)
     const rootComponentPath = path.join(sourceDir, "App.vue")
     const publicDir = path.join(sourceDir, "public")
-    const mountFilePath = path.join(safeDirname(import.meta.url), "mount.ts")
+    const mountFilePath = path.join(
+      safeDirname(import.meta.url, ".."),
+      "./plugin-app/mount.ts",
+    )
 
     return {
       cwd,

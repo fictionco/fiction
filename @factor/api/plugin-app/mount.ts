@@ -2,8 +2,8 @@ import "tailwindcss/tailwind.css"
 // eslint-disable-next-line import/no-unresolved
 import "uno.css"
 import { isNode } from "../utils"
+import { compileApplication } from "../plugin-env/entry"
 import { FactorAppEntry } from "./types"
-import { compileApplication } from "./entry"
 
 export const runViteApp = async (
   params: { renderUrl?: string } = {},

@@ -67,7 +67,7 @@ type HookDictionary = {
 export type FactorAppSettings = {
   hooks?: HookType<HookDictionary>[]
   mode?: "production" | "development"
-
+  isTest?: boolean
   productionUrl?: string
   port: number
   factorServer: FactorServer
@@ -88,7 +88,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   serverOnlyImports = this.settings.serverOnlyImports ?? []
   factorRouter = this.settings.factorRouter
   ui = this.settings.ui || {}
-
+  mode = this.settings.mode || this.utils.mode()
+  isTest = this.settings.isTest || this.utils.isTest()
   rootComponent = this.settings.rootComponent
   factorBuild?: FactorBuild
   factorDevRestart?: FactorDevRestart
@@ -103,12 +104,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   appServer?: http.Server
   staticServer?: http.Server
   appUrl =
-    this.settings.productionUrl && this.utils.mode() == "production"
+    this.settings.productionUrl && this.mode == "production"
       ? this.settings.productionUrl
       : `http://localhost:${this.port}`
   vars: Record<string, string | boolean | number> = {
-    MODE: this.utils.mode(),
-    IS_TEST: this.utils.isTest(),
+    MODE: this.mode,
+    IS_TEST: this.isTest,
     IS_VITE: "true",
     SERVER_URL: this.factorServer.serverUrl,
     APP_URL: this.appUrl,
@@ -298,9 +299,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     // alias is need for vite/rollup to handle correctly
     const clientTemplatePath =
-      this.utils.mode() == "production"
-        ? `@MOUNT_FILE_ALIAS`
-        : `/@fs${mountFilePath}`
+      this.mode == "production" ? `@MOUNT_FILE_ALIAS` : "/@mount.ts" //`/@fs${mountFilePath}`
 
     let template = rawTemplate.replace(
       "</body>",
@@ -308,12 +307,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     </body>`,
     )
 
-    if (this.utils.mode() !== "production" && pathname) {
+    if (this.mode !== "production" && pathname) {
       const srv = await this.getViteServer()
       template = await srv.transformIndexHtml(pathname, template)
     }
 
-    if (this.utils.mode() == "production") {
+    if (this.mode == "production") {
       fs.ensureDirSync(dist)
       fs.writeFileSync(path.join(dist, "index.html"), template)
     }
@@ -334,7 +333,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const out: types.RenderConfig = { template: "", manifest: {} }
 
-    if (this.utils.mode() == "production") {
+    if (this.mode == "production") {
       fs.ensureDirSync(distClient)
       const indexHtmlPath = path.resolve(distClient, "./index.html")
       out.template = fs.readFileSync(indexHtmlPath, "utf8")
@@ -355,7 +354,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   ): Promise<types.RenderedHtmlParts> => {
     const { pathname, manifest } = params
     const { distServerEntry } = this.standardPaths || {}
-    const prod = this.utils.mode() == "production" ? true : false
+    const prod = this.mode == "production" ? true : false
 
     if (!distServerEntry) throw new Error("distServerEntry is missing")
 
@@ -381,7 +380,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         )) as Record<string, any>
       } else {
         const srv = await this.getViteServer()
-        entryModule = await srv.ssrLoadModule("../plugin-env/mount.ts")
+        entryModule = await srv.ssrLoadModule("./mount.ts")
       }
 
       const { runViteApp } = entryModule as types.EntryModuleExports
@@ -424,7 +423,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       await this.renderParts({ template, pathname, manifest })
 
     // In development, get the index.html each request
-    if (this.utils.mode() != "production") {
+    if (this.mode != "production") {
       // template = await getIndexHtml(mode, url)
     }
 
@@ -433,8 +432,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const canonicalUrl = [this.appUrl || "", pathname || ""]
       .map((_: string) => _.replace(/\/$/, ""))
       .join("")
-
-    console.log("TEMPLATE", template)
 
     const html = template
       .replace(
@@ -458,7 +455,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   expressApp = async (): Promise<Express> => {
-    const { distClient, sourceDir } = this.standardPaths || {}
+    const { distClient, sourceDir, mountFilePath } = this.standardPaths || {}
 
     if (!distClient || !sourceDir) {
       throw new Error("distClient && sourceDir are required")
@@ -476,12 +473,26 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
       const { manifest, template } = await this.htmlGenerators()
 
-      if (this.utils.mode() != "production") {
+      if (this.mode != "production") {
         viteServer = await this.getViteServer()
         app.use(viteServer.middlewares)
       } else {
         app.use(compression())
         app.use(serveStatic(distClient, { index: false }))
+      }
+
+      const srv = await this.getViteServer()
+      const rawSource = await srv.transformRequest(
+        path.join(safeDirname(import.meta.url), "./mount.ts"),
+      )
+
+      if (mountFilePath) {
+        app.use("/@mount.ts", async (req, res) => {
+          res
+            .setHeader("Content-Type", "application/javascript")
+            .send(rawSource?.code)
+            .end()
+        })
       }
 
       // server side rendering
@@ -525,7 +536,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const name = this.appName || "Unnamed App"
     const port = `[ ${this.port} ]`
     const url = this.appUrl
-    const mode = this.utils.mode()
+    const mode = this.mode
 
     this.log.info(`serving app [ready]`, {
       data: { name, port, url, mode },
@@ -627,7 +638,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const { getMarkdownUtility } = await import("../utils/markdown")
 
     const commonVite = await this.factorBuild?.getCommonViteConfig({
-      mode: this.utils.mode(),
+      mode: this.mode,
       cwd,
     })
 
@@ -712,10 +723,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           ssr: true,
           rollupOptions: {
             preserveEntrySignatures: "allow-extension", // not required
-            input: path.join(
-              safeDirname(import.meta.url, ".."),
-              "./plugin-env/mount.ts",
-            ),
+            input: path.join(safeDirname(import.meta.url), "./mount.ts"),
             output: { format: "es" },
           },
         },
