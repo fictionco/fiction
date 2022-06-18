@@ -62,6 +62,8 @@ vars.register(() => [
 type HookDictionary = {
   afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
   viteConfig: { args: [vite.InlineConfig[]] }
+  htmlHead: { args: [string, { pathname?: string }] }
+  htmlBody: { args: [string, { pathname?: string }] }
 }
 
 export type FactorAppSettings = {
@@ -359,9 +361,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     if (!distServerEntry) throw new Error("distServerEntry is missing")
 
     const out = {
-      appHtml: "",
+      htmlBody: "",
       preloadLinks: "",
-      headTags: "",
+      htmlHead: "",
       htmlAttrs: "",
       bodyAttrs: "",
     }
@@ -396,7 +398,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
        */
 
       const ctx: { modules?: string[] } = {}
-      out.appHtml = await renderToString(app, ctx)
+      out.htmlBody = await renderToString(app, ctx)
 
       /**
        * SSR manifest maps assets which allows us to render preload links for performance
@@ -407,8 +409,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       /**
        * Meta/Head Rendering
        */
-      const { headTags, htmlAttrs, bodyAttrs } = renderMeta(meta)
-      out.headTags = headTags
+      const { headTags: htmlHead, htmlAttrs, bodyAttrs } = renderMeta(meta)
+      out.htmlHead = htmlHead
       out.htmlAttrs = htmlAttrs
       out.bodyAttrs = bodyAttrs
     }
@@ -418,16 +420,23 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   getRequestHtml = async (params: types.RenderConfig): Promise<string> => {
     const { pathname, manifest, template } = params
-
-    const { appHtml, preloadLinks, headTags, htmlAttrs, bodyAttrs } =
-      await this.renderParts({ template, pathname, manifest })
-
-    // In development, get the index.html each request
-    if (this.mode != "production") {
-      // template = await getIndexHtml(mode, url)
-    }
+    const parts = await this.renderParts({ template, pathname, manifest })
+    let { htmlBody, htmlHead } = parts
+    const { preloadLinks, htmlAttrs, bodyAttrs } = parts
 
     if (!template) throw new Error("html template required")
+
+    htmlHead = await this.utils.runHooks({
+      list: this.hooks,
+      hook: "htmlHead",
+      args: [htmlHead, { pathname }],
+    })
+
+    htmlBody = await this.utils.runHooks({
+      list: this.hooks,
+      hook: "htmlBody",
+      args: [htmlBody, { pathname }],
+    })
 
     const canonicalUrl = [this.appUrl || "", pathname || ""]
       .map((_: string) => _.replace(/\/$/, ""))
@@ -435,19 +444,19 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const html = template
       .replace(
-        `<!--app-debug-->`,
+        `<!--factor-debug-->`,
         `<!-- ${JSON.stringify({ pathname }, null, 1)} -->`,
       )
       .replace(
-        `<!--app-head-->`,
+        `<!--factor-head-->`,
         [
-          headTags,
+          htmlHead,
           preloadLinks,
           `<link href="${canonicalUrl}" rel="canonical">`,
           `<meta name="generator" content="FactorJS ${version}" />`,
         ].join(`\n`),
       )
-      .replace(`<!--app-body-->`, appHtml)
+      .replace(`<!--factor-body-->`, htmlBody)
       .replace(/<body([^>]*)>/i, `<body$1 ${bodyAttrs}>`)
       .replace(/<html([^>]*)>/i, `<html$1 ${htmlAttrs}>`)
 

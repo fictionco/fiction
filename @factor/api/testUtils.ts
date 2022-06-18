@@ -294,7 +294,7 @@ export const createTestServer = async (
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
-    widgetPort = randomBetween(1000, 10_000),
+   // widgetPort = randomBetween(1000, 10_000),
     args = {},
   } = params || {}
 

@@ -9,9 +9,9 @@ Any standard HTML you include in this file will appear on all pages of your appl
 
 For dynamic content, Factor replaces some standard variables with associated content on build:
 
-- `<!--app-body-->` - This tag will be replaced with the page body content
-- `<!--app-head-->` - This tag will be replaced with dynamic meta information for the page
-- `<!--app-debug-->` - This tag will be replaced with available debugging information such as the currently rendered page.
+- `<!--factor-body-->` - This tag will be replaced with the page body content
+- `<!--factor-head-->` - This tag will be replaced with dynamic meta information for the page
+- `<!--factor-debug-->` - This tag will be replaced with available debugging information such as the currently rendered page.
 
 A typical `index.html` file will look like this:
 
@@ -22,12 +22,12 @@ A typical `index.html` file will look like this:
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="/favicon.png" />
-    <!--app-head-->
+    <!--factor-head-->
   </head>
 
   <body class="factor-app">
-    <div id="app"><!--app-body--></div>
-    <!--app-debug-->
+    <div id="app"><!--factor-body--></div>
+    <!--factor-debug-->
   </body>
 </html>
 ```

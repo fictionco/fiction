@@ -1,4 +1,6 @@
 import http from "http"
+import "./register"
+
 import {
   FactorPlugin,
   HookType,
@@ -23,7 +25,6 @@ import {
   QueryPaymentMethod,
 } from "./endpoints"
 import * as types from "./types"
-import "./register"
 
 export type StripePluginSettings = {
   factorApp: FactorApp

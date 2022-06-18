@@ -24,9 +24,9 @@ export type HtmlGenerateParts = HtmlBuildingBlocks & {
 }
 
 export interface RenderedHtmlParts {
-  appHtml: string
+  htmlBody: string
   preloadLinks: string
-  headTags: string
+  htmlHead: string
   htmlAttrs: string
   bodyAttrs: string
 }

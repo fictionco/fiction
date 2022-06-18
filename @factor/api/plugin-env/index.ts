@@ -49,6 +49,7 @@ class EnvVarList {
   ]
 
   register(v: () => EnvVar<string>[]) {
+    console.log("reg", v())
     this.list.push(v)
   }
 }
