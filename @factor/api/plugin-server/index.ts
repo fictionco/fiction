@@ -89,6 +89,8 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
       factorUser?: FactorUser
     } = {},
   ): Promise<http.Server | undefined> => {
+    if (this.utils.isApp()) return
+
     const { factorUser } = params
     if (!this.port) throw new Error("port not defined")
     try {

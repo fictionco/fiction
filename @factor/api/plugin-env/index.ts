@@ -105,9 +105,8 @@ export class FactorEnv<
   currentCommandOpts: types.CliOptions | undefined
   constructor(settings: FactorControlSettings) {
     super(settings)
-
+    this.envInit()
     if (!this.utils.isApp()) {
-      this.envInit()
       this.nodeInit()
     }
 
@@ -133,9 +132,9 @@ export class FactorEnv<
   }
 
   envInit() {
-    const commandName = process.env.FACTOR_ENV_COMMAND || ""
+    const commandName = process.env.COMMAND || ""
     const commandOpts = JSON.parse(
-      process.env.FACTOR_ENV_COMMAND_OPTS || "{}",
+      process.env.COMMAND_OPTS || "{}",
     ) as types.CliOptions
 
     if (!commandName) return
@@ -278,7 +277,20 @@ export class FactorEnv<
     })
   }
 
-  runCurrentCommand = async (): Promise<void> => {
+  async crossRunCommand() {
+    const runConfig = {
+      command: this.currentCommand?.command,
+      ...this.currentCommand?.options,
+    }
+
+    await this.utils.runHooks<FactorEnvHookDictionary>({
+      list: this.hooks,
+      hook: "runCommand",
+      args: [this.currentCommand?.command || "", runConfig],
+    })
+  }
+
+  serverRunCurrentCommand = async (): Promise<void> => {
     if (!this.currentCommand) throw new Error("currentCommand not set")
     if (!this.standardPaths) throw new Error("standard paths not set")
 
@@ -288,19 +300,9 @@ export class FactorEnv<
 
     const mainFilePath = this.standardPaths.mainFilePath
 
-    const serviceConfig = await getServerServiceConfig({ mainFilePath })
+    await getServerServiceConfig({ mainFilePath })
 
-    const runConfig = {
-      command: cliCommand.command,
-      ...cliCommand.options,
-      serviceConfig,
-    }
-
-    await this.utils.runHooks<FactorEnvHookDictionary>({
-      list: this.hooks,
-      hook: "runCommand",
-      args: [cliCommand.command, runConfig],
-    })
+    await this.crossRunCommand()
 
     if (cliCommand.options.exit) {
       done(0)

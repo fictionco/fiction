@@ -19,8 +19,8 @@ export const runCommand = async (
     const mainFileRelPath = packageMainFile(cwd)
     const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
-    process.env.FACTOR_ENV_COMMAND = command
-    process.env.FACTOR_ENV_COMMAND_OPTS = JSON.stringify(optionsFromCli || {})
+    process.env.COMMAND = command
+    process.env.COMMAND_OPTS = JSON.stringify(optionsFromCli || {})
     /**
      * ! THIS MUST COME AFTER ENV VARIABLES ARE SET
      *   Plugins expect the CLI vars (mode, port, etc. )
@@ -34,7 +34,7 @@ export const runCommand = async (
       throw new Error(`no factorEnv at [${mainFilePath}]`)
     }
 
-    await factorEnv.runCurrentCommand()
+    await factorEnv.serverRunCurrentCommand()
   } catch (error) {
     log.error("CLI", `Error Running CLI Command [${command}]`, { error })
     exitHandler({ exit: true })

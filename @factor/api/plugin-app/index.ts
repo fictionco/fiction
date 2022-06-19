@@ -110,9 +110,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       ? this.settings.productionUrl
       : `http://localhost:${this.port}`
   vars: Record<string, string | boolean | number> = {
+    COMMAND: process.env.COMMAND || "",
+    COMMAND_OPTS: process.env.COMMAND_OPTS || "",
     MODE: this.mode,
     IS_TEST: this.isTest,
-    IS_VITE: "true",
+    IS_VITE: "1",
     SERVER_URL: this.factorServer.serverUrl,
     APP_URL: this.appUrl,
   }
@@ -255,6 +257,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const { id = "#app" } = params
 
     const entry = await this.createVueApp(params)
+
+    await this.factorEnv.crossRunCommand()
+
 
     if (!this.utils.isNode()) {
       initializeResetUi(this.factorRouter).catch(console.error)
@@ -463,7 +468,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return minify(html, { continueOnParseError: true })
   }
 
-  expressApp = async (): Promise<Express> => {
+  expressApp = async (): Promise<Express | undefined> => {
+    if (this.utils.isApp()) return
+
     const { distClient, sourceDir, mountFilePath } = this.standardPaths || {}
 
     if (!distClient || !sourceDir) {
@@ -553,10 +560,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   serveApp = async (): Promise<void> => {
+    if(this.utils.isApp()) return
+
     const app = await this.expressApp()
 
     await new Promise<void>((resolve) => {
-      this.appServer = app.listen(this.port, () => resolve())
+      this.appServer = app?.listen(this.port, () => resolve())
     })
 
     this.logReady()
