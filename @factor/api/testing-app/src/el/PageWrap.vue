@@ -19,16 +19,17 @@
           <div
             class="hidden items-center justify-end space-x-4 md:flex md:flex-1 lg:w-0"
           >
-            <a
+            <RouterLink
               id="nav-error"
+              :to="randomRoute()"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
               @click.stop="makeError()"
             >
               Error
-            </a>
+            </RouterLink>
             <RouterLink
               id="nav-home"
-              to="/page"
+              :to="randomRoute()"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Page
@@ -61,39 +62,43 @@
                 </h3>
                 <ul role="list" class="mt-4 space-y-4">
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Marketing
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Analytics
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Commerce
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Insights
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -105,39 +110,43 @@
                 </h3>
                 <ul role="list" class="mt-4 space-y-4">
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Pricing
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Documentation
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Guides
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       API Status
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -151,48 +160,53 @@
                 </h3>
                 <ul role="list" class="mt-4 space-y-4">
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       About
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Blog
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Jobs
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Press
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Partners
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -204,30 +218,33 @@
                 </h3>
                 <ul role="list" class="mt-4 space-y-4">
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Claim
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Privacy
-                    </a>
+                    </RouterLink>
                   </li>
 
                   <li>
-                    <a
-                      href="#"
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
                       class="text-base text-gray-500 hover:text-gray-900"
                     >
                       Terms
-                    </a>
+                    </RouterLink>
                   </li>
                 </ul>
               </div>
@@ -269,7 +286,11 @@
           class="mt-12 border-t border-gray-200 pt-8 md:flex md:items-center md:justify-between lg:mt-16"
         >
           <div class="flex space-x-6 md:order-2">
-            <a href="#" class="text-gray-400 hover:text-gray-500">
+            <RouterLink
+              :id="randomId()"
+              :to="randomRoute()"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <span class="sr-only">Facebook</span>
               <svg
                 class="h-6 w-6"
@@ -283,9 +304,13 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </RouterLink>
 
-            <a href="#" class="text-gray-400 hover:text-gray-500">
+            <RouterLink
+              :id="randomId()"
+              :to="randomRoute()"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <span class="sr-only">Instagram</span>
               <svg
                 class="h-6 w-6"
@@ -299,9 +324,13 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </RouterLink>
 
-            <a href="#" class="text-gray-400 hover:text-gray-500">
+            <RouterLink
+              :id="randomId()"
+              :to="randomRoute()"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <span class="sr-only">Twitter</span>
               <svg
                 class="h-6 w-6"
@@ -313,9 +342,13 @@
                   d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
                 />
               </svg>
-            </a>
+            </RouterLink>
 
-            <a href="#" class="text-gray-400 hover:text-gray-500">
+            <RouterLink
+              :id="randomId()"
+              :to="randomRoute()"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <span class="sr-only">GitHub</span>
               <svg
                 class="h-6 w-6"
@@ -329,9 +362,13 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </RouterLink>
 
-            <a href="#" class="text-gray-400 hover:text-gray-500">
+            <RouterLink
+              :id="randomId()"
+              :to="randomRoute()"
+              class="text-gray-400 hover:text-gray-500"
+            >
               <span class="sr-only">Dribbble</span>
               <svg
                 class="h-6 w-6"
@@ -345,7 +382,7 @@
                   clip-rule="evenodd"
                 />
               </svg>
-            </a>
+            </RouterLink>
           </div>
           <p class="mt-8 text-base text-gray-400 md:order-1 md:mt-0">
             &copy; 2020 Workflow, Inc. All rights reserved.
@@ -357,7 +394,7 @@
 </template>
 <script lang="ts" setup>
 import { RouterLink } from "vue-router"
-
+import { randomId, randomRoute } from "../utils"
 const makeError = () => {
   throw new Error("Deliberate Error")
 }

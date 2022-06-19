@@ -60,7 +60,7 @@
     "dotenv": "^16.0.1",
     "enquirer": "^2.3.6",
     "es-module-lexer": "^0.10.5",
-    "esbuild": "^0.14.45",
+    "esbuild": "^0.14.46",
     "events": "^3.3.0",
     "express": "^4.18.1",
     "extract-domain": "^2.4.1",
@@ -130,7 +130,8 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.18.5",
-    "@factor/api": "5.4.9",
+    "@factor/api": "workspace:5.4.9",
+    "@faker-js/faker": "^7.2.0",
     "@playwright/test": "^1.22.2",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",

@@ -17,7 +17,9 @@ const routes: RouteRecordRaw[] = [
     path: "/",
     component: PageHome,
   },
-  { name: "page", path: "/page", component: PageSingle },
+  { name: "tour", path: "/tour", component: PageSingle },
+  { name: "contact", path: "/contact", component: PageSingle },
+  { name: "about", path: "/about", component: PageSingle },
 ]
 const router = createRouter({ history, routes })
 

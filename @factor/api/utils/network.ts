@@ -1,9 +1,8 @@
 /* server-only-file */
-import http from "http"
 import requestIp from "request-ip"
 import ipUtil from "ipaddr.js"
+import { express } from "@factor/api"
 import { getNetworkIp } from "../utils-analytics"
-
 /**
  * Is an IP localhost?
  */
@@ -35,9 +34,17 @@ export const normalizeIpv6 = (rawIp: string): string => {
  * https://github.com/ClickHouse/ClickHouse/issues/5462
  */
 export const getRequestIpAddress = async (
-  request: http.IncomingMessage,
+  request: express.Request,
 ): Promise<{ ip: string; rawIp: string }> => {
-  let rawIp = requestIp.getClientIp(request) ?? undefined
+  const isFake = request.query.isFake === "1"
+
+  let rawIp: string | undefined = undefined
+  if (isFake) {
+    const { faker } = await import("@faker-js/faker")
+    rawIp = faker.internet.ip()
+  } else {
+    rawIp = requestIp.getClientIp(request) || undefined
+  }
 
   if (!rawIp) {
     return { rawIp: "", ip: "" }

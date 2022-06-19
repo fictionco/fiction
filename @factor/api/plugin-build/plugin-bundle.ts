@@ -80,11 +80,10 @@ export class FactorBundle extends FactorPlugin {
       const require = getRequire()
       const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
       const { name, main } = pkg
-      const { entryFile } = pkg.buildOptions
-      let { outputDir } = pkg.buildOptions
+      const { entryFile, outputDir } = pkg.buildOptions
 
       const distDir = path.join("dist", outputDir || "")
-      const outFileEntry = path.join(cwd, distDir, 'index.js')
+      const outFileEntry = path.join(cwd, distDir, "index.js")
 
       // dont build again if is test
       if (isTest && fs.existsSync(outFileEntry)) {

@@ -35,18 +35,20 @@
               <div
                 class="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0"
               >
-                <a
-                  href="#"
+                <RouterLink
+                  id="nav-home"
+                  to="/page"
                   class="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-indigo-700 shadow-sm hover:bg-indigo-50 sm:px-8"
                 >
                   Get started
-                </a>
-                <a
-                  href="#"
+                </RouterLink>
+                <RouterLink
+                  :id="randomId()"
+                  :to="randomRoute()"
                   class="flex items-center justify-center rounded-md border border-transparent bg-indigo-500/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:opacity-70 sm:px-8"
                 >
                   Live demo
-                </a>
+                </RouterLink>
               </div>
             </div>
           </div>
@@ -161,12 +163,13 @@
                   pharetra at. Lectus viverra dui tellus ornare pharetra.
                 </p>
                 <div class="mt-6">
-                  <a
-                    href="#"
+                  <RouterLink
+                    :id="randomId()"
+                    :to="randomRoute()"
                     class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                   >
                     Get started
-                  </a>
+                  </RouterLink>
                 </div>
               </div>
             </div>
@@ -252,12 +255,13 @@
                   pharetra at. Lectus viverra dui tellus ornare pharetra.
                 </p>
                 <div id="test-2" class="mt-6">
-                  <a
-                    href="#"
+                  <RouterLink
+                    :id="randomId()"
+                    :to="randomRoute()"
                     class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
                   >
                     Get started
-                  </a>
+                  </RouterLink>
                 </div>
               </div>
             </div>
@@ -653,23 +657,26 @@
           >
         </h2>
         <div class="mt-6 space-y-4 sm:flex sm:space-y-0 sm:space-x-5">
-          <a
-            href="#"
+          <RouterLink
+            :id="randomId()"
+            :to="randomRoute()"
             class="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
           >
             Learn more
-          </a>
-          <a
-            href="#"
+          </RouterLink>
+          <RouterLink
+            :id="randomId()"
+            :to="randomRoute()"
             class="flex items-center justify-center rounded-md border border-transparent bg-indigo-50 px-4 py-3 text-base font-medium text-indigo-800 shadow-sm hover:bg-indigo-100"
           >
             Get started
-          </a>
+          </RouterLink>
         </div>
       </div>
     </div>
   </main>
 </template>
-<script lang="ts">
-export default {}
+<script lang="ts" setup>
+import { RouterLink } from "vue-router"
+import { randomId, randomRoute } from "../utils"
 </script>

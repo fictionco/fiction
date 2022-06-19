@@ -7,8 +7,9 @@
             class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:flex lg:items-center lg:px-0 lg:text-left"
           >
             <div class="lg:py-24">
-              <a
-                href="#"
+              <RouterLink
+                :id="randomId()"
+                :to="randomRoute()"
                 class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
               >
                 <span
@@ -30,7 +31,7 @@
                     clip-rule="evenodd"
                   />
                 </svg>
-              </a>
+              </RouterLink>
               <h1
                 class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl"
               >
@@ -71,8 +72,11 @@
                   <p class="mt-3 text-sm text-gray-300 sm:mt-4">
                     Start your free 14-day trial, no credit card necessary. By
                     providing your email, you agree to our
-                    <a href="#" class="font-medium text-white"
-                      >terms of service</a
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
+                      class="font-medium text-white"
+                      >terms of service</RouterLink
                     >.
                   </p>
                 </form>
@@ -482,9 +486,19 @@
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
                 <p class="text-sm font-medium text-cyan-600">
-                  <a href="#" class="hover:underline"> Article </a>
+                  <RouterLink
+                    :id="randomId()"
+                    :to="randomRoute()"
+                    class="hover:underline"
+                  >
+                    Article
+                  </RouterLink>
                 </p>
-                <a href="#" class="mt-2 block">
+                <RouterLink
+                  :id="randomId()"
+                  :to="randomRoute()"
+                  class="mt-2 block"
+                >
                   <p class="text-xl font-semibold text-gray-900">
                     Boost your conversion rate
                   </p>
@@ -493,21 +507,27 @@
                     Architecto accusantium praesentium eius, ut atque fuga
                     culpa, similique sequi cum eos quis dolorum.
                   </p>
-                </a>
+                </RouterLink>
               </div>
               <div class="mt-6 flex items-center">
                 <div class="shrink-0">
-                  <a href="#">
+                  <RouterLink :id="randomId()" :to="randomRoute()">
                     <img
                       class="h-10 w-10 rounded-full"
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt="Roel Aufderehar"
                     />
-                  </a>
+                  </RouterLink>
                 </div>
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
-                    <a href="#" class="hover:underline"> Roel Aufderehar </a>
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
+                      class="hover:underline"
+                    >
+                      Roel Aufderehar
+                    </RouterLink>
                   </p>
                   <div class="flex space-x-1 text-sm text-gray-500">
                     <time datetime="2020-03-16"> Mar 16, 2020 </time>
@@ -530,9 +550,19 @@
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
                 <p class="text-sm font-medium text-cyan-600">
-                  <a href="#" class="hover:underline"> Video </a>
+                  <RouterLink
+                    :id="randomId()"
+                    :to="randomRoute()"
+                    class="hover:underline"
+                  >
+                    Video
+                  </RouterLink>
                 </p>
-                <a href="#" class="mt-2 block">
+                <RouterLink
+                  :id="randomId()"
+                  :to="randomRoute()"
+                  class="mt-2 block"
+                >
                   <p class="text-xl font-semibold text-gray-900">
                     How to use search engine optimization to drive sales
                   </p>
@@ -542,21 +572,27 @@
                     dolore. Adipisci tempora aut inventore optio animi., tempore
                     temporibus quo laudantium.
                   </p>
-                </a>
+                </RouterLink>
               </div>
               <div class="mt-6 flex items-center">
                 <div class="shrink-0">
-                  <a href="#">
+                  <RouterLink :id="randomId()" :to="randomRoute()">
                     <img
                       class="h-10 w-10 rounded-full"
                       src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt="Brenna Goyette"
                     />
-                  </a>
+                  </RouterLink>
                 </div>
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
-                    <a href="#" class="hover:underline"> Brenna Goyette </a>
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
+                      class="hover:underline"
+                    >
+                      Brenna Goyette
+                    </RouterLink>
                   </p>
                   <div class="flex space-x-1 text-sm text-gray-500">
                     <time datetime="2020-03-10"> Mar 10, 2020 </time>
@@ -579,9 +615,19 @@
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
                 <p class="text-sm font-medium text-cyan-600">
-                  <a href="#" class="hover:underline"> Case Study </a>
+                  <RouterLink
+                    :id="randomId()"
+                    :to="randomRoute()"
+                    class="hover:underline"
+                  >
+                    Case Study
+                  </RouterLink>
                 </p>
-                <a href="#" class="mt-2 block">
+                <RouterLink
+                  :id="randomId()"
+                  :to="randomRoute()"
+                  class="mt-2 block"
+                >
                   <p class="text-xl font-semibold text-gray-900">
                     Improve your customer experience
                   </p>
@@ -591,21 +637,27 @@
                     saepe molestiae, sed excepturi cumque corporis perferendis
                     hic.
                   </p>
-                </a>
+                </RouterLink>
               </div>
               <div class="mt-6 flex items-center">
                 <div class="shrink-0">
-                  <a href="#">
+                  <RouterLink :id="randomId()" :to="randomRoute()">
                     <img
                       class="h-10 w-10 rounded-full"
                       src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt="Daniela Metz"
                     />
-                  </a>
+                  </RouterLink>
                 </div>
                 <div class="ml-3">
                   <p class="text-sm font-medium text-gray-900">
-                    <a href="#" class="hover:underline"> Daniela Metz </a>
+                    <RouterLink
+                      :id="randomId()"
+                      :to="randomRoute()"
+                      class="hover:underline"
+                    >
+                      Daniela Metz
+                    </RouterLink>
                   </p>
                   <div class="flex space-x-1 text-sm text-gray-500">
                     <time datetime="2020-02-12"> Feb 12, 2020 </time>
@@ -657,8 +709,9 @@
           </p>
           <div class="mt-8">
             <div class="inline-flex rounded-md shadow">
-              <a
-                href="#"
+              <RouterLink
+                :id="randomId()"
+                :to="randomRoute()"
                 class="inline-flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-gray-900 hover:bg-gray-50"
               >
                 Visit the help center
@@ -677,7 +730,7 @@
                     d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
                   />
                 </svg>
-              </a>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -685,3 +738,8 @@
     </div>
   </main>
 </template>
+
+<script lang="ts" setup>
+import { RouterLink } from "vue-router"
+import { randomId, randomRoute } from "../utils"
+</script>
