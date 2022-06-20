@@ -80,7 +80,7 @@
     "ipaddr.js": "^2.0.1",
     "is-plain-object": "^5.0.0",
     "js-cookie": "^3.0.1",
-    "jsdom": "^19.0.0",
+    "jsdom": "*",
     "json-schema-to-typescript": "^10.1.5",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.7",
@@ -131,7 +131,7 @@
   "devDependencies": {
     "@babel/parser": "^7.18.5",
     "@factor/api": "workspace:5.4.9",
-    "@faker-js/faker": "^7.2.0",
+    "@faker-js/faker": "^7.3.0",
     "@playwright/test": "^1.22.2",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",
@@ -146,7 +146,7 @@
     "minimist": "^1.2.6",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "^2.75.6",
+    "rollup": "^2.75.7",
     "semver": "^7.3.7"
   },
   "license": "MIT",
