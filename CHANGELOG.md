@@ -1,3 +1,19 @@
+## [5.4.10](https://github.com/FactorJS/factor/compare/v5.4.9...v5.4.10) (2022-06-20)
+
+
+### Bug Fixes
+
+* build ([eaac462](https://github.com/FactorJS/factor/commit/eaac462390a7e31ebaa2fd1b94e21287fff043e7))
+
+
+### Features
+
+* change index.html ([1eb0b6a](https://github.com/FactorJS/factor/commit/1eb0b6a08754196f52cd165e4201d28f1d5a562b))
+* commands in app ([cb130af](https://github.com/FactorJS/factor/commit/cb130afed2a13a16d64c62d60d98a046bfec09a0))
+* testing traffic ([9ec73fc](https://github.com/FactorJS/factor/commit/9ec73fc6d1079e20542b6ed91c75757b63cbf782))
+
+
+
 ## [5.4.9](https://github.com/FactorJS/factor/compare/v5.4.8...v5.4.9) (2022-06-17)
 
 
