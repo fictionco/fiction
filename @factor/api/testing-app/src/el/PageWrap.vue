@@ -6,7 +6,7 @@
           class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8"
         >
           <div class="flex justify-start lg:w-0 lg:flex-1">
-            <RouterLink to="/">
+            <RouterLink :id="randomId()" to="/">
               <span class="sr-only">Workflow</span>
               <img
                 class="h-8 w-auto sm:h-10"
@@ -20,7 +20,7 @@
             class="hidden items-center justify-end space-x-4 md:flex md:flex-1 lg:w-0"
           >
             <RouterLink
-              id="nav-error"
+              :id="randomId()"
               :to="randomRoute()"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
               @click.stop="makeError()"
@@ -28,15 +28,15 @@
               Error
             </RouterLink>
             <RouterLink
-              id="nav-home"
+              :id="randomId()"
               :to="randomRoute()"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Page
             </RouterLink>
             <RouterLink
-              id="nav-page"
-              to="/"
+              :id="randomId()"
+              :to="randomRoute()"
               class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Home

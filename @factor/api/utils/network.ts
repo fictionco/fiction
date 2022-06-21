@@ -50,7 +50,7 @@ export const getRequestIpAddress = async (
     return { rawIp: "", ip: "" }
   }
 
-  if (isLocalhostIp(rawIp)) {
+  else if (!isFake && isLocalhostIp(rawIp)) {
     rawIp = await getNetworkIp()
   }
 

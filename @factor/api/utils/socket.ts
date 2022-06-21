@@ -188,7 +188,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     payload: T[U]["req"],
   ): Promise<void> {
     const message: SocketMessage<T, U, "req"> = [type, payload]
-    this.log.info("sending message", { data: { message } })
+
     try {
       const socket = await this.getSocket()
 
@@ -315,7 +315,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   }): void {
     const { event, payload, connection } = config
     const message: SocketMessage<T, keyof T, "res"> = [event, payload]
-    this.log.info("sending message", { data: { message } })
+
     connection.send(JSON.stringify(message))
     return
   }
