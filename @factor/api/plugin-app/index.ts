@@ -118,6 +118,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     SERVER_URL: this.factorServer.serverUrl,
     APP_URL: this.appUrl,
   }
+
   constructor(settings: FactorAppSettings) {
     super(settings)
 
@@ -259,7 +260,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const entry = await this.createVueApp(params)
 
     await this.factorEnv.crossRunCommand()
-
 
     if (!this.utils.isNode()) {
       initializeResetUi(this.factorRouter).catch(console.error)
@@ -560,7 +560,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   serveApp = async (): Promise<void> => {
-    if(this.utils.isApp()) return
+    if (this.utils.isApp()) return
 
     const app = await this.expressApp()
 

@@ -30,10 +30,10 @@
     <span
       v-if="textOn || textOff"
       id="toggleLabel"
-      class="ml-4 text-input-size"
+      class="ml-4 cursor-pointer text-input-size text-input-body hover:text-input-primary"
     >
-      <span v-if="val" class="text-input-body">{{ textOn }}</span>
-      <span v-else class="text-input-body">{{ textOff }}</span>
+      <span v-if="val">{{ textOn }}</span>
+      <span v-else>{{ textOff }}</span>
     </span>
   </label>
 </template>
