@@ -15,6 +15,7 @@ export type RouteKeysUnion<T extends AppRoute<string>[]> = {
 export type AppRouteParams<T extends string> = {
   name: T
   niceName?: string
+  menuName?: string
   path: string
   icon?: string
   menus?: string[]
@@ -38,6 +39,7 @@ export class AppRoute<T extends string> extends FactorObject<
 > {
   name = this.settings.name
   niceName = this.settings.niceName || toLabel(this.name)
+  menuName = this.settings.menuName || this.niceName
   path = this.settings.path
   menus = this.settings.menus || []
   icon? = this.settings.icon

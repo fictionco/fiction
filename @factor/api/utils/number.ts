@@ -71,19 +71,21 @@ export const isNumeric = (n: number | string | undefined): boolean => {
   if (typeof n == "undefined" || n == null) return false
   return !Number.isNaN(Number.parseFloat(n.toString())) && Number.isFinite(+n)
 }
+
+export type NumberFormats =
+  | "number"
+  | "abbreviated"
+  | "percent"
+  | "dollar"
+  | "duration"
+  | "rawPercent"
+  | "microDuration"
 /**
  * Fancy number formatter supporting various formats
  */
 export const formatNumber = (
   value: number | string | undefined,
-  format?:
-    | "number"
-    | "abbreviated"
-    | "percent"
-    | "dollar"
-    | "duration"
-    | "rawPercent"
-    | "microDuration",
+  format?: NumberFormats,
 ): string | number | undefined => {
   if (!isNumeric(value) || typeof value == "undefined") return value
 

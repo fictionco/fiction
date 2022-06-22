@@ -15,7 +15,7 @@ export type ListItem = {
   value?: string
   desc?: string
   selected?: boolean
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /**

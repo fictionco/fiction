@@ -48,8 +48,8 @@ export const importIfExists = async <T = unknown>(
   mod: string,
 ): Promise<T | undefined> => {
   if (fs.existsSync(mod)) {
-    const v = await import(/* vite-ignore */ mod)
-    return v as T
+    const v = (await import(/* vite-ignore */ mod)) as T
+    return v
   } else return
 }
 

@@ -315,7 +315,11 @@ export class FactorRouter<
     })
   }
 
-  public getRouteMenuItem(name: S["routes"]): MenuItem {
+  public getRouteMenuItem(
+    name: S["routes"],
+    options: { useNiceName?: boolean; item?: MenuItem } = {},
+  ): MenuItem {
+    const { useNiceName = false, item = {} } = options
     const val = this.routes.value.find((r) => name == r.name)
 
     const route = this.router?.currentRoute.value
@@ -325,10 +329,11 @@ export class FactorRouter<
 
     return {
       key: val.name,
-      name: val.niceName,
+      name: useNiceName ? val.niceName : val.menuName,
       icon: val.icon,
       active: this.activeRef(name as S["routes"]),
       route: this.routeRef(name),
+      ...item,
     }
   }
 
@@ -342,6 +347,7 @@ export class FactorRouter<
         items.push(this.getRouteMenuItem(li.name as S["routes"]))
       }
     })
+
     return items
   }
 }
