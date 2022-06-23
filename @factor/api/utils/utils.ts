@@ -436,10 +436,14 @@ export const displayDomain = (url?: string): string => {
  * Gets a favicon image based on a URL
  * @depends on DuckDuckGo Favicon URL
  */
-export const getFavicon = (url: string | undefined): string => {
+export const getFavicon = (url: string | string[] | undefined): string => {
   let hostname: string
 
   if (!url) return ""
+
+  if (Array.isArray(url)) {
+    url = url[0]
+  }
 
   if (!url.includes("http")) {
     url = `http://${url}`
