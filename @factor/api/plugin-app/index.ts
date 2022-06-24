@@ -291,7 +291,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   getIndexHtml = async (params?: { pathname: string }): Promise<string> => {
     const { pathname = "/" } = params || {}
-    const { dist, sourceDir, mountFilePath } = this.standardPaths || {}
+    const { dist, sourceDir } = this.standardPaths || {}
 
     if (!dist) throw new Error("dist is required")
     if (!sourceDir) throw new Error("sourceDir is required")
