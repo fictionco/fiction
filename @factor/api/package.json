@@ -5,8 +5,8 @@
     "factor": "./plugin-env/cli.js"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.112.0",
-    "@aws-sdk/client-s3": "^3.113.0",
+    "@aws-sdk/client-cloudfront": "^3.118.0",
+    "@aws-sdk/client-s3": "^3.118.0",
     "@iconify-json/carbon": "^1.1.5",
     "@iconify-json/heroicons-outline": "^1.1.1",
     "@medv/finder": "^2.1.0",
@@ -129,6 +129,7 @@
     "ws": "^8.8.0"
   },
   "devDependencies": {
+    "fake-indexeddb": "^3.1.8",
     "@babel/parser": "^7.18.5",
     "@factor/api": "workspace:5.4.10",
     "@faker-js/faker": "^7.3.0",

@@ -31,7 +31,7 @@ export type ResponseFunction<T extends EventMap, U extends keyof T> = (
 type ClientSocketOptions = {
   host: string
   token?: string
-  factorUser: FactorUser
+  factorUser?: FactorUser
 }
 
 export declare interface ClientSocket<T extends EventMap> {
@@ -56,7 +56,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   waiting = false
   context = "clientSocket"
   token?: string
-  factorUser: FactorUser
+  factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
   constructor(options: ClientSocketOptions) {
     super()
@@ -65,7 +65,8 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     this.factorUser = options.factorUser
   }
 
-  private async getToken(): Promise<string> {
+  private async getToken(): Promise<string > {
+    if(!this.factorUser) return ""
     if (this.token) return this.token
 
     await this.factorUser.userInitialized()
