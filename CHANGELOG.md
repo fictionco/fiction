@@ -1,3 +1,17 @@
+## [5.4.11](https://github.com/FactorJS/factor/compare/v5.4.10...v5.4.11) (2022-06-26)
+
+
+### Bug Fixes
+
+* lint ([52b0016](https://github.com/FactorJS/factor/commit/52b00162d72621073945eaa6ab603d166cf66f6d))
+
+
+### Features
+
+* indexedDb ([4d1afb4](https://github.com/FactorJS/factor/commit/4d1afb45e4daad5d0991d86b5ec8077f13f8e11e))
+
+
+
 ## [5.4.10](https://github.com/FactorJS/factor/compare/v5.4.9...v5.4.10) (2022-06-20)
 
 
