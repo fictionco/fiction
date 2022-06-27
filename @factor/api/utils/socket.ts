@@ -3,7 +3,8 @@ import http from "http"
 import express from "express"
 import * as ws from "ws"
 import { log } from "../plugin-log"
-import type { FactorUser } from "../plugin-user"
+import type { FactorUser, BearerUser } from "../plugin-user"
+import { vue } from "./libraries"
 import { _stop } from "./error"
 import { emitEvent } from "./event"
 import { waitFor } from "./utils"
@@ -32,6 +33,7 @@ type ClientSocketOptions = {
   host: string
   token?: string
   factorUser?: FactorUser
+  search?: Record<string, string>
 }
 
 export declare interface ClientSocket<T extends EventMap> {
@@ -51,6 +53,11 @@ export declare interface NodeSocketServer<T extends EventMap> {
 
 export class ClientSocket<T extends EventMap> extends EventEmitter {
   host: string
+  wsHost = () => {
+    const url = new URL(this.host)
+    url.protocol = url.protocol.replace("http", "ws")
+    return url.toString()
+  }
   socket?: WebSocket | undefined
   socketPromise?: Promise<WebSocket | undefined> | undefined
   waiting = false
@@ -58,15 +65,17 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   token?: string
   factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
+  search?: Record<string, string>
   constructor(options: ClientSocketOptions) {
     super()
     this.host = options.host
     this.token = options.token
     this.factorUser = options.factorUser
+    this.search = options.search
   }
 
-  private async getToken(): Promise<string > {
-    if(!this.factorUser) return ""
+  private async getToken(): Promise<string> {
+    if (!this.factorUser) return ""
     if (this.token) return this.token
 
     await this.factorUser.userInitialized()
@@ -74,12 +83,11 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     return this.factorUser.clientToken({ action: "get" }) ?? ""
   }
 
-  private async socketUrl(): Promise<URL | undefined> {
-    const url = new URL(this.host)
+  private async socketUrl(): Promise<string | undefined> {
+    const url = new URL(this.wsHost())
     const token = await this.getToken()
-    url.search = new URLSearchParams({ token }).toString()
-
-    return url
+    url.search = new URLSearchParams({ token, ...this.search }).toString()
+    return url.toString()
   }
 
   private notOpen(ws?: WebSocket): boolean {
@@ -99,18 +107,18 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     if (!url) {
       log.error(this.context, "url unavailable", {
-        data: { url, host: this.host },
+        data: { url, host: this.wsHost() },
       })
       return
     }
 
     return new Promise<WebSocket | undefined>((resolve, reject) => {
-      this.log.info(`connecting at ${this.host}`)
+      this.log.info(`connecting at ${this.wsHost()}`)
 
-      const sock = new WebSocket(url.toString())
+      const sock = new WebSocket(url)
 
       sock.addEventListener("open", () => {
-        this.log.info(`connected at ${this.host}`)
+        this.log.info(`connected at ${this.wsHost()}`)
 
         sock.addEventListener("message", (event: MessageEvent<string>) => {
           const [name, data] = JSON.parse(event.data) as SocketMessage<
@@ -132,7 +140,9 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
       sock.addEventListener("error", (event) => {
         this.resetSocket()
         const error = event as ErrorEvent
-        log.error(this.context, `host (${this.host}) is DOWN`, { error })
+        log.error(this.context, `host (${this.wsHost()}) is DOWN`, {
+          error,
+        })
         reject()
       })
 
@@ -194,8 +204,9 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
       const socket = await this.getSocket()
 
       if (!socket) {
-        log.error(this.context, "not available", {
-          data: { socket },
+        const url = await this.socketUrl()
+        log.error(this.context, "socket not available", {
+          data: { url, socket },
         })
         return
       }
@@ -207,16 +218,47 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   }
 }
 
+type WelcomeObjectCallback = (
+  args: {
+    bearer?: BearerUser
+    bearerToken?: string
+    [key: string]: any
+  },
+  request: http.IncomingMessage,
+) => Promise<Record<string, unknown>>
+
+type NodeSocketServerSettings = {
+  factorUser?: FactorUser
+  maxPayload?: number
+  welcomeObject?: WelcomeObjectCallback
+}
+
 export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public app?: express.Express
   public server?: http.Server
   public wss?: ws.WebSocketServer // type not available in browser/build
   private context = "socketServer"
-  factorUser: FactorUser
+  factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
-  constructor(settings: { factorUser: FactorUser }) {
+  maxPayload: number
+  welcomeObject?: WelcomeObjectCallback
+  constructor(settings: NodeSocketServerSettings) {
     super()
     this.factorUser = settings.factorUser
+    this.maxPayload = settings.maxPayload || 10_000_000
+    this.welcomeObject = settings.welcomeObject
+  }
+
+  async sendWelcome(request: http.IncomingMessage, connection: ws.WebSocket){
+    const welcomeObject = {
+      bearer: request.bearer,
+      bearerToken: request.bearerToken,
+    }
+    const fullWelcome = this.welcomeObject
+      ? await this.welcomeObject({ ...welcomeObject }, request)
+      : welcomeObject
+
+    connection.send(JSON.stringify(["welcome", fullWelcome]))
   }
 
   async createServer({ app }: { app: express.Express }): Promise<http.Server> {
@@ -231,7 +273,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
 
     this.wss = new WebSocketServer({
       noServer: true,
-      maxPayload: 10_000_000,
+      maxPayload: this.maxPayload,
     })
 
     // https://github.com/websockets/ws/issues/377#issuecomment-462152231
@@ -246,7 +288,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
         request.bearer = undefined
         request.bearerToken = undefined
 
-        if (token) {
+        if (token && this.factorUser) {
           const tokenData = this.factorUser.decodeClientToken(token)
           request.bearer = tokenData
           request.bearerToken = token
@@ -263,7 +305,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
     })
 
     this.wss.on("connection", (connection, request) => {
-      connection.send(JSON.stringify(["welcome", request.bearer]))
+      this.sendWelcome(request, connection)
 
       log.debug(this.context, `connection total: ${this.wss?.clients.size}`)
 
@@ -331,11 +373,24 @@ export const createSocketServer = async <T extends EventMap>(args: {
   serverName: string
   port: number
   endpoints?: Endpoint[]
-  factorUser: FactorUser
+  factorUser?: FactorUser
+  welcomeObject?: WelcomeObjectCallback
+  maxPayload?: number
 }): Promise<SocketServerComponents<T>> => {
-  const { port, serverName, endpoints = [], factorUser } = args
+  const {
+    port,
+    serverName,
+    endpoints = [],
+    factorUser,
+    welcomeObject,
+    maxPayload,
+  } = args
 
-  const socketServer = new NodeSocketServer<T>({ factorUser })
+  const socketServer = new NodeSocketServer<T>({
+    factorUser,
+    welcomeObject,
+    maxPayload,
+  })
 
   const endpointServer = new EndpointServer({
     serverName,

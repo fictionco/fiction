@@ -31,6 +31,7 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   constructor(settings: T) {
     this.settings = settings
     this.basePath = `/${utils.slugify(this.constructor.name)}`
+
   }
 
   abstract setup(

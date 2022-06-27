@@ -76,7 +76,7 @@ export class FactorIndexedDb extends EventEmitter {
     return transaction?.objectStore(this.tableName)
   }
 
-  async clearTable() {
+  async clearAll() {
     const objectStore = this.getObjectStore()
     return new Promise((resolve, reject) => {
       const req = objectStore.clear()
@@ -95,15 +95,15 @@ export class FactorIndexedDb extends EventEmitter {
   }
 
   /**
-   * Deletes multiple values by value for [field]
+   * Deletes multiple values by value for [key]
    * https://stackoverflow.com/questions/28635442/when-using-indexeddb-how-can-i-delete-multiple-records-using-an-index-that-is-n
    */
-  async deleteByField(params: { field: string; value: string }) {
-    const { field, value } = params
+  async deleteByKey(params: { key: string; value: string }) {
+    const { key, value } = params
     const objectStore = this.getObjectStore()
 
     return new Promise<number>((resolve, reject) => {
-      const index = objectStore.index(field)
+      const index = objectStore.index(key)
       const req = index.openCursor(IDBKeyRange.only(value))
 
       let rows = 0
@@ -123,14 +123,14 @@ export class FactorIndexedDb extends EventEmitter {
     })
   }
 
-  async retrieveByField<T extends DataObject = DataObject>(params: {
-    field: string
+  async retrieveByKey<T extends DataObject = DataObject>(params: {
+    key: string
     value: string
   }): Promise<T[]> {
-    const { field, value } = params
+    const { key, value } = params
     const objectStore = this.getObjectStore()
     return new Promise((resolve, reject) => {
-      const index = objectStore.index(field)
+      const index = objectStore.index(key)
       const req = index.openCursor(IDBKeyRange.only(value))
 
       const rows: T[] = []

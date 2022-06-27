@@ -49,8 +49,8 @@ export const onBrowserEvent = <T extends BrowserEvent>(
   fn: (e: BrowserEventObject<typeof type>) => void,
   target?: HTMLElement | Window | Document,
 ): (() => void) => {
-  // in case on server
-  if (isNode()) {
+
+  if (typeof window === "undefined"){
     return (): void => {}
   }
 

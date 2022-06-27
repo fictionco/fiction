@@ -27,8 +27,8 @@ describe("replay tag", () => {
       await db.insert({ testId: `testValue`, data: [i] })
     }
 
-    const results = await db.retrieveByField({
-      field: "testId",
+    const results = await db.retrieveByKey({
+      key: "testId",
       value: "testValue",
     })
 
@@ -98,15 +98,15 @@ describe("replay tag", () => {
       ]
     `)
 
-    const deleteResult = await db.deleteByField({
-      field: "testId",
+    const deleteResult = await db.deleteByKey({
+      key: "testId",
       value: "testValue",
     })
 
     expect(deleteResult).toBe(10)
 
-    const afterDeleteResult = await db.retrieveByField({
-      field: "testId",
+    const afterDeleteResult = await db.retrieveByKey({
+      key: "testId",
       value: "testValue",
     })
 
@@ -120,7 +120,7 @@ describe("replay tag", () => {
 
     expect(results2.length).toBe(3)
 
-    await db.clearTable()
+    await db.clearAll()
 
     const results3 = await db.getAll()
 

@@ -1,13 +1,18 @@
 import { EventEmitter } from "events"
 import { onEvent } from "./event"
 
+type FlushCallback<T> = (
+  items: T[],
+  context?: FlushContext,
+) => any | Promise<any>
+type FlushContext = { reason?: string }
 type BufferConfig<T = Record<string, any>> = {
   name?: string
   maxSeconds?: number
   flushIntervalMs?: number
   limit?: number
   limitType?: "item" | "size" | "time"
-  flush?: (items: T[]) => any | Promise<any>
+  flush?: FlushCallback<T>
   key?: string
 }
 
@@ -17,7 +22,7 @@ export class WriteBuffer<T> extends EventEmitter {
   private items: T[]
   private limit: number
   private limitType: "item" | "size" | "time"
-  private flushCallback?: (items: T[]) => void | Promise<void>
+  private flushCallback?: FlushCallback<T>
   private intervalId?: NodeJS.Timeout
   private flushIntervalMs: number
   constructor(config: BufferConfig<T>) {
@@ -47,12 +52,12 @@ export class WriteBuffer<T> extends EventEmitter {
     this.flushCallback = flush
 
     // Flush on process shutdown
-    onEvent("shutdown", () => this.flushBuffer())
+    onEvent("shutdown", () => this.flushBuffer({ reason: "shutdown" }))
   }
   /**
    * Default flush
    */
-  protected flush(_items: T[]): void {}
+  protected flush(_items: T[], _context?: FlushContext): void {}
   /**
    * Remove items in buffer without a flush callback
    */
@@ -63,15 +68,17 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Flush items in buffer to the saving callback
    */
-  public flushBuffer(): void {
+  public flushBuffer(context: FlushContext = {}): void {
     if (this.items.length == 0) return
 
     this.stopTimeout()
     // use resolve to ensure is a promise
-    Promise.resolve(this.flush(this.items)).catch(console.error)
+    Promise.resolve(this.flush(this.items, context)).catch(console.error)
 
     if (this.flushCallback) {
-      Promise.resolve(this.flushCallback(this.items)).catch(console.error)
+      Promise.resolve(this.flushCallback(this.items, context)).catch(
+        console.error,
+      )
     }
 
     this.emit("flush", this.items)
@@ -82,7 +89,7 @@ export class WriteBuffer<T> extends EventEmitter {
   private startTimeout(): void {
     if (!this.intervalId) {
       this.intervalId = setTimeout(
-        () => this.flushBuffer(),
+        () => this.flushBuffer({ reason: "timeout" }),
         this.flushIntervalMs,
       )
     }
@@ -128,7 +135,7 @@ export class WriteBuffer<T> extends EventEmitter {
 
   private checkLimit(): void {
     if (this.maxQueueSizeReached()) {
-      this.flushBuffer()
+      this.flushBuffer({ reason: "limit" })
     } else {
       this.startTimeout()
     }

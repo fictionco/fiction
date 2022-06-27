@@ -122,3 +122,4 @@ export interface PrivateUser extends PublicUser {
  * All user information
  */
 export type FullUser = PrivateUser & ProfileUser
+export type BearerUser = Partial<PrivateUser> & { userId: string }
