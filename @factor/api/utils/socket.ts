@@ -4,7 +4,6 @@ import express from "express"
 import * as ws from "ws"
 import { log } from "../plugin-log"
 import type { FactorUser, BearerUser } from "../plugin-user"
-import { vue } from "./libraries"
 import { _stop } from "./error"
 import { emitEvent } from "./event"
 import { waitFor } from "./utils"
@@ -249,7 +248,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
     this.welcomeObject = settings.welcomeObject
   }
 
-  async sendWelcome(request: http.IncomingMessage, connection: ws.WebSocket){
+  async sendWelcome(request: http.IncomingMessage, connection: ws.WebSocket) {
     const welcomeObject = {
       bearer: request.bearer,
       bearerToken: request.bearerToken,
@@ -305,7 +304,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
     })
 
     this.wss.on("connection", (connection, request) => {
-      this.sendWelcome(request, connection)
+      this.sendWelcome(request, connection).catch(console.error)
 
       log.debug(this.context, `connection total: ${this.wss?.clients.size}`)
 
