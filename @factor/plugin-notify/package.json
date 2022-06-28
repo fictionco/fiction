@@ -4,7 +4,7 @@
   "version": "5.4.11",
   "author": "Kaption Co.",
   "dependencies": {
-    "@factor/api": "5.4.11"
+    "@factor/api": "workspace:5.4.11"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "license": "MIT",
