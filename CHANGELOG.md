@@ -1,3 +1,17 @@
+## [5.4.12](https://github.com/FactorJS/factor/compare/v5.4.11...v5.4.12) (2022-06-28)
+
+
+### Bug Fixes
+
+* lint ([20718ab](https://github.com/FactorJS/factor/commit/20718ab046019f1d9552cd34e7bd9c59f7ad8bac))
+
+
+### Features
+
+* improvements to buffer, session, idb ([a69feca](https://github.com/FactorJS/factor/commit/a69fecab9942c7d2c6351863afde4bd25f512792))
+
+
+
 ## [5.4.11](https://github.com/FactorJS/factor/compare/v5.4.10...v5.4.11) (2022-06-26)
 
 
