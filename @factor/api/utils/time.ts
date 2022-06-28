@@ -50,7 +50,7 @@ export const standardDate = (time?: dayjs.ConfigType): string => {
  * @param time - moment/dayjs compatible date
  */
 export const standardTime = (time: dayjs.ConfigType): string => {
-  return timeUtil(time).format("h:mma (MM/D)")
+  return timeUtil(time).format("h:mma")
 }
 /**
  * [date] at [time]
