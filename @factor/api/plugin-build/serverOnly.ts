@@ -68,5 +68,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "clearbit" },
     { id: "node-fetch" },
     { id: "@sinclair/typebox" },
+    { id: "express-http-proxy" },
+    { id: "apicache" },
   ]
 }

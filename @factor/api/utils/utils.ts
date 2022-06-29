@@ -8,7 +8,7 @@ import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
 import { isNode } from "./vars"
 import { getRequire } from "./nodeUtils"
-
+import { regExpEscape } from "./regex"
 /**
  * Safely get the dirname with import.meta.url
  * This variable is undefined in SSR so needs to be checked
@@ -520,4 +520,12 @@ export const groupBy = <
     }),
     {},
   )
+}
+
+export const replaceAll = (
+  str: string,
+  match: string,
+  replacement: string,
+): string => {
+  return str.replace(new RegExp(regExpEscape(match), "g"), () => replacement)
 }

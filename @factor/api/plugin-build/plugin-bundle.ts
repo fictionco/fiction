@@ -65,6 +65,9 @@ export class FactorBundle extends FactorPlugin {
     onAllBuilt?: () => Promise<void> | void
     isTest?: boolean
   }): Promise<RollupWatcher[]> => {
+
+    if(!this.utils.isNode()) return []
+
     const { cwds, mode, onAllBuilt, watch, isTest } = options
     this.bundlingTotal = cwds.length
     this.bundlingCurrent = 0
@@ -181,7 +184,7 @@ export class FactorBundle extends FactorPlugin {
       fs.removeSync(distDir)
 
       const vc = await this.factorBuild.getCommonViteConfig({
-        cwd: cwd,
+        cwd ,
         mode,
       })
       const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
