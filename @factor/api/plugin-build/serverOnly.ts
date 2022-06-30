@@ -3,6 +3,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
   return [
     { id: "@faker-js/faker" },
     { id: "unocss" },
+    { id: "net" },
     { id: "unsplash-js" },
     { id: "@unocss/preset-icons" },
     { id: "nodemon" },
@@ -56,6 +57,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "dotenv" },
     { id: "request-ip" },
     { id: "ipaddr.js" },
+    { id: "address" },
     { id: "ioredis" },
     { id: "@aws-sdk/client-s3" },
     { id: "@aws-sdk/client-cloudfront" },
@@ -69,6 +71,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "node-fetch" },
     { id: "@sinclair/typebox" },
     { id: "express-http-proxy" },
+    { id: "http-proxy-middleware" },
     { id: "apicache" },
   ]
 }

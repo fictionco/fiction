@@ -15,6 +15,7 @@ export const createTestingApp = async (options: {
     root: safeDirname(import.meta.url),
     server: {
       port,
+      host: true,
     },
     plugins: [
       {

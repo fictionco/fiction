@@ -8,10 +8,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': workspace:5.4.11
-      '@factor/lint': workspace:5.4.11
-      '@factor/site': workspace:5.4.11
-      '@factor/ui': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
+      '@factor/lint': workspace:5.4.12
+      '@factor/site': workspace:5.4.12
+      '@factor/ui': workspace:5.4.12
       '@types/express': ^4.17.13
       '@types/node': ^18.0.0
       '@vitejs/plugin-vue': ^2.3.3
@@ -68,9 +68,9 @@ importers:
   '@factor/api':
     specifiers:
       '@aws-sdk/client-cloudfront': ^3.118.1
-      '@aws-sdk/client-s3': ^3.118.1
+      '@aws-sdk/client-s3': ^3.120.0
       '@babel/parser': ^7.18.6
-      '@factor/api': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -198,6 +198,7 @@ importers:
       ts-node: ^10.8.1
       tsup: ^5.12.9
       typescript: ^4.7.4
+      universal-base64: ^2.1.0
       unocss: ^0.33.5
       unsplash-js: ^7.0.15
       validator: ^13.7.0
@@ -208,7 +209,7 @@ importers:
       ws: ^8.8.0
     dependencies:
       '@aws-sdk/client-cloudfront': 3.118.1
-      '@aws-sdk/client-s3': 3.118.1
+      '@aws-sdk/client-s3': 3.120.0
       '@iconify-json/carbon': 1.1.6
       '@iconify-json/heroicons-outline': 1.1.2
       '@medv/finder': 2.1.0
@@ -321,6 +322,7 @@ importers:
       ts-node: 10.8.1_qiyc72axg2v44xl4yovan2v55u
       tsup: 5.12.9_kujbma4dpxtqcd24y7k27dlpy4
       typescript: 4.7.4
+      universal-base64: 2.1.0
       unocss: 0.33.5_vite@2.9.13
       unsplash-js: 7.0.15
       validator: 13.7.0
@@ -391,9 +393,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': workspace:5.4.11
-      '@factor/plugin-highlight-code': workspace:5.4.11
-      '@factor/ui': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
+      '@factor/plugin-highlight-code': workspace:5.4.12
+      '@factor/ui': workspace:5.4.12
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -405,9 +407,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': workspace:5.4.11
-      '@factor/plugin-highlight-code': workspace:5.4.11
-      '@factor/ui': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
+      '@factor/plugin-highlight-code': workspace:5.4.12
+      '@factor/ui': workspace:5.4.12
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.3
       string-similarity: ^4.0.4
@@ -421,7 +423,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
       highlight.js: ^11.5.1
     dependencies:
       '@factor/api': link:../api
@@ -429,13 +431,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -450,13 +452,13 @@ importers:
 
   '@factor/site':
     specifiers:
-      '@factor/api': workspace:5.4.11
-      '@factor/plugin-blog-engine': workspace:5.4.11
-      '@factor/plugin-docs-engine': workspace:5.4.11
-      '@factor/plugin-highlight-code': workspace:5.4.11
-      '@factor/plugin-notify': workspace:5.4.11
-      '@factor/plugin-stripe': workspace:5.4.11
-      '@factor/ui': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
+      '@factor/plugin-blog-engine': workspace:5.4.12
+      '@factor/plugin-docs-engine': workspace:5.4.12
+      '@factor/plugin-highlight-code': workspace:5.4.12
+      '@factor/plugin-notify': workspace:5.4.12
+      '@factor/plugin-stripe': workspace:5.4.12
+      '@factor/ui': workspace:5.4.12
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.3
@@ -493,7 +495,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': workspace:5.4.11
+      '@factor/api': workspace:5.4.12
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -660,8 +662,8 @@ packages:
       - aws-crt
     dev: false
 
-  /@aws-sdk/client-s3/3.118.1:
-    resolution: {integrity: sha512-uRGZ9XrE0OQzHddZKN8RWqCR+wNMpvkmIVLfbh0B2KL2eGMWaF2mZsaLiqBQVjT2aWlO7mEggoMimFVl8wkmBg==}
+  /@aws-sdk/client-s3/3.120.0:
+    resolution: {integrity: sha512-9BHQCDG8xWWFI01KsdY1vJPbBzbzgpGkNmFQLZwZclOXc4TaI7s1eVRcqxgJdtEe2hU3NWSrpicvSb6ZblM5tg==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@aws-crypto/sha1-browser': 2.0.0
@@ -670,9 +672,9 @@ packages:
       '@aws-sdk/client-sts': 3.118.1
       '@aws-sdk/config-resolver': 3.110.0
       '@aws-sdk/credential-provider-node': 3.118.1
-      '@aws-sdk/eventstream-serde-browser': 3.118.1
+      '@aws-sdk/eventstream-serde-browser': 3.120.0
       '@aws-sdk/eventstream-serde-config-resolver': 3.110.0
-      '@aws-sdk/eventstream-serde-node': 3.118.1
+      '@aws-sdk/eventstream-serde-node': 3.120.0
       '@aws-sdk/fetch-http-handler': 3.110.0
       '@aws-sdk/hash-blob-browser': 3.110.0
       '@aws-sdk/hash-node': 3.110.0
@@ -903,8 +905,8 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@aws-sdk/eventstream-marshaller/3.118.1:
-    resolution: {integrity: sha512-YYmEpocX3UEFtFi0joSXNB1BWkmK7W5hIfNk2Q4bnnnTFIc8fo2tnwQhsX9pF9RrwBR2S/xIzvWYSyu6rAqrPQ==}
+  /@aws-sdk/eventstream-codec/3.119.0:
+    resolution: {integrity: sha512-HMHVfsYU2yaJ2NMHe1HUhQnWD3hCabC3xTVcAx5SSAE+afc74xoQTCA6oDI6OoCLL47ISLjcrkpvfYCAZ7wHTw==}
     dependencies:
       '@aws-crypto/crc32': 2.0.0
       '@aws-sdk/types': 3.110.0
@@ -912,11 +914,11 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@aws-sdk/eventstream-serde-browser/3.118.1:
-    resolution: {integrity: sha512-kBS7XlsH/eVq58ocxwZni5li2xFyIz9r0NbhmJOIu8ERxv2YU4mgpZmKdLY/sc296BHpqAAd5IBZ6E6O1OYRnQ==}
+  /@aws-sdk/eventstream-serde-browser/3.120.0:
+    resolution: {integrity: sha512-+UUq5vey2mJx1NYhq4Gg/jzs5EJE6gW2g91NPcO842891YxZAOmHciFI5kzLKn8PgSKKhbmCL6pq8UqX4N8lRw==}
     engines: {node: '>= 12.0.0'}
     dependencies:
-      '@aws-sdk/eventstream-serde-universal': 3.118.1
+      '@aws-sdk/eventstream-serde-universal': 3.120.0
       '@aws-sdk/types': 3.110.0
       tslib: 2.4.0
     dev: false
@@ -929,20 +931,20 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@aws-sdk/eventstream-serde-node/3.118.1:
-    resolution: {integrity: sha512-bWJvZX1aXVj9RUNe8C0AVl4LJFyvi1/bOCCpwnzlOFZsZ5v0f/67BG7CNyjrYPXET1APWd1lnqCWYAHaa+KUQA==}
+  /@aws-sdk/eventstream-serde-node/3.120.0:
+    resolution: {integrity: sha512-+RoUQKzB+MBH6nThLmc/VnmwNMzWxiCD8Z8KbGUG+1ybYqshSwGKObCqDfAIwe+W97xNZpsx4Br7/bcPEY322g==}
     engines: {node: '>= 12.0.0'}
     dependencies:
-      '@aws-sdk/eventstream-serde-universal': 3.118.1
+      '@aws-sdk/eventstream-serde-universal': 3.120.0
       '@aws-sdk/types': 3.110.0
       tslib: 2.4.0
     dev: false
 
-  /@aws-sdk/eventstream-serde-universal/3.118.1:
-    resolution: {integrity: sha512-z9c8Svh1/jUDF/8AoGw3EWqP2pl23sICaKBhdoJGXtq/HuEXrGUnYw3ZiKKROyqeeCs5bfXuiCyhX8KjZzfjoQ==}
+  /@aws-sdk/eventstream-serde-universal/3.120.0:
+    resolution: {integrity: sha512-2tZ5+3YlQRfsd0xibgVueWegengOMZIZF3ksq+IygWrRwukI9+QfC7oYe29/yttKoz2AipNKNY+JL9MgjHEdmg==}
     engines: {node: '>= 12.0.0'}
     dependencies:
-      '@aws-sdk/eventstream-marshaller': 3.118.1
+      '@aws-sdk/eventstream-codec': 3.119.0
       '@aws-sdk/types': 3.110.0
       tslib: 2.4.0
     dev: false
@@ -1464,10 +1466,10 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.18.6
+      '@babel/types': 7.18.7
 
-  /@babel/types/7.18.6:
-    resolution: {integrity: sha512-NdBNzPDwed30fZdDQtVR7ZgaO4UKjuaQFH9VArS+HMnurlOY0JWN+4ROlu/iapMFwjRQU4pOG4StZfDmulEwGA==}
+  /@babel/types/7.18.7:
+    resolution: {integrity: sha512-QG3yxTcTIBoAcQmkCs+wAPYZhu7Dk9rXKacINfNbdJDNERTbLQbHGyVG8q/YGMPeCJRIhSY0+fTc5+xuh6WPSQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-validator-identifier': 7.18.6
@@ -2625,8 +2627,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.0
-      caniuse-lite: 1.0.30001359
+      browserslist: 4.21.1
+      caniuse-lite: 1.0.30001361
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2742,15 +2744,15 @@ packages:
   /browser-process-hrtime/1.0.0:
     resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
 
-  /browserslist/4.21.0:
-    resolution: {integrity: sha512-UQxE0DIhRB5z/zDz9iA03BOfxaN2+GQdBYH/2WrSIWEUrnpzTPJbhqt+umq6r3acaPRTW1FNTkrcp0PXgtFkvA==}
+  /browserslist/4.21.1:
+    resolution: {integrity: sha512-Nq8MFCSrnJXSc88yliwlzQe3qNe3VntIjhsArW9IJOEPSHNx23FalwApUVbzAWABLhYJJ7y8AynWI/XM8OdfjQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001359
-      electron-to-chromium: 1.4.172
+      caniuse-lite: 1.0.30001361
+      electron-to-chromium: 1.4.173
       node-releases: 2.0.5
-      update-browserslist-db: 1.0.4_browserslist@4.21.0
+      update-browserslist-db: 1.0.4_browserslist@4.21.1
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
@@ -2887,8 +2889,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  /caniuse-lite/1.0.30001359:
-    resolution: {integrity: sha512-Xln/BAsPzEuiVLgJ2/45IaqD9jShtk3Y33anKb4+yLwQzws3+v6odKfpgES/cDEaZMLzSChpIGdbOYtH9MyuHw==}
+  /caniuse-lite/1.0.30001361:
+    resolution: {integrity: sha512-ybhCrjNtkFji1/Wto6SSJKkWk6kZgVQsDq5QI83SafsF6FXv2JB4df9eEdH6g8sdGgqTXrFLjAxqBGgYoU3azQ==}
     dev: false
 
   /caseless/0.12.0:
@@ -3594,8 +3596,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.172:
-    resolution: {integrity: sha512-yDoFfTJnqBAB6hSiPvzmsBJSrjOXJtHSJoqJdI/zSIh7DYupYnIOHt/bbPw/WE31BJjNTybDdNAs21gCMnTh0Q==}
+  /electron-to-chromium/1.4.173:
+    resolution: {integrity: sha512-Qo3LnVW6JRNhD32viSdPebxKI7K+3WeBDjU1+Q2yZS83zAh8C2LyPpzTimlciv6U74KpY9n/0ESAhUByRke0jw==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -4570,7 +4572,7 @@ packages:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.3.3
+      minipass: 3.3.4
     dev: false
 
   /fs.realpath/1.0.0:
@@ -6073,8 +6075,8 @@ packages:
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
 
-  /minipass/3.3.3:
-    resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
+  /minipass/3.3.4:
+    resolution: {integrity: sha512-I9WPbWHCGu8W+6k1ZiGpPu0GkoKBeorkfKNuAFBNS1HNFJvke82sxvI5bzcCNpWPorkOO5QQ+zomzzwRxejXiw==}
     engines: {node: '>=8'}
     dependencies:
       yallist: 4.0.0
@@ -6084,7 +6086,7 @@ packages:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.3.3
+      minipass: 3.3.4
       yallist: 4.0.0
     dev: false
 
@@ -7796,7 +7798,7 @@ packages:
     dependencies:
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      minipass: 3.3.3
+      minipass: 3.3.4
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
@@ -8175,6 +8177,10 @@ packages:
     dependencies:
       crypto-random-string: 2.0.0
 
+  /universal-base64/2.1.0:
+    resolution: {integrity: sha512-WeOkACVnIXJZr/qlv7++Rl1zuZOHN96v2yS5oleUuv8eJOs5j9M5U3xQEIoWqn1OzIuIcgw0fswxWnUVGDfW6g==}
+    dev: false
+
   /universalify/0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
@@ -8220,13 +8226,13 @@ packages:
       content-type: 1.0.4
     dev: false
 
-  /update-browserslist-db/1.0.4_browserslist@4.21.0:
+  /update-browserslist-db/1.0.4_browserslist@4.21.1:
     resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.0
+      browserslist: 4.21.1
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: false
