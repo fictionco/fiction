@@ -1,4 +1,3 @@
-/* server-only-file */
 import path from "path"
 import * as mod from "module"
 import fs from "fs"

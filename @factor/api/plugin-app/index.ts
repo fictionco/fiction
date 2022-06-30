@@ -704,6 +704,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     prerender?: boolean
     serve?: boolean
   }): Promise<void> => {
+    if (this.utils.isApp()) return
+
     const { prerender = true, serve = false } = options
     const { dist, distClient, distServer } = this.factorEnv?.standardPaths || {}
 

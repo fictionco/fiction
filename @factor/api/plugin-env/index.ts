@@ -106,6 +106,7 @@ export class FactorEnv<
   constructor(settings: FactorControlSettings) {
     super(settings)
     this.envInit()
+
     if (!this.utils.isApp()) {
       this.nodeInit()
     }
@@ -147,17 +148,20 @@ export class FactorEnv<
 
     const fullOpts = cliCommand?.options ?? {}
 
-    Object.entries(fullOpts).forEach(([key, value]) => {
-      if (value) {
-        const processKey = this.utils.camelToUpperSnake(key)
-        process.env[processKey] = String(value)
-      }
-    })
+    // generally "process" is unavailable in browser
+    if (this.utils.isNode()) {
+      Object.entries(fullOpts).forEach(([key, value]) => {
+        if (value) {
+          const processKey = this.utils.camelToUpperSnake(key)
+          process.env[processKey] = String(value)
+        }
+      })
 
-    if (fullOpts.mode) {
-      this.mode = fullOpts.mode
-      // use literal to prevent substitution in app
-      process.env["NODE_ENV"] = fullOpts.mode
+      if (fullOpts.mode) {
+        this.mode = fullOpts.mode
+        // use literal to prevent substitution in app
+        process.env["NODE_ENV"] = fullOpts.mode
+      }
     }
 
     this.currentCommand = cliCommand
@@ -276,7 +280,9 @@ export class FactorEnv<
       },
     })
   }
-
+  /**
+   * This runs on both server and app
+   */
   async crossRunCommand() {
     const runConfig = {
       command: this.currentCommand?.command,

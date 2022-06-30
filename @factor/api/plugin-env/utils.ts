@@ -1,7 +1,7 @@
 import path from "path"
-import { log } from "@factor/api/plugin-log"
-import { requireIfExists } from "@factor/api/utils"
-import type { PackageJson } from "@factor/api/types"
+import { log } from "../plugin-log"
+import { requireIfExists } from "../utils"
+import type { PackageJson } from "../types"
 
 export const done = (code: 0 | 1, message = `exited process`): never => {
   if (message) {
