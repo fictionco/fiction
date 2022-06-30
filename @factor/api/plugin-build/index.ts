@@ -180,6 +180,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "@medv/finder",
         "es-module-lexer",
         "cjs-module-lexer",
+        "module",
         ...configExcludeIds,
       ],
       include: [

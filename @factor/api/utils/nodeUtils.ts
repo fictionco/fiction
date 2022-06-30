@@ -1,3 +1,4 @@
+/* server-only-file */
 import path from "path"
 import * as mod from "module"
 import fs from "fs"
@@ -47,7 +48,8 @@ export const importIfExists = async <T = unknown>(
   mod: string,
 ): Promise<T | undefined> => {
   if (fs.existsSync(mod)) {
-    const v = (await import(/* vite-ignore */ mod)) as T
+    const i = import(/* @vite-ignore */ mod)
+    const v = (await i) as T
     return v
   } else return
 }

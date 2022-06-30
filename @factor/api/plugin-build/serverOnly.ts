@@ -39,7 +39,13 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "cors" },
     { id: "helmet" },
     { id: "json-schema-to-typescript" },
-    { id: "module", additional: ["export const createRequire = () => {}"] },
+    {
+      id: "module",
+      additional: [
+        "export const createRequire = () => {}",
+        "export const Module = {createRequire = () => {}}",
+      ],
+    },
     { id: "compression" },
     { id: "serve-favicon" },
     { id: "html-minifier" },

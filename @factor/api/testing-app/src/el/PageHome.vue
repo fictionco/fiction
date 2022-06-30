@@ -6,21 +6,16 @@
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
           <div class="absolute inset-0">
-            <img
-              class="h-full w-full object-cover"
-              src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
-              alt="People working on laptops"
-            />
             <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-800 to-indigo-700 mix-blend-multiply"
+              class="absolute inset-0 bg-gradient-to-r from-indigo-800 to-indigo-700 mix-blend-multiply"
             ></div>
           </div>
           <div class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
             <h1
               class="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
             >
-              <span class="block text-white">Take control of your</span>
-              <span class="block text-indigo-200">customer support</span>
+              <span class="block text-white">Example Website</span>
+              <span class="block text-indigo-200">for Kaption</span>
             </h1>
             <p
               class="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl"
@@ -43,7 +38,7 @@
                   Get started
                 </RouterLink>
                 <RouterLink
-                  :id="randomId()"
+                  id="home-1"
                   :to="randomRoute()"
                   class="flex items-center justify-center rounded-md border border-transparent bg-indigo-500/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:opacity-70 sm:px-8"
                 >
@@ -130,7 +125,7 @@
             <div>
               <div>
                 <span
-                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-purple-600 to-indigo-600"
+                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-indigo-600 to-indigo-600"
                 >
                   <!-- Heroicon name: outline/inbox -->
                   <svg
@@ -164,9 +159,9 @@
                 </p>
                 <div class="mt-6">
                   <RouterLink
-                    :id="randomId()"
+                    id="home-2"
                     :to="randomRoute()"
-                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
                   >
                     Get started
                   </RouterLink>
@@ -222,7 +217,7 @@
             <div>
               <div>
                 <span
-                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-purple-600 to-indigo-600"
+                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-indigo-600 to-indigo-600"
                 >
                   <!-- Heroicon name: outline/sparkles -->
                   <svg
@@ -256,9 +251,9 @@
                 </p>
                 <div id="test-2" class="mt-6">
                   <RouterLink
-                    :id="randomId()"
+                    id="home-3"
                     :to="randomRoute()"
-                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
                   >
                     Get started
                   </RouterLink>
@@ -282,14 +277,14 @@
     </div>
 
     <!-- Gradient Feature Section -->
-    <div class="bg-gradient-to-r from-purple-800 to-indigo-700">
+    <div class="bg-gradient-to-r from-indigo-800 to-indigo-700">
       <div
         class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:px-8 lg:pt-24"
       >
         <h2 class="text-3xl font-extrabold tracking-tight text-white">
           Inbox support built for efficiency
         </h2>
-        <p class="mt-4 max-w-3xl text-lg text-purple-200">
+        <p class="mt-4 max-w-3xl text-lg text-indigo-200">
           Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et
           magna sit morbi lobortis. Blandit aliquam sit nisl euismod mattis in.
         </p>
@@ -321,7 +316,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Unlimited Inboxes</h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -355,7 +350,7 @@
               <h3 class="text-lg font-medium text-white">
                 Manage Team Members
               </h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -387,7 +382,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Spam Report</h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -421,7 +416,7 @@
               <h3 class="text-lg font-medium text-white">
                 Compose in Markdown
               </h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -455,7 +450,7 @@
               <h3 id="test-4" class="text-lg font-medium text-white">
                 Team Reporting
               </h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -487,7 +482,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Saved Replies</h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -519,7 +514,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Email Commenting</h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -553,7 +548,7 @@
               <h3 class="text-lg font-medium text-white">
                 Connect with Customers
               </h3>
-              <p class="mt-2 text-base text-purple-200">
+              <p class="mt-2 text-base text-indigo-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -588,7 +583,7 @@
         >
           <h2 class="text-sm font-semibold uppercase tracking-wide">
             <span
-              class="bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent"
+              class="bg-gradient-to-r from-indigo-300 to-indigo-300 bg-clip-text text-transparent"
               >Valuable Metrics</span
             >
           </h2>
@@ -652,20 +647,20 @@
         >
           <span class="block">Ready to get started?</span>
           <span
-            class="-mb-1 block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text pb-1 text-transparent"
+            class="-mb-1 block bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text pb-1 text-transparent"
             >Get in touch or create an account.</span
           >
         </h2>
         <div class="mt-6 space-y-4 sm:flex sm:space-y-0 sm:space-x-5">
           <RouterLink
-            :id="randomId()"
+            id="home-4"
             :to="randomRoute()"
-            class="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-purple-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-purple-700 hover:to-indigo-700"
+            class="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
           >
             Learn more
           </RouterLink>
           <RouterLink
-            :id="randomId()"
+            id="home-5"
             :to="randomRoute()"
             class="flex items-center justify-center rounded-md border border-transparent bg-indigo-50 px-4 py-3 text-base font-medium text-indigo-800 shadow-sm hover:bg-indigo-100"
           >

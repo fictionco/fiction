@@ -413,7 +413,7 @@ class UnloadHandler {
 
   public onUnload(cb: EventCallback): void {
     this.unloadCallbacks.push(cb)
-    if (!isNode() && this.unloadWatchers.length == 0) {
+    if (typeof window !== 'undefined' && this.unloadWatchers.length == 0) {
       this.unloadWatchers = [
         onBrowserEvent("pagehide", () => this.unload("pagehide")),
         onBrowserEvent("beforeunload", () => this.unload("unload")),
