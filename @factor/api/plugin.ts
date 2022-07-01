@@ -31,12 +31,11 @@ export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
   constructor(settings: T) {
     this.settings = settings
     this.basePath = `/${utils.slugify(this.constructor.name)}`
-
   }
 
-  abstract setup(
-    settings?: Partial<T>,
-  ): ServiceConfig | Promise<ServiceConfig> | void | Promise<void>
+  afterSetup(): void | Promise<void> {}
+
+  setup(): ServiceConfig | Promise<ServiceConfig> | void | Promise<void> {}
 
   public setting<K extends keyof T>(key: K): T[K] | undefined {
     if (!this.settings) return undefined

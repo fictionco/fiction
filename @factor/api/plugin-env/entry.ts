@@ -37,6 +37,16 @@ export const runServicesSetup = async (
         throw e
       }
     }
+    for (const plugin of pluginList) {
+      try {
+        await plugin.afterSetup()
+      } catch (error: unknown) {
+        const e = error as Error
+        const name = plugin.constructor.name ?? "unknown"
+        e.message = `plugin after setup error (${name}): ${e.message}`
+        throw e
+      }
+    }
   }
 
   const r = deepMerge<ServiceConfig>(config, {

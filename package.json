@@ -14,7 +14,7 @@
     "concurrently": "^7.2.2",
     "dotenv": "^16.0.1",
     "eslint": "^8.18.0",
-    "happy-dom": "^5.3.4",
+    "happy-dom": "^6.0.0",
     "jsdom": "*",
     "nodemon": "^2.0.18",
     "npm-package-json-lint": "^6.3.0",
@@ -39,7 +39,8 @@
   "pnpm": {
     "overrides": {
       "vite": "*",
-      "vue": "*"
+      "vue": "*",
+      "@aws-sdk/client-sts": "3.118.1"
     }
   },
   "private": true,
@@ -76,6 +77,6 @@
   ],
   "dependencies": {
     "cross-env": "^7.0.3",
-    "pnpm": "^7.4.0"
+    "pnpm": "^7.4.1"
   }
 }

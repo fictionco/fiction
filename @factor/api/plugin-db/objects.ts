@@ -8,11 +8,15 @@ type CreateCol = (params: {
   db: Knex
 }) => void
 
+type ColScope = "private" | "public" | "all" | "settings"
+
 export type FactorDbColSettings = {
   readonly key: string
   description?: string
   isComposite?: boolean
   create: CreateCol
+  isPrivate?: boolean
+  isSetting?: boolean
 }
 export class FactorDbCol {
   readonly key: string
@@ -20,6 +24,8 @@ export class FactorDbCol {
   readonly description?: string
   isComposite?: boolean
   create: CreateCol
+  isPrivate: boolean
+  isSetting: boolean
   constructor(settings: FactorDbColSettings) {
     const { description } = settings || {}
     this.description = description
@@ -27,6 +33,8 @@ export class FactorDbCol {
     this.pgKey = snakeCase(settings.key)
     this.create = settings.create
     this.isComposite = settings.isComposite
+    this.isPrivate = settings.isPrivate ?? false
+    this.isSetting = settings.isSetting ?? false
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {

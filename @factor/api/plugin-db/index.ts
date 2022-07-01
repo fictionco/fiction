@@ -17,6 +17,7 @@ export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 
 export type FactorDbHookDictionary = {
   onStart: { args: [FactorDb] }
+  tables: { args: FactorDbTable[] }
 }
 
 export type FactorDbSettings = {
@@ -123,7 +124,11 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     })
   }
 
-  public async setup() {
+  /**
+   * Initialize after setup allowing other plugins to
+   * better extend and create tables before being rendered to DB
+   */
+  public async afterSetup() {
     if (!this.utils.isTest() && !this.utils.isApp()) {
       await this.init()
     }
