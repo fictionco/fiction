@@ -46,10 +46,15 @@ export const stringify = (data: unknown): string =>
  * Stringify and hash
  * https://github.com/joliss/fast-js-hash-benchmark
  */
-export const fastHash = (
-  data: Record<string, any> | any[] | string | number,
-): string => {
+type HashObject = Record<string, any> | any[] | string | number
+export const fastHash = (data: HashObject): string => {
   return md5.hash(stableStringify(data)).toString()
+}
+/**
+ * Use hash to determine if two objects are the same
+ */
+export const hashEqual = (a?: HashObject, b?: HashObject): boolean => {
+  return fastHash(a || {}) == fastHash(b || {})
 }
 /**
  * Standard format globally unique ID
