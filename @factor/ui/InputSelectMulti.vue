@@ -22,7 +22,7 @@
             v-for="(v, i) in selected"
             v-else
             :key="i"
-            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-input-edge bg-input-base text-xs text-input-body"
+            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-input-edge bg-input-base text-xs text-input-body shadow-sm"
             @click.stop
           >
             <div
@@ -77,7 +77,7 @@
       >
         <div
           v-if="active"
-          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl"
+          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl ring-1 ring-black/5"
         >
           <ul
             role="listbox"
@@ -105,27 +105,16 @@
                 class="group relative select-none py-input-y px-input-x text-input-size"
                 @click.prevent="selectValue(item)"
                 @mouseover="hovered = i"
+                @mouseleave="hovered = -1"
               >
                 <div class="flex items-center">
-                  <template v-if="item.icon">
-                    <span
-                      v-if="item.icon.includes('svg')"
-                      class="mr-2 h-6 w-6"
-                      v-html="item.icon"
-                    />
-                    <img
-                      :src="item.icon"
-                      class="mr-2 h-6 w-6 shrink-0 rounded-full"
-                    />
-                  </template>
-
                   <span class="truncate">{{ item.name }}</span>
                   <span v-if="item.desc" class="ml-2 truncate opacity-60">{{
                     item.desc
                   }}</span>
                   <span
                     v-if="isSelected(item.value)"
-                    class="absolute inset-y-0 right-0 flex items-center pr-4"
+                    class="absolute inset-y-0 right-0 flex items-center pr-2"
                     :class="
                       hovered > -1 && hovered !== i
                         ? 'text-input-primary group-hover:text-input-primary-body'
@@ -133,19 +122,21 @@
                     "
                   >
                     <!-- Heroicon name: check -->
-                    <svg
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <div class="rounded-full bg-primary-500 p-0.5 text-white">
+                      <svg
+                        class="h-4 w-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
                   </span>
                 </div>
               </li>
@@ -187,7 +178,7 @@ const val = vue.computed<string[]>(() => {
 
 const selected = vue.computed<string[]>({
   get: () => {
-    return val.value
+    return val.value ?? []
   },
   set: (v) => {
     emit("update:modelValue", v)
@@ -216,7 +207,7 @@ const selectValue = async (
 }
 
 const getItemName = (val: string): string | undefined => {
-  return li.value.find((_) => _.value == val)?.name
+  return li.value.find((_) => _.value == val)?.name || val
 }
 
 const isSelected = (value?: string): boolean => {
@@ -235,7 +226,7 @@ const listItemClass = (item: ListItem, i: number): string => {
   if (item.disabled) {
     out.push("text-input-edge")
   } else {
-    if ((isSelected(val) && hovered.value === -1) || hovered.value === i) {
+    if (hovered.value === i) {
       out.push("bg-input-primary text-input-primary-body font-medium ")
     } else if (isSelected(val)) {
       out.push("bg-input-base-alt font-medium text-input-body")
@@ -243,7 +234,7 @@ const listItemClass = (item: ListItem, i: number): string => {
       out.push("font-normal")
     }
     out.push(
-      "cursor-pointer focus:text-input-primary-body focus:bg-input-primary hover:text-input-primary-body hover:bg-input-primary",
+      "cursor-pointer   hover:text-input-primary-body hover:bg-input-primary",
     )
   }
 
@@ -290,6 +281,7 @@ const buttonClasses = [
   "bg-input-base",
   "text-input-body",
   "hover:border-input-edge",
+  "hover:bg-input-base-alt",
   "focus:border-input-primary",
   "focus:outline-none",
   "focus:ring-1",

@@ -3,10 +3,10 @@
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { runHooks, HookType } from "@factor/api"
+import { Type, TSchema } from "@sinclair/typebox"
 import { FactorPlugin } from "../plugin"
-import { vars, EnvVar } from "../plugin-env"
-import { FactorDbTable } from "./objects"
-
+import { vars, EnvVar, FactorEnv } from "../plugin-env"
+import { FactorDbCol, FactorDbTable } from "./objects"
 export * from "./objects"
 
 vars.register(() => [
@@ -17,13 +17,14 @@ export type FactorDBTables = "factor_user" | "factor_post" | "factor_version"
 
 export type FactorDbHookDictionary = {
   onStart: { args: [FactorDb] }
-  tables: { args: FactorDbTable[] }
+  tables: { args: [FactorDbTable[]] }
 }
 
 export type FactorDbSettings = {
   connectionUrl?: string
   hooks?: HookType<FactorDbHookDictionary>[]
   tables?: FactorDbTable[]
+  factorEnv?: FactorEnv
 }
 
 export class FactorDb extends FactorPlugin<FactorDbSettings> {
@@ -32,6 +33,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   hooks: HookType<FactorDbHookDictionary>[]
   defaultConnectionUrl = "http://test:test@localhost:5432/test"
   tables = this.settings.tables || []
+  factorEnv = this.settings.factorEnv
   constructor(settings: FactorDbSettings) {
     super(settings)
 
@@ -86,8 +88,61 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     this.db = knex(opts)
   }
 
+  addSchema() {
+    this.factorEnv?.addHook({
+      hook: "staticSchema",
+      callback: async (existing) => {
+        const list: Record<string, TSchema> = {}
+        this.tables.forEach((tbl) => {
+          const colKeys = tbl.columns.map((c) => Type.Literal(c.key))
+          list[tbl.tableKey] = Type.Union(colKeys)
+        })
+
+        const tablesType = Type.Object(list)
+
+        return {
+          ...existing,
+          tables: tablesType,
+        }
+      },
+    })
+  }
+
   addTables(tables: FactorDbTable[]) {
     this.tables.push(...tables)
+  }
+
+  addColumns(
+    tableKey: string,
+    columns: FactorDbCol[] | readonly FactorDbCol[],
+  ) {
+    this.hooks.push({
+      hook: "tables",
+      callback: (tables: FactorDbTable[]) => {
+        const tbl = tables.find((t) => t.tableKey === tableKey)
+
+        if (tbl) {
+          tbl.columns.push(...columns)
+        } else {
+          this.log.error(`could not find table ${tableKey}`, {
+            data: tables.map((t) => t.tableKey),
+          })
+        }
+
+        return tables
+      },
+    })
+  }
+
+  getColumns(tableKey: string): FactorDbCol[] | undefined {
+    const tbl = this.tables.find((t) => t.tableKey === tableKey)
+
+    if (!tbl) {
+      this.log.error(`could not find table ${tableKey}`, {
+        data: { tableKeys: this.tables.map((t) => t.tableKey) },
+      })
+    }
+    return tbl?.columns
   }
 
   client(): Knex {
@@ -105,7 +160,13 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     await extendDb(this.db)
 
     if (this.tables.length > 0) {
-      for (const table of this.tables) {
+      const tables = await runHooks<FactorDbHookDictionary, "tables">({
+        list: this.hooks,
+        hook: "tables",
+        args: [this.tables],
+      })
+
+      for (const table of tables) {
         await table.create(this.db)
       }
     }
@@ -123,7 +184,9 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
       },
     })
   }
-
+  setup() {
+    this.addSchema()
+  }
   /**
    * Initialize after setup allowing other plugins to
    * better extend and create tables before being rendered to DB

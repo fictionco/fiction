@@ -140,6 +140,7 @@ export class FactorRouter<
             auth: li.auth,
             ...li.meta,
           },
+          children: [],
         }
 
         const props: Record<string, any> = {}
@@ -153,7 +154,8 @@ export class FactorRouter<
         }
 
         if (li.children.length > 0) {
-          out.children = this.convertAppRouteToRoute(li.children) // recursive
+          const cld = this.convertAppRouteToRoute(li.children) // recursive
+          out.children = cld
         }
 
         return out

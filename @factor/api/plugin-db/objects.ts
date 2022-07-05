@@ -7,14 +7,19 @@ type CreateCol = (params: {
   column: FactorDbCol
   db: Knex
 }) => void
-
-type ColScope = "private" | "public" | "all" | "settings"
+type PrepareForStorage = (args: {
+  value: unknown
+  key: string
+  db: Knex
+}) => unknown
+// type ColScope = "private" | "public" | "all" | "settings"
 
 export type FactorDbColSettings = {
   readonly key: string
   description?: string
   isComposite?: boolean
   create: CreateCol
+  prepare?: PrepareForStorage
   isPrivate?: boolean
   isSetting?: boolean
 }
@@ -26,12 +31,14 @@ export class FactorDbCol {
   create: CreateCol
   isPrivate: boolean
   isSetting: boolean
+  prepare?: PrepareForStorage
   constructor(settings: FactorDbColSettings) {
     const { description } = settings || {}
     this.description = description
     this.key = settings.key
     this.pgKey = snakeCase(settings.key)
     this.create = settings.create
+    this.prepare = settings.prepare
     this.isComposite = settings.isComposite
     this.isPrivate = settings.isPrivate ?? false
     this.isSetting = settings.isSetting ?? false
@@ -51,7 +58,7 @@ export type FactorDbTableSettings = {
 export class FactorDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
-  columns: readonly FactorDbCol[]
+  columns: FactorDbCol[]
 
   constructor(params: FactorDbTableSettings) {
     this.tableKey = params.tableKey

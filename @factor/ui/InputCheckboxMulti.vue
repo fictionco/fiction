@@ -46,7 +46,7 @@ const val = vue.computed<string[]>(() => {
 
 const selected = vue.computed<string[]>({
   get: () => {
-    return val.value
+    return val.value ?? []
   },
   set: (v) => {
     emit("update:modelValue", v)
@@ -54,7 +54,7 @@ const selected = vue.computed<string[]>({
 })
 
 const isSelected = (value?: string): boolean => {
-  return !!value && selected.value.includes(value)
+  return value && selected.value?.includes(value) ? true : false
 }
 
 const removeValue = (value: string): void => {

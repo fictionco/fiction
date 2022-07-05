@@ -216,7 +216,7 @@ export class FactorEnv<
     })
   }
 
-  async setup() {
+  async afterSetup() {
     if (!this.isProd() && !this.isApp() && !this.isTest()) {
       await generateStaticConfig(this)
     }

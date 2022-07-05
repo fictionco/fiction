@@ -20,7 +20,7 @@ export const runHooks = async <
   S extends Record<string, { args: unknown[] }>,
   T extends keyof S = keyof S,
 >(params: {
-  list?: HookType<S, keyof S>[]
+  list: HookType<S, keyof S>[]
   hook: T
   args?: S[T]["args"]
 }): Promise<S[T]["args"][0]> => {

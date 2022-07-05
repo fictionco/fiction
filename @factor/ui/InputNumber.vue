@@ -1,13 +1,23 @@
 <template>
   <div :class="wrapClasses">
     <button
+      class="border-r border-slate-200"
       :class="[
         buttonClasses,
         minNumber >= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
       ]"
       @click.prevent="increment(-1)"
     >
-      <span class="m-auto text-input-size font-bold">−</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+      </svg>
     </button>
     <input
       type="number"
@@ -16,16 +26,32 @@
       :min="min"
       :max="max"
       :value="modelValue"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="
+        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+      "
     />
     <button
+      class="border-l border-slate-200"
       :class="[
         buttonClasses,
         maxNumber <= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
       ]"
       @click.prevent="increment(1)"
     >
-      <span class="m-auto text-input-size font-bold">+</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
     </button>
   </div>
 </template>
@@ -33,6 +59,7 @@
 const props = defineProps({
   min: { type: String, default: "0" },
   max: { type: String, default: "10" },
+  defaultValue: { type: String, default: "0" },
   modelValue: { type: [String, Number], default: "" },
 })
 const emit = defineEmits(["update:modelValue"])
@@ -60,7 +87,6 @@ const inputClasses = [
   "w-full",
   "select-none",
   "items-center",
-  "rounded-md",
   "border-transparent",
   "text-center",
   "outline-none",
@@ -77,12 +103,13 @@ const wrapClasses = [
   "bg-input-base",
   "relative",
   "flex",
-
   "w-56",
-  "flex-row",
+  "flex",
+  "items-center",
   "rounded-md",
   "border",
   "border-input-edge",
+  "overflow-hidden",
 ]
 
 const buttonClasses = [
@@ -90,12 +117,14 @@ const buttonClasses = [
   "py-input-y",
   "h-full",
   "w-20",
-  "rounded-full",
   "select-none",
   "text-input-body",
-  "hover:text-input-body-light",
-  "focus:border-input-primary",
+  "hover:text-primary-500",
+  "hover:bg-input-base-alt",
   "focus:outline-none",
   "focus:ring-input-primary",
+  "flex",
+  "justify-center",
+  "items-center",
 ]
 </script>
