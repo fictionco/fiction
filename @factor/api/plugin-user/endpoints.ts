@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import bcrypt from "bcrypt"
 import { dayjs } from "../utils/libraries"
-import { validateEmail, snakeCase } from "../utils/utils"
+import { validateEmail } from "../utils/utils"
 import { EndpointResponse, FactorTable } from "../types"
 import { _stop } from "../utils/error"
 import { runHooks } from "../utils/hook"
@@ -10,13 +10,8 @@ import { EndpointMeta } from "../utils/endpoint"
 import type { FactorDb } from "../plugin-db"
 import { Query } from "../query"
 import { FactorEmail } from "../plugin-email"
-import { FullUser, FactorUserHookDictionary } from "./types"
-import {
-  getPublicUserFields,
-  getJsonUserFields,
-  getEditableUserFields,
-} from "./utils"
-import type { FactorUser } from "."
+import { FullUser, PublicUser } from "./types"
+import type { FactorUserHookDictionary, FactorUser } from "."
 
 type UserQuerySettings = {
   factorUser: FactorUser
@@ -29,6 +24,46 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
   factorDb = this.settings.factorDb
   constructor(settings: UserQuerySettings) {
     super(settings)
+  }
+
+  publicUserFieldKeys() {
+    const cols = this.factorDb.getColumns("factor_user")
+
+    return cols
+      ?.map(({ key, isPrivate }) => (!isPrivate ? key : undefined))
+      .filter(Boolean) as (keyof PublicUser)[]
+  }
+
+  prepareUserFields(
+    type: "settings" | "internal" | "returnInfo",
+    user?: Partial<FullUser>,
+    meta?: EndpointMeta,
+  ): Partial<FullUser> {
+    if (!user || (!meta?.server && meta?.bearer?.userId !== user.userId)) {
+      return {}
+    }
+
+    const out: Record<string, any> = {}
+
+    const db = this.factorDb.client()
+
+    const cols = this.factorDb.getColumns("factor_user")
+
+    cols?.forEach(({ key, isSetting, isAuthority, prepare }) => {
+      const k = key as keyof FullUser
+      if ((type == "internal" || isSetting) && user[k]) {
+        const value = user[k]
+        out[key] = prepare ? prepare({ value, key, db }) : value
+      } else if (
+        type == "returnInfo" &&
+        user[k] &&
+        (!isAuthority || meta?.returnAuthority)
+      ) {
+        out[key] = user[k]
+      }
+    })
+
+    return out as Partial<FullUser>
   }
 }
 
@@ -79,38 +114,6 @@ export const verifyNewEmail = async (params: {
   return true
 }
 
-// abstract export class QueryUser extends UserQuery {
-//   async serveRequest(
-//     params: Parameters<this["run"]>[0],
-//     meta: EndpointMeta,
-//   ): Promise<Awaited<ReturnType<this["run"]>>> {
-//     const result = await this.serve(params, meta)
-
-//     if (result.status == "success") {
-//       const r = result as Awaited<ReturnType<this["run"]>>
-
-//       return r
-//     }
-
-//     return result as Awaited<ReturnType<this["run"]>>
-//   }
-// }
-
-const checkServerFields = (
-  fields: Partial<FullUser>,
-  _meta: EndpointMeta = {},
-): void => {
-  if (
-    !_meta?.server &&
-    (fields.emailVerified || fields.googleId || fields.hashedPassword)
-  ) {
-    throw _stop({
-      message: "server meta required for fields",
-      data: { fields },
-    })
-  }
-}
-
 export type ManageUserParams =
   | {
       _action: "create"
@@ -123,7 +126,7 @@ export type ManageUserParams =
         googleId?: string
         emailVerified?: boolean
         picture?: string
-        invitedBy?: string
+        invitedById?: string
       }
     }
   | ({
@@ -155,38 +158,40 @@ export class QueryManageUser extends UserQuery {
 
     let user: FullUser | undefined
 
-    const publicFields = getPublicUserFields()
-
     let isNew = false
     let token: string | undefined = undefined
 
-    if (_action == "getPrivate" || _action == "getPublic") {
+    if (_action === "getPublic") {
       const { userId, email } = params
       const where = userId ? { userId } : { email }
 
-      const returnFields = _action == "getPrivate" ? ["*"] : publicFields
-
       user = await db
-        .select(...returnFields)
+        .select(this.publicUserFieldKeys())
         .from(FactorTable.User)
         .where(where)
-        .first<FullUser>()
+        .first<PublicUser>()
+    } else if (_action == "getPrivate") {
+      const { userId, email } = params
+      const where = userId ? { userId } : { email }
 
-      if (user && _action == "getPublic") {
-        delete user?.hashedPassword
-      }
+      user = await db
+        .select<FullUser[]>(["*"])
+        .where(where)
+        .from(FactorTable.User)
+        .first()
     } else if (_action == "update") {
       const { email, userId, fields } = params
       if (!fields || (!email && !userId)) {
         throw this.stop("update user requires email, or user, and fields")
       }
 
-      checkServerFields(fields, meta)
+      const fType = meta?.server ? "internal" : "settings"
+      const insertFields = this.prepareUserFields(fType, fields, meta)
 
       const where = userId ? { userId } : { email }
 
       ;[user] = await db(FactorTable.User)
-        .update(fields)
+        .update(insertFields)
         .where(where)
         .returning<FullUser[]>("*")
 
@@ -194,6 +199,7 @@ export class QueryManageUser extends UserQuery {
         throw this.stop({
           message: "user not found",
           data: where,
+          code: "TOKEN_ERROR",
         })
       }
     } else if (_action == "create") {
@@ -201,64 +207,54 @@ export class QueryManageUser extends UserQuery {
 
       if (!fields) throw this.stop("fields required")
 
-      const {
-        email,
-        fullName,
-        firstName,
-        lastName,
-        password,
-        googleId,
-        emailVerified = false,
-        picture,
-      } = fields
+      const hashedPassword = await hashPassword(fields.password)
 
-      checkServerFields(fields, meta)
+      if (!fields.email) throw this.stop("email required")
 
-      const hashedPassword = await hashPassword(password)
-
-      if (!email) throw this.stop("email required")
-
-      if (!emailVerified) {
-        await verifyNewEmail({ email, factorUser: this.factorUser })
+      if (!fields.emailVerified) {
+        await verifyNewEmail({
+          email: fields.email,
+          factorUser: this.factorUser,
+        })
       }
-      ;[user] = await db
-        .insert({
-          email,
-          fullName,
-          firstName,
-          lastName,
-          googleId,
-          emailVerified,
+
+      const insertFields = this.prepareUserFields(
+        "internal",
+        {
+          ...fields,
           hashedPassword,
-          picture,
           verificationCode: getSixDigitRandom(),
           codeExpiresAt: this.utils.dayjs().add(7, "day").toISOString(),
-        })
+        },
+        { server: true },
+      )
+
+      ;[user] = await db
+        .insert(insertFields)
         .into(FactorTable.User)
         .returning<FullUser[]>("*")
 
       if (!user) throw this.stop("problem creating user")
-      token = this.factorUser.createClientToken(user)
-      isNew = true
-    }
 
-    if (
-      user &&
-      (_action == "getPrivate" || _action == "update" || _action == "create") &&
-      meta
-    ) {
-      user = await runHooks<FactorUserHookDictionary>({
+      user = await runHooks<FactorUserHookDictionary, "createUser">({
         list: this.factorUser.hooks,
-        hook: "processUser",
-        args: [user, { params, meta: meta }],
+        hook: "createUser",
+        args: [user, { params, meta }],
       })
+
+      token = user ? this.factorUser.createClientToken(user) : undefined
+      isNew = true
     }
 
     // don't return authority info to client
     // some functions (email endpoint) need code though
-    if (!meta?.returnAuthInfo) {
-      delete user?.verificationCode
-    }
+    user = this.prepareUserFields("returnInfo", user, meta) as FullUser
+
+    user = await runHooks<FactorUserHookDictionary, "processUser">({
+      list: this.factorUser.hooks,
+      hook: "processUser",
+      args: [user, { params, meta }],
+    })
 
     const response: ManageUserResponse = {
       status: "success",
@@ -267,6 +263,7 @@ export class QueryManageUser extends UserQuery {
       token,
     }
 
+    // replace the user state if the bearer is user being updated
     if (meta?.bearer && meta?.bearer.userId == user?.userId) {
       response.user = user
     }
@@ -281,26 +278,25 @@ export class QueryCurrentUser extends UserQuery {
 
     if (!token) throw this.stop("auth info not sent (token)")
 
-    const { email } = this.factorUser.decodeClientToken(token)
-
-    if (!email) throw this.stop("email missing in token")
-
-    let user: FullUser | undefined
     try {
+      const { userId } = this.factorUser.decodeClientToken(token)
+
+      if (!userId) throw this.stop("userId missing in token")
+
       const r = await this.factorUser.queries.ManageUser.serve(
         {
-          _action: "update",
-          email,
-          fields: { lastSeenAt: this.utils.dayjs().toISOString() },
+          _action: "getPrivate",
+          userId,
         },
         { server: true },
       )
-      user = r.data
-    } catch (error) {
-      throw { ...(error as Error), code: "TOKEN_ERROR" }
-    }
 
-    return { status: "success", data: user }
+      return r
+    } catch (error) {
+      const e = error as Error
+
+      return { status: "error", message: e.message, code: "TOKEN_ERROR" }
+    }
   }
 }
 
@@ -415,38 +411,24 @@ export const verifyCode = async (args: {
  */
 export class QueryUpdateCurrentUser extends UserQuery {
   async run(
-    params: Partial<FullUser> & { password?: string },
+    userFields: Partial<FullUser> & { password?: string },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<FullUser> & { token?: string }> {
     if (!meta.bearer) throw this.stop({ message: "must be logged in" })
 
-    const { email, userId, password, verificationCode } = params
+    const { email, userId, password, verificationCode } = userFields
     const { bearer } = meta
 
     if (!bearer || !bearer.email) throw this.stop("bearer email required")
 
-    let fields: Partial<FullUser> = {}
+    const fields: Partial<FullUser> = this.prepareUserFields(
+      "settings",
+      userFields,
+      meta,
+    )
 
-    for (const f of getEditableUserFields()) {
-      if (typeof params[f] != "undefined") {
-        fields = { ...fields, [f]: params[f] }
-      }
-    }
-
-    for (const f of getJsonUserFields()) {
-      if (typeof params[f] != "undefined") {
-        const jsn = JSON.stringify(params[f])
-
-        const setter = this.factorDb
-          .client()
-          .raw(`coalesce(${snakeCase(f)}::jsonb, '{}'::jsonb) || ?::jsonb`, jsn)
-
-        fields = { ...fields, [f]: setter }
-      }
-    }
-
-    if (password) {
-      const hashedPassword = await hashPassword(password)
+    if (userFields.password) {
+      const hashedPassword = await hashPassword(userFields.password)
 
       const { data: dbUser } = await this.factorUser.queries.ManageUser.serve(
         {
@@ -459,7 +441,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       if (!dbUser) throw this.stop({ message: "couldn't find user" })
 
       const correctPassword = await comparePassword(
-        password,
+        userFields.password,
         dbUser.hashedPassword ?? "",
       )
 
@@ -486,14 +468,15 @@ export class QueryUpdateCurrentUser extends UserQuery {
     }
 
     let user, token
+
     if (Object.keys(fields).length > 0) {
       const response = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "update",
-          email: bearer.email,
+          userId: bearer.userId,
           fields,
         },
-        meta,
+        { server: true, ...meta },
       )
 
       user = response.data

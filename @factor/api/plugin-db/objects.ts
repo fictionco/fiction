@@ -22,6 +22,7 @@ export type FactorDbColSettings = {
   prepare?: PrepareForStorage
   isPrivate?: boolean
   isSetting?: boolean
+  isAuthority?: boolean
 }
 export class FactorDbCol {
   readonly key: string
@@ -31,6 +32,7 @@ export class FactorDbCol {
   create: CreateCol
   isPrivate: boolean
   isSetting: boolean
+  isAuthority: boolean
   prepare?: PrepareForStorage
   constructor(settings: FactorDbColSettings) {
     const { description } = settings || {}
@@ -42,6 +44,7 @@ export class FactorDbCol {
     this.isComposite = settings.isComposite
     this.isPrivate = settings.isPrivate ?? false
     this.isSetting = settings.isSetting ?? false
+    this.isAuthority = settings.isAuthority ?? false
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {

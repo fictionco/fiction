@@ -1,10 +1,6 @@
-import type { EndpointMeta, HookType } from "@factor/api/utils"
-import type { FactorDb } from "@factor/api/plugin-db"
-import type { FactorEmail } from "@factor/api/plugin-email"
 import { UserGeolocation } from "@factor/api/types/geo"
 import { FactorPost, PopulatedPosts, PostActions } from "@factor/api/types/post"
 import { UserRoles } from "@factor/api/types/roles"
-import type { FactorServer } from "../plugin-server"
 import type { ManageUserParams } from "./endpoints"
 
 export type CurrentUserState = PrivateUser | undefined
@@ -12,26 +8,6 @@ export type CurrentUserState = PrivateUser | undefined
 export type { ManageUserParams }
 
 export type TokenFields = Partial<PrivateUser> & { userId: string; iat: number }
-
-export type UserPluginSettings = {
-  factorServer: FactorServer
-  factorDb: FactorDb
-  factorEmail: FactorEmail
-  googleClientId?: string
-  googleClientSecret?: string
-  hooks?: HookType<FactorUserHookDictionary>[]
-  tokenSecret?: string
-  mode?: "production" | "development"
-}
-
-export type FactorUserHookDictionary = {
-  onLogout: { args: [] }
-  onUserVerified: { args: [FullUser] }
-  requestCurrentUser: { args: [FullUser | undefined] }
-  processUser: {
-    args: [FullUser, { params: ManageUserParams; meta: EndpointMeta }]
-  }
-}
 
 enum Gender {
   Male = "male",
@@ -59,6 +35,7 @@ export type AuthenticationParameters = {
  */
 export interface PublicUser {
   userId: string
+  email: string
   createdAt?: string
   updatedAt?: string
   avatar?: string
@@ -68,7 +45,6 @@ export interface PublicUser {
   fullName?: string
   firstName?: string
   lastName?: string
-  email: string
   emailVerified?: boolean
   role?: UserRoles
   profile?: Record<string, any>

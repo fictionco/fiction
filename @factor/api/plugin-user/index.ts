@@ -49,7 +49,16 @@ export type FactorUserHookDictionary = {
   onUserVerified: { args: [types.FullUser] }
   requestCurrentUser: { args: [types.FullUser | undefined] }
   processUser: {
-    args: [types.FullUser, { params: ManageUserParams; meta: EndpointMeta }]
+    args: [
+      types.FullUser | undefined,
+      { params: ManageUserParams; meta?: EndpointMeta },
+    ]
+  }
+  createUser: {
+    args: [
+      types.FullUser | undefined,
+      { params: ManageUserParams; meta?: EndpointMeta },
+    ]
   }
 }
 
@@ -169,7 +178,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     } as const
   }
 
-  addHook(hook: HookType<types.FactorUserHookDictionary>): void {
+  addHook(hook: HookType<FactorUserHookDictionary>): void {
     this.hooks.push(hook)
   }
 
@@ -316,17 +325,6 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     }
   }
 
-  /**
-   * Sets the auth token secret or falls back to a basic one (insecure)
-   */
-  getTokenSecret = (): string => {
-    const secret = process.env.TOKEN_SECRET
-    if (!secret) {
-      this.log.warn("JWT token secret is missing (TOKEN_SECRET)")
-    }
-
-    return secret ?? "INSECURE"
-  }
   /**
    * Returns a user authentication credential including token for storage in client
    */
