@@ -14,7 +14,7 @@
     "eslint-plugin-simple-import-sort": "latest",
     "eslint-plugin-tailwindcss": "^3.6.0",
     "eslint-plugin-unicorn": "^42.0.0",
-    "eslint-plugin-vue": "^9.1.1",
+    "eslint-plugin-vue": "^9.2.0",
     "prettier": "^2.7.1",
     "prettier-eslint": "^14.1.0"
   },

@@ -57,39 +57,10 @@ describe("route handling", () => {
     expect(factorRouter.vueRoutes.value).toMatchInlineSnapshot(`
       [
         {
-          "children": [
-            {
-              "component": [Function],
-              "meta": {
-                "menus": [
-                  "test",
-                ],
-                "niceName": "Dashboard",
-              },
-              "name": "dashboard",
-              "path": "/project/:projectId",
-            },
-            {
-              "component": [Function],
-              "meta": {
-                "menus": [],
-                "niceName": "Dashboard View",
-              },
-              "name": "dashboardSingle",
-              "path": "/project/:projectId/dash/:dashboardId",
-            },
-          ],
+          "children": [],
           "component": [Function],
           "meta": {
-            "menus": [],
-            "niceName": "App",
-          },
-          "name": "app",
-          "path": "/app",
-        },
-        {
-          "component": [Function],
-          "meta": {
+            "auth": [Function],
             "menus": [
               "test",
             ],
@@ -99,13 +70,26 @@ describe("route handling", () => {
           "path": "/",
         },
         {
+          "children": [],
           "component": [Function],
           "meta": {
+            "auth": [Function],
             "menus": [],
             "niceName": "404",
           },
           "name": "notFound404",
           "path": "/:pathMatch(.*)*",
+        },
+        {
+          "children": [],
+          "component": [Function],
+          "meta": {
+            "auth": [Function],
+            "menus": [],
+            "niceName": "App",
+          },
+          "name": "app",
+          "path": "/app",
         },
       ]
     `)

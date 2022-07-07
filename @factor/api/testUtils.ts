@@ -171,9 +171,6 @@ export const initializeTestUtils = async (
 
   await factorServer.createServer({ factorUser })
 
-
-
-
   const email = getTestEmail()
   const r = await factorUser.queries.ManageUser.serve(
     {
@@ -182,7 +179,6 @@ export const initializeTestUtils = async (
     },
     { server: true, caller: "initializeTestUtilsCreate" },
   )
-
 
   const user = r.data
   const token = r.token
@@ -403,7 +399,7 @@ export const appBuildTests = (config: {
         },
       )
 
-      expect(r.stdout).toContain("build variables")
+      expect(r.stdout).toContain("transfer variables")
       expect(r.stdout).toContain(`[ ${serverPort} ]`)
       expect(r.stdout).toContain(`[ ${appPort} ]`)
       expect(r.stdout).toContain("[ready]")

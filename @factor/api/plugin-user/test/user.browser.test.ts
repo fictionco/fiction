@@ -10,12 +10,13 @@ import {
   describe,
   vi,
   beforeAll,
+  snap,
 } from "@factor/api/testUtils"
 
 import { FullUser } from "../types"
 let user: Partial<FullUser> | undefined
 let token: string | undefined
-const key = Math.random().toString().slice(2, 8)
+const key = Math.random().toString().slice(2, 9)
 
 let testUtils: TestUtils | undefined = undefined
 
@@ -41,6 +42,19 @@ describe("user tests", () => {
     token = response?.token
 
     expect(spy).toHaveBeenCalled()
+
+    expect(snap(user)).toMatchInlineSnapshot(`
+      {
+        "createdAt": "[date:****-**-*****:**:**.****]",
+        "email": "[email:********+*******@*****.***]",
+        "fullName": "[name:****]",
+        "lastSeenAt": "[date:****-**-*****:**:**.****]",
+        "role": "subscriber",
+        "status": "active",
+        "updatedAt": "[date:****-**-*****:**:**.****]",
+        "userId": "[id:**************************]",
+      }
+    `)
 
     expect(user?.userId).toBeTruthy()
     expect(user?.fullName).toBe("test")

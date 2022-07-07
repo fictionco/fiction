@@ -37,7 +37,7 @@ export abstract class Query<T extends Record<string, unknown> = {}> {
     } catch (error: unknown) {
       const e = error as ErrorConfig
 
-      this.log.error(`QueryError: ${e.message}`, { error: e })
+      this.log.error(`QueryError: ${e.message}`, { error: e, data: e.data })
 
       const response = {
         status: "error",

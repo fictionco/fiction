@@ -38,9 +38,17 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     type: "settings" | "internal" | "returnInfo",
     user?: Partial<FullUser>,
     meta?: EndpointMeta,
-  ): Partial<FullUser> {
-    if (!user || (!meta?.server && meta?.bearer?.userId !== user.userId)) {
-      return {}
+  ): Partial<FullUser> | undefined {
+    if (!user) return
+
+    const privateAccess =
+      meta?.server || (user.userId && meta?.bearer?.userId !== user.userId)
+
+    if (type != "returnInfo" && !privateAccess) {
+      throw this.stop({
+        message: "prepareUserFields: unauthorized",
+        data: { type, meta },
+      })
     }
 
     const out: Record<string, any> = {}
@@ -99,7 +107,7 @@ export const verifyNewEmail = async (params: {
   if (!email) throw _stop({ message: "email is required" })
   if (!validateEmail(email)) throw _stop({ message: "email failed validation" })
 
-  const { data: exists } = await factorUser.queries.ManageUser.serve(
+  const { data: user } = await factorUser.queries.ManageUser.serve(
     {
       _action: "getPublic",
       email,
@@ -107,8 +115,11 @@ export const verifyNewEmail = async (params: {
     { server: true },
   )
 
-  if (exists) {
-    throw _stop({ message: "email already exists", data: { email } })
+  if (user?.userId) {
+    throw _stop({
+      message: `verifyEmail: email ${email} already exists`,
+      data: { email, user },
+    })
   }
 
   return true
@@ -234,7 +245,12 @@ export class QueryManageUser extends UserQuery {
         .into(FactorTable.User)
         .returning<FullUser[]>("*")
 
-      if (!user) throw this.stop("problem creating user")
+      if (!user) {
+        throw this.stop({
+          message: "couldn't create user",
+          data: { insertFields },
+        })
+      }
 
       user = await runHooks<FactorUserHookDictionary, "createUser">({
         list: this.factorUser.hooks,
@@ -421,11 +437,13 @@ export class QueryUpdateCurrentUser extends UserQuery {
 
     if (!bearer || !bearer.email) throw this.stop("bearer email required")
 
-    const fields: Partial<FullUser> = this.prepareUserFields(
+    const fields: Partial<FullUser> | undefined = this.prepareUserFields(
       "settings",
       userFields,
       meta,
     )
+
+    if (!fields) throw this.stop("no fields to update")
 
     if (userFields.password) {
       const hashedPassword = await hashPassword(userFields.password)
@@ -620,6 +638,7 @@ export class QueryStartNewUser extends UserQuery {
     }
   > {
     if (!this.factorEmail) throw new Error("no factorEmail")
+
     const { email, fullName } = params
     const { data: user } = await this.factorUser.queries.ManageUser.serve(
       {
@@ -629,7 +648,12 @@ export class QueryStartNewUser extends UserQuery {
       undefined,
     )
 
-    if (!user) throw this.stop("problem creating user")
+    if (!user) {
+      throw this.stop({
+        message: "problem starting user",
+        data: { email, fullName },
+      })
+    }
 
     await sendOneTimeCode({
       email: user.email,

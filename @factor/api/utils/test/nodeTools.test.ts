@@ -25,7 +25,6 @@ describe("node utils", () => {
       [
         "appEmail",
         "appName",
-        "appUrl",
         "factorApp",
         "factorDb",
         "factorEmail",
@@ -34,6 +33,7 @@ describe("node utils", () => {
         "factorServer",
         "factorStripe",
         "factorUser",
+        "productionUrl",
         "service",
         "setup",
       ]

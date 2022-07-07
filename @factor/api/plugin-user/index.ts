@@ -49,16 +49,10 @@ export type FactorUserHookDictionary = {
   onUserVerified: { args: [types.FullUser] }
   requestCurrentUser: { args: [types.FullUser | undefined] }
   processUser: {
-    args: [
-      types.FullUser | undefined,
-      { params: ManageUserParams; meta?: EndpointMeta },
-    ]
+    args: [types.FullUser, { params: ManageUserParams; meta?: EndpointMeta }]
   }
   createUser: {
-    args: [
-      types.FullUser | undefined,
-      { params: ManageUserParams; meta?: EndpointMeta },
-    ]
+    args: [types.FullUser, { params: ManageUserParams; meta?: EndpointMeta }]
   }
 }
 
