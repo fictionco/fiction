@@ -1,3 +1,20 @@
+## [5.4.13](https://github.com/FactorJS/factor/compare/v5.4.12...v5.4.13) (2022-07-07)
+
+
+### Bug Fixes
+
+* build issue ([20fdf93](https://github.com/FactorJS/factor/commit/20fdf9385d35a3e7db1fff87dc97c945fa6770cc))
+* tests ([9444a0e](https://github.com/FactorJS/factor/commit/9444a0eb118553677629f7d62ac2408ad5a8f5a6))
+* time ([c77e541](https://github.com/FactorJS/factor/commit/c77e54121553a2285295669ee5113714cd658002))
+
+
+### Features
+
+* hashEqual ([94b48d3](https://github.com/FactorJS/factor/commit/94b48d3c8ed1d53cf62483a186976a461f394041))
+* various tweaks (ui) ([c3e7b34](https://github.com/FactorJS/factor/commit/c3e7b34e4b44b4ba0a8b1ca30b0a41b1d8279259))
+
+
+
 ## [5.4.12](https://github.com/FactorJS/factor/compare/v5.4.11...v5.4.12) (2022-06-28)
 
 
