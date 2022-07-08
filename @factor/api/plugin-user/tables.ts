@@ -151,6 +151,7 @@ export const userTable = new FactorDbTable({
     new FactorDbCol({
       key: "birthday",
       create: ({ schema, column }) => schema.date(column.pgKey),
+      isPrivate: true,
       isSetting: true,
     }),
     new FactorDbCol({
@@ -173,15 +174,16 @@ export const userTable = new FactorDbTable({
       key: "invitedById",
       create: ({ schema, column }) =>
         schema.string(column.pgKey).references(`factor_user.user_id`),
-      isPrivate: true,
+      isSetting: true,
     }),
     new FactorDbCol({
       key: "lastProjectId",
       create: ({ schema, column }) => schema.string(column.pgKey),
-      isPrivate: true,
+      isSetting: true,
     }),
     new FactorDbCol({
       key: "lastSeenAt",
+      isSetting: true,
       create: ({ schema, column, db }) =>
         schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     }),

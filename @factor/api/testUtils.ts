@@ -138,6 +138,7 @@ export type InitializedTestUtils = {
   user: FullUser
   token: string
   email: string
+  password: string
 }
 export type TestUtils<T extends Record<string, any> = Record<string, any>> = {
   init: (
@@ -173,6 +174,7 @@ export const initializeTestUtils = async (
 
   const email = getTestEmail()
   const password = "test"
+
   const r = await factorUser.queries.ManageUser.serve(
     {
       fields: { email, password, emailVerified: true },
@@ -180,6 +182,8 @@ export const initializeTestUtils = async (
     },
     { server: true, caller: "initializeTestUtilsCreate" },
   )
+
+
 
   const user = r.data
   const token = r.token

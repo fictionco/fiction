@@ -157,6 +157,8 @@ export class QueryManageUser extends UserQuery {
     params: ManageUserParams,
     meta?: EndpointMeta,
   ): Promise<ManageUserResponse> {
+    meta = meta || {}
+
     const { _action } = params
 
     const db = this.factorDb.client()
@@ -244,6 +246,10 @@ export class QueryManageUser extends UserQuery {
           message: "couldn't create user",
           data: { insertFields },
         })
+      } else {
+        // special case, on user create set them to the bearer
+        // its needed for further actions like adding org and setting last project
+        meta.bearer = user
       }
 
       user = await runHooks<FactorUserHookDictionary, "createUser">({
