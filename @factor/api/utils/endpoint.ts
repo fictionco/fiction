@@ -3,6 +3,7 @@ import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"
 import type { FactorUser } from "../plugin-user"
+import type { FactorRouter } from "../plugin-router"
 import type { Query } from "../query"
 import { express, axios } from "./libraries"
 import { notify } from "./notify"
@@ -15,6 +16,7 @@ export type EndpointOptions = {
   basePath: string
   middleware?: () => express.RequestHandler[]
   factorUser?: FactorUser
+  factorRouter?: FactorRouter
   unauthorized?: boolean
 }
 
@@ -63,6 +65,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly basePath: string
   readonly key: string
   factorUser?: FactorUser
+  factorRouter?: FactorRouter
   queryHandler?: T
   requestHandler?: RequestHandler
   middleware: express.RequestHandler[]
@@ -85,6 +88,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.middleware = middleware && !isApp() ? middleware() : []
 
+    this.factorRouter = options.factorRouter
     if (!unauthorized && options.factorUser) {
       this.factorUser = options.factorUser
     }

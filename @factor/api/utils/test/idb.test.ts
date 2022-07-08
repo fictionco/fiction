@@ -3,8 +3,7 @@
  * https://vitest.dev/config/#environment
  */
 
-import indexedDB from "fake-indexeddb"
-import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange"
+import { indexedDB, IDBKeyRange } from "fake-indexeddb"
 import { expect, it, describe, beforeAll } from "../../testUtils"
 import { FactorIndexedDb } from "../idb"
 

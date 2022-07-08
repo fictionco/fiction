@@ -60,10 +60,10 @@ declare module "markdown-it-implicit-figures"
 declare module "rand-token"
 declare module "figures"
 declare module "prettyoutput"
-declare module "fake-indexeddb" {
-  export default window.indexedDB
-}
+// declare module "fake-indexeddb" {
+//   export default window.indexedDB
+// }
 
-declare module "fake-indexeddb/lib/FDBKeyRange" {
-  export default window.IDBKeyRange
-}
+// declare module "fake-indexeddb/lib/FDBKeyRange" {
+//   export default window.IDBKeyRange
+// }

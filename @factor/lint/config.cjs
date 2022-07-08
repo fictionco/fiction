@@ -121,6 +121,7 @@ module.exports = defineConfig({
     "unicorn/no-array-for-each": "off",
     "unicorn/prefer-node-protocol": "off",
     "unicorn/prefer-json-parse-buffer": "off",
+    "unicorn/prefer-top-level-await": "off",
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/no-unsafe-assignment": "warn",

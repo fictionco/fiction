@@ -240,10 +240,21 @@ export class FactorRouter<
     })
   }
 
-  public current(): vueRouter.RouteRecordRaw | undefined {
-    const route = this.router?.currentRoute.value
-    return this.vueRoutes.value.find((r) => route?.name == r.name)
-  }
+  current = this.utils.vue.computed(() => {
+    return this.router?.currentRoute.value
+  })
+
+  query = this.utils.vue.computed(() => {
+    return this.current.value.query
+  })
+
+  params = this.utils.vue.computed(() => {
+    return this.current.value.params
+  })
+
+  vars = this.utils.vue.computed(() => {
+    return { ...this.params.value, ...this.query.value }
+  })
 
   public link(
     key: S["routes"],
