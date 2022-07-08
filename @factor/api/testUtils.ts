@@ -172,9 +172,10 @@ export const initializeTestUtils = async (
   await factorServer.createServer({ factorUser })
 
   const email = getTestEmail()
+  const password = "test"
   const r = await factorUser.queries.ManageUser.serve(
     {
-      fields: { email, emailVerified: true },
+      fields: { email, password, emailVerified: true },
       _action: "create",
     },
     { server: true, caller: "initializeTestUtilsCreate" },
@@ -190,7 +191,7 @@ export const initializeTestUtils = async (
 
   factorUser.setUserInitialized()
 
-  return { user, token, email }
+  return { user, token, email, password }
 }
 
 export type TestBaseCompiled = {

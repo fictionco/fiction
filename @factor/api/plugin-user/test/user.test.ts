@@ -27,7 +27,7 @@ vi.mock("../serverEmail", async () => {
 let user: FullUser
 
 let testUtils: undefined | TestUtils = undefined
-describe.skip("user tests", () => {
+describe("user tests", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
   })

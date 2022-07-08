@@ -42,14 +42,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     if (!user) return
 
     const privateAccess =
-      meta?.server || (user.userId && meta?.bearer?.userId !== user.userId)
-
-    if (type != "returnInfo" && !privateAccess) {
-      throw this.stop({
-        message: "prepareUserFields: unauthorized",
-        data: { type, meta },
-      })
-    }
+      meta?.server || (user.userId && meta?.bearer?.userId == user.userId)
 
     const out: Record<string, any> = {}
 
@@ -57,7 +50,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
 
     const cols = this.factorDb.getColumns("factor_user")
 
-    cols?.forEach(({ key, isSetting, isAuthority, prepare }) => {
+    cols?.forEach(({ key, isSetting, isPrivate, isAuthority, prepare }) => {
       const k = key as keyof FullUser
       if ((type == "internal" || isSetting) && user[k]) {
         const value = user[k]
@@ -65,7 +58,8 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
       } else if (
         type == "returnInfo" &&
         user[k] &&
-        (!isAuthority || meta?.returnAuthority)
+        (!isAuthority || meta?.returnAuthority) &&
+        (!isPrivate || privateAccess)
       ) {
         out[key] = user[k]
       }
@@ -427,72 +421,91 @@ export const verifyCode = async (args: {
  */
 export class QueryUpdateCurrentUser extends UserQuery {
   async run(
-    userFields: Partial<FullUser> & { password?: string },
+    params: {
+      fields: Partial<FullUser> & { password?: string }
+      _action: "updateAccountSettings" | "updatePassword" | "updateEmail"
+    },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<FullUser> & { token?: string }> {
-    if (!meta.bearer) throw this.stop({ message: "must be logged in" })
+    if (!meta.bearer && !meta.server) {
+      throw this.stop({ message: "must be logged in" })
+    }
 
-    const { email, userId, password, verificationCode } = userFields
+    const { fields, _action } = params
+
     const { bearer } = meta
 
     if (!bearer || !bearer.email) throw this.stop("bearer email required")
 
-    const fields: Partial<FullUser> | undefined = this.prepareUserFields(
-      "settings",
-      userFields,
-      meta,
-    )
+    const save: Partial<FullUser> & { password?: string } =
+      this.prepareUserFields("settings", fields, meta) || {}
 
     if (!fields) throw this.stop("no fields to update")
 
-    if (userFields.password) {
-      const hashedPassword = await hashPassword(userFields.password)
+    let message = "settings updated"
+
+    if (_action == "updateEmail") {
+      if (!fields?.password) throw this.stop("password required")
 
       const { data: dbUser } = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "getPrivate",
           userId: bearer.userId,
         },
-        meta,
+        { ...meta, server: true, returnAuthority: true },
       )
 
       if (!dbUser) throw this.stop({ message: "couldn't find user" })
 
       const correctPassword = await comparePassword(
-        userFields.password,
+        fields.password,
         dbUser.hashedPassword ?? "",
       )
 
-      if (verificationCode) {
-        await verifyCode({
-          email,
-          userId,
-          verificationCode,
-          factorDb: this.factorDb,
+      if (fields.password && !correctPassword) {
+        throw this.stop({ message: "incorrect password" })
+      }
+
+      if (fields.email && fields.email != dbUser.email) {
+        await verifyNewEmail({
+          email: fields.email,
+          factorUser: this.factorUser,
         })
+
+        save.email = fields.email
+
+        message = "email updated"
+      }
+    } else if (_action == "updatePassword") {
+      if (!fields.verificationCode) {
+        throw this.stop("verification code required")
+      }
+      if (!fields?.password) throw this.stop("new password required")
+      if (fields.password.length < 6) {
+        throw this.stop("create a stronger password")
       }
 
-      if (!correctPassword && !verificationCode) {
-        throw this.stop({ message: "account verification required" })
-      }
+      await verifyCode({
+        userId: bearer.userId,
+        verificationCode: fields.verificationCode,
+        factorDb: this.factorDb,
+      })
 
-      if (email && email != dbUser.email) {
-        await verifyNewEmail({ email, factorUser: this.factorUser })
+      const hashedPassword = await hashPassword(fields.password)
 
-        fields.email = email
-      } else {
-        fields.hashedPassword = hashedPassword
-      }
+      save.hashedPassword = hashedPassword
+
+      message = "password updated"
     }
 
     let user, token
 
-    if (Object.keys(fields).length > 0) {
+    if (Object.keys(save).length > 0) {
       const response = await this.factorUser.queries.ManageUser.serve(
         {
           _action: "update",
           userId: bearer.userId,
-          fields,
+          fields: save,
         },
         { server: true, ...meta },
       )
@@ -502,13 +515,13 @@ export class QueryUpdateCurrentUser extends UserQuery {
       if (!user) throw this.stop("problem updating user")
 
       // if email or password were changed, create new token
-      token = password ? this.factorUser.createClientToken(user) : undefined
+      token = this.factorUser.createClientToken(user)
     }
 
     return {
       status: "success",
       data: user,
-      message: "changes saved",
+      message,
       token,
       user,
     }
