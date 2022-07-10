@@ -150,6 +150,7 @@ export class FactorIndexedDb extends EventEmitter {
   }
 
   async insert<T extends DataObject>(data: T) {
+
     const objectStore = this.getObjectStore()
     return new Promise((resolve, reject) => {
       const req = objectStore.put(data)

@@ -1,3 +1,47 @@
+import { vue } from "./libraries"
+
+export const localRef = <A>(opts: {
+  key: string
+  def: A
+  lifecycle: "session" | "local"
+}) => {
+  const { key, def, lifecycle } = opts
+
+  const storage = lifecycle === "session" ? sessionStorage : localStorage
+  const rawLocalValue = storage.getItem(key)
+
+  const localValue =
+    typeof def == "string"
+      ? (rawLocalValue as typeof def)
+      : typeof def == "number"
+      ? Number.parseInt(rawLocalValue ?? "0")
+      : (JSON.parse(rawLocalValue || "{}") as A)
+
+  const init = localValue || def
+
+  const refItem = vue.ref<A>(init as A)
+
+  vue.watch(
+    () => refItem.value,
+    (v) => {
+      if (v) {
+        const val =
+          typeof v == "string"
+            ? v
+            : typeof v == "number"
+            ? String(v)
+            : JSON.stringify(v)
+        storage.setItem(key, val)
+      } else {
+        storage.removeItem(key)
+      }
+    },
+    { immediate: true },
+  )
+
+  return refItem
+}
+
 type LocalPersistence = "session" | "forever" | "all"
 
 const hasStorage = (): boolean => {
@@ -18,6 +62,10 @@ type SetLocalArgs<T = unknown> = T extends string
   ? SetLocalBase & { raw?: boolean; value: string }
   : SetLocalBase & { raw?: undefined; value: T }
 
+/**
+ * @deprecated
+ * replace by localRef or native
+ */
 export const setLocal = <T = unknown>(args: SetLocalArgs<T>): void => {
   const { key, value, persist = "forever", raw } = args
 
@@ -47,7 +95,10 @@ type loc = {
   <T = unknown>(args: LocalArgs): T | undefined
   <T = string>(args: LocalArgs & { raw: true }): T | undefined
 }
-
+/**
+ * @deprecated
+ * replace by localRef or native
+ */
 export const getLocal: loc = (args) => {
   if (!hasStorage()) return
 
@@ -63,7 +114,10 @@ export const getLocal: loc = (args) => {
 
   return v ? (JSON.parse(v) as loc) : undefined
 }
-
+/**
+ * @deprecated
+ * replace by localRef or native
+ */
 export const removeLocal = (args: LocalArgs): void => {
   if (!hasStorage()) return
 

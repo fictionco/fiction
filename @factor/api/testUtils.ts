@@ -292,14 +292,12 @@ export const createTestServer = async (
     moduleName?: string
     headless?: boolean
     slowMo?: number
-    widgetPort?: number
     args?: Record<string, string | number>
   } & TestUtilSettings,
 ): Promise<TestServerConfig> => {
   const {
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
-    // widgetPort = randomBetween(1000, 10_000),
     args = {},
   } = params || {}
 
