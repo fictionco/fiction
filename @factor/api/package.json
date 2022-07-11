@@ -129,7 +129,10 @@
     "vue": "*",
     "vue-router": "*",
     "ws": "^8.8.0",
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "execa": "^6.0.0",
+    "semver": "^7.3.7",
+    "minimist": "^1.2.6"
   },
   "devDependencies": {
     "@babel/parser": "^7.18.8",
@@ -143,13 +146,10 @@
     "@types/glob": "^7.2.0",
     "@types/nodemon": "^1.19.1",
     "@vitest/ui": "^0.12.10",
-    "execa": "^6.0.0",
     "fake-indexeddb": "^4.0.0",
-    "minimist": "^1.2.6",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "^2.76.0",
-    "semver": "^7.3.7"
+    "rollup": "^2.76.0"
   },
   "license": "MIT",
   "main": "index.ts",
