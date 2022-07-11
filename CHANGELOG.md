@@ -1,3 +1,18 @@
+## [5.4.14](https://github.com/FactorJS/factor/compare/v5.4.13...v5.4.14) (2022-07-11)
+
+
+### Bug Fixes
+
+* credential ([ceaa882](https://github.com/FactorJS/factor/commit/ceaa8823fbafa9f94b637345c16edbf9647eb20f))
+* user handling ([476bb29](https://github.com/FactorJS/factor/commit/476bb293fc38e8c3c2053543069e9546b734d135))
+
+
+### Features
+
+* localRef ([05c3f65](https://github.com/FactorJS/factor/commit/05c3f65a75e9422f0a7fff306ae8cd7fe86ee8a4))
+
+
+
 ## [5.4.13](https://github.com/FactorJS/factor/compare/v5.4.12...v5.4.13) (2022-07-07)
 
 
