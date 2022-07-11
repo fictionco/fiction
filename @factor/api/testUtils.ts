@@ -48,7 +48,7 @@ export const getTestEmail = (): string => {
   return `arpowers+${key}@gmail.com`
 }
 // regex all numbers and letters
-const rep = (nm: string, val: string) =>
+const rep = (nm: string, val: string = "") =>
   `[${nm}:${String(val).replace(/[\dA-Za-z]/g, "*")}]`
 const snapString = (value: unknown, key?: string): string => {
   const val = String(value)
@@ -64,7 +64,7 @@ const snapString = (value: unknown, key?: string): string => {
       key == "timestamp") &&
     val
   ) {
-    out = rep("date", val)
+    out = rep("dateTime")
   } else if (key?.endsWith("Name") && val) {
     out = rep("name", val)
   } else if (key?.toLowerCase().endsWith("email") && val) {
@@ -182,8 +182,6 @@ export const initializeTestUtils = async (
     },
     { server: true, caller: "initializeTestUtilsCreate" },
   )
-
-
 
   const user = r.data
   const token = r.token
@@ -344,7 +342,11 @@ export const createTestServer = async (
   if (!_process) throw new Error("Could not start dev server")
 
   const browser = await chromium.launch({ headless, slowMo })
-  const page = await browser.newPage()
+  const browserContext = await browser.newContext({
+    userAgent:
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+  })
+  const page = await browserContext?.newPage()
 
   return {
     _process,
