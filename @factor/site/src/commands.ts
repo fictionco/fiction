@@ -32,7 +32,7 @@ export const commands = [
     options: { mode: "development", exit: false },
   }),
   new CliCommand({
-    command: "rdev",
+    command: "r-dev",
     description: "runs dev with nodemon",
     options: { mode: "development", exit: false },
   }),
