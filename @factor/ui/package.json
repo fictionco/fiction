@@ -1,8 +1,8 @@
 {
   "name": "@factor/ui",
-  "version": "5.4.15",
+  "version": "5.4.16",
   "dependencies": {
-    "@factor/api": "5.4.15",
+    "@factor/api": "5.4.16",
     "easymde": "^2.16.1",
     "gravatar-url": "^4.0.1",
     "sortablejs": "^1.15.0"
