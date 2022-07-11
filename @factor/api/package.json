@@ -128,7 +128,8 @@
     "vite-plugin-markdown": "^2.0.2",
     "vue": "*",
     "vue-router": "*",
-    "ws": "^8.8.0"
+    "ws": "^8.8.0",
+    "handlebars": "^4.7.7"
   },
   "devDependencies": {
     "@babel/parser": "^7.18.8",
@@ -144,8 +145,6 @@
     "@vitest/ui": "^0.12.10",
     "execa": "*",
     "fake-indexeddb": "^4.0.0",
-    "fs-extra": "^10.1.0",
-    "handlebars": "^4.7.7",
     "minimist": "^1.2.6",
     "playwright": "*",
     "react-dom": "^18.2.0",
