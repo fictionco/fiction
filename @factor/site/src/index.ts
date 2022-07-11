@@ -130,9 +130,11 @@ factorEnv.addHook({
   callback: async (command: string, opts: CliOptions) => {
     const { serve, prerender } = opts
 
-    if (command == "rdev") {
+    if (command.startsWith("r-")) {
+      const realCommand = command.split("-").pop()
+      if (!realCommand) throw new Error("No command for restart")
       await new FactorDevRestart().restartInitializer({
-        command: "dev",
+        command: realCommand,
         config: {
           watch: [safeDirname(import.meta.url, "../..")],
         },

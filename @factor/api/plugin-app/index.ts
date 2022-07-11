@@ -72,7 +72,7 @@ export type FactorAppSettings = {
   isTest?: boolean
   productionUrl?: string
   port: number
-  factorServer: FactorServer
+  factorServer?: FactorServer
   factorEnv: FactorEnv
   rootComponent: vue.Component
   factorRouter: FactorRouter
@@ -115,7 +115,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     MODE: this.mode,
     IS_TEST: this.isTest,
     IS_VITE: "1",
-    SERVER_URL: this.factorServer.serverUrl,
+    SERVER_URL: this.factorServer?.serverUrl ?? "",
     APP_URL: this.appUrl,
   }
 
