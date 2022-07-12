@@ -175,7 +175,7 @@ importers:
       multer: 1.4.5-lts.1
       multer-s3: ^2.10.0
       nanoid: ^3.3.4
-      node-fetch: ^3.2.7
+      node-fetch: ^3.2.8
       nodemailer: ^6.7.7
       nodemailer-html-to-text: ^3.2.0
       nodemon: ^2.0.19
@@ -308,7 +308,7 @@ importers:
       multer: 1.4.5-lts.1
       multer-s3: 2.10.0
       nanoid: 3.3.4
-      node-fetch: 3.2.7
+      node-fetch: 3.2.8
       nodemailer: 6.7.7
       nodemailer-html-to-text: 3.2.0
       nodemon: 2.0.19
@@ -1548,7 +1548,7 @@ packages:
       '@iconify/types': 1.1.0
       debug: 4.3.4
       kolorist: 1.5.1
-      local-pkg: 0.4.1
+      local-pkg: 0.4.2
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2617,7 +2617,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.1
-      caniuse-lite: 1.0.30001364
+      caniuse-lite: 1.0.30001365
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2725,7 +2725,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001364
+      caniuse-lite: 1.0.30001365
       electron-to-chromium: 1.4.186
       node-releases: 2.0.6
       update-browserslist-db: 1.0.4_browserslist@4.21.1
@@ -2849,8 +2849,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite/1.0.30001364:
-    resolution: {integrity: sha512-9O0xzV3wVyX0SlegIQ6knz+okhBB5pE0PC40MNdwcipjwpxoUEHL24uJ+gG42cgklPjfO5ZjZPme9FTSN3QT2Q==}
+  /caniuse-lite/1.0.30001365:
+    resolution: {integrity: sha512-VDQZ8OtpuIPMBA4YYvZXECtXbddMCUFJk1qu8Mqxfm/SZJNSr1cy4IuLCOL7RJ/YASrvJcYg1Zh+UEUQ5m6z8Q==}
     dev: false
 
   /caseless/0.12.0:
@@ -5544,8 +5544,8 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
-  /local-pkg/0.4.1:
-    resolution: {integrity: sha512-lL87ytIGP2FU5PWwNDo0w3WhIo2gopIAxPg9RxDYF7m4rr5ahuZxP22xnJHIvaLTe4Z9P6uKKY2UHiwyB4pcrw==}
+  /local-pkg/0.4.2:
+    resolution: {integrity: sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg==}
     engines: {node: '>=14'}
 
   /locate-path/2.0.0:
@@ -6054,8 +6054,8 @@ packages:
     dependencies:
       whatwg-url: 5.0.0
 
-  /node-fetch/3.2.7:
-    resolution: {integrity: sha512-xRYIBUEoMvzvLt0FT2mAKAGXps1Wm0GpswR63pPJC4Hp5EubeigGYJJge34f3mPApap4+2B3sTKyUygsZrkmyg==}
+  /node-fetch/3.2.8:
+    resolution: {integrity: sha512-KtpD1YhGszhntMpBDyp5lyagk8KIMopC1LEb7cQUAh7zcosaX5uK8HnbNb2i3NTQK3sIawCItS0uFC3QzcLHdg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       data-uri-to-buffer: 4.0.0
@@ -6254,7 +6254,7 @@ packages:
       destr: 1.1.1
       node-fetch-native: 0.1.4
       ufo: 0.8.5
-      undici: 5.6.1
+      undici: 5.7.0
     dev: false
 
   /on-finished/2.4.1:
@@ -7923,8 +7923,8 @@ packages:
   /undefsafe/2.0.5:
     resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
 
-  /undici/5.6.1:
-    resolution: {integrity: sha512-yYVqywdCbNb99f/w045wqmv++WExXDjY0FEvLSB7QUZZH6izxrVkF4dJn1aimcvN0+WAhv75Gg7v6VJoqmRtJQ==}
+  /undici/5.7.0:
+    resolution: {integrity: sha512-ORgxwDkiPS+gK2VxE7iyVeR7JliVn5DqhZ4LgQqYLBXsuK+lwOEmnJ66dhvlpLM0tC3fC7eYF1Bti2frbw2eAA==}
     engines: {node: '>=12.18'}
     dev: false
 
@@ -8136,7 +8136,7 @@ packages:
       debug: 4.3.4
       happy-dom: 6.0.3
       jsdom: 20.0.0
-      local-pkg: 0.4.1
+      local-pkg: 0.4.2
       tinypool: 0.2.2
       tinyspy: 0.3.3
       vite: 2.9.14
