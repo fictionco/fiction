@@ -9,9 +9,12 @@ import chalk from "chalk"
 import relativeTime from "dayjs/plugin/relativeTime"
 import utc from "dayjs/plugin/utc"
 import tz from "dayjs/plugin/timezone"
+import updateLocale from "dayjs/plugin/updateLocale"
 dayjs.extend(relativeTime)
 dayjs.extend(utc)
 dayjs.extend(tz)
+dayjs.extend(updateLocale)
+dayjs.updateLocale("en", { weekStart: 1 })
 
 const clean = (text: string) => dompurify.sanitize(text)
 

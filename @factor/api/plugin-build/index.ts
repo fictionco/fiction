@@ -192,6 +192,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         "dayjs/plugin/timezone",
         "dayjs/plugin/utc",
         "dayjs/plugin/relativeTime",
+        "dayjs/plugin/updateLocale",
         "spark-md5",
         "deepmerge",
         "events",
