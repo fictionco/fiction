@@ -1,5 +1,5 @@
 <template>
-  <div ref="code" class="hl-code">
+  <div ref="code" class="hl-code" @click.stop>
     <slot />
   </div>
 </template>
@@ -36,7 +36,9 @@ const tryHighlight = (cb?: () => void): void => {
   setTimeout((): void => {
     if (!code.value) return
     code.value.querySelectorAll<HTMLElement>("pre code").forEach((el) => {
-      hljs.default.highlightElement(el)
+      if (!el.classList.contains("hljs")) {
+        hljs.default.highlightElement(el)
+      }
     })
 
     if (cb) cb()
