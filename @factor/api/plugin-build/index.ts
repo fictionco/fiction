@@ -54,7 +54,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     const fileExports: string[] = []
 
     try {
-      if (src.includes("exports")) {
+      if (src.includes("exports") && !src.includes("import")) {
         const { exports: cjsExports } = this.cjsLexer.parse(src)
         fileExports.push(...cjsExports)
       } else {
@@ -62,8 +62,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         fileExports.push(...esExports)
       }
     } catch (error) {
-      this.log.error(`Error parsing module ${id}`, error)
-      console.error(error)
+      this.log.error(`error parsing server-only module ${id}`, { error })
     }
 
     const modExports = fileExports.filter((_) => _ != "default")
@@ -261,7 +260,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         manifest: true,
         emptyOutDir: true,
         minify: false,
-        sourcemap: mode !== "production",
+        //https://vitejs.dev/config/build-options.html#build-sourcemap
+        sourcemap: mode !== "production" ? "inline" : false,
       },
       resolve: {
         alias: {

@@ -31,7 +31,7 @@ import { version } from "../package.json"
 import { ServerModuleDef } from "../plugin-build/types"
 import { FactorDevRestart } from "../plugin-env/restart"
 import { vars, EnvVar } from "../plugin-env"
-import { markdownPlugin } from "./utils/vitePluginMarkdown"
+import { getMarkdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
@@ -676,7 +676,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         },
         server: {},
         define,
-        plugins: [markdownPlugin(), unocss({ presets: [presetIcons()] })],
+        plugins: [getMarkdownPlugin(), unocss({ presets: [presetIcons()] })],
       },
       appViteConfigFile || {},
     ]

@@ -99,7 +99,7 @@ const isValidURL = (s) => {
   }
 }
 
-export const resolve = async (specifier, context, defaultResolve) => {
+export const resolve = async (specifier, context, nextResolve) => {
   const { parentURL } = context
 
   let url
@@ -128,6 +128,7 @@ export const resolve = async (specifier, context, defaultResolve) => {
     // If the resolved file is typescript
     if (tsExtensionsRegex.test(url.pathname)) {
       return {
+        shortCircuit: true,
         url: url.href,
         format: "module",
       }
@@ -135,25 +136,27 @@ export const resolve = async (specifier, context, defaultResolve) => {
     // https://github.com/nodejs/modules/issues/488#issuecomment-589541566
     else if (/^file:\/{3}.*\/bin\//.test(url.href) && !path.extname(url.href)) {
       return {
+        shortCircuit: true,
         url: url.href,
         format: "commonjs",
       }
     }
 
     // Else, for other types, use default resolve with the valid path
-    return defaultResolve(url.href, context, defaultResolve)
+    return nextResolve(url.href, context, nextResolve)
   }
 
-  return defaultResolve(specifier, context, defaultResolve)
+  return nextResolve(specifier, context, nextResolve)
 }
 
 // New hook starting from Node v16.12.0
 // See: https://github.com/nodejs/node/pull/37468
-export const load = (url, context, defaultLoad) => {
+export const load = (url, context, nextLoad) => {
   // if an image, just return the file name
   if (imgExtensionsRegex.test(new URL(url).pathname)) {
     const fn = new URL(url).pathname.replace(/^.*[/\\]/, "")
     return {
+      shortCircuit: true,
       format: "module",
       source: `export default "${fn}"`,
     }
@@ -169,11 +172,12 @@ export const load = (url, context, defaultLoad) => {
     const { js } = esbuildTransformSync(rawSource, filename, url, format)
 
     return {
+      shortCircuit: true,
       format: "module",
       source: js,
     }
   }
 
   // Let Node.js handle all other format / sources.
-  return defaultLoad(url, context, defaultLoad)
+  return nextLoad(url, context, nextLoad)
 }

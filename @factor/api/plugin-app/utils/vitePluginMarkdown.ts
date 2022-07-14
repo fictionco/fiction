@@ -1,3 +1,4 @@
+/* server-only-file */
 import Frontmatter from "front-matter"
 import type MarkdownIt from "markdown-it"
 import type { Plugin } from "vite"
@@ -94,7 +95,7 @@ const tf = (code: string, id: string): TransformResult => {
   }
 }
 
-export const markdownPlugin = (): Plugin => {
+export const getMarkdownPlugin = (): Plugin => {
   return {
     name: "factor-vite-markdown",
     enforce: "pre",
