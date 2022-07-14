@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 overrides:
-  vite: '*'
+  vite: ^2.0.0
   vue: '*'
   '@aws-sdk/client-sts': 3.118.1
 
@@ -32,7 +32,7 @@ importers:
       tailwindcss: ^3.1.6
       tslib: ^2.4.0
       typescript: ^4.7.4
-      vite: '*'
+      vite: ^2.9.14
       vitest: '*'
       vue: '*'
       yorkie: ^2.0.0
@@ -56,7 +56,7 @@ importers:
       jsdom: 20.0.0
       nodemon: 2.0.19
       npm-package-json-lint: 6.3.0
-      playwright: 1.23.2
+      playwright: 1.23.3
       postcss: 8.4.14
       tailwindcss: 3.1.6
       tslib: 2.4.0
@@ -76,7 +76,7 @@ importers:
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
       '@medv/finder': ^2.1.0
-      '@playwright/test': ^1.23.2
+      '@playwright/test': ^1.23.3
       '@sinclair/typebox': ^0.23.5
       '@tailwindcss/forms': ^0.5.2
       '@types/bcrypt': ^5.0.0
@@ -150,7 +150,7 @@ importers:
       handlebars: ^4.7.7
       happy-dom: ^6.0.3
       helmet: ^5.1.0
-      highlight.js: ^11.5.1
+      highlight.js: ^11.6.0
       html-minifier: ^4.0.0
       html-to-text: ^8.2.0
       htmlparser2: ^7.2.0
@@ -205,7 +205,7 @@ importers:
       unocss: ^0.33.5
       unsplash-js: ^7.0.15
       validator: ^13.7.0
-      vite: '*'
+      vite: ^2.9.14
       vite-plugin-markdown: ^2.0.2
       vue: '*'
       vue-router: '*'
@@ -283,7 +283,7 @@ importers:
       handlebars: 4.7.7
       happy-dom: 6.0.3
       helmet: 5.1.0
-      highlight.js: 11.5.1
+      highlight.js: 11.6.0
       html-minifier: 4.0.0
       html-to-text: 8.2.0
       htmlparser2: 7.2.0
@@ -344,14 +344,14 @@ importers:
       '@babel/parser': 7.18.8
       '@factor/api': 'link:'
       '@faker-js/faker': 7.3.0
-      '@playwright/test': 1.23.2
+      '@playwright/test': 1.23.3
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.6
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
       '@vitest/ui': 0.12.10
       fake-indexeddb: 4.0.0
-      playwright: 1.23.2
+      playwright: 1.23.3
       react-dom: 18.2.0_react@18.2.0
       rollup: 2.76.0
 
@@ -429,10 +429,10 @@ importers:
   '@factor/plugin-highlight-code':
     specifiers:
       '@factor/api': workspace:5.4.20
-      highlight.js: ^11.5.1
+      highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
-      highlight.js: 11.5.1
+      highlight.js: 11.6.0
 
   '@factor/plugin-notify':
     specifiers:
@@ -1622,13 +1622,13 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@playwright/test/1.23.2:
-    resolution: {integrity: sha512-umaEAIwQGfbezixg3raSOraqbQGSqZP988sOaMdpA2wj3Dr6ykOscrMukyK3U6edxhpS0N8kguAFZoHwCEfTig==}
+  /@playwright/test/1.23.3:
+    resolution: {integrity: sha512-kR4vo2UGHC84DGqE6EwvAeaehj3xCAK6LoC1P1eu6ZGdC79rlqRKf8cFDx6q6c9T8MQSL1O9eOlup0BpwqNF0w==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.0.3
-      playwright-core: 1.23.2
+      playwright-core: 1.23.3
     dev: true
 
   /@polka/url/1.0.0-next.21:
@@ -2616,8 +2616,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.1
-      caniuse-lite: 1.0.30001365
+      browserslist: 4.21.2
+      caniuse-lite: 1.0.30001366
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2720,15 +2720,15 @@ packages:
   /browser-process-hrtime/1.0.0:
     resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
 
-  /browserslist/4.21.1:
-    resolution: {integrity: sha512-Nq8MFCSrnJXSc88yliwlzQe3qNe3VntIjhsArW9IJOEPSHNx23FalwApUVbzAWABLhYJJ7y8AynWI/XM8OdfjQ==}
+  /browserslist/4.21.2:
+    resolution: {integrity: sha512-MonuOgAtUB46uP5CezYbRaYKBNt2LxP0yX+Pmj4LkcDFGkn9Cbpi83d9sCjwQDErXsIJSzY5oKGDbgOlF/LPAA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001365
-      electron-to-chromium: 1.4.187
+      caniuse-lite: 1.0.30001366
+      electron-to-chromium: 1.4.188
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.4_browserslist@4.21.1
+      update-browserslist-db: 1.0.4_browserslist@4.21.2
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
@@ -2849,8 +2849,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite/1.0.30001365:
-    resolution: {integrity: sha512-VDQZ8OtpuIPMBA4YYvZXECtXbddMCUFJk1qu8Mqxfm/SZJNSr1cy4IuLCOL7RJ/YASrvJcYg1Zh+UEUQ5m6z8Q==}
+  /caniuse-lite/1.0.30001366:
+    resolution: {integrity: sha512-yy7XLWCubDobokgzudpkKux8e0UOOnLHE6mlNJBzT3lZJz6s5atSEzjoL+fsCPkI0G8MP5uVdDx1ur/fXEWkZA==}
     dev: false
 
   /caseless/0.12.0:
@@ -3507,8 +3507,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.187:
-    resolution: {integrity: sha512-t3iFLHVIMhB8jGZ+8ui951nz6Bna5qKfhxezG3wzXdBJ79qFKPsE2chjjVFNqC1ewhfrPQrw9pmVeo4FFpZeQA==}
+  /electron-to-chromium/1.4.188:
+    resolution: {integrity: sha512-Zpa1+E+BVmD/orkyz1Z2dAT1XNUuVAHB3GrogfyY66dXN0ZWSsygI8+u6QTDai1ZayLcATDJpcv2Z2AZjEcr1A==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -4820,8 +4820,8 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: false
 
-  /highlight.js/11.5.1:
-    resolution: {integrity: sha512-LKzHqnxr4CrD2YsNoIf/o5nJ09j4yi/GcH5BnYz9UnVpZdS4ucMgvP61TDty5xJcFGRjnH4DpujkS9bHT3hq0Q==}
+  /highlight.js/11.6.0:
+    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
     engines: {node: '>=12.0.0'}
     dev: false
 
@@ -6542,19 +6542,19 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /playwright-core/1.23.2:
-    resolution: {integrity: sha512-UGbutIr0nBALDHWW/HcXfyK6ZdmefC99Moo4qyTr89VNIkYZuDrW8Sw554FyFUamcFSdKOgDPk6ECSkofGIZjQ==}
+  /playwright-core/1.23.3:
+    resolution: {integrity: sha512-x35yzsXDyo0BIXYimLnUFNyb42c//NadUNH6IPGOteZm96oTGA1kn4Hq6qJTI1/f9wEc1F9O1DsznXIgXMil7A==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
 
-  /playwright/1.23.2:
-    resolution: {integrity: sha512-c7nyyuDRifGBUNb+/zZh4AjyQXQISVHZY2cpHCsSIWueZNtY7q6Qfv0hJbVdtJhWSGgcix0hmES30l5jlPmy5Q==}
+  /playwright/1.23.3:
+    resolution: {integrity: sha512-4uPqXU1PBTBnNhqIyuz+WmvjlMNrt+Rje8lwBf3RpUP9UCjP8G41qrr/vDUbMoHhQaUfdWeDuZAkPUxAv5Ag8g==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      playwright-core: 1.23.2
+      playwright-core: 1.23.3
     dev: true
 
   /plur/4.0.0:
@@ -7977,13 +7977,13 @@ packages:
       content-type: 1.0.4
     dev: false
 
-  /update-browserslist-db/1.0.4_browserslist@4.21.1:
+  /update-browserslist-db/1.0.4_browserslist@4.21.2:
     resolution: {integrity: sha512-jnmO2BEGUjsMOe/Fg9u0oczOe/ppIDZPebzccl1yDWGLFP16Pa1/RM5wEoKYPG2zstNcDuAStejyxsOuKINdGA==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.1
+      browserslist: 4.21.2
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: false
@@ -8152,7 +8152,7 @@ packages:
     dependencies:
       jsonc-parser: 3.1.0
       vscode-languageserver-textdocument: 1.0.5
-      vscode-languageserver-types: 3.17.1
+      vscode-languageserver-types: 3.17.2
       vscode-nls: 5.0.1
       vscode-uri: 3.0.3
     dev: false
@@ -8161,8 +8161,8 @@ packages:
     resolution: {integrity: sha512-1ah7zyQjKBudnMiHbZmxz5bYNM9KKZYz+5VQLj+yr8l+9w3g+WAhCkUkWbhMEdC5u0ub4Ndiye/fDyS8ghIKQg==}
     dev: false
 
-  /vscode-languageserver-types/3.17.1:
-    resolution: {integrity: sha512-K3HqVRPElLZVVPtMeKlsyL9aK0GxGQpvtAUTfX4k7+iJ4mc1M+JM+zQwkgGy2LzY0f0IAafe8MKqIkJrxfGGjQ==}
+  /vscode-languageserver-types/3.17.2:
+    resolution: {integrity: sha512-zHhCWatviizPIq9B7Vh9uvrH6x3sK8itC84HkamnBWoDFJtzBf7SWlpLCZUit72b3os45h6RWQNC9xHRDF8dRA==}
     dev: false
 
   /vscode-nls/5.0.1:

@@ -4,7 +4,7 @@
   "version": "5.4.20",
   "dependencies": {
     "@factor/api": "workspace:5.4.20",
-    "highlight.js": "^11.5.1"
+    "highlight.js": "^11.6.0"
   },
   "license": "MIT",
   "main": "index.ts",
