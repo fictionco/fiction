@@ -1,3 +1,18 @@
+## [5.4.21](https://github.com/FactorJS/factor/compare/v5.4.20...v5.4.21) (2022-07-14)
+
+
+### Bug Fixes
+
+* dayjs locale ([43bba8f](https://github.com/FactorJS/factor/commit/43bba8fa970b32c377fff91e09993fe535955b0a))
+* highlight code ([a3675bc](https://github.com/FactorJS/factor/commit/a3675bcaf01438d24bc26e28a4d00f4184b6a721))
+
+
+### Features
+
+* vite 3 ([7d34b36](https://github.com/FactorJS/factor/commit/7d34b361e8aca298c0568d7fa7b2f50708634de4))
+
+
+
 ## [5.4.20](https://github.com/FactorJS/factor/compare/v5.4.19...v5.4.20) (2022-07-11)
 
 
