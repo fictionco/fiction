@@ -6,10 +6,9 @@ import serveStatic from "serve-static"
 import fs from "fs-extra"
 import { minify } from "html-minifier"
 import { Express } from "express"
-import vite from "vite"
+import * as vite from "vite"
 import unocss from "unocss/vite"
 import presetIcons from "@unocss/preset-icons"
-
 import { renderToString } from "@vue/server-renderer"
 import {
   vue,
@@ -32,6 +31,7 @@ import { version } from "../package.json"
 import { ServerModuleDef } from "../plugin-build/types"
 import { FactorDevRestart } from "../plugin-env/restart"
 import { vars, EnvVar } from "../plugin-env"
+import { markdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
@@ -279,7 +279,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       const serverConfig = this.utils.deepMergeAll([
         config,
         {
-          server: { middlewareMode: "ssr" },
+          appType: "custom",
+          server: { middlewareMode: true },
         },
       ])
 
@@ -652,9 +653,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       },
     )
 
-    const pluginMarkdown = await import("vite-plugin-markdown")
-    const { getMarkdownUtility } = await import("../utils/markdown")
-
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       mode: this.mode,
       cwd,
@@ -678,13 +676,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         },
         server: {},
         define,
-        plugins: [
-          pluginMarkdown.plugin({
-            mode: [pluginMarkdown.Mode.VUE, pluginMarkdown.Mode.HTML],
-            markdownIt: getMarkdownUtility({ html: true }),
-          }),
-          unocss({ presets: [presetIcons()] }),
-        ],
+        plugins: [markdownPlugin(), unocss({ presets: [presetIcons()] })],
       },
       appViteConfigFile || {},
     ]

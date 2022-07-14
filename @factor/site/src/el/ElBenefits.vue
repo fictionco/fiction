@@ -1,11 +1,11 @@
 <template>
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-center text-2xl font-bold tracking-tight sm:text-4xl">
-        Why you'll love using Factor
+      <h2 class="text-center text-xl font-bold tracking-tight">
+        Why we're building Factor...
       </h2>
-      <p class="mt-4 text-center text-lg text-slate-500 md:text-xl">
-        Factor will help you launch websites and applications faster.
+      <p class="mt-4 text-center text-base text-slate-500">
+        Factor helps you manage more code and build more impressive applications
       </p>
     </div>
 
@@ -20,7 +20,7 @@
             v-html="benefit.icon"
           ></div>
           <div class="mt-5">
-            <dt class="text-xl font-bold leading-6">
+            <dt class="text-base font-bold leading-6">
               {{ benefit.title }}
             </dt>
             <dd class="mt-2 text-base text-slate-500">
@@ -40,7 +40,7 @@ const benefits = vue.ref([
   {
     icon: `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 48V0h48v48H0z" fill="#40CF8F"/><path d="M14.3 36.4a2.5 2.5 0 002.7.3 15 15 0 0114 0c.9.5 2 .3 2.8-.3a15 15 0 10-19.5 0z" fill="#D5FAD0"/><path d="M12 23v-.3a12 12 0 015.5-8.6l1.4-.7.7-.3.8-.3.8-.2.8-.2 1.6-.2a12.2 12.2 0 017.5 2.2c.4.3.9.5 1.2.9l1 1 .8 1c1.1 1.4 2 3.1 2.3 5a1 1 0 01-2.1.4v-.4a11.2 11.2 0 00-1.8-4l-.6-.8-.9-.9c-.2-.3-.6-.5-1-.8a11 11 0 00-6.4-2h-1.4l-.7.2c-.2 0-.5 0-.7.2l-.7.2-.6.2-1.2.6a10.8 10.8 0 00-5.3 7.6v.4a.5.5 0 01-1-.1z" fill="#40CF8F"/><path d="M23 24l9.8-8.8a.7.7 0 011 1L25 26a1.5 1.5 0 01-2-2z" fill="#008167"/>
 </svg>`,
-    title: "Dynamic Power, Static Scale",
+    title: "Run on Static Hosting",
     text: "Weild the scalability of a statically hosted site with the power of a full featured   endpoint framework.",
   },
   {
@@ -51,7 +51,7 @@ const benefits = vue.ref([
   <rect width="107" height="67" x="47" y="75" fill="#B389FF"/>
   <path fill="#F0E8FF" d="M104 58h14v3h-14v-3zM122 58h14v3h-14v-3zM140 58h14v3h-14v-3z"/>
 </svg>`,
-    title: "Full Control",
+    title: "Modular Architecture",
     text: "Get a standardized structure without it getting in your way. Your app controls all features and all UI.",
   },
   {

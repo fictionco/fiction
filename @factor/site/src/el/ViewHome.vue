@@ -19,18 +19,18 @@
                   </span>
                 </router-link>
               </div>
-              <div class="mt-6 sm:max-w-xl">
-                <h1 class="text-4xl font-extrabold tracking-tight">
-                  The simple &amp; modern framework for professional websites
+              <div class="mt-6 sm:max-w-sm">
+                <h1 class="text-2xl font-extrabold tracking-tight">
+                  A Modular and Expressive Framework for TypeScript Apps
                 </h1>
-                <p class="mt-6 text-xl text-slate-700">
+                <p class="mt-6 text-base text-slate-700">
                   Quickly build modern websites with the latest JavaScript
                   technology.
                 </p>
               </div>
               <div class="mt-12 flex w-full items-center space-x-6 sm:max-w-lg">
                 <ElButton btn="primary" to="/docs">
-                  Start Site or App &rarr;
+                  Getting Started &rarr;
                 </ElButton>
 
                 <ElButton

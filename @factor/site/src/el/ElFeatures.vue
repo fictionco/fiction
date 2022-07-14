@@ -21,10 +21,10 @@
               <div class="h-10 w-10 text-white" v-html="feature.icon"></div>
             </div>
 
-            <h2 class="mb-6 text-3xl font-bold lg:text-5xl">
+            <h2 class="mb-6 text-2xl font-bold">
               {{ feature.title }}
             </h2>
-            <div class="mb-4 text-xl text-slate-500 lg:text-2xl">
+            <div class="mb-4 text-xl text-slate-500">
               {{ feature.text }}
             </div>
             <div v-if="feature.link" class="text-xl font-medium">
@@ -62,7 +62,7 @@ const features = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
 </svg>`,
-    title: `100% TypeScript Sites Made Easy`,
+    title: `Modular TypeScript`,
     text: `Build 100% JS/TS apps with best-of-class open source software.
             No more backend and frontend, Factor has a single environment you can use to build full-stack apps.`,
     figure: FigurePoweredBy,
@@ -72,7 +72,7 @@ const features = [
     icon: `<svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
 </svg>`,
-    title: "Faster and Simpler than WordPress",
+    title: "Next Generation Tooling",
     text: `Factor helps you bring together all the different tools you'll need to build great apps.
               Add advanced features easily and quickly optimize things for SEO,
              marketing, and performance.`,
