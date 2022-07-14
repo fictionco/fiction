@@ -1,3 +1,12 @@
+## [5.4.22](https://github.com/FactorJS/factor/compare/v5.4.21...v5.4.22) (2022-07-14)
+
+
+### Features
+
+* node 18.6 ([0edb580](https://github.com/FactorJS/factor/commit/0edb5809d544906b10bed39fd6a439f4f421578a))
+
+
+
 ## [5.4.21](https://github.com/FactorJS/factor/compare/v5.4.20...v5.4.21) (2022-07-14)
 
 
