@@ -1,11 +1,11 @@
 {
   "name": "factor",
-  "version": "5.4.22",
+  "version": "5.4.23",
   "devDependencies": {
-    "@factor/api": "workspace:5.4.22",
-    "@factor/lint": "workspace:5.4.22",
-    "@factor/site": "workspace:5.4.22",
-    "@factor/ui": "workspace:5.4.22",
+    "@factor/api": "5.4.23",
+    "@factor/lint": "5.4.23",
+    "@factor/site": "5.4.23",
+    "@factor/ui": "5.4.23",
     "@types/express": "^4.17.13",
     "@types/node": "^18.0.4",
     "@vitejs/plugin-vue": "^3.0.0",
