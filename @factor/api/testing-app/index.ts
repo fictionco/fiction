@@ -100,6 +100,16 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
 
     head = [head, this.head].join("\n")
 
+    const vars = {
+      NODE_ENV: process.env.NODE_ENV || "development",
+    }
+
+    const processDefines = Object.fromEntries(
+      Object.entries(vars).map(([k, v]) => {
+        return [`process.env.${k}`, JSON.stringify(v)]
+      }),
+    )
+
     this.server = await createServer({
       configFile: false,
       root: this.root,
@@ -108,11 +118,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         host: true,
       },
 
-      define: {
-        "process.env.NODE_ENV": JSON.stringify(
-          process.env.NODE_ENV || "development",
-        ),
-      },
+      define: processDefines,
 
       plugins: [
         {
