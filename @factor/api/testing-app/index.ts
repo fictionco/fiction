@@ -107,6 +107,13 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         port: this.port,
         host: true,
       },
+
+      define: {
+        "process.env.NODE_ENV": JSON.stringify(
+          process.env.NODE_ENV || "development",
+        ),
+      },
+
       plugins: [
         {
           name: "html-transform",
