@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': workspace:5.4.22
-      '@factor/lint': workspace:5.4.22
-      '@factor/site': workspace:5.4.22
-      '@factor/ui': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
+      '@factor/lint': workspace:5.4.23
+      '@factor/site': workspace:5.4.23
+      '@factor/ui': workspace:5.4.23
       '@types/express': ^4.17.13
       '@types/node': ^18.0.4
       '@vitejs/plugin-vue': ^3.0.0
@@ -71,7 +71,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.8
-      '@factor/api': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -189,7 +189,7 @@ importers:
       react-dom: ^18.2.0
       remove-markdown: ^0.3.0
       request-ip: ^2.2.0
-      rollup: ^2.76.0
+      rollup: ^2.77.0
       semver: ^7.3.7
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -208,7 +208,7 @@ importers:
       vite: ^3.0.0
       vue: '*'
       vue-router: '*'
-      ws: ^8.8.0
+      ws: ^8.8.1
     dependencies:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
@@ -255,7 +255,7 @@ importers:
       chalk: 5.0.1
       chokidar: 3.5.3
       cjs-module-lexer: 1.2.2
-      commander: 9.3.0
+      commander: 9.4.0
       compression: 1.7.4
       consola: 2.15.3
       cors: 2.8.5
@@ -337,7 +337,7 @@ importers:
       vite: 3.0.0_less@4.1.3
       vue: 3.2.37
       vue-router: 4.1.2_vue@3.2.37
-      ws: 8.8.0
+      ws: 8.8.1
     devDependencies:
       '@babel/parser': 7.18.8
       '@factor/api': 'link:'
@@ -351,7 +351,7 @@ importers:
       fake-indexeddb: 4.0.0
       playwright: 1.23.3
       react-dom: 18.2.0_react@18.2.0
-      rollup: 2.76.0
+      rollup: 2.77.0
 
   '@factor/lint':
     specifiers:
@@ -396,9 +396,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': workspace:5.4.22
-      '@factor/plugin-highlight-code': workspace:5.4.22
-      '@factor/ui': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
+      '@factor/plugin-highlight-code': workspace:5.4.23
+      '@factor/ui': workspace:5.4.23
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +410,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': workspace:5.4.22
-      '@factor/plugin-highlight-code': workspace:5.4.22
-      '@factor/ui': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
+      '@factor/plugin-highlight-code': workspace:5.4.23
+      '@factor/ui': workspace:5.4.23
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.3
       string-similarity: ^4.0.4
@@ -426,7 +426,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,13 +434,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -455,13 +455,13 @@ importers:
 
   '@factor/site':
     specifiers:
-      '@factor/api': workspace:5.4.22
-      '@factor/plugin-blog-engine': workspace:5.4.22
-      '@factor/plugin-docs-engine': workspace:5.4.22
-      '@factor/plugin-highlight-code': workspace:5.4.22
-      '@factor/plugin-notify': workspace:5.4.22
-      '@factor/plugin-stripe': workspace:5.4.22
-      '@factor/ui': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
+      '@factor/plugin-blog-engine': workspace:5.4.23
+      '@factor/plugin-docs-engine': workspace:5.4.23
+      '@factor/plugin-highlight-code': workspace:5.4.23
+      '@factor/plugin-notify': workspace:5.4.23
+      '@factor/plugin-stripe': workspace:5.4.23
+      '@factor/ui': workspace:5.4.23
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.3
@@ -498,7 +498,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': workspace:5.4.22
+      '@factor/api': workspace:5.4.23
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -3040,8 +3040,8 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /commander/9.3.0:
-    resolution: {integrity: sha512-hv95iU5uXPbK83mjrJKuZyFM/LBAoCV/XhVGkS5Je6tl7sxr6A0ITMw5WoRV46/UaJ46Nllm3Xt7IaJhXTIkzw==}
+  /commander/9.4.0:
+    resolution: {integrity: sha512-sRPT+umqkz90UA8M1yqYfnHlZA7fF6nSphDtxeywPZ49ysjxDQybzk13CL+mXekDRG92skbcqCLVovuCusNmFw==}
     engines: {node: ^12.20.0 || >=14}
     dev: false
 
@@ -5327,7 +5327,7 @@ packages:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.8.0
+      ws: 8.8.1
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -5486,7 +5486,7 @@ packages:
         optional: true
     dependencies:
       colorette: 2.0.16
-      commander: 9.3.0
+      commander: 9.4.0
       debug: 4.3.4
       escalade: 3.1.1
       esm: 3.2.25
@@ -7035,8 +7035,8 @@ packages:
     dependencies:
       glob: 7.2.3
 
-  /rollup/2.76.0:
-    resolution: {integrity: sha512-9jwRIEY1jOzKLj3nsY/yot41r19ITdQrhs+q3ggNWhr9TQgduHqANvPpS32RNpzGklJu3G1AJfvlZLi/6wFgWA==}
+  /rollup/2.77.0:
+    resolution: {integrity: sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -7642,8 +7642,8 @@ packages:
       next-tick: 1.1.0
     dev: false
 
-  /tinypool/0.2.2:
-    resolution: {integrity: sha512-tp4n5OARNL3v8ntdJUyo5NsDfwvUtu8isB43USjrsQxQrADDKY6UGBkmFaw/2vNmEt8S/uSm2U5FhkiK1eAFGw==}
+  /tinypool/0.2.3:
+    resolution: {integrity: sha512-BNbzsKIUzn6HlvwOJkRpl3ykim3PHHZWcfLX7dDisio8C+mXbjikKD7c8XmOBmZEKz7dME45ikTCfCMFvUf3zw==}
     engines: {node: '>=14.0.0'}
     dev: true
 
@@ -7792,7 +7792,7 @@ packages:
       postcss: 8.4.14
       postcss-load-config: 3.1.4_pe6iykxod2v7i2uk6okjazxzki
       resolve-from: 5.0.0
-      rollup: 2.76.0
+      rollup: 2.77.0
       source-map: 0.8.0-beta.0
       sucrase: 3.24.0
       tree-kill: 1.2.2
@@ -8090,7 +8090,7 @@ packages:
       esbuild: 0.14.49
       postcss: 8.4.14
       resolve: 1.22.1
-      rollup: 2.76.0
+      rollup: 2.77.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -8118,7 +8118,7 @@ packages:
       less: 4.1.3
       postcss: 8.4.14
       resolve: 1.22.1
-      rollup: 2.76.0
+      rollup: 2.77.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -8153,7 +8153,7 @@ packages:
       happy-dom: 6.0.3
       jsdom: 20.0.0
       local-pkg: 0.4.2
-      tinypool: 0.2.2
+      tinypool: 0.2.3
       tinyspy: 0.3.3
       vite: 3.0.0
     transitivePeerDependencies:
@@ -8370,8 +8370,8 @@ packages:
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  /ws/8.8.0:
-    resolution: {integrity: sha512-JDAgSYQ1ksuwqfChJusw1LSJ8BizJ2e/vVu5Lxjq3YvNJNlROv1ui4i+c/kUUrPheBvQl4c5UbERhTwKa6QBJQ==}
+  /ws/8.8.1:
+    resolution: {integrity: sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1

@@ -132,11 +132,11 @@
     "vite": "^3.0.0",
     "vue": "*",
     "vue-router": "*",
-    "ws": "^8.8.0"
+    "ws": "^8.8.1"
   },
   "devDependencies": {
     "@babel/parser": "^7.18.8",
-    "@factor/api": "5.4.23",
+    "@factor/api": "workspace:5.4.23",
     "@faker-js/faker": "^7.3.0",
     "@playwright/test": "^1.23.3",
     "@tailwindcss/forms": "^0.5.2",
@@ -149,7 +149,7 @@
     "fake-indexeddb": "^4.0.0",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "^2.76.0"
+    "rollup": "^2.77.0"
   },
   "license": "MIT",
   "main": "index.ts",
