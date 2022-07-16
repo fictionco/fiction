@@ -162,7 +162,7 @@ export class FactorLog {
     config.priority = this.logLevel[level].priority
     config.color = this.logLevel[level].color
 
-    if (isNode() && !isApp()) {
+    if (isNode()) {
       if (config.priority < 10 && isDev() && !isDebug()) {
         config.data = undefined
       }

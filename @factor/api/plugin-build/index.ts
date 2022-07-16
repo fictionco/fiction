@@ -242,6 +242,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       mode,
       // root must be set to optimize output file size
       root: cwd,
+      ssr: {
+        noExternal: [/@factor.*/, /@kaption.*/],
+      },
       server: {
         fs: { strict: false },
         watch: {

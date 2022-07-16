@@ -147,7 +147,7 @@ factorEnv.addHook({
       } else if (command == "build") {
         await factorApp.buildApp({ serve, prerender })
       } else if (command == "prerender") {
-        await factorApp.buildApp({ serve, prerender })
+        await factorApp.buildApp({ serve, prerender: true })
       }
     }
   },

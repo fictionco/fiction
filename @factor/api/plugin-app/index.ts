@@ -402,16 +402,20 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
        * vitejs/plugin-vue injects code in component setup() that registers the component
        * on the context. Allowing us to orchestrate based on this.
        */
+      try {
+        const ctx: { modules?: string[] } = {}
+        out.htmlBody = await renderToString(app, ctx)
 
-      const ctx: { modules?: string[] } = {}
-      out.htmlBody = await renderToString(app, ctx)
-
-      /**
-       * SSR manifest maps assets which allows us to render preload links for performance
-       */
-      if (manifest) {
-        out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
+        /**
+         * SSR manifest maps assets which allows us to render preload links for performance
+         */
+        if (manifest) {
+          out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
+        }
+      } catch (error) {
+        this.log.error(`renderToString error ${pathname}`, { error })
       }
+
       /**
        * Meta/Head Rendering
        */
@@ -426,6 +430,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   getRequestHtml = async (params: types.RenderConfig): Promise<string> => {
     const { pathname, manifest, template } = params
+
     const parts = await this.renderParts({ template, pathname, manifest })
     let { htmlBody, htmlHead } = parts
     const { preloadLinks, htmlAttrs, bodyAttrs } = parts
@@ -687,9 +692,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       args: [merge],
     })
 
-    const vite = this.utils.deepMergeAll(merge)
+    const viteConfig = this.utils.deepMergeAll(merge)
 
-    return vite
+    return viteConfig
   }
 
   buildApp = async (options: {
@@ -789,7 +794,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const _asyncFunctions = urls.map((pathname: string) => {
       return async (): Promise<string> => {
         const filePath = `${pathname === "/" ? "/index" : pathname}.html`
-        this.log.info(`pre-rendering: ${filePath}`)
+        this.log.info(`pre-rendering [${filePath}]`)
 
         const html = await this.getRequestHtml({ ...generators, pathname })
 
@@ -797,7 +802,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         fs.ensureDirSync(path.dirname(writePath))
         fs.writeFileSync(writePath, html)
 
-        this.log.info(`pre-rendered: ${filePath}`)
+        this.log.info(`done [${filePath}]`)
         return filePath
       }
     })

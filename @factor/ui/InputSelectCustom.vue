@@ -24,18 +24,6 @@
         @click="toggle()"
       >
         <span class="flex w-full items-baseline truncate">
-          <template v-if="selectedItem?.icon">
-            <span
-              v-if="selectedItem?.icon.includes('svg')"
-              class="mr-2 h-6 w-6"
-              v-html="selectedItem?.icon"
-            />
-            <img
-              :src="selectedItem?.icon"
-              class="mr-2 h-6 w-6 shrink-0 rounded-full"
-            />
-          </template>
-
           <span class="truncate">{{
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
@@ -107,18 +95,6 @@
                 @mouseover="hovered = i"
               >
                 <div class="flex items-baseline truncate" :class="classOption">
-                  <template v-if="item.icon">
-                    <span
-                      v-if="item.icon.includes('svg')"
-                      class="mr-2 h-6 w-6"
-                      v-html="item.icon"
-                    />
-                    <img
-                      :src="item.icon"
-                      class="mr-2 h-6 w-6 shrink-0 rounded-full"
-                    />
-                  </template>
-
                   <span
                     class="shrink-0 truncate"
                     :class="item.desc ? '' : 'w-full'"
@@ -163,10 +139,12 @@
 <script lang="ts" setup>
 import { ListItem, normalizeList, onResetUi, vue, vueRouter } from "@factor/api"
 
+type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
+
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: "" },
   list: {
-    type: Array as vue.PropType<string[] | ListItem[]>,
+    type: Array as vue.PropType<string[] | RouteListItem[]>,
     default: () => [],
   },
   defaultValue: { type: [Number, String, Boolean], default: "" },
@@ -207,7 +185,7 @@ const reset = (): void => {
 /**
  * Handle click of a drop down value
  */
-const selectValue = async (item: Record<string, string>): Promise<void> => {
+const selectValue = async (item: RouteListItem): Promise<void> => {
   active.value = false
 
   if (item?.route) {
