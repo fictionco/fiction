@@ -1,3 +1,13 @@
+## [5.4.24](https://github.com/FactorJS/factor/compare/v5.4.23...v5.4.24) (2022-07-18)
+
+
+### Bug Fixes
+
+* build error ([5f09a88](https://github.com/FactorJS/factor/commit/5f09a880337ad6890802285e39a9b7be58a9229b))
+* var ([ccdcd16](https://github.com/FactorJS/factor/commit/ccdcd16e131cfb503c8971274340d3e06defca30))
+
+
+
 ## [5.4.23](https://github.com/FactorJS/factor/compare/v5.4.22...v5.4.23) (2022-07-15)
 
 
