@@ -1,7 +1,7 @@
 import path from "path"
 import { Command } from "commander"
-import { log } from "@factor/api/plugin-log"
 import minimist from "minimist"
+import { log } from "../plugin-log"
 import { camelize } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"

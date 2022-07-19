@@ -10,6 +10,7 @@ import * as vite from "vite"
 import unocss from "unocss/vite"
 import presetIcons from "@unocss/preset-icons"
 import { renderToString } from "@vue/server-renderer"
+import type tailwindcss from "tailwindcss"
 import {
   vue,
   importIfExists,
@@ -20,21 +21,22 @@ import {
   requireIfExists,
   getRequire,
   safeDirname,
-} from "@factor/api/utils"
+} from "../utils"
 import {
   ServiceConfig,
   FactorAppEntry,
   FactorEnv,
-} from "@factor/api/plugin-env"
-import { FactorPlugin } from "@factor/api/plugin"
-import type tailwindcss from "tailwindcss"
-import { FactorBuild } from "@factor/api/plugin-build"
-import { FactorServer } from "@factor/api/plugin-server"
-import { FactorRouter } from "@factor/api/plugin-router"
+  vars,
+  EnvVar,
+  StandardPaths
+} from "../plugin-env"
+import { FactorPlugin } from "../plugin"
+import { FactorBuild } from "../plugin-build"
+import { FactorServer } from "../plugin-server"
+import { FactorRouter } from "../plugin-router"
 import { version } from "../package.json"
 import { ServerModuleDef } from "../plugin-build/types"
 import { FactorDevRestart } from "../plugin-env/restart"
-import { vars, EnvVar } from "../plugin-env"
 import { getMarkdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
@@ -106,7 +108,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   appName: string
   appEmail: string
   sitemaps = this.settings.sitemaps ?? []
-  standardPaths = this.factorEnv.standardPaths
+  standardPaths?: StandardPaths = this.factorEnv.standardPaths
   port = this.settings.port || 3000
   appServer?: http.Server
   staticServer?: http.Server
@@ -127,7 +129,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   constructor(settings: FactorAppSettings) {
     super(settings)
 
-    const cwd = this.standardPaths?.cwd
+    const cwd = this.factorEnv.standardPaths?.cwd
 
     this.appEmail = this.factorEnv.appEmail
     this.appName = this.factorEnv.appName

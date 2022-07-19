@@ -1,7 +1,6 @@
 // import path from "path"
 // import chokidar from "chokidar"
-import { getMainFilePath, deepMerge } from "@factor/api/utils"
-import { vue } from "../utils"
+import { getMainFilePath, deepMerge, vue } from "../utils"
 import { log } from "../plugin-log"
 import { FactorPlugin } from "../plugin"
 import { ServiceConfig, MainFile } from "./types"

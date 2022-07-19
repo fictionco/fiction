@@ -1,5 +1,5 @@
 import { finder } from "@medv/finder"
-import { log } from "@factor/api/plugin-log"
+import { log } from "../plugin-log"
 import { fastHash } from "../utils/utils"
 import { isNode } from "../utils/vars"
 
@@ -49,8 +49,7 @@ export const onBrowserEvent = <T extends BrowserEvent>(
   fn: (e: BrowserEventObject<typeof type>) => void,
   target?: HTMLElement | Window | Document,
 ): (() => void) => {
-
-  if (typeof window === "undefined"){
+  if (typeof window === "undefined") {
     return (): void => {}
   }
 
@@ -191,7 +190,7 @@ export const canonicalUrlFromTag = (): string | undefined => {
  * Return the canonical URL and remove the hash.
  */
 export const getCanonicalUrl = (): string | undefined => {
-  if (typeof window === 'undefined') return
+  if (typeof window === "undefined") return
 
   const { search = "" } = location
   const canonical = canonicalUrlFromTag()
@@ -413,7 +412,7 @@ class UnloadHandler {
 
   public onUnload(cb: EventCallback): void {
     this.unloadCallbacks.push(cb)
-    if (typeof window !== 'undefined' && this.unloadWatchers.length == 0) {
+    if (typeof window !== "undefined" && this.unloadWatchers.length == 0) {
       this.unloadWatchers = [
         onBrowserEvent("pagehide", () => this.unload("pagehide")),
         onBrowserEvent("beforeunload", () => this.unload("unload")),

@@ -1,7 +1,7 @@
 /* server-only-file */
 import requestIp from "request-ip"
 import ipUtil from "ipaddr.js"
-import { express } from "@factor/api"
+import { express } from "../utils/libraries"
 import { getNetworkIp } from "../utils-analytics"
 /**
  * Is an IP localhost?
@@ -48,9 +48,7 @@ export const getRequestIpAddress = async (
 
   if (!rawIp) {
     return { rawIp: "", ip: "" }
-  }
-
-  else if (!isFake && isLocalhostIp(rawIp)) {
+  } else if (!isFake && isLocalhostIp(rawIp)) {
     rawIp = await getNetworkIp()
   }
 

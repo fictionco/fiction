@@ -1,4 +1,3 @@
-import { FactorPlugin } from "@factor/api"
 import type { CloudFront, Invalidation } from "@aws-sdk/client-cloudfront"
 import type {
   S3,
@@ -7,6 +6,7 @@ import type {
   DeleteObjectCommandOutput,
   HeadObjectCommandOutput,
 } from "@aws-sdk/client-s3"
+import { FactorPlugin } from "../plugin"
 import { vars, EnvVar } from "../plugin-env"
 
 vars.register(() => [

@@ -1,9 +1,9 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { FactorEnv } from "@factor/api/plugin-env"
-import { HookType, EndpointServer } from "@factor/api/utils"
-import type { Endpoint } from "@factor/api/utils"
-import { FactorPlugin } from "@factor/api/plugin"
+import { FactorEnv } from "../plugin-env"
+import { HookType, EndpointServer } from "../utils"
+import type { Endpoint } from "../utils"
+import { FactorPlugin } from "../plugin"
 import { FactorUser } from "../plugin-user"
 
 export type FactorServerHookDictionary = {

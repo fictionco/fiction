@@ -1,6 +1,6 @@
-import { UserGeolocation } from "@factor/api/types/geo"
-import { FactorPost, PopulatedPosts, PostActions } from "@factor/api/types/post"
-import { UserRoles } from "@factor/api/types/roles"
+import { UserGeolocation } from "../types/geo"
+import { FactorPost, PopulatedPosts, PostActions } from "../types/post"
+import { UserRoles } from "../types/roles"
 import type { ManageUserParams } from "./endpoints"
 
 export type CurrentUserState = PrivateUser | undefined

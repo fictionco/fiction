@@ -3,7 +3,7 @@ import glob from "glob"
 import minimist, { ParsedArgs } from "minimist"
 import Handlebars from "handlebars"
 import fs from "fs-extra"
-import { PackageJson } from "@factor/api/types"
+import type { PackageJson } from "../types"
 import { getRequire } from "../utils"
 
 /**

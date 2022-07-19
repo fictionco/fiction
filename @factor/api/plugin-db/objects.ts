@@ -1,5 +1,5 @@
 import { Knex } from "knex"
-import { snakeCase } from "@factor/api/utils"
+import { snakeCase } from "../utils"
 import { log } from "../plugin-log"
 
 type CreateCol = (params: {

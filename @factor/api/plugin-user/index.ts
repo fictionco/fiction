@@ -1,4 +1,8 @@
 import jwt from "jsonwebtoken"
+// importing this endpoint module is here to fix a bug in DTS generation
+// likely fixed in TS 4.8
+// https://github.com/microsoft/TypeScript/issues/48212
+import "../utils/endpoint"
 import type { EndpointMeta } from "../utils"
 import { FactorPlugin } from "../plugin"
 import type { HookType } from "../utils/hook"
@@ -6,6 +10,7 @@ import { vars, EnvVar } from "../plugin-env"
 import type { FactorServer } from "../plugin-server"
 import type { FactorDb } from "../plugin-db"
 import type { FactorEmail } from "../plugin-email"
+
 import {
   FactorRouter,
   NavigateRoute,

@@ -65,8 +65,7 @@ export class FactorBundle extends FactorPlugin {
     onAllBuilt?: () => Promise<void> | void
     isTest?: boolean
   }): Promise<RollupWatcher[]> => {
-
-    if(!this.utils.isNode()) return []
+    if (!this.utils.isNode()) return []
 
     const { cwds, mode, onAllBuilt, watch, isTest } = options
     this.bundlingTotal = cwds.length
@@ -125,6 +124,10 @@ export class FactorBundle extends FactorPlugin {
       /**
        * Create type declarations
        * https://tsup.egoist.sh/
+       * NOTES
+       *  - for "rootDir" errors not containing code, the issue is using relative imports
+       *    when module name imports should be used.
+       *  - for "inferred type" errors, likely a direct import of the referred module fixes (TS4.8 may fix this)
        */
       this.log.info(`creating type definitions for ${name}`)
       await execa(
@@ -184,7 +187,7 @@ export class FactorBundle extends FactorPlugin {
       fs.removeSync(distDir)
 
       const vc = await this.factorBuild.getCommonViteConfig({
-        cwd ,
+        cwd,
         mode,
       })
       const clientBuildOptions = deepMergeAll<vite.InlineConfig>([

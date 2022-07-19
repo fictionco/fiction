@@ -2,8 +2,8 @@
 
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
-import { runHooks, HookType } from "@factor/api"
 import { Type, TSchema } from "@sinclair/typebox"
+import { runHooks, HookType } from "../utils"
 import { FactorPlugin } from "../plugin"
 import { vars, EnvVar, FactorEnv } from "../plugin-env"
 import { FactorDbCol, FactorDbTable } from "./objects"
