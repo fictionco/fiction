@@ -15,22 +15,29 @@ export const localRef = <A>(opts: {
       ? (rawLocalValue as typeof def)
       : typeof def == "number"
       ? Number.parseInt(rawLocalValue ?? "0")
+      : typeof def == "boolean"
+      ? Boolean(rawLocalValue)
       : (JSON.parse(rawLocalValue || "{}") as A)
 
-  const init = localValue || def
+  const init = localValue ?? def
 
   const refItem = vue.ref<A>(init as A)
 
   vue.watch(
     () => refItem.value,
     (v) => {
-      if (v) {
+      if (typeof v !== "undefined") {
         const val =
           typeof v == "string"
             ? v
             : typeof v == "number"
             ? String(v)
+            : typeof v == "boolean"
+            ? v
+              ? "1"
+              : ""
             : JSON.stringify(v)
+
         storage.setItem(key, val)
       } else {
         storage.removeItem(key)
