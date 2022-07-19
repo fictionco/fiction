@@ -46,6 +46,8 @@
   "private": true,
   "publishConfig": {},
   "scripts": {
+    "up": "pnpm i && pnpm up -r && pnpm outdated",
+    "i": "pnpm i",
     "lf": "cross-env INSTALL_ENV=production pnpm i --lockfile-only",
     "build-site": "npm run in && npm exec -w @factor/site -- factor run prerender",
     "in": "npx pnpm i -r --store=node_modules/.pnpm-store --frozen-lockfile",
@@ -68,7 +70,6 @@
     "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
     "test-unit": "npm exec -- vitest run",
     "test-vue": "pnpm exec -- eslint --ext .vue @factor/.",
-    "up": "docker-compose up",
     "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up"
   },
   "type": "module",
