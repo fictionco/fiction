@@ -1,3 +1,18 @@
+## [5.4.26](https://github.com/FactorJS/factor/compare/v5.4.25...v5.4.26) (2022-07-19)
+
+
+### Bug Fixes
+
+* localref ([e4f8ea0](https://github.com/FactorJS/factor/commit/e4f8ea07e615e6a37c7af1a2c671bc79aabd509a))
+* test utils type ([797313e](https://github.com/FactorJS/factor/commit/797313e004f09ab6c1c7e5568111de71e7503d0f))
+
+
+### Features
+
+* app hook ([9e77443](https://github.com/FactorJS/factor/commit/9e774437cd83cb6c57f4d9208428868e94075928))
+
+
+
 ## [5.4.25](https://github.com/FactorJS/factor/compare/v5.4.24...v5.4.25) (2022-07-18)
 
 
