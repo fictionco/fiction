@@ -21,7 +21,11 @@ import {
   getRequire,
   safeDirname,
 } from "@factor/api/utils"
-import { ServiceConfig, FactorEnv } from "@factor/api/plugin-env"
+import {
+  ServiceConfig,
+  FactorAppEntry,
+  FactorEnv,
+} from "@factor/api/plugin-env"
 import { FactorPlugin } from "@factor/api/plugin"
 import type tailwindcss from "tailwindcss"
 import { FactorBuild } from "@factor/api/plugin-build"
@@ -60,6 +64,7 @@ vars.register(() => [
 ])
 
 type HookDictionary = {
+  appMounted: { args: [FactorAppEntry] }
   afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
   viteConfig: { args: [vite.InlineConfig[]] }
   htmlHead: { args: [string, { pathname?: string }] }
@@ -216,7 +221,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   createVueApp = async (params: {
     renderUrl?: string
     serviceConfig: ServiceConfig
-  }): Promise<types.FactorAppEntry> => {
+  }): Promise<FactorAppEntry> => {
     const { renderUrl, serviceConfig } = params
 
     const router = this.factorRouter.update()
@@ -247,26 +252,32 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const meta = getMeta()
     app.use(meta)
-    return { app, meta, router }
+    return { app, meta, service }
   }
 
   mountApp = async (params: {
-    id?: string
+    selector?: string
     renderUrl?: string
     serviceConfig: ServiceConfig
-  }): Promise<types.FactorAppEntry> => {
-    const { id = "#app" } = params
+  }): Promise<FactorAppEntry> => {
+    const { selector = "#app" } = params
 
     const entry = await this.createVueApp(params)
 
     await this.factorEnv.crossRunCommand()
 
-    if (!this.utils.isNode()) {
+    if (typeof window != "undefined") {
       initializeResetUi(this.factorRouter).catch(console.error)
 
-      entry.app.mount(id)
-      document.querySelector(id)?.classList.add("loaded")
+      entry.app.mount(selector)
+      document.querySelector(selector)?.classList.add("loaded")
       document.querySelector(".styles-loading")?.remove()
+
+      await this.utils.runHooks<HookDictionary, "appMounted">({
+        list: this.hooks,
+        hook: "appMounted",
+        args: [entry],
+      })
     }
 
     return entry

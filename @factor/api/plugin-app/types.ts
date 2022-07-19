@@ -1,6 +1,6 @@
 import { HeadClient } from "@vueuse/head"
 import type { App } from "vue"
-import type { Router } from "vue-router"
+import { FactorAppEntry, ServiceList } from "../plugin-env"
 
 export interface RenderOptions {
   mode: "production" | "development"
@@ -29,12 +29,6 @@ export interface RenderedHtmlParts {
   htmlHead: string
   htmlAttrs: string
   bodyAttrs: string
-}
-
-export interface FactorAppEntry {
-  app: App
-  meta: HeadClient
-  router: Router
 }
 
 export type EntryModuleExports = {

@@ -3,7 +3,7 @@ import "tailwindcss/tailwind.css"
 import "uno.css"
 import { isNode } from "../utils"
 import { compileApplication } from "../plugin-env/entry"
-import { FactorAppEntry } from "./types"
+import { FactorAppEntry } from "../plugin-env/types"
 
 export const runViteApp = async (
   params: { renderUrl?: string } = {},

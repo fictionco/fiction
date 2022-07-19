@@ -22,7 +22,7 @@ export type FactorEnvHookDictionary = {
 export interface FactorAppEntry {
   app: vue.App
   meta: HeadClient
-  router: vueRouter.Router
+  service: ServiceList
 }
 
 export type EntryModuleExports = {
