@@ -140,14 +140,17 @@ export type InitializedTestUtils = {
   email: string
   password: string
 }
-export type TestUtils<T extends Record<string, any> = Record<string, any>> = {
+
+export type RawTestUtils = Awaited<ReturnType<typeof createTestUtilServices>>
+
+export type TestUtils = {
   init: (
     services?: Record<string, FactorPlugin>,
   ) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
+  close: () => void
   [key: string]: any
-} & T &
-  Awaited<ReturnType<typeof createTestUtils>>
+} & RawTestUtils
 
 export type TestUtilSettings = {
   serverPort?: number
