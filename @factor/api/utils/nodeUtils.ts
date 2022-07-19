@@ -9,8 +9,8 @@ import helmet from "helmet"
 import cors from "cors"
 import express from "express"
 import { PackageJson } from "../types"
+import { version } from "../package.json"
 import { isNode } from "./vars"
-
 type WhichModule = {
   moduleName?: string
   cwd?: string
@@ -139,6 +139,19 @@ export const createExpressApp = (): express.Express => {
   app.use(bodyParser.json())
   app.use(bodyParser.text())
   app.use(compression())
+
+  app.use("/health", (request, response) => {
+    response
+      .status(200)
+      .send({
+        status: "success",
+        message: "ok",
+        version,
+        uptime: process.uptime(),
+        timestamp: Date.now(),
+      })
+      .end()
+  })
 
   return app
 }

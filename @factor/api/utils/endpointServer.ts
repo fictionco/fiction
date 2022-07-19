@@ -82,13 +82,13 @@ export class EndpointServer {
         )
       })
 
-      app.use("/health", (request, response) => {
-        response.status(200).send({ status: "success", message: "ok" }).end()
-      })
-
       if (this.middleware) {
         await this.middleware(app)
       }
+
+      app.use("/", (request, response) => {
+        response.status(200).send("ok").end()
+      })
 
       this.server = await new Promise(async (resolve) => {
         let s: http.Server
