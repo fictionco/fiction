@@ -68,20 +68,20 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Flush items in buffer to the saving callback
    */
-  public flushBuffer(context: FlushContext = {}): void {
+  public async flushBuffer(context: FlushContext = {}): Promise<void> {
     if (this.items.length == 0) return
 
     this.stopTimeout()
-    // use resolve to ensure is a promise
-    Promise.resolve(this.flush(this.items, context)).catch(console.error)
-
-    if (this.flushCallback) {
-      Promise.resolve(this.flushCallback(this.items, context)).catch(
-        console.error,
-      )
-    }
 
     this.emit("flush", this.items)
+
+    const promises = [this.flush(this.items, context)]
+
+    if (this.flushCallback) {
+      promises.push(this.flushCallback(this.items, context))
+    }
+
+    await Promise.all(promises)
 
     this.items = []
   }

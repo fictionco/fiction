@@ -19,7 +19,7 @@ let subscription: Stripe.Subscription | undefined
 const key = (): string => Math.random().toString().slice(2, 8)
 
 //const testUtils: TestUtils | undefined = undefined
-let testUtils: TestUtils<{ factorStripe: FactorStripe }>
+let testUtils: TestUtils & { factorStripe: FactorStripe }
 describe("stripe tests", () => {
   beforeAll(async () => {
     const utils = await createTestUtils()
@@ -36,9 +36,9 @@ describe("stripe tests", () => {
       products: [],
     })
 
-    testUtils = { ...utils, factorStripe } as TestUtils<{
+    testUtils = { ...utils, factorStripe } as TestUtils & {
       factorStripe: FactorStripe
-    }>
+    }
   })
 
   it("has stripe test .env file", () => {

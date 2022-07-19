@@ -5,11 +5,11 @@
   "author": "Kaption Co.",
   "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/api": "5.4.25",
-    "@factor/plugin-highlight-code": "5.4.25",
-    "@factor/ui": "5.4.25",
+    "@factor/api": "workspace:5.4.25",
+    "@factor/plugin-highlight-code": "workspace:5.4.25",
+    "@factor/ui": "workspace:5.4.25",
     "@types/string-similarity": "^4.0.0",
-    "dayjs": "^1.11.3",
+    "dayjs": "^1.11.4",
     "string-similarity": "^4.0.4"
   },
   "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
