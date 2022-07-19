@@ -1,13 +1,13 @@
 {
   "name": "@factor/plugin-docs-engine",
   "description": "A technical documentation engine for Factor apps.",
-  "version": "5.4.27",
+  "version": "5.4.28",
   "author": "Kaption Co.",
   "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/api": "5.4.27",
-    "@factor/plugin-highlight-code": "5.4.27",
-    "@factor/ui": "5.4.27",
+    "@factor/api": "5.4.28",
+    "@factor/plugin-highlight-code": "5.4.28",
+    "@factor/ui": "5.4.28",
     "@types/string-similarity": "^4.0.0",
     "dayjs": "^1.11.4",
     "string-similarity": "^4.0.4"
