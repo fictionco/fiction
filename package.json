@@ -56,7 +56,7 @@
     "dev": "pnpm --filter @factor/site exec -- factor dev",
     "pack": "pnpm --filter @factor/api/build exec -- factor pack",
     "prerender": "pnpm exec --filter @factor/site -- factor prerender",
-    "release": "npm exec -- factor run release --patch --skip-tests",
+    "release": "npm run lf && npm exec -- factor run release --patch --skip-tests",
     "site": "pnpm --filter @factor/site exec -- factor run r-dev --app-port 3232 --server-port 21212",
     "test": "pnpm run test-unit && pnpm run test-lint",
     "fix": "pnpm run fix-deps && pnpm run fix-format",
