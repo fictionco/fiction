@@ -24,19 +24,6 @@ services:
     networks:
       - postgres
 
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: hello@kaption.co
-      PGADMIN_DEFAULT_PASSWORD: password
-    volumes:
-      - pgadmin:/root/.pgadmin
-    ports:
-      - 5050:80
-    networks:
-      - postgres
-    restart: unless-stopped
-
 networks:
   postgres:
     driver: bridge

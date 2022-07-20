@@ -86,6 +86,8 @@ module.exports = defineConfig({
       },
     ],
     "import/named": "off",
+    // namspace errors in CI and is duplicate of TS functionality
+    "import/namespace": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
