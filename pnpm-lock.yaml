@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.4.32
-      '@factor/lint': 5.4.32
-      '@factor/site': 5.4.32
-      '@factor/ui': 5.4.32
+      '@factor/api': 5.4.33
+      '@factor/lint': 5.4.33
+      '@factor/site': 5.4.33
+      '@factor/ui': 5.4.33
       '@types/express': ^4.17.13
       '@types/node': ^18.0.6
       '@vitejs/plugin-vue': ^3.0.1
@@ -71,7 +71,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.9
-      '@factor/api': 5.4.32
+      '@factor/api': 5.4.33
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -396,9 +396,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.4.32
-      '@factor/plugin-highlight-code': 5.4.32
-      '@factor/ui': 5.4.32
+      '@factor/api': 5.4.33
+      '@factor/plugin-highlight-code': 5.4.33
+      '@factor/ui': 5.4.33
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +410,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.4.32
-      '@factor/plugin-highlight-code': 5.4.32
-      '@factor/ui': 5.4.32
+      '@factor/api': 5.4.33
+      '@factor/plugin-highlight-code': 5.4.33
+      '@factor/ui': 5.4.33
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.4
       string-similarity: ^4.0.4
@@ -426,7 +426,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.4.32
+      '@factor/api': 5.4.33
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,13 +434,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.4.32
+      '@factor/api': 5.4.33
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.4.32
+      '@factor/api': 5.4.33
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -455,13 +455,13 @@ importers:
 
   '@factor/site':
     specifiers:
-      '@factor/api': 5.4.32
-      '@factor/plugin-blog-engine': 5.4.32
-      '@factor/plugin-docs-engine': 5.4.32
-      '@factor/plugin-highlight-code': 5.4.32
-      '@factor/plugin-notify': 5.4.32
-      '@factor/plugin-stripe': 5.4.32
-      '@factor/ui': 5.4.32
+      '@factor/api': 5.4.33
+      '@factor/plugin-blog-engine': 5.4.33
+      '@factor/plugin-docs-engine': 5.4.33
+      '@factor/plugin-highlight-code': 5.4.33
+      '@factor/plugin-notify': 5.4.33
+      '@factor/plugin-stripe': 5.4.33
+      '@factor/ui': 5.4.33
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.4
@@ -498,7 +498,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.4.32
+      '@factor/api': 5.4.33
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
