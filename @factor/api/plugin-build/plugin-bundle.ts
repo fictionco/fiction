@@ -130,7 +130,7 @@ export class FactorBundle extends FactorPlugin {
        *  - for "inferred type" errors, likely a direct import of the referred module fixes (TS4.8 may fix this)
        */
 
-      const command = `npm exec -- tsup ${entry} --format esm --dts-only --out-dir ${distDir}`
+      const command = `tsup ${entry} --format esm --dts-only --out-dir ${distDir}`
       this.log.info(`creating type definitions for ${name}`, {
         data: command,
       })
