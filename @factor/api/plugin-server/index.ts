@@ -21,15 +21,17 @@ export type FactorServerSettings = {
   factorUser?: FactorUser
   onCommands?: string[]
   productionUrl?: string
+  mode?: "production" | "development"
 }
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks = this.settings.hooks ?? []
   port = this.settings.port
   endpoints = this.settings.endpoints || []
+  mode = this.settings.mode || this.utils.mode()
   localUrl = `http://localhost:${this.port}`
-  productionUrl = this.settings.productionUrl
-  serverUrl = this.settings.serverUrl || this.localUrl
+  productionUrl = this.settings.productionUrl || this.localUrl
+  serverUrl = this.mode == "production" ? this.productionUrl : this.localUrl
   factorEnv? = this.settings.factorEnv
   factorUser? = this.settings.factorUser
   onCommands = this.settings.onCommands || [
