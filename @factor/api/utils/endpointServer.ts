@@ -8,6 +8,7 @@ import { _stop } from "../utils/error"
 import { onEvent } from "../utils/event"
 import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
+import { mode } from "./vars"
 import { Endpoint } from "./endpoint"
 import { createExpressApp } from "./nodeUtils"
 
@@ -24,6 +25,7 @@ export type EndpointServerOptions = {
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
   factorUser?: FactorUser
+  productionUrl?: string
 }
 
 export class EndpointServer {
@@ -35,6 +37,9 @@ export class EndpointServer {
   server?: http.Server
   factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
+  productionUrl?: string
+  localUrl: string
+  url: string
   constructor(settings: EndpointServerOptions) {
     const { port, endpoints, customServer, serverName } = settings
 
@@ -43,25 +48,15 @@ export class EndpointServer {
     this.endpoints = endpoints
     this.customServer = customServer
     this.factorUser = settings.factorUser
+    this.localUrl = `http://localhost:${port}`
+    this.productionUrl = settings.productionUrl || this.localUrl
+    this.url = this.url =
+      mode() == "production" ? this.productionUrl : this.localUrl
   }
 
   async runServer(): Promise<http.Server | undefined> {
     try {
       const app = createExpressApp()
-
-      // app.use("*", (req, res, next) => {
-      //   if (req.originalUrl.includes("SaveMedia")) {
-      //     console.log(
-      //       "REQ",
-      //       req.originalUrl,
-      //       req.headers,
-      //       req.body,
-      //       req.rawBody,
-      //     )
-      //   }
-
-      //   next()
-      // })
 
       this.endpoints.forEach((endpoint) => {
         if (this.factorUser) {
@@ -106,6 +101,7 @@ export class EndpointServer {
           auth: this.factorUser ? "enabled" : "disabled",
           port: `[ ${this.port} ]`,
           endpoints: this.endpoints.map((ep) => ep.pathname()),
+          health: `${this.url}/health`,
         },
       })
 

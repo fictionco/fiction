@@ -99,7 +99,6 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
         port: this.port,
         endpoints: this.endpoints,
         factorUser,
-
         middleware: (app) => {
           app.use(
             bodyParser.json({
