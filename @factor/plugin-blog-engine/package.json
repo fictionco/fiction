@@ -1,13 +1,13 @@
 {
   "name": "@factor/plugin-blog-engine",
   "description": "A markdown blog plugin",
-  "version": "5.4.39",
+  "version": "5.4.40",
   "author": "Kaption Co.",
   "bugs": "https://github.com/fiction-com/factor/issues",
   "dependencies": {
-    "@factor/api": "workspace:5.4.39",
-    "@factor/plugin-highlight-code": "workspace:5.4.39",
-    "@factor/ui": "workspace:5.4.39",
+    "@factor/api": "5.4.40",
+    "@factor/plugin-highlight-code": "5.4.40",
+    "@factor/ui": "5.4.40",
     "@types/string-similarity": "^4.0.0",
     "string-similarity": "^4.0.4"
   },
