@@ -226,9 +226,8 @@ export class FactorBundle extends FactorPlugin {
               distDir,
               cwd,
             })
-            if (onBuilt) {
-              await onBuilt({ name, event })
-            }
+            if (onBuilt) await onBuilt({ name, event })
+
             if (!watch) {
               await watcher.close()
             }
@@ -242,6 +241,14 @@ export class FactorBundle extends FactorPlugin {
         const clientBuildOptions = deepMergeAll<vite.InlineConfig>(merge)
 
         await vite.build(clientBuildOptions)
+
+        await this.doneBuilding({
+          name,
+          mode,
+          entry,
+          distDir,
+          cwd,
+        })
 
         return
       }
