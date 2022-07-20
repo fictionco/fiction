@@ -190,7 +190,8 @@ export class FactorBundle extends FactorPlugin {
         cwd,
         mode,
       })
-      const clientBuildOptions = deepMergeAll<vite.InlineConfig>([
+
+      const merge: vite.InlineConfig[] = [
         vc,
         {
           build: {
@@ -201,34 +202,49 @@ export class FactorBundle extends FactorPlugin {
               entry,
               fileName: () => `index.js`,
             },
-            watch: {},
           },
         },
-      ])
+      ]
 
-      const watcher = (await vite.build(clientBuildOptions)) as RollupWatcher
+      /**
+       * Watching causes issues if it runs in CI due to the environment not having
+       * the native watching libs
+       */
+      if (watch) {
+        merge.push({ build: { watch: {} /* enables watcher */ } })
 
-      watcher.on("event", async (event: RollupWatcherEvent) => {
-        if (event.code == "END") {
-          await this.doneBuilding({
-            name,
-            mode,
-            entry,
-            distDir,
-            cwd,
-          })
-          if (onBuilt) {
-            await onBuilt({ name, event })
+        const clientBuildOptions = deepMergeAll<vite.InlineConfig>(merge)
+
+        const watcher = (await vite.build(clientBuildOptions)) as RollupWatcher
+
+        watcher.on("event", async (event: RollupWatcherEvent) => {
+          if (event.code == "END") {
+            await this.doneBuilding({
+              name,
+              mode,
+              entry,
+              distDir,
+              cwd,
+            })
+            if (onBuilt) {
+              await onBuilt({ name, event })
+            }
+            if (!watch) {
+              await watcher.close()
+            }
+          } else if (event.code == "ERROR") {
+            this.log.error(`error building ${name}`, { error: event.error })
           }
-          if (!watch) {
-            await watcher.close()
-          }
-        } else if (event.code == "ERROR") {
-          this.log.error(`error building ${name}`, { error: event.error })
-        }
-      })
+        })
 
-      return watcher
+        return watcher
+      } else {
+        const clientBuildOptions = deepMergeAll<vite.InlineConfig>(merge)
+
+        await vite.build(clientBuildOptions)
+
+        return
+      }
     } catch (error) {
       this.log.error(`error building ${name}`, { error })
     }
