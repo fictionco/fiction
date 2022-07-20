@@ -8,9 +8,6 @@ class FactorGlobal {
 declare global {
   // eslint-disable-next-line no-var
   var factorGlobals: FactorGlobal
-  interface Window {
-    process: { env?: Record<string, string> }
-  }
 }
 
 const _globalThis = typeof window !== "undefined" ? window : global

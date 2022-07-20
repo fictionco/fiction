@@ -3,7 +3,7 @@ import "tailwindcss/tailwind.css"
 import "uno.css"
 import { isNode } from "../utils"
 import { compileApplication } from "../plugin-env/entry"
-import { FactorAppEntry } from "../plugin-env/types"
+import type { FactorAppEntry } from "../plugin-env/types"
 
 export const runViteApp = async (
   params: { renderUrl?: string } = {},
@@ -25,6 +25,12 @@ export const runViteApp = async (
  * Run automatically in browser,
  * 'runViteApp' is called directly on server side for prerender
  */
-if (!isNode()) {
+if (typeof window !== "undefined") {
+  // prevent 'process' not defined errors in browser
+  if (typeof window.process == "undefined") {
+    // @ts-ignore (avoid confusion with node process.env)
+    window.process = { env: {} }
+  }
+
   runViteApp().catch(console.error)
 }

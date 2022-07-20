@@ -106,9 +106,9 @@ export class FactorDbTable {
         }
       })
 
-    this.log.info(
-      count == 0 ? "DB: no changes" : `DB: ${count} columns created`,
-    )
+    if (count > 0) {
+      this.log.info(`DB: ${count} columns created`)
+    }
   }
 
   async create(db: Knex): Promise<void> {

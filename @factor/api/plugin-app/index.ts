@@ -28,7 +28,7 @@ import {
   FactorEnv,
   vars,
   EnvVar,
-  StandardPaths
+  StandardPaths,
 } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import { FactorBuild } from "../plugin-build"
@@ -112,10 +112,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   port = this.settings.port || 3000
   appServer?: http.Server
   staticServer?: http.Server
-  appUrl =
-    this.settings.productionUrl && this.mode == "production"
-      ? this.settings.productionUrl
-      : `http://localhost:${this.port}`
+  localUrl = `http://localhost:${this.port}`
+  productionUrl = this.settings.productionUrl || this.localUrl
+  appUrl = this.mode == "production" ? this.productionUrl : this.localUrl
   vars: Record<string, string | boolean | number> = {
     COMMAND: process.env.COMMAND || "",
     COMMAND_OPTS: process.env.COMMAND_OPTS || "",
@@ -570,11 +569,17 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   logReady(): void {
     const name = this.appName || "Unnamed App"
     const port = `[ ${this.port} ]`
-    const url = this.appUrl
+
     const mode = this.mode
 
     this.log.info(`serving app [ready]`, {
-      data: { name, port, url, mode },
+      data: {
+        name,
+        port,
+        productionUrl: this.productionUrl,
+        localUrl: this.localUrl,
+        mode,
+      },
     })
   }
 
