@@ -1,6 +1,6 @@
 import path from "path"
 import fs from "fs-extra"
-import { execa } from "execa"
+import { execaCommand } from "execa"
 import * as vite from "vite"
 import type { RollupWatcher, RollupWatcherEvent } from "rollup"
 import { deepMergeAll, getRequire } from "../utils"
@@ -129,15 +129,15 @@ export class FactorBundle extends FactorPlugin {
        *    when module name imports should be used.
        *  - for "inferred type" errors, likely a direct import of the referred module fixes (TS4.8 may fix this)
        */
-      this.log.info(`creating type definitions for ${name}`)
-      await execa(
-        "tsup",
-        [entry, "--format", "esm", "--dts-only", "--out-dir", distDir],
-        {
-          stdio: "inherit",
-          cwd,
-        },
-      )
+
+      const command = `npm exec -- tsup ${entry} --format esm --dts-only --out-dir ${distDir}`
+      this.log.info(`creating type definitions for ${name}`, {
+        data: command,
+      })
+      await execaCommand(command, {
+        stdio: "inherit",
+        cwd,
+      })
     }
 
     this.log.info(`done building [${name}]`)
