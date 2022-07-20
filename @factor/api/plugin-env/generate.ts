@@ -11,8 +11,6 @@ import type { FactorEnv } from "."
 export const generateStaticConfig = async (
   factorEnv: FactorEnv,
 ): Promise<void> => {
-  if (mode() == "production") return
-
   const context = "generateStaticConfig"
 
   const cwd = factorEnv.standardPaths?.cwd

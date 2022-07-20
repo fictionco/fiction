@@ -62,7 +62,7 @@ export class FactorDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
   columns: FactorDbCol[]
-
+  log = log.contextLogger(this.constructor.name)
   constructor(params: FactorDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = snakeCase(params.tableKey)
@@ -94,6 +94,7 @@ export class FactorDbTable {
   }
 
   createColumns(db: Knex) {
+    let count = 0
     this.columns
       .filter((c) => !c.isComposite)
       .forEach(async (col) => {
@@ -101,8 +102,13 @@ export class FactorDbTable {
 
         if (!hasColumn) {
           await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
+          count++
         }
       })
+
+    this.log.info(
+      count == 0 ? "DB: no changes" : `DB: ${count} columns created`,
+    )
   }
 
   async create(db: Knex): Promise<void> {

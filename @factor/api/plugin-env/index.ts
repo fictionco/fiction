@@ -218,8 +218,12 @@ export class FactorEnv<
 
   async afterSetup() {
     if (!this.isProd() && !this.isApp() && !this.isTest()) {
-      await generateStaticConfig(this)
+      await this.generate()
     }
+  }
+
+  async generate() {
+    await generateStaticConfig(this)
   }
 
   public addHook(hook: HookType<FactorEnvHookDictionary>): void {
