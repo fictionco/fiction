@@ -7,7 +7,7 @@ import prettyoutput from "prettyoutput"
 import consola from "consola"
 import { HookType, runHooks } from "../utils/hook"
 import { dayjs, chalk } from "../utils/libraries"
-import { isDev, isRestart, isNode, isApp, isDebug } from "../utils/vars"
+import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
 import { stringify } from "../utils/utils"
 
 type Levels = "error" | "warn" | "info" | "debug" | "trace"

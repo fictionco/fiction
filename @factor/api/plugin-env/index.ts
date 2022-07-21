@@ -23,6 +23,7 @@ type EnvVarSettings<X extends string> = {
   val: string | undefined
   verify?: VerifyVar
   isOptional?: boolean
+  isPublic?: boolean
 }
 
 export class EnvVar<X extends string> {
@@ -30,11 +31,13 @@ export class EnvVar<X extends string> {
   val: string | undefined
   verify?: VerifyVar
   isOptional: boolean
+  isPublic: boolean
   constructor(settings: EnvVarSettings<X>) {
     this.name = settings.name
     this.val = settings.val
     this.verify = settings.verify
     this.isOptional = settings.isOptional || false
+    this.isPublic = settings.isPublic || false
   }
 }
 
@@ -44,6 +47,22 @@ class EnvVarList {
       new EnvVar({
         name: "NODE_ENV",
         val: process.env.NODE_ENV,
+        isPublic: true,
+      }),
+      new EnvVar({
+        name: "COMMAND",
+        val: process.env.COMMAND,
+        isPublic: true,
+      }),
+      new EnvVar({
+        name: "COMMAND_OPTS",
+        val: process.env.COMMAND_OPTS,
+        isPublic: true,
+      }),
+      new EnvVar({
+        name: "IS_TEST",
+        val: process.env.IS_TEST,
+        isPublic: true,
       }),
     ],
   ]
@@ -114,7 +133,17 @@ export class FactorEnv<
     /**
      * Needs to come last so env vars are set
      */
-    this.vars = vars.list.flatMap((cb) => cb())
+    this.vars = this.getVars()
+
+    this.log.info(
+      `variables (${this.vars.length} total / ${
+        this.vars.filter((_) => _.isPublic).length
+      } public)`,
+      {
+        data: this.getViteRenderedVars(),
+        disableOnRestart: true,
+      },
+    )
 
     this.verifyEnv()
 
@@ -166,6 +195,41 @@ export class FactorEnv<
 
     this.currentCommand = cliCommand
     this.currentCommandOpts = fullOpts
+  }
+
+  getVars() {
+    // get custom env vars from plugins, etc.
+    const customVars = vars.list.flatMap((cb) => cb())
+
+    // get service ports as env vars; this allows them to be both
+    // on client/server side, to sync with other deployment config(docker), etc
+    const commandVars = this.commands
+      .filter((_) => _.port)
+      .map((c) => {
+        const name = `${c.command.toUpperCase()}_PORT`
+        const val = process.env[name]
+        return new EnvVar({
+          name: name,
+          val: val || String(c.port),
+          isPublic: true,
+        })
+      })
+
+    return [...customVars, ...commandVars]
+  }
+
+  getPublicVars() {
+    return this.vars.filter((_) => _.isPublic && _.val)
+  }
+
+  getViteRenderedVars(): Record<string, string> {
+    const rendered = Object.fromEntries(
+      this.getPublicVars()
+        .filter((_) => _.val)
+        .map((_) => [_.name, _.val]),
+    ) as Record<string, string>
+    rendered.IS_VITE = "yes"
+    return rendered
   }
 
   nodeInit() {

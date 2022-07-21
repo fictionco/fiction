@@ -23,7 +23,7 @@ import { FactorAws } from "@factor/api/plugin-aws"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
-import { commands } from "./commands"
+import { commands } from "./vars"
 import routes from "./routes"
 import App from "./App.vue"
 
@@ -49,7 +49,7 @@ export const factorDb = new FactorDb({
 export const factorServer = new FactorServer({
   serverName: "FactorMain",
   port: +(factorEnv.var("SERVER_PORT") || 3333),
-  serverUrl: factorEnv.var("SERVER_URL"),
+  productionUrl: "https://server.factorjs.org",
   factorEnv,
 })
 

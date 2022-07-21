@@ -1,6 +1,6 @@
 import { HeadClient } from "@vueuse/head"
 import type { JSONSchema } from "json-schema-to-typescript"
-import { vue, vueRouter } from "../utils"
+import { vue } from "../utils"
 import { PackageJson } from "../types"
 import type { FactorApp } from "../plugin-app"
 import type { FactorServer } from "../plugin-server"

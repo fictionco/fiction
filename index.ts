@@ -15,7 +15,7 @@ export const factorEnv = new FactorEnv({
 })
 
 export const factorRelease = new FactorRelease({ factorEnv })
-export const factorBundle = new FactorBundle()
+export const factorBundle = new FactorBundle({ factorEnv })
 
 factorEnv.addHook({
   hook: "runCommand",

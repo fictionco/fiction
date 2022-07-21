@@ -4,15 +4,20 @@ export class CliCommand<T extends string = string> {
   public command: T
   public description?: string
   public options: CliOptions
-
+  type: "service" | "build" | "dev" | "util"
+  port?: number
   constructor(settings: {
     command: T
     description?: string
     options: CliOptions
+    type: "service" | "build" | "dev" | "util"
+    port?: number
   }) {
     this.command = settings.command
     this.description = settings.description
     this.options = settings.options
+    this.type = settings.type
+    this.port = settings.port
   }
 
   setOptions(options: CliOptions): this {
@@ -25,53 +30,35 @@ export class CliCommand<T extends string = string> {
 
 export const standardAppCommands = [
   new CliCommand({
-    command: "build",
-    description: "builds the app",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "bundle",
-    description: "bundles JS packages",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "start",
-    description: "serves a built app",
-    options: { mode: "production", exit: false },
-  }),
-  new CliCommand({
     command: "prerender",
     description: "prerenders app",
     options: { mode: "production", exit: true },
+    type: "build",
   }),
   new CliCommand({
     command: "server",
     description: "runs endpoint server",
     options: { mode: "production", exit: false },
+    type: "service",
+    port: 3333,
+  }),
+  new CliCommand({
+    command: "app",
+    description: "serves static app",
+    options: { mode: "production", exit: false },
+    type: "service",
+    port: 3000,
   }),
   new CliCommand({
     command: "dev",
     description: "runs services in dev mode",
     options: { mode: "development", exit: false },
+    type: "dev",
   }),
   new CliCommand({
     command: "r-dev",
     description: "runs dev with nodemon",
     options: { mode: "development", exit: false },
-  }),
-  new CliCommand({
-    command: "release",
-    description: "builds and releases packages on NPM",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "deploy",
-    description: "deploys changes to 'deploy' branch",
-    options: { mode: "production", exit: true },
-  }),
-  new CliCommand({
-    command: "generate",
-    description: "builds static schemas and config",
-    options: { mode: "production", exit: true },
+    type: "dev",
   }),
 ]

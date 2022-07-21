@@ -4,14 +4,17 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "r-dev" | "release" | "server" | "start";
+  commands: "app" | "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "r-dev" | "release" | "server";
   vars:
     | "APP_PORT"
     | "APP_URL"
     | "AWS_ACCESS_KEY"
     | "AWS_ACCESS_KEY_SECRET"
+    | "COMMAND"
+    | "COMMAND_OPTS"
     | "GOOGLE_CLIENT_ID"
     | "GOOGLE_CLIENT_SECRET"
+    | "IS_TEST"
     | "NODE_ENV"
     | "POSTGRES_URL"
     | "SERVER_PORT"

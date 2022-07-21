@@ -35,7 +35,7 @@ export type EndpointMethodOptions<T extends Query> = {
 export type EndpointMeta = {
   bearer?: Partial<PrivateUser> & { userId: string; iat?: number }
   server?: boolean
-  returnAuthority?: boolean
+  returnAuthority?: string[]
   caller?: string
   request?: express.Request
   response?: express.Response

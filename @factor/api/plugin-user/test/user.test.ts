@@ -99,6 +99,10 @@ describe("user tests", () => {
       },
       {},
     )
+
+    expect(response?.token).toBeTruthy()
+    expect(response?.message).toContain("success")
+
     expect(response?.message).toMatchInlineSnapshot('"successfully logged in"')
     user = response?.data as FullUser
 

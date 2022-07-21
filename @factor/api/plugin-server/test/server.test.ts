@@ -27,23 +27,19 @@ describe("server test", () => {
       console.error(error)
     }
 
-    expect(response?.data).toMatchInlineSnapshot(`
-      {
-        "message": "ok",
-        "status": "success",
-      }
-    `)
-
+    expect(response?.data.status).toBe("success")
+    expect(response?.data.message).toBe("ok")
     expect(response?.status).toBe(200)
 
-    expect(response?.data).toMatchInlineSnapshot(`
-      {
-        "message": "ok",
-        "status": "success",
-      }
+    expect(Object.keys(response?.data || {})).toMatchInlineSnapshot(`
+      [
+        "status",
+        "message",
+        "version",
+        "uptime",
+        "timestamp",
+      ]
     `)
-
-    expect(response?.data.message).toBe("ok")
 
     server?.close()
   })

@@ -4,6 +4,7 @@ import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
 import { FactorPlugin } from "../plugin"
 import { getMainFilePath, safeDirname } from "../utils"
+import type { FactorEnv } from "../plugin-env"
 import * as types from "./types"
 import { commonServerOnlyModules } from "./serverOnly"
 export * from "./types"
@@ -11,6 +12,7 @@ export * from "./plugin-release"
 
 type FactorBuildSettings = {
   serverOnlyModules?: types.ServerModuleDef[]
+  factorEnv: FactorEnv
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
@@ -19,7 +21,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
-  constructor(settings: FactorBuildSettings = {}) {
+  factorEnv = this.settings.factorEnv
+  constructor(settings: FactorBuildSettings) {
     super(settings)
     this.loadingPromise = this.getLexers().catch(console.error)
   }
@@ -110,7 +113,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const plugins: vite.Plugin[] = [
       {
-        name: "serverModuleReplacer", // required, will show up in warnings and errors
+        name: "factorVitePlugin", // required, will show up in warnings and errors
         enforce: "pre",
         // resolveId(id: string): ResolveIdResult {
         //   const found = fullServerModules.find((_) => _.id == id)
@@ -122,6 +125,15 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
           const replaceConfig = fullServerModules.find((_) => {
             return id.includes(`node_modules/${_.id}`)
           })
+
+          if (id.includes("mount.ts")) {
+            const code = src.replace(
+              `"VITE_REPLACE_ENV_VARS"`,
+              `'${JSON.stringify(this.factorEnv.getViteRenderedVars())}'`,
+            )
+
+            return { code }
+          }
 
           const isServerFile = /server-only-file/.test(src.slice(0, 300))
 

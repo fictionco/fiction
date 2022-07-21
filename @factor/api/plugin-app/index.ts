@@ -136,7 +136,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
      * node application init
      */
     if (cwd && !this.utils.isApp() && this.factorEnv) {
-      this.factorBuild = new FactorBuild()
+      this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
       this.factorSitemap = new FactorSitemap({
         factorRouter: this.factorRouter,
       })
@@ -193,10 +193,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   addUi(components: Record<string, () => Promise<vue.Component>>) {
     this.ui = { ...this.ui, ...components }
-  }
-
-  addVars(vars: Record<string, string>) {
-    this.vars = { ...this.vars, ...vars }
   }
 
   addSitemaps(sitemaps: types.SitemapConfig[]) {
@@ -662,20 +658,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
-    const define = Object.fromEntries(
-      Object.entries(this.vars).map(([key, value]) => {
-        return [`process.env.${key}`, JSON.stringify(value)]
-      }),
-    )
-
-    this.log.info(
-      `transfer variables (${Object.keys(this.vars).length} total)`,
-      {
-        data: this.vars,
-        disableOnRestart: true,
-      },
-    )
-
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       mode: this.mode,
       cwd,
@@ -698,7 +680,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           },
         },
         server: {},
-        define,
         plugins: [getMarkdownPlugin(), unocss({ presets: [presetIcons()] })],
       },
       appViteConfigFile || {},

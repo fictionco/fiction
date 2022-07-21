@@ -58,7 +58,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
       } else if (
         type == "returnInfo" &&
         user[k] &&
-        (!isAuthority || meta?.returnAuthority) &&
+        (!isAuthority || meta?.returnAuthority?.includes(k)) &&
         (!isPrivate || privateAccess)
       ) {
         out[key] = user[k]
@@ -458,7 +458,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
           _action: "getPrivate",
           userId: bearer.userId,
         },
-        { ...meta, server: true, returnAuthority: true },
+        { ...meta, server: true, returnAuthority: ["hashedPassword"] },
       )
 
       if (!dbUser) throw this.stop({ message: "couldn't find user" })
@@ -717,13 +717,14 @@ export class QueryLogin extends UserQuery {
         _action: "getPrivate",
         email,
       },
-      _meta,
+      { ..._meta, returnAuthority: ["hashedPassword"] },
     )
 
     let message = ""
 
     if (!user) throw this.stop({ message: "user does not exist" })
 
+    // logging in within google
     if (googleId && _meta.server) {
       if (!user.googleId && emailVerified) {
         await this.factorUser.queries.ManageUser.serve(

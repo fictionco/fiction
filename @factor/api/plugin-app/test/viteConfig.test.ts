@@ -52,6 +52,7 @@ describe("vite config", () => {
       [
         "mode",
         "root",
+        "ssr",
         "server",
         "build",
         "resolve",

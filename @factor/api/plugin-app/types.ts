@@ -1,6 +1,4 @@
-import { HeadClient } from "@vueuse/head"
-import type { App } from "vue"
-import { FactorAppEntry, ServiceList } from "../plugin-env"
+import { FactorAppEntry } from "../plugin-env"
 
 export interface RenderOptions {
   mode: "production" | "development"

@@ -4,7 +4,7 @@ import { onEvent } from "./event"
 type FlushCallback<T> = (
   items: T[],
   context?: FlushContext,
-) => any | Promise<any>
+) => unknown | Promise<unknown>
 type FlushContext = { reason?: string }
 type BufferConfig<T = Record<string, any>> = {
   name?: string
@@ -57,7 +57,7 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Default flush
    */
-  protected flush(_items: T[], _context?: FlushContext): void {}
+  protected flush(_items: T[], _context?: FlushContext): void | Promise<void> {}
   /**
    * Remove items in buffer without a flush callback
    */
@@ -75,10 +75,11 @@ export class WriteBuffer<T> extends EventEmitter {
 
     this.emit("flush", this.items)
 
-    const promises = [this.flush(this.items, context)]
+    const promises = [this.flush(this.items, context)] as Promise<void>[]
 
     if (this.flushCallback) {
-      promises.push(this.flushCallback(this.items, context))
+      const cb = this.flushCallback(this.items, context) as Promise<void>
+      promises.push(cb)
     }
 
     await Promise.all(promises)
@@ -135,7 +136,7 @@ export class WriteBuffer<T> extends EventEmitter {
 
   private checkLimit(): void {
     if (this.maxQueueSizeReached()) {
-      this.flushBuffer({ reason: "limit" })
+      this.flushBuffer({ reason: "limit" }).catch(console.error)
     } else {
       this.startTimeout()
     }

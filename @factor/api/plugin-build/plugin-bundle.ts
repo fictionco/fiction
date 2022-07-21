@@ -5,18 +5,23 @@ import * as vite from "vite"
 import type { RollupWatcher, RollupWatcherEvent } from "rollup"
 import { deepMergeAll, getRequire } from "../utils"
 import { FactorPlugin } from "../plugin"
-import { CliOptions } from "../plugin-env"
+import { CliOptions, FactorEnv } from "../plugin-env"
 import { PackageJson } from "../types"
 import { getPackages, getCommit } from "./utils"
 import { FactorBuild } from "."
-export class FactorBundle extends FactorPlugin {
+
+type FactorBundleSettings = {
+  factorEnv: FactorEnv
+}
+export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   factorBuild: FactorBuild
+  factorEnv = this.settings.factorEnv
   bundlingTotal = 0
   bundlingCurrent = 0
   watchers: RollupWatcher[] = []
-  constructor() {
-    super({})
-    this.factorBuild = new FactorBuild()
+  constructor(settings: FactorBundleSettings) {
+    super(settings)
+    this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
   }
 
   setup() {}
