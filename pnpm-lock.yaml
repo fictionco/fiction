@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': workspace:5.4.39
-      '@factor/lint': workspace:5.4.39
-      '@factor/site': workspace:5.4.39
-      '@factor/ui': workspace:5.4.39
+      '@factor/api': 5.4.40
+      '@factor/lint': 5.4.40
+      '@factor/site': 5.4.40
+      '@factor/ui': 5.4.40
       '@types/express': ^4.17.13
       '@types/node': ^18.0.6
       '@vitejs/plugin-vue': ^3.0.1
@@ -71,7 +71,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.9
-      '@factor/api': workspace:5.4.39
+      '@factor/api': 5.4.40
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -103,7 +103,6 @@ importers:
       '@types/serve-favicon': ^2.5.3
       '@types/sharp': ^0.30.4
       '@types/spark-md5': ^3.0.2
-      '@types/tailwindcss': ^3.1.0
       '@types/validator': ^13.7.4
       '@types/ws': ^8.5.3
       '@unocss/preset-attributify': ^0.44.5
@@ -237,7 +236,6 @@ importers:
       '@types/serve-favicon': 2.5.3
       '@types/sharp': 0.30.4
       '@types/spark-md5': 3.0.2
-      '@types/tailwindcss': 3.1.0_ts-node@10.9.1
       '@types/validator': 13.7.4
       '@types/ws': 8.5.3
       '@unocss/preset-attributify': 0.44.5
@@ -396,9 +394,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': workspace:5.4.39
-      '@factor/plugin-highlight-code': workspace:5.4.39
-      '@factor/ui': workspace:5.4.39
+      '@factor/api': 5.4.40
+      '@factor/plugin-highlight-code': 5.4.40
+      '@factor/ui': 5.4.40
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +408,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': workspace:5.4.39
-      '@factor/plugin-highlight-code': workspace:5.4.39
-      '@factor/ui': workspace:5.4.39
+      '@factor/api': 5.4.40
+      '@factor/plugin-highlight-code': 5.4.40
+      '@factor/ui': 5.4.40
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.4
       string-similarity: ^4.0.4
@@ -426,7 +424,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': workspace:5.4.39
+      '@factor/api': 5.4.40
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,13 +432,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': workspace:5.4.39
+      '@factor/api': 5.4.40
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': workspace:5.4.39
+      '@factor/api': 5.4.40
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -455,13 +453,13 @@ importers:
 
   '@factor/site':
     specifiers:
-      '@factor/api': workspace:5.4.39
-      '@factor/plugin-blog-engine': workspace:5.4.39
-      '@factor/plugin-docs-engine': workspace:5.4.39
-      '@factor/plugin-highlight-code': workspace:5.4.39
-      '@factor/plugin-notify': workspace:5.4.39
-      '@factor/plugin-stripe': workspace:5.4.39
-      '@factor/ui': workspace:5.4.39
+      '@factor/api': 5.4.40
+      '@factor/plugin-blog-engine': 5.4.40
+      '@factor/plugin-docs-engine': 5.4.40
+      '@factor/plugin-highlight-code': 5.4.40
+      '@factor/plugin-notify': 5.4.40
+      '@factor/plugin-stripe': 5.4.40
+      '@factor/ui': 5.4.40
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.4
@@ -498,7 +496,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': workspace:5.4.39
+      '@factor/api': 5.4.40
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -1990,15 +1988,6 @@ packages:
 
   /@types/string-similarity/4.0.0:
     resolution: {integrity: sha512-dMS4S07fbtY1AILG/RhuwmptmzK1Ql8scmAebOTJ/8iBtK/KI17NwGwKzu1uipjj8Kk+3mfPxum56kKZE93mzQ==}
-    dev: false
-
-  /@types/tailwindcss/3.1.0_ts-node@10.9.1:
-    resolution: {integrity: sha512-JxPzrm609hzvF4nmOI3StLjbBEP3WWQxDDJESqR1nh94h7gyyy3XSl0hn5RBMJ9mPudlLjtaXs5YEBtLw7CnPA==}
-    deprecated: This is a stub types definition. tailwindcss provides its own type definitions, so you do not need this installed.
-    dependencies:
-      tailwindcss: 3.1.6_ts-node@10.9.1
-    transitivePeerDependencies:
-      - ts-node
     dev: false
 
   /@types/tern/0.23.4:
