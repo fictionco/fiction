@@ -5,13 +5,14 @@ import {
   FactorBundle,
   CliOptions,
 } from "@factor/api"
-
+import { commands } from "./@factor/site/src/vars"
 const cwd = safeDirname(import.meta.url)
 
 export const factorEnv = new FactorEnv({
   cwd,
   appName: "FactorJS Monorepo",
   appEmail: "",
+  commands,
 })
 
 export const factorRelease = new FactorRelease({ factorEnv })
