@@ -306,6 +306,10 @@ export class FactorEnv<
 
     const cliCommand = this.currentCommand
 
+    if (!cliCommand.description) {
+      delete cliCommand.description
+    }
+
     this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })
 
     const mainFilePath = this.standardPaths.mainFilePath

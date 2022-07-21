@@ -32,7 +32,6 @@
     "@types/serve-favicon": "^2.5.3",
     "@types/sharp": "^0.30.4",
     "@types/spark-md5": "^3.0.2",
-    "@types/tailwindcss": "^3.1.0",
     "@types/validator": "^13.7.4",
     "@types/ws": "^8.5.3",
     "@unocss/preset-attributify": "^0.44.5",

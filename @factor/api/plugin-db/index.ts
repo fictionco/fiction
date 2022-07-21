@@ -42,15 +42,11 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     if (this.utils.isActualBrowser()) return
 
     if (!settings.connectionUrl) {
-      this.log.warn(
-        `No connectionUrl provided for db.
-        Using default: ${this.defaultConnectionUrl}`,
-      )
+      this.log.warn(`no connectionUrl provided for db`)
+      return
     }
 
-    this.connectionUrl = new URL(
-      settings.connectionUrl || this.defaultConnectionUrl,
-    )
+    this.connectionUrl = new URL(settings.connectionUrl)
 
     const connection = {
       user: this.connectionUrl.username,
@@ -192,8 +188,8 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
    * better extend and create tables before being rendered to DB
    */
   public async afterSetup() {
-    if (!this.utils.isTest() && !this.utils.isApp()) {
-      await this.init()
-    }
+    if (this.utils.isTest() || this.utils.isApp() || !this.connectionUrl) return
+
+    await this.init()
   }
 }
