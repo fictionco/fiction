@@ -1,6 +1,6 @@
 {
   "name": "@factor/lint",
-  "version": "5.4.40",
+  "version": "5.4.41",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
