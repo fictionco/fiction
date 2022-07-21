@@ -1,3 +1,12 @@
+## [5.4.42](https://github.com/FactorJS/factor/compare/v5.4.41...v5.4.42) (2022-07-21)
+
+
+### Features
+
+* new transfer var rendering ([35cd18c](https://github.com/FactorJS/factor/commit/35cd18c5ef6ea91cca7bbbe1c2f2d5273400e2ff))
+
+
+
 ## [5.4.41](https://github.com/FactorJS/factor/compare/v5.4.40...v5.4.41) (2022-07-21)
 
 
