@@ -1,3 +1,12 @@
+## [5.4.50](https://github.com/FactorJS/factor/compare/v5.4.49...v5.4.50) (2022-07-22)
+
+
+### Features
+
+* rendering clean up ([6bf74df](https://github.com/FactorJS/factor/commit/6bf74dfa85907914ca42eadad88ee4fa8308cfc7))
+
+
+
 ## [5.4.49](https://github.com/FactorJS/factor/compare/v5.4.48...v5.4.49) (2022-07-22)
 
 
