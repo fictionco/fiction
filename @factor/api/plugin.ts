@@ -1,7 +1,7 @@
 import type { FactorUser } from "./plugin-user"
 import { omit } from "./utils"
 import { Endpoint, EndpointMap } from "./utils/endpoint"
-import { log } from "./plugin-log"
+import { log, LogHelper } from "./plugin-log"
 import type { Query } from "./query"
 import type { FactorServer } from "./plugin-server"
 import type { ServiceConfig } from "./plugin-env/types"
@@ -21,16 +21,22 @@ export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   }
 }
 
-export abstract class FactorPlugin<T extends Record<string, unknown> = {}> {
+export abstract class FactorPlugin<
+  T extends { id?: string; [key: string]: unknown } = {},
+> {
   public settings: T
-  public log = log.contextLogger(this.constructor.name)
   public stop = _stop
   public utils = utils
   public basePath: string
-
+  public id?: string
+  public log: LogHelper
   constructor(settings: T) {
     this.settings = settings
     this.basePath = `/${utils.slugify(this.constructor.name)}`
+    this.id = this.settings.id
+    this.log = log.contextLogger(
+      `${this.constructor.name}${this.id ? `:${this.id}` : ""}`,
+    )
   }
 
   afterSetup(): void | Promise<void> {}

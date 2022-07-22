@@ -85,6 +85,7 @@ export type FactorControlSettings = {
   cwd: string
   inspector?: boolean
   nodemonConfigPath?: string
+  id?: string
   appName: string
   appEmail: string
   productionUrl?: string
@@ -107,6 +108,7 @@ export class FactorEnv<
   envFilesProd = this.settings.envFilesProd || []
   standardPaths?: types.StandardPaths
   cwd = this.settings.cwd
+
   inspector = this.settings.inspector || false
   context = this.utils.isApp() ? "app" : "server"
   mode: "production" | "development" | "unknown" = "unknown"
@@ -121,8 +123,12 @@ export class FactorEnv<
   productionUrl = this.settings.productionUrl
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
+
   constructor(settings: FactorControlSettings) {
     super(settings)
+
+    this.log.info(`initializing (${Object.keys(process.env).length} vars)`)
+
     this.envInit()
 
     if (!this.utils.isApp()) {
@@ -373,6 +379,10 @@ export class FactorEnv<
 
     if (!cliCommand.description) {
       delete cliCommand.description
+    }
+
+    if (!cliCommand.port) {
+      delete cliCommand.port
     }
 
     this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })

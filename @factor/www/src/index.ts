@@ -40,6 +40,7 @@ export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   appName,
   appEmail,
   productionUrl,
+  id: "www",
 })
 
 export const factorDb = new FactorDb({

@@ -226,6 +226,7 @@ export const createTestUtilServices = async <
     cwd,
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
+    id: "test",
   })
 
   const factorServer = new FactorServer({
