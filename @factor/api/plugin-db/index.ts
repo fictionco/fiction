@@ -28,8 +28,8 @@ export type FactorDbSettings = {
 }
 
 export class FactorDb extends FactorPlugin<FactorDbSettings> {
-  db!: Knex
-  connectionUrl!: URL
+  db?: Knex
+  connectionUrl?: URL
   hooks: HookType<FactorDbHookDictionary>[]
   defaultConnectionUrl = "http://test:test@localhost:5432/test"
   tables = this.settings.tables || []
@@ -41,12 +41,17 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
 
     if (this.utils.isActualBrowser()) return
 
-    if (!settings.connectionUrl) {
-      this.log.warn(`no connectionUrl provided for db`)
-      return
+    if (settings.connectionUrl) {
+      this.connectionUrl = new URL(settings.connectionUrl)
     }
+  }
 
-    this.connectionUrl = new URL(settings.connectionUrl)
+  async init() {
+    if (this.utils.isApp()) return
+
+    if (!this.connectionUrl) {
+      throw new Error("can't initialize db without url")
+    }
 
     const connection = {
       user: this.connectionUrl.username,
@@ -82,6 +87,12 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config
 
     this.db = knex(opts)
+
+    await this.extend()
+  }
+
+  setup() {
+    this.addSchema()
   }
 
   addSchema() {
@@ -145,16 +156,27 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     if (this.utils.isActualBrowser()) {
       throw new Error("Cannot use client() in browser")
     }
+
+    if (!this.db) {
+      throw new Error("db not initialized")
+    }
+
     return this.db
   }
 
-  async init(): Promise<void> {
+  async extend(): Promise<void> {
+    if (this.utils.isTest() || this.utils.isApp() || !this.connectionUrl) {
+      return
+    }
+
     try {
-      this.log.info("initializing db")
+      this.log.info("extending db")
+
+      const db = this.client()
 
       const { extendDb } = await import("./dbExtend")
 
-      await extendDb(this.db)
+      await extendDb(db)
 
       if (this.tables.length > 0) {
         const tables = await runHooks<FactorDbHookDictionary, "tables">({
@@ -164,7 +186,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
         })
 
         for (const table of tables) {
-          await table.create(this.db)
+          await table.create(db)
         }
       }
 
@@ -183,17 +205,5 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     } catch (error) {
       this.log.error("db init error", { error })
     }
-  }
-  setup() {
-    this.addSchema()
-  }
-  /**
-   * Initialize after setup allowing other plugins to
-   * better extend and create tables before being rendered to DB
-   */
-  public async afterSetup() {
-    if (this.utils.isTest() || this.utils.isApp() || !this.connectionUrl) return
-
-    await this.init()
   }
 }

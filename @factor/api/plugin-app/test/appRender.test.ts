@@ -26,8 +26,8 @@ describe("renders app code correctly", () => {
   beforeAll(async () => {
     const cwd = path.dirname(require.resolve("@factor/www/package.json"))
 
-    _s = await createTestServer({ cwd, headless: false })
-  }, 8000)
+    _s = await createTestServer({ cwd, headless: true })
+  }, 15_000)
 
   afterAll(async () => {
     await _s?.destroy()
@@ -51,5 +51,5 @@ describe("renders app code correctly", () => {
 
     const appEmailText = await page().locator(`#app-email`).textContent()
     expect(appEmailText).toMatchInlineSnapshot('"hi@factorjs.org"')
-  }, 30_000)
+  }, 20_000)
 })

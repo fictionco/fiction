@@ -56,6 +56,7 @@ let testUtils: undefined | TestUtils = undefined
 describe("google auth", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
+    await testUtils.factorDb.init()
   })
 
   it("if no user exists, creates one with isNew = true, returns token", async () => {

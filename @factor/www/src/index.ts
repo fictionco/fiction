@@ -141,6 +141,7 @@ factorEnv.addHook({
         },
       })
     } else {
+      await factorDb.init()
       await factorServer.createServer({ factorUser })
 
       if (command == "dev") {

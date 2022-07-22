@@ -30,6 +30,7 @@ let testUtils: undefined | TestUtils = undefined
 describe("user tests", () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
+    await testUtils.factorDb.init()
   })
   it("creates user", async () => {
     const response = await testUtils?.factorUser?.queries.ManageUser.serve(

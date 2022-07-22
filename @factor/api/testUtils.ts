@@ -171,8 +171,9 @@ export const initializeTestUtils = async (
 ) => {
   await runServicesSetup({ service })
 
-  const { factorUser, factorServer } = service
+  const { factorUser, factorServer, factorDb } = service
 
+  await factorDb.init()
   await factorServer.createServer({ factorUser })
 
   const email = getTestEmail()
@@ -232,6 +233,7 @@ export const createTestUtilServices = async <
   const factorServer = new FactorServer({
     port: serverPort,
     serverName: "testUtilServer",
+    factorEnv,
   })
 
   const factorRouter = new FactorRouter<S>()

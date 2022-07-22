@@ -239,6 +239,12 @@ export class FactorEnv<
     return rendered
   }
 
+  updateVarsForTransfer(vars: Record<string, string>) {
+    Object.entries(vars).forEach(([key, value]) => {
+      process.env[key] = value
+    })
+  }
+
   nodeInit() {
     this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
 
@@ -356,7 +362,8 @@ export class FactorEnv<
     })
   }
   /**
-   * This runs on both server and app
+   * This runs on both server and app to ensure consistency
+   * App vs Server behavior is guarded in actual extensions (isNode, window defined, etc. )
    */
   async crossRunCommand() {
     const runConfig = {

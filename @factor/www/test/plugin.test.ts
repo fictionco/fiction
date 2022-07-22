@@ -10,13 +10,13 @@ let cwd = ""
 describe("plugin and config tests", () => {
   beforeAll(() => {
     process.env.NODE_ENV = "development"
-    cwd = path.dirname(require.resolve("@factor/site/package.json"))
+    cwd = path.dirname(require.resolve("@factor/www/package.json"))
   })
   it("gets correct main file path", async () => {
     const filePath = getMainFilePath({ cwd })
 
     expect(filePath).toMatchInlineSnapshot(
-      '"/Users/arpowers/Projects/factor/@factor/site/src/index.ts"',
+      '"/Users/arpowers/Projects/factor/@factor/www/src/index.ts"',
     )
   })
 

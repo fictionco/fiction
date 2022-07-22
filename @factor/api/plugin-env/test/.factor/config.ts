@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "app" | "dev" | "prerender" | "r-dev" | "server";
+  commands: "app" | "dev" | "r-dev" | "render" | "server";
   vars:
     | "APP_PORT"
     | "APP_URL"
@@ -23,6 +23,18 @@ export interface CompiledServiceConfig {
     | "SMTP_PASSWORD"
     | "SMTP_USER"
     | "TOKEN_SECRET";
+  endpoints:
+    | "CurrentUser"
+    | "Login"
+    | "ManageUser"
+    | "NewVerificationCode"
+    | "ResetPassword"
+    | "SendOneTimeCode"
+    | "SetPassword"
+    | "StartNewUser"
+    | "UpdateCurrentUser"
+    | "UserGoogleAuth"
+    | "VerifyAccountEmail";
   routes: "";
   ui: "";
   menus: "";

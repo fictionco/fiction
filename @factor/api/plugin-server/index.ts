@@ -30,7 +30,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   localUrl = `http://localhost:${this.port}`
   productionUrl = this.settings.productionUrl || this.localUrl
   serverUrl = this.mode == "production" ? this.productionUrl : this.localUrl
-  factorEnv? = this.settings.factorEnv
+  factorEnv = this.settings.factorEnv
   factorUser? = this.settings.factorUser
 
   serverName = this.settings.serverName
@@ -40,7 +40,9 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
 
     this.addConfig()
 
-    process.env.SERVER_PORT = this.port?.toString()
+    this.factorEnv?.updateVarsForTransfer({
+      SERVER_PORT: this.port?.toString(),
+    })
   }
 
   addConfig() {

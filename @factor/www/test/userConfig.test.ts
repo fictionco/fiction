@@ -5,7 +5,7 @@ import * as mainFile from "../src"
 const require = createRequire(import.meta.url)
 describe("user config", () => {
   it("gets correct client-side user config", async () => {
-    const mainFilePath = require.resolve("@factor/site")
+    const mainFilePath = require.resolve("@factor/www")
 
     await compileApplication({
       mainFilePath,
