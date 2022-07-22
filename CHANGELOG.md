@@ -1,3 +1,12 @@
+## [5.4.45](https://github.com/FactorJS/factor/compare/v5.4.44...v5.4.45) (2022-07-22)
+
+
+### Bug Fixes
+
+* catch db init error ([9776b11](https://github.com/FactorJS/factor/commit/9776b114e0eee9db29041157715a17cb0ee35b0a))
+
+
+
 ## [5.4.44](https://github.com/FactorJS/factor/compare/v5.4.43...v5.4.44) (2022-07-22)
 
 
