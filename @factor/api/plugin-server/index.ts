@@ -32,7 +32,6 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   serverUrl = this.mode == "production" ? this.productionUrl : this.localUrl
   factorEnv = this.settings.factorEnv
   factorUser? = this.settings.factorUser
-
   serverName = this.settings.serverName
   server?: http.Server
   constructor(settings: FactorServerSettings) {
@@ -97,6 +96,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
         port: this.port,
         endpoints: this.endpoints,
         factorUser,
+        url: this.serverUrl,
         middleware: (app) => {
           app.use(
             bodyParser.json({

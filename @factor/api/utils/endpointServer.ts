@@ -26,6 +26,7 @@ export type EndpointServerOptions = {
   middleware?: MiddlewareHandler
   factorUser?: FactorUser
   productionUrl?: string
+  url?: string
 }
 
 export class EndpointServer {
@@ -37,9 +38,8 @@ export class EndpointServer {
   server?: http.Server
   factorUser?: FactorUser
   log = log.contextLogger(this.constructor.name)
-  productionUrl?: string
-  localUrl: string
   url: string
+
   constructor(settings: EndpointServerOptions) {
     const { port, endpoints, customServer, serverName } = settings
 
@@ -48,10 +48,7 @@ export class EndpointServer {
     this.endpoints = endpoints
     this.customServer = customServer
     this.factorUser = settings.factorUser
-    this.localUrl = `http://localhost:${port}`
-    this.productionUrl = settings.productionUrl || this.localUrl
-    this.url = this.url =
-      mode() == "production" ? this.productionUrl : this.localUrl
+    this.url = settings.url || `http://localhost:${port}`
   }
 
   async runServer(): Promise<http.Server | undefined> {

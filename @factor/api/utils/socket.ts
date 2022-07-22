@@ -375,6 +375,7 @@ export const createSocketServer = async <T extends EventMap>(args: {
   factorUser?: FactorUser
   welcomeObject?: WelcomeObjectCallback
   maxPayload?: number
+  url?: string
 }): Promise<SocketServerComponents<T>> => {
   const {
     port,
@@ -383,6 +384,7 @@ export const createSocketServer = async <T extends EventMap>(args: {
     factorUser,
     welcomeObject,
     maxPayload,
+    url,
   } = args
 
   const socketServer = new NodeSocketServer<T>({
@@ -397,6 +399,7 @@ export const createSocketServer = async <T extends EventMap>(args: {
     endpoints,
     customServer: (app) => socketServer.createServer({ app }),
     factorUser,
+    url,
   })
 
   await endpointServer.runServer()

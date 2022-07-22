@@ -26,8 +26,11 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
   setup() {}
 
-  bundleAll = async (options: CliOptions): Promise<void> => {
-    const { mode = "production" } = options
+  bundleAll = async (
+    options: CliOptions & { withDts?: boolean },
+  ): Promise<void> => {
+    const { withDts = false } = options
+
     // If pkg is set, just bundle that one
     const packages = getPackages().filter((pkg) => pkg.buildOptions)
     const packageNames = packages.map((pkg) => pkg.name)
@@ -40,8 +43,9 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
       await this.bundlePackages({
         cwds: packages.map((pkg) => pkg.cwd).filter(Boolean) as string[],
-        mode,
+
         watch: false,
+        withDts,
       })
     }
   }
@@ -65,14 +69,15 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
   bundlePackages = async (options: {
     cwds: string[]
-    mode: "development" | "production"
+
     watch?: boolean
     onAllBuilt?: () => Promise<void> | void
     isTest?: boolean
+    withDts?: boolean
   }): Promise<RollupWatcher[]> => {
     if (!this.utils.isNode()) return []
 
-    const { cwds, mode, onAllBuilt, watch, isTest } = options
+    const { cwds, onAllBuilt, watch, isTest, withDts } = options
     this.bundlingTotal = cwds.length
     this.bundlingCurrent = 0
 
@@ -102,10 +107,10 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         name,
         cwd,
         main,
-        mode,
         outputDir,
         entryFile,
         watch,
+        withDts,
         onBuilt: async () => this.onBuilt(onAllBuilt, __resolve),
       })
 
@@ -119,13 +124,13 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
   doneBuilding = async (opts: {
     name: string
-    mode: "production" | "development"
     entry: string
     distDir: string
     cwd: string
+    withDts?: boolean
   }): Promise<void> => {
-    const { name, mode, entry, distDir, cwd } = opts
-    if (mode == "production") {
+    const { name, entry, distDir, cwd, withDts } = opts
+    if (withDts) {
       /**
        * Create type declarations
        * https://tsup.egoist.sh/
@@ -162,6 +167,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       event: RollupWatcherEvent
     }) => Promise<void> | void
     watch?: boolean
+    withDts?: boolean
   }): Promise<RollupWatcher | undefined> => {
     const {
       name,
@@ -172,6 +178,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       entryFile,
       onBuilt,
       watch,
+      withDts,
     } = options
 
     try {
@@ -226,10 +233,10 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
           if (event.code == "END") {
             await this.doneBuilding({
               name,
-              mode,
               entry,
               distDir,
               cwd,
+              withDts,
             })
             if (onBuilt) await onBuilt({ name, event })
 
@@ -249,10 +256,10 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
         await this.doneBuilding({
           name,
-          mode,
           entry,
           distDir,
           cwd,
+          withDts,
         })
 
         return
