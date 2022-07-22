@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.4.42
-      '@factor/lint': 5.4.42
-      '@factor/site': 5.4.42
-      '@factor/ui': 5.4.42
+      '@factor/api': workspace:5.4.43
+      '@factor/lint': workspace:5.4.43
+      '@factor/ui': workspace:5.4.43
+      '@factor/www': workspace:5.4.43
       '@types/express': ^4.17.13
       '@types/node': ^18.0.6
       '@vitejs/plugin-vue': ^3.0.1
@@ -32,7 +32,7 @@ importers:
       tailwindcss: ^3.1.6
       tslib: ^2.4.0
       typescript: ^4.7.4
-      vite: ^3.0.0
+      vite: ^3.0.2
       vitest: '*'
       vue: '*'
       yorkie: ^2.0.0
@@ -42,8 +42,8 @@ importers:
     devDependencies:
       '@factor/api': link:@factor/api
       '@factor/lint': link:@factor/lint
-      '@factor/site': link:@factor/site
       '@factor/ui': link:@factor/ui
+      '@factor/www': link:@factor/www
       '@types/express': 4.17.13
       '@types/node': 18.0.6
       '@vitejs/plugin-vue': 3.0.1_vite@3.0.2+vue@3.2.37
@@ -56,7 +56,7 @@ importers:
       jsdom: 20.0.0
       nodemon: 2.0.19
       npm-package-json-lint: 6.3.0
-      playwright: 1.23.4
+      playwright: 1.24.0
       postcss: 8.4.14
       tailwindcss: 3.1.6
       tslib: 2.4.0
@@ -71,12 +71,12 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.9
-      '@factor/api': 5.4.42
+      '@factor/api': workspace:5.4.43
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
       '@medv/finder': ^2.1.0
-      '@playwright/test': ^1.23.4
+      '@playwright/test': ^1.24.0
       '@sinclair/typebox': ^0.23.5
       '@tailwindcss/forms': ^0.5.2
       '@types/bcrypt': ^5.0.0
@@ -204,7 +204,7 @@ importers:
       unocss: ^0.44.5
       unsplash-js: ^7.0.15
       validator: ^13.7.0
-      vite: ^3.0.0
+      vite: ^3.0.2
       vue: '*'
       vue-router: '*'
       ws: ^8.8.1
@@ -340,14 +340,14 @@ importers:
       '@babel/parser': 7.18.9
       '@factor/api': 'link:'
       '@faker-js/faker': 7.3.0
-      '@playwright/test': 1.23.4
+      '@playwright/test': 1.24.0
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.6
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
       '@vitest/ui': 0.12.10
       fake-indexeddb: 4.0.0
-      playwright: 1.23.4
+      playwright: 1.24.0
       react-dom: 18.2.0_react@18.2.0
       rollup: 2.77.0
 
@@ -394,9 +394,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.4.42
-      '@factor/plugin-highlight-code': 5.4.42
-      '@factor/ui': 5.4.42
+      '@factor/api': workspace:5.4.43
+      '@factor/plugin-highlight-code': workspace:5.4.43
+      '@factor/ui': workspace:5.4.43
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -408,9 +408,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.4.42
-      '@factor/plugin-highlight-code': 5.4.42
-      '@factor/ui': 5.4.42
+      '@factor/api': workspace:5.4.43
+      '@factor/plugin-highlight-code': workspace:5.4.43
+      '@factor/ui': workspace:5.4.43
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.4
       string-similarity: ^4.0.4
@@ -424,7 +424,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.4.42
+      '@factor/api': workspace:5.4.43
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -432,13 +432,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.4.42
+      '@factor/api': workspace:5.4.43
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.4.42
+      '@factor/api': workspace:5.4.43
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -451,15 +451,27 @@ importers:
     devDependencies:
       dotenv: 16.0.1
 
-  '@factor/site':
+  '@factor/ui':
     specifiers:
-      '@factor/api': 5.4.42
-      '@factor/plugin-blog-engine': 5.4.42
-      '@factor/plugin-docs-engine': 5.4.42
-      '@factor/plugin-highlight-code': 5.4.42
-      '@factor/plugin-notify': 5.4.42
-      '@factor/plugin-stripe': 5.4.42
-      '@factor/ui': 5.4.42
+      '@factor/api': workspace:5.4.43
+      easymde: ^2.16.1
+      gravatar-url: ^4.0.1
+      sortablejs: ^1.15.0
+    dependencies:
+      '@factor/api': link:../api
+      easymde: 2.16.1
+      gravatar-url: 4.0.1
+      sortablejs: 1.15.0
+
+  '@factor/www':
+    specifiers:
+      '@factor/api': workspace:5.4.43
+      '@factor/plugin-blog-engine': workspace:5.4.43
+      '@factor/plugin-docs-engine': workspace:5.4.43
+      '@factor/plugin-highlight-code': workspace:5.4.43
+      '@factor/plugin-notify': workspace:5.4.43
+      '@factor/plugin-stripe': workspace:5.4.43
+      '@factor/ui': workspace:5.4.43
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.4
@@ -493,18 +505,6 @@ importers:
       tailwindcss: 3.1.6
     devDependencies:
       '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.6
-
-  '@factor/ui':
-    specifiers:
-      '@factor/api': 5.4.42
-      easymde: ^2.16.1
-      gravatar-url: ^4.0.1
-      sortablejs: ^1.15.0
-    dependencies:
-      '@factor/api': link:../api
-      easymde: 2.16.1
-      gravatar-url: 4.0.1
-      sortablejs: 1.15.0
 
 packages:
 
@@ -1638,13 +1638,13 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.13.0
 
-  /@playwright/test/1.23.4:
-    resolution: {integrity: sha512-iIsoMJDS/lyuhw82FtcV/B3PXikgVD3hNe5hyvOpRM0uRr1OIpN3LgPeRbBjhzBWmyf6RgRg5fqK5sVcpA03yA==}
+  /@playwright/test/1.24.0:
+    resolution: {integrity: sha512-sZLH2N6aWN9TtG+vMjNSomSfX0dSVHwWE+GhHQPV+ZeGcuZ/6CgMCGFuGjobgq/hNF9ZkuVOjeyoceZ0owKnHQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.0.6
-      playwright-core: 1.23.4
+      playwright-core: 1.24.0
     dev: true
 
   /@polka/url/1.0.0-next.21:
@@ -2705,7 +2705,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001368
-      electron-to-chromium: 1.4.196
+      electron-to-chromium: 1.4.198
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.2
     dev: false
@@ -3502,8 +3502,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.196:
-    resolution: {integrity: sha512-uxMa/Dt7PQsLBVXwH+t6JvpHJnrsYBaxWKi/J6HE+/nBtoHENhwBoNkgkm226/Kfxeg0z1eMQLBRPPKcDH8xWA==}
+  /electron-to-chromium/1.4.198:
+    resolution: {integrity: sha512-jwqQPdKGeAslcq8L+1SZZgL6uDiIDmTe9Gq4brsdWAH27y7MJ2g9Ue6MyST3ogmSM49EAQP7bype1V5hsuNrmQ==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -6546,19 +6546,19 @@ packages:
     engines: {node: '>= 6'}
     dev: false
 
-  /playwright-core/1.23.4:
-    resolution: {integrity: sha512-h5V2yw7d8xIwotjyNrkLF13nV9RiiZLHdXeHo+nVJIYGVlZ8U2qV0pMxNJKNTvfQVT0N8/A4CW6/4EW2cOcTiA==}
+  /playwright-core/1.24.0:
+    resolution: {integrity: sha512-BkDWdVsoEEC8m2glQlfNu1EN2qvjBsLIg5bD0wjrfwv9zVHktIsp80yYFObAcWreLNYhfRP4PlXE04lr5R4DFQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
 
-  /playwright/1.23.4:
-    resolution: {integrity: sha512-NUPOLMpd8WydmwZFllST/YZ7cImgDDDrvcaq7Gj2vAjNg0jYCndFJt6HHtbkOPSIlRo4BaQYlbFx6meq1r1FXQ==}
+  /playwright/1.24.0:
+    resolution: {integrity: sha512-oA9HzuYhskm9iEm9DeiWoLuJps+yzZ35zwR0EHhGFUd9ikUVMN5NqNAORvq+JesgoMlEu4IUdKK9jigFWm7olA==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      playwright-core: 1.23.4
+      playwright-core: 1.24.0
     dev: true
 
   /plur/4.0.0:
