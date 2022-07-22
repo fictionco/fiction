@@ -151,10 +151,12 @@ export class FactorEnv<
     })
   }
 
+
   setup() {
     const vars = this.getVars()
 
-    if (!this.isRendering) {
+
+    if (!this.isApp()) {
       this.log.info(
         `variables (${vars.length} total / ${
           vars.filter((_) => _.isPublic).length

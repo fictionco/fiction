@@ -96,11 +96,14 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   constructor(settings: UserPluginSettings) {
     super(settings)
 
+    this.factorDb.addTables([userTable])
+  }
+
+  init() {
     if (this.utils.isActualBrowser()) {
       this.userInitialized().catch(console.error)
     }
 
-    this.factorDb.addTables([userTable])
     this.factorRouter?.addHook({
       hook: "beforeEach",
       callback: async (params) => {

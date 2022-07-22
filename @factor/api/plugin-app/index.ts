@@ -381,7 +381,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     let entryModule: Record<string, any>
 
     if (prod) {
-      this.factorEnv.isRendering = true
+
       /**
        * Use pre-build server module in Production
        * otherwise use Vite's special module loader
@@ -428,8 +428,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       out.htmlHead = htmlHead
       out.htmlAttrs = htmlAttrs
       out.bodyAttrs = bodyAttrs
-
-      this.factorEnv.isRendering = false
     }
 
     return out

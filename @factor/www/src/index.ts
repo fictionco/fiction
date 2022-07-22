@@ -150,6 +150,7 @@ factorEnv.addHook({
       await factorServer.createServer({ factorUser })
 
       if (command == "dev") {
+        factorUser.init()
         await factorApp.serveApp()
       } else if (command == "build") {
         await factorApp.buildApp({ serve, render })

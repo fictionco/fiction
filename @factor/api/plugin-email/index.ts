@@ -56,6 +56,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   }
 
   init() {
+    if (this.utils.isApp()) return
+
     const options = {
       host: this.smtpHost,
       port: this.smtpPort,
