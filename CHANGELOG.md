@@ -1,3 +1,12 @@
+## [5.4.46](https://github.com/FactorJS/factor/compare/v5.4.45...v5.4.46) (2022-07-22)
+
+
+### Bug Fixes
+
+* change external ([5d99e09](https://github.com/FactorJS/factor/commit/5d99e099609b66abf25dbe9cfe1e2b68454d39b4))
+
+
+
 ## [5.4.45](https://github.com/FactorJS/factor/compare/v5.4.44...v5.4.45) (2022-07-22)
 
 
