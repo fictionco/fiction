@@ -32,7 +32,7 @@ importers:
       tailwindcss: ^3.1.6
       tslib: ^2.4.0
       typescript: ^4.7.4
-      vite: ^3.0.2
+      vite: ^3.0.0
       vitest: '*'
       vue: '*'
       yorkie: ^2.0.0
@@ -204,7 +204,7 @@ importers:
       unocss: ^0.44.5
       unsplash-js: ^7.0.15
       validator: ^13.7.0
-      vite: ^3.0.2
+      vite: ^3.0.0
       vue: '*'
       vue-router: '*'
       ws: ^8.8.1
