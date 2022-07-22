@@ -1,15 +1,17 @@
 import { FactorPlugin } from "../plugin"
 import { HookType, vue, vueRouter } from "../utils"
 import { MenuItem } from "../types/utils"
+import { FactorEnv } from "../plugin-env"
 import { AppRoute } from "./appRoute"
 import { RouteReplacer, NavigateRoute } from "./types"
 export * from "./types"
 export * from "./appRoute"
 
-type FactorRouteSettings = {
+type FactorRouterSettings = {
   routes?: AppRoute<string>[]
   replacers?: RouteReplacer[]
   hooks?: HookType<FactorRouterHookDictionary>[]
+  factorEnv?: FactorEnv
 }
 
 type BaseCompiled = {
@@ -40,12 +42,13 @@ export type FactorRouterHookDictionary = {
 
 export class FactorRouter<
   S extends BaseCompiled = BaseCompiled,
-> extends FactorPlugin<FactorRouteSettings> {
+> extends FactorPlugin<FactorRouterSettings> {
   readonly routes: vue.Ref<AppRoute<string>[]>
   router: vueRouter.Router
   hooks = this.settings.hooks || []
   replacers: RouteReplacer[]
-  constructor(settings: FactorRouteSettings = {}) {
+  factorEnv = this.settings.factorEnv
+  constructor(settings: FactorRouterSettings = {}) {
     super(settings)
     this.replacers = settings.replacers || []
     this.routes = vue.shallowRef(settings.routes || []) as vue.Ref<
@@ -289,7 +292,11 @@ export class FactorRouter<
     options?: { id?: string },
   ) {
     const { id = "unknown" } = options || {}
-    this.log.info(`replacing route [${id}]`, location)
+
+    if (!this.factorEnv?.isRendering) {
+      this.log.info(`replacing route [${id}]`, location)
+    }
+
     await this.router.replace(location)
   }
 

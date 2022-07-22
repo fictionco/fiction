@@ -171,10 +171,15 @@ export const initializeTestUtils = async (
 ) => {
   await runServicesSetup({ service })
 
-  const { factorUser, factorServer, factorDb } = service
+  const { factorUser, factorServer, factorDb, factorEmail } = service
 
-  await factorDb.init()
-  await factorServer.createServer({ factorUser })
+  const promises = [
+    factorDb.init(),
+    factorEmail.init(),
+    factorServer.createServer({ factorUser }),
+  ]
+
+  await Promise.all(promises)
 
   const email = getTestEmail()
   const password = "test"

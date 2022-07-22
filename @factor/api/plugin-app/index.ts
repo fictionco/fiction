@@ -46,19 +46,13 @@ vars.register(() => [
   new EnvVar({
     name: "SERVER_PORT",
     val: process.env.SERVER_PORT,
-    isOptional: true,
-  }),
-  new EnvVar({
-    name: "SERVER_URL",
-    val: process.env.SERVER_URL,
     verify: ({ factorEnv, value }) => {
       return factorEnv.isApp() && !value ? false : true
     },
   }),
-  new EnvVar({ name: "APP_PORT", val: process.env.APP_PORT, isOptional: true }),
   new EnvVar({
-    name: "APP_URL",
-    val: process.env.APP_URL,
+    name: "APP_PORT",
+    val: process.env.APP_PORT,
     verify: ({ factorEnv, value }) => {
       return factorEnv.isApp() && !value ? false : true
     },
@@ -387,6 +381,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     let entryModule: Record<string, any>
 
     if (prod) {
+      this.factorEnv.isRendering = true
       /**
        * Use pre-build server module in Production
        * otherwise use Vite's special module loader
@@ -433,6 +428,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       out.htmlHead = htmlHead
       out.htmlAttrs = htmlAttrs
       out.bodyAttrs = bodyAttrs
+
+      this.factorEnv.isRendering = false
     }
 
     return out

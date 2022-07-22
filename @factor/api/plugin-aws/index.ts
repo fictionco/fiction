@@ -51,13 +51,12 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
     if (this.utils.isApp()) return
 
     if (!awsAccessKey || !awsAccessKeySecret) {
-      this.log.warn(
-        "could not create aws client: no awsAccessKey or awsAccessKeySecret",
-      )
+      this.log.warn("no aws client (missing awsAccessKey/awsAccessKeySecret)")
       return
     }
   }
-  setup = () => {}
+
+  setup() {}
 
   getCloudFront = async (): Promise<CloudFront> => {
     if (!this.awsAccessKey || !this.awsAccessKeySecret) {

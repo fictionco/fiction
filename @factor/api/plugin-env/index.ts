@@ -123,7 +123,7 @@ export class FactorEnv<
   productionUrl = this.settings.productionUrl
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
-
+  isRendering = false
   constructor(settings: FactorControlSettings) {
     super(settings)
 
@@ -154,15 +154,17 @@ export class FactorEnv<
   setup() {
     const vars = this.getVars()
 
-    this.log.info(
-      `variables (${vars.length} total / ${
-        vars.filter((_) => _.isPublic).length
-      } public)`,
-      {
-        data: this.getViteRenderedVars(),
-        disableOnRestart: true,
-      },
-    )
+    if (!this.isRendering) {
+      this.log.info(
+        `variables (${vars.length} total / ${
+          vars.filter((_) => _.isPublic).length
+        } public)`,
+        {
+          data: this.getViteRenderedVars(),
+          disableOnRestart: true,
+        },
+      )
+    }
 
     this.verifyEnv()
   }
