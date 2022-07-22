@@ -149,36 +149,40 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   }
 
   async init(): Promise<void> {
-    this.log.info("initializing db")
+    try {
+      this.log.info("initializing db")
 
-    const { extendDb } = await import("./dbExtend")
+      const { extendDb } = await import("./dbExtend")
 
-    await extendDb(this.db)
+      await extendDb(this.db)
 
-    if (this.tables.length > 0) {
-      const tables = await runHooks<FactorDbHookDictionary, "tables">({
+      if (this.tables.length > 0) {
+        const tables = await runHooks<FactorDbHookDictionary, "tables">({
+          list: this.hooks,
+          hook: "tables",
+          args: [this.tables],
+        })
+
+        for (const table of tables) {
+          await table.create(this.db)
+        }
+      }
+
+      await runHooks<FactorDbHookDictionary>({
         list: this.hooks,
-        hook: "tables",
-        args: [this.tables],
+        hook: "onStart",
+        args: [this],
       })
 
-      for (const table of tables) {
-        await table.create(this.db)
-      }
+      this.log.info("db connected", {
+        data: {
+          url: this.connectionUrl.hostname,
+          port: `[ ${this.connectionUrl.port} ]`,
+        },
+      })
+    } catch (error) {
+      this.log.error("db init error", { error })
     }
-
-    await runHooks<FactorDbHookDictionary>({
-      list: this.hooks,
-      hook: "onStart",
-      args: [this],
-    })
-
-    this.log.info("db connected", {
-      data: {
-        url: this.connectionUrl.hostname,
-        port: `[ ${this.connectionUrl.port} ]`,
-      },
-    })
   }
   setup() {
     this.addSchema()
