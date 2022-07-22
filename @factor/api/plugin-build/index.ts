@@ -151,17 +151,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
             return { code, map: null }
           }
         },
-        config: () => {
-          return {
-            build: {
-              rollupOptions: {
-                external: serverOnlyModules
-                  .filter((_) => _.external)
-                  .map((_) => _.id),
-              },
-            },
-          }
-        },
       },
     ]
 
@@ -279,6 +268,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         minify: false,
         //https://vitejs.dev/config/build-options.html#build-sourcemap
         sourcemap: mode !== "production" ? "inline" : false,
+        rollupOptions: { external: this.serverOnlyModules.map((_) => _.id) },
       },
       resolve: {
         alias: {
