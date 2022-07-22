@@ -699,12 +699,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   buildApp = async (options: {
-    prerender?: boolean
+    render?: boolean
     serve?: boolean
   }): Promise<void> => {
     if (this.utils.isApp()) return
 
-    const { prerender = true, serve = false } = options
+    const { render = true, serve = false } = options
     const { dist, distClient, distServer } = this.factorEnv?.standardPaths || {}
 
     if (!dist || !distClient || !distServer) {
@@ -760,7 +760,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         distClient,
       })
 
-      if (prerender) {
+      if (render) {
         await this.preRender({ serve })
       }
     } catch (error) {
@@ -811,7 +811,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     for (const fn of _asyncFunctions) {
       await fn()
     }
-    this.log.info(`[done:prerender]`)
+    this.log.info(`[done:render]`)
     return
   }
 
@@ -846,11 +846,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   preRender = async (opts?: { serve: boolean }): Promise<void> => {
     const { serve = false } = opts || {}
 
-    this.log.info("prerender starting")
+    this.log.info("page render starting")
 
     await this.preRenderPages()
 
-    this.log.info("prerender complete")
+    this.log.info("page render complete")
 
     if (serve) {
       this.log.info("serving...")

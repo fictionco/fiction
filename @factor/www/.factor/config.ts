@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "app" | "build" | "bundle" | "deploy" | "dev" | "generate" | "prerender" | "r-dev" | "release" | "server";
+  commands: "app" | "build" | "bundle" | "deploy" | "dev" | "generate" | "r-dev" | "release" | "render" | "server";
   vars:
     | "APP_PORT"
     | "APP_URL"

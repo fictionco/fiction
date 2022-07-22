@@ -18,7 +18,6 @@ export type FactorServerSettings = {
   endpoints?: Endpoint[]
   factorEnv?: FactorEnv
   factorUser?: FactorUser
-  onCommands?: string[]
   productionUrl?: string
   mode?: "production" | "development"
 }
@@ -33,13 +32,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   serverUrl = this.mode == "production" ? this.productionUrl : this.localUrl
   factorEnv? = this.settings.factorEnv
   factorUser? = this.settings.factorUser
-  onCommands = this.settings.onCommands || [
-    "bundle",
-    "build",
-    "server",
-    "dev",
-    "prerender",
-  ]
+
   serverName = this.settings.serverName
   server?: http.Server
   constructor(settings: FactorServerSettings) {

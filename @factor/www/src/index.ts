@@ -128,7 +128,7 @@ const factorBlog = new FactorBlogEngine({
 factorEnv.addHook({
   hook: "runCommand",
   callback: async (command: string, opts: CliOptions) => {
-    const { serve, prerender } = opts
+    const { serve, render } = opts
 
     if (command.startsWith("r-")) {
       const realCommand = command.split("-").pop()
@@ -145,9 +145,9 @@ factorEnv.addHook({
       if (command == "dev") {
         await factorApp.serveApp()
       } else if (command == "build") {
-        await factorApp.buildApp({ serve, prerender })
-      } else if (command == "prerender") {
-        await factorApp.buildApp({ serve, prerender: true })
+        await factorApp.buildApp({ serve, render })
+      } else if (command == "render") {
+        await factorApp.buildApp({ serve, render: true })
       }
     }
   },

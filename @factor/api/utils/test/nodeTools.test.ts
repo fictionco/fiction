@@ -9,13 +9,13 @@ let cwd = ""
 describe("node utils", () => {
   beforeAll(() => {
     process.env.NODE_ENV = "development"
-    cwd = path.dirname(require.resolve("@factor/site/package.json"))
+    cwd = path.dirname(require.resolve("@factor/www/package.json"))
   })
   it("gets correct main file path", async () => {
     const filePath = getMainFilePath({ cwd })
 
     expect(filePath).toMatchInlineSnapshot(
-      '"/Users/arpowers/Projects/factor/@factor/site/src/index.ts"',
+      '"/Users/arpowers/Projects/factor/@factor/www/src/index.ts"',
     )
   })
 
@@ -41,7 +41,7 @@ describe("node utils", () => {
   })
 
   it("gets correct server entry config", async () => {
-    const cwd = path.dirname(require.resolve("@factor/site/package.json"))
+    const cwd = path.dirname(require.resolve("@factor/www/package.json"))
 
     const entryConfig = await getServerServiceConfig({ cwd })
 

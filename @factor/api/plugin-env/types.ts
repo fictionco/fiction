@@ -59,7 +59,7 @@ export type CliOptions = {
   appPort?: number
   serverPort?: number
   serve?: boolean
-  prerender?: boolean
+  render?: boolean
   patch?: boolean
   skipTests?: boolean
   moduleName?: string

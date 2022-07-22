@@ -1,5 +1,5 @@
 {
-  "name": "@factor/site",
+  "name": "@factor/www",
   "version": "5.4.43",
   "dependencies": {
     "@factor/api": "5.4.43",

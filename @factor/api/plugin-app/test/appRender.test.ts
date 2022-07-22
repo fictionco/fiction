@@ -24,7 +24,7 @@ const page = (): playwright.Page => {
 }
 describe("renders app code correctly", () => {
   beforeAll(async () => {
-    const cwd = path.dirname(require.resolve("@factor/site/package.json"))
+    const cwd = path.dirname(require.resolve("@factor/www/package.json"))
 
     _s = await createTestServer({ cwd, headless: false })
   }, 8000)

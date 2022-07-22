@@ -30,8 +30,8 @@ export class CliCommand<T extends string = string> {
 
 export const standardAppCommands = [
   new CliCommand({
-    command: "prerender",
-    description: "prerenders app",
+    command: "render",
+    description: "renders app",
     options: { mode: "production", exit: true },
     type: "build",
   }),

@@ -5,7 +5,7 @@ import {
   FactorBundle,
   CliOptions,
 } from "@factor/api"
-import { commands } from "./@factor/site/src/vars"
+import { commands } from "./@factor/www/src/vars"
 const cwd = safeDirname(import.meta.url)
 
 export const factorEnv = new FactorEnv({

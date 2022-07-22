@@ -40,7 +40,7 @@ const getModuleName = (cwd: string): string => {
 }
 
 export const getTestCwd = (): string => {
-  return path.dirname(require.resolve("@factor/site/package.json"))
+  return path.dirname(require.resolve("@factor/www/package.json"))
 }
 
 export const getTestEmail = (): string => {
@@ -386,9 +386,9 @@ export const appBuildTests = (config: {
 
   describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor run prerender --server-port ${serverPort} --app-port ${appPort}`
+      const command = `npm exec -w ${moduleName} -- factor run render --server-port ${serverPort} --app-port ${appPort}`
 
-      log.info("appBuildTests", "running prerender command", { data: command })
+      log.info("appBuildTests", "running render command", { data: command })
       const r = execaCommandSync(command, {
         env: { IS_TEST: "1", TEST_ENV: "unit" },
         timeout: 30_000,

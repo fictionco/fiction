@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [pluginVue()],
   resolve: {
     alias: {
-      "@MAIN_FILE_ALIAS": `${process.cwd()}/@factor/site/src/index.ts`,
+      "@MAIN_FILE_ALIAS": `${process.cwd()}/@factor/www/src/index.ts`,
       "@MOUNT_FILE_ALIAS": `${process.cwd()}/@factor/plugin-app/mount.ts`,
     },
   },

@@ -21,8 +21,8 @@ export const commands = [
     port: 3000,
   }),
   new CliCommand({
-    command: "prerender",
-    description: "prerenders app",
+    command: "render",
+    description: "renders app",
     options: { mode: "production", exit: true },
     type: "build",
   }),
