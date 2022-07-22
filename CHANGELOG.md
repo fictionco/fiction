@@ -1,3 +1,12 @@
+## [5.4.51](https://github.com/FactorJS/factor/compare/v5.4.50...v5.4.51) (2022-07-22)
+
+
+### Features
+
+* user init ([f7d68c6](https://github.com/FactorJS/factor/commit/f7d68c687f5d935fd56624c5fb44b8dc53aa5f62))
+
+
+
 ## [5.4.50](https://github.com/FactorJS/factor/compare/v5.4.49...v5.4.50) (2022-07-22)
 
 
