@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': workspace:5.4.43
-      '@factor/lint': workspace:5.4.43
-      '@factor/ui': workspace:5.4.43
-      '@factor/www': workspace:5.4.43
+      '@factor/api': 5.4.44
+      '@factor/lint': 5.4.44
+      '@factor/ui': 5.4.44
+      '@factor/www': 5.4.44
       '@types/express': ^4.17.13
       '@types/node': ^18.0.6
       '@vitejs/plugin-vue': ^3.0.1
@@ -71,7 +71,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.9
-      '@factor/api': workspace:5.4.43
+      '@factor/api': 5.4.44
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.6
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -394,9 +394,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': workspace:5.4.43
-      '@factor/plugin-highlight-code': workspace:5.4.43
-      '@factor/ui': workspace:5.4.43
+      '@factor/api': 5.4.44
+      '@factor/plugin-highlight-code': 5.4.44
+      '@factor/ui': 5.4.44
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -408,9 +408,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': workspace:5.4.43
-      '@factor/plugin-highlight-code': workspace:5.4.43
-      '@factor/ui': workspace:5.4.43
+      '@factor/api': 5.4.44
+      '@factor/plugin-highlight-code': 5.4.44
+      '@factor/ui': 5.4.44
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.4
       string-similarity: ^4.0.4
@@ -424,7 +424,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': workspace:5.4.43
+      '@factor/api': 5.4.44
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -432,13 +432,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': workspace:5.4.43
+      '@factor/api': 5.4.44
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': workspace:5.4.43
+      '@factor/api': 5.4.44
       '@stripe/stripe-js': ^1.32.0
       dotenv: ^16.0.1
       express: ^4.18.1
@@ -453,7 +453,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': workspace:5.4.43
+      '@factor/api': 5.4.44
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -465,13 +465,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': workspace:5.4.43
-      '@factor/plugin-blog-engine': workspace:5.4.43
-      '@factor/plugin-docs-engine': workspace:5.4.43
-      '@factor/plugin-highlight-code': workspace:5.4.43
-      '@factor/plugin-notify': workspace:5.4.43
-      '@factor/plugin-stripe': workspace:5.4.43
-      '@factor/ui': workspace:5.4.43
+      '@factor/api': 5.4.44
+      '@factor/plugin-blog-engine': 5.4.44
+      '@factor/plugin-docs-engine': 5.4.44
+      '@factor/plugin-highlight-code': 5.4.44
+      '@factor/plugin-notify': 5.4.44
+      '@factor/plugin-stripe': 5.4.44
+      '@factor/ui': 5.4.44
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.4
