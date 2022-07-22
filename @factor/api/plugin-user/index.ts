@@ -97,25 +97,30 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     super(settings)
 
     this.factorDb.addTables([userTable])
+
+    // redirect based on auth
+    // only check if is browser not during prerender
+    // anywhere else we don't know logged in status
+    if (typeof window !== "undefined") {
+      this.factorRouter?.addHook({
+        hook: "beforeEach",
+        callback: async (params) => {
+          const r = await this.verifyRouteAuth({
+            route: params.to,
+          })
+
+          params.navigate = r
+
+          return params
+        },
+      })
+    }
   }
 
   init() {
     if (this.utils.isActualBrowser()) {
       this.userInitialized().catch(console.error)
     }
-
-    this.factorRouter?.addHook({
-      hook: "beforeEach",
-      callback: async (params) => {
-        const r = await this.verifyRouteAuth({
-          route: params.to,
-        })
-
-        params.navigate = r
-
-        return params
-      },
-    })
   }
 
   setup() {}
