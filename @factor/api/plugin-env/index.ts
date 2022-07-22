@@ -108,7 +108,6 @@ export class FactorEnv<
   standardPaths?: types.StandardPaths
   cwd = this.settings.cwd
   inspector = this.settings.inspector || false
-  vars: EnvVar<string>[]
   context = this.utils.isApp() ? "app" : "server"
   mode: "production" | "development" | "unknown" = "unknown"
   isApp: () => boolean = () => this.utils.isApp()
@@ -130,14 +129,28 @@ export class FactorEnv<
       this.nodeInit()
     }
 
-    /**
-     * Needs to come last so env vars are set
-     */
-    this.vars = this.getVars()
+    this.addHook({
+      hook: "staticSchema",
+      callback: async (existing) => {
+        const commandKeys = this.commands?.map((_) => _.command).sort()
+        const envVarKeys = this.getVars()
+          .map((_) => _.name)
+          .sort()
+        return {
+          ...existing,
+          commands: { enum: commandKeys, type: "string" },
+          vars: { enum: envVarKeys, type: "string" },
+        }
+      },
+    })
+  }
+
+  setup() {
+    const vars = this.getVars()
 
     this.log.info(
-      `variables (${this.vars.length} total / ${
-        this.vars.filter((_) => _.isPublic).length
+      `variables (${vars.length} total / ${
+        vars.filter((_) => _.isPublic).length
       } public)`,
       {
         data: this.getViteRenderedVars(),
@@ -146,19 +159,6 @@ export class FactorEnv<
     )
 
     this.verifyEnv()
-
-    this.addHook({
-      hook: "staticSchema",
-      callback: async (existing) => {
-        const commandKeys = this.commands?.map((_) => _.command).sort()
-        const envVarKeys = this.vars.map((_) => _.name).sort()
-        return {
-          ...existing,
-          commands: { enum: commandKeys, type: "string" },
-          vars: { enum: envVarKeys, type: "string" },
-        }
-      },
-    })
   }
 
   envInit() {
@@ -219,7 +219,7 @@ export class FactorEnv<
   }
 
   getPublicVars() {
-    return this.vars.filter((_) => _.isPublic && _.val)
+    return this.getVars().filter((_) => _.isPublic && _.val)
   }
 
   getViteRenderedVars(): Record<string, string> {
@@ -229,6 +229,7 @@ export class FactorEnv<
         .map((_) => [_.name, _.val]),
     ) as Record<string, string>
     rendered.IS_VITE = "yes"
+
     return rendered
   }
 
@@ -264,7 +265,7 @@ export class FactorEnv<
     /**
      * Verify variables and issue warnings if something is missing
      */
-    this.vars.forEach((v) => {
+    this.getVars().forEach((v) => {
       const { name, val, verify, isOptional } = v
 
       let r: boolean
@@ -388,7 +389,7 @@ export class FactorEnv<
   }
 
   var(variable: S["vars"]): string | undefined {
-    const envVar = this.vars.find((_) => _.name === variable)
+    const envVar = this.getVars().find((_) => _.name === variable)
 
     if (!envVar) {
       this.log.warn(`envVar missing: ${variable}`)

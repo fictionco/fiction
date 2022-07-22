@@ -4,7 +4,7 @@ import { onEvent } from "./event"
 type FlushCallback<T> = (
   items: T[],
   context?: FlushContext,
-) => unknown | Promise<unknown>
+) => any | Promise<any>
 type FlushContext = { reason?: string }
 type BufferConfig<T = Record<string, any>> = {
   name?: string
@@ -57,7 +57,7 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Default flush
    */
-  protected flush(_items: T[], _context?: FlushContext): void | Promise<void> {}
+  protected flush(_items: T[], _context?: FlushContext): void {}
   /**
    * Remove items in buffer without a flush callback
    */
@@ -68,21 +68,20 @@ export class WriteBuffer<T> extends EventEmitter {
   /**
    * Flush items in buffer to the saving callback
    */
-  public async flushBuffer(context: FlushContext = {}): Promise<void> {
+  public flushBuffer(context: FlushContext = {}): void {
     if (this.items.length == 0) return
 
     this.stopTimeout()
-
-    this.emit("flush", this.items)
-
-    const promises = [this.flush(this.items, context)] as Promise<void>[]
+    // use resolve to ensure is a promise
+    Promise.resolve(this.flush(this.items, context)).catch(console.error)
 
     if (this.flushCallback) {
-      const cb = this.flushCallback(this.items, context) as Promise<void>
-      promises.push(cb)
+      Promise.resolve(this.flushCallback(this.items, context)).catch(
+        console.error,
+      )
     }
 
-    await Promise.all(promises)
+    this.emit("flush", this.items)
 
     this.items = []
   }
@@ -136,7 +135,7 @@ export class WriteBuffer<T> extends EventEmitter {
 
   private checkLimit(): void {
     if (this.maxQueueSizeReached()) {
-      this.flushBuffer({ reason: "limit" }).catch(console.error)
+      this.flushBuffer({ reason: "limit" })
     } else {
       this.startTimeout()
     }

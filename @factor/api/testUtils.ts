@@ -394,6 +394,10 @@ export const appBuildTests = (config: {
         timeout: 30_000,
       })
 
+      if (!r.stdout.includes("built successfully")) {
+        log.warn("build test", "build result", { data: { stdout: r.stdout } })
+      }
+
       expect(r.stdout).toContain("built successfully")
       fs.existsSync(path.join(cwd, "./dist/static"))
     })
@@ -407,7 +411,6 @@ export const appBuildTests = (config: {
         },
       )
 
-      expect(r.stdout).toContain("transfer variables")
       expect(r.stdout).toContain(`[ ${serverPort} ]`)
       expect(r.stdout).toContain(`[ ${appPort} ]`)
       expect(r.stdout).toContain("[ready]")

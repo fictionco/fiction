@@ -73,8 +73,6 @@ describe("user tests", () => {
       formData,
     })
 
-    console.log("RESPONSE", r)
-
     expect(r?.data?.mediaId).toBeDefined()
 
     url = r?.data?.url
@@ -82,29 +80,11 @@ describe("user tests", () => {
     if (!url) throw new Error("no url")
     expect(url).toContain("factor-testing")
     expect(url).toContain("test.png")
-
-    expect(r).toMatchInlineSnapshot(`
-      {
-        "data": {
-          "alt": null,
-          "bucket": "factor-testing",
-          "contentEncoding": null,
-          "createdAt": "2022-07-07T18:32:43.496Z",
-          "etag": null,
-          "filePath": "us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-          "height": null,
-          "mediaId": "62c726c913b5e3129fd38473",
-          "mime": "image/png",
-          "size": 6914,
-          "updatedAt": "2022-07-07T18:32:43.496Z",
-          "url": "https://factor-testing.s3.amazonaws.com/us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-          "userId": "us62c726c9143abe05f187afe8",
-          "width": null,
-        },
-        "message": "uploaded successfully",
-        "status": "success",
-      }
-    `)
+    expect(r?.data?.url).toContain(".png")
+    expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')
+    expect(r?.data?.mime).toBe("image/png")
+    expect(r?.data?.size).toMatchInlineSnapshot("6914")
+    expect(r?.data?.userId).toBe(testUtils?.initialized?.user?.userId)
 
     const img = await nodeFetch(url)
     expect(img.status).toBe(200)
@@ -117,30 +97,7 @@ describe("user tests", () => {
 
     expect(r?.data?.length).toBeGreaterThan(0)
     expect(r?.message).toBeFalsy()
-    expect(r).toMatchInlineSnapshot(`
-      {
-        "data": [
-          {
-            "alt": null,
-            "bucket": "factor-testing",
-            "contentEncoding": null,
-            "createdAt": "2022-07-07T18:32:43.496Z",
-            "etag": null,
-            "filePath": "us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-            "height": null,
-            "mediaId": "62c726c913b5e3129fd38473",
-            "mime": "image/png",
-            "size": 6914,
-            "updatedAt": "2022-07-07T18:32:43.496Z",
-            "url": "https://factor-testing.s3.amazonaws.com/us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-            "userId": "us62c726c9143abe05f187afe8",
-            "width": null,
-          },
-        ],
-        "message": "",
-        "status": "success",
-      }
-    `)
+    expect(r?.data?.[0].url).toContain(".png")
   })
 
   it("deletes a file", async () => {
@@ -152,32 +109,9 @@ describe("user tests", () => {
       deleteStorage: true,
     })
 
-    const pathname = new URL(url).pathname.replace(/^\/+/g, "")
-
-    expect(pathname).toMatchInlineSnapshot(
-      '"us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png"',
-    )
-
-    expect(r?.data).toMatchInlineSnapshot(`
-      [
-        {
-          "alt": null,
-          "bucket": "factor-testing",
-          "contentEncoding": null,
-          "createdAt": "2022-07-07T18:32:43.496Z",
-          "etag": null,
-          "filePath": "us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-          "height": null,
-          "mediaId": "62c726c913b5e3129fd38473",
-          "mime": "image/png",
-          "size": 6914,
-          "updatedAt": "2022-07-07T18:32:43.496Z",
-          "url": "https://factor-testing.s3.amazonaws.com/us62c726c9143abe05f187afe8/62c726c913b5e3129fd38473-test.png",
-          "userId": "us62c726c9143abe05f187afe8",
-          "width": null,
-        },
-      ]
-    `)
+    expect(r?.data?.length).toBeGreaterThan(0)
+    expect(r?.message).toMatchInlineSnapshot('""')
+    expect(r?.status).toBe("success")
 
     const img = await nodeFetch(url)
     expect(img.status).toBe(403)

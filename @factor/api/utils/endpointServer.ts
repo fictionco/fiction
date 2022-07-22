@@ -100,7 +100,9 @@ export class EndpointServer {
           serverName: this.serverName,
           auth: this.factorUser ? "enabled" : "disabled",
           port: `[ ${this.port} ]`,
-          endpoints: this.endpoints.map((ep) => ep.pathname()),
+          endpoints: this.endpoints.map(
+            (ep) => `${ep.pathname()} (${ep.middleware.length})`,
+          ),
           health: `${this.url}/health`,
         },
       })

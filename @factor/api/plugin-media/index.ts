@@ -26,6 +26,7 @@ export type MediaConfig = {
   alt?: string
   meta?: Record<string, any>
   mime?: string
+  userId?: string
 }
 
 export class FactorMedia extends FactorPlugin<FactorMediaSettings> {

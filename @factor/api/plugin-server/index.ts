@@ -13,7 +13,7 @@ export type FactorServerHookDictionary = {
 
 export type FactorServerSettings = {
   serverName: string
-  port?: number
+  port: number
   hooks?: HookType<FactorServerHookDictionary>[]
   endpoints?: Endpoint[]
   factorEnv?: FactorEnv
@@ -46,6 +46,8 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     super(settings)
 
     this.addConfig()
+
+    process.env.SERVER_PORT = this.port?.toString()
   }
 
   addConfig() {

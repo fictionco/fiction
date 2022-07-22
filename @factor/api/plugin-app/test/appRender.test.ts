@@ -38,21 +38,18 @@ describe("renders app code correctly", () => {
 
     await page().goto(url("/testing"))
 
-    await page().waitForSelector("#server-url")
+    await page().waitForSelector("#server-port")
 
-    const serverUrlText = await page().locator(`#server-url`).textContent()
-    expect(serverUrlText).toBe(_s.serverUrl.toString())
+    const serverUrlText = await page().locator(`#server-port`).textContent()
+    expect(serverUrlText).toBe(_s.serverPort.toString())
 
-    const currentUrlText = await page().locator(`#current-url`).textContent()
-    expect(currentUrlText).toBe(_s.appUrl)
+    const currentUrlText = await page().locator(`#app-port`).textContent()
+    expect(currentUrlText).toBe(String(_s.appPort))
 
     const appNameText = await page().locator(`#app-name`).textContent()
     expect(appNameText).toMatchInlineSnapshot('"FactorJS"')
 
     const appEmailText = await page().locator(`#app-email`).textContent()
     expect(appEmailText).toMatchInlineSnapshot('"hi@factorjs.org"')
-
-    const appUrlText = await page().locator(`#app-url`).textContent()
-    expect(appUrlText).toMatchInlineSnapshot('"http://localhost:3000"')
-  }, 16_000)
+  }, 30_000)
 })

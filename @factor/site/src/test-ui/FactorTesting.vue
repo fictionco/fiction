@@ -18,14 +18,14 @@ const { factorApp } = useFactorService()
 
 const list = [
   {
-    id: "server-url",
-    title: "Server URL",
-    value: process.env.SERVER_URL,
+    id: "server-port",
+    title: "Server port",
+    value: process.env.SERVER_PORT,
   },
   {
-    id: "current-url",
-    title: "Current URL",
-    value: process.env.APP_URL,
+    id: "app-port",
+    title: "App Port",
+    value: process.env.APP_PORT,
   },
   {
     id: "is-test",
@@ -50,13 +50,8 @@ const list = [
   },
   {
     id: "app-email",
-    title: "App Name",
+    title: "App Email",
     value: factorApp.appEmail,
-  },
-  {
-    id: "app-url",
-    title: "Production App Name",
-    value: factorApp.appUrl,
   },
 ]
 </script>

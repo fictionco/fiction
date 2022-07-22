@@ -129,7 +129,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
           if (id.includes("mount.ts")) {
             const code = src.replace(
               `"VITE_REPLACE_ENV_VARS"`,
-              `'${JSON.stringify(this.factorEnv.getViteRenderedVars())}'`,
+              JSON.stringify(
+                JSON.stringify(this.factorEnv.getViteRenderedVars()),
+              ),
             )
 
             return { code }

@@ -128,6 +128,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   constructor(settings: FactorAppSettings) {
     super(settings)
 
+    process.env.APP_PORT = this.port?.toString()
+
     const cwd = this.factorEnv.standardPaths?.cwd
 
     this.appEmail = this.factorEnv.appEmail

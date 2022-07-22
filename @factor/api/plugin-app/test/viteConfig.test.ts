@@ -37,17 +37,7 @@ describe("vite config", () => {
 
     expect(viteConfig).toBeTruthy()
 
-    expect(viteConfig?.define).toMatchInlineSnapshot(`
-      {
-        "process.env.APP_URL": "\\"http://localhost:1234\\"",
-        "process.env.COMMAND": "\\"\\"",
-        "process.env.COMMAND_OPTS": "\\"\\"",
-        "process.env.IS_TEST": "true",
-        "process.env.IS_VITE": "\\"1\\"",
-        "process.env.MODE": "\\"development\\"",
-        "process.env.SERVER_URL": "\\"http://localhost:20220\\"",
-      }
-    `)
+    expect(viteConfig?.define).toMatchInlineSnapshot('undefined')
     expect(Object.keys(viteConfig ?? {})).toMatchInlineSnapshot(`
       [
         "mode",
@@ -61,7 +51,6 @@ describe("vite config", () => {
         "logLevel",
         "publicDir",
         "css",
-        "define",
       ]
     `)
   })

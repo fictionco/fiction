@@ -45,13 +45,13 @@ describe("user tests", () => {
 
     expect(snap(user)).toMatchInlineSnapshot(`
       {
-        "createdAt": "[date:****-**-*****:**:**.****]",
+        "createdAt": "[dateTime:]",
         "email": "[email:********+*******@*****.***]",
         "fullName": "[name:****]",
-        "lastSeenAt": "[date:****-**-*****:**:**.****]",
+        "lastSeenAt": "[dateTime:]",
         "role": "subscriber",
         "status": "active",
-        "updatedAt": "[date:****-**-*****:**:**.****]",
+        "updatedAt": "[dateTime:]",
         "userId": "[id:**************************]",
       }
     `)

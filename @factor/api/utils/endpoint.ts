@@ -1,4 +1,5 @@
 import type { FormData as FormDataNode } from "formdata-node"
+import nodeFetch, { BodyInit } from "node-fetch"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"
@@ -107,7 +108,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   async upload(data: FormData | FormDataNode): Promise<ReturnType<T["run"]>> {
-    const r = await fetch(this.requestUrl, {
+    const r = await nodeFetch(this.requestUrl, {
       body: data as BodyInit,
       method: "post",
       headers: {
@@ -207,7 +208,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       const response = await axios.default.request<EndpointResponse<U>>(options)
       responseData = response.data
     } catch (error: unknown) {
-      log.error("Endpoint", `error: ${method}`, { error })
+      log.error("endpoint", `error: ${method}`, { error })
 
       responseData = {
         status: "error",
@@ -215,7 +216,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       }
     }
 
-    log.debug("Endpoint", `response from ${url}`, { data: responseData })
+    log.debug("endpoint", `response from ${url}`, { data: responseData })
 
     return responseData
   }
