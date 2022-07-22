@@ -126,6 +126,11 @@ const factorBlog = new FactorBlogEngine({
   factorApp,
 })
 
+const initializeBackingServices = async () => {
+  await factorDb.init()
+  factorEmail.init()
+}
+
 factorEnv.addHook({
   hook: "runCommand",
   callback: async (command: string, opts: CliOptions) => {
@@ -141,7 +146,7 @@ factorEnv.addHook({
         },
       })
     } else {
-      await factorDb.init()
+      await initializeBackingServices()
       await factorServer.createServer({ factorUser })
 
       if (command == "dev") {

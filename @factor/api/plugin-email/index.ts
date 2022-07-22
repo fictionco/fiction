@@ -37,8 +37,7 @@ type FactorEmailSettings = {
 }
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
-  readonly types = types
-  readonly client?: Transporter
+  client?: Transporter
   smtpHost = this.settings.smtpHost
   smtpUser = this.settings.smtpUser
   smtpPassword = this.settings.smtpPassword
@@ -54,7 +53,9 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     super(settings)
 
     if (this.utils.isActualBrowser()) return
+  }
 
+  init() {
     const options = {
       host: this.smtpHost,
       port: this.smtpPort,
@@ -76,8 +77,8 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       .filter(Boolean)
 
     if (missing.length > 0) {
-      this.log.warn("email is log only (missing creds)", {
-        data: { vars: missing.join(", ") },
+      this.log.warn("no email service", {
+        data: { vars: `missing: ${missing.join(", ")}` },
       })
     }
 
