@@ -2,11 +2,11 @@ import path from "path"
 import { Command } from "commander"
 import minimist from "minimist"
 import { log } from "../plugin-log"
-import { camelize } from "../utils"
+import { camelize, getRequire } from "../utils"
 import { emitEvent } from "../utils/event"
 import pkg from "../package.json"
+import { PackageJson } from "../types"
 import { MainFile } from "./types"
-import { packageMainFile } from "./utils"
 
 const commander = new Command()
 
@@ -16,9 +16,13 @@ export const runCommand = async (
 ) => {
   try {
     const cwd = process.cwd()
-    const mainFileRelPath = packageMainFile(cwd)
+
+    const pkg = getRequire()(path.resolve(cwd, "package.json")) as PackageJson
+    const mainFileRelPath = pkg?.main ?? "index"
     const mainFilePath = path.resolve(cwd, mainFileRelPath)
 
+    process.env.RUNTIME_VERSION = pkg.version
+    process.env.RUNTIME_COMMIT = "todo"
     process.env.COMMAND = command
     process.env.COMMAND_OPTS = JSON.stringify(optionsFromCli || {})
     /**

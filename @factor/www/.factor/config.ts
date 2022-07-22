@@ -16,6 +16,7 @@ export interface CompiledServiceConfig {
     | "IS_TEST"
     | "NODE_ENV"
     | "POSTGRES_URL"
+    | "RUNTIME_VERSION"
     | "SERVER_PORT"
     | "SMTP_HOST"
     | "SMTP_PASSWORD"

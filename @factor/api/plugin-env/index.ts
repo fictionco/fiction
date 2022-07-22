@@ -60,6 +60,11 @@ class EnvVarList {
         isPublic: true,
       }),
       new EnvVar({
+        name: "RUNTIME_VERSION",
+        val: process.env.RUNTIME_VERSION,
+        isPublic: true,
+      }),
+      new EnvVar({
         name: "IS_TEST",
         val: process.env.IS_TEST,
         isPublic: true,
@@ -151,10 +156,8 @@ export class FactorEnv<
     })
   }
 
-
   setup() {
     const vars = this.getVars()
-
 
     if (!this.isApp()) {
       this.log.info(

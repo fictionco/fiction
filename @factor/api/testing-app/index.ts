@@ -139,6 +139,12 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       ],
     })
 
+    this.server.middlewares.use("/health", (_req, res) => {
+      res
+        .writeHead(200, { "Content-Type": "application/json" })
+        .end(JSON.stringify({ message: "ok", uptime: process.uptime() }))
+    })
+
     await this.server.listen()
 
     return this.server

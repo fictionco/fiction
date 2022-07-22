@@ -11,7 +11,7 @@ export const isTest = (): boolean => {
   return process.env.IS_TEST ? true : false
 }
 export const isApp = (): boolean => {
-  return process.env.IS_VITE  ? true : false
+  return process.env.IS_VITE ? true : false
 }
 export const isServer = () => !isApp()
 
@@ -24,3 +24,9 @@ export const isDev = (): boolean => {
 export const isProd = () => !isDev()
 export const isDebug = () => (process.env.FACTOR_DEBUG ? true : false)
 export const isRestart = () => (process.env.IS_RESTART ? true : false)
+export const getVersion = () => {
+  process.env.RUNTIME_VERSION || "unknown"
+}
+export const getCommit = () => {
+  process.env.RUNTIME_COMMIT || "unknown"
+}
