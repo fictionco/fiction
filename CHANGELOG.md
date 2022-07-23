@@ -1,3 +1,12 @@
+## [5.4.54](https://github.com/FactorJS/factor/compare/v5.4.53...v5.4.54) (2022-07-23)
+
+
+### Bug Fixes
+
+* example server ([c7da285](https://github.com/FactorJS/factor/commit/c7da285bc8a7517541215155a6e1b762278a2357))
+
+
+
 ## [5.4.53](https://github.com/FactorJS/factor/compare/v5.4.52...v5.4.53) (2022-07-22)
 
 
