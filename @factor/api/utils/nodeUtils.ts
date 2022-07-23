@@ -5,12 +5,11 @@ import fs from "fs"
 import glob from "glob"
 import bodyParser from "body-parser"
 import compression from "compression"
-import helmet from "helmet"
+import helmet, { HelmetOptions } from "helmet"
 import cors from "cors"
 import express from "express"
 import { PackageJson } from "../types"
-import { version } from "../package.json"
-import { isNode } from "./vars"
+import { getVersion, getCommit, isNode } from "./vars"
 type WhichModule = {
   moduleName?: string
   cwd?: string
@@ -131,10 +130,15 @@ export const streamToString = async (
   })
 }
 
-export const createExpressApp = (): express.Express => {
+export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
   const app = express()
 
-  app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }))
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      ...opts,
+    }),
+  )
   app.use(cors())
   app.use(bodyParser.json())
   app.use(bodyParser.text())
@@ -146,9 +150,10 @@ export const createExpressApp = (): express.Express => {
       .send({
         status: "success",
         message: "ok",
-        version,
+        version: getVersion(),
         uptime: process.uptime(),
         timestamp: Date.now(),
+        commit: getCommit(),
       })
       .end()
   })

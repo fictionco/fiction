@@ -7,8 +7,14 @@ export const localRef = <A>(opts: {
 }) => {
   const { key, def, lifecycle } = opts
 
-  const storage = lifecycle === "session" ? sessionStorage : localStorage
-  const rawLocalValue = storage.getItem(key)
+  const storage =
+    typeof localStorage == "undefined"
+      ? undefined
+      : lifecycle === "session"
+      ? sessionStorage
+      : localStorage
+
+  const rawLocalValue = storage?.getItem(key)
 
   const localValue =
     typeof def == "string"
@@ -38,9 +44,9 @@ export const localRef = <A>(opts: {
               : ""
             : JSON.stringify(v)
 
-        storage.setItem(key, val)
+        storage?.setItem(key, val)
       } else {
-        storage.removeItem(key)
+        storage?.removeItem(key)
       }
     },
     { immediate: true },
