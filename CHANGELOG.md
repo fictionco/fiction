@@ -1,3 +1,12 @@
+## [5.4.57](https://github.com/FactorJS/factor/compare/v5.4.56...v5.4.57) (2022-07-24)
+
+
+### Features
+
+* add no helmet option ([538660e](https://github.com/FactorJS/factor/commit/538660ec548a146ca3406f9bc2b81db609e4613e))
+
+
+
 ## [5.4.56](https://github.com/FactorJS/factor/compare/v5.4.55...v5.4.56) (2022-07-24)
 
 
