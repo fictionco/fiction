@@ -152,6 +152,8 @@ export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
         message: "ok",
         version: getVersion(),
         uptime: process.uptime(),
+        cpuUsage: process.cpuUsage(),
+        memoryUsage: process.memoryUsage(),
         timestamp: Date.now(),
         commit: getCommit(),
       })

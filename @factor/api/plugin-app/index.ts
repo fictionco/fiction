@@ -381,7 +381,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     let entryModule: Record<string, any>
 
     if (prod) {
-
       /**
        * Use pre-build server module in Production
        * otherwise use Vite's special module loader
@@ -815,22 +814,29 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     if (!distStatic) throw new Error("distStatic required for serveStaticApp")
 
-    const app = this.utils.express()
+    const app = this.utils.createExpressApp({
+      // in dev these cause images/scripts to fail locally
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false,
+    })
 
-    app.use(compression())
     app.use((req, res, next) => {
       if (!req.path.includes(".")) {
         req.url = `${req.url.replace(/\/$/, "")}.html`
       }
 
-      this.log.info(`request at ${req.url}`)
       next()
     })
     app.use(serveStatic(distStatic, { extensions: ["html"] }))
 
     app.use("*", (req, res) => {
-      this.log.info(`serving fallback index.html at ${req.baseUrl}`)
-      res.sendFile(path.join(distStatic, "/index.html"))
+      const pathname = req.originalUrl
+      if (!pathname.includes(".") || pathname.includes(".html")) {
+        this.log.info(`fallback index.html at ${req.baseUrl}`)
+        res.sendFile(path.join(distStatic, "/index.html"))
+      } else {
+        res.status(404).end()
+      }
     })
 
     this.staticServer = app.listen(this.port, () => {

@@ -123,6 +123,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     const viteServer = await createServer({
       configFile: false,
       root: this.root,
+      mode: "production",
       server: {
         port: this.port,
         host: true,

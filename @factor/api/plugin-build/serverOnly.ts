@@ -80,5 +80,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "express-http-proxy" },
     { id: "http-proxy-middleware" },
     { id: "apicache" },
+    { id: "lru-cache" },
   ]
 }
