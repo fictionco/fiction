@@ -37,21 +37,24 @@ export type ServiceHealthCheckResult = {
   message: "ok" | ""
   version?: string
   uptime: number
-  cpuUsage: NodeJS.CpuUsage
-  memoryUsage: NodeJS.MemoryUsage
   timestamp: number
   commit?: string
 }
 
-export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
+export const createExpressApp = (
+  opts: HelmetOptions & { noHelmet?: boolean } = {},
+): express.Express => {
+  const { noHelmet } = opts
   const app = express()
 
-  app.use(
-    helmet({
-      crossOriginResourcePolicy: { policy: "cross-origin" },
-      ...opts,
-    }),
-  )
+  if (!noHelmet) {
+    app.use(
+      helmet({
+        crossOriginResourcePolicy: { policy: "cross-origin" },
+        ...opts,
+      }),
+    )
+  }
   app.use(cors())
   app.use(bodyParser.json())
   app.use(bodyParser.text())
@@ -63,8 +66,6 @@ export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
       message: "ok",
       version: getVersion(),
       uptime: process.uptime(),
-      cpuUsage: process.cpuUsage(),
-      memoryUsage: process.memoryUsage(),
       timestamp: Date.now(),
       commit: getCommit(),
     }
