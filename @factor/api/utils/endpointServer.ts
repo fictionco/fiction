@@ -2,15 +2,18 @@
 import http from "http"
 import express from "express"
 
+import bodyParser from "body-parser"
+import compression from "compression"
+import helmet, { HelmetOptions } from "helmet"
+import cors from "cors"
 import { ErrorConfig, EndpointResponse } from "../types"
 import { log } from "../plugin-log"
 import { _stop } from "../utils/error"
 import { onEvent } from "../utils/event"
 import type { FactorUser } from "../plugin-user"
 import type { Query } from "../query"
-import { mode } from "./vars"
 import { Endpoint } from "./endpoint"
-import { createExpressApp } from "./nodeUtils"
+import { getVersion, getCommit } from "./vars"
 
 type CustomServerHandler = (
   app: express.Express,
@@ -27,6 +30,49 @@ export type EndpointServerOptions = {
   factorUser?: FactorUser
   productionUrl?: string
   url?: string
+}
+
+export type ServiceHealthCheckResult = {
+  status: "success" | "error"
+  message: "ok" | ""
+  version?: string
+  uptime: number
+  cpuUsage: NodeJS.CpuUsage
+  memoryUsage: NodeJS.MemoryUsage
+  timestamp: number
+  commit?: string
+}
+
+export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
+  const app = express()
+
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: "cross-origin" },
+      ...opts,
+    }),
+  )
+  app.use(cors())
+  app.use(bodyParser.json())
+  app.use(bodyParser.text())
+  app.use(compression())
+
+  app.use("/health", (request, response) => {
+    const healthData: ServiceHealthCheckResult = {
+      status: "success",
+      message: "ok",
+      version: getVersion(),
+      uptime: process.uptime(),
+      cpuUsage: process.cpuUsage(),
+      memoryUsage: process.memoryUsage(),
+      timestamp: Date.now(),
+      commit: getCommit(),
+    }
+
+    response.status(200).send(healthData).end()
+  })
+
+  return app
 }
 
 export class EndpointServer {

@@ -3,13 +3,8 @@ import path from "path"
 import * as mod from "module"
 import fs from "fs"
 import glob from "glob"
-import bodyParser from "body-parser"
-import compression from "compression"
-import helmet, { HelmetOptions } from "helmet"
-import cors from "cors"
-import express from "express"
 import { PackageJson } from "../types"
-import { getVersion, getCommit, isNode } from "./vars"
+import { isNode } from "./vars"
 type WhichModule = {
   moduleName?: string
   cwd?: string
@@ -128,37 +123,4 @@ export const streamToString = async (
     stream.on("error", (err: Error) => reject(err))
     stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")))
   })
-}
-
-export const createExpressApp = (opts: HelmetOptions = {}): express.Express => {
-  const app = express()
-
-  app.use(
-    helmet({
-      crossOriginResourcePolicy: { policy: "cross-origin" },
-      ...opts,
-    }),
-  )
-  app.use(cors())
-  app.use(bodyParser.json())
-  app.use(bodyParser.text())
-  app.use(compression())
-
-  app.use("/health", (request, response) => {
-    response
-      .status(200)
-      .send({
-        status: "success",
-        message: "ok",
-        version: getVersion(),
-        uptime: process.uptime(),
-        cpuUsage: process.cpuUsage(),
-        memoryUsage: process.memoryUsage(),
-        timestamp: Date.now(),
-        commit: getCommit(),
-      })
-      .end()
-  })
-
-  return app
 }

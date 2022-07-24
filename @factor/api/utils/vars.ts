@@ -25,8 +25,8 @@ export const isProd = () => !isDev()
 export const isDebug = () => (process.env.FACTOR_DEBUG ? true : false)
 export const isRestart = () => (process.env.IS_RESTART ? true : false)
 export const getVersion = () => {
-  process.env.RUNTIME_VERSION || "unknown"
+  return process.env.RUNTIME_VERSION || "unknown"
 }
 export const getCommit = () => {
-  process.env.RUNTIME_COMMIT || "unknown"
+  return process.env.RUNTIME_COMMIT || "unknown"
 }
