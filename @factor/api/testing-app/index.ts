@@ -17,6 +17,7 @@ type TestingConfig = {
   devtools?: false
   playwrightSettings?: LaunchOptions
   random?: boolean
+  mode?: "development" | "production"
 }
 type FactorTestingAppSettings = {
   port: number
@@ -43,6 +44,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     { width: 480, height: 853 },
     { width: 700, height: 1200 },
   ]
+  mode = this.settings.mode ?? this.utils.mode()
   constructor(settings: FactorTestingAppSettings) {
     super(settings)
   }
@@ -123,11 +125,12 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     const viteServer = await createServer({
       configFile: false,
       root: this.root,
-      mode: "production",
+      mode: this.mode,
       server: {
         port: this.port,
         host: true,
         middlewareMode: true,
+        hmr: this.mode === "development",
       },
       appType: "custom",
 
