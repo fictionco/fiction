@@ -51,6 +51,7 @@ export const createExpressApp = (
     app.use(
       helmet({
         crossOriginResourcePolicy: { policy: "cross-origin" },
+        crossOriginOpenerPolicy: { policy: "cross-origin" },
         ...opts,
       }),
     )
