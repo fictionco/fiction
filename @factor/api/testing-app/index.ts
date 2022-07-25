@@ -107,7 +107,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     head = [head, this.head].join("\n")
 
     const vars = {
-      NODE_ENV: process.env.NODE_ENV || "development",
+      NODE_ENV: this.mode,
     }
 
     const processDefines = Object.fromEntries(
@@ -121,6 +121,8 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
     })
+
+    this.log.info(`starting vite test app in ${this.mode}`)
 
     const viteServer = await createServer({
       configFile: false,

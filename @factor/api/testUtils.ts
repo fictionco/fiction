@@ -50,10 +50,17 @@ export const getTestEmail = (): string => {
 // regex all numbers and letters
 const rep = (nm: string, val: string = "") =>
   `[${nm}:${String(val).replace(/[\dA-Za-z]/g, "*")}]`
-const snapString = (value: unknown, key?: string): string => {
+const snapString = (
+  value: unknown,
+  key?: string,
+  opts: { hideKeys?: string[] } = {},
+): string => {
+  const hideKeys = opts.hideKeys ?? []
   const val = String(value)
 
   let out = val
+
+  if (key && hideKeys.includes(key)) return "hidden"
 
   if (key?.endsWith("Id") && val) {
     out = rep("id", val)
@@ -80,6 +87,7 @@ const snapString = (value: unknown, key?: string): string => {
 
 export const snap = (
   obj?: Record<any, any> | Record<any, any>[] | unknown[] | undefined,
+  opts: { hideKeys?: string[] } = {},
 ): Record<string, unknown> | unknown[] | undefined => {
   if (!obj) return undefined
 
@@ -87,8 +95,8 @@ export const snap = (
     return obj.map((o) => {
       const res =
         typeof o === "object" && o
-          ? snap(o as Record<string, unknown>)
-          : snapString(o)
+          ? snap(o as Record<string, unknown>, opts)
+          : snapString(o, undefined, opts)
 
       return res
     })
@@ -99,9 +107,9 @@ export const snap = (
   for (const key in obj) {
     const value = obj[key] as unknown
     if (value && typeof value === "object" && !(value instanceof Date)) {
-      newObj[key] = snap(value as Record<string, unknown>)
+      newObj[key] = snap(value as Record<string, unknown>, opts)
     } else if (value) {
-      newObj[key] = snapString(value, key)
+      newObj[key] = snapString(value, key, opts)
     } else {
       newObj[key] = value
     }

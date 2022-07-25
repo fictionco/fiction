@@ -58,7 +58,7 @@ export class FactorLog {
     const { level, description, context, color, data, error } = config
     const shouldLog =
       isDev() ||
-      (typeof localStorage !== "undefined" && localStorage.getItem("logger"))
+      (typeof localStorage !== "undefined" && localStorage.getItem("klog"))
         ? true
         : false
 
