@@ -6,7 +6,7 @@ import { renderMarkdown } from "../utils/markdown"
 import * as types from "./types"
 
 const verify: EnvVar<string>["verify"] = ({ factorEnv, value }) => {
-  return !value && factorEnv.isProd() ? false : true
+  return !value && factorEnv.isProd() && !factorEnv.isApp() ? false : true
 }
 
 vars.register(() => [

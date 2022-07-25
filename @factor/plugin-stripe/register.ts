@@ -5,7 +5,7 @@ vars.register(() => [
     name: "STRIPE_SECRET_KEY_PROD",
     val: process.env.STRIPE_SECRET_KEY_PROD,
     verify: ({ factorEnv, value }) => {
-      return factorEnv.isProd() && !value ? false : true
+      return factorEnv.isProd() && !value && !factorEnv.isApp() ? false : true
     },
   }),
   new EnvVar({
