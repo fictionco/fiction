@@ -818,6 +818,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
+      crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
     })
 
     app.use((req, res, next) => {
