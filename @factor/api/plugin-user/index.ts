@@ -134,15 +134,17 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     const { matched } = route
 
     const results = await Promise.all(
-      matched.map(async (r) => {
-        const auth = r.meta.auth as RouteAuthCallback
-        return await auth({
-          user,
-          isSearchBot: this.utils.isSearchBot(),
-          factorRouter: this.factorRouter,
-          route,
-        })
-      }),
+      matched
+        .filter((_) => _.meta.auth)
+        .map(async (r) => {
+          const auth = r.meta.auth as RouteAuthCallback
+          return await auth({
+            user,
+            isSearchBot: this.utils.isSearchBot(),
+            factorRouter: this.factorRouter,
+            route,
+          })
+        }),
     )
 
     const changeNav = results

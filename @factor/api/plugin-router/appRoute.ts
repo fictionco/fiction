@@ -52,8 +52,7 @@ export class AppRoute<T extends string> extends FactorObject<
   external? = this.settings.external
   redirect?: vueRouter.RouteRecordRedirectOption
   services = this.settings.services || {}
-  auth: RouteAuthCallback =
-    this.settings.auth || (() => ({ navigate: true, id: this.name }))
+  auth?: RouteAuthCallback = this.settings.auth
   constructor(params: AppRouteParams<T>) {
     super(params)
   }

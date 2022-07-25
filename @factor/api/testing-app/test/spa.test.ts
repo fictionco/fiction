@@ -1,9 +1,9 @@
+import http from "http"
 import { it, describe, expect, beforeAll, afterAll } from "vitest"
-import { ViteDevServer } from "vite"
+
 import { chromium, Browser, Page } from "playwright"
 import { FactorTestingApp } from ".."
-
-let server: ViteDevServer | undefined = undefined
+let server: http.Server | undefined = undefined
 let browser: Browser | undefined = undefined
 let page: Page | undefined = undefined
 const port = 1234
@@ -18,7 +18,7 @@ describe("spa test app server", () => {
     page = await browser?.newPage()
   })
   afterAll(async () => {
-    await server?.close()
+    server?.close()
     await browser?.close()
   })
   it("runs server", async () => {
