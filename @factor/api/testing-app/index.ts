@@ -122,17 +122,17 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       crossOriginEmbedderPolicy: false,
     })
 
-    this.log.info(`starting vite test app in ${this.mode}`)
+    const server = http.createServer(app)
+    //localhost:7047/pr62df03ad84807615029cb7d2.js
+    this.log.info(`test app on ${this.port} in ${this.mode}`)
 
     const viteServer = await createServer({
       configFile: false,
       root: this.root,
       mode: this.mode,
       server: {
-        port: this.port,
-        host: true,
         middlewareMode: true,
-        hmr: this.mode === "development",
+        hmr: { server, path: "/hmr" },
       },
       appType: "custom",
 
