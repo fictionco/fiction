@@ -5,10 +5,11 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Example App</title>
+    <!--preload-links-->
   </head>
 
   <body>
-    <div id="app"><!--ssr-outlet--></div>
-    <script type="module" src="/src/index.ts"></script>
+    <div id="app"><!--app-html--></div>
+    <script type="module" src="/src/client-entry.ts"></script>
   </body>
 </html>

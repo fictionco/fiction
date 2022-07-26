@@ -233,9 +233,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
   getCommonViteConfig = async (options: {
     mode?: "production" | "development"
-    cwd?: string
+    root?: string
   }): Promise<vite.InlineConfig> => {
-    const { mode = "production", cwd = process.cwd() } = options || {}
+    const { mode = "production", root = process.cwd() } = options || {}
 
     const customPlugins = await this.getCustomBuildPlugins()
 
@@ -244,7 +244,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     const basicConfig: vite.InlineConfig = {
       mode,
       // root must be set to optimize output file size
-      root: cwd,
+      root,
       ssr: {
         noExternal: [/@factor.*/, /@kaption.*/],
       },
@@ -263,6 +263,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
 
       build: {
+        target: ["esnext"],
         manifest: true,
         emptyOutDir: true,
         minify: false,
@@ -272,7 +273,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
       resolve: {
         alias: {
-          ...this.getStaticPathAliases({ cwd }),
           // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
           path: "path-browserify",
         },

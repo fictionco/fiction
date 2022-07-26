@@ -1,15 +1,12 @@
 import http from "http"
 import fs from "fs"
 import path from "path"
-import { createServer } from "vite"
-import vue from "@vitejs/plugin-vue"
-import unocss from "unocss/vite"
-import presetIcons from "@unocss/preset-icons"
-import { presetAttributify, presetUno, presetWind } from "unocss"
+import { createServer, ViteDevServer } from "vite"
 import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname } from "../utils"
 import { FactorPlugin } from "../plugin"
+import sharedConfig from "./vite.config"
 
 type TestingConfig = {
   headless?: boolean
@@ -106,95 +103,95 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
 
     head = [head, this.head].join("\n")
 
-    const vars = {
-      NODE_ENV: this.mode,
-    }
-
-    const processDefines = Object.fromEntries(
-      Object.entries(vars).map(([k, v]) => {
-        return [`process.env.${k}`, JSON.stringify(v)]
-      }),
-    )
-
     const app = createExpressApp({
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
     })
 
-    const server = http.createServer(app)
-    //localhost:7047/pr62df03ad84807615029cb7d2.js
+    // const server = http.createServer(app)
     this.log.info(`test app on ${this.port} in ${this.mode}`)
 
-    const viteServer = await createServer({
-      configFile: false,
-      root: this.root,
-      mode: this.mode,
-      server: {
-        middlewareMode: true,
-        hmr: { server, path: "/hmr" },
-      },
-      appType: "custom",
+    const indexProd =
+      this.mode == "production"
+        ? fs.readFileSync(
+            path.join(this.root, "dist/client/index.html"),
+            "utf8",
+          )
+        : ""
 
-      define: processDefines,
+    let manifest: Record<string, string[]> = {}
+    if (this.mode == "production") {
+      const imp = (await import(
+        path.join(this.root, "dist/client/manifest.json")
+      )) as { default: Record<string, string[]> }
+      manifest = imp.default
+    }
 
-      plugins: [
-        {
-          name: "html-transform",
-          transformIndexHtml(html: string) {
-            return html.replace(/<\/head>/i, `${head}</head>`)
+    let viteServer: ViteDevServer | undefined
+    if (this.mode == "production") {
+      viteServer = await createServer({
+        root: this.root,
+        mode: this.mode,
+        server: {
+          middlewareMode: true,
+          hmr: {
+            port: this.utils.randomBetween(10_000, 30_000),
           },
         },
-        vue(),
-        unocss({
-          presets: [
-            presetIcons(),
-            presetUno(),
-            presetWind(),
-            presetAttributify(),
-          ],
-        }),
-      ],
-    })
-
-    app.use(viteServer.middlewares)
+        appType: "custom",
+        ...sharedConfig({ buildName: "ssr" }),
+      })
+      app.use(viteServer.middlewares)
+    } else {
+      const { default: serveStatic } = await import("serve-static")
+      const clientDir = path.join(this.root, "dist/client")
+      app.use(serveStatic(clientDir, { extensions: ["html"] }))
+    }
 
     app.use("*", async (req, res, next) => {
       const url = req.originalUrl
 
       try {
-        // 1. Read index.html
-        let template = fs.readFileSync(
-          path.resolve(this.root, "index.html"),
-          "utf8",
-        )
+        let template = ""
+        let render
+        if (this.mode == "production") {
+          template = fs.readFileSync(
+            path.resolve(this.root, "index.html"),
+            "utf8",
+          )
 
-        // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
-        //    also applies HTML transforms from Vite plugins, e.g. global preambles
-        //    from @vitejs/plugin-react
-        template = await viteServer.transformIndexHtml(url, template)
+          const transformed = await viteServer?.transformIndexHtml(
+            url,
+            template,
+          )
 
-        // 3. Load the server entry. vite.ssrLoadModule automatically transforms
-        //    your ESM source code to be usable in Node.js! There is no bundling
-        //    required, and provides efficient invalidation similar to HMR.
-        // const { render } = await viteServer.ssrLoadModule(
-        //   "/src/entry-server.js",
-        // )
+          template = transformed || ""
+          const serverEntry = (await viteServer?.ssrLoadModule(
+            "/src/server-entry.ts",
+          )) as typeof import("./src/server-entry")
+          render = serverEntry.render
+        } else {
+          template = indexProd
+          const builtServerEntry = await import("./dist/server/server-entry")
+          const buildServerEntry =
+            builtServerEntry as typeof import("./src/server-entry")
 
-        // 4. render the app HTML. This assumes entry-server.js's exported `render`
-        //    function calls appropriate framework SSR APIs,
-        //    e.g. ReactDOMServer.renderToString()
-        const appHtml = "" //await render(url)
+          render = buildServerEntry.render
+        }
 
-        // 5. Inject the app-rendered HTML into the template.
-        const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+        const [appHtml, preloadLinks] = await render(url, manifest)
 
-        // 6. Send the rendered HTML back.
+        const html = template
+          .replace(`<!--preload-links-->`, preloadLinks)
+          .replace(`<!--app-html-->`, appHtml)
+          .replace(/<\/head>/i, `${head}\n</head>`)
+
         res.status(200).set({ "Content-Type": "text/html" }).end(html)
       } catch (error) {
         // If an error is caught, let Vite fix the stack trace so it maps back to
         // your actual source code.
-        viteServer.ssrFixStacktrace(error as Error)
+        viteServer?.ssrFixStacktrace(error as Error)
         next(error)
       }
     })

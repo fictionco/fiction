@@ -33,17 +33,20 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
     // If pkg is set, just bundle that one
     const packages = getPackages().filter((pkg) => pkg.buildOptions)
-    const packageNames = packages.map((pkg) => pkg.name)
+    const builds = packages.flatMap((pkg) => pkg.buildOptions)
+    const buildNames = builds.map((b) => b.buildName)
     if (packages.length === 0) {
-      this.log.info(`no packages with buildOptions found`)
+      this.log.info(`no packages with "buildOptions" found`)
     } else {
-      this.log.info(`bundling ${packages.length} packages`, {
-        data: packageNames,
-      })
+      this.log.info(
+        `creating ${builds.length} builds from ${packages.length} packages`,
+        {
+          data: buildNames,
+        },
+      )
 
       await this.bundlePackages({
         cwds: packages.map((pkg) => pkg.cwd).filter(Boolean) as string[],
-
         watch: false,
         withDts,
       })
@@ -69,7 +72,6 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
   bundlePackages = async (options: {
     cwds: string[]
-
     watch?: boolean
     onAllBuilt?: () => Promise<void> | void
     isTest?: boolean
@@ -88,33 +90,37 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     )
 
     this.watchers = []
-    const _promises = cwds.map(async (cwd) => {
+    const _promises = cwds.flatMap((cwd) => {
       const require = getRequire()
       const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
-      const { name, main } = pkg
-      const { entryFile, outputDir } = pkg.buildOptions
+      const { name: packageName } = pkg
 
-      const distDir = path.join("dist", outputDir || "")
-      const outFileEntry = path.join(cwd, distDir, "index.js")
+      return pkg.buildOptions.map(async (build) => {
+        const { buildName, entryFile, outputDir, configFile } = build
 
-      // dont build again if is test
-      if (isTest && fs.existsSync(outFileEntry)) {
-        await this.onBuilt(onAllBuilt, __resolve)
-        return
-      }
+        const distDir = outputDir || "dist"
+        const outFileEntry = path.join(cwd, distDir, "index.js")
 
-      const w = await this.bundle({
-        name,
-        cwd,
-        main,
-        outputDir,
-        entryFile,
-        watch,
-        withDts,
-        onBuilt: async () => this.onBuilt(onAllBuilt, __resolve),
+        // dont build again if is test
+        if (isTest && fs.existsSync(outFileEntry)) {
+          await this.onBuilt(onAllBuilt, __resolve)
+          return
+        }
+
+        const w = await this.bundle({
+          packageName,
+          buildName,
+          cwd,
+          outputDir,
+          entryFile,
+          watch,
+          withDts,
+          configFile,
+          onBuilt: async () => this.onBuilt(onAllBuilt, __resolve),
+        })
+
+        if (w) this.watchers.push(w)
       })
-
-      if (w) this.watchers.push(w)
     })
 
     await Promise.all(_promises)
@@ -123,14 +129,14 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   }
 
   doneBuilding = async (opts: {
-    name: string
-    entry: string
+    packageName: string
+    entry?: string
     distDir: string
     cwd: string
     withDts?: boolean
   }): Promise<void> => {
-    const { name, entry, distDir, cwd, withDts } = opts
-    if (withDts) {
+    const { packageName, entry, distDir, cwd, withDts } = opts
+    if (withDts && entry) {
       /**
        * Create type declarations
        * https://tsup.egoist.sh/
@@ -141,7 +147,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
        */
 
       const command = `tsup ${entry} --format esm --dts-only --out-dir ${distDir}`
-      this.log.info(`creating type definitions for ${name}`, {
+      this.log.info(`creating type definitions for ${packageName}`, {
         data: command,
       })
       await execaCommand(command, {
@@ -150,41 +156,46 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       })
     }
 
-    this.log.info(`done building [${name}]`)
+    this.log.info(`done building [${packageName}]`)
   }
 
   bundle = async (options: {
-    name: string
+    packageName: string
     cwd?: string
     outputDir?: string
     entryFile?: string
-    entryName?: string
-    main?: string
+    buildName: string
     mode?: "production" | "development"
     commit?: string
     onBuilt?: (opts: {
-      name: string
+      packageName: string
       event: RollupWatcherEvent
     }) => Promise<void> | void
     watch?: boolean
     withDts?: boolean
+    ssrEntry?: string
+    subRoot?: string
+    configFile?: string
   }): Promise<RollupWatcher | undefined> => {
     const {
-      name,
+      buildName,
+      packageName,
       cwd,
-      main,
       mode = "production",
       outputDir,
       entryFile,
       onBuilt,
       watch,
       withDts,
+      configFile,
     } = options
 
     try {
       if (!cwd) throw new Error("package root missing")
 
-      this.log.info(`start bundle [${name}] in ${mode} mode`)
+      this.log.info(
+        `start bundle [${packageName}:${buildName}] in ${mode} mode`,
+      )
 
       let { commit } = options
 
@@ -192,30 +203,42 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         commit = await getCommit()
       }
 
-      const entry = entryFile || main || "index.ts"
-      const distDir = path.join("dist", outputDir || "")
+      const entry = entryFile
+      const distDir = outputDir || "dist"
       const outDir = path.join(cwd, distDir)
+      const configFilePath = configFile ? path.join(cwd, configFile || "") : ""
 
-      fs.removeSync(distDir)
+      let addedConfig: vite.InlineConfig = {}
+      if (configFilePath) {
+        const { default: config } = (await import(configFilePath)) as {
+          default: (opts: { buildName: string }) => vite.InlineConfig
+        }
+        addedConfig = config({ buildName })
+      }
 
       const vc = await this.factorBuild.getCommonViteConfig({
-        cwd,
+        root: cwd,
         mode,
       })
+
+      // library mode if entry is defined
+      const lib: vite.LibraryOptions | undefined = entry
+        ? {
+            formats: ["es"],
+            entry,
+            fileName: () => `index.js`,
+          }
+        : undefined
 
       const merge: vite.InlineConfig[] = [
         vc,
         {
           build: {
             outDir,
-            emptyOutDir: true,
-            lib: {
-              formats: ["es"],
-              entry,
-              fileName: () => `index.js`,
-            },
+            lib,
           },
         },
+        addedConfig,
       ]
 
       /**
@@ -232,19 +255,21 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         watcher.on("event", async (event: RollupWatcherEvent) => {
           if (event.code == "END") {
             await this.doneBuilding({
-              name,
+              packageName,
               entry,
               distDir,
               cwd,
               withDts,
             })
-            if (onBuilt) await onBuilt({ name, event })
+            if (onBuilt) await onBuilt({ packageName, event })
 
             if (!watch) {
               await watcher.close()
             }
           } else if (event.code == "ERROR") {
-            this.log.error(`error building ${name}`, { error: event.error })
+            this.log.error(`error building ${packageName}`, {
+              error: event.error,
+            })
           }
         })
 
@@ -255,7 +280,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         await vite.build(clientBuildOptions)
 
         await this.doneBuilding({
-          name,
+          packageName,
           entry,
           distDir,
           cwd,
@@ -265,7 +290,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         return
       }
     } catch (error) {
-      this.log.error(`error building ${name}`, { error })
+      this.log.error(`error building ${packageName}`, { error })
     }
   }
 }

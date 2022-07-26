@@ -17,6 +17,7 @@ import {
   FactorRouter,
   CliOptions,
   FactorMedia,
+  FactorTestingApp,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
 import { FactorAws } from "@factor/api/plugin-aws"
@@ -126,6 +127,12 @@ const factorBlog = new FactorBlogEngine({
   factorApp,
 })
 
+const factorTestingApp = new FactorTestingApp({
+  port: 1112,
+  head: "<!-- test -->",
+  mode: "production",
+})
+
 const initializeBackingServices = async () => {
   await factorDb.init()
   factorEmail.init()
@@ -152,6 +159,7 @@ factorEnv.addHook({
       if (command == "dev") {
         factorUser.init()
         await factorApp.serveApp()
+        await factorTestingApp.createApp()
       } else if (command == "build") {
         await factorApp.buildApp({ serve, render })
       } else if (command == "render") {
@@ -172,6 +180,7 @@ export const service = {
   factorDocs,
   factorBlog,
   factorMedia,
+  factorTestingApp,
   factorHighlightCode: new FactorHighlightCode(),
   factorNotify: new FactorNotify(),
   factorUi: new FactorUi({ factorApp }),

@@ -6,10 +6,11 @@ export enum StageId {
 }
 
 export type PackageBuildOptions = {
-  entryName?: string
+  buildName: string
   entryFile?: string
   outputDir?: string
   outputDirDev?: string
+  configFile?: string
 }
 
 export interface PackageJson {
@@ -25,7 +26,7 @@ export interface PackageJson {
   publishConfig?: {
     access: "public" | "restricted"
   }
-  buildOptions: PackageBuildOptions
+  buildOptions: PackageBuildOptions[]
   cwd?: string // added dynamically for parsing reasons
   [key: string]:
     | undefined

@@ -4,6 +4,16 @@
   "bin": {
     "factor": "./plugin-env/cli.js"
   },
+  "buildOptions": [
+    {
+      "buildName": "client",
+      "configFile": "./plugin-testing-app/vite.config.ts"
+    },
+    {
+      "buildName": "server",
+      "configFile": "./plugin-testing-app/vite.config.ts"
+    }
+  ],
   "dependencies": {
     "@aws-sdk/client-cloudfront": "3.118.1",
     "@aws-sdk/client-s3": "3.118.1",
@@ -136,9 +146,9 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.18.9",
-    "@factor/api": "5.4.63",
+    "@factor/api": "workspace:5.4.63",
     "@faker-js/faker": "^7.3.0",
-    "@playwright/test": "^1.24.0",
+    "@playwright/test": "^1.24.1",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",
     "@types/compression": "^1.7.2",
@@ -149,7 +159,7 @@
     "fake-indexeddb": "^4.0.0",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "^2.77.0"
+    "rollup": "^2.77.1"
   },
   "license": "MIT",
   "main": "index.ts",

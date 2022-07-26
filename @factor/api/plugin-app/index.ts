@@ -656,7 +656,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       mode: this.mode,
-      cwd,
+      root: cwd,
     })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
@@ -679,6 +679,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         plugins: [getMarkdownPlugin(), unocss({ presets: [presetIcons()] })],
       },
       appViteConfigFile || {},
+      {
+        resolve: {
+          alias: { ...this.factorBuild?.getStaticPathAliases({ cwd }) },
+        },
+      },
     ]
 
     merge = await this.utils.runHooks({
@@ -833,7 +838,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     app.use("*", (req, res) => {
       const pathname = req.originalUrl
       if (!pathname.includes(".") || pathname.includes(".html")) {
-        this.log.info(`fallback index.html at ${req.baseUrl}`)
+        this.log.info(`fallback index.html for pathname: ${pathname}`)
         res.sendFile(path.join(distStatic, "/index.html"))
       } else {
         res.status(404).end()
