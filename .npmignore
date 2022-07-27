@@ -1,0 +1,6 @@
+*.tgz
+temp
+.env
+.env*
+.local
+*.log

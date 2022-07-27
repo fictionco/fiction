@@ -1,3 +1,5 @@
+*.tgz
+
 dist
 **/rendered
 **/.generated
