@@ -166,7 +166,6 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     outputDir?: string
     entryFile?: string
     buildName: string
-    mode?: "production" | "development"
     commit?: string
     onBuilt?: (opts: {
       packageName: string
@@ -182,7 +181,6 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       buildName,
       packageName,
       cwd,
-      mode = "production",
       outputDir,
       entryFile,
       onBuilt,
@@ -194,9 +192,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     try {
       if (!cwd) throw new Error("package root missing")
 
-      this.log.info(
-        `start bundle [${packageName}:${buildName}] in ${mode} mode`,
-      )
+      this.log.info(`start bundle [${packageName}:${buildName}]`)
 
       let { commit } = options
 
@@ -221,7 +217,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
       const vc = await this.factorBuild.getCommonViteConfig({
         root: cwd,
-        mode,
+        isProd: true,
       })
 
       // library mode if entry is defined

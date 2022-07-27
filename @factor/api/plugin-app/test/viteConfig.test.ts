@@ -33,11 +33,11 @@ describe("vite config", () => {
       }
     `)
 
-    viteConfig = await testUtils?.factorApp.getViteConfig()
+    viteConfig = await testUtils?.factorApp.getViteConfig({ isProd: true })
 
     expect(viteConfig).toBeTruthy()
 
-    expect(viteConfig?.define).toMatchInlineSnapshot('undefined')
+    expect(viteConfig?.define).toMatchInlineSnapshot("undefined")
     expect(Object.keys(viteConfig ?? {})).toMatchInlineSnapshot(`
       [
         "mode",

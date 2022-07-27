@@ -9,6 +9,7 @@ export type RenderConfig = {
   pathname?: string
   manifest?: Record<string, any>
   template?: string
+  isProd: boolean
 }
 
 export interface HtmlBuildingBlocks {

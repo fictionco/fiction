@@ -109,15 +109,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   localUrl = `http://localhost:${this.port}`
   productionUrl = this.settings.productionUrl || this.localUrl
   appUrl = this.mode == "production" ? this.productionUrl : this.localUrl
-  vars: Record<string, string | boolean | number> = {
-    COMMAND: process.env.COMMAND || "",
-    COMMAND_OPTS: process.env.COMMAND_OPTS || "",
-    MODE: this.mode,
-    IS_TEST: this.isTest,
-    IS_VITE: "1",
-    SERVER_URL: this.factorServer?.serverUrl ?? "",
-    APP_URL: this.appUrl,
-  }
 
   constructor(settings: FactorAppSettings) {
     super(settings)
@@ -276,12 +267,15 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return entry
   }
 
-  getViteServer = async (): Promise<vite.ViteDevServer> => {
+  getViteServer = async (config: {
+    isProd: boolean
+  }): Promise<vite.ViteDevServer> => {
+    const { isProd } = config
     if (!this.viteDevServer) {
-      const config = await this.getViteConfig()
+      const viteConfig = await this.getViteConfig({ isProd })
 
       const serverConfig = this.utils.deepMergeAll([
-        config,
+        viteConfig,
         {
           appType: "custom",
           server: { middlewareMode: true },
@@ -294,8 +288,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return this.viteDevServer
   }
 
-  getIndexHtml = async (params?: { pathname: string }): Promise<string> => {
-    const { pathname = "/" } = params || {}
+  getIndexHtml = async (params: {
+    pathname?: string
+    isProd: boolean
+  }): Promise<string> => {
+    const { pathname = "/", isProd } = params
     const { dist, sourceDir } = this.standardPaths || {}
 
     if (!dist) throw new Error("dist is required")
@@ -310,8 +307,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const rawTemplate = fs.readFileSync(srcHtml, "utf8")
 
     // alias is need for vite/rollup to handle correctly
-    const clientTemplatePath =
-      this.mode == "production" ? `@MOUNT_FILE_ALIAS` : "/@mount.ts" //`/@fs${mountFilePath}`
+    const clientTemplatePath = isProd ? `@MOUNT_FILE_ALIAS` : "/@mount.ts" //`/@fs${mountFilePath}`
 
     let template = rawTemplate.replace(
       "</body>",
@@ -319,12 +315,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     </body>`,
     )
 
-    if (this.mode !== "production" && pathname) {
-      const srv = await this.getViteServer()
+    if (!isProd && pathname) {
+      const srv = await this.getViteServer({ isProd })
       template = await srv.transformIndexHtml(pathname, template)
     }
 
-    if (this.mode == "production") {
+    if (isProd) {
       fs.ensureDirSync(dist)
       fs.writeFileSync(path.join(dist, "index.html"), template)
     }
@@ -338,14 +334,17 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
    *  - in production takes from pre-generated client
    *  - in development, looks in SRC folder for index.html
    */
-  htmlGenerators = async (): Promise<types.RenderConfig> => {
-    const { distClient } = this.standardPaths || {}
+  htmlGenerators = async (config: {
+    isProd: boolean
+    distClient: string
+  }): Promise<types.RenderConfig> => {
+    const { isProd = false, distClient } = config
 
     if (!distClient) throw new Error("dist is required")
 
-    const out: types.RenderConfig = { template: "", manifest: {} }
+    const out: types.RenderConfig = { template: "", manifest: {}, isProd }
 
-    if (this.mode == "production") {
+    if (isProd) {
       fs.ensureDirSync(distClient)
       const indexHtmlPath = path.resolve(distClient, "./index.html")
       out.template = fs.readFileSync(indexHtmlPath, "utf8")
@@ -355,7 +354,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         any
       >
     } else {
-      out.template = await this.getIndexHtml({ pathname: "/" })
+      out.template = await this.getIndexHtml({ pathname: "/", isProd })
     }
 
     return out
@@ -364,9 +363,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   renderParts = async (
     params: types.RenderConfig,
   ): Promise<types.RenderedHtmlParts> => {
-    const { pathname, manifest } = params
+    const { pathname, manifest, isProd } = params
     const { distServerEntry } = this.standardPaths || {}
-    const prod = this.mode == "production" ? true : false
 
     if (!distServerEntry) throw new Error("distServerEntry is missing")
 
@@ -380,18 +378,18 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     let entryModule: Record<string, any>
 
-    if (prod) {
+    if (isProd) {
       /**
        * Use pre-build server module in Production
        * otherwise use Vite's special module loader
        *
        */
-      if (prod) {
+      if (isProd) {
         entryModule = (await import(
           /* @vite-ignore */ path.join(distServerEntry)
         )) as Record<string, any>
       } else {
-        const srv = await this.getViteServer()
+        const srv = await this.getViteServer({ isProd })
         entryModule = await srv.ssrLoadModule("./mount.ts")
       }
 
@@ -433,9 +431,14 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   getRequestHtml = async (params: types.RenderConfig): Promise<string> => {
-    const { pathname, manifest, template } = params
+    const { pathname, manifest, template, isProd } = params
 
-    const parts = await this.renderParts({ template, pathname, manifest })
+    const parts = await this.renderParts({
+      template,
+      pathname,
+      manifest,
+      isProd,
+    })
     let { htmlBody, htmlHead } = parts
     const { preloadLinks, htmlAttrs, bodyAttrs } = parts
 
@@ -478,8 +481,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return minify(html, { continueOnParseError: true })
   }
 
-  expressApp = async (): Promise<Express | undefined> => {
+  expressApp = async (config: {
+    isProd: boolean
+  }): Promise<Express | undefined> => {
     if (this.utils.isApp()) return
+
+    const { isProd } = config
 
     const { distClient, sourceDir, mountFilePath } = this.standardPaths || {}
 
@@ -497,17 +504,20 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
       let viteServer: vite.ViteDevServer | undefined = undefined
 
-      const { manifest, template } = await this.htmlGenerators()
+      const { manifest, template } = await this.htmlGenerators({
+        isProd,
+        distClient,
+      })
 
-      if (this.mode != "production") {
-        viteServer = await this.getViteServer()
+      if (!isProd) {
+        viteServer = await this.getViteServer({ isProd })
         app.use(viteServer.middlewares)
       } else {
         app.use(compression())
         app.use(serveStatic(distClient, { index: false }))
       }
 
-      const srv = await this.getViteServer()
+      const srv = await this.getViteServer({ isProd })
       const rawSource = await srv.transformRequest(
         path.join(safeDirname(import.meta.url), "./mount.ts"),
       )
@@ -539,6 +549,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
             template,
             pathname,
             manifest,
+            isProd,
           })
 
           res.status(200).set({ "Content-Type": "text/html" }).end(html)
@@ -558,11 +569,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     }
   }
 
-  logReady(): void {
+  logReady(args: { serveMode: string }): void {
+    const { serveMode } = args
     const name = this.appName || "Unnamed App"
     const port = `[ ${this.port} ]`
-
-    const mode = this.mode
 
     this.log.info(`serving app [ready]`, {
       data: {
@@ -570,21 +580,22 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         port,
         productionUrl: this.productionUrl,
         localUrl: this.localUrl,
-        mode,
+        serveMode,
+        env: this.mode,
       },
     })
   }
 
-  serveApp = async (): Promise<void> => {
+  serveDevApp = async (): Promise<void> => {
     if (this.utils.isApp()) return
 
-    const app = await this.expressApp()
+    const app = await this.expressApp({ isProd: false })
 
     await new Promise<void>((resolve) => {
       this.appServer = app?.listen(this.port, () => resolve())
     })
 
-    this.logReady()
+    this.logReady({ serveMode: "dev" })
   }
 
   close(): void {
@@ -647,7 +658,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return config
   }
 
-  async getViteConfig(): Promise<vite.InlineConfig> {
+  async getViteConfig(config: { isProd: boolean }): Promise<vite.InlineConfig> {
+    const { isProd } = config
     const { cwd, sourceDir, publicDir, mainFile } = this.standardPaths || {}
 
     if (!cwd) throw new Error("cwd is required")
@@ -655,7 +667,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     if (!publicDir) throw new Error("publicDir is required")
 
     const commonVite = await this.factorBuild?.getCommonViteConfig({
-      mode: this.mode,
+      isProd,
       root: cwd,
       mainFile,
     })
@@ -713,10 +725,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     })
 
     try {
-      const vc = await this.getViteConfig()
+      const vc = await this.getViteConfig({ isProd: true })
 
       // build index to dist
-      await this.getIndexHtml()
+      await this.getIndexHtml({ isProd: true })
 
       const clientBuildOptions: vite.InlineConfig = {
         ...vc,
@@ -772,7 +784,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       throw new Error("distStatic and distClient required for prerender")
     }
 
-    const generators = await this.htmlGenerators()
+    const generators = await this.htmlGenerators({ isProd: true, distClient })
 
     const urls =
       (await this.factorSitemap?.getSitemapPaths({
@@ -841,7 +853,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     })
 
     this.staticServer = app.listen(this.port, () => {
-      this.logReady()
+      this.logReady({ serveMode: "static" })
     })
   }
 

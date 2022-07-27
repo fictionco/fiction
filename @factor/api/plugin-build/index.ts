@@ -234,12 +234,12 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   }
 
   getCommonViteConfig = async (options: {
-    mode?: "production" | "development"
+    isProd: boolean
     root?: string
     mainFile?: string
   }): Promise<vite.InlineConfig> => {
     const {
-      mode = "production",
+      isProd,
       root = process.cwd(),
       mainFile = "index.ts",
     } = options || {}
@@ -249,7 +249,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
     const basicConfig: vite.InlineConfig = {
-      mode,
+      mode: isProd ? "production" : "development",
       // root must be set to optimize output file size
       root,
       ssr: {
@@ -275,7 +275,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         emptyOutDir: true,
         minify: false,
         //https://vitejs.dev/config/build-options.html#build-sourcemap
-        sourcemap: mode !== "production" ? "inline" : false,
+        sourcemap: !isProd ? "inline" : false,
         rollupOptions: { external: this.serverOnlyModules.map((_) => _.id) },
       },
       resolve: {
@@ -288,7 +288,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
       plugins: [pluginVue(), ...customPlugins],
       optimizeDeps: this.getOptimizeDeps(),
-      logLevel: mode == "production" ? "info" : "warn",
+      logLevel: isProd ? "info" : "warn",
     }
 
     return basicConfig

@@ -12,7 +12,7 @@ export const commands = [
     type: "build",
   }),
   new CliCommand({
-    command: "app",
+    command: "www",
     description: "serves a built app",
     type: "service",
     port: 3000,

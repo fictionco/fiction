@@ -152,13 +152,15 @@ factorEnv.addHook({
           watch: [safeDirname(import.meta.url, "../..")],
         },
       })
+    } else if (command === "www") {
+      await factorApp.serveStaticApp()
     } else {
       await initializeBackingServices()
       await factorServer.createServer({ factorUser })
 
       if (command == "dev") {
         factorUser.init()
-        await factorApp.serveApp()
+        await factorApp.serveDevApp()
         await factorTestingApp.createApp()
       } else if (command == "build") {
         await factorApp.buildApp({ serve, render })
