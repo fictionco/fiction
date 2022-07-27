@@ -327,8 +327,8 @@ export class FactorEnv<
     const distClient = path.join(dist, "client")
     const distStatic = path.join(dist, "static")
     const distServerEntry = path.join(distServer, "mount")
-    const relMain = packageMainFile(cwd)
-    const mainFilePath = path.resolve(cwd, relMain)
+    const mainFile = packageMainFile(cwd)
+    const mainFilePath = path.resolve(cwd, mainFile)
 
     const sourceDir = path.dirname(mainFilePath)
     const rootComponentPath = path.join(sourceDir, "App.vue")
@@ -348,6 +348,7 @@ export class FactorEnv<
       sourceDir,
       publicDir,
       mountFilePath,
+      mainFile,
       mainFilePath,
       rootComponentPath,
     }

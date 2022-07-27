@@ -648,7 +648,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   async getViteConfig(): Promise<vite.InlineConfig> {
-    const { cwd, sourceDir, publicDir } = this.standardPaths || {}
+    const { cwd, sourceDir, publicDir, mainFile } = this.standardPaths || {}
 
     if (!cwd) throw new Error("cwd is required")
     if (!sourceDir) throw new Error("sourceDir is required")
@@ -657,6 +657,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       mode: this.mode,
       root: cwd,
+      mainFile,
     })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
@@ -679,11 +680,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         plugins: [getMarkdownPlugin(), unocss({ presets: [presetIcons()] })],
       },
       appViteConfigFile || {},
-      {
-        resolve: {
-          alias: { ...this.factorBuild?.getStaticPathAliases({ cwd }) },
-        },
-      },
     ]
 
     merge = await this.utils.runHooks({

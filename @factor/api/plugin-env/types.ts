@@ -90,6 +90,7 @@ export interface StandardPaths {
   distServerEntry: string
   sourceDir: string
   publicDir: string
+  mainFile: string
   mainFilePath: string
   rootComponentPath: string
   mountFilePath: string

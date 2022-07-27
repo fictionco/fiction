@@ -99,6 +99,8 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   }
 
   async createApp(options: { head?: string } = {}) {
+    if (this.utils.isApp()) return
+
     let { head = "" } = options
 
     head = [head, this.head].join("\n")
@@ -123,7 +125,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     let manifest: Record<string, string[]> = {}
     if (this.mode == "production") {
       const imp = (await import(
-        path.join(this.root, "dist/client/manifest.json")
+        /* @vite-ignore */ path.join(this.root, "dist/client/manifest.json")
       )) as { default: Record<string, string[]> }
       manifest = imp.default
     }

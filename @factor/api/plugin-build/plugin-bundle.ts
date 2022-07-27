@@ -211,7 +211,9 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
       let addedConfig: vite.InlineConfig = {}
       if (configFilePath) {
-        const { default: config } = (await import(configFilePath)) as {
+        const { default: config } = (await import(
+          /* @vite-ignore */ configFilePath
+        )) as {
           default: (opts: { buildName: string }) => vite.InlineConfig
         }
         addedConfig = config({ buildName })

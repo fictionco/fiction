@@ -22,6 +22,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
   factorEnv = this.settings.factorEnv
+  root = safeDirname(import.meta.url)
   constructor(settings: FactorBuildSettings) {
     super(settings)
     this.loadingPromise = this.getLexers().catch(console.error)
@@ -217,13 +218,14 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  getStaticPathAliases = (opts: { cwd: string }): Record<string, string> => {
-    const { cwd } = opts
-    const mainFile = getMainFilePath({ cwd })
-    if (!mainFile) throw new Error("no main file")
+  getStaticPathAliases = (opts: {
+    root: string
+    mainFile: string
+  }): Record<string, string> => {
+    const { root, mainFile } = opts
 
     return {
-      "@MAIN_FILE_ALIAS": mainFile,
+      "@MAIN_FILE_ALIAS": path.join(root, mainFile),
       "@MOUNT_FILE_ALIAS": path.join(
         safeDirname(import.meta.url, ".."),
         "/plugin-app/mount.ts",
@@ -234,8 +236,13 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   getCommonViteConfig = async (options: {
     mode?: "production" | "development"
     root?: string
+    mainFile?: string
   }): Promise<vite.InlineConfig> => {
-    const { mode = "production", root = process.cwd() } = options || {}
+    const {
+      mode = "production",
+      root = process.cwd(),
+      mainFile = "index.ts",
+    } = options || {}
 
     const customPlugins = await this.getCustomBuildPlugins()
 
@@ -273,6 +280,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
       resolve: {
         alias: {
+          ...this?.getStaticPathAliases({ root, mainFile }),
           // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
           path: "path-browserify",
         },
