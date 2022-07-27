@@ -1,3 +1,7 @@
+## [5.4.88](https://github.com/FactorJS/factor/compare/v5.4.87...v5.4.88) (2022-07-27)
+
+
+
 ## [5.4.87](https://github.com/FactorJS/factor/compare/v5.4.86...v5.4.87) (2022-07-27)
 
 
