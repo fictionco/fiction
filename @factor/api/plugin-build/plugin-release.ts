@@ -230,6 +230,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       if (!yes) return
     }
 
+    this.log.info("updating lockfile...")
+    await this.run("pnpm", ["i"])
+
     if (!skipTests) {
       await this.runTests()
     }
