@@ -129,13 +129,14 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   }
 
   doneBuilding = async (opts: {
+    buildName: string
     packageName: string
     entry?: string
     distDir: string
     cwd: string
     withDts?: boolean
   }): Promise<void> => {
-    const { packageName, entry, distDir, cwd, withDts } = opts
+    const { packageName, entry, distDir, cwd, withDts, buildName } = opts
     if (withDts && entry) {
       /**
        * Create type declarations
@@ -156,7 +157,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       })
     }
 
-    this.log.info(`done building [${packageName}]`)
+    this.log.info(`done building [${packageName}:${buildName}]`)
   }
 
   bundle = async (options: {
@@ -255,6 +256,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         watcher.on("event", async (event: RollupWatcherEvent) => {
           if (event.code == "END") {
             await this.doneBuilding({
+              buildName,
               packageName,
               entry,
               distDir,
@@ -267,7 +269,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
               await watcher.close()
             }
           } else if (event.code == "ERROR") {
-            this.log.error(`error building ${packageName}`, {
+            this.log.error(`error building ${packageName}:${buildName}`, {
               error: event.error,
             })
           }
@@ -280,6 +282,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         await vite.build(clientBuildOptions)
 
         await this.doneBuilding({
+          buildName,
           packageName,
           entry,
           distDir,
@@ -290,7 +293,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         return
       }
     } catch (error) {
-      this.log.error(`error building ${packageName}`, { error })
+      this.log.error(`error building ${packageName}:${buildName}`, { error })
     }
   }
 }

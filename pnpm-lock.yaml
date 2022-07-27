@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.4.68
-      '@factor/lint': 5.4.68
-      '@factor/ui': 5.4.68
-      '@factor/www': 5.4.68
+      '@factor/api': workspace:5.4.69
+      '@factor/lint': workspace:5.4.69
+      '@factor/ui': workspace:5.4.69
+      '@factor/www': workspace:5.4.69
       '@types/express': ^4.17.13
       '@types/node': ^18.6.1
       '@vitejs/plugin-vue': ^3.0.1
@@ -71,7 +71,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.118.1
       '@aws-sdk/client-s3': 3.118.1
       '@babel/parser': ^7.18.9
-      '@factor/api': 5.4.68
+      '@factor/api': workspace:5.4.69
       '@faker-js/faker': ^7.3.0
       '@iconify-json/carbon': ^1.1.7
       '@iconify-json/heroicons-outline': ^1.1.2
@@ -396,9 +396,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.4.68
-      '@factor/plugin-highlight-code': 5.4.68
-      '@factor/ui': 5.4.68
+      '@factor/api': workspace:5.4.69
+      '@factor/plugin-highlight-code': workspace:5.4.69
+      '@factor/ui': workspace:5.4.69
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +410,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.4.68
-      '@factor/plugin-highlight-code': 5.4.68
-      '@factor/ui': 5.4.68
+      '@factor/api': workspace:5.4.69
+      '@factor/plugin-highlight-code': workspace:5.4.69
+      '@factor/ui': workspace:5.4.69
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.4
       string-similarity: ^4.0.4
@@ -426,7 +426,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.4.68
+      '@factor/api': workspace:5.4.69
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,20 +434,20 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.4.68
+      '@factor/api': workspace:5.4.69
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.4.68
-      '@stripe/stripe-js': ^1.32.0
+      '@factor/api': workspace:5.4.69
+      '@stripe/stripe-js': ^1.33.0
       dotenv: ^16.0.1
       express: ^4.18.1
       stripe: ^8.222.0
     dependencies:
       '@factor/api': link:../api
-      '@stripe/stripe-js': 1.32.0
+      '@stripe/stripe-js': 1.33.0
       express: 4.18.1
       stripe: 8.222.0
     devDependencies:
@@ -455,7 +455,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.4.68
+      '@factor/api': workspace:5.4.69
       easymde: ^2.16.1
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -467,13 +467,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.4.68
-      '@factor/plugin-blog-engine': 5.4.68
-      '@factor/plugin-docs-engine': 5.4.68
-      '@factor/plugin-highlight-code': 5.4.68
-      '@factor/plugin-notify': 5.4.68
-      '@factor/plugin-stripe': 5.4.68
-      '@factor/ui': 5.4.68
+      '@factor/api': workspace:5.4.69
+      '@factor/plugin-blog-engine': workspace:5.4.69
+      '@factor/plugin-docs-engine': workspace:5.4.69
+      '@factor/plugin-highlight-code': workspace:5.4.69
+      '@factor/plugin-notify': workspace:5.4.69
+      '@factor/plugin-stripe': workspace:5.4.69
+      '@factor/ui': workspace:5.4.69
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.26.1
       dayjs: ^1.11.4
@@ -1671,8 +1671,8 @@ packages:
     resolution: {integrity: sha512-AFBVi/iT4g20DHoujvMH1aEDn8fGJh4xsRGCP6d8RpLPMqsNPvW01Jcn0QysXTsg++/xj25NmJsGyH9xug/wKg==}
     dev: false
 
-  /@stripe/stripe-js/1.32.0:
-    resolution: {integrity: sha512-7EvBnbBfS1aynfLRmBFcuumHNGjKxnNkO47rorFBktqDYHwo7Yw6pfDW2iqq0R8r7i7XiJEdWPvvEgQAiDrx3A==}
+  /@stripe/stripe-js/1.33.0:
+    resolution: {integrity: sha512-qbwAb1Vbg6LMb5Y+0VXM88zpa+qaqtQ6Em6+prkatz+Jvw/qs5/UjhPhgmvBlM0dAgqjLW8I975QOhTTZZqdUw==}
     dev: false
 
   /@tailwindcss/forms/0.5.2_tailwindcss@3.1.6:
@@ -1776,8 +1776,8 @@ packages:
     resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
     dev: false
 
-  /@types/express-serve-static-core/4.17.29:
-    resolution: {integrity: sha512-uMd++6dMKS32EOuw1Uli3e3BPgdLIXmezcfHv7N4c1s3gkhikBplORPpMq3fuWkxncZN1reb16d5n8yhQ80x7Q==}
+  /@types/express-serve-static-core/4.17.30:
+    resolution: {integrity: sha512-gstzbTWro2/nFed1WXtf+TtrpwxH7Ggs4RLYTLbeVgIkUQOI3WG/JKjgeOU1zXDvezllupjrf8OPIdvTbIaVOQ==}
     dependencies:
       '@types/node': 18.6.1
       '@types/qs': 6.9.7
@@ -1787,7 +1787,7 @@ packages:
     resolution: {integrity: sha512-6bSZTPaTIACxn48l50SR+axgrqm6qXFIxrdAKaG6PaJk3+zuUr35hBlgT7vOmJcum+OEaIBLtHV/qloEAFITeA==}
     dependencies:
       '@types/body-parser': 1.19.2
-      '@types/express-serve-static-core': 4.17.29
+      '@types/express-serve-static-core': 4.17.30
       '@types/qs': 6.9.7
       '@types/serve-static': 1.13.10
 
@@ -1932,8 +1932,8 @@ packages:
       pg-types: 2.2.0
     dev: false
 
-  /@types/prettier/2.6.3:
-    resolution: {integrity: sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg==}
+  /@types/prettier/2.6.4:
+    resolution: {integrity: sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==}
     dev: false
 
   /@types/qs/6.9.7:
@@ -2707,7 +2707,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001370
-      electron-to-chromium: 1.4.201
+      electron-to-chromium: 1.4.202
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.2
     dev: false
@@ -3504,8 +3504,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.201:
-    resolution: {integrity: sha512-87D0gEHbhLZgZxZl2e9/rC/I2BicPC/y9wR/cuaJSqvkgN41s5EImi89S7YExHc7F0OBXiKsABZt9mmb9bqFcQ==}
+  /electron-to-chromium/1.4.202:
+    resolution: {integrity: sha512-JYsK2ex9lmQD27kj19fhXYxzFJ/phLAkLKHv49A5UY6kMRV2xED3qMMLg/voW/+0AR6wMiI+VxlmK9NDtdxlPA==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -5348,7 +5348,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       '@types/lodash': 4.14.182
-      '@types/prettier': 2.6.3
+      '@types/prettier': 2.6.4
       cli-color: 2.0.3
       get-stdin: 8.0.0
       glob: 7.2.3
@@ -6720,7 +6720,7 @@ packages:
     engines: {node: '>=10.0.0'}
     dependencies:
       '@types/eslint': 8.4.5
-      '@types/prettier': 2.6.3
+      '@types/prettier': 2.6.4
       '@typescript-eslint/parser': 5.31.0_he2ccbldppg44uulnyq4rwocfa
       common-tags: 1.8.2
       dlv: 1.1.3

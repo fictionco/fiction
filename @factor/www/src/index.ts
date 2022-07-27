@@ -29,13 +29,13 @@ import routes from "./routes"
 import App from "./App.vue"
 
 const cwd = safeDirname(import.meta.url, "..")
-
+const repoRoot = safeDirname(import.meta.url, "../../..")
 export const appName = "FactorJS"
 export const appEmail = "hi@factorjs.org"
 export const productionUrl = "https://www.factorjs.org"
 
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
-  envFiles: [path.join(cwd, "./.env")],
+  envFiles: [path.join(repoRoot, "./.env")],
   cwd,
   commands,
   appName,
