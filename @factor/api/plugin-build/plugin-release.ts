@@ -263,22 +263,22 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     this.log.info("update lockfile...")
     await this.run("pnpm", ["i", "-r"])
 
-    this.log.info("pushing to origin...")
+    // this.log.info("pushing to origin...")
 
-    await this.commit("git", ["tag", `v${targetVersion}`])
-    await this.commit("git", [
-      "push",
-      "--no-verify",
-      "origin",
-      `refs/tags/v${targetVersion}`,
-    ])
-    await this.commit("git", ["push", "--no-verify"])
+    // await this.commit("git", ["tag", `v${targetVersion}`])
+    // await this.commit("git", [
+    //   "push",
+    //   "--no-verify",
+    //   "origin",
+    //   `refs/tags/v${targetVersion}`,
+    // ])
+    // await this.commit("git", ["push", "--no-verify"])
 
-    await this.commit("gh", [
-      "release",
-      "create",
-      targetVersion,
-      "--generate-notes",
-    ])
+    // await this.commit("gh", [
+    //   "release",
+    //   "create",
+    //   targetVersion,
+    //   "--generate-notes",
+    // ])
   }
 }
