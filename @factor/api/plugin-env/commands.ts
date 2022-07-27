@@ -9,15 +9,21 @@ export class CliCommand<T extends string = string> {
   constructor(settings: {
     command: T
     description?: string
-    options: CliOptions
+    options?: CliOptions
     type: "service" | "build" | "dev" | "util"
     port?: number
   }) {
     this.command = settings.command
     this.description = settings.description
-    this.options = settings.options
     this.type = settings.type
     this.port = settings.port
+
+    const defaultOptions: CliOptions =
+      this.type == "service"
+        ? { mode: "production", exit: false }
+        : { mode: "development", exit: true }
+
+    this.options = { ...defaultOptions, ...settings.options }
   }
 
   setOptions(options: CliOptions): this {

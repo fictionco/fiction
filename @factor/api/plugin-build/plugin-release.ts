@@ -47,7 +47,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     opts = {},
   ): Promise<ExecaChildProcess> => {
     const { execa } = await import("execa")
-    return execa(bin, args, { stdio: "inherit", ...opts })
+    return execa(bin, args, { stdio: "inherit", cwd: process.cwd(), ...opts })
   }
 
   commit = async (
@@ -260,25 +260,25 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       await this.publishPackage(pkg, targetVersion)
     }
 
-    this.log.info("update lockfile...")
-    await this.run("pnpm", ["i", "-r"])
+    this.log.info(`update lockfile... ${process.cwd()}`)
+    await this.run("pnpm", ["i"])
 
-    // this.log.info("pushing to origin...")
+    this.log.info("pushing to origin...")
 
-    // await this.commit("git", ["tag", `v${targetVersion}`])
-    // await this.commit("git", [
-    //   "push",
-    //   "--no-verify",
-    //   "origin",
-    //   `refs/tags/v${targetVersion}`,
-    // ])
-    // await this.commit("git", ["push", "--no-verify"])
+    await this.commit("git", ["tag", `v${targetVersion}`])
+    await this.commit("git", [
+      "push",
+      "--no-verify",
+      "origin",
+      `refs/tags/v${targetVersion}`,
+    ])
+    await this.commit("git", ["push", "--no-verify"])
 
-    // await this.commit("gh", [
-    //   "release",
-    //   "create",
-    //   targetVersion,
-    //   "--generate-notes",
-    // ])
+    await this.commit("gh", [
+      "release",
+      "create",
+      targetVersion,
+      "--generate-notes",
+    ])
   }
 }
