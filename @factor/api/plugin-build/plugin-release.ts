@@ -272,7 +272,8 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     await this.commit("git", ["push", "--no-verify"])
 
     await this.commit("gh", [
-      "release create",
+      "release",
+      "create",
       targetVersion,
       "--generate-notes",
     ])
