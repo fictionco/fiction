@@ -230,7 +230,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       if (!yes) return
     }
 
-    this.log.info("updating lockfile...", process.cwd())
+    this.log.info("updating lockfile...", { data: process.cwd() })
     await this.run("pnpm", ["i"])
     return
 
