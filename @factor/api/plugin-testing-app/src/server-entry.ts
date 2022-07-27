@@ -1,4 +1,4 @@
-import { basename } from "node:path"
+import path from "path"
 import { renderToString } from "vue/server-renderer"
 import { createApp } from "."
 
@@ -38,7 +38,7 @@ const renderPreloadLinks = (
       files.forEach((file) => {
         if (!seen.has(file)) {
           seen.add(file)
-          const filename = basename(file)
+          const filename = path.basename(file)
           if (manifest[filename]) {
             for (const depFile of manifest[filename]) {
               links += renderPreloadLink(depFile)
