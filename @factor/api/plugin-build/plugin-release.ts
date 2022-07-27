@@ -242,6 +242,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     this.log.info("generate changelog...")
     await this.commit("npm", ["run", "changelog"])
 
+    this.log.info(`update lockfile... ${process.cwd()}`)
+    await this.commit("pnpm", ["i"])
+
     // commit version change
     const { stdout } = await this.run("git", ["diff"], { stdio: "pipe" })
     if (stdout) {
@@ -259,9 +262,6 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     for (const pkg of publicPackages) {
       await this.publishPackage(pkg, targetVersion)
     }
-
-    this.log.info(`update lockfile... ${process.cwd()}`)
-    await this.commit("pnpm", ["i"])
 
     this.log.info("pushing to origin...")
 
