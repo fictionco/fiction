@@ -1,6 +1,6 @@
-import { createApp } from "."
+import { initApp } from "."
 
-const { app, router } = createApp({ env: "client" })
+const { app, router } = initApp({ env: "client" })
 
 // wait until router is ready before mounting to ensure hydration match
 await router.isReady()

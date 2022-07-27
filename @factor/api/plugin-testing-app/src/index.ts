@@ -12,12 +12,10 @@ import PageHome from "./el/PageHome.vue"
 import PageWrap from "./el/PageWrap.vue"
 import PageSingle from "./el/PageSingle.vue"
 
-export const createApp = (_config: { env: "server" | "client" }) => {
+export const initApp = (config: { env: "server" | "client" }) => {
+  const { env } = config
   const app = createSSRApp(PageWrap)
-
-  const history =
-    typeof window !== "undefined" ? createWebHistory() : createMemoryHistory()
-
+  const history = env == "server" ? createMemoryHistory() : createWebHistory()
   const routes: RouteRecordRaw[] = [
     {
       name: "home",
@@ -31,5 +29,6 @@ export const createApp = (_config: { env: "server" | "client" }) => {
   const router = createRouter({ history, routes })
 
   app.use(router)
+
   return { app, router }
 }

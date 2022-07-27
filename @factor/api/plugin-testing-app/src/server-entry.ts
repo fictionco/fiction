@@ -1,12 +1,12 @@
 import path from "path"
 import { renderToString } from "vue/server-renderer"
-import { createApp } from "."
+import { initApp } from "."
 
 export const render = async (
   url: string,
   manifest: Record<string, string[]>,
 ) => {
-  const { app, router } = createApp({ env: "server" })
+  const { app, router } = initApp({ env: "server" })
 
   // set the router to the desired URL before rendering
   await router.push(url)

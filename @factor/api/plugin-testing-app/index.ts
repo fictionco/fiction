@@ -148,7 +148,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     } else {
       const { default: serveStatic } = await import("serve-static")
       const clientDir = path.join(this.root, "dist/client")
-      app.use(serveStatic(clientDir, { extensions: ["html"] }))
+      app.use(serveStatic(clientDir, { index: false }))
     }
 
     app.use("*", async (req, res, next) => {
