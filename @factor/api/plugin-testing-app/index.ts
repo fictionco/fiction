@@ -175,6 +175,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
           render = serverEntry.render
         } else {
           template = indexProd
+          // @ts-ignore // error because /dist folder is ignored
           const builtServerEntry = await import("./dist/server/server-entry")
           const buildServerEntry =
             builtServerEntry as typeof import("./src/server-entry")
