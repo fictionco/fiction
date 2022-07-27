@@ -834,7 +834,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     app.use("*", (req, res) => {
       const pathname = req.originalUrl
       if (!pathname.includes(".") || pathname.includes(".html")) {
-        this.log.info(`fallback index.html for pathname: ${pathname}`)
         res.sendFile(path.join(distStatic, "/index.html"))
       } else {
         res.status(404).end()

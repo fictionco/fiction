@@ -142,12 +142,12 @@
     "vite": "^3.0.3",
     "vue": "*",
     "vue-router": "*",
-    "ws": "^8.8.1"
+    "ws": "^8.8.1",
+    "@faker-js/faker": "^7.3.0"
   },
   "devDependencies": {
     "@babel/parser": "^7.18.9",
     "@factor/api": "5.4.76",
-    "@faker-js/faker": "^7.3.0",
     "@playwright/test": "^1.24.1",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",
