@@ -271,19 +271,10 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     ])
     await this.commit("git", ["push", "--no-verify"])
 
-    /**
-     * Create a Github release
-     * https://cli.github.com/manual/gh_release_create
-     */
-    // const { notes } = await prompt<{ notes: string }>({
-    //   type: "input",
-    //   name: "notes",
-    //   message: "Create a github release? Add a description...",
-    //   initial: "",
-    // })
-
-    // if (notes) {
-    //   await commit("gh", ["release create", targetVersion, "--notes", notes])
-    // }
+    await this.commit("gh", [
+      "release create",
+      targetVersion,
+      "--generate-notes",
+    ])
   }
 }
