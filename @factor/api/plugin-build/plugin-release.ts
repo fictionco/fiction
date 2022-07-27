@@ -231,7 +231,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     }
 
     this.log.info(`updating lockfile... ${process.cwd()}`)
-    await this.run("pnpm", ["i"])
+    await this.run("pnpm", ["i", "--dev"])
     return
 
     if (!skipTests) {
