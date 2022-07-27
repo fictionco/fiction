@@ -131,7 +131,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     }
 
     let viteServer: ViteDevServer | undefined
-    if (this.mode == "production") {
+    if (this.mode !== "production") {
       viteServer = await createServer({
         root: this.root,
         mode: this.mode,
@@ -157,7 +157,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       try {
         let template = ""
         let render
-        if (this.mode == "production") {
+        if (this.mode !== "production") {
           template = fs.readFileSync(
             path.resolve(this.root, "index.html"),
             "utf8",

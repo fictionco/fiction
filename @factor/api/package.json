@@ -146,7 +146,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.18.9",
-    "@factor/api": "5.4.73",
+    "@factor/api": "workspace:5.4.73",
     "@faker-js/faker": "^7.3.0",
     "@playwright/test": "^1.24.1",
     "@tailwindcss/forms": "^0.5.2",
@@ -159,7 +159,7 @@
     "fake-indexeddb": "^4.0.0",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "^2.77.1"
+    "rollup": "^2.77.2"
   },
   "license": "MIT",
   "main": "index.ts",
