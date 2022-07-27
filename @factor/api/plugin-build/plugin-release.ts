@@ -113,10 +113,15 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...`)
     try {
-      await this.commit("npm", ["publish", "--access", access], {
+      await this.commit("npm", ["pack"], {
         cwd: pkg.cwd,
         stdio: "pipe",
       })
+
+      // await this.commit("npm", ["publish", "--access", access], {
+      //   cwd: pkg.cwd,
+      //   stdio: "pipe",
+      // })
 
       this.log.info(`successfully published ${pkg.name}@${version}`)
     } catch (error: unknown) {
