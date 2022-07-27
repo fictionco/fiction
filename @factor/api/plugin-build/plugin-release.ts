@@ -260,6 +260,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       await this.publishPackage(pkg, targetVersion)
     }
 
+    this.log.info("update lockfile...")
+    await this.run("pnpm", ["i", "-r"])
+
     this.log.info("pushing to origin...")
 
     await this.commit("git", ["tag", `v${targetVersion}`])
