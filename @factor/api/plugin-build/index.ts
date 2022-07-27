@@ -3,7 +3,7 @@ import type * as vite from "vite"
 import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
 import { FactorPlugin } from "../plugin"
-import { getMainFilePath, safeDirname } from "../utils"
+import { safeDirname } from "../utils"
 import type { FactorEnv } from "../plugin-env"
 import * as types from "./types"
 import { commonServerOnlyModules } from "./serverOnly"
@@ -63,7 +63,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         fileExports.push(...cjsExports)
       } else {
         const [_imports, esExports] = this.esLexer.parse(src)
-        fileExports.push(...esExports)
+        fileExports.push(...esExports.map((ex) => ex.n))
       }
     } catch (error) {
       this.log.error(`error parsing server-only module ${id}`, { error })

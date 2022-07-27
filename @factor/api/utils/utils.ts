@@ -119,7 +119,7 @@ export const splitDisplayName = (
 
   if (nameArray.length > 1) {
     const lastItem = nameArray.pop()
-    lastName = lastItem ? lastItem : ""
+    lastName = lastItem || ""
   }
 
   return { firstName, lastName }
@@ -129,7 +129,7 @@ export const splitDisplayName = (
  * @param cwd - working directory
  */
 export const getWorkingDirectory = (cwd?: string): string => {
-  return cwd ? cwd : process.env.FACTOR_CWD || process.cwd()
+  return cwd || process.env.FACTOR_CWD || process.cwd()
 }
 
 export const objectId = (idLength = 16): string => {

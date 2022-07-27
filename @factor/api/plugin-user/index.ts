@@ -330,7 +330,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     } else {
       const cookieValue = this.utils.getCookie(this.clientTokenKey)
 
-      return cookieValue ? cookieValue : ""
+      return cookieValue || ""
     }
   }
 

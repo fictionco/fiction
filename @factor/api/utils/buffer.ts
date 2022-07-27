@@ -44,11 +44,8 @@ export class WriteBuffer<T> extends EventEmitter {
     this.limit = limit ?? 5000
     this.limitType = limitType ?? "item"
 
-    this.flushIntervalMs = flushIntervalMs
-      ? flushIntervalMs
-      : maxSeconds
-      ? maxSeconds * 1000
-      : 1000
+    this.flushIntervalMs =
+      flushIntervalMs || (maxSeconds ? maxSeconds * 1000 : 1000)
     this.flushCallback = flush
 
     // Flush on process shutdown
