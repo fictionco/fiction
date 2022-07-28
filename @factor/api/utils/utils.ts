@@ -316,6 +316,7 @@ export const slugify = (text?: string): string => {
   return text
     .toString()
     .toLowerCase()
+    .replace(/[^\dA-Za-z]/g, "")
     .replace(/\s+/g, "-") // Replace spaces with -
     .replace(/^\d+/g, "") // Remove Numbers
     .replace(/--+/g, "-") // Replace multiple - with single -
