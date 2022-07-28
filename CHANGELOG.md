@@ -1,3 +1,12 @@
+## [5.4.89](https://github.com/FactorJS/factor/compare/v5.4.88...v5.4.89) (2022-07-28)
+
+
+### Features
+
+* new heuristics for env ([4256354](https://github.com/FactorJS/factor/commit/425635457ba1210e9a2f069c040aa7f1f472c2b4))
+
+
+
 ## [5.4.88](https://github.com/FactorJS/factor/compare/v5.4.87...v5.4.88) (2022-07-27)
 
 
