@@ -7,7 +7,7 @@
         <div class="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
           <div class="absolute inset-0">
             <div
-              class="absolute inset-0 bg-gradient-to-r from-indigo-800 to-indigo-700 mix-blend-multiply"
+              class="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-700 mix-blend-multiply"
             ></div>
           </div>
           <div class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
@@ -15,10 +15,9 @@
               class="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
             >
               <span class="block text-white">Example Website</span>
-              <span class="block text-indigo-200">for Kaption</span>
             </h1>
             <p
-              class="mx-auto mt-6 max-w-lg text-center text-xl text-indigo-200 sm:max-w-3xl"
+              class="mx-auto mt-6 max-w-lg text-center text-xl text-slate-200 sm:max-w-3xl"
             >
               Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
               lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
@@ -33,14 +32,14 @@
                 <RouterLink
                   id="nav-home"
                   to="/"
-                  class="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-indigo-700 shadow-sm hover:bg-indigo-50 sm:px-8"
+                  class="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-slate-700 shadow-sm hover:bg-slate-50 sm:px-8"
                 >
                   Get started
                 </RouterLink>
                 <RouterLink
                   id="home-1"
                   :to="randomRoute()"
-                  class="flex items-center justify-center rounded-md border border-transparent bg-indigo-500/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:opacity-70 sm:px-8"
+                  class="flex items-center justify-center rounded-md border border-transparent bg-slate-500/60 px-4 py-3 text-base font-medium text-white shadow-sm hover:opacity-70 sm:px-8"
                 >
                   Live demo
                 </RouterLink>
@@ -125,7 +124,7 @@
             <div>
               <div>
                 <span
-                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-indigo-600 to-indigo-600"
+                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-slate-600 to-slate-600"
                 >
                   <!-- Heroicon name: outline/inbox -->
                   <svg
@@ -161,7 +160,7 @@
                   <RouterLink
                     id="home-2"
                     :to="randomRoute()"
-                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
+                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-slate-600 to-slate-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-slate-700 hover:to-slate-700"
                   >
                     Get started
                   </RouterLink>
@@ -217,7 +216,7 @@
             <div>
               <div>
                 <span
-                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-indigo-600 to-indigo-600"
+                  class="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-r from-slate-600 to-slate-600"
                 >
                   <!-- Heroicon name: outline/sparkles -->
                   <svg
@@ -253,7 +252,7 @@
                   <RouterLink
                     id="home-3"
                     :to="randomRoute()"
-                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
+                    class="inline-flex rounded-md border border-transparent bg-gradient-to-r from-slate-600 to-slate-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-slate-700 hover:to-slate-700"
                   >
                     Get started
                   </RouterLink>
@@ -277,14 +276,14 @@
     </div>
 
     <!-- Gradient Feature Section -->
-    <div class="bg-gradient-to-r from-indigo-800 to-indigo-700">
+    <div class="bg-gradient-to-r from-slate-800 to-slate-700">
       <div
         class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:pt-20 sm:pb-24 lg:max-w-7xl lg:px-8 lg:pt-24"
       >
         <h2 class="text-3xl font-extrabold tracking-tight text-white">
           Inbox support built for efficiency
         </h2>
-        <p class="mt-4 max-w-3xl text-lg text-indigo-200">
+        <p class="mt-4 max-w-3xl text-lg text-slate-200">
           Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et
           magna sit morbi lobortis. Blandit aliquam sit nisl euismod mattis in.
         </p>
@@ -316,7 +315,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Unlimited Inboxes</h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -350,7 +349,7 @@
               <h3 class="text-lg font-medium text-white">
                 Manage Team Members
               </h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -382,7 +381,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Spam Report</h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -416,7 +415,7 @@
               <h3 class="text-lg font-medium text-white">
                 Compose in Markdown
               </h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -450,7 +449,7 @@
               <h3 id="test-4" class="text-lg font-medium text-white">
                 Team Reporting
               </h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -482,7 +481,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Saved Replies</h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -514,7 +513,7 @@
             </div>
             <div class="mt-6">
               <h3 class="text-lg font-medium text-white">Email Commenting</h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -548,7 +547,7 @@
               <h3 class="text-lg font-medium text-white">
                 Connect with Customers
               </h3>
-              <p class="mt-2 text-base text-indigo-200">
+              <p class="mt-2 text-base text-slate-200">
                 Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus.
                 Et magna sit morbi lobortis.
               </p>
@@ -583,7 +582,7 @@
         >
           <h2 class="text-sm font-semibold uppercase tracking-wide">
             <span
-              class="bg-gradient-to-r from-indigo-300 to-indigo-300 bg-clip-text text-transparent"
+              class="bg-gradient-to-r from-slate-300 to-slate-300 bg-clip-text text-transparent"
               >Valuable Metrics</span
             >
           </h2>
@@ -647,7 +646,7 @@
         >
           <span class="block">Ready to get started?</span>
           <span
-            class="-mb-1 block bg-gradient-to-r from-indigo-600 to-indigo-600 bg-clip-text pb-1 text-transparent"
+            class="-mb-1 block bg-gradient-to-r from-slate-600 to-slate-600 bg-clip-text pb-1 text-transparent"
             >Get in touch or create an account.</span
           >
         </h2>
@@ -655,14 +654,14 @@
           <RouterLink
             id="home-4"
             :to="randomRoute()"
-            class="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-indigo-600 to-indigo-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-indigo-700 hover:to-indigo-700"
+            class="flex items-center justify-center rounded-md border border-transparent bg-gradient-to-r from-slate-600 to-slate-600 bg-origin-border px-4 py-3 text-base font-medium text-white shadow-sm hover:from-slate-700 hover:to-slate-700"
           >
             Learn more
           </RouterLink>
           <RouterLink
             id="home-5"
             :to="randomRoute()"
-            class="flex items-center justify-center rounded-md border border-transparent bg-indigo-50 px-4 py-3 text-base font-medium text-indigo-800 shadow-sm hover:bg-indigo-100"
+            class="flex items-center justify-center rounded-md border border-transparent bg-slate-50 px-4 py-3 text-base font-medium text-slate-800 shadow-sm hover:bg-slate-100"
           >
             Get started
           </RouterLink>

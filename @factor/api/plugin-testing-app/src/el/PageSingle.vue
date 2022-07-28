@@ -15,7 +15,7 @@
                 class="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-slate-200 sm:text-base lg:text-sm xl:text-base"
               >
                 <span
-                  class="rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 px-3 py-0.5 text-xs font-semibold uppercase leading-5 tracking-wide text-white"
+                  class="rounded-full bg-gradient-to-r from-slate-500 to-slate-600 px-3 py-0.5 text-xs font-semibold uppercase leading-5 tracking-wide text-white"
                   >We're hiring</span
                 >
                 <span class="ml-4 text-sm">Visit our careers page</span>
@@ -39,7 +39,7 @@
               >
                 <span class="block">A better way to</span>
                 <span
-                  class="block bg-gradient-to-r from-indigo-400 to-indigo-700 bg-clip-text pb-3 text-transparent sm:pb-5"
+                  class="block bg-gradient-to-r from-slate-400 to-slate-700 bg-clip-text pb-3 text-transparent sm:pb-5"
                   >test apps</span
                 >
               </h1>
@@ -59,13 +59,13 @@
                         id="email"
                         type="email"
                         placeholder="Enter your email"
-                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-800 focus:ring-offset-2 focus:ring-offset-slate-900"
+                        class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2 focus:ring-offset-slate-900"
                       />
                     </div>
                     <div class="mt-3 sm:mt-0 sm:ml-3">
                       <button
                         type="submit"
-                        class="block w-full rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 py-3 px-4 font-medium text-white shadow hover:from-indigo-600 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-800 focus:ring-offset-2 focus:ring-offset-slate-900"
+                        class="block w-full rounded-md bg-gradient-to-r from-slate-500 to-slate-800 py-3 px-4 font-medium text-white shadow hover:from-slate-600 hover:to-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-800 focus:ring-offset-2 focus:ring-offset-slate-900"
                       >
                         Start free trial
                       </button>
@@ -92,7 +92,7 @@
               <!-- Illustration taken from Lucid Illustrations: https://lucid.pixsellz.io/ -->
               <img
                 class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
-                src="https://tailwindui.com/img/component-images/cloud-illustration-indigo-indigo.8vg"
+                src="https://tailwindui.com/img/component-images/cloud-illustration-slate-slate.8vg"
                 alt=""
               />
             </div>
@@ -108,7 +108,7 @@
       >
         <div>
           <h2
-            class="text-base font-semibold uppercase tracking-wider text-indigo-800"
+            class="text-base font-semibold uppercase tracking-wider text-slate-800"
           >
             Serverless
           </h2>
@@ -139,7 +139,7 @@
         class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8"
       >
         <h2
-          class="text-base font-semibold uppercase tracking-wider text-indigo-800"
+          class="text-base font-semibold uppercase tracking-wider text-slate-800"
         >
           Deploy faster
         </h2>
@@ -160,7 +160,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/cloud-upload -->
                       <svg
@@ -198,7 +198,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/lock-closed -->
                       <svg
@@ -236,7 +236,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/refresh -->
                       <svg
@@ -274,7 +274,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/shield-check -->
                       <svg
@@ -312,7 +312,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/cog -->
                       <svg
@@ -355,7 +355,7 @@
                 <div class="-mt-6">
                   <div>
                     <span
-                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-indigo-500 to-indigo-800 p-3 shadow-lg"
+                      class="inline-flex items-center justify-center rounded-md bg-gradient-to-r from-slate-500 to-slate-800 p-3 shadow-lg"
                     >
                       <!-- Heroicon name: outline/server -->
                       <svg
@@ -394,7 +394,7 @@
 
     <!-- Testimonial section -->
     <div
-      class="bg-gradient-to-r from-indigo-500 to-indigo-800 pb-16 lg:relative lg:z-10 lg:pb-0"
+      class="bg-gradient-to-r from-slate-500 to-slate-800 pb-16 lg:relative lg:z-10 lg:pb-0"
     >
       <div
         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8"
@@ -442,7 +442,7 @@
               </div>
               <footer class="mt-6">
                 <p class="text-base font-medium text-white">Judith Black</p>
-                <p class="text-base font-medium text-indigo-800">
+                <p class="text-base font-medium text-slate-800">
                   CEO at PureInsights
                 </p>
               </footer>
@@ -459,7 +459,7 @@
           class="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8"
         >
           <h2
-            class="text-base font-semibold uppercase tracking-wider text-indigo-800"
+            class="text-base font-semibold uppercase tracking-wider text-slate-800"
           >
             Learn
           </h2>
@@ -487,7 +487,7 @@
             </div>
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
-                <p class="text-sm font-medium text-indigo-800">
+                <p class="text-sm font-medium text-slate-800">
                   <RouterLink
                     id="single-3"
                     :to="randomRoute()"
@@ -551,7 +551,7 @@
             </div>
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
-                <p class="text-sm font-medium text-indigo-800">
+                <p class="text-sm font-medium text-slate-800">
                   <RouterLink
                     id="single-7"
                     :to="randomRoute()"
@@ -616,7 +616,7 @@
             </div>
             <div class="flex flex-1 flex-col justify-between bg-white p-6">
               <div class="flex-1">
-                <p class="text-sm font-medium text-indigo-800">
+                <p class="text-sm font-medium text-slate-800">
                   <RouterLink
                     id="single-11"
                     :to="randomRoute()"
@@ -677,7 +677,7 @@
     <!-- CTA Section -->
     <div class="relative bg-slate-900">
       <div
-        class="relative h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2"
+        class="relative h-56 bg-slate-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2"
       >
         <img
           class="h-full w-full object-cover"
@@ -686,7 +686,7 @@
         />
         <div
           aria-hidden="true"
-          class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-indigo-800 mix-blend-multiply"
+          class="absolute inset-0 bg-gradient-to-r from-slate-500 to-slate-800 mix-blend-multiply"
         ></div>
       </div>
       <div
