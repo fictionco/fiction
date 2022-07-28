@@ -4,7 +4,7 @@ import path from "path"
 import { createServer, ViteDevServer } from "vite"
 import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
-import { createExpressApp, safeDirname } from "../utils"
+import { createExpressApp, safeDirname, vue } from "../utils"
 import { FactorPlugin } from "../plugin"
 import sharedConfig from "./vite.config"
 
@@ -15,6 +15,8 @@ type TestingConfig = {
   playwrightSettings?: LaunchOptions
   random?: boolean
   mode?: "development" | "production"
+  isLive?: vue.Ref<boolean>
+  liveUrl?: string
 }
 type FactorTestingAppSettings = {
   port: number
@@ -22,7 +24,13 @@ type FactorTestingAppSettings = {
 } & TestingConfig
 export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   port = this.settings.port
-  url = `http://localhost:${this.port}`
+  liveUrl = this.settings.liveUrl
+  url = this.utils.vue.computed(() => {
+    const isLive = this.settings.isLive?.value || false
+    return isLive && this.liveUrl
+      ? this.liveUrl
+      : `http://localhost:${this.port}`
+  })
   head = this.settings.head || ""
   root = safeDirname(import.meta.url)
   server?: http.Server
@@ -42,6 +50,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     { width: 700, height: 1200 },
   ]
   mode = this.settings.mode ?? this.utils.mode()
+  isLive = this.settings.isLive ?? false
   constructor(settings: FactorTestingAppSettings) {
     super(settings)
   }
