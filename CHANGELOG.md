@@ -1,3 +1,12 @@
+## [5.4.92](https://github.com/FactorJS/factor/compare/v5.4.91...v5.4.92) (2022-07-28)
+
+
+### Bug Fixes
+
+* logging ([275de23](https://github.com/FactorJS/factor/commit/275de2394da47b8e8844253113d97872a5dcee22))
+
+
+
 ## [5.4.91](https://github.com/FactorJS/factor/compare/v5.4.90...v5.4.91) (2022-07-28)
 
 
