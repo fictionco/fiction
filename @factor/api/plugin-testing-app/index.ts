@@ -34,8 +34,8 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   head = this.settings.head || ""
   root = safeDirname(import.meta.url)
   server?: http.Server
-  browser!: Browser
-  faker!: typeof faker
+  browser?: Browser
+  faker?: typeof faker
   initialized: Promise<void> = Promise.resolve()
   visitorId: number = 0
   headless = this.settings.headless ?? true
@@ -57,9 +57,15 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   setup() {}
 
   async initialize(settings: TestingConfig) {
+    if (this.browser && this.faker) {
+      return {
+        faker: this.faker,
+        browser: this.browser,
+      }
+    }
+
     const playwright = await import("playwright")
     const { faker } = await import("@faker-js/faker")
-    this.faker = faker
 
     const launchSettings = {
       headless: this.headless,
@@ -68,21 +74,24 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       ...this.playwrightSettings,
       ...settings,
     }
+
     this.log.info("creating playwright with settings", { data: launchSettings })
-    this.browser = await playwright.chromium.launch(launchSettings)
+    const browser = await playwright.chromium.launch(launchSettings)
+
+    return { faker, browser }
   }
 
   async newContext(opts: TestingConfig = {}) {
     if (!this.server) throw new Error("no testing app server created")
 
-    await this.initialize(opts)
+    const { faker, browser } = await this.initialize(opts)
 
     const { random = true } = opts
 
-    const userAgent = this.faker.internet.userAgent()
+    const userAgent = faker.internet.userAgent()
     const rand = Math.floor(Math.random() * this.viewportSizes.length)
     const viewport = this.viewportSizes[rand]
-    const locale = this.faker.random.locale()
+    const locale = faker.random.locale()
 
     const contextSettings = random
       ? {
@@ -92,7 +101,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         }
       : {}
 
-    const context = await this.browser.newContext(contextSettings)
+    const context = await browser.newContext(contextSettings)
 
     return {
       context,
