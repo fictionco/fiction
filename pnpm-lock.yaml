@@ -32,7 +32,7 @@ importers:
       tailwindcss: ^3.1.6
       tslib: ^2.4.0
       typescript: ^4.7.4
-      vite: ^3.0.0
+      vite: ^3.0.3
       vitest: '*'
       vue: '*'
       yorkie: ^2.0.0
@@ -204,7 +204,7 @@ importers:
       unocss: ^0.44.7
       unsplash-js: ^7.0.15
       validator: ^13.7.0
-      vite: ^3.0.0
+      vite: ^3.0.3
       vue: '*'
       vue-router: '*'
       ws: ^8.8.1
@@ -8338,6 +8338,7 @@ packages:
     resolution: {integrity: sha512-uVbFqx9vvLhQg0iBaau9Z75AxWJ8tqM9AV890dIZCLApF4rTcyHwmAvLeEdYRs+BzYWu8Iw81F79ah0EfTXbaw==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
     dev: false
 
   /unbox-primitive/1.0.2:
