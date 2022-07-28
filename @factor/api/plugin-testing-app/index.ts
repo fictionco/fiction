@@ -166,7 +166,6 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
 
     app.use("*", async (req, res, next) => {
       const url = req.originalUrl
-
       try {
         let template = ""
 
@@ -200,11 +199,15 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         // If an error is caught, let Vite fix the stack trace so it maps back to
         // your actual source code.
         viteServer?.ssrFixStacktrace(error as Error)
-        next(error)
+        this.log.error("test app middleware error", { error })
       }
     })
 
     this.server = app.listen(this.port)
+
+    this.server.addListener("error", (error: Error) => {
+      this.log.error("test app server error", { error })
+    })
 
     this.logReady()
 
