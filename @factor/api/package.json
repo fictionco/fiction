@@ -4,7 +4,16 @@
   "bin": {
     "factor": "./plugin-env/cli.js"
   },
-  "buildOptions": [],
+  "buildOptions": [
+    {
+      "buildName": "testAppClient",
+      "configFile": "./plugin-testing-app/vite.config.ts"
+    },
+    {
+      "buildName": "testAppServer",
+      "configFile": "./plugin-testing-app/vite.config.ts"
+    }
+  ],
   "dependencies": {
     "@aws-sdk/client-cloudfront": "3.137.0",
     "@aws-sdk/client-s3": "3.137.0",

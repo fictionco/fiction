@@ -670,6 +670,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     if (!sourceDir) throw new Error("sourceDir is required")
     if (!publicDir) throw new Error("publicDir is required")
 
+    const { default: pluginVue } = await import("@vitejs/plugin-vue")
+
     const commonVite = await this.factorBuild?.getCommonViteConfig({
       isProd,
       root: cwd,
@@ -693,7 +695,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           },
         },
         server: {},
-        plugins: [getMarkdownPlugin(), unocss({ presets: [presetIcons()] })],
+        plugins: [
+          pluginVue(),
+          getMarkdownPlugin(),
+          unocss({ presets: [presetIcons()] }),
+        ],
       },
       appViteConfigFile || {},
     ]

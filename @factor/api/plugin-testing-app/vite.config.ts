@@ -24,10 +24,10 @@ export default (_opts: { buildName: string }): InlineConfig => {
   let ssr
   let ssrManifest
   let outDir
-  if (buildName === "server") {
+  if (buildName === "testAppServer") {
     ssr = path.join(root, "src/server-entry.ts")
     outDir = path.join(root, "dist", "server")
-  } else if (buildName == "client") {
+  } else if (buildName == "testAppClient") {
     ssrManifest = true
     outDir = path.join(root, "dist", "client")
   }

@@ -246,8 +246,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins()
 
-    const { default: pluginVue } = await import("@vitejs/plugin-vue")
-
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? "production" : "development",
       // root must be set to optimize output file size
@@ -286,7 +284,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         },
       },
 
-      plugins: [pluginVue(), ...customPlugins],
+      plugins: customPlugins,
       optimizeDeps: this.getOptimizeDeps(),
       logLevel: isProd ? "info" : "warn",
     }

@@ -1,7 +1,7 @@
 import http from "http"
 import fs from "fs"
 import path from "path"
-import { createServer } from "vite"
+import { createServer, ViteDevServer } from "vite"
 import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname, vue } from "../utils"
@@ -49,6 +49,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     { width: 700, height: 1200 },
   ]
   isLive = this.settings.isLive ?? false
+  useBuilt = true
   constructor(settings: FactorTestingAppSettings) {
     super(settings)
   }
@@ -143,17 +144,25 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       crossOriginEmbedderPolicy: false,
     })
 
-    const viteServer = await createServer({
-      root: this.root,
-      mode: "production",
-      server: {
-        middlewareMode: true,
-        hmr: false,
-      },
-      appType: "custom",
-      ...sharedConfig({ buildName: "ssr" }),
-    })
-    app.use(viteServer.middlewares)
+    let viteServer: ViteDevServer | undefined
+
+    if (!this.useBuilt) {
+      viteServer = await createServer({
+        root: this.root,
+        mode: "production",
+        server: {
+          middlewareMode: true,
+          hmr: false,
+        },
+        appType: "custom",
+        ...sharedConfig({ buildName: "ssr" }),
+      })
+      app.use(viteServer.middlewares)
+    } else {
+      const { default: serveStatic } = await import("serve-static")
+      const clientDir = path.join(this.root, "dist/client")
+      app.use(serveStatic(clientDir, { index: false }))
+    }
 
     app.use("*", async (req, res, next) => {
       const url = req.originalUrl
@@ -161,20 +170,26 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       try {
         let template = ""
 
-        template = fs.readFileSync(
-          path.resolve(this.root, "index.html"),
-          "utf8",
-        )
+        if (this.useBuilt) {
+          template = fs.readFileSync(
+            path.join(this.root, "dist/client/index.html"),
+            "utf8",
+          )
+        } else {
+          template = fs.readFileSync(
+            path.resolve(this.root, "index.html"),
+            "utf8",
+          )
 
-        const transformed = await viteServer?.transformIndexHtml(url, template)
+          const transformed = await viteServer?.transformIndexHtml(
+            url,
+            template,
+          )
 
-        template = transformed || ""
+          template = transformed || ""
+        }
 
-        const { render } = (await viteServer.ssrLoadModule(
-          "/src/server-entry.ts",
-        )) as typeof import("./src/server-entry")
-
-        const appHtml = await render(url)
+        const appHtml = ""
 
         const html = template
           .replace(`<!--app-html-->`, appHtml)
