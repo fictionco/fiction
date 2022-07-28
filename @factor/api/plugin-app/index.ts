@@ -47,14 +47,14 @@ vars.register(() => [
     name: "SERVER_PORT",
     val: process.env.SERVER_PORT,
     verify: ({ factorEnv, value }) => {
-      return factorEnv.isApp() && !value ? false : true
+      return factorEnv.isApp.value && !value ? false : true
     },
   }),
   new EnvVar({
     name: "APP_PORT",
     val: process.env.APP_PORT,
     verify: ({ factorEnv, value }) => {
-      return factorEnv.isApp() && !value ? false : true
+      return factorEnv.isApp.value && !value ? false : true
     },
   }),
 ])
@@ -71,7 +71,8 @@ export type FactorAppSettings = {
   hooks?: HookType<HookDictionary>[]
   mode?: "production" | "development"
   isTest?: boolean
-  productionUrl?: string
+  liveUrl?: string
+  isLive?: vue.Ref<boolean>
   port: number
   factorServer?: FactorServer
   factorEnv: FactorEnv
@@ -91,7 +92,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   serverOnlyImports = this.settings.serverOnlyImports ?? []
   factorRouter = this.settings.factorRouter
   ui = this.settings.ui || {}
-  mode = this.settings.mode || this.utils.mode()
   isTest = this.settings.isTest || this.utils.isTest()
   rootComponent = this.settings.rootComponent
   factorBuild?: FactorBuild
@@ -107,8 +107,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   appServer?: http.Server
   staticServer?: http.Server
   localUrl = `http://localhost:${this.port}`
-  productionUrl = this.settings.productionUrl || this.localUrl
-  appUrl = this.mode == "production" ? this.productionUrl : this.localUrl
+  liveUrl = this.settings.liveUrl || this.localUrl
+  appUrl = this.utils.vue.computed(() => {
+    const isLive = this.settings.isLive?.value ?? false
+    return isLive ? this.liveUrl : this.localUrl
+  })
 
   constructor(settings: FactorAppSettings) {
     super(settings)
@@ -247,12 +250,9 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const { selector = "#app" } = params
 
     const entry = await this.createVueApp(params)
-
     await this.factorEnv.crossRunCommand()
-
     if (typeof window != "undefined") {
       initializeResetUi(this.factorRouter).catch(console.error)
-
       entry.app.mount(selector)
       document.querySelector(selector)?.classList.add("loaded")
       document.querySelector(".styles-loading")?.remove()
@@ -378,6 +378,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     let entryModule: Record<string, any>
 
+    process.env.IS_VITE = "yes"
+
     if (isProd) {
       /**
        * Use pre-build server module in Production
@@ -427,6 +429,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       out.bodyAttrs = bodyAttrs
     }
 
+    delete process.env.IS_VITE
+
     return out
   }
 
@@ -456,7 +460,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       args: [htmlBody, { pathname }],
     })
 
-    const canonicalUrl = [this.appUrl || "", pathname || ""]
+    const canonicalUrl = [this.appUrl.value || "", pathname || ""]
       .map((_: string) => _.replace(/\/$/, ""))
       .join("")
 
@@ -578,10 +582,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       data: {
         name,
         port,
-        productionUrl: this.productionUrl,
+        liveUrl: this.liveUrl,
         localUrl: this.localUrl,
         serveMode,
-        env: this.mode,
+        isLive: this.settings.isLive?.value ?? false,
       },
     })
   }
@@ -762,7 +766,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       this.log.info("[done:build] application built successfully")
 
       await this.factorSitemap?.generateSitemap({
-        appUrl: this.appUrl,
+        appUrl: this.appUrl.value,
         sitemaps: this.sitemaps,
         distClient,
       })
@@ -822,7 +826,23 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     return
   }
 
+  async getHtmlFile(filePath: string): Promise<string | undefined> {
+    try {
+      const html = await fs.readFile(filePath)
+      const stringifiedVars = JSON.stringify(
+        this.factorEnv.getViteRenderedVars(),
+      )
+      const tag = `<script id="factorRun" type="application/json">${stringifiedVars}</script>`
+      const out = html.toString().replace(/<\/body>/i, `${tag}\n</body>`)
+      return out
+    } catch {
+      return
+    }
+  }
+
   serveStaticApp = async (): Promise<void> => {
+    if (this.utils.isApp()) return
+
     const { distStatic } = this.standardPaths || {}
 
     if (!distStatic) throw new Error("distStatic required for serveStaticApp")
@@ -834,22 +854,39 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
     })
 
-    app.use((req, res, next) => {
-      if (!req.path.includes(".")) {
-        req.url = `${req.url.replace(/\/$/, "")}.html`
-      }
+    const fallbackIndex = await this.getHtmlFile(
+      path.join(distStatic, "index.html"),
+    )
 
-      next()
+    app.use(async (req, res, next) => {
+      let pathname = req.originalUrl
+      if (!pathname.includes(".") || pathname.includes(".html")) {
+        pathname =
+          pathname.charAt(pathname.length - 1) == "/"
+            ? `${pathname}index.html`
+            : pathname
+
+        const rel = pathname.includes(".html") ? pathname : `${pathname}.html`
+        const filePath = path.join(distStatic, rel)
+        const fileHtml = await this.getHtmlFile(filePath)
+        const html = fileHtml || fallbackIndex
+
+        res.setHeader("content-type", "text/html").send(html).end()
+      } else {
+        next()
+      }
     })
-    app.use(serveStatic(distStatic, { extensions: ["html"] }))
+    app.use(serveStatic(distStatic, { index: false }))
 
     app.use("*", (req, res) => {
-      const pathname = req.originalUrl
-      if (!pathname.includes(".") || pathname.includes(".html")) {
-        res.sendFile(path.join(distStatic, "/index.html"))
-      } else {
-        res.status(404).end()
-      }
+      this.log.error("404 Request", {
+        data: {
+          url: req.url,
+          method: req.method,
+          contentType: req.headers["content-type"],
+        },
+      })
+      res.status(404).end()
     })
 
     this.staticServer = app.listen(this.port, () => {

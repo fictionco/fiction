@@ -93,8 +93,9 @@ export type FactorControlSettings = {
   id?: string
   appName: string
   appEmail: string
-  productionUrl?: string
   commands?: CliCommand<string>[]
+  mode?: "development" | "production"
+  isApp?: boolean
 }
 
 type BaseCompiled = {
@@ -115,17 +116,17 @@ export class FactorEnv<
   cwd = this.settings.cwd
 
   inspector = this.settings.inspector || false
-  context = this.utils.isApp() ? "app" : "server"
-  mode: "production" | "development" | "unknown" = "unknown"
-  isApp: () => boolean = () => this.utils.isApp()
-  isServer: () => boolean = () => !this.isApp
-  isProd: () => boolean = () => this.utils.mode() === "production"
-  isDev: () => boolean = () => this.utils.mode() === "development"
-  isTest: () => boolean = () => this.utils.isTest()
+
+  mode = this.utils.vue.ref<"development" | "production" | undefined>(
+    process.env.NODE_ENV as "development" | "production",
+  )
+  isApp = this.utils.vue.ref(!!process.env.IS_VITE)
+  isTest = this.utils.vue.ref(!!process.env.IS_TEST)
+  isServer = this.utils.vue.computed(() => !this.isApp.value)
+  isProd = this.utils.vue.computed(() => this.mode.value === "production")
+  isDev = this.utils.vue.computed(() => this.mode.value === "development")
   appName = this.settings.appName
   appEmail = this.settings.appEmail
-  // needs to be set from factorApp as it takes into account port
-  productionUrl = this.settings.productionUrl
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
@@ -159,7 +160,7 @@ export class FactorEnv<
   setup() {
     const vars = this.getVars()
 
-    if (!this.isApp()) {
+    if (!this.isApp.value) {
       this.log.info(
         `variables (${vars.length} total / ${
           vars.filter((_) => _.isPublic).length
@@ -200,7 +201,7 @@ export class FactorEnv<
       })
 
       if (fullOpts.mode) {
-        this.mode = fullOpts.mode
+        this.mode.value = fullOpts.mode
         // use literal to prevent substitution in app
         process.env["NODE_ENV"] = fullOpts.mode
       }
@@ -255,7 +256,7 @@ export class FactorEnv<
   nodeInit() {
     this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
 
-    if (this.mode == "production") {
+    if (this.mode.value == "production") {
       this.envFiles.push(...this.envFilesProd)
     }
 
@@ -301,7 +302,7 @@ export class FactorEnv<
   }
 
   async afterSetup() {
-    if (!this.isProd() && !this.isApp() && !this.isTest()) {
+    if (!this.isProd.value && !this.isApp.value && !this.isTest.value) {
       await this.generate()
     }
   }

@@ -1,7 +1,7 @@
 import http from "http"
 import bodyParser from "body-parser"
 import { FactorEnv } from "../plugin-env"
-import { HookType, EndpointServer } from "../utils"
+import { HookType, EndpointServer, vue } from "../utils"
 import type { Endpoint } from "../utils"
 import { FactorPlugin } from "../plugin"
 import { FactorUser } from "../plugin-user"
@@ -18,18 +18,20 @@ export type FactorServerSettings = {
   endpoints?: Endpoint[]
   factorEnv?: FactorEnv
   factorUser?: FactorUser
-  productionUrl?: string
-  mode?: "production" | "development"
+  liveUrl?: string
+  isLive?: vue.Ref<boolean>
 }
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks = this.settings.hooks ?? []
   port = this.settings.port
   endpoints = this.settings.endpoints || []
-  mode = this.settings.mode || this.utils.mode()
   localUrl = `http://localhost:${this.port}`
-  productionUrl = this.settings.productionUrl || this.localUrl
-  serverUrl = this.mode == "production" ? this.productionUrl : this.localUrl
+  liveUrl = this.settings.liveUrl || this.localUrl
+  serverUrl = this.utils.vue.computed(() => {
+    const isLive = this.settings.isLive?.value || false
+    return isLive ? this.liveUrl : this.localUrl
+  })
   factorEnv = this.settings.factorEnv
   factorUser? = this.settings.factorUser
   serverName = this.settings.serverName
@@ -96,7 +98,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
         port: this.port,
         endpoints: this.endpoints,
         factorUser,
-        url: this.serverUrl,
+        url: this.serverUrl.value,
         middleware: (app) => {
           app.use(
             bodyParser.json({

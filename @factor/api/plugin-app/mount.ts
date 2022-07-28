@@ -9,19 +9,27 @@ const renderedEnvVars = "VITE_REPLACE_ENV_VARS"
 
 // setup process env handling inside of app/browser
 const setupRenderedEnvVars = () => {
+  let runtime: Record<string, string> | undefined = undefined
   // prevent 'process' not defined errors in browser
   if (typeof window !== "undefined" && typeof window.process == "undefined") {
     // @ts-ignore (avoid confusion with node process.env)
     window.process = { env: {} }
+
+    const run = document.querySelector("#factorRun")?.textContent
+
+    if (run) {
+      runtime = JSON.parse(run) as Record<string, string>
+    }
+
+    const rendered = JSON.parse(renderedEnvVars) as Record<string, string>
+
+    const buildVars = { ...rendered, ...runtime }
+
+    // browser only this can affect global process in SSR/prerendering
+    Object.entries(buildVars).forEach(([key, value]) => {
+      process.env[key] = value
+    })
   }
-
-  const rendered = JSON.parse(renderedEnvVars) as Record<string, string>
-
-  // TODO this can affect global process in SSR/prerendering
-  // its not currently needed in SSR, but also doesn't hurt anything ATM
-  Object.entries(rendered).forEach(([key, value]) => {
-    process.env[key] = value
-  })
 }
 
 setupRenderedEnvVars()
@@ -39,7 +47,6 @@ export const runViteApp = async (
   if (!factorApp) {
     throw new Error(`no factorApp exported from mainFile: ${mainFilePath}`)
   }
-
   return await factorApp.mountApp({ renderUrl, serviceConfig })
 }
 

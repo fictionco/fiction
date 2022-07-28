@@ -67,7 +67,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       requestHandler: (_) => this.stripeHookHandler(_),
       key: "stripeWebhooks",
       basePath: "/stripe-webhook",
-      serverUrl: this.factorServer.serverUrl,
+      serverUrl: this.factorServer.serverUrl.value,
       factorUser: this.factorUser,
     })
 

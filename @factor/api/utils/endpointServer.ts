@@ -28,7 +28,7 @@ export type EndpointServerOptions = {
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
   factorUser?: FactorUser
-  productionUrl?: string
+  liveUrl?: string
   url?: string
 }
 

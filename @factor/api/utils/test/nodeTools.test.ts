@@ -33,7 +33,6 @@ describe("node utils", () => {
         "factorServer",
         "factorStripe",
         "factorUser",
-        "productionUrl",
         "service",
         "setup",
       ]

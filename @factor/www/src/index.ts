@@ -30,17 +30,13 @@ import App from "./App.vue"
 
 const cwd = safeDirname(import.meta.url, "..")
 const repoRoot = safeDirname(import.meta.url, "../../..")
-export const appName = "FactorJS"
-export const appEmail = "hi@factorjs.org"
-export const productionUrl = "https://www.factorjs.org"
 
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(repoRoot, "./.env")],
   cwd,
   commands,
-  appName,
-  appEmail,
-  productionUrl,
+  appName: "FactorJS",
+  appEmail: "hi@factorjs.org",
   id: "www",
 })
 
@@ -51,7 +47,8 @@ export const factorDb = new FactorDb({
 export const factorServer = new FactorServer({
   serverName: "FactorMain",
   port: +(factorEnv.var("SERVER_PORT") || 3333),
-  productionUrl: "https://server.factorjs.org",
+  liveUrl: "https://server.factorjs.org",
+  isLive: factorEnv.isProd,
   factorEnv,
 })
 
@@ -60,7 +57,8 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig>({
 })
 
 export const factorApp = new FactorApp({
-  productionUrl,
+  liveUrl: "https://www.factorjs.org",
+  isLive: factorEnv.isProd,
   factorServer,
   port: +(factorEnv.var("APP_PORT") || 3000),
   rootComponent: App,

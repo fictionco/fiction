@@ -3,10 +3,13 @@ import nodeMailerHtmlToText from "nodemailer-html-to-text"
 import { FactorEnv, vars, EnvVar } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
 import { renderMarkdown } from "../utils/markdown"
+import { vue } from "../utils"
 import * as types from "./types"
 
 const verify: EnvVar<string>["verify"] = ({ factorEnv, value }) => {
-  return !value && factorEnv.isProd() && !factorEnv.isApp() ? false : true
+  return !value && factorEnv.isProd.value && !factorEnv.isApp.value
+    ? false
+    : true
 }
 
 vars.register(() => [
@@ -33,7 +36,7 @@ type FactorEmailSettings = {
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
-  appUrl: string
+  appUrl: vue.Ref<string>
 }
 
 export class FactorEmail extends FactorPlugin<FactorEmailSettings> {

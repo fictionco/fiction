@@ -72,7 +72,7 @@ export abstract class FactorPlugin<
       middleware,
     } = params
 
-    const serverUrl = factorServer?.serverUrl
+    const serverUrl = factorServer?.serverUrl.value
 
     if (!serverUrl) {
       return {} as M
