@@ -111,6 +111,9 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   }
 
   async close() {
+    await this.browser?.close()
+    this.browser = undefined
+
     this.server?.close()
   }
 
