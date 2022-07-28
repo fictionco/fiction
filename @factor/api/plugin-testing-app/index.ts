@@ -1,7 +1,7 @@
 import http from "http"
 import fs from "fs"
 import path from "path"
-import { createServer, ViteDevServer } from "vite"
+import { createServer } from "vite"
 import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname, vue } from "../utils"
@@ -25,11 +25,10 @@ type FactorTestingAppSettings = {
 export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   port = this.settings.port
   liveUrl = this.settings.liveUrl
+  localUrl = `http://localhost:${this.port}`
   url = this.utils.vue.computed(() => {
     const isLive = this.settings.isLive?.value || false
-    return isLive && this.liveUrl
-      ? this.liveUrl
-      : `http://localhost:${this.port}`
+    return isLive && this.liveUrl ? this.liveUrl : this.localUrl
   })
   head = this.settings.head || ""
   root = safeDirname(import.meta.url)
@@ -49,7 +48,6 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     { width: 480, height: 853 },
     { width: 700, height: 1200 },
   ]
-  mode = this.settings.mode ?? this.utils.mode()
   isLive = this.settings.isLive ?? false
   constructor(settings: FactorTestingAppSettings) {
     super(settings)
@@ -116,6 +114,19 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     this.server?.close()
   }
 
+  logReady(): void {
+    const port = `[ ${this.port} ]`
+
+    this.log.info(`serving test app [ready]`, {
+      data: {
+        port,
+        liveUrl: this.liveUrl,
+        localUrl: this.localUrl,
+        isLive: this.settings.isLive?.value ?? false,
+      },
+    })
+  }
+
   async createApp(options: { head?: string } = {}) {
     if (this.utils.isApp()) return
 
@@ -129,82 +140,40 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       crossOriginEmbedderPolicy: false,
     })
 
-    // const server = http.createServer(app)
-    this.log.info(`test app on ${this.port} in ${this.mode}`)
-
-    const indexProd =
-      this.mode == "production"
-        ? fs.readFileSync(
-            path.join(this.root, "dist/client/index.html"),
-            "utf8",
-          )
-        : ""
-
-    let manifest: Record<string, string[]> = {}
-    if (this.mode == "production") {
-      const imp = (await import(
-        /* @vite-ignore */ path.join(this.root, "dist/client/manifest.json")
-      )) as { default: Record<string, string[]> }
-      manifest = imp.default
-    }
-
-    let viteServer: ViteDevServer | undefined
-    if (this.mode !== "production") {
-      viteServer = await createServer({
-        root: this.root,
-        mode: this.mode,
-        server: {
-          middlewareMode: true,
-          hmr: {
-            port: this.utils.randomBetween(10_000, 30_000),
-          },
-        },
-        appType: "custom",
-        ...sharedConfig({ buildName: "ssr" }),
-      })
-      app.use(viteServer.middlewares)
-    } else {
-      const { default: serveStatic } = await import("serve-static")
-      const clientDir = path.join(this.root, "dist/client")
-      app.use(serveStatic(clientDir, { index: false }))
-    }
+    const viteServer = await createServer({
+      root: this.root,
+      mode: "production",
+      server: {
+        middlewareMode: true,
+        hmr: false,
+      },
+      appType: "custom",
+      ...sharedConfig({ buildName: "ssr" }),
+    })
+    app.use(viteServer.middlewares)
 
     app.use("*", async (req, res, next) => {
       const url = req.originalUrl
 
       try {
         let template = ""
-        let render
-        if (this.mode !== "production") {
-          template = fs.readFileSync(
-            path.resolve(this.root, "index.html"),
-            "utf8",
-          )
 
-          const transformed = await viteServer?.transformIndexHtml(
-            url,
-            template,
-          )
+        template = fs.readFileSync(
+          path.resolve(this.root, "index.html"),
+          "utf8",
+        )
 
-          template = transformed || ""
-          const serverEntry = (await viteServer?.ssrLoadModule(
-            "/src/server-entry.ts",
-          )) as typeof import("./src/server-entry")
-          render = serverEntry.render
-        } else {
-          template = indexProd
-          // @ts-ignore // error because /dist folder is ignored
-          const builtServerEntry = await import("./dist/server/server-entry")
-          const buildServerEntry =
-            builtServerEntry as typeof import("./src/server-entry")
+        const transformed = await viteServer?.transformIndexHtml(url, template)
 
-          render = buildServerEntry.render
-        }
+        template = transformed || ""
 
-        const [appHtml, preloadLinks] = await render(url, manifest)
+        const { render } = (await viteServer.ssrLoadModule(
+          "/src/server-entry.ts",
+        )) as typeof import("./src/server-entry")
+
+        const appHtml = await render(url)
 
         const html = template
-          .replace(`<!--preload-links-->`, preloadLinks)
           .replace(`<!--app-html-->`, appHtml)
           .replace(/<\/head>/i, `${head}\n</head>`)
 
@@ -218,6 +187,8 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     })
 
     this.server = app.listen(this.port)
+
+    this.logReady()
 
     return this.server
   }

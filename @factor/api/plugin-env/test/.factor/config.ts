@@ -7,7 +7,6 @@ export interface CompiledServiceConfig {
   commands: "app" | "dev" | "r-dev" | "render" | "server";
   vars:
     | "APP_PORT"
-    | "APP_URL"
     | "AWS_ACCESS_KEY"
     | "AWS_ACCESS_KEY_SECRET"
     | "COMMAND"
@@ -17,8 +16,8 @@ export interface CompiledServiceConfig {
     | "IS_TEST"
     | "NODE_ENV"
     | "POSTGRES_URL"
+    | "RUNTIME_VERSION"
     | "SERVER_PORT"
-    | "SERVER_URL"
     | "SMTP_HOST"
     | "SMTP_PASSWORD"
     | "SMTP_USER"

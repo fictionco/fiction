@@ -1,4 +1,12 @@
-import { CliCommand } from "@factor/api/plugin-env"
+import { CliCommand, EnvVar } from "@factor/api/plugin-env"
+
+export const envVars = () => [
+  new EnvVar({
+    name: "TEST_APP_PORT",
+    val: process.env.WIDGET_PORT,
+    isPublic: true,
+  }),
+]
 
 export const commands = [
   new CliCommand({
@@ -18,16 +26,17 @@ export const commands = [
     port: 3000,
   }),
   new CliCommand({
-    command: "render",
-    description: "renders app",
-    type: "build",
-  }),
-  new CliCommand({
     command: "server",
     description: "runs endpoint server",
     type: "service",
     port: 3333,
   }),
+  new CliCommand({
+    command: "render",
+    description: "renders app",
+    type: "build",
+  }),
+
   new CliCommand({
     command: "dev",
     description: "runs services in dev mode",

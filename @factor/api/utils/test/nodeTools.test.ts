@@ -23,8 +23,6 @@ describe("node utils", () => {
     const importFile = (await importIfExists(cwd)) as Record<string, any>
     expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(`
       [
-        "appEmail",
-        "appName",
         "factorApp",
         "factorDb",
         "factorEmail",

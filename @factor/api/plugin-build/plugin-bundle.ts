@@ -210,9 +210,12 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         const { default: config } = (await import(
           /* @vite-ignore */ configFilePath
         )) as {
-          default: (opts: { buildName: string }) => vite.InlineConfig
+          default: (opts: {
+            buildName: string
+            factorBuild: FactorBuild
+          }) => vite.InlineConfig
         }
-        addedConfig = config({ buildName })
+        addedConfig = config({ buildName, factorBuild: this.factorBuild })
       }
 
       const vc = await this.factorBuild.getCommonViteConfig({

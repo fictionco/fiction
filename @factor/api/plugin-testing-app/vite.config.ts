@@ -3,6 +3,7 @@ import unocss from "unocss/vite"
 import { presetAttributify, presetUno, presetWind } from "unocss"
 import presetIcons from "@unocss/preset-icons"
 import { InlineConfig } from "vite"
+import pluginVue from "@vitejs/plugin-vue"
 import { safeDirname } from "../utils"
 
 export default (_opts: { buildName: string }): InlineConfig => {
@@ -37,6 +38,7 @@ export default (_opts: { buildName: string }): InlineConfig => {
     root,
     build: { outDir, ssr, ssrManifest },
     plugins: [
+      pluginVue(),
       unocss({
         presets: [
           presetIcons(),

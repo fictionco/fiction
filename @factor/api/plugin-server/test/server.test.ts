@@ -15,7 +15,25 @@ describe("server test", () => {
     expect(factorServer.port).toBe(9929)
 
     expect(factorServer.serverUrl).toMatchInlineSnapshot(
-      '"http://localhost:9929"',
+      `
+        ComputedRefImpl {
+          "__v_isReadonly": true,
+          "__v_isRef": true,
+          "_cacheable": true,
+          "_dirty": false,
+          "_setter": [Function],
+          "_value": "http://localhost:9929",
+          "dep": undefined,
+          "effect": ReactiveEffect {
+            "active": true,
+            "computed": [Circular],
+            "deps": [],
+            "fn": [Function],
+            "parent": undefined,
+            "scheduler": [Function],
+          },
+        }
+      `,
     )
 
     let response: axios.AxiosResponse<EndpointResponse> | undefined
@@ -38,6 +56,7 @@ describe("server test", () => {
         "version",
         "uptime",
         "timestamp",
+        "commit",
       ]
     `)
 

@@ -1,7 +1,7 @@
 import path from "path"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
-import { HookType, safeDirname } from "../utils"
+import { HookType, safeDirname, vue } from "../utils"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
@@ -28,13 +28,13 @@ type EnvVarSettings<X extends string> = {
 
 export class EnvVar<X extends string> {
   name: X
-  val: string | undefined
+  val: vue.Ref<string | undefined>
   verify?: VerifyVar
   isOptional: boolean
   isPublic: boolean
   constructor(settings: EnvVarSettings<X>) {
     this.name = settings.name
-    this.val = settings.val
+    this.val = vue.ref(settings.val)
     this.verify = settings.verify
     this.isOptional = settings.isOptional || false
     this.isPublic = settings.isPublic || false
@@ -233,14 +233,14 @@ export class FactorEnv<
   }
 
   getPublicVars() {
-    return this.getVars().filter((_) => _.isPublic && _.val)
+    return this.getVars().filter((_) => _.isPublic && _.val.value)
   }
 
   getViteRenderedVars(): Record<string, string> {
     const rendered = Object.fromEntries(
       this.getPublicVars()
-        .filter((_) => _.val)
-        .map((_) => [_.name, _.val]),
+        .filter((_) => _.val.value)
+        .map((_) => [_.name, _.val.value]),
     ) as Record<string, string>
     rendered.IS_VITE = "yes"
 
@@ -290,7 +290,7 @@ export class FactorEnv<
 
       let r: boolean
       if (verify) {
-        r = verify({ factorEnv: this, value: val })
+        r = verify({ factorEnv: this, value: val.value })
       } else if (!this.isApp && !isOptional) {
         r = val ? true : false
       } else {
@@ -414,14 +414,25 @@ export class FactorEnv<
     }
   }
 
-  var(variable: S["vars"]): string | undefined {
+  var(variable: S["vars"], opts: { fallback: string | number }): string
+  var(variable: S["vars"]): string | undefined
+  var(
+    variable: S["vars"],
+    opts: { fallback?: string | number } = {},
+  ): string | undefined {
+    const { fallback } = opts
     const envVar = this.getVars().find((_) => _.name === variable)
 
     if (!envVar) {
       this.log.warn(`envVar missing: ${variable}`)
       return undefined
     }
+    const v = envVar.val.value
 
-    return envVar.val as string | undefined
+    if (!v && fallback) {
+      envVar.val.value = String(fallback)
+    }
+
+    return envVar.val.value
   }
 }

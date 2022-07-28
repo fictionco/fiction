@@ -60,7 +60,7 @@ describe("route handling", () => {
           "children": [],
           "component": [Function],
           "meta": {
-            "auth": [Function],
+            "auth": undefined,
             "menus": [
               "test",
             ],
@@ -73,7 +73,7 @@ describe("route handling", () => {
           "children": [],
           "component": [Function],
           "meta": {
-            "auth": [Function],
+            "auth": undefined,
             "menus": [],
             "niceName": "404",
           },
@@ -84,7 +84,7 @@ describe("route handling", () => {
           "children": [],
           "component": [Function],
           "meta": {
-            "auth": [Function],
+            "auth": undefined,
             "menus": [],
             "niceName": "App",
           },

@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "app" | "build" | "bundle" | "deploy" | "dev" | "generate" | "r-dev" | "release" | "render" | "server";
+  commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "r-dev" | "release" | "render" | "server" | "www";
   vars:
     | "APP_PORT"
     | "AWS_ACCESS_KEY"
@@ -23,7 +23,9 @@ export interface CompiledServiceConfig {
     | "SMTP_USER"
     | "STRIPE_SECRET_KEY_PROD"
     | "STRIPE_SECRET_KEY_TEST"
-    | "TOKEN_SECRET";
+    | "TEST_APP_PORT"
+    | "TOKEN_SECRET"
+    | "WWW_PORT";
   endpoints:
     | "AllProducts"
     | "CurrentUser"

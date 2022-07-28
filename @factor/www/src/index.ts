@@ -17,6 +17,7 @@ import {
   FactorRouter,
   CliOptions,
   FactorMedia,
+  vars,
   FactorTestingApp,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
@@ -24,9 +25,11 @@ import { FactorAws } from "@factor/api/plugin-aws"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
-import { commands } from "./vars"
+import { commands, envVars } from "./vars"
 import routes from "./routes"
 import App from "./App.vue"
+
+vars.register(envVars)
 
 const cwd = safeDirname(import.meta.url, "..")
 const repoRoot = safeDirname(import.meta.url, "../../..")
@@ -46,7 +49,7 @@ export const factorDb = new FactorDb({
 
 export const factorServer = new FactorServer({
   serverName: "FactorMain",
-  port: +(factorEnv.var("SERVER_PORT") || 3333),
+  port: +factorEnv.var("SERVER_PORT", { fallback: 3333 }),
   liveUrl: "https://server.factorjs.org",
   isLive: factorEnv.isProd,
   factorEnv,
@@ -60,7 +63,7 @@ export const factorApp = new FactorApp({
   liveUrl: "https://www.factorjs.org",
   isLive: factorEnv.isProd,
   factorServer,
-  port: +(factorEnv.var("APP_PORT") || 3000),
+  port: +factorEnv.var("APP_PORT", { fallback: 3000 }),
   rootComponent: App,
   factorRouter,
   uiPaths: [
@@ -126,9 +129,8 @@ const factorBlog = new FactorBlogEngine({
 })
 
 const factorTestingApp = new FactorTestingApp({
-  port: 1112,
+  port: +factorEnv.var("TEST_APP_PORT", { fallback: 1112 }),
   head: "<!-- test -->",
-  mode: "production",
 })
 
 const initializeBackingServices = async () => {
@@ -180,7 +182,6 @@ export const service = {
   factorDocs,
   factorBlog,
   factorMedia,
-  factorTestingApp,
   factorHighlightCode: new FactorHighlightCode(),
   factorNotify: new FactorNotify(),
   factorUi: new FactorUi({ factorApp }),

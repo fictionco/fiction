@@ -25,6 +25,7 @@ describe("vite config", () => {
         "distServer": "/Users/arpowers/Projects/factor/@factor/api/dist/server",
         "distServerEntry": "/Users/arpowers/Projects/factor/@factor/api/dist/server/mount",
         "distStatic": "/Users/arpowers/Projects/factor/@factor/api/dist/static",
+        "mainFile": "index.ts",
         "mainFilePath": "/Users/arpowers/Projects/factor/@factor/api/index.ts",
         "mountFilePath": "/Users/arpowers/Projects/factor/@factor/api/plugin-app/mount.ts",
         "publicDir": "/Users/arpowers/Projects/factor/@factor/api/public",
