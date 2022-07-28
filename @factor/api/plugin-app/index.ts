@@ -879,11 +879,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     app.use(serveStatic(distStatic, { index: false }))
 
     app.use("*", (req, res) => {
-      this.log.error("404 Request", {
+      this.log.error(`404 Request ${req.url}`, {
         data: {
           url: req.url,
+          originalUrl: req.originalUrl,
           method: req.method,
-          contentType: req.headers["content-type"],
+          accept: req.headers["accept"],
         },
       })
       res.status(404).end()
