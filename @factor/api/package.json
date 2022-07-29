@@ -21,7 +21,7 @@
     "@iconify-json/carbon": "^1.1.7",
     "@iconify-json/heroicons-outline": "^1.1.2",
     "@medv/finder": "^2.1.0",
-    "@sinclair/typebox": "^0.24.21",
+    "@sinclair/typebox": "^0.24.22",
     "@types/bcrypt": "^5.0.0",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.12",
@@ -146,7 +146,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.18.9",
-    "@factor/api": "5.4.98",
+    "@factor/api": "workspace:5.4.98",
     "@playwright/test": "^1.24.1",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",
