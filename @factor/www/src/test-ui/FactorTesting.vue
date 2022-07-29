@@ -9,12 +9,15 @@
         <span v-else class="text-red-500">[not set]</span>
       </div>
     </div>
+    <div>{{ processVars }}</div>
   </div>
 </template>
 <script lang="ts" setup>
 import { useFactorService } from "../inject"
 
 const { factorApp } = useFactorService()
+
+const processVars = window.process.env
 
 const list = [
   {
@@ -23,9 +26,9 @@ const list = [
     value: process.env.SERVER_PORT,
   },
   {
-    id: "app-port",
-    title: "App Port",
-    value: process.env.APP_PORT,
+    id: "www-port",
+    title: "WWW Port",
+    value: process.env.WWW_PORT,
   },
   {
     id: "is-test",
@@ -37,7 +40,6 @@ const list = [
     title: "NODE_ENV",
     value: process.env.NODE_ENV,
   },
-  { id: "mode", title: "MODE", value: process.env.MODE },
   {
     id: "is-vite",
     title: "IS_VITE",

@@ -47,6 +47,11 @@ export const createExpressApp = (
   const { noHelmet } = opts
   const app = express()
 
+  // prevent bots looking for exposed .env files
+  app.use("*.env", (req, res) => {
+    res.status(404).end()
+  })
+
   if (!noHelmet) {
     app.use(
       helmet({

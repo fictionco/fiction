@@ -3,7 +3,7 @@
     <div class="bg-white pb-8 sm:pb-12 lg:pb-12">
       <div class="overflow-hidden pt-8 sm:pt-12 lg:relative lg:py-36">
         <div
-          class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:grid lg:max-w-6xl lg:grid-cols-2 lg:gap-16 lg:px-12"
+          class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:grid lg:max-w-5xl lg:grid-cols-2 lg:gap-16 lg:px-12"
         >
           <div>
             <div class="">
@@ -21,17 +21,15 @@
               </div>
               <div class="mt-6 sm:max-w-sm">
                 <h1 class="text-2xl font-extrabold tracking-tight">
-                  A Modular and Expressive Framework for TypeScript Apps
+                  The Modular JavaScript Framework
                 </h1>
                 <p class="mt-6 text-base text-slate-700">
-                  Quickly build modern websites with the latest JavaScript
-                  technology.
+                  Factor is an expressive &amp; modular framework for JavaScript
+                  applications.
                 </p>
               </div>
-              <div class="mt-12 flex w-full items-center space-x-6 sm:max-w-lg">
-                <ElButton btn="primary" to="/docs">
-                  Getting Started &rarr;
-                </ElButton>
+              <div class="mt-6 flex w-full items-center space-x-6 sm:max-w-lg">
+                <ElButton btn="primary" to="/docs"> Coming Soon </ElButton>
 
                 <ElButton
                   href="https://www.github.com/FactorJS/factor"
@@ -57,7 +55,7 @@
           </div>
         </div>
 
-        <div class="sm:mx-auto sm:max-w-3xl">
+        <div class="sm:mx-auto sm:max-w-2xl">
           <div
             class="py-6 sm:relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2"
           >

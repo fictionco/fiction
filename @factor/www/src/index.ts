@@ -19,6 +19,7 @@ import {
   FactorMedia,
   vars,
   FactorTestingApp,
+  randomBetween,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
 import { FactorAws } from "@factor/api/plugin-aws"
@@ -63,7 +64,7 @@ export const factorApp = new FactorApp({
   liveUrl: "https://www.factorjs.org",
   isLive: factorEnv.isProd,
   factorServer,
-  port: +factorEnv.var("APP_PORT", { fallback: 3000 }),
+  port: +factorEnv.var("WWW_PORT", { fallback: 3000 }),
   rootComponent: App,
   factorRouter,
   uiPaths: [
@@ -129,8 +130,10 @@ const factorBlog = new FactorBlogEngine({
 })
 
 const factorTestingApp = new FactorTestingApp({
-  port: +factorEnv.var("TEST_APP_PORT", { fallback: 1112 }),
-  head: "<!-- test -->",
+  port: +factorEnv.var("TEST_APP_PORT", {
+    fallback: randomBetween(1000, 2000),
+  }),
+  head: "<!-- test app injected -->",
 })
 
 const initializeBackingServices = async () => {

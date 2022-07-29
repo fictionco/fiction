@@ -60,7 +60,7 @@ const benefits = vue.ref([
   <path fill="#FFEFC6" fill-rule="evenodd" d="M45 63.3V45h18.3v10H55v8.3H45zM118.3 45H81.7v10h36.6V45zm18.4 0v10h8.3v8.3h10V45h-18.3zM155 81.7h-10v36.6h10V81.7zm0 55h-10v8.3h-8.3v10H155v-18.3zM118.3 155v-10H81.7v10h36.6zm-55 0v-10H55v-8.3H45V155h18.3zM45 118.3h10V81.7H45v36.6z" clip-rule="evenodd"/>
   <path fill="#CF7C3D" d="M114.8 150c.5.3 1.1.5 1.7.5a3.2 3.2 0 003-2l9-21.1 21-9a3.2 3.2 0 00.4-5.7L92.6 81a3.2 3.2 0 00-4.5 4l25.5 63.6c.3.6.7 1 1.2 1.4z"/>
 </svg>`,
-    title: "Simple yet powerful",
+    title: "Expressive Design",
     text: "Factor simplifies your life by helping you use standards and best-practices without having to think about them.",
   },
   {

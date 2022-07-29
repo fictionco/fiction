@@ -129,9 +129,18 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     }
   }
 
-  runTests = async (): Promise<void> => {
-    this.log.info(`Running tests...`)
-    await this.run("npm", ["run", "test"])
+  runTypeCheck = async (): Promise<void> => {
+    this.log.info(`Type Checking...`)
+    await this.run("tsc", [
+      "--skipLibCheck",
+      "--excludeDirectories",
+      "node_modules",
+    ])
+  }
+
+  runUnitTests = async (): Promise<void> => {
+    this.log.info(`Unit Tests...`)
+    await this.run("npm", ["exec", "--", "vitest", "run"])
   }
 
   ensureCleanGit = async (
@@ -157,8 +166,10 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
 
     await this.ensureCleanGit({ withChanges })
 
+    await this.runTypeCheck()
+
     if (!skipTests) {
-      await this.runTests()
+      await this.runUnitTests()
     }
 
     const targetVersion = this.currentVersion()
@@ -230,8 +241,10 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       if (!yes) return
     }
 
+    await this.runTypeCheck()
+
     if (!skipTests) {
-      await this.runTests()
+      await this.runUnitTests()
     }
 
     await this.updateVersions(targetVersion)

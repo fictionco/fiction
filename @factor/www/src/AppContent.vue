@@ -10,7 +10,6 @@ import { useMeta, vue } from "@factor/api"
 import SiteHead from "./el/SiteHead.vue"
 import SiteFooter from "./el/SiteFooter.vue"
 import ImgShare from "./img/share.jpg"
-import ImgIcon from "./img/icon.jpg"
 useMeta({
   title: vue.computed(() => {
     return `FactorJS Static Site Framework by Kaption Co.`
@@ -25,11 +24,6 @@ useMeta({
       vmid: "og:image",
       property: "og:image",
       content: ImgShare,
-    },
-    {
-      vmid: "icon",
-      rel: "icon",
-      href: ImgIcon,
     },
   ],
 })

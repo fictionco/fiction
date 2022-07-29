@@ -116,8 +116,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   constructor(settings: FactorAppSettings) {
     super("app", settings)
 
-    this.factorEnv.updateVarsForTransfer({ APP_PORT: this.port?.toString() })
-
     const cwd = this.factorEnv.standardPaths?.cwd
 
     this.appEmail = this.factorEnv.appEmail
@@ -865,7 +863,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     )
 
     app.use(async (req, res, next) => {
-      let pathname = req.originalUrl
+      let pathname = req.originalUrl.split("?")[0]
+
       if (!pathname.includes(".") || pathname.includes(".html")) {
         pathname =
           pathname.charAt(pathname.length - 1) == "/"

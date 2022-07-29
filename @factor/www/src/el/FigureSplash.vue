@@ -85,7 +85,7 @@
     </div>
 
     <div
-      class="-mt-4 flex flex-col items-center justify-center md:flex-row md:space-x-3"
+      class="flex flex-col items-center justify-center md:flex-row md:space-x-3 xl:-mt-24"
     >
       <div
         v-for="(fig, i) in figures"
@@ -176,8 +176,8 @@ figure.figure-splash-container {
 
   .splash-figure,
   .stage {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
   }
 
   .splash-figure {

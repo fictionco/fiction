@@ -34,6 +34,8 @@ export * as playwright from "playwright"
 
 const require = createRequire(import.meta.url)
 
+const repoRoot = safeDirname(import.meta.url, "../..")
+
 const getModuleName = (cwd: string): string => {
   const pkg = require(`${cwd}/package.json`) as PackageJson
   return pkg.name
@@ -235,8 +237,10 @@ export const createTestUtilServices = async <
     uiPaths = [],
   } = opts || {}
 
+  const defaultEnvFile = path.join(repoRoot, "./.env")
+
   const factorEnv = new FactorEnv<S>({
-    envFiles: [path.join(cwd, "./.env"), ...envFiles],
+    envFiles: [defaultEnvFile, ...envFiles],
     cwd,
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
@@ -334,7 +338,7 @@ export const createTestServer = async (
     `npm exec -w ${moduleName} --`,
     `factor run dev`,
     `--server-port ${serverPort}`,
-    `--app-port ${appPort}`,
+    `--www-port ${appPort}`,
     ...additionalArgs,
   ]
 
@@ -402,7 +406,7 @@ export const appBuildTests = (config: {
 
   describe(`build app: ${moduleName}`, () => {
     it("prerenders", () => {
-      const command = `npm exec -w ${moduleName} -- factor run render --server-port ${serverPort} --app-port ${appPort}`
+      const command = `npm exec -w ${moduleName} -- factor run render --server-port ${serverPort} --www-port ${appPort}`
 
       log.info("appBuildTests", "running render command", { data: command })
       const r = execaCommandSync(command, {
@@ -420,7 +424,7 @@ export const appBuildTests = (config: {
 
     it("runs dev", () => {
       const r = execaCommandSync(
-        `npm exec -w ${moduleName} -- factor run dev --exit --server-port ${serverPort} --app-port ${appPort}`,
+        `npm exec -w ${moduleName} -- factor run dev --exit --server-port ${serverPort} --www-port ${appPort}`,
         {
           env: { IS_TEST: "1", TEST_ENV: "unit" },
           timeout: 20_000,

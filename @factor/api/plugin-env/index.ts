@@ -66,7 +66,7 @@ class EnvVarList {
       }),
       new EnvVar({
         name: "IS_TEST",
-        val: process.env.IS_TEST,
+        val: process.env.IS_TEST || process.env.VITEST,
         isPublic: true,
       }),
     ],
@@ -202,8 +202,12 @@ export class FactorEnv<
 
       if (fullOpts.mode) {
         this.mode.value = fullOpts.mode
-        // use literal to prevent substitution in app
-        process.env["NODE_ENV"] = fullOpts.mode
+
+        this.setVar("NODE_ENV", fullOpts.mode)
+      }
+
+      if (process.env.VITEST) {
+        this.setVar("IS_TEST", "true")
       }
     }
 
@@ -411,6 +415,15 @@ export class FactorEnv<
 
     if (cliCommand.options.exit) {
       done(0)
+    }
+  }
+
+  setVar(variable: S["vars"], value?: string): void {
+    const envVar = this.getVars().find((_) => _.name === variable)
+    if (!envVar) {
+      this.log.warn(`envVar missing: ${variable}`)
+    } else {
+      envVar.val.value = value
     }
   }
 

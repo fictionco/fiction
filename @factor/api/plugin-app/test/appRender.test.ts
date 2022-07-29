@@ -43,7 +43,7 @@ describe("renders app code correctly", () => {
     const serverUrlText = await page().locator(`#server-port`).textContent()
     expect(serverUrlText).toBe(_s.serverPort.toString())
 
-    const currentUrlText = await page().locator(`#app-port`).textContent()
+    const currentUrlText = await page().locator(`#www-port`).textContent()
     expect(currentUrlText).toBe(String(_s.appPort))
 
     const appNameText = await page().locator(`#app-name`).textContent()
