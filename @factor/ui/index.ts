@@ -21,7 +21,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
   root = this.utils.safeDirname(import.meta.url)
   ui: Record<string, vue.Component> = inputs
   constructor(settings: FactorUiSettings) {
-    super(settings)
+    super("ui", settings)
     this.factorApp = settings.factorApp
 
     this.factorApp.addUiPaths([`${this.root}/*.vue`])

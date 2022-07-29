@@ -35,7 +35,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   tables = this.settings.tables || []
   factorEnv = this.settings.factorEnv
   constructor(settings: FactorDbSettings) {
-    super(settings)
+    super("db", settings)
 
     this.hooks = settings.hooks || []
 

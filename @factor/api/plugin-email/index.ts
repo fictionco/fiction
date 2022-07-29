@@ -53,7 +53,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
   isTest = this.utils.isTest()
   isApp = this.utils.isApp()
   constructor(settings: FactorEmailSettings) {
-    super(settings)
+    super("email", settings)
 
     if (this.utils.isActualBrowser()) return
   }

@@ -7,6 +7,9 @@ import type { FactorServer } from "./plugin-server"
 import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as utils from "./utils"
+
+export type FactorPluginSettings = { id?: string; [key: string]: unknown }
+
 export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   settings: T
   log = log.contextLogger(this.constructor.name)
@@ -21,22 +24,20 @@ export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   }
 }
 
-export abstract class FactorPlugin<
-  T extends { id?: string; [key: string]: unknown } = {},
-> {
-  public settings: T
-  public stop = _stop
-  public utils = utils
-  public basePath: string
-  public id?: string
-  public log: LogHelper
-  constructor(settings: T) {
+export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
+  settings: T
+  stop = _stop
+  utils = utils
+  basePath: string
+  id?: string
+  log: LogHelper
+  name: string
+  constructor(name: string, settings: T) {
+    this.name = name
     this.settings = settings
-    this.basePath = `/${utils.slugify(this.constructor.name)}`
+    this.basePath = `/${utils.slugify(this.name)}`
     this.id = this.settings.id
-    this.log = log.contextLogger(
-      `${this.constructor.name}${this.id ? `:${this.id}` : ""}`,
-    )
+    this.log = log.contextLogger(`${this.name}${this.id ? `:${this.id}` : ""}`)
   }
 
   afterSetup(): void | Promise<void> {}

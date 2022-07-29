@@ -61,7 +61,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   secretKeyTest = this.settings.secretKeyTest
   webhookSecret = this.settings.webhookSecret
   constructor(settings: StripePluginSettings) {
-    super(settings)
+    super("stripe", settings)
 
     const stripeWebhookEndpoint = new Endpoint({
       requestHandler: (_) => this.stripeHookHandler(_),

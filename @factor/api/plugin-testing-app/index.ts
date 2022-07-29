@@ -51,7 +51,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   isLive = this.settings.isLive ?? false
   useBuilt = true
   constructor(settings: FactorTestingAppSettings) {
-    super(settings)
+    super("testingApp", settings)
   }
   setup() {}
 

@@ -13,7 +13,7 @@ export type BlogOptions = {
 export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
   factorApp?: FactorApp
   constructor(settings: BlogOptions) {
-    super(settings)
+    super("blog", settings)
 
     this.factorApp = settings.factorApp
 

@@ -2,7 +2,7 @@ import { FactorPlugin, emitEvent } from "@factor/api"
 
 export class FactorNotify extends FactorPlugin<{}> {
   constructor() {
-    super({})
+    super("notify", {})
   }
   setup() {}
 

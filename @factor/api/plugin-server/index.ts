@@ -37,7 +37,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   serverName = this.settings.serverName
   server?: http.Server
   constructor(settings: FactorServerSettings) {
-    super(settings)
+    super("server", settings)
 
     this.addConfig()
 

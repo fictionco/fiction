@@ -20,7 +20,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
   bundlingCurrent = 0
   watchers: RollupWatcher[] = []
   constructor(settings: FactorBundleSettings) {
-    super(settings)
+    super("bundle", settings)
     this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
   }
 

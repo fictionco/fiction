@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 // https://github.com/microsoft/TypeScript/issues/48212
 import "../utils/endpoint"
 import type { EndpointMeta } from "../utils"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import type { HookType } from "../utils/hook"
 import { vars, EnvVar } from "../plugin-env"
 import type { FactorServer } from "../plugin-server"
@@ -70,8 +70,7 @@ export type UserPluginSettings = {
   googleClientSecret?: string
   hooks?: HookType<FactorUserHookDictionary>[]
   tokenSecret?: string
-  mode?: "production" | "development"
-}
+} & FactorPluginSettings
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
   readonly types = types
@@ -94,7 +93,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   activePath = this.utils.vue.ref(this.utils.safeDirname(import.meta.url))
   clientTokenKey = "ffUser"
   constructor(settings: UserPluginSettings) {
-    super(settings)
+    super("user", settings)
 
     this.factorDb.addTables([userTable])
 

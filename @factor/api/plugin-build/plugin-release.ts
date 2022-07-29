@@ -20,7 +20,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   versionIncrements: ReleaseType[] = ["patch", "minor", "major", "prerelease"]
   factorEnv: FactorEnv
   constructor(settings: FactorReleaseSettings) {
-    super(settings)
+    super("release", settings)
     this.factorEnv = settings.factorEnv
   }
 

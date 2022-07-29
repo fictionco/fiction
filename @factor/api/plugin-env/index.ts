@@ -131,7 +131,7 @@ export class FactorEnv<
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
   constructor(settings: FactorControlSettings) {
-    super(settings)
+    super("env", settings)
 
     this.log.info(`initializing (${Object.keys(process.env).length} vars)`)
 

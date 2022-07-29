@@ -12,7 +12,7 @@ type FactorSitemapSettings = {
 export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
   factorRouter: FactorRouter
   constructor(settings: FactorSitemapSettings) {
-    super(settings)
+    super("sitemap", settings)
     this.factorRouter = settings.factorRouter
   }
 

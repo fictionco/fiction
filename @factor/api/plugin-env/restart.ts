@@ -4,7 +4,7 @@ import { done } from "./utils"
 
 export class FactorDevRestart extends FactorPlugin {
   constructor() {
-    super({})
+    super("devRestart", {})
   }
   setup() {}
 

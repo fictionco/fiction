@@ -15,7 +15,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
   readonly types = types
   factorApp: FactorApp
   constructor(settings: DocsSettings) {
-    super(settings)
+    super("docs", settings)
 
     this.factorApp = settings.factorApp
 

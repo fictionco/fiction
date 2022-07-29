@@ -24,7 +24,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   factorEnv = this.settings.factorEnv
   root = safeDirname(import.meta.url)
   constructor(settings: FactorBuildSettings) {
-    super(settings)
+    super("build", settings)
     this.loadingPromise = this.getLexers().catch(console.error)
   }
 

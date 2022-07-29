@@ -2,7 +2,7 @@ import { FactorPlugin } from "@factor/api"
 
 export class FactorHighlightCode extends FactorPlugin<{}> {
   constructor() {
-    super({})
+    super("highlightCode", {})
   }
   setup = () => {
     return {

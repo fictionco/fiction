@@ -49,7 +49,7 @@ export class FactorRouter<
   replacers: RouteReplacer[]
   factorEnv = this.settings.factorEnv
   constructor(settings: FactorRouterSettings = {}) {
-    super(settings)
+    super("router", settings)
     this.replacers = settings.replacers || []
     this.routes = vue.shallowRef(settings.routes || []) as vue.Ref<
       AppRoute<string>[]

@@ -114,7 +114,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   })
 
   constructor(settings: FactorAppSettings) {
-    super(settings)
+    super("app", settings)
 
     this.factorEnv.updateVarsForTransfer({ APP_PORT: this.port?.toString() })
 
