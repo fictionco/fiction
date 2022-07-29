@@ -11,7 +11,8 @@ import {
 import PageHome from "./el/PageHome.vue"
 import PageWrap from "./el/PageWrap.vue"
 import PageSingle from "./el/PageSingle.vue"
-
+import PageOther from "./el/PageOther.vue"
+import PageAbout from "./el/PageAbout.vue"
 export const initApp = (config: { env: "server" | "client" }) => {
   const { env } = config
   const app = createSSRApp(PageWrap)
@@ -23,8 +24,8 @@ export const initApp = (config: { env: "server" | "client" }) => {
       component: PageHome,
     },
     { name: "tour", path: "/tour", component: PageSingle },
-    { name: "contact", path: "/contact", component: PageSingle },
-    { name: "about", path: "/about", component: PageSingle },
+    { name: "pricing", path: "/pricing", component: PageOther },
+    { name: "about", path: "/about", component: PageAbout },
   ]
   const router = createRouter({ history, routes })
 

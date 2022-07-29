@@ -56,14 +56,14 @@
         <p
           class="text-center text-sm font-semibold uppercase tracking-wide text-gray-500"
         >
-          Trusted by over 5 very average small businesses
+          Trusted by the best
         </p>
         <div class="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
           <div
             class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
           >
             <img
-              class="h-12"
+              class="h-8"
               src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
               alt="Tuple"
             />
@@ -72,7 +72,7 @@
             class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
           >
             <img
-              class="h-12"
+              class="h-8"
               src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg"
               alt="Mirage"
             />
@@ -81,7 +81,7 @@
             class="col-span-1 flex justify-center md:col-span-2 lg:col-span-1"
           >
             <img
-              class="h-12"
+              class="h-8"
               src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
               alt="StaticKit"
             />
@@ -90,7 +90,7 @@
             class="col-span-1 flex justify-center md:col-span-2 md:col-start-2 lg:col-span-1"
           >
             <img
-              class="h-12"
+              class="h-8"
               src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
               alt="Transistor"
             />
@@ -99,7 +99,7 @@
             class="col-span-2 flex justify-center md:col-span-2 md:col-start-4 lg:col-span-1"
           >
             <img
-              class="h-12"
+              class="h-8"
               src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
               alt="Workcation"
             />

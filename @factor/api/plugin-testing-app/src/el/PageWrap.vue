@@ -6,7 +6,9 @@
           class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10 lg:px-8"
         >
           <div class="flex justify-start lg:w-0 lg:flex-1">
-            <RouterLink id="link-home" to="/"> Website </RouterLink>
+            <RouterLink id="link-home" to="/" class="font-bold">
+              Website
+            </RouterLink>
           </div>
 
           <div class="flex flex-1 items-center justify-end space-x-4 lg:w-0">
@@ -26,11 +28,18 @@
               Tour
             </RouterLink>
             <RouterLink
-              id="link-contact"
-              to="/contact"
+              id="link-pricing"
+              to="/pricing"
               class="whitespace-nowrap text-base font-medium text-slate-500 hover:text-slate-900"
             >
-              Contact
+              Pricing
+            </RouterLink>
+            <RouterLink
+              id="link-about"
+              to="/about"
+              class="whitespace-nowrap text-base font-medium text-slate-500 hover:text-slate-900"
+            >
+              About
             </RouterLink>
           </div>
         </div>

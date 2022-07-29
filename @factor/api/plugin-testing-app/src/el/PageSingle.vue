@@ -37,11 +37,7 @@
               <h1
                 class="mt-4 text-4xl font-extrabold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl"
               >
-                <span class="block">A better way to</span>
-                <span
-                  class="block bg-gradient-to-r from-slate-400 to-slate-700 bg-clip-text pb-3 text-transparent sm:pb-5"
-                  >test apps</span
-                >
+                <span class="block">A better way...</span>
               </h1>
               <p
                 class="text-base text-slate-300 sm:text-xl lg:text-lg xl:text-xl"
@@ -85,7 +81,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-12 -mb-16 sm:-mb-48 lg:relative lg:m-0">
+          <div class="mt-12 lg:relative lg:m-0">
             <div
               class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0"
             >
@@ -400,10 +396,6 @@
         class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-8 lg:px-8"
       >
         <div class="relative lg:-my-8">
-          <div
-            aria-hidden="true"
-            class="absolute inset-x-0 top-0 h-1/2 bg-white lg:hidden"
-          ></div>
           <div
             class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:h-full lg:p-0"
           >

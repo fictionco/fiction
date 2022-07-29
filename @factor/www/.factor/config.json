@@ -46,39 +46,39 @@
     },
     {
       "key": "ManageCustomer",
-      "path": "/factorstripe/ManageCustomer"
+      "path": "/stripe/ManageCustomer"
     },
     {
       "key": "ListSubscriptions",
-      "path": "/factorstripe/ListSubscriptions"
+      "path": "/stripe/ListSubscriptions"
     },
     {
       "key": "GetInvoices",
-      "path": "/factorstripe/GetInvoices"
+      "path": "/stripe/GetInvoices"
     },
     {
       "key": "ManageSubscription",
-      "path": "/factorstripe/ManageSubscription"
+      "path": "/stripe/ManageSubscription"
     },
     {
       "key": "ManagePaymentMethod",
-      "path": "/factorstripe/ManagePaymentMethod"
+      "path": "/stripe/ManagePaymentMethod"
     },
     {
       "key": "GetCustomerData",
-      "path": "/factorstripe/GetCustomerData"
+      "path": "/stripe/GetCustomerData"
     },
     {
       "key": "AllProducts",
-      "path": "/factorstripe/AllProducts"
+      "path": "/stripe/AllProducts"
     },
     {
       "key": "GetProduct",
-      "path": "/factorstripe/GetProduct"
+      "path": "/stripe/GetProduct"
     },
     {
       "key": "GetCoupon",
-      "path": "/factorstripe/GetCoupon"
+      "path": "/stripe/GetCoupon"
     },
     {
       "key": "stripeWebhooks",

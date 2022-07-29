@@ -164,7 +164,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
       app.use(serveStatic(clientDir, { index: false }))
     }
 
-    app.use("*", async (req, res, next) => {
+    app.use("*", async (req, res) => {
       const url = req.originalUrl
       try {
         let template = ""
