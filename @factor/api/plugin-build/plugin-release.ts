@@ -188,8 +188,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     patch?: boolean
     skipTests?: boolean
     withChanges?: boolean
+    tag?: string | true
   }): Promise<void> => {
-    const { patch, skipTests } = options || {}
+    const { patch, skipTests, tag } = options || {}
 
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)
@@ -287,11 +288,9 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     ])
     await this.commit("git", ["push", "--no-verify"])
 
-    await this.commit("gh", [
-      "release",
-      "create",
-      targetVersion,
-      "--generate-notes",
-    ])
+    if (tag) {
+      const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
+      await this.commit("gh", ["release", "create", txt, "--generate-notes"])
+    }
   }
 }
