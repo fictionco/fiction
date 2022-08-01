@@ -20,7 +20,7 @@
               {{ type }}
             </a>
           </p>
-          <router-link :to="post.path" class="mt-2 block">
+          <router-link :to="post.path ?? '/'" class="mt-2 block">
             <p class="text-xl font-semibold">
               {{ post.title }}
             </p>

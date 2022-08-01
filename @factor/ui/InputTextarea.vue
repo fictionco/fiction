@@ -1,7 +1,7 @@
 <template>
   <textarea
     ref="textareaElement"
-    :class="[textInputClasses('basic'), modelValue ? 'set' : 'empty']"
+    :class="[textInputClasses(), modelValue ? 'set' : 'empty']"
     :value="modelValue"
     @input="send($event.target)"
   />

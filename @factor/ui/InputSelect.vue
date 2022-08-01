@@ -7,7 +7,7 @@
     <option disabled value>{{ attrs.placeholder || "Select" }}</option>
     <template v-for="s in parsedList" :key="s.value">
       <option v-if="s.value == 'divider'" disabled>──────────</option>
-      <option v-else :value="s.value" :disabled="s.disabled">
+      <option v-else :value="s.value" :disabled="!!s.disabled">
         {{ s.label || s.name }}
       </option>
     </template>

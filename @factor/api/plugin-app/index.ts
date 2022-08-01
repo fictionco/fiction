@@ -26,8 +26,6 @@ import {
   ServiceConfig,
   FactorAppEntry,
   FactorEnv,
-  vars,
-  EnvVar,
   StandardPaths,
 } from "../plugin-env"
 import { FactorPlugin } from "../plugin"
@@ -41,23 +39,6 @@ import { getMarkdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
-
-vars.register(() => [
-  new EnvVar({
-    name: "SERVER_PORT",
-    val: process.env.SERVER_PORT,
-    verify: ({ factorEnv, value }) => {
-      return factorEnv.isApp.value && !value ? false : true
-    },
-  }),
-  new EnvVar({
-    name: "APP_PORT",
-    val: process.env.APP_PORT,
-    verify: ({ factorEnv, value }) => {
-      return factorEnv.isApp.value && !value ? false : true
-    },
-  }),
-])
 
 type HookDictionary = {
   appMounted: { args: [FactorAppEntry] }

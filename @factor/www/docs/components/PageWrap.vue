@@ -81,7 +81,7 @@
                   <li v-if="group.title" class="mt-6">
                     <router-link
                       class="mb-2 flex items-center px-3 text-base font-medium hover:text-primary-500"
-                      :to="group.path"
+                      :to="group.path ?? '/'"
                       :class="isCurrentNav(i) ? 'text-primary-500' : ''"
                     >
                       <div

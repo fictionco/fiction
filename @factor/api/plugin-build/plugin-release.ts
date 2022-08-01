@@ -130,12 +130,15 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   }
 
   runTypeCheck = async (): Promise<void> => {
-    this.log.info(`Type Checking...`)
+    this.log.info(`Type checking [.ts] files...`)
     await this.run("tsc", [
       "--skipLibCheck",
       "--excludeDirectories",
       "node_modules",
     ])
+
+    this.log.info(`Type checking [.vue] files...`)
+    await this.run("npm", ["exec", "--", "vue-tsc", "--noEmit"])
   }
 
   runUnitTests = async (): Promise<void> => {
@@ -290,7 +293,11 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
 
     if (tag) {
       const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
+      this.log.info(`creating tagged release "${txt}"`)
+
       await this.commit("gh", ["release", "create", txt, "--generate-notes"])
+    } else {
+      this.log.info("skipping tagged release")
     }
   }
 }

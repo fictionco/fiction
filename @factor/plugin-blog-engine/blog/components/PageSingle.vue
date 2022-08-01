@@ -77,7 +77,7 @@
               </p>
               <div class="mt-6">
                 <router-link
-                  :to="baseRoute"
+                  :to="baseRoute ?? '/'"
                   class="text-base font-medium text-primary-600 hover:text-primary-500"
                   >Back to Index
                   <span aria-hidden="true"> &rarr;</span></router-link
