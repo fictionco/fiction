@@ -40,8 +40,8 @@ export declare interface MenuItem {
 }
 
 export type ActionItem = MenuItem & {
-  btn?: "primary" | "default"
-  size?: "sm" | "lg" | "md"
+  btn?: "default" | "red" | "slate" | "primary" | "green" | "blue" | "outlineWhite"
+  size?: "sm" | "lg" | "md" | "xl"
 }
 
 export interface MenuGroup {
