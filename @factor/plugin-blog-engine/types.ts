@@ -66,7 +66,7 @@ export type BlogPostParams<T extends string> = {
   status?: "published" | "draft"
   permalink?: string
   publishDate?: string
-  fileImport?: () => Promise<MarkdownFile>
+  fileImport?: () => Promise<unknown>
   imageImport?: () => Promise<{ default: string }>
   type?: PostTypes[]
   category?: string[]
@@ -86,7 +86,7 @@ export class BlogPost<T extends string> {
     this.status = params.status ?? "draft"
     this.permalink = params.permalink || slugify(params.key) || ""
     this.publishDate = params.publishDate
-    this.fileImport = params.fileImport
+    this.fileImport = params.fileImport as () => Promise<MarkdownFile>
     this.imageImport = params.imageImport
     this.type = params.type
     this.category = params.category

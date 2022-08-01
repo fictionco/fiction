@@ -33,7 +33,7 @@ export type DocParams<T extends string> = {
   status?: "published" | "draft"
   permalink?: string
   publishDate?: string
-  fileImport?: () => Promise<MarkdownFile>
+  fileImport?: () => Promise<unknown>
   imageImport?: () => Promise<{ default: string }>
   category?: string[]
   title?: string
@@ -55,7 +55,7 @@ export class Doc<T extends string> {
     this.status = params.status ?? "draft"
     this.permalink = params.permalink || slugify(params.key) || ""
     this.publishDate = params.publishDate
-    this.fileImport = params.fileImport
+    this.fileImport = params.fileImport as () => Promise<MarkdownFile>
     this.imageImport = params.imageImport
     this.category = params.category
     this.title = params.title

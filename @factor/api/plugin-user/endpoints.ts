@@ -740,7 +740,9 @@ export class QueryLogin extends UserQuery {
         throw this.stop({ message: "user linked to another google account" })
       }
     } else if (password) {
-      if (!user.hashedPassword) throw this.stop({ message: "password error" })
+      if (!user.hashedPassword) {
+        throw this.stop({ message: "no password set for user" })
+      }
 
       const correctPassword = await comparePassword(
         password,
