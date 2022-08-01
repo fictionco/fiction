@@ -137,8 +137,8 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
       "node_modules",
     ])
 
-    this.log.info(`Type checking [.vue] files...`)
-    await this.run("npm", ["exec", "--", "vue-tsc", "--noEmit"])
+    // this.log.info(`Type checking [.vue] files...`)
+    // await this.run("npm", ["exec", "--", "vue-tsc", "--noEmit"])
   }
 
   runUnitTests = async (): Promise<void> => {
