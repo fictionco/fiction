@@ -581,10 +581,7 @@
           class="relative pt-12 pb-64 sm:pt-24 sm:pb-64 xl:col-start-1 xl:pb-24"
         >
           <h2 class="text-sm font-semibold uppercase tracking-wide">
-            <span
-              class="bg-gradient-to-r from-slate-300 to-slate-300 bg-clip-text text-transparent"
-              >Valuable Metrics</span
-            >
+            <span class="text-slate-300">Valuable Metrics</span>
           </h2>
           <p class="mt-3 text-3xl font-extrabold text-white">
             Get actionable data that will help grow your business
