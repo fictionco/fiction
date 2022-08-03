@@ -4,6 +4,7 @@ import express from "express"
 import * as ws from "ws"
 import { log } from "../plugin-log"
 import type { FactorUser, BearerUser } from "../plugin-user"
+import { EndpointResponse } from "../types"
 import { _stop } from "./error"
 import { emitEvent } from "./event"
 import { waitFor } from "./utils"
@@ -221,10 +222,10 @@ type WelcomeObjectCallback = (
   args: {
     bearer?: BearerUser
     bearerToken?: string
-    [key: string]: any
+    [key: string]: unknown
   },
   request: http.IncomingMessage,
-) => Promise<Record<string, unknown>>
+) => Promise<EndpointResponse>
 
 type NodeSocketServerSettings = {
   factorUser?: FactorUser
@@ -253,9 +254,9 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
       bearer: request.bearer,
       bearerToken: request.bearerToken,
     }
-    const fullWelcome = this.welcomeObject
+    const fullWelcome: EndpointResponse = this.welcomeObject
       ? await this.welcomeObject({ ...welcomeObject }, request)
-      : welcomeObject
+      : { status: "success", message: "welcome", data: welcomeObject }
 
     connection.send(JSON.stringify(["welcome", fullWelcome]))
   }
