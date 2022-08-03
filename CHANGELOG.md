@@ -1,3 +1,12 @@
+## [5.5.8](https://github.com/FactorJS/factor/compare/v5.5.7...v5.5.8) (2022-08-03)
+
+
+### Bug Fixes
+
+* socket response ([7aa2c37](https://github.com/FactorJS/factor/commit/7aa2c37a7e2de58a68aa9c398aac4f3f33e58777))
+
+
+
 ## [5.5.7](https://github.com/FactorJS/factor/compare/v5.5.6...v5.5.7) (2022-08-03)
 
 
