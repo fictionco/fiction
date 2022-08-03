@@ -1,3 +1,12 @@
+## [5.5.5](https://github.com/FactorJS/factor/compare/v5.5.4...v5.5.5) (2022-08-03)
+
+
+### Bug Fixes
+
+* test clip ([3233f8a](https://github.com/FactorJS/factor/commit/3233f8a1bcc5f4c6060b75b132dbae8c6cbfc35f))
+
+
+
 ## [5.5.4](https://github.com/FactorJS/factor/compare/v5.5.3...v5.5.4) (2022-08-01)
 
 
