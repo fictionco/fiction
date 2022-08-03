@@ -14,6 +14,13 @@ export abstract class Query<T extends Record<string, unknown> = {}> {
     this.settings = settings
   }
 
+  allowed(
+    _params: Parameters<this["run"]>[0],
+    _meta: Parameters<this["run"]>[1],
+  ): boolean | Promise<boolean> {
+    return true
+  }
+
   /**
    * Base query method
    */
@@ -31,6 +38,12 @@ export abstract class Query<T extends Record<string, unknown> = {}> {
     meta: Parameters<this["run"]>[1],
   ): Promise<Awaited<ReturnType<this["run"]>>> {
     try {
+      const allowed = await this.allowed(params, meta)
+
+      if (!allowed) {
+        throw this.stop("unauthorized")
+      }
+
       const result = await this.run(params, meta)
 
       return result as Awaited<ReturnType<this["run"]>>

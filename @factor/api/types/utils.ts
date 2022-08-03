@@ -50,7 +50,6 @@ export type ActionItem = MenuItem & {
     | "green"
     | "blue"
     | "whiteOutline"
-    | string
   size?: "sm" | "lg" | "md" | "xl" | string
 }
 
