@@ -418,11 +418,11 @@ export const toPascalCase = (text: string): string => {
  * @reference
  * https://stackoverflow.com/a/46181/1858322
  */
-export const validateEmail = (email?: string): boolean => {
-  if (!email) return false
+export const validateEmail = (email?: string): string | undefined => {
+  if (!email) return undefined
   const re =
     /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/
-  return re.test(String(email).toLowerCase())
+  return re.test(String(email).toLowerCase()) ? email : undefined
 }
 /**
  * Normalize Domain for display
