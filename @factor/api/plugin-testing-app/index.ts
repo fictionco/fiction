@@ -6,6 +6,7 @@ import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname, vue } from "../utils"
 import { FactorPlugin } from "../plugin"
+import { version } from "../package.json"
 import sharedConfig from "./vite.config"
 
 type TestingConfig = {
@@ -50,6 +51,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   ]
   isLive = this.settings.isLive ?? false
   useBuilt = true
+  version = version
   constructor(settings: FactorTestingAppSettings) {
     super("testingApp", settings)
   }
@@ -127,6 +129,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         liveUrl: this.liveUrl,
         localUrl: this.localUrl,
         isLive: this.settings.isLive?.value ?? false,
+        version: this.version,
       },
     })
   }

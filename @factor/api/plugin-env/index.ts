@@ -2,6 +2,7 @@ import path from "path"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
 import { HookType, safeDirname, vue } from "../utils"
+import { version } from "../package.json"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
@@ -130,10 +131,18 @@ export class FactorEnv<
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
+  version = version
   constructor(settings: FactorControlSettings) {
     super("env", settings)
 
-    this.log.info(`initializing (${Object.keys(process.env).length} vars)`)
+    this.log.info(`initializing environment`, {
+      data: {
+        appName: this.appName,
+        version: this.version,
+        vars: Object.keys(process.env).length,
+        commands: this.commands.length,
+      },
+    })
 
     this.envInit()
 
