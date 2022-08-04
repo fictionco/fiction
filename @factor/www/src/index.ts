@@ -26,10 +26,10 @@ import { FactorAws } from "@factor/api/plugin-aws"
 import { docs, groups } from "../docs/map"
 import { posts } from "../blog/map"
 import { CompiledServiceConfig } from "../.factor/config"
+import { version } from "../package.json"
 import { commands, envVars } from "./vars"
 import routes from "./routes"
 import App from "./App.vue"
-
 vars.register(envVars)
 
 const cwd = safeDirname(import.meta.url, "..")
@@ -42,6 +42,7 @@ export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   appName: "FactorJS",
   appEmail: "hi@factorjs.org",
   id: "www",
+  version,
 })
 
 export const factorDb = new FactorDb({

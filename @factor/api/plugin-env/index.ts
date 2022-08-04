@@ -2,7 +2,7 @@ import path from "path"
 import dotenv from "dotenv"
 import { FactorPlugin } from "../plugin"
 import { HookType, safeDirname, vue } from "../utils"
-import { version } from "../package.json"
+import { version as factorVersion } from "../package.json"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
@@ -97,6 +97,7 @@ export type FactorControlSettings = {
   commands?: CliCommand<string>[]
   mode?: "development" | "production"
   isApp?: boolean
+  version: string
 }
 
 type BaseCompiled = {
@@ -131,14 +132,14 @@ export class FactorEnv<
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
-  version = version
+  version = this.settings.version
   constructor(settings: FactorControlSettings) {
     super("env", settings)
 
     this.log.info(`initializing environment`, {
       data: {
         appName: this.appName,
-        version: this.version,
+        version: `${this.version || "no version"} [factor: ${factorVersion}]`,
         vars: Object.keys(process.env).length,
         commands: this.commands.length,
       },

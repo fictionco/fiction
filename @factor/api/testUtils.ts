@@ -6,6 +6,7 @@ import { chromium, Browser, Page } from "playwright"
 import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { FactorUi } from "@factor/ui"
+import { version as factorVersion } from "./package.json"
 import { FactorPlugin } from "./plugin"
 import {
   safeDirname,
@@ -15,7 +16,6 @@ import {
   vue,
 } from "./utils"
 import { log } from "./plugin-log"
-
 import { EnvVar, runServicesSetup } from "./plugin-env"
 import { FullUser } from "./plugin-user"
 import { PackageJson } from "./types"
@@ -170,6 +170,7 @@ export type TestUtilSettings = {
   rootComponent?: vue.Component
   uiPaths?: string[]
   envVars?: () => EnvVar<string>[]
+  version?: string
 }
 
 /**
@@ -235,6 +236,7 @@ export const createTestUtilServices = async <
     envFiles = [],
     rootComponent = EmptyApp,
     uiPaths = [],
+    version = factorVersion,
   } = opts || {}
 
   const defaultEnvFile = path.join(repoRoot, "./.env")
@@ -245,6 +247,7 @@ export const createTestUtilServices = async <
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
     id: "test",
+    version,
   })
 
   const factorServer = new FactorServer({

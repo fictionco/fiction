@@ -6,6 +6,7 @@ import {
   CliOptions,
 } from "@factor/api"
 import { commands } from "./@factor/www/src/vars"
+import { version } from "./package.json"
 const cwd = safeDirname(import.meta.url)
 
 export const factorEnv = new FactorEnv({
@@ -14,6 +15,7 @@ export const factorEnv = new FactorEnv({
   appEmail: "",
   commands,
   id: "root",
+  version,
 })
 
 export const factorRelease = new FactorRelease({ factorEnv })
