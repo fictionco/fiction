@@ -170,7 +170,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     }
 
     try {
-      this.log.info("extending DB [start]")
+      this.log.info("extending DB [start]", { connection: this.connectionUrl })
 
       const db = this.client()
 
@@ -184,7 +184,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
           hook: "tables",
           args: [this.tables],
         })
-
+        this.log.info(`creating tables (${tables.length})`)
         for (const table of tables) {
           await table.create(db)
         }
