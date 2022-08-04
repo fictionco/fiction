@@ -1,3 +1,12 @@
+## [5.5.11](https://github.com/FactorJS/factor/compare/v5.5.10...v5.5.11) (2022-08-04)
+
+
+### Features
+
+*  version in env ([00dd38f](https://github.com/FactorJS/factor/commit/00dd38fbd0c616608cd0f692c30a5d1247a46f28))
+
+
+
 ## [5.5.10](https://github.com/FactorJS/factor/compare/v5.5.9...v5.5.10) (2022-08-04)
 
 
