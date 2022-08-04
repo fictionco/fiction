@@ -6,7 +6,6 @@
 export interface CompiledServiceConfig {
   commands: "build" | "bundle" | "deploy" | "dev" | "generate" | "r-dev" | "release" | "render" | "server" | "www";
   vars:
-    | "APP_PORT"
     | "AWS_ACCESS_KEY"
     | "AWS_ACCESS_KEY_SECRET"
     | "COMMAND"
@@ -68,5 +67,61 @@ export interface CompiledServiceConfig {
     | "testing";
   ui: "";
   menus: "";
+  tables: {
+    factor_user:
+      | "userId"
+      | "email"
+      | "username"
+      | "googleId"
+      | "fullName"
+      | "firstName"
+      | "lastName"
+      | "role"
+      | "status"
+      | "site"
+      | "github"
+      | "githubFollowers"
+      | "twitter"
+      | "twitterFollowers"
+      | "facebook"
+      | "linkedin"
+      | "workSeniority"
+      | "workRole"
+      | "bio"
+      | "location"
+      | "hashedPassword"
+      | "emailVerified"
+      | "verificationCode"
+      | "codeExpiresAt"
+      | "picture"
+      | "avatar"
+      | "about"
+      | "gender"
+      | "birthday"
+      | "phoneNumber"
+      | "address"
+      | "meta"
+      | "invitedById"
+      | "lastProjectId"
+      | "lastSeenAt"
+      | "createdAt"
+      | "updatedAt";
+    factor_media:
+      | "mediaId"
+      | "userId"
+      | "url"
+      | "filePath"
+      | "mime"
+      | "width"
+      | "height"
+      | "alt"
+      | "contentEncoding"
+      | "etag"
+      | "bucket"
+      | "size"
+      | "createdAt"
+      | "updatedAt";
+    [k: string]: unknown;
+  };
   [k: string]: unknown;
 }

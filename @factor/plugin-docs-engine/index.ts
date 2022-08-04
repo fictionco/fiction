@@ -1,4 +1,4 @@
-import { FactorPlugin, FactorApp, vue } from "@factor/api"
+import { FactorPlugin, FactorApp, vue, FactorPluginSettings } from "@factor/api"
 
 export const postType = "docsItem"
 import * as types from "./types"
@@ -9,7 +9,7 @@ export type DocsSettings = {
   docs: types.Doc<string>[]
   groups: types.DocGroupRecord
   factorApp: FactorApp
-}
+} & FactorPluginSettings
 
 export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
   readonly types = types

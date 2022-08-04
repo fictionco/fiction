@@ -5,7 +5,7 @@ import { createServer, ViteDevServer } from "vite"
 import type { Browser, LaunchOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname, vue } from "../utils"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { version } from "../package.json"
 import sharedConfig from "./vite.config"
 
@@ -22,7 +22,8 @@ type TestingConfig = {
 type FactorTestingAppSettings = {
   port: number
   head?: string
-} & TestingConfig
+} & TestingConfig &
+  FactorPluginSettings
 export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   port = this.settings.port
   liveUrl = this.settings.liveUrl
@@ -138,6 +139,8 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     if (this.utils.isApp()) return
 
     let { head = "" } = options
+
+    this.log.info("creating test app", { head, useBuilt: this.useBuilt })
 
     head = [head, this.head].join("\n")
 

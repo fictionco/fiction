@@ -6,7 +6,7 @@ import type {
   DeleteObjectCommandOutput,
   HeadObjectCommandOutput,
 } from "@aws-sdk/client-s3"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { vars, EnvVar } from "../plugin-env"
 
 vars.register(() => [
@@ -21,7 +21,7 @@ type FactorAwsSettings = {
   awsAccessKey?: string
   awsAccessKeySecret?: string
   region?: string
-}
+} & FactorPluginSettings
 
 type S3FileOutput = GetObjectCommandOutput & {
   key: string

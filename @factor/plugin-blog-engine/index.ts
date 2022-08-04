@@ -1,4 +1,4 @@
-import { FactorPlugin, FactorApp, vue } from "@factor/api"
+import { FactorPlugin, FactorApp, vue, FactorPluginSettings } from "@factor/api"
 import stringSimilarity from "string-similarity"
 
 import * as types from "./types"
@@ -8,7 +8,7 @@ export type BlogOptions = {
   baseRoute: string
   posts: types.BlogPost<string>[]
   factorApp?: FactorApp
-}
+} & FactorPluginSettings
 
 export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
   factorApp?: FactorApp

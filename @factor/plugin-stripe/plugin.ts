@@ -9,6 +9,7 @@ import {
   FactorApp,
   FactorServer,
   FactorUser,
+  FactorPluginSettings,
 } from "@factor/api"
 
 import * as StripeJS from "@stripe/stripe-js"
@@ -38,7 +39,7 @@ export type StripePluginSettings = {
   webhookSecret?: string
   hooks?: HookType<types.HookDictionary>[]
   products: types.StripeProductConfig[]
-}
+} & FactorPluginSettings
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   factorUser = this.settings.factorUser

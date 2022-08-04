@@ -1,6 +1,6 @@
 import multer from "multer"
 import type { FormData as FormDataNode } from "formdata-node"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { FactorDb } from "../plugin-db"
 import { FactorServer } from "../plugin-server"
 import { FactorUser } from "../plugin-user"
@@ -8,6 +8,7 @@ import { FactorAws } from "../plugin-aws"
 import { QueryMediaAction, QueryMediaIndex, QuerySaveMedia } from "./queries"
 import { QueryUnsplash } from "./query-unsplash"
 import { mediaTable } from "./tables"
+
 type FactorMediaSettings = {
   factorUser: FactorUser
   factorDb: FactorDb
@@ -15,7 +16,7 @@ type FactorMediaSettings = {
   factorAws: FactorAws
   bucket: string
   unsplashAccessKey?: string
-}
+} & FactorPluginSettings
 
 export type MediaConfig = {
   mediaId: string

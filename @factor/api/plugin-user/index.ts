@@ -73,7 +73,6 @@ export type UserPluginSettings = {
 } & FactorPluginSettings
 
 export class FactorUser extends FactorPlugin<UserPluginSettings> {
-  readonly types = types
   factorServer = this.settings.factorServer
   factorDb = this.settings.factorDb
   factorEmail = this.settings.factorEmail

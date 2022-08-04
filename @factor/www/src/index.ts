@@ -47,6 +47,7 @@ export const factorEnv = new FactorEnv<CompiledServiceConfig>({
 
 export const factorDb = new FactorDb({
   connectionUrl: factorEnv.var("POSTGRES_URL"),
+  factorEnv,
 })
 
 export const factorServer = new FactorServer({
@@ -59,6 +60,7 @@ export const factorServer = new FactorServer({
 
 export const factorRouter = new FactorRouter<CompiledServiceConfig>({
   routes,
+  factorEnv,
 })
 
 export const factorApp = new FactorApp({
@@ -85,6 +87,7 @@ export const factorEmail = new FactorEmail({
 })
 
 export const factorUser = new FactorUser({
+  factorEnv,
   factorServer,
   factorDb,
   factorEmail,
@@ -94,6 +97,7 @@ export const factorUser = new FactorUser({
 })
 
 export const factorStripe = new FactorStripe({
+  factorEnv,
   factorApp,
   factorServer,
   factorUser,
@@ -106,11 +110,13 @@ export const factorStripe = new FactorStripe({
 })
 
 const factorAws = new FactorAws({
+  factorEnv,
   awsAccessKey: factorEnv.var("AWS_ACCESS_KEY"),
   awsAccessKeySecret: factorEnv.var("AWS_ACCESS_KEY_SECRET"),
 })
 
 const factorMedia = new FactorMedia({
+  factorEnv,
   factorDb,
   factorUser,
   factorServer,
@@ -119,18 +125,21 @@ const factorMedia = new FactorMedia({
 })
 
 const factorDocs = new FactorDocsEngine({
+  factorEnv,
   docs,
   groups,
   baseRoute: "/docs",
   factorApp,
 })
 const factorBlog = new FactorBlogEngine({
+  factorEnv,
   posts,
   baseRoute: "/blog",
   factorApp,
 })
 
 const factorTestingApp = new FactorTestingApp({
+  factorEnv,
   port: +factorEnv.var("TEST_APP_PORT", {
     fallback: randomBetween(1000, 2000),
   }),

@@ -7,8 +7,13 @@ import type { FactorServer } from "./plugin-server"
 import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as utils from "./utils"
+import type { FactorEnv } from "./plugin-env"
 
-export type FactorPluginSettings = { id?: string; [key: string]: unknown }
+export type FactorPluginSettings = {
+  id?: string
+  factorEnv?: FactorEnv
+  [key: string]: unknown
+}
 
 export abstract class FactorObject<T extends Record<string, unknown> = {}> {
   settings: T
@@ -32,12 +37,17 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
   id?: string
   log: LogHelper
   name: string
+  factorEnv?: FactorEnv
   constructor(name: string, settings: T) {
     this.name = name
     this.settings = settings
     this.basePath = `/${utils.slugify(this.name)}`
     this.id = this.settings.id
-    this.log = log.contextLogger(`${this.name}${this.id ? `:${this.id}` : ""}`)
+    this.factorEnv = this.settings.factorEnv
+    const context = this.factorEnv
+      ? `${this.factorEnv.id}@${this.factorEnv.version}:`
+      : ""
+    this.log = log.contextLogger(`${context}${this.name}`)
   }
 
   afterSetup(): void | Promise<void> {}
@@ -108,6 +118,6 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
   }
 
   toJSON = () => {
-    return omit(this, "utils", "stop", "log", "settings", "toJSON")
+    return omit(this, "utils", "stop", "log", "settings", "toJSON", "factorEnv")
   }
 }

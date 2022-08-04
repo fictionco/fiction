@@ -82,5 +82,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "apicache" },
     { id: "lru-cache" },
     { id: "node-cron" },
+    { id: "bullmq" },
   ]
 }
