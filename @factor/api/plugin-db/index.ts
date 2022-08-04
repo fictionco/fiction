@@ -170,7 +170,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     }
 
     try {
-      this.log.info("extending db")
+      this.log.info("extending DB [start]")
 
       const db = this.client()
 
@@ -190,20 +190,21 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
         }
       }
 
+      this.log.info("extending DB [done]")
       await runHooks<FactorDbHookDictionary>({
         list: this.hooks,
         hook: "onStart",
         args: [this],
       })
 
-      this.log.info("db connected", {
+      this.log.info("connected db [ready]", {
         data: {
           url: this.connectionUrl.hostname,
           port: `[ ${this.connectionUrl.port} ]`,
         },
       })
     } catch (error) {
-      this.log.error("db init error", { error })
+      this.log.error("initialization problem", { error })
     }
   }
 }
