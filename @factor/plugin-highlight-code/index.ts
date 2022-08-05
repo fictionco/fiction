@@ -1,8 +1,8 @@
-import { FactorPlugin } from "@factor/api"
+import { FactorPlugin, FactorPluginSettings } from "@factor/api"
 
-export class FactorHighlightCode extends FactorPlugin<{}> {
-  constructor() {
-    super("highlightCode", {})
+export class FactorHighlightCode extends FactorPlugin<FactorPluginSettings> {
+  constructor(settings: FactorPluginSettings) {
+    super("highlightCode", settings)
   }
   setup = () => {
     return {

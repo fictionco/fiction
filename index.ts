@@ -14,7 +14,7 @@ export const factorEnv = new FactorEnv({
   appName: "FactorJS Monorepo",
   appEmail: "",
   commands,
-  id: "root",
+  id: "factorRepo",
   version,
 })
 

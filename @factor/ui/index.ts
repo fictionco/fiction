@@ -1,9 +1,9 @@
-import { FactorPlugin, FactorApp, vue } from "@factor/api"
+import { FactorPlugin, FactorPluginSettings, FactorApp, vue } from "@factor/api"
 import { inputs } from "./inputs"
 const def = vue.defineAsyncComponent
 type FactorUiSettings = {
   factorApp: FactorApp
-}
+} & FactorPluginSettings
 
 export * from "./inputs"
 

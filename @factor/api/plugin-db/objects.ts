@@ -1,6 +1,6 @@
 import { Knex } from "knex"
 import { snakeCase } from "../utils"
-import { log } from "../plugin-log"
+import { log, LogHelper } from "../plugin-log"
 
 type CreateCol = (params: {
   schema: Knex.AlterTableBuilder
@@ -62,10 +62,11 @@ export class FactorDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
   columns: FactorDbCol[]
-  log = log.contextLogger(this.constructor.name)
+  log: LogHelper
   constructor(params: FactorDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = snakeCase(params.tableKey)
+    this.log = log.contextLogger(`FactorDbTable:${this.tableKey}`)
 
     const tsCols = params.timestamps
       ? [
@@ -95,11 +96,12 @@ export class FactorDbTable {
 
   createColumns(db: Knex) {
     let count = 0
+    this.log.debug(`check columns: ${this.columns.length}`)
     this.columns
       .filter((c) => !c.isComposite)
       .forEach(async (col) => {
         const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
-
+        this.log.debug(`has column: ${col.pgKey}: ${hasColumn}`)
         if (!hasColumn) {
           await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
           count++
@@ -114,7 +116,7 @@ export class FactorDbTable {
   async create(db: Knex): Promise<void> {
     const tableExists = await db.schema.hasTable(this.pgTableKey)
     if (!tableExists) {
-      log.info("FactorDbTable", `creating table: ${this.pgTableKey}`)
+      this.log.info(`creating table: ${this.pgTableKey}`)
       await db.schema.createTable(this.pgTableKey, (t) => {
         this.columns.forEach(async (col) => col.createColumn(t, db))
       })

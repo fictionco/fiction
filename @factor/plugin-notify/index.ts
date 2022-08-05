@@ -1,10 +1,9 @@
-import { FactorPlugin, emitEvent } from "@factor/api"
+import { FactorPlugin, FactorPluginSettings, emitEvent } from "@factor/api"
 
-export class FactorNotify extends FactorPlugin<{}> {
-  constructor() {
-    super("notify", {})
+export class FactorNotify extends FactorPlugin<FactorPluginSettings> {
+  constructor(settings: FactorPluginSettings) {
+    super("notify", settings)
   }
-  setup() {}
 
   notifySuccess(message: string) {
     emitEvent("notify", {
