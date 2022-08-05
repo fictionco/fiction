@@ -96,12 +96,10 @@ export class FactorDbTable {
 
   createColumns(db: Knex) {
     let count = 0
-    this.log.debug(`check columns: ${this.columns.length}`)
     this.columns
       .filter((c) => !c.isComposite)
       .forEach(async (col) => {
         const hasColumn = await db.schema.hasColumn(this.pgTableKey, col.pgKey)
-        this.log.debug(`has column: ${col.pgKey}: ${hasColumn}`)
         if (!hasColumn) {
           await db.schema.table(this.pgTableKey, (t) => col.createColumn(t, db))
           count++

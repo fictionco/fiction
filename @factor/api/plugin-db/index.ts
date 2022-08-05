@@ -184,7 +184,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
           hook: "tables",
           args: [this.tables],
         })
-        this.log.info(`creating tables (${tables.length})`)
+
         for (const table of tables) {
           await table.create(db)
         }
