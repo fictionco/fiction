@@ -195,9 +195,9 @@ export const service = {
   factorDocs,
   factorBlog,
   factorMedia,
-  factorHighlightCode: new FactorHighlightCode(),
-  factorNotify: new FactorNotify(),
-  factorUi: new FactorUi({ factorApp }),
+  factorHighlightCode: new FactorHighlightCode({ factorEnv }),
+  factorNotify: new FactorNotify({ factorEnv }),
+  factorUi: new FactorUi({ factorApp, factorEnv }),
 }
 
 export type ServiceContainer = typeof service

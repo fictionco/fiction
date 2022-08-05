@@ -10,7 +10,6 @@ import * as utils from "./utils"
 import type { FactorEnv } from "./plugin-env"
 
 export type FactorPluginSettings = {
-  id?: string
   factorEnv?: FactorEnv
   [key: string]: unknown
 }
@@ -34,7 +33,6 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
   stop = _stop
   utils = utils
   basePath: string
-  id?: string
   log: LogHelper
   name: string
   factorEnv?: FactorEnv
@@ -42,7 +40,6 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
     this.name = name
     this.settings = settings
     this.basePath = `/${utils.slugify(this.name)}`
-    this.id = this.settings.id
     this.factorEnv = this.settings.factorEnv
     const context = this.factorEnv
       ? `${this.factorEnv.id}@${this.factorEnv.version}:`

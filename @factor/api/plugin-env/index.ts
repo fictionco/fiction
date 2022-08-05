@@ -116,9 +116,8 @@ export class FactorEnv<
   envFilesProd = this.settings.envFilesProd || []
   standardPaths?: types.StandardPaths
   cwd = this.settings.cwd
-
+  id = this.settings.id || "factor"
   inspector = this.settings.inspector || false
-
   mode = this.utils.vue.ref<"development" | "production" | undefined>(
     process.env.NODE_ENV as "development" | "production",
   )
