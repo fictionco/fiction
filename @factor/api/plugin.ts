@@ -45,12 +45,12 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
     if (this.factorEnv) {
       const versionContext = [
         `v${this.factorEnv.version.split(".").pop()}`,
-        `f${this.factorEnv.factorVersion.split(".").pop()}`,
+        `${this.factorEnv.factorVersion.split(".").pop()}`,
       ]
       context = versionContext.join("/")
     }
 
-    this.log = log.contextLogger(`v${context}:${this.name}`)
+    this.log = log.contextLogger(`${context}:${this.name}`)
   }
 
   afterSetup(): void | Promise<void> {}
