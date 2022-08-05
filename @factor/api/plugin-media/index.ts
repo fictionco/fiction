@@ -54,7 +54,6 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
 
     this.factorDb.addTables([mediaTable])
   }
-  setup() {}
 
   async uploadFile(params: {
     file?: File

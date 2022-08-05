@@ -97,8 +97,6 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     }
   }
 
-  public async setup() {}
-
   getFromAddress = (): string => {
     return `${this.appName ?? ""} <${this.appEmail}>`
   }

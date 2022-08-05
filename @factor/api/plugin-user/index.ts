@@ -121,8 +121,6 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     }
   }
 
-  setup() {}
-
   async verifyRouteAuth(params: {
     route: vueRouter.RouteLocationNormalized
   }): Promise<NavigateRoute> {
@@ -149,12 +147,13 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
       .reverse()
       .find(
         (params) =>
-          params?.navigate === false || typeof params?.navigate == "object",
+          params?.navigate === false || typeof params?.navigate !== undefined,
       )
 
     if (changeNav) {
+      const result = await changeNav?.navigate
       this.log.debug(`route altered by ${changeNav.id}`, { data: changeNav })
-      return changeNav.navigate
+      return result
     } else {
       return true
     }

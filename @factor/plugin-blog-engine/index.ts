@@ -10,7 +10,7 @@ export type BlogOptions = {
   factorApp?: FactorApp
 } & FactorPluginSettings
 
-export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
+export class FactorBlog extends FactorPlugin<BlogOptions> {
   factorApp?: FactorApp
   constructor(settings: BlogOptions) {
     super("blog", settings)
@@ -21,11 +21,6 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       this.factorApp.addSitemaps([
         { topic: "posts", paths: this.getPostRoutes() },
       ])
-    }
-  }
-  setup = () => {
-    return {
-      name: this.constructor.name,
     }
   }
 
@@ -39,7 +34,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
   }
 
   getPosts = (): types.BlogPost<string>[] => {
-    return this.setting("posts") ?? []
+    return this.settings.posts ?? []
   }
 
   getIndex = (args: types.IndexArgs = {}): types.BlogPost<string>[] => {
@@ -73,7 +68,7 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
    */
   scanRoutes = (posts: types.BlogPost<string>[]): string[] => {
     const routes: string[] = []
-    const baseRoute = this.setting("baseRoute") ?? "/blog"
+    const baseRoute = this.settings.baseRoute ?? "/blog"
 
     const pathBase = baseRoute == "/" ? "" : baseRoute
 
@@ -108,11 +103,11 @@ export class FactorBlogEngine extends FactorPlugin<BlogOptions> {
       return this.utils.stored(storeKey)
     }
 
-    const baseRoute = this.setting("baseRoute") ?? "/blog"
+    const baseRoute = this.settings.baseRoute ?? "/blog"
 
     const pathBase = baseRoute == "/" ? "" : baseRoute
 
-    const posts = this.setting("posts") ?? []
+    const posts = this.settings.posts ?? []
 
     const listWithPermalinks = posts.map((value) => {
       return {

@@ -1,4 +1,4 @@
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { HookType, vue, vueRouter } from "../utils"
 import { MenuItem } from "../types/utils"
 import { FactorEnv } from "../plugin-env"
@@ -12,7 +12,7 @@ type FactorRouterSettings = {
   replacers?: RouteReplacer[]
   hooks?: HookType<FactorRouterHookDictionary>[]
   factorEnv?: FactorEnv
-}
+} & FactorPluginSettings
 
 type BaseCompiled = {
   routes: string
@@ -48,7 +48,7 @@ export class FactorRouter<
   hooks = this.settings.hooks || []
   replacers: RouteReplacer[]
   factorEnv = this.settings.factorEnv
-  constructor(settings: FactorRouterSettings = {}) {
+  constructor(settings: FactorRouterSettings) {
     super("router", settings)
     this.replacers = settings.replacers || []
     this.routes = vue.shallowRef(settings.routes || []) as vue.Ref<
@@ -56,7 +56,6 @@ export class FactorRouter<
     >
     this.router = this.createFactorRouter()
   }
-  setup() {}
 
   addHook(hook: HookType<FactorRouterHookDictionary>): void {
     this.hooks.push(hook)

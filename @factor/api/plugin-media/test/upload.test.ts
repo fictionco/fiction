@@ -42,10 +42,12 @@ describe("user tests", () => {
     testUtils = await createTestUtils()
 
     const factorAws = new FactorAws({
+      factorEnv: testUtils.factorEnv,
       awsAccessKey: testUtils.factorEnv.var("AWS_ACCESS_KEY"),
       awsAccessKeySecret: testUtils.factorEnv.var("AWS_ACCESS_KEY_SECRET"),
     })
     testUtils.factorMedia = new FactorMedia({
+      factorEnv: testUtils.factorEnv,
       factorDb: testUtils.factorDb,
       factorUser: testUtils.factorUser,
       factorServer: testUtils.factorServer,

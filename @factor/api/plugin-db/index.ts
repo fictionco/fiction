@@ -4,7 +4,7 @@ import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"
 import { Type, TSchema } from "@sinclair/typebox"
 import { runHooks, HookType } from "../utils"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { vars, EnvVar, FactorEnv } from "../plugin-env"
 import { FactorDbCol, FactorDbTable } from "./objects"
 export * from "./objects"
@@ -25,7 +25,7 @@ export type FactorDbSettings = {
   hooks?: HookType<FactorDbHookDictionary>[]
   tables?: FactorDbTable[]
   factorEnv?: FactorEnv
-}
+} & FactorPluginSettings
 
 export class FactorDb extends FactorPlugin<FactorDbSettings> {
   db?: Knex

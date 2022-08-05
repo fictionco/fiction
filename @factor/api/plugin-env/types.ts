@@ -5,7 +5,7 @@ import { PackageJson } from "../types"
 import type { FactorApp } from "../plugin-app"
 import type { FactorServer } from "../plugin-server"
 import type { FactorEnv } from "../plugin-env"
-import type { FactorPlugin } from "../plugin"
+import type { FactorObject, FactorPlugin } from "../plugin"
 
 export type FactorEnvHookDictionary = {
   runCommand: {
@@ -43,7 +43,12 @@ export type MainFile = {
 
 export type ServiceList = Record<
   string,
-  FactorPlugin | string | Record<string, unknown> | unknown[] | vue.Ref<unknown>
+  | FactorObject
+  | FactorPlugin
+  | string
+  | Record<string, unknown>
+  | unknown[]
+  | vue.Ref<unknown>
 >
 
 export type ServiceConfig = {

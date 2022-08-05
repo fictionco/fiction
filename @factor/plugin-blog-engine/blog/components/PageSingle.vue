@@ -125,12 +125,13 @@
 <script lang="ts" setup>
 import ElButton from "@factor/ui/ElButton.vue"
 import ElAvatar from "@factor/ui/ElAvatar.vue"
-import { useMeta, dayjs, vue, vueRouter } from "@factor/api"
+import { useMeta, dayjs, vue, vueRouter, useService } from "@factor/api"
 import ElSpinner from "@factor/ui/ElSpinner.vue"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import { PostEntryConfig } from "../../types"
-import { blogPlugin } from ".."
-const baseRoute = vue.ref(blogPlugin.setting("baseRoute"))
+import { FactorBlog } from "../.."
+const { factorBlog } = useService<{ factorBlog: FactorBlog }>()
+const baseRoute = vue.ref(factorBlog.settings.baseRoute)
 const router = vueRouter.useRouter()
 const loading = vue.ref(false)
 const config = vue.ref<PostEntryConfig>({ attributes: {} })
@@ -151,7 +152,7 @@ const getContent = async (): Promise<void> => {
 
   const slug = router.currentRoute.value.params.slug as string | undefined
 
-  const c = await blogPlugin.getPostConfig(slug)
+  const c = await factorBlog.getPostConfig(slug)
 
   config.value = c || { attributes: {} }
 

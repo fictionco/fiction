@@ -24,8 +24,6 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     this.factorEnv = settings.factorEnv
   }
 
-  setup() {}
-
   currentVersion = (): string => {
     const pkg = getRequire()(
       path.resolve(process.cwd(), "./package.json"),

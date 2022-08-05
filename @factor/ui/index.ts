@@ -26,5 +26,4 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
 
     this.factorApp.addUiPaths([`${this.root}/*.vue`])
   }
-  setup() {}
 }

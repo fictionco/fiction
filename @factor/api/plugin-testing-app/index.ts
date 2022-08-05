@@ -56,7 +56,6 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   constructor(settings: FactorTestingAppSettings) {
     super("testingApp", settings)
   }
-  setup() {}
 
   async initialize(settings: TestingConfig) {
     if (this.browser && this.faker) {

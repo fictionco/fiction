@@ -1,13 +1,13 @@
 import path from "path"
 import type { RouteRecordRaw } from "vue-router"
 import fs from "fs-extra"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { FactorRouter } from "../plugin-router"
 import { safeDirname } from "../utils"
 import { SitemapConfig } from "./types"
 type FactorSitemapSettings = {
   factorRouter: FactorRouter
-}
+} & FactorPluginSettings
 
 export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
   factorRouter: FactorRouter
@@ -15,8 +15,6 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
     super("sitemap", settings)
     this.factorRouter = settings.factorRouter
   }
-
-  setup() {}
 
   generateSitemap = async (params: {
     sitemaps: SitemapConfig[]

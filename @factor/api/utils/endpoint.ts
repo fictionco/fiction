@@ -95,10 +95,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     }
   }
 
-  setup() {
-    return {}
-  }
-
   public pathname(): string {
     return `${this.basePath}/${this.key}`
   }

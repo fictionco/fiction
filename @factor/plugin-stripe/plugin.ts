@@ -89,12 +89,6 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     })
   }
 
-  async setup() {
-    return {
-      name: this.constructor.name,
-    }
-  }
-
   public addHook(hook: HookType<types.HookDictionary>): void {
     this.hooks.push(hook)
   }

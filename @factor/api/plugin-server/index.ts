@@ -3,7 +3,7 @@ import bodyParser from "body-parser"
 import { FactorEnv } from "../plugin-env"
 import { HookType, EndpointServer, vue } from "../utils"
 import type { Endpoint } from "../utils"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { FactorUser } from "../plugin-user"
 
 export type FactorServerHookDictionary = {
@@ -20,7 +20,7 @@ export type FactorServerSettings = {
   factorUser?: FactorUser
   liveUrl?: string
   isLive?: vue.Ref<boolean>
-}
+} & FactorPluginSettings
 
 export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks = this.settings.hooks ?? []
@@ -80,8 +80,6 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   addEndpoints(endpoints: Endpoint[]) {
     this.endpoints = [...this.endpoints, ...endpoints]
   }
-
-  async setup() {}
 
   createServer = async (
     params: {

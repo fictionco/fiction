@@ -25,6 +25,7 @@ describe("stripe tests", () => {
     const utils = await createTestUtils()
 
     const factorStripe = new FactorStripe({
+      factorEnv: utils.factorEnv,
       factorApp: utils.factorApp,
       factorServer: utils.factorServer,
       factorUser: utils.factorUser,

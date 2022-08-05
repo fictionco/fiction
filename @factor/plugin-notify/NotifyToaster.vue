@@ -15,44 +15,21 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-lg ring-1 ring-black/5 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-lg ring-1 ring-black/10 transition-all duration-300"
           :class="toast.type"
         >
           <div class="p-4">
-            <div class="flex items-center">
+            <div class="flex">
               <div class="shrink-0">
-                <svg
+                <div
                   v-if="toast.type == 'success'"
-                  class="h-6 w-6 text-primary-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                  class="i-carbon-checkmark text-2xl text-green-500"
+                ></div>
 
-                <svg
+                <div
                   v-else
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-red-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                  class="i-carbon-warning text-2xl text-red-500"
+                ></div>
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5 capitalize">
                 <div class="font-semibold">
@@ -91,7 +68,26 @@
 <script lang="ts" setup>
 import { onEvent, vue, Notification, log } from "@factor/api"
 
-const toasts = vue.ref<Notification[]>([])
+const props = defineProps({
+  dev: { type: Boolean, default: false },
+})
+
+const defaultToasts: Notification[] = props.dev
+  ? [
+      {
+        type: "success",
+        message: "Success!",
+        more: "This is a success message.",
+      },
+      {
+        type: "error",
+        message: "Error!",
+        more: "This is an error message.",
+      },
+    ]
+  : []
+
+const toasts = vue.ref<Notification[]>(defaultToasts)
 
 const topToasts = vue.computed(() => {
   const [...t] = toasts.value

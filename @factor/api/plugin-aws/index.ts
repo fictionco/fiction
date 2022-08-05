@@ -56,8 +56,6 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
     }
   }
 
-  setup() {}
-
   getCloudFront = async (): Promise<CloudFront> => {
     if (!this.awsAccessKey || !this.awsAccessKeySecret) {
       throw new Error("creds not available")

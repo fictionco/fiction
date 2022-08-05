@@ -1,11 +1,18 @@
-import { expect, it, describe } from "@factor/api/testUtils"
+import {
+  expect,
+  it,
+  describe,
+  createTestUtilServices,
+} from "@factor/api/testUtils"
 import { axios } from "@factor/api/utils"
 import { EndpointResponse } from "@factor/api/types"
 import { FactorServer } from ".."
 
 describe("server test", () => {
   it("starts endpoint server", async () => {
+    const testUtils = await createTestUtilServices()
     const factorServer = new FactorServer({
+      factorEnv: testUtils.factorEnv,
       serverName: "testServer",
       port: 9929,
     })

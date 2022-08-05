@@ -1,6 +1,6 @@
 import path from "path"
 import dotenv from "dotenv"
-import { FactorPlugin } from "../plugin"
+import { FactorObject } from "../plugin"
 import { HookType, safeDirname, vue } from "../utils"
 import { version as factorVersion } from "../package.json"
 import { getServerServiceConfig } from "./entry"
@@ -108,7 +108,7 @@ type BaseCompiled = {
 
 export class FactorEnv<
   S extends BaseCompiled = BaseCompiled,
-> extends FactorPlugin<FactorControlSettings> {
+> extends FactorObject<FactorControlSettings> {
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
@@ -133,6 +133,7 @@ export class FactorEnv<
   isRendering = false
   version = this.settings.version
   factorVersion = factorVersion
+  uiPaths: string[] = []
   constructor(settings: FactorControlSettings) {
     super("env", settings)
 

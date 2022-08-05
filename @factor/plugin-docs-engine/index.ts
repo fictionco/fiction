@@ -21,23 +21,18 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
 
     this.factorApp.addSitemaps([{ topic: "docs", paths: this.getDocRoutes() }])
   }
-  setup = () => {
-    return {
-      name: this.constructor.name,
-    }
-  }
 
   /**
    * Gets all the routes for docs
    */
   scanRoutes = (docs: types.Doc<string>[]): string[] => {
-    const baseRoute = this.setting("baseRoute") ?? "/docs"
+    const baseRoute = this.settings.baseRoute ?? "/docs"
 
     return docs.map((k) => `${baseRoute}/${this.utils.camelToKebab(k.key)}`)
   }
 
   getDocRoutes = (): string[] => {
-    const docs = this.setting("docs") ?? []
+    const docs = this.settings.docs ?? []
     return this.scanRoutes(docs)
   }
 
@@ -54,7 +49,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
 
     if (!found) return
 
-    const groups = this.setting("groups") ?? {}
+    const groups = this.settings.groups ?? {}
 
     Object.entries(groups).some(([groupKey, groupDetails]) => {
       if (groupKey == key) {
@@ -83,7 +78,7 @@ export class FactorDocsEngine extends FactorPlugin<DocsSettings> {
       return this.utils.stored(storeKey)
     }
 
-    const docs = this.setting("docs") ?? []
+    const docs = this.settings.docs ?? []
 
     let config = this.scanDocs(key, docs)
 

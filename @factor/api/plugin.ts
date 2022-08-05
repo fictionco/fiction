@@ -4,41 +4,43 @@ import { Endpoint, EndpointMap } from "./utils/endpoint"
 import { log, LogHelper } from "./plugin-log"
 import type { Query } from "./query"
 import type { FactorServer } from "./plugin-server"
-import type { ServiceConfig } from "./plugin-env/types"
 import { _stop } from "./utils/error"
 import * as utils from "./utils"
 import type { FactorEnv } from "./plugin-env"
 
 export type FactorPluginSettings = {
-  factorEnv?: FactorEnv
+  factorEnv: FactorEnv
   [key: string]: unknown
 }
 
-export abstract class FactorObject<T extends Record<string, unknown> = {}> {
+export abstract class FactorObject<T extends { [key: string]: unknown } = {}> {
+  name: string
   settings: T
-  log = log.contextLogger(this.constructor.name)
   stop = _stop
   utils = utils
-  constructor(settings: T) {
+  log: LogHelper
+  constructor(name: string, settings: T) {
+    this.name = name
     this.settings = settings
+    this.log = log.contextLogger(name)
   }
 
-  toJSON = () => {
+  afterSetup(): void | Promise<void> {}
+  setup(): void | Promise<void> {}
+
+  toJSON(): Record<string, unknown> {
     return omit(this, "utils", "stop", "log", "settings", "toJSON")
   }
 }
 
-export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
-  settings: T
-  stop = _stop
-  utils = utils
+export abstract class FactorPlugin<
+  T extends FactorPluginSettings = { factorEnv: FactorEnv },
+> extends FactorObject<T> {
   basePath: string
   log: LogHelper
-  name: string
   factorEnv?: FactorEnv
   constructor(name: string, settings: T) {
-    this.name = name
-    this.settings = settings
+    super(name, settings)
     this.basePath = `/${utils.slugify(this.name)}`
     this.factorEnv = this.settings.factorEnv
     let context = "env"
@@ -51,15 +53,6 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
     }
 
     this.log = log.contextLogger(`${context}:${this.name}`)
-  }
-
-  afterSetup(): void | Promise<void> {}
-
-  setup(): ServiceConfig | Promise<ServiceConfig> | void | Promise<void> {}
-
-  public setting<K extends keyof T>(key: K): T[K] | undefined {
-    if (!this.settings) return undefined
-    return this.settings[key]
   }
 
   protected createQueries(): Record<string, Query> {
@@ -120,7 +113,7 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
     return requests as M
   }
 
-  toJSON = () => {
+  toJSON(): Record<string, unknown> {
     return omit(this, "utils", "stop", "log", "settings", "toJSON", "factorEnv")
   }
 }

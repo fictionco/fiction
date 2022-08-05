@@ -24,8 +24,6 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
     this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
   }
 
-  setup() {}
-
   bundleAll = async (
     options: CliOptions & { withDts?: boolean },
   ): Promise<void> => {

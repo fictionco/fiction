@@ -1,12 +1,11 @@
 import nodemon from "nodemon"
-import { FactorPlugin } from "../plugin"
+import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { done } from "./utils"
 
 export class FactorDevRestart extends FactorPlugin {
-  constructor() {
-    super("devRestart", {})
+  constructor(settings: FactorPluginSettings) {
+    super("devRestart", settings)
   }
-  setup() {}
 
   isRestart = (): boolean => {
     return process.env.IS_RESTART == "1"

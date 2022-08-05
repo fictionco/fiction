@@ -1,6 +1,6 @@
 import path from "path"
 import { FactorDocsEngine } from "@factor/plugin-docs-engine"
-import { FactorBlogEngine } from "@factor/plugin-blog-engine"
+import { FactorBlog } from "@factor/plugin-blog-engine"
 import { FactorHighlightCode } from "@factor/plugin-highlight-code"
 import { FactorNotify } from "@factor/plugin-notify"
 import { FactorStripe } from "@factor/plugin-stripe"
@@ -131,7 +131,7 @@ const factorDocs = new FactorDocsEngine({
   baseRoute: "/docs",
   factorApp,
 })
-const factorBlog = new FactorBlogEngine({
+const factorBlog = new FactorBlog({
   factorEnv,
   posts,
   baseRoute: "/blog",
@@ -159,7 +159,7 @@ factorEnv.addHook({
     if (command.startsWith("r-")) {
       const realCommand = command.split("-").pop()
       if (!realCommand) throw new Error("No command for restart")
-      await new FactorDevRestart().restartInitializer({
+      await new FactorDevRestart({ factorEnv }).restartInitializer({
         command: realCommand,
         config: {
           watch: [safeDirname(import.meta.url, "../..")],

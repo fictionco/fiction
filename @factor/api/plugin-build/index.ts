@@ -39,10 +39,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  async setup() {
-    return {}
-  }
-
   getReplacedModule = (opts: {
     id?: string
     src: string

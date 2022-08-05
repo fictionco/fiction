@@ -24,9 +24,7 @@ export const runServicesSetup = async (
   if (pluginList.length > 0) {
     for (const plugin of pluginList) {
       try {
-        const pluginConfig = (await plugin.setup()) || {}
-
-        config.push(pluginConfig)
+        await plugin.setup()
       } catch (error: unknown) {
         const e = error as Error
         const name = plugin.constructor.name ?? "unknown"

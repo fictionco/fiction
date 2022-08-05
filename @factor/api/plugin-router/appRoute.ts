@@ -54,6 +54,6 @@ export class AppRoute<T extends string> extends FactorObject<
   services = this.settings.services || {}
   auth?: RouteAuthCallback = this.settings.auth
   constructor(params: AppRouteParams<T>) {
-    super(params)
+    super("appRoute", params)
   }
 }

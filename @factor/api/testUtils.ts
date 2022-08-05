@@ -7,7 +7,7 @@ import { expect as expectUi, Expect } from "@playwright/test"
 import fs from "fs-extra"
 import { FactorUi } from "@factor/ui"
 import { version as factorVersion } from "./package.json"
-import { FactorPlugin } from "./plugin"
+import { FactorPlugin, FactorObject } from "./plugin"
 import {
   safeDirname,
   randomBetween,
@@ -178,7 +178,7 @@ export type TestUtilSettings = {
  * Creates a new user
  */
 export const initializeTestUtils = async (
-  service: TestUtilServices & { [key: string]: FactorPlugin },
+  service: TestUtilServices & { [key: string]: FactorPlugin | FactorObject },
 ) => {
   await runServicesSetup({ service })
 
@@ -256,7 +256,7 @@ export const createTestUtilServices = async <
     factorEnv,
   })
 
-  const factorRouter = new FactorRouter<S>()
+  const factorRouter = new FactorRouter<S>({ factorEnv })
 
   const factorApp = new FactorApp({
     port: appPort,
@@ -268,6 +268,7 @@ export const createTestUtilServices = async <
     isTest: true,
   })
   const factorDb = new FactorDb({
+    factorEnv,
     connectionUrl: factorEnv.var("POSTGRES_URL"),
   })
 
@@ -277,6 +278,7 @@ export const createTestUtilServices = async <
   })
 
   const factorUser = new FactorUser({
+    factorEnv,
     factorDb,
     factorEmail,
     googleClientId: factorEnv.var("GOOGLE_CLIENT_ID"),
@@ -294,7 +296,7 @@ export const createTestUtilServices = async <
     factorUser,
     factorDb,
     factorEmail,
-    factorUi: new FactorUi({ factorApp }),
+    factorUi: new FactorUi({ factorApp, factorEnv }),
   }
 
   return services

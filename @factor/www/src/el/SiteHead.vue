@@ -2,7 +2,7 @@
   <header>
     <div class="bg-primary-500 py-3 text-center text-xs font-semibold">
       <div
-        class="m-auto flex max-w-7xl justify-between space-x-4 px-8 text-white"
+        class="m-auto flex max-w-7xl flex-col items-center justify-center space-x-4 px-8 text-center text-white md:flex-row md:justify-between"
       >
         <a
           class="flex items-center hover:opacity-80"
@@ -33,8 +33,10 @@
           </svg>
           <span class="">Built by Kaption.co</span></a
         >
-        <a class="hover:opacity-80" href="https://www.kaption.co"
-          >CX Analytics and Feedback Tools &rarr;</a
+        <a
+          class="text-primary-200 hover:opacity-80"
+          href="https://www.kaption.co"
+          >Understand Your Customer &rarr;</a
         >
       </div>
     </div>

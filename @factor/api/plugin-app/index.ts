@@ -108,14 +108,11 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
       this.factorSitemap = new FactorSitemap({
         factorRouter: this.factorRouter,
+        factorEnv: this.factorEnv,
       })
     }
 
     this.addSchema()
-  }
-
-  async setup() {
-    return {}
   }
 
   addSchema() {
@@ -169,7 +166,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   }
 
   addUiPaths(uiPaths: string[]) {
-    this.uiPaths = [...this.uiPaths, ...uiPaths]
+    this.uiPaths = [...this.uiPaths, ...uiPaths, ...this.factorEnv.uiPaths]
   }
 
   addServerOnlyImports(serverOnlyImports: ServerModuleDef[]) {

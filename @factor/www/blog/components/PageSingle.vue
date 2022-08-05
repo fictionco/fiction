@@ -132,7 +132,7 @@ import { PostEntryConfig } from "@factor/plugin-blog-engine/types"
 import EntryToc from "@factor/ui/EntryToc.vue"
 import { useFactorService } from "../../src/inject"
 const { factorBlog } = useFactorService()
-const baseRoute = vue.ref(factorBlog.setting("baseRoute"))
+const baseRoute = vue.ref(factorBlog.settings.baseRoute)
 const router = vueRouter.useRouter()
 const loading = vue.ref(false)
 const config = vue.ref<PostEntryConfig>({ attributes: {} })

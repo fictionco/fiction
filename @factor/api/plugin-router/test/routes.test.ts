@@ -1,4 +1,10 @@
-import { expect, it, describe } from "@factor/api/testUtils"
+import {
+  expect,
+  it,
+  describe,
+  beforeAll,
+  createTestUtilServices,
+} from "@factor/api/testUtils"
 import { AppRoute } from "../appRoute"
 import { FactorRouter } from ".."
 
@@ -49,8 +55,12 @@ const routes = [
   }),
 ]
 
-const factorRouter = new FactorRouter({ routes })
+let factorRouter: FactorRouter
 describe("route handling", () => {
+  beforeAll(async () => {
+    const testUtils = await createTestUtilServices()
+    factorRouter = new FactorRouter({ factorEnv: testUtils.factorEnv, routes })
+  })
   it("generates routes for vue router", () => {
     expect(true).toBe(true)
 
