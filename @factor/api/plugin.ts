@@ -41,9 +41,15 @@ export abstract class FactorPlugin<T extends FactorPluginSettings = {}> {
     this.settings = settings
     this.basePath = `/${utils.slugify(this.name)}`
     this.factorEnv = this.settings.factorEnv
-    const context = this.factorEnv
-      ? `${this.factorEnv.id}@${this.factorEnv.version}:`
-      : ""
+    let context = ""
+    if (this.factorEnv) {
+      const versionContext = [
+        `v${this.factorEnv.version.split(".").pop()}`,
+        `f${this.factorEnv.factorVersion.split(".").pop()}`,
+      ]
+      context = versionContext.join("/")
+    }
+
     this.log = log.contextLogger(`${context}${this.name}`)
   }
 

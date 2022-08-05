@@ -132,6 +132,7 @@ export class FactorEnv<
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
   version = this.settings.version
+  factorVersion = factorVersion
   constructor(settings: FactorControlSettings) {
     super("env", settings)
 
