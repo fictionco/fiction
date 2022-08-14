@@ -10,6 +10,7 @@ import {
   FactorServer,
   FactorUser,
   FactorPluginSettings,
+  vue,
 } from "@factor/api"
 
 import * as StripeJS from "@stripe/stripe-js"
@@ -31,12 +32,12 @@ export type StripePluginSettings = {
   factorApp: FactorApp
   factorServer: FactorServer
   factorUser: FactorUser
-  stripeMode: "test" | "live"
   publicKeyLive?: string
   publicKeyTest?: string
   secretKeyLive?: string
   secretKeyTest?: string
   webhookSecret?: string
+  isLive?: vue.Ref<boolean>
   hooks?: HookType<types.HookDictionary>[]
   products: types.StripeProductConfig[]
 } & FactorPluginSettings
@@ -51,8 +52,11 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     factorServer: this.factorServer,
     factorUser: this.factorUser,
   })
-  public client?: StripeJS.Stripe
-  private stripeMode = this.settings.stripeMode
+  public browserClient?: { live?: StripeJS.Stripe; test?: StripeJS.Stripe }
+  public serverClient?: { live?: Stripe; test?: Stripe }
+  private stripeMode = this.utils.vue.computed(() => {
+    return this.settings.isLive?.value ? "live" : "test"
+  })
   public hooks = this.settings.hooks ?? []
   public products = this.settings.products
   readonly types = types
@@ -61,6 +65,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   secretKeyLive = this.settings.secretKeyLive
   secretKeyTest = this.settings.secretKeyTest
   webhookSecret = this.settings.webhookSecret
+
   constructor(settings: StripePluginSettings) {
     super("stripe", settings)
 
@@ -108,34 +113,49 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     } as const
   }
 
-  getServerClient(): Stripe {
-    if (!this.utils.isNode()) throw new Error("Stripe is server only")
+  getServerClient(env?: "live" | "test"): Stripe {
+    env = env ?? this.stripeMode.value
 
-    const key =
-      this.stripeMode == "live"
-        ? this.settings.secretKeyLive
-        : this.settings.secretKeyTest
+    if (this.utils.isApp()) throw new Error("Stripe is server only")
 
-    if (!key) throw new Error("Stripe secret key not found")
+    if (!this.serverClient) this.serverClient = {}
 
-    return new Stripe(key, { apiVersion: "2020-08-27" })
+    if (!this.serverClient[env]) {
+      const key =
+        env == "live"
+          ? this.settings.secretKeyLive
+          : this.settings.secretKeyTest
+
+      if (!key) throw new Error("Stripe secret key not found")
+
+      this.serverClient[env] = new Stripe(key, { apiVersion: "2020-08-27" })
+    }
+
+    return this.serverClient[env] as Stripe
   }
 
-  getBrowserClient = async (): Promise<StripeJS.Stripe> => {
-    if (!this.client) {
+  getBrowserClient = async (
+    env?: "live" | "test",
+  ): Promise<StripeJS.Stripe> => {
+    env = env ?? this.stripeMode.value
+
+    if (!this.browserClient) this.browserClient = {}
+
+    if (!this.browserClient[env]) {
       const publicKey =
-        this.stripeMode == "live"
+        env == "live"
           ? this.settings.publicKeyLive
           : this.settings.publicKeyTest
 
-      if (!publicKey) throw new Error("no stripe public key")
+      if (!publicKey) throw new Error("Stripe secret key not found")
 
-      this.client = (await StripeJS.loadStripe(publicKey)) ?? undefined
+      const createdClient = await StripeJS.loadStripe(publicKey)
+      this.browserClient[env] = createdClient ?? undefined
     }
 
-    if (!this.client) throw new Error("no stripe client created")
+    if (!this.browserClient[env]) throw new Error("no stripe client created")
 
-    return this.client
+    return this.browserClient[env] as StripeJS.Stripe
   }
 
   getProducts = (): types.StripeProductConfig[] => {

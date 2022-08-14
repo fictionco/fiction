@@ -20,6 +20,7 @@ import {
   vars,
   FactorTestingApp,
   randomBetween,
+  vue,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
 import { FactorAws } from "@factor/api/plugin-aws"
@@ -104,7 +105,7 @@ export const factorStripe = new FactorStripe({
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
   secretKeyTest: factorEnv.var("STRIPE_SECRET_KEY_TEST"),
-  stripeMode: "test",
+  isLive: factorEnv.isProd,
   hooks: [],
   products: [],
 })

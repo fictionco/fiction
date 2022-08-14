@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import dotenv from "dotenv"
 import Stripe from "stripe"
-import { log } from "@factor/api"
+import { log, vue } from "@factor/api"
 import {
   createTestUtils,
   TestUtils,
@@ -32,7 +32,7 @@ describe("stripe tests", () => {
       publicKeyTest:
         "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
       secretKeyTest: utils.factorEnv.var("STRIPE_SECRET_KEY_TEST"),
-      stripeMode: "test",
+      isLive: vue.ref(false),
       hooks: [],
       products: [],
     })
