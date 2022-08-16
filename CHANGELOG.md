@@ -1,3 +1,12 @@
+## [5.5.21](https://github.com/FactorJS/factor/compare/v5.5.20...v5.5.21) (2022-08-16)
+
+
+### Features
+
+* router tweaks ([380ae4c](https://github.com/FactorJS/factor/commit/380ae4ce546cf84359d8b53ffcbf03858373bb60))
+
+
+
 ## [5.5.20](https://github.com/FactorJS/factor/compare/v5.5.19...v5.5.20) (2022-08-14)
 
 
