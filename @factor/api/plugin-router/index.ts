@@ -48,6 +48,7 @@ export class FactorRouter<
   hooks = this.settings.hooks || []
   replacers: RouteReplacer[]
   factorEnv = this.settings.factorEnv
+  loadingRoute = this.utils.vue.ref(true)
   constructor(settings: FactorRouterSettings) {
     super("router", settings)
     this.replacers = settings.replacers || []
@@ -87,6 +88,8 @@ export class FactorRouter<
     })
 
     router.beforeEach(async (to, from) => {
+      this.log.debug(`beforeEach [${String(to.name)}]`, to)
+      this.loadingRoute.value = true
       const result = await this.utils.runHooks<
         FactorRouterHookDictionary,
         "beforeEach"
@@ -100,6 +103,8 @@ export class FactorRouter<
     })
 
     router.afterEach(async (to, from) => {
+      this.log.debug(`afterEach [${String(to.name)}]`, to)
+      this.loadingRoute.value = false
       await this.utils.runHooks<FactorRouterHookDictionary>({
         list: this.hooks,
         hook: "afterEach",
@@ -252,6 +257,10 @@ export class FactorRouter<
 
   params = this.utils.vue.computed(() => {
     return this.current.value.params
+  })
+
+  meta = this.utils.vue.computed(() => {
+    return this.current.value.meta
   })
 
   vars = this.utils.vue.computed(() => {
