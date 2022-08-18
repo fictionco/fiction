@@ -39,7 +39,8 @@ export type StripePluginSettings = {
   webhookSecret?: string
   isLive?: vue.Ref<boolean>
   hooks?: HookType<types.HookDictionary>[]
-  products: types.StripeProductConfig[]
+  productsLive: types.StripeProductConfig[]
+  productsTest: types.StripeProductConfig[]
 } & FactorPluginSettings
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
@@ -58,8 +59,11 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return this.settings.isLive?.value ? "live" : "test"
   })
   public hooks = this.settings.hooks ?? []
-  public products = this.settings.products
-  readonly types = types
+  public products = this.utils.vue.computed(() => {
+    return this.settings.isLive?.value
+      ? this.settings.productsLive
+      : this.settings.productsTest
+  })
   publicKeyLive = this.settings.publicKeyLive
   publicKeyTest = this.settings.publicKeyTest
   secretKeyLive = this.settings.secretKeyLive
@@ -158,21 +162,13 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return this.browserClient[env] as StripeJS.Stripe
   }
 
-  getProducts = (): types.StripeProductConfig[] => {
-    const config = process.env.STRIPE_PRODUCTS
-
-    if (!config) throw new Error("no stripe products configured")
-
-    return JSON.parse(config) as types.StripeProductConfig[]
-  }
-
   getStripeProduct = (params: {
     key?: string
     productId?: string
   }): types.StripeProductConfig | void => {
     if (!params.key && !params.productId) return
 
-    const p = this.getProducts()
+    const p = this.products.value
 
     let product: types.StripeProductConfig | undefined = undefined
 
