@@ -389,7 +389,7 @@ export class QueryAllProducts extends QueryPayments {
     _params: undefined,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<Stripe.Product[]>> {
-    const products = this.factorStripe.getProducts()
+    const products = this.factorStripe.products.value
 
     const productIds = products
       .map((_) => _.productId)

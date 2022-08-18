@@ -107,7 +107,8 @@ export const factorStripe = new FactorStripe({
   secretKeyTest: factorEnv.var("STRIPE_SECRET_KEY_TEST"),
   isLive: factorEnv.isProd,
   hooks: [],
-  products: [],
+  productsLive: [],
+  productsTest: [],
 })
 
 const factorAws = new FactorAws({
