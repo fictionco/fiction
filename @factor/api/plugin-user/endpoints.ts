@@ -26,6 +26,45 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     super(settings)
   }
 
+  /**
+   * Send a verification email with code
+   */
+  async sendVerificationEmail(args: {
+    email: string
+    code: string | number
+  }): Promise<void> {
+    if (!this.factorEmail) throw new Error("no factorEmail")
+    const { code, email } = args
+    const appName = this.factorEmail.appName
+    await this.factorEmail.sendEmail({
+      subject: `${appName}: ${code} is your verification code`,
+      text: `Hi there!\n\n This email is to verify your account using a one-time code.\n\n Your code is: **${code}**`,
+      to: email,
+    })
+  }
+
+  /**
+   * Create a verification code, save it to user and email the user with the code
+   */
+  async sendOneTimeCode(params: { email: string }): Promise<string> {
+    const { email } = params
+
+    const code = getSixDigitRandom()
+    const fields = {
+      verificationCode: code,
+      codeExpiresAt: dayjs().add(1, "day").toISOString(),
+    }
+
+    await this.factorUser.queries.ManageUser.serve(
+      { _action: "update", email, fields },
+      { server: true },
+    )
+
+    await this.sendVerificationEmail({ email, code })
+
+    return code
+  }
+
   publicUserFieldKeys() {
     const cols = this.factorDb.getColumns("factor_user")
 
@@ -316,56 +355,9 @@ export class QueryCurrentUser extends UserQuery {
   }
 }
 
-/**
- * Send a verification email with code
- */
-export const sendVerificationEmail = async (args: {
-  email: string
-  code: string | number
-  factorEmail: FactorEmail
-}): Promise<void> => {
-  const { code, email, factorEmail } = args
-  await factorEmail.sendEmail({
-    subject: `${code} is your verification code`,
-    text: `This email is to verify your account using a one-time code.\n\n Your code is: **${code}**`,
-    to: email,
-  })
-}
-
-/**
- * Create a verification code, save it to user and email the user with the code
- */
-export const sendOneTimeCode = async (params: {
-  email: string
-  factorUser: FactorUser
-  factorEmail: FactorEmail
-}): Promise<string> => {
-  const { email, factorUser, factorEmail } = params
-
-  const code = getSixDigitRandom()
-  const fields = {
-    verificationCode: code,
-    codeExpiresAt: dayjs().add(1, "day").toISOString(),
-  }
-
-  await factorUser.queries.ManageUser.serve(
-    { _action: "update", email, fields },
-    { server: true },
-  )
-
-  await sendVerificationEmail({ email, code, factorEmail })
-
-  return code
-}
 export class QuerySendOneTimeCode extends UserQuery {
   async run(params: { email: string }): Promise<EndpointResponse<boolean>> {
-    if (!this.factorEmail) throw new Error("no factorEmail")
-
-    await sendOneTimeCode({
-      ...params,
-      factorUser: this.factorUser,
-      factorEmail: this.factorEmail,
-    })
+    await this.sendOneTimeCode(params)
 
     return { status: "success", data: true }
   }
@@ -635,11 +627,7 @@ export class QueryResetPassword extends UserQuery {
     if (!email) throw this.stop({ message: "email is required" })
     if (!this.factorEmail) throw new Error("no factorEmail")
 
-    const code = await sendOneTimeCode({
-      email,
-      factorUser: this.factorUser,
-      factorEmail: this.factorEmail,
-    })
+    const code = await this.sendOneTimeCode({ email })
 
     return {
       status: "success",
@@ -674,11 +662,7 @@ export class QueryStartNewUser extends UserQuery {
       })
     }
 
-    await sendOneTimeCode({
-      email: user.email,
-      factorUser: this.factorUser,
-      factorEmail: this.factorEmail,
-    })
+    await this.sendOneTimeCode({ email: user.email })
 
     this.log.info(`user started ${email}:${fullName ?? "(no name)"}`)
 
@@ -763,11 +747,7 @@ export class QueryLogin extends UserQuery {
     if (!message) message = "successfully logged in"
 
     if (!user.emailVerified) {
-      await sendOneTimeCode({
-        email: user.email,
-        factorUser: this.factorUser,
-        factorEmail: this.factorEmail,
-      })
+      await this.sendOneTimeCode({ email: user.email })
 
       message = "verification email sent"
       return {
@@ -832,11 +812,7 @@ export class QueryNewVerificationCode extends UserQuery {
 
     if (!existingUser) throw this.stop("no user")
 
-    await sendOneTimeCode({
-      email: existingUser.email,
-      factorUser: this.factorUser,
-      factorEmail: this.factorEmail,
-    })
+    await this.sendOneTimeCode({ email: existingUser.email })
 
     return {
       status: "success",
