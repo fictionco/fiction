@@ -20,7 +20,6 @@ import {
   vars,
   FactorTestingApp,
   randomBetween,
-  vue,
 } from "@factor/api"
 import { FactorDevRestart } from "@factor/api/plugin-env/restart"
 import { FactorAws } from "@factor/api/plugin-aws"
