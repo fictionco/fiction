@@ -505,7 +505,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       if (mountFilePath) {
         app.use("/@mount.ts", async (req, res) => {
           res
-            .setHeader("Content-Type", "application/javascript")
+            .setHeader("Content-Type", "text/javascript")
             .send(rawSource?.code)
             .end()
         })
