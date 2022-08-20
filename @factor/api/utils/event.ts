@@ -1,13 +1,11 @@
 import events from "events"
 import { log } from "../plugin-log"
-import { getGlobal, setGlobal } from "./global"
 
+let eventBus: NodeJS.EventEmitter | undefined = undefined
 const getGlobalEventBus = (): NodeJS.EventEmitter => {
-  let eventBus: NodeJS.EventEmitter | undefined = getGlobal("eventBus")
   if (!eventBus) {
     eventBus = new events.EventEmitter()
     eventBus.setMaxListeners(50)
-    setGlobal("eventBus", eventBus)
   }
 
   return eventBus

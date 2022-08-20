@@ -17,7 +17,6 @@ let __listener = false
 const __callbacks: { (scope: ResetUiScope): void }[] = []
 export const onResetUi = (cb: (scope: ResetUiScope) => void): void => {
   __callbacks.push(cb)
-
   if (!__listener) {
     __listener = true
     onEvent("resetUi", (scope: ResetUiScope) => {
