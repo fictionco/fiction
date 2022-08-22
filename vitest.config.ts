@@ -32,5 +32,12 @@ export default defineConfig({
       "**/.ref/**",
       "**/__*",
     ],
+    environmentOptions: {
+      jsdom: {
+        url: "https://localhost:10000/thepathname?q=example&utm_campaign=testCampaign&utm_medium=testMedium&utm_source=testSource",
+        referrer: "https://www.twitter.com",
+        html: `<!DOCTYPE html><head><title>Test Title</title></head><body>Page Content <a href="#">link</a></body></html>`,
+      },
+    },
   },
 })

@@ -7,9 +7,10 @@ import Cookies, { CookieAttributes } from "js-cookie"
  * https://developers.livechat.com/updates/setting-cookies-to-subdomains-in-javascript
  * http://jsfiddle.net/zEwsP/4/
  */
-export const getCookieDomain = (): string => {
+export const getCookieDomain = (): string | undefined => {
   let i = 0
   let domain = window.location.hostname
+
   const p = domain.split(".")
   const s = `_gd${Date.now()}`
   while (i < p.length - 1 && !document.cookie.includes(s + "=" + s)) {
@@ -39,7 +40,10 @@ export const setCookieWithDomain = (
   attributes: CookieAttributes = {},
 ): string | undefined => {
   const domain = getCookieDomain()
-  return setCookie(name, value, { domain, ...attributes })
+
+  attributes.domain = domain
+
+  return setCookie(name, value, attributes)
 }
 /**
  * Get a browser cookie by name
