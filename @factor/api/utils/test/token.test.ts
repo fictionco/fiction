@@ -10,7 +10,7 @@ import {
   it,
   beforeAll,
 } from "../../testUtils"
-import { getCookie, getTopDomain } from "../cookie"
+import { getCookie, getCookieDomain } from "../cookie"
 
 let testUtils: TestUtils | undefined = undefined
 describe("user token", () => {
@@ -23,7 +23,7 @@ describe("user token", () => {
     const cookieToken = getCookie(testUtils?.factorUser.clientTokenKey ?? "")
 
     expect(cookieToken).toEqual("test")
-    expect(getTopDomain()).toEqual("localhost")
+    expect(getCookieDomain()).toEqual("localhost")
   })
 
   it("gets token", () => {

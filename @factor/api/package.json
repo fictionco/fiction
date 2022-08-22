@@ -32,7 +32,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/mime-types": "^2.1.1",
     "@types/multer": "^1.4.7",
-    "@types/node": "^18.7.8",
+    "@types/node": "^18.7.9",
     "@types/nodemailer": "^6.4.5",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/nodemon": "^1.19.2",
@@ -78,7 +78,7 @@
     "extract-domain": "^2.4.8",
     "fast-safe-stringify": "^2.1.1",
     "form-data": "^4.0.0",
-    "formdata-node": "^4.4.0",
+    "formdata-node": "^4.4.1",
     "front-matter": "^4.0.2",
     "fs-extra": "^10.1.0",
     "get-port": "^6.1.2",
@@ -145,8 +145,8 @@
     "ws": "^8.8.1"
   },
   "devDependencies": {
-    "@babel/parser": "^7.18.11",
-    "@factor/api": "5.5.28",
+    "@babel/parser": "^7.18.13",
+    "@factor/api": "workspace:5.5.28",
     "@playwright/test": "^1.25.0",
     "@tailwindcss/forms": "^0.5.2",
     "@types/body-parser": "^1.19.2",

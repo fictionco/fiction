@@ -90,7 +90,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   hooks = this.settings.hooks || []
   tokenSecret = this.settings.tokenSecret || "secret"
   activePath = this.utils.vue.ref(this.utils.safeDirname(import.meta.url))
-  clientTokenKey = "ffUser"
+  clientTokenKey = "FCurrentUser"
   constructor(settings: UserPluginSettings) {
     super("user", settings)
 
@@ -315,15 +315,15 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
       return
     }
 
-    const domain =
-      this.utils.mode() == "production" ? this.utils.getTopDomain() : undefined
-
     const { action = "get", token } = args
 
     if (action === "destroy") {
-      this.utils.removeCookie(this.clientTokenKey, { domain })
+      this.utils.removeCookieWithDomain(this.clientTokenKey)
     } else if (action == "set" && token) {
-      this.utils.setCookie(this.clientTokenKey, token, { expires: 14, domain })
+      this.utils.setCookieWithDomain(this.clientTokenKey, token, {
+        expires: 14,
+        sameSite: "Lax",
+      })
     } else {
       const cookieValue = this.utils.getCookie(this.clientTokenKey)
 
