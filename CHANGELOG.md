@@ -1,3 +1,12 @@
+## [5.5.32](https://github.com/FactorJS/factor/compare/v5.5.31...v5.5.32) (2022-08-23)
+
+
+### Bug Fixes
+
+* buffer bug ([ff2eafa](https://github.com/FactorJS/factor/commit/ff2eafaf40b24b549ac90636c8fa77b3f8bca0a6))
+
+
+
 ## [5.5.31](https://github.com/FactorJS/factor/compare/v5.5.30...v5.5.31) (2022-08-23)
 
 
