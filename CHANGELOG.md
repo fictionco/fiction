@@ -1,3 +1,12 @@
+## [5.5.31](https://github.com/FactorJS/factor/compare/v5.5.30...v5.5.31) (2022-08-23)
+
+
+### Bug Fixes
+
+* tweak cookie ([d073368](https://github.com/FactorJS/factor/commit/d073368755c6df959f459454ba8c9088d92965e7))
+
+
+
 ## [5.5.30](https://github.com/FactorJS/factor/compare/v5.5.29...v5.5.30) (2022-08-22)
 
 
