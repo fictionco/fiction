@@ -66,6 +66,8 @@ export class WriteBuffer<T> extends EventEmitter {
    * Flush items in buffer to the saving callback
    */
   public flushBuffer(context: FlushContext = {}): void {
+    this.stopTimeout() // make sure to always clear timeout
+
     if (this.items.length == 0) return
 
     // use resolve to ensure is a promise
