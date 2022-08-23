@@ -68,7 +68,6 @@ export class WriteBuffer<T> extends EventEmitter {
   public flushBuffer(context: FlushContext = {}): void {
     if (this.items.length == 0) return
 
-    this.stopTimeout()
     // use resolve to ensure is a promise
     Promise.resolve(this.flush(this.items, context)).catch(console.error)
 
@@ -85,10 +84,10 @@ export class WriteBuffer<T> extends EventEmitter {
 
   private startTimeout(): void {
     if (!this.intervalId) {
-      this.intervalId = setTimeout(
-        () => this.flushBuffer({ reason: "timeout" }),
-        this.flushIntervalMs,
-      )
+      this.intervalId = setTimeout(() => {
+        this.stopTimeout()
+        this.flushBuffer({ reason: "timeout" })
+      }, this.flushIntervalMs)
     }
   }
 

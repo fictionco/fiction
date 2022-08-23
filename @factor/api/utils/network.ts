@@ -35,8 +35,9 @@ export const normalizeIpv6 = (rawIp: string): string => {
  */
 export const getRequestIpAddress = async (
   request: express.Request,
+  opts: { isFake?: boolean },
 ): Promise<{ ip: string; rawIp: string }> => {
-  const isFake = request.query.isFake === "1"
+  const isFake = opts?.isFake || request.query.isFake === "1"
 
   let rawIp: string | undefined = undefined
   if (isFake) {
