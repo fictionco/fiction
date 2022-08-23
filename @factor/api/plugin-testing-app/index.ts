@@ -2,7 +2,7 @@ import http from "http"
 import fs from "fs"
 import path from "path"
 import { createServer, ViteDevServer } from "vite"
-import type { Browser, LaunchOptions } from "playwright"
+import type { Browser, LaunchOptions, BrowserContextOptions } from "playwright"
 import type { faker } from "@faker-js/faker"
 import { createExpressApp, safeDirname, vue } from "../utils"
 import { FactorPlugin, FactorPluginSettings } from "../plugin"
@@ -82,7 +82,10 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     return { faker, browser }
   }
 
-  async newContext(opts: TestingConfig = {}) {
+  async newContext(
+    opts: TestingConfig = {},
+    contextOpts: BrowserContextOptions = {},
+  ) {
     if (!this.server) throw new Error("no testing app server created")
 
     const { faker, browser } = await this.initialize(opts)
@@ -94,13 +97,14 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     const viewport = this.viewportSizes[rand]
     const locale = faker.random.locale()
 
-    const contextSettings = random
+    const contextSettings: BrowserContextOptions = random
       ? {
           userAgent,
           viewport,
           locale,
+          ...contextOpts,
         }
-      : {}
+      : contextOpts
 
     const context = await browser.newContext(contextSettings)
 

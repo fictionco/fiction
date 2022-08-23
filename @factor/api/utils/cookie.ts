@@ -8,19 +8,24 @@ import Cookies, { CookieAttributes } from "js-cookie"
  * http://jsfiddle.net/zEwsP/4/
  */
 export const getCookieDomain = (): string | undefined => {
+  if (typeof window == "undefined") return undefined
+
   let i = 0
   let domain = window.location.hostname
 
+  //if (domain.includes("localhost")) return undefined
+
   const p = domain.split(".")
   const s = `_gd${Date.now()}`
-  while (i < p.length - 1 && !document.cookie.includes(s + "=" + s)) {
+  while (i < p.length - 1 && !document.cookie.includes(`${s}=${s}`)) {
     domain = p.slice(-1 - ++i).join(".")
     // eslint-disable-next-line unicorn/no-document-cookie
-    document.cookie = s + "=" + s + ";domain=" + domain + ";"
+    document.cookie = `${s}=${s};domain=${domain};`
   }
+  // remove cookie
   // eslint-disable-next-line unicorn/no-document-cookie
-  document.cookie =
-    s + "=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=" + domain + ";"
+  document.cookie = `${s}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=${domain};`
+
   return domain
 }
 /**
