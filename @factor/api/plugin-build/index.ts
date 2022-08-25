@@ -123,8 +123,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
             return id.includes(`node_modules/${_.id}`)
           })
 
+          let code = src
           if (id.includes("mount.ts")) {
-            const code = src.replace(
+            code = src.replace(
               `"VITE_REPLACE_ENV_VARS"`,
               JSON.stringify(
                 JSON.stringify(this.factorEnv.getViteRenderedVars()),
@@ -136,6 +137,10 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
           const isServerFile = /server-only-file/.test(src.slice(0, 300))
 
+          /**
+           * Get existing sourcemaps by setting it to null
+           * - https://rollupjs.org/guide/en/#transform
+           */
           if (replaceConfig || isServerFile) {
             const additional = replaceConfig?.additional ?? []
 
@@ -149,6 +154,19 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
           }
         },
       },
+      // {
+      //   name: "factorVitePluginPost",
+      //   enforce: "post",
+      //   transform: async (code: string, id: string) => {
+      //     /**
+      //      * add module ID to output for optimization
+      //      */
+      //     if (!id.includes("json")) {
+      //       code = `console.log("${id}")\n\n ${code}`
+      //     }
+      //     return { code, map: null }
+      //   },
+      // },
     ]
 
     return plugins
@@ -269,6 +287,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         manifest: true,
         emptyOutDir: true,
         minify: false,
+
         //https://vitejs.dev/config/build-options.html#build-sourcemap
         sourcemap: !isProd ? "inline" : false,
         rollupOptions: { external: this.serverOnlyModules.map((_) => _.id) },
@@ -284,6 +303,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       plugins: customPlugins,
       optimizeDeps: this.getOptimizeDeps(),
       logLevel: isProd ? "info" : "warn",
+      define: {
+        "process.env.NODE_ENV": isProd ? '"production"' : '"development"',
+      },
     }
 
     return basicConfig
