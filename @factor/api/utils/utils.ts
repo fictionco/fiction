@@ -242,7 +242,9 @@ export const deepMerge = <T extends Record<string, any>>(
 /**
  * merges all and concatenates arrays
  */
-export const deepMergeAll = <T>(items: (Partial<T> | undefined)[]): T => {
+export const deepMergeAll = <T extends Record<string, any>>(
+  items: (Partial<T> | undefined)[],
+): T => {
   const i = items.filter(Boolean) as T[]
 
   return deepMerge<T>(i, { mergeArrays: true })
