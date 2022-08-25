@@ -261,6 +261,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins()
 
+    const processDefine = {}
+
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? "production" : "development",
       // root must be set to optimize output file size
@@ -304,7 +306,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       optimizeDeps: this.getOptimizeDeps(),
       logLevel: isProd ? "info" : "warn",
       define: {
-        "process.env.NODE_ENV": isProd ? '"production"' : '"development"',
+        [`process.env.${"NODE_ENV"}`]: isProd
+          ? '"production"'
+          : '"development"',
       },
     }
 
