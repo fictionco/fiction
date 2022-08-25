@@ -2,8 +2,8 @@
   "name": "@factor/lint",
   "version": "5.5.33",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.34.0",
-    "@typescript-eslint/parser": "^5.34.0",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.6.0",
@@ -14,7 +14,7 @@
     "eslint-plugin-simple-import-sort": "latest",
     "eslint-plugin-tailwindcss": "^3.6.0",
     "eslint-plugin-unicorn": "^43.0.2",
-    "eslint-plugin-vue": "^9.3.0",
+    "eslint-plugin-vue": "^9.4.0",
     "prettier": "^2.7.1",
     "prettier-eslint": "^15.0.1"
   },
