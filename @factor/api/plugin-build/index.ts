@@ -305,11 +305,6 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       plugins: customPlugins,
       optimizeDeps: this.getOptimizeDeps(),
       logLevel: isProd ? "info" : "warn",
-      define: {
-        [`process.env.${"NODE_ENV"}`]: isProd
-          ? '"production"'
-          : '"development"',
-      },
     }
 
     return basicConfig

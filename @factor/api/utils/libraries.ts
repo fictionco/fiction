@@ -18,6 +18,13 @@ dayjs.extend(updateLocale)
 dayjs.extend(weekOfYear)
 dayjs.updateLocale("en", { weekStart: 1 })
 
+// currently vue references NODE_ENV so in case this is required outside of main
+// applications, let's make sure we have vars set
+if (typeof window !== "undefined" && typeof window.process == "undefined") {
+  // @ts-ignore (avoid confusion with node process.env)
+  window.process = { env: {} }
+}
+
 const clean = (text: string) => dompurify.sanitize(text)
 
 export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean }
