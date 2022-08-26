@@ -93,6 +93,13 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
       const pkg = require(path.resolve(cwd, "./package.json")) as PackageJson
       const { name: packageName } = pkg
 
+      if (!pkg.buildOptions) {
+        this.log.warn(
+          `couldn't build: ${packageName} - no "buildOptions" found`,
+        )
+        return
+      }
+
       return pkg.buildOptions.map(async (build) => {
         const { buildName, entryFile, outputDir, configFile } = build
 

@@ -11,9 +11,11 @@ const renderedEnvVars = "VITE_REPLACE_ENV_VARS"
 const setupRenderedEnvVars = () => {
   let runtime: Record<string, string> | undefined = undefined
   // prevent 'process' not defined errors in browser
-  if (typeof window !== "undefined" && typeof window.process == "undefined") {
-    // @ts-ignore (avoid confusion with node process.env)
-    window.process = { env: {} }
+  if (typeof window !== "undefined") {
+    if (typeof window.process == "undefined") {
+      // @ts-ignore (avoid confusion with node process.env)
+      window.process = { env: {} }
+    }
 
     const run = document.querySelector("#factorRun")?.textContent
 
