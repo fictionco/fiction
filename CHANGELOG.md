@@ -1,3 +1,12 @@
+## [5.5.39](https://github.com/FactorJS/factor/compare/v5.5.38...v5.5.39) (2022-08-26)
+
+
+### Bug Fixes
+
+* process handling ([7296cb8](https://github.com/FactorJS/factor/commit/7296cb8aa29413f5b871a36ada34608f12631d7a))
+
+
+
 ## [5.5.38](https://github.com/FactorJS/factor/compare/v5.5.37...v5.5.38) (2022-08-26)
 
 
