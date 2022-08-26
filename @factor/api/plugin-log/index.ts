@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 /**
- * Since many files use this logger, be careful for
+ * notes
+ * - Since many files use this logger, be careful for
  * circular dependencies
+ * - Dependencies should be lean as this gets included in slim builds
  */
 import prettyoutput from "prettyoutput"
 import consola from "consola"
+import dayjs from "dayjs"
+import chalk from "chalk"
 import { HookType, runHooks } from "../utils/hook"
-import { dayjs, chalk } from "../utils/libraries"
 import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
 import { stringify } from "../utils/utils"
 

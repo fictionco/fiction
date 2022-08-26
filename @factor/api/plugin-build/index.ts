@@ -112,12 +112,15 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       {
         name: "factorVitePlugin", // required, will show up in warnings and errors
         enforce: "pre",
-        // resolveId(id: string): ResolveIdResult {
-        //   const found = fullServerModules.find((_) => _.id == id)
-        //   if (found) {
-        //     return found.resolvedId
+        // isEntry option is available to inject with
+        // async resolveId(id, importer) {
+        //   if (id.includes("store")) {
+        //     console.warn(`\n`)
+        //     console.warn("ID", id)
+        //     console.warn("importer", importer)
         //   }
         // },
+
         transform: async (src: string, id: string) => {
           const replaceConfig = fullServerModules.find((_) => {
             return id.includes(`node_modules/${_.id}`)

@@ -1,7 +1,4 @@
-import axios from "axios"
-import { UserGeolocation } from "../types"
-import { stored, storeItem } from "../utils/store"
-import { isNode } from "../utils/vars"
+import type { UserGeolocation } from "../types"
 
 interface FreeGeoIp {
   ip: string
@@ -34,17 +31,13 @@ export const getUserGeolocationName = (
   return out.filter(Boolean).join(", ")
 }
 
-export const getUserGeolocationSync = (): UserGeolocation | void => {
-  return stored("geo")
-}
-
 /**
  * Get IP address on network
  */
 export const getNetworkIp = async (): Promise<string> => {
-  const { data } = await axios.get<string>(
-    "https://www.cloudflare.com/cdn-cgi/trace",
-  )
+  const stream = await fetch("https://www.cloudflare.com/cdn-cgi/trace")
+
+  const data = await stream.text()
 
   const rawText = data.split(`\n`).find((_: string) => _.includes("ip="))
 
@@ -63,28 +56,27 @@ export const setUserGeolocation = async (): Promise<UserGeolocation | void> => {
    * Cache the value in case run multiple times
    * Don't get information on server as it will return server information not user
    */
-  if (stored("geo")) {
-    return stored("geo")
-  } else if (isNode()) {
+
+  if (typeof sessionStorage !== "undefined") {
+    const r = sessionStorage.getItem("KGeo")
+    if (r) {
+      return JSON.parse(r) as UserGeolocation
+    }
+  } else if (typeof window == "undefined") {
     return
   }
 
-  const options = {
-    timeout: 3000,
-    headers: {},
-  }
-
-  let result: { data: FreeGeoIp }
+  let data: FreeGeoIp
 
   try {
-    result = await axios.get("https://freegeoip.app/json/", options)
+    const r = await fetch("https://freegeoip.app/json/")
+
+    data = (await r.json()) as FreeGeoIp
   } catch {
     // eslint-disable-next-line no-console
     console.warn("Unable to get geo data.")
     return
   }
-
-  const { data } = result
 
   const {
     ip,
@@ -116,7 +108,9 @@ export const setUserGeolocation = async (): Promise<UserGeolocation | void> => {
 
   geo.name = getUserGeolocationName(geo)
 
-  storeItem("geo", geo)
+  if (typeof sessionStorage !== "undefined") {
+    sessionStorage.setItem("geo", JSON.stringify(geo))
+  }
 
   return geo
 }
