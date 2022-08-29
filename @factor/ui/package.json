@@ -2,7 +2,7 @@
   "name": "@factor/ui",
   "version": "5.5.40",
   "dependencies": {
-    "@factor/api": "5.5.40",
+    "@factor/api": "workspace:5.5.40",
     "easymde": "^2.17.0",
     "gravatar-url": "^4.0.1",
     "sortablejs": "^1.15.0"

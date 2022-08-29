@@ -2,7 +2,7 @@
   "name": "@factor/plugin-stripe",
   "version": "5.5.40",
   "dependencies": {
-    "@factor/api": "5.5.40",
+    "@factor/api": "workspace:5.5.40",
     "@stripe/stripe-js": "^1.35.0",
     "express": "^4.18.1",
     "stripe": "^9.16.0"

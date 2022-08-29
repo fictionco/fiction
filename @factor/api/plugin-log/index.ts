@@ -10,7 +10,7 @@ import consola from "consola"
 import dayjs from "dayjs"
 import chalk from "chalk"
 import { HookType, runHooks } from "../utils/hook"
-import { isDev, isRestart, isNode, isDebug } from "../utils/vars"
+import { isProd, isRestart, isNode, isDebug } from "../utils/vars"
 import { stringify } from "../utils/utils"
 
 type Levels = "error" | "warn" | "info" | "debug" | "trace"
@@ -36,11 +36,20 @@ export type FactorLogHookDictionary = {
 }
 type FactorLogSettings = {
   hooks?: HookType<FactorLogHookDictionary>[]
+  isProd?: boolean
+  isRestart?: boolean
+  isDebug?: boolean
 }
 export class FactorLog {
   hooks: HookType<FactorLogHookDictionary>[]
+  isProd: boolean
+  isRestart: boolean
+  isDebug: boolean
   constructor(settings: FactorLogSettings = {}) {
     this.hooks = settings.hooks ?? []
+    this.isProd = settings.isProd ?? isProd()
+    this.isRestart = settings.isRestart ?? isRestart()
+    this.isDebug = settings.isDebug ?? isDebug()
   }
 
   setup = () => {}
@@ -60,7 +69,7 @@ export class FactorLog {
   private logBrowser(config: LoggerArgs): void {
     const { level, description, context, color, data, error } = config
     const shouldLog =
-      isDev() ||
+      !this.isProd ||
       (typeof localStorage !== "undefined" && localStorage.getItem("klog"))
         ? true
         : false
@@ -119,7 +128,7 @@ export class FactorLog {
       error,
     } = config
 
-    if (disableOnRestart && isRestart()) {
+    if (disableOnRestart && this.isRestart) {
       return
     }
     const points: (string | number)[] = [chalk.hex(color).dim(level.padEnd(5))]
@@ -166,7 +175,7 @@ export class FactorLog {
     config.color = this.logLevel[level].color
 
     if (isNode()) {
-      if (config.priority < 10 && isDev() && !isDebug()) {
+      if (config.priority < 10 && !this.isProd && !this.isDebug) {
         config.data = undefined
       }
 
