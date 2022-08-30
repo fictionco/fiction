@@ -43,7 +43,6 @@ const send = (el: EventTarget | null): void => {
   setHeight()
   const elem = el as HTMLInputElement
   const txt = elem.value
-  console.log("TXT", txt)
   emit("update:modelValue", txt)
 }
 </script>
