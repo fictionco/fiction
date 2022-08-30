@@ -1,3 +1,13 @@
+## [5.5.41](https://github.com/FactorJS/factor/compare/v5.5.40...v5.5.41) (2022-08-30)
+
+
+### Bug Fixes
+
+* process guard ([8f14e23](https://github.com/FactorJS/factor/commit/8f14e2340a60bb763abe6bad1805a7af8e0d0814))
+* text-area ([1e39a10](https://github.com/FactorJS/factor/commit/1e39a10f02ec64523edf59921cc57d6974b8ba98))
+
+
+
 ## [5.5.40](https://github.com/FactorJS/factor/compare/v5.5.39...v5.5.40) (2022-08-26)
 
 
