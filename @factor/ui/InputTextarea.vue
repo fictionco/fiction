@@ -1,16 +1,21 @@
 <template>
   <textarea
     ref="textareaElement"
+    class="no-scrollbar"
+    spellcheck="false"
     :class="[textInputClasses(), modelValue ? 'set' : 'empty']"
     :value="modelValue"
+    rows="1"
     @input="send($event.target)"
   />
+
+  {{ modelValue }}
 </template>
 
 <script lang="ts" setup>
 import { vue } from "@factor/api"
 import { textInputClasses } from "./theme"
-const props = defineProps({
+defineProps({
   modelValue: { type: String, default: "" },
 })
 
@@ -23,20 +28,23 @@ const textareaElement = vue.ref<HTMLElement>()
 const setHeight = (): void => {
   if (!textareaElement.value) return
   const ta = textareaElement.value
-
+  ta.style.height = "auto"
   const sh = textareaElement.value?.scrollHeight
   ta.style.height = `${sh}px`
 }
 vue.onMounted(() => setHeight())
 
-vue.watch(
-  () => props.modelValue,
-  () => setHeight(),
-)
+// vue.watch(
+//   () => props.modelValue,
+//   () => setHeight(),
+// )
 
 const send = (el: EventTarget | null): void => {
+  setHeight()
   const elem = el as HTMLInputElement
-  emit("update:modelValue", elem.value)
+  const txt = elem.value
+  console.log("TXT", txt)
+  emit("update:modelValue", txt)
 }
 </script>
 
