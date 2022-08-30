@@ -2,10 +2,8 @@
  * @vitest-environment jsdom
  * https://vitest.dev/config/#environment
  */
-import Cookies, { CookieAttributes } from "js-cookie"
+import Cookies  from "js-cookie"
 import {
-  createTestUtils,
-  TestUtils,
   expect,
   describe,
   it,
