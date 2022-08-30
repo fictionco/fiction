@@ -66,6 +66,7 @@ module.exports = defineConfig({
     "no-async-promise-executor": "off",
 
     "vue/no-v-html": "off",
+    "vue/no-v-text-v-html-on-component": "off",
     "import/order": [
       "warn",
       {
