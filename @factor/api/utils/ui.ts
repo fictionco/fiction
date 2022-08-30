@@ -2,7 +2,7 @@ import type { FactorRouter } from "../plugin-router"
 import { vue } from "./libraries"
 import { emitEvent, onEvent } from "./event"
 
-type ResetUiScope = "all" | "inputs"
+type ResetUiScope = "all" | "inputs" | "iframe"
 /**
  * Emits an event that will reset ui on all dynamic UI components
  */
@@ -29,7 +29,7 @@ export const initializeResetUi = async (
   factorRouter: FactorRouter,
 ): Promise<void> => {
   window.addEventListener("keydown", (e: KeyboardEvent) => {
-    if (e.key === "Escape") resetUi()
+    if (e.key === "Escape" || e.key == "Tab") resetUi()
   })
   window.addEventListener("click", () => resetUi())
   vue.watch(
