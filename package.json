@@ -2,16 +2,16 @@
   "name": "factor",
   "version": "5.5.41",
   "dependencies": {
-    "@factor/api": "5.5.41",
-    "@factor/lint": "5.5.41",
-    "@factor/ui": "5.5.41",
-    "@factor/www": "5.5.41",
+    "@factor/api": "workspace:5.5.41",
+    "@factor/lint": "workspace:5.5.41",
+    "@factor/ui": "workspace:5.5.41",
+    "@factor/www": "workspace:5.5.41",
     "@types/express": "^4.17.13",
     "@types/node": "^18.7.14",
     "@vitejs/plugin-vue": "^3.0.3",
     "chalk": "^5.0.1",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "pnpm": "^7.9.5",
     "vue": "*"
   },
@@ -32,7 +32,7 @@
     "typescript": "^4.8.2",
     "vite": "^3.0.9",
     "vitest": "*",
-    "vue-tsc": "^0.40.4",
+    "vue-tsc": "^0.40.5",
     "yorkie": "^2.0.0"
   },
   "engines": {
