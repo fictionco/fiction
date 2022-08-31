@@ -1,3 +1,18 @@
+## [5.5.42](https://github.com/FactorJS/factor/compare/v5.5.41...v5.5.42) (2022-08-31)
+
+
+### Bug Fixes
+
+* lint ([283a92e](https://github.com/FactorJS/factor/commit/283a92e9c9442f9799bdf6ad3ce1bf4a517fb44c))
+* remove special case rule ([f04e96d](https://github.com/FactorJS/factor/commit/f04e96d86110cebe69907b204ef75531073f04c5))
+
+
+### Features
+
+* add scope to resetUi ([0b2a38e](https://github.com/FactorJS/factor/commit/0b2a38ed18c05e0e9ac1d6c39d50e302e3a6546b))
+
+
+
 ## [5.5.41](https://github.com/FactorJS/factor/compare/v5.5.40...v5.5.41) (2022-08-30)
 
 
