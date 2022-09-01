@@ -3,7 +3,7 @@
     <label
       v-for="(option, i) in parsedList"
       :key="i"
-      class="my-2 flex cursor-pointer items-center text-input-size"
+      class="text-input-size my-2 flex cursor-pointer items-center"
       :for="option.value"
     >
       <input
@@ -15,7 +15,7 @@
         :value="option.value"
         v-bind="$attrs"
       />
-      <span class="ml-2 text-input-body hover:text-input-body-light">{{
+      <span class="text-theme-600 hover:text-theme-500 ml-2">{{
         option.name
       }}</span>
     </label>
@@ -45,10 +45,12 @@ const classes = [
   "form-radio",
   "appearance-none",
   "border",
-  "border-input-edge",
-  "text-input-primary",
-  "focus:border-input-primary",
+  "border-theme-300",
+  "text-theme-500",
+  "focus:border-theme-500",
   "focus:outline-none",
-  "focus:ring-input-primary",
+  "focus:ring-2",
+  "focus:ring-theme-100",
+  "focus:ring-offset-0",
 ]
 </script>

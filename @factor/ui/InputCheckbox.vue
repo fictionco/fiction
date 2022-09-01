@@ -1,5 +1,5 @@
 <template>
-  <label class="f-input inline-flex cursor-pointer">
+  <label class="inline-flex cursor-pointer items-center">
     <input
       v-bind="attrs"
       type="checkbox"
@@ -9,7 +9,7 @@
     />
 
     <span
-      class="checkbox-label text-input-size text-input-body hover:text-input-body-light"
+      class="checkbox-label text-input-size text-theme-700 hover:text-theme-500"
     >
       <template v-if="slots.default"> <slot /></template>
       <template v-else>{{ text }}</template>
@@ -44,17 +44,18 @@ const classes = [
   "form-checkbox",
   "cursor-pointer",
   "mt-0.5",
-  "h-4",
-  "w-4",
+  "mr-4",
+  "h-5",
+  "w-5",
   "appearance-none",
   "rounded-md",
   "border",
   "focus:outline-none",
   "focus:ring-0",
-  "border-input-edge",
-  "text-input-primary",
-  "bg-input-base",
-  "text-input-body",
-  "hover:bg-input-base-alt",
+  "border-theme-300",
+  "text-theme-500",
+  "bg-theme-100",
+  "text-theme-700",
+  "hover:theme-200",
 ]
 </script>

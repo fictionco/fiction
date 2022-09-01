@@ -36,10 +36,10 @@ const buttonClass = (v: ListItem, i: number): string => {
   }
 
   if (props.modelValue == v.value) {
-    out.push("bg-input-primary  border-input-primary text-input-primary-body")
+    out.push("bg-theme-400 border-theme-600 text-theme-0 z-20")
   } else {
     out.push(
-      "bg-input-base text-input-body  border-input-edge hover:border-input-edge",
+      "bg-theme-100 text-theme-600 border-theme-300 hover:border-theme-300",
     )
   }
 
@@ -57,9 +57,9 @@ const classes = [
   "px-input-x",
   "py-input-y",
   "text-input-size",
-  "text-input-body",
+
+  "text-theme-600",
   "focus:z-10",
-  "focus:border-input-primary",
   "focus:outline-none",
   "focus:ring-0",
 ]

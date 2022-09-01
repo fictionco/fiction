@@ -44,13 +44,13 @@ const buttonClass = (v: number, i: number): string => {
     "text-input-size",
     "focus:z-10",
     "focus:outline-none",
-    "focus:border-input-primary",
+    "focus:border-primary",
   ]
 
   if (i == 0) {
-    out.push("rounded-l-md")
+    out.push("rounded-l-input")
   } else if (i == range.value.length - 1) {
-    out.push("rounded-r-md")
+    out.push("rounded-r-input")
   }
 
   if (i != 0) {
@@ -58,10 +58,10 @@ const buttonClass = (v: number, i: number): string => {
   }
 
   if (props.modelValue === v) {
-    out.push("bg-input-primary text-input-primary-body border-input-primary")
+    out.push("bg-theme-400 border-theme-600 text-theme-0 z-20")
   } else {
     out.push(
-      "bg-input-base text-input-body border-input-edge hover:bg-input-base-alt",
+      "bg-theme-100 text-theme-700 border-theme-300 hover:bg-theme-200 hover:border-theme-400 hover:z-20",
     )
   }
 

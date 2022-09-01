@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElButton
-      btn="input"
+      btn="theme"
       size="sm"
       :loading="uploading"
       @click.stop.prevent="vis = true"
@@ -19,7 +19,7 @@
               class="border-b-2 py-2 px-3 text-center"
               :class="
                 item == navItemActive
-                  ? `text-primary-500  border-primary-500 font-semibold`
+                  ? `text-primary-500 border-primary-500 font-semibold`
                   : `text-slate-400 cursor-pointer border-slate-300 hover:text-slate-700`
               "
               @click="navItemActive = item"
@@ -48,7 +48,7 @@
             </div>
             <div class="flex text-sm text-slate-500">
               <div
-                class="relative cursor-pointer rounded-md bg-white font-medium text-primary-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:ring-offset-2 hover:text-primary-500"
+                class="text-primary-500 hover:text-primary-400 relative cursor-pointer rounded-md bg-white font-medium"
               >
                 <span>Upload a file</span>
                 <input

@@ -1,37 +1,30 @@
 <template>
   <label class="block" @click.stop @keyup.stop @keydown.stop>
     <div
-      class="relative"
+      class="text-theme-800 relative"
       @keydown.down.prevent="
         hovered = hovered == li.length - 1 ? 0 : hovered + 1
       "
       @keydown.up.prevent="hovered = hovered ? hovered - 1 : 0"
       @keydown.enter.prevent="!active ? toggle() : selectByIndex(hovered)"
     >
-      <button
-        type="button"
-        aria-haspopup="listbox"
-        :aria-expanded="active ? 'true' : 'false'"
-        aria-labelledby="listbox-label"
-        :class="buttonClasses"
-        @click.prevent="toggle()"
-      >
+      <div :class="buttonClasses" @click.prevent="toggle()">
         <span class="flex w-full flex-wrap items-center">
           <span v-if="selected.length === 0" class="truncate">Select</span>
           <div
             v-for="(v, i) in selected"
             v-else
             :key="i"
-            class="my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-lg border border-input-edge bg-input-base text-xs text-input-body shadow-sm"
+            class="border-theme-300 bg-theme-100 text-theme-600 my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-md border text-xs"
             @click.stop
           >
             <div
-              class="max-w-full flex-initial px-input-x py-input-y font-medium leading-none"
+              class="px-input-x py-input-y max-w-full flex-initial font-medium leading-none"
             >
               {{ getItemName(v) }}
             </div>
             <div
-              class="flex cursor-pointer flex-col justify-center border-l border-input-edge px-1 hover:bg-input-base-alt"
+              class="text-theme-400 border-theme-200 hover:bg-theme-100 flex cursor-pointer flex-col justify-center border-l px-1"
               @click.stop.prevent="removeValue(v)"
             >
               <svg
@@ -50,8 +43,8 @@
             </div>
           </div>
           <span
-            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 group-hover:text-input-primary"
-            :class="active ? 'text-input-primary' : 'text-input-body'"
+            class="group-hover:text-theme-300 pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+            :class="active ? 'text-theme-300' : 'text-theme-500'"
           >
             <svg
               class="h-5 w-5"
@@ -68,7 +61,7 @@
             </svg>
           </span>
         </span>
-      </button>
+      </div>
 
       <transition
         leave-active-class="transition ease-in duration-100"
@@ -77,7 +70,7 @@
       >
         <div
           v-if="active"
-          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl ring-1 ring-black/5"
+          class="absolute top-full z-50 mt-1 w-full rounded-md bg-white shadow-lg ring-1 ring-black/10"
         >
           <ul
             role="listbox"
@@ -86,11 +79,11 @@
           >
             <template v-for="(item, i) of li" :key="i">
               <li v-if="item.format == 'divider'">
-                <div class="w-full border-t border-input-edge" />
+                <div class="border-theme-300 w-full border-t" />
               </li>
               <li
                 v-else-if="item.format == 'title'"
-                class="mt-4 mb-2 text-input-edge"
+                class="text-theme-300 mt-4 mb-2"
               >
                 <div class="px-4 text-xs font-semibold uppercase">
                   {{ item.name }}
@@ -102,7 +95,7 @@
                 :key="i"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group relative select-none py-input-y px-input-x text-input-size"
+                class="group py-input-y px-input-x text-input-size relative select-none"
                 @click.prevent="selectValue(item)"
                 @mouseover="hovered = i"
                 @mouseleave="hovered = -1"
@@ -117,12 +110,12 @@
                     class="absolute inset-y-0 right-0 flex items-center pr-2"
                     :class="
                       hovered > -1 && hovered !== i
-                        ? 'text-input-primary group-hover:text-input-primary-body'
+                        ? 'text-primary group-hover:text-primary-500'
                         : ''
                     "
                   >
                     <!-- Heroicon name: check -->
-                    <div class="rounded-full bg-primary-500 p-0.5 text-white">
+                    <div class="text-primary rounded-full p-0.5">
                       <svg
                         class="h-4 w-4"
                         xmlns="http://www.w3.org/2000/svg"
@@ -224,18 +217,17 @@ const listItemClass = (item: ListItem, i: number): string => {
   const val = item.value ?? ""
 
   if (item.disabled) {
-    out.push("text-input-edge")
+    out.push("text-theme-300")
   } else {
     if (hovered.value === i) {
-      out.push("bg-input-primary text-input-primary-body font-medium ")
+      out.push("bg-theme-100 text-theme-800")
     } else if (isSelected(val)) {
-      out.push("bg-input-base-alt font-medium text-input-body")
+      out.push("bg-theme-0 text-theme-500")
     } else {
-      out.push("font-normal")
+      out.push("text-theme-900")
     }
-    out.push(
-      "cursor-pointer   hover:text-input-primary-body hover:bg-input-primary",
-    )
+
+    out.push("cursor-pointer hover:text-theme-800 hover:bg-theme-50")
   }
 
   return out.join(" ")
@@ -270,22 +262,22 @@ const buttonClasses = [
   "relative",
   "w-full",
   "cursor-pointer",
-  "rounded-lg",
+  "rounded-input",
   "border",
-  "border-input-edge",
+  "border-theme-300",
   "py-input-y",
   "pl-input-x",
   "pr-10",
   "text-left",
   "text-input-size",
-  "bg-input-base",
-  "text-input-body",
-  "hover:border-input-edge",
-  "hover:bg-input-base-alt",
-  "focus:border-input-primary",
+  "bg-theme-50",
+  "text-theme-700",
+  "hover:border-theme-300",
+  "focus:border-theme-400",
   "focus:outline-none",
-  "focus:ring-1",
-  "focus:ring-input-primary",
+  "focus:ring-4",
+  "focus:ring-theme-50",
+  "focus:ring-offset-2",
 ]
 </script>
 

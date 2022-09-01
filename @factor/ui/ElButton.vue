@@ -43,7 +43,7 @@ const props = defineProps({
     type: String as vue.PropType<
       | "primary"
       | "default"
-      | "input"
+      | "theme"
       | "danger"
       | "warning"
       | "green"
@@ -82,7 +82,7 @@ const btnClass = vue.computed(() => {
       "text-primary-600 bg-primary-50 hover:bg-primary-500 hover:bg-primary-500 hover:text-white focus:ring-primary-500 border-primary-50 hover:border-primary-500"
   } else if (btn == "primary") {
     out =
-      "text-white bg-primary-600 hover:bg-primary-700 focus:ring-primary-100 border-primary-500"
+      "text-white bg-primary-500 hover:bg-primary-600 hover:border-primary-600 focus:ring-primary-100 border-primary-500"
   } else if (btn == "outline") {
     out =
       "text-primary-500  hover:bg-primary-50 focus:ring-primary-100 border-primary-500"
@@ -95,9 +95,8 @@ const btnClass = vue.computed(() => {
   } else if (btn == "subtle") {
     out =
       "border-slate-200 text-slate-500  hover:border-slate-400 focus:ring-primary-100"
-  } else if (btn == "input") {
-    out =
-      "border-input-edge text-input-body bg-input-base hover:bg-input-base-alt focus:ring-primary-100"
+  } else if (btn == "theme") {
+    out = "border-theme-300 text-theme-700 bg-theme-100 hover:bg-theme-200"
   } else {
     out =
       "border-slate-300 text-slate-700 bg-white hover:border-slate-400 focus:ring-primary-100"

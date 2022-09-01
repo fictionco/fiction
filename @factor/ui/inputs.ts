@@ -24,4 +24,5 @@ export const inputs = {
   InputWeight: def(() => import("./InputWeight.vue")),
   InputNumber: def(() => import("./InputNumber.vue")),
   InputMedia: def(() => import("./InputMedia.vue")),
+  InputRanking: def(() => import("./InputRanking.vue")),
 }

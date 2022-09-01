@@ -42,15 +42,15 @@ const protocolClasses = [
   "border",
   "border-r-0",
   "text-input-size",
-  "border-input-edge",
-  "bg-input-base-alt",
+  "border-theme-300",
+  "bg-theme-100",
   "px-input-x",
-  "text-input-body-light",
+  "text-theme-500",
 ]
 const classes = [
   "flex-1",
-  "rounded-none",
-  "rounded-r-md",
+  "!rounded-none",
+  "!rounded-r-input",
   ...textInputClasses(),
 ]
 </script>

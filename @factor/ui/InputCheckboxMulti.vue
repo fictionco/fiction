@@ -2,7 +2,7 @@
   <div class="my-4">
     <div v-if="li.length == 0" class="text-input-placeholder">No Items</div>
     <div v-for="(item, i) of li" v-else :key="i" class="my-2">
-      <label class="f-input inline-flex cursor-pointer items-center">
+      <label class="inline-flex cursor-pointer items-center">
         <input
           v-bind="attrs"
           type="checkbox"
@@ -10,9 +10,7 @@
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         />
-        <span
-          class="checkbox-label text-input-size text-input-body hover:text-input-primary"
-        >
+        <span class="checkbox-label text-input-size text-theme-700 select-none">
           {{ item.name }}
         </span>
       </label>
@@ -87,9 +85,9 @@ const classes = [
   "border",
   "focus:outline-none",
   "focus:ring-0",
-  "border-input-edge",
-  "text-input-primary",
-  "bg-input-base",
-  "hover:bg-input-base-alt",
+  "border-theme-300",
+  "hover:border-theme-400",
+  "text-theme-500",
+  "bg-theme-100",
 ]
 </script>

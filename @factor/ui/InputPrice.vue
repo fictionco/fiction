@@ -3,7 +3,7 @@
     <div
       class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
     >
-      <span class="text-input-body-light sm:text-sm"> $ </span>
+      <span class="text-theme-500 sm:text-sm"> $ </span>
     </div>
     <input
       type="number"

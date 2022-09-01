@@ -10,6 +10,11 @@
       >
     </div>
     <div class="input-area mx-auto my-12 max-w-lg rounded-md">
+      <TestInput
+        input-name="Ranking"
+        :input-el="InputRanking"
+        :list="['item 1', 'item 2']"
+      />
       <TestInput input-name="Media" :input-el="InputMedia" />
       <TestInput
         input-name="Radio"
@@ -72,6 +77,7 @@ import { inputs } from "@factor/ui"
 import TestInput from "./TestInput.vue"
 
 const {
+  InputRanking,
   InputWeight,
   InputText,
   InputTextarea,
@@ -94,37 +100,86 @@ const {
   InputMedia,
 } = inputs
 
-const theme = vue.ref<ThemeColor>("sky")
+const themeColor = vue.ref<ThemeColor>("slate")
 
 const selectColor = (c: ThemeColor) => {
-  theme.value = c
+  themeColor.value = c
 }
 
-const input = vue.computed(() => {
+const theme = vue.computed(() => {
+  const levels = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const
+  const obj = Object.fromEntries(
+    levels.map((level) => [
+      level,
+      colorStandard({ color: themeColor.value, level }),
+    ]),
+  ) as Record<typeof levels[number], string>
   return {
-    primary: colorStandard({ color: theme.value }),
+    primary: colorStandard({ color: themeColor.value }),
     primaryText: colorStandard({ color: "white" }),
-    edge: colorStandard({ color: theme.value, level: 300 }),
-    edgeLight: colorStandard({ color: theme.value, level: 200 }),
-    placeholder: colorStandard({ color: theme.value, level: 400 }),
-    body: colorStandard({ color: theme.value, level: 600 }),
-    bodyLight: colorStandard({ color: theme.value, level: 500 }),
-    base: colorStandard({ color: theme.value, level: 50 }),
-    baseAlt: colorStandard({ color: theme.value, level: 100 }),
+    base: colorStandard({ color: themeColor.value, level: 50 }),
+    edge: colorStandard({ color: themeColor.value, level: 300 }),
+    edgeLight: colorStandard({ color: themeColor.value, level: 200 }),
+    placeholder: colorStandard({ color: themeColor.value, level: 400 }),
+    body: colorStandard({ color: themeColor.value, level: 600 }),
+    bodyLight: colorStandard({ color: themeColor.value, level: 500 }),
+    level0: obj[0],
+    level50: obj[50],
+    level100: obj[100],
+    level200: obj[200],
+    level300: obj[300],
+    level400: obj[400],
+    level500: obj[500],
+    level600: obj[600],
+    level700: obj[700],
+    level800: obj[800],
+    level900: obj[900],
+    primary0: obj[0],
+    primary50: obj[50],
+    primary100: obj[100],
+    primary200: obj[200],
+    primary300: obj[300],
+    primary400: obj[400],
+    primary500: obj[500],
+    primary600: obj[600],
+    primary700: obj[700],
+    primary800: obj[800],
+    primary900: obj[900],
   }
 })
 </script>
 <style>
 .input-area {
-  --input-primary: v-bind("input.primary");
-  --input-primary-body: v-bind("input.primaryText");
-  --input-edge: v-bind("input.edge");
-  --input-edge-light: v-bind("input.edgeLight");
-  --input-placeholder: v-bind("input.placeholder");
-  --input-body: v-bind("input.body");
-  --input-body-light: v-bind("input.bodyLight");
-  --input-base: v-bind("input.base");
-  --input-base-alt: v-bind("input.baseAlt");
+  --theme-primary: v-bind("theme.primary");
+  --theme-primary-text: v-bind("theme.primaryText");
+  --theme-base: v-bind("theme.base");
+  --theme-0: v-bind("theme.level0");
+  --theme-50: v-bind("theme.level50");
+  --theme-100: v-bind("theme.level100");
+  --theme-200: v-bind("theme.level200");
+  --theme-300: v-bind("theme.level300");
+  --theme-400: v-bind("theme.level400");
+  --theme-500: v-bind("theme.level500");
+  --theme-600: v-bind("theme.level600");
+  --theme-700: v-bind("theme.level700");
+  --theme-800: v-bind("theme.level800");
+  --theme-900: v-bind("theme.level900");
+  --primary-0: v-bind("theme.primary0");
+  --primary-50: v-bind("theme.primary50");
+  --primary-100: v-bind("theme.primary100");
+  --primary-200: v-bind("theme.primary200");
+  --primary-300: v-bind("theme.primary300");
+  --primary-400: v-bind("theme.primary400");
+  --primary-500: v-bind("theme.primary500");
+  --primary-600: v-bind("theme.primary600");
+  --primary-700: v-bind("theme.primary700");
+  --primary-800: v-bind("theme.primary800");
+  --primary-900: v-bind("theme.primary900");
+  --theme-edge-light: v-bind("theme.edgeLight");
+  --theme-placeholder: v-bind("theme.placeholder");
+  --theme-body: v-bind("theme.body");
+  --theme-body-light: v-bind("theme.bodyLight");
+  --theme-base: v-bind("theme.base");
   --input-x: 8px;
   --input-y: 4px;
   --input-size: 0.9rem;

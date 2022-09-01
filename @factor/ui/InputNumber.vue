@@ -1,10 +1,11 @@
 <template>
   <div :class="wrapClasses">
     <button
-      class="border-r border-slate-200"
       :class="[
         buttonClasses,
-        minNumber >= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
+        minNumber >= modelValue
+          ? 'disabled opacity-40 cursor-not-allowed'
+          : 'cursor-pointer',
       ]"
       @click.prevent="increment(-1)"
     >
@@ -31,10 +32,11 @@
       "
     />
     <button
-      class="border-l border-slate-200"
       :class="[
         buttonClasses,
-        maxNumber <= modelValue ? 'disabled opacity-40' : 'cursor-pointer',
+        maxNumber <= modelValue
+          ? 'disabled opacity-40 cursor-not-allowed'
+          : 'cursor-pointer',
       ]"
       @click.prevent="increment(1)"
     >
@@ -90,17 +92,17 @@ const inputClasses = [
   "border-transparent",
   "text-center",
   "outline-none",
-  "bg-input-base",
+  "bg-theme-50",
   "text-input-size",
-  "text-input-body",
-  "focus:border-input-primary",
+  "text-theme-700",
+  "focus:border-primary",
   "focus:outline-none",
   "focus:ring-0",
   "px-input-x",
   "py-input-y",
 ]
 const wrapClasses = [
-  "bg-input-base",
+  "bg-theme-50",
   "relative",
   "flex",
   "w-56",
@@ -108,7 +110,7 @@ const wrapClasses = [
   "items-center",
   "rounded-md",
   "border",
-  "border-input-edge",
+  "border-theme-300",
   "overflow-hidden",
 ]
 
@@ -118,11 +120,11 @@ const buttonClasses = [
   "h-full",
   "w-20",
   "select-none",
-  "text-input-body",
-  "hover:text-primary-500",
-  "hover:bg-input-base-alt",
+  "text-theme-700",
+  "hover:text-theme-500",
+  "hover:bg-theme-100",
   "focus:outline-none",
-  "focus:ring-input-primary",
+  "focus:ring-primary",
   "flex",
   "justify-center",
   "items-center",
