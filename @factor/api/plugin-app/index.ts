@@ -11,6 +11,7 @@ import unocss from "unocss/vite"
 import presetIcons from "@unocss/preset-icons"
 import { renderToString } from "@vue/server-renderer"
 import type tailwindcss from "tailwindcss"
+import type { Config as TailwindConfig } from "tailwindcss"
 import {
   vue,
   importIfExists,
@@ -61,6 +62,7 @@ export type FactorAppSettings = {
   factorRouter: FactorRouter
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
+  tailwindConfig?: Partial<TailwindConfig>[]
   serverOnlyImports?: ServerModuleDef[]
   ui?: Record<string, () => Promise<vue.Component>>
 }
@@ -70,6 +72,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   viteDevServer?: vite.ViteDevServer
   hooks = this.settings.hooks ?? []
   uiPaths = this.settings.uiPaths ?? []
+  tailwindConfig = this.settings.tailwindConfig ?? []
   serverOnlyImports = this.settings.serverOnlyImports ?? []
   factorRouter = this.settings.factorRouter
   ui = this.settings.ui || {}
@@ -167,6 +170,10 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   addUiPaths(uiPaths: string[]) {
     this.uiPaths = [...this.uiPaths, ...uiPaths, ...this.factorEnv.uiPaths]
+  }
+
+  addTailwindConfig(tailwindConfig: Partial<TailwindConfig>) {
+    this.tailwindConfig = [...this.tailwindConfig, tailwindConfig]
   }
 
   addServerOnlyImports(serverOnlyImports: ServerModuleDef[]) {
@@ -584,7 +591,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     this.staticServer?.close()
   }
 
-  tailwindConfig = async (): Promise<Record<string, any> | undefined> => {
+  async getTailwindConfig(): Promise<Record<string, any> | undefined> {
     const cwd = this.standardPaths?.cwd
 
     if (!cwd) throw new Error("cwd is required")
@@ -596,6 +603,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         mode: "jit",
         content: fullUiPaths,
       },
+      ...this.tailwindConfig,
     ]
 
     const userTailwindConfig = await requireIfExists(
@@ -657,7 +665,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const appViteConfigFile = await this.getAppViteConfigFile()
 
     const twPlugin = getRequire()("tailwindcss") as typeof tailwindcss
-    const twConfig = (await this.tailwindConfig()) as Parameters<
+    const twConfig = (await this.getTailwindConfig()) as Parameters<
       typeof twPlugin
     >[0]
 
