@@ -30,6 +30,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
         extend: {
           borderWidth: {
             input: "var(--input-border-width, 1px)",
+            3: "3px",
           },
           borderRadius: {
             input: "var(--input-border-radius, 4px)",

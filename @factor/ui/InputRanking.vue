@@ -3,7 +3,7 @@
     <div
       v-for="(item, i) in parsedList"
       :key="item.value"
-      class="ranking-item bg-theme-100 hover:bg-theme-200 border-theme-300 hover:border-theme-400 text-theme-700 max-w-input flex cursor-move items-center justify-between rounded-md border px-2 py-1"
+      class="ranking-item text-input-size bg-theme-100 hover:bg-theme-200 border-theme-300 hover:border-theme-400 text-theme-700 max-w-input flex cursor-move items-center justify-between rounded-md border px-2 py-1"
       draggable="true"
       :data-value="item.value"
     >
