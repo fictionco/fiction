@@ -25,4 +25,6 @@ export const inputs = {
   InputNumber: def(() => import("./InputNumber.vue")),
   InputMedia: def(() => import("./InputMedia.vue")),
   InputRanking: def(() => import("./InputRanking.vue")),
+  InputMultipleChoice: def(() => import("./InputMultipleChoice.vue")),
+  InputRating: def(() => import("./InputRating.vue")),
 }

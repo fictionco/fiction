@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.42
-      '@factor/lint': 5.5.42
-      '@factor/ui': 5.5.42
-      '@factor/www': 5.5.42
+      '@factor/api': workspace:5.5.42
+      '@factor/lint': workspace:5.5.42
+      '@factor/ui': workspace:5.5.42
+      '@factor/www': workspace:5.5.42
       '@types/express': ^4.17.13
       '@types/node': ^18.7.14
       '@vitejs/plugin-vue': ^3.0.3
@@ -73,7 +73,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.137.0
       '@aws-sdk/client-s3': 3.137.0
       '@babel/parser': ^7.18.13
-      '@factor/api': 5.5.42
+      '@factor/api': workspace:5.5.42
       '@faker-js/faker': ^7.5.0
       '@iconify-json/carbon': ^1.1.7
       '@iconify-json/heroicons-outline': ^1.1.4
@@ -147,7 +147,7 @@ importers:
       fs-extra: ^10.1.0
       get-port: ^6.1.2
       glob: ^8.0.3
-      google-auth-library: ^8.5.0
+      google-auth-library: ^8.5.1
       handlebars: ^4.7.7
       happy-dom: ^6.0.4
       helmet: ^5.1.1
@@ -279,7 +279,7 @@ importers:
       fs-extra: 10.1.0
       get-port: 6.1.2
       glob: 8.0.3
-      google-auth-library: 8.5.0
+      google-auth-library: 8.5.1
       handlebars: 4.7.7
       happy-dom: 6.0.4
       helmet: 5.1.1
@@ -365,7 +365,7 @@ importers:
       eslint-plugin-json: latest
       eslint-plugin-prettier: latest
       eslint-plugin-simple-import-sort: latest
-      eslint-plugin-tailwindcss: ^3.6.0
+      eslint-plugin-tailwindcss: ^3.6.1
       eslint-plugin-unicorn: ^43.0.2
       eslint-plugin-vue: ^9.4.0
       npm-package-json-lint: ^6.3.0
@@ -384,7 +384,7 @@ importers:
       eslint-plugin-json: 3.1.0
       eslint-plugin-prettier: 4.2.1_tgumt6uwl2md3n6uqnggd6wvce
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.23.0
-      eslint-plugin-tailwindcss: 3.6.0
+      eslint-plugin-tailwindcss: 3.6.1
       eslint-plugin-unicorn: 43.0.2_eslint@8.23.0
       eslint-plugin-vue: 9.4.0_eslint@8.23.0
       prettier: 2.7.1
@@ -396,9 +396,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.42
-      '@factor/plugin-highlight-code': 5.5.42
-      '@factor/ui': 5.5.42
+      '@factor/api': workspace:5.5.42
+      '@factor/plugin-highlight-code': workspace:5.5.42
+      '@factor/ui': workspace:5.5.42
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +410,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.42
-      '@factor/plugin-highlight-code': 5.5.42
-      '@factor/ui': 5.5.42
+      '@factor/api': workspace:5.5.42
+      '@factor/plugin-highlight-code': workspace:5.5.42
+      '@factor/ui': workspace:5.5.42
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.5
       string-similarity: ^4.0.4
@@ -426,7 +426,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.42
+      '@factor/api': workspace:5.5.42
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,13 +434,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.42
+      '@factor/api': workspace:5.5.42
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.42
+      '@factor/api': workspace:5.5.42
       '@stripe/stripe-js': ^1.35.0
       dotenv: ^16.0.2
       express: ^4.18.1
@@ -455,7 +455,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.42
+      '@factor/api': workspace:5.5.42
       easymde: ^2.17.0
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -467,13 +467,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.42
-      '@factor/plugin-blog-engine': 5.5.42
-      '@factor/plugin-docs-engine': 5.5.42
-      '@factor/plugin-highlight-code': 5.5.42
-      '@factor/plugin-notify': 5.5.42
-      '@factor/plugin-stripe': 5.5.42
-      '@factor/ui': 5.5.42
+      '@factor/api': workspace:5.5.42
+      '@factor/plugin-blog-engine': workspace:5.5.42
+      '@factor/plugin-docs-engine': workspace:5.5.42
+      '@factor/plugin-highlight-code': workspace:5.5.42
+      '@factor/plugin-notify': workspace:5.5.42
+      '@factor/plugin-stripe': workspace:5.5.42
+      '@factor/ui': workspace:5.5.42
       '@tailwindcss/forms': ^0.5.2
       axios: ^0.27.2
       dayjs: ^1.11.5
@@ -3203,7 +3203,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001387
-      electron-to-chromium: 1.4.237
+      electron-to-chromium: 1.4.239
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: false
@@ -3919,7 +3919,7 @@ packages:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      entities: 4.3.1
+      entities: 4.4.0
     dev: false
 
   /domelementtype/2.3.0:
@@ -4000,8 +4000,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.237:
-    resolution: {integrity: sha512-vxVyGJcsgArNOVUJcXm+7iY3PJAfmSapEszQD1HbyPLl0qoCmNQ1o/EX3RI7Et5/88In9oLxX3SGF8J3orkUgA==}
+  /electron-to-chromium/1.4.239:
+    resolution: {integrity: sha512-XbhfzxPIFzMjJm17T7yUGZEyYh5XuUjrA/FQ7JUy2bEd4qQ7MvFTaKpZ6zXZog1cfVttESo2Lx0ctnf7eQOaAQ==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -4034,8 +4034,8 @@ packages:
     engines: {node: '>=0.12'}
     dev: false
 
-  /entities/4.3.1:
-    resolution: {integrity: sha512-o4q/dYJlmyjP2zfnaWDUC6A3BQFmVTX+tZPezK7k0GLSU9QYCauscf5Y+qcEPzKL+EixVouYDgLQK5H9GrLpkg==}
+  /entities/4.4.0:
+    resolution: {integrity: sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==}
     engines: {node: '>=0.12'}
 
   /errno/0.1.8:
@@ -4681,8 +4681,8 @@ packages:
       eslint: 8.23.0
     dev: false
 
-  /eslint-plugin-tailwindcss/3.6.0:
-    resolution: {integrity: sha512-gWLGNWHuhh5ngwkJ2sgSByanpRw2s5GdrM2ff2/w8Ho2mWh2MyGvpnFZpL4b0XT/C0WF9zlq57+vFHJOeFhMkg==}
+  /eslint-plugin-tailwindcss/3.6.1:
+    resolution: {integrity: sha512-a44pb62X6wS3j5hLqedsroYrSyOuSZ7PaTl08gJVoChzHlgyZRVpDMCw17Kj6q2zQuDqqRbNZuo8VyNWlGlVLA==}
     engines: {node: '>=12.13.0'}
     dependencies:
       fast-glob: 3.2.11
@@ -5378,8 +5378,8 @@ packages:
       merge2: 1.4.1
       slash: 3.0.0
 
-  /google-auth-library/8.5.0:
-    resolution: {integrity: sha512-nKLj2FMxogOBZOKkxvw1MVnk5VmjrCoYkuvp0WS/2RCHzQ23JuRba92rFtSHbAg3sOASZ/gxfVplDDnoHeSL+A==}
+  /google-auth-library/8.5.1:
+    resolution: {integrity: sha512-7jNMDRhenfw2HLfL9m0ZP/Jw5hzXygfSprzBdypG3rZ+q2gIUbVC/osrFB7y/Z5dkrUr1mnLoDNlerF+p6VXZA==}
     engines: {node: '>=12'}
     dependencies:
       arrify: 2.0.1
@@ -5602,7 +5602,7 @@ packages:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.0.1
-      entities: 4.3.1
+      entities: 4.4.0
     dev: false
 
   /http-basic/8.1.3:
@@ -7071,7 +7071,7 @@ packages:
   /parse5/7.0.0:
     resolution: {integrity: sha512-y/t8IXSPWTuRZqXc0ajH/UwDj4mnqLEbSttNbThcFhGrZuOyoyvNBO85PBp2jQa55wY9d07PBNjsK8ZP3K5U6g==}
     dependencies:
-      entities: 4.3.1
+      entities: 4.4.0
 
   /parseley/0.7.0:
     resolution: {integrity: sha512-xyOytsdDu077M3/46Am+2cGXEKM9U9QclBDv7fimY7e+BBlxh2JcBp2mgNsmkyA9uvgyTjVzDi7cP1v4hcFxbw==}

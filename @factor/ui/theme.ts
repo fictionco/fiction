@@ -1,3 +1,13 @@
+export const inputClasses = (feature: "box") => {
+  const out: string[] = []
+
+  if (feature == "box") {
+    out.push("text-input-size bg-theme-100 hover:bg-theme-200 border-theme-300")
+  }
+
+  return out
+}
+
 export const textInputClasses = () => {
   const out = [
     "block",
@@ -16,11 +26,11 @@ export const textInputClasses = () => {
     "text-input-size",
     "shadow-input",
     "focus:shadow-input-focus",
-    "border-theme-300",
-    "focus:border-theme-400",
-    "placeholder:text-theme-400",
-    "bg-theme-50",
-    "text-theme-700",
+    "border-input-border",
+    "focus:border-input-border-alt",
+    "placeholder:text-input-placeholder",
+    "bg-input-bg",
+    "text-input-text",
   ]
 
   return out

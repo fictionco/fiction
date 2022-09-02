@@ -1,0 +1,73 @@
+<template>
+  <div class="outline-none" tabindex="0" @keyup="selectByLetter($event)">
+    <div class="flex space-x-2">
+      <InputElBox
+        v-for="item in parsedList"
+        :key="item"
+        :selected="item == modelValue ? true : false"
+        :not-selected="modelValue && item != modelValue ? true : false"
+        :prefix="item"
+        :label="item"
+        :icon="icon"
+        @click="selectItem(item)"
+      ></InputElBox>
+    </div>
+    <div v-if="labels" class="text-theme-600 mt-2 flex justify-between">
+      <div v-for="(label, i) in labels" :key="i" class="text-xs">
+        {{ label }}
+      </div>
+    </div>
+  </div>
+</template>
+<script lang="ts" setup>
+import { vue } from "@factor/api"
+import InputElBox from "./InputElBox.vue"
+
+const props = defineProps({
+  modelValue: { type: [Number], default: undefined },
+  countStart: {
+    type: Number,
+    default: 0,
+  },
+  countEnd: {
+    type: Number,
+    default: 5,
+  },
+  icon: {
+    type: String,
+    default: undefined,
+  },
+  labels: {
+    type: Object as vue.PropType<{
+      start: string
+      center: string
+      end: string
+    }>,
+    default: undefined,
+  },
+})
+
+const emit = defineEmits<{
+  (event: "update:modelValue", payload: number | undefined): void
+}>()
+
+const selectItem = (val?: number) => {
+  emit("update:modelValue", val)
+}
+
+const parsedList = vue.computed<number[]>(() => {
+  const list = []
+  for (var i = props.countStart; i <= props.countEnd; i++) {
+    list.push(i)
+  }
+  return list
+})
+
+const selectByLetter = (ev: KeyboardEvent) => {
+  const keyVal = Number.parseInt(ev.key)
+
+  const index = parsedList.value.indexOf(keyVal)
+  const val = parsedList.value[index]
+  if (val) selectItem(val)
+}
+</script>

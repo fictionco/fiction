@@ -11,6 +11,49 @@
     </div>
     <div class="input-area mx-auto my-12 max-w-lg rounded-md">
       <TestInput
+        input-name="Yes / No"
+        :input-el="InputMultipleChoice"
+        :list="['yes', 'no']"
+        max-select="1"
+      />
+      <TestInput
+        input-name="Multiple Choice (Single)"
+        :input-el="InputMultipleChoice"
+        :list="['item 1', 'item 2', 'item 3']"
+        max-select="1"
+      />
+      <TestInput
+        input-name="Multiple Choice (Multiple)"
+        :input-el="InputMultipleChoice"
+        :list="['item 1', 'item 2', 'item 3']"
+        max-select="100"
+      />
+      <TestInput
+        input-name="Opinion Scale"
+        :input-el="InputRating"
+        :count-start="0"
+        :count-end="10"
+        :labels="{
+          start: 'Not at all likely',
+          center: 'Neutral',
+          end: 'Very likely',
+        }"
+      />
+      <TestInput
+        input-name="NPS"
+        :input-el="InputRating"
+        :count-start="0"
+        :count-end="10"
+      />
+      <TestInput
+        input-name="Rating"
+        :input-el="InputRating"
+        :count-start="1"
+        :count-end="5"
+        icon="i-carbon-star"
+      />
+
+      <TestInput
         input-name="Ranking"
         :input-el="InputRanking"
         :list="['item 1', 'item 2']"
@@ -77,7 +120,9 @@ import { inputs } from "@factor/ui"
 import TestInput from "./TestInput.vue"
 
 const {
+  InputRating,
   InputRanking,
+  InputMultipleChoice,
   InputWeight,
   InputText,
   InputTextarea,
@@ -115,14 +160,6 @@ const theme = vue.computed(() => {
     ]),
   ) as Record<typeof levels[number], string>
   return {
-    primary: colorStandard({ color: themeColor.value }),
-    primaryText: colorStandard({ color: "white" }),
-    base: colorStandard({ color: themeColor.value, level: 50 }),
-    edge: colorStandard({ color: themeColor.value, level: 300 }),
-    edgeLight: colorStandard({ color: themeColor.value, level: 200 }),
-    placeholder: colorStandard({ color: themeColor.value, level: 400 }),
-    body: colorStandard({ color: themeColor.value, level: 600 }),
-    bodyLight: colorStandard({ color: themeColor.value, level: 500 }),
     level0: obj[0],
     level50: obj[50],
     level100: obj[100],
@@ -134,25 +171,11 @@ const theme = vue.computed(() => {
     level700: obj[700],
     level800: obj[800],
     level900: obj[900],
-    primary0: obj[0],
-    primary50: obj[50],
-    primary100: obj[100],
-    primary200: obj[200],
-    primary300: obj[300],
-    primary400: obj[400],
-    primary500: obj[500],
-    primary600: obj[600],
-    primary700: obj[700],
-    primary800: obj[800],
-    primary900: obj[900],
   }
 })
 </script>
 <style>
 .input-area {
-  --theme-primary: v-bind("theme.primary");
-  --theme-primary-text: v-bind("theme.primaryText");
-  --theme-base: v-bind("theme.base");
   --theme-0: v-bind("theme.level0");
   --theme-50: v-bind("theme.level50");
   --theme-100: v-bind("theme.level100");
@@ -164,22 +187,6 @@ const theme = vue.computed(() => {
   --theme-700: v-bind("theme.level700");
   --theme-800: v-bind("theme.level800");
   --theme-900: v-bind("theme.level900");
-  --primary-0: v-bind("theme.primary0");
-  --primary-50: v-bind("theme.primary50");
-  --primary-100: v-bind("theme.primary100");
-  --primary-200: v-bind("theme.primary200");
-  --primary-300: v-bind("theme.primary300");
-  --primary-400: v-bind("theme.primary400");
-  --primary-500: v-bind("theme.primary500");
-  --primary-600: v-bind("theme.primary600");
-  --primary-700: v-bind("theme.primary700");
-  --primary-800: v-bind("theme.primary800");
-  --primary-900: v-bind("theme.primary900");
-  --theme-edge-light: v-bind("theme.edgeLight");
-  --theme-placeholder: v-bind("theme.placeholder");
-  --theme-body: v-bind("theme.body");
-  --theme-body-light: v-bind("theme.bodyLight");
-  --theme-base: v-bind("theme.base");
   --input-x: 8px;
   --input-y: 4px;
   --input-size: 0.9rem;

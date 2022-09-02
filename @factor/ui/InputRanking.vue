@@ -1,27 +1,28 @@
 <template>
   <div ref="rankingEl" class="ranking space-y-2">
     <div
-      v-for="(item, i) in parsedList"
-      :key="item.value"
-      class="ranking-item text-input-size bg-theme-100 hover:bg-theme-200 border-theme-300 hover:border-theme-400 text-theme-700 max-w-input flex cursor-move items-center justify-between rounded-md border px-2 py-1"
-      draggable="true"
-      :data-value="item.value"
+      v-if="parsedList.length == 0"
+      class="border-theme-300 bg-theme-50 text-theme-400 rounded-lg border border-dashed py-2 px-4 text-sm"
     >
-      <div class="flex items-center space-x-3">
-        <div
-          class="border-theme-300 text-theme-400 inline-flex w-6 items-center justify-end border-r pr-3 text-right text-xs font-bold"
-        >
-          {{ i + 1 }}
-        </div>
-        <div class="text-theme-700">{{ item.name }}</div>
-      </div>
-      <div class="i-carbon-draggable text-theme-400"></div>
+      No options
     </div>
+    <template v-else>
+      <InputElTab
+        v-for="(item, i) in parsedList"
+        :key="item.value"
+        class="ranking-item cursor-move"
+        :prefix="i + 1"
+        :label="item.name"
+        draggable="true"
+        :data-value="item.value"
+        icon="i-carbon-draggable"
+      ></InputElTab>
+    </template>
   </div>
 </template>
 <script lang="ts" setup>
 import { ListItem, normalizeList, vue, DraggableList } from "@factor/api"
-//import { textInputClasses } from "@factor/ui/theme"
+import InputElTab from "./InputElTab.vue"
 
 const rankingEl = vue.ref<HTMLElement>()
 
