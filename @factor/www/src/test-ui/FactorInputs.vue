@@ -9,12 +9,14 @@
         >{{ c }}</a
       >
     </div>
-    <div class="input-area mx-auto my-12 max-w-lg rounded-md">
+    <form class="input-area mx-auto my-12 max-w-lg rounded-md">
+      <TestInput input-name="Date" :input-el="InputDate" />
       <TestInput
         input-name="Yes / No"
         :input-el="InputMultipleChoice"
         :list="['yes', 'no']"
         max-select="1"
+        select-letters="yn"
       />
       <TestInput
         input-name="Multiple Choice (Single)"
@@ -111,7 +113,7 @@
       <TestInput input-name="Weight" :input-el="InputWeight" min="0" max="6" />
       <TestInput input-name="Text" :input-el="InputText" />
       <TestInput input-name="Textarea" :input-el="InputTextarea" />
-    </div>
+    </form>
   </div>
 </template>
 <script lang="ts" setup>
@@ -120,6 +122,7 @@ import { inputs } from "@factor/ui"
 import TestInput from "./TestInput.vue"
 
 const {
+  InputDate,
   InputRating,
   InputRanking,
   InputMultipleChoice,
@@ -187,9 +190,9 @@ const theme = vue.computed(() => {
   --theme-700: v-bind("theme.level700");
   --theme-800: v-bind("theme.level800");
   --theme-900: v-bind("theme.level900");
-  --input-x: 8px;
+  /* --input-x: 8px;
   --input-y: 4px;
   --input-size: 0.9rem;
-  --input-max-width: 300px;
+  --input-max-width: 300px; */
 }
 </style>

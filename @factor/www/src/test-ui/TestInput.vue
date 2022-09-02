@@ -8,12 +8,17 @@
       </div>
     </div>
     <div class="pt-2">
-      <component :is="inputEl" v-model="val" v-bind="attrs"></component>
+      <component
+        :is="inputEl"
+        v-model="val"
+        v-bind="attrs"
+        :name="objectId()"
+      ></component>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { vue } from "@factor/api"
+import { vue, objectId } from "@factor/api"
 const val = vue.ref()
 defineProps({
   inputName: { type: String, default: "" },

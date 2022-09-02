@@ -5,7 +5,9 @@
         v-for="item in parsedList"
         :key="item"
         :selected="item == modelValue ? true : false"
-        :not-selected="modelValue && item != modelValue ? true : false"
+        :not-selected="
+          typeof modelValue != 'undefined' && item != modelValue ? true : false
+        "
         :prefix="item"
         :label="item"
         :icon="icon"

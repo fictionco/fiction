@@ -42,7 +42,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
           },
           spacing: {
             "input-x": "var(--input-x, .75rem)",
-            "input-y": "var(--input-y, .375rem)",
+            "input-y": "var(--input-y, .5rem)",
           },
           maxWidth: {
             input: "var(--input-max-width, 100%)",

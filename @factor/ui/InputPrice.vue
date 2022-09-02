@@ -3,7 +3,7 @@
     <div
       class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
     >
-      <span class="text-theme-500 sm:text-sm"> $ </span>
+      <span class="text-theme-500 sm:text-sm"> {{ currencySymbol }} </span>
     </div>
     <input
       type="number"
@@ -20,6 +20,7 @@
 import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: [String, Number], default: "" },
+  currencySymbol: { type: String, default: "$" },
 })
 
 const emit = defineEmits<{

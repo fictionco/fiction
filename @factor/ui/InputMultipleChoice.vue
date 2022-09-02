@@ -25,19 +25,27 @@
 import { ListItem, normalizeList, vue } from "@factor/api"
 import InputElTab from "./InputElTab.vue"
 
-const choiceLetter = (i: number): string => {
-  const remain = i % 26
-  const letters = "abcdefghijklmnopqrstuvwxyz"
-  return letters[remain].toUpperCase()
-}
-
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<string[]>, default: () => [] },
   list: {
     type: Array as vue.PropType<(ListItem | "divider")[]>,
     default: () => [],
   },
+  maxSelect: {
+    type: [Number, String],
+    default: 1,
+  },
+  selectLetters: {
+    type: String,
+    default: "abcdefghijklmnopqrstuvwxyz",
+  },
 })
+
+const choiceLetter = (i: number): string => {
+  const remain = i % 26
+  const letters = props.selectLetters
+  return letters[remain].toUpperCase()
+}
 
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string[]): void

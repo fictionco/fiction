@@ -1,10 +1,8 @@
 <template>
   <input
     :class="textInputClasses()"
-    type="url"
+    type="date"
     :value="modelValue"
-    autocomplete="on"
-    name="url"
     @input="handleEmit($event.target)"
   />
 </template>

@@ -27,4 +27,5 @@ export const inputs = {
   InputRanking: def(() => import("./InputRanking.vue")),
   InputMultipleChoice: def(() => import("./InputMultipleChoice.vue")),
   InputRating: def(() => import("./InputRating.vue")),
+  InputDate: def(() => import("./InputDate.vue")),
 }
