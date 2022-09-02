@@ -30,6 +30,7 @@ export const commands = [
     description: "runs endpoint server",
     type: "service",
     port: 3333,
+    devOnly: true,
   }),
   new CliCommand({
     command: "render",

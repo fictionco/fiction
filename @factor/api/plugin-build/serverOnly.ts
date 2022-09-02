@@ -83,5 +83,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "lru-cache" },
     { id: "node-cron" },
     { id: "bullmq" },
+    { id: "@tailwindcss/forms" },
   ]
 }

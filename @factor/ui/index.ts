@@ -1,4 +1,5 @@
 import { FactorPlugin, FactorPluginSettings, FactorApp, vue } from "@factor/api"
+import twForms from "@tailwindcss/forms"
 import { inputs } from "./inputs"
 const def = vue.defineAsyncComponent
 type FactorUiSettings = {
@@ -26,6 +27,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
 
     this.factorApp.addTailwindConfig({
       content: [`${this.root}/*.vue`, `${this.root}/*.ts`],
+      plugins: [twForms],
       theme: {
         extend: {
           borderWidth: {

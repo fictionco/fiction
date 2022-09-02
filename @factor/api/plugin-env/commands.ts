@@ -6,17 +6,20 @@ export class CliCommand<T extends string = string> {
   public options: CliOptions
   type: "service" | "build" | "dev" | "util"
   port?: number
+  devOnly: boolean
   constructor(settings: {
     command: T
     description?: string
     options?: CliOptions
     type: "service" | "build" | "dev" | "util"
     port?: number
+    devOnly?: boolean
   }) {
     this.command = settings.command
     this.description = settings.description
     this.type = settings.type
     this.port = settings.port
+    this.devOnly = settings.devOnly || false
 
     const defaultOptions: CliOptions =
       this.type == "service"
@@ -37,6 +40,12 @@ export class CliCommand<T extends string = string> {
 export const standardAppCommands = [
   new CliCommand({
     command: "render",
+    description: "renders app",
+    options: { mode: "production", exit: true },
+    type: "build",
+  }),
+  new CliCommand({
+    command: "build",
     description: "renders app",
     options: { mode: "production", exit: true },
     type: "build",

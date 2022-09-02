@@ -155,8 +155,6 @@ const initializeBackingServices = async () => {
 factorEnv.addHook({
   hook: "runCommand",
   callback: async (command: string, opts: CliOptions) => {
-    const { serve, render } = opts
-
     if (command.startsWith("r-")) {
       const realCommand = command.split("-").pop()
       if (!realCommand) throw new Error("No command for restart")
@@ -176,9 +174,9 @@ factorEnv.addHook({
         factorUser.init()
         await factorApp.serveDevApp()
         await factorTestingApp.createApp()
-      } else if (command == "build") {
-        await factorApp.buildApp({ serve, render })
-      } else if (command == "render") {
+      } else if (command == "build" || command == "render") {
+        const { serve } = opts
+
         await factorApp.buildApp({ serve, render: true })
       }
     }
