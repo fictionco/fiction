@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.43
-      '@factor/lint': 5.5.43
-      '@factor/ui': 5.5.43
-      '@factor/www': 5.5.43
+      '@factor/api': workspace:5.5.43
+      '@factor/lint': workspace:5.5.43
+      '@factor/ui': workspace:5.5.43
+      '@factor/www': workspace:5.5.43
       '@types/express': ^4.17.13
       '@types/node': ^18.7.14
       '@vitejs/plugin-vue': ^3.0.3
@@ -73,14 +73,14 @@ importers:
       '@aws-sdk/client-cloudfront': 3.137.0
       '@aws-sdk/client-s3': 3.137.0
       '@babel/parser': ^7.18.13
-      '@factor/api': 5.5.43
+      '@factor/api': workspace:5.5.43
       '@faker-js/faker': ^7.5.0
       '@iconify-json/carbon': ^1.1.7
       '@iconify-json/heroicons-outline': ^1.1.4
       '@medv/finder': ^2.1.0
       '@playwright/test': ^1.25.1
       '@sinclair/typebox': ^0.24.34
-      '@tailwindcss/forms': ^0.5.2
+      '@tailwindcss/forms': ^0.5.3
       '@types/bcrypt': ^5.0.0
       '@types/body-parser': ^1.19.2
       '@types/compression': ^1.7.2
@@ -343,7 +343,7 @@ importers:
       '@babel/parser': 7.18.13
       '@factor/api': 'link:'
       '@playwright/test': 1.25.1
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.8
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
       '@types/body-parser': 1.19.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
@@ -396,9 +396,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.43
-      '@factor/plugin-highlight-code': 5.5.43
-      '@factor/ui': 5.5.43
+      '@factor/api': workspace:5.5.43
+      '@factor/plugin-highlight-code': workspace:5.5.43
+      '@factor/ui': workspace:5.5.43
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -410,9 +410,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.43
-      '@factor/plugin-highlight-code': 5.5.43
-      '@factor/ui': 5.5.43
+      '@factor/api': workspace:5.5.43
+      '@factor/plugin-highlight-code': workspace:5.5.43
+      '@factor/ui': workspace:5.5.43
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.5
       string-similarity: ^4.0.4
@@ -426,7 +426,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.43
+      '@factor/api': workspace:5.5.43
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -434,13 +434,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.43
+      '@factor/api': workspace:5.5.43
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.43
+      '@factor/api': workspace:5.5.43
       '@stripe/stripe-js': ^1.35.0
       dotenv: ^16.0.2
       express: ^4.18.1
@@ -455,7 +455,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.43
+      '@factor/api': workspace:5.5.43
       easymde: ^2.17.0
       gravatar-url: ^4.0.1
       sortablejs: ^1.15.0
@@ -467,14 +467,14 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.43
-      '@factor/plugin-blog-engine': 5.5.43
-      '@factor/plugin-docs-engine': 5.5.43
-      '@factor/plugin-highlight-code': 5.5.43
-      '@factor/plugin-notify': 5.5.43
-      '@factor/plugin-stripe': 5.5.43
-      '@factor/ui': 5.5.43
-      '@tailwindcss/forms': ^0.5.2
+      '@factor/api': workspace:5.5.43
+      '@factor/plugin-blog-engine': workspace:5.5.43
+      '@factor/plugin-docs-engine': workspace:5.5.43
+      '@factor/plugin-highlight-code': workspace:5.5.43
+      '@factor/plugin-notify': workspace:5.5.43
+      '@factor/plugin-stripe': workspace:5.5.43
+      '@factor/ui': workspace:5.5.43
+      '@tailwindcss/forms': ^0.5.3
       axios: ^0.27.2
       dayjs: ^1.11.5
       deepmerge: ^4.2.2
@@ -506,7 +506,7 @@ importers:
       spark-md5: 3.0.2
       tailwindcss: 3.1.8_postcss@8.4.16
     devDependencies:
-      '@tailwindcss/forms': 0.5.2_tailwindcss@3.1.8
+      '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
 
 packages:
 
@@ -2113,8 +2113,8 @@ packages:
     resolution: {integrity: sha512-UIuzpbJqgXCTvJhY/aZYvBtaKdMfQgnIv6kkLlfRJ9smZcC4zoPvq3j7k9wobYI+idHAWP4BRiPnqA8lvzJCtg==}
     dev: false
 
-  /@tailwindcss/forms/0.5.2_tailwindcss@3.1.8:
-    resolution: {integrity: sha512-pSrFeJB6Bg1Mrg9CdQW3+hqZXAKsBrSG9MAfFLKy1pVA4Mb4W7C0k7mEhlmS2Dfo/otxrQOET7NJiJ9RrS563w==}
+  /@tailwindcss/forms/0.5.3_tailwindcss@3.1.8:
+    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
@@ -3040,7 +3040,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
       get-intrinsic: 1.1.2
       is-string: 1.0.7
     dev: false
@@ -3055,7 +3055,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
       es-shim-unscopables: 1.0.0
     dev: false
 
@@ -3087,7 +3087,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.3
-      caniuse-lite: 1.0.30001387
+      caniuse-lite: 1.0.30001388
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -3202,10 +3202,10 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001387
-      electron-to-chromium: 1.4.239
+      caniuse-lite: 1.0.30001388
+      electron-to-chromium: 1.4.240
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.5_browserslist@4.21.3
+      update-browserslist-db: 1.0.7_browserslist@4.21.3
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
@@ -3326,8 +3326,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite/1.0.30001387:
-    resolution: {integrity: sha512-fKDH0F1KOJvR+mWSOvhj8lVRr/Q/mc5u5nabU2vi1/sgvlSqEsE8dOq0Hy/BqVbDkCYQPRRHB1WRjW6PGB/7PA==}
+  /caniuse-lite/1.0.30001388:
+    resolution: {integrity: sha512-znVbq4OUjqgLxMxoNX2ZeeLR0d7lcDiE5uJ4eUiWdml1J1EkxbnQq6opT9jb9SMfJxB0XA16/ziHwni4u1I3GQ==}
     dev: false
 
   /caseless/0.12.0:
@@ -4000,8 +4000,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.239:
-    resolution: {integrity: sha512-XbhfzxPIFzMjJm17T7yUGZEyYh5XuUjrA/FQ7JUy2bEd4qQ7MvFTaKpZ6zXZog1cfVttESo2Lx0ctnf7eQOaAQ==}
+  /electron-to-chromium/1.4.240:
+    resolution: {integrity: sha512-r20dUOtZ4vUPTqAajDGonIM1uas5tf85Up+wPdtNBNvBSqGCfkpvMVvQ1T8YJzPV9/Y9g3FbUDcXb94Rafycow==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -4052,8 +4052,8 @@ packages:
     dependencies:
       is-arrayish: 0.2.1
 
-  /es-abstract/1.20.1:
-    resolution: {integrity: sha512-WEm2oBhfoI2sImeM4OF2zE2V3BYdSF+KnSi9Sidz51fQHd7+JuF8Xgcj9/0o+OWeIeIS/MiuNnlruQrJf16GQA==}
+  /es-abstract/1.20.2:
+    resolution: {integrity: sha512-XxXQuVNrySBNlEkTYJoDNFe5+s2yIOpzq80sUHEdPdQr0S5nTLz4ZPPPswNIpKseDDUS5yghX1gfLIHQZ1iNuQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -5192,7 +5192,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
       functions-have-names: 1.2.3
     dev: false
 
@@ -6000,7 +6000,7 @@ packages:
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
       nwsapi: 2.2.1
-      parse5: 7.0.0
+      parse5: 7.1.1
       saxes: 6.0.0
       symbol-tree: 3.2.4
       tough-cookie: 4.1.2
@@ -6937,7 +6937,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
     dev: false
 
   /ohmyfetch/0.4.18:
@@ -7068,8 +7068,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
-  /parse5/7.0.0:
-    resolution: {integrity: sha512-y/t8IXSPWTuRZqXc0ajH/UwDj4mnqLEbSttNbThcFhGrZuOyoyvNBO85PBp2jQa55wY9d07PBNjsK8ZP3K5U6g==}
+  /parse5/7.1.1:
+    resolution: {integrity: sha512-kwpuwzB+px5WUg9pyK0IcK/shltJN5/OVhQagxhCQNtT9Y9QRZqNY2e1cmbu/paRh5LMnz/oVTVLBpjFmMZhSg==}
     dependencies:
       entities: 4.4.0
 
@@ -8015,7 +8015,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
     dev: false
 
   /string.prototype.trimstart/1.0.5:
@@ -8023,7 +8023,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.20.2
     dev: false
 
   /string_decoder/1.1.1:
@@ -8672,8 +8672,8 @@ packages:
       content-type: 1.0.4
     dev: false
 
-  /update-browserslist-db/1.0.5_browserslist@4.21.3:
-    resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
+  /update-browserslist-db/1.0.7_browserslist@4.21.3:
+    resolution: {integrity: sha512-iN/XYesmZ2RmmWAiI4Z5rq0YqSiv0brj9Ce9CfhNE4xIW2h+MFxcgkxIzZ+ShkFPUkjU3gQ+3oypadD3RAMtrg==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'

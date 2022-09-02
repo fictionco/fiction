@@ -37,7 +37,6 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   factorDb = this.settings.factorDb
   factorServer = this.settings.factorServer
   factorAws = this.settings.factorAws
-
   bucket = this.settings.bucket
   unsplashAccessKey = this.settings.unsplashAccessKey
   public queries = this.createQueries()

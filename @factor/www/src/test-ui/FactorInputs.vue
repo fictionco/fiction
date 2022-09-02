@@ -10,6 +10,8 @@
       >
     </div>
     <form class="input-area mx-auto my-12 max-w-lg rounded-md">
+      <TestInput input-name="Media Upload" :input-el="InputMediaUpload" />
+      <TestInput input-name="Media Library" :input-el="InputMediaLibrary" />
       <TestInput input-name="Date" :input-el="InputDate" />
       <TestInput
         input-name="Yes / No"
@@ -60,7 +62,7 @@
         :input-el="InputRanking"
         :list="['item 1', 'item 2']"
       />
-      <TestInput input-name="Media" :input-el="InputMedia" />
+
       <TestInput
         input-name="Radio"
         :input-el="InputRadio"
@@ -145,7 +147,8 @@ const {
   InputPrice,
   InputRadio,
   InputRadioButton,
-  InputMedia,
+  InputMediaLibrary,
+  InputMediaUpload,
 } = inputs
 
 const themeColor = vue.ref<ThemeColor>("slate")

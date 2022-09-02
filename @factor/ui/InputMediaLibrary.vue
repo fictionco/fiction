@@ -1,12 +1,7 @@
 <template>
   <div>
-    <ElButton
-      btn="theme"
-      size="sm"
-      :loading="uploading"
-      @click.stop.prevent="vis = true"
-    >
-      <div class="i-carbon-image mr-2"></div>
+    <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
+      <div class="i-carbon-image text-theme-400 mr-2 text-lg"></div>
       <span>Add Media</span>
     </ElButton>
     <ElModal v-model:vis="vis" modal-class="max-w-xl">
@@ -19,7 +14,7 @@
               class="border-b-2 py-2 px-3 text-center"
               :class="
                 item == navItemActive
-                  ? `text-primary-500 border-primary-500 font-semibold`
+                  ? `text-theme-700 border-theme-400 font-semibold`
                   : `text-slate-400 cursor-pointer border-slate-300 hover:text-slate-700`
               "
               @click="navItemActive = item"
@@ -29,13 +24,13 @@
           </div>
         </div>
       </div>
-      <div class="media-body p-4" @dragover.prevent @drop.prevent>
+      <div class="media-body p-4" @dragover.prevent @drop.prevent @click.stop>
         <div v-if="uploading" class="p-12">
           <ElSpinner class="m-auto h-12 w-12 text-slate-200" />
         </div>
         <label
           v-else-if="navItemActive == 'upload'"
-          for="file-upload"
+          :for="uploadId"
           class="mt-1 flex cursor-pointer justify-center rounded-md border-2 border-dashed border-slate-200 px-6 pt-8 pb-10 hover:border-slate-300"
           :class="[]"
           @drop="handleDropFile"
@@ -48,12 +43,12 @@
             </div>
             <div class="flex text-sm text-slate-500">
               <div
-                class="text-primary-500 hover:text-primary-400 relative cursor-pointer rounded-md bg-white font-medium"
+                class="text-theme-700 hover:text-primary-400 relative cursor-pointer rounded-md bg-white font-medium"
               >
                 <span>Upload a file</span>
                 <input
-                  id="file-upload"
-                  name="file-upload"
+                  :id="uploadId"
+                  :name="uploadId"
                   type="file"
                   class="sr-only"
                   accept="image/*"
@@ -63,7 +58,7 @@
               </div>
               <p class="pl-1">or drag and drop</p>
             </div>
-            <p class="text-xs text-slate-500">PNG, JPG, GIF up to 10MB</p>
+            <p class="text-xs text-slate-400">PNG, JPG, GIF up to 10MB</p>
           </div>
         </label>
         <div v-else>Library</div>
@@ -72,19 +67,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { vue, toLabel, FactorMedia, useService } from "@factor/api"
+import { vue, toLabel, FactorMedia, objectId } from "@factor/api"
 import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"
 import ElSpinner from "./ElSpinner.vue"
 
-const { factorMedia } = useService<{ factorMedia: FactorMedia }>()
-
-if (!factorMedia) {
-  throw new Error("no factorMedia service found")
-}
-
-defineProps({
+// allow label click without conflict with others on page
+const uploadId = `file-upload-${objectId()}`
+const props = defineProps({
   modelValue: { type: [String], default: "" },
+  factorMedia: { type: Object as vue.PropType<FactorMedia>, required: true },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string): void
@@ -102,7 +94,7 @@ const handleEmit = (val: string = ""): void => {
 const uploadFiles = async (files?: FileList | null) => {
   if (!files) return
   uploading.value = true
-  const result = await factorMedia.uploadFiles({ files })
+  const result = await props.factorMedia.uploadFiles({ files })
   if (result[0]?.status == "success") {
     handleEmit(result[0].data?.url)
   }
@@ -110,6 +102,7 @@ const uploadFiles = async (files?: FileList | null) => {
 }
 
 const handleUploadFile = async (ev: Event) => {
+  ev.stopPropagation()
   const target = ev.target as HTMLInputElement
   await uploadFiles(target.files)
 }

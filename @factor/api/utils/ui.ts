@@ -31,7 +31,9 @@ export const initializeResetUi = async (
   window.addEventListener("keydown", (e: KeyboardEvent) => {
     if (e.key === "Escape" || e.key == "Tab") resetUi()
   })
-  window.addEventListener("click", () => resetUi())
+  window.addEventListener("click", () => {
+    resetUi()
+  })
   vue.watch(
     () => factorRouter.router.currentRoute.value.path,
     (r, old) => {
