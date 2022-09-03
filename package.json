@@ -54,6 +54,7 @@
   "private": true,
   "publishConfig": {},
   "scripts": {
+    "deploy": "flyctl deploy . --config ./fly/fly.$DEPLOY.toml --build-target $DEPLOY --remote-only --detach",
     "up": "pnpm i && pnpm up -r && pnpm outdated",
     "i": "pnpm i",
     "lf": "cross-env INSTALL_ENV=production pnpm i --lockfile-only",
@@ -62,7 +63,6 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "clean-install": "pnpm clear-modules && rm pnpm-lock.yaml && pnpm i && pnpm up -r && pnpm outdated",
     "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
-    "deploy": "pnpm release && pnpm push-release",
     "dev": "pnpm --filter @factor/www exec -- factor run dev",
     "pack": "pnpm --filter @factor/api/build exec -- factor pack",
     "render": "pnpm exec --filter @factor/www -- factor render",

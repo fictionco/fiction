@@ -1,0 +1,20 @@
+{
+  "name": "@factor/fiction",
+  "version": "5.5.45",
+  "dependencies": {
+    "@factor/api": "5.5.45",
+    "@factor/plugin-blog-engine": "5.5.45",
+    "@factor/plugin-highlight-code": "5.5.45",
+    "@factor/ui": "5.5.45",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.fiction.com"
+}
