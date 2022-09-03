@@ -1,5 +1,5 @@
 <template>
-  <div class="content-layout m-auto max-w-7xl">
+  <div class="content-layout m-auto min-h-screen max-w-7xl">
     <SiteHeader />
     <router-view />
     <SiteFooter />

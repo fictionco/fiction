@@ -11,12 +11,12 @@
                 class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8"
               >
                 <h1
-                  class="text-center text-4xl font-bold tracking-tight sm:text-5xl"
+                  class="bg-gradient-to-r from-blue-800 via-indigo-800 to-blue-900 box-decoration-clone bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent transition-all sm:text-5xl"
                 >
-                  <span class="block"> Fiction.com </span>
+                  Fiction.com
                 </h1>
                 <p
-                  class="mx-auto mt-6 max-w-lg text-center text-2xl text-slate-500 text-opacity-70 sm:max-w-3xl"
+                  class="mx-auto mt-6 max-w-lg text-center text-2xl text-slate-500 sm:max-w-3xl"
                 >
                   This domain is for sale.
                 </p>
@@ -24,8 +24,8 @@
                   class="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center"
                 >
                   <a
-                    href="mailto:hello@andrewpowers.com"
-                    class="flex items-center justify-center rounded-md border border-slate-400 px-3 py-2 text-sm font-medium text-slate-400 shadow-sm hover:bg-slate-800 sm:px-8"
+                    href="mailto:hello@kaption.co"
+                    class="flex items-center justify-center rounded-md border border-slate-400 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm hover:bg-slate-100 sm:px-8"
                   >
                     Email Us
                   </a>
