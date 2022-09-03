@@ -70,7 +70,7 @@ jobs:
         run: docker-compose up --build -d
 
       - name: Create Tables
-        run: npm -w @kaption/app exec -- factor run generate
+        run: npm -w @factor/www exec -- factor run generate
 
       - name: Unit Test Prep
         run: npm exec -- vitest prep
