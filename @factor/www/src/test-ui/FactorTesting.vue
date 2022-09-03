@@ -17,7 +17,7 @@ import { useFactorService } from "../inject"
 
 const { factorApp } = useFactorService()
 
-const processVars = window.process.env
+const processVars = process.env
 
 const list = [
   {

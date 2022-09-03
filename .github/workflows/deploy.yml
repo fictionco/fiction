@@ -127,3 +127,4 @@ jobs:
       - run: cross-env DEPLOY=www npm run deploy
       - run: cross-env DEPLOY=andrewpowers npm run deploy
       - run: cross-env DEPLOY=supereon npm run deploy
+      - run: cross-env DEPLOY=fiction npm run deploy
