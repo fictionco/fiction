@@ -73,7 +73,7 @@ jobs:
         run: npm -w @factor/www exec -- factor run generate
 
       - name: Unit Test Prep
-        run: npm exec -- vitest prep
+        run: npm exec -- vitest prep --passWithNoTests
 
       - name: Run Type Check
         run: npm run test-types
