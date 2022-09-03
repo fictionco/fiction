@@ -11,7 +11,7 @@
                 class="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8"
               >
                 <h1
-                  class="bg-gradient-to-r from-blue-800 via-indigo-800 to-blue-900 box-decoration-clone bg-clip-text text-center text-4xl font-bold tracking-tight text-transparent transition-all sm:text-5xl"
+                  class="text-center text-4xl font-bold tracking-tight text-slate-100 transition-all sm:text-5xl"
                 >
                   Fiction.com
                 </h1>
@@ -25,7 +25,7 @@
                 >
                   <a
                     href="mailto:hello@kaption.co"
-                    class="flex items-center justify-center rounded-md border border-slate-400 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600 shadow-sm hover:bg-slate-100 sm:px-8"
+                    class="flex items-center justify-center rounded-md border border-indigo-500 bg-indigo-800 px-3 py-2 text-sm font-medium text-slate-200 shadow-sm hover:bg-indigo-700 sm:px-8"
                   >
                     Email Us
                   </a>

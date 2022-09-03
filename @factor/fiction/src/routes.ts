@@ -7,9 +7,4 @@ export const routes = [
     path: "/",
     component: PageHome,
   }),
-  new AppRoute({
-    name: "contact",
-    path: "/contact",
-    component: () => import("./PageContact.vue"),
-  }),
 ]

@@ -1,5 +1,7 @@
 <template>
-  <div class="content-layout m-auto min-h-screen max-w-7xl">
+  <div
+    class="content-layout m-auto min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900"
+  >
     <SiteHeader />
     <router-view />
     <SiteFooter />
