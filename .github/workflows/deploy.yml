@@ -81,17 +81,6 @@ jobs:
       - name: Run ESLint (.ts)
         run: npm run test-eslint
 
-      - name: Test Status
-        if: always()
-        uses: ravsamhq/notify-slack-action@v1
-        with:
-          status: ${{ job.status }}
-          notify_when: "failure"
-          notification_title: "Test: {workflow} has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-
   deploy:
     env:
       REDIS_URL: ${{ secrets.REDIS_URL }}
@@ -138,14 +127,3 @@ jobs:
       - run: cross-env DEPLOY=www npm run deploy
       - run: cross-env DEPLOY=andrewpowers npm run deploy
       - run: cross-env DEPLOY=supereon npm run deploy
-
-      - name: Deploy Status
-        if: always()
-        uses: ravsamhq/notify-slack-action@v1
-        with:
-          status: ${{ job.status }}
-          notify_when: "failure"
-          notification_title: "Deploy: {workflow} has {status_message}"
-          message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
