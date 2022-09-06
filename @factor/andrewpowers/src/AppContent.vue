@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 pt-32 text-white"
+    class="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-900 text-white"
   >
     <SiteHeader />
     <router-view />

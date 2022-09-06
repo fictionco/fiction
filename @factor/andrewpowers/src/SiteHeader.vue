@@ -1,7 +1,7 @@
 <template>
-  <div class="header py-6 px-4 flex justify-center items-center">
+  <div class="header flex items-center justify-center py-6 px-4">
     <div class="logo">
-      <router-link to="/" class="font-bold text-2xl block rounded-md">
+      <router-link to="/" class="block rounded-md text-2xl font-bold">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 521 521"

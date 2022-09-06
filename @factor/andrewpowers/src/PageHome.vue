@@ -5,7 +5,7 @@
         <div class="text-center">
           <a
             href="https://www.twitter.com/arpowers"
-            class="hover:text-primary-500 text-base font-semibold tracking-wide transition-all hover:scale-105 md:text-lg"
+            class="hover:text-primary-500 text-base font-semibold tracking-wide text-slate-500 transition-all hover:scale-105 md:text-lg"
           >
             @arpowers
           </a>
@@ -17,9 +17,7 @@
           <p
             class="mx-auto mt-5 max-w-xl bg-gradient-to-br from-slate-100 to-slate-300 box-decoration-clone bg-clip-text text-lg text-transparent transition-all"
           >
-            I am an entrepreneur and interaction developer with a focus on data
-            &amp; AI. Passionate about philosophy, mathematics, and the wisdom
-            of antiquity.
+            Entrepreneur and Developer
           </p>
           <p
             class="mx-auto mt-5 max-w-xl text-xs uppercase tracking-widest text-slate-500"
