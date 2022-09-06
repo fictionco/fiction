@@ -17,7 +17,7 @@
         />
         <div
           v-if="description"
-          class="text-sm text-slate-400"
+          class="text-slate-400"
           v-text="description"
         />
       </div>

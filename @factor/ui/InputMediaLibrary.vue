@@ -67,6 +67,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+// @unocss-include
 import { vue, toLabel, FactorMedia, objectId } from "@factor/api"
 import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"

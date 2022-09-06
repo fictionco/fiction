@@ -103,14 +103,17 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
              * overridden without also overriding the theme colors.
              */
             input: {
-              bg: "var(--input-bg, var(--theme-100))",
-              bgAlt: "var(--input-bg, var(--theme-200))",
-              text: "var(--input-text, var(--theme-700))",
-              border: "var(--input-border, var(--theme-300))",
-              "border-alt": "var(--input-border-alt, var(--theme-400))",
-              placeholder: "var(--input-placeholder, var(--theme-400))",
-              active: "var(--input-active, var(--theme-500))",
-              "active-text": "var(--input-active-text, var(--theme-0))",
+              bg: "var(--input-bg, var(--theme-100, #f1f5f9))",
+              bgAlt: "var(--input-bg, var(--theme-200, #e2e8f0))",
+              text: "var(--input-text, var(--theme-700, #334155))",
+              border: "var(--input-border, var(--theme-300, #cbd5e1))",
+              "border-alt":
+                "var(--input-border-alt, var(--theme-400, #94a3b8))",
+              placeholder:
+                "var(--input-placeholder, var(--theme-400, #94a3b8))",
+              active: "var(--input-active, var(--theme-500, #64748b))",
+              "active-text":
+                "var(--input-active-text, var(--theme-0, #FFFFFF))",
             },
           },
         },
