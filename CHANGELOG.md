@@ -1,3 +1,16 @@
+## [5.5.47](https://github.com/FactorJS/factor/compare/v5.5.46...v5.5.47) (2022-09-06)
+
+
+### Bug Fixes
+
+* colors ([65c74cc](https://github.com/FactorJS/factor/commit/65c74cc17870ec893f4f47076d95be38994dfe4e))
+* deploy ([0a93bfe](https://github.com/FactorJS/factor/commit/0a93bfe96b73c74a92948c3f34e5a614cbd3ca87))
+* deploy ([a9da7bd](https://github.com/FactorJS/factor/commit/a9da7bd8a3771f46d36d7e1c1f0b197c839610db))
+* test check ([7ecef2b](https://github.com/FactorJS/factor/commit/7ecef2ba5963106dab6d7663aa7e37426825ca9e))
+* workflow ([0058b0f](https://github.com/FactorJS/factor/commit/0058b0f438324199b49865eb34be1cbf78a1a440))
+
+
+
 ## [5.5.46](https://github.com/FactorJS/factor/compare/v5.5.45...v5.5.46) (2022-09-03)
 
 
