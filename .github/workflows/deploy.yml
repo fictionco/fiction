@@ -82,6 +82,7 @@ jobs:
         run: npm run test-eslint
 
   deploy:
+    timeout-minutes: 30
     env:
       REDIS_URL: ${{ secrets.REDIS_URL }}
       CLICKHOUSE_URL: ${{ secrets.CLICKHOUSE_URL }}
