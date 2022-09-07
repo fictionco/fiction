@@ -1,3 +1,13 @@
+## [5.5.49](https://github.com/FactorJS/factor/compare/v5.5.48...v5.5.49) (2022-09-07)
+
+
+### Bug Fixes
+
+* add timeout ([1925ba7](https://github.com/FactorJS/factor/commit/1925ba71a68b700c7f28c4c94ed6832145598c0f))
+* copy ([8d3da7f](https://github.com/FactorJS/factor/commit/8d3da7f659241ce286e848f37d3ff153afba31f6))
+
+
+
 ## [5.5.48](https://github.com/FactorJS/factor/compare/v5.5.47...v5.5.48) (2022-09-07)
 
 
