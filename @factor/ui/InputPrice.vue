@@ -1,7 +1,7 @@
 <template>
   <div class="relative rounded-md shadow-sm">
     <div
-      class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+      class="pl-input-x pointer-events-none absolute inset-y-0 left-0 flex items-center"
     >
       <span class="text-theme-500 sm:text-sm"> {{ currencySymbol }} </span>
     </div>

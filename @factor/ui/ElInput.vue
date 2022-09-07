@@ -1,12 +1,12 @@
 <template>
   <div
     :key="label"
-    class="f-el-input space-y-1.5"
+    class="f-el-input space-y-1"
     :class="[valid ? 'valid' : 'not-valid', attrs.class]"
   >
     <div
       v-if="label || description"
-      class="flex justify-between text-input-label-size"
+      class="text-input-label-size flex justify-between"
     >
       <div class="text">
         <label
@@ -15,11 +15,7 @@
           :for="attrs.for"
           v-text="label"
         />
-        <div
-          v-if="description"
-          class="text-slate-400"
-          v-text="description"
-        />
+        <div v-if="description" class="text-slate-400" v-text="description" />
       </div>
     </div>
     <div class="input-area">

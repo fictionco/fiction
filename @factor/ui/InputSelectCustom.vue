@@ -258,7 +258,7 @@ const buttonClasses = [
   "border-theme-300",
   "bg-theme-50",
   "py-input-y",
-  "pl-3",
+  "pl-input-x",
   "pr-8",
   "text-left",
   "text-input-size",

@@ -8,8 +8,6 @@
     rows="1"
     @input="send($event.target)"
   />
-
-  {{ modelValue }}
 </template>
 
 <script lang="ts" setup>

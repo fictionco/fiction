@@ -14,10 +14,10 @@
         @click="selectItem(item)"
       ></InputElBox>
     </div>
-    <div v-if="labels" class="text-theme-600 mt-2 flex justify-between">
-      <div v-for="(label, i) in labels" :key="i" class="text-xs">
-        {{ label }}
-      </div>
+    <div v-if="labels" class="text-theme-600 mt-2 grid grid-cols-3 text-xs">
+      <div>{{ labels.start }}</div>
+      <div class="text-center">{{ labels.center }}</div>
+      <div class="text-right">{{ labels.end }}</div>
     </div>
   </div>
 </template>

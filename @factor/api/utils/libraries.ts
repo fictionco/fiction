@@ -25,6 +25,6 @@ if (typeof window !== "undefined" && typeof window.process == "undefined") {
   window.process = { env: {} }
 }
 
-const clean = (text: string | number) => dompurify.sanitize(String(text))
+const clean = (text: unknown) => dompurify.sanitize(String(text))
 
 export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean }

@@ -43,7 +43,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             "input-focus": `var(--input-shadow-focus, 'none')`,
           },
           spacing: {
-            "input-x": "var(--input-x, .75rem)",
+            "input-x": "var(--input-x, .5rem)",
             "input-y": "var(--input-y, .5rem)",
           },
           maxWidth: {
