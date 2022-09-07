@@ -17,12 +17,14 @@
           <p
             class="mx-auto mt-5 max-w-xl bg-gradient-to-br from-slate-100 to-slate-300 box-decoration-clone bg-clip-text text-lg text-transparent transition-all"
           >
-            Entrepreneur and Developer
+            I am an entrepreneur and interaction developer with a focus on data
+            & AI. Passionate about philosophy, mathematics, and the wisdom of
+            antiquity.
           </p>
           <p
             class="mx-auto mt-5 max-w-xl text-xs uppercase tracking-widest text-slate-500"
           >
-            Irvine, CA &mdash; Salt Lake City, UT
+            Newport Beach, CA &mdash; Park City, UT
           </p>
 
           <div class="mt-8 text-center">
