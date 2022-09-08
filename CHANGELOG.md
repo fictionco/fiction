@@ -1,3 +1,12 @@
+## [5.5.50](https://github.com/FactorJS/factor/compare/v5.5.49...v5.5.50) (2022-09-08)
+
+
+### Features
+
+* inputs clean up ([216b78a](https://github.com/FactorJS/factor/commit/216b78a5f23ce28c0e1b9ef49b05dff18660628d))
+
+
+
 ## [5.5.49](https://github.com/FactorJS/factor/compare/v5.5.48...v5.5.49) (2022-09-07)
 
 
