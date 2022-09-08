@@ -1,3 +1,12 @@
+## [5.5.51](https://github.com/FactorJS/factor/compare/v5.5.50...v5.5.51) (2022-09-08)
+
+
+### Bug Fixes
+
+* color ([f7e267c](https://github.com/FactorJS/factor/commit/f7e267c59db7d13b8f9c38e1048aac46985e33ad))
+
+
+
 ## [5.5.50](https://github.com/FactorJS/factor/compare/v5.5.49...v5.5.50) (2022-09-08)
 
 
