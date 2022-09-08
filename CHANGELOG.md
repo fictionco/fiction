@@ -1,3 +1,12 @@
+## [5.5.52](https://github.com/FactorJS/factor/compare/v5.5.51...v5.5.52) (2022-09-08)
+
+
+### Features
+
+* InputFont ([703e2e0](https://github.com/FactorJS/factor/commit/703e2e0d28e7759e1c0394c4ca39aec5149ebb1b))
+
+
+
 ## [5.5.51](https://github.com/FactorJS/factor/compare/v5.5.50...v5.5.51) (2022-09-08)
 
 
