@@ -1,3 +1,12 @@
+## [5.5.53](https://github.com/FactorJS/factor/compare/v5.5.52...v5.5.53) (2022-09-08)
+
+
+### Features
+
+* InputScheme ([4875bd1](https://github.com/FactorJS/factor/commit/4875bd1946210e8cca0fb3560382b8ad4df7243f))
+
+
+
 ## [5.5.52](https://github.com/FactorJS/factor/compare/v5.5.51...v5.5.52) (2022-09-08)
 
 
