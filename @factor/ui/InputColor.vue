@@ -1,20 +1,24 @@
 <template>
-  <label class="text-input-size inline-flex cursor-pointer items-center">
-    <div
-      class="wrap"
-      :style="{ background: modelValue || `#dfdfdf` }"
-      :class="classes"
-    >
-      <input
-        v-bind="attrs"
-        type="color"
-        class="h-[2em] w-[2em] cursor-pointer opacity-0"
-        :value="modelValue"
-        @input="handleEmit($event.target)"
-      />
+  <label
+    class="text-input-size text-theme-700 bg-theme-100 hover:bg-theme-200 hover:border-theme-400 border-input-border inline-flex cursor-pointer items-center overflow-hidden rounded-md border"
+  >
+    <div class="py-[.2em] px-[.4em]">
+      <div
+        class="wrap"
+        :style="{ background: modelValue || `#dfdfdf` }"
+        :class="classes"
+      >
+        <input
+          v-bind="attrs"
+          type="color"
+          class="h-[1.6em] w-[1.6em] cursor-pointer opacity-0"
+          :value="modelValue"
+          @input="handleEmit($event.target)"
+        />
+      </div>
     </div>
 
-    <span class="text-theme-700 hover:text-theme-500">
+    <span class="text-theme-700 hover:text-theme-500 p-[.4em]">
       {{ modelValue || "Select Color" }}
     </span>
   </label>
@@ -44,12 +48,12 @@ const handleEmit = (target: EventTarget | null): void => {
 const classes = [
   "f-color-picker",
   "cursor-pointer",
-  "mt-0.5",
-  "mr-[.9em]",
+  "ring-white",
+  "ring-2",
   "rounded-full",
   "active:opacity-75",
-  "ring-2",
-  "ring-white",
+  "shadow-inner ",
+  "shadow",
   "flex",
 ]
 </script>
