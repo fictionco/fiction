@@ -12,7 +12,7 @@
           v-bind="attrs"
           type="color"
           class="h-[1.6em] w-[1.6em] cursor-pointer opacity-0"
-          :value="modelValue"
+          :value="modelValue || '#dfdfdf'"
           @input="handleEmit($event.target)"
         />
       </div>
@@ -33,7 +33,7 @@ export default {
 import { vue } from "@factor/api"
 
 defineProps({
-  modelValue: { type: String, default: "" },
+  modelValue: { type: String, default: undefined },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string): void
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 const attrs = vue.useAttrs()
 const handleEmit = (target: EventTarget | null): void => {
   const el = target as HTMLInputElement
-  emit("update:modelValue", el.value)
+  emit("update:modelValue", el.value != "#dfdfdf" ? el.value : "")
 }
 
 const classes = [
