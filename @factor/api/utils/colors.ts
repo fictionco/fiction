@@ -78,10 +78,16 @@ export type ColorScheme =
   | "violet"
   | "violetDark"
 
+export type ColorSchemeDetail = {
+  scheme: ColorScheme
+  name: string
+  colors: Record<ColorScale, string>
+}
+
 /**
  * https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
  */
-export const colorSchemes = () => {
+export const colorSchemes = (): ColorSchemeDetail[] => {
   const schemes: Record<string, Record<number, string>> = {
     slate: {
       50: "#f8fafc",
@@ -365,11 +371,11 @@ export const colorSchemes = () => {
         colors: colorsInverted,
       },
     ]
-  }) as {
-    scheme: ColorScheme
-    name: string
-    colors: Record<ColorScale, string>
-  }[]
+  }) as ColorSchemeDetail[]
+}
+
+export const getColorScheme = (scheme: ColorScheme) => {
+  return colorSchemes().find((s) => s.scheme === scheme)
 }
 
 export const colorStandard = (

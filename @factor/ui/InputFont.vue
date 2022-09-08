@@ -2,10 +2,11 @@
   <InputSelect :list="list" v-bind="attrs" />
 </template>
 <script lang="ts" setup>
-import { vue } from "@factor/api"
+import { vue, UserFont } from "@factor/api"
 
+import googleFonts from "@factor/api/utils/lib/fonts.json"
 import InputSelect from "./InputSelectCustom.vue"
-import googleFonts from "./lib/fonts.json"
+
 interface FontItem {
   family: string
   variants: string[]
@@ -60,7 +61,7 @@ const list = vue.computed(() => {
         family,
       )}:${variants.join(",")}`
 
-      const v = {
+      const v: UserFont = {
         font: `${family},${category}`,
         link,
         type: "google",

@@ -4,8 +4,8 @@
 <script lang="ts" setup>
 import { vue } from "@factor/api"
 
+import timezones from "@factor/api/utils/lib/timezones.json"
 import InputSelect from "./InputSelectCustom.vue"
-import timezones from "./lib/timezones.json"
 interface TimezoneItem {
   offset: string
   name: string
