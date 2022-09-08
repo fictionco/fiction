@@ -1,7 +1,7 @@
 <template>
   <div>
     <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
-      <div class="i-carbon-image text-theme-400 mr-2 text-lg"></div>
+      <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
       <span>Add Media</span>
     </ElButton>
     <ElModal v-model:vis="vis" modal-class="max-w-xl">
@@ -77,7 +77,10 @@ import ElSpinner from "./ElSpinner.vue"
 const uploadId = `file-upload-${objectId()}`
 const props = defineProps({
   modelValue: { type: [String], default: "" },
-  factorMedia: { type: Object as vue.PropType<FactorMedia>, required: true },
+  service: {
+    type: Object as vue.PropType<{ factorMedia?: FactorMedia }>,
+    default: () => {},
+  },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string): void
@@ -93,9 +96,13 @@ const handleEmit = (val: string = ""): void => {
 }
 
 const uploadFiles = async (files?: FileList | null) => {
+  const factorMedia = props.service.factorMedia
+  if (!factorMedia) {
+    throw new Error("factorMedia service not added to media uploader")
+  }
   if (!files) return
   uploading.value = true
-  const result = await props.factorMedia.uploadFiles({ files })
+  const result = await factorMedia.uploadFiles({ files })
   if (result[0]?.status == "success") {
     handleEmit(result[0].data?.url)
   }

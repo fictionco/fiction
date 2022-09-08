@@ -104,7 +104,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
              */
             input: {
               bg: "var(--input-bg, var(--theme-100, #f1f5f9))",
-              bgAlt: "var(--input-bg, var(--theme-200, #e2e8f0))",
+              bgAlt: "var(--input-bg-alt, var(--theme-200, #e2e8f0))",
               text: "var(--input-text, var(--theme-700, #334155))",
               border: "var(--input-border, var(--theme-300, #cbd5e1))",
               "border-alt":

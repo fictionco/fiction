@@ -1,5 +1,5 @@
 <template>
-  <label class="block" @click.stop @keyup.stop @keydown.stop>
+  <label class="max-w-input-lg block" @click.stop @keyup.stop @keydown.stop>
     <div
       class="text-theme-800 relative"
       @keydown.down.prevent="
@@ -15,7 +15,7 @@
             v-for="(v, i) in selected"
             v-else
             :key="i"
-            class="border-theme-300 bg-theme-100 text-theme-600 my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-md border text-xs"
+            class="border-theme-300 bg-theme-200 text-theme-600 my-1 mr-2 inline-flex select-none justify-center overflow-hidden rounded-md border text-[.8em]"
             @click.stop
           >
             <div
@@ -29,7 +29,7 @@
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-3 w-3"
+                class="h-[1em] w-[1em]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

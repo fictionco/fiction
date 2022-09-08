@@ -28,11 +28,11 @@ import InputElBox from "./InputElBox.vue"
 const props = defineProps({
   modelValue: { type: [Number], default: undefined },
   countStart: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
   countEnd: {
-    type: Number,
+    type: [Number, String],
     default: 5,
   },
   icon: {
@@ -59,7 +59,7 @@ const selectItem = (val?: number) => {
 
 const parsedList = vue.computed<number[]>(() => {
   const list = []
-  for (var i = props.countStart; i <= props.countEnd; i++) {
+  for (var i = +props.countStart; i <= +props.countEnd; i++) {
     list.push(i)
   }
   return list

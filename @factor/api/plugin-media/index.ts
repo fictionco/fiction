@@ -10,8 +10,8 @@ import { QueryUnsplash } from "./query-unsplash"
 import { mediaTable } from "./tables"
 
 type FactorMediaSettings = {
-  factorUser: FactorUser
-  factorDb: FactorDb
+  factorUser?: FactorUser
+  factorDb?: FactorDb
   factorServer: FactorServer
   factorAws: FactorAws
   bucket: string
@@ -51,7 +51,7 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   constructor(settings: FactorMediaSettings) {
     super("media", settings)
 
-    this.factorDb.addTables([mediaTable])
+    this.factorDb?.addTables([mediaTable])
   }
 
   async uploadFile(params: {

@@ -39,7 +39,7 @@ const buttonClass = (v: number, i: number): string => {
     "inline-flex",
     "items-center",
     "border",
-    "px-3",
+    "px-[.6em]",
     "py-input-y",
     "text-input-size",
     "focus:z-10",

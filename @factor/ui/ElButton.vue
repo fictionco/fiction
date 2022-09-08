@@ -2,7 +2,7 @@
   <component
     :is="to ? 'router-link' : href ? 'a' : 'button'"
     :to="to"
-    class="relative select-none items-center rounded-lg border font-medium ring-offset-2 focus:outline-none focus:ring-2"
+    class="relative select-none items-center rounded-lg border ring-offset-2 focus:outline-none focus:ring-2"
     :class="btnClass"
     :href="href"
   >
@@ -96,14 +96,16 @@ const btnClass = vue.computed(() => {
     out =
       "border-slate-200 text-slate-500  hover:border-slate-400 focus:ring-primary-100"
   } else if (btn == "theme") {
-    out = "border-theme-300 text-theme-700 bg-theme-100 hover:bg-theme-200"
+    out = "border-input-border text-input-text  bg-input-bg hover:opacity-90"
   } else {
     out =
       "border-slate-300 text-slate-700 bg-white hover:border-slate-400 focus:ring-primary-100"
   }
 
   let sizeClasses = "px-2.5 py-1.5 text-sm"
-  if (props.size == "md") {
+  if (btn == "theme") {
+    sizeClasses = "px-input-x py-input-y text-input-size"
+  } else if (props.size == "md") {
     sizeClasses = "px-3 py-1.5 text-base"
   } else if (props.size == "sm") {
     sizeClasses = "px-2 py-1 text-xs"

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import { vue } from "@factor/api"
+import { vue, onResetUi } from "@factor/api"
 import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: String, default: "" },
@@ -31,6 +31,7 @@ const setHeight = (): void => {
   ta.style.height = `${sh}px`
 }
 vue.onMounted(() => setHeight())
+onResetUi(() => setHeight())
 
 // vue.watch(
 //   () => props.modelValue,

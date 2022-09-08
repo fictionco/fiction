@@ -43,7 +43,11 @@ import ElSpinner from "./ElSpinner.vue"
 
 const props = defineProps({
   modelValue: { type: [String], default: "" },
-  factorMedia: { type: Object as vue.PropType<FactorMedia>, required: true },
+
+  service: {
+    type: Object as vue.PropType<{ factorMedia?: FactorMedia }>,
+    default: () => {},
+  },
   allowedFile: { type: String, default: "PDF, PNG, JPG, GIF up to 10MB" },
 })
 const emit = defineEmits<{
@@ -57,9 +61,13 @@ const handleEmit = (val: string = ""): void => {
 }
 
 const uploadFiles = async (files?: FileList | null) => {
+  const factorMedia = props.service.factorMedia
+  if (!factorMedia) {
+    throw new Error("factorMedia service not added to media uploader")
+  }
   if (!files) return
   uploading.value = true
-  const result = await props.factorMedia.uploadFiles({ files })
+  const result = await factorMedia.uploadFiles({ files })
   if (result[0]?.status == "success") {
     handleEmit(result[0].data?.url)
   }

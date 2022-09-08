@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-input-size hover:bg-theme-200 hover:border-theme-400 text-theme-700 max-w-input flex cursor-move items-center justify-between rounded-md border px-2 py-1"
+    class="text-input-size group hover:bg-theme-200 hover:border-theme-400 text-theme-700 flex max-w-[15em] cursor-move items-center justify-between rounded-md border p-[.25em]"
     :class="[
       animateSelected ? 'notify-selected' : '',
       selected
@@ -8,16 +8,16 @@
         : 'border-theme-300 bg-theme-100 ',
     ]"
   >
-    <div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-[.6em]">
       <div
         v-if="prefix"
-        class="border-theme-300 text-theme-400 inline-flex w-6 items-center justify-end border-r pr-3 text-right text-xs font-bold"
+        class="border-theme-200 text-theme-400 bg-theme-200 group-hover:bg-theme-300 inline-flex w-[1.5em] shrink-0 items-center justify-center rounded-md border text-right text-[.85em] font-bold"
       >
         {{ prefix }}
       </div>
-      <div class="text-theme-700">{{ label || "No Label" }}</div>
+      <div class="text-theme-600">{{ label || "No Label" }}</div>
     </div>
-    <div v-if="icon" class="text-theme-400" :class="icon"></div>
+    <div v-if="icon" class="text-theme-400 shrink-0" :class="icon"></div>
   </div>
 </template>
 <script lang="ts" setup>

@@ -31,6 +31,7 @@ export const textInputClasses = () => {
     "placeholder:text-input-placeholder",
     "bg-input-bg",
     "text-input-text",
+    "max-w-input",
   ]
 
   return out

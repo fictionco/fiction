@@ -1,5 +1,5 @@
 <template>
-  <div class="my-4">
+  <div class="text-input-size my-4">
     <div v-if="li.length == 0" class="text-input-placeholder">No Items</div>
     <div v-for="(item, i) of li" v-else :key="i" class="my-2">
       <label class="inline-flex cursor-pointer items-center">
@@ -10,7 +10,7 @@
           :checked="isSelected(item.value)"
           @input="selectValue(item)"
         />
-        <span class="checkbox-label text-input-size text-theme-700 select-none">
+        <span class="checkbox-label text-theme-700 select-none">
           {{ item.name }}
         </span>
       </label>
@@ -77,11 +77,11 @@ const selectValue = (item: ListItem): void => {
 
 const classes = [
   "form-checkbox",
-  "mr-4",
-  "h-5",
-  "w-5",
+  "mr-[.8em]",
+  "h-[.9em]",
+  "w-[.9em]",
   "appearance-none",
-  "rounded-md",
+  "rounded-[.25em]",
   "border",
   "focus:outline-none",
   "focus:ring-0",

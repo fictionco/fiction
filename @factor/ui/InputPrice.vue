@@ -1,9 +1,9 @@
 <template>
   <div class="relative rounded-md shadow-sm">
     <div
-      class="pl-input-x pointer-events-none absolute inset-y-0 left-0 flex items-center"
+      class="pl-input-x text-theme-500 text-input-size pointer-events-none absolute inset-y-0 left-0 flex items-center"
     >
-      <span class="text-theme-500 sm:text-sm"> {{ currencySymbol }} </span>
+      {{ currencySymbol }}
     </div>
     <input
       type="number"
@@ -32,5 +32,5 @@ const handleEmit = (target: EventTarget | null): void => {
   emit("update:modelValue", el.value)
 }
 
-const classes = ["pl-7", ...textInputClasses()]
+const classes = ["pl-[2em]", ...textInputClasses()]
 </script>

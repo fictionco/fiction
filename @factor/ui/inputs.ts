@@ -29,4 +29,5 @@ export const inputs = {
   InputMultipleChoice: def(() => import("./InputMultipleChoice.vue")),
   InputRating: def(() => import("./InputRating.vue")),
   InputDate: def(() => import("./InputDate.vue")),
+  InputColor: def(() => import("./InputColor.vue")),
 }

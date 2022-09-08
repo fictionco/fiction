@@ -1,6 +1,6 @@
 <template>
   <div class="test-input p-4">
-    <div class="text-theme-700 flex items-end justify-between">
+    <div class="text-theme-700 flex items-end justify-between space-x-6">
       <h3 class="text-sm font-semibold">{{ inputName }}</h3>
       <div class="flex space-x-4 text-xs">
         <div class="opacity-50">Value</div>

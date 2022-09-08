@@ -1,5 +1,5 @@
 <template>
-  <label class="inline-flex cursor-pointer items-center">
+  <label class="text-input-size inline-flex cursor-pointer items-center">
     <input
       v-bind="attrs"
       type="checkbox"
@@ -8,9 +8,7 @@
       @input="handleEmit($event.target)"
     />
 
-    <span
-      class="checkbox-label text-input-size text-theme-700 hover:text-theme-500"
-    >
+    <span class="checkbox-label text-theme-700 hover:text-theme-500">
       <template v-if="slots.default"> <slot /></template>
       <template v-else>{{ text }}</template>
     </span>
@@ -43,12 +41,12 @@ const handleEmit = (target: EventTarget | null): void => {
 const classes = [
   "form-checkbox",
   "cursor-pointer",
-  "mt-0.5",
-  "mr-4",
-  "h-5",
-  "w-5",
+  "mt-[.1em]",
+  "mr-[.8em]",
+  "h-[.9em]",
+  "w-[.9em]",
   "appearance-none",
-  "rounded-md",
+  "rounded-[.25em]",
   "border",
   "focus:outline-none",
   "focus:ring-0",

@@ -1,15 +1,28 @@
 <template>
   <div class="wrap">
-    <div class="flex justify-center space-x-4 text-xs">
-      <a
-        v-for="(c, i) in colors"
-        :key="i"
-        class="cursor-pointer hover:opacity-60"
-        @click.prevent="selectColor(c)"
-        >{{ c }}</a
-      >
+    <div class="space-y-2">
+      <div class="flex justify-center space-x-4 text-xs">
+        <a
+          v-for="(c, i) in colors"
+          :key="i"
+          class="cursor-pointer hover:opacity-60"
+          @click.prevent="selectColor(c)"
+          >{{ c }}</a
+        >
+      </div>
+
+      <div class="flex justify-center space-x-4 text-xs">
+        <a
+          v-for="(c, i) in inputSizes"
+          :key="i"
+          class="cursor-pointer hover:opacity-60"
+          @click.prevent="selectSize(c)"
+          >{{ c }}</a
+        >
+      </div>
     </div>
-    <form class="input-area mx-auto my-12 max-w-lg rounded-md">
+    <form class="input-area mx-auto my-12 max-w-[50em] rounded-md">
+      <TestInput input-name="Color Picker" :input-el="InputColor" />
       <TestInput input-name="Media Upload" :input-el="InputMediaUpload" />
       <TestInput input-name="Media Library" :input-el="InputMediaLibrary" />
       <TestInput input-name="Date" :input-el="InputDate" />
@@ -60,7 +73,15 @@
       <TestInput
         input-name="Ranking"
         :input-el="InputRanking"
-        :list="['item 1', 'item 2']"
+        :list="[
+          'item 1',
+          'item 2',
+          'another item',
+          'really long item title name, that i think is too long',
+          'yet',
+          'another',
+          'item 10',
+        ]"
       />
 
       <TestInput
@@ -124,6 +145,7 @@ import { inputs } from "@factor/ui"
 import TestInput from "./TestInput.vue"
 
 const {
+  InputColor,
   InputDate,
   InputRating,
   InputRanking,
@@ -151,11 +173,55 @@ const {
   InputMediaUpload,
 } = inputs
 
+const inputSizes = ["base", "lg", "xl", "2xl", "3xl"]
+const selectSize = (c: typeof inputSizes[number]) => {
+  inputSizing.value = c
+}
+
+const inputSizing = vue.ref<typeof inputSizes[number]>("base")
+
 const themeColor = vue.ref<ThemeColor>("slate")
 
 const selectColor = (c: ThemeColor) => {
   themeColor.value = c
 }
+
+const sizing = vue.computed(() => {
+  let out = {
+    inputX: "calc(var(--input-size) * .65)",
+    inputY: "calc(var(--input-size) * .3)",
+    inputSize: ".9rem",
+    inputMaxWidth: "25rem",
+  }
+
+  if (inputSizing.value == "lg") {
+    out = {
+      ...out,
+      inputSize: "1.2rem",
+    }
+  }
+
+  if (inputSizing.value == "xl") {
+    out = {
+      ...out,
+      inputSize: "1.5rem",
+    }
+  }
+  if (inputSizing.value == "2xl") {
+    out = {
+      ...out,
+      inputSize: "2rem",
+    }
+  }
+  if (inputSizing.value == "3xl") {
+    out = {
+      ...out,
+      inputSize: "2.5rem",
+    }
+  }
+
+  return out
+})
 
 const theme = vue.computed(() => {
   const levels = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const
@@ -193,9 +259,9 @@ const theme = vue.computed(() => {
   --theme-700: v-bind("theme.level700");
   --theme-800: v-bind("theme.level800");
   --theme-900: v-bind("theme.level900");
-  /* --input-x: 8px;
-  --input-y: 4px;
-  --input-size: 0.9rem;
-  --input-max-width: 300px; */
+  --input-x: calc(0.6 * v-bind("sizing.inputSize"));
+  --input-y: calc(0.3 * v-bind("sizing.inputSize"));
+  --input-size: v-bind("sizing.inputSize");
+  --input-max-width: calc(25 * v-bind("sizing.inputSize"));
 }
 </style>

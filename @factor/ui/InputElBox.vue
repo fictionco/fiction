@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-theme-400 hover:text-theme-500 max-w-[50px] grow cursor-pointer select-none"
+    class="text-theme-400 hover:text-theme-500 text-input-size max-w-[5em] grow cursor-pointer select-none"
   >
     <div
       class="hover:bg-theme-200 hover:border-theme-400 flex aspect-square items-center justify-center rounded-md border p-1"
@@ -17,14 +17,14 @@
         <div
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
-          <div v-if="icon" class="text-3xl" :class="icon"></div>
-          <div v-else class="text-lg font-bold">{{ label }}</div>
+          <div v-if="icon" class="text-[1.8em]" :class="icon"></div>
+          <div v-else class="text-[1.3em] font-bold">{{ label }}</div>
         </div>
       </div>
     </div>
     <div
       v-if="icon"
-      class="mt-1 text-center text-xs"
+      class="mt-1 text-center text-[.9em]"
       :class="selected ? 'text-theme-500' : ' '"
     >
       {{ String(label) || "No Label" }}

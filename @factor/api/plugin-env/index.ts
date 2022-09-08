@@ -97,6 +97,7 @@ export type FactorControlSettings = {
   commands?: CliCommand<string>[]
   mode?: "development" | "production"
   isApp?: boolean
+  isTest?: boolean
   version: string
 }
 
@@ -121,8 +122,8 @@ export class FactorEnv<
   mode = this.utils.vue.ref<"development" | "production" | undefined>(
     process.env.NODE_ENV as "development" | "production",
   )
-  isApp = this.utils.vue.ref(!!process.env.IS_VITE)
-  isTest = this.utils.vue.ref(!!process.env.IS_TEST)
+  isApp = this.utils.vue.ref(this.settings.isApp || !!process.env.IS_VITE)
+  isTest = this.utils.vue.ref(this.settings.isTest || !!process.env.IS_TEST)
   isServer = this.utils.vue.computed(() => !this.isApp.value)
   isProd = this.utils.vue.computed(() => this.mode.value === "production")
   isDev = this.utils.vue.computed(() => this.mode.value === "development")

@@ -1,5 +1,5 @@
 <template>
-  <div @click.stop @keyup.stop @keydown.stop>
+  <div class="max-w-input" @click.stop @keyup.stop @keydown.stop>
     <div
       class="text-theme-700 relative"
       @keydown.down.prevent="

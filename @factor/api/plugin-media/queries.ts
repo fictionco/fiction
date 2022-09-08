@@ -9,8 +9,8 @@ import type { FactorMedia, MediaConfig } from "."
 
 type SaveMediaSettings = {
   factorMedia: FactorMedia
-  factorDb: FactorDb
-  factorAws: FactorAws
+  factorDb?: FactorDb
+  factorAws?: FactorAws
 }
 
 abstract class MediaQuery extends Query<SaveMediaSettings> {
@@ -33,7 +33,8 @@ export class QuerySaveMedia extends MediaQuery {
 
     if (!file) throw this.stop("no file in request")
     if (!userId) throw this.stop("no userId (bearer)")
-
+    if (!this.factorAws) throw this.stop("no factorAws")
+    if (!this.factorDb) throw this.stop("no factorDb")
     const mime = file?.mimetype
     const bucket = this.factorMedia.bucket
     const mediaId = this.utils.objectId()
@@ -89,6 +90,7 @@ export class QueryMediaIndex extends MediaQuery {
     params: MediaIndexParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<MediaConfig[]>> {
+    if (!this.factorDb) throw this.stop("no factorDb")
     const { _action } = params
 
     const userId = params.userId || meta.bearer?.userId
@@ -119,6 +121,8 @@ export class QueryMediaAction extends MediaQuery {
     params: MediaActionParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<MediaConfig[]>> {
+    if (!this.factorDb) throw this.stop("no factorDb")
+    if (!this.factorAws) throw this.stop("no factorAws")
     const { _action, url } = params
 
     const userId = params.userId || meta.bearer?.userId

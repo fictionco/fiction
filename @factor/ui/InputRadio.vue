@@ -15,7 +15,7 @@
         :value="option.value"
         v-bind="$attrs"
       />
-      <span class="text-theme-600 hover:text-theme-500 ml-2">{{
+      <span class="text-theme-600 hover:text-theme-500 ml-[.5em]">{{
         option.name
       }}</span>
     </label>
@@ -47,6 +47,8 @@ const classes = [
   "border",
   "border-theme-300",
   "text-theme-500",
+  "w-[.9em]",
+  "h-[.9em]",
   "focus:border-theme-500",
   "focus:outline-none",
   "focus:ring-2",
