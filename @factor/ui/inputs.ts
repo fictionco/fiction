@@ -30,4 +30,5 @@ export const inputs = {
   InputRating: def(() => import("./InputRating.vue")),
   InputDate: def(() => import("./InputDate.vue")),
   InputColor: def(() => import("./InputColor.vue")),
+  InputFont: def(() => import("./InputFont.vue")),
 }

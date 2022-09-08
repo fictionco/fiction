@@ -24,7 +24,7 @@
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
           <span
-            class="select-description text-input-body-light ml-2 truncate text-xs"
+            class="select-description text-input-text-alt ml-[1em] truncate text-[.8em] text-opacity-60"
             >{{ selectedItem?.desc }}</span
           >
         </span>
@@ -67,7 +67,7 @@
             role="listbox"
             aria-labelledby="listbox-label"
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
-            class="max-h-60 overflow-auto rounded-md shadow focus:outline-none"
+            class="text-input-size max-h-60 overflow-auto rounded-md shadow focus:outline-none"
           >
             <template v-for="(item, i) of li" :key="i">
               <li v-if="item.format == 'divider'" class="">
@@ -75,9 +75,9 @@
               </li>
               <li
                 v-else-if="item.format == 'title'"
-                class="text-input-body-light mt-4 mb-2"
+                class="py-input-y px-input-x text-input-body-light mt-2"
               >
-                <div class="px-4 text-xs font-semibold uppercase">
+                <div class="text-theme-400 text-[.7em] font-semibold uppercase">
                   {{ item.name }}
                 </div>
               </li>
@@ -86,7 +86,7 @@
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group py-input-y px-input-x text-input-size relative select-none"
+                class="group py-input-y px-input-x relative select-none"
                 @click="selectValue(item)"
                 @mouseover="hovered = i"
               >
@@ -140,7 +140,7 @@ type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: "" },
   list: {
-    type: Array as vue.PropType<string[] | RouteListItem[]>,
+    type: Array as vue.PropType<(RouteListItem | string)[]>,
     default: () => [],
   },
   defaultValue: { type: [Number, String, Boolean], default: "" },
