@@ -29,11 +29,11 @@
           >
         </span>
         <span
-          class="text-theme-500 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
+          class="text-theme-400 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-0 flex items-center"
           :class="active ? 'text-theme-500' : ''"
         >
           <svg
-            class="h-5 w-5"
+            class="h-[1.5em] w-[1.5em]"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
