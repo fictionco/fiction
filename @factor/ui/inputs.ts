@@ -31,4 +31,5 @@ export const inputs = {
   InputDate: def(() => import("./InputDate.vue")),
   InputColor: def(() => import("./InputColor.vue")),
   InputFont: def(() => import("./InputFont.vue")),
+  InputColorScheme: def(() => import("./InputColorScheme.vue")),
 }

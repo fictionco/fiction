@@ -48,12 +48,10 @@ const handleEmit = (target: EventTarget | null): void => {
 const classes = [
   "f-color-picker",
   "cursor-pointer",
-  "ring-white",
-  "ring-2",
+  "border",
+  "border-black/10",
   "rounded-full",
   "active:opacity-75",
-  "shadow-inner ",
-  "shadow",
   "flex",
 ]
 </script>

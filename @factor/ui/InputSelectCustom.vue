@@ -75,9 +75,9 @@
               </li>
               <li
                 v-else-if="item.format == 'title'"
-                class="py-input-y px-input-x text-input-body-light mt-2"
+                class="py-input-y px-input-x mt-[.5em]"
               >
-                <div class="text-theme-400 text-[.7em] font-semibold uppercase">
+                <div class="text-theme-300 text-[.8em] font-semibold uppercase">
                   {{ item.name }}
                 </div>
               </li>

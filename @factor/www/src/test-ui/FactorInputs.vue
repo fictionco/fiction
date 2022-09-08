@@ -22,6 +22,7 @@
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-[50em] rounded-md">
+      <TestInput input-name="Color Scheme" :input-el="InputColorScheme" />
       <TestInput input-name="Font" :input-el="InputFont" />
       <TestInput input-name="Color Picker" :input-el="InputColor" />
       <TestInput input-name="Media Upload" :input-el="InputMediaUpload" />
@@ -173,6 +174,7 @@ const {
   InputMediaLibrary,
   InputMediaUpload,
   InputFont,
+  InputColorScheme,
 } = inputs
 
 const inputSizes = ["base", "lg", "xl", "2xl", "3xl"]
