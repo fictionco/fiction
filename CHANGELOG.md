@@ -1,3 +1,12 @@
+## [5.5.56](https://github.com/FactorJS/factor/compare/v5.5.55...v5.5.56) (2022-09-09)
+
+
+### Features
+
+* InputRange ([faf9e28](https://github.com/FactorJS/factor/commit/faf9e289a4cf6da43df5c2740d78ced679bea617))
+
+
+
 ## [5.5.55](https://github.com/FactorJS/factor/compare/v5.5.54...v5.5.55) (2022-09-09)
 
 

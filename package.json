@@ -1,11 +1,11 @@
 {
   "name": "factor",
-  "version": "5.5.55",
+  "version": "5.5.56",
   "dependencies": {
-    "@factor/api": "5.5.55",
-    "@factor/lint": "5.5.55",
-    "@factor/ui": "5.5.55",
-    "@factor/www": "5.5.55",
+    "@factor/api": "5.5.56",
+    "@factor/lint": "5.5.56",
+    "@factor/ui": "5.5.56",
+    "@factor/www": "5.5.56",
     "@types/express": "^4.17.13",
     "@types/node": "^18.7.16",
     "@vitejs/plugin-vue": "^3.1.0",
