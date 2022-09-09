@@ -255,14 +255,14 @@ const buttonClasses = [
   "cursor-pointer",
   "rounded-input",
   "border",
-  "border-theme-300",
-  "bg-theme-50",
+  "border-input-border",
+  "bg-input-bg",
   "py-input-y",
   "pl-input-x",
   "pr-8",
   "text-left",
   "text-input-size",
-  "text-theme-700",
+  "text-input-text",
   "focus:outline-none",
 ]
 </script>

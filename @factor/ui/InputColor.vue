@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <span class="text-theme-700 hover:text-theme-500 p-[.4em]">
+    <span class="text-theme-700 hover:text-theme-500 select-none p-[.4em]">
       {{ modelValue || "Select Color" }}
     </span>
   </label>

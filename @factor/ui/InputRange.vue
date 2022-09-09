@@ -1,6 +1,9 @@
 <template>
-  <div class="text-input-size flex items-center space-x-4">
-    <div>{{ modelValue }}</div>
+  <div class="text-input-size my-[1em] flex items-center">
+    <div v-if="modelValue || modelValue === 0" class="mr-[1em]">
+      {{ modelValue }}
+    </div>
+
     <input
       :class="`w-full h-[.5em] bg-theme-200 rounded-lg appearance-none cursor-pointer text-input-size`"
       type="range"
@@ -15,7 +18,7 @@
 <script lang="ts" setup>
 import { vue } from "@factor/api"
 const props = defineProps({
-  modelValue: { type: [String, Number], default: "" },
+  modelValue: { type: [String, Number], default: undefined },
   min: { type: [String, Number], default: 0 },
   max: { type: [String, Number], default: undefined },
   step: { type: [String, Number], default: 1 },

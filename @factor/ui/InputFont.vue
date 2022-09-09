@@ -30,14 +30,6 @@ const list = vue.computed(() => {
       },
     },
     {
-      name: "Baskerville",
-      desc: "serif",
-      value: {
-        type: "basic",
-        font: `Baskerville, 'Times New Roman', Times, serif`,
-      },
-    },
-    {
       name: "Futura",
       desc: "sans-serif",
       value: {
