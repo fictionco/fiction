@@ -1,3 +1,12 @@
+## [5.5.55](https://github.com/FactorJS/factor/compare/v5.5.54...v5.5.55) (2022-09-09)
+
+
+### Bug Fixes
+
+* inputs ([46d7783](https://github.com/FactorJS/factor/commit/46d77831a9ad8ee94f7a61ff3c7a68d538dc8fb3))
+
+
+
 ## [5.5.54](https://github.com/FactorJS/factor/compare/v5.5.53...v5.5.54) (2022-09-08)
 
 
