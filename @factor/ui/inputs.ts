@@ -32,4 +32,5 @@ export const inputs = {
   InputColor: def(() => import("./InputColor.vue")),
   InputFont: def(() => import("./InputFont.vue")),
   InputColorScheme: def(() => import("./InputColorScheme.vue")),
+  InputRange: def(() => import("./InputRange.vue")),
 }

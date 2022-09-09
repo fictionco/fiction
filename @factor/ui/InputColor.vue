@@ -4,8 +4,8 @@
   >
     <div class="py-[.2em] px-[.4em]">
       <div
-        class="wrap"
-        :style="{ background: modelValue || `#dfdfdf` }"
+        class="wrap relative"
+        :style="{ background: modelValue || `rgba(255,255,255,.5)` }"
         :class="classes"
       >
         <input
@@ -48,8 +48,8 @@ const handleEmit = (target: EventTarget | null): void => {
 const classes = [
   "f-color-picker",
   "cursor-pointer",
-  "border",
-  "border-black/10",
+  "ring-theme-300",
+  "ring-2",
   "rounded-full",
   "active:opacity-75",
   "flex",

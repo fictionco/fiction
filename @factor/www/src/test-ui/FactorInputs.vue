@@ -22,34 +22,44 @@
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-[50em] rounded-md">
-      <TestInput input-name="Color Scheme" :input-el="InputColorScheme" />
-      <TestInput input-name="Font" :input-el="InputFont" />
-      <TestInput input-name="Color Picker" :input-el="InputColor" />
-      <TestInput input-name="Media Upload" :input-el="InputMediaUpload" />
-      <TestInput input-name="Media Library" :input-el="InputMediaLibrary" />
-      <TestInput input-name="Date" :input-el="InputDate" />
+      <TestInput input-name="Range" :input-el="inputs.InputRange" />
+      <TestInput
+        input-name="Color Scheme"
+        :input-el="inputs.InputColorScheme"
+      />
+      <TestInput input-name="Font" :input-el="inputs.InputFont" />
+      <TestInput input-name="Color Picker" :input-el="inputs.InputColor" />
+      <TestInput
+        input-name="Media Upload"
+        :input-el="inputs.InputMediaUpload"
+      />
+      <TestInput
+        input-name="Media Library"
+        :input-el="inputs.InputMediaLibrary"
+      />
+      <TestInput input-name="Date" :input-el="inputs.InputDate" />
       <TestInput
         input-name="Yes / No"
-        :input-el="InputMultipleChoice"
+        :input-el="inputs.InputMultipleChoice"
         :list="['yes', 'no']"
         max-select="1"
         select-letters="yn"
       />
       <TestInput
         input-name="Multiple Choice (Single)"
-        :input-el="InputMultipleChoice"
+        :input-el="inputs.InputMultipleChoice"
         :list="['item 1', 'item 2', 'item 3']"
         max-select="1"
       />
       <TestInput
         input-name="Multiple Choice (Multiple)"
-        :input-el="InputMultipleChoice"
+        :input-el="inputs.InputMultipleChoice"
         :list="['item 1', 'item 2', 'item 3']"
         max-select="100"
       />
       <TestInput
         input-name="Opinion Scale"
-        :input-el="InputRating"
+        :input-el="inputs.InputRating"
         :count-start="0"
         :count-end="10"
         :labels="{
@@ -60,13 +70,13 @@
       />
       <TestInput
         input-name="NPS"
-        :input-el="InputRating"
+        :input-el="inputs.InputRating"
         :count-start="0"
         :count-end="10"
       />
       <TestInput
         input-name="Rating"
-        :input-el="InputRating"
+        :input-el="inputs.InputRating"
         :count-start="1"
         :count-end="5"
         icon="i-carbon-star"
@@ -74,7 +84,7 @@
 
       <TestInput
         input-name="Ranking"
-        :input-el="InputRanking"
+        :input-el="inputs.InputRanking"
         :list="[
           'item 1',
           'item 2',
@@ -88,56 +98,64 @@
 
       <TestInput
         input-name="Radio"
-        :input-el="InputRadio"
+        :input-el="inputs.InputRadio"
         :list="['option 1', 'option 2', 'option 3']"
       />
       <TestInput
         input-name="Radio Button"
-        :input-el="InputRadioButton"
+        :input-el="inputs.InputRadioButton"
         :list="['option 1', 'option 2', 'option 3']"
       />
       <TestInput
         input-name="Select Multi"
-        :input-el="InputSelectMulti"
+        :input-el="inputs.InputSelectMulti"
         :list="['option 1', 'option 2', 'option 3']"
       />
       <TestInput
         input-name="Select Custom"
-        :input-el="InputSelectCustom"
+        :input-el="inputs.InputSelectCustom"
         :list="['option 1', 'option 2', 'option 3']"
       />
       <TestInput
         input-name="Select"
-        :input-el="InputSelect"
+        :input-el="inputs.InputSelect"
         :list="['option 1', 'option 2', 'option 3']"
       />
       <TestInput
         input-name="Toggle"
-        :input-el="InputToggle"
+        :input-el="inputs.InputToggle"
         text-on="Toggle On"
         text-off="Toggle Off"
       />
-      <TestInput input-name="TimeZone" :input-el="InputTimezone" />
-      <TestInput input-name="Price" :input-el="InputPrice" />
-      <TestInput input-name="URL" :input-el="InputUrl" />
-      <TestInput input-name="Email" :input-el="InputEmail" />
-      <TestInput input-name="Number" :input-el="InputNumber" />
-      <TestInput input-name="One Time Code" :input-el="InputOneTimeCode" />
-      <TestInput input-name="Password" :input-el="InputPassword" />
-      <TestInput input-name="Phone" :input-el="InputPhone" />
+      <TestInput input-name="TimeZone" :input-el="inputs.InputTimezone" />
+      <TestInput input-name="Price" :input-el="inputs.InputPrice" />
+      <TestInput input-name="URL" :input-el="inputs.InputUrl" />
+      <TestInput input-name="Email" :input-el="inputs.InputEmail" />
+      <TestInput input-name="Number" :input-el="inputs.InputNumber" />
+      <TestInput
+        input-name="One Time Code"
+        :input-el="inputs.InputOneTimeCode"
+      />
+      <TestInput input-name="Password" :input-el="inputs.InputPassword" />
+      <TestInput input-name="Phone" :input-el="inputs.InputPhone" />
       <TestInput
         input-name="Checkbox"
-        :input-el="InputCheckbox"
+        :input-el="inputs.InputCheckbox"
         text="Checkbox Label Text"
       />
       <TestInput
         input-name="Checkbox Multi"
-        :input-el="InputCheckboxMulti"
+        :input-el="inputs.InputCheckboxMulti"
         :list="['option 1', 'option 2', 'option 3']"
       />
-      <TestInput input-name="Weight" :input-el="InputWeight" min="0" max="6" />
-      <TestInput input-name="Text" :input-el="InputText" />
-      <TestInput input-name="Textarea" :input-el="InputTextarea" />
+      <TestInput
+        input-name="Weight"
+        :input-el="inputs.InputWeight"
+        min="0"
+        max="6"
+      />
+      <TestInput input-name="Text" :input-el="inputs.InputText" />
+      <TestInput input-name="Textarea" :input-el="inputs.InputTextarea" />
     </form>
   </div>
 </template>
@@ -145,37 +163,6 @@
 import { colorStandard, ThemeColor, colors, vue } from "@factor/api"
 import { inputs } from "@factor/ui"
 import TestInput from "./TestInput.vue"
-
-const {
-  InputColor,
-  InputDate,
-  InputRating,
-  InputRanking,
-  InputMultipleChoice,
-  InputWeight,
-  InputText,
-  InputTextarea,
-  InputCheckbox,
-  InputCheckboxMulti,
-  InputUrl,
-  InputEmail,
-  InputNumber,
-  InputOneTimeCode,
-  InputPassword,
-  InputPhone,
-  InputToggle,
-  InputSelect,
-  InputTimezone,
-  InputSelectMulti,
-  InputSelectCustom,
-  InputPrice,
-  InputRadio,
-  InputRadioButton,
-  InputMediaLibrary,
-  InputMediaUpload,
-  InputFont,
-  InputColorScheme,
-} = inputs
 
 const inputSizes = ["base", "lg", "xl", "2xl", "3xl"]
 const selectSize = (c: typeof inputSizes[number]) => {

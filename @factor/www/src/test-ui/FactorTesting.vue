@@ -5,7 +5,7 @@
         {{ item.title }}
       </div>
       <div :id="item.id" class="text-sm font-bold">
-        <span v-if="item.value" class="text-slate-800 break-words min-w-0">{{
+        <span v-if="item.value" class="min-w-0 break-words text-slate-800">{{
           item.value
         }}</span>
         <span v-else class="text-red-500">[not set]</span>
