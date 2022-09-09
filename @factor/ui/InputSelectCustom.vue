@@ -224,7 +224,7 @@ const isSelected = (value?: string): boolean => {
 }
 
 const listItemClass = (item: ListItem, i: number): string => {
-  let out = []
+  let out: string[] = []
 
   if (item.disabled) {
     out.push("opacity-60")

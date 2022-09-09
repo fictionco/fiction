@@ -1,6 +1,12 @@
 <template>
-  <InputSelect :list="list" v-bind="attrs" />
+  <InputSelect v-bind="{ ...$attrs, list }" />
 </template>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
+</script>
+
 <script lang="ts" setup>
 import { vue, UserFont } from "@factor/api"
 
@@ -12,8 +18,6 @@ interface FontItem {
   variants: string[]
   category: string
 }
-
-const attrs = vue.useAttrs()
 
 const list = vue.computed(() => {
   const l = [
@@ -79,7 +83,7 @@ const list = vue.computed(() => {
     { format: "title", name: "Basic" },
     ...l,
     { format: "title", name: "Google Fonts" },
-    ...glist,
+    ...glist.sort(),
   ]
 })
 </script>

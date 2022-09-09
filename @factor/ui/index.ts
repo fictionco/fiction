@@ -70,20 +70,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             slate: {
               25: "#fdfdff",
             },
-            primary: {
-              0: "var(--primary-0, #FFFFFF)",
-              50: "var(--primary-50, #f6f5ff)",
-              100: "var(--primary-100, #eeebff)",
-              200: "var(--primary-200, #d4ccff)",
-              300: "var(--primary-300, #baadff)",
-              400: "var(--primary-400, #8670ff)",
-              500: "var(--primary-500, #5233ff)",
-              600: "var(--primary-600, #4a2ee6)",
-              700: "var(--primary-700, #3e26bf)",
-              800: "var(--primary-800, #1a1452)",
-              900: "var(--primary-900, #28197d)",
-              DEFAULT: "var(--primary-500, #5233ff)",
-            },
+
             theme: {
               DEFAULT: "var(--theme-0, #FFFFFF)",
               0: "var(--theme-0, #FFFFFF)",
@@ -97,6 +84,27 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               700: "var(--theme-700, #334155)",
               800: "var(--theme-800, #1e293b)",
               900: "var(--theme-900, #0f172a)",
+            },
+            action: {
+              main: "var(--action-main, var(--theme-500, #64748b))",
+              dark: "var(--action-dark, var(--action-main, var(--theme-600, #64748b)))",
+              light:
+                "var(--action-light, var(--action-main, var(--theme-400, #64748b)))",
+              contrast: "var(--action-contrast, var(--theme-0, #FFFFFF))",
+            },
+            primary: {
+              0: "var(--primary-0, #FFFFFF)",
+              50: "var(--primary-50, #f6f5ff)",
+              100: "var(--primary-100, #eeebff)",
+              200: "var(--primary-200, #d4ccff)",
+              300: "var(--primary-300, #baadff)",
+              400: "var(--primary-400, #8670ff)",
+              500: "var(--primary-500, #5233ff)",
+              600: "var(--primary-600, #4a2ee6)",
+              700: "var(--primary-700, #3e26bf)",
+              800: "var(--primary-800, #1a1452)",
+              900: "var(--primary-900, #28197d)",
+              DEFAULT: "var(--primary-500, #5233ff)",
             },
             /**
              * Needed to allow for input specific colors to be selectively

@@ -1,6 +1,12 @@
 <template>
-  <InputSelect :list="list" v-bind="attrs" :default-value="currentTimezone" />
+  <InputSelect v-bind="{ ...$attrs, list }" :default-value="currentTimezone" />
 </template>
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
+</script>
+
 <script lang="ts" setup>
 import { vue } from "@factor/api"
 
@@ -10,8 +16,6 @@ interface TimezoneItem {
   offset: string
   name: string
 }
-
-const attrs = vue.useAttrs()
 
 const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
