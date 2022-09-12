@@ -2,7 +2,7 @@
   "name": "@factor/ui",
   "version": "5.5.57",
   "dependencies": {
-    "@factor/api": "5.5.57",
+    "@factor/api": "workspace:5.5.57",
     "@tailwindcss/forms": "^0.5.3",
     "easymde": "^2.17.0",
     "gravatar-url": "^4.0.1",
