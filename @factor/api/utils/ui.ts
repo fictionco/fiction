@@ -41,3 +41,48 @@ export const initializeResetUi = async (
     },
   )
 }
+
+type WindowSize = {
+  width: number
+  height: number
+  breakpoint: Record<"sm" | "md" | "lg" | "xl" | "2xl", boolean>
+}
+export const getWindowSize = (): vue.Ref<WindowSize> => {
+  const windowSize = vue.ref<WindowSize>({
+    height: 0,
+    width: 0,
+    breakpoint: {
+      sm: true,
+      md: false,
+      lg: false,
+      xl: false,
+      "2xl": false,
+    },
+  })
+
+  if (typeof window !== "undefined") {
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+
+        windowSize.value = {
+          width,
+          height,
+          breakpoint: {
+            sm: true,
+            md: width > 640,
+            lg: width > 768,
+            xl: width > 1024,
+            "2xl": width > 1280,
+          },
+        }
+      }
+    })
+
+    resizeObserver.observe(document.body)
+  }
+
+  return windowSize
+}
+
+export const windowSize = getWindowSize()
