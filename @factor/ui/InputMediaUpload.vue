@@ -4,9 +4,9 @@
       <div
         v-for="(item, i) in modelValue"
         :key="i"
-        class="aspect-square h-12 w-12 max-w-[50px] rounded-md bg-cover bg-center"
-        :style="{ backgroundImage: `url(${item})` }"
-      ></div>
+        class="aspect-video h-10 max-w-[50px] rounded-md bg-cover bg-center"
+        :style="{ background: `url(${encodeURI(item)})` }"
+      />
     </div>
     <div v-if="uploading" class="p-12">
       <ElSpinner class="text-theme-200 m-auto h-12 w-12" />

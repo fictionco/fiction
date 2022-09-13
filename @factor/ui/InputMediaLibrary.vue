@@ -4,9 +4,9 @@
       <div
         v-for="(item, i) in modelValue"
         :key="i"
-        class="aspect-square h-10 w-10 max-w-[50px] rounded-md bg-cover bg-center"
-        :style="{ backgroundImage: `url(${item})` }"
-      ></div>
+        class="aspect-video h-10 max-w-[50px] rounded-md bg-cover bg-center"
+        :style="{ background: `url(${encodeURI(item)})` }"
+      />
     </div>
     <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
       <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
