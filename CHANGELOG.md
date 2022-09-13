@@ -1,3 +1,12 @@
+## [5.5.58](https://github.com/FactorJS/factor/compare/v5.5.57...v5.5.58) (2022-09-13)
+
+
+### Features
+
+* window size function ([4bd0dd3](https://github.com/FactorJS/factor/commit/4bd0dd3296740d928a1dde40ff007aec40f52260))
+
+
+
 ## [5.5.57](https://github.com/FactorJS/factor/compare/v5.5.56...v5.5.57) (2022-09-09)
 
 
