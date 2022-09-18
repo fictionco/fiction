@@ -3,24 +3,29 @@ import { vue } from "./libraries"
 import { emitEvent, onEvent } from "./event"
 
 type ResetUiScope = "all" | "inputs" | "iframe"
+type ResetUiDetail = {
+  scope: ResetUiScope
+  cause: string
+}
 /**
  * Emits an event that will reset ui on all dynamic UI components
  */
-export const resetUi = (scope: ResetUiScope = "all"): void => {
-  emitEvent("resetUi", scope)
+export const resetUi = (args?: ResetUiDetail): void => {
+  args = { scope: "all", cause: "unknown", ...args }
+  emitEvent("resetUi", args)
 }
 /**
  * Make a single listener to prevent large numbers of listeners across many looped components
  * Large amount of listeners triggers memory leak warnings, etc.
  */
 let __listener = false
-const __callbacks: { (scope: ResetUiScope): void }[] = []
-export const onResetUi = (cb: (scope: ResetUiScope) => void): void => {
+const __callbacks: { (args: ResetUiDetail): void }[] = []
+export const onResetUi = (cb: (args: ResetUiDetail) => void): void => {
   __callbacks.push(cb)
   if (!__listener) {
     __listener = true
-    onEvent("resetUi", (scope: ResetUiScope) => {
-      __callbacks.forEach((cb) => cb(scope))
+    onEvent("resetUi", (args: ResetUiDetail) => {
+      __callbacks.forEach((cb) => cb(args))
     })
   }
 }
@@ -29,15 +34,17 @@ export const initializeResetUi = async (
   factorRouter: FactorRouter,
 ): Promise<void> => {
   window.addEventListener("keydown", (e: KeyboardEvent) => {
-    if (e.key === "Escape" || e.key == "Tab") resetUi()
+    if (e.key === "Escape" || e.key == "Tab") {
+      resetUi({ scope: "all", cause: "escape" })
+    }
   })
   window.addEventListener("click", () => {
-    resetUi()
+    resetUi({ scope: "all", cause: "windowClick" })
   })
   vue.watch(
     () => factorRouter.router.currentRoute.value.path,
     (r, old) => {
-      if (r != old) resetUi()
+      if (r != old) resetUi({ scope: "all", cause: "routeChange" })
     },
   )
 }

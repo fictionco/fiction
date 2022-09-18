@@ -96,7 +96,8 @@ const btnClass = vue.computed(() => {
     out =
       "border-slate-200 text-slate-500  hover:border-slate-400 focus:ring-primary-100"
   } else if (btn == "theme") {
-    out = "border-input-border text-input-text  bg-input-bg hover:opacity-90"
+    out =
+      "border-theme-300 hover:border-theme-400 text-input-text bg-theme-50 hover:bg-theme-100 "
   } else {
     out =
       "border-slate-300 text-slate-700 bg-white hover:border-slate-400 focus:ring-primary-100"

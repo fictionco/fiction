@@ -14,10 +14,15 @@
 </template>
 <script lang="ts" setup>
 import { vue } from "@factor/api"
-const val = vue.ref()
-defineProps({
+
+const props = defineProps({
   inputName: { type: String, default: "" },
   inputEl: { type: Object as vue.PropType<vue.Component>, default: () => ({}) },
+  modelValue: {
+    type: [Array, Object, String, Number, Boolean],
+    default: undefined,
+  },
 })
+const val = vue.ref(props.modelValue)
 const attrs = vue.useAttrs()
 </script>

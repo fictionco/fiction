@@ -33,7 +33,11 @@
             leave-class="opacity-100 translate-y-0 sm:scale-100"
             leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-75"
           >
-            <div v-if="vis" :class="classes" @click.stop>
+            <div
+              v-if="vis"
+              :class="classes"
+              @click.stop="resetUi({ scope: 'inputs', cause: `modalClick` })"
+            >
               <slot />
             </div>
           </transition>
@@ -43,7 +47,7 @@
   </teleport>
 </template>
 <script lang="ts" setup>
-import { onResetUi } from "@factor/api"
+import { onResetUi, resetUi } from "@factor/api"
 const props = defineProps({
   vis: { type: Boolean, default: false },
   title: { type: String, default: "" },
@@ -56,7 +60,11 @@ const close = (): void => {
   emit("update:vis", false)
   emit("close", true)
 }
-onResetUi(() => close())
+onResetUi(({ scope }) => {
+  if (scope != "inputs") {
+    close()
+  }
+})
 
 const modalClass = [props.modalClass] || ["p-12", "sm:max-w-sm"]
 
@@ -65,11 +73,12 @@ const classes = [
   "rounded-xl",
   "shadow-xl",
   "text-left",
-  "overflow-hidden",
   "bg-white",
   "transform",
   "transition-all",
   "sm:w-full",
+  "my-6",
+  "overflow-hidden",
   ...modalClass,
 ]
 </script>

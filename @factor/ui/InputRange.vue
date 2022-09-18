@@ -1,7 +1,7 @@
 <template>
   <div class="text-input-size my-[1em] flex items-center">
-    <div v-if="modelValue || modelValue === 0" class="mr-[1em]">
-      {{ modelValue }}
+    <div class="mr-[1em] w-[2em] text-right">
+      {{ modelValue ?? "-" }}
     </div>
 
     <input

@@ -8,7 +8,7 @@ import { FactorAws } from "../plugin-aws"
 import { QueryMediaAction, QueryMediaIndex, QuerySaveMedia } from "./queries"
 import { QueryUnsplash } from "./query-unsplash"
 import { mediaTable } from "./tables"
-
+export * from "./utils"
 type FactorMediaSettings = {
   factorUser?: FactorUser
   factorDb?: FactorDb
@@ -28,11 +28,6 @@ export type MediaConfig = {
   meta?: Record<string, any>
   mime?: string
   userId?: string
-  filters: { filter: string; percent: number }[]
-}
-
-export type MediaDisplayObject = MediaConfig & {
-  filters?: { filter: string; percent: number }[]
 }
 
 export class FactorMedia extends FactorPlugin<FactorMediaSettings> {

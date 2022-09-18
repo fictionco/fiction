@@ -1,9 +1,9 @@
 <template>
   <div>
-    <InputMediaEditItems
+    <InputMediaEdit
       :model-value="modelValue"
       @update:model-value="updateValue($event)"
-    ></InputMediaEditItems>
+    ></InputMediaEdit>
     <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
       <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
       <span>Add Media</span>
@@ -51,7 +51,7 @@ import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"
 import ElSpinner from "./ElSpinner.vue"
 import InputMediaUpload from "./InputMediaUpload.vue"
-import InputMediaEditItems from "./InputMediaEditItems.vue"
+import InputMediaEdit from "./InputMediaEdit.vue"
 defineProps({
   modelValue: {
     type: Array as vue.PropType<MediaDisplayObject[]>,

@@ -33,4 +33,6 @@ export const inputs = {
   InputFont: def(() => import("./InputFont.vue")),
   InputColorScheme: def(() => import("./InputColorScheme.vue")),
   InputRange: def(() => import("./InputRange.vue")),
+  InputDropDown: def(() => import("./InputDropDown.vue")),
+  InputMediaEdit: def(() => import("./InputMediaEdit.vue")),
 }

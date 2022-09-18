@@ -22,13 +22,6 @@
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-[50em] rounded-md">
-      <TestInput input-name="Range" :input-el="inputs.InputRange" />
-      <TestInput
-        input-name="Color Scheme"
-        :input-el="inputs.InputColorScheme"
-      />
-      <TestInput input-name="Font" :input-el="inputs.InputFont" />
-      <TestInput input-name="Color Picker" :input-el="inputs.InputColor" />
       <TestInput
         input-name="Media Upload"
         :input-el="inputs.InputMediaUpload"
@@ -39,6 +32,31 @@
         :input-el="inputs.InputMediaLibrary"
         :service="service"
       />
+      <TestInput
+        input-name="Media Edit"
+        :input-el="inputs.InputMediaEdit"
+        :model-value="[
+          {
+            url: 'https://images.unsplash.com/photo-1502691876148-a84978e59af8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80',
+          },
+          {
+            url: 'https://images.unsplash.com/flagged/photo-1579268351234-073f85929562?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80',
+          },
+        ]"
+      />
+      <TestInput
+        input-name="DropDown"
+        :input-el="inputs.InputDropDown"
+        :list="['apple', 'orange', 'pear']"
+      />
+      <TestInput input-name="Range" :input-el="inputs.InputRange" />
+      <TestInput
+        input-name="Color Scheme"
+        :input-el="inputs.InputColorScheme"
+      />
+      <TestInput input-name="Font" :input-el="inputs.InputFont" />
+      <TestInput input-name="Color Picker" :input-el="inputs.InputColor" />
+
       <TestInput input-name="Date" :input-el="inputs.InputDate" />
       <TestInput
         input-name="Yes / No"
