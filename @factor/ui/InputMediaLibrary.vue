@@ -1,13 +1,9 @@
 <template>
   <div>
-    <div v-if="modelValue" class="mb-2 flex space-x-2">
-      <div
-        v-for="(item, i) in modelValue"
-        :key="i"
-        class="aspect-video h-10 max-w-[50px] rounded-md bg-cover bg-center"
-        :style="{ background: `url(${encodeURI(item)})` }"
-      />
-    </div>
+    <InputMediaEditItems
+      :model-value="modelValue"
+      @update:model-value="updateValue($event)"
+    ></InputMediaEditItems>
     <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
       <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
       <span>Add Media</span>
@@ -50,27 +46,31 @@
 </template>
 <script lang="ts" setup>
 // @unocss-include
-import { vue, toLabel, FactorMedia } from "@factor/api"
+import { vue, toLabel, FactorMedia, MediaDisplayObject } from "@factor/api"
 import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"
 import ElSpinner from "./ElSpinner.vue"
 import InputMediaUpload from "./InputMediaUpload.vue"
+import InputMediaEditItems from "./InputMediaEditItems.vue"
 defineProps({
-  modelValue: { type: Array as vue.PropType<string[]>, default: () => [] },
+  modelValue: {
+    type: Array as vue.PropType<MediaDisplayObject[]>,
+    default: () => [],
+  },
   service: {
     type: Object as vue.PropType<{ factorMedia?: FactorMedia }>,
     default: () => {},
   },
 })
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string[]): void
+  (event: "update:modelValue", payload: MediaDisplayObject[]): void
 }>()
 const vis = vue.ref()
 const navItems = ["upload", "stockPhotos", "library"]
 const navItemActive = vue.ref(navItems[0])
 const uploading = vue.ref(false)
 
-const updateValue = async (value: string[]): Promise<void> => {
+const updateValue = async (value: MediaDisplayObject[]): Promise<void> => {
   emit("update:modelValue", value)
   vis.value = false
 }

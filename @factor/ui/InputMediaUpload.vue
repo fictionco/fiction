@@ -1,13 +1,10 @@
 <template>
   <div class="media-body" @dragover.prevent @drop.prevent>
-    <div v-if="modelValue" class="flex space-x-2">
-      <div
-        v-for="(item, i) in modelValue"
-        :key="i"
-        class="aspect-video h-10 max-w-[50px] rounded-md bg-cover bg-center"
-        :style="{ background: `url(${encodeURI(item)})` }"
-      />
-    </div>
+    <InputMediaEditItems
+      :model-value="modelValue"
+      @update:model-value="updateValue($event)"
+    ></InputMediaEditItems>
+
     <div v-if="uploading" class="p-12">
       <ElSpinner class="text-theme-200 m-auto h-12 w-12" />
     </div>
@@ -48,12 +45,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { vue, FactorMedia, log, objectId } from "@factor/api"
+import {
+  vue,
+  FactorMedia,
+  MediaDisplayObject,
+  log,
+  objectId,
+} from "@factor/api"
 import ElSpinner from "./ElSpinner.vue"
+import InputMediaEditItems from "./InputMediaEditItems.vue"
 // uploadId is to allow label click without conflict with others on page
 const uploadId = `file-upload-${objectId()}`
 const props = defineProps({
-  modelValue: { type: Array as vue.PropType<string[]>, default: () => [] },
+  modelValue: {
+    type: Array as vue.PropType<MediaDisplayObject[]>,
+    default: () => [],
+  },
   service: {
     type: Object as vue.PropType<{ factorMedia?: FactorMedia }>,
     default: () => {},
@@ -61,10 +68,14 @@ const props = defineProps({
   allowedFile: { type: String, default: "PDF, PNG, JPG, GIF up to 10MB" },
 })
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string[]): void
+  (event: "update:modelValue", payload: MediaDisplayObject[]): void
 }>()
 const draggingOver = vue.ref()
 const uploading = vue.ref(false)
+
+const updateValue = async (value: MediaDisplayObject[]): Promise<void> => {
+  emit("update:modelValue", value)
+}
 
 const uploadFiles = async (files?: FileList | null) => {
   const factorMedia = props.service.factorMedia
@@ -82,11 +93,10 @@ const uploadFiles = async (files?: FileList | null) => {
   log.info("mediaUpload", `upload result`, { data: result })
 
   const urls = result
-    .filter((_) => _.status == "success")
-    .map((r) => r.data?.url)
-    .filter(Boolean) as string[]
+    .filter((_) => _.status == "success" && _.data)
+    .map((r) => r.data) as MediaDisplayObject[]
 
-  emit("update:modelValue", urls)
+  await updateValue(urls)
   uploading.value = false
 }
 

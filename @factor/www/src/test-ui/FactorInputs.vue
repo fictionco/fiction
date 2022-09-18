@@ -32,10 +32,12 @@
       <TestInput
         input-name="Media Upload"
         :input-el="inputs.InputMediaUpload"
+        :service="service"
       />
       <TestInput
         input-name="Media Library"
         :input-el="inputs.InputMediaLibrary"
+        :service="service"
       />
       <TestInput input-name="Date" :input-el="inputs.InputDate" />
       <TestInput
@@ -162,8 +164,9 @@
 <script lang="ts" setup>
 import { colorStandard, ThemeColor, colors, vue } from "@factor/api"
 import { inputs } from "@factor/ui"
+import { useFactorService } from "../inject"
 import TestInput from "./TestInput.vue"
-
+const service = useFactorService()
 const inputSizes = ["base", "lg", "xl", "2xl", "3xl"]
 const selectSize = (c: typeof inputSizes[number]) => {
   inputSizing.value = c

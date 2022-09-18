@@ -28,6 +28,11 @@ export type MediaConfig = {
   meta?: Record<string, any>
   mime?: string
   userId?: string
+  filters: { filter: string; percent: number }[]
+}
+
+export type MediaDisplayObject = MediaConfig & {
+  filters?: { filter: string; percent: number }[]
 }
 
 export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
