@@ -1,9 +1,9 @@
 {
   "name": "@factor/plugin-highlight-code",
   "description": "Add a syntax highlighting component to your Factor app.",
-  "version": "5.5.59",
+  "version": "5.5.60",
   "dependencies": {
-    "@factor/api": "5.5.59",
+    "@factor/api": "5.5.60",
     "highlight.js": "^11.6.0"
   },
   "license": "MIT",

@@ -1,3 +1,12 @@
+## [5.5.60](https://github.com/FactorJS/factor/compare/v5.5.59...v5.5.60) (2022-09-18)
+
+
+### Features
+
+* media handling ([bf3495e](https://github.com/FactorJS/factor/commit/bf3495e7bed3547840c1768342113dec70a69572))
+
+
+
 ## [5.5.59](https://github.com/FactorJS/factor/compare/v5.5.58...v5.5.59) (2022-09-18)
 
 
