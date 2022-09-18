@@ -1,11 +1,11 @@
 {
   "name": "@factor/supereon",
-  "version": "5.5.58",
+  "version": "5.5.59",
   "dependencies": {
-    "@factor/api": "workspace:5.5.58",
-    "@factor/plugin-blog-engine": "workspace:5.5.58",
-    "@factor/plugin-highlight-code": "workspace:5.5.58",
-    "@factor/ui": "workspace:5.5.58",
+    "@factor/api": "5.5.59",
+    "@factor/plugin-blog-engine": "5.5.59",
+    "@factor/plugin-highlight-code": "5.5.59",
+    "@factor/ui": "5.5.59",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
   },
