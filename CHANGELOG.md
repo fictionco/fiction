@@ -1,3 +1,13 @@
+## [5.5.61](https://github.com/FactorJS/factor/compare/v5.5.60...v5.5.61) (2022-09-19)
+
+
+### Features
+
+* image editing ([1ae5493](https://github.com/FactorJS/factor/commit/1ae5493a0a6714bf6dadf6094c3351dfc443ea2a))
+* InputGradient ([c838c1b](https://github.com/FactorJS/factor/commit/c838c1b1db5ce9745733471c8250dff14f72cf6a))
+
+
+
 ## [5.5.60](https://github.com/FactorJS/factor/compare/v5.5.59...v5.5.60) (2022-09-18)
 
 
