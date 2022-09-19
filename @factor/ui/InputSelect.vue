@@ -2,7 +2,9 @@
   <select
     :value="modelValue"
     :class="classes"
-    @input="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
+    @input="
+      emit('update:modelValue', ($event.target as HTMLSelectElement).value)
+    "
   >
     <option disabled value>{{ attrs.placeholder || "Select" }}</option>
     <template v-for="s in parsedList" :key="s.value">
@@ -20,7 +22,7 @@ const props = defineProps({
   defaultValue: { type: [Number, String, Boolean], default: "" },
   modelValue: { type: [Number, String, Boolean], default: "" },
   list: {
-    type: Array as vue.PropType<(ListItem | "divider")[]>,
+    type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
     default: () => [],
   },
   suffix: { type: String, default: "" },

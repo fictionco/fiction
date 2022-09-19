@@ -41,54 +41,69 @@
             filter: editingItem.filters?.map((_) => _.value).join(' '),
           }"
         />
-        <div class="mx-auto max-w-sm p-4">
-          <div class="mb-2 flex justify-center">
-            <InputDropDown
-              default-text="Add Image Filter"
-              :list="
-                imageFilters.filter(
-                  (filt) => !filters.some((f) => f.filter == filt),
-                )
-              "
-              direction="up"
-              @update:model-value="
-                updateFilters({ filter: $event as ImageFilter })
-              "
-            ></InputDropDown>
-          </div>
-          <div
-            v-for="(f, i) in filters"
-            :key="i"
-            class="flex items-center justify-between space-x-2"
-          >
-            <InputRange
-              :model-value="f.percent"
-              @update:model-value="
-                updateFilters({ filter: f.filter, percent: $event })
-              "
-            ></InputRange>
+        <div class=" ">
+          <div class="mx-auto max-w-sm p-4">
+            <div class="border-theme-300 mt-4 rounded-md border p-4">
+              <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
+                Filters
+              </div>
+              <div class="mb-2 text-sm">
+                <InputDropDown
+                  default-text="Add Image Filter"
+                  :list="
+                    imageFilters.filter(
+                      (filt) => !filters.some((f) => f.filter == filt),
+                    )
+                  "
+                  direction="up"
+                  @update:model-value="
+                    updateFilters({ filter: $event as ImageFilter })
+                  "
+                ></InputDropDown>
+              </div>
 
-            <div class="flex grow justify-between">
-              <span
-                class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
+              <div
+                v-for="(f, i) in filters"
+                :key="i"
+                class="flex items-center justify-between space-x-2"
               >
-                {{ f.filter }}</span
-              >
-              <span
-                class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                @click.stop="removeFilter(f)"
-              >
-                Remove
-              </span>
+                <InputRange
+                  :model-value="f.percent"
+                  @update:model-value="
+                    updateFilters({ filter: f.filter, percent: $event })
+                  "
+                ></InputRange>
+
+                <div class="flex grow justify-between">
+                  <span
+                    class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
+                  >
+                    {{ f.filter }}</span
+                  >
+                  <span
+                    class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                    @click.stop="removeFilter(f)"
+                  >
+                    Remove
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="mt-4 text-center">
-            <ElButton btn="primary" size="sm" @click="vis = false"
-              >Done Editing</ElButton
-            >
+            <div class="border-theme-300 mt-4 rounded-md border p-4">
+              <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
+                Image Overlay
+              </div>
+              <InputOverlay></InputOverlay>
+            </div>
+            <div class="mt-4 text-center">
+              <ElButton btn="theme" size="sm" @click="vis = false"
+                >Done Editing</ElButton
+              >
+            </div>
           </div>
         </div>
       </div>
+      <div v-else class="p-12 text-center">No Editing Item</div>
     </ElModal>
   </div>
 </template>
@@ -105,6 +120,8 @@ import {
 } from "@factor/api"
 import ElModal from "./ElModal.vue"
 import InputDropDown from "./InputDropDown.vue"
+import InputOverlay from "./InputOverlay.vue"
+import InputCheckbox from "./InputCheckbox.vue"
 import InputRange from "./InputRange.vue"
 import ElButton from "./ElButton.vue"
 const vis = vue.ref()
@@ -135,7 +152,7 @@ const updateValue = async (value: MediaDisplayObject[]): Promise<void> => {
 }
 
 const editingItem = vue.computed(() => {
-  if (!editingIndex.value) return
+  if (typeof editingIndex.value == "undefined") return
   return props.modelValue[editingIndex.value]
 })
 
@@ -158,7 +175,7 @@ const updateFilters = async (f: ImageFilterConfig) => {
   })
 
   const value = props.modelValue
-  if (editingIndex.value) {
+  if (typeof editingIndex.value != "undefined") {
     value[editingIndex.value].filters = newFilters
     await updateValue(value)
   }

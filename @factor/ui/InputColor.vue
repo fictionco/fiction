@@ -13,17 +13,17 @@
           :id="inputId"
           type="color"
           class="h-[1.3em] w-[1.3em] cursor-pointer opacity-0"
-          :value="modelValue || '#dfdfdf'"
+          :value="modelValue || '#edf1f3'"
           @input="handleEmit($event.target)"
         />
       </span>
     </div>
 
     <div
-      class="inline-flex items-center space-x-2 pl-[.2em] pr-[.4em] text-[.9em]"
+      class="inline-flex items-center space-x-2 pr-[.7em] font-mono text-[.8em]"
     >
       <span class="text-theme-500 hover:text-theme-500">
-        {{ modelValue || "Select Color" }}
+        {{ modelValue || "Select" }}
       </span>
     </div>
   </label>
@@ -42,7 +42,7 @@ const emit = defineEmits<{
 
 const handleEmit = (target: EventTarget | null): void => {
   const el = target as HTMLInputElement
-  emit("update:modelValue", el.value != "#dfdfdf" ? el.value : "")
+  emit("update:modelValue", el.value != "#edf1f3" ? el.value : "")
 }
 
 const classes = [

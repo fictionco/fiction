@@ -78,8 +78,8 @@ const selectValue = (item: ListItem): void => {
 const classes = [
   "form-checkbox",
   "mr-[.8em]",
-  "h-[.9em]",
-  "w-[.9em]",
+  "h-[1.1em]",
+  "w-[1.1em]",
   "appearance-none",
   "rounded-[.25em]",
   "border",

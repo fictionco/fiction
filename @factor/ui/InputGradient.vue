@@ -1,54 +1,58 @@
 <template>
-  <div class="gradient-bar">
+  <div class="max-w-input">
     <div
-      class="bar h-4 w-full rounded-lg"
+      class="bar bg-theme-100 ring-theme-200 h-[2.5em] w-full rounded-t-[.5em] ring-1 ring-inset"
       :style="{ 'background-image': gradientCss }"
     ></div>
-  </div>
-  <div class="flex justify-between">
-    <div ref="colorEl" class="color-wrap flex flex-wrap items-center">
+
+    <div class="border-theme-200 rounded-b-[.5em] border-x border-b">
       <div
-        v-for="(c, i) in colorList"
-        :key="`${i}-${renderKey}`"
-        class="color-item my-1 mr-2 flex"
-        :data-color="c.color"
-        draggable="true"
+        ref="colorEl"
+        class="color-wrap flex flex-wrap items-center p-[.5em]"
       >
-        <InputColor
-          :model-value="c.color"
-          @update:model-value="updateColor(i, $event)"
-        />
-        <div class="flex flex-col">
-          <div
-            class="text-theme-400 hover:text-theme-500 cursor-move items-center p-0.5"
-          >
-            <div class="i-carbon-draggable text-xs"></div>
-          </div>
-          <div
-            class="text-theme-400 hover:text-theme-500 cursor-pointer items-center p-0.5"
-            @click.stop="removeColor(i)"
-          >
-            <div class="i-carbon-trash-can text-xs"></div>
+        <div
+          v-for="(c, i) in colorList"
+          :key="`${i}-${renderKey}`"
+          class="color-item my-1 mr-2 flex"
+          :data-color="c.color"
+          draggable="true"
+        >
+          <InputColor
+            :model-value="c.color"
+            @update:model-value="updateColor(i, $event)"
+          />
+          <div class="flex flex-col">
+            <div
+              class="text-theme-400 hover:text-theme-500 cursor-move items-center p-0.5"
+            >
+              <div class="i-carbon-draggable text-xs"></div>
+            </div>
+            <div
+              class="text-theme-400 hover:text-theme-500 cursor-pointer items-center p-0.5"
+              @click.stop="removeColor(i)"
+            >
+              <div class="i-carbon-trash-can text-xs"></div>
+            </div>
           </div>
         </div>
+        <div
+          class="text-theme-500 hover:text-theme-600 flex cursor-pointer items-center p-[.3em] text-xs"
+          @click="addColor()"
+        >
+          <div class="i-carbon-add"></div>
+          Add Color
+        </div>
       </div>
-      <div
-        class="text-theme-500 hover:text-theme-600 flex cursor-pointer items-center text-xs"
-        @click="addColor()"
-      >
-        <div class="i-carbon-add"></div>
-        Add Color
+      <div class="flex shrink-0 items-center space-x-2 p-[.5em]">
+        <InputRange
+          prefix="Angle"
+          min="0"
+          max="360"
+          step="1"
+          :model-value="modelValue?.angle"
+          @update:model-value="updateField('angle', $event)"
+        ></InputRange>
       </div>
-    </div>
-    <div class="flex shrink-0 items-center space-x-2">
-      <InputRange
-        prefix="Angle"
-        min="0"
-        max="360"
-        step="1"
-        :model-value="modelValue?.angle"
-        @update:model-value="updateField('angle', $event)"
-      ></InputRange>
     </div>
   </div>
 </template>
@@ -103,7 +107,7 @@ const getGradientValue = (
 }
 
 const gradientCss = vue.computed(() => {
-  return getGradientValue(props.modelValue, { noAngle: true })
+  return getGradientValue(props.modelValue)
 })
 
 const updateValue = async (value: GradientSetting): Promise<void> => {

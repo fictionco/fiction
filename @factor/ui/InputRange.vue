@@ -1,5 +1,5 @@
 <template>
-  <div class="text-input-size my-[1em] flex items-center">
+  <div class="text-input-size max-w-input flex items-center">
     <span
       class="bg-theme-100 text-theme-600 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[.8em] font-medium"
     >

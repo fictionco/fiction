@@ -36,4 +36,5 @@ export const inputs = {
   InputDropDown: def(() => import("./InputDropDown.vue")),
   InputMediaEdit: def(() => import("./InputMediaEdit.vue")),
   InputGradient: def(() => import("./InputGradient.vue")),
+  InputOverlay: def(() => import("./InputOverlay.vue")),
 }
