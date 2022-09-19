@@ -1,8 +1,14 @@
 <template>
   <div class="text-input-size my-[1em] flex items-center">
-    <div class="mr-[1em] w-[2em] text-right">
-      {{ modelValue ?? "-" }}
-    </div>
+    <span
+      class="bg-theme-100 text-theme-600 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[.8em] font-medium"
+    >
+      <span v-if="prefix" class="text-theme-400">{{ prefix }}</span>
+      <span v-if="typeof modelValue !== 'undefined'">
+        {{ modelValue }}
+      </span>
+      <span v-else class="i-carbon-circle-dash text-sm"></span>
+    </span>
 
     <input
       :class="`w-full h-[.5em] bg-theme-200 rounded-lg appearance-none cursor-pointer text-input-size`"
@@ -22,6 +28,7 @@ const props = defineProps({
   min: { type: [String, Number], default: 0 },
   max: { type: [String, Number], default: undefined },
   step: { type: [String, Number], default: 1 },
+  prefix: { type: String, default: "" },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload?: number): void

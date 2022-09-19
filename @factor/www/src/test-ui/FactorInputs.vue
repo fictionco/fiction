@@ -22,6 +22,7 @@
       </div>
     </div>
     <form class="input-area mx-auto my-12 max-w-[50em] rounded-md">
+      <TestInput input-name="Gradient" :input-el="inputs.InputGradient" />
       <TestInput
         input-name="Media Upload"
         :input-el="inputs.InputMediaUpload"

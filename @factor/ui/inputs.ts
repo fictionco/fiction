@@ -35,4 +35,5 @@ export const inputs = {
   InputRange: def(() => import("./InputRange.vue")),
   InputDropDown: def(() => import("./InputDropDown.vue")),
   InputMediaEdit: def(() => import("./InputMediaEdit.vue")),
+  InputGradient: def(() => import("./InputGradient.vue")),
 }
