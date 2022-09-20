@@ -8,7 +8,7 @@ import { FactorAws } from "../plugin-aws"
 import { QueryMediaAction, QueryMediaIndex, QuerySaveMedia } from "./queries"
 import { QueryUnsplash } from "./query-unsplash"
 import { mediaTable } from "./tables"
-export * from "./utils"
+
 type FactorMediaSettings = {
   factorUser?: FactorUser
   factorDb?: FactorDb

@@ -33,59 +33,70 @@
         </div>
       </div>
     </div>
-    <ElModal v-model:vis="vis" modal-class="max-w-xl">
-      <div v-if="editingItem">
-        <img
-          :src="editingItem.url"
-          :style="{
-            filter: editingItem.filters?.map((_) => _.value).join(' '),
-          }"
-        />
-        <div class=" ">
-          <div class="mx-auto max-w-sm p-4">
-            <div class="border-theme-300 mt-4 rounded-md border p-4">
+    <ElModal v-model:vis="vis" modal-class="max-w-3xl">
+      <div v-if="editingItem" class="grid-cols-12 md:grid">
+        <div class="relative col-span-6">
+          <img
+            class="z-0 h-full w-full object-cover"
+            :src="editingItem.url"
+            :style="{
+              filter: editingItem.filters?.map((_) => _.value).join(' '),
+            }"
+          />
+          <div class="absolute inset-0 z-10" :style="overlayStyle"></div>
+        </div>
+        <div class="col-span-6 max-h-96 min-h-0 overflow-scroll">
+          <div class="mx-auto max-w-sm space-y-4 p-4 md:p-6">
+            <div class="flex items-center justify-between">
+              <div class="text-theme-300 font-semibold">Edit Image</div>
+              <ElButton btn="theme" size="xs" @click="vis = false"
+                >Close</ElButton
+              >
+            </div>
+            <div class="border-theme-300 rounded-md border p-4">
               <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
                 Filters
               </div>
-              <div class="mb-2 text-sm">
-                <InputDropDown
-                  default-text="Add Image Filter"
-                  :list="
-                    imageFilters.filter(
-                      (filt) => !filters.some((f) => f.filter == filt),
-                    )
-                  "
-                  direction="up"
-                  @update:model-value="
-                    updateFilters({ filter: $event as ImageFilter })
-                  "
-                ></InputDropDown>
-              </div>
+              <div class="space-y-4">
+                <div class="mb-2 text-sm">
+                  <InputDropDown
+                    default-text="Add Image Filter"
+                    :list="
+                      imageFilters.filter(
+                        (filt) => !filters.some((f) => f.filter == filt),
+                      )
+                    "
+                    @update:model-value="
+                      updateFilters({ filter: $event as ImageFilter })
+                    "
+                  ></InputDropDown>
+                </div>
 
-              <div
-                v-for="(f, i) in filters"
-                :key="i"
-                class="flex items-center justify-between space-x-2"
-              >
-                <InputRange
-                  :model-value="f.percent"
-                  @update:model-value="
-                    updateFilters({ filter: f.filter, percent: $event })
-                  "
-                ></InputRange>
+                <div
+                  v-for="(f, i) in filters"
+                  :key="i"
+                  class="flex items-center justify-between space-x-2"
+                >
+                  <InputRange
+                    :model-value="f.percent"
+                    @update:model-value="
+                      updateFilters({ filter: f.filter, percent: $event })
+                    "
+                  ></InputRange>
 
-                <div class="flex grow justify-between">
-                  <span
-                    class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
-                  >
-                    {{ f.filter }}</span
-                  >
-                  <span
-                    class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                    @click.stop="removeFilter(f)"
-                  >
-                    Remove
-                  </span>
+                  <div class="flex grow justify-between">
+                    <span
+                      class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
+                    >
+                      {{ f.filter }}</span
+                    >
+                    <span
+                      class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                      @click.stop="removeFilter(f)"
+                    >
+                      <div class="i-carbon-trash-can"></div>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -93,12 +104,10 @@
               <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
                 Image Overlay
               </div>
-              <InputOverlay></InputOverlay>
-            </div>
-            <div class="mt-4 text-center">
-              <ElButton btn="theme" size="sm" @click="vis = false"
-                >Done Editing</ElButton
-              >
+              <InputOverlay
+                :model-value="overlay"
+                @update:model-value="updateField('overlay', $event)"
+              ></InputOverlay>
             </div>
           </div>
         </div>
@@ -109,19 +118,19 @@
 </template>
 <script lang="ts" setup>
 // @unocss-include
+import { vue, FactorMedia } from "@factor/api"
 import {
-  vue,
-  FactorMedia,
   MediaDisplayObject,
   getImageFilter,
   imageFilters,
   ImageFilter,
   ImageFilterConfig,
-} from "@factor/api"
+  OverlaySetting,
+  getGradientCss,
+} from "./utils"
 import ElModal from "./ElModal.vue"
 import InputDropDown from "./InputDropDown.vue"
 import InputOverlay from "./InputOverlay.vue"
-import InputCheckbox from "./InputCheckbox.vue"
 import InputRange from "./InputRange.vue"
 import ElButton from "./ElButton.vue"
 const vis = vue.ref()
@@ -160,6 +169,29 @@ const filters = vue.computed<ImageFilterConfig[]>(() => {
   return editingItem.value?.filters || []
 })
 
+const overlay = vue.computed<OverlaySetting | undefined>(() => {
+  return editingItem.value?.overlay
+})
+
+const overlayStyle = vue.computed(() => {
+  const out: vue.StyleValue = {}
+  const ov = overlay.value
+
+  if (ov?.gradient?.stops?.length) {
+    out.opacity = (ov.opacity ?? 30) / 100
+
+    if (ov.gradient) {
+      out["background-image"] = getGradientCss(ov.gradient)
+    }
+
+    if (ov.blendMode) {
+      out.mixBlendMode = ov.blendMode as vue.CSSProperties["mixBlendMode"]
+    }
+  }
+
+  return out
+})
+
 const updateFilters = async (f: ImageFilterConfig) => {
   const filtersValue = filters.value
 
@@ -181,9 +213,15 @@ const updateFilters = async (f: ImageFilterConfig) => {
   }
 }
 
-const filterStyle = vue.computed(() => {
-  return filtersFull.value.map((f) => f.value).join(" ")
-})
+const updateField = async (field: string, value: unknown): Promise<void> => {
+  const v = props.modelValue
+  if (typeof editingIndex.value != "undefined") {
+    const existingValue = v[editingIndex.value]
+    const newValue = { ...existingValue, [field]: value }
+    v[editingIndex.value] = newValue
+    await updateValue(v)
+  }
+}
 
 const removeFilter = async (f: { filter: ImageFilter; percent?: number }) => {
   const filtersValue = filters.value

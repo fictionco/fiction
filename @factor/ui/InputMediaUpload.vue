@@ -45,13 +45,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {
-  vue,
-  FactorMedia,
-  MediaDisplayObject,
-  log,
-  objectId,
-} from "@factor/api"
+import { vue, FactorMedia, log, objectId } from "@factor/api"
+import { MediaDisplayObject } from "./utils"
 import ElSpinner from "./ElSpinner.vue"
 import InputMediaEdit from "./InputMediaEdit.vue"
 // uploadId is to allow label click without conflict with others on page

@@ -61,6 +61,7 @@
 import { vue, DraggableList } from "@factor/api"
 import InputColor from "./InputColor.vue"
 import InputRange from "./InputRange.vue"
+import { getGradientCss } from "./utils"
 const colorEl = vue.ref<HTMLElement>()
 
 /**
@@ -86,32 +87,12 @@ const emit = defineEmits<{
   (event: "update:modelValue", payload: GradientSetting): void
 }>()
 
-const getGradientValue = (
-  value?: GradientSetting,
-  options?: { noAngle?: boolean },
-): string => {
-  const { noAngle } = options || {}
-  if (!value?.stops) return ""
-
-  const st = value.stops.map((i) => i.color).filter(Boolean)
-
-  // to force render if only one stop
-  if (st.length == 1) {
-    st.push(st[0])
-  }
-
-  const li = st.join(", ")
-
-  const angle = noAngle || !value.angle ? 90 : value.angle
-  return li ? `linear-gradient(${angle}deg, ${li})` : ""
-}
-
 const gradientCss = vue.computed(() => {
-  return getGradientValue(props.modelValue)
+  return getGradientCss(props.modelValue)
 })
 
 const updateValue = async (value: GradientSetting): Promise<void> => {
-  value.css = getGradientValue(value)
+  value.css = getGradientCss(value)
   emit("update:modelValue", value)
 }
 

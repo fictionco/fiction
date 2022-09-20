@@ -52,15 +52,15 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
           },
           fontSize: {
             "input-size": [
-              "var(--input-size)",
+              "var(--input-size, .875rem)",
               {
-                lineHeight: "calc(var(--input-size) * 1.4)",
+                lineHeight: "calc(var(--input-size, .875rem) * 1.4)",
               },
             ],
             "input-label-size": [
-              "var(--input-label-size, .875rem)",
+              "var(--input-label-size, --input-size)",
               {
-                lineHeight: "calc(var(--input-label-size) * 1.4)",
+                lineHeight: "calc(var(--input-label-size, --input-size) * 1.4)",
               },
             ],
           },

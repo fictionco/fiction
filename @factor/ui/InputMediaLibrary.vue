@@ -46,7 +46,8 @@
 </template>
 <script lang="ts" setup>
 // @unocss-include
-import { vue, toLabel, FactorMedia, MediaDisplayObject } from "@factor/api"
+import { vue, toLabel, FactorMedia } from "@factor/api"
+import { MediaDisplayObject } from "./utils"
 import ElModal from "./ElModal.vue"
 import ElButton from "./ElButton.vue"
 import ElSpinner from "./ElSpinner.vue"

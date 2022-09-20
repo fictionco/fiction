@@ -105,7 +105,7 @@ const btnClass = vue.computed(() => {
 
   let sizeClasses = "px-2.5 py-1.5 text-sm"
   if (btn == "theme") {
-    sizeClasses = "px-input-x py-input-y text-input-size"
+    sizeClasses = "px-[1em] py-[.35em] text-input-size"
   } else if (props.size == "md") {
     sizeClasses = "px-3 py-1.5 text-base"
   } else if (props.size == "sm") {
