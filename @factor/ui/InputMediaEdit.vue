@@ -5,19 +5,10 @@
       :key="i"
       class="flex items-center space-x-1"
     >
-      <div
+      <ElRichImage
+        :media="item"
         class="relative aspect-video h-12 max-w-[60px] overflow-hidden rounded-md shadow ring-1 ring-black/10"
-      >
-        <div class="absolute inset-0">
-          <img
-            class="h-full w-full object-cover"
-            :src="encodeURI(item.url)"
-            :style="{
-              filter: item.filters?.map((_) => _.value).join(' '),
-            }"
-          />
-        </div>
-      </div>
+      ></ElRichImage>
       <div class="flex flex-col">
         <div
           class="flex cursor-pointer items-center rounded-md p-1 hover:bg-slate-100"
@@ -35,16 +26,7 @@
     </div>
     <ElModal v-model:vis="vis" modal-class="max-w-3xl">
       <div v-if="editingItem" class="grid-cols-12 md:grid">
-        <div class="relative col-span-6">
-          <img
-            class="z-0 h-full w-full object-cover"
-            :src="editingItem.url"
-            :style="{
-              filter: editingItem.filters?.map((_) => _.value).join(' '),
-            }"
-          />
-          <div class="absolute inset-0 z-10" :style="overlayStyle"></div>
-        </div>
+        <ElRichImage :media="editingItem" class="col-span-6"></ElRichImage>
         <div class="col-span-6 max-h-96 min-h-0 overflow-scroll">
           <div class="mx-auto max-w-sm space-y-4 p-4 md:p-6">
             <div class="flex items-center justify-between">
@@ -133,6 +115,7 @@ import InputDropDown from "./InputDropDown.vue"
 import InputOverlay from "./InputOverlay.vue"
 import InputRange from "./InputRange.vue"
 import ElButton from "./ElButton.vue"
+import ElRichImage from "./ElRichImage.vue"
 const vis = vue.ref()
 const editingIndex = vue.ref<number | undefined>()
 
