@@ -1,3 +1,17 @@
+## [5.5.62](https://github.com/FactorJS/factor/compare/v5.5.61...v5.5.62) (2022-09-20)
+
+
+### Bug Fixes
+
+* image overlay settings ([c61f31d](https://github.com/FactorJS/factor/commit/c61f31dc6f839303bc7288ef73f78d27732733b5))
+
+
+### Features
+
+* rich image ([f0b78a5](https://github.com/FactorJS/factor/commit/f0b78a5a785ef14706dbc81823181ccc749c5ec3))
+
+
+
 ## [5.5.61](https://github.com/FactorJS/factor/compare/v5.5.60...v5.5.61) (2022-09-19)
 
 
