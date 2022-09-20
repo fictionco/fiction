@@ -40,9 +40,9 @@ const props = defineProps({
 
 const blendModes = [
   "normal",
+  "overlay",
   "multiply",
   "screen",
-  "overlay",
   "darken",
   "lighten",
   "color-dodge",

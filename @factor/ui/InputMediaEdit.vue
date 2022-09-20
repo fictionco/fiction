@@ -26,70 +26,85 @@
     </div>
     <ElModal v-model:vis="vis" modal-class="max-w-3xl">
       <div v-if="editingItem" class="grid-cols-12 md:grid">
-        <ElRichImage :media="editingItem" class="col-span-6"></ElRichImage>
-        <div class="col-span-6 max-h-96 min-h-0 overflow-scroll">
-          <div class="mx-auto max-w-sm space-y-4 p-4 md:p-6">
-            <div class="flex items-center justify-between">
-              <div class="text-theme-300 font-semibold">Edit Image</div>
-              <ElButton btn="theme" size="xs" @click="vis = false"
-                >Close</ElButton
-              >
+        <div class="relative col-span-6">
+          <ElRichImage
+            :media="editingItem"
+            fit="cover"
+            class="absolute inset-0"
+          ></ElRichImage>
+        </div>
+        <div class="col-span-6 min-h-0 overflow-scroll">
+          <div class="mx-auto max-w-sm">
+            <div
+              class="border-theme-300 flex items-center justify-between border-b py-2 px-4"
+            >
+              <div class="">Edit Image</div>
+              <ElButton btn="primary" size="xs" @click="vis = false"
+                >Done
+              </ElButton>
             </div>
-            <div class="border-theme-300 rounded-md border p-4">
-              <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
-                Filters
-              </div>
-              <div class="space-y-4">
-                <div class="mb-2 text-sm">
-                  <InputDropDown
-                    default-text="Add Image Filter"
-                    :list="
-                      imageFilters.filter(
-                        (filt) => !filters.some((f) => f.filter == filt),
-                      )
-                    "
-                    @update:model-value="
-                      updateFilters({ filter: $event as ImageFilter })
-                    "
-                  ></InputDropDown>
-                </div>
-
+            <div class="max-h-96 space-y-4 overflow-scroll p-4 md:p-6">
+              <div class="border-theme-300 rounded-md border p-4">
                 <div
-                  v-for="(f, i) in filters"
-                  :key="i"
-                  class="flex items-center justify-between space-x-2"
+                  class="text-theme-300 mb-2 text-xs font-semibold uppercase"
                 >
-                  <InputRange
-                    :model-value="f.percent"
-                    @update:model-value="
-                      updateFilters({ filter: f.filter, percent: $event })
-                    "
-                  ></InputRange>
+                  Filters
+                </div>
+                <div class="space-y-4">
+                  <div class="mb-2 text-sm">
+                    <InputDropDown
+                      default-text="Add Image Filter"
+                      :list="
+                        imageFilters.filter(
+                          (filt) => !filters.some((f) => f.filter == filt),
+                        )
+                      "
+                      @update:model-value="
+                        updateFilters({ filter: $event as ImageFilter })
+                      "
+                    ></InputDropDown>
+                  </div>
 
-                  <div class="flex grow justify-between">
-                    <span
-                      class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
-                    >
-                      {{ f.filter }}</span
-                    >
-                    <span
-                      class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
-                      @click.stop="removeFilter(f)"
-                    >
-                      <div class="i-carbon-trash-can"></div>
-                    </span>
+                  <div
+                    v-for="(f, i) in filters"
+                    :key="i"
+                    class="flex items-center justify-between space-x-2"
+                  >
+                    <InputRange
+                      :model-value="f.percent"
+                      @update:model-value="
+                        updateFilters({ filter: f.filter, percent: $event })
+                      "
+                    ></InputRange>
+
+                    <div class="flex grow justify-between">
+                      <span
+                        class="bg-theme-500 text-theme-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize"
+                      >
+                        {{ f.filter }}</span
+                      >
+                      <span
+                        class="bg-theme-100 text-theme-500 hover:bg-theme-200 inline-flex cursor-pointer items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                        @click.stop="removeFilter(f)"
+                      >
+                        <div class="i-carbon-trash-can"></div>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="border-theme-300 mt-4 rounded-md border p-4">
-              <div class="text-theme-300 mb-2 text-xs font-semibold uppercase">
-                Image Overlay
+
+              <div class="border-theme-300 mt-4 rounded-md border p-4">
+                <div
+                  class="text-theme-300 mb-2 text-xs font-semibold uppercase"
+                >
+                  Image Overlay
+                </div>
+                <InputOverlay
+                  :model-value="overlay"
+                  @update:model-value="updateField('overlay', $event)"
+                ></InputOverlay>
               </div>
-              <InputOverlay
-                :model-value="overlay"
-                @update:model-value="updateField('overlay', $event)"
-              ></InputOverlay>
             </div>
           </div>
         </div>

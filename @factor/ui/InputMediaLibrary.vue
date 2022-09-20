@@ -4,15 +4,22 @@
       :model-value="modelValue"
       @update:model-value="updateValue($event)"
     ></InputMediaEdit>
-    <ElButton btn="theme" :loading="uploading" @click.stop.prevent="vis = true">
-      <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
-      <span>Add Media</span>
-    </ElButton>
+    <div class="mt-2">
+      <ElButton
+        btn="theme"
+        :loading="uploading"
+        @click.stop.prevent="vis = true"
+      >
+        <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
+        <span>Select Media</span>
+      </ElButton>
+    </div>
+
     <ElModal v-model:vis="vis" modal-class="max-w-xl">
       <div class="media-gallery grid grid-cols-12 py-2 px-4 text-sm">
         <div class="nav col-span-12">
           <div
-            class="grid grid-cols-3 items-center justify-center gap-3 text-xs"
+            class="grid grid-cols-1 items-center justify-center gap-3 text-xs"
           >
             <div
               v-for="(item, i) in navItems"
@@ -53,7 +60,7 @@ import ElButton from "./ElButton.vue"
 import ElSpinner from "./ElSpinner.vue"
 import InputMediaUpload from "./InputMediaUpload.vue"
 import InputMediaEdit from "./InputMediaEdit.vue"
-defineProps({
+const props = defineProps({
   modelValue: {
     type: Array as vue.PropType<MediaDisplayObject[]>,
     default: () => [],
@@ -62,17 +69,19 @@ defineProps({
     type: Object as vue.PropType<{ factorMedia?: FactorMedia }>,
     default: () => {},
   },
+  limit: { type: Number, default: 1 },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload: MediaDisplayObject[]): void
 }>()
 const vis = vue.ref()
-const navItems = ["upload", "stockPhotos", "library"]
+const navItems = ["upload"]
 const navItemActive = vue.ref(navItems[0])
 const uploading = vue.ref(false)
 
 const updateValue = async (value: MediaDisplayObject[]): Promise<void> => {
-  emit("update:modelValue", value)
+  const v = value.slice(0, props.limit)
+  emit("update:modelValue", v)
   vis.value = false
 }
 </script>

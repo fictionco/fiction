@@ -27,6 +27,14 @@ export const mediaTable = new FactorDbTable({
       create: ({ schema, column }) => schema.string(column.pgKey),
     }),
     new FactorDbCol({
+      key: "urlSmall",
+      create: ({ schema, column }) => schema.string(column.pgKey),
+    }),
+    new FactorDbCol({
+      key: "preview",
+      create: ({ schema, column }) => schema.string(column.pgKey),
+    }),
+    new FactorDbCol({
       key: "filePath",
       create: ({ schema, column }) => schema.string(column.pgKey),
     }),

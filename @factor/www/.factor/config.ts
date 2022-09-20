@@ -110,6 +110,8 @@ export interface CompiledServiceConfig {
       | "mediaId"
       | "userId"
       | "url"
+      | "urlSmall"
+      | "preview"
       | "filePath"
       | "mime"
       | "width"

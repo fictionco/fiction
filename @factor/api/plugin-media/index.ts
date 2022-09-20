@@ -21,6 +21,7 @@ type FactorMediaSettings = {
 export type MediaConfig = {
   mediaId: string
   url: string
+  urlSmall?: string
   width?: number
   height?: number
   size?: number

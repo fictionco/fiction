@@ -39,16 +39,32 @@ export class QuerySaveMedia extends MediaQuery {
     const bucket = this.factorMedia.bucket
     const mediaId = this.utils.objectId()
     const filePath = `${userId}/${mediaId}-${file.originalname}`
+    const filePathSmall = `${userId}/${mediaId}-${file.originalname}-small`
 
     const img = await sharp(file.buffer)
       .resize(this.maxSide, this.maxSide, {
         withoutEnlargement: true,
+        fit: "inside",
+      })
+      .toBuffer()
+
+    const smallImg = await sharp(file.buffer)
+      .resize(80, 80, {
+        withoutEnlargement: true,
+        fit: "inside",
       })
       .toBuffer()
 
     const { url, headObject } = await this.factorAws.uploadS3({
       data: img,
       filePath,
+      mime,
+      bucket,
+    })
+
+    const { url: urlSmall } = await this.factorAws.uploadS3({
+      data: smallImg,
+      filePath: filePathSmall,
       mime,
       bucket,
     })
@@ -63,6 +79,7 @@ export class QuerySaveMedia extends MediaQuery {
       userId,
       filePath,
       size: headObject.ContentLength,
+      urlSmall,
     }
 
     const r = await db

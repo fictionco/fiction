@@ -367,7 +367,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       { scheme, name: toLabel(scheme), colors },
       {
         scheme: schemeInverted,
-        name: `${name} (Inverted)`,
+        name: `${name} (Dark Mode)`,
         colors: colorsInverted,
       },
     ]

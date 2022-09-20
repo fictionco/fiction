@@ -1,10 +1,5 @@
 <template>
   <div class="media-body" @dragover.prevent @drop.prevent>
-    <InputMediaEdit
-      :model-value="modelValue"
-      @update:model-value="updateValue($event)"
-    ></InputMediaEdit>
-
     <div v-if="uploading" class="p-12">
       <ElSpinner class="text-theme-200 m-auto h-12 w-12" />
     </div>
@@ -45,10 +40,10 @@
   </div>
 </template>
 <script lang="ts" setup>
+// @unocss-include
 import { vue, FactorMedia, log, objectId } from "@factor/api"
 import { MediaDisplayObject } from "./utils"
 import ElSpinner from "./ElSpinner.vue"
-import InputMediaEdit from "./InputMediaEdit.vue"
 // uploadId is to allow label click without conflict with others on page
 const uploadId = `file-upload-${objectId()}`
 const props = defineProps({
