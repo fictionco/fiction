@@ -159,11 +159,9 @@ importers:
       extract-domain: ^2.4.8
       fake-indexeddb: ^4.0.0
       fast-safe-stringify: ^2.1.1
-      form-data: ^4.0.0
       formdata-node: ^4.4.1
       front-matter: ^4.0.2
       fs-extra: ^10.1.0
-      get-port: ^6.1.2
       glob: ^8.0.3
       google-auth-library: ^8.5.1
       handlebars: ^4.7.7
@@ -220,7 +218,6 @@ importers:
       ts-node: '*'
       tsup: ^6.2.3
       typescript: ^4.8.3
-      universal-base64: ^2.1.0
       unocss: ^0.44.7
       unsplash-js: ^7.0.15
       validator: ^13.7.0
@@ -291,11 +288,9 @@ importers:
       express: 4.18.1
       extract-domain: 2.4.8
       fast-safe-stringify: 2.1.1
-      form-data: 4.0.0
       formdata-node: 4.4.1
       front-matter: 4.0.2
       fs-extra: 10.1.0
-      get-port: 6.1.2
       glob: 8.0.3
       google-auth-library: 8.5.1
       handlebars: 4.7.7
@@ -349,7 +344,6 @@ importers:
       ts-node: 10.9.1_bidgzm5cq2du6gnjtweqqjrrn4
       tsup: 6.2.3_26charscpvwpddbtrbwmgcxz7a
       typescript: 4.8.3
-      universal-base64: 2.1.0
       unocss: 0.44.7_vite@3.1.3
       unsplash-js: 7.0.15
       validator: 13.7.0
@@ -507,18 +501,14 @@ importers:
     specifiers:
       '@factor/api': workspace:5.5.62
       '@tailwindcss/forms': ^0.5.3
-      easymde: ^2.18.0
       gravatar-url: ^4.0.1
       postcss: ^8.4.16
-      sortablejs: ^1.15.0
       tailwindcss: ^3.1.8
     dependencies:
       '@factor/api': link:../api
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.1.8
-      easymde: 2.18.0
       gravatar-url: 4.0.1
       postcss: 8.4.16
-      sortablejs: 1.15.0
       tailwindcss: 3.1.8_postcss@8.4.16
 
   '@factor/www':
@@ -2236,12 +2226,6 @@ packages:
       source-map: 0.6.1
     dev: false
 
-  /@types/codemirror/5.60.5:
-    resolution: {integrity: sha512-TiECZmm8St5YxjFUp64LK0c8WU5bxMDt9YaAek1UqUb9swrSCoJhh92fWu1p3mTEqlHjhB5sY7OFBhWroJXZVg==}
-    dependencies:
-      '@types/tern': 0.23.4
-    dev: false
-
   /@types/compression/1.7.2:
     resolution: {integrity: sha512-lwEL4M/uAGWngWFLSG87ZDr2kLrbuR8p7X+QZB1OQlT+qkHsCPDVFnHPyXf4Vyl4yDDorNY+mAhosxkCvppatg==}
     dependencies:
@@ -2364,10 +2348,6 @@ packages:
     dependencies:
       '@types/linkify-it': 3.0.2
       '@types/mdurl': 1.0.2
-    dev: false
-
-  /@types/marked/4.0.7:
-    resolution: {integrity: sha512-eEAhnz21CwvKVW+YvRvcTuFKNU9CV1qH+opcgVK3pIMI6YZzDm6gc8o2vHjldFk6MGKt5pueSB7IOpvpx5Qekw==}
     dev: false
 
   /@types/mdurl/1.0.2:
@@ -2502,12 +2482,6 @@ packages:
 
   /@types/string-similarity/4.0.0:
     resolution: {integrity: sha512-dMS4S07fbtY1AILG/RhuwmptmzK1Ql8scmAebOTJ/8iBtK/KI17NwGwKzu1uipjj8Kk+3mfPxum56kKZE93mzQ==}
-    dev: false
-
-  /@types/tern/0.23.4:
-    resolution: {integrity: sha512-JAUw1iXGO1qaWwEOzxTKJZ/5JxVeON9kvGZ/osgZaJImBnyjyn0cjovPsf6FNLmyGY8Vw9DoXZCMlfMkMwHRWg==}
-    dependencies:
-      '@types/estree': 1.0.0
     dev: false
 
   /@types/trusted-types/2.0.2:
@@ -3545,16 +3519,6 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
-  /codemirror-spell-checker/1.1.2:
-    resolution: {integrity: sha1-HGYPkIlIPMtRE7m6nKGcP0mTNx4=}
-    dependencies:
-      typo-js: 1.2.2
-    dev: false
-
-  /codemirror/5.65.9:
-    resolution: {integrity: sha512-19Jox5sAKpusTDgqgKB5dawPpQcY+ipQK7xoEI+MVucEF9qqFaXpeqY1KaoyGBso/wHQoDa4HMMxMjdsS3Zzzw==}
-    dev: false
-
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -4074,16 +4038,6 @@ packages:
 
   /duplexer/0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
-    dev: false
-
-  /easymde/2.18.0:
-    resolution: {integrity: sha512-IxVVUxNWIoXLeqtBU4BLc+eS/ScYhT1Dcb6yF5Wchoj1iXAV+TIIDWx+NCaZhY7RcSHqDPKllbYq7nwGKILnoA==}
-    dependencies:
-      '@types/codemirror': 5.60.5
-      '@types/marked': 4.0.7
-      codemirror: 5.65.9
-      codemirror-spell-checker: 1.1.2
-      marked: 4.1.0
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -5370,11 +5324,6 @@ packages:
     resolution: {integrity: sha512-x5UJKlgeUiNT8nyo/AcnwLnZuZNcSjSw0kogRB+Whd1fjjFq4B1hySFxSFWWSn4mIBzg3sRNUDFYc4g5gjPoLg==}
     engines: {node: '>=4'}
 
-  /get-port/6.1.2:
-    resolution: {integrity: sha512-BrGGraKm2uPqurfGVj/z97/zv8dPleC6x9JBNRTrDNtCkkRF4rPwrQXFgL7+I+q8QSdU4ntLQX2D7KIxSy8nGw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: false
-
   /get-stdin/8.0.0:
     resolution: {integrity: sha512-sY22aA6xchAzprjyqmSEQv4UbAAzRN0L2dQB0NlN5acTTK9Don6nhoc3eAbUnpZiCANAMfd/+40kVdKfFygohg==}
     engines: {node: '>=10'}
@@ -6524,12 +6473,6 @@ packages:
       linkify-it: 4.0.1
       mdurl: 1.0.1
       uc.micro: 1.0.6
-    dev: false
-
-  /marked/4.1.0:
-    resolution: {integrity: sha512-+Z6KDjSPa6/723PQYyc1axYZpYYpDnECDaU6hkaf5gqBieBkMKYReL5hteF2QizhlMbgbo8umXl/clZ67+GlsA==}
-    engines: {node: '>= 12'}
-    hasBin: true
     dev: false
 
   /md5-hex/4.0.0:
@@ -8036,10 +7979,6 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
 
-  /sortablejs/1.15.0:
-    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
-    dev: false
-
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -8689,10 +8628,6 @@ packages:
     engines: {node: '>=0.1.14'}
     dev: true
 
-  /typo-js/1.2.2:
-    resolution: {integrity: sha512-C7pYBQK17EjSg8tVNY91KHdUt5Nf6FMJ+c3js076quPmBML57PmNMzAcIq/2kf/hSYtFABNDIYNYlJRl5BJhGw==}
-    dev: false
-
   /uc.micro/1.0.6:
     resolution: {integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==}
     dev: false
@@ -8730,10 +8665,6 @@ packages:
   /undici/5.10.0:
     resolution: {integrity: sha512-c8HsD3IbwmjjbLvoZuRI26TZic+TSEe8FPMLLOkN1AfYRhdjnKBU6yL+IwcSCbdZiX4e5t0lfMDLDCqj4Sq70g==}
     engines: {node: '>=12.18'}
-    dev: false
-
-  /universal-base64/2.1.0:
-    resolution: {integrity: sha512-WeOkACVnIXJZr/qlv7++Rl1zuZOHN96v2yS5oleUuv8eJOs5j9M5U3xQEIoWqn1OzIuIcgw0fswxWnUVGDfW6g==}
     dev: false
 
   /universalify/0.2.0:
