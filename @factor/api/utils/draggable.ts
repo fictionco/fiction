@@ -24,12 +24,15 @@ export class DraggableList extends Obj<DraggableListSettings> {
   draggingClass = "dragging"
   onUpdate = this.settings.onUpdate
   dragIndex = -1
-  wrapEl?: HTMLElement
+  wrapEls?: HTMLElement[]
   parentEl?: HTMLElement
 
   constructor(settings: DraggableListSettings) {
     super("draggable", settings)
 
+    this.wrapEls = [
+      ...document.querySelectorAll(`.${this.wrapClass}`),
+    ] as HTMLElement[]
     this.addStyles()
     this.enable()
   }
@@ -81,28 +84,23 @@ export class DraggableList extends Obj<DraggableListSettings> {
     const func = action == "add" ? "addEventListener" : "removeEventListener"
 
     document[func]("dragover", (e) => this.onDragOver(e as DragEvent), false)
-    document[func]("dragover", (e) => this.onDragLeave(e as DragEvent), false)
     document[func]("dragend", (e) => this.onDragEnd(e as DragEvent), false)
 
-    this.wrapEl
-      ?.querySelectorAll(`.${this.draggableClass}`)
-      .forEach((dragEl): void => {
-        dragEl.classList[action](this.draggingClass)
-      })
-
-    if (this.hideOnDragClass) {
-      this.wrapEl
-        ?.querySelectorAll(`.${this.hideOnDragClass}`)
-        .forEach((el) => {
-          const elem = el as HTMLElement
-          elem.style.opacity = action == "add" ? ".7" : "1"
+    this.wrapEls?.forEach((wrapEl) => {
+      wrapEl
+        .querySelectorAll(`.${this.draggableClass}`)
+        .forEach((dragEl): void => {
+          dragEl.classList[action](this.draggingClass)
         })
-    }
+
+      wrapEl.querySelectorAll(`.${this.hideOnDragClass}`).forEach((el) => {
+        const elem = el as HTMLElement
+        elem.style.opacity = action == "add" ? ".7" : "1"
+      })
+    })
   }
 
   onDragStart = (e: DragEvent): void => {
-    this.wrapEl = document.querySelector(`.${this.wrapClass}`) as HTMLElement
-
     this.draggedEl.value = e.target as HTMLElement
 
     if (!this.draggedEl.value.classList.contains(this.draggableClass)) return
@@ -128,9 +126,7 @@ export class DraggableList extends Obj<DraggableListSettings> {
       target?.classList?.contains(this.wrapClass) &&
       !target.querySelector(`.${this.draggableClass}`)
     ) {
-      this.wrapEl = target
-
-      const pl = this.wrapEl.querySelector(`.${this.placeholderClass}`) as
+      const pl = target.querySelector(`.${this.placeholderClass}`) as
         | HTMLElement
         | undefined
 
@@ -167,12 +163,12 @@ export class DraggableList extends Obj<DraggableListSettings> {
 
     if (!draggedEl) throw new Error("no draggedEl")
 
+    if (this.throttle()) return
+
     if (
       target?.classList?.contains(this.draggableClass) &&
       target != draggedEl
     ) {
-      if (this.throttle()) return
-
       const nextEl = target.nextSibling
 
       const offset = this.getMouseOffset(e)
@@ -184,13 +180,8 @@ export class DraggableList extends Obj<DraggableListSettings> {
         draggedEl,
         nextEl && offset.y > middleY ? nextEl : target,
       )
-    } else if (
-      target?.classList?.contains(this.wrapClass) &&
-      target.children.length <= 1
-    ) {
-      this.wrapEl = target
-
-      const pl = this.wrapEl.querySelector(`.${this.placeholderClass}`) as
+    } else if (target?.classList?.contains(this.wrapClass)) {
+      const pl = target.querySelector(`.${this.placeholderClass}`) as
         | HTMLElement
         | undefined
 
