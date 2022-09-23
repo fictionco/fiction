@@ -128,15 +128,8 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
   }
 
   runTypeCheck = async (): Promise<void> => {
-    this.log.info(`Type checking [.ts] files...`)
-    await this.run("tsc", [
-      "--skipLibCheck",
-      "--excludeDirectories",
-      "node_modules",
-    ])
-
-    // this.log.info(`Type checking [.vue] files...`)
-    // await this.run("npm", ["exec", "--", "vue-tsc", "--noEmit"])
+    this.log.info(`Type checking [.ts/.vue] files...`)
+    await this.run("npm", ["run", "test-types"])
   }
 
   runUnitTests = async (): Promise<void> => {
