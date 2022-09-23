@@ -1,6 +1,6 @@
 {
   "name": "@factor/api",
-  "version": "5.5.63",
+  "version": "5.5.64",
   "bin": {
     "factor": "./plugin-env/cli.js"
   },
@@ -143,7 +143,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.19.1",
-    "@factor/api": "5.5.63",
+    "@factor/api": "5.5.64",
     "@playwright/test": "^1.26.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/body-parser": "^1.19.2",
