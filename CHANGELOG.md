@@ -1,3 +1,12 @@
+## [5.5.63](https://github.com/FactorJS/factor/compare/v5.5.62...v5.5.63) (2022-09-23)
+
+
+### Bug Fixes
+
+* type  check ([547a674](https://github.com/FactorJS/factor/commit/547a674845704015667d460aaeb9a726f9295411))
+
+
+
 ## [5.5.62](https://github.com/FactorJS/factor/compare/v5.5.61...v5.5.62) (2022-09-20)
 
 
