@@ -1,4 +1,4 @@
-/// <reference path="./shim.d.ts" />
+/// <reference path="./env.d.ts" />
 
 import knex, { Knex } from "knex"
 import knexStringcase from "knex-stringcase"

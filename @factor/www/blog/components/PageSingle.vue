@@ -26,7 +26,7 @@
 
           <a
             v-if="config.authorTwitter"
-            class="text-slate-500 hover:text-primary-500"
+            class="hover:text-primary-500 text-slate-500"
             :href="`https://www.twitter.com/${config.authorTwitter}`"
             target="_blank"
             >@{{ config.authorTwitter }}</a
@@ -54,7 +54,7 @@
             FactorJS is a next-generationframework for sites and apps.
           </div>
           <a
-            class="mt-2 block text-sm text-primary-500"
+            class="text-primary-500 mt-2 block text-sm"
             href="http://www.factorjs.org"
             >Learn More &rarr;</a
           >
@@ -78,7 +78,7 @@
               <div class="mt-6">
                 <router-link
                   :to="baseRoute ?? '/'"
-                  class="text-base font-medium text-primary-600 hover:text-primary-500"
+                  class="text-primary-600 hover:text-primary-500 text-base font-medium"
                   >Back to Index
                   <span aria-hidden="true"> &rarr;</span></router-link
                 >
@@ -179,7 +179,7 @@ useMeta({
     },
     {
       property: `og:title`,
-      content: vue.computed(() => at.value.title),
+      content: vue.computed(() => at.value.title || ""),
     },
     {
       property: `og:image`,
@@ -197,7 +197,10 @@ useMeta({
     },
     { name: "twitter:card", content: "summary" },
     { name: "twitter:label1", content: "Written by" },
-    { name: "twitter:data1", content: vue.computed(() => at.value.authorName) },
+    {
+      name: "twitter:data1",
+      content: vue.computed(() => at.value.authorName || ""),
+    },
     { name: "twitter:label2", content: "Est. reading time" },
     {
       name: "twitter:data2",

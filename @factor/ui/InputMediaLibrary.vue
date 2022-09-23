@@ -11,7 +11,7 @@
         @click.stop.prevent="vis = true"
       >
         <div class="i-carbon-image text-theme-400 mr-2 text-[1.2em]"></div>
-        <span>Select Media</span>
+        <span>Upload Image</span>
       </ElButton>
     </div>
 

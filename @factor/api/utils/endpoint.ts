@@ -1,5 +1,5 @@
 import type { FormData as FormDataNode } from "formdata-node"
-import nodeFetch, { BodyInit as NodeFetchBodyInit } from "node-fetch"
+//import nodeFetch, { BodyInit as NodeFetchBodyInit } from "node-fetch"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"

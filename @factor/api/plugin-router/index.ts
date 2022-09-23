@@ -295,6 +295,20 @@ export class FactorRouter<
     await this.router.push(location)
   }
 
+  public async setQueryVar(
+    queryVar: string,
+    value: string | number | undefined,
+  ) {
+    const query = this.query.value
+    const current = query[queryVar]
+
+    if (current != value) {
+      const newQuery = { ...query, [queryVar]: value ?? null }
+
+      await this.replace({ query: newQuery } as vueRouter.RouteLocationRaw)
+    }
+  }
+
   public async replace(
     location: vueRouter.RouteLocationRaw,
     options?: { id?: string },

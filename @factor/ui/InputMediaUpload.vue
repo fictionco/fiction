@@ -17,7 +17,6 @@
           <div class="i-carbon-upload inline-block text-2xl"></div>
         </div>
         <div class="text-theme-500 flex text-sm">
-          ` `
           <div
             class="text-theme-700 hover:text-theme-600 relative cursor-pointer rounded-md font-medium"
           >

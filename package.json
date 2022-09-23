@@ -76,8 +76,7 @@
     "test-eslint": "pnpm exec -- eslint --ext .ts,.js @factor/.",
     "test-lint": "pnpm run test-pkg && pnpm run test-types && pnpm run test-eslint && pnpm run test-vue",
     "test-pkg": "pnpm exec -- npmPkgJsonLint . && pnpm run fix-deps",
-    "test-types-vue": "npm exec -- vue-tsc --noEmit",
-    "test-types": "tsc --skipLibCheck --excludeDirectories node_modules",
+    "test-types": "npm exec -- vue-tsc --skipLibCheck --excludeDirectories node_modules",
     "test-unit": "npm exec -- vitest run",
     "test-vue": "pnpm exec -- eslint --ext .vue @factor/.",
     "up-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up"

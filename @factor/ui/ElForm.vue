@@ -48,7 +48,7 @@ import ElSpinner from "./ElSpinner.vue"
 const props = defineProps({
   save: { type: Boolean, default: false },
   valid: { type: Boolean, default: false },
-  data: { type: Object, default: () => {} },
+  data: { type: [Object, Array, String, Boolean, Number], default: undefined },
   notify: { type: String, default: "" },
   loading: { type: Boolean, default: false },
 })

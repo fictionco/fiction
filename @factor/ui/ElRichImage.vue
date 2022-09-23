@@ -1,13 +1,17 @@
 <template>
   <div v-if="media?.url" :class="cls">
-    <img
-      class="z-0 h-full w-full"
-      :class="fit == 'cover' ? 'object-cover' : 'object-scale-down'"
-      :src="media?.url || ''"
-      :style="{
-        filter: filters?.map((_) => _.value).join(' '),
-      }"
-    />
+    <div class="absolute inset-0">
+      <img
+        class="z-0 h-full w-full"
+        :class="fit == 'cover' ? 'object-cover' : 'object-scale-down'"
+        :src="media?.url || ''"
+        :style="{
+          filter: filters?.map((_) => _.value).join(' '),
+
+          objectPosition,
+        }"
+      />
+    </div>
     <ElOverlay :overlay="media.overlay"></ElOverlay>
   </div>
 </template>
@@ -24,6 +28,10 @@ const props = defineProps({
   fit: {
     type: String as vue.PropType<"cover" | "contain">,
     default: "cover",
+  },
+  objectPosition: {
+    type: String as vue.PropType<"center" | "left" | "right">,
+    default: "center",
   },
 })
 

@@ -4,6 +4,7 @@
     type="email"
     autocomplete="email"
     :value="modelValue"
+    :placeholder="placeholder"
     @input="handleEmit($event.target)"
   />
 </template>
@@ -11,6 +12,7 @@
 import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: [String], default: "" },
+  placeholder: { type: [String], default: "name@example.com" },
 })
 
 const emit = defineEmits<{

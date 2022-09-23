@@ -1,5 +1,3 @@
-/// <reference path="./shim.d.ts" />
-
 export * from "./plugin"
 export * from "./types"
 export * from "./query"

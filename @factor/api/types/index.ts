@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./global.d.ts" />
+/// <reference path="../env.d.ts" />
 export * from "./attachment"
 export * from "./db"
 export * from "./endpoint"

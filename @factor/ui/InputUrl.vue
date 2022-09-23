@@ -5,6 +5,7 @@
     :value="modelValue"
     autocomplete="on"
     name="url"
+    :placeholder="placeholder"
     @input="handleEmit($event.target)"
   />
 </template>
@@ -12,6 +13,7 @@
 import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: [String], default: "" },
+  placeholder: { type: [String], default: "https://" },
 })
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string): void
