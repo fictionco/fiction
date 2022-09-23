@@ -15,9 +15,9 @@
       ></InputElBox>
     </div>
     <div v-if="labels" class="text-theme-600 mt-2 grid grid-cols-3 text-xs">
-      <div>{{ labels.start }}</div>
-      <div class="text-center">{{ labels.center }}</div>
-      <div class="text-right">{{ labels.end }}</div>
+      <div>{{ labels.low }}</div>
+      <div class="text-center">{{ labels.middle }}</div>
+      <div class="text-right">{{ labels.high }}</div>
     </div>
   </div>
 </template>
@@ -41,9 +41,9 @@ const props = defineProps({
   },
   labels: {
     type: Object as vue.PropType<{
-      start: string
-      center: string
-      end: string
+      low?: string
+      middle?: string
+      high?: string
     }>,
     default: undefined,
   },
@@ -58,7 +58,7 @@ const selectItem = (val?: number) => {
 }
 
 const parsedList = vue.computed<number[]>(() => {
-  const list = []
+  const list: number[] = []
   for (var i = +props.countStart; i <= +props.countEnd; i++) {
     list.push(i)
   }

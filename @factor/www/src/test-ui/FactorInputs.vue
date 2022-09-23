@@ -85,9 +85,9 @@
         :count-start="0"
         :count-end="10"
         :labels="{
-          start: 'Not at all likely',
-          center: 'Neutral',
-          end: 'Very likely',
+          low: 'Not at all likely',
+          middle: 'Neutral',
+          high: 'Very likely',
         }"
       />
       <TestInput

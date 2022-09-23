@@ -28,7 +28,7 @@ import InputElTab from "./InputElTab.vue"
 const props = defineProps({
   modelValue: { type: Array as vue.PropType<string[]>, default: () => [] },
   list: {
-    type: Array as vue.PropType<(ListItem | "divider")[]>,
+    type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
     default: () => [],
   },
   maxSelect: {
