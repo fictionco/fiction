@@ -1,3 +1,4 @@
+/// <reference path="./env.d.ts" />
 import frontMatter from "front-matter"
 import MarkdownIt from "markdown-it"
 import mdAnchor from "markdown-it-anchor"
