@@ -38,6 +38,7 @@ const repoRoot = safeDirname(import.meta.url, "../../..")
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(repoRoot, "./.env")],
   cwd,
+  mainFilePath: path.join(cwd, "./src/index.ts"),
   commands,
   appName: "FactorJS",
   appEmail: "hi@factorjs.org",
@@ -64,6 +65,8 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig>({
 })
 
 export const factorApp = new FactorApp({
+  factorEnv,
+  srcFolder: path.join(cwd, "./src"),
   liveUrl: "https://www.factorjs.org",
   isLive: factorEnv.isProd,
   factorServer,
@@ -75,7 +78,6 @@ export const factorApp = new FactorApp({
     path.join(cwd, "./blog/**/*.vue"),
     path.join(cwd, "./docs/**/*.vue"),
   ],
-  factorEnv,
 })
 
 export const factorEmail = new FactorEmail({

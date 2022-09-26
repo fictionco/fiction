@@ -65,7 +65,7 @@
     "clear-modules": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +",
     "dev": "pnpm --filter @factor/www exec -- factor run dev",
     "pack": "pnpm --filter @factor/api/build exec -- factor pack",
-    "render": "pnpm exec --filter @factor/www -- factor render",
+    "render": "pnpm exec --filter @factor/www -- factor run render",
     "release": "npm run lf && npm exec -- factor run release --patch --skip-tests",
     "www": "pnpm --filter @factor/www exec -- factor run dev --www-port 3311 --server-port 21212",
     "www-r": "pnpm --filter @factor/www exec -- factor run r-dev --www-port 3311 --server-port 21212",

@@ -1,13 +1,13 @@
 import path from "path"
 import dotenv from "dotenv"
 import { FactorObject } from "../plugin"
-import { HookType, safeDirname, vue } from "../utils"
+import { HookType, vue } from "../utils"
 import { version as factorVersion } from "../package.json"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
 import { FactorEnvHookDictionary } from "./types"
 import { CliCommand, standardAppCommands } from "./commands"
-import { done, packageMainFile } from "./utils"
+import { done } from "./utils"
 import { generateStaticConfig } from "./generate"
 import "./nodePolyfills"
 export * from "./types"
@@ -89,11 +89,13 @@ export type FactorControlSettings = {
   envFiles?: string[]
   envFilesProd?: string[]
   cwd: string
+  mainFilePath?: string
   inspector?: boolean
   nodemonConfigPath?: string
   id?: string
   appName: string
   appEmail: string
+  serviceUrl?: string
   commands?: CliCommand<string>[]
   mode?: "development" | "production"
   isApp?: boolean
@@ -115,8 +117,8 @@ export class FactorEnv<
   hooks = this.settings.hooks || []
   envFiles = this.settings.envFiles || []
   envFilesProd = this.settings.envFilesProd || []
-  standardPaths?: types.StandardPaths
   cwd = this.settings.cwd
+  mainFilePath = this.settings.mainFilePath || path.join(this.cwd, "index.ts")
   id = this.settings.id || "factor"
   inspector = this.settings.inspector || false
   mode = this.utils.vue.ref<"development" | "production" | undefined>(
@@ -129,6 +131,7 @@ export class FactorEnv<
   isDev = this.utils.vue.computed(() => this.mode.value === "development")
   appName = this.settings.appName
   appEmail = this.settings.appEmail
+  serviceUrl = this.utils.vue.ref(this.settings.serviceUrl)
   currentCommand: CliCommand<string> | undefined
   currentCommandOpts: types.CliOptions | undefined
   isRendering = false
@@ -272,8 +275,6 @@ export class FactorEnv<
   }
 
   nodeInit() {
-    this.standardPaths = this.getStandardPaths({ cwd: this.cwd })
-
     if (this.mode.value == "production") {
       this.envFiles.push(...this.envFilesProd)
     }
@@ -340,39 +341,6 @@ export class FactorEnv<
     inspector.open()
   }
 
-  getStandardPaths = ({ cwd }: { cwd: string }): types.StandardPaths => {
-    const dist = path.join(cwd, "dist")
-    const distServer = path.join(dist, "server")
-    const distClient = path.join(dist, "client")
-    const distStatic = path.join(dist, "static")
-    const distServerEntry = path.join(distServer, "mount")
-    const mainFile = packageMainFile(cwd)
-    const mainFilePath = path.resolve(cwd, mainFile)
-
-    const sourceDir = path.dirname(mainFilePath)
-    const rootComponentPath = path.join(sourceDir, "App.vue")
-    const publicDir = path.join(sourceDir, "public")
-    const mountFilePath = path.join(
-      safeDirname(import.meta.url, ".."),
-      "./plugin-app/mount.ts",
-    )
-
-    return {
-      cwd,
-      dist,
-      distServer,
-      distClient,
-      distStatic,
-      distServerEntry,
-      sourceDir,
-      publicDir,
-      mountFilePath,
-      mainFile,
-      mainFilePath,
-      rootComponentPath,
-    }
-  }
-
   setEnvironment = (): void => {}
 
   onCommand(
@@ -407,7 +375,6 @@ export class FactorEnv<
 
   serverRunCurrentCommand = async (): Promise<void> => {
     if (!this.currentCommand) throw new Error("currentCommand not set")
-    if (!this.standardPaths) throw new Error("standard paths not set")
 
     const cliCommand = this.currentCommand
 
@@ -421,7 +388,7 @@ export class FactorEnv<
 
     this.log.info(`running command ${cliCommand.command}`, { data: cliCommand })
 
-    const mainFilePath = this.standardPaths.mainFilePath
+    const mainFilePath = this.mainFilePath
 
     await getServerServiceConfig({ mainFilePath })
 

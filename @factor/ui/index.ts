@@ -35,7 +35,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             3: "3px",
           },
           borderRadius: {
-            input: "var(--input-border-radius, .3em)",
+            input: "var(--input-border-radius, .4em)",
           },
 
           boxShadow: {

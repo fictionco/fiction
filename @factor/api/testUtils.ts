@@ -166,6 +166,7 @@ export type TestUtilSettings = {
   serverPort?: number
   appPort?: number
   cwd?: string
+  mainFilePath?: string
   envFiles?: string[]
   rootComponent?: vue.Component
   uiPaths?: string[]
@@ -233,6 +234,7 @@ export const createTestUtilServices = async <
     serverPort = randomBetween(10_000, 20_000),
     appPort = randomBetween(1000, 10_000),
     cwd = safeDirname(import.meta.url),
+    mainFilePath,
     envFiles = [],
     rootComponent = EmptyApp,
     uiPaths = [],
@@ -244,6 +246,7 @@ export const createTestUtilServices = async <
   const factorEnv = new FactorEnv<S>({
     envFiles: [defaultEnvFile, ...envFiles],
     cwd,
+    mainFilePath,
     appName: "Test App",
     appEmail: "arpowers@gmail.com",
     id: "test",

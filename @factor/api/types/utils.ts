@@ -28,7 +28,7 @@ export interface PriorityItem {
 
 export type RawListItem = ListItem | string
 
-export declare interface MenuItem {
+export type MenuItem = {
   key?: string
   name: string
   icon?: string
@@ -37,7 +37,7 @@ export declare interface MenuItem {
   active?: Ref<boolean>
   onClick?: (item: MenuItem) => void
   priority?: number
-}
+} & ListItem
 
 export type ActionItem = MenuItem & {
   btn?:
@@ -55,7 +55,7 @@ export type ActionItem = MenuItem & {
 
 export interface MenuGroup {
   groupName?: string
-  menu: MenuItem[]
+  menu: MenuItem[] | readonly MenuItem[]
 }
 
 export type InArray<T extends Array<any>> = T extends (infer U)[] ? U : never

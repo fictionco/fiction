@@ -1,10 +1,7 @@
 <template>
   <div ref="rankingEl" class="ranking space-y-2">
-    <div
-      v-if="parsedList.length == 0"
-      class="border-theme-300 bg-theme-50 text-theme-400 rounded-lg border border-dashed py-2 px-4 text-sm"
-    >
-      No options
+    <div v-if="parsedList.length == 0" class="py-6">
+      <InputElTab class="ranking-item" label="No Options"></InputElTab>
     </div>
     <template v-else>
       <InputElTab
@@ -29,7 +26,7 @@ const rankingEl = vue.ref<HTMLElement>()
 const props = defineProps({
   modelValue: { type: Array, default: () => [] },
   list: {
-    type: Array as vue.PropType<(ListItem | "divider")[]>,
+    type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
     default: () => [],
   },
 })

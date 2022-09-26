@@ -363,7 +363,9 @@ export const snakeCaseKeys = (
  * Standard format for passing around config data and lists (inputs, etc.. )
  */
 export const normalizeList = (
-  list: (string | Partial<ListItem>)[] = [],
+  list:
+    | (string | Partial<ListItem>)[]
+    | readonly (string | Partial<ListItem>)[] = [],
   options: { prefix?: string; suffix?: string } = {},
 ): ListItem[] => {
   const { prefix = "" } = options

@@ -20,20 +20,20 @@
         @click="toggle()"
       >
         <span class="flex w-full items-baseline truncate">
-          <span class="truncate">{{
+          <span class="shrink-0 truncate">{{
             selectedItem?.name || defaultValue || defaultText || "Select"
           }}</span>
           <span
-            class="select-description text-input-text-alt ml-[1em] truncate text-[.8em] text-opacity-60"
+            class="select-description text-input-text-alt ml-[1em] truncate font-mono text-[10px] text-opacity-60"
             >{{ selectedItem?.desc }}</span
           >
         </span>
         <span
-          class="text-theme-400 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-0 flex items-center"
+          class="text-theme-300 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-[.3em] flex items-center"
           :class="active ? 'text-theme-500' : ''"
         >
           <svg
-            class="h-[1.5em] w-[1.5em]"
+            class="h-[1.2em] w-[1.2em]"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -101,27 +101,14 @@
                   }}</span>
                   <span
                     v-if="isSelected(item.value)"
-                    class="absolute inset-y-0 right-0 flex items-center pr-3"
+                    class="absolute inset-y-0 right-0 flex items-center pr-3 opacity-50"
                     :class="
                       hovered !== i
                         ? 'text-input-primary group-hover:text-white'
                         : ''
                     "
                   >
-                    <!-- Heroicon name: check -->
-                    <svg
-                      class="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <div class="i-carbon-checkbox-checked"></div>
                   </span>
                 </div>
               </li>
@@ -140,7 +127,9 @@ type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
 const props = defineProps({
   modelValue: { type: [Number, String, Boolean], default: "" },
   list: {
-    type: Array as vue.PropType<(RouteListItem | string)[]>,
+    type: Array as vue.PropType<
+      (RouteListItem | string)[] | readonly (RouteListItem | string)[]
+    >,
     default: () => [],
   },
   defaultValue: { type: [Number, String, Boolean], default: "" },
@@ -227,7 +216,7 @@ const listItemClass = (item: ListItem, i: number): string => {
   let out: string[] = []
 
   if (item.disabled) {
-    out.push("opacity-60")
+    out.push("opacity-60 cursor-not-allowed")
   } else {
     if (
       (isSelected(item.value) && hovered.value === -1) ||
@@ -235,7 +224,7 @@ const listItemClass = (item: ListItem, i: number): string => {
     ) {
       out.push("bg-theme-500 text-theme-0 font-medium")
     } else if (isSelected(item.value)) {
-      out.push("bg-theme-0 font-medium")
+      out.push("bg-theme-50 font-medium")
     } else {
       out.push("font-normal")
     }

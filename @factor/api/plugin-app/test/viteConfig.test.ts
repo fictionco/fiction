@@ -17,23 +17,6 @@ describe("vite config", () => {
   it("gets and merges vite config", async () => {
     expect(testUtils?.factorServer.port).toBe(20_220)
 
-    expect(testUtils?.factorApp.standardPaths).toMatchInlineSnapshot(`
-      {
-        "cwd": "/Users/arpowers/Projects/factor/@factor/api/",
-        "dist": "/Users/arpowers/Projects/factor/@factor/api/dist",
-        "distClient": "/Users/arpowers/Projects/factor/@factor/api/dist/client",
-        "distServer": "/Users/arpowers/Projects/factor/@factor/api/dist/server",
-        "distServerEntry": "/Users/arpowers/Projects/factor/@factor/api/dist/server/mount",
-        "distStatic": "/Users/arpowers/Projects/factor/@factor/api/dist/static",
-        "mainFile": "index.ts",
-        "mainFilePath": "/Users/arpowers/Projects/factor/@factor/api/index.ts",
-        "mountFilePath": "/Users/arpowers/Projects/factor/@factor/api/plugin-app/mount.ts",
-        "publicDir": "/Users/arpowers/Projects/factor/@factor/api/public",
-        "rootComponentPath": "/Users/arpowers/Projects/factor/@factor/api/App.vue",
-        "sourceDir": "/Users/arpowers/Projects/factor/@factor/api",
-      }
-    `)
-
     viteConfig = await testUtils?.factorApp.getViteConfig({ isProd: true })
 
     expect(viteConfig).toBeTruthy()

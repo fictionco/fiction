@@ -85,18 +85,3 @@ export type Configurations = {
 }
 
 export type RunConfig = CliOptions
-
-export interface StandardPaths {
-  cwd: string
-  dist: string
-  distServer: string
-  distClient: string
-  distStatic: string
-  distServerEntry: string
-  sourceDir: string
-  publicDir: string
-  mainFile: string
-  mainFilePath: string
-  rootComponentPath: string
-  mountFilePath: string
-}

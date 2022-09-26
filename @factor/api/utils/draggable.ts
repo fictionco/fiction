@@ -5,7 +5,7 @@ import { vue } from "./libraries"
 export type DraggableListSettings = {
   wrapClass: string
   draggableClass: string
-  placeholderClass: string
+  placeholderClass?: string
   hideOnDragClass?: string
   ghostClasses: string[]
   onUpdate: () => void
@@ -48,7 +48,7 @@ export class DraggableList extends Obj<DraggableListSettings> {
     const styleSheet = document.createElement("style")
     styleSheet.setAttribute("type", "text/css")
     styleSheet.id = styleId
-    styleSheet.textContent = `.${this.draggableClass}.${this.draggingClass} * { pointer-events: none; }`
+   styleSheet.textContent = `.${this.draggableClass}.${this.draggingClass} * { pointer-events: none; }`
     document.head.append(styleSheet)
   }
 
@@ -117,25 +117,6 @@ export class DraggableList extends Obj<DraggableListSettings> {
     this.draggedEl.value?.classList.add(...this.ghostClasses.value)
   }
 
-  onDragLeave(e: DragEvent) {
-    e.preventDefault()
-
-    const target = e.target as HTMLElement
-
-    if (
-      target?.classList?.contains(this.wrapClass) &&
-      !target.querySelector(`.${this.draggableClass}`)
-    ) {
-      const pl = target.querySelector(`.${this.placeholderClass}`) as
-        | HTMLElement
-        | undefined
-
-      if (pl) {
-        pl.style.display = "block"
-      }
-    }
-  }
-
   throttle() {
     if (this.throttleDrag.value) {
       return true
@@ -147,6 +128,14 @@ export class DraggableList extends Obj<DraggableListSettings> {
 
       return false
     }
+  }
+
+  scrollIntoView(el: HTMLElement){
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    })
   }
 
   // Function responsible for sorting
@@ -180,17 +169,24 @@ export class DraggableList extends Obj<DraggableListSettings> {
         draggedEl,
         nextEl && offset.y > middleY ? nextEl : target,
       )
+      this.scrollIntoView(draggedEl)
     } else if (target?.classList?.contains(this.wrapClass)) {
-      const pl = target.querySelector(`.${this.placeholderClass}`) as
-        | HTMLElement
-        | undefined
+      if (this.placeholderClass) {
+        const pl = target.querySelector(`.${this.placeholderClass}`) as
+          | HTMLElement
+          | undefined
 
-      if (pl) {
-        pl.style.display = "none"
+        if (pl) {
+          pl.style.display = "none"
+        }
       }
 
       if (!target.querySelector(`.${this.draggableClass}`)) {
         target.append(draggedEl)
+
+        this.scrollIntoView(draggedEl)
+
+
       }
     }
   }

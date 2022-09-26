@@ -26,6 +26,7 @@ export const liveUrl = "https://www.supereon.org"
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(repoRoot, "./.env")],
   cwd,
+  mainFilePath: path.join(cwd, "./src/index.ts"),
   appName,
   appEmail,
   id: "www",
@@ -38,6 +39,7 @@ export const factorRouter = new FactorRouter<CompiledServiceConfig>({
 })
 
 export const factorApp = new FactorApp({
+  factorEnv,
   liveUrl,
   port: +(factorEnv.var("APP_PORT") || 3000),
   rootComponent: App,
@@ -46,7 +48,6 @@ export const factorApp = new FactorApp({
     path.join(cwd, "./src/**/*.{vue,js,ts,html}"),
     path.join(cwd, "./src/*.{vue,js,ts,html}"),
   ],
-  factorEnv,
 })
 
 export const factorDb = new FactorDb({

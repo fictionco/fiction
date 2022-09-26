@@ -237,13 +237,12 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   }
 
   getStaticPathAliases = (opts: {
-    root: string
-    mainFile: string
+    mainFilePath?: string
   }): Record<string, string> => {
-    const { root, mainFile } = opts
+    const { mainFilePath = "" } = opts
 
     return {
-      "@MAIN_FILE_ALIAS": path.join(root, mainFile),
+      "@MAIN_FILE_ALIAS": mainFilePath,
       "@MOUNT_FILE_ALIAS": path.join(
         safeDirname(import.meta.url, ".."),
         "/plugin-app/mount.ts",
@@ -254,17 +253,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   getCommonViteConfig = async (options: {
     isProd: boolean
     root?: string
-    mainFile?: string
+    mainFilePath?: string
   }): Promise<vite.InlineConfig> => {
-    const {
-      isProd,
-      root = process.cwd(),
-      mainFile = "index.ts",
-    } = options || {}
+    const { isProd, root = process.cwd(), mainFilePath } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
-
-    const processDefine = {}
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? "production" : "development",
@@ -299,7 +292,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       },
       resolve: {
         alias: {
-          ...this?.getStaticPathAliases({ root, mainFile }),
+          ...this.getStaticPathAliases({ mainFilePath }),
           // https://dev.to/0xbf/vite-module-path-has-been-externalized-for-browser-compatibility-2bo6
           path: "path-browserify",
         },

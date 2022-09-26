@@ -26,6 +26,7 @@ export const liveUrl = "https://www.fiction.com"
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(repoRoot, "./.env")],
   cwd,
+  mainFilePath: path.join(cwd, "./src/index.ts"),
   appName,
   appEmail,
   id: "www",

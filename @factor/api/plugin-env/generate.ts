@@ -12,7 +12,7 @@ export const generateStaticConfig = async (
 ): Promise<void> => {
   const context = "generateStaticConfig"
 
-  const cwd = factorEnv.standardPaths?.cwd
+  const cwd = factorEnv.cwd
 
   if (!cwd) throw new Error(`${context}: cwd not found`)
 

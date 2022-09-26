@@ -8,14 +8,16 @@
         : 'border-theme-300 bg-theme-100 ',
     ]"
   >
-    <div class="flex items-center space-x-[.6em]">
+    <div class="flex items-center">
       <div
         v-if="prefix"
         class="border-theme-200 text-theme-400 bg-theme-200 group-hover:bg-theme-300 inline-flex w-[1.5em] shrink-0 items-center justify-center rounded-md border text-right text-[.85em] font-bold"
       >
         {{ prefix }}
       </div>
-      <div class="text-theme-600">{{ label || "No Label" }}</div>
+      <div class="text-theme-600 ml-[.6em]">
+        {{ label || "No Label" }}
+      </div>
     </div>
     <div v-if="icon" class="text-theme-400 shrink-0" :class="icon"></div>
   </div>

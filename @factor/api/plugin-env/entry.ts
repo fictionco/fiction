@@ -125,6 +125,8 @@ export const getServerServiceConfig = async (
 ): Promise<ServiceConfig> => {
   const mainFilePath = params.mainFilePath ?? getMainFilePath(params)
 
+  console.log("MAIN FILE", mainFilePath)
+
   const { serviceConfig } = await compileApplication({
     mainFilePath,
     isApp: false,
