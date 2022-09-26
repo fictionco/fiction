@@ -1,3 +1,13 @@
+## [5.5.65](https://github.com/FactorJS/factor/compare/v5.5.64...v5.5.65) (2022-09-26)
+
+
+### Bug Fixes
+
+* draggable throttle ([b01448e](https://github.com/FactorJS/factor/commit/b01448e8a610535d823013b0defb5a23116a8b3a))
+* input types ([f894460](https://github.com/FactorJS/factor/commit/f894460f12346452fb24aa3a2ff5d806139364b5))
+
+
+
 ## [5.5.64](https://github.com/FactorJS/factor/compare/v5.5.63...v5.5.64) (2022-09-23)
 
 
