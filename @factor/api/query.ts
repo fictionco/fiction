@@ -54,6 +54,8 @@ export abstract class Query<T extends Record<string, unknown> = {}> {
 
       const response = {
         status: "error",
+        httpStatus: e.httpStatus || 200,
+        location: e.location,
         message: e.expose ? e.message : "",
         expose: e.expose,
         code: e.code,

@@ -27,12 +27,6 @@
             >
               <div class="i-carbon-draggable text-xs"></div>
             </div>
-            <div
-              class="text-theme-400 hover:text-theme-500 cursor-pointer items-center p-0.5"
-              @click.stop="removeColor(i)"
-            >
-              <div class="i-carbon-trash-can text-xs"></div>
-            </div>
           </div>
         </div>
         <div
@@ -119,11 +113,15 @@ const removeColor = async (index: number) => {
 }
 
 const updateColor = async (index: number, color: string) => {
-  const value = props.modelValue || {}
-  const list = colorList.value
-  list[index].color = color
-  value.stops = list
-  await updateValue(value)
+  if (!color) {
+    await removeColor(index)
+  } else {
+    const value = props.modelValue || {}
+    const list = colorList.value
+    list[index].color = color
+    value.stops = list
+    await updateValue(value)
+  }
 }
 vue.onMounted(async () => {
   const wrap = colorEl.value

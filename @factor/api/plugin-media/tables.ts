@@ -27,7 +27,20 @@ export const mediaTable = new FactorDbTable({
       create: ({ schema, column }) => schema.string(column.pgKey),
     }),
     new FactorDbCol({
+      key: "originUrl",
+      create: ({ schema, column }) => schema.string(column.pgKey),
+    }),
+    new FactorDbCol({
       key: "urlSmall",
+      create: ({ schema, column }) => schema.string(column.pgKey),
+    }),
+    new FactorDbCol({
+      key: "originUrlSmall",
+      create: ({ schema, column }) => schema.string(column.pgKey),
+    }),
+
+    new FactorDbCol({
+      key: "blurhash",
       create: ({ schema, column }) => schema.string(column.pgKey),
     }),
     new FactorDbCol({

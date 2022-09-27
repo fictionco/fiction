@@ -13,10 +13,20 @@ export const _stop = <T = unknown>(
   const {
     status = "error",
     message,
+    httpStatus = 200,
+    location,
     code = "STOP",
     data = undefined,
     expose = true,
   } = config
 
-  return { status, message, code, data: data as T, expose }
+  return {
+    status,
+    httpStatus,
+    location,
+    message,
+    code,
+    data: data as T,
+    expose,
+  }
 }

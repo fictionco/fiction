@@ -44,8 +44,7 @@
         v-else-if="navItemActive == 'upload'"
         class="p-4"
         :service="service"
-        :model-value="modelValue"
-        @update:model-value="updateValue($event)"
+        @update:model-value="uploaded($event)"
       ></InputMediaUpload>
       <div v-else class="">-----library</div>
     </ElModal>
@@ -80,7 +79,18 @@ const navItemActive = vue.ref(navItems[0])
 const uploading = vue.ref(false)
 
 const updateValue = async (value: MediaDisplayObject[]): Promise<void> => {
-  const v = value.slice(0, props.limit)
+  emit("update:modelValue", value)
+  vis.value = false
+}
+
+const uploaded = async (value: MediaDisplayObject[]): Promise<void> => {
+  // retain overlay and filters if single image upload being replaced
+  if (props.limit == 1 && props.modelValue.length >= 1 && value.length >= 1) {
+    const { overlay, filters } = props.modelValue[0]
+    value[0] = { ...value[0], overlay, filters }
+  }
+  const allImages = [...props.modelValue, ...value]
+  const v = allImages.slice(-1 * props.limit)
   emit("update:modelValue", v)
   vis.value = false
 }

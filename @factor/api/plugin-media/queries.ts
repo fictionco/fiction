@@ -1,12 +1,11 @@
+import path from "path"
 import sharp from "sharp"
 import { Query } from "../query"
 import { EndpointResponse } from "../types"
-
 import { EndpointMeta } from "../utils"
 import { FactorDb } from "../plugin-db"
 import { FactorAws } from "../plugin-aws"
 import type { FactorMedia, MediaConfig } from "."
-
 type SaveMediaSettings = {
   factorMedia: FactorMedia
   factorDb?: FactorDb
@@ -24,6 +23,30 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 }
 
 export class QuerySaveMedia extends MediaQuery {
+  async createBlurHash(img: sharp.Sharp): Promise<string | undefined> {
+    const { data: pixels, info: metadata } = await img
+      .raw()
+      .ensureAlpha()
+      .toBuffer({ resolveWithObject: true })
+
+    const { width, height } = metadata
+
+    if (!width || !height) return
+
+    const bh = await import("blurhash")
+
+    const blurhash = bh.encode(
+      new Uint8ClampedArray(pixels),
+      width,
+      height,
+      4,
+      4,
+    )
+
+    if (bh.isBlurhashValid(blurhash)) {
+      return blurhash
+    }
+  }
   async run(
     _params: {},
     meta: EndpointMeta,
@@ -41,45 +64,66 @@ export class QuerySaveMedia extends MediaQuery {
     const filePath = `${userId}/${mediaId}-${file.originalname}`
     const filePathSmall = `${userId}/${mediaId}-${file.originalname}-small`
 
-    const img = await sharp(file.buffer)
-      .resize(this.maxSide, this.maxSide, {
-        withoutEnlargement: true,
-        fit: "inside",
-      })
-      .toBuffer()
-
-    const smallImg = await sharp(file.buffer)
-      .resize(80, 80, {
-        withoutEnlargement: true,
-        fit: "inside",
-      })
-      .toBuffer()
-
-    const { url, headObject } = await this.factorAws.uploadS3({
-      data: img,
-      filePath,
-      mime,
-      bucket,
+    const img = sharp(file.buffer).resize(this.maxSide, this.maxSide, {
+      withoutEnlargement: true,
+      fit: "inside",
     })
 
-    const { url: urlSmall } = await this.factorAws.uploadS3({
-      data: smallImg,
-      filePath: filePathSmall,
-      mime,
-      bucket,
-    })
+    const imgBuffer = await img.toBuffer()
+
+    const metadata = await img.metadata()
+
+    const { width, height } = metadata
+
+    const [blurhash, smallImgBuffer] = await Promise.all([
+      this.createBlurHash(img),
+      sharp(imgBuffer)
+        .resize(80, 80, {
+          withoutEnlargement: true,
+          fit: "inside",
+        })
+        .toBuffer(),
+    ])
+
+    const [{ url: originUrl, headObject }, { url: originUrlSmall }] =
+      await Promise.all([
+        this.factorAws.uploadS3({
+          data: imgBuffer,
+          filePath,
+          mime,
+          bucket,
+        }),
+        this.factorAws.uploadS3({
+          data: smallImgBuffer,
+          filePath: filePathSmall,
+          mime,
+          bucket,
+        }),
+      ])
+
+    const cdn = this.factorMedia.cdnUrl
+
+    const url = cdn ? path.join(cdn, filePath) : originUrl
+
+    const urlSmall = cdn ? path.join(cdn, filePathSmall) : originUrlSmall
 
     const db = this.factorDb.client()
 
     const mediaConfig = {
       mediaId,
+      originUrl,
       url,
+      originUrlSmall,
+      urlSmall,
       mime: headObject.ContentType || mime,
       bucket,
       userId,
       filePath,
       size: headObject.ContentLength,
-      urlSmall,
+
+      blurhash,
+      width,
+      height,
     }
 
     const r = await db

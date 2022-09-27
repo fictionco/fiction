@@ -239,15 +239,17 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   getStaticPathAliases = (opts: {
     mainFilePath?: string
   }): Record<string, string> => {
-    const { mainFilePath = "" } = opts
+    const { mainFilePath } = opts
 
-    return {
-      "@MAIN_FILE_ALIAS": mainFilePath,
+    const out: Record<string, string> = {
       "@MOUNT_FILE_ALIAS": path.join(
         safeDirname(import.meta.url, ".."),
         "/plugin-app/mount.ts",
       ),
+      "@MAIN_FILE_ALIAS": mainFilePath || path.join(this.root, "./blank.ts"),
     }
+
+    return out
   }
 
   getCommonViteConfig = async (options: {

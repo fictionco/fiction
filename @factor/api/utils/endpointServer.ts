@@ -119,6 +119,7 @@ export class EndpointServer {
           endpoint.pathname(),
           ...pathMiddleware,
           async (request: express.Request, response) => {
+            // error handling is done via "Query" class
             const result = await endpoint.serveRequest(request, response)
             delete result.internal
             response.status(200).send(result).end()

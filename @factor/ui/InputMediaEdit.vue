@@ -7,7 +7,8 @@
     >
       <ElRichImage
         :media="item"
-        class="relative aspect-video h-12 max-w-[60px] overflow-hidden rounded-md shadow ring-1 ring-black/10"
+        class="relative aspect-video h-12 max-w-[60px] cursor-pointer overflow-hidden rounded-md shadow ring-1 ring-black/10 hover:opacity-80"
+        @click.stop="editItem(i)"
       ></ElRichImage>
       <div class="flex flex-col">
         <div

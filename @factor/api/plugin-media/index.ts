@@ -1,5 +1,6 @@
 import multer from "multer"
 import type { FormData as FormDataNode } from "formdata-node"
+
 import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { FactorDb } from "../plugin-db"
 import { FactorServer } from "../plugin-server"
@@ -16,12 +17,14 @@ type FactorMediaSettings = {
   factorAws: FactorAws
   bucket: string
   unsplashAccessKey?: string
+  cdnUrl?: string
 } & FactorPluginSettings
 
 export type MediaConfig = {
   mediaId: string
   url: string
   urlSmall?: string
+  blurhash?: string
   width?: number
   height?: number
   size?: number
@@ -40,6 +43,7 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   factorAws = this.settings.factorAws
   bucket = this.settings.bucket
   unsplashAccessKey = this.settings.unsplashAccessKey
+  cdnUrl = this.settings.cdnUrl
   public queries = this.createQueries()
   public requests = this.createRequests({
     queries: this.queries,

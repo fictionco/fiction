@@ -3,14 +3,14 @@
     <ElInput
       class=""
       input="InputGradient"
-      label="Gradient / Color"
+      label="Overlay Color"
       :model-value="modelValue?.gradient"
       @update:model-value="updateField('gradient', $event)"
     ></ElInput>
     <ElInput
       class=""
       input="InputRange"
-      label="Opacity"
+      label="Overlay Opacity"
       :list="blendModes"
       :model-value="modelValue?.opacity"
       @update:model-value="updateField('opacity', $event)"
@@ -18,7 +18,7 @@
     <ElInput
       class=""
       input="InputSelect"
-      label="Blend Mode"
+      label="Overlay Blend Mode"
       :list="blendModes"
       :model-value="modelValue?.blendMode"
       @update:model-value="updateField('blendMode', $event)"

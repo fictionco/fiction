@@ -224,8 +224,8 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     const { service = {} } = serviceConfig
 
     const app: vue.App = renderUrl
-      ? vue.createSSRApp(this.rootComponent)
-      : vue.createApp(this.rootComponent)
+      ? vue.createSSRApp(this.rootComponent, { service })
+      : vue.createApp(this.rootComponent, { service })
 
     app.provide("service", service)
     app.provide("ui", this.createUi(this.ui))
