@@ -13,7 +13,9 @@
       <InputElTab
         v-for="(item, i) in parsedList"
         :key="item.value"
-        :selected="item.value && modelValue.includes(item.value) ? true : false"
+        class="cursor-pointer"
+        :selected="isSelected(item)"
+        :not-selected="!isSelected(item) && modelValue.length >= limit"
         :prefix="choiceLetter(i)"
         :label="item.name"
         @click="selectItem(item.value ?? '')"
@@ -31,8 +33,8 @@ const props = defineProps({
     type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
     default: () => [],
   },
-  maxSelect: {
-    type: [Number, String],
+  limit: {
+    type: Number,
     default: 1,
   },
   selectLetters: {
@@ -47,6 +49,10 @@ const choiceLetter = (i: number): string => {
   return letters[remain].toUpperCase()
 }
 
+const isSelected = (item: ListItem): boolean => {
+  return props.modelValue.includes(item.value ?? "")
+}
+
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string[]): void
 }>()
@@ -54,12 +60,16 @@ const emit = defineEmits<{
 const selectItem = (val: string) => {
   const hasValue = props.modelValue.indexOf(val)
 
+  let newList: string[]
   if (hasValue > -1) {
-    const newList = props.modelValue.filter((v) => v != val)
-    emit("update:modelValue", newList)
+    newList = props.modelValue.filter((v) => v != val)
   } else {
-    emit("update:modelValue", [...props.modelValue, val])
+    newList = [...props.modelValue, val]
+
+    newList.slice(-1 * +props.limit)
   }
+
+  emit("update:modelValue", newList)
 }
 
 const parsedList = vue.computed<ListItem[]>(() => {
