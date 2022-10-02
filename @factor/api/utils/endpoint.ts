@@ -1,5 +1,6 @@
 import type { FormData as FormDataNode } from "formdata-node"
 //import nodeFetch, { BodyInit as NodeFetchBodyInit } from "node-fetch"
+import nodeFetch from "node-fetch"
 import { PrivateUser } from "../plugin-user/types"
 import { EndpointResponse } from "../types"
 import { log } from "../plugin-log"
@@ -104,10 +105,13 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   async upload(data: FormData | FormDataNode): Promise<ReturnType<T["run"]>> {
-    // const fetcher = isApp()
-    //   ? fetch
-    //   : (nodeFetch as typeof FileSystemDirectoryHandle)
-    const r = await fetch(this.requestUrl, {
+    /**
+     * @todo - support native fetch in node, currently it fails
+     *  and doesn't actually upload image... mostly this is needed for testing
+     */
+    const fetcher = isApp() ? fetch : (nodeFetch as typeof fetch)
+
+    const r = await fetcher(this.requestUrl, {
       body: data as BodyInit,
       method: "post",
       headers: { Authorization: this.bearerHeader },

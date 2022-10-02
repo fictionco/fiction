@@ -67,7 +67,7 @@ export const getWindowSize = (): vue.Ref<WindowSize> => {
     },
   })
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && typeof ResizeObserver !== "undefined") {
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const { width, height } = entry.contentRect

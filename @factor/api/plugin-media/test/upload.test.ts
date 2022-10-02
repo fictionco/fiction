@@ -63,8 +63,8 @@ describe("user tests", () => {
 
     // expect(file).toBeTruthy()
 
-    const file = fileFromPathSync(path.join(thisDir, "./test.png"), {
-      type: "image/png",
+    const file = fileFromPathSync(path.join(thisDir, "./test.jpg"), {
+      type: "image/jpeg",
     })
 
     const formData = new FormData()
@@ -81,11 +81,11 @@ describe("user tests", () => {
 
     if (!url) throw new Error("no url")
     expect(url).toContain("factor-testing")
-    expect(url).toContain("test.png")
-    expect(r?.data?.url).toContain(".png")
+    expect(url).toContain("test.jpg")
+    expect(r?.data?.url).toContain(".jpg")
     expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')
-    expect(r?.data?.mime).toBe("image/png")
-    expect(r?.data?.size).toMatchInlineSnapshot("6914")
+    expect(r?.data?.mime).toBe("image/jpeg")
+    expect(r?.data?.size).toMatchInlineSnapshot("1064")
     expect(r?.data?.userId).toBe(testUtils?.initialized?.user?.userId)
 
     const img = await nodeFetch(url)
@@ -99,7 +99,7 @@ describe("user tests", () => {
 
     expect(r?.data?.length).toBeGreaterThan(0)
     expect(r?.message).toBeFalsy()
-    expect(r?.data?.[0].url).toContain(".png")
+    expect(r?.data?.[0].url).toContain(".jpg")
   })
 
   it("deletes a file", async () => {

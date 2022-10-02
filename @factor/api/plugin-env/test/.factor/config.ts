@@ -4,7 +4,7 @@
  */
 
 export interface CompiledServiceConfig {
-  commands: "app" | "dev" | "r-dev" | "render" | "server";
+  commands: "app" | "build" | "dev" | "r-dev" | "render" | "server";
   vars:
     | "APP_PORT"
     | "AWS_ACCESS_KEY"

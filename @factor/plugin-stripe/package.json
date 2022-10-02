@@ -2,13 +2,13 @@
   "name": "@factor/plugin-stripe",
   "version": "5.5.67",
   "dependencies": {
-    "@factor/api": "5.5.67",
+    "@factor/api": "workspace:5.5.67",
     "@stripe/stripe-js": "^1.38.1",
     "express": "^4.18.1",
     "stripe": "^9.16.0"
   },
   "devDependencies": {
-    "dotenv": "^16.0.2"
+    "dotenv": "^16.0.3"
   },
   "license": "MIT",
   "main": "index.ts",
