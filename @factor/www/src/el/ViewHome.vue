@@ -13,7 +13,7 @@
                   class="group inline-flex space-x-4"
                 >
                   <span
-                    class="rounded bg-primary-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-primary-600 group-hover:text-primary-400"
+                    class="bg-primary-50 text-primary-600 group-hover:text-primary-400 rounded px-2.5 py-1 text-xs font-semibold uppercase tracking-wide"
                   >
                     Currently Under Development
                   </span>

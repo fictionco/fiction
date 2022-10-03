@@ -70,7 +70,8 @@ const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
   if (props.input && typeof props.input == "string") {
-    return inputs[props.input]
+    const r = inputs[props.input]
+    return r
   } else {
     return props.input || ""
   }

@@ -1,9 +1,9 @@
 <template>
-  <div class="header py-6 px-4 flex justify-center items-center">
+  <div class="header flex items-center justify-center py-6 px-4">
     <div class="logo">
       <router-link
         to="/"
-        class="font-bold text-2xl block rounded-md text-white"
+        class="block rounded-md text-2xl font-bold text-white"
       >
         <svg
           class="w-8"

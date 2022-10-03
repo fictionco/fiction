@@ -20,13 +20,13 @@
             <li v-for="(item, ii) in col.menu" :key="ii">
               <a
                 :href="item.path"
-                class="font-semibold hover:text-primary-500"
+                class="hover:text-primary-500 font-semibold"
                 :target="item.target ? item.target : '_self'"
               >
                 <template v-if="item.icon">
                   <span class="sr-only">{{ item.name }}</span>
                   <div
-                    class="h-6 w-6 text-slate-500 hover:text-primary-500"
+                    class="hover:text-primary-500 h-6 w-6 text-slate-500"
                     v-html="item.icon"
                   />
                 </template>

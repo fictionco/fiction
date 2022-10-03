@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import Content from "./Content.vue"
+import Content from "./MainContent.vue"
 </script>
 
 <style lang="less">

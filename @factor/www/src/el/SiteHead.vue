@@ -53,7 +53,7 @@
         <div class="-my-2 -mr-2 md:hidden">
           <button
             type="button"
-            class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="focus:ring-primary-500 inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset"
             :aria-expanded="mobileMenu ? 'true' : 'false'"
             @click.stop="mobileMenu = true"
           >
@@ -83,7 +83,7 @@
                 <!-- Item active: "", Item inactive: "text-slate-500" -->
                 <button
                   type="button"
-                  class="group hover: inline-flex items-center rounded-md bg-white text-base font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                  class="group hover: focus:ring-primary-500 inline-flex items-center rounded-md bg-white text-base font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2"
                   aria-expanded="false"
                 >
                   <span>{{ item.name }}</span>
@@ -131,7 +131,7 @@
                           class="-m-3 flex items-start rounded-lg p-3 hover:bg-slate-50"
                         >
                           <div
-                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-500 text-white sm:h-12 sm:w-12"
+                            class="bg-primary-500 flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-white sm:h-12 sm:w-12"
                           >
                             <!-- Heroicon name: outline/inbox -->
                             <svg
@@ -166,7 +166,7 @@
             <router-link
               v-else
               :to="item.path"
-              class="font-semibold hover:text-primary-500"
+              class="hover:text-primary-500 font-semibold"
               active-class="text-primary-500"
               >{{ item.name }}</router-link
             >
@@ -177,7 +177,7 @@
         <div class="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
           <router-link
             to="/docs"
-            class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-primary-500 bg-origin-border px-4 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-700"
+            class="bg-primary-500 hover:bg-primary-700 ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-origin-border px-4 py-1.5 text-sm font-semibold text-white shadow-sm"
           >
             Status &rarr; Alpha
           </router-link>
@@ -210,7 +210,7 @@
                 <div class="-mr-2">
                   <button
                     type="button"
-                    class="inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+                    class="focus:ring-primary-500 inline-flex items-center justify-center rounded-md bg-white p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-inset"
                     @click="mobileMenu = false"
                   >
                     <span class="sr-only">Close menu</span>
@@ -240,7 +240,7 @@
                   v-for="(item, i) in nav"
                   :key="i"
                   :to="item.path"
-                  class="font-semibold hover:text-primary-500"
+                  class="hover:text-primary-500 font-semibold"
                   active-class="text-primary-500"
                   >{{ item.name }}</router-link
                 >
@@ -250,7 +250,7 @@
               <div class="mt-6">
                 <a
                   href="#"
-                  class="flex w-full items-center justify-center rounded-md border border-transparent bg-primary-500 bg-origin-border px-4 py-2 text-base font-semibold text-white shadow-sm hover:bg-primary-700"
+                  class="bg-primary-500 hover:bg-primary-700 flex w-full items-center justify-center rounded-md border border-transparent bg-origin-border px-4 py-2 text-base font-semibold text-white shadow-sm"
                 >
                   Start Site or App
                 </a>

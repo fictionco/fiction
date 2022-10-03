@@ -48,7 +48,7 @@
               target="_blank"
               class="flex cursor-pointer items-center space-x-6 hover:opacity-70"
               ><div
-                class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-primary-500 text-primary-500"
+                class="border-primary-500 text-primary-500 flex h-12 w-12 items-center justify-center rounded-full border-2"
               >
                 <div class="h-4 w-4" v-html="social.icon" />
               </div>

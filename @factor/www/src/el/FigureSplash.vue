@@ -90,7 +90,7 @@
       <div
         v-for="(fig, i) in figures"
         :key="i"
-        class="mb-2 cursor-pointer rounded-md border px-4 py-1 text-xs font-semibold hover:border-primary-500 hover:text-primary-500"
+        class="hover:border-primary-500 hover:text-primary-500 mb-2 cursor-pointer rounded-md border px-4 py-1 text-xs font-semibold"
         :class="
           activeSlide.id == fig.id
             ? 'border-primary-500 text-primary-500'

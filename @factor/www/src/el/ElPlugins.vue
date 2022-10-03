@@ -11,7 +11,7 @@
         <ElButton
           btn="default"
           to="/plugins"
-          class="font-bold hover:text-primary-500"
+          class="hover:text-primary-500 font-bold"
         >
           Browse All &rarr;
         </ElButton>

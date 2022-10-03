@@ -6,7 +6,7 @@
       <a
         v-for="(video, index) in videos"
         :key="video.id"
-        class="mx-0 block rounded-md px-4 py-1 font-bold uppercase text-slate-500 hover:bg-slate-50 hover:text-primary-500 lg:mx-4"
+        class="hover:text-primary-500 mx-0 block rounded-md px-4 py-1 font-bold uppercase text-slate-500 hover:bg-slate-50 lg:mx-4"
         :class="video.id == selected ? 'active bg-primary-500 text-white' : ''"
         :href="`#${video.id}`"
       >
@@ -27,7 +27,7 @@
           <div class="mt-3 flex items-center">
             <div class="time">
               <span
-                class="mr-6 rounded-md bg-primary-500 px-2 py-1 text-white"
+                class="bg-primary-500 mr-6 rounded-md px-2 py-1 text-white"
                 >{{ video.duration }}</span
               >
             </div>

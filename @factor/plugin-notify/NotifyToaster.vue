@@ -40,7 +40,7 @@
                 </div>
               </div>
               <div
-                class="ml-4 cursor-pointer text-slate-400 hover:text-primary-500"
+                class="hover:text-primary-500 ml-4 cursor-pointer text-slate-400"
                 @click="removeToast(i)"
               >
                 <svg

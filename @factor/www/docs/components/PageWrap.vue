@@ -8,7 +8,7 @@
           <button
             id="main-menu"
             type="button"
-            class="-mr-2 inline-flex items-center justify-center rounded-md p-2 font-semibold text-primary-500 hover:bg-primary-100 hover:text-primary-500 focus:bg-primary-100 focus:text-primary-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500"
+            class="text-primary-500 hover:bg-primary-100 hover:text-primary-500 focus:bg-primary-100 focus:text-primary-500 focus:ring-primary-500 -mr-2 inline-flex items-center justify-center rounded-md p-2 font-semibold focus:outline-none focus:ring-2 focus:ring-inset"
             aria-haspopup="true"
             aria-expanded="true"
             @click.stop="toggleDocsNav()"
@@ -80,7 +80,7 @@
                 <template v-for="(group, i) in groups" :key="i">
                   <li v-if="group.title" class="mt-6">
                     <router-link
-                      class="mb-2 flex items-center px-3 text-base font-medium hover:text-primary-500"
+                      class="hover:text-primary-500 mb-2 flex items-center px-3 text-base font-medium"
                       :to="group.path ?? '/'"
                       :class="isCurrentNav(i) ? 'text-primary-500' : ''"
                     >
@@ -94,7 +94,7 @@
                     <ul class="group-items">
                       <li v-for="(docId, ii) in group.menu" :key="ii">
                         <router-link
-                          class="flex items-center px-3 py-1 hover:text-primary-500"
+                          class="hover:text-primary-500 flex items-center px-3 py-1"
                           :to="docRoute(docId)"
                           :class="
                             isCurrentNav(docId)
@@ -111,7 +111,7 @@
                   <template v-else>
                     <li v-for="(docId, ii) in group.menu" :key="ii">
                       <a
-                        class="flex items-center px-3 py-2 text-slate-500 transition-colors duration-200 hover:text-primary-500"
+                        class="hover:text-primary-500 flex items-center px-3 py-2 text-slate-500 transition-colors duration-200"
                         :href="docRoute(docId)"
                       >
                         {{ docTitle(docId) }}
