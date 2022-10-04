@@ -1,6 +1,16 @@
 <template>
   <div v-if="media?.url" :class="cls">
-    <div class="absolute inset-0">
+    <img
+      v-if="!loading && fit == 'inline'"
+      class="inline-block"
+      :class="imageClass"
+      :src="media?.url || ''"
+      :style="{
+        filter: filters?.map((_) => _.value).join(' '),
+      }"
+    />
+
+    <div v-else class="absolute inset-0">
       <transition
         enter-active-class="transition ease duration-100"
         enter-from-class="opacity-0"
@@ -10,10 +20,11 @@
         leave-to-class="opacity-0"
       >
         <!-- <canvas
-        v-if="loading && media.blurhash"
-        ref="blurCanvas"
-        class="z-0 h-full w-full"
-      ></canvas> -->
+          v-if="media.blurhash"
+          ref="blurCanvas"
+          class="z-0 h-full w-full"
+          :data-hash="media.blurhash"
+        ></canvas> -->
         <img
           v-if="!loading"
           class="z-0 h-full w-full"
@@ -43,12 +54,16 @@ const props = defineProps({
     default: undefined,
   },
   fit: {
-    type: String as vue.PropType<"cover" | "contain">,
+    type: String as vue.PropType<"cover" | "contain" | "inline">,
     default: "cover",
   },
   objectPosition: {
     type: String as vue.PropType<"center" | "left" | "right">,
     default: "center",
+  },
+  imageClass: {
+    type: String as vue.PropType<string>,
+    default: "",
   },
 })
 
@@ -78,10 +93,11 @@ vue.onMounted(() => {
 
   // const { blurhash, width, height } = props.media || {}
   // if (blurhash && width && height) {
-  //   const pixels = bh.decode(blurhash, width, height)
-
+  //   const t0 = performance.now()
+  //   const pixels = bh.decode(blurhash, width / 10, height / 10)
+  //   const t1 = performance.now()
+  //   console.log(`Call to blurhash decode took ${t1 - t0} milliseconds.`)
   //   const blurCanvasEl = blurCanvas.value as HTMLCanvasElement
-
   //   const ctx = blurCanvasEl.getContext("2d")
   //   const imageData = ctx?.createImageData(width, height)
   //   imageData?.data.set(pixels)

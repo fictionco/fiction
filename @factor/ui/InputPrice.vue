@@ -12,6 +12,7 @@
       :value="modelValue"
       step=".01"
       min="0"
+      v-bind="$attrs"
       @input="handleEmit($event.target)"
     />
   </div>

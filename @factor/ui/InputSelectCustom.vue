@@ -46,14 +46,15 @@
             />
           </svg>
         </span>
+        <!-- For validation -->
+        <input
+          class="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 p-0 opacity-0"
+          v-bind="$attrs"
+          type="text"
+          :value="modelValue"
+        />
       </div>
-      <!-- For validation -->
-      <input
-        class="absolute float-left block h-0 w-0 p-0 opacity-0"
-        v-bind="$attrs"
-        type="text"
-        :value="modelValue"
-      />
+
       <transition
         leave-active-class="transition ease-in duration-100"
         leave-class="opacity-100"

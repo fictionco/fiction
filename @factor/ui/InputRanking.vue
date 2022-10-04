@@ -14,6 +14,13 @@
         :data-value="item.value"
         icon="i-carbon-draggable"
       ></InputElTab>
+      <!-- For validation -->
+      <input
+        ref="validEl"
+        class="max-w-input pointer-events-none float-left h-0 w-full p-0 opacity-0"
+        type="text"
+        :value="modelValue"
+      />
     </template>
   </div>
 </template>
@@ -30,6 +37,10 @@ const props = defineProps({
     default: () => [],
   },
 })
+
+const attrs = vue.useAttrs()
+
+const validEl = vue.ref<HTMLInputElement>()
 
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string[]): void
@@ -76,5 +87,19 @@ vue.onMounted(async () => {
     ghostClasses: ["ring-4", "ring-theme-100", "ring-offset-2"],
     onUpdate: () => update(),
   })
+
+  vue.watch(
+    () => props.modelValue,
+    (val) => {
+      const min = typeof attrs.required != "undefined" ? 1 : 0
+
+      if ((min && !val) || val.length < min) {
+        validEl.value?.setCustomValidity(`Please rank these options`)
+      } else {
+        validEl.value?.setCustomValidity("")
+      }
+    },
+    { immediate: true },
+  )
 })
 </script>

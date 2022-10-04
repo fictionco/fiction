@@ -19,6 +19,14 @@
       <div class="text-center">{{ labels.middle }}</div>
       <div class="text-right">{{ labels.high }}</div>
     </div>
+    <!-- For validation -->
+    <input
+      ref="validEl"
+      class="pointer-events-none float-left h-0 w-0 p-0 opacity-0"
+      type="text"
+      :value="modelValue"
+      :isValid="isValid"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -49,6 +57,11 @@ const props = defineProps({
   },
 })
 
+const attrs = vue.useAttrs()
+
+const validEl = vue.ref<HTMLInputElement>()
+const isValid = vue.ref(-1)
+
 const emit = defineEmits<{
   (event: "update:modelValue", payload: number | undefined): void
 }>()
@@ -72,4 +85,22 @@ const selectByLetter = (ev: KeyboardEvent) => {
   const val = parsedList.value[index]
   if (val) selectItem(val)
 }
+
+vue.onMounted(() => {
+  vue.watch(
+    () => props.modelValue,
+    (val) => {
+      const min = typeof attrs.required != "undefined" ? 1 : 0
+
+      if (min && !val) {
+        validEl.value?.setCustomValidity(`Please select one`)
+        isValid.value = 0
+      } else {
+        validEl.value?.setCustomValidity("")
+        isValid.value = 1
+      }
+    },
+    { immediate: true },
+  )
+})
 </script>

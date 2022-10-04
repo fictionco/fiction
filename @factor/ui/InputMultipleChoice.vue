@@ -15,11 +15,22 @@
         :key="item.value"
         class="cursor-pointer"
         :selected="isSelected(item)"
-        :not-selected="!isSelected(item) && modelValue.length >= limit"
+        :not-selected="!isSelected(item) && modelValue.length >= max"
         :prefix="choiceLetter(i)"
         :label="item.name"
         @click="selectItem(item.value ?? '')"
       ></InputElTab>
+      <!-- For validation -->
+      <div class="max-w-input relative inline-block">
+        <input
+          ref="validEl"
+          class="pointer-events-none absolute h-0 w-0 p-0 opacity-0"
+          type="text"
+          :value="modelValue"
+          :isValid="JSON.stringify(isValid)"
+          :maximum="maximum"
+        />
+      </div>
     </template>
   </div>
 </template>
@@ -33,7 +44,11 @@ const props = defineProps({
     type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
     default: () => [],
   },
-  limit: {
+  min: {
+    type: Number,
+    default: undefined,
+  },
+  max: {
     type: Number,
     default: 1,
   },
@@ -43,6 +58,14 @@ const props = defineProps({
   },
 })
 
+const maximum = vue.computed(() =>
+  props.min && props.max < props.min ? props.min : props.max,
+)
+
+const attrs = vue.useAttrs()
+
+const validEl = vue.ref<HTMLInputElement>()
+const isValid = vue.ref({})
 const choiceLetter = (i: number): string => {
   const remain = i % 26
   const letters = props.selectLetters
@@ -66,7 +89,10 @@ const selectItem = (val: string) => {
   } else {
     newList = [...props.modelValue, val]
 
-    newList.slice(-1 * +props.limit)
+    // remove the first items if we are over the max
+    if (props.max && newList.length > props.max) {
+      newList = newList.slice(newList.length - props.max)
+    }
   }
 
   emit("update:modelValue", newList)
@@ -84,4 +110,23 @@ const selectByLetter = (ev: KeyboardEvent) => {
   const val = parsedList.value[index]?.value
   if (val) selectItem(val)
 }
+
+vue.onMounted(() => {
+  vue.watch(
+    () => props.modelValue,
+    (val) => {
+      const isRequired = typeof attrs.required != "undefined"
+      const min = props.min ?? isRequired ? 1 : 0
+
+      if ((min && !val) || val.length < min) {
+        validEl.value?.setCustomValidity(`Please select ${min}`)
+        isValid.value = { min, val, valid: false, isRequired }
+      } else {
+        validEl.value?.setCustomValidity("")
+        isValid.value = { min, val, valid: true, isRequired }
+      }
+    },
+    { immediate: true },
+  )
+})
 </script>

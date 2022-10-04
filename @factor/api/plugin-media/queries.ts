@@ -71,18 +71,18 @@ export class QuerySaveMedia extends MediaQuery {
 
     const imgBuffer = await img.toBuffer()
 
+    const smallImg = sharp(imgBuffer).resize(80, 80, {
+      withoutEnlargement: true,
+      fit: "inside",
+    })
+
     const metadata = await img.metadata()
 
     const { width, height } = metadata
 
     const [blurhash, smallImgBuffer] = await Promise.all([
-      this.createBlurHash(img),
-      sharp(imgBuffer)
-        .resize(80, 80, {
-          withoutEnlargement: true,
-          fit: "inside",
-        })
-        .toBuffer(),
+      this.createBlurHash(smallImg),
+      smallImg.toBuffer(),
     ])
 
     const [{ url: originUrl, headObject }, { url: originUrlSmall }] =

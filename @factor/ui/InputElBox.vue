@@ -8,9 +8,8 @@
         animateSelected ? 'notify-selected' : '',
         selected
           ? 'border-theme-400 bg-theme-200 text-theme-600'
-          : notSelected
-          ? 'border-theme-200 bg-theme-50 text-theme-400'
           : 'border-theme-300 bg-theme-100 text-theme-500',
+        notSelected ? 'opacity-60' : '',
       ]"
     >
       <div class="relative text-center">
