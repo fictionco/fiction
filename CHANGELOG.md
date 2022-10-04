@@ -1,3 +1,18 @@
+## [5.5.69](https://github.com/FactorJS/factor/compare/v5.5.68...v5.5.69) (2022-10-04)
+
+
+### Bug Fixes
+
+* color ([a5a2e5b](https://github.com/FactorJS/factor/commit/a5a2e5b83ec5961b24b455838b79b4c76cd3fec8))
+* lint ([5edf464](https://github.com/FactorJS/factor/commit/5edf46444970190cc58fb900bd246bab6a70580f))
+
+
+### Features
+
+* blurhash ([32f1e00](https://github.com/FactorJS/factor/commit/32f1e0005ca1c79f4466bb04dcb96a56e089aa28))
+
+
+
 ## [5.5.68](https://github.com/FactorJS/factor/compare/v5.5.67...v5.5.68) (2022-10-02)
 
 
