@@ -100,6 +100,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#334155",
       800: "#1e293b",
       900: "#0f172a",
+      950: "#0f172a",
     },
     gray: {
       50: "#f9fafb",
@@ -112,6 +113,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#374151",
       800: "#1f2937",
       900: "#111827",
+      950: "#111827",
     },
     zinc: {
       50: "#fafafa",
@@ -124,6 +126,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#3f3f46",
       800: "#27272a",
       900: "#18181b",
+      950: "#18181b",
     },
     neutral: {
       50: "#fafafa",
@@ -136,6 +139,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#404040",
       800: "#262626",
       900: "#171717",
+      950: "#171717",
     },
     stone: {
       50: "#fafaf9",
@@ -148,6 +152,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#44403c",
       800: "#292524",
       900: "#1c1917",
+      950: "#1c1917",
     },
     red: {
       50: "#fef2f2",
@@ -160,6 +165,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#b91c1c",
       800: "#991b1b",
       900: "#7f1d1d",
+      950: "#7f1d1d",
     },
     orange: {
       50: "#fff7ed",
@@ -172,6 +178,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#c2410c",
       800: "#9a3412",
       900: "#7c2d12",
+      950: "#7c2d12",
     },
     amber: {
       50: "#fffbeb",
@@ -184,6 +191,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#b45309",
       800: "#92400e",
       900: "#78350f",
+      950: "#78350f",
     },
     yellow: {
       50: "#fefce8",
@@ -196,6 +204,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#a16207",
       800: "#854d0e",
       900: "#713f12",
+      950: "#713f12",
     },
     lime: {
       50: "#f7fee7",
@@ -208,6 +217,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#4d7c0f",
       800: "#3f6212",
       900: "#365314",
+      950: "#365314",
     },
     green: {
       50: "#f0fdf4",
@@ -220,6 +230,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#15803d",
       800: "#166534",
       900: "#14532d",
+      950: "#14532d",
     },
     emerald: {
       50: "#ecfdf5",
@@ -232,6 +243,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#047857",
       800: "#065f46",
       900: "#064e3b",
+      950: "#064e3b",
     },
     teal: {
       50: "#f0fdfa",
@@ -244,6 +256,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#0f766e",
       800: "#115e59",
       900: "#134e4a",
+      950: "#134e4a",
     },
     cyan: {
       50: "#ecfeff",
@@ -256,6 +269,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#0e7490",
       800: "#155e75",
       900: "#164e63",
+      950: "#164e63",
     },
     sky: {
       50: "#f0f9ff",
@@ -268,6 +282,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#0369a1",
       800: "#075985",
       900: "#0c4a6e",
+      950: "#0c4a6e",
     },
     blue: {
       50: "#eff6ff",
@@ -280,6 +295,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#1d4ed8",
       800: "#1e40af",
       900: "#1e3a8a",
+      950: "#1e3a8a",
     },
     indigo: {
       50: "#eef2ff",
@@ -292,6 +308,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#4338ca",
       800: "#3730a3",
       900: "#312e81",
+      950: "#312e81",
     },
     violet: {
       50: "#f5f3ff",
@@ -304,6 +321,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#6d28d9",
       800: "#5b21b6",
       900: "#4c1d95",
+      950: "#4c1d95",
     },
     purple: {
       50: "#faf5ff",
@@ -316,6 +334,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#7e22ce",
       800: "#6b21a8",
       900: "#581c87",
+      950: "#581c87",
     },
     fuchsia: {
       50: "#fdf4ff",
@@ -328,6 +347,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#a21caf",
       800: "#86198f",
       900: "#701a75",
+      950: "#701a75",
     },
     pink: {
       50: "#fdf2f8",
@@ -340,6 +360,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#be185d",
       800: "#9d174d",
       900: "#831843",
+      950: "#831843",
     },
     rose: {
       50: "#fff1f2",
@@ -352,6 +373,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       700: "#be123c",
       800: "#9f1239",
       900: "#881337",
+      950: "#881337",
     },
   }
 
