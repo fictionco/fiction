@@ -19,14 +19,16 @@
         leave-from-class="opacity-100 "
         leave-to-class="opacity-0"
       >
-        <!-- <canvas
-          v-if="media.blurhash"
+        <canvas
+          v-if="loading && media.blurhash"
           ref="blurCanvas"
           class="z-0 h-full w-full"
           :data-hash="media.blurhash"
-        ></canvas> -->
+          width="64"
+          height="64"
+        ></canvas>
         <img
-          v-if="!loading"
+          v-else-if="!loading"
           class="z-0 h-full w-full"
           :class="fit == 'cover' ? 'object-cover' : 'object-scale-down'"
           :src="media?.url || ''"
@@ -42,11 +44,11 @@
 </template>
 <script lang="ts" setup>
 import { vue } from "@factor/api"
-// import * as bh from "blurhash"
+import * as bh from "blurhash"
 import ElOverlay from "./ElOverlay.vue"
 import { ImageFilterConfig, MediaDisplayObject } from "./utils"
 const loading = vue.ref(true)
-//const blurCanvas = vue.ref()
+const blurCanvas = vue.ref()
 
 const props = defineProps({
   media: {
@@ -91,20 +93,18 @@ vue.onMounted(() => {
     { immediate: true },
   )
 
-  // const { blurhash, width, height } = props.media || {}
-  // if (blurhash && width && height) {
-  //   const t0 = performance.now()
-  //   const pixels = bh.decode(blurhash, width / 10, height / 10)
-  //   const t1 = performance.now()
-  //   console.log(`Call to blurhash decode took ${t1 - t0} milliseconds.`)
-  //   const blurCanvasEl = blurCanvas.value as HTMLCanvasElement
-  //   const ctx = blurCanvasEl.getContext("2d")
-  //   const imageData = ctx?.createImageData(width, height)
-  //   imageData?.data.set(pixels)
-  //   if (imageData && ctx) {
-  //     ctx.putImageData(imageData, 0, 0)
-  //   }
-  // }
+  const { blurhash, width, height } = props.media || {}
+  if (blurhash && width && height) {
+    const pixels = bh.decode(blurhash, 64, 64)
+
+    const blurCanvasEl = blurCanvas.value as HTMLCanvasElement
+    const ctx = blurCanvasEl.getContext("2d")
+    const imageData = ctx?.createImageData(64, 64)
+    imageData?.data.set(pixels)
+    if (imageData && ctx) {
+      ctx.putImageData(imageData, 0, 0)
+    }
+  }
 })
 
 const attrs = vue.useAttrs()
