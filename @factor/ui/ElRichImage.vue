@@ -22,7 +22,7 @@
         <canvas
           v-if="loading && media.blurhash"
           ref="blurCanvas"
-          class="z-0 h-full w-full"
+          class="absolute inset-0 z-0 h-full w-full"
           :data-hash="media.blurhash"
           width="64"
           height="64"

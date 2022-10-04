@@ -64,10 +64,17 @@ const isValid = vue.ref(-1)
 
 const emit = defineEmits<{
   (event: "update:modelValue", payload: number | undefined): void
+  (event: "continue", payload: number | undefined): void
 }>()
 
 const selectItem = (val?: number) => {
   emit("update:modelValue", val)
+
+  setTimeout(() => {
+    if (typeof val !== "undefined") {
+      emit("continue", val)
+    }
+  }, 500)
 }
 
 const parsedList = vue.computed<number[]>(() => {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="space-y-2 outline-none"
+    class="focus-input-wrap space-y-2 outline-none"
     tabindex="0"
     @keyup="selectByLetter($event)"
   >
@@ -78,6 +78,7 @@ const isSelected = (item: ListItem): boolean => {
 
 const emit = defineEmits<{
   (event: "update:modelValue", payload: string[]): void
+  (event: "continue", payload: string[]): void
 }>()
 
 const selectItem = (val: string) => {
@@ -96,6 +97,12 @@ const selectItem = (val: string) => {
   }
 
   emit("update:modelValue", newList)
+
+  setTimeout(() => {
+    if (props.max == 1 && newList.length == 1) {
+      emit("continue", newList)
+    }
+  }, 500)
 }
 
 const parsedList = vue.computed<ListItem[]>(() => {
