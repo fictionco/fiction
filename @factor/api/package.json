@@ -32,7 +32,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/mime-types": "^2.1.1",
     "@types/multer": "^1.4.7",
-    "@types/node": "^18.8.1",
+    "@types/node": "^18.8.2",
     "@types/nodemailer": "^6.4.6",
     "@types/nodemailer-html-to-text": "^3.1.0",
     "@types/nodemon": "^1.19.2",
