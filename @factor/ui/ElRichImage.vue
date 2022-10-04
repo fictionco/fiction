@@ -12,32 +12,31 @@
 
     <div v-else class="absolute inset-0">
       <transition
-        enter-active-class="transition ease duration-100"
+        enter-active-class="transition ease duration-200"
         enter-from-class="opacity-0"
         enter-to-class="opacity-100"
-        leave-active-class="transition ease duration-100"
+        leave-active-class="transition ease duration-200"
         leave-from-class="opacity-100 "
         leave-to-class="opacity-0"
       >
         <canvas
           v-if="loading && media.blurhash"
           ref="blurCanvas"
-          class="absolute inset-0 z-0 h-full w-full"
+          class="absolute inset-0 z-10 h-full w-full"
           :data-hash="media.blurhash"
           width="64"
           height="64"
         ></canvas>
-        <img
-          v-else-if="!loading"
-          class="z-0 h-full w-full"
-          :class="fit == 'cover' ? 'object-cover' : 'object-scale-down'"
-          :src="media?.url || ''"
-          :style="{
-            filter: filters?.map((_) => _.value).join(' '),
-            objectPosition,
-          }"
-        />
       </transition>
+      <img
+        class="z-0 h-full w-full"
+        :class="fit == 'cover' ? 'object-cover' : 'object-scale-down'"
+        :src="media?.url || ''"
+        :style="{
+          filter: filters?.map((_) => _.value).join(' '),
+          objectPosition,
+        }"
+      />
     </div>
     <ElOverlay :overlay="media.overlay"></ElOverlay>
   </div>
