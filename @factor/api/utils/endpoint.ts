@@ -1,3 +1,4 @@
+import path from "path"
 import type { FormData as FormDataNode } from "formdata-node"
 //import nodeFetch, { BodyInit as NodeFetchBodyInit } from "node-fetch"
 import nodeFetch from "node-fetch"
@@ -20,12 +21,13 @@ export type EndpointOptions = {
   factorUser?: FactorUser
   factorRouter?: FactorRouter
   unauthorized?: boolean
+  useNaked?: boolean
 }
 
 type RequestHandler = (
   req: express.Request,
   res: express.Response,
-) => Promise<EndpointResponse>
+) => Promise<EndpointResponse | void>
 export type EndpointMethodOptions<T extends Query> = {
   queryHandler?: T
   requestHandler?: RequestHandler
@@ -71,6 +73,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   queryHandler?: T
   requestHandler?: RequestHandler
   middleware: express.RequestHandler[]
+  useNaked?: boolean
   constructor(options: EndpointSettings<T>) {
     const {
       serverUrl,
@@ -80,8 +83,10 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       key,
       unauthorized,
       middleware,
+      useNaked,
     } = options
     this.basePath = basePath
+    this.useNaked = useNaked
     this.serverUrl = serverUrl
     this.key = key as U
 
@@ -97,11 +102,16 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   public pathname(): string {
-    return `${this.basePath}/${this.key}`
+    const paths = [this.basePath]
+    if (!this.useNaked) {
+      paths.push(this.key)
+    }
+
+    return path.join(...paths)
   }
 
   get requestUrl(): string {
-    return `${this.getBaseUrl()}${this.basePath}/${this.key}`
+    return path.join(this.getBaseUrl(), this.pathname())
   }
 
   async upload(data: FormData | FormDataNode): Promise<ReturnType<T["run"]>> {
@@ -148,7 +158,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   public async serveRequest(
     request: express.Request,
     response: express.Response,
-  ): Promise<EndpointResponse> {
+  ): Promise<EndpointResponse | void> {
     if (this.requestHandler) {
       return await this.requestHandler(request, response)
     } else if (this.queryHandler) {

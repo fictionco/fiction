@@ -84,5 +84,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "node-cron" },
     { id: "bullmq" },
     { id: "@tailwindcss/forms" },
+    { id: "simple-oauth2" },
   ]
 }

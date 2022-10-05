@@ -79,6 +79,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       basePath: "/stripe-webhook",
       serverUrl: this.factorServer.serverUrl.value,
       factorUser: this.factorUser,
+      useNaked: true,
     })
 
     this.factorServer.addEndpoints([stripeWebhookEndpoint])

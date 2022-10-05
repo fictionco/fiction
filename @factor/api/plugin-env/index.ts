@@ -124,6 +124,7 @@ export class FactorEnv<
   mode = this.utils.vue.ref<"development" | "production" | undefined>(
     process.env.NODE_ENV as "development" | "production",
   )
+  isRestart = process.env.IS_RESTART == "1"
   isApp = this.utils.vue.ref(this.settings.isApp || !!process.env.IS_VITE)
   isTest = this.utils.vue.ref(this.settings.isTest || !!process.env.IS_TEST)
   isServer = this.utils.vue.computed(() => !this.isApp.value)
@@ -268,12 +269,6 @@ export class FactorEnv<
     return rendered
   }
 
-  updateVarsForTransfer(vars: Record<string, string>) {
-    Object.entries(vars).forEach(([key, value]) => {
-      process.env[key] = value
-    })
-  }
-
   nodeInit() {
     if (this.mode.value == "production") {
       this.envFiles.push(...this.envFilesProd)
@@ -321,13 +316,14 @@ export class FactorEnv<
   }
 
   async afterSetup() {
-    if (!this.isProd.value && !this.isApp.value && !this.isTest.value) {
-      await this.generate()
+    if (
+      !this.isProd.value &&
+      !this.isApp.value &&
+      !this.isTest.value &&
+      !this.isRestart
+    ) {
+      await generateStaticConfig(this)
     }
-  }
-
-  async generate() {
-    await generateStaticConfig(this)
   }
 
   public addHook(hook: HookType<FactorEnvHookDictionary>): void {

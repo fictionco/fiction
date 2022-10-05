@@ -40,10 +40,6 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     super("server", settings)
 
     this.addConfig()
-
-    this.factorEnv?.updateVarsForTransfer({
-      SERVER_PORT: this.port?.toString(),
-    })
   }
 
   addConfig() {
