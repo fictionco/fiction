@@ -1,3 +1,12 @@
+## [5.5.70](https://github.com/FactorJS/factor/compare/v5.5.69...v5.5.70) (2022-10-05)
+
+
+### Features
+
+* naked endpoint ([14221b1](https://github.com/FactorJS/factor/commit/14221b1eccc7e25aa3fcc592a4d0099d07944058))
+
+
+
 ## [5.5.69](https://github.com/FactorJS/factor/compare/v5.5.68...v5.5.69) (2022-10-04)
 
 
