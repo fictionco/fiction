@@ -23,20 +23,28 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 }
 
 export class QuerySaveMedia extends MediaQuery {
-  async createBlurHash(img: sharp.Sharp): Promise<string | undefined> {
-    const { data: pixels, info: metadata } = await img
-      .raw()
-      .ensureAlpha()
-      .toBuffer({ resolveWithObject: true })
+  async createBlurHash(
+    img: sharp.Sharp,
+    meta: sharp.OutputInfo,
+  ): Promise<string | undefined> {
+    /**
+     * @note that the raw img data removes the size/meta data
+     * thats why its passed in above
+     */
+    const alphaImg = img.raw().ensureAlpha()
+    const pixelBuffer = await alphaImg.toBuffer()
 
-    const { width, height } = metadata
+    const { width, height } = meta || {}
 
-    if (!width || !height) return
+    if (!width || !height) {
+      this.log.warn("could not create blurhash (no meta info)")
+      return
+    }
 
     const bh = await import("blurhash")
 
     const blurhash = bh.encode(
-      new Uint8ClampedArray(pixels),
+      new Uint8ClampedArray(pixelBuffer),
       width,
       height,
       4,
@@ -71,19 +79,18 @@ export class QuerySaveMedia extends MediaQuery {
 
     const imgBuffer = await img.toBuffer()
 
-    const smallImg = sharp(imgBuffer).resize(80, 80, {
+    const smallImg = sharp(file.buffer).resize(80, 80, {
       withoutEnlargement: true,
       fit: "inside",
     })
+
+    const small = await smallImg.toBuffer({ resolveWithObject: true })
 
     const metadata = await img.metadata()
 
     const { width, height } = metadata
 
-    const [blurhash, smallImgBuffer] = await Promise.all([
-      this.createBlurHash(smallImg),
-      smallImg.toBuffer(),
-    ])
+    const blurhash = await this.createBlurHash(smallImg, small.info)
 
     const [{ url: originUrl, headObject }, { url: originUrlSmall }] =
       await Promise.all([
@@ -94,7 +101,7 @@ export class QuerySaveMedia extends MediaQuery {
           bucket,
         }),
         this.factorAws.uploadS3({
-          data: smallImgBuffer,
+          data: small.data,
           filePath: filePathSmall,
           mime,
           bucket,
@@ -120,7 +127,6 @@ export class QuerySaveMedia extends MediaQuery {
       userId,
       filePath,
       size: headObject.ContentLength,
-
       blurhash,
       width,
       height,

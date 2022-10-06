@@ -124,7 +124,7 @@ export class FactorEnv<
   mode = this.utils.vue.ref<"development" | "production" | undefined>(
     process.env.NODE_ENV as "development" | "production",
   )
-  isRestart = process.env.IS_RESTART == "1"
+  isRestart = () => process.env.IS_RESTART == "1"
   isApp = this.utils.vue.ref(this.settings.isApp || !!process.env.IS_VITE)
   isTest = this.utils.vue.ref(this.settings.isTest || !!process.env.IS_TEST)
   isServer = this.utils.vue.computed(() => !this.isApp.value)
@@ -148,6 +148,7 @@ export class FactorEnv<
         version: `${this.version || "no version"} [factor: ${factorVersion}]`,
         vars: Object.keys(process.env).length,
         commands: this.commands.length,
+        isRestart: this.isRestart(),
       },
     })
 
@@ -320,7 +321,7 @@ export class FactorEnv<
       !this.isProd.value &&
       !this.isApp.value &&
       !this.isTest.value &&
-      !this.isRestart
+      !this.isRestart()
     ) {
       await generateStaticConfig(this)
     }

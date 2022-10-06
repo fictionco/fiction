@@ -82,8 +82,8 @@ const uploadFiles = async (files?: FileList | null) => {
   log.info("mediaUpload", `upload result`, { data: result })
 
   const urls = result
-    .filter((_) => _.status == "success" && _.data)
-    .map((r) => r.data) as MediaDisplayObject[]
+    .filter((_) => _ && _.status == "success" && _.data)
+    .map((r) => r?.data) as MediaDisplayObject[]
 
   await updateValue(urls)
   uploading.value = false
