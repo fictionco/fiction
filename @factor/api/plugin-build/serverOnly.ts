@@ -85,5 +85,7 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "bullmq" },
     { id: "@tailwindcss/forms" },
     { id: "simple-oauth2" },
+    { id: "google-auth-library" },
+    { id: "googleapis" },
   ]
 }

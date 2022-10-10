@@ -4,7 +4,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
-    "eslint": "^8.24.0",
+    "eslint": "^8.25.0",
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.7.0",
     "eslint-plugin-html": "^7.1.0",

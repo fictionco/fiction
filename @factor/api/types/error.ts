@@ -1,6 +1,6 @@
 export type ErrorCategory = "error" | "fail" | "success"
 
-export type ErrorCode = "TOKEN_ERROR" | "STOP"
+export type ErrorCode = "TOKEN_ERROR" | "STOP" | string
 
 export type ErrorConfig = {
   status?: ErrorCategory
