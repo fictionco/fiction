@@ -95,6 +95,7 @@ importers:
       '@faker-js/faker': ^7.5.0
       '@iconify-json/carbon': ^1.1.8
       '@iconify-json/heroicons-outline': ^1.1.4
+      '@iconify-json/logos': ^1.1.17
       '@medv/finder': ^2.1.0
       '@playwright/test': ^1.27.0
       '@sinclair/typebox': ^0.24.44
@@ -232,6 +233,7 @@ importers:
       '@faker-js/faker': 7.5.0
       '@iconify-json/carbon': 1.1.8
       '@iconify-json/heroicons-outline': 1.1.4
+      '@iconify-json/logos': 1.1.17
       '@medv/finder': 2.1.0
       '@sinclair/typebox': 0.24.44
       '@types/bcrypt': 5.0.0
@@ -2031,6 +2033,12 @@ packages:
 
   /@iconify-json/heroicons-outline/1.1.4:
     resolution: {integrity: sha512-H59TKT8dK6SDonC0NXeT021Erhq7n0apg+41cUDFgv3Zps4x+2t2Sd3QWI5cs6sW/kpOlY8DTP0xUtF5T/bp4w==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/logos/1.1.17:
+    resolution: {integrity: sha512-N6xKFKZ9UD5thRAwv8TvBQD3MJQe17UnN7QtfXnAVjlcnMIvdZ1lkZ12S/kw38i2v8gIZ6i6B9Cng5NPzTWd/g==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
