@@ -63,12 +63,20 @@ export class FactorDbTable {
   readonly pgTableKey: string
   columns: FactorDbCol[]
   log: LogHelper
+  timestamps: boolean
   constructor(params: FactorDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = snakeCase(params.tableKey)
     this.log = log.contextLogger(`FactorDbTable:${this.tableKey}`)
+    this.timestamps = params.timestamps ?? false
 
-    const tsCols = params.timestamps
+    this.columns = this.addDefaultColumns(params.columns)
+  }
+
+  addDefaultColumns(
+    columns: FactorDbCol[] | readonly FactorDbCol[],
+  ): FactorDbCol[] {
+    const tsCols = this.timestamps
       ? [
           new FactorDbCol({
             key: "createdAt",
@@ -91,7 +99,7 @@ export class FactorDbTable {
         ]
       : []
 
-    this.columns = [...params.columns, ...tsCols]
+    return [...columns, ...tsCols]
   }
 
   createColumns(db: Knex) {

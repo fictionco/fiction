@@ -138,4 +138,14 @@ export class WriteBuffer<T> extends EventEmitter {
       this.startTimeout()
     }
   }
+
+  toJSON(): Record<string, any> {
+    return {
+      name: this.name,
+      items: this.items.slice(0, 20),
+      limit: this.limit,
+      limitType: this.limitType,
+      flushIntervalMs: this.flushIntervalMs,
+    }
+  }
 }

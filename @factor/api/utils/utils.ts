@@ -531,11 +531,36 @@ export const groupBy = <
     {},
   )
 }
-
+/**
+ * replace all instances of a string
+ * (default replace only replaces the first instance)
+ */
 export const replaceAll = (
   str: string,
   match: string,
   replacement: string,
 ): string => {
   return str.replace(new RegExp(regExpEscape(match), "g"), () => replacement)
+}
+/**
+ * base64 encode and decode a string in both node and browser
+ */
+export const base64 = (args: {
+  action: "encode" | "decode"
+  str: string
+}): string => {
+  const { action, str } = args
+  if (typeof window === "undefined") {
+    if (action === "encode") {
+      return Buffer.from(str).toString("base64")
+    } else {
+      return Buffer.from(str, "base64").toString("ascii")
+    }
+  } else {
+    if (action === "encode") {
+      return window.btoa(str)
+    } else {
+      return window.atob(str)
+    }
+  }
 }
