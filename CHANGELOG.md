@@ -1,3 +1,12 @@
+## [5.5.73](https://github.com/FactorJS/factor/compare/v5.5.72...v5.5.73) (2022-10-11)
+
+
+### Features
+
+* base64 and various clean up ([81a73c4](https://github.com/FactorJS/factor/commit/81a73c4ee43cd9726eb2ef7305b7d997fd127a27))
+
+
+
 ## [5.5.72](https://github.com/FactorJS/factor/compare/v5.5.70...v5.5.72) (2022-10-11)
 
 
