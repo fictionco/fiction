@@ -1,3 +1,12 @@
+## [5.5.72](https://github.com/FactorJS/factor/compare/v5.5.70...v5.5.72) (2022-10-11)
+
+
+### Bug Fixes
+
+* cors issue ([4cc6349](https://github.com/FactorJS/factor/commit/4cc63496b2d86bc21ae0abffe9902d68cf527ca6))
+
+
+
 ## [5.5.71](https://github.com/FactorJS/factor/compare/v5.5.70...v5.5.71) (2022-10-06)
 
 
