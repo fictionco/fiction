@@ -15,10 +15,14 @@
           :for="attrs.for"
           v-text="label"
         />
-        <div v-if="description" class="text-slate-400" v-text="description" />
+        <div
+          v-if="description"
+          class="text-[.85em] text-slate-400"
+          v-text="description"
+        />
       </div>
     </div>
-    <div class="input-area">
+    <div class="input-area py-[.25em]">
       <component
         :is="inputComponent"
         v-if="inputComponent"

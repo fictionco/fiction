@@ -111,7 +111,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
              * overridden without also overriding the theme colors.
              */
             input: {
-              bg: "var(--input-bg, var(--theme-100, #f1f5f9))",
+              bg: "var(--input-bg, var(--theme-0, transparent))",
               "bg-alt":
                 "var(--input-bg-alt, var(--input-bg, var(--theme-200, #e2e8f0)))",
               text: "var(--input-text, var(--theme-700, #334155))",
