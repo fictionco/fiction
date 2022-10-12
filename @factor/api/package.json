@@ -85,7 +85,7 @@
     "glob": "^8.0.3",
     "google-auth-library": "^8.5.2",
     "handlebars": "^4.7.7",
-    "happy-dom": "^7.5.6",
+    "happy-dom": "^7.5.7",
     "helmet": "^5.1.1",
     "highlight.js": "^11.6.0",
     "html-minifier": "^4.0.0",
@@ -145,7 +145,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.19.4",
-    "@factor/api": "5.5.73",
+    "@factor/api": "workspace:5.5.73",
     "@playwright/test": "^1.27.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/body-parser": "^1.19.2",
