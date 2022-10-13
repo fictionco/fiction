@@ -1,4 +1,4 @@
-import { ServerModuleDef } from "../plugin-build/types"
+import { ServerModuleDef } from "./types"
 export const commonServerOnlyModules = (): ServerModuleDef[] => {
   return [
     { id: "fsevents" },

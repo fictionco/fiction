@@ -5,8 +5,7 @@ import type * as cjsLexer from "cjs-module-lexer"
 import { FactorPlugin } from "../plugin"
 import { safeDirname } from "../utils"
 import type { FactorEnv } from "../plugin-env"
-import * as types from "./types"
-export * from "./types"
+
 export * from "./plugin-release"
 
 type FactorBuildSettings = {
@@ -14,7 +13,6 @@ type FactorBuildSettings = {
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
-  types = types
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
