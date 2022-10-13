@@ -8,8 +8,8 @@ export type IndexMeta = {
   limit?: number
 }
 
-export type EndpointResponse<T = unknown> = {
-  status: "success" | "error" | "fail" | "loading"
+export type EndpointResponse<T = unknown, U = "success" | "error" | "fail" | "loading"> = {
+  status: U
   data?: T
   message?: string
   more?: string

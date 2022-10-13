@@ -132,7 +132,7 @@ import InputOverlay from "./InputOverlay.vue"
 import InputRange from "./InputRange.vue"
 import ElButton from "./ElButton.vue"
 import ElRichImage from "./ElRichImage.vue"
-const vis = vue.ref()
+const vis = vue.ref(false)
 const editingIndex = vue.ref<number | undefined>()
 
 const filtersFull = vue.computed(() => {
