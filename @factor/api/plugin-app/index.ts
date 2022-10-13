@@ -29,13 +29,11 @@ import { FactorBuild } from "../plugin-build"
 import { FactorServer } from "../plugin-server"
 import { FactorRouter } from "../plugin-router"
 import { version } from "../package.json"
-import { ServerModuleDef } from "../plugin-build/types"
 import { FactorDevRestart } from "../plugin-env/restart"
 import { getMarkdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
 import { FactorSitemap } from "./sitemap"
-
 type HookDictionary = {
   appMounted: { args: [FactorAppEntry] }
   afterAppSetup: { args: [{ serviceConfig: ServiceConfig }] }
@@ -63,7 +61,6 @@ export type FactorAppSettings = {
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   tailwindConfig?: Partial<TailwindConfig>[]
-  serverOnlyImports?: ServerModuleDef[]
   ui?: Record<string, () => Promise<vue.Component>>
   indexTemplates?: Partial<IndexTemplates>
   distFolder?: string
@@ -78,7 +75,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
   hooks = this.settings.hooks ?? []
   uiPaths = this.settings.uiPaths ?? []
   tailwindConfig = this.settings.tailwindConfig ?? []
-  serverOnlyImports = this.settings.serverOnlyImports ?? []
   factorRouter = this.settings.factorRouter
   ui = this.settings.ui || {}
   isTest = this.settings.isTest || this.utils.isTest()
@@ -193,10 +189,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
   addTailwindConfig(tailwindConfig: Partial<TailwindConfig>) {
     this.tailwindConfig = [...this.tailwindConfig, tailwindConfig]
-  }
-
-  addServerOnlyImports(serverOnlyImports: ServerModuleDef[]) {
-    this.serverOnlyImports = [...this.serverOnlyImports, ...serverOnlyImports]
   }
 
   createUi = (ui: Record<string, () => Promise<vue.Component>>) => {

@@ -6,18 +6,15 @@ import { FactorPlugin } from "../plugin"
 import { safeDirname } from "../utils"
 import type { FactorEnv } from "../plugin-env"
 import * as types from "./types"
-import { commonServerOnlyModules } from "./serverOnly"
 export * from "./types"
 export * from "./plugin-release"
 
 type FactorBuildSettings = {
-  serverOnlyModules?: types.ServerModuleDef[]
   factorEnv: FactorEnv
 }
 
 export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   types = types
-  serverOnlyModules = this.settings.serverOnlyModules ?? []
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
@@ -93,9 +90,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
     await this.loadingPromise
 
-    const serverOnlyModules = this.getServerOnlyModules()
-
-    const fullServerModules = serverOnlyModules.map((_) => {
+    const fullServerModules = this.factorEnv.serverOnlyModules.map((_) => {
       return {
         ..._,
         resolvedId: `\0${_.id}`,
@@ -175,15 +170,11 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     return plugins
   }
 
-  getServerOnlyModules = (): types.ServerModuleDef[] => {
-    return [...commonServerOnlyModules(), ...(this.serverOnlyModules || [])]
-  }
-
   /**
    * Common vite options for all builds
    */
   getOptimizeDeps = (): Partial<vite.InlineConfig["optimizeDeps"]> => {
-    const configExcludeIds = this.getServerOnlyModules().map((_) => _.id)
+    const configExcludeIds = this.factorEnv.serverOnlyModules.map((_) => _.id)
 
     return {
       exclude: [
@@ -290,7 +281,9 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
         //https://vitejs.dev/config/build-options.html#build-sourcemap
         sourcemap: !isProd ? "inline" : false,
-        rollupOptions: { external: this.serverOnlyModules.map((_) => _.id) },
+        rollupOptions: {
+          external: this.factorEnv.serverOnlyModules.map((_) => _.id),
+        },
       },
       resolve: {
         alias: {

@@ -85,3 +85,10 @@ export type Configurations = {
 }
 
 export type RunConfig = CliOptions
+
+export type ServerModuleDef = {
+  id: string
+  additional?: string[]
+  external?: boolean
+  resolvedId?: string
+}

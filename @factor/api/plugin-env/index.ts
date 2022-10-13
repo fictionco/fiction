@@ -5,11 +5,12 @@ import { HookType, vue } from "../utils"
 import { version as factorVersion } from "../package.json"
 import { getServerServiceConfig } from "./entry"
 import * as types from "./types"
-import { FactorEnvHookDictionary } from "./types"
+import { FactorEnvHookDictionary, ServerModuleDef } from "./types"
 import { CliCommand, standardAppCommands } from "./commands"
 import { done } from "./utils"
 import { generateStaticConfig } from "./generate"
 import "./nodePolyfills"
+import { commonServerOnlyModules } from "./serverOnly"
 export * from "./types"
 export * from "./entry"
 export * from "./commands"
@@ -77,6 +78,7 @@ class EnvVarList {
     this.list.push(v)
   }
 }
+
 /**
  * Singleton of var callbacks.
  * Register envVars (as a side-effect on import) from plugins and then call the functions
@@ -101,6 +103,7 @@ export type FactorControlSettings = {
   isApp?: boolean
   isTest?: boolean
   version: string
+  serverOnlyModules?: ServerModuleDef[]
 }
 
 type BaseCompiled = {
@@ -139,6 +142,10 @@ export class FactorEnv<
   version = this.settings.version
   factorVersion = factorVersion
   uiPaths: string[] = []
+  serverOnlyModules = [
+    ...commonServerOnlyModules(),
+    ...(this.settings.serverOnlyModules || []),
+  ]
   constructor(settings: FactorControlSettings) {
     super("env", settings)
 
