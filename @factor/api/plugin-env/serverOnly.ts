@@ -87,5 +87,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "simple-oauth2" },
     { id: "google-auth-library" },
     { id: "googleapis" },
+    { id: "ngrok" },
   ]
 }

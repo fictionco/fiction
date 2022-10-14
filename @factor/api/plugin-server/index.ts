@@ -1,10 +1,18 @@
 import http from "http"
 import bodyParser from "body-parser"
-import { FactorEnv } from "../plugin-env"
+import { FactorEnv, vars, EnvVar } from "../plugin-env"
 import { HookType, EndpointServer, vue } from "../utils"
 import type { Endpoint } from "../utils"
 import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { FactorUser } from "../plugin-user"
+
+vars.register(() => [
+  new EnvVar({
+    name: "NGROK_AUTH_TOKEN",
+    val: process.env.NGROK_AUTH_TOKEN,
+    isOptional: true,
+  }),
+])
 
 export type FactorServerHookDictionary = {
   afterServerSetup: { args: [] }
@@ -26,20 +34,38 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   public hooks = this.settings.hooks ?? []
   port = this.settings.port
   endpoints = this.settings.endpoints || []
-  localUrl = `http://localhost:${this.port}`
-  liveUrl = this.settings.liveUrl || this.localUrl
+  localUrl = this.utils.vue.ref(`http://localhost:${this.port}`)
+  liveUrl = this.settings.liveUrl
   serverUrl = this.utils.vue.computed(() => {
     const isLive = this.settings.isLive?.value || false
-    return isLive ? this.liveUrl : this.localUrl
+    return isLive && this.liveUrl ? this.liveUrl : this.localUrl.value
   })
   factorEnv = this.settings.factorEnv
   factorUser? = this.settings.factorUser
   serverName = this.settings.serverName
+
   server?: http.Server
   constructor(settings: FactorServerSettings) {
     super("server", settings)
 
     this.addConfig()
+  }
+
+  async setup() {}
+
+  async useDevProxy() {
+    if (!this.factorEnv.isApp.value) {
+      const ngrok = await import("ngrok")
+      const authToken = this.factorEnv.var("NGROK_AUTH_TOKEN")
+
+      if (!authToken) {
+        this.log.error("devProxy enabled and no ngrok auth token found")
+        return
+      }
+
+      await ngrok.authtoken(authToken)
+      this.localUrl.value = await ngrok.connect(this.port)
+    }
   }
 
   addConfig() {
@@ -119,9 +145,15 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     return
   }
 
-  close() {
+  async close() {
     if (this.server) {
       this.server.close()
+    }
+
+    if (this.localUrl.value.includes("ngrok")) {
+      const ngrok = await import("ngrok")
+      await ngrok.disconnect() // stops all
+      await ngrok.kill() // kills ngrok process
     }
   }
 }

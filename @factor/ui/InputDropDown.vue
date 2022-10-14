@@ -2,9 +2,9 @@
   <div class="text-input-size relative inline-block text-left">
     <div>
       <div
-        class="border-theme-300 bg-theme-50 text-theme-700 inline-flex w-full cursor-pointer select-none items-center justify-between rounded-full border px-[1em] py-[.4em] text-left font-semibold shadow-sm"
-        :class="menuVis ? 'opacity-70' : 'hover:bg-theme-50'"
-        @click.stop="menuVis = !menuVis"
+        class="inline-flex w-full cursor-pointer select-none items-center justify-between rounded-full border px-[1em] py-[.4em] text-left font-semibold shadow-sm"
+        :class="[menuVis ? 'opacity-70' : '', colorClasses]"
+        @click.stop="toggleVis()"
       >
         <div class="truncate whitespace-nowrap">
           {{ selected?.name || defaultText || "Select" }}
@@ -12,7 +12,7 @@
 
         <svg
           class="ml-[.25em] mr-[-.35em] h-[1em] w-[1em] transition-all"
-          :class="menuVis ? `rotate-180 text-theme-800` : `text-theme-500`"
+          :class="menuVis ? `rotate-180  ` : ` `"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -29,8 +29,11 @@
 
     <div
       v-if="menuVis"
-      class="bg-theme-0 ring-theme-300 absolute left-0 z-30 mt-2 w-[13em] origin-top-right rounded-md shadow-md ring-1 focus:outline-none"
-      :class="direction == 'up' ? 'mb-2 bottom-full' : 'mt-2'"
+      class="bg-theme-0 ring-theme-300 absolute z-30 mt-2 w-[13em] origin-top-right rounded-md shadow-md ring-1 focus:outline-none"
+      :class="[
+        direction == 'up' ? 'mb-2 bottom-full' : 'mt-2',
+        justify == 'right' ? 'right-0' : 'left-0',
+      ]"
     >
       <div class="py-1" role="none">
         <template v-for="(item, i) in normalizedList" :key="i">
@@ -60,7 +63,14 @@
 
 <script lang="ts" setup>
 // @unocss-include
-import { MenuGroup, ListItem, vue, onResetUi, normalizeList } from "@factor/api"
+import {
+  MenuGroup,
+  ListItem,
+  vue,
+  onResetUi,
+  resetUi,
+  normalizeList,
+} from "@factor/api"
 const menuVis = vue.ref(false)
 onResetUi(() => (menuVis.value = false))
 const props = defineProps({
@@ -77,6 +87,11 @@ const props = defineProps({
   menu: { type: Object as vue.PropType<MenuGroup[]>, default: undefined },
   defaultText: { type: String, default: "Select" },
   direction: { type: String as vue.PropType<"up" | "down">, default: "down" },
+  justify: { type: String as vue.PropType<"left" | "right">, default: "left" },
+  colorClasses: {
+    type: String,
+    default: "border-theme-300 bg-theme-50 text-theme-700",
+  },
 })
 
 const menuList = vue.computed(() => {
@@ -112,5 +127,10 @@ const emit = defineEmits<{
 const update = async (value?: string) => {
   emit("update:modelValue", value)
   menuVis.value = false
+}
+
+const toggleVis = () => {
+  resetUi({ scope: "inputs", cause: "dropdown" })
+  menuVis.value = !menuVis.value
 }
 </script>

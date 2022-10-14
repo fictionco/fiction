@@ -250,6 +250,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins()
 
+    const external: string[] = [] // this.factorEnv.serverOnlyModules.map((_) => _.id)
+
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? "production" : "development",
       // root must be set to optimize output file size
@@ -280,7 +282,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         //https://vitejs.dev/config/build-options.html#build-sourcemap
         sourcemap: !isProd ? "inline" : false,
         rollupOptions: {
-          external: this.factorEnv.serverOnlyModules.map((_) => _.id),
+          external,
         },
       },
       resolve: {

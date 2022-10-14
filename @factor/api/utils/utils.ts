@@ -333,7 +333,7 @@ export const snakeCase = (text: string): string => {
   return text.replace(/([A-Z])/g, "_$1").toLowerCase()
 }
 /**
- * Turn a string into camelCase
+ * Turn a string into camelCase @todo .. doesn't work on snake_case
  */
 export const camelize = (str?: string): string => {
   if (!str) return ""
@@ -343,6 +343,33 @@ export const camelize = (str?: string): string => {
       return index === 0 ? word.toLowerCase() : word.toUpperCase()
     })
     .replace(/\s|-/g, "")
+}
+
+export const camelCase = (str: string) => {
+  return str.replace(/[._-](\w|$)/g, function (_, x: string) {
+    return x.toUpperCase()
+  })
+}
+/**
+ * Camelize keys in an object
+ */
+export const camelKeys = function (obj: unknown): unknown {
+  if (obj === Object(obj) && !Array.isArray(obj) && typeof obj !== "function") {
+    const n: Record<string, unknown> = {}
+    const o = obj as Record<string, unknown>
+    Object.keys(o).forEach((k) => {
+      n[camelCase(k)] = camelKeys(o[k])
+    })
+
+    return n
+  } else if (Array.isArray(obj)) {
+    const o = obj as unknown[]
+    return o.map((i) => {
+      return camelKeys(i)
+    })
+  }
+
+  return obj
 }
 
 /**
