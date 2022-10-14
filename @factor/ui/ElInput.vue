@@ -75,7 +75,7 @@ const valid = vue.ref<boolean | undefined>()
 const inputComponent = vue.computed(() => {
   if (props.input && typeof props.input == "string") {
     const r = inputs[props.input]
-    return r
+    return r as vue.Component
   } else {
     return props.input || ""
   }

@@ -124,7 +124,6 @@ import {
   ImageFilter,
   ImageFilterConfig,
   OverlaySetting,
-  getGradientCss,
 } from "./utils"
 import ElModal from "./ElModal.vue"
 import InputDropDown from "./InputDropDown.vue"
@@ -134,12 +133,6 @@ import ElButton from "./ElButton.vue"
 import ElRichImage from "./ElRichImage.vue"
 const vis = vue.ref(false)
 const editingIndex = vue.ref<number | undefined>()
-
-const filtersFull = vue.computed(() => {
-  return filters.value.map((f) => {
-    return { ...f, value: getImageFilter(f.filter, f.percent) }
-  })
-})
 
 const props = defineProps({
   modelValue: {
@@ -170,25 +163,6 @@ const filters = vue.computed<ImageFilterConfig[]>(() => {
 
 const overlay = vue.computed<OverlaySetting | undefined>(() => {
   return editingItem.value?.overlay
-})
-
-const overlayStyle = vue.computed(() => {
-  const out: vue.StyleValue = {}
-  const ov = overlay.value
-
-  if (ov?.gradient?.stops?.length) {
-    out.opacity = (ov.opacity ?? 30) / 100
-
-    if (ov.gradient) {
-      out["background-image"] = getGradientCss(ov.gradient)
-    }
-
-    if (ov.blendMode) {
-      out.mixBlendMode = ov.blendMode as vue.CSSProperties["mixBlendMode"]
-    }
-  }
-
-  return out
 })
 
 const updateFilters = async (f: ImageFilterConfig) => {

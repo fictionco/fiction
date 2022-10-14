@@ -13,7 +13,7 @@
       <ul class="overflow-x-hidden">
         <li v-for="(h2, i) in headers" :key="i">
           <a
-            class="block py-1.5 text-xs text-slate-500 transition-colors duration-200 hover:text-primary-500"
+            class="hover:text-primary-500 block py-1.5 text-xs text-slate-500 transition-colors duration-200"
             :href="h2.anchor"
             :class="isActive(h2.anchor) ? 'font-medium' : ''"
             @click.prevent="setClick(h2.anchor)"
