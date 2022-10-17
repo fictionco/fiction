@@ -101,6 +101,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       800: "#1e293b",
       900: "#0f172a",
       950: "#0f172a",
+
     },
     gray: {
       50: "#f9fafb",
@@ -397,7 +398,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
 }
 
 export const getColorScheme = (scheme: ColorScheme) => {
-  return colorSchemes().find((s) => s.scheme === scheme)
+  return colorSchemes().find((s) => s.scheme === scheme) || colorSchemes()[0]
 }
 
 export const colorStandard = (
@@ -424,7 +425,7 @@ export const colorStandard = (
       700: "68,0,179",
       800: "41,0,117",
       900: "25,0,51",
-      1000: "25,0,51",
+      1000: "0, 0, 0",
     },
     cyan: {
       0: "255,255,255",
@@ -438,7 +439,7 @@ export const colorStandard = (
       700: "14, 116, 144",
       800: "21, 94, 117",
       900: "22, 78, 99",
-      1000: "22, 78, 99",
+      1000: "0, 0, 0",
     },
     blue: {
       0: "255,255,255",
@@ -452,7 +453,7 @@ export const colorStandard = (
       700: "29, 78, 216",
       800: "30, 64, 175",
       900: "30, 58, 138",
-      1000: "30, 58, 138",
+      1000: "0, 0, 0",
     },
 
     amber: {
@@ -467,6 +468,7 @@ export const colorStandard = (
       700: "180,83,9",
       800: "146,64,14",
       900: "120,53,15",
+      1000: "0, 0, 0",
     },
     pink: {
       0: "255,255,255",
@@ -480,6 +482,7 @@ export const colorStandard = (
       700: "190,24,93",
       800: "157,23,77",
       900: "131,24,67",
+      1000: "0, 0, 0",
     },
     sky: {
       0: "255,255,255",
@@ -493,6 +496,7 @@ export const colorStandard = (
       700: "3,105,161",
       800: "7,89,133",
       900: "12,74,110",
+      1000: "0, 0, 0",
     },
     emerald: {
       0: "255,255,255",
@@ -506,6 +510,7 @@ export const colorStandard = (
       700: "4,120,87",
       800: "6,95,70",
       900: "6,78,59",
+      1000: "0, 0, 0",
     },
     slate: {
       0: "255,255,255",

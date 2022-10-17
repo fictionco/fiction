@@ -20,7 +20,7 @@
         :label="item.name"
         @click="selectItem(item.value ?? '')"
       ></InputElTab>
-      <!-- For validation -->
+
       <div class="max-w-input relative inline-block">
         <input
           ref="validEl"
@@ -29,6 +29,7 @@
           :value="modelValue"
           :isValid="JSON.stringify(isValid)"
           :maximum="maximum"
+          tabindex="-1"
         />
       </div>
     </template>

@@ -84,6 +84,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               700: "var(--theme-700, #334155)",
               800: "var(--theme-800, #1e293b)",
               900: "var(--theme-900, #0f172a)",
+              1000: "var(--theme-1000, #000000)",
             },
             action: {
               main: "var(--action-main, var(--theme-500, #64748b))",
@@ -104,6 +105,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               700: "var(--primary-700, #3e26bf)",
               800: "var(--primary-800, #1a1452)",
               900: "var(--primary-900, #28197d)",
+
               DEFAULT: "var(--primary-500, #5233ff)",
             },
             /**
