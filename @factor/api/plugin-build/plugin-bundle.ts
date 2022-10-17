@@ -223,7 +223,7 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         addedConfig = config({ buildName, factorBuild: this.factorBuild })
       }
 
-      const vc = await this.factorBuild.getCommonViteConfig({
+      const vc = await this.factorBuild.getFactorViteConfig({
         root: cwd,
         isProd: true,
       })

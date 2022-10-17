@@ -12,6 +12,7 @@
           </div>
 
           <div class="flex flex-1 items-center justify-end space-x-4 lg:w-0">
+
             <RouterLink
               id="link-error"
               :to="randomRoute()"

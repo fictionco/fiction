@@ -3,7 +3,7 @@ import type * as vite from "vite"
 import type * as esLexer from "es-module-lexer"
 import type * as cjsLexer from "cjs-module-lexer"
 import { FactorPlugin } from "../plugin"
-import { safeDirname } from "../utils"
+import { safeDirname, deepMergeAll } from "../utils"
 import type { FactorEnv } from "../plugin-env"
 
 export * from "./plugin-release"
@@ -241,12 +241,13 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     return out
   }
 
-  getCommonViteConfig = async (options: {
-    isProd: boolean
+  getFactorViteConfig = async (options: {
+    isProd?: boolean
     root?: string
     mainFilePath?: string
+    config?: vite.InlineConfig
   }): Promise<vite.InlineConfig> => {
-    const { isProd, root = process.cwd(), mainFilePath } = options
+    const { isProd, root = process.cwd(), mainFilePath, config = {} } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
 
@@ -298,6 +299,8 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
       logLevel: isProd ? "info" : "warn",
     }
 
-    return basicConfig
+    const merge: vite.InlineConfig[] = [basicConfig, config]
+
+    return deepMergeAll<vite.InlineConfig>(merge)
   }
 }

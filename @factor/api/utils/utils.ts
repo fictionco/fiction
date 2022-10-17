@@ -7,7 +7,6 @@ import { isPlainObject } from "is-plain-object"
 import { ListItem, PriorityItem } from "../types"
 import stopwordsLib from "../resource/stopwords"
 import { isNode } from "./vars"
-import { getRequire } from "./nodeUtils"
 import { regExpEscape } from "./regex"
 /**
  * Safely get the dirname with import.meta.url
@@ -26,10 +25,6 @@ export const safeUrl = (url?: string): URL | undefined => {
     console.warn(`url is invalid: ${url}`)
     return undefined
   }
-}
-export const safeResolve = (modulePath: string): string => {
-  if (!isNode()) return ""
-  return getRequire().resolve(modulePath)
 }
 
 export const stringify = (data: unknown): string =>

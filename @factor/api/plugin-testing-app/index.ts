@@ -22,6 +22,7 @@ type TestingConfig = {
 type FactorTestingAppSettings = {
   port: number
   head?: string
+  body?: string
 } & TestingConfig &
   FactorPluginSettings
 export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
@@ -33,6 +34,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     return isLive && this.liveUrl ? this.liveUrl : this.localUrl
   })
   head = this.settings.head || ""
+  body = this.settings.body || ""
   root = safeDirname(import.meta.url)
   server?: http.Server
   browser?: Browser
@@ -138,14 +140,15 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
     })
   }
 
-  async createApp(options: { head?: string } = {}) {
+  async createApp(options: { head?: string; body?: string } = {}) {
     if (this.utils.isApp()) return
 
-    let { head = "" } = options
+    let { head = "", body = "" } = options
 
     this.log.info("creating test app", { head, useBuilt: this.useBuilt })
 
     head = [head, this.head].join("\n")
+    body = [body, this.body].join("\n")
 
     const app = createExpressApp({
       // in dev these cause images/scripts to fail locally
@@ -202,6 +205,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
         const html = template
           .replace(`<!--app-html-->`, appHtml)
           .replace(/<\/head>/i, `${head}\n</head>`)
+          .replace(/<\/body>/i, `${body}\n</body>`)
 
         res.status(200).set({ "Content-Type": "text/html" }).end(html)
       } catch (error) {

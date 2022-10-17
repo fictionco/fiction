@@ -2,9 +2,9 @@
 import path from "path"
 import * as mod from "module"
 import fs from "fs"
-import glob from "glob"
 import { PackageJson } from "../types"
 import { isNode } from "./vars"
+
 type WhichModule = {
   moduleName?: string
   cwd?: string
@@ -93,24 +93,6 @@ export const resolveIfExists = (mod: string): string | undefined => {
   }
 
   return result
-}
-
-export const getFaviconPath = (src: string): string => {
-  let faviconPath = ""
-  const paths = [`${src}/favicon*`, `${src}/**/favicon*`, `${src}/icon*`]
-
-  paths.some((paths) => {
-    const r = glob.sync(paths)
-
-    if (r && r.length > 0) {
-      faviconPath = r[0]
-      return true
-    } else {
-      return false
-    }
-  })
-
-  return faviconPath
 }
 
 export const streamToString = async (

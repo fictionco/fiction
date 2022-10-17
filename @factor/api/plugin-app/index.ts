@@ -647,7 +647,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
 
     const { default: pluginVue } = await import("@vitejs/plugin-vue")
 
-    const commonVite = await this.factorBuild?.getCommonViteConfig({
+    const commonVite = await this.factorBuild?.getFactorViteConfig({
       isProd,
       root: this.factorEnv.cwd,
       mainFilePath: this.factorEnv.mainFilePath,
