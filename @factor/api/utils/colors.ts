@@ -79,8 +79,8 @@ export type ColorScheme =
   | "violetDark"
 
 export type ColorSchemeDetail = {
-  scheme: ColorScheme
   name: string
+  value: ColorScheme
   colors: Record<ColorScale, string>
 }
 
@@ -101,7 +101,6 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       800: "#1e293b",
       900: "#0f172a",
       950: "#0f172a",
-
     },
     gray: {
       50: "#f9fafb",
@@ -378,18 +377,18 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
     },
   }
 
-  return Object.entries(schemes).flatMap(([scheme, colors]) => {
+  return Object.entries(schemes).flatMap(([value, colors]) => {
     colors[0] = "#ffffff"
     colors[1000] = "#000000"
     const colorsInverted = Object.fromEntries(
       Object.entries(colors).map(([level, color]) => [1000 - +level, color]),
     )
-    const schemeInverted = `${scheme}Inverted`
-    const name = toLabel(scheme)
+    const schemeInverted = `${value}Inverted`
+    const name = toLabel(value)
     return [
-      { scheme, name: toLabel(scheme), colors },
+      { value, name: toLabel(value), colors },
       {
-        scheme: schemeInverted,
+        value: schemeInverted,
         name: `${name} (Dark Mode)`,
         colors: colorsInverted,
       },
@@ -397,8 +396,8 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
   }) as ColorSchemeDetail[]
 }
 
-export const getColorScheme = (scheme: ColorScheme) => {
-  return colorSchemes().find((s) => s.scheme === scheme) || colorSchemes()[0]
+export const getColorScheme = (v: ColorScheme) => {
+  return colorSchemes().find((s) => s.value === v) || colorSchemes()[0]
 }
 
 export const colorStandard = (

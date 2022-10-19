@@ -36,9 +36,7 @@ const tryHighlight = (cb?: () => void): void => {
   setTimeout((): void => {
     if (!code.value) return
     code.value.querySelectorAll<HTMLElement>("pre code").forEach((el) => {
-      if (!el.classList.contains("hljs")) {
-        hljs.default.highlightElement(el)
-      }
+      hljs.default.highlightElement(el)
     })
 
     if (cb) cb()

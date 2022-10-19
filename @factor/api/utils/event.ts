@@ -16,7 +16,7 @@ const getGlobalEventBus = (): NodeJS.EventEmitter => {
  */
 export const emitEvent = (event: string, ...data: unknown[]): void => {
   getGlobalEventBus().emit(event, ...data)
-  log.debug("emitEvent", `new event: ${event}`, { data })
+  // log.debug("emitEvent", `new event: ${event}`, { data })
 }
 /**
  * Listens for an event emitted by emitEvent

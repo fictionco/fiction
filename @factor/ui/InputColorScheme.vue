@@ -16,7 +16,7 @@ const list = vue.computed(() => {
   const l = colorSchemes().map((scheme) => {
     return {
       name: scheme.name,
-      value: JSON.stringify(scheme),
+      value: scheme.value,
     }
   })
 
