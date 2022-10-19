@@ -2,10 +2,10 @@
   "name": "@factor/fiction",
   "version": "5.5.76",
   "dependencies": {
-    "@factor/api": "5.5.76",
-    "@factor/plugin-blog-engine": "5.5.76",
-    "@factor/plugin-highlight-code": "5.5.76",
-    "@factor/ui": "5.5.76",
+    "@factor/api": "workspace:5.5.76",
+    "@factor/plugin-blog-engine": "workspace:5.5.76",
+    "@factor/plugin-highlight-code": "workspace:5.5.76",
+    "@factor/ui": "workspace:5.5.76",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.1.8"
   },

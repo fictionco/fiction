@@ -64,6 +64,12 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               },
             ],
           },
+          ringWidth: {
+            "input-width": "var(--input-ring-width, 3px)",
+          },
+          ringColor: {
+            "input-color": "var(--input-ring-color, var(--theme-200, #e2e8f0))",
+          },
 
           colors: {
             transparent: "transparent",
