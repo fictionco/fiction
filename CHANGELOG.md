@@ -1,3 +1,17 @@
+## [5.5.77](https://github.com/FactorJS/factor/compare/v5.5.76...v5.5.77) (2022-10-19)
+
+
+### Bug Fixes
+
+* tabindex ([b88bf85](https://github.com/FactorJS/factor/commit/b88bf855d2c8da1978e08d34d1b0c6394f56c3fd))
+
+
+### Features
+
+* input ring ([fc5ba29](https://github.com/FactorJS/factor/commit/fc5ba294be38502de737e73817f3a34cd6c823ea))
+
+
+
 ## [5.5.76](https://github.com/FactorJS/factor/compare/v5.5.75...v5.5.76) (2022-10-17)
 
 
