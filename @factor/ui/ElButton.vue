@@ -2,7 +2,7 @@
   <component
     :is="to ? 'router-link' : href ? 'a' : 'button'"
     :to="to"
-    class="relative select-none items-center rounded-lg border ring-offset-2 focus:outline-none focus:ring-2"
+    class="relative select-none items-center rounded-lg border focus:ring-offset-2 focus:outline-none focus:ring-2"
     :class="btnClass"
     :href="href"
   >
@@ -88,7 +88,7 @@ const btnClass = vue.computed(() => {
       "text-primary-500  hover:bg-primary-50 focus:ring-primary-100 border-primary-500"
   } else if (btn == "outlineWhite") {
     out =
-      "text-white hover:bg-white bg-opacity-05 focus:ring-white border-white"
+      "text-white hover:bg-white/20 bg-opacity-05 focus:ring-white border-white"
   } else if (btn == "green") {
     out =
       "text-green-600 bg-green-50 hover:bg-green-500 hover:bg-green-500 hover:text-white focus:ring-green-500 border-green-50 hover:border-green-500"

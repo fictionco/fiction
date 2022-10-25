@@ -30,6 +30,17 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
       plugins: [twForms],
       theme: {
         extend: {
+          fontFamily: {
+            sans: [
+              `var(--font-family-sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji")`,
+            ],
+            serif: [
+              `var(--font-family-serif, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif)`,
+            ],
+            mono: [
+              `var(--font-family-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace)`,
+            ],
+          },
           borderWidth: {
             input: "var(--input-border-width, 1px)",
             3: "3px",
