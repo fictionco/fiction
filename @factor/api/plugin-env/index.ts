@@ -161,7 +161,7 @@ export class FactorEnv<
 
     this.envInit()
 
-    if (!this.isApp.value) {
+    if (this.utils.isNode()) {
       this.nodeInit()
     } else {
       this.log.info("browser env vars", { data: process.env })
