@@ -6,34 +6,26 @@
     <label
       v-else
       :for="uploadId"
-      class="border-theme-200 hover:bg-theme-50 hover:border-theme-300 mt-1 flex cursor-pointer justify-center rounded-md border-2 border-dashed px-4 py-6"
+      class="border-theme-300 hover:bg-theme-50 hover:border-theme-400 mt-1 flex cursor-pointer justify-center rounded-md border border-dashed px-4 py-6"
       :class="[]"
       @drop="handleDropFile"
       @dragover="draggingOver = true"
       @dragleave="draggingOver = false"
     >
       <div class="space-y-1 text-center">
-        <div class="text-theme-400 text-center">
-          <div class="i-carbon-upload inline-block text-2xl"></div>
+        <div class="text-theme-500 text-xs flex space-x-1 items-center">
+          <div class="i-carbon-image text-theme-400 inline-block text-lg"></div>
+          <div class="uppercase tracking-wide font-medium">Upload Image</div>
         </div>
-        <div class="text-theme-500 flex text-sm">
-          <div
-            class="text-theme-700 hover:text-theme-600 relative cursor-pointer rounded-md font-medium"
-          >
-            <span>Upload a file</span>
-            <input
-              :id="uploadId"
-              name="file-upload"
-              type="file"
-              class="sr-only"
-              accept="image/*"
-              multiple
-              @change="handleUploadFile"
-            />
-          </div>
-          <p class="pl-1">or drag and drop</p>
-        </div>
-        <p class="text-theme-500 text-xs">{{ allowedFile }}</p>
+        <input
+          :id="uploadId"
+          name="file-upload"
+          type="file"
+          class="sr-only"
+          accept="image/*"
+          multiple
+          @change="handleUploadFile"
+        />
       </div>
     </label>
   </div>

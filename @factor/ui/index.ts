@@ -48,14 +48,13 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
           borderRadius: {
             input: "var(--input-border-radius, .4em)",
           },
-
           boxShadow: {
             input: `var(--input-shadow, 'none')`,
             "input-focus": `var(--input-shadow-focus, 'none')`,
           },
           spacing: {
-            "input-x": "var(--input-x, .25rem)",
-            "input-y": "var(--input-y, .5rem)",
+            "input-x": "var(--input-x, .5rem)",
+            "input-y": "var(--input-y, .33rem)",
           },
           maxWidth: {
             input: "var(--input-max-width, 100%)",
@@ -87,7 +86,6 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             slate: {
               25: "#fdfdff",
             },
-
             theme: {
               DEFAULT: "var(--theme-0, #FFFFFF)",
               0: "var(--theme-0, #FFFFFF)",
@@ -122,7 +120,6 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               700: "var(--primary-700, #3e26bf)",
               800: "var(--primary-800, #1a1452)",
               900: "var(--primary-900, #28197d)",
-
               DEFAULT: "var(--primary-500, #5233ff)",
             },
             /**

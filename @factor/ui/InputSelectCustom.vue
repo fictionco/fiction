@@ -62,7 +62,7 @@
       >
         <div
           v-if="active"
-          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl"
+          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl ring-1 ring-black/5"
         >
           <ul
             role="listbox"

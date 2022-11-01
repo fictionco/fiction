@@ -27,7 +27,7 @@ export abstract class Query<T extends Record<string, unknown> = {}> {
   abstract run(
     params: unknown,
     meta?: EndpointMeta,
-  ): Promise<EndpointResponse<unknown>>
+  ): Promise<EndpointResponse<unknown> | void>
 
   /**
    * Wrapper to catch errors

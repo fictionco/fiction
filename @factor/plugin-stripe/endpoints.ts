@@ -64,7 +64,7 @@ abstract class QueryPayments extends Query {
   ): Promise<Awaited<ReturnType<this["run"]>> & RefineResult> {
     const result = await this.serve(params, meta)
 
-    if (result.status == "success") {
+    if (result?.status == "success") {
       const r = result as Awaited<ReturnType<this["run"]>> & {
         customerId?: string
         userId?: string
@@ -77,6 +77,41 @@ abstract class QueryPayments extends Query {
       return { ...r, ...fullResponse }
     } else {
       return result as Awaited<ReturnType<this["run"]>> & RefineResult
+    }
+  }
+}
+
+export class QueryCheckoutSession extends QueryPayments {
+  async run(
+    params: {
+      priceId: string
+    },
+    meta: EndpointMeta,
+  ): Promise<void> {
+    const { priceId } = params
+
+    if (!priceId) throw this.stop({ message: "no priceId" })
+
+    const stripe = this.factorStripe.getServerClient()
+
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      // {CHECKOUT_SESSION_ID} is a string literal; do not change it!
+      // the actual Session ID is returned in the query parameter when your customer
+      // is redirected to the success page.
+      success_url: `${this.factorStripe.checkoutConfig.value.cancelUrl}?sessionId={CHECKOUT_SESSION_ID}`,
+      cancel_url: this.factorStripe.checkoutConfig.value.cancelUrl,
+    })
+
+    if (session.url) {
+      meta.response?.redirect(303, session.url)
     }
   }
 }

@@ -1,6 +1,5 @@
-import http from "http"
 import "./register"
-
+import express from "express"
 import {
   FactorPlugin,
   HookType,
@@ -41,6 +40,8 @@ export type StripePluginSettings = {
   hooks?: HookType<types.HookDictionary>[]
   productsLive: types.StripeProductConfig[]
   productsTest: types.StripeProductConfig[]
+  checkoutSuccessPathname?: string
+  checkoutCancelPathname?: string
 } & FactorPluginSettings
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
@@ -53,8 +54,8 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     factorServer: this.factorServer,
     factorUser: this.factorUser,
   })
-  public browserClient?: { live?: StripeJS.Stripe; test?: StripeJS.Stripe }
-  public serverClient?: { live?: Stripe; test?: Stripe }
+  public browserClient?: StripeJS.Stripe
+  public serverClient?: Stripe
   private stripeMode = this.utils.vue.computed(() => {
     return this.settings.isLive?.value ? "live" : "test"
   })
@@ -68,13 +69,35 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   publicKeyTest = this.settings.publicKeyTest
   secretKeyLive = this.settings.secretKeyLive
   secretKeyTest = this.settings.secretKeyTest
+  secretKey = this.utils.vue.computed(() => {
+    return this.settings.isLive?.value
+      ? this.settings.secretKeyLive
+      : this.settings.secretKeyTest
+  })
+  publicKey = this.utils.vue.computed(() => {
+    return this.settings.isLive?.value
+      ? this.settings.publicKeyLive
+      : this.settings.publicKeyTest
+  })
   webhookSecret = this.settings.webhookSecret
+
+  checkoutConfig = this.utils.vue.computed(() => {
+    const base = this.factorApp.appUrl.value
+    const successPath =
+      this.settings.checkoutSuccessPathname ?? "/checkout-success"
+    const cancelPath =
+      this.settings.checkoutCancelPathname ?? "/checkout-cancel"
+    return {
+      successUrl: `${base}${successPath}`,
+      cancelUrl: `${base}${cancelPath}`,
+    }
+  })
 
   constructor(settings: StripePluginSettings) {
     super("stripe", settings)
 
     const stripeWebhookEndpoint = new Endpoint({
-      requestHandler: (_) => this.stripeHookHandler(_),
+      requestHandler: (..._) => this.stripeHookHandler(..._),
       key: "stripeWebhooks",
       basePath: "/stripe-webhook",
       serverUrl: this.factorServer.serverUrl.value,
@@ -82,7 +105,16 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       useNaked: true,
     })
 
-    this.factorServer.addEndpoints([stripeWebhookEndpoint])
+    const checkoutEndpoint = new Endpoint({
+      requestHandler: (...r) => this.checkoutEndpointHandler(...r),
+      key: "oAuthEndpoint",
+      basePath: "/stripe-checkout/:action",
+      serverUrl: this.factorServer.serverUrl.value,
+      factorUser: this.factorUser,
+      useNaked: true,
+    })
+
+    this.factorServer.addEndpoints([stripeWebhookEndpoint, checkoutEndpoint])
 
     this.factorApp.addHook({
       hook: "viteConfig",
@@ -118,76 +150,77 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     } as const
   }
 
-  getServerClient(env?: "live" | "test"): Stripe {
-    env = env ?? this.stripeMode.value
-
+  getServerClient(): Stripe {
     if (this.utils.isApp()) throw new Error("Stripe is server only")
 
-    if (!this.serverClient) this.serverClient = {}
-
-    if (!this.serverClient[env]) {
-      const key =
-        env == "live"
-          ? this.settings.secretKeyLive
-          : this.settings.secretKeyTest
-
+    if (!this.serverClient) {
+      const key = this.secretKey.value
       if (!key) throw new Error("Stripe secret key not found")
 
-      this.serverClient[env] = new Stripe(key, { apiVersion: "2020-08-27" })
+      this.serverClient = new Stripe(key, { apiVersion: "2020-08-27" })
     }
 
-    return this.serverClient[env] as Stripe
+    return this.serverClient as Stripe
   }
 
-  getBrowserClient = async (
-    env?: "live" | "test",
-  ): Promise<StripeJS.Stripe> => {
-    env = env ?? this.stripeMode.value
-
-    if (!this.browserClient) this.browserClient = {}
-
-    if (!this.browserClient[env]) {
-      const publicKey =
-        env == "live"
-          ? this.settings.publicKeyLive
-          : this.settings.publicKeyTest
-
+  getBrowserClient = async (): Promise<StripeJS.Stripe> => {
+    if (!this.browserClient) {
+      const publicKey = this.publicKey.value
       if (!publicKey) throw new Error("Stripe secret key not found")
 
       const createdClient = await StripeJS.loadStripe(publicKey)
-      this.browserClient[env] = createdClient ?? undefined
+      this.browserClient = createdClient ?? undefined
     }
 
-    if (!this.browserClient[env]) throw new Error("no stripe client created")
+    if (!this.browserClient) throw new Error("no stripe client created")
 
-    return this.browserClient[env] as StripeJS.Stripe
+    return this.browserClient as StripeJS.Stripe
   }
 
   getStripeProduct = (params: {
-    key?: string
+    productKey?: string
     productId?: string
   }): types.StripeProductConfig | void => {
-    if (!params.key && !params.productId) return
+    if (!params.productKey && !params.productId) return
 
     const p = this.products.value
 
     let product: types.StripeProductConfig | undefined = undefined
 
-    if (params.key) {
-      product = p.find((_) => _.key == params.key)
+    if (params.productKey) {
+      product = p.find((_) => _.productKey == params.productKey)
     } else {
       product = p.find((_) => _.productId == params.productId)
     }
 
-    if (!product || !product?.key) {
+    if (!product || !product?.productKey) {
       throw new Error(`not found: getStripeProduct`)
     }
 
     return product
   }
 
+  getStripePrice = (params: {
+    productKey: string
+    priceKey: string
+  }): types.StripePriceConfig => {
+    const { productKey, priceKey } = params
+    const product = this.getStripeProduct({ productKey: productKey })
+
+    if (!product) throw new Error(`not found: ${productKey}`)
+
+    const { productId } = product
+
+    const price = product.pricing.find((_) => _.priceKey == priceKey)
+
+    if (!price) throw new Error(`not found: ${priceKey}`)
+
+    return { productId, productKey, ...price }
+  }
+
   stripeHookHandler = async (
-    request: http.IncomingMessage,
+    request: express.Request,
+    _response: express.Response,
   ): Promise<EndpointResponse> => {
     let event: Stripe.Event
     const stripe = this.getServerClient()
@@ -223,6 +256,14 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: "onInvoicePayment",
+        args: [event, { factorStripe: this }],
+      })
+    } else if (event.type == "checkout.session.completed") {
+      // Payment is successful and the subscription is created.
+      // You should provision the subscription and save the customer ID to your database.
+      await this.utils.runHooks({
+        list: this.hooks,
+        hook: "onCheckoutSuccess",
         args: [event, { factorStripe: this }],
       })
     } else if (event.type == "invoice.payment_failed") {
@@ -262,5 +303,72 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     }
 
     return { status: "success" }
+  }
+
+  getCheckoutUrl(args: { productKey: string; priceKey: string }): string {
+    const { productKey, priceKey } = args
+    const price = this.getStripePrice({ productKey, priceKey })
+
+    const baseUrl = this.factorServer.serverUrl.value
+    const url = new URL(`${baseUrl}/stripe-checkout/init`)
+
+    if (price) {
+      url.search = new URLSearchParams(price).toString()
+    }
+
+    return url.toString()
+  }
+
+  async checkoutEndpointHandler(
+    request: express.Request,
+    response: express.Response,
+  ): Promise<void> {
+    const query = request.query as Record<string, string>
+    const params = request.params as {
+      action?: "init"
+    }
+
+    const { action } = params
+
+    if (!action) {
+      this.log.error("Invalid request", { action })
+      response.status(400).send("Invalid request")
+      return
+    }
+
+    try {
+      if (action == "init") {
+        const { priceId } = query
+
+        if (!priceId) throw this.stop({ message: "no priceId" })
+
+        const stripe = this.getServerClient()
+
+        const { successUrl, cancelUrl } = this.checkoutConfig.value
+
+        const session = await stripe.checkout.sessions.create({
+          line_items: [
+            {
+              // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+              price: priceId,
+              quantity: 1,
+            },
+          ],
+          mode: "subscription",
+          success_url: successUrl,
+          cancel_url: cancelUrl,
+        })
+
+        if (session.url) {
+          response?.redirect(303, session.url)
+        }
+      } else {
+        throw this.stop("invalid action")
+      }
+    } catch (error) {
+      const e = error as Error
+      this.log.error("endpoint threw an error", { error })
+      response.status(400).send({ status: "error", message: e.message }).end()
+    }
   }
 }

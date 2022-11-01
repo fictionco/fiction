@@ -3,9 +3,16 @@ import type Stripe from "stripe"
 import type { FactorStripe } from "."
 
 export type StripeProductConfig = {
-  priceId?: string
-  productId?: string
-  key: string
+  pricing: { priceId: string; priceKey: string }[]
+  productId: string
+  productKey: string
+}
+
+export type StripePriceConfig = {
+  productId: string
+  productKey: string
+  priceId: string
+  priceKey: string
 }
 
 export interface StripePlanInfo {
@@ -82,6 +89,12 @@ export type HookDictionary = {
   }
   beforeCreateSubscription: {
     args: [CreateSubscriptionArgs, { factorStripe: FactorStripe }]
+  }
+  onCheckoutSuccess: {
+    args: [Stripe.Event, { factorStripe: FactorStripe }]
+  }
+  onInvoicePaid: {
+    args: [Stripe.Event, { factorStripe: FactorStripe }]
   }
 }
 

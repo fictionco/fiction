@@ -1,25 +1,30 @@
 <template>
   <div
     :key="label"
-    class="f-el-input space-y-1"
+    class="f-el-input space-y-0.5"
     :class="[valid ? 'valid' : 'not-valid', attrs.class]"
   >
     <div
       v-if="label || description"
       class="text-input-label-size flex justify-between"
     >
-      <div class="text">
+      <div class="text text-[.85em] flex items-center space-x-2">
         <label
           v-if="label"
           class="font-medium"
           :for="attrs.for"
           v-text="label"
         />
-        <div
-          v-if="description"
-          class="text-[.85em] text-slate-400"
-          v-text="description"
-        />
+        <div v-if="description" class="group relative">
+          <div
+            class="i-carbon-information text-slate-500 hover:text-slate-400"
+          ></div>
+          <div
+            class="shadow-lg p-3 text-xs group-hover:block hidden absolute -left-4 z-30 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 ring-black/10 focus:outline-none"
+          >
+            {{ description }}
+          </div>
+        </div>
       </div>
     </div>
     <div class="input-area py-[.25em]">

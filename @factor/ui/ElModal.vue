@@ -1,7 +1,7 @@
 <template>
   <teleport to="body">
     <div
-      class="relative z-10"
+      class="relative z-30"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -17,11 +17,11 @@
       >
         <div
           v-if="vis"
-          class="fixed inset-0 bg-slate-800/75 transition-opacity"
+          class="fixed inset-0 bg-slate-800/75 transition-opacity backdrop-blur-md"
           @click="close()"
         ></div>
       </transition>
-      <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="fixed inset-0 z-40 overflow-y-auto">
         <div
           class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
         >
