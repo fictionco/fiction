@@ -29,6 +29,11 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
 
     const paths = await this.getSitemapPaths(params)
 
+    if (paths.length == 0) {
+      this.log.warn("no sitemap paths found", { app: this.factorEnv?.id })
+      return
+    }
+
     const sourceData = paths.map((url) => {
       const slashes = url.split("/").length
 
