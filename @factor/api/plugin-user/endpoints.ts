@@ -725,7 +725,9 @@ export class QueryLogin extends UserQuery {
       }
     } else if (password) {
       if (!user.hashedPassword) {
-        throw this.stop({ message: "no password set for user" })
+        throw this.stop({
+          message: "no password exists, login another way?",
+        })
       }
 
       const correctPassword = await comparePassword(

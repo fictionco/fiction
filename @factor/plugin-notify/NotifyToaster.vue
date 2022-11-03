@@ -66,7 +66,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onEvent, vue, Notification, log } from "@factor/api"
+import { onEvent, vue, Notification, log, slugify } from "@factor/api"
 
 const props = defineProps({
   dev: { type: Boolean, default: false },
@@ -78,11 +78,13 @@ const defaultToasts: Notification[] = props.dev
         type: "success",
         message: "Success!",
         more: "This is a success message.",
+        key: "success",
       },
       {
         type: "error",
         message: "Error!",
         more: "This is an error message.",
+        key: "error",
       },
     ]
   : []
@@ -101,11 +103,25 @@ const showToast = (config: Notification): void => {
 
   const shownAt = Date.now()
 
-  toasts.value.push({ shownAt, message, more, type })
+  const key = slugify(message)
 
-  setTimeout(() => {
-    toasts.value.shift()
-  }, duration)
+  /**
+   * Use key to prevent duplicate notifications
+   */
+  if (!toasts.value.some((t) => t.key == key)) {
+    toasts.value.push({
+      type,
+      message,
+      more,
+      shownAt,
+      duration,
+      key,
+    })
+
+    setTimeout(() => {
+      toasts.value.shift()
+    }, duration)
+  }
 }
 
 vue.onMounted(() => {

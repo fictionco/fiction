@@ -10,6 +10,7 @@ export type NotificationMeta = {
   shownAt?: number
   duration?: number
   data?: unknown
+  key?: string
 }
 export type Notification = {
   type: NotifyType
