@@ -76,6 +76,8 @@ export const createExpressApp = (
       commit: getCommit(),
     }
 
+    log.info("expressApp", "health check request", { data: healthData })
+
     response.status(200).send(healthData).end()
   })
 
