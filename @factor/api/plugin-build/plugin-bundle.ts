@@ -257,7 +257,9 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
 
         const clientBuildOptions = deepMergeAll<vite.InlineConfig>(merge)
 
-        const watcher = (await vite.build(clientBuildOptions)) as RollupWatcher
+        const watcher = (await vite.build(
+          clientBuildOptions,
+        )) as unknown as RollupWatcher // rollup version mismatch
 
         watcher.on("event", async (event: RollupWatcherEvent) => {
           if (event.code == "END") {
