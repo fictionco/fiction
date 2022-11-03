@@ -25,13 +25,15 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
 
     if (!distClient) throw new Error("distClient is required for sitemap")
 
-    this.log.info("starting")
-
     const paths = await this.getSitemapPaths(params)
 
     if (paths.length == 0) {
       this.log.warn("no sitemap paths found", { app: this.factorEnv?.id })
       return
+    } else {
+      this.log.info(`starting sitemap with ${paths.length} paths`, {
+        data: { appUrl },
+      })
     }
 
     const sourceData = paths.map((url) => {
