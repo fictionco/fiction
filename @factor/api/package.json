@@ -159,7 +159,7 @@
     "fake-indexeddb": "^4.0.0",
     "playwright": "*",
     "react-dom": "^18.2.0",
-    "rollup": "*"
+    "rollup": "^3.2.5"
   },
   "license": "MIT",
   "main": "index.ts",
