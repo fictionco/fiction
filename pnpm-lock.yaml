@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/lint': 5.5.83
-      '@factor/ui': 5.5.83
-      '@factor/www': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/lint': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
+      '@factor/www': workspace:5.5.83
       '@types/express': ^4.17.14
       '@types/node': 18.8.0
       '@vitejs/plugin-vue': ^3.2.0
@@ -72,10 +72,10 @@ importers:
 
   '@factor/andrewpowers':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-blog-engine': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-blog-engine': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       postcss: ^8.4.18
       tailwindcss: ^3.2.1
     dependencies:
@@ -91,7 +91,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.137.0
       '@aws-sdk/client-s3': 3.137.0
       '@babel/parser': ^7.20.1
-      '@factor/api': 5.5.83
+      '@factor/api': workspace:5.5.83
       '@faker-js/faker': ^7.6.0
       '@iconify-json/carbon': ^1.1.9
       '@iconify-json/clarity': ^1.1.4
@@ -210,7 +210,7 @@ importers:
       react-dom: ^18.2.0
       remove-markdown: ^0.5.0
       request-ip: ^3.3.0
-      rollup: ^2.79.1
+      rollup: '*'
       semver: ^7.3.8
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -371,14 +371,14 @@ importers:
       fake-indexeddb: 4.0.0
       playwright: 1.27.1
       react-dom: 18.2.0_react@18.2.0
-      rollup: 2.79.1
+      rollup: 3.2.5
 
   '@factor/fiction':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-blog-engine': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-blog-engine': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       postcss: ^8.4.18
       tailwindcss: ^3.2.1
     dependencies:
@@ -432,9 +432,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -446,9 +446,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.6
       string-similarity: ^4.0.4
@@ -462,7 +462,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.83
+      '@factor/api': workspace:5.5.83
       highlight.js: ^11.6.0
     dependencies:
       '@factor/api': link:../api
@@ -470,13 +470,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.83
+      '@factor/api': workspace:5.5.83
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.83
+      '@factor/api': workspace:5.5.83
       '@stripe/stripe-js': ^1.42.1
       dotenv: ^16.0.3
       express: ^4.18.2
@@ -491,10 +491,10 @@ importers:
 
   '@factor/supereon':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-blog-engine': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-blog-engine': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       postcss: ^8.4.18
       tailwindcss: ^3.2.1
     dependencies:
@@ -507,7 +507,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.83
+      '@factor/api': workspace:5.5.83
       '@tailwindcss/forms': ^0.5.3
       blurhash: ^2.0.4
       gravatar-url: ^4.0.1
@@ -523,13 +523,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.83
-      '@factor/plugin-blog-engine': 5.5.83
-      '@factor/plugin-docs-engine': 5.5.83
-      '@factor/plugin-highlight-code': 5.5.83
-      '@factor/plugin-notify': 5.5.83
-      '@factor/plugin-stripe': 5.5.83
-      '@factor/ui': 5.5.83
+      '@factor/api': workspace:5.5.83
+      '@factor/plugin-blog-engine': workspace:5.5.83
+      '@factor/plugin-docs-engine': workspace:5.5.83
+      '@factor/plugin-highlight-code': workspace:5.5.83
+      '@factor/plugin-notify': workspace:5.5.83
+      '@factor/plugin-stripe': workspace:5.5.83
+      '@factor/ui': workspace:5.5.83
       '@tailwindcss/forms': ^0.5.3
       axios: ^0.27.2
       dayjs: ^1.11.6
@@ -7564,7 +7564,6 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
-    dev: false
 
   /run-parallel/1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
