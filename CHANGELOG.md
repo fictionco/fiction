@@ -1,3 +1,12 @@
+## [5.5.85](https://github.com/FactorJS/factor/compare/v5.5.84...v5.5.85) (2022-11-07)
+
+
+### Bug Fixes
+
+* build prod ([a6539f2](https://github.com/FactorJS/factor/commit/a6539f27785fd26f4c11840d1c2fdc38dbd7e79f))
+
+
+
 ## [5.5.84](https://github.com/FactorJS/factor/compare/v5.5.83...v5.5.84) (2022-11-03)
 
 
