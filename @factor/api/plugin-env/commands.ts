@@ -24,6 +24,8 @@ export class CliCommand<T extends string = string> {
     const defaultOptions: CliOptions =
       this.type == "service"
         ? { mode: "production", exit: false }
+        : this.type == "build"
+        ? { mode: "production", exit: true }
         : { mode: "development", exit: true }
 
     this.options = { ...defaultOptions, ...settings.options }

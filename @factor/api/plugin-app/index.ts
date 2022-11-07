@@ -61,15 +61,14 @@ export type FactorAppSettings = {
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   tailwindConfig?: Partial<TailwindConfig>[]
-
   indexTemplates?: Partial<IndexTemplates>
   distFolder?: string
   srcFolder?: string
   mainIndexHtml?: string
   publicFolder?: string
   ui: {
-    logoDark: () => Promise<vue.Component> | vue.Component
-    logoLight: () => Promise<vue.Component> | vue.Component
+    logoDark: vue.Component
+    logoLight: vue.Component
   }
 }
 
