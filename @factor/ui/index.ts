@@ -122,6 +122,21 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               900: "var(--primary-900, #28197d)",
               DEFAULT: "var(--primary-500, #5233ff)",
             },
+
+            secondary: {
+              0: "var(--secondary-0, #FFFFFF)",
+              50: "var(--secondary-50, #fffbeb)",
+              100: "var(--secondary-100, #fef3c7)",
+              200: "var(--secondary-200, #fcd34d)",
+              300: "var(--secondary-300, #fbbf24)",
+              400: "var(--secondary-400, #f59e0b)",
+              500: "var(--secondary-500, #d97706)",
+              600: "var(--secondary-600, #4a2ee6)",
+              700: "var(--secondary-700, #b45309)",
+              800: "var(--secondary-800, #92400e)",
+              900: "var(--secondary-900, #78350f)",
+              DEFAULT: "var(--secondary-500, #d97706)",
+            },
             /**
              * Needed to allow for input specific colors to be selectively
              * overridden without also overriding the theme colors.

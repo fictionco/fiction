@@ -61,12 +61,16 @@ export type FactorAppSettings = {
   sitemaps?: types.SitemapConfig[]
   uiPaths?: string[]
   tailwindConfig?: Partial<TailwindConfig>[]
-  ui?: Record<string, () => Promise<vue.Component>>
+
   indexTemplates?: Partial<IndexTemplates>
   distFolder?: string
   srcFolder?: string
   mainIndexHtml?: string
   publicFolder?: string
+  ui: {
+    logoDark: () => Promise<vue.Component> | vue.Component
+    logoLight: () => Promise<vue.Component> | vue.Component
+  }
 }
 
 export class FactorApp extends FactorPlugin<FactorAppSettings> {
@@ -220,7 +224,6 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       : vue.createApp(this.rootComponent, { service })
 
     app.provide("service", service)
-    app.provide("ui", this.createUi(this.ui))
     app.use(router)
 
     if (renderUrl) {
