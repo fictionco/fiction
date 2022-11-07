@@ -1,8 +1,8 @@
 {
   "name": "@factor/ui",
-  "version": "5.5.85",
+  "version": "5.5.86",
   "dependencies": {
-    "@factor/api": "workspace:5.5.85",
+    "@factor/api": "5.5.86",
     "@tailwindcss/forms": "^0.5.3",
     "blurhash": "^2.0.4",
     "gravatar-url": "^4.0.1",
