@@ -30,6 +30,7 @@ import { version } from "../package.json"
 import { commands, envVars } from "./vars"
 import routes from "./routes"
 import App from "./App.vue"
+import ElLogo from "./el/ElLogo.vue"
 vars.register(envVars)
 
 const cwd = safeDirname(import.meta.url, "..")
@@ -72,6 +73,7 @@ export const factorApp = new FactorApp({
   factorServer,
   port: +factorEnv.var("WWW_PORT", { fallback: 3000 }),
   rootComponent: App,
+  ui: { logoDark: ElLogo, logoLight: ElLogo },
   factorRouter,
   uiPaths: [
     path.join(cwd, "./src/**/*.{vue,js,ts,html}"),

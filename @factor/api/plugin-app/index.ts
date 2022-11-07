@@ -66,9 +66,9 @@ export type FactorAppSettings = {
   srcFolder?: string
   mainIndexHtml?: string
   publicFolder?: string
-  ui: {
-    logoDark: vue.Component
-    logoLight: vue.Component
+  ui?: {
+    logoDark?: vue.Component
+    logoLight?: vue.Component
   }
 }
 

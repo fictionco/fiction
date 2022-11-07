@@ -16,7 +16,7 @@ import { CompiledServiceConfig } from "../.factor/config"
 import { version } from "../package.json"
 import { routes } from "./routes"
 import App from "./App.vue"
-
+import ElLogo from "./ElLogo.vue"
 const cwd = safeDirname(import.meta.url, "..")
 const repoRoot = safeDirname(import.meta.url, "../../..")
 export const appName = "Supereon"
@@ -44,6 +44,7 @@ export const factorApp = new FactorApp({
   port: +(factorEnv.var("APP_PORT") || 3000),
   rootComponent: App,
   factorRouter,
+  ui: { logoLight: ElLogo, logoDark: ElLogo },
   uiPaths: [
     path.join(cwd, "./src/**/*.{vue,js,ts,html}"),
     path.join(cwd, "./src/*.{vue,js,ts,html}"),
