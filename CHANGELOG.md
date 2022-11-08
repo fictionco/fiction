@@ -1,3 +1,13 @@
+## [5.5.92](https://github.com/FactorJS/factor/compare/v5.5.91...v5.5.92) (2022-11-08)
+
+
+### Bug Fixes
+
+* clean up builds ([aba0ee2](https://github.com/FactorJS/factor/commit/aba0ee23f04172e09e2aa81f7c16b1d166f6bba4))
+* flag stuffs ([4e97e3a](https://github.com/FactorJS/factor/commit/4e97e3a0d3d5d458a2f025e2cb95e03baf9b4682))
+
+
+
 ## [5.5.91](https://github.com/FactorJS/factor/compare/v5.5.90...v5.5.91) (2022-11-08)
 
 
