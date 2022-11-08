@@ -39,6 +39,7 @@ vars.register(() => [
   new EnvVar({
     name: "GOOGLE_CLIENT_ID",
     val: process.env.GOOGLE_CLIENT_ID,
+    isPublic: true,
     isOptional: true,
   }),
   new EnvVar({
@@ -168,7 +169,6 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
       factorDb: this.factorDb,
       factorEmail: this.factorEmail,
     }
-
 
     return {
       UserGoogleAuth: new QueryUserGoogleAuth({
