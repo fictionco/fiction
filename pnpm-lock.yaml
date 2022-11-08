@@ -95,6 +95,7 @@ importers:
       '@faker-js/faker': ^7.6.0
       '@iconify-json/carbon': ^1.1.9
       '@iconify-json/clarity': ^1.1.4
+      '@iconify-json/flag': ^1.1.21
       '@iconify-json/heroicons': ^1.1.6
       '@iconify-json/logos': ^1.1.18
       '@medv/finder': ^2.1.0
@@ -235,6 +236,7 @@ importers:
       '@faker-js/faker': 7.6.0
       '@iconify-json/carbon': 1.1.9
       '@iconify-json/clarity': 1.1.4
+      '@iconify-json/flag': 1.1.21
       '@iconify-json/heroicons': 1.1.6
       '@iconify-json/logos': 1.1.18
       '@medv/finder': 2.1.0
@@ -1634,6 +1636,12 @@ packages:
 
   /@iconify-json/clarity/1.1.4:
     resolution: {integrity: sha512-WnSp4vqVBDqoTvJqUsp39Vo+39iHsPckpLcKmlA5yKxghbt7C3nd9Twy4+WGFuVYq/p2Jy2PFr6EWqciFJSbNw==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/flag/1.1.21:
+    resolution: {integrity: sha512-Xilx3pL51QNdVJdgWqc4GRPUKr7JJvnOfDxqBS7kY2FhdpD7fZ64iurXRe+XyEuyGXi/5bZVbkwWXLwiyySNTQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
