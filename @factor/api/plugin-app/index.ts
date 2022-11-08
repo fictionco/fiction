@@ -30,6 +30,7 @@ import { FactorServer } from "../plugin-server"
 import { FactorRouter } from "../plugin-router"
 import { version } from "../package.json"
 import { FactorDevRestart } from "../plugin-env/restart"
+import countries from "../utils/lib/countries.json"
 import { getMarkdownPlugin } from "./utils/vitePluginMarkdown"
 import * as types from "./types"
 import { renderPreloadLinks, getFaviconPath } from "./utils"
@@ -675,7 +676,15 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         plugins: [
           pluginVue(),
           getMarkdownPlugin(),
-          unocss({ presets: [presetIcons()] }),
+          unocss({
+            presets: [presetIcons()],
+            safelist: [
+              ...countries.flatMap((_) => [
+                `i-flag-${_.code.toLowerCase()}-1x1`,
+                `i-flag-${_.code.toLowerCase()}-4x3`,
+              ]),
+            ],
+          }),
         ],
       },
       appViteConfigFile || {},
