@@ -845,6 +845,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
       crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
+      referrerPolicy: { policy: "strict-origin-when-cross-origin" },
     })
 
     const fallbackIndex = await this.getHtmlFile(
