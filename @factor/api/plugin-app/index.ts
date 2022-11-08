@@ -775,6 +775,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
       }
     } catch (error) {
       this.log.error("[error] failed to build application", { error })
+      throw error
     }
 
     return
