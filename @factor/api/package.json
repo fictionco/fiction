@@ -22,6 +22,7 @@
     "@iconify-json/clarity": "^1.1.4",
     "@iconify-json/heroicons": "^1.1.6",
     "@iconify-json/logos": "^1.1.18",
+    "@iconify-json/flag": "^1.1.21",
     "@medv/finder": "^2.1.0",
     "@sinclair/typebox": "^0.24.51",
     "@types/bcrypt": "^5.0.0",

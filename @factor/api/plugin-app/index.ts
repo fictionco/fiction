@@ -732,30 +732,34 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         input[key] = path.resolve(this.distFolder, fileName)
       })
 
-      const clientBuildOptions: vite.InlineConfig = {
-        ...vc,
-        root: this.distFolder,
-        build: {
-          outDir: this.distFolderClient,
-          emptyOutDir: true,
-          ssrManifest: true,
-          rollupOptions: { input },
-        },
-      }
-
-      const serverBuildOptions: vite.InlineConfig = {
-        ...vc,
-        build: {
-          emptyOutDir: true,
-          outDir: this.distFolderServer,
-          ssr: true,
-          rollupOptions: {
-            preserveEntrySignatures: "allow-extension", // not required
-            input: path.join(safeDirname(import.meta.url), "./mount.ts"),
-            output: { format: "es" },
+      const clientBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
+        vc,
+        {
+          root: this.distFolder,
+          build: {
+            outDir: this.distFolderClient,
+            emptyOutDir: true,
+            ssrManifest: true,
+            rollupOptions: { input },
           },
         },
-      }
+      ])
+
+      const serverBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
+        vc,
+        {
+          build: {
+            emptyOutDir: true,
+            outDir: this.distFolderServer,
+            ssr: true,
+            rollupOptions: {
+              preserveEntrySignatures: "allow-extension", // not required
+              input: path.join(safeDirname(import.meta.url), "./mount.ts"),
+              output: { format: "es" },
+            },
+          },
+        },
+      ])
 
       await Promise.all([
         vite.build(clientBuildOptions),
@@ -795,6 +799,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
     fs.ensureDirSync(this.distFolderStatic)
     fs.emptyDirSync(this.distFolderStatic)
     fs.copySync(this.distFolderClient, this.distFolderStatic)
+
+    if (!this.settings.isLive?.value) {
+      this.log.warn(
+        "pre-rendering in development mode (should be prod in most cases)",
+      )
+    }
 
     /**
      * @important pre-render in series

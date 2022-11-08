@@ -251,7 +251,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins()
 
-    const external: string[] = [] // this.factorEnv.serverOnlyModules.map((_) => _.id)
+    const external: string[] = ["ngrok"] // this.factorEnv.serverOnlyModules.map((_) => _.id)
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? "production" : "development",
