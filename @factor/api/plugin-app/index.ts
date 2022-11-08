@@ -678,12 +678,7 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
           getMarkdownPlugin(),
           unocss({
             presets: [presetIcons()],
-            safelist: [
-              ...countries.flatMap((_) => [
-                `i-flag-${_.code.toLowerCase()}-1x1`,
-                `i-flag-${_.code.toLowerCase()}-4x3`,
-              ]),
-            ],
+            safelist: [],
           }),
         ],
       },
