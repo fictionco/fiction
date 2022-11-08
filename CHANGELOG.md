@@ -1,3 +1,12 @@
+## [5.5.87](https://github.com/FactorJS/factor/compare/v5.5.86...v5.5.87) (2022-11-08)
+
+
+### Bug Fixes
+
+* throw error if build fails ([7949a57](https://github.com/FactorJS/factor/commit/7949a572dcf27c21e908180d337d16e63f3d775b))
+
+
+
 ## [5.5.86](https://github.com/FactorJS/factor/compare/v5.5.85...v5.5.86) (2022-11-07)
 
 
