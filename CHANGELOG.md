@@ -1,3 +1,12 @@
+## [5.5.93](https://github.com/FactorJS/factor/compare/v5.5.92...v5.5.93) (2022-11-08)
+
+
+### Bug Fixes
+
+* build problem ([7923e94](https://github.com/FactorJS/factor/commit/7923e9491bca9781c22b63cfc2bd188a14e8cc64))
+
+
+
 ## [5.5.92](https://github.com/FactorJS/factor/compare/v5.5.91...v5.5.92) (2022-11-08)
 
 
