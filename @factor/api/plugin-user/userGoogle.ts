@@ -13,17 +13,14 @@ type GoogleQuerySettings = {
   factorUser: FactorUser
 }
 
-export class QueryUserGoogleAuth extends Query {
+export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
   private client?: OAuth2Client
-  private clientId?: string
-  private clientSecret?: string
-  private factorUser: FactorUser
+  private factorUser = this.settings.factorUser
+  private clientId = this.factorUser.googleClientId
+  private clientSecret = this.factorUser.googleClientSecret
+
   constructor(settings: GoogleQuerySettings) {
     super(settings)
-
-    this.clientId = settings.clientId
-    this.clientSecret = settings.clientSecret
-    this.factorUser = settings.factorUser
   }
 
   async getClient(): Promise<OAuth2Client> {

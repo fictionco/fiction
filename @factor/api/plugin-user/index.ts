@@ -80,6 +80,12 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   activeUser = this.utils.vue.ref<types.FullUser>()
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
+  hooks = this.settings.hooks || []
+  tokenSecret = this.settings.tokenSecret || "secret"
+  activePath = this.utils.vue.ref(this.utils.safeDirname(import.meta.url))
+  clientTokenKey = "FCurrentUser"
+  googleClientId = this.settings.googleClientId
+  googleClientSecret = this.settings.googleClientSecret
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
@@ -87,10 +93,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     factorServer: this.factorServer,
     factorUser: this,
   })
-  hooks = this.settings.hooks || []
-  tokenSecret = this.settings.tokenSecret || "secret"
-  activePath = this.utils.vue.ref(this.utils.safeDirname(import.meta.url))
-  clientTokenKey = "FCurrentUser"
+
   constructor(settings: UserPluginSettings) {
     super("user", settings)
 
@@ -165,10 +168,12 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
       factorDb: this.factorDb,
       factorEmail: this.factorEmail,
     }
+
+
     return {
       UserGoogleAuth: new QueryUserGoogleAuth({
-        clientId: this.settings.googleClientId,
-        clientSecret: this.settings.googleClientSecret,
+        clientId: this.googleClientId,
+        clientSecret: this.googleClientSecret,
         ...deps,
       }),
       Login: new QueryLogin(deps),
