@@ -8,7 +8,7 @@
 <script lang="ts" setup>
 import { stored, PublicUser, vue } from "@factor/api"
 import gravatarUrl from "gravatar-url"
-
+import userBlank from "./img/user-blank.png"
 const props = defineProps({
   userId: { type: String, default: "" },
   url: { type: String, default: "" },
@@ -28,7 +28,7 @@ const src = vue.computed<string>(() => {
     const email = user.value ? user.value.email : props.email
     return gravatarUrl(email, { size: 200, default: "retro" }) || ""
   } else {
-    return ""
+    return userBlank
   }
 })
 </script>

@@ -25,7 +25,7 @@ export const onResetUi = (cb: (args: ResetUiDetail) => void): void => {
   if (!__listener) {
     __listener = true
     onEvent("resetUi", (args: ResetUiDetail) => {
-      __callbacks.forEach((cb) => cb(args))
+      __callbacks.forEach((cb) => cb(args || {}))
     })
   }
 }
