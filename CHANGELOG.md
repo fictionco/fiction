@@ -1,3 +1,12 @@
+## [5.5.94](https://github.com/FactorJS/factor/compare/v5.5.93...v5.5.94) (2022-11-10)
+
+
+### Bug Fixes
+
+* avatar and logout ([f0622d5](https://github.com/FactorJS/factor/commit/f0622d55c4c1ae444e541e8e8da50807ab030698))
+
+
+
 ## [5.5.93](https://github.com/FactorJS/factor/compare/v5.5.92...v5.5.93) (2022-11-08)
 
 
