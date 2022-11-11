@@ -20,8 +20,8 @@ import ElLogo from "./ElLogo.vue"
 const cwd = safeDirname(import.meta.url, "..")
 const repoRoot = safeDirname(import.meta.url, "../../..")
 export const appName = "Supereon"
-export const appEmail = "hello@supereon.org"
-export const liveUrl = "https://www.supereon.org"
+export const appEmail = "hello@supereon.ai"
+export const liveUrl = "https://www.supereon.ai"
 
 export const factorEnv = new FactorEnv<CompiledServiceConfig>({
   envFiles: [path.join(repoRoot, "./.env")],
@@ -59,7 +59,7 @@ export const factorDb = new FactorDb({
 export const factorServer = new FactorServer({
   serverName: "FactorMain",
   port: +factorEnv.var("SERVER_PORT", { fallback: 3333 }),
-  liveUrl: "https://server.factorjs.org",
+  liveUrl: "https://server.factorjs.ai",
   isLive: factorEnv.isProd,
   factorEnv,
 })

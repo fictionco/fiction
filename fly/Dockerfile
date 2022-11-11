@@ -28,6 +28,3 @@ FROM build as supereon
 EXPOSE 3000
 CMD npm -w @factor/supereon exec -- factor run app
 
-FROM build as fiction
-EXPOSE 3000
-CMD npm -w @factor/fiction exec -- factor run app

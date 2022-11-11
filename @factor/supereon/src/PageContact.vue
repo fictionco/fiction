@@ -6,7 +6,7 @@
           <p
             class="mt-1 text-4xl font-extrabold sm:text-5xl sm:tracking-tight lg:text-6xl"
           >
-            hello@supereon.org
+            hello@supereon.ai
           </p>
           <p class="mx-auto mt-5 max-w-xl text-xl text-slate-500">Email us.</p>
         </div>

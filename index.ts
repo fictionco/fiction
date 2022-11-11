@@ -22,12 +22,7 @@ export const factorEnv = new FactorEnv({
 export const factorRelease = new FactorRelease({ factorEnv })
 export const factorBundle = new FactorBundle({ factorEnv })
 
-export const apps = [
-  "@factor/www",
-  "@factor/andrewpowers",
-  "@factor/supereon",
-  "@factor/fiction",
-]
+export const apps = ["@factor/www", "@factor/andrewpowers", "@factor/supereon"]
 
 factorEnv.addHook({
   hook: "runCommand",
@@ -39,12 +34,7 @@ factorEnv.addHook({
     } else if (command == "bundle") {
       await factorBundle.bundleAll(opts)
     } else if (command == "render") {
-      const apps = [
-        "@factor/www",
-        "@factor/andrewpowers",
-        "@factor/supereon",
-        "@factor/fiction",
-      ]
+      const apps = ["@factor/www", "@factor/andrewpowers", "@factor/supereon"]
 
       for (const app of apps) {
         const cmd = `npm -w ${app} exec -- factor run render`

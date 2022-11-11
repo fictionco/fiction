@@ -1,4 +1,4 @@
-Sitemap: https://www.supereon.org/sitemap.xml
+Sitemap: https://www.supereon.ai/sitemap.xml
 
 User-agent: *
 Disallow:

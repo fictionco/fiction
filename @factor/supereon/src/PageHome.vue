@@ -28,13 +28,13 @@
                 <p
                   class="mx-auto mt-6 max-w-lg text-center text-2xl text-slate-500 text-opacity-70 sm:max-w-3xl"
                 >
-                  We must be warlike and wise.
+                  Artificial Intelligence Software and Tooling
                 </p>
                 <div
                   class="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center"
                 >
                   <a
-                    href="mailto:contact@supereon.org"
+                    href="mailto:contact@supereon.ai"
                     class="flex items-center justify-center rounded-md border border-slate-400 px-3 py-2 text-sm font-medium text-slate-400 shadow-sm hover:bg-slate-800 sm:px-8"
                   >
                     Contact
