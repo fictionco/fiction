@@ -1,3 +1,12 @@
+## [5.5.95](https://github.com/FactorJS/factor/compare/v5.5.94...v5.5.95) (2022-11-11)
+
+
+### Bug Fixes
+
+* clean up ([fc5d9bf](https://github.com/FactorJS/factor/commit/fc5d9bfe84547b2ff941d445eeaee255d891513e))
+
+
+
 ## [5.5.94](https://github.com/FactorJS/factor/compare/v5.5.93...v5.5.94) (2022-11-10)
 
 
