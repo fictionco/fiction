@@ -1,8 +1,8 @@
 {
   "name": "@factor/plugin-stripe",
-  "version": "5.5.96",
+  "version": "5.5.97",
   "dependencies": {
-    "@factor/api": "workspace:5.5.96",
+    "@factor/api": "5.5.97",
     "@stripe/stripe-js": "^1.44.1",
     "express": "^4.18.2",
     "stripe": "^9.16.0"
