@@ -2,12 +2,12 @@
   "name": "@factor/ui",
   "version": "5.5.95",
   "dependencies": {
-    "@factor/api": "5.5.95",
+    "@factor/api": "workspace:5.5.95",
     "@tailwindcss/forms": "^0.5.3",
     "blurhash": "^2.0.4",
     "gravatar-url": "^4.0.1",
-    "postcss": "^8.4.18",
-    "tailwindcss": "^3.2.2"
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",
