@@ -352,6 +352,7 @@ export class FactorRouter<
 
     return vue.computed(() => {
       const route = this.router?.currentRoute.value
+
       const active = isActive ? isActive({ route }) : route?.name == val?.name
       return active || false
     })
@@ -359,7 +360,7 @@ export class FactorRouter<
 
   public getRouteMenuItem(
     name: S["routes"],
-    options: { useNiceName?: boolean; item?: MenuItem } = {},
+    options: { useNiceName?: boolean; item?: MenuItem; priority?: number } = {},
   ): MenuItem {
     const { useNiceName = false, item = {} } = options
     const val = this.routes.value.find((r) => name == r.name)

@@ -55,6 +55,7 @@ export type ActionItem = MenuItem & {
 
 export interface MenuGroup {
   groupName?: string
+  groupKey?: string
   menu: MenuItem[] | readonly MenuItem[]
 }
 
