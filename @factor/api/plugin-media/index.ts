@@ -20,6 +20,13 @@ type FactorMediaSettings = {
   cdnUrl?: string
 } & FactorPluginSettings
 
+export type UploadConfig = {
+  mediaId?: string
+  file: File | Blob
+  progress: () => void
+  formData?: FormData | FormDataNode
+}
+
 export type MediaConfig = {
   mediaId: string
   url: string
@@ -59,23 +66,25 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
     this.factorDb?.addTables([mediaTable])
   }
 
-  async uploadFile(params: {
-    file?: File
-    formData?: FormData | FormDataNode
-  }) {
-    const { file, formData = new FormData() } = params
+  async uploadFile(params: UploadConfig) {
+    const { file, formData = new FormData(), progress } = params
 
     if (file) {
       formData.set(this.imageFieldName, file)
     }
 
-    return await this.requests.SaveMedia.upload(formData)
+    return await this.requests.SaveMedia.upload({ data: formData, progress })
   }
 
-  uploadFiles(params: { files: FileList; formData?: FormData | FormDataNode }) {
-    const { files, formData = new FormData() } = params
+  uploadFiles(params: {
+    uploads: UploadConfig[]
+    formData?: FormData | FormDataNode
+  }) {
+    const { uploads } = params
     return Promise.all(
-      [...files].map((file) => this.uploadFile({ file, formData })),
+      uploads.map(({ file, progress, mediaId }) =>
+        this.uploadFile({ file, progress, mediaId }),
+      ),
     )
   }
 

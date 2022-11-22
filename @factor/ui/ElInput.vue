@@ -8,7 +8,7 @@
       v-if="label || description"
       class="text-input-label-size flex justify-between"
     >
-      <div class="text text-[.85em] flex items-center space-x-2">
+      <div class="text flex items-center space-x-2 text-[.85em]">
         <label
           v-if="label"
           class="font-medium"
@@ -20,7 +20,7 @@
             class="i-carbon-information text-slate-500 hover:text-slate-400"
           ></div>
           <div
-            class="shadow-lg p-3 text-xs group-hover:block hidden absolute -left-4 z-30 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 ring-black/10 focus:outline-none"
+            class="absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md bg-white p-3 text-xs shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
           >
             {{ description }}
           </div>
@@ -73,7 +73,10 @@ const attrs = vue.useAttrs() as {
   required?: string
 }
 
-const { class: _class, ...passAttrs } = attrs
+const passAttrs = vue.computed(() => {
+  const { class: _class, ...passAttrs } = attrs
+  return passAttrs
+})
 
 const inputEl = vue.ref<vue.ComponentPublicInstance>()
 const valid = vue.ref<boolean | undefined>()

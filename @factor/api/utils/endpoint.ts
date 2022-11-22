@@ -116,29 +116,63 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     return new URL(this.pathname(), this.getBaseUrl()).href
   }
 
-  async upload(
-    data: FormData | FormDataNode,
-  ): Promise<ReturnType<T["run"]> | void> {
+  async upload(args: {
+    data: FormData | FormDataNode
+    progress?: (progress: number) => void
+  }): Promise<ReturnType<T["run"]> | void> {
+    const { data, progress } = args
     try {
-      /**
-       * @todo - support native fetch in node, currently it fails
-       *  and doesn't actually upload image... mostly this is needed for testing
-       */
-      const fetcher = isApp() ? fetch : (nodeFetch as typeof fetch)
-
-      const r = await fetcher(this.requestUrl, {
-        body: data as BodyInit,
+      const r = await axios.default.request<ReturnType<T["run"]>>({
         method: "post",
+        url: this.requestUrl,
+        data,
         headers: { Authorization: this.bearerHeader },
+        onUploadProgress: (p: { loaded: number; total: number }) => {
+          if (progress) {
+            progress(p.loaded / p.total)
+          }
+        },
       })
 
-      const response = (await r.json()) as Awaited<ReturnType<T["run"]>>
+      const response = r.data
+
+      // const r = await fetcher(this.requestUrl, {
+      //   body: data as BodyInit,
+      //   method: "post",
+      //   headers: { Authorization: this.bearerHeader },
+      // })
+
+      // const response = (await r.json()) as Awaited<ReturnType<T["run"]>>
 
       return response
     } catch (error) {
       this.log.error("upload error", { error })
     }
   }
+
+  // async upload(
+  //   data: FormData | FormDataNode,
+  // ): Promise<ReturnType<T["run"]> | void> {
+  //   try {
+  //     /**
+  //      * @todo - support native fetch in node, currently it fails
+  //      *  and doesn't actually upload image... mostly this is needed for testing
+  //      */
+  //     const fetcher = isApp() ? fetch : (nodeFetch as typeof fetch)
+
+  //     const r = await fetcher(this.requestUrl, {
+  //       body: data as BodyInit,
+  //       method: "post",
+  //       headers: { Authorization: this.bearerHeader },
+  //     })
+
+  //     const response = (await r.json()) as Awaited<ReturnType<T["run"]>>
+
+  //     return response
+  //   } catch (error) {
+  //     this.log.error("upload error", { error })
+  //   }
+  // }
 
   public async request(
     params: Parameters<T["run"]>[0],

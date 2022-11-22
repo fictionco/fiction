@@ -11,7 +11,7 @@
       <div
         :class="[
           buttonClasses,
-          active || disabled ? 'opacity-50' : 'hover:border-input-edge',
+          active || disabled ? 'opacity-80' : 'hover:border-input-edge',
           classButton,
           disabled
             ? 'cursor-not-allowed'
@@ -87,19 +87,25 @@
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group py-input-y px-input-x relative select-none"
+                class="py-input-y px-input-x group relative cursor-pointer select-none"
                 @click="selectValue(item)"
                 @mouseover="hovered = i"
               >
                 <div class="flex items-baseline truncate" :class="classOption">
-                  <span
-                    class="shrink-0 truncate"
-                    :class="item.desc ? '' : 'w-full'"
-                    >{{ item.name }}</span
-                  >
-                  <span v-if="item.desc" class="ml-2 truncate opacity-50">{{
-                    item.desc
-                  }}</span>
+                  <div>
+                    <div
+                      class="shrink-0 truncate"
+                      :class="item.desc ? '' : 'w-full'"
+                    >
+                      {{ item.name }}
+                    </div>
+                    <div
+                      v-if="item.desc"
+                      class="truncate text-[.85em] opacity-50"
+                    >
+                      {{ item.desc }}
+                    </div>
+                  </div>
                   <span
                     v-if="isSelected(item.value)"
                     class="absolute inset-y-0 right-0 flex items-center pr-3 opacity-50"
@@ -147,6 +153,12 @@ const hovered = vue.ref(-1)
 
 if (!props.modelValue && props.defaultValue) {
   emit("update:modelValue", props.defaultValue)
+} else if (!props.modelValue) {
+  // handle isDefault value in list
+  const defaultValue = props.list.find(
+    (i) => typeof i == "object" && i.isDefault,
+  ) as RouteListItem | undefined
+  if (defaultValue) emit("update:modelValue", defaultValue.value)
 }
 
 const li = vue.computed(() => normalizeList(props.list ?? []))
@@ -256,8 +268,3 @@ const buttonClasses = [
   "focus:outline-none",
 ]
 </script>
-<style lang="less" scoped>
-.select-description {
-  max-width: 60%;
-}
-</style>

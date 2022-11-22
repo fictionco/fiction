@@ -102,7 +102,7 @@
                 :key="i"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="group py-input-y px-input-x text-input-size relative select-none"
+                class="py-input-y px-input-x text-input-size group relative select-none"
                 @click.prevent="selectValue(item)"
                 @mouseover="hovered = i"
                 @mouseleave="hovered = -1"
@@ -257,9 +257,8 @@ onResetUi(() => (active.value = false))
  * Toggle dropdown visibility
  */
 const toggle = (): void => {
-  if (active.value) {
-    reset()
-  } else {
+  reset()
+  if (!active.value) {
     active.value = true
   }
 }

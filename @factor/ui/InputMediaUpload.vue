@@ -13,9 +13,9 @@
       @dragleave="draggingOver = false"
     >
       <div class="space-y-1 text-center">
-        <div class="text-theme-500 text-xs flex space-x-1 items-center">
+        <div class="text-theme-500 flex items-center space-x-1 text-xs">
           <div class="i-carbon-image text-theme-400 inline-block text-lg"></div>
-          <div class="uppercase tracking-wide font-medium">Upload Image</div>
+          <div class="font-medium uppercase tracking-wide">Upload Image</div>
         </div>
         <input
           :id="uploadId"
@@ -70,7 +70,14 @@ const uploadFiles = async (files?: FileList | null) => {
     log.info("mediaUpload", `uploading ${files.length} files`)
   }
   uploading.value = true
-  const result = await factorMedia.uploadFiles({ files })
+
+  const uploads = [...files].map((file) => ({
+    file,
+    fileId: objectId(),
+    progress: () => {},
+  }))
+
+  const result = await factorMedia.uploadFiles({ uploads })
   log.info("mediaUpload", `upload result`, { data: result })
 
   const urls = result

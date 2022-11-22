@@ -15,6 +15,7 @@ export type ListItem = {
   value?: string
   desc?: string
   selected?: boolean
+  isDefault?: boolean
   [key: string]: unknown
 }
 
