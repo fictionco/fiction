@@ -9,7 +9,6 @@ export const commonServerOnlyModules = (): ServerModuleDef[] => {
     { id: "unsplash-js" },
     { id: "@unocss/preset-icons" },
     { id: "nodemon" },
-    { id: "handlebars" },
     { id: "semver" },
     { id: "chokidar" },
     { id: "@playwright/test" },

@@ -1,5 +1,5 @@
 <template>
-  <label class="text-input-size inline-flex cursor-pointer items-center">
+  <label class="text-input-size flex cursor-pointer items-center">
     <input
       v-bind="attrs"
       type="checkbox"
@@ -8,7 +8,7 @@
       @input="handleEmit($event.target)"
     />
 
-    <span class="checkbox-label text-theme-700 hover:text-theme-500">
+    <span class="checkbox-label text-theme-700 hover:text-theme-500" v-if="slots.default || text">
       <template v-if="slots.default"> <slot /></template>
       <template v-else>{{ text }}</template>
     </span>

@@ -11,7 +11,7 @@
       <div
         :class="[
           buttonClasses,
-          active || disabled ? 'opacity-80' : 'hover:border-input-edge',
+          disabled ? 'opacity-80' : 'hover:border-input-edge',
           classButton,
           disabled
             ? 'cursor-not-allowed'
@@ -101,7 +101,7 @@
                     </div>
                     <div
                       v-if="item.desc"
-                      class="truncate text-[.85em] opacity-50"
+                      class="truncate text-[.9em] opacity-80"
                     >
                       {{ item.desc }}
                     </div>

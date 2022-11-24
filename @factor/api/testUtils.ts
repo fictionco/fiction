@@ -66,6 +66,8 @@ const snapString = (
 
   if (key?.endsWith("Id") && val) {
     out = rep("id", val)
+  } else if ((key?.endsWith("Url") || key?.endsWith("Urls")) && val) {
+    out = rep("url", val)
   } else if (
     (key?.endsWith("At") ||
       key?.endsWith("Iso") ||
@@ -90,15 +92,17 @@ const snapString = (
 export const snap = (
   obj?: Record<any, any> | Record<any, any>[] | unknown[] | undefined,
   opts: { hideKeys?: string[] } = {},
+  parentKey?: string,
 ): Record<string, unknown> | unknown[] | undefined => {
   if (!obj) return undefined
 
   if (Array.isArray(obj)) {
     return obj.map((o) => {
+
       const res =
         typeof o === "object" && o
           ? snap(o as Record<string, unknown>, opts)
-          : snapString(o, undefined, opts)
+          : snapString(o, parentKey, opts)
 
       return res
     })
@@ -109,7 +113,7 @@ export const snap = (
   for (const key in obj) {
     const value = obj[key] as unknown
     if (value && typeof value === "object" && !(value instanceof Date)) {
-      newObj[key] = snap(value as Record<string, unknown>, opts)
+      newObj[key] = snap(value as Record<string, unknown>, opts, key)
     } else if (value) {
       newObj[key] = snapString(value, key, opts)
     } else {

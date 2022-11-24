@@ -137,6 +137,7 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
       ACL: accessControl,
     })
 
+
     const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
 
     return {

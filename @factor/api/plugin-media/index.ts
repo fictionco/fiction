@@ -22,8 +22,8 @@ type FactorMediaSettings = {
 
 export type UploadConfig = {
   mediaId?: string
-  file: File | Blob
-  progress: () => void
+  file?: File | Blob
+  progress?: () => void
   formData?: FormData | FormDataNode
 }
 
