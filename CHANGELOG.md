@@ -1,3 +1,13 @@
+## [5.5.100](https://github.com/FactorJS/factor/compare/v5.5.99...v5.5.100) (2022-11-25)
+
+
+### Bug Fixes
+
+* tweaks ([3a57c0d](https://github.com/FactorJS/factor/commit/3a57c0df128f9ea67807334790dce4e0f0020c05))
+* ui tweak ([2e51de2](https://github.com/FactorJS/factor/commit/2e51de26c43b432f7cc231be22bd7f41a2cf2790))
+
+
+
 ## [5.5.99](https://github.com/FactorJS/factor/compare/v5.5.98...v5.5.99) (2022-11-17)
 
 
