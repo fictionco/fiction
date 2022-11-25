@@ -36,7 +36,7 @@ export type MenuItem = {
   route?: Ref<string>
   url?: Ref<string>
   active?: Ref<boolean>
-  onClick?: (item: MenuItem) => void
+  onClick?: (evnt: MouseEvent, item?: MenuItem) => void
   priority?: number
 } & ListItem
 

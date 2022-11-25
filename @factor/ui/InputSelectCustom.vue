@@ -19,15 +19,16 @@
         ]"
         @click="toggle()"
       >
-        <span class="flex w-full items-baseline truncate">
-          <span class="shrink-0 truncate">{{
-            selectedItem?.name || defaultValue || defaultText || "Select"
-          }}</span>
-          <span
-            class="select-description text-input-text-alt ml-[1em] truncate font-mono text-[10px] text-opacity-60"
-            >{{ selectedItem?.desc }}</span
+        <div class="w-full items-baseline truncate">
+          <div class="truncate font-medium">
+            {{ selectedItem?.name || defaultValue || defaultText || "Select" }}
+          </div>
+          <div
+            class="select-description text-input-text-alt truncate text-xs opacity-70"
           >
-        </span>
+            {{ selectedItem?.desc }}
+          </div>
+        </div>
         <span
           class="text-theme-300 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-[.3em] flex items-center"
           :class="active ? 'text-theme-500' : ''"
@@ -94,7 +95,7 @@
                 <div class="flex items-baseline truncate" :class="classOption">
                   <div>
                     <div
-                      class="shrink-0 truncate"
+                      class="shrink-0 truncate font-semibold"
                       :class="item.desc ? '' : 'w-full'"
                     >
                       {{ item.name }}
