@@ -17,9 +17,10 @@
             ? 'cursor-not-allowed'
             : 'focus:ring-1 focus:ring-input-primary focus:border-input-primary',
         ]"
+        class="space-between flex items-center space-x-3"
         @click="toggle()"
       >
-        <div class="w-full items-baseline truncate">
+        <div class="w-full grow items-baseline truncate">
           <div class="truncate font-medium">
             {{ selectedItem?.name || defaultValue || defaultText || "Select" }}
           </div>
@@ -29,12 +30,14 @@
             {{ selectedItem?.desc }}
           </div>
         </div>
+        <slot v-if="$slots.avatar" name="avatar" :item="selectedItem"></slot>
         <span
-          class="text-theme-300 group-hover:text-theme-400 pointer-events-none absolute inset-y-0 right-[.3em] flex items-center"
+          v-else
+          class="text-theme-300 group-hover:text-theme-400 pointer-events-none flex items-center"
           :class="active ? 'text-theme-500' : ''"
         >
           <svg
-            class="h-[1.2em] w-[1.2em]"
+            class="-mr-2 h-[1.2em] w-[1.2em]"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -92,8 +95,11 @@
                 @click="selectValue(item)"
                 @mouseover="hovered = i"
               >
-                <div class="flex items-baseline truncate" :class="classOption">
-                  <div>
+                <div
+                  class="flex items-center justify-between space-x-3"
+                  :class="classOption"
+                >
+                  <div class="grow">
                     <div
                       class="shrink-0 truncate font-semibold"
                       :class="item.desc ? '' : 'w-full'"
@@ -107,8 +113,9 @@
                       {{ item.desc }}
                     </div>
                   </div>
+                  <slot v-if="$slots.avatar" name="avatar" :item="item"></slot>
                   <span
-                    v-if="isSelected(item.value)"
+                    v-else-if="isSelected(item.value)"
                     class="absolute inset-y-0 right-0 flex items-center pr-3 opacity-50"
                     :class="
                       hovered !== i
@@ -129,7 +136,7 @@
 </template>
 <script lang="ts" setup>
 import { ListItem, normalizeList, onResetUi, vue, vueRouter } from "@factor/api"
-
+import userBlank from "./img/user-blank.png"
 type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
 
 const props = defineProps({
@@ -261,8 +268,8 @@ const buttonClasses = [
   "border-input-border",
   "bg-input-bg",
   "py-input-y",
-  "pl-input-x",
-  "pr-8",
+  "px-input-x",
+
   "text-left",
   "text-input-size",
   "text-input-text",
