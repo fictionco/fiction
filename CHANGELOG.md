@@ -1,3 +1,12 @@
+## [5.5.101](https://github.com/FactorJS/factor/compare/v5.5.100...v5.5.101) (2022-11-26)
+
+
+### Features
+
+* avatar select ([ca4b41f](https://github.com/FactorJS/factor/commit/ca4b41f97f51f0d133540ab5379e22bf6b5800a6))
+
+
+
 ## [5.5.100](https://github.com/FactorJS/factor/compare/v5.5.99...v5.5.100) (2022-11-25)
 
 
