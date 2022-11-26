@@ -64,8 +64,16 @@ const props = defineProps({
     type: [String, Object] as vue.PropType<keyof typeof inputs | vue.Component>,
     default: undefined,
   },
+  defaultValue: {
+    type: [String, Object, Array, Number, Date, Boolean],
+    default: undefined,
+  },
 })
 const emit = defineEmits(["update:modelValue"])
+
+if (props.defaultValue && props.modelValue === undefined) {
+  emit("update:modelValue", props.defaultValue)
+}
 
 const attrs = vue.useAttrs() as {
   for?: string

@@ -99,7 +99,7 @@
                   class="flex items-center justify-between space-x-3"
                   :class="classOption"
                 >
-                  <div class="grow">
+                  <div class="min-w-0 grow">
                     <div
                       class="shrink-0 truncate font-semibold"
                       :class="item.desc ? '' : 'w-full'"
