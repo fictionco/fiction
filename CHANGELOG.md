@@ -1,3 +1,12 @@
+## [5.5.102](https://github.com/FactorJS/factor/compare/v5.5.101...v5.5.102) (2022-11-29)
+
+
+### Features
+
+* improve inputs ([f9fefcf](https://github.com/FactorJS/factor/commit/f9fefcfd7d5998e6f01f36c14bbf0e6f10a6eacc))
+
+
+
 ## [5.5.101](https://github.com/FactorJS/factor/compare/v5.5.100...v5.5.101) (2022-11-26)
 
 
