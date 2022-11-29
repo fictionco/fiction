@@ -61,3 +61,9 @@ export interface MenuGroup {
 }
 
 export type InArray<T extends Array<any>> = T extends (infer U)[] ? U : never
+
+export type DataFilter = {
+  field: string
+  value: string | number
+  operator: "==" | "!="
+}

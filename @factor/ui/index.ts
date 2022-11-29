@@ -1,5 +1,9 @@
 import { FactorPlugin, FactorPluginSettings, FactorApp, vue } from "@factor/api"
 import twForms from "@tailwindcss/forms"
+import {
+  tailwindVarColorScheme,
+  getColorScheme,
+} from "@factor/api/utils/colors"
 import { inputs } from "./inputs"
 const def = vue.defineAsyncComponent
 type FactorUiSettings = {
@@ -86,21 +90,10 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             slate: {
               25: "#fdfdff",
             },
-            theme: {
-              DEFAULT: "var(--theme-0, #FFFFFF)",
-              0: "var(--theme-0, #FFFFFF)",
-              50: "var(--theme-50, #f8fafc)",
-              100: "var(--theme-100, #f1f5f9)",
-              200: "var(--theme-200, #e2e8f0)",
-              300: "var(--theme-300, #cbd5e1)",
-              400: "var(--theme-400, #94a3b8)",
-              500: "var(--theme-500, #64748b)",
-              600: "var(--theme-600, #475569)",
-              700: "var(--theme-700, #334155)",
-              800: "var(--theme-800, #1e293b)",
-              900: "var(--theme-900, #0f172a)",
-              1000: "var(--theme-1000, #000000)",
-            },
+            theme: tailwindVarColorScheme({
+              variable: "theme",
+              color: "slate",
+            }),
             action: {
               main: "var(--action-main, var(--theme-500, #64748b))",
               dark: "var(--action-dark, var(--action-main, var(--theme-600, #64748b)))",
@@ -108,35 +101,28 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
                 "var(--action-light, var(--action-main, var(--theme-400, #64748b)))",
               contrast: "var(--action-contrast, var(--theme-0, #FFFFFF))",
             },
-            primary: {
-              0: "var(--primary-0, #FFFFFF)",
-              50: "var(--primary-50, #f6f5ff)",
-              100: "var(--primary-100, #eeebff)",
-              200: "var(--primary-200, #d4ccff)",
-              300: "var(--primary-300, #baadff)",
-              400: "var(--primary-400, #8670ff)",
-              500: "var(--primary-500, #5233ff)",
-              600: "var(--primary-600, #4a2ee6)",
-              700: "var(--primary-700, #3e26bf)",
-              800: "var(--primary-800, #1a1452)",
-              900: "var(--primary-900, #28197d)",
-              DEFAULT: "var(--primary-500, #5233ff)",
-            },
+            primary: tailwindVarColorScheme({
+              variable: "primary",
+              color: "blue",
+            }),
 
-            secondary: {
-              0: "var(--secondary-0, #FFFFFF)",
-              50: "var(--secondary-50, #fffbeb)",
-              100: "var(--secondary-100, #fef3c7)",
-              200: "var(--secondary-200, #fcd34d)",
-              300: "var(--secondary-300, #fbbf24)",
-              400: "var(--secondary-400, #f59e0b)",
-              500: "var(--secondary-500, #d97706)",
-              600: "var(--secondary-600, #4a2ee6)",
-              700: "var(--secondary-700, #b45309)",
-              800: "var(--secondary-800, #92400e)",
-              900: "var(--secondary-900, #78350f)",
-              DEFAULT: "var(--secondary-500, #d97706)",
-            },
+            secondary: tailwindVarColorScheme({
+              variable: "secondary",
+              color: "amber",
+            }),
+            caution: tailwindVarColorScheme({
+              variable: "caution",
+              color: "amber",
+            }),
+            danger: tailwindVarColorScheme({
+              variable: "danger",
+              color: "rose",
+            }),
+            success: tailwindVarColorScheme({
+              variable: "success",
+              color: "emerald",
+            }),
+
             /**
              * Needed to allow for input specific colors to be selectively
              * overridden without also overriding the theme colors.

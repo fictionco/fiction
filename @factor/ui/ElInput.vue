@@ -20,7 +20,7 @@
             class="i-carbon-information text-slate-500 hover:text-slate-400"
           ></div>
           <div
-            class="absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md bg-white p-3 text-xs shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
+            class="bg-theme-0 absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-xs shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
           >
             {{ description }}
           </div>

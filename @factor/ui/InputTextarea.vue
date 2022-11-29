@@ -32,7 +32,7 @@ const setHeight = (): void => {
 }
 vue.onMounted(() => setHeight())
 onResetUi(() => setHeight())
-setInterval(() => setHeight(), 1000)
+setInterval(() => setHeight(), 300)
 // vue.watch(
 //   () => props.modelValue,
 //   () => setHeight(),

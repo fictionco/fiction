@@ -11,7 +11,9 @@ export type ColorScale =
   | 700
   | 800
   | 900
+  | 950
   | 1000
+  | "DEFAULT"
 
 export const colors = [
   "amber",
@@ -84,11 +86,47 @@ export type ColorSchemeDetail = {
   colors: Record<ColorScale, string>
 }
 
+const hexToRgb = (hex: string) => {
+  const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex)
+  return result
+    ? [
+        Number.parseInt(result[1], 16),
+        Number.parseInt(result[2], 16),
+        Number.parseInt(result[3], 16),
+      ].join(" ")
+    : undefined
+}
+
+export const tailwindVarColorScheme = (args: {
+  variable: string
+  color?: ColorScheme
+  scheme?: Record<ColorScale, string>
+}): Record<ColorScale, string> => {
+  const { variable, color } = args
+  let { scheme } = args
+  if (color && !scheme) {
+    scheme = getColorScheme(color).colors
+  }
+
+  const entries = Object.entries(scheme || {}).map(([key, value]) => {
+    return [
+      Number(key),
+      `var(--${variable}-${key}, rgb(${hexToRgb(value)} / <alpha-value>))`,
+    ]
+  })
+
+  const out = Object.fromEntries(entries) as Record<ColorScale, string>
+
+  out.DEFAULT = out[500]
+
+  return out
+}
+
 /**
  * https://github.com/tailwindlabs/tailwindcss/blob/master/src/public/colors.js
  */
 export const colorSchemes = (): ColorSchemeDetail[] => {
-  const schemes: Record<string, Record<number, string>> = {
+  const schemes: Record<string, Record<string, string>> = {
     slate: {
       50: "#f8fafc",
       100: "#f1f5f9",
@@ -101,6 +139,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       800: "#1e293b",
       900: "#0f172a",
       950: "#090e1b",
+      1000: "#070b14",
     },
     gray: {
       50: "#f9fafb",
@@ -114,6 +153,7 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
       800: "#1f2937",
       900: "#111827",
       950: "#111827",
+      1000: "#0d1117",
     },
     zinc: {
       50: "#fafafa",
@@ -378,11 +418,15 @@ export const colorSchemes = (): ColorSchemeDetail[] => {
   }
 
   return Object.entries(schemes).flatMap(([value, colors]) => {
-    colors[0] = "#ffffff"
-    colors[1000] = "#000000"
+    colors[0] = colors[0] || "#ffffff"
+    colors[1000] = colors[1000] || "#000000"
     const colorsInverted = Object.fromEntries(
-      Object.entries(colors).map(([level, color]) => [1000 - +level, color]),
+      Object.entries(colors).map(([level, color], ind, arr) => [
+        level,
+        colors[arr[arr.length - ind - 1][0]],
+      ]),
     )
+
     const schemeInverted = `${value}Inverted`
     const name = toLabel(value)
     return [

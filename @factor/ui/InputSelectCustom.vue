@@ -66,7 +66,7 @@
       >
         <div
           v-if="active"
-          class="absolute z-50 mt-1 w-full rounded-md bg-white shadow-xl ring-1 ring-black/5"
+          class="bg-theme-0 ring-theme-200 absolute z-50 mt-1 w-full rounded-md shadow-xl ring-1"
         >
           <ul
             role="listbox"
@@ -74,7 +74,8 @@
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
             class="text-input-size max-h-60 overflow-auto rounded-md shadow focus:outline-none"
           >
-            <template v-for="(item, i) of li" :key="i">
+            <div v-if="!li || li.length == 0" class="p-4">{{ zeroText }}</div>
+            <template v-for="(item, i) of li" v-else :key="i">
               <li v-if="item.format == 'divider'" class="">
                 <div class="border-input-edge w-full border-t" />
               </li>
@@ -136,7 +137,6 @@
 </template>
 <script lang="ts" setup>
 import { ListItem, normalizeList, onResetUi, vue, vueRouter } from "@factor/api"
-import userBlank from "./img/user-blank.png"
 type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
 
 const props = defineProps({
@@ -149,6 +149,7 @@ const props = defineProps({
   },
   defaultValue: { type: [Number, String, Boolean], default: "" },
   defaultText: { type: String, default: "" },
+  zeroText: { type: String, default: "No items." },
   listSuffix: { type: String, default: "" },
   classButton: { type: String, default: "" },
   classOption: { type: String, default: "" },
@@ -243,14 +244,14 @@ const listItemClass = (item: ListItem, i: number): string => {
       (isSelected(item.value) && hovered.value === -1) ||
       hovered.value === i
     ) {
-      out.push("bg-theme-500 text-theme-0 font-medium")
+      out.push("bg-theme-100 text-theme-900 font-medium")
     } else if (isSelected(item.value)) {
       out.push("bg-theme-50 font-medium")
     } else {
       out.push("font-normal")
     }
     out.push(
-      "cursor-pointer focus:text-white focus:bg-theme hover:text-theme-0 hover:bg-theme-500",
+      "cursor-pointer focus:text-theme-900 focus:bg-theme hover:text-theme-900 hover:bg-theme-200",
     )
   }
 
