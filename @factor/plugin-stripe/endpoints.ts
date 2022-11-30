@@ -462,7 +462,7 @@ export class QueryGetCoupon extends QueryPayments {
     } catch (error: unknown) {
       throw this.stop({
         message: "payment API error",
-        data: error as Stripe.Errors["StripeError"],
+        data: error as Error,
       })
     }
   }

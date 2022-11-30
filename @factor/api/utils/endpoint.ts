@@ -127,8 +127,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
         url: this.requestUrl,
         data,
         headers: { Authorization: this.bearerHeader },
-        onUploadProgress: (p: { loaded: number; total: number }) => {
-          if (progress) {
+        onUploadProgress: (p: { loaded: number; total?: number }) => {
+          if (progress && p.total) {
             progress(p.loaded / p.total)
           }
         },

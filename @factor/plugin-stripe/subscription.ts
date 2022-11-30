@@ -110,7 +110,10 @@ export const handleRequiresPaymentMethod = async (
     // Using localStorage to store the state of the retry here
     // (feel free to replace with what you prefer)
     // Store the latest invoice ID and status
-    localStorage.setItem("latestInvoiceId", subscription.latest_invoice.id)
+    localStorage.setItem(
+      "latestInvoiceId",
+      subscription.latest_invoice.id || "",
+    )
     localStorage.setItem(
       "latestInvoicePaymentIntentStatus",
       subscription.latest_invoice.payment_intent.status,
