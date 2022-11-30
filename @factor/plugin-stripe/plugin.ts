@@ -344,7 +344,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     try {
       if (action == "init") {
-        const { priceId } = query
+        const { priceId, mode = "subscription" } = query as {priceId: string, mode?: "subscription" | "payment"}
 
         if (!priceId) throw this.stop({ message: "no priceId" })
 
@@ -359,7 +359,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
               price: priceId,
             },
           ],
-          mode: "subscription" as const,
+          mode,
           success_url: successUrl,
           cancel_url: cancelUrl,
         }
