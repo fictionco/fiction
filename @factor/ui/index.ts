@@ -90,10 +90,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
             slate: {
               25: "#fdfdff",
             },
-            theme: tailwindVarColorScheme({
-              variable: "theme",
-              color: "slate",
-            }),
+
             action: {
               main: "var(--action-main, var(--theme-500, #64748b))",
               dark: "var(--action-dark, var(--action-main, var(--theme-600, #64748b)))",
@@ -108,7 +105,7 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
 
             secondary: tailwindVarColorScheme({
               variable: "secondary",
-              color: "amber",
+              color: "pink",
             }),
             caution: tailwindVarColorScheme({
               variable: "caution",
@@ -122,7 +119,16 @@ export class FactorUi extends FactorPlugin<FactorUiSettings> {
               variable: "success",
               color: "emerald",
             }),
-
+            theme: tailwindVarColorScheme({
+              variable: "theme",
+              color: "slate",
+            }),
+            canvas: {
+              main: "var(--canvas-main, var(--theme-0, #FFFFFF))",
+              panel: "var(--canvas-panel, var(--theme-50, #FFFFFF))",
+              "panel-alt": "var(--canvas-panel-alt, var(--theme-100, #FFFFFF))",
+              border: "var(--canvas-border, var(--theme-300, #FFFFFF))",
+            },
             /**
              * Needed to allow for input specific colors to be selectively
              * overridden without also overriding the theme colors.

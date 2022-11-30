@@ -45,6 +45,7 @@ export type StripePluginSettings = {
 } & FactorPluginSettings
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
+  apiVersion = "2022-11-15" as const
   factorUser = this.settings.factorUser
   factorServer = this.settings.factorServer
   factorApp = this.settings.factorApp
@@ -155,9 +156,13 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     if (!this.serverClient) {
       const key = this.secretKey.value
+
+      console.warn("STRIPE KEY", key)
       if (!key) throw new Error("Stripe secret key not found")
 
-      this.serverClient = new Stripe(key, { apiVersion: "2020-08-27" })
+      this.serverClient = new Stripe(key, {
+        apiVersion: this.apiVersion,
+      })
     }
 
     return this.serverClient as Stripe
@@ -194,7 +199,8 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     }
 
     if (!product || !product?.productKey) {
-      throw new Error(`not found: getStripeProduct`)
+      this.log.error("No product found", { data: { params, product: p } })
+      throw new Error(`FactorStripe Error`)
     }
 
     return product
@@ -346,18 +352,26 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
         const { successUrl, cancelUrl } = this.checkoutConfig.value
 
-        const session = await stripe.checkout.sessions.create({
+        const details = {
           line_items: [
             {
               // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
               price: priceId,
-              quantity: 1,
             },
           ],
-          mode: "subscription",
+          mode: "subscription" as const,
           success_url: successUrl,
           cancel_url: cancelUrl,
+        }
+
+        this.log.info("creating checkout session", {
+          data: {
+            ...details,
+            mode: this.stripeMode.value,
+          },
         })
+
+        const session = await stripe.checkout.sessions.create(details)
 
         if (session.url) {
           response?.redirect(303, session.url)

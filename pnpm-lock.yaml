@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/lint': 5.5.102
-      '@factor/ui': 5.5.102
-      '@factor/www': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/lint': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
+      '@factor/www': workspace:5.5.102
       '@types/express': ^4.17.14
       '@types/node': ^18.8.0
       '@vitejs/plugin-vue': ^3.2.0
@@ -36,7 +36,7 @@ importers:
       vite: ^3.0.0
       vitest: '*'
       vue: '*'
-      vue-tsc: ^1.0.9
+      vue-tsc: ^1.0.10
       yorkie: ^2.0.0
     dependencies:
       '@factor/api': link:@factor/api
@@ -67,15 +67,15 @@ importers:
       typescript: 4.9.3
       vite: 3.2.4_@types+node@18.11.9
       vitest: 0.25.3_il7d45nhwbe2b47fub3g6dyypq
-      vue-tsc: 1.0.9_typescript@4.9.3
+      vue-tsc: 1.0.10_typescript@4.9.3
       yorkie: 2.0.0
 
   '@factor/andrewpowers':
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/plugin-blog-engine': 5.5.102
-      '@factor/plugin-highlight-code': 5.5.102
-      '@factor/ui': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/plugin-blog-engine': workspace:5.5.102
+      '@factor/plugin-highlight-code': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
       postcss: ^8.4.19
       tailwindcss: ^3.2.4
     dependencies:
@@ -91,7 +91,7 @@ importers:
       '@aws-sdk/client-cloudfront': 3.137.0
       '@aws-sdk/client-s3': 3.137.0
       '@babel/parser': ^7.20.5
-      '@factor/api': 5.5.102
+      '@factor/api': workspace:5.5.102
       '@faker-js/faker': ^7.6.0
       '@iconify-json/carbon': ^1.1.11
       '@iconify-json/clarity': ^1.1.5
@@ -161,7 +161,7 @@ importers:
       execa: '*'
       express: ^4.18.2
       extract-domain: ^2.4.8
-      fake-indexeddb: ^4.0.0
+      fake-indexeddb: ^4.0.1
       fast-safe-stringify: ^2.1.1
       formdata-node: ^4.4.1
       front-matter: ^4.0.2
@@ -369,7 +369,7 @@ importers:
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
       '@vitest/ui': 0.19.1
-      fake-indexeddb: 4.0.0
+      fake-indexeddb: 4.0.1
       ngrok: 4.3.3
       playwright: 1.28.1
       react-dom: 18.2.0_react@18.2.0
@@ -418,9 +418,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/plugin-highlight-code': 5.5.102
-      '@factor/ui': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/plugin-highlight-code': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -432,9 +432,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/plugin-highlight-code': 5.5.102
-      '@factor/ui': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/plugin-highlight-code': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.6
       string-similarity: ^4.0.4
@@ -448,7 +448,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.102
+      '@factor/api': workspace:5.5.102
       highlight.js: ^11.7.0
     dependencies:
       '@factor/api': link:../api
@@ -456,31 +456,31 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.102
+      '@factor/api': workspace:5.5.102
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.102
+      '@factor/api': workspace:5.5.102
       '@stripe/stripe-js': ^1.44.1
       dotenv: ^16.0.3
       express: ^4.18.2
-      stripe: ^9.16.0
+      stripe: ^11.1.0
     dependencies:
       '@factor/api': link:../api
       '@stripe/stripe-js': 1.44.1
       express: 4.18.2
-      stripe: 9.16.0
+      stripe: 11.1.0
     devDependencies:
       dotenv: 16.0.3
 
   '@factor/supereon':
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/plugin-blog-engine': 5.5.102
-      '@factor/plugin-highlight-code': 5.5.102
-      '@factor/ui': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/plugin-blog-engine': workspace:5.5.102
+      '@factor/plugin-highlight-code': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
       postcss: ^8.4.19
       tailwindcss: ^3.2.4
     dependencies:
@@ -493,7 +493,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.102
+      '@factor/api': workspace:5.5.102
       '@tailwindcss/forms': ^0.5.3
       blurhash: ^2.0.4
       gravatar-url: ^4.0.1
@@ -509,13 +509,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.102
-      '@factor/plugin-blog-engine': 5.5.102
-      '@factor/plugin-docs-engine': 5.5.102
-      '@factor/plugin-highlight-code': 5.5.102
-      '@factor/plugin-notify': 5.5.102
-      '@factor/plugin-stripe': 5.5.102
-      '@factor/ui': 5.5.102
+      '@factor/api': workspace:5.5.102
+      '@factor/plugin-blog-engine': workspace:5.5.102
+      '@factor/plugin-docs-engine': workspace:5.5.102
+      '@factor/plugin-highlight-code': workspace:5.5.102
+      '@factor/plugin-notify': workspace:5.5.102
+      '@factor/plugin-stripe': workspace:5.5.102
+      '@factor/ui': workspace:5.5.102
       '@tailwindcss/forms': ^0.5.3
       axios: ^0.27.2
       dayjs: ^1.11.6
@@ -2422,44 +2422,44 @@ packages:
       sirv: 2.0.2
     dev: true
 
-  /@volar/language-core/1.0.9:
-    resolution: {integrity: sha512-5Fty3slLet6svXiJw2YxhYeo6c7wFdtILrql5bZymYLM+HbiZtJbryW1YnUEKAP7MO9Mbeh+TNH4Z0HFxHgIqw==}
+  /@volar/language-core/1.0.10:
+    resolution: {integrity: sha512-7WNzjvdUXjggEZvYu9EInABl4mvXtyiiaJDOJM+plHJT7xW5voLja0BrYYji6TUn8Q4HakLvTPpQddPLq134mg==}
     dependencies:
-      '@volar/source-map': 1.0.9
+      '@volar/source-map': 1.0.10
       '@vue/reactivity': 3.2.45
       muggle-string: 0.1.0
     dev: true
 
-  /@volar/source-map/1.0.9:
-    resolution: {integrity: sha512-fazB/vy5ZEJ3yKx4fabJyGNI3CBkdLkfEIRVu6+1P3VixK0Mn+eqyUIkLBrzGYaeFM3GybhCLCvsVdNz0Fu/CQ==}
+  /@volar/source-map/1.0.10:
+    resolution: {integrity: sha512-jSZW1tfsvAOHlpoRy14zH9sdCYR4g8QcnCXRli8juFC2UHoVzVRKB6VdnXcx5wRAlIRXoiBpsU+pKminryKEBw==}
     dependencies:
       muggle-string: 0.1.0
     dev: true
 
-  /@volar/typescript/1.0.9:
-    resolution: {integrity: sha512-dVziu+ShQUWuMukM6bvK2v2O446/gG6l1XkTh2vfkccw1IzjfbiP1TWQoNo1ipTfZOtu5YJGYAx+o5HNrGXWfQ==}
+  /@volar/typescript/1.0.10:
+    resolution: {integrity: sha512-Nd+u2Z2P1V+KiNBMLLK6wV4sswOOYBsjEHmgK29eENXtos1+gF2GWB908vvwmT75dmCtlYZ8No14lvCqXUAVdg==}
     dependencies:
-      '@volar/language-core': 1.0.9
+      '@volar/language-core': 1.0.10
     dev: true
 
-  /@volar/vue-language-core/1.0.9:
-    resolution: {integrity: sha512-tofNoR8ShPFenHT1YVMuvoXtXWwoQE+fiXVqSmW0dSKZqEDjWQ3YeXSd0a6aqyKaIbvR7kWWGp34WbpQlwf9Ww==}
+  /@volar/vue-language-core/1.0.10:
+    resolution: {integrity: sha512-m7pYXGwkpF9Bmuud73kGlAX31QUTwifYbgCenaqm3hGNh+SJebSkxzk4NJvabiGbA6ON3b5ayQZ/rbOEtdoghw==}
     dependencies:
-      '@volar/language-core': 1.0.9
-      '@volar/source-map': 1.0.9
+      '@volar/language-core': 1.0.10
+      '@volar/source-map': 1.0.10
       '@vue/compiler-dom': 3.2.45
       '@vue/compiler-sfc': 3.2.45
       '@vue/reactivity': 3.2.45
       '@vue/shared': 3.2.45
-      minimatch: 5.1.0
+      minimatch: 5.1.1
       vue-template-compiler: 2.7.14
     dev: true
 
-  /@volar/vue-typescript/1.0.9:
-    resolution: {integrity: sha512-ZLe4y9YNbviACa7uAMCilzxA76gbbSlKfjspXBzk6fCobd8QCIig+VyDYcjANIlm2HhgSCX8jYTzhCKlegh4mw==}
+  /@volar/vue-typescript/1.0.10:
+    resolution: {integrity: sha512-GjQ+mfIUljXGfkTmNrfNT8YYQY48mcOE5SJ190o6ENArzH9cqjmvPLo1nrdurbZOFwztwEDNye5N1/5aL9sZ1g==}
     dependencies:
-      '@volar/typescript': 1.0.9
-      '@volar/vue-language-core': 1.0.9
+      '@volar/typescript': 1.0.10
+      '@volar/vue-language-core': 1.0.10
     dev: true
 
   /@vue/compiler-core/3.2.45:
@@ -4720,8 +4720,8 @@ packages:
       - supports-color
     dev: true
 
-  /fake-indexeddb/4.0.0:
-    resolution: {integrity: sha512-oCfWSJ/qvQn1XPZ8SHX6kY3zr1t+bN7faZ/lltGY0SBGhFOPXnWf0+pbO/MOAgfMx6khC2gK3S/bvAgQpuQHDQ==}
+  /fake-indexeddb/4.0.1:
+    resolution: {integrity: sha512-hFRyPmvEZILYgdcLBxVdHLik4Tj3gDTu/g7s9ZDOiU3sTNiGx+vEu1ri/AMsFJUZ/1sdRbAVrEcKndh3sViBcA==}
     dependencies:
       realistic-structured-clone: 3.0.0
     dev: true
@@ -5104,7 +5104,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.1.0
+      minimatch: 5.1.1
       once: 1.4.0
     dev: false
 
@@ -6356,8 +6356,8 @@ packages:
     dependencies:
       brace-expansion: 1.1.11
 
-  /minimatch/5.1.0:
-    resolution: {integrity: sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==}
+  /minimatch/5.1.1:
+    resolution: {integrity: sha512-362NP+zlprccbEt/SkxKfRMHnNY85V74mVnpUpNyr3F35covl09Kec7/sEFLt3RA4oXmewtoaanoIf67SE5Y5g==}
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
@@ -6540,8 +6540,8 @@ packages:
       lower-case: 1.1.4
     dev: false
 
-  /node-abi/3.28.0:
-    resolution: {integrity: sha512-fRlDb4I0eLcQeUvGq7IY3xHrSb0c9ummdvDSYWfT9+LKP+3jCKw/tKoqaM7r1BAoiAC6GtwyjaGnOz6B3OtF+A==}
+  /node-abi/3.30.0:
+    resolution: {integrity: sha512-qWO5l3SCqbwQavymOmtTVuCWZE23++S+rxyoHjXqUmPyzRcaoI4lA2gO55/drddGnedAyjA7sk76SfQ5lfUMnw==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.3.8
@@ -7196,7 +7196,7 @@ packages:
       minimist: 1.2.7
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.28.0
+      node-abi: 3.30.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -7945,9 +7945,9 @@ packages:
       acorn: 8.8.1
     dev: true
 
-  /stripe/9.16.0:
-    resolution: {integrity: sha512-Dn8K+jSoQcXjxCobRI4HXUdHjOXsiF/KszK49fJnkbeCFjZ3EZxLG2JiM/CX+Hcq27NBDtv/Sxhvy+HhTmvyaQ==}
-    engines: {node: ^8.1 || >=10.*}
+  /stripe/11.1.0:
+    resolution: {integrity: sha512-erOslPQZSYKOotQjmKRy4eBon/tdhzLIYzBdPSNVWDdatSQozkkPlh8mVeXNwubYYZYx61/yS23eWiGDF93z2w==}
+    engines: {node: '>=12.*'}
     dependencies:
       '@types/node': 18.11.9
       qs: 6.11.0
@@ -8804,14 +8804,14 @@ packages:
       he: 1.2.0
     dev: true
 
-  /vue-tsc/1.0.9_typescript@4.9.3:
-    resolution: {integrity: sha512-vRmHD1K6DmBymNhoHjQy/aYKTRQNLGOu2/ESasChG9Vy113K6CdP0NlhR0bzgFJfv2eFB9Ez/9L5kIciUajBxQ==}
+  /vue-tsc/1.0.10_typescript@4.9.3:
+    resolution: {integrity: sha512-o6ek6ZSDwpVWn7/ZXlIILfCZ18o7ypEYKMDynsyPj9m10/ALXkCLKIj9yVfx00QAX5Z/hKrdhYcA2ZaQ0+U7Kg==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
-      '@volar/vue-language-core': 1.0.9
-      '@volar/vue-typescript': 1.0.9
+      '@volar/vue-language-core': 1.0.10
+      '@volar/vue-typescript': 1.0.10
       typescript: 4.9.3
     dev: true
 

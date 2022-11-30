@@ -147,7 +147,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.20.5",
-    "@factor/api": "5.5.102",
+    "@factor/api": "workspace:5.5.102",
     "@playwright/test": "^1.28.1",
     "@tailwindcss/forms": "^0.5.3",
     "@types/body-parser": "^1.19.2",
@@ -156,7 +156,7 @@
     "@types/glob": "^7.2.0",
     "@types/nodemon": "^1.19.2",
     "@vitest/ui": "^0.19.1",
-    "fake-indexeddb": "^4.0.0",
+    "fake-indexeddb": "^4.0.1",
     "ngrok": "^4.3.3",
     "playwright": "*",
     "react-dom": "^18.2.0",

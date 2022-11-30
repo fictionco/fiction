@@ -33,7 +33,11 @@ export type MenuItem = {
   key?: string
   name: string
   icon?: string
+  href?: string
+  link?: Ref<string>
+  // @deprecated
   route?: Ref<string>
+  // @deprecated
   url?: Ref<string>
   active?: Ref<boolean>
   onClick?: (evnt: MouseEvent, item?: MenuItem) => void
@@ -41,16 +45,7 @@ export type MenuItem = {
 } & ListItem
 
 export type ActionItem = MenuItem & {
-  btn?:
-    | "default"
-    | "red"
-    | "slate"
-    | "slateOutline"
-    | "primary"
-    | "primaryOutline"
-    | "green"
-    | "blue"
-    | "whiteOutline"
+  btn?: "default" | "danger" | "primary" | "caution" | "success"
   size?: "sm" | "lg" | "md" | "xl" | string
 }
 
