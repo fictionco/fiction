@@ -8,6 +8,7 @@ import {
   FactorApp,
   FactorServer,
   FactorUser,
+  FactorRouter,
   FactorPluginSettings,
   vue,
 } from "@factor/api"
@@ -29,12 +30,14 @@ import * as types from "./types"
 
 type CheckoutQueryParams = {
   priceId?: string
+  customerId?: string
 }
 
 export type StripePluginSettings = {
   factorApp: FactorApp
   factorServer: FactorServer
   factorUser: FactorUser
+  factorRouter: FactorRouter
   publicKeyLive?: string
   publicKeyTest?: string
   secretKeyLive?: string
@@ -43,8 +46,8 @@ export type StripePluginSettings = {
   isLive?: vue.Ref<boolean>
   hooks?: HookType<types.HookDictionary>[]
   products: types.StripeProductConfig[]
-  checkoutSuccessPathname?: string
-  checkoutCancelPathname?: string
+  checkoutSuccessPathname?: vue.Ref<string>
+  checkoutCancelPathname?: vue.Ref<string>
 } & FactorPluginSettings
 
 export class FactorStripe extends FactorPlugin<StripePluginSettings> {
@@ -52,6 +55,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   factorUser = this.settings.factorUser
   factorServer = this.settings.factorServer
   factorApp = this.settings.factorApp
+  factorRouter = this.settings.factorRouter
   public queries = this.createQueries()
   public requests = this.createRequests({
     queries: this.queries,
@@ -97,9 +101,9 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   checkoutConfig = this.utils.vue.computed(() => {
     const base = this.factorApp.appUrl.value
     const successPath =
-      this.settings.checkoutSuccessPathname ?? "/checkout-success"
+      this.settings.checkoutSuccessPathname?.value ?? "/checkout-success"
     const cancelPath =
-      this.settings.checkoutCancelPathname ?? "/checkout-cancel"
+      this.settings.checkoutCancelPathname?.value ?? "/checkout-cancel"
     return {
       successUrl: `${base}${successPath}`,
       cancelUrl: `${base}${cancelPath}`,
@@ -169,7 +173,6 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     if (!this.serverClient) {
       const key = this.secretKey.value
 
-      console.warn("STRIPE KEY", key)
       if (!key) throw new Error("Stripe secret key not found")
 
       this.serverClient = new Stripe(key, {
@@ -320,8 +323,10 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return { status: "success" }
   }
 
-  getCheckoutUrl(args: { priceId?: string }): string {
+  getCheckoutUrl(args: CheckoutQueryParams): string {
     if (!args.priceId) throw new Error("No priceId provided")
+    if (!args.customerId) throw new Error("No customerId provided")
+
     const baseUrl = this.factorServer.serverUrl.value
     const url = new URL(`${baseUrl}/stripe-checkout/init`)
 
@@ -351,9 +356,11 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     try {
       if (action == "init") {
-        const { priceId } = query as CheckoutQueryParams
+        const { priceId, customerId } = query as CheckoutQueryParams
 
         if (!priceId) throw this.stop({ message: "no priceId" })
+
+        if (!customerId) throw this.stop({ message: "no customerId" })
 
         const stripe = this.getServerClient()
 
@@ -370,6 +377,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
               quantity: priceDetails.quantity,
             },
           ],
+          customer: customerId,
           subscription_data: {
             description: `${trialPeriod} Days Free`,
             trial_period_days: trialPeriod,

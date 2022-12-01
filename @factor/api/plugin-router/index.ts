@@ -379,18 +379,4 @@ export class FactorRouter<
       ...item,
     }
   }
-
-  // menu(location: S["menus"]): MenuItem[] {
-  //   const items: MenuItem[] = []
-
-  //   this.routes.value.forEach((li) => {
-  //     const menus = (li.menus || []) as string[]
-
-  //     if (menus.includes(location)) {
-  //       items.push(this.getRouteMenuItem(li.name as S["routes"]))
-  //     }
-  //   })
-
-  //   return items
-  // }
 }

@@ -28,14 +28,14 @@ describe("stripe tests", () => {
       factorEnv: utils.factorEnv,
       factorApp: utils.factorApp,
       factorServer: utils.factorServer,
+      factorRouter: utils.factorRouter,
       factorUser: utils.factorUser,
       publicKeyTest:
         "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
       secretKeyTest: utils.factorEnv.var("STRIPE_SECRET_KEY_TEST"),
       isLive: vue.ref(false),
       hooks: [],
-      productsLive: [],
-      productsTest: [],
+      products: [],
     })
 
     testUtils = { ...utils, factorStripe } as TestUtils & {

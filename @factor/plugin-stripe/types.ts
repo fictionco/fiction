@@ -16,6 +16,7 @@ export type StripePriceConfig = {
   priceId?: string
   quantity: number
   cost: number
+  costPerUnit: number
   duration: "month" | "year"
 }
 export interface StripePlanInfo {
@@ -25,12 +26,11 @@ export interface StripePlanInfo {
 
 export interface CustomerData {
   customer?: Stripe.Customer | Stripe.DeletedCustomer
-  subscriptions?: Stripe.ApiList<Stripe.Subscription>
-  usage?: Stripe.ApiList<Stripe.UsageRecordSummary>
-  paymentMethods?: Stripe.ApiList<Stripe.PaymentMethod>
-  invoices?: Stripe.ApiList<Stripe.Invoice>
+  subscriptions?: Stripe.ApiList<Stripe.Subscription>['data']
+  usage?: Stripe.ApiList<Stripe.UsageRecordSummary>['data']
+  paymentMethods?: Stripe.ApiList<Stripe.PaymentMethod>['data']
+  invoices?: Stripe.ApiList<Stripe.Invoice>['data']
   allProducts?: Stripe.Product[]
-  idempotencyKey: string
 }
 
 export interface SubscriptionDetails {

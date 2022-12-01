@@ -1,5 +1,4 @@
 import {
-  objectId,
   runHooks,
   EndpointMeta,
   EndpointManageAction,
@@ -18,6 +17,7 @@ type RefineResult = {
 abstract class QueryPayments extends Query {
   factorUser: FactorUser
   factorStripe: FactorStripe
+
   constructor(settings: {
     factorUser: FactorUser
     factorStripe: FactorStripe
@@ -27,6 +27,7 @@ abstract class QueryPayments extends Query {
     this.factorUser = settings.factorUser
     this.factorStripe = settings.factorStripe
   }
+
   async refine(
     params: { customerId?: string; userId?: string },
     meta: EndpointMeta,
@@ -477,28 +478,23 @@ export class QueryGetCustomerData extends QueryPayments {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<CustomerData>> {
-    const [customer, subscriptions, invoices, paymentMethods, allProducts] =
-      await Promise.all([
-        this.factorStripe.queries.ManageCustomer.serve(
-          { customerId, _action: "retrieve" },
-          meta,
-        ),
-        this.factorStripe.queries.ListSubscriptions.serve({ customerId }, meta),
-        this.factorStripe.queries.GetInvoices.serve({ customerId }, meta),
-        this.factorStripe.queries.ManagePaymentMethod.serve(
-          { customerId, _action: "retrieve" },
-          meta,
-        ),
-        this.factorStripe.queries.AllProducts.serve(undefined, meta),
-      ])
+    const [customer, subscriptions] = await Promise.all([
+      this.factorStripe.queries.ManageCustomer.serve(
+        { customerId, _action: "retrieve" },
+        meta,
+      ),
+      this.factorStripe.queries.ListSubscriptions.serve({ customerId }, meta),
+      this.factorStripe.queries.GetInvoices.serve({ customerId }, meta),
+      this.factorStripe.queries.ManagePaymentMethod.serve(
+        { customerId, _action: "retrieve" },
+        meta,
+      ),
+      this.factorStripe.queries.AllProducts.serve(undefined, meta),
+    ])
 
     const data: CustomerData = {
-      subscriptions: subscriptions.data,
+      subscriptions: subscriptions.data?.data ?? [],
       customer: customer.data,
-      invoices: invoices.data,
-      paymentMethods: paymentMethods.data,
-      allProducts: allProducts.data,
-      idempotencyKey: objectId(),
     }
     return { status: "success", data }
   }
