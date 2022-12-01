@@ -27,6 +27,10 @@ import {
 } from "./endpoints"
 import * as types from "./types"
 
+type CheckoutQueryParams = {
+  priceId?: string
+}
+
 export type StripePluginSettings = {
   factorApp: FactorApp
   factorServer: FactorServer
@@ -38,8 +42,7 @@ export type StripePluginSettings = {
   webhookSecret?: string
   isLive?: vue.Ref<boolean>
   hooks?: HookType<types.HookDictionary>[]
-  productsLive: types.StripeProductConfig[]
-  productsTest: types.StripeProductConfig[]
+  products: types.StripeProductConfig[]
   checkoutSuccessPathname?: string
   checkoutCancelPathname?: string
 } & FactorPluginSettings
@@ -62,9 +65,18 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   })
   public hooks = this.settings.hooks ?? []
   public products = this.utils.vue.computed(() => {
-    return this.settings.isLive?.value
-      ? this.settings.productsLive
-      : this.settings.productsTest
+    return this.settings.products.map((p) => {
+      return {
+        ...p,
+        productId: this.stripeMode.value == "live" ? p.live : p.test,
+        pricing: p.pricing.map((price) => {
+          return {
+            ...price,
+            priceId: this.stripeMode.value == "live" ? price.live : price.test,
+          }
+        }),
+      }
+    })
   })
   publicKeyLive = this.settings.publicKeyLive
   publicKeyTest = this.settings.publicKeyTest
@@ -206,22 +218,19 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return product
   }
 
-  getStripePrice = (params: {
-    productKey: string
-    priceKey: string
-  }): types.StripePriceConfig => {
-    const { productKey, priceKey } = params
-    const product = this.getStripeProduct({ productKey: productKey })
+  getStripePrice = (params: { priceId: string }): types.StripePriceConfig => {
+    // write a nested find function that finds subarray items in nested array
+    const p = this.products.value
+    const price = p
+      .flatMap((_) => _.pricing)
+      .find((_) => _.priceId == params.priceId)
 
-    if (!product) throw new Error(`not found: ${productKey}`)
+    if (!price) {
+      this.log.error("No price found", { data: { params, product: p } })
+      throw new Error(`FactorStripe Error`)
+    }
 
-    const { productId } = product
-
-    const price = product.pricing.find((_) => _.priceKey == priceKey)
-
-    if (!price) throw new Error(`not found: ${priceKey}`)
-
-    return { productId, productKey, ...price }
+    return price
   }
 
   stripeHookHandler = async (
@@ -311,15 +320,13 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     return { status: "success" }
   }
 
-  getCheckoutUrl(args: { productKey: string; priceKey: string }): string {
-    const { productKey, priceKey } = args
-    const price = this.getStripePrice({ productKey, priceKey })
-
+  getCheckoutUrl(args: { priceId?: string }): string {
+    if (!args.priceId) throw new Error("No priceId provided")
     const baseUrl = this.factorServer.serverUrl.value
     const url = new URL(`${baseUrl}/stripe-checkout/init`)
 
-    if (price) {
-      url.search = new URLSearchParams(price).toString()
+    if (args) {
+      url.search = new URLSearchParams(args).toString()
     }
 
     return url.toString()
@@ -344,7 +351,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     try {
       if (action == "init") {
-        const { priceId, mode = "subscription" } = query as {priceId: string, mode?: "subscription" | "payment"}
+        const { priceId } = query as CheckoutQueryParams
 
         if (!priceId) throw this.stop({ message: "no priceId" })
 
@@ -352,14 +359,22 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
         const { successUrl, cancelUrl } = this.checkoutConfig.value
 
-        const details = {
+        const priceDetails = this.getStripePrice({ priceId })
+
+        const trialPeriod = 5
+
+        const details: Stripe.Checkout.SessionCreateParams = {
           line_items: [
             {
-              // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-              price: priceId,
+              price: priceDetails.priceId,
+              quantity: priceDetails.quantity,
             },
           ],
-          mode,
+          subscription_data: {
+            description: `${trialPeriod} Days Free`,
+            trial_period_days: trialPeriod,
+          },
+          mode: "subscription",
           success_url: successUrl,
           cancel_url: cancelUrl,
         }

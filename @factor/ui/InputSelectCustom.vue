@@ -136,7 +136,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ListItem, normalizeList, onResetUi, vue, vueRouter } from "@factor/api"
+import {
+  ListItem,
+  normalizeList,
+  onResetUi,
+  vue,
+  vueRouter,
+  resetUi,
+} from "@factor/api"
 type RouteListItem = ListItem & { route?: vueRouter.RouteLocationRaw }
 
 const props = defineProps({
@@ -225,6 +232,7 @@ const toggle = (): void => {
   if (active.value) {
     reset()
   } else {
+    resetUi({ scope: "inputs", cause: "startDropdown" })
     hovered.value = selectedIndex.value
     active.value = true
   }

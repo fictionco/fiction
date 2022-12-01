@@ -3,18 +3,21 @@ import type Stripe from "stripe"
 import type { FactorStripe } from "."
 
 export type StripeProductConfig = {
-  pricing: { priceId: string; priceKey: string }[]
-  productId: string
+  pricing: StripePriceConfig[]
+  live: string
+  test: string
+  productId?: string
   productKey: string
 }
 
 export type StripePriceConfig = {
-  productId: string
-  productKey: string
-  priceId: string
-  priceKey: string
+  live: string
+  test: string
+  priceId?: string
+  quantity: number
+  cost: number
+  duration: "month" | "year"
 }
-
 export interface StripePlanInfo {
   plan: Stripe.Plan
   product: Stripe.Product | Record<string, unknown>
