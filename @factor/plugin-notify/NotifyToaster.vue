@@ -15,7 +15,7 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-sm shadow-lg ring-1 ring-black/10 transition-all duration-300"
+          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-slate-900 text-sm shadow-lg ring-1 ring-black/10 transition-all duration-300"
           :class="toast.type"
         >
           <div class="p-4">
