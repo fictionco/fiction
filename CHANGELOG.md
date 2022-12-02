@@ -1,3 +1,12 @@
+## [5.5.105](https://github.com/FactorJS/factor/compare/v5.5.104...v5.5.105) (2022-12-02)
+
+
+### Bug Fixes
+
+* custom select ([a9d0abe](https://github.com/FactorJS/factor/commit/a9d0abe56b4d5cb115b740cf02494ca2b8f7ad75))
+
+
+
 ## [5.5.104](https://github.com/FactorJS/factor/compare/v5.5.103...v5.5.104) (2022-12-02)
 
 
