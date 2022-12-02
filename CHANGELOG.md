@@ -1,3 +1,12 @@
+## [5.5.104](https://github.com/FactorJS/factor/compare/v5.5.103...v5.5.104) (2022-12-02)
+
+
+### Bug Fixes
+
+* str ([d71188b](https://github.com/FactorJS/factor/commit/d71188b574bc898fe50362fa1587979ef6b3d49c))
+
+
+
 ## [5.5.103](https://github.com/FactorJS/factor/compare/v5.5.102...v5.5.103) (2022-11-30)
 
 
