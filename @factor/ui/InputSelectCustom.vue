@@ -94,7 +94,6 @@
                 :class="listItemClass(item, i)"
                 class="py-input-y px-input-x group relative cursor-pointer select-none"
                 @click="selectValue(item)"
-                @mouseover="hovered = i"
               >
                 <div
                   class="flex items-center justify-between space-x-3"
@@ -117,14 +116,14 @@
                   <slot v-if="$slots.avatar" name="avatar" :item="item"></slot>
                   <span
                     v-else-if="isSelected(item.value)"
-                    class="absolute inset-y-0 right-0 flex items-center pr-3 opacity-50"
+                    class="flex items-center pr-2 opacity-50"
                     :class="
                       hovered !== i
                         ? 'text-input-primary group-hover:text-white'
                         : ''
                     "
                   >
-                    <div class="i-carbon-checkbox-checked"></div>
+                    <div class="i-carbon-checkmark text-lg"></div>
                   </span>
                 </div>
               </li>
@@ -252,9 +251,9 @@ const listItemClass = (item: ListItem, i: number): string => {
       (isSelected(item.value) && hovered.value === -1) ||
       hovered.value === i
     ) {
-      out.push("bg-theme-100 text-theme-900 font-medium")
+      out.push("bg-theme-100 text-theme-900")
     } else if (isSelected(item.value)) {
-      out.push("bg-theme-50 font-medium")
+      out.push("bg-theme-50")
     } else {
       out.push("font-normal")
     }
