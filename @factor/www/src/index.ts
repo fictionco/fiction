@@ -105,13 +105,13 @@ export const factorStripe = new FactorStripe({
   factorApp,
   factorServer,
   factorUser,
+  factorRouter,
   publicKeyTest:
     "pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl",
   secretKeyTest: factorEnv.var("STRIPE_SECRET_KEY_TEST"),
   isLive: factorEnv.isProd,
   hooks: [],
-  productsLive: [],
-  productsTest: [],
+  products: [],
 })
 
 const factorAws = new FactorAws({
