@@ -2,9 +2,9 @@
   "name": "@factor/lint",
   "version": "5.5.105",
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "eslint": "^8.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "eslint": "^8.29.0",
     "eslint-config-prettier": "latest",
     "eslint-define-config": "^1.12.0",
     "eslint-plugin-html": "^7.1.0",
@@ -15,13 +15,13 @@
     "eslint-plugin-tailwindcss": "^3.7.1",
     "eslint-plugin-unicorn": "^45.0.1",
     "eslint-plugin-vue": "^9.8.0",
-    "prettier": "^2.8.0",
+    "prettier": "^2.8.1",
     "prettier-eslint": "^15.0.1"
   },
   "devDependencies": {
     "npm-package-json-lint": "^6.4.0",
     "postcss": "^8.4.19",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   },
   "license": "MIT",
   "main": "config.cjs",
