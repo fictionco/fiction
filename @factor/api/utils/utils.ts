@@ -73,7 +73,7 @@ export const shortId = (): string => {
  * Get a universal global this object
  */
 export const getGlobalThis = (): any => {
-  return typeof window != "undefined" ? window : global
+  return typeof window == "undefined" ? global : window
 }
 
 /**
@@ -187,7 +187,7 @@ export const dotSetting = <T = unknown>({
   const currentKey = key.slice(0, key.indexOf("."))
   const subKeys = key.slice(key.indexOf(".") + 1)
 
-  if (typeof settings[key] !== "undefined") {
+  if (settings[key] !== undefined) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return settings[key]
   } else if (typeof settings[currentKey] == "object") {
@@ -284,16 +284,18 @@ export const camelToUpperSnake = (string: string): string => {
  * @param string - string to manipulate
  */
 export const camelToKebab = (string: string): string => {
-  return !string
-    ? string
-    : string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
+  return string
+    ? string.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()
+    : string
 }
 
 /**
  * Coverts a slug or variable into a title-like string
  */
-export const toLabel = (str?: string): string => {
-  if (!str || typeof str !== "string") return ""
+export const toLabel = (str?: string | number): string => {
+  if (!str) return ""
+
+  str = String(str)
 
   const label = camelToKebab(str)
     .replace(new RegExp("-|_", "g"), " ") // turn dashes to spaces
@@ -410,7 +412,7 @@ export const normalizeList = (
 
       if (!name && value) {
         name = `${prefix}${toLabel(value)}${suffix}`
-      } else if (typeof value == "undefined" && name) {
+      } else if (value === undefined && name) {
         value = slugify(name) || ""
       }
       if (!name) name = ""
@@ -481,12 +483,12 @@ export const getFavicon = (url: string | string[] | undefined): string => {
     url = `http://${url}`
   }
 
-  if (!url) {
-    hostname = ""
-  } else {
+  if (url) {
     const _url = new URL(url)
 
     hostname = _url.hostname
+  } else {
+    hostname = ""
   }
 
   return `https://icons.duckduckgo.com/ip3/${hostname}.ico`
