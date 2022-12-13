@@ -15,32 +15,37 @@
         <div
           v-for="(toast, i) in topToasts"
           :key="i"
-          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg bg-white text-slate-900 text-sm shadow-lg ring-1 ring-black/10 transition-all duration-300"
-          :class="toast.type"
+          class="pointer-events-auto mb-4 w-full max-w-md overflow-hidden rounded-lg text-sm shadow-lg ring-1 ring-black/10 transition-all duration-300"
+          :class="[
+            toast.type,
+            toast.type == 'error'
+              ? 'bg-danger-500 text-white'
+              : 'bg-success-500 text-white',
+          ]"
         >
           <div class="p-4">
             <div class="flex">
               <div class="shrink-0">
                 <div
                   v-if="toast.type == 'success'"
-                  class="i-carbon-checkmark text-2xl text-green-500"
+                  class="i-carbon-checkmark text-success-500 text-2xl"
                 ></div>
 
                 <div
                   v-else
-                  class="i-carbon-warning text-2xl text-red-500"
+                  class="i-carbon-warning text-danger-500 text-2xl"
                 ></div>
               </div>
               <div class="ml-3 w-0 flex-1 pt-0.5 capitalize">
                 <div class="font-semibold">
                   {{ toast.message }}
                 </div>
-                <div v-if="toast.more" class="mt-1 text-sm text-slate-400">
+                <div v-if="toast.more" class="mt-1 text-sm opacity-50">
                   {{ toast.more }}
                 </div>
               </div>
               <div
-                class="hover:text-primary-500 ml-4 cursor-pointer text-slate-400"
+                class="ml-4 cursor-pointer opacity-50 hover:opacity-90"
                 @click="removeToast(i)"
               >
                 <svg
@@ -99,7 +104,7 @@ const topToasts = vue.computed(() => {
 const showToast = (config: Notification): void => {
   log.info("notifyPlugin", "notification", { data: config })
 
-  const { type, message = "", more = "", duration = 4000 } = config
+  const { type, message = "", more = "", duration = 3500 } = config
 
   const shownAt = Date.now()
 
