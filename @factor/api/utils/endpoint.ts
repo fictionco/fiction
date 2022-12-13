@@ -136,14 +136,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
       const response = r.data
 
-      // const r = await fetcher(this.requestUrl, {
-      //   body: data as BodyInit,
-      //   method: "post",
-      //   headers: { Authorization: this.bearerHeader },
-      // })
-
-      // const response = (await r.json()) as Awaited<ReturnType<T["run"]>>
-
       return response
     } catch (error) {
       this.log.error("upload error", { error })

@@ -237,7 +237,7 @@ const toggle = (): void => {
   }
 }
 
-const isSelected = (value?: string): boolean => {
+const isSelected = (value?: string | number): boolean => {
   return value && props.modelValue == value ? true : false
 }
 
