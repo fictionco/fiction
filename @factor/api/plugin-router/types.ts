@@ -17,11 +17,9 @@ export type RouteReplacer = {
 }
 
 export type NavigateRoute =
-  | undefined
   | boolean
   | vueRouter.RouteLocationRaw
-  | string
-  | Promise<boolean | vueRouter.RouteLocationRaw | undefined | string>
+  | Promise<boolean | vueRouter.RouteLocationRaw>
 
 export type RouteAuthCallback = (args: {
   user?: FullUser
@@ -30,4 +28,5 @@ export type RouteAuthCallback = (args: {
   route: vueRouter.RouteLocationNormalized
 }) =>
   | Promise<{ navigate: NavigateRoute; id: string } | undefined>
-  | { navigate: NavigateRoute; id: string } | undefined
+  | { navigate: NavigateRoute; id: string }
+  | undefined

@@ -12,7 +12,7 @@ export interface MenuListItem extends ListItem {
 }
 export type ListItem = {
   name?: string
-  value?: string
+  value?: string | number
   desc?: string
   selected?: boolean
   isDefault?: boolean

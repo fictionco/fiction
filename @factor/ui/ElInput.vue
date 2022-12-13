@@ -8,18 +8,15 @@
       v-if="label || description"
       class="text-input-label-size flex justify-between"
     >
-      <div
-        class="text items-center text-[.85em]"
-        :class="descriptionFormat == 'popover' ? 'flex space-x-2' : ''"
-      >
-        <label
-          v-if="label"
-          class="font-medium"
-          :for="attrs.for"
-          v-text="label"
-        />
-        <div v-if="description" class="group relative">
-          <template v-if="descriptionFormat == 'popover'">
+      <div class="text items-center text-[.85em]">
+        <div class="flex items-center space-x-2">
+          <label
+            v-if="label"
+            class="font-medium"
+            :for="attrs.for"
+            v-text="label"
+          />
+          <div v-if="description" class="group relative">
             <div
               class="i-carbon-information text-slate-500 hover:text-slate-400"
             ></div>
@@ -28,8 +25,10 @@
             >
               {{ description }}
             </div>
-          </template>
-          <div v-else class="text-theme-500 text-xs">{{ description }}</div>
+          </div>
+        </div>
+        <div v-if="subLabel" class="text-theme-500 text-xs">
+          {{ subLabel }}
         </div>
       </div>
     </div>
@@ -65,6 +64,7 @@ const props = defineProps({
     default: undefined,
   },
   label: { type: String, default: "" },
+  subLabel: { type: String, default: "" },
   description: { type: String, default: "" },
   descriptionFormat: {
     type: String as vue.PropType<"popover" | "subhead">,

@@ -1,7 +1,7 @@
 import { vue, vueRouter } from "../utils/libraries"
 import { FactorObject, FactorPlugin } from "../plugin"
 import { toLabel } from "../utils/utils"
-import type { RouteAuthCallback } from "./types"
+import type { RouteAuthCallback, NavigateRoute } from "./types"
 
 type IsActiveCallback = (c: {
   route: vueRouter.RouteLocation
@@ -24,6 +24,12 @@ export type AppRouteParams<T extends string> = {
   priority?: number
   services?: Record<string, FactorPlugin>
   auth?: RouteAuthCallback
+  after?: vueRouter.NavigationHookAfter
+  before?: (
+    to: vueRouter.RouteLocationNormalized,
+    from: vueRouter.RouteLocationNormalized,
+    navigate: NavigateRoute,
+  ) => Promise<NavigateRoute>
   meta?: {
     [key: string]: unknown
   }
@@ -52,6 +58,8 @@ export class AppRoute<T extends string> extends FactorObject<
   external? = this.settings.external
   redirect?: vueRouter.RouteRecordRedirectOption
   services = this.settings.services || {}
+  before = this.settings.before
+  after = this.settings.after
   auth?: RouteAuthCallback = this.settings.auth
   constructor(params: AppRouteParams<T>) {
     super("appRoute", params)

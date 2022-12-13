@@ -281,7 +281,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         minify: false,
 
         //https://vitejs.dev/config/build-options.html#build-sourcemap
-        sourcemap: !isProd ? "inline" : false,
+        sourcemap: isProd ? false : "inline",
         rollupOptions: {
           external,
         },

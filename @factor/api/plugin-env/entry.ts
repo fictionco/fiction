@@ -18,7 +18,7 @@ export const runServicesSetup = async (
       typeof _ == "object" &&
       !Array.isArray(_) &&
       !vue.isRef(_) &&
-      typeof _.setup != "undefined",
+      _.setup !== undefined,
   ) as FactorPlugin[]
 
   if (pluginList.length > 0) {

@@ -504,12 +504,12 @@ export class FactorApp extends FactorPlugin<FactorAppSettings> {
         distClient: this.distFolderClient,
       })
 
-      if (!isProd) {
-        viteServer = await this.getViteServer({ isProd })
-        app.use(viteServer.middlewares)
-      } else {
+      if (isProd) {
         app.use(compression())
         app.use(serveStatic(this.distFolderClient, { index: false }))
+      } else {
+        viteServer = await this.getViteServer({ isProd })
+        app.use(viteServer.middlewares)
       }
 
       const srv = await this.getViteServer({ isProd })

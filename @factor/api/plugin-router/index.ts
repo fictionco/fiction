@@ -71,9 +71,9 @@ export class FactorRouter<
   })
 
   private createFactorRouter = (): vueRouter.Router => {
-    const history = !this.utils.isNode()
-      ? vueRouter.createWebHistory()
-      : vueRouter.createMemoryHistory()
+    const history = this.utils.isNode()
+      ? vueRouter.createMemoryHistory()
+      : vueRouter.createWebHistory()
 
     const router = vueRouter.createRouter({
       history,
@@ -99,7 +99,14 @@ export class FactorRouter<
         args: [{ to, from, navigate: true }],
       })
 
-      return result.navigate
+      const ar = this.routes.value.find((r) => r.name == to.name)
+
+      let navigate: NavigateRoute = result.navigate || true
+      if (ar && ar.before) {
+        navigate = await ar.before(to, from, navigate)
+      }
+
+      return navigate
     })
 
     router.afterEach(async (to, from) => {
@@ -108,8 +115,14 @@ export class FactorRouter<
       await this.utils.runHooks<FactorRouterHookDictionary>({
         list: this.hooks,
         hook: "afterEach",
-        args: [{ to, from, navigate: true }],
+        args: [{ to, from }],
       })
+
+      const ar = this.routes.value.find((r) => r.name == to.name)
+
+      if (ar && ar.after) {
+        await ar.after(to, from)
+      }
     })
 
     return router
