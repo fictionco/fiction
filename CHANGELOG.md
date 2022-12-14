@@ -1,3 +1,14 @@
+## [5.5.107](https://github.com/FactorJS/factor/compare/v5.5.106...v5.5.107) (2022-12-14)
+
+
+### Bug Fixes
+
+* notify ([33e4ce7](https://github.com/FactorJS/factor/commit/33e4ce754f88de70d6fd71daa776275fd3f5f60a))
+* tweak ([0ba92ab](https://github.com/FactorJS/factor/commit/0ba92ab050c40a9aebadae937952e854eb9ae720))
+* typew ([007aaec](https://github.com/FactorJS/factor/commit/007aaec55ece14715778b8483afff27203f1a18b))
+
+
+
 ## [5.5.106](https://github.com/FactorJS/factor/compare/v5.5.105...v5.5.106) (2022-12-10)
 
 
