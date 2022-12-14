@@ -40,9 +40,9 @@ import { ListItem, normalizeList, vue } from "@factor/api"
 import InputElTab from "./InputElTab.vue"
 
 const props = defineProps({
-  modelValue: { type: Array as vue.PropType<string[]>, default: () => [] },
+  modelValue: { type: Array as vue.PropType<(string | number)[]>, default: () => [] },
   list: {
-    type: Array as vue.PropType<(ListItem | "divider" | string)[]>,
+    type: Array as vue.PropType<(ListItem | "divider" | string | number)[]>,
     default: () => [],
   },
   min: {
@@ -78,14 +78,14 @@ const isSelected = (item: ListItem): boolean => {
 }
 
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string[]): void
-  (event: "continue", payload: string[]): void
+  (event: "update:modelValue", payload: (string | number)[]): void
+  (event: "continue", payload: (string | number)[]): void
 }>()
 
-const selectItem = (val: string) => {
+const selectItem = (val: string | number) => {
   const hasValue = props.modelValue.indexOf(val)
 
-  let newList: string[]
+  let newList: (string | number)[]
   if (hasValue > -1) {
     newList = props.modelValue.filter((v) => v != val)
   } else {

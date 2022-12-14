@@ -17,7 +17,7 @@
       >
         <div
           v-if="vis"
-          class="fixed inset-0 bg-slate-800/75 transition-opacity backdrop-blur-md"
+          class="fixed inset-0 bg-slate-800/75 backdrop-blur-md transition-opacity"
           @click="close()"
         ></div>
       </transition>
@@ -66,7 +66,9 @@ onResetUi(({ scope }) => {
   }
 })
 
-const modalClass = [props.modalClass] || ["p-12", "sm:max-w-sm"]
+const modalClass = props.modalClass
+  ? [props.modalClass]
+  : ["p-12", "sm:max-w-sm"]
 
 const classes = [
   "relative",

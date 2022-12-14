@@ -170,13 +170,13 @@ const li = vue.computed(() => {
   )
 })
 
-const val = vue.computed<string[]>(() => {
+const val = vue.computed<(string | number)[]>(() => {
   return typeof props.modelValue == "string"
     ? props.modelValue.split(",").map((_) => _.trim())
     : (props.modelValue as string[])
 })
 
-const selected = vue.computed<string[]>({
+const selected = vue.computed<(string | number)[]>({
   get: () => {
     return val.value ?? []
   },
@@ -185,7 +185,7 @@ const selected = vue.computed<string[]>({
   },
 })
 
-const removeValue = (value: string): void => {
+const removeValue = (value: string | number): void => {
   const index = selected.value.indexOf(value)
   if (index > -1) {
     selected.value.splice(index, 1)
@@ -199,18 +199,18 @@ const selectValue = async (
   const val = item.value ?? ""
   if (item.route) {
     await router.push(item.route)
-  } else if (!selected.value.includes(val)) {
-    selected.value = [...selected.value, val]
-  } else {
+  } else if (selected.value.includes(val)) {
     removeValue(val)
+  } else {
+    selected.value = [...selected.value, val]
   }
 }
 
-const getItemName = (val: string): string | undefined => {
+const getItemName = (val: string | number): string | number | undefined => {
   return li.value.find((_) => _.value == val)?.name || val
 }
 
-const isSelected = (value?: string): boolean => {
+const isSelected = (value?: string | number): boolean => {
   return value ? selected.value.includes(value) : false
 }
 

@@ -388,7 +388,7 @@ export const snakeCaseKeys = (
  */
 export const normalizeList = (
   list:
-    | (string | Partial<ListItem>)[]
+    | (string | number | Partial<ListItem>)[]
     | readonly (string | Partial<ListItem>)[] = [],
   options: { prefix?: string; suffix?: string } = {},
 ): ListItem[] => {

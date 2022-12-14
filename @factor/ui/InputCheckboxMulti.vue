@@ -29,20 +29,20 @@ const props = defineProps({
 })
 const attrs = vue.useAttrs()
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string[]): void
+  (event: "update:modelValue", payload: (string | number)[]): void
 }>()
 
 const li = vue.computed(() => {
   return normalizeList(props.list ?? [])
 })
 
-const val = vue.computed<string[]>(() => {
+const val = vue.computed<(string | number)[]>(() => {
   return typeof props.modelValue == "string"
     ? props.modelValue.split(",").map((_) => _.trim())
     : (props.modelValue as string[])
 })
 
-const selected = vue.computed<string[]>({
+const selected = vue.computed<(string | number)[]>({
   get: () => {
     return val.value ?? []
   },
@@ -51,11 +51,11 @@ const selected = vue.computed<string[]>({
   },
 })
 
-const isSelected = (value?: string): boolean => {
+const isSelected = (value?: string | number): boolean => {
   return value && selected.value?.includes(value) ? true : false
 }
 
-const removeValue = (value: string): void => {
+const removeValue = (value: string | number): void => {
   const index = selected.value.indexOf(value)
   if (index > -1) {
     selected.value.splice(index, 1)
@@ -68,10 +68,10 @@ const selectValue = (item: ListItem): void => {
 
   if (!value) return
 
-  if (!selected.value.includes(value)) {
-    selected.value = [...selected.value, value]
-  } else {
+  if (selected.value.includes(value)) {
     removeValue(value)
+  } else {
+    selected.value = [...selected.value, value]
   }
 }
 

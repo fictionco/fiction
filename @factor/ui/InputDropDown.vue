@@ -121,10 +121,10 @@ const selected = vue.computed(() => {
 })
 
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string | undefined): void
+  (event: "update:modelValue", payload: string | number | undefined): void
 }>()
 
-const update = async (value?: string) => {
+const update = async (value?: string | number) => {
   emit("update:modelValue", value)
   menuVis.value = false
 }
