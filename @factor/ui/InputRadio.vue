@@ -4,10 +4,10 @@
       v-for="(option, i) in parsedList"
       :key="i"
       class="text-input-size my-2 flex cursor-pointer items-center"
-      :for="option.value"
+      :for="String(option.value)"
     >
       <input
-        :id="option.value"
+        :id="String(option.value)"
         v-model="selected"
         type="radio"
         :class="classes"
@@ -25,14 +25,14 @@
 import { normalizeList, ListItem, vue } from "@factor/api"
 
 const props = defineProps({
-  modelValue: { type: String, default: "" },
+  modelValue: { type: [String, Number], default: "" },
   list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },
 })
 
 const emit = defineEmits<{
-  (event: "update:modelValue", payload: string): void
+  (event: "update:modelValue", payload: string | number): void
 }>()
-const selected = vue.ref<string>(props.modelValue)
+const selected = vue.ref<string | number>(props.modelValue)
 const parsedList = normalizeList(props.list)
 vue.watch(
   () => selected.value,
