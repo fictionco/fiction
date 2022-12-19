@@ -8,7 +8,6 @@ import type {
 } from "@aws-sdk/client-s3"
 import { FactorPlugin, FactorPluginSettings } from "../plugin"
 import { vars, EnvVar } from "../plugin-env"
-
 vars.register(() => [
   new EnvVar({ name: "AWS_ACCESS_KEY", val: process.env.AWS_ACCESS_KEY }),
   new EnvVar({
@@ -39,10 +38,9 @@ type S3UploadOptions = {
 export class FactorAws extends FactorPlugin<FactorAwsSettings> {
   awsAccessKey = this.settings.awsAccessKey
   awsAccessKeySecret = this.settings.awsAccessKeySecret
-  region = this.settings.region || "us-east-1"
+  region = this.settings.region || "us-west-2"
   cloudFront?: CloudFront
   s3?: S3
-
   constructor(settings: FactorAwsSettings) {
     super("aws", settings)
 
@@ -136,7 +134,6 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
       ContentType: mime,
       ACL: accessControl,
     })
-
 
     const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
 
