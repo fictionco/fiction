@@ -19,8 +19,8 @@
           :class="[
             toast.type,
             toast.type == 'error'
-              ? 'bg-danger-500 text-white'
-              : 'bg-success-500 text-white',
+              ? 'bg-danger-600 text-white'
+              : 'bg-success-600 text-white',
           ]"
         >
           <div class="p-4">
@@ -36,11 +36,11 @@
                   class="i-carbon-warning text-danger-500 text-2xl"
                 ></div>
               </div>
-              <div class="ml-3 w-0 flex-1 pt-0.5 capitalize">
-                <div class="font-semibold">
-                  {{ toast.message }}
+              <div class="ml-3 w-0 flex-1 capitalize">
+                <div class="text-base font-bold">
+                  {{ capitalizeFirstLetter(toast.message) }}
                 </div>
-                <div v-if="toast.more" class="mt-1 text-sm opacity-50">
+                <div v-if="toast.more" class="mt-1 text-sm opacity-80">
                   {{ toast.more }}
                 </div>
               </div>
@@ -74,7 +74,7 @@
 import { onEvent, vue, Notification, log, slugify } from "@factor/api"
 
 const props = defineProps({
-  dev: { type: Boolean, default: false },
+  dev: { type: Boolean, default: true },
 })
 
 const defaultToasts: Notification[] = props.dev
@@ -100,6 +100,10 @@ const topToasts = vue.computed(() => {
   const [...t] = toasts.value
   return t.reverse()
 })
+
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
 
 const showToast = (config: Notification): void => {
   log.info("notifyPlugin", "notification", { data: config })

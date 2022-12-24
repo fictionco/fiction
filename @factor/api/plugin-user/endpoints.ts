@@ -69,7 +69,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     const cols = this.factorDb.getColumns("factor_user")
 
     return cols
-      ?.map(({ key, isPrivate }) => (!isPrivate ? key : undefined))
+      ?.map(({ key, isPrivate }) => (isPrivate ? undefined : key))
       .filter(Boolean) as (keyof PublicUser)[]
   }
 
@@ -280,15 +280,15 @@ export class QueryManageUser extends UserQuery {
         .into(FactorTable.User)
         .returning<FullUser[]>("*")
 
-      if (!user) {
+      if (user) {
+        // special case, on user create set them to the bearer
+        // its needed for further actions like adding org and setting last project
+        meta.bearer = user
+      } else {
         throw this.stop({
           message: "couldn't create user",
           data: { insertFields },
         })
-      } else {
-        // special case, on user create set them to the bearer
-        // its needed for further actions like adding org and setting last project
-        meta.bearer = user
       }
 
       user = await runHooks<FactorUserHookDictionary, "createUser">({
@@ -783,7 +783,7 @@ export class QueryNewVerificationCode extends UserQuery {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<{ exists: boolean }>> {
     if (!this.factorEmail) throw new Error("no factorEmail")
-    const { email, newAccount } = params
+    const { email } = params
 
     let { data: existingUser } = await this.factorUser.queries.ManageUser.serve(
       {
@@ -795,9 +795,7 @@ export class QueryNewVerificationCode extends UserQuery {
 
     const exists = existingUser ? true : false
 
-    if (newAccount && exists) {
-      throw this.stop({ message: "email exists", data: { exists } })
-    } else if (!existingUser) {
+    if (!existingUser) {
       const { data: createdUser } =
         await this.factorUser.queries.ManageUser.serve(
           {

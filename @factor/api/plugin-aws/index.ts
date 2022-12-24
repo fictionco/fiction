@@ -42,7 +42,7 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
   cloudFront?: CloudFront
   s3?: S3
   constructor(settings: FactorAwsSettings) {
-    super("aws", settings)
+    super("FactorAws", settings)
 
     const { awsAccessKey, awsAccessKeySecret } = settings
 

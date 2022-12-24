@@ -61,7 +61,7 @@ export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
   })
 
   constructor(settings: FactorMediaSettings) {
-    super("media", settings)
+    super("FactorMedia", settings)
 
     this.factorDb?.addTables([mediaTable])
   }
