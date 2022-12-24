@@ -16,7 +16,6 @@ type FactorRouterSettings = {
 
 type BaseCompiled = {
   routes: string
-  menus: string
   [key: string]: any
 }
 
