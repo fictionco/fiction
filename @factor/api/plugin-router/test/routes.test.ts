@@ -11,7 +11,7 @@ import { FactorRouter } from ".."
 const routes = [
   new AppRoute({
     name: "home",
-    niceName: "Home",
+    niceName: () => "Home",
     path: "/",
     menus: ["test"],
     component: () => import("./ElTest.vue"),
@@ -19,14 +19,14 @@ const routes = [
 
   new AppRoute({
     name: "notFound404",
-    niceName: "404",
+    niceName: () => "404",
     path: "/:pathMatch(.*)*",
     priority: 1000,
     component: () => import("./ElTest.vue"),
   }),
   new AppRoute({
     name: "dashboard",
-    niceName: "Dashboard",
+    niceName: () => "Dashboard",
     parent: "app",
     path: "/project/:projectId",
     menus: ["test"],
@@ -37,7 +37,7 @@ const routes = [
   }),
   new AppRoute({
     name: "dashboardSingle",
-    niceName: "Dashboard View",
+    niceName: () => "Dashboard View",
     parent: "app",
     path: "/project/:projectId/dash/:dashboardId",
     icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,7 +48,7 @@ const routes = [
 
   new AppRoute({
     name: "app",
-    niceName: "App",
+    niceName: () => "App",
     path: "/app",
     component: () => import("./ElTest.vue"),
     priority: 10,

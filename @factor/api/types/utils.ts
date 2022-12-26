@@ -40,7 +40,7 @@ export type MenuItem = {
   // @deprecated
   url?: Ref<string>
   active?: Ref<boolean>
-  onClick?: (evnt: MouseEvent, item?: MenuItem) => void
+  onClick?: (evnt?: MouseEvent, item?: MenuItem) => void | Promise<void>
   priority?: number
 } & ListItem
 

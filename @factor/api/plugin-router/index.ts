@@ -6,7 +6,7 @@ import { AppRoute } from "./appRoute"
 import { RouteReplacer, NavigateRoute } from "./types"
 export * from "./types"
 export * from "./appRoute"
-
+import { RouteLocationNormalizedLoaded } from "vue-router"
 type FactorRouterSettings = {
   routes?: AppRoute<string>[]
   replacers?: RouteReplacer[]
@@ -206,7 +206,9 @@ export class FactorRouter<
   }
 
   public update = (routeList: AppRoute<string>[] = []): vueRouter.Router => {
-    this.routes.value = [...this.routes.value, ...routeList]
+    const r = routeList || []
+
+    this.routes.value = [...this.routes.value, ...r]
 
     return this.updateVueRouter()
   }
@@ -259,7 +261,11 @@ export class FactorRouter<
     })
   }
 
-  current = this.utils.vue.computed(() => {
+  current = this.utils.vue.computed<
+    RouteLocationNormalizedLoaded & {
+      meta: { niceName?: (args: { factorRouter: FactorRouter }) => string }
+    }
+  >(() => {
     return this.router?.currentRoute.value
   })
 
@@ -374,7 +380,7 @@ export class FactorRouter<
     name: S["routes"],
     options: { useNiceName?: boolean; item?: MenuItem; priority?: number } = {},
   ): MenuItem {
-    const { useNiceName = false, item = {} } = options
+    const { item = {} } = options
     const val = this.routes.value.find((r) => name == r.name)
 
     const route = this.router?.currentRoute.value
@@ -382,9 +388,10 @@ export class FactorRouter<
     if (!val) throw new Error(`AppRoute ${String(name)} missing`)
     if (!route) throw new Error("no current route")
 
+    const itemName = val.niceName({ factorRouter: this })
     return {
       key: val.name,
-      name: useNiceName ? val.niceName : val.menuName,
+      name: itemName,
       icon: val.icon,
       active: this.activeRef(name as S["routes"]),
       route: this.routeRef(name),

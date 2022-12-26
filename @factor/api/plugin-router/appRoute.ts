@@ -2,7 +2,7 @@ import { vue, vueRouter } from "../utils/libraries"
 import { FactorObject, FactorPlugin } from "../plugin"
 import { toLabel } from "../utils/utils"
 import type { RouteAuthCallback, NavigateRoute } from "./types"
-
+import type { FactorRouter } from "."
 type IsActiveCallback = (c: {
   route: vueRouter.RouteLocation
   appRoute?: AppRoute<string>
@@ -14,7 +14,7 @@ export type RouteKeysUnion<T extends AppRoute<string>[]> = {
 
 export type AppRouteParams<T extends string> = {
   name: T
-  niceName?: string
+  niceName?: (args: { factorRouter: FactorRouter }) => string
   menuName?: string
   path: string
   icon?: string
@@ -44,8 +44,7 @@ export class AppRoute<T extends string> extends FactorObject<
   AppRouteParams<T>
 > {
   name = this.settings.name
-  niceName = this.settings.niceName || toLabel(this.name)
-  menuName = this.settings.menuName || this.niceName
+  niceName = this.settings.niceName || (() => toLabel(this.name))
   path = this.settings.path
   menus = this.settings.menus || []
   icon? = this.settings.icon
@@ -62,6 +61,6 @@ export class AppRoute<T extends string> extends FactorObject<
   after = this.settings.after
   auth?: RouteAuthCallback = this.settings.auth
   constructor(params: AppRouteParams<T>) {
-    super("appRoute", params)
+    super("AppRoute", params)
   }
 }
