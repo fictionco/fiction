@@ -9,10 +9,10 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/lint': 5.5.112
-      '@factor/ui': 5.5.112
-      '@factor/www': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/lint': 5.5.113
+      '@factor/ui': 5.5.113
+      '@factor/www': 5.5.113
       '@types/express': ^4.17.15
       '@types/node': ^18.8.0
       '@vitejs/plugin-vue': ^3.2.0
@@ -72,10 +72,10 @@ importers:
 
   '@factor/andrewpowers':
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/plugin-blog-engine': 5.5.112
-      '@factor/plugin-highlight-code': 5.5.112
-      '@factor/ui': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/plugin-blog-engine': 5.5.113
+      '@factor/plugin-highlight-code': 5.5.113
+      '@factor/ui': 5.5.113
       postcss: ^8.4.20
       tailwindcss: ^3.2.4
     dependencies:
@@ -91,7 +91,7 @@ importers:
       '@aws-sdk/client-cloudfront': ^3.238.0
       '@aws-sdk/client-s3': ^3.238.0
       '@babel/parser': ^7.20.7
-      '@factor/api': 5.5.112
+      '@factor/api': 5.5.113
       '@faker-js/faker': ^7.6.0
       '@iconify-json/carbon': ^1.1.11
       '@iconify-json/clarity': ^1.1.5
@@ -418,9 +418,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/plugin-highlight-code': 5.5.112
-      '@factor/ui': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/plugin-highlight-code': 5.5.113
+      '@factor/ui': 5.5.113
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -432,9 +432,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/plugin-highlight-code': 5.5.112
-      '@factor/ui': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/plugin-highlight-code': 5.5.113
+      '@factor/ui': 5.5.113
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.7
       string-similarity: ^4.0.4
@@ -448,7 +448,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.112
+      '@factor/api': 5.5.113
       highlight.js: ^11.7.0
     dependencies:
       '@factor/api': link:../api
@@ -456,13 +456,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.112
+      '@factor/api': 5.5.113
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.112
+      '@factor/api': 5.5.113
       '@stripe/stripe-js': ^1.46.0
       dotenv: ^16.0.3
       express: ^4.18.2
@@ -477,10 +477,10 @@ importers:
 
   '@factor/supereon':
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/plugin-blog-engine': 5.5.112
-      '@factor/plugin-highlight-code': 5.5.112
-      '@factor/ui': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/plugin-blog-engine': 5.5.113
+      '@factor/plugin-highlight-code': 5.5.113
+      '@factor/ui': 5.5.113
       postcss: ^8.4.20
       tailwindcss: ^3.2.4
     dependencies:
@@ -493,7 +493,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.112
+      '@factor/api': 5.5.113
       '@tailwindcss/forms': ^0.5.3
       blurhash: ^2.0.4
       gravatar-url: ^4.0.1
@@ -509,13 +509,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.112
-      '@factor/plugin-blog-engine': 5.5.112
-      '@factor/plugin-docs-engine': 5.5.112
-      '@factor/plugin-highlight-code': 5.5.112
-      '@factor/plugin-notify': 5.5.112
-      '@factor/plugin-stripe': 5.5.112
-      '@factor/ui': 5.5.112
+      '@factor/api': 5.5.113
+      '@factor/plugin-blog-engine': 5.5.113
+      '@factor/plugin-docs-engine': 5.5.113
+      '@factor/plugin-highlight-code': 5.5.113
+      '@factor/plugin-notify': 5.5.113
+      '@factor/plugin-stripe': 5.5.113
+      '@factor/ui': 5.5.113
       '@tailwindcss/forms': ^0.5.3
       axios: ^1.2.1
       dayjs: ^1.11.7
