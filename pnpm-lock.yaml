@@ -91,7 +91,6 @@ importers:
       '@aws-sdk/client-cloudfront': ^3.238.0
       '@aws-sdk/client-s3': ^3.238.0
       '@babel/parser': ^7.20.7
-      '@factor/api': 5.5.118
       '@faker-js/faker': ^7.6.0
       '@iconify-json/carbon': ^1.1.11
       '@iconify-json/clarity': ^1.1.5
@@ -362,7 +361,6 @@ importers:
       ws: 8.11.0
     devDependencies:
       '@babel/parser': 7.20.7
-      '@factor/api': 'link:'
       '@playwright/test': 1.29.1
       '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
       '@types/body-parser': 1.19.2
