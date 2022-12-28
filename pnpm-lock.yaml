@@ -9,12 +9,12 @@ importers:
 
   .:
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/lint': 5.5.119
-      '@factor/ui': 5.5.119
-      '@factor/www': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/lint': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
+      '@factor/www': workspace:5.5.119
       '@types/express': ^4.17.15
-      '@types/node': ^18.8.0
+      '@types/node': ^18.11.18
       '@vitejs/plugin-vue': ^3.2.0
       c8: ^7.12.0
       chalk: ^5.2.0
@@ -28,14 +28,14 @@ importers:
       nodemon: ^2.0.20
       npm-package-json-lint: ^6.4.0
       playwright: ^1.29.1
-      pnpm: ^7.20.0
+      pnpm: ^7.21.0
       postcss: ^8.4.20
       tailwindcss: ^3.2.4
       tslib: ^2.4.1
       typescript: ^4.9.4
-      vite: ^3.0.0
+      vite: ^3.2.5
       vitest: ^0.26.2
-      vue: '*'
+      vue: ^3.2.45
       vue-tsc: ^1.0.18
       yorkie: ^2.0.0
     dependencies:
@@ -49,7 +49,7 @@ importers:
       cross-env: 7.0.3
       dotenv: 16.0.3
       execa: 6.1.0
-      pnpm: 7.20.0
+      pnpm: 7.21.0
       vue: 3.2.45
     devDependencies:
       '@types/node': 18.11.18
@@ -72,10 +72,10 @@ importers:
 
   '@factor/andrewpowers':
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/plugin-blog-engine': 5.5.119
-      '@factor/plugin-highlight-code': 5.5.119
-      '@factor/ui': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/plugin-blog-engine': workspace:5.5.119
+      '@factor/plugin-highlight-code': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
       postcss: ^8.4.20
       tailwindcss: ^3.2.4
     dependencies:
@@ -114,7 +114,7 @@ importers:
       '@types/markdown-it': ^12.2.3
       '@types/mime-types': ^2.1.1
       '@types/multer': ^1.4.7
-      '@types/node': ^18.8.0
+      '@types/node': ^18.11.18
       '@types/nodemailer': ^6.4.7
       '@types/nodemailer-html-to-text': ^3.1.0
       '@types/nodemon': ^1.19.2
@@ -210,7 +210,7 @@ importers:
       react-dom: ^18.2.0
       remove-markdown: ^0.5.0
       request-ip: ^3.3.0
-      rollup: ^3.8.1
+      rollup: ^3.9.0
       semver: ^7.3.8
       serve-favicon: ^2.5.0
       serve-static: ^1.15.0
@@ -225,8 +225,8 @@ importers:
       unocss: ^0.47.6
       unsplash-js: ^7.0.15
       validator: ^13.7.0
-      vite: ^3.0.0
-      vue: '*'
+      vite: ^3.2.5
+      vue: ^3.2.45
       vue-router: ^4.1.6
       ws: ^8.11.0
     dependencies:
@@ -352,7 +352,7 @@ importers:
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       tsup: 6.5.0_4cynblkbznigaqpgawiighnbty
       typescript: 4.9.4
-      unocss: 0.47.6_rollup@3.8.1+vite@3.2.5
+      unocss: 0.47.6_rollup@3.9.0+vite@3.2.5
       unsplash-js: 7.0.15
       validator: 13.7.0
       vite: 3.2.5_dprl76twtlijnqpm3fdjsbkzqm
@@ -371,7 +371,7 @@ importers:
       ngrok: 4.3.3
       playwright: 1.29.1
       react-dom: 18.2.0_react@18.2.0
-      rollup: 3.8.1
+      rollup: 3.9.0
 
   '@factor/lint':
     specifiers:
@@ -416,9 +416,9 @@ importers:
 
   '@factor/plugin-blog-engine':
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/plugin-highlight-code': 5.5.119
-      '@factor/ui': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/plugin-highlight-code': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
       '@types/string-similarity': ^4.0.0
       string-similarity: ^4.0.4
     dependencies:
@@ -430,9 +430,9 @@ importers:
 
   '@factor/plugin-docs-engine':
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/plugin-highlight-code': 5.5.119
-      '@factor/ui': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/plugin-highlight-code': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
       '@types/string-similarity': ^4.0.0
       dayjs: ^1.11.7
       string-similarity: ^4.0.4
@@ -446,7 +446,7 @@ importers:
 
   '@factor/plugin-highlight-code':
     specifiers:
-      '@factor/api': 5.5.119
+      '@factor/api': workspace:5.5.119
       highlight.js: ^11.7.0
     dependencies:
       '@factor/api': link:../api
@@ -454,13 +454,13 @@ importers:
 
   '@factor/plugin-notify':
     specifiers:
-      '@factor/api': 5.5.119
+      '@factor/api': workspace:5.5.119
     dependencies:
       '@factor/api': link:../api
 
   '@factor/plugin-stripe':
     specifiers:
-      '@factor/api': 5.5.119
+      '@factor/api': workspace:5.5.119
       '@stripe/stripe-js': ^1.46.0
       dotenv: ^16.0.3
       express: ^4.18.2
@@ -475,10 +475,10 @@ importers:
 
   '@factor/supereon':
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/plugin-blog-engine': 5.5.119
-      '@factor/plugin-highlight-code': 5.5.119
-      '@factor/ui': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/plugin-blog-engine': workspace:5.5.119
+      '@factor/plugin-highlight-code': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
       postcss: ^8.4.20
       tailwindcss: ^3.2.4
     dependencies:
@@ -491,7 +491,7 @@ importers:
 
   '@factor/ui':
     specifiers:
-      '@factor/api': 5.5.119
+      '@factor/api': workspace:5.5.119
       '@tailwindcss/forms': ^0.5.3
       blurhash: ^2.0.4
       gravatar-url: ^4.0.1
@@ -507,13 +507,13 @@ importers:
 
   '@factor/www':
     specifiers:
-      '@factor/api': 5.5.119
-      '@factor/plugin-blog-engine': 5.5.119
-      '@factor/plugin-docs-engine': 5.5.119
-      '@factor/plugin-highlight-code': 5.5.119
-      '@factor/plugin-notify': 5.5.119
-      '@factor/plugin-stripe': 5.5.119
-      '@factor/ui': 5.5.119
+      '@factor/api': workspace:5.5.119
+      '@factor/plugin-blog-engine': workspace:5.5.119
+      '@factor/plugin-docs-engine': workspace:5.5.119
+      '@factor/plugin-highlight-code': workspace:5.5.119
+      '@factor/plugin-notify': workspace:5.5.119
+      '@factor/plugin-stripe': workspace:5.5.119
+      '@factor/ui': workspace:5.5.119
       '@tailwindcss/forms': ^0.5.3
       axios: ^1.2.1
       dayjs: ^1.11.7
@@ -1844,7 +1844,7 @@ packages:
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
 
-  /@rollup/pluginutils/5.0.2_rollup@3.8.1:
+  /@rollup/pluginutils/5.0.2_rollup@3.9.0:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1856,7 +1856,7 @@ packages:
       '@types/estree': 1.0.0
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.8.1
+      rollup: 3.9.0
     dev: false
 
   /@selderee/plugin-htmlparser2/0.6.0:
@@ -2366,24 +2366,24 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /@unocss/astro/0.47.6_rollup@3.8.1+vite@3.2.5:
+  /@unocss/astro/0.47.6_rollup@3.9.0+vite@3.2.5:
     resolution: {integrity: sha512-8lR4KwuCeVxOTKk6g6hx6VUHhW1u+hki8oRsJaKEB0s5iUPmY6rCNtb/iaBJdceY11bZMMy5LZHJFTkod/T/zg==}
     dependencies:
       '@unocss/core': 0.47.6
       '@unocss/reset': 0.47.6
-      '@unocss/vite': 0.47.6_rollup@3.8.1+vite@3.2.5
+      '@unocss/vite': 0.47.6_rollup@3.9.0+vite@3.2.5
     transitivePeerDependencies:
       - rollup
       - vite
     dev: false
 
-  /@unocss/cli/0.47.6_rollup@3.8.1:
+  /@unocss/cli/0.47.6_rollup@3.9.0:
     resolution: {integrity: sha512-Lwuzl6xK+67LUb4pCKlyrMv9cDuTvywhlSBiYzDj1Su+21IQVRxUagpo10b1WlLXWWQz4J3bOJZYE/e/QV2/HQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@ampproject/remapping': 2.2.0
-      '@rollup/pluginutils': 5.0.2_rollup@3.8.1
+      '@rollup/pluginutils': 5.0.2_rollup@3.9.0
       '@unocss/config': 0.47.6
       '@unocss/core': 0.47.6
       '@unocss/preset-uno': 0.47.6
@@ -2507,13 +2507,13 @@ packages:
       '@unocss/core': 0.47.6
     dev: false
 
-  /@unocss/vite/0.47.6_rollup@3.8.1+vite@3.2.5:
+  /@unocss/vite/0.47.6_rollup@3.9.0+vite@3.2.5:
     resolution: {integrity: sha512-NL3A20sJHwMyCHOaxLlFXnr71QHEd118GN82e/mtFluEh7F3WyLndaZfWQLmLEeJ3z+P4nURFCLirZJIXr4XgQ==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0
     dependencies:
       '@ampproject/remapping': 2.2.0
-      '@rollup/pluginutils': 5.0.2_rollup@3.8.1
+      '@rollup/pluginutils': 5.0.2_rollup@3.9.0
       '@unocss/config': 0.47.6
       '@unocss/core': 0.47.6
       '@unocss/inspector': 0.47.6
@@ -7025,8 +7025,8 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /pnpm/7.20.0:
-    resolution: {integrity: sha512-klGp+P0sxw1f6OYwJtl0PcoYiIHVhMZdh9e2B8maUmzOGmAj0NL9jKaKPfIX4kKfyQcWeADm46Z+4CKtabZqSw==}
+  /pnpm/7.21.0:
+    resolution: {integrity: sha512-zDsRciscnXmp8AVD0u9eSoJrGfXywepuwMmFstsd+Vfl/wDZUxgaSaZ/6Nkx3bBftC+oBpWFkAGBRyjy58jvZg==}
     engines: {node: '>=14.6'}
     hasBin: true
     dev: false
@@ -7499,8 +7499,8 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
 
-  /rollup/3.8.1:
-    resolution: {integrity: sha512-4yh9eMW7byOroYcN8DlF9P/2jCpu6txVIHjEqquQVSx7DI0RgyCCN3tjrcy4ra6yVtV336aLBB3v2AarYAxePQ==}
+  /rollup/3.9.0:
+    resolution: {integrity: sha512-nGGylpmblyjTpF4lEUPgmOw6OVxRvnI6Iuuh6Lz4O/X66cVOX1XJSsqP1YamxQ+mPuFE7qJxLFDSCk8rNv5dDw==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -8265,7 +8265,7 @@ packages:
       postcss: 8.4.20
       postcss-load-config: 3.1.4_ra2vnoek4vhbzktaezawwqbin4
       resolve-from: 5.0.0
-      rollup: 3.8.1
+      rollup: 3.9.0
       source-map: 0.8.0-beta.0
       sucrase: 3.29.0
       tree-kill: 1.2.2
@@ -8428,7 +8428,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: false
 
-  /unocss/0.47.6_rollup@3.8.1+vite@3.2.5:
+  /unocss/0.47.6_rollup@3.9.0+vite@3.2.5:
     resolution: {integrity: sha512-cc+m2h/Iky24zwAKir9ElmIhkPYNjZEUTemInctWlVN8QX9qpzsRZahAl7ZmKsBorXPFtux/JYoUCCtXftyxOw==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -8437,8 +8437,8 @@ packages:
       '@unocss/webpack':
         optional: true
     dependencies:
-      '@unocss/astro': 0.47.6_rollup@3.8.1+vite@3.2.5
-      '@unocss/cli': 0.47.6_rollup@3.8.1
+      '@unocss/astro': 0.47.6_rollup@3.9.0+vite@3.2.5
+      '@unocss/cli': 0.47.6_rollup@3.9.0
       '@unocss/core': 0.47.6
       '@unocss/preset-attributify': 0.47.6
       '@unocss/preset-icons': 0.47.6
@@ -8453,7 +8453,7 @@ packages:
       '@unocss/transformer-compile-class': 0.47.6
       '@unocss/transformer-directives': 0.47.6
       '@unocss/transformer-variant-group': 0.47.6
-      '@unocss/vite': 0.47.6_rollup@3.8.1+vite@3.2.5
+      '@unocss/vite': 0.47.6_rollup@3.9.0+vite@3.2.5
     transitivePeerDependencies:
       - rollup
       - supports-color

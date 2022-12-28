@@ -159,7 +159,7 @@
     "ngrok": "^4.3.3",
     "playwright": "^1.29.1",
     "react-dom": "^18.2.0",
-    "rollup": "^3.8.1"
+    "rollup": "^3.9.0"
   },
   "license": "MIT",
   "main": "index.ts",
