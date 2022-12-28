@@ -1,11 +1,11 @@
 {
   "name": "@factor/andrewpowers",
-  "version": "5.5.115",
+  "version": "5.5.116",
   "dependencies": {
-    "@factor/api": "5.5.115",
-    "@factor/plugin-blog-engine": "5.5.115",
-    "@factor/plugin-highlight-code": "5.5.115",
-    "@factor/ui": "5.5.115",
+    "@factor/api": "5.5.116",
+    "@factor/plugin-blog-engine": "5.5.116",
+    "@factor/plugin-highlight-code": "5.5.116",
+    "@factor/ui": "5.5.116",
     "postcss": "^8.4.20",
     "tailwindcss": "^3.2.4"
   },
