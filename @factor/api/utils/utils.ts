@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import path from "path"
 import deepMergeUtility from "deepmerge"
 import stableStringify from "fast-safe-stringify"
@@ -372,15 +373,24 @@ export const camelKeys = function (obj: unknown): unknown {
 /**
  * Returns object keys in snake_case
  */
-export const snakeCaseKeys = (
-  original: Record<string, any>,
-): Record<string, any> => {
-  const newObject: Record<string, any> = {}
-  for (const camel in original) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    newObject[snakeCase(camel)] = original[camel]
+
+export const snakeCaseKeys = <T>(obj: T): T => {
+  if (typeof obj !== "object" || obj === null) {
+    return obj
   }
-  return newObject
+
+  const result: any = Array.isArray(obj) ? [] : {}
+  for (const key in obj) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (obj.hasOwnProperty(key)) {
+      const newKey = key.replace(
+        /([A-Z])/g,
+        (match) => `_${match.toLowerCase()}`,
+      )
+      result[newKey] = snakeCaseKeys(obj[key])
+    }
+  }
+  return result as T
 }
 /**
  * Parse to standard utility lists
