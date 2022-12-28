@@ -111,7 +111,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...`)
     try {
-      await this.commit("pnpm", ["publish", "--access", access], {
+      await this.commit("npm", ["publish", "--access", access], {
         cwd: pkg.cwd,
         stdio: "pipe",
       })
