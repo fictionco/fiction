@@ -5,7 +5,7 @@
     spellcheck="false"
     :class="[textInputClasses(), modelValue ? 'set' : 'empty']"
     :value="modelValue"
-    rows="1"
+    :rows="rows"
     @input="send($event.target)"
   />
 </template>
@@ -15,6 +15,7 @@ import { vue, onResetUi } from "@factor/api"
 import { textInputClasses } from "./theme"
 defineProps({
   modelValue: { type: String, default: "" },
+  rows: { type: Number, default: 1 },
 })
 
 const emit = defineEmits<{
