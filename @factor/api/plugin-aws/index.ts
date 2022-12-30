@@ -143,6 +143,40 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
       headObject,
     }
   }
+
+  async deleteDirectory({
+    directory,
+    bucket,
+  }: {
+    directory: string
+    bucket: string
+  }): Promise<{
+    result: DeleteObjectCommandOutput
+  }> {
+    if (!bucket) throw new Error("no bucket set")
+
+    const s3 = await this.getS3()
+
+    const r = await s3.listObjectsV2({
+      Bucket: bucket,
+      Prefix: directory,
+    })
+
+    const keys = r.Contents?.map((item) => ({ Key: item.Key })) || []
+
+    const result = await s3.deleteObjects({
+      Bucket: bucket,
+      Delete: {
+        Objects: keys,
+        Quiet: false,
+      },
+    })
+
+    return {
+      result,
+    }
+  }
+
   deleteS3 = async ({
     filePath,
     bucket,
@@ -154,6 +188,7 @@ export class FactorAws extends FactorPlugin<FactorAwsSettings> {
   }> => {
     if (!bucket) throw new Error("no bucket set")
     const s3 = await this.getS3()
+
     const result = await s3.deleteObject({
       Bucket: bucket,
       Key: filePath,

@@ -21,7 +21,7 @@
           @click="close()"
         ></div>
       </transition>
-      <div class="fixed inset-0 z-40 overflow-y-auto">
+      <div class="test fixed inset-0 z-40 overflow-y-auto" @click="close()">
         <div
           class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
         >
