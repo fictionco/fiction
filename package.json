@@ -12,7 +12,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "execa": "^6.1.0",
-    "pnpm": "^7.21.0",
+    "pnpm": "^7.33.4",
     "vue": "^3.2.45"
   },
   "devDependencies": {
