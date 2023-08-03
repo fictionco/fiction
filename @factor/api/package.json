@@ -98,7 +98,7 @@
     "js-cookie": "^3.0.1",
     "jsdom": "^20.0.3",
     "json-schema-to-typescript": "^11.0.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^2.3.0",
     "knex-stringcase": "^1.4.6",
     "less": "^4.1.3",
