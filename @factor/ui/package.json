@@ -6,7 +6,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "blurhash": "^2.0.4",
     "gravatar-url": "^4.0.1",
-    "postcss": "^8.4.20",
+    "postcss": "^8.4.31",
     "tailwindcss": "^3.2.4"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
