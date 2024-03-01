@@ -1,0 +1,54 @@
+---
+- name: Downloading an installer
+  get_url:
+    url: 'https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-py3-2.0-2.tar.gz'
+    dest: /tmp/aws-cfn-bootstrap-py3-2.0-2.tar.gz
+    mode: '0644'
+
+- name: Installing the package
+  pip:
+    name: 'file:///tmp/aws-cfn-bootstrap-py3-2.0-2.tar.gz'
+
+- name: Create CFN directories
+  file:
+    path: '{{ _cfn_dir }}'
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  loop:
+    - /etc/cfn
+    - /opt/aws/bin
+  loop_control:
+    loop_var: _cfn_dir
+
+- name: Creating symbolic links for CFN binaries
+  file:
+    src: '../../../usr/local/bin/{{ _cfn_bin }}'
+    dest: '/opt/aws/bin/{{ _cfn_bin }}'
+    state: link
+  loop:
+    - cfn-elect-cmd-leader
+    - cfn-get-metadata
+    - cfn-hup
+    - cfn-init
+    - cfn-send-cmd-event
+    - cfn-send-cmd-result
+    - cfn-signal
+  loop_control:
+    loop_var: _cfn_bin
+
+- name: Create systemd definition for cfn-hup service
+  copy:
+    src: cfn-hup.service
+    dest: /etc/systemd/system/cfn-hup.service
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Setting up systemd service
+  systemd:
+    name: cfn-hup.service
+    daemon_reload: yes
+    enabled: yes
+    state: stopped

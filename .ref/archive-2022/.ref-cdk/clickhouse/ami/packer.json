@@ -1,0 +1,104 @@
+{
+  "variables": {
+    "ansible_roles_path": "",
+    "ansible_connection": "ssh",
+
+    "aws_access_key": "{{ env `AWS_ACCESS_KEY_ID` }}",
+    "aws_secret_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+    "aws_region": "{{ env `AWS_REGION` }}",
+
+    "destination_regions": "us-east-1,us-west-2",
+    "ssh_username": "ubuntu",
+
+    "clickhouse_version": "21.3.10.1",
+    "clickhouse_cluster": "clickhouse-cluster-default"
+  },
+
+  "sensitive-variables": ["aws_access_key", "aws_secret_key"],
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+
+      "access_key": "{{ user `aws_access_key` }}",
+      "secret_key": "{{ user `aws_secret_key` }}",
+      "region": "{{ user `aws_region` }}",
+
+      "ami_name": "darwin/images/clickhouse-linux-{{ timestamp }}",
+      "ami_description": "An image with pre-installed ClickHouse v.{{ user `clickhouse_version` }}",
+      "ami_regions": "{{ user `destination_regions` }}",
+      "ami_virtualization_type": "hvm",
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sdb",
+          "virtual_name": "ephemeral0"
+        },
+        {
+          "device_name": "/dev/sdc",
+          "virtual_name": "ephemeral1"
+        }
+      ],
+
+      "instance_type": "t2.micro",
+      "ssh_username": "{{ user `ssh_username` }}",
+
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*/ubuntu-focal-20.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+
+        "owners": ["099720109477"],
+        "most_recent": true
+      },
+
+      "tags": {
+        "OS_Flavor": "Ubuntu",
+        "ClickHouse Version": "{{ user `clickhouse_version` }}",
+        "Base_AMI_ID": "{{ .SourceAMI }}",
+        "Base_AMI_Name": "{{ .SourceAMIName }}",
+        "Base_AMI_Owner": "{{ .SourceAMIOwner }}",
+        "Extra": "{{ .SourceAMITags.TagName }}"
+      }
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}",
+      "script": "pre-provision.sh"
+    },
+    {
+      "type": "ansible",
+      "host_alias": "clickhouse-builder",
+      "groups": "{{ user `clickhouse_cluster` }}",
+      "ansible_env_vars": [
+        "ANSIBLE_ROLES_PATH={{ user `ansible_roles_path` }}",
+        "ANSIBLE_HOST_KEY_CHECKING=False",
+        "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'"
+      ],
+      "extra_arguments": [
+        "--extra-vars",
+        "clickhouse_version={{ user `clickhouse_version` }}",
+        "--extra-vars",
+        "ansible_connection={{ user `ansible_connection` }}",
+        "--extra-vars",
+        "ansible_python_interpreter=/usr/bin/python3"
+      ],
+      "user": "{{ user `ssh_username` }}",
+      "playbook_file": "./provision.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}",
+      "script": "post-provision.sh"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}",
+      "script": "post-cloud-init.sh"
+    }
+  ]
+}

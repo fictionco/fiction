@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/plugin-contact": "workspace:*",
+    "@factor/plugin-monitor": "workspace:*",
+    "@factor/plugin-notify": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@types/mapbox-gl": "^3.1.0",
+    "mapbox-gl": "^3.1.2",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "name": "@factor/supereon",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.supereon.ai",
+  "version": "6.0.4"
+}

@@ -1,0 +1,54 @@
+name: Health Check
+
+# on:
+#   schedule:
+#     # Runs "every 60 minutes" (see https://crontab.guru)
+#     - cron: "0 * * * *"
+jobs:
+  build:
+    name: run checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Deps
+        run: pnpm i --no-frozen-lockfile
+
+      - name: Run Health Check
+        run: npm exec -- vitest health
+
+      - name: Health Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: failure
+          notification_title: 'Health: {workflow} has {status_message}'
+          message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

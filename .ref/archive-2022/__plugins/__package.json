@@ -1,0 +1,37 @@
+{
+  "name": "@kaption/plugins",
+  "version": "4.0.5",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "type": "module",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "axios": "^0.27.0",
+    "@factor/server": "^4.0.0",
+    "@factor/types": "^4.0.0",
+    "@factor/engine": "^4.0.0",
+    "@factor/api": "^4.0.0",
+    "@kaption/browser-utils": "4.0.5",
+    "@kaption/build": "4.0.5",
+    "@kaption/engine": "4.0.5",
+    "@kaption/plugins": "4.0.5",
+    "@kaption/cli": "4.0.5",
+    "@kaption/db": "4.0.5",
+    "@kaption/ui": "4.0.5",
+    "@kaption/manager": "4.0.5",
+    "@kaption/types": "4.0.5",
+    "@kaption/utils": "4.0.5",
+    "dayjs": "^1.10.6",
+    "knex": "^1.0.0",
+    "lodash": "^4.17.21",
+    "ws": "^8.1.0",
+    "vue": "^3.0.0",
+    "rrweb": "^1.0.2",
+    "rrweb-player": "^0.7.0",
+    "vue-router": "^4.0.10"
+  }
+}

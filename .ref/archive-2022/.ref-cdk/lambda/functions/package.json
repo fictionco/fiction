@@ -1,0 +1,30 @@
+{
+  "name": "@kaption/lambda",
+  "version": "1.9.3",
+  "private": false,
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "scripts": {
+    "test": "mocha tests/unit/",
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "axios": "^0.27.0",
+    "pg": "^8.6.0",
+    "ts-node": "^10.0.0"
+  },
+  "devDependencies": {
+    "@kaption/core": "^1.20.0",
+    "@types/aws-lambda": "^8.10.76",
+    "@types/node": "^17.0.16",
+    "@types/pg": "^8.6.0",
+    "aws-sdk": "^2.910.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "typescript": "^4.2.4"
+  }
+}

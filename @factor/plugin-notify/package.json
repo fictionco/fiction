@@ -1,0 +1,16 @@
+{
+  "name": "@factor/plugin-notify",
+  "type": "module",
+  "version": "6.0.4",
+  "description": "Notify allows you to add toast notifications to your app with ease.",
+  "author": "Supereon",
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {
+    "@factor/api": "workspace:*"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "publishConfig": {
+    "access": "public"
+  }
+}

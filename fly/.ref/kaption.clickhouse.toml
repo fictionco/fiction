@@ -1,0 +1,48 @@
+# To connect from SSL, requires: jdbc:ch://localhost:8443/?ssl=true&sslmode=NONE
+# https://github.com/ClickHouse/clickhouse-jdbc/issues/847
+
+app = "kaption-clickhouse"
+
+[build]
+  image = "clickhouse/clickhouse-server@latest"
+
+[env]
+  CLICKHOUSE_DATABASE = "kaption"
+  CLICKHOUSE_USER = "kaption"
+  CLICKHOUSE_PASSWORD = "socrates-and-plato"
+
+[mount]
+source      = "40GB"
+destination = "/var/lib/clickhouse/"
+
+[[services]]
+internal_port = 8123
+protocol      = "tcp"
+
+  [services.concurrency]
+    hard_limit = 50
+    soft_limit = 30
+
+  [[services.ports]]
+    handlers = ["tls","http"]
+    port     = 8123
+
+  [[services.ports]]
+    handlers = ["tls","http"]
+    port     = 443
+
+  [[services.tcp_checks]]
+    interval = 10000
+    timeout  = 2000
+
+[[services]]
+  internal_port = 9000
+  protocol      = "tcp"
+
+  [[services.ports]]
+  handlers = ["tls"]
+  port     = 9000
+
+  [[services.tcp_checks]]
+  interval = 10000
+  timeout  = 2000

@@ -1,0 +1,12 @@
+app = "log-util"
+
+[env]
+  ORG = "kaption"
+  SUBJECT = "logs.<app_name>"
+
+[build]
+  image = "flyio/log-shipper:latest"
+
+[metrics]
+  port = 9598
+  path = "/metrics"

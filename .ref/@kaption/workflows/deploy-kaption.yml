@@ -1,0 +1,174 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Suite
+        required: true
+        type: choice
+        options:
+          - -ka
+
+      tags:
+        description: Tags
+        required: false
+        type: text
+
+  # if deploy on release
+  # release:
+  #   types: [published]
+
+env:
+  CI: true
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_USER: ${{ secrets.SMTP_USER }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+
+jobs:
+  build:
+    if: contains(github.event.head_commit.message, '-ka') || inputs.suite === '-ka'
+    env:
+      REDIS_URL: redis://localhost:6379
+      CLICKHOUSE_URL: http://default:@localhost:8123
+      POSTGRES_URL: http://test:test@localhost:5432/test
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install Deps
+        run: pnpm i
+
+      # Pull the latest image to build, and avoid caching pull-only images.
+      # (docker pull is faster than caching in most cases.)
+      - run: docker-compose pull
+
+      - name: Run Docker
+        run: docker-compose up --build -d
+
+      - name: Create Tables
+        run: npm -w @kaption/app exec -- factor run generate
+
+      - name: Unit Test Prep
+        run: npm exec -- vitest prep
+
+      - name: Run Type Check
+        run: npm run test-types
+
+      - name: Run ESLint (.ts)
+        run: npm run test-eslint
+
+      - name: Test Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: failure
+          notification_title: 'Test: {workflow} has {status_message}'
+          message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+  deploy:
+    if: contains(github.event.head_commit.message, '-ka') || inputs.suite === '-ka'
+    env:
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      CLICKHOUSE_URL: ${{ secrets.CLICKHOUSE_URL }}
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+      STRIPE_SECRET_KEY_PROD: ${{ secrets.STRIPE_SECRET_KEY_PROD }}
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: Install Deps
+        run: pnpm i
+
+      - name: Install Build Packages
+        run: pnpm add tsup cross-env --global
+
+      - name: Build Bundles
+        run: npm exec -- factor run bundle
+
+      - name: Render Kaption Apps
+        run: npm exec -- factor run render --suite=kaption
+
+      - name: Deploy With Fly.io
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy Kaption
+        run: |
+          cross-env DOMAIN=kaption APP=example npm run deploy
+          cross-env DOMAIN=kaption APP=beacon npm run deploy
+          cross-env DOMAIN=kaption APP=rec npm run deploy
+          cross-env DOMAIN=kaption APP=proxy npm run deploy
+          cross-env DOMAIN=kaption APP=server npm run deploy
+          cross-env DOMAIN=kaption APP=tag npm run deploy
+          cross-env DOMAIN=kaption APP=widget npm run deploy
+          cross-env DOMAIN=kaption APP=session npm run deploy
+          cross-env DOMAIN=kaption APP=www npm run deploy
+          cross-env DOMAIN=kaption APP=app npm run deploy
+
+      - name: Deploy Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: failure
+          notification_title: 'Deploy: {workflow} has {status_message}'
+          message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

@@ -1,0 +1,58 @@
+/* tslint:disable */
+/**
+ * Automatically generated file, do not modify by hand.
+ */
+
+export interface CompiledServiceConfig {
+  commands: 'build' | 'dev' | 'r-dev' | 'render' | 'server' | 'www'
+  vars:
+    | 'AWS_ACCESS_KEY'
+    | 'AWS_ACCESS_KEY_SECRET'
+    | 'CLICKHOUSE_URL'
+    | 'COMMAND'
+    | 'COMMAND_OPTS'
+    | 'GOOGLE_CLIENT_ID'
+    | 'GOOGLE_CLIENT_SECRET'
+    | 'IS_TEST'
+    | 'NGROK_AUTH_TOKEN'
+    | 'NODE_ENV'
+    | 'POSTGRES_URL'
+    | 'REDIS_URL'
+    | 'REPLAY_PORT'
+    | 'RUNTIME_VERSION'
+    | 'SERVER_PORT'
+    | 'SMTP_HOST'
+    | 'SMTP_PASSWORD'
+    | 'SMTP_USER'
+    | 'STRIPE_SECRET_KEY_PROD'
+    | 'STRIPE_SECRET_KEY_TEST'
+    | 'TOKEN_SECRET'
+    | 'WWW_PORT'
+  routes: 'checkout' | 'home'
+  ui: ''
+  menus: ''
+  endpoints:
+    | 'AllProducts'
+    | 'CurrentUser'
+    | 'GetCoupon'
+    | 'GetCustomerData'
+    | 'GetInvoices'
+    | 'GetProduct'
+    | 'ListSubscriptions'
+    | 'Login'
+    | 'ManageCustomer'
+    | 'ManagePaymentMethod'
+    | 'ManageSubscription'
+    | 'ManageUser'
+    | 'NewVerificationCode'
+    | 'ResetPassword'
+    | 'SendOneTimeCode'
+    | 'SetPassword'
+    | 'StartNewUser'
+    | 'UpdateCurrentUser'
+    | 'UserGoogleAuth'
+    | 'VerifyAccountEmail'
+    | 'oAuthEndpoint'
+    | 'stripeWebhooks'
+  [k: string]: unknown
+}

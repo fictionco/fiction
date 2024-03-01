@@ -1,0 +1,21 @@
+{
+  "name": "@factor/plugin-docs-engine",
+  "type": "module",
+  "version": "6.0.1",
+  "description": "A technical documentation engine for Factor apps.",
+  "author": "Supereon",
+  "license": "MIT",
+  "homepage": "https://factorjs.org/plugin/plugin-docs-engine",
+  "repository": "fiction-com/factor/tree/development/@plugins/plugin-docs",
+  "bugs": "https://github.com/fiction-com/factor/issues",
+  "main": "index.ts",
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "dayjs": "^1.11.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

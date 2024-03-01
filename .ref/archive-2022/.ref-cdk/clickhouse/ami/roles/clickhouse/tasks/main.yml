@@ -1,0 +1,22 @@
+---
+- import_tasks: install_clickhouse.yml
+  tags:
+    - install_clickhouse
+
+- import_tasks: config_os.yml
+  tags:
+    - config_clickhouse_os
+
+- name: Force all notified handlers to run at this point
+  meta: flush_handlers
+  tags:
+    - config_clickhouse_os
+
+- import_tasks: config_clickhouse.yml
+  tags:
+    - config_clickhouse
+
+- name: Force all notified handlers to run at this point
+  meta: flush_handlers
+  tags:
+    - config_clickhouse_os

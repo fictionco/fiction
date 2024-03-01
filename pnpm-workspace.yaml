@@ -1,0 +1,5 @@
+packages:
+  - '@fiction/*'
+  - '@factor/*'
+  - '@kaption/*'
+  - '@pagelines/*'

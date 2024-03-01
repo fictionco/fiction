@@ -1,0 +1,12 @@
+---
+- name: restart cpufrequtils
+  systemd:
+    name: cpufrequtils
+    daemon_reload: yes
+    state: restarted
+
+- name: restart clickhouse
+  systemd:
+    name: clickhouse-server
+    daemon_reload: yes
+    state: restarted

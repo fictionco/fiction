@@ -1,0 +1,21 @@
+{
+  "name": "@factor/plugin-monitor",
+  "type": "module",
+  "version": "6.0.4",
+  "author": "Supereon",
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@sentry/node": "^7.104.0",
+    "@sentry/tracing": "^7.104.0",
+    "@sentry/vue": "^7.104.0",
+    "@slack/webhook": "^7.0.2",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.19"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "publishConfig": {
+    "access": "public"
+  }
+}

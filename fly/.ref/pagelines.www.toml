@@ -1,0 +1,44 @@
+# fly.toml app configuration file generated for pagelines-www on 2023-05-15T18:09:39-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "pagelines-www"
+primary_region = "lax"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+auto_rollback = true
+
+[build]
+dockerfile = "./Dockerfile"
+build-target = "pagelines-www"
+
+[[services]]
+protocol = "tcp"
+internal_port = 3434
+min_machines_running = 0
+processes = [ "app" ]
+
+[[services.ports]]
+port = 80
+handlers = [ "http" ]
+
+[[services.ports]]
+port = 443
+handlers = [
+  "tls",
+  "http"
+]
+
+[services.concurrency]
+type = "connections"
+hard_limit = 300
+soft_limit = 50
+
+[[services.tcp_checks]]
+interval = "15s"
+timeout = "2s"
+grace_period = "1s"
+restart_limit = 0

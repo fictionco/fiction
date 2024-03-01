@@ -1,0 +1,170 @@
+{
+  "endpoints": [
+    {
+      "key": "UserGoogleAuth",
+      "path": "/user/UserGoogleAuth"
+    },
+    {
+      "key": "Login",
+      "path": "/user/Login"
+    },
+    {
+      "key": "NewVerificationCode",
+      "path": "/user/NewVerificationCode"
+    },
+    {
+      "key": "SetPassword",
+      "path": "/user/SetPassword"
+    },
+    {
+      "key": "ResetPassword",
+      "path": "/user/ResetPassword"
+    },
+    {
+      "key": "UpdateCurrentUser",
+      "path": "/user/UpdateCurrentUser"
+    },
+    {
+      "key": "SendOneTimeCode",
+      "path": "/user/SendOneTimeCode"
+    },
+    {
+      "key": "VerifyAccountEmail",
+      "path": "/user/VerifyAccountEmail"
+    },
+    {
+      "key": "StartNewUser",
+      "path": "/user/StartNewUser"
+    },
+    {
+      "key": "CurrentUser",
+      "path": "/user/CurrentUser"
+    },
+    {
+      "key": "ManageUser",
+      "path": "/user/ManageUser"
+    },
+    {
+      "key": "ManageOrganization",
+      "path": "/user/ManageOrganization"
+    },
+    {
+      "key": "ManageMemberRelation",
+      "path": "/user/ManageMemberRelation"
+    },
+    {
+      "key": "GenerateApiSecret",
+      "path": "/user/GenerateApiSecret"
+    },
+    {
+      "key": "FindOneOrganization",
+      "path": "/user/FindOneOrganization"
+    },
+    {
+      "key": "OrganizationsByUserId",
+      "path": "/user/OrganizationsByUserId"
+    },
+    {
+      "key": "UpdateOrganizationMemberStatus",
+      "path": "/user/UpdateOrganizationMemberStatus"
+    },
+    {
+      "key": "ManageOnboard",
+      "path": "/user/ManageOnboard"
+    },
+    {
+      "key": "ManageCustomer",
+      "path": "/stripe/ManageCustomer"
+    },
+    {
+      "key": "ListSubscriptions",
+      "path": "/stripe/ListSubscriptions"
+    },
+    {
+      "key": "GetInvoices",
+      "path": "/stripe/GetInvoices"
+    },
+    {
+      "key": "ManageSubscription",
+      "path": "/stripe/ManageSubscription"
+    },
+    {
+      "key": "ManagePaymentMethod",
+      "path": "/stripe/ManagePaymentMethod"
+    },
+    {
+      "key": "GetCustomerData",
+      "path": "/stripe/GetCustomerData"
+    },
+    {
+      "key": "AllProducts",
+      "path": "/stripe/AllProducts"
+    },
+    {
+      "key": "GetProduct",
+      "path": "/stripe/GetProduct"
+    },
+    {
+      "key": "GetCoupon",
+      "path": "/stripe/GetCoupon"
+    },
+    {
+      "key": "ManageUsage",
+      "path": "/factorusage/ManageUsage"
+    },
+    {
+      "key": "stripeWebhooks",
+      "path": "/stripe-webhook"
+    },
+    {
+      "key": "oAuthEndpoint",
+      "path": "/stripe-checkout/:action"
+    },
+    {
+      "key": "SaveMedia",
+      "path": "/media/SaveMedia"
+    },
+    {
+      "key": "MediaIndex",
+      "path": "/media/MediaIndex"
+    },
+    {
+      "key": "ManageMedia",
+      "path": "/media/ManageMedia"
+    },
+    {
+      "key": "Unsplash",
+      "path": "/media/Unsplash"
+    }
+  ],
+  "routes": [
+    {
+      "key": "home",
+      "path": "/"
+    },
+    {
+      "key": "plugins",
+      "path": "/plugins"
+    },
+    {
+      "key": "showcase",
+      "path": "/showcase"
+    },
+    {
+      "key": "showcaseSingle",
+      "path": "/showcase/:slug"
+    },
+    {
+      "key": "install",
+      "path": "/install"
+    },
+    {
+      "key": "testing",
+      "path": "/testing"
+    },
+    {
+      "key": "testInputs",
+      "path": "/test-inputs"
+    }
+  ]
+}

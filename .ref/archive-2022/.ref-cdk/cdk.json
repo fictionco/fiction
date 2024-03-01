@@ -1,0 +1,4 @@
+{
+  "app": "npm exec -c 'node ./cdk/index.js'",
+  "context": {}
+}

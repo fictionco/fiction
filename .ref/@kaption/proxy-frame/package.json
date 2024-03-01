@@ -1,0 +1,29 @@
+{
+  "name": "@kaption/proxy-frame",
+  "type": "module",
+  "version": "5.0.99",
+  "private": false,
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "buildOptions": [
+    {
+      "buildName": "KaptionFrame",
+      "entryFile": "index.ts",
+      "outputDir": "dist/frame",
+      "prod": {
+        "main": "dist/frame/index.js",
+        "types": "dist/frame/index.d.ts"
+      }
+    }
+  ],
+  "dependencies": {
+    "@factor/api": "workspace:^5.5.119",
+    "@kaption/core": "workspace:5.0.99",
+    "dompurify": "^2.4.3",
+    "typescript": "^4.9.4"
+  }
+}

@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  # https://hub.docker.com/_/redis
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    # silence redis connection warning
+    sysctls:
+      - net.core.somaxconn=1024
+
+  # https://github.com/rongfengliang/clickhouse-docker-compose
+  clickhouse-server:
+    image: yandex/clickhouse-server
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+      - '9009:9009'
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+      - ./docker/clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/override.xml
+      - ./docker/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+  # run client with: docker-compose run clickhouse-client
+  # clickhouse-client:
+  #   image: yandex/clickhouse-client
+  #   entrypoint: ["clickhouse-client", "--host=clickhouse-server"]
+  #   depends_on:
+  #     - clickhouse-server
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh
+    networks:
+      - postgres
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  redis-data:
+  clickhouse-data:
+  postgres-data:
+  pgadmin:

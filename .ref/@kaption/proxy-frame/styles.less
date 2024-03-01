@@ -1,0 +1,94 @@
+@primary-color: 134, 112, 255;
+@primary-color-dark: 134, 112, 255;
+@dark-color: 55, 55, 55;
+@color-gray: 31, 41, 55;
+@color-green: 16, 185, 129;
+body.kaption-edit {
+  *[contenteditable="true"] {
+    outline: 0;
+
+    // &:focus {
+    //   box-shadow: 0 0 0 2px rgb(76, 139, 245, 0.5);
+    // }
+    &:hover,
+    &:active {
+      cursor: pointer;
+    }
+  }
+  .bounder {
+    border-radius: 4px;
+    position: absolute;
+    transition: all ease-in-out 0.1s;
+    z-index: 100000;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px rgb(@dark-color, 0.8);
+    min-width: 150px;
+    .bounder-text {
+      pointer-events: auto;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: arial;
+      padding: 3px 6px;
+      color: #fff;
+      background: rgba(@dark-color, 1);
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-top: 1px solid transparent;
+      display: flex;
+      justify-content: space-between;
+      .selector {
+        flex-shrink: 1;
+        flex-grow: 1;
+      }
+      .bounder-text-button {
+        flex-shrink: 0;
+        margin-left: 1rem;
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, 1);
+        border-radius: 3px;
+        padding: 0 5px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .bounder-text-button,
+      .selector {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .bounder-text-button:hover {
+        display: inline-block;
+        cursor: pointer;
+        opacity: 0.8;
+      }
+    }
+    &.bounder-hover {
+      background: rgba(@dark-color, 0.2);
+    }
+    &.bounder-edit {
+      z-index: 100001;
+      background: transparent;
+      box-shadow: 0 0 0 2px rgb(@color-gray, 0.4);
+      .bounder-text {
+        background: rgba(@color-gray, 0.4);
+      }
+      &.edited {
+        box-shadow: 0 0 0 2px rgb(@color-green, 0.8);
+        .bounder-text {
+          background: rgba(@color-green, 1);
+        }
+      }
+    }
+    .done-editing {
+      opacity: 0;
+    }
+    &.edited .done-editing {
+      opacity: 1;
+    }
+  }
+}
+
+body.applied-heatmap {
+  canvas {
+    z-index: 10000;
+  }
+}

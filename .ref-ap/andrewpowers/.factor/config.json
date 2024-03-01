@@ -1,0 +1,9 @@
+{
+  "endpoints": [],
+  "routes": [
+    {
+      "key": "engine",
+      "path": "/:pathMatch(.*)*"
+    }
+  ]
+}

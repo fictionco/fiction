@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for key, val in cpufrequtils.items() %}
+{{ key }}="{{ val }}"
+{% endfor %}

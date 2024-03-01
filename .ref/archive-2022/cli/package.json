@@ -1,0 +1,33 @@
+{
+  "name": "@kaption/cli",
+  "type": "module",
+  "version": "4.0.5",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "main": "index.js",
+  "bin": {
+    "kaption": "./index.js"
+  },
+  "dependencies": {
+    "@factor/api": "^4.0.0",
+    "@factor/server": "^4.0.0",
+    "@kaption/app": "4.0.5",
+    "@kaption/build": "4.0.5",
+    "@kaption/cli": "4.0.5",
+    "@kaption/db": "4.0.5",
+    "@kaption/types": "4.0.5",
+    "@kaption/utils": "4.0.5",
+    "commander": "^9.0.0",
+    "dotenv": "^16.0.0",
+    "esbuild-node-loader": "^0.6.3",
+    "execa": "^6.0.0",
+    "module-alias": "^2.2.2",
+    "ts-node": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/nodemon": "^1.19.1",
+    "nodemon": "^2.0.12"
+  }
+}

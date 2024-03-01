@@ -1,0 +1,117 @@
+---
+- name: Setting up dhparams
+  openssl_dhparam:
+    path: /etc/clickhouse-server/dhparam.pem
+    owner: root
+    group: root
+    state: present
+    size: 2048
+    force: no
+  notify: restart clickhouse
+
+- name: Create SSL Private Key
+  openssl_privatekey:
+    path: /etc/clickhouse-server/server.key
+    size: 2048
+    type: RSA
+    owner: root
+    group: clickhouse
+    mode: '0640'
+    state: present
+
+- name: Generate an OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: /etc/clickhouse-server/server.csr
+    privatekey_path: /etc/clickhouse-server/server.key
+    common_name: localhost.localdomain
+    owner: root
+    group: clickhouse
+    mode: '0640'
+    state: present
+
+- name: Create the SSL certificates
+  openssl_certificate:
+    path: /etc/clickhouse-server/server.crt
+    privatekey_path: /etc/clickhouse-server/server.key
+    csr_path: /etc/clickhouse-server/server.csr
+    provider: selfsigned
+    owner: root
+    group: clickhouse
+    mode: '0640'
+
+# TODO: Generate the certificate?
+# - name: "Put the SSL certificates to the proper place"
+#  copy:
+#    src: "{{ item.src }}"
+#    dest: "{{ item.dest }}"
+#    mode: "0640"
+#    owner: "root"
+#    group: "clickhouse"
+#    backup: yes
+#  with_items:
+#    # Private Key
+#    #- src: "{{ playbook_dir }}/ssl/intermediate/private/{{ inventory_hostname }}.key.pem"
+#    #  dest: "/etc/clickhouse-server/server.key"
+#    - src: "{{ playbook_dir }}/ssl/intermediate/private/{{ inventory_hostname }}.key.p8"
+#      dest: "/etc/clickhouse-server/server.key"
+#    # Public Signed Key
+#    - src: "{{ playbook_dir }}/ssl/intermediate/certs/{{ inventory_hostname }}.cert.pem"
+#      dest: "/etc/clickhouse-server/server.crt"
+#  notify: "restart clickhouse"
+
+- name: Setting up Clickhouse users.xml
+  template:
+    src: users.xml.j2
+    dest: /etc/clickhouse-server/users.xml
+    owner: root
+    group: clickhouse
+    mode: '0640'
+    backup: yes
+  notify: restart clickhouse
+
+- name: Setting up Clickhouse config.xml
+  template:
+    src: config.xml.j2
+    dest: /etc/clickhouse-server/config.xml
+    owner: root
+    group: clickhouse
+    mode: '0640'
+    backup: yes
+  notify: restart clickhouse
+
+- name: Creating the folder for ClickHouse systemd custom configuration
+  file:
+    dest: /etc/systemd/system/clickhouse-server.service.d
+    mode: '0755'
+    owner: root
+    group: root
+    state: directory
+
+- name: Copying custom ClickHouse systemd configuration onto remote side
+  copy:
+    src: limits.conf
+    dest: /etc/systemd/system/clickhouse-server.service.d/limits.conf
+    mode: '0644'
+    owner: root
+    group: root
+  register: _ch_cfg_result
+
+- name: Copying systemd path monitoring systemd unit
+  copy:
+    src: clickhouse-server.path
+    dest: /etc/systemd/system/clickhouse-server.path
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Enabling clickhouse service
+  systemd:
+    name: '{{ _ch_service }}'
+    daemon_reload: yes
+    enabled: yes
+    state: stopped # A.M.: We do not need a running service during AMI creation process
+  loop:
+    - clickhouse-server.service
+    - clickhouse-server.path
+  loop_control:
+    loop_var: _ch_service

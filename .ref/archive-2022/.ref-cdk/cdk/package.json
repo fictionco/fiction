@@ -1,0 +1,25 @@
+{
+  "name": "@kaption/cdk",
+  "type": "commonjs",
+  "version": "4.1.0",
+  "private": true,
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.99",
+    "aws-lambda": "^1.0.7",
+    "ts-node": "^10.8.1"
+  },
+  "devDependencies": {
+    "@kaption/core": "workspace:*",
+    "@types/node": "^17.0.41",
+    "aws-cdk": "*",
+    "aws-cdk-lib": "^2.27.0",
+    "constructs": "^10.1.33",
+    "typescript": "*"
+  }
+}

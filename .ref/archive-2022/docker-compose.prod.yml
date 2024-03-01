@@ -1,0 +1,58 @@
+version: '3.9'
+services:
+  ingest:
+    build:
+      context: .
+      dockerfile: ./docker/dev.Dockerfile
+    command: [--CMD=start, --SERVICE=@kaption/ingest]
+    ports:
+      - '3100:3000'
+    env_file:
+      - .docker.env
+    volumes:
+      - ./:/src
+
+  manager:
+    build:
+      context: .
+      dockerfile: ./docker/dev.Dockerfile
+    command: [--CMD=start, --SERVICE=@kaption/manager]
+    ports:
+      - '3200:3000'
+    env_file:
+      - .docker.env
+    links:
+      - query
+      - ingest
+      - redis
+      - clickhouse-server
+    volumes:
+      - ./:/src
+
+  query:
+    build:
+      context: .
+      dockerfile: ./docker/dev.Dockerfile
+    command: [--CMD=start, --SERVICE=@kaption/query]
+    ports:
+      - '3300:3000'
+    env_file:
+      - .docker.env
+    volumes:
+      - ./:/src
+
+  replay:
+    build:
+      context: .
+      dockerfile: ./docker/dev.Dockerfile
+    command: [--CMD=start, --SERVICE=@kaption/record]
+    ports:
+      - '3400:3000'
+    env_file:
+      - .docker.env
+    links:
+      - query
+      - ingest
+      - redis
+    volumes:
+      - ./:/src

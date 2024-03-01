@@ -1,0 +1,12 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.ref
+.ref-*
+**/.ref/**
+
+.cache
+coverage
+/**/*.d.ts
+rendered

@@ -1,0 +1,48 @@
+---
+clickhouse_cluster_users:
+  profiles:
+    default:
+      max_memory_usage: 10000000000
+      use_uncompressed_cache: 0
+      load_balancing: random
+    readonly:
+      readonly: 1
+
+  users:
+    darwin:
+      access_management: 1
+      # TODO: https://clickhouse.tech/docs/en/operations/settings/settings-users/#password_double_sha1_hex
+      # echo -n "oU1gR2rU4nE6tJ2l" | sha1sum | tr -d '-' | xxd -r -p | sha1sum | tr -d '-'
+      password_double_sha1_hex: 79048f9f95aa953f57c174da69f933e77e784340
+      networks:
+        ip:
+          - '::/0'
+      profile: default
+      quota: default
+
+  quotas:
+    default:
+      - duration: 3600
+        queries: 0
+        errors: 0
+        result_rows: 0
+        read_rows: 0
+        execution_time: 0
+
+clickhouse_cluster_config:
+  loglevel: information
+  ssl: True
+  ports:
+    http: 8123
+    tcp: 9000
+    https: 8443
+    tcp_secure: 9440
+    interserver_http: 9009
+    mysql: 3306
+  max_connections: 10000
+  keep_alive_timeout: 3
+  max_concurrent_queries: 300
+  umask: '022'
+  builtin_dictionaries_reload_interval: 3600
+  max_session_timeout: 3600
+  default_session_timeout: 60

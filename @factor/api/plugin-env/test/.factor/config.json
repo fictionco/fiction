@@ -1,0 +1,84 @@
+{
+  "endpoints": [
+    {
+      "key": "CheckUsername",
+      "path": "/api/utils/db/CheckUsername"
+    },
+    {
+      "key": "UserGoogleAuth",
+      "path": "/api/user/UserGoogleAuth"
+    },
+    {
+      "key": "Login",
+      "path": "/api/user/Login"
+    },
+    {
+      "key": "NewVerificationCode",
+      "path": "/api/user/NewVerificationCode"
+    },
+    {
+      "key": "SetPassword",
+      "path": "/api/user/SetPassword"
+    },
+    {
+      "key": "ResetPassword",
+      "path": "/api/user/ResetPassword"
+    },
+    {
+      "key": "UpdateCurrentUser",
+      "path": "/api/user/UpdateCurrentUser"
+    },
+    {
+      "key": "SendOneTimeCode",
+      "path": "/api/user/SendOneTimeCode"
+    },
+    {
+      "key": "VerifyAccountEmail",
+      "path": "/api/user/VerifyAccountEmail"
+    },
+    {
+      "key": "StartNewUser",
+      "path": "/api/user/StartNewUser"
+    },
+    {
+      "key": "CurrentUser",
+      "path": "/api/user/CurrentUser"
+    },
+    {
+      "key": "ManageUser",
+      "path": "/api/user/ManageUser"
+    },
+    {
+      "key": "ManageOrganization",
+      "path": "/api/user/ManageOrganization"
+    },
+    {
+      "key": "ManageMemberRelation",
+      "path": "/api/user/ManageMemberRelation"
+    },
+    {
+      "key": "GenerateApiSecret",
+      "path": "/api/user/GenerateApiSecret"
+    },
+    {
+      "key": "FindOneOrganization",
+      "path": "/api/user/FindOneOrganization"
+    },
+    {
+      "key": "OrganizationsByUserId",
+      "path": "/api/user/OrganizationsByUserId"
+    },
+    {
+      "key": "UpdateOrganizationMemberStatus",
+      "path": "/api/user/UpdateOrganizationMemberStatus"
+    },
+    {
+      "key": "ManageOnboard",
+      "path": "/api/user/ManageOnboard"
+    }
+  ],
+  "routes": [],
+  "test": [
+    "test"
+  ]
+}

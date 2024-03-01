@@ -1,0 +1,42 @@
+# name: Deploy
+
+# on: [push]
+# # on:
+# #   # the 1st condition
+# #   workflow_run:
+# #     workflows: ["Test"]
+# #     types:
+# #       - completed
+
+# env:
+#   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+#   CI: true
+#   # REDIS_URL: ${{ secrets.REDIS_URL }}
+#   # CLICKHOUSE_URL: ${{ secrets.CLICKHOUSE_URL }}
+#   # POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+#   SMTP_HOST: ${{ secrets.SMTP_HOST }}
+#   SMTP_USER: ${{ secrets.SMTP_USER }}
+#   SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+#   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+#   AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+#   STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+#   TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+#   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+#   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+
+# jobs:
+#   deploy:
+#     # if: ${{ github.event.workflow_run.conclusion === 'success' }}
+#     name: Deploy app
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: superfly/flyctl-actions/setup-flyctl@master
+#       - run: npm run deploy-server -- --remote-only --detach
+#       - run: npm run deploy-app -- --remote-only --detach
+#       - run: npm run deploy-site -- --remote-only --detach
+#       - run: npm run deploy-tag -- --remote-only --detach
+#       - run: npm run deploy-widget -- --remote-only --detach
+#       - run: npm run deploy-beacon -- --remote-only --detach
+#       - run: npm run deploy-session -- --remote-only --detach
+#       - run: npm run deploy-traffic -- --remote-only --detach

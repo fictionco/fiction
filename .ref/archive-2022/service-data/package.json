@@ -1,0 +1,25 @@
+{
+  "name": "@kaption/service-data",
+  "type": "module",
+  "version": "4.0.5",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@factor/api": "^4.0.0",
+    "@factor/engine": "^4.0.0",
+    "@kaption/service-utils": "4.0.5",
+    "axios": "^0.27.0",
+    "dayjs": "^1.10.7",
+    "express": "^4.17.2",
+    "knex": "^1.0.0",
+    "knex-stringcase": "^1.4.3",
+    "lodash": "^4.17.21",
+    "pg": "^8.5.1",
+    "sql-formatter": "^4.0.2"
+  },
+  "devDependencies": {}
+}

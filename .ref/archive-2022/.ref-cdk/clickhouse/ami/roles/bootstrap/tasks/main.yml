@@ -1,0 +1,14 @@
+---
+- name: Update APT caches
+  ignore_errors: True
+  apt:
+    update_cache: yes
+    cache_valid_time: 1800
+
+- name: Installing basic software
+  apt:
+    pkg:
+      - htop
+      - mc
+      - unzip
+      - xz-utils

@@ -1,0 +1,36 @@
+/xcache
+
+dist
+**/dist
+**/rendered
+
+.DS_Store
+**/node_modules/**
+coverage
+temp
+temp.*
+explorations
+TODOs.md
+
+.env
+.env*
+
+# wireguard/tunnels
+wire.*
+
+# debugging
+.ts-node
+*.log
+
+# Local .terraform directories
+**/.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Ansible/Python
+.venv/
+.venv*/
+*.retry
+/___*.yml

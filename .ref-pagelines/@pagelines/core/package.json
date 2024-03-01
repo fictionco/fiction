@@ -1,0 +1,48 @@
+{
+  "name": "@pagelines/core",
+  "type": "module",
+  "version": "6.0.4",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.481.0",
+    "@factor/api": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/plugin-monitor": "workspace:*",
+    "@factor/plugin-stripe": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@pinecone-database/pinecone": "^0.1.6",
+    "@sentry/node": "^7.91.0",
+    "@sentry/tracing": "^7.91.0",
+    "@sentry/vue": "^7.91.0",
+    "@slack/webhook": "^7.0.1",
+    "@types/chroma-js": "^2.4.3",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.17",
+    "@types/turndown": "^5.0.4",
+    "@types/web-push": "^3.6.3",
+    "address": "^2.0.1",
+    "axios": "^1.6.3",
+    "blurhash": "^2.0.5",
+    "cheerio": "1.0.0-rc.12",
+    "chroma-js": "^2.4.2",
+    "express": "^4.18.2",
+    "fs-extra": "^11.2.0",
+    "handlebars": "^4.7.8",
+    "jszip": "^3.10.1",
+    "lightgallery": "^2.7.2",
+    "masonry-layout": "^4.2.2",
+    "multer": "1.4.5-lts.1",
+    "openai": "^4.24.1",
+    "turndown": "^7.1.2",
+    "vue": "^3.4.0",
+    "web-push": "^3.6.6",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@types/xml2js": "^0.4.14"
+  }
+}

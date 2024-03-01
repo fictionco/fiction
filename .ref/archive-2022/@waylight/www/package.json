@@ -1,0 +1,22 @@
+{
+  "name": "@waylight/www",
+  "type": "module",
+  "version": "5.0.99",
+  "private": false,
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@factor/api": "latest",
+    "@factor/plugin-blog-engine": "latest",
+    "@factor/plugin-highlight-code": "latest",
+    "@factor/plugin-stripe": "latest",
+    "@factor/ui": "latest",
+    "@kaption/core": "workspace:5.0.99",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "url": "https://www.waylight.ai"
+}

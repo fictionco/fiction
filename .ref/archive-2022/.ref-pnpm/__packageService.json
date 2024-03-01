@@ -1,0 +1,29 @@
+{
+  "name": "@kaption/service",
+  "version": "4.0.6",
+  "private": true,
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.0.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@factor/api": "^5.0.0",
+    "@kaption/build": "4.0.6",
+    "@kaption/client": "4.0.6",
+    "@kaption/engine": "4.0.6",
+    "@types/ioredis": "^4.28.8",
+    "axios": "^0.27.0",
+    "dayjs": "^1.10.6",
+    "express": "^4.17.1",
+    "ioredis": "^5.0.0",
+    "knex": "^1.0.0"
+  },
+  "devDependencies": {
+    "sql-formatter": "^4.0.2"
+  }
+}

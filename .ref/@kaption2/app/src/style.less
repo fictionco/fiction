@@ -1,0 +1,36 @@
+:root {
+  // Typography
+  --font-family-sans: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  --font-family-serif: minion-pro, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    sans-serif;
+}
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bg-stripes-gray {
+  background-image: linear-gradient(
+    135deg,
+    #a1a8b750 10%,
+    transparent 0,
+    transparent 50%,
+    #a1a8b750 0,
+    #a1a8b750 60%,
+    transparent 0,
+    transparent
+  );
+  background-size: 7.07px 7.07px;
+}
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

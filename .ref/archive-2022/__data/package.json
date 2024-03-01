@@ -1,0 +1,19 @@
+{
+  "name": "@kaption/data",
+  "type": "module",
+  "version": "4.1.3",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@factor/api": "file:~/Projects/factor/@factor/api",
+    "@kaption/core": "workspace:4.1.3",
+    "@logdna/logger": "^2.6.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.6",
+    "execa": "*"
+  }
+}

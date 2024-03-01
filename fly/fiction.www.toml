@@ -1,0 +1,19 @@
+app = "fiction-website"
+primary_region = "lax"
+
+[build]
+dockerfile = "./Dockerfile"
+build-target = "fiction-www"
+
+[http_service]
+internal_port = 4444
+force_https = true
+auto_stop_machines = true
+auto_start_machines = true
+min_machines_running = 0
+processes = [ "app" ]
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory_mb = 2048

@@ -1,0 +1,17 @@
+---
+- name: Provisioning Clickhouse AMI
+  hosts: all
+  become: True
+
+  roles:
+    # Installing the very basic packages from the vendor's repo
+    - role: bootstrap
+
+    # Installing AWS CLI
+    - role: aws-cli2
+
+    # Installing our custom helpers for mounting EC2 volumes
+    - role: aws-ebs-helpers
+
+    # Installing Clickhouse database binaries
+    - role: clickhouse

@@ -1,0 +1,23 @@
+---
+clickhouse_hold_packages: True
+
+clickhouse_deb_packages:
+  - {name: cpufrequtils}
+  - name: clickhouse-common-static
+    version: '={{ clickhouse_version | default(''*'') }}'
+
+  - name: clickhouse-client
+    version: '={{ clickhouse_version | default(''*'') }}'
+
+  - name: clickhouse-server
+    version: '={{ clickhouse_version | default(''*'') }}'
+
+clickhouse_sysctl:
+  - key: vm.overcommit_memory
+    val: 0
+
+cpufrequtils:
+  ENABLE: 'true'
+  GOVERNOR: performance
+  MAX_SPEED: '0'
+  MIN_SPEED: '0'

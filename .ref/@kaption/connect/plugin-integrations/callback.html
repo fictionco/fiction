@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Kaption Authorization</title>
+  </head>
+  <body>
+    <noscript>JavaScript is required to proceed </noscript>
+    <script>
+      const data = __DATA__
+      const message = {
+        from: "kaption",
+        messageType: "connectResult",
+        data,
+      }
+
+      // Tell the world what happened
+      window.opener && window.opener.postMessage(message, "*")
+
+      // Close the modal
+      window.setTimeout(() => window.close(), 300)
+    </script>
+  </body>
+</html>

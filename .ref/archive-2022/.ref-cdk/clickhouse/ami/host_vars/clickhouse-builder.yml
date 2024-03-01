@@ -1,0 +1,41 @@
+---
+clickhouse_users:
+  # A.M.: We define the profiles in group_vars/clickhouse-cluster-*.yml.
+  #       If you really do need the certain profile to be present at this server, please specify
+  #  profiles:
+  #    readonly-local:
+  #      readonly: 1
+
+  users:
+    ro:
+      # TODO: https://clickhouse.tech/docs/en/operations/settings/settings-users/#password_double_sha1_hex
+      # echo -n "dbguest" | sha1sum | tr -d '-' | xxd -r -p | sha1sum | tr -d '-'
+      password_double_sha1_hex: a2c7891d3a95c5579e5a086ec4978cd5b3f582ce
+      networks:
+        ip:
+          - '::1'
+          - 127.0.0.1
+      profile: readonly
+      quota: default-local
+      allow_databases:
+        - system
+
+  quotas:
+    default-local:
+      - duration: 60
+        queries: 0
+        errors: 0
+        result_rows: 0
+        read_rows: 0
+        execution_time: 0
+
+clickhouse_config:
+  listen_host:
+    # accept connections both with IPv4 and IPv6 from everywhere
+    # - "::"
+    # connections with IPv4, IPv6 is disabled
+    - 0.0.0.0
+  uncompressed_cache_size: 8589934592
+  mark_cache_size: 5368709120
+  default_profile: default
+  default_database: default

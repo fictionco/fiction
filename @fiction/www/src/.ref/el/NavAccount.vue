@@ -1,0 +1,127 @@
+<script lang="ts" setup>
+import ElAvatar from '@factor/ui/ElAvatar.vue'
+import type { NavItem } from '@factor/api'
+import { getNavComponentType, onResetUi, resetUi, useService, vue } from '@factor/api'
+import type { FactorAdmin } from '@factor/plugin-admin'
+
+const { factorRouter, factorUser, factorAdmin } = useService<{ factorAdmin: FactorAdmin }>()
+const accountMenu = vue.computed((): NavItem[] => {
+  const p = factorRouter.current.value.path
+  return [
+    {
+      name: 'Dashboard',
+      icon: 'i-tabler-user',
+      href: factorAdmin.adminBaseRoute,
+
+    },
+    {
+      icon: 'i-tabler-arrow-big-left',
+      name: 'Sign Out',
+      onClick: async () => {
+        await factorUser.logout()
+      },
+    },
+  ].map((item) => {
+    return { ...item, isActive: item.href === p }
+  })
+})
+
+const activeUser = factorUser.activeUser
+
+const vis = vue.ref(false)
+async function toggle(): Promise<void> {
+  if (vis.value) {
+    vis.value = false
+  }
+  else {
+    resetUi({ scope: 'all', cause: 'NavAccount' })
+    vis.value = true
+  }
+}
+
+onResetUi(() => {
+  vis.value = false
+})
+</script>
+
+<template>
+  <div class="relative font-medium">
+    <div
+      class="group flex cursor-pointer items-center space-x-2"
+      @click.stop.prevent="toggle()"
+    >
+      <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="activeUser?.email" />
+      <div class="flex w-4 flex-col items-end justify-center space-y-1">
+        <div
+          class="h-1 w-4 rounded-full"
+          :class="
+            vis ? 'bg-theme-500' : 'bg-theme-300 group-hover:bg-theme-400'
+          "
+        />
+        <div
+          class="h-1 w-3 rounded-full"
+          :class="
+            vis ? 'bg-theme-500' : 'bg-theme-300 group-hover:bg-theme-400'
+          "
+        />
+        <div
+          class="h-1 w-4 rounded-full"
+          :class="
+            vis ? 'bg-theme-500' : 'bg-theme-300 group-hover:bg-theme-400'
+          "
+        />
+      </div>
+    </div>
+
+    <transition
+      enter-active-class="transition ease-out duration-100"
+      enter-from-class="transform opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-from-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95"
+    >
+      <div
+        v-show="vis"
+        class="absolute right-0 z-30 mt-2 w-72 origin-top-right divide-y divide-slate-200 rounded-md bg-white text-left text-slate-800 shadow-lg ring-1 ring-black/10 focus:outline-none"
+        :style="{ top: 'calc(100% + 20px)' }"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+        tabindex="-1"
+      >
+        <div v-if="factorUser.activeUser.value" class="px-4 py-3 text-sm">
+          <div class="text-theme-400 text-sm">
+            Hello again!
+          </div>
+          <p class="truncate font-extrabold">
+            {{
+              factorUser.activeUser.value?.fullName
+                || factorUser.activeUser.value?.email
+            }}
+          </p>
+        </div>
+        <div class="py-1" role="none">
+          <component
+            :is="getNavComponentType(item)"
+            v-for="(item, i) in accountMenu"
+            :key="i"
+            class="flex px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+            :class="
+              item.isActive
+                ? 'bg-slate-100 text-primary-500 font-semibold'
+                : ''
+            "
+            :to="item.href"
+            :href="item.href"
+            role="menuitem"
+            tabindex="-1"
+            @click="item.onClick ? item.onClick({ event: $event }) : null"
+          >
+            <div><div class="text-lg" :class="item.icon" /></div><div>{{ item.name }}</div>
+          </component>
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>

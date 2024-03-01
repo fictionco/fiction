@@ -1,0 +1,2 @@
+SUBSYSTEM=="block", KERNEL=="nvme[0-9]*n1", ATTRS{model}=="Amazon Elastic Block Store", PROGRAM+="/usr/local/sbin/ebs-nvme-mapping.sh /dev/%k" SYMLINK+="%c"
+KERNEL=="xvd*", PROGRAM="/usr/local/sbin/ec2udev-vbd %k", SYMLINK+="%c"

@@ -1,0 +1,41 @@
+app = "kaption-example"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  dockerfile = "./chrome.Dockerfile"
+  build-target = "kaption-example"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  internal_port = 1111
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+
+  [services.concurrency]
+    hard_limit = 50
+    soft_limit = 30
+    type = "connections"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.http_checks]]
+    interval = 10000
+    grace_period = "60s"
+    method = "get"
+    path = "/health"
+    protocol = "http"
+    restart_limit = 1
+    timeout = 4000

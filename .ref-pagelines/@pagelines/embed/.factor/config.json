@@ -1,0 +1,78 @@
+{
+  "endpoints": [
+    {
+      "key": "SaveMedia",
+      "path": "/media/SaveMedia"
+    },
+    {
+      "key": "MediaIndex",
+      "path": "/media/MediaIndex"
+    },
+    {
+      "key": "MediaAction",
+      "path": "/media/MediaAction"
+    },
+    {
+      "key": "Unsplash",
+      "path": "/media/Unsplash"
+    },
+    {
+      "key": "ManageVectors",
+      "path": "/pagelinesdata/ManageVectors"
+    },
+    {
+      "key": "VectorSearch",
+      "path": "/pagelinesdata/VectorSearch"
+    },
+    {
+      "key": "ManageAgent",
+      "path": "/pagelinesagent/ManageAgent"
+    },
+    {
+      "key": "ManageIndex",
+      "path": "/pagelinesagent/ManageIndex"
+    },
+    {
+      "key": "ManageDataSource",
+      "path": "/pagelinesagent/ManageDataSource"
+    },
+    {
+      "key": "PublicAgent",
+      "path": "/pagelinesagent/PublicAgent"
+    },
+    {
+      "key": "ManageMessage",
+      "path": "/pagelinesagent/ManageMessage"
+    }
+  ],
+  "routes": [
+    {
+      "key": "embedAgent",
+      "path": "/agent/:agentId?"
+    },
+    {
+      "key": "home",
+      "path": "/"
+    },
+    {
+      "key": "agent",
+      "path": "/visualizer-agent/:agentId?"
+    },
+    {
+      "key": "embedForm",
+      "path": "/visualizer-embed/:agentId?"
+    },
+    {
+      "key": "notFound404",
+      "path": "/:pathMatch(.*)*"
+    },
+    {
+      "key": "chatIndex",
+      "path": "/org/:organizationId/agent"
+    },
+    {
+      "key": "chat",
+      "path": "/org/:organizationId/agent/:agentId/:topicId?"
+    }
+  ]
+}

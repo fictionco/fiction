@@ -1,0 +1,173 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: Command
+        required: true
+        type: choice
+        options:
+          - deploy
+          - test
+
+      tags:
+        description: Tags
+        required: false
+        type: string
+
+  # if deploy on release
+  # release:
+  #   types: [published]
+
+env:
+  CI: true
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_USER: ${{ secrets.SMTP_USER }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+
+jobs:
+  test:
+    env:
+      REDIS_URL: redis://localhost:6379
+      CLICKHOUSE_URL: http://default:@localhost:8123
+      POSTGRES_URL: http://test:test@localhost:5432/test
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+
+      - name: Install Deps
+        run: pnpm i --no-frozen-lockfile && pnpm rebuild --recursive
+
+      - name: Run Docker Compose (DB)
+        run: docker-compose pull && docker-compose up --build -d
+
+      - name: Create Tables
+        run: npm -w @factor/andrewpowers exec -- factor run generate
+
+      - name: Run Type Check
+        run: npm run test-types
+
+      - name: Unit Test Prep
+        run: npm exec -- vitest ci -u
+
+      - name: Post Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
+          payload: |
+            {
+              "icon_emoji": ":check:",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "[CI] testing finished with: ${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+  deploy:
+    if: contains(github.event.head_commit.message, '-d') || inputs.cmd == 'deploy'
+    env:
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+    name: deploy to servers
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Show GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: pnpm
+
+      - name: Install Deps
+        run: pnpm i --no-frozen-lockfile
+
+      - name: Install Build Packages
+        run: pnpm add tsup cross-env --global
+
+      - name: Build Bundles
+        run: npm exec -- factor run bundle
+
+      - name: Render Fiction Apps
+        run: npm exec -- factor run render
+
+      - name: Deploy With Fly.io
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy Fiction
+        run: |
+          cross-env DOMAIN=pagelines APP=www npm run deploy
+          cross-env DOMAIN=pagelines APP=embed npm run deploy
+          cross-env DOMAIN=pagelines APP=tag npm run deploy
+          cross-env DOMAIN=fiction APP=socket npm run deploy
+          cross-env DOMAIN=fiction APP=studio npm run deploy
+          cross-env DOMAIN=fiction APP=www npm run deploy
+          cross-env DOMAIN=fiction APP=server npm run deploy
+          flyctl deploy . --config ./fly/fiction.proxy.toml
+          cross-env DOMAIN=supereon APP=www npm run deploy
+          cross-env DOMAIN=andrewpowers APP=www npm run deploy
+
+      - name: Post Notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
+          payload: |
+            {
+              "icon_emoji": ":rocket:",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "[CI] deployment finished with ${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

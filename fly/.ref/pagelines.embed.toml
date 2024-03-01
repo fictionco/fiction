@@ -1,0 +1,43 @@
+# fly.toml app configuration file generated for pagelines-embed on 2023-05-22T17:52:12-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "pagelines-embed"
+primary_region = "lax"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+auto_rollback = true
+
+[build]
+dockerfile = "./Dockerfile"
+build-target = "pagelines-embed"
+
+[[services]]
+protocol = "tcp"
+internal_port = 12321
+processes = [ "app" ]
+
+[[services.ports]]
+port = 80
+handlers = [ "http" ]
+
+[[services.ports]]
+port = 443
+handlers = [
+  "tls",
+  "http"
+]
+
+[services.concurrency]
+type = "connections"
+hard_limit = 300
+soft_limit = 50
+
+[[services.tcp_checks]]
+interval = "15s"
+timeout = "2s"
+grace_period = "1s"
+restart_limit = 0

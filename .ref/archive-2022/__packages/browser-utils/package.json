@@ -1,0 +1,28 @@
+{
+  "name": "@kaption/browser-utils",
+  "version": "4.0.5",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@factor/api": "^4.0.0",
+    "@kaption/browser-tracking": "4.0.5",
+    "@kaption/utils": "4.0.5",
+    "@medv/finder": "^2.0.0",
+    "@types/dompurify": "^2.2.2",
+    "deepmerge": "^4.2.2",
+    "events": "^3.3.0",
+    "fast-json-stable-stringify": "^2.1.0",
+    "js-cookie": "^3.0.0",
+    "perfume.js": "^6.0.0",
+    "spark-md5": "^3.0.1",
+    "ua-parser-js": "^1.0.0"
+  },
+  "devDependencies": {
+    "@kaption/types": "4.0.5",
+    "@types/js-cookie": "^3.0.0"
+  }
+}

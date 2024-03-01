@@ -1,0 +1,15 @@
+{
+  "watch": ["packages"],
+  "ignore": [
+    "**/dist/*",
+    "**/rendered/*",
+    "./temp/*",
+    "**/temp/*",
+    "./app/**/*"
+  ],
+  "ext": "js,ts,less,html",
+  "events": {
+    "restart": "",
+    "start": ""
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/engine": "workspace:*",
+    "@factor/plugin-contact": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/plugin-monitor": "workspace:*",
+    "@factor/plugin-notify": "workspace:*",
+    "@factor/plugin-stripe": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@fiction/core": "workspace:*",
+    "@pagelines/core": "workspace:*",
+    "@types/mapbox-gl": "^2.7.19",
+    "mapbox-gl": "^3.0.1",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "name": "@pagelines/www",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.pagelines.com",
+  "version": "6.0.4"
+}

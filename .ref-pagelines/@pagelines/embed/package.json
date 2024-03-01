@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@pagelines/core": "workspace:*"
+  },
+  "license": "UNLICENSED",
+  "main": "./src/index.ts",
+  "name": "@pagelines/embed",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://embed.pagelines.com",
+  "version": "6.0.4"
+}

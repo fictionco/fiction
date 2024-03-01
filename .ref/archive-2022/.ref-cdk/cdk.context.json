@@ -1,0 +1,18 @@
+{
+  "availability-zones:account=433775104113:region=us-east-1": [
+    "us-east-1a",
+    "us-east-1b",
+    "us-east-1c",
+    "us-east-1d",
+    "us-east-1e",
+    "us-east-1f"
+  ],
+  "availability-zones:account=433775104113:region=us-west-2": [
+    "us-west-2a",
+    "us-west-2b",
+    "us-west-2c",
+    "us-west-2d"
+  ],
+  "ami:account=433775104113:filters.image-type.0=machine:filters.name.0=darwin/images/clickhouse-linux-*:filters.root-device-type.0=ebs:filters.state.0=available:filters.virtualization-type.0=hvm:owners.0=433775104113:region=us-east-1": "ami-031abd6ea42008092",
+  "ami:account=433775104113:filters.image-type.0=machine:filters.name.0=darwin/images/clickhouse-linux-*:filters.root-device-type.0=ebs:filters.state.0=available:filters.virtualization-type.0=hvm:owners.0=433775104113:region=us-west-2": "ami-0d96212dd0d80d933"
+}

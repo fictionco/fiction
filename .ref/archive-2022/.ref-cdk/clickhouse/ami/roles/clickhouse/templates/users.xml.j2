@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+  {{ ansible_managed }}
+-->
+
+<yandex>
+    <!-- Profiles of settings. -->
+    <profiles>
+{# Profiles, which come from group_vars/clickhouse-cluster-NAME.yml #}
+{% if clickhouse_cluster_users['profiles'] is defined %}
+{%     for profile, settings in clickhouse_cluster_users['profiles'].items() %}
+        <!-- Cluster's Profile -->
+        <{{ profile }}>
+{%         for key, val in settings.items() %}
+             <{{ key }}>{{ val }}</{{ key }}>
+{%         endfor %}
+        </{{ profile }}>
+
+{% endfor %}
+{% endif %}
+{# Profiles, which come from host_vars/NAME.yml #}
+{% if clickhouse_users['profiles'] is defined %}
+{%     for profile, settings in clickhouse_users['profiles'].items() %}
+        <!-- Local Profile -->
+        <{{ profile }}>
+{%         for key, val in settings.items() %}
+             <{{ key }}>{{ val }}</{{ key }}>
+{%         endfor %}
+        </{{ profile }}>
+{% endfor %}
+{% endif %}
+    </profiles>
+
+    <!-- Users and ACL. -->
+    <users>
+{# users, which come from group_vars/clickhouse-cluster-NAME.yml #}
+{% if clickhouse_cluster_users['users'] is defined %}
+        <!-- cluster-wide users -->
+{%     for user, settings in clickhouse_cluster_users['users'].items() %}
+        <{{ user }}>
+{%         for key, val in settings.items() %}
+{%             if key in [ 'password', 'password_sha256_hex', 'password_double_sha1_hex' ] %}
+             <!-- User's Password -->
+             <{{ key }}>{{ val }}</{{ key }}>
+{%             elif key in [ 'profile', 'quota', 'access_management' ] %}
+             <{{ key }}>{{ val }}</{{ key }}>
+{%             elif key === 'networks' %}
+             <{{ key }}>
+{%                 for network_key, network_value in val.items() %}
+{%                     for v in network_value %}
+                 <{{ network_key }}>{{ v }}</{{ network_key }}>
+{%                     endfor %}
+{%                 endfor %}
+             </{{ key }}>
+{%             elif key === 'allow_databases' %}
+                <allow_databases>
+{%                 for db in val %}
+                    <database>{{ db }}</database>
+{%                 endfor %}
+                </allow_databases>
+{%             endif %}
+{%         endfor %}
+        </{{ user }}>
+
+{% endfor %}
+{% endif %}
+{# users, which come from host_vars/NAME.yml #}
+{% if clickhouse_users['users'] is defined %}
+        <!-- local users -->
+{%     for user, settings in clickhouse_users['users'].items() %}
+        <{{ user }}>
+{%         for key, val in settings.items() %}
+{%             if key in [ 'password', 'password_sha256_hex', 'password_double_sha1_hex' ] %}
+             <!-- User's Password -->
+             <{{ key }}>{{ val }}</{{ key }}>
+{%             elif key in [ 'profile', 'quota', 'access_management' ] %}
+             <{{ key }}>{{ val }}</{{ key }}>
+{%             elif key === 'networks' %}
+             <{{ key }}>
+{%                 for network_key, network_value in val.items() %}
+{%                     for v in network_value %}
+                 <{{ network_key }}>{{ v }}</{{ network_key }}>
+{%                     endfor %}
+{%                 endfor %}
+             </{{ key }}>
+{%             elif key === 'allow_databases' %}
+                <allow_databases>
+{%                 for db in val %}
+                    <database>{{ db }}</database>
+{%                 endfor %}
+                </allow_databases>
+{%             endif %}
+{%         endfor %}
+        </{{ user }}>
+{% endfor %}
+{% endif %}
+    </users>
+
+    <!-- Quotas. -->
+    <quotas>
+{# quotas, which come from group_vars/clickhouse-cluster-NAME.yml #}
+{% if clickhouse_cluster_users['quotas'] is defined %}
+{%     for quota, intervals in clickhouse_cluster_users['quotas'].items() %}
+        <{{ quota }}>
+{%         for interval in intervals %}
+            <interval>
+{%             for key, val in interval.items() %}
+                <{{ key }}>{{ val }}</{{ key }}>
+{%             endfor %}
+            </interval>
+{%         endfor %}
+        </{{ quota }}>
+{%     endfor %}
+{% endif %}
+{# quotas, which come from host_vars/NAME.yml #}
+{% if clickhouse_users['quotas'] is defined %}
+{%     for quota, intervals in clickhouse_users['quotas'].items() %}
+        <{{ quota }}>
+{%         for interval in intervals %}
+            <interval>
+{%             for key, val in interval.items() %}
+                <{{ key }}>{{ val }}</{{ key }}>
+{%             endfor %}
+            </interval>
+{%         endfor %}
+        </{{ quota }}>
+{%     endfor %}
+{% endif %}
+    </quotas>
+</yandex>

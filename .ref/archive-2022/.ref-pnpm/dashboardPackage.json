@@ -1,0 +1,40 @@
+{
+  "name": "@kaption/suite-dashboards",
+  "version": "4.0.6",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "type": "module",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "axios": "^0.27.0",
+    "ioredis": "^5.0.0",
+    "@factor/api": "^5.0.0",
+    "@factor/ui": "^5.0.0",
+    "@kaption/app": "4.0.6",
+    "@kaption/build": "4.0.6",
+    "@kaption/client": "4.0.6",
+    "@kaption/engine": "4.0.6",
+    "@kaption/ui": "4.0.6",
+    "@kaption/suite-events": "4.0.6",
+    "@kaption/test": "4.0.6",
+    "dayjs": "^1.10.6",
+    "knex": "^1.0.0",
+    "lodash": "^4.17.21",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.10",
+    "ua-parser-js": "^1.0.2",
+    "ws": "^8.1.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-cloudfront": "^3.26.0"
+  },
+  "optionalDependencies": {
+    "vitest": "*",
+    "@types/node": "^17.0.16",
+    "typescript": "^4.6.0"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@kaption/replay",
+  "type": "module",
+  "version": "4.0.5",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@factor/api": "^4.0.0",
+    "@types/node-cleanup": "^2.1.1",
+    "@types/ua-parser-js": "^0.7.33",
+    "axios": "^0.27.0",
+    "consola": "^2.15.0",
+    "dayjs": "^1.8.35",
+    "express": "^4.17.1",
+    "ioredis": "^4.27.7",
+    "node-cleanup": "^2.1.2",
+    "ua-parser-js": "^1.0.0"
+  },
+  "devDependencies": {}
+}

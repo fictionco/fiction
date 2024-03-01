@@ -1,0 +1,27 @@
+---
+- name: Setting up CPU Freq Utils
+  template:
+    src: cpufrequtils.j2
+    dest: /etc/default/cpufrequtils
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify: restart cpufrequtils
+
+- name: Setting up sysctl variables
+  sysctl:
+    name: '{{ item[''key''] }}'
+    value: '{{ item[''val''] }}'
+    sysctl_file: /etc/sysctl.d/21-clickhouse.conf
+    sysctl_set: yes
+    state: present
+    reload: yes
+  loop: '{{ clickhouse_sysctl }}'
+
+- name: Enabling cpufrequtils
+  systemd:
+    name: cpufrequtils
+    daemon_reload: yes
+    enabled: yes
+    state: started

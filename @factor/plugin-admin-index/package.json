@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/plugin-sites": "workspace:*"
+  },
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "license": "MIT",
+  "main": "index.ts",
+  "name": "@factor/plugin-admin-index",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.4"
+}

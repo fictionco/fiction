@@ -1,0 +1,37 @@
+{
+  "author": "Supereon",
+  "buildOptions": [
+    {
+      "buildName": "PLTag",
+      "entryFile": "index.ts",
+      "outputDir": "dist/tag",
+      "prod": {
+        "main": "dist/tag/index.js",
+        "types": "dist/tag/index.d.ts"
+      }
+    }
+  ],
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@pagelines/core": "workspace:*",
+    "dayjs": "^1.11.10",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@unocss/preset-attributify": "^0.58.2",
+    "@unocss/preset-icons": "^0.58.2",
+    "@unocss/preset-uno": "^0.58.2",
+    "@unocss/reset": "^0.58.2",
+    "@vitejs/plugin-vue": "^5.0.0",
+    "unocss": "^0.58.2",
+    "vite-plugin-css-injected-by-js": "^3.3.1"
+  },
+  "license": "MIT",
+  "main": "index.ts",
+  "name": "@pagelines/tag",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.4"
+}

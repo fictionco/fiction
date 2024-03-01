@@ -1,0 +1,134 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: Command
+        required: true
+        type: choice
+        options:
+          - deploy
+          - test
+
+      tags:
+        description: Tags
+        required: false
+        type: string
+
+  # if deploy on release
+  # release:
+  #   types: [published]
+
+env:
+  CI: true
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_ACCESS_KEY_SECRET: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+  STRIPE_SECRET_KEY_TEST: ${{ secrets.STRIPE_SECRET_KEY_TEST }}
+  TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  SMTP_HOST: ${{ secrets.SMTP_HOST }}
+  SMTP_USER: ${{ secrets.SMTP_USER }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+  UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+jobs:
+  test:
+    env:
+      REDIS_URL: redis://localhost:6379
+      CLICKHOUSE_URL: http://default:@localhost:8123
+      POSTGRES_URL: http://test:test@localhost:5432/test
+      SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
+    name: build and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get The Code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8.13.1
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - name: Install Deps
+        run: pnpm -v && pnpm i && pnpm rebuild --recursive
+
+      - name: Install Playwright Browsers
+        run: npx playwright install
+
+      - name: Run Docker Compose (DB)
+        run: docker-compose pull && docker-compose up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- factor run generate
+
+      - name: Run Type Check
+        run: npm run types:ci
+
+      - name: BUILD unit tests
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: npm exec -- vitest run build -u --no-file-parallelism
+
+      - name: DEV unit tests
+        run: npm exec -- vitest run wip -u
+
+      - name: STABLE unit tests
+        run: npm exec -- vitest run ci -u
+
+      - name: E2E/UI unit tests
+        run: npm exec -- vitest run e2e -u
+
+      - name: Install Build Packages
+        if: env.SHOULD_DEPLOY
+        run: pnpm add tsup cross-env --global
+
+      - name: Build Bundles
+        if: env.SHOULD_DEPLOY
+        run: npm exec -- factor run bundle
+
+      - name: Render Apps
+        if: env.SHOULD_DEPLOY
+        run: npm exec -- factor run render
+
+      - name: Install FlyCtl
+        if: env.SHOULD_DEPLOY
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy Apps
+        if: env.SHOULD_DEPLOY
+        run: |
+          cross-env DOMAIN=fiction APP=www npm run deploy
+          cross-env DOMAIN=fiction APP=sites npm run deploy
+
+      - name: Post Notification
+        if: always()
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
+          payload: |
+            {
+              "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

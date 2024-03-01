@@ -1,0 +1,202 @@
+// toCamel.test.ts
+import { describe, expect, it } from 'vitest'
+import { stopWordLowercase, toCamel, toLabel, toPascal, toSlug, toSnake } from '../casing'
+
+describe('toCamel', () => {
+  it('converts space-separated words to camelCase', () => {
+    expect(toCamel('foo bar')).toBe('fooBar')
+    expect(toCamel('hello world')).toBe('helloWorld')
+  })
+
+  it('converts hyphen-separated words to camelCase', () => {
+    expect(toCamel('foo-bar')).toBe('fooBar')
+    expect(toCamel('hello-world')).toBe('helloWorld')
+  })
+
+  it('converts underscore-separated words to camelCase', () => {
+    expect(toCamel('foo_bar')).toBe('fooBar')
+    expect(toCamel('hello_world')).toBe('helloWorld')
+  })
+
+  it('converts PascalCase words to camelCase', () => {
+    expect(toCamel('FooBar')).toBe('fooBar')
+    expect(toCamel('HelloWorld')).toBe('helloWorld')
+  })
+
+  it('handles mixed separators and cases', () => {
+    expect(toCamel('foo-Bar_baz')).toBe('fooBarBaz')
+    expect(toCamel('Hello-world_baz')).toBe('helloWorldBaz')
+  })
+
+  it('handles single-word input', () => {
+    expect(toCamel('foo')).toBe('foo')
+    expect(toCamel('Bar')).toBe('bar')
+  })
+
+  it('returns an empty string for empty input', () => {
+    expect(toCamel('')).toBe('')
+  })
+})
+
+describe('toSlug', () => {
+  it('converts text to lowercase kebab-case', () => {
+    expect(toSlug('Hello World')).toBe('hello-world')
+    expect(toSlug('Another Test')).toBe('another-test')
+    expect(toSlug('anotherTest')).toBe('another-test')
+    expect(toSlug('AnotherTest')).toBe('another-test')
+  })
+
+  it('removes special characters', () => {
+    expect(toSlug('Text with $pecial @characters!')).toBe('text-with-pecial-characters')
+  })
+
+  it('replaces spaces with hyphens', () => {
+    expect(toSlug('Text with multiple spaces')).toBe('text-with-multiple-spaces')
+  })
+
+  it('handles empty and undefined input', () => {
+    expect(toSlug('')).toBe('')
+    // @ts-expect-error undefined input
+    expect(toSlug()).toBe('')
+  })
+
+  it('preserves numbers when replaceNumbers option is false', () => {
+    expect(toSlug('123 numbers', { replaceNumbers: false })).toBe('123-numbers')
+  })
+
+  it('removes numbers when replaceNumbers option is true', () => {
+    expect(toSlug('123 numbers')).toBe('numbers')
+  })
+
+  it('handles mixed cases, spaces, and special characters', () => {
+    expect(toSlug('Mixed: Upper and Lower, numbers 123, and $pecial', { replaceNumbers: false }))
+      .toBe('mixed-upper-and-lower-numbers-123-and-pecial')
+  })
+
+  it('handles strings that already look like slugs', () => {
+    expect(toSlug('already-a-slug')).toBe('already-a-slug')
+  })
+
+  it('converts to lowercase when lowercase option is true', () => {
+    expect(toSlug('LOWERCASE', { maintainCase: false })).toBe('lowercase')
+  })
+
+  it('maintains case when lowercase option is false', () => {
+    expect(toSlug('MAINTAIN CASE', { maintainCase: true, replaceNumbers: false })).toBe('MAINTAIN-CASE')
+  })
+})
+
+describe('stopWordLowercase', () => {
+  it('should return the original string if it contains one word or less', () => {
+    expect(stopWordLowercase('Hello')).toBe('Hello')
+    expect(stopWordLowercase('')).toBe('')
+  })
+
+  it('should make stop words lowercase, except if at the beginning of a string', () => {
+    expect(stopWordLowercase('And This Is A Test', ['and', 'a'])).toBe('And This Is a Test')
+    expect(stopWordLowercase('A Quick Brown Fox', ['a'])).toBe('A Quick Brown Fox')
+    expect(stopWordLowercase('This And That', ['and'])).toBe('This and That')
+  })
+
+  it('should work correctly without a custom stop words list', () => {
+    // Assuming 'and' and 'to' are in the default stopwordsLib
+    expect(stopWordLowercase('And I Went To The Store')).toBe('And I Went to the Store')
+  })
+
+  it('should handle multiple occurrences of stop words correctly', () => {
+    expect(stopWordLowercase('The Fox And The Dog Are Friends', ['the', 'and'])).toBe('The Fox and the Dog Are Friends')
+  })
+
+  it('should not modify other words', () => {
+    expect(stopWordLowercase('Hello World', ['hello'])).toBe('Hello World')
+  })
+})
+
+describe('toLabel', () => {
+  it('should return an empty string for null or undefined inputs', () => {
+    expect(toLabel()).toBe('')
+    // @ts-expect-error undefined input
+    expect(toLabel(null)).toBe('')
+  })
+
+  it('should handle numbers and convert them to strings', () => {
+    expect(toLabel(123)).toBe('123')
+  })
+
+  it('should convert camelCase and snake_case to space-separated words with proper capitalization', () => {
+    expect(toLabel('helloWorld')).toBe('Hello World')
+    expect(toLabel('hello_world')).toBe('Hello World')
+  })
+
+  it('should handle kebab-case and convert it to space-separated words with proper capitalization', () => {
+    expect(toLabel('hello-world')).toBe('Hello World')
+  })
+
+  it('should remove special characters and slashes', () => {
+    expect(toLabel('hello/world')).toBe('Hello World')
+  })
+
+  it('should lowercase stop words except when they are the first word', () => {
+    expect(toLabel('andHelloWorld')).toBe('And Hello World')
+    expect(toLabel('helloWorldAnd')).toBe('Hello World and')
+  })
+})
+
+describe('toPascal', () => {
+  it('converts single words correctly', () => {
+    expect(toPascal('word')).toBe('Word')
+    expect(toPascal('WORD')).toBe('Word')
+  })
+
+  it('converts snake_case correctly', () => {
+    expect(toPascal('snake_case_string')).toBe('SnakeCaseString')
+  })
+
+  it('converts kebab-case correctly', () => {
+    expect(toPascal('kebab-case-string')).toBe('KebabCaseString')
+  })
+
+  it('converts strings with spaces correctly', () => {
+    expect(toPascal('string with spaces')).toBe('StringWithSpaces')
+  })
+
+  it('handles mixed cases and non-alphanumeric characters', () => {
+    expect(toPascal('string@with#special!characters')).toBe('StringWithSpecialCharacters')
+  })
+
+  it('handles empty strings and strings with only non-alphanumeric characters', () => {
+    expect(toPascal('')).toBe('')
+    expect(toPascal('@@@')).toBe('')
+  })
+})
+
+describe('toSnake', () => {
+  it('converts camelCase to snake_case correctly', () => {
+    expect(toSnake('camelCaseString')).toBe('camel_case_string')
+  })
+
+  it('converts PascalCase to snake_case correctly', () => {
+    expect(toSnake('PascalCaseString')).toBe('pascal_case_string')
+  })
+
+  it('converts camelCase to UPPER_SNAKE_CASE correctly', () => {
+    expect(toSnake('camelCaseString', true)).toBe('CAMEL_CASE_STRING')
+  })
+
+  it('converts PascalCase to UPPER_SNAKE_CASE correctly', () => {
+    expect(toSnake('PascalCaseString', true)).toBe('PASCAL_CASE_STRING')
+  })
+
+  it('handles single words correctly', () => {
+    expect(toSnake('Word')).toBe('word')
+    expect(toSnake('Word', true)).toBe('WORD')
+  })
+
+  it('handles empty string correctly', () => {
+    expect(toSnake('')).toBe('')
+  })
+
+  it('removes leading underscores', () => {
+    expect(toSnake('_LeadingUnderscore')).toBe('leading_underscore')
+  })
+})

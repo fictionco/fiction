@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "name": "@factor/andrewpowers",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.andrewpowers.com",
+  "version": "6.0.4"
+}

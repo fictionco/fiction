@@ -1,0 +1,17 @@
+{
+  "name": "@kaption/forms",
+  "type": "module",
+  "version": "5.0.99",
+  "url": "https://forms.kaption.co",
+  "license": "UNLICENSED",
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@factor/api": "workspace:^5.5.119",
+    "@factor/ui": "workspace:^5.5.119",
+    "@kaption/app": "workspace:5.0.99",
+    "@kaption/core": "workspace:5.0.99"
+  }
+}

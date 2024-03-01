@@ -1,0 +1,22 @@
+---
+- name: Installing an agent
+  apt:
+    deb: 'https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb'
+    state: present
+
+- name: Adding CWagent user to the admin group
+  user:
+    name: cwagent
+    groups: adm
+    append: yes
+
+# - name: "Setting up the configuration file"
+#  template:
+#    dest: "/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json"
+
+- name: Setting up systemd service
+  systemd:
+    name: amazon-cloudwatch-agent
+    daemon_reload: yes
+    enabled: yes
+    state: stopped

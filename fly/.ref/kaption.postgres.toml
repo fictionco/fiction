@@ -1,0 +1,76 @@
+# fly.toml file generated for kaption-postgres on 2022-11-10T18:17:09-08:00
+
+app = "kaption-postgres"
+kill_signal = "SIGTERM"
+kill_timeout = 300
+processes = []
+
+[[services]]
+  internal_port = 5432 # Postgres instance
+  protocol = "tcp"
+
+
+# Open port 10000 for plaintext connections.
+[[services.ports]]
+  handlers = []
+  port = 8585
+
+[checks]
+  [checks.pg]
+    grace_period = "30s"
+    headers = []
+    interval = "15s"
+    method = "get"
+    path = "/flycheck/pg"
+    port = 5500
+    protocol = "http"
+    restart_limit = 0
+    timeout = "10s"
+    tls_skip_verify = false
+    type = "http"
+  [checks.role]
+    grace_period = "30s"
+    headers = []
+    interval = "15s"
+    method = "get"
+    path = "/flycheck/role"
+    port = 5500
+    protocol = "http"
+    restart_limit = 0
+    timeout = "10s"
+    tls_skip_verify = false
+    type = "http"
+  [checks.vm]
+    grace_period = "1s"
+    headers = []
+    interval = "1m"
+    method = "get"
+    path = "/flycheck/vm"
+    port = 5500
+    protocol = "http"
+    restart_limit = 0
+    timeout = "10s"
+    tls_skip_verify = false
+    type = "http"
+
+[env]
+  PRIMARY_REGION = "lax"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = false
+  cmd = []
+  enable_consul = true
+  entrypoint = []
+  exec = []
+  private_network = true
+
+[metrics]
+  path = "/metrics"
+  port = 9187
+
+[[mounts]]
+  destination = "/data"
+  encrypted = false
+  processes = []
+  source = "pg_data"

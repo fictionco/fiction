@@ -1,0 +1,27 @@
+{
+  "name": "@kaption/suite-events",
+  "version": "4.0.6",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "type": "module",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "axios": "^0.27.0",
+    "@factor/api": "^5.0.0",
+    "@factor/ui": "^5.0.0",
+    "@kaption/build": "4.0.6",
+    "@kaption/client": "4.0.6",
+    "@kaption/engine": "4.0.6",
+    "@kaption/ui": "4.0.6",
+    "@kaption/suite-dashboards": "4.0.6",
+    "dayjs": "^1.10.6",
+    "knex": "^1.0.0",
+    "lodash": "^4.17.21",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.10",
+    "ua-parser-js": "^1.0.2"
+  }
+}

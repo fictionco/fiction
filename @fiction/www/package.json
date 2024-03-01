@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@factor/api": "workspace:*",
+    "@factor/plugin-admin": "workspace:*",
+    "@factor/plugin-admin-index": "workspace:*",
+    "@factor/plugin-ai": "workspace:*",
+    "@factor/plugin-contact": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/plugin-monitor": "workspace:*",
+    "@factor/plugin-notify": "workspace:*",
+    "@factor/plugin-sites": "workspace:*",
+    "@factor/plugin-stripe": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@types/mapbox-gl": "^3.1.0",
+    "mapbox-gl": "^3.2.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  },
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "name": "@fiction/www",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "url": "https://www.fiction.com",
+  "version": "6.0.4"
+}

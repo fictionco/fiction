@@ -1,0 +1,19 @@
+{
+  "name": "@kaption/types",
+  "version": "4.0.5",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "type": "module",
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@kaption/engine": "4.0.5",
+    "handlebars": "^4.7.7",
+    "rrweb": "^1.0.2",
+    "rrweb-snapshot": "^1.1.7",
+    "stripe": "^8.142.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Monitor the file for presence. As soon as file appears (volume is mounted) - start clickhouse.
+
+[Path]
+PathExists=/var/lib/clickhouse/.ec2-vol
+Unit=clickhouse-server.service
+
+[Install]
+WantedBy=multi-user.target

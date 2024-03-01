@@ -1,0 +1,35 @@
+{
+  "name": "@kaption/core",
+  "type": "module",
+  "version": "6.0.1",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.338.0",
+    "@factor/api": "workspace:*",
+    "@factor/plugin-highlight-code": "workspace:*",
+    "@factor/plugin-stripe": "workspace:*",
+    "@factor/ui": "workspace:*",
+    "@fiction/core": "workspace:*",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@sentry/node": "^7.53.0",
+    "@sentry/tracing": "^7.53.0",
+    "@sentry/vue": "^7.53.0",
+    "@slack/webhook": "^6.1.0",
+    "@types/mailchimp__mailchimp_marketing": "^3.0.9",
+    "@types/web-push": "^3.3.2",
+    "blurhash": "^2.0.5",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.7",
+    "jszip": "^3.10.1",
+    "lightgallery": "^2.7.1",
+    "masonry-layout": "^4.2.2",
+    "multer": "1.4.5-lts.1",
+    "sib-api-v3-sdk": "^8.5.0",
+    "vue": "^3.3.4",
+    "web-push": "^3.6.1"
+  }
+}

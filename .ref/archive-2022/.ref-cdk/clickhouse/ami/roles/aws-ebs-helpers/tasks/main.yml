@@ -1,0 +1,32 @@
+---
+- name: Update APT caches
+  ignore_errors: True
+  apt:
+    update_cache: yes
+    cache_valid_time: 1800
+
+- name: Installing NVME Cli
+  apt:
+    pkg: nvme-cli
+    state: present
+
+- name: Copying Helper scripts and udev rules
+  copy:
+    src: '{{ item[''src''] }}'
+    dest: '{{ item[''dest''] }}'
+    mode: '{{ item[''mode''] }}'
+    owner: root
+    group: root
+  loop:
+    - src: ebs-nvme-mapping.sh
+      dest: /usr/local/sbin/ebs-nvme-mapping.sh
+      mode: '0755'
+    - src: ec2udev-vbd
+      dest: /usr/local/sbin/ec2udev-vbd
+      mode: '0755'
+    - src: 999-aws-ebs-nvme.rules
+      dest: /etc/udev/rules.d
+      mode: '0644'
+    - src: dw-ebsvol-connect.sh
+      dest: /usr/local/sbin/dw-ebsvol-connect.sh
+      mode: '0755'

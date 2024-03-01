@@ -1,0 +1,83 @@
+<script lang="ts" setup>
+import { vue } from '@factor/api'
+import type { ActionItem } from '@factor/api'
+import type { Site } from '../site'
+
+import { saveSite } from '../utils/site'
+import type { EditorTool, Handle } from './tools'
+import ElTool from './ElTool.vue'
+import ElToolBanner from './ElToolBanner.vue'
+import ELToolHandle from './ElToolHandle.vue'
+import DraggableSort from './DraggableSort.vue'
+
+const props = defineProps({
+  site: {
+    type: Object as vue.PropType<Site>,
+    required: true,
+  },
+  tool: {
+    type: Object as vue.PropType<EditorTool>,
+    required: true,
+  },
+})
+
+const actions: ActionItem[] = [
+  {
+    name: 'Add Page',
+    icon: 'i-tabler-circle-plus',
+    onClick: () => {
+      props.site.useEditPage()
+    },
+  },
+]
+
+const handles = vue.computed(() => {
+  return props.site.pages.value.map((pg): Handle => {
+    return {
+      title: pg.displayTitle.value,
+      icon: 'i-tabler-file',
+      handleId: pg.cardId ?? 'no-id-provided',
+      depth: 0,
+      isActive: pg.cardId === props.site.activePageId.value,
+      onClick: () => props.site.useEditPage({ cardId: pg.cardId }),
+      actions: [{
+        name: 'Settings',
+        icon: 'i-tabler-edit',
+        onClick: () => props.site.useEditPage({ cardId: pg.cardId }),
+      }],
+    }
+  })
+})
+
+async function handleSorted(sorted: string[]) {
+  props.site.editor.value.savedCardOrder.main = sorted
+  await saveSite({ site: props.site, onlyKeys: ['editor'] })
+}
+</script>
+
+<template>
+  <ElTool :tool="tool" :actions="actions">
+    <div class="p-4">
+      <ElToolBanner
+        v-if="handles.length === 0"
+        title="Add a Page"
+        sub="Click the add button above to add your first page."
+        :icon="tool.icon"
+        :actions="actions"
+      />
+      <template v-else>
+        <div>
+          <DraggableSort class="space-y-2" @update:sorted="handleSorted($event)">
+            <ELToolHandle
+              v-for="handle in handles"
+              :key="handle.handleId"
+              class="drag-handle cursor-move"
+              :handle="handle"
+              :data-drag-id="handle.handleId"
+            />
+          </DraggableSort>
+        </div>
+      </template>
+    </div>
+  </ElTool>
+</template>

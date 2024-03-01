@@ -1,0 +1,438 @@
+{
+  "endpoints": [
+    {
+      "key": "UserGoogleAuth",
+      "path": "/user/UserGoogleAuth"
+    },
+    {
+      "key": "Login",
+      "path": "/user/Login"
+    },
+    {
+      "key": "NewVerificationCode",
+      "path": "/user/NewVerificationCode"
+    },
+    {
+      "key": "SetPassword",
+      "path": "/user/SetPassword"
+    },
+    {
+      "key": "ResetPassword",
+      "path": "/user/ResetPassword"
+    },
+    {
+      "key": "UpdateCurrentUser",
+      "path": "/user/UpdateCurrentUser"
+    },
+    {
+      "key": "SendOneTimeCode",
+      "path": "/user/SendOneTimeCode"
+    },
+    {
+      "key": "VerifyAccountEmail",
+      "path": "/user/VerifyAccountEmail"
+    },
+    {
+      "key": "StartNewUser",
+      "path": "/user/StartNewUser"
+    },
+    {
+      "key": "CurrentUser",
+      "path": "/user/CurrentUser"
+    },
+    {
+      "key": "ManageUser",
+      "path": "/user/ManageUser"
+    },
+    {
+      "key": "ManageCustomer",
+      "path": "/stripe/ManageCustomer"
+    },
+    {
+      "key": "ListSubscriptions",
+      "path": "/stripe/ListSubscriptions"
+    },
+    {
+      "key": "GetInvoices",
+      "path": "/stripe/GetInvoices"
+    },
+    {
+      "key": "ManageSubscription",
+      "path": "/stripe/ManageSubscription"
+    },
+    {
+      "key": "ManagePaymentMethod",
+      "path": "/stripe/ManagePaymentMethod"
+    },
+    {
+      "key": "GetCustomerData",
+      "path": "/stripe/GetCustomerData"
+    },
+    {
+      "key": "AllProducts",
+      "path": "/stripe/AllProducts"
+    },
+    {
+      "key": "GetProduct",
+      "path": "/stripe/GetProduct"
+    },
+    {
+      "key": "GetCoupon",
+      "path": "/stripe/GetCoupon"
+    },
+    {
+      "key": "stripeWebhooks",
+      "path": "/stripe-webhook"
+    },
+    {
+      "key": "oAuthEndpoint",
+      "path": "/stripe-checkout/:action"
+    },
+    {
+      "key": "GetDimensionList",
+      "path": "/clickhouse/GetDimensionList"
+    },
+    {
+      "key": "GetClientSessions",
+      "path": "/clickhouse/GetClientSessions"
+    },
+    {
+      "key": "GetTotalSessions",
+      "path": "/clickhouse/GetTotalSessions"
+    },
+    {
+      "key": "SaveMedia",
+      "path": "/media/SaveMedia"
+    },
+    {
+      "key": "MediaIndex",
+      "path": "/media/MediaIndex"
+    },
+    {
+      "key": "MediaAction",
+      "path": "/media/MediaAction"
+    },
+    {
+      "key": "Unsplash",
+      "path": "/media/Unsplash"
+    },
+    {
+      "key": "CreateProject",
+      "path": "/admin/CreateProject"
+    },
+    {
+      "key": "ManageOrganization",
+      "path": "/admin/ManageOrganization"
+    },
+    {
+      "key": "ManageMemberRelation",
+      "path": "/admin/ManageMemberRelation"
+    },
+    {
+      "key": "GenerateApiSecret",
+      "path": "/admin/GenerateApiSecret"
+    },
+    {
+      "key": "ManageProject",
+      "path": "/admin/ManageProject"
+    },
+    {
+      "key": "FindOneProject",
+      "path": "/admin/FindOneProject"
+    },
+    {
+      "key": "FindOneOrganization",
+      "path": "/admin/FindOneOrganization"
+    },
+    {
+      "key": "OrganizationsByUserId",
+      "path": "/admin/OrganizationsByUserId"
+    },
+    {
+      "key": "UpdateOrganizationMemberStatus",
+      "path": "/admin/UpdateOrganizationMemberStatus"
+    },
+    {
+      "key": "ManageUsage",
+      "path": "/admin/ManageUsage"
+    },
+    {
+      "key": "OrgMembers",
+      "path": "/kaptionteam/OrgMembers"
+    },
+    {
+      "key": "InvitationReminder",
+      "path": "/kaptionteam/InvitationReminder"
+    },
+    {
+      "key": "TeamInvite",
+      "path": "/kaptionteam/TeamInvite"
+    },
+    {
+      "key": "SeekInviteFromUser",
+      "path": "/kaptionteam/SeekInviteFromUser"
+    },
+    {
+      "key": "ManageCustomDashboard",
+      "path": "/dashboard/ManageCustomDashboard"
+    },
+    {
+      "key": "List",
+      "path": "/integrations/List"
+    },
+    {
+      "key": "Manage",
+      "path": "/integrations/Manage"
+    },
+    {
+      "key": "oAuthEndpoint",
+      "path": "/oauth/:provider/:action"
+    },
+    {
+      "key": "ManageTracking",
+      "path": "/tracking/ManageTracking"
+    },
+    {
+      "key": "CurrentTrackingStatus",
+      "path": "/tracking/CurrentTrackingStatus"
+    },
+    {
+      "key": "ManageOnboard",
+      "path": "/onboard/ManageOnboard"
+    },
+    {
+      "key": "ManageForms",
+      "path": "/forms/ManageForms"
+    },
+    {
+      "key": "FormsIndex",
+      "path": "/forms/FormsIndex"
+    },
+    {
+      "key": "ManageCustomEvent",
+      "path": "/events/ManageCustomEvent"
+    },
+    {
+      "key": "FindEvent",
+      "path": "/events/FindEvent"
+    },
+    {
+      "key": "GetSessionById",
+      "path": "/replays/GetSessionById"
+    },
+    {
+      "key": "CompileReplay",
+      "path": "/replays/CompileReplay"
+    },
+    {
+      "key": "GetReplaySessionIndex",
+      "path": "/replays/GetReplaySessionIndex"
+    }
+  ],
+  "routes": [
+    {
+      "key": "authLogin",
+      "path": "/login"
+    },
+    {
+      "key": "authRegister",
+      "path": "/register"
+    },
+    {
+      "key": "authResetPassword",
+      "path": "/reset-password"
+    },
+    {
+      "key": "authSetPassword",
+      "path": "/set-password"
+    },
+    {
+      "key": "authVerify",
+      "path": "/verify"
+    },
+    {
+      "key": "authOnboardOrg",
+      "path": "/start/organization"
+    },
+    {
+      "key": "authOnboardProject",
+      "path": "/start/project"
+    },
+    {
+      "key": "appTest",
+      "path": "/testing"
+    },
+    {
+      "key": "support",
+      "path": "https://www.kaption.co/support"
+    },
+    {
+      "key": "docs",
+      "path": "https://www.kaption.co/docs"
+    },
+    {
+      "key": "visualizer",
+      "path": "/visualizer/:formId?"
+    },
+    {
+      "key": "embedForm",
+      "path": "/visualizer-embed/:formId?"
+    },
+    {
+      "key": "app",
+      "path": "/app"
+    },
+    {
+      "key": "notFound404",
+      "path": "/:pathMatch(.*)*"
+    },
+    {
+      "key": "baseIndex",
+      "path": "/org"
+    },
+    {
+      "key": "baseNewOrg",
+      "path": "/org/new"
+    },
+    {
+      "key": "allProjects",
+      "path": "/projects"
+    },
+    {
+      "key": "orgSettings",
+      "path": "/org/:organizationId/settings"
+    },
+    {
+      "key": "newProject",
+      "path": "/org/:organizationId/new-project"
+    },
+    {
+      "key": "developer",
+      "path": "/project/:projectId/dev"
+    },
+    {
+      "key": "projectSettings",
+      "path": "/project/:projectId/settings"
+    },
+    {
+      "key": "team",
+      "path": "/org/:organizationId/team"
+    },
+    {
+      "key": "teamMember",
+      "path": "/org/:organizationId/team/:userId"
+    },
+    {
+      "key": "teamInvite",
+      "path": "/org/:organizationId/team/invite"
+    },
+    {
+      "key": "home",
+      "path": "/"
+    },
+    {
+      "key": "dashboard",
+      "path": "/project/:projectId"
+    },
+    {
+      "key": "dashboardSingle",
+      "path": "/project/:projectId/dash/:dashboardId"
+    },
+    {
+      "key": "billing",
+      "path": "/manage/billing"
+    },
+    {
+      "key": "billingPlans",
+      "path": "/manage/billing/plans"
+    },
+    {
+      "key": "billingHistory",
+      "path": "/manage/billing/history"
+    },
+    {
+      "key": "billingPaymentMethods",
+      "path": "/manage/billing/methods"
+    },
+    {
+      "key": "billingUpgrade",
+      "path": "/manage/billing/upgrade"
+    },
+    {
+      "key": "trackingCode",
+      "path": "/project/:projectId/code"
+    },
+    {
+      "key": "accountSettings",
+      "path": "/manage/account"
+    },
+    {
+      "key": "accountChangeCredential",
+      "path": "/manage/account/credential/:mode"
+    },
+    {
+      "key": "analyticsIndex",
+      "path": "/project/:projectId/analytics"
+    },
+    {
+      "key": "analyticsRealtime",
+      "path": "/project/:projectId/analytics/realtime"
+    },
+    {
+      "key": "analyticsReports",
+      "path": "/project/:projectId/analytics/reports"
+    },
+    {
+      "key": "analyticsBehavior",
+      "path": "/project/:projectId/analytics/behavior"
+    },
+    {
+      "key": "analyticsConversion",
+      "path": "/project/:projectId/analytics/conversion"
+    },
+    {
+      "key": "analyticsTechnical",
+      "path": "/project/:projectId/analytics/technical"
+    },
+    {
+      "key": "analyticsSettings",
+      "path": "/project/:projectId/analytics/settings"
+    },
+    {
+      "key": "formIndex",
+      "path": "/project/:projectId/forms"
+    },
+    {
+      "key": "formBuilder",
+      "path": "/project/:projectId/forms/:formId/:topic?"
+    },
+    {
+      "key": "eventOverview",
+      "path": "/project/:projectId/events/tracking"
+    },
+    {
+      "key": "eventIndex",
+      "path": "/project/:projectId/events"
+    },
+    {
+      "key": "eventNew",
+      "path": "/project/:projectId/events/create"
+    },
+    {
+      "key": "eventEdit",
+      "path": "/project/:projectId/events/:eventId"
+    },
+    {
+      "key": "replayIndex",
+      "path": "/project/:projectId/replay"
+    },
+    {
+      "key": "replaySingle",
+      "path": "/project/:projectId/replay/:replayId"
+    },
+    {
+      "key": "heatmapIndex",
+      "path": "/project/:projectId/heatmap"
+    }
+  ]
+}

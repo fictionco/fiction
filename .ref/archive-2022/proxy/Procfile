@@ -1,0 +1,1 @@
+web: npm -w @kaption/proxy exec -c 'node --experimental-loader=@factor/api/cli/loader.mjs .'

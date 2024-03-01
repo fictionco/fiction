@@ -1,0 +1,41 @@
+---
+- name: '[Kaption] Update APT caches'
+  ignore_errors: True
+  apt:
+    update_cache: yes
+    cache_valid_time: 1800
+
+- name: '[Kaption] Adding clickhouse APT key'
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: E0C56BD4
+
+- name: '[Kaption] Installing ClickHouse repository'
+  apt_repository:
+    repo: '{{ item }}'
+    state: present
+    filename: clickhouse
+    update_cache: yes
+  with_items:
+    - 'deb https://repo.clickhouse.tech/deb/stable/ main/'
+
+- name: '[Kaption] Installing Clickhouse Server service'
+  apt:
+    pkg: '{{ item.name }}{{ item.version|default('''') }}'
+    state: '{{ item.state|default(''present'') }}'
+  with_items: '{{ clickhouse_deb_packages }}'
+
+- name: '[Kaption] Prevent automatic package upgrades'
+  dpkg_selections:
+    name: '{{ item.name }}'
+    selection: hold
+  with_items: '{{ clickhouse_deb_packages }}'
+  when: clickhouse_hold_packages|default('False')
+
+- name: '[Kaption] Install AWS Data helper'
+  copy:
+    src: aws-dataprep-helper.sh
+    dest: /usr/local/sbin/aws-dataprep-helper.sh
+    owner: root
+    group: root
+    mode: '0755'

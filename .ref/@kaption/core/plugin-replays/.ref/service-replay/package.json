@@ -1,0 +1,28 @@
+{
+  "name": "@kaption/service-replay",
+  "type": "module",
+  "version": "4.0.5",
+  "private": true,
+  "author": "Kaption Co.",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@factor/api": "^4.0.0",
+    "@types/cors": "^2.8.7",
+    "@types/ws": "^8.0.0",
+    "cors": "^2.8.5",
+    "destroyer": "^0.0.0",
+    "express": "^4.17.1",
+    "helmet": "^5.0.0",
+    "lodash": "^4.17.20",
+    "node-cache": "^5.1.2",
+    "redis": "^4.0.0",
+    "ws": "^8.0.0"
+  },
+  "devDependencies": {
+    "@kaption/build": "4.0.5"
+  }
+}

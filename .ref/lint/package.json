@@ -1,0 +1,33 @@
+{
+  "name": "@factor/lint",
+  "type": "module",
+  "version": "6.0.1",
+  "license": "MIT",
+  "main": "config.cjs",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-define-config": "^2.0.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
+    "eslint-plugin-unicorn": "^49.0.0",
+    "eslint-plugin-vue": "^9.19.2",
+    "prettier": "^3.1.0",
+    "prettier-eslint": "^16.1.2",
+    "tailwindcss": "^3.3.6"
+  },
+  "devDependencies": {
+    "npm-package-json-lint": "^7.1.0",
+    "postcss": "^8.4.32",
+    "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

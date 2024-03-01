@@ -1,0 +1,36 @@
+{
+  "name": "@kaption/client-tag",
+  "type": "module",
+  "version": "5.0.99",
+  "license": "UNLICENSED",
+  "main": "index.ts",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "buildOptions": [
+    {
+      "buildName": "KaptionTag",
+      "entryFile": "index.ts",
+      "outputDir": "dist/tag",
+      "prod": {
+        "main": "dist/tag/index.js",
+        "types": "dist/tag/index.d.ts"
+      },
+      "configFile": "./vite.config.ts"
+    }
+  ],
+  "dependencies": {
+    "@factor/api": "workspace:^5.5.119",
+    "@kaption/client": "workspace:5.0.99",
+    "@kaption/core": "workspace:5.0.99",
+    "@unocss/preset-icons": "^0.48.3",
+    "typescript": "^4.9.4",
+    "unocss": "^0.48.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "vite": "^4.0.4",
+    "vite-plugin-css-injected-by-js": "^2.2.0",
+    "vue": "^3.2.45"
+  }
+}
