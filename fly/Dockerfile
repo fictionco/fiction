@@ -41,11 +41,11 @@ CMD npm -w @fiction/www exec -- factor run app
 
 FROM build as supereon
 EXPOSE 3000
-CMD npm -w @factor/supereon exec -- factor run app
+CMD npm -w @fiction/supereon exec -- factor run app
 
 FROM build as andrewpowers
 EXPOSE 3000
-CMD npm -w @factor/andrewpowers exec -- factor run app
+CMD npm -w @fiction/andrewpowers exec -- factor run app
 
 # FROM build as pagelines-www
 # EXPOSE 3434

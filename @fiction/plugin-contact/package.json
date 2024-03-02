@@ -1,0 +1,16 @@
+{
+  "name": "@fiction/plugin-contact",
+  "type": "module",
+  "version": "6.0.4",
+  "author": "Supereon",
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-monitor": "workspace:*"
+  },
+  "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,4 +1,4 @@
-import { toLabel } from '@factor/api'
+import { toLabel } from '@fiction/core'
 
 interface MediaItemParams<T extends string> {
   key: T

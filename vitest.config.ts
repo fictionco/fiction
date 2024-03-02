@@ -3,12 +3,12 @@ import { createRequire } from 'node:module'
 import { configDefaults, defineConfig } from 'vitest/config'
 import pluginVue from '@vitejs/plugin-vue'
 import codspeedPlugin from '@codspeed/vitest-plugin'
-import { getMarkdownPlugins } from './@factor/api/plugin-app/utils/vitePluginMarkdown'
+import { getMarkdownPlugins } from './@fiction/core/plugin-app/utils/vitePluginMarkdown'
 
 const require = createRequire(import.meta.url)
 
-const factorPath = path.join(
-  path.dirname(require.resolve('@factor/api')),
+const corePath = path.join(
+  path.dirname(require.resolve('@fiction/core')),
   '/test-utils',
 )
 
@@ -33,8 +33,8 @@ export default defineConfig({
       NODE_ENV: 'development',
     },
     exclude: ['**/node_modules/**', '**/dist/**', '.git', '.cache', '**/.ref/**', '**/.ref-*/**'],
-    globalSetup: [`${factorPath}/setupGlobal.ts`],
-    setupFiles: [`${factorPath}/setupTest.ts`],
+    globalSetup: [`${corePath}/setupGlobal.ts`],
+    setupFiles: [`${corePath}/setupTest.ts`],
     environmentOptions: { jsdom },
     coverage: {
       provider: 'istanbul',

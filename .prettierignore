@@ -2,4 +2,4 @@
 **/.ref*/**
 **/dist/**
 *-lock*
-**/.factor/**
+**/.gen/**

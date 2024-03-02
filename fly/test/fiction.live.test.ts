@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import nodeFetch from 'node-fetch'
-import { snap } from '@factor/api/test-utils'
+import { snap } from '@fiction/core/test-utils'
 
 describe('service health checks', () => {
   it(

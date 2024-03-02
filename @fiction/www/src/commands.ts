@@ -1,4 +1,4 @@
-import { CliCommand } from '@factor/api/plugin-env'
+import { CliCommand } from '@fiction/core/plugin-env'
 
 export const commands = [
   new CliCommand({

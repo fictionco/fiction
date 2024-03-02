@@ -11,15 +11,15 @@ importers:
       '@esbuild-kit/esm-loader':
         specifier: ^2.6.5
         version: 2.6.5
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:@factor/api
-      '@factor/plugin-notify':
+        version: link:@fiction/core
+      '@fiction/plugin-notify':
         specifier: workspace:*
-        version: link:@factor/plugin-notify
-      '@factor/ui':
+        version: link:@fiction/plugin-notify
+      '@fiction/ui':
         specifier: workspace:*
-        version: link:@factor/ui
+        version: link:@fiction/ui
       '@fiction/www':
         specifier: workspace:*
         version: link:@fiction/www
@@ -187,10 +187,10 @@ importers:
         specifier: ^1.3.1
         version: 1.3.1(@types/node@20.11.24)(@vitest/ui@1.3.1)(happy-dom@13.6.2)(jsdom@24.0.0)(less@4.2.0)
       vue-tsc:
-        specifier: ^1.8.27
-        version: 1.8.27(typescript@5.3.3)
+        specifier: ^2.0.1
+        version: 2.0.1(typescript@5.3.3)
 
-  '@factor/api':
+  '@fiction/core':
     dependencies:
       '@aws-sdk/client-cloudfront':
         specifier: ^3.525.0
@@ -671,18 +671,18 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
 
-  '@factor/plugin-admin':
+  '@fiction/plugin-admin':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-ai':
+        version: link:../core
+      '@fiction/plugin-ai':
         specifier: workspace:*
         version: link:../plugin-ai
-      '@factor/plugin-highlight-code':
+      '@fiction/plugin-highlight-code':
         specifier: workspace:*
         version: link:../plugin-highlight-code
-      '@factor/ui':
+      '@fiction/ui':
         specifier: workspace:*
         version: link:../ui
       marked:
@@ -698,21 +698,21 @@ importers:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.3.3)
 
-  '@factor/plugin-admin-index':
+  '@fiction/plugin-admin-index':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-sites':
+        version: link:../core
+      '@fiction/plugin-sites':
         specifier: workspace:*
         version: link:../plugin-sites
 
-  '@factor/plugin-ai':
+  '@fiction/plugin-ai':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-unsplash':
+        version: link:../core
+      '@fiction/plugin-unsplash':
         specifier: workspace:*
         version: link:../plugin-unsplash
       '@pinecone-database/pinecone':
@@ -728,29 +728,29 @@ importers:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.3.3)
 
-  '@factor/plugin-contact':
+  '@fiction/plugin-contact':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-monitor':
+        version: link:../core
+      '@fiction/plugin-monitor':
         specifier: workspace:*
         version: link:../plugin-monitor
 
-  '@factor/plugin-highlight-code':
+  '@fiction/plugin-highlight-code':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
       highlight.js:
         specifier: ^11.9.0
         version: 11.9.0
 
-  '@factor/plugin-monitor':
+  '@fiction/plugin-monitor':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
       '@mailchimp/mailchimp_marketing':
         specifier: ^3.0.80
         version: 3.0.80
@@ -770,27 +770,27 @@ importers:
         specifier: ^3.0.19
         version: 3.0.19
 
-  '@factor/plugin-notify':
+  '@fiction/plugin-notify':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
 
-  '@factor/plugin-sites':
+  '@fiction/plugin-sites':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-admin':
+        version: link:../core
+      '@fiction/plugin-admin':
         specifier: workspace:*
         version: link:../plugin-admin
-      '@factor/plugin-ai':
+      '@fiction/plugin-ai':
         specifier: workspace:*
         version: link:../plugin-ai
-      '@factor/plugin-highlight-code':
+      '@fiction/plugin-highlight-code':
         specifier: workspace:*
         version: link:../plugin-highlight-code
-      '@factor/ui':
+      '@fiction/ui':
         specifier: workspace:*
         version: link:../ui
       '@shopify/draggable':
@@ -809,11 +809,11 @@ importers:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.3.3)
 
-  '@factor/plugin-stripe':
+  '@fiction/plugin-stripe':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
       '@stripe/stripe-js':
         specifier: ^3.0.6
         version: 3.0.6
@@ -828,20 +828,20 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
 
-  '@factor/plugin-subscribe':
+  '@fiction/plugin-subscribe':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
-      '@factor/plugin-monitor':
+        version: link:../core
+      '@fiction/plugin-monitor':
         specifier: workspace:*
         version: link:../plugin-monitor
 
-  '@factor/plugin-unsplash':
+  '@fiction/plugin-unsplash':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
@@ -849,11 +849,11 @@ importers:
         specifier: ^7.0.19
         version: 7.0.19
 
-  '@factor/ui':
+  '@fiction/ui':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../api
+        version: link:../core
       '@shopify/draggable':
         specifier: ^1.1.3
         version: 1.1.3
@@ -888,39 +888,39 @@ importers:
 
   '@fiction/www':
     dependencies:
-      '@factor/api':
+      '@fiction/core':
         specifier: workspace:*
-        version: link:../../@factor/api
-      '@factor/plugin-admin':
+        version: link:../core
+      '@fiction/plugin-admin':
         specifier: workspace:*
-        version: link:../../@factor/plugin-admin
-      '@factor/plugin-admin-index':
+        version: link:../plugin-admin
+      '@fiction/plugin-admin-index':
         specifier: workspace:*
-        version: link:../../@factor/plugin-admin-index
-      '@factor/plugin-ai':
+        version: link:../plugin-admin-index
+      '@fiction/plugin-ai':
         specifier: workspace:*
-        version: link:../../@factor/plugin-ai
-      '@factor/plugin-contact':
+        version: link:../plugin-ai
+      '@fiction/plugin-contact':
         specifier: workspace:*
-        version: link:../../@factor/plugin-contact
-      '@factor/plugin-highlight-code':
+        version: link:../plugin-contact
+      '@fiction/plugin-highlight-code':
         specifier: workspace:*
-        version: link:../../@factor/plugin-highlight-code
-      '@factor/plugin-monitor':
+        version: link:../plugin-highlight-code
+      '@fiction/plugin-monitor':
         specifier: workspace:*
-        version: link:../../@factor/plugin-monitor
-      '@factor/plugin-notify':
+        version: link:../plugin-monitor
+      '@fiction/plugin-notify':
         specifier: workspace:*
-        version: link:../../@factor/plugin-notify
-      '@factor/plugin-sites':
+        version: link:../plugin-notify
+      '@fiction/plugin-sites':
         specifier: workspace:*
-        version: link:../../@factor/plugin-sites
-      '@factor/plugin-stripe':
+        version: link:../plugin-sites
+      '@fiction/plugin-stripe':
         specifier: workspace:*
-        version: link:../../@factor/plugin-stripe
-      '@factor/ui':
+        version: link:../plugin-stripe
+      '@fiction/ui':
         specifier: workspace:*
-        version: link:../../@factor/ui
+        version: link:../ui
       '@types/mapbox-gl':
         specifier: ^3.1.0
         version: 3.1.0
@@ -5251,16 +5251,35 @@ packages:
       '@volar/source-map': 1.11.1
     dev: true
 
+  /@volar/language-core@2.1.0:
+    resolution: {integrity: sha512-BrYEgYHx92ocpt1OUxJs2x3TAXEjpPLxsQoARb96g2GdF62xnfRQUqCNBwiU7Z3MQ/0tOAdqdHNYNmrFtx6q4A==}
+    dependencies:
+      '@volar/source-map': 2.1.0
+    dev: true
+
   /@volar/source-map@1.11.1:
     resolution: {integrity: sha512-hJnOnwZ4+WT5iupLRnuzbULZ42L7BWWPMmruzwtLhJfpDVoZLjNBxHDi2sY2bgZXCKlpU5XcsMFoYrsQmPhfZg==}
     dependencies:
       muggle-string: 0.3.1
     dev: true
 
+  /@volar/source-map@2.1.0:
+    resolution: {integrity: sha512-VPyi+DTv67cvUOkUewzsOQJY3VUhjOjQxigT487z/H7tEI8ZFd5RksC5afk3JelOK+a/3Y8LRDbKmYKu1dz87g==}
+    dependencies:
+      muggle-string: 0.4.1
+    dev: true
+
   /@volar/typescript@1.11.1:
     resolution: {integrity: sha512-iU+t2mas/4lYierSnoFOeRFQUhAEMgsFuQxoxvwn5EdQopw43j+J27a4lt9LMInx1gLJBC6qL14WYGlgymaSMQ==}
     dependencies:
       '@volar/language-core': 1.11.1
+      path-browserify: 1.0.1
+    dev: true
+
+  /@volar/typescript@2.1.0:
+    resolution: {integrity: sha512-2cicVoW4q6eU/omqfOBv+6r9JdrF5bBelujbJhayPNKiOj/xwotSJ/DM8IeMvTZvtkOZkm6suyOCLEokLY0w2w==}
+    dependencies:
+      '@volar/language-core': 2.1.0
       path-browserify: 1.0.1
     dev: true
 
@@ -5317,6 +5336,24 @@ packages:
       computeds: 0.0.1
       minimatch: 9.0.3
       muggle-string: 0.3.1
+      path-browserify: 1.0.1
+      typescript: 5.3.3
+      vue-template-compiler: 2.7.16
+    dev: true
+
+  /@vue/language-core@2.0.1(typescript@5.3.3):
+    resolution: {integrity: sha512-TZ9xKj3WhZol2hWvXcCjGDiOVkmQ1aG7MS3YJkhVMeoLYyopP5XFn9Obc9qorxG6vZDWapRxBkyEzJ9d6xL3Zg==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@volar/language-core': 2.1.0
+      '@vue/compiler-dom': 3.4.21
+      '@vue/shared': 3.4.21
+      computeds: 0.0.1
+      minimatch: 9.0.3
       path-browserify: 1.0.1
       typescript: 5.3.3
       vue-template-compiler: 2.7.16
@@ -10284,6 +10321,10 @@ packages:
     resolution: {integrity: sha512-ckmWDJjphvd/FvZawgygcUeQCxzvohjFO5RxTjj4eq8kw359gFF3E1brjfI+viLMxss5JrHTDRHZvu2/tuy0Qg==}
     dev: true
 
+  /muggle-string@0.4.1:
+    resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
+    dev: true
+
   /multer@1.4.5-lts.1:
     resolution: {integrity: sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==}
     engines: {node: '>= 6.0.0'}
@@ -13308,6 +13349,18 @@ packages:
     dependencies:
       '@volar/typescript': 1.11.1
       '@vue/language-core': 1.8.27(typescript@5.3.3)
+      semver: 7.6.0
+      typescript: 5.3.3
+    dev: true
+
+  /vue-tsc@2.0.1(typescript@5.3.3):
+    resolution: {integrity: sha512-a4Il11tE8khq8tZn0DucITCr3+q2B9cxL6uTQAoprnhBrxBu6vc//hp3zyTnIS1t/zCTCfdipkY7M2dqiR2plQ==}
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@volar/typescript': 2.1.0
+      '@vue/language-core': 2.0.1(typescript@5.3.3)
       semver: 7.6.0
       typescript: 5.3.3
     dev: true

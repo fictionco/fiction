@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import NotifyToaster from '@factor/plugin-notify/NotifyToaster.vue'
-import { getColorScheme, unhead, vue } from '@factor/api'
+import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
+import { getColorScheme, unhead, vue } from '@fiction/core'
 
 unhead.useHead({
   title: 'Personal Marketing System',

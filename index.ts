@@ -1,7 +1,7 @@
 import process from 'node:process'
 import type { Buffer } from 'node:buffer'
-import type { ServiceConfig } from '@factor/api'
-import { CliCommand, FactorBundle, FactorEnv, FactorRelease, log, safeDirname } from '@factor/api'
+import type { ServiceConfig } from '@fiction/core'
+import { CliCommand, FactorBundle, FactorEnv, FactorRelease, log, safeDirname } from '@fiction/core'
 import { execaCommand } from 'execa'
 import { version } from './package.json'
 
@@ -44,7 +44,7 @@ export function setup(): ServiceConfig {
 
         const pageLinesApps: string[] = []
 
-        const otherApps = ['@factor/andrewpowers']
+        const otherApps = ['@fiction/andrewpowers']
 
         const apps = []
         if (options.suite === 'fiction')

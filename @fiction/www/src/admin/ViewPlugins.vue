@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { MemberAccess } from '@factor/api/plugin-user/types'
-import type { FactorUser } from '@factor/api'
-import { onResetUi, useService, vue } from '@factor/api'
-import type { FactorTeam } from '@factor/api/plugin-team'
-import ElForm from '@factor/ui/ElForm.vue'
-import InputEmail from '@factor/ui/InputEmail.vue'
-import InputSelect from '@factor/ui/InputSelect.vue'
-import ElButton from '@factor/ui/ElButton.vue'
-import ElPanel from '@factor/ui/ElPanel.vue'
+import type { MemberAccess } from '@fiction/core/plugin-user/types'
+import type { FactorUser } from '@fiction/core'
+import { onResetUi, useService, vue } from '@fiction/core'
+import type { FactorTeam } from '@fiction/core/plugin-team'
+import ElForm from '@fiction/ui/ElForm.vue'
+import InputEmail from '@fiction/ui/InputEmail.vue'
+import InputSelect from '@fiction/ui/InputSelect.vue'
+import ElButton from '@fiction/ui/ElButton.vue'
+import ElPanel from '@fiction/ui/ElPanel.vue'
 
 const { factorUser, factorTeam } = useService<{
   factorUser: FactorUser

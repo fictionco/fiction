@@ -1,17 +1,17 @@
 import path from 'node:path'
-import { FactorUi } from '@factor/ui'
-import type { ServiceConfig } from '@factor/api'
-import { AppRoute, FactorApp, FactorAws, FactorDb, FactorEmail, FactorEnv, FactorMedia, FactorRouter, FactorServer, FactorUser, apiRoot, safeDirname } from '@factor/api'
+import { FactorUi } from '@fiction/ui'
+import type { ServiceConfig } from '@fiction/core'
+import { AppRoute, FactorApp, FactorAws, FactorDb, FactorEmail, FactorEnv, FactorMedia, FactorRouter, FactorServer, FactorUser, apiRoot, safeDirname } from '@fiction/core'
 
-import { FactorTeam } from '@factor/api/plugin-team'
-import { FactorMonitor } from '@factor/plugin-monitor'
-import { FactorNotify } from '@factor/plugin-notify'
-import { FactorDevRestart } from '@factor/api/plugin-env/restart'
-import { FactorAdmin } from '@factor/plugin-admin'
-import { FactorAdminPluginIndex, createPluginConfig } from '@factor/plugin-admin-index'
+import { FactorTeam } from '@fiction/core/plugin-team'
+import { FactorMonitor } from '@fiction/plugin-monitor'
+import { FactorNotify } from '@fiction/plugin-notify'
+import { FactorDevRestart } from '@fiction/core/plugin-env/restart'
+import { FactorAdmin } from '@fiction/plugin-admin'
+import { FactorAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
-import XSite from '@factor/plugin-sites/engine/XSite.vue'
-import { FactorAi } from '@factor/plugin-ai'
+import XSite from '@fiction/plugin-sites/engine/XSite.vue'
+import { FactorAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
 import { config as adminConfig } from './admin'
 import { commands } from './commands'
@@ -45,7 +45,7 @@ const factorRouter = new FactorRouter({
   baseUrl: factorEnv.appUrl,
   routes: (factorRouter) => {
     return [
-      new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@factor/ui/test/TestInputsAll.vue') }),
+      new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/test/TestInputsAll.vue') }),
       new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: XSite, props: { siteRouter: factorRouter, themeId: 'admin' } }),
       new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: factorRouter, themeId: 'fiction' } }),
     ]
@@ -162,7 +162,7 @@ const pluginServices = {
 }
 const plugins = createPluginConfig([
   {
-    load: () => import('@factor/plugin-sites'),
+    load: () => import('@fiction/plugin-sites'),
     settings: { factorAppSites, factorRouterSites, flyIoApiToken: '', flyIoAppId: '' },
   },
 ])

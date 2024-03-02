@@ -1,5 +1,5 @@
 packages:
   - '@fiction/*'
-  - '@factor/*'
+  - '@fiction/*'
   - '@kaption/*'
   - '@pagelines/*'

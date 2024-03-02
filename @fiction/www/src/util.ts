@@ -1,5 +1,5 @@
 // @unocss-include
-import { vue } from '@factor/api'
+import { vue } from '@fiction/core'
 
 export interface NavItem {
   name: string

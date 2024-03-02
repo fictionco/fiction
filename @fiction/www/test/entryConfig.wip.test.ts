@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { compileApplication } from '@factor/api/plugin-env/entry'
-import type { MainFile } from '@factor/api/plugin-env/types'
+import { compileApplication } from '@fiction/core/plugin-env/entry'
+import type { MainFile } from '@fiction/core/plugin-env/types'
 import { service } from '../src'
 
 describe('user config', () => {

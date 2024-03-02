@@ -5,7 +5,7 @@
 // const localInstall = process.env.INSTALL_ENV === 'local'
 function rewriteFactorDependency(deps) {
   // Object.entries(deps).forEach(([name, version]) => {
-  //   if (name.includes("@factor")) {
+  //   if (name.includes("@fiction")) {
   //     deps[name] =
   //       exists && localInstall ? `file:~/Projects/factor/${name}` : "latest"
   //   }

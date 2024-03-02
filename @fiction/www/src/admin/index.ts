@@ -1,7 +1,7 @@
 // @unocss-include
-import type { EngineSectionEntry } from '@factor/api'
-import { vue } from '@factor/api'
-import type { AdminEngineViewEntry } from '@factor/plugin-admin'
+import type { EngineSectionEntry } from '@fiction/core'
+import { vue } from '@fiction/core'
+import type { AdminEngineViewEntry } from '@fiction/plugin-admin'
 import AuthLogo from './AuthLogo.vue'
 import IconDashboard from './IconDashboard.vue'
 

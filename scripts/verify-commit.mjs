@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { chalk, fs } from '@factor/api'
+import { chalk, fs } from '@fiction/core'
 
 const msgPath = process.env.GIT_PARAMS ?? ''
 const msg = fs.readFileSync(msgPath, 'utf8').trim()

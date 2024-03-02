@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useService, vue } from '@factor/api'
-import type { FactorSites, Site } from '@factor/plugin-sites'
-import ElSiteRender from '@factor/plugin-sites/engine/ElSiteRender.vue'
+import { useService, vue } from '@fiction/core'
+import type { FactorSites, Site } from '@fiction/plugin-sites'
+import ElSiteRender from '@fiction/plugin-sites/engine/ElSiteRender.vue'
 
 const { factorSites, factorRouter } = useService<{ factorSites: FactorSites }>()
 
