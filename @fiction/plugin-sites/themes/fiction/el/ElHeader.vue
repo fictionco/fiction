@@ -22,33 +22,33 @@ const props = defineProps({
     required: true,
   },
 })
-const { factorUser, factorRouter } = useService()
+const { fictionUser, fictionRouter } = useService()
 
 const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
 })
 
 const nav = vue.computed(() => {
-  const currentRoute = factorRouter.current.value.path
+  const currentRoute = fictionRouter.current.value.path
   return (uc.value.nav || []).map((item) => {
     const isActive = item.href === currentRoute
     return { ...item, isActive }
   })
 })
 
-const activeUser = factorUser.activeUser
+const activeUser = fictionUser.activeUser
 /* Nav visibility */
 const vis = vue.ref(false)
 
 const btnClass = `hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer rounded-full px-4 py-1.5 text-sm font-sans font-semibold `
 
 vue.onMounted(async () => {
-  const user = await factorUser.userInitialized({ caller: 'ElHeader' })
+  const user = await fictionUser.userInitialized({ caller: 'ElHeader' })
 
   if (!user) {
     await googleOneTap({
       promptParentId: 'google-signin-prompt',
-      factorUser,
+      fictionUser,
       callback: async (r) => {
         const email = r.user?.email
         if (r.user && r.isNew && email) {

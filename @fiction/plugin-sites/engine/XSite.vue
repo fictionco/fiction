@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import type { FactorRouter } from '@fiction/core'
+import type { FictionRouter } from '@fiction/core'
 import { log, unhead, useService, vue } from '@fiction/core'
 import { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import El404 from '@fiction/ui/El404.vue'
 import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
-import type { FactorSites, Site } from '..'
+import type { FictionSites, Site } from '..'
 import { getMountContext, loadSite } from '../load'
 import type { FramePostMessageList } from '../utils/frame'
 
 const props = defineProps({
   themeId: { type: String, default: undefined },
-  siteRouter: { type: Object as vue.PropType<FactorRouter>, default: undefined },
+  siteRouter: { type: Object as vue.PropType<FictionRouter>, default: undefined },
 })
 
-const { factorSites, runVars, factorRouterSites } = useService<{ factorSites: FactorSites, factorRouterSites: FactorRouter }>()
+const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
@@ -30,8 +30,8 @@ async function load() {
       mountContext: runVars?.MOUNT_CONTEXT, // used during preview
     })
     site.value = await loadSite({
-      siteRouter: props.siteRouter || factorRouterSites,
-      factorSites,
+      siteRouter: props.siteRouter || fictionRouterSites,
+      fictionSites,
       mountContext,
     })
   }

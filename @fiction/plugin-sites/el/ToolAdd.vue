@@ -17,7 +17,7 @@ const props = defineProps({
     required: true,
   },
 })
-const control = props.site.settings.factorSites
+const control = props.site.settings.fictionSites
 const groupTemplates = vue.computed(() => {
   const all = props.site.theme.value?.templates
 

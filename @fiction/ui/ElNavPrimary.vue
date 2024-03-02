@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { FactorRouter, MenuItem, vue } from '@fiction/core'
+import type { FictionRouter, MenuItem, vue } from '@fiction/core'
 import { useService } from '@fiction/core'
 
 defineProps({
   nav: { type: Array as vue.PropType<MenuItem[]>, default: () => [] },
 })
 useService<{
-  factorRouter: FactorRouter
+  fictionRouter: FictionRouter
 }>()
 </script>
 

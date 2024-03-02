@@ -29,7 +29,7 @@ export function baseBrowserEvent(args: {
         url: getCanonicalUrl(),
       },
       userAgent: navigator.userAgent,
-      isFake: window.factorIsFake || false,
+      isFake: window.fictionIsFake || false,
     }
   }
 

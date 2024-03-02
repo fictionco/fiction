@@ -1,12 +1,12 @@
 // @unocss-include
-import type { FactorPluginSettings } from '@fiction/core'
-import { FactorPlugin } from '@fiction/core'
-import type { FactorAdmin, FactorAdminSettings } from '@fiction/plugin-admin'
+import type { FictionPluginSettings } from '@fiction/core'
+import { FictionPlugin } from '@fiction/core'
+import type { FictionAdmin, FictionAdminSettings } from '@fiction/plugin-admin'
 
-export type BaseAdminPluginSettings = FactorAdminSettings & { factorAdmin: FactorAdmin }
+export type BaseAdminPluginSettings = FictionAdminSettings & { fictionAdmin: FictionAdmin }
 
 export type PluginMain<T extends BaseAdminPluginSettings> = {
-  createPlugin: (args: T) => Promise<FactorPlugin<T>>
+  createPlugin: (args: T) => Promise<FictionPlugin<T>>
   serviceId: string
   title: string
   description: string
@@ -23,9 +23,9 @@ export function createPluginConfig<T extends Record<string, any>>(plugins: Plugi
   return plugins as PluginLoader[]
 }
 
-type PluginIndexSettings = { plugins: PluginLoader<Record<string, any>>[] } & FactorPluginSettings
+type PluginIndexSettings = { plugins: PluginLoader<Record<string, any>>[] } & FictionPluginSettings
 
-export class FactorAdminPluginIndex<T extends PluginIndexSettings = PluginIndexSettings> extends FactorPlugin<T> {
+export class FictionAdminPluginIndex<T extends PluginIndexSettings = PluginIndexSettings> extends FictionPlugin<T> {
   root = this.utils.safeDirname(import.meta.url)
   plugins = this.settings.plugins
   constructor(settings: T) {

@@ -1,9 +1,9 @@
 // @unocss-include
-import { FactorPlugin, safeDirname, vue } from '@fiction/core'
-import type { DataFilter, FactorApp, FactorRouter, IndexMeta } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import type { DataFilter, FictionApp, FictionRouter, IndexMeta } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import type { FactorAdmin, FactorAdminSettings } from '@fiction/plugin-admin'
+import type { FictionAdmin, FictionAdminSettings } from '@fiction/plugin-admin'
 import type { PluginMain } from '@fiction/plugin-admin-index'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'
 import { tables } from './tables'
@@ -21,35 +21,35 @@ vars.register(() => [
 ])
 
 export type SitesPluginSettings = {
-  factorAppSites: FactorApp
-  factorRouterSites: FactorRouter
+  fictionAppSites: FictionApp
+  fictionRouterSites: FictionRouter
   flyIoAppId: string
   flyIoApiToken: string
-  factorAdmin: FactorAdmin
-} & FactorAdminSettings
+  fictionAdmin: FictionAdmin
+} & FictionAdminSettings
 
-export class FactorSites extends FactorPlugin<SitesPluginSettings> {
-  themes = vue.shallowRef(getThemes({ factorEnv: this.settings.factorEnv }))
+export class FictionSites extends FictionPlugin<SitesPluginSettings> {
+  themes = vue.shallowRef(getThemes({ fictionEnv: this.settings.fictionEnv }))
   queries = {
-    ManageSite: new ManageSite({ ...this.settings, factorSites: this }),
-    ManageIndex: new ManageIndex({ ...this.settings, factorSites: this }),
-    ManagePage: new ManagePage({ ...this.settings, factorSites: this }),
-    ManageCert: new ManageCert({ ...this.settings, factorSites: this }),
+    ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
+    ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
+    ManagePage: new ManagePage({ ...this.settings, fictionSites: this }),
+    ManageCert: new ManageCert({ ...this.settings, fictionSites: this }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.settings.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
   })
 
   constructor(settings: SitesPluginSettings) {
     const s = { ...settings, root: safeDirname(import.meta.url) }
 
-    super('FactorSites', s)
+    super('FictionSites', s)
 
-    this.settings.factorDb.addTables(tables)
-    this.settings.factorRouter?.update(getRoutes({ ...this.settings, factorSites: this }))
+    this.settings.fictionDb.addTables(tables)
+    this.settings.fictionRouter?.update(getRoutes({ ...this.settings, fictionSites: this }))
   }
 
   activeSite = vue.shallowRef<Site | undefined>(undefined)
@@ -86,8 +86,8 @@ export class FactorSites extends FactorPlugin<SitesPluginSettings> {
     const items = r.data
       ? r.data.map(d => new Site({
         ...d,
-        factorSites: this,
-        siteRouter: this.settings.factorRouterSites || this.settings.factorRouter,
+        fictionSites: this,
+        siteRouter: this.settings.fictionRouterSites || this.settings.fictionRouter,
         isEditable: false,
       }))
       : undefined
@@ -95,25 +95,25 @@ export class FactorSites extends FactorPlugin<SitesPluginSettings> {
     return { items, indexMeta: r.indexMeta }
   }
 
-  getPreviewPath(args: { factorAdmin: FactorAdmin }) {
-    const { factorAdmin } = args
+  getPreviewPath(args: { fictionAdmin: FictionAdmin }) {
+    const { fictionAdmin } = args
     return vue.computed(() => {
-      const current = factorAdmin.settings.factorRouter.current.value
+      const current = fictionAdmin.settings.fictionRouter.current.value
       const { selectorType, selectorId, siteId, subDomain, themeId } = { ...current.query, ...current.params } as Record<string, string>
 
       const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
       const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
 
-      return `${factorAdmin.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
+      return `${fictionAdmin.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
     })
   }
 }
 
 export function setup(): PluginMain<SitesPluginSettings> {
   return {
-    serviceId: 'factorSites',
+    serviceId: 'fictionSites',
     title: 'Sites',
     description: 'Create and manage websites',
-    createPlugin: async (_: SitesPluginSettings) => new FactorSites(_),
+    createPlugin: async (_: SitesPluginSettings) => new FictionSites(_),
   }
 }

@@ -1,4 +1,4 @@
-import type { FactorRouter } from '../plugin-router'
+import type { FictionRouter } from '../plugin-router'
 import { vue } from './libraries'
 import { emitEvent, onEvent } from './event'
 
@@ -31,7 +31,7 @@ export function onResetUi(cb: (args: ResetUiDetail) => void, _args: { location?:
   }
 }
 
-export async function initializeResetUi(factorRouter: FactorRouter): Promise<void> {
+export async function initializeResetUi(fictionRouter: FictionRouter): Promise<void> {
   window.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' || e.key === 'Tab')
       resetUi({ scope: 'all', cause: 'escape' })
@@ -41,7 +41,7 @@ export async function initializeResetUi(factorRouter: FactorRouter): Promise<voi
     resetUi({ scope: 'all', cause: 'windowClick' })
   })
   vue.watch(
-    () => factorRouter.current.value.path,
+    () => fictionRouter.current.value.path,
     (r, old) => {
       if (r !== old)
         resetUi({ scope: 'all', cause: 'routeChange' })

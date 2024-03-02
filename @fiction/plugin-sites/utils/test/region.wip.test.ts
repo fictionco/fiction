@@ -9,7 +9,7 @@ import { addNewCard, removeCard, requestManagePage, updateRegion } from '../regi
 
 describe('removeCard', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should successfully remove a card from a region', () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
@@ -73,7 +73,7 @@ describe('removeCard', async () => {
 
 describe('addNewCard', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should throw an error if template is not found', () => {
     const site = new Site({ ...common, isProd: false, themeId: 'test' })
@@ -128,7 +128,7 @@ describe('addNewCard', async () => {
 
 describe('updateRegion', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
   const cardCommon = { regionId: 'main', templateId: 'area' } as const
   it('should add a new card if it does not exist', () => {
     const site = new Site({ ...common, isProd: false })
@@ -159,7 +159,7 @@ describe('updateRegion', async () => {
 describe('requestManagePage', async () => {
   const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test', siteMode: 'standard' } as const
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
   const result = await requestManageSite(
     {
       _action: 'create',
@@ -222,7 +222,7 @@ describe('requestManagePage', async () => {
 
     expect(response?.status).toBe('success')
 
-    const r = await site.factorSites.requests.ManagePage.projectRequest({
+    const r = await site.fictionSites.requests.ManagePage.projectRequest({
       siteId: site.siteId,
       _action: 'retrieve',
       fields: { cardId: cc1?.cardId, siteId: site.siteId },

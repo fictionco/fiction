@@ -1,16 +1,16 @@
 import type { IncomingWebhookSendArguments } from '@slack/webhook'
 import { IncomingWebhook } from '@slack/webhook'
 import type {
-  FactorApp,
-  FactorAppEntry,
-  FactorEmail,
-  FactorEnv,
-  FactorUser,
+  FictionApp,
+  FictionAppEntry,
+  FictionEmail,
+  FictionEnv,
+  FictionUser,
   User,
 } from '@fiction/core'
 import {
   EnvVar,
-  FactorPlugin,
+  FictionPlugin,
   vars,
 } from '@fiction/core'
 import mailchimp from '@mailchimp/mailchimp_marketing'
@@ -37,11 +37,11 @@ vars.register(() => [
   }),
 ])
 
-interface FactorMonitorSettings {
-  factorEnv: FactorEnv
-  factorUser: FactorUser
-  factorApp: FactorApp
-  factorEmail: FactorEmail
+interface FictionMonitorSettings {
+  fictionEnv: FictionEnv
+  fictionUser: FictionUser
+  fictionApp: FictionApp
+  fictionEmail: FictionEmail
   monitorEmail?: string
   slackWebhookUrl?: string
   sentryPublicDsn?: string
@@ -50,33 +50,33 @@ interface FactorMonitorSettings {
   mailchimpListId?: string
 }
 
-export class FactorMonitor extends FactorPlugin<FactorMonitorSettings> {
-  factorEnv = this.settings.factorEnv
-  factorUser = this.settings.factorUser
-  factorApp = this.settings.factorApp
-  factorEmail = this.settings.factorEmail
-  monitorEmail = this.settings.monitorEmail || this.settings.factorApp.appEmail
+export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
+  fictionEnv = this.settings.fictionEnv
+  fictionUser = this.settings.fictionUser
+  fictionApp = this.settings.fictionApp
+  fictionEmail = this.settings.fictionEmail
+  monitorEmail = this.settings.monitorEmail || this.settings.fictionApp.appEmail
   isTest = this.utils.isTest()
   slackWebhookUrl = this.settings.slackWebhookUrl
   sentryPublicDsn = this.settings.sentryPublicDsn
   mailchimpApiKey = this.settings.mailchimpApiKey
   mailchimpServer = this.settings.mailchimpServer
   mailchimpListId = this.settings.mailchimpListId
-  constructor(settings: FactorMonitorSettings) {
-    super('FactorMonitor', settings)
+  constructor(settings: FictionMonitorSettings) {
+    super('FictionMonitor', settings)
 
-    this.factorUser.addHook({
+    this.fictionUser.addHook({
       hook: 'requestCurrentUser',
       callback: async (user) => {
         await this.identifyUser(user)
       },
     })
 
-    this.factorUser.addHook({
+    this.fictionUser.addHook({
       hook: 'createPassword',
       callback: async (user, { params }) => {
         const { isNewUser } = params
-        if (!this.factorEnv?.isApp.value) {
+        if (!this.fictionEnv?.isApp.value) {
           const { cityName, regionName, countryCode } = user.geo || {}
           await this.slackNotify({
             message: `(PageLines) password set: ${user.email}`,
@@ -142,7 +142,7 @@ export class FactorMonitor extends FactorPlugin<FactorMonitorSettings> {
               markdownText += `* **${field.title}**: ${field.value}\n`
             })
           }
-          await this.factorEmail.sendEmail({
+          await this.fictionEmail.sendEmail({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
             text: markdownText,
@@ -158,12 +158,12 @@ export class FactorMonitor extends FactorPlugin<FactorMonitorSettings> {
     }
   }
 
-  async installBrowserMonitoring(entry: FactorAppEntry): Promise<void> {
+  async installBrowserMonitoring(entry: FictionAppEntry): Promise<void> {
     const { app, router, service } = entry
     const dsn = this.sentryPublicDsn
     if (
       dsn
-      && service.factorEnv?.isProd.value
+      && service.fictionEnv?.isProd.value
       && typeof window !== 'undefined'
     ) {
       const Sentry = await import('@sentry/vue')

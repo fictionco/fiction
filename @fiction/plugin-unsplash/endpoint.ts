@@ -3,10 +3,10 @@ import nodeFetch from 'node-fetch'
 import { Query } from '@fiction/core/query'
 import type { EndpointResponse } from '@fiction/core/types'
 import type { EndpointMeta } from '@fiction/core'
-import type { FactorUnsplash } from '.'
+import type { FictionUnsplash } from '.'
 
-interface FactorUnsplashSettings {
-  factorUnsplash: FactorUnsplash
+interface FictionUnsplashSettings {
+  fictionUnsplash: FictionUnsplash
 }
 
 interface UnsplashQueryParams {
@@ -20,11 +20,11 @@ interface UnsplashPhoto {
   urls: { full: string, regular: string }
 }
 
-export class QueryUnsplash extends Query<FactorUnsplashSettings> {
-  accessKey = this.settings.factorUnsplash.unsplashAccessKey
+export class QueryUnsplash extends Query<FictionUnsplashSettings> {
+  accessKey = this.settings.fictionUnsplash.unsplashAccessKey
 
   count = 100
-  constructor(settings: FactorUnsplashSettings) {
+  constructor(settings: FictionUnsplashSettings) {
     super(settings)
   }
 

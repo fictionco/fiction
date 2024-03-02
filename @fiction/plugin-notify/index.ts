@@ -1,8 +1,8 @@
-import type { FactorPluginSettings } from '@fiction/core'
-import { FactorPlugin, emitEvent, safeDirname } from '@fiction/core'
+import type { FictionPluginSettings } from '@fiction/core'
+import { FictionPlugin, emitEvent, safeDirname } from '@fiction/core'
 
-export class FactorNotify extends FactorPlugin<FactorPluginSettings> {
-  constructor(settings: FactorPluginSettings) {
+export class FictionNotify extends FictionPlugin<FictionPluginSettings> {
+  constructor(settings: FictionPluginSettings) {
     super('notify', { root: safeDirname(import.meta.url), ...settings })
   }
 

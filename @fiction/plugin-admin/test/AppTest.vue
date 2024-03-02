@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import ElTable from '@fiction/ui/ElTable.vue'
-import type { FactorApp } from '@fiction/core'
+import type { FictionApp } from '@fiction/core'
 import { getCrossVar, toLabel, useService } from '@fiction/core'
 
-const { factorApp } = useService<{ factorApp: FactorApp }>()
+const { fictionApp } = useService<{ fictionApp: FictionApp }>()
 
 const list = [
   {
@@ -32,15 +32,15 @@ const list = [
   },
   {
     id: 'app-name',
-    value: factorApp.appName,
+    value: fictionApp.appName,
   },
   {
     id: 'app-email',
-    value: factorApp.appEmail,
+    value: fictionApp.appEmail,
   },
   {
     id: 'app-url',
-    value: factorApp.appUrl,
+    value: fictionApp.appUrl,
   },
 ]
 

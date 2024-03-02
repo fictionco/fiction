@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import HighlightCode from '@fiction/plugin-highlight-code/HighlightCode.vue'
-import type { FactorRouter, NavGroup, PostOrPage } from '@fiction/core'
+import type { FictionRouter, NavGroup, PostOrPage } from '@fiction/core'
 import { dayjs, renderMarkdown, unhead, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import EntryToc from '@fiction/ui/EntryToc.vue'
@@ -22,7 +22,7 @@ const props = defineProps({
 const uc = vue.computed(() => props.card.userConfig.value)
 const post = vue.computed(() => uc.value.post)
 
-const { factorRouter } = useService<{ factorRouter: FactorRouter }>()
+const { fictionRouter } = useService<{ fictionRouter: FictionRouter }>()
 
 const loading = vue.ref(false)
 
@@ -61,7 +61,7 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 })
 
 const activeMenu = vue.computed<NavGroup[]>(() => {
-  const currentPath = factorRouter.current.value.path
+  const currentPath = fictionRouter.current.value.path
   const menu = uc.value.menu ?? []
   return menu.map((g) => {
     return {

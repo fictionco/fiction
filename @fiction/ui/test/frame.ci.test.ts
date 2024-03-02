@@ -82,7 +82,7 @@ describe('frame messaging', () => {
           "data": {
             "foo": "bar",
           },
-          "from": "factor",
+          "from": "fiction",
           "messageType": "test",
           "url": undefined,
         },
@@ -109,7 +109,7 @@ describe('frame messaging', () => {
             "direction": "down",
             "key": "Alt",
           },
-          "from": "factor",
+          "from": "fiction",
           "messageType": "keypress",
           "url": "http://localhost:3000/?id=1",
         },

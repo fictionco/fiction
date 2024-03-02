@@ -1,9 +1,9 @@
 import type { vue, vueRouter } from '../utils/libraries'
-import type { FactorPlugin } from '../plugin'
-import { FactorObject } from '../plugin'
+import type { FictionPlugin } from '../plugin'
+import { FictionObject } from '../plugin'
 import { toLabel } from '../utils/casing'
 import type { RouteAuthCallback } from './types'
-import type { FactorRouter } from '.'
+import type { FictionRouter } from '.'
 
 type IsActiveCallback = (c: {
   route: vueRouter.RouteLocation
@@ -21,17 +21,17 @@ type ComponentInterface<T> = T extends vue.Component<infer P> ? P : never
 export type AppRouteParams<T extends string = string, U extends vue.Component = vue.Component> = {
   name: T
   title?: string
-  niceName?: (args: { factorRouter: FactorRouter }) => string
+  niceName?: (args: { fictionRouter: FictionRouter }) => string
   path: string
   icon?: string
   isActive?: IsActiveCallback
   parent?: string
   priority?: number
-  services?: Record<string, FactorPlugin>
+  services?: Record<string, FictionPlugin>
   auth?: RouteAuthCallback
-  after?: (args: { factorRouter: FactorRouter, to: RLoc, from: RLoc }) => Promise<void>
+  after?: (args: { fictionRouter: FictionRouter, to: RLoc, from: RLoc }) => Promise<void>
   before?: (args: {
-    factorRouter: FactorRouter
+    fictionRouter: FictionRouter
     isSSR: boolean
     to: RLoc
     from: RLoc
@@ -42,7 +42,7 @@ export type AppRouteParams<T extends string = string, U extends vue.Component = 
   component: U
   redirect?: vueRouter.RouteRecordRedirectOption
 }
-export class AppRoute<T extends string = string, U extends vue.Component = vue.Component> extends FactorObject<AppRouteParams<T, U>> {
+export class AppRoute<T extends string = string, U extends vue.Component = vue.Component> extends FictionObject<AppRouteParams<T, U>> {
   name = this.settings.name
   title = this.settings.title || toLabel(this.settings.name)
   niceName = this.settings.niceName || (() => toLabel(this.name))

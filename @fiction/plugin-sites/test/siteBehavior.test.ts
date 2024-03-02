@@ -11,8 +11,8 @@ describe('siteMode', async () => {
   await testUtils.init()
 
   const common = {
-    siteRouter: testUtils?.factorRouterSites,
-    factorSites: testUtils?.factorSites,
+    siteRouter: testUtils?.fictionRouterSites,
+    fictionSites: testUtils?.fictionSites,
     themeId: 'test',
   } as const
 
@@ -27,8 +27,8 @@ describe('siteInit', async () => {
   await testUtils.init()
 
   const common = {
-    siteRouter: testUtils?.factorRouterSites,
-    factorSites: testUtils?.factorSites,
+    siteRouter: testUtils?.fictionRouterSites,
+    fictionSites: testUtils?.fictionSites,
     themeId: 'test',
   } as const
 
@@ -48,8 +48,8 @@ describe('siteConfig', async () => {
   const testUtils = await createSiteTestUtils()
 
   const common = {
-    siteRouter: testUtils?.factorRouterSites,
-    factorSites: testUtils?.factorSites,
+    siteRouter: testUtils?.fictionRouterSites,
+    fictionSites: testUtils?.fictionSites,
     themeId: 'test',
   } as const
 

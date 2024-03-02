@@ -12,18 +12,18 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 const showApiSecret = vue.ref(false)
 
 const sending = vue.ref<string | boolean>(false)
 const sent = vue.ref(false)
-const activeOrganization = factorUser.activeOrganization
+const activeOrganization = fictionUser.activeOrganization
 
 async function generateApiSecret(): Promise<void> {
-  const orgId = factorUser.activeOrganization.value?.orgId
+  const orgId = fictionUser.activeOrganization.value?.orgId
   if (!orgId)
     return
-  const r = await factorUser.requests.GenerateApiSecret.request({
+  const r = await fictionUser.requests.GenerateApiSecret.request({
     orgId,
   })
 
@@ -76,15 +76,15 @@ async function generateKey(confirmNew?: boolean): Promise<void> {
         label="Private API Key"
         description="Needed to access the API in protected use cases."
       >
-        <template v-if="factorUser.activeOrganization.value?.apiSecret">
+        <template v-if="fictionUser.activeOrganization.value?.apiSecret">
           <InputText
             v-if="showApiSecret"
-            :value="factorUser.activeOrganization.value?.apiSecret"
+            :value="fictionUser.activeOrganization.value?.apiSecret"
             readonly
           />
           <InputPassword
             v-else
-            :value="factorUser.activeOrganization.value?.apiSecret"
+            :value="fictionUser.activeOrganization.value?.apiSecret"
             readonly
           />
           <div class="my-4 space-x-3">

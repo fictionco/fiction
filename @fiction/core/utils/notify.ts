@@ -22,13 +22,13 @@ export type NotifyHookDictionary = {
   notify: { args: [Notification] }
 }
 
-interface FactorNotifySettings {
+interface FictionNotifySettings {
   hooks?: HookType<NotifyHookDictionary>[]
 }
 
-export class FactorNotify {
+export class FictionNotify {
   hooks: HookType<NotifyHookDictionary>[]
-  constructor(settings: FactorNotifySettings = {}) {
+  constructor(settings: FictionNotifySettings = {}) {
     this.hooks = settings.hooks ?? []
   }
 
@@ -69,4 +69,4 @@ export class FactorNotify {
   }
 }
 
-export const notify = new FactorNotify()
+export const notify = new FictionNotify()

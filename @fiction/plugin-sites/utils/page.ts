@@ -1,4 +1,4 @@
-import type { FactorRouter } from '@fiction/core'
+import type { FictionRouter } from '@fiction/core'
 import { log, vue } from '@fiction/core'
 import { Card } from '../card'
 import type { Site } from '..'
@@ -48,7 +48,7 @@ export function getViewMap(args: { pages: Card[] }) {
   return cardMap
 }
 
-export function activePageId(args: { siteRouter: FactorRouter, viewMapRef: vue.Ref<Record<string, string>> }) {
+export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.Ref<Record<string, string>> }) {
   const { siteRouter, viewMapRef } = args
   return vue.computed({
     get() {

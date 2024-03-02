@@ -2,7 +2,7 @@
 import { vue } from './libraries'
 
 declare global {
-  var factorState: Record<string, any>
+  var fictionState: Record<string, any>
   var __INITIAL_STATE__: Record<string, any>
 }
 
@@ -15,10 +15,10 @@ export function getState(): Record<string, any> {
  * Gets the primary store and creates it if it doesn't exist
  */
 export function getStore(): Record<string, any> {
-  if (!globalObject.factorState)
-    globalObject.factorState = getState()
+  if (!globalObject.fictionState)
+    globalObject.fictionState = getState()
 
-  return globalObject.factorState
+  return globalObject.fictionState
 }
 /**
  * Store an item in application store/cache

@@ -1,4 +1,4 @@
-import type { FactorAppEntry } from '../plugin-env'
+import type { FictionAppEntry } from '../plugin-env'
 
 export interface IndexTemplates {
   main: { location: string, html?: string }
@@ -39,7 +39,7 @@ export interface RenderedHtmlParts {
 }
 
 export interface EntryModuleExports {
-  runAppEntry: (c: { renderRoute?: string, runVars?: Record<string, string> }) => Promise<FactorAppEntry>
+  runAppEntry: (c: { renderRoute?: string, runVars?: Record<string, string> }) => Promise<FictionAppEntry>
   [key: string]: unknown
 }
 

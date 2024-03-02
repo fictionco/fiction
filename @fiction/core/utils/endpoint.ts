@@ -3,8 +3,8 @@ import type { FormData } from 'formdata-node'
 import type { User } from '../plugin-user/types'
 import type { EndpointResponse } from '../types'
 import { vue } from '../utils'
-import type { FactorUser } from '../plugin-user'
-import type { FactorRouter } from '../plugin-router'
+import type { FictionUser } from '../plugin-user'
+import type { FictionRouter } from '../plugin-router'
 import type { Query } from '../query'
 import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
@@ -20,8 +20,8 @@ export interface EndpointOptions {
   serverUrl: EndpointServerUrl
   basePath: string
   middleware?: () => express.RequestHandler[]
-  factorUser?: FactorUser
-  factorRouter?: FactorRouter
+  fictionUser?: FictionUser
+  fictionRouter?: FictionRouter
   unauthorized?: boolean
   useNaked?: boolean
 }
@@ -70,8 +70,8 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   readonly serverUrl: EndpointServerUrl
   readonly basePath: string
   readonly key: string
-  factorUser?: FactorUser
-  factorRouter?: FactorRouter
+  fictionUser?: FictionUser
+  fictionRouter?: FictionRouter
   queryHandler?: T
   requestHandler?: RequestHandler
   middleware: () => express.RequestHandler[]
@@ -91,9 +91,9 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
     this.middleware = middleware || (() => [])
 
-    this.factorRouter = options.factorRouter
-    if (!unauthorized && options.factorUser)
-      this.factorUser = options.factorUser
+    this.fictionRouter = options.fictionRouter
+    if (!unauthorized && options.fictionUser)
+      this.fictionUser = options.fictionUser
   }
 
   public pathname(): string {
@@ -138,13 +138,13 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
       if (!user.orgs)
         throw new Error('incomplete user returned')
 
-      await this.factorUser?.updateUser(() => r.user as User, {
+      await this.fictionUser?.updateUser(() => r.user as User, {
         reason: `request:${this.key}`,
       })
     }
 
     if (r.token)
-      this.factorUser?.clientToken({ action: 'set', token: r.token as string })
+      this.fictionUser?.clientToken({ action: 'set', token: r.token as string })
 
     return r as Awaited<ReturnType<T['run']>>
   }
@@ -183,7 +183,7 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   }
 
   get bearerHeader() {
-    const bearerToken = this.factorUser?.clientToken({ action: 'get' })
+    const bearerToken = this.fictionUser?.clientToken({ action: 'get' })
     return `Bearer ${bearerToken ?? ''}`
   }
 
@@ -229,12 +229,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
 
   getUserInfo(args?: { userOptional?: boolean }) {
     const { userOptional = false } = args || {}
-    if (!this.factorUser)
-      throw new Error(`factorUser is required for getUserInfo`)
+    if (!this.fictionUser)
+      throw new Error(`fictionUser is required for getUserInfo`)
 
-    const { orgId, orgName } = this.factorUser.activeOrganization.value ?? {}
+    const { orgId, orgName } = this.fictionUser.activeOrganization.value ?? {}
 
-    const { userId, fullName } = this.factorUser.activeUser.value ?? {}
+    const { userId, fullName } = this.fictionUser.activeUser.value ?? {}
 
     if (!userOptional) {
       if (!orgId)
@@ -289,12 +289,12 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
   ): ReturnType<this['request']> {
     const { userOptional, useRouteParams, minTime, debug } = opts || {}
 
-    if (!this.factorUser)
-      throw new Error(`factorUser is required for projectRequest`)
+    if (!this.fictionUser)
+      throw new Error(`fictionUser is required for projectRequest`)
 
     let requestParams = params
     if (useRouteParams) {
-      const { offset, limit, order, orderBy, userId } = this.factorRouter?.vars.value || {}
+      const { offset, limit, order, orderBy, userId } = this.fictionRouter?.vars.value || {}
 
       requestParams = { offset, limit, order, orderBy, userId, ...requestParams }
     }

@@ -5,8 +5,8 @@ import type { RunVars } from '../inject'
  * checks if environment variables from the server or client is set
  */
 export function hasCrossVar(name: string, value?: string): boolean {
-  if (typeof window !== 'undefined' && window.factorRunVars?.[name as keyof RunVars])
-    return value ? window.factorRunVars?.[name as keyof RunVars] === value : true
+  if (typeof window !== 'undefined' && window.fictionRunVars?.[name as keyof RunVars])
+    return value ? window.fictionRunVars?.[name as keyof RunVars] === value : true
   else if (typeof process !== 'undefined' && process.env && process.env[name])
     return value ? process.env[name] === value : true
 
@@ -16,8 +16,8 @@ export function hasCrossVar(name: string, value?: string): boolean {
  * Gets environment variables from the server or client
  */
 export function getCrossVar<T extends keyof RunVars>(name: T | string): RunVars[T] | string | undefined {
-  if (typeof window !== 'undefined' && window.factorRunVars?.[name as keyof RunVars])
-    return window.factorRunVars?.[name as T]
+  if (typeof window !== 'undefined' && window.fictionRunVars?.[name as keyof RunVars])
+    return window.fictionRunVars?.[name as T]
   else if (typeof process !== 'undefined' && process.env[name])
     return process.env[name]
 }

@@ -7,13 +7,13 @@ import knexStringcase from 'knex-stringcase'
 import * as typebox from '@sinclair/typebox'
 import type { HookType } from '../utils'
 import { runHooks, safeDirname } from '../utils'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
-import type { FactorServer } from '../plugin-server'
+import type { FictionServer } from '../plugin-server'
 import { CheckUsername } from './endpoint'
-import type { FactorDbCol, FactorDbTable } from './objects'
+import type { FictionDbCol, FictionDbTable } from './objects'
 
 export * from './objects'
 
@@ -21,39 +21,39 @@ vars.register(() => [
   new EnvVar({ name: 'POSTGRES_URL', val: process.env.POSTGRES_URL }),
 ])
 
-export type FactorDBTables = 'factor_user' | 'factor_post' | 'factor_version'
+export type FictionDBTables = 'fiction_user' | 'fiction_post' | 'fiction_version'
 
-export type FactorDbHookDictionary = {
-  onStart: { args: [FactorDb] }
-  tables: { args: [FactorDbTable[]] }
+export type FictionDbHookDictionary = {
+  onStart: { args: [FictionDb] }
+  tables: { args: [FictionDbTable[]] }
 }
 
-export type FactorDbSettings = {
+export type FictionDbSettings = {
   connectionUrl?: string
-  hooks?: HookType<FactorDbHookDictionary>[]
-  tables?: FactorDbTable[]
-  factorEnv?: FactorEnv
-  factorServer?: FactorServer // for DB utilities like username checking
-} & FactorPluginSettings
+  hooks?: HookType<FictionDbHookDictionary>[]
+  tables?: FictionDbTable[]
+  fictionEnv?: FictionEnv
+  fictionServer?: FictionServer // for DB utilities like username checking
+} & FictionPluginSettings
 
-export class FactorDb extends FactorPlugin<FactorDbSettings> {
+export class FictionDb extends FictionPlugin<FictionDbSettings> {
   db?: Knex
   connectionUrl?: URL
-  hooks: HookType<FactorDbHookDictionary>[]
+  hooks: HookType<FictionDbHookDictionary>[]
   defaultConnectionUrl = 'http://test:test@localhost:5432/test'
   tables = this.settings.tables || []
   isInitialized = false
   queries = {
-    CheckUsername: new CheckUsername({ ...this.settings, factorDb: this }),
+    CheckUsername: new CheckUsername({ ...this.settings, fictionDb: this }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
     basePath: '/utils/db',
-    factorServer: this.settings.factorServer,
+    fictionServer: this.settings.fictionServer,
   })
 
-  constructor(settings: FactorDbSettings) {
+  constructor(settings: FictionDbSettings) {
     super('db', { root: safeDirname(import.meta.url), ...settings })
 
     this.hooks = settings.hooks || []
@@ -71,7 +71,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   }
 
   async init() {
-    if (this.settings.factorEnv.isApp.value)
+    if (this.settings.fictionEnv.isApp.value)
       return
 
     if (!this.connectionUrl)
@@ -126,7 +126,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   }
 
   addSchema() {
-    this.factorEnv?.addHook({
+    this.fictionEnv?.addHook({
       hook: 'staticSchema',
       callback: async (existing) => {
         const list: Record<string, typebox.TSchema> = {}
@@ -142,17 +142,17 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     })
   }
 
-  addTables(tables: FactorDbTable[]) {
+  addTables(tables: FictionDbTable[]) {
     this.tables.push(...tables)
   }
 
   addColumns(
     tableKey: string,
-    columns: FactorDbCol[] | readonly FactorDbCol[],
+    columns: FictionDbCol[] | readonly FictionDbCol[],
   ) {
     this.hooks.push({
       hook: 'tables',
-      callback: (tables: FactorDbTable[]) => {
+      callback: (tables: FictionDbTable[]) => {
         const tbl = tables.find(t => t.tableKey === tableKey)
 
         if (tbl) {
@@ -169,7 +169,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
     })
   }
 
-  getColumns(tableKey: string): FactorDbCol[] | undefined {
+  getColumns(tableKey: string): FictionDbCol[] | undefined {
     const tbl = this.tables.find(t => t.tableKey === tableKey)
 
     if (!tbl) {
@@ -191,7 +191,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
   }
 
   async extend(): Promise<void> {
-    const env = this.settings.factorEnv
+    const env = this.settings.fictionEnv
     if (env.isApp.value || !this.connectionUrl || env.isRestart() || this.utils.isTest())
       return
 
@@ -205,7 +205,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
       await extendDb(db)
 
       if (this.tables.length > 0) {
-        const tables = await runHooks<FactorDbHookDictionary, 'tables'>({
+        const tables = await runHooks<FictionDbHookDictionary, 'tables'>({
           list: this.hooks,
           hook: 'tables',
           args: [this.tables],
@@ -216,7 +216,7 @@ export class FactorDb extends FactorPlugin<FactorDbSettings> {
       }
 
       this.log.info('extending db [done]')
-      await runHooks<FactorDbHookDictionary>({
+      await runHooks<FictionDbHookDictionary>({
         list: this.hooks,
         hook: 'onStart',
         args: [this],

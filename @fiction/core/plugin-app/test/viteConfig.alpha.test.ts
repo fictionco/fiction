@@ -10,9 +10,9 @@ describe('vite config', () => {
     testUtils = await createTestUtils({ serverPort: 20_220, appPort: 1234 })
   })
   it('gets and merges vite config', async () => {
-    expect(testUtils?.factorServer.port).toBe(20_220)
+    expect(testUtils?.fictionServer.port).toBe(20_220)
 
-    viteConfig = await testUtils?.factorApp.factorRender?.getViteConfig({
+    viteConfig = await testUtils?.fictionApp.fictionRender?.getViteConfig({
       isProd: true,
     })
 

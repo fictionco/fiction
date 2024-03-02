@@ -20,9 +20,9 @@ describe('siteRendering Tests', async () => {
   subDomain = shortId()
 
   const common = {
-    factorSites: testUtils.factorSites,
-    siteRouter: testUtils.factorRouterSites,
-    parentRouter: testUtils.factorRouter,
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 
@@ -40,20 +40,20 @@ describe('siteRendering Tests', async () => {
 
   siteObj = result?.site
 
-  testUtils.factorSites.activeSite.value = siteObj
+  testUtils.fictionSites.activeSite.value = siteObj
 
   afterAll(async () => {
-    await testUtils?.factorApp.close()
-    await testUtils?.factorAppSites.close()
+    await testUtils?.fictionApp.close()
+    await testUtils?.fictionAppSites.close()
   })
 
   it('loads site correctly', async () => {
-    if (!testUtils?.factorAppSites)
+    if (!testUtils?.fictionAppSites)
       return
 
     const mountEl = document.createElement('div')
     const { init: _, initialized: __, close: ___, ...service } = testUtils
-    const entry = await testUtils.factorAppSites.mountApp({ mountEl, service, runVars: { SUBDOMAIN: subDomain } })
+    const entry = await testUtils.fictionAppSites.mountApp({ mountEl, service, runVars: { SUBDOMAIN: subDomain } })
 
     await waitFor(300)
 
@@ -63,8 +63,8 @@ describe('siteRendering Tests', async () => {
 
     expect(siteObj.currentPage.value?.cards.value.length).toMatchInlineSnapshot(`4`)
 
-    expect(testUtils.factorRouter.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
-    expect(testUtils.factorRouterSites.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
+    expect(testUtils.fictionRouter.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
+    expect(testUtils.fictionRouterSites.current.value?.fullPath).toMatchInlineSnapshot(`"/"`)
 
     const el = mountEl.querySelector('.x-engine') as HTMLElement
     expect(el.dataset.subDomain, 'correct sub domain').toBe(subDomain)
@@ -105,7 +105,7 @@ describe('siteRendering Tests', async () => {
   })
 
   it('gets site from theme', async () => {
-    if (!testUtils?.factorSites)
+    if (!testUtils?.fictionSites)
       return
 
     const s = await loadSiteFromTheme({ themeId: 'test', ...common, caller: 'renderTests' })

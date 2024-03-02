@@ -15,13 +15,13 @@ describe('siteLoading', async () => {
   await testUtils.init()
 
   const common = {
-    siteRouter: testUtils?.factorRouterSites,
-    factorSites: testUtils?.factorSites,
+    siteRouter: testUtils?.fictionRouterSites,
+    fictionSites: testUtils?.fictionSites,
     siteMode: 'standard',
   } as const
 
   it('creates site', async (ctx) => {
-    if (!testUtils?.factorSites)
+    if (!testUtils?.fictionSites)
       throw new Error('missing testUtils')
 
     const subDomain = shortId()
@@ -51,7 +51,7 @@ describe('siteLoading', async () => {
     if (!testUtils || !siteConfig)
       throw new Error('missing testUtils or site')
 
-    await testUtils.factorUser.logout()
+    await testUtils.fictionUser.logout()
 
     const { siteId, subDomain } = siteConfig
 

@@ -1,7 +1,7 @@
 // @unocss-include
 
-import type { FactorDb, FactorMedia, FactorPluginSettings, FactorServer, FactorUser } from '@fiction/core'
-import { EnvVar, FactorPlugin, safeDirname, vars } from '@fiction/core'
+import type { FictionDb, FictionMedia, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import { EnvVar, FictionPlugin, safeDirname, vars } from '@fiction/core'
 import { AiCompletion, AiImage, QueryManageVectors } from './endpoint'
 
 vars.register(() => [
@@ -18,41 +18,41 @@ export interface PushNotification {
   url?: string
 }
 
-export type FactorAiSettings = {
-  factorServer: FactorServer
-  factorDb: FactorDb
-  factorUser?: FactorUser
-  factorMedia?: FactorMedia
+export type FictionAiSettings = {
+  fictionServer: FictionServer
+  fictionDb: FictionDb
+  fictionUser?: FictionUser
+  fictionMedia?: FictionMedia
   openaiApiKey?: string
   pineconeApiKey?: string
   pineconeEnvironment?: string
   pineconeIndex?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export class FactorAi extends FactorPlugin<FactorAiSettings> {
+export class FictionAi extends FictionPlugin<FictionAiSettings> {
   loading = this.utils.vue.ref(false)
   root = this.utils.safeDirname(import.meta.url)
   queries = {
-    ManageVectors: new QueryManageVectors({ ...this.settings, factorAi: this }),
-    AiCompletion: new AiCompletion({ ...this.settings, factorAi: this }),
-    AiImage: new AiImage({ ...this.settings, factorAi: this }),
+    ManageVectors: new QueryManageVectors({ ...this.settings, fictionAi: this }),
+    AiCompletion: new AiCompletion({ ...this.settings, fictionAi: this }),
+    AiImage: new AiImage({ ...this.settings, fictionAi: this }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.settings.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
   })
 
-  constructor(settings: FactorAiSettings) {
-    super('FactorAi', { root: safeDirname(import.meta.url), ...settings })
+  constructor(settings: FictionAiSettings) {
+    super('FictionAi', { root: safeDirname(import.meta.url), ...settings })
 
-    if (this.factorEnv?.isServer.value) {
-      this.factorEnv.serverOnlyImports['@pinecone-database/pinecone'] = { Pinecone: '() => {}' }
+    if (this.fictionEnv?.isServer.value) {
+      this.fictionEnv.serverOnlyImports['@pinecone-database/pinecone'] = { Pinecone: '() => {}' }
 
       const { openaiApiKey, pineconeApiKey, pineconeEnvironment, pineconeIndex } = this.settings
       if (
-        !this.settings.factorEnv.isApp.value
+        !this.settings.fictionEnv.isApp.value
         && (!openaiApiKey || !pineconeApiKey || !pineconeEnvironment || !pineconeIndex)
       )
         this.log.warn('Missing Pinecone or OpenAI API keys', { data: { openaiApiKey, pineconeApiKey, pineconeEnvironment, pineconeIndex } })

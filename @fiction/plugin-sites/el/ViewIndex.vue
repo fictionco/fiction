@@ -5,7 +5,7 @@ import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
 import { standardDate, useService, vue } from '@fiction/core'
 
 import type { Site } from '../site'
-import type { FactorSites } from '..'
+import type { FictionSites } from '..'
 import type { Card } from '../card'
 import ElSiteStart from './ElSiteStart.vue'
 
@@ -16,7 +16,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorRouter, factorSites } = useService<{ factorSites: FactorSites }>()
+const { fictionRouter, fictionSites } = useService<{ fictionSites: FictionSites }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -25,7 +25,7 @@ const sites = vue.shallowRef<Site[]>([])
 const indexMeta = vue.ref<IndexMeta>()
 async function loadIndex() {
   loading.value = true
-  const r = await factorSites.requestIndex()
+  const r = await fictionSites.requestIndex()
   sites.value = r.items || []
   indexMeta.value = r.indexMeta
   loading.value = false

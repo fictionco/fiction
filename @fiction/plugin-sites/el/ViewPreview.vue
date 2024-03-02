@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { FactorApp, FactorAppEntry, FactorRouter } from '@fiction/core'
+import type { FictionApp, FictionAppEntry, FictionRouter } from '@fiction/core'
 import { log, unhead, useService, vue } from '@fiction/core'
-import type { FactorAdmin } from '@fiction/plugin-admin'
-import type { FactorSites } from '..'
+import type { FictionAdmin } from '@fiction/plugin-admin'
+import type { FictionSites } from '..'
 import { getMountContext } from '../load'
 
-const service = useService<{ factorAppSites: FactorApp, factorRouterSites: FactorRouter, factorAdmin: FactorAdmin, factorSites: FactorSites }>()
+const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionAdmin: FictionAdmin, fictionSites: FictionSites }>()
 
-const base = service.factorSites.getPreviewPath({ factorAdmin: service.factorAdmin })
+const base = service.fictionSites.getPreviewPath({ fictionAdmin: service.fictionAdmin })
 
 /**
  * Set base for relative links using native <base> tag
@@ -19,7 +19,7 @@ unhead.useHead({
 })
 
 // Reference to hold the mounted app
-let entry: FactorAppEntry | undefined = undefined
+let entry: FictionAppEntry | undefined = undefined
 
 /**
  * Function to mount the app
@@ -35,13 +35,13 @@ async function mountApp() {
     const { runVars, ...s } = service
 
     // Set base for router links
-    service.factorRouterSites.routeBasePath = base.value
+    service.fictionRouterSites.routeBasePath = base.value
 
-    const { selectorType, selectorId } = (service.factorRouter.params.value || {}) as Record<string, string>
+    const { selectorType, selectorId } = (service.fictionRouter.params.value || {}) as Record<string, string>
 
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'editable' })
 
-    entry = await service.factorAppSites.mountApp({ selector: '#admin-app', service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } })
+    entry = await service.fictionAppSites.mountApp({ selector: '#admin-app', service: s, runVars: { ...runVars, MOUNT_CONTEXT: mountContext } })
   }
   catch (error) {
     log.error('PreviewComponent', `Error mounting preview app: ${(error as Error).message}`, { error })

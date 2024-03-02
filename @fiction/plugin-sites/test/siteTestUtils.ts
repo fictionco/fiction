@@ -1,21 +1,21 @@
-import { AppRoute, FactorApp, FactorAws, FactorMedia, FactorRouter, randomBetween } from '@fiction/core'
-import { FactorAi } from '@fiction/plugin-ai'
+import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, randomBetween } from '@fiction/core'
+import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { FactorAdmin } from '@fiction/plugin-admin'
+import { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
-import { FactorSites } from '..'
+import { FictionSites } from '..'
 import SiteRender from '../engine/XSite.vue'
 import { setup as testThemeSetup } from './test-theme'
 
 export type SiteTestUtils = TestUtils & {
-  factorAdmin: FactorAdmin
-  factorSites: FactorSites
-  factorRouterSites: FactorRouter
-  factorAppSites: FactorApp
-  factorMedia: FactorMedia
-  factorAws: FactorAws
-  factorAi: FactorAi
+  fictionAdmin: FictionAdmin
+  fictionSites: FictionSites
+  fictionRouterSites: FictionRouter
+  fictionAppSites: FictionApp
+  fictionMedia: FictionMedia
+  fictionAws: FictionAws
+  fictionAi: FictionAi
 }
 export async function createSiteTestUtils(): Promise<SiteTestUtils> {
   const testUtils = await createTestUtils({ envFiles: [testEnvFile], checkEnvVars: [
@@ -24,12 +24,12 @@ export async function createSiteTestUtils(): Promise<SiteTestUtils> {
     'FLY_API_TOKEN',
     'OPENAI_API_KEY',
   ] })
-  const factorEnv = testUtils.factorEnv
+  const fictionEnv = testUtils.fictionEnv
 
-  const awsAccessKey = factorEnv.var('AWS_ACCESS_KEY')
-  const awsAccessKeySecret = factorEnv.var('AWS_ACCESS_KEY_SECRET')
-  const flyIoApiToken = factorEnv.var('FLY_API_TOKEN')
-  const openaiApiKey = factorEnv.var('OPENAI_API_KEY')
+  const awsAccessKey = fictionEnv.var('AWS_ACCESS_KEY')
+  const awsAccessKeySecret = fictionEnv.var('AWS_ACCESS_KEY_SECRET')
+  const flyIoApiToken = fictionEnv.var('FLY_API_TOKEN')
+  const openaiApiKey = fictionEnv.var('OPENAI_API_KEY')
 
   const flyIoAppId = 'fiction-sites'
   const routes = [
@@ -38,25 +38,25 @@ export async function createSiteTestUtils(): Promise<SiteTestUtils> {
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
 
-  out.factorAi = new FactorAi({ ...out, openaiApiKey })
-  out.factorAws = new FactorAws({ factorEnv, awsAccessKey, awsAccessKeySecret })
-  out.factorMedia = new FactorMedia({ ...out, factorAws: out.factorAws, bucket: 'factor-tests' })
-  out.factorRouterSites = new FactorRouter({ routerId: 'siteRouter', factorEnv, baseUrl: 'https://www.test.com', routes, create: true })
-  out.factorAppSites = new FactorApp({
+  out.fictionAi = new FictionAi({ ...out, openaiApiKey })
+  out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
+  out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'fiction-tests' })
+  out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
+  out.fictionAppSites = new FictionApp({
     port: randomBetween(10_000, 20_000),
     ...out,
-    factorRouter: out.factorRouterSites,
+    fictionRouter: out.fictionRouterSites,
     isTest: true,
     liveUrl: 'https://*.test.com',
     localHostname: '*.lan.com',
   })
-  out.factorAdmin = new FactorAdmin(out)
+  out.fictionAdmin = new FictionAdmin(out)
 
-  out.factorSites = new FactorSites({ ...(out as SiteTestUtils), factorAdmin: out.factorAdmin, flyIoApiToken, flyIoAppId })
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), fictionAdmin: out.fictionAdmin, flyIoApiToken, flyIoAppId })
 
-  out.factorSites.themes.value = [...out.factorSites.themes.value, testThemeSetup(out)]
+  out.fictionSites.themes.value = [...out.fictionSites.themes.value, testThemeSetup(out)]
 
-  out.factorEnv.log.info('sites test utils created')
+  out.fictionEnv.log.info('sites test utils created')
 
   return out as SiteTestUtils
 }

@@ -7,7 +7,7 @@ import {
   useService,
   vue,
 } from '@fiction/core'
-import type { FactorTeam } from '@fiction/core/plugin-team'
+import type { FictionTeam } from '@fiction/core/plugin-team'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import ElInput from '@fiction/ui/ElInput.vue'
@@ -20,9 +20,9 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorTeam, factorUser } = useService<{ factorTeam: FactorTeam }>()
+const { fictionTeam, fictionUser } = useService<{ fictionTeam: FictionTeam }>()
 
-const activeOrganization = factorUser.activeOrganization
+const activeOrganization = fictionUser.activeOrganization
 
 const userId = vue.computed(() => props.card.site?.siteRouter.query.value.userId as string | undefined)
 
@@ -32,7 +32,7 @@ const isValid = vue.ref<boolean>(false)
 const member = vue.ref<OrganizationMember>()
 vue.onMounted(async () => {
   if (userId.value)
-    member.value = await factorTeam.loadMember(userId.value)
+    member.value = await fictionTeam.loadMember(userId.value)
 })
 
 async function setMemberRelation(_action: 'update' | 'delete'): Promise<void> {
@@ -43,7 +43,7 @@ async function setMemberRelation(_action: 'update' | 'delete'): Promise<void> {
   if (!orgId)
     throw new Error('organization id is required')
 
-  const r = await factorUser.requests.ManageMemberRelation.request(
+  const r = await fictionUser.requests.ManageMemberRelation.request(
     {
       memberId: userId.value,
       orgId,
@@ -68,7 +68,7 @@ async function send(): Promise<void> {
 
   if (!userId.value)
     throw new Error('user id is required')
-  if (!factorUser.activeOrganization.value?.orgId)
+  if (!fictionUser.activeOrganization.value?.orgId)
     throw new Error('organization id is required')
 
   await setMemberRelation('update')
@@ -81,14 +81,14 @@ async function send(): Promise<void> {
 }
 
 async function resendInvite(): Promise<void> {
-  const orgId = factorUser.activeOrganization.value?.orgId
+  const orgId = fictionUser.activeOrganization.value?.orgId
   const { email, memberAccess = 'observer' } = member.value ?? {}
   if (!orgId || !email)
     return
 
   sending.value = 'invite'
 
-  await factorTeam.requests.TeamInvite.request({
+  await fictionTeam.requests.TeamInvite.request({
     orgId,
     invites: [{ email, memberAccess }],
   })

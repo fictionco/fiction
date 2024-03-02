@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FactorApp } from '@fiction/core'
+import type { FictionApp } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -18,11 +18,11 @@ const props = defineProps({
   saveText: { type: String, default: 'Save' },
 })
 
-const { factorAppSites } = useService<{ factorAppSites: FactorApp }>()
+const { fictionAppSites } = useService<{ fictionAppSites: FictionApp }>()
 const loading = vue.ref(false)
 
 function getSuffixUrl() {
-  return new URL(factorAppSites.liveUrl.value).hostname.split('.').slice(-2).join('.')
+  return new URL(fictionAppSites.liveUrl.value).hostname.split('.').slice(-2).join('.')
 }
 const options = [
   new InputOption({

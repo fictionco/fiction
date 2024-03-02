@@ -2,59 +2,59 @@
 import type {
   EngineSectionEntry,
   EngineViewEntry,
-  FactorApp,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
-  FactorPluginSettings,
-  FactorRouter,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
+  FictionPluginSettings,
+  FictionRouter,
+  FictionServer,
+  FictionUser,
   PluginSetupArgs,
   ServiceList,
 } from '@fiction/core'
-import type { FactorMonitor } from '@fiction/plugin-monitor'
-import { FactorPlugin, Query, safeDirname, vue } from '@fiction/core'
-import type { FactorAdminPluginIndex } from '@fiction/plugin-admin-index'
-import type { FactorAi } from '@fiction/plugin-ai'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
+import { FictionPlugin, Query, safeDirname, vue } from '@fiction/core'
+import type { FictionAdminPluginIndex } from '@fiction/plugin-admin-index'
+import type { FictionAi } from '@fiction/plugin-ai'
 
 export type AdminEngineViewEntry = EngineViewEntry<{
   layoutFormat?: 'full' | 'standard'
   isNavItem?: boolean
 }>
 
-export type FactorAdminSettings = {
-  factorEnv: FactorEnv
-  factorDb: FactorDb
-  factorUser?: FactorUser
-  factorEmail: FactorEmail
-  factorServer: FactorServer
-  factorApp: FactorApp
-  factorRouter: FactorRouter
-  factorMonitor?: FactorMonitor
-  factorAi?: FactorAi
-  pluginIndex?: FactorAdminPluginIndex
+export type FictionAdminSettings = {
+  fictionEnv: FictionEnv
+  fictionDb: FictionDb
+  fictionUser?: FictionUser
+  fictionEmail: FictionEmail
+  fictionServer: FictionServer
+  fictionApp: FictionApp
+  fictionRouter: FictionRouter
+  fictionMonitor?: FictionMonitor
+  fictionAi?: FictionAi
+  pluginIndex?: FictionAdminPluginIndex
   settingsViews?: EngineViewEntry[]
   views?: AdminEngineViewEntry[]
   widgets?: EngineSectionEntry[]
   ui?: { AuthLogo?: vue.Component, IconDashboard?: vue.Component }
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export abstract class AdminQuery<T extends FactorAdminSettings = FactorAdminSettings> extends Query<T> {
+export abstract class AdminQuery<T extends FictionAdminSettings = FictionAdminSettings> extends Query<T> {
   constructor(settings: T) {
     super(settings)
   }
 }
 
-export class FactorAdmin extends FactorPlugin<FactorAdminSettings> {
+export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   adminBaseRoute = '/admin'
-  adminBaseOrgPath = vue.computed(() => `${this.adminBaseRoute}/${this.settings.factorUser?.activeOrgId.value}`)
-  adminBaseUrl = vue.computed(() => `${this.settings.factorApp.appUrl.value}${this.adminBaseOrgPath.value}`)
+  adminBaseOrgPath = vue.computed(() => `${this.adminBaseRoute}/${this.settings.fictionUser?.activeOrgId.value}`)
+  adminBaseUrl = vue.computed(() => `${this.settings.fictionApp.appUrl.value}${this.adminBaseOrgPath.value}`)
 
   services: ServiceList = {}
 
-  constructor(settings: FactorAdminSettings) {
-    super('FactorAdmin', { ...settings, root: safeDirname(import.meta.url) })
+  constructor(settings: FictionAdminSettings) {
+    super('FictionAdmin', { ...settings, root: safeDirname(import.meta.url) })
   }
 
   async setup(args: PluginSetupArgs) {
@@ -75,13 +75,13 @@ export class FactorAdmin extends FactorPlugin<FactorAdminSettings> {
 
       const pluginConfig = setup()
 
-      const service = await pluginConfig.createPlugin({ ...this.settings, ...settings, factorAdmin: this })
+      const service = await pluginConfig.createPlugin({ ...this.settings, ...settings, fictionAdmin: this })
 
       this.services[pluginConfig.serviceId] = service
     }))
 
-    const s = this.settings.factorEnv.service.value
-    this.settings.factorEnv.service.value = { ...s, ...this.services }
+    const s = this.settings.fictionEnv.service.value
+    this.settings.fictionEnv.service.value = { ...s, ...this.services }
 
     if (context === 'node')
       this.log.info('Added plugins', { data: Object.keys(this.services) })

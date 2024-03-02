@@ -17,7 +17,7 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
 
-const { factorDb } = useService()
+const { fictionDb } = useService()
 const initialValue = vue.ref(props.modelValue)
 const initialStatus = initialValue.value === '' ? 'unknown' : 'success'
 const status = vue.ref<ResponseStatus>(initialStatus)
@@ -67,7 +67,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'loading'
 
     try {
-      const r = await factorDb.requests.CheckUsername.request({ table: props.table, column: props.column, value })
+      const r = await fictionDb.requests.CheckUsername.request({ table: props.table, column: props.column, value })
 
       status.value = r.data?.available || 'error'
       reason.value = r.data?.reason ?? 'unknown'

@@ -8,24 +8,24 @@ import { runHooks } from '../utils/hook'
 import { getRequestIpAddress } from '../utils/network'
 import { getGeoFree } from '../utils-analytics/geo'
 import type { EndpointManageAction, EndpointMeta } from '../utils/endpoint'
-import type { FactorDb } from '../plugin-db'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionDb } from '../plugin-db'
+import type { FictionEnv } from '../plugin-env'
 import { Query } from '../query'
-import type { FactorEmail } from '../plugin-email'
+import type { FictionEmail } from '../plugin-email'
 import type { MemberAccess, MemberStatus, OnboardStoredSettings, Organization, OrganizationMembership, User } from './types'
-import type { FactorUser, FactorUserHookDictionary } from '.'
+import type { FictionUser, FictionUserHookDictionary } from '.'
 
 interface UserQuerySettings {
-  factorUser: FactorUser
-  factorDb: FactorDb
-  factorEmail?: FactorEmail
-  factorEnv: FactorEnv
+  fictionUser: FictionUser
+  fictionDb: FictionDb
+  fictionEmail?: FictionEmail
+  fictionEnv: FictionEnv
 }
 export abstract class UserQuery extends Query<UserQuerySettings> {
-  factorUser = this.settings.factorUser
-  factorEmail = this.settings.factorEmail
-  factorDb = this.settings.factorDb
-  factorEnv = this.settings.factorEnv
+  fictionUser = this.settings.fictionUser
+  fictionEmail = this.settings.fictionEmail
+  fictionDb = this.settings.fictionDb
+  fictionEnv = this.settings.fictionEnv
   constructor(settings: UserQuerySettings) {
     super(settings)
   }
@@ -37,7 +37,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
 
     let user: User | undefined
     if (userId) {
-      const response = await this.factorUser.queries.ManageUser.serve(
+      const response = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'getPrivate',
           userId,
@@ -59,7 +59,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
       return
 
     // use development/test values for customer in development mode
-    if (this.factorEnv?.isTest.value) {
+    if (this.fictionEnv?.isTest.value) {
       org.customer = org.customerTest
       org.customerId = org.customerIdTest
     }
@@ -80,11 +80,11 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
     email: string
     code: string | number
   }): Promise<void> {
-    if (!this.factorEmail)
-      throw new Error('no factorEmail')
+    if (!this.fictionEmail)
+      throw new Error('no fictionEmail')
     const { code, email } = args
-    const appName = this.factorEmail.appName
-    await this.factorEmail.sendEmail({
+    const appName = this.fictionEmail.appName
+    await this.fictionEmail.sendEmail({
       subject: `${appName}: ${code} is your verification code`,
       text: `Hi there!\n\n This email is to verify your account using a one-time code.\n\n Your code is: **${code}**`,
       to: email,
@@ -109,7 +109,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
 
     const userIdField = userId ? { userId } : { email }
 
-    await this.factorUser.queries.ManageUser.serve(
+    await this.fictionUser.queries.ManageUser.serve(
       { _action: 'update', ...userIdField, fields },
       { server: true },
     )
@@ -120,7 +120,7 @@ export abstract class UserQuery extends Query<UserQuerySettings> {
   }
 
   publicUserFieldKeys() {
-    const cols = this.factorDb.getColumns('factor_user')
+    const cols = this.fictionDb.getColumns('fiction_user')
 
     return cols
       ?.map(({ key, isPrivate, isAuthority }) =>
@@ -153,15 +153,15 @@ async function comparePassword(password: string, hashedPassword: string): Promis
  */
 export async function verifyNewEmail(params: {
   email?: string
-  factorUser: FactorUser
+  fictionUser: FictionUser
 }): Promise<true> {
-  const { email, factorUser } = params
+  const { email, fictionUser } = params
   if (!email)
     throw _stop('email is required')
   if (!validateEmail(email))
     throw _stop('email failed validation')
 
-  const { data: user } = await factorUser.queries.ManageUser.serve(
+  const { data: user } = await fictionUser.queries.ManageUser.serve(
     {
       _action: 'getPublic',
       email: email.toLowerCase().trim(),
@@ -208,7 +208,7 @@ type ManageUserResponse = EndpointResponse<User> & {
   user?: User
 }
 export class QueryManageUser extends UserQuery {
-  db = () => this.factorDb.client()
+  db = () => this.fictionDb.client()
 
   async run(params: ManageUserParams, meta: EndpointMeta): Promise<ManageUserResponse> {
     let user: User | undefined
@@ -242,12 +242,12 @@ export class QueryManageUser extends UserQuery {
 
   private async prepareResponse(args: { user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
     const { isNew, token, params, message } = args
-    let user = this.utils.prepareFields({ type: 'returnInfo', fields: args.user, table: this.tbl.user, meta, factorDb: this.factorDb })
+    let user = this.utils.prepareFields({ type: 'returnInfo', fields: args.user, table: this.tbl.user, meta, fictionDb: this.fictionDb })
 
     if (user && user.userId) {
       let orgs: Organization[] = []
       const orgsResponse
-        = await this.factorUser.queries.OrganizationsByUserId.serve(
+        = await this.fictionUser.queries.OrganizationsByUserId.serve(
           { userId: user.userId, lastOrgId: user.lastOrgId },
           { ...meta, caller: 'processUserGetOrgs' },
         )
@@ -256,7 +256,7 @@ export class QueryManageUser extends UserQuery {
 
       if (orgs.some(o => o.relation?.memberStatus === 'pending')) {
         const r
-          = await this.factorUser.queries.UpdateOrganizationMemberStatus.serve({ userId: user.userId, orgs }, meta)
+          = await this.fictionUser.queries.UpdateOrganizationMemberStatus.serve({ userId: user.userId, orgs }, meta)
 
         orgs = r.data ?? []
       }
@@ -264,7 +264,7 @@ export class QueryManageUser extends UserQuery {
       user.orgs = orgs
     }
 
-    user = await runHooks<FactorUserHookDictionary, 'processUser'>({ list: this.factorUser.hooks, hook: 'processUser', args: [user, { params, meta }] })
+    user = await runHooks<FictionUserHookDictionary, 'processUser'>({ list: this.fictionUser.hooks, hook: 'processUser', args: [user, { params, meta }] })
 
     const response: ManageUserResponse = { status: 'success', data: user, isNew, token, message }
 
@@ -309,7 +309,7 @@ export class QueryManageUser extends UserQuery {
     fields.ip = ipData.ip
     fields.geo = await getGeoFree(fields.ip)
     const fType = meta?.server ? 'internal' : 'settings'
-    const insertFields = this.utils.prepareFields({ type: fType, fields, meta, factorDb: this.factorDb, table: this.tbl.user })
+    const insertFields = this.utils.prepareFields({ type: fType, fields, meta, fictionDb: this.fictionDb, table: this.tbl.user })
 
     const where = userId ? { userId } : { email }
 
@@ -347,7 +347,7 @@ export class QueryManageUser extends UserQuery {
     if (!fields.emailVerified && !noVerify) {
       await verifyNewEmail({
         email: fields.email,
-        factorUser: this.factorUser,
+        fictionUser: this.fictionUser,
       })
     }
 
@@ -365,7 +365,7 @@ export class QueryManageUser extends UserQuery {
         codeExpiresAt: this.utils.dayjs().add(7, 'day').toISOString(),
       },
       meta: { server: true },
-      factorDb: this.factorDb,
+      fictionDb: this.fictionDb,
       table,
     })
 
@@ -383,7 +383,7 @@ export class QueryManageUser extends UserQuery {
       throw this.stop('couldn\'t create user', { data: { insertFields } })
     }
 
-    const response = await this.factorUser.queries.ManageOrganization.serve(
+    const response = await this.fictionUser.queries.ManageOrganization.serve(
       {
         _action: 'create',
         userId: user.userId,
@@ -395,8 +395,8 @@ export class QueryManageUser extends UserQuery {
 
     user.orgs = response.data ? [response.data] : []
 
-    user = await runHooks<FactorUserHookDictionary, 'createUser'>({
-      list: this.factorUser.hooks,
+    user = await runHooks<FictionUserHookDictionary, 'createUser'>({
+      list: this.fictionUser.hooks,
       hook: 'createUser',
       args: [user, { params, meta }],
     })
@@ -404,7 +404,7 @@ export class QueryManageUser extends UserQuery {
     return {
       user,
       isNew: true,
-      token: user ? this.factorUser.createClientToken(user) : undefined,
+      token: user ? this.fictionUser.createClientToken(user) : undefined,
     }
   }
 }
@@ -419,10 +419,10 @@ export class QueryCurrentUser extends UserQuery {
     let userId: string | undefined
 
     try {
-      const tokenResult = this.factorUser.decodeClientToken(token)
+      const tokenResult = this.fictionUser.decodeClientToken(token)
       userId = tokenResult.userId
 
-      const r = await this.factorUser.queries.ManageUser.serve(
+      const r = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'getPrivate',
           userId,
@@ -455,10 +455,10 @@ export async function verifyCode(args: {
   email?: string
   userId?: string
   verificationCode: string
-  factorDb: FactorDb
+  fictionDb: FictionDb
   isProd?: boolean
 }): Promise<true> {
-  const { email, verificationCode, userId, factorDb, isProd = true } = args
+  const { email, verificationCode, userId, fictionDb, isProd = true } = args
 
   if (!verificationCode)
     throw _stop(`no code provided`)
@@ -468,13 +468,13 @@ export async function verifyCode(args: {
 
   const where = userId ? { userId } : { email }
 
-  const db = factorDb.client()
+  const db = fictionDb.client()
   const r = await db
     .select<{ verificationCode: string, codeExpiresAt: string }[]>([
       'verificationCode',
       'codeExpiresAt',
     ])
-    .from(factorDb.tbl.user)
+    .from(fictionDb.tbl.user)
     .where(where)
 
   const storedCode = r && r.length > 0 ? r[0] : undefined
@@ -520,7 +520,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       throw this.stop('authorization required (bearer)')
 
     const save: Partial<User> & { password?: string }
-      = this.utils.prepareFields({ type: 'settings', fields, meta, factorDb: this.factorDb, table: this.tbl.user }) || {}
+      = this.utils.prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: this.tbl.user }) || {}
 
     if (!fields)
       throw this.stop('no fields to update')
@@ -537,11 +537,11 @@ export class QueryUpdateCurrentUser extends UserQuery {
       await verifyCode({
         userId: bearer.userId,
         verificationCode: fields.verificationCode,
-        factorDb: this.factorDb,
-        isProd: this.factorEnv?.isProd.value,
+        fictionDb: this.fictionDb,
+        isProd: this.fictionEnv?.isProd.value,
       })
 
-      const { data: dbUser } = await this.factorUser.queries.ManageUser.serve(
+      const { data: dbUser } = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'getPrivate',
           userId: bearer.userId,
@@ -563,7 +563,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       if (fields.email && fields.email !== dbUser.email) {
         await verifyNewEmail({
           email: fields.email,
-          factorUser: this.factorUser,
+          fictionUser: this.fictionUser,
         })
 
         save.email = fields.email
@@ -583,8 +583,8 @@ export class QueryUpdateCurrentUser extends UserQuery {
       await verifyCode({
         userId: bearer.userId,
         verificationCode: fields.verificationCode,
-        factorDb: this.factorDb,
-        isProd: this.factorEnv?.isProd.value,
+        fictionDb: this.fictionDb,
+        isProd: this.fictionEnv?.isProd.value,
       })
 
       const hashedPassword = await hashPassword(fields.password)
@@ -597,7 +597,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
     let user, token
 
     if (Object.keys(save).length > 0) {
-      const response = await this.factorUser.queries.ManageUser.serve(
+      const response = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'update',
           userId: bearer.userId,
@@ -612,7 +612,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
         throw this.stop('problem updating user')
 
       // if email or password were changed, create new token
-      token = this.factorUser.createClientToken(user)
+      token = this.fictionUser.createClientToken(user)
     }
 
     return {
@@ -647,11 +647,11 @@ export class QuerySetPassword extends UserQuery {
       throw this.stop(`password required`)
 
     // code verification is needed because on password reset the user is logged out
-    await verifyCode({ email, verificationCode, factorDb: this.factorDb, isProd: this.factorEnv?.isProd.value })
+    await verifyCode({ email, verificationCode, fictionDb: this.fictionDb, isProd: this.fictionEnv?.isProd.value })
     const hashedPassword = await hashPassword(password)
 
     let user: User | undefined
-    const r = await this.factorUser.queries.ManageUser.serve(
+    const r = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'update',
         email,
@@ -667,8 +667,8 @@ export class QuerySetPassword extends UserQuery {
 
     user.hashedPassword = hashedPassword
 
-    user = await runHooks<FactorUserHookDictionary, 'createPassword'>({
-      list: this.factorUser.hooks,
+    user = await runHooks<FictionUserHookDictionary, 'createPassword'>({
+      list: this.fictionUser.hooks,
       hook: 'createPassword',
       args: [user, { params, meta }],
     })
@@ -677,7 +677,7 @@ export class QuerySetPassword extends UserQuery {
       status: 'success',
       data: user,
       message: 'new password created',
-      token: this.factorUser.createClientToken(user),
+      token: this.fictionUser.createClientToken(user),
       user,
     }
   }
@@ -695,11 +695,11 @@ export class QueryVerifyAccountEmail extends UserQuery {
     if (!verificationCode)
       throw this.stop('confirm code is required')
 
-    const isProd = this.factorEnv?.isProd.value
+    const isProd = this.fictionEnv?.isProd.value
 
-    await verifyCode({ email, verificationCode, factorDb: this.factorDb, isProd })
+    await verifyCode({ email, verificationCode, fictionDb: this.fictionDb, isProd })
 
-    const { data: user } = await this.factorUser.queries.ManageUser.serve(
+    const { data: user } = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'update',
         email,
@@ -714,8 +714,8 @@ export class QueryVerifyAccountEmail extends UserQuery {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await runHooks<FactorUserHookDictionary>({
-      list: this.factorUser.hooks,
+    await runHooks<FictionUserHookDictionary>({
+      list: this.fictionUser.hooks,
       hook: 'onUserVerified',
       args: [user],
     })
@@ -728,7 +728,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
       status: 'success',
       data: user,
       message: 'verification successful',
-      token: this.factorUser.createClientToken(user),
+      token: this.fictionUser.createClientToken(user),
     }
   }
 }
@@ -741,8 +741,8 @@ export class QueryResetPassword extends UserQuery {
   }): Promise<EndpointResponse<User> & { internal: string }> {
     if (!email)
       throw this.stop('email is required')
-    if (!this.factorEmail)
-      throw new Error('no factorEmail')
+    if (!this.fictionEmail)
+      throw new Error('no fictionEmail')
 
     const code = await this.sendOneTimeCode({ email })
 
@@ -761,11 +761,11 @@ export class QueryStartNewUser extends UserQuery {
       user: User
     }
   > {
-    if (!this.factorEmail)
-      throw new Error('no factorEmail')
+    if (!this.fictionEmail)
+      throw new Error('no fictionEmail')
 
     const { email, fullName } = params
-    const { data: user } = await this.factorUser.queries.ManageUser.serve(
+    const { data: user } = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'create',
         fields: { email, fullName },
@@ -785,7 +785,7 @@ export class QueryStartNewUser extends UserQuery {
       data: { userId: user.userId, fullName: user.fullName, email: user.email },
       message: 'verification code sent',
       user,
-      token: this.factorUser.createClientToken(user),
+      token: this.fictionUser.createClientToken(user),
     }
   }
 }
@@ -812,8 +812,8 @@ export class QueryLogin extends UserQuery {
     },
     _meta: EndpointMeta,
   ): LoginResponse {
-    if (!this.factorEmail)
-      throw new Error('no factorEmail')
+    if (!this.fictionEmail)
+      throw new Error('no fictionEmail')
     const {
       email,
       password,
@@ -830,7 +830,7 @@ export class QueryLogin extends UserQuery {
       returnAuthority: ['hashedPassword', 'verificationCode'],
     }
 
-    let { data: user } = await this.factorUser.queries.ManageUser.serve(
+    let { data: user } = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'getPrivate',
         email,
@@ -845,7 +845,7 @@ export class QueryLogin extends UserQuery {
         throw this.stop('password required')
 
       const { data: createdUser }
-        = await this.factorUser.queries.ManageUser.serve(
+        = await this.fictionUser.queries.ManageUser.serve(
           {
             _action: 'create',
             fields: { email, password },
@@ -866,7 +866,7 @@ export class QueryLogin extends UserQuery {
     // logging in within google
     if (googleId && _meta.server && user) {
       if (!user.googleId && emailVerified) {
-        await this.factorUser.queries.ManageUser.serve(
+        await this.fictionUser.queries.ManageUser.serve(
           {
             _action: 'update',
             email,
@@ -898,7 +898,7 @@ export class QueryLogin extends UserQuery {
       throw this.stop('no auth provided')
     }
 
-    const token = this.factorUser.createClientToken(user)
+    const token = this.fictionUser.createClientToken(user)
 
     if (!message)
       message = 'successfully logged in'
@@ -934,11 +934,11 @@ export class QueryNewVerificationCode extends UserQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<{ exists: boolean }>> {
-    if (!this.factorEmail)
-      throw new Error('no factorEmail')
+    if (!this.fictionEmail)
+      throw new Error('no fictionEmail')
     const { email, orgName, fullName } = params
 
-    let { data: existingUser } = await this.factorUser.queries.ManageUser.serve(
+    let { data: existingUser } = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'getPrivate',
         email,
@@ -950,7 +950,7 @@ export class QueryNewVerificationCode extends UserQuery {
 
     if (!existingUser) {
       const { data: createdUser }
-        = await this.factorUser.queries.ManageUser.serve(
+        = await this.fictionUser.queries.ManageUser.serve(
           {
             _action: 'create',
             fields: { email, fullName },
@@ -1025,10 +1025,10 @@ export abstract class QueryOrganization extends UserQuery {
       .joinRaw(
         `left join lateral (
         select *, count(*) OVER() AS member_count
-        from "factor_org_user"
-        where "factor_org_user".org_id = "factor_org"."org_id"
+        from "fiction_org_user"
+        where "fiction_org_user".org_id = "fiction_org"."org_id"
         limit 5
-      ) as "factor_org_user" on true`,
+      ) as "fiction_org_user" on true`,
       )
       .join(
         this.tbl.user,
@@ -1064,7 +1064,7 @@ export class QueryFindOneOrganization extends QueryOrganization {
   ): Promise<EndpointResponse<Organization>> {
     const { orgId, lastOrgId, relationUserId } = params
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
     const q = this.orgBaseQuery(db)
 
     const r = await q
@@ -1096,7 +1096,7 @@ export class QueryOrganizationsByUserId extends QueryOrganization {
   ): Promise<EndpointResponse<Organization[]>> {
     const { userId, lastOrgId } = params
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
     const q = this.orgBaseQuery(db)
       .select(
         db.raw(`json_build_object(${this.memberObject()}) as relation`),
@@ -1144,7 +1144,7 @@ export class QueryUpdateOrganizationMemberStatus extends QueryOrganization {
     },
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<Organization[]>> {
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
     const { userId } = params
     let { orgs } = params
 
@@ -1187,7 +1187,7 @@ export class QueryGenerateApiSecret extends UserQuery {
       user?: User
     }
   > {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       throw new Error('no user service')
     if (!params.orgId)
       throw this.stop('orgId required')
@@ -1199,7 +1199,7 @@ export class QueryGenerateApiSecret extends UserQuery {
 
     let org: Organization | undefined = undefined
     let message: string | undefined = undefined
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     const { default: uuidAPIKey } = await import('uuid-apikey')
 
@@ -1221,7 +1221,7 @@ export class QueryGenerateApiSecret extends UserQuery {
 
     if (meta.bearer?.userId) {
       const { data: privateUser }
-        = await this.factorUser.queries.ManageUser.serve(
+        = await this.fictionUser.queries.ManageUser.serve(
           {
             _action: 'getPrivate',
             userId: meta.bearer.userId,
@@ -1254,7 +1254,7 @@ export class QueryManageMemberRelation extends UserQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<OrganizationMembership>> {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       throw new Error('no user service')
     if (!meta.bearer && !meta.server)
       throw this.stop('auth required')
@@ -1268,7 +1268,7 @@ export class QueryManageMemberRelation extends UserQuery {
       invitedById,
     } = params
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     let relation: OrganizationMembership | undefined
     let message = ''
@@ -1304,7 +1304,7 @@ export class QueryManageMemberRelation extends UserQuery {
     let user: User | undefined
     if (meta.bearer?.userId) {
       // replace user state to ensure teams update
-      const r = await this.factorUser.queries.ManageUser.serve(
+      const r = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'getPrivate',
           userId: meta.bearer?.userId,
@@ -1339,14 +1339,14 @@ export class QueryManageOrganization extends UserQuery {
     params: ManageOrganizationParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<Organization> & { user?: User }> {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       throw new Error('no user service')
     const { _action } = params
     const { bearer, server } = meta
     if (!bearer && !server)
       throw this.stop('bearer required')
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     let responseOrg: Organization | undefined
     let message: string | undefined
@@ -1387,7 +1387,7 @@ export class QueryManageOrganization extends UserQuery {
         .into(this.tbl.org)
         .returning<Organization[]>('*')
 
-      await this.factorUser.queries.ManageMemberRelation.serve(
+      await this.fictionUser.queries.ManageMemberRelation.serve(
         {
           memberId: userId,
           orgId: responseOrg.orgId,
@@ -1398,7 +1398,7 @@ export class QueryManageOrganization extends UserQuery {
         meta,
       )
 
-      // await this.factorUser.queries.ManageMemberRelation.serve(
+      // await this.fictionUser.queries.ManageMemberRelation.serve(
       //   {
       //     memberId: userId,
       //     orgId: "example",
@@ -1423,7 +1423,7 @@ export class QueryManageOrganization extends UserQuery {
         fields: org,
         meta,
         table: this.tbl.org,
-        factorDb: this.factorDb,
+        fictionDb: this.fictionDb,
       })
 
       ;[responseOrg] = await db
@@ -1433,8 +1433,8 @@ export class QueryManageOrganization extends UserQuery {
         .limit(1)
         .returning<Organization[]>('*')
 
-      responseOrg = await runHooks<FactorUserHookDictionary, 'updateOrganization'>({
-        list: this.factorUser.hooks,
+      responseOrg = await runHooks<FictionUserHookDictionary, 'updateOrganization'>({
+        list: this.fictionUser.hooks,
         hook: 'updateOrganization',
         args: [responseOrg, { params, meta }],
       })
@@ -1485,7 +1485,7 @@ export class QueryManageOnboard extends UserQuery {
     meta: EndpointMeta,
   ): Promise<EndpointResponse<OnboardStoredSettings>> {
     const { settings, orgId, userId, mode } = params
-    const db = this.factorDb?.client()
+    const db = this.fictionDb?.client()
     if (!db)
       throw new Error('db missing')
     if (!settings)

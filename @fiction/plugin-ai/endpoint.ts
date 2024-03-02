@@ -5,9 +5,9 @@ import { Pinecone } from '@pinecone-database/pinecone'
 import OpenAI from 'openai'
 import type { SourceItem } from './tables'
 import { Document, TextSplitter } from './splitter'
-import type { FactorAi, FactorAiSettings } from '.'
+import type { FictionAi, FictionAiSettings } from '.'
 
-type QueryAiSettings = { factorAi: FactorAi } & FactorAiSettings
+type QueryAiSettings = { fictionAi: FictionAi } & FictionAiSettings
 
 type CommandMessage = { role: 'system' | 'assistant' | 'user', content: string }
 
@@ -184,7 +184,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     const rawCompletion = response.choices[0].message.content
 
-    const shortcodes = new Shortcodes({ factorEnv: this.settings.factorEnv })
+    const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
 
     shortcodes.addShortcode('stock_img', async (args) => {
       const { attributes } = args
@@ -197,7 +197,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
         `context: ${objectiveText || 'website'}`,
       ].join('\n')
 
-      const r = await this.settings.factorAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
+      const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
       return r.data?.url || ''
     })
@@ -340,10 +340,10 @@ export class AiImage extends QueryAi {
   ): Promise<EndpointResponse<TableMediaConfig>> {
     const { _action, orientation = 'squarish', prompt, orgId, userId } = params
 
-    const factorMedia = this.settings.factorMedia
+    const fictionMedia = this.settings.fictionMedia
 
-    if (!factorMedia)
-      throw this.stop('factorMedia required')
+    if (!fictionMedia)
+      throw this.stop('fictionMedia required')
 
     if (!_action)
       throw this.stop('action required')
@@ -363,7 +363,7 @@ export class AiImage extends QueryAi {
     if (!url)
       throw this.stop('no image url returned')
 
-    const r = await factorMedia.queries.ManageMedia.serve({ _action: 'createFromUrl', orgId, userId, fields: { prompt, sourceImageUrl: url } }, _meta)
+    const r = await fictionMedia.queries.ManageMedia.serve({ _action: 'createFromUrl', orgId, userId, fields: { prompt, sourceImageUrl: url } }, _meta)
 
     if (r?.status === 'success') {
       this.log.info('ai image created', { data: r.data })

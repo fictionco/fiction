@@ -7,8 +7,8 @@ import type { Browser, BrowserContextOptions, LaunchOptions } from 'playwright'
 import type { faker } from '@faker-js/faker'
 import type { vue } from '../utils'
 import { createExpressApp, safeDirname } from '../utils'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
 import sharedConfig from './vite.config'
 
@@ -22,13 +22,13 @@ interface TestingConfig {
   isLive?: vue.Ref<boolean>
   liveUrl?: string
 }
-type FactorTestingAppSettings = {
+type FictionTestingAppSettings = {
   port?: number
   head?: string
   body?: string
 } & TestingConfig &
-FactorPluginSettings
-export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
+FictionPluginSettings
+export class FictionTestingApp extends FictionPlugin<FictionTestingAppSettings> {
   port = this.settings.port
   liveUrl = this.settings.liveUrl
   localUrl = `http://localhost:${this.port}`
@@ -60,7 +60,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   isLive = this.settings.isLive ?? false
   useBuilt = true
   version = version
-  constructor(settings: FactorTestingAppSettings) {
+  constructor(settings: FictionTestingAppSettings) {
     super('testingApp', settings)
   }
 
@@ -146,7 +146,7 @@ export class FactorTestingApp extends FactorPlugin<FactorTestingAppSettings> {
   }
 
   async createApp(options: { head?: string, body?: string } = {}) {
-    if (this.factorEnv?.isApp.value)
+    if (this.fictionEnv?.isApp.value)
       return
 
     let { head = '', body = '' } = options

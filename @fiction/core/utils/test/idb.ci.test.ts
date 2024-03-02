@@ -5,7 +5,7 @@
 
 import { IDBKeyRange, indexedDB } from 'fake-indexeddb'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { FactorIndexedDb } from '../idb'
+import { FictionIndexedDb } from '../idb'
 
 describe('replay tag', () => {
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('replay tag', () => {
   })
 
   it('handles messages from server', async () => {
-    const db = new FactorIndexedDb({
+    const db = new FictionIndexedDb({
       dbName: 'test',
       tableName: 'test',
       indexes: [{ name: 'testId' }],

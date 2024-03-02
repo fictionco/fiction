@@ -5,9 +5,9 @@ import fs from 'node:fs'
 import { beforeAll, describe, expect, it } from 'vitest'
 import type { TestUtils } from '@fiction/core/test-utils'
 import { createTestUtils, testEnvFile } from '@fiction/core/test-utils'
-import { FactorUnsplash } from '..'
+import { FictionUnsplash } from '..'
 
-let testUtils: (TestUtils & { factorUnsplash?: FactorUnsplash }) | undefined
+let testUtils: (TestUtils & { fictionUnsplash?: FictionUnsplash }) | undefined
 
 describe('user tests', () => {
   beforeAll(async () => {
@@ -16,22 +16,22 @@ describe('user tests', () => {
 
     testUtils = await createTestUtils({ envFiles: [testEnvFile] })
 
-    const unsplashAccessKey = testUtils.factorEnv.var('UNSPLASH_ACCESS_KEY')
+    const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
 
     if (!unsplashAccessKey)
       throw new Error(`missing env vars key: unsplash${unsplashAccessKey?.length}`)
 
-    testUtils.factorUnsplash = new FactorUnsplash({
-      factorEnv: testUtils.factorEnv,
-      factorUser: testUtils.factorUser,
-      factorServer: testUtils.factorServer,
+    testUtils.fictionUnsplash = new FictionUnsplash({
+      fictionEnv: testUtils.fictionEnv,
+      fictionUser: testUtils.fictionUser,
+      fictionServer: testUtils.fictionServer,
       unsplashAccessKey,
     })
     testUtils.initialized = await testUtils.init()
   })
 
   it('gets unsplash photos', async () => {
-    const r = await testUtils?.factorUnsplash?.requests.Unsplash.request({
+    const r = await testUtils?.fictionUnsplash?.requests.Unsplash.request({
       _action: 'random',
     })
 
@@ -39,7 +39,7 @@ describe('user tests', () => {
     const urls = r?.data?.map(d => d.urls).filter(Boolean)
     expect(urls?.length).toBe(30)
 
-    const r2 = await testUtils?.factorUnsplash?.requests.Unsplash.request({ _action: 'search', query: 'dog' })
+    const r2 = await testUtils?.fictionUnsplash?.requests.Unsplash.request({ _action: 'search', query: 'dog' })
 
     expect(r2?.status).toBe('success')
     const urls2 = r?.data?.map(d => d.urls).filter(Boolean)

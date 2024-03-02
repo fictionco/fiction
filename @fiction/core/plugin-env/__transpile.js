@@ -15,7 +15,7 @@ export async function transpiler() {
   /**
    * Allow Node to process TypeScript
    */
-  const transpileModules = ['@fiction', '.*factor', '@kaption', 'dayjs', '.pnpm']
+  const transpileModules = ['@fiction', '.*fiction', '@kaption', 'dayjs', '.pnpm']
   tsNode.register({
     transpileOnly: true,
     compilerOptions: {

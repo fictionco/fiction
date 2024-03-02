@@ -106,7 +106,7 @@ const theme = vue.computed(() => {
         :input-el="inputs.InputUsername"
         before-input="https://"
         after-input=".test.com"
-        table="factor_user"
+        table="fiction_user"
         column="username"
       />
       <TestInput input-name="Markdown" :input-el="inputs.InputMarkdown" />

@@ -1,11 +1,11 @@
 import multer from 'multer'
 import { FormData } from 'formdata-node'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorDb } from '../plugin-db'
-import type { FactorServer } from '../plugin-server'
-import type { FactorUser } from '../plugin-user'
-import type { FactorAws } from '../plugin-aws'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionDb } from '../plugin-db'
+import type { FictionServer } from '../plugin-server'
+import type { FictionUser } from '../plugin-user'
+import type { FictionAws } from '../plugin-aws'
 import { EnvVar, vars } from '../plugin-env'
 import type { EndpointResponse } from '../types'
 import { QueryManageMedia, QueryMediaIndex, QuerySaveMedia } from './queries'
@@ -18,15 +18,15 @@ vars.register(() => [
   new EnvVar({ name: 'UNSPLASH_ACCESS_KEY', isOptional: true }),
 ])
 
-type FactorMediaSettings = {
-  factorUser?: FactorUser
-  factorDb?: FactorDb
-  factorServer: FactorServer
-  factorAws: FactorAws
+type FictionMediaSettings = {
+  fictionUser?: FictionUser
+  fictionDb?: FictionDb
+  fictionServer: FictionServer
+  fictionAws: FictionAws
   bucket: string
   unsplashAccessKey?: string
   cdnUrl?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
 export interface UploadConfig {
   mediaId?: string
@@ -35,30 +35,30 @@ export interface UploadConfig {
   formData?: FormData
 }
 
-export class FactorMedia extends FactorPlugin<FactorMediaSettings> {
+export class FictionMedia extends FictionPlugin<FictionMediaSettings> {
   imageFieldName = 'imageFile'
-  tableName = 'factor_media'
+  tableName = 'fiction_media'
   bucket = this.settings.bucket
   unsplashAccessKey = this.settings.unsplashAccessKey
   cdnUrl = this.settings.cdnUrl
   queries = {
-    SaveMedia: new QuerySaveMedia({ factorMedia: this, ...this.settings }),
-    MediaIndex: new QueryMediaIndex({ factorMedia: this, ...this.settings }),
-    ManageMedia: new QueryManageMedia({ factorMedia: this, ...this.settings }),
+    SaveMedia: new QuerySaveMedia({ fictionMedia: this, ...this.settings }),
+    MediaIndex: new QueryMediaIndex({ fictionMedia: this, ...this.settings }),
+    ManageMedia: new QueryManageMedia({ fictionMedia: this, ...this.settings }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
     basePath: '/media',
-    factorServer: this.settings.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
     middleware: () => [multer().single(this.imageFieldName)],
   })
 
-  constructor(settings: FactorMediaSettings) {
-    super('FactorMedia', settings)
+  constructor(settings: FictionMediaSettings) {
+    super('FictionMedia', settings)
 
-    this.settings.factorDb?.addTables([mediaTable])
+    this.settings.fictionDb?.addTables([mediaTable])
   }
 
   async uploadFile(params: { file?: File, formData?: FormData }): Promise<EndpointResponse<TableMediaConfig>> {

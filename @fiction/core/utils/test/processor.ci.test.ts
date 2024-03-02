@@ -10,14 +10,14 @@ let shortcodes: Shortcodes
 describe('shortcodes tests', () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
-    const factorEnv = testUtils.factorEnv
-    shortcodes = new Shortcodes({ factorEnv })
+    const fictionEnv = testUtils.fictionEnv
+    shortcodes = new Shortcodes({ fictionEnv })
     shortcodes.addShortcode('mock', () => 'MockResult')
   })
 
   it('should parse a string with a cwd shortcode', async () => {
     const result = await shortcodes.parseString('Current directory: [cwd]')
-    expect(result).toBe(`Current directory: ${testUtils.factorEnv.cwd}`)
+    expect(result).toBe(`Current directory: ${testUtils.fictionEnv.cwd}`)
   })
 
   it('should parse a string with date and time shortcodes', async () => {
@@ -42,7 +42,7 @@ describe('shortcodes tests', () => {
     shortcodes.addShortcode('siteName', () => 'MySite')
     const parsedSettings = await shortcodes.parseObject(settings)
     expect(parsedSettings).toEqual({
-      directory: testUtils.factorEnv.cwd,
+      directory: testUtils.fictionEnv.cwd,
       today: new Date().toLocaleDateString(),
       greeting: 'Welcome to MySite',
     })

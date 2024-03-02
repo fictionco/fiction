@@ -6,7 +6,7 @@ const props = defineProps({
   selector: { type: String, default: '' },
 })
 
-const { factorRouter } = useService()
+const { fictionRouter } = useService()
 
 interface PageHeaders {
   text: string
@@ -18,8 +18,8 @@ const scroller = vue.ref<HTMLElement>()
 const headers = vue.ref<PageHeaders[]>([])
 const allHeaders = vue.ref<HTMLHeadingElement[]>([])
 const activeHash = vue.computed({
-  get: () => factorRouter.current.value.hash,
-  set: v => factorRouter.push({ ...factorRouter.current.value, hash: v }),
+  get: () => fictionRouter.current.value.hash,
+  set: v => fictionRouter.push({ ...fictionRouter.current.value, hash: v }),
 })
 const hydrated = vue.ref(false)
 const loading = vue.ref(false)
@@ -114,7 +114,7 @@ function setActiveHash(): void {
 
     if (
       isActive
-      && decodeURIComponent(factorRouter.current.value.hash) !== decodeURIComponent(anchor.id)
+      && decodeURIComponent(fictionRouter.current.value.hash) !== decodeURIComponent(anchor.id)
     ) {
       activeHash.value = `#${anchor.id}`
 
@@ -149,9 +149,9 @@ function setMenu(): void {
   }, 500)
 }
 
-let lastPath = factorRouter.current.value.path
+let lastPath = fictionRouter.current.value.path
 vue.watch(
-  () => factorRouter.current.value,
+  () => fictionRouter.current.value,
   (to, from) => {
     if (to.path !== lastPath) {
       setMenu()
@@ -190,8 +190,8 @@ vue.onMounted(() => {
   hydrated.value = true
   setMenu()
 
-  if (factorRouter.current.value.hash)
-    setClick(factorRouter.current.value.hash)
+  if (fictionRouter.current.value.hash)
+    setClick(fictionRouter.current.value.hash)
 })
 </script>
 

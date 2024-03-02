@@ -11,7 +11,7 @@ import cors from 'cors'
 import type { EndpointResponse, ErrorConfig } from '../types'
 import { log } from '../plugin-log'
 import { onEvent } from '../utils/event'
-import type { FactorUser } from '../plugin-user'
+import type { FictionUser } from '../plugin-user'
 import type { Query } from '../query'
 import type { Endpoint } from './endpoint'
 import { getCommit, getVersion } from './vars'
@@ -26,7 +26,7 @@ export interface EndpointServerOptions {
   endpoints: Endpoint<Query>[]
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   liveUrl?: string
   url?: string
 }
@@ -86,7 +86,7 @@ export class EndpointServer {
   customServer?: CustomServerHandler
   middleware?: MiddlewareHandler
 
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   log = log.contextLogger(this.constructor.name)
   url: string
   server?: http.Server
@@ -98,7 +98,7 @@ export class EndpointServer {
     this.port = port
     this.endpoints = endpoints
     this.customServer = customServer
-    this.factorUser = settings.factorUser
+    this.fictionUser = settings.fictionUser
     this.url = settings.url || `http://localhost:${port}`
     this.expressApp = createExpressApp({ noHelmet: true })
   }
@@ -169,7 +169,7 @@ export class EndpointServer {
       data: {
         baseUrl: this.url,
         serverName: this.serverName,
-        auth: this.factorUser ? 'enabled' : 'disabled',
+        auth: this.fictionUser ? 'enabled' : 'disabled',
         port: `[ ${port} ]`,
         endpoints,
         health: `${this.url}/health`,
@@ -187,8 +187,8 @@ export class EndpointServer {
   setAuthorizedUser = async (
     request: express.Request,
   ): Promise<express.Request> => {
-    if (!this.factorUser) {
-      this.log.error(`no factorUser instance for endpoint authorization (${this.serverName})`)
+    if (!this.fictionUser) {
+      this.log.error(`no fictionUser instance for endpoint authorization (${this.serverName})`)
       return request
     }
 
@@ -203,13 +203,13 @@ export class EndpointServer {
 
       request.bearerToken = token
 
-      const r = this.factorUser.decodeClientToken(token) ?? {}
+      const r = this.fictionUser.decodeClientToken(token) ?? {}
 
       userId = r.userId
     }
 
     if (userId) {
-      const { data: user } = await this.factorUser.queries.ManageUser.serve(
+      const { data: user } = await this.fictionUser.queries.ManageUser.serve(
         {
           userId,
           _action: 'getPrivate',

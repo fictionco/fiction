@@ -10,7 +10,7 @@ import { setPages, updatePages } from '../page'
 describe('saveSite', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test', siteMode: 'standard' } as const
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
 
   const result = await requestManageSite(
     {
@@ -54,7 +54,7 @@ describe('saveSite', async () => {
 
 describe('updateSite / updatePages', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('updates site with valid keys', async () => {
     const site = new Site({ ...common, themeId: 'test' })
@@ -109,10 +109,10 @@ describe('updateSite / updatePages', async () => {
 
 describe('activeSiteHostname', async () => {
   const testUtils = await createSiteTestUtils()
-  const common = { factorSites: testUtils.factorSites, siteRouter: testUtils.factorRouterSites, themeId: 'test' }
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should return the hostname from a full URL', () => {
-    testUtils.factorAppSites.liveUrl.value = 'https://*.example.com'
+    testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
 
     const site = new Site({ ...common, subDomain: 'subdomain', isProd: false })
 
@@ -124,7 +124,7 @@ describe('activeSiteHostname', async () => {
   })
 
   it('should return empty string for invalid URL', () => {
-    testUtils.factorAppSites.liveUrl.value = 'invalid-url'
+    testUtils.fictionAppSites.liveUrl.value = 'invalid-url'
     const site = new Site({ ...common, subDomain: 'subdomain', isProd: true })
     expect(activeSiteHostname(site).value).toBe('')
   })

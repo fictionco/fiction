@@ -1,4 +1,4 @@
-import { FactorObject, toLabel, vue } from '@fiction/core'
+import { FictionObject, toLabel, vue } from '@fiction/core'
 import type { ComponentCardUserConfig, ComponentConstructor } from './type-utils'
 
 type LayoutSettings<T extends ComponentConstructor = ComponentConstructor> = {
@@ -7,7 +7,7 @@ type LayoutSettings<T extends ComponentConstructor = ComponentConstructor> = {
   title?: string
   userConfig?: ComponentCardUserConfig<T>
 }
-export class Layout<T extends ComponentConstructor = ComponentConstructor> extends FactorObject<LayoutSettings<T>> {
+export class Layout<T extends ComponentConstructor = ComponentConstructor> extends FictionObject<LayoutSettings<T>> {
   title = this.settings.title || toLabel(this.settings.layoutId)
   el = this.settings.el
   layoutId = this.settings.layoutId

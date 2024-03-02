@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, FactorUser,
+import type { ActionItem, FictionUser,
 } from '@fiction/core'
 import { emitEvent, toLabel, useService, vue } from '@fiction/core'
 import { googleOneTap } from '@fiction/core/plugin-user/google'
@@ -25,7 +25,7 @@ const emit = defineEmits<{
 
 const uc = vue.computed(() => props.card.userConfig.value)
 
-const { factorUser } = useService<{ factorUser: FactorUser }>()
+const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 
 type Modes = 'login' | 'register' | 'setPassword' | 'verify' | 'resetPassword'
 type AuthForm = {
@@ -99,7 +99,7 @@ async function sendRegister() {
 
   const { email = '', password = '', fullName, orgName } = props.form
 
-  const r = await factorUser.requests.ManageUser.request({ _action: 'create', email, fields: { email, password, fullName }, orgName })
+  const r = await fictionUser.requests.ManageUser.request({ _action: 'create', email, fields: { email, password, fullName }, orgName })
 
   if (r.status === 'success') {
     emit('update:form', { ...props.form, isNewUser: true, flow: 'register' })
@@ -127,7 +127,7 @@ async function sendVerifyCode(): Promise<void> {
     return
   }
 
-  const r = await factorUser.requests.VerifyAccountEmail.request({ verificationCode: code, email })
+  const r = await fictionUser.requests.VerifyAccountEmail.request({ verificationCode: code, email })
 
   if (r.status === 'success')
     emit('update:itemId', 'setPassword')
@@ -144,7 +144,7 @@ async function sendLogin(): Promise<void> {
 
   const { email = '', password = '' } = props.form
 
-  const r = await factorUser.requests.Login.request({ email, password })
+  const r = await fictionUser.requests.Login.request({ email, password })
 
   if (r.status === 'success') {
     if (r.user?.emailVerified) {
@@ -168,7 +168,7 @@ async function createVerification(): Promise<void> {
   const { email, fullName, orgName } = props.form
 
   if (email) {
-    const result = await factorUser.requests.NewVerificationCode.request({ email, orgName, fullName })
+    const result = await fictionUser.requests.NewVerificationCode.request({ email, orgName, fullName })
 
     const data = result.data
 
@@ -190,7 +190,7 @@ async function sendNewPassword(): Promise<void> {
   const { email = '', code = '', password = '' } = props.form
 
   sending.value = true
-  const r = await factorUser.requests.SetPassword.request({ email, password, verificationCode: code, isNewUser: props.form.isNewUser }, { debug: true })
+  const r = await fictionUser.requests.SetPassword.request({ email, password, verificationCode: code, isNewUser: props.form.isNewUser }, { debug: true })
 
   if (r.status === 'success')
     emit('signedIn', props.form)
@@ -215,7 +215,7 @@ async function showGoogle() {
     autoSignIn: false,
     promptParentId: 'google-signin-prompt',
     showPrompt: false,
-    factorUser,
+    fictionUser,
     isSending: isSendingGoogleAuth,
     isDarkMode: props.card.site?.isDarkMode.value,
     callback: (r) => {
@@ -246,7 +246,7 @@ vue.onMounted(async () => {
   vue.watch(
     () => props.itemId,
     async (itemId) => {
-      await factorUser.userInitialized({ caller: 'AuthForm' })
+      await fictionUser.userInitialized({ caller: 'AuthForm' })
       await showGoogle()
 
       if (itemId === 'setPassword' && (!props.form.email || !props.form.code))

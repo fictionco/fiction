@@ -6,25 +6,25 @@ import type { ExecaChildProcess, ExecaError } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionEnv } from '../plugin-env'
 import { log } from '../plugin-log'
 import { getRequire } from '../utils'
 import type { PackageJson } from '../types'
-import { FactorPlugin } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { getPackages, isGitDirty } from './utils'
 
 const { prompt } = enquirer
 
-interface FactorReleaseSettings {
-  factorEnv: FactorEnv
+interface FictionReleaseSettings {
+  fictionEnv: FictionEnv
 }
 
-export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
+export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
   versionIncrements: ReleaseType[] = ['patch', 'minor', 'major', 'prerelease']
-  factorEnv: FactorEnv
-  constructor(settings: FactorReleaseSettings) {
+  fictionEnv: FictionEnv
+  constructor(settings: FictionReleaseSettings) {
     super('release', settings)
-    this.factorEnv = settings.factorEnv
+    this.fictionEnv = settings.fictionEnv
   }
 
   currentVersion = (): string => {
@@ -250,7 +250,7 @@ export class FactorRelease extends FactorPlugin<FactorReleaseSettings> {
     await this.updateVersions(targetVersion)
 
     this.log.info('building packages...')
-    await this.commit('npm', ['exec', '--', 'factor', 'run', 'bundle'])
+    await this.commit('npm', ['exec', '--', 'fiction', 'run', 'bundle'])
 
     this.log.info('generate changelog...')
     await this.commit('npm', ['run', 'changelog'])

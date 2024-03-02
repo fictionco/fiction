@@ -2,20 +2,20 @@ import { beforeAll, describe, expect, it } from 'vitest'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import type { OrganizationMember } from '@fiction/core/plugin-user/types'
-import { FactorTeam } from '..'
+import { FictionTeam } from '..'
 import { snap } from '../../test-utils'
 
-let testUtils: (TestUtils & { factorTeam?: FactorTeam }) | undefined
+let testUtils: (TestUtils & { fictionTeam?: FictionTeam }) | undefined
 
 describe('org team', () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
 
-    const factorTeam = new FactorTeam({
+    const fictionTeam = new FictionTeam({
       ...testUtils,
     })
 
-    testUtils.factorTeam = factorTeam
+    testUtils.fictionTeam = fictionTeam
 
     testUtils.initialized = await testUtils.init()
   })
@@ -27,7 +27,7 @@ describe('org team', () => {
     if (!orgId)
       throw new Error('no orgId')
 
-    const q = await testUtils?.factorTeam?.queries.OrgMembers.serve(
+    const q = await testUtils?.fictionTeam?.queries.OrgMembers.serve(
       {
         _action: 'index',
         orgId,

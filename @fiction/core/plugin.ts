@@ -1,18 +1,18 @@
-import type { FactorUser } from './plugin-user'
+import type { FictionUser } from './plugin-user'
 import { omit } from './utils'
 import type { EndpointMap } from './utils/endpoint'
 import { Endpoint } from './utils/endpoint'
 import type { LogHelper } from './plugin-log'
 import { log } from './plugin-log'
 import type { Query } from './query'
-import type { FactorServer } from './plugin-server'
+import type { FictionServer } from './plugin-server'
 import { _stop } from './utils/error'
 import * as utils from './utils'
-import type { FactorEnv } from './plugin-env'
+import type { FictionEnv } from './plugin-env'
 import { standardTable } from './tbl'
 
-export type FactorPluginSettings = {
-  factorEnv: FactorEnv
+export type FictionPluginSettings = {
+  fictionEnv: FictionEnv
   root?: string
   createQueries?: () => Record<string, Query>
 }
@@ -21,7 +21,7 @@ export type PluginSetupArgs = {
   context: 'node' | 'app' | 'test'
 }
 
-export abstract class FactorObject<
+export abstract class FictionObject<
   T extends object = object,
 > {
   name: string
@@ -43,16 +43,16 @@ export abstract class FactorObject<
   }
 }
 
-export abstract class FactorPlugin<
-  T extends FactorPluginSettings = { factorEnv: FactorEnv },
-> extends FactorObject<T> {
+export abstract class FictionPlugin<
+  T extends FictionPluginSettings = { fictionEnv: FictionEnv },
+> extends FictionObject<T> {
   basePath: string
   log: LogHelper
-  factorEnv?: FactorEnv
+  fictionEnv?: FictionEnv
   constructor(name: string, settings: T) {
     super(name, settings)
     this.basePath = `/${utils.toSlug(this.name)}`
-    this.factorEnv = this.settings.factorEnv
+    this.fictionEnv = this.settings.fictionEnv
 
     if (this.settings.root) {
       const root = this.settings.root
@@ -64,7 +64,7 @@ export abstract class FactorPlugin<
           `!${root}/node_modules/**`, // Exclude node_modules
           `!${root}/dist/**`, // Exclude dist
       ]
-      this.factorEnv?.addUiPaths(patterns)
+      this.fictionEnv?.addUiPaths(patterns)
     }
 
     this.log = log.contextLogger(`${this.name}`)
@@ -80,16 +80,16 @@ export abstract class FactorPlugin<
   >(params: {
     queries?: R
     basePath?: string
-    factorServer?: FactorServer
-    factorUser?: FactorUser
+    fictionServer?: FictionServer
+    fictionUser?: FictionUser
     endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
     middleware?: () => utils.express.RequestHandler[]
   },
   ): M {
-    const { queries, factorServer, factorUser, basePath, endpointHandler, middleware } = params
+    const { queries, fictionServer, fictionUser, basePath, endpointHandler, middleware } = params
 
-    if (!factorServer) {
-      this.log.warn(`Create Requests Err: No factorServer found for "${this.name}"`)
+    if (!fictionServer) {
+      this.log.warn(`Create Requests Err: No fictionServer found for "${this.name}"`)
       return {} as M
     }
 
@@ -103,9 +103,9 @@ export abstract class FactorPlugin<
         const opts: utils.EndpointSettings<Query> = {
           key,
           queryHandler,
-          serverUrl: factorServer?.serverUrl,
+          serverUrl: fictionServer?.serverUrl,
           basePath: basePath || this.basePath,
-          factorUser,
+          fictionUser,
           middleware,
         }
 
@@ -119,12 +119,12 @@ export abstract class FactorPlugin<
 
     const requests = Object.fromEntries(entries)
 
-    factorServer?.addEndpoints(Object.values(requests))
+    fictionServer?.addEndpoints(Object.values(requests))
 
     return requests as M
   }
 
   toJSON(): Record<string, unknown> {
-    return omit(this, 'utils', 'stop', 'log', 'settings', 'toJSON', 'factorEnv', 'tbl')
+    return omit(this, 'utils', 'stop', 'log', 'settings', 'toJSON', 'fictionEnv', 'tbl')
   }
 }

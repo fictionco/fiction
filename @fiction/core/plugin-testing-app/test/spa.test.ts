@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { Browser, Page } from 'playwright'
 import { chromium } from 'playwright'
 import { createTestUtilServices } from '../../test-utils/init'
-import { FactorTestingApp } from '..'
+import { FictionTestingApp } from '..'
 
 let server: http.Server | undefined
 let browser: Browser | undefined
@@ -13,8 +13,8 @@ const port = 1234
 describe('spa test app server', () => {
   beforeAll(async () => {
     const testUtils = createTestUtilServices()
-    const testingApp = new FactorTestingApp({
-      factorEnv: testUtils.factorEnv,
+    const testingApp = new FictionTestingApp({
+      fictionEnv: testUtils.fictionEnv,
       port,
       head: `<meta name="author" content="John Doe">`,
     })

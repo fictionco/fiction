@@ -10,11 +10,11 @@ defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 const formError = vue.ref('')
 const user = vue.computed<Partial<User>>(
-  () => factorUser.activeUser.value || {},
+  () => fictionUser.activeUser.value || {},
 )
 const form = vue.ref<Partial<User>>(user.value)
 const userMeta = vue.ref<Partial<UserMeta>>({})
@@ -24,7 +24,7 @@ const sent = vue.ref(false)
 async function updateUser(): Promise<void> {
   const fields = { ...form.value, meta: userMeta.value }
 
-  const r = await factorUser.requests.ManageUser.projectRequest({
+  const r = await fictionUser.requests.ManageUser.projectRequest({
     _action: 'update',
     fields,
   })
@@ -41,9 +41,9 @@ async function send(): Promise<void> {
 }
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
+  await fictionUser.userInitialized()
   vue.watch(
-    () => factorUser.activeUser.value,
+    () => fictionUser.activeUser.value,
     (v) => {
       if (v) {
         form.value = v

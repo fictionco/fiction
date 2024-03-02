@@ -14,19 +14,19 @@ describe('sitePreview', async () => {
   await testUtils.init()
 
   const common = {
-    factorSites: testUtils.factorSites,
-    siteRouter: testUtils.factorRouterSites,
-    parentRouter: testUtils.factorRouter,
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 
-  const r = testUtils.factorRouter
+  const r = testUtils.fictionRouter
 
   const { init: _, initialized: __, close: ___, ...service } = testUtils
   const mountEl = document.createElement('div')
   mountEl.id = 'app'
   document.body.appendChild(mountEl)
-  const entry = await testUtils.factorApp.mountApp({ selector: '#app', service })
+  const entry = await testUtils.fictionApp.mountApp({ selector: '#app', service })
 
   beforeAll(async () => { })
   afterAll(async () => {
@@ -38,9 +38,9 @@ describe('sitePreview', async () => {
       return
 
     const cur = () => r.current.value
-    const previewPath = () => testUtils.factorSites.getPreviewPath({ factorAdmin: testUtils.factorAdmin }).value
+    const previewPath = () => testUtils.fictionSites.getPreviewPath({ fictionAdmin: testUtils.fictionAdmin }).value
 
-    const orgBase = testUtils.factorAdmin.adminBaseOrgPath.value
+    const orgBase = testUtils.fictionAdmin.adminBaseOrgPath.value
     const siteEdit = `${orgBase}/siteEdit`
 
     await r.push(`/admin/preview/theme/minimal`)

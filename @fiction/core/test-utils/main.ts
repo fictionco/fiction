@@ -5,11 +5,11 @@ const service = createTestUtilServices()
 
 export function setup(): ServiceConfig {
   return {
-    factorEnv: service.factorEnv,
+    fictionEnv: service.fictionEnv,
     runCommand: async () => {},
     createService: async () => service,
     createMount: async (args) => {
-      return await service.factorApp.mountApp(args)
+      return await service.fictionApp.mountApp(args)
     },
   }
 }

@@ -22,16 +22,16 @@ describe('site plugin tests', async () => {
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
 
   const common = {
-    siteRouter: testUtils.factorRouterSites,
-    parentRouter: testUtils.factorRouter,
-    factorSites: testUtils.factorSites,
+    siteRouter: testUtils.fictionRouterSites,
+    parentRouter: testUtils.fictionRouter,
+    fictionSites: testUtils.fictionSites,
     siteMode: 'standard',
   } as const
 
   const defaultNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
 
   it('creates site', async (ctx) => {
-    if (!testUtils?.factorSites)
+    if (!testUtils?.fictionSites)
       throw new Error('missing testUtils')
 
     const subDomain = shortId()
@@ -63,7 +63,7 @@ describe('site plugin tests', async () => {
     if (!site?.siteId)
       throw new Error('siteId missing')
 
-    const r = await testUtils?.factorSites?.queries.ManageSite.serve(
+    const r = await testUtils?.fictionSites?.queries.ManageSite.serve(
       {
         _action: 'update',
         fields: { title, siteId: site?.siteId },
@@ -89,7 +89,7 @@ describe('site plugin tests', async () => {
   })
 
   it('sets routes, paths, pages', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     expect(Object.entries(siteObj.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
@@ -111,7 +111,7 @@ describe('site plugin tests', async () => {
 
     const title = 'test'
     const slug = 'test'
-    const r = await testUtils?.factorSites?.queries.ManagePage.serve(
+    const r = await testUtils?.fictionSites?.queries.ManagePage.serve(
       {
         siteId: site.siteId,
         _action: 'upsert',
@@ -153,7 +153,7 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    const r2 = await testUtils?.factorSites?.queries.ManagePage.serve(
+    const r2 = await testUtils?.fictionSites?.queries.ManagePage.serve(
       {
         siteId: site.siteId,
         _action: 'delete',
@@ -169,13 +169,13 @@ describe('site plugin tests', async () => {
   })
 
   it('updates pages from form', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     expect(site.pages.length).toMatchInlineSnapshot(`2`)
     expect(siteObj.pages.value.length).toMatchInlineSnapshot(`2`)
 
-    const rSite1 = await testUtils.factorSites.requests.ManageSite.projectRequest({
+    const rSite1 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
       where: { siteId: siteObj.siteId },
     })
@@ -226,7 +226,7 @@ describe('site plugin tests', async () => {
 
     expect(siteObj.pages.value[0].cardId).toBe(r?.cardId)
 
-    const rSite2 = await testUtils.factorSites.requests.ManageSite.projectRequest({
+    const rSite2 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
       where: { siteId: siteObj.siteId },
 
@@ -240,7 +240,7 @@ describe('site plugin tests', async () => {
 
     expect(siteObj.pages.value.filter(_ => _.regionId === 'main').length, 'default pages after adding and deleting page').toBe(defaultNumPages)
 
-    const rSite3 = await testUtils.factorSites.requests.ManageSite.projectRequest({
+    const rSite3 = await testUtils.fictionSites.requests.ManageSite.projectRequest({
       _action: 'retrieve',
       where: { siteId: siteObj.siteId },
     })
@@ -249,7 +249,7 @@ describe('site plugin tests', async () => {
   })
 
   it('handles active page', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     const m = siteObj.viewMap.value
@@ -375,7 +375,7 @@ describe('site plugin tests', async () => {
   })
 
   it('sets correct layout', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
@@ -413,7 +413,7 @@ describe('site plugin tests', async () => {
   })
 
   it('handles cards correctly', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     expect(snap(siteObj.currentPage.value?.toConfig(), { maskedKeys: [''] })).toMatchInlineSnapshot(`
@@ -483,7 +483,7 @@ describe('site plugin tests', async () => {
   })
 
   it('saves the site', async () => {
-    if (!siteObj || !testUtils?.factorSites)
+    if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
     const responseSiteConfig = await saveSite({ site: siteObj })
@@ -493,7 +493,7 @@ describe('site plugin tests', async () => {
 
     expect(responseSiteConfig?.siteId).toBeTruthy()
 
-    const responseSite = new Site({ ...responseSiteConfig, factorSites: testUtils?.factorSites, siteRouter: testUtils?.factorRouterSites })
+    const responseSite = new Site({ ...responseSiteConfig, fictionSites: testUtils?.fictionSites, siteRouter: testUtils?.fictionRouterSites })
 
     expect(responseSite.pages.value.length).toBe(siteObj.pages.value.length)
   })

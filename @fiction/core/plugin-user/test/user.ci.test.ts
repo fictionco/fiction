@@ -19,11 +19,11 @@ let user: User
 
 describe('user tests', async () => {
   const testUtils = await createTestUtils()
-  await testUtils.factorDb.init()
+  await testUtils.fictionDb.init()
 
   it('creates user', async () => {
     const email = getTestEmail()
-    const response = await testUtils?.factorUser?.queries.ManageUser.serve(
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
       {
         _action: 'create',
         fields: { email, fullName: 'test' },
@@ -46,7 +46,7 @@ describe('user tests', async () => {
   it('verifies account email', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.factorUser?.queries.VerifyAccountEmail.serve({ email: user.email, verificationCode: 'test' }, undefined)
+    const response = await testUtils?.fictionUser?.queries.VerifyAccountEmail.serve({ email: user.email, verificationCode: 'test' }, undefined)
     expect(response?.status).toMatchInlineSnapshot(`"success"`)
     expect(response?.message).toMatchInlineSnapshot(`"verification successful"`)
     expect(response?.data).toBeTruthy()
@@ -62,7 +62,7 @@ describe('user tests', async () => {
   it('sets password', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.factorUser?.queries.SetPassword.serve(
+    const response = await testUtils?.fictionUser?.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: 'test',
@@ -77,7 +77,7 @@ describe('user tests', async () => {
     expect(bcrypt.compare('test', user?.hashedPassword ?? '')).toBeTruthy()
     expect(response?.token).toBeTruthy()
 
-    const result = testUtils?.factorUser.decodeClientToken(
+    const result = testUtils?.fictionUser.decodeClientToken(
       response?.token,
     )
 
@@ -87,7 +87,7 @@ describe('user tests', async () => {
   it('logs in with password', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.factorUser?.queries.Login.serve(
+    const response = await testUtils?.fictionUser?.queries.Login.serve(
       {
         email: user.email,
         password: 'test',
@@ -108,7 +108,7 @@ describe('user tests', async () => {
   it('resets password', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.factorUser?.queries.ResetPassword.serve(
+    const response = await testUtils?.fictionUser?.queries.ResetPassword.serve(
       {
         email: user.email,
       },
@@ -120,7 +120,7 @@ describe('user tests', async () => {
     if (!response?.internal)
       throw new Error('code required')
 
-    const response2 = await testUtils?.factorUser?.queries.SetPassword.serve(
+    const response2 = await testUtils?.fictionUser?.queries.SetPassword.serve(
       {
         email: user.email,
         verificationCode: response?.internal,
@@ -135,7 +135,7 @@ describe('user tests', async () => {
   it('updates the user', async () => {
     if (!user.email)
       throw new Error('email required')
-    const response = await testUtils?.factorUser?.queries.ManageUser.serve(
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve(
       {
         _action: 'update',
         email: user.email,
@@ -157,7 +157,7 @@ describe('user tests', async () => {
       throw new Error('email required')
 
     // Assuming there's a setup to have a user created before this test runs
-    const response = await testUtils?.factorUser?.queries.ManageUser.serve({
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
       _action: 'getPublic',
       email: user.email,
     }, {})
@@ -175,7 +175,7 @@ describe('user tests', async () => {
       throw new Error('userId required')
 
     // Assuming authentication setup correctly in tests
-    const response = await testUtils?.factorUser?.queries.ManageUser.serve({
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
       _action: 'getPrivate',
       userId: user.userId,
     }, { bearer: user })
@@ -188,7 +188,7 @@ describe('user tests', async () => {
   // Testing error handling for invalid action
   it('handles invalid action error', async () => {
     // @ts-expect-error test
-    const response = await testUtils?.factorUser?.queries.ManageUser.serve({
+    const response = await testUtils?.fictionUser?.queries.ManageUser.serve({
       _action: 'invalidAction' as any, // Forcing TypeScript to allow an invalid action for the test
     }, {})
 

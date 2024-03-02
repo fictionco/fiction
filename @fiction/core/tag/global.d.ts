@@ -2,9 +2,9 @@ import type { TagSettings } from './types'
 
 declare global {
   interface Window {
-    __factor?: TagSettings
-    factorIsFake?: boolean // for testing
-    factorMockReferrer?: string // for testing
+    __fiction?: TagSettings
+    fictionIsFake?: boolean // for testing
+    fictionMockReferrer?: string // for testing
   }
 }
 

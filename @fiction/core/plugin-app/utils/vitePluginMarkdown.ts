@@ -145,7 +145,7 @@ export function getMarkdownPlugins(args: {
   const parseHandler = new ParseHandler({ isProd, distClient })
   return [
     {
-      name: 'factor-vite-markdown',
+      name: 'fiction-vite-markdown',
       enforce: 'pre',
       transform(code, id) {
         return parseHandler.transformMarkdownFiles({ code, id })

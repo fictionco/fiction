@@ -1,6 +1,6 @@
 // @unocss-include
 import type { vueRouter } from '@fiction/core'
-import { FactorObject, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
+import { FictionObject, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
 import { type InputOption, getOptionJsonSchema } from '@fiction/ui'
 
 import type { CardConfigPortable, TableCardConfig } from './tables'
@@ -40,7 +40,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   sections?: Record<string, CardConfigPortable>
 }
 
-export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FactorObject<
+export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
 CardTemplateSettings<U, T>
 > {
   jsonSchema = vue.computed(() => getOptionJsonSchema(this.settings.options))
@@ -63,7 +63,7 @@ export type CardSettings<T extends Record<string, unknown> = Record<string, unkn
 
 export class Card<
   T extends Record<string, unknown> = Record<string, unknown>,
-> extends FactorObject<CardSettings<T>> {
+> extends FictionObject<CardSettings<T>> {
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isDefault = vue.ref(this.settings.isDefault)
   is404 = vue.ref(this.settings.is404)

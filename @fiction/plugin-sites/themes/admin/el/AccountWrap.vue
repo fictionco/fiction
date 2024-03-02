@@ -3,12 +3,12 @@ import { useService } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 </script>
 
 <template>
   <div>
-    <template v-if="factorUser.activeUser.value?.userId === 'anonymous'">
+    <template v-if="fictionUser.activeUser.value?.userId === 'anonymous'">
       <div>
         <ElZeroBanner
           title="No Access"
@@ -20,16 +20,16 @@ const { factorUser } = useService()
       <div class="border-theme-200 dark:border-theme-700 flex items-center space-x-4 border-b p-8">
         <div>
           <ElAvatar
-            :email="factorUser.activeUser.value?.email"
+            :email="fictionUser.activeUser.value?.email"
             class="h-16 w-16 rounded-full"
           />
         </div>
         <div>
           <div class="text-xl font-bold">
-            {{ factorUser.activeUser.value?.fullName }}
+            {{ fictionUser.activeUser.value?.fullName }}
           </div>
           <div class="text-theme-500">
-            {{ factorUser.activeUser.value?.email }}
+            {{ fictionUser.activeUser.value?.email }}
           </div>
         </div>
       </div>

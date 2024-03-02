@@ -1,10 +1,10 @@
 import path from 'node:path'
 import process from 'node:process'
 import dotenv from 'dotenv'
-import { FactorObject } from '../plugin'
+import { FictionObject } from '../plugin'
 import type { HookType } from '../utils'
 import { getCrossVar, isApp, isDev, isTest, toSlug, vue } from '../utils'
-import { version as factorVersion } from '../package.json'
+import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { compileApplication } from './entry'
 import type * as types from './types'
@@ -19,7 +19,7 @@ export * from './entry'
 export * from './commands'
 
 type VerifyVar = (params: {
-  factorEnv: FactorEnv
+  fictionEnv: FictionEnv
   value: string | undefined
 }) => boolean
 
@@ -66,12 +66,12 @@ class EnvVarList {
 /**
  * Singleton of var callbacks.
  * Register envVars (as a side-effect on import) from plugins and then call the functions
- * once FactorEnv has set up.
+ * once FictionEnv has set up.
  */
 export const vars = new EnvVarList()
 
-export interface FactorControlSettings {
-  hooks?: HookType<types.FactorEnvHookDictionary>[]
+export interface FictionControlSettings {
+  hooks?: HookType<types.FictionEnvHookDictionary>[]
   envFiles?: string[]
   envFilesProd?: string[]
   env?: Record<string, string>
@@ -100,9 +100,9 @@ type BaseCompiled = {
   [key: string]: any
 }
 
-export class FactorEnv<
+export class FictionEnv<
   S extends BaseCompiled = BaseCompiled,
-> extends FactorObject<FactorControlSettings> {
+> extends FictionObject<FictionControlSettings> {
   generatedConfig?: S
   commands = this.settings.commands || standardAppCommands
   hooks = this.settings.hooks || []
@@ -111,10 +111,10 @@ export class FactorEnv<
   env = this.settings.env || {}
   cwd = this.settings.cwd
   mainFilePath = this.settings.mainFilePath || path.join(this.cwd, 'index.ts')
-  appName = this.settings.appName || 'Factor App'
+  appName = this.settings.appName || 'Fiction App'
   appEmail = this.settings.appEmail || ''
   appUrl = this.settings.appUrl || ''
-  id = this.settings.id || toSlug(this.appName) || 'factor'
+  id = this.settings.id || toSlug(this.appName) || 'fiction'
   inspector = this.settings.inspector || false
   mode = this.utils.vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
   isRestart = () => process.env.IS_RESTART === '1'
@@ -129,7 +129,7 @@ export class FactorEnv<
 
   isRendering = false
   version = this.settings.version || '0.0.0'
-  factorVersion = factorVersion
+  fictionVersion = fictionVersion
   uiPaths = this.settings.uiPaths ?? []
 
   serverOnlyImports: Record<string, true | Record<string, string>> = commonServerOnlyModules()
@@ -141,14 +141,14 @@ export class FactorEnv<
   // the services are then accessed via useService provide
   service = vue.shallowRef<{ runVars?: Partial<RunVars>, [key: string]: unknown }>({})
 
-  constructor(settings: FactorControlSettings) {
+  constructor(settings: FictionControlSettings) {
     super('env', settings)
 
     const commitId = process.env.RUNTIME_COMMIT || ''
     this.log.info(`[start] environment`, {
       data: {
         appName: this.appName,
-        version: `${this.version || 'no version'} [factor: ${factorVersion}]`,
+        version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
         vars: Object.keys(process.env).length,
         commands: this.commands.map(c => c.command).join(', '),
         isRestart: this.isRestart(),
@@ -168,7 +168,7 @@ export class FactorEnv<
       this.nodeInit()
 
     else if (typeof window !== 'undefined')
-      this.log.info('browser env vars', { data: window.factorRunVars })
+      this.log.info('browser env vars', { data: window.fictionRunVars })
 
     this.addHook({
       hook: 'staticSchema',
@@ -326,7 +326,7 @@ export class FactorEnv<
 
       let r: boolean
       if (verify)
-        r = verify({ factorEnv: this, value: val.value })
+        r = verify({ fictionEnv: this, value: val.value })
       else if (!this.isApp && !isOptional)
         r = !!val
       else
@@ -351,7 +351,7 @@ export class FactorEnv<
     await generateStaticConfig(this)
   }
 
-  public addHook(hook: HookType<types.FactorEnvHookDictionary>): void {
+  public addHook(hook: HookType<types.FictionEnvHookDictionary>): void {
     this.hooks.push(hook)
   }
 
@@ -386,7 +386,7 @@ export class FactorEnv<
 
     const options = { command: cmd?.command, ...cmd?.options }
 
-    await this.utils.runHooks<types.FactorEnvHookDictionary>({
+    await this.utils.runHooks<types.FictionEnvHookDictionary>({
       list: this.hooks,
       hook: 'runCommand',
       args: [options.command || 'not_set', options],

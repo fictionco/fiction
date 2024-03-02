@@ -1,32 +1,32 @@
 import type {
   EndpointMeta,
   EndpointResponse,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
 } from '@fiction/core'
 import {
   Query,
 } from '@fiction/core'
-import type { FactorMonitor } from '@fiction/plugin-monitor'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
 import { tableName } from './tables'
-import type { FactorContact } from '.'
+import type { FictionContact } from '.'
 
 interface SaveMediaSettings {
-  factorContact: FactorContact
-  factorDb?: FactorDb
-  factorEnv: FactorEnv
-  factorMonitor: FactorMonitor
-  factorEmail: FactorEmail
+  fictionContact: FictionContact
+  fictionDb?: FictionDb
+  fictionEnv: FictionEnv
+  fictionMonitor: FictionMonitor
+  fictionEmail: FictionEmail
 }
 
 abstract class ContactQuery extends Query<SaveMediaSettings> {
-  factorContact = this.settings.factorContact
-  factorDb = this.settings.factorDb
-  factorEnv = this.settings.factorEnv
-  factorMonitor = this.settings.factorMonitor
-  factorEmail = this.settings.factorEmail
+  fictionContact = this.settings.fictionContact
+  fictionDb = this.settings.fictionDb
+  fictionEnv = this.settings.fictionEnv
+  fictionMonitor = this.settings.fictionMonitor
+  fictionEmail = this.settings.fictionEmail
   maxSide = this.utils.isTest() ? 700 : 1600
   constructor(settings: SaveMediaSettings) {
     super(settings)
@@ -43,11 +43,11 @@ export class QueryManageSubmission extends ContactQuery {
     params: SubmissionParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSubmissionConfig>> {
-    if (!this.factorDb)
-      throw this.stop('no factorDb')
+    if (!this.fictionDb)
+      throw this.stop('no fictionDb')
     const { _action, submission } = params
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     let message = ''
     let resultSubmission: TableSubmissionConfig | undefined
@@ -57,7 +57,7 @@ export class QueryManageSubmission extends ContactQuery {
         fields: submission,
         table: tableName,
         meta,
-        factorDb: this.factorDb,
+        fictionDb: this.fictionDb,
       })
 
       ;[resultSubmission] = await db
@@ -67,7 +67,7 @@ export class QueryManageSubmission extends ContactQuery {
 
       message = 'submission saved'
 
-      await this.factorMonitor.slackNotify({
+      await this.fictionMonitor.slackNotify({
         message: '*New Contact Form Submission*',
         data: resultSubmission,
       })

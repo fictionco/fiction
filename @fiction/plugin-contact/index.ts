@@ -1,62 +1,62 @@
 import type {
-  FactorApp,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
-  FactorPluginSettings,
-  FactorRouter,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
+  FictionPluginSettings,
+  FictionRouter,
+  FictionServer,
+  FictionUser,
 } from '@fiction/core'
 import {
-  FactorPlugin,
+  FictionPlugin,
 } from '@fiction/core'
-import type { FactorMonitor } from '@fiction/plugin-monitor'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
 import { table } from './tables'
 import { QueryManageSubmission } from './endpoint'
 
 export * from './tables'
-type FactorContactSettings = {
-  factorDb: FactorDb
-  factorServer: FactorServer
-  factorEmail: FactorEmail
-  factorEnv: FactorEnv
-  factorApp: FactorApp
-  factorUser: FactorUser
-  factorRouter: FactorRouter
-  factorMonitor: FactorMonitor
-} & FactorPluginSettings
+type FictionContactSettings = {
+  fictionDb: FictionDb
+  fictionServer: FictionServer
+  fictionEmail: FictionEmail
+  fictionEnv: FictionEnv
+  fictionApp: FictionApp
+  fictionUser: FictionUser
+  fictionRouter: FictionRouter
+  fictionMonitor: FictionMonitor
+} & FictionPluginSettings
 
-export class FactorContact extends FactorPlugin<FactorContactSettings> {
+export class FictionContact extends FictionPlugin<FictionContactSettings> {
   root = this.utils.safeDirname(import.meta.url)
-  factorDb = this.settings.factorDb
-  factorServer = this.settings.factorServer
-  factorUser = this.settings.factorUser
-  factorRouter = this.settings.factorRouter
-  factorApp = this.settings.factorApp
-  factorEnv = this.settings.factorEnv
-  factorMonitor = this.settings.factorMonitor
-  factorEmail = this.settings.factorEmail
+  fictionDb = this.settings.fictionDb
+  fictionServer = this.settings.fictionServer
+  fictionUser = this.settings.fictionUser
+  fictionRouter = this.settings.fictionRouter
+  fictionApp = this.settings.fictionApp
+  fictionEnv = this.settings.fictionEnv
+  fictionMonitor = this.settings.fictionMonitor
+  fictionEmail = this.settings.fictionEmail
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.factorServer,
-    factorUser: this.factorUser,
+    fictionServer: this.fictionServer,
+    fictionUser: this.fictionUser,
   })
 
-  constructor(settings: FactorContactSettings) {
-    super('FactorContact', settings)
-    settings.factorEnv?.addUiPaths([`${this.root}/*.vue`])
-    this.factorDb?.addTables([table])
+  constructor(settings: FictionContactSettings) {
+    super('FictionContact', settings)
+    settings.fictionEnv?.addUiPaths([`${this.root}/*.vue`])
+    this.fictionDb?.addTables([table])
   }
 
   async submitForm(args: { submission: Partial<TableSubmissionConfig> }) {
     const { submission } = args
     const s: Partial<TableSubmissionConfig> = {
-      appUrl: this.factorRouter.current.value.fullPath,
-      appName: this.factorApp.appName,
-      notificationEmail: this.factorApp.appEmail,
+      appUrl: this.fictionRouter.current.value.fullPath,
+      appName: this.fictionApp.appName,
+      notificationEmail: this.fictionApp.appEmail,
       ...submission,
     }
 
@@ -70,12 +70,12 @@ export class FactorContact extends FactorPlugin<FactorContactSettings> {
 
   protected createQueries() {
     const deps = {
-      factorUser: this.factorUser,
-      factorContact: this,
-      factorDb: this.factorDb,
-      factorEnv: this.factorEnv,
-      factorMonitor: this.factorMonitor,
-      factorEmail: this.factorEmail,
+      fictionUser: this.fictionUser,
+      fictionContact: this,
+      fictionDb: this.fictionDb,
+      fictionEnv: this.fictionEnv,
+      fictionMonitor: this.fictionMonitor,
+      fictionEmail: this.fictionEmail,
     }
     return {
       ManageSubmission: new QueryManageSubmission(deps),

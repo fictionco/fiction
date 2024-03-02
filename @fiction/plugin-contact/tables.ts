@@ -1,12 +1,12 @@
 import type { CreateObjectType } from '@fiction/core'
-import { FactorDbCol, FactorDbTable } from '@fiction/core/plugin-db'
+import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
-export const tableName = 'factor_submission'
+export const tableName = 'fiction_submission'
 
 export type TableSubmissionConfig = CreateObjectType<typeof submissionColumns>
 
 const submissionColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'submissionId',
     create: ({ schema, column, db }) => {
       schema
@@ -16,89 +16,89 @@ const submissionColumns = [
     },
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => {
       schema
         .string(column.pgKey, 32)
-        .references(`factor_user.user_id`)
+        .references(`fiction_user.user_id`)
         .onUpdate('CASCADE')
     },
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'notificationEmail',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'appName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'appUrl',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'name',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'email',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgUrl',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgTitle',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'message',
     create: ({ schema, column }) => schema.string(column.pgKey, 2000),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'phone',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'twitter',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'github',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'linkedIn',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
@@ -106,7 +106,7 @@ const submissionColumns = [
   }),
 ] as const
 
-export const table = new FactorDbTable({
+export const table = new FictionDbTable({
   tableKey: tableName,
   timestamps: true,
   columns: submissionColumns,

@@ -1,13 +1,13 @@
 import process from 'node:process'
 import type { Buffer } from 'node:buffer'
 import type { ServiceConfig } from '@fiction/core'
-import { CliCommand, FactorBundle, FactorEnv, FactorRelease, log, safeDirname } from '@fiction/core'
+import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname } from '@fiction/core'
 import { execaCommand } from 'execa'
 import { version } from './package.json'
 
 const cwd = safeDirname(import.meta.url)
 
-export const factorEnv = new FactorEnv({
+export const fictionEnv = new FictionEnv({
   cwd,
   appEmail: 'hello@supereon.ai',
   appName: 'Supereon Monorepo',
@@ -20,24 +20,24 @@ export const factorEnv = new FactorEnv({
   version,
 })
 
-const factorRelease = new FactorRelease({ factorEnv })
-const factorBundle = new FactorBundle({ factorEnv })
+const fictionRelease = new FictionRelease({ fictionEnv })
+const fictionBundle = new FictionBundle({ fictionEnv })
 
-const service = { factorEnv, factorRelease, factorBundle }
+const service = { fictionEnv, fictionRelease, fictionBundle }
 
 export function setup(): ServiceConfig {
   return {
-    factorEnv,
+    fictionEnv,
     runCommand: async (args) => {
       const { command, options = {} } = args
 
       const { mode, commit } = options
 
       if (command === 'release') {
-        await factorRelease.releaseRoutine(options)
+        await fictionRelease.releaseRoutine(options)
       }
       else if (command === 'bundle') {
-        await factorBundle.bundleAll({ mode, commit })
+        await fictionBundle.bundleAll({ mode, commit })
       }
       else if (command === 'render') {
         const fictionApps = ['@fiction/www']
@@ -59,7 +59,7 @@ export function setup(): ServiceConfig {
         for (const app of apps) {
           log.info('render', `rendering ${app}`)
 
-          const cmd = `npm -w ${app} exec -- factor run render`
+          const cmd = `npm -w ${app} exec -- fiction run render`
           await new Promise((resolve) => {
             const cp = execaCommand(cmd, { env: { FORCE_COLOR: 'true' } })
             cp.stdout?.pipe(process.stdout)

@@ -1,5 +1,5 @@
 import validator from 'validator'
-import type { FactorDb } from '../plugin-db'
+import type { FictionDb } from '../plugin-db'
 import type { EndpointMeta } from './endpoint'
 
 type ValidationTypes = 'email' | 'domain' | 'url'
@@ -22,9 +22,9 @@ export function prepareFields<T >(args: {
   fields: T
   table: string
   meta?: EndpointMeta
-  factorDb: FactorDb
+  fictionDb: FictionDb
 }): Partial<T> {
-  const { type, fields, meta, table, factorDb } = args
+  const { type, fields, meta, table, fictionDb } = args
 
   if (!fields || typeof fields !== 'object')
     return fields
@@ -34,9 +34,9 @@ export function prepareFields<T >(args: {
 
   const out: Record<string, any> = {}
 
-  const db = factorDb.client()
+  const db = fictionDb.client()
 
-  const cols = factorDb.getColumns(table)
+  const cols = fictionDb.getColumns(table)
 
   cols?.forEach(
     ({ key, isSetting, isPrivate, isAuthority, isAdmin, prepare }) => {

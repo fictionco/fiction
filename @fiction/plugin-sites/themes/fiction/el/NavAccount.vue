@@ -10,7 +10,7 @@ import {
   useService,
   vue,
 } from '@fiction/core'
-import type { FactorAdmin } from '@fiction/plugin-admin'
+import type { FictionAdmin } from '@fiction/plugin-admin'
 import type { Card } from '../../../card'
 import type { UserConfig } from './ElHeader.vue'
 
@@ -21,9 +21,9 @@ const props = defineProps({
   },
 })
 
-const { factorRouter, factorUser } = useService<{ factorAdmin: FactorAdmin }>()
+const { fictionRouter, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
 const accountMenu = vue.computed((): NavItem[] => {
-  const p = factorRouter.current.value.path
+  const p = fictionRouter.current.value.path
   return [
     {
       name: 'Dashboard',
@@ -33,7 +33,7 @@ const accountMenu = vue.computed((): NavItem[] => {
     {
       icon: 'i-tabler-arrow-big-left',
       name: 'Sign Out',
-      onClick: () => factorUser.logout(),
+      onClick: () => fictionUser.logout(),
     },
   ].map((item) => {
     return { ...item, isActive: item.href === p }
@@ -59,11 +59,11 @@ onResetUi(() => {
 <template>
   <div class="relative flex items-center font-medium">
     <div
-      v-if="factorUser.activeUser.value"
+      v-if="fictionUser.activeUser.value"
       class="group flex cursor-pointer items-center space-x-2"
       @click.stop.prevent="toggle()"
     >
-      <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="factorUser.activeUser?.value.email" />
+      <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="fictionUser.activeUser?.value.email" />
       <div class="flex w-4 flex-col items-end justify-center space-y-1">
         <div
           class="h-1 w-4 rounded-full"
@@ -103,14 +103,14 @@ onResetUi(() => {
         aria-labelledby="menu-button"
         tabindex="-1"
       >
-        <div v-if="factorUser.activeUser.value" class="px-4 py-3 text-sm">
+        <div v-if="fictionUser.activeUser.value" class="px-4 py-3 text-sm">
           <div class="text-xs text-slate-400">
             Signed in as...
           </div>
           <p class="truncate text-base font-bold">
             {{
-              factorUser.activeUser.value?.fullName
-                || factorUser.activeUser.value?.email
+              fictionUser.activeUser.value?.fullName
+                || fictionUser.activeUser.value?.email
             }}
           </p>
         </div>

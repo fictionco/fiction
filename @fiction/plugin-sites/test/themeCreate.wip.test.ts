@@ -22,14 +22,14 @@ describe('themeCreation', async () => {
 
   _defaultNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
 
-  testUtils.factorSites.themes.value = [...testUtils.factorSites.themes.value, testTheme]
+  testUtils.fictionSites.themes.value = [...testUtils.fictionSites.themes.value, testTheme]
 
   afterAll(async () => {
     await testUtils.close()
   })
 
   it('processes theme media correct', async () => {
-    const m = testUtils.factorSites.queries.ManageSite
+    const m = testUtils.fictionSites.queries.ManageSite
     const r = await m.createSiteFromTheme({ _action: 'create', userId, orgId, fields: { themeId: testTheme.themeId } }, { server: true })
 
     const val = findValueByKey(r.pages, 'media')?.url

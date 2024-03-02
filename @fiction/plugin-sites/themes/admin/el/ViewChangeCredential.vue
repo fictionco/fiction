@@ -11,8 +11,8 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorUser } = useService()
-const activeUser = factorUser.activeUser
+const { fictionUser } = useService()
+const activeUser = fictionUser.activeUser
 
 const mode = vue.computed<'password' | 'email'>(() => {
   const cur = props.card.site?.siteRouter.current.value
@@ -35,7 +35,7 @@ async function sendOneTimeCode(): Promise<void> {
   let email
 
   if (mode.value === 'password')
-    email = factorUser.activeUser.value?.email
+    email = fictionUser.activeUser.value?.email
   else
     email = form.value.email
 
@@ -43,7 +43,7 @@ async function sendOneTimeCode(): Promise<void> {
     return
 
   sending.value = true
-  const r = await factorUser.requests.SendOneTimeCode.request({ email })
+  const r = await fictionUser.requests.SendOneTimeCode.request({ email })
 
   if (r.status === 'success')
     hasCode.value = true
@@ -69,7 +69,7 @@ async function updateUser(): Promise<void> {
     return
   }
 
-  const r = await factorUser.requests.UpdateCurrentUser.request({
+  const r = await fictionUser.requests.UpdateCurrentUser.request({
     _action,
     fields: f as PanelForm,
   })

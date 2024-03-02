@@ -25,13 +25,13 @@ const props = defineProps({
 const uc = vue.computed(() => props.card.userConfig.value)
 const loading = vue.ref(true)
 const site = vue.computed(() => props.card.site)
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 const showMobileNav = vue.ref(false)
 const menuVis = vue.ref(false)
 onResetUi(() => (menuVis.value = false))
 
-const accessLevel = vue.computed(() => factorUser.activeRelation.value?.accessLevel || 0)
+const accessLevel = vue.computed(() => fictionUser.activeRelation.value?.accessLevel || 0)
 const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(props.access))
 
 const primaryNav = vue.computed<NavItem[]>(() => {
@@ -74,14 +74,14 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
       name: 'Sign Out',
       icon: 'i-tabler-arrow-big-left',
       onClick: async (): Promise<void> => {
-        await factorUser?.logout()
+        await fictionUser?.logout()
       },
     },
   ]
 })
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
+  await fictionUser.userInitialized()
 
   loading.value = false
 })
@@ -89,7 +89,7 @@ vue.onMounted(async () => {
 
 <template>
   <div id="admin-page" class="app-wrap relative flex h-dvh flex-col font-sans" :data-route="card.site?.siteRouter.current.value.fullPath">
-    <template v-if="!loading && !factorUser.activeUser.value">
+    <template v-if="!loading && !fictionUser.activeUser.value">
       <El404
         heading="Login Required"
         sub-heading="Log in to access this page."

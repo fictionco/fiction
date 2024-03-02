@@ -36,11 +36,11 @@ interface ManageCertParams {
 }
 export class ManageCert extends SitesQuery {
   graphqlEndpoint = 'https://api.fly.io/graphql'
-  factorSites = this.settings.factorSites
+  fictionSites = this.settings.fictionSites
   getClient() {
     return new GraphQLClient(this.graphqlEndpoint, {
       headers: {
-        Authorization: `Bearer ${this.factorSites.settings.flyIoApiToken}`,
+        Authorization: `Bearer ${this.fictionSites.settings.flyIoApiToken}`,
       },
     })
   }

@@ -5,21 +5,21 @@ import fs from 'fs-extra'
 import { Query } from '../query'
 import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils'
-import type { FactorDb } from '../plugin-db'
-import type { FactorAws } from '../plugin-aws'
+import type { FictionDb } from '../plugin-db'
+import type { FictionAws } from '../plugin-aws'
 import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile, objectId, prepareFields, safeDirname } from '../utils'
-import type { FactorMedia, TableMediaConfig } from '.'
+import type { FictionMedia, TableMediaConfig } from '.'
 
 interface SaveMediaSettings {
-  factorMedia: FactorMedia
-  factorDb?: FactorDb
-  factorAws?: FactorAws
+  fictionMedia: FictionMedia
+  fictionDb?: FictionDb
+  fictionAws?: FictionAws
 }
 
 abstract class MediaQuery extends Query<SaveMediaSettings> {
-  factorMedia = this.settings.factorMedia
-  factorDb = this.settings.factorDb
-  factorAws = this.settings.factorAws
+  fictionMedia = this.settings.fictionMedia
+  fictionDb = this.settings.fictionDb
+  fictionAws = this.settings.fictionAws
   maxSide = this.utils.isTest() ? 700 : 1600
   constructor(settings: SaveMediaSettings) {
     super(settings)
@@ -108,12 +108,12 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
     userId: string
     storagePath?: string
   }, meta: EndpointMeta): Promise<TableMediaConfig> {
-    if (!this.factorDb || !this.factorAws)
-      throw new Error('No factorDb or factorAws')
+    if (!this.fictionDb || !this.fictionAws)
+      throw new Error('No fictionDb or fictionAws')
 
-    const db = this.factorDb.client()
-    const cdn = this.factorMedia.cdnUrl
-    const bucket = this.factorMedia.bucket
+    const db = this.fictionDb.client()
+    const cdn = this.fictionMedia.cdnUrl
+    const bucket = this.fictionMedia.bucket
 
     const { file, filePath: sourceFilePath, orgId, userId, fields, storagePath = orgId } = args
     const fileSource = file?.buffer || (sourceFilePath && fs.readFileSync(sourceFilePath))
@@ -138,10 +138,10 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const hash = await hashFile({ buffer: mainBuffer })
     const uploadPromises = [
-      this.factorAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket: this.factorMedia.bucket }),
+      this.fictionAws.uploadS3({ data: mainBuffer, filePath, mime: fileMime, bucket: this.fictionMedia.bucket }),
     ]
     if (thumbnailBuffer)
-      uploadPromises.push(this.factorAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: fileMime, bucket: this.factorMedia.bucket }))
+      uploadPromises.push(this.fictionAws.uploadS3({ data: thumbnailBuffer, filePath: thumbFilePath, mime: fileMime, bucket: this.fictionMedia.bucket }))
 
     const [mainData, thumbData] = await Promise.all(uploadPromises)
     const originUrl = mainData?.url
@@ -173,13 +173,13 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
       orientation,
     }
 
-    const prepped = prepareFields({ type: 'create', fields: mediaConfig, table: this.factorMedia.tableName, meta, factorDb: this.factorDb })
+    const prepped = prepareFields({ type: 'create', fields: mediaConfig, table: this.fictionMedia.tableName, meta, fictionDb: this.fictionDb })
 
     const ins = { userId, orgId, ...prepped }
 
     this.log.info(`INSERTING`, { data: ins })
 
-    const [insertedMedia] = await db.insert(ins).into(this.factorMedia.tableName).returning<TableMediaConfig[]>('*')
+    const [insertedMedia] = await db.insert(ins).into(this.fictionMedia.tableName).returning<TableMediaConfig[]>('*')
 
     return insertedMedia
   }
@@ -199,8 +199,8 @@ export class QuerySaveMedia extends MediaQuery {
       throw this.stop('no file provided to endpoint by request')
     if (!userId || !orgId)
       throw this.stop('no userId or orgId')
-    if (!this.factorAws || !this.factorDb)
-      throw this.stop('no factorAws or factorDb')
+    if (!this.fictionAws || !this.fictionDb)
+      throw this.stop('no fictionAws or fictionDb')
 
     const media = await this.createAndSaveMedia({ file, userId, orgId }, meta)
 
@@ -222,8 +222,8 @@ export class QueryMediaIndex extends MediaQuery {
     params: MediaIndexParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableMediaConfig[]>> {
-    if (!this.factorDb)
-      throw this.stop('no factorDb')
+    if (!this.fictionDb)
+      throw this.stop('no fictionDb')
     const { _action } = params
 
     const userId = params.userId || meta.bearer?.userId
@@ -233,11 +233,11 @@ export class QueryMediaIndex extends MediaQuery {
     if (!userId)
       throw this.stop('userId required')
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     const r = await db
       .select('*')
-      .from(this.factorMedia.tableName)
+      .from(this.fictionMedia.tableName)
       .where({ userId })
 
     return { status: 'success', data: r, message: '' }
@@ -291,7 +291,7 @@ export class QueryManageMedia extends MediaQuery {
   }
 
   validateParams(params: ManageMediaParams) {
-    if (!this.factorDb || !this.factorAws)
+    if (!this.fictionDb || !this.fictionAws)
       throw this.stop('Missing database or AWS configuration')
 
     if (!params._action)
@@ -313,7 +313,7 @@ export class QueryManageMedia extends MediaQuery {
     if (params._action !== 'checkAndCreate')
       throw this.stop('Invalid action')
 
-    const db = this.factorDb?.client()
+    const db = this.fictionDb?.client()
 
     if (!db)
       throw this.stop('Missing database configuration')
@@ -326,7 +326,7 @@ export class QueryManageMedia extends MediaQuery {
 
     const fileHash = await hashFile({ filePath })
 
-    const [existingMedia] = await db.select().from(this.factorMedia.tableName).where({ hash: fileHash })
+    const [existingMedia] = await db.select().from(this.fictionMedia.tableName).where({ hash: fileHash })
 
     let media: TableMediaConfig | undefined = undefined
 
@@ -343,7 +343,7 @@ export class QueryManageMedia extends MediaQuery {
     if (params._action !== 'retrieve')
       throw this.stop('Invalid action')
 
-    const db = this.factorDb?.client()
+    const db = this.fictionDb?.client()
 
     if (!db)
       throw this.stop('Missing database configuration')
@@ -354,7 +354,7 @@ export class QueryManageMedia extends MediaQuery {
 
     const queryConditions = { orgId, ...(url && { url }), ...(mediaId && { mediaId }), ...(hash && { hash }) }
 
-    const [media] = await db.select().from(this.factorMedia.tableName).where(queryConditions)
+    const [media] = await db.select().from(this.fictionMedia.tableName).where(queryConditions)
 
     return media
   }
@@ -363,12 +363,12 @@ export class QueryManageMedia extends MediaQuery {
     if (params._action !== 'delete')
       throw this.stop('Invalid action')
 
-    const db = this.factorDb?.client()
+    const db = this.fictionDb?.client()
 
     if (!db)
       throw this.stop('Missing database configuration')
 
-    const aws = this.factorAws
+    const aws = this.fictionAws
 
     if (!aws)
       throw this.stop('Missing AWS configuration')
@@ -379,11 +379,11 @@ export class QueryManageMedia extends MediaQuery {
 
     const queryConditions = { orgId, ...(url && { url }), ...(mediaId && { mediaId }), ...(hash && { hash }) }
 
-    const [media] = await db.delete().from(this.factorMedia.tableName).where(queryConditions).returning<TableMediaConfig[]>('*')
+    const [media] = await db.delete().from(this.fictionMedia.tableName).where(queryConditions).returning<TableMediaConfig[]>('*')
 
     if (media && media.url) {
       const filePath = new URL(media.url).pathname.replace(/^\/+/g, '')
-      await aws.deleteS3({ filePath, bucket: this.factorMedia.bucket })
+      await aws.deleteS3({ filePath, bucket: this.fictionMedia.bucket })
     }
 
     return media

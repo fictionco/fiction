@@ -14,29 +14,29 @@ describe('user config', () => {
       Object.keys(service || {}),
     ).toMatchInlineSnapshot(`
       [
-        "factorEnv",
-        "factorApp",
-        "factorRouter",
-        "factorServer",
-        "factorDb",
-        "factorUser",
-        "factorEmail",
-        "factorMonitor",
-        "factorAppSites",
-        "factorRouterSites",
-        "factorAws",
-        "factorMedia",
-        "factorAdmin",
-        "factorTeam",
-        "factorUi",
+        "fictionEnv",
+        "fictionApp",
+        "fictionRouter",
+        "fictionServer",
+        "fictionDb",
+        "fictionUser",
+        "fictionEmail",
+        "fictionMonitor",
+        "fictionAppSites",
+        "fictionRouterSites",
+        "fictionAws",
+        "fictionMedia",
+        "fictionAdmin",
+        "fictionTeam",
+        "fictionUi",
       ]
     `)
   })
 
   it('gets correct server user config', async () => {
-    expect(service.factorServer.port).toBeTruthy()
+    expect(service.fictionServer.port).toBeTruthy()
 
-    expect(service.factorServer.endpoints?.map(_ => _.key))
+    expect(service.fictionServer.endpoints?.map(_ => _.key))
       .toMatchInlineSnapshot(`
         [
           "CheckUsername",
@@ -74,7 +74,7 @@ describe('user config', () => {
         ]
       `)
 
-    expect(service.factorApp.factorRouter.routes.value?.map(_ => _.name))
+    expect(service.fictionApp.fictionRouter.routes.value?.map(_ => _.name))
       .toMatchInlineSnapshot(`
         [
           "testInputs",

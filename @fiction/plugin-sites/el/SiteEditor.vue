@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { FactorApp, FactorRouter } from '@fiction/core'
+import type { FictionApp, FictionRouter } from '@fiction/core'
 import { onResetUi, resetUi, toLabel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/El404.vue'
 import type { Site } from '../site'
-import type { FactorSites } from '..'
+import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
 import { saveSite } from '../utils/site'
 import type { Card } from '../card'
@@ -23,8 +23,8 @@ const props = defineProps({
   },
 })
 
-const service = useService<{ factorSites: FactorSites, factorRouterSites: FactorRouter, factorAppSites: FactorApp }>()
-const { factorRouter, factorSites, factorRouterSites } = service
+const service = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter, fictionAppSites: FictionApp }>()
+const { fictionRouter, fictionSites, fictionRouterSites } = service
 
 const loading = vue.ref(true)
 const sending = vue.ref('')
@@ -38,14 +38,14 @@ type EditModes = typeof editModes[number]['value']
 
 const activeEditMode = vue.computed<EditModes>({
   get: () => {
-    const topic = factorRouter?.query.value.topic || 'edit'
+    const topic = fictionRouter?.query.value.topic || 'edit'
     return topic as EditModes
   },
   set: async (v) => {
-    await factorRouter?.replace({
+    await fictionRouter?.replace({
       name: 'admin',
-      params: { ...factorRouter?.params.value },
-      query: { ...factorRouter?.query.value, topic: v },
+      params: { ...fictionRouter?.params.value },
+      query: { ...fictionRouter?.query.value, topic: v },
     })
   },
 })
@@ -56,18 +56,18 @@ async function load() {
   loading.value = true
 
   try {
-    const { siteId } = factorRouter.query.value as Record<string, string>
+    const { siteId } = fictionRouter.query.value as Record<string, string>
 
     if (!siteId)
       throw new Error('No siteId')
 
-    await factorRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
+    await fictionRouterSites.create({ noBrowserNav: true, caller: 'SiteEditor' })
 
     const mountContext = getMountContext({ queryVars: { siteId }, siteMode: 'editor' })
 
     site.value = await loadSite({
-      factorSites,
-      siteRouter: factorRouterSites,
+      fictionSites,
+      siteRouter: fictionRouterSites,
       mountContext,
     })
 
@@ -105,7 +105,7 @@ async function save() {
 <template>
   <div
     class="h-full w-full"
-    :data-site-router-path="factorRouterSites?.params.value.viewId ?? '[empty]'"
+    :data-site-router-path="fictionRouterSites?.params.value.viewId ?? '[empty]'"
     :data-view-id="site?.currentViewId.value ?? '[empty]'"
     :data-page-id="site?.activePageId.value ?? '[empty]'"
   >

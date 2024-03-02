@@ -1,10 +1,10 @@
 import type { NavigationGuardWithThis, NavigationHookAfter, RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import type { HookType } from '../utils'
 import { refineRoute, runHooks, vue, vueRouter } from '../utils'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionEnv } from '../plugin-env'
 import type { AppRoute } from './appRoute'
 import type { NavigateRoute } from './types'
 
@@ -14,18 +14,18 @@ export * from './appRoute'
 type LocationValue = string | number | null | undefined
 type LinkReplace = Record<string, LocationValue | vue.Ref<LocationValue> | LocationValue[] >
 
-type FactorRouterSettings = {
-  routes?: AppRoute<string>[] | ((router: FactorRouter) => AppRoute<string>[])
+type FictionRouterSettings = {
+  routes?: AppRoute<string>[] | ((router: FictionRouter) => AppRoute<string>[])
   replacers?: LinkReplace
-  hooks?: HookType<FactorRouterHookDictionary>[]
-  factorEnv?: FactorEnv
+  hooks?: HookType<FictionRouterHookDictionary>[]
+  fictionEnv?: FictionEnv
   baseUrl?: string
   termsUrl?: string
   privacyUrl?: string
   routerId?: string
   create?: boolean
   routeBasePath?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
 type BaseCompiled = {
   routes: string
@@ -34,25 +34,25 @@ type BaseCompiled = {
 
 type RLoc = vueRouter.RouteLocationNormalized
 
-export type FactorRouterHookDictionary = {
+export type FictionRouterHookDictionary = {
   beforeEach: { args: [{ to: RLoc, from: RLoc, navigate: NavigateRoute }] }
   afterEach: { args: [{ to: RLoc, from: RLoc } ] }
 }
 
-export class FactorRouter<
+export class FictionRouter<
   S extends BaseCompiled = BaseCompiled,
-> extends FactorPlugin<FactorRouterSettings> {
+> extends FictionPlugin<FictionRouterSettings> {
   routerId = this.settings.routerId || 'router'
   readonly routes: vue.Ref<AppRoute<string>[]>
   router: vue.Ref<vueRouter.Router | undefined> = vue.shallowRef()
   hooks = this.settings.hooks || []
   replacers: LinkReplace
-  factorEnv = this.settings.factorEnv
+  fictionEnv = this.settings.fictionEnv
   loadingRoute = this.utils.vue.ref(true)
-  baseUrl = this.settings.baseUrl || this.factorEnv.appUrl
+  baseUrl = this.settings.baseUrl || this.fictionEnv.appUrl
   routeBasePath = this.settings.routeBasePath || '/'
-  noBrowserNav = vue.ref(!!this.factorEnv.isNode)
-  constructor(settings: FactorRouterSettings) {
+  noBrowserNav = vue.ref(!!this.fictionEnv.isNode)
+  constructor(settings: FictionRouterSettings) {
     super(settings.routerId || 'router', settings)
     this.replacers = settings.replacers || {}
 
@@ -66,7 +66,7 @@ export class FactorRouter<
   create(args?: { noBrowserNav?: boolean, caller?: string }) {
     if (!this.router.value) {
       this.noBrowserNav.value = args?.noBrowserNav ?? this.noBrowserNav.value
-      // Inline the logic from createFactorRouter if it's not used elsewhere
+      // Inline the logic from createFictionRouter if it's not used elsewhere
       const history = this.noBrowserNav.value
         ? vueRouter.createMemoryHistory()
         : vueRouter.createWebHistory(this.routeBasePath)
@@ -91,7 +91,7 @@ export class FactorRouter<
 
   routerBeforeEach: NavigationGuardWithThis<undefined> = async (to, from) => {
     this.loadingRoute.value = true
-    const result = await runHooks<FactorRouterHookDictionary, 'beforeEach'>({
+    const result = await runHooks<FictionRouterHookDictionary, 'beforeEach'>({
       list: this.hooks,
       hook: 'beforeEach',
       args: [{ to, from, navigate: true }],
@@ -101,14 +101,14 @@ export class FactorRouter<
 
     let navigate: ReturnType<vueRouter.NavigationGuard> = result.navigate || true
     if (ar && ar.before)
-      navigate = await ar.before({ factorRouter: this, isSSR: this.factorEnv.isSSR.value, to, from, navigate })
+      navigate = await ar.before({ fictionRouter: this, isSSR: this.fictionEnv.isSSR.value, to, from, navigate })
 
     return navigate
   }
 
   routerAfterEach: NavigationHookAfter = async (to, from) => {
     this.loadingRoute.value = false
-    await runHooks<FactorRouterHookDictionary>({
+    await runHooks<FictionRouterHookDictionary>({
       list: this.hooks,
       hook: 'afterEach',
       args: [{ to, from }],
@@ -117,10 +117,10 @@ export class FactorRouter<
     const ar = this.routes.value.find(r => r.name === to.name)
 
     if (ar && ar.after)
-      await ar.after({ factorRouter: this, to, from })
+      await ar.after({ fictionRouter: this, to, from })
   }
 
-  addHook = (hook: HookType<FactorRouterHookDictionary>) => (this.hooks.push(hook))
+  addHook = (hook: HookType<FictionRouterHookDictionary>) => (this.hooks.push(hook))
   addReplacers = (replacers: LinkReplace) => (this.replacers = { ...this.replacers, ...replacers })
   vueRoutes = vue.computed<vueRouter.RouteRecordRaw[]>(() => this.convertAppRoutesToRoutes(this.routes.value))
 
@@ -318,7 +318,7 @@ export class FactorRouter<
     else if ('path' in location)
       path = location.path
 
-    if (!this.factorEnv?.isRendering)
+    if (!this.fictionEnv?.isRendering)
       this.log.info(`setting route ${path} [from ${id}]`)
 
     await this.router.value.replace(location)

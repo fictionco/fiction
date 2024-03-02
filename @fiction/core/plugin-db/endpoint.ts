@@ -1,9 +1,9 @@
 import type { EndpointResponse, ResponseStatus, ValidationReason } from '@fiction/core'
 import { Query } from '../query'
 import { words } from '../utils/lib/words'
-import type { FactorDb } from '.'
+import type { FictionDb } from '.'
 
-type QuerySettings = { factorDb: FactorDb }
+type QuerySettings = { fictionDb: FictionDb }
 
 type UsernameResult = { available: ResponseStatus, reason: ValidationReason }
 
@@ -17,7 +17,7 @@ export class CheckUsername extends Query<QuerySettings> {
   async run(
     params: { table: string, column: string, value: string },
   ): Promise<EndpointResponse<UsernameResult>> {
-    const { factorDb } = this.settings
+    const { fictionDb } = this.settings
     const { table, column, value } = params
 
     const prepped = value.trim().toLowerCase()
@@ -36,7 +36,7 @@ export class CheckUsername extends Query<QuerySettings> {
       }
 
       else {
-        const r = await factorDb.db?.table(table).select(column).where(column, prepped)
+        const r = await fictionDb.db?.table(table).select(column).where(column, prepped)
 
         if (r?.length)
           result = { available: 'fail', reason: 'taken' }

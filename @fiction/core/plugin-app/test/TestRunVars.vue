@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService } from '@fiction/core'
 
-const { factorApp } = useService()
+const { fictionApp } = useService()
 
 const processVars = process.env
 
@@ -34,12 +34,12 @@ const list = [
   {
     id: 'app-name',
     title: 'App Name',
-    value: factorApp.appName,
+    value: fictionApp.appName,
   },
   {
     id: 'app-email',
     title: 'App Email',
-    value: factorApp.appEmail,
+    value: fictionApp.appEmail,
   },
 ]
 </script>

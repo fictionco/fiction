@@ -1,11 +1,11 @@
-import type { FactorDbCol } from './plugin-db'
+import type { FictionDbCol } from './plugin-db'
 
 export const standardTable = {
-  org: 'factor_org',
-  member: 'factor_org_user',
-  user: 'factor_user',
-  media: 'factor_media',
-  usage: 'factor_usage',
+  org: 'fiction_org',
+  member: 'fiction_org_user',
+  user: 'fiction_user',
+  media: 'fiction_media',
+  usage: 'fiction_usage',
   model: 'fiction_model',
   render: 'fiction_render',
   image: 'fiction_image',
@@ -27,14 +27,14 @@ type Timestamps = {
   createdAt?: string
 }
 
-type CreateTuple<T extends readonly FactorDbCol[]> = {
-  [P in keyof T]: T[P] extends FactorDbCol<infer X, infer Q> ? [X, Q] : never
+type CreateTuple<T extends readonly FictionDbCol[]> = {
+  [P in keyof T]: T[P] extends FictionDbCol<infer X, infer Q> ? [X, Q] : never
 }[number]
 
 type TupleToObject<T extends [string, unknown]> = {
   [P in T[0]]: T extends [P, infer B] ? B : never
 }
 
-export type CreateObjectType<T extends readonly FactorDbCol[]> = TupleToObject<
+export type CreateObjectType<T extends readonly FictionDbCol[]> = TupleToObject<
   CreateTuple<T>
 > & Timestamps

@@ -12,9 +12,9 @@ describe('activeMergedGlobalSections', async () => {
   await testUtils.init()
 
   const common = {
-    factorSites: testUtils.factorSites,
-    siteRouter: testUtils.factorRouterSites,
-    parentRouter: testUtils.factorRouter,
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 
@@ -37,9 +37,9 @@ describe('section handling defaults', async () => {
 
   await testUtils.init()
   const common = {
-    factorSites: testUtils.factorSites,
-    siteRouter: testUtils.factorRouterSites,
-    parentRouter: testUtils.factorRouter,
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 

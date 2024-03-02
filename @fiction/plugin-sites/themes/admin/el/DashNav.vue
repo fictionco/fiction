@@ -10,7 +10,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
   if (item.onClick) {

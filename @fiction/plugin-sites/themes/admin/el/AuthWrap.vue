@@ -10,7 +10,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorApp } = useService()
+const { fictionApp } = useService()
 
 type AuthModes =
   | 'login'
@@ -53,7 +53,7 @@ async function handleSignedIn() {
 }
 
 unhead.useHead({
-  title: `${routeAuthMode.value} - ${factorApp.factorEnv.appName}`,
+  title: `${routeAuthMode.value} - ${fictionApp.fictionEnv.appName}`,
   meta: [{ name: `description`, content: `The interface to ${routeAuthMode.value}.` }],
 })
 </script>

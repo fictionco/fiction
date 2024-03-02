@@ -56,7 +56,7 @@ describe('getViewMap', async () => {
 describe('activePageId', async () => {
   const testUtils = await createSiteTestUtils()
 
-  const siteRouter = testUtils.factorRouterSites
+  const siteRouter = testUtils.fictionRouterSites
   const viewMapRef = vue.ref<Record<string, string>>({
     example: 'id2',
     foo: 'bar',

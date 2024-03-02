@@ -5,11 +5,11 @@ import { toSnakeCase } from '../utils'
 import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
 
-type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FactorDbCol, db: Knex }) => void
+type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
 type PrepareForStorage = (args: { value: unknown, key: string, db: Knex }) => unknown
 type DefaultValue = Knex.Value | undefined
 
-export interface FactorDbColSettings<U extends string = string, T extends DefaultValue = DefaultValue> {
+export interface FictionDbColSettings<U extends string = string, T extends DefaultValue = DefaultValue> {
   key: U
   default: () => T
   zodSchema?: (args: { z: typeof z }) => ZodSchema<any>
@@ -22,7 +22,7 @@ export interface FactorDbColSettings<U extends string = string, T extends Defaul
   isAuthority?: boolean
   isAdmin?: boolean
 }
-export class FactorDbCol<U extends string = string, T extends DefaultValue = DefaultValue> {
+export class FictionDbCol<U extends string = string, T extends DefaultValue = DefaultValue> {
   key: U
   default: () => Knex.Value
   zodSchema?: ZodSchema<any>
@@ -35,7 +35,7 @@ export class FactorDbCol<U extends string = string, T extends DefaultValue = Def
   isAuthority: boolean
   isAdmin: boolean
   prepare?: PrepareForStorage
-  constructor(settings: FactorDbColSettings<U, T>) {
+  constructor(settings: FictionDbColSettings<U, T>) {
     const { description } = settings || {}
     this.description = description
     this.key = settings.key
@@ -55,30 +55,30 @@ export class FactorDbCol<U extends string = string, T extends DefaultValue = Def
   }
 
   createColumn(schema: Knex.AlterTableBuilder, db: Knex): void {
-    log.info('FactorDbTable', `creating column: ${this.pgKey}`)
+    log.info('FictionDbTable', `creating column: ${this.pgKey}`)
     return this.create({ schema, column: this, db })
   }
 }
-export interface FactorDbTableSettings {
+export interface FictionDbTableSettings {
   tableKey: string
   timestamps?: boolean
-  columns: readonly FactorDbCol[]
+  columns: readonly FictionDbCol[]
   dependsOn?: string[]
   onCreate?: (t: Knex.CreateTableBuilder) => void
 }
 
-export class FactorDbTable {
+export class FictionDbTable {
   readonly tableKey: string
   readonly pgTableKey: string
-  columns: FactorDbCol[]
+  columns: FictionDbCol[]
   log: LogHelper
   timestamps: boolean
   dependsOn: string[]
   onCreate?: (t: Knex.CreateTableBuilder) => void
-  constructor(params: FactorDbTableSettings) {
+  constructor(params: FictionDbTableSettings) {
     this.tableKey = params.tableKey
     this.pgTableKey = toSnakeCase(params.tableKey)
-    this.log = log.contextLogger(`FactorDbTable:${this.tableKey}`)
+    this.log = log.contextLogger(`FictionDbTable:${this.tableKey}`)
     this.timestamps = params.timestamps ?? false
     this.onCreate = params.onCreate
     this.columns = this.addDefaultColumns(params.columns)
@@ -86,16 +86,16 @@ export class FactorDbTable {
   }
 
   addDefaultColumns(
-    columns: FactorDbCol[] | readonly FactorDbCol[],
-  ): FactorDbCol[] {
+    columns: FictionDbCol[] | readonly FictionDbCol[],
+  ): FictionDbCol[] {
     const tsCols = this.timestamps
       ? [
-          new FactorDbCol({
+          new FictionDbCol({
             key: 'createdAt',
             create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()),
             default: () => '',
           }),
-          new FactorDbCol({
+          new FictionDbCol({
             key: 'updatedAt',
             create: ({ schema, column, db }) => schema.timestamp(column.pgKey).notNullable().defaultTo(db.fn.now()),
             default: () => '',

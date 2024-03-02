@@ -5,15 +5,15 @@ import jwt from 'jsonwebtoken'
 // https://github.com/microsoft/TypeScript/issues/48212
 import '../utils/endpoint'
 import type { EndpointMeta } from '../utils'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import type { HookType } from '../utils/hook'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv'
 import { EnvVar, vars } from '../plugin-env'
-import type { FactorServer } from '../plugin-server'
-import type { FactorDb } from '../plugin-db'
-import type { FactorEmail } from '../plugin-email'
-import type { FactorRouter } from '../plugin-router'
+import type { FictionServer } from '../plugin-server'
+import type { FictionDb } from '../plugin-db'
+import type { FictionEmail } from '../plugin-email'
+import type { FictionRouter } from '../plugin-router'
 import { vue } from '../utils'
 import * as priv from '../utils/priv'
 import type { Organization, OrganizationMember, TokenFields, User } from './types'
@@ -55,7 +55,7 @@ vars.register(() => [
   new EnvVar({ name: 'TOKEN_SECRET' }),
 ])
 
-export type FactorUserHookDictionary = {
+export type FictionUserHookDictionary = {
   onLogout: { args: [] }
   onUserVerified: { args: [User] }
   requestCurrentUser: { args: [User | undefined] }
@@ -80,17 +80,17 @@ export type FactorUserHookDictionary = {
 }
 
 export type UserPluginSettings = {
-  factorServer?: FactorServer
-  factorDb: FactorDb
-  factorEmail?: FactorEmail
-  factorRouter?: FactorRouter
+  fictionServer?: FictionServer
+  fictionDb: FictionDb
+  fictionEmail?: FictionEmail
+  fictionRouter?: FictionRouter
   googleClientId?: string
   googleClientSecret?: string
-  hooks?: HookType<FactorUserHookDictionary>[]
+  hooks?: HookType<FictionUserHookDictionary>[]
   tokenSecret?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export class FactorUser extends FactorPlugin<UserPluginSettings> {
+export class FictionUser extends FictionPlugin<UserPluginSettings> {
   priv = priv
 
   activeUser = vue.ref<User>()
@@ -106,23 +106,23 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   requests = this.createRequests({
     queries: this.queries,
     basePath: '/user',
-    factorServer: this.settings.factorServer,
-    factorUser: this,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this,
   })
 
   constructor(settings: UserPluginSettings) {
     super('user', settings)
 
-    this.settings.factorDb.addTables(getAdminTables())
+    this.settings.fictionDb.addTables(getAdminTables())
 
-    // add factorUser to server as it can't be added in constructur
+    // add fictionUser to server as it can't be added in constructur
     // this plugin already requires the server module
-    if (this.settings.factorServer)
-      this.settings.factorServer.factorUser = this
+    if (this.settings.fictionServer)
+      this.settings.fictionServer.fictionUser = this
 
-    this.settings.factorRouter?.addReplacers({ orgId: this.activeOrgId })
+    this.settings.fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    this.settings.factorDb?.hooks.push({
+    this.settings.fictionDb?.hooks.push({
       hook: 'onStart',
       callback: async () => {
         await this.ensureExampleOrganization()
@@ -166,7 +166,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
 
   activeOrganization = vue.computed<Organization | undefined>({
     get: () => {
-      const cur = this.settings.factorRouter?.current.value
+      const cur = this.settings.fictionRouter?.current.value
       const rawRouteId = (cur?.params?.orgId || cur?.query?.orgId || '') as string
       const routeOrgId = rawRouteId.replaceAll('-', '')
 
@@ -221,7 +221,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
 
     await this?.pageInitialized()
 
-    const r = this.settings.factorRouter?.router.value
+    const r = this.settings.fictionRouter?.router.value
 
     if (!r)
       return
@@ -258,7 +258,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
 
   async ensureExampleOrganization() {
     if (this.utils.isNode()) {
-      const db = this.settings.factorDb.client()
+      const db = this.settings.fictionDb.client()
       await db
         .insert({
           orgName: 'Example Inc.',
@@ -278,7 +278,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
         })
         .onConflict()
         .ignore()
-        .into('factor_user')
+        .into('fiction_user')
     }
   }
 
@@ -298,8 +298,8 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   //         return await auth({
   //           user,
   //           isSearchBot: this.utils.isSearchBot(),
-  //           factorRouter: this.settings.factorRouter,
-  //           factorUser: this,
+  //           fictionRouter: this.settings.fictionRouter,
+  //           fictionUser: this,
   //           route,
   //         })
   //       }),
@@ -326,7 +326,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   // }
 
   createQueries() {
-    const deps = { ...this.settings, factorUser: this as FactorUser }
+    const deps = { ...this.settings, fictionUser: this as FictionUser }
 
     return {
       UserGoogleAuth: new QueryUserGoogleAuth({ clientId: this.googleClientId, clientSecret: this.googleClientSecret, ...deps }),
@@ -350,7 +350,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
     } as const
   }
 
-  addHook(hook: HookType<FactorUserHookDictionary>): void {
+  addHook(hook: HookType<FictionUserHookDictionary>): void {
     this.hooks.push(hook)
   }
 
@@ -454,7 +454,7 @@ export class FactorUser extends FactorPlugin<UserPluginSettings> {
   pageInitialized = async (): Promise<void> => {
     await Promise.all([
       this.userInitialized({ caller: 'pageInitialized' }),
-      this.settings.factorRouter?.router.value?.isReady(),
+      this.settings.fictionRouter?.router.value?.isReady(),
     ])
   }
 

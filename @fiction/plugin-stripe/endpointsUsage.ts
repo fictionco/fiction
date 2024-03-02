@@ -1,8 +1,8 @@
 import type {
   EndpointMeta,
   EndpointResponse,
-  FactorDb,
-  FactorUser,
+  FictionDb,
+  FictionUser,
 } from '@fiction/core'
 import {
   Query,
@@ -10,13 +10,13 @@ import {
 import type { TableUsageConfig } from './tables'
 
 interface UsageQuerySettings {
-  factorUser?: FactorUser
-  factorDb: FactorDb
+  fictionUser?: FictionUser
+  fictionDb: FictionDb
 }
 
 export abstract class QueryUsage extends Query<UsageQuerySettings> {
-  factorUser = this.settings.factorUser
-  factorDb = this.settings.factorDb
+  fictionUser = this.settings.fictionUser
+  fictionDb = this.settings.fictionDb
   constructor(settings: UsageQuerySettings) {
     super(settings)
   }
@@ -42,7 +42,7 @@ export class QueryManageUsage extends QueryUsage {
     if (!_action)
       throw this.stop('orgId required')
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     let queryResponse: TableUsageConfig | undefined
     let message: string | undefined

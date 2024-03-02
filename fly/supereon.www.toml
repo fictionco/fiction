@@ -1,4 +1,4 @@
-app = "factor-supereon"
+app = "fiction-supereon"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

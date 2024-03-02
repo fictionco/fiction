@@ -4,12 +4,12 @@ import type { User } from '../plugin-user/types'
 import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils/endpoint'
 import { Query } from '../query'
-import type { FactorUser } from '.'
+import type { FictionUser } from '.'
 
 interface GoogleQuerySettings {
   clientId?: string
   clientSecret?: string
-  factorUser: FactorUser
+  fictionUser: FictionUser
 }
 
 export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
@@ -19,8 +19,8 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
   }
 
   async getClient(): Promise<OAuth2Client> {
-    const clientId = this.settings.factorUser.googleClientId
-    const clientSecret = this.settings.factorUser.googleClientSecret
+    const clientId = this.settings.fictionUser.googleClientId
+    const clientSecret = this.settings.fictionUser.googleClientSecret
     if (!clientId)
       throw new Error('missing google auth clientId')
     if (!clientSecret)
@@ -46,7 +46,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
   > {
     const client = await this.getClient()
 
-    const clientId = this.settings.factorUser.googleClientId
+    const clientId = this.settings.fictionUser.googleClientId
 
     let user: User | undefined
     let isNew = false
@@ -71,7 +71,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
       this.log.info('google login payload', { data: payload })
 
       const { data: existingUser }
-        = await this.settings.factorUser.queries.ManageUser.serve(
+        = await this.settings.fictionUser.queries.ManageUser.serve(
           {
             _action: 'getPrivate',
             email: payload?.email,
@@ -81,7 +81,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
 
       // no user, create one
       if (!existingUser) {
-        await this.settings.factorUser.queries.ManageUser.serve(
+        await this.settings.fictionUser.queries.ManageUser.serve(
           {
             _action: 'create',
             fields: {
@@ -100,7 +100,7 @@ export class QueryUserGoogleAuth extends Query<GoogleQuerySettings> {
         isNew = true
       }
 
-      const loginResponse = await this.settings.factorUser.queries.Login.serve(
+      const loginResponse = await this.settings.fictionUser.queries.Login.serve(
         {
           email: payload.email,
           googleId: payload.sub,

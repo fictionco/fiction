@@ -4,18 +4,18 @@ import type { JSONSchema } from 'json-schema-to-typescript'
 import { log } from '../plugin-log'
 import { stringify } from '../utils/utils'
 import { runHooks } from '../utils/hook'
-import type { FactorEnvHookDictionary } from './types'
-import type { FactorEnv } from '.'
+import type { FictionEnvHookDictionary } from './types'
+import type { FictionEnv } from '.'
 
-export async function generateStaticConfig(factorEnv: FactorEnv): Promise<void> {
+export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void> {
   const context = 'generateStaticConfig'
 
-  const cwd = factorEnv.cwd
+  const cwd = fictionEnv.cwd
 
   if (!cwd)
     throw new Error(`${context}: cwd not found`)
 
-  const genConfigPath = path.join(cwd, '/.factor')
+  const genConfigPath = path.join(cwd, '/.fiction')
   await fs.emptyDir(genConfigPath)
 
   /**
@@ -24,10 +24,10 @@ export async function generateStaticConfig(factorEnv: FactorEnv): Promise<void> 
   const title = 'CompiledServiceConfig'
 
   const _staticSchemaProps = await runHooks<
-    FactorEnvHookDictionary,
+    FictionEnvHookDictionary,
     'staticSchema'
   >({
-    list: factorEnv.hooks ?? [],
+    list: fictionEnv.hooks ?? [],
     hook: 'staticSchema',
     args: [{}],
   },
@@ -62,8 +62,8 @@ export async function generateStaticConfig(factorEnv: FactorEnv): Promise<void> 
   /**
    * Handle config
    */
-  const staticConfig = await runHooks<FactorEnvHookDictionary, 'staticConfig'>({
-    list: factorEnv.hooks ?? [],
+  const staticConfig = await runHooks<FictionEnvHookDictionary, 'staticConfig'>({
+    list: fictionEnv.hooks ?? [],
     hook: 'staticConfig',
     args: [{}],
   })

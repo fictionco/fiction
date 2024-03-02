@@ -1,13 +1,13 @@
 import type http from 'node:http'
 import process from 'node:process'
 import bodyParser from 'body-parser'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { EndpointServer, vue } from '../utils'
 import type { Endpoint, HookType } from '../utils'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorUser } from '../plugin-user'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionUser } from '../plugin-user'
 
 vars.register(() => [
   new EnvVar({
@@ -17,34 +17,34 @@ vars.register(() => [
   }),
 ])
 
-export type FactorServerHookDictionary = {
+export type FictionServerHookDictionary = {
   afterServerSetup: { args: [] }
   afterServerCreated: { args: [] }
 }
 
-export type FactorServerSettings = {
-  factorEnv?: FactorEnv
+export type FictionServerSettings = {
+  fictionEnv?: FictionEnv
   serverName?: string
   port: number
-  hooks?: HookType<FactorServerHookDictionary>[]
+  hooks?: HookType<FictionServerHookDictionary>[]
   endpoints?: Endpoint[]
   liveUrl?: string
   isLive?: vue.Ref<boolean>
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export class FactorServer extends FactorPlugin<FactorServerSettings> {
+export class FictionServer extends FictionPlugin<FictionServerSettings> {
   public hooks = this.settings.hooks ?? []
   port = vue.ref(this.settings.port)
   endpoints = this.settings.endpoints || []
   localUrl = vue.computed(() => {
-    const currentUrl = new URL(!this.factorEnv?.isNode ? window.location.href : 'http://localhost')
+    const currentUrl = new URL(!this.fictionEnv?.isNode ? window.location.href : 'http://localhost')
     currentUrl.port = this.port.value.toString()
 
     return currentUrl.origin
   })
 
   liveUrl = vue.ref(this.settings.liveUrl)
-  isLive = this.settings.isLive ?? this.settings.factorEnv?.isProd
+  isLive = this.settings.isLive ?? this.settings.fictionEnv?.isProd
   useLocal = vue.ref(false) // use same host
   serverUrl = vue.computed(() => {
     const isProd = this.isLive.value
@@ -53,26 +53,26 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
   })
 
   isInitialized = false
-  serverName = this.settings.serverName || `${this.settings.factorEnv.appName} Server`
+  serverName = this.settings.serverName || `${this.settings.fictionEnv.appName} Server`
   server?: http.Server
-  // factorUser added in factorUser module as the module depends on this one
-  factorUser?: FactorUser
-  constructor(settings: FactorServerSettings) {
+  // fictionUser added in fictionUser module as the module depends on this one
+  fictionUser?: FictionUser
+  constructor(settings: FictionServerSettings) {
     super('server', settings)
 
     this.addConfig()
   }
 
   addConfig() {
-    if (this.factorEnv) {
-      this.factorEnv.addHook({
+    if (this.fictionEnv) {
+      this.fictionEnv.addHook({
         hook: 'staticSchema',
         callback: async (existing) => {
           return { ...existing, endpoints: { enum: this.endpoints?.map(_ => _.key).filter(Boolean).sort(), type: 'string' } }
         },
       })
 
-      this.factorEnv.addHook({
+      this.fictionEnv.addHook({
         hook: 'staticConfig',
         callback: () => ({ endpoints: this.endpoints?.map(ep => ({ key: ep.key, path: ep.pathname() })) }),
       })
@@ -83,14 +83,14 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     this.endpoints = [...this.endpoints, ...endpoints]
   }
 
-  async initServer(args: { factorUser?: FactorUser, useLocal?: boolean, port?: number } = {}) {
-    const { factorUser, useLocal = false, port } = args
+  async initServer(args: { fictionUser?: FictionUser, useLocal?: boolean, port?: number } = {}) {
+    const { fictionUser, useLocal = false, port } = args
 
     this.useLocal.value = useLocal
     if (port)
       this.port.value = port
 
-    if (this.settings.factorEnv.isApp.value)
+    if (this.settings.fictionEnv.isApp.value)
       return
 
     if (!this.port)
@@ -102,7 +102,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
         serverName: this.serverName,
         port: this.port.value,
         endpoints: this.endpoints,
-        factorUser,
+        fictionUser,
         url: this.serverUrl.value,
         middleware: (app) => {
           app.use(
@@ -128,10 +128,10 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
     return endpointServer
   }
 
-  async createServer(args: { factorUser?: FactorUser, useLocal?: boolean, port?: number } = {}): Promise<http.Server | undefined> {
-    const { factorUser = this.factorUser, useLocal = false, port } = args
+  async createServer(args: { fictionUser?: FictionUser, useLocal?: boolean, port?: number } = {}): Promise<http.Server | undefined> {
+    const { fictionUser = this.fictionUser, useLocal = false, port } = args
 
-    if (this.settings.factorEnv.isApp.value)
+    if (this.settings.fictionEnv.isApp.value)
       return
 
     if (this.isInitialized) {
@@ -141,7 +141,7 @@ export class FactorServer extends FactorPlugin<FactorServerSettings> {
 
     this.isInitialized = true
 
-    const endpointServer = await this.initServer({ factorUser, useLocal, port })
+    const endpointServer = await this.initServer({ fictionUser, useLocal, port })
     this.server = await endpointServer?.runServer()
 
     return this.server

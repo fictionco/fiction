@@ -4,13 +4,13 @@ import type { JSONSchema } from 'json-schema-to-typescript'
 import type { Router } from 'vue-router'
 import type { vue } from '../utils'
 import type { PackageJson } from '../types'
-import type { FactorApp } from '../plugin-app'
-import type { FactorServer } from '../plugin-server'
-import type { FactorEnv } from '../plugin-env'
-import type { FactorObject, FactorPlugin } from '../plugin'
+import type { FictionApp } from '../plugin-app'
+import type { FictionServer } from '../plugin-server'
+import type { FictionEnv } from '../plugin-env'
+import type { FictionObject, FictionPlugin } from '../plugin'
 import type { RunVars } from '../inject'
 
-export type FactorEnvHookDictionary = {
+export type FictionEnvHookDictionary = {
   runCommand: {
     args: [string, CliOptions]
   }
@@ -22,7 +22,7 @@ export type FactorEnvHookDictionary = {
   }
 }
 
-export interface FactorAppEntry<T extends ServiceList = ServiceList> {
+export interface FictionAppEntry<T extends ServiceList = ServiceList> {
   app: vue.App
   router: Router
   meta: VueHeadClient<MergeHead>
@@ -30,20 +30,20 @@ export interface FactorAppEntry<T extends ServiceList = ServiceList> {
 }
 
 export interface EntryModuleExports {
-  runApp: (c: { renderUrl?: string }) => Promise<FactorAppEntry>
+  runApp: (c: { renderUrl?: string }) => Promise<FictionAppEntry>
   RootComponent: vue.Component
   mainFile: MainFile
 }
 
 export interface MainFile {
   setup: () => Promise<ServiceConfig> | ServiceConfig
-  factorApp?: FactorApp
-  factorServer?: FactorServer
-  factorEnv?: FactorEnv
+  fictionApp?: FictionApp
+  fictionServer?: FictionServer
+  fictionEnv?: FictionEnv
   [key: string]: unknown
 }
 
-export type ServiceList = Record<string, FactorPlugin | FactorObject > & { factorEnv?: FactorEnv }
+export type ServiceList = Record<string, FictionPlugin | FictionObject > & { fictionEnv?: FictionEnv }
 
 export type CliVars = {
   RUNTIME_VERSION: string
@@ -53,10 +53,10 @@ export type CliVars = {
 }
 
 export type ServiceConfig = {
-  factorEnv: FactorEnv
+  fictionEnv: FictionEnv
   runCommand?: (args: { context: 'node' | 'app', command: string, cliVars?: Partial<CliVars>, runVars?: Partial<RunVars>, options?: CliOptions }) => Promise<void> | void
   createService?: (args: { serviceConfig: ServiceConfig } & ({ context: 'app', runVars: Partial<RunVars> } | { context: 'node', cliVars: Partial<CliVars> } | { context: 'test' })) => Promise<ServiceList> | ServiceList
-  createMount?: (args: { renderRoute?: string, runVars: Partial<RunVars>, service: ServiceList, serviceConfig: ServiceConfig }) => Promise<FactorAppEntry> | FactorAppEntry
+  createMount?: (args: { renderRoute?: string, runVars: Partial<RunVars>, service: ServiceList, serviceConfig: ServiceConfig }) => Promise<FictionAppEntry> | FictionAppEntry
 }
 
 export interface CliOptions {

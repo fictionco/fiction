@@ -16,22 +16,22 @@ describe('manageCertificates', () => {
   })
 
   it('should set certificates', async () => {
-    const r1 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'create', hostname: 'www.fiction.cx', appId: 'fiction-website' })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'www.fiction.cx', appId: 'fiction-website' })
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
 
-    const r2 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.cx', appId: 'fiction-sites' })
+    const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.cx', appId: 'fiction-sites' })
     expect(r2.status).toBe('success')
     expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
   })
 
   it('should get certificate', async () => {
-    const r1 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'retrieve', hostname })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'retrieve', hostname })
     expect(r1.status).toBe('success')
     expect(r1.data).toMatchInlineSnapshot(`undefined`)
 
     if (r1.data) {
-      const r2 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'delete', hostname })
+      const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'delete', hostname })
 
       expect(r2.status).toBe('success')
       expect(r2.data).toMatchInlineSnapshot(`undefined`)
@@ -42,7 +42,7 @@ describe('manageCertificates', () => {
     if (!testUtils)
       throw new Error('testUtils not defined')
 
-    const r1 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'create', hostname })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname })
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
@@ -63,7 +63,7 @@ describe('manageCertificates', () => {
   })
 
   it('should check certificate', async () => {
-    const r1 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'check', hostname })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'check', hostname })
 
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`
@@ -90,7 +90,7 @@ describe('manageCertificates', () => {
   })
 
   it('should delete certificate', async () => {
-    const r1 = await testUtils.factorSites.requests.ManageCert.request({ _action: 'delete', hostname })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'delete', hostname })
 
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`

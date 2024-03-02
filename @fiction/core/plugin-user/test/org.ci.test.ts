@@ -12,7 +12,7 @@ describe('org/project handling', async () => {
 
   it('creates a user', async () => {
     const key = Math.random().toString().slice(2, 8)
-    const r = await testUtils?.factorUser.queries.ManageUser.serve(
+    const r = await testUtils?.fictionUser.queries.ManageUser.serve(
       {
         fields: { email: `arpowers+${key}@gmail.com` },
         _action: 'create',
@@ -30,7 +30,7 @@ describe('org/project handling', async () => {
       throw new Error('no user')
 
     const response
-      = await testUtils?.factorUser.queries.ManageOrganization.serve(
+      = await testUtils?.fictionUser.queries.ManageOrganization.serve(
         {
           org: { orgName: `test` },
           userId: user.userId,
@@ -52,7 +52,7 @@ describe('org/project handling', async () => {
       throw new Error('no user')
 
     const result
-      = await testUtils?.factorUser.queries.OrganizationsByUserId.serve(
+      = await testUtils?.fictionUser.queries.OrganizationsByUserId.serve(
         { userId },
         { server: true },
       )
@@ -66,7 +66,7 @@ describe('org/project handling', async () => {
     if (!userId || !orgId)
       throw new Error('no user or orgId')
 
-    const result = await testUtils?.factorUser.queries.ManageOnboard.serve(
+    const result = await testUtils?.fictionUser.queries.ManageOnboard.serve(
       {
         _action: 'update',
         settings: { onboardComplete: true },
@@ -82,7 +82,7 @@ describe('org/project handling', async () => {
       }
     `)
 
-    const r2 = await testUtils?.factorUser.queries.ManageOnboard.serve(
+    const r2 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
       {
         _action: 'update',
         settings: { hide: { foo: true, bar: true } },
@@ -102,7 +102,7 @@ describe('org/project handling', async () => {
       }
     `)
 
-    const r3 = await testUtils?.factorUser.queries.ManageOnboard.serve(
+    const r3 = await testUtils?.fictionUser.queries.ManageOnboard.serve(
       {
         _action: 'update',
         settings: { hide: { foo: null, bar: true } },

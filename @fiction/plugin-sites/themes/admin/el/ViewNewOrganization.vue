@@ -10,7 +10,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 const router = vueRouter.useRouter()
 const form = vue.ref({
@@ -21,7 +21,7 @@ const formError = vue.ref('')
 const sending = vue.ref(false)
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
+  await fictionUser.userInitialized()
 })
 
 async function send(): Promise<void> {
@@ -29,12 +29,12 @@ async function send(): Promise<void> {
 
   const { orgName, orgEmail } = form.value
 
-  const userId = factorUser.activeUser.value?.userId
+  const userId = fictionUser.activeUser.value?.userId
 
   if (!userId)
     throw new Error('userId is missing')
 
-  const r = await factorUser.requests.ManageOrganization.request({
+  const r = await fictionUser.requests.ManageOrganization.request({
     userId,
     org: { orgName, orgEmail },
     _action: 'create',

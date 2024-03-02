@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
 import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
-import type { FactorStripe } from '@fiction/plugin-stripe'
+import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '../../../card'
 import ElPanelSettings from './ElPanelSettings.vue'
 
@@ -10,16 +10,16 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorStripe } = useService<{ factorStripe?: FactorStripe }>()
+const { fictionStripe } = useService<{ fictionStripe?: FictionStripe }>()
 
 const loading = vue.ref(true)
 
 vue.onMounted(async () => {
-  await factorStripe?.setCustomerData()
+  await fictionStripe?.setCustomerData()
   loading.value = false
 })
 
-const proStatus = vue.computed(() => factorStripe?.activeCustomer.value)
+const proStatus = vue.computed(() => fictionStripe?.activeCustomer.value)
 </script>
 
 <template>

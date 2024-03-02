@@ -1,4 +1,4 @@
-import { type FactorApp, vue } from '@fiction/core'
+import { type FictionApp, vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
 import { standardCardTemplates } from '../../cards'
 import { Theme, themeCard } from '../../theme'
@@ -33,7 +33,7 @@ const mediaGridCard = themeCard({
   },
 })
 
-export function setup(_args: { factorApp: FactorApp }) {
+export function setup(_args: { fictionApp: FictionApp }) {
   return new Theme({
     themeId: 'test',
     title: 'Standard',

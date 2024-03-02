@@ -17,7 +17,7 @@ type Levels = 'error' | 'warn' | 'info' | 'debug' | 'trace'
 
 declare global {
   interface Window {
-    factorLogKey?: string
+    fictionLogKey?: string
   }
 }
 
@@ -37,21 +37,21 @@ interface LoggerArgs {
   color?: string
 }
 
-export type FactorLogHookDictionary = {
+export type FictionLogHookDictionary = {
   logServer: { args: [LoggerArgs] }
 }
-interface FactorLogSettings {
-  hooks?: HookType<FactorLogHookDictionary>[]
+interface FictionLogSettings {
+  hooks?: HookType<FictionLogHookDictionary>[]
   isProd?: boolean
   isRestart?: boolean
   isDebug?: boolean
 }
-export class FactorLog {
-  hooks: HookType<FactorLogHookDictionary>[]
+export class FictionLog {
+  hooks: HookType<FictionLogHookDictionary>[]
   isProd: boolean
   isRestart: boolean
   isDebug: boolean
-  constructor(settings: FactorLogSettings = {}) {
+  constructor(settings: FictionLogSettings = {}) {
     this.hooks = settings.hooks ?? []
     this.isProd = settings.isProd ?? isProd()
     this.isRestart = settings.isRestart ?? isRestart()
@@ -68,7 +68,7 @@ export class FactorLog {
     error: { color: '#FF0000', priority: 40 },
   }
 
-  addHook(hook: HookType<FactorLogHookDictionary>): void {
+  addHook(hook: HookType<FictionLogHookDictionary>): void {
     this.hooks.unshift(hook)
   }
 
@@ -82,7 +82,7 @@ export class FactorLog {
       shouldLog = false
     }
     else {
-      const logKey = 'factorLog'
+      const logKey = 'fictionLog'
       const hostname = window.location.hostname
 
       shouldLog = !this.isProd || (hostname === 'localhost' || hostname === 'lan.com') || !!localStorage.getItem(logKey)
@@ -90,7 +90,7 @@ export class FactorLog {
       if (args.notify && !shouldLog) {
         console.log(`Log disabled`, hostname, this.isProd)
         console.log('To enable, run: ')
-        console.log('localStorage.setItem("factorLog", "true")')
+        console.log('localStorage.setItem("fictionLog", "true")')
       }
     }
 
@@ -268,7 +268,7 @@ export class FactorLog {
     else if (typeof data === 'object' && data && Object.keys(data).length > 0)
       console.log(prettyoutput(this.refineDataRecursive({ obj: data }), { colors: { number: 'yellow' }, maxDepth: 5 }, 2))
 
-    runHooks<FactorLogHookDictionary, 'logServer'>({
+    runHooks<FictionLogHookDictionary, 'logServer'>({
       list: this.hooks,
       hook: 'logServer',
       args: [config],
@@ -340,4 +340,4 @@ export class FactorLog {
   }
 }
 
-export const log = new FactorLog()
+export const log = new FictionLog()

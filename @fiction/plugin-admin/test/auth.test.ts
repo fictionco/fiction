@@ -1,18 +1,18 @@
 import { describe, expect, it } from 'vitest'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { FactorAdmin } from '..'
+import { FictionAdmin } from '..'
 
-describe('factorAdmin Auth', async () => {
+describe('fictionAdmin Auth', async () => {
   const testUtils = await createTestUtils()
 
-  const _factorAdmin = new FactorAdmin({ ...testUtils })
-  await testUtils.factorDb.init()
-  await testUtils.factorServer.createServer()
+  const _fictionAdmin = new FictionAdmin({ ...testUtils })
+  await testUtils.fictionDb.init()
+  await testUtils.fictionServer.createServer()
 
   it('redirects User If Not Logged In', async () => {
-    await testUtils?.factorRouter.push('/admin')
+    await testUtils?.fictionRouter.push('/admin')
 
-    expect(testUtils?.factorRouter.current.value.path, 'base path (default)').toBe('/')
+    expect(testUtils?.fictionRouter.current.value.path, 'base path (default)').toBe('/')
   })
 
   it('if logged in, it redirects to org route', async () => {
@@ -21,9 +21,9 @@ describe('factorAdmin Auth', async () => {
     if (!user)
       throw new Error('no user')
 
-    await testUtils?.factorRouter.push('/admin')
+    await testUtils?.fictionRouter.push('/admin')
 
     const orgPath = `/admin/${user.orgs?.[0].orgId}/home`
-    expect(testUtils?.factorRouter.current.value.path, 'is org path').toBe(orgPath)
+    expect(testUtils?.fictionRouter.current.value.path, 'is org path').toBe(orgPath)
   })
 })

@@ -51,14 +51,14 @@ let testUtils: undefined | TestUtils
 describe('google auth', () => {
   beforeAll(async () => {
     testUtils = await createTestUtils()
-    await testUtils.factorDb.init()
+    await testUtils.fictionDb.init()
 
-    testUtils.factorUser.googleClientId = 'mocked_id'
-    testUtils.factorUser.googleClientSecret = 'mocked_secret'
+    testUtils.fictionUser.googleClientId = 'mocked_id'
+    testUtils.fictionUser.googleClientSecret = 'mocked_secret'
   })
 
   it('if no user exists, creates one with isNew = true, returns token', async () => {
-    const response = await testUtils?.factorUser?.queries.UserGoogleAuth.serve(
+    const response = await testUtils?.fictionUser?.queries.UserGoogleAuth.serve(
       {
         credential: 'not a token',
         _action: 'loginWithCredential',
@@ -78,7 +78,7 @@ describe('google auth', () => {
   })
 
   it('if user exists, returns login token, isNew = false', async () => {
-    const response = await testUtils?.factorUser?.queries.UserGoogleAuth.serve(
+    const response = await testUtils?.fictionUser?.queries.UserGoogleAuth.serve(
       {
         credential: 'not a token',
         _action: 'loginWithCredential',
@@ -98,7 +98,7 @@ describe('google auth', () => {
 
   it('if google login user exists with email and no googleId, if email is verified it links the googleId to the user', async () => {
     const responseCreate
-      = await testUtils?.factorUser?.queries.ManageUser.serve(
+      = await testUtils?.fictionUser?.queries.ManageUser.serve(
         {
           _action: 'create',
           fields: { email: email2, fullName: 'test', password: 'test' },
@@ -109,7 +109,7 @@ describe('google auth', () => {
     expect(responseCreate?.status).toBe('success')
 
     const responseLoginGoogle
-      = await testUtils?.factorUser?.queries.UserGoogleAuth.serve(
+      = await testUtils?.fictionUser?.queries.UserGoogleAuth.serve(
         {
           credential: 'not a token',
           _action: 'loginWithCredential',

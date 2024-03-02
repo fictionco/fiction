@@ -11,7 +11,7 @@ describe('user settings update', async () => {
   })
 
   it('updates settings', async () => {
-    const r = await testUtils?.factorUser.queries.UpdateCurrentUser.serve(
+    const r = await testUtils?.fictionUser.queries.UpdateCurrentUser.serve(
       {
         _action: 'updateAccountSettings',
         fields: { fullName: 'elvis' },
@@ -25,8 +25,8 @@ describe('user settings update', async () => {
   it('updates email', async () => {
     const email = getTestEmail()
 
-    const verificationCode = await testUtils?.factorUser.queries.UpdateCurrentUser.sendOneTimeCode({ email, userId: initialized?.user?.userId })
-    let r = await testUtils?.factorUser.queries.UpdateCurrentUser.serve(
+    const verificationCode = await testUtils?.fictionUser.queries.UpdateCurrentUser.sendOneTimeCode({ email, userId: initialized?.user?.userId })
+    let r = await testUtils?.fictionUser.queries.UpdateCurrentUser.serve(
       {
         _action: 'updateEmail',
         fields: { password: '12345', email, verificationCode },
@@ -49,7 +49,7 @@ describe('user settings update', async () => {
     expect(r?.status).toBe('error')
     expect(r?.message).toBe('incorrect password')
 
-    r = await testUtils?.factorUser.queries.UpdateCurrentUser.serve(
+    r = await testUtils?.fictionUser.queries.UpdateCurrentUser.serve(
       {
         _action: 'updateEmail',
         fields: { password: 'test', email, verificationCode },
@@ -60,7 +60,7 @@ describe('user settings update', async () => {
     expect(r?.status).toBe('success')
     expect(r?.data?.email).toBe(email)
 
-    r = await testUtils?.factorUser.queries.UpdateCurrentUser.serve(
+    r = await testUtils?.fictionUser.queries.UpdateCurrentUser.serve(
       {
         _action: 'updatePassword',
         fields: { password: 'changed', verificationCode },

@@ -1,5 +1,5 @@
 import { standardizeUrlOrPath, updateUrl, vue, waitFor } from '@fiction/core/utils'
-import { FactorObject } from '@fiction/core'
+import { FictionObject } from '@fiction/core'
 import type { Ref } from 'vue'
 import { computed, ref, watch } from 'vue'
 
@@ -7,13 +7,13 @@ import { computed, ref, watch } from 'vue'
 import { Obj } from '@fiction/core/obj'
 
 export interface FrameMessage<T = unknown> {
-  from?: 'factor'
+  from?: 'fiction'
   url?: URL
   messageType: 'frameReady' | 'navigate' | 'close' | string
   data: T
 }
 
-export type MsgAuth = { from?: 'factor' }
+export type MsgAuth = { from?: 'fiction' }
 
 export type MsgStandard =
   | { messageType: 'frameReady', data: string }
@@ -48,7 +48,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
 
   recursionDelay = 100
   initialized = false
-  from: 'factor' = 'factor' as const
+  from: 'fiction' = 'fiction' as const
   relation = this.settings.relation
   frameEl = this.settings.frameEl
   getWindow = this.settings.getWindow || (() => window)
@@ -62,7 +62,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
   src = this.settings.src || ref('')
   keyListening = false
   hasKeyBoardEvents = this.settings.hasKeyBoardEvents ?? false
-  eventOrigins = ['localhost', 'factor']
+  eventOrigins = ['localhost', 'fiction']
   onFrameLoad = this.settings.onFrameLoad ?? (() => {})
   messageCallbacks = new Set<MessageListener<T>>([this.settings.onMessage ?? (() => {})])
 
@@ -135,7 +135,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
 
     this.log.debug(`postMessage received (${this.relation} -> ${msg.messageType})`, { data: { msg } })
 
-    if (!msg || typeof msg !== 'object' || msg.from !== 'factor')
+    if (!msg || typeof msg !== 'object' || msg.from !== 'fiction')
       return
 
     msg.url = this.getUrl()
@@ -168,7 +168,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
     if (!sendToWindow)
       throw new Error('no message window')
 
-    sendToWindow.postMessage({ from: 'factor', messageType: 'frameReady', data: window.origin }, '*')
+    sendToWindow.postMessage({ from: 'fiction', messageType: 'frameReady', data: window.origin }, '*')
   }
 
   flushBuffer() {
@@ -244,7 +244,7 @@ type FrameNavigatorSettings = {
   displayUrl: Ref<string>
 }
 
-export class FrameNavigator extends FactorObject<FrameNavigatorSettings> {
+export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
   typedPath = vue.ref()
   displayUrl = this.settings.displayUrl
 

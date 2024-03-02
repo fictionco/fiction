@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { standardDate, useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { FactorStripe } from '@fiction/plugin-stripe'
+import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '../../../card'
 import ElPanelSettings from './ElPanelSettings.vue'
 
@@ -10,17 +10,17 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorStripe, factorUser } = useService<{ factorStripe?: FactorStripe }>()
+const { fictionStripe, fictionUser } = useService<{ fictionStripe?: FictionStripe }>()
 
 // const sending = vue.ref('')
 // const coupon = vue.ref()
 
 vue.onMounted(async () => {
-  await factorStripe?.setCustomerData()
+  await fictionStripe?.setCustomerData()
 })
 
 const activeCustomer = vue.computed(() => {
-  return factorStripe?.activeCustomer.value
+  return fictionStripe?.activeCustomer.value
 })
 
 // const upgradeActions = vue.computed<MenuItem[]>(() => {
@@ -43,7 +43,7 @@ const activeCustomer = vue.computed(() => {
 // })
 
 // async function changePlan(args: CustomerDetails) {
-//   const subscriptionId = factorStripe.activeCustomer.value?.subscriptionId
+//   const subscriptionId = fictionStripe.activeCustomer.value?.subscriptionId
 
 //   if (subscriptionId) {
 //     const confirmed = confirm('Are you sure?')
@@ -51,17 +51,17 @@ const activeCustomer = vue.computed(() => {
 //       return
 //     const { quantity } = args
 //     sending.value = 'change'
-//     await factorStripe.requestManageSubscription('change', {
+//     await fictionStripe.requestManageSubscription('change', {
 //       priceId: args.priceId,
 //       subscriptionId,
 //       coupon: coupon.value,
 //       quantity,
 //     })
 
-//     await factorStripe.setCustomerData()
+//     await fictionStripe.setCustomerData()
 //   }
 //   else {
-//     location.href = await factorStripe.getCheckoutUrl({
+//     location.href = await fictionStripe.getCheckoutUrl({
 //       priceId: args.priceId,
 //       loginPath: '/auth/login',
 //     })
@@ -82,12 +82,12 @@ const activeCustomer = vue.computed(() => {
 //   if (!confirmed)
 //     return
 //   sending.value = 'delete'
-//   await factorStripe.requestManageSubscription('cancel', {
+//   await fictionStripe.requestManageSubscription('cancel', {
 //     priceId: args.priceId,
 //     subscriptionId,
 //   })
 
-//   await factorStripe.setCustomerData()
+//   await fictionStripe.setCustomerData()
 
 //   sending.value = ''
 // }
@@ -110,7 +110,7 @@ const activeCustomer = vue.computed(() => {
             Service Usage
           </div>
           <div
-            v-if="factorStripe?.usage.activeUsage.value"
+            v-if="fictionStripe?.usage.activeUsage.value"
             class="mt-2 space-y-4"
           >
             <div class="relative">
@@ -127,9 +127,9 @@ const activeCustomer = vue.computed(() => {
                     Current Cycle
                   </div>
                   <div class="font-bold">
-                    {{ standardDate(factorStripe.usage.activeUsage.value.cycleStartAtIso) }}
+                    {{ standardDate(fictionStripe.usage.activeUsage.value.cycleStartAtIso) }}
                     to
-                    {{ standardDate(factorStripe.usage.activeUsage.value.cycleEndAtIso) }}
+                    {{ standardDate(fictionStripe.usage.activeUsage.value.cycleEndAtIso) }}
                   </div>
                 </div>
               </div>
@@ -148,10 +148,10 @@ const activeCustomer = vue.computed(() => {
                     Credits Used This Cycle:
                   </div>
                   <div class="font-bold">
-                    {{ factorStripe.usage.activeUsage.value.usedCredits }} of
-                    {{ factorStripe.usage.activeUsage.value.paidCredits }}
+                    {{ fictionStripe.usage.activeUsage.value.usedCredits }} of
+                    {{ fictionStripe.usage.activeUsage.value.paidCredits }}
                     credits ({{
-                      factorStripe.usage.activeUsage.value.percentUsed || 0
+                      fictionStripe.usage.activeUsage.value.percentUsed || 0
                     }}%)
                   </div>
                 </div>
@@ -175,12 +175,12 @@ const activeCustomer = vue.computed(() => {
             <p class="my-4">
               Use your billing email to login:
               <span class="font-bold">{{
-                factorUser.activeOrganization.value?.orgEmail
+                fictionUser.activeOrganization.value?.orgEmail
               }}</span>
             </p>
           </div>
           <div class="mt-6">
-            <ElButton :href="factorStripe?.customerPortalUrl.value" btn="primary">
+            <ElButton :href="fictionStripe?.customerPortalUrl.value" btn="primary">
               Billing Dashboard &rarr;
             </ElButton>
           </div>

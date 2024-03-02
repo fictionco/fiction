@@ -1,4 +1,4 @@
-import { FactorObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/core'
+import { FictionObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/core'
 import type { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import type { Site } from '..'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'
@@ -17,7 +17,7 @@ export type SiteFrameUtilityParams = {
   relation: 'parent' | 'child'
 }
 
-export class SiteFrameTools extends FactorObject<SiteFrameUtilityParams> {
+export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   site = this.settings.site
   util: FrameUtility<FramePostMessageList> | undefined
   relation = this.settings.relation
@@ -27,11 +27,11 @@ export class SiteFrameTools extends FactorObject<SiteFrameUtilityParams> {
   }
 
   previewFrameUrl = vue.computed(() => {
-    const s = this.site.factorSites.settings
-    return `${s.factorAdmin.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
+    const s = this.site.fictionSites.settings
+    return `${s.fictionAdmin.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 
-  previewPath = vue.computed(() => this.site.factorSites.getPreviewPath({ factorAdmin: this.site.factorSites.settings.factorAdmin }).value)
+  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath({ fictionAdmin: this.site.fictionSites.settings.fictionAdmin }).value)
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   displayUrlBase = this.activeSiteDisplayUrl()
@@ -45,7 +45,7 @@ export class SiteFrameTools extends FactorObject<SiteFrameUtilityParams> {
   activeSiteDisplayUrl() {
     const site = this.site
     return vue.computed(() => {
-      const port = site.factorSites.settings.factorAppSites?.port
+      const port = site.fictionSites.settings.fictionAppSites?.port
       const hostname = this.site.primaryCustomDomain.value ? this.site.primaryCustomDomain.value : this.site.hostname.value
       const baseUrl = site.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
 
@@ -135,7 +135,7 @@ export class SiteFrameTools extends FactorObject<SiteFrameUtilityParams> {
     switch (msg.messageType) {
       case 'resetUi': {
         resetUi({ scope: 'iframe', cause: 'iframeSiteRender' })
-        site.settings.factorSites.useTool({ toolId: '' })
+        site.settings.fictionSites.useTool({ toolId: '' })
         break
       }
 

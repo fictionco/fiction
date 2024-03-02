@@ -18,14 +18,14 @@ describe('active project and org', () => {
   it('updates computed values', async () => {
     if (!testUtils)
       throw new Error('no test utils')
-    const activeUser = testUtils?.factorUser.activeUser.value
-    const orgs = testUtils?.factorUser?.activeUser.value?.orgs || []
+    const activeUser = testUtils?.fictionUser.activeUser.value
+    const orgs = testUtils?.fictionUser?.activeUser.value?.orgs || []
 
     expect(activeUser?.orgs?.length).toMatchInlineSnapshot('1')
     expect(orgs.length).toMatchInlineSnapshot(`1`)
 
     expect(
-      testUtils?.factorUser.activeOrganizations.value.length,
+      testUtils?.fictionUser.activeOrganizations.value.length,
     ).toMatchInlineSnapshot(`1`)
   })
 })

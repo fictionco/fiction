@@ -1,54 +1,54 @@
 import type {
-  FactorApp,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
-  FactorPluginSettings,
-  FactorRouter,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
+  FictionPluginSettings,
+  FictionRouter,
+  FictionServer,
+  FictionUser,
 } from '@fiction/core'
 import {
-  FactorPlugin,
+  FictionPlugin,
 } from '@fiction/core'
-import type { FactorMonitor } from '@fiction/plugin-monitor'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { table } from './tables'
 import { QueryManageSubscribe } from './endpoint'
 
 export * from './tables'
 
-type FactorSubscribeSettings = {
-  factorDb: FactorDb
-  factorServer: FactorServer
-  factorEmail: FactorEmail
-  factorEnv: FactorEnv
-  factorApp: FactorApp
-  factorUser: FactorUser
-  factorRouter: FactorRouter
-  factorMonitor: FactorMonitor
-} & FactorPluginSettings
+type FictionSubscribeSettings = {
+  fictionDb: FictionDb
+  fictionServer: FictionServer
+  fictionEmail: FictionEmail
+  fictionEnv: FictionEnv
+  fictionApp: FictionApp
+  fictionUser: FictionUser
+  fictionRouter: FictionRouter
+  fictionMonitor: FictionMonitor
+} & FictionPluginSettings
 
-export class FactorSubscribe extends FactorPlugin<FactorSubscribeSettings> {
+export class FictionSubscribe extends FictionPlugin<FictionSubscribeSettings> {
   root = this.utils.safeDirname(import.meta.url)
-  factorDb = this.settings.factorDb
-  factorServer = this.settings.factorServer
-  factorUser = this.settings.factorUser
-  factorRouter = this.settings.factorRouter
-  factorApp = this.settings.factorApp
-  factorEnv = this.settings.factorEnv
-  factorMonitor = this.settings.factorMonitor
-  factorEmail = this.settings.factorEmail
+  fictionDb = this.settings.fictionDb
+  fictionServer = this.settings.fictionServer
+  fictionUser = this.settings.fictionUser
+  fictionRouter = this.settings.fictionRouter
+  fictionApp = this.settings.fictionApp
+  fictionEnv = this.settings.fictionEnv
+  fictionMonitor = this.settings.fictionMonitor
+  fictionEmail = this.settings.fictionEmail
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.factorServer,
-    factorUser: this.factorUser,
+    fictionServer: this.fictionServer,
+    fictionUser: this.fictionUser,
   })
 
-  constructor(settings: FactorSubscribeSettings) {
-    super('FactorSubscribe', settings)
-    settings.factorEnv?.uiPaths.push(`${this.root}/*.vue`)
-    this.factorDb?.addTables([table])
+  constructor(settings: FictionSubscribeSettings) {
+    super('FictionSubscribe', settings)
+    settings.fictionEnv?.uiPaths.push(`${this.root}/*.vue`)
+    this.fictionDb?.addTables([table])
   }
 
   async subscribeEmail(args: { email: string }) {
@@ -64,12 +64,12 @@ export class FactorSubscribe extends FactorPlugin<FactorSubscribeSettings> {
 
   protected createQueries() {
     const deps = {
-      factorUser: this.factorUser,
-      factorSubscribe: this,
-      factorDb: this.factorDb,
-      factorEnv: this.factorEnv,
-      factorMonitor: this.factorMonitor,
-      factorEmail: this.factorEmail,
+      fictionUser: this.fictionUser,
+      fictionSubscribe: this,
+      fictionDb: this.fictionDb,
+      fictionEnv: this.fictionEnv,
+      fictionMonitor: this.fictionMonitor,
+      fictionEmail: this.fictionEmail,
     }
     return {
       ManageSubscribe: new QueryManageSubscribe(deps),

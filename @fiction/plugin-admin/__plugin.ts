@@ -1,23 +1,23 @@
 import type {
-  FactorApp,
-  FactorPluginSettings,
-  FactorRouter,
+  FictionApp,
+  FictionPluginSettings,
+  FictionRouter,
 } from '@fiction/core'
 import {
-  FactorPlugin,
+  FictionPlugin,
 } from '@fiction/core'
-import type { FactorAdmin, FactorAdminSettings } from '.'
+import type { FictionAdmin, FictionAdminSettings } from '.'
 
 export type AdminPluginSettings = {
-  factorAdmin?: FactorAdmin
-  factorRouter: FactorRouter
-  factorApp: FactorApp
-} & FactorAdminSettings & FactorPluginSettings
+  fictionAdmin?: FictionAdmin
+  fictionRouter: FictionRouter
+  fictionApp: FictionApp
+} & FictionAdminSettings & FictionPluginSettings
 
-export class AdminPlugin<T extends AdminPluginSettings = AdminPluginSettings > extends FactorPlugin<T> {
-  factorAdmin = this.settings.factorAdmin
-  factorRouter = this.settings.factorRouter
-  factorApp = this.settings.factorApp
+export class AdminPlugin<T extends AdminPluginSettings = AdminPluginSettings > extends FictionPlugin<T> {
+  fictionAdmin = this.settings.fictionAdmin
+  fictionRouter = this.settings.fictionRouter
+  fictionApp = this.settings.fictionApp
   constructor(name: string, settings: T) {
     super(name, settings)
   }

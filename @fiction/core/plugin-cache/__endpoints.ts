@@ -1,34 +1,34 @@
 import type {
   EndpointResponse,
-  FactorAws,
-  FactorDb,
+  FictionAws,
+  FictionDb,
 } from '@fiction/core'
 import {
   Query,
 } from '@fiction/core'
 
 // import type { Invalidation } from "@aws-sdk/client-cloudfront"
-import type { FactorCache } from '.'
+import type { FictionCache } from '.'
 
-interface FactorCacheSettings {
-  factorAws?: FactorAws
-  factorCache: FactorCache
-  factorDb?: FactorDb
+interface FictionCacheSettings {
+  fictionAws?: FictionAws
+  fictionCache: FictionCache
+  fictionDb?: FictionDb
 }
 
 export class QueryBustSiteScript extends Query {
-  factorAws?: FactorAws
-  factorCache: FactorCache
-  factorDb?: FactorDb
-  constructor(settings: FactorCacheSettings) {
+  fictionAws?: FictionAws
+  fictionCache: FictionCache
+  fictionDb?: FictionDb
+  constructor(settings: FictionCacheSettings) {
     super(settings)
-    this.factorAws = settings.factorAws
-    this.factorDb = settings.factorDb
-    this.factorCache = settings.factorCache
+    this.fictionAws = settings.fictionAws
+    this.fictionDb = settings.fictionDb
+    this.fictionCache = settings.fictionCache
   }
 
   async run(params: { projectId: string }): Promise<EndpointResponse<true>> {
-    if (!this.factorAws || !this.factorDb)
+    if (!this.fictionAws || !this.fictionDb)
       throw new Error('Missing dependencies')
 
     const { projectId } = params
@@ -37,13 +37,13 @@ export class QueryBustSiteScript extends Query {
     // if (!distributionId) throw this.stop({ message: "no distribution found" })
 
     // // bust cloudfront cache
-    // const r = await this.factorAws.bustCdnCache({
+    // const r = await this.fictionAws.bustCdnCache({
     //   distributionId,
     //   paths: [`/${projectId}.*`],
     // })
 
     // clear the redis site cache
-    this.factorCache
+    this.fictionCache
       .projectCache({ projectId, _action: 'bust' })
       .catch(console.error)
 

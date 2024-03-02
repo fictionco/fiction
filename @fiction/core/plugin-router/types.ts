@@ -1,7 +1,7 @@
 import type { vueRouter } from '../utils/libraries'
 import type { User } from '../plugin-user/types'
-import type { FactorUser } from '../plugin-user'
-import type { FactorRouter } from '.'
+import type { FictionUser } from '../plugin-user'
+import type { FictionRouter } from '.'
 
 export interface BaseCompiledConfig {
   routes: string
@@ -19,8 +19,8 @@ export type NavigateRoute =
 export type RouteAuthCallback = (args: {
   user?: User
   isSearchBot?: boolean
-  factorRouter?: FactorRouter
-  factorUser?: FactorUser
+  fictionRouter?: FictionRouter
+  fictionUser?: FictionUser
   route: vueRouter.RouteLocationNormalized
 }) =>
 | Promise<

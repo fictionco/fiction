@@ -2,8 +2,8 @@ import type {
   User,
 } from '@fiction/core'
 import {
-  FactorDbCol,
-  FactorDbTable,
+  FictionDbCol,
+  FictionDbTable,
 
 } from '@fiction/core'
 import type { CreateObjectType } from '@fiction/core/tbl'
@@ -34,7 +34,7 @@ export interface SourceItem {
 }
 
 export const sourceTableColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sourceId',
     create: ({ schema, column, db }) => {
       schema
@@ -44,7 +44,7 @@ export const sourceTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column }) => {
       schema
@@ -54,14 +54,14 @@ export const sourceTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => {
-      schema.string(column.pgKey, 32).references(`factor_user.user_id`)
+      schema.string(column.pgKey, 32).references(`fiction_user.user_id`)
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'agentId',
     create: ({ schema, column }) => {
       schema
@@ -71,32 +71,32 @@ export const sourceTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sourceName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sourceContent',
     create: ({ schema, column }) => schema.text(column.pgKey),
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sourceUrls',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
     prepare: ({ value }) => JSON.stringify(value),
     default: () => ({} as { url: string, length: number }[]),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'description',
     create: ({ schema, column }) => schema.string(column.pgKey, 10_000),
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sourceType',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
@@ -106,7 +106,7 @@ export const sourceTableColumns = [
 
 export const tables = [
 
-  new FactorDbTable({
+  new FictionDbTable({
     tableKey: standardTable.source,
     timestamps: true,
     columns: sourceTableColumns,

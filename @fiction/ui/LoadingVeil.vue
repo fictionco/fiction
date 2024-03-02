@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import type { FactorRouter, FactorUser } from '@fiction/core'
+import type { FictionRouter, FictionUser } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElSpinner from './ElSpinner.vue'
 
-const { factorRouter, factorUser } = useService<{
-  factorRouter: FactorRouter
-  factorUser: FactorUser
+const { fictionRouter, fictionUser } = useService<{
+  fictionRouter: FictionRouter
+  fictionUser: FictionUser
 }>()
 
 const authLoading = vue.ref(false)
 
-if (factorRouter.routeRequiresAuth())
+if (fictionRouter.routeRequiresAuth())
   authLoading.value = true
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized({ caller: 'LoadingVeil' })
+  await fictionUser.userInitialized({ caller: 'LoadingVeil' })
   authLoading.value = false
 })
 </script>

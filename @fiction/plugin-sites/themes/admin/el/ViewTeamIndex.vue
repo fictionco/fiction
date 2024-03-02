@@ -2,7 +2,7 @@
 import type { OrganizationMember } from '@fiction/core'
 import { dayjs, vue } from '@fiction/core'
 import { useService } from '@fiction/core/inject'
-import type { FactorTeam } from '@fiction/core/plugin-team'
+import type { FictionTeam } from '@fiction/core/plugin-team'
 import type { TableCell } from '@fiction/ui/ElTable.vue'
 import ElTable from '@fiction/ui/ElTable.vue'
 import type { Card } from '../../../card'
@@ -14,7 +14,7 @@ const props = defineProps({
   basePath: { type: String, required: true },
 })
 
-const { factorTeam, factorUser } = useService<{ factorTeam: FactorTeam }>()
+const { fictionTeam, fictionUser } = useService<{ fictionTeam: FictionTeam }>()
 
 function editLink(userId: string) {
   return props.card.link({ path: `${props.basePath}/team-edit`, query: { userId } })
@@ -55,8 +55,8 @@ const formattedData = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
-  index.value = await factorTeam.loadMemberIndex()
+  await fictionUser.userInitialized()
+  index.value = await fictionTeam.loadMemberIndex()
 
   loading.value = false
 })

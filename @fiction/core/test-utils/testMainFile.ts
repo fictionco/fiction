@@ -5,9 +5,9 @@ const service = createTestUtilServices()
 
 export function setup(): ServiceConfig {
   return {
-    factorEnv: service.factorEnv,
+    fictionEnv: service.fictionEnv,
 
     createService: () => service,
-    createMount: args => service.factorApp.mountApp(args),
+    createMount: args => service.fictionApp.mountApp(args),
   }
 }

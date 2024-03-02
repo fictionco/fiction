@@ -1,21 +1,21 @@
 import path from 'node:path'
 import type { RouteRecordRaw } from 'vue-router'
 import fs from 'fs-extra'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorRouter } from '../plugin-router'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionRouter } from '../plugin-router'
 import { safeDirname } from '../utils'
 import type { SitemapConfig } from './types'
 
-type FactorSitemapSettings = {
-  factorRouter: FactorRouter
-} & FactorPluginSettings
+type FictionSitemapSettings = {
+  fictionRouter: FictionRouter
+} & FictionPluginSettings
 
-export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
-  factorRouter: FactorRouter
-  constructor(settings: FactorSitemapSettings) {
+export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
+  fictionRouter: FictionRouter
+  constructor(settings: FictionSitemapSettings) {
     super('sitemap', settings)
-    this.factorRouter = settings.factorRouter
+    this.fictionRouter = settings.fictionRouter
   }
 
   async generateSitemap(params: {
@@ -31,7 +31,7 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
     const paths = await this.getSitemapPaths(params)
 
     if (paths.length === 0) {
-      this.log.warn('no sitemap paths found', { app: this.factorEnv?.id })
+      this.log.warn('no sitemap paths found', { app: this.fictionEnv?.id })
       return
     }
     else {
@@ -118,7 +118,7 @@ export class FactorSitemap extends FactorPlugin<FactorSitemapSettings> {
 
   getKnownRouteUrls = async (): Promise<string[]> => {
     const urls = this._processRouteConfigToUrls(
-      this.factorRouter.vueRoutes.value,
+      this.fictionRouter.vueRoutes.value,
     )
 
     return urls

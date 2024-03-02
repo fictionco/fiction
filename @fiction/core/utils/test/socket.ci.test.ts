@@ -47,7 +47,7 @@ describe('sockets', () => {
     s = await createSocketServer<EventMap>({
       serverName: 'testSocketServer',
       port,
-      factorUser: testUtils.factorUser,
+      fictionUser: testUtils.fictionUser,
     })
   })
   afterAll(async () => {
@@ -68,19 +68,19 @@ describe('sockets', () => {
   })
 
   it('creates a client server', async () => {
-    const factorUser = testUtils?.factorUser
+    const fictionUser = testUtils?.fictionUser
 
-    if (!factorUser)
-      throw new Error('no factorUser')
+    if (!fictionUser)
+      throw new Error('no fictionUser')
 
-    const token = testUtils?.factorUser.createClientToken({
+    const token = testUtils?.fictionUser.createClientToken({
       email: 'hello@world.com',
       userId: 'hello',
     })
     const clientSocket = new ClientSocket<EventMap>({
       host,
       token,
-      factorUser,
+      fictionUser,
     })
 
     await clientSocket.sendMessage('test', 'ping')

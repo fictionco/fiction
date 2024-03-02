@@ -6,8 +6,8 @@ const props = defineProps({
   nav: { type: Array as vue.PropType<NavItem[]>, required: true },
   itemClass: { type: String, default: '' },
 })
-const { factorRouter } = useService()
-const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActive: item.href === factorRouter.current.value.path })))
+const { fictionRouter } = useService()
+const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActive: item.href === fictionRouter.current.value.path })))
 </script>
 
 <template>

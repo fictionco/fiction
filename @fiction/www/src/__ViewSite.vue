@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import type { FactorSites, Site } from '@fiction/plugin-sites'
+import type { FictionSites, Site } from '@fiction/plugin-sites'
 import ElSiteRender from '@fiction/plugin-sites/engine/ElSiteRender.vue'
 
-const { factorSites, factorRouter } = useService<{ factorSites: FactorSites }>()
+const { fictionSites, fictionRouter } = useService<{ fictionSites: FictionSites }>()
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
@@ -18,7 +18,7 @@ async function load() {
 
   loading.value = true
 
-  site.value = await factorSites.loadSiteFromTheme({ themeId, factorRouter })
+  site.value = await fictionSites.loadSiteFromTheme({ themeId, fictionRouter })
 
   loading.value = false
 }

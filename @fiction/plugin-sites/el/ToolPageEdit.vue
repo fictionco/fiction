@@ -17,7 +17,7 @@ const props = defineProps({
   saveText: { type: String, default: 'Save' },
   mode: { type: String as vue.PropType<'editPage' | 'createPage'>, required: true },
 })
-const control = props.site.settings.factorSites
+const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
 const options = [

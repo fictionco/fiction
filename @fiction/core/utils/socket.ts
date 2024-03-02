@@ -5,8 +5,8 @@ import { EventEmitter } from 'events'
 import type express from 'express'
 import type * as ws from 'ws'
 import { log } from '../plugin-log'
-import type { FactorUser, User } from '../plugin-user'
-import type { FactorDb } from '../plugin-db'
+import type { FictionUser, User } from '../plugin-user'
+import type { FictionDb } from '../plugin-db'
 import { emitEvent } from './event'
 import { dayjs } from './libraries'
 import { objectId, shortId } from './id'
@@ -48,7 +48,7 @@ interface ClientSocketOptions {
   host: string
   token?: string
   channels?: string[]
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   search?: Record<string, string>
   context?: string
 }
@@ -66,7 +66,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
   waiting = false
   context: string
   token?: string
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   log = log.contextLogger(this.constructor.name)
   search?: Record<string, string | string[]>
   channels?: string[]
@@ -75,7 +75,7 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
     super()
     this.host = options.host
     this.token = options.token
-    this.factorUser = options.factorUser
+    this.fictionUser = options.fictionUser
     this.search = options.search ?? {}
     this.context = options.context ?? 'clientSocket'
     if (options.channels)
@@ -83,18 +83,18 @@ export class ClientSocket<T extends EventMap> extends EventEmitter {
 
     this.log.info(`client socket(${this.context}) at: ${this.wsHost()}`)
 
-    this.socketUserId = this.factorUser?.activeUser.value?.userId
+    this.socketUserId = this.fictionUser?.activeUser.value?.userId
   }
 
   private async getToken(): Promise<string> {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       return ''
     if (this.token)
       return this.token
 
-    await this.factorUser.userInitialized({ caller: 'getToken' })
+    await this.fictionUser.userInitialized({ caller: 'getToken' })
 
-    return this.factorUser.clientToken({ action: 'get' }) ?? ''
+    return this.fictionUser.clientToken({ action: 'get' }) ?? ''
   }
 
   private async socketUrl(): Promise<string | undefined> {
@@ -279,7 +279,7 @@ type WelcomeObjectCallback = (
 ) => Promise<Record<string, unknown>>
 
 interface NodeSocketServerSettings {
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   maxPayload?: number
   welcomeObject?: WelcomeObjectCallback
 }
@@ -289,15 +289,15 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
   public server?: http.Server
   public wss?: ws.WebSocketServer // type not available in browser/build
   private context = 'socketServer'
-  factorUser?: FactorUser
-  factorDb?: FactorDb
+  fictionUser?: FictionUser
+  fictionDb?: FictionDb
   log = log.contextLogger(this.constructor.name)
   maxPayload: number
   welcomeObject?: WelcomeObjectCallback
   connections: ConnectionMeta[] = []
   constructor(settings: NodeSocketServerSettings) {
     super()
-    this.factorUser = settings.factorUser
+    this.fictionUser = settings.fictionUser
     this.maxPayload = settings.maxPayload || 10_000_000
     this.welcomeObject = settings.welcomeObject
 
@@ -368,8 +368,8 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
         request.bearer = undefined
         request.bearerToken = undefined
 
-        if (token && this.factorUser) {
-          const tokenData = this.factorUser.decodeClientToken(token)
+        if (token && this.fictionUser) {
+          const tokenData = this.fictionUser.decodeClientToken(token)
           request.bearer = tokenData
           request.bearerToken = token
         }
@@ -393,7 +393,7 @@ export class NodeSocketServer<T extends EventMap> extends EventEmitter {
       const channels = ch.filter(Boolean) as string[]
 
       if (!channels) {
-        this.factorUser?.log.error('socket connection missing key', {
+        this.fictionUser?.log.error('socket connection missing key', {
           data: { request: request.url },
         })
         return
@@ -562,7 +562,7 @@ export async function createSocketServer<T extends EventMap>(args: {
   serverName: string
   port: number
   endpoints?: Endpoint[]
-  factorUser?: FactorUser
+  fictionUser?: FictionUser
   welcomeObject?: WelcomeObjectCallback
   maxPayload?: number
   url?: string
@@ -571,14 +571,14 @@ export async function createSocketServer<T extends EventMap>(args: {
     port,
     serverName,
     endpoints = [],
-    factorUser,
+    fictionUser,
     welcomeObject,
     maxPayload,
     url,
   } = args
 
   const socketServer = new NodeSocketServer<T>({
-    factorUser,
+    fictionUser,
     welcomeObject,
     maxPayload,
   })
@@ -588,7 +588,7 @@ export async function createSocketServer<T extends EventMap>(args: {
     port,
     endpoints,
     customServer: app => socketServer.createServer({ app }),
-    factorUser,
+    fictionUser,
     url,
   })
 

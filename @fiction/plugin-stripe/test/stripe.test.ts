@@ -6,7 +6,7 @@ import { log, vue } from '@fiction/core'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { beforeAll, describe, expect, it } from 'vitest'
-import { FactorStripe } from '../plugin'
+import { FictionStripe } from '../plugin'
 
 let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let orgId: string | undefined
@@ -15,32 +15,32 @@ let subscription: Stripe.Subscription | undefined
 const key = (): string => Math.random().toString().slice(2, 8)
 
 // const testUtils: TestUtils | undefined = undefined
-let testUtils: TestUtils & { factorStripe: FactorStripe }
+let testUtils: TestUtils & { fictionStripe: FictionStripe }
 describe('stripe tests', () => {
   beforeAll(async () => {
     const utils = await createTestUtils()
 
-    const factorStripe = new FactorStripe({
-      factorEnv: utils.factorEnv,
-      factorApp: utils.factorApp,
-      factorServer: utils.factorServer,
-      factorRouter: utils.factorRouter,
-      factorUser: utils.factorUser,
-      factorDb: utils.factorDb,
+    const fictionStripe = new FictionStripe({
+      fictionEnv: utils.fictionEnv,
+      fictionApp: utils.fictionApp,
+      fictionServer: utils.fictionServer,
+      fictionRouter: utils.fictionRouter,
+      fictionUser: utils.fictionUser,
+      fictionDb: utils.fictionDb,
       publicKeyTest:
         'pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl',
-      secretKeyTest: utils.factorEnv.var('STRIPE_SECRET_KEY_TEST'),
+      secretKeyTest: utils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
       isLive: vue.ref(false),
       hooks: [],
       products: [],
       customerPortalUrl: '#',
     })
 
-    testUtils = { ...utils, factorStripe } as TestUtils & {
-      factorStripe: FactorStripe
+    testUtils = { ...utils, fictionStripe } as TestUtils & {
+      fictionStripe: FictionStripe
     }
 
-    orgId = testUtils.factorUser.activeOrgId.value
+    orgId = testUtils.fictionUser.activeOrgId.value
   })
 
   it('has stripe test .env file', () => {
@@ -60,7 +60,7 @@ describe('stripe tests', () => {
     if (!orgId)
       throw new Error('orgId required')
     const { status, data }
-      = await testUtils.factorStripe.queries.ManageCustomer.serve(
+      = await testUtils.fictionStripe.queries.ManageCustomer.serve(
         {
           orgId,
           _action: 'retrieve',
@@ -77,7 +77,7 @@ describe('stripe tests', () => {
     if (!orgId)
       throw new Error('orgId required')
     const { status, data }
-      = await testUtils.factorStripe.queries.ManageCustomer.serve(
+      = await testUtils.fictionStripe.queries.ManageCustomer.serve(
         {
           orgId,
           _action: 'retrieve',
@@ -93,7 +93,7 @@ describe('stripe tests', () => {
     if (!orgId)
       throw new Error('orgId required')
     const { status, data, customerData, customerId }
-      = await testUtils.factorStripe.queries.ManageCustomer.serveRequest(
+      = await testUtils.fictionStripe.queries.ManageCustomer.serveRequest(
         {
           orgId,
           _action: 'retrieve',
@@ -112,7 +112,7 @@ describe('stripe tests', () => {
     if (!customer?.id)
       throw new Error('customer required')
 
-    const paymentMethod = await testUtils.factorStripe
+    const paymentMethod = await testUtils.fictionStripe
       .getServerClient()
       .paymentMethods.create({
         type: 'card',
@@ -125,7 +125,7 @@ describe('stripe tests', () => {
       })
 
     const result
-      = await testUtils.factorStripe.queries.ManagePaymentMethod.serve(
+      = await testUtils.fictionStripe.queries.ManagePaymentMethod.serve(
         {
           customerId: customer?.id,
           paymentMethodId: paymentMethod.id,
@@ -145,7 +145,7 @@ describe('stripe tests', () => {
       throw new Error('customer required')
 
     const result
-      = await testUtils.factorStripe.queries.ManagePaymentMethod.serve(
+      = await testUtils.fictionStripe.queries.ManagePaymentMethod.serve(
         {
           customerId: customer?.id,
           _action: 'retrieve',
@@ -161,7 +161,7 @@ describe('stripe tests', () => {
     if (!customer?.id)
       throw new Error('customer required')
 
-    const customerData = (await testUtils.factorStripe
+    const customerData = (await testUtils.fictionStripe
       .getServerClient()
       .customers.retrieve(customer.id)) as Stripe.Customer
 
@@ -179,14 +179,14 @@ describe('stripe tests', () => {
 
     const couponId = `TEST_COUPON_${key()}`
 
-    const coupon = await testUtils.factorStripe
+    const coupon = await testUtils.fictionStripe
       .getServerClient()
       .coupons.create({
         percent_off: 50,
         id: couponId,
       })
 
-    const result = await testUtils.factorStripe.queries.GetCoupon.serve(
+    const result = await testUtils.fictionStripe.queries.GetCoupon.serve(
       {
         couponCode: coupon.id,
       },
@@ -203,7 +203,7 @@ describe('stripe tests', () => {
     if (!subscription?.id)
       throw new Error('subscription required')
 
-    const result = await testUtils.factorStripe.queries.GetInvoices.serve(
+    const result = await testUtils.fictionStripe.queries.GetInvoices.serve(
       {
         customerId: customer.id,
       },

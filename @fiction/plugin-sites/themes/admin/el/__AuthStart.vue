@@ -17,7 +17,7 @@ const emit = defineEmits<{
   (event: 'signedIn', payload: AuthForm): void
 }>()
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 type Modes = 'login' | 'register' | 'setPassword' | 'verify' | 'resetPassword'
 interface AuthForm {
@@ -51,7 +51,7 @@ async function sendAuth(): Promise<void> {
     formError.value = 'Please enter your password'
     return
   }
-  const r = await factorUser.requests.Login.request({
+  const r = await fictionUser.requests.Login.request({
     email,
     password,
     createOnEmpty: true,
@@ -75,7 +75,7 @@ async function showGoogle() {
     autoSignIn: false,
     promptParentId: 'google-signin-prompt',
     showPrompt: false,
-    factorUser,
+    fictionUser,
     isSending: isSendingGoogleAuth,
     callback: async (r) => {
       const email = r.user?.email
@@ -92,7 +92,7 @@ async function showGoogle() {
 }
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
+  await fictionUser.userInitialized()
   await showGoogle()
 })
 </script>

@@ -33,45 +33,45 @@ RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
 FROM build as fiction-sites
 EXPOSE 6565
-CMD npm -w @fiction/www exec -- factor run sites
+CMD npm -w @fiction/www exec -- fiction run sites
 
 FROM build as fiction-www
 EXPOSE 4444
-CMD npm -w @fiction/www exec -- factor run app
+CMD npm -w @fiction/www exec -- fiction run app
 
 FROM build as supereon
 EXPOSE 3000
-CMD npm -w @fiction/supereon exec -- factor run app
+CMD npm -w @fiction/supereon exec -- fiction run app
 
 FROM build as andrewpowers
 EXPOSE 3000
-CMD npm -w @fiction/andrewpowers exec -- factor run app
+CMD npm -w @fiction/andrewpowers exec -- fiction run app
 
 # FROM build as pagelines-www
 # EXPOSE 3434
-# CMD npm -w @pagelines/www exec -- factor run app
+# CMD npm -w @pagelines/www exec -- fiction run app
 
 # FROM build as pagelines-tag
 # EXPOSE 2222
-# CMD npm -w @pagelines/www exec -- factor run tag
+# CMD npm -w @pagelines/www exec -- fiction run tag
 
 # FROM build as pagelines-embed
 # EXPOSE 12321
-# CMD npm -w @pagelines/embed exec -- factor run app
+# CMD npm -w @pagelines/embed exec -- fiction run app
 
 # FROM build as pagelines-server
 # EXPOSE 7777
-# CMD npm -w @pagelines/www exec -- factor run server
+# CMD npm -w @pagelines/www exec -- fiction run server
 
 
 # FROM build as fiction-server
 # EXPOSE 8282
-# CMD npm -w @fiction/studio exec -- factor run server
+# CMD npm -w @fiction/studio exec -- fiction run server
 
 # FROM build as fiction-studio
 # EXPOSE 8181
-# CMD npm -w @fiction/studio exec -- factor run app
+# CMD npm -w @fiction/studio exec -- fiction run app
 
 # FROM build as fiction-socket
 # EXPOSE 2222
-# CMD npm -w @fiction/studio exec -- factor run socket
+# CMD npm -w @fiction/studio exec -- fiction run socket

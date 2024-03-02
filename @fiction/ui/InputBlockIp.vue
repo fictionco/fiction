@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FactorUser } from '@fiction/core'
+import type { FictionUser } from '@fiction/core'
 import { getNetworkIp, useService, vue } from '@fiction/core'
 import ElButton from './ElButton.vue'
 
@@ -15,7 +15,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:modelValue'])
-const { factorUser } = useService<{ factorUser: FactorUser }>()
+const { fictionUser } = useService<{ fictionUser: FictionUser }>()
 const ips = vue.computed<BlockIp[]>({
   get: () => props.modelValue ?? [],
   set: (v) => {
@@ -28,7 +28,7 @@ function newIp(): void {
 }
 
 async function addCurrentIp(): Promise<void> {
-  const name = factorUser.activeUser.value?.firstName ?? 'My'
+  const name = fictionUser.activeUser.value?.firstName ?? 'My'
   const currentIp = await getNetworkIp()
   ips.value = [
     ...ips.value,

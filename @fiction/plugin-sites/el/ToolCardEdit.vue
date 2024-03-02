@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
 import type { Site } from '../site'
-import type { FactorSites } from '..'
+import type { FictionSites } from '..'
 import type { TableCardConfig } from '../tables'
 import ElTool from './ElTool.vue'
 import ElToolBanner from './ElToolBanner.vue'
@@ -10,7 +10,7 @@ import ToolForm from './ToolForm.vue'
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
 })
-useService<{ factorSites: FactorSites }>()
+useService<{ fictionSites: FictionSites }>()
 
 const tool = { toolId: 'settings', icon: 'i-tabler-settings', title: 'Settings' }
 

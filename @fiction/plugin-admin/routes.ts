@@ -1,24 +1,24 @@
-import type { FactorRouter, FactorUser, vueRouter } from '@fiction/core'
+import type { FictionRouter, FictionUser, vueRouter } from '@fiction/core'
 import { AppRoute, log } from '@fiction/core'
-import type { FactorAdmin } from '.'
+import type { FictionAdmin } from '.'
 
-export function getRoutes(args: { factorAdmin: FactorAdmin, factorUser?: FactorUser }) {
-  const { factorUser } = args
-  const base = args.factorAdmin.adminBaseRoute
+export function getRoutes(args: { fictionAdmin: FictionAdmin, fictionUser?: FictionUser }) {
+  const { fictionUser } = args
+  const base = args.fictionAdmin.adminBaseRoute
 
   const logger = log.contextLogger('AdminRoutes')
 
-  const authBefore = async (args: { factorRouter: FactorRouter, redirect?: () => string, isSSR: boolean }): Promise<ReturnType<vueRouter.NavigationGuard>> => {
-    const { redirect, factorRouter, isSSR } = args
+  const authBefore = async (args: { fictionRouter: FictionRouter, redirect?: () => string, isSSR: boolean }): Promise<ReturnType<vueRouter.NavigationGuard>> => {
+    const { redirect, fictionRouter, isSSR } = args
 
     if (!isSSR) {
-      if (!factorUser)
-        throw new Error('factorUser not defined')
+      if (!fictionUser)
+        throw new Error('fictionUser not defined')
 
-      const user = await factorUser?.userInitialized()
+      const user = await fictionUser?.userInitialized()
 
       if (!user) {
-        logger.error('user not logged in -> /', { data: { user, factorRouter: factorRouter.routerId, isSSR } })
+        logger.error('user not logged in -> /', { data: { user, fictionRouter: fictionRouter.routerId, isSSR } })
         return '/'
       }
     }
@@ -33,13 +33,13 @@ export function getRoutes(args: { factorAdmin: FactorAdmin, factorUser?: FactorU
     //   name: 'adminNaked',
     //   path: base,
     //   component: () => import('./el/EngineAdmin.vue'),
-    //   before: ({ factorRouter, isSSR }) => authBefore({ isSSR, factorRouter, redirect: () => factorRouter.link('admin', { viewId: 'home' }, {}).value }),
+    //   before: ({ fictionRouter, isSSR }) => authBefore({ isSSR, fictionRouter, redirect: () => fictionRouter.link('admin', { viewId: 'home' }, {}).value }),
     // }),
     // new AppRoute({
     //   name: 'admin',
     //   path: `${base}/:orgId/:viewId?/:itemId?`,
     //   component: () => import('./el/EngineAdmin.vue'),
-    //   before: ({ factorRouter, isSSR }) => authBefore({ isSSR, factorRouter }),
+    //   before: ({ fictionRouter, isSSR }) => authBefore({ isSSR, fictionRouter }),
     // }),
 
   ]

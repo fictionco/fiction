@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FactorRouter, FactorUser } from '@fiction/core'
+import type { FictionRouter, FictionUser } from '@fiction/core'
 import { onBrowserEvent, onResetUi, useService, vue } from '@fiction/core'
 import type { Card } from '@fiction/plugin-sites/card'
 import ElImage from '@fiction/ui/ElImage.vue'
@@ -20,8 +20,8 @@ const uc = vue.computed(() => {
 })
 
 useService<{
-  factorRouter: FactorRouter
-  factorUser: FactorUser
+  fictionRouter: FictionRouter
+  fictionUser: FictionUser
 }>()
 
 const afterVisible = vue.ref(false)

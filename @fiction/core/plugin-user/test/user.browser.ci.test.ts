@@ -19,10 +19,10 @@ describe('user tests', async () => {
   })
 
   it('creates user', async () => {
-    const spy = vi.spyOn(testUtils?.factorEmail, 'sendEmail')
+    const spy = vi.spyOn(testUtils?.fictionEmail, 'sendEmail')
 
-    const { factorUser } = testUtils ?? {}
-    const response = await factorUser?.requests.StartNewUser.request({
+    const { fictionUser } = testUtils ?? {}
+    const response = await fictionUser?.requests.StartNewUser.request({
       email,
       fullName: 'test',
     })
@@ -63,14 +63,14 @@ describe('user tests', async () => {
     expect(token).toBeTruthy()
     expect(user?.verificationCode).toBeFalsy()
     expect(user?.emailVerified).toBeFalsy()
-    const fields = testUtils?.factorUser.decodeClientToken(token)
+    const fields = testUtils?.fictionUser.decodeClientToken(token)
 
     expect(fields).toBeTruthy()
   }, 20000)
 
   it('verifies with code', async () => {
-    const { factorUser } = testUtils ?? {}
-    const response = await factorUser?.requests.VerifyAccountEmail.request({
+    const { fictionUser } = testUtils ?? {}
+    const response = await fictionUser?.requests.VerifyAccountEmail.request({
       email,
       verificationCode: 'test',
     })
@@ -87,16 +87,16 @@ describe('user tests', async () => {
   })
 
   it('sets the fallback organization', async () => {
-    const { factorUser } = testUtils ?? {}
+    const { fictionUser } = testUtils ?? {}
 
-    expect(factorUser.fallbackOrgId.value).toBeTruthy()
-    expect(factorUser.activeOrgId.value).toBeTruthy()
+    expect(fictionUser.fallbackOrgId.value).toBeTruthy()
+    expect(fictionUser.activeOrgId.value).toBeTruthy()
   })
 
   it('handles route organization', async () => {
-    const { factorUser } = testUtils ?? {}
+    const { fictionUser } = testUtils ?? {}
 
-    expect(factorUser.fallbackOrgId.value).toBeTruthy()
-    expect(factorUser.activeOrgId.value).toBeTruthy()
+    expect(fictionUser.fallbackOrgId.value).toBeTruthy()
+    expect(fictionUser.activeOrgId.value).toBeTruthy()
   })
 })

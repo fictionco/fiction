@@ -21,7 +21,7 @@ const props = defineProps({
   },
 })
 
-const control = props.site.settings.factorSites
+const control = props.site.settings.fictionSites
 function getCardHandle(card: Card): Handle {
   return {
     title: card.tpl.value?.settings.title ?? 'Card',

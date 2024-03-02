@@ -12,7 +12,7 @@ describe('test config generator', () => {
       cwd: safeDirname(import.meta.url),
     })
 
-    testUtils.factorEnv.addHook({
+    testUtils.fictionEnv.addHook({
       hook: 'staticConfig',
       callback: async (schema) => {
         const test = ['test']
@@ -26,14 +26,14 @@ describe('test config generator', () => {
       },
     })
 
-    await generateStaticConfig(testUtils.factorEnv)
+    await generateStaticConfig(testUtils.fictionEnv)
   })
   it('generates into correct folder', async () => {
-    expect(fs.existsSync(path.join(root, '/.factor'))).toBe(true)
+    expect(fs.existsSync(path.join(root, '/.fiction'))).toBe(true)
   })
 
   it('has hooked data', async () => {
-    const config = await import('./.factor/config.json')
+    const config = await import('./.fiction/config.json')
     expect(config.test[0]).toBe('test')
   })
 })

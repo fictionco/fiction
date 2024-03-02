@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { FactorRouter, StepConfig, StepItem } from '@fiction/core'
+import type { FictionRouter, StepConfig, StepItem } from '@fiction/core'
 import { notify, resetUi, useService, vue } from '@fiction/core'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElStepNav from '@fiction/ui/ElStepNav.vue'
-import type { FactorSites } from '..'
+import type { FictionSites } from '..'
 import { requestManageSite } from '../load'
 import type { Card } from '../card'
 import ElThemeSelect from './ElThemeSelect.vue'
@@ -13,9 +13,9 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const serv = useService<{ factorSites: FactorSites, factorRouterSites: FactorRouter }>()
+const serv = useService<{ fictionSites: FictionSites, fictionRouterSites: FictionRouter }>()
 
-const { factorSites, factorRouter, factorRouterSites } = serv
+const { fictionSites, fictionRouter, fictionRouterSites } = serv
 
 const form = vue.ref({
   title: '',
@@ -37,7 +37,7 @@ async function requestCreateSite() {
   const f = form.value
   try {
     const fields = { title: f.title, themeId: f.themeId || 'minimal' }
-    const { site } = await requestManageSite({ _action: 'create', fields, factorSites, siteRouter: factorRouterSites, caller: 'ElSiteStart', siteMode: 'editable' })
+    const { site } = await requestManageSite({ _action: 'create', fields, fictionSites, siteRouter: fictionRouterSites, caller: 'ElSiteStart', siteMode: 'editable' })
     await props.card.goto({ path: '/edit-site', query: { siteId: site?.siteId } })
   }
   catch (error) {

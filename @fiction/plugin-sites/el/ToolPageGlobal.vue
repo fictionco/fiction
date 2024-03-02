@@ -25,7 +25,7 @@ const props = defineProps({
   },
 })
 
-const control = props.site.settings.factorSites
+const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
 const options = [

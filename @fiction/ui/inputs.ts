@@ -1,5 +1,5 @@
 import type { ListItem } from '@fiction/core'
-import { FactorObject, log, removeUndefined, vue } from '@fiction/core'
+import { FictionObject, log, removeUndefined, vue } from '@fiction/core'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { z } from 'zod'
 
@@ -307,7 +307,7 @@ export interface InputOptionSettings {
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
-export class InputOption extends FactorObject<InputOptionSettings> {
+export class InputOption extends FictionObject<InputOptionSettings> {
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
@@ -378,7 +378,7 @@ export type OptionSetSettings< T extends Record<string, unknown> = Record<string
   inputOptions?: (args?: OptionSetArgs<T>) => InputOption[]
 }
 
-export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FactorObject<OptionSetSettings<T>> {
+export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FictionObject<OptionSetSettings<T>> {
   refiner = new InputOptionsRefiner({ basePath: this.settings.basePath || '', caller: `OptionSet` })
   constructor(settings?: OptionSetSettings<T>) {
     super('OptionSet', (settings || {}))

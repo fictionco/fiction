@@ -1,6 +1,6 @@
 // @unocss-include
-import type { FactorRouter } from '@fiction/core'
-import { FactorObject, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
+import type { FictionRouter } from '@fiction/core'
+import { FictionObject, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, orderCards } from './utils/layout'
@@ -10,7 +10,7 @@ import { activePageId, getPageById, getViewMap, setPages, updatePages } from './
 import { addNewCard, removeCard } from './utils/region'
 import { activeMergedGlobalSections, activeSiteHostname, saveSite, updateSite } from './utils/site'
 import type { SiteMode } from './load'
-import type { FactorSites } from '.'
+import type { FictionSites } from '.'
 
 export type EditorState = {
   selectedCardId: string
@@ -21,8 +21,8 @@ export type EditorState = {
 }
 
 export type SiteSettings = {
-  factorSites: FactorSites
-  siteRouter: FactorRouter
+  fictionSites: FictionSites
+  siteRouter: FictionRouter
   useRouter?: boolean
   currentPath?: vue.Ref<string> | vue.WritableComputedRef<string>
   isEditable?: boolean
@@ -30,9 +30,9 @@ export type SiteSettings = {
   isProd?: boolean
 } & Partial<TableSiteConfig> & { themeId: string }
 
-export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T> {
-  factorSites = this.settings.factorSites
-  factorAdmin = this.factorSites.settings.factorAdmin
+export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
+  fictionSites = this.settings.fictionSites
+  fictionAdmin = this.fictionSites.settings.fictionAdmin
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)
@@ -44,7 +44,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T>
 
   siteId = this.settings.siteId || objectId({ prefix: 'ste' })
 
-  isProd = vue.ref(this.settings.isProd ?? this.factorSites.factorEnv?.isProd.value)
+  isProd = vue.ref(this.settings.isProd ?? this.fictionSites.fictionEnv?.isProd.value)
   title = vue.ref(this.settings.title)
   status = vue.ref(this.settings.status)
 
@@ -53,7 +53,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T>
 
   isAnimationDisabled = vue.ref(false)
   themeId = vue.ref(this.settings.themeId)
-  theme = vue.computed(() => this.factorSites.themes.value.find(t => t.themeId === this.themeId.value))
+  theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
 
   userConfig = vue.ref(this.settings.userConfig || {})
   userConfigWithTheme = vue.computed(() => ({ ...this.theme.value?.config(), ...this.userConfig.value }))
@@ -99,7 +99,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T>
 
   toConfig(args: { onlyKeys?: (keyof TableSiteConfig)[] | readonly (keyof TableSiteConfig)[] } = {}): { siteId: string } & Partial<TableSiteConfig> {
     const { onlyKeys = [] } = args
-    const { factorSites: _, siteRouter: __, ...savedSettings } = this.settings
+    const { fictionSites: _, siteRouter: __, ...savedSettings } = this.settings
     const pages = this.pages.value.map(p => p.toConfig())
 
     const baseConfig = {
@@ -139,7 +139,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T>
 
     this.editor.value.selectedCardId = cardId
 
-    this.settings.factorSites.useTool({ toolId: 'editCard' })
+    this.settings.fictionSites.useTool({ toolId: 'editCard' })
 
     this.frame.syncActiveCard({ cardId })
   }
@@ -168,7 +168,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FactorObject<T>
 
     this.editor.value.selectedPageId = cardId || ''
 
-    this.settings.factorSites.useTool({ toolId: cardId ? 'editPage' : 'createPage' })
+    this.settings.fictionSites.useTool({ toolId: cardId ? 'editPage' : 'createPage' })
   }
 
   removeCard(args: { cardId: string }) {

@@ -14,13 +14,13 @@
   },
   "scripts": {
     "deploy": "flyctl deploy . --config ./fly/$DOMAIN.$APP.toml --build-target $DOMAIN-$APP --remote-only --detach",
-    "release": "npm run i:lockfile && npm exec -- factor run release --patch --skip-tests --with-changes --tag",
+    "release": "npm run i:lockfile && npm exec -- fiction run release --patch --skip-tests --with-changes --tag",
     "push-release": "git checkout release && git rebase dev && git push --no-verify && git checkout dev",
     "test": "npm run lint:dev && npm run unit:dev",
     "test:pkgJson": "npx npmPkgJsonLint .",
     "fix-deps": "syncpack fix-mismatches",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "app:dev": "npm exec -w @fiction/www -- factor run dev",
+    "app:dev": "npm exec -w @fiction/www -- fiction run dev",
     "unit:ci": "npm exec -- vitest ci",
     "unit:build": "npm exec -- vitest run build -u --no-file-parallelism",
     "unit:dev": "npm exec -- vitest wip",
@@ -38,9 +38,7 @@
     "i:full": "pnpm i:clear && npm run i"
   },
   "workspaces": [
-    "@fiction/*",
-    "@fiction/*",
-    "@pagelines/*"
+    "@fiction/*"
   ],
   "simple-git-hooks": {
     "pre-push": "npm run types:ci"
@@ -78,7 +76,7 @@
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.0.2",
     "@flydotio/dockerfile": "^0.5.2",
-    "@playwright/test": "^1.42.0",
+    "@playwright/test": "^1.42.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.24",
     "@typescript-eslint/eslint-plugin": "^7.1.0",
@@ -98,7 +96,7 @@
     "ngrok": "5.0.0-beta.2",
     "nodemon": "^3.1.0",
     "npm-package-json-lint": "^7.1.0",
-    "playwright": "^1.42.0",
+    "playwright": "^1.42.1",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",

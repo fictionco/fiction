@@ -2,13 +2,13 @@
 import 'tailwindcss/tailwind.css'
 import 'uno.css'
 import { compileApplication } from '../plugin-env/entry'
-import type { FactorAppEntry, MainFile } from '../plugin-env/types'
+import type { FictionAppEntry, MainFile } from '../plugin-env/types'
 import type { RunVars } from '../inject'
 import { isNode } from '../utils/vars'
 
 declare global {
   interface Window {
-    factorRunVars: Partial<RunVars>
+    fictionRunVars: Partial<RunVars>
   }
 }
 
@@ -17,22 +17,22 @@ function setupGlobalRunVars<T extends keyof RunVars = keyof RunVars>() {
   if (typeof window !== 'undefined') {
     // @ts-expect-error (avoid confusion with node process.env)
     window.process ||= { env: {} }
-    window.factorRunVars ||= {}
+    window.fictionRunVars ||= {}
 
-    const runVarsJSON = document.querySelector('#factorRun')?.textContent
+    const runVarsJSON = document.querySelector('#fictionRun')?.textContent
     const runVarsParsed = runVarsJSON ? JSON.parse(runVarsJSON) as Record<string, RunVars[T]> : {}
 
     Object.entries(runVarsParsed).forEach(([key, value]) => {
       window.process.env[key] = typeof value === 'string' ? value : 'not_string'
-      window.factorRunVars[key as T] = value
+      window.fictionRunVars[key as T] = value
     })
   }
 }
 
 setupGlobalRunVars()
 
-async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVars> } = {}): Promise<FactorAppEntry | void> {
-  const { renderRoute, runVars = window.factorRunVars || {} } = args
+async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVars> } = {}): Promise<FictionAppEntry | void> {
+  const { renderRoute, runVars = window.fictionRunVars || {} } = args
 
   const context = 'app'
 
@@ -51,7 +51,7 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
     const mountArgs = { context, renderRoute, runVars, service, serviceConfig }
     return serviceConfig.createMount
       ? serviceConfig.createMount(mountArgs)
-      : await mainFileImports.factorApp?.mountApp(mountArgs)
+      : await mainFileImports.fictionApp?.mountApp(mountArgs)
   }
   catch (e) {
     console.error('Error in runAppEntry:', e)

@@ -82,7 +82,7 @@ export async function createTestServer(params: {
     return `--${_.command}-port ${String(_.port.value)}`
   })
 
-  const cmd = [`npm exec -w ${moduleName} --`, `factor run dev`, ...portOptions, ...additionalArgs]
+  const cmd = [`npm exec -w ${moduleName} --`, `fiction run dev`, ...portOptions, ...additionalArgs]
 
   const runCmd = cmd.join(' ')
 
@@ -155,7 +155,7 @@ export async function appBuildTests(config: {
     it(`PRERENDERS: ${moduleName}`, async () => {
       const { portOptions } = getModifiedCommands(config.commands)
       const command = [
-        `npm -w ${moduleName} exec -- factor run render`,
+        `npm -w ${moduleName} exec -- fiction run render`,
         ...portOptions,
       ].join(' ')
 
@@ -181,7 +181,7 @@ export async function appBuildTests(config: {
 
     it(`RUNS DEV: ${moduleName}`, async () => {
       const { portOptions } = getModifiedCommands(config.commands)
-      const command = [`npm -w ${moduleName} exec -- factor run dev --exit`, ...portOptions].join(' ')
+      const command = [`npm -w ${moduleName} exec -- fiction run dev --exit`, ...portOptions].join(' ')
 
       const r = await executeCommand({
         command,

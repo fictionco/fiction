@@ -1,18 +1,18 @@
 <br />
 <div align="center">
-  <a href="https://www.supereon.ai">
-  <img src="./supereon.png" width="125px" alt="Supereon">
+  <a href="https://www.fiction.com">
+  <img src="./pin.png" width="100px" alt="Fiction">
   </a>
 </div>
 
 <div align="center">
-  <h1>Supereon</h1>
-  <h3>Artificial Intelligence Software</h3>
+  <h1>Fiction</h1>
+  <h3>Personal Marketing Software</h3>
 </div>
 
 <div align="center">
   <h3>
-    <a href="https://www.supereon.ai">www.supereon.ai</a>
+    <a href="https://www.fiction.com">www.fiction.com</a>
   </h3>
 
 </div>
@@ -21,6 +21,6 @@
 <br/>
 <div align="center">
 
-[![Lint](https://github.com/supereon/core/actions/workflows/deploy.yml/badge.svg)](https://github.com/supereon/core/actions/workflows/test.yml)
+[![Lint](https://github.com/fictionco/fiction/actions/workflows/deploy.yml/badge.svg)](https://github.com/fictionco/fiction/actions/workflows/test.yml)
 
 </div>

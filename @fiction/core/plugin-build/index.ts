@@ -2,29 +2,29 @@ import process from 'node:process'
 import type * as vite from 'vite'
 import type * as esLexer from 'es-module-lexer'
 import type * as cjsLexer from 'cjs-module-lexer'
-import { FactorPlugin } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { deepMergeAll, safeDirname } from '../utils'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionEnv } from '../plugin-env'
 
 export * from './plugin-release'
 
-interface FactorBuildSettings {
-  factorEnv: FactorEnv
+interface FictionBuildSettings {
+  fictionEnv: FictionEnv
 }
 
-export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
+export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
   esLexer?: typeof esLexer
   cjsLexer?: typeof cjsLexer
   loadingPromise: Promise<void> | undefined
-  factorEnv = this.settings.factorEnv
+  fictionEnv = this.settings.fictionEnv
   root = safeDirname(import.meta.url)
-  constructor(settings: FactorBuildSettings) {
+  constructor(settings: FictionBuildSettings) {
     super('build', settings)
     this.loadingPromise = this.getLexers().catch(console.error)
   }
 
   async getLexers() {
-    if (!this.factorEnv.isApp.value) {
+    if (!this.fictionEnv.isApp.value) {
       const [esLexer, cjsLexer] = await Promise.all([
         import(/* @vite-ignore */ 'es-module-lexer'),
         import(/* @vite-ignore */ 'cjs-module-lexer'),
@@ -90,7 +90,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
   getCustomBuildPlugins = async (): Promise<vite.Plugin[]> => {
     await this.loadingPromise
 
-    const fullServerModules = Object.entries(this.factorEnv.serverOnlyImports).map(([id, value]) => {
+    const fullServerModules = Object.entries(this.fictionEnv.serverOnlyImports).map(([id, value]) => {
       // construct exports from object
       const additional = typeof value === 'object'
         ? Object.entries(value).map(([imp, importValue]) => {
@@ -112,7 +112,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const plugins: vite.Plugin[] = [
       {
-        name: 'factorVitePlugin', // required, will show up in warnings and errors
+        name: 'fictionVitePlugin', // required, will show up in warnings and errors
         enforce: 'pre',
         // isEntry option is available to inject with
         // async resolveId(id, importer) {
@@ -146,7 +146,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
         },
       },
       // {
-      //   name: "factorVitePluginPost",
+      //   name: "fictionVitePluginPost",
       //   enforce: "post",
       //   transform: async (code: string, id: string) => {
       //     /**
@@ -167,7 +167,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
    * Common vite options for all builds
    */
   getOptimizeDeps = (): Partial<vite.InlineConfig['optimizeDeps']> => {
-    const configExcludeIds = Object.keys(this.factorEnv.serverOnlyImports)
+    const configExcludeIds = Object.keys(this.fictionEnv.serverOnlyImports)
 
     return {
       exclude: [
@@ -211,7 +211,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
     }
   }
 
-  getFactorViteConfig = async (options: {
+  getFictionViteConfig = async (options: {
     isProd?: boolean
     root?: string
     mainFilePath?: string
@@ -221,7 +221,7 @@ export class FactorBuild extends FactorPlugin<FactorBuildSettings> {
 
     const customPlugins = await this.getCustomBuildPlugins()
 
-    const external: string[] = ['ngrok'] // this.factorEnv.serverOnlyModules.map((_) => _.id)
+    const external: string[] = ['ngrok'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',

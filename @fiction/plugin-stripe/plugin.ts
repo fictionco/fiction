@@ -2,18 +2,18 @@ import './register'
 import type express from 'express'
 import type {
   EndpointResponse,
-  FactorApp,
-  FactorDb,
-  FactorEnv,
-  FactorPluginSettings,
-  FactorRouter,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionEnv,
+  FictionPluginSettings,
+  FictionRouter,
+  FictionServer,
+  FictionUser,
   HookType,
 } from '@fiction/core'
 import {
   Endpoint,
-  FactorPlugin,
+  FictionPlugin,
   dayjs,
   vue,
 } from '@fiction/core'
@@ -33,7 +33,7 @@ import {
   QueryPaymentMethod,
 } from './endpoints'
 import type * as types from './types'
-import { FactorUsage } from './plugin-usage'
+import { FictionUsage } from './plugin-usage'
 
 interface CheckoutQueryParams {
   priceId?: string
@@ -45,12 +45,12 @@ interface CheckoutQueryParams {
 }
 
 export type StripePluginSettings = {
-  factorEnv: FactorEnv
-  factorApp: FactorApp
-  factorServer: FactorServer
-  factorUser: FactorUser
-  factorRouter: FactorRouter
-  factorDb: FactorDb
+  fictionEnv: FictionEnv
+  fictionApp: FictionApp
+  fictionServer: FictionServer
+  fictionUser: FictionUser
+  fictionRouter: FictionRouter
+  fictionDb: FictionDb
   publicKeyLive?: string
   publicKeyTest?: string
   secretKeyLive?: string
@@ -63,26 +63,26 @@ export type StripePluginSettings = {
   checkoutCancelPathname?: (args: { orgId: string }) => string
   customerPortalUrl: string
   useCustomerManager?: boolean
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export class FactorStripe extends FactorPlugin<StripePluginSettings> {
+export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   apiVersion = '2023-10-16' as const
-  factorUser = this.settings.factorUser
-  factorServer = this.settings.factorServer
-  factorApp = this.settings.factorApp
-  factorEnv = this.settings.factorEnv
-  factorDb = this.settings.factorDb
-  factorRouter = this.settings.factorRouter
+  fictionUser = this.settings.fictionUser
+  fictionServer = this.settings.fictionServer
+  fictionApp = this.settings.fictionApp
+  fictionEnv = this.settings.fictionEnv
+  fictionDb = this.settings.fictionDb
+  fictionRouter = this.settings.fictionRouter
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.factorServer,
-    factorUser: this.factorUser,
+    fictionServer: this.fictionServer,
+    fictionUser: this.fictionUser,
   })
 
   browserClient?: StripeJS.Stripe
   serverClient?: Stripe
-  isLive = this.settings.isLive ?? this.factorEnv.isProd.value
+  isLive = this.settings.isLive ?? this.fictionEnv.isProd.value
   stripeMode = this.utils.vue.computed(() => {
     const isLive = this.settings.isLive
     const v = vue.isRef(isLive) ? isLive?.value : isLive
@@ -123,7 +123,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   webhookSecret = this.settings.webhookSecret
 
   activeCustomerId = this.utils.vue.computed(() => {
-    return this.factorUser?.activeOrganization.value?.customerId
+    return this.fictionUser?.activeOrganization.value?.customerId
   })
 
   useCustomerManager = this.settings.useCustomerManager ?? false
@@ -131,7 +131,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   initialized?: Promise<boolean>
   resolveCustomerLoad?: (value: boolean | PromiseLike<boolean>) => void
   loading = this.utils.vue.ref(false)
-  usage = new FactorUsage({ ...this.settings, factorStripe: this })
+  usage = new FictionUsage({ ...this.settings, fictionStripe: this })
   customerPortalUrl = this.utils.vue.computed(() => {
     const activeCustomer = this.activeCustomer.value
     const stripeCustomer = activeCustomer?.customer
@@ -153,8 +153,8 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       requestHandler: (..._) => this.stripeHookHandler(..._),
       key: 'stripeWebhooks',
       basePath: '/stripe-webhook',
-      serverUrl: this.factorServer.serverUrl.value,
-      factorUser: this.factorUser,
+      serverUrl: this.fictionServer.serverUrl.value,
+      fictionUser: this.fictionUser,
       useNaked: true,
     })
 
@@ -162,14 +162,14 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       requestHandler: (...r) => this.checkoutEndpointHandler(...r),
       key: 'oAuthEndpoint',
       basePath: '/stripe-checkout/:action',
-      serverUrl: this.factorServer.serverUrl.value,
-      factorUser: this.factorUser,
+      serverUrl: this.fictionServer.serverUrl.value,
+      fictionUser: this.fictionUser,
       useNaked: true,
     })
 
-    this.factorServer.addEndpoints([stripeWebhookEndpoint, checkoutEndpoint])
+    this.fictionServer.addEndpoints([stripeWebhookEndpoint, checkoutEndpoint])
 
-    this.factorApp.addHook({
+    this.fictionApp.addHook({
       hook: 'viteConfig',
       callback: (config) => {
         return [
@@ -186,7 +186,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     /**
      * Update customer email information when corresponding org is updated
      */
-    this.factorUser?.addHook({
+    this.fictionUser?.addHook({
       hook: 'updateOrganization',
       callback: async (o) => {
         if (!o.orgId)
@@ -211,13 +211,13 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       },
     })
 
-    if (!this.factorEnv.isApp.value) {
+    if (!this.fictionEnv.isApp.value) {
       this.log.info('initializing stripe', {
         data: {
           secretKeyExists: !!this.secretKey.value,
           publicKeyExists: !!this.publicKey.value,
           stripeMode: this.stripeMode.value,
-          isProd: this.factorEnv.isProd.value,
+          isProd: this.fictionEnv.isProd.value,
         },
       })
 
@@ -233,20 +233,20 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   }
 
   async customerDataWatcher() {
-    if (!this.factorEnv.isApp.value)
+    if (!this.fictionEnv.isApp.value)
       return
 
     if (this.utils.isActualBrowser())
       this.customerInitialized().catch(console.error)
 
-    await this.factorUser.pageInitialized()
+    await this.fictionUser.pageInitialized()
 
     this.loading.value = true
     /**
      * Update when organization changes
      */
     this.utils.vue.watch(
-      () => this.factorUser.activeOrganization.value,
+      () => this.fictionUser.activeOrganization.value,
       async () => {
         await this.setCustomerData({ reason: 'organization changed' })
       },
@@ -281,14 +281,14 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     const { reason } = args
     this.log.warn(`setCustomerData called: ${reason}`, {
       data: {
-        user: this.factorUser.activeUser.value,
-        org: this.factorUser.activeOrganization.value,
+        user: this.fictionUser.activeUser.value,
+        org: this.fictionUser.activeOrganization.value,
       },
     })
 
-    await this.factorUser.userInitialized({ caller: 'setCustomerData' })
+    await this.fictionUser.userInitialized({ caller: 'setCustomerData' })
 
-    const org = this.factorUser?.activeOrganization.value
+    const org = this.fictionUser?.activeOrganization.value
 
     if (!org || !org.orgId) {
       this.activeCustomer.value = undefined
@@ -310,7 +310,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
     const r = await this.requests.GetCustomerData.request({
       orgId,
       orgName,
-      email: orgEmail ?? this.factorUser?.activeUser.value?.email,
+      email: orgEmail ?? this.fictionUser?.activeUser.value?.email,
     })
 
     const customerData = r.data
@@ -345,7 +345,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
         details = {
           ...basics,
           ...price,
-          link: this.factorRouter?.link('orgIndex').value,
+          link: this.fictionRouter?.link('orgIndex').value,
           subscriptionId,
           isTrial,
           anchorDateUtc,
@@ -423,9 +423,9 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
   protected createQueries() {
     const deps = {
-      factorUser: this.factorUser,
-      factorStripe: this,
-      factorDb: this.factorDb,
+      fictionUser: this.fictionUser,
+      fictionStripe: this,
+      fictionDb: this.fictionDb,
     }
     return {
       ManageCustomer: new QueryManageCustomer(deps),
@@ -441,7 +441,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   }
 
   getServerClient(): Stripe {
-    if (this.factorEnv.isApp.value)
+    if (this.fictionEnv.isApp.value)
       throw new Error('Stripe is server only')
 
     if (!this.serverClient) {
@@ -492,7 +492,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     if (!product || !product?.productKey) {
       this.log.error('No product found', { data: { params, product: p } })
-      throw new Error(`FactorStripe Error`)
+      throw new Error(`FictionStripe Error`)
     }
 
     return product
@@ -507,7 +507,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
     if (!price) {
       this.log.error('No price found', { data: { params, product: p } })
-      throw new Error(`FactorStripe Error`)
+      throw new Error(`FictionStripe Error`)
     }
 
     return price
@@ -551,7 +551,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: 'onInvoicePayment',
-        args: [event, { factorStripe: this }],
+        args: [event, { fictionStripe: this }],
       })
     }
     else if (event.type === 'checkout.session.completed') {
@@ -560,7 +560,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: 'onCheckoutSuccess',
-        args: [event, { factorStripe: this }],
+        args: [event, { fictionStripe: this }],
       })
     }
     else if (event.type === 'invoice.payment_failed') {
@@ -571,7 +571,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: 'onInvoicePaymentFailed',
-        args: [event, { factorStripe: this }],
+        args: [event, { fictionStripe: this }],
       })
     }
     else if (event.type === 'customer.subscription.deleted') {
@@ -581,7 +581,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: 'onCustomerSubscriptionDeleted',
-        args: [event, { factorStripe: this }],
+        args: [event, { fictionStripe: this }],
       })
     }
     else if (event.type === 'customer.subscription.trial_will_end') {
@@ -593,7 +593,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       await this.utils.runHooks({
         list: this.hooks,
         hook: 'onSubscriptionTrialWillEnd',
-        args: [event, { factorStripe: this }],
+        args: [event, { fictionStripe: this }],
       })
     }
     else {
@@ -607,18 +607,18 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
 
   async getCheckoutUrl(args: CheckoutQueryParams): Promise<string> {
     const { loginPath } = args
-    await this.factorUser.userInitialized({ caller: 'getCheckoutUrl' })
+    await this.fictionUser.userInitialized({ caller: 'getCheckoutUrl' })
 
-    const u = this.factorUser.activeUser.value
+    const u = this.fictionUser.activeUser.value
 
     let link
 
     if (u) {
-      const baseUrl = this.factorServer.serverUrl.value
+      const baseUrl = this.fictionServer.serverUrl.value
       const url = new URL(`${baseUrl}/stripe-checkout/init`)
 
       args.orgId
-        = this.factorUser.activeOrgId.value || ':orgId'
+        = this.fictionUser.activeOrgId.value || ':orgId'
       args.customerId = this.activeCustomerId.value || ':customerId'
 
       if (args)
@@ -635,7 +635,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
   }
 
   getCheckoutConfig(args: { orgId: string }) {
-    const base = this.factorApp.appUrl.value
+    const base = this.fictionApp.appUrl.value
     const successPathCallback = this.settings.checkoutSuccessPathname
     const cancelPathCallback = this.settings.checkoutCancelPathname
     const successPath = successPathCallback
@@ -754,7 +754,7 @@ export class FactorStripe extends FactorPlugin<StripePluginSettings> {
       quantity?: number
     },
   ) {
-    const orgId = this.factorUser.activeOrgId.value
+    const orgId = this.fictionUser.activeOrgId.value
     const customerId = this.activeCustomerId.value
 
     const { subscriptionId, priceId, coupon, quantity } = args

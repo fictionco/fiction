@@ -7,8 +7,8 @@ import type {
   PutObjectCommandOutput,
   S3,
 } from '@aws-sdk/client-s3'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { EnvVar, vars } from '../plugin-env'
 
 vars.register(() => [
@@ -16,11 +16,11 @@ vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY_SECRET' }),
 ])
 
-type FactorAwsSettings = {
+type FictionAwsSettings = {
   awsAccessKey?: string
   awsAccessKeySecret?: string
   region?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
 type S3FileOutput = GetObjectCommandOutput & {
   key: string
@@ -35,18 +35,18 @@ interface S3UploadOptions {
   accessControl?: 'public-read' | 'private'
 }
 
-export class FactorAws extends FactorPlugin<FactorAwsSettings> {
+export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   awsAccessKey = this.settings.awsAccessKey
   awsAccessKeySecret = this.settings.awsAccessKeySecret
   region = this.settings.region || 'us-west-2'
   cloudFront?: CloudFront
   s3?: S3
-  constructor(settings: FactorAwsSettings) {
-    super('FactorAws', settings)
+  constructor(settings: FictionAwsSettings) {
+    super('FictionAws', settings)
 
     const { awsAccessKey, awsAccessKeySecret } = settings
 
-    if (this.factorEnv?.isApp.value)
+    if (this.fictionEnv?.isApp.value)
       return
 
     if (!awsAccessKey || !awsAccessKeySecret)

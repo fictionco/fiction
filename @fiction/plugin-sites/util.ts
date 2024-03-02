@@ -1,10 +1,10 @@
 import path from 'node:path'
 import process from 'node:process'
-import { type FactorApp, type FactorMedia, toCamel } from '@fiction/core'
+import { type FictionApp, type FictionMedia, toCamel } from '@fiction/core'
 import fs from 'fs-extra'
 
-export function cdnUrl(args: { assetName: string, factorApp: FactorApp }): string {
-  const { assetName, factorApp: _ } = args
+export function cdnUrl(args: { assetName: string, fictionApp: FictionApp }): string {
+  const { assetName, fictionApp: _ } = args
   return `https://supereon-media.s3.us-west-2.amazonaws.com/assets/${assetName}`
 }
 
@@ -41,13 +41,13 @@ export function incrementSlugId(slug?: string): string {
  * than the convenient local file paths used in themes statically
  */
 export async function processUrlKey(args: {
-  factorMedia: FactorMedia
+  fictionMedia: FictionMedia
   url: string
   orgId: string
   userId: string
   storagePath?: string
 }): Promise<string> {
-  const { factorMedia, url, userId, orgId, storagePath } = args
+  const { fictionMedia, url, userId, orgId, storagePath } = args
 
   // Check for a valid URL and if running in a Node.js environment
   if (url && typeof process !== 'undefined' && process.cwd) {
@@ -67,7 +67,7 @@ export async function processUrlKey(args: {
         return url
 
       // If file exists, proceed with media object creation
-      const r = await factorMedia.queries.ManageMedia.serve({
+      const r = await fictionMedia.queries.ManageMedia.serve({
         _action: 'checkAndCreate',
         orgId,
         userId,
@@ -82,7 +82,7 @@ export async function processUrlKey(args: {
     catch (error) {
       const e = error as Error
       // In case of any error, return the original obj
-      factorMedia.log.error(e.message, { error: e })
+      fictionMedia.log.error(e.message, { error: e })
       return url
     }
   }

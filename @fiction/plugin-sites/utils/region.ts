@@ -44,7 +44,7 @@ export async function requestManagePage(args: {
 
   logger.info(`${caller}: requesting region action: ${_action}`, { data: { fields, successMessage } })
 
-  const r = await site.factorSites.requests.ManagePage.projectRequest({
+  const r = await site.fictionSites.requests.ManagePage.projectRequest({
     siteId: site.siteId,
     _action,
     fields: { ...fields },

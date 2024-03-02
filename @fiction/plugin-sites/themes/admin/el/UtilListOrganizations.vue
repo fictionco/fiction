@@ -9,15 +9,15 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
-const activeOrganizations = factorUser.activeOrganizations
+const activeOrganizations = fictionUser.activeOrganizations
 const formattedData = vue.computed(() => {
   if (!activeOrganizations.value)
     return []
   const rows = activeOrganizations.value.map((org) => {
     const memberAccess = org.relation?.memberAccess
-    const canManage = factorUser.priv.userCan({
+    const canManage = fictionUser.priv.userCan({
       capability: 'canManage',
       memberAccess,
     })

@@ -1,6 +1,6 @@
 import type { EndpointResponse, User } from '@fiction/core'
 import type Stripe from 'stripe'
-import type { FactorStripe } from '.'
+import type { FictionStripe } from '.'
 
 export type CustomerDetails = {
   customerId?: string
@@ -65,7 +65,7 @@ export type CustomSubscription = Stripe.Subscription & {
 }
 
 export interface SubscriptionDetails {
-  factorStripe: FactorStripe
+  fictionStripe: FictionStripe
   subscription: Stripe.Subscription
   invoice?: Stripe.Invoice
   isRetry?: boolean
@@ -105,30 +105,30 @@ export type HookDictionary = {
         name?: string
         email?: string
       },
-      { factorStripe: FactorStripe },
+      { fictionStripe: FictionStripe },
     ]
   }
   onCustomerSubscriptionDeleted: {
-    args: [Stripe.Event, { factorStripe: FactorStripe }]
+    args: [Stripe.Event, { fictionStripe: FictionStripe }]
   }
   onInvoicePaymentFailed: {
-    args: [Stripe.Event, { factorStripe: FactorStripe }]
+    args: [Stripe.Event, { fictionStripe: FictionStripe }]
   }
-  onInvoicePayment: { args: [Stripe.Event, { factorStripe: FactorStripe }] }
+  onInvoicePayment: { args: [Stripe.Event, { fictionStripe: FictionStripe }] }
   onSubscriptionTrialWillEnd: {
-    args: [Stripe.Event, { factorStripe: FactorStripe }]
+    args: [Stripe.Event, { fictionStripe: FictionStripe }]
   }
   onSubscriptionUpdate: {
-    args: [Stripe.Subscription, { factorStripe: FactorStripe }]
+    args: [Stripe.Subscription, { fictionStripe: FictionStripe }]
   }
   beforeCreateSubscription: {
-    args: [CreateSubscriptionArgs, { factorStripe: FactorStripe }]
+    args: [CreateSubscriptionArgs, { fictionStripe: FictionStripe }]
   }
   onCheckoutSuccess: {
-    args: [Stripe.Event, { factorStripe: FactorStripe }]
+    args: [Stripe.Event, { fictionStripe: FictionStripe }]
   }
   onInvoicePaid: {
-    args: [Stripe.Event, { factorStripe: FactorStripe }]
+    args: [Stripe.Event, { fictionStripe: FictionStripe }]
   }
 }
 

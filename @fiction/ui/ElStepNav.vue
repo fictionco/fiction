@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type {
-  FactorRouter,
-  FactorUser,
+  FictionRouter,
+  FictionUser,
   StepConfig,
 } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
@@ -17,8 +17,8 @@ const props = defineProps({
 })
 
 useService<{
-  factorRouter: FactorRouter
-  factorUser: FactorUser
+  fictionRouter: FictionRouter
+  fictionUser: FictionUser
 }>()
 
 const steps = vue.computed(() => {

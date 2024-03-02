@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import type { MemberAccess } from '@fiction/core/plugin-user/types'
-import type { FactorUser } from '@fiction/core'
+import type { FictionUser } from '@fiction/core'
 import { onResetUi, useService, vue } from '@fiction/core'
-import type { FactorTeam } from '@fiction/core/plugin-team'
+import type { FictionTeam } from '@fiction/core/plugin-team'
 import ElForm from '@fiction/ui/ElForm.vue'
 import InputEmail from '@fiction/ui/InputEmail.vue'
 import InputSelect from '@fiction/ui/InputSelect.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 
-const { factorUser, factorTeam } = useService<{
-  factorUser: FactorUser
-  factorTeam: FactorTeam
+const { fictionUser, fictionTeam } = useService<{
+  fictionUser: FictionUser
+  fictionTeam: FictionTeam
 }>()
 interface Invite {
   email: string
@@ -42,13 +42,13 @@ const defaultInvites = [
 const invites = vue.ref<Invite[]>([...defaultInvites])
 
 async function sendInvites(): Promise<void> {
-  if (isValid.value && factorUser.activeOrgId.value) {
+  if (isValid.value && fictionUser.activeOrgId.value) {
     const actualInvites = invites.value.filter(i => i.email)
 
     sending.value = true
 
-    const r = await factorTeam.requests.TeamInvite.request({
-      orgId: factorUser.activeOrgId.value,
+    const r = await fictionTeam.requests.TeamInvite.request({
+      orgId: fictionUser.activeOrgId.value,
       invites: actualInvites,
     })
 
@@ -102,7 +102,7 @@ onResetUi(() => {
         <div class="pb-12">
           <h2 class="text-xl font-bold">
             Invite people to the "{{
-              factorUser.activeOrganization.value?.orgName
+              fictionUser.activeOrganization.value?.orgName
             }}" Organization
           </h2>
           <p class="text-theme-500 mt-2">

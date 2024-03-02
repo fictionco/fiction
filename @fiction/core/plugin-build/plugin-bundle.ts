@@ -5,29 +5,29 @@ import { execaCommand } from 'execa'
 import * as vite from 'vite'
 import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
 import { deepMergeAll, getRequire } from '../utils'
-import { FactorPlugin } from '../plugin'
-import type { CliOptions, FactorEnv } from '../plugin-env'
+import { FictionPlugin } from '../plugin'
+import type { CliOptions, FictionEnv } from '../plugin-env'
 import type { PackageJson } from '../types'
 import { getCommit, getPackages } from './utils'
-import { FactorBuild } from '.'
+import { FictionBuild } from '.'
 
-interface FactorBundleSettings {
-  factorEnv: FactorEnv
+interface FictionBundleSettings {
+  fictionEnv: FictionEnv
 }
 
 type BuiltCallback = (opts: {
   packageName: string
   event?: RollupWatcherEvent
 }) => Promise<void> | void
-export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
-  factorBuild: FactorBuild
-  factorEnv = this.settings.factorEnv
+export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
+  fictionBuild: FictionBuild
+  fictionEnv = this.settings.fictionEnv
   bundlingTotal = 0
   bundlingCurrent = 0
   watchers: RollupWatcher[] = []
-  constructor(settings: FactorBundleSettings) {
+  constructor(settings: FictionBundleSettings) {
     super('bundle', settings)
-    this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
+    this.fictionBuild = new FictionBuild({ fictionEnv: this.fictionEnv })
   }
 
   bundleAll = async (
@@ -241,13 +241,13 @@ export class FactorBundle extends FactorPlugin<FactorBundleSettings> {
         )) as {
           default: (opts: {
             buildName: string
-            factorBuild: FactorBuild
+            fictionBuild: FictionBuild
           }) => vite.InlineConfig
         }
-        addedConfig = config({ buildName, factorBuild: this.factorBuild })
+        addedConfig = config({ buildName, fictionBuild: this.fictionBuild })
       }
 
-      const vc = await this.factorBuild.getFactorViteConfig({
+      const vc = await this.fictionBuild.getFictionViteConfig({
         root: cwd,
         isProd: true,
       })

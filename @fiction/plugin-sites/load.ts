@@ -1,8 +1,8 @@
-import type { FactorRouter } from '@fiction/core'
+import type { FictionRouter } from '@fiction/core'
 import { log } from '@fiction/core'
 import type { TableSiteConfig } from './tables'
 import { Site } from '.'
-import type { FactorSites } from '.'
+import type { FictionSites } from '.'
 
 const logger = log.contextLogger('siteLoader')
 
@@ -10,7 +10,7 @@ export type SiteMode = 'editor' | 'editable' | 'standard'
 type MountContext = { siteMode?: SiteMode, siteId?: string, themeId?: string, subDomain?: string } & ({ siteId: string } | { themeId: string } | { subDomain: string })
 
 type WhereSite = { siteId: string } | { subDomain: string }
-type RequestManageSiteParams = { caller: string, siteRouter: FactorRouter, factorSites: FactorSites, fields?: Partial<TableSiteConfig>, where?: WhereSite, siteMode: SiteMode }
+type RequestManageSiteParams = { caller: string, siteRouter: FictionRouter, fictionSites: FictionSites, fields?: Partial<TableSiteConfig>, where?: WhereSite, siteMode: SiteMode }
   & (
     { _action: 'update', fields: Partial<TableSiteConfig>, where: WhereSite }
     | { _action: 'retrieve' | 'delete', where: WhereSite }
@@ -18,7 +18,7 @@ type RequestManageSiteParams = { caller: string, siteRouter: FactorRouter, facto
   )
 
 export async function requestManageSite(args: RequestManageSiteParams) {
-  const { _action, siteRouter, factorSites, fields, where, siteMode } = args
+  const { _action, siteRouter, fictionSites, fields, where, siteMode } = args
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
 
@@ -33,36 +33,36 @@ export async function requestManageSite(args: RequestManageSiteParams) {
     return {}
   }
 
-  const r = await factorSites.requests.ManageSite.projectRequest({ _action, fields: fields || {}, where: where || {} }, { userOptional: _action === 'retrieve' })
+  const r = await fictionSites.requests.ManageSite.projectRequest({ _action, fields: fields || {}, where: where || {} }, { userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)
-    site = new Site({ ...r.data, factorSites, siteRouter, siteMode })
+    site = new Site({ ...r.data, fictionSites, siteRouter, siteMode })
 
   return { site, response: r }
 }
 
 export async function loadSiteById(args: {
   where: WhereSite
-  siteRouter: FactorRouter
-  factorSites: FactorSites
+  siteRouter: FictionRouter
+  fictionSites: FictionSites
   siteMode: SiteMode
 }): Promise<Site | undefined> {
-  const { where, siteRouter, factorSites, siteMode } = args
-  const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, factorSites, caller: 'loadSiteById', siteMode })
+  const { where, siteRouter, fictionSites, siteMode } = args
+  const { site } = await requestManageSite({ where, _action: 'retrieve', siteRouter, fictionSites, caller: 'loadSiteById', siteMode })
 
   return site
 }
 
 export async function loadSiteFromTheme(args: {
   themeId: string
-  siteRouter: FactorRouter
-  factorSites: FactorSites
+  siteRouter: FictionRouter
+  fictionSites: FictionSites
   siteMode: SiteMode
   caller?: string
 }): Promise<Site> {
-  const { themeId, siteRouter, factorSites, siteMode, caller } = args
-  const availableThemes = factorSites.themes.value
+  const { themeId, siteRouter, fictionSites, siteMode, caller } = args
+  const availableThemes = fictionSites.themes.value
   const theme = availableThemes.find(t => t.themeId === themeId)
 
   if (!theme) {
@@ -71,18 +71,18 @@ export async function loadSiteFromTheme(args: {
     throw new Error(msg)
   }
 
-  const site = new Site({ factorSites, ...theme.toSite(), siteRouter, siteMode, themeId })
+  const site = new Site({ fictionSites, ...theme.toSite(), siteRouter, siteMode, themeId })
 
   return site
 }
 
 export async function loadSite(args: {
-  factorSites: FactorSites
-  siteRouter: FactorRouter
+  fictionSites: FictionSites
+  siteRouter: FictionRouter
   caller?: string
   mountContext?: MountContext
 }) {
-  const { siteRouter, factorSites, caller = 'unknown', mountContext } = args
+  const { siteRouter, fictionSites, caller = 'unknown', mountContext } = args
 
   const vals = { ...args, ...mountContext }
 
@@ -101,12 +101,12 @@ export async function loadSite(args: {
 
     if (themeId) {
       logger.info('Loading site from theme', { data: { themeId } })
-      site = await loadSiteFromTheme({ themeId, siteRouter, factorSites, siteMode, caller: 'loadSite' })
+      site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
     }
     else if (siteId || subDomain) {
       const where = siteId ? { siteId } : { subDomain } as { subDomain: string }
 
-      site = await loadSiteById({ where, siteRouter, factorSites, siteMode })
+      site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
 
       logger.info('Loading Site Result', { data: site?.toConfig() })
     }

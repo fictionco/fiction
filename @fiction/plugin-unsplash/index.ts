@@ -1,31 +1,31 @@
-import type { FactorPluginSettings, FactorServer, FactorUser } from '@fiction/core'
-import { EnvVar, FactorPlugin, safeDirname, vars } from '@fiction/core'
+import type { FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import { EnvVar, FictionPlugin, safeDirname, vars } from '@fiction/core'
 import { QueryUnsplash } from './endpoint'
 
 vars.register(() => [
   new EnvVar({ name: 'UNSPLASH_ACCESS_KEY', isOptional: true }),
 ])
 
-type FactorUnsplashSettings = {
-  factorUser?: FactorUser
-  factorServer: FactorServer
+type FictionUnsplashSettings = {
+  fictionUser?: FictionUser
+  fictionServer: FictionServer
   unsplashAccessKey?: string
-} & FactorPluginSettings
+} & FictionPluginSettings
 
-export class FactorUnsplash extends FactorPlugin<FactorUnsplashSettings> {
+export class FictionUnsplash extends FictionPlugin<FictionUnsplashSettings> {
   unsplashAccessKey = this.settings.unsplashAccessKey
   queries = {
-    Unsplash: new QueryUnsplash({ factorUnsplash: this, ...this.settings }),
+    Unsplash: new QueryUnsplash({ fictionUnsplash: this, ...this.settings }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
     basePath: '/unsplash',
-    factorServer: this.settings.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
   })
 
-  constructor(settings: FactorUnsplashSettings) {
-    super('FactorUnsplash', { ...settings, root: safeDirname(import.meta.url) })
+  constructor(settings: FictionUnsplashSettings) {
+    super('FictionUnsplash', { ...settings, root: safeDirname(import.meta.url) })
   }
 }

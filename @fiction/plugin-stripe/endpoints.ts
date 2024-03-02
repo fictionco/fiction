@@ -2,7 +2,7 @@ import {
   Query,
   runHooks,
 } from '@fiction/core'
-import type { EndpointManageAction, EndpointMeta, EndpointResponse, FactorDb, FactorUser, Organization, OrganizationCustomerData } from '@fiction/core'
+import type { EndpointManageAction, EndpointMeta, EndpointResponse, FictionDb, FictionUser, Organization, OrganizationCustomerData } from '@fiction/core'
 import type Stripe from 'stripe'
 import type {
   CustomSubscription,
@@ -10,23 +10,23 @@ import type {
   HookDictionary,
   ManageSubscriptionResult,
 } from './types'
-import type { FactorStripe } from '.'
+import type { FictionStripe } from '.'
 
 abstract class QueryPayments extends Query {
-  factorUser: FactorUser
-  factorStripe: FactorStripe
-  factorDb: FactorDb
+  fictionUser: FictionUser
+  fictionStripe: FictionStripe
+  fictionDb: FictionDb
 
   constructor(settings: {
-    factorUser: FactorUser
-    factorStripe: FactorStripe
-    factorDb: FactorDb
+    fictionUser: FictionUser
+    fictionStripe: FictionStripe
+    fictionDb: FictionDb
   }) {
     super(settings)
 
-    this.factorUser = settings.factorUser
-    this.factorStripe = settings.factorStripe
-    this.factorDb = settings.factorDb
+    this.fictionUser = settings.fictionUser
+    this.fictionStripe = settings.fictionStripe
+    this.fictionDb = settings.fictionDb
   }
 
   // async refine(
@@ -37,7 +37,7 @@ abstract class QueryPayments extends Query {
 
   //   const out: RefineResult = {}
 
-  //   const r = await this.factorStripe.queries.GetCustomerData.serve(
+  //   const r = await this.fictionStripe.queries.GetCustomerData.serve(
   //     { orgId },
   //     meta,
   //   )
@@ -45,7 +45,7 @@ abstract class QueryPayments extends Query {
 
   //   if (userId) {
   //     const privateDataResponse =
-  //       await this.factorUser.queries.ManageUser.serve(
+  //       await this.fictionUser.queries.ManageUser.serve(
   //         {
   //           userId,
   //           _action: "getPrivate",
@@ -88,9 +88,9 @@ abstract class QueryPayments extends Query {
     data?: Partial<OrganizationCustomerData>
   }): Promise<void> => {
     const { orgId, customerId, customerAuthorized, data } = args
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
-    const liveStripe = this.factorStripe.stripeMode.value === 'live'
+    const liveStripe = this.fictionStripe.stripeMode.value === 'live'
 
     const save: Record<string, string | null> = {}
 
@@ -128,10 +128,10 @@ abstract class QueryPayments extends Query {
     customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
     org: Organization | undefined
   }> {
-    const db = this.factorDb.client()
-    const stripe = this.factorStripe.getServerClient()
+    const db = this.fictionDb.client()
+    const stripe = this.fictionStripe.getServerClient()
 
-    const liveStripe = this.factorStripe.stripeMode.value === 'live'
+    const liveStripe = this.fictionStripe.stripeMode.value === 'live'
 
     const customerField = liveStripe ? 'customer' : 'customerTest'
 
@@ -189,7 +189,7 @@ export class QueryManageCustomer extends QueryPayments {
       customerData?: CustomerData
     }
   > {
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
 
     const { _action, email = '', name = '', orgId } = params
 
@@ -210,8 +210,8 @@ export class QueryManageCustomer extends QueryPayments {
         description: orgId,
         metadata: {
           orgId,
-          stripeMode: this.factorStripe.stripeMode.value,
-          deployMode: this.factorStripe.factorEnv.mode.value || 'unknown',
+          stripeMode: this.fictionStripe.stripeMode.value,
+          deployMode: this.fictionStripe.fictionEnv.mode.value || 'unknown',
         },
       })
 
@@ -224,11 +224,11 @@ export class QueryManageCustomer extends QueryPayments {
       })
 
       await runHooks<HookDictionary>({
-        list: this.factorStripe.hooks,
+        list: this.fictionStripe.hooks,
         hook: 'onCustomerCreated',
         args: [
           { customer, email, orgId, name },
-          { factorStripe: this.factorStripe },
+          { fictionStripe: this.fictionStripe },
         ],
       })
     }
@@ -271,7 +271,7 @@ export class QueryPaymentMethod extends QueryPayments {
     if (!customerId)
       throw this.stop('no customer id')
 
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
 
     // https://stripe.com/docs/api/setup_intents
     let setupIntent: Stripe.SetupIntent | undefined
@@ -353,7 +353,7 @@ export class QueryListSubscriptions extends QueryPayments {
     const out: CustomSubscription[] = []
 
     if (customer?.id) {
-      const stripe = this.factorStripe.getServerClient()
+      const stripe = this.fictionStripe.getServerClient()
       const subs = await stripe.subscriptions.list({ customer: customer?.id })
 
       // Iterate through the subscriptions
@@ -361,7 +361,7 @@ export class QueryListSubscriptions extends QueryPayments {
         const pm = subscription.default_payment_method
         let customerAuthorized: 'unknown' | 'authorized' | 'invalid' = 'unknown'
         if (pm && verify) {
-          const org = await this.factorUser.queries.ManageOrganization.serve(
+          const org = await this.fictionUser.queries.ManageOrganization.serve(
             {
               _action: 'retrieve',
               orgId,
@@ -454,7 +454,7 @@ export class QueryManageSubscription extends QueryPayments {
     if (!_action)
       throw this.stop('no _action provided')
 
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
 
     let sub: Stripe.Subscription | undefined
     let message: string | undefined
@@ -520,7 +520,7 @@ export class QueryGetInvoices extends QueryPayments {
     }
   > {
     const { customerId, startingAfter, limit } = params
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
     const data = await stripe.invoices.list({
       customer: customerId,
       starting_after: startingAfter,
@@ -540,7 +540,7 @@ export class QueryGetProduct extends QueryPayments {
   ): Promise<EndpointResponse<Stripe.Product>> {
     const { productId } = params
 
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
     const product = await stripe.products.retrieve(productId)
 
     return { status: 'success', data: product }
@@ -552,7 +552,7 @@ export class QueryAllProducts extends QueryPayments {
     _params: undefined,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<Stripe.Product[]>> {
-    const products = this.factorStripe.products.value
+    const products = this.fictionStripe.products.value
 
     const productIds = products
       .map(_ => _.productId)
@@ -560,7 +560,7 @@ export class QueryAllProducts extends QueryPayments {
 
     const responsePlans = await Promise.all(
       productIds.map((productId: string) =>
-        this.factorStripe.queries.GetProduct.serve({ productId }, {}),
+        this.fictionStripe.queries.GetProduct.serve({ productId }, {}),
       ),
     )
     const data = responsePlans
@@ -583,7 +583,7 @@ export class QueryGetCoupon extends QueryPayments {
     if (!couponCode)
       throw this.stop('no code was provided')
 
-    const stripe = this.factorStripe.getServerClient()
+    const stripe = this.fictionStripe.getServerClient()
 
     try {
       const data = await stripe.coupons.retrieve(couponCode)
@@ -613,12 +613,12 @@ export class QueryGetCustomerData extends QueryPayments {
     if (!orgId)
       throw new Error('no organization id provided to get customer data')
 
-    const customer = await this.factorStripe.queries.ManageCustomer.serve(
+    const customer = await this.fictionStripe.queries.ManageCustomer.serve(
       { orgId, name: orgName, email, _action: 'retrieve' },
       meta,
     )
     const subscriptions
-      = await this.factorStripe.queries.ListSubscriptions.serve(
+      = await this.fictionStripe.queries.ListSubscriptions.serve(
         { orgId, verify },
         meta,
       )

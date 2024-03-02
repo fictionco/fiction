@@ -1,14 +1,14 @@
 import type { Transporter } from 'nodemailer'
 import nodeMailer from 'nodemailer'
 import nodeMailerHtmlToText from 'nodemailer-html-to-text'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
-import { FactorPlugin } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { renderMarkdown } from '../utils/markdown'
 import type * as types from './types'
 
-const verify: EnvVar<string>['verify'] = ({ factorEnv, value }) => {
-  return !(!value && factorEnv.isProd.value && !factorEnv.isApp.value)
+const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
+  return !(!value && fictionEnv.isProd.value && !fictionEnv.isApp.value)
 }
 
 vars.register(() => [
@@ -26,26 +26,26 @@ vars.register(() => [
   }),
 ])
 
-interface FactorEmailSettings {
+interface FictionEmailSettings {
   smtpPort?: number
-  factorEnv: FactorEnv
+  fictionEnv: FictionEnv
   smtpHost?: string
   smtpUser?: string
   smtpPassword?: string
 }
 
-export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
-  factorEnv = this.settings.factorEnv
+export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
+  fictionEnv = this.settings.fictionEnv
   client?: Transporter
   smtpHost = this.settings.smtpHost
   smtpUser = this.settings.smtpUser
   smtpPassword = this.settings.smtpPassword
   smtpPort = this.settings.smtpPort || 587
-  appName = this.factorEnv.appName
-  appEmail = this.factorEnv.appEmail
+  appName = this.fictionEnv.appName
+  appEmail = this.fictionEnv.appEmail
   isTest = this.utils.isTest()
   isInitialized = false
-  constructor(settings: FactorEmailSettings) {
+  constructor(settings: FictionEmailSettings) {
     super('email', settings)
   }
 
@@ -53,7 +53,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
     if (this.utils.isActualBrowser())
       return
 
-    if (this.factorEnv.isApp.value)
+    if (this.fictionEnv.isApp.value)
       return
 
     if (this.isInitialized) {
@@ -89,7 +89,7 @@ export class FactorEmail extends FactorPlugin<FactorEmailSettings> {
       })
     }
 
-    if (!this.isTest && !this.factorEnv.isApp.value && missing.length === 0) {
+    if (!this.isTest && !this.fictionEnv.isApp.value && missing.length === 0) {
       const emailServiceClient = nodeMailer.createTransport(options)
 
       // https://github.com/andris9/nodemailer-html-to-text

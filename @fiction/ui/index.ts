@@ -1,5 +1,5 @@
-import type { FactorApp, FactorPluginSettings, vue } from '@fiction/core'
-import { FactorPlugin, safeDirname } from '@fiction/core'
+import type { FictionApp, FictionPluginSettings, vue } from '@fiction/core'
+import { FictionPlugin, safeDirname } from '@fiction/core'
 import twForms from '@tailwindcss/forms'
 import twContainerQueries from '@tailwindcss/container-queries'
 import { tailwindVarColorScheme } from '@fiction/core/utils/colors'
@@ -8,22 +8,22 @@ import { inputs } from './inputs'
 
 export * from './components'
 
-type FactorUiSettings = {
-  apps: FactorApp[]
+type FictionUiSettings = {
+  apps: FictionApp[]
   Logo?: vue.Component
   AdminPage?: vue.Component
   AdminWrap?: vue.Component
-} & FactorPluginSettings
+} & FictionPluginSettings
 
 export * from './inputs'
 
-export class FactorUi extends FactorPlugin<FactorUiSettings> {
-  apps: FactorApp[] = this.settings.apps || []
+export class FictionUi extends FictionPlugin<FictionUiSettings> {
+  apps: FictionApp[] = this.settings.apps || []
   ui: Record<string, vue.Component> = inputs
   Logo = this.settings.Logo
   AdminPage = this.settings.AdminPage
   AdminWrap = this.settings.AdminWrap
-  constructor(settings: FactorUiSettings) {
+  constructor(settings: FictionUiSettings) {
     super('ui', { root: safeDirname(import.meta.url), ...settings })
 
     this.apps.forEach((app) => {

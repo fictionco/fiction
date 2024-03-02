@@ -17,39 +17,39 @@ import { renderSSRHead } from '@unhead/ssr'
 
 import { JSDOM } from 'jsdom'
 import { getRequire, importIfExists, requireIfExists, runHooks, safeDirname } from '../utils'
-import type { FactorEnv } from '../plugin-env'
-import type { FactorRouter } from '../plugin-router'
-import { FactorBuild } from '../plugin-build'
-import { FactorPlugin } from '../plugin'
+import type { FictionEnv } from '../plugin-env'
+import type { FictionRouter } from '../plugin-router'
+import { FictionBuild } from '../plugin-build'
+import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
 import { populateGlobal } from '../utils/globalUtils'
 import { getFaviconPath, renderPreloadLinks } from './utils'
 import type * as types from './types'
-import { FactorSitemap } from './sitemap'
+import { FictionSitemap } from './sitemap'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown'
-import type { FactorApp } from '.'
+import type { FictionApp } from '.'
 
-export type FactorRenderSettings = {
-  factorEnv: FactorEnv
-  factorRouter: FactorRouter
-  factorApp: FactorApp
+export type FictionRenderSettings = {
+  fictionEnv: FictionEnv
+  fictionRouter: FictionRouter
+  fictionApp: FictionApp
 }
 
-export class FactorRender extends FactorPlugin<FactorRenderSettings> {
-  factorApp = this.settings.factorApp
-  factorEnv = this.settings.factorEnv
-  factorRouter = this.settings.factorRouter
-  factorBuild: FactorBuild
-  factorSitemap: FactorSitemap
-  isApp = this.factorEnv.isApp
-  distFolder = path.join(this.factorEnv.distFolder, this.factorApp.appInstanceId)
+export class FictionRender extends FictionPlugin<FictionRenderSettings> {
+  fictionApp = this.settings.fictionApp
+  fictionEnv = this.settings.fictionEnv
+  fictionRouter = this.settings.fictionRouter
+  fictionBuild: FictionBuild
+  fictionSitemap: FictionSitemap
+  isApp = this.fictionEnv.isApp
+  distFolder = path.join(this.fictionEnv.distFolder, this.fictionApp.appInstanceId)
   distFolderServer = path.join(this.distFolder, `server`)
   distFolderServerMountFile = path.join(this.distFolderServer, 'mount')
   distFolderClient = path.join(this.distFolder, `client`)
   distFolderStatic = path.join(this.distFolder, `static`)
-  srcFolder = this.factorApp.srcFolder
-  mainIndexHtml = this.factorApp.mainIndexHtml
-  publicFolder = this.factorApp.publicFolder
+  srcFolder = this.fictionApp.srcFolder
+  mainIndexHtml = this.fictionApp.mainIndexHtml
+  publicFolder = this.fictionApp.publicFolder
 
   indexTemplates: types.IndexTemplates = {
     main: {
@@ -62,20 +62,20 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
   root = safeDirname(import.meta.url)
   mountFilePath = path.join(this.root, '/mount.ts')
 
-  constructor(settings: FactorRenderSettings) {
-    super('FactorRender', settings)
+  constructor(settings: FictionRenderSettings) {
+    super('FictionRender', settings)
 
     if (this.isApp.value)
       throw new Error('render is server only')
 
-    this.factorBuild = new FactorBuild({ factorEnv: this.factorEnv })
-    this.factorSitemap = new FactorSitemap({ factorRouter: this.factorRouter, factorEnv: this.factorEnv })
+    this.fictionBuild = new FictionBuild({ fictionEnv: this.fictionEnv })
+    this.fictionSitemap = new FictionSitemap({ fictionRouter: this.fictionRouter, fictionEnv: this.fictionEnv })
   }
 
   getAppViteConfigFile = async (): Promise<vite.InlineConfig | undefined> => {
     const _module = await importIfExists<{
       default: vite.InlineConfig | (() => Promise<vite.InlineConfig>)
-    }>(path.join(this.factorEnv.cwd, 'vite.config.ts'))
+    }>(path.join(this.fictionEnv.cwd, 'vite.config.ts'))
 
     let config: vite.InlineConfig | undefined
     const result = _module?.default
@@ -112,7 +112,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
   }
 
   async getTailwindConfig(): Promise<Record<string, any> | undefined> {
-    const baseUiPaths = [...this.factorEnv.uiPaths, ...this.factorApp.uiPaths]
+    const baseUiPaths = [...this.fictionEnv.uiPaths, ...this.fictionApp.uiPaths]
     const fullUiPaths = baseUiPaths.map(p => path.normalize(p))
 
     const c: Record<string, any>[] = [
@@ -121,11 +121,11 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
         content: fullUiPaths,
         safelist: ['italic', 'lowercase', 'font-bold'],
       },
-      ...this.factorApp.tailwindConfig,
+      ...this.fictionApp.tailwindConfig,
     ]
 
     const userTailwindConfig = await requireIfExists(
-      path.join(this.factorEnv.cwd, 'tailwind.config.cjs'),
+      path.join(this.fictionEnv.cwd, 'tailwind.config.cjs'),
     )
 
     if (userTailwindConfig) {
@@ -205,10 +205,10 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
 
     const { default: pluginVue } = await import('@vitejs/plugin-vue')
 
-    const commonVite = await this.factorBuild?.getFactorViteConfig({
+    const commonVite = await this.fictionBuild?.getFictionViteConfig({
       isProd,
-      root: this.factorEnv.cwd,
-      mainFilePath: this.factorEnv.mainFilePath,
+      root: this.fictionEnv.cwd,
+      mainFilePath: this.fictionEnv.mainFilePath,
     })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
@@ -236,14 +236,14 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
         ],
         resolve: {
           alias: [
-            ...this.getStaticPathAliases({ mainFilePath: this.factorEnv.mainFilePath }),
+            ...this.getStaticPathAliases({ mainFilePath: this.fictionEnv.mainFilePath }),
           ],
         },
       },
       appViteConfigFile || {},
     ]
 
-    merge = await this.utils.runHooks({ list: this.factorApp.hooks, hook: 'viteConfig', args: [merge] })
+    merge = await this.utils.runHooks({ list: this.fictionApp.hooks, hook: 'viteConfig', args: [merge] })
 
     const viteConfig = this.utils.deepMergeAll(merge)
 
@@ -268,7 +268,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
       let revertGlobal
       try {
         // Simulate window object using jsdom
-        const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: `${this.factorApp.appUrl.value}${pathname}` })
+        const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', { url: `${this.fictionApp.appUrl.value}${pathname}` })
 
         const r = populateGlobal(globalThis, dom.window, { bindFunctions: true })
 
@@ -287,12 +287,12 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
 
         const { runAppEntry } = entryModule as types.EntryModuleExports
 
-        const factorAppEntry = await runAppEntry({ renderRoute: pathname, runVars })
+        const fictionAppEntry = await runAppEntry({ renderRoute: pathname, runVars })
 
-        if (!factorAppEntry)
+        if (!fictionAppEntry)
           throw new Error('SSR Error: rendering failed')
 
-        const { app, meta } = factorAppEntry
+        const { app, meta } = fictionAppEntry
 
         /**
          * Pass context for rendering (available useSSRContext())
@@ -373,10 +373,10 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
     if (!template)
       throw new Error('html template required')
 
-    headTags = await runHooks({ list: this.factorApp.hooks, hook: 'headTags', args: [headTags, { pathname }] })
-    htmlBody = await runHooks({ list: this.factorApp.hooks, hook: 'htmlBody', args: [htmlBody, { pathname }] })
+    headTags = await runHooks({ list: this.fictionApp.hooks, hook: 'headTags', args: [headTags, { pathname }] })
+    htmlBody = await runHooks({ list: this.fictionApp.hooks, hook: 'htmlBody', args: [htmlBody, { pathname }] })
 
-    const canonicalUrl = [this.factorApp.appUrl.value || '', pathname || '']
+    const canonicalUrl = [this.fictionApp.appUrl.value || '', pathname || '']
       .map((_: string) => _.replace(/\/$/, ''))
       .join('')
 
@@ -395,7 +395,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
       headTags,
       preloadLinks,
       `<link href="${canonicalUrl}" rel="canonical">`,
-      `<meta name="generator" content="FactorJS ${version}" />`,
+      `<meta name="generator" content="FictionJS ${version}" />`,
     ].join(`\n`)
 
     const html = template
@@ -419,13 +419,13 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
 
     const { render = true, serve = false, minify = false } = options
 
-    if (!this.factorApp.appUrl)
+    if (!this.fictionApp.appUrl)
       throw new Error('appUrl is required')
 
     // build index to dist
     const templates = await this.getIndexHtmlTemplates({ isProd: true })
 
-    this.log.info('building factor app', {
+    this.log.info('building fiction app', {
       data: {
         isNode: this.utils.isNode(),
         indexFiles: Object.values(templates).length,
@@ -502,13 +502,13 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
       this.log.info('[done:build] application built successfully')
 
       const sitemaps = await Promise.all(
-        this.factorApp.sitemaps.map(async (s) => {
+        this.fictionApp.sitemaps.map(async (s) => {
           const r = await s()
           return r
         }),
       )
-      await this.factorSitemap?.generateSitemap({
-        appUrl: this.factorApp.appUrl.value,
+      await this.fictionSitemap?.generateSitemap({
+        appUrl: this.fictionApp.appUrl.value,
         sitemaps,
         distClient: distFolderClient,
       })
@@ -528,14 +528,14 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
     const generators = await this.htmlGenerators({ isProd: true, distClient: distFolderClient })
 
     const sitemaps = await Promise.all(
-      this.factorApp.sitemaps.map(async (s) => {
+      this.fictionApp.sitemaps.map(async (s) => {
         const r = await s()
         return r
       }),
     )
 
     const urls
-      = (await this.factorSitemap?.getSitemapPaths({
+      = (await this.fictionSitemap?.getSitemapPaths({
         sitemaps,
       })) || []
 
@@ -543,7 +543,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
     fs.emptyDirSync(distFolderStatic)
     fs.copySync(distFolderClient, distFolderStatic)
 
-    if (!this.factorEnv.isProd?.value) {
+    if (!this.fictionEnv.isProd?.value) {
       this.log.warn(
         'pre-rendering in development mode (should be prod in most cases)',
       )
@@ -563,7 +563,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
           ...generators,
           pathname,
           runVars: {
-            ...this.factorEnv.getRenderedEnvVars(),
+            ...this.fictionEnv.getRenderedEnvVars(),
             PATHNAME: pathname,
           },
         })
@@ -597,12 +597,12 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
     const ip = request?.ip // IP address of the request
     const userAgent = request?.get('User-Agent') // User-Agent header
 
-    const add = { APP_INSTANCE: this.factorApp.appInstanceId }
+    const add = { APP_INSTANCE: this.fictionApp.appInstanceId }
 
     const ORIGIN = `${protocol}://${host}`
 
     const requestVars = {
-      ...this.factorEnv.getRenderedEnvVars(),
+      ...this.fictionEnv.getRenderedEnvVars(),
       PROTOCOL: protocol,
       SUBDOMAIN: subdomain,
       HOST: host,
@@ -621,7 +621,7 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
   addRunVarsToHtml(args: { html: string, runVars?: Record<string, string> }): string {
     const { html, runVars } = args
     const stringifiedVars = JSON.stringify(runVars)
-    const tag = `<script id="factorRun" type="application/json">${stringifiedVars}</script>`
+    const tag = `<script id="fictionRun" type="application/json">${stringifiedVars}</script>`
     const out = html.replace(/<\/body>/i, `${tag}\n</body>`)
     return out
   }
@@ -755,10 +755,10 @@ export class FactorRender extends FactorPlugin<FactorRenderSettings> {
     })
 
     await new Promise<void>((resolve) => {
-      this.staticServer = app?.listen(this.factorApp.port, () => resolve())
+      this.staticServer = app?.listen(this.fictionApp.port, () => resolve())
     })
 
-    this.factorApp.logReady({ serveMode: 'static' })
+    this.fictionApp.logReady({ serveMode: 'static' })
 
     return this.staticServer
   }

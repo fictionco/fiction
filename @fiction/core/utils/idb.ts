@@ -12,7 +12,7 @@ interface DataObject {
   [key: string]: unknown
 }
 
-export class FactorIndexedDb extends EventEmitter {
+export class FictionIndexedDb extends EventEmitter {
   version: number
   dbName: string
   tableName: string

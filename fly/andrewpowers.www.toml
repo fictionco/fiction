@@ -1,4 +1,4 @@
-app = "factor-andrewpowers"
+app = "fiction-andrewpowers"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

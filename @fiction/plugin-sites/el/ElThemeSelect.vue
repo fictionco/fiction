@@ -11,9 +11,9 @@ defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { factorApp } = useService()
+const { fictionApp } = useService()
 
-const themes = getThemes({ factorApp }, { scope: 'public' })
+const themes = getThemes({ fictionApp }, { scope: 'public' })
 </script>
 
 <template>

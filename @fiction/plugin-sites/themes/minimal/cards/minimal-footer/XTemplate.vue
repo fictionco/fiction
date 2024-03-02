@@ -14,14 +14,14 @@ export type UserConfig = {
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
-const { factorRouter } = useService()
+const { fictionRouter } = useService()
 
 const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
 })
 
 const nav = vue.computed(() => {
-  const currentRoute = factorRouter.current.value.path
+  const currentRoute = fictionRouter.current.value.path
   return (uc.value.nav || []).map((item) => {
     const isActive = item.href === currentRoute
     return { ...item, isActive }

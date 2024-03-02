@@ -1,202 +1,202 @@
 import { objectId, toSnakeCaseKeys } from '../utils'
-import { FactorDbCol, FactorDbTable } from '../plugin-db'
+import { FictionDbCol, FictionDbTable } from '../plugin-db'
 import { standardTable } from '../tbl'
 import type { GeoData } from '../utils-analytics/geo'
 import type { MemberAccess, OnboardStoredSettings, OrganizationConfig, OrganizationCustomerData, Plan, PushSubscriptionDetail, UserMeta } from './types'
 
 export const userColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('usr')`)),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'email',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().unique(),
     prepare: ({ value }) => (value as string).toLowerCase().trim(),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'username',
     create: ({ schema, column }) => schema.string(column.pgKey).unique().index(),
     default: () => '' as string,
     isSetting: true,
     prepare: ({ value }) => (value as string).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'googleId',
     create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'fullName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'firstName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'lastName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'role',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('subscriber'),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'status',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'site',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'github',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'githubFollowers',
     create: ({ schema, column }) => schema.integer(column.pgKey),
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'twitter',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'twitterFollowers',
     create: ({ schema, column }) => schema.integer(column.pgKey),
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'facebook',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'linkedin',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'workSeniority',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'workRole',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'bio',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'location',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'hashedPassword',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isAuthority: true,
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'emailVerified',
     create: ({ schema, column }) =>
       schema.boolean(column.pgKey).notNullable().defaultTo(false),
     default: () => false as boolean,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'verificationCode',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isAuthority: true,
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'codeExpiresAt',
     create: ({ schema, column }) => schema.dateTime(column.pgKey),
     isAuthority: true,
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'avatarUrl',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'picture',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
 
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'about',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'gender',
     create: ({ schema, column }) =>
       schema.enum(column.pgKey, ['male', 'female', 'other']),
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'birthday',
     create: ({ schema, column }) => schema.date(column.pgKey),
     isPrivate: true,
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'phoneNumber',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isPrivate: true,
     isSetting: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'address',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isPrivate: true,
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'meta',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as UserMeta),
@@ -204,33 +204,33 @@ export const userColumns = [
     prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
   }),
 
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'invitedById',
     create: ({ schema, column }) =>
-      schema.string(column.pgKey).references(`factor_user.user_id`),
+      schema.string(column.pgKey).references(`fiction_user.user_id`),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'lastOrgId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'lastSeenAt',
     isSetting: true,
     create: ({ schema, column, db }) =>
       schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'isSuperAdmin',
     create: ({ schema, column }) =>
       schema.boolean(column.pgKey).defaultTo(false),
     default: () => false,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'onboard',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as OnboardStoredSettings),
@@ -238,7 +238,7 @@ export const userColumns = [
     isPrivate: true,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'pushSubscription',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as PushSubscriptionDetail),
@@ -246,13 +246,13 @@ export const userColumns = [
     isPrivate: true,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'ip',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'geo',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
@@ -262,12 +262,12 @@ export const userColumns = [
 ] as const
 
 export const orgColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('org')`)),
     default: () => objectId(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'username',
     create: ({ schema, column }) => schema.string(column.pgKey).unique(),
     default: () => '' as string,
@@ -275,97 +275,97 @@ export const orgColumns = [
     prepare: ({ value }) =>
       (value as string).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgName',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgEmail',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgStatus',
     create: ({ schema, column }) =>
       schema.string(column.pgKey).notNullable().defaultTo('active'),
     default: () => 'active' as 'active' | 'inactive',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgPlan',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => ({} as Plan),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'ownerId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`factor_user.user_id`).onUpdate('CASCADE'),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE'),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'avatarUrl',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customerId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customer',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as OrganizationCustomerData),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customerAuthorized',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as 'authorized' | 'invalid' | 'unknown',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customerIdTest',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customerTest',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as OrganizationCustomerData),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'lastSeenAt',
     isSetting: true,
     create: ({ schema, column, db }) =>
       schema.dateTime(column.pgKey).defaultTo(db.fn.now()),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'specialPlan',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isAdmin: true,
     default: () => '' as 'vip' | 'npo',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'apiSecret',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isPrivate: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'timezone',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'dashboards',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isPrivate: true,
     default: () => ({} as Record<string, unknown>),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'config',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
@@ -373,14 +373,14 @@ export const orgColumns = [
     default: () => ({} as Partial<OrganizationConfig>),
   }),
 
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'meta',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as UserMeta),
     isSetting: true,
     prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'onboard',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     default: () => ({} as OnboardStoredSettings),
@@ -391,34 +391,34 @@ export const orgColumns = [
 ] as const
 
 export const membersColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'memberId',
     isComposite: true,
     create: ({ schema }) => schema.primary(['user_id', 'org_id']),
     default: () => objectId(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column }) => {
       schema
         .string(column.pgKey)
-        .references(`factor_org.org_id`)
+        .references(`fiction_org.org_id`)
         .onUpdate('CASCADE')
         .index()
     },
     default: () => objectId(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`factor_user.user_id`).onUpdate('CASCADE').index(),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`).onUpdate('CASCADE').index(),
     default: () => objectId(),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'memberStatus',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo('pending'),
     default: () => '' as 'active' | 'pending' | 'inactive',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'memberAccess',
     create: ({ schema, column }) =>
       schema
@@ -427,17 +427,17 @@ export const membersColumns = [
         .defaultTo('observer'),
     default: () => '' as MemberAccess,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'memberRole',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'invitedById',
-    create: ({ schema, column }) => schema.string(column.pgKey).references(`factor_user.user_id`),
+    create: ({ schema, column }) => schema.string(column.pgKey).references(`fiction_user.user_id`),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'priority',
     create: ({ schema, column }) => schema.integer(column.pgKey),
     default: () => 0 as number,
@@ -445,48 +445,48 @@ export const membersColumns = [
 ] as const
 
 export const deletedTableColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'deletedId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('del')`)),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'deletedType',
     create: ({ schema, column }) => schema.string(column.pgKey),
     isSetting: true,
     default: () => '' as 'org' | 'render' | 'image' | 'model' | 'user' | 'other',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'modelId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'renderId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'imageId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'collectionId',
     create: ({ schema, column }) => schema.string(column.pgKey),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'meta',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
@@ -495,10 +495,10 @@ export const deletedTableColumns = [
   }),
 ] as const
 
-export const userTable = new FactorDbTable({ tableKey: 'factor_user', timestamps: true, columns: userColumns })
-export const membersTable = new FactorDbTable({ tableKey: 'factor_org_user', timestamps: true, columns: membersColumns })
-export const orgTable = new FactorDbTable({ tableKey: 'factor_org', timestamps: true, columns: orgColumns })
-export const deletedTable = new FactorDbTable({ tableKey: standardTable.deleted, timestamps: true, columns: deletedTableColumns })
+export const userTable = new FictionDbTable({ tableKey: 'fiction_user', timestamps: true, columns: userColumns })
+export const membersTable = new FictionDbTable({ tableKey: 'fiction_org_user', timestamps: true, columns: membersColumns })
+export const orgTable = new FictionDbTable({ tableKey: 'fiction_org', timestamps: true, columns: orgColumns })
+export const deletedTable = new FictionDbTable({ tableKey: standardTable.deleted, timestamps: true, columns: deletedTableColumns })
 
 export function getAdminTables() {
   return [userTable, orgTable, membersTable, deletedTable]

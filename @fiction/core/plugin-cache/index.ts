@@ -1,25 +1,25 @@
 import Redis from 'ioredis'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorUser } from '../plugin-user'
-import type { FactorServer } from '../plugin-server'
-import type { FactorAws } from '../plugin-aws'
-import type { FactorDb } from '../plugin-db'
-import type { FactorEnv } from '../plugin-env'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionUser } from '../plugin-user'
+import type { FictionServer } from '../plugin-server'
+import type { FictionAws } from '../plugin-aws'
+import type { FictionDb } from '../plugin-db'
+import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 
 // import { JSendMessage } from "./types"
 
 vars.register(() => [new EnvVar({ name: 'REDIS_URL' })])
 
-type FactorCacheSettings = {
+type FictionCacheSettings = {
   redisConnectionUrl?: string
-  factorServer: FactorServer
-  factorAws?: FactorAws
-  factorDb?: FactorDb
-  factorUser?: FactorUser
-  factorEnv: FactorEnv
-} & FactorPluginSettings
+  fictionServer: FictionServer
+  fictionAws?: FictionAws
+  fictionDb?: FictionDb
+  fictionUser?: FictionUser
+  fictionEnv: FictionEnv
+} & FictionPluginSettings
 
 interface SubscriptionMessage<U extends MessageData> {
   pubsubId: string
@@ -38,17 +38,17 @@ export interface MessageData {
   topic: string
 }
 
-export class FactorCache extends FactorPlugin<FactorCacheSettings> {
+export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   connectionUrl?: URL
-  factorEnv = this.settings.factorEnv
-  factorServer = this.settings.factorServer
-  factorAws = this.settings.factorAws
-  factorDb = this.settings.factorDb
+  fictionEnv = this.settings.fictionEnv
+  fictionServer = this.settings.fictionServer
+  fictionAws = this.settings.fictionAws
+  fictionDb = this.settings.fictionDb
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.fictionServer,
+    fictionUser: this.settings.fictionUser,
   })
 
   redisConnections: Record<string, Redis> = {}
@@ -57,7 +57,7 @@ export class FactorCache extends FactorPlugin<FactorCacheSettings> {
   private subscriber?: Redis
   private primaryCache?: Redis
   idd = this.utils.shortId()
-  constructor(settings: FactorCacheSettings) {
+  constructor(settings: FictionCacheSettings) {
     super('cache', settings)
 
     if (this.settings.redisConnectionUrl)
@@ -73,7 +73,7 @@ export class FactorCache extends FactorPlugin<FactorCacheSettings> {
   }
 
   init() {
-    if (this.factorEnv.isApp.value)
+    if (this.fictionEnv.isApp.value)
       return
 
     if (!this.connectionUrl)
@@ -222,7 +222,7 @@ export class FactorCache extends FactorPlugin<FactorCacheSettings> {
   // }
 
   getCache(): Redis | undefined {
-    if (!this.primaryCache && !this.factorEnv.isApp.value) {
+    if (!this.primaryCache && !this.fictionEnv.isApp.value) {
       this.log.error('no primary cache - missing REDIS_URL')
       return
     }

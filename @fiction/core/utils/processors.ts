@@ -1,5 +1,5 @@
-import { FactorObject } from '../plugin'
-import type { FactorEnv } from '../plugin-env'
+import { FictionObject } from '../plugin'
+import type { FictionEnv } from '../plugin-env'
 import { log } from '../plugin-log'
 import { isPlainObject } from './obj'
 
@@ -73,12 +73,12 @@ export class ObjectProcessor {
 }
 
 export type ShortcodesConfig = {
-  factorEnv?: FactorEnv
+  fictionEnv?: FictionEnv
 }
 type ShortcodeAttributes = Record<string, string>
 type ShortcodeHandler = (args: { content?: string, attributes?: ShortcodeAttributes }) => Promise<string> | string
 
-export class Shortcodes extends FactorObject<ShortcodesConfig> {
+export class Shortcodes extends FictionObject<ShortcodesConfig> {
   private shortcodeDictionary: Record<string, ShortcodeHandler> = {}
   private objectProcessor: ObjectProcessor
 
@@ -92,7 +92,7 @@ export class Shortcodes extends FactorObject<ShortcodesConfig> {
 
   private initializeShortcodeHandlers(): void {
     this.shortcodeDictionary = {
-      cwd: async () => this.settings.factorEnv?.cwd || '',
+      cwd: async () => this.settings.fictionEnv?.cwd || '',
       date: async () => new Date().toLocaleDateString(),
       time: async () => new Date().toLocaleTimeString(),
       // Additional async shortcodes can be defined here

@@ -14,7 +14,7 @@ defineEmits<{
   (event: 'select', payload: ListItem): void
   (event: 'update', payload: ListItem): void
 }>()
-const { factorUser } = useService()
+const { fictionUser } = useService()
 const active = vue.ref(false)
 
 onResetUi(() => {
@@ -29,7 +29,7 @@ onResetUi(() => {
         <ElAvatar
           class=" ml-3 h-10 w-10 rounded-full  "
           :class="active ? 'opacity-70' : ''"
-          :email="factorUser.activeUser.value?.email"
+          :email="fictionUser.activeUser.value?.email"
         />
         <div
           class="flex flex-col items-end justify-center transition-all"
@@ -65,13 +65,13 @@ onResetUi(() => {
         ]"
       >
         <div
-          v-if="factorUser.activeUser.value"
+          v-if="fictionUser.activeUser.value"
           class="border-theme-200 dark:border-theme-900 flex items-center space-x-3 border-b px-4 py-3 text-sm"
         >
           <div>
             <ElAvatar
               class="ring-theme-300 h-9 w-9 rounded-full ring-2"
-              :email="factorUser.activeUser.value?.email"
+              :email="fictionUser.activeUser.value?.email"
             />
           </div>
           <div>
@@ -80,8 +80,8 @@ onResetUi(() => {
             </div>
             <p class="truncate text-lg font-bold leading-tight">
               {{
-                factorUser.activeUser.value?.fullName
-                  || factorUser.activeUser.value?.email
+                fictionUser.activeUser.value?.fullName
+                  || fictionUser.activeUser.value?.email
               }}
             </p>
           </div>

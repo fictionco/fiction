@@ -11,7 +11,7 @@ Fiction considers data protection and privacy to be of paramount importance. We 
 
 If you are a visitor of a site which is running services provided by Fiction (“Fiction Enabled Site”), the ‘End Users’ section of this Privacy Policy applies to you.
 
-For the purpose of this Privacy Policy, "Personal Data" means any information relating to an identified or identifiable natural person (or household as applicable); an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier or to one or more factors specific to the physical, physiological, genetic, mental, economic, cultural or social identity of that natural person. Personal Data also includes any equivalent definition in the Applicable Law.
+For the purpose of this Privacy Policy, "Personal Data" means any information relating to an identified or identifiable natural person (or household as applicable); an identifiable natural person is one who can be identified, directly or indirectly, in particular by reference to an identifier such as a name, an identification number, location data, an online identifier or to one or more fictions specific to the physical, physiological, genetic, mental, economic, cultural or social identity of that natural person. Personal Data also includes any equivalent definition in the Applicable Law.
 
 ## Responsibility for Processing Personal Data
 

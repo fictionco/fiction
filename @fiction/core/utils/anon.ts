@@ -1,8 +1,8 @@
 import { objectId } from '../utils/id'
 import { getCookie, setCookieNakedDomain } from '../utils/cookie'
 
-export const ANON_ID_KEY = 'FactorAnonId'
-export const FIRST_SESSION_KEY = 'FactorFirstSession'
+export const ANON_ID_KEY = 'FictionAnonId'
+export const FIRST_SESSION_KEY = 'FictionFirstSession'
 
 export function getAnonymousId(): {
   anonymousId: string

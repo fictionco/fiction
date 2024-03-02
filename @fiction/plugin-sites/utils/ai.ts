@@ -10,7 +10,7 @@ export async function getCardCompletion<T extends Record<string, unknown> = Reco
     if (!baseInstruction || !objectives)
       throw new Error('baseInstruction and objectives required')
 
-    const result = await site.factorSites.settings.factorAi?.requests.AiCompletion.projectRequest({
+    const result = await site.fictionSites.settings.fictionAi?.requests.AiCompletion.projectRequest({
       _action: 'completion',
       baseInstruction,
       objectives,

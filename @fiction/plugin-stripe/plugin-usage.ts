@@ -1,27 +1,27 @@
 // @unocss-include
 
 import type {
-  FactorApp,
-  FactorDb,
-  FactorPluginSettings,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionPluginSettings,
+  FictionServer,
+  FictionUser,
 } from '@fiction/core'
 import {
-  FactorPlugin,
+  FictionPlugin,
   vue,
 } from '@fiction/core'
-import type { FactorStripe } from './plugin'
+import type { FictionStripe } from './plugin'
 import { QueryManageUsage } from './endpointsUsage'
 import { tables } from './tables'
 
-export type FactorUsageSettings = {
-  factorServer: FactorServer
-  factorDb: FactorDb
-  factorUser: FactorUser
-  factorApp: FactorApp
-  factorStripe: FactorStripe
-} & FactorPluginSettings
+export type FictionUsageSettings = {
+  fictionServer: FictionServer
+  fictionDb: FictionDb
+  fictionUser: FictionUser
+  fictionApp: FictionApp
+  fictionStripe: FictionStripe
+} & FictionPluginSettings
 
 interface ActiveUsage {
   usedCredits: number
@@ -32,42 +32,42 @@ interface ActiveUsage {
   percentUsed: number
 }
 
-export class FactorUsage extends FactorPlugin<FactorUsageSettings> {
-  factorEnv = this.settings.factorEnv
-  factorApp = this.settings.factorApp
-  factorDb = this.settings.factorDb
-  factorUser = this.settings.factorUser
-  factorServer = this.settings.factorServer
-  factorStripe = this.settings.factorStripe
+export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
+  fictionEnv = this.settings.fictionEnv
+  fictionApp = this.settings.fictionApp
+  fictionDb = this.settings.fictionDb
+  fictionUser = this.settings.fictionUser
+  fictionServer = this.settings.fictionServer
+  fictionStripe = this.settings.fictionStripe
   loading = vue.ref(false)
   root = this.utils.safeDirname(import.meta.url)
-  isLive = this.factorEnv.isProd
+  isLive = this.fictionEnv.isProd
 
   queries = this.createQueries()
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.factorServer,
-    factorUser: this.factorUser,
+    fictionServer: this.fictionServer,
+    fictionUser: this.fictionUser,
   })
 
   activeUsage = vue.ref<ActiveUsage | undefined>()
 
   cycleEndAtIso = vue.computed(() => {
-    return this.factorStripe?.activeCustomer.value?.cycleEndAtIso
+    return this.fictionStripe?.activeCustomer.value?.cycleEndAtIso
   })
 
   cycleStartAtIso = vue.computed(() => {
-    return this.factorStripe?.activeCustomer.value?.cycleStartAtIso
+    return this.fictionStripe?.activeCustomer.value?.cycleStartAtIso
   })
 
-  constructor(settings: FactorUsageSettings) {
-    super('FactorUsage', settings)
+  constructor(settings: FictionUsageSettings) {
+    super('FictionUsage', settings)
 
-    this.factorDb.addTables(tables)
+    this.fictionDb.addTables(tables)
   }
 
   async setUsage() {
-    const customer = this.factorStripe.activeCustomer.value
+    const customer = this.fictionStripe.activeCustomer.value
 
     this.log.info('set usage', { data: { customer } })
 
@@ -87,7 +87,7 @@ export class FactorUsage extends FactorPlugin<FactorUsageSettings> {
 
     const usedCredits = result.data?.credits || 0
 
-    const paidCredits = this.factorStripe?.activeCustomer.value?.credits || 0
+    const paidCredits = this.fictionStripe?.activeCustomer.value?.credits || 0
     const percentUsed = Math.round((usedCredits / paidCredits) * 100)
 
     this.activeUsage.value = {
@@ -106,9 +106,9 @@ export class FactorUsage extends FactorPlugin<FactorUsageSettings> {
 
   protected createQueries() {
     const deps = {
-      factorDb: this.factorDb,
-      factorUser: this.factorUser,
-      factorUsage: this,
+      fictionDb: this.fictionDb,
+      fictionUser: this.fictionUser,
+      fictionUsage: this,
     }
     return {
       ManageUsage: new QueryManageUsage(deps),

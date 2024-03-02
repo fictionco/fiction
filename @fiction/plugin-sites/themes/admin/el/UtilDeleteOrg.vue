@@ -9,11 +9,11 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 const sending = vue.ref<string | boolean>(false)
 const sent = vue.ref(false)
-const org = vue.computed(() => factorUser.activeOrganization.value)
+const org = vue.computed(() => fictionUser.activeOrganization.value)
 /**
  * Delete organization after confirmation
  */
@@ -27,7 +27,7 @@ async function maybeDeleteOrganization(): Promise<void> {
 
   if (confirmed) {
     sending.value = 'delete'
-    await factorUser.requests.ManageOrganization.request({
+    await fictionUser.requests.ManageOrganization.request({
       _action: 'delete',
       orgId,
     })
@@ -41,7 +41,7 @@ async function maybeDeleteOrganization(): Promise<void> {
 
 <template>
   <ElInput
-    :label="`Permanently Delete Organization (You are an ${factorUser.activeRelation.value?.memberAccess})`"
+    :label="`Permanently Delete Organization (You are an ${fictionUser.activeRelation.value?.memberAccess})`"
     sub-label="Permanently delete this organization and its data."
   >
     <div class="my-2 rounded-md">

@@ -14,7 +14,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { factorUser } = useService()
+const { fictionUser } = useService()
 
 const form = vue.ref<Partial<Organization>>({})
 const defaultConfig = { disableWatermark: false, serverTimeoutMinutes: 20 }
@@ -23,7 +23,7 @@ const meta = vue.ref<Partial<UserMeta>>({})
 const sending = vue.ref<string | boolean>(false)
 const sent = vue.ref(false)
 
-const org = vue.computed<Organization | undefined>(() => factorUser.activeOrganization.value)
+const org = vue.computed<Organization | undefined>(() => fictionUser.activeOrganization.value)
 
 async function saveOrganization(): Promise<void> {
   if (!form.value.orgId)
@@ -31,7 +31,7 @@ async function saveOrganization(): Promise<void> {
 
   const fields = { ...form.value, meta: meta.value, config: config.value }
 
-  await factorUser.requests.ManageOrganization.request(
+  await fictionUser.requests.ManageOrganization.request(
     { _action: 'update', orgId: form.value.orgId, org: fields },
     { debug: true },
   )
@@ -46,7 +46,7 @@ async function send(context: string): Promise<void> {
 }
 
 vue.onMounted(async () => {
-  const user = await factorUser.userInitialized()
+  const user = await fictionUser.userInitialized()
 
   if (org.value) {
     form.value = org.value
@@ -58,9 +58,9 @@ vue.onMounted(async () => {
 })
 
 vue.onMounted(async () => {
-  await factorUser.userInitialized()
+  await fictionUser.userInitialized()
   vue.watch(
-    () => factorUser.activeOrganization.value,
+    () => fictionUser.activeOrganization.value,
     (v) => {
       if (v) {
         form.value = v
@@ -79,20 +79,20 @@ vue.onMounted(async () => {
         <div class="flex items-center space-x-4">
           <div>
             <ElAvatar
-              :email="factorUser.activeOrganization.value?.orgEmail"
+              :email="fictionUser.activeOrganization.value?.orgEmail"
               class="h-16 w-16 rounded-full"
             />
           </div>
           <div>
             <div class="font-brand text-4xl font-bold">
-              {{ factorUser.activeOrganization.value?.orgName }}
+              {{ fictionUser.activeOrganization.value?.orgName }}
             </div>
             <div class="text-theme-500 font-medium">
               billing email:
-              {{ factorUser.activeOrganization.value?.orgEmail }}
+              {{ fictionUser.activeOrganization.value?.orgEmail }}
               &middot; you are an
               <span class="">{{
-                factorUser.activeOrganization.value?.relation?.memberAccess
+                fictionUser.activeOrganization.value?.relation?.memberAccess
               }}</span>
             </div>
           </div>
@@ -146,7 +146,7 @@ vue.onMounted(async () => {
       <UtilListOrganizations :card="card" />
     </ElPanelSettings>
     <ElPanelSettings
-      v-if="!factorUser.activeUser.value?.isSuperAdmin"
+      v-if="!fictionUser.activeUser.value?.isSuperAdmin"
       title="Admin Only Settings"
     >
       <div class="space-y-12">

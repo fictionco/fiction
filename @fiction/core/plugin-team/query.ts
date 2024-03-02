@@ -1,33 +1,33 @@
 import { Query } from '../query'
-import type { FactorDb } from '../plugin-db'
-import type { FactorRouter } from '../plugin-router'
+import type { FictionDb } from '../plugin-db'
+import type { FictionRouter } from '../plugin-router'
 import type {
-  FactorUser,
+  FictionUser,
   MemberAccess,
   OrganizationMember,
   User,
 } from '../plugin-user'
 import type { EndpointMeta } from '../utils/endpoint'
 import type { EndpointResponse } from '../types'
-import type { FactorEmail } from '../plugin-email'
-import type { FactorEnv } from '../plugin-env'
-import type { FactorTeam } from '.'
+import type { FictionEmail } from '../plugin-email'
+import type { FictionEnv } from '../plugin-env'
+import type { FictionTeam } from '.'
 
 export interface TeamQuerySettings {
-  factorEnv: FactorEnv
-  factorTeam: FactorTeam
-  factorUser: FactorUser
-  factorDb: FactorDb
-  factorEmail: FactorEmail
-  factorRouter: FactorRouter
+  fictionEnv: FictionEnv
+  fictionTeam: FictionTeam
+  fictionUser: FictionUser
+  fictionDb: FictionDb
+  fictionEmail: FictionEmail
+  fictionRouter: FictionRouter
 }
 
 export abstract class TeamQuery extends Query<TeamQuerySettings> {
-  factorTeam = this.settings.factorTeam
-  factorDb = this.settings.factorDb
-  factorUser = this.settings.factorUser
-  factorEmail = this.settings.factorEmail
-  factorRouter = this.settings.factorRouter
+  fictionTeam = this.settings.fictionTeam
+  fictionDb = this.settings.fictionDb
+  fictionUser = this.settings.fictionUser
+  fictionEmail = this.settings.fictionEmail
+  fictionRouter = this.settings.fictionRouter
   constructor(settings: TeamQuerySettings) {
     super(settings)
   }
@@ -45,7 +45,7 @@ export class QueryOrgMembers extends TeamQuery {
   ): Promise<EndpointResponse<OrganizationMember[]>> {
     const { orgId, _action } = params
 
-    const db = this.factorDb?.client()
+    const db = this.fictionDb?.client()
     const base = db
       .from(this.tbl.member)
       .join(
@@ -110,10 +110,10 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       throw new Error('no user service')
     const { email, requestingEmail, requestingName } = params
-    const { data: user } = await this.factorUser.queries.ManageUser.serve(
+    const { data: user } = await this.fictionUser.queries.ManageUser.serve(
       {
         _action: 'getPublic',
         email,
@@ -130,14 +130,14 @@ export class QuerySeekInviteFromUser extends TeamQuery {
       requestingName || 'A user'
     } (${requestingEmail}) has requested access to one of your organizations.`
 
-    if (!this.factorEmail)
+    if (!this.fictionEmail)
       throw new Error('no email service')
 
-    const appUrl = this.settings.factorEnv.appUrl
+    const appUrl = this.settings.fictionEnv.appUrl
 
-    const path = this.factorRouter?.rawPath('teamInvite')
+    const path = this.fictionRouter?.rawPath('teamInvite')
 
-    await this.factorEmail.sendEmail({
+    await this.fictionEmail.sendEmail({
       subject: `${requestingName || requestingEmail}: Request for Access`,
       text,
       linkText: 'Login and Invite',
@@ -160,12 +160,12 @@ export class QueryTeamInvite extends TeamQuery {
     },
     meta: EndpointMeta,
   ): Promise<EndpointResponse<boolean>> {
-    if (!this.factorUser)
+    if (!this.fictionUser)
       throw new Error('no user service')
-    if (!this.factorEmail)
+    if (!this.fictionEmail)
       throw new Error('no email service')
 
-    const appUrl = this.settings.factorEnv.appUrl
+    const appUrl = this.settings.fictionEnv.appUrl
 
     if (!appUrl)
       throw new Error('no appUrl')
@@ -178,7 +178,7 @@ export class QueryTeamInvite extends TeamQuery {
       throw this.stop('no invites were set')
 
     const { data: org }
-      = await this.factorUser.queries.FindOneOrganization.serve(
+      = await this.fictionUser.queries.FindOneOrganization.serve(
         {
           orgId,
         },
@@ -191,7 +191,7 @@ export class QueryTeamInvite extends TeamQuery {
     const invitedById = bearer?.userId
 
     const _promises = invites.map(async (invite) => {
-      if (!this.factorUser)
+      if (!this.fictionUser)
         throw new Error('no user service')
       const { memberAccess } = invite
       const email = invite.email.toLowerCase() // ensure lowercase
@@ -202,18 +202,18 @@ export class QueryTeamInvite extends TeamQuery {
       let linkText = 'Login'
       let message = `Login to get access.`
       // does the user already exist
-      let { data: user } = await this.factorUser.queries.ManageUser.serve(
+      let { data: user } = await this.fictionUser.queries.ManageUser.serve(
         { _action: 'getPrivate', email },
         { server: true, returnAuthority: ['hashedPassword'] },
       )
       if (!user?.hashedPassword) {
         const { data: newUser }
-          = await this.factorUser.queries.ManageUser.serve(
+          = await this.fictionUser.queries.ManageUser.serve(
             { _action: 'create', fields: { invitedById, email } },
             { server: true, returnAuthority: ['verificationCode'] },
           )
 
-        linkUrl = this.factorTeam.invitationReturnUrl({
+        linkUrl = this.fictionTeam.invitationReturnUrl({
           code: newUser?.verificationCode as string,
           email,
           orgId,
@@ -227,7 +227,7 @@ export class QueryTeamInvite extends TeamQuery {
       if (!user?.userId)
         throw this.stop('error creating user')
 
-      await this.factorUser.queries.ManageMemberRelation.serve(
+      await this.fictionUser.queries.ManageMemberRelation.serve(
         {
           memberId: user.userId,
           orgId,
@@ -244,7 +244,7 @@ export class QueryTeamInvite extends TeamQuery {
         org.orgName
       }" organization.\n\n${message}`
 
-      await this.factorEmail?.sendEmail({
+      await this.fictionEmail?.sendEmail({
         subject: `${org.orgName}: You've been invited!`,
         text,
         linkText,
@@ -257,7 +257,7 @@ export class QueryTeamInvite extends TeamQuery {
 
     let user: User | undefined
     if (bearer?.userId) {
-      const r = await this.factorUser.queries.ManageUser.serve(
+      const r = await this.fictionUser.queries.ManageUser.serve(
         {
           _action: 'getPrivate',
           userId: bearer.userId,

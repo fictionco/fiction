@@ -1,44 +1,44 @@
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
-import type { FactorUser, Organization, User } from '../plugin-user'
-import type { FactorServer } from '../plugin-server'
-import type { FactorEmail } from '../plugin-email'
-import type { FactorRouter } from '../plugin-router'
-import type { FactorDb } from '../plugin-db'
-import type { FactorApp } from '../plugin-app'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
+import type { FictionUser, Organization, User } from '../plugin-user'
+import type { FictionServer } from '../plugin-server'
+import type { FictionEmail } from '../plugin-email'
+import type { FictionRouter } from '../plugin-router'
+import type { FictionDb } from '../plugin-db'
+import type { FictionApp } from '../plugin-app'
 import {
   QueryOrgMembers,
   QuerySeekInviteFromUser,
   QueryTeamInvite,
 } from './query'
 
-type FactorTeamSettings = {
-  factorApp: FactorApp
-  factorDb: FactorDb
-  factorUser: FactorUser
-  factorServer: FactorServer
-  factorEmail: FactorEmail
-  factorRouter: FactorRouter
-} & FactorPluginSettings
+type FictionTeamSettings = {
+  fictionApp: FictionApp
+  fictionDb: FictionDb
+  fictionUser: FictionUser
+  fictionServer: FictionServer
+  fictionEmail: FictionEmail
+  fictionRouter: FictionRouter
+} & FictionPluginSettings
 
-export class FactorTeam extends FactorPlugin<FactorTeamSettings> {
+export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
   queries = {
-    OrgMembers: new QueryOrgMembers({ ...this.settings, factorTeam: this }),
-    TeamInvite: new QueryTeamInvite({ ...this.settings, factorTeam: this }),
-    SeekInviteFromUser: new QuerySeekInviteFromUser({ ...this.settings, factorTeam: this }),
+    OrgMembers: new QueryOrgMembers({ ...this.settings, fictionTeam: this }),
+    TeamInvite: new QueryTeamInvite({ ...this.settings, fictionTeam: this }),
+    SeekInviteFromUser: new QuerySeekInviteFromUser({ ...this.settings, fictionTeam: this }),
   }
 
   requests = this.createRequests({
     queries: this.queries,
-    factorServer: this.settings.factorServer,
-    factorUser: this.settings.factorUser,
+    fictionServer: this.settings.fictionServer,
+    fictionUser: this.settings.fictionUser,
   })
 
   root = this.utils.safeDirname(import.meta.url)
-  constructor(settings: FactorTeamSettings) {
-    super('factorTeam', settings)
+  constructor(settings: FictionTeamSettings) {
+    super('fictionTeam', settings)
 
-    this.factorEnv?.uiPaths.push(`${this.root}/**/*.vue`)
+    this.fictionEnv?.uiPaths.push(`${this.root}/**/*.vue`)
   }
 
   invitationReturnUrl(args: {
@@ -48,7 +48,7 @@ export class FactorTeam extends FactorPlugin<FactorTeamSettings> {
     redirect: string
   }): string {
     const { email, code, orgId, redirect = '' } = args
-    const url = this.settings.factorEnv.appUrl
+    const url = this.settings.fictionEnv.appUrl
     const e = encodeURIComponent(email)
     const r = encodeURIComponent(redirect)
     return `${url}/set-password?code=${code}&flow=invited&orgId=${orgId}&email=${e}&redirect=${r}`
@@ -95,7 +95,7 @@ export class FactorTeam extends FactorPlugin<FactorTeamSettings> {
     if (!verificationCode)
       throw this.stop('A verification code is required')
 
-    await this.settings.factorEmail.sendEmail({
+    await this.settings.fictionEmail.sendEmail({
       subject: `${org.orgName}: You've been invited!`,
       text,
       linkText: 'Set Your Password',

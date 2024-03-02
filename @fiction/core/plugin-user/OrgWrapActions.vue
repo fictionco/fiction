@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import ElButton from '@fiction/ui/ElButton.vue'
 import { useService } from '../inject'
-import type { FactorRouter } from '../plugin-router'
+import type { FictionRouter } from '../plugin-router'
 
-const { factorRouter } = useService<{ factorRouter: FactorRouter }>()
+const { fictionRouter } = useService<{ fictionRouter: FictionRouter }>()
 </script>
 
 <template>
-  <ElButton btn="primary" :to="factorRouter.link('accountNewOrg').value">
+  <ElButton btn="primary" :to="fictionRouter.link('accountNewOrg').value">
     New Organization
   </ElButton>
-  <ElButton btn="primary" :to="factorRouter.link('newProject').value">
+  <ElButton btn="primary" :to="fictionRouter.link('newProject').value">
     New Project
   </ElButton>
 </template>

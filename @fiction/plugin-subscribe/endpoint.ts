@@ -1,32 +1,32 @@
 import type {
   EndpointMeta,
   EndpointResponse,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
 } from '@fiction/core'
 import {
   Query,
 } from '@fiction/core'
-import type { FactorMonitor } from '@fiction/plugin-monitor'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
 import { tableName } from './tables'
-import type { FactorSubscribe } from '.'
+import type { FictionSubscribe } from '.'
 
 interface SaveMediaSettings {
-  factorSubscribe: FactorSubscribe
-  factorDb?: FactorDb
-  factorEnv: FactorEnv
-  factorMonitor: FactorMonitor
-  factorEmail: FactorEmail
+  fictionSubscribe: FictionSubscribe
+  fictionDb?: FictionDb
+  fictionEnv: FictionEnv
+  fictionMonitor: FictionMonitor
+  fictionEmail: FictionEmail
 }
 
 abstract class SubscribeQuery extends Query<SaveMediaSettings> {
-  factorSubscribe = this.settings.factorSubscribe
-  factorDb = this.settings.factorDb
-  factorEnv = this.settings.factorEnv
-  factorMonitor = this.settings.factorMonitor
-  factorEmail = this.settings.factorEmail
+  fictionSubscribe = this.settings.fictionSubscribe
+  fictionDb = this.settings.fictionDb
+  fictionEnv = this.settings.fictionEnv
+  fictionMonitor = this.settings.fictionMonitor
+  fictionEmail = this.settings.fictionEmail
   constructor(settings: SaveMediaSettings) {
     super(settings)
   }
@@ -42,11 +42,11 @@ export class QueryManageSubscribe extends SubscribeQuery {
     params: SubmissionParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSubmissionConfig>> {
-    if (!this.factorDb)
-      throw this.stop('no factorDb')
+    if (!this.fictionDb)
+      throw this.stop('no fictionDb')
     const { _action, email } = params
 
-    const db = this.factorDb.client()
+    const db = this.fictionDb.client()
 
     let message = ''
     let resultSubmission: TableSubmissionConfig | undefined
@@ -56,7 +56,7 @@ export class QueryManageSubscribe extends SubscribeQuery {
         fields: { email },
         table: tableName,
         meta,
-        factorDb: this.factorDb,
+        fictionDb: this.fictionDb,
       })
 
       ;[resultSubmission] = await db
@@ -66,7 +66,7 @@ export class QueryManageSubscribe extends SubscribeQuery {
 
       message = 'submission saved'
 
-      await this.factorMonitor.slackNotify({
+      await this.fictionMonitor.slackNotify({
         message: '*New Email Subscribe*',
         data: resultSubmission,
       })

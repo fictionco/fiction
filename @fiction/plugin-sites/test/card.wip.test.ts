@@ -7,7 +7,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 describe('cardTemplate', async () => {
   const _testUtils = await createSiteTestUtils()
   it('initializes correctly with default settings', async () => {
-    const site = new Site({ factorSites: _testUtils.factorSites, siteRouter: _testUtils.factorRouterSites, themeId: 'test' })
+    const site = new Site({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
 
     expect(site?.theme.value?.templates.map(t => t.settings.templateId)).toMatchInlineSnapshot(`
       [

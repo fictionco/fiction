@@ -1,4 +1,4 @@
-import { FactorDbCol, FactorDbTable } from '@fiction/core/plugin-db'
+import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 
 import type { CreateObjectType } from '@fiction/core/tbl'
 import { standardTable } from '@fiction/core/tbl'
@@ -8,7 +8,7 @@ interface st { updatedAt?: string, createdAt?: string }
 export type TableUsageConfig = CreateObjectType<typeof usageTableColumns> & st
 
 export const usageTableColumns = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'usageId',
     create: ({ schema, column, db }) => {
       schema
@@ -18,7 +18,7 @@ export const usageTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
     create: ({ schema, column }) => {
       schema
@@ -29,22 +29,22 @@ export const usageTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'credits',
     create: ({ schema, column }) => schema.integer(column.pgKey),
     default: () => 0,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'startedAt',
     create: ({ schema, column }) => schema.datetime(column.pgKey),
     default: () => 0,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'endedAt',
     create: ({ schema, column }) => schema.datetime(column.pgKey),
     default: () => 0,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => {
       schema
@@ -54,7 +54,7 @@ export const usageTableColumns = [
     },
     default: () => '',
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'meta',
     create: ({ schema, column }) => schema.jsonb(column.pgKey),
     isSetting: true,
@@ -63,7 +63,7 @@ export const usageTableColumns = [
 ] as const
 
 export const tables = [
-  new FactorDbTable({
+  new FictionDbTable({
     tableKey: standardTable.usage,
     timestamps: true,
     columns: usageTableColumns,

@@ -1,32 +1,32 @@
 import path from 'node:path'
-import { FactorUi } from '@fiction/ui'
-import { version as factorVersion } from '../package.json'
-import type { FactorObject, FactorPlugin } from '../plugin'
+import { FictionUi } from '@fiction/ui'
+import { version as fictionVersion } from '../package.json'
+import type { FictionObject, FictionPlugin } from '../plugin'
 import type { vue } from '../utils'
 import { randomBetween, safeDirname } from '../utils'
 import type { EnvVar } from '../plugin-env'
 import { runServicesSetup } from '../plugin-env'
 import type { User } from '../plugin-user'
 import {
-  FactorApp,
-  FactorDb,
-  FactorEmail,
-  FactorEnv,
-  FactorRouter,
-  FactorServer,
-  FactorUser,
+  FictionApp,
+  FictionDb,
+  FictionEmail,
+  FictionEnv,
+  FictionRouter,
+  FictionServer,
+  FictionUser,
 } from '..'
 import ElRoot from '../plugin-app/ElRoot.vue'
 import { getTestEmail } from './util'
 
 export interface TestUtilServices {
-  factorEnv: FactorEnv
-  factorApp: FactorApp
-  factorRouter: FactorRouter
-  factorServer: FactorServer
-  factorDb: FactorDb
-  factorUser: FactorUser
-  factorEmail: FactorEmail
+  fictionEnv: FictionEnv
+  fictionApp: FictionApp
+  fictionRouter: FictionRouter
+  fictionServer: FictionServer
+  fictionDb: FictionDb
+  fictionUser: FictionUser
+  fictionEmail: FictionEmail
 }
 
 export interface InitializedTestUtils {
@@ -41,7 +41,7 @@ export type TestService = Awaited<ReturnType<typeof createTestUtilServices>>
 
 export type TestUtils = {
   init: (
-    services?: Record<string, FactorPlugin>,
+    services?: Record<string, FictionPlugin>,
   ) => Promise<InitializedTestUtils>
   initialized?: InitializedTestUtils
   close: () => Promise<void>
@@ -66,15 +66,15 @@ export interface TestUtilSettings {
  * Runs services 'setup' functions
  * Creates a new user
  */
-export async function initializeTestUtils(service: TestUtilServices & { [key: string]: FactorPlugin | FactorObject }): Promise<InitializedTestUtils> {
+export async function initializeTestUtils(service: TestUtilServices & { [key: string]: FictionPlugin | FictionObject }): Promise<InitializedTestUtils> {
   await runServicesSetup(service, { context: 'test' })
 
-  const { factorUser, factorServer, factorDb, factorEmail } = service
+  const { fictionUser, fictionServer, fictionDb, fictionEmail } = service
 
   const promises = [
-    factorDb.init(),
-    factorEmail.init(),
-    factorServer.createServer({ factorUser }),
+    fictionDb.init(),
+    fictionEmail.init(),
+    fictionServer.createServer({ fictionUser }),
 
   ]
 
@@ -83,7 +83,7 @@ export async function initializeTestUtils(service: TestUtilServices & { [key: st
   const email = getTestEmail()
   const password = 'test'
 
-  const r = await factorUser.queries.ManageUser.serve(
+  const r = await fictionUser.queries.ManageUser.serve(
     {
       fields: { email, password, emailVerified: true },
       _action: 'create',
@@ -99,9 +99,9 @@ export async function initializeTestUtils(service: TestUtilServices & { [key: st
   if (!user)
     throw new Error('no user created')
 
-  factorUser.setCurrentUser({ user, token, reason: 'testUtils' })
+  fictionUser.setCurrentUser({ user, token, reason: 'testUtils' })
 
-  factorUser.setUserInitialized()
+  fictionUser.setUserInitialized()
 
   const orgId = user.orgs?.[0].orgId
 
@@ -129,7 +129,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     env = {},
     rootComponent = ElRoot,
     uiPaths = [],
-    version = factorVersion,
+    version = fictionVersion,
     checkEnvVars = [],
   } = opts || {}
 
@@ -141,7 +141,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   const root = safeDirname(import.meta.url)
 
-  const factorEnv = new FactorEnv({
+  const fictionEnv = new FictionEnv({
     envFiles,
     env: { ...defaultEnv, ...env },
     cwd,
@@ -155,18 +155,18 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
 
   // check env vars
   checkEnvVars.forEach((key) => {
-    if (!factorEnv.var(key))
+    if (!fictionEnv.var(key))
       throw new Error(`env var not set: ${key}`)
   })
 
-  const factorServer = new FactorServer({ port: serverPort, liveUrl: 'https://server.test.com', factorEnv })
-  const factorRouter = new FactorRouter({ routerId: 'testRouter', factorEnv, create: true })
-  const factorDb = new FactorDb({ factorEnv, factorServer, connectionUrl: factorEnv.var('POSTGRES_URL') })
-  const factorEmail = new FactorEmail({ factorEnv })
+  const fictionServer = new FictionServer({ port: serverPort, liveUrl: 'https://server.test.com', fictionEnv })
+  const fictionRouter = new FictionRouter({ routerId: 'testRouter', fictionEnv, create: true })
+  const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
+  const fictionEmail = new FictionEmail({ fictionEnv })
 
-  const base = { factorEnv, factorRouter, factorServer, factorDb, factorEmail }
+  const base = { fictionEnv, fictionRouter, fictionServer, fictionDb, fictionEmail }
 
-  const factorApp = new FactorApp({
+  const fictionApp = new FictionApp({
     ...base,
     port: appPort,
     rootComponent,
@@ -174,20 +174,20 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     isTest: true,
   })
 
-  const factorUser = new FactorUser({
+  const fictionUser = new FictionUser({
     ...base,
-    googleClientId: factorEnv.var('GOOGLE_CLIENT_ID'),
-    googleClientSecret: factorEnv.var('GOOGLE_CLIENT_SECRET'),
+    googleClientId: fictionEnv.var('GOOGLE_CLIENT_ID'),
+    googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
     tokenSecret: 'test',
   })
 
-  const factorUi = new FactorUi({ factorEnv, apps: [factorApp] })
+  const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp] })
 
   const services = {
     ...base,
-    factorApp,
-    factorUser,
-    factorUi,
+    fictionApp,
+    fictionUser,
+    fictionUi,
   }
 
   return services
@@ -199,8 +199,8 @@ export async function createTestUtils(opts?: TestUtilSettings) {
   const all = {
     init: () => initializeTestUtils(service),
     close: async () => {
-      service.factorServer.close()
-      await service.factorDb.close()
+      service.fictionServer.close()
+      await service.fictionDb.close()
     },
     ...service,
   }

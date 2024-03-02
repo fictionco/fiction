@@ -1,11 +1,11 @@
 import { vue } from './utils'
-import type { FactorApp } from './plugin-app'
-import type { FactorRouter } from './plugin-router'
-import type { FactorUser } from './plugin-user'
-import type { FactorEnv, ServiceList } from './plugin-env'
-import type { FactorMedia } from './plugin-media'
-import type { FactorDb } from './plugin-db'
-import type { FactorServer } from './plugin-server'
+import type { FictionApp } from './plugin-app'
+import type { FictionRouter } from './plugin-router'
+import type { FictionUser } from './plugin-user'
+import type { FictionEnv, ServiceList } from './plugin-env'
+import type { FictionMedia } from './plugin-media'
+import type { FictionDb } from './plugin-db'
+import type { FictionServer } from './plugin-server'
 
 export type RunVars = {
   APP_INSTANCE: string
@@ -32,13 +32,13 @@ export type RunVars = {
 }
 
 export type StandardServices = {
-  factorRouter: FactorRouter
-  factorUser: FactorUser
-  factorEnv: FactorEnv
-  factorApp: FactorApp
-  factorMedia: FactorMedia
-  factorDb: FactorDb
-  factorServer: FactorServer
+  fictionRouter: FictionRouter
+  fictionUser: FictionUser
+  fictionEnv: FictionEnv
+  fictionApp: FictionApp
+  fictionMedia: FictionMedia
+  fictionDb: FictionDb
+  fictionServer: FictionServer
   runVars?: RunVars
 } & ServiceList
 

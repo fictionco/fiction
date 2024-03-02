@@ -13,7 +13,7 @@ const emit = defineEmits<{
   (event: 'update:modelValue', payload: MediaDisplayObject): void
 }>()
 
-const { factorMedia } = useService()
+const { fictionMedia } = useService()
 
 // uploadId is to allow label click without conflict with others on page
 const uploadId = `file-upload-${shortId()}`
@@ -33,7 +33,7 @@ async function uploadFiles(files?: FileList | null) {
     return
 
   uploading.value = true
-  const result = await factorMedia.uploadFile({ file })
+  const result = await fictionMedia.uploadFile({ file })
   log.info('mediaUpload', `upload result`, { data: result })
 
   if (!result)

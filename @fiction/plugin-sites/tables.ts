@@ -1,8 +1,8 @@
 import type { CreateObjectType, ProgressStatus } from '@fiction/core'
-import { FactorDbCol, FactorDbTable } from '@fiction/core/plugin-db'
+import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { EditorState } from './site'
 
-export const tableNames = { sites: 'factor_site', pages: 'factor_site_pages', domains: 'factor_site_domains' }
+export const tableNames = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains' }
 
 type st = { updatedAt?: string, createdAt?: string }
 
@@ -35,39 +35,39 @@ export type CardConfigPortable<T extends Record<string, unknown> = Record<string
 export type TableDomainConfig = Partial<CreateObjectType<typeof domainCols>> & { hostname: string }
 
 const siteCols = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'siteId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('site')`)).index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string().min(1),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`factor_user.user_id`),
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_user.user_id`),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string().length(50),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`factor_org.org_id`).onUpdate('CASCADE').notNullable().index(),
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
     zodSchema: ({ z }) => z.string().length(50),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'title',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     default: () => '' as string,
     isSetting: true,
     zodSchema: ({ z }) => z.string().min(1),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'themeId',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable(),
     default: () => '' as string,
     isSetting: true,
     zodSchema: ({ z }) => z.string().min(1),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'subDomain',
     create: ({ schema, column, db }) => schema.string(column.pgKey).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(),
     default: () => '' as string,
@@ -75,7 +75,7 @@ const siteCols = [
     prepare: ({ value }) => (value as string).replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
     zodSchema: ({ z }) => z.string().min(1), // Adapt the schema as needed
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'customDomains',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
@@ -83,13 +83,13 @@ const siteCols = [
     isSetting: true,
     zodSchema: ({ z }) => z.array(z.any()), // Adapt the schema as needed
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'status',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo(column.default()),
     default: () => 'pending' as ProgressStatus,
     zodSchema: ({ z }) => z.enum(['pending', 'active', 'inactive']), // Adapt the schema as needed
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userConfig',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
     prepare: ({ value }) => JSON.stringify(value),
@@ -97,7 +97,7 @@ const siteCols = [
     default: () => ({} as SiteUserConfig),
     zodSchema: ({ z }) => z.record(z.unknown()), // Adapt the schema as needed
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'editor',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
     prepare: ({ value }) => JSON.stringify(value),
@@ -105,7 +105,7 @@ const siteCols = [
     default: () => ({} as EditorState),
     zodSchema: ({ z }) => z.record(z.unknown()), // Adapt the schema as needed
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'sections',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo({}),
     prepare: ({ value }) => JSON.stringify(value),
@@ -116,47 +116,47 @@ const siteCols = [
 ] as const
 
 const pageCols = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'cardId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('card')`)).index(),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'siteId',
     create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`${tableNames.sites}.site_id`).onUpdate('CASCADE').notNullable().index(),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userId',
     create: ({ schema, column }) => {
-      schema.string(column.pgKey, 50).references(`factor_user.user_id`)
+      schema.string(column.pgKey, 50).references(`fiction_user.user_id`)
     },
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'orgId',
-    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`factor_org.org_id`).onUpdate('CASCADE').notNullable(),
+    create: ({ schema, column }) => schema.string(column.pgKey, 50).references(`fiction_org.org_id`).onUpdate('CASCADE').notNullable(),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'regionId',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo(column.default()),
     default: () => 'main' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'layoutId',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().defaultTo(column.default()),
     default: () => 'default' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'templateId',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable(),
     default: () => '' as string,
     isSetting: true,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'slug',
     create: ({ schema, column, db }) => schema.string(column.pgKey).defaultTo(db.raw(`short_id(5)`)).index(),
     default: () => '' as string,
@@ -164,40 +164,40 @@ const pageCols = [
     prepare: ({ value }) => (value as string).replaceAll(/[\s]+/g, '-').replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
   }),
 
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'title',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     default: () => '' as string,
     isSetting: true,
   }),
 
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'cards',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
     default: () => ([]),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'userConfig',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
     prepare: ({ value }) => JSON.stringify(value),
     isSetting: true,
     default: () => ({} as Record<string, unknown>),
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'isDefault',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => false as boolean,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'is404',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => false as boolean,
   }),
-  // new FactorDbCol({
+  // new FictionDbCol({
   //   key: 'editor',
   //   create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
   //   prepare: ({ value }) => JSON.stringify(value),
@@ -207,49 +207,49 @@ const pageCols = [
 ] as const
 
 const domainCols = [
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'domainId',
     create: ({ schema, column, db }) => schema.string(column.pgKey).primary().defaultTo(db.raw(`object_id('dmn')`)).index(),
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'siteId',
     create: ({ schema, column }) => {
       schema.string(column.pgKey, 50).references(`${tableNames.sites}.site_id`).onUpdate('CASCADE').notNullable().index()
     },
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'hostname',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable(),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'isPrimary',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => false as boolean,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'dnsValidationHostname',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'dnsValidationTarget',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
     isSetting: true,
     default: () => '' as string,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'isConfigured',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
     isSetting: true,
     default: () => false as boolean,
   }),
-  new FactorDbCol({
+  new FictionDbCol({
     key: 'certificateAuthority',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
     isSetting: true,
@@ -258,7 +258,7 @@ const domainCols = [
 ] as const
 
 export const tables = [
-  new FactorDbTable({ tableKey: tableNames.sites, timestamps: true, columns: siteCols }),
-  new FactorDbTable({ tableKey: tableNames.pages, timestamps: true, columns: pageCols, onCreate: t => t.unique(['site_id', 'slug', 'region_id']) }),
-  new FactorDbTable({ tableKey: tableNames.domains, timestamps: true, columns: domainCols }),
+  new FictionDbTable({ tableKey: tableNames.sites, timestamps: true, columns: siteCols }),
+  new FictionDbTable({ tableKey: tableNames.pages, timestamps: true, columns: pageCols, onCreate: t => t.unique(['site_id', 'slug', 'region_id']) }),
+  new FictionDbTable({ tableKey: tableNames.domains, timestamps: true, columns: domainCols }),
 ]

@@ -21,7 +21,7 @@ type KaptionResponse = EndpointResponse<TrackingEvent>
 
 export type GenType = 'internal' | 'core' | 'user'
 
-export interface FactorClientSettings {
+export interface FictionClientSettings {
   orgId: string
   namespace: string
   intervalSeconds?: number
@@ -29,7 +29,7 @@ export interface FactorClientSettings {
   beaconUrl?: string
 }
 
-export class FactorClient extends WriteBuffer<TrackingEvent> {
+export class FictionClient extends WriteBuffer<TrackingEvent> {
   orgId: string
   anonymousId = getAnonymousId().anonymousId
   beaconUrl?: string
@@ -39,10 +39,10 @@ export class FactorClient extends WriteBuffer<TrackingEvent> {
   intervalSeconds: number
   log: LogHelper
   gen: GenType
-  constructor(settings: FactorClientSettings) {
+  constructor(settings: FictionClientSettings) {
     super({ limit: 5, maxSeconds: settings.intervalSeconds })
 
-    this.namespace = settings.namespace || 'FactorNamespace'
+    this.namespace = settings.namespace || 'FictionNamespace'
     this.orgId = settings.orgId
     this.gen = settings.gen || 'user'
     this.log = log.contextLogger(this.namespace)
@@ -70,7 +70,7 @@ export class FactorClient extends WriteBuffer<TrackingEvent> {
     args.set('events', JSON.stringify(events))
     args.set('orgId', this.orgId)
 
-    if (typeof window !== 'undefined' && window.factorIsFake)
+    if (typeof window !== 'undefined' && window.fictionIsFake)
       args.set('isFake', '1')
 
     return args.toString()
@@ -114,7 +114,7 @@ export class FactorClient extends WriteBuffer<TrackingEvent> {
       this.log.info(msg, { data: { url, events, baseUrl } })
 
       if (!fetch)
-        throw new Error('FactorClient: fetch is not available')
+        throw new Error('FictionClient: fetch is not available')
 
       // methods and mode are same as default (GET/cors)
       // The keepalive option indicates that the request may “outlive” the webpage that initiated it.
@@ -280,7 +280,7 @@ export class FactorClient extends WriteBuffer<TrackingEvent> {
 export function createClient(args: {
   orgId: string
   namespace: string
-}): FactorClient {
+}): FictionClient {
   const { orgId, namespace } = args
-  return new FactorClient({ orgId, namespace })
+  return new FictionClient({ orgId, namespace })
 }

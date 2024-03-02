@@ -1,12 +1,12 @@
 import process from 'node:process'
 import type nodemon from 'nodemon'
-import type { FactorPluginSettings } from '../plugin'
-import { FactorPlugin } from '../plugin'
+import type { FictionPluginSettings } from '../plugin'
+import { FictionPlugin } from '../plugin'
 import { isRestart } from '../utils'
 import { done } from './utils'
 
-export class FactorDevRestart extends FactorPlugin {
-  constructor(settings: FactorPluginSettings) {
+export class FictionDevRestart extends FictionPlugin {
+  constructor(settings: FictionPluginSettings) {
     super('devRestart', settings)
   }
 
@@ -48,7 +48,7 @@ export class FactorDevRestart extends FactorPlugin {
 
     passArgs.shift()
 
-    const script = [`npm exec --`, `factor run ${command}`, passArgs.join(' ')]
+    const script = [`npm exec --`, `fiction run ${command}`, passArgs.join(' ')]
     const runScript = script.join(' ')
     fullConfig.exec = runScript
     fullConfig.cwd = process.cwd()

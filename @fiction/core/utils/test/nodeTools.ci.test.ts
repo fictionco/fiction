@@ -30,14 +30,14 @@ describe('node utils', () => {
     expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(
       `
       [
-        "factorApp",
-        "factorDb",
-        "factorEmail",
-        "factorEnv",
-        "factorRouter",
-        "factorServer",
-        "factorStripe",
-        "factorUser",
+        "fictionApp",
+        "fictionDb",
+        "fictionEmail",
+        "fictionEnv",
+        "fictionRouter",
+        "fictionServer",
+        "fictionStripe",
+        "fictionUser",
         "service",
         "setup",
       ]
@@ -62,17 +62,17 @@ describe('node utils', () => {
 
     expect(Object.keys(service).sort()).toMatchInlineSnapshot(`
       [
-        "factorApp",
-        "factorDb",
-        "factorEnv",
-        "factorHighlightCode",
-        "factorMedia",
-        "factorNotify",
-        "factorRouter",
-        "factorServer",
-        "factorStripe",
-        "factorUi",
-        "factorUser",
+        "fictionApp",
+        "fictionDb",
+        "fictionEnv",
+        "fictionHighlightCode",
+        "fictionMedia",
+        "fictionNotify",
+        "fictionRouter",
+        "fictionServer",
+        "fictionStripe",
+        "fictionUi",
+        "fictionUser",
       ]
     `)
   })

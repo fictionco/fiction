@@ -7,8 +7,8 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 import { axios, randomBetween, vue } from '@fiction/core/utils'
 import type { EndpointResponse } from '@fiction/core/types'
-import { FactorUser } from '@fiction/core/plugin-user'
-import { FactorServer } from '..'
+import { FictionUser } from '@fiction/core/plugin-user'
+import { FictionServer } from '..'
 
 let testUtils: TestUtils
 let server: http.Server | undefined
@@ -22,23 +22,23 @@ describe('server test', () => {
   })
   it('starts endpoint server', async () => {
     const port = randomBetween(9000, 9999)
-    const factorServer = new FactorServer({
-      factorEnv: testUtils.factorEnv,
+    const fictionServer = new FictionServer({
+      fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
     })
 
-    server = await factorServer.createServer()
+    server = await fictionServer.createServer()
 
-    expect(factorServer.port.value).toBe(port)
+    expect(fictionServer.port.value).toBe(port)
 
-    expect(factorServer.serverUrl.value).toBe(`http://localhost:${port}`)
+    expect(fictionServer.serverUrl.value).toBe(`http://localhost:${port}`)
 
     let response: axios.AxiosResponse<EndpointResponse> | undefined
     try {
       response = await axios.default.get<EndpointResponse>(
-        `http://localhost:${factorServer.port.value}/health`,
+        `http://localhost:${fictionServer.port.value}/health`,
       )
     }
     catch (error) {
@@ -61,77 +61,77 @@ describe('server test', () => {
 
   it('switches to live URL correctly', async () => {
     const port = randomBetween(9000, 9999)
-    const factorServer = new FactorServer({
-      factorEnv: testUtils.factorEnv,
+    const fictionServer = new FictionServer({
+      fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
       isLive: vue.ref(true), // Simulating live environment
     })
 
-    server = await factorServer.createServer()
-    expect(factorServer.serverUrl.value).toBe(`https://server.test.com`)
+    server = await fictionServer.createServer()
+    expect(fictionServer.serverUrl.value).toBe(`https://server.test.com`)
   })
 
   it('handles useLocal scenario', async () => {
     const port = randomBetween(9000, 9999)
-    const factorServer = new FactorServer({
-      factorEnv: testUtils.factorEnv,
+    const fictionServer = new FictionServer({
+      fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
     })
 
-    server = await factorServer.createServer({ useLocal: true })
-    expect(factorServer.useLocal.value).toBe(true)
-    expect(factorServer.serverUrl.value).toBe(`http://localhost:${port}`)
+    server = await fictionServer.createServer({ useLocal: true })
+    expect(fictionServer.useLocal.value).toBe(true)
+    expect(fictionServer.serverUrl.value).toBe(`http://localhost:${port}`)
   })
 
   it('useLocal forces other plugins to right place', async () => {
     const port = randomBetween(9000, 9999)
-    const factorServer = new FactorServer({
-      factorEnv: testUtils.factorEnv,
+    const fictionServer = new FictionServer({
+      fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
       isLive: vue.ref(true), // Simulating live environment
     })
 
-    const factorUser = new FactorUser({
-      factorEnv: testUtils.factorEnv,
-      factorDb: testUtils.factorDb,
-      factorEmail: testUtils.factorEmail,
-      factorServer,
+    const fictionUser = new FictionUser({
+      fictionEnv: testUtils.fictionEnv,
+      fictionDb: testUtils.fictionDb,
+      fictionEmail: testUtils.fictionEmail,
+      fictionServer,
       tokenSecret: 'test',
     })
 
-    server = await factorServer.createServer()
+    server = await fictionServer.createServer()
 
-    factorServer.close()
+    fictionServer.close()
 
-    server = await factorServer.createServer({ useLocal: true })
+    server = await fictionServer.createServer({ useLocal: true })
 
-    expect(factorUser.requests.Login.getBaseUrl()).toBe(`http://localhost:${port}`)
-    expect(factorUser.requests.Login.requestUrl).toBe(`http://localhost:${port}/api/user/Login`)
+    expect(fictionUser.requests.Login.getBaseUrl()).toBe(`http://localhost:${port}`)
+    expect(fictionUser.requests.Login.requestUrl).toBe(`http://localhost:${port}/api/user/Login`)
   })
 
   it('handles localUrl', async () => {
     window.location.href = `${window.location.href}test`
     const port = randomBetween(9000, 9999)
-    const factorServer = new FactorServer({
-      factorEnv: testUtils.factorEnv,
+    const fictionServer = new FictionServer({
+      fictionEnv: testUtils.fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
       isLive: vue.ref(true),
     })
 
-    expect(factorServer.localUrl.value).toBe(`http://localhost:${port}`)
+    expect(fictionServer.localUrl.value).toBe(`http://localhost:${port}`)
 
-    expect(factorServer.serverUrl.value).toBe(`https://server.test.com`)
+    expect(fictionServer.serverUrl.value).toBe(`https://server.test.com`)
 
-    factorServer.useLocal.value = true
+    fictionServer.useLocal.value = true
 
-    expect(factorServer.serverUrl.value).toBe(`http://localhost:${port}`)
+    expect(fictionServer.serverUrl.value).toBe(`http://localhost:${port}`)
   })
 })

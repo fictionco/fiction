@@ -49,7 +49,7 @@ export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteCo
   if (delayUntilSaveConfig)
     fields = { ...fields, ...delayUntilSaveConfig }
 
-  const r = await site.settings.factorSites.requests.ManageSite.projectRequest({ _action: 'update', fields, where: { siteId: config.siteId } })
+  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({ _action: 'update', fields, where: { siteId: config.siteId } })
 
   updateSite({ site, newConfig: r.data || {} })
 
@@ -80,7 +80,7 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
 export function activeSiteHostname(site: Site) {
   return vue.computed(() => {
     const sub = site.subDomain.value || 'NO_SUB_DOMAIN'
-    const app = site.factorSites.settings.factorAppSites
+    const app = site.fictionSites.settings.fictionAppSites
     const isProd = site.isProd.value
     const base = isProd ? app?.liveUrl.value : app?.localUrl
 

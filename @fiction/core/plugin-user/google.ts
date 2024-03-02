@@ -1,6 +1,6 @@
 import type { vue } from '../utils'
 import { getNakedDomain, waitFor } from '../utils'
-import type { FactorUser } from '.'
+import type { FictionUser } from '.'
 
 declare global {
   interface Window {
@@ -33,14 +33,14 @@ interface GoogleOneTapSettings {
   promptParentId?: string
   signinButtonId?: string
   showPrompt?: boolean
-  factorUser: FactorUser
+  fictionUser: FictionUser
   cookieDomain?: string
   isSending?: vue.Ref
   isDarkMode?: boolean
   callback?:
     | ((
       r: Awaited<
-          ReturnType<FactorUser['requests']['UserGoogleAuth']['request']>
+          ReturnType<FictionUser['requests']['UserGoogleAuth']['request']>
         >,
     ) => void)
     | undefined
@@ -53,7 +53,7 @@ async function handleGoogleCredentialResponse(response: CredentialResponse, sett
     isSending.value = true
 
   const loginResponse
-    = await settings.factorUser.requests.UserGoogleAuth.request(
+    = await settings.fictionUser.requests.UserGoogleAuth.request(
       {
         _action: 'loginWithCredential',
         credential: response.credential,
@@ -69,18 +69,18 @@ async function handleGoogleCredentialResponse(response: CredentialResponse, sett
 // const googleAuthRequest = userEndpoints().UserGoogleAuth.request
 // type CallbackResponse = Awaited<ReturnType<typeof googleAuthRequest>>
 export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void> {
-  const { autoSignIn = false, promptParentId, signinButtonId = '#google-signin-button', cookieDomain, showPrompt = true, factorUser, isDarkMode = false } = settings
+  const { autoSignIn = false, promptParentId, signinButtonId = '#google-signin-button', cookieDomain, showPrompt = true, fictionUser, isDarkMode = false } = settings
 
   if (!window)
     return
 
-  if (factorUser.factorEnv?.isTest.value) {
-    factorUser.log.info('googleOneTap disabled: isTest')
+  if (fictionUser.fictionEnv?.isTest.value) {
+    fictionUser.log.info('googleOneTap disabled: isTest')
     return
   }
 
-  if (!factorUser.googleClientId) {
-    factorUser.log.error('googleOneTap disabled: no googleClientId', { data: settings })
+  if (!fictionUser.googleClientId) {
+    fictionUser.log.error('googleOneTap disabled: no googleClientId', { data: settings })
     return
   }
 
@@ -88,21 +88,21 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
 
   const el = document.querySelector<HTMLElement>(signinButtonId)
   if (window.google === undefined) {
-    factorUser.log.info('Google One Tap not loaded')
+    fictionUser.log.info('Google One Tap not loaded')
   }
   else {
     const state_cookie_domain = cookieDomain || getNakedDomain()
-    factorUser.log.info('google one tap initialize', {
+    fictionUser.log.info('google one tap initialize', {
       data: {
-        clientId: factorUser.googleClientId,
+        clientId: fictionUser.googleClientId,
         state_cookie_domain,
         settings,
       },
     })
     const initializeArgs = {
-      client_id: factorUser.googleClientId,
+      client_id: fictionUser.googleClientId,
       callback: async (credentialResponse: CredentialResponse) => {
-        factorUser.log.info('google one tap callback', {
+        fictionUser.log.info('google one tap callback', {
           data: credentialResponse,
         })
         await handleGoogleCredentialResponse(credentialResponse, settings)
@@ -114,7 +114,7 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
       prompt_parent_id: promptParentId,
     } as const
 
-    factorUser.log.info('initializing', {
+    fictionUser.log.info('initializing', {
       data: { initializeArgs, ...settings },
     })
 

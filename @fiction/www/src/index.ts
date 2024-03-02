@@ -1,17 +1,17 @@
 import path from 'node:path'
-import { FactorUi } from '@fiction/ui'
+import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FactorApp, FactorAws, FactorDb, FactorEmail, FactorEnv, FactorMedia, FactorRouter, FactorServer, FactorUser, apiRoot, safeDirname } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
 
-import { FactorTeam } from '@fiction/core/plugin-team'
-import { FactorMonitor } from '@fiction/plugin-monitor'
-import { FactorNotify } from '@fiction/plugin-notify'
-import { FactorDevRestart } from '@fiction/core/plugin-env/restart'
-import { FactorAdmin } from '@fiction/plugin-admin'
-import { FactorAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
+import { FictionTeam } from '@fiction/core/plugin-team'
+import { FictionMonitor } from '@fiction/plugin-monitor'
+import { FictionNotify } from '@fiction/plugin-notify'
+import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
+import { FictionAdmin } from '@fiction/plugin-admin'
+import { FictionAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
 import XSite from '@fiction/plugin-sites/engine/XSite.vue'
-import { FactorAi } from '@fiction/plugin-ai'
+import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
 import { config as adminConfig } from './admin'
 import { commands } from './commands'
@@ -25,7 +25,7 @@ const appUrlSites = `https://*.fiction.${tld}`
 
 const envFiles = [path.join(apiRoot, './.env')]
 
-const factorEnv = new FactorEnv({
+const fictionEnv = new FictionEnv({
   cwd,
   envFiles,
   envFilesProd: envFiles,
@@ -37,160 +37,160 @@ const factorEnv = new FactorEnv({
   commands,
 })
 
-const comboPort = +factorEnv.var('APP_PORT', { fallback: 4444 })
+const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })
 
-const factorRouter = new FactorRouter({
+const fictionRouter = new FictionRouter({
   routerId: 'parentRouter',
-  factorEnv,
-  baseUrl: factorEnv.appUrl,
-  routes: (factorRouter) => {
+  fictionEnv,
+  baseUrl: fictionEnv.appUrl,
+  routes: (fictionRouter) => {
     return [
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/test/TestInputsAll.vue') }),
-      new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: XSite, props: { siteRouter: factorRouter, themeId: 'admin' } }),
-      new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: factorRouter, themeId: 'fiction' } }),
+      new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: XSite, props: { siteRouter: fictionRouter, themeId: 'admin' } }),
+      new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),
     ]
   },
 
 })
 
-const factorApp = new FactorApp({
-  liveUrl: factorEnv.appUrl,
+const fictionApp = new FictionApp({
+  liveUrl: fictionEnv.appUrl,
   port: comboPort,
-  factorRouter,
-  isLive: factorEnv.isProd,
+  fictionRouter,
+  isLive: fictionEnv.isProd,
   uiPaths: [
     path.join(cwd, './src/**/*.{vue,js,ts,html}'),
     path.join(cwd, './src/*.{vue,js,ts,html}'),
   ],
-  factorEnv,
+  fictionEnv,
   srcFolder: path.join(cwd, './src'),
 })
 
-const factorRouterSites = new FactorRouter({
+const fictionRouterSites = new FictionRouter({
   routerId: 'siteRouter',
-  factorEnv,
+  fictionEnv,
   baseUrl: appUrlSites,
   routes: [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite })],
 })
 
-const factorAppSites = new FactorApp({
+const fictionAppSites = new FictionApp({
   appInstanceId: 'sites',
-  factorEnv,
-  factorRouter: factorRouterSites,
-  port: +factorEnv.var('SITES_PORT', { fallback: 6565 }),
+  fictionEnv,
+  fictionRouter: fictionRouterSites,
+  port: +fictionEnv.var('SITES_PORT', { fallback: 6565 }),
   localHostname: '*.lan.com',
   liveUrl: appUrlSites,
   altHostnames: [{ prod: 'theme-minimal.fiction.com', dev: 'theme-minimal.lan.com' }],
-  isLive: factorEnv.isProd,
+  isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
 })
 
-const factorServer = new FactorServer({ factorEnv, serverName: 'FactorMain', port: comboPort, liveUrl: appUrl })
-const factorDb = new FactorDb({ factorEnv, factorServer, connectionUrl: factorEnv.var('POSTGRES_URL') })
-const factorNotify = new FactorNotify({ factorEnv })
-const factorEmail = new FactorEmail({ factorEnv, smtpHost: factorEnv.var('SMTP_HOST'), smtpPassword: factorEnv.var('SMTP_PASSWORD'), smtpUser: factorEnv.var('SMTP_USER') })
+const fictionServer = new FictionServer({ fictionEnv, serverName: 'FictionMain', port: comboPort, liveUrl: appUrl })
+const fictionDb = new FictionDb({ fictionEnv, fictionServer, connectionUrl: fictionEnv.var('POSTGRES_URL') })
+const fictionNotify = new FictionNotify({ fictionEnv })
+const fictionEmail = new FictionEmail({ fictionEnv, smtpHost: fictionEnv.var('SMTP_HOST'), smtpPassword: fictionEnv.var('SMTP_PASSWORD'), smtpUser: fictionEnv.var('SMTP_USER') })
 
-const factorUser = new FactorUser({
-  factorEnv,
-  factorServer,
-  factorDb,
-  factorEmail,
-  factorRouter,
-  googleClientId: factorEnv.var('GOOGLE_CLIENT_ID'),
-  googleClientSecret: factorEnv.var('GOOGLE_CLIENT_SECRET'),
-  tokenSecret: factorEnv.var('TOKEN_SECRET'),
+const fictionUser = new FictionUser({
+  fictionEnv,
+  fictionServer,
+  fictionDb,
+  fictionEmail,
+  fictionRouter,
+  googleClientId: fictionEnv.var('GOOGLE_CLIENT_ID'),
+  googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
+  tokenSecret: fictionEnv.var('TOKEN_SECRET'),
   hooks: [
     {
       hook: 'onLogout',
       callback: async () => {
-        factorNotify.notifySuccess('You have been logged out.')
-        await factorRouter.push('/')
+        fictionNotify.notifySuccess('You have been logged out.')
+        await fictionRouter.push('/')
       },
     },
   ],
 })
 
-const factorMonitor = new FactorMonitor({
-  factorApp,
-  factorEmail,
-  factorEnv,
-  slackWebhookUrl: factorEnv.var('SLACK_WEBHOOK_URL'),
-  factorUser,
+const fictionMonitor = new FictionMonitor({
+  fictionApp,
+  fictionEmail,
+  fictionEnv,
+  slackWebhookUrl: fictionEnv.var('SLACK_WEBHOOK_URL'),
+  fictionUser,
 })
 
 const basicService = {
-  factorEnv,
-  factorApp,
-  factorRouter,
-  factorServer,
-  factorDb,
-  factorUser,
-  factorEmail,
-  factorMonitor,
+  fictionEnv,
+  fictionApp,
+  fictionRouter,
+  fictionServer,
+  fictionDb,
+  fictionUser,
+  fictionEmail,
+  fictionMonitor,
 }
 
-const factorAws = new FactorAws({
-  factorEnv,
-  awsAccessKey: factorEnv.var('AWS_ACCESS_KEY'),
-  awsAccessKeySecret: factorEnv.var('AWS_ACCESS_KEY_SECRET'),
+const fictionAws = new FictionAws({
+  fictionEnv,
+  awsAccessKey: fictionEnv.var('AWS_ACCESS_KEY'),
+  awsAccessKeySecret: fictionEnv.var('AWS_ACCESS_KEY_SECRET'),
 })
 
-const factorMedia = new FactorMedia({
-  factorEnv,
-  factorDb,
-  factorUser,
-  factorServer,
-  factorAws,
-  bucket: 'factor-tests',
+const fictionMedia = new FictionMedia({
+  fictionEnv,
+  fictionDb,
+  fictionUser,
+  fictionServer,
+  fictionAws,
+  bucket: 'fiction-tests',
 })
 
-const factorAi = new FactorAi({
+const fictionAi = new FictionAi({
   ...basicService,
-  factorMedia,
-  pineconeApiKey: factorEnv.var('PINECONE_API_KEY'),
-  pineconeEnvironment: factorEnv.var('PINECONE_ENVIRONMENT'),
-  pineconeIndex: factorEnv.var('PINECONE_INDEX'),
-  openaiApiKey: factorEnv.var('OPENAI_API_KEY'),
+  fictionMedia,
+  pineconeApiKey: fictionEnv.var('PINECONE_API_KEY'),
+  pineconeEnvironment: fictionEnv.var('PINECONE_ENVIRONMENT'),
+  pineconeIndex: fictionEnv.var('PINECONE_INDEX'),
+  openaiApiKey: fictionEnv.var('OPENAI_API_KEY'),
 })
 
 const pluginServices = {
   ...basicService,
-  factorAppSites,
-  factorRouterSites,
-  factorAws,
-  factorMedia,
+  fictionAppSites,
+  fictionRouterSites,
+  fictionAws,
+  fictionMedia,
 }
 const plugins = createPluginConfig([
   {
     load: () => import('@fiction/plugin-sites'),
-    settings: { factorAppSites, factorRouterSites, flyIoApiToken: '', flyIoAppId: '' },
+    settings: { fictionAppSites, fictionRouterSites, flyIoApiToken: '', flyIoAppId: '' },
   },
 ])
-const factorAdminPluginIndex = new FactorAdminPluginIndex({ ...pluginServices, plugins })
+const fictionAdminPluginIndex = new FictionAdminPluginIndex({ ...pluginServices, plugins })
 
-const factorAdmin = new FactorAdmin({
+const fictionAdmin = new FictionAdmin({
   ...pluginServices,
-  pluginIndex: factorAdminPluginIndex,
+  pluginIndex: fictionAdminPluginIndex,
   views: adminConfig.views,
   widgets: adminConfig.widgets,
   ui: adminConfig.ui,
-  factorAi,
+  fictionAi,
 })
 
-const factorTeam = new FactorTeam({ ...pluginServices })
+const fictionTeam = new FictionTeam({ ...pluginServices })
 
-const factorUi = new FactorUi({ factorEnv, apps: [factorApp, factorAppSites] })
+const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
 
 async function initializeBackingServices() {
-  await factorDb.init()
-  factorEmail.init()
+  await fictionDb.init()
+  fictionEmail.init()
 }
 
-export const service = { ...pluginServices, factorAdmin, factorTeam, factorUi }
+export const service = { ...pluginServices, fictionAdmin, fictionTeam, fictionUi }
 
 export function setup(): ServiceConfig {
   return {
-    factorEnv,
+    fictionEnv,
     runCommand: async (args) => {
       const { command, options = {}, context } = args
 
@@ -198,7 +198,7 @@ export function setup(): ServiceConfig {
         const realCommand = command.split('-').shift()
         if (!realCommand)
           throw new Error('No command for restart')
-        await new FactorDevRestart({ factorEnv }).restartInitializer({
+        await new FictionDevRestart({ fictionEnv }).restartInitializer({
           command: realCommand,
           config: { watch: [safeDirname(import.meta.url, '../../..')] },
         })
@@ -209,59 +209,59 @@ export function setup(): ServiceConfig {
         if (command === 'app' || command === 'dev') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
 
-          const srv = await factorServer.initServer({ useLocal: true, factorUser })
+          const srv = await fictionServer.initServer({ useLocal: true, fictionUser })
 
           if (context === 'node') {
             if (build) {
-              await factorApp.buildApp()
-              await factorAppSites.buildApp()
+              await fictionApp.buildApp()
+              await fictionAppSites.buildApp()
             }
 
-            await factorApp.ssrServerSetup({
+            await fictionApp.ssrServerSetup({
               expressApp: srv?.expressApp,
               isProd: command !== 'dev',
             })
 
             await srv?.run()
 
-            await factorAppSites.ssrServerCreate({ isProd: command !== 'dev' })
+            await fictionAppSites.ssrServerCreate({ isProd: command !== 'dev' })
 
-            factorApp.logReady({ serveMode: 'comboSSR' })
+            fictionApp.logReady({ serveMode: 'comboSSR' })
           }
           else if (context === 'app') {
-            factorUser.init()
+            fictionUser.init()
           }
         }
         else if (command === 'sites') {
           const { build } = options as { build?: boolean, useLocal?: boolean }
-          const srv = await factorServer.initServer({ useLocal: true, factorUser, port: factorAppSites.port })
+          const srv = await fictionServer.initServer({ useLocal: true, fictionUser, port: fictionAppSites.port })
           if (context === 'node') {
             if (build)
-              await factorAppSites.buildApp()
+              await fictionAppSites.buildApp()
 
-            await factorAppSites.ssrServerSetup({
+            await fictionAppSites.ssrServerSetup({
               expressApp: srv?.expressApp,
               isProd: true,
             })
 
             await srv?.run()
 
-            factorAppSites.logReady({ serveMode: 'comboSSR' })
+            fictionAppSites.logReady({ serveMode: 'comboSSR' })
           }
           else if (context === 'app') {
-            factorUser.init()
+            fictionUser.init()
           }
         }
 
         else if (command === 'build' || command === 'render') {
           const { serve } = options
 
-          await factorAppSites.buildApp({ serve, render: true })
-          await factorApp.buildApp({ serve, render: true })
+          await fictionAppSites.buildApp({ serve, render: true })
+          await fictionApp.buildApp({ serve, render: true })
         }
         else if (command === 'generate') {
-          await factorDb.init()
-          await factorEnv.generate()
+          await fictionDb.init()
+          await fictionEnv.generate()
         }
       }
     },
@@ -269,13 +269,13 @@ export function setup(): ServiceConfig {
     createMount: async (args) => {
       // APP_INSTANCE is the APP being run
       if (args.runVars.APP_INSTANCE === 'sites') {
-        return await factorAppSites.mountApp(args)
+        return await fictionAppSites.mountApp(args)
       }
       else {
         // prevent sub route from screwing with URL
-        // factorRouterSites.historyMode = 'memory'
-        // factorRouterSites.create()
-        return await factorApp.mountApp(args)
+        // fictionRouterSites.historyMode = 'memory'
+        // fictionRouterSites.create()
+        return await fictionApp.mountApp(args)
       }
     },
   }

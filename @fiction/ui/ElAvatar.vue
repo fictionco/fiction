@@ -37,7 +37,7 @@ const src = vue.computed<string>(() => {
 
 <template>
   <div
-    class="factor-avatar avatar bg-cover bg-center relative overflow-hidden"
+    class="fiction-avatar avatar bg-cover bg-center relative overflow-hidden"
   >
     <img class="object-cover inset-0" :src="src">
   </div>

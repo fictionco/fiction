@@ -8,10 +8,10 @@ import type { CardConfigPortable, TableCardConfig, TableSiteConfig } from './tab
 import { tableNames } from './tables'
 import { incrementSlugId } from './util'
 import { Card } from './card'
-import type { FactorSites, SitesPluginSettings } from '.'
+import type { FictionSites, SitesPluginSettings } from '.'
 
 export type SitesQuerySettings = SitesPluginSettings & {
-  factorSites: FactorSites
+  fictionSites: FictionSites
 }
 export abstract class SitesQuery extends AdminQuery<SitesQuerySettings> {
   constructor(settings: SitesQuerySettings) {
@@ -42,7 +42,7 @@ export class ManagePage extends SitesQuery {
     if (!siteId)
       throw this.stop(`UPSERT: siteId field required from ${caller}`, { data: { fields } })
 
-    const db = this.settings.factorDb?.client()
+    const db = this.settings.fictionDb?.client()
     if (!db)
       throw this.stop('no db')
 
@@ -51,7 +51,7 @@ export class ManagePage extends SitesQuery {
       fields,
       table: tableNames.pages,
       meta,
-      factorDb: this.settings.factorDb,
+      fictionDb: this.settings.fictionDb,
     })
 
     // all are needed to do propper recursion, without slug it infintely loops
@@ -96,7 +96,7 @@ export class ManagePage extends SitesQuery {
     params: ManagePageParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableCardConfig>> {
-    const db = this.settings.factorDb?.client()
+    const db = this.settings.fictionDb?.client()
     if (!db)
       throw this.stop('no db')
 
@@ -155,7 +155,7 @@ export class ManageSite extends SitesQuery {
     if (!userId || !orgId)
       throw this.stop('userId and orgId required')
 
-    const themes = this.settings.factorSites.themes.value
+    const themes = this.settings.fictionSites.themes.value
     const theme = themes.find(t => t.themeId === themeId)
     if (!theme)
       throw this.stop(`theme not found - themeId: ${themeId} - available: ${themes.map(t => t.themeId).join(', ')}`)
@@ -169,13 +169,13 @@ export class ManageSite extends SitesQuery {
     params: ManageSiteParams,
     meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSiteConfig>> {
-    const factorDb = this.settings.factorDb
-    if (!factorDb)
-      throw this.stop('no factorDb')
+    const fictionDb = this.settings.fictionDb
+    if (!fictionDb)
+      throw this.stop('no fictionDb')
 
     const { _action, orgId, userId, caller = 'unknown' } = params
 
-    const db = factorDb.client()
+    const db = fictionDb.client()
 
     let message = ''
     let data: TableSiteConfig | undefined
@@ -197,7 +197,7 @@ export class ManageSite extends SitesQuery {
         fields: f,
         table: tableNames.sites,
         meta,
-        factorDb,
+        fictionDb,
       })
 
       /**
@@ -221,7 +221,7 @@ export class ManageSite extends SitesQuery {
 
         const fields = { ...region, siteId } as const
 
-        return await this.settings.factorSites.queries.ManagePage.serve({
+        return await this.settings.fictionSites.queries.ManagePage.serve({
           siteId,
           _action: 'upsert',
           fields,
@@ -235,7 +235,7 @@ export class ManageSite extends SitesQuery {
 
       message = 'site created'
 
-      await this.settings.factorMonitor?.slackNotify({ message: '*New Site Created*', data })
+      await this.settings.fictionMonitor?.slackNotify({ message: '*New Site Created*', data })
     }
     else if (_action === 'retrieve') {
       const { where } = params
@@ -281,7 +281,7 @@ export class ManageSite extends SitesQuery {
         fields,
         table: tableNames.sites,
         meta,
-        factorDb,
+        fictionDb,
       })
 
       ;[data] = await db
@@ -297,7 +297,7 @@ export class ManageSite extends SitesQuery {
           if (!siteId)
             return
 
-          return await this.settings.factorSites.queries.ManagePage.serve({
+          return await this.settings.fictionSites.queries.ManagePage.serve({
             siteId,
             _action: 'upsert',
             fields: { siteId, ...page },
@@ -355,7 +355,7 @@ export class ManageIndex extends SitesQuery {
     if (!_action)
       throw this.stop('action required')
 
-    const db = this.settings.factorDb.client()
+    const db = this.settings.fictionDb.client()
 
     const message: string | undefined = undefined
     let data: TableSiteConfig[] | undefined

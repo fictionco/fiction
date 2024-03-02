@@ -16,7 +16,7 @@ describe('usage handling', () => {
 
     await testUtils.init()
 
-    _orgId = testUtils.factorUser.activeOrgId.value
+    _orgId = testUtils.fictionUser.activeOrgId.value
   })
 
   it('adds and gets usage', async () => {

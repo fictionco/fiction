@@ -44,13 +44,13 @@ export async function runCommand(command: string, optionsFromCli: Record<string,
 
     const serviceConfig = await mainFileImports.setup()
 
-    const factorEnv = serviceConfig.factorEnv
+    const fictionEnv = serviceConfig.fictionEnv
 
-    if (factorEnv)
-      await factorEnv.serverRunCurrentCommand({ serviceConfig, cliVars })
+    if (fictionEnv)
+      await fictionEnv.serverRunCurrentCommand({ serviceConfig, cliVars })
 
     else
-      logger.error(`no factorEnv at [${mainFilePath}]. Can't run command ${command}`)
+      logger.error(`no fictionEnv at [${mainFilePath}]. Can't run command ${command}`)
   }
   catch (error) {
     log.error('CLI', `Error Running CLI Command [${command}]`, { error })

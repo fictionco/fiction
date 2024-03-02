@@ -1,10 +1,10 @@
 import type { TestUtils } from '@fiction/core/test-utils'
 import { createTestUtils } from '@fiction/core/test-utils'
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { FactorRender } from '../plugin-render'
+import type { FictionRender } from '../plugin-render'
 
 let testUtils: TestUtils
-let factorRender: FactorRender
+let fictionRender: FictionRender
 
 const template = `<!DOCTYPE html><html>
 <head><!--head--></head>
@@ -32,12 +32,12 @@ describe('serverRenderHtml', () => {
   })
   beforeAll(async () => {
     testUtils = await createTestUtils()
-    if (!testUtils.factorApp.factorRender)
-      throw new Error('no factorRender')
+    if (!testUtils.fictionApp.fictionRender)
+      throw new Error('no fictionRender')
 
-    factorRender = testUtils.factorApp.factorRender
+    fictionRender = testUtils.fictionApp.fictionRender
 
-    factorRender.serverRenderApp = mockServerRenderApp
+    fictionRender.serverRenderApp = mockServerRenderApp
   })
 
   beforeEach(() => {
@@ -50,10 +50,10 @@ describe('serverRenderHtml', () => {
     const params = { ...renderHtmlParams }
 
     // Execute the function
-    const html = await factorRender.serverRenderHtml(params)
+    const html = await fictionRender.serverRenderHtml(params)
 
     // Assert the results
-    expect(html.replace(testUtils.factorApp.port.toString(), 'PORT')).toMatchInlineSnapshot(`"<!DOCTYPE html><html bar="foo"><head><headtags></headtags><preloadlinks></preloadlinks><link href="http://localhost:PORT" rel="canonical"><meta name="generator" content="FactorJS 6.0.4"></head><body foo="bar"><bodytagsopen></bodytagsopen><div id="app"><htmlbody></htmlbody></div><bodytags></bodytags><!--{"renderedPathname":"/","isProd":true}--></body></html>"`)
+    expect(html.replace(testUtils.fictionApp.port.toString(), 'PORT')).toMatchInlineSnapshot(`"<!DOCTYPE html><html bar="foo"><head><headtags></headtags><preloadlinks></preloadlinks><link href="http://localhost:PORT" rel="canonical"><meta name="generator" content="FictionJS 6.0.4"></head><body foo="bar"><bodytagsopen></bodytagsopen><div id="app"><htmlbody></htmlbody></div><bodytags></bodytags><!--{"renderedPathname":"/","isProd":true}--></body></html>"`)
     expect(html).toContain('<headtags></headtags>'.toLowerCase())
     expect(html).toContain('<htmlBody></htmlBody>'.toLowerCase())
     expect(html).toContain('foo="bar"')

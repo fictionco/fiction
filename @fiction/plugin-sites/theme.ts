@@ -1,5 +1,5 @@
-import type { FactorMedia, Processor } from '@fiction/core'
-import { FactorObject, ObjectProcessor, deepMerge, isNode, log, parseObject, vue } from '@fiction/core'
+import type { FictionMedia, Processor } from '@fiction/core'
+import { FictionObject, ObjectProcessor, deepMerge, isNode, log, parseObject, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FontConfig } from '@fiction/core/utils/fonts'
 import { getThemeFontConfig } from '@fiction/core/utils/fonts'
@@ -32,7 +32,7 @@ export type ThemeSettings = {
 export type UiItem = { el: vue.Component }
 export interface UiConfig { button?: UiItem }
 
-export class Theme extends FactorObject<ThemeSettings> {
+export class Theme extends FictionObject<ThemeSettings> {
   themeId = this.settings.themeId
   templates = this.settings.templates
 
@@ -63,11 +63,11 @@ export class Theme extends FactorObject<ThemeSettings> {
   async processToSite(args: {
     orgId: string
     userId: string
-    factorMedia?: FactorMedia
+    fictionMedia?: FictionMedia
   }): Promise<Partial<TableSiteConfig>> {
-    const { orgId, userId, factorMedia } = args
-    if (!factorMedia)
-      throw new Error('factorMedia required')
+    const { orgId, userId, fictionMedia } = args
+    if (!fictionMedia)
+      throw new Error('fictionMedia required')
 
     const processors: Processor<string>[] = [
       {
@@ -85,7 +85,7 @@ export class Theme extends FactorObject<ThemeSettings> {
           }
         },
         action: async (url) => {
-          return await processUrlKey({ factorMedia, url, userId, orgId, storagePath: this.themeId })
+          return await processUrlKey({ fictionMedia, url, userId, orgId, storagePath: this.themeId })
         },
       },
     ]

@@ -2,7 +2,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core/utils'
 import { AppRoute } from '../appRoute'
-import { FactorRouter } from '..'
+import { FictionRouter } from '..'
 
 const component = () => import('./ElTest.vue')
 const routes = [
@@ -13,52 +13,52 @@ const routes = [
   new AppRoute({ name: 'userOrg', path: '/users/:userId/org/:orgId', component }),
 ]
 
-describe('factorRouterCreate', async () => {
+describe('fictionRouterCreate', async () => {
   const testUtils = await createTestUtils()
 
   await testUtils.init()
 
-  const factorRouter = new FactorRouter({
-    factorEnv: testUtils.factorEnv,
+  const fictionRouter = new FictionRouter({
+    fictionEnv: testUtils.fictionEnv,
     routes,
     baseUrl: 'https://www.test.com',
     routerId: 'testRouter',
   })
 
   it('errors if not initialized', async () => {
-    await expect(factorRouter.goto('testPage1', { testId: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
-    await expect(factorRouter.push({ path: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
+    await expect(fictionRouter.goto('testPage1', { testId: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
+    await expect(fictionRouter.push({ path: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
   })
 
   it('syncs with vue router', async () => {
-    factorRouter.create()
+    fictionRouter.create()
 
-    expect(factorRouter.router.value).toBeDefined()
-    await factorRouter.goto('/tour/:testId', { testId: '123' }, { test: 'abc' })
+    expect(fictionRouter.router.value).toBeDefined()
+    await fictionRouter.goto('/tour/:testId', { testId: '123' }, { test: 'abc' })
 
     await waitFor(50)
 
-    expect(factorRouter.router.value?.currentRoute.value.path).toMatchInlineSnapshot(`"/tour/123"`)
+    expect(fictionRouter.router.value?.currentRoute.value.path).toMatchInlineSnapshot(`"/tour/123"`)
 
-    expect(factorRouter.router.value?.currentRoute.value.fullPath, 'correct vue router path').toBe('/tour/123?test=abc')
+    expect(fictionRouter.router.value?.currentRoute.value.fullPath, 'correct vue router path').toBe('/tour/123?test=abc')
 
-    expect(factorRouter.current.value.fullPath, 'correct utility path').toBe('/tour/123?test=abc')
+    expect(fictionRouter.current.value.fullPath, 'correct utility path').toBe('/tour/123?test=abc')
   })
 })
 
-describe.skip('factorRouter', async () => {
+describe.skip('fictionRouter', async () => {
   const testUtils = await createTestUtils()
 
   await testUtils.init()
 
-  const factorRouter = new FactorRouter({ factorEnv: testUtils.factorEnv, routes, baseUrl: 'https://www.test.com', create: true })
+  const fictionRouter = new FictionRouter({ fictionEnv: testUtils.fictionEnv, routes, baseUrl: 'https://www.test.com', create: true })
 
-  factorRouter.addReplacers({ orgId: 'activeOrg123' })
+  fictionRouter.addReplacers({ orgId: 'activeOrg123' })
 
-  describe('factorRouter - ref and replacers', () => {
+  describe('fictionRouter - ref and replacers', () => {
     it('replaces :userId with provided value and :orgId with active user org id', async () => {
       const userId = 'user42'
-      const routeRef = factorRouter.routeRef('userOrg', { userId })
+      const routeRef = fictionRouter.routeRef('userOrg', { userId })
 
       await waitFor(50)
       // The expected path is '/users/user42/org/activeOrg123'
@@ -66,51 +66,51 @@ describe.skip('factorRouter', async () => {
     })
 
     it('retains :userId in the path if no value provided and replaces :orgId', () => {
-      const routeRef = factorRouter.routeRef('userOrg')
+      const routeRef = fictionRouter.routeRef('userOrg')
 
       // The expected path is '/users/:userId/org/activeOrg123' because :userId was not replaced
       expect(routeRef.value).toBe(`/users/:userId/org/activeOrg123`)
     })
 
     it('removes trailing slashes', () => {
-      const routeRef = factorRouter.routeRef('userProfile', { userId: 'user42' })
+      const routeRef = fictionRouter.routeRef('userProfile', { userId: 'user42' })
 
       // The expected path is '/users/user42/profile' with no trailing slash
       expect(routeRef.value).toBe(`/users/user42/profile`)
     })
   })
 
-  describe('factorRouter - link and url methods', () => {
+  describe('fictionRouter - link and url methods', () => {
     it('correctly constructs links with route parameters', async () => {
-      const link = factorRouter.link('testPage1', { testId: '123', anotherId: 'whatever' })
+      const link = fictionRouter.link('testPage1', { testId: '123', anotherId: 'whatever' })
       await waitFor(50)
 
       expect(link.value).toBe('/test/123/whatever')
     })
 
     it('correctly constructs full URLs using the url method', async () => {
-      const fullUrl = factorRouter.url('testPage1', { testId: '123' })
+      const fullUrl = fictionRouter.url('testPage1', { testId: '123' })
 
       expect(fullUrl.value).toBe('https://www.test.com/test/123')
     })
 
     it('should handle query params well', () => {
-      const link = factorRouter.link('testPage1', { testId: '123' }, { foo: 'bar', xyz: 'abc' }).value // missing dashboardId
+      const link = fictionRouter.link('testPage1', { testId: '123' }, { foo: 'bar', xyz: 'abc' }).value // missing dashboardId
       expect(link).toBe('/test/123?foo=bar&xyz=abc') // or whatever the expected behavior is
     })
     it('goes to route by key', async () => {
-      await factorRouter.goto('testPage1', { testId: '123' })
+      await fictionRouter.goto('testPage1', { testId: '123' })
 
-      expect(factorRouter.current.value.path).toBe('/test/123')
+      expect(fictionRouter.current.value.path).toBe('/test/123')
 
-      await factorRouter.goto('home', {}, {}, { caller: 'test' })
+      await fictionRouter.goto('home', {}, {}, { caller: 'test' })
 
-      expect(factorRouter.current.value.path).toBe('/')
+      expect(fictionRouter.current.value.path).toBe('/')
     })
   })
 
   it('generates routes for vue router', () => {
-    expect(factorRouter.vueRoutes.value).toMatchInlineSnapshot(`
+    expect(fictionRouter.vueRoutes.value).toMatchInlineSnapshot(`
       [
         {
           "children": [],

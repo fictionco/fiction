@@ -10,14 +10,14 @@ describe('rendering tests', () => {
   })
 
   it('generates correct html', async () => {
-    const html = testUtils?.factorApp?.factorRender?.addRunVarsToHtml({ html: '<html><body>hello</body></html>', runVars: { test: '123' } })
+    const html = testUtils?.fictionApp?.fictionRender?.addRunVarsToHtml({ html: '<html><body>hello</body></html>', runVars: { test: '123' } })
 
     expect(html).toMatchInlineSnapshot(`
-      "<html><body>hello<script id="factorRun" type="application/json">{"test":"123"}</script>
+      "<html><body>hello<script id="fictionRun" type="application/json">{"test":"123"}</script>
       </body></html>"
     `)
 
-    expect(html).toContain('id="factorRun"')
+    expect(html).toContain('id="fictionRun"')
     expect(html).toContain('type="application/json"')
   })
 
@@ -40,10 +40,10 @@ describe('rendering tests', () => {
     } as unknown as Request
 
     // Mock `getRenderedEnvVars` function
-    vi.spyOn(testUtils?.factorEnv, 'getRenderedEnvVars').mockReturnValue({})
+    vi.spyOn(testUtils?.fictionEnv, 'getRenderedEnvVars').mockReturnValue({})
 
     // Call `getRequestVars` function
-    const requestVars = testUtils?.factorApp?.factorRender?.getRequestVars({ request: mockRequest })
+    const requestVars = testUtils?.fictionApp?.fictionRender?.getRequestVars({ request: mockRequest })
 
     // Assertions
     expect(requestVars).toBeDefined()
