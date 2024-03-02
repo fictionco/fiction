@@ -9,7 +9,7 @@
 </h1>
 
 <p align="center">
-  An innovative platform focused on AI-driven personal marketing content and marketing tools.
+  An innovative platform focused on personal marketing.
 </p>
 
 <div align="center">
