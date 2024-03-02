@@ -21,6 +21,6 @@
 <br/>
 <div align="center">
 
-[![Lint](https://github.com/fictionco/fiction/actions/workflows/deploy.yml/badge.svg)](https://github.com/fictionco/fiction/actions/workflows/test.yml)
+[![build status](https://github.com/fictionco/fiction/actions/workflows/deploy.yml/badge.svg?branch=dev)](https://github.com/vuejs/core/actions/workflows/deploy.yml)
 
 </div>
