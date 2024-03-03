@@ -76,7 +76,7 @@ jobs:
         run: docker-compose -f ./docker/docker-compose.yml pull && docker-compose -f ./docker/docker-compose.yml up --build -d
 
       - name: Create Tables
-        run: npm -w @fiction/www exec -- factor run generate
+        run: npm -w @fiction/www exec -- fiction run generate
 
       - name: Run Type Check
         run: npm run types:ci
@@ -101,11 +101,11 @@ jobs:
 
       - name: Build Bundles
         if: env.SHOULD_DEPLOY
-        run: npm exec -- factor run bundle
+        run: npm exec -- fiction run bundle
 
       - name: Render Apps
         if: env.SHOULD_DEPLOY
-        run: npm exec -- factor run render
+        run: npm exec -- fiction run render
 
       - name: Install FlyCtl
         if: env.SHOULD_DEPLOY
