@@ -40,7 +40,7 @@ describe('media upload/download tests', async () => {
     fictionUser: testUtils.fictionUser,
     fictionServer: testUtils.fictionServer,
     fictionAws,
-    bucket: 'fiction-tests',
+    bucket: 'factor-tests',
     unsplashAccessKey,
   })
   testUtils.initialized = await testUtils.init()
@@ -58,7 +58,7 @@ describe('media upload/download tests', async () => {
 
     // Assertions to check if the media was created correctly
     expect(result?.status).toBe('success')
-    expect(result?.data?.url).toContain('fiction-tests')
+    expect(result?.data?.url).toContain('factor-tests')
     expect(result?.data?.mime).toBe('image/jpeg') // or the correct mime type
 
     expect(Object.keys(result?.data || {})).toMatchInlineSnapshot(`
@@ -108,7 +108,7 @@ describe('media upload/download tests', async () => {
 
     if (!url)
       throw new Error('no url')
-    expect(url).toContain('fiction-tests')
+    expect(url).toContain('factor-tests')
     expect(url).toContain('test.jpg')
     expect(r?.data?.url).toContain('.jpg')
     expect(r?.message).toMatchInlineSnapshot('"uploaded successfully"')

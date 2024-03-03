@@ -46,7 +46,7 @@ describe('ai completions', async () => {
     fictionUser: testUtils.fictionUser,
     fictionServer: testUtils.fictionServer,
     fictionAws,
-    bucket: 'fiction-tests',
+    bucket: 'factor-tests',
     unsplashAccessKey,
   })
 
@@ -82,7 +82,7 @@ describe('ai completions', async () => {
         "heading": "Discover the Blueprint to Transformative Success",
         "images": [
           {
-            "url": "https://fiction-tests.s3.amazonaws.com/org65dc38ccb49b491b6dbe1572/md_65dc38e50080d9d5b489c6f3-id_65dc38e598b2ca9ffdf03b05.png?blurhash=UBHnynoJ00xuD4oL0ORj00WBx%5Dof~Woy%3FZRk",
+            "url": "https://factor-tests.s3.amazonaws.com/org65dc38ccb49b491b6dbe1572/md_65dc38e50080d9d5b489c6f3-id_65dc38e598b2ca9ffdf03b05.png?blurhash=UBHnynoJ00xuD4oL0ORj00WBx%5Dof~Woy%3FZRk",
           },
         ],
         "subHeading": "Unveil the journey of a visionary who reshaped the tech landscape. Find not just inspiration but a mentor in these pages, guiding you to redefine your horizons.",
@@ -110,7 +110,7 @@ describe('ai completions', async () => {
         "heading": "Unlocking Innovation in Vascular Access",
         "images": [
           {
-            "url": "https://fiction-tests.s3.amazonaws.com/org65dc38ccb49b491b6dbe1572/md_65dc38fffeeb05169e308c96-id_65dc38ffe3327067e2734fed.png?blurhash=UCBqSTuPO%5B%2534%3ArVMcIVMKRjIAads%3Axu-%3Bkq",
+            "url": "https://factor-tests.s3.amazonaws.com/org65dc38ccb49b491b6dbe1572/md_65dc38fffeeb05169e308c96-id_65dc38ffe3327067e2734fed.png?blurhash=UCBqSTuPO%5B%2534%3ArVMcIVMKRjIAads%3Axu-%3Bkq",
           },
         ],
         "subHeading": "Explore the future with a pioneer at the helm. Unleashing the untapped potential within your biomedical developments, one insight at a time.",

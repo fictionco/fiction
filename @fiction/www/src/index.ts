@@ -141,7 +141,7 @@ const fictionMedia = new FictionMedia({
   fictionUser,
   fictionServer,
   fictionAws,
-  bucket: 'fiction-tests',
+  bucket: 'factor-tests',
 })
 
 const fictionAi = new FictionAi({
