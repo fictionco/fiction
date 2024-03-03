@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<yandex>
+  <!-- Listen specified host. use :: (wildcard IPv6 address), if you want to accept connections both with IPv4 and IPv6 from everywhere. -->
+  <listen_host>::</listen_host>
+  <max_server_memory_usage>0</max_server_memory_usage>
+  <max_server_memory_usage_to_ram_ratio>2</max_server_memory_usage_to_ram_ratio>
+</yandex>

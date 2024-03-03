@@ -27,8 +27,8 @@ services:
         hard: 262144
     volumes:
       - clickhouse-data:/var/lib/clickhouse
-      - ./docker/clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/override.xml
-      - ./docker/clickhouse/users.xml:/etc/clickhouse-server/users.xml
+      - ./clickhouse/clickhouse-config.xml:/etc/clickhouse-server/config.d/override.xml
+      - ./clickhouse/users.xml:/etc/clickhouse-server/users.xml
   # run client with: docker-compose run clickhouse-client
   # clickhouse-client:
   #   image: yandex/clickhouse-client
@@ -47,7 +47,7 @@ services:
       POSTGRES_DB: test
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./docker/postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./postgres-initdb.sh:/docker-entrypoint-initdb.d/init.sh
     networks:
       - postgres
 
