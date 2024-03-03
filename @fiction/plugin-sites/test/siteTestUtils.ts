@@ -40,7 +40,7 @@ export async function createSiteTestUtils(): Promise<SiteTestUtils> {
 
   out.fictionAi = new FictionAi({ ...out, openaiApiKey })
   out.fictionAws = new FictionAws({ fictionEnv, awsAccessKey, awsAccessKeySecret })
-  out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'fiction-tests' })
+  out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'factor-tests' })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({
     port: randomBetween(10_000, 20_000),

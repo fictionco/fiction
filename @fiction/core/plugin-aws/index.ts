@@ -127,22 +127,29 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
   }> => {
     if (!bucket)
       throw new Error('no bucket set')
-    const s3 = await this.getS3()
 
-    const result: PutObjectCommandOutput = await s3.putObject({
-      Body: data,
-      Bucket: bucket,
-      Key: filePath,
-      ContentType: mime,
-      ACL: accessControl,
-    })
+    try {
+      const s3 = await this.getS3()
 
-    const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
+      const result: PutObjectCommandOutput = await s3.putObject({
+        Body: data,
+        Bucket: bucket,
+        Key: filePath,
+        ContentType: mime,
+        ACL: accessControl,
+      })
 
-    return {
-      url: `https://${bucket}.s3.amazonaws.com/${filePath}`,
-      result,
-      headObject,
+      const headObject = await s3.headObject({ Bucket: bucket, Key: filePath })
+
+      return {
+        url: `https://${bucket}.s3.amazonaws.com/${filePath}`,
+        result,
+        headObject,
+      }
+    }
+    catch (e) {
+      this.log.error('uploadS3 error', { data: { filePath, bucket, mime, region: this.region } })
+      throw e
     }
   }
 
@@ -154,25 +161,26 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
 
     const s3 = await this.getS3()
 
-    const r = await s3.listObjectsV2({
-      Bucket: bucket,
-      Prefix: directory,
-    })
+    try {
+      const r = await s3.listObjectsV2({ Bucket: bucket, Prefix: directory })
 
-    const keys = r.Contents?.map(item => ({ Key: item.Key })) || []
+      const keys = r.Contents?.map(item => ({ Key: item.Key })) || []
 
-    this.log.warn(`deleting directory ${directory}`, { data: keys, r })
+      this.log.warn(`deleting directory ${directory}`, { data: keys, r })
 
-    const result = await s3.deleteObjects({
-      Bucket: bucket,
-      Delete: {
-        Objects: keys,
-        Quiet: false,
-      },
-    })
+      const result = await s3.deleteObjects({
+        Bucket: bucket,
+        Delete: {
+          Objects: keys,
+          Quiet: false,
+        },
+      })
 
-    return {
-      result,
+      return { result }
+    }
+    catch (e) {
+      this.log.error('deleteDirectory error', { data: { directory, bucket, region: this.region } })
+      throw e
     }
   }
 
@@ -181,14 +189,9 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
       throw new Error('no bucket set')
     const s3 = await this.getS3()
 
-    const result = await s3.deleteObject({
-      Bucket: bucket,
-      Key: filePath,
-    })
+    const result = await s3.deleteObject({ Bucket: bucket, Key: filePath })
 
-    return {
-      result,
-    }
+    return { result }
   }
 
   /**

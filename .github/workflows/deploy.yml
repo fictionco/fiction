@@ -131,4 +131,4 @@ jobs:
               "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
