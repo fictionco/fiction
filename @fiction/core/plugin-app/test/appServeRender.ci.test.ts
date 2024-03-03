@@ -5,7 +5,7 @@ import type playwright from 'playwright'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { TestServerConfig } from '@fiction/core/test-utils/buildTest'
 import { createTestServer } from '@fiction/core/test-utils/buildTest'
-import { commands } from '@fiction/www/src/vars'
+import { commands } from '@fiction/www/src/commands'
 
 const require = createRequire(import.meta.url)
 const cwd = path.dirname(require.resolve('@fiction/www/package.json'))
@@ -36,7 +36,7 @@ describe('renders app code correctly', () => {
       return `http://localhost:${appPort}${route}`
     }
 
-    await page().goto(url('/testing'))
+    await page().goto(url('/render-test'))
 
     await page().waitForSelector('#server-port')
 
@@ -50,6 +50,6 @@ describe('renders app code correctly', () => {
     expect(appNameText).toMatchInlineSnapshot('"FictionJS"')
 
     const appEmailText = await page().locator(`#app-email`).textContent()
-    expect(appEmailText).toMatchInlineSnapshot('"hi@fictionjs.org"')
+    expect(appEmailText).toMatchInlineSnapshot('"hello@fiction.com"')
   }, 20_000)
 })

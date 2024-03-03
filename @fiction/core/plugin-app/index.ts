@@ -9,7 +9,7 @@ import { initializeResetUi, safeDirname, vue } from '../utils'
 import type { FictionAppEntry, FictionEnv, ServiceConfig, ServiceList } from '../plugin-env'
 import { FictionPlugin } from '../plugin'
 import type { FictionBuild } from '../plugin-build'
-import type { FictionRouter } from '../plugin-router'
+import { AppRoute, type FictionRouter } from '../plugin-router'
 import type { RunVars, StandardServices } from '../inject'
 import { FictionRender } from './plugin-render'
 import ElRoot from './ElRoot.vue'
@@ -95,6 +95,9 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
         fictionRouter: this.fictionRouter,
       })
     }
+
+    // add testing routes
+    this.fictionRouter.update([new AppRoute({ name: 'renderTest', path: '/render-test', component: (): Promise<any> => import('./test/TestRunVars.vue') })])
 
     this.addSchema()
   }
