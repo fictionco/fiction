@@ -1,15 +1,9 @@
-<div align="center">
-  <a href="https://www.fiction.com">
-    <img src="./pin.png" alt="Fiction Logo" width="200px" />
-  </a>
-</div>
-
 <h1 align="center">
   Fiction Personal CMS
 </h1>
 
 <p align="center">
-  An innovative platform focused on personal marketing.
+  Create personal websites and blogs with AI-generated content.
 </p>
 
 <div align="center">

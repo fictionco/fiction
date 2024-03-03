@@ -43,15 +43,8 @@ import { getAdminTables } from './tables'
 export * from './types'
 
 vars.register(() => [
-  new EnvVar({
-    name: 'GOOGLE_CLIENT_ID',
-    isPublic: true,
-    isOptional: true,
-  }),
-  new EnvVar({
-    name: 'GOOGLE_CLIENT_SECRET',
-    isOptional: true,
-  }),
+  new EnvVar({ name: 'GOOGLE_CLIENT_ID', isPublic: true, isOptional: true }),
+  new EnvVar({ name: 'GOOGLE_CLIENT_SECRET', isOptional: true }),
   new EnvVar({ name: 'TOKEN_SECRET' }),
 ])
 

@@ -162,7 +162,7 @@ class AdminTheme extends Theme {
       pages: getPages(),
       userConfig: { isDarkMode: false },
       spacing: {
-        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
+        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
         spacingClass: ``,
       },
     })
