@@ -47,7 +47,7 @@ describe('renders app code correctly', () => {
     expect(currentUrlText).toBe(String(appPort))
 
     const appNameText = await page().locator(`#app-name`).textContent()
-    expect(appNameText).toMatchInlineSnapshot('"FictionJS"')
+    expect(appNameText).toMatchInlineSnapshot(`"Fiction"`)
 
     const appEmailText = await page().locator(`#app-email`).textContent()
     expect(appEmailText).toMatchInlineSnapshot('"hello@fiction.com"')

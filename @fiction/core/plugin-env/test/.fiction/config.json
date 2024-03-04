@@ -77,7 +77,12 @@
       "path": "/api/user/ManageOnboard"
     }
   ],
-  "routes": [],
+  "routes": [
+    {
+      "key": "renderTest",
+      "path": "/render-test"
+    }
+  ],
   "test": [
     "test"
   ]

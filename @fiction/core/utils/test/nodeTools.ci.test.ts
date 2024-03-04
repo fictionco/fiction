@@ -17,7 +17,7 @@ describe('node utils', () => {
   })
 
   it('has right cwd', async () => {
-    expect(cwd).toMatchInlineSnapshot(`"/Users/arpowers/Projects/core/@fiction/www"`)
+    expect(cwd).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www"`)
   })
   it('gets correct main file path', async () => {
     const filePath = getMainFilePath({ cwd })
@@ -30,14 +30,6 @@ describe('node utils', () => {
     expect(Object.keys(importFile).sort()).toMatchInlineSnapshot(
       `
       [
-        "fictionApp",
-        "fictionDb",
-        "fictionEmail",
-        "fictionEnv",
-        "fictionRouter",
-        "fictionServer",
-        "fictionStripe",
-        "fictionUser",
         "service",
         "setup",
       ]
@@ -47,7 +39,7 @@ describe('node utils', () => {
 
   it('gets correct server entry config', async () => {
     const filePath = getMainFilePath({ cwd })
-
+    expect(filePath).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www/src/index.ts"`)
     if (!filePath)
       throw new Error('No file path found')
 
@@ -58,19 +50,23 @@ describe('node utils', () => {
     if (!serviceConfig?.createService)
       throw new Error('No service config found')
 
-    const service = serviceConfig.createService({ serviceConfig, context: 'node', cliVars: {} })
+    const service = await serviceConfig.createService({ serviceConfig, context: 'node', cliVars: {} })
 
     expect(Object.keys(service).sort()).toMatchInlineSnapshot(`
       [
+        "fictionAdmin",
         "fictionApp",
+        "fictionAppSites",
+        "fictionAws",
         "fictionDb",
+        "fictionEmail",
         "fictionEnv",
-        "fictionHighlightCode",
         "fictionMedia",
-        "fictionNotify",
+        "fictionMonitor",
         "fictionRouter",
+        "fictionRouterSites",
         "fictionServer",
-        "fictionStripe",
+        "fictionTeam",
         "fictionUi",
         "fictionUser",
       ]

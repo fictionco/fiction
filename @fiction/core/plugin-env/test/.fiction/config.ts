@@ -45,7 +45,7 @@ export interface CompiledServiceConfig {
     | 'UpdateOrganizationMemberStatus'
     | 'UserGoogleAuth'
     | 'VerifyAccountEmail'
-  routes: ''
+  routes: 'renderTest'
   menus: ''
   [k: string]: unknown
 }

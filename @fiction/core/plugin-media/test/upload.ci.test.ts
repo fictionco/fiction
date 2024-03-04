@@ -84,10 +84,10 @@ describe('media upload/download tests', async () => {
         "etag",
         "bucket",
         "size",
-        "createdAt",
-        "updatedAt",
         "prompt",
         "sourceImageUrl",
+        "createdAt",
+        "updatedAt",
       ]
     `)
   })
