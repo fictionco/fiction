@@ -48,7 +48,7 @@ export class CheckUsername extends Query<QuerySettings> {
       return { status: 'success', data: result }
     }
     catch (error) {
-      this.log.error('error checking username', { error })
+      this.log.error('error checking username', { error, data: { table, column, value } })
       result = { available: 'error', reason: `error` }
       return { status: 'error', data: result }
     }

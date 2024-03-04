@@ -66,7 +66,7 @@ describe('check username', () => {
 
   it('should return error on database error', async () => {
     const validUsername = objectId({ prefix: 'test' })
-    const response = await fictionDb.queries.CheckUsername.serve({ table: 'missingTable', column: 'username', value: validUsername }, undefined)
+    const response = await fictionDb.queries.CheckUsername.serve({ table: 'missingTableFromTest', column: 'username', value: validUsername }, undefined)
     expect(response.data?.available).toBe('error')
     expect(response.data?.reason || '').toContain('error')
   })

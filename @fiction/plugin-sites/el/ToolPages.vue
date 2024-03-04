@@ -39,7 +39,7 @@ const handles = vue.computed(() => {
       handleId: pg.cardId ?? 'no-id-provided',
       depth: 0,
       isActive: pg.cardId === props.site.activePageId.value,
-      onClick: () => props.site.useEditPage({ cardId: pg.cardId }),
+      onClick: () => { props.site.activePageId.value = pg.cardId },
       actions: [{
         name: 'Settings',
         icon: 'i-tabler-edit',
@@ -51,7 +51,7 @@ const handles = vue.computed(() => {
 
 async function handleSorted(sorted: string[]) {
   props.site.editor.value.savedCardOrder.main = sorted
-  await saveSite({ site: props.site, onlyKeys: ['editor'] })
+  await saveSite({ site: props.site, onlyKeys: ['editor'], successMessage: '' })
 }
 </script>
 
@@ -71,7 +71,7 @@ async function handleSorted(sorted: string[]) {
             <ELToolHandle
               v-for="handle in handles"
               :key="handle.handleId"
-              class="drag-handle cursor-move"
+              class="drag-handle"
               :handle="handle"
               :data-drag-id="handle.handleId"
             />

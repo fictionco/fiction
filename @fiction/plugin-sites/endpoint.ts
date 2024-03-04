@@ -145,7 +145,7 @@ type CreateManageSiteParams = { _action: 'create', fields: Partial<TableSiteConf
 type EditManageSiteParams = { _action: 'update' | 'delete', fields: Partial<TableSiteConfig>, where: { siteId?: string, subDomain?: string }, userId: string, orgId: string }
 type GetManageSiteParams = { _action: 'retrieve', where: { siteId?: string, subDomain?: string }, userId?: string, orgId?: string }
 
-type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & { caller?: string }
+type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & { caller?: string, successMessage?: string }
 
 export class ManageSite extends SitesQuery {
   async createSiteFromTheme(params: CreateManageSiteParams, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {
@@ -173,7 +173,7 @@ export class ManageSite extends SitesQuery {
     if (!fictionDb)
       throw this.stop('no fictionDb')
 
-    const { _action, orgId, userId, caller = 'unknown' } = params
+    const { _action, orgId, userId, caller = 'unknown', successMessage } = params
 
     const db = fictionDb.client()
 
@@ -326,7 +326,7 @@ export class ManageSite extends SitesQuery {
         this.log.info('SITE CREATED: returning', { data })
     }
 
-    return { status: 'success', data, message }
+    return { status: 'success', data, message: successMessage ?? message }
   }
 }
 

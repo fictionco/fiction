@@ -121,7 +121,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   update = (newConfig: Partial<TableSiteConfig>) => updateSite({ site: this, newConfig })
-  save = () => saveSite({ site: this })
+  save = () => saveSite({ site: this, successMessage: 'Site Saved' })
 
   activeCard = vue.computed(() => this.allLayoutCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({
@@ -165,6 +165,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   useEditPage(args: { cardId?: string } = {}) {
     const { cardId } = args
+
+    if (cardId)
+      this.activePageId.value = cardId
 
     this.editor.value.selectedPageId = cardId || ''
 

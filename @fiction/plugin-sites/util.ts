@@ -93,7 +93,7 @@ export async function processUrlKey(args: {
 }
 
 export const iconStyle = {
-  primary: { color: 'text-primary-500 dark:text-primary-200', bg: 'bg-primary-50 dark:bg-primary-900', border: 'border-primary-200 dark:border-primary-600', borderActive: 'border-primary-300 dark:border-primary-600' },
+  primary: { color: 'text-primary-500 dark:text-primary-200', bg: 'bg-primary-50 dark:bg-primary-950', border: 'border-primary-200 dark:border-primary-700', borderActive: 'border-primary-300 dark:border-primary-600' },
   theme: { color: 'text-theme-500 dark:text-theme-200', bg: 'bg-theme-50 dark:bg-theme-900', border: 'border-theme-200 dark:border-theme-500', borderActive: 'border-theme-300 dark:border-theme-500' },
   rose: { color: 'text-rose-500 dark:text-rose-200', bg: 'bg-rose-50 dark:bg-rose-900', border: 'border-rose-200 dark:border-rose-600', borderActive: 'border-rose-300 dark:border-rose-600' },
   emerald: { color: 'text-emerald-500 dark:text-emerald-200', bg: 'bg-emerald-50 dark:bg-emerald-900', border: 'border-emerald-200 dark:border-emerald-600', borderActive: 'border-emerald-300 dark:border-emerald-600' },

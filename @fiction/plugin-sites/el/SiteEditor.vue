@@ -97,7 +97,7 @@ async function save() {
   resetUi({ scope: 'all', cause: 'saveSite' })
 
   sending.value = 'save'
-  await saveSite({ site: site.value })
+  await site.value.save()
   sending.value = ''
 }
 </script>

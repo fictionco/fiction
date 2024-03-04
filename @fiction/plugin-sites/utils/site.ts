@@ -31,8 +31,8 @@ export function activeMergedGlobalSections(args: { site: Site }) {
   })
 }
 
-export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig> }) {
-  const { site, onlyKeys, delayUntilSaveConfig } = args
+export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string }) {
+  const { site, onlyKeys, delayUntilSaveConfig, successMessage } = args
 
   const config = site.toConfig()
 
@@ -49,7 +49,7 @@ export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteCo
   if (delayUntilSaveConfig)
     fields = { ...fields, ...delayUntilSaveConfig }
 
-  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({ _action: 'update', fields, where: { siteId: config.siteId } })
+  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({ _action: 'update', fields, where: { siteId: config.siteId }, successMessage })
 
   updateSite({ site, newConfig: r.data || {} })
 

@@ -27,7 +27,7 @@ describe('saveSite', async () => {
 
   it('updates site with valid keys', async (ctx) => {
     site.title.value = 'new title'
-    await saveSite({ site })
+    await saveSite({ site, successMessage: 'Test Success' })
 
     const r1 = await requestManageSite(
       {
@@ -45,7 +45,7 @@ describe('saveSite', async () => {
     const subDomain = shortId()
     site.subDomain.value = subDomain
 
-    const r2 = await saveSite({ site, onlyKeys: ['subDomain'] })
+    const r2 = await saveSite({ site, onlyKeys: ['subDomain'], successMessage: 'Test Success' })
 
     expect(r2?.title).toBe('new title')
     expect(r2?.subDomain).toBe(subDomain)

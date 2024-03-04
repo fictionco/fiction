@@ -34,7 +34,7 @@ export interface CompiledServiceConfig {
     | 'SMTP_USER'
     | 'TOKEN_SECRET'
     | 'UNSPLASH_ACCESS_KEY'
-  routes: 'engine'
+  routes: 'engine' | 'renderTest'
   menus: ''
   endpoints:
     | 'AiCompletion'

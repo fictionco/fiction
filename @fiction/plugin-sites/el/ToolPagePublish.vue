@@ -70,7 +70,7 @@ async function save() {
     return
 
   loading.value = true
-  await saveSite({ site: props.site, delayUntilSaveConfig: tempSite.value })
+  await saveSite({ site: props.site, delayUntilSaveConfig: tempSite.value, successMessage: 'Settings saved' })
   tempSite.value = {}
   loading.value = false
 }

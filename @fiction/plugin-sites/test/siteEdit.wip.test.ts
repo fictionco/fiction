@@ -486,7 +486,7 @@ describe('site plugin tests', async () => {
     if (!siteObj || !testUtils?.fictionSites)
       throw new Error('missing siteObj or testUtils')
 
-    const responseSiteConfig = await saveSite({ site: siteObj })
+    const responseSiteConfig = await saveSite({ site: siteObj, successMessage: 'Test Success' })
 
     if (!responseSiteConfig?.themeId)
       throw new Error('no themeId')

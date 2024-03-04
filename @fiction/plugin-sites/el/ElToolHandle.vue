@@ -10,7 +10,8 @@ const props = defineProps({
 const draggableMode = vue.ref<number>(-1)
 
 const i = vue.computed(() => {
-  const stl = iconStyle[props.handle.iconTheme || 'theme']
+  const isActive = props.handle.isActive
+  const stl = iconStyle[isActive ? 'primary' : (props.handle.iconTheme || 'theme')]
   return `${stl.bg} ${stl.color} ${stl.border}`
 })
 </script>
@@ -23,28 +24,30 @@ const i = vue.computed(() => {
 
     :class="
       handle.isActive
-        ? 'border-theme-300'
+        ? 'border-primary-300 dark:border-primary-600'
         : 'border-theme-300'
     "
   >
     <div
       class="handlebar flex group rounded-md select-none min-w-0 hover:opacity-80"
-      :class="[handle.isActive ? 'bg-theme-100 dark:bg-theme-700 text-theme-900 dark:text-theme-0' : '']"
+      :class="[handle.isActive ? 'bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-0' : '']"
       @mouseover="draggableMode = handle.depth"
       @mouseleave="draggableMode = -1"
     >
       <div
-        class="flex items-center justify-center border   shrink-0 p-1 px-2"
+        class="flex items-center justify-center border    shrink-0 p-1 px-2"
         :class="[handle.hasDrawer ? 'rounded-tl-md' : 'rounded-l-md', i]"
       >
         <div :class="handle.icon ?? 'i-carbon-blockchain'" />
       </div>
       <div
-        class="flex grow border-y border-r dark:border-theme-500  min-w-0"
-        :class="[handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md']"
+        class="flex grow border-y border-r   min-w-0"
+        :class="[
+          handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md',
+          handle.isActive ? 'dark:border-primary-500' : 'dark:border-theme-500']"
       >
         <div
-          class="flex grow cursor-move items-center px-3 truncate gap-1 text-[10px] min-w-0"
+          class="flex grow cursor-pointer items-center px-3 truncate gap-1 text-[10px] min-w-0"
           @click="handle.onClick?.({ event: $event })"
         >
           <div class="py-1 uppercase font-medium tracking-wide shrink-0">
@@ -56,7 +59,8 @@ const i = vue.computed(() => {
         </div>
 
         <div
-          class="flex cursor-move items-center p-1 hover:bg-theme-200 dark:hover:bg-theme-600"
+          class="flex cursor-grab items-center p-1 active:cursor-grabbing"
+          :class="handle.isActive ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : 'hover:bg-theme-200 dark:hover:bg-theme-600'"
         >
           <div
             class="i-carbon-draggable text-sm"
@@ -65,7 +69,8 @@ const i = vue.computed(() => {
         <div
           v-for="(action, ii) in handle.actions"
           :key="ii"
-          class="flex cursor-pointer items-center p-1 hover:bg-theme-200 dark:hover:bg-theme-600"
+          class="flex cursor-pointer items-center p-1 "
+          :class="handle.isActive ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : 'hover:bg-theme-200 dark:hover:bg-theme-600'"
         >
           <div
             class="text-sm"
