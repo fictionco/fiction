@@ -39,6 +39,9 @@ vue.watch(
       class="relative mx-auto py-4"
       :class="deviceModeConfig?.wrapClass"
     >
+      <div class="text-right">
+        {{ site.frame.framePath.value }}
+      </div>
       <ElBrowserFrameDevice
         ref="frameRef"
         :device-mode="activeDeviceMode"

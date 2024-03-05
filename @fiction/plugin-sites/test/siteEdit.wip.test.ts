@@ -334,7 +334,7 @@ describe('site plugin tests', async () => {
     expect(cards?.value?.length).toBe(cardNumInitial + 2)
     expect(cards?.value?.map(c => c.cardId).filter(_ => _).length).toBe(cardNumInitial + 2)
 
-    expect(siteObj.allLayoutCards.value.map(c => c?.cardId.length)).toMatchInlineSnapshot(`
+    expect(siteObj.availableCards.value.map(c => c?.cardId.length)).toMatchInlineSnapshot(`
       [
         27,
         27,

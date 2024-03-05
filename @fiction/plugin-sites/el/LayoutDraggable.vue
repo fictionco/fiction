@@ -28,7 +28,7 @@ function setEmptyRecursive(args: { depth?: number, parentEl: Element }) {
   if (!containers)
     return
 
-  const classes = ['outline-2', 'outline-dashed', 'outline-theme-200', 'rounded-md']
+  const classes = ['outline-2', 'outline-dashed', 'outline-theme-200', 'dark:outline-theme-600', 'rounded-md']
   containers.forEach((container) => {
     const items = container.querySelectorAll(`:scope > ${selectors.handleId}`)
     const isEmpty = items.length === 0

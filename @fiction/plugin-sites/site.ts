@@ -3,7 +3,7 @@ import type { FictionRouter } from '@fiction/core'
 import { FictionObject, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
 import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
-import { flattenCards, orderCards } from './utils/layout'
+import { flattenCards, setLayoutOrder } from './utils/layout'
 import type { LayoutOrder } from './utils/layout'
 import { SiteFrameTools } from './utils/frame'
 import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page'
@@ -71,8 +71,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   sections = activeMergedGlobalSections({ site: this })
 
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
-  allLayoutCards = vue.computed<Card[]>(() => flattenCards(Object.values(this.layout.value)))
-
+  // allLayoutCards = vue.computed<Card[]>(() => flattenCards(Object.values(this.layout.value)))
+  availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
     set: v => this.siteRouter.push(v),
@@ -123,7 +123,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   update = (newConfig: Partial<TableSiteConfig>) => updateSite({ site: this, newConfig })
   save = () => saveSite({ site: this, successMessage: 'Site Saved' })
 
-  activeCard = vue.computed(() => this.allLayoutCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
+  activeCard = vue.computed(() => this.availableCards.value.find(c => c.cardId === this.editor.value.selectedCardId))
   activeCardConfig = vue.computed({
     get: () => this.activeCard.value?.toConfig() as Partial<TableCardConfig>,
     set: v => this.activeCard.value && v && this.activeCard.value.update(v),
@@ -147,9 +147,11 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   async updateLayout(args: { order: LayoutOrder[] }) {
     const { order } = args
 
+    this.log.info('updateLayout', { data: { order } })
+
     this.isAnimationDisabled.value = true
 
-    this.pages.value = orderCards({ cards: this.pages.value, order })
+    setLayoutOrder({ site: this, order })
 
     await this.utils.waitFor(100)
 
@@ -186,7 +188,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     })
   }
 
-  addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string }) {
+  addCard(args: { templateId: string, addToCardId?: string, delay?: number, cardId?: string, location?: 'top' | 'bottom' }) {
     return addNewCard({
       site: this,
       ...args,

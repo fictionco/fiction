@@ -273,7 +273,6 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
           { find: 'buffer', replacement: 'buffer-lite' },
           { find: 'stream', replacement: 'stream-browserify' },
           { find: 'querystring', replacement: 'querystring-es3' },
-          { find: 'node:crypto', replacement: 'crypto-browserify' },
           { find: 'node:http', replacement: 'stream-http' },
           { find: 'http', replacement: 'stream-http' },
           { find: 'node:util', replacement: 'util' },

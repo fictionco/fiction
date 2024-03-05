@@ -1,7 +1,5 @@
 import { afterAll, describe, expect, it } from 'vitest'
-import type { TestUtils } from '../../test-utils'
 import { createTestUtils } from '../../test-utils'
-import type { FictionDb } from '..'
 import { objectId, shortId } from '../../utils'
 import { standardTable } from '../../tbl'
 

@@ -111,10 +111,10 @@ export class Card<
     return card
   }
 
-  addCard(args: { cardConfig: Partial<TableCardConfig> }) {
-    const { cardConfig } = args
+  addCard(args: { cardConfig: Partial<TableCardConfig>, location?: 'top' | 'bottom' }) {
+    const { cardConfig, location = 'top' } = args
     const card = this.initSubCard({ cardConfig })
-    this.cards.value = [card, ...this.cards.value]
+    this.cards.value = location === 'top' ? [card, ...this.cards.value] : [...this.cards.value, card]
 
     this.syncCard({ caller: 'addCard' })
   }

@@ -67,12 +67,12 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
-    "vite": "^5.1.4",
+    "vite": "^5.1.5",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.7.0",
+    "@antfu/eslint-config": "^2.8.0",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.0.2",
     "@flydotio/dockerfile": "^0.5.2",
@@ -105,7 +105,7 @@
     "tslib": "^2.6.2",
     "vite-plugin-dts": "^3.7.3",
     "vitest": "^1.3.1",
-    "vue-tsc": "^2.0.4"
+    "vue-tsc": "^2.0.5"
   },
   "pnpm": {
     "overrides": {}

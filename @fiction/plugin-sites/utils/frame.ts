@@ -9,7 +9,7 @@ export type FramePostMessageList =
   | { messageType: 'setCard', data: { cardConfig: CardConfigPortable, caller?: string } }
   | { messageType: 'resetUi', data: undefined }
   | { messageType: 'setActiveCard', data: { cardId: string, caller?: string } }
-  | { messageType: 'navigate', data: { urlOrPath: string } }
+  | { messageType: 'navigate', data: { urlOrPath: string, siteId: string } }
   | { messageType: 'frameReady', data: undefined }
 
 export type SiteFrameUtilityParams = {
@@ -40,7 +40,6 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   // path used for iframe url, we don't use currentPath as it causes full page reloads
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
   framePath = vue.ref('')
-  existingFramePath = vue.ref('')
 
   activeSiteDisplayUrl() {
     const site = this.site
@@ -78,9 +77,9 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       () => site.currentPath.value,
       (p) => {
         if (this.relation === 'child')
-          this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p } } })
+          this.send({ msg: { messageType: 'navigate', data: { urlOrPath: p, siteId: this.site.siteId } } })
 
-        else if (this.existingFramePath.value !== p)
+        else
           this.framePath.value = p
       },
       { immediate: true },
@@ -147,7 +146,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
       case 'setCard': {
         const { cardConfig } = msg.data
-        const card = site.allLayoutCards.value.find(c => c.cardId === cardConfig.cardId)
+        const card = site.availableCards.value.find(c => c.cardId === cardConfig.cardId)
         if (card)
           card.update(cardConfig)
         else
@@ -163,9 +162,11 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
       }
 
       case 'navigate': {
-        const { urlOrPath } = msg.data
+        const { urlOrPath, siteId } = msg.data
+        if (siteId !== site.siteId)
+          return
+
         const setPath = getUrlPath({ urlOrPath })
-        this.existingFramePath.value = setPath
         site.currentPath.value = setPath
         break
       }

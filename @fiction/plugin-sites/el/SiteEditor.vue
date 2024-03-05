@@ -7,7 +7,6 @@ import El404 from '@fiction/ui/El404.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
-import { saveSite } from '../utils/site'
 import type { Card } from '../card'
 import SiteEditorEditMode from './SiteEditorEditMode.vue'
 import XTextBase from './XTextBase.vue'
@@ -108,6 +107,8 @@ async function save() {
     :data-site-router-path="fictionRouterSites?.params.value.viewId ?? '[empty]'"
     :data-view-id="site?.currentViewId.value ?? '[empty]'"
     :data-page-id="site?.activePageId.value ?? '[empty]'"
+    :data-theme-id="site?.themeId.value ?? '[empty]'"
+    :data-active-pathname="site?.currentPath.value ?? '[empty]'"
   >
     <div v-if="loading" class="">
       <div class="text-theme-300 dark:text-theme-600 flex justify-center pt-32">

@@ -1,14 +1,14 @@
 import type { Buffer } from 'node:buffer'
 import path from 'node:path'
-import { createHash } from 'node:crypto'
 import sharp from 'sharp'
 
 import fs from 'fs-extra'
 
-export function hashFile(fileInput: {
+export async function hashFile(fileInput: {
   filePath?: string
   buffer?: Buffer
 }): Promise<string> {
+  const { createHash } = await import('node:crypto')
   return new Promise((resolve, reject) => {
     const hash = createHash('sha256')
 

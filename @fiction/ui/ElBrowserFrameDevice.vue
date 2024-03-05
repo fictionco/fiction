@@ -1,5 +1,5 @@
 <script lang="ts" setup generic="T extends MsgUnknown">
-import { vue } from '@fiction/core'
+import { shortId, vue } from '@fiction/core'
 import type { MsgUnknown } from './elBrowserFrameUtil'
 import { FrameNavigator, FrameUtility } from './elBrowserFrameUtil'
 import ElButton from './ElButton.vue'
@@ -44,7 +44,7 @@ const dimensions = vue.computed(() => {
 type Scale = { scale: number, width: string, height: string }
 
 function setLoaded() {
-  setTimeout(() => loading.value = false, 2000)
+  setTimeout(() => loading.value = false, 1400)
 }
 
 vue.onMounted(async () => {
@@ -99,12 +99,27 @@ vue.onMounted(async () => {
   if (frameWrap)
     ro.observe(frameWrap)
 
+  const src = vue.computed(() => {
+    // Create a URL object from the props.url
+    const url = new URL(props.url || '', 'http://dummybase.com')
+
+    // Add a 'key' query parameter with the value from shortId()
+    url.searchParams.set('key', shortId())
+
+    // Return the modified URL as a string
+    return url.toString().replace('http://dummybase.com', '')
+  })
+
+  vue.watch(src, () => {
+    loading.value = true
+  })
+
   // // listen to events in parent that need ux in frame
   frameUtility.value = new FrameUtility({
     frameEl,
     relation: 'parent',
     waitForReadySignal: true,
-    src: vue.computed(() => props.url || ''), // form data sent from parent
+    src,
     onMessage: (e) => {
       if (e.messageType === 'frameReady')
         setLoaded()

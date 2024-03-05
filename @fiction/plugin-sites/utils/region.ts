@@ -89,8 +89,9 @@ export function addNewCard(args: {
   delay?: number
   cardId?: string
   onAdd?: (cardConfig: CardConfigPortable) => void
+  location?: 'top' | 'bottom'
 }) {
-  const { site, templateId, addToCardId, addToRegion, delay, cardId, onAdd } = args
+  const { site, templateId, addToCardId, addToRegion, delay, cardId, onAdd, location } = args
   const regionId = addToRegion || 'main'
 
   const tpl = site.theme.value?.templates.find(t => t.settings.templateId === templateId)
@@ -102,9 +103,9 @@ export function addNewCard(args: {
 
   const addCardAction = () => {
     if (addToCardId) {
-      const card = site.allLayoutCards.value.find(c => c.cardId === addToCardId)
+      const card = site.availableCards.value.find(c => c.cardId === addToCardId)
       if (card)
-        card.addCard({ cardConfig })
+        card.addCard({ cardConfig, location })
     }
     else {
       const regionCard = site.layout.value[regionId]
@@ -112,7 +113,7 @@ export function addNewCard(args: {
       if (!regionCard)
         throw new Error(`no region "${regionId}" -- ${Object.keys(site.layout.value).join(', ')} - ${site.currentPage.value.tpl.value?.settings.templateId}`)
 
-      regionCard.addCard({ cardConfig })
+      regionCard.addCard({ cardConfig, location })
     }
 
     if (onAdd)
@@ -151,7 +152,7 @@ export function removeCard(args: {
 
   if (!cardFound) {
     // Search nested cards
-    site.allLayoutCards.value.forEach((card, i) => {
+    site.availableCards.value.forEach((card, i) => {
       const index = card.cards.value?.findIndex(c => c.cardId === cardId)
       if (index > -1) {
         // Ensure reactivity for nested card removal

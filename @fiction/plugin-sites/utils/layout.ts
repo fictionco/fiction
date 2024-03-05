@@ -1,4 +1,5 @@
 import type { Card } from '../card'
+import type { Site } from '../site'
 
 export const selectors = {
   dragZone: '[data-drag-zone]',
@@ -53,23 +54,17 @@ export function layoutOrderCards(args: { availableCards: Card[], order: LayoutOr
   return reorder({ order })
 }
 
-/**
- * Regions aren't reordered
- */
-export function orderCards(args: { cards: Card[], order: LayoutOrder[] }): Card[] {
-  const { cards, order } = args
-  const out = [...cards]
-  const availableCards = flattenCards(out)
+export function setLayoutOrder(args: { site: Site, order: LayoutOrder[] }) {
+  const { site, order } = args
+  const availableCards = flattenCards([...site.pages.value, ...Object.values(site.sections.value)])
   order.forEach((regionOrder) => {
-    const ind = out.findIndex(r => r.cardId === regionOrder.itemId)
+    const ind = availableCards.findIndex(r => r.cardId === regionOrder.itemId)
     if (ind > -1) {
       const ordered = layoutOrderCards({ availableCards, order: regionOrder.items || [] })
 
-      out[ind].cards.value = ordered
+      availableCards[ind].cards.value = ordered
     }
   })
-
-  return out
 }
 
 export function getOrderRecursive(args: { depth?: number, parentEl: Element }): LayoutOrder[] {

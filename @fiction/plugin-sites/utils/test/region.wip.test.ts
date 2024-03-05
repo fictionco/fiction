@@ -19,13 +19,13 @@ describe('removeCard', async () => {
     addNewCard({ site, templateId: 'area', addToRegion: 'header', cardId })
 
     // Ensure the card was added
-    expect(site.allLayoutCards.value.some(c => c.cardId === cardId)).toBe(true)
+    expect(site.availableCards.value.some(c => c.cardId === cardId)).toBe(true)
 
     // Now, remove the card
     removeCard({ site, cardId })
 
     // Verify the card has been removed
-    expect(site.allLayoutCards.value.some(c => c.cardId === cardId)).toBe(false)
+    expect(site.availableCards.value.some(c => c.cardId === cardId)).toBe(false)
   })
 
   it('should successfully remove a nested card', () => {
@@ -38,7 +38,7 @@ describe('removeCard', async () => {
     addNewCard({ site, templateId: 'area', addToCardId: parentCardId, cardId: nestedCardId })
 
     // Ensure the nested card was added
-    const parentCard = site.allLayoutCards.value.find(c => c.cardId === parentCardId)
+    const parentCard = site.availableCards.value.find(c => c.cardId === parentCardId)
     expect(parentCard?.cards?.value.some(c => c.cardId === nestedCardId)).toBe(true)
 
     // Now, remove the nested card
@@ -96,9 +96,9 @@ describe('addNewCard', async () => {
     expect(r1?.cardId, 'callback is correct').toBe(cardId)
     expect(r2?.cardId, 'return is correct when not delayed').toBe(cardId)
 
-    expect(site.allLayoutCards.value.filter(_ => _.cardId === cardId)).toHaveLength(1)
+    expect(site.availableCards.value.filter(_ => _.cardId === cardId)).toHaveLength(1)
 
-    expect(site.allLayoutCards.value.find(_ => _.cardId === cardId)?.regionId).toBe('header')
+    expect(site.availableCards.value.find(_ => _.cardId === cardId)?.regionId).toBe('header')
   })
 
   it('should add a new card to an existing card if addToCardId is provided', () => {
@@ -107,7 +107,7 @@ describe('addNewCard', async () => {
     addNewCard({ site, templateId: 'area', addToRegion: 'footer', cardId: 'firstCard' })
     addNewCard({ site, templateId: 'area', addToCardId: 'firstCard', cardId: 'nestedCard' })
 
-    const setCard = site.allLayoutCards.value.find(c => c.cardId === 'firstCard')?.cards.value[0]
+    const setCard = site.availableCards.value.find(c => c.cardId === 'firstCard')?.cards.value[0]
     expect(setCard?.cardId).toBe('nestedCard')
   })
 

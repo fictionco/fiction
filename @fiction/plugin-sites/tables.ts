@@ -9,7 +9,7 @@ type st = { updatedAt?: string, createdAt?: string }
 export const pageRegionIds = ['header', 'main', 'footer', 'aside', 'article', 'section'] as const
 export type PageRegion = typeof pageRegionIds[number] | string
 
-export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: Partial<TableCardConfig>[] }
+export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: CardConfigPortable[] }
 
 export type SiteUserConfig = Partial<{
   faviconUrl: string

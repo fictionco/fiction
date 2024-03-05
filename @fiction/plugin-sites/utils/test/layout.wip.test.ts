@@ -5,36 +5,57 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { JSDOM } from 'jsdom'
 import { Card } from '../../card'
+import { Site } from '../../site'
 import type { LayoutOrder } from '../layout'
-import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, orderCards } from '../layout'
+import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, setLayoutOrder } from '../layout'
+import { createSiteTestUtils } from '../../test/siteTestUtils'
+import type { CardConfigPortable } from '../../tables'
 
-describe('orderCards', async () => {
-  it('should reorder regions and nested cards based on provided order', () => {
+describe('setLayoutOrder', async () => {
+  const testUtils = await createSiteTestUtils()
+  const common = {
+    fictionSites: testUtils.fictionSites,
+    siteRouter: testUtils.fictionRouterSites,
+    siteMode: 'standard',
+    themeId: 'test',
+  } as const
+  it('should reorder regions and nested cards based on provided order', async () => {
     // Mock data setup
-    const card1 = new Card({ cardId: 'card1', cards: [{ cardId: 'cardA', templateId: 'area' }] })
-    const card2 = new Card({ cardId: 'card2', slug: '_default', cards: [{ cardId: 'cardB', templateId: 'area' }] })
-    const card3 = new Card({ cardId: 'card3', cards: [{ cardId: 'cardC', templateId: 'hero' }] })
-    const cards = [card1, card2, card3]
+    const page1 = new Card({ cardId: 'page1', cards: [{ cardId: 'cardA', templateId: 'area' }] })
+    const page2 = new Card({ cardId: 'page2', slug: 'foo', isDefault: true, cards: [{ cardId: 'cardB', templateId: 'area' }] })
+    const page3 = new Card({ cardId: 'page3', cards: [{ cardId: 'cardC', templateId: 'hero' }] })
+    const cardHeader = new Card({ cardId: 'header', cards: [{ cardId: 'headerA', templateId: 'area' }] }).toConfig()
+    const cardFooter = new Card({ cardId: 'footer', cards: [{ cardId: 'footerA', templateId: 'area' }] }).toConfig()
+
+    const pages = [page1, page2, page3].map(c => c.toConfig())
+    const sections: Record<string, CardConfigPortable> = { header: cardHeader, footer: cardFooter }
+    const site = new Site({ pages, sections, ...common })
 
     const order = [
-      { itemId: 'card1', items: [{ itemId: 'cardB' }] },
-      { itemId: 'card2' },
-      {
-        itemId: 'card3',
-        items: [
-          { itemId: 'cardA', items: [{ itemId: 'cardC' }] }, // nested card1 inside card3
-        ],
-      },
+      { itemId: 'page2', items: [{ itemId: 'cardB' }, { itemId: 'cardC' }] },
+      { itemId: 'header', items: [{ itemId: 'headerA' }] },
+      { itemId: 'footer', items: [{ itemId: 'cardA' }, { itemId: 'footerA' }] },
     ]
 
-    // Call the function
-    const orderedRegions = orderCards({ cards, order })
+    setLayoutOrder({ site, order })
 
-    // Assertions
-    expect(orderedRegions[0].cardId).toBe('card1')
-    expect(orderedRegions[1].cards.value.length).toBe(0)
-    expect(orderedRegions[2].cards.value[0].cardId).toBe('cardA')
-    expect(orderedRegions[2].cards.value[0].cards.value[0].cardId).toBe('cardC')
+    // Assertions to verify the correct order
+    // Note: You'll need to adjust these based on the actual structure and access methods of your Site and Card classes
+    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardC'])
+    expect(site.sections.value.header.cards.value.map(c => c.cardId)).toEqual(['headerA'])
+    expect(site.sections.value.footer.cards.value.map(c => c.cardId)).toEqual(['cardA', 'footerA'])
+
+    const order2 = [
+      { itemId: 'page2', items: [{ itemId: 'cardC' }, { itemId: 'cardA' }] },
+      { itemId: 'page3', items: [{ itemId: 'cardA' }, { itemId: 'cardB' }] },
+    ]
+
+    setLayoutOrder({ site, order: order2 })
+
+    site.addCard({ cardId: 'cardD', templateId: 'hero', addToCardId: 'page3', location: 'top' })
+
+    expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardC', 'cardA'])
+    expect(site.pages.value.find(p => p.cardId === 'page3')?.cards.value.map(c => c.cardId)).toEqual(['cardD', 'cardA', 'cardB'])
   })
 })
 
