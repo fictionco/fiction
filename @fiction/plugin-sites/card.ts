@@ -16,17 +16,15 @@ export type EditorState = {
   savedCardOrder: Record<string, string[]>
 }
 
-// interface CardRender<T extends ComponentConstructor = ComponentConstructor> {
-//   el?: vue.Component
-//   props?: Partial<InstanceType<T>['$props']>
-//   options: InputOption[]
-// }
+type CardCategory = 'basic' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special'
+
+export const categoryOrder: CardCategory[] = ['basic', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
 
 interface CardTemplateSettings<U extends string = string, T extends ComponentConstructor = ComponentConstructor> {
   templateId: U
   title?: string
   description?: string
-  category?: string[]
+  category?: CardCategory[]
   icon?: string
   iconTheme?: keyof typeof iconStyle
   thumb?: string

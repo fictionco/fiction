@@ -48,24 +48,26 @@ describe('colors', () => {
 
     expect(result).toMatchInlineSnapshot(`
       {
-        "0": "rgb(var(--foo-0, undefined) / <alpha-value>)",
-        "100": "rgb(var(--foo-100, undefined) / <alpha-value>)",
-        "1000": "rgb(var(--foo-1000, undefined) / <alpha-value>)",
-        "200": "rgb(var(--foo-200, undefined) / <alpha-value>)",
-        "25": "rgb(var(--foo-25, undefined) / <alpha-value>)",
-        "300": "rgb(var(--foo-300, undefined) / <alpha-value>)",
-        "400": "rgb(var(--foo-400, undefined) / <alpha-value>)",
-        "50": "rgb(var(--foo-50, undefined) / <alpha-value>)",
-        "500": "rgb(var(--foo-500, undefined) / <alpha-value>)",
-        "600": "rgb(var(--foo-600, undefined) / <alpha-value>)",
-        "700": "rgb(var(--foo-700, undefined) / <alpha-value>)",
-        "800": "rgb(var(--foo-800, undefined) / <alpha-value>)",
-        "900": "rgb(var(--foo-900, undefined) / <alpha-value>)",
-        "950": "rgb(var(--foo-950, undefined) / <alpha-value>)",
-        "975": "rgb(var(--foo-975, undefined) / <alpha-value>)",
-        "DEFAULT": "rgb(var(--foo-500, undefined) / <alpha-value>)",
+        "0": "rgb(var(--foo-0, 255 255 255) / <alpha-value>)",
+        "100": "rgb(var(--foo-100, 241 245 249) / <alpha-value>)",
+        "1000": "rgb(var(--foo-1000, 0 0 0) / <alpha-value>)",
+        "200": "rgb(var(--foo-200, 226 232 240) / <alpha-value>)",
+        "25": "rgb(var(--foo-25, 250 251 252) / <alpha-value>)",
+        "300": "rgb(var(--foo-300, 203 213 225) / <alpha-value>)",
+        "400": "rgb(var(--foo-400, 148 163 184) / <alpha-value>)",
+        "50": "rgb(var(--foo-50, 248 250 252) / <alpha-value>)",
+        "500": "rgb(var(--foo-500, 100 116 139) / <alpha-value>)",
+        "600": "rgb(var(--foo-600, 71 85 105) / <alpha-value>)",
+        "700": "rgb(var(--foo-700, 51 65 85) / <alpha-value>)",
+        "800": "rgb(var(--foo-800, 30 41 59) / <alpha-value>)",
+        "900": "rgb(var(--foo-900, 15 23 42) / <alpha-value>)",
+        "950": "rgb(var(--foo-950, 9 14 27) / <alpha-value>)",
+        "975": "rgb(var(--foo-975, 2 6 23) / <alpha-value>)",
+        "DEFAULT": "rgb(var(--foo-500, 100 116 139) / <alpha-value>)",
       }
     `)
+
+    expect(result[0]).not.toContain('undefined')
   })
 
   it('generates correct CSS variables for Tailwind', () => {

@@ -23,11 +23,9 @@ const props = defineProps({
 
 const actions: ActionItem[] = [
   {
-    name: 'Add Page',
+    name: 'New Page',
     icon: 'i-tabler-circle-plus',
-    onClick: () => {
-      props.site.useEditPage()
-    },
+    onClick: () => props.site.useEditPage(),
   },
 ]
 
@@ -60,7 +58,7 @@ async function handleSorted(sorted: string[]) {
     <div class="p-4">
       <ElToolBanner
         v-if="handles.length === 0"
-        title="Add a Page"
+        title="Add New Page"
         sub="Click the add button above to add your first page."
         :icon="tool.icon"
         :actions="actions"

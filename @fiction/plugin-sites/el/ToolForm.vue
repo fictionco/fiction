@@ -55,10 +55,10 @@ function leave(el: HTMLElement) {
         v-for="(opt, i) in options"
         :key="i"
       >
-        <div v-if="opt.input.value === 'group'" :class="depth > 0 ? 'border border-theme-300 dark:border-theme-700 rounded-md overflow-hidden' : ''">
+        <div v-if="opt.input.value === 'group'" :class="depth > 0 ? 'border border-theme-200 dark:border-theme-700 rounded-md overflow-hidden' : ''">
           <div
             class="text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700 py-2 px-4 text-xs flex justify-between cursor-pointer items-center"
-            :class="!hide(opt.key.value) || depth === 0 ? 'border-b border-theme-300 dark:border-theme-700' : ''"
+            :class="!hide(opt.key.value) || depth === 0 ? 'border-b border-theme-200 dark:border-theme-700' : ''"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
             <div class="font-semibold" v-html="opt.label.value" />

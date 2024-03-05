@@ -1,20 +1,19 @@
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, describe, expect, it } from 'vitest'
 import type { TestUtils } from '../../test-utils'
 import { createTestUtils } from '../../test-utils'
 import type { FictionDb } from '..'
 import { objectId, shortId } from '../../utils'
 import { standardTable } from '../../tbl'
 
-let testUtils: TestUtils
-let fictionDb: FictionDb
-let userId: string | undefined
-const table = standardTable.user
-describe('check username', () => {
-  beforeAll(async () => {
-    testUtils = await createTestUtils()
-    fictionDb = testUtils.fictionDb
-    const initialized = await testUtils.init()
-    userId = initialized.user.userId
+describe('check username', async () => {
+  const testUtils = await createTestUtils()
+  const fictionDb = testUtils.fictionDb
+  const initialized = await testUtils.init()
+  const userId = initialized.user.userId
+  const table = standardTable.user
+
+  afterAll(async () => {
+    await testUtils.close()
   })
 
   it('should return success for a valid, non-taken username', async () => {

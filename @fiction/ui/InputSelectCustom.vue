@@ -109,15 +109,11 @@ function listItemClass(item: ListItem, i: number): string {
       (isSelected(item.value) && hovered.value === -1)
       || hovered.value === i
     )
-      out.push('bg-theme-100 dark:bg-primary-975 text-theme-900 dark:text-primary-200')
+      out.push('bg-theme-100/50 dark:bg-theme-500/50 text-theme-900 dark:text-theme-0')
     else if (isSelected(item.value))
       out.push('bg-theme-50 dark:bg-theme-900')
     else
-      out.push('font-normal')
-
-    out.push(
-      'cursor-pointer hover:text-theme-900 dark:hover:text-theme-50 hover:bg-theme-100 dark:hover:bg-theme-700',
-    )
+      out.push('font-normal cursor-pointer  hover:text-theme-900 dark:hover:text-theme-50 hover:bg-theme-100/30 dark:hover:bg-theme-600/50')
   }
 
   return out.join(' ')
@@ -131,16 +127,16 @@ const buttonClasses = [
   'cursor-pointer',
   'rounded-input',
   'border',
-  'border-theme-300',
+  'border-theme-200',
   'dark:border-theme-500',
-  'py-input-y',
-  'px-input-x',
+  'py-1.5',
+  'px-3',
   'shadow-sm',
   'text-left',
-  'text-input-size',
+  'text-xs',
   'focus:outline-none',
   'bg-theme-50',
-  'dark:bg-theme-800',
+  'dark:bg-theme-700',
 ]
 </script>
 
@@ -215,13 +211,13 @@ const buttonClasses = [
       >
         <div
           v-if="active"
-          class="bg-theme-0 dark:bg-theme-800 ring-theme-200 dark:ring-theme-600 absolute z-50 mt-1 w-full rounded-md shadow-xl ring-1"
+          class="bg-theme-0 dark:bg-theme-700 ring-theme-200 dark:ring-theme-600 absolute z-50 mt-1 w-full rounded-md shadow-xl ring-1"
         >
           <ul
             role="listbox"
             aria-labelledby="listbox-label"
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
-            class="text-input-size max-h-72 overflow-auto rounded-md shadow focus:outline-none"
+            class="text-input-size max-h-72 overflow-auto rounded-md shadow focus:outline-none p-2"
           >
             <div v-if="!li || li.length === 0" class="p-4">
               {{ zeroText }}
@@ -239,7 +235,7 @@ const buttonClasses = [
               </li>
               <li
                 v-else-if="item.format === 'title'"
-                class="py-input-y px-input-x mt-[.5em]"
+                class="py-input-y px-input-x  mt-[.5em]"
               >
                 <div class="text-theme-300 dark:text-theme-0 text-[.8em] ">
                   {{ item.name }}
@@ -250,7 +246,7 @@ const buttonClasses = [
                 :id="`listbox-item-${i}`"
                 role="option"
                 :class="listItemClass(item, i)"
-                class="py-3 pl-3 pr-1 group relative cursor-pointer select-none"
+                class="py-2 pl-3 pr-1 group relative cursor-pointer select-none rounded-md mb-0.5"
                 @click="selectValue(item)"
               >
                 <div

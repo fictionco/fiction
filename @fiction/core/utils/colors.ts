@@ -37,9 +37,9 @@ export const colorList = {
     0: '#ffffff',
     25: '#fbfdff',
     50: '#F8F9FD',
-    100: '#d7dce6',
+    100: '#e6e9f1',
     200: '#c8cdd7',
-    300: '#949DAD',
+    300: '#b3b9c5',
     400: '#7A8599',
     500: '#646E82',
     600: '#394151',
@@ -403,7 +403,7 @@ type ColorRecord = {
 export type ColorScheme = keyof typeof colorList
 
 export function hexToRgb(hex: string) {
-  const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex)
+  const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex.toLowerCase())
   return result
     ? [
         Number.parseInt(result[1], 16),
@@ -424,7 +424,8 @@ export function tailwindVarColorScheme(args: {
     scheme = getColorScheme(color)
 
   const entries = Object.entries(scheme || {}).map(([key, value]) => {
-    return [Number.parseInt(key), `rgb(var(--${variable}-${key}, ${hexToRgb(value)}) / <alpha-value>)`]
+    const defaultValue = value.includes('#') ? hexToRgb(value) : value
+    return [Number.parseInt(key), `rgb(var(--${variable}-${key}, ${defaultValue}) / <alpha-value>)`]
   })
 
   const out = Object.fromEntries(entries) as Record<ColorScale | 'DEFAULT', string>

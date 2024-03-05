@@ -1,5 +1,5 @@
 export type UiElementStyle = 'danger' | 'caution' | 'success' | 'primary' | 'default' | 'theme' | 'naked'
-export type UiElementSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+export type UiElementSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type UiElementFormat = 'block' | 'spread' | 'inline'
 
 export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiElementSize, format: UiElementFormat, isDisabled?: boolean, useShadow?: boolean, noHover?: boolean }) {
@@ -23,10 +23,11 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     success: 'border bg-emerald-500 dark:bg-emerald-900 focus-visible:outline-emerald-500 text-emerald-0 border-emerald-500 dark:border-emerald-600',
     theme: 'border bg-theme-500 dark:bg-theme-700 focus-visible:outline-theme-500 text-theme-0 border-theme-500 dark:border-theme-600',
     naked: '',
-    default: 'border bg-theme-0 dark:bg-theme-700 text-theme-800 dark:text-theme-0 border-theme-200 dark:border-theme-600',
+    default: 'border bg-theme-0 dark:bg-theme-700 text-theme-600 dark:text-theme-0 border-theme-200 dark:border-theme-600',
   }
 
   const sizes = {
+    'xxs': 'px-2 py-0.5 text-[9px]',
     'xs': 'px-2 py-1 text-[10px]',
     'sm': 'px-2.5 py-1 text-xs',
     'md': 'px-2.5 py-1.5 text-xs',
@@ -42,6 +43,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
   }
 
   const roundedSizeMap = {
+    'xxs': 'rounded-md',
     'xs': 'rounded-md',
     'sm': 'rounded-md',
     'md': 'rounded-lg',

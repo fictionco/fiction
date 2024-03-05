@@ -30,7 +30,7 @@ const i = vue.computed(() => {
   >
     <div
       class="handlebar flex group rounded-md select-none min-w-0 hover:opacity-80"
-      :class="[handle.isActive ? 'bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-0' : '']"
+      :class="[handle.isActive ? 'bg-primary-50 dark:bg-primary-900 text-primary-700 dark:text-primary-0' : '']"
       @mouseover="draggableMode = handle.depth"
       @mouseleave="draggableMode = -1"
     >
@@ -44,7 +44,7 @@ const i = vue.computed(() => {
         class="flex grow border-y border-r   min-w-0"
         :class="[
           handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md',
-          handle.isActive ? 'dark:border-primary-500' : 'dark:border-theme-500']"
+          handle.isActive ? 'dark:border-primary-500 border-primary-300' : 'dark:border-theme-500 border-theme-200']"
       >
         <div
           class="flex grow cursor-pointer items-center px-3 truncate gap-1 text-[10px] min-w-0"
@@ -53,7 +53,7 @@ const i = vue.computed(() => {
           <div class="py-1 uppercase font-medium tracking-wide shrink-0">
             {{ handle.title || "Untitled" }}
           </div>
-          <div v-if="handle.sub" class="py-1 text-theme-400 font-medium italic truncate">
+          <div v-if="handle.sub" class="py-1 text-theme-400 font-medium italic truncate" :class="handle.isActive ? 'text-primary-300' : 'text-theme-400'">
             {{ handle.sub }}
           </div>
         </div>

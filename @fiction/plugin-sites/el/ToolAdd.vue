@@ -4,6 +4,7 @@ import ElInput from '@fiction/ui/ElInput.vue'
 import type { CardTemplate } from '../card'
 import type { Site } from '../site'
 import { iconStyle } from '../util'
+import { categoryOrder } from '../card'
 import type { EditorTool } from './tools'
 import ElTool from './ElTool.vue'
 
@@ -20,20 +21,27 @@ const props = defineProps({
 const control = props.site.settings.fictionSites
 const groupTemplates = vue.computed(() => {
   const all = props.site.theme.value?.templates
-
   const grouped: Record<string, CardTemplate[]> = {}
 
-  if (all) {
-    all.forEach((template) => {
-      template.settings.category?.forEach((cat) => {
-        if (!grouped[cat])
-          grouped[cat] = []
-
-        grouped[cat].push(template)
-      })
+  // Group templates by category
+  all?.forEach((template) => {
+    template.settings.category?.forEach((cat) => {
+      if (!grouped[cat])
+        grouped[cat] = []
+      grouped[cat].push(template)
     })
-  }
-  return grouped
+  })
+
+  // Order grouped categories based on categoryOrder and include any additional categories at the end
+  return categoryOrder.reduce((acc, cat) => {
+    if (grouped[cat])
+      acc[cat] = grouped[cat]
+    return acc
+  }, Object.keys(grouped).reduce((acc, cat) => {
+    if (!categoryOrder.includes(cat as typeof categoryOrder[number]))
+      acc[cat] = grouped[cat]
+    return acc
+  }, {} as Record<string, CardTemplate[]>))
 })
 
 function addCard(args: { templateId: string }) {
@@ -43,7 +51,7 @@ function addCard(args: { templateId: string }) {
 }
 
 function ic(item: CardTemplate) {
-  const cls = iconStyle[item.settings.iconTheme || 'theme']
+  const cls = iconStyle.theme
 
   return `${cls.color} ${cls.bg} ${cls.border}`
 }
@@ -53,38 +61,39 @@ function ic(item: CardTemplate) {
   <ElTool :tool="tool">
     <div class="p-4 pb-24">
       <ElInput
-        label="Add Element To"
+        label="Add To Region"
         input="InputSelectCustom"
         :list="Object.keys(site.layout.value)"
         class="mb-8"
         :model-value="site.activeRegionKey.value"
         @update:model-value="site.activeRegionKey.value = $event"
       />
-      <div class="space-y-4">
+      <div class="space-y-4 select-none">
         <div v-for="(tplGroup, i) in groupTemplates" :key="i">
           <div class="text-[10px] font-semibold text-theme-300 dark:text-theme-0 mb-2 tracking-wider uppercase">
             {{ toLabel(i) }}
           </div>
           <div class="space-y-2">
-            <div
-              v-for="(item, ii) in tplGroup"
-              :key="ii"
-              class="flex shadow-sm group cursor-pointer hover:shadow hover:-translate-y-0.5 transition-all rounded-md"
-              @click="addCard({ templateId: item.settings.templateId })"
-            >
+            <div class="flex flex-wrap gap-2">
               <div
-                class="px-3 py-1 text-3xl flex justify-center items-center border rounded-l-md  "
-                :class="ic(item)"
+                v-for="(item, ii) in tplGroup"
+                :key="ii"
+                class="flex flex-col shadow-sm group cursor-pointer hover:shadow hover:-translate-y-0.5 transition-all rounded-md w-[30%] border border-theme-200 dark:border-theme-600 p-1 space-y-1 text-theme-600 dark:text-theme-50 hover:bg-theme-50 dark:hover:bg-theme-800"
+                @click="addCard({ templateId: item.settings.templateId })"
               >
-                <div :class="item.settings.icon" />
-              </div>
-              <div class="px-3 py-2 flex items-center grow rounded-r-md border-y border-r border-theme-300 dark:border-theme-600 group-hover:bg-theme-100 dark:group-hover:bg-theme-700 bg-theme-50 dark:bg-theme-800">
-                <div class=" leading-tight">
-                  <div class="font-semibold text-xs text-theme-700 dark:text-theme-0">
-                    {{ item.settings.title }}
-                  </div>
-                  <div class="text-[10px] font-normal text-theme-400 dark:text-theme-100">
-                    {{ item.settings.description }}
+                <div
+                  class="px-3 text-3xl flex justify-center items-center  "
+                >
+                  <div :class="item.settings.icon" />
+                </div>
+                <div class="px-1 grow">
+                  <div class=" leading-tight truncate text-center">
+                    <div class="font-medium text-[9px] text-theme-500  dark:text-theme-200 truncate tracking-tight">
+                      {{ item.settings.title }}
+                    </div>
+                    <div class="hidden text-[10px] font-normal text-theme-400 dark:text-theme-100">
+                      {{ item.settings.description }}
+                    </div>
                   </div>
                 </div>
               </div>
