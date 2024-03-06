@@ -41,7 +41,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
 CardTemplateSettings<U, T>
 > {
-  jsonSchema = vue.computed(() => getOptionJsonSchema(this.settings.options))
+  // jsonSchema = vue.computed(() => getOptionJsonSchema(this.settings.options))
   constructor(settings: CardTemplateSettings<U, T>) {
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
@@ -156,9 +156,11 @@ export class Card<
     if (!this.site || !this.tpl.value)
       throw new Error('site and template required')
 
-    this.log.info('RUNNING COMPLETION', { data: { jsonSchema: this.tpl.value.jsonSchema.value } })
+    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options)
 
-    const c = await getCardCompletion({ runPrompt, outputFormat: this.tpl.value.jsonSchema.value, site: this.site })
+    this.log.info('RUNNING COMPLETION', { data: { jsonSchema } })
+
+    const c = await getCardCompletion({ runPrompt, outputFormat: jsonSchema, site: this.site })
 
     this.log.info('COMPLETION RESULT', { data: c })
 

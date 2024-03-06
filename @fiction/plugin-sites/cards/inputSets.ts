@@ -235,7 +235,7 @@ class InputSets {
 export const inputSets = new InputSets()
 
 export const headerOptionSet = new OptionSet<{
-  refineOption?: { heading?: Refinement, subHeading?: Refinement, superHeading?: Refinement }
+  refine?: { heading?: Refinement, subHeading?: Refinement, superHeading?: Refinement }
 }> ({
   basePath: 'userConfig',
   inputOptions() {
@@ -269,7 +269,7 @@ export const headerOptionSet = new OptionSet<{
 })
 
 export const actionItemOptionSet = new OptionSet< {
-  refineOption?: { group?: Refinement | { name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }, title?: Refinement }
+  refine?: { group?: Refinement | { name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }, title?: Refinement }
 }> ({
   basePath: 'userConfig',
   inputOptions: (args) => {
@@ -315,7 +315,7 @@ export const actionItemOptionSet = new OptionSet< {
 })
 
 export const navItemsOptionSet = new OptionSet<{
-  refineOption?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
+  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
 }> ({
   basePath: 'userConfig',
   inputOptions: (args) => {
@@ -367,6 +367,7 @@ export const navItemsOptionSet = new OptionSet<{
       new InputOption({
         aliasKey: 'group',
         key: `${groupPath}`,
+        label,
         input: 'InputList',
         options: listOptions,
         schema: ({ z, subSchema }) => z.array(subSchema),
@@ -379,7 +380,7 @@ export const navItemsOptionSet = new OptionSet<{
 
 export const mediaItemsOptionSet = new OptionSet< {
   formats?: { url?: boolean, html?: boolean }
-  refineOption?: { group?: Refinement<{ media?: Refinement, name?: Refinement, desc?: Refinement, href?: Refinement }> }
+  refine?: { group?: Refinement<{ media?: Refinement, name?: Refinement, desc?: Refinement, href?: Refinement }> }
 }> ({
   basePath: 'userConfig',
   inputOptions: (args) => {
@@ -408,13 +409,14 @@ export const mediaItemsOptionSet = new OptionSet< {
         input: 'InputList',
         options,
         schema: ({ z, subSchema }) => z.array(subSchema),
+        generation: { estimatedMs: 30000 },
       }),
     ]
   },
 })
 
 export const socialsOptionSet = new OptionSet< {
-  refineOption?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, icon?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
+  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, icon?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
 }> ({
   basePath: 'userConfig',
   defaultRefinement: { group: { refine: { icon: true, href: true } } },
@@ -487,6 +489,7 @@ export const socialsOptionSet = new OptionSet< {
         aliasKey: 'group',
         key: `${groupPath}`,
         input: 'InputList',
+        label,
         options,
         schema: ({ z, subSchema }) => z.array(subSchema),
       }),
@@ -509,7 +512,7 @@ type QuoteFilterKeys = {
   sourceUrl?: Refinement
 }
 
-export const quoteOptionSet = new OptionSet<{ mode: 'single', refineOption: QuoteFilterKeys } | { mode: 'multi', refineOption: { group: Refinement<QuoteFilterKeys> } }>({
+export const quoteOptionSet = new OptionSet<{ mode: 'single', refine: QuoteFilterKeys } | { mode: 'multi', refine: { group: Refinement<QuoteFilterKeys> } }>({
   basePath: 'userConfig',
   inputOptions: (args) => {
     const label = args?.label || 'Quotes'
@@ -548,7 +551,7 @@ export const quoteOptionSet = new OptionSet<{ mode: 'single', refineOption: Quot
   },
 })
 
-export const postOptionSet = new OptionSet< { refineOption?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
+export const postOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
   basePath: 'userConfig',
   inputOptions: () => {
     const options = [

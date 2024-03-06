@@ -6,6 +6,7 @@ import ElButton from '@fiction/ui/ElButton.vue'
 import InputText from '@fiction/ui/InputText.vue'
 import InputCheckbox from '@fiction/ui/InputCheckbox.vue'
 import type { Site } from '@fiction/plugin-sites'
+import type { InputOption, InputOptionSettings } from '@fiction/ui'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -23,6 +24,30 @@ const defaultGoal = vue.computed(() => {
 const v = vue.computed(() => userGoal.value || defaultGoal.value)
 
 const loading = vue.ref(false)
+const card = vue.computed(() => props.site.activeCard.value)
+
+const cardOptions = vue.computed(() => {
+  const getOptions = (opts: InputOption[]) => {
+    let out: InputOption[] = []
+    for (const opt of opts) {
+      if (opt.input.value === 'group')
+        out = [...out, ...getOptions(opt.settings.options || [])]
+      else
+        out.push(opt)
+    }
+    return out
+  }
+
+  return getOptions(card.value?.tpl.value?.settings.options || []).filter(_ => _.outputSchema.value)
+})
+
+const totalEstimatedTime = vue.computed(() => {
+  const total = cardOptions.value.filter(_ => !_.generation.value.isDisabled).reduce((acc, opt) => {
+    const time = opt.generation.value?.estimatedMs ?? 2000
+    return acc + time
+  }, 0)
+  return Math.round(total / 1000)
+})
 
 async function generateCard() {
   loading.value = true
@@ -30,20 +55,19 @@ async function generateCard() {
   if (!runPrompt)
     return
 
-  await props.site.activeCard.value?.getCompletion({ runPrompt })
+  await card.value?.getCompletion({ runPrompt })
   loading.value = false
 }
 
-const jsonSchema = vue.computed(() => {
-  const c = props.site.activeCard.value
-  return c?.tpl.value?.jsonSchema.value
-})
-
 const showAdvancedOptions = vue.ref(false)
+
+function updateGeneration(opt: InputOption, value: InputOptionSettings['generation']) {
+  opt.generation.value = { ...opt.generation.value, ...value }
+}
 </script>
 
 <template>
-  <ElForm v-if="jsonSchema" class="space-y-3" @submit="generateCard()">
+  <ElForm class="space-y-3" @submit="generateCard()">
     <div class="flex justify-between">
       <ElButton
         type="submit"
@@ -77,21 +101,26 @@ const showAdvancedOptions = vue.ref(false)
         placeholder="This section should..."
         @update:model-value="userGoal = $event"
       />
-      <div class="space-y-2 mt-2 bg-theme-50 dark:bg-theme-700 rounded-md p-3">
-        <div class="text-xs font-bold text-theme-500/60 text-center">
-          Setting Generation Controls
+      <div v-if="cardOptions" class="space-y-2 mt-2 bg-theme-50 dark:bg-theme-700 rounded-md p-3">
+        <div class="flex justify-between">
+          <div class="text-xs font-bold text-theme-500/80 text-center">
+            Setting Prompts
+          </div>
+          <div class="text-xs font-bold text-theme-500/80">
+            {{ totalEstimatedTime }} seconds
+          </div>
         </div>
-        <div v-for="(prop, i) in jsonSchema.properties" :key="i" class="text-[10px] space-y-1">
-          <div class="flex items-center">
-            <div class="w-6">
-              <InputCheckbox :model-value="true" input-class="bg-theme-0 dark:bg-theme-600" />
-            </div>
+        <div v-for="(opt, i) in cardOptions" :key="i" class="text-[10px] space-y-1">
+          <div class="flex items-center justify-between">
             <div class="w-24 truncate font-semibold">
-              {{ toLabel(i.split('.').pop()) }}
+              {{ opt.label.value }}
+            </div>
+            <div class="">
+              <InputCheckbox :model-value="opt.generation.value.isDisabled" input-class="bg-theme-0 dark:bg-theme-600" text="Disable" @update:model-value="updateGeneration(opt, { isDisabled: $event })" />
             </div>
           </div>
-          <div class="grow w-full">
-            <InputText :model-value="prop.description" placeholder="Desired Output" />
+          <div v-if="!opt.generation.value.isDisabled" class="grow w-full">
+            <InputText :model-value="opt.generation.value.prompt" placeholder="Desired Output" @update:model-value="updateGeneration(opt, { prompt: $event })" />
           </div>
         </div>
       </div>

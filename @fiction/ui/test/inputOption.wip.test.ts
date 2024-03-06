@@ -4,8 +4,8 @@ import type { Refinement } from '../inputs'
 import { InputOption, InputOptionsRefiner, OptionSet, getOptionSchema } from '../inputs'
 
 describe('inputOptionsRefiner', () => {
-  // Test for nested refineOption
-  it('correctly filters options using nested refineOption', () => {
+  // Test for nested refine
+  it('correctly filters options using nested refine', () => {
     const inputOptions = [
       new InputOption({ key: 'option1', options: [
         new InputOption({ key: 'subOption1' }),
@@ -25,11 +25,24 @@ describe('inputOptionsRefiner', () => {
     const caller = 'test1'
     const consoleWarnSpy = vi.spyOn(console, 'warn')
     const refiner = new InputOptionsRefiner({ basePath: '', caller })
-    const r1 = refiner.refineInputOptions({ inputOptions, refine: { option1: { refine: { subOption1: true, subOptionNoExist: true } }, option2: true, option3Alias: { refine: { subAlias: true } } } })
+    const r1 = refiner.refineInputOptions({
+      inputOptions,
+      refine: {
+        option1: { refine: { subOption1: true, subOptionNoExist: true } },
+        option2: true,
+        option3Alias: { refine: { subAlias: true } },
+      },
+    })
 
     expect(r1[0].options.value?.length).toBe(1)
     expect(r1[0].options.value?.[0].key.value).toBe('subOption1')
 
+    expect(r1[1].options.value.map(_ => _.key.value)).toMatchInlineSnapshot(`
+      [
+        "subOption1",
+        "subOption2",
+      ]
+    `)
     expect(r1[1].options.value?.length).toBe(2)
     expect(r1[1].options.value?.[0].key.value).toBe('subOption1')
     expect(r1[1].options.value?.[1].key.value).toBe('subOption2')
@@ -40,7 +53,7 @@ describe('inputOptionsRefiner', () => {
     expect(consoleWarnSpy).toHaveBeenCalledWith(`Warning: Filter key 'option1.subOptionNoExist' provided by '${caller}' was not used.`)
     consoleWarnSpy.mockRestore()
   })
-  it('does not alter options without refineOption or basePath', () => {
+  it('does not alter options without refine or basePath', () => {
     const inputOptions = [
       new InputOption({ key: 'option1', options: [new InputOption({ key: 'subOption1' })] }),
       new InputOption({ key: 'option2' }),
@@ -302,7 +315,7 @@ const headerOptionSet = new OptionSet ({
   },
 })
 
-const navItemOptionSet = new OptionSet<{ refineOption?: { title?: Refinement, list?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }> } }>({
+const navItemOptionSet = new OptionSet<{ refine?: { title?: Refinement, list?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }> } }>({
   inputOptions(args): InputOption[] {
     const label = args?.label || 'Nav'
     const groupPath = args?.groupPath || 'nav'
@@ -367,7 +380,7 @@ describe('navItemOptionSet Schema Generation', () => {
     navItemOptionSet.refiner.usedKeys.clear()
   })
   it('initializes correctly and returns all input options', () => {
-    const options = navItemOptionSet.toOptions({ basePath: 'test', refineOption: {} })
+    const options = navItemOptionSet.toOptions({ basePath: 'test', refine: {} })
 
     expect(options[0].options.value.length).toBe(2)
     expect(options[0].options.value[0].key.value).toBe('test.navTitle')
@@ -377,7 +390,7 @@ describe('navItemOptionSet Schema Generation', () => {
   })
 
   it('refines options', () => {
-    const options = navItemOptionSet.toOptions({ groupPath: 'list', refineOption: { title: true, list: { refine: { name: true, desc: 'test describe', href: false } } } })
+    const options = navItemOptionSet.toOptions({ groupPath: 'list', refine: { title: true, list: { refine: { name: true, desc: 'test describe', href: false } } } })
 
     expect(options[0].options.value.length).toBe(2)
     expect(options[0].options.value[0].key.value).toBe('listTitle')
@@ -545,8 +558,8 @@ describe('headerOptionSet', () => {
     expect(options[2].key.value).toBe('superHeading')
   })
 
-  it('filters options based on refineOption', () => {
-    const filteredOptions = headerOptionSet.toOptions({ refineOption: { heading: true, subHeading: true } })
+  it('filters options based on refine', () => {
+    const filteredOptions = headerOptionSet.toOptions({ refine: { heading: true, subHeading: true } })
 
     expect(filteredOptions.length).toBe(2)
     expect(filteredOptions.map(option => option.key.value)).toEqual(['heading', 'subHeading'])
@@ -560,8 +573,8 @@ describe('headerOptionSet', () => {
     expect(options[2].key.value).toBe('header.superHeading')
   })
 
-  it('correctly filters options using both basePath and refineOption', () => {
-    const options = headerOptionSet.toOptions({ basePath: 'header', refineOption: { heading: true, superHeading: true } })
+  it('correctly filters options using both basePath and refine', () => {
+    const options = headerOptionSet.toOptions({ basePath: 'header', refine: { heading: true, superHeading: true } })
 
     expect(options.length).toBe(2)
     expect(options.map(option => option.key.value)).toMatchInlineSnapshot(`

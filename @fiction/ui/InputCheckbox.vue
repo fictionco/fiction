@@ -30,7 +30,7 @@ const classes = [
   'focus:ring-0',
   'focus:ring-offset-0',
   // 'focus:ring-offset-transparent',
-  'bg-theme-100 hover:bg-theme-200 dark:bg-theme-800 dark:hover:bg-theme-500',
+  'bg-theme-100 hover:opacity-70 dark:bg-theme-800',
 
   // 'text-theme-700 dark:text-theme-50',
 ]
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-  <label class="text-input-size flex cursor-pointer items-center">
+  <label class="flex cursor-pointer items-center">
     <input
       v-bind="attrs"
       type="checkbox"
@@ -54,7 +54,7 @@ export default {
       @input="handleEmit($event.target)"
     >
 
-    <span v-if=" text" class="checkbox-label text-theme-700 dark:text-theme-50 hover:text-theme-500 text-xs">
+    <span v-if=" text" class="checkbox-label text-theme-700 dark:text-theme-50 hover:text-theme-500 hover:opacity-70">
       {{ text }}
     </span>
   </label>

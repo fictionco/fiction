@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
+import { getOptionJsonSchema } from '@fiction/ui'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
 import { createSiteTestUtils } from './siteTestUtils'
@@ -32,10 +33,12 @@ describe('cardTemplate', async () => {
 
     expect(card.templateId.value).toBe('hero')
 
-    if (!card.tpl.value?.jsonSchema.value)
-      throw new Error('card.tpl.value?.schema.value is undefined')
+    const jsonSchema = getOptionJsonSchema(card.tpl.value?.settings.options)
 
-    expect(card.tpl.value?.jsonSchema.value).toMatchInlineSnapshot(`
+    if (!jsonSchema)
+      throw new Error('jsonSchema is undefined')
+
+    expect(jsonSchema).toMatchInlineSnapshot(`
       {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "additionalProperties": false,

@@ -55,6 +55,9 @@ export function getOptionSchema(inputOptions?: InputOption[]): z.ZodObject<z.Zod
     return undefined
   const schemaFields: Record<string, z.ZodTypeAny> = {}
   inputOptions.forEach((option) => {
+    if (option.generation.value.isDisabled)
+      return
+
     // Skip group input itself but process its nested options if present
     if (option.input.value === 'group' && option.options) {
       const nestedSchema = getOptionSchema(option.options.value) // Recursively call getOptionSchema on nested options
@@ -112,11 +115,11 @@ export class InputOptionsRefiner {
     return finalOptions
   }
 
-  private recursiveRefine(inputOptions: InputOption[], refineOption: RefinementList, currentPath: string[]): InputOption[] {
+  private recursiveRefine(inputOptions: InputOption[], refine: RefinementList, currentPath: string[]): InputOption[] {
     return inputOptions.reduce<InputOption[]>((acc, option) => {
       if (option.input.value === 'group') {
         // Directly push the group option and refine its children if it has any
-        option.options.value = option.options.value ? this.recursiveRefine(option.options.value, refineOption, currentPath) : []
+        option.options.value = option.options.value ? this.recursiveRefine(option.options.value, refine, currentPath) : []
 
         acc.push(option)
         return acc
@@ -124,8 +127,8 @@ export class InputOptionsRefiner {
 
       const key = option.key.value || ''
       const aliasKey = option.aliasKey?.value || ''
-      const refinementKey = refineOption[key]
-      const refinementAliased = refineOption[aliasKey]
+      const refinementKey = refine[key]
+      const refinementAliased = refine[aliasKey]
       const usedKey = refinementKey ? key : refinementAliased ? aliasKey : undefined
       const refinement = refinementKey || refinementAliased
 
@@ -149,12 +152,11 @@ export class InputOptionsRefiner {
       return option
     }
     else if (typeof refinement === 'string' && schema) {
-      option.schema.value = args => schema(args).describe(refinement)
+      option.generation.value = { ...option.generation.value, prompt: refinement }
     }
     else if (typeof refinement === 'object') {
       option.update(refinement)
-      if (schema)
-        option.schema.value = args => schema(args).describe(option.description.value || '')
+      option.generation.value = { ...option.generation.value, prompt: option.description.value || '' }
 
       if (option.options?.value && refinement.refine)
         option.options.value = this.recursiveRefine(option.options.value, refinement.refine, optionPath)
@@ -176,13 +178,13 @@ export class InputOptionsRefiner {
     })
   }
 
-  private warnUnusedKeys(refineOption: RefinementList, prefix: string = ''): void {
-    Object.keys(refineOption).forEach((key) => {
+  private warnUnusedKeys(refine: RefinementList, prefix: string = ''): void {
+    Object.keys(refine).forEach((key) => {
       const fullKey = `${prefix}${key}`
       if (!this.usedKeys.has(fullKey))
         console.warn(`Warning: Filter key '${fullKey}' provided by '${this.caller}' was not used.`)
 
-      const r = refineOption[key]
+      const r = refine[key]
       if (typeof r === 'object' && r.refine)
         this.warnUnusedKeys(r.refine, `${fullKey}.`)
     })
@@ -205,6 +207,11 @@ export interface InputOptionSettings {
   list?: (ListItem | string)[]
   default?: () => unknown
   schema?: SchemaCallback
+  generation?: {
+    prompt?: string
+    isDisabled?: boolean
+    estimatedMs?: number
+  }
 }
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
@@ -223,11 +230,16 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   default = this.settings.default
   subSchema = vue.computed(() => getOptionSchema(this.settings.options))
   schema = vue.shallowRef(this.settings.schema)
-  outputSchema = vue.computed(() => this.schema.value
-    ? this.schema.value({ z, subSchema: this.subSchema.value as z.AnyZodObject })
-    : typeof this.input === 'string' && inputs[this.input]
-      ? inputs[this.input].schema({ z, subSchema: this.subSchema.value as z.AnyZodObject })
-      : this.subSchema.value)
+  generation = vue.ref(this.settings.generation || {})
+  outputSchema = vue.computed(() => {
+    const s = this.schema.value
+      ? this.schema.value({ z, subSchema: this.subSchema.value as z.AnyZodObject })
+      : typeof this.input === 'string' && inputs[this.input]
+        ? inputs[this.input].schema({ z, subSchema: this.subSchema.value as z.AnyZodObject })
+        : this.subSchema.value
+
+    return s?.describe(this.generation.value.prompt || this.label.value || this.key.value)
+  })
 
   props = vue.shallowRef(this.settings.props)
 

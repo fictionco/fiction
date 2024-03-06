@@ -19,11 +19,7 @@ function options() {
   const options = [
     ...optionSets.mediaItems.toOptions({
       refine: {
-        group: {
-          refine: {
-            media: 'splash picture in portrait format',
-          },
-        },
+        group: 'splash picture in portrait format',
       },
     }),
     ...optionSets.headers.toOptions({ refine: {

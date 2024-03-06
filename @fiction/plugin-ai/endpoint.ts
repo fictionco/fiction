@@ -193,12 +193,16 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
       const prompt = [
         search,
-        `style: ${objectives.imageStyle}. No text. No logos. No watermarks. Minimal.`,
+        `Contraints: make SURE the image has no text, logos, or watermarks on it.`,
+        `style: ${objectives.imageStyle}.`,
         `context: ${objectiveText || 'website'}`,
       ].join('\n')
 
+      const start = Date.now()
+      this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
       const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
+      this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
       return r.data?.url || ''
     })
 

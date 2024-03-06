@@ -13,7 +13,7 @@ export const templates = [
     iconTheme: 'orange',
     el: vue.defineAsyncComponent(() => import('./ElHero.vue')),
     options: [
-      ...optionSets.headers.toOptions({ refineOption: { } }),
+      ...optionSets.headers.toOptions({ refine: { } }),
       ...optionSets.actionItems.toOptions(),
     ],
     userConfig: { heading: 'Hero', subHeading: 'Subheading' },

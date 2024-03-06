@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { getOptionJsonSchema } from '@fiction/ui'
 import { templates } from '.'
 
 describe('minimalProfile', async () => {
   it('has correct schema', async () => {
-    expect(templates[0].jsonSchema.value).toMatchInlineSnapshot(`
+    const jsonSchema = getOptionJsonSchema(templates[0].settings.options)
+    expect(jsonSchema).toMatchInlineSnapshot(`
       {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "additionalProperties": false,
