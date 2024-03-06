@@ -209,6 +209,7 @@ export class Card<
       slug: this.slug.value,
       userConfig: this.userConfig.value as T,
       cards,
+      scope: this.settings.scope,
     }
   }
 }

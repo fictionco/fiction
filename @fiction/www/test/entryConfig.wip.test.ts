@@ -80,6 +80,7 @@ describe('user config', () => {
           "testInputs",
           "dash",
           "engine",
+          "renderTest",
           "sitePreview",
         ]
       `)

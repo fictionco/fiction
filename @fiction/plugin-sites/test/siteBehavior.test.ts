@@ -55,7 +55,7 @@ describe('siteConfig', async () => {
 
   it('should have correct config', () => {
     const site = new Site({ ...common, siteMode: 'editable' })
-    expect(Object.keys(site.toConfig())).to.include.members(['siteId', 'siteMode', 'subDomain', 'customDomains', 'themeId', 'status', 'title', 'userConfig', 'pages'])
+    expect(Object.keys(site.toConfig())).to.include.members(['siteId', 'siteMode', 'subDomain', 'customDomains', 'themeId', 'status', 'title', 'userConfig', 'pages', 'sections'])
 
     const onlyKeys = ['title', 'themeId', 'userConfig'] as const
     expect(Object.keys(site.toConfig({ onlyKeys }))).to.include.members([...onlyKeys, 'siteId'])

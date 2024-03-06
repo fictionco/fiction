@@ -26,6 +26,7 @@ export type TableCardConfig<T extends Record<string, unknown> = Record<string, u
   index?: number
   userConfig?: T
   cards?: TableCardConfig[]
+  scope?: string
 }
 
 export type CardConfigPortable<T extends Record<string, unknown> = Record<string, unknown>> = Omit<Partial<TableCardConfig<T>>, 'cards'> & {

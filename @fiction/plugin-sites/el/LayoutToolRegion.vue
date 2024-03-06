@@ -26,6 +26,9 @@ function getCardHandle(card: Card): Handle {
     hasDrawer: card.tpl.value?.settings.isContainer ?? false,
     handles: card.cards.value.map(c => getCardHandle(c)),
     isActive: card.cardId === props.site.editor.value.selectedCardId,
+    onClick: () => {
+      props.site.setActiveCard({ cardId: card.cardId })
+    },
     actions: [
       {
         name: 'Edit',

@@ -71,7 +71,7 @@ const pageList = vue.computed<ListItem[]>(() => {
           <LayoutToolRegion
             v-for="(card, regionId) in site.sections.value"
             :key="regionId"
-            :region-id="regionId"
+            :region-id="String(regionId)"
             :card="card"
             :site="site"
           />

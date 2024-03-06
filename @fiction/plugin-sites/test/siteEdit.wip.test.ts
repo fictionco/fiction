@@ -337,10 +337,20 @@ describe('site plugin tests', async () => {
     expect(siteObj.availableCards.value.map(c => c?.cardId.length)).toMatchInlineSnapshot(`
       [
         27,
-        27,
-        27,
         9,
         9,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
+        27,
       ]
     `)
 
@@ -398,16 +408,12 @@ describe('site plugin tests', async () => {
       }
     `)
 
-    expect(Object.entries(siteObj.layout).map(([key, comp]) => `${key}-${comp.value?.cards.value.length}`).sort()).toMatchInlineSnapshot(`
+    expect(Object.entries(siteObj.layout.value).map(([key, comp]) => `${key}-${comp?.cards.value.length}`).sort()).toMatchInlineSnapshot(`
       [
-        "__v_isReadonly-undefined",
-        "__v_isRef-undefined",
-        "_cacheable-undefined",
-        "_setter-undefined",
-        "_value-undefined",
-        "dep-undefined",
-        "effect-undefined",
-        "getter-undefined",
+        "footer-0",
+        "header-0",
+        "main-3",
+        "test-0",
       ]
     `)
   })

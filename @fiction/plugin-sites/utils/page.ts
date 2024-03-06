@@ -5,12 +5,8 @@ import type { Site } from '..'
 import type { CardConfigPortable } from '../tables'
 
 const logger = log.contextLogger('sitePageUtils')
-
 export function setPages(args: { pages?: CardConfigPortable[], site?: Site }) {
   const { pages = [], site } = args
-
-  // if (!pages.length)
-  //   pages.push({ isDefault: true })
 
   return pages?.map(p => new Card({ site, regionId: 'main', templateId: 'wrap', ...p })) || []
 }

@@ -3,11 +3,12 @@
  */
 import { describe, expect, it } from 'vitest'
 import { loadSiteFromTheme } from '../load'
-import { activeMergedGlobalSections } from '../utils/site'
+import { setSections } from '../utils/site'
 import { Card } from '../card'
+import type { CardConfigPortable } from '../tables'
 import { createSiteTestUtils } from './siteTestUtils'
 
-describe('activeMergedGlobalSections', async () => {
+describe('setSections', async () => {
   const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
@@ -24,11 +25,10 @@ describe('activeMergedGlobalSections', async () => {
     // Mock specific configurations for theme, template, and site settings
     // Ensure that site settings should override template and theme for the same sectionId
 
-    const mergedSections = activeMergedGlobalSections({ site })
+    const sections: Record<string, CardConfigPortable> = { header: { templateId: 'header', regionId: 'header', parentId: 'header', userConfig: { foo: 'bar' } } }
+    const mergedSections = setSections({ site, sections })
 
-    site.sections.value = { header: new Card({ templateId: 'header', site, regionId: 'header', parentId: 'header', userConfig: { foo: 'bar' } }) }
-
-    expect(mergedSections.value.header.userConfig.value.foo).toBe('bar')
+    expect(mergedSections.header.userConfig.value.foo).toBe('bar')
   })
 })
 
@@ -51,6 +51,7 @@ describe('section handling defaults', async () => {
       [
         "header",
         "footer",
+        "test",
       ]
     `)
 

@@ -56,7 +56,7 @@ export function layoutOrderCards(args: { availableCards: Card[], order: LayoutOr
 
 export function setLayoutOrder(args: { site: Site, order: LayoutOrder[] }) {
   const { site, order } = args
-  const availableCards = flattenCards([...site.pages.value, ...Object.values(site.sections.value)])
+  const availableCards = site.availableCards.value
   order.forEach((regionOrder) => {
     const ind = availableCards.findIndex(r => r.cardId === regionOrder.itemId)
     if (ind > -1) {

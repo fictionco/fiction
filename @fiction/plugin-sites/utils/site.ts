@@ -1,34 +1,35 @@
 import { vue } from '@fiction/core'
 import type { Site, SiteSettings } from '..'
-import type { TableSiteConfig } from '../tables'
+import type { CardConfigPortable, TableSiteConfig } from '../tables'
 import { Card } from '../card'
 import { setPages } from './page'
 
-/**
- * a computed handler for global site sections,
- * preferring stored site sections, then template sections, then theme sections
- */
-export function activeMergedGlobalSections(args: { site: Site }) {
-  const { site } = args
-  return vue.computed({
-    get: () => {
-      // Simplified access to sections with direct fallbacks to empty objects
-      const themeSections = site.theme.value?.settings.sections || {}
-      const tplSections = site.currentPage.value.tpl.value?.settings.sections || {}
-      const siteSections = site.siteSections.value || {}
+export function setSections(args: { site: Site, sections?: Record<string, CardConfigPortable> }) {
+  const { site, sections = {} } = args
 
-      // Unified all section IDs in a concise manner
-      const allSectionIds = [...new Set([...Object.keys(themeSections), ...Object.keys(tplSections), ...Object.keys(siteSections)])]
+  // Access theme and page template sections
+  const themeSections = site.theme.value?.settings.sections || {}
+  const pageTemplateSections = site.pages.value.reduce((acc, page) => {
+    const pageSections = page.tpl.value?.settings.sections || {}
+    return { ...acc, ...pageSections }
+  }, {} as Record<string, CardConfigPortable>)
 
-      // Directly construct the sections object without a separate selection function
-      return allSectionIds.reduce((acc, sectionId) => {
-        const config = siteSections[sectionId] || tplSections[sectionId] || themeSections[sectionId] || {}
-        acc[sectionId] = new Card({ ...config, regionId: sectionId, site, parentId: site.currentPage.value.cardId })
-        return acc
-      }, {} as Record<string, Card>)
-    },
-    set: v => site.siteSections.value = { ...site.siteSections.value, ...Object.fromEntries(Object.entries(v).map(([k, v]) => [k, v.toConfig()])) },
-  })
+  // Unified all section IDs including page template sections
+  const allSectionIds = [...new Set([
+    ...Object.keys(themeSections),
+    ...Object.keys(sections),
+    ...Object.keys(pageTemplateSections),
+  ])]
+
+  return allSectionIds.reduce((acc, sectionId) => {
+    // scope is set by the original source of the section
+    const scope = pageTemplateSections[sectionId] ? 'template' : 'site'
+
+    const config = sections[sectionId] || themeSections[sectionId] || pageTemplateSections[sectionId] || {}
+
+    acc[sectionId] = new Card({ ...config, regionId: sectionId, site, scope })
+    return acc
+  }, {} as Record<string, Card>)
 }
 
 export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string }) {
@@ -60,6 +61,7 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
   const { site, newConfig } = args
   if (!newConfig)
     return
+
   const availableKeys = ['title', 'userConfig', 'changeId', 'subDomain', 'customDomains', 'themeId', 'status']
   const entries = Object.entries(newConfig).filter(([key]) => availableKeys.includes(key))
 
@@ -68,11 +70,16 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
       (site[key as keyof typeof site] as vue.Ref).value = value
   })
 
-  if (newConfig.editor)
-    site.editor.value = { ...site.editor.value, ...newConfig.editor }
+  const { editor, pages, sections } = newConfig
 
-  if (newConfig.pages)
-    site.pages.value = setPages({ site, pages: newConfig.pages })
+  if (editor)
+    site.editor.value = { ...site.editor.value, ...editor }
+
+  if (pages)
+    site.pages.value = setPages({ site, pages })
+
+  if (sections)
+    site.sections.value = setSections({ site, sections })
 
   return site
 }

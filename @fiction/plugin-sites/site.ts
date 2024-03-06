@@ -8,7 +8,7 @@ import type { LayoutOrder } from './utils/layout'
 import { SiteFrameTools } from './utils/frame'
 import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page'
 import { addNewCard, removeCard } from './utils/region'
-import { activeMergedGlobalSections, activeSiteHostname, saveSite, updateSite } from './utils/site'
+import { activeSiteHostname, saveSite, setSections, updateSite } from './utils/site'
 import type { SiteMode } from './load'
 import type { FictionSites } from '.'
 
@@ -58,6 +58,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   userConfig = vue.ref(this.settings.userConfig || {})
   userConfigWithTheme = vue.computed(() => ({ ...this.theme.value?.config(), ...this.userConfig.value }))
   isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.userConfigWithTheme.value.isDarkMode })
+
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
@@ -67,11 +68,9 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, pages: this.pages.value }))
 
-  siteSections = vue.ref(this.settings.sections)
-  sections = activeMergedGlobalSections({ site: this })
-
+  sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
-  // allLayoutCards = vue.computed<Card[]>(() => flattenCards(Object.values(this.layout.value)))
+
   availableCards = vue.computed(() => flattenCards([...this.pages.value, ...Object.values(this.sections.value)]))
   currentPath = vue.computed({
     get: () => this.siteRouter.current.value.path,
@@ -101,6 +100,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     const { onlyKeys = [] } = args
     const { fictionSites: _, siteRouter: __, ...savedSettings } = this.settings
     const pages = this.pages.value.map(p => p.toConfig())
+    const sections = Object.fromEntries(Object.entries(this.sections.value).map(([k, v]) => [k, v.toConfig()]))
 
     const baseConfig = {
       ...savedSettings,
@@ -113,6 +113,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
       customDomains: this.customDomains.value,
       userConfig: this.userConfig.value,
       pages,
+      sections,
     }
 
     return onlyKeys.length
