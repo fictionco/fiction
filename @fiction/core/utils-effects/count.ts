@@ -21,7 +21,7 @@ export function animateCount(args: {
     value = Number.parseInt(value)
 
   vue.watch(
-    () => value as number,
+    () => value,
     (end) => {
       if (end !== activeValue.value) {
         const range = end - activeValue.value

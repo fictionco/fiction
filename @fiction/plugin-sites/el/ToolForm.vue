@@ -3,6 +3,7 @@ import type { vue } from '@fiction/core'
 import { getNested, localRef, setNested } from '@fiction/core'
 import type { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
+import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import type { Site } from '..'
 import ElToolSep from './ElToolSep.vue'
 
@@ -26,26 +27,6 @@ function hide(key: string, val?: boolean) {
 
   return menuVisibility.value[key]
 }
-
-// Animation hooks with type safety for HTMLElement
-function beforeEnter(el: HTMLElement) {
-  el.style.maxHeight = '0'
-}
-
-function enter(el: HTMLElement) {
-  el.style.maxHeight = '0'
-  requestAnimationFrame(() => {
-    el.style.maxHeight = `${el.scrollHeight}px`
-  })
-}
-
-function leave(el: HTMLElement) {
-  el.style.maxHeight = `${el.scrollHeight}px`
-  void el.offsetHeight
-  requestAnimationFrame(() => {
-    el.style.maxHeight = '0'
-  })
-}
 </script>
 
 <template>
@@ -66,12 +47,7 @@ function leave(el: HTMLElement) {
               <div class="i-tabler-chevron-up transition-all" :class="hide(opt.key.value) ? 'rotate-180' : ''" />
             </div>
           </div>
-          <transition
-            name="height-animation"
-            @before-enter="(el) => beforeEnter(el as HTMLElement)"
-            @enter="(el) => enter(el as HTMLElement)"
-            @leave="(el) => leave(el as HTMLElement)"
-          >
+          <TransitionSlide>
             <div v-show="!hide(opt.key.value)">
               <div class="p-4">
                 <ToolForm
@@ -83,7 +59,7 @@ function leave(el: HTMLElement) {
                 />
               </div>
             </div>
-          </transition>
+          </TransitionSlide>
         </div>
 
         <ElToolSep
@@ -107,16 +83,3 @@ function leave(el: HTMLElement) {
     </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-.height-animation-enter-active,
-.height-animation-leave-active {
-  transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
-  overflow: hidden;
-  user-select: none;
-}
-.height-animation-enter, .height-animation-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-</style>

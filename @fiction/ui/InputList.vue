@@ -4,6 +4,7 @@ import { getNested, setNested, shortId, vue, waitFor } from '@fiction/core'
 import type { InputOption } from './inputs'
 import ElInput from './ElInput.vue'
 import ElButton from './ElButton.vue'
+import TransitionSlide from './TransitionSlide.vue'
 
 const props = defineProps({
   modelValue: {
@@ -106,13 +107,13 @@ vue.onMounted(async () => {
     <div
       v-for="(item, i) in keyedModelValue"
       :key="i"
-      class="rounded-md border border-theme-300 dark:border-theme-500 mb-2 shadow-sm bg-theme-0 dark:bg-theme-900 cursor-pointer text-theme-700 dark:text-theme-100"
+      class="rounded-md border border-theme-300 dark:border-theme-600 mb-2 shadow-sm bg-theme-0 dark:bg-theme-700 cursor-pointer text-theme-700 dark:text-theme-100"
       :data-drag-id="item._key"
       :data-drag-depth="depth"
     >
       <div
-        class="px-1 py-1 bg-theme-100 dark:bg-theme-800 hover:bg-theme-200 text-xs font-mono  font-medium flex justify-between"
-        :class="openItem === item._key ? 'rounded-t-md border-b border-theme-300 dark:border-theme-500' : 'rounded-md'"
+        class="px-1 py-1 bg-theme-100 dark:bg-theme-600/50 hover:bg-theme-200 text-xs font-mono  font-medium flex justify-between"
+        :class="openItem === item._key ? 'rounded-t-md border-b border-theme-300 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
         @click="toggleItem(item)"
       >
@@ -128,19 +129,23 @@ vue.onMounted(async () => {
           <div class="i-tabler-chevron-down transition-all" :class="openItem === item._key ? 'rotate-180' : ''" />
         </div>
       </div>
-      <div v-if="openItem === item._key" class="py-4 px-2 space-y-3">
-        <div v-for="(opt, ii) in options" :key="ii">
-          <ElInput
-            :input-class="inputClass"
-            class="setting-input"
-            v-bind="opt.outputProps.value"
-            :depth="depth + 1"
-            :input="opt.input.value"
-            :model-value="getNested({ path: opt.key.value, data: item })"
-            @update:model-value="updateInputValue({ index: i, key: opt.key.value || '', value: $event })"
-          />
+      <TransitionSlide>
+        <div v-if="openItem === item._key">
+          <div class="py-4 px-2 space-y-3">
+            <div v-for="(opt, ii) in options" :key="ii">
+              <ElInput
+                :input-class="inputClass"
+                class="setting-input"
+                v-bind="opt.outputProps.value"
+                :depth="depth + 1"
+                :input="opt.input.value"
+                :model-value="getNested({ path: opt.key.value, data: item })"
+                @update:model-value="updateInputValue({ index: i, key: opt.key.value || '', value: $event })"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      </TransitionSlide>
     </div>
 
     <div class="actions mt-2">

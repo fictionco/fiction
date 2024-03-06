@@ -193,6 +193,14 @@ export class InputOptionsRefiner {
 
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
+export type InputOptionGeneration = {
+  prompt?: string
+  isDisabled?: boolean
+  estimatedMs?: number
+  key?: string
+  label?: string
+}
+
 export interface InputOptionSettings {
   key: string
   aliasKey?: string
@@ -207,11 +215,7 @@ export interface InputOptionSettings {
   list?: (ListItem | string)[]
   default?: () => unknown
   schema?: SchemaCallback
-  generation?: {
-    prompt?: string
-    isDisabled?: boolean
-    estimatedMs?: number
-  }
+  generation?: InputOptionGeneration
 }
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }

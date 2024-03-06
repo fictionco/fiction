@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
+import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import { iconStyle } from '../util'
 import type { Handle } from './tools'
 
@@ -81,26 +82,28 @@ const i = vue.computed(() => {
       </div>
     </div>
 
-    <div
-      v-if="handle.hasDrawer"
-      class="card-drawer rounded-b-md border-x border-b border-theme-300 p-3 bg-theme-0"
-    >
-      <div>
-        <div class="drag-input-zone min-h-[1em] space-y-2">
-          <div
-            tag="div"
-            class="space-y-2 sortable-zone min-h-[60px]"
-            data-drag-zone
-            :data-drag-depth="handle.depth + 1"
-          >
-            <ElToolHandle
-              v-for="subHandle in handle.handles ?? []"
-              :key="subHandle.handleId"
-              :handle="subHandle"
-            />
+    <TransitionSlide>
+      <div
+        v-show="handle.hasDrawer"
+        class="card-drawer rounded-b-md border-x border-b border-theme-300 p-3 bg-theme-0"
+      >
+        <div>
+          <div class="drag-input-zone min-h-[1em] space-y-2">
+            <div
+              tag="div"
+              class="space-y-2 sortable-zone min-h-[60px]"
+              data-drag-zone
+              :data-drag-depth="handle.depth + 1"
+            >
+              <ElToolHandle
+                v-for="subHandle in handle.handles ?? []"
+                :key="subHandle.handleId"
+                :handle="subHandle"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </TransitionSlide>
   </div>
 </template>

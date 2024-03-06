@@ -1,7 +1,8 @@
 // @unocss-include
 import type { vueRouter } from '@fiction/core'
 import { FictionObject, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
-import { type InputOption, getOptionJsonSchema } from '@fiction/ui'
+import { getOptionJsonSchema } from '@fiction/ui'
+import type { InputOption, InputOptionGeneration } from '@fiction/ui'
 
 import type { CardConfigPortable, TableCardConfig } from './tables'
 import type { Site } from './site'
@@ -57,6 +58,110 @@ CardTemplateSettings<U, T>
   }
 }
 
+type CardGenerationSettings = {
+  card: Card
+}
+
+export type CardGenerationConfig = {
+  prompt?: string
+  totalEstimatedTime?: number
+  inputConfig?: Record<string, InputOptionGeneration>
+}
+
+export class CardGeneration extends FictionObject<CardGenerationSettings> {
+  constructor(settings: CardGenerationSettings) {
+    super('CardGeneration', settings)
+  }
+
+  card = this.settings.card
+  tpl = vue.computed(() => this.card.tpl.value)
+  site = this.card.site
+
+  defaultInputConfig = vue.computed(() => {
+    const getOptions = (opts: InputOption[]) => {
+      let out: InputOption[] = []
+      for (const opt of opts) {
+        if (opt.input.value === 'group')
+          out = [...out, ...getOptions(opt.settings.options || [])]
+        else
+          out.push(opt)
+      }
+      return out
+    }
+
+    const options = getOptions(this.tpl.value?.settings.options || []).filter(_ => _.outputSchema.value)
+
+    return options.map(opt => ({
+      key: opt.key.value,
+      label: opt.label.value,
+      prompt: opt.generation.value.prompt,
+      isDisabled: opt.generation.value.isDisabled,
+      estimatedMs: opt.generation.value.estimatedMs || 3000,
+    }))
+  })
+
+  defaultPrompt = vue.computed(() => {
+    const c = this.card
+
+    const p = this.site?.currentPage?.value
+    const pageName = p?.title.value ? `on the "${p.title.value}" page` : ''
+    return `create content for the "${c?.title.value || toLabel(c?.templateId.value)}" card ${pageName}`
+  })
+
+  userPrompt = vue.ref('')
+  prompt = vue.computed(() => this.userPrompt.value || this.defaultPrompt.value)
+  userInputConfig = vue.ref< Record<string, InputOptionGeneration>>({})
+  inputConfig = vue.computed(() => {
+    const out: Record<string, InputOptionGeneration> = {}
+    this.defaultInputConfig.value.forEach((opt) => {
+      out[opt.key] = { ...opt, ...this.userInputConfig.value[opt.key] }
+    })
+    return out
+  })
+
+  totalEstimatedTime = vue.computed(() => {
+    const total = Object.values(this.inputConfig.value).filter(_ => !_.isDisabled).reduce((acc, opt) => {
+      const time = opt.estimatedMs ?? 2000
+      return acc + time
+    }, 0)
+    return Math.round(total / 1000)
+  })
+
+  async getCompletion() {
+    if (!this.site || !this.tpl.value)
+      throw new Error('site and template required')
+
+    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options)
+
+    const completionArgs = { runPrompt: this.prompt.value, outputFormat: jsonSchema, site: this.site }
+
+    this.log.info('RUNNING COMPLETION', { data: completionArgs })
+
+    const c = await getCardCompletion(completionArgs)
+
+    this.log.info('COMPLETION RESULT', { data: c })
+
+    if (c) {
+      let data = this.card.toConfig()
+      Object.entries(c).forEach(([key, value]) => {
+        data = setNested({ path: key, data, value })
+      })
+
+      this.card.update(data)
+    }
+
+    return c
+  }
+
+  toConfig(): CardGenerationConfig {
+    return {
+      prompt: this.prompt.value,
+      totalEstimatedTime: this.totalEstimatedTime.value,
+      inputConfig: this.inputConfig.value,
+    }
+  }
+}
+
 export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, tpl?: CardTemplate }
 
 export class Card<
@@ -78,6 +183,7 @@ export class Card<
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
   site = this.settings.site
   tpl = vue.computed(() => this.settings.tpl || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
+  generation = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.settings.options || [])
 
@@ -151,31 +257,6 @@ export class Card<
     this.site.frame.syncCard({ caller: `card:syncCard:${args.caller}`, cardConfig })
   }
 
-  async getCompletion(args: { runPrompt: string }) {
-    const { runPrompt } = args
-    if (!this.site || !this.tpl.value)
-      throw new Error('site and template required')
-
-    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options)
-
-    this.log.info('RUNNING COMPLETION', { data: { jsonSchema } })
-
-    const c = await getCardCompletion({ runPrompt, outputFormat: jsonSchema, site: this.site })
-
-    this.log.info('COMPLETION RESULT', { data: c })
-
-    if (c) {
-      let data = this.toConfig()
-      Object.entries(c).forEach(([key, value]) => {
-        data = setNested({ path: key, data, value })
-      })
-
-      this.update(data)
-    }
-
-    return c
-  }
-
   link(location: vueRouter.RouteLocationRaw) {
     const router = this.site?.siteRouter.router.value
     if (!router)
@@ -212,6 +293,7 @@ export class Card<
       userConfig: this.userConfig.value as T,
       cards,
       scope: this.settings.scope,
+      generation: this.generation.toConfig(),
     }
   }
 }

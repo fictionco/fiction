@@ -4,7 +4,6 @@
 import { describe, expect, it } from 'vitest'
 import { loadSiteFromTheme } from '../load'
 import { setSections } from '../utils/site'
-import { Card } from '../card'
 import type { CardConfigPortable } from '../tables'
 import { createSiteTestUtils } from './siteTestUtils'
 

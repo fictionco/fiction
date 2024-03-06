@@ -1,5 +1,6 @@
 import type { CreateObjectType, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
+import type { CardGenerationConfig } from './card'
 import type { EditorState } from './site'
 
 export const tableNames = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains' }
@@ -198,13 +199,20 @@ const pageCols = [
     isSetting: true,
     default: () => false as boolean,
   }),
-  // new FictionDbCol({
-  //   key: 'editor',
-  //   create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
-  //   prepare: ({ value }) => JSON.stringify(value),
-  //   isSetting: true,
-  //   default: () => ({} as Record<string, unknown>),
-  // }),
+  new FictionDbCol({
+    key: 'editor',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    default: () => ({} as Record<string, unknown>),
+  }),
+  new FictionDbCol({
+    key: 'generation',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
+    prepare: ({ value }) => JSON.stringify(value),
+    isSetting: true,
+    default: () => ({} as CardGenerationConfig),
+  }),
 ] as const
 
 const domainCols = [
