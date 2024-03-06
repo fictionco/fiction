@@ -18,15 +18,15 @@ function ai() {
 function options() {
   const options = [
     ...optionSets.mediaItems.toOptions({
-      refineOption: {
+      refine: {
         group: {
           refine: {
-            media: 'user profile picture in portrait format',
+            media: 'splash picture in portrait format',
           },
         },
       },
     }),
-    ...optionSets.headers.toOptions({ refineOption: {
+    ...optionSets.headers.toOptions({ refine: {
       heading: 'Primary headline for profile 3 to 8 words',
       subHeading: 'Formatted markdown of profile with paragraphs, 50 to 80 words, 2 paragraphs',
       superHeading: 'Shorter badge above headline, 2 to 5 words',
@@ -34,7 +34,7 @@ function options() {
     ...optionSets.navItems.toOptions({
       label: 'Bullets',
       groupPath: 'details',
-      refineOption: {
+      refine: {
         title: true,
         group: {
           description: 'Concise detail information like email, city, skills, last job, etc.',
@@ -66,7 +66,7 @@ export const templates = [
       superHeading: 'Steve S. Smith',
       heading: 'Designing The Future of Tomorrow',
       subHeading: `Here, amidst the swirling currents of creativity, flows the vibrant stream of ideas, enriching the landscape with its distinct flair and substance. Engage with a world where every design is a testament to uniqueness, and every concept breathes life into fresh, pioneering visions.`,
-      items: [{ media: { url: new URL('./pic.jpg', import.meta.url).href, format: 'url' } }],
+      mediaItems: [{ media: { url: new URL('./pic.jpg', import.meta.url).href, format: 'url' } }],
       detailsTitle: 'About Me',
       details: [
         { name: 'Location', desc: 'Laguna Beach, CA' },

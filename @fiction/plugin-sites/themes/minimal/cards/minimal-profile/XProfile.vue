@@ -10,7 +10,7 @@ export type UserConfig = {
   heading?: string
   subHeading?: string
   superHeading?: string
-  items?: MediaItem[]
+  mediaItems?: MediaItem[]
   detailsTitle?: string
   details?: NavItem[]
   actions?: ActionItem[]
@@ -29,7 +29,7 @@ const uc = vue.computed(() => {
 })
 
 const mediaItems = vue.computed(() => {
-  return uc.value.items?.filter(_ => _.media?.url)
+  return uc.value.mediaItems?.filter(_ => _.media?.url)
 })
 
 const activeItem = vue.ref(0)

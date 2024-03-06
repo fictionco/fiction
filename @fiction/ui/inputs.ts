@@ -1,5 +1,6 @@
 import type { ListItem } from '@fiction/core'
 import { FictionObject, log, removeUndefined, vue } from '@fiction/core'
+import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { z } from 'zod'
 
@@ -69,13 +70,14 @@ export function getOptionSchema(inputOptions?: InputOption[]): z.ZodObject<z.Zod
   return z.object(schemaFields) // Construct and return the Zod object schema
 }
 
-export function getOptionJsonSchema(inputOptions?: InputOption[]): Record<string, unknown> | undefined {
+export function getOptionJsonSchema(inputOptions?: InputOption[]) {
   const zodSchema = getOptionSchema(inputOptions)
 
   if (!zodSchema)
     return undefined
 
-  return zodToJsonSchema(zodSchema)
+  const r = zodToJsonSchema(zodSchema) as JsonSchema7ObjectType
+  return r
 }
 
 export type Refinement<T extends RefinementList = RefinementList> = boolean | string | Partial<InputOptionSettings & { refine: T }> | undefined
@@ -95,15 +97,15 @@ export class InputOptionsRefiner {
     this.caller = caller
   }
 
-  public refineInputOptions(args: { inputOptions: InputOption[], refineOption: RefinementList, basePath?: string }): InputOption[] {
-    const { inputOptions, refineOption, basePath } = args
+  public refineInputOptions(args: { inputOptions: InputOption[], refine: RefinementList, basePath?: string }): InputOption[] {
+    const { inputOptions, refine, basePath } = args
 
-    const noRefine = typeof refineOption === 'object' && Object.keys(refineOption).length === 0
+    const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
 
-    const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refineOption, [])
+    const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
 
     if (!noRefine)
-      this.warnUnusedKeys(refineOption)
+      this.warnUnusedKeys(refine)
 
     const finalOptions = this.prefixBasePath({ inputOptions: refinedOptions, basePath })
 
@@ -186,106 +188,6 @@ export class InputOptionsRefiner {
     })
   }
 }
-
-// export function refineInputOptions(args: { inputOptions: InputOption[], refineOption: RefinementList, basePath?: string, caller: string }): InputOption[] {
-//   const { inputOptions, refineOption, basePath = '', caller = 'unknown' } = args
-//   const usedKeys: Set<string> = new Set()
-
-//   const recursiveRefine = (args: { inputOptions: InputOption[], refineOption: RefinementList, currentPath: string[] }) => {
-//     const { inputOptions, refineOption, currentPath } = args
-
-//     if (typeof refineOption == 'object' && Object.keys(refineOption).length === 0)
-//       return inputOptions
-
-//     const refinedOptions = inputOptions.reduce<InputOption[]>((acc, option) => {
-//       // const refinement = refineOption[option.key.value] || refineOption[option.aliasKey.value]
-//       let refinement: Refinement = undefined
-//       let k = option.key.value
-//       if (refineOption[option.key.value]) {
-//         refinement = refineOption[option.key.value]
-//       }
-
-//       else if (refineOption[option.aliasKey.value]) {
-//         refinement = refineOption[option.aliasKey.value]
-//         k = option.aliasKey.value
-//       }
-
-//       const optionPath = [...currentPath, k]
-
-//       if (refinement !== undefined)
-//         usedKeys.add(optionPath.join('.'))
-
-//       if (refinement === undefined) {
-//         // If refine option has no matching key, filter out the value.
-//         return acc
-//       }
-//       else if (refinement === true) {
-//         // If the key of the record is true, keep the option as is.
-//         acc.push(option)
-//       }
-//       else if (typeof refinement === 'string' && option.schema.value) {
-//         const desc = refinement
-//         const v = option.schema.value
-//         option.schema.value = args => v(args).describe(desc)
-//         acc.push(option)
-//       }
-//       else if (typeof refinement === 'object') {
-//         // If the record value is additional InputOptionSettings, update the original.
-//         option.update(refinement)
-//         if (option.schema.value) {
-//           const v = option.schema.value
-//           option.schema.value = args => v(args).describe(option.description.value || '')
-//         }
-
-//         acc.push(option)
-//       }
-
-//       if (option.options.value && option.options.value.length > 0 && refinement instanceof Object && refinement.refine) {
-//         // Recursively refine nested options.
-//         option.options.value = recursiveRefine({ inputOptions: option.options.value, refineOption: refinement.refine, currentPath: optionPath })
-//       }
-
-//       return acc
-//     }, [])
-
-//     return refinedOptions
-//   }
-
-//   const refinedOptions = recursiveRefine({ inputOptions, refineOption, currentPath: [] })
-
-//   const prefixBasePath = (options: InputOption[]) => {
-//     return options.map((option) => {
-//       if (option.input.value === 'group' && option.options.value)
-//         option.options.value = prefixBasePath(option.options.value)
-//       else
-//         option.key.value = `${basePath.endsWith('.') ? basePath : `${basePath}.`}${option.key.value}`
-
-//       return option
-//     })
-//   }
-
-//   const finalOptions = prefixBasePath(refinedOptions)
-//   // Function to check and warn about unused filterKeys
-//   const warnUnusedKeys = (refineOption: RefinementList | boolean, usedKeys: Set<string>, prefix: string = '') => {
-//     if (typeof refineOption === 'object') {
-//       Object.keys(refineOption).forEach((key) => {
-//         const fullKey = `${prefix}${key}`
-//         if (!usedKeys.has(fullKey))
-//           console.warn(`Warning: Filter key '${fullKey}' provided by '${caller}' was not used.`)
-
-//         const r = refineOption[key]
-//         const nestedFilterKeys = typeof r == 'object' && r?.refine
-//         if (typeof nestedFilterKeys === 'object')
-//           warnUnusedKeys(nestedFilterKeys, usedKeys, `${fullKey}.`)
-//       })
-//     }
-//   }
-
-//   if (typeof refineOption === 'object')
-//     warnUnusedKeys(refineOption, usedKeys)
-
-//   return finalOptions
-// }
 
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
@@ -370,7 +272,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   }
 }
 
-export type OptionSetArgs< T extends Record<string, unknown> = Record<string, unknown>> = { label?: string, groupPath?: string, basePath?: string, refineOption?: RefinementList } & T
+export type OptionSetArgs< T extends Record<string, unknown> = Record<string, unknown>> = { label?: string, groupPath?: string, basePath?: string, refine?: RefinementList } & T
 
 export type OptionSetSettings< T extends Record<string, unknown> = Record<string, unknown>> = {
   basePath?: string
@@ -390,9 +292,9 @@ export class OptionSet< T extends Record<string, unknown> = Record<string, unkno
     if (!inputOptions)
       return []
 
-    const refineOption = args?.refineOption || this.settings.defaultRefinement || {}
+    const refine = args?.refine || this.settings.defaultRefinement || {}
 
-    const finalOptions = this.refiner.refineInputOptions({ inputOptions, refineOption, basePath: args?.basePath })
+    const finalOptions = this.refiner.refineInputOptions({ inputOptions, refine, basePath: args?.basePath })
 
     return finalOptions
   }

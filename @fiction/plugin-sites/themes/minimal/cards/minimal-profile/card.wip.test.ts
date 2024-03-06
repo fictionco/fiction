@@ -47,13 +47,13 @@ describe('minimalProfile', async () => {
             "description": "Primary headline for profile 3 to 8 words",
             "type": "string",
           },
-          "userConfig.items": {
+          "userConfig.mediaItems": {
             "items": {
               "additionalProperties": false,
               "properties": {
                 "media": {
                   "additionalProperties": false,
-                  "description": "user profile picture in portrait format",
+                  "description": "splash picture in portrait format",
                   "properties": {
                     "format": {
                       "enum": [
@@ -142,7 +142,7 @@ describe('minimalProfile', async () => {
           },
         },
         "required": [
-          "userConfig.items",
+          "userConfig.mediaItems",
           "userConfig.heading",
           "userConfig.subHeading",
           "userConfig.details",

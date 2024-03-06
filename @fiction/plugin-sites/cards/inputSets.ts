@@ -384,7 +384,7 @@ export const mediaItemsOptionSet = new OptionSet< {
   basePath: 'userConfig',
   inputOptions: (args) => {
     const label = args?.label || 'Media Items'
-    const groupPath = args?.groupPath || 'items'
+    const groupPath = args?.groupPath || 'mediaItems'
 
     // Define all possible options
     const options = [
@@ -395,21 +395,9 @@ export const mediaItemsOptionSet = new OptionSet< {
         props: { formats: args?.formats },
         schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
       }),
-      new InputOption({
-        key: 'name',
-        label: 'Text',
-        input: 'InputText',
-      }),
-      new InputOption({
-        key: 'desc',
-        label: 'Description',
-        input: 'InputText',
-      }),
-      new InputOption({
-        key: 'href',
-        label: 'Link / Route',
-        input: 'InputText',
-      }),
+      new InputOption({ key: 'name', label: 'Text', input: 'InputText' }),
+      new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
+      new InputOption({ key: 'href', label: 'Link / Route', input: 'InputText' }),
     ]
 
     return [

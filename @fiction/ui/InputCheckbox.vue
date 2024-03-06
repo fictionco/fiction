@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { vue } from '@fiction/core'
+import { twMerge } from 'tailwind-merge'
 
-defineProps({
+const props = defineProps({
   modelValue: { type: Boolean, default: false },
   text: { type: String, default: '' },
+  inputClass: { type: String, default: '' },
 })
 
 const emit = defineEmits<{
@@ -18,23 +20,22 @@ function handleEmit(target: EventTarget | null): void {
 }
 
 const classes = [
-  'form-checkbox',
   'cursor-pointer',
-
   'mr-[.8em]',
   'h-[1.1em]',
   'w-[1.1em]',
   'appearance-none',
   'rounded-[.25em]',
-  'border',
   'focus:outline-none',
   'focus:ring-0',
-  'border-theme-300',
-  'text-theme-500',
-  'bg-theme-100',
-  'text-theme-700',
-  'hover:theme-200',
+  'focus:ring-offset-0',
+  // 'focus:ring-offset-transparent',
+  'bg-theme-100 hover:bg-theme-200 dark:bg-theme-800 dark:hover:bg-theme-500',
+
+  // 'text-theme-700 dark:text-theme-50',
 ]
+
+const inputClasses = vue.computed(() => twMerge(classes, props.inputClass))
 </script>
 
 <script lang="ts">
@@ -48,7 +49,7 @@ export default {
     <input
       v-bind="attrs"
       type="checkbox"
-      :class="classes"
+      :class="inputClasses"
       :checked="modelValue"
       @input="handleEmit($event.target)"
     >
