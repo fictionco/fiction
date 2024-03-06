@@ -25,7 +25,7 @@ describe('inputOptionsRefiner', () => {
     const caller = 'test1'
     const consoleWarnSpy = vi.spyOn(console, 'warn')
     const refiner = new InputOptionsRefiner({ basePath: '', caller })
-    const r1 = refiner.refineInputOptions({ inputOptions, refineOption: { option1: { refine: { subOption1: true, subOptionNoExist: true } }, option2: true, option3Alias: { refine: { subAlias: true } } } })
+    const r1 = refiner.refineInputOptions({ inputOptions, refine: { option1: { refine: { subOption1: true, subOptionNoExist: true } }, option2: true, option3Alias: { refine: { subAlias: true } } } })
 
     expect(r1[0].options.value?.length).toBe(1)
     expect(r1[0].options.value?.[0].key.value).toBe('subOption1')
@@ -46,7 +46,7 @@ describe('inputOptionsRefiner', () => {
       new InputOption({ key: 'option2' }),
     ]
     const refiner = new InputOptionsRefiner({ basePath: '', caller: `test2` })
-    const r2 = refiner.refineInputOptions({ inputOptions, refineOption: { } })
+    const r2 = refiner.refineInputOptions({ inputOptions, refine: { } })
 
     expect(r2).toEqual(inputOptions)
   })
@@ -58,26 +58,26 @@ describe('inputOptionsRefiner', () => {
     ]
 
     const consoleWarnSpy = vi.spyOn(console, 'warn')
-    const refineOption = { option1: true, option3: true }
+    const refine = { option1: true, option3: true }
     const basePath = 'base'
     const caller = `test3`
     const refiner = new InputOptionsRefiner({ basePath, caller })
-    refiner.refineInputOptions({ inputOptions, refineOption })
+    refiner.refineInputOptions({ inputOptions, refine })
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(`Warning: Filter key 'option3' provided by '${caller}' was not used.`)
     consoleWarnSpy.mockRestore()
   })
-  it('filters options based on refineOption and prepends basePath at depth 0', () => {
+  it('filters options based on refine and prepends basePath at depth 0', () => {
     const inputOptions = [
       new InputOption({ key: 'option1', options: [new InputOption({ key: 'subOption1' })] }),
       new InputOption({ key: 'option2' }),
     ]
 
-    const refineOption = { option1: true, option2: true }
+    const refine = { option1: true, option2: true }
     const basePath = 'base'
 
     const refiner = new InputOptionsRefiner({ basePath, caller: `test4` })
-    const result = refiner.refineInputOptions({ inputOptions, refineOption })
+    const result = refiner.refineInputOptions({ inputOptions, refine })
 
     expect(result.length).toBe(2)
     expect(result.length).toMatchInlineSnapshot(`2`)
