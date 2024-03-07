@@ -29,10 +29,8 @@ const classes = [
   'focus:outline-none',
   'focus:ring-0',
   'focus:ring-offset-0',
-  // 'focus:ring-offset-transparent',
-  'bg-theme-100 hover:opacity-70 dark:bg-theme-800',
+  'bg-theme-100 focus:bg-theme-200 hover:bg-primary-500 dark:bg-theme-800 dark:hover:bg-theme-700 dark:focus:bg-theme-600',
 
-  // 'text-theme-700 dark:text-theme-50',
 ]
 
 const inputClasses = vue.computed(() => twMerge(classes, props.inputClass))
@@ -54,7 +52,7 @@ export default {
       @input="handleEmit($event.target)"
     >
 
-    <span v-if=" text" class="checkbox-label text-theme-700 dark:text-theme-50 hover:text-theme-500 hover:opacity-70">
+    <span v-if=" text" class="checkbox-label text-theme-700 dark:text-theme-50 dark:hover:text-theme-0 hover:text-theme-500 font-sans">
       {{ text }}
     </span>
   </label>

@@ -7,7 +7,7 @@ import { activePageId, getPageById, getViewMap } from '../page'
 describe('getViewMap', async () => {
   it('should map card slugs to cardIds correctly', () => {
     const pages = [
-      new Card({ cardId: 'id1', title: 'Default Page', regionId: 'main', templateId: 'engine', isDefault: true }),
+      new Card({ cardId: 'id1', title: 'Default Page', regionId: 'main', templateId: 'engine', isHome: true }),
       new Card({ cardId: 'id2', slug: 'example', title: 'Example Page', regionId: 'main', templateId: 'engine' }),
       new Card({ cardId: 'id3', slug: 'foo', title: 'Foo Page', regionId: 'main', templateId: 'engine', is404: true }),
     ]
@@ -15,7 +15,7 @@ describe('getViewMap', async () => {
     const map = getViewMap({ pages })
     expect(map).toEqual({
       'default-page': 'id1',
-      '_default': 'id1',
+      '_home': 'id1',
       'example': 'id2',
       '_404': 'id3',
       'foo': 'id3',
@@ -24,14 +24,14 @@ describe('getViewMap', async () => {
 
   it('should handle cases where slug is set to special', async () => {
     const pages = [
-      new Card({ cardId: 'id1', slug: '_default', title: 'Default Page', regionId: 'main', templateId: 'engine', isDefault: true }),
+      new Card({ cardId: 'id1', slug: '_home', title: 'Default Page', regionId: 'main', templateId: 'engine', isHome: true }),
       new Card({ cardId: 'id2', slug: 'example', title: 'Example Page', regionId: 'main', templateId: 'engine' }),
       new Card({ cardId: 'id3', slug: '_404', title: 'Foo Page', regionId: 'main', templateId: 'engine' }),
     ]
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
-      _default: 'id1',
+      _home: 'id1',
       example: 'id2',
       _404: 'id3',
     })
@@ -45,7 +45,7 @@ describe('getViewMap', async () => {
 
     const map = getViewMap({ pages })
     expect(map).toEqual({
-      _default: undefined,
+      _home: undefined,
       def: 'id1',
       example: 'id2',
       _404: undefined,
@@ -61,7 +61,7 @@ describe('activePageId', async () => {
     example: 'id2',
     foo: 'bar',
     _404: 'id3',
-    _default: 'id1',
+    _home: 'id1',
   })
 
   // Create a spy on the router's push method if needed
@@ -86,13 +86,13 @@ describe('activePageId', async () => {
     expect(computedPageId.value).toEqual('id3')
   })
 
-  it('get: should return the _default page ID if the viewId is not provided', async () => {
+  it('get: should return the _home page ID if the viewId is not provided', async () => {
     // Mocking the current value of the siteRouter without viewId
     await siteRouter.push('/')
 
     await waitFor(15)
 
-    // The getter should return the _default page ID
+    // The getter should return the _home page ID
     expect(computedPageId.value).toEqual('id1')
   })
 
@@ -104,7 +104,7 @@ describe('activePageId', async () => {
     expect(siteRouter.current.value.path).toEqual('/foo')
   })
 
-  it('set: should set home (/) for _default cardId', async () => {
+  it('set: should set home (/) for _home cardId', async () => {
     computedPageId.value = 'id1'
 
     await waitFor(15)

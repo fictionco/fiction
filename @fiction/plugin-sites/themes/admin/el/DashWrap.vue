@@ -38,7 +38,7 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   const site = props.card.site
 
   const r = site?.pages.value.filter(v => v.userConfig.value.isNavItem).map((item) => {
-    const slug = item.slug.value === '_default' ? '' : item.slug.value
+    const slug = item.slug.value === '_home' ? '' : item.slug.value
     return {
       name: item.title.value || '',
       href: item.link(`/${slug}`),

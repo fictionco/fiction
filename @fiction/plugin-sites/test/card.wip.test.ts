@@ -1,26 +1,113 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
 import { getOptionJsonSchema } from '@fiction/ui'
-import stringcase from 'stringcase'
-import { toCamel } from '@fiction/core/utils/casing'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
+import { standardCardTemplates } from '../cards'
 import { createSiteTestUtils } from './siteTestUtils'
 
-// describe('card', async () => {
-//   const testUtils = await createSiteTestUtils()
-//   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
-//   const card = new Card({
-//     site: site,
-//     tpl: cardTemplateMock,
-//     title: 'Test Card',
-//     templateId: 'testTemplate',
-//   })
+describe('card', async () => {
+  const testUtils = await createSiteTestUtils()
+  const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  const card = new Card({
+    site,
+    tpl: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
+    title: 'Test Card',
+  })
 
-//   it('---', () => {
+  it('should have correct setup', () => {
+    expect(site.pages.value.length).toMatchInlineSnapshot(`0`)
+  })
 
-//   })
-// })
+  it('cardTemplate initializes with correct settings', () => {
+    expect(card.tpl.value?.settings.templateId).toBe('hero')
+    expect(card.tpl.value?.settings.title).toBe('Hero')
+  })
+
+  it('card initializes with correct settings and links to Site and Template', () => {
+    expect(card.title.value).toBe('Test Card')
+    expect(card.site).toBe(site)
+  })
+
+  it('cardTemplate toCard method generates a card with expected properties', () => {
+    const newCard = standardCardTemplates.find(t => t.settings.templateId === 'hero')?.toCard({})
+    expect(newCard?.settings.templateId).toBe('hero')
+    expect(newCard?.settings.title).toBe('Hero')
+  })
+
+  it('card computes total estimated time correctly', () => {
+    // Assuming options have been set up to produce a known total time
+    const totalEstimatedTime = card.generation.totalEstimatedTime.value
+    expect(totalEstimatedTime).toBeGreaterThan(0)
+    // Update the expected time based on your options setup
+    expect(totalEstimatedTime).toBe(16) // Example value
+  })
+
+  it('card generates correct prompt for content creation', () => {
+    const prompt = card.generation.prompt.value
+    expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" card on the "404" page"`)
+    expect(prompt.toLowerCase()).toContain('test card')
+    // Adjust based on actual prompt structure
+  })
+
+  it('updates to Card reflect in userConfig and other properties', () => {
+    card.updateUserConfig({ path: 'heading', value: 'New Headline' })
+    expect(card.userConfig.value.heading).toBe('New Headline')
+
+    card.update({ title: 'Updated Card' })
+    expect(card.title.value).toBe('Updated Card')
+    const prompt = card.generation.prompt.value
+    expect(prompt.toLowerCase()).toContain('updated card')
+  })
+
+  it('should compute total estimated time correctly', () => {
+    const totalEstimatedTime = card.generation.totalEstimatedTime.value
+
+    expect(totalEstimatedTime).toBeGreaterThan(0)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`16`)
+  })
+
+  it('should have correct generations settings', () => {
+    const inputConfig = card.generation.inputConfig.value
+
+    expect(inputConfig).toMatchInlineSnapshot(`
+      {
+        "userConfig.actions": {
+          "cumulativeTime": 16000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "userConfig.actions",
+          "label": undefined,
+          "prompt": undefined,
+        },
+        "userConfig.heading": {
+          "cumulativeTime": 4000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "userConfig.heading",
+          "label": "Heading",
+          "prompt": undefined,
+        },
+        "userConfig.subHeading": {
+          "cumulativeTime": 8000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "userConfig.subHeading",
+          "label": "Sub Heading",
+          "prompt": undefined,
+        },
+        "userConfig.superHeading": {
+          "cumulativeTime": 12000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "userConfig.superHeading",
+          "label": "Super Heading",
+          "prompt": undefined,
+        },
+      }
+    `)
+  })
+})
 
 describe('cardTemplate', async () => {
   const _testUtils = await createSiteTestUtils()
@@ -32,15 +119,9 @@ describe('cardTemplate', async () => {
         "wrap",
         "404",
         "quotes",
-        "logos",
         "hero",
-        "doc",
         "marquee",
         "area",
-        "tour",
-        "mediaGrid",
-        "metrics",
-        "features",
         "testWrap",
       ]
     `)

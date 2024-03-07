@@ -11,14 +11,8 @@ import ELToolHandle from './ElToolHandle.vue'
 import DraggableSort from './DraggableSort.vue'
 
 const props = defineProps({
-  site: {
-    type: Object as vue.PropType<Site>,
-    required: true,
-  },
-  tool: {
-    type: Object as vue.PropType<EditorTool>,
-    required: true,
-  },
+  site: { type: Object as vue.PropType<Site>, required: true },
+  tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
 
 const actions: ActionItem[] = [
@@ -31,17 +25,18 @@ const actions: ActionItem[] = [
 
 const handles = vue.computed(() => {
   return props.site.pages.value.map((pg): Handle => {
+    const cardId = pg.cardId
     return {
       title: pg.displayTitle.value,
       icon: 'i-tabler-file',
-      handleId: pg.cardId ?? 'no-id-provided',
+      handleId: cardId ?? 'no-id-provided',
       depth: 0,
-      isActive: pg.cardId === props.site.activePageId.value,
-      onClick: () => { props.site.activePageId.value = pg.cardId },
+      isActive: cardId === props.site.activePageId.value,
+      onClick: () => { props.site.activePageId.value = cardId },
       actions: [{
         name: 'Settings',
         icon: 'i-tabler-edit',
-        onClick: () => props.site.useEditPage({ cardId: pg.cardId }),
+        onClick: () => props.site.useEditPage({ cardId }),
       }],
     }
   })

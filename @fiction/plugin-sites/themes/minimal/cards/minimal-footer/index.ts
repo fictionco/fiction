@@ -8,7 +8,7 @@ import { CardTemplate } from '../../../../card'
 export const templates = [
   new CardTemplate({
     templateId: 'minimalFooter',
-    category: ['basic'],
+    category: ['theme'],
     icon: 'i-tabler-box-align-bottom',
     iconTheme: 'blue',
     spacingClass: 'py-0 lg:py-6',

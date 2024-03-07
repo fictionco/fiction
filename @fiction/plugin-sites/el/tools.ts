@@ -51,38 +51,21 @@ export const toolList = [
     el: vue.defineAsyncComponent(() => import('./ToolAdd.vue')),
     isPrimary: true,
   },
+
   {
-    toolId: 'createPage',
-    title: 'Create Page',
+    toolId: 'addPage',
+    title: 'Add Page',
     icon: 'i-tabler-file-plus',
-    el: vue.defineAsyncComponent(() => import('./ToolPageEdit.vue')),
-    props: (site: Site) => {
-      return vue.computed(() => {
-        return {
-          title: `New Page: ${site.editPageConfig.value?.title || 'Untitled'}`,
-          saveText: 'Create Page',
-          mode: 'createPage',
-          site,
-        }
-      })
-    },
+    el: vue.defineAsyncComponent(() => import('./ToolPageAdd.vue')),
+    props: (site: Site) => vue.computed(() => ({ site })),
   },
   {
     toolId: 'editPage',
     title: 'Edit Page',
     icon: 'i-tabler-files',
+    widthClasses: 'w-[430px]',
     el: vue.defineAsyncComponent(() => import('./ToolPageEdit.vue')),
-    props: (site: Site) => {
-      return vue.computed(() => {
-        return {
-          title: `Edit Page: ${site.editPageConfig.value?.title || 'Untitled'}`,
-          saveText: 'Save Changes',
-          mode: 'editPage',
-          site,
-        }
-      })
-    },
-
+    props: (site: Site) => vue.computed(() => ({ site })),
   },
   {
     toolId: 'ai',

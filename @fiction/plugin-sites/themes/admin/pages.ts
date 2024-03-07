@@ -8,7 +8,7 @@ export function getPage(_args: ServiceList) {
   return themeCard({
     templates,
     regionId: 'main',
-    slug: '_default',
+    slug: '_home',
     tpl: new CardTemplate({
       templateId: 'sites',
       el: vue.defineAsyncComponent(() => import('../../el/ViewIndex.vue')),

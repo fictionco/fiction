@@ -112,7 +112,6 @@ export class InputOptionsRefiner {
 
     const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
 
-
     if (!noRefine)
       this.warnUnusedKeys(refine)
 

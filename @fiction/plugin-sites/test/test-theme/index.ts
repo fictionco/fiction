@@ -18,7 +18,7 @@ export const templates = [
 
 const mediaGridCard = themeCard({
   templates,
-  templateId: 'mediaGrid',
+  templateId: 'marquee',
   userConfig: {
     items: [
       {
@@ -44,9 +44,9 @@ export function setup(_args: { fictionApp: FictionApp }) {
     pages: [
       themeCard({
         templates,
-        slug: '_default',
+        slug: '_home',
         title: 'Default Page',
-        isDefault: true,
+        isHome: true,
         cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
       }),
       themeCard({

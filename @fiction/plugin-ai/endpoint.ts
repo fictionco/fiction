@@ -281,7 +281,7 @@ export class QueryManageVectors extends QueryAi {
 
     if (_action === 'clearDocuments') {
       this.log.warn(`clearing vectors in ${namespace} namespace`)
-      await pineconeIndex.deleteOne({ namespace, deleteAll: true })
+      await pineconeIndex.deleteAll()
     }
     else if (_action === 'indexDocuments') {
       const docs

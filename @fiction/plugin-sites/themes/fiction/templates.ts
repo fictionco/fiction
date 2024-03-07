@@ -2,7 +2,7 @@ import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { inputSets } from '../../cards/inputSets'
 import { CardTemplate } from '../../card'
-import { standardCardTemplates } from '../../cards'
+import { marketingCardTemplates, standardCardTemplates } from '../../cards'
 
 const def = vue.defineAsyncComponent
 
@@ -24,4 +24,5 @@ export const templates = [
     options: [],
   }),
   ...standardCardTemplates,
+  ...marketingCardTemplates,
 ] as const

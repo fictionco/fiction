@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { toLabel, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
@@ -94,7 +94,7 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
               </div>
             </div>
             <div v-if="!opt.isDisabled" class="grow w-full">
-              <InputText :model-value="opt.prompt" placeholder="Desired Output" @update:model-value="updateGeneration(opt, { prompt: $event })" />
+              <InputText input-class="text-xs" :model-value="opt.prompt" placeholder="Desired Output" @update:model-value="updateGeneration(opt, { prompt: $event })" />
             </div>
           </div>
         </div>

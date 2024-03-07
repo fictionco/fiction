@@ -30,7 +30,7 @@ describe('site plugin tests', async () => {
 
     expect(site?.pages.value.map(_ => _.slug.value)).toMatchInlineSnapshot(`
       [
-        "_default",
+        "_home",
         "example",
       ]
     `)
@@ -45,6 +45,6 @@ describe('site plugin tests', async () => {
 
     await site.siteRouter.push('/')
 
-    expect(site?.currentPage.value?.slug.value).toBe('_default')
+    expect(site?.currentPage.value?.slug.value).toBe('_home')
   })
 })

@@ -169,7 +169,7 @@ W extends CardTemplate | undefined,
   cards?: CardConfigPortable[]
   slug?: string
   title?: string
-  isDefault?: boolean
+  isHome?: boolean
   is404?: boolean
 }
 

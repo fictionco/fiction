@@ -3,7 +3,7 @@ export type UiElementSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export type UiElementFormat = 'block' | 'spread' | 'inline'
 
 export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiElementSize, format: UiElementFormat, isDisabled?: boolean, useShadow?: boolean, noHover?: boolean }) {
-  const { btn, size, format, isDisabled, useShadow, noHover } = args
+  const { btn = 'default', size, format, isDisabled, useShadow, noHover } = args
 
   const baseClasses = 'relative max-w-full select-none items-center font-sans font-semibold focus:outline-none '
 
@@ -71,6 +71,6 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
     formatClasses,
     roundedClass,
     useShadow ? 'shadow-sm hover:shadow-md active:shadow-none' : '',
-    isDisabled ? 'opacity-40 cursor-not-allowed' : '',
+    isDisabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
   ].join(' ')
 }

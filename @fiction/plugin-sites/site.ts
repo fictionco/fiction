@@ -63,7 +63,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
   hostname = activeSiteHostname(this)
-  currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_default') as string)
+  currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
   currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, pages: this.pages.value }))
@@ -162,7 +162,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   editPageConfig = vue.computed({
-    get: () => this.pages.value.find(r => r.cardId === this.editor.value.selectedPageId)?.toConfig(),
+    get: () => this.pages.value.find(r => r.cardId === this.editor.value.selectedPageId)?.toConfig() || {},
     set: v => updatePages({ site: this, pages: [v] }),
   })
 
@@ -174,7 +174,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.editor.value.selectedPageId = cardId || ''
 
-    this.settings.fictionSites.useTool({ toolId: cardId ? 'editPage' : 'createPage' })
+    this.settings.fictionSites.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
   }
 
   removeCard(args: { cardId: string }) {

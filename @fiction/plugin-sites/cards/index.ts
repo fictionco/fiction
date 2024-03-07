@@ -21,13 +21,17 @@ export const standardCardTemplates = [
   }),
   ...templates404,
   ...templatesQuote,
-  ...templatesLogos,
   ...templatesHero,
-  ...templatesDoc,
   ...templatesMarquee,
   ...templatesArea,
+
+] as const
+
+export const marketingCardTemplates = [
+  ...templatesLogos,
   ...templatesTour,
   ...templatesMediaGrid,
-  ...templatesMetrics,
   ...templatesFeatures,
+  ...templatesMetrics,
+  ...templatesDoc,
 ] as const

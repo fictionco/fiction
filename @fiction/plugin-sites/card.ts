@@ -17,9 +17,9 @@ export type EditorState = {
   savedCardOrder: Record<string, string[]>
 }
 
-type CardCategory = 'basic' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special'
+type CardCategory = 'basic' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special'
 
-export const categoryOrder: CardCategory[] = ['basic', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
+export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
 
 interface CardTemplateSettings<U extends string = string, T extends ComponentConstructor = ComponentConstructor> {
   templateId: U
@@ -222,7 +222,7 @@ export class Card<
   T extends Record<string, unknown> = Record<string, unknown>,
 > extends FictionObject<CardSettings<T>> {
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
-  isDefault = vue.ref(this.settings.isDefault)
+  isHome = vue.ref(this.settings.isHome)
   is404 = vue.ref(this.settings.is404)
   parentId = this.settings.parentId
   depth = vue.ref(this.settings.depth || 0)
@@ -282,7 +282,7 @@ export class Card<
   update(cardConfig?: CardConfigPortable<T>) {
     if (!cardConfig)
       return
-    const availableKeys = ['title', 'slug', 'userConfig', 'templateId', 'isDefault', 'is404']
+    const availableKeys = ['title', 'slug', 'userConfig', 'templateId', 'isHome', 'is404']
     const entries = Object.entries(cardConfig).filter(([key]) => availableKeys.includes(key))
     entries.forEach(([key, value]) => {
       if (value !== undefined && vue.isRef(this[key as keyof this]))
@@ -340,7 +340,7 @@ export class Card<
       layoutId: this.layoutId.value,
       templateId: this.templateId.value,
       cardId: this.cardId,
-      isDefault: !!this.isDefault.value,
+      isHome: !!this.isHome.value,
       is404: !!this.is404.value,
       title: this.title.value,
       slug: this.slug.value,

@@ -94,13 +94,13 @@ describe('site plugin tests', async () => {
 
     expect(Object.entries(siteObj.viewMap.value).sort().map(([k, v]) => `${k}:${v.length}`)).toMatchInlineSnapshot(`
       [
-        "_default:27",
+        "_home:27",
         "example:27",
       ]
     `)
 
     expect(siteObj.currentPath.value).toMatchInlineSnapshot(`"/"`)
-    expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"_default"`)
+    expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"_home"`)
     expect(siteObj.activePageId.value, 'sets page id').toBeTruthy()
     expect(siteObj.pages.value.some(p => p.cardId === siteObj.activePageId.value)).toBeTruthy()
   })
@@ -139,7 +139,7 @@ describe('site plugin tests', async () => {
         "cards": "",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -255,7 +255,7 @@ describe('site plugin tests', async () => {
     const m = siteObj.viewMap.value
     expect(Object.keys(m).sort()).toMatchInlineSnapshot(`
       [
-        "_default",
+        "_home",
         "example",
         "test",
       ]
@@ -264,7 +264,7 @@ describe('site plugin tests', async () => {
     expect(m['']).toBe(m.home)
 
     expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"test"`)
-    expect(siteObj.currentPage.value?.settings.isDefault).toMatchInlineSnapshot(`undefined`)
+    expect(siteObj.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`undefined`)
     expect(siteObj.activePageId.value).toBeTruthy()
 
     const nm = 'testAlpha'
@@ -292,7 +292,7 @@ describe('site plugin tests', async () => {
         "cards": "",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -317,7 +317,7 @@ describe('site plugin tests', async () => {
         "cards": "[object Object],[object Object]",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -365,7 +365,7 @@ describe('site plugin tests', async () => {
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -394,7 +394,7 @@ describe('site plugin tests', async () => {
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -428,7 +428,7 @@ describe('site plugin tests', async () => {
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",
@@ -473,7 +473,7 @@ describe('site plugin tests', async () => {
         "cards": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
         "is404": false,
-        "isDefault": false,
+        "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
         "regionId": "[id:****]",

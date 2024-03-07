@@ -13,10 +13,11 @@ const props = defineProps({
   disabled: { type: Boolean, default: false },
   noHover: { type: Boolean, default: false },
   format: { type: String as vue.PropType<UiElementFormat>, default: 'inline' },
-  btn: { type: String as vue.PropType<UiElementStyle >, default: '' },
+  btn: { type: String as vue.PropType<UiElementStyle >, default: 'default' },
   size: { type: String as vue.PropType<UiElementSize>, default: '' },
   rounded: { type: String as vue.PropType<'md' | 'lg' | 'full'>, default: '' },
   wrapClass: { type: String, default: '' },
+  icon: { type: String, default: '' },
   animate: { type: Boolean, default: false },
   tag: { type: String as vue.PropType<'button' | 'div'>, default: 'button' },
 })
@@ -78,7 +79,11 @@ const buttonClasses = vue.computed(() => {
       class="flex w-full min-w-0 items-center whitespace-nowrap"
       :class="[loading ? 'opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
-      <slot />
+      <div v-if="icon" class="flex space-x-1 items-center">
+        <div class="text-[1.2em] -mt-[1px] -ml-0.5"><div :class="icon" /></div>
+        <div class=""><slot /></div>
+      </div>
+      <template v-else><slot /></template>
     </span>
   </component>
 </template>

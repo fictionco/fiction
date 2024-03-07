@@ -7,7 +7,7 @@ export function getPage(_args: ServiceList) {
     templates,
     regionId: 'main',
     templateId: 'wrap',
-    slug: '_default',
+    slug: '_home',
     cards: [
       themeCard({
         templates,

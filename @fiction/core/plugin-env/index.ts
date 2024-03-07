@@ -167,7 +167,6 @@ export class FictionEnv<
     if (this.utils.isNode())
       this.nodeInit()
 
-
     this.addHook({
       hook: 'staticSchema',
       callback: async (existing) => {

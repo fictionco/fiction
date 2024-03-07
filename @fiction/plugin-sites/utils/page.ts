@@ -33,9 +33,9 @@ export function getViewMap(args: { pages: Card[] }) {
     const slug = card.slug.value
     cardMap[slug] = card.cardId // Map the slug or title-slug to cardId
 
-    // Check for isDefault and is404 directly on the card.
-    if (card.isDefault.value)
-      cardMap._default = card.cardId
+    // Check for isHome and is404 directly on the card.
+    if (card.isHome.value)
+      cardMap._home = card.cardId
 
     if (card.is404.value)
       cardMap._404 = card.cardId
@@ -50,7 +50,7 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
     get() {
       const viewMap = viewMapRef.value
       const current = siteRouter.current.value
-      const viewId = (current.params.viewId || '_default') as string
+      const viewId = (current.params.viewId || '_home') as string
       return viewMap[viewId] || viewMap._404 || '_special404'
     },
     async set(cardId: string) {
@@ -58,7 +58,7 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
       const viewMap = viewMapRef.value
       let viewId = Object.keys(viewMap).find(k => viewMap[k] === cardId) || `not-found`
 
-      if (viewId === '_default')
+      if (viewId === '_home')
         viewId = ''
 
       else if (viewId.includes('not-found'))

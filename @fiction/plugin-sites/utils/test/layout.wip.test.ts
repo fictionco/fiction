@@ -22,7 +22,7 @@ describe('setLayoutOrder', async () => {
   it('should reorder regions and nested cards based on provided order', async () => {
     // Mock data setup
     const page1 = new Card({ cardId: 'page1', cards: [{ cardId: 'cardA', templateId: 'area' }] })
-    const page2 = new Card({ cardId: 'page2', slug: 'foo', isDefault: true, cards: [{ cardId: 'cardB', templateId: 'area' }] })
+    const page2 = new Card({ cardId: 'page2', slug: 'foo', isHome: true, cards: [{ cardId: 'cardB', templateId: 'area' }] })
     const page3 = new Card({ cardId: 'page3', cards: [{ cardId: 'cardC', templateId: 'hero' }] })
     const cardHeader = new Card({ cardId: 'header', cards: [{ cardId: 'headerA', templateId: 'area' }] }).toConfig()
     const cardFooter = new Card({ cardId: 'footer', cards: [{ cardId: 'footerA', templateId: 'area' }] }).toConfig()

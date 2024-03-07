@@ -212,7 +212,7 @@ export interface CompiledServiceConfig {
       | 'title'
       | 'cards'
       | 'userConfig'
-      | 'isDefault'
+      | 'isHome'
       | 'is404'
       | 'editor'
       | 'generation'

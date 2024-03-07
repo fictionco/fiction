@@ -2,18 +2,14 @@ import type { ServiceList } from '@fiction/core'
 import { Theme, themeCard } from '../../theme'
 import { templates } from './templates'
 
-const globalRegions = [
-
-]
-
 const pg = [
   themeCard({
     templates,
     regionId: 'main',
     templateId: 'wrap',
-    slug: '_default',
+    slug: '_home',
     title: 'Welcome to my site',
-    isDefault: true,
+    isHome: true,
     cards: [
       themeCard({
         templates,

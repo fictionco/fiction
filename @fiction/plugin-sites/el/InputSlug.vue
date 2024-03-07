@@ -2,6 +2,8 @@
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import { textInputClasses } from '@fiction/ui/theme'
+import ElButton from '@fiction/ui/ElButton.vue'
+import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { Site } from '../site'
 
 const props = defineProps({
@@ -100,10 +102,16 @@ const icon = vue.computed(() => {
 
   return i[status.value]
 })
+
+const showSetHomeModal = vue.ref(false)
+
+function setNewHomepage() {
+  console.log('SET')
+}
 </script>
 
 <template>
-  <div>
+  <div class="space-y-2">
     <div class="flex items-center space-x-2 border" :class="textInputClasses({ inputClass })">
       <input
         ref="validEl"
@@ -120,11 +128,24 @@ const icon = vue.computed(() => {
         <div :class="icon.icon" />
       </div>
     </div>
-    <div v-if="reasonText" class="mt-2 text-[10px] font-sans text-theme-400">
-      {{ site.frame.displayUrl.value }}/{{ modelValue }}
+    <div class="flex justify-between space-x-3">
+      <div v-if="reasonText" class="text-[10px] font-sans text-theme-400">
+        {{ site.frame.displayUrlBase.value }}/{{ modelValue }}
+      </div>
+      <div v-if="reasonText" class="text-[10px] font-sans text-theme-400">
+        {{ reasonText }}
+      </div>
     </div>
-    <div v-if="reasonText" class="mt-2 text-[10px] font-sans text-theme-400">
-      {{ reasonText }}
+    <div>
+      <ElButton tag="div" size="xs" icon="i-tabler-home" @click.stop="showSetHomeModal = true">
+        Set As Homepage
+      </ElButton>
+      <ElModalConfirm
+        v-model:vis="showSetHomeModal"
+        title="Confirm New Homepage"
+        sub="Are you sure you want to make this page the homepage? Any unsaved changes you've made will be discarded."
+        @confirmed="setNewHomepage()"
+      />
     </div>
   </div>
 </template>

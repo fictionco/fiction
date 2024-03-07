@@ -11,7 +11,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 let orgId: string
 let userId: string
 let testUtils: SiteTestUtils
-let _defaultNumPages: number
+let _homeNumPages: number
 let testTheme: Theme
 describe('themeCreation', async () => {
   testUtils = await createSiteTestUtils()
@@ -20,7 +20,7 @@ describe('themeCreation', async () => {
   userId = r?.user?.userId ?? ''
   orgId = r?.user?.orgs?.[0]?.orgId ?? ''
 
-  _defaultNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
+  _homeNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
 
   testUtils.fictionSites.themes.value = [...testUtils.fictionSites.themes.value, testTheme]
 

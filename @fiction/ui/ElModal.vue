@@ -24,7 +24,7 @@ onResetUi(({ scope }) => {
 })
 
 const cls = props.modalClass ? [props.modalClass] : ['p-12', 'sm:max-w-sm']
-const styleClass = props.styleClass ? [props.styleClass] : ['bg-white dark:bg-theme-950', 'shadow-xl']
+const styleClass = props.styleClass ? [props.styleClass] : ['bg-white text-theme-900 dark:bg-theme-950 dark:text-theme-0', 'shadow-xl']
 
 if (props.fullScreen)
   cls.push('fixed inset-0')

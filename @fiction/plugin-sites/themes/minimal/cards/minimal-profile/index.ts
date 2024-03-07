@@ -59,7 +59,7 @@ const options = [
 
 const minimalProfile = new CardTemplate({
   templateId: 'minimalProfile',
-  category: ['basic'],
+  category: ['theme'],
   description: 'Minimal website profile',
   icon: 'i-tabler-user',
   iconTheme: 'blue',

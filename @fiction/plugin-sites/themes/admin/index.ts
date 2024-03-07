@@ -35,7 +35,7 @@ export function getPages() {
       templates,
       regionId: 'main',
       templateId: 'dash',
-      slug: '_default',
+      slug: '_home',
       title: 'Sites',
       cards: [
         themeCard({

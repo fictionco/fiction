@@ -188,7 +188,7 @@ const pageCols = [
     default: () => ({} as Record<string, unknown>),
   }),
   new FictionDbCol({
-    key: 'isDefault',
+    key: 'isHome',
     create: ({ schema, column }) => schema.boolean(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => false as boolean,
