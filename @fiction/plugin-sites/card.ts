@@ -65,7 +65,7 @@ type CardGenerationSettings = {
 export type CardGenerationConfig = {
   prompt?: string
   totalEstimatedTime?: number
-  inputConfig?: Record<string, InputOptionGeneration>
+  userInputConfig?: Record<string, InputOptionGeneration>
 }
 
 export class CardGeneration extends FictionObject<CardGenerationSettings> {
@@ -74,6 +74,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   }
 
   card = this.settings.card
+  savedSettings = this.card.settings.generation || {}
   tpl = vue.computed(() => this.card.tpl.value)
   site = this.card.site
 
@@ -82,10 +83,11 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
       let out: InputOption[] = []
       for (const opt of opts) {
         if (opt.input.value === 'group')
-          out = [...out, ...getOptions(opt.settings.options || [])]
+          out = [...out, ...getOptions(opt.options.value || [])]
         else
           out.push(opt)
       }
+
       return out
     }
 
@@ -96,7 +98,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
       label: opt.label.value,
       prompt: opt.generation.value.prompt,
       isDisabled: opt.generation.value.isDisabled,
-      estimatedMs: opt.generation.value.estimatedMs || 3000,
+      estimatedMs: opt.generation.value.estimatedMs || 4000,
     }))
   })
 
@@ -108,43 +110,93 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
     return `create content for the "${c?.title.value || toLabel(c?.templateId.value)}" card ${pageName}`
   })
 
-  userPrompt = vue.ref('')
+  userPrompt = vue.ref(this.savedSettings.prompt || '')
   prompt = vue.computed(() => this.userPrompt.value || this.defaultPrompt.value)
-  userInputConfig = vue.ref< Record<string, InputOptionGeneration>>({})
+  userInputConfig = vue.ref< Record<string, InputOptionGeneration>>(this.savedSettings.userInputConfig || {})
   inputConfig = vue.computed(() => {
     const out: Record<string, InputOptionGeneration> = {}
+    let cumulativeTime = 0
+    const userInputConfig = this.userInputConfig.value
     this.defaultInputConfig.value.forEach((opt) => {
-      out[opt.key] = { ...opt, ...this.userInputConfig.value[opt.key] }
+      const o = { ...opt, ...userInputConfig[opt.key] }
+
+      if (!o.isDisabled)
+        cumulativeTime += o.estimatedMs
+
+      out[opt.key] = { ...o, cumulativeTime }
     })
+
     return out
   })
 
   totalEstimatedTime = vue.computed(() => {
     const total = Object.values(this.inputConfig.value).filter(_ => !_.isDisabled).reduce((acc, opt) => {
-      const time = opt.estimatedMs ?? 2000
+      const time = opt.estimatedMs ?? 3000
       return acc + time
     }, 0)
     return Math.round(total / 1000)
   })
 
+  progress = vue.ref({ percent: 0, status: '' })
+
+  private simulateProgress() {
+    this.progress.value = { percent: 0, status: `Initializing...` }
+    const timeStart = Date.now()
+    const totalEstimatedTime = this.totalEstimatedTime.value
+
+    const interval = 500
+
+    const updateProgress = () => {
+      const timeElapsed = Date.now() - timeStart
+      const percent = Math.round(Math.min((timeElapsed / (totalEstimatedTime * 1000)) * 100, 100))
+      const currentSetting = Object.values(this.inputConfig.value).find(_ => !_.isDisabled && _.cumulativeTime && timeElapsed <= _.cumulativeTime)
+
+      this.progress.value = {
+        percent,
+        status: `Generating ${currentSetting?.label || ''}`,
+      }
+
+      if (percent < 100)
+        setTimeout(updateProgress, interval)
+
+      else
+        this.progress.value = { percent: 100, status: `Wrapping up...` }
+    }
+
+    updateProgress()
+
+    return {
+      complete: () => {
+        this.progress.value = {
+          percent: 100,
+          status: `Complete!`,
+        }
+      },
+    }
+  }
+
   async getCompletion() {
     if (!this.site || !this.tpl.value)
       throw new Error('site and template required')
 
-    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options)
+    const jsonSchema = getOptionJsonSchema(this.tpl.value.settings.options, this.inputConfig.value)
 
     const completionArgs = { runPrompt: this.prompt.value, outputFormat: jsonSchema, site: this.site }
 
     this.log.info('RUNNING COMPLETION', { data: completionArgs })
 
+    const progress = this.simulateProgress()
+
     const c = await getCardCompletion(completionArgs)
+
+    progress.complete()
 
     this.log.info('COMPLETION RESULT', { data: c })
 
     if (c) {
       let data = this.card.toConfig()
       Object.entries(c).forEach(([key, value]) => {
-        data = setNested({ path: key, data, value })
+        data = setNested({ path: key, data, value, isMerge: true })
       })
 
       this.card.update(data)
@@ -154,11 +206,13 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   }
 
   toConfig(): CardGenerationConfig {
-    return {
+    const config = {
       prompt: this.prompt.value,
       totalEstimatedTime: this.totalEstimatedTime.value,
-      inputConfig: this.inputConfig.value,
+      userInputConfig: this.userInputConfig.value,
     }
+
+    return config
   }
 }
 

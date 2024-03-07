@@ -92,6 +92,41 @@ export async function processUrlKey(args: {
   }
 }
 
+export const imageStyle = [
+  { category: 'realismAndDetail', name: 'Realistic', value: 'High-resolution, lifelike detail and vivid colors. Artists: Richard Estes, Chuck Close.' },
+  { category: 'realismAndDetail', name: 'Grayscale', value: 'Monochromatic elegance in black and white. Artists: Ansel Adams, Doris Salcedo.' },
+
+  { category: 'designAndArt', name: 'Minimalist', value: 'Simple design with monochrome or limited palettes. Artists: Donald Judd, Agnes Martin.' },
+  { category: 'designAndArt', name: 'Abstract', value: 'Bold shapes, expressive lines, and minimal colors. Artists: Wassily Kandinsky, Piet Mondrian.' },
+  { category: 'designAndArt', name: 'Hand-drawn', value: 'Whimsical, friendly style mimicking hand-drawn sketches. Artists: Quentin Blake, Saul Steinberg.' },
+  { category: 'designAndArt', name: 'Watercolor', value: 'Fluid, soft appearance with translucent pastel shades. Artists: John Singer Sargent, Albrecht Dürer.' },
+
+  { category: 'timeAndAesthetic', name: 'Vintage', value: 'Aged effects, classic designs, and sepia tones. Artists: Steichen Edward, Alfred Stieglitz.' },
+  { category: 'timeAndAesthetic', name: 'Americana', value: 'Nostalgic, featuring classic, rustic American themes. Artists: Norman Rockwell, Grant Wood.' },
+  { category: 'timeAndAesthetic', name: 'Retro-Futurism', value: 'Nostalgic styles blended with futuristic concepts. Artists: Syd Mead, Ralph McQuarrie.' },
+
+  { category: 'natureAndExploration', name: 'Nature', value: 'Green, serene visuals emphasizing eco-friendly themes. Artists: Ansel Adams, Georgia O’Keeffe.' },
+  { category: 'natureAndExploration', name: 'Adventure', value: 'Excitement and exploration with dynamic visuals. Artists: Thomas Cole, Frederic Edwin Church.' },
+  { category: 'natureAndExploration', name: 'Urban', value: 'Modern city life, architectural and street elements. Artists: Edward Hopper, Richard Estes.' },
+
+  { category: 'fantasyAndSciFi', name: 'Fantasy', value: 'Enchanting landscapes, lush nature, and magical themes. Artists: Brian Froud, John Howe.' },
+  { category: 'fantasyAndSciFi', name: 'Hi-Tech', value: 'Cutting-edge technology with a futuristic vibe. Artists: Chris Foss, H.R. Giger.' },
+  { category: 'fantasyAndSciFi', name: 'Cyberpunk', value: 'Neon-lit, high-tech urban dystopia. Artists: Masamune Shirow, Katsuhiro Otomo.' },
+
+  { category: 'luxuryAndGlamour', name: 'Luxury', value: 'Opulence, lavish textures, and rich colors. Artists: Gustav Klimt, Peter Paul Rubens.' },
+  { category: 'luxuryAndGlamour', name: 'Glamour', value: 'Alluring, sophisticated visuals with a glossy finish. Artists: George Hurrell, Cecil Beaton.' },
+  { category: 'luxuryAndGlamour', name: 'High Fashion', value: 'Cutting-edge fashion, luxury, and exclusivity. Artists: Mario Testino, Annie Leibovitz.' },
+
+  { category: 'professionalAndCorporate', name: 'Corporate', value: 'Sleek, professional imagery for business. Artists: Andreas Gursky, Candida Höfer.' },
+  { category: 'professionalAndCorporate', name: 'Professional', value: 'Formality, refinement with crisp, smart designs. Artists: Yves Béhar, Dieter Rams.' },
+
+  // Adding more styles
+  { category: 'expressiveAndEmotive', name: 'Expressionism', value: 'Intense, emotional expression through bold colors and dramatic compositions. Artists: Edvard Munch, Egon Schiele.' },
+  { category: 'surrealAndDreamlike', name: 'Surrealism', value: 'Dreamlike scenes with surprising, often illogical elements. Artists: Salvador Dalí, René Magritte.' },
+  { category: 'popAndCulture', name: 'Pop Art', value: 'Bold, colorful imagery of popular culture and mass media. Artists: Andy Warhol, Roy Lichtenstein.' },
+  { category: 'culturalAndHistorical', name: 'Classical', value: 'Inspired by Ancient Greece and the Renaissance. Artists: Leonardo da Vinci, Michelangelo.' },
+]
+
 export const iconStyle = {
   primary: { color: 'text-primary-500 dark:text-primary-200', bg: 'bg-primary-50 dark:bg-primary-950', border: 'border-primary-300 dark:border-primary-700', borderActive: 'border-primary-300 dark:border-primary-600' },
   theme: { color: 'text-theme-500 dark:text-theme-200', bg: 'bg-theme-50 dark:bg-theme-900', border: 'border-theme-300 dark:border-theme-500', borderActive: 'border-theme-300 dark:border-theme-500' },

@@ -1,9 +1,26 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
 import { getOptionJsonSchema } from '@fiction/ui'
+import stringcase from 'stringcase'
+import { toCamel } from '@fiction/core/utils/casing'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
 import { createSiteTestUtils } from './siteTestUtils'
+
+// describe('card', async () => {
+//   const testUtils = await createSiteTestUtils()
+//   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+//   const card = new Card({
+//     site: site,
+//     tpl: cardTemplateMock,
+//     title: 'Test Card',
+//     templateId: 'testTemplate',
+//   })
+
+//   it('---', () => {
+
+//   })
+// })
 
 describe('cardTemplate', async () => {
   const _testUtils = await createSiteTestUtils()
@@ -45,16 +62,20 @@ describe('cardTemplate', async () => {
         "properties": {
           "userConfig.actions": {
             "additionalProperties": false,
+            "description": "userConfig.actions",
             "properties": {},
             "type": "object",
           },
           "userConfig.heading": {
+            "description": "Heading",
             "type": "string",
           },
           "userConfig.subHeading": {
+            "description": "Sub Heading",
             "type": "string",
           },
           "userConfig.superHeading": {
+            "description": "Super Heading",
             "type": "string",
           },
         },

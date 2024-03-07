@@ -4,6 +4,7 @@ import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import type { Site } from '../site'
+import { imageStyle } from '../util'
 import type { EditorTool } from './tools'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
@@ -39,27 +40,11 @@ const options = [
         props: { rows: 3 },
       }),
       new InputOption({
-        key: 'userConfig.objectives.goal',
-        label: 'Goal of the Website',
-        description: 'This will be used to enhance AI completions',
-        input: 'InputTextarea',
-        placeholder: 'To convert traffic into calling or filling out the contact form.',
-        props: { rows: 3 },
-      }),
-      new InputOption({
         key: 'userConfig.objectives.targetCustomer',
         label: 'Target Customer',
         description: 'Who is the target customer(s) for the website? What are their needs?',
         input: 'InputTextarea',
         placeholder: 'Small business owners in need of a professional website.',
-        props: { rows: 3 },
-      }),
-      new InputOption({
-        key: 'userConfig.objectives.targetAction',
-        label: 'Target Action',
-        description: 'The primary action you want visitors to take? (e.g. call, email, fill out a form)',
-        input: 'InputTextarea',
-        placeholder: 'Fill out a form, call, or email to initiate their project.',
         props: { rows: 3 },
       }),
 
@@ -74,7 +59,7 @@ const options = [
         key: 'userConfig.objectives.imageStyle',
         label: 'Image Style',
         input: 'InputSelectCustom',
-        list: props.site.theme.value?.imageStyles() || [],
+        list: imageStyle,
       }),
       new InputOption({
         key: 'userConfig.objectives.imageStyle',
@@ -86,21 +71,21 @@ const options = [
       }),
     ],
   }),
-  new InputOption({
-    key: 'aiAdvanced',
-    label: 'Advanced AI Settings',
-    input: 'group',
-    options: [
-      new InputOption({
-        key: 'userConfig.baseInstruction',
-        label: 'Base Instruction',
-        description: 'This is the base instruction given to the AI when generating content.',
-        input: 'InputTextarea',
-        props: { rows: 3 },
-      }),
+  // new InputOption({
+  //   key: 'aiAdvanced',
+  //   label: 'Advanced AI Settings',
+  //   input: 'group',
+  //   options: [
+  //     new InputOption({
+  //       key: 'userConfig.baseInstruction',
+  //       label: 'Base Instruction',
+  //       description: 'This is the base instruction given to the AI when generating content.',
+  //       input: 'InputTextarea',
+  //       props: { rows: 3 },
+  //     }),
 
-    ],
-  }),
+  //   ],
+  // }),
 
 ]
 

@@ -50,21 +50,26 @@ export const inputs: Record<string, { el: vue.Component, schema: SchemaDef }> = 
   InputGradient: { el: def(() => import('./InputGradient.vue')), schema: ({ z, subSchema }) => gradientSetting({ z, subSchema }).optional() },
 }
 
-export function getOptionSchema(inputOptions?: InputOption[]): z.ZodObject<z.ZodRawShape> | undefined {
+export function getOptionSchema(inputOptions?: InputOption[], userInputConfig?: Record<string, InputOptionGeneration>): z.ZodObject<z.ZodRawShape> | undefined {
   if (!inputOptions || inputOptions.length === 0)
     return undefined
   const schemaFields: Record<string, z.ZodTypeAny> = {}
   inputOptions.forEach((option) => {
+    const userConfig = userInputConfig?.[option.key.value]
+
+    if (userConfig)
+      option.generation.value = { ...option.generation.value, ...userConfig }
+
     if (option.generation.value.isDisabled)
       return
 
     // Skip group input itself but process its nested options if present
     if (option.input.value === 'group' && option.options) {
-      const nestedSchema = getOptionSchema(option.options.value) // Recursively call getOptionSchema on nested options
+      const nestedSchema = getOptionSchema(option.options.value, userInputConfig) // Recursively call getOptionSchema on nested options
       if (nestedSchema)
         Object.assign(schemaFields, nestedSchema.shape) // Merge nested schema fields at the current level
     }
-    else if (option.outputSchema.value && option.key.value) {
+    else if (option.outputSchema.value) {
       // Only add schema if it's defined and not a group input
       schemaFields[option.key.value] = option.outputSchema.value
     }
@@ -73,8 +78,8 @@ export function getOptionSchema(inputOptions?: InputOption[]): z.ZodObject<z.Zod
   return z.object(schemaFields) // Construct and return the Zod object schema
 }
 
-export function getOptionJsonSchema(inputOptions?: InputOption[]) {
-  const zodSchema = getOptionSchema(inputOptions)
+export function getOptionJsonSchema(inputOptions?: InputOption[], userInputConfig?: Record<string, InputOptionGeneration>) {
+  const zodSchema = getOptionSchema(inputOptions, userInputConfig)
 
   if (!zodSchema)
     return undefined
@@ -106,6 +111,7 @@ export class InputOptionsRefiner {
     const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
 
     const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
+
 
     if (!noRefine)
       this.warnUnusedKeys(refine)
@@ -199,6 +205,7 @@ export type InputOptionGeneration = {
   estimatedMs?: number
   key?: string
   label?: string
+  cumulativeTime?: number
 }
 
 export interface InputOptionSettings {

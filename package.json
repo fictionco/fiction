@@ -21,6 +21,7 @@
     "fix-deps": "syncpack fix-mismatches",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "app:dev": "npm exec -w @fiction/www -- fiction run dev",
+    "app:dev-r": "npm exec -w @fiction/www -- fiction run dev-r",
     "unit:ci": "npm exec -- vitest ci",
     "unit:build": "npm exec -- vitest run build -u --no-file-parallelism",
     "unit:dev": "npm exec -- vitest wip",

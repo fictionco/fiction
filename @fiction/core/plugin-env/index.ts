@@ -167,8 +167,6 @@ export class FictionEnv<
     if (this.utils.isNode())
       this.nodeInit()
 
-    else if (typeof window !== 'undefined')
-      this.log.info('browser env vars', { data: window.fictionRunVars })
 
     this.addHook({
       hook: 'staticSchema',

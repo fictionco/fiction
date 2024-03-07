@@ -79,3 +79,107 @@ describe('utils:nested', () => {
     expect(r2).toBe('world')
   })
 })
+
+describe('setNested with isMerge functionality', () => {
+  it('merges objects at the specified path', async () => {
+    const data = {
+      a: {
+        b: {
+          x: 1,
+          y: 2,
+        },
+      },
+    }
+
+    const newValue = {
+      y: 3,
+      z: 4,
+    }
+
+    const result = setNested<typeof data>({ data, path: 'a.b', value: newValue, isMerge: true })
+
+    expect(result).toMatchInlineSnapshot(`
+      {
+        "a": {
+          "b": {
+            "x": 1,
+            "y": 3,
+            "z": 4,
+          },
+        },
+      }
+    `)
+
+    expect(result.a.b).toEqual({ x: 1, y: 3, z: 4 })
+  })
+
+  it('replaces non-object existing value with object when isMerge is true', async () => {
+    const data = {
+      a: {
+        b: 'initial',
+      },
+    }
+
+    const newValue = { c: 3 }
+
+    const result = setNested<typeof data>({ data, path: 'a.b', value: newValue, isMerge: true })
+
+    expect(result.a.b).toEqual(newValue)
+  })
+
+  it('properly handles nested object merge', async () => {
+    const data = {
+      a: {
+        b: {
+          c: {
+            d: 1,
+            e: 2,
+          },
+        },
+      },
+    }
+
+    const newValue = {
+      d: 3, // This should overwrite the existing d
+      f: 4, // This should be added
+    }
+
+    const result = setNested<typeof data>({ data, path: 'a.b.c', value: newValue, isMerge: true })
+
+    expect(result.a.b.c).toEqual({ d: 3, e: 2, f: 4 })
+  })
+
+  it('does not merge when isMerge is false', async () => {
+    const data = {
+      a: {
+        b: {
+          x: 1,
+        },
+      },
+    }
+
+    const newValue = {
+      y: 2,
+    }
+
+    const result = setNested<typeof data>({ data, path: 'a.b', value: newValue, isMerge: false })
+
+    // newValue should replace the existing value at 'a.b' entirely
+    expect(result.a.b).toEqual(newValue)
+  })
+
+  it('does not merge arrays', async () => {
+    const data = {
+      a: {
+        b: [1, 2],
+      },
+    }
+
+    const newValue = [3, 4]
+
+    const result = setNested<typeof data>({ data, path: 'a.b', value: newValue, isMerge: true })
+
+    // newValue should replace the existing array at 'a.b' entirely
+    expect(result.a.b).toEqual(newValue)
+  })
+})

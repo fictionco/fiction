@@ -79,7 +79,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   async requestIndex(
     args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},
   ): Promise<{ items: Site[] | undefined, indexMeta?: IndexMeta }> {
-    const { limit = 10, offset = 0 } = args || {}
+    const { limit = 4, offset = 0 } = args || {}
 
     const r = await this.requests.ManageIndex.projectRequest({ _action: 'list', limit, offset })
 

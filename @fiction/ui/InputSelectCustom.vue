@@ -2,6 +2,7 @@
 import type { ListItem } from '@fiction/core'
 import { normalizeList, onResetUi, resetUi, vue } from '@fiction/core'
 import type { RouteLocationRaw } from 'vue-router'
+import { twMerge } from 'tailwind-merge'
 
 type RouteListItem = ListItem & { route?: RouteLocationRaw }
 
@@ -20,6 +21,7 @@ const props = defineProps({
   classButton: { type: String, default: '' },
   classOption: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
+  inputClass: { type: String, default: '' },
 })
 const emit = defineEmits(['update:modelValue'])
 const active = vue.ref(false)
@@ -119,7 +121,7 @@ function listItemClass(item: ListItem, i: number): string {
   return out.join(' ')
 }
 
-const buttonClasses = [
+const buttonClasses = twMerge([
   'select-none',
   'group',
   'relative',
@@ -133,11 +135,11 @@ const buttonClasses = [
   'px-3',
   'shadow-sm',
   'text-left',
-  'text-xs',
   'focus:outline-none',
   'bg-theme-50',
   'dark:bg-theme-700',
-]
+  props.inputClass,
+])
 </script>
 
 <template>
@@ -217,7 +219,7 @@ const buttonClasses = [
             role="listbox"
             aria-labelledby="listbox-label"
             :aria-activedescendant="`listbox-item-${selectedIndex}`"
-            class="text-input-size max-h-72 overflow-auto rounded-md shadow focus:outline-none p-2"
+            class="max-h-72 overflow-auto rounded-md shadow focus:outline-none p-2"
           >
             <div v-if="!li || li.length === 0" class="p-4">
               {{ zeroText }}

@@ -4,30 +4,35 @@ import { textInputClasses } from './theme'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
-  rows: { type: Number, default: 1 },
+  rows: { type: Number, default: 2 },
   inputClass: { type: String, default: '' },
-  maxHeight: { type: Number, default: 1000 }, // New prop for max height
+  maxHeight: { type: Number, default: 500 }, // New prop for max height
 })
 
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
 
+const textareaWrapper = vue.ref<HTMLElement>()
+
 const textareaElement = vue.ref<HTMLElement>()
 
 function setHeight(): void {
   const ta = textareaElement.value
-  if (!ta)
+  const tw = textareaWrapper.value
+  if (!ta || !tw)
     return
 
-  // const sh = ta.scrollHeight
-
+  tw.style.height = ta.style.height
   ta.style.height = 'auto'
   const newHeight = Math.min(ta.scrollHeight, props.maxHeight)
   ta.style.height = `${newHeight}px`
+  tw.style.height = 'auto'
 }
+onResetUi(() => {
+  setHeight()
+})
 vue.onMounted(() => setHeight())
-onResetUi(() => setHeight())
 vue.watch(
   () => props.modelValue,
   () => setHeight(),
@@ -52,16 +57,16 @@ function send(el: EventTarget | null): void {
 </script>
 
 <template>
-  <textarea
-
-    ref="textareaElement"
-    data-what="12"
-    spellcheck="false"
-    :class="[textInputClasses({ inputClass }), modelValue ? 'set' : 'empty']"
-    :value="modelValue"
-    :rows="rows"
-    @input="send($event.target)"
-  />
+  <div ref="textareaWrapper">
+    <textarea
+      ref="textareaElement"
+      spellcheck="false"
+      :class="[textInputClasses({ inputClass }), modelValue ? 'set' : 'empty']"
+      :value="modelValue"
+      :rows="rows"
+      @input="send($event.target)"
+    />
+  </div>
 </template>
 
 <style lang="less">

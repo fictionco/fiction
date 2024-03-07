@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import type {
-  FictionRouter,
-  FictionUser,
-  StepConfig,
-} from '@fiction/core'
+import type { FictionRouter, FictionUser, StepConfig, StepItem } from '@fiction/core'
 import { useService, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
@@ -64,18 +60,12 @@ function getStepIndex(dir: 'prev' | 'next') {
 }
 
 async function changeStep(dir: 'prev' | 'next') {
-  if (dir === 'next') {
-    const valid = checkValid()
-
-    if (!valid)
-      return
-  }
-
   const num = getStepIndex(dir)
 
   if (num !== -1)
     stepKey.value = steps.value[num].key
 }
+
 function setStepIndex(index: number) {
   stepKey.value = steps.value[index].key
 }
@@ -88,6 +78,18 @@ const stepActions = {
   setStepIndex,
   setStepKey,
   setComplete,
+}
+
+async function next(currentStep: StepItem) {
+  const valid = checkValid()
+
+  if (!valid || currentStep.isLoading)
+    return
+
+  if (currentStep.onClick)
+    await currentStep.onClick(stepActions)
+  else
+    changeStep('next')
 }
 </script>
 
@@ -104,7 +106,7 @@ const stepActions = {
         <slot :step="step" />
 
         <div
-          v-if="!currentStep.noAction"
+          v-if="!step.noAction"
           class="flex justify-center md:justify-end"
         >
           <ElButton
@@ -112,10 +114,7 @@ const stepActions = {
             size="lg"
             :loading="step.isLoading"
             :animate="true"
-            @click.prevent="
-              currentStep.onClick
-                ? currentStep.onClick(stepActions)
-                : changeStep('next')
+            @click.prevent="next(step)
             "
           >
             {{ step.actionText || "Next" }}

@@ -30,7 +30,6 @@ export function textInputClasses(args: { inputClass: string }) {
     'rounded-input',
     'px-input-x',
     'py-input-y',
-    'text-xs',
     'input-shadow-sm',
     'border-theme-200 dark:border-theme-600 focus:border-theme-400 dark:focus:border-theme-500',
     'placeholder:text-theme-300 dark:placeholder:text-theme-600',

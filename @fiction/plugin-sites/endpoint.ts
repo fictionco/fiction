@@ -1,9 +1,6 @@
-import type {
-  DataFilter,
-  EndpointMeta,
-  EndpointResponse,
-} from '@fiction/core'
+import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import { AdminQuery } from '@fiction/plugin-admin'
+import { deepMerge } from '@fiction/core'
 import type { CardConfigPortable, TableCardConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
 import { incrementSlugId } from './util'
@@ -190,7 +187,7 @@ export class ManageSite extends SitesQuery {
 
       const themeSite = await this.createSiteFromTheme(params, meta)
 
-      const f = { ...fields, ...themeSite }
+      const f = deepMerge([themeSite, fields])
 
       const prepped = this.utils.prepareFields({
         type: 'settings',
@@ -347,7 +344,7 @@ export class ManageIndex extends SitesQuery {
     const {
       _action,
       orgId,
-      limit = 40,
+      limit = 10,
       offset = 0,
       filters = [],
     } = params

@@ -214,6 +214,8 @@ export interface CompiledServiceConfig {
       | 'userConfig'
       | 'isDefault'
       | 'is404'
+      | 'editor'
+      | 'generation'
       | 'createdAt'
       | 'updatedAt'
     fiction_site_domains:

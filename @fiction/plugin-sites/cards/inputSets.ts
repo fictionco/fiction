@@ -409,7 +409,7 @@ export const mediaItemsOptionSet = new OptionSet< {
         input: 'InputList',
         options,
         schema: ({ z, subSchema }) => z.array(subSchema),
-        generation: { estimatedMs: 30000 },
+        generation: { estimatedMs: 40000 },
       }),
     ]
   },
@@ -483,7 +483,7 @@ export const socialsOptionSet = new OptionSet< {
         key: `${groupPath}Title`,
         label: `${label} Title`,
         input: 'InputText',
-        schema: ({ z }) => z.string().min(1).max(50).optional(),
+        schema: ({ z }) => z.string().optional(),
       }),
       new InputOption({
         aliasKey: 'group',

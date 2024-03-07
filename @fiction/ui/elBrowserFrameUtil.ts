@@ -73,12 +73,6 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
     }
 
     this.initialized = true
-    watch(
-      () => this.hasReadySignal.value,
-      (v) => {
-        this.log.info('hasReadySignal', { data: { v } })
-      },
-    )
 
     if (this.relation === 'parent' && this.frameEl)
       this.parentInit()
@@ -158,7 +152,6 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
 
   listenForMessages(): void {
     const win = this.getWindow()
-    this.log.info('listenForMessages', { data: { relation: this.relation, testName: win.testName } })
     this.messageListener = e => this.onMessageReceived(e)
     win.addEventListener('message', this.messageListener, false)
   }

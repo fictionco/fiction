@@ -38,6 +38,28 @@ describe('toCamel', () => {
   })
 })
 
+describe('toCamel with period handling', () => {
+  it('converts period-separated words to camelCase when allowPeriods is false', () => {
+    expect(toCamel('foo.bar', { allowPeriods: false })).toBe('fooBar')
+    expect(toCamel('hello.world', { allowPeriods: false })).toBe('helloWorld')
+  })
+
+  it('leaves periods intact when allowPeriods is true', () => {
+    expect(toCamel('foo.bar', { allowPeriods: true })).toBe('foo.bar')
+    expect(toCamel('hello.world', { allowPeriods: true })).toBe('hello.world')
+  })
+
+  it('handles mixed separators including periods with allowPeriods false', () => {
+    expect(toCamel('foo-bar.baz', { allowPeriods: false })).toBe('fooBarBaz')
+    expect(toCamel('hello_world.baz', { allowPeriods: false })).toBe('helloWorldBaz')
+  })
+
+  it('handles mixed separators including periods with allowPeriods true', () => {
+    expect(toCamel('foo-bar.baz', { allowPeriods: true })).toBe('fooBar.baz')
+    expect(toCamel('hello_world.baz', { allowPeriods: true })).toBe('helloWorld.baz')
+  })
+})
+
 describe('toSlug', () => {
   it('converts text to lowercase kebab-case', () => {
     expect(toSlug('Hello World')).toBe('hello-world')

@@ -186,6 +186,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
 
+    let message = ''
     shortcodes.addShortcode('stock_img', async (args) => {
       const { attributes } = args
       const search = attributes?.search || ''
@@ -202,29 +203,37 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
       const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
+      if (r.status === 'error' || !r.data) {
+        message = 'There was an image generation error.'
+        throw new Error(message)
+      }
+
       this.log.info(`created image in ${Math.round((Date.now() - start) / 1000)}s`, { data: { r } })
       return r.data?.url || ''
     })
 
     this.log.info('parsing raw completion', { data: { rawCompletion } })
 
-    const parsedCompletion = await shortcodes.parseObject(rawCompletion)
-
     let completion
     try {
+      const parsedCompletion = await shortcodes.parseObject(rawCompletion)
       completion = JSON.parse(parsedCompletion)
       this.log.info('returning completion', { data: { completion } })
     }
     catch (e) {
-      this.log.error('error parsing completion', { data: { e, rawCompletion, parsedCompletion } })
+      this.log.error('error parsing completion', { data: { e, rawCompletion } })
       return { status: 'error', message: 'error parsing completion', data: { referenceInfo, messages } }
     }
 
-    return { status: 'success', data: {
-      referenceInfo,
-      completion,
-      messages,
-    } }
+    return {
+      status: 'success',
+      message,
+      data: {
+        referenceInfo,
+        completion,
+        messages,
+      },
+    }
   }
 }
 
@@ -360,20 +369,27 @@ export class AiImage extends QueryAi {
 
     const size = sizes[orientation] || sizes.squarish
 
-    const response = await openAi.images.generate({ model: 'dall-e-3', prompt, n: 1, size })
+    try {
+      const response = await openAi.images.generate({ model: 'dall-e-3', prompt, n: 1, size })
 
-    const url = response.data[0].url
+      const url = response.data[0].url
 
-    if (!url)
-      throw this.stop('no image url returned')
+      if (!url)
+        throw this.stop('no image url returned')
 
-    const r = await fictionMedia.queries.ManageMedia.serve({ _action: 'createFromUrl', orgId, userId, fields: { prompt, sourceImageUrl: url } }, _meta)
+      const r = await fictionMedia.queries.ManageMedia.serve({ _action: 'createFromUrl', orgId, userId, fields: { prompt, sourceImageUrl: url } }, _meta)
 
-    if (r?.status === 'success') {
-      this.log.info('ai image created', { data: r.data })
-      data = r.data
+      if (r?.status === 'success') {
+        this.log.info('ai image created', { data: r.data })
+        data = r.data
+      }
+
+      return { status: 'success', data, params }
     }
-
-    return { status: 'success', data, params }
+    catch (error) {
+      const message = `error creating image (${(error as Error).message})`
+      this.log.error(message, { error })
+      return { status: 'error', message, data }
+    }
   }
 }

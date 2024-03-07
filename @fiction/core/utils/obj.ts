@@ -74,8 +74,9 @@ export function setNested<T extends Record<string, any> = Record<string, any>>(a
   data?: T
   path?: string
   value?: unknown
+  isMerge?: boolean
 }): T {
-  const { data = {}, path, value } = args
+  const { data = {}, path, value, isMerge } = args
 
   if (!path)
     return (value ?? data) as T
@@ -95,7 +96,12 @@ export function setNested<T extends Record<string, any> = Record<string, any>>(a
   if (value === undefined && !Object.prototype.hasOwnProperty.call(current, lastKey))
     return clone as T
 
-  current[lastKey] = value
+  if (isMerge && isPlainObject(value) && isPlainObject(current[lastKey]))
+    current[lastKey] = deepMerge([current[lastKey], value])
+
+  else
+    current[lastKey] = value
+
   return clone as T
 }
 

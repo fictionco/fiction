@@ -8,6 +8,8 @@ import InputCheckbox from '@fiction/ui/InputCheckbox.vue'
 import type { Site } from '@fiction/plugin-sites'
 import type { InputOptionGeneration } from '@fiction/ui'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
+import ElModal from '@fiction/ui/ElModal.vue'
+import ElProgress from '@fiction/ui/ElProgress.vue'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -98,5 +100,9 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
         </div>
       </div>
     </TransitionSlide>
+
+    <ElModal :vis="loading">
+      <ElProgress :percent="card.generation.progress.value.percent" :status="card.generation.progress.value.status" message="Generating Content" />
+    </ElModal>
   </ElForm>
 </template>

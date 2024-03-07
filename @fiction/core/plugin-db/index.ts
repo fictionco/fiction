@@ -12,6 +12,7 @@ import { FictionPlugin } from '../plugin'
 import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import type { FictionServer } from '../plugin-server'
+import { toCamel } from '../utils/casing'
 import { CheckUsername } from './endpoint'
 import type { FictionDbCol, FictionDbTable } from './objects'
 
@@ -94,12 +95,14 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     const knexOptions: Knex.Config & {
       recursiveStringcase: (obj: any, name: string) => boolean
+      appStringcase: (key: string) => string
     } = {
       client: 'pg',
       version: '11.8',
       connection,
       // https://github.com/knex/knex/issues/3523#issuecomment-722574083
       pool: { min: 0, max: 4 },
+      appStringcase: key => toCamel(key, { allowPeriods: true }), // change all nested snake_case results to camelCase
       // change all nested snake_case results to camelCase
       recursiveStringcase: (_obj: any, _name: string): boolean => {
         return true
@@ -111,7 +114,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     /**
      * Add stringcase lib that transforms snake_case and camelCase
-     * if conflicts or issues occur, then best to change to a custom version at that time
+     * if conflicts or issues occur, thexn best to change to a custom version at that time
      * https://www.npmjs.com/package/knex-stringcase
      */
     const opts: Knex.Config = knexStringcase(knexOptions) as Knex.Config

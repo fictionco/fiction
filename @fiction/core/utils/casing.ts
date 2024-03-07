@@ -1,9 +1,10 @@
 import stopwordsLib from '../resource/stopwords'
 
-export function toCamel(str: string): string {
+export function toCamel(str: string, options = { allowPeriods: false }): string {
+  const pattern = options.allowPeriods ? /[_-\s]+(.)?/g : /[_-\s.]+(.)?/g
   return str
-    // Handle non-word characters (spaces, hyphens, underscores)
-    .replace(/[_-\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '')
+    // Handle non-word characters (spaces, hyphens, underscores, optionally periods)
+    .replace(pattern, (_, c) => c ? c.toUpperCase() : '')
     // Ensure the first character is lowercase
     .replace(/^./, c => c.toLowerCase())
 }

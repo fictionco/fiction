@@ -17,7 +17,7 @@ export type SiteUserConfig = Partial<{
   robotsTxt: string
   locale: string
   baseInstruction: string
-  objectives: Record<string, string>
+  objectives: { about?: string, targetCustomer?: string, imageStyle?: string }
   isDarkMode: boolean
 }>
 

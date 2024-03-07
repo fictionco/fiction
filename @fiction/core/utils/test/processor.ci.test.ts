@@ -332,3 +332,56 @@ describe('objectProcessor', () => {
     expect(processedObj.strings).toEqual(['a', 'b', 'c'])
   })
 })
+
+// Testing property removal on error
+it('should remove properties that cause processing errors', async () => {
+  const errorGeneratingProcessor: Processor = {
+    condition: async ({ key, value }) => typeof value === 'string' && value.includes('error'),
+    // @ts-expect-error test
+    action: (value: string) => {
+      throw new Error(`Processing error for value: ${value}`)
+    },
+  }
+
+  const objectProcessor = new ObjectProcessor([errorGeneratingProcessor])
+
+  const obj = {
+    safeKey: 'safeValue',
+    errorKey: 'generate error',
+  }
+
+  const processedObj = await objectProcessor.parseObject(obj)
+
+  // Expect the object to retain 'safeKey' and exclude 'errorKey'
+  expect(processedObj).toEqual({ safeKey: 'safeValue' })
+  expect(processedObj).not.toHaveProperty('errorKey')
+})
+
+// Testing graceful error handling
+it('should not throw and continue processing when an error occurs', async () => {
+  const failingProcessor: Processor = {
+    condition: async ({ key }) => key === 'fail',
+    action: async () => {
+      throw new Error('Failed processing')
+    },
+  }
+
+  const passingProcessor: Processor<string> = {
+    condition: async ({ key }) => key === 'pass',
+    action: async value => `processed-${value}`,
+  }
+
+  const objectProcessor = new ObjectProcessor()
+  objectProcessor.addProcessor(failingProcessor)
+  objectProcessor.addProcessor(passingProcessor)
+
+  const obj = {
+    fail: 'will fail',
+    pass: 'will pass',
+  }
+
+  const processedObj = await objectProcessor.parseObject(obj)
+
+  // 'fail' key should be removed due to processing error, 'pass' should be processed successfully
+  expect(processedObj).toEqual({ pass: 'processed-will pass' })
+})

@@ -3,6 +3,8 @@ import type { FictionEnv } from '../plugin-env'
 import { log } from '../plugin-log'
 import { isPlainObject } from './obj'
 
+const logger = log.contextLogger('processors')
+
 // Define the types for processors and arguments
 type ProcessorArgs = {
   key: string
@@ -34,9 +36,19 @@ export class ObjectProcessor {
     }
     else if (isPlainObject(obj)) {
       const processedEntries = await Promise.all(
-        Object.entries(obj).map(async ([key, value]) => [key, await this.parseValue(value, key)]),
+        Object.entries(obj).map(async ([key, value]) => {
+          try {
+            const processedValue = await this.parseValue(value, key)
+            return [key, processedValue] // Always return key-value pair
+          }
+          catch (error) {
+            logger.error(`Error processing ${key}`, { error })
+            return null // Return null if an error occurs
+          }
+        }),
       )
-      return Object.fromEntries(processedEntries)
+      // Filter out null entries and convert back to object
+      return Object.fromEntries(processedEntries.filter(entry => entry !== null) as [string, any][])
     }
     else {
       return this.runProcessors({ key: parentKey, value: obj })
@@ -44,14 +56,10 @@ export class ObjectProcessor {
   }
 
   private async parseValue(value: any, key: string): Promise<any> {
-    // First, check if the value meets any processor conditions
     const processedValue = await this.runProcessors({ key, value })
-    if (processedValue !== value) {
-      // If processedValue is different, a processor has modified it.
+    if (processedValue !== value)
       return processedValue
-    }
 
-    // If the value is an object or an array, and wasn't processed by any processor, parse its children
     if (isPlainObject(value) || Array.isArray(value))
       return this.parseObject(value, key)
 
@@ -59,14 +67,16 @@ export class ObjectProcessor {
   }
 
   private async runProcessors({ key, value }: ProcessorArgs): Promise<any> {
-    try {
-      for (const processor of this.processors) {
-        if (await processor.condition({ key, value }))
+    for (const processor of this.processors) {
+      if (await processor.condition({ key, value })) {
+        try {
           return await processor.action(value)
+        }
+        catch (error) {
+          logger.error(`Error in processor for key: ${key}`, { error })
+          throw error // Re-throw the error to be caught by parseValue
+        }
       }
-    }
-    catch (error) {
-      log.error('Processor', 'Error in processor:', { error })
     }
     return value
   }

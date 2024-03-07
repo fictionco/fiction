@@ -36,7 +36,7 @@ const isEditable = vue.computed(() => {
       ]"
       :data-card-type="subCard.templateId.value"
       :card="subCard"
-      @click="card.site?.setActiveCard({ cardId: subCard.cardId })"
+      @click="isEditable && card.site?.setActiveCard({ cardId: subCard.cardId })"
     />
   </component>
 </template>
