@@ -187,6 +187,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     const shortcodes = new Shortcodes({ fictionEnv: this.settings.fictionEnv })
 
     let message = ''
+    let more = ''
     shortcodes.addShortcode('stock_img', async (args) => {
       const { attributes } = args
       const search = attributes?.search || ''
@@ -204,7 +205,8 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
       if (r.status === 'error' || !r.data) {
-        message = 'There was an image generation error.'
+        message = 'There was a "safety" error during image generation. Change image style settings and try again.'
+        more = 'This happens when images are similar to trademarked works, etc...'
         throw new Error(message)
       }
 
@@ -228,6 +230,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     return {
       status: 'success',
       message,
+      more,
       data: {
         referenceInfo,
         completion,

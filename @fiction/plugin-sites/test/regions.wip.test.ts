@@ -1,17 +1,14 @@
 import { describe, expect, it } from 'vitest'
+import type { InitializedTestUtils } from '@fiction/core/test-utils'
+import { objectId } from '@fiction/core'
 import { Card } from '../card'
 import { Site } from '../site'
-import type { Theme } from '../theme'
 import type { SiteTestUtils } from './siteTestUtils'
 import { createSiteTestUtils } from './siteTestUtils'
 import { setup } from './test-theme'
 
-let testUtils: SiteTestUtils
-let orgId: string
-let userId: string
 let site: Site
 let siteId: string
-let testTheme: Theme
 
 const fields = new Card({
   regionId: 'main',
@@ -21,98 +18,181 @@ const fields = new Card({
 }).toConfig()
 
 const caller = 'test'
-describe('upsert action', async () => {
-  testUtils = await createSiteTestUtils()
-  testTheme = setup(testUtils)
+
+async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
+  const m = testUtils.fictionSites.queries.ManageSite
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
+  const r2 = await m.serve({
+    _action: 'create',
+    userId,
+    orgId,
+    fields: { themeId: 'test' },
+  }, { server: true })
+
+  const siteConfig = r2.data
+  expect(siteConfig?.siteId).toBeTruthy()
+
+  site = new Site({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+
+  return site
+}
+
+describe('special slug handling for _home', async () => {
+  const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
-  userId = r?.user?.userId ?? ''
-  orgId = r?.user?.orgs?.[0]?.orgId ?? ''
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
+  const site = await getDbSite(testUtils, r)
+  const siteId = site.siteId
+  it('should rename existing _home to old-home if a new _home is created', async () => {
+    const pg = site.pages.value.find(p => p.slug.value === '_home')
+    await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, cardId: pg?.cardId, siteId, slug: '_home' }, orgId, userId, caller },
+      { server: true },
+    )
 
-  describe('upsert action', () => {
-    it('create site', async () => {
-      const m = testUtils.fictionSites.queries.ManageSite
-      const r = await m.serve({
-        _action: 'create',
-        userId,
-        orgId,
-        fields: { themeId: testTheme.themeId },
-      }, { server: true })
+    // Verify that the first page's slug has been renamed to 'old-home'
+    const response1 = await testUtils.fictionSites.queries.ManagePage.serve(
+      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home' }, orgId, userId, caller },
+      { server: true },
+    )
 
-      const siteConfig = r.data
-      expect(siteConfig?.siteId).toBeTruthy()
+    expect(response1.status).toBe('error')
 
-      site = new Site({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
-      siteId = site.siteId
-    })
+    // Attempt to create another page with the same slug '_home'
+    await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, cardId: objectId(), siteId, slug: '_home' }, orgId, userId, caller },
+      { server: true },
+    )
 
-    it('should upsert a region', async () => {
-      const response = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
-        { server: true },
-      )
+    // Verify that the first page's slug has been renamed to 'old-home'
+    const response2 = await testUtils.fictionSites.queries.ManagePage.serve(
+      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home' }, orgId, userId, caller },
+      { server: true },
+    )
 
-      expect(response.status).toBe('success')
-      expect(response.data?.slug).toBe('r')
-    })
+    expect(response2.status).toBe('success')
+    expect(response2.data?.slug).toMatchInlineSnapshot(`"old-home"`)
 
-    it('should not change viewId if cardId is the same', async () => {
-      const response = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
-        { server: true },
-      )
+    // Assuming the renaming and iteration logic is correctly implemented
+    // After creating two _home pages and having the first renamed to 'old-home'
+    // Create a third page with slug '_home'
+    await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, cardId: objectId(), siteId, slug: '_home' }, orgId, userId, caller },
+      { server: true },
+    )
 
-      expect(response.status).toBe('success')
-      expect(response.data?.slug).toBe('r')
-    })
+    // Verify the second _home page's slug has been renamed to 'old-home-1'
+    const response3 = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'retrieve', siteId, fields: { siteId, slug: 'old-home-1' }, orgId, userId, caller },
+      { server: true },
+    )
 
-    it('should update region', async () => {
-      const userConfig = { ...fields.userConfig, foo: 'bar' }
-      const response = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, userConfig, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
-        { server: true },
-      )
+    expect(response3.status).toBe('success')
+    expect(response3.data?.slug).toBe('old-home-1')
+  })
 
-      expect(response.status).toBe('success')
-      expect(response.data?.userConfig).toEqual({ foo: 'bar' })
-    })
+  it('should handle creation of a page with a slug starting with underscore other than _home', async () => {
+    // Create a page with slug '_about'
+    const response = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: '_about' }, orgId, userId, caller },
+      { server: true },
+    )
 
-    it('should iterate viewId if cardId is different', async () => {
-      const response = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, cardId: 'another', siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
-        { server: true },
-      )
+    expect(response.status).toBe('success')
+    // The slug should be directly transformed to 'old-about' without needing iteration
+    expect(response.data?.slug).toBe('_about')
+  })
+})
 
-      expect(response.status).toBe('success')
-      expect(response.data?.slug).toBe('r-1')
-    })
+describe('upsert action', async () => {
+  const testUtils = await createSiteTestUtils()
+  const testTheme = setup(testUtils)
+  const r = await testUtils.init()
+  const userId = r?.user?.userId ?? ''
+  const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
+  const m = testUtils.fictionSites.queries.ManageSite
+  const r2 = await m.serve({
+    _action: 'create',
+    userId,
+    orgId,
+    fields: { themeId: testTheme.themeId },
+  }, { server: true })
 
-    it('should get a region successfully', async () => {
-      await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
-        { server: true },
-      )
+  const siteConfig = r2.data
+  expect(siteConfig?.siteId).toBeTruthy()
 
-      const r = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'retrieve', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
-        { server: true },
-      )
+  site = new Site({ ...siteConfig, fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
+  siteId = site.siteId
 
-      expect(r.status).toBe('success')
-      expect(r.data?.slug).toBe('yyy')
-    })
+  it('should upsert a region', async () => {
+    const response = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { server: true },
+    )
 
-    it('should delete a region successfully', async () => {
-      await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
-        { server: true },
-      )
+    expect(response.status).toBe('success')
+    expect(response.data?.slug).toBe('r')
+  })
 
-      const deleteResponse = await testUtils.fictionSites.queries.ManagePage.run(
-        { _action: 'delete', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
-        { server: true },
-      )
+  it('should not change viewId if cardId is the same', async () => {
+    const response = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { server: true },
+    )
 
-      expect(deleteResponse.status).toBe('success')
-    })
+    expect(response.status).toBe('success')
+    expect(response.data?.slug).toBe('r')
+  })
+
+  it('should update region', async () => {
+    const userConfig = { ...fields.userConfig, foo: 'bar' }
+    const response = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, userConfig, siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    expect(response.status).toBe('success')
+    expect(response.data?.userConfig).toEqual({ foo: 'bar' })
+  })
+
+  it('should iterate viewId if cardId is different', async () => {
+    const response = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, cardId: 'another', siteId: site.siteId, slug: 'r' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    expect(response.status).toBe('success')
+    expect(response.data?.slug).toBe('r-1')
+  })
+
+  it('should get a region successfully', async () => {
+    await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    const r = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'retrieve', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    expect(r.status).toBe('success')
+    expect(r.data?.slug).toBe('yyy')
+  })
+
+  it('should delete a region successfully', async () => {
+    await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'upsert', siteId, fields: { ...fields, siteId: site.siteId, cardId: 'xxx', slug: 'yyy' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    const deleteResponse = await testUtils.fictionSites.queries.ManagePage.run(
+      { _action: 'delete', siteId, fields: { siteId: site.siteId, cardId: 'xxx' }, orgId, userId, caller },
+      { server: true },
+    )
+
+    expect(deleteResponse.status).toBe('success')
   })
 })

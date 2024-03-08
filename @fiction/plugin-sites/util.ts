@@ -16,6 +16,15 @@ export function incrementSlugId(slug?: string): string {
   if (!slug)
     return 'view-1'
 
+  // Handle slugs starting with an underscore
+  if (slug.startsWith('_')) {
+    // Remove the leading underscore and prepend with 'old-'
+    const modifiedSlug = `old-${slug.slice(1)}`
+
+    // Directly return the modified slug if it's the first one
+    return modifiedSlug
+  }
+
   // Append '-1' if slug is purely numeric
   if (/^\d+$/.test(slug))
     return `${slug}-1`
@@ -93,8 +102,8 @@ export async function processUrlKey(args: {
 }
 
 export const imageStyle = [
-  { category: 'realismAndDetail', name: 'Realistic', value: 'High-resolution, lifelike detail and vivid colors. Artists: Richard Estes, Chuck Close.' },
-  { category: 'realismAndDetail', name: 'Grayscale', value: 'Monochromatic elegance in black and white. Artists: Ansel Adams, Doris Salcedo.' },
+  { category: 'realismAndDetail', name: 'Realistic', value: 'Cinematic High-resolution, lifelike detail and vivid colors. Sigma 85 mm f/1.4. High Definition, Bokeh.' },
+  { category: 'realismAndDetail', name: 'Grayscale', value: 'Black and white, contrast and texture inspired by classical photography, cubism, and suprematism. Kazimir Malevich. Pablo Picasso.' },
 
   { category: 'designAndArt', name: 'Minimalist', value: 'Simple design with monochrome or limited palettes. Artists: Donald Judd, Agnes Martin.' },
   { category: 'designAndArt', name: 'Abstract', value: 'Bold shapes, expressive lines, and minimal colors. Artists: Wassily Kandinsky, Piet Mondrian.' },
@@ -111,7 +120,7 @@ export const imageStyle = [
 
   { category: 'fantasyAndSciFi', name: 'Fantasy', value: 'Enchanting landscapes, lush nature, and magical themes. Artists: Brian Froud, John Howe.' },
   { category: 'fantasyAndSciFi', name: 'Hi-Tech', value: 'Cutting-edge technology with a futuristic vibe. Artists: Chris Foss, H.R. Giger.' },
-  { category: 'fantasyAndSciFi', name: 'Cyberpunk', value: 'Neon-lit, high-tech urban dystopia. Artists: Masamune Shirow, Katsuhiro Otomo.' },
+  { category: 'fantasyAndSciFi', name: 'Cyberpunk', value: 'Neon-lit, high-tech urban dystopia. Artists: Gregory Stoffel, Andrzej Marszalek, Juan P. Osorio' },
 
   { category: 'luxuryAndGlamour', name: 'Luxury', value: 'Opulence, lavish textures, and rich colors. Artists: Gustav Klimt, Peter Paul Rubens.' },
   { category: 'luxuryAndGlamour', name: 'Glamour', value: 'Alluring, sophisticated visuals with a glossy finish. Artists: George Hurrell, Cecil Beaton.' },

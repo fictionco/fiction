@@ -11,12 +11,8 @@ import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
-  site: { type: Object as vue.PropType<Site>,
-    required: true,
-  },
-  tool: { type: Object as vue.PropType<EditorTool>,
-    required: true,
-  },
+  site: { type: Object as vue.PropType<Site>, required: true },
+  tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
 
 const control = props.site.settings.fictionSites

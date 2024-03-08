@@ -3,6 +3,7 @@ import { vue, waitFor } from '@fiction/core'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
 import { Card } from '../../card'
 import { activePageId, getPageById, getViewMap } from '../page'
+import { Site } from '../../site'
 
 describe('getViewMap', async () => {
   it('should map card slugs to cardIds correctly', () => {
@@ -143,16 +144,21 @@ describe('activePageId', async () => {
   })
 })
 
-describe('getActivePage', () => {
+describe('getActivePage', async () => {
+  const testUtils = await createSiteTestUtils()
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+
   // Mock Cards
   const pages = [
     new Card({ cardId: 'id1', title: 'First Page', slug: 'first-page' }),
     new Card({ cardId: 'id2', title: 'Second Page', slug: 'second-page' }),
-  ]
+  ].map(_ => _.toConfig())
+
+  const site = new Site({ pages, ...common })
 
   it('should return the correct Card for a valid pageId', () => {
     const pageId = 'id1'
-    const activeCard = getPageById({ pageId, pages })
+    const activeCard = getPageById({ pageId, site })
 
     expect(activeCard).toBeDefined()
     expect(activeCard.cardId).toBe('id1')
@@ -161,7 +167,7 @@ describe('getActivePage', () => {
 
   it('should return a 404 Card for a non-existing pageId', () => {
     const pageId = 'non-existing-page'
-    const activeCard = getPageById({ pageId, pages })
+    const activeCard = getPageById({ pageId, site })
 
     expect(activeCard).toBeDefined()
     expect(activeCard.cardId).toBe('_special404')

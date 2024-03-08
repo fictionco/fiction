@@ -336,7 +336,7 @@ describe('objectProcessor', () => {
 // Testing property removal on error
 it('should remove properties that cause processing errors', async () => {
   const errorGeneratingProcessor: Processor = {
-    condition: async ({ key, value }) => typeof value === 'string' && value.includes('error'),
+    condition: async ({ value }) => typeof value === 'string' && value.includes('error'),
     // @ts-expect-error test
     action: (value: string) => {
       throw new Error(`Processing error for value: ${value}`)

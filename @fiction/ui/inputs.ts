@@ -222,6 +222,7 @@ export interface InputOptionSettings {
   default?: () => unknown
   schema?: SchemaCallback
   generation?: InputOptionGeneration
+  isHidden?: boolean
 }
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }

@@ -69,8 +69,10 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
   })
 }
 
-export function getPageById(args: { pageId: string, pages: Card[] }) {
-  const { pageId, pages } = args
+export function getPageById(args: { pageId: string, site: Site }) {
+  const { pageId, site } = args
+
+  const pages = site.pages.value
 
   // Find the corresponding Card object in the pages
   let activeCard = pages.find(card => card.cardId === pageId)
@@ -78,14 +80,12 @@ export function getPageById(args: { pageId: string, pages: Card[] }) {
   // Handle case where the Card is not found
   if (!activeCard) {
     activeCard = new Card({
+      site,
       cardId: '_special404',
       title: '404',
       templateId: 'wrap',
       is404: true,
-      cards: [{
-        templateId: '404',
-        userConfig: { heading: 'Nothing here' },
-      }],
+      cards: [{ templateId: '404', userConfig: { heading: 'Nothing here' } }],
     })
   }
 

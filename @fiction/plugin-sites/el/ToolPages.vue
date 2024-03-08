@@ -26,6 +26,18 @@ const actions: ActionItem[] = [
 const handles = vue.computed(() => {
   return props.site.pages.value.map((pg): Handle => {
     const cardId = pg.cardId
+    const actions: ActionItem[] = [{
+      name: 'Settings',
+      icon: 'i-tabler-edit',
+      onClick: () => props.site.useEditPage({ cardId }),
+    }]
+
+    if (pg.slug.value === '_home') {
+      actions.unshift({
+        name: 'View',
+        icon: 'i-tabler-home',
+      })
+    }
     return {
       title: pg.displayTitle.value,
       icon: 'i-tabler-file',
@@ -33,11 +45,7 @@ const handles = vue.computed(() => {
       depth: 0,
       isActive: cardId === props.site.activePageId.value,
       onClick: () => { props.site.activePageId.value = cardId },
-      actions: [{
-        name: 'Settings',
-        icon: 'i-tabler-edit',
-        onClick: () => props.site.useEditPage({ cardId }),
-      }],
+      actions,
     }
   })
 })

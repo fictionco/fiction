@@ -10,7 +10,7 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   placeholder: { type: [String], default: '' },
   inputClass: { type: String, default: '' },
-  site: { type: Object as vue.PropType<Site>, default: () => ({}) },
+  site: { type: Object as vue.PropType<Site>, required: true },
 })
 
 const emit = defineEmits<{
@@ -52,7 +52,7 @@ async function handleEmit(target: EventTarget | null) {
     status.value = 'success'
     reason.value = 'current'
   }
-  else if (value.length <= 3) {
+  else if (value.length <= 1) {
     status.value = 'fail'
     reason.value = 'short'
   }
@@ -105,47 +105,56 @@ const icon = vue.computed(() => {
 
 const showSetHomeModal = vue.ref(false)
 
-function setNewHomepage() {
-  console.log('SET')
+async function setNewHomepage() {
+  await props.site.setEditPageAsHome()
 }
+
+const isHome = vue.computed(() => props.modelValue === '_home')
 </script>
 
 <template>
-  <div class="space-y-2">
-    <div class="flex items-center space-x-2 border" :class="textInputClasses({ inputClass })">
-      <input
-        ref="validEl"
-        class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent p-0 leading-[1]"
-        :style="{ fontSize: 'inherit' }"
-        type="text"
-        :value="modelValue"
-        :placeholder="placeholder"
-        spellcheck="false"
-        :data-is-valid="isValid"
-        @input="handleEmit($event.target)"
-      >
-      <div class="text-lg" :class="icon.color">
-        <div :class="icon.icon" />
+  <div>
+    <div class="space-y-2">
+      <div v-if="isHome">
+        <ElButton btn="success" :no-hover="true" size="sm" icon="i-tabler-home">
+          Current Home Page
+        </ElButton>
       </div>
-    </div>
-    <div class="flex justify-between space-x-3">
-      <div v-if="reasonText" class="text-[10px] font-sans text-theme-400">
-        {{ site.frame.displayUrlBase.value }}/{{ modelValue }}
+      <div v-else class="flex items-center space-x-2 border" :class="textInputClasses({ inputClass })">
+        <input
+          ref="validEl"
+          class="grow appearance-none border-none bg-transparent focus:outline-none focus:ring-0 focus:border-transparent p-0 leading-[1]"
+          :style="{ fontSize: 'inherit' }"
+          type="text"
+          :value="modelValue"
+          :placeholder="placeholder"
+          spellcheck="false"
+          :data-is-valid="isValid"
+          @input="handleEmit($event.target)"
+        >
+        <div class="text-lg" :class="icon.color">
+          <div :class="icon.icon" />
+        </div>
       </div>
-      <div v-if="reasonText" class="text-[10px] font-sans text-theme-400">
-        {{ reasonText }}
+      <div class="flex justify-between space-x-3">
+        <div v-if="reasonText" class="text-[10px] font-sans text-theme-400">
+          {{ site?.frame.displayUrlBase.value }}/{{ isHome ? '' : modelValue }}
+        </div>
+        <div v-if="reasonText && !isHome" class="text-[10px] font-sans text-theme-400">
+          {{ reasonText }}
+        </div>
       </div>
-    </div>
-    <div>
-      <ElButton tag="div" size="xs" icon="i-tabler-home" @click.stop="showSetHomeModal = true">
-        Set As Homepage
-      </ElButton>
-      <ElModalConfirm
-        v-model:vis="showSetHomeModal"
-        title="Confirm New Homepage"
-        sub="Are you sure you want to make this page the homepage? Any unsaved changes you've made will be discarded."
-        @confirmed="setNewHomepage()"
-      />
+      <div v-if="!isHome">
+        <ElButton tag="div" size="xs" icon="i-tabler-home" @click.stop="showSetHomeModal = true">
+          Set As Homepage
+        </ElButton>
+        <ElModalConfirm
+          v-model:vis="showSetHomeModal"
+          title="Confirm New Homepage"
+          sub="Are you sure you want to make this page the homepage? Any unsaved changes you've made will be discarded."
+          @confirmed="setNewHomepage()"
+        />
+      </div>
     </div>
   </div>
 </template>

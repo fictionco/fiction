@@ -206,7 +206,6 @@ export class Endpoint<T extends Query = Query, U extends string = string> {
     if (axiosRequestConfig)
       conf = deepMergeAll([conf, axiosRequestConfig])
 
-
     if (debug)
       this.log.info(`request at ${fullUrl}`, { data: options })
 

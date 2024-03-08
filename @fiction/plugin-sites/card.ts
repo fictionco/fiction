@@ -167,10 +167,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
     return {
       complete: () => {
-        this.progress.value = {
-          percent: 100,
-          status: `Complete!`,
-        }
+        this.progress.value = { percent: 100, status: `Complete!` }
       },
     }
   }
@@ -187,22 +184,27 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
     const progress = this.simulateProgress()
 
-    const c = await getCardCompletion(completionArgs)
+    try {
+      const c = await getCardCompletion(completionArgs)
 
-    progress.complete()
+      progress.complete()
 
-    this.log.info('COMPLETION RESULT', { data: c })
+      this.log.info('COMPLETION RESULT', { data: c })
 
-    if (c) {
-      let data = this.card.toConfig()
-      Object.entries(c).forEach(([key, value]) => {
-        data = setNested({ path: key, data, value, isMerge: true })
-      })
+      if (c) {
+        let data = this.card.toConfig()
+        Object.entries(c).forEach(([key, value]) => {
+          data = setNested({ path: key, data, value, isMerge: true })
+        })
 
-      this.card.update(data)
+        this.card.update(data)
+      }
+
+      return c
     }
-
-    return c
+    finally {
+      progress.complete()
+    }
   }
 
   toConfig(): CardGenerationConfig {

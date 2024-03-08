@@ -66,7 +66,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })
-  currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, pages: this.pages.value }))
+  currentPage = vue.computed(() => getPageById({ pageId: this.activePageId.value, site: this }))
 
   sections = vue.shallowRef(setSections({ site: this, sections: this.settings.sections }))
   layout = vue.computed<Record<string, Card>>(() => ({ ...this.sections.value, main: this.currentPage.value }))
@@ -165,6 +165,15 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     get: () => this.pages.value.find(r => r.cardId === this.editor.value.selectedPageId)?.toConfig() || {},
     set: v => updatePages({ site: this, pages: [v] }),
   })
+
+  async setEditPageAsHome() {
+    updatePages({ site: this, pages: this.pages.value.map(p => ({ ...p.toConfig(), isHome: false, slug: p.slug.value === '_home' ? 'old-home' : p.slug.value })) })
+    this.editPageConfig.value = { ...this.editPageConfig.value, isHome: true, slug: '_home' }
+
+    await this.save()
+
+    this.activePageId.value = this.editPageConfig.value.cardId || ''
+  }
 
   useEditPage(args: { cardId?: string } = {}) {
     const { cardId } = args

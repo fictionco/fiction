@@ -17,34 +17,37 @@ const props = defineProps({
 const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
-const options = [
-  new InputOption({
-    key: 'pageSetup',
-    label: 'Page Setup',
-    input: 'group',
-    options: [
-      new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
-      new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true }),
-    ],
-  }),
-  new InputOption({
-    key: 'pageSeo',
-    label: 'SEO / Meta Tags',
-    input: 'group',
-    options: [
-      new InputOption({ key: 'userConfig.seoTitle', label: 'Title', input: 'InputText' }),
-      new InputOption({ key: 'userConfig.seoDescription', label: 'Description', input: 'InputTextarea', props: { rows: 5 } }),
-    ],
-  }),
+const page = vue.computed(() => props.site.editPageConfig.value)
 
-]
+const options = vue.computed(() => {
+  return [
+    new InputOption({
+      key: 'pageSetup',
+      label: 'Page Setup',
+      input: 'group',
+      options: [
+        new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
+        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true }),
+      ],
+    }),
+    new InputOption({
+      key: 'pageSeo',
+      label: 'SEO / Meta Tags',
+      input: 'group',
+      options: [
+        new InputOption({ key: 'userConfig.seoTitle', label: 'Title', input: 'InputText' }),
+        new InputOption({ key: 'userConfig.seoDescription', label: 'Description', input: 'InputTextarea', props: { rows: 5 } }),
+      ],
+    }),
+  ]
+})
 
 async function save() {
   loading.value = true
   await requestManagePage({
     site: props.site,
     _action: 'upsert',
-    regionCard: props.site.editPageConfig.value,
+    regionCard: page.value,
     delay: 400,
     successMessage: 'Page Saved',
   })

@@ -1,6 +1,7 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import { AdminQuery } from '@fiction/plugin-admin'
 import { deepMerge } from '@fiction/core'
+import type { Knex } from 'knex'
 import type { CardConfigPortable, TableCardConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
 import { incrementSlugId } from './util'
@@ -51,8 +52,10 @@ export class ManagePage extends SitesQuery {
       fictionDb: this.settings.fictionDb,
     })
 
+    await this.specialSlugConflicts({ slug: prepped.slug, cardId: fields.cardId, siteId, db })
+
     // all are needed to do propper recursion, without slug it infintely loops
-    const where = { siteId, regionId: prepped.regionId, slug: prepped.slug }
+    const where = { siteId, slug: prepped.slug }
 
     for (const key in where) {
       if (!where[key as keyof typeof where])
@@ -71,9 +74,9 @@ export class ManagePage extends SitesQuery {
       .whereNot({ card_id: fields.cardId })
       .first()
 
-    const existingRegion = await query
+    const existingPage = await query
 
-    if (existingRegion) {
+    if (existingPage) {
       // If the combination exists, increment the slug and retry the upsert
       const incrementedSlugId = incrementSlugId(prepped.slug)
       return this.handleUpsert({ caller, fields: { ...fields, slug: incrementedSlugId }, orgId, userId, siteId }, meta)
@@ -87,6 +90,34 @@ export class ManagePage extends SitesQuery {
       .returning<TableCardConfig[]>('*')
 
     return region
+  }
+
+  private async specialSlugConflicts(args: { slug?: string, cardId?: string, siteId: string, db: Knex }) {
+    const { slug, siteId, db, cardId } = args
+    if (!slug?.startsWith('_') || !cardId)
+      return
+
+    // recursively check for existing slugs, and iterate until a unique slug is found
+    const updateExistingSlug = async (loopSlug: string) => {
+      const newSlug = incrementSlugId(loopSlug)
+
+      const existingNewSlug = await db.select('slug')
+        .from(tableNames.pages)
+        .where({ slug: newSlug, siteId })
+        .first()
+
+      if (!existingNewSlug) {
+        await db.table(tableNames.pages)
+          .where({ slug, siteId })
+          .whereNot({ card_id: cardId })
+          .update({ slug: newSlug })
+      }
+      else {
+        await updateExistingSlug(newSlug)
+      }
+    }
+
+    return await updateExistingSlug(slug)
   }
 
   async run(
@@ -106,19 +137,23 @@ export class ManagePage extends SitesQuery {
       data = await this.handleUpsert({ fields, siteId, orgId, userId, caller }, meta)
     }
     else if (_action === 'retrieve') {
-      const { cardId } = fields
+      const { cardId, slug } = fields
 
-      if (!cardId)
-        throw this.stop('cardId required')
+      if (!cardId && !slug)
+        throw this.stop('cardId or slug required to retrieve page')
 
+      const where = cardId ? { orgId, cardId } : { siteId, slug }
+      this.log.info('RETREIVE', { data: { where } })
       data = await db
         .select()
         .from(tableNames.pages)
-        .where({ orgId, cardId })
+        .where(where)
         .first()
 
-      if (!data)
-        throw this.stop(`Page not found`, { data: { cardId, _action, caller } })
+      if (!data) {
+        this.log.info('Page not found', { data: { where, cardId, _action, caller } })
+        throw new Error('Page not found')
+      }
     }
     else if (_action === 'delete') {
       const { cardId } = fields

@@ -33,7 +33,7 @@ function hide(key: string, val?: boolean) {
   <div class="">
     <div class="flex gap-4 flex-col">
       <div
-        v-for="(opt, i) in options"
+        v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)"
         :key="i"
       >
         <div v-if="opt.input.value === 'group'" :class="depth > 0 ? 'border border-theme-200 dark:border-theme-700 rounded-md overflow-hidden' : ''">

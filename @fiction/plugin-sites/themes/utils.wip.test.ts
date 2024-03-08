@@ -126,4 +126,35 @@ describe('incrementSlugId', () => {
   it('should handle complex strings with multiple hyphens and numbers', () => {
     expect(incrementSlugId('page-2x-3y-4')).toBe('page-2x-3y-5')
   })
+
+  it('should prepend "old-" to slugs starting with an underscore', () => {
+    expect(incrementSlugId('_home')).toBe('old-home')
+  })
+
+  it('should handle incrementing previously modified underscore slugs', () => {
+    // Assuming an existing function or mechanism to track these "old-" prefixed slugs for increments
+    const firstIncrement = incrementSlugId('_home') // 'old-home'
+    const secondIncrement = incrementSlugId(firstIncrement) // Expected to increment if 'old-home' exists already
+    expect(secondIncrement).toBe('old-home-1')
+  })
+
+  it('should increment the numeric part of a previously modified underscore slug', () => {
+    expect(incrementSlugId('old-home-2')).toBe('old-home-3')
+  })
+
+  it('should append "-1" if a modified underscore slug does not end with a number', () => {
+    expect(incrementSlugId('old-home')).toBe('old-home-1')
+  })
+
+  it('should handle complex underscore prefixed slugs', () => {
+    expect(incrementSlugId('_page-2x-3y')).toBe('old-page-2x-3y')
+  })
+
+  it('should handle underscore prefixed numeric slugs correctly', () => {
+    expect(incrementSlugId('_12345')).toBe('old-12345')
+  })
+
+  it('should handle underscore prefixed slugs with special characters', () => {
+    expect(incrementSlugId('_page#@!')).toBe('old-page#@!')
+  })
 })

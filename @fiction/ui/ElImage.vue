@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { clean, isTest, log, vue, waitFor } from '@fiction/core'
+import { clean, log, vue, waitFor } from '@fiction/core'
 import * as bh from 'blurhash'
 import type { ImageFilterConfig, MediaDisplayObject } from '@fiction/core'
 import ElOverlay from './ElOverlay.vue'
@@ -46,13 +46,8 @@ async function setBlurHash() {
 
     const blurCanvasEl = blurCanvas.value
 
-    if (!blurCanvasEl?.getContext) {
-      // tests might not have a canvas
-      if (!isTest())
-        logger.error('No canvas context', { data: {} })
-
+    if (!blurCanvasEl?.getContext)
       return
-    }
 
     const ctx = blurCanvasEl?.getContext('2d')
     const imageData = ctx?.createImageData(64, 64)

@@ -42,7 +42,7 @@ const i = vue.computed(() => {
         <div :class="handle.icon ?? 'i-carbon-blockchain'" />
       </div>
       <div
-        class="flex grow border-y border-r   min-w-0"
+        class="flex grow border-y border-r   min-w-0 overflow-hidden"
         :class="[
           handle.hasDrawer ? 'rounded-tr-md' : 'rounded-r-md',
           handle.isActive ? 'dark:border-primary-500 border-primary-300' : 'dark:border-theme-500 border-theme-200']"
@@ -70,8 +70,11 @@ const i = vue.computed(() => {
         <div
           v-for="(action, ii) in handle.actions"
           :key="ii"
-          class="flex cursor-pointer items-center p-1 "
-          :class="handle.isActive ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : 'hover:bg-theme-200 dark:hover:bg-theme-600'"
+          class="flex  items-center p-1"
+          :class="[
+            handle.isActive && action.onClick ? 'hover:bg-primary-200 dark:hover:bg-primary-600' : action.onClick ? 'hover:bg-theme-200 dark:hover:bg-theme-600' : '',
+            action.onClick ? 'cursor-pointer' : ' ',
+          ]"
         >
           <div
             class="text-sm"

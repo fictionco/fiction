@@ -268,6 +268,6 @@ const domainCols = [
 
 export const tables = [
   new FictionDbTable({ tableKey: tableNames.sites, timestamps: true, columns: siteCols }),
-  new FictionDbTable({ tableKey: tableNames.pages, timestamps: true, columns: pageCols, onCreate: t => t.unique(['site_id', 'slug', 'region_id']) }),
+  new FictionDbTable({ tableKey: tableNames.pages, timestamps: true, columns: pageCols, onCreate: t => t.unique(['site_id', 'slug']) }),
   new FictionDbTable({ tableKey: tableNames.domains, timestamps: true, columns: domainCols }),
 ]

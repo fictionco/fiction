@@ -13,10 +13,9 @@ const emit = defineEmits(['confirmed', 'update:vis'])
 
 const loading = vue.ref(false)
 async function confirmed() {
-  emit('confirmed', true)
   loading.value = true
-  await waitFor(250)
-  emit('update:vis', false)
+  emit('confirmed', true)
+  await waitFor(500)
   loading.value = false
 }
 </script>
@@ -41,7 +40,7 @@ export default {
       <ElButton class="" btn="default" icon="i-tabler-x" @click="emit('update:vis', false)">
         Cancel
       </ElButton>
-      <ElButton btn="primary" :loading="loading" icon="i-tabler-check" @click="confirmed()">
+      <ElButton btn="primary" :loading="loading" icon="i-tabler-check" @click.stop="confirmed()">
         Confirm
       </ElButton>
     </div>
