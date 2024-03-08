@@ -16,6 +16,9 @@ export function incrementSlugId(slug?: string): string {
   if (!slug)
     return 'view-1'
 
+  if (typeof slug !== 'string')
+    slug = String(slug)
+
   // Handle slugs starting with an underscore
   if (slug.startsWith('_')) {
     // Remove the leading underscore and prepend with 'old-'
