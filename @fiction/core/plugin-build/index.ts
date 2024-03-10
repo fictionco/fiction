@@ -213,22 +213,23 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
 
   getFictionViteConfig = async (options: {
     isProd?: boolean
+    isServerBuild?: boolean
     root?: string
     mainFilePath?: string
     config?: vite.InlineConfig
   }): Promise<vite.InlineConfig> => {
-    const { isProd, root = process.cwd(), config = {} } = options
+    const { isProd, root = process.cwd(), config = {}, isServerBuild } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
 
-    const external: string[] = ['ngrok'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
+    const external: string[] = ['ngrok', 'node:crypto'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',
       // root must be set to optimize output file size
       root,
       ssr: {
-        noExternal: [/@fiction.*/, /@pagelines.*/, /@fiction.*/, 'util'],
+        noExternal: [/@fiction.*/, 'util'],
       },
       server: {
         fs: { strict: false },
@@ -260,6 +261,11 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         rollupOptions: { external },
       },
 
+      plugins: [
+        ...customPlugins,
+      ],
+      optimizeDeps: this.getOptimizeDeps(),
+      logLevel: isProd ? 'info' : 'warn',
       resolve: {
         alias: [
           { find: 'path', replacement: 'path-browserify' },
@@ -277,20 +283,19 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
           { find: 'http', replacement: 'stream-http' },
           { find: 'node:util', replacement: 'util' },
           { find: 'util', replacement: 'util/' },
-          { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' }, // Specific alias for 'vue'
         ],
-
       },
-
-      plugins: [
-        ...customPlugins,
-      ],
-      optimizeDeps: this.getOptimizeDeps(),
-      logLevel: isProd ? 'info' : 'warn',
-
     }
 
-    const merge: vite.InlineConfig[] = [basicConfig, config]
+    const envBuildConfig: vite.InlineConfig = isServerBuild ? {} : {
+      resolve: {
+        alias: [
+          { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' }, // Specific alias for 'vue'
+        ],
+      },
+    }
+
+    const merge: vite.InlineConfig[] = [basicConfig, envBuildConfig, config]
 
     return deepMergeAll<vite.InlineConfig>(merge)
   }

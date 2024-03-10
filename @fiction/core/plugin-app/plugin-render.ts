@@ -14,7 +14,6 @@ import presetIcons from '@unocss/preset-icons'
 import { renderToString } from '@vue/server-renderer'
 import type tailwindcss from 'tailwindcss'
 import { renderSSRHead } from '@unhead/ssr'
-
 import { JSDOM } from 'jsdom'
 import { getRequire, importIfExists, requireIfExists, runHooks, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
@@ -200,8 +199,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return out
   }
 
-  async getViteConfig(config: { isProd: boolean }): Promise<vite.InlineConfig> {
-    const { isProd } = config
+  async getViteConfig(config: { isProd: boolean, isServerBuild?: boolean }): Promise<vite.InlineConfig> {
+    const { isProd, isServerBuild } = config
 
     const { default: pluginVue } = await import('@vitejs/plugin-vue')
 
@@ -209,6 +208,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       isProd,
       root: this.fictionEnv.cwd,
       mainFilePath: this.fictionEnv.mainFilePath,
+      isServerBuild,
     })
 
     const appViteConfigFile = await this.getAppViteConfigFile()
@@ -222,7 +222,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         publicDir: this.publicFolder,
         css: {
           postcss: {
-            plugins: [twPlugin(twConfig), getRequire()('autoprefixer')],
+            plugins: [
+              getRequire()('tailwindcss/nesting'),
+              twPlugin(twConfig),
+              getRequire()('autoprefixer'),
+            ],
           },
         },
         server: {},
@@ -317,6 +321,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       }
       catch (error) {
         this.log.error(`SSR Error (${pathname}) - ${(error as Error).message}`, { error })
+        throw error
       }
       finally {
         // Ensure that revert is called even if an error occurs
@@ -436,7 +441,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const distFolderClient = this.distFolderClient
     const distFolderServer = this.distFolderServer
     try {
-      const vc = await this.getViteConfig({ isProd: true })
+      const viteConfigServer = await this.getViteConfig({ isProd: true, isServerBuild: true })
+      const viteConfigClient = await this.getViteConfig({ isProd: true, isServerBuild: true })
 
       fs.ensureDirSync(distFolder)
 
@@ -461,7 +467,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
        */
       const root = distFolder
       const clientBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
-        vc,
+        viteConfigClient,
         {
           root,
           build: {
@@ -475,7 +481,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       ])
 
       const serverBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
-        vc,
+        viteConfigServer,
         {
           root,
           build: {
@@ -499,7 +505,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         vite.build(serverBuildOptions),
       ])
 
-      this.log.info('[done:build] application built successfully')
+      this.log.info('[done:build] build completed successfully')
 
       const sitemaps = await Promise.all(
         this.fictionApp.sitemaps.map(async (s) => {

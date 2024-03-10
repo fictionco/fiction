@@ -5,6 +5,8 @@ import { CliCommand, FictionBundle, FictionEnv, FictionRelease, log, safeDirname
 import { execaCommand } from 'execa'
 import { version } from './package.json'
 
+const logger = log.contextLogger('Root Build')
+
 const cwd = safeDirname(import.meta.url)
 
 export const fictionEnv = new FictionEnv({
@@ -42,25 +44,21 @@ export function setup(): ServiceConfig {
       else if (command === 'render') {
         const fictionApps = ['@fiction/www']
 
-        const pageLinesApps: string[] = []
-
-        const otherApps = ['@fiction/andrewpowers']
+        const otherApps: string[] = []
 
         const apps = []
         if (options.suite === 'fiction')
           apps.push(...fictionApps)
-        else if (options.suite === 'pagelines')
-          apps.push(...otherApps, ...pageLinesApps)
         else
-          apps.push(...fictionApps, ...pageLinesApps, ...otherApps)
+          apps.push(...fictionApps, ...otherApps)
 
-        log.info('render', `rendering ${apps.length} apps`, { data: apps })
+        logger.info(`rendering ${apps.length} apps`, { data: apps })
 
         for (const app of apps) {
-          log.info('render', `rendering ${app}`)
+          logger.info(`rendering ${app}`)
 
           const cmd = `npm -w ${app} exec -- fiction run render`
-          await new Promise((resolve) => {
+          await new Promise((resolve, reject) => {
             const cp = execaCommand(cmd, { env: { FORCE_COLOR: 'true' } })
             cp.stdout?.pipe(process.stdout)
             cp.stderr?.pipe(process.stderr)
@@ -69,6 +67,16 @@ export function setup(): ServiceConfig {
 
               if (out.includes('[done:render]'))
                 resolve(1)
+            })
+
+            cp.stderr?.on('data', (d: Buffer) => {
+              const out = d.toString()
+
+              if (out.includes('error')) {
+                logger.error('STDERR', { data: { out } })
+
+                reject(out)
+              }
             })
           })
         }

@@ -5,6 +5,9 @@ import { compileApplication } from '../plugin-env/entry'
 import type { FictionAppEntry, MainFile } from '../plugin-env/types'
 import type { RunVars } from '../inject'
 import { isNode } from '../utils/vars'
+import { log } from '../plugin-log'
+
+const logger = log.contextLogger('Mount')
 
 declare global {
   interface Window {
@@ -53,9 +56,9 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
       ? serviceConfig.createMount(mountArgs)
       : await mainFileImports.fictionApp?.mountApp(mountArgs)
   }
-  catch (e) {
-    console.error('Error in runAppEntry:', e)
-    throw e // Rethrow to ensure the error is not silently ignored
+  catch (error) {
+    logger.error('Error in runAppEntry:', { error })
+    throw error // Rethrow to ensure the error is not silently ignored
   }
 }
 

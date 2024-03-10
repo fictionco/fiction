@@ -51,6 +51,7 @@ export class FictionLog {
   isProd: boolean
   isRestart: boolean
   isDebug: boolean
+  loggedErrorCount = 0
   constructor(settings: FictionLogSettings = {}) {
     this.hooks = settings.hooks ?? []
     this.isProd = settings.isProd ?? isProd()
@@ -232,6 +233,8 @@ export class FictionLog {
 
       console.log(formattedStackTrace)
     }
+
+    this.loggedErrorCount += 1
   }
 
   private logServer(config: LoggerArgs): void {
