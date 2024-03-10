@@ -144,6 +144,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   async buildApp(options: { render?: boolean, serve?: boolean } = {}) {
     if (this.fictionEnv.isApp.value)
       return
+
     return this.fictionRender?.buildApp(options)
   }
 

@@ -62,12 +62,12 @@ export function setup(): ServiceConfig {
             const cp = execaCommand(cmd, { env: { FORCE_COLOR: 'true' } })
             cp.stdout?.pipe(process.stdout)
             cp.stderr?.pipe(process.stderr)
-            cp.stdout?.on('data', (d: Buffer) => {
-              const out = d.toString()
+            // cp.stdout?.on('data', (d: Buffer) => {
+            //   const out = d.toString()
 
-              if (out.includes('[done:render]'))
-                resolve(1)
-            })
+            //   if (out.includes('[done:render]'))
+            //     resolve(1)
+            // })
 
             cp.stderr?.on('data', (d: Buffer) => {
               const out = d.toString()
@@ -77,6 +77,22 @@ export function setup(): ServiceConfig {
 
                 reject(out)
               }
+            })
+
+            // Listen for the 'close' event to resolve the promise
+            void cp.on('close', (code) => {
+              if (code === 0) {
+                resolve(1)
+              }
+              else {
+                logger.error('Subprocess exited with error code', { data: { code } })
+                reject(new Error(`Subprocess exited with error code ${code}`))
+              }
+            }).then(() => {})
+
+            void cp.on('error', (err) => {
+              logger.error('Error executing subprocess', { data: { err } })
+              reject(err)
             })
           })
         }

@@ -324,6 +324,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         throw error
       }
       finally {
+        delete process.env.IS_VITE
         // Ensure that revert is called even if an error occurs
         revertGlobal?.()
       }
@@ -430,7 +431,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     // build index to dist
     const templates = await this.getIndexHtmlTemplates({ isProd: true })
 
-    this.log.info('building fiction app', {
+    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
       data: {
         isNode: this.utils.isNode(),
         indexFiles: Object.values(templates).length,
@@ -505,7 +506,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         vite.build(serverBuildOptions),
       ])
 
-      this.log.info('[done:build] build completed successfully')
+      this.log.info(`[done:build] build completed successfully (${this.fictionApp.appInstanceId})`)
 
       const sitemaps = await Promise.all(
         this.fictionApp.sitemaps.map(async (s) => {
