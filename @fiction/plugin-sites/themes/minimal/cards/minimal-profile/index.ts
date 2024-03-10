@@ -68,7 +68,7 @@ const minimalProfile = new CardTemplate({
     superHeading: 'Steve S. Smith',
     heading: 'Designing The Future of Tomorrow',
     subHeading: `Here, amidst the swirling currents of creativity, flows the vibrant stream of ideas, enriching the landscape with its distinct flair and substance. Engage with a world where every design is a testament to uniqueness, and every concept breathes life into fresh, pioneering visions.`,
-    mediaItems: [{ media: { url: new URL('./pic.jpg', import.meta.url).href, format: 'url' } }],
+    mediaItems: [{ media: { url: new URL('./pic.jpg', import.meta.url).href, format: 'url' as const } }],
     detailsTitle: 'About Me',
     details: [
       { name: 'Location', desc: 'Laguna Beach, CA' },

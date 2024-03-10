@@ -21,6 +21,8 @@ type CardCategory = 'basic' | 'theme' | 'stats' | 'marketing' | 'content' | 'lay
 
 export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
 
+type CardTemplateUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : undefined
+
 interface CardTemplateSettings<U extends string = string, T extends ComponentConstructor = ComponentConstructor> {
   templateId: U
   title?: string
@@ -35,7 +37,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   isRegion?: boolean
   spacingClass?: string
   options?: InputOption[]
-  userConfig?: InstanceType<T> extends { $props: { card: { userConfig: { value: infer V } } } } ? V : undefined
+  userConfig?: CardTemplateUserConfig<T>
   sections?: Record<string, CardConfigPortable>
 }
 
@@ -47,12 +49,14 @@ CardTemplateSettings<U, T>
     super('CardTemplate', { title: toLabel(settings.templateId), ...settings })
   }
 
-  toCard(args: { cardId?: string }) {
+  toCard(args: { cardId?: string, site?: Site }) {
+    const { cardId } = args
+    const userConfig = this.settings.userConfig || {}
     return new Card({
-      cardId: objectId({ prefix: 'crd' }),
+      cardId: cardId || objectId({ prefix: 'crd' }),
       templateId: this.settings.templateId,
       title: this.settings.title,
-      userConfig: this.settings.userConfig as Record<string, unknown>,
+      userConfig,
       ...args,
     })
   }
@@ -146,6 +150,9 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
     const interval = 500
 
+    // this stops iteration for cases when error occurs
+    let completed = false
+
     const updateProgress = () => {
       const timeElapsed = Date.now() - timeStart
       const percent = Math.round(Math.min((timeElapsed / (totalEstimatedTime * 1000)) * 100, 100))
@@ -156,7 +163,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
         status: `Generating ${currentSetting?.label || ''}`,
       }
 
-      if (percent < 100)
+      if (percent < 100 && !completed)
         setTimeout(updateProgress, interval)
 
       else
@@ -167,6 +174,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
 
     return {
       complete: () => {
+        completed = true
         this.progress.value = { percent: 100, status: `Complete!` }
       },
     }

@@ -14,7 +14,6 @@ export const templates = [
     spacingClass: 'py-0 lg:py-2',
     el: vue.defineAsyncComponent(() => import('./XHeader.vue')),
     userConfig: {
-      logo: { format: 'html', html: 'Minimal' },
       nav: [
         { name: 'Home', href: '/' },
         { name: 'LinkedIn', href: 'https://www.linkedin.com/in/arpowers', target: '_blank' },

@@ -146,8 +146,9 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
 
     const imageInstruction = [
       `Image style should not affect text content.`,
-      `For image URLs, use shortcodes as [stock_img search="(image_prompt)" orientation="(portrait, landscape, or squarish)"],`,
-      `replacing image_prompt with a 5-15 word image generation prompt creates a context related image and adds style terms related to image style objective.`,
+      `For image URLs, use shortcodes as [stock_img search="image_prompt" orientation="(portrait, landscape, or squarish)" description="(JSON schema field description)"],`,
+      `replacing image_prompt with a 3-10 word image generation prompt designed to create a contextual image in a style like image style objective.`,
+      `Set description attribute to the schema description for schema parent group then the field itself, preferring more specific descriptions.`,
       `Be creative and specific, employing analogies, metaphors, and similes to enrich the description.`,
     ].join(' ')
 
@@ -189,23 +190,25 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     let message = ''
     let more = ''
     shortcodes.addShortcode('stock_img', async (args) => {
-      const { attributes } = args
+      const { attributes, fullMatch } = args
       const search = attributes?.search || ''
+      const description = attributes?.description || ''
       const orientation = attributes?.orientation as 'portrait' | 'landscape' || 'squarish'
 
       const prompt = [
-        search,
+        `Prompt: ${search}`,
+        `Format: ${description || 'none'}`,
         `Contraints: make SURE the image has no text, logos, or watermarks on it.`,
-        `style: ${objectives.imageStyle}.`,
-        `context: ${objectiveText || 'website'}`,
-      ].join('\n')
+        `Style: ${objectives.imageStyle}.`,
+
+      ].filter(Boolean).join('\n')
 
       const start = Date.now()
       this.log.info('creating image', { data: { prompt, orientation, orgId, userId } })
       const r = await this.settings.fictionAi.queries.AiImage.serve({ _action: 'createImage', prompt, orientation, orgId, userId }, { server: true })
 
       if (r.status === 'error' || !r.data) {
-        message = 'There was a "safety" error during image generation. Change image style settings and try again.'
+        message = 'There was a "safety" API error during image generation. Try again, change image style if needed.'
         more = 'This happens when images are similar to trademarked works, etc...'
         throw new Error(message)
       }

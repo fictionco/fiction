@@ -318,6 +318,7 @@ export const navItemsOptionSet = new OptionSet<{
   refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
 }> ({
   basePath: 'userConfig',
+  defaultRefinement: { group: { refine: { name: true, href: true, target: true } } },
   inputOptions: (args) => {
     const label = args?.label || 'Nav'
     const groupPath = args?.groupPath || 'nav'

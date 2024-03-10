@@ -99,7 +99,7 @@ export function addNewCard(args: {
   if (!tpl)
     throw new Error(`Could not find template with key ${templateId}`)
 
-  const cardConfig = tpl?.toCard({ cardId }).toConfig() as TableCardConfig & { cardId: string }
+  const cardConfig = tpl?.toCard({ cardId, site }).toConfig() as TableCardConfig & { cardId: string }
 
   const addCardAction = () => {
     if (addToCardId) {

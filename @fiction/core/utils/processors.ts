@@ -86,7 +86,7 @@ export type ShortcodesConfig = {
   fictionEnv?: FictionEnv
 }
 type ShortcodeAttributes = Record<string, string>
-type ShortcodeHandler = (args: { content?: string, attributes?: ShortcodeAttributes }) => Promise<string> | string
+type ShortcodeHandler = (args: { content?: string, attributes?: ShortcodeAttributes, fullMatch: string }) => Promise<string> | string
 
 export class Shortcodes extends FictionObject<ShortcodesConfig> {
   private shortcodeDictionary: Record<string, ShortcodeHandler> = {}
@@ -156,7 +156,7 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
           // Process nested shortcodes if content is not self-closing
           const processedContent = content ? await this.parseString(content) : ''
           // Execute handler and append processed result
-          const processed = await handler({ content: processedContent, attributes })
+          const processed = await handler({ content: processedContent, attributes, fullMatch })
           result += processed
         }
       }
@@ -175,23 +175,25 @@ export class Shortcodes extends FictionObject<ShortcodesConfig> {
     return regex.test(input)
   }
 
-  private parseAttributes(attrString: string | undefined): ShortcodeAttributes {
+  parseAttributes(attrString: string | undefined): ShortcodeAttributes {
     const attributes: ShortcodeAttributes = {}
-    if (attrString) {
-      const attrRegex = /([a-zA-Z0-9_\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g
-      let match: RegExpExecArray | null
 
-      // Perform the assignment before the loop and then check for nullity within the loop condition
-      match = attrRegex.exec(attrString)
-      while (match !== null) {
-        const attrName = match[1]
-        const attrValue = match[2] || match[3] || '' // Use the second or third group, or default to an empty string
-        attributes[attrName] = attrValue
+    if (!attrString)
+      return attributes
 
-        // Perform the assignment at the end of the loop to prepare for the next iteration
-        match = attrRegex.exec(attrString)
-      }
+    // Preprocess the string to replace escaped quotes
+    const preprocessedString = attrString.replace(/\\+"/g, '"').replace(/\\+'/g, '\'')
+
+    const attrRegex = /([a-zA-Z0-9_\-@]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g
+    let match: RegExpExecArray | null
+
+    // Use a for loop instead of while for ESLint compliance
+    for (match = attrRegex.exec(preprocessedString); match !== null; match = attrRegex.exec(preprocessedString)) {
+      const attrName = match[1]
+      const attrValue = match[2] || match[3] || ''
+      attributes[attrName] = attrValue
     }
+
     return attributes
   }
 

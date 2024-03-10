@@ -13,6 +13,19 @@ describe('shortcodes tests', () => {
     const fictionEnv = testUtils.fictionEnv
     shortcodes = new Shortcodes({ fictionEnv })
     shortcodes.addShortcode('mock', () => 'MockResult')
+    shortcodes.addShortcode('mock_attr', (args) => {
+      const attr = Object.entries(args.attributes || {}).map(([key, value]) => `${key}:${value}`).join(', ')
+      return `MockResult: ${attr}`
+    })
+  })
+
+  it('should parse attributes with escaped quotes', async () => {
+    // Adjust the input string to include double backslashes before quotes,
+    // simulating the actual input that might be causing issues at runtime.
+    const result = shortcodes.parseAttributes(`search=\\\"test\\\"`)
+
+    const expected = { search: 'test' }
+    expect(result).toEqual(expected)
   })
 
   it('should parse a string with a cwd shortcode', async () => {
@@ -141,6 +154,40 @@ describe('shortcodes tests', () => {
     const invalidFormatString = 'This is an invalid format: [invalid'
     const result = await shortcodes.parseString(invalidFormatString)
     expect(result).toBe(invalidFormatString)
+  })
+
+  it('should parse escaped string values', async () => {
+    const input = `"""
+    {
+      "userConfig": {
+        "mediaItems": [
+          {
+            "media": {
+              "url": "[mock_attr search=\"futuristic secret agent technology\" orientation=\"landscape\" description=\"spies playing baseball\"]",
+              "format": "url"
+            }
+          }
+        ]
+      }
+    }"""`
+    const expected = { media: { url: 'MockResult: search:foo, description:bar' } }
+    expect(await shortcodes.parseObject({ input })).toMatchInlineSnapshot(`
+      {
+        "input": """"
+          {
+            "userConfig": {
+              "mediaItems": [
+                {
+                  "media": {
+                    "url": "MockResult: search:futuristic secret agent technology, orientation:landscape, description:spies playing baseball",
+                    "format": "url"
+                  }
+                }
+              ]
+            }
+          }"""",
+      }
+    `)
   })
 
   it('should parse simple string values', async () => {
