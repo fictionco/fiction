@@ -110,6 +110,9 @@ jobs:
         if: env.SHOULD_DEPLOY
         run: npm exec -- fiction run render
 
+      - name: DIST unit tests
+        run: npm exec -- vitest run dist -u
+
       - name: Install FlyCtl
         if: env.SHOULD_DEPLOY
         uses: superfly/flyctl-actions/setup-flyctl@master
