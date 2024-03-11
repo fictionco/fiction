@@ -119,6 +119,21 @@ export async function createTestServer(params: {
   }
 }
 
+function getModifiedCommands(commands: CliCommand[]) {
+  const modifiedCommands = commands.map((command) => {
+    if (command.port.value)
+      command.port.value = randomBetween(1000, 30000)
+
+    return command
+  })
+
+  const portOptions = commands.filter(_ => _.port.value).map((_) => {
+    return `--${_.command}-port ${String(_.port.value)}`
+  })
+
+  return { commands: modifiedCommands, portOptions }
+}
+
 export async function appBuildTests(config: {
   moduleName?: string
   cwd?: string
@@ -132,21 +147,6 @@ export async function appBuildTests(config: {
 
   if (!cwd)
     throw new Error('cwd is not defined')
-
-  const getModifiedCommands = (commands: CliCommand[]) => {
-    const modifiedCommands = commands.map((command) => {
-      if (command.port.value)
-        command.port.value = randomBetween(1000, 30000)
-
-      return command
-    })
-
-    const portOptions = commands.filter(_ => _.port.value).map((_) => {
-      return `--${_.command}-port ${String(_.port.value)}`
-    })
-
-    return { commands: modifiedCommands, portOptions }
-  }
 
   const logger = log.contextLogger('BUILD TESTS')
   const BUILD_TIMEOUT = 180_000
@@ -233,4 +233,38 @@ export async function appBuildTests(config: {
       await destroy()
     }, BUILD_TIMEOUT)
   })
+}
+
+export async function appRunTest(config: {
+  cmd: string
+  port: number
+}): Promise<{ html: string, status: number }> {
+  const { cmd, port } = config
+
+  const BUILD_TIMEOUT = 60_000
+
+  const command = [cmd].join(' ')
+
+  let html = ''
+  let status = 0
+
+  await executeCommand({
+    command,
+    envVars: { IS_TEST: '1', TEST_ENV: 'unit' },
+    timeout: BUILD_TIMEOUT,
+    triggerText: '[ready]',
+    onTrigger: async (args) => {
+      try {
+        const response = await fetch(`http://localhost:${port}/`)
+        html = await response.text()
+        status = response.status
+      }
+      finally {
+        // This ensures the server is closed even if the assertions above fail
+        await args.close()
+      }
+    },
+  })
+
+  return { html, status }
 }

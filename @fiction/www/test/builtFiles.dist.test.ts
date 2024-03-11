@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
-import { safeDirname } from '@fiction/core'
+import { randomBetween, safeDirname } from '@fiction/core'
+import { appRunTest } from '@fiction/core/test-utils/buildTest'
 
 describe('files built', () => {
   const dir = safeDirname(import.meta.url, '..')
@@ -28,5 +29,18 @@ describe('files built', () => {
     const serverDirFiles = await fs.readdir(`${distDir}/app/server`)
 
     expect(serverDirFiles).toEqual(expect.arrayContaining(serverFiles))
+  })
+})
+
+describe('serving built files', async () => {
+  it('runs app', async () => {
+    const appPort = randomBetween(1000, 30000)
+    const sitesPort = randomBetween(1000, 30000)
+    const r = await appRunTest({
+      cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --sites-port=${sitesPort}`,
+      port: appPort,
+    })
+    expect(r.status).toBe(200)
+    expect(r.html).toContain('<!DOCTYPE html>')
   })
 })

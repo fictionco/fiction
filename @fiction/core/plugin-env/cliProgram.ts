@@ -139,3 +139,9 @@ process.on('uncaughtException', (error) => {
   logger.error('Uncaught error!', { error })
   exitHandler({ exit: true, code: 1 })
 })
+
+// untested, but should be tried when process.on is overridden in tests
+process.on('message', (msg) => {
+  if (msg === 'shutdown')
+    exitHandler({ exit: true, shutdown: true })
+})
