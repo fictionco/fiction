@@ -250,6 +250,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
       const vc = await this.fictionBuild.getFictionViteConfig({
         root: cwd,
         isProd: true,
+        isServerBuild: true,
       })
 
       // library mode if entry is defined

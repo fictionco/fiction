@@ -287,13 +287,16 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       },
     }
 
-    const envBuildConfig: vite.InlineConfig = isServerBuild ? {} : {
-      resolve: {
-        alias: [
-          { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' }, // Specific alias for 'vue'
-        ],
-      },
-    }
+    const envBuildConfig: vite.InlineConfig
+      = isServerBuild
+        ? {}
+        : {
+            resolve: {
+              alias: [
+                { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' }, // Specific alias for 'vue'
+              ],
+            },
+          }
 
     const merge: vite.InlineConfig[] = [basicConfig, envBuildConfig, config]
 
