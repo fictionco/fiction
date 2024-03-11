@@ -1,10 +1,10 @@
-import validator from 'validator'
 import type { FictionDb } from '../plugin-db'
 import type { EndpointMeta } from './endpoint'
 
 type ValidationTypes = 'email' | 'domain' | 'url'
 
-export function isValid(value: string, type: ValidationTypes): boolean {
+export async function isValid(value: string, type: ValidationTypes): Promise<boolean> {
+  const { default: validator } = await import('validator')
   if (type === 'email') {
     return validator.isEmail(value)
   }

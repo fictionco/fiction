@@ -13,7 +13,6 @@ import {
   FictionPlugin,
   vars,
 } from '@fiction/core'
-import mailchimp from '@mailchimp/mailchimp_marketing'
 
 declare global {
   interface Window {
@@ -23,18 +22,9 @@ declare global {
 }
 
 vars.register(() => [
-  new EnvVar({
-    name: 'SLACK_WEBHOOK_URL',
-    isPublic: false,
-  }),
-  new EnvVar({
-    name: 'MAILCHIMP_API_KEY',
-    isPublic: false,
-  }),
-  new EnvVar({
-    name: 'SENTRY_PUBLIC_DSN',
-    isPublic: true,
-  }),
+  new EnvVar({ name: 'SLACK_WEBHOOK_URL', isPublic: false }),
+  new EnvVar({ name: 'MAILCHIMP_API_KEY', isPublic: false }),
+  new EnvVar({ name: 'SENTRY_PUBLIC_DSN', isPublic: true }),
 ])
 
 interface FictionMonitorSettings {
@@ -205,6 +195,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   }): Promise<void> {
     const { email, tags = [] } = args
     try {
+      const mailchimp = await import('@mailchimp/mailchimp_marketing')
       const apiKey = this.mailchimpApiKey
       const listId = this.mailchimpListId
       const server = this.mailchimpServer

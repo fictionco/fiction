@@ -59,7 +59,8 @@
     "./dist": true,
     "package-lock.json": true,
     "yarn.lock": true,
-    "**/*.svg": true
+    "**/*.svg": true,
+    "**/stats.html": true
   },
   "files.exclude": {},
   "files.watcherExclude": {

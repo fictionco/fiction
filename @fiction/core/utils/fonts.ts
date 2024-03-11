@@ -1,5 +1,5 @@
 import { toCamel } from './casing'
-import { fonts } from './lib/fonts'
+
 import { deepMerge } from './obj'
 
 type ConfigVal = { fontKey?: string, fontKey2?: string, stack: 'monospace' | 'sans' | 'serif' }
@@ -71,11 +71,18 @@ export function variantToGoogleFontsFormat(variant: string): string {
   return `${isItalic ? '1' : '0'},${weight}`
 }
 
-export function createGoogleFontsLink(args: { fontKeys: string[], fonts?: FontEntry[] }) {
+export async function createGoogleFontsLink(args: { fontKeys: string[], fonts?: FontEntry[] }) {
   const deduped = [...new Set(args.fontKeys || [])]
+  let fontEntries = args.fonts
+
+  if (!fontEntries) {
+    const { fonts } = await import('./lib/fonts')
+    fontEntries = fonts as FontEntry[]
+  }
+
   const fontParams = deduped.map((fontKey) => {
     const normalizedFontKey = toCamel(fontKey)
-    const fontEntries = args.fonts || fonts
+
     const font = fontEntries.find(f => toCamel(f.family) === normalizedFontKey)
     if (!font)
       return ''

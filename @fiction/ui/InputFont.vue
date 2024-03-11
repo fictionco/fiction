@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { UserFont } from '@fiction/core'
 import { vue } from '@fiction/core'
-
-import { fonts } from '@fiction/core/utils/lib/fonts'
+import type { FontEntry } from '@fiction/core/utils/fonts'
 import InputSelect from './InputSelectCustom.vue'
 
 interface FontItem {
@@ -10,6 +9,8 @@ interface FontItem {
   variants: string[]
   category: string
 }
+
+const fontsList = vue.ref<FontEntry[]>()
 
 const list = vue.computed(() => {
   const l = [
@@ -43,6 +44,8 @@ const list = vue.computed(() => {
       value: JSON.stringify(item.value),
     }
   })
+
+  const fonts = fontsList.value || []
   const glist = fonts.map(
     ({ family, variants, category }: FontItem) => {
       const link = `https://fonts.googleapis.com/css?family=${encodeURIComponent(family)}:${variants.join(',')}`
@@ -67,6 +70,12 @@ const list = vue.computed(() => {
     { format: 'title', name: 'Google Fonts' },
     ...glist.sort(),
   ]
+})
+
+vue.onMounted(async () => {
+  const { fonts } = await import('@fiction/core/utils/lib/fonts')
+
+  fontsList.value = fonts as FontEntry[]
 })
 </script>
 

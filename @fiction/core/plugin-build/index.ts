@@ -257,7 +257,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         minify: isProd,
 
         // https://vitejs.dev/config/build-options.html#build-sourcemap
-        sourcemap: 'inline',
+        sourcemap: isProd ? true : 'inline',
         rollupOptions: { external },
       },
 

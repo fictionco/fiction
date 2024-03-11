@@ -1,7 +1,5 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 
-// You may need to install this with 'npm install node-fetch'
-import { GraphQLClient } from 'graphql-request'
 import { SitesQuery } from './endpoint'
 
 type CertificateIssue = {
@@ -37,7 +35,8 @@ interface ManageCertParams {
 export class ManageCert extends SitesQuery {
   graphqlEndpoint = 'https://api.fly.io/graphql'
   fictionSites = this.settings.fictionSites
-  getClient() {
+  async getClient() {
+    const { GraphQLClient } = await import('graphql-request')
     return new GraphQLClient(this.graphqlEndpoint, {
       headers: {
         Authorization: `Bearer ${this.fictionSites.settings.flyIoApiToken}`,
@@ -47,8 +46,8 @@ export class ManageCert extends SitesQuery {
 
   private async graphqlRequest(query: string, args: ManageCertParams): Promise<CertificateDetails> {
     const v = { appId: this.settings.flyIoAppId, ...args }
-
-    const response = await this.getClient().request<{ [key: string]: { certificate: CertificateDetails } }>(query, v)
+    const client = await this.getClient()
+    const response = await client.request<{ [key: string]: { certificate: CertificateDetails } }>(query, v)
 
     // Extract the first property (key) from the response
     const firstKey = Object.keys(response)[0]

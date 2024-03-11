@@ -1,7 +1,6 @@
 import express from 'express'
 import * as axios from 'axios'
 import knex from 'knex'
-import * as zod from 'zod'
 import * as vue from 'vue'
 import * as vueRouter from 'vue-router'
 import dayjs from 'dayjs'
@@ -47,4 +46,4 @@ function clean(text: unknown) {
   // Sanitize the text
   return DOMPurify.sanitize(text, config)
 }
-export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean, unhead, twMerge, zod }
+export { dayjs, express, axios, knex, chalk, vue, vueRouter, clean, unhead, twMerge }

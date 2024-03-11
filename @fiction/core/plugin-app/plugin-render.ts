@@ -214,6 +214,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const appViteConfigFile = await this.getAppViteConfigFile()
 
     const twPlugin = getRequire()('tailwindcss') as typeof tailwindcss
+    const { visualizer } = await import('rollup-plugin-visualizer')
     const twConfig = (await this.getTailwindConfig()) as Parameters<typeof twPlugin>[0]
 
     let merge: vite.InlineConfig[] = [
@@ -231,6 +232,10 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         },
         server: {},
         plugins: [
+          visualizer({
+            filename: `stats.html`,
+            emitFile: true,
+          }),
           pluginVue(),
           ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
           unocss({
@@ -324,7 +329,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         throw error
       }
       finally {
-        delete process.env.IS_VITE
         // Ensure that revert is called even if an error occurs
         revertGlobal?.()
       }

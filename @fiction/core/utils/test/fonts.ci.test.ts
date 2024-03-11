@@ -27,24 +27,24 @@ describe('variantToGoogleFontsFormat', () => {
 })
 
 describe('createGoogleFontsLink', () => {
-  it('should return correct URL for valid font keys', () => {
-    const fontLink = createGoogleFontsLink({ fontKeys: ['Roboto', 'Open Sans'], fonts })
+  it('should return correct URL for valid font keys', async () => {
+    const fontLink = await createGoogleFontsLink({ fontKeys: ['Roboto', 'Open Sans'], fonts })
     const expectedLink = 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,900;1,700&display=swap'
     expect(fontLink).toBe(expectedLink)
   })
 
-  it('should handle non-existent font keys gracefully', () => {
-    const fontLink = createGoogleFontsLink({ fontKeys: ['Non Existent Font'] })
+  it('should handle non-existent font keys gracefully', async () => {
+    const fontLink = await createGoogleFontsLink({ fontKeys: ['Non Existent Font'] })
     expect(fontLink).toBe('')
   })
 
-  it('should encode spaces as plus signs in font family names', () => {
-    const fontLink = createGoogleFontsLink({ fontKeys: ['Open Sans'] })
+  it('should encode spaces as plus signs in font family names', async () => {
+    const fontLink = await createGoogleFontsLink({ fontKeys: ['Open Sans'] })
     expect(fontLink).toContain('Open+Sans')
   })
 
-  it('should return an empty string when no font keys are provided', () => {
-    const fontLink = createGoogleFontsLink({ fontKeys: [] })
+  it('should return an empty string when no font keys are provided', async () => {
+    const fontLink = await createGoogleFontsLink({ fontKeys: [] })
     expect(fontLink).toBe('')
   })
 })
