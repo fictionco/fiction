@@ -132,6 +132,7 @@ class ParseHandler {
 
     return {
       code: content.export(),
+      map: null,
     }
   }
 }

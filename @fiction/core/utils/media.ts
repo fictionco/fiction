@@ -1,6 +1,6 @@
 import type { Buffer } from 'node:buffer'
 import path from 'node:path'
-import sharp from 'sharp'
+import type sharp from 'sharp'
 
 import fs from 'fs-extra'
 
@@ -66,6 +66,7 @@ export async function createImageVariants(fileSource: Buffer, options: ImageSize
   metadata: sharp.Metadata
   blurhash?: string
 }> {
+  const { default: sharp } = await import('sharp')
   const mainImage = sharp(fileSource).withMetadata().resize(options.main.width, options.main.height, { withoutEnlargement: true, fit: 'inside' })
   const thumbnailImage = sharp(fileSource).withMetadata().resize(options.thumbnail.width, options.thumbnail.height, { withoutEnlargement: true, fit: 'inside' })
 
