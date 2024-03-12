@@ -43,6 +43,7 @@ export async function executeCommand(args: {
 
       const close = () => {
         cp.kill('SIGTERM', { forceKillAfterTimeout: 5000 })
+        resolve(1)
       }
 
       const onText = (text: string) => {
