@@ -41,7 +41,9 @@ export function getThemeFontConfig(fontConfig: FontConfig) {
 
   const fontKeys = Object.values(config).flatMap(_ => [_.fontKey, _.fontKey2]).filter(Boolean) as string[]
 
-  return { ...configStacks, fontUrl: createGoogleFontsLink({ fontKeys }) }
+  const getFontUrl = () => createGoogleFontsLink({ fontKeys })
+
+  return { ...configStacks, getFontUrl }
 }
 
 export type FontEntry = {

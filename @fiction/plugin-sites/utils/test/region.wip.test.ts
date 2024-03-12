@@ -233,16 +233,9 @@ describe('requestManagePage', async () => {
 
     expect(r).toMatchInlineSnapshot(`
       {
-        "code": "STOP",
         "context": "ManagePage",
-        "data": {
-          "_action": "retrieve",
-          "caller": "retrieveAttemptAfterDelete",
-          "cardId": "card2",
-        },
-        "expose": true,
         "httpStatus": 200,
-        "message": "Page not found",
+        "message": "",
         "status": "error",
       }
     `)

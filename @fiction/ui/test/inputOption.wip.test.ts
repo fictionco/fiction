@@ -200,11 +200,13 @@ describe('getOptionSchema', () => {
         "additionalProperties": false,
         "properties": {
           "users": {
+            "description": "users",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "profile": {
                   "additionalProperties": false,
+                  "description": "profile",
                   "properties": {
                     "age": {
                       "exclusiveMinimum": 0,
@@ -419,6 +421,7 @@ describe('navItemOptionSet Schema Generation', () => {
     expect(s.properties).toMatchInlineSnapshot(`
       {
         "list": {
+          "description": "list",
           "items": {
             "additionalProperties": false,
             "properties": {
@@ -427,12 +430,15 @@ describe('navItemOptionSet Schema Generation', () => {
                 "type": "string",
               },
               "href": {
+                "description": "Link / Route",
                 "type": "string",
               },
               "name": {
+                "description": "Text",
                 "type": "string",
               },
               "target": {
+                "description": "Target",
                 "enum": [
                   "_self",
                   "_blank",
@@ -449,6 +455,7 @@ describe('navItemOptionSet Schema Generation', () => {
           "type": "array",
         },
         "listTitle": {
+          "description": "Nav Title",
           "type": "string",
         },
       }
@@ -470,19 +477,24 @@ describe('navItemOptionSet Schema Generation', () => {
         "additionalProperties": false,
         "properties": {
           "nav": {
+            "description": "nav",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "desc": {
+                  "description": "Description",
                   "type": "string",
                 },
                 "href": {
+                  "description": "Link / Route",
                   "type": "string",
                 },
                 "name": {
+                  "description": "Text",
                   "type": "string",
                 },
                 "target": {
+                  "description": "Target",
                   "enum": [
                     "_self",
                     "_blank",
@@ -499,6 +511,7 @@ describe('navItemOptionSet Schema Generation', () => {
             "type": "array",
           },
           "navTitle": {
+            "description": "Nav Title",
             "type": "string",
           },
         },

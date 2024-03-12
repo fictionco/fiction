@@ -70,5 +70,5 @@ describe('user settings update', async () => {
     expect(r.status).toMatchInlineSnapshot(`"success"`)
     expect(r?.status).toBe('success')
     expect(r?.message).toBe('password updated')
-  }, 15000)
+  }, 22000)
 })

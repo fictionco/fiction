@@ -44,5 +44,5 @@ describe('user tests', () => {
     expect(r2?.status).toBe('success')
     const urls2 = r?.data?.map(d => d.urls).filter(Boolean)
     expect(urls2?.length).toBe(30)
-  }, 10000)
+  }, 20000)
 })

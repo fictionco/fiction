@@ -50,7 +50,7 @@ describe('createGoogleFontsLink', () => {
 })
 
 describe('getThemeFontConfig', () => {
-  it('should correctly handle font config', () => {
+  it('should correctly handle font config', async () => {
     const result = getThemeFontConfig({
       mono: { fontKey: 'DM Mono', stack: 'monospace' },
       input: { fontKey: 'DM Mono', stack: 'sans' },
@@ -61,11 +61,12 @@ describe('getThemeFontConfig', () => {
     })
     expect(result.mono).toContain('DM Mono')
     expect(result.body).toContain('Source Serif 4')
-    expect(result.fontUrl).toBeTruthy()
+    const fontUrl = await result.getFontUrl()
+    expect(fontUrl).toBeTruthy()
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Source Serif 4', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Serif+4:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
+        "getFontUrl": [Function],
         "input": "'DM Mono', 'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
@@ -74,14 +75,15 @@ describe('getThemeFontConfig', () => {
       }
     `)
   })
-  it('returns default values when no fontConfig is provided', () => {
+  it('returns default values when no fontConfig is provided', async () => {
     const result = getThemeFontConfig({})
     expect(result.mono).toMatchInlineSnapshot(`"'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace"`)
     expect(result.body).toMatchInlineSnapshot(`"Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif"`)
-    expect(result.fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
+    const fontUrl = await result.getFontUrl()
+    expect(fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
   })
 
-  it('returns custom font stacks when fontConfig is provided', () => {
+  it('returns custom font stacks when fontConfig is provided', async () => {
     const fontConfig = {
       mono: { fontKey: 'Custom Mono', stack: 'monospace' },
       body: { fontKey: 'Custom Serif', stack: 'serif' },
@@ -89,11 +91,12 @@ describe('getThemeFontConfig', () => {
     const result = getThemeFontConfig(fontConfig)
     expect(result.mono).toContain('Custom Mono')
     expect(result.body).toContain('Custom Serif')
-    expect(result.fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
+    const fontUrl = await result.getFontUrl()
+    expect(fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Custom Serif', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "fontUrl": "https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap",
+        "getFontUrl": [Function],
         "input": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'Custom Mono', 'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",

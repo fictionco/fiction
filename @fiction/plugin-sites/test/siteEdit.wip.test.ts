@@ -138,7 +138,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "test" card ",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -264,7 +271,7 @@ describe('site plugin tests', async () => {
     expect(m['']).toBe(m.home)
 
     expect(siteObj.currentViewId.value).toMatchInlineSnapshot(`"test"`)
-    expect(siteObj.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`undefined`)
+    expect(siteObj.currentPage.value?.settings.isHome).toMatchInlineSnapshot(`false`)
     expect(siteObj.activePageId.value).toBeTruthy()
 
     const nm = 'testAlpha'
@@ -291,7 +298,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -316,7 +330,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object]",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -364,7 +385,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -393,7 +421,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -427,7 +462,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",
@@ -472,7 +514,14 @@ describe('site plugin tests', async () => {
         "cardId": "[id:***************************]",
         "cards": "[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]",
         "createdAt": "[dateTime:]",
+        "editor": {},
+        "generation": {
+          "prompt": "create content for the "testAlpha" card on the "test" page",
+          "totalEstimatedTime": 0,
+          "userInputConfig": {},
+        },
         "is404": false,
+        "isDefault": null,
         "isHome": false,
         "layoutId": "[id:*******]",
         "orgId": "[id:***************************]",

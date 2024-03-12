@@ -54,7 +54,7 @@ unhead.useHead({
     { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl || '/favicon.png' },
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-    { key: 'font', rel: 'stylesheet ', href: () => fonts.value?.fontUrl },
+    { key: 'font', rel: 'stylesheet ', href: () => fonts.value?.getFontUrl() },
   ],
 })
 

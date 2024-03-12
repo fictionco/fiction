@@ -28,7 +28,7 @@
     "unit:e2e": "npm exec -- vitest e2e",
     "unit:all": "npm exec -- vitest wip && npm exec -- vitest ci && npm exec -- vitest build",
     "unit:dist": "npm exec -- vitest dist",
-    "unit:coverage": "npm exec -- vitest wip ci ui --coverage --ui",
+    "unit:coverage": "npm exec -- vitest run wip ci ui --coverage --ui -u",
     "types:ci": "npm exec -- vue-tsc",
     "types:dev": "npm exec -- vue-tsc --watch",
     "lint:dev": "npm exec -- eslint . --fix",

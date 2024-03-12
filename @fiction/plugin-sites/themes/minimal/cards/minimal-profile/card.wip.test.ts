@@ -20,6 +20,7 @@ describe('minimalProfile', async () => {
                   "type": "string",
                 },
                 "href": {
+                  "description": "Link / Route",
                   "type": "string",
                 },
                 "name": {
@@ -27,6 +28,7 @@ describe('minimalProfile', async () => {
                   "type": "string",
                 },
                 "target": {
+                  "description": "Target",
                   "enum": [
                     "_self",
                     "_blank",
@@ -43,6 +45,7 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "userConfig.detailsTitle": {
+            "description": "Bullets Title",
             "type": "string",
           },
           "userConfig.heading": {
@@ -50,12 +53,13 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "userConfig.mediaItems": {
+            "description": "splash picture in portrait format",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "media": {
                   "additionalProperties": false,
-                  "description": "splash picture in portrait format",
+                  "description": "Image",
                   "properties": {
                     "format": {
                       "enum": [
@@ -82,18 +86,22 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "userConfig.socials": {
+            "description": "Socials",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "desc": {
+                  "description": "Description",
                   "maxLength": 100,
                   "minLength": 2,
                   "type": "string",
                 },
                 "href": {
+                  "description": "Link / Route",
                   "type": "string",
                 },
                 "icon": {
+                  "description": "Icon",
                   "enum": [
                     "x",
                     "linkedin",
@@ -113,11 +121,13 @@ describe('minimalProfile', async () => {
                   "type": "string",
                 },
                 "name": {
+                  "description": "Text",
                   "maxLength": 30,
                   "minLength": 2,
                   "type": "string",
                 },
                 "target": {
+                  "description": "Target",
                   "enum": [
                     "_self",
                     "_blank",
