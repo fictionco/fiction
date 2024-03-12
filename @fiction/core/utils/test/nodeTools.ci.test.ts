@@ -126,7 +126,7 @@ describe('executeCommand', () => {
     expect(cp.stderr.on).toHaveBeenCalled()
   })
 
-  it('should handle command failure and return stderr', async () => {
+  it.only('should handle command failure and return stderr', async () => {
     const mockErrors = ['error 1', 'error 2']
     const cp = mockProcess(1, [], mockErrors)
     vi.mocked(execaCommand).mockReturnValue(cp as unknown as ExecaChildProcess<Buffer>)

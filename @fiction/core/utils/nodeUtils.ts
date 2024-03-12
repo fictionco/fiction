@@ -21,7 +21,7 @@ export async function executeCommand(args: {
   timeout?: number
   resolveText?: string
   triggerText?: string
-  onTrigger?: (args: { stdout: string, stderr: string, text: string, close: () => Promise<void>, cp: ExecaChildProcess }) => Promise<void>
+  onTrigger?: (args: { stdout: string, stderr: string, text: string, close: () => void, cp: ExecaChildProcess }) => Promise<void> | void
 }) {
   const { command, envVars = {}, timeout = 10000, resolveText } = args
   const output: string[] = []
@@ -36,10 +36,34 @@ export async function executeCommand(args: {
       cp.stdout?.pipe(process.stdout)
       cp.stderr?.pipe(process.stderr)
 
-      const close = async () => {
+      /**
+       * NOTE: the order of listeners is important
+       * they trigger in order of their addition
+       */
+
+      const close = () => {
         cp.kill('SIGTERM', { forceKillAfterTimeout: 5000 })
-        resolve(1)
       }
+
+      const onText = (text: string) => {
+        if (resolveText && text.includes(resolveText)) {
+          resolve(text)
+          close()
+        }
+
+        if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
+          void args.onTrigger({ ...commandDetails(), text, close, cp })
+      }
+
+      cp.stdout?.on('data', (d: Buffer) => {
+        output.push(d.toString())
+        onText(d.toString())
+      })
+
+      cp.stderr?.on('data', async (d: Buffer) => {
+        errorsOutput.push(d.toString())
+        onText(d.toString())
+      })
 
       void cp.on('close', (code) => {
         if (code === 0)
@@ -50,26 +74,6 @@ export async function executeCommand(args: {
 
       void cp.on('error', (err) => {
         reject(err)
-      })
-
-      const onText = async (text: string) => {
-        if (resolveText && text.includes(resolveText)) {
-          await close()
-          resolve(text)
-        }
-
-        if (args.triggerText && text.includes(args.triggerText) && args.onTrigger)
-          await args.onTrigger({ ...commandDetails(), text, close, cp })
-      }
-
-      cp.stdout?.on('data', async (d: Buffer) => {
-        output.push(d.toString())
-        await onText(d.toString())
-      })
-
-      cp.stderr?.on('data', async (d: Buffer) => {
-        errorsOutput.push(d.toString())
-        await onText(d.toString())
       })
     })
   }
