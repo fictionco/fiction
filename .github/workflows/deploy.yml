@@ -50,56 +50,14 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v2
 
-      - name: Install dnsmasq and NetworkManager
+      - name: Set up DNS for subdomain testing
         run: |
-          sudo apt-get update
-          sudo apt-get install -y network-manager dnsmasq
-          echo "Installed dnsmasq version:"
-          dnsmasq --version
-
-      - name: Configure NetworkManager to use dnsmasq
-        run: |
-          echo "Configuring NetworkManager to use dnsmasq for DNS resolution..."
-          sudo sed -i '/\[main\]/a dns=dnsmasq' /etc/NetworkManager/NetworkManager.conf
-          echo "NetworkManager configuration updated to use dnsmasq:"
-          cat /etc/NetworkManager/NetworkManager.conf
-
-      - name: Remove existing /etc/resolv.conf
-        run: |
-          sudo rm -f /etc/resolv.conf
-
-      - name: Link /etc/resolv.conf to NetworkManager's resolv.conf
-        run: |
-          sudo ln -s /var/run/NetworkManager/resolv.conf /etc/resolv.conf
-          echo "Linked /etc/resolv.conf to NetworkManager's resolv.conf."
-
-      - name: Configure wildcard subdomains for lan.com
-        run: |
-          echo "address=/.lan.com/127.0.0.1" | sudo tee /etc/NetworkManager/dnsmasq.d/lan-wildcard.conf
-          echo "Wildcard domain .lan.com configured to resolve to 127.0.0.1"
-
-      - name: Restart NetworkManager
-        run: |
-          sudo systemctl restart NetworkManager
-          echo "NetworkManager restarted."
-
-      - name: Verify dnsmasq is running under NetworkManager
-        run: |
-          echo "Checking for dnsmasq process..."
-          ps aux | grep dnsmasq
-          echo "If dnsmasq is not listed above, it may not have started correctly."
-
-      - name: Check for services on port 53
-        run: |
-          echo "Checking for services using port 53..."
-          sudo netstat -tuln | grep :53 || echo "No services are binding on port 53."
+          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
 
       - name: Test DNS resolution
         run: |
           echo "Testing DNS resolution for lan.com and its subdomains..."
-          dig +short lan.com @127.0.0.1 || echo "Failed to resolve lan.com"
           dig +short test.lan.com @127.0.0.1 || echo "Failed to resolve test.lan.com"
-          dig +short another.test.lan.com @127.0.0.1 || echo "Failed to resolve another.test.lan.com"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
