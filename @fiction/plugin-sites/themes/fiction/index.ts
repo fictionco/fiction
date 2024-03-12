@@ -54,7 +54,7 @@ export function setup(args: ServiceList) {
       spacingClass: `py-[calc(1.5rem+4vw)]`,
     },
     userConfig: {
-      isDarkMode: true,
+      colors: { isDarkMode: true },
     },
     sections: {
       header: themeCard({

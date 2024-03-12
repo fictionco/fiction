@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
-import type { ActionItem, IndexItem, IndexMeta } from '@fiction/core'
+import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
 import { standardDate, useService, vue } from '@fiction/core'
 
 import type { Site } from '../site'
@@ -16,7 +16,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionRouter, fictionSites } = useService<{ fictionSites: FictionSites }>()
+const { fictionRouter, fictionSites, fictionAppSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -40,7 +40,7 @@ const formattedData = vue.computed<IndexItem[]>(() => {
     return []
 
   const rows = sites.value.map((site) => {
-    const domain = site.primaryCustomDomain.value || `https://${site.settings.subDomain}.fiction.com`
+    const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
     const displayDomain = domain.replace('https://', '').replace('http://', '')
     const out: IndexItem = {
       name: site.settings.title || 'Untitled',

@@ -2,12 +2,10 @@ import type { FictionMedia, Processor } from '@fiction/core'
 import { FictionObject, ObjectProcessor, deepMerge, isNode, log, parseObject, vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { FontConfig } from '@fiction/core/utils/fonts'
-import { getThemeFontConfig } from '@fiction/core/utils/fonts'
 import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import { Card } from './card'
 import { imageStyle, processUrlKey } from './util'
-import type { Layout } from './layout'
 
 export type ThemeSettings = {
   themeId: string
@@ -20,7 +18,6 @@ export type ThemeSettings = {
   ui?: UiConfig
   isPublic?: boolean
   fontConfig?: FontConfig
-  layouts?: readonly Layout[] | Layout[]
   spacing?: {
     contentWidthClass?: string
     spacingClass?: string
@@ -53,10 +50,7 @@ export class Theme extends FictionObject<ThemeSettings> {
     return {
       themeId: this.themeId,
       pages: this.pages.value,
-      userConfig: {
-        ...this.settings.userConfig,
-        ...this.ai(),
-      },
+      userConfig: deepMerge([{ ai: this.ai() }, this.settings.userConfig]),
     }
   }
 
@@ -100,10 +94,10 @@ export class Theme extends FictionObject<ThemeSettings> {
 
   config() {
     return {
-      ...this.fonts(),
-      ...this.spacing(),
+      fonts: this.fonts(),
+      spacing: this.spacing(),
       ...this.ai(),
-      ...this.colors(),
+      colors: this.colors(),
     }
   }
 
@@ -116,8 +110,7 @@ export class Theme extends FictionObject<ThemeSettings> {
       body: { stack: 'serif' },
       serif: { stack: 'serif' },
     }
-    const fontConfig = { ...baseConfig, ...this.settings.fontConfig } as FontConfig
-    return getThemeFontConfig(fontConfig)
+    return { ...baseConfig, ...this.settings.fontConfig } as FontConfig
   }
 
   spacing() {

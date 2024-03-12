@@ -57,7 +57,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
   userConfig = vue.ref(this.settings.userConfig || {})
   userConfigWithTheme = vue.computed(() => ({ ...this.theme.value?.config(), ...this.userConfig.value }))
-  isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.userConfigWithTheme.value.isDarkMode })
+  isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.userConfigWithTheme.value.colors?.isDarkMode || false })
 
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
@@ -208,15 +208,12 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   colors = vue.computed(() => {
-    const { colorPrimary = 'blue', colorTheme = 'slate', isDarkMode = false } = this.userConfigWithTheme.value
+    const { colorPrimary = 'blue', colorTheme = 'slate', isDarkMode = false } = this.userConfigWithTheme.value.colors || {}
     const theme = getColorScheme(colorTheme)
     return {
       primary: getColorScheme(colorPrimary),
       theme,
       isDarkMode,
-      canvasMain: isDarkMode ? theme[50] : theme[0],
-      canvasBorder: isDarkMode ? theme[200] : theme[300],
-      canvasPanel: isDarkMode ? theme[25] : theme[50],
     }
   })
 

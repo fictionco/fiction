@@ -34,13 +34,38 @@ describe('files built', () => {
 
 describe('serving built files', async () => {
   it('runs app', async () => {
-    const appPort = randomBetween(1000, 30000)
-    const sitesPort = randomBetween(1000, 30000)
-    const r = await appRunTest({
+    const appPort = randomBetween(1050, 60000)
+    const sitesPort = randomBetween(1050, 60000)
+    let html = ''
+    let status = 0
+    await appRunTest({
       cmd: `npm exec -w @fiction/www -- fiction run app --app-port=${appPort} --sites-port=${sitesPort}`,
       port: appPort,
+      onTrigger: async () => {
+        const response = await fetch(`http://localhost:${appPort}/`)
+        html = await response.text()
+        status = response.status
+      },
     })
-    expect(r.status).toBe(200)
-    expect(r.html).toContain('<!DOCTYPE html>')
+    expect(status).toBe(200)
+    expect(html).toContain('<!DOCTYPE html>')
+  })
+
+  it('runs sites sub domain', async () => {
+    const appPort = randomBetween(1050, 60000)
+    const sitesPort = randomBetween(1050, 60000)
+    let html = ''
+    let status = 0
+    await appRunTest({
+      cmd: `npm exec -w @fiction/www -- fiction run sites --app-port=${appPort} --sites-port=${sitesPort}`,
+      port: appPort,
+      onTrigger: async () => {
+        const response = await fetch(`http://test.lan.com:${sitesPort}/`)
+        html = await response.text()
+        status = response.status
+      },
+    })
+    expect(status).toBe(200)
+    expect(html).toContain('<!DOCTYPE html>')
   })
 })

@@ -1,5 +1,6 @@
-import type { CreateObjectType, ProgressStatus } from '@fiction/core'
+import type { ColorScheme, CreateObjectType, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
+import type { FontConfig } from '@fiction/core/utils/fonts'
 import type { CardGenerationConfig } from './card'
 import type { EditorState } from './site'
 
@@ -16,9 +17,20 @@ export type SiteUserConfig = Partial<{
   faviconUrl: string
   robotsTxt: string
   locale: string
-  baseInstruction: string
-  objectives: { about?: string, targetCustomer?: string, imageStyle?: string }
-  isDarkMode: boolean
+  ai: {
+    baseInstruction?: string
+    objectives?: { about?: string, targetCustomer?: string, imageStyle?: string }
+  }
+  colors: {
+    colorPrimary?: ColorScheme
+    colorTheme?: ColorScheme
+    isDarkMode?: boolean
+  }
+  fonts: FontConfig
+  spacing: {
+    contentWidthClass?: string
+    spacingClass?: string
+  }
 }>
 
 export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<CreateObjectType<typeof pageCols>, 'cards' | 'userConfig'> & st & {

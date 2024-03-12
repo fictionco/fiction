@@ -167,9 +167,6 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
             tracePropagationTargets: [
               'localhost',
               'fiction.com',
-              'supereon.ai',
-              'kaption.co',
-              'pagelines.com',
               /^\//,
             ],
           }),

@@ -11,7 +11,16 @@ export type FontConfig = {
   body?: ConfigVal
   serif?: ConfigVal
 }
-export function getThemeFontConfig(fontConfig: FontConfig) {
+export function getThemeFontConfig(fontConfig?: FontConfig) {
+  fontConfig = fontConfig || {
+    mono: { fontKey: 'DM Mono', stack: 'monospace' },
+    input: { fontKey: 'DM Mono', stack: 'sans' },
+    title: { fontKey: 'Poppins', stack: 'sans' },
+    sans: { stack: 'sans' },
+    body: { stack: 'serif' },
+    serif: { stack: 'serif' },
+  }
+
   const stacks = {
     monospace: `'Nimbus Mono PS', 'Courier New', monospace`,
     serif: `Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif`,

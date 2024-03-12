@@ -1,0 +1,46 @@
+name: Live Service Monitoring
+
+on:
+  schedule:
+    # Runs every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  live-service-tests:
+    name: Run Live Service Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8.13.1
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run Live Service Tests
+        run: npm exec -- vitest run live -u
+
+      - name: Notify on Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "icon_emoji": ":x:",
+              "username": "Live Service Monitor",
+              "channel": "#alerts",
+              "text": "Live service tests failed! Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) encountered errors. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

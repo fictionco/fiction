@@ -160,11 +160,14 @@ class AdminTheme extends Theme {
       templates,
       isPublic: false,
       pages: getPages(),
-      userConfig: { isDarkMode: false },
-      spacing: {
-        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
-        spacingClass: ``,
+      userConfig: {
+        colors: { isDarkMode: false },
+        spacing: {
+          contentWidthClass: 'max-w-screen-2xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
+          spacingClass: ``,
+        },
       },
+
     })
   }
 }

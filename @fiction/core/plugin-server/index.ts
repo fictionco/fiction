@@ -83,6 +83,7 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     this.endpoints = [...this.endpoints, ...endpoints]
   }
 
+
   async initServer(args: { fictionUser?: FictionUser, useLocal?: boolean, port?: number } = {}) {
     const { fictionUser, useLocal = false, port } = args
 

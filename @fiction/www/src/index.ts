@@ -19,9 +19,9 @@ import { commands } from './commands'
 const cwd = safeDirname(import.meta.url, '..')
 const appName = 'Fiction'
 const appEmail = 'hello@fiction.com'
-const tld = 'cx'
-const appUrl = `https://www.fiction.${tld}`
-const appUrlSites = `https://*.fiction.${tld}`
+const domain = `fiction.cx`
+const appUrl = `https://www.${domain}`
+const appUrlSites = `https://*.${domain}`
 
 const envFiles = [path.join(apiRoot, './.env')]
 
@@ -80,7 +80,7 @@ const fictionAppSites = new FictionApp({
   port: +fictionEnv.var('SITES_PORT', { fallback: 6565 }),
   localHostname: '*.lan.com',
   liveUrl: appUrlSites,
-  altHostnames: [{ prod: 'theme-minimal.fiction.com', dev: 'theme-minimal.lan.com' }],
+  altHostnames: [{ prod: `theme-minimal.${domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
 })

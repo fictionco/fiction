@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { FictionRouter } from '@fiction/core'
-import { log, unhead, useService, vue } from '@fiction/core'
+import { getColorScheme, log, unhead, useService, vue } from '@fiction/core'
 import { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import El404 from '@fiction/ui/El404.vue'
 import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
+import { getThemeFontConfig } from '@fiction/core/utils/fonts'
 import type { FictionSites, Site } from '..'
 import { getMountContext, loadSite } from '../load'
 import type { FramePostMessageList } from '../utils/frame'
@@ -18,7 +19,7 @@ const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites:
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
-const fonts = vue.computed(() => site?.value?.theme.value?.fonts())
+const fonts = vue.computed(() => getThemeFontConfig(site?.value?.theme.value?.fonts()))
 
 async function load() {
   loading.value = true
@@ -63,7 +64,6 @@ vue.onServerPrefetch(async () => {
 })
 
 vue.onMounted(async () => {
-
   unhead.useHead({
     bodyAttrs: {
       class: () => site.value?.isDarkMode.value ? 'dark' : 'light',
@@ -101,8 +101,8 @@ vue.onMounted(async () => {
   }
 })
 
-const colors = vue.computed(() => site.value?.colors.value)
-const primary = vue.computed(() => site.value?.colors.value.primary)
+const theme = vue.computed(() => site.value?.colors.value.theme || getColorScheme('gray'))
+const primary = vue.computed(() => site.value?.colors.value.primary || getColorScheme('blue'))
 </script>
 
 <template>
@@ -126,8 +126,8 @@ const primary = vue.computed(() => site.value?.colors.value.primary)
           <component :is="site.currentPage.value.tpl.value?.settings.el" class="wrap" :card="site.currentPage.value" />
         </template>
         <template v-else>
-          <div class="h-dvh w-full grid min-h-full place-items-center bg-theme-950 text-white px-6 py-24 sm:py-32 lg:px-8">
-            <El404 class="" title="No Site Found" description="No site was found at this URL" />
+          <div class="h-dvh w-full grid min-h-full place-items-center bg-theme-900 text-white px-6 py-24 sm:py-32 lg:px-8">
+            <El404 class="" heading="No Site Found" sub-heading="No site was found at this URL" />
           </div>
         </template>
       </div>
@@ -168,24 +168,22 @@ body,
   .x-font-sans {
     font-family: var(--font-family-sans);
   }
-  --canvas-main: v-bind("colors?.canvasMain");
-  --canvas-border: v-bind("colors?.canvasBorder");
-  --canvas-panel: v-bind("colors?.canvasPanel");
-  --theme-0: v-bind("colors?.theme[0]");
-  --theme-25: v-bind("colors?.theme[25]");
-  --theme-50: v-bind("colors?.theme[50]");
-  --theme-100: v-bind("colors?.theme[100]");
-  --theme-200: v-bind("colors?.theme[200]");
-  --theme-300: v-bind("colors?.theme[300]");
-  --theme-400: v-bind("colors?.theme[400]");
-  --theme-500: v-bind("colors?.theme[500]");
-  --theme-600: v-bind("colors?.theme[600]");
-  --theme-700: v-bind("colors?.theme[700]");
-  --theme-800: v-bind("colors?.theme[800]");
-  --theme-900: v-bind("colors?.theme[900]");
-  --theme-950: v-bind("colors?.theme[950]");
-  --theme-975: v-bind("colors?.theme[975]");
-  --theme-1000: v-bind("colors?.theme[1000]");
+
+  --theme-0: v-bind("theme[0]");
+  --theme-25: v-bind("theme[25]");
+  --theme-50: v-bind("theme[50]");
+  --theme-100: v-bind("theme[100]");
+  --theme-200: v-bind("theme[200]");
+  --theme-300: v-bind("theme[300]");
+  --theme-400: v-bind("theme[400]");
+  --theme-500: v-bind("theme[500]");
+  --theme-600: v-bind("theme[600]");
+  --theme-700: v-bind("theme[700]");
+  --theme-800: v-bind("theme[800]");
+  --theme-900: v-bind("theme[900]");
+  --theme-950: v-bind("theme[950]");
+  --theme-975: v-bind("theme[975]");
+  --theme-1000: v-bind("theme[1000]");
   --primary-0: v-bind("primary?.[0]");
   --primary-25: v-bind("primary?.[25]");
   --primary-50: v-bind("primary?.[50]");

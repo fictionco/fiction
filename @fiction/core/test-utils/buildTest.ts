@@ -238,15 +238,13 @@ export async function appBuildTests(config: {
 export async function appRunTest(config: {
   cmd: string
   port: number
-}): Promise<{ html: string, status: number }> {
-  const { cmd, port } = config
+  onTrigger: () => Promise<void>
+}): Promise<void> {
+  const { cmd } = config
 
   const BUILD_TIMEOUT = 60_000
 
   const command = [cmd].join(' ')
-
-  let html = ''
-  let status = 0
 
   await executeCommand({
     command,
@@ -255,9 +253,7 @@ export async function appRunTest(config: {
     triggerText: '[ready]',
     onTrigger: async (args) => {
       try {
-        const response = await fetch(`http://localhost:${port}/`)
-        html = await response.text()
-        status = response.status
+        await config.onTrigger()
       }
       finally {
         // This ensures the server is closed even if the assertions above fail
@@ -265,6 +261,4 @@ export async function appRunTest(config: {
       }
     },
   })
-
-  return { html, status }
 }
