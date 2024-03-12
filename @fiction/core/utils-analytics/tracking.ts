@@ -45,7 +45,7 @@ type BrowserEventObject<T> = T extends 'mousemove' | 'mousedown' | 'click'
  * Helper that adds a remover callback and sets options for listeners
  */
 export function onBrowserEvent<T extends BrowserEvent>(type: T, fn: (e: BrowserEventObject<typeof type>) => void, target?: HTMLElement | Window | Document): (() => void) {
-  if (typeof window === 'undefined')
+  if (typeof window === 'undefined' || typeof document === 'undefined')
     return (): void => {}
 
   target = target || window

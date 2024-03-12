@@ -27,24 +27,24 @@ describe('variantToGoogleFontsFormat', () => {
 })
 
 describe('createGoogleFontsLink', () => {
-  it('should return correct URL for valid font keys', async () => {
-    const fontLink = await createGoogleFontsLink({ fontKeys: ['Roboto', 'Open Sans'], fonts })
+  it('should return correct URL for valid font keys', () => {
+    const fontLink = createGoogleFontsLink({ fontKeys: ['Roboto', 'Open Sans'], fonts })
     const expectedLink = 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,900;1,700&display=swap'
     expect(fontLink).toBe(expectedLink)
   })
 
-  it('should handle non-existent font keys gracefully', async () => {
-    const fontLink = await createGoogleFontsLink({ fontKeys: ['Non Existent Font'] })
+  it('should handle non-existent font keys gracefully', () => {
+    const fontLink = createGoogleFontsLink({ fontKeys: ['Non Existent Font'] })
     expect(fontLink).toBe('')
   })
 
-  it('should encode spaces as plus signs in font family names', async () => {
-    const fontLink = await createGoogleFontsLink({ fontKeys: ['Open Sans'] })
+  it('should encode spaces as plus signs in font family names', () => {
+    const fontLink = createGoogleFontsLink({ fontKeys: ['Open Sans'] })
     expect(fontLink).toContain('Open+Sans')
   })
 
-  it('should return an empty string when no font keys are provided', async () => {
-    const fontLink = await createGoogleFontsLink({ fontKeys: [] })
+  it('should return an empty string when no font keys are provided', () => {
+    const fontLink = createGoogleFontsLink({ fontKeys: [] })
     expect(fontLink).toBe('')
   })
 })
@@ -61,12 +61,12 @@ describe('getThemeFontConfig', () => {
     })
     expect(result.mono).toContain('DM Mono')
     expect(result.body).toContain('Source Serif 4')
-    const fontUrl = await result.getFontUrl()
-    expect(fontUrl).toBeTruthy()
+    const fontsUrl = result.fontsUrl
+    expect(fontsUrl).toBeTruthy()
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Source Serif 4', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "getFontUrl": [Function],
+        "getFontsUrl": [Function],
         "input": "'DM Mono', 'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
@@ -79,8 +79,8 @@ describe('getThemeFontConfig', () => {
     const result = getThemeFontConfig({})
     expect(result.mono).toMatchInlineSnapshot(`"'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace"`)
     expect(result.body).toMatchInlineSnapshot(`"Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif"`)
-    const fontUrl = await result.getFontUrl()
-    expect(fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
+    const fontsUrl = result.fontsUrl
+    expect(fontsUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
   })
 
   it('returns custom font stacks when fontConfig is provided', async () => {
@@ -91,12 +91,12 @@ describe('getThemeFontConfig', () => {
     const result = getThemeFontConfig(fontConfig)
     expect(result.mono).toContain('Custom Mono')
     expect(result.body).toContain('Custom Serif')
-    const fontUrl = await result.getFontUrl()
-    expect(fontUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
+    const fontsUrl = result.fontsUrl
+    expect(fontsUrl).toMatchInlineSnapshot(`"https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"`)
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Custom Serif', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "getFontUrl": [Function],
+        "getFontsUrl": [Function],
         "input": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'Custom Mono', 'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
