@@ -53,35 +53,38 @@ jobs:
       - name: Install dnsmasq
         run: |
           sudo apt-get update
-          sudo apt-get install -y dnsmasq
+          sudo apt-get install -y network-manager dnsmasq
           echo "Installed dnsmasq version:"
           dnsmasq --version
 
-      - name: Check for port 53 usage
+      - name: Enable dnsmasq in NetworkManager
         run: |
-          echo "Checking for services on port 53..."
-          sudo lsof -i :53 || echo "No services are using port 53."
+          echo "Enabling dnsmasq in NetworkManager..."
+          echo "dns=dnsmasq" | sudo tee -a /etc/NetworkManager/NetworkManager.conf
+          echo "Configured NetworkManager to use dnsmasq for DNS resolution"
 
-      - name: Configure dnsmasq for wildcard subdomains
+      - name: Link /etc/resolv.conf to NetworkManager's resolv.conf
         run: |
-          echo "Configuring dnsmasq for wildcard subdomains..."
-          echo "address=/.lan.com/127.0.0.1" | sudo tee /etc/dnsmasq.d/lan.conf
-          echo "Configuration file /etc/dnsmasq.d/lan.conf contents:"
-          cat /etc/dnsmasq.d/lan.conf
-          echo "Attempting to restart dnsmasq..."
-          sudo systemctl restart dnsmasq || true
+          echo "Configuring /etc/resolv.conf to use NetworkManager's settings..."
+          sudo rm /etc/resolv.conf
+          sudo ln -s /var/run/NetworkManager/resolv.conf /etc/resolv.conf
 
-      - name: Check dnsmasq service status
+      - name: Configure wildcard subdomains for example.com
         run: |
-          echo "Checking dnsmasq service status..."
-          sudo systemctl status dnsmasq.service || true
-          echo "Checking for errors in dnsmasq logs..."
-          sudo journalctl -xeu dnsmasq.service || true
+          echo "Configuring wildcard subdomains resolution to 127.0.0.1..."
+          echo 'address=/.lan.com/127.0.0.1' | sudo tee /etc/NetworkManager/dnsmasq.d/lan-wildcard.conf
 
-      - name: Ensure dnsmasq is properly configured
+      - name: Reload NetworkManager
         run: |
-          echo "Testing DNS resolution for test.lan.com..."
+          echo "Reloading NetworkManager to apply changes..."
+          sudo systemctl reload NetworkManager
+
+      - name: Test DNS resolution
+        run: |
+          echo "Testing DNS resolution for lan.com and its subdomains..."
+          dig +short lan.com @127.0.0.1 || true
           dig +short test.lan.com @127.0.0.1 || true
+          dig +short another.test.lan.com @127.0.0.1 || true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
