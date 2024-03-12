@@ -50,6 +50,17 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v2
 
+      - name: Install dnsmasq
+        run: sudo apt-get update && sudo apt-get install -y dnsmasq
+
+      - name: Configure dnsmasq for wildcard subdomains
+        run: |
+          echo "address=/.lan.com/127.0.0.1" | sudo tee /etc/dnsmasq.d/lan.conf
+          sudo systemctl restart dnsmasq
+
+      - name: Ensure dnsmasq is properly configured
+        run: dig +short test.lan.com @127.0.0.1
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
