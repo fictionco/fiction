@@ -57,11 +57,12 @@ jobs:
           echo "Installed dnsmasq version:"
           dnsmasq --version
 
-      - name: Enable dnsmasq in NetworkManager
+      - name: Configure NetworkManager to use dnsmasq
         run: |
-          echo "Enabling dnsmasq in NetworkManager..."
-          echo "dns=dnsmasq" | sudo tee -a /etc/NetworkManager/NetworkManager.conf
-          echo "Configured NetworkManager to use dnsmasq for DNS resolution"
+          echo "Configuring NetworkManager to use dnsmasq for DNS resolution..."
+          sudo sed -i '/\[main\]/a dns=dnsmasq' /etc/NetworkManager/NetworkManager.conf
+          echo "NetworkManager configuration updated to use dnsmasq:"
+          cat /etc/NetworkManager/NetworkManager.conf
 
       - name: Link /etc/resolv.conf to NetworkManager's resolv.conf
         run: |
@@ -78,6 +79,7 @@ jobs:
         run: |
           echo "Reloading NetworkManager to apply changes..."
           sudo systemctl reload NetworkManager
+          echo "NetworkManager reloaded."
 
       - name: Test DNS resolution
         run: |
