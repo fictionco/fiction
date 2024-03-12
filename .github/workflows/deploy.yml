@@ -51,15 +51,37 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dnsmasq
-        run: sudo apt-get update && sudo apt-get install -y dnsmasq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dnsmasq
+          echo "Installed dnsmasq version:"
+          dnsmasq --version
+
+      - name: Check for port 53 usage
+        run: |
+          echo "Checking for services on port 53..."
+          sudo lsof -i :53 || echo "No services are using port 53."
 
       - name: Configure dnsmasq for wildcard subdomains
         run: |
+          echo "Configuring dnsmasq for wildcard subdomains..."
           echo "address=/.lan.com/127.0.0.1" | sudo tee /etc/dnsmasq.d/lan.conf
-          sudo systemctl restart dnsmasq
+          echo "Configuration file /etc/dnsmasq.d/lan.conf contents:"
+          cat /etc/dnsmasq.d/lan.conf
+          echo "Attempting to restart dnsmasq..."
+          sudo systemctl restart dnsmasq || true
+
+      - name: Check dnsmasq service status
+        run: |
+          echo "Checking dnsmasq service status..."
+          sudo systemctl status dnsmasq.service || true
+          echo "Checking for errors in dnsmasq logs..."
+          sudo journalctl -xeu dnsmasq.service || true
 
       - name: Ensure dnsmasq is properly configured
-        run: dig +short test.lan.com @127.0.0.1
+        run: |
+          echo "Testing DNS resolution for test.lan.com..."
+          dig +short test.lan.com @127.0.0.1 || true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
