@@ -261,7 +261,7 @@ export async function appRunTest(config: {
       }
       finally {
         // This ensures the server is closed even if the assertions above fail
-        await args.close()
+        args.close()
       }
     },
   })
