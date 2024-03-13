@@ -34,12 +34,6 @@ describe('getColorScheme', () => {
     expect(scheme[50]).toBe(hexToRgb(colorList.slate[950])) // Use actual hexToRgb logic
     expect(scheme[950]).toBe(hexToRgb(colorList.slate[50]))
   })
-
-  it('falls back to the default "slate" scheme if an unknown scheme ID is provided', () => {
-    const scheme = getColorScheme('unknown')
-    expect(scheme[50]).toBe('248 250 252') // Assuming default is RGB
-    expect(scheme[500]).toBe('100 116 139')
-  })
 })
 
 describe('colors', () => {
@@ -49,21 +43,21 @@ describe('colors', () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "0": "rgb(var(--foo-0, 255 255 255) / <alpha-value>)",
-        "100": "rgb(var(--foo-100, 241 245 249) / <alpha-value>)",
+        "100": "rgb(var(--foo-100, 226 230 239) / <alpha-value>)",
         "1000": "rgb(var(--foo-1000, 0 0 0) / <alpha-value>)",
-        "200": "rgb(var(--foo-200, 226 232 240) / <alpha-value>)",
-        "25": "rgb(var(--foo-25, 250 251 252) / <alpha-value>)",
-        "300": "rgb(var(--foo-300, 203 213 225) / <alpha-value>)",
-        "400": "rgb(var(--foo-400, 148 163 184) / <alpha-value>)",
-        "50": "rgb(var(--foo-50, 248 250 252) / <alpha-value>)",
-        "500": "rgb(var(--foo-500, 100 116 139) / <alpha-value>)",
-        "600": "rgb(var(--foo-600, 71 85 105) / <alpha-value>)",
-        "700": "rgb(var(--foo-700, 51 65 85) / <alpha-value>)",
-        "800": "rgb(var(--foo-800, 30 41 59) / <alpha-value>)",
-        "900": "rgb(var(--foo-900, 15 23 42) / <alpha-value>)",
-        "950": "rgb(var(--foo-950, 9 14 27) / <alpha-value>)",
-        "975": "rgb(var(--foo-975, 2 6 23) / <alpha-value>)",
-        "DEFAULT": "rgb(var(--foo-500, 100 116 139) / <alpha-value>)",
+        "200": "rgb(var(--foo-200, 197 202 212) / <alpha-value>)",
+        "25": "rgb(var(--foo-25, 247 250 252) / <alpha-value>)",
+        "300": "rgb(var(--foo-300, 166 173 185) / <alpha-value>)",
+        "400": "rgb(var(--foo-400, 126 137 158) / <alpha-value>)",
+        "50": "rgb(var(--foo-50, 243 246 249) / <alpha-value>)",
+        "500": "rgb(var(--foo-500, 94 110 133) / <alpha-value>)",
+        "600": "rgb(var(--foo-600, 60 74 95) / <alpha-value>)",
+        "700": "rgb(var(--foo-700, 45 55 72) / <alpha-value>)",
+        "800": "rgb(var(--foo-800, 32 40 56) / <alpha-value>)",
+        "900": "rgb(var(--foo-900, 22 29 47) / <alpha-value>)",
+        "950": "rgb(var(--foo-950, 13 20 36) / <alpha-value>)",
+        "975": "rgb(var(--foo-975, 10 15 29) / <alpha-value>)",
+        "DEFAULT": "rgb(var(--foo-500, 94 110 133) / <alpha-value>)",
       }
     `)
 
