@@ -12,7 +12,11 @@ export const templates = [
     iconTheme: 'blue',
     el: vue.defineAsyncComponent(() => import('./ElArea.vue')),
     isContainer: true, // ui drawer
-    spacingClass: '',
+    userConfig: {
+      spacing: {
+        spacingClass: '',
+      },
+    },
     options: [],
   }),
 ] as const

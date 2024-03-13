@@ -1,5 +1,5 @@
 import type { NavItem, ServiceList } from '@fiction/core'
-import { Theme, themeCard } from '../../theme'
+import { Theme, createCard } from '../../theme'
 
 import { templates } from './templates'
 import { getPage as getHomePage } from './pageHome'
@@ -49,18 +49,19 @@ export function setup(args: ServiceList) {
     templates,
     isPublic: false,
     pages,
-    spacing: {
-      contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
-      spacingClass: `py-[calc(1.5rem+4vw)]`,
-    },
+
     userConfig: {
       colors: { isDarkMode: true },
+      spacing: {
+        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
+        spacingClass: `py-[calc(1.5rem+4vw)]`,
+      },
     },
     sections: {
-      header: themeCard({
+      header: createCard({
         templates,
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'fictionHeader',
             userConfig: {
@@ -77,10 +78,10 @@ export function setup(args: ServiceList) {
           }),
         ],
       }),
-      footer: themeCard({
+      footer: createCard({
         templates,
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'fictionFooter',
             userConfig: {

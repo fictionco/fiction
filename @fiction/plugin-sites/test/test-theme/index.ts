@@ -1,7 +1,7 @@
 import { type FictionApp, vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
 import { standardCardTemplates } from '../../cards'
-import { Theme, themeCard } from '../../theme'
+import { Theme, createCard } from '../../theme'
 
 const def = vue.defineAsyncComponent
 
@@ -11,12 +11,12 @@ export const templates = [
     templateId: 'testWrap',
     el: def(() => import('./TemplateWrap.vue')),
     sections: {
-      test: themeCard({ templates: standardCardTemplates, cards: [] }),
+      test: createCard({ templates: standardCardTemplates, cards: [] }),
     },
   }),
 ] as const
 
-const mediaGridCard = themeCard({
+const mediaGridCard = createCard({
   templates,
   templateId: 'marquee',
   userConfig: {
@@ -42,14 +42,14 @@ export function setup(_args: { fictionApp: FictionApp }) {
     version: '1.0.0',
     templates,
     pages: [
-      themeCard({
+      createCard({
         templates,
         slug: '_home',
         title: 'Default Page',
         isHome: true,
         cards: [mediaGridCard, { templateId: 'hero' }, { templateId: 'area', cards: [{ templateId: 'hero' }] }, { templateId: 'hero' }],
       }),
-      themeCard({
+      createCard({
         templates,
         slug: 'example',
         title: 'Example Page',
@@ -58,8 +58,8 @@ export function setup(_args: { fictionApp: FictionApp }) {
       }),
     ],
     sections: {
-      header: themeCard({ templates, cards: [] }),
-      footer: themeCard({ templates, cards: [] }),
+      header: createCard({ templates, cards: [] }),
+      footer: createCard({ templates, cards: [] }),
     },
   })
 }

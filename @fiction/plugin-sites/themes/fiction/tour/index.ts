@@ -1,8 +1,8 @@
 import { staticImageUrl } from '@fiction/core'
-import { themeCard } from '../../../theme'
+import { createCard } from '../../../theme'
 import { templates } from '../templates'
 
-const topHeroCard = themeCard({
+const topHeroCard = createCard({
   templates,
   templateId: 'hero',
   userConfig: {
@@ -18,7 +18,7 @@ const topHeroCard = themeCard({
   },
 })
 
-const mediaGridCard = themeCard({
+const mediaGridCard = createCard({
   templates,
   templateId: 'mediaGrid',
   userConfig: {
@@ -51,7 +51,7 @@ const mediaGridCard = themeCard({
   },
 })
 
-const logosCard = themeCard({
+const logosCard = createCard({
   templates,
   templateId: 'logos',
   userConfig: {
@@ -104,7 +104,7 @@ const logosCard = themeCard({
   },
 })
 
-const tourCard = themeCard({
+const tourCard = createCard({
   templates,
   templateId: 'tour',
   userConfig: {
@@ -148,7 +148,7 @@ const tourCard = themeCard({
   },
 })
 
-const metricsCard = themeCard({
+const metricsCard = createCard({
   templates,
   templateId: 'metrics',
   userConfig: {
@@ -173,7 +173,7 @@ const metricsCard = themeCard({
   },
 })
 
-const quoteCard = themeCard({
+const quoteCard = createCard({
   templates,
   templateId: 'quotes',
   userConfig: {
@@ -189,7 +189,7 @@ const quoteCard = themeCard({
   },
 })
 
-const heroCard = themeCard({
+const heroCard = createCard({
   templates,
   templateId: 'hero',
   userConfig: {
@@ -204,13 +204,13 @@ const heroCard = themeCard({
   },
 })
 
-export const page = themeCard({
+export const page = createCard({
   templates,
   regionId: 'main',
   templateId: 'wrap',
   slug: 'tour',
   cards: [
-    themeCard({
+    createCard({
       templates,
       templateId: 'area',
       cards: [
@@ -220,13 +220,13 @@ export const page = themeCard({
         tourCard,
       ],
     }),
-    themeCard({
+    createCard({
       templates,
       templateId: 'area',
       userConfig: {},
       cards: [metricsCard, quoteCard],
     }),
-    themeCard({
+    createCard({
       templates,
       templateId: 'area',
       userConfig: {

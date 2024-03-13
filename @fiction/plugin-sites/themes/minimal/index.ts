@@ -1,9 +1,9 @@
 import type { ServiceList } from '@fiction/core'
-import { Theme, themeCard } from '../../theme'
+import { Theme, createCard } from '../../theme'
 import { templates } from './templates'
 
 const pg = [
-  themeCard({
+  createCard({
     templates,
     regionId: 'main',
     templateId: 'wrap',
@@ -11,7 +11,7 @@ const pg = [
     title: 'Welcome to my site',
     isHome: true,
     cards: [
-      themeCard({
+      createCard({
         templates,
         templateId: 'minimalProfile',
         userConfig: { },
@@ -32,28 +32,31 @@ export function setup(_args: ServiceList) {
     templates,
     isPublic: true,
     pages,
-    spacing: {
-      contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
-      spacingClass: `py-[calc(1.5rem+4vw)]`,
+    userConfig: {
+      spacing: {
+        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
+        spacingClass: `py-[calc(1.5rem+4vw)]`,
+      },
     },
+
     sections: {
-      header: themeCard({
+      header: createCard({
         templates,
         regionId: 'header',
         templateId: 'area',
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'minimalHeader',
           }),
         ],
       }),
-      footer: themeCard({
+      footer: createCard({
         templates,
         regionId: 'footer',
         templateId: 'area',
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'minimalFooter',
           }),

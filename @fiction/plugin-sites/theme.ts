@@ -17,11 +17,6 @@ export type ThemeSettings = {
   templates: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
-  fontConfig?: FontConfig
-  spacing?: {
-    contentWidthClass?: string
-    spacingClass?: string
-  }
   userConfig?: Partial<SiteUserConfig>
   sections?: Record<string, TableCardConfig>
 }
@@ -50,7 +45,7 @@ export class Theme extends FictionObject<ThemeSettings> {
     return {
       themeId: this.themeId,
       pages: this.pages.value,
-      userConfig: deepMerge([{ ai: this.ai() }, this.settings.userConfig]),
+      userConfig: this.config(),
     }
   }
 
@@ -92,62 +87,47 @@ export class Theme extends FictionObject<ThemeSettings> {
     return site
   }
 
-  config() {
-    return {
-      fonts: this.fonts(),
-      spacing: this.spacing(),
-      ...this.ai(),
-      colors: this.colors(),
-    }
-  }
-
-  fonts() {
-    const baseConfig = {
-      mono: { fontKey: 'DM Mono', stack: 'monospace' },
-      input: { fontKey: 'DM Mono', stack: 'sans' },
-      title: { fontKey: 'Poppins', stack: 'sans' },
-      sans: { stack: 'sans' },
-      body: { stack: 'serif' },
-      serif: { stack: 'serif' },
-    }
-    return { ...baseConfig, ...this.settings.fontConfig } as FontConfig
-  }
-
-  spacing() {
-    return {
-      // contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
-      // spacingClass: `py-[calc(1.5rem+4vw)]`,
-      ...this.settings.spacing,
-    }
-  }
-
-  colors() {
-    return {
-      colorPrimary: 'blue',
-      colorTheme: 'gray',
-      isDarkMode: false,
-    }
-  }
-
-  ai() {
-    return {
-      baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:
-- Be elegant and concise, avoiding redundancy and excessive exclamations. Not cheesy, not cliche. Be creative. Don't be pushy.
-- Don't reuse the name of the site subject in the content, as it's provided elsewhere.
-- Focus on the PROBLEMS of the target customer, in likely context they can be solved by the provider.
-- Use an SEO-friendly approach without compromising the natural flow of information.`,
-      objectives: {
-        about: 'This is a portfolio website for James Bond, a secret agent working for MI6.',
-        targetCustomer: 'The target customers government intelligence agencies, and similar agencies hiring secret agents',
-        imageStyle: imageStyle.find(i => i.name === 'Grayscale')?.value || '',
+  config(): SiteUserConfig {
+    return deepMerge([
+      {
+        fonts: {
+          mono: { fontKey: 'DM Mono', stack: 'monospace' },
+          input: { fontKey: 'DM Mono', stack: 'sans' },
+          title: { fontKey: 'Poppins', stack: 'sans' },
+          sans: { stack: 'sans' },
+          body: { stack: 'serif' },
+          serif: { stack: 'serif' },
+        },
+        spacing: {
+          contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
+          spacingClass: `py-[calc(1.5rem+4vw)]`,
+        },
+        ai: {
+          baseInstruction: `You are a world-expert copywriter and web designer, create website content designed to subtly persuade using reference info and objectives. Your content should:
+    - Be elegant and concise, avoiding redundancy and excessive exclamations. Not cheesy, not cliche. Be creative. Don't be pushy.
+    - Don't reuse the name of the site subject in the content, as it's provided elsewhere.
+    - Focus on the PROBLEMS of the target customer, in likely context they can be solved by the provider.
+    - Use an SEO-friendly approach without compromising the natural flow of information.`,
+          objectives: {
+            about: 'This is a portfolio website for James Bond, a secret agent working for MI6.',
+            targetCustomer: 'The target customers government intelligence agencies, and similar agencies hiring secret agents',
+            imageStyle: imageStyle.find(i => i.name === 'Grayscale')?.value || '',
+          },
+        },
+        colors: {
+          colorPrimary: 'blue',
+          colorTheme: 'gray',
+          isDarkMode: false,
+        },
       },
-    }
+      this.settings.userConfig || {},
+    ])
   }
 }
 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 // Base interface without slug
-type BaseThemeCardArgs<
+type BasecreateCardArgs<
 T extends keyof CardUserConfig<U>,
 U extends readonly CardTemplate[],
 V extends PageRegion,
@@ -166,23 +146,23 @@ W extends CardTemplate | undefined,
   is404?: boolean
 }
 
-export function themeCard<
+export function createCard<
 T extends keyof CreateUserConfigs<U>,
 U extends readonly CardTemplate[],
 V extends PageRegion,
 W extends CardTemplate | undefined,
->(args: BaseThemeCardArgs<T, U, V, W>) {
+>(args: BasecreateCardArgs<T, U, V, W>) {
   const { templates, templateId = 'area', tpl } = args
 
   if (!templateId && !tpl)
-    throw new Error('themeCard: templateId or tpl required')
+    throw new Error('createCard: templateId or tpl required')
 
   const template = tpl || templates?.find(template => template.settings.templateId === templateId)
 
   // Ensure that 'templates' contains 'templateId'
   if (!template) {
-    log.error('themeCard', `Template with key "${templateId}" not found in provided templates.`)
-    throw new Error(`themeCard: Template not found: "${templateId}"`)
+    log.error('createCard', `Template with key "${templateId}" not found in provided templates.`)
+    throw new Error(`createCard: Template not found: "${templateId}"`)
   }
 
   const templateUserConfig = template.settings.userConfig ? template.settings.userConfig as CardUserConfig<U>[T] : {}

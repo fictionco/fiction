@@ -1,10 +1,10 @@
 // @unocss-include
 import type { vueRouter } from '@fiction/core'
-import { FictionObject, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
+import { FictionObject, deepMerge, objectId, setNested, toLabel, toSlug, vue } from '@fiction/core'
 import { getOptionJsonSchema } from '@fiction/ui'
 import type { InputOption, InputOptionGeneration } from '@fiction/ui'
 
-import type { CardConfigPortable, TableCardConfig } from './tables'
+import type { CardConfigPortable, SiteUserConfig, TableCardConfig } from './tables'
 import type { Site } from './site'
 import type { iconStyle } from './util'
 import { getCardCompletion } from './utils/ai'
@@ -37,7 +37,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   isRegion?: boolean
   spacingClass?: string
   options?: InputOption[]
-  userConfig?: CardTemplateUserConfig<T>
+  userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
 }
 
@@ -244,6 +244,7 @@ export class Card<
   slug = vue.ref(this.settings.slug ?? `${(this.title.value ? toSlug(this.title.value) : `page`)}`)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
   userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
+  fullConfig = vue.computed(() => deepMerge([this.site?.fullConfig.value, this.userConfig.value as T]) as SiteUserConfig & T)
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
   site = this.settings.site
   tpl = vue.computed(() => this.settings.tpl || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
@@ -258,9 +259,10 @@ export class Card<
   }
 
   classes = vue.computed(() => {
+    const spacing = this.site?.fullConfig.value?.spacing
     return {
-      contentWidth: this.site?.theme.value?.spacing().contentWidthClass,
-      spacing: this.tpl.value?.settings.spacingClass ?? this.site?.theme.value?.spacing().spacingClass,
+      contentWidth: spacing?.contentWidthClass,
+      spacing: this.tpl.value?.settings.spacingClass ?? spacing?.spacingClass,
     }
   })
 

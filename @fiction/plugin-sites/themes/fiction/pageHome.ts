@@ -1,20 +1,20 @@
 import type { ServiceList } from '@fiction/core'
-import { themeCard } from '../../theme'
+import { createCard } from '../../theme'
 import { templates } from './templates'
 
 export function getPage(_args: ServiceList) {
-  return themeCard({
+  return createCard({
     templates,
     regionId: 'main',
     templateId: 'wrap',
     slug: '_home',
     cards: [
-      themeCard({
+      createCard({
         templates,
         templateId: 'area',
         userConfig: { },
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'hero',
             userConfig: {
@@ -29,7 +29,7 @@ export function getPage(_args: ServiceList) {
               ],
             },
           }),
-          themeCard({
+          createCard({
             templates,
             templateId: 'marquee',
             userConfig: {
@@ -61,7 +61,7 @@ export function getPage(_args: ServiceList) {
               ],
             },
           }),
-          themeCard({
+          createCard({
             templates,
             templateId: 'logos',
             userConfig: {
@@ -100,7 +100,7 @@ export function getPage(_args: ServiceList) {
         ],
 
       }),
-      themeCard({
+      createCard({
         templates,
         templateId: 'features',
         userConfig: {
@@ -128,7 +128,7 @@ export function getPage(_args: ServiceList) {
           ],
         },
       }),
-      themeCard({
+      createCard({
         templates,
         templateId: 'area',
         userConfig: {
@@ -143,7 +143,7 @@ export function getPage(_args: ServiceList) {
           },
         },
         cards: [
-          themeCard({
+          createCard({
             templates,
             templateId: 'hero',
             userConfig: {

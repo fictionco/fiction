@@ -30,7 +30,7 @@ const isEditable = vue.computed(() => {
       :id="subCard.cardId"
       :key="i"
       :class="[
-        subCard.classes.value.spacing,
+        subCard.fullConfig.value.spacing?.spacingClass,
         subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300' : '',
         isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 cursor-pointer  transition-all' : '',
       ]"

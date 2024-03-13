@@ -1,7 +1,7 @@
 // @unocss-include
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
-import type { CardConfigPortable, PageRegion, TableCardConfig, TableSiteConfig } from './tables'
+import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
+import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
 import type { LayoutOrder } from './utils/layout'
@@ -56,8 +56,8 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   theme = vue.computed(() => this.fictionSites.themes.value.find(t => t.themeId === this.themeId.value))
 
   userConfig = vue.ref(this.settings.userConfig || {})
-  userConfigWithTheme = vue.computed(() => ({ ...this.theme.value?.config(), ...this.userConfig.value }))
-  isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.userConfigWithTheme.value.colors?.isDarkMode || false })
+  fullConfig = vue.computed(() => deepMerge<SiteUserConfig>([this.theme.value?.config(), this.userConfig.value]))
+  isDarkMode = localRef({ key: `isDarkMode-${this.themeId.value}`, def: this.fullConfig.value.colors?.isDarkMode || false })
 
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
@@ -208,7 +208,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   }
 
   colors = vue.computed(() => {
-    const { colorPrimary = 'blue', colorTheme = 'slate', isDarkMode = false } = this.userConfigWithTheme.value.colors || {}
+    const { colorPrimary = 'blue', colorTheme = 'slate', isDarkMode = false } = this.fullConfig.value.colors || {}
     const theme = getColorScheme(colorTheme)
     return {
       primary: getColorScheme(colorPrimary),

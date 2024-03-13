@@ -1,7 +1,7 @@
 import type { ServiceList } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
-import { Theme, themeCard } from '../../theme'
+import { Theme, createCard } from '../../theme'
 
 const def = vue.defineAsyncComponent
 
@@ -31,14 +31,14 @@ export const templates = [
 
 export function getPages() {
   return [
-    themeCard({
+    createCard({
       templates,
       regionId: 'main',
       templateId: 'dash',
       slug: '_home',
       title: 'Sites',
       cards: [
-        themeCard({
+        createCard({
           tpl: new CardTemplate({
             templateId: 'sites',
             el: def(() => import('../../el/ViewIndex.vue')),
@@ -51,14 +51,14 @@ export function getPages() {
         navIcon: 'i-tabler-home-plus',
       },
     }),
-    themeCard({
+    createCard({
       templates,
       regionId: 'main',
       templateId: 'dash',
       slug: 'edit-site',
       title: 'Edit Site',
       cards: [
-        themeCard({
+        createCard({
           tpl: new CardTemplate({
             templateId: 'siteEdit',
             el: def(() => import('../../el/SiteEditor.vue')),
@@ -71,66 +71,66 @@ export function getPages() {
         navIcon: 'i-tabler-home-plus',
       },
     }),
-    themeCard({
+    createCard({
       templates,
       regionId: 'main',
       templateId: 'dash',
       slug: 'settings',
       title: 'Settings',
       cards: [
-        themeCard({
+        createCard({
           tpl: new CardTemplate({
             templateId: 'settings',
             el: def(() => import('./el/SettingsWrap.vue')),
           }),
           cards: [
-            themeCard({
+            createCard({
               slug: 'general',
               tpl: new CardTemplate({ templateId: 'setorg', el: def(() => import('./el/ViewSettingsOrg.vue')) }),
               userConfig: { isNavItem: true, icon: 'i-tabler-building' },
             }),
-            themeCard({
+            createCard({
               slug: 'newOrg',
               tpl: new CardTemplate({ templateId: 'newOrg', el: def(() => import('./el/ViewNewOrganization.vue')) }),
               userConfig: { isNavItem: false, parentItemId: 'general' },
             }),
-            themeCard({
+            createCard({
               slug: 'account',
               tpl: new CardTemplate({ templateId: 'account', el: def(() => import('./el/SettingsAccount.vue')) }),
               userConfig: { isNavItem: true, icon: 'i-tabler-user' },
             }),
-            themeCard({
+            createCard({
               slug: 'changeCredential',
               tpl: new CardTemplate({ templateId: 'changeCredential', el: def(() => import('./el/ViewChangeCredential.vue')) }),
               userConfig: { isNavItem: false },
             }),
-            themeCard({
+            createCard({
               slug: 'team',
               tpl: new CardTemplate({ templateId: 'team', el: def(() => import('./el/ViewTeamIndex.vue')) }),
               userConfig: { isNavItem: true },
             }),
-            themeCard({
+            createCard({
               slug: 'teamEdit',
               tpl: new CardTemplate({ templateId: 'teamEdit', el: def(() => import('./el/ViewTeamEdit.vue')) }),
               userConfig: { isNavItem: false, parentItemId: 'team' },
             }),
-            themeCard({
+            createCard({
               slug: 'teamInvite',
               tpl: new CardTemplate({ templateId: 'teamInvite', el: def(() => import('./el/ViewTeamInvite.vue')) }),
               userConfig: { isNavItem: false, parentItemId: 'team' },
             }),
 
-            themeCard({
+            createCard({
               slug: 'billing',
               tpl: new CardTemplate({ templateId: 'billing', el: def(() => import('./el/ViewSettingsBilling.vue')) }),
               userConfig: { isNavItem: true, icon: 'i-tabler-credit-card' },
             }),
-            themeCard({
+            createCard({
               slug: 'billingSuccess',
               tpl: new CardTemplate({ templateId: 'billingSuccess', el: def(() => import('./el/ViewBillingSuccess.vue')) }),
               userConfig: { isNavItem: false, parentItemId: 'billing' },
             }),
-            themeCard({
+            createCard({
               slug: 'developer',
               tpl: new CardTemplate({ templateId: 'developer', el: def(() => import('./el/ViewSettingsDev.vue')) }),
               userConfig: { isNavItem: true, icon: 'i-tabler-code' },
@@ -140,7 +140,7 @@ export function getPages() {
       ],
       userConfig: { },
     }),
-    themeCard({
+    createCard({
       templates,
       regionId: 'main',
       templateId: 'auth',

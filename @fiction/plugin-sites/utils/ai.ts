@@ -4,7 +4,7 @@ import type { Site } from '../site'
 export async function getCardCompletion<T extends Record<string, unknown> = Record<string, unknown>>(args: { site: Site, runPrompt: string, outputFormat?: Record<string, unknown> }) {
   const { site, runPrompt, outputFormat } = args
 
-  const { baseInstruction, objectives } = site.userConfigWithTheme.value
+  const { baseInstruction, objectives } = site.fullConfig.value.ai || {}
 
   try {
     if (!baseInstruction || !objectives)

@@ -1,14 +1,14 @@
 import { standardCardTemplates as templates } from './cards'
-import { themeCard } from './theme'
+import { createCard } from './theme'
 
-export const page404 = themeCard({
+export const page404 = createCard({
   templates,
   regionId: 'main',
   templateId: 'wrap',
   slug: '_404',
   title: 'Not Found',
   cards: [
-    themeCard({
+    createCard({
       templates,
       templateId: '404',
       userConfig: {

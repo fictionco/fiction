@@ -11,13 +11,14 @@ export const templates = [
     category: ['theme'],
     icon: 'i-tabler-box-align-top',
     iconTheme: 'blue',
-    spacingClass: 'py-0 lg:py-2',
+
     el: vue.defineAsyncComponent(() => import('./XHeader.vue')),
     userConfig: {
       nav: [
         { name: 'Home', href: '/' },
         { name: 'LinkedIn', href: 'https://www.linkedin.com/in/arpowers', target: '_blank' },
       ],
+      spacing: { spacingClass: 'py-0 lg:py-2' },
     },
     options: [
       new InputOption({ key: 'userConfig.logo', label: 'Logo', input: 'InputMediaDisplay' }),

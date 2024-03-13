@@ -1,11 +1,11 @@
 import { type ServiceList, vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
-import { themeCard } from '../../theme'
+import { createCard } from '../../theme'
 
 import { templates } from './templates'
 
 export function getPage(_args: ServiceList) {
-  return themeCard({
+  return createCard({
     templates,
     regionId: 'main',
     slug: '_home',

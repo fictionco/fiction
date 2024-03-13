@@ -19,7 +19,7 @@ const { fictionSites, runVars, fictionRouterSites } = useService<{ fictionSites:
 
 const loading = vue.ref(false)
 const site = vue.shallowRef<Site>()
-const fonts = vue.computed(() => getThemeFontConfig(site?.value?.theme.value?.fonts()))
+const fonts = vue.computed(() => getThemeFontConfig(site?.value?.fullConfig.value?.fonts))
 
 async function load() {
   loading.value = true
