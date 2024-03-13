@@ -2,8 +2,8 @@ name: Live Service Monitoring
 
 on:
   schedule:
-    # Runs every 30 minutes
-    - cron: '*/30 * * * *'
+    # Runs every 45 minutes
+    - cron: '*/45 * * * *'
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -14,16 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: pnpm
-
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
           version: 8.13.1
+
+      - name: Set Node Version
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
