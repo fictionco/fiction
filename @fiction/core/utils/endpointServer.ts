@@ -61,7 +61,7 @@ export function createExpressApp(opts: HelmetOptions & { noHelmet?: boolean } = 
   app.use(bodyParser.text({ limit: '10mb' }))
   app.use(compression())
 
-  app.use('/health', (request, response) => {
+  app.use('/api/health', (request, response) => {
     const healthData: ServiceHealthCheckResult = {
       status: 'success',
       message: 'ok',
@@ -136,7 +136,7 @@ export class EndpointServer {
     if (this.middleware)
       await this.middleware(this.expressApp)
 
-    this.expressApp.use('/ok', (req, res) => res.status(200).send('ok').end())
+    this.expressApp.use('/api/ok', (req, res) => res.status(200).send('ok').end())
   }
 
   async run(args: { port?: number } = {}) {
@@ -172,7 +172,7 @@ export class EndpointServer {
         auth: this.fictionUser ? 'enabled' : 'disabled',
         port: `[ ${port} ]`,
         endpoints,
-        health: `${this.url}/health`,
+        health: `${this.url}/api/health`,
       },
     })
 

@@ -5,7 +5,7 @@ import type http from 'node:http'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
-import { axios, randomBetween, vue } from '@fiction/core/utils'
+import { axios, randomBetween, vue, waitFor } from '@fiction/core/utils'
 import type { EndpointResponse } from '@fiction/core/types'
 import { FictionUser } from '@fiction/core/plugin-user'
 import { FictionServer } from '..'
@@ -38,7 +38,7 @@ describe('server test', () => {
     let response: axios.AxiosResponse<EndpointResponse> | undefined
     try {
       response = await axios.default.get<EndpointResponse>(
-        `http://localhost:${fictionServer.port.value}/health`,
+        `http://localhost:${fictionServer.port.value}/api/health`,
       )
     }
     catch (error) {
@@ -115,11 +115,17 @@ describe('server test', () => {
     expect(fictionUser.requests.Login.requestUrl).toBe(`http://localhost:${port}/api/user/Login`)
   })
 
+  /**
+   * localUrl should get the localhost url with port in server/node
+   * when in browser, in dev it should get browser url with port
+   * in live mode, it should get the browser url without port
+   */
   it('handles localUrl', async () => {
     window.location.href = `${window.location.href}test`
     const port = randomBetween(9000, 9999)
+    const fictionEnv = testUtils.fictionEnv
     const fictionServer = new FictionServer({
-      fictionEnv: testUtils.fictionEnv,
+      fictionEnv,
       serverName: 'testServer',
       port,
       liveUrl: `https://server.test.com`,
@@ -133,5 +139,27 @@ describe('server test', () => {
     fictionServer.useLocal.value = true
 
     expect(fictionServer.serverUrl.value).toBe(`http://localhost:${port}`)
+  })
+
+  it('handles removes port in live mode in the browser', () => {
+    const fictionEnv = testUtils.fictionEnv
+    fictionEnv.isNode = false
+    const port = randomBetween(9000, 9999)
+    window.location.href = 'https://www.apple.com'
+    const fictionServer2 = new FictionServer({
+      fictionEnv,
+      serverName: 'testServer2',
+      port,
+      liveUrl: `https://server2.test.com`,
+      isLive: vue.ref(true),
+    })
+
+    fictionServer2.useLocal.value = true
+    expect(fictionServer2.localUrl.value).toBe(`https://www.apple.com`)
+    expect(fictionServer2.serverUrl.value).toBe(`https://www.apple.com`)
+
+    fictionServer2.isLive.value = false
+    expect(fictionServer2.localUrl.value).toBe(`https://www.apple.com:${port}`)
+    expect(fictionServer2.serverUrl.value).toBe(`https://www.apple.com:${port}`)
   })
 })

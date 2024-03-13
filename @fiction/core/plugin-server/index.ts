@@ -1,21 +1,11 @@
 import type http from 'node:http'
-import process from 'node:process'
 import bodyParser from 'body-parser'
 import type { FictionEnv } from '../plugin-env'
-import { EnvVar, vars } from '../plugin-env'
 import { EndpointServer, vue } from '../utils'
 import type { Endpoint, HookType } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionUser } from '../plugin-user'
-
-vars.register(() => [
-  new EnvVar({
-    name: 'NGROK_AUTH_TOKEN',
-    val: process.env.NGROK_AUTH_TOKEN,
-    isOptional: true,
-  }),
-])
 
 export type FictionServerHookDictionary = {
   afterServerSetup: { args: [] }
@@ -30,26 +20,32 @@ export type FictionServerSettings = {
   endpoints?: Endpoint[]
   liveUrl?: string
   isLive?: vue.Ref<boolean>
+  useLocal?: boolean
 } & FictionPluginSettings
 
 export class FictionServer extends FictionPlugin<FictionServerSettings> {
   public hooks = this.settings.hooks ?? []
   port = vue.ref(this.settings.port)
   endpoints = this.settings.endpoints || []
+  liveUrl = vue.ref(this.settings.liveUrl)
+  isLive = this.settings.isLive ?? vue.ref(this.settings.fictionEnv?.isProd.value)
+  useLocal = vue.ref(this.settings.useLocal || false) // use same host
   localUrl = vue.computed(() => {
-    const currentUrl = new URL(!this.fictionEnv?.isNode ? window.location.href : 'http://localhost')
-    currentUrl.port = this.port.value.toString()
+    const isBrowser = !this.fictionEnv?.isNode
+    const currentUrl = new URL(isBrowser ? window.location.href : 'http://localhost')
+
+    if (!isBrowser || !this.isLive.value)
+      currentUrl.port = this.port.value.toString()
 
     return currentUrl.origin
   })
 
-  liveUrl = vue.ref(this.settings.liveUrl)
-  isLive = this.settings.isLive ?? this.settings.fictionEnv?.isProd
-  useLocal = vue.ref(false) // use same host
   serverUrl = vue.computed(() => {
     const isProd = this.isLive.value
     const liveUrl = this.liveUrl.value
-    return !isProd || this.useLocal.value || !liveUrl ? this.localUrl.value : liveUrl
+    const url = !isProd || this.useLocal.value || !liveUrl ? this.localUrl.value : liveUrl
+    this.log.info('running url', { data: { isProd, liveUrl, useLocal: this.useLocal.value, url } })
+    return url
   })
 
   isInitialized = false
@@ -82,7 +78,6 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
   addEndpoints(endpoints: Endpoint[]) {
     this.endpoints = [...this.endpoints, ...endpoints]
   }
-
 
   async initServer(args: { fictionUser?: FictionUser, useLocal?: boolean, port?: number } = {}) {
     const { fictionUser, useLocal = false, port } = args

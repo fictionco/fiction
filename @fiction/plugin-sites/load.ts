@@ -95,7 +95,7 @@ export async function loadSite(args: {
     if (selectors.length > 1)
       logger.error('Multiple selectors used to load site', { data: { selectors } })
 
-    logger.info('Loading site', {
+    logger.info('Loading site with Selector', {
       data: { ...(subDomain && { subDomain }), ...(siteId && { siteId }), ...(themeId && { themeId }), vals },
     })
 
@@ -107,8 +107,6 @@ export async function loadSite(args: {
       const where = siteId ? { siteId } : { subDomain } as { subDomain: string }
 
       site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
-
-      logger.info('Loading Site Result', { data: site?.toConfig() })
     }
     else {
       const data = { vals, siteRouter: siteRouter.toConfig(), caller }
@@ -118,6 +116,12 @@ export async function loadSite(args: {
   catch (error) {
     logger.error('Error loading site', { error })
   }
+
+  if (site)
+    logger.info('Returning Site Result', { data: site?.toConfig() })
+  else
+    logger.error('No Site Loaded', { data: { vals } })
+
   return site
 }
 

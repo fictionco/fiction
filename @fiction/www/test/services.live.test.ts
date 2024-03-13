@@ -10,7 +10,7 @@ describe('service health checks', () => {
   it('services health endpoint works and logs response time', async () => {
     const outputs: Record<string, unknown>[] = []
     for (const service of services) {
-      const url = `${service}/health?test=1`
+      const url = `${service}/api/health?test=1`
       const startTime = Date.now()
 
       const response = await fetch(url)

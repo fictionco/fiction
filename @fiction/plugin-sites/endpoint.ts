@@ -207,6 +207,9 @@ export class ManageSite extends SitesQuery {
 
     const { _action, orgId, userId, caller = 'unknown', successMessage } = params
 
+    if (!_action)
+      throw this.stop('_action required')
+
     const db = fictionDb.client()
 
     let message = ''
