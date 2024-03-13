@@ -2,6 +2,7 @@
 import type { IndexItem, ListItem } from '@fiction/core'
 import { getNavComponentType, onResetUi, useService, vue } from '@fiction/core'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
+import type { Site } from '../../../site'
 
 defineProps({
   list: { type: Array as vue.PropType<ListItem[]>, default: () => [] },
@@ -9,6 +10,7 @@ defineProps({
   direction: { type: String, default: 'right' },
   vertical: { type: String as vue.PropType<'up' | 'down'>, default: 'down' },
   accountMenu: { type: Array as vue.PropType<IndexItem[]>, default: () => [] },
+  site: { type: Object as vue.PropType<Site>, required: true },
 })
 defineEmits<{
   (event: 'select', payload: ListItem): void
@@ -112,7 +114,7 @@ onResetUi(() => {
                   {{ item.name }}
                 </div>
                 <div v-if="item.fig" class="flex justify-end grow">
-                  <component :is="item.fig" />
+                  <component :is="item.fig" :site="site" />
                 </div>
               </div>
             </component>

@@ -376,16 +376,19 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     this.cacheUser({ user })
   }
 
-  logout = async (): Promise<void> => {
+  async logout(args: { callback?: () => void, redirect?: string } = {}) {
     this.deleteCurrentUser()
     this.utils.emitEvent('logout')
     this.utils.emitEvent('resetUi')
 
-    await this.utils.runHooks({
-      list: this.hooks,
-      hook: 'onLogout',
-      args: [],
-    })
+    await this.utils.runHooks({ list: this.hooks, hook: 'onLogout', args: [] })
+
+    if (args.callback)
+      args.callback()
+
+    // reload the page to clear any state
+    if (args.redirect)
+      window.location.href = args.redirect
   }
 
   requestCurrentUser = async (): Promise<User | undefined> => {

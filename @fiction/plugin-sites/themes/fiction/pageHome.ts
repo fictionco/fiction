@@ -147,8 +147,8 @@ export function getPage(_args: ServiceList) {
             templates,
             templateId: 'hero',
             userConfig: {
-              heading: `It's All About Your Reputation`,
-              subHeading: `Start marketing yourself not tomorrow, today.`,
+              heading: `Is Your Reputation Important?`,
+              subHeading: `Establish it with Fiction's marketing and content development tools.`,
               actions: [
                 {
                   name: 'Start Your Free Trial',

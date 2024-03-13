@@ -69,7 +69,7 @@ const actions: ActionItem[] = [{
 </script>
 
 <template>
-  <ElPanel title="Your Websites" :actions="actions" :class="card.classes.value.contentWidth">
+  <ElPanel :actions="actions" :class="card.classes.value.contentWidth">
     <ElIndexGrid
       :loading="loading"
       :list="formattedData"

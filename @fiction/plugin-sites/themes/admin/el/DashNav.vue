@@ -26,8 +26,8 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
     <div class="flex items-center  rounded-full space-x-3 mb-5 px-3 py-2">
       <div class=" ">
         <div class=" rounded-full  flex items-center justify-center">
-          <RouterLink :to="card.link('/')" class="text-xl dark:text-theme-0 text-primary-600 dark:hover:text-primary-500 transition-all">
-            <ElImage class="size-8" :media="icon" />
+          <RouterLink :to="card.link('/')" class="text-xl dark:text-theme-0 text-primary-500 dark:hover:text-primary-500 transition-all">
+            <ElImage class="size-7" :media="icon" />
           </RouterLink>
         </div>
       </div>
@@ -42,7 +42,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       <div class="nav-menu">
         <component
           :is="getNavComponentType(sub)"
-          class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-semibold text-lg antialiased  focus:outline-none transition-all duration-100"
+          class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-semibold font-sans text-base antialiased  focus:outline-none transition-all duration-100"
           :to="sub.href"
           :href="sub.href"
           :class="

@@ -14,6 +14,7 @@ export const templates = [
 
     el: vue.defineAsyncComponent(() => import('./XHeader.vue')),
     userConfig: {
+      logo: { format: 'html', html: 'Your Name' },
       nav: [
         { name: 'Home', href: '/' },
         { name: 'LinkedIn', href: 'https://www.linkedin.com/in/arpowers', target: '_blank' },

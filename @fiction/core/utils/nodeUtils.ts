@@ -8,7 +8,6 @@ import type { ExecaChildProcess } from 'execa'
 import { execaCommand } from 'execa'
 import type { PackageJson } from '../types'
 import { isNode } from './vars'
-import { waitFor } from './utils'
 
 interface WhichModule {
   moduleName?: string

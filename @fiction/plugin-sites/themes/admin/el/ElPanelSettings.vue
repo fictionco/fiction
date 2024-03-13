@@ -17,12 +17,12 @@ defineProps({
 </script>
 
 <template>
-  <section class="el-panel mx-auto">
+  <section class="el-panel">
     <div class="h-full">
       <div class="box h-full" :class="panelClass || raw ? panelClass : ``">
         <div
           v-if="title || (actions && actions.length)"
-          class="border-theme-200 dark:border-theme-700 flex items-center justify-between space-x-4 border-b px-3 py-2"
+          class="border-theme-200/50 dark:border-theme-700 flex items-center justify-between space-x-4 border-b px-3 py-2"
         >
           <h2 class="text-theme-800 dark:text-theme-0 font-brand text-sm font-semibold">
             {{ title }}

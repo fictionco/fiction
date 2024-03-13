@@ -19,7 +19,7 @@
 
 ## Introduction
 
-Fiction is a next-generation CMS and application framework designed to streamline the creation of AI-generated content. Our platform empowers developers and content creators by integrating cutting-edge AI technologies with a robust content management system.
+Fiction is a next-generation CMS and application framework designed to streamline the creation of AI-generated content. The first-of-its-kind platform empowers developers and content creators by integrating cutting-edge AI technologies with a robust content management system.
 
 ## Features
 
@@ -53,7 +53,7 @@ Fiction is GPLv2 licensed.
 
 ## Community
 
-Join Fiction's vibrant community of creators and developers:
+Join Fiction's community of creators and developers:
 
 - [X](https://www.x.com/fictionplatform)
 

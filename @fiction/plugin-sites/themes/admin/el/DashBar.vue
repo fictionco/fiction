@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { NavItem, vue } from '@fiction/core'
+import type { Site } from '../../../site'
 import ABarMenu from './DashBarMenu.vue'
 
 const props = defineProps({
   iconDashboard: { type: String, default: '' },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
+  site: { type: Object as vue.PropType<Site>, required: true },
 })
 
 const emit = defineEmits<{
@@ -23,7 +25,7 @@ const emit = defineEmits<{
           LOGO
         </RouterLink>
         <div class="hidden text-xl font-semibold sm:block">
-          Page Title
+          {{ site.currentPage.value?.title.value }}
         </div>
       </div>
       <div />
@@ -35,6 +37,7 @@ const emit = defineEmits<{
           default-text="Menu"
           class="hidden sm:block"
           :account-menu="accountMenu"
+          :site="site"
         />
         <div
           class="group flex h-8 w-8 cursor-pointer flex-col justify-center space-y-1 p-1 sm:hidden"

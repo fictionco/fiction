@@ -24,9 +24,9 @@ defineProps({
       >
         <div
           v-if="title || (actions && actions.length)"
-          class="flex items-baseline justify-between space-x-4 px-6 py-2"
+          class="flex items-baseline  space-x-4 px-6 py-2"
         >
-          <h2 class="font-brand text-lg font-semibold">
+          <h2 v-if="title" class="font-brand text-lg font-semibold leading-snug">
             {{ title }}
           </h2>
           <div
@@ -47,7 +47,7 @@ defineProps({
           </div>
         </div>
 
-        <div :class="boxClass || raw ? boxClass : `py-2 md:py-4 px-6`">
+        <div :class="boxClass || raw ? boxClass : `py-2 px-6`">
           <slot />
         </div>
       </div>

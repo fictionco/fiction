@@ -1,3 +1,4 @@
+// @unocss-include
 import type { ServiceList } from '@fiction/core'
 import { vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
@@ -36,19 +37,19 @@ export function getPages() {
       regionId: 'main',
       templateId: 'dash',
       slug: '_home',
-      title: 'Sites',
+      title: 'Your Sites',
       cards: [
         createCard({
           tpl: new CardTemplate({
             templateId: 'sites',
             el: def(() => import('../../el/ViewIndex.vue')),
-            icon: 'i-tabler-home-plus',
+            icon: 'i-tabler-browser',
           }),
         }),
       ],
       userConfig: {
         isNavItem: true,
-        navIcon: 'i-tabler-home-plus',
+        navIcon: 'i-tabler-browser',
       },
     }),
     createCard({

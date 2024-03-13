@@ -17,7 +17,7 @@ const { fictionUser } = useService()
       </div>
     </template>
     <div v-else box-class="p-0">
-      <div class="border-theme-200 dark:border-theme-700 flex items-center space-x-4 border-b p-8">
+      <div class="border-theme-200/50 bg-theme-50/50 dark:border-theme-700 flex items-center space-x-4 border-b p-8">
         <div>
           <ElAvatar
             :email="fictionUser.activeUser.value?.email"

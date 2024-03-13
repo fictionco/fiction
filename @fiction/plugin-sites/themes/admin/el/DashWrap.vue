@@ -2,12 +2,12 @@
 import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fiction/core'
 import { getAccessLevel, onResetUi, useService, vue } from '@fiction/core'
 import El404 from '@fiction/ui/El404.vue'
-import InputToggle from '@fiction/ui/InputToggle.vue'
 import type { Card } from '../../../card'
 import ElEngine from '../../../cards/ElEngine.vue'
 import DashNav from './DashNav.vue'
 import ABar from './DashBar.vue'
 import ElLoadingLogo from './ElLoadingLogo.vue'
+import DashDarkModeToggle from './DashDarkModeToggle.vue'
 
 type UserConfig = {
   layoutFormat?: 'container' | 'full'
@@ -50,14 +50,6 @@ const primaryNav = vue.computed<NavItem[]>(() => {
   return r || []
 })
 
-const DarkModeToggle = vue.defineComponent({
-  components: { InputToggle },
-  setup() {
-    return { site }
-  },
-  template: `<InputToggle v-model="site.isDarkMode.value" />`, // Adjust according to actual data structure
-})
-
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
   return [
     {
@@ -68,13 +60,15 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
     {
       name: 'Dark Mode',
       icon: 'i-tabler-moon-stars',
-      fig: DarkModeToggle,
+      fig: DashDarkModeToggle,
     },
     {
       name: 'Sign Out',
       icon: 'i-tabler-arrow-big-left',
       onClick: async (): Promise<void> => {
-        await fictionUser?.logout()
+        loading.value = true
+        await fictionUser?.logout({ redirect: '/' })
+        loading.value = false
       },
     },
   ]
@@ -111,7 +105,7 @@ vue.onMounted(async () => {
           class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
         >
           <div
-            class="border-theme-100 dark:border-theme-700 fixed left-0 top-0 z-30 justify-end border-r md:static md:flex h-dvh"
+            class="border-theme-200 dark:border-theme-700 fixed left-0 top-0 z-30 justify-end border-r md:static md:flex h-dvh"
             :class="showMobileNav ? 'left-0' : 'left-full'"
           >
             <div class="flex w-60 flex-col">
@@ -126,9 +120,10 @@ vue.onMounted(async () => {
             </div>
           </div>
           <div
+            v-if="site"
             class="no-scrollbar relative min-h-0 min-w-0 grow overflow-scroll"
           >
-            <ABar class="border-theme-100 dark:border-theme-700 border-b" :account-menu="accountMenu" />
+            <ABar class="border-theme-200 dark:border-theme-700 border-b" :account-menu="accountMenu" :site="site" />
             <div
               class="mx-auto pt-4 md:pt-8 md:pb-36 shadow-inner bg-theme-50 dark:bg-theme-950 min-h-full"
             >

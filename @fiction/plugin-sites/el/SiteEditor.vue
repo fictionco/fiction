@@ -152,15 +152,23 @@ async function save() {
             </div>
           </div>
           <div
-            class="col-span-6 flex items-center justify-end space-x-2 text-right text-sm"
+            class="col-span-6 flex items-center justify-end space-x-4 text-right "
           >
+            <ElButton
+              btn="default"
+              :href="site?.frame?.displayUrl.value"
+              target="_blank"
+            >
+              View
+            </ElButton>
             <ElButton
               btn="primary"
               :loading="sending === 'save'"
               class=" min-w-36"
+              icon="i-tabler-save"
               @click.prevent="save()"
             >
-              Save Changes
+              Save Site
             </ElButton>
           </div>
         </div>

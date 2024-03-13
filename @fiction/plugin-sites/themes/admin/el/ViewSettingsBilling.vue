@@ -102,8 +102,8 @@ const activeCustomer = vue.computed(() => {
             <div class="mb-3 font-bold">
               Current Plan
             </div>
-            <div class="font-brand text-3xl font-bold">
-              {{ activeCustomer?.planName }}
+            <div class="font-brand text-2xl font-bold text-primary-500/50">
+              {{ activeCustomer?.planName || 'Unknown' }}
             </div>
           </div>
           <div class="mb-3 font-bold">
@@ -168,7 +168,7 @@ const activeCustomer = vue.computed(() => {
           </div>
           <div class="text-slate-600">
             <p class="my-4">
-              PageLines partners with Stripe to handle payments and billing. To
+              We partner with Stripe to handle payments and billing. To
               view invoices, change plan or payment method, please visit the
               billing dashboard...
             </p>

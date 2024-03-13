@@ -47,7 +47,7 @@ async function maybeDeleteOrganization(): Promise<void> {
     <div class="my-2 rounded-md">
       <ElButton
         :loading="sending === 'delete'"
-        btn="default"
+        btn="danger"
         size="sm"
         @click="maybeDeleteOrganization()"
       >

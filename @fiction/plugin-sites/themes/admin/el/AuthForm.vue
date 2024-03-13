@@ -229,11 +229,10 @@ async function showGoogle() {
             email,
             code: r.code,
           })
-          emit('update:itemId', 'setPassword')
+          //  emit('update:itemId', 'setPassword')
         }
-        else {
-          emit('signedIn', { ...props.form, flow: 'register', isNewUser: true, email })
-        }
+
+        emit('signedIn', { ...props.form, flow: 'register', isNewUser: true, email })
       }
       else {
         emit('signedIn', { ...props.form, flow: 'login', isNewUser: false, email })

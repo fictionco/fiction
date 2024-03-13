@@ -28,7 +28,7 @@ const accountMenu = vue.computed((): NavItem[] => {
     {
       name: 'Dashboard',
       icon: 'i-tabler-user',
-      href: props.card.link('/app?load=1'),
+      href: props.card.link('/app?reload=1'),
     },
     {
       icon: 'i-tabler-arrow-big-left',

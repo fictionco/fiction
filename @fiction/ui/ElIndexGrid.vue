@@ -113,7 +113,7 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
         <li
           v-for="item in list"
           :key="item.key"
-          class="col-span-1 rounded-lg border border-theme-100 dark:border-theme-700 bg-theme-0 dark:bg-theme-900 @container"
+          class="col-span-1 rounded-lg border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-900 @container"
           @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
         >
           <div class="grid grid-cols-12 gap-8">

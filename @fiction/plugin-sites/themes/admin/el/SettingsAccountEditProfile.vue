@@ -57,7 +57,7 @@ vue.onMounted(async () => {
 
 <template>
   <div>
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-2 gap-4">
       <div class="space-y-6">
         <ElInput
           v-model="form.fullName"

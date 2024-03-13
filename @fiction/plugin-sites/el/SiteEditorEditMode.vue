@@ -25,7 +25,7 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
       class="no-scrollbar min-w-0 grow-0 relative"
       @click.stop="resetUi({ scope: 'inputs', cause: 'clickEditorTools' })"
     >
-      <div class="space-y-1 py-2 z-30 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-100 dark:border-theme-700">
+      <div class="space-y-1 py-2 z-30 relative h-full bg-theme-0 dark:bg-theme-900 border-r border-theme-200 dark:border-theme-700">
         <div
           v-for="(tool, i) in tools().filter(_ => _.isPrimary)"
           :key="i"
