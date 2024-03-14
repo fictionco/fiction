@@ -7,7 +7,7 @@ import ElForm from '@fiction/ui/ElForm.vue'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import { tableNames } from '../tables'
-import { saveSite } from '../utils/site'
+import { activeSiteHostname, saveSite } from '../utils/site'
 import type { EditorTool } from './tools'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
@@ -48,7 +48,7 @@ const options = [
         input: vue.defineAsyncComponent(() => import('./InputCustomDomains.vue')),
         isRequired: true,
         props: {
-          destination: props.site.hostname.value,
+          destination: activeSiteHostname(props.site, { isProd: true }).value,
         },
       }),
     ],
@@ -93,7 +93,7 @@ function reset() {
           Reset
         </ElButton>
         <ElButton :loading="loading" type="submit" btn="primary" :disabled="Object.keys(tempSite).length === 0">
-          Save Publish Settings
+          Save Domain Settings
         </ElButton>
       </div>
     </ElForm>
@@ -104,4 +104,4 @@ function reset() {
 .region-setting-input {
   --input-bg: theme('colors.theme.100');
 }
-</style>
+</style>activeSiteHostname,

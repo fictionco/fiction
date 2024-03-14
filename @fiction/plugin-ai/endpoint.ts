@@ -15,7 +15,6 @@ interface AiResult {
   referenceInfo?: string
   completion?: Record<string, unknown>
   messages?: CommandMessage[]
-  assistantResponse?: OpenAI.Beta.Threads.Messages.ThreadMessagesPage
 }
 
 type AiCompletionSettings = {
