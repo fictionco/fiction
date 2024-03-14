@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
+import { activeSiteDisplayUrl } from '../../utils/site'
 
 describe('previewUrl', async () => {
   const testUtils = await createSiteTestUtils()
@@ -20,7 +21,7 @@ describe('activeSiteDisplayUrl', async () => {
     testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
     const site = new Site({ ...common, isProd: true, subDomain: 'sub' })
 
-    expect(site.frame.activeSiteDisplayUrl().value).toBe('https://sub.example.com')
+    expect(activeSiteDisplayUrl(site, { mode: 'display' }).value).toBe('https://sub.example.com')
   })
 
   it('should return HTTP URL with port for non-production site', () => {
@@ -28,12 +29,16 @@ describe('activeSiteDisplayUrl', async () => {
     const port = testUtils.fictionAppSites.port
     const site = new Site({ ...common, isProd: false, subDomain: 'sub' })
 
-    expect(site.frame.activeSiteDisplayUrl().value).toBe(`http://sub.lan.com:${port}`)
+    expect(activeSiteDisplayUrl(site, { mode: 'display' }).value).toBe(`http://sub.lan.com:${port}`)
+
+    expect(activeSiteDisplayUrl(site, { mode: 'staging' }).value).toBe(`http://sub.lan.com:${port}`)
   })
 
   it('should return primary custom domain if available', () => {
     testUtils.fictionAppSites.liveUrl.value = 'https://*.example.com'
     const site = new Site({ ...common, isProd: true, subDomain: 'sub', customDomains: [{ hostname: 'www.custom.com' }] })
-    expect(site.frame.activeSiteDisplayUrl().value).toBe('https://www.custom.com')
+    expect(activeSiteDisplayUrl(site, { mode: 'display' }).value).toBe('https://www.custom.com')
+
+    expect(activeSiteDisplayUrl(site, { mode: 'staging' }).value).toBe('https://sub.example.com')
   })
 })

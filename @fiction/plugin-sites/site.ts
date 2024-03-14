@@ -62,7 +62,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   pages = vue.shallowRef(setPages({ pages: this.settings.pages, site: this }))
 
   primaryCustomDomain = vue.computed(() => this.customDomains.value?.find(d => d.isPrimary)?.hostname ?? this.customDomains.value?.[0]?.hostname)
-  hostname = activeSiteHostname(this)
+  // hostname = activeSiteHostname(this)
   currentViewId = vue.computed(() => (this.siteRouter.params.value.viewId || '_home') as string)
   viewMap = vue.computed(() => getViewMap({ pages: this.pages.value }))
   activePageId = activePageId({ siteRouter: this.siteRouter, viewMapRef: this.viewMap })

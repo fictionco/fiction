@@ -170,7 +170,7 @@ const navigator = new FrameNavigator({
         </div>
         <label for="urlBar" class="relative flex grow rounded-md shadow-sm  group border border-theme-200 dark:border-theme-600 focus-within:border-theme-200 overflow-hidden">
           <span
-            class="bg-theme-0 dark:bg-theme-900 hidden text-theme-300 @5xl:inline-flex select-none items-center rounded-l-md pl-2.5 pr-2 font-medium text-xs"
+            class="bg-theme-0 dark:bg-theme-600/60 hidden text-theme-300 dark:text-theme-400 @xl:inline-flex select-none items-center rounded-l-md pl-2.5 pr-2 font-medium text-xs"
             :title="navigator.displayUrlObject.value.origin"
           >
             {{ navigator.displayUrlObject.value.origin }}
@@ -179,7 +179,7 @@ const navigator = new FrameNavigator({
             id="urlBar"
             v-model="navigator.typedPath.value"
             type="text"
-            class="block focus:border-0 text-theme-500 dark:text-theme-0 dark:bg-theme-950 border-0 w-full min-w-0 flex-1 rounded-none rounded-r-md text-xs focus:outline-none focus:ring-0 p-1.5"
+            class="block focus:border-0 text-theme-500 dark:text-theme-0 dark:bg-theme-700 border-0 w-full min-w-0 flex-1 rounded-none rounded-r-md text-xs focus:outline-none focus:ring-0 p-1.5"
             @keyup.enter="navigator.setNewPath({ fullPath: navigator.typedPath.value })"
           >
         </label>

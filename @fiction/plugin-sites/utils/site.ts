@@ -105,3 +105,19 @@ export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) 
     }
   })
 }
+
+export function activeSiteDisplayUrl(site: Site, opts: { isProd?: boolean, mode: 'display' | 'staging' }) {
+  return vue.computed(() => {
+    const { mode, isProd = site.isProd.value } = opts
+    const port = site.fictionSites.settings.fictionAppSites?.port
+
+    if (site.primaryCustomDomain.value && mode === 'display') {
+      return `https://${site.primaryCustomDomain.value}`
+    }
+    else {
+      const hostname = activeSiteHostname(site).value
+      const baseUrl = isProd ? `https://${hostname}` : `http://${hostname}:${port}`
+      return baseUrl
+    }
+  })
+}

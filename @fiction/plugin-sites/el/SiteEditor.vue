@@ -8,6 +8,7 @@ import type { Site } from '../site'
 import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
 import type { Card } from '../card'
+import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorEditMode from './SiteEditorEditMode.vue'
 import XTextBase from './XTextBase.vue'
 
@@ -152,11 +153,12 @@ async function save() {
             </div>
           </div>
           <div
+            v-if="site"
             class="col-span-6 flex items-center justify-end space-x-4 text-right "
           >
             <ElButton
               btn="default"
-              :href="site?.frame?.displayUrl.value"
+              :href="activeSiteDisplayUrl(site, { mode: 'staging' }).value"
               target="_blank"
             >
               View

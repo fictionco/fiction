@@ -8,6 +8,11 @@ export function getPage(_args: ServiceList) {
     regionId: 'main',
     templateId: 'wrap',
     slug: '_home',
+    title: 'Home',
+    userConfig: {
+      seoTitle: 'Fiction - Personal Marketing Platform',
+      seoDescription: 'A platform to build your personal brand, powered by AI.',
+    },
     cards: [
       createCard({
         templates,

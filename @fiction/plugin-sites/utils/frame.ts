@@ -2,7 +2,7 @@ import { FictionObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/cor
 import type { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import type { Site } from '..'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'
-import { updateSite } from './site'
+import { activeSiteDisplayUrl, activeSiteHostname, updateSite } from './site'
 
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }
@@ -34,23 +34,12 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath({ fictionAdmin: this.site.fictionSites.settings.fictionAdmin }).value)
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
-  displayUrlBase = this.activeSiteDisplayUrl()
+  displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })
   displayUrl = vue.computed(() => `${this.displayUrlBase.value}${this.site.currentPath.value}`)
 
   // path used for iframe url, we don't use currentPath as it causes full page reloads
   // so we only update this when the frame URL actually needs to change (not when the route changes from URL click in frame)
   framePath = vue.ref('')
-
-  activeSiteDisplayUrl() {
-    const site = this.site
-    return vue.computed(() => {
-      const port = site.fictionSites.settings.fictionAppSites?.port
-      const hostname = this.site.primaryCustomDomain.value ? this.site.primaryCustomDomain.value : this.site.hostname.value
-      const baseUrl = site.isProd.value ? `https://${hostname}` : `http://${hostname}:${port}`
-
-      return baseUrl
-    })
-  }
 
   setUtil(util: FrameUtility<FramePostMessageList>) {
     this.util = util
