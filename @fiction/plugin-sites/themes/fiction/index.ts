@@ -71,7 +71,6 @@ export function setup(args: ServiceList) {
               },
               nav: [
                 { name: 'Tour', href: '/tour' },
-                { name: 'Pricing', href: '/pricing' },
               ],
               socialList,
             },

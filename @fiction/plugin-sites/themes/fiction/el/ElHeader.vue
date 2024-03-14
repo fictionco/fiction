@@ -4,6 +4,7 @@ import { getNavComponentType, useService, vue } from '@fiction/core'
 import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/plugin-sites/card'
 import ElImage from '@fiction/ui/ElImage.vue'
+import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import XElement from '../../../engine/XElement.vue'
 import NavMobile from './NavMobile.vue'
 import NavAccount from './NavAccount.vue'
@@ -17,10 +18,7 @@ export type UserConfig = {
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 const { fictionUser, fictionRouter } = useService()
 
@@ -59,6 +57,22 @@ vue.onMounted(async () => {
     })
   }
 })
+
+const accountMenu = vue.computed((): NavItem[] => {
+  const p = fictionRouter.current.value.path
+  return [
+    {
+      name: 'Dashboard',
+      icon: 'i-tabler-user',
+      href: props.card.link('/app?reload=1'),
+    },
+    {
+      icon: 'i-tabler-arrow-big-left',
+      name: 'Sign Out',
+      onClick: () => fictionUser.logout(),
+    },
+  ].map(item => ({ ...item, isActive: item.href === p }))
+})
 </script>
 
 <template>
@@ -77,7 +91,8 @@ vue.onMounted(async () => {
               <ElImage :media="uc.logo" class="h-6" />
             </RouterLink>
           </div>
-          <div class="flex lg:hidden">
+          <div class="flex lg:hidden items-center">
+            <ElAvatar class="mr-3 h-7 w-7 rounded-full" :email="fictionUser?.activeUser.value?.email" />
             <button
               type="button"
               class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
@@ -118,7 +133,7 @@ vue.onMounted(async () => {
           <div
             class="mr-4 hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"
           >
-            <NavAccount v-if="activeUser" :card="card" />
+            <NavAccount v-if="activeUser" :card="card" :account-menu="accountMenu" />
             <template v-else>
               <a href="/app/auth/login" :class="btnClass">Log In</a>
               <XElement
@@ -139,6 +154,6 @@ vue.onMounted(async () => {
       </div>
     </div>
     <!-- Mobile Nav -->
-    <NavMobile v-model:vis="vis" :card="card" />
+    <NavMobile v-model:vis="vis" :card="card" :account-menu="accountMenu" />
   </div>
 </template>

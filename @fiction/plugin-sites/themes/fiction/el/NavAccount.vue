@@ -1,44 +1,18 @@
 <script lang="ts" setup>
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
-import type {
-  NavItem,
+import type { NavItem,
 } from '@fiction/core'
-import {
-  getNavComponentType,
-  onResetUi,
-  resetUi,
-  useService,
-  vue,
-} from '@fiction/core'
+import { getNavComponentType, onResetUi, resetUi, useService, vue } from '@fiction/core'
 import type { FictionAdmin } from '@fiction/plugin-admin'
 import type { Card } from '../../../card'
 import type { UserConfig } from './ElHeader.vue'
 
-const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+defineProps({
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+  accountMenu: { type: Array as vue.PropType<NavItem[]>, required: true },
 })
 
-const { fictionRouter, fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
-const accountMenu = vue.computed((): NavItem[] => {
-  const p = fictionRouter.current.value.path
-  return [
-    {
-      name: 'Dashboard',
-      icon: 'i-tabler-user',
-      href: props.card.link('/app?reload=1'),
-    },
-    {
-      icon: 'i-tabler-arrow-big-left',
-      name: 'Sign Out',
-      onClick: () => fictionUser.logout(),
-    },
-  ].map((item) => {
-    return { ...item, isActive: item.href === p }
-  })
-})
+const { fictionUser } = useService<{ fictionAdmin: FictionAdmin }>()
 
 const vis = vue.ref(false)
 async function toggle(): Promise<void> {
@@ -66,22 +40,13 @@ onResetUi(() => {
       <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="fictionUser.activeUser?.value.email" />
       <div class="flex w-4 flex-col items-end justify-center space-y-1">
         <div
-          class="h-1 w-4 rounded-full"
-          :class="
-            vis ? 'bg-theme-300' : 'bg-theme-200 group-hover:bg-theme-400'
-          "
-        />
-        <div
-          class="h-1 w-3 rounded-full"
-          :class="
-            vis ? 'bg-theme-300' : 'bg-theme-200 group-hover:bg-theme-400'
-          "
-        />
-        <div
-          class="h-1 w-4 rounded-full"
-          :class="
-            vis ? 'bg-theme-300' : 'bg-theme-200 group-hover:bg-theme-400'
-          "
+          v-for="i in 3"
+          :key="i"
+          class="h-1 rounded-full"
+          :class="[
+            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-700 group-hover:bg-theme-400 dark:group-hover:bg-theme-500',
+            i === 2 ? 'w-3' : 'w-4'
+          ]"
         />
       </div>
     </div>

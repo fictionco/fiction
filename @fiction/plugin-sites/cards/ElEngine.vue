@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vue } from '@fiction/core'
+import { resetUi, vue } from '@fiction/core'
 import type { Card } from '../card'
 
 const props = defineProps({
@@ -16,6 +16,16 @@ const props = defineProps({
 const isEditable = vue.computed(() => {
   return props.card?.site?.isEditable.value
 })
+
+function handleCardClick(args: { cardId: string, event: MouseEvent }) {
+  const { event, cardId } = args
+
+  if (isEditable.value) {
+    event?.stopPropagation()
+    resetUi({ scope: 'all', cause: 'ElEngine' })
+    props.card?.site?.setActiveCard({ cardId })
+  }
+}
 </script>
 
 <template>
@@ -36,7 +46,7 @@ const isEditable = vue.computed(() => {
       ]"
       :data-card-type="subCard.templateId.value"
       :card="subCard"
-      @click.stop="isEditable && card.site?.setActiveCard({ cardId: subCard.cardId })"
+      @click="handleCardClick({ cardId: subCard.cardId, event: $event })"
     />
   </component>
 </template>
