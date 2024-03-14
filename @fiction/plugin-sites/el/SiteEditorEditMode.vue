@@ -56,7 +56,7 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
         <div
           v-if="fictionSites.activeTool.left.value"
           :key="fictionSites.activeTool.left.value.toolId"
-          class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_8px_-5px_rgba(0,0,0,0.05)] border-theme-300 dark:border-theme-600 overflow-scroll no-scrollbar "
+          class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300 dark:border-theme-600 overflow-scroll no-scrollbar "
           :class="fictionSites.activeTool.left.value.widthClasses || 'w-[300px]'"
         >
           <component

@@ -43,10 +43,13 @@ async function load() {
     loading.value = false
   }
 }
+
+const page = vue.computed(() => site.value?.currentPage.value)
+
 unhead.useHead({
-  title: 'Site',
+  title: () => page.value?.userConfig.value.seoTitle || page.value?.title.value || 'untitled',
   meta: [
-    { name: `description`, content: `` },
+    { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || 'no description' },
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:site_name', content: () => site.value?.title.value || 'untitled' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
@@ -107,7 +110,7 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
 
 <template>
   <div class="x-site overflow-y-scroll h-full w-full relative">
-    <div class="antialiased x-font-body  bg-theme-0 dark:bg-theme-950 text-theme-1000 dark:text-theme-0" :class="site?.isEditable.value ? '' : ''">
+    <div class="x-font-body  bg-theme-0 dark:bg-theme-950 text-theme-1000 dark:text-theme-0" :class="site?.isEditable.value ? '' : ''">
       <div
         class="x-engine"
         :data-site-id="site?.siteId ?? '[empty]'"

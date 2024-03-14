@@ -27,10 +27,10 @@ const uc = vue.computed(() => {
     <div class="content-standard p-4 text-center md:p-0">
       <div
         class="items-center"
-        :class="uc.format === 'stacked' ? 'block' : 'inline-flex space-x-14'"
+        :class="uc.format === 'stacked' ? 'block' : 'md:inline-flex md:space-x-14'"
       >
         <div
-          class="x-font-title"
+          class="x-font-title text-theme-400 dark:text-theme-600"
           :class="
             uc.format === 'stacked'
               ? 'text-xl mb-16 font-medium'
@@ -44,7 +44,7 @@ const uc = vue.computed(() => {
           :class="
             uc.format === 'stacked'
               ? `flex justify-center flex-wrap`
-              : 'md:inline-flex'
+              : 'flex-col md:flex-row flex align-middle justify-center md:inline-flex'
           "
         >
           <a

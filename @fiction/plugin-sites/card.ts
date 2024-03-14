@@ -241,6 +241,7 @@ export class Card<
   layoutId = vue.ref(this.settings.layoutId)
   templateId = vue.ref(this.settings.templateId || (this.parentId ? 'area' : 'wrap'))
   title = vue.ref(this.settings.title)
+  description = vue.ref(this.settings.description)
   slug = vue.ref(this.settings.slug ?? `${(this.title.value ? toSlug(this.title.value) : `page`)}`)
   displayTitle = vue.computed(() => this.title.value || toLabel(this.slug.value))
   userConfig = vue.ref<T>(this.settings.userConfig || {} as T)
@@ -355,6 +356,7 @@ export class Card<
       isHome: !!this.isHome.value,
       is404: !!this.is404.value,
       title: this.title.value,
+      description: this.description.value,
       slug: this.slug.value,
       userConfig: this.userConfig.value as T,
       cards,

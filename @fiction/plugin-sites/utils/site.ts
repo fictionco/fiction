@@ -84,8 +84,7 @@ export function updateSite(args: { site: Site, newConfig: Partial<SiteSettings> 
   return site
 }
 
-export function activeSiteHostname(site: Site, opts: {isProd?: boolean} = {}) {
-
+export function activeSiteHostname(site: Site, opts: { isProd?: boolean } = {}) {
   return vue.computed(() => {
     const isProd = opts.isProd ?? site.isProd.value
     const sub = site.subDomain.value || 'NO_SUB_DOMAIN'

@@ -32,7 +32,7 @@ const options = [
     input: 'group',
     options: [
       new InputOption({
-        key: 'userConfig.objectives.about',
+        key: 'userConfig.ai.objectives.about',
         label: 'About the Website',
         description: 'The primary focus for the website? Who or what is it about?',
         input: 'InputTextarea',
@@ -40,7 +40,7 @@ const options = [
         props: { rows: 3 },
       }),
       new InputOption({
-        key: 'userConfig.objectives.targetCustomer',
+        key: 'userConfig.ai.objectives.targetCustomer',
         label: 'Target Customer',
         description: 'Who is the target customer(s) for the website? What are their needs?',
         input: 'InputTextarea',
@@ -56,13 +56,13 @@ const options = [
     input: 'group',
     options: [
       new InputOption({
-        key: 'userConfig.objectives.imageStyle',
+        key: 'userConfig.ai.objectives.imageStyle',
         label: 'Image Style',
         input: 'InputSelectCustom',
         list: imageStyle,
       }),
       new InputOption({
-        key: 'userConfig.objectives.imageStyle',
+        key: 'userConfig.ai.objectives.imageStyle',
         label: 'Image Style',
         description: 'When generating placeholder images for your site, what style would be best?',
         input: 'InputTextarea',

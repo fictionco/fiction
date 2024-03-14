@@ -105,19 +105,19 @@ export function getPage(_args: ServiceList) {
         templateId: 'features',
         userConfig: {
           heading: `Simple Tools to Build Authority`,
-          subHeading: `See why 1000s trust Fiction <span class="italic">every day</span>.`,
+          subHeading: `Purpose built to make personal marketing easy.`,
           items: [
             {
-              name: 'Stop Being Invisible',
-              desc: 'Build authority in your niche with a professional website that showcases your work and expertise.',
+              name: 'Establish Yourself',
+              desc: 'Showcase your talents and knowledge, turn your passion into your trademark.',
             },
             {
-              name: 'Meet Better People',
-              desc: 'Capture leads and grow your audience with a email capture forms and social media integrations.',
+              name: 'Create Your Network',
+              desc: 'Engage with an audience that values you through newsletters and social.',
             },
             {
-              name: 'Create Opportunity',
-              desc: 'Reach your goals, make more money, and get more opportunities with your personal brand',
+              name: 'Go Above and Beyond',
+              desc: 'Transform your personal brand into a beacon of opportunities.',
             },
           ],
           actions: [
@@ -147,8 +147,8 @@ export function getPage(_args: ServiceList) {
             templates,
             templateId: 'hero',
             userConfig: {
-              heading: `Is Your Reputation Important?`,
-              subHeading: `Establish it with Fiction's marketing and content development tools.`,
+              heading: `How Important is Your Reputation?`,
+              subHeading: `Personal marketing isn't for everyone, but if you care about building a professional reputation, we can help you.`,
               actions: [
                 {
                   name: 'Start Your Free Trial',

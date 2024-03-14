@@ -33,11 +33,16 @@ export type SiteUserConfig = Partial<{
   }
 }>
 
+type PageCardConfig = {
+  seoTitle?: string
+  seoDescription?: string
+}
+
 export type TableCardConfig<T extends Record<string, unknown> = Record<string, unknown> > = Omit<CreateObjectType<typeof pageCols>, 'cards' | 'userConfig'> & st & {
   parentId?: string
   depth?: number
   index?: number
-  userConfig?: T
+  userConfig?: T & PageCardConfig
   cards?: TableCardConfig[]
   scope?: string
 }
@@ -181,6 +186,13 @@ const pageCols = [
   new FictionDbCol({
     key: 'title',
     create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
+    default: () => '' as string,
+    isSetting: true,
+  }),
+
+  new FictionDbCol({
+    key: 'description',
+    create: ({ schema, column }) => schema.text(column.pgKey).defaultTo(column.default()),
     default: () => '' as string,
     isSetting: true,
   }),

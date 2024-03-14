@@ -83,10 +83,10 @@ const showInstructions = vue.ref(false)
   <div class="custom-domains font-sans border-t border-theme-200 dark:border-theme-600 pt-4">
     <div
 
-      class=" grid grid-cols-1 gap-x-12 gap-y-6   text-xs"
+      class=" grid grid-cols-1 gap-x-12 gap-y-6"
     >
       <div class="sm:col-span-6">
-        <label for="domain" class="block text-theme-500">
+        <label for="domain" class="block text-theme-500 text-xs">
           Domains
         </label>
         <div class="space-y-4">

@@ -88,13 +88,14 @@ const i = vue.computed(() => {
     <TransitionSlide>
       <div
         v-show="handle.hasDrawer"
-        class="card-drawer rounded-b-md border-x border-b border-theme-300 p-3 bg-theme-0"
+        class="card-drawer rounded-b-md border-x border-b   p-3 bg-theme-0 dark:bg-theme-700"
+        :class="handle.isActive ? 'border-primary-300 dark:border-primary-600' : 'border-theme-200 dark:border-theme-600'"
       >
         <div>
           <div class="drag-input-zone min-h-[1em] space-y-2">
             <div
               tag="div"
-              class="space-y-2 sortable-zone min-h-[60px]"
+              class="space-y-2 sortable-zone min-h-[40px]"
               data-drag-zone
               :data-drag-depth="handle.depth + 1"
             >

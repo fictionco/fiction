@@ -209,6 +209,7 @@ export interface CompiledServiceConfig {
       | 'templateId'
       | 'slug'
       | 'title'
+      | 'description'
       | 'cards'
       | 'userConfig'
       | 'isHome'

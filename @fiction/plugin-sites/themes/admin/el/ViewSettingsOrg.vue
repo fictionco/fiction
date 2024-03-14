@@ -148,7 +148,7 @@ vue.onMounted(async () => {
     <ElPanelSettings
       v-if="!fictionUser.activeUser.value?.isSuperAdmin"
       title="Admin Only Settings"
-      class="p-4 border border-theme-200/75 bg-theme-50/50 rounded-md m-4"
+      class="p-4 border border-theme-200/75 dark:border-theme-600 bg-theme-50/50 dark:bg-theme-700 rounded-md m-4"
     >
       <div class="space-y-12">
         <div class="space-y-4">

@@ -66,7 +66,7 @@ const uc = vue.computed(() => {
             <div
               class="col-span-6 text-sm sm:col-span-3 lg:flex-row lg:items-center lg:justify-between"
             >
-              <ul class="m-0 mx-auto flex justify-end p-0 lg:mx-0">
+              <ul class="m-0 mx-auto flex flex-wrap gap-2 justify-end p-0 lg:mx-0">
                 <li
                   v-for="(item, i) in uc.socialList"
                   :key="i"
@@ -86,7 +86,7 @@ const uc = vue.computed(() => {
                 </li>
               </ul>
 
-              <div class="text-theme-700 dark:text-theme-50 mt-5 text-right text-xs">
+              <div class="hidden md:block text-theme-700 dark:text-theme-50 mt-5 text-right text-xs">
                 <svg
                   class="inline-block"
                   xmlns="http://www.w3.org/2000/svg"
