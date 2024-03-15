@@ -2,6 +2,7 @@
 
 import type { Refinement } from '@fiction/ui'
 import { InputOption, OptionSet } from '@fiction/ui'
+import InputAi from '../el/InputAi.vue'
 
 type StandardSetArgs = { label?: string, parentKey?: string, inputs?: string[], prefix?: string }
 
@@ -56,8 +57,6 @@ class InputSets {
       new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText' }),
       new InputOption({ key: 'orgImage', label: 'Organization Image', input: 'InputMediaUpload' }),
       new InputOption({ key: 'orgUrl', label: 'Organization Url', input: 'InputText' }),
-      new InputOption({ key: 'date', label: 'Date', input: 'InputDate' }),
-      new InputOption({ key: 'sourceUrl', label: 'Source Url', input: 'InputUrl' }),
     ]
 
     const options = getFilteredOptions({ allOptions, inputs, prefix })
@@ -509,14 +508,13 @@ type QuoteFilterKeys = {
   orgName?: Refinement
   orgImage?: Refinement
   orgUrl?: Refinement
-  date?: Refinement
-  sourceUrl?: Refinement
 }
 
-export const quoteOptionSet = new OptionSet<{ mode: 'single', refine: QuoteFilterKeys } | { mode: 'multi', refine: { group: Refinement<QuoteFilterKeys> } }>({
+export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilterKeys } | { mode: 'multi', refine?: { group: Refinement<QuoteFilterKeys> } }>({
   basePath: 'userConfig',
   inputOptions: (args) => {
-    const label = args?.label || 'Quotes'
+    const { mode } = args || {}
+    const label = args?.label || (mode === 'single' ? 'Quote' : 'Quotes')
     const groupPath = args?.groupPath || 'quotes'
 
     const quoteOptions = () => {
@@ -529,26 +527,20 @@ export const quoteOptionSet = new OptionSet<{ mode: 'single', refine: QuoteFilte
         new InputOption({ key: 'orgName', label: 'Organization Name', input: 'InputText', schema: ({ z }) => z.string().optional() }),
         new InputOption({ key: 'orgImage', label: 'Organization Image', input: 'InputMediaUpload', schema: ({ z }) => z.object({ url: z.string() }).optional() }),
         new InputOption({ key: 'orgUrl', label: 'Organization Url', input: 'InputText', schema: ({ z }) => z.string().optional() }),
-        new InputOption({ key: 'date', label: 'Date', input: 'InputDate', schema: ({ z }) => z.date().optional() }),
-        new InputOption({ key: 'sourceUrl', label: 'Source Url', input: 'InputUrl', schema: ({ z }) => z.string().optional() }),
       ]
 
       return options
     }
 
-    const quoteMultiOptions = () => {
-      const options = quoteOptions()
-
+    if (args?.mode === 'multi') {
       return [
-        new InputOption({ aliasKey: 'group', key: groupPath, label, input: 'InputList', options, schema: ({ z, subSchema }) => z.array(subSchema) }),
+        new InputOption({ aliasKey: 'group', key: groupPath, label, input: 'InputList', options: quoteOptions(), schema: ({ z, subSchema }) => z.array(subSchema) }),
       ]
     }
 
-    if (args?.mode === 'multi')
-      return quoteMultiOptions()
-
-    else
-      return quoteOptions()
+    else {
+      return [new InputOption({ label, input: 'group', options: quoteOptions(), key: 'quote' })]
+    }
   },
 })
 
@@ -564,6 +556,18 @@ export const postOptionSet = new OptionSet< { refine?: { title?: boolean, author
   },
 })
 
+export const aiOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
+  basePath: 'userConfig',
+  inputOptions: () => {
+    const options = [
+      new InputOption({ key: 'purpose', input: InputAi }),
+    ]
+    return [
+      new InputOption({ label: 'AI', input: 'group', options, key: 'AISettings' }),
+    ]
+  },
+})
+
 export const optionSets = {
   post: postOptionSet,
   quotes: quoteOptionSet,
@@ -572,4 +576,5 @@ export const optionSets = {
   navItems: navItemsOptionSet,
   actionItems: actionItemOptionSet,
   headers: headerOptionSet,
+  ai: aiOptionSet,
 }

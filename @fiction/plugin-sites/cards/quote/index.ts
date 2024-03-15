@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
-import { inputSets } from '../inputSets'
+import { optionSets } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -13,7 +13,8 @@ export const templates = [
     iconTheme: 'green',
     el: vue.defineAsyncComponent(() => import('./ElQuote.vue')),
     options: [
-      ...inputSets.quote({ prefix: 'userConfig.quote.' }),
+      ...optionSets.ai.toOptions(),
+      ...optionSets.quotes.toOptions({ mode: 'single', basePath: 'userConfig.quote' }),
     ],
   }),
 ] as const
