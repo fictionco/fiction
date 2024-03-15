@@ -20,13 +20,13 @@ export const pages = [
     regionId: 'main',
     templateId: 'doc',
     slug: 'privacy',
-    userConfig: { menu, post: PostPrivacy },
+    userConfig: { menu, post: { ...PostPrivacy, ...PostPrivacy.attributes } },
   }),
   createCard({
     templates,
     regionId: 'main',
     templateId: 'doc',
     slug: 'terms',
-    userConfig: { menu, post: PostTerms },
+    userConfig: { menu, post: { ...PostTerms, ...PostTerms.attributes } },
   }),
 ]

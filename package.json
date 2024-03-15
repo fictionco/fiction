@@ -37,7 +37,10 @@
     "prep": "npm run i && npm run lint:dev",
     "i": "pnpm i && pnpm up -r && pnpm outdated -r && npm run i:lockfile",
     "i:lockfile": "pnpm i --lockfile-only",
-    "i:full": "pnpm i:clear && npm run i"
+    "i:full": "pnpm i:clear && npm run i",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "workspaces": [
     "@fiction/*"
@@ -52,7 +55,7 @@
     "@fiction/ui": "workspace:*",
     "@fiction/www": "workspace:*",
     "@vitejs/plugin-vue": "^5.0.4",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "commander": "^12.0.0",
     "cross-env": "^7.0.3",
     "deepmerge": "^4.3.1",
@@ -74,16 +77,16 @@
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.8.2",
+    "@antfu/eslint-config": "^2.8.3",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.0.2",
     "@flydotio/dockerfile": "^0.5.2",
     "@playwright/test": "^1.42.1",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.11.27",
+    "@types/node": "^20.11.28",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vitest/coverage-istanbul": "^1.3.1",
+    "@vitest/coverage-istanbul": "^1.4.0",
     "@vue/test-utils": "^2.4.5",
     "eslint": "^8.57.0",
     "eslint-plugin-eqeqeq-fix": "^1.0.3",
@@ -93,7 +96,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-unicorn": "^51.0.1",
     "eslint-plugin-vue": "^9.23.0",
-    "happy-dom": "^13.8.4",
+    "happy-dom": "^13.8.6",
     "jsdom": "^24.0.0",
     "ngrok": "5.0.0-beta.2",
     "nodemon": "^3.1.0",
@@ -106,7 +109,8 @@
     "simple-git-hooks": "^2.10.0",
     "tslib": "^2.6.2",
     "vite-plugin-dts": "^3.7.3",
-    "vitest": "^1.3.1",
+    "vitepress": "1.0.0-rc.45",
+    "vitest": "^1.4.0",
     "vue-tsc": "^2.0.6"
   },
   "pnpm": {

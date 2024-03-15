@@ -119,13 +119,9 @@ class ParseHandler {
       id,
     })
     content.addContext(
-      `${compiledVueCode.replace(
-        '\nexport function render(',
-        '\nfunction vueRender(',
-      )
-        }\nconst VueComponent = { render: vueRender }\nVueComponent.__hmrId = ${JSON.stringify(
-          id,
-        )}\nconst VueComponentWith = (components) => ({ components, render: vueRender })\n`,
+      `${compiledVueCode.replace('\nexport function render(', '\nfunction vueRender(')}\n
+        const VueComponent = { render: vueRender }\nVueComponent.__hmrId = ${JSON.stringify(id)}\n
+        const VueComponentWith = (components) => ({ components, render: vueRender })\n`,
     )
     content.addExporting('VueComponent')
     content.addExporting('VueComponentWith')

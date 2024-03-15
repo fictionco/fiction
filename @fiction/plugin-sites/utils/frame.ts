@@ -2,7 +2,7 @@ import { FictionObject, getUrlPath, onResetUi, resetUi, vue } from '@fiction/cor
 import type { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import type { Site } from '..'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'
-import { activeSiteDisplayUrl, activeSiteHostname, updateSite } from './site'
+import { activeSiteDisplayUrl, updateSite } from './site'
 
 export type FramePostMessageList =
   | { messageType: 'setSite', data: { siteConfig: Partial<TableSiteConfig>, caller?: string } }

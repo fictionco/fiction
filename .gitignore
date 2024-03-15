@@ -15,6 +15,10 @@ TODOs.md
 .env
 .env*
 
+# Vitepress
+**/.vitepress/dist
+**/.vitepress/cache
+
 # wireguard/tunnels
 wire.*
 
@@ -34,3 +38,4 @@ wire.*
 .venv*/
 *.retry
 /___*.yml
+

@@ -13,10 +13,7 @@ type UserConfig = {
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => props.card.userConfig.value)
@@ -27,6 +24,7 @@ const { fictionRouter } = useService<{ fictionRouter: FictionRouter }>()
 const loading = vue.ref(false)
 
 const postHtml = vue.ref<string>()
+
 const bodyMarkdown = vue.computed(() => {
   return uc.value.post?.bodyMarkdown ?? `# Lorem Ipsum
 
@@ -131,7 +129,7 @@ unhead.useHead({
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="flex w-full" :class="card.classes.value.contentWidth">
     <div class="doc-selector min-h-screen min-w-0 flex-auto p-4 sm:p-6 lg:p-16">
       <div v-if="loading" class="p-12">
         <ElSpinner class="text-theme-200 m-auto h-12 w-12" />
@@ -148,11 +146,11 @@ unhead.useHead({
             </div>
           </div>
           <HighlightCode class="shadow-none col-span-5">
-            <div class="entry m-auto max-w-prose  ">
-              <div class="toc-content entry" v-html="postHtml" />
+            <div class="entry m-auto max-w-prose">
+              <div class="toc-content entry" v-html="post?.bodyHtml" />
             </div>
           </HighlightCode>
-          <div class="max-w-64 flex-none  xl:text-sm col-span-2">
+          <div class="max-w-64 flex-none col-span-2">
             <EntryToc selector=".toc-content" />
           </div>
         </div>

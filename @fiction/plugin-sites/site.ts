@@ -8,7 +8,7 @@ import type { LayoutOrder } from './utils/layout'
 import { SiteFrameTools } from './utils/frame'
 import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page'
 import { addNewCard, removeCard } from './utils/region'
-import { activeSiteHostname, saveSite, setSections, updateSite } from './utils/site'
+import { saveSite, setSections, updateSite } from './utils/site'
 import type { SiteMode } from './load'
 import type { FictionSites } from '.'
 

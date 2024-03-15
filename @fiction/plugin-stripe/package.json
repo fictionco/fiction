@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@stripe/stripe-js": "^3.0.8",
+    "@stripe/stripe-js": "^3.0.10",
     "express": "^4.18.3",
-    "stripe": "^14.20.0"
+    "stripe": "^14.21.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"

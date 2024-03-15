@@ -45,7 +45,7 @@ onResetUi(() => {
           class="h-1 rounded-full"
           :class="[
             vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-700 group-hover:bg-theme-400 dark:group-hover:bg-theme-500',
-            i === 2 ? 'w-3' : 'w-4'
+            i === 2 ? 'w-3' : 'w-4',
           ]"
         />
       </div>

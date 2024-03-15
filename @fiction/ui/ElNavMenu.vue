@@ -25,7 +25,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       <div class="mb-1 flex items-center space-x-3 pb-1 pr-3">
         <div
           v-if="menuGroup.title"
-          class="text-theme-300 truncate text-xs font-semibold uppercase tracking-wide"
+          class="text-theme-300 dark:text-theme-500 truncate text-xs font-semibold uppercase tracking-wide"
         >
           {{ menuGroup.title }}
         </div>
@@ -40,8 +40,8 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
           :href="sub.href"
           :class="
             sub.isActive
-              ? 'bg-theme-200 text-theme-900'
-              : 'hover:bg-theme-100 active:bg-theme-200 text-theme-600 hover:text-theme-900   border-theme-0'
+              ? 'bg-theme-200 dark:bg-theme-800 text-theme-900 dark:text-theme-0'
+              : 'hover:bg-theme-100 dark:hover:bg-theme-700 active:bg-theme-200 dark:hover:bg-theme-600 text-theme-600 dark:text-theme-0 dark:hover:text-theme-200 hover:text-theme-900 border-theme-0'
           "
           @click="handleClick($event, sub)"
         >

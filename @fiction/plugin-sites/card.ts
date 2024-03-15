@@ -263,7 +263,7 @@ export class Card<
     const spacing = this.site?.fullConfig.value?.spacing
     return {
       contentWidth: spacing?.contentWidthClass,
-      spacing: this.tpl.value?.settings.spacingClass ?? spacing?.spacingClass,
+      spacingClass: this.tpl.value?.settings.spacingClass ?? spacing?.spacingClass,
     }
   })
 

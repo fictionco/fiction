@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { throttle, useService, vue } from '@fiction/core'
+import { log, useService, vue, waitFor } from '@fiction/core'
 
 const props = defineProps({
   subHeader: { type: Boolean, default: false },
   selector: { type: String, default: '' },
 })
+
+const logger = log.contextLogger('EntryToc')
 
 const { fictionRouter } = useService()
 
@@ -13,8 +15,9 @@ interface PageHeaders {
   anchor: string
   sub: { text: string, anchor: string }[]
 }
-const clicked = vue.ref(false)
+
 const scroller = vue.ref<HTMLElement>()
+const activeNavLink = vue.ref(-1)
 const headers = vue.ref<PageHeaders[]>([])
 const allHeaders = vue.ref<HTMLHeadingElement[]>([])
 const activeHash = vue.computed({
@@ -80,73 +83,53 @@ function getHeaders(el: HTMLElement): HeaderDetail[] {
   loading.value = false
   return out
 }
-
 function setActiveHash(): void {
-  // Disable this behavior after click actions (not actual scrolls)
-  if (clicked.value || !scroller.value) {
-    clicked.value = false
-    return
+  // Assuming props.subHeader is a boolean
+  const headers: NodeListOf<HTMLElement> = props.subHeader
+    ? document.querySelectorAll('h2, h3')
+    : document.querySelectorAll('h2')
+
+  const navLinks: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('.dynamic-nav a')
+  const n: NodeListOf<HTMLAnchorElement> = document.querySelectorAll('.dynamic-nav')
+
+  logger.info(`Found ${headers.length} headers and ${navLinks.length} navigation links`, n)
+
+  // Callback function to execute when headers intersect with the viewport
+  const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver): void => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id')
+
+        // Highlight the corresponding navigation link
+        const navArray = Array.from(navLinks)
+        const ind = navArray.findIndex((link, i) => {
+          return (link.getAttribute('href') === `#${id}`)
+        })
+
+        if (ind !== -1)
+          activeNavLink.value = ind
+      }
+    })
   }
 
-  const scrollTop = Math.max(
-    window.pageYOffset,
-    document.documentElement.scrollTop,
-    document.body.scrollTop,
-  )
-
-  const headers = props.subHeader ? 'h2, h3' : 'h2'
-
-  const anchorEls = scroller.value.querySelectorAll<HTMLElement>(headers)
-  const anchors = Array.prototype.slice.call(anchorEls) as HTMLElement[]
-
-  for (const entry of anchors.entries()) {
-    const [i, anchor] = entry
-    const nextAnchor = anchors[i + 1]
-
-    if (i === 0 && scrollTop === 0) {
-      activeHash.value = ``
-      return
-    }
-
-    const isActive
-      = scrollTop >= anchor.offsetTop - 70
-      && (!nextAnchor || scrollTop < nextAnchor.offsetTop - 70)
-
-    if (
-      isActive
-      && decodeURIComponent(fictionRouter.current.value.hash) !== decodeURIComponent(anchor.id)
-    ) {
-      activeHash.value = `#${anchor.id}`
-
-      return
-    }
+  // Setup the observer with options
+  const options: IntersectionObserverInit = {
+    root: null, // relative to the viewport
+    rootMargin: '0px',
+    threshold: 0.1, // 10% of the element should be visible
   }
+
+  const observer = new IntersectionObserver(callback, options)
+
+  // Observe each header
+  headers.forEach(header => observer.observe(header))
 }
 
-function onScroll(): (() => void) {
-  return throttle(() => {
-    setActiveHash()
-  }, 100)
-}
-
-let __timer: NodeJS.Timeout | undefined
 function setMenu(): void {
-  if (__timer)
-    clearTimeout(__timer)
+  scroller.value = document.querySelectorAll<HTMLElement>(props.selector)[0]
 
-  // Make sure new content is loaded before scanning for h2, h3
-  __timer = setTimeout(() => {
-    scroller.value = document.querySelectorAll<HTMLElement>(props.selector)[0]
-
-    if (scroller.value) {
-      headers.value = getHeaders(scroller.value)
-
-      window.addEventListener('scroll', onScroll())
-    }
-    else {
-      setMenu()
-    }
-  }, 500)
+  if (scroller.value)
+    headers.value = getHeaders(scroller.value)
 }
 
 let lastPath = fictionRouter.current.value.path
@@ -165,33 +148,33 @@ vue.watch(
 )
 
 function setClick(anchor: string): void {
-  clicked.value = true
   const el = document.querySelector(anchor) as HTMLElement
 
   if (el) {
-    window.scroll({
-      top: el.offsetTop - 120,
-      left: 0,
+    el.scrollIntoView({
       behavior: 'smooth',
+      block: 'start',
     })
+  }
+  else {
+    console.warn(`No element found for anchor: ${anchor}`)
   }
 }
 
-function isActive(anchorName: string, anchorList?: string[]): boolean {
-  if (activeHash.value === anchorName)
-    return true
-  else if (anchorList && anchorList.includes(activeHash.value))
-    return true
-  else
-    return false
+function isActive(navLinkIndex: number): boolean {
+  return navLinkIndex === activeNavLink.value
 }
 
-vue.onMounted(() => {
+vue.onMounted(async () => {
   hydrated.value = true
   setMenu()
 
   if (fictionRouter.current.value.hash)
     setClick(fictionRouter.current.value.hash)
+
+  await waitFor(100)
+
+  setActiveHash()
 })
 </script>
 
@@ -203,16 +186,17 @@ vue.onMounted(() => {
     <div class="mb-8">
       <div
         v-if="headers.length > 0"
-        class="mb-3 text-xs font-medium uppercase tracking-wide text-slate-300"
+        class="mb-3 text-xs font-medium uppercase tracking-wide text-theme-300 dark:text-theme-600"
       >
         On this page
       </div>
-      <ul class="overflow-x-hidden">
+      <ul class="overflow-x-hidden dynamic-nav">
         <li v-for="(h2, i) in headers" :key="i">
           <a
-            class="hover:text-primary-500 block py-2 text-xs text-slate-500 transition-colors duration-200"
+            class="hover:text-primary-500 dark:hover:text-primary-400 block py-2 text-xs  transition-colors duration-200"
             :href="h2.anchor"
-            :class="isActive(h2.anchor) ? 'font-medium' : ''"
+            :class="isActive(i) ? 'font-medium text-primary-500 dark:text-primary-400' : 'text-theme-500 dark:text-theme-200'"
+
             @click.prevent="setClick(h2.anchor)"
           >
             {{ h2.text }}
@@ -221,7 +205,7 @@ vue.onMounted(() => {
           <!-- <ul>
             <li v-for="(h3, ii) in h2.sub" :key="ii" class="ml-4">
               <a
-                class="block transform transition-colors duration-200 text-slate-500 py-2 hover:text-black"
+                class="block transform transition-colors duration-200 text-theme-500 py-2 hover:text-black"
                 :href="h3.anchor"
                 @click.prevent="setClick(h3.anchor)"
               >
