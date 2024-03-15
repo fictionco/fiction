@@ -179,11 +179,16 @@ const quoteCard = createCard({
   userConfig: {
     quote: {
       authorName: 'Andrew Powers',
-      authorImage:
-        'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80',
+      authorImage: {
+        format: 'url',
+        url: 'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80',
+      },
       text: 'The leaders of today, and tomorrow, must take a proactice approach to personal branding.',
       orgName: 'Uber',
-      orgImage: 'https://upload.wikimedia.org/wikipedia/commons/5/58/Uber_logo_2018.svg',
+      orgImage: {
+        format: 'url',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/5/58/Uber_logo_2018.svg',
+      },
       authorTitle: 'CEO',
     },
   },
