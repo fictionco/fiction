@@ -41,27 +41,40 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
 <template>
   <ElForm v-if="card" class="space-y-3" @submit="generateCard()">
     <div class="flex justify-between">
-      <ElButton
-        type="submit"
-        btn="primary"
-        wrap-class="gap-1"
-        size="xs"
-        :loading="loading"
-      >
-        <span class="i-tabler-sparkles text-base" />
-        <span>Generate Content</span>
-      </ElButton>
+      <div class="flex items-center">
+        <ElButton
+          type="submit"
+          btn="primary"
+          wrap-class="gap-1"
+          size="xs"
+          :loading="loading"
+        >
+          <span class="i-tabler-sparkles text-base" />
+          <span>Generate</span>
+        </ElButton>
+      </div>
 
-      <ElButton
-        btn="default"
-        size="xs"
-        tag="div"
-        wrap-class="gap-1 cursor-pointer"
-        @click="showAdvancedOptions = !showAdvancedOptions"
-      >
-        <span>Generation Config</span>
-        <span class="i-tabler-settings text-base transition-all" :class="showAdvancedOptions ? '' : 'rotate-180'" />
-      </ElButton>
+      <div class="flex items-center space-x-2">
+        <ElButton
+          btn="default"
+          size="xs"
+          tag="div"
+          wrap-class="gap-1 cursor-pointer"
+          @click="showAdvancedOptions = !showAdvancedOptions"
+        >
+          <span>AI Config</span>
+          <span class="i-tabler-settings text-base transition-all" :class="showAdvancedOptions ? '' : 'rotate-180'" />
+        </ElButton>
+        <ElButton
+          btn="default"
+          size="xs"
+          tag="div"
+          wrap-class="gap-1 cursor-pointer"
+          @click.stop="site.fictionSites.useTool({ toolId: 'ai' })"
+        >
+          <span class="i-tabler-world text-base" />
+        </ElButton>
+      </div>
     </div>
 
     <TransitionSlide>
