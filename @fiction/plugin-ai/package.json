@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.7",
-    "@fiction/plugin-unsplash": "6.0.7",
+    "@fiction/core": "6.0.8",
+    "@fiction/plugin-unsplash": "6.0.8",
     "@pinecone-database/pinecone": "^2.1.0",
     "openai": "^4.29.1",
     "tailwindcss": "^3.4.1",
@@ -15,5 +15,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.7"
+  "version": "6.0.8"
 }
