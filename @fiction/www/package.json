@@ -1,16 +1,16 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
-    "@fiction/plugin-admin": "workspace:*",
-    "@fiction/plugin-admin-index": "workspace:*",
-    "@fiction/plugin-ai": "workspace:*",
-    "@fiction/plugin-contact": "workspace:*",
-    "@fiction/plugin-highlight-code": "workspace:*",
-    "@fiction/plugin-monitor": "workspace:*",
-    "@fiction/plugin-notify": "workspace:*",
-    "@fiction/plugin-sites": "workspace:*",
-    "@fiction/plugin-stripe": "workspace:*",
-    "@fiction/ui": "workspace:*",
+    "@fiction/core": "6.0.5",
+    "@fiction/plugin-admin": "6.0.5",
+    "@fiction/plugin-admin-index": "6.0.5",
+    "@fiction/plugin-ai": "6.0.5",
+    "@fiction/plugin-contact": "6.0.5",
+    "@fiction/plugin-highlight-code": "6.0.5",
+    "@fiction/plugin-monitor": "6.0.5",
+    "@fiction/plugin-notify": "6.0.5",
+    "@fiction/plugin-sites": "6.0.5",
+    "@fiction/plugin-stripe": "6.0.5",
+    "@fiction/ui": "6.0.5",
     "@types/mapbox-gl": "^3.1.0",
     "mapbox-gl": "^3.2.0",
     "postcss": "^8.4.35",
@@ -25,5 +25,5 @@
   },
   "type": "module",
   "url": "https://www.fiction.com",
-  "version": "6.0.4"
+  "version": "6.0.5"
 }

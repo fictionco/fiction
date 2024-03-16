@@ -1,13 +1,13 @@
 {
   "name": "@fiction/plugin-subscribe",
   "type": "module",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "author": "Supereon",
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@fiction/core": "workspace:*",
-    "@fiction/plugin-monitor": "workspace:*"
+    "@fiction/core": "6.0.5",
+    "@fiction/plugin-monitor": "6.0.5"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {
