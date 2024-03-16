@@ -17,6 +17,11 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v2
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 8.13.1
+
       - name: Set Node Version
         uses: actions/setup-node@v3
         with:
