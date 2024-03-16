@@ -1,13 +1,13 @@
 {
   "name": "@fiction/plugin-notify",
   "type": "module",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "author": "Supereon",
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@fiction/core": "6.0.6"
+    "@fiction/core": "6.0.7"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {
