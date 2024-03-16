@@ -36,16 +36,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - name: Install and Build
+      - name: Install Dependencies
         run: |
           pnpm install
           pnpm rebuild --recursive
-          npm run docs:build
+
+      - name: Build Static Assets
+        run: npm run docs:build
 
       - name: Install FlyCtl
         uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Deploy Apps
+      - name: Deploy To Production Apps
         run: flyctl deploy . --config ./fly/fiction.docs.toml --remote-only --detach
 
       - name: Post Notification
@@ -63,4 +65,3 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
