@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.5",
+    "@fiction/core": "6.0.6",
     "@stripe/stripe-js": "^3.0.10",
     "express": "^4.18.3",
     "stripe": "^14.21.0"
@@ -15,5 +15,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.5"
+  "version": "6.0.6"
 }
