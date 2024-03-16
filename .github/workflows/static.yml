@@ -42,27 +42,18 @@ jobs:
           pnpm rebuild --recursive
           npm run docs:build
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get The Code
-        uses: actions/checkout@v2
-
       - name: Install FlyCtl
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy Apps
         run: flyctl deploy . --config ./fly/fiction.docs.toml --remote-only --detach
 
-  notify:
-    needs: [build, deploy]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
       - name: Post Notification
+        if: always()
+        id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
           payload: |
             {
               "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
@@ -72,3 +63,4 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
