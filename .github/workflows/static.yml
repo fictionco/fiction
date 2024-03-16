@@ -53,7 +53,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy Apps
-        run: npm exec -- flyctl deploy . --config ./fly/fiction.docs.toml --remote-only --detach
+        run: flyctl deploy . --config ./fly/fiction.docs.toml --remote-only --detach
 
   notify:
     needs: [build, deploy]
