@@ -99,7 +99,7 @@ jobs:
         run: npm exec -- vitest run @fiction/core/plugin-user/test/userUpdate.ci.test.ts -u
 
       - name: DEV unit tests
-        run: npm exec -- vitest run wip -u
+        run: npm exec -- vitest run wip -u --reporter=hanging-process --reporter=verbose
 
       - name: STABLE unit tests
         run: npm exec -- vitest run ci -u

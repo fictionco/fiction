@@ -43,7 +43,7 @@ const uc = vue.computed(() => {
             >
               <h3
                 v-if="col.groupName"
-                class="mb-6 text-left font-sans text-sm font-medium uppercase tracking-widest"
+                class="mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-300 font-medium uppercase tracking-widest"
               >
                 {{ col.groupName }}
               </h3>
