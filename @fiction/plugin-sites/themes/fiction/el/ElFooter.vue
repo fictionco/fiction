@@ -13,6 +13,9 @@ export type UserConfig = {
     name?: string
     icon?: string
   }[]
+  footerText?: string
+  privacyPolicy?: string
+  termsOfService?: string
 }
 
 const props = defineProps({
@@ -25,6 +28,12 @@ const props = defineProps({
 const uc = vue.computed(() => {
   return props.card.userConfig.value || {}
 })
+
+const footer = [
+    uc.value.footerText,
+    `<a href="${uc.value.termsOfService}">Terms of Service</a>`,
+    `<a href="${uc.value.privacyPolicy}">Privacy Policy</a>`,
+].filter(Boolean).join(' <span class="opacity-50 mx-1">&mdash;</span> ')
 </script>
 
 <template>
@@ -115,10 +124,7 @@ const uc = vue.computed(() => {
         </div>
 
         <div class="mt-12">
-          <div class="text-theme-300 my-6 text-center text-xs font-medium">
-            Copyright &copy; {{ dayjs().format("YYYY") }} &middot;
-            <a href="https://www.supereon.ai">Supereon LLC</a>.
-          </div>
+          <div class="text-theme-300 dark:text-theme-500 my-6 text-center text-xs font-medium" v-html="footer" />
         </div>
       </div>
     </div>

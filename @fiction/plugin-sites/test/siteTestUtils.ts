@@ -5,7 +5,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { FictionSites } from '..'
-import SiteRender from '../engine/XSite.vue'
+import XSite from '../engine/XSite.vue'
 import { setup as testThemeSetup } from './test-theme'
 
 export type SiteTestUtils = TestUtils & {
@@ -17,7 +17,7 @@ export type SiteTestUtils = TestUtils & {
   fictionAws: FictionAws
   fictionAi: FictionAi
 }
-export async function createSiteTestUtils(): Promise<SiteTestUtils> {
+export async function createSiteTestUtils(args: { routes?: (args: TestUtils) => AppRoute[] } = {}): Promise<SiteTestUtils> {
   const testUtils = await createTestUtils({ envFiles: [testEnvFile], checkEnvVars: [
     'AWS_ACCESS_KEY',
     'AWS_ACCESS_KEY_SECRET',
@@ -32,8 +32,8 @@ export async function createSiteTestUtils(): Promise<SiteTestUtils> {
   const openaiApiKey = fictionEnv.var('OPENAI_API_KEY')
 
   const flyIoAppId = 'fiction-sites'
-  const routes = [
-    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: SiteRender }),
+  const routes = args.routes?.(testUtils) || [
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'fiction' } }),
   ]
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
@@ -43,7 +43,7 @@ export async function createSiteTestUtils(): Promise<SiteTestUtils> {
   out.fictionMedia = new FictionMedia({ ...out, fictionAws: out.fictionAws, bucket: 'factor-tests' })
   out.fictionRouterSites = new FictionRouter({ routerId: 'siteRouter', fictionEnv, baseUrl: 'https://www.test.com', routes, create: true })
   out.fictionAppSites = new FictionApp({
-    port: randomBetween(10_000, 20_000),
+    port: randomBetween(1100, 50_000),
     ...out,
     fictionRouter: out.fictionRouterSites,
     isTest: true,

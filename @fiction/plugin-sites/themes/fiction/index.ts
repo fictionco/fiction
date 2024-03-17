@@ -89,7 +89,7 @@ export function setup(args: ServiceList) {
                 {
                   groupName: 'Pages',
                   menu: [
-                    { href: '/pricing', name: 'Pricing' },
+                    { href: '/tour', name: 'Tour' },
                     { href: '/app', name: 'Dashboard' },
                   ],
                 },
@@ -97,17 +97,19 @@ export function setup(args: ServiceList) {
                   groupName: 'Company',
                   menu: [
                     { href: '/about', name: 'About' },
-                    { href: '/contact', name: 'Contact' },
+                    { href: '/support', name: 'Support' },
                   ],
                 },
                 {
-                  groupName: 'Legal',
+                  groupName: 'Resources',
                   menu: [
-                    { href: '/privacy', name: 'Privacy' },
-                    { href: '/terms', name: 'Terms of Service' },
+                    { href: 'https://docs.fiction.cx', name: 'Docs' },
                   ],
                 },
               ],
+              privacyPolicy: `https://docs.fiction.cx/resources/privacy.html`,
+              termsOfService: `https://docs.fiction.cx/resources/terms.html`,
+              footerText: `© Fiction, Inc.`,
               socialList,
             },
           }),

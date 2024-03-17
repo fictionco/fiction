@@ -7,7 +7,7 @@ import { execaCommand } from 'execa'
 import fs from 'fs-extra'
 import type { Browser, Page } from 'playwright'
 import { executeCommand } from '../utils/nodeUtils'
-import { camelToKebab, randomBetween } from '../utils'
+import { camelToKebab, randomBetween, waitFor } from '../utils'
 import { log } from '../plugin-log'
 import type { PackageJson } from '../types'
 import type { CliCommand } from '../plugin-env'
@@ -67,7 +67,10 @@ export async function createTestServer(params: {
   moduleName = moduleName || await getModuleName(cwd)
 
   // add additional cli args
-  const additionalArgs = Object.entries(args).map(([key, val]) => `--${camelToKebab(key)} ${val}`)
+  const additionalArgs = Object.entries({
+    'postgres-url': 'postgres://test:test@localhost:5432',
+    ...args,
+  }).map(([key, val]) => `--${camelToKebab(key)} ${val}`)
 
   // randomize the ports on commands
   commands = commands.map((command) => {
@@ -116,6 +119,52 @@ export async function createTestServer(params: {
       }
       await bwsr.close()
     },
+  }
+}
+
+type TestPageAction = {
+  type: 'visible' | 'click' | 'type' | 'keyboard'
+  selector: string
+  text?: string
+  key?: string
+  wait?: number
+}
+
+export async function performActions(args: { browser: TestServerConfig, path: string, actions: readonly TestPageAction[] | TestPageAction[] }) {
+  const { browser, path, actions } = args
+  const page = browser.page
+
+  const appPort = browser.commands.find(_ => _.command === 'app')?.port.value || 3000
+  const url = new URL(`http://localhost:${appPort}${path}`).toString()
+
+  await page.goto(url, { waitUntil: 'networkidle' })
+
+  for (const action of actions) {
+    const element = page.locator(action.selector)
+
+    switch (action.type) {
+      case 'click': {
+        await element.click()
+        break
+      }
+      case 'type': {
+        await element.type(action.text || '')
+        break
+      }
+      case 'keyboard': {
+        await page.keyboard.press(action.key || '')
+        break
+      }
+      case 'visible': {
+        const isVisible = await element.isVisible()
+        expect(isVisible).toBe(true)
+        break
+      }
+          // Add more action types as needed
+    }
+
+    if (action.wait)
+      await waitFor(action.wait)
   }
 }
 
