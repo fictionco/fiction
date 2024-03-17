@@ -13,6 +13,8 @@ import type { PackageJson } from '../types'
 import type { CliCommand } from '../plugin-env'
 import type { TestUtilSettings } from './init'
 
+const logger = log.contextLogger('BUILD TESTS')
+
 async function getModuleName(cwd: string): Promise<string> {
   const pkg = await import(`${cwd}/package.json`) as PackageJson
   return pkg.name
@@ -41,6 +43,8 @@ export async function createTestBrowser(args: { headless: boolean, slowMo?: numb
     page,
     close: async () => {
       try {
+        // destroy everything
+        await page?.close()
         await browser.close()
       }
       catch (error) {
@@ -123,44 +127,61 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'type' | 'keyboard'
+  type: 'visible' | 'click' | 'type' | 'keyboard' | 'exists'
   selector: string
   text?: string
   key?: string
   wait?: number
 }
 
-export async function performActions(args: { browser: TestServerConfig, path: string, actions: readonly TestPageAction[] | TestPageAction[] }) {
-  const { browser, path, actions } = args
+export async function performActions(args: {
+  browser: TestBrowser
+  path: string
+  actions: readonly TestPageAction[] | TestPageAction[]
+  port: number
+}) {
+  const { browser, path, actions, port } = args
   const page = browser.page
 
-  const appPort = browser.commands.find(_ => _.command === 'app')?.port.value || 3000
-  const url = new URL(`http://localhost:${appPort}${path}`).toString()
+  const url = new URL(`http://localhost:${port}${path}`).toString()
+
+  logger.info('NAVIGATE_TO', { data: { url } })
 
   await page.goto(url, { waitUntil: 'networkidle' })
+
+  logger.info('NAVIGATED', { data: { url } })
 
   for (const action of actions) {
     const element = page.locator(action.selector)
 
     switch (action.type) {
       case 'click': {
+        logger.info('CLICK_ELEMENT', { data: { selector: action.selector } })
         await element.click()
         break
       }
       case 'type': {
+        logger.info('TYPE_TEXT', { data: { selector: action.selector, text: action.text } })
         await element.type(action.text || '')
         break
       }
       case 'keyboard': {
+        logger.info('TYPE_KEY', { data: { key: action.key } })
         await page.keyboard.press(action.key || '')
         break
       }
       case 'visible': {
         const isVisible = await element.isVisible()
-        expect(isVisible).toBe(true)
+        logger.info('IS_VISIBLE', { data: { result: isVisible, selector: action.selector } })
+        expect(isVisible, `${action.selector} is visible`).toBe(true)
         break
       }
-          // Add more action types as needed
+      case 'exists': {
+        const exists = await element.count()
+        logger.info('EXISTS', { data: { result: exists, selector: action.selector } })
+        expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
+        break
+      }
     }
 
     if (action.wait)

@@ -200,7 +200,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }): Promise<FictionAppEntry> {
     const { selector = '#app', renderRoute, service, runVars, serviceConfig } = args
 
-    await this.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
+    if (serviceConfig)
+      await this.fictionEnv.crossRunCommand({ context: 'app', serviceConfig, runVars })
 
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 

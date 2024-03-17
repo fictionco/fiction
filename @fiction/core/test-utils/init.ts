@@ -29,7 +29,7 @@ export interface TestUtilServices {
   fictionEmail: FictionEmail
 }
 
-export interface InitializedTestUtils {
+export type InitializedTestUtils = {
   user: User
   orgId: string
   token: string
@@ -193,7 +193,7 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
   return services
 }
 
-export async function createTestUtils(opts?: TestUtilSettings) {
+export function createTestUtils(opts?: TestUtilSettings) {
   const service = createTestUtilServices(opts)
 
   const all = {
@@ -201,6 +201,7 @@ export async function createTestUtils(opts?: TestUtilSettings) {
     close: async () => {
       service.fictionServer.close()
       await service.fictionDb.close()
+      await service.fictionApp.close()
     },
     ...service,
   }

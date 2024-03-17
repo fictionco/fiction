@@ -371,7 +371,7 @@ export class FictionEnv<
    */
   async crossRunCommand(args: {
     context: 'node' | 'app'
-    serviceConfig?: types.ServiceConfig
+    serviceConfig: types.ServiceConfig
     cliVars?: Partial<types.CliVars>
     runVars?: Partial<RunVars>
   }) {

@@ -261,7 +261,7 @@ const titles = vue.computed<Title | undefined>(() => {
   const mapping: Record<string, Title> = {
     register: {
       title: 'Create New Account',
-      links: [{ name: 'Login Instead', onClick: () => emit('update:itemId', 'login') }],
+      links: [{ name: 'Login Instead', onClick: () => emit('update:itemId', 'login'), key: 'to-login' }],
     },
     resetPassword: {
       title: 'Reset Password',
@@ -276,7 +276,7 @@ const titles = vue.computed<Title | undefined>(() => {
     },
     login: {
       title: 'Login',
-      links: [{ name: 'Create Account Instead', onClick: () => emit('update:itemId', 'register') }],
+      links: [{ name: 'Create Account Instead', onClick: () => emit('update:itemId', 'register'), key: 'to-register' }],
     },
   }
 
@@ -291,7 +291,7 @@ const titles = vue.computed<Title | undefined>(() => {
       <div class="mt-2 text-sm font-medium x-font-title text-theme-500">
         <h4 v-if="titles.subTitle" class="space-x-2" v-html="titles.subTitle" />
         <div v-if="titles.links && titles.links.length" class="s">
-          <span v-for="(action, i) in titles.links" :key="i" class="text-primary-500 hover:opacity-70 cursor-pointer" @click="action.onClick?.({ event: $event, item: action })">{{ action.name }} &rarr;</span>
+          <span v-for="(action, i) in titles.links" :key="i" :data-test-id="action.key" class="text-primary-500 hover:opacity-70 cursor-pointer" @click="action.onClick?.({ event: $event, item: action })">{{ action.name }} &rarr;</span>
         </div>
       </div>
     </div>
@@ -377,8 +377,8 @@ const titles = vue.computed<Title | undefined>(() => {
         </div>
         <div>
           <ElInput
-            id="input-email"
             key="inputEmail"
+            data-test-id="input-email"
             :value="form.email"
             class="my-6"
             label="Email Address"
@@ -390,8 +390,8 @@ const titles = vue.computed<Title | undefined>(() => {
           />
 
           <ElInput
-            id="input-password"
             key="inputPassword"
+            data-test-id="input-password"
             :value="form.password"
             class="my-6"
             input="InputPassword"
@@ -404,7 +404,7 @@ const titles = vue.computed<Title | undefined>(() => {
 
           <div class="action">
             <ElButton
-              id="email-signin-button"
+              data-test-id="email-login-button"
               type="submit"
               format="block"
               btn="primary"
@@ -420,6 +420,7 @@ const titles = vue.computed<Title | undefined>(() => {
         <div class="account-services text-center" data-test="google-button">
           <div
             id="google-signin-button"
+            data-test-id="google-signin-button"
             class="flex w-full justify-start text-left md:justify-center md:text-center"
           />
         </div>
@@ -437,7 +438,7 @@ const titles = vue.computed<Title | undefined>(() => {
           class="space-y-6"
         >
           <ElInput
-            id="input-name"
+            data-test-id="input-name"
             :value="form.fullName"
             label="Your Name"
             input="InputText"
@@ -448,7 +449,7 @@ const titles = vue.computed<Title | undefined>(() => {
           />
 
           <ElInput
-            id="input-email"
+            data-test-id="input-email"
             :value="form.email"
             label="Your Email"
             input="InputEmail"
@@ -461,6 +462,7 @@ const titles = vue.computed<Title | undefined>(() => {
 
           <ElInput
             key="inputPassword"
+            data-test-id="input-password"
             :value="form.password"
             class="my-6"
             input="InputPassword"
@@ -486,7 +488,7 @@ const titles = vue.computed<Title | undefined>(() => {
 
           <div class="action text-center">
             <ElButton
-              id="email-signin-button"
+              data-test-id="email-register-button"
               btn="primary"
               format="block"
               :loading="sending"
@@ -505,7 +507,7 @@ const titles = vue.computed<Title | undefined>(() => {
         </div>
       </template>
       <template v-else-if="itemId === 'setPassword'">
-        <div>
+        <div data-test-id="set-password-form">
           <ElInput
             :value="form.email"
             class="my-6"
@@ -546,7 +548,7 @@ const titles = vue.computed<Title | undefined>(() => {
         </div>
       </template>
       <template v-else-if="itemId === 'resetPassword'">
-        <div>
+        <div data-test-id="reset-password-form">
           <ElInput
             key="inputEmail"
             :value="form.email"

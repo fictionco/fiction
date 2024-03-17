@@ -1,14 +1,20 @@
 import { log } from '../plugin-log'
 import type { RunVars } from '../inject'
+import type { FictionObject, FictionPlugin } from '../plugin'
 import type { CliVars, ServiceConfig, ServiceList } from './types'
 
 type ServiceSetupArgs = { serviceConfig: ServiceConfig } & ({ context: 'app', runVars: Partial<RunVars> } | { context: 'node', cliVars: Partial<CliVars> })
+
+function isPlugin(object: any): object is FictionPlugin | FictionObject {
+  return typeof object?.setup === 'function'
+}
 
 /**
  * Run plugin setup and afterSetup hooks
  */
 export async function runServicesSetup(service: ServiceList, args: { context: 'app' | 'node' | 'test' }): Promise<void> {
-  const pluginList = Object.values(service)
+  const pluginList = Object.values(service).filter(isPlugin)
+
   if (pluginList.length > 0) {
     for (const plugin of pluginList) {
       try {

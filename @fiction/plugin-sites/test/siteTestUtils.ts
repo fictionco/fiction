@@ -16,14 +16,24 @@ export type SiteTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
   fictionAi: FictionAi
+  runApp: (args: { context: 'app' | 'node' }) => Promise<{ port: number }>
+  close: () => Promise<void>
 }
-export async function createSiteTestUtils(args: { routes?: (args: TestUtils) => AppRoute[] } = {}): Promise<SiteTestUtils> {
-  const testUtils = await createTestUtils({ envFiles: [testEnvFile], checkEnvVars: [
-    'AWS_ACCESS_KEY',
-    'AWS_ACCESS_KEY_SECRET',
-    'FLY_API_TOKEN',
-    'OPENAI_API_KEY',
-  ] })
+export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app' } = {}): SiteTestUtils {
+  const { mainFilePath, context = 'node' } = args
+
+  const testUtils = createTestUtils({
+    mainFilePath,
+    envFiles: [testEnvFile],
+    checkEnvVars: context === 'node'
+      ? [
+          'AWS_ACCESS_KEY',
+          'AWS_ACCESS_KEY_SECRET',
+          'FLY_API_TOKEN',
+          'OPENAI_API_KEY',
+        ]
+      : [],
+  })
   const fictionEnv = testUtils.fictionEnv
 
   const awsAccessKey = fictionEnv.var('AWS_ACCESS_KEY')
@@ -32,8 +42,9 @@ export async function createSiteTestUtils(args: { routes?: (args: TestUtils) => 
   const openaiApiKey = fictionEnv.var('OPENAI_API_KEY')
 
   const flyIoAppId = 'fiction-sites'
-  const routes = args.routes?.(testUtils) || [
-    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'fiction' } }),
+
+  const routes = [
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite }),
   ]
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils
@@ -57,6 +68,26 @@ export async function createSiteTestUtils(args: { routes?: (args: TestUtils) => 
   out.fictionSites.themes.value = [...out.fictionSites.themes.value, testThemeSetup(out)]
 
   out.fictionEnv.log.info('sites test utils created')
+
+  out.runApp = async () => {
+    await out.fictionDb.init()
+    const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
+
+    await out.fictionApp.ssrServerSetup({
+      expressApp: srv?.expressApp,
+      isProd: false,
+    })
+
+    await srv?.run()
+
+    out.fictionApp.logReady({ serveMode: 'comboSSR' })
+
+    return { port: out.fictionServer.port.value }
+  }
+
+  out.close = async () => {
+    await testUtils.close()
+  }
 
   return out as SiteTestUtils
 }

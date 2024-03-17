@@ -329,6 +329,9 @@ export class Card<
     if (!router)
       return ''
 
+    if (!router.currentRoute.value.matched[0])
+      throw new Error('Card.link - No matched current route')
+
     const prefix = router.currentRoute.value.matched[0].path.match(/.*?(?=\/:viewId|$)/)?.[0] || ''
     const resolvedHref = router.resolve(location).href
 

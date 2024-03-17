@@ -186,7 +186,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const mainFileExists = mainFilePath && fs.existsSync(mainFilePath)
     if (mainFilePath && !mainFileExists)
-      this.log.warn(`mainFilePath does not exist: ${mainFilePath}`)
+      this.log.error(`mainFilePath does not exist: ${mainFilePath}`)
 
     const mainFile = mainFileExists ? mainFilePath : blankModule
 

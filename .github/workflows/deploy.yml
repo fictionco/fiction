@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get The Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up DNS for subdomain testing
         run: |
@@ -62,7 +62,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 8.13.1
+          version: 8.15.4
 
       - name: Set Node Version
         uses: actions/setup-node@v3

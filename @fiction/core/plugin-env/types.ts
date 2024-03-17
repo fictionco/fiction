@@ -43,7 +43,7 @@ export interface MainFile {
   [key: string]: unknown
 }
 
-export type ServiceList = Record<string, FictionPlugin | FictionObject > & { fictionEnv?: FictionEnv }
+export type ServiceList = Record<string, FictionPlugin | FictionObject | Function | Record<string, unknown>> & { fictionEnv?: FictionEnv }
 
 export type CliVars = {
   RUNTIME_VERSION: string

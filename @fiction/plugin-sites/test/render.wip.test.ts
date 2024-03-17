@@ -69,28 +69,31 @@ describe('siteRendering Tests', async () => {
     const el = mountEl.querySelector('.x-engine') as HTMLElement
     expect(el.dataset.subDomain, 'correct sub domain').toBe(subDomain)
 
-    // expect(subDomain).toMatchInlineSnapshot(`"kxexk"`)
-    // expect(siteObj.siteId).toMatchInlineSnapshot(`"site65baa59877aa780e3151edd9"`)
+    // expect(subDomain).toMatchInlineSnapshot(`"twtzx"`)
+    // expect(siteObj.siteId).toMatchInlineSnapshot(`"site65f712f10a729d45d1899b3b"`)
     // expect(html.slice(0, 1000)).toMatchInlineSnapshot(`
-    //   "<div class="antialiased x-site ui-font-body">
-    //     <div
-    //       class="x-engine"
-    //       data-site-id="site65baa59877aa780e3151edd9"
-    //       data-pathname="/"
-    //       data-view-id="_home"
-    //       data-page-id="crd65baa598a856290ff75c2002"
-    //       data-theme-id="test"
-    //       data-sub-domain="kxexk"
-    //     >
-    //       <header id="crd65baa5989695dbae708076c2" data-card-type="engine" class="engine-full-width" data-cards-total="0" data-cards-keys=""><!--v-if--></header>
-    //       <main id="crd65baa598a856290ff75c2002" data-card-type="engine" class="engine-full-width" data-cards-total="4" data-cards-keys="mediaGrid, hero, area, hero">
-    //         <div class="card-engine">
-    //           <div class="media-grid relative z-10 mx-auto overflow-hidden py-[calc(2rem+6vw)]" id="crd65baa5983deb8951fbb26f5e" data-card-type="mediaGrid">
-    //             <div class="media-grid-track">
-    //               <div class="media-grid-grid grid">
-    //                 <div class="media-grid-item group relative overflow-hidden">
-    //                   <div class="item-media absolute inset-0">
-    //      "
+    //   "<div class="x-site overflow-y-scroll h-full w-full relative">
+    //     <div class="x-font-body bg-theme-0 dark:bg-theme-950 text-theme-1000 dark:text-theme-0">
+    //       <div
+    //         class="x-engine"
+    //         data-site-id="site65f712f10a729d45d1899b3b"
+    //         data-pathname="/"
+    //         data-view-id="_home"
+    //         data-page-id="crd65f712efa2c933f890951c6d"
+    //         data-theme-id="test"
+    //         data-sub-domain="twtzx"
+    //         data-site-mode="standard"
+    //       >
+    //         <div class="wrap">
+    //           <!--v-if-->
+    //           <main class="card-engine">
+    //             <div class="marquee relative z-10 mx-auto overflow-hidden py-[calc(1.5rem+4vw)]" id="crd65f712ef1c37cf1fc9784afa" data-card-type="marquee">
+    //               <div class="marquee-track">
+    //                 <div class="marquee-grid grid">
+    //                   <div class="marquee-item relative overflow-hidden">
+    //                     <div class="item-media absolute inset-0">
+    //                       <img
+    //                         src="https://factor-tests.s3.amazonaws.com/test/md_65f712efa5a4cb9ec60f6a71-scr"
     // `)
     expect(html).toContain(`data-site-id="${siteObj.siteId}"`)
 
