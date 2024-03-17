@@ -3,44 +3,14 @@ import { useService } from '@fiction/core'
 
 const { fictionApp } = useService()
 
-const processVars = process.env
-
 const list = [
-  {
-    id: 'server-port',
-    title: 'Server port',
-    value: process.env.SERVER_PORT,
-  },
-  {
-    id: 'app-port',
-    title: 'APP Port',
-    value: process.env.APP_PORT,
-  },
-  {
-    id: 'is-test',
-    title: 'IS_TEST',
-    value: process.env.IS_TEST,
-  },
-  {
-    id: 'node-env',
-    title: 'NODE_ENV',
-    value: process.env.NODE_ENV,
-  },
-  {
-    id: 'is-vite',
-    title: 'IS_VITE',
-    value: process.env.IS_VITE,
-  },
-  {
-    id: 'app-name',
-    title: 'App Name',
-    value: fictionApp.appName,
-  },
-  {
-    id: 'app-email',
-    title: 'App Email',
-    value: fictionApp.appEmail,
-  },
+  { id: 'server-port', title: 'Server port', value: process.env.SERVER_PORT },
+  { id: 'app-port', title: 'APP Port', value: process.env.APP_PORT },
+  { id: 'is-test', title: 'IS_TEST', value: process.env.IS_TEST },
+  { id: 'node-env', title: 'NODE_ENV', value: process.env.NODE_ENV },
+  { id: 'is-vite', title: 'IS_VITE', value: process.env.IS_VITE },
+  { id: 'app-name', title: 'App Name', value: fictionApp.appName },
+  { id: 'app-email', title: 'App Email', value: fictionApp.appEmail },
 ]
 </script>
 
@@ -61,6 +31,5 @@ const list = [
         <span v-else class="text-red-500">[not set]</span>
       </div>
     </div>
-    <div>{{ processVars }}</div>
   </div>
 </template>
