@@ -81,7 +81,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   root = safeDirname(import.meta.url)
 
   constructor(settings: FictionAppSettings) {
-    super('app', settings)
+    super('FictionApp', settings)
 
     this.appEmail = this.fictionEnv.appEmail
     this.appName = this.fictionEnv.appName

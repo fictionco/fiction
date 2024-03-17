@@ -3,6 +3,8 @@ const commitRef = process.env.COMMIT_REF?.slice(0, 8) || 'dev'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  head: [['link', { rel: 'icon', href: '/favicon.png' }]],
+  lang: 'en-US',
   title: "Fiction Docs",
   description: "Documentation for Fiction marketing platform and content development system",
   themeConfig: {
@@ -13,10 +15,17 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Examples', link: '/markdown-examples' },
       { text: 'Resources',
-      items: [
-        { text: 'Privacy Policy', link: '/resources/privacy' },
-        { text: 'Terms of Service', link: '/resources/terms' },
-      ] },
+        items: [
+          { text: 'Team', link: '/team'},
+          { text: 'Privacy Policy', link: '/resources/privacy' },
+          { text: 'Terms of Service', link: '/resources/terms' },
+        ]
+      },
+      {
+        text: 'Fiction Homepage',
+        link: 'https://www.fiction.cx',
+        target: '_self',
+      }
     ],
 
     sidebar: {
@@ -48,5 +57,9 @@ export default defineConfig({
       message: `Released under the GPLv2 License. (${commitRef})`,
       copyright: 'Copyright © 2023-present Fiction.com',
     },
+
+    search: {
+      provider: 'local'
+    }
   }
 })

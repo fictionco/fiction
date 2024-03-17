@@ -3,7 +3,7 @@
   "type": "module",
   "version": "6.0.9",
   "description": "Add a syntax highlighting component to your Fiction app.",
-  "license": "MIT",
+  "license": "GPL-2.0-only",
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "6.0.9",

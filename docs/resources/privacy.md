@@ -3,6 +3,8 @@ title: Privacy Policy
 description: Fiction Privacy Policy
 ---
 
+# Privacy Policy
+
 We will NEVER sell your personal data to anyone.
 
 This Privacy Policy applies to personal data processed by Fiction in our business, including on our websites and other online or offline offerings (a “Service” or collectively, the “Services”). Fiction enables the visitors of its site, www.fiction.com, to be in control of their Personal data. We also provide controls that allow Fiction's users/customers to have control over the privacy of Personal Data that is captured by our Services. This Privacy Policy provides information about how Fiction processes and protects this data.

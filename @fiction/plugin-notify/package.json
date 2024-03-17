@@ -4,7 +4,7 @@
   "version": "6.0.9",
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "author": "Supereon",
-  "license": "MIT",
+  "license": "GPL-2.0-only",
   "main": "index.ts",
   "dependencies": {
     "@fiction/core": "6.0.9"

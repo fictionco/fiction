@@ -71,11 +71,7 @@
 }
 
 .dark{
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    120deg,
-    #60a5fa 20%,
-    #93c5fd
-  );
+  --vp-home-hero-name-background: var(--vp-c-text-3);
 }
 
 @media (min-width: 640px) {
@@ -145,22 +141,3 @@
   transition: color 0.25s;
 }
 
-.vp-sponsor.aside .vp-sponsor-grid.mini .vp-sponsor-grid-image {
-  max-width: 124px;
-}
-
-.vp-sponsor-grid.big .vp-sponsor-grid-image {
-  max-height: 96px;
-}
-
-.vp-sponsor-grid.mini .vp-sponsor-grid-image[alt='Bit'] {
-  max-height: 48px;
-}
-
-.vp-sponsor-grid.xmini .vp-sponsor-grid-image[alt='JetBrains'] {
-  max-height: 54px;
-}
-
-.vp-sponsor-grid.medium .vp-sponsor-grid-image[alt='JetBrains'] {
-  max-height: 100px;
-}

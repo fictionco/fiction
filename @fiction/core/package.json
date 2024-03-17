@@ -177,7 +177,7 @@
     "util": "^0.12.5",
     "websocket-polyfill": "^1.0.0"
   },
-  "license": "MIT",
+  "license": "GPL-2.0-only",
   "main": "index.ts",
   "name": "@fiction/core",
   "publishConfig": {
