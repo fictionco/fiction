@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.8",
-    "@fiction/plugin-sites": "6.0.8"
+    "@fiction/core": "6.0.9",
+    "@fiction/plugin-sites": "6.0.9"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "MIT",
@@ -11,5 +11,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.8"
+  "version": "6.0.9"
 }

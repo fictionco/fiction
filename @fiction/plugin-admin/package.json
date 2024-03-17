@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.8",
-    "@fiction/plugin-ai": "6.0.8",
-    "@fiction/plugin-highlight-code": "6.0.8",
-    "@fiction/ui": "6.0.8",
+    "@fiction/core": "6.0.9",
+    "@fiction/plugin-ai": "6.0.9",
+    "@fiction/plugin-highlight-code": "6.0.9",
+    "@fiction/ui": "6.0.9",
     "marked": "^12.0.1",
     "minimatch": "^9.0.3",
     "tailwindcss": "^3.4.1",
@@ -17,5 +17,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.8"
+  "version": "6.0.9"
 }

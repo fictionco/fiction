@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.8",
+    "@fiction/core": "6.0.9",
     "@shopify/draggable": "^1.1.3",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.7",
@@ -22,5 +22,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.8"
+  "version": "6.0.9"
 }

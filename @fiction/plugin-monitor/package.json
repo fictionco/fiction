@@ -1,12 +1,12 @@
 {
   "name": "@fiction/plugin-monitor",
   "type": "module",
-  "version": "6.0.8",
+  "version": "6.0.9",
   "author": "Supereon",
   "license": "MIT",
   "main": "index.ts",
   "dependencies": {
-    "@fiction/core": "6.0.8",
+    "@fiction/core": "6.0.9",
     "@mailchimp/mailchimp_marketing": "^3.0.80",
     "@sentry/node": "^7.107.0",
     "@sentry/tracing": "^7.107.0",
