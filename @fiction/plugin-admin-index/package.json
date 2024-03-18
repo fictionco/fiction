@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.9",
-    "@fiction/plugin-sites": "6.0.9"
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-sites": "workspace:*"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",

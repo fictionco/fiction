@@ -31,7 +31,7 @@ describe('serverRenderHtml', () => {
     htmlBody: '<htmlBody></htmlBody>',
   })
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     if (!testUtils.fictionApp.fictionRender)
       throw new Error('no fictionRender')
 

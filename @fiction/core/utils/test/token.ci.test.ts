@@ -10,7 +10,7 @@ import { getCookie, getNakedDomain } from '../cookie'
 let testUtils: TestUtils | undefined
 describe('user token', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     testUtils.initialized = await testUtils.init()
   })
 

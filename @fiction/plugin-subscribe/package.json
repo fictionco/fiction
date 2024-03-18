@@ -6,8 +6,8 @@
   "license": "GPL-2.0-only",
   "main": "index.ts",
   "dependencies": {
-    "@fiction/core": "6.0.9",
-    "@fiction/plugin-monitor": "6.0.9"
+    "@fiction/core": "workspace:*",
+    "@fiction/plugin-monitor": "workspace:*"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

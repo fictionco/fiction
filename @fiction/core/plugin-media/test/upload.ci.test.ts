@@ -20,7 +20,7 @@ describe('media upload/download tests', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const testUtils = await createTestUtils({ envFiles: [testEnvFile] }) as (TestUtils & { fictionMedia?: FictionMedia })
+  const testUtils = createTestUtils({ envFiles: [testEnvFile] }) as (TestUtils & { fictionMedia?: FictionMedia })
 
   const awsAccessKey = testUtils.fictionEnv.var('AWS_ACCESS_KEY')
   const awsAccessKeySecret = testUtils.fictionEnv.var('AWS_ACCESS_KEY_SECRET')

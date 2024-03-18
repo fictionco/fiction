@@ -6,7 +6,7 @@ import { loadSiteFromTheme } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('site plugin tests', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
 
   await testUtils.init()
   const common = {
@@ -18,8 +18,8 @@ describe('site plugin tests', async () => {
 
   const site = await loadSiteFromTheme({ themeId: 'test', ...common, caller: 'pluginTests' })
 
-  it('loads site from theme', async () => {
-    await site.siteRouter.push('/foo')
+  it('loads site from theme', async (ctx) => {
+    await site.siteRouter.push('/foo', { caller: ctx.task.name })
 
     expect(Object.keys(site?.siteRouter.params.value)).toMatchInlineSnapshot(`
       [
@@ -39,11 +39,11 @@ describe('site plugin tests', async () => {
     expect(site?.activePageId.value).toBe('_special404')
     expect(site?.currentPage.value?.title.value).toBe('404')
 
-    await site.siteRouter.push('/example')
+    await site.siteRouter.push('/example', { caller: ctx.task.name })
 
     expect(site?.currentPage.value?.slug.value).toBe('example')
 
-    await site.siteRouter.push('/')
+    await site.siteRouter.push('/', { caller: ctx.task.name })
 
     expect(site?.currentPage.value?.slug.value).toBe('_home')
   })

@@ -14,7 +14,7 @@ describe('user tests', () => {
     if (!fs.existsSync(testEnvFile))
       console.warn(`missing test env file ${testEnvFile}`)
 
-    testUtils = await createTestUtils({ envFiles: [testEnvFile] })
+    testUtils = createTestUtils({ envFiles: [testEnvFile] })
 
     const unsplashAccessKey = testUtils.fictionEnv.var('UNSPLASH_ACCESS_KEY')
 

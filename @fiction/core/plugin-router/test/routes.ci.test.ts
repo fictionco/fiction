@@ -14,7 +14,7 @@ const routes = [
 ]
 
 describe('fictionRouterCreate', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
 
   await testUtils.init()
 
@@ -25,9 +25,9 @@ describe('fictionRouterCreate', async () => {
     routerId: 'testRouter',
   })
 
-  it('errors if not initialized', async () => {
+  it('errors if not initialized', async (ctx) => {
     await expect(fictionRouter.goto('testPage1', { testId: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
-    await expect(fictionRouter.push({ path: '123' })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
+    await expect(fictionRouter.push({ path: '123' }, { caller: ctx.task.name })).rejects.toThrowErrorMatchingInlineSnapshot(`[Error: router not initialized [testRouter]]`)
   })
 
   it('syncs with vue router', async () => {
@@ -47,7 +47,7 @@ describe('fictionRouterCreate', async () => {
 })
 
 describe.skip('fictionRouter', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
 
   await testUtils.init()
 

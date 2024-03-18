@@ -104,7 +104,7 @@ const fictionUser = new FictionUser({
       hook: 'onLogout',
       callback: async () => {
         fictionNotify.notifySuccess('You have been logged out.')
-        await fictionRouter.push('/')
+        await fictionRouter.push('/', { caller: 'onLogout' })
       },
     },
   ],

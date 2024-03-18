@@ -4,7 +4,7 @@ import { objectId, shortId } from '../../utils'
 import { standardTable } from '../../tbl'
 
 describe('check username', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   const fictionDb = testUtils.fictionDb
   const initialized = await testUtils.init()
   const userId = initialized.user.userId

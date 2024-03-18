@@ -12,7 +12,7 @@ import { createSiteTestUtils } from '../../test/siteTestUtils'
 import type { CardConfigPortable } from '../../tables'
 
 describe('setLayoutOrder', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,

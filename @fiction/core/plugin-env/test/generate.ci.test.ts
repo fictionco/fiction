@@ -8,7 +8,7 @@ import { generateStaticConfig } from '@fiction/core/plugin-env/generate'
 const root = new URL('.', import.meta.url).pathname
 describe('test config generator', () => {
   beforeAll(async () => {
-    const testUtils = await createTestUtils({
+    const testUtils = createTestUtils({
       cwd: safeDirname(import.meta.url),
     })
 

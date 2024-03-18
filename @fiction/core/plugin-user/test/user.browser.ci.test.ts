@@ -11,7 +11,7 @@ let token: string | undefined
 const email = getTestEmail()
 
 describe('user tests', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   await testUtils.init()
 
   afterAll(async () => {

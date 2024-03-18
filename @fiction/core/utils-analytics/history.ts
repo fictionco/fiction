@@ -10,7 +10,7 @@ const patchHistory = function (
 ): (...args: historyArgs) => void {
   const orig = history[method]
   return function (this: typeof orig, ...args: historyArgs): void {
-    const rv = orig.apply(this, args as historyArgs)
+    const rv = orig.apply(this, args)
     const e = new Event(method) as Event & { arguments: historyArgs }
     e.arguments = args
     window.dispatchEvent(e)

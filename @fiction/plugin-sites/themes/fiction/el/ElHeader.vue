@@ -60,18 +60,24 @@ vue.onMounted(async () => {
 
 const accountMenu = vue.computed((): NavItem[] => {
   const p = fictionRouter.current.value.path
-  return [
+  const user = activeUser.value
+  const list = [
     {
-      name: 'Dashboard',
+      name: user ? 'Dashboard' : 'Sign In',
       icon: 'i-tabler-user',
       href: props.card.link('/app?reload=1'),
     },
-    {
-      icon: 'i-tabler-arrow-big-left',
+  ]
+
+  if (user) {
+    list.push({
       name: 'Sign Out',
-      onClick: () => fictionUser.logout(),
-    },
-  ].map(item => ({ ...item, isActive: item.href === p }))
+      icon: 'i-tabler-logout',
+      href: '/app/auth/logout',
+    })
+  }
+
+  return list.map(item => ({ ...item, isActive: item.href === p }))
 })
 </script>
 
@@ -83,20 +89,19 @@ const accountMenu = vue.computed((): NavItem[] => {
           class="relative flex items-center justify-between"
           aria-label="Global"
         >
-          <div class="flex lg:flex-1">
+          <div class="flex lg:flex-1 text-left">
             <RouterLink
               to="/"
-              class="hover:text-primary-600 x-font-title block rounded-md text-2xl font-bold transition-all"
+              class="hover:text-primary-600 x-font-title block rounded-md text-2xl font-bold transition-all max-w-[30dvw]"
             >
-              <ElImage :media="uc.logo" class="h-6" />
+              <ElImage :media="uc.logo" class="h-6 inline-block" />
             </RouterLink>
           </div>
-          <div class="flex lg:hidden items-center">
-            <ElAvatar class="mr-3 h-7 w-7 rounded-full" :email="fictionUser?.activeUser.value?.email" />
+          <div class="flex lg:hidden items-center cursor-pointer hover:opacity-90 active:opacity-60" @click.stop="vis = !vis">
+            <ElAvatar v-if="fictionUser?.activeUser.value?.email" class="mr-3 h-7 w-7 rounded-full" :email="fictionUser?.activeUser.value?.email" />
             <button
               type="button"
               class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
-              @click.stop="vis = !vis"
             >
               <span class="sr-only">Open main menu</span>
               <svg
@@ -124,7 +129,7 @@ const accountMenu = vue.computed((): NavItem[] => {
               :key="item.href"
               :to="item.href ?? '/'"
               :href="item.href ?? '/'"
-              class="hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer rounded-full px-4 py-1.5 text-sm font-sans font-semibold"
+              class="bg-theme-100 dark:bg-theme-700 hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer rounded-full px-4 py-1.5 text-sm font-sans font-semibold"
               :class="item.isActive ? 'bg-theme-200 dark:bg-primary-950' : ''"
               v-html="item.name"
             />

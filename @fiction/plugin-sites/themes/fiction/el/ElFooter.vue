@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import type { MenuGroup } from '@fiction/core'
-import { dayjs, vue } from '@fiction/core'
+import type { MediaDisplayObject, MenuGroup } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '@fiction/plugin-sites/card'
+import ElImage from '@fiction/ui/ElImage.vue'
 
 export type UserConfig = {
-  icon?: string
+  icon?: MediaDisplayObject
   menus?: MenuGroup[]
   socialList?: {
     key?: string
@@ -30,7 +31,7 @@ const uc = vue.computed(() => {
 })
 
 const footer = [
-    uc.value.footerText,
+  uc.value.footerText,
     `<a href="${uc.value.termsOfService}">Terms of Service</a>`,
     `<a href="${uc.value.privacyPolicy}">Privacy Policy</a>`,
 ].filter(Boolean).join(' <span class="opacity-50 mx-1">&mdash;</span> ')
@@ -41,18 +42,18 @@ const footer = [
     <div class="mx-auto max-w-7xl px-4 lg:px-0">
       <div class="">
         <div class="flex flex-col justify-between sm:flex-row">
-          <div class="w-60 py-6 text-left sm:mx-auto md:py-1">
-            <a href="/" v-html="uc.icon" />
+          <div class="w-32 md:w-60 py-6 text-left sm:mx-auto md:py-1 mb-4">
+            <a href="/" class="block size-8 md:size-12"><ElImage :media="uc.icon" /></a>
           </div>
           <div class="grid grow grid-cols-12 gap-x-8 gap-y-12">
             <div
               v-for="(col, i) in uc.menus"
               :key="i"
-              class="col-span-6 sm:col-span-3"
+              class="col-span-12 sm:col-span-3"
             >
               <h3
                 v-if="col.groupName"
-                class="mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-300 font-medium uppercase tracking-widest"
+                class="mb-3 md:mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-500 font-medium uppercase tracking-widest"
               >
                 {{ col.groupName }}
               </h3>
@@ -73,9 +74,9 @@ const footer = [
               </ul>
             </div>
             <div
-              class="col-span-6 text-sm sm:col-span-3 lg:flex-row lg:items-center lg:justify-between"
+              class="col-span-12 text-sm sm:col-span-3 lg:flex-row lg:items-center lg:justify-between"
             >
-              <ul class="m-0 mx-auto flex flex-wrap gap-2 justify-end p-0 lg:mx-0">
+              <ul class="m-0 mx-auto flex flex-wrap gap-2 justify-center md:justify-end p-0 lg:mx-0">
                 <li
                   v-for="(item, i) in uc.socialList"
                   :key="i"
@@ -124,7 +125,7 @@ const footer = [
         </div>
 
         <div class="mt-12">
-          <div class="text-theme-300 dark:text-theme-500 my-6 text-center text-xs font-medium" v-html="footer" />
+          <div class="text-theme-300 dark:text-theme-500 my-6 text-center text-xs font-sans" v-html="footer" />
         </div>
       </div>
     </div>

@@ -14,7 +14,7 @@ let testUtils: TestUtils
 let server: http.Server | undefined
 describe('server test', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
   })
 
   afterEach(() => {

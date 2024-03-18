@@ -6,7 +6,7 @@ let user: User | undefined
 let org: Organization | undefined
 let orgId: string | undefined
 describe('org/project handling', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   const initialized = await testUtils.init()
   orgId = initialized.user.orgs?.[0].orgId
 

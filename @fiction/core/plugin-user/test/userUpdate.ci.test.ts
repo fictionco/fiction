@@ -3,7 +3,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { getTestEmail } from '../../test-utils'
 
 describe('user settings update', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   const initialized = await testUtils.init()
 
   afterAll(async () => {

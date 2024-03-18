@@ -11,7 +11,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 let testUtils: TestUtils | undefined
 describe('active project and org', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     testUtils.initialized = await testUtils.init()
   })
 

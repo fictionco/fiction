@@ -10,7 +10,7 @@ import { requestManageSite } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('sitePreview', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   await testUtils.init()
 
   const common = {
@@ -33,7 +33,7 @@ describe('sitePreview', async () => {
     entry.app.unmount()
   })
 
-  it('should load siteId preview if siteId is in URL', async () => {
+  it('should load siteId preview if siteId is in URL', async (ctx) => {
     if (!testUtils)
       return
 
@@ -43,7 +43,7 @@ describe('sitePreview', async () => {
     const orgBase = testUtils.fictionAdmin.adminBaseOrgPath.value
     const siteEdit = `${orgBase}/siteEdit`
 
-    await r.push(`/admin/preview/theme/minimal`)
+    await r.push(`/admin/preview/theme/minimal`, { caller: ctx.task.name })
 
     expect(cur().params).toMatchInlineSnapshot(`
       {
@@ -54,7 +54,7 @@ describe('sitePreview', async () => {
       }
     `)
 
-    await r.push(`${siteEdit}?siteId=554433`)
+    await r.push(`${siteEdit}?siteId=554433`, { caller: ctx.task.name })
 
     expect(cur().query).toMatchInlineSnapshot(`
       {
@@ -64,7 +64,7 @@ describe('sitePreview', async () => {
 
     expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/site/554433"`)
 
-    await r.push(`${siteEdit}?themeId=minimal`)
+    await r.push(`${siteEdit}?themeId=minimal`, { caller: ctx.task.name })
 
     expect(cur().query).toMatchInlineSnapshot(`
       {
@@ -74,7 +74,7 @@ describe('sitePreview', async () => {
 
     expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/theme/minimal"`)
 
-    await r.push(`${siteEdit}?subDomain=test-sub-domain`)
+    await r.push(`${siteEdit}?subDomain=test-sub-domain`, { caller: ctx.task.name })
 
     expect(cur().query).toMatchInlineSnapshot(`
       {
@@ -85,8 +85,8 @@ describe('sitePreview', async () => {
     expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/domain/test-sub-domain"`)
   })
 
-  it('mounts correctly', async () => {
-    await r.push(`/admin/preview/theme/test`)
+  it('mounts correctly', async (ctx) => {
+    await r.push(`/admin/preview/theme/test`, { caller: ctx.task.name })
 
     await waitFor(100)
 
@@ -110,7 +110,7 @@ describe('sitePreview', async () => {
 
     expect(r.current.value.name).toMatchInlineSnapshot(`"sitePreview"`)
 
-    await r.push(`/admin/preview/site/${site?.siteId}`)
+    await r.push(`/admin/preview/site/${site?.siteId}`, { caller: ctx.task.name })
 
     await waitFor(300)
 
@@ -119,7 +119,7 @@ describe('sitePreview', async () => {
     expect(html).toContain('data-theme-id="minimal"')
     expect(html).toContain(`data-site-id="${site?.siteId}"`)
 
-    await r.push(`/admin/preview/domain/${site?.subDomain.value}`)
+    await r.push(`/admin/preview/domain/${site?.subDomain.value}`, { caller: ctx.task.name })
 
     await waitFor(300)
 

@@ -100,7 +100,7 @@ describe('getMountContext', () => {
 })
 
 describe('site plugin tests', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   await testUtils.init()
   const subDomain = `test-${shortId({ len: 3, withNumbers: false })}`
 
@@ -127,7 +127,7 @@ describe('site plugin tests', async () => {
     throw new Error('no site')
 
   afterEach(async () => {
-    await testUtils.fictionRouter.push(`/`)
+    await testUtils.fictionRouter.push(`/`, { caller: 'sitePlugin' })
   })
 
   it('should load a site by ID with loadSiteById', async () => {
@@ -179,9 +179,9 @@ describe('site plugin tests', async () => {
     expect(loaded?.subDomain.value).toBe(subDomain)
   })
 
-  it('should load a site by themeId', async () => {
+  it('should load a site by themeId', async (ctx) => {
     const themeId = 'test'
-    await testUtils.fictionRouter.push(`${testUtils.fictionAdmin.adminBaseRoute}/preview/theme/${themeId}/`)
+    await testUtils.fictionRouter.push(`${testUtils.fictionAdmin.adminBaseRoute}/preview/theme/${themeId}/`, { caller: ctx.task.name })
 
     const { selectorType, selectorId } = testUtils.fictionRouter.params.value as Record<string, string>
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'standard' })
@@ -194,9 +194,9 @@ describe('site plugin tests', async () => {
     expect(site?.themeId.value).toBe(themeId)
   })
 
-  it('should load a site by siteId extracted from URL', async () => {
+  it('should load a site by siteId extracted from URL', async (ctx) => {
     const siteId = site.siteId
-    await testUtils.fictionRouter.push(`${testUtils.fictionAdmin.adminBaseRoute}/preview/site/${siteId}/`)
+    await testUtils.fictionRouter.push(`${testUtils.fictionAdmin.adminBaseRoute}/preview/site/${siteId}/`, { caller: ctx.task.name })
 
     const { selectorType, selectorId } = testUtils.fictionRouter.params.value as Record<string, string>
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'standard' })
@@ -206,8 +206,8 @@ describe('site plugin tests', async () => {
     expect(loaded?.siteId).toBe(siteId)
   })
 
-  it('should not load a site for reserved subdomain www', async () => {
-    await testUtils.fictionRouter.push(`/my/path`)
+  it('should not load a site for reserved subdomain www', async (ctx) => {
+    await testUtils.fictionRouter.push(`/my/path`, { caller: ctx.task.name })
 
     expect(() => getMountContext({ currentSubDomain: 'www', siteMode: 'standard' })).toThrowErrorMatchingInlineSnapshot(`[Error: WWW Subdomain]`)
   })

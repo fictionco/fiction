@@ -7,7 +7,7 @@ import { standardCardTemplates } from '../cards'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('card', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,
@@ -110,7 +110,7 @@ describe('card', async () => {
 })
 
 describe('cardTemplate', async () => {
-  const _testUtils = await createSiteTestUtils()
+  const _testUtils = createSiteTestUtils()
   it('initializes correctly with default settings', async () => {
     const site = new Site({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
 

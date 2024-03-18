@@ -22,7 +22,7 @@ const headers = vue.ref<PageHeaders[]>([])
 const allHeaders = vue.ref<HTMLHeadingElement[]>([])
 const activeHash = vue.computed({
   get: () => fictionRouter.current.value.hash,
-  set: v => fictionRouter.push({ ...fictionRouter.current.value, hash: v }),
+  set: v => fictionRouter.push({ ...fictionRouter.current.value, hash: v }, { caller: 'activeHash' }),
 })
 const hydrated = vue.ref(false)
 const loading = vue.ref(false)

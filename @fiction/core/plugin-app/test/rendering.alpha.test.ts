@@ -6,7 +6,7 @@ import { createTestUtils } from '../../test-utils/init'
 let testUtils: undefined | TestUtils
 describe('rendering tests', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
   })
 
   it('generates correct html', async () => {

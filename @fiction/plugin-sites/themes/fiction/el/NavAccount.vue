@@ -34,7 +34,7 @@ onResetUi(() => {
   <div class="relative flex items-center font-medium">
     <div
       v-if="fictionUser.activeUser.value"
-      class="group flex cursor-pointer items-center space-x-2"
+      class="group flex cursor-pointer items-center space-x-2 hover:opacity-90 active:opacity-80"
       @click.stop.prevent="toggle()"
     >
       <ElAvatar class="ml-3 h-7 w-7 rounded-full" :email="fictionUser.activeUser?.value.email" />
@@ -44,7 +44,7 @@ onResetUi(() => {
           :key="i"
           class="h-1 rounded-full"
           :class="[
-            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-700 group-hover:bg-theme-400 dark:group-hover:bg-theme-500',
+            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-600 group-hover:bg-theme-400 dark:group-hover:bg-theme-500',
             i === 2 ? 'w-3' : 'w-4',
           ]"
         />

@@ -4,7 +4,7 @@ import { vue } from '../libraries'
 import { createTestUtils } from '../../test-utils/init'
 
 describe('active user handling', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   const initialized = await testUtils.init()
 
   it('should set the user to initialized', async () => {

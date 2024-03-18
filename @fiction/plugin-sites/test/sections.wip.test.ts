@@ -8,7 +8,7 @@ import type { CardConfigPortable } from '../tables'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('setSections', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   await testUtils.init()
 
   const common = {
@@ -32,7 +32,7 @@ describe('setSections', async () => {
 })
 
 describe('section handling defaults', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
 
   await testUtils.init()
   const common = {
@@ -44,7 +44,7 @@ describe('section handling defaults', async () => {
 
   const site = await loadSiteFromTheme({ themeId: 'test', ...common })
 
-  it('creates default sections header, footer', async () => {
+  it('creates default sections header, footer', async (ctx) => {
     expect(site.currentPage.value.templateId.value).toMatchInlineSnapshot(`"wrap"`)
     expect(Object.keys(site.sections.value)).toMatchInlineSnapshot(`
       [
@@ -54,7 +54,7 @@ describe('section handling defaults', async () => {
       ]
     `)
 
-    await site.siteRouter.push('/example')
+    await site.siteRouter.push('/example', { caller: ctx.task.name })
 
     expect(Object.keys(site.sections.value)).toEqual(expect.arrayContaining(['header', 'footer', 'test']))
   })

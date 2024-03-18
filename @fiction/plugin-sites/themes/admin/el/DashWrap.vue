@@ -14,6 +14,7 @@ type UserConfig = {
   homeIcon?: MediaDisplayObject
   isNavItem?: boolean
   navIcon?: string
+  authRedirect?: string
 }
 
 const props = defineProps({
@@ -75,7 +76,10 @@ const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {
 })
 
 vue.onMounted(async () => {
-  await fictionUser.userInitialized()
+  const user = await fictionUser.userInitialized()
+
+  if (!user && uc.value.authRedirect)
+    props.card.site?.siteRouter.push(uc.value.authRedirect, { caller: 'DashWrap' })
 
   loading.value = false
 })
@@ -85,8 +89,9 @@ vue.onMounted(async () => {
   <div id="admin-page" class="app-wrap relative flex h-dvh flex-col font-sans" :data-route="card.site?.siteRouter.current.value.fullPath">
     <template v-if="!loading && !fictionUser.activeUser.value">
       <El404
+        super-heading="401"
         heading="Login Required"
-        sub-heading="Log in to access this page."
+        sub-heading="Signin to your account to access this page."
         :actions="[{ name: 'Login', href: card.link('/auth/login') }]"
       />
     </template>

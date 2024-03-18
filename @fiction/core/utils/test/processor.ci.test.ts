@@ -9,7 +9,7 @@ let shortcodes: Shortcodes
 
 describe('shortcodes tests', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     const fictionEnv = testUtils.fictionEnv
     shortcodes = new Shortcodes({ fictionEnv })
     shortcodes.addShortcode('mock', () => 'MockResult')

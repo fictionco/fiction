@@ -272,7 +272,7 @@ export class FictionRouter<
 
   public async push(
     location: vueRouter.RouteLocationRaw,
-    options?: { caller?: string, navMode?: 'push' | 'replace' },
+    options: { caller: string, navMode?: 'push' | 'replace' },
   ) {
     if (!this.router.value)
       throw new Error(`router not initialized [${this.settings.routerId}]`)

@@ -55,7 +55,7 @@ describe('getViewMap', async () => {
 })
 
 describe('activePageId', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
 
   const siteRouter = testUtils.fictionRouterSites
   const viewMapRef = vue.ref<Record<string, string>>({
@@ -72,14 +72,14 @@ describe('activePageId', async () => {
 
   it('get: should return the correct page ID for a given viewId', async () => {
     // Mocking the current value of the siteRouter
-    await siteRouter.push('/example')
+    await siteRouter.push('/example', { caller: 'test' })
 
     expect(computedPageId.value).toEqual('id2')
   })
 
   it('get: should return the _404 page ID if the viewId does not exist in the viewMap', async () => {
     // Mocking the current value of the siteRouter to a non-existing viewId
-    await siteRouter.push('/non-existing-view')
+    await siteRouter.push('/non-existing-view', { caller: 'test' })
 
     await waitFor(15)
 
@@ -89,7 +89,7 @@ describe('activePageId', async () => {
 
   it('get: should return the _home page ID if the viewId is not provided', async () => {
     // Mocking the current value of the siteRouter without viewId
-    await siteRouter.push('/')
+    await siteRouter.push('/', { caller: 'test' })
 
     await waitFor(15)
 
@@ -136,7 +136,7 @@ describe('activePageId', async () => {
 
     expect(siteRouter.current.value.path).toEqual('/alpha')
 
-    await siteRouter.push('/charlie')
+    await siteRouter.push('/charlie', { caller: 'reactivity:test' })
 
     await waitFor(30)
 
@@ -145,7 +145,7 @@ describe('activePageId', async () => {
 })
 
 describe('getActivePage', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   // Mock Cards

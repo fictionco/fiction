@@ -15,7 +15,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 let site: TableSiteConfig
 let siteObj: Site
 describe('site plugin tests', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const testTheme = setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''

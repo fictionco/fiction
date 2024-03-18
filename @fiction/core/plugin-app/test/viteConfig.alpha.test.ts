@@ -7,7 +7,7 @@ let viteConfig: vite.InlineConfig | undefined
 let testUtils: TestUtils | undefined
 describe('vite config', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils({ serverPort: 20_220, appPort: 1234 })
+    testUtils = createTestUtils({ serverPort: 20_220, appPort: 1234 })
   })
   it('gets and merges vite config', async () => {
     expect(testUtils?.fictionServer.port).toBe(20_220)

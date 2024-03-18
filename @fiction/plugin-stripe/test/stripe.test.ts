@@ -18,7 +18,7 @@ const key = (): string => Math.random().toString().slice(2, 8)
 let testUtils: TestUtils & { fictionStripe: FictionStripe }
 describe('stripe tests', () => {
   beforeAll(async () => {
-    const utils = await createTestUtils()
+    const utils = createTestUtils()
 
     const fictionStripe = new FictionStripe({
       fictionEnv: utils.fictionEnv,

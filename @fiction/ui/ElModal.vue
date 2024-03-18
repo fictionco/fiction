@@ -69,7 +69,7 @@ export default {
       >
         <div
           v-if="vis"
-          class="fixed inset-0 bg-slate-800/65 backdrop-blur-sm transition-opacity"
+          class="fixed inset-0 bg-theme-800/65 active:bg-theme-800/80 dark:bg-theme-400/65 backdrop-blur-sm transition-opacity"
           @click="close({ reason: 'escape' })"
         />
       </transition>

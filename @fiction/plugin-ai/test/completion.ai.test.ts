@@ -19,7 +19,7 @@ describe('ai completions', async () => {
   if (!fs.existsSync(testEnvFile))
     console.warn(`missing test env file ${testEnvFile}`)
 
-  const testUtils = await createTestUtils({ envFiles: [testEnvFile] })
+  const testUtils = createTestUtils({ envFiles: [testEnvFile] })
 
   const openaiApiKey = testUtils.fictionEnv.var('OPENAI_API_KEY')
 

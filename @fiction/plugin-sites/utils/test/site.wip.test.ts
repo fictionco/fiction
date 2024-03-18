@@ -8,7 +8,7 @@ import { activeSiteHostname, saveSite, updateSite } from '../site'
 import { setPages, updatePages } from '../page'
 
 describe('saveSite', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   await testUtils.init()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
 
@@ -53,7 +53,7 @@ describe('saveSite', async () => {
 })
 
 describe('updateSite / updatePages', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('updates site with valid keys', async () => {
@@ -108,7 +108,7 @@ describe('updateSite / updatePages', async () => {
 })
 
 describe('activeSiteHostname', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should return the hostname from a full URL', () => {

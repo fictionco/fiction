@@ -50,7 +50,7 @@ vi.mock('google-auth-library', () => {
 let testUtils: undefined | TestUtils
 describe('google auth', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     await testUtils.fictionDb.init()
 
     testUtils.fictionUser.googleClientId = 'mocked_id'

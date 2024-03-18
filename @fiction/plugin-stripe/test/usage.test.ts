@@ -12,7 +12,7 @@ let _orgId: string | undefined = undefined
 
 describe('usage handling', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
 
     await testUtils.init()
 

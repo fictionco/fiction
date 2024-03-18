@@ -64,7 +64,7 @@ export function activePageId(args: { siteRouter: FictionRouter, viewMapRef: vue.
       else if (viewId.includes('not-found'))
         logger.error('missing viewId', { data: { viewMap, viewId, cardId } })
 
-      await siteRouter.push(`/${viewId}`)
+      await siteRouter.push(`/${viewId}`, { caller: 'activePageId' })
     },
   })
 }

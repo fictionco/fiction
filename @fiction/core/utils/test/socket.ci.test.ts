@@ -43,7 +43,7 @@ const clientEvents: [keyof EventMap, EventMap[keyof EventMap]['res']][] = []
 let testUtils: TestUtils | undefined
 describe('sockets', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
     s = await createSocketServer<EventMap>({
       serverName: 'testSocketServer',
       port,

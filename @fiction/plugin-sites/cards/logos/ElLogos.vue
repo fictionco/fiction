@@ -51,7 +51,7 @@ const uc = vue.computed(() => {
             v-for="(logo, i) in uc.items"
             :key="i"
             :href="logo.href"
-            class="hover:text-theme-500 logo-link  flex items-center justify-center h-[80px] max-w-[200px] relative"
+            class="hover:text-theme-500 logo-link  flex items-center justify-center h-[80px] w-full max-w-[200px] relative"
             :class="uc.format === 'stacked' ? `w-[17%]` : ''"
             target="_blank"
           >

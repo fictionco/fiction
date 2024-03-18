@@ -18,7 +18,7 @@ vi.mock('../serverEmail', async () => {
 let user: User
 
 describe('user tests', async () => {
-  const testUtils = await createTestUtils()
+  const testUtils = createTestUtils()
   await testUtils.fictionDb.init()
 
   it('creates user', async () => {

@@ -4,7 +4,7 @@ import { Site } from '../site'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('cardCompletion', async () => {
-  const testUtils = await createSiteTestUtils()
+  const testUtils = createSiteTestUtils()
   await testUtils.init()
   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   it('generates the content for the card', async () => {

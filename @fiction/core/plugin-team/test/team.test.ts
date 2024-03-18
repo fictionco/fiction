@@ -9,7 +9,7 @@ let testUtils: (TestUtils & { fictionTeam?: FictionTeam }) | undefined
 
 describe('org team', () => {
   beforeAll(async () => {
-    testUtils = await createTestUtils()
+    testUtils = createTestUtils()
 
     const fictionTeam = new FictionTeam({
       ...testUtils,

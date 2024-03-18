@@ -29,7 +29,7 @@ export function getPage(_args: ServiceList) {
               actions: [
                 {
                   name: 'Start Your Free Trial',
-                  href: '/signup',
+                  href: '/app?reload=1',
                 },
               ],
             },
@@ -157,7 +157,7 @@ export function getPage(_args: ServiceList) {
               actions: [
                 {
                   name: 'Start Your Free Trial',
-                  href: '/signup',
+                  href: '/app?reload=1',
                 },
               ],
             },

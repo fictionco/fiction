@@ -11,7 +11,7 @@ describe('manageCertificates', () => {
   const hostname = 'example.com'
   const maskedKeys = ['id']
   beforeAll(async () => {
-    testUtils = await createSiteTestUtils()
+    testUtils = createSiteTestUtils()
     await testUtils.init()
   })
 
