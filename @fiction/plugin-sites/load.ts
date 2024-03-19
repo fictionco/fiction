@@ -1,30 +1,28 @@
-import type { FictionRouter } from '@fiction/core'
+import type { FictionRouter, RunVars } from '@fiction/core'
 import { log } from '@fiction/core'
 import type { TableSiteConfig } from './tables'
+import type { ManageSiteParams } from './endpoint'
 import { Site } from '.'
 import type { FictionSites } from '.'
 
 const logger = log.contextLogger('siteLoader')
 
 export type SiteMode = 'editor' | 'editable' | 'standard'
-type MountContext = { siteMode?: SiteMode, siteId?: string, themeId?: string, subDomain?: string } & ({ siteId: string } | { themeId: string } | { subDomain: string })
+export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string }
+  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string })
 
-type WhereSite = { siteId: string } | { subDomain: string }
-type RequestManageSiteParams = { caller: string, siteRouter: FictionRouter, fictionSites: FictionSites, fields?: Partial<TableSiteConfig>, where?: WhereSite, siteMode: SiteMode }
-  & (
-    { _action: 'update', fields: Partial<TableSiteConfig>, where: WhereSite }
-    | { _action: 'retrieve' | 'delete', where: WhereSite }
-    | { _action: 'create', fields: Partial<TableSiteConfig> }
-  )
+type MountContext = { siteMode?: SiteMode } & WhereSite
+type RequestManageSiteParams = Omit<ManageSiteParams, 'orgId' | 'siteId'> & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode }
 
 export async function requestManageSite(args: RequestManageSiteParams) {
-  const { _action, siteRouter, fictionSites, fields, where, siteMode } = args
+  const { _action, fields, where, siteMode } = args
+  const { fictionSites, siteRouter, ...pass } = args
 
   logger.info(`request manage site:${_action}`, { data: { fields, where } })
 
   if (_action === 'create') {
     const { fields } = args
-    const { themeId } = fields
+    const { themeId } = fields || {}
     if (!themeId)
       throw new Error('no themeId')
   }
@@ -33,7 +31,7 @@ export async function requestManageSite(args: RequestManageSiteParams) {
     return {}
   }
 
-  const r = await fictionSites.requests.ManageSite.projectRequest({ _action, fields: fields || {}, where: where || {} }, { userOptional: _action === 'retrieve' })
+  const r = await fictionSites.requests.ManageSite.projectRequest({ ...pass, _action, fields: fields || {}, where: where as WhereSite }, { userOptional: _action === 'retrieve' })
 
   let site: Site | undefined = undefined
   if (r.data?.siteId)
@@ -125,45 +123,58 @@ export async function loadSite(args: {
   return site
 }
 
-export function subDomainMountContext(args: { subDomain: string }): MountContext {
-  const { subDomain } = args
+export function domainMountContext({ runVars }: { runVars: Partial<RunVars> }): MountContext {
+  const { HOSTNAME = '', ORIGINAL_HOST } = runVars
+  const specialDomains = ['lan.', 'fiction.']
+  const isSpecialSubDomain = specialDomains.some(prefix => HOSTNAME.includes(prefix))
+  const isSpecialOriginalHost = specialDomains.some(prefix => ORIGINAL_HOST?.includes(prefix))
+  const subDomain = HOSTNAME.split('.')[0]
+  const effectiveSubdomain = isSpecialSubDomain ? subDomain : isSpecialOriginalHost ? ORIGINAL_HOST?.split('.')[0] : ''
 
-  const mountContext = {
-    subDomain: subDomain !== 'www' && !subDomain.includes('theme-') ? subDomain : undefined,
-    themeId: subDomain.includes('theme-') ? subDomain.replace('theme-', '') : undefined,
-  }
-  return mountContext as MountContext
+  if (!effectiveSubdomain)
+    return { hostname: HOSTNAME }
+
+  const themePrefix = 'theme-'
+  if (effectiveSubdomain.startsWith(themePrefix))
+    return { themeId: effectiveSubdomain.substring(themePrefix.length) }
+
+  return { subDomain: effectiveSubdomain }
 }
 
 export function getMountContext(args: {
   selectorType?: string | undefined
   selectorId?: string | undefined
   queryVars?: Record<string, string | undefined>
-  mountContext?: Record<string, string>
-  currentSubDomain?: string
   siteMode?: SiteMode
+  runVars?: Partial<RunVars>
 }): MountContext {
-  const { selectorType, selectorId, queryVars = {}, mountContext, currentSubDomain } = args
+  const { selectorType, selectorId, queryVars = {}, runVars } = args
+
+  const mountContext = runVars?.MOUNT_CONTEXT
 
   let selector: Partial<MountContext> = {}
   let siteMode = args.siteMode || 'standard'
 
+  // Premade mount context as passed in mount, used in preview and editing
   if (mountContext) {
     const mc = mountContext as MountContext
     selector = {
       siteId: mc.siteId,
       themeId: mc.themeId,
       subDomain: mc.subDomain,
+      hostname: mc.hostname,
     }
     siteMode = mc.siteMode || siteMode
   }
   else {
+    // Used to make the context in app, preview passes the result back to this function
     // loaded using route params /:selectorType/:selectorId
     if (selectorType) {
       selector = {
         siteId: selectorType === 'site' ? selectorId : undefined,
         themeId: selectorType === 'theme' ? selectorId : undefined,
         subDomain: selectorType === 'domain' ? selectorId : undefined,
+        hostname: selectorType === 'hostname' ? selectorId : undefined,
       }
     }
 
@@ -173,19 +184,21 @@ export function getMountContext(args: {
         siteId: queryVars.siteId || undefined,
         themeId: queryVars.themeId || undefined,
         subDomain: queryVars.subDomain || undefined,
+        hostname: queryVars.hostname || undefined,
       }
     }
 
     // otherwise use current subdomain
-    else if (currentSubDomain && Object.values(selector).filter(Boolean).length === 0) {
-      selector = subDomainMountContext({ subDomain: currentSubDomain })
+    else if (runVars && Object.values(selector).filter(Boolean).length === 0) {
+      selector = domainMountContext({ runVars })
     }
   }
 
   if (Object.values(selector).filter(Boolean).length !== 1) {
-    logger.error('MountContext: invalid selector', { data: { selector, queryVars, currentSubDomain, selectorType, selectorId, siteMode, passedMountContext: mountContext } })
+    logger.error('MountContext: INVALID SELECTOR', { data: { selector, queryVars, selectorType, selectorId, siteMode, passedMountContext: mountContext } })
+    logger.error('MountContext: INVALID SELECTOR -- RUN VARS', { data: { runVars } })
 
-    const errorMessage = currentSubDomain === 'www' ? 'WWW Subdomain' : 'MountContext Error'
+    const errorMessage = 'MountContext Error'
     throw new Error(errorMessage)
   }
 

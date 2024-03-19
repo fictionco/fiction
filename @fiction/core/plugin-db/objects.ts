@@ -6,7 +6,7 @@ import type { LogHelper } from '../plugin-log'
 import { log } from '../plugin-log'
 
 type CreateCol = (params: { schema: Knex.AlterTableBuilder, column: FictionDbCol, db: Knex }) => void
-type PrepareForStorage = (args: { value: unknown, key: string, db: Knex }) => unknown
+type PrepareForStorage<T extends DefaultValue = DefaultValue> = (args: { value: T, key: string, db: Knex }) => unknown
 type DefaultValue = Knex.Value | undefined
 
 export interface FictionDbColSettings<U extends string = string, T extends DefaultValue = DefaultValue> {
@@ -16,7 +16,7 @@ export interface FictionDbColSettings<U extends string = string, T extends Defau
   description?: string
   isComposite?: boolean // for composite keys
   create: CreateCol
-  prepare?: PrepareForStorage
+  prepare?: PrepareForStorage<T>
   isPrivate?: boolean
   isSetting?: boolean
   isAuthority?: boolean
@@ -41,7 +41,7 @@ export class FictionDbCol<U extends string = string, T extends DefaultValue = De
     this.key = settings.key
     this.pgKey = toSnakeCase(settings.key)
     this.create = settings.create
-    this.prepare = settings.prepare
+    this.prepare = settings.prepare as PrepareForStorage // dont use generic as it overspecifies the class interface
     this.isComposite = settings.isComposite
     this.isPrivate = settings.isPrivate ?? false
     this.isSetting = settings.isSetting ?? false

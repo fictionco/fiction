@@ -7,6 +7,7 @@ import { tableNames } from './tables'
 import { incrementSlugId } from './util'
 import { updateSiteCerts } from './utils/cert'
 import { Card } from './card'
+import type { WhereSite } from './load'
 import type { FictionSites, SitesPluginSettings } from '.'
 
 export type SitesQuerySettings = SitesPluginSettings & {
@@ -64,8 +65,6 @@ export class ManagePage extends SitesQuery {
     }
 
     const insertFields = { ...prepped, orgId, userId, siteId }
-
-    this.log.info(`ENDPOINT: upserting region [${caller}]`, { data: { insertFields, where } })
 
     // Check if the combination of slug, regionId, and siteId already exists
     const query = db
@@ -174,11 +173,12 @@ export class ManagePage extends SitesQuery {
   }
 }
 
-type CreateManageSiteParams = { _action: 'create', fields: Partial<TableSiteConfig>, userId: string, orgId: string }
-type EditManageSiteParams = { _action: 'update' | 'delete', publishDomains?: boolean, fields: Partial<TableSiteConfig>, where: { siteId?: string, subDomain?: string }, userId: string, orgId: string }
-type GetManageSiteParams = { _action: 'retrieve', where: { siteId?: string, subDomain?: string }, userId?: string, orgId?: string }
+type CreateManageSiteParams = { _action: 'create', fields: Partial<TableSiteConfig>, userId: string, orgId: string, isPublishingDomains?: boolean }
+type EditManageSiteParams = { _action: 'update' | 'delete', isPublishingDomains?: boolean, fields: Partial<TableSiteConfig>, where: WhereSite, userId: string, orgId: string }
+type GetManageSiteParams = { _action: 'retrieve', where: WhereSite, userId?: string, orgId?: string }
+type BaseManageSite = { fields?: Partial<TableSiteConfig>, where?: WhereSite, caller?: string, successMessage?: string, disableLog?: boolean, isPublishingDomains?: boolean }
 
-type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & { caller?: string, successMessage?: string }
+export type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & BaseManageSite
 
 export class ManageSite extends SitesQuery {
   async createSiteFromTheme(params: CreateManageSiteParams, _meta: EndpointMeta): Promise<Partial<TableSiteConfig>> {
@@ -198,6 +198,41 @@ export class ManageSite extends SitesQuery {
     return processedConfig
   }
 
+  async getSiteSelector(where: WhereSite) {
+    const { hostname } = where
+
+    let out: Partial<WhereSite> = {}
+    let domain: Partial<TableDomainConfig> | undefined = undefined
+    if (where.hostname) {
+      const db = this.settings.fictionDb.client()
+      const domains = await db
+        .select<TableDomainConfig[]>('*')
+        .from(tableNames.domains)
+        .where({ hostname })
+
+      if (domains && domains.length) {
+        const configured = domains.filter(d => d.configured)
+
+        domain = configured[0] || domains[0]
+
+        const siteId = domain?.siteId
+        out.siteId = siteId
+      }
+    }
+    else {
+      out = where
+    }
+
+    if (Object.values(out).filter(Boolean).length !== 1) {
+      this.log.error('Error Loading Site', { data: { out, where, domain } })
+
+      const errorMessage = 'Load Site Error'
+      throw new Error(errorMessage)
+    }
+
+    return out as WhereSite
+  }
+
   async run(
     params: ManageSiteParams,
     meta: EndpointMeta,
@@ -206,7 +241,7 @@ export class ManageSite extends SitesQuery {
     if (!fictionDb)
       throw this.stop('no fictionDb')
 
-    const { _action, orgId, userId, caller = 'unknown', successMessage } = params
+    const { _action, orgId, userId, caller = 'unknown', successMessage, disableLog } = params
 
     if (!_action)
       throw this.stop('_action required')
@@ -244,6 +279,7 @@ export class ManageSite extends SitesQuery {
         .into(tableNames.sites)
         .returning<TableSiteConfig[]>('*')
 
+      data = site
       siteId = site.siteId
       if (!siteId)
         throw this.stop('site not created')
@@ -275,15 +311,16 @@ export class ManageSite extends SitesQuery {
     }
     else if (_action === 'retrieve') {
       const { where } = params
-      this.log.info('retrieving site', { data: { where, caller } })
 
-      if (Object.keys(where).length !== 1)
-        throw this.stop('WHERE -> siteId or subDomain required )')
+      const selector = await this.getSiteSelector(where)
+
+      if (!disableLog)
+        this.log.info('retrieving site', { data: { selector, caller: `${_action}:${caller}` } })
 
       const site = await db
         .select<TableSiteConfig>('*')
         .from(tableNames.sites)
-        .where(where)
+        .where(selector)
         .first()
 
       if (!site?.siteId)
@@ -300,6 +337,13 @@ export class ManageSite extends SitesQuery {
       // Assign the pages to the site object
       site.pages = pages
 
+      const domains = await db
+        .select()
+        .from(tableNames.domains)
+        .where({ siteId })
+
+      site.customDomains = domains
+
       data = site
     }
     else if (_action === 'update') {
@@ -307,10 +351,7 @@ export class ManageSite extends SitesQuery {
       if (!userId || !orgId)
         throw this.stop('orgId required')
 
-      const { siteId: _siteId, subDomain } = where
-
-      if (!_siteId && !subDomain)
-        throw this.stop('siteId or subDomain required')
+      const selector = await this.getSiteSelector(where)
 
       const prepped = this.utils.prepareFields({
         type: 'settings',
@@ -322,7 +363,7 @@ export class ManageSite extends SitesQuery {
 
       ;[data] = await db
         .update({ orgId, userId, ...prepped })
-        .where({ orgId, ...where })
+        .where({ orgId, ...selector })
         .into(tableNames.sites)
         .returning<TableSiteConfig[]>('*')
 
@@ -346,9 +387,6 @@ export class ManageSite extends SitesQuery {
         await Promise.all(upsertPromises)
       }
 
-      if (params.publishDomains)
-        await updateSiteCerts({ site: data, fictionSites: this.settings.fictionSites, fictionDb, flyIoAppId: this.settings.flyIoAppId }, meta)
-
       message = 'site saved'
     }
 
@@ -357,12 +395,15 @@ export class ManageSite extends SitesQuery {
      */
 
     if ((_action === 'update' || _action === 'create') && siteId) {
-      const r = await this.run({ _action: 'retrieve', where: { siteId }, userId, orgId }, { ...meta, caller: 'endManageSite' })
+      if (params.isPublishingDomains)
+        await updateSiteCerts({ siteId, customDomains: params.fields.customDomains, fictionSites: this.settings.fictionSites, fictionDb }, meta)
+
+      const r = await this.run({ _action: 'retrieve', where: { siteId }, userId, orgId, disableLog: true }, { ...meta, caller: 'endManageSite' })
 
       data = r.data
 
       if (_action === 'create')
-        this.log.info('SITE CREATED: returning', { data })
+        this.log.info('SITE CREATED', { data: params })
     }
 
     return { status: 'success', data, message: successMessage ?? message }
@@ -383,13 +424,7 @@ export class ManageIndex extends SitesQuery {
     params: ManageIndexParams,
     _meta: EndpointMeta,
   ): Promise<EndpointResponse<TableSiteConfig[]>> {
-    const {
-      _action,
-      orgId,
-      limit = 10,
-      offset = 0,
-      filters = [],
-    } = params
+    const { _action, orgId, limit = 10, offset = 0, filters = [] } = params
 
     if (!_action)
       throw this.stop('action required')

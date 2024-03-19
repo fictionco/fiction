@@ -70,12 +70,12 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
     if (!plugins)
       return
 
-    await Promise.all(plugins.map(async ({ load, settings }) => {
+    await Promise.all(plugins.map(async ({ load, settings = () => undefined }) => {
       const { setup } = await load()
 
       const pluginConfig = setup()
 
-      const service = await pluginConfig.createPlugin({ ...this.settings, ...settings, fictionAdmin: this })
+      const service = await pluginConfig.createPlugin({ ...this.settings, ...settings(), fictionAdmin: this })
 
       this.services[pluginConfig.serviceId] = service
     }))

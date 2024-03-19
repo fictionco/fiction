@@ -22,6 +22,7 @@ import { FictionBuild } from '../plugin-build'
 import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
 import { populateGlobal } from '../utils/globalUtils'
+import type { RunVars } from '../inject'
 import { getFaviconPath, renderPreloadLinks } from './utils'
 import type * as types from './types'
 import { FictionSitemap } from './sitemap'
@@ -596,30 +597,43 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
   getRequestVars(args: { request: Request }): Record<string, string> {
     const { request } = args
+
     // Extracting protocol (HTTP vs HTTPS)
     const protocol = request?.protocol || 'http' // Defaults to 'http' if protocol is not available
 
     // Extracting subdomain
     const subdomains = request?.subdomains || []
-    const subdomain = subdomains?.length > 0 ? subdomains.join('.') : ''
+    const subdomain = subdomains.length > 0 ? subdomains.join('.') : ''
 
     // Extracting other relevant information
     const host = request?.get('host') // Hostname with port if applicable
+    const hostname = request?.hostname
     const ip = request?.ip // IP address of the request
     const userAgent = request?.get('User-Agent') // User-Agent header
+
+    // For debugging: concatenate all headers into a single string
+    const allHeaders = request?.headers
+      ? Object.entries(request.headers)
+        .map(([key, value]) => `${key}: ${String(value)}`)
+        .join(', ')
+      : ''
+
+    const originalHost = request?.get('X-Original-Host') || ''
 
     const add = { APP_INSTANCE: this.fictionApp.appInstanceId }
 
     const ORIGIN = `${protocol}://${host}`
 
-    const requestVars = {
+    const requestVars: Partial<RunVars> = {
       ...this.fictionEnv.getRenderedEnvVars(),
       PROTOCOL: protocol,
       SUBDOMAIN: subdomain,
-      HOST: host,
-      IP_ADDRESS: ip,
-      USER_AGENT: userAgent,
-      HOSTNAME: request?.hostname,
+      ORIGINAL_HOST: originalHost,
+      HOST: host || '',
+      HOSTNAME: hostname,
+      IP_ADDRESS: ip || '',
+      USER_AGENT: userAgent || '',
+      ALL_HEADERS: allHeaders,
       PATHNAME: request?.originalUrl,
       ORIGIN,
       URL: `${ORIGIN}${request?.originalUrl}`,

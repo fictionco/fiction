@@ -1,5 +1,6 @@
 import type { EndpointMeta, EndpointResponse } from '@fiction/core'
 
+import type { SitesQuerySettings } from './endpoint'
 import { SitesQuery } from './endpoint'
 
 type CertificateIssue = {
@@ -35,6 +36,21 @@ interface ManageCertParams {
 export class ManageCert extends SitesQuery {
   graphqlEndpoint = 'https://api.fly.io/graphql'
   fictionSites = this.settings.fictionSites
+  flyIoApiToken = this.fictionSites.settings.flyIoApiToken
+  flyIoAppId = this.fictionSites.settings.flyIoAppId
+
+  constructor(settings: SitesQuerySettings) {
+    super(settings)
+
+    if (!this.settings.fictionEnv.isApp.value) {
+      if (!this.flyIoApiToken)
+        throw new Error('Fly.io API token is required for managing certificates.')
+
+      if (!this.flyIoAppId)
+        throw new Error('Fly.io App ID is required for managing certificates.')
+    }
+  }
+
   async getClient() {
     const { GraphQLClient } = await import('graphql-request')
     return new GraphQLClient(this.graphqlEndpoint, {
@@ -96,9 +112,15 @@ export class ManageCert extends SitesQuery {
     catch (error) {
       const e = error as Error & { code: string }
 
-      // if it exists its unprocessable, if not found its not found
-      if (e.message.includes('NOT_FOUND') || e.message.includes('UNPROCESSABLE')) {
+      // The certificate doesn't exist, return successful query but undefined data
+      if (e.message.includes('NOT_FOUND')) {
         return { status: 'success', data: undefined }
+      }
+      // The certificate already exists, return successful query with the existing certificate
+      else if (e.message.includes('UNPROCESSABLE')) {
+        const r = await this.run({ _action: 'check', hostname }, _meta)
+
+        return { status: 'success', data: r.data }
       }
       else {
         this.log.error(`Error in GraphQL Request`, { error })

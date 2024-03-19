@@ -66,7 +66,7 @@ const v = vue.computed({
 
 async function save() {
   loading.value = true
-  await saveSite({ site: props.site, delayUntilSaveConfig: props.site.editor.value.tempSite, successMessage: 'Settings saved' })
+  await saveSite({ site: props.site, delayUntilSaveConfig: props.site.editor.value.tempSite, successMessage: 'Published Successfully', isPublishingDomains: true })
   props.site.editor.value.tempSite = {}
   loading.value = false
 }

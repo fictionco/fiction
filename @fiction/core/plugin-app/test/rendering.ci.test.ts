@@ -21,19 +21,24 @@ describe('rendering tests', () => {
     expect(html).toContain('type="application/json"')
   })
 
-  it('generates correct request variables', () => {
+  it('generates correct request variables including ORIGINAL_SUBDOMAIN and ALL_HEADERS', () => {
     if (!testUtils)
       return
+
     // Mock the Request object
+    const headers = {
+      'host': 'example.com:3000',
+      'User-Agent': 'Mozilla/5.0',
+      'X-Original-Host': 'whatever.com',
+      'Custom-Header': 'value123',
+    }
     const mockRequest = {
       protocol: 'https',
       subdomains: ['api', 'test'],
-      get: vi.fn((header) => {
-        if (header === 'host')
-          return 'example.com:3000'
-        if (header === 'User-Agent')
-          return 'Mozilla/5.0'
-      }),
+      headers,
+      get(header: keyof typeof headers) {
+        return headers[header]
+      },
       ip: '192.168.1.1',
       hostname: 'api.test.example.com',
       originalUrl: '/path',
@@ -45,7 +50,7 @@ describe('rendering tests', () => {
     // Call `getRequestVars` function
     const requestVars = testUtils?.fictionApp?.fictionRender?.getRequestVars({ request: mockRequest })
 
-    // Assertions
+    // Assertions for basic request variables
     expect(requestVars).toBeDefined()
     expect(requestVars?.PROTOCOL).toBe('https')
     expect(requestVars?.SUBDOMAIN).toBe('api.test')
@@ -54,5 +59,11 @@ describe('rendering tests', () => {
     expect(requestVars?.USER_AGENT).toBe('Mozilla/5.0')
     expect(requestVars?.HOSTNAME).toBe('api.test.example.com')
     expect(requestVars?.PATHNAME).toBe('/path')
+    expect(requestVars?.ORIGINAL_HOST).toBe('whatever.com')
+
+    expect(requestVars?.ALL_HEADERS).toContain('host: example.com:3000')
+    expect(requestVars?.ALL_HEADERS).toContain('User-Agent: Mozilla/5.0')
+    expect(requestVars?.ALL_HEADERS).toContain('X-Original-Host: whateverq.com')
+    expect(requestVars?.ALL_HEADERS).toContain('Custom-Header: value123')
   })
 })

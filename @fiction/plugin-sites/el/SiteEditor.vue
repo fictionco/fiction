@@ -16,7 +16,7 @@ type UserConfig = {
   isNavItem: boolean
   layoutFormat: 'full'
 }
-const props = defineProps({
+defineProps({
   card: {
     type: Object as vue.PropType<Card<UserConfig>>,
     required: true,

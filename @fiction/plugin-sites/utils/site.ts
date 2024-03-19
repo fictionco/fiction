@@ -32,8 +32,14 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
   }, {} as Record<string, Card>)
 }
 
-export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteConfig)[], delayUntilSaveConfig?: Partial<TableSiteConfig>, successMessage: string }) {
-  const { site, onlyKeys, delayUntilSaveConfig, successMessage } = args
+export async function saveSite(args: {
+  site: Site
+  onlyKeys?: (keyof TableSiteConfig)[]
+  delayUntilSaveConfig?: Partial<TableSiteConfig>
+  successMessage: string
+  isPublishingDomains?: boolean
+}) {
+  const { site, onlyKeys, delayUntilSaveConfig, successMessage, isPublishingDomains } = args
 
   const config = site.toConfig()
 
@@ -50,7 +56,13 @@ export async function saveSite(args: { site: Site, onlyKeys?: (keyof TableSiteCo
   if (delayUntilSaveConfig)
     fields = { ...fields, ...delayUntilSaveConfig }
 
-  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({ _action: 'update', fields, where: { siteId: config.siteId }, successMessage })
+  const r = await site.settings.fictionSites.requests.ManageSite.projectRequest({
+    _action: 'update',
+    fields,
+    where: { siteId: config.siteId },
+    successMessage,
+    isPublishingDomains,
+  })
 
   updateSite({ site, newConfig: r.data || {} })
 

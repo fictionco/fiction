@@ -29,7 +29,6 @@ const stepIndex = vue.computed(() => {
   const found = steps.value.findIndex(s => s.key === stepKey.value)
   return found > -1 ? found : 0
 })
-const currentStep = vue.computed(() => steps.value[stepIndex.value])
 
 async function setComplete() {}
 

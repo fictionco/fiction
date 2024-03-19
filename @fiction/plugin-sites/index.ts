@@ -16,9 +16,7 @@ import { getRoutes } from './routes'
 
 export * from './site'
 
-vars.register(() => [
-  new EnvVar({ name: 'FLY_API_TOKEN' }),
-])
+vars.register(() => [new EnvVar({ name: 'FLY_API_TOKEN' })])
 
 export type SitesPluginSettings = {
   fictionAppSites: FictionApp

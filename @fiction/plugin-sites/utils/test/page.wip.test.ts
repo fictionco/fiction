@@ -114,12 +114,14 @@ describe('activePageId', async () => {
   })
 
   it('should handle non-existing cardId by pushing the _404 route', async () => {
+    pushSpy.mockClear()
+
     computedPageId.value = 'nonExistingCardId'
 
     await waitFor(15)
 
     // Check if the push method was called with the _404 argument
-    expect(pushSpy).toHaveBeenCalledWith('/not-found')
+    expect(pushSpy).toHaveBeenCalledWith('/not-found', expect.any(Object))
     expect(siteRouter.current.value.path).toEqual('/not-found')
   })
 

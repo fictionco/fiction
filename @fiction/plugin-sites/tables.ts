@@ -1,3 +1,4 @@
+import { validHost } from '@fiction/core'
 import type { ColorScheme, CreateObjectType, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { FontConfig } from '@fiction/core/utils/fonts'
@@ -91,16 +92,19 @@ const siteCols = [
     create: ({ schema, column, db }) => schema.string(column.pgKey).unique().notNullable().defaultTo(db.raw(`short_id(9)`)).index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value as string).replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
     zodSchema: ({ z }) => z.string().min(1), // Adapt the schema as needed
   }),
   new FictionDbCol({
     key: 'customDomains',
     create: ({ schema, column }) => schema.jsonb(column.pgKey).defaultTo(column.default()),
-    prepare: ({ value }) => JSON.stringify(value),
+    prepare: ({ value }) => {
+      const validated = (value || []).map(_ => ({ ..._, hostname: validHost(_.hostname) })).filter(_ => _.hostname)
+      return JSON.stringify(validated)
+    },
     default: () => ([] as Partial<TableDomainConfig>[]),
     isSetting: true,
-    zodSchema: ({ z }) => z.array(z.any()), // Adapt the schema as needed
+    zodSchema: ({ z }) => z.array(z.any()),
   }),
   new FictionDbCol({
     key: 'status',
@@ -180,7 +184,7 @@ const pageCols = [
     create: ({ schema, column, db }) => schema.string(column.pgKey).defaultTo(db.raw(`short_id(5)`)).index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value as string).replaceAll(/[\s]+/g, '-').replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[\s]+/g, '-').replaceAll(/[^\dA-Za-z-_]+/g, '').toLowerCase(),
   }),
 
   new FictionDbCol({
@@ -254,7 +258,7 @@ const domainCols = [
   }),
   new FictionDbCol({
     key: 'hostname',
-    create: ({ schema, column }) => schema.string(column.pgKey).notNullable(),
+    create: ({ schema, column }) => schema.string(column.pgKey).notNullable().index(),
     isSetting: true,
     default: () => '' as string,
   }),
@@ -266,25 +270,37 @@ const domainCols = [
   }),
   new FictionDbCol({
     key: 'dnsValidationHostname',
-    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => '' as string,
   }),
   new FictionDbCol({
     key: 'dnsValidationTarget',
-    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => '' as string,
   }),
   new FictionDbCol({
-    key: 'isConfigured',
-    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
+    key: 'dnsValidationInstructions',
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
+    isSetting: true,
+    default: () => '' as string,
+  }),
+  new FictionDbCol({
+    key: 'check',
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
+    isSetting: true,
+    default: () => false as boolean,
+  }),
+  new FictionDbCol({
+    key: 'configured',
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => false as boolean,
   }),
   new FictionDbCol({
     key: 'certificateAuthority',
-    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default),
+    create: ({ schema, column }) => schema.string(column.pgKey).defaultTo(column.default()),
     isSetting: true,
     default: () => '' as string,
   }),
@@ -293,5 +309,5 @@ const domainCols = [
 export const tables = [
   new FictionDbTable({ tableKey: tableNames.sites, timestamps: true, columns: siteCols }),
   new FictionDbTable({ tableKey: tableNames.pages, timestamps: true, columns: pageCols, onCreate: t => t.unique(['site_id', 'slug']) }),
-  new FictionDbTable({ tableKey: tableNames.domains, timestamps: true, columns: domainCols }),
+  new FictionDbTable({ tableKey: tableNames.domains, timestamps: true, columns: domainCols, onCreate: t => t.unique(['site_id', 'hostname']) }),
 ]

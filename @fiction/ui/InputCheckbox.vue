@@ -13,7 +13,7 @@ const emit = defineEmits<{
 }>()
 
 const attrs = vue.useAttrs()
-const slots = vue.useSlots()
+
 function handleEmit(target: EventTarget | null): void {
   const el = target as HTMLInputElement
   emit('update:modelValue', el.checked)

@@ -16,7 +16,7 @@ const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionRouter, fictionSites, fictionAppSites } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
+const { fictionSites, fictionAppSites, fictionRouter } = useService<{ fictionSites: FictionSites, fictionAppSites: FictionApp }>()
 
 const showCreateModal = vue.ref(false)
 
@@ -42,15 +42,19 @@ const formattedData = vue.computed<IndexItem[]>(() => {
   const rows = sites.value.map((site) => {
     const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
     const displayDomain = domain.replace('https://', '').replace('http://', '')
+    const editLink = props.card.link({ path: '/edit-site', query: { siteId: site.settings.siteId } })
     const out: IndexItem = {
       name: site.settings.title || 'Untitled',
       key: site.settings.siteId,
       links: [{ name: displayDomain, href: domain, target: '_blank', class: 'underline', icon: 'i-tabler-world' }, { name: `Created ${standardDate(site.settings.createdAt)}` }],
       actions: [
-        { name: 'Edit Website', btn: 'primary', href: props.card.link({ path: '/edit-site', query: { siteId: site.settings.siteId } }) },
+        { name: 'Edit Website', btn: 'primary', href: editLink },
       ],
       fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
       figProps: { site },
+      onClick: async () => {
+        await fictionRouter.push(editLink, { caller: 'indexLink' })
+      },
     }
 
     return out

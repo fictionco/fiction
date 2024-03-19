@@ -189,7 +189,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
     let message = ''
     let more = ''
     shortcodes.addShortcode('stock_img', async (args) => {
-      const { attributes, fullMatch } = args
+      const { attributes } = args
       const search = attributes?.search || ''
       const description = attributes?.description || ''
       const orientation = attributes?.orientation as 'portrait' | 'landscape' || 'squarish'

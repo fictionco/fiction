@@ -3,7 +3,7 @@ import type { vue } from '@fiction/core'
 import type { Card } from '../card'
 import ElEngine from '../cards/ElEngine.vue'
 
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 </script>

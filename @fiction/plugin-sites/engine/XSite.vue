@@ -27,8 +27,7 @@ async function load() {
   try {
     const mountContext = getMountContext({
       queryVars: { themeId: props.themeId }, // passed in by route sometimes
-      currentSubDomain: runVars?.SUBDOMAIN, // standard sites loaded on sub domain
-      mountContext: runVars?.MOUNT_CONTEXT, // used during preview
+      runVars,
     })
     site.value = await loadSite({
       siteRouter: props.siteRouter || fictionRouterSites,

@@ -14,7 +14,7 @@ export type PluginMain<T extends BaseAdminPluginSettings> = {
 
 export type PluginLoader<T extends Record<string, any> = Record<string, any>> = {
   load: () => Promise<{ setup: () => PluginMain<T & BaseAdminPluginSettings> }>
-  settings?: Omit<T, keyof BaseAdminPluginSettings>
+  settings?: () => Omit<T, keyof BaseAdminPluginSettings>
 }
 
 // Define a function that takes an array of plugins and returns it.

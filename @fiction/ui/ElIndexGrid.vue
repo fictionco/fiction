@@ -120,7 +120,7 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
             <div class="self-center col-span-8 @5xl:col-span-6">
               <div class="p-12 @5xl:p-16 @7xl:p-20">
                 <div class="flex items-center space-x-3">
-                  <h3 class="x-font-title tracking-tight text-3xl @4xl:text-5xl font-bold">
+                  <h3 class="x-font-title tracking-tight text-3xl @4xl:text-4xl font-bold hover:opacity-80 cursor-pointer" @click="item.onClick?.({ event: $event })">
                     {{ item.name }}
                   </h3>
                 </div>

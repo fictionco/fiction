@@ -26,9 +26,11 @@ export type RunVars = {
   RUNTIME_VERSION: string
   SERVER_PORT: string
   SUBDOMAIN: string
+  ORIGINAL_HOST: string
   USER_AGENT: string
   ORIGIN: string
   URL: string
+  ALL_HEADERS: string
 }
 
 export type StandardServices = {

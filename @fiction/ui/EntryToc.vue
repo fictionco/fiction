@@ -95,7 +95,7 @@ function setActiveHash(): void {
   logger.info(`Found ${headers.length} headers and ${navLinks.length} navigation links`, n)
 
   // Callback function to execute when headers intersect with the viewport
-  const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver): void => {
+  const callback = (entries: IntersectionObserverEntry[], _observer: IntersectionObserver): void => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const id = entry.target.getAttribute('id')

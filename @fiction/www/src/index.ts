@@ -160,10 +160,13 @@ const pluginServices = {
   fictionAws,
   fictionMedia,
 }
+
 const plugins = createPluginConfig([
   {
     load: () => import('@fiction/plugin-sites'),
-    settings: { fictionAppSites, fictionRouterSites, flyIoApiToken: '', flyIoAppId: '' },
+    settings: () => {
+      return { fictionAppSites, fictionRouterSites, flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'), flyIoAppId: 'fiction-sites' }
+    },
   },
 ])
 const fictionAdminPluginIndex = new FictionAdminPluginIndex({ ...pluginServices, plugins })

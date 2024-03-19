@@ -2,20 +2,71 @@
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterAll, afterEach, describe, expect, it } from 'vitest'
 import type { Site } from '../site'
-import { getMountContext, loadSite, loadSiteById, loadSiteFromTheme, requestManageSite } from '../load'
+import { domainMountContext, getMountContext, loadSite, loadSiteById, loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
+describe('domainMountContext', () => {
+  it('should handle special domains correctly', () => {
+    const runVars = { HOSTNAME: 'test.fiction.com' }
+    const context = domainMountContext({ runVars })
+    expect(context.subDomain).toBe('test')
+
+    const runVarsLan = { HOSTNAME: 'theme-abc.lan.com' }
+    const contextLan = domainMountContext({ runVars: runVarsLan })
+    expect(contextLan.themeId).toBe('abc')
+  })
+
+  it('should handle non-special domains using ORIGINAL_HOST', () => {
+    const runVars = { HOSTNAME: 'www.google.com', ORIGINAL_HOST: 'custom.fiction.com' }
+    const context = domainMountContext({ runVars })
+    expect(context.subDomain).toBe('custom')
+  })
+
+  it('should default to hostname if no suitable subdomain or theme is found', () => {
+    const runVars = { HOSTNAME: 'www.google.com' }
+    const context = domainMountContext({ runVars })
+    expect(context.hostname).toBe('www.google.com')
+  })
+})
+
 describe('getMountContext', () => {
+  it('should prioritize mountContext if provided', () => {
+    const runVars = {
+      MOUNT_CONTEXT: {
+        hostname: 'example.com',
+      },
+    }
+    const result = getMountContext({ runVars })
+    expect(result).toEqual(expect.objectContaining(runVars.MOUNT_CONTEXT))
+  })
+
+  it('should handle domain-based context correctly', () => {
+    const runVars = { HOSTNAME: 'theme-xyz.lan.com' }
+    const result = getMountContext({ runVars })
+    expect(result.themeId).toBe('xyz')
+
+    const runVarsOriginalHost = { HOSTNAME: 'www.google.com', ORIGINAL_HOST: 'sub.fiction.com' }
+    const resultOriginalHost = getMountContext({ runVars: runVarsOriginalHost })
+    expect(resultOriginalHost.subDomain).toBe('sub')
+  })
+
+  it('should throw an error when conflicting selectors are provided', () => {
+    const runVars = {
+      MOUNT_CONTEXT: { siteId: '123', themeId: '456' },
+    }
+    expect(() => getMountContext({ runVars })).toThrow('MountContext Error')
+  })
+
   it('should return correct context when mountContext is provided', () => {
-    const args = {
-      mountContext: {
+    const runVars = {
+      MOUNT_CONTEXT: {
         siteId: '123',
         siteMode: 'editor',
       },
     }
-    const result = getMountContext(args)
+    const result = getMountContext({ runVars })
     expect(result).toEqual({
       siteId: '123',
       siteMode: 'editor',
@@ -41,12 +92,12 @@ describe('getMountContext', () => {
       queryVars: {
         siteId: undefined,
       },
-      currentSubDomain: 'test',
+      runVars: { HOSTNAME: 'xxx.fiction.test' },
       siteMode: 'editable',
     } as const
     const result = getMountContext(args)
     expect(result).toEqual({
-      subDomain: 'test',
+      subDomain: 'xxx',
       siteMode: 'editable',
     })
   })
@@ -65,18 +116,18 @@ describe('getMountContext', () => {
   })
 
   it('should use currentSubDomain when no other selectors are provided', () => {
-    const args = {
-      currentSubDomain: 'current.domain',
+    const runVars = {
+      HOSTNAME: 'current.domain',
     }
-    const result = getMountContext(args)
-    expect(result.subDomain).toBe('current.domain')
+    const result = getMountContext({ runVars })
+    expect(result.hostname).toBe('current.domain')
   })
 
   it('should throw an error when multiple selectors are provided', () => {
-    const args = {
-      mountContext: { siteId: '123', themeId: '456' },
+    const runVars = {
+      MOUNT_CONTEXT: { siteId: '123', themeId: '456' },
     }
-    expect(() => getMountContext(args)).toThrow('MountContext Error')
+    expect(() => getMountContext({ runVars })).toThrow('MountContext Error')
   })
 
   it('should throw an error when no selectors are provided', () => {
@@ -85,13 +136,13 @@ describe('getMountContext', () => {
   })
 
   it('should handle non-default siteMode', () => {
-    const args = {
-      mountContext: {
+    const runVars = {
+      MOUNT_CONTEXT: {
         siteId: '123',
         siteMode: 'custom',
       },
     }
-    const result = getMountContext(args)
+    const result = getMountContext({ runVars })
     expect(result).toEqual({
       siteId: '123',
       siteMode: 'custom',
@@ -103,7 +154,7 @@ describe('site plugin tests', async () => {
   const testUtils = createSiteTestUtils()
   await testUtils.init()
   const subDomain = `test-${shortId({ len: 3, withNumbers: false })}`
-
+  const hostname = 'www.testing-domain.com'
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
@@ -115,9 +166,11 @@ describe('site plugin tests', async () => {
       title: 'test site',
       themeId: 'test',
       subDomain,
+      customDomains: [{ hostname }],
     },
     _action: 'create',
     caller: 'sitePluginTest',
+    isPublishingDomains: true,
     ...common,
   })
 
@@ -128,6 +181,48 @@ describe('site plugin tests', async () => {
 
   afterEach(async () => {
     await testUtils.fictionRouter.push(`/`, { caller: 'sitePlugin' })
+  })
+
+  it('should load a site by hostname with loadSiteById', async (ctx) => {
+    const loaded = await loadSiteById({
+      where: { hostname },
+      ...common,
+    })
+
+    const r = await requestManageSite({
+      fields: {
+        customDomains: [],
+      },
+      _action: 'update',
+      caller: ctx.task.name,
+      isPublishingDomains: true,
+      where: { siteId: site.siteId },
+      ...common,
+    })
+
+    expect(loaded).toBeDefined()
+    expect(loaded?.siteId).toBe(site.siteId)
+
+    expect((loaded?.customDomains.value || []).map(_ => Object.keys(_))).toMatchInlineSnapshot(`
+      [
+        [
+          "domainId",
+          "siteId",
+          "hostname",
+          "isPrimary",
+          "dnsValidationHostname",
+          "dnsValidationTarget",
+          "dnsValidationInstructions",
+          "check",
+          "configured",
+          "certificateAuthority",
+          "createdAt",
+          "updatedAt",
+        ],
+      ]
+    `)
+
+    expect(r.site?.customDomains.value).toMatchInlineSnapshot(`[]`)
   })
 
   it('should load a site by ID with loadSiteById', async () => {
@@ -170,7 +265,7 @@ describe('site plugin tests', async () => {
     if (!subDomain)
       throw new Error('no sub domain')
 
-    const mountContext = getMountContext({ currentSubDomain: subDomain })
+    const mountContext = getMountContext({ queryVars: { subDomain } })
 
     const loaded = await loadSite({ ...common, mountContext })
 
@@ -204,11 +299,5 @@ describe('site plugin tests', async () => {
 
     expect(loaded).toBeDefined()
     expect(loaded?.siteId).toBe(siteId)
-  })
-
-  it('should not load a site for reserved subdomain www', async (ctx) => {
-    await testUtils.fictionRouter.push(`/my/path`, { caller: ctx.task.name })
-
-    expect(() => getMountContext({ currentSubDomain: 'www', siteMode: 'standard' })).toThrowErrorMatchingInlineSnapshot(`[Error: WWW Subdomain]`)
   })
 })

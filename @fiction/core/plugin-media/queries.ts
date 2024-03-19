@@ -177,8 +177,6 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     const ins = { userId, orgId, ...prepped }
 
-    this.log.info(`INSERTING`, { data: ins })
-
     const [insertedMedia] = await db.insert(ins).into(this.fictionMedia.tableName).returning<TableMediaConfig[]>('*')
 
     return insertedMedia
