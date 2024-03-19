@@ -16,6 +16,7 @@ export type EditorState = {
   selectedCardId: string
   selectedPageId: string
   tempPage: CardConfigPortable
+  tempSite: Partial<TableSiteConfig>
   selectedRegionId: PageRegion | undefined
   savedCardOrder: Record<string, string[]>
 }
@@ -83,6 +84,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     selectedRegionId: 'main',
     savedCardOrder: {},
     tempPage: {},
+    tempSite: {},
     ...this.settings.editor,
   })
 

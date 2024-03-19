@@ -36,6 +36,10 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
     [opt.key]: { ...opt, ...value },
   }
 }
+
+const numFields = vue.computed(() => {
+  return Object.keys(card.value?.generation.inputConfig.value || {}).length
+})
 </script>
 
 <template>
@@ -50,7 +54,7 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
           :loading="loading"
         >
           <span class="i-tabler-sparkles text-base" />
-          <span>Generate</span>
+          <span>Generate ({{ numFields }})</span>
         </ElButton>
       </div>
 

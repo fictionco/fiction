@@ -15,8 +15,9 @@ const loading = vue.ref(false)
 async function confirmed() {
   loading.value = true
   emit('confirmed', true)
-  await waitFor(500)
+  await waitFor(100)
   loading.value = false
+  emit('update:vis', false)
 }
 </script>
 

@@ -4,6 +4,7 @@ import { useService, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
+import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
 import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import { tableNames } from '../tables'
@@ -27,12 +28,12 @@ function getSuffixUrl() {
 const options = [
   new InputOption({
     key: 'editor.hidePublishing',
-    label: 'Publishing',
+    label: 'Domain',
     input: 'group',
     options: [
       new InputOption({
         key: 'subDomain',
-        label: 'Development / Staging Domain',
+        label: 'Fiction Domain',
         input: 'InputUsername',
         isRequired: true,
         props: {
@@ -44,7 +45,7 @@ const options = [
       }),
       new InputOption({
         key: 'customDomains',
-        label: 'Production Domain (Custom)',
+        label: 'Custom Domain',
         input: vue.defineAsyncComponent(() => import('./InputCustomDomains.vue')),
         isRequired: true,
         props: {
@@ -59,25 +60,21 @@ const options = [
 const tempSite = vue.ref<Partial<TableSiteConfig>>({})
 
 const v = vue.computed({
-  get: () => ({ ...props.site.toConfig(), ...tempSite.value }),
-  set: v => (tempSite.value = v),
+  get: () => ({ ...props.site.toConfig(), ...props.site.editor.value.tempSite }),
+  set: v => (props.site.editor.value.tempSite = v),
 })
 
 async function save() {
-  const confirmed = confirm('Make sure to update your DNS settings to point to the new domain')
-
-  if (!confirmed)
-    return
-
   loading.value = true
-  await saveSite({ site: props.site, delayUntilSaveConfig: tempSite.value, successMessage: 'Settings saved' })
-  tempSite.value = {}
+  await saveSite({ site: props.site, delayUntilSaveConfig: props.site.editor.value.tempSite, successMessage: 'Settings saved' })
+  props.site.editor.value.tempSite = {}
   loading.value = false
 }
 
 function reset() {
   tempSite.value = {}
 }
+const showConfirm = vue.ref(false)
 </script>
 
 <template>
@@ -85,23 +82,23 @@ function reset() {
     :actions="[]"
     v-bind="props"
   >
-    <ElForm @submit="save()">
+    <ElForm @submit="showConfirm = true">
       <ToolForm v-model="v" :options="options" :site="site" />
 
       <div class="text-right px-4 py-2 border-t border-theme-200 dark:border-theme-600 pt-4 space-x-4 flex justify-between">
         <ElButton btn="default" @click="reset()">
           Reset
         </ElButton>
-        <ElButton :loading="loading" type="submit" btn="primary" :disabled="Object.keys(tempSite).length === 0">
-          Save Domain Settings
+        <ElButton :loading="loading" type="submit" btn="primary" :disabled="Object.keys(props.site.editor.value.tempSite).length === 0">
+          Publish Domain Changes
         </ElButton>
       </div>
     </ElForm>
+    <ElModalConfirm
+      v-model:vis="showConfirm"
+      title="Domain Changes"
+      sub="Changes to your sub domain or custom domain will take effect immediately. You'll need to make appropriate changes with your domain provider. Are you sure you want to proceed?"
+      @confirmed="save()"
+    />
   </ElTool>
 </template>
-
-<style lang="less" scoped>
-.region-setting-input {
-  --input-bg: theme('colors.theme.100');
-}
-</style>activeSiteHostname,

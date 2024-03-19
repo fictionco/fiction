@@ -2,9 +2,10 @@ import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
 import { AdminQuery } from '@fiction/plugin-admin'
 import { deepMerge } from '@fiction/core'
 import type { Knex } from 'knex'
-import type { CardConfigPortable, TableCardConfig, TableSiteConfig } from './tables'
+import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
 import { incrementSlugId } from './util'
+import { updateSiteCerts } from './utils/cert'
 import { Card } from './card'
 import type { FictionSites, SitesPluginSettings } from '.'
 
@@ -174,7 +175,7 @@ export class ManagePage extends SitesQuery {
 }
 
 type CreateManageSiteParams = { _action: 'create', fields: Partial<TableSiteConfig>, userId: string, orgId: string }
-type EditManageSiteParams = { _action: 'update' | 'delete', fields: Partial<TableSiteConfig>, where: { siteId?: string, subDomain?: string }, userId: string, orgId: string }
+type EditManageSiteParams = { _action: 'update' | 'delete', publishDomains?: boolean, fields: Partial<TableSiteConfig>, where: { siteId?: string, subDomain?: string }, userId: string, orgId: string }
 type GetManageSiteParams = { _action: 'retrieve', where: { siteId?: string, subDomain?: string }, userId?: string, orgId?: string }
 
 type ManageSiteParams = (CreateManageSiteParams | EditManageSiteParams | GetManageSiteParams) & { caller?: string, successMessage?: string }
@@ -344,6 +345,9 @@ export class ManageSite extends SitesQuery {
 
         await Promise.all(upsertPromises)
       }
+
+      if (params.publishDomains)
+        await updateSiteCerts({ site: data, fictionSites: this.settings.fictionSites, fictionDb, flyIoAppId: this.settings.flyIoAppId }, meta)
 
       message = 'site saved'
     }

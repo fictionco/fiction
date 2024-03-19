@@ -1,6 +1,40 @@
 import { describe, expect, it } from 'vitest'
 
-import { displayDomain, getDomainFavicon, getUrlPath, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath } from '../url'
+import { displayDomain, getDomainFavicon, getUrlPath, refineRoute, safeUrl, standardizeUrlOrPath, updateUrl, urlPath, validHost } from '../url'
+
+describe('validHost', () => {
+  it('should return the hostname for a valid URL with protocol and path', () => {
+    expect(validHost('http://www.fiction.com/path')).toBe('www.fiction.com')
+  })
+
+  it('should return the hostname for a valid URL with HTTPS and query', () => {
+    expect(validHost('https://foo.com?query=string')).toBe('foo.com')
+  })
+
+  it('should return the hostname for a valid host without protocol', () => {
+    expect(validHost('foo.what.foo.com')).toBe('foo.what.foo.com')
+  })
+
+  it('should return false for an invalid URL', () => {
+    expect(validHost('invalid-url')).toBe(false)
+  })
+
+  it('should return false for a URL missing top-level domain', () => {
+    expect(validHost('http://localhost')).toBe(false)
+  })
+
+  it('should handle URLs with subdomains correctly', () => {
+    expect(validHost('http://sub.domain.fiction.com')).toBe('sub.domain.fiction.com')
+  })
+
+  it('should return false for a URL with spaces', () => {
+    expect(validHost('http://www. fiction.com')).toBe(false)
+  })
+
+  it('should return the hostname for a URL with port number', () => {
+    expect(validHost('http://www.fiction.com:8080')).toBe('www.fiction.com')
+  })
+})
 
 describe('refineRoute', () => {
   it('should handle misc vars', () => {

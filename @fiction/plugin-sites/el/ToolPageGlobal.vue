@@ -4,8 +4,7 @@ import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import type { Site } from '../site'
-import { requestManagePage } from '../utils/region'
-import { updateSite } from '../utils/site'
+import { saveSite, updateSite } from '../utils/site'
 import type { EditorTool } from './tools'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
@@ -15,7 +14,6 @@ const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
 
-const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
 const options = [
@@ -26,7 +24,7 @@ const options = [
     input: 'group',
     options: [
       new InputOption({ key: 'title', label: 'Site Title', input: 'InputText', isRequired: true }),
-      new InputOption({ key: 'userConfig.faviconUrl', label: 'Favicon (32px x 32px)', input: 'InputMediaUpload' }),
+      new InputOption({ key: 'userConfig.faviconUrl', label: 'Favicon', input: 'InputMediaUpload' }),
       new InputOption({ key: 'userConfig.timeZone', label: 'Site Time Zone', input: 'InputTimezone' }),
       new InputOption({ key: 'userConfig.languageCode', label: 'Site Language Code', input: 'InputText', placeholder: 'en' }),
     ],
@@ -50,18 +48,8 @@ vue.onMounted(() => {
 
 async function save() {
   loading.value = true
-  await requestManagePage({
-    site: props.site,
-    _action: 'upsert',
-    regionCard: props.site.editPageConfig.value,
-    delay: 400,
-    successMessage: 'Page Saved',
-  })
+  await saveSite({ site: props.site, successMessage: 'Settings saved' })
   loading.value = false
-
-  props.site.editPageConfig.value = {}
-
-  control.useTool({ toolId: 'pages' })
 }
 
 const v = vue.computed({

@@ -1,3 +1,15 @@
+/**
+ * get host part of URL, useful for domain handling
+ */
+export function validHost(host?: string) {
+  if (!host)
+    return false
+
+  // Updated pattern to handle query strings or fragments
+  const pattern = /^(?:http:\/\/|https:\/\/)?([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+)/
+  const match = host.match(pattern)
+  return match ? match[1] : false
+}
 export function refineRoute(
   routePath: string,
   replacers?: Record<string, unknown>,
