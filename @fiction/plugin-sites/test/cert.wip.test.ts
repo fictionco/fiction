@@ -9,7 +9,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 let testUtils: SiteTestUtils
 describe('manageCertificates', () => {
   const hostname = 'example.com'
-  const maskedKeys = ['id']
+  const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget']
   beforeAll(async () => {
     testUtils = createSiteTestUtils()
     await testUtils.init()
@@ -22,7 +22,27 @@ describe('manageCertificates', () => {
 
     const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.cx', appId: 'fiction-sites' })
     expect(r2.status).toBe('success')
-    expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
+    expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`
+      {
+        "acmeAlpnConfigured": "true",
+        "acmeDnsConfigured": false,
+        "certificateAuthority": "lets_encrypt",
+        "check": "true",
+        "clientStatus": "Ready",
+        "configured": "true",
+        "createdAt": "[dateTime:]",
+        "dnsProvider": "cloudflare",
+        "dnsValidationHostname": "_acme-challenge.test-site.fiction.cx",
+        "dnsValidationInstructions": "**MASKED**",
+        "dnsValidationTarget": "**MASKED**",
+        "hostname": "test-site.fiction.cx",
+        "id": "**MASKED**",
+        "issued": {
+          "nodes": "[object Object],[object Object]",
+        },
+        "source": "fly",
+      }
+    `)
   })
 
   it('should get certificate', async () => {
@@ -53,8 +73,8 @@ describe('manageCertificates', () => {
         "configured": false,
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
-        "dnsValidationInstructions": "CNAME _acme-challenge.example.com => example.com.3zrzjz.flydns.net.",
-        "dnsValidationTarget": "example.com.3zrzjz.flydns.net",
+        "dnsValidationInstructions": "**MASKED**",
+        "dnsValidationTarget": "**MASKED**",
         "hostname": "example.com",
         "id": "**MASKED**",
         "source": "fly",
@@ -77,8 +97,8 @@ describe('manageCertificates', () => {
         "createdAt": "[dateTime:]",
         "dnsProvider": "icann",
         "dnsValidationHostname": "_acme-challenge.example.com",
-        "dnsValidationInstructions": "CNAME _acme-challenge.example.com => example.com.3zrzjz.flydns.net.",
-        "dnsValidationTarget": "example.com.3zrzjz.flydns.net",
+        "dnsValidationInstructions": "**MASKED**",
+        "dnsValidationTarget": "**MASKED**",
         "hostname": "example.com",
         "id": "**MASKED**",
         "issued": {

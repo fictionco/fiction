@@ -23,7 +23,6 @@ describe('site plugin tests', async () => {
 
   const common = {
     siteRouter: testUtils.fictionRouterSites,
-    parentRouter: testUtils.fictionRouter,
     fictionSites: testUtils.fictionSites,
     siteMode: 'standard',
   } as const

@@ -16,7 +16,6 @@ describe('sitePreview', async () => {
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
-    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 
