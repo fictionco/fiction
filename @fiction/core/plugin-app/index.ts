@@ -164,7 +164,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const router = this.fictionRouter.create({ caller: `mountApp:${this.appInstanceId}` })
 
     if (renderRoute)
-      await this.fictionRouter.replace({ path: renderRoute }, { id: 'mount' })
+      await this.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
     await this.utils.runHooks<HookDictionary, 'afterAppSetup'>({
       list: this.hooks,

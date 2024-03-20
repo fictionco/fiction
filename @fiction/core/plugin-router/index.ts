@@ -305,9 +305,9 @@ export class FictionRouter<
 
   public async replace(
     location: vueRouter.RouteLocationRaw,
-    options?: { id?: string },
+    options?: { caller?: string },
   ) {
-    const { id = 'unknown' } = options || {}
+    const { caller = 'unknown' } = options || {}
 
     if (!this.router.value)
       throw new Error(`router not initialized [${this.settings.routerId}]`)
@@ -319,7 +319,7 @@ export class FictionRouter<
       path = location.path
 
     if (!this.fictionEnv?.isRendering)
-      this.log.info(`setting route ${path} [from ${id}]`)
+      this.log.info(`setting route ${path} [from ${caller}]`)
 
     await this.router.value.replace(location)
   }

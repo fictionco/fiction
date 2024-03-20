@@ -4,7 +4,10 @@ import { snap } from '@fiction/core/test-utils'
 describe('service health checks', () => {
   const services = [
     'https://www.fiction.cx',
+    'https://docs.fiction.cx',
     'https://theme-minimal.fiction.cx',
+    'https://andrewpowers.fiction.cx',
+    'https://www.andrewpowers.com',
   ]
 
   it('services health endpoint works and logs response time', async () => {

@@ -2,6 +2,17 @@ import { describe, expect, it } from 'vitest'
 import fs from 'fs-extra'
 import { randomBetween, safeDirname } from '@fiction/core'
 import { appRunTest } from '@fiction/core/test-utils/buildTest'
+import { execaCommandSync } from 'execa'
+
+describe('pre check secrets', () => {
+  it('has secrets', async () => {
+    const { stdout } = execaCommandSync('flyctl secrets list -a fiction-sites')
+
+    const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET']
+    for (const secret of secrets)
+      expect(stdout).toContain(secret)
+  })
+})
 
 describe('files built', () => {
   const dir = safeDirname(import.meta.url, '..')
