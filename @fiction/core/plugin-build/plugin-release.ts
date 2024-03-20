@@ -263,7 +263,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (stdout) {
       this.log.info('committing changes...')
       await this.commit('git', ['add', '-A'])
-      await this.commit('git', ['commit', '-m', `release: v${targetVersion}`])
+      await this.commit('git', ['commit', '-m', `release: v${targetVersion} [skip]`])
     }
     else {
       this.log.info('no changes to commit')
