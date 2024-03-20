@@ -18,11 +18,11 @@ describe('siteRendering Tests', async () => {
   await testUtils.init()
 
   subDomain = shortId()
+  const hostname = `${subDomain}.fiction.com`
 
   const common = {
     fictionSites: testUtils.fictionSites,
     siteRouter: testUtils.fictionRouterSites,
-    parentRouter: testUtils.fictionRouter,
     siteMode: 'standard',
   } as const
 
@@ -53,7 +53,7 @@ describe('siteRendering Tests', async () => {
 
     const mountEl = document.createElement('div')
     const { init: _, initialized: __, close: ___, ...service } = testUtils
-    const entry = await testUtils.fictionAppSites.mountApp({ mountEl, service, runVars: { SUBDOMAIN: subDomain } })
+    const entry = await testUtils.fictionAppSites.mountApp({ mountEl, service, runVars: { HOSTNAME: hostname } })
 
     await waitFor(300)
 

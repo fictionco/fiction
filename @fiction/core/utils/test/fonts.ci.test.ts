@@ -66,7 +66,7 @@ describe('getThemeFontConfig', () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Source Serif 4', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "getFontsUrl": [Function],
+        "fontsUrl": "https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Source+Serif+4:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap",
         "input": "'DM Mono', 'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
@@ -96,7 +96,7 @@ describe('getThemeFontConfig', () => {
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "'Custom Serif', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
-        "getFontsUrl": [Function],
+        "fontsUrl": "https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap",
         "input": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",
         "mono": "'Custom Mono', 'DM Mono', 'Nimbus Mono PS', 'Courier New', monospace",
         "sans": "'Roboto', Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif",

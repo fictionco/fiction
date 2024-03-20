@@ -25,11 +25,12 @@ describe('rendering tests', () => {
     if (!testUtils)
       return
 
+    const ohost = 'whatever.com'
     // Mock the Request object
     const headers = {
       'host': 'example.com:3000',
       'User-Agent': 'Mozilla/5.0',
-      'X-Original-Host': 'whatever.com',
+      'X-Original-Host': ohost,
       'Custom-Header': 'value123',
     }
     const mockRequest = {
@@ -63,7 +64,7 @@ describe('rendering tests', () => {
 
     expect(requestVars?.ALL_HEADERS).toContain('host: example.com:3000')
     expect(requestVars?.ALL_HEADERS).toContain('User-Agent: Mozilla/5.0')
-    expect(requestVars?.ALL_HEADERS).toContain('X-Original-Host: whateverq.com')
+    expect(requestVars?.ALL_HEADERS).toContain(`X-Original-Host: ${ohost}`)
     expect(requestVars?.ALL_HEADERS).toContain('Custom-Header: value123')
   })
 })

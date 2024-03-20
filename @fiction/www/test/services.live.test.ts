@@ -31,7 +31,26 @@ describe('service health checks', () => {
       expect(json.message).toBe('ok')
     }
 
-    expect(snap(outputs)).toMatchInlineSnapshot()
+    expect(snap(outputs)).toMatchInlineSnapshot(`
+      [
+        {
+          "commit": "notFound",
+          "duration": "[dateTime:]",
+          "message": "ok",
+          "status": "success",
+          "timestamp": "[dateTime:]",
+          "version": "6.0.9",
+        },
+        {
+          "commit": "notFound",
+          "duration": "[dateTime:]",
+          "message": "ok",
+          "status": "success",
+          "timestamp": "[dateTime:]",
+          "version": "6.0.9",
+        },
+      ]
+    `)
   }, 10000)
 
   it('websites are live and check content', async () => {

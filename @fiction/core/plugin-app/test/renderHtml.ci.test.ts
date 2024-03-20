@@ -53,7 +53,7 @@ describe('serverRenderHtml', () => {
     const html = await fictionRender.serverRenderHtml(params)
 
     // Assert the results
-    expect(html.replace(testUtils.fictionApp.port.toString(), 'PORT')).toMatchInlineSnapshot(`"<!DOCTYPE html><html bar="foo"><head><headtags></headtags><preloadlinks></preloadlinks><link href="http://localhost:PORT" rel="canonical"><meta name="generator" content="FictionJS 6.0.4"></head><body foo="bar"><bodytagsopen></bodytagsopen><div id="app"><htmlbody></htmlbody></div><bodytags></bodytags><!--{"renderedPathname":"/","isProd":true}--></body></html>"`)
+    expect(html.replace(testUtils.fictionApp.port.toString(), 'PORT')).toMatchInlineSnapshot(`"<!DOCTYPE html><html bar="foo"><head><headtags></headtags><preloadlinks></preloadlinks><link href="http://localhost:PORT" rel="canonical"><meta name="generator" content="FictionJS 6.0.9"></head><body foo="bar"><bodytagsopen></bodytagsopen><div id="app"><htmlbody></htmlbody></div><bodytags></bodytags><!--{"renderedPathname":"/","isProd":true}--></body></html>"`)
     expect(html).toContain('<headtags></headtags>'.toLowerCase())
     expect(html).toContain('<htmlBody></htmlBody>'.toLowerCase())
     expect(html).toContain('foo="bar"')

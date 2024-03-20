@@ -1,5 +1,5 @@
 import type { UserGeolocation } from '../types'
-import { getNetworkIp, isLocalhostIp } from '../utils'
+import { fetchWithTimeout, getNetworkIp, isLocalhostIp } from '../utils'
 import { log } from '../plugin-log'
 
 export interface GeoData {
@@ -35,7 +35,7 @@ interface ipApiResponse {
 
 export async function getGeoFree(ip?: string): Promise<GeoData | undefined> {
   try {
-    const fetched = await fetch(`http://ip-api.com/json/${ip}`, {
+    const fetched = await fetchWithTimeout(`http://ip-api.com/json/${ip}`, {
       method: 'GET',
       headers: { 'access-control-allow-origin': '*' },
     })
@@ -113,7 +113,7 @@ export async function getGeo(ip?: string): Promise<GeoData | undefined> {
     ip = await getNetworkIp()
 
   try {
-    const fetched = await fetch(
+    const fetched = await fetchWithTimeout(
       `https://api.db-ip.com/v2/c41c91295b5abead5e3db1dd9d237e282629f4c8/${ip}`,
       {
         method: 'GET',

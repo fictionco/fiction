@@ -14,7 +14,6 @@ export interface CompiledServiceConfig {
     | 'GOOGLE_CLIENT_ID'
     | 'GOOGLE_CLIENT_SECRET'
     | 'IS_TEST'
-    | 'NGROK_AUTH_TOKEN'
     | 'NODE_ENV'
     | 'POSTGRES_URL'
     | 'RUNTIME_COMMIT'

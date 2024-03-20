@@ -1,20 +1,17 @@
 /**
  * Advanced fetch function that adds a timeout and format option to native fetch
  */
-export async function fetchAdvanced<T = unknown>(resource: string, options?: { timeout?: number, format?: 'json' | 'text' }): Promise<T> {
-  const { timeout = 8000, format = 'json' } = options ?? {}
+export async function fetchWithTimeout(url: string, options?: RequestInit & { timeout?: number }): Promise<Response> {
+  const { timeout = 5000, ...fetchOptions } = options || {}
 
-  const controller = new AbortController()
-  const id = setTimeout(() => controller.abort(), timeout)
-
-  const response = await window.fetch(resource, {
-    ...options,
-    signal: controller.signal,
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => {
+      reject(new Error(`Request timed out after ${timeout} ms`))
+    }, timeout)
   })
 
-  const out = (await response[format]()) as T
-
-  clearTimeout(id)
-
-  return out
+  return Promise.race([
+    fetch(url, fetchOptions),
+    timeoutPromise,
+  ])
 }

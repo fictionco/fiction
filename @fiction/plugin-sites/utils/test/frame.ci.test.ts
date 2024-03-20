@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
-import { activeSiteDisplayUrl } from '../../utils/site'
+import { activeSiteDisplayUrl } from '../site'
 
 describe('previewUrl', async () => {
   const testUtils = createSiteTestUtils()

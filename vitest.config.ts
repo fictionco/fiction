@@ -44,6 +44,8 @@ export default defineConfig({
         '**/*.vue',
         '**/*.cjs',
         '**/*.js',
+        '**/test-utils/**',
+        '**/resource/**',
       ],
     },
     alias: [
