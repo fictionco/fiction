@@ -13,7 +13,7 @@ export const userColumns = [
   new FictionDbCol({
     key: 'email',
     create: ({ schema, column }) => schema.string(column.pgKey).notNullable().unique(),
-    prepare: ({ value }) => (value as string).toLowerCase().trim(),
+    prepare: ({ value }) => (value).toLowerCase().trim(),
     default: () => '' as string,
   }),
   new FictionDbCol({
@@ -21,7 +21,7 @@ export const userColumns = [
     create: ({ schema, column }) => schema.string(column.pgKey).unique().index(),
     default: () => '' as string,
     isSetting: true,
-    prepare: ({ value }) => (value as string).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
+    prepare: ({ value }) => (value).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
   }),
   new FictionDbCol({
     key: 'googleId',
@@ -273,7 +273,7 @@ export const orgColumns = [
     default: () => '' as string,
     isSetting: true,
     prepare: ({ value }) =>
-      (value as string).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
+      (value).replaceAll(/[^\dA-Za-z]+/g, '').toLowerCase(),
   }),
   new FictionDbCol({
     key: 'orgName',

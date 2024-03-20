@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "@fiction/core": "6.0.11",
+    "@fiction/core": "workspace:*",
     "@stripe/stripe-js": "^3.0.10",
-    "express": "^4.18.3",
+    "express": "^4.19.0",
     "stripe": "^14.21.0"
   },
   "devDependencies": {

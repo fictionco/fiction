@@ -3,7 +3,7 @@
  */
 import { describe, expect, it, vi } from 'vitest'
 import { getGeo, getGeoFree, setUserGeolocation } from '../geo'
-import { fetchWithTimeout, isLocalhostIp } from '../../utils'
+import { fetchWithTimeout } from '../../utils'
 
 // Mock the utilities used in the geo functions
 vi.mock('../../utils', () => ({
@@ -90,8 +90,6 @@ describe('geo functions', () => {
       expect(result).toEqual(expectedGeoData)
       expect(fetchWithTimeout).toHaveBeenCalled()
     })
-
-
   })
 
   describe('setUserGeolocation', () => {
@@ -133,7 +131,5 @@ describe('geo functions', () => {
       expect(result).toEqual(expectedGeoData)
       expect(globalThis.fetch).toHaveBeenCalledWith('https://freegeoip.app/json/')
     })
-
-
   })
 })
