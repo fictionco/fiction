@@ -182,8 +182,9 @@ export class FictionLog {
               else
                 return [key, this.refineDataRecursive({ ...args, obj: value, depth: newDepth })]
             }
-            catch {
-              return [key, summarizeObject(value, `Unable to Serialize`)]
+            catch (error) {
+              const msg = (error as Error).message
+              return [key, summarizeObject(value, `Unable to Serialize (${msg})`)]
             }
           }
           return [key, value]

@@ -82,11 +82,15 @@ export async function loadSite(args: {
 }) {
   const { siteRouter, fictionSites, caller = 'unknown', mountContext } = args
 
-  const vals = { ...args, ...mountContext }
+  const vals = { caller, ...mountContext }
 
   let site: Site | undefined = undefined
   try {
-    const { siteId, subDomain, themeId, siteMode = 'standard' } = mountContext || {}
+    const { siteId, subDomain, hostname, themeId, siteMode = 'standard' } = mountContext || {}
+
+    const where = { siteId, subDomain, hostname, themeId } as WhereSite
+
+    const hasWhere = Object.values(where).filter(Boolean).length > 0
 
     const selectors = [siteId, subDomain, themeId].filter(Boolean)
 
@@ -101,9 +105,7 @@ export async function loadSite(args: {
       logger.info('Loading site from theme', { data: { themeId } })
       site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
     }
-    else if (siteId || subDomain) {
-      const where = siteId ? { siteId } : { subDomain } as { subDomain: string }
-
+    else if (hasWhere) {
       site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
     }
     else {

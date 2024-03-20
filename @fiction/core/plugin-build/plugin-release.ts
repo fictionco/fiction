@@ -151,7 +151,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     const dirty = await isGitDirty()
     if (dirty && options.withChanges) {
       await this.commit('git', ['add', '-A'])
-      await this.commit('git', ['commit', '-m', `chore: pre-release`])
+      await this.commit('git', ['commit', '-m', `chore: pre-release [skip]`])
       await this.commit('git', ['push'])
     }
     else if (dirty) {
@@ -287,14 +287,16 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     ])
     await this.commit('git', ['push', '--no-verify'])
 
-    if (tag) {
-      const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
-      this.log.info(`creating tagged release "${txt}"`)
+    await this.commit('gh', ['auth', 'status'])
 
-      await this.commit('gh', ['release', 'create', txt, '--generate-notes'])
-    }
-    else {
-      this.log.info('skipping tagged release')
-    }
+    // if (tag) {
+    //   const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
+    //   this.log.info(`creating tagged release "${txt}"`)
+
+    //   await this.commit('gh', ['release', 'create', txt, '--generate-notes'])
+    // }
+    // else {
+    //   this.log.info('skipping tagged release')
+    // }
   }
 }

@@ -189,6 +189,11 @@ describe('site plugin tests', async () => {
       ...common,
     })
 
+    const loaded2 = await loadSite({
+      mountContext: { hostname },
+      ...common,
+    })
+
     const r = await requestManageSite({
       fields: {
         customDomains: [],
@@ -202,6 +207,9 @@ describe('site plugin tests', async () => {
 
     expect(loaded).toBeDefined()
     expect(loaded?.siteId).toBe(site.siteId)
+
+    expect(loaded2).toBeDefined()
+    expect(loaded2?.siteId).toBe(site.siteId)
 
     expect((loaded?.customDomains.value || []).map(_ => Object.keys(_))).toMatchInlineSnapshot(`
       [
