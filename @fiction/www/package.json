@@ -13,7 +13,7 @@
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.1.0",
     "mapbox-gl": "^3.2.0",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1"
   },
   "license": "GPL-2.0-only",

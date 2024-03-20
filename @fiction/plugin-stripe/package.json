@@ -2,7 +2,7 @@
   "dependencies": {
     "@fiction/core": "workspace:*",
     "@stripe/stripe-js": "^3.0.10",
-    "express": "^4.19.0",
+    "express": "^4.19.1",
     "stripe": "^14.21.0"
   },
   "devDependencies": {
