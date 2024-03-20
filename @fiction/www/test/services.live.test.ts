@@ -21,17 +21,17 @@ describe('service health checks', () => {
 
       const responseTime = endTime - startTime
 
-      expect(responseTime).toBeLessThan(5000)
+      expect(responseTime, `response time ${service}`).toBeLessThan(5000)
 
       console.warn(`Response time for ${service}: ${responseTime}ms`)
 
-      expect(response.status).toBe(200)
+      expect(response.status, `response status ${service}`).toBe(200)
 
       const json = (await response.json()) as Record<string, unknown>
       outputs.push(json)
 
-      expect(json.status).toBe('success')
-      expect(json.message).toBe('ok')
+      expect(json.status, `health status ${service}`).toBe('success')
+      expect(json.message, `health ${service}`).toBe('ok')
     }
 
     expect(snap(outputs)).toMatchInlineSnapshot(`
@@ -60,10 +60,10 @@ describe('service health checks', () => {
     for (const site of services) {
       const response = await fetch(`${site}?test=1`)
 
-      expect(response.status).toBe(200)
+      expect(response.status, `status ${site}`).toBe(200)
 
       const html = await response.text()
-      expect(html).toContain('<main')
+      expect(html, `html: ${site}`).toContain('<main')
       // Example: Log instead of asserting specific content
       console.warn(`Content check for ${site}:`, html.includes('footer') ? 'Contains footer' : 'Missing footer')
     }

@@ -23,7 +23,6 @@ import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
 import { populateGlobal } from '../utils/globalUtils'
 import type { RunVars } from '../inject'
-import { getFaviconPath, renderPreloadLinks } from './utils'
 import type * as types from './types'
 import { FictionSitemap } from './sitemap'
 import { getMarkdownPlugins } from './utils/vitePluginMarkdown'
@@ -316,8 +315,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         /**
          * SSR manifest maps assets which allows us to render preload links for performance
          */
-        if (manifest)
-          out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
+        // if (manifest)
+        //   out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
 
         /**
          * Meta/Head Rendering
@@ -379,7 +378,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const parts = await this.serverRenderApp({ pathname, manifest, isProd, runVars })
     let { htmlBody, headTags, bodyTags } = parts
-    const { preloadLinks, htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
+    const { htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
 
     if (!template)
       throw new Error('html template required')
@@ -404,9 +403,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const headHtml = [
       headTags,
-      preloadLinks,
       `<link href="${canonicalUrl}" rel="canonical">`,
-      `<meta name="generator" content="FictionJS ${version}" />`,
+      `<meta name="generator" content="Fiction ${version}" />`,
     ].join(`\n`)
 
     const html = template
@@ -676,10 +674,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     eApp.set('trust proxy', true)
 
     try {
-      const faviconFile = getFaviconPath(this.srcFolder)
-      if (faviconFile)
-        eApp.use(serveFavicon(faviconFile))
-
       let viteServer: vite.ViteDevServer | undefined
 
       const { manifest, template } = await this.htmlGenerators({
