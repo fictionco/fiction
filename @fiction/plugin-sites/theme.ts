@@ -1,5 +1,5 @@
-import type { FictionMedia, Processor } from '@fiction/core'
-import { FictionObject, ObjectProcessor, deepMerge, isNode, log, parseObject, vue } from '@fiction/core'
+import type { FictionMedia, Processor, vue } from '@fiction/core'
+import { FictionObject, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
@@ -12,12 +12,12 @@ export type ThemeSettings = {
   version?: string
   description?: string
   screenshot: string
-  pages: TableCardConfig[]
   templates: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
   userConfig?: Partial<SiteUserConfig>
-  sections?: Record<string, TableCardConfig>
+  pages: () => TableCardConfig[]
+  sections?: () => Record<string, TableCardConfig>
 }
 
 export type UiItem = { el: vue.Component }
@@ -28,7 +28,7 @@ export class Theme extends FictionObject<ThemeSettings> {
   templates = this.settings.templates
 
   ui = { button: { el: ElButton }, ...this.settings.ui }
-  pages = vue.computed(() => (this.settings.pages || []))
+  pages = this.settings.pages
   constructor(settings: ThemeSettings) {
     super('Theme', settings)
   }
@@ -43,7 +43,7 @@ export class Theme extends FictionObject<ThemeSettings> {
   toSite(): Partial<TableSiteConfig> {
     return {
       themeId: this.themeId,
-      pages: this.pages.value,
+      pages: this.pages() || [],
       userConfig: this.config(),
     }
   }

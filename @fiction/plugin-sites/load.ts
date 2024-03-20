@@ -117,9 +117,7 @@ export async function loadSite(args: {
     logger.error('Error loading site', { error })
   }
 
-  if (site)
-    logger.info('Returning Site Result', { data: site?.toConfig() })
-  else
+  if (!site)
     logger.error('No Site Loaded', { data: { vals } })
 
   return site

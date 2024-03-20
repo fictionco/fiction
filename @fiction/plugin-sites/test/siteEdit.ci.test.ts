@@ -27,7 +27,7 @@ describe('site plugin tests', async () => {
     siteMode: 'standard',
   } as const
 
-  const defaultNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
+  const defaultNumPages = testTheme.pages().filter(_ => _.regionId === 'main').length
 
   it('creates site', async (ctx) => {
     if (!testUtils?.fictionSites)

@@ -2,27 +2,27 @@ import type { ServiceList } from '@fiction/core'
 import { Theme, createCard } from '../../theme'
 import { templates } from './templates'
 
-const pg = [
-  createCard({
-    templates,
-    regionId: 'main',
-    templateId: 'wrap',
-    slug: '_home',
-    title: 'Welcome to my site',
-    isHome: true,
-    cards: [
-      createCard({
-        templates,
-        templateId: 'minimalProfile',
-        userConfig: { },
-      }),
-    ],
-  }),
-]
+function pages() {
+  return [
+    createCard({
+      templates,
+      regionId: 'main',
+      templateId: 'wrap',
+      slug: '_home',
+      title: 'Welcome to my site',
+      isHome: true,
+      cards: [
+        createCard({
+          templates,
+          templateId: 'minimalProfile',
+          userConfig: { },
+        }),
+      ],
+    }),
+  ]
+}
 
 export function setup(_args: ServiceList) {
-  const pages = [...pg]
-
   return new Theme({
     themeId: 'minimal',
     title: 'Minimal',
@@ -39,29 +39,31 @@ export function setup(_args: ServiceList) {
       },
     },
 
-    sections: {
-      header: createCard({
-        templates,
-        regionId: 'header',
-        templateId: 'area',
-        cards: [
-          createCard({
-            templates,
-            templateId: 'minimalHeader',
-          }),
-        ],
-      }),
-      footer: createCard({
-        templates,
-        regionId: 'footer',
-        templateId: 'area',
-        cards: [
-          createCard({
-            templates,
-            templateId: 'minimalFooter',
-          }),
-        ],
-      }),
+    sections: () => {
+      return {
+        header: createCard({
+          templates,
+          regionId: 'header',
+          templateId: 'area',
+          cards: [
+            createCard({
+              templates,
+              templateId: 'minimalHeader',
+            }),
+          ],
+        }),
+        footer: createCard({
+          templates,
+          regionId: 'footer',
+          templateId: 'area',
+          cards: [
+            createCard({
+              templates,
+              templateId: 'minimalFooter',
+            }),
+          ],
+        }),
+      }
     },
   })
 }

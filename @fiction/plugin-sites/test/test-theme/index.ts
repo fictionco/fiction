@@ -41,7 +41,7 @@ export function setup(_args: { fictionApp: FictionApp }) {
     screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
     version: '1.0.0',
     templates,
-    pages: [
+    pages: () => [
       createCard({
         templates,
         slug: '_home',
@@ -57,9 +57,11 @@ export function setup(_args: { fictionApp: FictionApp }) {
         cards: [{ templateId: 'area', cards: [{ templateId: 'hero' }] }],
       }),
     ],
-    sections: {
-      header: createCard({ templates, cards: [] }),
-      footer: createCard({ templates, cards: [] }),
+    sections: () => {
+      return {
+        header: createCard({ templates, cards: [] }),
+        footer: createCard({ templates, cards: [] }),
+      }
     },
   })
 }

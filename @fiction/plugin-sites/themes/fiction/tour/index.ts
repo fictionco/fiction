@@ -209,43 +209,45 @@ const heroCard = createCard({
   },
 })
 
-export const page = createCard({
-  templates,
-  regionId: 'main',
-  templateId: 'wrap',
-  slug: 'tour',
-  cards: [
-    createCard({
-      templates,
-      templateId: 'area',
-      cards: [
-        topHeroCard,
-        mediaGridCard,
-        logosCard,
-        tourCard,
-      ],
-    }),
-    createCard({
-      templates,
-      templateId: 'area',
-      userConfig: {},
-      cards: [metricsCard, quoteCard],
-    }),
-    createCard({
-      templates,
-      templateId: 'area',
-      userConfig: {
-        flipColorMode: true,
-        lightMode: {
-          scheme: 'slate',
-          bgColor: '#000000',
+export function page() {
+  return createCard({
+    templates,
+    regionId: 'main',
+    templateId: 'wrap',
+    slug: 'tour',
+    cards: [
+      createCard({
+        templates,
+        templateId: 'area',
+        cards: [
+          topHeroCard,
+          mediaGridCard,
+          logosCard,
+          tourCard,
+        ],
+      }),
+      createCard({
+        templates,
+        templateId: 'area',
+        userConfig: {},
+        cards: [metricsCard, quoteCard],
+      }),
+      createCard({
+        templates,
+        templateId: 'area',
+        userConfig: {
+          flipColorMode: true,
+          lightMode: {
+            scheme: 'slate',
+            bgColor: '#000000',
+          },
+          darkMode: {
+            scheme: 'slate',
+            bgColor: '#FFFFFF',
+          },
         },
-        darkMode: {
-          scheme: 'slate',
-          bgColor: '#FFFFFF',
-        },
-      },
-      cards: [heroCard],
-    }),
-  ],
-})
+        cards: [heroCard],
+      }),
+    ],
+  })
+}

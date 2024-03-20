@@ -20,7 +20,7 @@ describe('themeCreation', async () => {
   userId = r?.user?.userId ?? ''
   orgId = r?.user?.orgs?.[0]?.orgId ?? ''
 
-  _homeNumPages = testTheme.pages.value.filter(_ => _.regionId === 'main').length
+  _homeNumPages = testTheme.pages().filter(_ => _.regionId === 'main').length
 
   testUtils.fictionSites.themes.value = [...testUtils.fictionSites.themes.value, testTheme]
 

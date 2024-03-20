@@ -31,7 +31,7 @@ export const templates = [
   }),
 ] as const
 
-export function getPages() {
+export function pages() {
   return [
     createCard({
       templates,
@@ -161,7 +161,7 @@ class AdminTheme extends Theme {
       version: '1.0.0',
       templates,
       isPublic: false,
-      pages: getPages(),
+      pages,
       userConfig: {
         colors: { isDarkMode: false },
         spacing: {

@@ -8,7 +8,7 @@ export function setSections(args: { site: Site, sections?: Record<string, CardCo
   const { site, sections = {} } = args
 
   // Access theme and page template sections
-  const themeSections = site.theme.value?.settings.sections || {}
+  const themeSections = site.theme.value?.settings.sections?.() || {}
   const pageTemplateSections = site.pages.value.reduce((acc, page) => {
     const pageSections = page.tpl.value?.settings.sections || {}
     return { ...acc, ...pageSections }
