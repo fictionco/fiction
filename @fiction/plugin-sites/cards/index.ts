@@ -17,7 +17,7 @@ import { templates as templatesFeatures } from './features'
 export const standardCardTemplates = [
   new CardTemplate({
     templateId: 'wrap',
-    el: vue.defineAsyncComponent(() => import('../engine/XWrap.vue')),
+    el: vue.defineAsyncComponent(() => import('../engine/FiWrap.vue')),
   }),
   ...templates404,
   ...templatesQuote,
