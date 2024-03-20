@@ -16,6 +16,7 @@ export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: 
 
 export type SiteUserConfig = Partial<{
   faviconUrl: string
+  shareImage: string
   robotsTxt: string
   locale: string
   ai: {

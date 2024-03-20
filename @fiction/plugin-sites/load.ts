@@ -1,6 +1,5 @@
 import type { FictionRouter, RunVars } from '@fiction/core'
 import { log } from '@fiction/core'
-import type { TableSiteConfig } from './tables'
 import type { ManageSiteParams } from './endpoint'
 import { Site } from '.'
 import type { FictionSites } from '.'

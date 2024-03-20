@@ -1,5 +1,5 @@
 import type { MockInstance } from 'vitest'
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { fetchWithTimeout } from '@fiction/core/utils/fetch'
 
 describe('fetchWithTimeout', () => {

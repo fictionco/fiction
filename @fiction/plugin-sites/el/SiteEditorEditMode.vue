@@ -71,7 +71,7 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
       </transition>
     </div>
     <div @click="fictionSites.useTool({ toolId: '' })">
-      <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_300px] xl:grid-cols-[1fr_350px]">
+      <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_300px] xl:grid-cols-[1fr_400px]">
         <div
 
           class="cards relative flex h-full w-full flex-col justify-center overflow-scroll bg-theme-50 dark:bg-theme-800"

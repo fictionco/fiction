@@ -1,5 +1,5 @@
 import { type EndpointMeta, type FictionDb, _stop, prepareFields, validHost } from '@fiction/core'
-import type { TableDomainConfig, TableSiteConfig } from '../tables'
+import type { TableDomainConfig } from '../tables'
 import { tableNames } from '../tables'
 import type { FictionSites } from '..'
 

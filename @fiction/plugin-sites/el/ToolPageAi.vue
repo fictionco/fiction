@@ -71,21 +71,21 @@ const options = [
       }),
     ],
   }),
-  // new InputOption({
-  //   key: 'aiAdvanced',
-  //   label: 'Advanced AI Settings',
-  //   input: 'group',
-  //   options: [
-  //     new InputOption({
-  //       key: 'userConfig.baseInstruction',
-  //       label: 'Base Instruction',
-  //       description: 'This is the base instruction given to the AI when generating content.',
-  //       input: 'InputTextarea',
-  //       props: { rows: 3 },
-  //     }),
+  new InputOption({
+    key: 'aiAdvanced',
+    label: 'Advanced AI Settings',
+    input: 'group',
+    options: [
+      new InputOption({
+        key: 'userConfig.ai.baseInstruction',
+        label: 'Base Instruction',
+        description: 'This is the base instruction given to the AI when generating content.',
+        input: 'InputTextarea',
+        props: { rows: 3 },
+      }),
 
-  //   ],
-  // }),
+    ],
+  }),
 
 ]
 

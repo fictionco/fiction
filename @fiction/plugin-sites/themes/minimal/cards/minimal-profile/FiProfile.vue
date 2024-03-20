@@ -74,8 +74,8 @@ function setActiveItem(index: number) {
             </div>
           </div>
         </div>
-        <div class="md:w-[50%]  px-2">
-          <div class="p-6 md:p-12 xl:p-[calc(1500px*0.06)] flex flex-col gap-20">
+        <div class="md:w-[50%]  px-2 flex items-center">
+          <div class="p-6 md:p-12 xl:p-[calc(1500px*0.06)] flex flex-col justify-center gap-20">
             <div class="details">
               <XText
                 tag="h3"

@@ -10,7 +10,7 @@ import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionAdmin } from '@fiction/plugin-admin'
 import { FictionAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
-import XSite from '@fiction/plugin-sites/engine/XSite.vue'
+import FiSite from '@fiction/plugin-sites/engine/FiSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
 import { config as adminConfig } from './admin'
@@ -46,8 +46,8 @@ const fictionRouter = new FictionRouter({
   routes: (fictionRouter) => {
     return [
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/test/TestInputsAll.vue') }),
-      new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: XSite, props: { siteRouter: fictionRouter, themeId: 'admin' } }),
-      new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),
+      new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: FiSite, props: { siteRouter: fictionRouter, themeId: 'admin' } }),
+      new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FiSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),
     ]
   },
 
@@ -70,7 +70,7 @@ const fictionRouterSites = new FictionRouter({
   routerId: 'siteRouter',
   fictionEnv,
   baseUrl: appUrlSites,
-  routes: [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite })],
+  routes: [new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FiSite })],
 })
 
 const fictionAppSites = new FictionApp({

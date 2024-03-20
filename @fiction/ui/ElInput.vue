@@ -114,7 +114,7 @@ vue.onMounted(() => {
               <div class="i-carbon-information" />
             </div>
             <div
-              class="bg-theme-0 absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-[10px] shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
+              class="bg-theme-0 dark:bg-theme-700 dark:text-theme-0 absolute -left-4 z-30 mt-2 hidden w-56 origin-top-right rounded-md p-3 text-[10px] shadow-lg ring-1 ring-black/10 focus:outline-none group-hover:block"
             >
               {{ description }}
             </div>

@@ -1,7 +1,7 @@
 import { AppRoute, type ServiceConfig, type ServiceList } from '@fiction/core'
 import type { SiteTestUtils } from '../../../test/siteTestUtils'
 import { createSiteTestUtils } from '../../../test/siteTestUtils'
-import XSite from '../../../engine/XSite.vue'
+import FiSite from '../../../engine/FiSite.vue'
 
 export function setup(args: { context?: 'node' | 'app' } = {}): ServiceConfig & { testUtils: SiteTestUtils } {
   const { context = 'app' } = args
@@ -10,8 +10,8 @@ export function setup(args: { context?: 'node' | 'app' } = {}): ServiceConfig & 
   const testUtils = createSiteTestUtils({ mainFilePath, context })
 
   testUtils.fictionRouter.update([
-    new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: XSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'admin' } }),
-    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: XSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'fiction' } }),
+    new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: FiSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'admin' } }),
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FiSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'fiction' } }),
   ])
 
   return {

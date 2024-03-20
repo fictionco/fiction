@@ -36,7 +36,7 @@ async function load() {
     })
   }
   catch (error) {
-    log.error('XSite.vue', `Error loading site ${(error as Error).message}`, { error })
+    log.error('FiSite.vue', `Error loading site ${(error as Error).message}`, { error })
   }
   finally {
     loading.value = false
@@ -52,6 +52,7 @@ unhead.useHead({
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:site_name', content: () => site.value?.title.value || 'untitled' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
+    { property: 'og:image', content: () => site.value?.userConfig.value.shareImage || '/favicon.png' },
   ],
   link: [
     { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl || '/favicon.png' },
@@ -90,7 +91,7 @@ vue.onMounted(async () => {
     util.init()
 
     // initialize resetUi and path watchers
-    site?.value.frame.init({ caller: 'XSite' })
+    site?.value.frame.init({ caller: 'FiSite' })
 
     vue.watch(
       () => site?.value,

@@ -5,12 +5,18 @@ import { appRunTest } from '@fiction/core/test-utils/buildTest'
 import { execaCommandSync } from 'execa'
 
 describe('pre check secrets', () => {
+  const services = [
+    { appId: 'fiction-sites' },
+    { appId: 'fiction-website' },
+  ]
   it('has secrets', async () => {
-    const { stdout } = execaCommandSync('flyctl secrets list -a fiction-sites')
+    for (const service of services) {
+      const { stdout } = execaCommandSync(`flyctl secrets list -a ${service.appId}`)
 
-    const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
-    for (const secret of secrets)
-      expect(stdout).toContain(secret)
+      const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
+      for (const secret of secrets)
+        expect(stdout).toContain(secret)
+    }
   })
 })
 

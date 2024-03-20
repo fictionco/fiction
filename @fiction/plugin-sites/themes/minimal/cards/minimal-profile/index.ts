@@ -63,7 +63,7 @@ const minimalProfile = new CardTemplate({
   description: 'Minimal website profile',
   icon: 'i-tabler-user',
   iconTheme: 'blue',
-  el: vue.defineAsyncComponent(() => import('./XProfile.vue')),
+  el: vue.defineAsyncComponent(() => import('./FiProfile.vue')),
   userConfig: {
     superHeading: 'Steve S. Smith',
     heading: 'Designing The Future of Tomorrow',

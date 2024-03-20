@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { shortId } from '@fiction/core'
-import { afterAll, afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import type { Site } from '../site'
 import { domainMountContext, getMountContext, loadSite, loadSiteById, loadSiteFromTheme, requestManageSite } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'

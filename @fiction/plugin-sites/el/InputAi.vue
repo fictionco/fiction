@@ -38,7 +38,7 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
 }
 
 const numFields = vue.computed(() => {
-  return Object.keys(card.value?.generation.inputConfig.value || {}).length
+  return Object.values(card.value?.generation.inputConfig.value || {}).filter(_ => !_.isDisabled).length
 })
 </script>
 
