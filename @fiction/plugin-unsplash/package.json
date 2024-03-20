@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
+    "@fiction/core": "6.0.10",
     "node-fetch": "^3.3.2",
     "unsplash-js": "^7.0.19"
   },
@@ -12,5 +12,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.9"
+  "version": "6.0.10"
 }

@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
-    "@fiction/plugin-sites": "workspace:*"
+    "@fiction/core": "6.0.10",
+    "@fiction/plugin-sites": "6.0.10"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",
@@ -11,5 +11,5 @@
     "access": "public"
   },
   "type": "module",
-  "version": "6.0.9"
+  "version": "6.0.10"
 }

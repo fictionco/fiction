@@ -1,3 +1,13 @@
+## [6.0.10](https://github.com/fictionco/fiction/compare/v6.0.9...v6.0.10) (2024-03-20)
+
+
+### Bug Fixes
+
+* tests -d ([850dce4](https://github.com/fictionco/fiction/commit/850dce46bcf66da41f6cede8919a64d7e114fda2))
+* try tests -d ([bbd44cd](https://github.com/fictionco/fiction/commit/bbd44cdf1a033071ac82da52602ed72ece3132ef))
+
+
+
 ## [6.0.9](https://github.com/fictionco/fiction/compare/v6.0.8...v6.0.9) (2024-03-17)
 
 

@@ -1,7 +1,7 @@
 {
   "name": "supereon",
   "type": "module",
-  "version": "6.0.9",
+  "version": "6.0.10",
   "private": true,
   "author": "Supereon",
   "license": "GPL-2.0-only",
@@ -50,10 +50,10 @@
   },
   "dependencies": {
     "@esbuild-kit/esm-loader": "^2.6.5",
-    "@fiction/core": "workspace:*",
-    "@fiction/plugin-notify": "workspace:*",
-    "@fiction/ui": "workspace:*",
-    "@fiction/www": "workspace:*",
+    "@fiction/core": "6.0.10",
+    "@fiction/plugin-notify": "6.0.10",
+    "@fiction/ui": "6.0.10",
+    "@fiction/www": "6.0.10",
     "@vitejs/plugin-vue": "^5.0.4",
     "axios": "^1.6.8",
     "commander": "^12.0.0",

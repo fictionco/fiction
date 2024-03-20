@@ -12,16 +12,16 @@ importers:
         specifier: ^2.6.5
         version: 2.6.5
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:@fiction/core
       '@fiction/plugin-notify':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:@fiction/plugin-notify
       '@fiction/ui':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:@fiction/ui
       '@fiction/www':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:@fiction/www
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
@@ -686,16 +686,16 @@ importers:
   '@fiction/plugin-admin':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-ai':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-ai
       '@fiction/plugin-highlight-code':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-highlight-code
       '@fiction/ui':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../ui
       marked:
         specifier: ^12.0.1
@@ -713,19 +713,19 @@ importers:
   '@fiction/plugin-admin-index':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-sites':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-sites
 
   '@fiction/plugin-ai':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-unsplash':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-unsplash
       '@pinecone-database/pinecone':
         specifier: ^2.1.0
@@ -743,16 +743,16 @@ importers:
   '@fiction/plugin-contact':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-monitor':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-monitor
 
   '@fiction/plugin-highlight-code':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       highlight.js:
         specifier: ^11.9.0
@@ -761,7 +761,7 @@ importers:
   '@fiction/plugin-monitor':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@mailchimp/mailchimp_marketing':
         specifier: ^3.0.80
@@ -785,25 +785,25 @@ importers:
   '@fiction/plugin-notify':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
 
   '@fiction/plugin-sites':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-admin':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-admin
       '@fiction/plugin-ai':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-ai
       '@fiction/plugin-highlight-code':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-highlight-code
       '@fiction/ui':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../ui
       '@shopify/draggable':
         specifier: ^1.1.3
@@ -824,7 +824,7 @@ importers:
   '@fiction/plugin-stripe':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@stripe/stripe-js':
         specifier: ^3.0.10
@@ -843,16 +843,16 @@ importers:
   '@fiction/plugin-subscribe':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-monitor':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-monitor
 
   '@fiction/plugin-unsplash':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       node-fetch:
         specifier: ^3.3.2
@@ -864,7 +864,7 @@ importers:
   '@fiction/ui':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@shopify/draggable':
         specifier: ^1.1.3
@@ -901,37 +901,37 @@ importers:
   '@fiction/www':
     dependencies:
       '@fiction/core':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../core
       '@fiction/plugin-admin':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-admin
       '@fiction/plugin-admin-index':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-admin-index
       '@fiction/plugin-ai':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-ai
       '@fiction/plugin-contact':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-contact
       '@fiction/plugin-highlight-code':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-highlight-code
       '@fiction/plugin-monitor':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-monitor
       '@fiction/plugin-notify':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-notify
       '@fiction/plugin-sites':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-sites
       '@fiction/plugin-stripe':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../plugin-stripe
       '@fiction/ui':
-        specifier: workspace:*
+        specifier: 6.0.10
         version: link:../ui
       '@types/mapbox-gl':
         specifier: ^3.1.0
