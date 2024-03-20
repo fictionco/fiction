@@ -8,7 +8,7 @@ describe('pre check secrets', () => {
   it('has secrets', async () => {
     const { stdout } = execaCommandSync('flyctl secrets list -a fiction-sites')
 
-    const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET']
+    const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
     for (const secret of secrets)
       expect(stdout).toContain(secret)
   })
