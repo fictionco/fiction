@@ -1,5 +1,5 @@
 import { validHost } from '@fiction/core'
-import type { ColorScheme, CreateObjectType, ProgressStatus } from '@fiction/core'
+import type { ColorScheme, CreateObjectType, MediaDisplayObject, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { FontConfig } from '@fiction/core/utils/fonts'
 import type { CardGenerationConfig } from './card'
@@ -15,8 +15,8 @@ export type PageRegion = typeof pageRegionIds[number] | string
 export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: CardConfigPortable[] }
 
 export type SiteUserConfig = Partial<{
-  faviconUrl: string
-  shareImage: string
+  faviconUrl: MediaDisplayObject
+  shareImage: MediaDisplayObject
   robotsTxt: string
   locale: string
   ai: {

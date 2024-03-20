@@ -5,7 +5,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { FictionSites } from '..'
-import FiSite from '../engine/FiSite.vue'
+import FSite from '../engine/FSite.vue'
 import { setup as testThemeSetup } from './test-theme'
 
 export type SiteTestUtils = TestUtils & {
@@ -44,7 +44,7 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
   const flyIoAppId = 'fiction-sites'
 
   const routes = [
-    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FiSite }),
+    new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite }),
   ]
 
   const out = { ...testUtils } as Partial<SiteTestUtils> & TestUtils

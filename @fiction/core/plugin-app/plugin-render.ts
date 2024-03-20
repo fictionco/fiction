@@ -385,10 +385,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     headTags = await runHooks({ list: this.fictionApp.hooks, hook: 'headTags', args: [headTags, { pathname }] })
     htmlBody = await runHooks({ list: this.fictionApp.hooks, hook: 'htmlBody', args: [htmlBody, { pathname }] })
 
-    const canonicalUrl = [this.fictionApp.appUrl.value || '', pathname || '']
-      .map((_: string) => _.replace(/\/$/, ''))
-      .join('')
-
     const replacementTags = { head: `<!--head-->`, app: `<!--app-->` }
 
     const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, isProd })}-->`
@@ -402,7 +398,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const headHtml = [
       headTags,
-      `<link href="${canonicalUrl}" rel="canonical">`,
       `<meta name="generator" content="Fiction ${version}" />`,
     ].join(`\n`)
 

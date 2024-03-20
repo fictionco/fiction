@@ -36,7 +36,7 @@ async function load() {
     })
   }
   catch (error) {
-    log.error('FiSite.vue', `Error loading site ${(error as Error).message}`, { error })
+    log.error('FSite.vue', `Error loading site ${(error as Error).message}`, { error })
   }
   finally {
     loading.value = false
@@ -52,10 +52,11 @@ unhead.useHead({
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:site_name', content: () => site.value?.title.value || 'untitled' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
-    { property: 'og:image', content: () => site.value?.userConfig.value.shareImage || '/favicon.png' },
+    { property: 'og:image', content: () => site.value?.userConfig.value.shareImage?.url || '/favicon.png' },
   ],
   link: [
-    { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl || '/favicon.png' },
+    { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl?.url || '/favicon.png' },
+    { rel: 'canonical', href: () => site.value?.frame.displayUrlBase.value },
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
     { key: 'font', rel: 'stylesheet', href: () => fonts.value?.fontsUrl, id: 'font-link' },
@@ -91,7 +92,7 @@ vue.onMounted(async () => {
     util.init()
 
     // initialize resetUi and path watchers
-    site?.value.frame.init({ caller: 'FiSite' })
+    site?.value.frame.init({ caller: 'FSite' })
 
     vue.watch(
       () => site?.value,
