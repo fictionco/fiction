@@ -91,7 +91,7 @@ jobs:
 
       - name: Release Code
         run: |
-          npm run release
+          npm run i:lockfile && npm run release
 
       - name: Install Playwright Browsers
         run: npx playwright install
