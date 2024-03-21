@@ -42,6 +42,7 @@ export class Theme extends FictionObject<ThemeSettings> {
 
   toSite(): Partial<TableSiteConfig> {
     return {
+      title: this.settings.title,
       themeId: this.themeId,
       pages: this.pages() || [],
       userConfig: this.config(),

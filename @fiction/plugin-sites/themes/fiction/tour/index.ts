@@ -24,11 +24,12 @@ const mediaGridCard = createCard({
   userConfig: {
     items: [
       {
-        name: 'Barack Obama',
+        name: 'Andrew Powers',
         desc: 'Personal Site',
-        tags: ['Politics'],
+        tags: ['Tech'],
+        href: 'https://www.andrewpowers.com',
         media: {
-          url: new URL('img/site1.jpg', import.meta.url).href,
+          url: new URL('../img/screenshot-andrew.png', import.meta.url).href,
         },
       },
       {

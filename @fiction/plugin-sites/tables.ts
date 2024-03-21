@@ -19,6 +19,10 @@ export type SiteUserConfig = Partial<{
   shareImage: MediaDisplayObject
   robotsTxt: string
   locale: string
+  titleTemplate: string
+  customCode: {
+    gtmContainerId: string
+  }
   ai: {
     baseInstruction?: string
     objectives?: { about?: string, targetCustomer?: string, imageStyle?: string }

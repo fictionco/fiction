@@ -41,7 +41,7 @@ export function setup(args: ServiceList) {
 
   return new Theme({
     themeId: 'fiction',
-    title: 'Fiction Site',
+    title: 'Fiction',
     description: 'Fiction\'s actual website',
     screenshot: new URL('./img/screenshot.jpg', import.meta.url).href,
     version: '1.0.0',

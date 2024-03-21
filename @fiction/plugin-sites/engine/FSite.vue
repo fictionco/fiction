@@ -6,6 +6,7 @@ import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import El404 from '@fiction/ui/El404.vue'
 import NotifyToaster from '@fiction/plugin-notify/NotifyToaster.vue'
 import { getThemeFontConfig } from '@fiction/core/utils/fonts'
+import handlebars from 'handlebars'
 import type { FictionSites, Site } from '..'
 import { getMountContext, loadSite } from '../load'
 import type { FramePostMessageList } from '../utils/frame'
@@ -45,36 +46,83 @@ async function load() {
 
 const page = vue.computed(() => site.value?.currentPage.value)
 
+function getTitleTag() {
+  if (page.value?.userConfig.value.seoTitle) {
+    return page.value?.userConfig.value.seoTitle
+  }
+
+  else {
+    const titleTemplate = site.value?.userConfig.value?.titleTemplate || '{{pageTitle}} - {{siteTitle}}'
+    const pageTitle = page.value?.title?.value || 'Untitled Page'
+    const siteTitle = site.value?.title?.value || 'Untitled Site'
+
+    // Create the title by replacing placeholders with actual values
+    const title = handlebars.compile(titleTemplate)({ pageTitle, siteTitle })
+
+    return title
+  }
+}
+
+function getScript(args: { noscript?: boolean } = {}) {
+  const { noscript } = args
+  const gtmContainerId = site.value?.userConfig.value.customCode?.gtmContainerId
+
+  if (noscript) {
+    return gtmContainerId
+      ? [{ innerHTML: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LQBZDJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe>` }]
+      : []
+  }
+  else {
+    const script = [{
+      innerHTML: 'document.addEventListener(\'DOMContentLoaded\', function() { document.documentElement.style.visibility = \'visible\'; });',
+      type: 'text/javascript',
+    }]
+
+    if (gtmContainerId) {
+      script.push({
+        innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmContainerId}');`,
+        type: 'text/javascript',
+      })
+    }
+
+    return script
+  }
+}
+
 unhead.useHead({
   htmlAttrs: { lang: 'en', dir: 'ltr' },
-  title: () => page.value?.userConfig.value.seoTitle || page.value?.title.value || 'untitled',
+  title: () => getTitleTag(),
   meta: [
     { charset: 'UTF-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
     { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || 'no description' },
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
-    { property: 'og:site_name', content: () => site.value?.title.value || 'untitled' },
+    { property: 'og:site_name', content: () => site.value?.title.value || '' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
     { property: 'og:image', content: () => site.value?.userConfig.value.shareImage?.url || '/favicon.png' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: () => getTitleTag() },
+    { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
   ],
   link: [
     { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl?.url || '/favicon.png' },
-    { rel: 'canonical', href: () => site.value?.frame.displayUrlBase.value },
+    { rel: 'canonical', href: () => site.value?.frame.displayUrl.value },
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
     { key: 'font', rel: 'stylesheet', href: () => fonts.value?.fontsUrl, id: 'font-link' },
   ],
-  script: [
-    {
-      children: 'document.addEventListener(\'DOMContentLoaded\', function() { document.documentElement.style.visibility = \'visible\'; });',
-      type: 'text/javascript',
-    },
-  ],
+  script: getScript(),
   style: [
     {
-      children: 'html { opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
+      innerHTML: 'html { opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
     },
   ],
+  noscript: getScript({ noscript: true }),
 })
 
 vue.onServerPrefetch(async () => {

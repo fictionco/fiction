@@ -19,15 +19,32 @@ const loading = vue.ref(false)
 const options = [
 
   new InputOption({
-    key: 'editor.hideSiteDetails',
+    key: 'siteGlobal',
     label: 'Global Site Details',
     input: 'group',
     options: [
       new InputOption({ key: 'title', label: 'Site Title', input: 'InputText', isRequired: true }),
+
+    ],
+  }),
+  new InputOption({
+    key: 'siteMeta',
+    label: 'Site Meta Information',
+    input: 'group',
+    options: [
       new InputOption({ key: 'userConfig.faviconUrl', label: 'Favicon', input: 'InputMediaUpload' }),
       new InputOption({ key: 'userConfig.shareImage', label: 'Share Image', description: 'Image appears when your site is shared', input: 'InputMediaUpload' }),
       new InputOption({ key: 'userConfig.timeZone', label: 'Site Time Zone', input: 'InputTimezone' }),
       new InputOption({ key: 'userConfig.languageCode', label: 'Site Language Code', input: 'InputText', placeholder: 'en' }),
+    ],
+  }),
+  new InputOption({
+    key: 'siteCustomize',
+    label: 'Site Customization',
+    input: 'group',
+    options: [
+      new InputOption({ key: 'userConfig.titleTemplate', label: 'SEO: Title Tag Template', input: 'InputText', placeholder: '{{pageTitle}} - {{siteTitle}}', description: 'A default template for the title tag of each page. Use {{pageTitle}} and {{siteTitle}} to insert the page\'s title and the site\'s title.' }),
+      new InputOption({ key: 'userConfig.customCode.gtmContainerId', label: 'Scripts: Google Tag Manager (Container ID)', input: 'InputText', placeholder: 'GTM-XXXXXXX', description: 'Use Google Tag Manager to add analytics and other scripts.' }),
     ],
   }),
 

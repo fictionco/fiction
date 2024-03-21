@@ -9,7 +9,7 @@ function pages() {
       regionId: 'main',
       templateId: 'wrap',
       slug: '_home',
-      title: 'Welcome to my site',
+      title: 'Home',
       isHome: true,
       cards: [
         createCard({
