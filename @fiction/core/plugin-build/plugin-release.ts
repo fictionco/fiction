@@ -255,8 +255,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info('generate changelog...')
     await this.commit('npm', ['run', 'changelog'])
 
-    this.log.info(`update lockfile... ${process.cwd()}`)
-    await this.commit('pnpm', ['i'])
+    // this.log.info(`update lockfile... ${process.cwd()}`)
+    // await this.commit('pnpm', ['i'])
 
     // commit version change
     const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
