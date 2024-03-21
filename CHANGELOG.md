@@ -1,3 +1,26 @@
+## [6.0.12](https://github.com/fictionco/fiction/compare/v6.0.11...v6.0.12) (2024-03-21)
+
+
+### Bug Fixes
+
+* build -d ([5fa4ddf](https://github.com/fictionco/fiction/commit/5fa4ddff61b3e139430ccedca1aabd06ac4f2c23))
+* canonical -d ([4c24b9f](https://github.com/fictionco/fiction/commit/4c24b9fe90b8aa3e5fe8a6cff9abaab126b60c04))
+* error -d ([f6ea91a](https://github.com/fictionco/fiction/commit/f6ea91a1954456b7a74fcd1ef66008ac4d5f4d7c))
+* lf -d ([fc07e82](https://github.com/fictionco/fiction/commit/fc07e82b40e001f598e0cb35fe10bc86b67f51ca))
+* live check -d ([d158b48](https://github.com/fictionco/fiction/commit/d158b48709d85746b779472233ad6c369aaf97f1))
+* no lockfile [skip] ([aee6cbf](https://github.com/fictionco/fiction/commit/aee6cbf1cd5d6d8cd208d585b8a625f5c14192b0))
+* order -d ([f8d59e0](https://github.com/fictionco/fiction/commit/f8d59e0232a57f76f2803c263cc9e749aaca1e5d))
+* t -d ([28828ba](https://github.com/fictionco/fiction/commit/28828ba6143aef5a825f7719781ffab23bb36617))
+
+
+### Features
+
+* fix loadSite -d ([27007e7](https://github.com/fictionco/fiction/commit/27007e75cff38343a9a80f55b2d0e4a5823e419f))
+* new global options -d ([b6ec3b0](https://github.com/fictionco/fiction/commit/b6ec3b0c38e27f01e524186762760b6bd7de8b6f))
+* tour page -d ([e829f88](https://github.com/fictionco/fiction/commit/e829f88d6665c1b6e6c1076891fc1d88bd74399e))
+
+
+
 ## [6.0.11](https://github.com/fictionco/fiction/compare/v6.0.10...v6.0.11) (2024-03-20)
 
 
