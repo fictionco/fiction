@@ -264,19 +264,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     return eApp
   }
 
-  /**
-   * This creates an endpoint server and ssr server on same port
-   * Allows production apps to serve on one instance
-   */
-  // async comboSsrServerCreate(args: { isProd?: boolean, fictionServer: FictionServer, fictionUser: FictionUser }) {
-  //   const { isProd = false, fictionServer, fictionUser } = args
-  //   fictionServer.port.value = this.port
-  //   fictionServer.useLocal.value = true
-  //   const srv = await fictionServer.initServer({ fictionUser })
-  //   await this.ssrServerSetup({ isProd, expressApp: srv?.expressApp })
-  //   await srv?.run()
-  //   this.logReady({ serveMode: 'comboSSR' })
-  // }
 
   async ssrServerCreate(
     args: { isProd?: boolean, expressApp?: Express } = {},

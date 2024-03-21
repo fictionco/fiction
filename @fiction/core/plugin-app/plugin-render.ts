@@ -48,6 +48,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   srcFolder = this.fictionApp.srcFolder
   mainIndexHtml = this.fictionApp.mainIndexHtml
   publicFolder = this.fictionApp.publicFolder
+
+  indexTemplates: types.IndexTemplates = {
+    main: {
+      location: this.mainIndexHtml,
+    },
+  }
+
   staticServer?: http.Server
   viteDevServer?: vite.ViteDevServer
   root = safeDirname(import.meta.url)
@@ -148,12 +155,37 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return template
   }
 
-  async getIndexHtml(args: { pathname?: string, isProd?: boolean } = {}): Promise<string> {
-    const { pathname = '/', isProd = true } = args
-    const rawTemplate = `<!DOCTYPE html><html><head><!--head--></head><body><div id="app"><!--app--></div></body></html>`
+  async getIndexHtml(args: { pathname?: string, isProd: boolean, distClient?: string }): Promise<string> {
+    const { pathname = '/', isProd = true, distClient } = args
+
+    let rawTemplate = `<!DOCTYPE html><html><head><!--head--></head><body><div id="app"><!--app--></div></body></html>`
+    if (isProd && distClient) {
+      fs.ensureDirSync(distClient)
+      const indexHtmlPath = path.resolve(distClient, './index.html')
+      rawTemplate = fs.readFileSync(indexHtmlPath, 'utf8')
+    }
 
     return await this.transformIndexHtml({ rawTemplate, pathname, isProd })
   }
+
+  // getIndexHtmlTemplates = async (params: {
+  //   pathname?: string
+  //   isProd: boolean
+  // }): Promise<types.IndexTemplates> => {
+  //   const { pathname = '/', isProd } = params
+
+  //   const promises = Object.entries(this.indexTemplates).map(
+  //     async ([key, v]) => {
+  //       v.html = await this.getIndexHtml({ pathname, isProd })
+
+  //       return [key, v]
+  //     },
+  //   )
+
+  //   const result = await Promise.all(promises)
+
+  //   return Object.fromEntries(result) as types.IndexTemplates
+  // }
 
   getStaticPathAliases = (opts: { mainFilePath?: string }): { find: string, replacement: string }[] => {
     const { mainFilePath } = opts
@@ -235,7 +267,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   serverRenderApp = async (
-    args: { isProd: boolean, pathname: string, runVars?: Partial<RunVars> },
+    args: types.RenderConfig,
   ): Promise<types.RenderedHtmlParts> => {
     const { pathname, isProd, runVars = {} } = args
 
@@ -288,6 +320,12 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         out.htmlBody = await renderToString(app, ctx)
 
         /**
+         * SSR manifest maps assets which allows us to render preload links for performance
+         */
+        // if (manifest)
+        //   out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
+
+        /**
          * Meta/Head Rendering
          */
         const head = await renderSSRHead(meta)
@@ -309,13 +347,41 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return out
   }
 
-  serverRenderHtml = async (params: {
-    pathname: string
-    template: string
-    isProd?: boolean
-    runVars: Partial<RunVars>
-  }): Promise<string> => {
-    const { pathname, template, isProd = true, runVars } = params
+  /**
+   * Gets file content needed to render HTML
+   * @notes
+   *  - in production takes from pre-generated client
+   *  - in development, looks in SRC folder for index.html
+   */
+  // htmlGenerators = async (config: {
+  //   isProd: boolean
+  //   distClient: string
+  // }): Promise<types.RenderConfig> => {
+  //   const { isProd = false, distClient } = config
+
+  //   if (!distClient)
+  //     throw new Error('dist is required')
+
+  //   const out: types.RenderConfig = { template: '', manifest: {}, isProd }
+
+  //   if (isProd) {
+  //     fs.ensureDirSync(distClient)
+  //     const indexHtmlPath = path.resolve(distClient, './index.html')
+  //     out.template = fs.readFileSync(indexHtmlPath, 'utf8')
+  //     const manifestPath = path.resolve(distClient, './.vite/ssr-manifest.json')
+  //     out.manifest = (await import(/* @vite-ignore */ manifestPath)) as Record< string, any >
+  //   }
+  //   else {
+  //     const templates = await this.getIndexHtmlTemplates({ pathname: '/', isProd })
+
+  //     out.template = templates.main.html
+  //   }
+
+  //   return out
+  // }
+
+  serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
+    const { pathname, template, isProd, runVars } = params
 
     const parts = await this.serverRenderApp({ pathname, isProd, runVars })
     let { htmlBody, headTags, bodyTags } = parts
@@ -367,15 +433,22 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (!this.fictionApp.appUrl)
       throw new Error('appUrl is required')
 
-    // build index to dist
-    const template = await this.getIndexHtml({ isProd: true })
-    const templates = { main: { html: template } }
-
-    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`)
-
     const distFolder = this.distFolder
     const distFolderClient = this.distFolderClient
     const distFolderServer = this.distFolderServer
+
+    // build index to dist
+    // const templates = await this.getIndexHtmlTemplates({ isProd: true })
+
+    const templates = { main: { html: await this.getIndexHtml({ isProd: true }) } }
+
+    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
+      data: {
+        isNode: this.utils.isNode(),
+        indexFiles: Object.values(templates).length,
+      },
+    })
+
     try {
       const viteConfigServer = await this.getViteConfig({ isProd: true, isServerBuild: true })
       const viteConfigClient = await this.getViteConfig({ isProd: true, isServerBuild: true })
@@ -467,8 +540,13 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   preRenderPages = async (): Promise<void> => {
     const distFolderClient = this.distFolderClient
     const distFolderStatic = this.distFolderStatic
-
-    const sitemaps = await Promise.all(this.fictionApp.sitemaps.map(_ => _()))
+    const isProd = true
+    const sitemaps = await Promise.all(
+      this.fictionApp.sitemaps.map(async (s) => {
+        const r = await s()
+        return r
+      }),
+    )
 
     const urls
       = (await this.fictionSitemap?.getSitemapPaths({
@@ -495,10 +573,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       return async (): Promise<string> => {
         const filePath = `${pathname === '/' ? '/index' : pathname}.html`
         this.log.info(`pre-rendering [${filePath}]`)
-        const template = await this.getIndexHtml({ isProd: true, pathname })
+        const template = await this.getIndexHtml({ isProd, pathname, distClient: distFolderClient })
+
         const html = await this.serverRenderHtml({
-          isProd: true,
           template,
+          isProd,
           pathname,
           runVars: {
             ...this.fictionEnv.getRenderedEnvVars(),
@@ -604,7 +683,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     try {
       let viteServer: vite.ViteDevServer | undefined
 
-      const template = await this.getIndexHtml({ isProd })
+      const template = await this.getIndexHtml({ isProd, distClient: this.distFolderClient })
 
       /**
        * Serve static files
