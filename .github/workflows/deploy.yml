@@ -61,10 +61,6 @@ jobs:
           sudo apt update
           sudo apt install -y gh
 
-      - name: Release Code
-        run: |
-          npm run release
-
       - name: Set up DNS for subdomain testing
         run: |
           echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
@@ -92,6 +88,10 @@ jobs:
 
       - name: Install Deps
         run: pnpm -v && pnpm i && pnpm rebuild --recursive
+
+      - name: Release Code
+        run: |
+          npm run release
 
       - name: Install Playwright Browsers
         run: npx playwright install
