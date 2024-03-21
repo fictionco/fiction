@@ -84,13 +84,13 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     const pkg = JSON.parse(fs.readFileSync(pkgPath).toString()) as PackageJson
     pkg.version = version
 
-    const depType = ['dependencies', 'devDependencies']
+    // const depType = ['dependencies', 'devDependencies']
 
-    depType.forEach((t) => {
-      const existing = pkg[t] as Record<string, string> | undefined
-      if (existing)
-        pkg[t] = this.updateDeps(pkg.name, t, existing, version)
-    })
+    // depType.forEach((t) => {
+    //   const existing = pkg[t] as Record<string, string> | undefined
+    //   if (existing)
+    //     pkg[t] = this.updateDeps(pkg.name, t, existing, version)
+    // })
 
     fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`)
   }

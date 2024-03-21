@@ -49,6 +49,7 @@
     "pre-push": "npm run types:ci"
   },
   "dependencies": {
+    "@changesets/cli": "^2.27.1",
     "@esbuild-kit/esm-loader": "^2.6.5",
     "@fiction/core": "workspace:*",
     "@fiction/plugin-notify": "workspace:*",

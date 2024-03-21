@@ -15,6 +15,9 @@ TODOs.md
 .env
 .env*
 
+# Package Publishing
+.publish
+
 # Vitepress
 **/.vitepress/dist
 **/.vitepress/cache
