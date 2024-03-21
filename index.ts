@@ -11,9 +11,9 @@ const cwd = safeDirname(import.meta.url)
 
 export const fictionEnv = new FictionEnv({
   cwd,
-  appEmail: 'hello@supereon.ai',
-  appName: 'Supereon Monorepo',
-  id: 'supereonRepo',
+  appEmail: 'hello@fiction.com',
+  appName: 'Fiction Monorepo',
+  id: 'fictionMonoRepo',
   commands: [
     new CliCommand({ command: 'release', type: 'util' }),
     new CliCommand({ command: 'bundle', type: 'util' }),

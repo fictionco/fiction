@@ -1,9 +1,9 @@
 <h1 align="center">
-  Fiction Personal CMS
+  Personal Marketing Platform
 </h1>
 
 <p align="center">
-  Create personal websites and blogs with AI-generated content.
+  Quickly create personal websites, marketing funnels, and newsletter campaigns.
 </p>
 
 <div align="center">
