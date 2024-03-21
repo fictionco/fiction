@@ -46,20 +46,14 @@ export function getPage(_args: ServiceList) {
               items: [
                 {
                   name: 'Andrew Powers',
-                  desc: 'Personal Site',
+                  desc: 'Founder, Fiction.com',
                   tags: ['Tech'],
                   media: {
-                    url: 'https://factor-tests.s3.amazonaws.com/org65f219b921728f467e4e69e9/md_65fb420074e8e2a00f8769dc-IMG_3016.JPG?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb',
+                    url: new URL('img/andrew.jpg?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb', import.meta.url).href,
                   },
+                  href: 'https://www.andrewpowers.com',
                 },
-                {
-                  name: 'Barack Obama',
-                  desc: 'Personal Site',
-                  tags: ['Politics'],
-                  media: {
-                    url: new URL('img/obama.webp', import.meta.url).href,
-                  },
-                },
+
                 {
                   name: 'Selena Gomez',
                   desc: 'Personal Site',
@@ -69,11 +63,27 @@ export function getPage(_args: ServiceList) {
                   },
                 },
                 {
+                  name: 'Dean Stoecker',
+                  desc: 'Founder, Alteryx',
+                  tags: ['Executive'],
+                  media: {
+                    url: new URL('img/dean2.jpg', import.meta.url).href,
+                  },
+                },
+                {
                   name: 'Joe Rogan',
                   desc: 'Personal Site',
                   tags: ['Politics'],
                   media: {
                     url: new URL('img/rogan.jpeg', import.meta.url).href,
+                  },
+                },
+                {
+                  name: 'Barack Obama',
+                  desc: 'Personal Site',
+                  tags: ['Politics'],
+                  media: {
+                    url: new URL('img/obama.webp', import.meta.url).href,
                   },
                 },
               ],

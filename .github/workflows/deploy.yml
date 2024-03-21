@@ -51,6 +51,20 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v4
 
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Install GH CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+
+      - name: Release Code
+        run: |
+          npm run release
+
       - name: Set up DNS for subdomain testing
         run: |
           echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts

@@ -13,7 +13,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' },
+      { text: 'User Guide', link: '/guide/introduction' },
+      { text: 'Developer Docs', link: '/developer/introduction' },
       { text: 'Resources',
         items: [
           { text: 'Team', link: '/team'},
@@ -29,12 +30,31 @@ export default defineConfig({
     ],
 
     sidebar: {
-      '/examples/':[
+      '/guide/':[
         {
-          text: 'Examples',
+          text: 'Getting Started',
           items: [
-            { text: 'Markdown Examples', link: '/markdown-examples' },
-            { text: 'Runtime API Examples', link: '/api-examples' }
+            { text: 'Introduction', link: '/guide/introduction' },
+          ]
+        },
+        {
+          text: 'Essentials',
+          items: [
+            { text: 'Editing Your Site', link: '/guide/editing' },
+          ]
+        }
+      ],
+      '/developer/':[
+        {
+          text: 'Getting Started',
+          items: [
+            { text: 'Introduction', link: '/developer/introduction' },
+          ]
+        },
+        {
+          text: 'Essentials',
+          items: [
+            { text: 'Create a Site', link: '/developer/site' },
           ]
         }
       ],

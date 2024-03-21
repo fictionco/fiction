@@ -14,7 +14,7 @@
   },
   "scripts": {
     "deploy": "flyctl deploy . --config ./fly/$DOMAIN.$APP.toml --build-target $DOMAIN-$APP --remote-only --detach",
-    "release": "npm run i:lockfile && npm exec -- fiction run release --patch --skip-tests --with-changes --tag",
+    "release": "npm exec -- fiction run release --patch --skip-tests --with-changes --tag",
     "push-release": "git checkout release && git rebase dev && git push --no-verify && git checkout dev",
     "test": "npm run lint:dev && npm run unit:dev",
     "test:pkgJson": "npx npmPkgJsonLint .",
