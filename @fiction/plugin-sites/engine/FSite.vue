@@ -46,8 +46,11 @@ async function load() {
 const page = vue.computed(() => site.value?.currentPage.value)
 
 unhead.useHead({
+  htmlAttrs: { lang: 'en', dir: 'ltr' },
   title: () => page.value?.userConfig.value.seoTitle || page.value?.title.value || 'untitled',
   meta: [
+    { charset: 'UTF-8' },
+    { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
     { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || 'no description' },
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:site_name', content: () => site.value?.title.value || 'untitled' },
@@ -60,6 +63,17 @@ unhead.useHead({
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
     { key: 'font', rel: 'stylesheet', href: () => fonts.value?.fontsUrl, id: 'font-link' },
+  ],
+  script: [
+    {
+      children: 'document.addEventListener(\'DOMContentLoaded\', function() { document.documentElement.style.visibility = \'visible\'; });',
+      type: 'text/javascript',
+    },
+  ],
+  style: [
+    {
+      children: 'html { opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
+    },
   ],
 })
 

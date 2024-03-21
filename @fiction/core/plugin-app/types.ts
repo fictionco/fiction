@@ -1,3 +1,4 @@
+import type { RunVars } from '../inject'
 import type { FictionAppEntry } from '../plugin-env'
 
 export interface IndexTemplates {
@@ -30,7 +31,6 @@ export type HtmlGenerateParts = HtmlBuildingBlocks & {
 
 export interface RenderedHtmlParts {
   htmlBody: string
-  preloadLinks: string
   headTags: string
   bodyTags: string
   bodyTagsOpen: string
@@ -39,7 +39,7 @@ export interface RenderedHtmlParts {
 }
 
 export interface EntryModuleExports {
-  runAppEntry: (c: { renderRoute?: string, runVars?: Record<string, string> }) => Promise<FictionAppEntry>
+  runAppEntry: (c: { renderRoute?: string, runVars?: Partial<RunVars> }) => Promise<FictionAppEntry>
   [key: string]: unknown
 }
 

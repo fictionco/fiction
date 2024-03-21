@@ -48,13 +48,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   srcFolder = this.fictionApp.srcFolder
   mainIndexHtml = this.fictionApp.mainIndexHtml
   publicFolder = this.fictionApp.publicFolder
-
-  indexTemplates: types.IndexTemplates = {
-    main: {
-      location: this.mainIndexHtml,
-    },
-  }
-
   staticServer?: http.Server
   viteDevServer?: vite.ViteDevServer
   root = safeDirname(import.meta.url)
@@ -140,43 +133,26 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return config
   }
 
-  getIndexHtmlTemplates = async (params: {
-    pathname?: string
-    isProd: boolean
-  }): Promise<types.IndexTemplates> => {
-    const { pathname = '/', isProd } = params
-
-    const promises = Object.entries(this.indexTemplates).map(
-      async ([key, v]) => {
-        if (!fs.existsSync(v.location))
-          throw new Error(`no index.html at location (${v.location})`)
-
-        const rawTemplate = fs.readFileSync(v.location, 'utf8')
-
-        // alias is need for vite/rollup to handle correctly
-        const clientTemplatePath = isProd ? `@MOUNT_FILE_ALIAS` : `/@fs${this.mountFilePath}`
-
-        const template = rawTemplate.replace(
-          '</body>',
-          `<script type="module" src="${clientTemplatePath}"></script>
-    </body>`,
-        )
-
-        if (!isProd && pathname) {
-          const srv = await this.getViteServer({ isProd })
-          v.html = await srv.transformIndexHtml(pathname, template)
-        }
-        else {
-          v.html = template
-        }
-
-        return [key, v]
-      },
+  async transformIndexHtml(args: { rawTemplate: string, pathname: string, isProd: boolean }): Promise<string> {
+    const { rawTemplate, pathname, isProd } = args
+    let template = rawTemplate.replace(
+      '</body>',
+      `<script type="module" src="${isProd ? `@MOUNT_FILE_ALIAS` : `/@fs${this.mountFilePath}`}"></script></body>`,
     )
 
-    const result = await Promise.all(promises)
+    if (!isProd && pathname) {
+      const srv = await this.getViteServer({ isProd })
+      template = await srv.transformIndexHtml(pathname, template)
+    }
 
-    return Object.fromEntries(result) as types.IndexTemplates
+    return template
+  }
+
+  async getIndexHtml(args: { pathname?: string, isProd?: boolean } = {}): Promise<string> {
+    const { pathname = '/', isProd = true } = args
+    const rawTemplate = `<!DOCTYPE html><html><head><!--head--></head><body><div id="app"><!--app--></div></body></html>`
+
+    return await this.transformIndexHtml({ rawTemplate, pathname, isProd })
   }
 
   getStaticPathAliases = (opts: { mainFilePath?: string }): { find: string, replacement: string }[] => {
@@ -259,11 +235,11 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   serverRenderApp = async (
-    args: types.RenderConfig,
+    args: { isProd: boolean, pathname: string, runVars?: Partial<RunVars> },
   ): Promise<types.RenderedHtmlParts> => {
-    const { pathname, manifest, isProd, runVars = {} } = args
+    const { pathname, isProd, runVars = {} } = args
 
-    let out: types.RenderedHtmlParts = { bodyAttrs: '', preloadLinks: '', headTags: '', htmlAttrs: '', bodyTags: '', bodyTagsOpen: '', htmlBody: '' }
+    let out: types.RenderedHtmlParts = { bodyAttrs: '', headTags: '', htmlAttrs: '', bodyTags: '', bodyTagsOpen: '', htmlBody: '' }
 
     let entryModule: Record<string, any>
 
@@ -312,12 +288,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         out.htmlBody = await renderToString(app, ctx)
 
         /**
-         * SSR manifest maps assets which allows us to render preload links for performance
-         */
-        // if (manifest)
-        //   out.preloadLinks = renderPreloadLinks(ctx?.modules ?? [], manifest)
-
-        /**
          * Meta/Head Rendering
          */
         const head = await renderSSRHead(meta)
@@ -339,43 +309,15 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     return out
   }
 
-  /**
-   * Gets file content needed to render HTML
-   * @notes
-   *  - in production takes from pre-generated client
-   *  - in development, looks in SRC folder for index.html
-   */
-  htmlGenerators = async (config: {
-    isProd: boolean
-    distClient: string
-  }): Promise<types.RenderConfig> => {
-    const { isProd = false, distClient } = config
+  serverRenderHtml = async (params: {
+    pathname: string
+    template: string
+    isProd?: boolean
+    runVars: Partial<RunVars>
+  }): Promise<string> => {
+    const { pathname, template, isProd = true, runVars } = params
 
-    if (!distClient)
-      throw new Error('dist is required')
-
-    const out: types.RenderConfig = { template: '', manifest: {}, isProd }
-
-    if (isProd) {
-      fs.ensureDirSync(distClient)
-      const indexHtmlPath = path.resolve(distClient, './index.html')
-      out.template = fs.readFileSync(indexHtmlPath, 'utf8')
-      const manifestPath = path.resolve(distClient, './.vite/ssr-manifest.json')
-      out.manifest = (await import(/* @vite-ignore */ manifestPath)) as Record< string, any >
-    }
-    else {
-      const templates = await this.getIndexHtmlTemplates({ pathname: '/', isProd })
-
-      out.template = templates.main.html
-    }
-
-    return out
-  }
-
-  serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
-    const { pathname, manifest, template, isProd, runVars } = params
-
-    const parts = await this.serverRenderApp({ pathname, manifest, isProd, runVars })
+    const parts = await this.serverRenderApp({ pathname, isProd, runVars })
     let { htmlBody, headTags, bodyTags } = parts
     const { htmlAttrs, bodyAttrs, bodyTagsOpen } = parts
 
@@ -426,14 +368,10 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       throw new Error('appUrl is required')
 
     // build index to dist
-    const templates = await this.getIndexHtmlTemplates({ isProd: true })
+    const template = await this.getIndexHtml({ isProd: true })
+    const templates = { main: { html: template } }
 
-    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
-      data: {
-        isNode: this.utils.isNode(),
-        indexFiles: Object.values(templates).length,
-      },
-    })
+    this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`)
 
     const distFolder = this.distFolder
     const distFolderClient = this.distFolderClient
@@ -529,14 +467,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   preRenderPages = async (): Promise<void> => {
     const distFolderClient = this.distFolderClient
     const distFolderStatic = this.distFolderStatic
-    const generators = await this.htmlGenerators({ isProd: true, distClient: distFolderClient })
 
-    const sitemaps = await Promise.all(
-      this.fictionApp.sitemaps.map(async (s) => {
-        const r = await s()
-        return r
-      }),
-    )
+    const sitemaps = await Promise.all(this.fictionApp.sitemaps.map(_ => _()))
 
     const urls
       = (await this.fictionSitemap?.getSitemapPaths({
@@ -563,8 +495,10 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       return async (): Promise<string> => {
         const filePath = `${pathname === '/' ? '/index' : pathname}.html`
         this.log.info(`pre-rendering [${filePath}]`)
+        const template = await this.getIndexHtml({ isProd: true, pathname })
         const html = await this.serverRenderHtml({
-          ...generators,
+          isProd: true,
+          template,
           pathname,
           runVars: {
             ...this.fictionEnv.getRenderedEnvVars(),
@@ -670,10 +604,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     try {
       let viteServer: vite.ViteDevServer | undefined
 
-      const { manifest, template } = await this.htmlGenerators({
-        isProd,
-        distClient: this.distFolderClient,
-      })
+      const template = await this.getIndexHtml({ isProd })
 
       /**
        * Serve static files
@@ -702,7 +633,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
         try {
           const runVars = this.getRequestVars({ request: req })
-          const html = await this.serverRenderHtml({ template, pathname, manifest, isProd, runVars })
+          const html = await this.serverRenderHtml({ template, pathname, isProd, runVars })
 
           const outputHtml = this.addRunVarsToHtml({ html, runVars })
 
