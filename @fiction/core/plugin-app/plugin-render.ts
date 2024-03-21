@@ -173,8 +173,19 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const appViteConfigFile = await this.getAppViteConfigFile()
 
     const twPlugin = getRequire()('tailwindcss') as typeof tailwindcss
-    const { visualizer } = await import('rollup-plugin-visualizer')
+
     const twConfig = (await this.getTailwindConfig()) as Parameters<typeof twPlugin>[0]
+
+    const plugins = [
+      pluginVue(),
+      ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
+      unocss({ presets: [presetIcons()], safelist: [] }),
+    ]
+
+    if (isProd) {
+      const { visualizer } = await import('rollup-plugin-visualizer')
+      plugins.unshift(visualizer({ filename: `stats.html`, emitFile: true }))
+    }
 
     let merge: vite.InlineConfig[] = [
       commonVite || {},
@@ -189,13 +200,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
             ],
           },
         },
-        server: {},
-        plugins: [
-          visualizer({ filename: `stats.html`, emitFile: true }),
-          pluginVue(),
-          ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
-          unocss({ presets: [presetIcons()], safelist: [] }),
-        ],
+        plugins,
         resolve: {
           alias: [
             ...this.getStaticPathAliases({ mainFilePath: this.fictionEnv.mainFilePath }),
@@ -215,12 +220,10 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   serverRenderHtml = async (params: types.RenderConfig): Promise<string> => {
     const { pathname = '/', template, isProd, runVars = {} } = params
 
-    const viteServer = await this.getViteServer({ isProd })
-
     const ssr = new SSR({
       appUrl: this.fictionApp.appUrl.value,
       distFolderServerMountFile: this.distFolderServerMountFile,
-      viteServer,
+      viteServer: !isProd ? await this.getViteServer({ isProd }) : undefined,
       mountFilePath: this.mountFilePath,
     })
 

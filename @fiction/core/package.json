@@ -23,7 +23,7 @@
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/tabler": "^1.1.109",
     "@medv/finder": "^3.2.0",
-    "@sinclair/typebox": "^0.32.17",
+    "@sinclair/typebox": "^0.32.18",
     "@slack/webhook": "^7.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@unhead/schema": "^1.8.20",

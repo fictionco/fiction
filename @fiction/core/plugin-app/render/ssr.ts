@@ -16,7 +16,7 @@ export type SSRSettings = {
   appUrl: string
   distFolderServerMountFile: string
   mountFilePath: string
-  viteServer: ViteDevServer
+  viteServer?: ViteDevServer
 }
 
 export class SSR extends FictionObject<SSRSettings> {
@@ -92,6 +92,9 @@ export class SSR extends FictionObject<SSRSettings> {
 
   async renderDev(args: { pathname: string, runVars: Partial<RunVars> }): Promise<RenderedHtmlParts> {
     const { pathname, runVars } = args
+
+    if (!this.settings.viteServer)
+      throw new Error('renderDev: ViteDevServer not found')
 
     const entryModule = await this.settings.viteServer.ssrLoadModule(this.settings.mountFilePath)
 

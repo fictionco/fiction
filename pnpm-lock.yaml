@@ -229,8 +229,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       '@sinclair/typebox':
-        specifier: ^0.32.17
-        version: 0.32.17
+        specifier: ^0.32.18
+        version: 0.32.18
       '@slack/webhook':
         specifier: ^7.0.2
         version: 7.0.2
@@ -1163,7 +1163,7 @@ packages:
       eslint-plugin-unused-imports: 3.1.0(@typescript-eslint/eslint-plugin@7.3.1)(eslint@8.57.0)
       eslint-plugin-vitest: 0.3.26(@typescript-eslint/eslint-plugin@7.3.1)(eslint@8.57.0)(typescript@5.4.3)(vitest@1.4.0)
       eslint-plugin-vue: 9.23.0(eslint@8.57.0)
-      eslint-plugin-yml: 1.13.1(eslint@8.57.0)
+      eslint-plugin-yml: 1.13.2(eslint@8.57.0)
       eslint-processor-vue-blocks: 0.1.1(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)
       globals: 14.0.0
       jsonc-eslint-parser: 2.4.0
@@ -3759,8 +3759,8 @@ packages:
     resolution: {integrity: sha512-aX5IFYWlMa7tQ8xZr3b2gtVReCvg7f3LEhjir/JAjX2bJCMVJA5tIPv30wTD4KDfcwMd7DDYY3hFDeGmOgtrZQ==}
     dev: false
 
-  /@sinclair/typebox@0.32.17:
-    resolution: {integrity: sha512-jgY31gR1xtOB9XpGo+xqrq6K3ssdEyCPKSrB6uRUPNuZ26L5S4u8Qi+bhiNa6PbJklozEoFZvbev7SoQ9ffuAA==}
+  /@sinclair/typebox@0.32.18:
+    resolution: {integrity: sha512-ioMK5TA5YOloYf/GcnF+1fT4eTvowJes2j7Pm0Ivlm9xq61keqQw/XtbQQnPG8O4uq2y2DDenU8OqNc93xn11Q==}
     dev: false
 
   /@sindresorhus/is@4.6.0:
@@ -8147,8 +8147,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-yml@1.13.1(eslint@8.57.0):
-    resolution: {integrity: sha512-J1gNca5cWUIlo6ilQJBlPwap2ggVuc7gaOxiCdYjmncyWN8aNHErEhk2ICFj6shr8Jz27c3AU1Ie7i6HqVa4Hw==}
+  /eslint-plugin-yml@1.13.2(eslint@8.57.0):
+    resolution: {integrity: sha512-1i71VhmsG5UxE41rIJmJjhlTTxYy7upAY5Hqj8AdBc7rfJzRIZr3a2spuOS8+N7ZDCWsHAWY3J6lzQNQHDv6Uw==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'
