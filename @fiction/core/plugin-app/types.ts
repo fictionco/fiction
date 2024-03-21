@@ -16,7 +16,7 @@ export interface RenderConfig {
   manifest?: Record<string, any>
   template?: string
   isProd: boolean
-  runVars?: Record<string, string>
+  runVars?: Partial<RunVars>
 }
 
 export interface HtmlBuildingBlocks {

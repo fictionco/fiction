@@ -49,7 +49,7 @@ describe('rendering tests', () => {
     vi.spyOn(testUtils?.fictionEnv, 'getRenderedEnvVars').mockReturnValue({})
 
     // Call `getRequestVars` function
-    const requestVars = testUtils?.fictionApp?.fictionRender?.getRequestVars({ request: mockRequest })
+    const requestVars = testUtils?.fictionApp?.fictionRender?.getRunVars({ request: mockRequest })
 
     // Assertions for basic request variables
     expect(requestVars).toBeDefined()
