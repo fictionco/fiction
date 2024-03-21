@@ -35,7 +35,7 @@ function getIcon(value?: string) {
 
 <template>
   <div class="socials flex space-x-6 text-2xl">
-    <a v-for="(item, i) in socials" :key="i" href="#" class="text-center flex items-center flex-col justify-end hover:text-primary-500">
+    <a v-for="(item, i) in socials" :key="i" :href="item.href" target="_blank" class="text-center flex items-center flex-col justify-end hover:text-primary-500">
       <div :class="getIcon(item.icon)" class="" :title="item.name" />
     </a>
   </div>

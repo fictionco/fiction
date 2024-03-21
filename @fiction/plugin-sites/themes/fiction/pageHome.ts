@@ -28,8 +28,13 @@ export function getPage(_args: ServiceList) {
               subHeading: `Create better opportunities, get incredible results. Powered by AI.`,
               actions: [
                 {
-                  name: 'Start Your Free Trial',
+                  name: 'Start Now',
                   href: '/app?reload=1',
+                  btn: 'primary',
+                },
+                {
+                  name: 'View Tour',
+                  href: '/tour',
                 },
               ],
             },
@@ -39,6 +44,14 @@ export function getPage(_args: ServiceList) {
             templateId: 'marquee',
             userConfig: {
               items: [
+                {
+                  name: 'Andrew Powers',
+                  desc: 'Personal Site',
+                  tags: ['Tech'],
+                  media: {
+                    url: 'https://factor-tests.s3.amazonaws.com/org65f219b921728f467e4e69e9/md_65fb420074e8e2a00f8769dc-IMG_3016.JPG?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb',
+                  },
+                },
                 {
                   name: 'Barack Obama',
                   desc: 'Personal Site',
@@ -152,12 +165,18 @@ export function getPage(_args: ServiceList) {
             templates,
             templateId: 'hero',
             userConfig: {
-              heading: `How Important is Your Reputation?`,
-              subHeading: `Personal marketing isn't for everyone, but if you care about building a professional reputation, we can help you.`,
+              heading: `Your Reputation is at Stake`,
+              subHeading: `If you don't monitor what's being said about you, who will?`,
               actions: [
                 {
-                  name: 'Start Your Free Trial',
+                  name: 'Start Today, It\'s Free!',
                   href: '/app?reload=1',
+                  btn: 'primary',
+                },
+                {
+                  name: 'View Tour',
+                  href: '/tour',
+                  btn: 'default',
                 },
               ],
             },

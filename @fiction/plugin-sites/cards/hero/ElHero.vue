@@ -55,7 +55,7 @@ const uc = vue.computed(() => {
             :key="i"
             :card="card"
             theme-el="button"
-            :btn="action.btn || 'primary'"
+            :btn="action.btn || 'default'"
             :href="action.href"
             :size="action.size || 'xl'"
           >

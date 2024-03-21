@@ -1,6 +1,6 @@
 /* eslint-disable node/prefer-global/process */
 import 'tailwindcss/tailwind.css'
-import 'uno.css'
+import 'virtual:uno.css'
 import { compileApplication } from '../plugin-env/entry'
 import type { FictionAppEntry, MainFile } from '../plugin-env/types'
 import type { RunVars } from '../inject'
@@ -40,7 +40,6 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
   const context = 'app'
 
   try {
-
     // @ts-expect-error aliased module
     const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile
 

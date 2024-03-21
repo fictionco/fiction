@@ -57,9 +57,9 @@ const quote = vue.computed(() => uc.value.quote)
     <div>
       <div>
         <div v-if="hasOrgImage && quote" class="org mb-6 md:text-center">
-          <div class="relative inline-block">
+          <div data-test-id="org-image" class="relative inline-block dark:text-theme-0">
             <ElImage
-              class="h-10 md:h-14 w-auto object-contain"
+              class="h-10 md:h-20 aspect-[2/1] object-contain"
               :media="quote.orgImage"
               :alt="quote.orgName"
             />
@@ -76,7 +76,7 @@ const quote = vue.computed(() => uc.value.quote)
         <div v-if="quote?.authorName" class="mt-4 md:mt-8 flex items-center justify-start md:justify-center gap-4 md:gap-8">
           <div
             v-if="hasAuthorImage"
-            class="relative aspect-square h-10 md:h-14 overflow-hidden rounded-full"
+            class="relative aspect-square h-10 md:h-14 overflow-hidden rounded-full dark:ring-2 dark:ring-theme-0"
           >
             <ElImage
               class="absolute h-full w-full object-cover"
@@ -85,7 +85,7 @@ const quote = vue.computed(() => uc.value.quote)
           </div>
           <div class="text-left  space-y-0.5" :class="hasAuthorImage ? 'text-left' : 'md:text-center'">
             <XText :card="card" path="quote.authorName" class="text-lg md:text-3xl font-bold" />
-            <XText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-700" :card="card" path="quote.authorTitle" />
+            <XText class="font-sans text-sm md:text-xl text-theme-500 dark:text-theme-300" :card="card" path="quote.authorTitle" />
           </div>
         </div>
       </div>

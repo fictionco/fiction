@@ -10,10 +10,7 @@ export type UserConfig = {
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const uc = vue.computed(() => props.card.userConfig.value)
@@ -21,11 +18,10 @@ const uc = vue.computed(() => props.card.userConfig.value)
 
 <template>
   <div class=" ">
-    <div class="mx-auto grid max-w-6xl grid-cols-3 px-6 lg:px-8">
+    <div class="mx-auto grid max-w-6xl md:grid-cols-3 px-6 lg:px-8 gap-8 md:gap-24">
       <div
         v-for="(feat, i) in uc.items"
         :key="i"
-        class="gap-24"
       >
         <div class="text-center">
           <h3
@@ -33,7 +29,7 @@ const uc = vue.computed(() => props.card.userConfig.value)
             v-html="feat.name"
           />
 
-          <div class="mt-4 text-8xl font-semibold tracking-tight">
+          <div class="mt-4 text-6xl md:text-8xl font-semibold tracking-tight">
             {{ formatNumber(feat.value, feat.format || "abbreviated") }}
           </div>
           <p

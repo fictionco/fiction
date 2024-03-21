@@ -33,7 +33,7 @@ const overlayStyles = {
       <div
         v-for="(feat, i) in uc.items"
         :key="i"
-        class="grid grid-cols-2 gap-24"
+        class="grid md:grid-cols-2 gap-4 md:gap-24"
       >
         <div class="self-center">
           <h1
@@ -70,14 +70,14 @@ const overlayStyles = {
                 :style="overlayStyles.rightRotate"
               >
                 <img
-                  class="z-0 mx-auto w-full scale-90 rounded-lg bg-white shadow-lg ring-1 ring-black/10 md:max-w-2xl md:scale-100"
+                  class="z-0 mx-auto w-full scale-90 rounded-lg bg-theme-0 dark:bg-theme-1000 shadow-lg ring-1 ring-black/10 dark:ring-theme-500/50 md:max-w-2xl md:scale-100"
                   :src="item?.url"
                 >
               </div>
             </template>
 
             <img
-              class="z-0 mx-auto w-full scale-90 rounded-lg bg-white shadow-lg ring-1 ring-black/10 md:max-w-2xl md:scale-100"
+              class="z-0 mx-auto w-full scale-90 rounded-lg bg-theme-0 dark:bg-theme-1000 shadow-lg ring-1 ring-black/10 md:max-w-2xl md:scale-100"
               :src="feat.media?.url"
               :style="feat.media?.classes"
             >
