@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-subscribe",
   "type": "module",
-  "version": "6.0.12",
+  "version": "6.0.13",
   "author": "Supereon",
   "license": "GPL-2.0-only",
   "main": "index.ts",
