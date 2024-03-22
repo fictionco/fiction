@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-monitor",
   "type": "module",
-  "version": "6.0.16",
+  "version": "6.0.17",
   "author": "Supereon",
   "license": "GPL-2.0-only",
   "main": "index.ts",
