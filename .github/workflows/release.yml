@@ -45,7 +45,7 @@ env:
   GH_TOKEN: ${{secrets.GH_TOKEN}}
 jobs:
   test:
-    if: 'contains(github.event.head_commit.message, ''skip'') == false'
+    if: 'contains(github.event.head_commit.message, ''-release'') == true'
     env:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
