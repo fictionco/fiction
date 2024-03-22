@@ -2,7 +2,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { ExecaChildProcess, ExecaError } from 'execa'
+import type { ExecaChildProcess, ExecaError, ExecaSyncReturnValue } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
@@ -46,14 +46,15 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     bin: string,
     args: string[],
     opts = {},
-  ): Promise<ExecaChildProcess> => {
-    const { execa } = await import('execa')
-    return execa(bin, args, { stdio: 'inherit', cwd: process.cwd(), ...opts })
+  ): Promise<ExecaSyncReturnValue> => {
+    const { execaCommandSync } = await import('execa')
+    const command = [bin, ...args].join(' ')
+    return execaCommandSync(command, { stdio: 'inherit', stderr: 'inherit', cwd: process.cwd(), ...opts })
   }
 
   commit = async (
     ...commandArgs: [string, string[], Record<string, string>?]
-  ): Promise<void | ExecaChildProcess> => {
+  ): Promise<void | ExecaSyncReturnValue> => {
     const [bin, args, opts] = commandArgs
     try {
       const result = await this.run(bin, args, opts)
@@ -296,9 +297,6 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info(`\nChecking git remote configuration...`)
     await this.commit('git', ['remote', '-v'])
 
-    // this.log.info(`\nChecking GitHub authentication status...`)
-    // await this.commit('gh', ['auth', 'status'])
-
     this.log.info(`\nTagging git release`)
     await this.commit('git', ['tag', `v${targetVersion}`])
 
@@ -310,9 +308,6 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       `refs/tags/v${targetVersion}`,
     ])
     await this.commit('git', ['push', '--no-verify'])
-
-    await this.commit('gh', ['auth', 'status'])
-
     /**
      * PUBLISH TO NPM
      */
@@ -321,6 +316,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     for (const pkg of publicPackages)
       await this.publishPackage(pkg, targetVersion)
+
+    await this.commit('gh', ['auth', 'status'])
 
     // if (tag) {
     //   const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`
