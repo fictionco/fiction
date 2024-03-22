@@ -52,12 +52,11 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0 # fetches all history for all tags and branches
 
       - uses: oleksiyrudenko/gha-git-credentials@v2-latest
         with:
-          token: '${{ secrets.GITHUB_TOKEN }}'
+          token: '${{ secrets.GH_TOKEN }}'
 
       - name: Configure Git
         run: |
