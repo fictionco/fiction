@@ -134,8 +134,8 @@ jobs:
       - name: Deploy Apps
         if: env.SHOULD_DEPLOY
         run: |
-          cross-env DOMAIN=fiction APP=www npm run deploy
-          cross-env DOMAIN=fiction APP=sites npm run deploy
+          cross-env DOMAIN=fiction APP=www NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
+          cross-env DOMAIN=fiction APP=sites NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
 
       - name: Post Notification
         if: failure()

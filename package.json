@@ -13,7 +13,7 @@
     "node": ">20.0.0"
   },
   "scripts": {
-    "deploy": "flyctl deploy . --config ./fly/$DOMAIN.$APP.toml --build-target $DOMAIN-$APP --remote-only --detach",
+    "deploy": "flyctl deploy . --config ./fly/$DOMAIN.$APP.toml --build-target $DOMAIN-$APP --remote-only --detach --build-arg NPM_TOKEN=$NPM_TOKEN",
     "release": "npm exec -- fiction run release --patch --skip-tests --with-changes --tag",
     "bump": "npm exec -- fiction run release --patch --skip-tests --version-only",
     "push-release": "git checkout release && git rebase dev && git push --no-verify && git checkout dev",
