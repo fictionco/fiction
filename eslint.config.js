@@ -35,5 +35,6 @@ export default antfu(
       'vue/no-ref-as-operand': 'error',
     },
   },
+  {plugins: ['implicit-dependencies'], rules: {'implicit-dependencies/no-implicit': 'error'}},
   { ignores: ['**/.ref/**/*', '**/.ref-*/**/*', '**/__*', 'node_modules', 'dist', '**/.fiction/**', '.pnpmfile.cjs', 'docs'] },
 )
