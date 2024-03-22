@@ -117,7 +117,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      await this.commit('pnpm', ['pack', '--dry-run', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
+      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
         stdio: 'pipe',
       })
 
@@ -151,7 +151,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (dirty && options.withChanges) {
       await this.commit('git', ['add', '-A'])
       await this.commit('git', ['commit', '-m', `chore: pre-release [skip]`])
-      await this.commit('git', ['push'])
+      await this.commit('git', ['push', '--no-verify'])
     }
     else if (dirty) {
       throw new Error('commit changes before publishing')
