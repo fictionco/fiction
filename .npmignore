@@ -2,6 +2,7 @@
 temp
 .env
 .env*
+**/.env
 **/.env*
 .local
 *.log
