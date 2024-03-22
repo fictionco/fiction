@@ -32,7 +32,7 @@ const options = [
     label: 'Site Meta Information',
     input: 'group',
     options: [
-      new InputOption({ key: 'userConfig.faviconUrl', label: 'Favicon', input: 'InputMediaUpload' }),
+      new InputOption({ key: 'userConfig.favicon', label: 'Favicon', input: 'InputMediaUpload' }),
       new InputOption({ key: 'userConfig.shareImage', label: 'Share Image', description: 'Image appears when your site is shared', input: 'InputMediaUpload' }),
       new InputOption({ key: 'userConfig.timeZone', label: 'Site Time Zone', input: 'InputTimezone' }),
       new InputOption({ key: 'userConfig.languageCode', label: 'Site Language Code', input: 'InputText', placeholder: 'en' }),

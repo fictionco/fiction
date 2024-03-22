@@ -50,6 +50,8 @@ export function setup(args: ServiceList) {
     pages,
 
     userConfig: {
+      shareImage: { url: new URL('./img/share-image.jpg', import.meta.url).href },
+      favicon: { url: new URL('./img/favicon.svg', import.meta.url).href },
       colors: { isDarkMode: true },
       spacing: {
         contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',

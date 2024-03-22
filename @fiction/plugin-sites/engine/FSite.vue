@@ -94,6 +94,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 }
 
+const faviconUrl = () => site.value?.userConfig.value.favicon?.url || '/favicon.svg'
+
 unhead.useHead({
   htmlAttrs: { lang: 'en', dir: 'ltr' },
   title: () => getTitleTag(),
@@ -110,7 +112,12 @@ unhead.useHead({
     { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
   ],
   link: [
-    { rel: 'shortcut icon', href: () => site.value?.userConfig.value.faviconUrl?.url || '/favicon.png' },
+    {
+      rel: 'shortcut icon',
+      href: () => faviconUrl(),
+      type: () => faviconUrl().includes('svg') ? 'image/svg+xml' : '',
+      sizes: () => faviconUrl().includes('svg') ? 'any' : '',
+    },
     { rel: 'canonical', href: () => site.value?.frame.displayUrl.value },
     { key: 'font-pre', rel: 'preconnect ', href: 'https://fonts.googleapis.com' },
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },

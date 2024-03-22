@@ -15,7 +15,7 @@ export type PageRegion = typeof pageRegionIds[number] | string
 export type TableSiteConfig = CreateObjectType<typeof siteCols> & st & { pages: CardConfigPortable[] }
 
 export type SiteUserConfig = Partial<{
-  faviconUrl: MediaDisplayObject
+  favicon: MediaDisplayObject
   shareImage: MediaDisplayObject
   robotsTxt: string
   locale: string
