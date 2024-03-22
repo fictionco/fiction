@@ -49,7 +49,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
   ): Promise<ExecaSyncReturnValue> => {
     const { execaCommandSync } = await import('execa')
     const command = [bin, ...args].join(' ')
-    return execaCommandSync(command, { stdio: 'inherit', stderr: 'inherit', cwd: process.cwd(), ...opts })
+    return execaCommandSync(command, { stdio: 'inherit', cwd: process.cwd(), ...opts })
   }
 
   commit = async (

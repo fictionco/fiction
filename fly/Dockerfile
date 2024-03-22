@@ -16,7 +16,7 @@ RUN apk add --update --no-cache curl redis busybox-extras make g++ iputils bind-
     pip install --no-cache --upgrade pip setuptools
 
 # Install pnpm globally and cross-env
-RUN npm install --location=global pnpm@8.14.1 cross-env
+RUN npm install --location=global pnpm@8.15.5 cross-env
 
 # Check pnpm version for debugging purposes
 RUN pnpm -v
