@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-highlight-code",
   "type": "module",
-  "version": "6.0.20",
+  "version": "6.0.21",
   "description": "Add a syntax highlighting component to your Fiction app.",
   "license": "GPL-2.0-only",
   "main": "index.ts",

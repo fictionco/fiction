@@ -1,7 +1,7 @@
 {
   "name": "supereon",
   "type": "module",
-  "version": "6.0.20",
+  "version": "6.0.21",
   "private": true,
   "author": "Supereon",
   "license": "GPL-2.0-only",
@@ -15,6 +15,7 @@
   "scripts": {
     "deploy": "flyctl deploy . --config ./fly/$DOMAIN.$APP.toml --build-target $DOMAIN-$APP --remote-only --detach",
     "release": "npm exec -- fiction run release --patch --skip-tests --with-changes --tag",
+    "bump": "npm exec -- fiction run release --patch --skip-tests --version-only",
     "push-release": "git checkout release && git rebase dev && git push --no-verify && git checkout dev",
     "test": "npm run lint:dev && npm run unit:dev",
     "test:pkgJson": "npx npmPkgJsonLint .",

@@ -188,13 +188,15 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     skipTests?: boolean
     withChanges?: boolean
     tag?: string | true
+    versionOnly?: boolean
   }): Promise<void> => {
-    const { patch, skipTests, tag } = options || {}
+    const { patch, skipTests, tag, versionOnly } = options || {}
 
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)
 
-    await this.ensureCleanGit(options)
+    if (!versionOnly)
+      await this.ensureCleanGit(options)
 
     let targetVersion: string | undefined
 
@@ -241,12 +243,18 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
         return
     }
 
-    await this.runTypeCheck()
+    if (!versionOnly)
+      await this.runTypeCheck()
 
     if (!skipTests)
       await this.runUnitTests()
 
     await this.updateVersions(targetVersion)
+
+    if (versionOnly) {
+      this.log.info('versions updated.')
+      return
+    }
 
     this.log.info('building packages...')
     await this.commit('npm', ['exec', '--', 'fiction', 'run', 'bundle'])
