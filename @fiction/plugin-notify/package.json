@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-notify",
   "type": "module",
-  "version": "6.0.22",
+  "version": "6.0.23",
   "description": "Notify allows you to add toast notifications to your app with ease.",
   "author": "Supereon",
   "license": "GPL-2.0-only",

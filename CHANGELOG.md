@@ -1,3 +1,20 @@
+## [6.0.23](https://github.com/fictionco/fiction/compare/v6.0.20...v6.0.23) (2024-03-22)
+
+
+### Bug Fixes
+
+* env -d ([50b831f](https://github.com/fictionco/fiction/commit/50b831f637061c57fd6ceab0bad2c34e2976f2e4))
+* perms ([9adb60e](https://github.com/fictionco/fiction/commit/9adb60ece1d2ec58e798b0131255e410f2a23550))
+
+
+### Features
+
+* release deploy -d ([02434fd](https://github.com/fictionco/fiction/commit/02434fd3e19242114ddfe278786abc3c8016e11e))
+* try again -d ([676ab10](https://github.com/fictionco/fiction/commit/676ab10469cdf5ea6bdbdba70c7795ca6c6c480e))
+* try release 2 -d ([a52bde6](https://github.com/fictionco/fiction/commit/a52bde64ecd4ef381a7c4ca0e54da3fe8ad92655))
+
+
+
 ## [6.0.20](https://github.com/fictionco/fiction/compare/v6.0.19...v6.0.20) (2024-03-22)
 
 
