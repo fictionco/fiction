@@ -896,6 +896,9 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.4.3)
+      zod-to-json-schema:
+        specifier: ^3.22.4
+        version: 3.22.4(zod@3.22.4)
     devDependencies:
       shikiji:
         specifier: ^0.10.2
