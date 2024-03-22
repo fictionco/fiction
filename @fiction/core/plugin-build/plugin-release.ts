@@ -2,7 +2,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type { ExecaChildProcess, ExecaError, ExecaSyncReturnValue } from 'execa'
+import type {  ExecaError, ExecaSyncReturnValue } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'
@@ -47,9 +47,9 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     args: string[],
     opts = {},
   ): Promise<ExecaSyncReturnValue> => {
-    const { execaCommandSync } = await import('execa')
+    const { execa } = await import('execa')
     const command = [bin, ...args].join(' ')
-    return execaCommandSync(command, { stdio: 'inherit', cwd: process.cwd(), ...opts })
+    return execa(bin, args, { stdio: 'inherit', cwd: process.cwd(), ...opts })
   }
 
   commit = async (
@@ -61,7 +61,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       return result
     }
     catch (error) {
-      this.log.error('Command failed:', error)
+      this.log.error('Command failed:', { error })
       throw error // Propagate the error upwards
     }
   }

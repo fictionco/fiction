@@ -11,7 +11,7 @@
     "tailwindcss": "^3.4.1",
     "vue": "^3.4.21",
     "zod": "^3.22.4",
-    "zod-to-json-schema": "^3.22.4"
+    "zod-to-json-schema": "^3.22.5"
   },
   "devDependencies": {
     "shikiji": "^0.10.2"
