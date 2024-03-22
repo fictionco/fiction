@@ -286,6 +286,11 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     /**
      * TAG AND PUSH TO REPO
      */
+    this.log.info('Checking git remote configuration...')
+    await this.commit('git', ['remote', '-v'])
+    this.log.info('Checking GitHub authentication status...')
+    await this.commit('gh', ['auth', 'status'])
+
     await this.commit('git', ['tag', `v${targetVersion}`])
     await this.commit('git', [
       'push',
