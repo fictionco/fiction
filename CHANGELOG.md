@@ -1,3 +1,13 @@
+## [6.0.24](https://github.com/fictionco/fiction/compare/v6.0.23...v6.0.24) (2024-03-22)
+
+
+### Bug Fixes
+
+* cli ([13ec00e](https://github.com/fictionco/fiction/commit/13ec00eb78c2567247c1ec624d6093e89e034078))
+* package ([6b0c432](https://github.com/fictionco/fiction/commit/6b0c432e5b213f61fcaf94dd036e0fe8b1924fcc))
+
+
+
 ## [6.0.23](https://github.com/fictionco/fiction/compare/v6.0.20...v6.0.23) (2024-03-22)
 
 
