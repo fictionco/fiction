@@ -1,3 +1,12 @@
+## [6.0.25](https://github.com/fictionco/fiction/compare/v6.0.24...v6.0.25) (2024-03-22)
+
+
+### Bug Fixes
+
+* try deploy again -d ([6a01ad2](https://github.com/fictionco/fiction/commit/6a01ad232e2c3f72c9d7a0b1f750ae4fb598a7e3))
+
+
+
 ## [6.0.24](https://github.com/fictionco/fiction/compare/v6.0.23...v6.0.24) (2024-03-22)
 
 
