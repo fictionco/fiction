@@ -23,10 +23,6 @@ on:
   # release:
   #   types: [published]
 
-permissions:
-  contents: write
-  issues: write # Only add other permissions if necessary for your workflow
-
 env:
   CI: true
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -55,21 +51,6 @@ jobs:
     steps:
       - name: Get The Code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # fetches all history for all tags and branches
-
-      - name: Configure Git
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${GITHUB_TOKEN}"
-
-      - name: Install GH CLI
-        run: |
-          sudo apt update
-          sudo apt install -y gh
 
       - name: Set up DNS for subdomain testing
         run: |
@@ -103,10 +84,6 @@ jobs:
         run: |
           git config --list
           git remote -v
-
-      - name: Release Code
-        run: |
-          npm run i:lockfile && npm run release
 
       - name: Install Playwright Browsers
         run: npx playwright install
@@ -161,7 +138,7 @@ jobs:
           cross-env DOMAIN=fiction APP=sites npm run deploy
 
       - name: Post Notification
-        if: always()
+        if: failure()
         id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
