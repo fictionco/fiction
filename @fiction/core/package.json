@@ -72,7 +72,7 @@
     "google-auth-library": "^9.7.0",
     "google-one-tap": "^1.0.6",
     "handlebars": "^4.7.8",
-    "happy-dom": "^14.2.1",
+    "happy-dom": "^14.3.1",
     "helmet": "^7.1.0",
     "highlight.js": "^11.9.0",
     "html-minifier": "^4.0.0",

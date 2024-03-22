@@ -3,7 +3,7 @@
     "@fiction/core": "workspace:*",
     "@stripe/stripe-js": "^3.0.10",
     "express": "^4.19.1",
-    "stripe": "^14.21.0"
+    "stripe": "^14.22.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"
