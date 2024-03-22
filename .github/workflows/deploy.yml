@@ -93,7 +93,7 @@ jobs:
         run: |
           npm run i:lockfile && npm run release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install Playwright Browsers
         run: npx playwright install
