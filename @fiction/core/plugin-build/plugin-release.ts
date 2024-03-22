@@ -115,10 +115,9 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     const access = pkg.publishConfig?.access ?? 'restricted'
 
-    this.log.info(`publishing ${pkg.name}...`)
+    this.log.info(`publishing ${pkg.name}...${process.cwd()}`)
     try {
-      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
-
+      await this.commit('pnpm', ['pack', '--dry-run', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
         stdio: 'pipe',
       })
 
