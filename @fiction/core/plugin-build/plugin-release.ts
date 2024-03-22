@@ -249,6 +249,9 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     if (!skipTests)
       await this.runUnitTests()
 
+    /**
+     * UPDATE PACKAGE.JSON VERSION NUMBERS
+     */
     await this.updateVersions(targetVersion)
 
     if (versionOnly) {
@@ -265,10 +268,12 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     // this.log.info(`update lockfile... ${process.cwd()}`)
     // await this.commit('pnpm', ['i'])
 
-    // commit version change
+    /**
+     * COMMIT CHANGES LOCALLY
+     */
     const { stdout } = await this.run('git', ['diff'], { stdio: 'pipe' })
     if (stdout) {
-      this.log.info('committing changes...')
+      this.log.info('committing git changes...')
       await this.commit('git', ['add', '-A'])
       await this.commit('git', ['commit', '-m', `release: v${targetVersion} [skip]`])
     }
@@ -276,15 +281,11 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
       this.log.info('no changes to commit')
     }
 
-    // publish to npm
-    this.log.info('publishing packages...')
-    const publicPackages = getPackages({ publicOnly: true })
+    this.log.info('pushing changes to origin...')
 
-    for (const pkg of publicPackages)
-      await this.publishPackage(pkg, targetVersion)
-
-    this.log.info('pushing to origin...')
-
+    /**
+     * TAG AND PUSH TO REPO
+     */
     await this.commit('git', ['tag', `v${targetVersion}`])
     await this.commit('git', [
       'push',
@@ -295,6 +296,15 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     await this.commit('git', ['push', '--no-verify'])
 
     await this.commit('gh', ['auth', 'status'])
+
+    /**
+     * PUBLISH TO NPM
+     */
+    this.log.info('publishing packages...')
+    const publicPackages = getPackages({ publicOnly: true })
+
+    for (const pkg of publicPackages)
+      await this.publishPackage(pkg, targetVersion)
 
     // if (tag) {
     //   const txt = tag === true ? targetVersion : `${targetVersion} - ${tag}`

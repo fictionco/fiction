@@ -52,6 +52,7 @@ jobs:
       - name: Get The Code
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0 # fetches all history for all tags and branches
 
       - uses: oleksiyrudenko/gha-git-credentials@v2-latest
@@ -95,6 +96,11 @@ jobs:
 
       - name: Install Deps
         run: pnpm -v && pnpm i && pnpm rebuild --recursive
+
+      - name: Debug Git Config
+        run: |
+          git config --list
+          git remote -v
 
       - name: Release Code
         run: |
