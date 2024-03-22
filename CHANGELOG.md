@@ -1,3 +1,12 @@
+## [6.0.14](https://github.com/fictionco/fiction/compare/v6.0.13...v6.0.14) (2024-03-22)
+
+
+### Features
+
+* try release -d ([fa80dae](https://github.com/fictionco/fiction/commit/fa80dae7d9b8639d0d2f5f470c54102d94ec898d))
+
+
+
 ## [6.0.13](https://github.com/fictionco/fiction/compare/v6.0.12...v6.0.13) (2024-03-21)
 
 
