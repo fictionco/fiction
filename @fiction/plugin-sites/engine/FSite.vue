@@ -110,6 +110,7 @@ unhead.useHead({
     { property: 'og:type', content: 'website' },
     { property: 'og:title', content: () => getTitleTag() },
     { property: 'og:url', content: () => site.value?.frame.displayUrl.value },
+    { name: 'robots', content: 'index, follow' },
   ],
   link: [
     {

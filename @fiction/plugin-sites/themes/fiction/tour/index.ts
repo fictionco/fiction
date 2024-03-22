@@ -201,6 +201,7 @@ const heroCard = createCard({
       {
         name: 'Start Today',
         href: '/auth/login?reload=1',
+        btn: 'primary',
       },
     ],
   },

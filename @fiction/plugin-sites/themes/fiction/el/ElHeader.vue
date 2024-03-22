@@ -120,32 +120,35 @@ const accountMenu = vue.computed((): NavItem[] => {
               </svg>
             </button>
           </div>
-          <div
-            class="mr-4 hidden lg:flex lg:justify-center lg:gap-x-4 items-center"
-          >
+          <div>
             <component
               :is="getNavComponentType(item)"
               v-for="item in nav"
               :key="item.href"
               :to="item.href ?? '/'"
               :href="item.href ?? '/'"
-              class="bg-theme-100 dark:bg-theme-700 hover:bg-theme-200 dark:hover:bg-primary-950 cursor-pointer rounded-full px-4 py-1.5 text-sm font-sans font-semibold"
-              :class="item.isActive ? 'bg-theme-200 dark:bg-primary-950' : ''"
+              :class="[btnClass, item.isActive ? 'opacity-60' : '']"
               v-html="item.name"
             />
           </div>
-
           <div
-            class="mr-4 hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"
+            class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"
           >
             <NavAccount v-if="activeUser" :card="card" :account-menu="accountMenu" />
             <template v-else>
-              <a href="/app/auth/login" :class="btnClass">Log In</a>
+              <XElement
+                :card="card"
+                theme-el="button"
+                btn="default"
+                href="/app/auth/login?reload=1"
+              >
+                Login
+              </XElement>
               <XElement
                 :card="card"
                 theme-el="button"
                 btn="primary"
-                href="/auth/register"
+                href="/app/auth/register?reload=1"
               >
                 Sign Up
               </XElement>
