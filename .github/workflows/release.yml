@@ -49,7 +49,7 @@ jobs:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
-      SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
+      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-release') }}
     name: build and test
     runs-on: ubuntu-latest
     steps:
@@ -67,15 +67,6 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y gh
-
-      - name: Set up DNS for subdomain testing
-        run: |
-          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
-
-      - name: Test DNS resolution
-        run: |
-          echo "Testing DNS resolution for lan.com and its subdomains..."
-          dig +short test.lan.com @127.0.0.1 || echo "Failed to resolve test.lan.com"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
@@ -132,23 +123,23 @@ jobs:
       #   run: npm exec -- vitest run e2e -u
 
       # - name: Install Build Packages
-      #   if: env.SHOULD_DEPLOY
+      #   if: env.SHOULD_RELEASE
       #   run: pnpm add tsup cross-env --global
 
       # - name: Build Bundles
-      #   if: env.SHOULD_DEPLOY
+      #   if: env.SHOULD_RELEASE
       #   run: npm exec -- fiction run bundle
 
       # - name: Render Apps
-      #   if: env.SHOULD_DEPLOY
+      #   if: env.SHOULD_RELEASE
       #   run: npm exec -- fiction run render
 
       # - name: Install FlyCtl
-      #   if: env.SHOULD_DEPLOY
+      #   if: env.SHOULD_RELEASE
       #   uses: superfly/flyctl-actions/setup-flyctl@master
 
       # - name: DIST unit tests
-      #   if: env.SHOULD_DEPLOY
+      #   if: env.SHOULD_RELEASE
       #   run: npm exec -- vitest run dist -u
 
       # - name: Post Notification

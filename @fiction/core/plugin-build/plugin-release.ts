@@ -55,7 +55,14 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     ...commandArgs: [string, string[], Record<string, string>?]
   ): Promise<void | ExecaChildProcess> => {
     const [bin, args, opts] = commandArgs
-    return await this.run(bin, args, opts)
+    try {
+      const result = await this.run(bin, args, opts)
+      return result
+    }
+    catch (error) {
+      this.log.error('Command failed:', error)
+      throw error // Propagate the error upwards
+    }
   }
 
   updateDeps = (
@@ -289,8 +296,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     this.log.info(`\nChecking git remote configuration...`)
     await this.commit('git', ['remote', '-v'])
 
-    this.log.info(`\nChecking GitHub authentication status...`)
-    await this.commit('gh', ['auth', 'status'])
+    // this.log.info(`\nChecking GitHub authentication status...`)
+    // await this.commit('gh', ['auth', 'status'])
 
     this.log.info(`\nTagging git release`)
     await this.commit('git', ['tag', `v${targetVersion}`])
