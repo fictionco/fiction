@@ -117,8 +117,8 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
 
     this.log.info(`publishing ${pkg.name}...`)
     try {
-      await this.commit('pnpm', ['publish', '-r', '--access', access, '--publish-branch', 'dev'], {
-        cwd: pkg.cwd,
+      await this.commit('pnpm', ['publish', '-r', '--filter', pkg.name, '--access', access, '--publish-branch', 'dev'], {
+
         stdio: 'pipe',
       })
 
