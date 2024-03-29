@@ -8,7 +8,7 @@
     "gravatar-url": "^4.0.1",
     "monaco-editor": "^0.47.0",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "vue": "^3.4.21",
     "zod": "^3.22.4",
     "zod-to-json-schema": "^3.22.5"

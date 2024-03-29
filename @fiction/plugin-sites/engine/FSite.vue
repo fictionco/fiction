@@ -52,7 +52,7 @@ function getTitleTag() {
   }
 
   else {
-    const titleTemplate = site.value?.userConfig.value?.titleTemplate || '{{pageTitle}} - {{siteTitle}}'
+    const titleTemplate = site.value?.userConfig.value?.titleTemplate || '{{pageTitle}}'
     const pageTitle = page.value?.title?.value || 'Untitled Page'
     const siteTitle = site.value?.title?.value || 'Untitled Site'
 
@@ -102,7 +102,7 @@ unhead.useHead({
   meta: [
     { charset: 'UTF-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-    { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || 'no description' },
+    { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || '' },
     { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
