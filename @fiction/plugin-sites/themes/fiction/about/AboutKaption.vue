@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useMeta } from '@factor/api'
+import { unhead } from '@fiction/core'
 import { ref } from 'vue'
-import ElAvatar from '@factor/ui/ElAvatar.vue'
+import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElemDirections from './AboutDirections.vue'
 
 const team = ref([
@@ -24,7 +24,7 @@ const metaTitle = 'About Kaption.co'
 const metaDescription
   = 'We tried almost every analytics other tool, and none of them made it possible to understand the needs of our customers. That\'s why we started working on Kaption.'
 
-useMeta({
+unhead.useHead({
   title: metaTitle,
   meta: [
     {
@@ -60,7 +60,7 @@ useMeta({
         <h1
           class="m-auto mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl"
         >
-          A company built to help you make your impact
+          A company built around customer feedback
         </h1>
         <p class="text-color-500 m-auto mb-12 text-2xl lg:mb-20 lg:text-2xl">
           Kaption was founded with a passion for data-driven insights, customer

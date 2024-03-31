@@ -28,7 +28,7 @@ importers:
         version: link:@fiction/www
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
-        version: 5.0.4(vite@5.1.6)(vue@3.4.21)
+        version: 5.0.4(vite@5.2.7)(vue@3.4.21)
       axios:
         specifier: ^1.6.8
         version: 1.6.8
@@ -84,8 +84,8 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
       vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+        specifier: 5.2.7
+        version: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vue:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.4.3)
@@ -101,7 +101,7 @@ importers:
         version: 1.1.3
       '@codspeed/vitest-plugin':
         specifier: ^3.1.0
-        version: 3.1.0(vite@5.1.6)(vitest@1.4.0)
+        version: 3.1.0(vite@5.2.7)(vitest@1.4.0)
       '@eslint/eslintrc':
         specifier: ^3.0.2
         version: 3.0.2
@@ -191,7 +191,7 @@ importers:
         version: 2.6.2
       vite-plugin-dts:
         specifier: ^3.8.1
-        version: 3.8.1(@types/node@20.11.30)(typescript@5.4.3)(vite@5.1.6)
+        version: 3.8.1(@types/node@20.11.30)(typescript@5.4.3)(vite@5.2.7)
       vitepress:
         specifier: ^1.0.1
         version: 1.0.1(@algolia/client-search@4.23.2)(@types/node@20.11.30)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3)
@@ -266,7 +266,7 @@ importers:
         version: 0.58.8
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
-        version: 5.0.4(vite@5.1.6)(vue@3.4.21)
+        version: 5.0.4(vite@5.2.7)(vue@3.4.21)
       '@vue/compiler-sfc':
         specifier: ^3.4.21
         version: 3.4.21
@@ -474,6 +474,9 @@ importers:
       path-browserify:
         specifier: ^1.0.1
         version: 1.0.1
+      path-browserify-esm:
+        specifier: ^1.0.4
+        version: 1.0.4
       pg:
         specifier: ^8.11.3
         version: 8.11.3
@@ -545,7 +548,7 @@ importers:
         version: 1.9.3
       unocss:
         specifier: ^0.58.8
-        version: 0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.1.6)
+        version: 0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.2.7)
       uuid-apikey:
         specifier: ^1.5.3
         version: 1.5.3
@@ -553,8 +556,8 @@ importers:
         specifier: ^13.11.0
         version: 13.11.0
       vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+        specifier: 5.2.7
+        version: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vue:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.4.3)
@@ -2442,14 +2445,14 @@ packages:
       - debug
     dev: true
 
-  /@codspeed/vitest-plugin@3.1.0(vite@5.1.6)(vitest@1.4.0):
+  /@codspeed/vitest-plugin@3.1.0(vite@5.2.7)(vitest@1.4.0):
     resolution: {integrity: sha512-ms11tUytiQTgB+idxZRUuCUQfgz4LaKTDJCLYm5VTSpOCUU7D5+QWvJnA8X8B9glPfR5siIK8RxrnZP4yuysKQ==}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
       vitest: '>=1.2.2'
     dependencies:
       '@codspeed/core': 3.1.0
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vitest: 1.4.0(@types/node@20.11.30)(@vitest/ui@1.4.0)(happy-dom@14.3.9)(jsdom@24.0.0)(less@4.2.0)
     transitivePeerDependencies:
       - debug
@@ -2540,6 +2543,7 @@ packages:
     cpu: [ppc64]
     os: [aix]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/aix-ppc64@0.20.2:
@@ -2565,6 +2569,7 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/android-arm64@0.20.2:
@@ -2590,6 +2595,7 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/android-arm@0.20.2:
@@ -2615,6 +2621,7 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/android-x64@0.20.2:
@@ -2640,6 +2647,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/darwin-arm64@0.20.2:
@@ -2665,6 +2673,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/darwin-x64@0.20.2:
@@ -2690,6 +2699,7 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/freebsd-arm64@0.20.2:
@@ -2715,6 +2725,7 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/freebsd-x64@0.20.2:
@@ -2740,6 +2751,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-arm64@0.20.2:
@@ -2765,6 +2777,7 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-arm@0.20.2:
@@ -2790,6 +2803,7 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-ia32@0.20.2:
@@ -2815,6 +2829,7 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-loong64@0.20.2:
@@ -2840,6 +2855,7 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-mips64el@0.20.2:
@@ -2865,6 +2881,7 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-ppc64@0.20.2:
@@ -2890,6 +2907,7 @@ packages:
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-riscv64@0.20.2:
@@ -2915,6 +2933,7 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-s390x@0.20.2:
@@ -2940,6 +2959,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-x64@0.20.2:
@@ -2965,6 +2985,7 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/netbsd-x64@0.20.2:
@@ -2990,6 +3011,7 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/openbsd-x64@0.20.2:
@@ -3015,6 +3037,7 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/sunos-x64@0.20.2:
@@ -3040,6 +3063,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-arm64@0.20.2:
@@ -3065,6 +3089,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-ia32@0.20.2:
@@ -3090,6 +3115,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-x64@0.20.2:
@@ -5439,7 +5465,7 @@ packages:
       vue: 3.4.21(typescript@5.4.3)
     dev: false
 
-  /@unocss/astro@0.58.8(rollup@4.13.2)(vite@5.1.6):
+  /@unocss/astro@0.58.8(rollup@4.13.2)(vite@5.2.7):
     resolution: {integrity: sha512-pAjsKuVg41dXNPWpFKx/SDxz198Miu/hqAL4lMkE2ITY+nFgqt9SH1lGS9P+VzElrHZ+Uqwmmtw8SjaT2EfCMA==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
@@ -5449,8 +5475,8 @@ packages:
     dependencies:
       '@unocss/core': 0.58.8
       '@unocss/reset': 0.58.8
-      '@unocss/vite': 0.58.8(rollup@4.13.2)(vite@5.1.6)
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      '@unocss/vite': 0.58.8(rollup@4.13.2)(vite@5.2.7)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
     transitivePeerDependencies:
       - rollup
     dev: false
@@ -5633,7 +5659,7 @@ packages:
       '@unocss/core': 0.58.8
     dev: false
 
-  /@unocss/vite@0.58.8(rollup@4.13.2)(vite@5.1.6):
+  /@unocss/vite@0.58.8(rollup@4.13.2)(vite@5.2.7):
     resolution: {integrity: sha512-Eh0cG1I/BivvhUPdFxPi/z7Q+LMDnjHgL/dIE6/tmJK9rerdGeOBCAXxEetZfvBrOhWVnsOW/ydesyAhkzRg3w==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0
@@ -5648,20 +5674,9 @@ packages:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       magic-string: 0.30.8
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
     transitivePeerDependencies:
       - rollup
-    dev: false
-
-  /@vitejs/plugin-vue@5.0.4(vite@5.1.6)(vue@3.4.21):
-    resolution: {integrity: sha512-WS3hevEszI6CEVEx28F8RjTX97k3KsrcY6kvTg7+Whm5y3oYvcqzVeGCU3hxSAn4uY2CLCkeokkGKpoctccilQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    peerDependencies:
-      vite: ^5.0.0
-      vue: ^3.2.25
-    dependencies:
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
-      vue: 3.4.21(typescript@5.4.3)
     dev: false
 
   /@vitejs/plugin-vue@5.0.4(vite@5.2.7)(vue@3.4.21):
@@ -5671,9 +5686,8 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.2.7(@types/node@20.11.30)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vue: 3.4.21(typescript@5.4.3)
-    dev: true
 
   /@vitest/coverage-istanbul@1.4.0(vitest@1.4.0):
     resolution: {integrity: sha512-39TjURYyAY6CLDx8M1RNYGoAuWicPWoofk+demJbAZROLCwUgGPgMRSg51GN+snbmQRTpSizuS9XC3cMSdQH2Q==}
@@ -7985,6 +7999,7 @@ packages:
       '@esbuild/win32-arm64': 0.19.12
       '@esbuild/win32-ia32': 0.19.12
       '@esbuild/win32-x64': 0.19.12
+    dev: false
 
   /esbuild@0.20.2:
     resolution: {integrity: sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==}
@@ -11913,6 +11928,10 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
+  /path-browserify-esm@1.0.4:
+    resolution: {integrity: sha512-rNMBTqkZgu0DqsT69a+CZEOnIqfGl95lfHDIrdzB1CEjUVxFXfDWjndwE7FT1JG11TSIGRs4/m5jG8q9eVW+Vg==}
+    dev: false
+
   /path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
 
@@ -14182,7 +14201,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: false
 
-  /unocss@0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.1.6):
+  /unocss@0.58.8(postcss@8.4.38)(rollup@4.13.2)(vite@5.2.7):
     resolution: {integrity: sha512-oMWCEgwvxJcF1BZxxkbTyTd83xtArsza3DModUrJrPndnpOVVz9fZ5g6wcrDbVpv6+cvRrgMCeKMlWKt9WIIsA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -14194,7 +14213,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@unocss/astro': 0.58.8(rollup@4.13.2)(vite@5.1.6)
+      '@unocss/astro': 0.58.8(rollup@4.13.2)(vite@5.2.7)
       '@unocss/cli': 0.58.8(rollup@4.13.2)
       '@unocss/core': 0.58.8
       '@unocss/extractor-arbitrary-variants': 0.58.8
@@ -14213,8 +14232,8 @@ packages:
       '@unocss/transformer-compile-class': 0.58.8
       '@unocss/transformer-directives': 0.58.8
       '@unocss/transformer-variant-group': 0.58.8
-      '@unocss/vite': 0.58.8(rollup@4.13.2)(vite@5.1.6)
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      '@unocss/vite': 0.58.8(rollup@4.13.2)(vite@5.2.7)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -14343,7 +14362,7 @@ packages:
       debug: 4.3.4(supports-color@5.5.0)
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -14355,7 +14374,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-dts@3.8.1(@types/node@20.11.30)(typescript@5.4.3)(vite@5.1.6):
+  /vite-plugin-dts@3.8.1(@types/node@20.11.30)(typescript@5.4.3)(vite@5.2.7):
     resolution: {integrity: sha512-zEYyQxH7lKto1VTKZHF3ZZeOPkkJgnMrePY4VxDHfDSvDjmYMMfWjZxYmNwW8QxbaItWJQhhXY+geAbyNphI7g==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -14372,7 +14391,7 @@ packages:
       kolorist: 1.8.0
       magic-string: 0.30.8
       typescript: 5.4.3
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vue-tsc: 1.8.27(typescript@5.4.3)
     transitivePeerDependencies:
       - '@types/node'
@@ -14380,43 +14399,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite@5.1.6(@types/node@20.11.30)(less@4.2.0):
-    resolution: {integrity: sha512-yYIAZs9nVfRJ/AiOLCA91zzhjsHUgMjB+EigzFb6W2XTLO8JixBCKCjvhKZaye+NKYHCrkv3Oh50dH9EdLU2RA==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.11.30
-      esbuild: 0.19.12
-      less: 4.2.0
-      postcss: 8.4.38
-      rollup: 4.13.2
-    optionalDependencies:
-      fsevents: 2.3.3
-
-  /vite@5.2.7(@types/node@20.11.30):
+  /vite@5.2.7(@types/node@20.11.30)(less@4.2.0):
     resolution: {integrity: sha512-k14PWOKLI6pMaSzAuGtT+Cf0YmIx12z9YGon39onaJNy8DLBfBJrzg9FQEmkAM5lpHBZs9wksWAsyF/HkpEwJA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -14446,11 +14429,11 @@ packages:
     dependencies:
       '@types/node': 20.11.30
       esbuild: 0.20.2
+      less: 4.2.0
       postcss: 8.4.38
       rollup: 4.13.2
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
 
   /vitepress@1.0.1(@algolia/client-search@4.23.2)(@types/node@20.11.30)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.3):
     resolution: {integrity: sha512-eNr5pOBppYUUjEhv8S0S2t9Tv95LQ6mMeHj6ivaGwfHxpov70Vduuwl/QQMDRznKDSaP0WKV7a82Pb4JVOaqEw==}
@@ -14478,7 +14461,7 @@ packages:
       minisearch: 6.3.0
       postcss: 8.4.38
       shiki: 1.2.1
-      vite: 5.2.7(@types/node@20.11.30)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vue: 3.4.21(typescript@5.4.3)
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -14554,7 +14537,7 @@ packages:
       strip-literal: 2.1.0
       tinybench: 2.6.0
       tinypool: 0.8.3
-      vite: 5.1.6(@types/node@20.11.30)(less@4.2.0)
+      vite: 5.2.7(@types/node@20.11.30)(less@4.2.0)
       vite-node: 1.4.0(@types/node@20.11.30)(less@4.2.0)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:

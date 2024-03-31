@@ -71,7 +71,7 @@ export class FictionRouter<
         ? vueRouter.createMemoryHistory()
         : vueRouter.createWebHistory(this.routeBasePath)
 
-      this.log.info(`creating router ${this.routerId}`, { data: { noBrowserNav: this.noBrowserNav.value, caller: args?.caller } })
+      this.log.debug(`creating router ${this.routerId}`, { data: { noBrowserNav: this.noBrowserNav.value, caller: args?.caller } })
 
       this.router.value = vueRouter.createRouter({
         history,
@@ -83,7 +83,7 @@ export class FictionRouter<
       this.router.value.beforeEach(this.routerBeforeEach)
       this.router.value.afterEach(this.routerAfterEach)
 
-      this.log.info(`created router with ${this.routes.value.length} routes`, { data: { r: this.router.value?.getRoutes().map(r => r.path) } })
+      this.log.debug(`created router with ${this.routes.value.length} routes`, { data: { r: this.router.value?.getRoutes().map(r => r.path) } })
     }
 
     return this.router.value

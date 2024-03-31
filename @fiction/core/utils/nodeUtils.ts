@@ -1,7 +1,7 @@
 /* server-only-file */
 import path from 'node:path'
 import * as mod from 'node:module'
-import { Buffer } from 'node:buffer'
+import type { Buffer } from 'node:buffer'
 import process from 'node:process'
 import fs from 'fs-extra'
 import type { ExecaChildProcess } from 'execa'
@@ -171,6 +171,7 @@ export async function streamToString(stream?: NodeJS.ReadableStream): Promise<st
   if (!stream)
     return ''
   const chunks: Uint8Array[] = []
+  const { Buffer } = await import('node:buffer')
   return new Promise((resolve, reject) => {
     stream.on('data', (chunk: Uint8Array) => chunks.push(Buffer.from(chunk)))
     stream.on('error', (err: Error) => reject(err))

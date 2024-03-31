@@ -96,15 +96,15 @@ export async function loadSite(args: {
     if (selectors.length > 1)
       logger.error('Multiple selectors used to load site', { data: { selectors } })
 
-    logger.info('Loading site with Selector', {
-      data: { ...(subDomain && { subDomain }), ...(siteId && { siteId }), ...(themeId && { themeId }), vals },
-    })
-
     if (themeId) {
       logger.info('Loading site from theme', { data: { themeId } })
       site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
     }
     else if (hasWhere) {
+      logger.info('Loading site with Selector', {
+        data: { ...(subDomain && { subDomain }), ...(siteId && { siteId }), ...(themeId && { themeId }), vals },
+      })
+
       site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
     }
     else {

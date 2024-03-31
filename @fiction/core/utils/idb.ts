@@ -1,5 +1,5 @@
-import { EventEmitter } from 'node:events'
 import { log } from '../plugin-log'
+import { events } from './nodeLib'
 
 interface IndexedDbOptions {
   version?: number
@@ -12,7 +12,7 @@ interface DataObject {
   [key: string]: unknown
 }
 
-export class FictionIndexedDb extends EventEmitter {
+export class FictionIndexedDb extends events.EventEmitter {
   version: number
   dbName: string
   tableName: string

@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { Buffer } from 'node:buffer'
+import { buffer } from 'node:stream/consumers'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
 import { Query } from '../query'
@@ -59,6 +59,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
   }, meta: EndpointMeta): Promise<TableMediaConfig | undefined> {
     const { orgId, userId, fields, storagePath } = args
 
+    const { Buffer } = await import('node:buffer')
     const { sourceImageUrl } = fields || {}
 
     if (!sourceImageUrl)
@@ -71,13 +72,13 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
 
     // Convert the response to a buffer
     const arrayBuffer = await response.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
+    const b = Buffer.from(arrayBuffer)
 
     // Create a temporary file to simulate a file upload
     const extension = await getFileExtensionFromFetchResponse(response)
     const fileName = `${objectId()}${extension}`
     const tempFilePath = path.join(safeDirname(import.meta.url), fileName)
-    fs.writeFileSync(tempFilePath, buffer)
+    fs.writeFileSync(tempFilePath, b)
 
     try {
       // Call the existing createAndSaveMedia function with the simulated file

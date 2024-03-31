@@ -1,4 +1,4 @@
-import events from 'node:events'
+import { events } from './nodeLib'
 
 let eventBus: NodeJS.EventEmitter | undefined
 function getGlobalEventBus(): NodeJS.EventEmitter {

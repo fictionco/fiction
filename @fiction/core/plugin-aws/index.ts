@@ -1,4 +1,5 @@
-import { Buffer } from 'node:buffer'
+import type { Buffer } from 'node:buffer'
+import { buffer } from 'node:stream/consumers'
 import type { CloudFront, Invalidation } from '@aws-sdk/client-cloudfront'
 import type {
   DeleteObjectCommandOutput,
@@ -256,6 +257,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     if (!stream)
       return ''
     const chunks: Uint8Array[] = []
+    const { Buffer } = await import('node:buffer')
     return new Promise((resolve, reject) => {
       stream.on('data', (chunk: Uint8Array) => chunks.push(Buffer.from(chunk)))
       stream.on('error', (err: Error) => reject(err))

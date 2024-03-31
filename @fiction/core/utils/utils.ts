@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { Buffer } from 'node:buffer'
 import stableStringify from 'fast-safe-stringify'
 import md5 from 'spark-md5'
 
@@ -266,12 +265,13 @@ export function replaceAll(str: string, match: string, replacement: string): str
 /**
  * base64 encode and decode a string in both node and browser
  */
-export function base64(args: {
+export async function base64(args: {
   action: 'encode' | 'decode'
   str: string
-}): string {
+}): Promise<string> {
   const { action, str } = args
   if (typeof window === 'undefined') {
+    const { Buffer } = await import('node:buffer')
     if (action === 'encode')
       return Buffer.from(str).toString('base64')
     else

@@ -89,6 +89,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
      * node application init
      */
     if (!this.fictionEnv.isApp.value && this.fictionEnv?.cwd) {
+      console.warn('FictionApp: not an app', this.fictionEnv.isApp.value)
       this.fictionRender = new FictionRender({
         fictionApp: this,
         fictionEnv: this.fictionEnv,
@@ -263,7 +264,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
 
     return eApp
   }
-
 
   async ssrServerCreate(
     args: { isProd?: boolean, expressApp?: Express } = {},

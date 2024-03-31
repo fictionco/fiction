@@ -28,6 +28,8 @@ Here's how Fiction stands out:
 
 ## Creating A Basic Fiction App {#creating-a-basic-fiction-app}
 
+Fiction is an extensible service that supports plugins, themes, and a "card" based layout system for pages and UI elements.
+
 Here's a minimal example:
 
 

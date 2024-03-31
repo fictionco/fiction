@@ -87,5 +87,6 @@ export function commonServerOnlyModules(): Record<string, true | Record<string, 
       createRequire: '() => {}',
       Module: '{createRequire: () => {}}',
     },
+    'buffer': true,
   }
 }

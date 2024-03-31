@@ -94,7 +94,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 }
 
-const faviconUrl = () => site.value?.userConfig.value.favicon?.url || '/favicon.svg'
+function faviconUrl() {
+  const f = site.value?.userConfig.value.favicon?.url || '/favicon.svg'
+
+  return f
+}
 
 unhead.useHead({
   htmlAttrs: { lang: 'en', dir: 'ltr' },

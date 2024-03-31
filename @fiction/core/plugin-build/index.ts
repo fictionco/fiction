@@ -125,7 +125,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
 
         transform: async (src: string, id: string) => {
           const replaceConfig = fullServerModules.find((_) => {
-            return id.includes(`node_modules/${_.id}`)
+            return id.includes(`node_modules/${_.id}`) || id.includes(`node_modules/node:${_.id}`)
           })
 
           const isServerFile = /server-only-file/.test(src.slice(0, 300))
@@ -268,16 +268,10 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       logLevel: isProd ? 'info' : 'warn',
       resolve: {
         alias: [
-          { find: 'path', replacement: 'path-browserify' },
-          { find: 'node:path', replacement: 'path-browserify' },
-          { find: 'node:events', replacement: 'events' },
-          { find: 'node:process', replacement: 'process' },
+          { find: 'path', replacement: 'path-browserify-esm' },
+          { find: 'node:path', replacement: 'path-browserify-esm' },
+          { find: 'node:process', replacement: '@fiction/core/utils/mod/process' },
           { find: 'node:fs', replacement: 'fs' },
-          { find: 'node:stream', replacement: 'stream-browserify' },
-          { find: 'node:os', replacement: 'os-browserify' },
-          { find: 'node:buffer', replacement: 'buffer-lite' },
-          { find: 'buffer', replacement: 'buffer-lite' },
-          { find: 'stream', replacement: 'stream-browserify' },
           { find: 'querystring', replacement: 'querystring-es3' },
           { find: 'node:http', replacement: 'stream-http' },
           { find: 'http', replacement: 'stream-http' },
@@ -287,18 +281,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
       },
     }
 
-    const envBuildConfig: vite.InlineConfig
-      = isServerBuild
-        ? {}
-        : {
-            resolve: {
-              alias: [
-                { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' }, // Specific alias for 'vue'
-              ],
-            },
-          }
-
-    const merge: vite.InlineConfig[] = [basicConfig, envBuildConfig, config]
+    const merge: vite.InlineConfig[] = [basicConfig, config]
 
     return deepMergeAll<vite.InlineConfig>(merge)
   }
