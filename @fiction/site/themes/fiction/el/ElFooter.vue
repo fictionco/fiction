@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MediaDisplayObject, MenuGroup } from '@fiction/core'
 import { vue } from '@fiction/core'
-import type { Card } from '@fiction/plugin-sites/card'
+import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 
 export type UserConfig = {

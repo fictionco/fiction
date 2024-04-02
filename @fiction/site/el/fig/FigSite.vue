@@ -1,5 +1,5 @@
 <script lang='ts' setup>
-import type { Site } from '@fiction/plugin-sites/site'
+import type { Site } from '@fiction/site/site'
 import type { vue } from '@fiction/core'
 import ElBrowserFrameDevice from '@fiction/ui/ElBrowserFrameDevice.vue'
 import FigSite from './img/figSite.svg'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { getNavComponentType, onBrowserEvent, onResetUi, useService, vue } from '@fiction/core'
 import type { NavItem } from '@fiction/core'
-import type { Card } from '@fiction/plugin-sites/card'
+import type { Card } from '@fiction/site/card'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElButton from '@fiction/ui/ElButton.vue'

@@ -2,7 +2,7 @@
 import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
 import { getNavComponentType, useService, vue } from '@fiction/core'
 import { googleOneTap } from '@fiction/core/plugin-user/google'
-import type { Card } from '@fiction/plugin-sites/card'
+import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import XElement from '../../../engine/XElement.vue'

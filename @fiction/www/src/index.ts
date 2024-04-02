@@ -10,7 +10,7 @@ import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionAdmin } from '@fiction/plugin-admin'
 import { FictionAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
-import FSite from '@fiction/plugin-sites/engine/FSite.vue'
+import FSite from '@fiction/site/engine/FSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
 import { config as adminConfig } from './admin'
@@ -163,7 +163,7 @@ const pluginServices = {
 
 const plugins = createPluginConfig([
   {
-    load: () => import('@fiction/plugin-sites'),
+    load: () => import('@fiction/site'),
     settings: () => {
       return { fictionAppSites, fictionRouterSites, flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'), flyIoAppId: 'fiction-sites' }
     },
