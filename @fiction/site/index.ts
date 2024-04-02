@@ -1,10 +1,12 @@
 // @unocss-include
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import type { DataFilter, FictionApp, FictionRouter, IndexMeta } from '@fiction/core'
+import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, IndexMeta } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import type { FictionAdmin, FictionAdminSettings } from '@fiction/plugin-admin'
+import type { FictionAdmin } from '@fiction/plugin-admin'
 import type { PluginMain } from '@fiction/plugin-admin-index'
+import type { FictionAi } from '@fiction/plugin-ai'
+import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'
 import { tables } from './tables'
 import { Site } from './site'
@@ -19,12 +21,21 @@ export * from './site'
 vars.register(() => [new EnvVar({ name: 'FLY_API_TOKEN' })])
 
 export type SitesPluginSettings = {
+  fictionEnv: FictionEnv
+  fictionDb: FictionDb
+  fictionUser?: FictionUser
+  fictionEmail: FictionEmail
+  fictionServer: FictionServer
+  fictionApp: FictionApp
+  fictionRouter: FictionRouter
+  fictionMonitor?: FictionMonitor
+  fictionAi?: FictionAi
   fictionAppSites: FictionApp
   fictionRouterSites: FictionRouter
   flyIoAppId: string
   flyIoApiToken: string
-  fictionAdmin: FictionAdmin
-} & FictionAdminSettings
+  adminBaseRoute: string
+} & FictionPluginSettings
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   themes = vue.shallowRef(getThemes({ fictionEnv: this.settings.fictionEnv }))
@@ -93,16 +104,15 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     return { items, indexMeta: r.indexMeta }
   }
 
-  getPreviewPath(args: { fictionAdmin: FictionAdmin }) {
-    const { fictionAdmin } = args
+  getPreviewPath() {
     return vue.computed(() => {
-      const current = fictionAdmin.settings.fictionRouter.current.value
+      const current = this.settings.fictionRouter.current.value
       const { selectorType, selectorId, siteId, subDomain, themeId } = { ...current.query, ...current.params } as Record<string, string>
 
       const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
       const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
 
-      return `${fictionAdmin.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
+      return `${this.settings.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
     })
   }
 }

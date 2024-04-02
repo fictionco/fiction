@@ -9,7 +9,7 @@ describe('previewUrl', async () => {
   it('should return the preview URL for the site', async () => {
     const site = new Site({ ...common, isProd: true, subDomain: 'sub' })
 
-    expect(site.frame.previewFrameUrl.value).toBe(`${site.fictionAdmin.adminBaseRoute}/preview/site/${site.siteId}`)
+    expect(site.frame.previewFrameUrl.value).toBe(`${site.fictionSites.settings.adminBaseRoute}/preview/site/${site.siteId}`)
   })
 })
 

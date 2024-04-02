@@ -1,6 +1,6 @@
 import type { FictionRouter, FictionUser, vueRouter } from '@fiction/core'
 import { AppRoute, log } from '@fiction/core'
-import type { FictionAdmin } from '.'
+import type { FictionAdmin } from '..'
 
 export function getRoutes(args: { fictionAdmin: FictionAdmin, fictionUser?: FictionUser }) {
   const { fictionUser } = args

@@ -3,7 +3,7 @@ import type { FictionPluginSettings } from '@fiction/core'
 import { FictionPlugin } from '@fiction/core'
 import type { FictionAdmin, FictionAdminSettings } from '@fiction/plugin-admin'
 
-export type BaseAdminPluginSettings = FictionAdminSettings & { fictionAdmin: FictionAdmin }
+export type BaseAdminPluginSettings = FictionAdminSettings
 
 export type PluginMain<T extends BaseAdminPluginSettings> = {
   createPlugin: (args: T) => Promise<FictionPlugin<T>>

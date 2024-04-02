@@ -8,12 +8,12 @@ import { FictionMonitor } from '@fiction/plugin-monitor'
 import { FictionNotify } from '@fiction/plugin-notify'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionAdmin } from '@fiction/plugin-admin'
+import { FictionSites } from '@fiction/site'
 import { FictionAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
 import FSite from '@fiction/site/engine/FSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
-import { config as adminConfig } from './admin'
 import { commands } from './commands'
 
 const cwd = safeDirname(import.meta.url, '..')
@@ -159,26 +159,33 @@ const pluginServices = {
   fictionRouterSites,
   fictionAws,
   fictionMedia,
+  fictionAi,
 }
 
-const plugins = createPluginConfig([
-  {
-    load: () => import('@fiction/site'),
-    settings: () => {
-      return { fictionAppSites, fictionRouterSites, flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'), flyIoAppId: 'fiction-sites' }
-    },
-  },
-])
-const fictionAdminPluginIndex = new FictionAdminPluginIndex({ ...pluginServices, plugins })
-
-const fictionAdmin = new FictionAdmin({
+const fictionSites = new FictionSites({
   ...pluginServices,
-  pluginIndex: fictionAdminPluginIndex,
-  views: adminConfig.views,
-  widgets: adminConfig.widgets,
-  ui: adminConfig.ui,
-  fictionAi,
+  fictionAppSites,
+  fictionRouterSites,
+  flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
+  flyIoAppId: 'fiction-sites',
+  adminBaseRoute: '/admin',
 })
+
+// const plugins = createPluginConfig([
+//   {
+//     load: () => import('@fiction/site'),
+//     settings: () => {
+//       return { fictionAppSites, fictionRouterSites, flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'), flyIoAppId: 'fiction-sites' }
+//     },
+//   },
+// ])
+// const fictionAdminPluginIndex = new FictionAdminPluginIndex({ ...pluginServices, plugins })
+
+// const fictionAdmin = new FictionAdmin({
+//   ...pluginServices,
+//   pluginIndex: fictionAdminPluginIndex,
+//   fictionAi,
+// })
 
 const fictionTeam = new FictionTeam({ ...pluginServices })
 
@@ -189,7 +196,7 @@ async function initializeBackingServices() {
   fictionEmail.init()
 }
 
-export const service = { ...pluginServices, fictionAdmin, fictionTeam, fictionUi }
+export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi }
 
 export function setup(): ServiceConfig {
   return {

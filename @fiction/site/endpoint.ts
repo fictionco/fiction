@@ -1,6 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { AdminQuery } from '@fiction/plugin-admin'
-import { deepMerge } from '@fiction/core'
+import { Query, deepMerge } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
@@ -13,7 +12,7 @@ import type { FictionSites, SitesPluginSettings } from '.'
 export type SitesQuerySettings = SitesPluginSettings & {
   fictionSites: FictionSites
 }
-export abstract class SitesQuery extends AdminQuery<SitesQuerySettings> {
+export abstract class SitesQuery extends Query<SitesQuerySettings> {
   constructor(settings: SitesQuerySettings) {
     super(settings)
   }

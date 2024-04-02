@@ -1,7 +1,5 @@
 // @unocss-include
 import type {
-  EngineSectionEntry,
-  EngineViewEntry,
   FictionApp,
   FictionDb,
   FictionEmail,
@@ -14,14 +12,9 @@ import type {
   ServiceList,
 } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import { FictionPlugin, Query, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { FictionAdminPluginIndex } from '@fiction/plugin-admin-index'
 import type { FictionAi } from '@fiction/plugin-ai'
-
-export type AdminEngineViewEntry = EngineViewEntry<{
-  layoutFormat?: 'full' | 'standard'
-  isNavItem?: boolean
-}>
 
 export type FictionAdminSettings = {
   fictionEnv: FictionEnv
@@ -34,17 +27,7 @@ export type FictionAdminSettings = {
   fictionMonitor?: FictionMonitor
   fictionAi?: FictionAi
   pluginIndex?: FictionAdminPluginIndex
-  settingsViews?: EngineViewEntry[]
-  views?: AdminEngineViewEntry[]
-  widgets?: EngineSectionEntry[]
-  ui?: { AuthLogo?: vue.Component, IconDashboard?: vue.Component }
 } & FictionPluginSettings
-
-export abstract class AdminQuery<T extends FictionAdminSettings = FictionAdminSettings> extends Query<T> {
-  constructor(settings: T) {
-    super(settings)
-  }
-}
 
 export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
   adminBaseRoute = '/admin'

@@ -6,7 +6,7 @@ import type {
 import {
   FictionPlugin,
 } from '@fiction/core'
-import type { FictionAdmin, FictionAdminSettings } from '.'
+import type { FictionAdmin, FictionAdminSettings } from '..'
 
 export type AdminPluginSettings = {
   fictionAdmin?: FictionAdmin

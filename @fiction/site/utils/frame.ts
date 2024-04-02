@@ -28,10 +28,10 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
 
   previewFrameUrl = vue.computed(() => {
     const s = this.site.fictionSites.settings
-    return `${s.fictionAdmin.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
+    return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 
-  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath({ fictionAdmin: this.site.fictionSites.settings.fictionAdmin }).value)
+  previewPath = vue.computed(() => this.site.fictionSites.getPreviewPath().value)
   frameUrl = vue.computed(() => `${this.previewPath.value}${this.framePath.value}`)
 
   displayUrlBase = activeSiteDisplayUrl(this.site, { mode: 'display' })

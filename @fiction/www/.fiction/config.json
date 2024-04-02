@@ -101,18 +101,6 @@
       "path": "/api/fiction-ai/AiImage"
     },
     {
-      "key": "OrgMembers",
-      "path": "/api/fiction-team/OrgMembers"
-    },
-    {
-      "key": "TeamInvite",
-      "path": "/api/fiction-team/TeamInvite"
-    },
-    {
-      "key": "SeekInviteFromUser",
-      "path": "/api/fiction-team/SeekInviteFromUser"
-    },
-    {
       "key": "ManageSite",
       "path": "/api/fiction-sites/ManageSite"
     },
@@ -127,6 +115,18 @@
     {
       "key": "ManageCert",
       "path": "/api/fiction-sites/ManageCert"
+    },
+    {
+      "key": "OrgMembers",
+      "path": "/api/fiction-team/OrgMembers"
+    },
+    {
+      "key": "TeamInvite",
+      "path": "/api/fiction-team/TeamInvite"
+    },
+    {
+      "key": "SeekInviteFromUser",
+      "path": "/api/fiction-team/SeekInviteFromUser"
     }
   ]
 }
