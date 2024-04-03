@@ -7,7 +7,7 @@ import { getMountContext } from '../load'
 
 const service = useService<{ fictionAppSites: FictionApp, fictionRouterSites: FictionRouter, fictionAdmin: FictionAdmin, fictionSites: FictionSites }>()
 
-const base = service.fictionSites.getPreviewPath({ fictionAdmin: service.fictionAdmin })
+const base = service.fictionSites.getPreviewPath()
 
 /**
  * Set base for relative links using native <base> tag

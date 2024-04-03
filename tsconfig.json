@@ -10,7 +10,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "types": ["node"],
     "allowJs": true,

@@ -1,5 +1,6 @@
-import type { CookieAttributes } from 'js-cookie'
 import Cookies from 'js-cookie'
+
+type CookieAttributes = typeof Cookies.attributes
 
 /**
  * Gets the domain name without any sub domains.

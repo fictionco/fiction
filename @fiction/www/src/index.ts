@@ -7,12 +7,11 @@ import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
 import { FictionNotify } from '@fiction/plugin-notify'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
-import { FictionAdmin } from '@fiction/plugin-admin'
 import { FictionSites } from '@fiction/site'
-import { FictionAdminPluginIndex, createPluginConfig } from '@fiction/plugin-admin-index'
 
 import FSite from '@fiction/site/engine/FSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
+import { getThemes } from '@fiction/site/themes'
 import { version } from '../package.json'
 import { commands } from './commands'
 
@@ -169,6 +168,7 @@ const fictionSites = new FictionSites({
   flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
   flyIoAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
+  themes: getThemes(pluginServices),
 })
 
 // const plugins = createPluginConfig([

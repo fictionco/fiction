@@ -2,7 +2,7 @@ import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, randomBe
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
-import { FictionAdmin } from '@fiction/plugin-admin'
+import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { FictionSites } from '..'
 import FSite from '../engine/FSite.vue'
@@ -61,9 +61,8 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
     liveUrl: 'https://*.test.com',
     localHostname: '*.lan.com',
   })
-  out.fictionAdmin = new FictionAdmin(out)
 
-  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), fictionAdmin: out.fictionAdmin, flyIoApiToken, flyIoAppId })
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: [testThemeSetup(out)] })
 
   out.fictionSites.themes.value = [...out.fictionSites.themes.value, testThemeSetup(out)]
 

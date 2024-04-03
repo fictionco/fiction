@@ -37,7 +37,7 @@ describe('sitePreview', async () => {
       return
 
     const cur = () => r.current.value
-    const previewPath = () => testUtils.fictionSites.getPreviewPath({ fictionAdmin: testUtils.fictionAdmin }).value
+    const previewPath = () => testUtils.fictionSites.getPreviewPath().value
 
     const orgBase = testUtils.fictionAdmin.adminBaseOrgPath.value
     const siteEdit = `${orgBase}/siteEdit`

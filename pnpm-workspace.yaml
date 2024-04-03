@@ -1,2 +1,7 @@
 packages:
-  - '@fiction/*'
+  - '@fiction/core'
+  - '@fiction/ui'
+  - '@fiction/www'
+  - '@fiction/site'
+  - '@fiction/themes/*'
+  - '@fiction/plugins/*'

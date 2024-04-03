@@ -1,5 +1,5 @@
-import { standardCardTemplates as templates } from './cards'
-import { createCard } from './theme'
+import { standardCardTemplates as templates } from '../cards'
+import { createCard } from '../theme'
 
 export const page404 = createCard({
   templates,

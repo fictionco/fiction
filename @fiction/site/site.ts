@@ -33,7 +33,6 @@ export type SiteSettings = {
 
 export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T> {
   fictionSites = this.settings.fictionSites
-  fictionAdmin = this.fictionSites.settings.fictionAdmin
   siteRouter = this.settings.siteRouter
   siteMode = vue.ref(this.settings.siteMode || 'standard')
   isEditable = vue.computed(() => this.siteMode.value === 'editable' || false)

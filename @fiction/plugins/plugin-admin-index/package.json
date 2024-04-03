@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@fiction/core": "workspace:*",
+    "@fiction/site": "workspace:*",
+    "@fiction/plugin-admin": "workspace:*"
+  },
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "license": "GPL-2.0-only",
+  "main": "index.ts",
+  "name": "@fiction/plugin-admin-index",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.25"
+}

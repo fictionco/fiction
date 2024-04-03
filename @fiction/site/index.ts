@@ -4,7 +4,7 @@ import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, Ficti
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
 import type { FictionAdmin } from '@fiction/plugin-admin'
-import type { PluginMain } from '@fiction/plugin-admin-index'
+// import type { PluginMain } from '@fiction/plugin-admin-index'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'
@@ -15,6 +15,7 @@ import { tools } from './el/tools'
 import { getThemes } from './themes'
 import { ManageCert } from './endpoint-certs'
 import { getRoutes } from './routes'
+import type { Theme } from './theme'
 
 export * from './site'
 
@@ -34,11 +35,13 @@ export type SitesPluginSettings = {
   fictionRouterSites: FictionRouter
   flyIoAppId: string
   flyIoApiToken: string
-  adminBaseRoute: string
+  adminBaseRoute?: string
+  themes: Theme[]
 } & FictionPluginSettings
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
-  themes = vue.shallowRef(getThemes({ fictionEnv: this.settings.fictionEnv }))
+  adminBaseRoute = this.settings.adminBaseRoute || '/admin'
+  themes = vue.shallowRef(this.settings.themes)
   queries = {
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
     ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
@@ -117,11 +120,11 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   }
 }
 
-export function setup(): PluginMain<SitesPluginSettings> {
-  return {
-    serviceId: 'fictionSites',
-    title: 'Sites',
-    description: 'Create and manage websites',
-    createPlugin: async (_: SitesPluginSettings) => new FictionSites(_),
-  }
-}
+// export function setup(): PluginMain<SitesPluginSettings> {
+//   return {
+//     serviceId: 'fictionSites',
+//     title: 'Sites',
+//     description: 'Create and manage websites',
+//     createPlugin: async (_: SitesPluginSettings) => new FictionSites(_),
+//   }
+// }

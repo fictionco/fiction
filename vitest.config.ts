@@ -2,7 +2,6 @@ import path from 'node:path'
 import { createRequire } from 'node:module'
 import { configDefaults, defineConfig } from 'vitest/config'
 import pluginVue from '@vitejs/plugin-vue'
-import codspeedPlugin from '@codspeed/vitest-plugin'
 import { getMarkdownPlugins } from './@fiction/core/plugin-app/utils/vitePluginMarkdown'
 
 const require = createRequire(import.meta.url)
@@ -24,7 +23,7 @@ const jsdom = {
 }
 
 export default defineConfig({
-  plugins: [pluginVue(), ...getMarkdownPlugins(), codspeedPlugin()],
+  plugins: [pluginVue(), ...getMarkdownPlugins()],
   build: { sourcemap: true },
 
   test: {
