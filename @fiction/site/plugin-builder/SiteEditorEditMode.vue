@@ -35,10 +35,10 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
             class=" space-x-2 cursor-pointer p-2 justify-end w-[40px] h-[40px] rounded-lg transition-all"
             :title="toLabel(tool.title || tool.toolId)"
             :class="
-              fictionSites.isUsingTool({ toolId: tool.toolId })
+              fictionSites.builder.isUsingTool({ toolId: tool.toolId })
                 ? 'bg-primary-100 dark:bg-primary-700 text-primary-600 dark:text-primary-50'
                 : 'text-theme-700 dark:text-theme-0 dark:hover:bg-theme-600 hover:bg-theme-100 d'"
-            @click="fictionSites.useTool({ toolId: tool.toolId })"
+            @click="fictionSites.builder.useTool({ toolId: tool.toolId })"
           >
             <div class="text-2xl" :class="tool.icon" />
           </div>
@@ -54,23 +54,23 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
         leave-to-class="transform -translate-x-10 opacity-0"
       >
         <div
-          v-if="fictionSites.activeTool.left.value"
-          :key="fictionSites.activeTool.left.value.toolId"
+          v-if="fictionSites.builder.activeTool.left.value"
+          :key="fictionSites.builder.activeTool.left.value.toolId"
           class="absolute left-full h-full bg-theme-0 dark:bg-theme-900 top-0 z-30 border-r shadow-[10px_0_18px_-15px_rgba(0,0,0,0.6)] border-theme-300 dark:border-theme-600 overflow-scroll no-scrollbar "
-          :class="fictionSites.activeTool.left.value.widthClasses || 'w-[300px]'"
+          :class="fictionSites.builder.activeTool.left.value.widthClasses || 'w-[300px]'"
         >
           <component
-            :is="fictionSites.activeTool.left.value.el"
+            :is="fictionSites.builder.activeTool.left.value.el"
             v-bind="{
               site,
-              tool: fictionSites.activeTool.left.value,
-              ...fictionSites.activeTool.left.value.props?.(site).value,
+              tool: fictionSites.builder.activeTool.left.value,
+              ...fictionSites.builder.activeTool.left.value.props?.(site).value,
             }"
           />
         </div>
       </transition>
     </div>
-    <div @click="fictionSites.useTool({ toolId: '' })">
+    <div @click="fictionSites.builder.useTool({ toolId: '' })">
       <div class="h-full min-h-0 grid grid-flow-dense relative grid-rows-[minmax(0,1fr)] grid-cols-[1fr_300px] xl:grid-cols-[1fr_400px]">
         <div
 
@@ -90,13 +90,13 @@ const { fictionSites } = useService<{ fictionSites: FictionSites, fictionRouterS
             leave-to-class="transform scale-80 translate-y-4 opacity-0"
           >
             <component
-              :is="fictionSites.activeTool.right.value.el"
-              v-if="fictionSites.activeTool.right.value"
+              :is="fictionSites.builder.activeTool.right.value.el"
+              v-if="fictionSites.builder.activeTool.right.value"
               :key="site.activeCard.value?.cardId"
               v-bind="{
                 site,
-                tool: fictionSites.activeTool.right.value,
-                ...fictionSites.activeTool.right.value.props?.(site).value,
+                tool: fictionSites.builder.activeTool.right.value,
+                ...fictionSites.builder.activeTool.right.value.props?.(site).value,
               }"
             />
           </transition>

@@ -28,7 +28,7 @@ const actions: ActionItem[] = [
     icon: 'i-tabler-new-section',
     onClick: () => {
       props.site.activeRegionKey.value = 'main'
-      control.useTool({ toolId: 'add' })
+      control.builder.useTool({ toolId: 'add' })
     },
   },
 ]
@@ -50,7 +50,7 @@ const pageList = vue.computed<ListItem[]>(() => {
         <div class=" rounded-md space-y-1">
           <div class="relative flex justify-between items-center">
             <span class="text-[10px] uppercase text-theme-400/40 font-semibold tracking-wide">Current Page</span>
-            <ElButton size="xxs" @click="control.useTool({ toolId: 'pages' })">
+            <ElButton size="xxs" @click="control.builder.useTool({ toolId: 'pages' })">
               Change Page
             </ElButton>
           </div>

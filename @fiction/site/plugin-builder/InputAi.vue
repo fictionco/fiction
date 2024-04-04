@@ -10,6 +10,7 @@ import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import ElModal from '@fiction/ui/ElModal.vue'
 import ElProgress from '@fiction/ui/ElProgress.vue'
 import type { Site } from '../site'
+import type { Card } from '../card'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -17,7 +18,7 @@ const props = defineProps({
 })
 
 const loading = vue.ref(false)
-const card = vue.computed(() => props.site.activeCard.value)
+const card = vue.computed<Card | undefined>(() => props.site.activeCard.value)
 
 async function generateCard() {
   loading.value = true
@@ -74,7 +75,7 @@ const numFields = vue.computed(() => {
           size="xs"
           tag="div"
           wrap-class="gap-1 cursor-pointer"
-          @click.stop="site.fictionSites.useTool({ toolId: 'ai' })"
+          @click.stop="site.fictionSites.builder.useTool({ toolId: 'ai' })"
         >
           <span class="i-tabler-world text-base" />
         </ElButton>
@@ -84,13 +85,14 @@ const numFields = vue.computed(() => {
     <TransitionSlide>
       <div v-if="showAdvancedOptions" class="space-y-3">
         <ElInput
+          v-if="card"
           v-bind="$attrs"
           label="Overall Generation Goal"
           description="Enter a sentence or two about what you want to achieve with this card. Contextual information will be added automatically."
           :model-value="card.generation.prompt.value"
           input="InputTextarea"
           placeholder="This section should..."
-          @update:model-value="card.generation.userPrompt.value = $event"
+          @update:model-value="card && (card.generation.userPrompt.value = $event)"
         />
         <div class="space-y-2 mt-2 bg-theme-50 dark:bg-theme-700 rounded-md p-3">
           <div class="flex justify-between">

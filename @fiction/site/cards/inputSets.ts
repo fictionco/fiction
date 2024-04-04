@@ -2,7 +2,7 @@
 
 import type { Refinement } from '@fiction/ui'
 import { InputOption, OptionSet } from '@fiction/ui'
-import InputAi from '../el/InputAi.vue'
+import InputAi from '../plugin-builder/InputAi.vue'
 
 type StandardSetArgs = { label?: string, parentKey?: string, inputs?: string[], prefix?: string }
 

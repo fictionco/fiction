@@ -47,8 +47,8 @@ vue.watch(
         frame-id="site-builder-iframe"
         :display-url="site.frame.displayUrl.value"
         :browser-bar="true"
-        @update:url="site.frame.updateFrameUrl($event)"
-        @message="site.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
+        @update:url="site?.frame.updateFrameUrl($event)"
+        @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
       />
       <div
         class="mt-4 flex justify-center space-x-2 "

@@ -3,7 +3,7 @@
   "type": "module",
   "version": "6.0.25",
   "description": "Notify allows you to add toast notifications to your app with ease.",
-  "author": "Supereon",
+  "author": "Fiction",
   "license": "GPL-2.0-only",
   "main": "index.ts",
   "dependencies": {

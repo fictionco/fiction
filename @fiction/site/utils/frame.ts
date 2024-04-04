@@ -123,7 +123,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
     switch (msg.messageType) {
       case 'resetUi': {
         resetUi({ scope: 'iframe', cause: 'iframeSiteRender' })
-        site.settings.fictionSites.useTool({ toolId: '' })
+        site.settings.fictionSites.builder.useTool({ toolId: '' })
         break
       }
 

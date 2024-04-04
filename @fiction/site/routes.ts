@@ -6,7 +6,7 @@ export function getRoutes(args: SitesQuerySettings) {
     new AppRoute({
       name: `sitePreview`,
       path: `${args.fictionSites.adminBaseRoute}/preview/:selectorType/:selectorId/:viewId?/:itemId?`,
-      component: () => import('./el/ViewPreview.vue'),
+      component: () => import('./plugin-builder/ViewPreview.vue'),
       priority: 20,
     }),
   ]

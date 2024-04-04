@@ -141,7 +141,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.editor.value.selectedCardId = cardId
 
-    this.settings.fictionSites.useTool({ toolId: 'editCard' })
+    this.settings.fictionSites.builder.useTool({ toolId: 'editCard' })
 
     this.frame.syncActiveCard({ cardId })
   }
@@ -184,7 +184,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.editor.value.selectedPageId = cardId || ''
 
-    this.settings.fictionSites.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
+    this.settings.fictionSites.builder.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
   }
 
   removeCard(args: { cardId: string }) {

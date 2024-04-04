@@ -43,7 +43,7 @@ export function pages() {
         createCard({
           tpl: new CardTemplate({
             templateId: 'sites',
-            el: def(() => import('@fiction/site/el/ViewIndex.vue')),
+            el: def(() => import('@fiction/site/plugin-builder/ViewIndex.vue')),
             icon: 'i-tabler-browser',
           }),
         }),
@@ -63,7 +63,7 @@ export function pages() {
         createCard({
           tpl: new CardTemplate({
             templateId: 'siteEdit',
-            el: def(() => import('@fiction/site/el/SiteEditor.vue')),
+            el: def(() => import('@fiction/site/plugin-builder/SiteEditor.vue')),
           }),
         }),
       ],

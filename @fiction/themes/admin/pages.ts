@@ -11,7 +11,7 @@ export function getPage(_args: ServiceList) {
     slug: '_home',
     tpl: new CardTemplate({
       templateId: 'sites',
-      el: vue.defineAsyncComponent(() => import('@fiction/site/el/ViewIndex.vue')),
+      el: vue.defineAsyncComponent(() => import('@fiction/site/plugin-builder/ViewIndex.vue')),
     }),
   })
 }

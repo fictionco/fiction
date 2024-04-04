@@ -8,7 +8,7 @@ const def = vue.defineAsyncComponent
 export const templates = [
   new CardTemplate({
     templateId: 'sites',
-    el: def(() => import('@fiction/site/el/ViewIndex.vue')),
+    el: def(() => import('@fiction/site/plugin-builder/ViewIndex.vue')),
   }),
   ...standardCardTemplates,
 ] as const

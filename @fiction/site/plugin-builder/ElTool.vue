@@ -26,7 +26,7 @@ const ico = iconStyle[props.iconTheme]
           <div
 
             class="inline-block text-[10px] rounded-md py-0.5 px-2 bg-theme-50 dark:bg-theme-600 uppercase font-semibold tracking-wide cursor-pointer text-theme-400 dark:text-theme-0 hover:bg-theme-100"
-            @click.stop="back.onClick?.({ event: $event })"
+            @click.stop="back?.onClick?.({ event: $event })"
           >
             &larr; {{ back?.name || "Back" }}
           </div>

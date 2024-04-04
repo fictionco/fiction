@@ -73,7 +73,7 @@ function getCardHandle(card: Card): Handle {
         v-if="!card.cards.value.length"
         key="add"
         class="hidden border-3 border-dashed border-theme-200 dark:border-theme-700 rounded-lg mt-2 p-4 text-xs text-center hover:border-theme-300 cursor-pointer text-theme-300 hover:text-theme-400 font-semibold"
-        @click="site.activeRegionKey.value = regionId; control.useTool({ toolId: 'add' })"
+        @click="site.activeRegionKey.value = regionId; control.builder.useTool({ toolId: 'add' })"
       >
         Add Element
       </div>

@@ -3,7 +3,7 @@ import type { ActionItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import XElement from '../../engine/XElement.vue'
 import type { Card } from '../../card'
-import XText from '../../el/XText.vue'
+import XText from '../../plugin-builder/XText.vue'
 
 export type UserConfig = {
   heading?: string

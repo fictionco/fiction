@@ -10,7 +10,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "types": ["node"],
     "allowJs": true,
@@ -23,6 +23,10 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
+  "include": [
+    "**/*.ts",
+    "**/*.vue"
+  ],
   "exclude": [
     "node_modules",
     "**/node_modules/**",

@@ -10,11 +10,12 @@ import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'
 import { tables } from './tables'
 import { Site } from './site'
-import type { ToolKeys } from './el/tools'
-import { tools } from './el/tools'
+import type { ToolKeys } from './plugin-builder/tools'
+import { tools } from './plugin-builder/tools'
 import { ManageCert } from './endpoint-certs'
 import { getRoutes } from './routes'
 import type { Theme } from './theme'
+import { FictionSiteBuilder } from './plugin-builder'
 
 export * from './site'
 
@@ -41,6 +42,9 @@ export type SitesPluginSettings = {
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   adminBaseRoute = this.settings.adminBaseRoute || '/admin'
   themes = vue.shallowRef(this.settings.themes)
+
+  builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
+
   queries = {
     ManageSite: new ManageSite({ ...this.settings, fictionSites: this }),
     ManageIndex: new ManageIndex({ ...this.settings, fictionSites: this }),
@@ -65,27 +69,27 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
   activeSite = vue.shallowRef<Site | undefined>(undefined)
 
-  activeToolId = {
-    left: vue.ref<ToolKeys | ''>(),
-    right: vue.ref<ToolKeys | ''>(),
-  }
+  // activeToolId = {
+  //   left: vue.ref<ToolKeys | ''>(),
+  //   right: vue.ref<ToolKeys | ''>(),
+  // }
 
-  activeTool = {
-    left: vue.computed(() => tools().find(t => t.toolId === this.activeToolId.left.value)),
-    right: vue.computed(() => tools().find(t => t.toolId === (this.activeToolId.right.value ? this.activeToolId.right.value : 'editCard'))),
-  }
+  // activeTool = {
+  //   left: vue.computed(() => tools().find(t => t.toolId === this.activeToolId.left.value)),
+  //   right: vue.computed(() => tools().find(t => t.toolId === (this.activeToolId.right.value ? this.activeToolId.right.value : 'editCard'))),
+  // }
 
-  useTool(args: { toolId: ToolKeys | '' }) {
-    const { toolId } = args
-    const t = tools().find(t => t.toolId === toolId)
-    const location = t?.location || 'left'
-    this.activeToolId[location].value = toolId
-  }
+  // useTool(args: { toolId: ToolKeys | '' }) {
+  //   const { toolId } = args
+  //   const t = tools().find(t => t.toolId === toolId)
+  //   const location = t?.location || 'left'
+  //   this.activeToolId[location].value = toolId
+  // }
 
-  isUsingTool(args: { toolId?: ToolKeys | '', locations?: ('left' | 'right')[] } = {}) {
-    const { toolId, locations = ['left', 'right'] } = args
-    return locations.some(l => this.activeToolId[l].value === toolId)
-  }
+  // isUsingTool(args: { toolId?: ToolKeys | '', locations?: ('left' | 'right')[] } = {}) {
+  //   const { toolId, locations = ['left', 'right'] } = args
+  //   return locations.some(l => this.activeToolId[l].value === toolId)
+  // }
 
   async requestIndex(
     args: { limit?: number, offset?: number, filters?: DataFilter[], imageId?: string } = {},

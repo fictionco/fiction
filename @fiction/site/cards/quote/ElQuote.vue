@@ -3,7 +3,7 @@ import type { MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '../../card'
-import XText from '../../el/XText.vue'
+import XText from '../../plugin-builder/XText.vue'
 import franklin from './franklin.jpg'
 
 type Quote = {

@@ -2,7 +2,7 @@
   "name": "@fiction/plugin-contact",
   "type": "module",
   "version": "6.0.25",
-  "author": "Supereon",
+  "author": "Fiction",
   "license": "GPL-2.0-only",
   "main": "index.ts",
   "dependencies": {

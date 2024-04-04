@@ -47,7 +47,7 @@ const groupTemplates = vue.computed(() => {
 function addCard(args: { templateId: string }) {
   const { templateId = 'page' } = args
   props.site.addCard({ templateId, delay: 400 })
-  control.useTool({ toolId: 'layout' })
+  control.builder.useTool({ toolId: 'layout' })
 }
 
 function ic(item: CardTemplate) {

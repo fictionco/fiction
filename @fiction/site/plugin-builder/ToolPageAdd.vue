@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { vue } from '@fiction/core'
+import { toSlug, vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
+import type { CardConfigPortable } from '../tables'
 import type { Site } from '../site'
 import { requestManagePage } from '../utils/region'
 import type { EditorTool } from './tools'
@@ -17,29 +18,35 @@ const props = defineProps({
 const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
-const page = vue.computed(() => props.site.editPageConfig.value)
+const options = [
+  new InputOption({
+    key: 'pageSetup',
+    label: 'Page Setup',
+    input: 'group',
+    options: [
+      new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
+      new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true }),
+    ],
+  }),
 
-const options = vue.computed(() => {
-  return [
-    new InputOption({
-      key: 'pageSetup',
-      label: 'Page Setup',
-      input: 'group',
-      options: [
-        new InputOption({ key: 'title', label: 'Name', input: 'InputText', placeholder: 'Page Name', isRequired: true }),
-        new InputOption({ key: 'slug', label: 'Slug', input: InputSlug, placeholder: 'my-page', isRequired: true }),
-      ],
-    }),
-    new InputOption({
-      key: 'pageSeo',
-      label: 'SEO / Meta Tags',
-      input: 'group',
-      options: [
-        new InputOption({ key: 'userConfig.seoTitle', label: 'Title', input: 'InputText' }),
-        new InputOption({ key: 'userConfig.seoDescription', label: 'Description', input: 'InputTextarea', props: { rows: 5 } }),
-      ],
-    }),
-  ]
+]
+
+const page = vue.ref<CardConfigPortable>({ title: '', slug: '' })
+
+vue.onMounted(() => {
+  /**
+   * Set viewId when title is written for convenience
+   */
+  const slugFromTitle = vue.ref('')
+  vue.watch(
+    () => page.value.title,
+    (title) => {
+      if (page.value && title && (!page.value.slug || page.value.slug === slugFromTitle.value)) {
+        slugFromTitle.value = toSlug(title)
+        page.value = { ...page.value, slug: slugFromTitle.value }
+      }
+    },
+  )
 })
 
 async function save() {
@@ -53,7 +60,7 @@ async function save() {
   })
   loading.value = false
 
-  control.useTool({ toolId: 'pages' })
+  control.builder.useTool({ toolId: 'pages' })
 }
 </script>
 
@@ -61,19 +68,22 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'All Pages', onClick: () => control.useTool({ toolId: 'pages' }) }"
-    title="Edit Page"
+    :back="{
+      name: 'All Pages',
+      onClick: () => control.builder.useTool({ toolId: 'pages' }),
+    }"
+    title="Add Page"
   >
     <ElForm @submit="save()">
       <ToolForm
-        v-model="site.editPageConfig.value"
+        v-model="page"
         :options="options"
         :site="site"
       />
 
       <div class="text-right px-4 py-2">
         <ElInput input="InputSubmit" :loading="loading">
-          Save Page
+          Create New Page
         </ElInput>
       </div>
     </ElForm>
