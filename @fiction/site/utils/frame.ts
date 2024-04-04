@@ -27,7 +27,7 @@ export class SiteFrameTools extends FictionObject<SiteFrameUtilityParams> {
   }
 
   previewFrameUrl = vue.computed(() => {
-    const s = this.site.fictionSites.settings
+    const s = this.site.fictionSites
     return `${s.adminBaseRoute}/preview/site/${this.site.siteId}${this.framePath.value}`
   })
 

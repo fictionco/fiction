@@ -9,7 +9,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 let testUtils: SiteTestUtils
 describe('manageCertificates', () => {
   const hostname = 'example.com'
-  const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget']
+  const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget', 'issued', 'nodes']
   beforeAll(async () => {
     testUtils = createSiteTestUtils()
     await testUtils.init()
@@ -38,7 +38,7 @@ describe('manageCertificates', () => {
         "hostname": "test-site.fiction.cx",
         "id": "**MASKED**",
         "issued": {
-          "nodes": "[object Object],[object Object]",
+          "nodes": "**MASKED**",
         },
         "source": "fly",
       }
@@ -102,7 +102,7 @@ describe('manageCertificates', () => {
         "hostname": "example.com",
         "id": "**MASKED**",
         "issued": {
-          "nodes": "",
+          "nodes": "**MASKED**",
         },
         "source": "fly",
       }

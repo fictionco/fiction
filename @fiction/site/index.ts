@@ -114,7 +114,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
       const finalSelectorType = selectorType || (siteId ? 'site' : subDomain ? 'domain' : themeId ? 'theme' : 'none')
       const finalSelectorId = selectorId || siteId || subDomain || themeId || 'none'
 
-      return `${this.settings.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
+      return `${this.adminBaseRoute}/preview/${finalSelectorType}/${finalSelectorId}`
     })
   }
 }

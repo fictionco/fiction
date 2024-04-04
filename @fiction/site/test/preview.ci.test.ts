@@ -39,15 +39,15 @@ describe('sitePreview', async () => {
     const cur = () => r.current.value
     const previewPath = () => testUtils.fictionSites.getPreviewPath().value
 
-    const orgBase = testUtils.fictionAdmin.adminBaseOrgPath.value
+    const orgBase = testUtils.fictionSites.adminBaseRoute
     const siteEdit = `${orgBase}/siteEdit`
 
-    await r.push(`/admin/preview/theme/minimal`, { caller: ctx.task.name })
+    await r.push(`/admin/preview/theme/test`, { caller: ctx.task.name })
 
     expect(cur().params).toMatchInlineSnapshot(`
       {
         "itemId": "",
-        "selectorId": "minimal",
+        "selectorId": "test",
         "selectorType": "theme",
         "viewId": "",
       }
@@ -63,15 +63,15 @@ describe('sitePreview', async () => {
 
     expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/site/554433"`)
 
-    await r.push(`${siteEdit}?themeId=minimal`, { caller: ctx.task.name })
+    await r.push(`${siteEdit}?themeId=test`, { caller: ctx.task.name })
 
     expect(cur().query).toMatchInlineSnapshot(`
       {
-        "themeId": "minimal",
+        "themeId": "test",
       }
     `)
 
-    expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/theme/minimal"`)
+    expect(previewPath()).toMatchInlineSnapshot(`"/admin/preview/theme/test"`)
 
     await r.push(`${siteEdit}?subDomain=test-sub-domain`, { caller: ctx.task.name })
 
@@ -99,7 +99,7 @@ describe('sitePreview', async () => {
     const result = await requestManageSite(
       {
         _action: 'create',
-        fields: { title: 'test', themeId: 'minimal', subDomain },
+        fields: { title: 'test', themeId: 'test', subDomain },
         caller: ctx.task.name,
         ...common,
       },
@@ -115,7 +115,7 @@ describe('sitePreview', async () => {
 
     const html = await snapshotHtml(mountEl.innerHTML, { hideTags: ['svg'], maskIds: false })
 
-    expect(html).toContain('data-theme-id="minimal"')
+    expect(html).toContain('data-theme-id="test"')
     expect(html).toContain(`data-site-id="${site?.siteId}"`)
 
     await r.push(`/admin/preview/domain/${site?.subDomain.value}`, { caller: ctx.task.name })
@@ -123,7 +123,7 @@ describe('sitePreview', async () => {
     await waitFor(300)
 
     const html2 = await snapshotHtml(mountEl.innerHTML, { hideTags: ['svg'], maskIds: false })
-    expect(html2).toContain('data-theme-id="minimal"')
+    expect(html2).toContain('data-theme-id="test"')
     expect(html2).toContain(`data-site-id="${site?.siteId}"`)
     expect(html2).toContain(`data-sub-domain="${site?.subDomain.value}"`)
   }, 10000)

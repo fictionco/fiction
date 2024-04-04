@@ -14,6 +14,11 @@
     "tailwindcss": "^3.4.3",
     "vue": "^3.4.21"
   },
+  "devDependencies": {
+    "@fiction/theme-admin": "workspace:*",
+    "@fiction/theme-fiction": "workspace:*",
+    "@fiction/theme-minimal": "workspace:*"
+  },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",
   "main": "index.ts",

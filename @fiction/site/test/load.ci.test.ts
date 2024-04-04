@@ -284,7 +284,7 @@ describe('site plugin tests', async () => {
 
   it('should load a site by themeId', async (ctx) => {
     const themeId = 'test'
-    await testUtils.fictionRouter.push(`${testUtils.fictionSites.settings.adminBaseRoute}/preview/theme/${themeId}/`, { caller: ctx.task.name })
+    await testUtils.fictionRouter.push(`${testUtils.fictionSites.adminBaseRoute}/preview/theme/${themeId}/`, { caller: ctx.task.name })
 
     const { selectorType, selectorId } = testUtils.fictionRouter.params.value as Record<string, string>
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'standard' })
@@ -299,7 +299,7 @@ describe('site plugin tests', async () => {
 
   it('should load a site by siteId extracted from URL', async (ctx) => {
     const siteId = site.siteId
-    await testUtils.fictionRouter.push(`${testUtils.fictionSites.settings.adminBaseRoute}/preview/site/${siteId}/`, { caller: ctx.task.name })
+    await testUtils.fictionRouter.push(`${testUtils.fictionSites.adminBaseRoute}/preview/site/${siteId}/`, { caller: ctx.task.name })
 
     const { selectorType, selectorId } = testUtils.fictionRouter.params.value as Record<string, string>
     const mountContext = getMountContext({ selectorType, selectorId, siteMode: 'standard' })

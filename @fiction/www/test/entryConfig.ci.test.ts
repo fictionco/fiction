@@ -26,7 +26,8 @@ describe('user config', () => {
         "fictionRouterSites",
         "fictionAws",
         "fictionMedia",
-        "fictionAdmin",
+        "fictionAi",
+        "fictionSites",
         "fictionTeam",
         "fictionUi",
       ]
@@ -64,13 +65,13 @@ describe('user config', () => {
           "ManageVectors",
           "AiCompletion",
           "AiImage",
-          "OrgMembers",
-          "TeamInvite",
-          "SeekInviteFromUser",
           "ManageSite",
           "ManageIndex",
           "ManagePage",
           "ManageCert",
+          "OrgMembers",
+          "TeamInvite",
+          "SeekInviteFromUser",
         ]
       `)
 

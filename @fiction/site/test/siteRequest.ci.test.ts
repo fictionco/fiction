@@ -26,7 +26,7 @@ describe('siteLoading', async () => {
 
     const subDomain = shortId()
     const title = 'test'
-    const themeId = 'fiction'
+    const themeId = 'test'
 
     const result = await requestManageSite(
       {

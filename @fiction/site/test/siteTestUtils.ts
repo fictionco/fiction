@@ -6,7 +6,7 @@ import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import { FictionSites } from '..'
 import FSite from '../engine/FSite.vue'
-import { setup as testThemeSetup } from './test-theme'
+import * as testTheme from './test-theme'
 
 export type SiteTestUtils = TestUtils & {
   fictionAdmin: FictionAdmin
@@ -62,7 +62,7 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
     localHostname: '*.lan.com',
   })
 
-  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: [testThemeSetup(out)] })
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: [testTheme.setup(out)] })
 
   out.fictionEnv.log.info('sites test utils created')
 
