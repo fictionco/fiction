@@ -64,8 +64,6 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
 
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: [testThemeSetup(out)] })
 
-  out.fictionSites.themes.value = [...out.fictionSites.themes.value, testThemeSetup(out)]
-
   out.fictionEnv.log.info('sites test utils created')
 
   out.runApp = async () => {

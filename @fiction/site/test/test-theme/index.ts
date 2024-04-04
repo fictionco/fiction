@@ -1,4 +1,4 @@
-import { type FictionApp, vue } from '@fiction/core'
+import { type FictionEnv, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '../../card'
 import { standardCardTemplates } from '../../cards'
 import { Theme, createCard } from '../../theme'
@@ -33,8 +33,11 @@ const mediaGridCard = createCard({
   },
 })
 
-export function setup(_args: { fictionApp: FictionApp }) {
+export function setup(args: { fictionEnv: FictionEnv }) {
+  const { fictionEnv } = args
   return new Theme({
+    root: safeDirname(import.meta.url),
+    fictionEnv,
     themeId: 'test',
     title: 'Standard',
     description: 'Standard and minimal',

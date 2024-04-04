@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useService, vue } from '@fiction/core'
-import { getThemes } from '../themes'
+import type { FictionSites } from '..'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -10,9 +10,11 @@ const emit = defineEmits(['update:modelValue'])
 
 const validationInput = vue.ref<HTMLInputElement>()
 
-const { fictionApp } = useService()
+const { fictionSites } = useService<{ fictionSites: FictionSites }>()
 
-const themes = getThemes({ fictionApp }, { scope: 'public' })
+const themes = vue.computed(() => {
+  return fictionSites.themes.value.filter(theme => theme.settings.isPublic)
+})
 
 vue.onMounted(() => {
   vue.watch(

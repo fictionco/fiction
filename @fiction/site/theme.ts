@@ -1,5 +1,5 @@
-import type { FictionMedia, Processor, vue } from '@fiction/core'
-import { FictionObject, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
+import type { FictionEnv, FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
+import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
@@ -7,6 +7,7 @@ import { Card } from './card'
 import { imageStyle, processUrlKey } from './util'
 
 export type ThemeSettings = {
+  root: string
   themeId: string
   title?: string
   version?: string
@@ -18,12 +19,12 @@ export type ThemeSettings = {
   userConfig?: Partial<SiteUserConfig>
   pages: () => TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>
-}
+} & FictionPluginSettings
 
 export type UiItem = { el: vue.Component }
 export interface UiConfig { button?: UiItem }
 
-export class Theme extends FictionObject<ThemeSettings> {
+export class Theme extends FictionPlugin<ThemeSettings> {
   themeId = this.settings.themeId
   templates = this.settings.templates
 

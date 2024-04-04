@@ -5,6 +5,7 @@ import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionRouter } from '../plugin-router'
 import { safeDirname } from '../utils'
+import { dayjs } from '../utils/libraries'
 import type { SitemapConfig } from './types'
 
 type FictionSitemapSettings = {
@@ -57,7 +58,7 @@ export class FictionSitemap extends FictionPlugin<FictionSitemapSettings> {
         url,
         changefreq,
         priority,
-        lastmod: this.utils.dayjs().format('YYYY-MM-DD'),
+        lastmod: dayjs().format('YYYY-MM-DD'),
       }
     })
 

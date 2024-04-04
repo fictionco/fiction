@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "@fiction/core": "workspace:*",
+    "@fiction/site": "workspace:*",
+    "@fiction/ui": "workspace:*",
+    "@fiction/plugin-stripe": "workspace:*",
+    "tailwindcss": "^3.4.3",
+    "vue": "^3.4.21"
+  },
+  "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
+  "license": "GPL-2.0-only",
+  "main": "index.ts",
+  "name": "@fiction/theme-admin",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "version": "6.0.25"
+}

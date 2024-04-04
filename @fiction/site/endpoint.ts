@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { Query, deepMerge } from '@fiction/core'
+import { Query, deepMerge, prepareFields } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
@@ -45,7 +45,7 @@ export class ManagePage extends SitesQuery {
     if (!db)
       throw this.stop('no db')
 
-    const prepped = this.utils.prepareFields({
+    const prepped = prepareFields({
       type: 'create',
       fields,
       table: tableNames.pages,
@@ -262,7 +262,7 @@ export class ManageSite extends SitesQuery {
 
       const f = deepMerge([themeSite, fields])
 
-      const prepped = this.utils.prepareFields({
+      const prepped = prepareFields({
         type: 'settings',
         fields: f,
         table: tableNames.sites,
@@ -352,7 +352,7 @@ export class ManageSite extends SitesQuery {
 
       const selector = await this.getSiteSelector(where)
 
-      const prepped = this.utils.prepareFields({
+      const prepped = prepareFields({
         type: 'settings',
         fields,
         table: tableNames.sites,

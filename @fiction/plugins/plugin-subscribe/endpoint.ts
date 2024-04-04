@@ -7,6 +7,7 @@ import type {
 } from '@fiction/core'
 import {
   Query,
+  prepareFields,
 } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
@@ -51,7 +52,7 @@ export class QueryManageSubscribe extends SubscribeQuery {
     let message = ''
     let resultSubmission: TableSubmissionConfig | undefined
     if (_action === 'init') {
-      const prepped = this.utils.prepareFields({
+      const prepped = prepareFields({
         type: 'settings',
         fields: { email },
         table: tableName,

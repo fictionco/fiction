@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
 import { requestManageSite } from '../../load'
-import { Card } from '../../card'
+import { Card } from '@fiction/site/card'
 import type { CardConfigPortable, TableCardConfig } from '../../tables'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'

@@ -1,6 +1,6 @@
 // @unocss-include
 import type { FictionRouter } from '@fiction/core'
-import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue } from '@fiction/core'
+import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
@@ -155,7 +155,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     setLayoutOrder({ site: this, order })
 
-    await this.utils.waitFor(100)
+    await waitFor(100)
 
     this.frame.syncSite({ caller: 'updateLayout' })
 

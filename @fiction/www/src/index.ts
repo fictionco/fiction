@@ -11,8 +11,9 @@ import { FictionSites } from '@fiction/site'
 
 import FSite from '@fiction/site/engine/FSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
-import { getThemes } from '@fiction/site/themes'
 import { version } from '../package.json'
+import { getThemes } from './themes'
+
 import { commands } from './commands'
 
 const cwd = safeDirname(import.meta.url, '..')
@@ -168,7 +169,7 @@ const fictionSites = new FictionSites({
   flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
   flyIoAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
-  themes: getThemes(pluginServices),
+  themes: getThemes({ fictionEnv }),
 })
 
 // const plugins = createPluginConfig([

@@ -4,7 +4,7 @@
 
 import { beforeAll, describe, expect, it } from 'vitest'
 import { JSDOM } from 'jsdom'
-import { Card } from '../../card'
+import { Card } from '@fiction/site/card'
 import { Site } from '../../site'
 import type { LayoutOrder } from '../layout'
 import { getOrderRecursive, getSimpleOrderSchema, layoutOrderCards, setLayoutOrder } from '../layout'
