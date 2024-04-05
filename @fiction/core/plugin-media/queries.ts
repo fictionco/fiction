@@ -7,7 +7,7 @@ import type { EndpointResponse } from '../types'
 import type { EndpointMeta } from '../utils'
 import type { FictionDb } from '../plugin-db'
 import type { FictionAws } from '../plugin-aws'
-import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile, objectId, prepareFields, safeDirname } from '../utils'
+import { createImageVariants, getFileExtensionFromFetchResponse, getMimeType, hashFile, isTest, objectId, prepareFields, safeDirname } from '../utils'
 import type { FictionMedia, TableMediaConfig } from '.'
 
 interface SaveMediaSettings {
@@ -20,7 +20,7 @@ abstract class MediaQuery extends Query<SaveMediaSettings> {
   fictionMedia = this.settings.fictionMedia
   fictionDb = this.settings.fictionDb
   fictionAws = this.settings.fictionAws
-  maxSide = this.utils.isTest() ? 700 : 1600
+  maxSide = isTest() ? 700 : 1600
   constructor(settings: SaveMediaSettings) {
     super(settings)
   }

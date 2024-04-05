@@ -11,6 +11,7 @@ import type {
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import { EnvVar, vars } from '../plugin-env'
+import { objectId } from '../utils'
 
 vars.register(() => [
   new EnvVar({ name: 'AWS_ACCESS_KEY' }),
@@ -99,7 +100,7 @@ export class FictionAws extends FictionPlugin<FictionAwsSettings> {
     const r = await cf.createInvalidation({
       DistributionId: distributionId,
       InvalidationBatch: {
-        CallerReference: this.utils.objectId(),
+        CallerReference: objectId(),
         Paths: {
           Items: paths,
           Quantity: paths.length, // ???

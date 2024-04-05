@@ -3,7 +3,7 @@ import type { NavigationGuardWithThis, NavigationHookAfter, RouteLocationNormali
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { HookType } from '../utils'
-import { refineRoute, runHooks, vue, vueRouter } from '../utils'
+import { refineRoute, runHooks, sortPriority, vue, vueRouter } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { AppRoute } from './appRoute'
 import type { NavigateRoute } from './types'
@@ -48,7 +48,7 @@ export class FictionRouter<
   hooks = this.settings.hooks || []
   replacers: LinkReplace
   fictionEnv = this.settings.fictionEnv
-  loadingRoute = this.utils.vue.ref(true)
+  loadingRoute = vue.ref(true)
   baseUrl = this.settings.baseUrl || this.fictionEnv.appUrl
   routeBasePath = this.settings.routeBasePath || '/'
   noBrowserNav = vue.ref(!!this.fictionEnv.isNode)
@@ -173,7 +173,7 @@ export class FictionRouter<
   private convertAppRoutesToRoutes = (
     routeList?: AppRoute<string>[],
   ): vueRouter.RouteRecordRaw[] => {
-    const list = this.utils.sortPriority(routeList || [])
+    const list = sortPriority(routeList || [])
 
     const mapped: Record<string, AppRoute<string>> = {}
 

@@ -6,7 +6,7 @@ import knex from 'knex'
 import knexStringcase from 'knex-stringcase'
 import * as typebox from '@sinclair/typebox'
 import type { HookType } from '../utils'
-import { runHooks, safeDirname } from '../utils'
+import { isActualBrowser, isTest, runHooks, safeDirname } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionEnv } from '../plugin-env'
@@ -59,7 +59,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
     this.hooks = settings.hooks || []
 
-    if (this.utils.isActualBrowser())
+    if (isActualBrowser())
       return
 
     if (settings.connectionUrl)
@@ -184,7 +184,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
   }
 
   client(): Knex {
-    if (this.utils.isActualBrowser())
+    if (isActualBrowser())
       throw new Error('Cannot use client() in browser')
 
     if (!this.db)
@@ -195,7 +195,7 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
   async extend(): Promise<void> {
     const env = this.settings.fictionEnv
-    if (env.isApp.value || !this.connectionUrl || env.isRestart() || this.utils.isTest())
+    if (env.isApp.value || !this.connectionUrl || env.isRestart() || isTest())
       return
 
     try {

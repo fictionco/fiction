@@ -1,4 +1,4 @@
-import { staticImageUrl } from '@fiction/core'
+
 import { createCard } from '@fiction/site/theme'
 import { templates } from '../templates'
 

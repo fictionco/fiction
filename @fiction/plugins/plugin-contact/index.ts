@@ -10,6 +10,7 @@ import type {
 } from '@fiction/core'
 import {
   FictionPlugin,
+  safeDirname,
 } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
@@ -29,7 +30,6 @@ type FictionContactSettings = {
 } & FictionPluginSettings
 
 export class FictionContact extends FictionPlugin<FictionContactSettings> {
-  root = this.utils.safeDirname(import.meta.url)
   fictionDb = this.settings.fictionDb
   fictionServer = this.settings.fictionServer
   fictionUser = this.settings.fictionUser
@@ -46,8 +46,7 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
   })
 
   constructor(settings: FictionContactSettings) {
-    super('FictionContact', settings)
-    settings.fictionEnv?.addUiPaths([`${this.root}/*.vue`])
+    super('FictionContact', { root: safeDirname(import.meta.url), ...settings })
     this.fictionDb?.addTables([table])
   }
 

@@ -12,7 +12,7 @@ import type {
   ServiceList,
 } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue, waitFor } from '@fiction/core'
 import type { FictionAdminPluginIndex } from '@fiction/plugin-admin-index'
 import type { FictionAi } from '@fiction/plugin-ai'
 
@@ -46,7 +46,7 @@ export class FictionAdmin extends FictionPlugin<FictionAdminSettings> {
 
   async addPlugins(args: PluginSetupArgs) {
     const { context } = args
-    await this.utils.waitFor(300)
+    await waitFor(300)
 
     const plugins = this.settings.pluginIndex?.plugins
 

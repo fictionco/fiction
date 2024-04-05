@@ -12,6 +12,7 @@ import type { FictionDb } from '../plugin-db'
 import type { FictionEnv } from '../plugin-env'
 import { Query } from '../query'
 import type { FictionEmail } from '../plugin-email'
+import { prepareFields } from '../utils'
 import type { MemberAccess, MemberStatus, OnboardStoredSettings, Organization, OrganizationMembership, User } from './types'
 import type { FictionUser, FictionUserHookDictionary } from '.'
 
@@ -242,7 +243,7 @@ export class QueryManageUser extends UserQuery {
 
   private async prepareResponse(args: { user?: User, isNew: boolean, token?: string, message?: string, params: ManageUserParams }, meta: EndpointMeta): Promise<ManageUserResponse> {
     const { isNew, token, params, message } = args
-    let user = this.utils.prepareFields({ type: 'returnInfo', fields: args.user, table: this.tbl.user, meta, fictionDb: this.fictionDb })
+    let user = prepareFields({ type: 'returnInfo', fields: args.user, table: this.tbl.user, meta, fictionDb: this.fictionDb })
 
     if (user && user.userId) {
       let orgs: Organization[] = []
@@ -309,7 +310,7 @@ export class QueryManageUser extends UserQuery {
     fields.ip = ipData.ip
     fields.geo = await getGeoFree(fields.ip)
     const fType = meta?.server ? 'internal' : 'settings'
-    const insertFields = this.utils.prepareFields({ type: fType, fields, meta, fictionDb: this.fictionDb, table: this.tbl.user })
+    const insertFields = prepareFields({ type: fType, fields, meta, fictionDb: this.fictionDb, table: this.tbl.user })
 
     const where = userId ? { userId } : { email }
 
@@ -356,13 +357,13 @@ export class QueryManageUser extends UserQuery {
     fields.geo = await getGeoFree(fields.ip)
 
     const table = this.tbl.user
-    const insertFields = this.utils.prepareFields({
+    const insertFields = prepareFields({
       type: 'internal',
       fields: {
         ...fields,
         hashedPassword,
         verificationCode: getSixDigitRandom(),
-        codeExpiresAt: this.utils.dayjs().add(7, 'day').toISOString(),
+        codeExpiresAt: dayjs().add(7, 'day').toISOString(),
       },
       meta: { server: true },
       fictionDb: this.fictionDb,
@@ -520,7 +521,7 @@ export class QueryUpdateCurrentUser extends UserQuery {
       throw this.stop('authorization required (bearer)')
 
     const save: Partial<User> & { password?: string }
-      = this.utils.prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: this.tbl.user }) || {}
+      = prepareFields({ type: 'settings', fields, meta, fictionDb: this.fictionDb, table: this.tbl.user }) || {}
 
     if (!fields)
       throw this.stop('no fields to update')
@@ -1418,7 +1419,7 @@ export class QueryManageOrganization extends UserQuery {
       const { org, orgId } = params
 
       const type = meta?.server ? 'internal' : 'settings'
-      const insertFields = this.utils.prepareFields({
+      const insertFields = prepareFields({
         type,
         fields: org,
         meta,

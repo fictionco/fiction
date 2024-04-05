@@ -15,6 +15,9 @@ import {
   Endpoint,
   FictionPlugin,
   dayjs,
+  isActualBrowser,
+  runHooks,
+  toLabel,
   vue,
 } from '@fiction/core'
 
@@ -83,22 +86,22 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   browserClient?: StripeJS.Stripe
   serverClient?: Stripe
   isLive = this.settings.isLive ?? this.fictionEnv.isProd.value
-  stripeMode = this.utils.vue.computed(() => {
+  stripeMode = vue.computed(() => {
     const isLive = this.settings.isLive
     const v = vue.isRef(isLive) ? isLive?.value : isLive
     return v ? 'live' : 'test'
   })
 
   hooks = this.settings.hooks ?? []
-  products = this.utils.vue.computed(() => {
+  products = vue.computed(() => {
     return this.settings.products
   })
 
-  pricing = this.utils.vue.computed<types.StripePriceConfig[]>(() => {
+  pricing = vue.computed<types.StripePriceConfig[]>(() => {
     return this.products.value.flatMap((_) => {
       return _.pricing.map((p) => {
         const out: types.StripePriceConfig = { ..._, ...p }
-        out.planName = out.planName || this.utils.toLabel(out.productKey)
+        out.planName = out.planName || toLabel(out.productKey)
         return out
       })
     })
@@ -108,13 +111,13 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
   publicKeyTest = this.settings.publicKeyTest
   secretKeyLive = this.settings.secretKeyLive
   secretKeyTest = this.settings.secretKeyTest
-  secretKey = this.utils.vue.computed(() => {
+  secretKey = vue.computed(() => {
     return this.stripeMode.value === 'live'
       ? this.settings.secretKeyLive
       : this.settings.secretKeyTest
   })
 
-  publicKey = this.utils.vue.computed(() => {
+  publicKey = vue.computed(() => {
     return this.stripeMode.value === 'live'
       ? this.settings.publicKeyLive
       : this.settings.publicKeyTest
@@ -122,17 +125,17 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
 
   webhookSecret = this.settings.webhookSecret
 
-  activeCustomerId = this.utils.vue.computed(() => {
+  activeCustomerId = vue.computed(() => {
     return this.fictionUser?.activeOrganization.value?.customerId
   })
 
   useCustomerManager = this.settings.useCustomerManager ?? false
-  activeCustomer = this.utils.vue.ref<types.CustomerDetails | undefined>()
+  activeCustomer = vue.ref<types.CustomerDetails | undefined>()
   initialized?: Promise<boolean>
   resolveCustomerLoad?: (value: boolean | PromiseLike<boolean>) => void
-  loading = this.utils.vue.ref(false)
+  loading = vue.ref(false)
   usage = new FictionUsage({ ...this.settings, fictionStripe: this })
-  customerPortalUrl = this.utils.vue.computed(() => {
+  customerPortalUrl = vue.computed(() => {
     const activeCustomer = this.activeCustomer.value
     const stripeCustomer = activeCustomer?.customer
 
@@ -236,7 +239,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     if (!this.fictionEnv.isApp.value)
       return
 
-    if (this.utils.isActualBrowser())
+    if (isActualBrowser())
       this.customerInitialized().catch(console.error)
 
     await this.fictionUser.pageInitialized()
@@ -245,7 +248,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     /**
      * Update when organization changes
      */
-    this.utils.vue.watch(
+    vue.watch(
       () => this.fictionUser.activeOrganization.value,
       async () => {
         await this.setCustomerData({ reason: 'organization changed' })
@@ -548,7 +551,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
       // Used to provision services after the trial has ended.
       // The status of the invoice will show up as paid. Store the status in your
       // database to reference when a user accesses your service to avoid hitting rate limits.
-      await this.utils.runHooks({
+      await runHooks({
         list: this.hooks,
         hook: 'onInvoicePayment',
         args: [event, { fictionStripe: this }],
@@ -557,7 +560,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     else if (event.type === 'checkout.session.completed') {
       // Payment is successful and the subscription is created.
       // You should provision the subscription and save the customer ID to your database.
-      await this.utils.runHooks({
+      await runHooks({
         list: this.hooks,
         hook: 'onCheckoutSuccess',
         args: [event, { fictionStripe: this }],
@@ -568,7 +571,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
       //  an invoice.payment_failed event is sent, the subscription becomes past_due.
       // Use this webhook to notify your user that their payment has
       // failed and to retrieve new card details.
-      await this.utils.runHooks({
+      await runHooks({
         list: this.hooks,
         hook: 'onInvoicePaymentFailed',
         args: [event, { fictionStripe: this }],
@@ -578,7 +581,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
       /**
        * if event.request is null, then it was cancelled from settings vs request
        */
-      await this.utils.runHooks({
+      await runHooks({
         list: this.hooks,
         hook: 'onCustomerSubscriptionDeleted',
         args: [event, { fictionStripe: this }],
@@ -590,7 +593,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
        * You can use that notification as a trigger to take any necessary actions, such as informing the customer that billing is about to begin.
        * https://stripe.com/docs/billing/subscriptions/trials
        */
-      await this.utils.runHooks({
+      await runHooks({
         list: this.hooks,
         hook: 'onSubscriptionTrialWillEnd',
         args: [event, { fictionStripe: this }],

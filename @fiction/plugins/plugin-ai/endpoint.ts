@@ -1,5 +1,5 @@
 import type { EndpointMeta, EndpointResponse, TableMediaConfig } from '@fiction/core'
-import { Query, Shortcodes, toLabel } from '@fiction/core'
+import { Query, Shortcodes, objectId, toLabel } from '@fiction/core'
 import type { PineconeRecord, RecordMetadata } from '@pinecone-database/pinecone'
 import { Pinecone } from '@pinecone-database/pinecone'
 import OpenAI from 'openai'
@@ -97,7 +97,7 @@ export abstract class QueryAi extends Query<QueryAiSettings> {
       const values = embeddings.data[0].embedding
 
       return {
-        id: this.utils.objectId(),
+        id: objectId(),
         values,
         metadata: this.flatten({ ...doc.metadata, text }),
       }

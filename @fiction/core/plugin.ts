@@ -27,7 +27,6 @@ export abstract class FictionObject<
   name: string
   settings: T
   stop = _stop
-  utils = utils
   log: LogHelper
   tbl = standardTable
   constructor(name: string, settings: T) {
@@ -39,7 +38,7 @@ export abstract class FictionObject<
   afterSetup(_args: PluginSetupArgs): void | Promise<void> {}
   setup(_args: PluginSetupArgs): void | Promise<void> {}
   toJSON(): Record<string, unknown> {
-    return omit(this, 'utils', 'stop', 'log', 'settings', 'toJSON', 'tbl')
+    return omit(this, 'stop', 'log', 'settings', 'toJSON', 'tbl')
   }
 }
 
@@ -56,15 +55,7 @@ export abstract class FictionPlugin<
 
     if (this.settings.root) {
       const root = this.settings.root
-      const patterns = [
-          `${root}/*.vue`,
-          `${root}/**/*.vue`,
-          `${root}/*.ts`,
-          `${root}/**/*.ts`,
-          `!${root}/node_modules/**`, // Exclude node_modules
-          `!${root}/dist/**`, // Exclude dist
-      ]
-      this.fictionEnv?.addUiPaths(patterns)
+      this.fictionEnv?.addUiRoot(root)
     }
 
     this.log = log.contextLogger(`${this.name}`)
@@ -125,6 +116,6 @@ export abstract class FictionPlugin<
   }
 
   toJSON(): Record<string, unknown> {
-    return omit(this, 'utils', 'stop', 'log', 'settings', 'toJSON', 'fictionEnv', 'tbl')
+    return omit(this, 'stop', 'log', 'settings', 'toJSON', 'fictionEnv', 'tbl')
   }
 }

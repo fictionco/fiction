@@ -11,6 +11,8 @@ import type {
 import {
   EnvVar,
   FictionPlugin,
+  isActualBrowser,
+  isTest,
   vars,
 } from '@fiction/core'
 
@@ -46,7 +48,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   fictionApp = this.settings.fictionApp
   fictionEmail = this.settings.fictionEmail
   monitorEmail = this.settings.monitorEmail || this.settings.fictionApp.appEmail
-  isTest = this.utils.isTest()
+  isTest = isTest()
   slackWebhookUrl = this.settings.slackWebhookUrl
   sentryPublicDsn = this.settings.sentryPublicDsn
   mailchimpApiKey = this.settings.mailchimpApiKey
@@ -89,7 +91,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
     data?: Record<string, unknown>
     notifyEmail?: string
   }): Promise<void> => {
-    if (this.utils.isActualBrowser())
+    if (isActualBrowser())
       throw new Error('slack notify from server')
 
     const { message, data, notifyEmail = false } = args

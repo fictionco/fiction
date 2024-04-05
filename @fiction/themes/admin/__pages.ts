@@ -2,7 +2,8 @@ import { type ServiceList, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { createCard } from '@fiction/site/theme'
 
-import { templates } from './templates'
+import { getTemplates } from './__templates'
+import {templates} from '@fiction/cards/404'
 
 export function getPage(_args: ServiceList) {
   return createCard({

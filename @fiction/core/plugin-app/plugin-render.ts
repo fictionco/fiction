@@ -10,7 +10,7 @@ import type { Express, Request } from 'express'
 import unocss from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import type tailwindcss from 'tailwindcss'
-import { getRequire, importIfExists, requireIfExists, runHooks, safeDirname } from '../utils'
+import { createExpressApp, deepMergeAll, express, getRequire, importIfExists, isNode, requireIfExists, runHooks, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { FictionRouter } from '../plugin-router'
 import { FictionBuild } from '../plugin-build'
@@ -76,7 +76,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (!this.viteDevServer) {
       const viteConfig = await this.getViteConfig({ isProd })
 
-      const serverConfig = this.utils.deepMergeAll([
+      const serverConfig = deepMergeAll([
         viteConfig,
         {
           appType: 'custom',
@@ -109,8 +109,24 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
   }
 
   async getTailwindConfig(): Promise<Record<string, any> | undefined> {
-    const baseUiPaths = [...this.fictionEnv.uiPaths, ...this.fictionApp.uiPaths]
+    const baseUiPaths = [...Array.from(this.fictionEnv.uiPaths)]
     const fullUiPaths = baseUiPaths.map(p => path.normalize(p))
+
+    const root = this.fictionEnv.cwd
+    const patterns = [
+      // Include .vue and .ts files in any directory that includes 'fiction' in its name, even within node_modules
+      `${root}/**/*fiction*/**/*.vue`,
+      `${root}/**/*fiction*/**/*.ts`,
+      // Exclude general node_modules and dist directories to prevent unwanted inclusions
+      `!${root}/node_modules/**`,
+      `!${root}/dist/**`,
+      // But include .vue and .ts files specifically from 'fiction' related modules within node_modules
+      `${root}/node_modules/*fiction*/**/*.vue`,
+      `${root}/node_modules/*fiction*/**/*.ts`,
+
+    ]
+
+    this.log.info('content patterns', { data: patterns })
 
     const c: Record<string, any>[] = [
       {
@@ -130,7 +146,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       c.push(userConf)
     }
 
-    const config = this.utils.deepMergeAll<Record<string, any>>(
+    const config = deepMergeAll<Record<string, any>>(
       c.map((_) => {
         return { ..._ }
       }),
@@ -210,9 +226,9 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       appViteConfigFile || {},
     ]
 
-    merge = await this.utils.runHooks({ list: this.fictionApp.hooks, hook: 'viteConfig', args: [merge] })
+    merge = await runHooks({ list: this.fictionApp.hooks, hook: 'viteConfig', args: [merge] })
 
-    const viteConfig = this.utils.deepMergeAll(merge)
+    const viteConfig = deepMergeAll(merge)
 
     return viteConfig
   }
@@ -277,7 +293,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     this.log.info(`building fiction app (${this.fictionApp.appInstanceId})`, {
       data: {
-        isNode: this.utils.isNode(),
+        isNode: isNode(),
         indexFiles: Object.values(templates).length,
       },
     })
@@ -308,7 +324,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
        * are written relative to this
        */
       const root = distFolder
-      const clientBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
+      const clientBuildOptions: vite.InlineConfig = deepMergeAll([
         viteConfigClient,
         {
           root,
@@ -322,7 +338,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         },
       ])
 
-      const serverBuildOptions: vite.InlineConfig = this.utils.deepMergeAll([
+      const serverBuildOptions: vite.InlineConfig = deepMergeAll([
         viteConfigServer,
         {
           root,
@@ -471,7 +487,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const { isProd, expressApp } = config
 
-    const eApp = expressApp || this.utils.express()
+    const eApp = expressApp || express()
 
     // allow additional forwarded info
     // https://stackoverflow.com/questions/23413401/what-does-trust-proxy-actually-do-in-express-js-and-do-i-need-to-use-it
@@ -537,7 +553,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     const distFolderStatic = this.distFolderStatic
 
-    const app = this.utils.createExpressApp({
+    const app = createExpressApp({
       // in dev these cause images/scripts to fail locally
       contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,

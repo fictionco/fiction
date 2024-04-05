@@ -1,6 +1,7 @@
 // @unocss-include
 
-import { vue } from '@fiction/core'
+import type { FictionApp, FictionPluginSettings } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { templates as templates404 } from './404'
 import { templates as templatesQuote } from './quote'
@@ -35,3 +36,13 @@ export const marketingCardTemplates = [
   ...templatesMetrics,
   ...templatesDoc,
 ] as const
+
+type FictionCardsSettings = FictionPluginSettings
+
+export class FictionCards extends FictionPlugin<FictionCardsSettings> {
+  standard = standardCardTemplates
+  marketing = marketingCardTemplates
+  constructor(settings: FictionCardsSettings) {
+    super('FictionCards', { root: safeDirname(import.meta.url), ...settings })
+  }
+}

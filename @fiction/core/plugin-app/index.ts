@@ -5,7 +5,7 @@ import type { Config as TailwindConfig } from 'tailwindcss'
 import type { Express } from 'express'
 import { createHead } from '@unhead/vue'
 import type { HookType } from '../utils'
-import { initializeResetUi, safeDirname, vue } from '../utils'
+import { initializeResetUi, isTest, runHooks, safeDirname, vue } from '../utils'
 import type { FictionAppEntry, FictionEnv, ServiceConfig, ServiceList } from '../plugin-env'
 import { FictionPlugin } from '../plugin'
 import type { FictionBuild } from '../plugin-build'
@@ -38,7 +38,6 @@ export interface FictionAppSettings {
   rootComponent?: vue.Component
   fictionRouter: FictionRouter
   sitemaps?: SiteMapEntry[]
-  uiPaths?: string[]
   tailwindConfig?: Partial<TailwindConfig>[]
   srcFolder?: string
   mainIndexHtml?: string
@@ -51,9 +50,8 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   isLive = this.settings.isLive ?? this.settings.fictionEnv.isProd
   viteDevServer?: vite.ViteDevServer
   hooks = this.settings.hooks ?? []
-  uiPaths = this.settings.uiPaths ?? []
   fictionRouter = this.settings.fictionRouter
-  isTest = this.settings.isTest || this.utils.isTest()
+  isTest = this.settings.isTest || isTest()
   rootComponent = this.settings.rootComponent || ElRoot
   fictionEnv = this.settings.fictionEnv
   fictionBuild?: FictionBuild
@@ -68,7 +66,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   localHostname = this.settings.localHostname || `localhost`
   localUrl = `http://${this.localHostname}:${this.port}`
   liveUrl = vue.ref(this.settings.liveUrl || this.localUrl)
-  appUrl = this.utils.vue.computed(() => {
+  appUrl = vue.computed(() => {
     const isLive = this.settings.isLive?.value ?? false
     return isLive ? this.liveUrl.value : this.localUrl
   })
@@ -133,10 +131,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     this.sitemaps = [...this.sitemaps, sitemap]
   }
 
-  addUiPaths(uiPaths: string[]) {
-    this.uiPaths = [...this.uiPaths, ...uiPaths]
-  }
-
   tailwindConfig = this.settings.tailwindConfig ?? []
   addTailwindConfig(tailwindConfig: Partial<TailwindConfig>) {
     this.tailwindConfig = [...this.tailwindConfig, tailwindConfig]
@@ -167,7 +161,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (renderRoute)
       await this.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
-    await this.utils.runHooks<HookDictionary, 'afterAppSetup'>({
+    await runHooks<HookDictionary, 'afterAppSetup'>({
       list: this.hooks,
       hook: 'afterAppSetup',
       args: [{ service }],
@@ -207,7 +201,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 
     if (typeof window !== 'undefined' && !this.fictionEnv.isSSR.value) {
-      await this.utils.runHooks<HookDictionary, 'beforeAppMounted'>({
+      await runHooks<HookDictionary, 'beforeAppMounted'>({
         list: this.hooks,
         hook: 'beforeAppMounted',
         args: [entry],
@@ -226,7 +220,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
 
-      await this.utils.runHooks<HookDictionary, 'appMounted'>({
+      await runHooks<HookDictionary, 'appMounted'>({
         list: this.hooks,
         hook: 'appMounted',
         args: [entry],

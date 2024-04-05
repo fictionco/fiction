@@ -43,6 +43,7 @@ const socialList: NavItem[] = [
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
   const pages = () => ([home.page(), tour.page(), about.page()])
+
   return new Theme({
     fictionEnv,
     root: safeDirname(import.meta.url),

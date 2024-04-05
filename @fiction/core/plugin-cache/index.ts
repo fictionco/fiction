@@ -7,6 +7,7 @@ import type { FictionAws } from '../plugin-aws'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
+import { camelKeys, shortId, toSnakeCaseKeys, uuid } from '../utils'
 
 // import { JSendMessage } from "./types"
 
@@ -56,7 +57,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   private publisher?: Redis
   private subscriber?: Redis
   private primaryCache?: Redis
-  idd = this.utils.shortId()
+  idd = shortId()
   constructor(settings: FictionCacheSettings) {
     super('cache', settings)
 
@@ -65,11 +66,11 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
   }
 
   str(data: Record<string, unknown>) {
-    return JSON.stringify(this.utils.toSnakeCaseKeys(data))
+    return JSON.stringify(toSnakeCaseKeys(data))
   }
 
   obj<T = unknown>(str?: string | null) {
-    return str ? (this.utils.camelKeys(JSON.parse(str)) as T) : undefined
+    return str ? (camelKeys(JSON.parse(str)) as T) : undefined
   }
 
   init() {
@@ -87,7 +88,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
       if (this.subCallbacks[key]) {
         try {
           const rawParsed = JSON.parse(message)
-          const parsed = this.utils.camelKeys(rawParsed)
+          const parsed = camelKeys(rawParsed)
 
           await this.subCallbacks[key](parsed)
         }
@@ -159,7 +160,7 @@ export class FictionCache extends FictionPlugin<FictionCacheSettings> {
     const msg = this.str({
       topic,
       data,
-      pubsubId: this.utils.uuid(),
+      pubsubId: uuid(),
       orgId,
       sentFrom,
     })

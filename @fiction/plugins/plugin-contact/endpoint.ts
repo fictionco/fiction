@@ -7,6 +7,8 @@ import type {
 } from '@fiction/core'
 import {
   Query,
+  isTest,
+  prepareFields,
 } from '@fiction/core'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import type { TableSubmissionConfig } from './tables'
@@ -27,7 +29,7 @@ abstract class ContactQuery extends Query<SaveMediaSettings> {
   fictionEnv = this.settings.fictionEnv
   fictionMonitor = this.settings.fictionMonitor
   fictionEmail = this.settings.fictionEmail
-  maxSide = this.utils.isTest() ? 700 : 1600
+  maxSide = isTest() ? 700 : 1600
   constructor(settings: SaveMediaSettings) {
     super(settings)
   }
@@ -52,7 +54,7 @@ export class QueryManageSubmission extends ContactQuery {
     let message = ''
     let resultSubmission: TableSubmissionConfig | undefined
     if (_action === 'create') {
-      const prepped = this.utils.prepareFields({
+      const prepped = prepareFields({
         type: 'settings',
         fields: submission,
         table: tableName,

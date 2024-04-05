@@ -1,7 +1,7 @@
 // @unocss-include
 
 import type { FictionDb, FictionMedia, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
-import { EnvVar, FictionPlugin, safeDirname, vars } from '@fiction/core'
+import { EnvVar, FictionPlugin, safeDirname, vars, vue } from '@fiction/core'
 import { AiCompletion, AiImage, QueryManageVectors } from './endpoint'
 
 vars.register(() => [
@@ -30,8 +30,8 @@ export type FictionAiSettings = {
 } & FictionPluginSettings
 
 export class FictionAi extends FictionPlugin<FictionAiSettings> {
-  loading = this.utils.vue.ref(false)
-  root = this.utils.safeDirname(import.meta.url)
+  loading = vue.ref(false)
+  root = safeDirname(import.meta.url)
   queries = {
     ManageVectors: new QueryManageVectors({ ...this.settings, fictionAi: this }),
     AiCompletion: new AiCompletion({ ...this.settings, fictionAi: this }),

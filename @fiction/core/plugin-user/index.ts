@@ -14,7 +14,7 @@ import type { FictionServer } from '../plugin-server'
 import type { FictionDb } from '../plugin-db'
 import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
-import { vue } from '../utils'
+import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, removeCookieNakedDomain, runHooks, safeDirname, setCookieNakedDomain, storeItem, vue } from '../utils'
 import * as priv from '../utils/priv'
 import type { Organization, OrganizationMember, TokenFields, User } from './types'
 import { QueryUserGoogleAuth } from './userGoogle'
@@ -91,7 +91,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   hooks = this.settings.hooks || []
   tokenSecret = this.settings.tokenSecret || 'secret'
-  activePath = vue.ref(this.utils.safeDirname(import.meta.url))
+  activePath = vue.ref(safeDirname(import.meta.url))
   clientTokenKey = 'FCurrentUser'
   googleClientId = this.settings.googleClientId
   googleClientSecret = this.settings.googleClientSecret
@@ -127,7 +127,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     // redirect based on auth
     // only check if is browser not during prerender
     // anywhere else we don't know logged in status
-    if (this.utils.isActualBrowser()) {
+    if (isActualBrowser()) {
       this.userInitialized({ caller: 'init' }).catch(console.error)
 
       this.watchRouteForOrgChange().catch(console.error)
@@ -209,7 +209,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   watchRouteForOrgChange = async (): Promise<void> => {
-    if (!this.utils.hasWindow())
+    if (!hasWindow())
       return
 
     await this?.pageInitialized()
@@ -250,7 +250,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   }
 
   async ensureExampleOrganization() {
-    if (this.utils.isNode()) {
+    if (isNode()) {
       const db = this.settings.fictionDb.client()
       await db
         .insert({
@@ -290,7 +290,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   //         const auth = r.meta.auth as RouteAuthCallback
   //         return await auth({
   //           user,
-  //           isSearchBot: this.utils.isSearchBot(),
+  //           isSearchBot: isSearchBot(),
   //           fictionRouter: this.settings.fictionRouter,
   //           fictionUser: this,
   //           route,
@@ -355,7 +355,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
   cacheUser = ({ user }: { user: Partial<User> }): void => {
     if (user && user.userId)
-      this.utils.storeItem(user.userId, user)
+      storeItem(user.userId, user)
   }
 
   setCurrentUser = (args: {
@@ -378,10 +378,10 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
   async logout(args: { callback?: () => void, redirect?: string } = {}) {
     this.deleteCurrentUser()
-    this.utils.emitEvent('logout')
-    this.utils.emitEvent('resetUi')
+    emitEvent('logout')
+    emitEvent('resetUi')
 
-    await this.utils.runHooks({ list: this.hooks, hook: 'onLogout', args: [] })
+    await runHooks({ list: this.hooks, hook: 'onLogout', args: [] })
 
     if (args.callback)
       args.callback()
@@ -409,7 +409,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         this.setCurrentUser({ user, reason: 'currentUser' })
     }
 
-    await this.utils.runHooks({
+    await runHooks({
       list: this.hooks,
       hook: 'requestCurrentUser',
       args: [user],
@@ -482,21 +482,15 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     const { action = 'get', token } = args
 
     if (action === 'destroy') {
-      this.utils.removeCookieNakedDomain({ name: this.clientTokenKey })
+      removeCookieNakedDomain({ name: this.clientTokenKey })
     }
     else if (action === 'set' && token) {
-      this.utils
-        .runHooks({
-          list: this.hooks,
-          hook: 'onSetClientToken',
-          args: [token],
-        })
-        .catch(console.error)
+      runHooks({ list: this.hooks, hook: 'onSetClientToken', args: [token] }).catch(console.error)
 
-      this.utils.setCookieNakedDomain({ name: this.clientTokenKey, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
+      setCookieNakedDomain({ name: this.clientTokenKey, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
     }
     else {
-      const cookieValue = this.utils.getCookie(this.clientTokenKey)
+      const cookieValue = getCookie(this.clientTokenKey)
 
       return cookieValue || ''
     }
@@ -517,7 +511,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     const r = jwt.verify(token, this.tokenSecret) as TokenFields
 
     if (!r.userId || !r.email)
-      throw this.utils._stop('token missing userId or email', { code: 'TOKEN_ERROR' })
+      throw _stop('token missing userId or email', { code: 'TOKEN_ERROR' })
 
     return r
   }

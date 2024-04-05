@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import { execaCommand } from 'execa'
 import * as vite from 'vite'
 import type { RollupWatcher, RollupWatcherEvent } from 'rollup'
-import { deepMergeAll, getRequire } from '../utils'
+import { deepMergeAll, getRequire, isNode } from '../utils'
 import { FictionPlugin } from '../plugin'
 import type { CliOptions, FictionEnv } from '../plugin-env'
 import type { PackageJson } from '../types'
@@ -81,7 +81,7 @@ export class FictionBundle extends FictionPlugin<FictionBundleSettings> {
     isTest?: boolean
     withDts?: boolean
   }): Promise<RollupWatcher[]> => {
-    if (!this.utils.isNode())
+    if (!isNode())
       return []
 
     const { cwds, onAllBuilt, watch, isTest, withDts } = options

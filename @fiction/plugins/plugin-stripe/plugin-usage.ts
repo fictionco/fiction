@@ -9,6 +9,7 @@ import type {
 } from '@fiction/core'
 import {
   FictionPlugin,
+  safeDirname,
   vue,
 } from '@fiction/core'
 import type { FictionStripe } from './plugin'
@@ -40,7 +41,6 @@ export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
   fictionServer = this.settings.fictionServer
   fictionStripe = this.settings.fictionStripe
   loading = vue.ref(false)
-  root = this.utils.safeDirname(import.meta.url)
   isLive = this.fictionEnv.isProd
 
   queries = this.createQueries()
@@ -61,7 +61,7 @@ export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
   })
 
   constructor(settings: FictionUsageSettings) {
-    super('FictionUsage', settings)
+    super('FictionUsage', { root: safeDirname(import.meta.url), ...settings })
 
     this.fictionDb.addTables(tables)
   }

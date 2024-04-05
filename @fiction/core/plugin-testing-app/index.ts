@@ -5,8 +5,7 @@ import type { ViteDevServer } from 'vite'
 import { createServer } from 'vite'
 import type { Browser, BrowserContextOptions, LaunchOptions } from 'playwright'
 import type { faker } from '@faker-js/faker'
-import type { vue } from '../utils'
-import { createExpressApp, safeDirname } from '../utils'
+import { createExpressApp, safeDirname, vue } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import { version } from '../package.json'
@@ -32,7 +31,7 @@ export class FictionTestingApp extends FictionPlugin<FictionTestingAppSettings> 
   port = this.settings.port
   liveUrl = this.settings.liveUrl
   localUrl = `http://localhost:${this.port}`
-  url = this.utils.vue.computed(() => {
+  url = vue.computed(() => {
     const isLive = this.settings.isLive?.value || false
     return isLive && this.liveUrl ? this.liveUrl : this.localUrl
   })

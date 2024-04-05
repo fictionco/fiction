@@ -1,7 +1,7 @@
 // @unocss-include
 import type { FictionPluginSettings } from '@fiction/core'
-import { FictionPlugin } from '@fiction/core'
-import type { FictionAdmin, FictionAdminSettings } from '@fiction/plugin-admin'
+import { FictionPlugin, safeDirname } from '@fiction/core'
+import type { FictionAdminSettings } from '@fiction/plugin-admin'
 
 export type BaseAdminPluginSettings = FictionAdminSettings
 
@@ -26,9 +26,8 @@ export function createPluginConfig<T extends Record<string, any>>(plugins: Plugi
 type PluginIndexSettings = { plugins: PluginLoader<Record<string, any>>[] } & FictionPluginSettings
 
 export class FictionAdminPluginIndex<T extends PluginIndexSettings = PluginIndexSettings> extends FictionPlugin<T> {
-  root = this.utils.safeDirname(import.meta.url)
   plugins = this.settings.plugins
   constructor(settings: T) {
-    super('AdminPluginIndex', settings)
+    super('AdminPluginIndex', { root: safeDirname(import.meta.url), ...settings })
   }
 }

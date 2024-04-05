@@ -5,6 +5,7 @@ import type { FictionEnv } from '../plugin-env'
 import { EnvVar, vars } from '../plugin-env'
 import { FictionPlugin } from '../plugin'
 import { renderMarkdown } from '../utils/markdown'
+import { isActualBrowser, isTest } from '../utils'
 import type * as types from './types'
 
 const verify: EnvVar<string>['verify'] = ({ fictionEnv, value }) => {
@@ -43,14 +44,14 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   smtpPort = this.settings.smtpPort || 587
   appName = this.fictionEnv.appName
   appEmail = this.fictionEnv.appEmail
-  isTest = this.utils.isTest()
+  isTest = isTest()
   isInitialized = false
   constructor(settings: FictionEmailSettings) {
     super('email', settings)
   }
 
   init() {
-    if (this.utils.isActualBrowser())
+    if (isActualBrowser())
       return
 
     if (this.fictionEnv.isApp.value)

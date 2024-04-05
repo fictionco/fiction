@@ -3,7 +3,7 @@ import type * as vite from 'vite'
 import type * as esLexer from 'es-module-lexer'
 import type * as cjsLexer from 'cjs-module-lexer'
 import { FictionPlugin } from '../plugin'
-import { deepMergeAll, safeDirname } from '../utils'
+import { deepMergeAll, randomBetween, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 
 export * from './plugin-release'
@@ -243,7 +243,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         // SET A CUSTOM HMR PORT
         // randomly if the same port is used, it can conflict silently
         // preventing HMR from working. Setting this way prevents it .
-        hmr: { port: this.utils.randomBetween(10_000, 20_000) },
+        hmr: { port: randomBetween(10_000, 20_000) },
       },
       define: {
         // https://github.com/vitejs/vite/discussions/5912

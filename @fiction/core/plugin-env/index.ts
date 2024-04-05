@@ -1,9 +1,10 @@
 import path from 'node:path'
 import process from 'node:process'
 import dotenv from 'dotenv'
+import type { X } from 'vitest/dist/reporters-P7C2ytIv'
 import { FictionObject } from '../plugin'
 import type { HookType } from '../utils'
-import { getCrossVar, isApp, isDev, isTest, toSlug, vue } from '../utils'
+import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks, toSlug, vue } from '../utils'
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { compileApplication } from './entry'
@@ -116,21 +117,21 @@ export class FictionEnv<
   appUrl = this.settings.appUrl || ''
   id = this.settings.id || toSlug(this.appName) || 'fiction'
   inspector = this.settings.inspector || false
-  mode = this.utils.vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
+  mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
   isRestart = () => process.env.IS_RESTART === '1'
-  isApp = this.utils.vue.ref(this.settings.isApp)
-  isSSR = this.utils.vue.computed(() => !!(this.isApp.value && this.isNode))
-  isTest = this.utils.vue.ref(this.settings.isTest)
-  isServer = this.utils.vue.computed(() => !this.isApp.value)
-  isProd = this.utils.vue.computed(() => !isDev())
-  isDev = this.utils.vue.ref()
+  isApp = vue.ref(this.settings.isApp)
+  isSSR = vue.computed(() => !!(this.isApp.value && this.isNode))
+  isTest = vue.ref(this.settings.isTest)
+  isServer = vue.computed(() => !this.isApp.value)
+  isProd = vue.computed(() => !isDev())
+  isDev = vue.ref()
   hasWindow = typeof window !== 'undefined'
   isNode = !!(typeof process !== 'undefined' && process.versions && process.versions.node)
 
   isRendering = false
   version = this.settings.version || '0.0.0'
   fictionVersion = fictionVersion
-  uiPaths = this.settings.uiPaths ?? []
+  uiPaths = new Set(this.settings.uiPaths)
 
   serverOnlyImports: Record<string, true | Record<string, string>> = commonServerOnlyModules()
 
@@ -164,7 +165,7 @@ export class FictionEnv<
 
     this.mode.value = this.isDev.value ? 'development' : 'production'
 
-    if (this.utils.isNode())
+    if (isNode())
       this.nodeInit()
 
     this.addHook({
@@ -220,11 +221,11 @@ export class FictionEnv<
       (cmd) => {
         const fullOpts = cmd?.options ?? {}
         // generally "process" is unavailable in browser
-        if (this.utils.isNode()) {
+        if (isNode()) {
           // converts cli args --service-port to SERVICE_PORT env var
           Object.entries(fullOpts).forEach(([key, value]) => {
             if (value) {
-              const processKey = this.utils.camelToUpperSnake(key)
+              const processKey = camelToUpperSnake(key)
               process.env[processKey] = String(value)
             }
           })
@@ -383,7 +384,7 @@ export class FictionEnv<
 
     const options = { command: cmd?.command, ...cmd?.options }
 
-    await this.utils.runHooks<types.FictionEnvHookDictionary>({
+    await runHooks<types.FictionEnvHookDictionary>({
       list: this.hooks,
       hook: 'runCommand',
       args: [options.command || 'not_set', options],
@@ -431,7 +432,15 @@ export class FictionEnv<
     return envVar.val.value || ''
   }
 
-  addUiPaths(uiPaths: string[]) {
-    this.uiPaths = [...this.uiPaths, ...uiPaths]
+  addUiRoot(root: string) {
+    const uiPaths = [
+      `${root}/*.vue`,
+      `${root}/**/*.vue`,
+      `${root}/*.ts`,
+      `${root}/**/*.ts`,
+      `!${root}/node_modules/**`, // Exclude node_modules
+      `!${root}/dist/**`, // Exclude dist
+    ]
+    uiPaths.forEach(uiPath => this.uiPaths.add(uiPath))
   }
 }

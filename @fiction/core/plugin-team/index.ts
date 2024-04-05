@@ -6,6 +6,7 @@ import type { FictionEmail } from '../plugin-email'
 import type { FictionRouter } from '../plugin-router'
 import type { FictionDb } from '../plugin-db'
 import type { FictionApp } from '../plugin-app'
+import { safeDirname } from '../utils'
 import {
   QueryOrgMembers,
   QuerySeekInviteFromUser,
@@ -34,11 +35,8 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     fictionUser: this.settings.fictionUser,
   })
 
-  root = this.utils.safeDirname(import.meta.url)
   constructor(settings: FictionTeamSettings) {
-    super('fictionTeam', settings)
-
-    this.fictionEnv?.uiPaths.push(`${this.root}/**/*.vue`)
+    super('fictionTeam', { root: safeDirname(import.meta.url), ...settings })
   }
 
   invitationReturnUrl(args: {
