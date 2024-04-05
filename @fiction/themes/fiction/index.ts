@@ -1,10 +1,11 @@
-import type { FictionEnv, NavItem, ServiceList } from '@fiction/core'
+import type { FictionEnv, NavItem } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme'
 import { safeDirname } from '@fiction/core'
 
 import { templates } from './templates'
-import { getPage as getHomePage } from './pageHome'
-import { page as tourPage } from './tour'
+import * as home from './pageHome'
+import * as tour from './tour'
+import * as about from './about'
 import favicon from './img/favicon.svg'
 import shareImage from './img/share-image.jpg'
 
@@ -41,7 +42,7 @@ const socialList: NavItem[] = [
 
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
-  const pages = () => ([getHomePage(args), tourPage()])
+  const pages = () => ([home.page(), tour.page(), about.page()])
   return new Theme({
     fictionEnv,
     root: safeDirname(import.meta.url),
@@ -78,6 +79,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
                 },
                 nav: [
                   { name: 'Tour', href: '/tour' },
+                  { name: 'About', href: '/about' },
                 ],
                 socialList,
               },

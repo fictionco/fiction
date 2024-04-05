@@ -1,8 +1,7 @@
-import type { ServiceList } from '@fiction/core'
 import { createCard } from '@fiction/site/theme'
 import { templates } from './templates'
 
-export function getPage(_args: ServiceList) {
+export function page() {
   return createCard({
     templates,
     regionId: 'main',
