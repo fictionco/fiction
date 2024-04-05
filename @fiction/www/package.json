@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fiction/core": "workspace:*",
+    "@fiction/cards": "workspace:*",
     "@fiction/plugin-admin": "workspace:*",
     "@fiction/plugin-admin-index": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",

@@ -48,7 +48,6 @@
     "@fiction/ui",
     "@fiction/www",
     "@fiction/site",
-    "@fiction/cards",
     "@fiction/themes/*",
     "@fiction/plugins/*"
   ],
