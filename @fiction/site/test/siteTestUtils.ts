@@ -4,8 +4,8 @@ import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
 import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
+import FSite from '@fiction/cards/CardSite.vue'
 import { FictionSites } from '..'
-import FSite from '../engine/FSite.vue'
 import * as testTheme from './test-theme'
 
 export type SiteTestUtils = TestUtils & {

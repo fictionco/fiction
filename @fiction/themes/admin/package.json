@@ -3,6 +3,7 @@
     "@fiction/core": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/ui": "workspace:*",
+    "@fiction/cards": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
     "tailwindcss": "^3.4.3",
     "vue": "^3.4.21"

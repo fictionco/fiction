@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { inputSets } from '@fiction/site/cards/inputSets'
+import { inputSets } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 
 export const templates = [

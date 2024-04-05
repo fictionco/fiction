@@ -1,7 +1,7 @@
 import { AppRoute, type ServiceConfig, type ServiceList } from '@fiction/core'
 import type { SiteTestUtils } from '@fiction/site/test/siteTestUtils'
 import { createSiteTestUtils } from '@fiction/site/test/siteTestUtils'
-import FSite from '@fiction/site/engine/FSite.vue'
+import FSite from '@fiction/cards/CardSite.vue'
 
 export function setup(args: { context?: 'node' | 'app' } = {}): ServiceConfig & { testUtils: SiteTestUtils } {
   const { context = 'app' } = args

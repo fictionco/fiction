@@ -1,7 +1,7 @@
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 
-import { standardCardTemplates } from '@fiction/site/cards'
+import { standardCardTemplates } from '@fiction/cards'
 
 const def = vue.defineAsyncComponent
 

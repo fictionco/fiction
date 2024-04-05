@@ -1,8 +1,8 @@
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { inputSets } from '@fiction/site/cards/inputSets'
+import { inputSets } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
-import { marketingCardTemplates, standardCardTemplates } from '@fiction/site/cards'
+import { marketingCardTemplates, standardCardTemplates } from '@fiction/cards'
 
 const def = vue.defineAsyncComponent
 

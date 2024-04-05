@@ -3,21 +3,20 @@ import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import type { DataFilter, FictionApp, FictionDb, FictionEmail, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, IndexMeta } from '@fiction/core'
 
 import { EnvVar, vars } from '@fiction/core/plugin-env'
-import type { FictionAdmin } from '@fiction/plugin-admin'
 // import type { PluginMain } from '@fiction/plugin-admin-index'
 import type { FictionAi } from '@fiction/plugin-ai'
 import type { FictionMonitor } from '@fiction/plugin-monitor'
 import { ManageIndex, ManagePage, ManageSite } from './endpoint'
 import { tables } from './tables'
 import { Site } from './site'
-import type { ToolKeys } from './plugin-builder/tools'
-import { tools } from './plugin-builder/tools'
 import { ManageCert } from './endpoint-certs'
 import { getRoutes } from './routes'
 import type { Theme } from './theme'
 import { FictionSiteBuilder } from './plugin-builder'
 
 export * from './site'
+export * from './card'
+export * from './theme'
 
 vars.register(() => [new EnvVar({ name: 'FLY_API_TOKEN' })])
 

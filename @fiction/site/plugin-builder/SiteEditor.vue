@@ -4,13 +4,13 @@ import { onResetUi, resetUi, toLabel, useService, vue } from '@fiction/core'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import El404 from '@fiction/ui/El404.vue'
+import XTextBase from '@fiction/ui/XTextBase.vue'
 import type { Site } from '../site'
 import type { FictionSites } from '..'
 import { getMountContext, loadSite } from '../load'
 import type { Card } from '../card'
 import { activeSiteDisplayUrl } from '../utils/site'
 import SiteEditorEditMode from './SiteEditorEditMode.vue'
-import XTextBase from './XTextBase.vue'
 
 type UserConfig = {
   isNavItem: boolean

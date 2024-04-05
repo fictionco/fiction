@@ -5,7 +5,7 @@ import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
-import XElement from '@fiction/site/engine/XElement.vue'
+import XElement from '@fiction/cards/CardElement.vue'
 import NavMobile from './NavMobile.vue'
 import NavAccount from './NavAccount.vue'
 

@@ -2,8 +2,8 @@
 import type { ActionItem, MediaItem, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
-import type { Card } from '@fiction/site/card'
-import XText from '@fiction/site/plugin-builder/XText.vue'
+import type { Card } from '@fiction/site'
+import XText from '@fiction/cards/CardText.vue'
 import XSocials from '../ui/XSocials.vue'
 
 export type UserConfig = {

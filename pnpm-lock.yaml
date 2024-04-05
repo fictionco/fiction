@@ -202,6 +202,36 @@ importers:
         specifier: ^2.0.10
         version: 2.0.10(typescript@5.4.4)
 
+  '@fiction/cards':
+    dependencies:
+      '@fiction/core':
+        specifier: workspace:*
+        version: link:../core
+      '@fiction/plugin-ai':
+        specifier: workspace:*
+        version: link:../plugins/plugin-ai
+      '@fiction/plugin-highlight-code':
+        specifier: workspace:*
+        version: link:../plugins/plugin-highlight-code
+      '@fiction/plugin-monitor':
+        specifier: workspace:*
+        version: link:../plugins/plugin-monitor
+      '@fiction/plugin-notify':
+        specifier: workspace:*
+        version: link:../plugins/plugin-notify
+      '@fiction/site':
+        specifier: workspace:*
+        version: link:../site
+      '@fiction/ui':
+        specifier: workspace:*
+        version: link:../ui
+      tailwindcss:
+        specifier: ^3.4.3
+        version: 3.4.3(ts-node@10.9.2)
+      vue:
+        specifier: ^3.4.21
+        version: 3.4.21(typescript@5.4.4)
+
   '@fiction/core':
     dependencies:
       '@aws-sdk/client-cloudfront':
@@ -887,9 +917,16 @@ importers:
       vue:
         specifier: ^3.4.21
         version: 3.4.21(typescript@5.4.4)
+    devDependencies:
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../cards
 
   '@fiction/themes/admin':
     dependencies:
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../../cards
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
@@ -911,6 +948,9 @@ importers:
 
   '@fiction/themes/fiction':
     dependencies:
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../../cards
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core
@@ -929,6 +969,9 @@ importers:
 
   '@fiction/themes/minimal':
     dependencies:
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../../cards
       '@fiction/core':
         specifier: workspace:*
         version: link:../../core

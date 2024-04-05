@@ -9,7 +9,7 @@ import { FictionNotify } from '@fiction/plugin-notify'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site'
 
-import FSite from '@fiction/site/engine/FSite.vue'
+import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
 import { getThemes } from './themes'

@@ -2,6 +2,7 @@
   "dependencies": {
     "@fiction/core": "workspace:*",
     "@fiction/site": "workspace:*",
+    "@fiction/cards": "workspace:*",
     "@fiction/ui": "workspace:*",
     "tailwindcss": "^3.4.3",
     "vue": "^3.4.21"

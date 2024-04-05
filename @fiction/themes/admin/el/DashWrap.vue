@@ -3,7 +3,7 @@ import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fict
 import { getAccessLevel, onResetUi, useService, vue } from '@fiction/core'
 import El404 from '@fiction/ui/El404.vue'
 import type { Card } from '@fiction/site/card'
-import ElEngine from '@fiction/site/cards/ElEngine.vue'
+import ElEngine from '@fiction/cards/CardEngine.vue'
 import DashNav from './DashNav.vue'
 import ABar from './DashBar.vue'
 import ElLoadingLogo from './ElLoadingLogo.vue'

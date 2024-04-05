@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { waitFor } from '@fiction/core'
 import { getOptionJsonSchema } from '@fiction/ui'
+import { standardCardTemplates } from '@fiction/cards'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
-import { standardCardTemplates } from '../cards'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('card', async () => {

@@ -1,6 +1,6 @@
 import { type FictionEnv, safeDirname, vue } from '@fiction/core'
+import { standardCardTemplates } from '@fiction/cards'
 import { CardTemplate } from '../../card'
-import { standardCardTemplates } from '../../cards'
 import { Theme, createCard } from '../../theme'
 
 const def = vue.defineAsyncComponent

@@ -10,13 +10,6 @@ import type { iconStyle } from './util'
 import { getCardCompletion } from './utils/ai'
 import type { ComponentConstructor } from './type-utils'
 
-export type EditorState = {
-  selectedCardId: string
-  selectedPageId: string
-  selectedRegionId: 'header' | 'main' | 'footer'
-  savedCardOrder: Record<string, string[]>
-}
-
 type CardCategory = 'basic' | 'theme' | 'stats' | 'marketing' | 'content' | 'layout' | 'media' | 'navigation' | 'social' | 'commerce' | 'form' | 'other' | 'special'
 
 export const categoryOrder: CardCategory[] = ['basic', 'theme', 'marketing', 'content', 'stats', 'layout', 'media', 'navigation', 'social', 'commerce', 'form', 'other', 'special']
