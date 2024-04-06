@@ -1,4 +1,4 @@
-import type { FictionEnv, FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
+import type { FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
 import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'
@@ -129,10 +129,10 @@ export class Theme extends FictionPlugin<ThemeSettings> {
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 // Base interface without slug
 type BasecreateCardArgs<
-T extends keyof CardUserConfig<U>,
-U extends readonly CardTemplate[],
-V extends PageRegion,
-W extends CardTemplate | undefined,
+  T extends keyof CardUserConfig<U>,
+  U extends readonly CardTemplate[],
+  V extends PageRegion,
+  W extends CardTemplate | undefined,
 > = {
   templates?: U
   tpl?: W

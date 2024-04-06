@@ -5,15 +5,15 @@ import ElemMap from './AboutMap.vue'
 <template>
   <div class="mt-20">
     <section
-      class="relative z-20 mx-auto -mb-20 max-w-3xl rounded bg-white p-12 px-4 text-center shadow-xl ring-1 ring-black/10 md:px-20 lg:px-12"
+      class="relative z-20 mx-auto -mb-20 max-w-3xl rounded dark:bg-theme-900 p-12 px-4 text-center shadow-xl ring-1 ring-black/10 md:px-20 lg:px-12"
     >
       <h1
-        class="m-auto mb-4 text-3xl font-extrabold sm:text-4xl lg:text-6xl xl:text-7xl"
+        class="m-auto mb-4 text-3xl font-extrabold sm:text-4xl x-font-title"
       >
         Made in Utah and California
       </h1>
       <p class="m-auto text-xl text-theme-500 sm:max-w-lg">
-        Kaption's office walking distance of the pacific coast highway and the
+        Fiction's office walking distance of the pacific coast highway and the
         beach.
       </p>
       <div class="mt-4 inline-flex justify-center text-xl">
@@ -40,7 +40,7 @@ import ElemMap from './AboutMap.vue'
 
         <div class="ml-3 block">
           <div class="font-bold">
-            Laguna Beach, CA
+            Irvine, California
           </div>
         </div>
       </div>

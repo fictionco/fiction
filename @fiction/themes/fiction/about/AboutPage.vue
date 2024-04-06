@@ -1,8 +1,19 @@
 <script lang="ts" setup>
-import { unhead } from '@fiction/core'
+import type { vue } from '@fiction/core'
+import { unhead, useService } from '@fiction/core'
+import type { Card } from '@fiction/site'
 import { ref } from 'vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import ElemDirections from './AboutDirections.vue'
+
+export type UserConfig = {
+  icon?: string
+}
+
+const props = defineProps({
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
+})
+const { fictionUser, fictionRouter } = useService()
 
 const team = ref([
   {
@@ -52,15 +63,15 @@ unhead.useHead({
 </script>
 
 <template>
-  <div class="pt-32">
+  <div>
     <div class="overflow-visible">
       <section
-        class="mx-auto max-w-3xl px-4 pt-12 text-center md:px-20 lg:px-12 lg:pt-28"
+        class="mx-auto max-w-3xl px-4 pt-12 text-center md:px-20 lg:px-12 "
       >
         <h1
-          class="m-auto mb-4 text-3xl font-extrabold tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl"
+          class="m-auto mb-4 text-3xl x-font-title font-bold tracking-tight sm:text-4xl md:mb-10 lg:text-5xl xl:text-6xl"
         >
-          A company built around customer feedback
+          About
         </h1>
         <p class="text-color-500 m-auto mb-12 text-2xl lg:mb-20 lg:text-2xl">
           Kaption was founded with a passion for data-driven insights, customer
@@ -73,8 +84,8 @@ unhead.useHead({
       >
         <div class="relative md:col-span-6">
           <div class="">
-            <p class="mb-3 text-5xl font-extrabold">
-              About Kaption Co.
+            <p class="mb-3 text-3xl font-extrabold x-font-title">
+              Backstory
             </p>
             <div class="text-theme-500 space-y-5 text-2xl">
               <p class="mt-5">
@@ -98,10 +109,10 @@ unhead.useHead({
                   class="float-right inline-block h-16 w-16 rounded-full"
                   :email="member.email"
                 />
-                <p class="text-3xl font-bold">
+                <p class="text-3xl font-bold x-font-title">
                   {{ member.name }}
                 </p>
-                <p class="text-xl font-medium text-primary-500">
+                <p class="text-xl font-medium">
                   {{ member.title }}
                 </p>
                 <div class="my-4">
