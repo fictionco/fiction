@@ -1,7 +1,7 @@
 // @unocss-include
 
 import type { FictionApp, FictionPluginSettings } from '@fiction/core'
-import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { FictionPlugin, envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { templates as templates404 } from './404'
 import { templates as templatesQuote } from './quote'
@@ -14,6 +14,11 @@ import { templates as templatesTour } from './tour'
 import { templates as templatesMediaGrid } from './media-grid'
 import { templates as templatesMetrics } from './metrics'
 import { templates as templatesFeatures } from './features'
+
+/**
+ * Add path for tailwindcss to scan for styles
+ */
+envConfig.register({ name: 'CARD_UI_ROOT', onLoad: ({ fictionEnv }) => { fictionEnv.addUiRoot(safeDirname(import.meta.url)) } })
 
 export const standardCardTemplates = [
   new CardTemplate({

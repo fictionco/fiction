@@ -1,7 +1,6 @@
 import path from 'node:path'
 import process from 'node:process'
 import dotenv from 'dotenv'
-import type { X } from 'vitest/dist/reporters-P7C2ytIv'
 import { FictionObject } from '../plugin'
 import type { HookType } from '../utils'
 import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks, toSlug, vue } from '../utils'
@@ -14,62 +13,12 @@ import { standardAppCommands } from './commands'
 import { done } from './utils'
 import { generateStaticConfig } from './generate'
 import { commonServerOnlyModules } from './serverOnly'
+import { EnvVar, envConfig, vars } from './onImport'
 
+export { envConfig, vars, EnvVar }
 export * from './types'
 export * from './entry'
 export * from './commands'
-
-type VerifyVar = (params: {
-  fictionEnv: FictionEnv
-  value: string | undefined
-}) => boolean
-
-interface EnvVarSettings<X extends string> {
-  name: X
-  val?: string | undefined
-  verify?: VerifyVar
-  isOptional?: boolean
-  isPublic?: boolean
-}
-
-export class EnvVar<X extends string> {
-  name: X
-  val: vue.Ref<string | undefined>
-  verify?: VerifyVar
-  isOptional: boolean
-  isPublic: boolean
-  constructor(settings: EnvVarSettings<X>) {
-    this.name = settings.name
-    this.val = vue.ref(settings.val)
-    this.verify = settings.verify
-    this.isOptional = settings.isOptional || false
-    this.isPublic = settings.isPublic || false
-  }
-}
-
-class EnvVarList {
-  list: (() => EnvVar<string>[])[] = [
-    () => [
-      new EnvVar({ name: 'NODE_ENV', isPublic: true }),
-      new EnvVar({ name: 'COMMAND', isPublic: true }),
-      new EnvVar({ name: 'COMMAND_OPTS', isPublic: true }),
-      new EnvVar({ name: 'RUNTIME_VERSION', isPublic: true }),
-      new EnvVar({ name: 'RUNTIME_COMMIT', isPublic: true }),
-      new EnvVar({ name: 'IS_TEST', isPublic: true }),
-    ],
-  ]
-
-  register(v: () => EnvVar<string>[]) {
-    this.list.push(v)
-  }
-}
-
-/**
- * Singleton of var callbacks.
- * Register envVars (as a side-effect on import) from plugins and then call the functions
- * once FictionEnv has set up.
- */
-export const vars = new EnvVarList()
 
 export interface FictionControlSettings {
   hooks?: HookType<types.FictionEnvHookDictionary>[]
@@ -180,6 +129,8 @@ export class FictionEnv<
         }
       },
     })
+
+    envConfig.list.forEach(c => c.onLoad({ fictionEnv: this }))
   }
 
   setup() {
@@ -264,11 +215,7 @@ export class FictionEnv<
       .map((c) => {
         const name = `${c.command.toUpperCase()}_PORT`
         const val = process.env[name]
-        return new EnvVar({
-          name,
-          val: val || String(c.port.value),
-          isPublic: true,
-        })
+        return new EnvVar({ name, val: val || String(c.port.value), isPublic: true })
       })
 
     return [...customVars, ...commandVars]

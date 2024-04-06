@@ -15,6 +15,7 @@ export function safeDirname(url?: string, relativePath = ''): string {
     return ''
   return path.join(new URL('.', url).pathname, relativePath)
 }
+
 export function randomBetween(min: number, max: number, decimalPlaces = 0): number {
   const rand = Math.random() * (max - min) + min
   const power = 10 ** decimalPlaces

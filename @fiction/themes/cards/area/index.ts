@@ -1,10 +1,11 @@
 // @unocss-include
 
-import { vue } from '@fiction/core'
+import { safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 
 export const templates = [
   new CardTemplate({
+    root: safeDirname(import.meta.url),
     templateId: 'area',
     category: ['basic'],
     description: 'container for other elements',

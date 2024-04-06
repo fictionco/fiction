@@ -32,6 +32,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   options?: InputOption[]
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
+  root?: string
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<

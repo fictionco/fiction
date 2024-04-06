@@ -1,15 +1,15 @@
 import type { FictionUser } from './plugin-user'
-import { omit } from './utils'
-import type { EndpointMap } from './utils/endpoint'
+import { omit, toSlug } from './utils'
+import type { EndpointMap, EndpointSettings } from './utils/endpoint'
 import { Endpoint } from './utils/endpoint'
 import type { LogHelper } from './plugin-log'
 import { log } from './plugin-log'
 import type { Query } from './query'
 import type { FictionServer } from './plugin-server'
 import { _stop } from './utils/error'
-import * as utils from './utils'
 import type { FictionEnv } from './plugin-env'
 import { standardTable } from './tbl'
+import type { express } from './utils/libraries'
 
 export type FictionPluginSettings = {
   fictionEnv: FictionEnv
@@ -50,7 +50,7 @@ export abstract class FictionPlugin<
   fictionEnv?: FictionEnv
   constructor(name: string, settings: T) {
     super(name, settings)
-    this.basePath = `/${utils.toSlug(this.name)}`
+    this.basePath = `/${toSlug(this.name)}`
     this.fictionEnv = this.settings.fictionEnv
 
     if (this.settings.root) {
@@ -73,8 +73,8 @@ export abstract class FictionPlugin<
     basePath?: string
     fictionServer?: FictionServer
     fictionUser?: FictionUser
-    endpointHandler?: (options: utils.EndpointSettings<Query>) => Endpoint
-    middleware?: () => utils.express.RequestHandler[]
+    endpointHandler?: (options: EndpointSettings<Query>) => Endpoint
+    middleware?: () => express.RequestHandler[]
   },
   ): M {
     const { queries, fictionServer, fictionUser, basePath, endpointHandler, middleware } = params
@@ -91,7 +91,7 @@ export abstract class FictionPlugin<
 
     const entries = Object.entries(queries)
       .map(([key, queryHandler]) => {
-        const opts: utils.EndpointSettings<Query> = {
+        const opts: EndpointSettings<Query> = {
           key,
           queryHandler,
           serverUrl: fictionServer?.serverUrl,
