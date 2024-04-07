@@ -3,7 +3,7 @@
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site'
-import { inputSets } from '../inputSets'
+import { mediaItemsOptionSet } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -19,7 +19,7 @@ export const templates = [
         label: 'Label',
         input: 'InputText',
       }),
-      ...inputSets.mediaItemList(),
+      ...mediaItemsOptionSet.toOptions(),
     ],
   }),
 ] as const

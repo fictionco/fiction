@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { inputSets } from '@fiction/cards/inputSets'
+import { navItemsOptionSet, socialsOptionSet } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 
 export const templates = [
@@ -21,8 +21,8 @@ export const templates = [
     },
     options: [
       new InputOption({ key: 'userConfig.logo', label: 'Logo', input: 'InputMediaDisplay' }),
-      ...inputSets.navItemList({ inputs: ['name', 'href', 'target'] }),
-      ...inputSets.socials(),
+      ...navItemsOptionSet.toOptions(),
+      ...socialsOptionSet.toOptions(),
     ],
   }),
 ] as const

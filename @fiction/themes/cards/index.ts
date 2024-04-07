@@ -1,6 +1,6 @@
 // @unocss-include
 
-import type { FictionApp, FictionPluginSettings } from '@fiction/core'
+import type { FictionPluginSettings } from '@fiction/core'
 import { FictionPlugin, envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { templates as templates404 } from './404'
@@ -13,8 +13,8 @@ import { templates as templatesArea } from './area'
 import { templates as templatesTour } from './tour'
 import { templates as templatesMediaGrid } from './media-grid'
 import { templates as templatesMetrics } from './metrics'
-import { templates as templatesFeatures } from './features'
-
+import * as features from './features'
+import * as team from './team'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -34,20 +34,11 @@ export const standardCardTemplates = [
 ] as const
 
 export const marketingCardTemplates = [
+  ...team.templates,
   ...templatesLogos,
   ...templatesTour,
   ...templatesMediaGrid,
-  ...templatesFeatures,
+  ...features.templates,
   ...templatesMetrics,
   ...templatesDoc,
 ] as const
-
-type FictionCardsSettings = FictionPluginSettings
-
-export class FictionCards extends FictionPlugin<FictionCardsSettings> {
-  standard = standardCardTemplates
-  marketing = marketingCardTemplates
-  constructor(settings: FictionCardsSettings) {
-    super('FictionCards', { root: safeDirname(import.meta.url), ...settings })
-  }
-}

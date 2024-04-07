@@ -11,12 +11,12 @@ export const templates = [
     description: 'Team listing',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
     iconTheme: 'orange',
-    el: vue.defineAsyncComponent(() => import('./CardTeam.vue')),
+    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
     options: [
       ...optionSets.headers.toOptions({ refine: { } }),
       ...optionSets.mediaItems.toOptions({ refine: { } }),
       ...optionSets.actionItems.toOptions(),
     ],
-    userConfig: { heading: 'Hero', subHeading: 'Subheading' },
+    userConfig: {},
   }),
 ] as const

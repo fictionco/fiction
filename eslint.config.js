@@ -6,7 +6,10 @@ export default antfu(
   {
     typescript: {
       tsconfigPath: './tsconfig.json',
-      parserOptions: { project: './tsconfig.json', extraFileExtensions: ['.vue', '.json'] },
+      parserOptions: {
+        project: './tsconfig.json',
+        extraFileExtensions: ['.vue', '.json'],
+      },
     },
     rules: {
       'import/no-cycle': ['error', { maxDepth: 5 }],

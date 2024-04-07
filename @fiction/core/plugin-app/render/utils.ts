@@ -54,7 +54,7 @@ export class IndexHtml extends FictionObject<IndexHtmlSettings> {
 }
 
 export function getRequestVars(args: { request: Request }): Record<string, string> {
-  const { request  } = args
+  const { request } = args
 
   // Extracting protocol (HTTP vs HTTPS)
   const protocol = request?.protocol || 'http' // Defaults to 'http' if protocol is not available
@@ -77,7 +77,6 @@ export function getRequestVars(args: { request: Request }): Record<string, strin
     : ''
 
   const originalHost = request?.get('X-Original-Host') || ''
-
 
   const ORIGIN = `${protocol}://${host}`
 

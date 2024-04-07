@@ -1,6 +1,5 @@
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { inputSets } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 import { marketingCardTemplates, standardCardTemplates } from '@fiction/cards'
 
@@ -11,12 +10,7 @@ export const templates = [
     templateId: 'fictionHeader',
     el: def(() => import('./el/ElHeader.vue')),
 
-    options: [
-      new InputOption({ key: 'logoUrl', label: 'Logo', input: 'InputMediaDisplay' }),
-      ...inputSets.navItemList({ label: 'Nav', parentKey: 'nav' }),
-      ...inputSets.actions({ label: 'Nav', parentKey: 'nav' }),
-      ...inputSets.navItemList({ label: 'Socials (Mobile)', parentKey: 'socialList' }),
-    ],
+    options: [],
     userConfig: {
       spacing: { spacingClass: 'py-0' },
     },

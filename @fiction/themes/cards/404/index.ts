@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { inputSets } from '../inputSets'
+import { actionItemOptionSet, headerOptionSet } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -13,8 +13,8 @@ export const templates = [
     iconTheme: 'red',
     el: vue.defineAsyncComponent(() => import('./El404.vue')),
     options: [
-      ...inputSets.headers(),
-      ...inputSets.actions(),
+      ...headerOptionSet.toOptions(),
+      ...actionItemOptionSet.toOptions(),
     ],
   }),
 ] as const

@@ -1,5 +1,4 @@
 import type { Buffer } from 'node:buffer'
-import { buffer } from 'node:stream/consumers'
 import type { CloudFront, Invalidation } from '@aws-sdk/client-cloudfront'
 import type {
   DeleteObjectCommandOutput,

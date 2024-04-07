@@ -1,5 +1,4 @@
 import path from 'node:path'
-import { buffer } from 'node:stream/consumers'
 import type sharp from 'sharp'
 import fs from 'fs-extra'
 import { Query } from '../query'

@@ -1,4 +1,4 @@
-import type { FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
+import type { FictionMedia, FictionPluginSettings, Processor, vue } from '@fiction/core'
 import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'

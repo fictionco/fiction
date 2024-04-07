@@ -16,14 +16,24 @@ const topHeroCard = createCard({
   },
 })
 
+const teamCard = createCard({
+  templates,
+  templateId: 'team',
+  userConfig: {
+    subHeading: `People helping build your story`,
+    heading: `Team`,
+    splash: { format: 'url', url: people },
+    layout: 'justified',
+  },
+})
+
 const aboutCard = createCard({
   templates,
   tpl: new CardTemplate({
     templateId: 'sites',
     el: vue.defineAsyncComponent(() => import('./AboutPage.vue')),
   }),
-  userConfig: {
-  },
+  userConfig: {},
 })
 
 export function page() {
@@ -38,8 +48,8 @@ export function page() {
         templateId: 'area',
         cards: [
           topHeroCard,
+          teamCard,
           aboutCard,
-
         ],
       }),
 

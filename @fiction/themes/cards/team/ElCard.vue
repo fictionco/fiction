@@ -3,9 +3,7 @@ import type { ActionItem, MediaDisplayObject } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 import ElImage from '@fiction/ui/ElImage.vue'
-import CardElement from '../CardElement.vue'
-import CardText from '../CardText.vue'
-import TextStandard from './TextStandard.vue'
+import StandardTeam from './StandardTeam.vue'
 
 export type UserConfig = {
   heading?: string
@@ -30,11 +28,7 @@ const uc = vue.computed(() => {
 <template>
   <div class=" ">
     <div class="mx-auto max-w-6xl px-6 lg:px-8">
-      <TextStandard :card="card" />
-
-      <div v-if="uc.splash" class="mt-16 flow-root sm:mt-20">
-        <ElImage class="w-full aspect-[2/1] rounded-lg overflow-hidden" :media="uc.splash" />
-      </div>
+      <StandardTeam :card="card" />
     </div>
   </div>
 </template>

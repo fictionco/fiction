@@ -304,7 +304,8 @@ export type OptionSetSettings< T extends Record<string, unknown> = Record<string
 }
 
 export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FictionObject<OptionSetSettings<T>> {
-  refiner = new InputOptionsRefiner({ basePath: this.settings.basePath || '', caller: `OptionSet` })
+  basePath = this.settings.basePath || 'userConfig'
+  refiner = new InputOptionsRefiner({ basePath: this.basePath, caller: `OptionSet` })
   constructor(settings?: OptionSetSettings<T>) {
     super('OptionSet', (settings || {}))
   }

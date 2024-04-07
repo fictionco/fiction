@@ -1,4 +1,3 @@
-
 import { createCard } from '@fiction/site/theme'
 import { templates } from '../templates'
 

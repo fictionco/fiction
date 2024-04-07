@@ -2,7 +2,7 @@
 import path from 'node:path'
 import process from 'node:process'
 import fs from 'fs-extra'
-import type {  ExecaError, ExecaSyncReturnValue } from 'execa'
+import type { ExecaError, ExecaSyncReturnValue } from 'execa'
 import enquirer from 'enquirer'
 import type { ReleaseType } from 'semver'
 import semver from 'semver'

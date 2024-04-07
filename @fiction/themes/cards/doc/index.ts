@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { inputSets } from '../inputSets'
+import { postOptionSet } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -13,7 +13,7 @@ export const templates = [
     iconTheme: 'pink',
     el: vue.defineAsyncComponent(() => import('./ElDoc.vue')),
     options: [
-      ...inputSets.post({ prefix: 'userConfig.post' }),
+      ...postOptionSet.toOptions(),
     ],
   }),
 ] as const
