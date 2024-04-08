@@ -1,6 +1,7 @@
 import type { FictionEnv, NavItem } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme'
 import { safeDirname } from '@fiction/core'
+import * as cards from '@fiction/cards'
 
 import { templates } from './templates'
 import * as home from './pageHome'
@@ -42,7 +43,7 @@ const socialList: NavItem[] = [
 
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
-  const pages = () => ([home.page(), tour.page(), about.page()])
+  const pages = () => ([home.page(), tour.page(), about.page(), ...cards.pages()])
 
   return new Theme({
     fictionEnv,

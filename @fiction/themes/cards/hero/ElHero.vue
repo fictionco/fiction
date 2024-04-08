@@ -26,12 +26,22 @@ const uc = vue.computed(() => {
 </script>
 
 <template>
-  <div class=" ">
-    <div class="mx-auto max-w-6xl px-6 lg:px-8">
-      <TextStandard :card="card" />
+  <div :class="card.classes.value.contentWidth">
+    <div :class="uc.layout === 'left' ? 'flex gap-12 lg:gap-24 items-center' : ''">
+      <div :class="uc.layout === 'left' ? 'text-left max-w-xl flex-auto' : ''">
+        <TextStandard :card="card" />
+      </div>
 
-      <div v-if="uc.splash" class="mt-16 flow-root sm:mt-20">
-        <ElImage class="w-full aspect-[2/1] rounded-lg overflow-hidden" :media="uc.splash" />
+      <div
+        v-if="uc.splash"
+        class="flow-root"
+        :class="uc.layout === 'left' ? ' w-[50%]' : 'mt-16 sm:mt-20 w-full'"
+      >
+        <ElImage
+          class="w-full rounded-lg overflow-hidden dark:ring-1 dark:ring-theme-800"
+          :class="uc.layout === 'left' ? 'lg:aspect-[4/3] w-full' : 'aspect-[2/1]'"
+          :media="uc.splash"
+        />
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import 'uno.css'
 import type { FictionRouter } from '@fiction/core'
 import { getColorScheme, log, unhead, useService, vue } from '@fiction/core'
 import { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'

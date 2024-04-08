@@ -44,7 +44,7 @@ export type ClickHandler = (args: {
 }) => void | Promise<void>
 
 export interface NavItem {
-  name: string
+  name?: string
   desc?: string
   icon?: string
   href?: string

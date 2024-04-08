@@ -1,17 +1,21 @@
 <script lang="ts" setup>
-import type { ActionItem, MediaDisplayObject } from '@fiction/core'
+import type { MediaDisplayObject, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
-import ElImage from '@fiction/ui/ElImage.vue'
 import StandardTeam from './StandardTeam.vue'
 
 export type UserConfig = {
+  layout?: 'mediabox' | 'grid'
   heading?: string
   subHeading?: string
   superHeading?: string
-  actions?: ActionItem[]
-  splash?: MediaDisplayObject
-  layout?: 'center' | 'justified' | 'right' | 'left'
+  profiles?: {
+    name?: string
+    desc?: string
+    title?: string
+    media?: MediaDisplayObject
+    social?: NavItem[]
+  }[]
 }
 const props = defineProps({
   card: {
@@ -26,8 +30,16 @@ const uc = vue.computed(() => {
 </script>
 
 <template>
-  <div class=" ">
-    <div class="mx-auto max-w-6xl px-6 lg:px-8">
+  <div :class="card.classes.value.contentWidth">
+    <div class="grid grid-cols-1 gap-x-8 gap-y-20  xl:grid-cols-3">
+      <div class="mx-auto max-w-2xl lg:mx-0 text-center lg:text-left space-y-3 lg:space-y-6">
+        <h2 class="text-3xl font-bold tracking-tight sm:text-5xl x-font-title">
+          {{ uc.heading }}
+        </h2>
+        <p class="text-lg leading-8 dark:text-theme-300">
+          {{ uc.subHeading }}
+        </p>
+      </div>
       <StandardTeam :card="card" />
     </div>
   </div>

@@ -1,11 +1,48 @@
 // @unocss-include
 
-import type { OptionSetArgs, Refinement } from '@fiction/ui'
+import type { InputOptionGeneration, OptionSetArgs, Refinement } from '@fiction/ui'
 import { InputOption, OptionSet } from '@fiction/ui'
 import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
 
-function standardOption(args?: OptionSetArgs) {
+type StandardOptionArgs = OptionSetArgs & { options?: InputOption[], generation?: InputOptionGeneration }
+
+function standardOption(args?: StandardOptionArgs) {
+  const { groupPath, label } = args || {}
   return {
+    media: new InputOption({
+      key: 'media',
+      label: 'Image',
+      input: 'InputMediaDisplay',
+      props: { formats: args?.formats },
+      schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
+    }),
+    name: new InputOption({ key: 'name', label: 'Text', input: 'InputText', schema: ({ z }) => z.string() }),
+    desc: new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', schema: ({ z }) => z.string().optional() }),
+    href: new InputOption({
+      key: 'href',
+      label: 'Link / Route',
+      input: 'InputText',
+      schema: ({ z }) => z.string().refine(val => /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i.test(val)),
+    }),
+    target: new InputOption({
+      key: 'target',
+      label: 'Target',
+      input: 'InputSelect',
+      list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }],
+      schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
+    }),
+    size: new InputOption({
+      key: 'size',
+      label: 'Size',
+      input: 'InputSelect',
+      list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
+    }),
+    btn: new InputOption({
+      key: 'btn',
+      label: 'Type',
+      input: 'InputSelect',
+      list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'],
+    }),
     heading: new InputOption({
       key: 'heading',
       label: 'Heading',
@@ -30,11 +67,50 @@ function standardOption(args?: OptionSetArgs) {
       default: () => 'Super Headline',
       schema: ({ z }) => z.string().optional(),
     }),
-    btnType: new InputOption({
-      key: 'btn',
-      label: 'Type',
+    socialIcon: new InputOption({
+      key: 'icon',
+      label: 'Icon',
       input: 'InputSelect',
-      list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'],
+      schema: ({ z }) => z.enum(['x', 'linkedin', 'facebook', 'instagram', 'youtube', 'github', 'email', 'phone', 'pinterest', 'snapchat', 'twitch', 'discord', 'slack', 'snapchat']),
+      list: [
+        { name: 'X', value: 'x' },
+        { name: 'LinkedIn', value: 'linkedin' },
+        { name: 'Facebook', value: 'facebook' },
+        { name: 'Instagram', value: 'instagram' },
+        { name: 'YouTube', value: 'youtube' },
+        { name: 'GitHub', value: 'github' },
+        { name: 'Email', value: 'email' },
+        { name: 'Phone', value: 'phone' },
+        { name: 'Pinterest', value: 'pinterest' },
+        { name: 'Snapchat', value: 'snapchat' },
+        { name: 'Twitch', value: 'twitch' },
+        { name: 'Discord', value: 'discord' },
+        { name: 'Slack', value: 'slack' },
+        { name: 'Snapchat', value: 'snapchat' },
+      ],
+    }),
+
+    groupTitle: new InputOption({
+      aliasKey: 'title',
+      key: `${groupPath}Title`,
+      label: `${label} Title`,
+      input: 'InputText',
+      schema: ({ z }) => z.string().optional(),
+    }),
+    group: (_: StandardOptionArgs) => new InputOption({
+      label,
+      input: 'group',
+      options: _.options,
+      key: `${groupPath}Group`,
+      generation: _.generation,
+    }),
+    inputList: (_: StandardOptionArgs) => new InputOption({
+      aliasKey: 'group',
+      key: `${groupPath}`,
+      label,
+      input: 'InputList',
+      options: _.options,
+      schema: ({ z, subSchema }) => z.array(subSchema),
     }),
   }
 }
@@ -44,8 +120,8 @@ export const headerOptionSet = new OptionSet<{
 }> ({
   basePath: 'userConfig',
   inputOptions(args) {
-    const standard = standardOption(args)
-    return [standard.heading, standard.subHeading, standard.superHeading]
+    const std = standardOption(args)
+    return [std.heading, std.subHeading, std.superHeading]
   },
 })
 
@@ -54,44 +130,13 @@ export const actionItemOptionSet = new OptionSet< {
 }> ({
   basePath: 'userConfig',
   inputOptions: (args) => {
-    const label = args?.label || 'Actions'
-    const groupPath = args?.groupPath || 'actions'
+    const s = standardOption({ label: 'Actions', groupPath: 'actions', ...args })
 
-    const listOptions = [
-      new InputOption({
-        key: 'name',
-        label: 'Text',
-        input: 'InputText',
-      }),
-      new InputOption({
-        key: 'href',
-        label: 'Link / Route',
-        input: 'InputText',
-      }),
-      new InputOption({
-        key: 'btn',
-        label: 'Type',
-        input: 'InputSelect',
-        list: ['primary', 'default', 'theme', 'danger', 'caution', 'success'],
-      }),
-      new InputOption({
-        key: 'size',
-        label: 'Size',
-        input: 'InputSelect',
-        list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
-      }),
-    ]
+    const options = [s.name, s.href, s.btn, s.size]
 
-    const out = [
-      new InputOption({
-        aliasKey: 'group',
-        key: `${groupPath}`,
-        input: 'InputList',
-        options: listOptions,
-      }),
-    ]
+    const out = [s.inputList({ options })]
 
-    return [new InputOption({ label, input: 'group', options: out, key: 'actionItemsGroup' })]
+    return [s.group({ options: out })]
   },
 })
 
@@ -101,62 +146,11 @@ export const navItemsOptionSet = new OptionSet<{
   basePath: 'userConfig',
   defaultRefinement: { group: { refine: { name: true, href: true, target: true } } },
   inputOptions: (args) => {
-    const label = args?.label || 'Nav'
-    const groupPath = args?.groupPath || 'nav'
-    const listOptions = [
-      new InputOption({
-        key: 'name',
-        label: 'Text',
-        input: 'InputText',
-        schema: ({ z }) => z.string(),
-      }),
-      new InputOption({
-        key: 'desc',
-        label: 'Description',
-        input: 'InputTextarea',
-        schema: ({ z }) => z.string().optional(),
-      }),
-      new InputOption({
-        key: 'href',
-        label: 'Link / Route',
-        input: 'InputText',
-        schema: ({ z }) => z.string().refine((val) => {
-          // Simple regex to allow relative paths and full URLs
-          const pattern = /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i
-          return pattern.test(val)
-        }),
-      }),
-      new InputOption({
-        key: 'target',
-        label: 'Target',
-        input: 'InputSelect',
-        list: [
-          { name: 'Normal', value: '_self' },
-          { name: 'New Window', value: '_blank' },
-        ],
-        schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
-      }),
-    ]
+    const s = standardOption({ label: 'Nav', groupPath: 'nav', ...args })
 
-    const out = [
-      new InputOption({
-        aliasKey: 'title',
-        key: `${groupPath}Title`,
-        label: `${label} Title`,
-        input: 'InputText',
-        schema: ({ z }) => z.string().optional(),
-      }),
-      new InputOption({
-        aliasKey: 'group',
-        key: `${groupPath}`,
-        label,
-        input: 'InputList',
-        options: listOptions,
-        schema: ({ z, subSchema }) => z.array(subSchema),
-      }),
-    ]
+    const out = [s.groupTitle, s.inputList({ options: [s.name, s.desc, s.href, s.target] })]
 
-    return [new InputOption({ label, input: 'group', options: out, key: 'navItemsGroup' })]
+    return [s.group({ options: out })]
   },
 })
 
@@ -166,34 +160,9 @@ export const mediaItemsOptionSet = new OptionSet< {
 }> ({
   basePath: 'userConfig',
   inputOptions: (args) => {
-    const label = args?.label || 'Media Items'
-    const groupPath = args?.groupPath || 'mediaItems'
+    const s = standardOption({ label: 'Media Items', groupPath: 'mediaItems', ...args })
 
-    // Define all possible options
-    const options = [
-      new InputOption({
-        key: 'media',
-        label: 'Image',
-        input: 'InputMediaDisplay',
-        props: { formats: args?.formats },
-        schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
-      }),
-      new InputOption({ key: 'name', label: 'Text', input: 'InputText' }),
-      new InputOption({ key: 'desc', label: 'Description', input: 'InputText' }),
-      new InputOption({ key: 'href', label: 'Link / Route', input: 'InputText' }),
-    ]
-
-    return [
-      new InputOption({
-        aliasKey: 'group',
-        key: `${groupPath}`,
-        label,
-        input: 'InputList',
-        options,
-        schema: ({ z, subSchema }) => z.array(subSchema),
-        generation: { estimatedMs: 40000 },
-      }),
-    ]
+    return [s.inputList({ options: [s.media, s.name, s.desc, s.href], generation: { estimatedMs: 40000 } })]
   },
 })
 
@@ -203,81 +172,13 @@ export const socialsOptionSet = new OptionSet< {
   basePath: 'userConfig',
   defaultRefinement: { group: { refine: { icon: true, href: true } } },
   inputOptions: (args) => {
-    const label = args?.label || 'Socials'
-    const groupPath = args?.groupPath || 'socials'
+    const std = standardOption({ label: 'Socials', groupPath: 'socials', ...args })
 
-    const options = [
-      new InputOption({
-        key: 'name',
-        label: 'Text',
-        input: 'InputText',
-        schema: ({ z }) => z.string().min(2).max(30),
-      }),
-      new InputOption({
-        key: 'desc',
-        label: 'Description',
-        input: 'InputTextarea',
-        schema: ({ z }) => z.string().min(2).max(100).optional(),
-      }),
-      new InputOption({
-        key: 'icon',
-        label: 'Icon',
-        input: 'InputSelect',
-        schema: ({ z }) => z.enum(['x', 'linkedin', 'facebook', 'instagram', 'youtube', 'github', 'email', 'phone', 'pinterest', 'snapchat', 'twitch', 'discord', 'slack', 'snapchat']),
-        list: [
-          { name: 'X', value: 'x' },
-          { name: 'LinkedIn', value: 'linkedin' },
-          { name: 'Facebook', value: 'facebook' },
-          { name: 'Instagram', value: 'instagram' },
-          { name: 'YouTube', value: 'youtube' },
-          { name: 'GitHub', value: 'github' },
-          { name: 'Email', value: 'email' },
-          { name: 'Phone', value: 'phone' },
-          { name: 'Pinterest', value: 'pinterest' },
-          { name: 'Snapchat', value: 'snapchat' },
-          { name: 'Twitch', value: 'twitch' },
-          { name: 'Discord', value: 'discord' },
-          { name: 'Slack', value: 'slack' },
-          { name: 'Snapchat', value: 'snapchat' },
-        ],
-      }),
-      new InputOption({
-        key: 'href',
-        label: 'Link / Route',
-        input: 'InputText',
-        schema: ({ z }) => z.string().refine(val => /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i.test(val)),
-      }),
-      new InputOption({
-        key: 'target',
-        label: 'Target',
-        input: 'InputSelect',
-        schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
-        list: [
-          { name: 'Normal', value: '_self' },
-          { name: 'New Window', value: '_blank' },
-        ],
-      }),
-    ]
+    const options = [std.name, std.desc, std.socialIcon, std.href, std.target]
 
-    const out = [
-      new InputOption({
-        aliasKey: 'title',
-        key: `${groupPath}Title`,
-        label: `${label} Title`,
-        input: 'InputText',
-        schema: ({ z }) => z.string().optional(),
-      }),
-      new InputOption({
-        aliasKey: 'group',
-        key: `${groupPath}`,
-        input: 'InputList',
-        label,
-        options,
-        schema: ({ z, subSchema }) => z.array(subSchema),
-      }),
-    ]
+    const out = [std.groupTitle, std.inputList({ options })]
 
-    return [new InputOption({ label, input: 'group', options: out, key: 'socialsGroup' })]
+    return [std.group({ options: out })]
   },
 })
 
@@ -296,8 +197,8 @@ export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilt
   basePath: 'userConfig',
   inputOptions: (args) => {
     const { mode } = args || {}
-    const label = args?.label || (mode === 'single' ? 'Quote' : 'Quotes')
-    const groupPath = args?.groupPath || 'quotes'
+
+    const std = standardOption({ label: mode === 'single' ? 'Quote' : 'Quotes', groupPath: 'quotes', ...args })
 
     const quoteOptions = () => {
       const options = [
@@ -314,15 +215,7 @@ export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilt
       return options
     }
 
-    if (args?.mode === 'multi') {
-      return [
-        new InputOption({ aliasKey: 'group', key: groupPath, label, input: 'InputList', options: quoteOptions(), schema: ({ z, subSchema }) => z.array(subSchema) }),
-      ]
-    }
-
-    else {
-      return [new InputOption({ label, input: 'group', options: quoteOptions(), key: 'quote' })]
-    }
+    return [mode === 'multi' ? std.inputList({ options: quoteOptions() }) : std.group({ options: quoteOptions() })]
   },
 })
 

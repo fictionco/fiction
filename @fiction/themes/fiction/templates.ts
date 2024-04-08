@@ -1,5 +1,4 @@
 import { vue } from '@fiction/core'
-import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site/card'
 import { marketingCardTemplates, standardCardTemplates } from '@fiction/cards'
 

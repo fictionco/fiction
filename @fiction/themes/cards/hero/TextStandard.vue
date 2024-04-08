@@ -19,7 +19,14 @@ const uc = vue.computed(() => {
 
 <template>
   <div>
-    <div :class="uc.layout === 'justified' ? `lg:flex justify-between text-left items-end gap-8` : 'mx-auto text-center'">
+    <div
+      :class="
+        uc.layout === 'justified'
+          ? `lg:flex justify-between text-left items-end gap-8`
+          : uc.layout === 'left' ? 'text-left'
+            : 'mx-auto text-center'
+      "
+    >
       <div :class="uc.layout === 'justified' ? 'min-w-[50%]' : ''">
         <CardText
           tag="h3"
@@ -33,7 +40,7 @@ const uc = vue.computed(() => {
           tag="h1"
           :card="card"
           class="x-font-title text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tighter  text-balance"
-          :class="uc.layout === 'justified' ? 'mt-3' : 'my-7'"
+          :class="uc.layout === 'justified' || uc.layout === 'left' ? 'mt-3' : 'my-7'"
           path="heading"
           placeholder="Heading"
         />

@@ -1,7 +1,6 @@
 // @unocss-include
 
-import type { FictionPluginSettings } from '@fiction/core'
-import { FictionPlugin, envConfig, safeDirname, vue } from '@fiction/core'
+import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import { templates as templates404 } from './404'
 import { templates as templatesQuote } from './quote'
@@ -42,3 +41,9 @@ export const marketingCardTemplates = [
   ...templatesMetrics,
   ...templatesDoc,
 ] as const
+
+export function pages() {
+  return [
+    team.page(),
+  ]
+}

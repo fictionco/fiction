@@ -161,12 +161,12 @@ W extends CardTemplate | undefined,
   const template = tpl || templates?.find(template => template.settings.templateId === templateId)
 
   // Ensure that 'templates' contains 'templateId'
-  if (!template) {
+  if (!template && templates) {
     log.error('createCard', `Template with key "${templateId}" not found in provided templates.`)
     throw new Error(`createCard: Template not found: "${templateId}"`)
   }
 
-  const templateUserConfig = template.settings.userConfig ? template.settings.userConfig as CardUserConfig<U>[T] : {}
+  const templateUserConfig = template?.settings.userConfig ? template?.settings.userConfig as CardUserConfig<U>[T] : {}
 
   const obj = deepMerge([templateUserConfig, args.userConfig])
 
