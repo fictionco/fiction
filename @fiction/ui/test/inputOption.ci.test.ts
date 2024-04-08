@@ -286,7 +286,7 @@ describe('getOptionSchema', () => {
   })
 })
 
-const headerOptionSet = new OptionSet ({
+const headerOptionSet = new OptionSet({
   inputOptions() {
     return [
       new InputOption({

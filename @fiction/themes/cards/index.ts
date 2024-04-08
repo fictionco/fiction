@@ -14,6 +14,8 @@ import { templates as templatesMediaGrid } from './media-grid'
 import { templates as templatesMetrics } from './metrics'
 import * as features from './features'
 import * as team from './team'
+import * as map from './map'
+import * as faq from './faq'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -40,6 +42,8 @@ export const marketingCardTemplates = [
   ...features.templates,
   ...templatesMetrics,
   ...templatesDoc,
+  ...map.templates,
+  ...faq.templates,
 ] as const
 
 export function pages() {

@@ -25,12 +25,12 @@ const uc = vue.computed(() => {
   >
     <li v-for="(profile, i) in uc.profiles" :key="i" :class="uc.layout === 'mediabox' ? 'flex flex-col gap-10 sm:flex-row' : ''">
       <ElImage
-        class="rounded-2xl overflow-hidden dark:ring-1 dark:ring-theme-800"
-        :class="uc.layout === 'mediabox' ? 'lg:aspect-[3/4] w-52' : 'lg:aspect-[3/2] w-full '"
+        class="rounded-2xl overflow-hidden dark:ring-1 dark:ring-theme-800 flex-shrink-0"
+        :class="uc.layout === 'mediabox' ? 'aspect-[3/4] w-32 md:w-52' : 'lg:aspect-[3/2] w-full '"
         :media="profile.media"
       />
       <div :class="uc.layout === 'mediabox' ? 'max-w-xl flex-auto' : ''">
-        <h3 class="mt-6 text-lg lg:text-3xl x-font-title font-semibold leading-8">
+        <h3 class="lg:mt-6 text-lg lg:text-3xl x-font-title font-semibold leading-8">
           {{ profile.name }}
         </h3>
         <p class="text-base leading-7 dark:text-theme-200 text-theme-500 x-font-title">

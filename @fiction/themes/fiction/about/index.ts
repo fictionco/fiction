@@ -5,16 +5,17 @@ import { templates } from '../templates'
 import people from './people2.webp'
 import ap from './ap.webp'
 import pro from './pro.webp'
+import girlComputer from './girl-computer.webp'
 
 const topHeroCard = createCard({
   templates,
   templateId: 'hero',
   userConfig: {
     superHeading: 'Company',
-    subHeading: `The platform built to help you tell your story.`,
+    subHeading: `Fiction is the company built to help you tell your story.`,
     heading: `About`,
     splash: { format: 'url', url: people },
-    layout: 'justified',
+    layout: 'justify',
   },
 })
 
@@ -23,10 +24,22 @@ const missionHeroCard = createCard({
   templateId: 'hero',
   userConfig: {
     superHeading: 'Mission',
-    subHeading: `We believe everyone has a story to tell but most never get the chance. We're here to change that.`,
-    heading: `Be Heard`,
+    subHeading: `We believe everyone has a story to tell and a reputation to build. Fiction's mission is to elevate people and remove barriers to success.`,
+    heading: `Personal Marketing`,
     splash: { format: 'url', url: pro },
     layout: 'left',
+  },
+})
+
+const missionHeroCard2 = createCard({
+  templates,
+  templateId: 'hero',
+  userConfig: {
+    superHeading: 'Mission',
+    subHeading: `We don't believe in compromising products for profit. Fiction is open-source and free to use. We believe in the power of community and the value of giving back.`,
+    heading: `Open-Source and Free`,
+    splash: { format: 'url', url: girlComputer },
+    layout: 'right',
   },
 })
 
@@ -35,7 +48,7 @@ const teamCard = createCard({
   templateId: 'team',
   userConfig: {
     subHeading: `People helping build your story`,
-    heading: `Founders`,
+    heading: `Team`,
     profiles: [{
       name: 'Andrew Powers',
       title: 'Founder',
@@ -47,13 +60,37 @@ const teamCard = createCard({
   },
 })
 
-const aboutCard = createCard({
+const mapBase = {
+  lat: 33.652199,
+  lng: -117.747719,
+  zoom: 13,
+  markers: [{ lat: 33.652199, lng: -117.747719 }],
+  mapStyle: 'street' as const,
+}
+
+const mapCard = createCard({
   templates,
-  tpl: new CardTemplate({
-    templateId: 'sites',
-    el: vue.defineAsyncComponent(() => import('./AboutPage.vue')),
-  }),
-  userConfig: {},
+  templateId: 'map',
+  userConfig: {
+    subHeading: `Fiction is based in Orange County, California.`,
+    heading: `Our Offices`,
+    maps: [mapBase, { ...mapBase, mapStyle: 'satellite' }],
+  },
+})
+
+const valueCard = createCard({
+  templates,
+  templateId: 'faq',
+  userConfig: {
+    heading: `Values`,
+    items: [
+      { name: 'Focused', desc: `Create big value for a small group of people. Don't try and be everything to everyone.` },
+      { name: `Karma`, desc: `Focus on making a contribution, the rest takes care of itself.` },
+      { name: `Crafted`, desc: `Take the time to do things extremely well. It's better to do nothing, than release something below our standards.` },
+      { name: `Minimal`, desc: `Simplicity is the ultimate form of elegance. Do what's needed and nothing more.` },
+
+    ],
+  },
 })
 
 export function page() {
@@ -69,8 +106,10 @@ export function page() {
         cards: [
           topHeroCard,
           missionHeroCard,
+          missionHeroCard2,
           teamCard,
-          aboutCard,
+          mapCard,
+          valueCard,
         ],
       }),
 

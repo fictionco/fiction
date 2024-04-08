@@ -1,0 +1,21 @@
+// @unocss-include
+
+import { vue } from '@fiction/core'
+import { CardTemplate } from '@fiction/site'
+import { optionSets } from '../inputSets'
+
+export const templates = [
+  new CardTemplate({
+    templateId: 'faq',
+    category: ['basic'],
+    description: 'A list element great for FAQs, values, etc. ',
+    icon: 'i-tabler-map',
+    iconTheme: 'emerald',
+    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    options: [
+      ...optionSets.headers.toOptions({ refine: { } }),
+      ...optionSets.actionItems.toOptions(),
+    ],
+    userConfig: { },
+  }),
+] as const
