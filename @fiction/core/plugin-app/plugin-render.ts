@@ -126,8 +126,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
 
     ]
 
-    this.log.info('content patterns', { data: patterns })
-
     const c: Record<string, any>[] = [
       {
         mode: 'jit',

@@ -39,6 +39,8 @@ async function runAppEntry(args: { renderRoute?: string, runVars?: Partial<RunVa
 
   const context = 'app'
 
+  await import('virtual:uno.css')
+
   try {
     // @ts-expect-error aliased module
     const mainFileImports = (await import('@MAIN_FILE_ALIAS')) as MainFile

@@ -30,8 +30,8 @@ function userControls() {
       superHeading: 'Shorter badge above headline, 2 to 5 words',
     } }),
     ...optionSets.navItems.toOptions({
-      label: 'Bullets',
-      groupPath: 'details',
+      groupLabel: 'Bullets',
+      groupKey: 'details',
       refine: {
         title: true,
         group: {

@@ -13,6 +13,7 @@ const props = defineProps({
   modelValue: { type: Object as vue.PropType<Record<string, unknown>>, default: () => {} },
   depth: { type: Number, default: 0 },
   site: { type: Object as vue.PropType<Site>, required: true },
+  basePath: { type: String, default: '' },
 })
 
 const emit = defineEmits<{
@@ -26,6 +27,10 @@ function hide(key: string, val?: boolean) {
     menuVisibility.value = { ...menuVisibility.value, [key]: val }
 
   return menuVisibility.value[key]
+}
+
+function getOptionPath(key: string) {
+  return props.basePath ? `${props.basePath}.${key}` : key
 }
 </script>
 
@@ -58,6 +63,7 @@ function hide(key: string, val?: boolean) {
                   :model-value="modelValue"
                   :depth="1"
                   :site="site"
+                  :base-path="basePath"
                   @update:model-value="emit('update:modelValue', $event)"
                 />
               </div>
@@ -77,9 +83,9 @@ function hide(key: string, val?: boolean) {
             v-bind="opt.outputProps.value"
             :input="opt.input.value"
             input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-300 dark:border-theme-600"
-            :model-value="getNested({ path: opt.key.value, data: modelValue })"
+            :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
             :site="site"
-            @update:model-value="emit('update:modelValue', setNested({ path: opt.key.value, data: modelValue, value: $event }))"
+            @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"
           />
         </div>
       </div>

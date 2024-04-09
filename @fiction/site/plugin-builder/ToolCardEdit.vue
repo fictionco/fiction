@@ -43,6 +43,7 @@ function setActiveCardConfig(config: Partial<TableCardConfig>) {
         :model-value="site.activeCardConfig.value"
         :options="options"
         :site="site"
+        base-path="userConfig"
         @update:model-value="setActiveCardConfig($event)"
       />
     </template>

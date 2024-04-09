@@ -1,205 +1,157 @@
 // @unocss-include
 
-import type { InputOptionGeneration, OptionSetArgs, Refinement } from '@fiction/ui'
+import type { InputOptionGeneration, InputOptionSettings, Refinement } from '@fiction/ui'
 import { InputOption, OptionSet } from '@fiction/ui'
 import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
+import _ from 'lodash'
 
-type StandardOptionArgs = OptionSetArgs & { options?: InputOption[], generation?: InputOptionGeneration }
+type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
-function standardOption(args?: StandardOptionArgs) {
-  const { groupPath, label } = args || {}
-  return {
-    media: new InputOption({
-      key: 'media',
-      label: 'Image',
-      input: 'InputMediaDisplay',
-      props: { formats: args?.formats },
-      schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
-    }),
-    name: new InputOption({ key: 'name', label: 'Text', input: 'InputText', schema: ({ z }) => z.string() }),
-    desc: new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', schema: ({ z }) => z.string().optional() }),
-    href: new InputOption({
-      key: 'href',
-      label: 'Link / Route',
-      input: 'InputText',
-      schema: ({ z }) => z.string().refine(val => /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i.test(val)),
-    }),
-    target: new InputOption({
-      key: 'target',
-      label: 'Target',
-      input: 'InputSelect',
-      list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }],
-      schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
-    }),
-    size: new InputOption({
-      key: 'size',
-      label: 'Size',
-      input: 'InputSelect',
-      list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
-    }),
-    btn: new InputOption({
-      key: 'btn',
-      label: 'Type',
-      input: 'InputSelect',
-      list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'],
-    }),
-    heading: new InputOption({
-      key: 'heading',
-      label: 'Heading',
-      input: 'InputTextarea',
-      props: { maxHeight: 250 },
-      default: () => 'Headline',
-      schema: ({ z }) => z.string(),
-    }),
-    subHeading: new InputOption({
-      key: 'subHeading',
-      label: 'Sub Heading',
-      input: 'InputTextarea',
-      props: { maxHeight: 250 },
-      default: () => 'Sub headline',
-      schema: ({ z }) => z.string(),
-    }),
-    superHeading: new InputOption({
-      key: 'superHeading',
-      label: 'Super Heading',
-      input: 'InputTextarea',
-      props: { maxHeight: 250 },
-      default: () => 'Super Headline',
-      schema: ({ z }) => z.string().optional(),
-    }),
-    socialIcon: new InputOption({
-      key: 'icon',
-      label: 'Icon',
-      input: 'InputSelect',
-      schema: ({ z }) => z.enum(['x', 'linkedin', 'facebook', 'instagram', 'youtube', 'github', 'email', 'phone', 'pinterest', 'snapchat', 'twitch', 'discord', 'slack', 'snapchat']),
-      list: [
-        { name: 'X', value: 'x' },
-        { name: 'LinkedIn', value: 'linkedin' },
-        { name: 'Facebook', value: 'facebook' },
-        { name: 'Instagram', value: 'instagram' },
-        { name: 'YouTube', value: 'youtube' },
-        { name: 'GitHub', value: 'github' },
-        { name: 'Email', value: 'email' },
-        { name: 'Phone', value: 'phone' },
-        { name: 'Pinterest', value: 'pinterest' },
-        { name: 'Snapchat', value: 'snapchat' },
-        { name: 'Twitch', value: 'twitch' },
-        { name: 'Discord', value: 'discord' },
-        { name: 'Slack', value: 'slack' },
-        { name: 'Snapchat', value: 'snapchat' },
-      ],
-    }),
+export const standardOption = {
+  media: (_: OptArgs = {}) => new InputOption({
+    key: 'media',
+    label: 'Image',
+    input: 'InputMediaDisplay',
+    props: { formats: _?.formats },
+    schema: ({ z }) => z.object({ url: z.string(), format: z.enum(['url']) }),
+    ..._,
+  }),
+  name: (_: OptArgs = {}) => new InputOption({ key: 'name', label: 'Text', input: 'InputText', schema: ({ z }) => z.string(), ..._ }),
+  desc: (_: OptArgs = {}) => new InputOption({ key: 'desc', label: 'Description', input: 'InputTextarea', schema: ({ z }) => z.string().optional(), ..._ }),
+  href: (_: OptArgs = {}) => new InputOption({
+    key: 'href',
+    label: 'Link / Route',
+    input: 'InputText',
+    schema: ({ z }) => z.string().refine(val => /^(\/[^\s]*)|([a-z]+:\/\/[^\s]*)$/i.test(val)),
+    ..._,
+  }),
+  target: (_: OptArgs = {}) => new InputOption({
+    key: 'target',
+    label: 'Target',
+    input: 'InputSelect',
+    list: [{ name: 'Normal', value: '_self' }, { name: 'New Window', value: '_blank' }],
+    schema: ({ z }) => z.enum(['_self', '_blank']).optional(),
+    ..._,
+  }),
+  size: (_: OptArgs = {}) => new InputOption({
+    key: 'size',
+    label: 'Size',
+    input: 'InputSelect',
+    list: ['default', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
+    ..._,
+  }),
+  btn: (_: OptArgs = {}) => new InputOption({
+    key: 'btn',
+    label: 'Type',
+    input: 'InputSelect',
+    list: ['primary', 'default', 'theme', 'danger', 'caution', 'success', 'naked'],
+    ..._,
+  }),
+  heading: (_: OptArgs = {}) => new InputOption({
+    key: 'heading',
+    label: 'Heading',
+    input: 'InputTextarea',
+    props: { maxHeight: 250 },
+    default: () => 'Headline',
+    schema: ({ z }) => z.string(),
+    ..._,
+  }),
+  subHeading: (_: OptArgs = {}) => new InputOption({
+    key: 'subHeading',
+    label: 'Sub Heading',
+    input: 'InputTextarea',
+    props: { maxHeight: 250 },
+    default: () => 'Sub headline',
+    schema: ({ z }) => z.string(),
+    ..._,
+  }),
+  superHeading: (_: OptArgs = {}) => new InputOption({
+    key: 'superHeading',
+    label: 'Super Heading',
+    input: 'InputTextarea',
+    props: { maxHeight: 250 },
+    default: () => 'Super Headline',
+    schema: ({ z }) => z.string().optional(),
+    ..._,
+  }),
+  layout: (_: OptArgs = {}) => new InputOption({
+    key: 'layout',
+    label: 'Layout',
+    input: 'InputSelect',
+    props: { list: ['justify', 'center', 'left', 'right'] },
+    schema: ({ z }) => z.enum(['justify', 'center', 'left', 'right']).optional(),
+    ..._,
+  }),
+  socialIcon: (_: OptArgs = {}) => new InputOption({
+    key: 'icon',
+    label: 'Icon',
+    input: 'InputSelect',
+    schema: ({ z }) => z.enum(['x', 'linkedin', 'facebook', 'instagram', 'youtube', 'github', 'email', 'phone', 'pinterest', 'snapchat', 'twitch', 'discord', 'slack', 'snapchat']),
+    list: [
+      { name: 'X', value: 'x' },
+      { name: 'LinkedIn', value: 'linkedin' },
+      { name: 'Facebook', value: 'facebook' },
+      { name: 'Instagram', value: 'instagram' },
+      { name: 'YouTube', value: 'youtube' },
+      { name: 'GitHub', value: 'github' },
+      { name: 'Email', value: 'email' },
+      { name: 'Phone', value: 'phone' },
+      { name: 'Pinterest', value: 'pinterest' },
+      { name: 'Snapchat', value: 'snapchat' },
+      { name: 'Twitch', value: 'twitch' },
+      { name: 'Discord', value: 'discord' },
+      { name: 'Slack', value: 'slack' },
+      { name: 'Snapchat', value: 'snapchat' },
+    ],
+  }),
 
-    groupTitle: new InputOption({
-      aliasKey: 'title',
-      key: `${groupPath}Title`,
-      label: `${label} Title`,
-      input: 'InputText',
-      schema: ({ z }) => z.string().optional(),
-    }),
-    group: (_: StandardOptionArgs) => new InputOption({
-      label,
-      input: 'group',
-      options: _.options,
-      key: `${groupPath}Group`,
-      generation: _.generation,
-    }),
-    inputList: (_: StandardOptionArgs) => new InputOption({
-      aliasKey: 'group',
-      key: `${groupPath}`,
-      label,
-      input: 'InputList',
-      options: _.options,
-      schema: ({ z, subSchema }) => z.array(subSchema),
-    }),
-  }
-}
-
-export const headerOptionSet = new OptionSet<{
-  refine?: { heading?: Refinement, subHeading?: Refinement, superHeading?: Refinement }
-}> ({
-  basePath: 'userConfig',
-  inputOptions(args) {
-    const std = standardOption(args)
-    return [std.heading, std.subHeading, std.superHeading]
+  groupTitle: (_: OptArgs = {}) => new InputOption({
+    aliasKey: 'title',
+    key: `${_?.key}Title`,
+    input: 'InputText',
+    label: `${_?.label} Title`,
+    schema: ({ z }) => z.string().optional(),
+    ..._,
+  }),
+  group: (_: OptArgs = {}) => new InputOption({
+    input: 'group',
+    key: `${_?.key}Group`,
+    ..._,
+  }),
+  inputList: (_: OptArgs = {}) => new InputOption({
+    input: 'InputList',
+    aliasKey: 'group',
+    schema: ({ z, subSchema }) => z.array(subSchema),
+    key: `${_?.key}`,
+    ..._,
+  }),
+  headers: (_: OptArgs = {}) => {
+    const s = standardOption
+    return s.group({ label: 'Headers', key: 'headers', ..._, options: [s.heading(), s.subHeading(), s.superHeading()] })
   },
-})
-
-export const actionItemOptionSet = new OptionSet< {
-  refine?: { group?: Refinement | { name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }, title?: Refinement }
-}> ({
-  basePath: 'userConfig',
-  inputOptions: (args) => {
-    const s = standardOption({ label: 'Actions', groupPath: 'actions', ...args })
-
-    const options = [s.name, s.href, s.btn, s.size]
-
-    const out = [s.inputList({ options })]
-
-    return [s.group({ options: out })]
+  actionItems: (_: OptArgs = {}) => {
+    const s = standardOption
+    return s.inputList({ label: 'Actions', key: 'actions', ..._, options: [s.name(), s.href(), s.btn(), s.size()] })
   },
-})
-
-export const navItemsOptionSet = new OptionSet<{
-  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
-}> ({
-  basePath: 'userConfig',
-  defaultRefinement: { group: { refine: { name: true, href: true, target: true } } },
-  inputOptions: (args) => {
-    const s = standardOption({ label: 'Nav', groupPath: 'nav', ...args })
-
-    const out = [s.groupTitle, s.inputList({ options: [s.name, s.desc, s.href, s.target] })]
-
-    return [s.group({ options: out })]
+  navItems: (_: OptArgs = {}) => {
+    const s = standardOption
+    const __ = { label: 'Nav Items', key: 'navItems', ..._ }
+    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ options: [s.name(), s.desc(), s.href(), s.target()] })] })
   },
-})
-
-export const mediaItemsOptionSet = new OptionSet< {
-  formats?: { url?: boolean, html?: boolean }
-  refine?: { group?: Refinement<{ media?: Refinement, name?: Refinement, desc?: Refinement, href?: Refinement }> }
-}> ({
-  basePath: 'userConfig',
-  inputOptions: (args) => {
-    const s = standardOption({ label: 'Media Items', groupPath: 'mediaItems', ...args })
-
-    return [s.inputList({ options: [s.media, s.name, s.desc, s.href], generation: { estimatedMs: 40000 } })]
+  mediaItems: (_: OptArgs = {}) => {
+    const s = standardOption
+    return s.inputList({ label: 'Media Items', key: 'mediaItems', ..._, options: [s.media(), s.name(), s.desc(), s.href()], generation: { estimatedMs: 40000 } })
   },
-})
-
-export const socialsOptionSet = new OptionSet< {
-  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, icon?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
-}> ({
-  basePath: 'userConfig',
-  defaultRefinement: { group: { refine: { icon: true, href: true } } },
-  inputOptions: (args) => {
-    const std = standardOption({ label: 'Socials', groupPath: 'socials', ...args })
-
-    const options = [std.name, std.desc, std.socialIcon, std.href, std.target]
-
-    const out = [std.groupTitle, std.inputList({ options })]
-
-    return [std.group({ options: out })]
+  socials: (_: OptArgs = {}) => {
+    const s = standardOption
+    const __ = { label: 'Socials', key: 'socials', ..._ }
+    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.socialIcon(), s.href(), s.target()] })] })
   },
-})
+  quotes: (_: OptArgs = {}) => {
+    const { mode } = _ || {}
 
-type QuoteFilterKeys = {
-  text?: Refinement
-  authorName?: Refinement
-  authorTitle?: Refinement
-  authorImage?: Refinement
-  authorUrl?: Refinement
-  orgName?: Refinement
-  orgImage?: Refinement
-  orgUrl?: Refinement
-}
-
-export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilterKeys } | { mode: 'multi', refine?: { group: Refinement<QuoteFilterKeys> } }>({
-  basePath: 'userConfig',
-  inputOptions: (args) => {
-    const { mode } = args || {}
-
-    const std = standardOption({ label: mode === 'single' ? 'Quote' : 'Quotes', groupPath: 'quotes', ...args })
-
+    const __ = { label: mode === 'single' ? 'Quote' : 'Quotes', key: 'quotes', ..._ }
+    const s = standardOption
     const quoteOptions = () => {
       const options = [
         new InputOption({ key: 'text', label: 'Quote Text', input: 'InputText', schema: ({ z }) => z.string() }),
@@ -215,31 +167,89 @@ export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilt
       return options
     }
 
-    return [mode === 'multi' ? std.inputList({ options: quoteOptions() }) : std.group({ options: quoteOptions() })]
+    return mode === 'multi' ? s.inputList({ ...__, options: quoteOptions() }) : s.group({ ...__, options: quoteOptions() })
+  },
+  post: (_: OptArgs = {}) => {
+    const __ = { label: 'Post', key: 'post', ..._ }
+    const s = standardOption
+    return s.group({ ...__, options: [
+      new InputOption({ key: 'title', label: 'Title', input: 'InputText', schema: ({ z }) => z.string(), ..._ }),
+      new InputOption({ key: 'authorName', label: 'Author Name', input: 'InputText', schema: ({ z }) => z.string(), ..._ }),
+      new InputOption({ key: 'bodyMarkdown', label: 'Content', input: 'InputTextarea', schema: ({ z }) => z.string(), ..._ }),
+    ] })
+  },
+  ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'AISettings', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
+}
+
+export const headerOptionSet = new OptionSet<{
+  refine?: { heading?: Refinement, subHeading?: Refinement, superHeading?: Refinement }
+}> ({
+  inputOptions(args) {
+    return [standardOption.headers(args)]
+  },
+})
+
+export const actionItemOptionSet = new OptionSet< {
+  refine?: { group?: Refinement | { name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }, title?: Refinement }
+}> ({
+  inputOptions: (args) => {
+    return [standardOption.actionItems(args)]
+  },
+})
+
+export const navItemsOptionSet = new OptionSet<{
+  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
+}> ({
+  defaultRefinement: { group: { refine: { name: true, href: true, target: true } } },
+  inputOptions: (args) => {
+    return [standardOption.navItems(args)]
+  },
+})
+
+export const mediaItemsOptionSet = new OptionSet< {
+  formats?: { url?: boolean, html?: boolean }
+  refine?: { group?: Refinement<{ media?: Refinement, name?: Refinement, desc?: Refinement, href?: Refinement }> }
+}> ({
+  inputOptions: (args) => {
+    return [standardOption.mediaItems(args)]
+  },
+})
+
+export const socialsOptionSet = new OptionSet< {
+  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, icon?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
+}> ({
+  defaultRefinement: { group: { refine: { icon: true, href: true } } },
+  inputOptions: (args) => {
+    return [standardOption.socials(args)]
+  },
+})
+
+type QuoteFilterKeys = {
+  text?: Refinement
+  authorName?: Refinement
+  authorTitle?: Refinement
+  authorImage?: Refinement
+  authorUrl?: Refinement
+  orgName?: Refinement
+  orgImage?: Refinement
+  orgUrl?: Refinement
+}
+
+export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilterKeys } | { mode: 'multi', refine?: { group: Refinement<QuoteFilterKeys> } }>({
+  inputOptions: (args) => {
+    return [standardOption.quotes(args)]
   },
 })
 
 export const postOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-  basePath: 'userConfig',
-  inputOptions: () => {
-    const options = [
-      new InputOption({ key: 'title', label: 'Title', input: 'InputText', schema: ({ z }) => z.string() }),
-      new InputOption({ key: 'authorName', label: 'Author Name', input: 'InputText', schema: ({ z }) => z.string() }),
-      new InputOption({ key: 'bodyMarkdown', label: 'Content', input: 'InputTextarea', schema: ({ z }) => z.string() }),
-    ]
-    return options
+  inputOptions: (args) => {
+    return [standardOption.post(args)]
   },
 })
 
 export const aiOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-  basePath: 'userConfig',
-  inputOptions: () => {
-    const options = [
-      new InputOption({ key: 'purpose', input: InputAi }),
-    ]
-    return [
-      new InputOption({ label: 'AI', input: 'group', options, key: 'AISettings' }),
-    ]
+  inputOptions: (args) => {
+    return [standardOption.ai(args)]
   },
 })
 

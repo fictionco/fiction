@@ -10,7 +10,7 @@ describe('minimalProfile', async () => {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "additionalProperties": false,
         "properties": {
-          "userConfig.details": {
+          "details": {
             "description": "Concise detail information like email, city, skills, last job, etc.",
             "items": {
               "additionalProperties": false,
@@ -44,19 +44,27 @@ describe('minimalProfile', async () => {
             },
             "type": "array",
           },
-          "userConfig.detailsTitle": {
+          "detailsTitle": {
             "description": "Bullets Title",
             "type": "string",
           },
-          "userConfig.heading": {
+          "heading": {
             "description": "Primary headline for profile 3 to 8 words",
             "type": "string",
           },
-          "userConfig.mediaItems": {
+          "mediaItems": {
             "description": "splash picture in portrait format",
             "items": {
               "additionalProperties": false,
               "properties": {
+                "desc": {
+                  "description": "Description",
+                  "type": "string",
+                },
+                "href": {
+                  "description": "Link / Route",
+                  "type": "string",
+                },
                 "media": {
                   "additionalProperties": false,
                   "description": "Image",
@@ -77,23 +85,27 @@ describe('minimalProfile', async () => {
                   ],
                   "type": "object",
                 },
+                "name": {
+                  "description": "Text",
+                  "type": "string",
+                },
               },
               "required": [
                 "media",
+                "name",
+                "href",
               ],
               "type": "object",
             },
             "type": "array",
           },
-          "userConfig.socials": {
+          "socials": {
             "description": "Socials",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "desc": {
                   "description": "Description",
-                  "maxLength": 100,
-                  "minLength": 2,
                   "type": "string",
                 },
                 "href": {
@@ -122,8 +134,6 @@ describe('minimalProfile', async () => {
                 },
                 "name": {
                   "description": "Text",
-                  "maxLength": 30,
-                  "minLength": 2,
                   "type": "string",
                 },
                 "target": {
@@ -144,21 +154,21 @@ describe('minimalProfile', async () => {
             },
             "type": "array",
           },
-          "userConfig.subHeading": {
+          "subHeading": {
             "description": "Formatted markdown of profile with paragraphs, 50 to 80 words, 2 paragraphs",
             "type": "string",
           },
-          "userConfig.superHeading": {
+          "superHeading": {
             "description": "Shorter badge above headline, 2 to 5 words",
             "type": "string",
           },
         },
         "required": [
-          "userConfig.mediaItems",
-          "userConfig.heading",
-          "userConfig.subHeading",
-          "userConfig.details",
-          "userConfig.socials",
+          "mediaItems",
+          "heading",
+          "subHeading",
+          "details",
+          "socials",
         ],
         "type": "object",
       }

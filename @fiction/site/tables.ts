@@ -2,7 +2,7 @@ import { validHost } from '@fiction/core'
 import type { ColorScheme, CreateObjectType, MediaDisplayObject, ProgressStatus } from '@fiction/core'
 import { FictionDbCol, FictionDbTable } from '@fiction/core/plugin-db'
 import type { FontConfig } from '@fiction/core/utils/fonts'
-import type { CardGenerationConfig } from './card'
+import type { CardGenerationConfig } from './generation'
 import type { EditorState } from './site'
 
 export const tableNames = { sites: 'fiction_site', pages: 'fiction_site_pages', domains: 'fiction_site_domains' }

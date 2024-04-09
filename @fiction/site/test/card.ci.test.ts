@@ -4,6 +4,7 @@ import { getOptionJsonSchema } from '@fiction/ui'
 import { standardCardTemplates } from '@fiction/cards'
 import { Card, CardTemplate } from '../card'
 import { Site } from '../site'
+import { CardGeneration } from '../generation'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('card', async () => {
@@ -14,6 +15,8 @@ describe('card', async () => {
     tpl: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
     title: 'Test Card',
   })
+
+  const generation = new CardGeneration({ card })
 
   it('should have correct setup', () => {
     expect(site.pages.value.length).toMatchInlineSnapshot(`0`)
@@ -37,14 +40,14 @@ describe('card', async () => {
 
   it('card computes total estimated time correctly', () => {
     // Assuming options have been set up to produce a known total time
-    const totalEstimatedTime = card.generation.totalEstimatedTime.value
+    const totalEstimatedTime = generation.totalEstimatedTime.value
     expect(totalEstimatedTime).toBeGreaterThan(0)
     // Update the expected time based on your options setup
     expect(totalEstimatedTime).toBe(16) // Example value
   })
 
   it('card generates correct prompt for content creation', () => {
-    const prompt = card.generation.prompt.value
+    const prompt = generation.prompt.value
     expect(prompt).toMatchInlineSnapshot(`"create content for the "Test Card" card on the "404" page"`)
     expect(prompt.toLowerCase()).toContain('test card')
     // Adjust based on actual prompt structure
@@ -72,35 +75,35 @@ describe('card', async () => {
 
     expect(inputConfig).toMatchInlineSnapshot(`
       {
-        "userConfig.actions": {
+        "actions": {
           "cumulativeTime": 16000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
-          "key": "userConfig.actions",
-          "label": undefined,
+          "key": "actions",
+          "label": "Actions",
           "prompt": undefined,
         },
-        "userConfig.heading": {
+        "heading": {
           "cumulativeTime": 4000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
-          "key": "userConfig.heading",
+          "key": "heading",
           "label": "Heading",
           "prompt": undefined,
         },
-        "userConfig.subHeading": {
+        "subHeading": {
           "cumulativeTime": 8000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
-          "key": "userConfig.subHeading",
+          "key": "subHeading",
           "label": "Sub Heading",
           "prompt": undefined,
         },
-        "userConfig.superHeading": {
+        "superHeading": {
           "cumulativeTime": 12000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
-          "key": "userConfig.superHeading",
+          "key": "superHeading",
           "label": "Super Heading",
           "prompt": undefined,
         },
@@ -141,29 +144,45 @@ describe('cardTemplate', async () => {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "additionalProperties": false,
         "properties": {
-          "userConfig.actions": {
-            "additionalProperties": false,
-            "description": "userConfig.actions",
-            "properties": {},
-            "type": "object",
+          "actions": {
+            "description": "Actions",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "href": {
+                  "description": "Link / Route",
+                  "type": "string",
+                },
+                "name": {
+                  "description": "Text",
+                  "type": "string",
+                },
+              },
+              "required": [
+                "name",
+                "href",
+              ],
+              "type": "object",
+            },
+            "type": "array",
           },
-          "userConfig.heading": {
+          "heading": {
             "description": "Heading",
             "type": "string",
           },
-          "userConfig.subHeading": {
+          "subHeading": {
             "description": "Sub Heading",
             "type": "string",
           },
-          "userConfig.superHeading": {
+          "superHeading": {
             "description": "Super Heading",
             "type": "string",
           },
         },
         "required": [
-          "userConfig.heading",
-          "userConfig.subHeading",
-          "userConfig.actions",
+          "heading",
+          "subHeading",
+          "actions",
         ],
         "type": "object",
       }

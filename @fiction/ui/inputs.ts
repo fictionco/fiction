@@ -105,20 +105,20 @@ export class InputOptionsRefiner {
     this.caller = caller
   }
 
-  public refineInputOptions(args: { inputOptions: InputOption[], refine: RefinementList, basePath?: string }): InputOption[] {
-    const { inputOptions, refine, basePath } = args
+  // public refineInputOptions(args: { inputOptions: InputOption[] }): InputOption[] {
+  //   const { inputOptions } = args
 
-    const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
+  //   const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
 
-    const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
+  //   const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
 
-    if (!noRefine)
-      this.warnUnusedKeys(refine)
+  //   if (!noRefine)
+  //     this.warnUnusedKeys(refine)
 
-    const finalOptions = this.prefixBasePath({ inputOptions: refinedOptions, basePath })
+  //   const finalOptions = this.prefixBasePath({ inputOptions: refinedOptions, basePath })
 
-    return finalOptions
-  }
+  //   return finalOptions
+  // }
 
   private recursiveRefine(inputOptions: InputOption[], refine: RefinementList, currentPath: string[]): InputOption[] {
     return inputOptions.reduce<InputOption[]>((acc, option) => {
@@ -295,31 +295,29 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   }
 }
 
-export type OptionSetArgs< T extends Record<string, unknown> = Record<string, unknown>> = { label?: string, groupPath?: string, basePath?: string, refine?: RefinementList } & T
+export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
 export type OptionSetSettings< T extends Record<string, unknown> = Record<string, unknown>> = {
   basePath?: string
   defaultRefinement?: RefinementList
-  inputOptions?: (args?: OptionSetArgs<T>) => InputOption[]
+  inputOptions?: (args?: OptArgs) => InputOption[]
 }
 
 export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FictionObject<OptionSetSettings<T>> {
-  basePath = this.settings.basePath || 'userConfig'
+  basePath = this.settings.basePath || ''
   refiner = new InputOptionsRefiner({ basePath: this.basePath, caller: `OptionSet` })
   constructor(settings?: OptionSetSettings<T>) {
     super('OptionSet', (settings || {}))
   }
 
-  toOptions(args?: OptionSetArgs<T>) {
+  toOptions(args?: OptArgs) {
     const inputOptions = this.settings?.inputOptions?.(args)
 
     if (!inputOptions)
       return []
 
-    const refine = args?.refine || this.settings.defaultRefinement || {}
+    // const finalOptions = this.refiner.refineInputOptions({ inputOptions })
 
-    const finalOptions = this.refiner.refineInputOptions({ inputOptions, refine, basePath: args?.basePath })
-
-    return finalOptions
+    return inputOptions
   }
 }

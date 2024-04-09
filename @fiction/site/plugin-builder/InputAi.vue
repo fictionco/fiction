@@ -19,10 +19,11 @@ const props = defineProps({
 
 const loading = vue.ref(false)
 const card = vue.computed<Card | undefined>(() => props.site.activeCard.value)
+const generation = vue.computed(() => card.value?.generation)
 
 async function generateCard() {
   loading.value = true
-  await card.value?.generation.getCompletion()
+  await generation.value?.getCompletion()
   loading.value = false
 }
 
@@ -33,13 +34,13 @@ function updateGeneration(opt: InputOptionGeneration, value: InputOptionGenerati
     return
 
   card.value.generation.userInputConfig.value = {
-    ...card.value?.generation.userInputConfig.value,
+    ...generation.value?.userInputConfig.value,
     [opt.key]: { ...opt, ...value },
   }
 }
 
 const numFields = vue.computed(() => {
-  return Object.values(card.value?.generation.inputConfig.value || {}).filter(_ => !_.isDisabled).length
+  return Object.values(generation.value?.inputConfig.value || {}).filter(_ => !_.isDisabled).length
 })
 </script>
 
@@ -85,14 +86,14 @@ const numFields = vue.computed(() => {
     <TransitionSlide>
       <div v-if="showAdvancedOptions" class="space-y-3">
         <ElInput
-          v-if="card"
+          v-if="card && generation"
           v-bind="$attrs"
           label="Overall Generation Goal"
           description="Enter a sentence or two about what you want to achieve with this card. Contextual information will be added automatically."
-          :model-value="card.generation.prompt.value"
+          :model-value="generation.prompt.value"
           input="InputTextarea"
           placeholder="This section should..."
-          @update:model-value="card && (card.generation.userPrompt.value = $event)"
+          @update:model-value="generation && (generation.userPrompt.value = $event)"
         />
         <div class="space-y-2 mt-2 bg-theme-50 dark:bg-theme-700 rounded-md p-3">
           <div class="flex justify-between">
@@ -103,7 +104,7 @@ const numFields = vue.computed(() => {
               {{ card?.generation.totalEstimatedTime.value }} seconds
             </div>
           </div>
-          <div v-for="(opt, key) in card?.generation.inputConfig.value" :key="key" class="text-[10px] space-y-1">
+          <div v-for="(opt, key) in generation?.inputConfig.value" :key="key" class="text-[10px] space-y-1">
             <div class="flex items-center justify-between">
               <div class="w-24 truncate font-semibold">
                 {{ opt.label }}
@@ -121,7 +122,7 @@ const numFields = vue.computed(() => {
     </TransitionSlide>
 
     <ElModal :vis="loading">
-      <ElProgress :percent="card.generation.progress.value.percent" :status="card.generation.progress.value.status" message="Generating Content" />
+      <ElProgress :percent="generation?.progress.value.percent" :status="generation?.progress.value.status" message="Generating Content" />
     </ElModal>
   </ElForm>
 </template>
