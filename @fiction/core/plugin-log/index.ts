@@ -131,7 +131,7 @@ export class FictionLog {
     maxSize?: number
     maxProperties?: number
   }): Record<string, any> | string {
-    const { obj, depth = 0, maxDepth = 4, maxSize = 12000, maxProperties = 100 } = args
+    const { obj, depth = 0, maxDepth = 5, maxSize = 12000, maxProperties = 100 } = args
 
     if (typeof obj !== 'object' || !obj)
       return obj

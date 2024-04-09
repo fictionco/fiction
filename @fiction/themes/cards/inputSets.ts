@@ -107,11 +107,11 @@ export const standardOption = {
 
   groupTitle: (_: OptArgs = {}) => new InputOption({
     aliasKey: 'title',
-    key: `${_?.key}Title`,
     input: 'InputText',
-    label: `${_?.label} Title`,
     schema: ({ z }) => z.string().optional(),
     ..._,
+    key: `${_?.key}Title`,
+    label: `${_?.label} Title`,
   }),
   group: (_: OptArgs = {}) => new InputOption({
     input: 'group',
@@ -136,7 +136,7 @@ export const standardOption = {
   navItems: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
-    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ options: [s.name(), s.desc(), s.href(), s.target()] })] })
+    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.href(), s.target()] })] })
   },
   mediaItems: (_: OptArgs = {}) => {
     const s = standardOption

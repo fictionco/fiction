@@ -88,113 +88,81 @@ export function getOptionJsonSchema(inputOptions?: InputOption[], userInputConfi
   return r
 }
 
-export type Refinement<T extends RefinementList = RefinementList> = boolean | string | Partial<InputOptionSettings & { refine: T }> | undefined
-export type RefinementList = {
-  [key: string]: Refinement
-}
+// export type Refinement<T extends RefinementList = RefinementList> = boolean | string | Partial<InputOptionSettings & { refine: T }> | undefined
+// export type RefinementList = {
+//   [key: string]: Refinement
+// }
 
-export class InputOptionsRefiner {
-  public basePath: string
-  private caller: string
-  usedKeys: Set<string> = new Set()
-  log = log.contextLogger('InputOptionsRefiner')
+// export class InputOptionsRefiner {
+//   private caller: string
+//   usedKeys: Set<string> = new Set()
+//   log = log.contextLogger('InputOptionsRefiner')
 
-  constructor(args: { basePath: string, caller: string }) {
-    const { basePath, caller } = args
-    this.basePath = basePath
-    this.caller = caller
-  }
+//   constructor(args: { basePath: string, caller: string }) {
+//     const { caller } = args
 
-  // public refineInputOptions(args: { inputOptions: InputOption[] }): InputOption[] {
-  //   const { inputOptions } = args
+//     this.caller = caller
+//   }
 
-  //   const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
+//   public refineInputOptions(args: { inputOptions: InputOption[] }): InputOption[] {
+//     const { inputOptions } = args
 
-  //   const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
+//     const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
 
-  //   if (!noRefine)
-  //     this.warnUnusedKeys(refine)
+//     const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
 
-  //   const finalOptions = this.prefixBasePath({ inputOptions: refinedOptions, basePath })
+//     return finalOptions
+//   }
 
-  //   return finalOptions
-  // }
+//   private recursiveRefine(inputOptions: InputOption[], refine: RefinementList, currentPath: string[]): InputOption[] {
+//     return inputOptions.reduce<InputOption[]>((acc, option) => {
+//       if (option.input.value === 'group') {
+//         // Directly push the group option and refine its children if it has any
+//         option.options.value = option.options.value ? this.recursiveRefine(option.options.value, refine, currentPath) : []
 
-  private recursiveRefine(inputOptions: InputOption[], refine: RefinementList, currentPath: string[]): InputOption[] {
-    return inputOptions.reduce<InputOption[]>((acc, option) => {
-      if (option.input.value === 'group') {
-        // Directly push the group option and refine its children if it has any
-        option.options.value = option.options.value ? this.recursiveRefine(option.options.value, refine, currentPath) : []
+//         acc.push(option)
+//         return acc
+//       }
 
-        acc.push(option)
-        return acc
-      }
+//       const key = option.key.value || ''
+//       const aliasKey = option.aliasKey?.value || ''
+//       const refinementKey = refine[key]
+//       const refinementAliased = refine[aliasKey]
+//       const usedKey = refinementKey ? key : refinementAliased ? aliasKey : undefined
+//       const refinement = refinementKey || refinementAliased
 
-      const key = option.key.value || ''
-      const aliasKey = option.aliasKey?.value || ''
-      const refinementKey = refine[key]
-      const refinementAliased = refine[aliasKey]
-      const usedKey = refinementKey ? key : refinementAliased ? aliasKey : undefined
-      const refinement = refinementKey || refinementAliased
+//       const optionPath = [...currentPath]
+//       if (usedKey) {
+//         optionPath.push(usedKey)
+//         const k = optionPath.join('.')
+//         this.usedKeys.add(k)
+//       }
 
-      const optionPath = [...currentPath]
-      if (usedKey) {
-        optionPath.push(usedKey)
-        const k = optionPath.join('.')
-        this.usedKeys.add(k)
-      }
+//       if (refinement)
+//         acc.push(this.applyRefinement(option, refinement, optionPath))
 
-      if (refinement)
-        acc.push(this.applyRefinement(option, refinement, optionPath))
+//       return acc
+//     }, [])
+//   }
 
-      return acc
-    }, [])
-  }
+//   private applyRefinement(option: InputOption, refinement: Refinement, optionPath: string[]): InputOption {
+//     const schema = option.schema?.value
+//     if (refinement === true) {
+//       return option
+//     }
+//     else if (typeof refinement === 'string' && schema) {
+//       option.generation.value = { ...option.generation.value, prompt: refinement }
+//     }
+//     else if (typeof refinement === 'object') {
+//       option.update(refinement)
+//       option.generation.value = { ...option.generation.value, prompt: option.description.value || '' }
 
-  private applyRefinement(option: InputOption, refinement: Refinement, optionPath: string[]): InputOption {
-    const schema = option.schema?.value
-    if (refinement === true) {
-      return option
-    }
-    else if (typeof refinement === 'string' && schema) {
-      option.generation.value = { ...option.generation.value, prompt: refinement }
-    }
-    else if (typeof refinement === 'object') {
-      option.update(refinement)
-      option.generation.value = { ...option.generation.value, prompt: option.description.value || '' }
-
-      if (option.options?.value && refinement.refine)
-        option.options.value = this.recursiveRefine(option.options.value, refinement.refine, optionPath)
-    }
-    return option
-  }
-
-  private prefixBasePath(args: { inputOptions: InputOption[], basePath?: string }): InputOption[] {
-    const { inputOptions } = args
-    return inputOptions.map((option) => {
-      const basePath = args.basePath || this.basePath || ''
-
-      if (option.input.value === 'group' && option.options.value)
-        option.options.value = this.prefixBasePath({ inputOptions: option.options.value, basePath })
-      else if (basePath)
-        option.key.value = `${basePath.endsWith('.') ? basePath : `${basePath}.`}${option.key.value}`
-
-      return option
-    })
-  }
-
-  private warnUnusedKeys(refine: RefinementList, prefix: string = ''): void {
-    Object.keys(refine).forEach((key) => {
-      const fullKey = `${prefix}${key}`
-      if (!this.usedKeys.has(fullKey))
-        console.warn(`Warning: Filter key '${fullKey}' provided by '${this.caller}' was not used.`)
-
-      const r = refine[key]
-      if (typeof r === 'object' && r.refine)
-        this.warnUnusedKeys(r.refine, `${fullKey}.`)
-    })
-  }
-}
+//       if (option.options?.value && refinement.refine)
+//         option.options.value = this.recursiveRefine(option.options.value, refinement.refine, optionPath)
+//     }
+//     return option
+//   }
+// }
 
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
@@ -235,6 +203,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
   subLabel = vue.ref(this.settings.subLabel)
   placeholder = vue.ref(this.settings.placeholder)
   isRequired = vue.ref(this.settings.isRequired || false)
+  isHidden = vue.ref(this.settings.isHidden || false)
   description = vue.ref(this.settings.description)
   options = vue.shallowRef(this.settings.options || [])
   list = vue.shallowRef(this.settings.list)
@@ -299,13 +268,11 @@ export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) |
 
 export type OptionSetSettings< T extends Record<string, unknown> = Record<string, unknown>> = {
   basePath?: string
-  defaultRefinement?: RefinementList
   inputOptions?: (args?: OptArgs) => InputOption[]
 }
 
 export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FictionObject<OptionSetSettings<T>> {
   basePath = this.settings.basePath || ''
-  refiner = new InputOptionsRefiner({ basePath: this.basePath, caller: `OptionSet` })
   constructor(settings?: OptionSetSettings<T>) {
     super('OptionSet', (settings || {}))
   }

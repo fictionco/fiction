@@ -41,12 +41,18 @@ function getOptionPath(key: string) {
         v-for="(opt, i) in options.filter(_ => !_.settings.isHidden)"
         :key="i"
       >
-        <div v-if="opt.input.value === 'group'" :class="depth > 0 ? 'border border-theme-200 dark:border-theme-700 rounded-md overflow-hidden' : ''">
+        <div
+          v-if="opt.input.value === 'group'"
+          :class="[
+            depth > 0 ? 'border rounded-md overflow-hidden' : '',
+            hide(opt.key.value) ? 'border-theme-300 dark:border-theme-600' : 'border-theme-200 dark:border-theme-700',
+          ]"
+        >
           <div
-            class=" py-2 px-4 text-xs flex justify-between cursor-pointer items-center"
+            class=" py-2 px-4 text-xs flex justify-between cursor-pointer items-center hover:opacity-90"
             :class="[
               !hide(opt.key.value) || depth === 0 ? 'border-b ' : '',
-              hide(opt.key.value) ? 'bg-primary-50 dark:bg-primary-950 text-primary-600 dark:text-primary-200 border-primary-200 dark:border-primary-800' : 'border-theme-200 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
+              hide(opt.key.value) ? 'bg-primary-50 dark:bg-theme-700 text-primary-600 dark:text-theme-100 border-primary-200 dark:border-theme-500' : 'border-theme-200 dark:border-theme-700 text-theme-500 dark:text-theme-100 hover:bg-theme-50 dark:hover:bg-theme-800 active:bg-theme-100 dark:active:bg-theme-700',
             ]"
             @click="hide(opt.key.value, !hide(opt.key.value))"
           >
@@ -79,6 +85,7 @@ function getOptionPath(key: string) {
         />
         <div v-else :class="depth === 0 ? 'px-4' : ''" :data-depth="depth">
           <ElInput
+            v-if="opt.isHidden.value !== true"
             class="setting-input"
             v-bind="opt.outputProps.value"
             :input="opt.input.value"

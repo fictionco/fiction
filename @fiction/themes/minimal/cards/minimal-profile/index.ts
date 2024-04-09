@@ -2,58 +2,36 @@
 
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { optionSets } from '@fiction/cards/inputSets'
+import { refineOptions } from '@fiction/cards/utils/refiner'
+import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
-import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
-
-function ai() {
-  const options = [
-    new InputOption({ key: 'userConfig.purpose', input: InputAi }),
-  ]
-  return [
-    new InputOption({ label: 'AI', input: 'group', options, key: 'AISettings' }),
-  ]
-}
 
 function userControls() {
-  const socials = optionSets.socials.toOptions()
-
   const options = [
-    ...optionSets.mediaItems.toOptions({
-      refine: {
-        group: 'splash picture in portrait format',
-      },
-    }),
-    ...optionSets.headers.toOptions({ refine: {
-      heading: 'Primary headline for profile 3 to 8 words',
-      subHeading: 'Formatted markdown of profile with paragraphs, 50 to 80 words, 2 paragraphs',
-      superHeading: 'Shorter badge above headline, 2 to 5 words',
-    } }),
-    ...optionSets.navItems.toOptions({
-      groupLabel: 'Bullets',
-      groupKey: 'details',
-      refine: {
-        title: true,
-        group: {
-          description: 'Concise detail information like email, city, skills, last job, etc.',
-          refine: {
-            name: 'Label for profile detail (Email)',
-            desc: 'Value for profile detail (email@example.com), max 3 words',
-            href: true,
-          },
-        },
-      },
-    }),
-    ...socials,
+    standardOption.mediaItems({ generation: { prompt: 'Splash picture in portrait format' } }),
+    standardOption.headers({ generation: { prompt: 'home page text' } }),
+    standardOption.navItems({ label: 'Bullets', key: 'details', generation: { prompt: 'short bullet details, resume contact information' } }),
+    standardOption.socials({ generation: { prompt: 'social media accounts' } }),
   ]
 
-  return [
-    new InputOption({ label: 'Settings', input: 'group', options, key: 'minProfileSettings' }),
-  ]
+  return refineOptions({
+    inputOptions: [
+      new InputOption({ label: 'Settings', input: 'group', options, key: 'minProfileSettings' }),
+    ],
+    refine: {
+      'mediaItems': 'Splash picture in portrait format',
+      'heading': 'Primary headline for profile 3 to 8 words',
+      'subHeading': 'Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs',
+      'superHeading': 'Shorter badge above headline, 2 to 5 words',
+      'details.name': 'Label for a detail, like "Location"',
+      'details.desc': 'Value for a detail, like "Laguna Beach, CA"',
+      'socialsTitle': false,
+    },
+  })
 }
 
 const options = [
-  ...ai(),
+  standardOption.ai(),
   ...userControls(),
 ]
 

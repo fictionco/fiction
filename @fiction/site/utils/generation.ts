@@ -18,7 +18,7 @@ export function getGenerationInputConfig(options: InputOption[]) {
     return out
   }
 
-  const generationInputConfig = getOptions(options || []).filter(_ => _.outputSchema.value)
+  const generationInputConfig = getOptions(options || []).filter(_ => _.outputSchema.value && _.isHidden.value !== true)
 
   return generationInputConfig.map(opt => ({
     key: opt.key.value,
