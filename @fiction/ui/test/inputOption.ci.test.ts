@@ -1,7 +1,6 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import * as zSchema from 'zod-to-json-schema'
-import type { Refinement } from '../inputs'
-import { InputOption, InputOptionsRefiner, OptionSet, getOptionSchema } from '../inputs'
+import { InputOption, OptionSet, getOptionSchema } from '../inputs'
 
 // describe('inputOptionsRefiner', () => {
 //   // Test for nested refine
@@ -317,7 +316,7 @@ const headerOptionSet = new OptionSet({
   },
 })
 
-const navItemOptionSet = new OptionSet<{ refine?: { title?: Refinement, list?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }> } }>({
+const navItemOptionSet = new OptionSet({
   inputOptions(args): InputOption[] {
     const label = args?.label || 'Nav'
     const key = args?.key || 'nav'
@@ -379,7 +378,7 @@ const navItemOptionSet = new OptionSet<{ refine?: { title?: Refinement, list?: R
 
 describe('navItemOptionSet Schema Generation', () => {
   afterEach(() => {
-    navItemOptionSet.refiner.usedKeys.clear()
+
   })
   it('initializes correctly and returns all input options', () => {
     const options = navItemOptionSet.toOptions({ basePath: 'test', refine: {} })
@@ -387,8 +386,6 @@ describe('navItemOptionSet Schema Generation', () => {
     expect(options[0].options.value.length).toBe(2)
     expect(options[0].options.value[0].key.value).toBe('test.navTitle')
     expect(options[0].options.value[1].key.value).toBe('test.nav')
-
-    expect(navItemOptionSet.refiner.usedKeys).toMatchInlineSnapshot(`Set {}`)
   })
 
   it('refines options', () => {
@@ -399,15 +396,6 @@ describe('navItemOptionSet Schema Generation', () => {
     expect(options[0].options.value[1].key.value).toBe('list')
 
     expect(options[0].options.value[1].options.value.length).toBe(2)
-
-    expect(navItemOptionSet.refiner.usedKeys).toMatchInlineSnapshot(`
-      Set {
-        "title",
-        "list",
-        "list.name",
-        "list.desc",
-      }
-    `)
 
     const schema = getOptionSchema(options)
 

@@ -1,6 +1,6 @@
 // @unocss-include
 
-import type { InputOptionGeneration, InputOptionSettings, Refinement } from '@fiction/ui'
+import type { InputOptionSettings } from '@fiction/ui'
 import { InputOption, OptionSet } from '@fiction/ui'
 import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
 import _ from 'lodash'
@@ -181,26 +181,19 @@ export const standardOption = {
   ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'AISettings', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
 }
 
-export const headerOptionSet = new OptionSet<{
-  refine?: { heading?: Refinement, subHeading?: Refinement, superHeading?: Refinement }
-}> ({
+export const headerOptionSet = new OptionSet({
   inputOptions(args) {
     return [standardOption.headers(args)]
   },
 })
 
-export const actionItemOptionSet = new OptionSet< {
-  refine?: { group?: Refinement | { name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }, title?: Refinement }
-}> ({
+export const actionItemOptionSet = new OptionSet({
   inputOptions: (args) => {
     return [standardOption.actionItems(args)]
   },
 })
 
-export const navItemsOptionSet = new OptionSet<{
-  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
-}> ({
-  defaultRefinement: { group: { refine: { name: true, href: true, target: true } } },
+export const navItemsOptionSet = new OptionSet({
   inputOptions: (args) => {
     return [standardOption.navItems(args)]
   },
@@ -208,34 +201,19 @@ export const navItemsOptionSet = new OptionSet<{
 
 export const mediaItemsOptionSet = new OptionSet< {
   formats?: { url?: boolean, html?: boolean }
-  refine?: { group?: Refinement<{ media?: Refinement, name?: Refinement, desc?: Refinement, href?: Refinement }> }
 }> ({
   inputOptions: (args) => {
     return [standardOption.mediaItems(args)]
   },
 })
 
-export const socialsOptionSet = new OptionSet< {
-  refine?: { group?: Refinement<{ name?: Refinement, desc?: Refinement, icon?: Refinement, href?: Refinement, target?: Refinement }>, title?: Refinement }
-}> ({
-  defaultRefinement: { group: { refine: { icon: true, href: true } } },
+export const socialsOptionSet = new OptionSet ({
   inputOptions: (args) => {
     return [standardOption.socials(args)]
   },
 })
 
-type QuoteFilterKeys = {
-  text?: Refinement
-  authorName?: Refinement
-  authorTitle?: Refinement
-  authorImage?: Refinement
-  authorUrl?: Refinement
-  orgName?: Refinement
-  orgImage?: Refinement
-  orgUrl?: Refinement
-}
-
-export const quoteOptionSet = new OptionSet<{ mode: 'single', refine?: QuoteFilterKeys } | { mode: 'multi', refine?: { group: Refinement<QuoteFilterKeys> } }>({
+export const quoteOptionSet = new OptionSet<{ mode: 'single' } | { mode: 'multi' }>({
   inputOptions: (args) => {
     return [standardOption.quotes(args)]
   },
