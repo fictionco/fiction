@@ -1,16 +1,14 @@
 <script lang="ts" setup>
 import type { MediaDisplayObject, NavItem, vue } from '@fiction/core'
-import { getNavComponentType, toLabel, useService } from '@fiction/core'
+import { getNavComponentType, toLabel } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site/card'
 
-const props = defineProps({
+defineProps({
   icon: { type: Object as vue.PropType<MediaDisplayObject>, default: undefined },
   nav: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   card: { type: Object as vue.PropType<Card>, required: true },
 })
-
-const { fictionUser } = useService()
 
 async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
   if (item.onClick) {

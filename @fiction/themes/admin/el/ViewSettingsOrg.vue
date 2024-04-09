@@ -10,7 +10,7 @@ import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
 type UserConfig = { isNavItem?: boolean, icon?: string }
-const props = defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 

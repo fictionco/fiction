@@ -112,20 +112,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const baseUiPaths = [...Array.from(this.fictionEnv.uiPaths)]
     const fullUiPaths = baseUiPaths.map(p => path.normalize(p))
 
-    const root = this.fictionEnv.cwd
-    const patterns = [
-      // Include .vue and .ts files in any directory that includes 'fiction' in its name, even within node_modules
-      `${root}/**/*fiction*/**/*.vue`,
-      `${root}/**/*fiction*/**/*.ts`,
-      // Exclude general node_modules and dist directories to prevent unwanted inclusions
-      `!${root}/node_modules/**`,
-      `!${root}/dist/**`,
-      // But include .vue and .ts files specifically from 'fiction' related modules within node_modules
-      `${root}/node_modules/*fiction*/**/*.vue`,
-      `${root}/node_modules/*fiction*/**/*.ts`,
-
-    ]
-
     const c: Record<string, any>[] = [
       {
         mode: 'jit',

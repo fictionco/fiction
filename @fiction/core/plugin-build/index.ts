@@ -218,7 +218,7 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
     mainFilePath?: string
     config?: vite.InlineConfig
   }): Promise<vite.InlineConfig> => {
-    const { isProd, root = process.cwd(), config = {}, isServerBuild } = options
+    const { isProd, root = process.cwd(), config = {} } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
 

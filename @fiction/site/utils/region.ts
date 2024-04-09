@@ -152,7 +152,7 @@ export function removeCard(args: {
 
   if (!cardFound) {
     // Search nested cards
-    site.availableCards.value.forEach((card, i) => {
+    site.availableCards.value.forEach((card) => {
       const index = card.cards.value?.findIndex(c => c.cardId === cardId)
       if (index > -1) {
         // Ensure reactivity for nested card removal

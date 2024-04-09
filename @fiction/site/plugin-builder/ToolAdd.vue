@@ -49,12 +49,6 @@ function addCard(args: { templateId: string }) {
   props.site.addCard({ templateId, delay: 400 })
   control.builder.useTool({ toolId: 'layout' })
 }
-
-function ic(item: CardTemplate) {
-  const cls = iconStyle.theme
-
-  return `${cls.color} ${cls.bg} ${cls.border}`
-}
 </script>
 
 <template>

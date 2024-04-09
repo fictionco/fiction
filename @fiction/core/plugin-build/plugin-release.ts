@@ -48,7 +48,6 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     opts = {},
   ): Promise<ExecaSyncReturnValue> => {
     const { execa } = await import('execa')
-    const command = [bin, ...args].join(' ')
     return execa(bin, args, { stdio: 'inherit', cwd: process.cwd(), ...opts })
   }
 
@@ -198,7 +197,7 @@ export class FictionRelease extends FictionPlugin<FictionReleaseSettings> {
     tag?: string | true
     versionOnly?: boolean
   }): Promise<void> => {
-    const { patch, skipTests, tag, versionOnly } = options || {}
+    const { patch, skipTests, versionOnly } = options || {}
 
     this.log.info(`publish new version [live]`)
     this.log.info(`current version: ${this.currentVersion()}`)

@@ -3,7 +3,7 @@ import { vue, waitFor } from '@fiction/core'
 import ElModal from './ElModal.vue'
 import ElButton from './ElButton.vue'
 
-const props = defineProps({
+defineProps({
   title: { type: String, default: '' },
   sub: { type: String, default: '' },
   vis: { type: Boolean, default: false },

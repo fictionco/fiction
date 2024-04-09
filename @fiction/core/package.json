@@ -13,8 +13,8 @@
     }
   ],
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.549.0",
-    "@aws-sdk/client-s3": "^3.550.0",
+    "@aws-sdk/client-cloudfront": "^3.552.0",
+    "@aws-sdk/client-s3": "^3.552.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify-json/carbon": "^1.1.31",
     "@iconify-json/clarity": "^1.1.12",
@@ -63,7 +63,7 @@
     "events": "^3.3.0",
     "execa": "^8.0.1",
     "express": "^4.19.2",
-    "extract-domain": "^4.1.5",
+    "extract-domain": "^5.0.2",
     "fast-safe-stringify": "^2.1.1",
     "formdata-node": "^6.0.3",
     "front-matter": "^4.0.2",

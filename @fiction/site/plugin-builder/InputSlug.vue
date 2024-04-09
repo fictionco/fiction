@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ResponseStatus, ValidationReason } from '@fiction/core'
-import { useService, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import { textInputClasses } from '@fiction/ui/theme'
 import ElButton from '@fiction/ui/ElButton.vue'
 import ElModalConfirm from '@fiction/ui/ElModalConfirm.vue'
@@ -16,8 +16,6 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'update:modelValue', payload: string): void
 }>()
-
-const { fictionDb } = useService()
 
 const initialValue = vue.ref(props.modelValue)
 const initialStatus = initialValue.value === '' ? 'unknown' : 'success'

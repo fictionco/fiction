@@ -90,7 +90,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
   hooks = this.settings.hooks || []
-  tokenSecret = this.settings.tokenSecret || 'secret'
+  tokenSecret = this.settings.tokenSecret
   activePath = vue.ref(safeDirname(import.meta.url))
   clientTokenKey = 'FCurrentUser'
   googleClientId = this.settings.googleClientId
@@ -500,6 +500,9 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
    * Returns a user authentication credential including token for storage in client
    */
   createClientToken = (user: Partial<User>): string => {
+    if (!this.tokenSecret)
+      throw _stop('tokenSecret is not set', { code: 'TOKEN_ERROR' })
+
     const { role = '', userId, email } = user
     return jwt.sign({ role, userId, email }, this.tokenSecret)
   }
@@ -508,6 +511,9 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
    * Take a JWT token and decode into the associated user _id
    */
   decodeClientToken = (token: string): TokenFields => {
+    if (!this.tokenSecret)
+      throw _stop('tokenSecret is not set', { code: 'TOKEN_ERROR' })
+
     const r = jwt.verify(token, this.tokenSecret) as TokenFields
 
     if (!r.userId || !r.email)

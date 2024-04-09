@@ -102,7 +102,7 @@ function setActiveHash(): void {
 
         // Highlight the corresponding navigation link
         const navArray = Array.from(navLinks)
-        const ind = navArray.findIndex((link, i) => {
+        const ind = navArray.findIndex((link) => {
           return (link.getAttribute('href') === `#${id}`)
         })
 

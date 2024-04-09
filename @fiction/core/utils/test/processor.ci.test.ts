@@ -170,7 +170,7 @@ describe('shortcodes tests', () => {
         ]
       }
     }"""`
-    const expected = { media: { url: 'MockResult: search:foo, description:bar' } }
+
     expect(await shortcodes.parseObject({ input })).toMatchInlineSnapshot(`
       {
         "input": """"

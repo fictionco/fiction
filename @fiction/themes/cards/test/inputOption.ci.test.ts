@@ -143,10 +143,6 @@ describe('getOptionSchema', () => {
   })
 })
 
-const headerOptionSet = standardOption.headers()
-
-const navItemOptionSet = standardOption.navItems()
-
 describe('navItemOptionSet Schema Generation', () => {
   afterEach(() => {
 

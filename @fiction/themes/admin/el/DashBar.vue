@@ -3,7 +3,7 @@ import type { NavItem, vue } from '@fiction/core'
 import type { Site } from '../../../site'
 import ABarMenu from './DashBarMenu.vue'
 
-const props = defineProps({
+defineProps({
   iconDashboard: { type: String, default: '' },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
   site: { type: Object as vue.PropType<Site>, required: true },
