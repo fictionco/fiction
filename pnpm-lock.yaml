@@ -94,8 +94,8 @@ importers:
         version: 4.3.0(vue@3.4.21)
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^2.13.0
-        version: 2.13.0(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0)
+        specifier: ^2.13.2
+        version: 2.13.2(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0)
       '@benasher44/eslint-plugin-implicit-dependencies':
         specifier: ^1.1.3
         version: 1.1.3
@@ -166,8 +166,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1(@types/node@20.12.6)(typescript@5.4.4)(vite@5.2.8)
       vitepress:
-        specifier: ^1.0.2
-        version: 1.0.2(@algolia/client-search@4.23.2)(@types/node@20.12.6)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.4)
+        specifier: ^1.1.0
+        version: 1.1.0(@algolia/client-search@4.23.2)(@types/node@20.12.6)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.4)
       vitest:
         specifier: ^1.4.0
         version: 1.4.0(@types/node@20.12.6)(@vitest/ui@1.4.0)(happy-dom@14.7.1)(jsdom@24.0.0)(less@4.2.0)
@@ -611,8 +611,8 @@ importers:
         specifier: ^1.19.6
         version: 1.19.6
       '@types/pg':
-        specifier: ^8.11.4
-        version: 8.11.4
+        specifier: ^8.11.5
+        version: 8.11.5
       '@types/remove-markdown':
         specifier: ^0.3.4
         version: 0.3.4
@@ -770,8 +770,8 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
       '@types/mailchimp__mailchimp_marketing':
-        specifier: ^3.0.19
-        version: 3.0.19
+        specifier: ^3.0.20
+        version: 3.0.20
 
   '@fiction/plugins/plugin-notify':
     dependencies:
@@ -1237,8 +1237,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  /@antfu/eslint-config@2.13.0(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0):
-    resolution: {integrity: sha512-yI3X5ispR8jWnUz9gtPoEF5Wug/a+7rF/bQ34nVWnAB86LZUhOOR8jbR+ihD+OGkU/BTcfzVEKCK78SgqoS5xA==}
+  /@antfu/eslint-config@2.13.2(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0):
+    resolution: {integrity: sha512-twfke7tx29F2lAyfMm412caEcgVh/msiwkuyWI+ZoskdPLHzSkKh9mql/EdijGO8Z/DjzWhpRObo94Vl74fL5w==}
     hasBin: true
     peerDependencies:
       '@unocss/eslint-plugin': '>=0.50.0'
@@ -1295,13 +1295,13 @@ packages:
       eslint-plugin-jsdoc: 48.2.3(eslint@8.57.0)
       eslint-plugin-jsonc: 2.15.0(eslint@8.57.0)
       eslint-plugin-markdown: 4.0.1(eslint@8.57.0)
-      eslint-plugin-n: 17.0.0(eslint@8.57.0)
+      eslint-plugin-n: 17.1.0(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-perfectionist: 2.8.0(eslint@8.57.0)(typescript@5.4.4)(vue-eslint-parser@9.4.2)
       eslint-plugin-toml: 0.11.0(eslint@8.57.0)
       eslint-plugin-unicorn: 52.0.0(eslint@8.57.0)
       eslint-plugin-unused-imports: 3.1.0(@typescript-eslint/eslint-plugin@7.6.0)(eslint@8.57.0)
-      eslint-plugin-vitest: 0.4.1(@typescript-eslint/eslint-plugin@7.6.0)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0)
+      eslint-plugin-vitest: 0.5.1(@typescript-eslint/eslint-plugin@7.6.0)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0)
       eslint-plugin-vue: 9.24.1(eslint@8.57.0)
       eslint-plugin-yml: 1.14.0(eslint@8.57.0)
       eslint-processor-vue-blocks: 0.1.1(@vue/compiler-sfc@3.4.21)(eslint@8.57.0)
@@ -2584,7 +2584,7 @@ packages:
     resolution: {integrity: sha512-QujhqINEElrkIfKwyyyTfbsfMAYCkylInLYMRqHy7PHc8xTBQCow73tlo/Kc7oIwBrCLf0P3YhjlOeV4v8hevQ==}
     dependencies:
       '@docsearch/react': 3.6.0(@algolia/client-search@4.23.2)(search-insights@2.13.0)
-      preact: 10.20.1
+      preact: 10.20.2
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/react'
@@ -4091,14 +4091,14 @@ packages:
       vue: 3.4.21(typescript@5.4.4)
     dev: false
 
-  /@shikijs/core@1.2.4:
-    resolution: {integrity: sha512-ClaUWpt8oTzjcF0MM1P81AeWyzc1sNSJlAjMG80CbwqbFqXSNz+NpQVUC0icobt3sZn43Sn27M4pHD/Jmp3zHw==}
+  /@shikijs/core@1.3.0:
+    resolution: {integrity: sha512-7fedsBfuILDTBmrYZNFI8B6ATTxhQAasUHllHmjvSZPnoq4bULWoTpHwmuQvZ8Aq03/tAa2IGo6RXqWtHdWaCA==}
     dev: true
 
-  /@shikijs/transformers@1.2.4:
-    resolution: {integrity: sha512-ysGkpsHxRxLmz8nGKeFdV+gKj1NXt+88sM/34kfKVWTWIXg5gsFOJxJBbG7k+fUR5JlD6sNh65W9qPXrbVE1wQ==}
+  /@shikijs/transformers@1.3.0:
+    resolution: {integrity: sha512-3mlpg2I9CjhjE96dEWQOGeCWoPcyTov3s4aAsHmgvnTHa8MBknEnCQy8/xivJPSpD+olqOqIEoHnLfbNJK29AA==}
     dependencies:
-      shiki: 1.2.4
+      shiki: 1.3.0
     dev: true
 
   /@shopify/draggable@1.1.3:
@@ -5036,8 +5036,8 @@ packages:
     resolution: {integrity: sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==}
     dev: false
 
-  /@types/mailchimp__mailchimp_marketing@3.0.19:
-    resolution: {integrity: sha512-J7Ef7GCV/bcKCna6emidb0cp0miVY64jRknwqIjAUlHY8H6rgE4XDIWISHVJhJ5ve9xQJ+/ZFOgmE8b2tmwKGg==}
+  /@types/mailchimp__mailchimp_marketing@3.0.20:
+    resolution: {integrity: sha512-fg7iKnnbfBxyVjh6WZy39sXscuhaYv9K5DRAok/ykHMJeh3la4qSv+v4i5x0IgE3fGWTRZpixhCfkkzEDUImhw==}
     dev: false
 
   /@types/mapbox-gl@3.1.0:
@@ -5130,8 +5130,8 @@ packages:
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
-  /@types/pg@8.11.4:
-    resolution: {integrity: sha512-yw3Bwbda6vO+NvI1Ue/YKOwtl31AYvvd/e73O3V4ZkNzuGpTDndLSyc0dQRB2xrQqDePd20pEGIfqSp/GH3pRw==}
+  /@types/pg@8.11.5:
+    resolution: {integrity: sha512-2xMjVviMxneZHDHX5p5S6tsRRs7TpDHeeK7kTTMe/kAC/mRRNjWHjZg0rkiY+e17jXSZV3zJYDxXV8Cy72/Vuw==}
     dependencies:
       '@types/node': 20.12.6
       pg-protocol: 1.6.1
@@ -8187,8 +8187,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-n@17.0.0(eslint@8.57.0):
-    resolution: {integrity: sha512-0Ihff+kWUIiXYTNTotGj/yRI1X5uCh/lef5Hr7ih/mFeYMQ3bPfN0KxlrfhU+Xn4x697l/TPO6zxqE33M1yD0w==}
+  /eslint-plugin-n@17.1.0(eslint@8.57.0):
+    resolution: {integrity: sha512-+MTiTej3B07+8vS/RfSMD1w4O9VVR9BSJT9kSa9QUsBlXzKi5PZc+lB3w+iu/2eIS3drFU7zCikSrD8Yn8PEBQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
@@ -8200,7 +8200,6 @@ packages:
       get-tsconfig: 4.7.3
       globals: 14.0.0
       ignore: 5.3.1
-      is-builtin-module: 3.2.1
       minimatch: 9.0.4
       semver: 7.6.0
     dev: true
@@ -8295,12 +8294,12 @@ packages:
       eslint-rule-composer: 0.3.0
     dev: true
 
-  /eslint-plugin-vitest@0.4.1(@typescript-eslint/eslint-plugin@7.6.0)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0):
-    resolution: {integrity: sha512-+PnZ2u/BS+f5FiuHXz4zKsHPcMKHie+K+1Uvu/x91ovkCMEOJqEI8E9Tw1Wzx2QRz4MHOBHYf1ypO8N1K0aNAA==}
+  /eslint-plugin-vitest@0.5.1(@typescript-eslint/eslint-plugin@7.6.0)(eslint@8.57.0)(typescript@5.4.4)(vitest@1.4.0):
+    resolution: {integrity: sha512-g137wC+LCq2N+tfqK39Nl6Rs2N9u+zu6lWxaVgpN3wX+Kq6zSyxjPSI/ZBXUjP+qandT3z1DM5wK5IjD4XrAIw==}
     engines: {node: ^18.0.0 || >= 20.0.0}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': '*'
-      eslint: '>=8.0.0'
+      eslint: ^8.57.0 || ^9.0.0
       vitest: '*'
     peerDependenciesMeta:
       '@typescript-eslint/eslint-plugin':
@@ -12193,8 +12192,8 @@ packages:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
     dev: false
 
-  /preact@10.20.1:
-    resolution: {integrity: sha512-JIFjgFg9B2qnOoGiYMVBtrcFxHqn+dNXbq76bVmcaHYJFYR4lW67AOcXgAYQQTDYXDOg/kTZrKPNCdRgJ2UJmw==}
+  /preact@10.20.2:
+    resolution: {integrity: sha512-S1d1ernz3KQ+Y2awUxKakpfOg2CEmJmwOP+6igPx6dgr6pgDvenqYviyokWso2rhHvGtTlWWnJDa7RaPbQerTg==}
     dev: true
 
   /preferred-pm@3.1.3:
@@ -13011,10 +13010,10 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shiki@1.2.4:
-    resolution: {integrity: sha512-Q9n9jKiOjJCRPztA9POn3/uZXNySHDNKAsPNpmtHDcFyi6ZQhx5vQKZW3Nhrwn8TWW3RudSRk66zqY603EZDeg==}
+  /shiki@1.3.0:
+    resolution: {integrity: sha512-9aNdQy/etMXctnPzsje1h1XIGm9YfRcSksKOGqZWXA/qP9G18/8fpz5Bjpma8bOgz3tqIpjERAd6/lLjFyzoww==}
     dependencies:
-      '@shikijs/core': 1.2.4
+      '@shikijs/core': 1.3.0
     dev: true
 
   /shikiji-core@0.10.2:
@@ -14307,8 +14306,8 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitepress@1.0.2(@algolia/client-search@4.23.2)(@types/node@20.12.6)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.4):
-    resolution: {integrity: sha512-bEj9yTEdWyewJFOhEREZF+mXuAgOq27etuJZT6DZSp+J3XpQstXMJc5piSVwhZBtuj8OfA0iXy+jdP1c71KMYQ==}
+  /vitepress@1.1.0(@algolia/client-search@4.23.2)(@types/node@20.12.6)(axios@1.6.8)(postcss@8.4.38)(search-insights@2.13.0)(typescript@5.4.4):
+    resolution: {integrity: sha512-G+NS5I2OETxC0SfGAMDO75JWNkrcir0UCptuhQMNoaZhhlqvYtTDQhph4qGc5dtiTtZkcFa/bCcSx+A2gSS3lA==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -14321,8 +14320,8 @@ packages:
     dependencies:
       '@docsearch/css': 3.6.0
       '@docsearch/js': 3.6.0(@algolia/client-search@4.23.2)(search-insights@2.13.0)
-      '@shikijs/core': 1.2.4
-      '@shikijs/transformers': 1.2.4
+      '@shikijs/core': 1.3.0
+      '@shikijs/transformers': 1.3.0
       '@types/markdown-it': 13.0.7
       '@vitejs/plugin-vue': 5.0.4(vite@5.2.8)(vue@3.4.21)
       '@vue/devtools-api': 7.0.25(vue@3.4.21)
@@ -14332,7 +14331,7 @@ packages:
       mark.js: 8.11.1
       minisearch: 6.3.0
       postcss: 8.4.38
-      shiki: 1.2.4
+      shiki: 1.3.0
       vite: 5.2.8(@types/node@20.12.6)(less@4.2.0)
       vue: 3.4.21(typescript@5.4.4)
     transitivePeerDependencies:

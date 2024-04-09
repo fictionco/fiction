@@ -12,6 +12,9 @@
     "@types/mapbox-gl": "^3.1.0",
     "mapbox-gl": "^3.2.0"
   },
+  "devDependencies": {
+    "zod-to-json-schema": "^3.22.5"
+  },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",
   "main": "index.ts",

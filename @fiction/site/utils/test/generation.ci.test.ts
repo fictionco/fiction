@@ -4,7 +4,6 @@ import { getGenerationInputConfig } from '../generation'
 import type { CardTemplate } from '../../card'
 import { Card } from '../../card'
 import { Site } from '../../site'
-import { CardGeneration } from '../../generation'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
 
 describe('generation utils', async () => {

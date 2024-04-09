@@ -3,7 +3,7 @@
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
 import { CardTemplate } from '@fiction/site'
-import { mediaItemsOptionSet } from '../inputSets'
+import { standardOption } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -14,12 +14,8 @@ export const templates = [
     iconTheme: 'cyan',
     el: vue.defineAsyncComponent(() => import('./ElLogos.vue')),
     options: [
-      new InputOption({
-        key: 'userConfig.label',
-        label: 'Label',
-        input: 'InputText',
-      }),
-      ...mediaItemsOptionSet.toOptions(),
+      new InputOption({ key: 'userConfig.label', label: 'Label', input: 'InputText' }),
+      standardOption.mediaItems(),
     ],
   }),
 ] as const

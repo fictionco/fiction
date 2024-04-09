@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { optionSets } from '@fiction/cards/inputSets'
+import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 
 export const templates = [
@@ -23,7 +23,7 @@ export const templates = [
     },
     options: [
       new InputOption({ key: 'userConfig.logo', label: 'Logo', input: 'InputMediaDisplay' }),
-      ...optionSets.navItems.toOptions(),
+      standardOption.navItems(),
     ],
   }),
 ] as const

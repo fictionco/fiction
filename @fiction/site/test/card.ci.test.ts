@@ -43,7 +43,7 @@ describe('card', async () => {
     const totalEstimatedTime = generation.totalEstimatedTime.value
     expect(totalEstimatedTime).toBeGreaterThan(0)
     // Update the expected time based on your options setup
-    expect(totalEstimatedTime).toBe(16) // Example value
+    expect(totalEstimatedTime).toBe(20) // Example value
   })
 
   it('card generates correct prompt for content creation', () => {
@@ -67,16 +67,27 @@ describe('card', async () => {
     const totalEstimatedTime = card.generation.totalEstimatedTime.value
 
     expect(totalEstimatedTime).toBeGreaterThan(0)
-    expect(totalEstimatedTime).toMatchInlineSnapshot(`16`)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`20`)
   })
 
   it('should have correct generations settings', () => {
     const inputConfig = card.generation.inputConfig.value
 
+    expect(inputConfig).toEqual(expect.objectContaining({
+      actions: expect.any(Object),
+      heading: expect.any(Object),
+      layout: expect.any(Object),
+      subHeading: expect.any(Object),
+      superHeading: expect.any(Object),
+    }))
+
+    expect(inputConfig.actions.label).toEqual('Actions')
+    expect(inputConfig.subHeading.label).toEqual('Sub Heading')
+
     expect(inputConfig).toMatchInlineSnapshot(`
       {
         "actions": {
-          "cumulativeTime": 16000,
+          "cumulativeTime": 20000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
           "key": "actions",
@@ -89,6 +100,14 @@ describe('card', async () => {
           "isDisabled": undefined,
           "key": "heading",
           "label": "Heading",
+          "prompt": undefined,
+        },
+        "layout": {
+          "cumulativeTime": 16000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "layout",
+          "label": "Layout",
           "prompt": undefined,
         },
         "subHeading": {
@@ -168,6 +187,16 @@ describe('cardTemplate', async () => {
           },
           "heading": {
             "description": "Heading",
+            "type": "string",
+          },
+          "layout": {
+            "description": "Layout",
+            "enum": [
+              "justify",
+              "center",
+              "left",
+              "right",
+            ],
             "type": "string",
           },
           "subHeading": {

@@ -1,5 +1,5 @@
 import type { ListItem } from '@fiction/core'
-import { FictionObject, log, removeUndefined, vue } from '@fiction/core'
+import { FictionObject, removeUndefined, vue } from '@fiction/core'
 import type { JsonSchema7ObjectType } from 'zod-to-json-schema'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { z } from 'zod'
@@ -88,82 +88,6 @@ export function getOptionJsonSchema(inputOptions?: InputOption[], userInputConfi
   return r
 }
 
-// export type Refinement<T extends RefinementList = RefinementList> = boolean | string | Partial<InputOptionSettings & { refine: T }> | undefined
-// export type RefinementList = {
-//   [key: string]: Refinement
-// }
-
-// export class InputOptionsRefiner {
-//   private caller: string
-//   usedKeys: Set<string> = new Set()
-//   log = log.contextLogger('InputOptionsRefiner')
-
-//   constructor(args: { basePath: string, caller: string }) {
-//     const { caller } = args
-
-//     this.caller = caller
-//   }
-
-//   public refineInputOptions(args: { inputOptions: InputOption[] }): InputOption[] {
-//     const { inputOptions } = args
-
-//     const noRefine = typeof refine === 'object' && Object.keys(refine).length === 0
-
-//     const refinedOptions = noRefine ? inputOptions : this.recursiveRefine(inputOptions, refine, [])
-
-//     return finalOptions
-//   }
-
-//   private recursiveRefine(inputOptions: InputOption[], refine: RefinementList, currentPath: string[]): InputOption[] {
-//     return inputOptions.reduce<InputOption[]>((acc, option) => {
-//       if (option.input.value === 'group') {
-//         // Directly push the group option and refine its children if it has any
-//         option.options.value = option.options.value ? this.recursiveRefine(option.options.value, refine, currentPath) : []
-
-//         acc.push(option)
-//         return acc
-//       }
-
-//       const key = option.key.value || ''
-//       const aliasKey = option.aliasKey?.value || ''
-//       const refinementKey = refine[key]
-//       const refinementAliased = refine[aliasKey]
-//       const usedKey = refinementKey ? key : refinementAliased ? aliasKey : undefined
-//       const refinement = refinementKey || refinementAliased
-
-//       const optionPath = [...currentPath]
-//       if (usedKey) {
-//         optionPath.push(usedKey)
-//         const k = optionPath.join('.')
-//         this.usedKeys.add(k)
-//       }
-
-//       if (refinement)
-//         acc.push(this.applyRefinement(option, refinement, optionPath))
-
-//       return acc
-//     }, [])
-//   }
-
-//   private applyRefinement(option: InputOption, refinement: Refinement, optionPath: string[]): InputOption {
-//     const schema = option.schema?.value
-//     if (refinement === true) {
-//       return option
-//     }
-//     else if (typeof refinement === 'string' && schema) {
-//       option.generation.value = { ...option.generation.value, prompt: refinement }
-//     }
-//     else if (typeof refinement === 'object') {
-//       option.update(refinement)
-//       option.generation.value = { ...option.generation.value, prompt: option.description.value || '' }
-
-//       if (option.options?.value && refinement.refine)
-//         option.options.value = this.recursiveRefine(option.options.value, refinement.refine, optionPath)
-//     }
-//     return option
-//   }
-// }
-
 type SchemaCallback = (args: { z: typeof z, subSchema: z.AnyZodObject }) => z.Schema
 
 export type InputOptionGeneration = {
@@ -192,6 +116,8 @@ export interface InputOptionSettings {
   generation?: InputOptionGeneration
   isHidden?: boolean
 }
+
+export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
@@ -261,30 +187,5 @@ export class InputOption extends FictionObject<InputOptionSettings> {
       props: { ...this.outputProps.value, options: subOptions },
       options: subOptions,
     })
-  }
-}
-
-export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
-
-export type OptionSetSettings< T extends Record<string, unknown> = Record<string, unknown>> = {
-  basePath?: string
-  inputOptions?: (args?: OptArgs) => InputOption[]
-}
-
-export class OptionSet< T extends Record<string, unknown> = Record<string, unknown>> extends FictionObject<OptionSetSettings<T>> {
-  basePath = this.settings.basePath || ''
-  constructor(settings?: OptionSetSettings<T>) {
-    super('OptionSet', (settings || {}))
-  }
-
-  toOptions(args?: OptArgs) {
-    const inputOptions = this.settings?.inputOptions?.(args)
-
-    if (!inputOptions)
-      return []
-
-    // const finalOptions = this.refiner.refineInputOptions({ inputOptions })
-
-    return inputOptions
   }
 }

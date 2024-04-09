@@ -1,9 +1,8 @@
 // @unocss-include
 
 import type { InputOptionSettings } from '@fiction/ui'
-import { InputOption, OptionSet } from '@fiction/ui'
+import { InputOption } from '@fiction/ui'
 import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
-import _ from 'lodash'
 
 type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
 
@@ -181,63 +180,63 @@ export const standardOption = {
   ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'AISettings', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
 }
 
-export const headerOptionSet = new OptionSet({
-  inputOptions(args) {
-    return [standardOption.headers(args)]
-  },
-})
+// export const headerOptionSet = new OptionSet({
+//   inputOptions(args) {
+//     return [standardOption.headers(args)]
+//   },
+// })
 
-export const actionItemOptionSet = new OptionSet({
-  inputOptions: (args) => {
-    return [standardOption.actionItems(args)]
-  },
-})
+// export const actionItemOptionSet = new OptionSet({
+//   inputOptions: (args) => {
+//     return [standardOption.actionItems(args)]
+//   },
+// })
 
-export const navItemsOptionSet = new OptionSet({
-  inputOptions: (args) => {
-    return [standardOption.navItems(args)]
-  },
-})
+// export const navItemsOptionSet = new OptionSet({
+//   inputOptions: (args) => {
+//     return [standardOption.navItems(args)]
+//   },
+// })
 
-export const mediaItemsOptionSet = new OptionSet< {
-  formats?: { url?: boolean, html?: boolean }
-}> ({
-  inputOptions: (args) => {
-    return [standardOption.mediaItems(args)]
-  },
-})
+// export const mediaItemsOptionSet = new OptionSet< {
+//   formats?: { url?: boolean, html?: boolean }
+// }> ({
+//   inputOptions: (args) => {
+//     return [standardOption.mediaItems(args)]
+//   },
+// })
 
-export const socialsOptionSet = new OptionSet ({
-  inputOptions: (args) => {
-    return [standardOption.socials(args)]
-  },
-})
+// export const socialsOptionSet = new OptionSet ({
+//   inputOptions: (args) => {
+//     return [standardOption.socials(args)]
+//   },
+// })
 
-export const quoteOptionSet = new OptionSet<{ mode: 'single' } | { mode: 'multi' }>({
-  inputOptions: (args) => {
-    return [standardOption.quotes(args)]
-  },
-})
+// export const quoteOptionSet = new OptionSet<{ mode: 'single' } | { mode: 'multi' }>({
+//   inputOptions: (args) => {
+//     return [standardOption.quotes(args)]
+//   },
+// })
 
-export const postOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-  inputOptions: (args) => {
-    return [standardOption.post(args)]
-  },
-})
+// export const postOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
+//   inputOptions: (args) => {
+//     return [standardOption.post(args)]
+//   },
+// })
 
-export const aiOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
-  inputOptions: (args) => {
-    return [standardOption.ai(args)]
-  },
-})
+// export const aiOptionSet = new OptionSet< { refine?: { title?: boolean, authorName?: boolean, bodyMarkdown?: boolean } }> ({
+//   inputOptions: (args) => {
+//     return [standardOption.ai(args)]
+//   },
+// })
 
-export const optionSets = {
-  post: postOptionSet,
-  quotes: quoteOptionSet,
-  socials: socialsOptionSet,
-  mediaItems: mediaItemsOptionSet,
-  navItems: navItemsOptionSet,
-  actionItems: actionItemOptionSet,
-  headers: headerOptionSet,
-  ai: aiOptionSet,
-}
+// export const optionSets = {
+//   post: postOptionSet,
+//   quotes: quoteOptionSet,
+//   socials: socialsOptionSet,
+//   mediaItems: mediaItemsOptionSet,
+//   navItems: navItemsOptionSet,
+//   actionItems: actionItemOptionSet,
+//   headers: headerOptionSet,
+//   ai: aiOptionSet,
+// }

@@ -1,5 +1,5 @@
 import { FictionObject, setNested, toLabel, vue } from '@fiction/core'
-import type { InputOption, InputOptionGeneration } from '@fiction/ui'
+import type { InputOptionGeneration } from '@fiction/ui'
 import { getOptionJsonSchema } from '@fiction/ui'
 import { getCardCompletion } from './utils/ai'
 import { getGenerationInputConfig } from './utils/generation'

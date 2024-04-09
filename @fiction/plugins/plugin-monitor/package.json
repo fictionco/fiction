@@ -12,7 +12,7 @@
     "@sentry/tracing": "^7.109.0",
     "@sentry/vue": "^7.109.0",
     "@slack/webhook": "^7.0.2",
-    "@types/mailchimp__mailchimp_marketing": "^3.0.19"
+    "@types/mailchimp__mailchimp_marketing": "^3.0.20"
   },
   "gitHead": "435e8535660c83acb445295cfb98a21b32c69434",
   "publishConfig": {

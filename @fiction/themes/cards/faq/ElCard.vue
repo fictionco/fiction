@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
+import type { NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 

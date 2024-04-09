@@ -1,6 +1,4 @@
 import { createCard } from '@fiction/site/theme'
-import { vue } from '@fiction/core'
-import { CardTemplate } from '@fiction/site'
 import { templates } from '../templates'
 import people from './people2.webp'
 import ap from './ap.webp'

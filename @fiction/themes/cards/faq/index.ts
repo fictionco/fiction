@@ -2,7 +2,7 @@
 
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
-import { optionSets } from '../inputSets'
+import { standardOption } from '../inputSets'
 
 export const templates = [
   new CardTemplate({
@@ -13,8 +13,8 @@ export const templates = [
     iconTheme: 'emerald',
     el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
     options: [
-      ...optionSets.headers.toOptions({ refine: { } }),
-      ...optionSets.actionItems.toOptions(),
+      standardOption.headers(),
+      standardOption.actionItems(),
     ],
     userConfig: { },
   }),
