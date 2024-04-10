@@ -127,71 +127,7 @@ export function page() {
         ],
 
       }),
-      createCard({
-        templates,
-        templateId: 'features',
-        userConfig: {
-          heading: `Simple Tools to Build Authority`,
-          subHeading: `Purpose built to make personal marketing easy.`,
-          items: [
-            {
-              name: 'Establish Yourself',
-              desc: 'Showcase your talents and knowledge, turn your passion into your trademark.',
-            },
-            {
-              name: 'Create Your Network',
-              desc: 'Engage with an audience that values you through newsletters and social.',
-            },
-            {
-              name: 'Go Above and Beyond',
-              desc: 'Transform your personal brand into a beacon of opportunities.',
-            },
-          ],
-          actions: [
-            {
-              name: 'Create Account',
-              href: '/signup',
-            },
-          ],
-        },
-      }),
-      createCard({
-        templates,
-        templateId: 'area',
-        userConfig: {
-          flipColorMode: true,
-          lightMode: {
-            scheme: 'slate',
-            bgColor: '#FFFFFF',
-          },
-          darkMode: {
-            scheme: 'blue',
-            bgColor: '#ffffff',
-          },
-        },
-        cards: [
-          createCard({
-            templates,
-            templateId: 'hero',
-            userConfig: {
-              heading: `Your Reputation is at Stake`,
-              subHeading: `If you don't monitor what's being said about you, who will?`,
-              actions: [
-                {
-                  name: 'Start Today, It\'s Free!',
-                  href: '/app?reload=1',
-                  btn: 'primary',
-                },
-                {
-                  name: 'View Tour',
-                  href: '/tour',
-                  btn: 'default',
-                },
-              ],
-            },
-          }),
-        ],
-      }),
+
     ],
   })
 }

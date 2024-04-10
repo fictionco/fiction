@@ -53,7 +53,7 @@ const textWrapClass = vue.computed(() => {
         <CardText
           tag="h3"
           :card="card"
-          class="text-theme-500 dark:text-theme-500 font-sans text-sm lg:text-base font-medium"
+          class="text-theme-500 dark:text-theme-500 font-sans text-sm lg:text-base font-medium antialiased"
 
           path="superHeading"
           placeholder="Super Heading"

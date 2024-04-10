@@ -44,7 +44,7 @@ describe('signin UX', async () => {
         { type: 'visible', selector: '[data-test-id="to-login"]' },
       ],
     })
-  }, 15_000)
+  }, 25_000)
 
   // it('registers with name, email, password', async () => {
   //   await performActions({

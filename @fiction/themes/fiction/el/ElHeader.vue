@@ -120,14 +120,14 @@ const accountMenu = vue.computed((): NavItem[] => {
               </svg>
             </button>
           </div>
-          <div>
+          <div class="hidden lg:block space-x-2">
             <component
               :is="getNavComponentType(item)"
               v-for="item in nav"
               :key="item.href"
               :to="item.href ?? '/'"
               :href="item.href ?? '/'"
-              :class="[btnClass, item.isActive ? 'opacity-60' : '']"
+              :class="[btnClass, item.isActive ? 'bg-theme-200 dark:bg-primary-950' : '']"
               v-html="item.name"
             />
           </div>
