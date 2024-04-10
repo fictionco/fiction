@@ -7,6 +7,7 @@ import { templates } from './templates'
 import * as home from './pageHome'
 import * as tour from './tour'
 import * as about from './about'
+import * as developer from './developer'
 import favicon from './img/favicon.svg'
 import shareImage from './img/share-image.jpg'
 
@@ -43,7 +44,7 @@ const socialList: NavItem[] = [
 
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
-  const pages = () => ([home.page(), tour.page(), about.page(), ...cards.pages()])
+  const pages = () => ([home.page(), tour.page(), about.page(), developer.page(), ...cards.pages()])
 
   return new Theme({
     fictionEnv,
@@ -104,7 +105,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
                     groupName: 'Pages',
                     menu: [
                       { href: '/tour', name: 'Tour' },
-                      { href: '/app', name: 'Dashboard' },
+                      { href: '/developer', name: 'Developer' },
                     ],
                   },
                   {
@@ -118,6 +119,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
                     groupName: 'Resources',
                     menu: [
                       { href: 'https://docs.fiction.cx', name: 'Docs' },
+                      { href: '/app', name: 'Dashboard' },
                     ],
                   },
                 ],

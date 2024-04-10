@@ -69,6 +69,13 @@ describe('siteRendering Tests', async () => {
     const el = mountEl.querySelector('.x-engine') as HTMLElement
     expect(el.dataset.subDomain, 'correct sub domain').toBe(subDomain)
 
+    expect(html).toContain(`data-site-id="${siteObj.siteId}"`)
+
+    expect(html).toContain(`data-pathname="${siteObj.currentPath.value}"`)
+    expect(html).toContain(`data-view-id="${siteObj.currentViewId.value}"`)
+    expect(html).toContain(`data-page-id="${siteObj.activePageId.value}"`)
+    expect(html).toContain(`data-theme-id="${siteObj.themeId.value}"`)
+
     // expect(subDomain).toMatchInlineSnapshot(`"twtzx"`)
     // expect(siteObj.siteId).toMatchInlineSnapshot(`"site65f712f10a729d45d1899b3b"`)
     // expect(html.slice(0, 1000)).toMatchInlineSnapshot(`
@@ -76,31 +83,20 @@ describe('siteRendering Tests', async () => {
     //     <div class="x-font-body bg-theme-0 dark:bg-theme-950 text-theme-1000 dark:text-theme-0">
     //       <div
     //         class="x-engine"
-    //         data-site-id="site65f712f10a729d45d1899b3b"
+    //         data-site-id="site6615d3da7b7b35031bae1a54"
     //         data-pathname="/"
     //         data-view-id="_home"
-    //         data-page-id="crd65f712efa2c933f890951c6d"
+    //         data-page-id="crd6615d3d9854a3af6d321b75f"
     //         data-theme-id="test"
-    //         data-sub-domain="twtzx"
+    //         data-sub-domain="rziez"
     //         data-site-mode="standard"
-    //       >
-    //         <div class="wrap">
-    //           <!--v-if-->
-    //           <main class="card-engine">
-    //             <div class="marquee relative z-10 mx-auto overflow-hidden py-[calc(1.5rem+4vw)]" id="crd65f712ef1c37cf1fc9784afa" data-card-type="marquee">
-    //               <div class="marquee-track">
-    //                 <div class="marquee-grid grid">
-    //                   <div class="marquee-item relative overflow-hidden">
-    //                     <div class="item-media absolute inset-0">
-    //                       <img
-    //                         src="https://factor-tests.s3.amazonaws.com/test/md_65f712efa5a4cb9ec60f6a71-scr"
+    //       ></div>
+    //     </div>
+    //     <div class="notifications"><div class="pointer-events-none fixed inset-0 z-50 flex flex-col items-center justify-start px-4 py-6"></div></div>
+    //   </div>
+    //   "
     // `)
-    expect(html).toContain(`data-site-id="${siteObj.siteId}"`)
 
-    expect(html).toContain(`data-pathname="${siteObj.currentPath.value}"`)
-    expect(html).toContain(`data-view-id="${siteObj.currentViewId.value}"`)
-    expect(html).toContain(`data-page-id="${siteObj.activePageId.value}"`)
-    expect(html).toContain(`data-theme-id="${siteObj.themeId.value}"`)
     expect(html.length).toBeGreaterThan(10000)
 
     entry.app.unmount()

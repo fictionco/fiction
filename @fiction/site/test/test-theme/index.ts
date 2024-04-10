@@ -16,25 +16,24 @@ export const templates = [
   }),
 ] as const
 
-const mediaGridCard = createCard({
-  templates,
-  templateId: 'marquee',
-  userConfig: {
-    items: [
-      {
-        name: 'Barack Obama',
-        desc: 'Personal Site',
-        tags: ['Politics'],
-        media: {
-          url: new URL('img/screenshot.jpg', import.meta.url).href,
-        },
-      },
-    ],
-  },
-})
-
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
+  const mediaGridCard = createCard({
+    templates,
+    templateId: 'marquee',
+    userConfig: {
+      items: [
+        {
+          name: 'Barack Obama',
+          desc: 'Personal Site',
+          tags: ['Politics'],
+          media: {
+            url: new URL('img/screenshot.jpg', import.meta.url).href,
+          },
+        },
+      ],
+    },
+  })
   return new Theme({
     root: safeDirname(import.meta.url),
     fictionEnv,

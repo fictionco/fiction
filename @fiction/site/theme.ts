@@ -1,10 +1,11 @@
 import type { FictionMedia, FictionPluginSettings, Processor, vue } from '@fiction/core'
-import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
+import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject, shortId } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
-import type { CardTemplate, CreateUserConfigs, ExtractCardTemplateUserConfig } from './card'
+import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
-import { Card } from './card'
+import { Card, CardTemplate } from './card'
 import { imageStyle, processUrlKey } from './util'
+import type { ComponentConstructor } from './type-utils'
 
 export type ThemeSettings = {
   root: string
@@ -127,17 +128,25 @@ export class Theme extends FictionPlugin<ThemeSettings> {
 }
 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
+
 // Base interface without slug
 type BasecreateCardArgs<
   T extends keyof CardUserConfig<U>,
   U extends readonly CardTemplate[],
   V extends PageRegion,
   W extends CardTemplate | undefined,
+  X extends ComponentConstructor | undefined,
 > = {
   templates?: U
   tpl?: W
   templateId?: T | 'wrap'
-  userConfig?: W extends CardTemplate ? ExtractCardTemplateUserConfig<W> : CardUserConfig<U>[T]
+  el?: X
+  userConfig?:
+  W extends CardTemplate
+    ? ExtractCardTemplateUserConfig<W>
+    : X extends ComponentConstructor
+      ? ExtractComponentUserConfig<X>
+      : CardUserConfig<U>[T]
   regionId?: V
   layoutId?: string
   cards?: CardConfigPortable[]
@@ -152,13 +161,16 @@ T extends keyof CreateUserConfigs<U>,
 U extends readonly CardTemplate[],
 V extends PageRegion,
 W extends CardTemplate | undefined,
->(args: BasecreateCardArgs<T, U, V, W>) {
-  const { templates, templateId = 'area', tpl } = args
+X extends ComponentConstructor | undefined,
+>(args: BasecreateCardArgs<T, U, V, W, X>) {
+  const { templates, templateId = 'area', tpl, el } = args
 
   if (!templateId && !tpl)
     throw new Error('createCard: templateId or tpl required')
 
-  const template = tpl || templates?.find(template => template.settings.templateId === templateId)
+  const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `inline-template-${shortId()}` }) : undefined)
+
+  const template = inlineTemplate || templates?.find(template => template.settings.templateId === templateId)
 
   // Ensure that 'templates' contains 'templateId'
   if (!template && templates) {
@@ -174,5 +186,5 @@ W extends CardTemplate | undefined,
 
   const { templates: _, ...rest } = args
 
-  return new Card({ ...rest, userConfig }).toConfig() as TableCardConfig
+  return new Card({ ...rest, inlineTemplate, userConfig }).toConfig() as TableCardConfig
 }

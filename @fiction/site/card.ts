@@ -55,10 +55,11 @@ CardTemplateSettings<U, T>
   }
 }
 
-export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, tpl?: CardTemplate }
+export type CardSettings<T extends Record<string, unknown> = Record<string, unknown> > = CardConfigPortable<T> & { site?: Site, inlineTemplate?: CardTemplate }
+export type CardBaseConfig = Record<string, unknown> & SiteUserConfig
 
 export class Card<
-  T extends Record<string, unknown> = Record<string, unknown>,
+  T extends CardBaseConfig = CardBaseConfig,
 > extends FictionObject<CardSettings<T>> {
   cardId = this.settings.cardId || objectId({ prefix: 'crd' })
   isHome = vue.ref(this.settings.isHome)
@@ -77,7 +78,7 @@ export class Card<
   fullConfig = vue.computed(() => deepMerge([this.site?.fullConfig.value, this.userConfig.value as T]) as SiteUserConfig & T)
   cards = vue.shallowRef((this.settings.cards || []).map(c => this.initSubCard({ cardConfig: c })))
   site = this.settings.site
-  tpl = vue.computed(() => this.settings.tpl || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
+  tpl = vue.computed(() => this.settings.inlineTemplate || this.site?.theme.value?.templates?.find(t => t.settings.templateId === this.templateId.value))
   generation = new CardGeneration({ card: this })
   isActive = vue.computed<boolean>(() => this.site?.editor.value.selectedCardId === this.settings.cardId)
   options: vue.ComputedRef<InputOption[]> = vue.computed(() => this.tpl.value?.settings.options || [])
@@ -211,7 +212,9 @@ type TupleToObject<T extends [string, unknown]> = {
 
 export type CreateUserConfigs<T extends readonly CardTemplate[]> = TupleToObject<CreateTuple<T>>
 
+export type ExtractComponentUserConfig<T extends ComponentConstructor> = InstanceType<T> extends { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
+
 export type ExtractCardTemplateUserConfig<T extends CardTemplate<any, any>> =
     T extends CardTemplate<infer _X, infer U> ?
-      U extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> : never
+      U extends new (...args: any[]) => { $props: { card: { userConfig: infer B } } } ? vue.UnwrapRef<B> & SiteUserConfig : never
       : never

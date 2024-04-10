@@ -11,12 +11,12 @@ describe('minimalProfile', async () => {
         "additionalProperties": false,
         "properties": {
           "details": {
-            "description": "Concise detail information like email, city, skills, last job, etc.",
+            "description": "short bullet details, resume contact information",
             "items": {
               "additionalProperties": false,
               "properties": {
                 "desc": {
-                  "description": "Value for profile detail (email@example.com), max 3 words",
+                  "description": "Value for a detail, like "Laguna Beach, CA"",
                   "type": "string",
                 },
                 "href": {
@@ -24,7 +24,7 @@ describe('minimalProfile', async () => {
                   "type": "string",
                 },
                 "name": {
-                  "description": "Label for profile detail (Email)",
+                  "description": "Label for a detail, like "Location"",
                   "type": "string",
                 },
                 "target": {
@@ -45,7 +45,7 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "detailsTitle": {
-            "description": "Bullets Title",
+            "description": "short bullet details, resume contact information",
             "type": "string",
           },
           "heading": {
@@ -53,7 +53,7 @@ describe('minimalProfile', async () => {
             "type": "string",
           },
           "mediaItems": {
-            "description": "splash picture in portrait format",
+            "description": "Splash picture in portrait format",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -100,7 +100,7 @@ describe('minimalProfile', async () => {
             "type": "array",
           },
           "socials": {
-            "description": "Socials",
+            "description": "social media accounts",
             "items": {
               "additionalProperties": false,
               "properties": {
@@ -154,8 +154,12 @@ describe('minimalProfile', async () => {
             },
             "type": "array",
           },
+          "socialsTitle": {
+            "description": "social media accounts",
+            "type": "string",
+          },
           "subHeading": {
-            "description": "Formatted markdown of profile with paragraphs, 50 to 80 words, 2 paragraphs",
+            "description": "Formatted markdown of profile with paragraphs, 30 to 60 words, 2 paragraphs",
             "type": "string",
           },
           "superHeading": {

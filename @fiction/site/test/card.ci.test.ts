@@ -12,7 +12,7 @@ describe('card', async () => {
   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,
-    tpl: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
+    inlineTemplate: standardCardTemplates.find(t => t.settings.templateId === 'hero') as CardTemplate,
     title: 'Test Card',
   })
 

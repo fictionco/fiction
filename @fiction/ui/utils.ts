@@ -5,7 +5,7 @@ export type UiElementFormat = 'block' | 'spread' | 'inline'
 export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiElementSize, format: UiElementFormat, isDisabled?: boolean, useShadow?: boolean, noHover?: boolean }) {
   const { btn = 'default', size, format, isDisabled, useShadow, noHover } = args
 
-  const baseClasses = 'relative max-w-full select-none items-center font-sans font-semibold focus:outline-none '
+  const baseClasses = 'relative max-w-full select-none items-center font-sans font-semibold focus:outline-none antialiased'
 
   const hoverStyles = {
     danger: 'hover:bg-rose-400 dark:hover:bg-rose-800',
