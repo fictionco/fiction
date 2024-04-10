@@ -32,16 +32,16 @@ const mediaGridCard = createCard({
         },
       },
       {
-        name: 'Mercedes Cheverier',
-        desc: 'Personal Site',
+        name: 'Universe',
+        desc: 'Blog',
         tags: ['Politics'],
         media: {
           url: new URL('img/site2.webp', import.meta.url).href,
         },
       },
       {
-        name: 'Joe Rogan',
-        desc: 'Personal Site',
+        name: 'Evans Attovise',
+        desc: 'Portfolio',
         tags: ['Politics'],
         media: {
           url: new URL('img/site3.jpg', import.meta.url).href,

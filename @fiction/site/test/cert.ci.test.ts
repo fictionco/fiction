@@ -16,11 +16,11 @@ describe('manageCertificates', () => {
   })
 
   it('should set certificates', async () => {
-    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'www.fiction.cx', appId: 'fiction-website' })
+    const r1 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'www.fiction.com', appId: 'fiction-website' })
     expect(r1.status).toBe('success')
     expect(snap(r1.data, { maskedKeys })).toMatchInlineSnapshot(`undefined`)
 
-    const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.cx', appId: 'fiction-sites' })
+    const r2 = await testUtils.fictionSites.requests.ManageCert.request({ _action: 'create', hostname: 'test-site.fiction.com', appId: 'fiction-sites' })
     expect(r2.status).toBe('success')
     expect(snap(r2.data, { maskedKeys })).toMatchInlineSnapshot(`
       {
@@ -32,10 +32,10 @@ describe('manageCertificates', () => {
         "configured": "true",
         "createdAt": "[dateTime:]",
         "dnsProvider": "cloudflare",
-        "dnsValidationHostname": "_acme-challenge.test-site.fiction.cx",
+        "dnsValidationHostname": "_acme-challenge.test-site.fiction.com",
         "dnsValidationInstructions": "**MASKED**",
         "dnsValidationTarget": "**MASKED**",
-        "hostname": "test-site.fiction.cx",
+        "hostname": "test-site.fiction.com",
         "id": "**MASKED**",
         "issued": {
           "nodes": "**MASKED**",

@@ -41,7 +41,7 @@ export interface FictionControlSettings {
   version?: string
   serverOnlyModules?: types.ServerModuleDef[]
   uiPaths?: string[]
-
+  meta?: { version?: string, app?: { name?: string, email?: string, url?: string, domain?: string } }
 }
 
 type BaseCompiled = {
@@ -61,6 +61,7 @@ export class FictionEnv<
   env = this.settings.env || {}
   cwd = this.settings.cwd
   mainFilePath = this.settings.mainFilePath || path.join(this.cwd, 'index.ts')
+  meta = this.settings.meta || { }
   appName = this.settings.appName || 'Fiction App'
   appEmail = this.settings.appEmail || ''
   appUrl = this.settings.appUrl || ''

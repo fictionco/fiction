@@ -2,10 +2,10 @@
 import type { NavItem, vue } from '@fiction/core'
 
 defineProps({
-  socials: {
-    type: Array as vue.PropType<NavItem[]>,
+  socials: { type: Array as vue.PropType<NavItem[]>,
     required: true,
   },
+  justify: { type: String as vue.PropType<'left' | 'right' | 'center' | 'justify'>, default: 'center' },
 })
 
 const socialIcons = [
@@ -31,10 +31,17 @@ function getIcon(value?: string) {
   const icon = socialIcons.find(i => i.value === value)
   return icon ? icon.icon : ''
 }
+
+const justifyClass = {
+  left: 'justify-center md:justify-start',
+  right: 'justify-center md:justify-end',
+  center: 'justify-center md:justify-center',
+  justify: 'justify-center md:justify-between',
+}
 </script>
 
 <template>
-  <div class="socials flex space-x-6 text-2xl">
+  <div class="socials flex space-x-6 text-2xl" :class="justifyClass[justify]">
     <a v-for="(item, i) in socials" :key="i" :href="item.href" target="_blank" class="text-center flex items-center flex-col justify-end hover:text-primary-500">
       <div :class="getIcon(item.icon)" class="" :title="item.name" />
     </a>

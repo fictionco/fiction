@@ -1,19 +1,14 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, MenuGroup } from '@fiction/core'
+import type { MediaDisplayObject, MenuGroup, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
+import CardSocials from '@fiction/cards/el/CardSocials.vue'
 
 export type UserConfig = {
   icon?: MediaDisplayObject
   menus?: MenuGroup[]
-  socialList?: {
-    key?: string
-    path?: string
-    target?: string
-    name?: string
-    icon?: string
-  }[]
+  socials?: NavItem[]
   footerText?: string
   privacyPolicy?: string
   termsOfService?: string
@@ -66,7 +61,7 @@ const footer = [
                   <a
                     :href="item.href"
                     :target="item.target ? item.target : '_self'"
-                    class="hover:text-primary-500 text-theme-800 dark:text-theme-50 font-sans text-sm font-semibold"
+                    class="hover:text-primary-500 text-theme-800 dark:text-theme-50 dark:hover:text-theme-300 font-sans text-sm font-semibold"
                   >
                     {{ item.name }}
                   </a>
@@ -76,25 +71,7 @@ const footer = [
             <div
               class="col-span-12 text-sm sm:col-span-3 lg:flex-row lg:items-center lg:justify-between"
             >
-              <ul class="m-0 mx-auto flex flex-wrap gap-2 justify-center md:justify-end p-0 lg:mx-0">
-                <li
-                  v-for="(item, i) in uc.socialList"
-                  :key="i"
-                  class="text-center lg:text-left"
-                >
-                  <a
-                    :href="item.path"
-                    class="mx-2 inline-block"
-                    :target="item.target ? item.target : '_self'"
-                  >
-                    <span class="sr-only">{{ item.name }}</span>
-                    <div
-                      class="text-theme-700 dark:text-theme-50 hover:opacity-80"
-                      v-html="item.icon"
-                    />
-                  </a>
-                </li>
-              </ul>
+              <CardSocials v-if="uc.socials" justify="right" :socials="uc.socials" />
 
               <div class="hidden md:block text-theme-700 dark:text-theme-50 mt-5 text-right text-xs">
                 <svg

@@ -23,6 +23,13 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
+  "include": [
+    "./**/*",
+    "./docs/.vitepress/config.ts",
+    "./docs/.vitepress/**/*.md",
+    "./**/.fiction/*"
+  ],
+
   "exclude": [
     "node_modules",
     "**/node_modules/**",

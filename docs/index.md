@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: Fiction Docs
-  text: Personal Marketing Platform
+  text: Your Personal Marketing Platform
   tagline: Everything you need to market yourself online
   actions:
     - theme: brand

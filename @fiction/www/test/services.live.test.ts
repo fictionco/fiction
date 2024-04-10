@@ -3,10 +3,10 @@ import { snap } from '@fiction/core/test-utils'
 
 describe('service health checks', () => {
   const services = [
-    { url: 'https://www.fiction.cx' },
-    { url: 'https://docs.fiction.cx/', checkForText: 'fiction', noApi: true },
-    { url: 'https://theme-minimal.fiction.cx' },
-    { url: 'https://andrewpowers.fiction.cx' },
+    { url: 'https://www.fiction.com' },
+    { url: 'https://docs.fiction.com/', checkForText: 'fiction', noApi: true },
+    { url: 'https://theme-minimal.fiction.com' },
+    { url: 'https://andrewpowers.fiction.com' },
     { url: 'https://www.andrewpowers.com' },
   ]
 

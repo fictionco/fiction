@@ -14,7 +14,6 @@ export type UserConfig = {
   nav?: NavItem[]
   logo?: MediaDisplayObject
   actions?: ActionItem[]
-  socialList?: NavItem[]
 }
 
 const props = defineProps({

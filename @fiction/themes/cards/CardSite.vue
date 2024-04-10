@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { FictionRouter } from '@fiction/core'
-import { getColorScheme, log, unhead, useService, vue } from '@fiction/core'
+import { getColorScheme, log, toLabel, unhead, useService, vue } from '@fiction/core'
 import { FrameUtility } from '@fiction/ui/elBrowserFrameUtil'
 import ElSpinner from '@fiction/ui/ElSpinner.vue'
 import El404 from '@fiction/ui/El404.vue'
@@ -53,7 +53,7 @@ function getTitleTag() {
 
   else {
     const titleTemplate = site.value?.userConfig.value?.titleTemplate || '{{pageTitle}}'
-    const pageTitle = page.value?.title?.value || 'Untitled Page'
+    const pageTitle = page.value?.title?.value || toLabel(page.value?.slug?.value) || 'Home'
     const siteTitle = site.value?.title?.value || 'Untitled Site'
 
     // Create the title by replacing placeholders with actual values

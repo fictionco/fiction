@@ -19,7 +19,7 @@ import { commands } from './commands'
 const cwd = safeDirname(import.meta.url, '..')
 const appName = 'Fiction'
 const appEmail = 'hello@fiction.com'
-const domain = `fiction.cx`
+const domain = `fiction.com`
 const appUrl = `https://www.${domain}`
 const appUrlSites = `https://*.${domain}`
 
@@ -35,6 +35,7 @@ const fictionEnv = new FictionEnv({
   appUrl,
   version,
   commands,
+  meta: { version, app: { name: appName, email: appEmail, url: appUrl, domain } },
 })
 
 const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })

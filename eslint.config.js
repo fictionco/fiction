@@ -38,5 +38,5 @@ export default antfu(
       'vue/no-ref-as-operand': 'error',
     },
   },
-  { ignores: ['**/.ref/**/*', '**/.ref-*/**/*', '**/__*', 'node_modules', 'dist', '**/.fiction/**', '.pnpmfile.cjs', 'docs'] },
+  { ignores: ['**/.ref/**/*', '**/.ref-*/**/*', '**/__*', 'node_modules', 'dist', '**/.fiction/**', '.pnpmfile.cjs'] },
 )

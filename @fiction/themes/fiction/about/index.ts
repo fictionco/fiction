@@ -1,6 +1,6 @@
 import { createCard } from '@fiction/site/theme'
 import { templates } from '../templates'
-import people from './people2.webp'
+import spectrum from './spectrum.jpg'
 import ap from './ap.webp'
 import pro from './pro.webp'
 import girlComputer from './girl-computer.webp'
@@ -10,9 +10,9 @@ const topHeroCard = createCard({
   templateId: 'hero',
   userConfig: {
     superHeading: 'Company',
-    subHeading: `Fiction is the company built to help you tell your story.`,
+    subHeading: `A company built to help you tell your story. Made in California.`,
     heading: `About`,
-    splash: { format: 'url', url: people },
+    splash: { format: 'url', url: spectrum },
     layout: 'justify',
   },
 })
@@ -23,7 +23,7 @@ const missionHeroCard = createCard({
   userConfig: {
     superHeading: 'Mission',
     subHeading: `We believe everyone has a story to tell and a reputation to build. Fiction's mission is to elevate people and remove barriers to success.`,
-    heading: `Personal Marketing`,
+    heading: `Helping People.`,
     splash: { format: 'url', url: pro },
     layout: 'left',
   },
@@ -35,7 +35,7 @@ const missionHeroCard2 = createCard({
   userConfig: {
     superHeading: 'Mission',
     subHeading: `We don't believe in compromising products for profit. Fiction is open-source and free to use. We believe in the power of community and the value of giving back.`,
-    heading: `Open-Source and Free`,
+    heading: `Open Source Software.`,
     splash: { format: 'url', url: girlComputer },
     layout: 'right',
   },
