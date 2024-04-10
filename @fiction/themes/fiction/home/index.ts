@@ -1,5 +1,5 @@
 import { createCard } from '@fiction/site/theme'
-import { templates } from './templates'
+import { templates } from '../templates'
 
 export function page() {
   return createCard({

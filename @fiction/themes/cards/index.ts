@@ -16,6 +16,7 @@ import * as features from './features'
 import * as team from './team'
 import * as map from './map'
 import * as faq from './faq'
+import * as pricing from './pricing'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -36,6 +37,7 @@ export const standardCardTemplates = [
 
 export const marketingCardTemplates = [
   ...team.templates,
+  ...pricing.templates,
   ...templatesLogos,
   ...templatesTour,
   ...templatesMediaGrid,

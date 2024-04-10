@@ -4,10 +4,12 @@ import { safeDirname } from '@fiction/core'
 import * as cards from '@fiction/cards'
 
 import { templates } from './templates'
-import * as home from './pageHome'
+import * as home from './home'
 import * as tour from './tour'
 import * as about from './about'
 import * as developer from './developer'
+import * as pricing from './pricing'
+import * as support from './support'
 import favicon from './img/favicon.svg'
 import shareImage from './img/share-image.jpg'
 
@@ -44,7 +46,7 @@ const socialList: NavItem[] = [
 
 export function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
-  const pages = () => ([home.page(), tour.page(), about.page(), developer.page(), ...cards.pages()])
+  const pages = () => ([home.page(), tour.page(), about.page(), developer.page(), pricing.page(), support.page(), ...cards.pages()])
 
   return new Theme({
     fictionEnv,
@@ -105,6 +107,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
                     groupName: 'Pages',
                     menu: [
                       { href: '/tour', name: 'Tour' },
+                      { href: '/pricing', name: 'Pricing' },
                       { href: '/developer', name: 'Developer' },
                     ],
                   },
