@@ -3,5 +3,6 @@ packages:
   - '@fiction/ui'
   - '@fiction/www'
   - '@fiction/site'
+  - '@fiction/platform'
   - '@fiction/themes/*'
   - '@fiction/plugins/*'

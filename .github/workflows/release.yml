@@ -45,12 +45,12 @@ env:
   GH_TOKEN: ${{secrets.GH_TOKEN}}
 jobs:
   test:
-    if: 'contains(github.event.head_commit.message, ''-release'') == true'
+    if: 'contains(github.event.head_commit.message, ''-d'') == true'
     env:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
-      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-release') }}
+      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-d') }}
     name: build and test
     runs-on: ubuntu-latest
     steps:
@@ -88,73 +88,75 @@ jobs:
       - name: Install Deps
         run: pnpm -v && pnpm i && pnpm rebuild --recursive
 
+      - name: Install Playwright Browsers
+        run: npx playwright install
+
+      - name: Run Docker Compose (DB)
+        run: docker-compose -f ./docker/docker-compose.yml pull && docker-compose -f ./docker/docker-compose.yml up --build -d
+
+      - name: Create Tables
+        run: npm -w @fiction/www exec -- fiction run generate
+
+      - name: Run Type Check
+        run: npm run types:ci
+
+      - name: BUILD unit tests
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: npm exec -- vitest run build -u --no-file-parallelism
+
+      - name: SPOT tests
+        run: npm exec -- vitest run @fiction/core/plugin-user/test/userUpdate.ci.test.ts -u
+
+      - name: STABLE unit tests
+        run: npm exec -- vitest run ci -u
+
+      - name: E2E/UI unit tests
+        run: npm exec -- vitest run e2e -u
+
+      - name: Install Build Packages
+        if: env.SHOULD_RELEASE
+        run: pnpm add tsup cross-env --global
+
+      - name: Build Bundles
+        if: env.SHOULD_RELEASE
+        run: npm exec -- fiction run bundle
+
+      - name: Render Apps
+        if: env.SHOULD_RELEASE
+        run: npm exec -- fiction run render
+
+      - name: Install FlyCtl
+        if: env.SHOULD_RELEASE
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: DIST unit tests
+        if: env.SHOULD_RELEASE
+        run: npm exec -- vitest run dist -u
+
       - name: Debug Git Config
+        if: env.SHOULD_RELEASE
         run: |
           git config --list
           git remote -v
 
       - name: Release Code
+        if: env.SHOULD_RELEASE
         run: |
           npm run i:lockfile && npm run release
 
-      # - name: Install Playwright Browsers
-      #   run: npx playwright install
-
-      # - name: Run Docker Compose (DB)
-      #   run: docker-compose -f ./docker/docker-compose.yml pull && docker-compose -f ./docker/docker-compose.yml up --build -d
-
-      # - name: Create Tables
-      #   run: npm -w @fiction/www exec -- fiction run generate
-
-      # - name: Run Type Check
-      #   run: npm run types:ci
-
-      # - name: BUILD unit tests
-      #   env:
-      #     NODE_OPTIONS: --max_old_space_size=4096
-      #   run: npm exec -- vitest run build -u --no-file-parallelism
-
-      # - name: SPOT tests
-      #   run: npm exec -- vitest run @fiction/core/plugin-user/test/userUpdate.ci.test.ts -u
-
-      # - name: STABLE unit tests
-      #   run: npm exec -- vitest run ci -u
-
-      # - name: E2E/UI unit tests
-      #   run: npm exec -- vitest run e2e -u
-
-      # - name: Install Build Packages
-      #   if: env.SHOULD_RELEASE
-      #   run: pnpm add tsup cross-env --global
-
-      # - name: Build Bundles
-      #   if: env.SHOULD_RELEASE
-      #   run: npm exec -- fiction run bundle
-
-      # - name: Render Apps
-      #   if: env.SHOULD_RELEASE
-      #   run: npm exec -- fiction run render
-
-      # - name: Install FlyCtl
-      #   if: env.SHOULD_RELEASE
-      #   uses: superfly/flyctl-actions/setup-flyctl@master
-
-      # - name: DIST unit tests
-      #   if: env.SHOULD_RELEASE
-      #   run: npm exec -- vitest run dist -u
-
-      # - name: Post Notification
-      #   if: failure()
-      #   id: slack
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #     # This data can be any valid JSON from a previous step in the GitHub Action
-      #     payload: |
-      #       {
-      #         "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
-      #         "username": "supereon",
-      #         "channel": "#notify",
-      #         "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Post Notification
+        if: failure()
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
+          payload: |
+            {
+              "icon_emoji": "${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}",
+              "username": "supereon",
+              "channel": "#notify",
+              "text": "Workflow *${{ github.workflow }}* on *${{ github.ref }}* (commit: ${{ github.sha }}) completed with status: *${{ job.status }}*. <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

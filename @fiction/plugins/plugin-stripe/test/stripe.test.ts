@@ -8,15 +8,12 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { FictionStripe } from '../plugin'
 
-let customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
 let orgId: string | undefined
-let setupIntent: Stripe.SetupIntent | undefined
-let subscription: Stripe.Subscription | undefined
-const key = (): string => Math.random().toString().slice(2, 8)
 
 // const testUtils: TestUtils | undefined = undefined
 let testUtils: TestUtils & { fictionStripe: FictionStripe }
 describe('stripe tests', () => {
+  let _customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
   beforeAll(async () => {
     const utils = createTestUtils()
 
@@ -70,7 +67,7 @@ describe('stripe tests', () => {
 
     expect(status).toBe('success')
     expect(data?.id).toBeTruthy()
-    customer = data
+    _customer = data
   })
 
   it('gets the customer', async () => {

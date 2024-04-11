@@ -1,46 +1,60 @@
+# General directories and files
 /xcache
+cache/
+dist/
+rendered/
+temp/
+*.log
+*.retry
+coverage/
 
-dist
-**/dist
-**/rendered
-
-.DS_Store
-**/node_modules/**
-coverage
-temp
-temp.*
-explorations
-TODOs.md
-
-.env
+# Environment files and directories
 .env*
-**/.env
-**/.env*
+config/*.secret
+
+# Node.js related
+node_modules/
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Vite and Vitepress
+.vitepress/dist
+.vitepress/cache
+dist/ # Vite build output
 
 # Package Publishing
-.publish
+.publish/
 
-# Vitepress
-**/.vitepress/dist
-**/.vitepress/cache
-
-# wireguard/tunnels
+# Wireguard/Tunnels
 wire.*
 
-# debugging
+# Debugging
 .ts-node
 *.log
+chrome_debug.log
 
-# Local .terraform directories
-**/.terraform
-
-# .tfstate files
+# Terraform
+**/.terraform/
 *.tfstate
 *.tfstate.*
 
 # Ansible/Python
 .venv/
-.venv*/
-*.retry
+**/__pycache__/
+*.py[cod] # Compiled python files
 /___*.yml
 
+# IDEs and editors
+/.idea/
+/.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Operating System generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini

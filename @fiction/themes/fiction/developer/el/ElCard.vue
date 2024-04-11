@@ -16,7 +16,8 @@ defineProps({
     required: true,
   },
 })
-const x = 1
+
+const link = 'https://docs.fiction.com'
 </script>
 
 <template>
@@ -58,7 +59,7 @@ const x = 1
             building personal marketing tools.
           </p>
           <div class="mt-10 flex items-center gap-x-6">
-            <ElButton btn="primary" href="https://docs.fiction.com" size="lg">
+            <ElButton btn="primary" :href="link" size="lg">
               View Developer Docs
             </ElButton>
 

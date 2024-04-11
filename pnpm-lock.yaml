@@ -159,6 +159,9 @@ importers:
       simple-git-hooks:
         specifier: ^2.11.1
         version: 2.11.1
+      tailwindcss:
+        specifier: ^3.4.3
+        version: 3.4.3(ts-node@10.9.2)
       tslib:
         specifier: ^2.6.2
         version: 2.6.2
@@ -664,6 +667,30 @@ importers:
       websocket-polyfill:
         specifier: ^1.0.0
         version: 1.0.0
+
+  '@fiction/platform':
+    dependencies:
+      '@fiction/cards':
+        specifier: workspace:*
+        version: link:../themes/cards
+      '@fiction/core':
+        specifier: workspace:*
+        version: link:../core
+      '@fiction/site':
+        specifier: workspace:*
+        version: link:../site
+      '@fiction/theme-admin':
+        specifier: workspace:*
+        version: link:../themes/admin
+      '@fiction/theme-fiction':
+        specifier: workspace:*
+        version: link:../themes/fiction
+      '@fiction/theme-minimal':
+        specifier: workspace:*
+        version: link:../themes/minimal
+      '@fiction/ui':
+        specifier: workspace:*
+        version: link:../ui
 
   '@fiction/plugins/plugin-admin':
     dependencies:

@@ -72,7 +72,7 @@ const colClass = vue.computed(() => {
                 {{ price.desc }}
               </p>
               <ul role="list" class="mt-6 space-y-3 text-lg leading-6 text-theme-100">
-                <li v-for="(feature, i) in price.features" :key="i" class="flex gap-x-3 items-center">
+                <li v-for="(feature, ii) in price.features" :key="ii" class="flex gap-x-3 items-center">
                   <svg class="size-6 flex-none dark:text-theme-600 text-primary-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
                   </svg>

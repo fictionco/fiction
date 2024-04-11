@@ -25,8 +25,8 @@
   },
   "include": [
     "./**/*",
-    "./docs/.vitepress/config.ts",
-    "./docs/.vitepress/**/*.ts",
+    "./docs/.vitepress/**/*",
+    "./docs/**/*",
     "./**/.fiction/*"
   ],
 
@@ -34,6 +34,7 @@
     "node_modules",
     "**/node_modules/**",
     "dist",
+    "cache",
     "**/dist/**",
     ".ref/**",
     "**/.ref-*/**",
