@@ -138,19 +138,16 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
     if (service.fictionEnv?.isProd.value && typeof window !== 'undefined') {
       const dsn = this.sentryPublicDsn
       if (!dsn)
-        throw new Error('No Sentry DSN provided')
+        return this.log.error('SENTRY_PUBLIC_DSN not set')
 
       const Sentry = await import('@sentry/vue')
 
       Sentry.init({
         app,
-        dsn: 'https://1abd25278537c4f102638fac9b6d9e7c@o4504680560787456.ingest.us.sentry.io/4507067897872384',
+        dsn,
         integrations: [
           Sentry.browserTracingIntegration(),
-          Sentry.replayIntegration({
-            maskAllText: false,
-            blockAllMedia: false,
-          }),
+          Sentry.replayIntegration({ maskAllText: false, blockAllMedia: false }),
         ],
         // Performance Monitoring
         tracesSampleRate: 1.0, //  Capture 100% of the transactions

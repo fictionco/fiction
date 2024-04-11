@@ -116,8 +116,9 @@ const fictionMonitor = new FictionMonitor({
   fictionApp,
   fictionEmail,
   fictionEnv,
-  slackWebhookUrl: fictionEnv.var('SLACK_WEBHOOK_URL'),
   fictionUser,
+  slackWebhookUrl: fictionEnv.var('SLACK_WEBHOOK_URL'),
+  sentryPublicDsn: fictionEnv.var('SENTRY_PUBLIC_DSN'),
 })
 
 const basicService = {
