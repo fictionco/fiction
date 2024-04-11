@@ -116,11 +116,9 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
         enforce: 'pre',
         // isEntry option is available to inject with
         // async resolveId(id, importer) {
-        //   if (id.includes("store")) {
-        //     console.warn(`\n`)
-        //     console.warn("ID", id)
-        //     console.warn("importer", importer)
-        //   }
+        //   console.warn(`\n`)
+        //   console.warn(`ID ${id.includes('mount') ? 'MOUNT' : ''}`, id)
+        //   console.warn('importer', importer)
         // },
 
         transform: async (src: string, id: string) => {
@@ -218,11 +216,11 @@ export class FictionBuild extends FictionPlugin<FictionBuildSettings> {
     mainFilePath?: string
     config?: vite.InlineConfig
   }): Promise<vite.InlineConfig> => {
-    const { isProd, root = process.cwd(), config = {} } = options
+    const { isProd, root = process.cwd(), config = {}, isServerBuild } = options
 
     const customPlugins = await this.getCustomBuildPlugins()
 
-    const external: string[] = ['ngrok', 'node:crypto'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
+    const external: string[] = ['ngrok', 'node:crypto', 'uno.css'] // this.fictionEnv.serverOnlyModules.map((_) => _.id)
 
     const basicConfig: vite.InlineConfig = {
       mode: isProd ? 'production' : 'development',

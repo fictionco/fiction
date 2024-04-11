@@ -7,9 +7,8 @@ import compression from 'compression'
 import serveStatic from 'serve-static'
 import { minify } from 'html-minifier'
 import type { Express, Request } from 'express'
-import unocss from 'unocss/vite'
-import presetIcons from '@unocss/preset-icons'
 import type tailwindcss from 'tailwindcss'
+import { iconsPlugin } from '@egoist/tailwindcss-icons'
 import { createExpressApp, deepMergeAll, express, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { FictionRouter } from '../plugin-router'
@@ -117,6 +116,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
         mode: 'jit',
         content: fullUiPaths,
         safelist: ['italic', 'lowercase', 'font-bold'],
+        plugins: [iconsPlugin()],
       },
       ...this.fictionApp.tailwindConfig,
     ]
@@ -179,7 +179,6 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     const plugins = [
       pluginVue(),
       ...getMarkdownPlugins({ isProd, distClient: this.distFolderClient }),
-      unocss({ presets: [presetIcons()], safelist: [] }),
     ]
 
     if (isProd) {

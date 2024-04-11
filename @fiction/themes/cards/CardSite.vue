@@ -65,11 +65,11 @@ function getTitleTag() {
 
 function getScript(args: { noscript?: boolean } = {}) {
   const { noscript } = args
-  const gtmContainerId = site.value?.userConfig.value.customCode?.gtmContainerId
+  const gtmContainerId = site.value?.fullConfig.value.customCode?.gtmContainerId
 
   if (noscript) {
     return gtmContainerId
-      ? [{ innerHTML: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5LQBZDJ"
+      ? [{ innerHTML: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmContainerId}"
 height="0" width="0" style="display:none;visibility:hidden"></iframe>` }]
       : []
   }
@@ -106,8 +106,8 @@ unhead.useHead({
   meta: [
     { charset: 'UTF-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-    { name: `description`, content: page.value?.userConfig.value.seoDescription || page.value?.description.value || '' },
-    { name: 'robots', content: () => site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+    { name: `description`, content: () => (page.value?.userConfig.value.seoDescription || page.value?.description.value || '') },
+    { name: 'robots', content: () => (site.value?.userConfig.value.robotsTxt || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1') },
     { property: 'og:site_name', content: () => site.value?.title.value || '' },
     { property: 'og:locale', content: () => site.value?.userConfig.value.locale || 'en_US' },
     { property: 'og:image', content: () => site.value?.userConfig.value.shareImage?.url || '/favicon.png' },
@@ -128,13 +128,13 @@ unhead.useHead({
     { key: 'font-static', rel: 'preconnect ', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
     { key: 'font', rel: 'stylesheet', href: () => fonts.value?.fontsUrl, id: 'font-link' },
   ],
-  script: getScript(),
+  script: () => getScript(),
   style: [
     {
       innerHTML: 'html { opacity: 0; transform: scale(.96); transition: opacity 0.7s, transform 0.7s ease; } body.dark { background: #000; }',
     },
   ],
-  noscript: getScript({ noscript: true }),
+  noscript: () => getScript({ noscript: true }),
 })
 
 vue.onServerPrefetch(async () => {

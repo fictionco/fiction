@@ -1,5 +1,4 @@
 import 'uno.css'
-import '@unocss/reset/tailwind.css'
 import type { Component } from 'vue'
 import { createSSRApp } from 'vue'
 import type {
