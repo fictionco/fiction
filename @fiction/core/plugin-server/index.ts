@@ -44,7 +44,6 @@ export class FictionServer extends FictionPlugin<FictionServerSettings> {
     const isProd = this.isLive.value
     const liveUrl = this.liveUrl.value
     const url = !isProd || this.useLocal.value || !liveUrl ? this.localUrl.value : liveUrl
-    this.log.info('running url', { data: { isProd, liveUrl, useLocal: this.useLocal.value, url } })
     return url
   })
 

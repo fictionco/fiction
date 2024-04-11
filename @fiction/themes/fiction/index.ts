@@ -67,6 +67,7 @@ export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStri
         spacingClass: `py-[calc(1.5rem+4vw)]`,
       },
       titleTemplate: `{{pageTitle}} - Fiction`,
+      customCode: { gtmContainerId: `GTM-5LQBZDJ` },
     },
     sections: () => {
       return {
