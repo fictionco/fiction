@@ -1,3 +1,7 @@
+## [6.0.28](https://github.com/fictionco/fiction/compare/v6.0.27...v6.0.28) (2024-04-11)
+
+
+
 ## [6.0.27](https://github.com/fictionco/fiction/compare/v6.0.26...v6.0.27) (2024-04-11)
 
 
