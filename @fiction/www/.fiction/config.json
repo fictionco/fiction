@@ -101,6 +101,22 @@
       "path": "/api/fiction-ai/AiImage"
     },
     {
+      "key": "ManageCustomer",
+      "path": "/api/stripe/ManageCustomer"
+    },
+    {
+      "key": "ListSubscriptions",
+      "path": "/api/stripe/ListSubscriptions"
+    },
+    {
+      "key": "GetCustomerData",
+      "path": "/api/stripe/GetCustomerData"
+    },
+    {
+      "key": "oAuthEndpoint",
+      "path": "/api/stripe-checkout/:action"
+    },
+    {
       "key": "ManageSite",
       "path": "/api/fiction-sites/ManageSite"
     },

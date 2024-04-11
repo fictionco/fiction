@@ -22,75 +22,6 @@ vue.onMounted(async () => {
 const activeCustomer = vue.computed(() => {
   return fictionStripe?.activeCustomer.value
 })
-
-// const upgradeActions = vue.computed<MenuItem[]>(() => {
-//   const upgradeTier = activeCustomer.value?.upgradeTier
-//   const upgradeQuantity = activeCustomer.value?.upgradeQuantity
-
-//   const actions = []
-//   if (upgradeTier) {
-//     actions.push({
-//       name: `Upgrade To ${toLabel(
-//         upgradeTier?.group,
-//       )} ($${upgradeTier?.cost}/mo)`,
-//       onClick: () => changePlan(upgradeTier),
-//       btn: 'primary',
-//       size: 'lg',
-//     })
-//   }
-
-//   return actions
-// })
-
-// async function changePlan(args: CustomerDetails) {
-//   const subscriptionId = fictionStripe.activeCustomer.value?.subscriptionId
-
-//   if (subscriptionId) {
-//     const confirmed = confirm('Are you sure?')
-//     if (!confirmed)
-//       return
-//     const { quantity } = args
-//     sending.value = 'change'
-//     await fictionStripe.requestManageSubscription('change', {
-//       priceId: args.priceId,
-//       subscriptionId,
-//       coupon: coupon.value,
-//       quantity,
-//     })
-
-//     await fictionStripe.setCustomerData()
-//   }
-//   else {
-//     location.href = await fictionStripe.getCheckoutUrl({
-//       priceId: args.priceId,
-//       loginPath: '/auth/login',
-//     })
-//   }
-
-//   sending.value = ''
-// }
-
-// async function cancelPlan(args?: CustomerDetails) {
-//   const subscriptionId = args?.subscriptionId
-
-//   if (!subscriptionId)
-//     throw new Error('no subscription id')
-
-//   const confirmed = confirm(
-//     'Are you sure? This will cancel your subscription, as remove access to your data and AI tools',
-//   )
-//   if (!confirmed)
-//     return
-//   sending.value = 'delete'
-//   await fictionStripe.requestManageSubscription('cancel', {
-//     priceId: args.priceId,
-//     subscriptionId,
-//   })
-
-//   await fictionStripe.setCustomerData()
-
-//   sending.value = ''
-// }
 </script>
 
 <template>
@@ -102,22 +33,19 @@ const activeCustomer = vue.computed(() => {
             <div class="mb-3 font-bold">
               Current Plan
             </div>
-            <div class="font-brand text-2xl font-bold text-primary-500/50">
+            <div class="x-font-title text-2xl font-bold text-theme-500 dark:text-theme-100 ">
               {{ activeCustomer?.planName || 'Unknown' }}
             </div>
           </div>
           <div class="mb-3 font-bold">
             Service Usage
           </div>
-          <div
-            v-if="fictionStripe?.usage.activeUsage.value"
-            class="mt-2 space-y-4"
-          >
+          <div v-if="fictionStripe" class="mt-2 space-y-4">
             <div class="relative">
               <div class="relative flex items-center space-x-3">
                 <div>
                   <span
-                    class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-500 text-white ring-4 ring-white"
+                    class="flex h-8 w-8 items-center justify-center rounded-md bg-emerald-500 text-white dark:text-black ring-4 ring-white dark:ring-emerald-300"
                   >
                     <div class="i-heroicons-calendar-days text-xl" />
                   </span>
@@ -127,32 +55,9 @@ const activeCustomer = vue.computed(() => {
                     Current Cycle
                   </div>
                   <div class="font-bold">
-                    {{ standardDate(fictionStripe.usage.activeUsage.value.cycleStartAtIso) }}
+                    {{ standardDate(fictionStripe.cycleStartAtIso.value) }}
                     to
-                    {{ standardDate(fictionStripe.usage.activeUsage.value.cycleEndAtIso) }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="relative">
-              <div class="relative flex items-center space-x-3">
-                <div>
-                  <span
-                    class="bg-primary-500 flex h-8 w-8 items-center justify-center rounded-md text-white ring-4 ring-white"
-                  >
-                    <div class="i-heroicons-clock text-xl" />
-                  </span>
-                </div>
-                <div class=" ">
-                  <div class="text-theme-500 text-xs">
-                    Credits Used This Cycle:
-                  </div>
-                  <div class="font-bold">
-                    {{ fictionStripe.usage.activeUsage.value.usedCredits }} of
-                    {{ fictionStripe.usage.activeUsage.value.paidCredits }}
-                    credits ({{
-                      fictionStripe.usage.activeUsage.value.percentUsed || 0
-                    }}%)
+                    {{ standardDate(fictionStripe.cycleEndAtIso.value) }}
                   </div>
                 </div>
               </div>
@@ -166,7 +71,7 @@ const activeCustomer = vue.computed(() => {
           <div class="font-bold">
             Billing Dashboard
           </div>
-          <div class="text-slate-600">
+          <div class="text-theme-600 dark:text-theme-100">
             <p class="my-4">
               We partner with Stripe to handle payments and billing. To
               view invoices, change plan or payment method, please visit the
@@ -174,9 +79,7 @@ const activeCustomer = vue.computed(() => {
             </p>
             <p class="my-4">
               Use your billing email to login:
-              <span class="font-bold">{{
-                fictionUser.activeOrganization.value?.orgEmail
-              }}</span>
+              <span class="font-bold">{{ fictionUser.activeOrganization.value?.orgEmail }}</span>
             </p>
           </div>
           <div class="mt-6">

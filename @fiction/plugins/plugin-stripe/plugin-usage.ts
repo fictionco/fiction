@@ -1,17 +1,8 @@
 // @unocss-include
 
-import type {
-  FictionApp,
-  FictionDb,
-  FictionPluginSettings,
-  FictionServer,
-  FictionUser,
-} from '@fiction/core'
-import {
-  FictionPlugin,
-  safeDirname,
-  vue,
-} from '@fiction/core'
+import type { FictionApp, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
+import { FictionPlugin, safeDirname, vue } from '@fiction/core'
+import { as } from 'vitest/dist/reporters-P7C2ytIv'
 import type { FictionStripe } from './plugin'
 import { QueryManageUsage } from './endpointsUsage'
 import { tables } from './tables'
@@ -34,40 +25,25 @@ interface ActiveUsage {
 }
 
 export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
-  fictionEnv = this.settings.fictionEnv
-  fictionApp = this.settings.fictionApp
-  fictionDb = this.settings.fictionDb
-  fictionUser = this.settings.fictionUser
-  fictionServer = this.settings.fictionServer
-  fictionStripe = this.settings.fictionStripe
   loading = vue.ref(false)
-  isLive = this.fictionEnv.isProd
+  isLive = this.settings.fictionEnv.isProd
 
-  queries = this.createQueries()
-  requests = this.createRequests({
-    queries: this.queries,
-    fictionServer: this.fictionServer,
-    fictionUser: this.fictionUser,
-  })
+  queries = {
+    ManageUsage: new QueryManageUsage({ ...this.settings }),
+  }
+
+  requests = this.createRequests({ queries: this.queries, fictionServer: this.settings.fictionServer, fictionUser: this.settings.fictionUser })
 
   activeUsage = vue.ref<ActiveUsage | undefined>()
-
-  cycleEndAtIso = vue.computed(() => {
-    return this.fictionStripe?.activeCustomer.value?.cycleEndAtIso
-  })
-
-  cycleStartAtIso = vue.computed(() => {
-    return this.fictionStripe?.activeCustomer.value?.cycleStartAtIso
-  })
 
   constructor(settings: FictionUsageSettings) {
     super('FictionUsage', { root: safeDirname(import.meta.url), ...settings })
 
-    this.fictionDb.addTables(tables)
+    this.settings.fictionDb.addTables(tables)
   }
 
   async setUsage() {
-    const customer = this.fictionStripe.activeCustomer.value
+    const customer = this.settings.fictionStripe.activeCustomer.value
 
     this.log.info('set usage', { data: { customer } })
 
@@ -87,7 +63,7 @@ export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
 
     const usedCredits = result.data?.credits || 0
 
-    const paidCredits = this.fictionStripe?.activeCustomer.value?.credits || 0
+    const paidCredits = this.settings.fictionStripe?.activeCustomer.value?.credits || 0
     const percentUsed = Math.round((usedCredits / paidCredits) * 100)
 
     this.activeUsage.value = {
@@ -102,16 +78,5 @@ export class FictionUsage extends FictionPlugin<FictionUsageSettings> {
     this.log.info(`set ${usedCredits} usage this cycle`, {
       data: this.activeUsage.value,
     })
-  }
-
-  protected createQueries() {
-    const deps = {
-      fictionDb: this.fictionDb,
-      fictionUser: this.fictionUser,
-      fictionUsage: this,
-    }
-    return {
-      ManageUsage: new QueryManageUsage(deps),
-    } as const
   }
 }

@@ -6,6 +6,7 @@ import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, 
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
 import { FictionNotify } from '@fiction/plugin-notify'
+import { FictionStripe } from '@fiction/plugin-stripe'
 import { FictionDevRestart } from '@fiction/core/plugin-env/restart'
 import { FictionSites } from '@fiction/site'
 
@@ -163,6 +164,44 @@ const pluginServices = {
   fictionAi,
 }
 
+const fictionStripe = new FictionStripe({
+  ...pluginServices,
+  secretKeyLive: fictionEnv.var('STRIPE_SECRET_KEY_PROD'),
+  publicKeyLive: fictionEnv.var('STRIPE_PUBLIC_KEY_PROD'),
+  secretKeyTest: fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
+  publicKeyTest: fictionEnv.var('STRIPE_PUBLIC_KEY_TEST'),
+  customerPortalUrl: `https://billing.stripe.com/p/login/fZedS66gTaiegww7ss`,
+  products: [
+    {
+      alias: 'standard',
+      productId: 'prod_Ptz7sEMEmJvZ6s',
+      tier: 10,
+      pricing: [
+        { duration: 'month', priceId: 'price_1P4B95FofsEYcKEPApAIRcWH' },
+        { duration: 'year', priceId: 'price_1P4B95FofsEYcKEPjdwAKb9j' },
+      ],
+    },
+    {
+      alias: 'pro',
+      productId: 'prod_PtzAeKqhL7w5fs',
+      tier: 20,
+      pricing: [
+        { duration: 'month', priceId: 'price_1P4BCZFofsEYcKEPX8BAkBlt' },
+        { duration: 'year', priceId: 'price_1P4BDBFofsEYcKEPdz8dDkT4' },
+      ],
+    },
+    {
+      alias: 'advanced',
+      productId: 'prod_PtzDXv4G19aO4m',
+      tier: 30,
+      pricing: [
+        { duration: 'month', priceId: 'price_1P4BF6FofsEYcKEPW6rBsDVO' },
+        { duration: 'year', priceId: 'price_1P4BFjFofsEYcKEPU6zDPhfl' },
+      ],
+    },
+  ],
+})
+
 const fictionSites = new FictionSites({
   ...pluginServices,
   fictionAppSites,
@@ -170,7 +209,7 @@ const fictionSites = new FictionSites({
   flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
   flyIoAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
-  themes: getThemes({ fictionEnv }),
+  themes: getThemes({ fictionEnv, fictionStripe }),
 })
 
 // const plugins = createPluginConfig([
@@ -198,7 +237,7 @@ async function initializeBackingServices() {
   fictionEmail.init()
 }
 
-export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi }
+export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe }
 
 export function setup(): ServiceConfig {
   return {

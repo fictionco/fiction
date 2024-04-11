@@ -3,6 +3,7 @@ import { Theme, createCard } from '@fiction/site/theme'
 import { safeDirname } from '@fiction/core'
 import * as cards from '@fiction/cards'
 
+import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
 import { templates } from './templates'
 import * as home from './home'
 import * as tour from './tour'
@@ -37,9 +38,12 @@ const socials: NavItem[] = [
   },
 ]
 
-export function setup(args: { fictionEnv: FictionEnv }) {
+export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }) {
   const { fictionEnv } = args
-  const pages = () => ([home.page(), tour.page(), about.page(), developer.page(), pricing.page(), support.page(), ...cards.pages()])
+  const pages = async () => {
+    const pricingPage = await pricing.page(args)
+    return [home.page(), tour.page(), about.page(), developer.page(), pricingPage, support.page(), ...cards.pages()]
+  }
 
   const domain = fictionEnv.meta.app?.domain || 'fiction.com'
   return new Theme({

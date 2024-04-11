@@ -53,17 +53,17 @@ const colClass = vue.computed(() => {
             <div class="lg:px-8 xl:px-14">
               <h3 class="text-base font-medium leading-7 text-theme-400 dark:text-theme-0 x-font-sans space-x-4 flex items-center">
                 <span>{{ price.name }}</span>
-                <span v-if="price.badge" class="inline-flex items-center rounded-full dark:bg-primary-700 dark:text-theme-0 px-2 py-1 text-xs font-medium ">{{ price.badge || "Most Popular" }}</span>
+                <span v-if="price.badge" class="inline-flex items-center rounded-full bg-amber-200 text-amber-800 dark:bg-amber-700/90 dark:text-theme-0 px-2 py-1 text-xs font-medium ">{{ price.badge || "Most Popular" }}</span>
               </h3>
               <p class="mt-6 flex items-baseline gap-x-1 x-font-title">
                 <span class="text-6xl font-bold tracking-tight"><span class="align-super text-[.7em] dark:text-theme-200 mr-1">$</span>{{ formatNumber(price.price) }}</span>
                 <span class="text-sm font-semibold leading-6 dark:text-theme-300">/month</span>
               </p>
-              <p v-if="uc.annualDiscountPercent" class="mt-3 leading-6 text-theme-100 font-medium text-lg">
+              <p v-if="uc.annualDiscountPercent" class="mt-3 leading-6 text-theme-100 font-medium text-lg min-h-12">
                 <span v-if="price.price">{{ formatNumber(price.price * (1 - (uc.annualDiscountPercent / 100)), 'dollar') }} per month if paid annually</span>
                 <span v-else>Free Forever</span>
               </p>
-              <div class="my-6">
+              <div v-if="price.href" class="my-6">
                 <ElButton format="block" size="lg" btn="primary" :href="price.href">
                   Get Started
                 </ElButton>

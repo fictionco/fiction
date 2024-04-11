@@ -30,21 +30,20 @@ export type CustomerDetails = {
 export interface StripeProductConfig {
   pricing: StripePriceConfig[]
   productId: string
-  productKey: string
+  alias: string
   tier?: number
-  credits?: number
 }
 
 export interface StripePriceConfig {
   priceId: string
   quantity?: number
-  cost: number
+  cost?: number
   costPerUnit?: number
   duration: 'month' | 'year'
   group?: string
   isCurrent?: boolean
   productId?: string
-  productKey?: string
+  alias?: string
   planName?: string
   tier?: number
   credits?: number
@@ -57,12 +56,9 @@ export interface StripePlanInfo {
 
 export interface CustomerData {
   customer?: Stripe.Customer | Stripe.DeletedCustomer
-  subscriptions?: CustomSubscription[]
+  subscriptions?: Stripe.Subscription[]
 }
 
-export type CustomSubscription = Stripe.Subscription & {
-  customerAuthorized: 'authorized' | 'invalid' | 'unknown'
-}
 
 export interface SubscriptionDetails {
   fictionStripe: FictionStripe

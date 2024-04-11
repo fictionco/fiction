@@ -3,8 +3,9 @@ import * as themeMinimal from '@fiction/theme-minimal'
 import * as themeAdmin from '@fiction/theme-admin'
 import type { FictionEnv } from '@fiction/core'
 import type { Theme } from '@fiction/site/theme'
+import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
 
-export function getThemes(args: { fictionEnv: FictionEnv }): Theme[] {
+export function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }): Theme[] {
   const themes = [
     themeFiction.setup(args),
     themeMinimal.setup(args),

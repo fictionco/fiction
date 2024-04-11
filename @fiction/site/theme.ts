@@ -7,7 +7,7 @@ import { Card, CardTemplate } from './card'
 import { imageStyle, processUrlKey } from './util'
 import type { ComponentConstructor } from './type-utils'
 
-export type ThemeSettings = {
+export type ThemeSettings<T extends Record<string, unknown> = Record<string, unknown>> = {
   root: string
   themeId: string
   title?: string
@@ -17,21 +17,21 @@ export type ThemeSettings = {
   templates: readonly CardTemplate[] | CardTemplate[]
   ui?: UiConfig
   isPublic?: boolean
-  userConfig?: Partial<SiteUserConfig>
-  pages: () => TableCardConfig[]
+  userConfig?: Partial<SiteUserConfig> & T
+  pages: () => Promise<TableCardConfig[]> | TableCardConfig[]
   sections?: () => Record<string, TableCardConfig>
 } & FictionPluginSettings
 
 export type UiItem = { el: vue.Component }
 export interface UiConfig { button?: UiItem }
 
-export class Theme extends FictionPlugin<ThemeSettings> {
+export class Theme<T extends Record<string, unknown> = Record<string, unknown>> extends FictionPlugin<ThemeSettings<T>> {
   themeId = this.settings.themeId
   templates = this.settings.templates
 
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
-  constructor(settings: ThemeSettings) {
+  constructor(settings: ThemeSettings<T>) {
     super('Theme', settings)
   }
 
@@ -42,13 +42,9 @@ export class Theme extends FictionPlugin<ThemeSettings> {
     return out
   }
 
-  toSite(): Partial<TableSiteConfig> {
-    return {
-      title: this.settings.title,
-      themeId: this.themeId,
-      pages: this.pages() || [],
-      userConfig: this.config(),
-    }
+  async toSite(): Promise<Partial<TableSiteConfig>> {
+    const pages = (await this.pages()) || []
+    return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
   }
 
   async processToSite(args: {
@@ -82,7 +78,7 @@ export class Theme extends FictionPlugin<ThemeSettings> {
     ]
     const configProcessor = new ObjectProcessor(processors)
 
-    const siteRaw = this.toSite()
+    const siteRaw = await this.toSite()
 
     const site = await configProcessor.parseObject(siteRaw)
 

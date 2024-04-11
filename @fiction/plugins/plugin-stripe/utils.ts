@@ -10,18 +10,12 @@ export function getCycleRange(args: {
   const daysInCurrentMonth = now.clone().daysInMonth()
   const daysInLastMonth = now.clone().subtract(1, 'month').daysInMonth()
 
-  const endDay
-    = daysInCurrentMonth < anchorDateUtc ? daysInCurrentMonth : anchorDateUtc
+  const endDay = daysInCurrentMonth < anchorDateUtc ? daysInCurrentMonth : anchorDateUtc
 
-  const startDay
-    = daysInLastMonth < anchorDateUtc ? daysInLastMonth : anchorDateUtc
+  const startDay = daysInLastMonth < anchorDateUtc ? daysInLastMonth : anchorDateUtc
 
   const timeEnd = now.clone().date(endDay).hour(hour)
   const timeStart = now.clone().subtract(1, 'month').date(startDay).hour(hour)
 
-  return {
-    anchorDateUtc,
-    timeEnd,
-    timeStart,
-  }
+  return { anchorDateUtc, timeEnd, timeStart }
 }
