@@ -1,3 +1,34 @@
+## [6.0.26](https://github.com/fictionco/fiction/compare/v6.0.25...v6.0.26) (2024-04-11)
+
+
+### Bug Fixes
+
+* bug ([5ab9b2c](https://github.com/fictionco/fiction/commit/5ab9b2c1ed3b93fcb12f18981af6d885b4408202))
+* error -d ([b6ed92a](https://github.com/fictionco/fiction/commit/b6ed92a6acac1a18b5a34ccbfeb1b6cbcf57b827))
+* faq -d ([65fa414](https://github.com/fictionco/fiction/commit/65fa414701e45d22d311bd16da21b088e1253ad7))
+* link -d ([edd52cf](https://github.com/fictionco/fiction/commit/edd52cf68dbf2b627d7839adff61574ece63e356))
+* nav -d ([3e8c750](https://github.com/fictionco/fiction/commit/3e8c750f4b53edcd2a8785c3de2972c46e0b5a64))
+* nav and scroll ([7c1d806](https://github.com/fictionco/fiction/commit/7c1d806dc507e9a5b12747b58fb6cd5abee28850))
+* npmrc -d ([e621f37](https://github.com/fictionco/fiction/commit/e621f37bd822f89492a1abe5fdd96195bc01e4a4))
+* pnpm -d ([bca43db](https://github.com/fictionco/fiction/commit/bca43dba2d01b9d889ff8a02bf7cfe4edd4acbe9))
+* refiner -d ([3331964](https://github.com/fictionco/fiction/commit/3331964977ee3659f29dd29374f6d728a521a45f))
+* sentry -d ([4d23949](https://github.com/fictionco/fiction/commit/4d23949143ad6e5eea6681410b8c2bd0fcb9aa43))
+* test ([5223f43](https://github.com/fictionco/fiction/commit/5223f438b15e9efc792a02a2328faa0c3725cd09))
+* unit tests ([603d798](https://github.com/fictionco/fiction/commit/603d798e701e6ee8e64f4dccb9f46fe127c3cc00))
+
+
+### Features
+
+* add tracking -d ([dec321f](https://github.com/fictionco/fiction/commit/dec321f2df8dfa3d752c4346bceab977497d2aee))
+* cards module ([482880e](https://github.com/fictionco/fiction/commit/482880ee91be5da21d049889bf1b7dbd5caff0af))
+* dev page, fix tests -d ([07dc69d](https://github.com/fictionco/fiction/commit/07dc69dce24fa1bf47017fb1d94b94e874d440d5))
+* favicon -d ([ac45554](https://github.com/fictionco/fiction/commit/ac45554484539545fa211e49f219d1c5302124e3))
+* hero improvements ([8306e87](https://github.com/fictionco/fiction/commit/8306e877b22a6c81bef78fb809b6bacce4797edf))
+* responsive -ds ([d82018b](https://github.com/fictionco/fiction/commit/d82018b5a42c707d8bd2ac1ada71adff269a3a44))
+* rework hooks system -d ([ef2a223](https://github.com/fictionco/fiction/commit/ef2a223444ad977b2713d4f732dd3db52547474f))
+
+
+
 ## [6.0.25](https://github.com/fictionco/fiction/compare/v6.0.24...v6.0.25) (2024-03-22)
 
 
