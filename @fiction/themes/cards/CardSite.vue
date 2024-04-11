@@ -184,7 +184,7 @@ const primary = vue.computed(() => site.value?.colors.value.primary || getColorS
 </script>
 
 <template>
-  <div class="x-site overflow-y-scroll h-full w-full relative">
+  <div class="x-site">
     <div class="x-font-body  bg-theme-0 dark:bg-theme-950 text-theme-1000 dark:text-theme-0" :class="site?.isEditable.value ? '' : ''">
       <div
         class="x-engine"

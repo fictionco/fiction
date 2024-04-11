@@ -77,7 +77,7 @@ export class FictionRouter<
         history,
         routes: this.vueRoutes.value,
         scrollBehavior(to, from, savedPosition) {
-          if (to.hash)
+          if (to.hash !== from.hash && to.hash)
             return { el: to.hash, behavior: 'smooth' }
           else if (savedPosition)
             return savedPosition
