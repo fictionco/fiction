@@ -30,6 +30,7 @@ describe('user config', () => {
         "fictionSites",
         "fictionTeam",
         "fictionUi",
+        "fictionStripe",
       ]
     `)
   })
@@ -65,6 +66,10 @@ describe('user config', () => {
           "ManageVectors",
           "AiCompletion",
           "AiImage",
+          "ManageCustomer",
+          "ListSubscriptions",
+          "GetCustomerData",
+          "oAuthEndpoint",
           "ManageSite",
           "ManageIndex",
           "ManagePage",

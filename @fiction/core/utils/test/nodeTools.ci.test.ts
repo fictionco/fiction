@@ -17,7 +17,7 @@ describe('node utils', () => {
   })
 
   it('has right cwd', async () => {
-    expect(cwd).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www"`)
+    expect(cwd).toMatchInlineSnapshot(`"/home/runner/work/fiction/fiction/@fiction/www"`)
   })
   it('gets correct main file path', async () => {
     const filePath = getMainFilePath({ cwd })
@@ -39,7 +39,7 @@ describe('node utils', () => {
 
   it('gets correct server entry config', async () => {
     const filePath = getMainFilePath({ cwd })
-    expect(filePath).toMatchInlineSnapshot(`"/Users/arpowers/dev/fiction/@fiction/www/src/index.ts"`)
+    expect(filePath).toMatchInlineSnapshot(`"/home/runner/work/fiction/fiction/@fiction/www/src/index.ts"`)
     if (!filePath)
       throw new Error('No file path found')
 
@@ -67,6 +67,7 @@ describe('node utils', () => {
         "fictionRouterSites",
         "fictionServer",
         "fictionSites",
+        "fictionStripe",
         "fictionTeam",
         "fictionUi",
         "fictionUser",
