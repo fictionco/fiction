@@ -47,7 +47,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   fictionUser = this.settings.fictionUser
   fictionApp = this.settings.fictionApp
   fictionEmail = this.settings.fictionEmail
-  monitorEmail = this.settings.monitorEmail || this.settings.fictionApp.appEmail
+  monitorEmail = this.settings.monitorEmail || this.settings.fictionEnv.meta.app?.email
   isTest = isTest()
   slackWebhookUrl = this.settings.slackWebhookUrl
   sentryPublicDsn = this.settings.sentryPublicDsn

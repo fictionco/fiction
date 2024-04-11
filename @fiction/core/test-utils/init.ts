@@ -146,11 +146,8 @@ export function createTestUtilServices(opts?: TestUtilSettings) {
     env: { ...defaultEnv, ...env },
     cwd,
     mainFilePath: mainFilePath || path.join(root, './main.ts'),
-    appName: 'Test App',
-    appEmail: 'arpowers@gmail.com',
-    appUrl: 'https://www.test.com',
     id: 'test',
-    version,
+    meta: { version, app: { name: 'Test App', email: 'arpowers@gmail.com', url: 'https://www.test.com', domain: 'test.com' } },
   })
 
   // check env vars

@@ -13,7 +13,6 @@ You are reading the documentation for Fiction 10!
 
 Personal marketing is about promoting yourself to potential employers, clients, or customers. It's about creating and sharing a personal brand that showcases your skills, experiences, and what makes you unique. Fiction supports this by offering tools to craft and share digital content, like websites and newsletters, helping you highlight your talents, achievements, and journey.
 
-
 ## What is Fiction? {#what-is-fiction}
 
 Here's how Fiction stands out:
@@ -32,12 +31,10 @@ Fiction is an extensible service that supports plugins, themes, and a "card" bas
 
 Here's a minimal example:
 
-
 ```ts
 // myproject/index.ts
 
 import { FictionService, Theme, cardTemplates, cardConfig } from '@fiction/core'
-
 
 const myElement = cardConfig({ templateId: 'hero', userConfig: { title: 'Hello, World!'}, cardTemplates })
 const myPage = cardConfig({ isHome: true, cards: [myElement], cardTemplates })

@@ -11,8 +11,6 @@ const cwd = safeDirname(import.meta.url)
 
 export const fictionEnv = new FictionEnv({
   cwd,
-  appEmail: 'hello@fiction.com',
-  appName: 'Fiction Monorepo',
   id: 'fictionMonoRepo',
   commands: [
     new CliCommand({ command: 'release', type: 'util' }),
@@ -20,6 +18,7 @@ export const fictionEnv = new FictionEnv({
     new CliCommand({ command: 'render', type: 'util' }),
   ],
   version,
+  meta: { app: { name: 'Fiction Monorepo', email: 'hello@fiction.com' } },
 })
 
 const fictionRelease = new FictionRelease({ fictionEnv })

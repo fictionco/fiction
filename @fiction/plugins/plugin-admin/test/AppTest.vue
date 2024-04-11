@@ -1,47 +1,19 @@
 <script lang="ts" setup>
 import ElTable from '@fiction/ui/ElTable.vue'
-import type { FictionApp } from '@fiction/core'
 import { getCrossVar, toLabel, useService } from '@fiction/core'
 
-const { fictionApp } = useService<{ fictionApp: FictionApp }>()
+const { fictionEnv } = useService()
 
 const list = [
-  {
-    id: 'widget-port',
-    value: getCrossVar('WIDGET_PORT'),
-  },
-  {
-    id: 'server-port',
-    value: getCrossVar('SERVER_PORT'),
-  },
-  {
-    id: 'is-test',
-    title: 'IS_TEST',
-    value: getCrossVar('IS_TEST'),
-  },
-  {
-    id: 'node-env',
-    title: 'NODE_ENV',
-    value: getCrossVar('NODE_ENV'),
-  },
+  { id: 'widget-port', value: getCrossVar('WIDGET_PORT') },
+  { id: 'server-port', value: getCrossVar('SERVER_PORT') },
+  { id: 'is-test', title: 'IS_TEST', value: getCrossVar('IS_TEST') },
+  { id: 'node-env', title: 'NODE_ENV', value: getCrossVar('NODE_ENV') },
   { id: 'mode', title: 'MODE', value: getCrossVar('MODE') },
-  {
-    id: 'is-vite',
-    title: 'IS_VITE',
-    value: getCrossVar('IS_VITE'),
-  },
-  {
-    id: 'app-name',
-    value: fictionApp.appName,
-  },
-  {
-    id: 'app-email',
-    value: fictionApp.appEmail,
-  },
-  {
-    id: 'app-url',
-    value: fictionApp.appUrl,
-  },
+  { id: 'is-vite', title: 'IS_VITE', value: getCrossVar('IS_VITE') },
+  { id: 'app-name', value: fictionEnv.meta.app?.name },
+  { id: 'app-email', value: fictionEnv.meta.app?.email },
+  { id: 'app-url', value: fictionEnv.meta.app?.url },
 ]
 
 const table = [

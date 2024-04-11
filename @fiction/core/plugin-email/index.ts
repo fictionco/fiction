@@ -42,8 +42,6 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   smtpUser = this.settings.smtpUser
   smtpPassword = this.settings.smtpPassword
   smtpPort = this.settings.smtpPort || 587
-  appName = this.fictionEnv.appName
-  appEmail = this.fictionEnv.appEmail
   isTest = isTest()
   isInitialized = false
   constructor(settings: FictionEmailSettings) {
@@ -101,7 +99,8 @@ export class FictionEmail extends FictionPlugin<FictionEmailSettings> {
   }
 
   getFromAddress = (): string => {
-    return `${this.appName ?? ''} <${this.appEmail}>`
+    const app = this.fictionEnv.meta.app || {}
+    return `${app.name ?? ''} <${app.email}>`
   }
 
   async sendEmail(params: types.EmailTransactionalConfig): Promise<types.EmailTransactionalConfig> {

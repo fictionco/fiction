@@ -2,9 +2,7 @@
 import type { NavItem, vue } from '@fiction/core'
 
 defineProps({
-  socials: { type: Array as vue.PropType<NavItem[]>,
-    required: true,
-  },
+  socials: { type: Array as vue.PropType<NavItem[]>, required: true },
   justify: { type: String as vue.PropType<'left' | 'right' | 'center' | 'justify'>, default: 'center' },
 })
 

@@ -2,7 +2,6 @@
 
 import type { FictionApp, FictionDb, FictionPluginSettings, FictionServer, FictionUser } from '@fiction/core'
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
-import { as } from 'vitest/dist/reporters-P7C2ytIv'
 import type { FictionStripe } from './plugin'
 import { QueryManageUsage } from './endpointsUsage'
 import { tables } from './tables'

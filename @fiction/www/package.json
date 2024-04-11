@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fiction/core": "workspace:*",
     "@fiction/cards": "workspace:*",
+    "@fiction/core": "workspace:*",
     "@fiction/plugin-admin": "workspace:*",
     "@fiction/plugin-admin-index": "workspace:*",
     "@fiction/plugin-ai": "workspace:*",
@@ -9,14 +9,14 @@
     "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/plugin-notify": "workspace:*",
-    "@fiction/site": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
+    "@fiction/site": "workspace:*",
     "@fiction/theme-admin": "workspace:*",
-    "@fiction/theme-minimal": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
+    "@fiction/theme-minimal": "workspace:*",
     "@fiction/ui": "workspace:*",
     "@types/mapbox-gl": "^3.1.0",
-    "mapbox-gl": "^3.2.0",
+    "mapbox-gl": "^3.3.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3"
   },

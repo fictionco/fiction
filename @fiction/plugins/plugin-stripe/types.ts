@@ -59,7 +59,6 @@ export interface CustomerData {
   subscriptions?: Stripe.Subscription[]
 }
 
-
 export interface SubscriptionDetails {
   fictionStripe: FictionStripe
   subscription: Stripe.Subscription

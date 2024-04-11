@@ -54,8 +54,8 @@ export class FictionContact extends FictionPlugin<FictionContactSettings> {
     const { submission } = args
     const s: Partial<TableSubmissionConfig> = {
       appUrl: this.fictionRouter.current.value.fullPath,
-      appName: this.fictionApp.appName,
-      notificationEmail: this.fictionApp.appEmail,
+      appName: this.fictionEnv.meta.app?.name,
+      notificationEmail: this.fictionEnv.meta.app?.email,
       ...submission,
     }
 

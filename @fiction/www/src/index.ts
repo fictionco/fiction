@@ -18,11 +18,15 @@ import { getThemes } from './themes'
 import { commands } from './commands'
 
 const cwd = safeDirname(import.meta.url, '..')
-const appName = 'Fiction'
-const appEmail = 'hello@fiction.com'
-const domain = `fiction.com`
-const appUrl = `https://www.${domain}`
-const appUrlSites = `https://*.${domain}`
+
+const meta = { version, app: {
+  name: 'Fiction',
+  email: 'hello@fiction.com',
+  url: `https://www.fiction.com`,
+  domain: `fiction.com`,
+} }
+const appUrl = `https://www.${meta.app.domain}`
+const appUrlSites = `https://*.${meta.app.domain}`
 
 const envFiles = [path.join(apiRoot, './.env')]
 
@@ -31,12 +35,9 @@ const fictionEnv = new FictionEnv({
   envFiles,
   envFilesProd: envFiles,
   mainFilePath: path.join(cwd, './src/index.ts'),
-  appName,
-  appEmail,
-  appUrl,
   version,
   commands,
-  meta: { version, app: { name: appName, email: appEmail, url: appUrl, domain } },
+  meta,
 })
 
 const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })
@@ -44,7 +45,7 @@ const comboPort = +fictionEnv.var('APP_PORT', { fallback: 4444 })
 const fictionRouter = new FictionRouter({
   routerId: 'parentRouter',
   fictionEnv,
-  baseUrl: fictionEnv.appUrl,
+  baseUrl: fictionEnv.meta.app?.url,
   routes: (fictionRouter) => {
     return [
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/test/TestInputsAll.vue') }),
@@ -56,7 +57,7 @@ const fictionRouter = new FictionRouter({
 })
 
 const fictionApp = new FictionApp({
-  liveUrl: fictionEnv.appUrl,
+  liveUrl: fictionEnv.meta.app?.url,
   port: comboPort,
   fictionRouter,
   isLive: fictionEnv.isProd,
@@ -82,7 +83,7 @@ const fictionAppSites = new FictionApp({
   port: +fictionEnv.var('SITES_PORT', { fallback: 6565 }),
   localHostname: '*.lan.com',
   liveUrl: appUrlSites,
-  altHostnames: [{ prod: `theme-minimal.${domain}`, dev: 'theme-minimal.lan.com' }],
+  altHostnames: [{ prod: `theme-minimal.${fictionEnv.meta.app?.domain}`, dev: 'theme-minimal.lan.com' }],
   isLive: fictionEnv.isProd,
   srcFolder: path.join(cwd, './src'),
 })

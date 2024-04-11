@@ -53,7 +53,7 @@ async function handleSignedIn() {
 }
 
 unhead.useHead({
-  title: `${routeAuthMode.value} - ${fictionApp.fictionEnv.appName}`,
+  title: `${routeAuthMode.value} - ${fictionApp.fictionEnv.meta.app?.name || '?'}`,
   meta: [{ name: `description`, content: `The interface to ${routeAuthMode.value}.` }],
 })
 </script>

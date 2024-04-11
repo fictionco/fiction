@@ -1,7 +1,7 @@
 import './register'
 import type express from 'express'
 import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, HookType } from '@fiction/core'
-import { Endpoint, FictionPlugin, dayjs, isActualBrowser, runHooks, toLabel, vue } from '@fiction/core'
+import { Endpoint, FictionPlugin, dayjs, isActualBrowser, toLabel, vue } from '@fiction/core'
 
 import type * as StripeJS from '@stripe/stripe-js'
 import Stripe from 'stripe'
@@ -40,7 +40,7 @@ export type StripePluginSettings = {
 } & FictionPluginSettings
 
 export class FictionStripe extends FictionPlugin<StripePluginSettings> {
-  apiVersion = '2023-10-16' as const
+  apiVersion = '2024-04-10' as const
 
   queries = {
     ManageCustomer: new QueryManageCustomer({ fictionStripe: this, ...this.settings }),

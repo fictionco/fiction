@@ -133,7 +133,7 @@ export class QuerySeekInviteFromUser extends TeamQuery {
     if (!this.fictionEmail)
       throw new Error('no email service')
 
-    const appUrl = this.settings.fictionEnv.appUrl
+    const appUrl = this.settings.fictionEnv.meta.app?.url
 
     const path = this.fictionRouter?.rawPath('teamInvite')
 
@@ -165,7 +165,7 @@ export class QueryTeamInvite extends TeamQuery {
     if (!this.fictionEmail)
       throw new Error('no email service')
 
-    const appUrl = this.settings.fictionEnv.appUrl
+    const appUrl = this.settings.fictionEnv.meta.app?.url
 
     if (!appUrl)
       throw new Error('no appUrl')

@@ -31,9 +31,6 @@ export interface FictionControlSettings {
   inspector?: boolean
   nodemonConfigPath?: string
   id?: string
-  appName?: string
-  appEmail?: string
-  appUrl?: string
   commands?: CliCommand<string>[]
   mode?: 'development' | 'production'
   isApp?: boolean
@@ -62,10 +59,7 @@ export class FictionEnv<
   cwd = this.settings.cwd
   mainFilePath = this.settings.mainFilePath || path.join(this.cwd, 'index.ts')
   meta = this.settings.meta || { }
-  appName = this.settings.appName || 'Fiction App'
-  appEmail = this.settings.appEmail || ''
-  appUrl = this.settings.appUrl || ''
-  id = this.settings.id || toSlug(this.appName) || 'fiction'
+  id = this.settings.id || toSlug(this.meta.app?.name) || 'fiction'
   inspector = this.settings.inspector || false
   mode = vue.ref<'development' | 'production' | undefined>(isDev() ? 'development' : 'production')
   isRestart = () => process.env.IS_RESTART === '1'
@@ -98,7 +92,7 @@ export class FictionEnv<
     const commitId = process.env.RUNTIME_COMMIT || ''
     this.log.info(`[start] environment`, {
       data: {
-        appName: this.appName,
+        appName: this.meta.app?.name || 'no name',
         version: `${this.version || 'no version'} [fiction: ${fictionVersion}]`,
         vars: Object.keys(process.env).length,
         commands: this.commands.map(c => c.command).join(', '),

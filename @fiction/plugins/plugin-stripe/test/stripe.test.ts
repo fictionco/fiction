@@ -107,7 +107,4 @@ describe('stripe tests', () => {
     expect(customerData).toBeTruthy()
     expect(Object.keys(customerData ?? {}).length).toMatchInlineSnapshot('2')
   }, 12_000)
-
-
-
 })

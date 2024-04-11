@@ -79,13 +79,13 @@
     "textlint": "^14.0.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.2",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "vite": "^5.2.8",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.13.2",
+    "@antfu/eslint-config": "^2.13.3",
     "@benasher44/eslint-plugin-implicit-dependencies": "^1.1.3",
     "@codspeed/vitest-plugin": "^3.1.0",
     "@eslint/eslintrc": "^3.0.2",
@@ -111,7 +111,7 @@
     "vite-plugin-dts": "^3.8.1",
     "vitepress": "^1.1.0",
     "vitest": "^1.4.0",
-    "vue-tsc": "^2.0.11"
+    "vue-tsc": "^2.0.12"
   },
   "pnpm": {
     "overrides": {}

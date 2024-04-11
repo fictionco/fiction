@@ -125,7 +125,7 @@
     "tailwindcss": "^3.4.3",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "unhead": "^1.9.4",
     "unocss": "^0.59.0",
     "uuid-apikey": "^1.5.3",

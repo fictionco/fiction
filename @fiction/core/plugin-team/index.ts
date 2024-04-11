@@ -7,11 +7,7 @@ import type { FictionRouter } from '../plugin-router'
 import type { FictionDb } from '../plugin-db'
 import type { FictionApp } from '../plugin-app'
 import { safeDirname } from '../utils'
-import {
-  QueryOrgMembers,
-  QuerySeekInviteFromUser,
-  QueryTeamInvite,
-} from './query'
+import { QueryOrgMembers, QuerySeekInviteFromUser, QueryTeamInvite } from './query'
 
 type FictionTeamSettings = {
   fictionApp: FictionApp
@@ -39,14 +35,9 @@ export class FictionTeam extends FictionPlugin<FictionTeamSettings> {
     super('fictionTeam', { root: safeDirname(import.meta.url), ...settings })
   }
 
-  invitationReturnUrl(args: {
-    code: string
-    email: string
-    orgId: string
-    redirect: string
-  }): string {
+  invitationReturnUrl(args: { code: string, email: string, orgId: string, redirect: string }): string {
     const { email, code, orgId, redirect = '' } = args
-    const url = this.settings.fictionEnv.appUrl
+    const url = this.settings.fictionEnv.meta.app?.url
     const e = encodeURIComponent(email)
     const r = encodeURIComponent(redirect)
     return `${url}/set-password?code=${code}&flow=invited&orgId=${orgId}&email=${e}&redirect=${r}`

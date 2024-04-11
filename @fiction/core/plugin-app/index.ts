@@ -57,8 +57,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   fictionBuild?: FictionBuild
   fictionSitemap?: FictionSitemap
   fictionRender?: FictionRender
-  appName: string
-  appEmail: string
   sitemaps = this.settings.sitemaps ?? []
   port = this.settings.port || 3000
   appServer?: http.Server
@@ -81,8 +79,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   constructor(settings: FictionAppSettings) {
     super('FictionApp', settings)
 
-    this.appEmail = this.fictionEnv.appEmail
-    this.appName = this.fictionEnv.appName
     /**
      * node application init
      */
@@ -231,10 +227,11 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
   }
 
   logReady(args: { serveMode: string }) {
-    const { appName = 'Unnamed App', port, appInstanceId, liveUrl, localUrl, settings } = this
+    const app = this.settings.fictionEnv.meta.app || {}
+    const { port, appInstanceId, liveUrl, localUrl, settings } = this
     const serveMode = args.serveMode
     const isLive = this.isLive.value ?? false
-    const data: Record<string, any> = { instanceId: appInstanceId, appName, port, liveUrl: liveUrl.value, localUrl, isLive, serveMode }
+    const data: Record<string, any> = { instanceId: appInstanceId, app, port, liveUrl: liveUrl.value, localUrl, isLive, serveMode }
 
     if (settings.altHostnames?.length) {
       const mode = isLive ? 'prod' : 'dev'
