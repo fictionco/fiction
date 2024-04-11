@@ -2,11 +2,9 @@ import type { NavigationGuardWithThis, NavigationHookAfter, RouteLocationNormali
 
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
-import type { HookType } from '../utils'
-import { refineRoute, runHooks, sortPriority, vue, vueRouter } from '../utils'
+import { refineRoute, sortPriority, vue, vueRouter } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { AppRoute } from './appRoute'
-import type { NavigateRoute } from './types'
 
 export * from './types'
 export * from './appRoute'
@@ -17,7 +15,6 @@ type LinkReplace = Record<string, LocationValue | vue.Ref<LocationValue> | Locat
 type FictionRouterSettings = {
   routes?: AppRoute<string>[] | ((router: FictionRouter) => AppRoute<string>[])
   replacers?: LinkReplace
-  hooks?: HookType<FictionRouterHookDictionary>[]
   fictionEnv?: FictionEnv
   baseUrl?: string
   termsUrl?: string
@@ -32,20 +29,13 @@ type BaseCompiled = {
   [key: string]: any
 }
 
-type RLoc = vueRouter.RouteLocationNormalized
-
-export type FictionRouterHookDictionary = {
-  beforeEach: { args: [{ to: RLoc, from: RLoc, navigate: NavigateRoute }] }
-  afterEach: { args: [{ to: RLoc, from: RLoc } ] }
-}
-
 export class FictionRouter<
   S extends BaseCompiled = BaseCompiled,
 > extends FictionPlugin<FictionRouterSettings> {
   routerId = this.settings.routerId || 'router'
   readonly routes: vue.Ref<AppRoute<string>[]>
   router: vue.Ref<vueRouter.Router | undefined> = vue.shallowRef()
-  hooks = this.settings.hooks || []
+
   replacers: LinkReplace
   fictionEnv = this.settings.fictionEnv
   loadingRoute = vue.ref(true)
@@ -97,11 +87,8 @@ export class FictionRouter<
 
   routerBeforeEach: NavigationGuardWithThis<undefined> = async (to, from) => {
     this.loadingRoute.value = true
-    const result = await runHooks<FictionRouterHookDictionary, 'beforeEach'>({
-      list: this.hooks,
-      hook: 'beforeEach',
-      args: [{ to, from, navigate: true }],
-    })
+
+    const result = await this.settings.fictionEnv.runHooks('routeBeforeEach', { to, from, navigate: true })
 
     const ar = this.routes.value.find(r => r.name === to.name)
 
@@ -114,11 +101,7 @@ export class FictionRouter<
 
   routerAfterEach: NavigationHookAfter = async (to, from) => {
     this.loadingRoute.value = false
-    await runHooks<FictionRouterHookDictionary>({
-      list: this.hooks,
-      hook: 'afterEach',
-      args: [{ to, from }],
-    })
+    await this.settings.fictionEnv.runHooks('routeAfterEach', { to, from })
 
     const ar = this.routes.value.find(r => r.name === to.name)
 
@@ -126,7 +109,6 @@ export class FictionRouter<
       await ar.after({ fictionRouter: this, to, from })
   }
 
-  addHook = (hook: HookType<FictionRouterHookDictionary>) => (this.hooks.push(hook))
   addReplacers = (replacers: LinkReplace) => (this.replacers = { ...this.replacers, ...replacers })
   vueRoutes = vue.computed<vueRouter.RouteRecordRaw[]>(() => this.convertAppRoutesToRoutes(this.routes.value))
 

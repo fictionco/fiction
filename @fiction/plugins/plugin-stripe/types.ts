@@ -91,42 +91,6 @@ export interface StripeHookCallbacks {
   }) => Promise<any> | any
 }
 
-export type HookDictionary = {
-  onCustomerCreated: {
-    args: [
-      {
-        customer: Stripe.Customer
-        orgId: string
-        name?: string
-        email?: string
-      },
-      { fictionStripe: FictionStripe },
-    ]
-  }
-  onCustomerSubscriptionDeleted: {
-    args: [Stripe.Event, { fictionStripe: FictionStripe }]
-  }
-  onInvoicePaymentFailed: {
-    args: [Stripe.Event, { fictionStripe: FictionStripe }]
-  }
-  onInvoicePayment: { args: [Stripe.Event, { fictionStripe: FictionStripe }] }
-  onSubscriptionTrialWillEnd: {
-    args: [Stripe.Event, { fictionStripe: FictionStripe }]
-  }
-  onSubscriptionUpdate: {
-    args: [Stripe.Subscription, { fictionStripe: FictionStripe }]
-  }
-  beforeCreateSubscription: {
-    args: [CreateSubscriptionArgs, { fictionStripe: FictionStripe }]
-  }
-  onCheckoutSuccess: {
-    args: [Stripe.Event, { fictionStripe: FictionStripe }]
-  }
-  onInvoicePaid: {
-    args: [Stripe.Event, { fictionStripe: FictionStripe }]
-  }
-}
-
 export type ManageSubscriptionResult = EndpointResponse<Stripe.Subscription> & {
   customerId: string
   customerData?: CustomerData

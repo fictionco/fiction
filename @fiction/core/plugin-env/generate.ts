@@ -3,8 +3,6 @@ import fs from 'fs-extra'
 import type { JSONSchema } from 'json-schema-to-typescript'
 import { log } from '../plugin-log'
 import { stringify } from '../utils/utils'
-import { runHooks } from '../utils/hook'
-import type { FictionEnvHookDictionary } from './types'
 import type { FictionEnv } from '.'
 
 export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void> {
@@ -23,15 +21,7 @@ export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void
    */
   const title = 'CompiledServiceConfig'
 
-  const _staticSchemaProps = await runHooks<
-    FictionEnvHookDictionary,
-    'staticSchema'
-  >({
-    list: fictionEnv.hooks ?? [],
-    hook: 'staticSchema',
-    args: [{}],
-  },
-  )
+  const _staticSchemaProps = await fictionEnv.runHooks('staticSchema', {})
 
   const staticSchemaProps = _staticSchemaProps || {}
 
@@ -59,14 +49,7 @@ export async function generateStaticConfig(fictionEnv: FictionEnv): Promise<void
 
   const types = path.join(genConfigPath, 'config.ts')
 
-  /**
-   * Handle config
-   */
-  const staticConfig = await runHooks<FictionEnvHookDictionary, 'staticConfig'>({
-    list: fictionEnv.hooks ?? [],
-    hook: 'staticConfig',
-    args: [{}],
-  })
+  const staticConfig = await fictionEnv.runHooks('staticConfig', {})
 
   const stringed = stringify(staticConfig)
 

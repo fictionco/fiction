@@ -28,7 +28,6 @@ describe('stripe tests', () => {
         'pk_test_51KJ3HNBNi5waADGv8mJnDm8UHJcTvGgRhHmKAZbpklqEANE6niiMYJUQGvinpEt4jdPM85hIsE6Bu5fFhuBx1WWW003Fyaq5cl',
       secretKeyTest: utils.fictionEnv.var('STRIPE_SECRET_KEY_TEST'),
       isLive: vue.ref(false),
-      hooks: [],
       products: [],
       customerPortalUrl: '#',
     })

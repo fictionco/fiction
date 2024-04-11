@@ -10,8 +10,6 @@ import dayjs from 'dayjs'
 import chalk from 'chalk'
 import type { Omit, Record } from '@sinclair/typebox'
 import { isDebug, isNode, isProd, isRestart } from '../utils/vars'
-import { runHooks } from '../utils/hook'
-import type { HookType } from '../utils/hook'
 
 type Levels = 'error' | 'warn' | 'info' | 'debug' | 'trace'
 
@@ -37,23 +35,17 @@ interface LoggerArgs {
   color?: string
 }
 
-export type FictionLogHookDictionary = {
-  logServer: { args: [LoggerArgs] }
-}
 interface FictionLogSettings {
-  hooks?: HookType<FictionLogHookDictionary>[]
   isProd?: boolean
   isRestart?: boolean
   isDebug?: boolean
 }
 export class FictionLog {
-  hooks: HookType<FictionLogHookDictionary>[]
   isProd: boolean
   isRestart: boolean
   isDebug: boolean
   loggedErrorCount = 0
   constructor(settings: FictionLogSettings = {}) {
-    this.hooks = settings.hooks ?? []
     this.isProd = settings.isProd ?? isProd()
     this.isRestart = settings.isRestart ?? isRestart()
     this.isDebug = settings.isDebug ?? isDebug()
@@ -67,10 +59,6 @@ export class FictionLog {
     info: { color: '#00ABFF', priority: 10 },
     warn: { color: '#ffa500', priority: 30 },
     error: { color: '#FF0000', priority: 40 },
-  }
-
-  addHook(hook: HookType<FictionLogHookDictionary>): void {
-    this.hooks.unshift(hook)
   }
 
   private formatTimestamp(): string {
@@ -271,12 +259,6 @@ export class FictionLog {
 
     else if (typeof data === 'object' && data && Object.keys(data).length > 0)
       console.log(prettyoutput(this.refineDataRecursive({ obj: data }), { colors: { number: 'yellow' }, maxDepth: 5 }, 2))
-
-    runHooks<FictionLogHookDictionary, 'logServer'>({
-      list: this.hooks,
-      hook: 'logServer',
-      args: [config],
-    }).catch(console.error)
   }
 
   l(config: LoggerArgs): void {

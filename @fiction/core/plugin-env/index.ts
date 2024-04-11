@@ -7,13 +7,15 @@ import { camelToUpperSnake, getCrossVar, isApp, isDev, isNode, isTest, runHooks,
 import { version as fictionVersion } from '../package.json'
 import type { RunVars } from '../inject'
 import { compileApplication } from './entry'
-import type * as types from './types'
+
 import type { CliCommand } from './commands'
 import { standardAppCommands } from './commands'
 import { done } from './utils'
 import { generateStaticConfig } from './generate'
 import { commonServerOnlyModules } from './serverOnly'
 import { EnvVar, envConfig, vars } from './onImport'
+import type { CliOptions, CliVars, ServerModuleDef, ServiceConfig } from './types'
+import type { FictionEnvHookDictionary } from './hooks'
 
 export { envConfig, vars, EnvVar }
 export * from './types'
@@ -21,7 +23,7 @@ export * from './entry'
 export * from './commands'
 
 export interface FictionControlSettings {
-  hooks?: HookType<types.FictionEnvHookDictionary>[]
+  hooks?: HookType<FictionEnvHookDictionary>[]
   envFiles?: string[]
   envFilesProd?: string[]
   env?: Record<string, string>
@@ -36,7 +38,7 @@ export interface FictionControlSettings {
   isApp?: boolean
   isTest?: boolean
   version?: string
-  serverOnlyModules?: types.ServerModuleDef[]
+  serverOnlyModules?: ServerModuleDef[]
   uiPaths?: string[]
   meta?: { version?: string, app?: { name?: string, email?: string, url?: string, domain?: string } }
 }
@@ -85,6 +87,14 @@ export class FictionEnv<
   // plugins that add services need to edit this
   // the services are then accessed via useService provide
   service = vue.shallowRef<{ runVars?: Partial<RunVars>, [key: string]: unknown }>({})
+
+  runHooks<T extends keyof FictionEnvHookDictionary>(hook: T, ...args: FictionEnvHookDictionary[T]['args']) {
+    return runHooks<FictionEnvHookDictionary, T>({ list: this.hooks, hook, args })
+  }
+
+  public addHook<T extends HookType<FictionEnvHookDictionary>>(hook: T): void {
+    this.hooks.push(hook)
+  }
 
   constructor(settings: FictionControlSettings) {
     super('env', settings)
@@ -147,7 +157,7 @@ export class FictionEnv<
   }
 
   commandName = vue.ref(getCrossVar('COMMAND') || '')
-  commandOpts = vue.ref(JSON.parse(getCrossVar('COMMAND_OPTS') || '{}') as types.CliOptions)
+  commandOpts = vue.ref(JSON.parse(getCrossVar('COMMAND_OPTS') || '{}') as CliOptions)
 
   currentCommand = vue.computed(() => {
     if (!this.commandName.value)
@@ -291,17 +301,13 @@ export class FictionEnv<
     await generateStaticConfig(this)
   }
 
-  public addHook(hook: HookType<types.FictionEnvHookDictionary>): void {
-    this.hooks.push(hook)
-  }
-
   onCommand(
     commands: string[],
-    callback: (command: string, options: types.CliOptions) => Promise<void>,
+    callback: (command: string, options: CliOptions) => Promise<void>,
   ): void {
     this.hooks.push({
       hook: 'runCommand',
-      callback: async (command: string, opts: types.CliOptions) => {
+      callback: async (command: string, opts: CliOptions) => {
         if (commands.includes(command))
           await callback(command, opts)
       },
@@ -314,8 +320,8 @@ export class FictionEnv<
    */
   async crossRunCommand(args: {
     context: 'node' | 'app'
-    serviceConfig: types.ServiceConfig
-    cliVars?: Partial<types.CliVars>
+    serviceConfig: ServiceConfig
+    cliVars?: Partial<CliVars>
     runVars?: Partial<RunVars>
   }) {
     const { context, serviceConfig, cliVars, runVars } = args
@@ -326,17 +332,13 @@ export class FictionEnv<
 
     const options = { command: cmd?.command, ...cmd?.options }
 
-    await runHooks<types.FictionEnvHookDictionary>({
-      list: this.hooks,
-      hook: 'runCommand',
-      args: [options.command || 'not_set', options],
-    })
+    await runHooks({ list: this.hooks, hook: 'runCommand', args: [options.command || 'not_set', options] })
 
     if (serviceConfig?.runCommand)
       await serviceConfig.runCommand({ context, command: options.command || 'not_set', options, cliVars, runVars })
   }
 
-  async serverRunCurrentCommand(args: { serviceConfig: types.ServiceConfig, cliVars: Partial<types.CliVars> }): Promise<void> {
+  async serverRunCurrentCommand(args: { serviceConfig: ServiceConfig, cliVars: Partial<CliVars> }): Promise<void> {
     const { serviceConfig, cliVars } = args
 
     const cliCommand = this.currentCommand.value

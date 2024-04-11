@@ -24,9 +24,6 @@ interface FictionMonitorSettings {
   monitorEmail?: string
   slackWebhookUrl?: string
   sentryPublicDsn?: string
-  mailchimpApiKey?: string
-  mailchimpServer?: string
-  mailchimpListId?: string
 }
 
 export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
@@ -37,14 +34,14 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   constructor(settings: FictionMonitorSettings) {
     super('FictionMonitor', settings)
 
-    this.settings.fictionUser.hooks.push({
+    this.settings.fictionEnv.hooks.push({
       hook: 'requestCurrentUser',
       callback: async (user) => {
         await this.identifyUser(user)
       },
     })
 
-    this.settings.fictionUser.hooks.push({
+    this.settings.fictionEnv.hooks.push({
       hook: 'createUser',
       callback: async (user, { params }) => {
         if (!this.settings.fictionEnv?.isApp.value) {
@@ -62,7 +59,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       },
     })
 
-    this.settings.fictionApp.hooks.push({
+    this.settings.fictionEnv.hooks.push({
       hook: 'beforeAppMounted',
       callback: async (entry) => {
         await this.installBrowserMonitoring(entry)

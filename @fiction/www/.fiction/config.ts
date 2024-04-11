@@ -15,7 +15,6 @@ export interface CompiledServiceConfig {
     | 'GOOGLE_CLIENT_ID'
     | 'GOOGLE_CLIENT_SECRET'
     | 'IS_TEST'
-    | 'MAILCHIMP_API_KEY'
     | 'NODE_ENV'
     | 'OPENAI_API_KEY'
     | 'PINECONE_API_KEY'

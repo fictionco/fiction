@@ -4,7 +4,6 @@ import type * as vite from 'vite'
 import type { Config as TailwindConfig } from 'tailwindcss'
 import type { Express } from 'express'
 import { createHead } from '@unhead/vue'
-import type { HookType } from '../utils'
 import { initializeResetUi, isTest, runHooks, safeDirname, vue } from '../utils'
 import type { FictionAppEntry, FictionEnv, ServiceConfig, ServiceList } from '../plugin-env'
 import { FictionPlugin } from '../plugin'
@@ -16,17 +15,7 @@ import ElRoot from './ElRoot.vue'
 import type { FictionSitemap } from './sitemap'
 import type { SiteMapEntry } from './types'
 
-type HookDictionary = {
-  beforeAppMounted: { args: [FictionAppEntry] }
-  appMounted: { args: [FictionAppEntry] }
-  afterAppSetup: { args: [{ service: ServiceList }] }
-  viteConfig: { args: [vite.InlineConfig[]] }
-  headTags: { args: [string, { pathname?: string }] }
-  htmlBody: { args: [string, { pathname?: string }] }
-}
-
 export interface FictionAppSettings {
-  hooks?: HookType<HookDictionary>[]
   mode?: 'production' | 'development'
   isTest?: boolean
   liveUrl?: string
@@ -119,10 +108,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     }
   }
 
-  public addHook(hook: HookType<HookDictionary>): void {
-    this.hooks.push(hook)
-  }
-
   addSitemap(sitemap: SiteMapEntry) {
     this.sitemaps = [...this.sitemaps, sitemap]
   }
@@ -157,11 +142,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     if (renderRoute)
       await this.fictionRouter.replace({ path: renderRoute }, { caller: 'createVueApp' })
 
-    await runHooks<HookDictionary, 'afterAppSetup'>({
-      list: this.hooks,
-      hook: 'afterAppSetup',
-      args: [{ service }],
-    })
+    await this.fictionEnv.runHooks('afterAppSetup', { service })
 
     const app: vue.App = renderRoute
       ? vue.createSSRApp(this.rootComponent)
@@ -197,7 +178,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 
     if (typeof window !== 'undefined' && !this.fictionEnv.isSSR.value) {
-      await runHooks({ list: this.hooks, hook: 'beforeAppMounted', args: [entry] })
+      await this.fictionEnv.runHooks('beforeAppMounted', entry)
 
       const mountEl = args.mountEl || document.querySelector(selector)
 
@@ -212,7 +193,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
 
-      await runHooks({ list: this.hooks, hook: 'appMounted', args: [entry] })
+      await this.fictionEnv.runHooks('appMounted', entry)
     }
 
     return entry

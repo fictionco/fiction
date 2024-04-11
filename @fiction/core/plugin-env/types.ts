@@ -1,6 +1,5 @@
 import type { MergeHead } from '@unhead/schema'
 import type { VueHeadClient } from '@unhead/vue'
-import type { JSONSchema } from 'json-schema-to-typescript'
 import type { Router } from 'vue-router'
 import type { vue } from '../utils'
 import type { PackageJson } from '../types'
@@ -9,18 +8,6 @@ import type { FictionServer } from '../plugin-server'
 import type { FictionEnv } from '../plugin-env'
 import type { FictionObject, FictionPlugin } from '../plugin'
 import type { RunVars } from '../inject'
-
-export type FictionEnvHookDictionary = {
-  runCommand: {
-    args: [string, CliOptions]
-  }
-  staticConfig: {
-    args: [Record<string, unknown>]
-  }
-  staticSchema: {
-    args: [JSONSchema['properties']]
-  }
-}
 
 export interface FictionAppEntry<T extends ServiceList = ServiceList> {
   app: vue.App

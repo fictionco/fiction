@@ -5,8 +5,7 @@ import type { Knex } from 'knex'
 import knex from 'knex'
 import knexStringcase from 'knex-stringcase'
 import * as typebox from '@sinclair/typebox'
-import type { HookType } from '../utils'
-import { isActualBrowser, isTest, runHooks, safeDirname } from '../utils'
+import { isActualBrowser, isTest, safeDirname } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionEnv } from '../plugin-env'
@@ -24,14 +23,13 @@ vars.register(() => [
 
 export type FictionDBTables = 'fiction_user' | 'fiction_post' | 'fiction_version'
 
-export type FictionDbHookDictionary = {
-  onStart: { args: [FictionDb] }
-  tables: { args: [FictionDbTable[]] }
-}
+// export type FictionDbHookDictionary = {
+//   onStart: { args: [FictionDb] }
+//   tables: { args: [FictionDbTable[]] }
+// }
 
 export type FictionDbSettings = {
   connectionUrl?: string
-  hooks?: HookType<FictionDbHookDictionary>[]
   tables?: FictionDbTable[]
   fictionEnv?: FictionEnv
   fictionServer?: FictionServer // for DB utilities like username checking
@@ -40,7 +38,6 @@ export type FictionDbSettings = {
 export class FictionDb extends FictionPlugin<FictionDbSettings> {
   db?: Knex
   connectionUrl?: URL
-  hooks: HookType<FictionDbHookDictionary>[]
   defaultConnectionUrl = 'http://test:test@localhost:5432/test'
   tables = this.settings.tables || []
   isInitialized = false
@@ -56,8 +53,6 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
 
   constructor(settings: FictionDbSettings) {
     super('db', { root: safeDirname(import.meta.url), ...settings })
-
-    this.hooks = settings.hooks || []
 
     if (isActualBrowser())
       return
@@ -153,8 +148,8 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
     tableKey: string,
     columns: FictionDbCol[] | readonly FictionDbCol[],
   ) {
-    this.hooks.push({
-      hook: 'tables',
+    this.settings.fictionEnv.hooks.push({
+      hook: 'dbOnTables',
       callback: (tables: FictionDbTable[]) => {
         const tbl = tables.find(t => t.tableKey === tableKey)
 
@@ -208,22 +203,14 @@ export class FictionDb extends FictionPlugin<FictionDbSettings> {
       await extendDb(db)
 
       if (this.tables.length > 0) {
-        const tables = await runHooks<FictionDbHookDictionary, 'tables'>({
-          list: this.hooks,
-          hook: 'tables',
-          args: [this.tables],
-        })
+        const tables = await this.settings.fictionEnv.runHooks('dbOnTables', this.tables)
 
         for (const table of tables)
           await table.create(db)
       }
 
       this.log.info('extending db [done]')
-      await runHooks<FictionDbHookDictionary>({
-        list: this.hooks,
-        hook: 'onStart',
-        args: [this],
-      })
+      await this.settings.fictionEnv.runHooks('dbOnConnected', this)
 
       const printUrl = this.connectionUrl.toString().replace(this.connectionUrl.password, '--password--')
       this.log.info('connected db [ready]', {

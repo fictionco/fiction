@@ -1,7 +1,7 @@
 type Callbacks = (...args: unknown[]) => Promise<unknown>
 
 export type HookType<
-  T extends Record<string, { args: unknown[] }>,
+  T extends { [K in keyof T]: { args: unknown[] } },
   U extends keyof T = keyof T,
 > = {
   [K in keyof T]: {
@@ -17,7 +17,7 @@ export type HookType<
 }[U]
 
 export async function runHooks<
-  S extends Record<string, { args: unknown[] }>,
+  S extends { [K in keyof S]: { args: unknown[] } },
   T extends keyof S = keyof S,
 >(params: {
   list: HookType<S, keyof S>[]

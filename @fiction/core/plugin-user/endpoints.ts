@@ -14,7 +14,7 @@ import { Query } from '../query'
 import type { FictionEmail } from '../plugin-email'
 import { prepareFields } from '../utils'
 import type { MemberAccess, MemberStatus, OnboardStoredSettings, Organization, OrganizationMembership, User } from './types'
-import type { FictionUser, FictionUserHookDictionary } from '.'
+import type { FictionUser } from '.'
 
 interface UserQuerySettings {
   fictionUser: FictionUser
@@ -265,7 +265,7 @@ export class QueryManageUser extends UserQuery {
       user.orgs = orgs
     }
 
-    user = await runHooks<FictionUserHookDictionary, 'processUser'>({ list: this.fictionUser.hooks, hook: 'processUser', args: [user, { params, meta }] })
+    user = await this.settings.fictionEnv.runHooks('processUser', user, { params, meta })
 
     const response: ManageUserResponse = { status: 'success', data: user, isNew, token, message }
 
@@ -396,11 +396,7 @@ export class QueryManageUser extends UserQuery {
 
     user.orgs = response.data ? [response.data] : []
 
-    user = await runHooks<FictionUserHookDictionary, 'createUser'>({
-      list: this.fictionUser.hooks,
-      hook: 'createUser',
-      args: [user, { params, meta }],
-    })
+    user = await this.settings.fictionEnv.runHooks('createUser', user, { params, meta })
 
     return {
       user,
@@ -668,11 +664,7 @@ export class QuerySetPassword extends UserQuery {
 
     user.hashedPassword = hashedPassword
 
-    user = await runHooks<FictionUserHookDictionary, 'createPassword'>({
-      list: this.fictionUser.hooks,
-      hook: 'createPassword',
-      args: [user, { params, meta }],
-    })
+    user = await this.fictionEnv.runHooks('createPassword', user, { params, meta })
 
     return {
       status: 'success',
@@ -715,11 +707,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await runHooks<FictionUserHookDictionary>({
-      list: this.fictionUser.hooks,
-      hook: 'onUserVerified',
-      args: [user],
-    })
+    await this.settings.fictionEnv.runHooks('onUserVerified', user)
 
     this.log.info(`user verified ${email}`)
 
@@ -1434,11 +1422,7 @@ export class QueryManageOrganization extends UserQuery {
         .limit(1)
         .returning<Organization[]>('*')
 
-      responseOrg = await runHooks<FictionUserHookDictionary, 'updateOrganization'>({
-        list: this.fictionUser.hooks,
-        hook: 'updateOrganization',
-        args: [responseOrg, { params, meta }],
-      })
+      responseOrg = await this.settings.fictionEnv.runHooks('updateOrganization', responseOrg, { params, meta })
 
       message = `updated organization`
     }

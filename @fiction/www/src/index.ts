@@ -102,15 +102,14 @@ const fictionUser = new FictionUser({
   googleClientId: fictionEnv.var('GOOGLE_CLIENT_ID'),
   googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
   tokenSecret: fictionEnv.var('TOKEN_SECRET'),
-  hooks: [
-    {
-      hook: 'onLogout',
-      callback: async () => {
-        fictionNotify.notifySuccess('You have been logged out.')
-        await fictionRouter.push('/', { caller: 'onLogout' })
-      },
-    },
-  ],
+})
+
+fictionEnv.addHook({
+  hook: 'onLogout',
+  callback: async () => {
+    fictionNotify.notifySuccess('You have been logged out.')
+    await fictionRouter.push('/', { caller: 'onLogout' })
+  },
 })
 
 const fictionMonitor = new FictionMonitor({

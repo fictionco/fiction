@@ -2,21 +2,15 @@ import type http from 'node:http'
 import bodyParser from 'body-parser'
 import type { FictionEnv } from '../plugin-env'
 import { EndpointServer, vue } from '../utils'
-import type { Endpoint, HookType } from '../utils'
+import type { Endpoint } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
 import type { FictionUser } from '../plugin-user'
-
-export type FictionServerHookDictionary = {
-  afterServerSetup: { args: [] }
-  afterServerCreated: { args: [] }
-}
 
 export type FictionServerSettings = {
   fictionEnv?: FictionEnv
   serverName?: string
   port: number
-  hooks?: HookType<FictionServerHookDictionary>[]
   endpoints?: Endpoint[]
   liveUrl?: string
   isLive?: vue.Ref<boolean>
@@ -24,7 +18,6 @@ export type FictionServerSettings = {
 } & FictionPluginSettings
 
 export class FictionServer extends FictionPlugin<FictionServerSettings> {
-  public hooks = this.settings.hooks ?? []
   port = vue.ref(this.settings.port)
   endpoints = this.settings.endpoints || []
   liveUrl = vue.ref(this.settings.liveUrl)

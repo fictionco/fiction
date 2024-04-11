@@ -1,24 +1,18 @@
-import { Query, runHooks } from '@fiction/core'
-import type { EndpointManageAction, EndpointMeta, EndpointResponse, FictionDb, FictionUser, Organization, OrganizationCustomerData } from '@fiction/core'
+import { Query } from '@fiction/core'
+import type { EndpointManageAction, EndpointMeta, EndpointResponse, FictionDb, FictionEnv, FictionUser, Organization, OrganizationCustomerData } from '@fiction/core'
 import type Stripe from 'stripe'
-import type { CustomerData, HookDictionary } from './types'
+import type { CustomerData } from './types'
 import type { FictionStripe } from '.'
 
-abstract class QueryPayments extends Query {
+interface QueryPaymentsSettings {
   fictionUser: FictionUser
-  fictionStripe: FictionStripe
   fictionDb: FictionDb
-
-  constructor(settings: {
-    fictionUser: FictionUser
-    fictionStripe: FictionStripe
-    fictionDb: FictionDb
-  }) {
+  fictionEnv: FictionEnv
+  fictionStripe: FictionStripe
+}
+abstract class QueryPayments extends Query<QueryPaymentsSettings> {
+  constructor(settings: QueryPaymentsSettings) {
     super(settings)
-
-    this.fictionUser = settings.fictionUser
-    this.fictionStripe = settings.fictionStripe
-    this.fictionDb = settings.fictionDb
   }
 
   saveCustomerInfo = async (args: {
@@ -28,9 +22,9 @@ abstract class QueryPayments extends Query {
     data?: Partial<OrganizationCustomerData>
   }): Promise<void> => {
     const { orgId, customerId, customerAuthorized, data } = args
-    const db = this.fictionDb.client()
+    const db = this.settings.fictionDb.client()
 
-    const liveStripe = this.fictionStripe.stripeMode.value === 'live'
+    const liveStripe = this.settings.fictionStripe.stripeMode.value === 'live'
 
     const save: Record<string, string | null> = {}
 
@@ -68,10 +62,10 @@ abstract class QueryPayments extends Query {
     customer: Stripe.Customer | Stripe.DeletedCustomer | undefined
     org: Organization | undefined
   }> {
-    const db = this.fictionDb.client()
-    const stripe = this.fictionStripe.getServerClient()
+    const db = this.settings.fictionDb.client()
+    const stripe = this.settings.fictionStripe.getServerClient()
 
-    const liveStripe = this.fictionStripe.stripeMode.value === 'live'
+    const liveStripe = this.settings.fictionStripe.stripeMode.value === 'live'
 
     const customerField = liveStripe ? 'customer' : 'customerTest'
 
@@ -124,7 +118,7 @@ export class QueryManageCustomer extends QueryPayments {
       customerData?: CustomerData
     }
   > {
-    const stripe = this.fictionStripe.getServerClient()
+    const stripe = this.settings.fictionStripe.getServerClient()
 
     const { _action, email = '', name = '', orgId } = params
 
@@ -143,8 +137,8 @@ export class QueryManageCustomer extends QueryPayments {
         description: orgId,
         metadata: {
           orgId,
-          stripeMode: this.fictionStripe.stripeMode.value,
-          deployMode: this.fictionStripe.settings.fictionEnv.mode.value || 'unknown',
+          stripeMode: this.settings.fictionStripe.stripeMode.value,
+          deployMode: this.settings.fictionStripe.settings.fictionEnv.mode.value || 'unknown',
         },
       })
 
@@ -152,11 +146,7 @@ export class QueryManageCustomer extends QueryPayments {
 
       await this.saveCustomerInfo({ orgId, customerId: customer.id, data: { customerId } })
 
-      await runHooks<HookDictionary>({
-        list: this.fictionStripe.hooks,
-        hook: 'onCustomerCreated',
-        args: [{ customer, email, orgId, name }, { fictionStripe: this.fictionStripe }],
-      })
+      await this.settings.fictionEnv.runHooks('stripeOnCustomerCreated', { customer, email, orgId, name }, { fictionStripe: this.settings.fictionStripe })
     }
     else if (_action === 'update') {
       if (!customer)
@@ -180,7 +170,7 @@ export class QueryListSubscriptions extends QueryPayments {
     const out: Stripe.Subscription[] = []
 
     if (customer?.id) {
-      const stripe = this.fictionStripe.getServerClient()
+      const stripe = this.settings.fictionStripe.getServerClient()
       const subs = await stripe.subscriptions.list({ customer: customer?.id })
 
       // Iterate through the subscriptions
@@ -203,8 +193,8 @@ export class QueryGetCustomerData extends QueryPayments {
     if (!orgId)
       throw new Error('no organization id provided to get customer data')
 
-    const customer = await this.fictionStripe.queries.ManageCustomer.serve({ orgId, name: orgName, email, _action: 'retrieve' }, meta)
-    const subscriptions = await this.fictionStripe.queries.ListSubscriptions.serve({ orgId }, meta)
+    const customer = await this.settings.fictionStripe.queries.ManageCustomer.serve({ orgId, name: orgName, email, _action: 'retrieve' }, meta)
+    const subscriptions = await this.settings.fictionStripe.queries.ListSubscriptions.serve({ orgId }, meta)
 
     const data: CustomerData = {
       subscriptions: subscriptions.data ?? [],

@@ -4,10 +4,8 @@ import jwt from 'jsonwebtoken'
 // likely fixed in TS 4.8
 // https://github.com/microsoft/TypeScript/issues/48212
 import '../utils/endpoint'
-import type { EndpointMeta } from '../utils'
 import type { FictionPluginSettings } from '../plugin'
 import { FictionPlugin } from '../plugin'
-import type { HookType } from '../utils/hook'
 import { getAccessLevel, userCan, userCapabilities } from '../utils/priv'
 import { EnvVar, vars } from '../plugin-env'
 import type { FictionServer } from '../plugin-server'
@@ -18,7 +16,6 @@ import { _stop, emitEvent, getCookie, hasWindow, isActualBrowser, isNode, remove
 import * as priv from '../utils/priv'
 import type { Organization, OrganizationMember, TokenFields, User } from './types'
 import { QueryUserGoogleAuth } from './userGoogle'
-import type { ManageOrganizationParams, ManageUserParams, SetPasswordParams } from './endpoints'
 import {
   QueryCurrentUser,
   QueryFindOneOrganization,
@@ -48,17 +45,6 @@ vars.register(() => [
   new EnvVar({ name: 'TOKEN_SECRET' }),
 ])
 
-export type FictionUserHookDictionary = {
-  onLogout: { args: [] }
-  onUserVerified: { args: [User] }
-  requestCurrentUser: { args: [User | undefined] }
-  processUser: { args: [User | undefined, { params: ManageUserParams, meta?: EndpointMeta }] }
-  createUser: { args: [User, { params: ManageUserParams, meta?: EndpointMeta }] }
-  createPassword: { args: [User, { params: SetPasswordParams, meta?: EndpointMeta }] }
-  updateOrganization: { args: [Organization, { params: ManageOrganizationParams, meta?: EndpointMeta }] }
-  onSetClientToken: { args: [string] }
-}
-
 export type UserPluginSettings = {
   fictionServer?: FictionServer
   fictionDb: FictionDb
@@ -66,7 +52,6 @@ export type UserPluginSettings = {
   fictionRouter?: FictionRouter
   googleClientId?: string
   googleClientSecret?: string
-  hooks?: HookType<FictionUserHookDictionary>[]
   tokenSecret?: string
 } & FictionPluginSettings
 
@@ -76,7 +61,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
   activeUser = vue.ref<User>()
   initialized?: Promise<boolean>
   resolveUser?: (value: boolean | PromiseLike<boolean>) => void
-  hooks = this.settings.hooks || []
+  // hooks = this.settings.hooks || []
   tokenSecret = this.settings.tokenSecret
   activePath = vue.ref(safeDirname(import.meta.url))
   clientTokenKey = 'FCurrentUser'
@@ -102,12 +87,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
 
     this.settings.fictionRouter?.addReplacers({ orgId: this.activeOrgId })
 
-    this.settings.fictionDb?.hooks.push({
-      hook: 'onStart',
-      callback: async () => {
-        await this.ensureExampleOrganization()
-      },
-    })
+    this.settings.fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: () => this.ensureExampleOrganization() })
   }
 
   init() {
@@ -287,10 +267,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     } as const
   }
 
-  addHook(hook: HookType<FictionUserHookDictionary>): void {
-    this.hooks.push(hook)
-  }
-
   deleteCurrentUser = (): void => {
     this.log.info(`deleted current user`)
     this.clientToken({ action: 'destroy' })
@@ -325,7 +301,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     emitEvent('logout')
     emitEvent('resetUi')
 
-    await runHooks({ list: this.hooks, hook: 'onLogout', args: [] })
+    await this.settings.fictionEnv.runHooks('onLogout')
 
     if (args.callback)
       args.callback()
@@ -353,7 +329,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         this.setCurrentUser({ user, reason: 'currentUser' })
     }
 
-    await runHooks({ list: this.hooks, hook: 'requestCurrentUser', args: [user] })
+    await this.settings.fictionEnv.runHooks('requestCurrentUser', user)
 
     this.log.debug('user loaded', { data: { user } })
 
@@ -420,7 +396,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       removeCookieNakedDomain({ name: this.clientTokenKey })
     }
     else if (action === 'set' && token) {
-      runHooks({ list: this.hooks, hook: 'onSetClientToken', args: [token] }).catch(console.error)
+      this.settings.fictionEnv.runHooks('onSetClientToken', token).catch(console.error)
 
       setCookieNakedDomain({ name: this.clientTokenKey, value: token, attributes: { expires: 14, sameSite: 'Lax' } })
     }

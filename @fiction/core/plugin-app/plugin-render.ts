@@ -10,7 +10,7 @@ import type { Express, Request } from 'express'
 import unocss from 'unocss/vite'
 import presetIcons from '@unocss/preset-icons'
 import type tailwindcss from 'tailwindcss'
-import { createExpressApp, deepMergeAll, express, getRequire, importIfExists, isNode, requireIfExists, runHooks, safeDirname } from '../utils'
+import { createExpressApp, deepMergeAll, express, getRequire, importIfExists, isNode, requireIfExists, safeDirname } from '../utils'
 import type { FictionEnv } from '../plugin-env'
 import type { FictionRouter } from '../plugin-router'
 import { FictionBuild } from '../plugin-build'
@@ -210,7 +210,7 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
       appViteConfigFile || {},
     ]
 
-    merge = await runHooks({ list: this.fictionApp.hooks, hook: 'viteConfig', args: [merge] })
+    merge = await this.settings.fictionEnv.runHooks('viteConfig', merge)
 
     const viteConfig = deepMergeAll(merge)
 
@@ -235,8 +235,8 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (!template)
       throw new Error('html template required')
 
-    headTags = await runHooks({ list: this.fictionApp.hooks, hook: 'headTags', args: [headTags, { pathname }] })
-    htmlBody = await runHooks({ list: this.fictionApp.hooks, hook: 'htmlBody', args: [htmlBody, { pathname }] })
+    headTags = await this.settings.fictionEnv.runHooks('headTags', headTags, { pathname })
+    htmlBody = await this.settings.fictionEnv.runHooks('htmlBody', htmlBody, { pathname })
 
     const debuggingInfo = `<!--${JSON.stringify({ renderedPathname: pathname, isProd })}-->`
 

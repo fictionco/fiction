@@ -1,6 +1,6 @@
 import './register'
 import type express from 'express'
-import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser, HookType } from '@fiction/core'
+import type { FictionApp, FictionDb, FictionEnv, FictionPluginSettings, FictionRouter, FictionServer, FictionUser } from '@fiction/core'
 import { Endpoint, FictionPlugin, dayjs, isActualBrowser, toLabel, vue } from '@fiction/core'
 
 import type * as StripeJS from '@stripe/stripe-js'
@@ -31,7 +31,6 @@ export type StripePluginSettings = {
   secretKeyTest?: string
   webhookSecret?: string
   isLive?: vue.Ref<boolean> | boolean
-  hooks?: HookType<types.HookDictionary>[]
   products: types.StripeProductConfig[]
   checkoutSuccessPathname?: (args: { orgId: string }) => string
   checkoutCancelPathname?: (args: { orgId: string }) => string
@@ -62,8 +61,6 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     const v = vue.isRef(isLive) ? isLive?.value : isLive
     return v ? 'live' : 'test'
   })
-
-  hooks = this.settings.hooks ?? []
 
   secretKey = vue.computed(() => this.stripeMode.value === 'live' ? this.settings.secretKeyLive : this.settings.secretKeyTest)
   publicKey = vue.computed(() => this.stripeMode.value === 'live' ? this.settings.publicKeyLive : this.settings.publicKeyTest)
@@ -105,7 +102,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
     /**
      * Update customer email information when corresponding org is updated
      */
-    this.settings.fictionUser?.addHook({
+    this.settings.fictionEnv?.addHook({
       hook: 'updateOrganization',
       callback: async (o) => {
         if (!o.orgId)
