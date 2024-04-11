@@ -10,7 +10,7 @@ import * as tour from './tour'
 import * as about from './about'
 import * as developer from './developer'
 import * as pricing from './pricing'
-import * as support from './support'
+import * as affiliate from './affiliate'
 import favicon from './img/favicon.svg'
 import shareImage from './img/share-image.jpg'
 
@@ -42,7 +42,15 @@ export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStri
   const { fictionEnv } = args
   const pages = async () => {
     const pricingPage = await pricing.page(args)
-    return [home.page(), tour.page(), about.page(), developer.page(), pricingPage, support.page(), ...cards.pages()]
+    return [
+      home.page(),
+      tour.page(),
+      about.page(),
+      developer.page(),
+      pricingPage,
+      affiliate.page(),
+      ...cards.pages(),
+    ]
   }
 
   const domain = fictionEnv.meta.app?.domain || 'fiction.com'
@@ -108,19 +116,20 @@ export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStri
                       { href: '/tour', name: 'Tour' },
                       { href: '/pricing', name: 'Pricing' },
                       { href: '/developer', name: 'Developer' },
+                      { href: '/affiliate', name: 'Affiliate' },
                     ],
                   },
                   {
                     title: 'Company',
                     items: [
                       { href: '/about', name: 'About' },
-                      { href: `https://docs.${domain}/resources/support.html`, name: 'Support' },
+                      { href: `https://docs.${domain}/resources/support.html`, name: 'Support', target: '_blank' },
                     ],
                   },
                   {
                     title: 'Resources',
                     items: [
-                      { href: `https://docs.${domain}`, name: 'Docs' },
+                      { href: `https://docs.${domain}`, name: 'Docs', target: '_blank' },
                       { href: '/app', name: 'Dashboard' },
                     ],
                   },
