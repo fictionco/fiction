@@ -56,6 +56,13 @@ export interface NavItem {
   target?: string
 }
 
+export interface NavItemGroup {
+  title?: string
+  key?: string
+  items: NavItem[] | readonly NavItem[]
+  class?: string
+}
+
 export interface NavGroup {
   title?: string
   key?: string

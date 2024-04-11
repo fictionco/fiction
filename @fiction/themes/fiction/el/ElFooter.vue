@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, MenuGroup, NavItem } from '@fiction/core'
-import { vue } from '@fiction/core'
+import type { MediaDisplayObject, MenuGroup, NavItem, NavItemGroup } from '@fiction/core'
+import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 import CardSocials from '@fiction/cards/el/CardSocials.vue'
+import ElNavLink from '@fiction/ui/ElNavLink.vue'
 
 export type UserConfig = {
   icon?: MediaDisplayObject
-  menus?: MenuGroup[]
+  menus?: NavItemGroup[]
   socials?: NavItem[]
   footerText?: string
   privacyPolicy?: string
@@ -47,24 +48,21 @@ const footer = [
               class="col-span-12 sm:col-span-3"
             >
               <h3
-                v-if="col.groupName"
+                v-if="col.title"
                 class="mb-3 md:mb-6 text-left font-sans text-xs text-theme-500 dark:text-theme-500 font-medium uppercase tracking-widest"
               >
-                {{ col.groupName }}
+                {{ col.title }}
               </h3>
-              <ul v-if="col.menu" :class="col.class ? col.class : 'space-y-3'">
+              <ul v-if="col.items" :class="col.class ? col.class : 'space-y-3'">
                 <li
-                  v-for="(item, ii) in col.menu"
+                  v-for="(item, ii) in col.items"
                   :key="ii"
                   class="text-left"
                 >
-                  <a
-                    :href="item.href"
-                    :target="item.target ? item.target : '_self'"
+                  <ElNavLink
+                    :item="item"
                     class="hover:text-primary-500 text-theme-800 dark:text-theme-50 dark:hover:text-theme-300 font-sans text-sm font-semibold"
-                  >
-                    {{ item.name }}
-                  </a>
+                  />
                 </li>
               </ul>
             </div>

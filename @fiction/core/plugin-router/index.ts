@@ -76,7 +76,13 @@ export class FictionRouter<
       this.router.value = vueRouter.createRouter({
         history,
         routes: this.vueRoutes.value,
-        scrollBehavior: (to, from, savedPosition) => savedPosition || (to.hash ? { selector: to.hash, behavior: 'smooth' } : { top: 0 }),
+        scrollBehavior(to, from, savedPosition) {
+          if (to.hash)
+            return { el: to.hash, behavior: 'smooth' }
+          else if (savedPosition)
+            return savedPosition
+          else return { top: 0 }
+        },
       })
 
       // Define router hooks directly here if they're not too complex

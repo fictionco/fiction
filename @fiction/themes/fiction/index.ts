@@ -103,23 +103,23 @@ export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStri
                 },
                 menus: [
                   {
-                    groupName: 'Pages',
-                    menu: [
+                    title: 'Pages',
+                    items: [
                       { href: '/tour', name: 'Tour' },
                       { href: '/pricing', name: 'Pricing' },
                       { href: '/developer', name: 'Developer' },
                     ],
                   },
                   {
-                    groupName: 'Company',
-                    menu: [
+                    title: 'Company',
+                    items: [
                       { href: '/about', name: 'About' },
-                      { href: 'https', name: 'Support' },
+                      { href: `https://docs.${domain}/resources/support.html`, name: 'Support' },
                     ],
                   },
                   {
-                    groupName: 'Resources',
-                    menu: [
+                    title: 'Resources',
+                    items: [
                       { href: `https://docs.${domain}`, name: 'Docs' },
                       { href: '/app', name: 'Dashboard' },
                     ],
