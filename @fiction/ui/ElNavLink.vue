@@ -13,8 +13,13 @@ defineProps({
     :href="item.href"
     :to="item.href"
     :target="item.target ? item.target : '_self'"
-    class="hover:text-primary-500 text-theme-800 dark:text-theme-50 dark:hover:text-theme-300 font-sans text-sm font-semibold"
+    class="group"
   >
-    {{ item.name }}
+    <span class="inline-flex items-center space-x-1 ">
+      <span class="block">{{ item.name }}</span>
+      <span v-if="item.target === '_blank'" class="block opacity-30 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-all">
+        <span class="block i-heroicons-arrow-up-right-20-solid" />
+      </span>
+    </span>
   </component>
 </template>

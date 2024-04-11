@@ -93,13 +93,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
               return { title: key, value: value as string, short }
             })
 
-          attachments = [
-            {
-              fields,
-              footer,
-              ts: String(Math.floor(Date.now() / 1000)),
-            },
-          ]
+          attachments = [{ fields, footer, ts: String(Math.floor(Date.now() / 1000)) }]
         }
 
         this.log.info(`slack notify: ${message}`)
@@ -139,6 +133,8 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       const dsn = this.sentryPublicDsn
       if (!dsn)
         return this.log.error('SENTRY_PUBLIC_DSN not set')
+      else
+        this.log.info('starting sentry monitoring')
 
       const Sentry = await import('@sentry/vue')
 
