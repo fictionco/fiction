@@ -1,3 +1,12 @@
+## [6.0.27](https://github.com/fictionco/fiction/compare/v6.0.26...v6.0.27) (2024-04-11)
+
+
+### Features
+
+* affiliate page -d ([a2fc22d](https://github.com/fictionco/fiction/commit/a2fc22d28c07baf2728cafad72f8852e3bb9b63a))
+
+
+
 ## [6.0.26](https://github.com/fictionco/fiction/compare/v6.0.25...v6.0.26) (2024-04-11)
 
 
