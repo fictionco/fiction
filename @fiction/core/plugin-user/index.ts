@@ -466,12 +466,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       this.setCurrentUser({ user: newUser, reason })
   }
 
-  clientToken = (
-    args: {
-      action?: 'set' | 'get' | 'destroy'
-      token?: string
-    } = {},
-  ): string | undefined => {
+  clientToken = (args: { action?: 'set' | 'get' | 'destroy', token?: string } = {}): string | undefined => {
     if (typeof window === 'undefined') {
       if (args.action === 'get')
         return

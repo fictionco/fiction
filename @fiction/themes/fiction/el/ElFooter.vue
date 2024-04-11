@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { MediaDisplayObject, MenuGroup, NavItem, NavItemGroup } from '@fiction/core'
-import { getNavComponentType, vue } from '@fiction/core'
+import type { MediaDisplayObject, NavItem, NavItemGroup } from '@fiction/core'
+import { vue } from '@fiction/core'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 import CardSocials from '@fiction/cards/el/CardSocials.vue'

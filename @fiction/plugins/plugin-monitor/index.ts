@@ -57,30 +57,35 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   constructor(settings: FictionMonitorSettings) {
     super('FictionMonitor', settings)
 
-    this.fictionUser.addHook({
+    this.fictionUser.hooks.push({
       hook: 'requestCurrentUser',
       callback: async (user) => {
         await this.identifyUser(user)
       },
     })
 
-    this.fictionUser.addHook({
-      hook: 'createPassword',
+    this.fictionUser.hooks.push({
+      hook: 'createUser',
       callback: async (user, { params }) => {
-        const { isNewUser } = params
         if (!this.fictionEnv?.isApp.value) {
           const { cityName, regionName, countryCode } = user.geo || {}
           await this.slackNotify({
-            message: `(PageLines) password set: ${user.email}`,
+            message: `user created: ${user.email}`,
             data: {
               name: user.fullName || 'No Name',
               emailVerified: user.emailVerified ? 'Yes' : 'No',
-              isNewUser: isNewUser ? 'Yes' : 'No',
-              location:
-                `${cityName}, ${regionName}, ${countryCode}` || 'No Location',
+              location: `${cityName}, ${regionName}, ${countryCode}` || 'No Location',
+              ...params,
             },
           })
         }
+      },
+    })
+
+    this.fictionApp.hooks.push({
+      hook: 'beforeAppMounted',
+      callback: async (entry) => {
+        await this.installBrowserMonitoring(entry)
       },
     })
   }
@@ -151,78 +156,29 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   }
 
   async installBrowserMonitoring(entry: FictionAppEntry): Promise<void> {
-    const { app, router, service } = entry
+    const { app, service } = entry
     const dsn = this.sentryPublicDsn
-    if (
-      dsn
-      && service.fictionEnv?.isProd.value
-      && typeof window !== 'undefined'
-    ) {
+    if (dsn && service.fictionEnv?.isProd.value && typeof window !== 'undefined') {
       const Sentry = await import('@sentry/vue')
-      const { BrowserTracing } = await import('@sentry/tracing')
+
       Sentry.init({
         app,
-        dsn,
+        dsn: 'https://1abd25278537c4f102638fac9b6d9e7c@o4504680560787456.ingest.us.sentry.io/4507067897872384',
         integrations: [
-          new BrowserTracing({
-            routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-            tracePropagationTargets: [
-              'localhost',
-              'fiction.com',
-              /^\//,
-            ],
+          Sentry.browserTracingIntegration(),
+          Sentry.replayIntegration({
+            maskAllText: false,
+            blockAllMedia: false,
           }),
-          new Sentry.Replay(),
         ],
-        // Set tracesSampleRate to 1.0 to capture 100%
-        // of transactions for performance monitoring.
-        // We recommend adjusting this value in production
-        tracesSampleRate: 1,
-        // This sets the sample rate to be 10%. You may want this to be 100% while
-        // in development and sample at a lower rate in production
-        replaysSessionSampleRate: 0.1,
-        // If the entire session is not sampled, use the below sample rate to sample
-        // sessions when an error occurs.
-        replaysOnErrorSampleRate: 1,
+        // Performance Monitoring
+        tracesSampleRate: 1.0, //  Capture 100% of the transactions
+        // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+        tracePropagationTargets: ['localhost', /^(https?:\/\/)?(\w+\.)?fiction\.com/],
+        // Session Replay
+        replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+        replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
       })
-    }
-  }
-
-  async addToMailchimp(args: {
-    email: string
-    tags?: string[]
-  }): Promise<void> {
-    const { email, tags = [] } = args
-    try {
-      const mailchimp = await import('@mailchimp/mailchimp_marketing')
-      const apiKey = this.mailchimpApiKey
-      const listId = this.mailchimpListId
-      const server = this.mailchimpServer
-
-      if (!apiKey || !listId || !server)
-        return
-
-      if (apiKey) {
-        mailchimp.setConfig({ apiKey, server })
-
-        // https://us10.admin.mailchimp.com/lists/settings/defaults?id=904612
-
-        const response = await mailchimp.lists.addListMember(listId, {
-          email_address: email,
-          tags,
-          status: 'subscribed',
-        })
-
-        this.log.info(`Mailchimp: added contact as an audience member. `, {
-          data: response,
-        })
-      }
-      else {
-        this.log.warn(`MAILCHIMP_API_KEY: no API key`)
-      }
-    }
-    catch (error) {
-      console.error('MAILCHIMP ERROR', error)
     }
   }
 
