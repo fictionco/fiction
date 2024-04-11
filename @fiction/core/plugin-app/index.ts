@@ -197,11 +197,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
     const entry = await this.createVueApp({ renderRoute, runVars, service })
 
     if (typeof window !== 'undefined' && !this.fictionEnv.isSSR.value) {
-      await runHooks<HookDictionary, 'beforeAppMounted'>({
-        list: this.hooks,
-        hook: 'beforeAppMounted',
-        args: [entry],
-      })
+      await runHooks({ list: this.hooks, hook: 'beforeAppMounted', args: [entry] })
 
       const mountEl = args.mountEl || document.querySelector(selector)
 
@@ -216,11 +212,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
 
-      await runHooks<HookDictionary, 'appMounted'>({
-        list: this.hooks,
-        hook: 'appMounted',
-        args: [entry],
-      })
+      await runHooks({ list: this.hooks, hook: 'appMounted', args: [entry] })
     }
 
     return entry

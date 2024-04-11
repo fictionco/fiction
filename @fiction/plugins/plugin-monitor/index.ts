@@ -1,20 +1,8 @@
 import type { IncomingWebhookSendArguments } from '@slack/webhook'
 import { IncomingWebhook } from '@slack/webhook'
-import type {
-  FictionApp,
-  FictionAppEntry,
-  FictionEmail,
-  FictionEnv,
-  FictionUser,
-  User,
-} from '@fiction/core'
-import {
-  EnvVar,
-  FictionPlugin,
-  isActualBrowser,
-  isTest,
-  vars,
-} from '@fiction/core'
+import type { FictionApp, FictionAppEntry, FictionEmail, FictionEnv, FictionUser, User } from '@fiction/core'
+import { EnvVar, FictionPlugin, isActualBrowser, isTest, vars } from '@fiction/core'
+import { service } from '@fiction/www/src'
 
 declare global {
   interface Window {
@@ -25,7 +13,6 @@ declare global {
 
 vars.register(() => [
   new EnvVar({ name: 'SLACK_WEBHOOK_URL', isPublic: false }),
-  new EnvVar({ name: 'MAILCHIMP_API_KEY', isPublic: false }),
   new EnvVar({ name: 'SENTRY_PUBLIC_DSN', isPublic: true }),
 ])
 
@@ -43,31 +30,24 @@ interface FictionMonitorSettings {
 }
 
 export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
-  fictionEnv = this.settings.fictionEnv
-  fictionUser = this.settings.fictionUser
-  fictionApp = this.settings.fictionApp
-  fictionEmail = this.settings.fictionEmail
   monitorEmail = this.settings.monitorEmail || this.settings.fictionEnv.meta.app?.email
   isTest = isTest()
   slackWebhookUrl = this.settings.slackWebhookUrl
   sentryPublicDsn = this.settings.sentryPublicDsn
-  mailchimpApiKey = this.settings.mailchimpApiKey
-  mailchimpServer = this.settings.mailchimpServer
-  mailchimpListId = this.settings.mailchimpListId
   constructor(settings: FictionMonitorSettings) {
     super('FictionMonitor', settings)
 
-    this.fictionUser.hooks.push({
+    this.settings.fictionUser.hooks.push({
       hook: 'requestCurrentUser',
       callback: async (user) => {
         await this.identifyUser(user)
       },
     })
 
-    this.fictionUser.hooks.push({
+    this.settings.fictionUser.hooks.push({
       hook: 'createUser',
       callback: async (user, { params }) => {
-        if (!this.fictionEnv?.isApp.value) {
+        if (!this.settings.fictionEnv?.isApp.value) {
           const { cityName, regionName, countryCode } = user.geo || {}
           await this.slackNotify({
             message: `user created: ${user.email}`,
@@ -82,7 +62,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
       },
     })
 
-    this.fictionApp.hooks.push({
+    this.settings.fictionApp.hooks.push({
       hook: 'beforeAppMounted',
       callback: async (entry) => {
         await this.installBrowserMonitoring(entry)
@@ -139,7 +119,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
               markdownText += `* **${field.title}**: ${field.value}\n`
             })
           }
-          await this.fictionEmail.sendEmail({
+          await this.settings.fictionEmail.sendEmail({
             to: this.monitorEmail,
             subject: `Notify: ${message}`,
             text: markdownText,
@@ -157,8 +137,12 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
 
   async installBrowserMonitoring(entry: FictionAppEntry): Promise<void> {
     const { app, service } = entry
-    const dsn = this.sentryPublicDsn
-    if (dsn && service.fictionEnv?.isProd.value && typeof window !== 'undefined') {
+
+    if (service.fictionEnv?.isProd.value && typeof window !== 'undefined') {
+      const dsn = this.sentryPublicDsn
+      if (!dsn)
+        throw new Error('No Sentry DSN provided')
+
       const Sentry = await import('@sentry/vue')
 
       Sentry.init({

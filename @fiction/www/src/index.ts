@@ -103,7 +103,6 @@ const fictionUser = new FictionUser({
   googleClientSecret: fictionEnv.var('GOOGLE_CLIENT_SECRET'),
   tokenSecret: fictionEnv.var('TOKEN_SECRET'),
   hooks: [
-
     {
       hook: 'onLogout',
       callback: async () => {

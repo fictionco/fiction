@@ -59,6 +59,15 @@ jobs:
         with:
           fetch-depth: 0 # fetches all history for all tags and branches
 
+      - name: Set up DNS for subdomain testing
+        run: |
+          echo "127.0.0.1 test.lan.com" | sudo tee -a /etc/hosts
+
+      - name: Test DNS resolution
+        run: |
+          echo "Testing DNS resolution for lan.com and its subdomains..."
+          dig +short test.lan.com @127.0.0.1 || echo "Failed to resolve test.lan.com"
+
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"

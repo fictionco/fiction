@@ -52,24 +52,11 @@ export type FictionUserHookDictionary = {
   onLogout: { args: [] }
   onUserVerified: { args: [User] }
   requestCurrentUser: { args: [User | undefined] }
-  processUser: {
-    args: [User | undefined, { params: ManageUserParams, meta?: EndpointMeta }]
-  }
-  createUser: {
-    args: [User, { params: ManageUserParams, meta?: EndpointMeta }]
-  }
-  createPassword: {
-    args: [User, { params: SetPasswordParams, meta?: EndpointMeta }]
-  }
-  updateOrganization: {
-    args: [
-      Organization,
-      { params: ManageOrganizationParams, meta?: EndpointMeta },
-    ]
-  }
-  onSetClientToken: {
-    args: [string]
-  }
+  processUser: { args: [User | undefined, { params: ManageUserParams, meta?: EndpointMeta }] }
+  createUser: { args: [User, { params: ManageUserParams, meta?: EndpointMeta }] }
+  createPassword: { args: [User, { params: SetPasswordParams, meta?: EndpointMeta }] }
+  updateOrganization: { args: [Organization, { params: ManageOrganizationParams, meta?: EndpointMeta }] }
+  onSetClientToken: { args: [string] }
 }
 
 export type UserPluginSettings = {
@@ -275,49 +262,6 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     }
   }
 
-  // async verifyRouteAuth(params: {
-  //   route: vueRouter.RouteLocationNormalized
-  // }): Promise<NavigateRoute> {
-  //   const { route } = params
-  //   const user = await this.userInitialized({ caller: 'verifyRouteAuth' })
-
-  //   const { matched } = route
-
-  //   const results = await Promise.all(
-  //     matched
-  //       .filter(_ => _.meta.auth)
-  //       .map(async (r) => {
-  //         const auth = r.meta.auth as RouteAuthCallback
-  //         return await auth({
-  //           user,
-  //           isSearchBot: isSearchBot(),
-  //           fictionRouter: this.settings.fictionRouter,
-  //           fictionUser: this,
-  //           route,
-  //         })
-  //       }),
-  //   )
-
-  //   const changeNav = results
-  //     .reverse()
-  //     .find(
-  //       params =>
-  //         params?.navigate === false || params?.navigate !== undefined,
-  //     )
-
-  //   if (changeNav) {
-  //     const result = await changeNav?.navigate
-  //     this.log.debug(
-  //       `route altered by ${changeNav.id} reason: ${changeNav.reason}`,
-  //       { data: changeNav },
-  //     )
-  //     return result
-  //   }
-  //   else {
-  //     return true
-  //   }
-  // }
-
   createQueries() {
     const deps = { ...this.settings, fictionUser: this as FictionUser }
 
@@ -409,11 +353,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
         this.setCurrentUser({ user, reason: 'currentUser' })
     }
 
-    await runHooks({
-      list: this.hooks,
-      hook: 'requestCurrentUser',
-      args: [user],
-    })
+    await runHooks({ list: this.hooks, hook: 'requestCurrentUser', args: [user] })
 
     this.log.debug('user loaded', { data: { user } })
 
