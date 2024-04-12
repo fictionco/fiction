@@ -1,27 +1,33 @@
 name: RELEASE
 
 on:
-  push:
-    branches:
-      - dev
-  workflow_dispatch:
-    inputs:
-      cmd:
-        description: Command
-        required: true
-        type: choice
-        options:
-          - deploy
-          - test
+  workflow_run:
+    workflows: [DEPLOY]
+    types:
+      - completed
 
-      tags:
-        description: Tags
-        required: false
-        type: string
+# on:
+#   push:
+#     branches:
+#       - dev
+#   workflow_dispatch:
+#     inputs:
+#       cmd:
+#         description: Command
+#         required: true
+#         type: choice
+#         options:
+#           - deploy
+#           - test
 
-  # if deploy on release
-  # release:
-  #   types: [published]
+#       tags:
+#         description: Tags
+#         required: false
+#         type: string
+
+# if deploy on release
+# release:
+#   types: [published]
 
 permissions:
   contents: write
@@ -45,12 +51,12 @@ env:
   GH_TOKEN: ${{secrets.GH_TOKEN}}
 jobs:
   test:
-    if: 'contains(github.event.head_commit.message, ''-r'') == true'
+    if: 'contains(github.event.head_commit.message, ''-d'') == true'
     env:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
-      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
+      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-d') }}
     name: build and test
     runs-on: ubuntu-latest
     steps:

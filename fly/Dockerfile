@@ -31,8 +31,6 @@ RUN pnpm fetch --prod
 # Install production dependencies using pnpm
 RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
-RUN npm run unit:dist
-
 FROM build as fiction-sites
 EXPOSE 6565
 CMD npm -w @fiction/www exec -- fiction run sites

@@ -18,7 +18,6 @@ function selectColor(c: ThemeColor) {
   themeColor.value = c
 }
 
-
 const theme = vue.computed(() => {
   const levels = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const
   const obj = Object.fromEntries(

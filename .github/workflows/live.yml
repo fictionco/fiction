@@ -1,9 +1,9 @@
-name: LIVE_CHECK
+name: LIVE
 
 on:
   schedule:
     # Runs every 45 minutes
-    - cron: '*/45 * * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch: # Allows manual triggering
 
 jobs:
