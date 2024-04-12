@@ -30,6 +30,19 @@ describe('signin UX', async () => {
     })
   }, 15_000)
 
+  it('defaults to login page', async () => {
+    await performActions({
+      port,
+      browser,
+      path: '/app/auth/does-not-exist',
+      actions: [
+        { type: 'visible', selector: '[data-test-id="email-login-button"]' },
+        { type: 'visible', selector: '[data-test-id="to-register"]' },
+        { type: 'exists', selector: '[id="google-signin-button"]' },
+      ],
+    })
+  }, 15_000)
+
   it('allows toggle between sign up and login', async () => {
     await performActions({
       port,

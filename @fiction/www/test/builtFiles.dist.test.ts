@@ -10,8 +10,15 @@ describe('pre check secrets', () => {
     { appId: 'fiction-website' },
   ]
   it('has secrets', async () => {
+    const token = process.env.FLY_API_TOKEN
+
+    if (!token) {
+      console.error('!!!FLY_API_TOKEN not found!!!')
+      return
+    }
+
     for (const service of services) {
-      const { stdout } = execaCommandSync(`flyctl secrets list -a ${service.appId}`)
+      const { stdout } = execaCommandSync(`flyctl secrets list -a ${service.appId} --access-token ${token}`)
 
       const secrets = ['FLY_API_TOKEN', 'POSTGRES_URL', 'GH_TOKEN', 'TOKEN_SECRET', 'AWS_ACCESS_KEY', 'AWS_ACCESS_KEY_SECRET', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET']
       for (const secret of secrets)

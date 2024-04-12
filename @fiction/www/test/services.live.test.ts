@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { snap } from '@fiction/core/test-utils'
+import { log } from '@fiction/core'
 
 describe('service health checks', () => {
+  const logger = log.contextLogger('Service Health')
   const services = [
     { url: 'https://www.fiction.com' },
     { url: 'https://docs.fiction.com/', checkForText: 'fiction', noApi: true },
@@ -79,12 +81,17 @@ describe('service health checks', () => {
     for (const service of services) {
       const response = await fetch(`${service.url}?test=1`)
 
+      logger.info('response status', { data: { status: response.status, url: service.url } })
+
       expect(response.status, `status ${service.url}`).toBe(200)
 
       const html = await response.text()
+
       expect(html, `html: ${service.url}`).toContain(service.checkForText || '<main')
       // Example: Log instead of asserting specific content
       console.warn(`Content check for ${service.url}:`, html.includes('footer') ? 'Contains footer' : 'Missing footer')
+
+      logger.info('response html', { data: { html } })
     }
   })
 })

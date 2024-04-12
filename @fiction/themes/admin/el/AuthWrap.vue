@@ -12,18 +12,18 @@ const props = defineProps({
 
 const { fictionApp } = useService()
 
-type AuthModes =
-  | 'login'
-  | 'register'
-  | 'setPassword'
-  | 'verify'
-  | 'resetPassword'
-
 const siteRouter = vue.computed(() => props.card.site?.siteRouter)
 const uc = vue.computed(() => props.card.userConfig.value)
 
+const authModes = ['login', 'register', 'setPassword', 'verify', 'resetPassword'] as const
+type AuthModes = typeof authModes[number]
+
 const routeAuthMode = vue.computed<AuthModes>({
-  get: () => (siteRouter.value?.params.value.itemId || 'login') as AuthModes,
+  get: () => {
+    const itemId = (siteRouter.value?.params.value.itemId as string) || 'login'
+    const mode = authModes.includes(itemId as AuthModes) ? itemId : 'login'
+    return (mode as AuthModes)
+  },
   set: (val) => {
     return props.card.goto({ path: `/auth/${val}`, query: siteRouter.value?.query.value || {} })
   },
