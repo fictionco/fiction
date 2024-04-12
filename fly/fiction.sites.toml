@@ -19,13 +19,12 @@ primary_region = "lax"
   grace_period = "10s"
   interval = "30s"
   method = "GET"
-  timeout = "5s"
+  timeout = "8s"
   path = "/"
   tls_skip_verify = false
 
-
-[deploy]
-  strategy = "bluegreen"
+# [deploy]
+#   strategy = "bluegreen"
 
 [[vm]]
   cpu_kind = "shared"

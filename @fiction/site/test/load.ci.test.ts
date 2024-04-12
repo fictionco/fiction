@@ -29,6 +29,12 @@ describe('domainMountContext', () => {
     const context = domainMountContext({ runVars })
     expect(context.hostname).toBe('www.google.com')
   })
+
+  it('return ip if is ip', () => {
+    const runVars = { HOSTNAME: '172.19.0.242' }
+    const context = domainMountContext({ runVars })
+    expect(context.ip).toBe('172.19.0.242')
+  })
 })
 
 describe('getMountContext', () => {

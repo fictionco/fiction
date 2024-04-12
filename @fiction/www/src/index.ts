@@ -245,6 +245,8 @@ export function setup(): ServiceConfig {
     runCommand: async (args) => {
       const { command, options = {}, context } = args
 
+      fictionEnv.log.info(`running command - ${command}`)
+
       if (command.endsWith('-r')) {
         const realCommand = command.split('-').shift()
         if (!realCommand)
