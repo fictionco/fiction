@@ -16,7 +16,7 @@ defineProps({
     class="group"
   >
     <span class="inline-flex items-center space-x-1 ">
-      <span class="block">{{ item.name }}</span>
+      <span class="block" v-html="item.name" />
       <span v-if="item.target === '_blank'" class="block opacity-30 group-hover:translate-x-[1px] group-hover:-translate-y-[1px] transition-all">
         <span class="block i-heroicons-arrow-up-right-20-solid" />
       </span>

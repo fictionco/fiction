@@ -93,5 +93,5 @@ describe('service health checks', () => {
 
       logger.info('response html', { data: { html } })
     }
-  })
+  }, 60000)
 })

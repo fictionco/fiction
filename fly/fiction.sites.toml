@@ -2,18 +2,41 @@ app = "fiction-sites"
 primary_region = "lax"
 
 [build]
-dockerfile = "./Dockerfile"
-build-target = "fiction-sites"
+  dockerfile = "./Dockerfile"
+  build-target = "fiction-sites"
 
 [http_service]
-internal_port = 6565
-force_https = true
-auto_stop_machines = true
-auto_start_machines = true
-min_machines_running = 1
-processes = [ "app" ]
+  internal_port = 6565
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = [ "app" ]
 
 [[vm]]
-cpu_kind = "shared"
-cpus = 1
-memory_mb = 2048
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 2048
+
+[deploy]
+  strategy = "bluegreen"
+
+[[services.ports]]
+  handlers = ["tls", "http"]
+  port = "443"
+
+[[services.tcp_checks]]
+  grace_period = "1s"
+  interval = "15s"
+  restart_limit = 0
+  timeout = "2s"
+
+[[services.http_checks]]
+  interval = 30000
+  grace_period = "5s"
+  method = "get"
+  path = "/"
+  protocol = "http"
+  timeout = 2000
+  tls_skip_verify = false
+  [services.http_checks.headers]

@@ -6,6 +6,7 @@ import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import XElement from '@fiction/cards/CardElement.vue'
+import ElNavLink from '@fiction/ui/ElNavLink.vue'
 import NavMobile from './NavMobile.vue'
 import NavAccount from './NavAccount.vue'
 
@@ -120,15 +121,13 @@ const accountMenu = vue.computed((): NavItem[] => {
             </button>
           </div>
           <div class="hidden lg:block space-x-2">
-            <component
-              :is="getNavComponentType(item)"
+            <ElNavLink
               v-for="item in nav"
               :key="item.href"
-              :to="item.href ?? '/'"
-              :href="item.href ?? '/'"
+              :item="item"
               :class="[btnClass, item.isActive ? 'bg-theme-200 dark:bg-primary-950' : '']"
-              v-html="item.name"
             />
+
           </div>
           <div
             class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"
