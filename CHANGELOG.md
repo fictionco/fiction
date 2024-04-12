@@ -1,3 +1,15 @@
+## [6.0.29](https://github.com/fictionco/fiction/compare/v6.0.28...v6.0.29) (2024-04-12)
+
+
+### Bug Fixes
+
+* dep -d ([7f59142](https://github.com/fictionco/fiction/commit/7f5914236207c17cad2b33853f233650796b3140))
+* lf ([12126ba](https://github.com/fictionco/fiction/commit/12126ba4c0c7212290a3d3ea037ec49f76d4df95))
+* remove unocss -d ([4b55c19](https://github.com/fictionco/fiction/commit/4b55c191001852c678e55ba2227ad553bca137bc))
+* various clean up -d ([319531d](https://github.com/fictionco/fiction/commit/319531dfc2f3fa2d18133dbd742945bc51fb126b))
+
+
+
 ## [6.0.28](https://github.com/fictionco/fiction/compare/v6.0.27...v6.0.28) (2024-04-11)
 
 
