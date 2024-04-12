@@ -5,6 +5,10 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
+    "allowUnusedLabels": false,
+
+    "allowUnreachableCode": false,
+    "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "declarationMap": true,
     "baseUrl": ".",

@@ -18,42 +18,6 @@ function selectColor(c: ThemeColor) {
   themeColor.value = c
 }
 
-const _sizing = vue.computed(() => {
-  let out = {
-    inputX: 'calc(var(--input-size) * .65)',
-    inputY: 'calc(var(--input-size) * .3)',
-    inputSize: '.9rem',
-    inputMaxWidth: '25rem',
-  }
-
-  if (inputSizing.value === 'lg') {
-    out = {
-      ...out,
-      inputSize: '1.2rem',
-    }
-  }
-
-  if (inputSizing.value === 'xl') {
-    out = {
-      ...out,
-      inputSize: '1.5rem',
-    }
-  }
-  if (inputSizing.value === '2xl') {
-    out = {
-      ...out,
-      inputSize: '2rem',
-    }
-  }
-  if (inputSizing.value === '3xl') {
-    out = {
-      ...out,
-      inputSize: '2.5rem',
-    }
-  }
-
-  return out
-})
 
 const theme = vue.computed(() => {
   const levels = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { storeItem, vue } from '@fiction/core'
+import { vue } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Card } from '@fiction/site'
 import bothWaysArrow from './both-ways-arrow.svg'

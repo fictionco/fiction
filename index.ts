@@ -23,7 +23,6 @@ export const fictionEnv = new FictionEnv({
 
 const fictionRelease = new FictionRelease({ fictionEnv })
 const fictionBundle = new FictionBundle({ fictionEnv })
-
 const service = { fictionEnv, fictionRelease, fictionBundle }
 
 export function setup(): ServiceConfig {

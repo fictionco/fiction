@@ -37,7 +37,7 @@ vue.watch(
 <template>
   <div class="origins">
     <div
-      v-for="(item, i) in origins"
+      v-for="(_item, i) in origins"
       :key="i"
       class="mt-2"
     >
