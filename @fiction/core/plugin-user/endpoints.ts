@@ -706,7 +706,7 @@ export class QueryVerifyAccountEmail extends UserQuery {
     // send it back for convenience
     user.verificationCode = verificationCode
 
-    await this.settings.fictionEnv.runHooks('onUserVerified', user)
+    await this.settings.fictionEnv.runHooks('userOnVerified', user)
 
     this.log.info(`user verified ${email}`)
 

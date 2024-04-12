@@ -41,10 +41,10 @@ onResetUi(() => {
         <div
           v-for="i in 3"
           :key="i"
-          class="h-1 rounded-full"
+          class="h-1 rounded-full transition-all"
           :class="[
-            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-600 group-hover:bg-theme-400 dark:group-hover:bg-theme-500',
-            i === 2 ? 'w-3' : 'w-4',
+            vis ? 'bg-theme-300 dark:bg-theme-600' : 'bg-theme-200 dark:bg-theme-500 group-hover:bg-theme-400 dark:group-hover:bg-theme-600',
+            i === 2 ? 'w-3 group-hover:translate-x-0.5' : 'w-4',
           ]"
         />
       </div>

@@ -5,8 +5,8 @@ import type { Organization, User } from '.'
 
 declare module '@fiction/core/plugin-env/hooks' {
   interface FictionEnvHookDictionary {
-    onLogout: { args: [] }
-    onUserVerified: { args: [User] }
+    userOnLogout: { args: [] }
+    userOnVerified: { args: [User] }
     requestCurrentUser: { args: [User | undefined] }
     processUser: { args: [User | undefined, { params: ManageUserParams, meta?: EndpointMeta }] }
     createUser: { args: [User, { params: ManageUserParams, meta?: EndpointMeta }] }

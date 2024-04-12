@@ -73,7 +73,7 @@ const accountMenu = vue.computed((): NavItem[] => {
     list.push({
       name: 'Sign Out',
       icon: 'i-tabler-logout',
-      href: '/app/auth/logout',
+      href: '/?logout=1',
     })
   }
 
@@ -127,7 +127,6 @@ const accountMenu = vue.computed((): NavItem[] => {
               :item="item"
               :class="[btnClass, item.isActive ? 'bg-theme-200 dark:bg-primary-950' : '']"
             />
-
           </div>
           <div
             class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4 items-center"

@@ -90,6 +90,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     this.settings.fictionEnv?.hooks.push({ hook: 'dbOnConnected', callback: () => this.ensureExampleOrganization() })
   }
 
+  /** Typically Invoked from Main File */
   init() {
     // redirect based on auth
     // only check if is browser not during prerender
@@ -97,7 +98,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     if (isActualBrowser()) {
       this.userInitialized({ caller: 'init' }).catch(console.error)
 
-      this.watchRouteForOrgChange().catch(console.error)
+      this.watchRouteUserChanges().catch(console.error)
     }
   }
 
@@ -175,42 +176,48 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     return org
   }
 
-  watchRouteForOrgChange = async (): Promise<void> => {
+  setActiveOrgId = async (orgId?: string): Promise<void> => {
+    const user = this?.activeUser.value
+    const org = this.getOrgById(orgId)
+
+    if (user?.userId && org && org.orgId !== this.lastOrgId.value) {
+      /**
+       * Update lastOrgId
+       * Make sure to update user or it wont remember the active org
+       */
+      const r = await this?.requests.ManageUser.request(
+        { _action: 'update', userId: user.userId, fields: { lastOrgId: org.orgId } },
+        { disableNotify: true, disableUserUpdate: true },
+      )
+
+      if (r?.data)
+        await this?.updateUser(() => r.data, { reason: 'watchRouteUserChanges' })
+    }
+  }
+
+  watchRouteUserChanges = async (): Promise<void> => {
     if (!hasWindow())
       return
 
     await this?.pageInitialized()
 
-    const r = this.settings.fictionRouter?.router.value
-
-    if (!r)
-      return
-
     vue.watch(
-      () => r.currentRoute.value,
+      () => this.settings.fictionRouter?.current.value,
       async (route) => {
-        const user = this?.activeUser.value
-        if (user && user.email) {
-          /**
-           * If new orgId, update user with lastOrgId for state
-           */
-          const orgId = (route.params.orgId || route.query.orgId) as string | undefined
-          const org = this.getOrgById(orgId)
+        if (!route)
+          return
 
-          if (org && org.orgId !== this.lastOrgId.value) {
-            /**
-             * Update lastOrgId
-             * Make sure to update user or it wont remember the active org
-             */
-            const r = await this?.requests.ManageUser.request(
-              { _action: 'update', email: user.email, fields: { lastOrgId: org.orgId } },
-              { disableNotify: true, disableUserUpdate: true },
-            )
+        const routeVars = { ...route.params, ...route.query } as Record<string, string | undefined>
 
-            if (r?.data)
-              await this?.updateUser(() => r.data, { reason: 'watchRouteForOrgChange' })
-          }
+        const { logout, orgId } = routeVars
+
+        if (logout) {
+          await this?.logout()
+          return
         }
+
+        if (orgId)
+          await this.setActiveOrgId(orgId)
       },
       { immediate: true },
     )
@@ -301,14 +308,22 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
     emitEvent('logout')
     emitEvent('resetUi')
 
-    await this.settings.fictionEnv.runHooks('onLogout')
+    await this.settings.fictionEnv.runHooks('userOnLogout')
 
     if (args.callback)
       args.callback()
 
     // reload the page to clear any state
-    if (args.redirect)
+    if (args.redirect) {
       window.location.href = args.redirect
+    }
+
+    else {
+      // If no redirect is provided, modify the URL to remove 'logout' query param
+      const url = new URL(window.location.href)
+      url.searchParams.delete('logout')
+      window.location.reload()
+    }
   }
 
   requestCurrentUser = async (): Promise<User | undefined> => {
