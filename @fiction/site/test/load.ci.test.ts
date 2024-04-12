@@ -30,10 +30,16 @@ describe('domainMountContext', () => {
     expect(context.hostname).toBe('www.google.com')
   })
 
-  it('return ip if is ip', () => {
+  it('return internal is ip', () => {
     const runVars = { HOSTNAME: '172.19.0.242' }
     const context = domainMountContext({ runVars })
-    expect(context.ip).toBe('172.19.0.242')
+    expect(context.internal).toBe('172.19.0.242')
+  })
+
+  it('return internal is localhost', () => {
+    const runVars = { HOSTNAME: 'localhost' }
+    const context = domainMountContext({ runVars })
+    expect(context.internal).toBe('localhost')
   })
 })
 

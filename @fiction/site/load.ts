@@ -7,8 +7,8 @@ import type { FictionSites } from '.'
 const logger = log.contextLogger('siteLoader')
 
 export type SiteMode = 'editor' | 'editable' | 'standard'
-export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, ip?: string }
-  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { ip: string })
+export type WhereSite = { siteId?: string, subDomain?: string, hostname?: string, themeId?: string, internal?: string }
+  & ({ siteId: string } | { subDomain: string } | { hostname: string } | { themeId: string } | { internal: string })
 
 type MountContext = { siteMode?: SiteMode } & WhereSite
 type RequestManageSiteParams = Omit<ManageSiteParams, 'orgId' | 'siteId'> & { siteRouter: FictionRouter, fictionSites: FictionSites, siteMode: SiteMode }
@@ -85,7 +85,7 @@ export async function loadSite(args: {
 
   let site: Site | undefined = undefined
   try {
-    const { siteId, subDomain, hostname, themeId, siteMode = 'standard', ip } = mountContext || {}
+    const { siteId, subDomain, hostname, themeId, siteMode = 'standard', internal } = mountContext || {}
 
     const where = { siteId, subDomain, hostname, themeId } as WhereSite
 
@@ -107,8 +107,8 @@ export async function loadSite(args: {
 
       site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
     }
-    else if (ip) {
-      logger.info('no site loaded due to ip request', { data: { ip } })
+    else if (internal) {
+      logger.info('no site loaded due to internal request', { data: { internal } })
     }
     else {
       const data = { vals, siteRouter: siteRouter.toConfig(), caller }
@@ -138,8 +138,8 @@ export function domainMountContext({ runVars }: { runVars: Partial<RunVars> }): 
     const ipRegex = /^(?:\d{1,3}\.){3}\d{1,3}$/ // Regex to check if the hostname is an IP address
 
     // Return empty if HOSTNAME is an IP address
-    if (ipRegex.test(HOSTNAME))
-      return { ip: HOSTNAME }
+    if (ipRegex.test(HOSTNAME) || HOSTNAME === 'localhost')
+      return { internal: HOSTNAME }
 
     return { hostname: HOSTNAME }
   }
