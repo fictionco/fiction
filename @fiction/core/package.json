@@ -22,6 +22,7 @@
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/tabler": "^1.1.109",
+    "@egoist/tailwindcss-icons": "^1.7.4",
     "@medv/finder": "^3.2.0",
     "@sinclair/typebox": "^0.32.20",
     "@slack/webhook": "^7.0.2",
@@ -134,7 +135,7 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.24.4",
-    "@egoist/tailwindcss-icons": "^1.7.4",
+
     "@playwright/test": "^1.43.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/bcrypt": "^5.0.2",
