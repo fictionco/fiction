@@ -2,7 +2,7 @@ import { createCard } from '@fiction/site/theme'
 import { templates } from '../templates'
 import selena from './img/selena.jpg'
 import dean from './img/dean2.jpg'
-import rogan from './img/rogan.jpeg'
+import rogan from './img/rogan.jpg'
 import obama from './img/obama.webp'
 import andrew from './img/andrew.jpg'
 

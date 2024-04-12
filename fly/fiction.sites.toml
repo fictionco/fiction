@@ -13,15 +13,16 @@ primary_region = "lax"
   min_machines_running = 1
   processes = ['app']
 
+
 [[http_service.checks]]
-  interval = "10s"
-  grace_period = "5s"
-  method = "GET"
-  path = "/api/ok"
-  protocol = "http"
   port = 6565
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
   timeout = "5s"
+  path = "/"
   tls_skip_verify = false
+
 
 [deploy]
   strategy = "bluegreen"
