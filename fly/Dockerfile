@@ -31,9 +31,6 @@ RUN pnpm fetch --prod
 # Install production dependencies using pnpm
 RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
-# Install vitest for testing
-RUN pnpm add vitest -w
-
 RUN npm run unit:dist
 
 FROM build as fiction-sites

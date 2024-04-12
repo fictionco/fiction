@@ -1,4 +1,4 @@
-name: Live Service Monitoring
+name: LIVE_CHECK
 
 on:
   schedule:
