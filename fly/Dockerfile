@@ -32,7 +32,7 @@ RUN pnpm fetch --prod
 RUN cross-env INSTALL_ENV=production pnpm i --prod --offline --frozen-lockfile
 
 # Install vitest for testing
-RUN pnpm add vitest -D -w
+RUN pnpm add vitest -w
 
 RUN npm run unit:dist
 
