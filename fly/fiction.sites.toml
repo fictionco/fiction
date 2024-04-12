@@ -14,13 +14,13 @@ primary_region = "lax"
   processes = ['app']
 
 [[http_service.checks]]
-  interval = "2s"
+  interval = "10s"
   grace_period = "5s"
   method = "GET"
-  path = "/check"
+  path = "/api/ok"
   protocol = "http"
   port = 6565
-  timeout = "2s"
+  timeout = "5s"
   tls_skip_verify = false
 
 [deploy]

@@ -15,12 +15,12 @@ primary_region = "lax"
 
 [[http_service.checks]]
   port = 4444
-  interval = "2s"
+  interval = "10s"
   grace_period = "5s"
   method = "GET"
-  path = "/check"
+  path = "/api/ok"
   protocol = "http"
-  timeout = "2s"
+  timeout = "5s"
   tls_skip_verify = false
 
 [deploy]

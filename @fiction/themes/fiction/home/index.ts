@@ -1,5 +1,10 @@
 import { createCard } from '@fiction/site/theme'
 import { templates } from '../templates'
+import selena from './img/selena.jpg'
+import dean from './img/dean2.jpg'
+import rogan from './img/rogan.jpeg'
+import obama from './img/obama.webp'
+import andrew from './img/andrew.jpg'
 
 export function page() {
   return createCard({
@@ -48,7 +53,7 @@ export function page() {
                   desc: 'Founder, Fiction.com',
                   tags: ['Tech'],
                   media: {
-                    url: new URL('img/andrew.jpg?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb', import.meta.url).href,
+                    url: `${andrew}?blurhash=UbD%2Be.f%2B9an%24~UbIE2aeskaeV%40W%3BM%7BaeoLbb`,
                   },
                   href: 'https://www.andrewpowers.com',
                 },
@@ -58,7 +63,7 @@ export function page() {
                   desc: 'Personal Site',
                   tags: ['Music'],
                   media: {
-                    url: new URL('img/selena.jpg', import.meta.url).href,
+                    url: selena,
                   },
                 },
                 {
@@ -66,7 +71,7 @@ export function page() {
                   desc: 'Founder, Alteryx',
                   tags: ['Executive'],
                   media: {
-                    url: new URL('img/dean2.jpg', import.meta.url).href,
+                    url: dean,
                   },
                 },
                 {
@@ -74,7 +79,7 @@ export function page() {
                   desc: 'Personal Site',
                   tags: ['Politics'],
                   media: {
-                    url: new URL('img/rogan.jpeg', import.meta.url).href,
+                    url: rogan,
                   },
                 },
                 {
@@ -82,7 +87,7 @@ export function page() {
                   desc: 'Personal Site',
                   tags: ['Politics'],
                   media: {
-                    url: new URL('img/obama.webp', import.meta.url).href,
+                    url: obama,
                   },
                 },
               ],
