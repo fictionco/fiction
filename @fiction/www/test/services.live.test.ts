@@ -47,7 +47,7 @@ describe('service health checks', () => {
           "message": "ok",
           "status": "success",
           "timestamp": "[dateTime:]",
-          "version": "6.0.11",
+          "version": "6.0.29",
         },
         {
           "commit": "notFound",
@@ -55,7 +55,7 @@ describe('service health checks', () => {
           "message": "ok",
           "status": "success",
           "timestamp": "[dateTime:]",
-          "version": "6.0.11",
+          "version": "6.0.29",
         },
         {
           "commit": "notFound",
@@ -63,7 +63,7 @@ describe('service health checks', () => {
           "message": "ok",
           "status": "success",
           "timestamp": "[dateTime:]",
-          "version": "6.0.11",
+          "version": "6.0.29",
         },
         {
           "commit": "notFound",
@@ -71,11 +71,11 @@ describe('service health checks', () => {
           "message": "ok",
           "status": "success",
           "timestamp": "[dateTime:]",
-          "version": "6.0.11",
+          "version": "6.0.29",
         },
       ]
     `)
-  }, 10000)
+  }, 30000)
 
   it('websites are live and check content', async () => {
     for (const service of services) {
