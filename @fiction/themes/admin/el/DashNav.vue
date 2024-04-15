@@ -21,15 +21,14 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
 
 <template>
   <div class="space-y-1 font-sans">
-    <div class="flex items-center  rounded-full space-x-3 mb-5 px-3 py-2">
+    <div class="flex items-center justify-center space-x-3 mb-5 px-3 py-2">
       <div class=" ">
         <div class=" rounded-full  flex items-center justify-center">
-          <RouterLink :to="card.link('/')" class="text-xl dark:text-theme-0 text-primary-500 dark:hover:text-primary-500 transition-all">
-            <ElImage class="size-7" :media="icon" />
+          <RouterLink :to="card.link('/')" class="text-xl text-theme-700 hover:text-primary-500 dark:text-theme-0 dark:hover:text-primary-700 transition-all px-4 py-2.5 rounded-md">
+            <ElImage class="h-[21px]" :media="icon" />
           </RouterLink>
         </div>
       </div>
-      <div class="font-bold leading-tight pr-2 min-w-0" />
     </div>
 
     <div
@@ -40,24 +39,20 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       <div class="nav-menu">
         <component
           :is="getNavComponentType(sub)"
-          class="group nav-item flex  cursor-pointer items-center py-4 px-4 space-x-3 truncate rounded-full font-semibold font-sans text-base antialiased  focus:outline-none transition-all duration-100"
+          class="group nav-item flex  cursor-pointer items-center py-4 px-4 space-x-3 truncate rounded-full font-sans text-base antialiased  focus:outline-none transition-all duration-100"
           :to="sub.href"
           :href="sub.href"
           :class="
             sub.isActive
-              ? 'text-primary-600 bg-primary-100/50 hover:bg-primary-100 dark:bg-primary-975 dark:text-primary-400 dark:hover:bg-primary-900 '
-              : 'text-theme-700 dark:text-theme-0 dark:hover:bg-primary-975 hover:text-theme-900 border-theme-0'
+              ? 'font-bold bg-theme-50 hover:text-primary-500 dark:bg-primary-975 dark:text-primary-400 dark:hover:bg-primary-900 '
+              : 'font-medium text-theme-700 dark:text-theme-0 dark:hover:bg-primary-975 hover:text-theme-900 border-theme-0'
           "
           @click="handleClick($event, sub)"
         >
           <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
-          <div class="pt-0.5">
-            {{ toLabel(sub.name) }}
-          </div>
+          <div class="pt-0.5" v-html="toLabel(sub.name)" />
         </component>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="less"></style>

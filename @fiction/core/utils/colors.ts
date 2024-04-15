@@ -38,7 +38,7 @@ export const colorList = {
     25: '#fbfdff',
     50: '#F8F9FD',
     100: '#e6e9f1',
-    200: '#c8cdd7',
+    200: '#DEDFE2',
     300: '#b3b9c5',
     400: '#7A8599',
     500: '#646E82',

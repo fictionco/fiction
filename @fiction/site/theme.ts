@@ -92,7 +92,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
           mono: { fontKey: 'DM Mono', stack: 'monospace' },
           input: { fontKey: 'DM Mono', stack: 'sans' },
           title: { fontKey: 'Poppins', stack: 'sans' },
-          sans: { stack: 'sans' },
+          sans: { fontKey: 'Plus+Jakarta+Sans', stack: 'sans' },
           body: { stack: 'serif' },
           serif: { stack: 'serif' },
         },

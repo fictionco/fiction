@@ -5,7 +5,7 @@ import El404 from '@fiction/ui/El404.vue'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '@fiction/cards/CardEngine.vue'
 import DashNav from './DashNav.vue'
-import ABar from './DashBar.vue'
+import DashBar from './DashBar.vue'
 import ElLoadingLogo from './ElLoadingLogo.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
 
@@ -14,6 +14,7 @@ type UserConfig = {
   homeIcon?: MediaDisplayObject
   isNavItem?: boolean
   navIcon?: string
+  navIconAlt?: string
   authRedirect?: string
 }
 
@@ -40,11 +41,14 @@ const primaryNav = vue.computed<NavItem[]>(() => {
 
   const r = site?.pages.value.filter(v => v.userConfig.value.isNavItem).map((item) => {
     const slug = item.slug.value === '_home' ? '' : item.slug.value
+    const uc = item.userConfig.value as UserConfig
+    const isActive = slug === site.siteRouter.params.value.viewId
+    const icon = isActive && uc.navIconAlt ? uc.navIconAlt : uc.navIcon
     return {
       name: item.title.value || '',
       href: item.link(`/${slug}`),
-      icon: item.userConfig.value.navIcon as string,
-      isActive: slug === site.siteRouter.params.value.viewId,
+      icon,
+      isActive,
     }
   })
 
@@ -128,9 +132,9 @@ vue.onMounted(async () => {
             v-if="site"
             class="no-scrollbar relative min-h-0 min-w-0 grow overflow-scroll"
           >
-            <ABar class="border-theme-200 dark:border-theme-700 border-b" :account-menu="accountMenu" :site="site" />
+            <DashBar class="border-theme-200 dark:border-theme-700 border-b" :account-menu="accountMenu" :site="site" />
             <div
-              class="mx-auto pt-4 md:pt-8 md:pb-36 shadow-inner bg-theme-50 dark:bg-theme-950 min-h-full"
+              class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full"
             >
               <div
                 v-if="loading"
