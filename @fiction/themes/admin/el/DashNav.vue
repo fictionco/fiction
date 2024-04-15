@@ -64,7 +64,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
     <div
       class="mb-4 p-3"
     >
-      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 p-3  rounded-lg hover:bg-theme-50">
+      <RouterLink :to="card.link('/settings')" class="flex items-center gap-x-4 p-3  rounded-lg hover:bg-theme-50 dark:hover:bg-theme-800">
         <ElAvatarOrg class="size-9 rounded-lg" />
         <div class=" leading-snug">
           <div class="text-base font-semibold">

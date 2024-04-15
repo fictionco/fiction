@@ -44,7 +44,7 @@ const nav = vue.computed<NavItem[]>(() => {
               :href="v.href"
               :class="
                 v.isActive
-                  ? 'active font-bold bg-theme-50 dark:bg-primary-950 dark:text-theme-0'
+                  ? 'active font-bold bg-theme-50 dark:bg-theme-700 dark:text-theme-0'
                   : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/50 dark:hover:bg-theme-800' "
             >
               <div v-if="v.icon" class="text-[1.4em] shrink-0" :class="v.icon" />
@@ -52,7 +52,7 @@ const nav = vue.computed<NavItem[]>(() => {
             </component>
           </div>
         </div>
-        <div class="grow min-w-0  border-theme-200 border rounded-md">
+        <div class="grow min-w-0  border-theme-200 dark:border-theme-700 border rounded-md">
           <component :is="currentPanel?.tpl.value?.settings.el" :card="currentPanel" />
         </div>
       </div>

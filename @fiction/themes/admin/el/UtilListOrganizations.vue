@@ -56,9 +56,9 @@ const { fictionUser } = useService()
 <template>
   <ul role="list" class="space-y-4">
     <li v-for="(org, i) in fictionUser.activeOrganizations.value" :key="i">
-      <a :href="card.link(`/?orgId=${org.orgId}`)" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap hover:bg-theme-50 px-6 border border-theme-200/60 rounded-xl">
+      <a :href="card.link(`/?orgId=${org.orgId}`)" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-200/60 dark:border-theme-600 rounded-xl">
         <div>
-          <p class="text-lg font-semibold leading-6 text-gray-900">
+          <p class="text-lg font-semibold leading-6 ">
             <a href="#" class="hover:underline">{{ org.orgName }}</a>
           </p>
           <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
@@ -77,10 +77,10 @@ const { fictionUser } = useService()
             </dd>
           </div>
           <div class="hidden sm:flex sm:flex-col sm:items-end">
-            <p class="text-sm leading-6 text-gray-900">
+            <p class="text-sm leading-6  ">
               Organization {{ fictionUser.activeOrgId.value === org.orgId ? '(Active)' : '' }}
             </p>
-            <p class="mt-1 text-xs leading-5 text-gray-500">
+            <p class="mt-1 text-xs leading-5 text-theme-500">
               Created <time datetime="2023-01-23T22:34Z">{{ timeAgo(org.createdAt) }}</time>
             </p>
           </div>
