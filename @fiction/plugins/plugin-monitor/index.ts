@@ -128,6 +128,9 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   async installBrowserMonitoring(entry: FictionAppEntry): Promise<void> {
     const { app, service } = entry
 
+    if (window !== window.top)
+      return
+
     if (service.fictionEnv?.isProd.value && typeof window !== 'undefined') {
       const dsn = this.sentryPublicDsn
       if (!dsn)
@@ -156,7 +159,7 @@ export class FictionMonitor extends FictionPlugin<FictionMonitorSettings> {
   }
 
   async identifyUser(user?: User) {
-    if (user && typeof window !== 'undefined' && '__ls' in window) {
+    if (user && typeof window !== 'undefined' && '__ls' in window && window === window.top) {
       /**
        * Identify user in LiveSession
        */

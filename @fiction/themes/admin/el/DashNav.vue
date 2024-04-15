@@ -40,24 +40,17 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
       <div class="nav-menu">
         <component
           :is="getNavComponentType(sub)"
-          class="group nav-item flex  cursor-pointer items-center py-3 px-4 space-x-3 truncate rounded-full font-semibold font-sans text-base antialiased  focus:outline-none transition-all duration-100"
+          class="group nav-item flex  cursor-pointer items-center py-4 px-4 space-x-3 truncate rounded-full font-semibold font-sans text-base antialiased  focus:outline-none transition-all duration-100"
           :to="sub.href"
           :href="sub.href"
           :class="
             sub.isActive
-              ? 'text-primary-600 bg-primary-50 hover:bg-primary-100 dark:bg-primary-975 dark:text-primary-400 dark:hover:bg-primary-900 '
+              ? 'text-primary-600 bg-primary-100/50 hover:bg-primary-100 dark:bg-primary-975 dark:text-primary-400 dark:hover:bg-primary-900 '
               : 'text-theme-700 dark:text-theme-0 dark:hover:bg-primary-975 hover:text-theme-900 border-theme-0'
           "
           @click="handleClick($event, sub)"
         >
-          <div class="">
-            <div
-              v-if="sub.icon"
-              class="text-2xl"
-            >
-              <div :class="sub.icon" />
-            </div>
-          </div>
+          <div v-if="sub.icon" class="text-2xl" :class="sub.icon" />
           <div class="pt-0.5">
             {{ toLabel(sub.name) }}
           </div>

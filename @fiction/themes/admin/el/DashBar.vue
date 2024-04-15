@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NavItem, vue } from '@fiction/core'
 import type { Site } from '../../../site'
-import ABarMenu from './DashBarMenu.vue'
+import DashBarMenu from './DashBarMenu.vue'
 
 defineProps({
   iconDashboard: { type: String, default: '' },
@@ -17,9 +17,9 @@ const emit = defineEmits<{
 <template>
   <div
     class="navbar  text-sm font-medium"
-    @click.stop
+
   >
-    <div class="mx-auto flex items-center justify-between gap-y-3 px-6 py-3">
+    <div class="mx-auto flex items-center justify-between  px-4 py-2">
       <div class="flex items-center md:min-w-[150px]">
         <RouterLink to="/" class="active:opacity-80 sm:hidden">
           LOGO
@@ -31,7 +31,7 @@ const emit = defineEmits<{
       <div />
 
       <div class="flex h-full justify-end space-x-4 md:min-w-[150px]">
-        <ABarMenu
+        <DashBarMenu
           size="md"
           direction="left"
           default-text="Menu"

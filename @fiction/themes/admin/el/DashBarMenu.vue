@@ -27,26 +27,16 @@ onResetUi(() => {
 <template>
   <div class="relative ml-auto">
     <div @click.stop="active = !active">
-      <div class="group flex cursor-pointer items-center space-x-2">
+      <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 border border-theme-100 dark:border-theme-700 dark:bg-theme-800 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-md">
         <ElAvatar
-          class=" ml-3 h-10 w-10 rounded-full  "
+          class=" h-9 w-9 rounded-md  "
           :class="active ? 'opacity-70' : ''"
           :email="fictionUser.activeUser.value?.email"
         />
         <div
-          class="flex flex-col items-end justify-center transition-all"
-          :class="active ? 'space-y-1' : 'space-y-0.5'"
-        >
-          <div
-            class="h-1 w-1 rounded-full bg-theme-300 group-hover:bg-theme-400"
-          />
-          <div
-            class="h-1 w-1 rounded-full bg-theme-300 group-hover:bg-theme-400"
-          />
-          <div
-            class="h-1 w-1 rounded-full bg-theme-300 group-hover:bg-theme-400"
-          />
-        </div>
+          class="text-lg i-tabler-chevron-down transition-all"
+          :class="active ? 'transform rotate-180' : ''"
+        />
       </div>
     </div>
 
@@ -60,7 +50,7 @@ onResetUi(() => {
     >
       <div
         v-if="active"
-        class="absolute z-30 w-80 origin-top-right overflow-hidden rounded-md bg-white dark:bg-theme-950 py-2 text-slate-800 dark:text-theme-0 shadow-xl border border-theme-300 dark:border-theme-900 focus:outline-none"
+        class="absolute z-30 w-80 origin-top-right overflow-hidden rounded-md bg-white dark:bg-theme-800  text-theme-800 dark:text-theme-0 shadow-xl border border-theme-200 dark:border-theme-700 focus:outline-none"
         :class="[
           direction === 'left' ? 'right-0' : 'left-0',
           vertical === 'up' ? 'bottom-full mb-1' : 'top-full mt-1',
@@ -68,11 +58,11 @@ onResetUi(() => {
       >
         <div
           v-if="fictionUser.activeUser.value"
-          class="border-theme-200 dark:border-theme-900 flex items-center space-x-3 border-b px-4 py-3 text-sm"
+          class="border-theme-200 dark:border-theme-700 flex items-center space-x-3 border-b px-4 py-4 text-sm"
         >
           <div>
             <ElAvatar
-              class="ring-theme-300 h-9 w-9 rounded-full ring-2"
+              class="ring-theme-300 h-10 w-10 rounded-full ring-2"
               :email="fictionUser.activeUser.value?.email"
             />
           </div>
@@ -96,7 +86,7 @@ onResetUi(() => {
           <template v-for="(item, i) in accountMenu" :key="i">
             <component
               :is="getNavComponentType(item)"
-              class=" flex grow cursor-pointer items-center justify-between space-x-2 px-3 py-2 font-medium"
+              class=" flex grow cursor-pointer items-center justify-between space-x-2 px-3 py-2 font-medium group"
               :class="item.href || item.onClick ? 'hover:text-primary-500' : ''"
               :to="item.href"
               :href="item.href"
@@ -107,8 +97,8 @@ onResetUi(() => {
               >
                 <div
                   v-if="item.icon"
-                  :class="item.icon"
-                  class="text-xl"
+                  class="text-xl text-theme-500 dark:text-theme-100 "
+                  :class="[item.icon, item.href || item.onClick ? 'group-hover:text-primary-500 group-hover:dark:text-primary-500' : '']"
                 />
                 <div class="text-base">
                   {{ item.name }}
