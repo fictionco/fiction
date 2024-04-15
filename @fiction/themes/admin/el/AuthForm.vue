@@ -213,7 +213,6 @@ async function sendResetPassword(): Promise<void> {
 async function showGoogle() {
   await googleOneTap({
     autoSignIn: false,
-    promptParentId: 'google-signin-prompt',
     showPrompt: false,
     fictionUser,
     isSending: isSendingGoogleAuth,

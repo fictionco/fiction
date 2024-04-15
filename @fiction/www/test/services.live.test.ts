@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { snap } from '@fiction/core/test-utils'
-import { log } from '@fiction/core'
+import { fetchWithTimeout, log } from '@fiction/core'
 
 describe('service health checks', () => {
   const logger = log.contextLogger('Service Health')
@@ -21,14 +21,16 @@ describe('service health checks', () => {
       const url = `${service.url}/api/health?test=1`
       const startTime = Date.now()
 
-      const response = await fetch(url, { headers: { 'User-Agent': 'Fiction-Test' }, method: 'GET' })
+      logger.info('fetch:start', { data: { url } })
+
+      const response = await fetchWithTimeout(url, { headers: { 'User-Agent': 'Fiction-Test' }, method: 'GET', timeout: 9000 })
       const endTime = Date.now()
 
       const responseTime = endTime - startTime
 
-      expect(responseTime, `response time ${service.url}`).toBeLessThan(5000)
+      logger.info('fetch:end', { data: { url, responseTime, status: response.status } })
 
-      console.warn(`Response time for ${service.url}: ${responseTime}ms`)
+      expect(responseTime, `response time ${service.url}`).toBeLessThan(5000)
 
       expect(response.status, `response status ${service.url}`).toBe(200)
 
@@ -75,7 +77,7 @@ describe('service health checks', () => {
         },
       ]
     `)
-  }, 30000)
+  }, 60000)
 
   it('websites are live and check content', async () => {
     for (const service of services) {

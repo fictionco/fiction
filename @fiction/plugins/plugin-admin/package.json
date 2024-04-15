@@ -1,15 +1,15 @@
 {
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@fiction/plugin-ai": "workspace:*",
-    "@fiction/plugin-monitor": "workspace:*",
-    "@fiction/plugin-highlight-code": "workspace:*",
     "@fiction/plugin-admin-index": "workspace:*",
+    "@fiction/plugin-ai": "workspace:*",
+    "@fiction/plugin-highlight-code": "workspace:*",
+    "@fiction/plugin-monitor": "workspace:*",
     "@fiction/ui": "workspace:*",
     "marked": "^12.0.1",
     "minimatch": "^9.0.4",
     "tailwindcss": "^3.4.3",
-    "vue": "^3.4.21"
+    "vue": "^3.4.22"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",

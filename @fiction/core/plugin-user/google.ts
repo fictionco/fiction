@@ -1,6 +1,9 @@
 import type { vue } from '../utils'
 import { getNakedDomain, waitFor } from '../utils'
+import { log } from '../plugin-log'
 import type { FictionUser } from '.'
+
+const logger = log.contextLogger('Fiction - Google One Tap')
 
 declare global {
   interface Window {
@@ -30,7 +33,6 @@ async function loadGoogleSignInLibrary(): Promise<void> {
 
 interface GoogleOneTapSettings {
   autoSignIn?: boolean
-  promptParentId?: string
   signinButtonId?: string
   showPrompt?: boolean
   fictionUser: FictionUser
@@ -69,18 +71,18 @@ async function handleGoogleCredentialResponse(response: CredentialResponse, sett
 // const googleAuthRequest = userEndpoints().UserGoogleAuth.request
 // type CallbackResponse = Awaited<ReturnType<typeof googleAuthRequest>>
 export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void> {
-  const { autoSignIn = false, promptParentId, signinButtonId = '#google-signin-button', cookieDomain, showPrompt = true, fictionUser, isDarkMode = false } = settings
+  const { autoSignIn = false, signinButtonId = '#google-signin-button', cookieDomain, showPrompt = true, fictionUser, isDarkMode = false } = settings
 
   if (!window)
     return
 
   if (fictionUser.fictionEnv?.isTest.value) {
-    fictionUser.log.info('googleOneTap disabled: isTest')
+    logger.info('googleOneTap disabled: isTest')
     return
   }
 
   if (!fictionUser.googleClientId) {
-    fictionUser.log.error('googleOneTap disabled: no googleClientId', { data: settings })
+    logger.error('googleOneTap disabled: no googleClientId', { data: settings })
     return
   }
 
@@ -88,11 +90,11 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
 
   const el = document.querySelector<HTMLElement>(signinButtonId)
   if (window.google === undefined) {
-    fictionUser.log.info('Google One Tap not loaded')
+    logger.info('Google One Tap not loaded (window.google is undefined)')
   }
   else {
     const state_cookie_domain = cookieDomain || getNakedDomain()
-    fictionUser.log.info('google one tap initialize', {
+    logger.info('google one tap initialize', {
       data: {
         clientId: fictionUser.googleClientId,
         state_cookie_domain,
@@ -102,21 +104,16 @@ export async function googleOneTap(settings: GoogleOneTapSettings): Promise<void
     const initializeArgs = {
       client_id: fictionUser.googleClientId,
       callback: async (credentialResponse: CredentialResponse) => {
-        fictionUser.log.info('google one tap callback', {
-          data: credentialResponse,
-        })
+        logger.info('google one tap callback', { data: credentialResponse })
         await handleGoogleCredentialResponse(credentialResponse, settings)
       },
       auto_select: autoSignIn, // auto login
       cancel_on_tap_outside: true,
       context: 'signin',
       state_cookie_domain,
-      prompt_parent_id: promptParentId,
     } as const
 
-    fictionUser.log.info('initializing', {
-      data: { initializeArgs, ...settings },
-    })
+    logger.info('initializing', { data: { initializeArgs, ...settings } })
 
     if (!window.google.accounts?.id)
       throw new Error('google.accounts.id not loaded')

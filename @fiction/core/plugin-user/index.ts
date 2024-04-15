@@ -322,7 +322,7 @@ export class FictionUser extends FictionPlugin<UserPluginSettings> {
       // If no redirect is provided, modify the URL to remove 'logout' query param
       const url = new URL(window.location.href)
       url.searchParams.delete('logout')
-      window.location.reload()
+      window.location.href = url.toString()
     }
   }
 

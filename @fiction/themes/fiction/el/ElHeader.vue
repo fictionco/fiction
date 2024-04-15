@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ActionItem, MediaDisplayObject, NavItem } from '@fiction/core'
-import { getNavComponentType, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 import { googleOneTap } from '@fiction/core/plugin-user/google'
 import type { Card } from '@fiction/site/card'
 import ElImage from '@fiction/ui/ElImage.vue'
@@ -45,7 +45,6 @@ vue.onMounted(async () => {
 
   if (!user) {
     await googleOneTap({
-      promptParentId: 'google-signin-prompt',
       fictionUser,
       callback: async (r) => {
         const email = r.user?.email
