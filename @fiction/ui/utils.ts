@@ -10,7 +10,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
   const hoverStyles = {
     danger: 'hover:bg-rose-400 dark:hover:bg-rose-800',
     caution: 'hover:bg-amber-400 dark:hover:bg-amber-600',
-    primary: 'hover:bg-primary-400 dark:hover:bg-primary-900',
+    primary: 'hover:bg-primary-600 dark:hover:bg-primary-900 hover:border-primary-600 dark:hover:border-primary-900',
     success: 'hover:bg-emerald-400 dark:hover:bg-emerald-600',
     theme: 'hover:bg-theme-400 dark:hover:bg-theme-600',
     default: 'hover:bg-theme-100 dark:hover:bg-theme-900',

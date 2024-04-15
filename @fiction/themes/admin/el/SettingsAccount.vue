@@ -5,8 +5,8 @@ import AccountWrap from './AccountWrap.vue'
 import SettingsAccountEdit from './SettingsAccountEdit.vue'
 import SettingsAccountEditProfile from './SettingsAccountEditProfile.vue'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { UserConfig } from './SettingsWrap.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

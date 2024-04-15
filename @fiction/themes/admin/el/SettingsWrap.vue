@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { NavItem } from '@fiction/core'
-import { getNavComponentType, toLabel, toSlug, vue } from '@fiction/core'
+import { getNavComponentType, toCamel, toLabel, toSlug, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import type { Card } from '@fiction/site/card'
+
+export type UserConfig = { isNavItem?: boolean, navIcon?: string, navIconAlt?: string, parentItemId?: string }
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
@@ -12,37 +14,40 @@ const routeItemId = vue.computed(() => toSlug(props.card.site?.siteRouter.params
 const currentPanel = vue.computed(() => props.card.cards.value.find(p => toSlug(p.slug.value) === routeItemId.value))
 
 const nav = vue.computed<NavItem[]>(() => {
-  return props.card.cards.value
+  const allCards = props.card.cards.value
+  return allCards
     .filter(_ => _.userConfig.value.isNavItem)
     .map((v) => {
-      const itemId = props.card.site?.siteRouter.params.value.itemId || 'general'
-      return {
-        name: v.title.value || toLabel(v.slug.value),
-        href: v.link(`/settings/${v.slug.value}`),
-        isActive: v.slug.value === itemId,
-      }
+      const navUc = v.userConfig.value as UserConfig
+      const itemId = props.card.site?.siteRouter.params.value.itemId || 'organization'
+      const parentItemId = currentPanel.value?.userConfig.value.parentItemId
+      const isActive = !!(v.slug.value === itemId || (parentItemId && v.slug.value === parentItemId))
+
+      const icon = isActive && navUc.navIconAlt ? navUc.navIconAlt : navUc.navIcon ? navUc.navIcon : 'i-heroicons-arrow-small-right-20-solid'
+      return { name: v.title.value || toLabel(v.slug.value), href: v.link(`/settings/${v.slug.value}`), isActive, icon }
     })
 })
 </script>
 
 <template>
   <div :class="card.classes.value.contentWidth">
-    <ElPanel class="border border-theme-200 dark:border-theme-700 mx-5 rounded-md bg-theme-0 dark:bg-theme-800" box-class="p-0">
+    <ElPanel class=" mx-5 rounded-md bg-theme-0 dark:bg-theme-800 border-theme-200 border" box-class="p-0">
       <div class="flex">
-        <div class="border-theme-200/50 bg-theme-50/50 dark:border-theme-700 w-40 shrink-0 rounded-l-md border-r pb-32 p-4  dark:bg-theme-900">
-          <div class="space-y-0">
+        <div class="border-theme-200 dark:border-theme-700 w-48 shrink-0 rounded-l-md border-r pb-32 px-2 py-4  dark:bg-theme-900">
+          <div class="space-y-1 text-right">
             <component
               :is="getNavComponentType(v)"
               v-for="(v, i) in nav"
               :key="i"
-              class="flex items-center space-x-2 px-3 py-2.5 text-sm font-semibold rounded-md transition-all duration-200"
+              class="flex items-center space-x-2 px-4 py-2.5 text-sm  rounded-full transition-all duration-200"
               :to="v.href"
               :href="v.href"
-              :class=" v.isActive ? 'bg-primary-50 dark:bg-primary-950 text-primary-500 dark:text-theme-0' : 'text-theme-600 dark:text-theme-0 hover:bg-theme-100/50 dark:hover:bg-theme-800' "
+              :class="
+                v.isActive
+                  ? 'active font-bold bg-theme-50 dark:bg-primary-950 dark:text-theme-0'
+                  : 'inactive font-medium text-theme-600 dark:text-theme-0 hover:bg-theme-100/50 dark:hover:bg-theme-800' "
             >
-              <div v-if="v.icon" class="text-[1.4em]">
-                <div :class="v.icon" />
-              </div>
+              <div v-if="v.icon" class="text-[1.4em] shrink-0" :class="v.icon" />
               <div>{{ v.name }}</div>
             </component>
           </div>

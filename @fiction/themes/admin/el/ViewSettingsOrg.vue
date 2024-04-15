@@ -9,7 +9,8 @@ import ElPanelSettings from './ElPanelSettings.vue'
 import UtilDeleteOrg from './UtilDeleteOrg.vue'
 import UtilListOrganizations from './UtilListOrganizations.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string }
+import type { UserConfig } from './SettingsWrap.vue'
+
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

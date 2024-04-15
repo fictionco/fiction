@@ -10,7 +10,8 @@ import ElButton from '@fiction/ui/ElButton.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
+import type { UserConfig } from './SettingsWrap.vue'
+
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

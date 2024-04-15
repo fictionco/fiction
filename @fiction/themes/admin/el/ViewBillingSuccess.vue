@@ -4,8 +4,8 @@ import ElZeroBanner from '@fiction/ui/ElZeroBanner.vue'
 import type { FictionStripe } from '@fiction/plugin-stripe'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { UserConfig } from './SettingsWrap.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

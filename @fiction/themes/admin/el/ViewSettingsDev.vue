@@ -6,8 +6,8 @@ import InputPassword from '@fiction/ui/InputPassword.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { UserConfig } from './SettingsWrap.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
 defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

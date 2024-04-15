@@ -14,8 +14,8 @@ import ElInput from '@fiction/ui/ElInput.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
+import type { UserConfig } from './SettingsWrap.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })

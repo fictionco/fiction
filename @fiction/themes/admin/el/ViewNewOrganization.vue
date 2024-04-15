@@ -5,7 +5,8 @@ import ElForm from '@fiction/ui/ElForm.vue'
 import type { Card } from '@fiction/site/card'
 import ElPanelSettings from './ElPanelSettings.vue'
 
-type UserConfig = { isNavItem?: boolean, icon?: string, parentItemId?: string }
+import type { UserConfig } from './SettingsWrap.vue'
+
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
@@ -49,22 +50,15 @@ async function send(): Promise<void> {
 </script>
 
 <template>
-  <ElPanelSettings>
+  <ElPanelSettings title="Create Organization">
     <div class="max-w-xl">
       <ElForm
         :notify="formError"
-        :actions="[
-          {
-            name: 'Create New Organization',
-            loading: sending,
-            btn: 'primary',
-            onClick: () => send(),
-          },
-        ]"
+        class="space-y-8"
+        @submit="send()"
       >
         <ElInput
           v-model="form.orgName"
-          class="my-8"
           input="InputText"
           label="Organization Name"
           placeholder="My Organization"
@@ -75,7 +69,6 @@ async function send(): Promise<void> {
 
         <ElInput
           v-model="form.orgEmail"
-          class="my-8"
           input="InputEmail"
           label="Primary Organization Email"
           sub-label="Used for notifications and billing"
@@ -83,6 +76,10 @@ async function send(): Promise<void> {
           required
           @keyup.enter.stop="emitEvent('submit')"
         />
+
+        <ElInput input="InputSubmit">
+          Create New Organization
+        </ElInput>
       </ElForm>
     </div>
   </ElPanelSettings>

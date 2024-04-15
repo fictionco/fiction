@@ -36,7 +36,7 @@ const buttonClasses = vue.computed(() => {
     btn: props.btn,
     format: props.format,
     isDisabled: props.disabled,
-    useShadow: true,
+    useShadow: false,
     noHover: props.noHover,
   })
 })
