@@ -183,7 +183,7 @@ export class FrameUtility<T extends MsgUnknown = FrameMessage> extends Obj<Frame
       const isProtected = this.recursionProtection('get', msg.messageType)
 
       if (isProtected) {
-        this.log.warn('recursion protection triggered', { data: { msg } })
+        this.log.debug('recursion protection triggered', { data: { msg } })
         return
       }
 

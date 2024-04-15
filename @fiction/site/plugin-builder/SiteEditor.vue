@@ -129,7 +129,7 @@ async function save() {
                 class="text-theme-400 block pr-1 hover:text-primary-500"
                 :to="card.link('/')"
               >
-                Site /
+                Site Builder /
               </RouterLink>
 
               <XTextBase v-if="site" v-model="site.title.value" :is-editable="true" class="hover:bg-theme-100" />
