@@ -118,14 +118,8 @@ vue.onMounted(async () => {
             :class="showMobileNav ? 'left-0' : 'left-full'"
           >
             <div class="flex w-60 flex-col">
-              <div class="flex h-full min-w-0 grow flex-col justify-between">
-                <div class="px-3 py-2">
-                  <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card="card" />
-                </div>
-                <div
-                  class="p-6 items-center justify-center space-x-4   md:min-w-[150px] flex mb-4 "
-                />
-              </div>
+              <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card="card" />
+
             </div>
           </div>
           <div

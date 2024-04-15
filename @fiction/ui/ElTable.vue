@@ -180,7 +180,7 @@ async function handleOnClick(event: MouseEvent, item: ActionItem) {
     >
       <table
         v-if="rows.length > 0"
-        class="divide-theme-200 dark:divide-theme-600 min-w-full divide-y"
+        class="divide-theme-200/70 dark:divide-theme-600 min-w-full divide-y"
       >
         <thead>
           <tr>

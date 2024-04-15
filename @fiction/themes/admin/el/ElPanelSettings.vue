@@ -45,7 +45,7 @@ defineProps({
           </div>
         </div>
 
-        <div :class="boxClass || raw ? boxClass : `p-3 md:p-8 min-h-[40dvh]`">
+        <div :class="boxClass || raw ? boxClass : `p-3 md:px-8 md:pt-8 md:pb-12`">
           <slot />
         </div>
       </div>

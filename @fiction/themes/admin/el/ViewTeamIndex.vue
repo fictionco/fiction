@@ -12,13 +12,12 @@ import type { UserConfig } from './SettingsWrap.vue'
 
 const props = defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
-  basePath: { type: String, required: true },
 })
 
 const { fictionTeam, fictionUser } = useService<{ fictionTeam: FictionTeam }>()
 
 function editLink(userId: string) {
-  return props.card.link({ path: `${props.basePath}/team-edit`, query: { userId } })
+  return props.card.link({ path: `/settings/team-edit`, query: { userId } })
 }
 
 async function handleRowClick(userId: string) {

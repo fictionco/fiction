@@ -27,7 +27,7 @@ onResetUi(() => {
 <template>
   <div class="relative ml-auto">
     <div @click.stop="active = !active">
-      <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 border border-theme-100 dark:border-theme-700 dark:bg-theme-800 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-md">
+      <div class="group flex cursor-pointer items-center space-x-1 hover:bg-theme-50 dark:border-theme-700 dark:bg-theme-800 dark:hover:bg-theme-700/60 px-1.5 py-1 rounded-md">
         <ElAvatar
           class=" h-9 w-9 rounded-md  "
           :class="active ? 'opacity-70' : ''"
@@ -71,10 +71,7 @@ onResetUi(() => {
               Signed in as...
             </div>
             <p class="truncate text-lg font-bold leading-tight">
-              {{
-                fictionUser.activeUser.value?.fullName
-                  || fictionUser.activeUser.value?.email
-              }}
+              {{ fictionUser.activeUser.value?.fullName || fictionUser.activeUser.value?.email }}
             </p>
           </div>
         </div>

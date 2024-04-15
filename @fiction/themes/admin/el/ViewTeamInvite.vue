@@ -16,10 +16,7 @@ defineProps({
   card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
-const { fictionUser, fictionTeam } = useService<{
-  fictionUser: FictionUser
-  fictionTeam: FictionTeam
-}>()
+const { fictionUser, fictionTeam } = useService<{ fictionTeam: FictionTeam }>()
 interface Invite {
   email: string
   memberAccess: MemberAccess
