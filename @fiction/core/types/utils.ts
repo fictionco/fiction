@@ -77,7 +77,7 @@ export type ActionItem = NavItem & {
   loading?: boolean
 }
 
-export type IndexItem = { links?: ActionItem[], actions?: ActionItem[], tags?: string[], fig?: Component, figProps?: Record<string, unknown> } & NavItem
+export type IndexItem = { links?: ActionItem[], actions?: ActionItem[], tags?: ActionItem[], fig?: Component, figProps?: Record<string, unknown> } & NavItem
 
 // @deprecated
 export type MenuItem = {

@@ -14,8 +14,8 @@ defineProps({
 </script>
 
 <template>
-  <div :style="{ perspective: '500px' }" class="relative h-full w-full flex">
-    <div class="fig aspect-video w-full relative ds rounded-md scale-50 overflow-hidden">
+  <div :style="{ perspective: '500px' }" class="relative h-full w-full flex justify-end">
+    <div class="fig aspect-video w-[80%] relative inline-block  rounded-md scale-50 overflow-hidden">
       <ElBrowserFrameDevice
         v-if="site?.frame.previewFrameUrl.value"
         frame-id="preview-desktop"
@@ -25,7 +25,7 @@ defineProps({
       />
       <img v-else :src="FigSite" class="ds inline-block">
     </div>
-    <div class="fig-mobile absolute right-[5%] bottom-[-2%] aspect-[9/16] w-[30%] ds rounded-md scale-50">
+    <div class="fig-mobile absolute right-[5%] bottom-[-2%] aspect-[9/16] w-[20%] ds rounded-md scale-50">
       <ElBrowserFrameDevice
         v-if="site?.frame.previewFrameUrl.value"
         frame-id="preview-mobile"

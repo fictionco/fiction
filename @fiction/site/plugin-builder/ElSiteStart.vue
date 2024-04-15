@@ -53,8 +53,8 @@ const stepConfig: StepConfig = {
     const out: StepItem[] = [
 
       {
-        name: 'Give It A Name',
-        desc: 'This is used for reference.',
+        name: 'Create A New Site',
+        desc: 'Give it a name...',
         key: 'name',
         class: 'max-w-lg',
         isNeeded: true,
@@ -120,7 +120,7 @@ const opts = [
         <ElInput
           v-model="form.title"
           input="InputText"
-          placeholder="My Site"
+          placeholder="Site Name"
           input-class="p-4 text-lg"
         />
       </div>

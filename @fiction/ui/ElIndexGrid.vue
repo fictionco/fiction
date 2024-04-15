@@ -105,42 +105,41 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
     >
       <ElSpinner class="h-6 w-6" />
     </div>
-    <div v-else class=" ">
+    <div v-else class="border-t border-theme-200/80 dark:border-theme-700/80">
       <ul
         role="list"
-        class="grid grid-cols-1 gap-x-6 gap-y-8 xl:grid-cols-1 xl:gap-x-8"
+        class="grid grid-cols-1 gap-x-6 xl:grid-cols-1 xl:gap-x-8 divide-y divide-theme-200/80 dark:divide-theme-700/80"
       >
         <li
           v-for="item in list"
           :key="item.key"
-          class="col-span-1 rounded-lg border border-theme-200 dark:border-theme-700 bg-theme-0 dark:bg-theme-900 @container"
+          class="col-span-1  @container"
           @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
         >
           <div class="grid grid-cols-12 gap-8">
             <div class="self-center col-span-8 @5xl:col-span-6">
-              <div class="p-12 @5xl:p-16 @7xl:p-20">
+              <div class="py-12 px-4 @4xl:px-8">
                 <div class="flex items-center space-x-3">
-                  <h3 class="x-font-title text-3xl @4xl:text-4xl font-bold hover:opacity-80 cursor-pointer" @click="item.onClick?.({ event: $event })">
+                  <h3 class=" text-2xl @4xl:text-4xl font-bold hover:opacity-80 cursor-pointer" @click="item.onClick?.({ event: $event })">
                     {{ item.name }}
                   </h3>
                 </div>
                 <div
                   v-if="item.links"
-                  class="mt-1 text-xs @4xl:text-sm @6xl:text-base text-theme-400 dark:text-theme-200 space-x-4 flex"
+                  class="mt-1 text-xs @4xl:text-sm @6xl:text-base  space-x-4 flex items-center"
                 >
                   <component
                     :is="getNavComponentType(link)"
                     v-for="(link, i) in item.links"
                     :key="i"
                     :href="link.href"
+                    :to="link.href"
                     :target="link.target"
-                    class="flex items-center space-x-1"
+                    class="flex items-center space-x-1 text-theme-500 dark:text-theme-200 hover:text-primary-500"
                     :class="link.class"
                     @click.stop="link.onClick && link.onClick({ event: $event })"
                   >
-                    <div v-if="link.icon">
-                      <div :class="link.icon" class="text-lg" />
-                    </div>
+                    <div v-if="link.icon" :class="link.icon" class="text-lg" />
                     <div>{{ link.name }}</div>
                   </component>
                 </div>
@@ -156,13 +155,13 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
                       {{ action.name }}
                     </ElButton>
                   </div>
-                  <div class="space-x-3">
+                  <div v-if="item.tags?.length" class="space-x-3">
                     <span
-                      v-for="tag in item.tags"
-                      :key="tag"
-                      className="inline-flex items-center rounded bg-theme-100 px-2 py-0.5 text-[11px] font-medium text-theme-500"
+                      v-for="(tag, i) in item.tags"
+                      :key="i"
+                      className="inline-flex items-center rounded  text-[10px] font-medium text-theme-500"
                     >
-                      {{ tag }}
+                      {{ tag.name }}
                     </span>
                   </div>
                 </div>
@@ -172,7 +171,7 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
               class="col-span-4 @5xl:col-span-6 flex-col rounded-r-lg shrink-0  min-w-0"
             >
               <div
-                class="w-full h-full  border-l border-theme-100/50 dark:border-theme-700 bg-theme-25 dark:bg-theme-800 text-theme-400 flex flex-col items-center justify-center gap-1 rounded-r-lg px-2 py-3"
+                class="w-full h-full text-theme-400 flex flex-col items-center justify-center gap-1 rounded-r-lg px-2 py-3"
               >
                 <component :is="item.fig" v-if="item.fig" v-bind="item.figProps" />
                 <div class="text-5xl" :class="item.icon" />

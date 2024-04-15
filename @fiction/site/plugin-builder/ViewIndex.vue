@@ -41,14 +41,16 @@ const formattedData = vue.computed<IndexItem[]>(() => {
 
   const rows = sites.value.map((site) => {
     const domain = site.primaryCustomDomain.value || fictionAppSites.liveUrl.value.replace('*', site.settings.subDomain || '')
-    const displayDomain = domain.replace('https://', '').replace('http://', '')
+    const displayDomain = domain.replace('https://', '').replace('http://', '').replace('www.', '')
     const editLink = props.card.link({ path: '/edit-site', query: { siteId: site.settings.siteId } })
     const out: IndexItem = {
       name: site.settings.title || 'Untitled',
       key: site.settings.siteId,
-      links: [{ name: displayDomain, href: domain, target: '_blank', class: 'underline', icon: 'i-tabler-world' }, { name: `Created ${standardDate(site.settings.createdAt)}` }],
+      links: [
+        { name: 'Edit', btn: 'default', href: editLink, icon: 'i-tabler-edit' },
+        { name: displayDomain, href: domain, target: '_blank', class: '', icon: 'i-tabler-world' },
+      ],
       actions: [
-        { name: 'Edit Website', btn: 'primary', href: editLink },
       ],
       fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
       figProps: { site },
