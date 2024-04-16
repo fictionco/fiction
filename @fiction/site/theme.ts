@@ -1,5 +1,5 @@
 import type { FictionMedia, FictionPluginSettings, Processor, vue } from '@fiction/core'
-import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject, shortId } from '@fiction/core'
+import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'

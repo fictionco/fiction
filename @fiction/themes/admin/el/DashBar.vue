@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type { NavItem, vue } from '@fiction/core'
-import type { Site } from '../../../site'
+import type { Card } from '@fiction/site'
+import ElImage from '@fiction/ui/ElImage.vue'
+import type { UserConfig } from './DashWrap.vue'
 import DashBarMenu from './DashBarMenu.vue'
 
 defineProps({
   iconDashboard: { type: String, default: '' },
   accountMenu: { type: Array as vue.PropType<NavItem[]>, default: () => [] },
-  site: { type: Object as vue.PropType<Site>, required: true },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 
 const emit = defineEmits<{
@@ -16,16 +18,16 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="navbar  text-sm font-medium"
-
+    v-if="card.site"
+    class="navbar text-sm font-medium"
   >
     <div class="mx-auto flex items-center justify-between  px-4 py-2">
       <div class="flex items-center md:min-w-[150px]">
-        <RouterLink to="/" class="active:opacity-80 sm:hidden">
-          LOGO
+        <RouterLink :to="card.link('/')" class="active:opacity-80 sm:hidden">
+          <ElImage class="h-[21px]" :media="card.userConfig.value.homeIcon" />
         </RouterLink>
         <div class="hidden text-xl font-semibold sm:block">
-          {{ site.currentPage.value?.title.value }}
+          {{ card.site.currentPage.value?.title.value }}
         </div>
       </div>
       <div />
@@ -37,7 +39,7 @@ const emit = defineEmits<{
           default-text="Menu"
           class="hidden sm:block"
           :account-menu="accountMenu"
-          :site="site"
+          :site="card.site"
         />
         <div
           class="group flex h-8 w-8 cursor-pointer flex-col justify-center space-y-1 p-1 sm:hidden"
@@ -46,7 +48,7 @@ const emit = defineEmits<{
           <div
             v-for="i in 3"
             :key="i"
-            class="bg-theme-300 group-active:bg-theme-400 h-1 rounded-full"
+            class="bg-theme-300 dark:bg-theme-500 group-active:bg-theme-400 h-1 rounded-full"
           />
         </div>
       </div>

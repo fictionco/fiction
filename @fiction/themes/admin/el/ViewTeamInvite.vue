@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { MemberAccess } from '@fiction/core/plugin-user/types'
-import type { FictionUser } from '@fiction/core'
 import { onResetUi, useService, vue } from '@fiction/core'
 import type { FictionTeam } from '@fiction/core/plugin-team'
 import ElForm from '@fiction/ui/ElForm.vue'

@@ -1,56 +1,16 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 import { timeAgo, useService } from '@fiction/core'
-import type { TableCell } from '@fiction/ui/ElTable.vue'
 import ElAvatar from '@fiction/ui/ElAvatar.vue'
 
 import type { Card } from '@fiction/site/card'
 
-const props = defineProps({
+ defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
 const { fictionUser } = useService()
 
-// const formattedData = vue.computed(() => {
-//   if (!fictionUser.activeOrganizations.value)
-//     return []
-//   const rows = fictionUser.activeOrganizations.value.map((org) => {
-//     const memberAccess = org.relation?.memberAccess
-//     const canManage = fictionUser.priv.userCan({ capability: 'canManage', memberAccess })
-//     return [
-//       org.orgId,
-//       org.orgName,
-//       canManage ? org.members.length : '-',
-//       memberAccess,
-//       canManage
-//         ? ({
-//             type: 'link',
-//             text: 'Settings',
-//             path: (orgId: string) => props.card.link(`/settings/organization?orgId=${orgId}`),
-//           } as const)
-//         : ({
-//             type: 'callback',
-//             text: 'Leave',
-//             callback: (_orgId: string) => {
-//               const _confirmed = confirm(
-//                 'Are you sure you want to leave this organization?',
-//               )
-//               // TODO
-//             },
-//           } as const),
-//     ]
-//   })
-//   const r = [['', 'Name', 'Members', 'Relation', ''], ...rows] as TableCell[][]
-
-//   return r
-// })
-
-// async function handleRowClick(orgId: string) {
-//   const makeActive = activeOrganizations.value.find(o => orgId === o.orgId)
-//   if (makeActive)
-//     await props.card.goto(`/?orgId=${orgId}`)
-// }
 </script>
 
 <template>

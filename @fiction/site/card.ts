@@ -93,7 +93,6 @@ export class Card<
   classes = vue.computed(() => {
     const spacing = this.fullConfig.value?.spacing
 
-    console.log('spacing', this.templateId.value, spacing, this.userConfig.value)
     return {
       contentWidth: spacing?.contentWidthClass,
       spacingClass: spacing?.spacingClass,

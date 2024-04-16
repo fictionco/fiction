@@ -2,7 +2,7 @@
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import ElIndexGrid from '@fiction/ui/ElIndexGrid.vue'
 import type { ActionItem, FictionApp, IndexItem, IndexMeta } from '@fiction/core'
-import { standardDate, useService, vue } from '@fiction/core'
+import { useService, vue } from '@fiction/core'
 
 import type { Site } from '../site'
 import type { FictionSites } from '..'

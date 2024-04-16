@@ -113,12 +113,12 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
         <li
           v-for="item in list"
           :key="item.key"
-          class="col-span-1  @container"
+          class="col-span-1 @container"
           @click.stop="onItemClick && item.key ? onItemClick(item.key) : ''"
         >
-          <div class="grid grid-cols-12 gap-8">
-            <div class="self-center col-span-8 @5xl:col-span-6">
-              <div class="py-12 px-4 @4xl:px-8">
+          <div class="grid grid-cols-12 gap-4 lg:gap-8">
+            <div class="self-center col-span-6 ">
+              <div class="py-12 px-2 lg:px-4 @4xl:px-8">
                 <div class="flex items-center space-x-3">
                   <h3 class=" text-2xl @4xl:text-4xl font-bold hover:opacity-80 cursor-pointer" @click="item.onClick?.({ event: $event })">
                     {{ item.name }}
@@ -168,7 +168,7 @@ async function handleOnClick(event: MouseEvent, action: ActionItem) {
               </div>
             </div>
             <div
-              class="col-span-4 @5xl:col-span-6 flex-col rounded-r-lg shrink-0  min-w-0"
+              class="col-span-6 flex-col rounded-r-lg shrink-0  min-w-0"
             >
               <div
                 class="w-full h-full text-theme-400 flex flex-col items-center justify-center gap-1 rounded-r-lg px-2 py-3"

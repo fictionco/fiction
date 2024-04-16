@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NavItem } from '@fiction/core'
-import { getNavComponentType, toCamel, toLabel, toSlug, vue } from '@fiction/core'
+import { getNavComponentType, toLabel, toSlug, vue } from '@fiction/core'
 import ElPanel from '@fiction/ui/ElPanel.vue'
 import type { Card } from '@fiction/site/card'
 

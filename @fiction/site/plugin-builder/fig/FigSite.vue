@@ -25,7 +25,7 @@ defineProps({
       />
       <img v-else :src="FigSite" class="ds inline-block">
     </div>
-    <div class="fig-mobile absolute right-[5%] bottom-[-2%] aspect-[9/16] w-[20%] ds rounded-md scale-50">
+    <div class="fig-mobile absolute right-[5%] bottom-[-2%] aspect-[9/16] w-[20%] ds rounded-md scale-50 hidden lg:block">
       <ElBrowserFrameDevice
         v-if="site?.frame.previewFrameUrl.value"
         frame-id="preview-mobile"

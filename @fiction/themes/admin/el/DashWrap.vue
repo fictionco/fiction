@@ -9,7 +9,7 @@ import DashBar from './DashBar.vue'
 import ElLoadingLogo from './ElLoadingLogo.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
 
-type UserConfig = {
+export type UserConfig = {
   layoutFormat?: 'container' | 'full'
   homeIcon?: MediaDisplayObject
   isNavItem?: boolean
@@ -87,6 +87,10 @@ vue.onMounted(async () => {
 
   loading.value = false
 })
+
+function toggleSidebar() {
+  showMobileNav.value = !showMobileNav.value
+}
 </script>
 
 <template>
@@ -114,19 +118,20 @@ vue.onMounted(async () => {
           class="work-area relative block min-h-0 w-full overflow-hidden md:flex md:h-full md:overflow-visible"
         >
           <div
-            class="border-theme-200 dark:border-theme-700 fixed left-0 top-0 z-30 justify-end border-r md:static md:flex h-dvh"
-            :class="showMobileNav ? 'left-0' : 'left-full'"
+            class="md:opacity-100 will-change-auto transition-all  duration-300 bg-theme-0 dark:bg-theme-900 border-theme-200 dark:border-theme-700 fixed top-0 z-30 justify-end border-r  md:static md:flex h-dvh w-60"
+            :class="showMobileNav ? 'left-0 opacity-100' : '-left-full opacity-0'"
           >
-            <div class="flex w-60 flex-col">
-              <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card="card" />
-
-            </div>
+            <DashNav :icon="card.userConfig.value.homeIcon" :nav="primaryNav" :card="card" />
+            <div class="i-tabler-x text-3xl absolute -right-12 top-4 text-theme-400 hover:text-theme-500 active:text-theme-600 block md:hidden" @click="toggleSidebar()" />
           </div>
+          <Transition name="backdrop">
+            <div v-if="showMobileNav" class="overlay md:hidden fixed z-20 bg-theme-700/20 inset-0  backdrop-blur-sm" @click="toggleSidebar()" />
+          </Transition>
           <div
             v-if="site"
             class="no-scrollbar relative min-h-0 min-w-0 grow overflow-scroll"
           >
-            <DashBar class="border-theme-200 dark:border-theme-700 border-b" :account-menu="accountMenu" :site="site" />
+            <DashBar class="border-theme-200 dark:border-theme-700 border-b" :account-menu="accountMenu" :card="card" :site="site" @nav="toggleSidebar()" />
             <div
               class="mx-auto pt-4 md:pt-8 md:pb-36 min-h-full"
             >
@@ -154,5 +159,15 @@ vue.onMounted(async () => {
   font-family: var(--font-family-mono);
   font-size: 11px;
   line-height: 1.5;
+}
+
+.backdrop-enter-active,
+.backdrop-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.backdrop-enter-from,
+.backdrop-leave-to {
+  opacity: 0;
 }
 </style>
