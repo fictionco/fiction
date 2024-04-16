@@ -13,7 +13,7 @@ let siteObj: Site
 
 let subDomain: string
 describe('siteRendering Tests', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   await testUtils.init()
 

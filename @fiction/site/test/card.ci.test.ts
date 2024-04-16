@@ -8,7 +8,7 @@ import { CardGeneration } from '../generation'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('card', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,
@@ -132,7 +132,7 @@ describe('card', async () => {
 })
 
 describe('cardTemplate', async () => {
-  const _testUtils = createSiteTestUtils()
+  const _testUtils = await createSiteTestUtils()
   it('initializes correctly with default settings', async () => {
     const site = new Site({ fictionSites: _testUtils.fictionSites, siteRouter: _testUtils.fictionRouterSites, themeId: 'test' })
 

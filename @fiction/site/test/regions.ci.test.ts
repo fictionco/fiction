@@ -39,7 +39,7 @@ async function getDbSite(testUtils: SiteTestUtils, r: InitializedTestUtils) {
 }
 
 describe('special slug handling for _home', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''
   const orgId = r?.user?.orgs?.[0]?.orgId ?? ''
@@ -107,7 +107,7 @@ describe('special slug handling for _home', async () => {
 })
 
 describe('upsert action', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const testTheme = setup(testUtils)
   const r = await testUtils.init()
   const userId = r?.user?.userId ?? ''

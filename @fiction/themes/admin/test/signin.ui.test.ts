@@ -5,7 +5,7 @@ import { setup } from './clientMainFile'
 const headless = true
 
 describe('signin UX', async () => {
-  const serviceConfig = setup({ context: 'node' })
+  const serviceConfig = await setup({ context: 'node' })
 
   await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
 

@@ -7,7 +7,7 @@ import { Site } from '../site'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('siteMode', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
   const common = {
@@ -23,7 +23,7 @@ describe('siteMode', async () => {
 })
 
 describe('siteInit', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
   const common = {
@@ -45,7 +45,7 @@ describe('siteInit', async () => {
 })
 
 describe('siteConfig', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   const common = {
     siteRouter: testUtils?.fictionRouterSites,

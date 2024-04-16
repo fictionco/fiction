@@ -8,7 +8,7 @@ import { createSiteTestUtils } from '../../test/siteTestUtils'
 import { addNewCard, removeCard, requestManagePage, updateRegion } from '../region'
 
 describe('removeCard', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should successfully remove a card from a region', () => {
@@ -72,7 +72,7 @@ describe('removeCard', async () => {
 })
 
 describe('addNewCard', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should throw an error if template is not found', () => {
@@ -127,7 +127,7 @@ describe('addNewCard', async () => {
 })
 
 describe('updateRegion', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
   const cardCommon = { regionId: 'main', templateId: 'area' } as const
   it('should add a new card if it does not exist', () => {
@@ -157,7 +157,7 @@ describe('updateRegion', async () => {
 })
 
 describe('requestManagePage', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const initialized = await testUtils.init()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
   const result = await requestManageSite(

@@ -8,7 +8,7 @@ import type { CardConfigPortable } from '../tables'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('setSections', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
   const common = {
@@ -32,7 +32,7 @@ describe('setSections', async () => {
 })
 
 describe('section handling defaults', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   await testUtils.init()
   const common = {

@@ -6,7 +6,7 @@ import { loadSiteFromTheme } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('site plugin tests', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   await testUtils.init()
   const common = {

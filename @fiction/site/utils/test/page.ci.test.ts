@@ -55,7 +55,7 @@ describe('getViewMap', async () => {
 })
 
 describe('activePageId', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
 
   const siteRouter = testUtils.fictionRouterSites
   const viewMapRef = vue.ref<Record<string, string>>({
@@ -147,7 +147,7 @@ describe('activePageId', async () => {
 })
 
 describe('getActivePage', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   // Mock Cards

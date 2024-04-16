@@ -163,7 +163,7 @@ describe('getMountContext', () => {
 })
 
 describe('site plugin tests', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
   const subDomain = `test-${shortId({ len: 3, withNumbers: false })}`
   const hostname = 'www.testing-domain.com'

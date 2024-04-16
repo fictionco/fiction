@@ -4,7 +4,7 @@ import { createSiteTestUtils } from '../../test/siteTestUtils'
 import { activeSiteDisplayUrl } from '../site'
 
 describe('previewUrl', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
   it('should return the preview URL for the site', async () => {
     const site = new Site({ ...common, isProd: true, subDomain: 'sub' })
@@ -15,7 +15,7 @@ describe('previewUrl', async () => {
 })
 
 describe('activeSiteDisplayUrl', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
 
   it('should return HTTPS URL for production site', () => {

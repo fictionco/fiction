@@ -7,7 +7,7 @@ import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
 
 describe('generation utils', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   const site = new Site({ fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' })
   const card = new Card({
     site,

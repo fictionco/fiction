@@ -11,7 +11,7 @@ import { createSiteTestUtils } from './siteTestUtils'
 let siteConfig: TableSiteConfig
 let site: Site
 describe('siteLoading', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
   const common = {

@@ -10,7 +10,7 @@ import { requestManageSite } from '../load'
 import { createSiteTestUtils } from './siteTestUtils'
 
 describe('sitePreview', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
 
   const common = {

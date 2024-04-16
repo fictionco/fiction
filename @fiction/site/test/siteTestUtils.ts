@@ -5,6 +5,7 @@ import { createTestUtils } from '@fiction/core/test-utils/init'
 import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
+import { runServicesSetup } from '@fiction/core/plugin-env/entry'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
 
@@ -19,7 +20,7 @@ export type SiteTestUtils = TestUtils & {
   runApp: (args: { context: 'app' | 'node' }) => Promise<{ port: number }>
   close: () => Promise<void>
 }
-export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app' } = {}): SiteTestUtils {
+export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app' } = {}): Promise<SiteTestUtils> {
   const { mainFilePath, context = 'node' } = args
 
   const testUtils = createTestUtils({
@@ -64,16 +65,15 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
 
   out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: () => Promise.all([testTheme.setup(out)]) })
 
+  await runServicesSetup(out, { context: 'test' })
+
   out.fictionEnv.log.info('sites test utils created')
 
   out.runApp = async () => {
     await out.fictionDb.init()
     const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
 
-    await out.fictionApp.ssrServerSetup({
-      expressApp: srv?.expressApp,
-      isProd: false,
-    })
+    await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd: false })
 
     await srv?.run()
 

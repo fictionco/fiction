@@ -7,7 +7,7 @@ import { saveSite } from '../site'
 import { updateSiteCerts } from '../cert'
 
 describe('updateSiteCerts', async () => {
-  const testUtils = createSiteTestUtils()
+  const testUtils = await createSiteTestUtils()
   await testUtils.init()
   const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test', siteMode: 'standard' } as const
   const { fictionSites, fictionDb } = testUtils

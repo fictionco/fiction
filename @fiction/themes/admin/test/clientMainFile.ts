@@ -3,11 +3,11 @@ import type { SiteTestUtils } from '@fiction/site/test/siteTestUtils'
 import { createSiteTestUtils } from '@fiction/site/test/siteTestUtils'
 import FSite from '@fiction/cards/CardSite.vue'
 
-export function setup(args: { context?: 'node' | 'app' } = {}): ServiceConfig & { testUtils: SiteTestUtils } {
+export async function setup(args: { context?: 'node' | 'app' } = {}): Promise<ServiceConfig & { testUtils: SiteTestUtils }> {
   const { context = 'app' } = args
   const mainFilePath = new URL(import.meta.url).pathname
 
-  const testUtils = createSiteTestUtils({ mainFilePath, context })
+  const testUtils = await createSiteTestUtils({ mainFilePath, context })
 
   testUtils.fictionRouter.update([
     new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: FSite, props: { siteRouter: testUtils.fictionRouter, themeId: 'admin' } }),

@@ -14,7 +14,7 @@ let testUtils: SiteTestUtils
 let _homeNumPages: number
 let testTheme: Theme
 describe('themeCreation', async () => {
-  testUtils = createSiteTestUtils()
+  testUtils = await createSiteTestUtils()
   testTheme = setup(testUtils)
   const r = await testUtils.init()
   userId = r?.user?.userId ?? ''

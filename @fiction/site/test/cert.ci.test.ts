@@ -11,7 +11,7 @@ describe('manageCertificates', () => {
   const hostname = 'example.com'
   const maskedKeys = ['id', 'dnsValidationInstructions', 'dnsValidationTarget', 'issued', 'nodes']
   beforeAll(async () => {
-    testUtils = createSiteTestUtils()
+    testUtils = await createSiteTestUtils()
     await testUtils.init()
   })
 
