@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { NavItem } from '@fiction/core'
 import { getNavComponentType, useService, vue } from '@fiction/core'
+import type { Card } from '@fiction/site'
+import ElNavLink from '@fiction/ui/ElNavLink.vue'
 
 const props = defineProps({
   nav: { type: Array as vue.PropType<NavItem[]>, required: true },
   itemClass: { type: String, default: '' },
+  card: { type: Object as vue.PropType<Card>, required: true },
 })
 const { fictionRouter } = useService()
 const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActive: item.href === fictionRouter.current.value.path })))
@@ -12,17 +15,15 @@ const nav = vue.computed(() => (props.nav || []).map(item => ({ ...item, isActiv
 
 <template>
   <div>
-    <component
-      :is="getNavComponentType(item)"
-      v-for="item in nav"
-      :key="item.href"
-      :to="item.href ?? '/'"
-      :href="item.href ?? '/'"
-      class="cursor-pointer   "
-      :class="[item.isActive ? 'bg-theme-200' : '', itemClass]"
+    <ElNavLink
+      v-for="(item, i) in nav"
+      :key="i"
+      :item="item"
+      class="cursor-pointer"
+      :class="[itemClass]"
     >
-      <span class="menu-text relative after:border-t-2 after:border-primary-500 px-1 after:rounded-lg" :class="item.isActive ? 'active' : ''" v-html="item.name" />
-    </component>
+      <span class="menu-text relative after:border-t-2 after:border-primary-500 after:rounded-lg" :class="item.isActive ? 'active' : ''" v-html="item.name" />
+    </ElNavLink>
   </div>
 </template>
 

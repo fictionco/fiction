@@ -2,7 +2,7 @@ import type { InputOption } from '@fiction/ui'
 
 type RefineConfig = Record<string, string | boolean>
 
-export function refineOptions(args: { inputOptions: InputOption[], refine: RefineConfig }) {
+export function refineOptions(args: { inputOptions: InputOption[] | readonly InputOption[], refine: RefineConfig }) {
   const { inputOptions, refine } = args
   const refineOption = (option: InputOption, basePath = '') => {
     // Check for a refinement based on the option's key

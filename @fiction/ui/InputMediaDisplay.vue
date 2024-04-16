@@ -30,7 +30,14 @@ const formatList = vue.computed(() => {
   return list
 })
 
-const format = vue.computed(() => v.value.format || formatList.value[0] || 'url')
+const format = vue.computed(() => {
+  if (v.value.format)
+    return v.value.format
+  else if (v.value.html && !v.value.url)
+    return 'html'
+  else
+    return 'url'
+})
 </script>
 
 <template>

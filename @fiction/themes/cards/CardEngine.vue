@@ -40,9 +40,9 @@ function handleCardClick(args: { cardId: string, event: MouseEvent }) {
       :id="subCard.cardId"
       :key="i"
       :class="[
-        subCard.fullConfig.value.spacing?.spacingClass,
-        subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300' : '',
-        isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 cursor-pointer  transition-all' : '',
+        subCard.classes.value.spacingClass,
+        subCard.isActive.value && isEditable ? 'outline-2 outline-dashed outline-theme-300 dark:outline-theme-600' : '',
+        isEditable ? 'hover:outline-2 hover:outline-dashed hover:outline-blue-300 dark:hover:outline-blue-600 cursor-pointer  transition-all' : '',
       ]"
       :data-card-type="subCard.templateId.value"
       :card="subCard"

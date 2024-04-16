@@ -35,12 +35,12 @@ export type SitesPluginSettings = {
   flyIoAppId: string
   flyIoApiToken: string
   adminBaseRoute?: string
-  themes: Theme[]
+  themes: () => Promise<Theme[]>
 } & FictionPluginSettings
 
 export class FictionSites extends FictionPlugin<SitesPluginSettings> {
   adminBaseRoute = this.settings.adminBaseRoute || '/admin'
-  themes = vue.shallowRef(this.settings.themes)
+  themes = vue.shallowRef<Theme[]>([])
 
   builder = new FictionSiteBuilder({ ...this.settings, fictionSites: this })
 
@@ -64,6 +64,10 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
 
     this.settings.fictionDb.addTables(tables)
     this.settings.fictionRouter?.update(getRoutes({ ...this.settings, fictionSites: this }))
+  }
+
+  async setup() {
+    this.themes.value = await this.settings.themes()
   }
 
   activeSite = vue.shallowRef<Site | undefined>(undefined)

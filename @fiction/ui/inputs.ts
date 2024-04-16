@@ -99,8 +99,8 @@ export type InputOptionGeneration = {
   cumulativeTime?: number
 }
 
-export interface InputOptionSettings {
-  key: string
+export interface InputOptionSettings<T extends string = string, U = any> {
+  key: T
   aliasKey?: string
   label?: string
   description?: string
@@ -111,7 +111,7 @@ export interface InputOptionSettings {
   props?: Record<string, unknown>
   options?: InputOption[]
   list?: (ListItem | string)[]
-  default?: () => unknown
+  default?: () => U
   schema?: SchemaCallback
   generation?: InputOptionGeneration
   isHidden?: boolean
@@ -121,7 +121,7 @@ export type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) |
 
 type InputOptionConfig = Omit<InputOptionSettings, 'options'> & { options?: InputOptionConfig[] }
 
-export class InputOption extends FictionObject<InputOptionSettings> {
+export class InputOption<T extends string = string, U = any> extends FictionObject<InputOptionSettings<T, U>> {
   key = vue.ref(this.settings.key)
   aliasKey = vue.ref(this.settings.aliasKey || this.key)
   input = vue.shallowRef(this.settings.input)
@@ -163,7 +163,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
     }
   })
 
-  update(config: Partial<InputOptionSettings>) {
+  update(config: Partial<InputOptionSettings<T, U>>) {
     Object.entries(config).forEach(([key, value]) => {
       if (value !== undefined && vue.isRef(this[key as keyof typeof this]))
         (this[key as keyof typeof this] as vue.Ref).value = value
@@ -172,7 +172,7 @@ export class InputOption extends FictionObject<InputOptionSettings> {
     return this
   }
 
-  constructor(settings: InputOptionSettings) {
+  constructor(settings: InputOptionSettings<T, U>) {
     super('InputOption', settings)
   }
 

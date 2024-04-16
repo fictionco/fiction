@@ -15,10 +15,7 @@ export type UserConfig = {
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
 const { fictionRouter } = useService()
 
@@ -51,7 +48,8 @@ const nav = vue.computed(() => {
         <XNav
           class="hidden lg:flex lg:justify-center lg:gap-x-4 items-center"
           :nav="nav"
-          item-class="last:pr-0 px-4 py-1.5 text-base font-sans font-semibold"
+          item-class="last:pr-0 px-4 py-1.5 text-base font-sans font-medium"
+          :card="card"
         />
       </nav>
     </div>

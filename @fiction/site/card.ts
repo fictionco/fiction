@@ -32,6 +32,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   userConfig?: CardTemplateUserConfig<T> & SiteUserConfig
   sections?: Record<string, CardConfigPortable>
   root?: string
+  demoPage?: () => CardConfigPortable[]
 }
 
 export class CardTemplate<U extends string = string, T extends ComponentConstructor = ComponentConstructor> extends FictionObject<
@@ -90,10 +91,12 @@ export class Card<
   }
 
   classes = vue.computed(() => {
-    const spacing = this.site?.fullConfig.value?.spacing
+    const spacing = this.fullConfig.value?.spacing
+
+    console.log('spacing', this.templateId.value, spacing, this.userConfig.value)
     return {
       contentWidth: spacing?.contentWidthClass,
-      spacingClass: this.tpl.value?.settings.spacingClass ?? spacing?.spacingClass,
+      spacingClass: spacing?.spacingClass,
     }
   })
 

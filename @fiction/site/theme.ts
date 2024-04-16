@@ -42,8 +42,20 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
     return out
   }
 
-  async toSite(): Promise<Partial<TableSiteConfig>> {
+  async getPages(): Promise<Partial<TableCardConfig>[]> {
     const pages = (await this.pages()) || []
+    const isDev = this.settings.fictionEnv.isDev.value
+    const demoPages = isDev
+      ? this.templates.map(_ => _.settings.demoPage
+        ? createCard({ slug: `card-${_.settings.templateId}`, cards: _.settings.demoPage() })
+        : undefined).filter(Boolean) as ReturnType<typeof createCard>[]
+      : []
+
+    return [...demoPages, ...pages]
+  }
+
+  async toSite(): Promise<Partial<TableSiteConfig>> {
+    const pages = await this.getPages()
     return { title: this.settings.title, themeId: this.themeId, pages, userConfig: this.config() }
   }
 
@@ -126,7 +138,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 type CardUserConfig<U extends readonly CardTemplate[]> = CreateUserConfigs<U>
 
 // Base interface without slug
-type BasecreateCardArgs<
+type BaseCreateCardArgs<
   T extends keyof CardUserConfig<U>,
   U extends readonly CardTemplate[],
   V extends PageRegion,
@@ -158,13 +170,13 @@ U extends readonly CardTemplate[],
 V extends PageRegion,
 W extends CardTemplate | undefined,
 X extends ComponentConstructor | undefined,
->(args: BasecreateCardArgs<T, U, V, W, X>) {
+>(args: BaseCreateCardArgs<T, U, V, W, X>) {
   const { templates, templateId = 'area', tpl, el } = args
 
   if (!templateId && !tpl)
     throw new Error('createCard: templateId or tpl required')
 
-  const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `inline-template-${shortId()}` }) : undefined)
+  const inlineTemplate = tpl || (el ? new CardTemplate({ el, templateId: `${templateId}-inline` }) : undefined)
 
   const template = inlineTemplate || templates?.find(template => template.settings.templateId === templateId)
 

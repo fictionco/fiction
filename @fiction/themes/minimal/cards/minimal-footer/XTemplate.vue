@@ -36,14 +36,12 @@ const year = `&copy; ${timeUtil().format('YYYY')}`
     <div class="relative z-30">
       <div class="relative py-4 text-center" :class="card.classes.value.contentWidth">
         <nav
-          class="relative inline-flex flex-col items-center justify-center gap-6 text-xs"
+          class="relative inline-flex flex-col items-center justify-center gap-6 text-xs font-sans"
         >
           <div class="flex gap-3 items-center">
             <div class="flex lg:flex-1 " v-html="uc.text || year" />
-            <div v-if="nav.length" class="text-theme-300 text-lg">
-              <div class="i-tabler-slash" />
-            </div>
-            <XNav class="lg:flex lg:justify-end lg:gap-x-4 items-center text-right" :nav="nav" />
+            <div v-if="nav.length" class="text-theme-300 text-lg i-tabler-slash" />
+            <XNav class="lg:flex lg:justify-end lg:gap-x-4 items-center text-right" :nav="nav" :card="card" />
           </div>
           <XSocials :socials="uc.socials || []" class="flex space-x-6 text-xl justify-center" />
         </nav>

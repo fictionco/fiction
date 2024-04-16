@@ -23,7 +23,7 @@ export const templates = [
 
 export function page() {
   const originalProfiles = [{
-    name: 'Andrew Powers',
+    name: 'James Bond',
     title: 'Founder',
     desc: 'Ultricies massa malesuada viverra cras lobortis. Tempor orci hac ligula dapibus mauris sit ut eu. Eget turpis urna maecenas cras. Nisl dictum.',
     media: {

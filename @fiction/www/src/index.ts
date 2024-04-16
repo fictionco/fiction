@@ -48,6 +48,7 @@ const fictionRouter = new FictionRouter({
   baseUrl: fictionEnv.meta.app?.url,
   routes: (fictionRouter) => {
     return [
+      new AppRoute({ name: 'themeMinimal', path: '/theme-minimal/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'minimal' } }),
       new AppRoute({ name: 'testInputs', path: '/inputs', component: (): Promise<any> => import('@fiction/ui/test/TestInputsAll.vue') }),
       new AppRoute({ name: 'dash', path: '/app/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'admin' } }),
       new AppRoute({ name: 'engine', path: '/:viewId?/:itemId?', component: FSite, props: { siteRouter: fictionRouter, themeId: 'fiction' } }),
@@ -209,7 +210,7 @@ const fictionSites = new FictionSites({
   flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'),
   flyIoAppId: 'fiction-sites',
   adminBaseRoute: '/admin',
-  themes: getThemes({ fictionEnv, fictionStripe }),
+  themes: () => getThemes({ fictionEnv, fictionStripe }),
 })
 
 // const plugins = createPluginConfig([

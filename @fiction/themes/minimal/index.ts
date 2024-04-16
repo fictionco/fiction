@@ -13,17 +13,13 @@ function pages() {
       title: 'Home',
       isHome: true,
       cards: [
-        createCard({
-          templates,
-          templateId: 'minimalProfile',
-          userConfig: { },
-        }),
+        createCard({ templates, templateId: 'minimalProfile', userConfig: { } }),
       ],
     }),
   ]
 }
 
-export function setup(args: { fictionEnv: FictionEnv }) {
+export async function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
   return new Theme({
     fictionEnv,
@@ -35,7 +31,7 @@ export function setup(args: { fictionEnv: FictionEnv }) {
     version: '1.0.0',
     templates,
     isPublic: true,
-    pages,
+    pages: () => pages(),
     userConfig: {
       spacing: {
         contentWidthClass: 'max-w-screen-2xl px-4 sm:px-6 lg:px-20 mx-auto',
@@ -49,23 +45,13 @@ export function setup(args: { fictionEnv: FictionEnv }) {
           templates,
           regionId: 'header',
           templateId: 'area',
-          cards: [
-            createCard({
-              templates,
-              templateId: 'minimalHeader',
-            }),
-          ],
+          cards: [createCard({ templates, templateId: 'minimalHeader' })],
         }),
         footer: createCard({
           templates,
           regionId: 'footer',
           templateId: 'area',
-          cards: [
-            createCard({
-              templates,
-              templateId: 'minimalFooter',
-            }),
-          ],
+          cards: [createCard({ templates, templateId: 'minimalFooter' })],
         }),
       }
     },

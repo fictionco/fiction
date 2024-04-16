@@ -5,12 +5,12 @@ import type { FictionEnv } from '@fiction/core'
 import type { Theme } from '@fiction/site/theme'
 import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
 
-export function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }): Theme[] {
-  const themes = [
+export async function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }): Promise<Theme[]> {
+  const themes = Promise.all([
     themeFiction.setup(args),
     themeMinimal.setup(args),
     themeAdmin.setup(args),
-  ]
+  ])
 
   return themes
 }

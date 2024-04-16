@@ -4,7 +4,7 @@ import type { InputOptionSettings } from '@fiction/ui'
 import { InputOption } from '@fiction/ui'
 import InputAi from '@fiction/site/plugin-builder/InputAi.vue'
 
-type OptArgs = (Partial<InputOptionSettings> & Record<string, unknown>) | undefined
+type OptArgs<T extends string = string> = (Partial<InputOptionSettings<T>> & Record<string, unknown>) | undefined
 
 export const standardOption = {
   media: (_: OptArgs = {}) => new InputOption({
@@ -135,7 +135,8 @@ export const standardOption = {
   navItems: (_: OptArgs = {}) => {
     const s = standardOption
     const __ = { label: 'Nav Items', key: 'navItems', ..._ }
-    return s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.href(), s.target()] })] })
+    const g = s.group({ ...__, options: [s.groupTitle(__), s.inputList({ ...__, options: [s.name(), s.desc(), s.href(), s.target()] })] })
+    return g
   },
   mediaItems: (_: OptArgs = {}) => {
     const s = standardOption
