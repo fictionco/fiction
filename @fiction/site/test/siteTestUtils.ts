@@ -62,7 +62,7 @@ export function createSiteTestUtils(args: { mainFilePath?: string, context?: 'no
     localHostname: '*.lan.com',
   })
 
-  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: [testTheme.setup(out)] })
+  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: () => Promise.all([testTheme.setup(out)]) })
 
   out.fictionEnv.log.info('sites test utils created')
 

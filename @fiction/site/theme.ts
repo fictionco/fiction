@@ -28,7 +28,6 @@ export interface UiConfig { button?: UiItem }
 export class Theme<T extends Record<string, unknown> = Record<string, unknown>> extends FictionPlugin<ThemeSettings<T>> {
   themeId = this.settings.themeId
   templates = this.settings.templates
-
   ui = { button: { el: ElButton }, ...this.settings.ui }
   pages = this.settings.pages
   constructor(settings: ThemeSettings<T>) {
