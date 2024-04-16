@@ -62,11 +62,11 @@ async function changeStep(dir: 'prev' | 'next') {
   const num = getStepIndex(dir)
 
   if (num !== -1)
-    stepKey.value = steps.value[num].key
+    stepKey.value = steps.value[num]?.key || ''
 }
 
 function setStepIndex(index: number) {
-  stepKey.value = steps.value[index].key
+  stepKey.value = steps.value[index]?.key || ''
 }
 function setStepKey(key: string) {
   stepKey.value = key

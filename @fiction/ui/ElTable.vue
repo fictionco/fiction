@@ -103,7 +103,7 @@ const headers = vue.computed(() => {
 })
 
 const titleIndex = vue.computed(() => {
-  return headers.value.findIndex(Boolean)
+  return headers.value?.findIndex(Boolean)
 })
 
 function getColumnClass(type: 'header' | 'row', index: number, _total: number, _col: TableCell): string {
@@ -191,7 +191,7 @@ async function handleOnClick(event: MouseEvent, item: ActionItem) {
               v-for="(col, ii) in headers"
               :key="ii"
               class="py-2 px-3 font-medium"
-              :class="[getColumnClass('header', ii, headers.length, col)]"
+              :class="[getColumnClass('header', ii, headers?.length || 0, col)]"
             >
               <div
                 v-if="ii === 0 && hasSelected"

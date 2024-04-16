@@ -40,7 +40,8 @@ const step = vue.computed(() => {
 <template>
   <transition :name="t" mode="out-in">
     <div
-      :key="steps[currentIndex].key"
+      v-if="step"
+      :key="steps[currentIndex]?.key"
       class="relative z-10 mx-auto w-full bg-theme-0 dark:bg-theme-950 text-theme-900 dark:text-theme-0 p-12 rounded-xl shadow-xl"
       :class="step.class"
     >

@@ -2,8 +2,8 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createApp, nextTick } from 'vue'
 import type { App, Component } from 'vue'
 import { isPlainObject, stringify, waitFor } from '../utils'
-import { vue } from '../utils/libraries'
-import type { ServiceList } from '../plugin-env'
+import { vue } from '../utils/libraries.js'
+import type { ServiceList } from '../plugin-env/index.js'
 
 type ActionType = 'select' | 'input' | 'typeText' | 'click' | 'find'
 export interface Interaction {

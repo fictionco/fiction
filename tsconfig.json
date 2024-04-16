@@ -3,14 +3,18 @@
     "target": "ESNext",
     "jsx": "preserve",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "allowUnusedLabels": false,
+    // "noUncheckedIndexedAccess": true,
 
     "allowUnreachableCode": false,
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "declarationMap": true,
+    "composite": true,
+    "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
     "module": "ESNext",
@@ -19,19 +23,22 @@
     "types": ["node"],
     "allowJs": true,
     "strict": true,
+
     "noEmit": true,
     "outDir": "dist",
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true, // vue/vetur needs this
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipDefaultLibCheck": true
+
   },
   "include": [
     "./**/*",
+    "./**/*.json",
     "./docs/.vitepress/**/*",
     "./docs/**/*",
-    "./**/.fiction/*"
+    "**/.fiction/*",
+    "**/.fiction/*.json"
   ],
 
   "exclude": [
@@ -45,7 +52,6 @@
     "**/__*",
     "__*",
     ".git",
-    "**/.fiction/**",
     ".pnpmfile.cjs"
   ]
 

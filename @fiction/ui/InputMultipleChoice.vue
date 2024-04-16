@@ -42,7 +42,7 @@ const isValid = vue.ref({})
 function choiceLetter(i: number): string {
   const remain = i % 26
   const letters = props.selectLetters
-  return letters[remain].toUpperCase()
+  return letters[remain]?.toUpperCase() ?? ''
 }
 
 function isSelected(item: ListItem): boolean {

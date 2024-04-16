@@ -314,6 +314,6 @@ export class FrameNavigator extends FictionObject<FrameNavigatorSettings> {
     else if (navs.pointer < navs.paths.length - 1)
       newPointer = navs.pointer + 1
 
-    await this.setNewPath({ usingHistory: true, fullPath: navs.paths[newPointer] })
+    await this.setNewPath({ usingHistory: true, fullPath: navs.paths[newPointer] || '' })
   }
 }

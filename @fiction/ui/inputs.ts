@@ -141,7 +141,7 @@ export class InputOption<T extends string = string, U = any> extends FictionObje
     const s = this.schema.value
       ? this.schema.value({ z, subSchema: this.subSchema.value as z.AnyZodObject })
       : typeof this.input === 'string' && inputs[this.input]
-        ? inputs[this.input].schema({ z, subSchema: this.subSchema.value as z.AnyZodObject })
+        ? inputs[this.input]?.schema({ z, subSchema: this.subSchema.value as z.AnyZodObject })
         : this.subSchema.value
 
     return s?.describe(this.generation.value.prompt || this.label.value || this.key.value)

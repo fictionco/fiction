@@ -82,9 +82,8 @@ const salt = vue.ref(0)
 setInterval(() => (salt.value = Math.floor(Math.random() * 3) + 1), 10_000)
 
 function getClass(): (string | number)[] {
-  const randomElement = starts[Math.floor(Math.random() * starts.length)]
-  const randomColor
-    = colors.value[Math.floor(Math.random() * colors.value.length)]
+  const randomElement = starts[Math.floor(Math.random() * starts.length)] ?? ''
+  const randomColor = colors.value[Math.floor(Math.random() * colors.value.length)] ?? ''
   return [std, randomElement, randomColor, salt.value]
 }
 </script>

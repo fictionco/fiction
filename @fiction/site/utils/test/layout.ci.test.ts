@@ -42,8 +42,8 @@ describe('setLayoutOrder', async () => {
     // Assertions to verify the correct order
     // Note: You'll need to adjust these based on the actual structure and access methods of your Site and Card classes
     expect(site.pages.value.find(p => p.cardId === 'page2')?.cards.value.map(c => c.cardId)).toEqual(['cardB', 'cardC'])
-    expect(site.sections.value.header.cards.value.map(c => c.cardId)).toEqual(['headerA'])
-    expect(site.sections.value.footer.cards.value.map(c => c.cardId)).toEqual(['cardA', 'footerA'])
+    expect(site.sections.value.header?.cards.value.map(c => c.cardId)).toEqual(['headerA'])
+    expect(site.sections.value.footer?.cards.value.map(c => c.cardId)).toEqual(['cardA', 'footerA'])
 
     const order2 = [
       { itemId: 'page2', items: [{ itemId: 'cardC' }, { itemId: 'cardA' }] },

@@ -12,8 +12,7 @@ import type {
   TooltipOptions,
 } from 'chart.js'
 import * as ChartJS from 'chart.js'
-import { deepMerge, numberFormatter } from '../utils'
-import { colorStandard } from '../../../.ref/@kaption/core/utils/colors'
+import { colorStandard, deepMerge, numberFormatter } from '../utils'
 
 export type ValueFormat =
   | 'number'

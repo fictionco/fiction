@@ -64,7 +64,7 @@ async function updateColor(index: number, color: string) {
   if (color) {
     const value = props.modelValue || {}
     const list = colorList.value
-    list[index].color = color
+    list[index] = { ...list[index], color }
     value.stops = list
     await updateValue(value)
   }

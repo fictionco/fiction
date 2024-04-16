@@ -86,12 +86,12 @@ export function setNested<T extends Record<string, any> = Record<string, any>>(a
   let current = clone
 
   for (let i = 0; i < keys.length - 1; i++) {
-    const key = keys[i]
+    const key = keys[i] ?? ''
     current[key] = current[key] || {}
     current = current[key]
   }
 
-  const lastKey = keys[keys.length - 1]
+  const lastKey = keys[keys.length - 1] ?? ''
 
   if (value === undefined && !Object.prototype.hasOwnProperty.call(current, lastKey))
     return clone as T
@@ -119,12 +119,12 @@ export function getNested<T = unknown>(args: {
   let current = clone
 
   for (let i = 0; i < keys.length - 1; i++) {
-    const key = keys[i]
+    const key = keys[i] ?? ''
     current[key] = current[key] || {}
     current = current[key]
   }
 
-  const lastKey = keys[keys.length - 1]
+  const lastKey = keys[keys.length - 1] ?? ''
 
   return current[lastKey]
 }
