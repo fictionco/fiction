@@ -23,6 +23,11 @@ on:
   # release:
   #   types: [published]
 
+# needed for github/git stuff
+permissions:
+  contents: write
+  issues: write # Only add other permissions if necessary for your workflow
+
 env:
   CI: true
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -38,6 +43,8 @@ env:
   UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{secrets.GH_TOKEN}}
+
 jobs:
   test:
     if: 'contains(github.event.head_commit.message, ''skip'') == false'
@@ -46,6 +53,7 @@ jobs:
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
       SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
+      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
     name: build and test
     runs-on: ubuntu-latest
     steps:
@@ -60,6 +68,16 @@ jobs:
         run: |
           echo "Testing DNS resolution for lan.com and its subdomains..."
           dig +short test.lan.com @127.0.0.1 || echo "Failed to resolve test.lan.com"
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Install GH CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
@@ -136,6 +154,11 @@ jobs:
         run: |
           cross-env DOMAIN=fiction APP=www NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
           cross-env DOMAIN=fiction APP=sites NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
+
+      - name: Release Code
+        if: env.SHOULD_RELEASE
+        run: |
+          npm run i:lockfile && npm run release
 
       - name: Post Notification
         if: failure()
