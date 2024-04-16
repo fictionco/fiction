@@ -1,3 +1,12 @@
+## 6.0.30 (2024-04-16)
+
+
+### Bug Fixes
+
+* move release -d ([6b1b35f](https://github.com/fictionco/fiction/commit/6b1b35f1a45415b385ffb09a0fd5aa89f5c3e30f))
+
+
+
 ## [6.0.29](https://github.com/fictionco/fiction/compare/v6.0.28...v6.0.29) (2024-04-12)
 
 
