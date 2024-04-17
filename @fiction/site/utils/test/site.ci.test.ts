@@ -8,7 +8,7 @@ import { requestManageSite } from '../../load'
 import type { EditorState } from '../../site'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
-import { activeSiteHostname, saveSite, setupRouteWatcher, updateSite } from '../site'
+import { activeSiteHostname, saveSite, updateSite } from '../site'
 import { setPages, updatePages } from '../page'
 
 describe('query var', async () => {

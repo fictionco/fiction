@@ -1,4 +1,3 @@
-
 import type { MainFileSetup } from '@fiction/core'
 import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, isCi, randomBetween } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
@@ -107,11 +106,11 @@ export async function createSiteUiTestingKit(args: { headless?: boolean, setup?:
   performActions: (_: Omit<Parameters<typeof performActions>[0], 'port' | 'browser'>) => Promise<void>
 
 }> {
-  const { headless = false, setup = mainFileSetup } = args
+  const { headless = true, setup = mainFileSetup } = args
   const serviceConfig = await setup({ context: 'node' })
   const { service } = serviceConfig
 
-  const headlessActual = isCi() ? false : headless
+  const headlessActual = isCi() ? true : headless
 
   if (!service)
     throw new Error('service not found')

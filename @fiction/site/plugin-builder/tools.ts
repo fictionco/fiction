@@ -69,7 +69,7 @@ export const toolList = [
   },
   {
     toolId: 'ai',
-    title: 'AI Completion Settings',
+    title: 'AI Generation',
     icon: 'i-tabler-sparkles',
     isPrimary: true,
     widthClasses: 'w-[500px]',
@@ -78,7 +78,7 @@ export const toolList = [
   },
   {
     toolId: 'global',
-    title: 'Global Settings',
+    title: 'Site Settings',
     icon: 'i-tabler-settings',
     isPrimary: true,
     widthClasses: 'w-[500px]',
@@ -87,7 +87,7 @@ export const toolList = [
   },
   {
     toolId: 'publish',
-    title: 'Publishing',
+    title: 'Domain',
     icon: 'i-tabler-world',
     isPrimary: true,
     widthClasses: 'w-[600px]',

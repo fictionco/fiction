@@ -1,4 +1,3 @@
-import type { FictionRouter } from '@fiction/core'
 import { vue } from '@fiction/core'
 import type { Site, SiteSettings } from '..'
 import type { CardConfigPortable, TableSiteConfig } from '../tables'

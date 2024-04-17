@@ -1,7 +1,6 @@
 // @unocss-include
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
-import { s } from 'vitest/dist/reporters-LqC_WI4d'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
