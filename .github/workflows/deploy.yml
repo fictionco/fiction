@@ -127,7 +127,7 @@ jobs:
         run: npm exec -- vitest run ci -u
 
       - name: E2E/UI unit tests
-        run: npm exec -- vitest run e2e -u
+        run: npm exec -- vitest run uiux -u
 
       - name: Install Build Packages
         if: env.SHOULD_DEPLOY
