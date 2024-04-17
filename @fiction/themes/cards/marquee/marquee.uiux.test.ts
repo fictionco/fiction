@@ -3,7 +3,7 @@ import { createSiteUiTestingKit } from '@fiction/site/test/siteTestUtils'
 import { collectKeysFromOptions } from '../utils/refiner.js'
 import { templates } from './index.js'
 
-const headless = false
+const headless = true
 
 describe('marquee card', async () => {
   const kit = await createSiteUiTestingKit({ headless })
@@ -40,15 +40,15 @@ describe('validate option keys', async () => {
     `)
 
     const expectedKeys = [
-      "items",
-      "items.media",
-      "items.name",
-      "items.desc",
-      "items.href",
-      "direction",
-      "stagger"
-    ];
+      'items',
+      'items.media',
+      'items.name',
+      'items.desc',
+      'items.href',
+      'direction',
+      'stagger',
+    ]
 
-    expect(new Set(keys)).toEqual(new Set(expectedKeys));
+    expect(new Set(keys)).toEqual(new Set(expectedKeys))
   })
 })

@@ -1,5 +1,6 @@
+
 import type { MainFileSetup } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, randomBetween } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, isCi, randomBetween } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
 import { createTestUtils } from '@fiction/core/test-utils/init'
@@ -110,6 +111,8 @@ export async function createSiteUiTestingKit(args: { headless?: boolean, setup?:
   const serviceConfig = await setup({ context: 'node' })
   const { service } = serviceConfig
 
+  const headlessActual = isCi() ? false : headless
+
   if (!service)
     throw new Error('service not found')
 
@@ -119,7 +122,7 @@ export async function createSiteUiTestingKit(args: { headless?: boolean, setup?:
   if (!port)
     throw new Error('port not found')
 
-  const browser = await createTestBrowser({ headless })
+  const browser = await createTestBrowser({ headless: headlessActual })
 
   const close = async () => {
     await browser?.close()

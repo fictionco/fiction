@@ -27,6 +27,7 @@ export const isActualBrowser = (): boolean => !isNode()
 export const hasWindow = (): boolean => typeof window !== 'undefined'
 export const isTest = () => hasCrossVar('IS_TEST')
 export const isApp = () => hasCrossVar('IS_VITE')
+export const isCi = () => hasCrossVar('CI')
 export const isDev = () => hasCrossVar('NODE_ENV', 'development')
 export const isProd = () => !isDev()
 export const isDebug = () => hasCrossVar('DEBUG')
