@@ -1,3 +1,12 @@
+## 6.0.33 (2024-04-17)
+
+
+### Bug Fixes
+
+* testing issue -d ([7950ef3](https://github.com/fictionco/fiction/commit/7950ef3f63e514768d9250a599f8fbeb1bef12a0))
+
+
+
 ## 6.0.32 (2024-04-17)
 
 
