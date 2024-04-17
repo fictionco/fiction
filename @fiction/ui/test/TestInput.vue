@@ -48,7 +48,7 @@ const isValid = vue.ref(false)
       </div>
       <div class="col-span-3">
         <div class="text-[8px] font-mono">
-          <div class="pb-1 border-b border-theme-200 mb-2">
+          <div class="pb-1 border-b border-theme-200 dark:border-theme-500 mb-2">
             <span :class="isValid ? 'text-primary-500' : 'text-rose-500'" class="text-[8px] font-mono">
               {{ isValid ? '(Valid)' : '(Invalid)' }}
             </span>

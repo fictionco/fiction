@@ -25,7 +25,6 @@ export const inputs: Record<string, { el: vue.Component, schema: SchemaDef }> = 
   InputRadioButton: { el: def(() => import('./InputRadioButton.vue')), schema: ({ z }) => z.string().optional() },
   InputSelect: { el: def(() => import('./InputSelect.vue')), schema: ({ z }) => z.string().optional() },
   InputSelectCustom: { el: def(() => import('./InputSelectCustom.vue')), schema: ({ z }) => z.string().optional() },
-  InputSelectMulti: { el: def(() => import('./InputSelectMulti.vue')), schema: ({ z }) => z.array(z.string()) },
   InputTimezone: { el: def(() => import('./InputTimezone.vue')), schema: ({ z }) => z.string().optional() },
   InputPrice: { el: def(() => import('./InputPrice.vue')), schema: ({ z }) => z.string().optional() },
   InputPhone: { el: def(() => import('./InputPhone.vue')), schema: ({ z }) => z.string().optional() },

@@ -22,15 +22,19 @@ vue.watch(
 const classes = [
   'form-radio',
   'appearance-none',
-  'border',
-  'border-theme-300',
-  'text-theme-500',
+
   'w-[.9em]',
   'h-[.9em]',
-  'focus:border-theme-500',
+  'border',
+  'border-theme-300',
+  'dark:border-theme-0',
+  'text-primary-500',
+  'dark:text-primary-500',
+  'focus:border-theme-900',
   'focus:outline-none',
-  'focus:ring-2',
+  'focus:ring-0',
   'focus:ring-theme-100',
+  'dark:focus:ring-theme-200',
   'focus:ring-offset-0',
 ]
 </script>
@@ -52,7 +56,7 @@ const classes = [
         :value="option.value"
         v-bind="$attrs"
       >
-      <span class="text-theme-600 hover:text-theme-500 ml-[.5em]">{{
+      <span class="dark:text-theme-100 text-theme-600 dark:hover:text-theme-200 hover:text-theme-500 ml-[.5em]">{{
         option.name
       }}</span>
     </label>

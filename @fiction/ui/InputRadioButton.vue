@@ -22,11 +22,11 @@ function buttonClass(v: ListItem, i: number): string {
     out.push('-ml-px')
 
   if (props.modelValue === v.value) {
-    out.push('bg-theme-400 border-theme-600 text-theme-0 z-20')
+    out.push('bg-theme-400 dark:bg-theme-600 border-theme-600 text-theme-500 dark:text-theme-0 z-20')
   }
   else {
     out.push(
-      'bg-theme-100 text-theme-600 border-theme-300 hover:border-theme-300',
+      'bg-theme-100 dark:bg-theme-800 text-theme-600 dark:text-theme-100 border-theme-300 dark:border-theme-600 hover:border-theme-300',
     )
   }
 
@@ -45,7 +45,6 @@ const classes = [
   'py-input-y',
   'text-input-size',
 
-  'text-theme-600',
   'focus:z-10',
   'focus:outline-none',
   'focus:ring-0',

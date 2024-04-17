@@ -42,7 +42,7 @@ const hasValue = vue.computed(() => {
   <div class="text-input-size max-w-input flex items-center">
     <span
       v-if="!hideValue"
-      class="bg-theme-200 text-theme-600 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[10px] font-mono font-medium"
+      class="bg-theme-200 dark:bg-theme-800 text-theme-600 dark:text-theme-0 mr-[1em] inline-flex items-center space-x-1 rounded-full px-[1em] py-[.2em] text-right text-[10px] font-mono font-medium"
     >
       <span v-if="prefix" class="opacity-80 truncate">{{ prefix }}:</span>
       <span v-if="hasValue">
@@ -52,7 +52,7 @@ const hasValue = vue.computed(() => {
     </span>
 
     <input
-      class="w-full h-[.5em] bg-theme-200 rounded-lg appearance-none cursor-pointer text-input-size"
+      class="w-full h-[.5em] bg-theme-200 dark:bg-theme-700 rounded-lg appearance-none cursor-pointer text-input-size"
       type="range"
       :value="modelValue"
       :min="min"

@@ -131,19 +131,15 @@ vue.onMounted(async () => {
           />
           <div class="flex items-center">
             <div
-              class="text-theme-400 hover:text-theme-500 cursor-move items-center p-0.5 text-base"
-            >
-              <div class="i-tabler-grip-vertical " />
-            </div>
+              class="text-theme-400 hover:text-theme-500 cursor-move items-center p-0.5 text-base i-tabler-grip-vertical"
+            />
           </div>
         </div>
         <div
           class="text-theme-500 hover:text-theme-600 flex items-center space-x-1 cursor-pointer  p-[.3em] text-xs font-mono"
           @click="addColor()"
         >
-          <div class="text-base">
-            <div class="i-tabler-crosshair" />
-          </div>
+          <div class="text-base i-tabler-crosshair" />
           <div>Add Color</div>
         </div>
       </div>

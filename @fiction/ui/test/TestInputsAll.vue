@@ -84,7 +84,6 @@ function selectColor(c: ThemeColor) {
 
       <TestInput input-name="Radio" :input-el="inputs.InputRadio" :list="['option 1', 'option 2', 'option 3']" />
       <TestInput input-name="Radio Button" :input-el="inputs.InputRadioButton" :list="['option 1', 'option 2', 'option 3']" />
-      <TestInput input-name="Select Multi" :input-el="inputs.InputSelectMulti" :list="['option 1', 'option 2', 'option 3']" />
       <TestInput input-name="Select Custom" :input-el="inputs.InputSelectCustom" :list="['option 1', 'option 2', 'option 3']" />
       <TestInput input-name="Toggle" :input-el="inputs.InputToggle" text-on="Toggle On" text-off="Toggle Off" />
       <TestInput input-name="TimeZone" :input-el="inputs.InputTimezone" />

@@ -32,8 +32,8 @@ vue.watch(
       :class="[
         animateSelected ? 'notify-selected' : '',
         selected
-          ? 'border-theme-400 bg-theme-200 text-theme-600'
-          : 'border-theme-300 bg-theme-100 text-theme-500',
+          ? 'dark:border-theme-500 border-theme-400 bg-theme-200 dark:bg-theme-700 text-theme-600 dark:text-theme-0'
+          : 'dark:border-theme-600 border-theme-300 bg-theme-100 dark:bg-theme-800 text-theme-500 dark:text-theme-300',
         notSelected ? 'opacity-60' : '',
       ]"
     >

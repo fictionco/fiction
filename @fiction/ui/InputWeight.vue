@@ -43,11 +43,11 @@ function buttonClass(v: number, i: number): string {
     out.push('-ml-px')
 
   if (props.modelValue === v) {
-    out.push('bg-theme-400 border-theme-600 text-theme-0 z-20')
+    out.push('bg-theme-400 dark:bg-theme-600 border-theme-600 dark:border-theme-500 text-theme-0 z-20')
   }
   else {
     out.push(
-      'bg-theme-100 text-theme-700 border-theme-300 hover:bg-theme-200 hover:border-theme-400 hover:z-20',
+      'bg-theme-100 dark:bg-theme-800 text-theme-700 dark:text-theme-100 border-theme-300 dark:border-theme-600 hover:bg-theme-200 dark:hover:bg-theme-600 hover:border-theme-400 hover:z-20',
     )
   }
 
