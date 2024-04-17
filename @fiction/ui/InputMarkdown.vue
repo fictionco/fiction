@@ -96,17 +96,17 @@ vue.onMounted(async () => {
 
   // const varnameValue = getComputedStyle(el).getPropertyValue('--input-bg')
   // console.log('varnameValue', varnameValue)
-  // monaco.editor.defineTheme('myTheme', {
-  //   base: 'vs',
-  //   inherit: true,
-  //   colors: {
-  //     'editor.background': varnameValue,
-  //   },
-  //   rules: [],
-  // })
+  monaco.editor.defineTheme('fictionTheme', {
+    base: 'vs',
+    inherit: true,
+    colors: {
+      'editor.background': 'var(--input-bg)',
+    },
+    rules: [],
+  })
 
   const editor = monaco.editor.create(el, {
-    theme: 'vs',
+    theme: 'vs-dark',
     language: 'markdown',
     lineNumbers: 'off',
     glyphMargin: false, // Disable the glyph margin
@@ -158,9 +158,19 @@ function _send(el: EventTarget | null): void {
   emit('update:modelValue', txt)
 }
 
-const cls = vue.computed(() => twMerge(`h-[200px] rounded-md border-input-border border overflow-hidden bg-theme-100 ${props.inputClass}`))
+const cls = vue.computed(() => twMerge(`medit h-[200px] rounded-md border-theme-300 dark:hover:border-theme-500 dark:focus:border-theme-500 dark:border-theme-600 border overflow-hidden bg-theme-100 dark:bg-theme-800 ${props.inputClass}`))
 </script>
 
 <template>
   <div ref="editorEl" :class="cls" />
 </template>
+
+<style lang="less">
+.monaco-editor {
+  --input-bg: red;
+  --vscode-editor-background: var(--theme-800) !important;
+  --vscode-editorGutter-background:  var(--theme-800) !important;
+  --vscode-focusBorder: transparent !important;
+
+}
+</style>

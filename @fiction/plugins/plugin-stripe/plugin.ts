@@ -333,7 +333,7 @@ export class FictionStripe extends FictionPlugin<StripePluginSettings> {
 
       link = url.toString()
     }
-    else if (location) {
+    else if (typeof location !== 'undefined') {
       const redirect = encodeURIComponent(location.href)
       link = `${loginPath}?redirect=${redirect}`
     }
