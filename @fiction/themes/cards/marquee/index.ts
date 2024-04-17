@@ -1,5 +1,6 @@
 import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
+import { InputOption } from '@fiction/ui'
 import { standardOption } from '../inputSets'
 
 const el = vue.defineAsyncComponent(() => import('./ElMarquee.vue'))
@@ -14,7 +15,9 @@ export const templates = [
     iconTheme: 'pink',
     el,
     options: [
-      standardOption.mediaItems({ key: 'items' }),
+      standardOption.mediaItems({ key: 'items', label: 'Marquee Media Items' }),
+      new InputOption({ key: 'direction', label: 'Animation Direction', input: 'InputSelect', list: ['left', 'right'], default: () => 'left' }),
+      new InputOption({ key: 'stagger', label: 'Stagger Items', input: 'InputCheckbox', default: () => false }),
     ],
     userConfig: {
       items: [

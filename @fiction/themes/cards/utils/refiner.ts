@@ -28,3 +28,15 @@ export function refineOptions(args: { inputOptions: InputOption[] | readonly Inp
 
   return inputOptions.map(_ => refineOption(_))
 }
+
+export function collectKeysFromOptions(inputOptions: InputOption[] | readonly InputOption[]): string[] {
+  const collectKeys = (options: InputOption[] | readonly InputOption[], basePath = ''): string[] =>
+    options.flatMap((option) => {
+      const path = basePath ? `${basePath}.${option.key.value}` : option.key.value
+      // Recursively collect keys if there are nested options
+      const childKeys = option.options?.value ? collectKeys(option.options.value, path) : []
+      return [path, ...childKeys]
+    })
+
+  return collectKeys(inputOptions)
+}
