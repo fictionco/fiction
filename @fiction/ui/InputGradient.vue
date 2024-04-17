@@ -107,7 +107,7 @@ vue.onMounted(async () => {
 </script>
 
 <template>
-  <div class="max-w-input border border-input-border rounded-md p-3 space-y-3">
+  <div class="max-w-input border border-theme-200 dark:border-theme-700 rounded-md p-3 space-y-3">
     <div
       class="bar bg-theme-100 h-[2.5em] w-full rounded-md shadow-sm"
       :style="{ 'background-image': gradientCss }"
