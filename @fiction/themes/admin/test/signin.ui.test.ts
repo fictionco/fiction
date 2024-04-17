@@ -1,26 +1,17 @@
 import { afterAll, describe, it } from 'vitest'
-import { createTestBrowser, performActions } from '@fiction/core/test-utils/buildTest'
-import { setup } from './clientMainFile'
+import { createSiteUiTestingKit } from '@fiction/site/test/siteTestUtils'
 
 const headless = true
 
 describe('signin UX', async () => {
-  const serviceConfig = await setup({ context: 'node' })
 
-  await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
 
-  const port = serviceConfig.testUtils.fictionServer.port.value
-  const browser = await createTestBrowser({ headless })
+  const kit = await createSiteUiTestingKit({ headless })
 
-  afterAll(async () => {
-    await browser?.close()
-    await serviceConfig.testUtils.close()
-  })
+  afterAll(() => kit?.close())
 
   it('allows user to register with google account or email', async () => {
-    await performActions({
-      port,
-      browser,
+    await kit.performActions({
       path: '/app/auth/login',
       actions: [
         { type: 'visible', selector: '[data-test-id="email-login-button"]' },
@@ -31,9 +22,7 @@ describe('signin UX', async () => {
   }, 15_000)
 
   it('defaults to login page', async () => {
-    await performActions({
-      port,
-      browser,
+    await kit.performActions({
       path: '/app/auth/does-not-exist',
       actions: [
         { type: 'visible', selector: '[data-test-id="email-login-button"]' },
@@ -44,9 +33,7 @@ describe('signin UX', async () => {
   }, 15_000)
 
   it('allows toggle between sign up and login', async () => {
-    await performActions({
-      port,
-      browser,
+    await kit.performActions({
       path: '/app/auth/register',
       actions: [
         { type: 'click', selector: '[data-test-id="to-login"]' },

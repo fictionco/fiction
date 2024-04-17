@@ -1,4 +1,4 @@
-import type { FictionMedia, FictionPluginSettings, Processor, vue } from '@fiction/core'
+import type { FictionEnv, FictionMedia, FictionPluginSettings, Processor, ServiceList, vue } from '@fiction/core'
 import { FictionPlugin, ObjectProcessor, deepMerge, isNode, log, parseObject } from '@fiction/core'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { CreateUserConfigs, ExtractCardTemplateUserConfig, ExtractComponentUserConfig } from './card'
@@ -24,6 +24,8 @@ export type ThemeSettings<T extends Record<string, unknown> = Record<string, unk
 
 export type UiItem = { el: vue.Component }
 export interface UiConfig { button?: UiItem }
+
+export type ThemeSetup = (args: ServiceList & { fictionEnv: FictionEnv }) => Promise<Theme>
 
 export class Theme<T extends Record<string, unknown> = Record<string, unknown>> extends FictionPlugin<ThemeSettings<T>> {
   themeId = this.settings.themeId

@@ -77,6 +77,14 @@ function addItem() {
   emit('update:modelValue', val)
 }
 
+function removeItem(item: Record<string, unknown> & { _key: string }) {
+  const confirmed = confirm('Are you sure?')
+  if (!confirmed)
+    return
+  const val = props.modelValue.filter(i => i._key !== item._key)
+  emit('update:modelValue', val)
+}
+
 function toggleItem(item: Record<string, unknown> & { _key: string }) {
   openItem.value = openItem.value === item._key ? '' : item._key
 }
@@ -112,22 +120,18 @@ vue.onMounted(async () => {
       :data-drag-depth="depth"
     >
       <div
-        class="px-1 py-1 bg-theme-100 dark:bg-theme-600/50 hover:bg-theme-200 text-xs font-mono  font-medium flex justify-between"
+        class="px-1 py-1 bg-theme-100 dark:bg-theme-600/50 hover:bg-theme-200 text-xs font-mono  font-medium flex justify-between items-center"
         :class="openItem === item._key ? 'rounded-t-md border-b border-theme-300 dark:border-theme-600' : 'rounded-md'"
         :data-drag-handle="depth"
         @click="toggleItem(item)"
       >
         <div class="flex gap-1 items-center cursor-move">
-          <div class="text-lg text-theme-300 dark:text-theme-500">
-            <div class="i-tabler-grip-vertical" />
-          </div>
+          <div class="text-lg text-theme-300 dark:text-theme-500 i-tabler-grip-vertical" />
           <div class="text-theme-500 dark:text-theme-50">
             Item {{ i + 1 }}
           </div>
         </div>
-        <div class="text-lg text-theme-300">
-          <div class="i-tabler-chevron-down transition-all" :class="openItem === item._key ? 'rotate-180' : ''" />
-        </div>
+        <div class="text-lg text-theme-300 i-tabler-chevron-down transition-all" :class="openItem === item._key ? 'rotate-180' : ''" />
       </div>
       <TransitionSlide>
         <div v-if="openItem === item._key">
@@ -142,6 +146,12 @@ vue.onMounted(async () => {
                 :model-value="getNested({ path: opt.key.value, data: item })"
                 @update:model-value="updateInputValue({ index: i, key: opt.key.value || '', value: $event })"
               />
+            </div>
+            <div class="flex justify-between pt-4">
+              <div />
+              <ElButton size="sm" btn="default" icon="i-heroicons-trash" @click="removeItem(item)">
+                Remove Item
+              </ElButton>
             </div>
           </div>
         </div>

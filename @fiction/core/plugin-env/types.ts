@@ -30,7 +30,7 @@ export interface MainFile {
   [key: string]: unknown
 }
 
-export type ServiceList = Record<string, FictionPlugin | FictionObject | Function | Record<string, unknown>> & { fictionEnv?: FictionEnv }
+export type ServiceList = Record<string, FictionPlugin | FictionObject | Function | Record<string, unknown>> & { fictionEnv?: FictionEnv, fictionServer?: FictionServer, close?: () => Promise<void> | void }
 
 export type CliVars = {
   RUNTIME_VERSION: string
@@ -41,11 +41,14 @@ export type CliVars = {
 
 export type ServiceConfig = {
   fictionEnv: FictionEnv
-  runCommand?: (args: { context: 'node' | 'app', command: string, cliVars?: Partial<CliVars>, runVars?: Partial<RunVars>, options?: CliOptions }) => Promise<void> | void
+  service?: ServiceList
+  runCommand?: (args: { context: 'node' | 'app', command: string, cliVars?: Partial<CliVars>, runVars?: Partial<RunVars>, options?: CliOptions }) => Promise<any> | any
   createService?: (args: { serviceConfig: ServiceConfig } & ({ context: 'app', runVars: Partial<RunVars> } | { context: 'node', cliVars: Partial<CliVars> } | { context: 'test' })) => Promise<ServiceList> | ServiceList
   createMount?: (args: { renderRoute?: string, runVars: Partial<RunVars>, service: ServiceList, serviceConfig: ServiceConfig }) => Promise<FictionAppEntry> | FictionAppEntry
   close?: () => Promise<void> | void
 }
+
+export type MainFileSetup = (args: { context: 'node' | 'app' }) => Promise<ServiceConfig> | ServiceConfig
 
 export interface CliOptions {
   name?: string

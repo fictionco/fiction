@@ -5,7 +5,7 @@ import type { InputOption } from '../inputs'
 
 const props = defineProps({
   inputName: { type: String, default: '' },
-  inputEl: { type: Object as vue.PropType<vue.Component>, default: () => ({}) },
+  inputEl: { type: Object as vue.PropType<{ el: vue.Component, schema: any }>, default: () => ({}) },
   modelValue: {
     type: [Array, Object, String, Number, Boolean],
     default: undefined,
@@ -37,7 +37,7 @@ const isValid = vue.ref(false)
       </div>
       <div class="col-span-6">
         <component
-          :is="inputEl"
+          :is="inputEl.el"
           v-model="val"
           data-input
           :options="options"

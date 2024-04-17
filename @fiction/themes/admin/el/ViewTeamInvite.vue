@@ -142,10 +142,10 @@ onResetUi(() => {
               :key="i"
               class="invite my-4 grid grid-cols-5 gap-4"
             >
-              <InputEmail v-model="invites[i].email" class="col-span-3" />
+              <InputEmail v-model="invites[i]!.email" class="col-span-3" />
 
               <InputSelect
-                v-model="invites[i].memberAccess"
+                v-model="invites[i]!.memberAccess"
                 class="col-span-2"
                 :list="[
                   { value: 'owner', name: 'Owner' },

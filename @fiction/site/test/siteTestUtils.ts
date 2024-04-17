@@ -1,3 +1,4 @@
+import type { MainFileSetup } from '@fiction/core'
 import { AppRoute, FictionApp, FictionAws, FictionMedia, FictionRouter, randomBetween } from '@fiction/core'
 import { FictionAi } from '@fiction/plugin-ai'
 import type { TestUtils } from '@fiction/core/test-utils/init'
@@ -6,8 +7,12 @@ import type { FictionAdmin } from '@fiction/plugin-admin'
 import { testEnvFile } from '@fiction/core/test-utils'
 import FSite from '@fiction/cards/CardSite.vue'
 import { runServicesSetup } from '@fiction/core/plugin-env/entry'
+import { createTestBrowser, performActions } from '@fiction/core/test-utils/buildTest'
+import type { Browser } from 'playwright'
+import type { ThemeSetup } from '..'
 import { FictionSites } from '..'
 import * as testTheme from './test-theme'
+import { setup as mainFileSetup } from './siteTestMainFile'
 
 export type SiteTestUtils = TestUtils & {
   fictionAdmin: FictionAdmin
@@ -20,8 +25,8 @@ export type SiteTestUtils = TestUtils & {
   runApp: (args: { context: 'app' | 'node' }) => Promise<{ port: number }>
   close: () => Promise<void>
 }
-export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app' } = {}): Promise<SiteTestUtils> {
-  const { mainFilePath, context = 'node' } = args
+export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
+  const { mainFilePath, context = 'node', themes = [] } = args
 
   const testUtils = createTestUtils({
     mainFilePath,
@@ -63,7 +68,12 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
     localHostname: '*.lan.com',
   })
 
-  out.fictionSites = new FictionSites({ ...(out as SiteTestUtils), flyIoApiToken, flyIoAppId, themes: () => Promise.all([testTheme.setup(out)]) })
+  out.fictionSites = new FictionSites({
+    ...(out as SiteTestUtils),
+    flyIoApiToken,
+    flyIoAppId,
+    themes: () => Promise.all([testTheme.setup(out), ...themes.map(_ => _(out))]),
+  })
 
   await runServicesSetup(out, { context: 'test' })
 
@@ -87,4 +97,34 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
   }
 
   return out as SiteTestUtils
+}
+
+export async function createSiteUiTestingKit(args: { headless?: boolean, setup?: MainFileSetup } = {}): Promise<{
+  port: number
+  browser: { browser: Browser }
+  close: () => Promise<void>
+  performActions: (_: Omit<Parameters<typeof performActions>[0], 'port' | 'browser'>) => Promise<void>
+
+}> {
+  const { headless = false, setup = mainFileSetup } = args
+  const serviceConfig = await setup({ context: 'node' })
+  const { service } = serviceConfig
+
+  if (!service)
+    throw new Error('service not found')
+
+  await serviceConfig.fictionEnv.crossRunCommand({ context: 'node', serviceConfig })
+  const port = service.fictionServer?.port.value
+
+  if (!port)
+    throw new Error('port not found')
+
+  const browser = await createTestBrowser({ headless })
+
+  const close = async () => {
+    await browser?.close()
+    await service.close?.()
+  }
+
+  return { port, browser, close, performActions: _ => performActions({ port, browser, ..._ }) }
 }

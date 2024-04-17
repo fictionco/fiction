@@ -5,16 +5,6 @@
 import type { Component, ComputedRef, Ref } from 'vue'
 import type { MediaDisplayObject } from '../plugin-media'
 
-export interface MediaItem {
-  name?: string
-  desc?: string
-  media?: MediaDisplayObject
-  overlays?: MediaDisplayObject[]
-  tags?: string[]
-  href?: string
-  actions?: ActionItem[]
-}
-
 export interface ListItem {
   name?: string
   value?: string | number
@@ -42,6 +32,13 @@ export type ClickHandler = (args: {
   event?: MouseEvent
   item?: NavItem
 }) => void | Promise<void>
+
+export type MediaItem = {
+  media?: MediaDisplayObject
+  overlays?: MediaDisplayObject[]
+  tags?: string[]
+  actions?: ActionItem[]
+} & NavItem
 
 export interface NavItem {
   name?: string

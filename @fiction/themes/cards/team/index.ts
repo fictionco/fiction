@@ -4,6 +4,8 @@ import { vue } from '@fiction/core'
 import { CardTemplate, createCard } from '@fiction/site'
 import { standardOption } from '../inputSets'
 
+const el = vue.defineAsyncComponent(() => import('./ElCard.vue'))
+
 export const templates = [
   new CardTemplate({
     templateId: 'team',
@@ -11,18 +13,19 @@ export const templates = [
     description: 'Team listing',
     icon: 'i-tabler-layout-bottombar-collapse-filled',
     iconTheme: 'orange',
-    el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
+    el,
     options: [
       standardOption.headers(),
       standardOption.mediaItems(),
       standardOption.actionItems(),
     ],
     userConfig: {},
+    demoPage: () => page(),
   }),
 ] as const
 
 export function page() {
-  const originalProfiles = [{
+  const originalProfiles = {
     name: 'James Bond',
     title: 'Founder',
     desc: 'Ultricies massa malesuada viverra cras lobortis. Tempor orci hac ligula dapibus mauris sit ut eu. Eget turpis urna maecenas cras. Nisl dictum.',
@@ -37,34 +40,29 @@ export function page() {
       icon: 'x',
       href: 'https://www.linkedin.com/in/arpowers',
     }],
-  }]
+  }
 
-  const duplicatedProfiles = Array.from({ length: 4 }, () => originalProfiles[0])
-  return createCard({
-    regionId: 'main',
-    templateId: 'wrap',
-    slug: 'card-team',
-    cards: [
-      createCard({
-        templates,
-        templateId: 'team',
-        userConfig: {
-          subHeading: `People helping build your story`,
-          heading: `Team`,
-          profiles: duplicatedProfiles,
-          layout: 'mediabox',
-        },
-      }),
-      createCard({
-        templates,
-        templateId: 'team',
-        userConfig: {
-          subHeading: `People helping build your story`,
-          heading: `Team`,
-          profiles: duplicatedProfiles,
-        },
+  const duplicatedProfiles = Array.from({ length: 4 }, () => originalProfiles)
+  return [
+    createCard({
+      el,
+      templateId: 'team',
+      userConfig: {
+        subHeading: `People helping build your story`,
+        heading: `Team`,
+        profiles: duplicatedProfiles,
+        layout: 'mediabox',
+      },
+    }),
+    createCard({
+      el,
+      templateId: 'team',
+      userConfig: {
+        subHeading: `People helping build your story`,
+        heading: `Team`,
+        profiles: duplicatedProfiles,
+      },
 
-      }),
-    ],
-  })
+    }),
+  ]
 }

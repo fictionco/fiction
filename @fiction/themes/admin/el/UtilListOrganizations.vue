@@ -5,12 +5,11 @@ import ElAvatar from '@fiction/ui/ElAvatar.vue'
 
 import type { Card } from '@fiction/site/card'
 
- defineProps({
+defineProps({
   card: { type: Object as vue.PropType<Card>, required: true },
 })
 
 const { fictionUser } = useService()
-
 </script>
 
 <template>

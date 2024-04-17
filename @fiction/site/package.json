@@ -15,7 +15,10 @@
     "vue": "^3.4.23"
   },
   "devDependencies": {
-    "@fiction/cards": "workspace:*"
+    "@fiction/cards": "workspace:*",
+    "@fiction/theme-fiction": "workspace:*",
+    "@fiction/theme-admin": "workspace:*",
+    "playwright": "^1.43.1"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",

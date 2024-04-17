@@ -17,7 +17,7 @@ export function getButtonClasses(args: { btn: UiElementStyle | string, size: UiE
   }
 
   const staticStyles = {
-    danger: 'border bg-rose-500 dark:bg-rose-900 focus-visible:outline-rose-500 text-rose-50 dark:text-rose-900 border-rose-500 dark:border-rose-600',
+    danger: 'border bg-rose-500 dark:bg-rose-900 focus-visible:outline-rose-500 text-rose-50 dark:text-rose-0 border-rose-500 dark:border-rose-600',
     caution: 'border bg-amber-500 dark:bg-amber-700 focus-visible:outline-amber-500 text-amber-50 border-amber-500 dark:border-amber-600',
     primary: 'border bg-primary-500 dark:bg-primary-800 focus-visible:outline-primary-600 text-primary-50 border-primary-500 dark:border-primary-600',
     success: 'border bg-emerald-500 dark:bg-emerald-900 focus-visible:outline-emerald-500 text-emerald-50 border-emerald-500 dark:border-emerald-600',

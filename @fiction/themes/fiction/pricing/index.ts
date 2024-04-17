@@ -26,9 +26,9 @@ const valueCard = createCard({
   },
 })
 
-export async function page(args: { fictionStripe: FictionStripe }) {
+export async function page(args: { fictionStripe?: FictionStripe }) {
   const { fictionStripe } = args
-  const url = await fictionStripe.getCheckoutUrl({ priceId: '#', loginPath: '/auth/login' })
+  const url = await fictionStripe?.getCheckoutUrl({ priceId: '#', loginPath: '/auth/login' })
 
   const pricingCard = createCard({
     templates,

@@ -1,8 +1,8 @@
 import type { FictionEnv, NavItem } from '@fiction/core'
 import { Theme, createCard } from '@fiction/site/theme'
 import { safeDirname } from '@fiction/core'
-import * as cards from '@fiction/cards'
 
+import { getDemoPages } from '@fiction/cards'
 import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
 import { templates } from './templates'
 import * as home from './home'
@@ -38,20 +38,23 @@ const socials: NavItem[] = [
   },
 ]
 
-export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }) {
+export async function setup(args: { fictionEnv: FictionEnv, fictionStripe?: FictionStripe }) {
   const { fictionEnv } = args
-  const pages = async () => {
-    const pricingPage = await pricing.page(args)
-    return [
+  const getPages = async () => {
+    const r = await Promise.all([
       home.page(),
       tour.page(),
       about.page(),
       developer.page(),
-      pricingPage,
+      pricing.page(args),
       affiliate.page(),
-      ...cards.pages(),
-    ]
+      ...getDemoPages(),
+    ])
+
+    return r
   }
+
+  const pages = await getPages()
 
   const domain = fictionEnv.meta.app?.domain || 'fiction.com'
   return new Theme({
@@ -64,7 +67,7 @@ export function setup(args: { fictionEnv: FictionEnv, fictionStripe: FictionStri
     version: '1.0.0',
     templates,
     isPublic: false,
-    pages,
+    pages: () => pages,
 
     userConfig: {
       shareImage: { url: shareImage },

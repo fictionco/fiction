@@ -7,7 +7,7 @@ import { templates as templatesQuote } from './quote'
 import { templates as templatesLogos } from './logos'
 import { templates as templatesHero } from './hero'
 import { templates as templatesDoc } from './doc'
-import { templates as templatesMarquee } from './marquee'
+
 import { templates as templatesArea } from './area'
 import { templates as templatesTour } from './tour'
 import { templates as templatesMediaGrid } from './media-grid'
@@ -17,6 +17,7 @@ import * as team from './team'
 import * as map from './map'
 import * as faq from './faq'
 import * as pricing from './pricing'
+import * as marquee from './marquee'
 /**
  * Add path for tailwindcss to scan for styles
  */
@@ -30,7 +31,7 @@ export const standardCardTemplates = [
   ...templates404,
   ...templatesQuote,
   ...templatesHero,
-  ...templatesMarquee,
+  ...marquee.templates,
   ...templatesArea,
 
 ] as const
@@ -48,8 +49,8 @@ export const marketingCardTemplates = [
   ...faq.templates,
 ] as const
 
-export function pages() {
+export function getDemoPages() {
   return [
-    team.page(),
+    marquee.demo(),
   ]
 }

@@ -17,33 +17,10 @@ const themeColor = vue.ref<ThemeColor>('slate')
 function selectColor(c: ThemeColor) {
   themeColor.value = c
 }
-
-const theme = vue.computed(() => {
-  const levels = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const
-  const obj = Object.fromEntries(
-    levels.map(level => [
-      level,
-      colorStandard({ color: themeColor.value, level }),
-    ]),
-  ) as Record<typeof levels[number], string>
-  return {
-    level0: obj[0],
-    level50: obj[50],
-    level100: obj[100],
-    level200: obj[200],
-    level300: obj[300],
-    level400: obj[400],
-    level500: obj[500],
-    level600: obj[600],
-    level700: obj[700],
-    level800: obj[800],
-    level900: obj[900],
-  }
-})
 </script>
 
 <template>
-  <div id="test-inputs" class="wrap py-12">
+  <div id="test-inputs" class="wrap py-12 bg-theme-0 dark:bg-theme-950 text-theme-800 dark:text-theme-0">
     <div class="space-y-2">
       <div class="flex justify-center space-x-4 text-xs">
         <a
@@ -128,22 +105,5 @@ const theme = vue.computed(() => {
 </template>
 
 <style>
-.input-area {
-  --theme-0: v-bind("theme.level0");
-  --theme-50: v-bind("theme.level50");
-  --theme-100: v-bind("theme.level100");
-  --theme-200: v-bind("theme.level200");
-  --theme-300: v-bind("theme.level300");
-  --theme-400: v-bind("theme.level400");
-  --theme-500: v-bind("theme.level500");
-  --theme-600: v-bind("theme.level600");
-  --theme-700: v-bind("theme.level700");
-  --theme-800: v-bind("theme.level800");
-  --theme-900: v-bind("theme.level900");
-  --input-bg: v-bind("theme.level50");
-  /* --input-x: calc(0.6 * v-bind("sizing.inputSize"));
-  --input-y: calc(0.3 * v-bind("sizing.inputSize"));
-  --input-size: v-bind("sizing.inputSize");
-  --input-max-width: calc(25 * v-bind("sizing.inputSize")); */
-}
+
 </style>

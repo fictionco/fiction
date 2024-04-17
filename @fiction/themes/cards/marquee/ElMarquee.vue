@@ -1,40 +1,63 @@
 <script lang="ts" setup>
 import type { MediaItem } from '@fiction/core'
-import { vue } from '@fiction/core'
+import { getNavComponentType, vue } from '@fiction/core'
 import type { Card } from '@fiction/site'
 
 export type UserConfig = {
   items?: MediaItem[]
+  direction?: 'left' | 'right'
+  stagger?: boolean
 }
 
 const props = defineProps({
-  card: {
-    type: Object as vue.PropType<Card<UserConfig>>,
-    required: true,
-  },
+  card: { type: Object as vue.PropType<Card<UserConfig>>, required: true },
 })
+
+const uc = vue.computed(() => props.card.userConfig.value)
 
 const temp = vue.computed(() => {
   const it = []
   // for loop 10 times
   for (let i = 0; i < 15; i++) {
-    const items = props.card.userConfig.value.items || []
+    const items = uc.value.items || []
     // add it to the end of the array
     it.push(...items)
   }
 
   return it
 })
+
+function getStagger(index: number): string {
+  if (!uc.value.stagger)
+    return ''
+
+  const staggerClasses = [
+    'translate-y-[10px]',
+    'translate-y-[-20px]',
+    'translate-y-[30px]',
+    'translate-y-[-10px]',
+    'translate-y-[20px]',
+    'translate-y-[-30px]',
+  ]
+
+  return staggerClasses[index % staggerClasses.length] || ''
+}
 </script>
 
 <template>
   <div class="marquee relative z-10 mx-auto overflow-hidden">
-    <div class="marquee-track">
+    <div class="marquee-track" :class="uc.direction === 'right' ? 'reverse' : ''">
       <div class="marquee-grid grid">
-        <div
+        <component
+          :is="getNavComponentType(item)"
           v-for="(item, i) in temp"
           :key="i"
-          class="marquee-item relative overflow-hidden"
+          :to="item.href"
+          :href="item.href"
+          class="marquee-item relative overflow-hidden transition-all duration-300"
+          :class="[getStagger(i), item.href ? 'hover:-translate-y-1' : '']"
+          :data-display-items="temp.length"
+          :data-display-direction="uc.direction || 'left'"
         >
           <div v-if="item.media" class="item-media absolute inset-0">
             <img
@@ -51,7 +74,7 @@ const temp = vue.computed(() => {
               {{ item.desc }}
             </div>
           </div>
-        </div>
+        </component>
       </div>
     </div>
   </div>
@@ -65,8 +88,13 @@ const temp = vue.computed(() => {
   --card-count: v-bind(temp.length);
   .marquee-track {
     width: fit-content;
-    animation: marqueeDesktop
-      calc(var(--card-speed, 7s) * var(--card-count, 20)) linear infinite;
+    animation: marqueeDesktop calc(var(--card-speed, 7s) * var(--card-count, 20)) linear infinite;
+    &.reverse {
+      animation-direction: reverse; // Reverses the animation direction
+    }
+    &:hover {
+      animation-play-state: paused;
+    }
   }
   .marquee-grid {
     grid-auto-columns: -webkit-min-content;

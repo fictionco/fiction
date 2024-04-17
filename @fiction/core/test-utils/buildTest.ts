@@ -16,7 +16,7 @@ import type { TestUtilSettings } from './init'
 const logger = log.contextLogger('BUILD TESTS')
 
 async function getModuleName(cwd: string): Promise<string> {
-  const pkg = await import(`${cwd}/package.json`) as PackageJson
+  const pkg = await import(/* @vite-ignore */`${cwd}/package.json`) as PackageJson
   return pkg.name
 }
 

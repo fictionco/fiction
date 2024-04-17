@@ -132,7 +132,7 @@ const referralAccounts = vue.computed(() => {
                 >
                   <span class="bg-gradient-to-br from-primary-200 to-primary-300 bg-clip-text text-transparent">
                     Refer
-                    <span class="mx-2">{{ referralAccounts[volumeTier].accounts }}</span>
+                    <span class="mx-2">{{ referralAccounts[volumeTier]?.accounts }}</span>
                   </span>
                   <span v-if="volumeTier > 0"> accounts </span>
                   <span v-else> account </span> to a starting plan.
@@ -142,14 +142,14 @@ const referralAccounts = vue.computed(() => {
                   <div class="my-12">
                     <div
                       class=" x-font-title mb-4 text-3xl font-bold lg:text-7xl"
-                      v-html="referralAccounts[volumeTier].yearlyEarnings"
+                      v-html="referralAccounts[volumeTier]?.yearlyEarnings"
                     />
 
                     <div class="text-dark-200 text-lg font-medium uppercase tracking-wide font-sans antialiased">
                       Per Year /
                       <div
                         class="inline"
-                        v-html="referralAccounts[volumeTier].earnings"
+                        v-html="referralAccounts[volumeTier]?.earnings"
                       />
                       a month
                     </div>

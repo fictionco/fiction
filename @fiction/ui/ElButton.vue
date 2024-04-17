@@ -80,7 +80,7 @@ const buttonClasses = vue.computed(() => {
       :class="[loading ? 'opacity-0' : '', wrapClass, format === 'spread' ? '' : 'justify-center']"
     >
       <div v-if="icon" class="flex space-x-1 items-center">
-        <div class="text-[1.2em] -mt-[1px] -ml-0.5"><div :class="icon" /></div>
+        <div class="text-[1.2em] -mt-[1px] -ml-0.5" :class="icon" />
         <div class=""><slot /></div>
       </div>
       <template v-else><slot /></template>

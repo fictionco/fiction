@@ -46,7 +46,7 @@ const inputComponent = vue.computed(() => {
     return ''
   }
   else if (inp && typeof inp === 'string') {
-    const r = inputs[inp].el
+    const r = inputs[inp]?.el
     return r
   }
   else {

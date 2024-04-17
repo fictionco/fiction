@@ -155,7 +155,7 @@ export function pages() {
   ]
 }
 
-export function setup(args: { fictionEnv: FictionEnv }) {
+export async function setup(args: { fictionEnv: FictionEnv }) {
   const { fictionEnv } = args
   return new Theme({
     fictionEnv,
