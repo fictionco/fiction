@@ -55,7 +55,7 @@ const classes = [
 
 <template>
   <label
-    class="text-input-size text-theme-700 bg-theme-100 hover:bg-theme-200 hover:border-theme-400 border-input-border inline-flex cursor-pointer items-center overflow-hidden rounded-md border"
+    class="text-input-size text-theme-700 dark:text-theme-0 bg-theme-100 dark:bg-theme-800 hover:bg-theme-200 hover:border-theme-400 border-theme-300 inline-flex cursor-pointer items-center overflow-hidden rounded-md border"
     @click.stop
   >
     <div class="p-[.4em]" :for="inputId">

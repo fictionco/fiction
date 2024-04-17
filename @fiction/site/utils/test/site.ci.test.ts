@@ -1,11 +1,32 @@
+/**
+ * @vitest-environment happy-dom
+ */
+
 import { describe, expect, it } from 'vitest'
 import { shortId } from '@fiction/core'
 import { requestManageSite } from '../../load'
 import type { EditorState } from '../../site'
 import { Site } from '../../site'
 import { createSiteTestUtils } from '../../test/siteTestUtils'
-import { activeSiteHostname, saveSite, updateSite } from '../site'
+import { activeSiteHostname, saveSite, setupRouteWatcher, updateSite } from '../site'
 import { setPages, updatePages } from '../page'
+
+describe('query var', async () => {
+  const testUtils = await createSiteTestUtils()
+  const common = { fictionSites: testUtils.fictionSites, siteRouter: testUtils.fictionRouterSites, themeId: 'test' }
+
+  it('changes scheme', async () => {
+    const site = new Site({ ...common, themeId: 'test' })
+
+    await site.siteRouter.push({ query: { _scheme: 'dark' } }, { caller: 'test' })
+
+    expect(site.isDarkMode.value).toBe(true)
+
+    await site.siteRouter.push({ query: { _scheme: 'light' } }, { caller: 'test' })
+
+    expect(site.isDarkMode.value).toBe(false)
+  })
+})
 
 describe('saveSite', async () => {
   const testUtils = await createSiteTestUtils()

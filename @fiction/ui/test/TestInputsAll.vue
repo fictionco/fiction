@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ThemeColor } from '@fiction/core'
-import { colorStandard, colors, useService, vue } from '@fiction/core'
+import { colors, useService, vue } from '@fiction/core'
 import { InputOption, inputs } from '..'
 import TestInput from './TestInput.vue'
 

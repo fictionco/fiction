@@ -96,6 +96,10 @@ export async function loadSite(args: {
     if (selectors.length > 1)
       logger.error('Multiple selectors used to load site', { data: { selectors } })
 
+    // for health checks, etc.
+    if (internal)
+      return
+
     if (themeId) {
       logger.info('Loading site from theme', { data: { themeId } })
       site = await loadSiteFromTheme({ themeId, siteRouter, fictionSites, siteMode, caller: 'loadSite' })
@@ -106,9 +110,6 @@ export async function loadSite(args: {
       })
 
       site = await loadSiteById({ where, siteRouter, fictionSites, siteMode })
-    }
-    else if (internal) {
-      logger.info('no site loaded due to internal request', { data: { internal } })
     }
     else {
       const data = { vals, siteRouter: siteRouter.toConfig(), caller }

@@ -3,7 +3,7 @@ import type { ActionItem, MediaItem, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
-import XText from '@fiction/cards/CardText.vue'
+import CardText from '@fiction/cards/CardText.vue'
 import XSocials from '../ui/XSocials.vue'
 
 export type UserConfig = {
@@ -77,19 +77,19 @@ function setActiveItem(index: number) {
         <div class="md:w-[50%]  px-2 flex items-center">
           <div class="p-6 md:p-12 xl:p-[calc(1500px*0.06)] flex flex-col justify-center gap-20">
             <div class="details">
-              <XText
+              <CardText
                 tag="h3"
                 :card="card"
                 class="text-theme-300 mb-4 text-base lg:text-base x-font-sans font-semibold"
                 path="superHeading"
               />
-              <XText
+              <CardText
                 tag="h1"
                 :card="card"
                 class="heading text-3xl font-bold md:text-4xl lg:text-5xl x-font-title tracking-tight lg:leading-[1.1] text-balance"
                 path="heading"
               />
-              <XText
+              <CardText
                 tag="div"
                 :card="card"
                 class="sub-heading mt-6 text-lg  font-medium  entry text-balance"
@@ -99,7 +99,7 @@ function setActiveItem(index: number) {
             </div>
 
             <div class="list">
-              <XText
+              <CardText
                 tag="h3"
                 :card="card"
                 class="sub-heading  text-theme-300 x-font-sans text-sm font-semibold mb-4"
@@ -108,12 +108,12 @@ function setActiveItem(index: number) {
               />
               <div class="flex gap-[10%] gap-y-4 flex-wrap font-sans text-sm font-medium">
                 <div v-for="(item, i) in uc.details" :key="i" class="w-[45%] ">
-                  <XText
+                  <CardText
                     :card="card"
                     class="font-semibold"
                     :path="`details.${i}.name`"
                   />
-                  <XText
+                  <CardText
                     tag="a"
                     :card="card"
                     :class="item.href ? 'hover:text-primary-500 text-primary-600' : 'text-theme-500'"

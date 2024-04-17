@@ -4,8 +4,6 @@ import { createSiteUiTestingKit } from '@fiction/site/test/siteTestUtils'
 const headless = true
 
 describe('signin UX', async () => {
-
-
   const kit = await createSiteUiTestingKit({ headless })
 
   afterAll(() => kit?.close())

@@ -94,19 +94,30 @@ vue.onMounted(async () => {
     freeInlineCompletions() {},
   })
 
+  const determineTheme = (element: HTMLElement | null): 'vs' | 'vs-dark' => {
+    while (element) {
+      if (element.classList.contains('dark'))
+        return 'vs-dark'
+      if (element.classList.contains('light'))
+        return 'vs'
+      element = element.parentElement
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'vs-dark' : 'vs'
+  }
+
   // const varnameValue = getComputedStyle(el).getPropertyValue('--input-bg')
   // console.log('varnameValue', varnameValue)
-  monaco.editor.defineTheme('fictionTheme', {
-    base: 'vs',
-    inherit: true,
-    colors: {
-      'editor.background': 'var(--input-bg)',
-    },
-    rules: [],
-  })
+  // monaco.editor.defineTheme('fictionTheme', {
+  //   base: 'vs',
+  //   inherit: true,
+  //   colors: {
+  //     'editor.background': 'var(--input-bg)',
+  //   },
+  //   rules: [],
+  // })
 
   const editor = monaco.editor.create(el, {
-    theme: 'vs-dark',
+    theme: determineTheme(el),
     language: 'markdown',
     lineNumbers: 'off',
     glyphMargin: false, // Disable the glyph margin
@@ -120,20 +131,22 @@ vue.onMounted(async () => {
     wrappingIndent: 'same',
     roundedSelection: false,
     scrollBeyondLastLine: false,
-    padding: { top: 7, bottom: 7 },
+    padding: { top: 8, bottom: 7 },
     quickSuggestionsDelay: 200,
-    quickSuggestions: {
-      other: 'inline',
-      comments: true,
-      strings: true,
-    },
+    quickSuggestions: false,
     inlineSuggest: { enabled: true },
-    fontFamily: 'var(--font-family-mono)',
+    fontSize: 16,
+    fontFamily: 'DM Mono, monospace',
     overviewRulerBorder: false,
     overviewRulerLanes: 0,
     guides: { indentation: false },
     renderLineHighlight: 'none',
     automaticLayout: true,
+    stickyScroll: { enabled: false },
+    formatOnType: false,
+    formatOnPaste: false,
+    renderWhitespace: 'none',
+    contextmenu: false,
   })
 
   editor.onDidChangeModelContent(() => {
@@ -158,7 +171,7 @@ function _send(el: EventTarget | null): void {
   emit('update:modelValue', txt)
 }
 
-const cls = vue.computed(() => twMerge(`medit h-[200px] rounded-md border-theme-300 dark:hover:border-theme-500 dark:focus:border-theme-500 dark:border-theme-600 border overflow-hidden bg-theme-100 dark:bg-theme-800 ${props.inputClass}`))
+const cls = vue.computed(() => twMerge(`antialiased medit h-[200px] rounded-md border-theme-300 dark:hover:border-theme-500 dark:focus:border-theme-500 dark:border-theme-600 border overflow-hidden bg-theme-100 dark:bg-theme-800 ${props.inputClass}`))
 </script>
 
 <template>
@@ -167,10 +180,9 @@ const cls = vue.computed(() => twMerge(`medit h-[200px] rounded-md border-theme-
 
 <style lang="less">
 .monaco-editor {
-  --input-bg: red;
-  --vscode-editor-background: var(--theme-800) !important;
-  --vscode-editorGutter-background:  var(--theme-800) !important;
-  --vscode-focusBorder: transparent !important;
+    --vscode-editor-background: transparent !important;
+    --vscode-editorGutter-background:  transparent !important;
+    --vscode-focusBorder: transparent !important;
 
 }
 </style>

@@ -1,6 +1,7 @@
 // @unocss-include
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
+import { s } from 'vitest/dist/reporters-LqC_WI4d'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
 import type { Card } from './card'
 import { flattenCards, setLayoutOrder } from './utils/layout'
@@ -8,7 +9,8 @@ import type { LayoutOrder } from './utils/layout'
 import { SiteFrameTools } from './utils/frame'
 import { activePageId, getPageById, getViewMap, setPages, updatePages } from './utils/page'
 import { addNewCard, removeCard } from './utils/region'
-import { saveSite, setSections, updateSite } from './utils/site'
+import type { QueryVarHook } from './utils/site'
+import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site'
 import type { SiteMode } from './load'
 import type { FictionSites } from '.'
 
@@ -24,7 +26,6 @@ export type EditorState = {
 export type SiteSettings = {
   fictionSites: FictionSites
   siteRouter: FictionRouter
-  useRouter?: boolean
   currentPath?: vue.Ref<string> | vue.WritableComputedRef<string>
   isEditable?: boolean
   siteMode?: SiteMode
@@ -40,6 +41,24 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
   frame = new SiteFrameTools({ site: this, relation: this.siteMode.value === 'editor' ? 'parent' : 'child' })
   constructor(settings: T) {
     super('Site', settings)
+    this.watchers()
+  }
+
+  watchers() {
+    const queryVarHooks: QueryVarHook[] = [{
+      key: '_scheme',
+      value: ['dark', 'light', 'toggle'],
+      callback: (args: { site: Site, value: string }) => {
+        const { value } = args
+        if (value === 'toggle')
+          this.isDarkMode.value = !this.isDarkMode.value
+        else if (value)
+          this.isDarkMode.value = value === 'dark'
+
+        return { reload: true }
+      },
+    }]
+    setupRouteWatcher({ site: this, queryVarHooks })
   }
 
   siteId = this.settings.siteId || objectId({ prefix: 'ste' })

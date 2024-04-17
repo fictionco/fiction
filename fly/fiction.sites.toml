@@ -26,6 +26,5 @@ tls_skip_verify = false
 strategy = "bluegreen"
 
 [[vm]]
-cpu_kind = "shared"
-cpus = 1
-memory_mb = 2048
+size = "shared-cpu-2x"
+memory = "4gb"
