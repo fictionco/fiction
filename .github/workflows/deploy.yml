@@ -57,6 +57,13 @@ jobs:
     name: build and test
     runs-on: ubuntu-latest
     steps:
+
+      - name: Debug Info
+        run: |
+          echo "SHOULD_RELEASE: $SHOULD_RELEASE"
+          echo "SHOULD_DEPLOY: $SHOULD_DEPLOY"
+          echo "Commit Message: ${{ github.event.head_commit.message }}"
+
       - name: Get The Code
         uses: actions/checkout@v4
 
@@ -152,8 +159,8 @@ jobs:
       - name: Deploy Apps
         if: env.SHOULD_DEPLOY
         run: |
-          cross-env DOMAIN=fiction APP=www NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
-          cross-env DOMAIN=fiction APP=sites NPM_TOKEN=${{ secrets.NPM_TOKEN }} npm run deploy
+          cross-env DOMAIN=fiction APP=www npm run deploy
+          cross-env DOMAIN=fiction APP=sites npm run deploy
 
       - name: Release Code
         if: env.SHOULD_RELEASE
