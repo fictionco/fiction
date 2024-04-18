@@ -75,11 +75,12 @@ export class FictionRender extends FictionPlugin<FictionRenderSettings> {
     if (!this.viteDevServer) {
       const viteConfig = await this.getViteConfig({ isProd })
 
-      const serverConfig = deepMergeAll([
+      const serverConfig = deepMergeAll<vite.InlineConfig>([
         viteConfig,
         {
           appType: 'custom',
           server: { middlewareMode: true },
+          optimizeDeps: { holdUntilCrawlEnd: true },
         },
       ])
 
