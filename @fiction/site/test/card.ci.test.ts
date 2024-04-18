@@ -43,7 +43,7 @@ describe('card', async () => {
     const totalEstimatedTime = generation.totalEstimatedTime.value
     expect(totalEstimatedTime).toBeGreaterThan(0)
     // Update the expected time based on your options setup
-    expect(totalEstimatedTime).toBeGreaterThan(24)
+    expect(totalEstimatedTime).toBe(24)
   })
 
   it('card generates correct prompt for content creation', () => {

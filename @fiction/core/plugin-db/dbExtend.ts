@@ -36,7 +36,7 @@ $$ LANGUAGE PLPGSQL;`)
   const createShortId
     = await db.raw<string>(`CREATE OR REPLACE FUNCTION short_id(size INT) RETURNS TEXT AS $$
   DECLARE
-    characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    characters TEXT := 'abcdefghijklmnopqrstuvwxyz';
     bytes BYTEA := gen_random_bytes(size);
     l INT := length(characters);
     i INT := 0;

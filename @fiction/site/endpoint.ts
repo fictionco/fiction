@@ -1,5 +1,5 @@
 import type { DataFilter, EndpointMeta, EndpointResponse } from '@fiction/core'
-import { Query, deepMerge, prepareFields } from '@fiction/core'
+import { Query, deepMerge, prepareFields, shortId } from '@fiction/core'
 import type { Knex } from 'knex'
 import type { CardConfigPortable, TableCardConfig, TableDomainConfig, TableSiteConfig } from './tables'
 import { tableNames } from './tables'
@@ -260,7 +260,9 @@ export class ManageSite extends SitesQuery {
 
       const themeSite = await this.createSiteFromTheme(params, meta)
 
-      const f = deepMerge([themeSite, fields])
+      const defaultSubDomain = meta.bearer?.email?.split('@')[0] || 'site'
+
+      const f = deepMerge([themeSite, { subDomain: `${defaultSubDomain}-${shortId({ len: 4 })}` }, fields])
 
       const prepped = prepareFields({
         type: 'settings',

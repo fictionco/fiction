@@ -25,7 +25,7 @@ export class CardGeneration extends FictionObject<CardGenerationSettings> {
   tpl = vue.computed(() => this.card.tpl.value)
   site = this.card.site
 
-  defaultInputConfig = vue.computed(() => getGenerationInputConfig(this.tpl.value?.settings.options || []))
+  defaultInputConfig = vue.computed(() => getGenerationInputConfig(this.tpl.value?.settings?.options || []))
 
   defaultPrompt = vue.computed(() => {
     const c = this.card
