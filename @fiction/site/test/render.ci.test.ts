@@ -97,7 +97,12 @@ describe('siteRendering Tests', async () => {
     //   "
     // `)
 
-    expect(html.length).toBeGreaterThan(10000)
+    const l = html.length
+
+    if (l < 3000)
+      console.error('SHORT RENDER', html)
+
+    expect(l).toBeGreaterThan(10000)
 
     entry.app.unmount()
     await waitFor(300)
