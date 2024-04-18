@@ -23,6 +23,7 @@ interface CardTemplateSettings<U extends string = string, T extends ComponentCon
   icon?: string
   iconTheme?: keyof typeof iconStyle
   thumb?: string
+  isPublic?: boolean
   el: T
   //  render?: (card: Card) => vue.ComputedRef<CardRender<ComponentConstructor>>
   isContainer?: boolean // ui drawer

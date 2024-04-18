@@ -86,6 +86,7 @@ const mediaClass = vue.computed(() => {
         :class="mediaWrapClass"
       >
         <ElImage
+          data-key="splash"
           class="w-full rounded-lg overflow-hidden dark:ring-1 dark:ring-theme-800"
           :class="mediaClass"
           :media="uc.splash"

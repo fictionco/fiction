@@ -12,6 +12,7 @@ export const templates = [
     icon: 'i-tabler-error-404',
     iconTheme: 'red',
     el: vue.defineAsyncComponent(() => import('./El404.vue')),
+    isPublic: false,
     options: [
       standardOption.headers(),
       standardOption.actionItems(),

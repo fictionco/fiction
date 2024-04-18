@@ -5,7 +5,7 @@ import { CardTemplate } from '@fiction/site/card'
 import { templates as templates404 } from './404'
 import { templates as templatesQuote } from './quote'
 import { templates as templatesLogos } from './logos'
-import { templates as templatesHero } from './hero'
+import * as hero from './hero'
 import { templates as templatesDoc } from './doc'
 
 import { templates as templatesArea } from './area'
@@ -30,7 +30,7 @@ export const standardCardTemplates = [
   }),
   ...templates404,
   ...templatesQuote,
-  ...templatesHero,
+  ...hero.templates,
   ...marquee.templates,
   ...templatesArea,
 
@@ -52,5 +52,6 @@ export const marketingCardTemplates = [
 export function getDemoPages() {
   return [
     marquee.demo(),
+    hero.demo(),
   ]
 }

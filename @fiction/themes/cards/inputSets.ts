@@ -178,7 +178,7 @@ export const standardOption = {
       new InputOption({ key: 'bodyMarkdown', label: 'Content', input: 'InputTextarea', schema: ({ z }) => z.string(), ..._ }),
     ] })
   },
-  ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'AISettings', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
+  ai: (_: OptArgs = {}) => new InputOption({ label: 'AI', input: 'group', key: 'ai', options: [new InputOption({ key: 'purpose', input: InputAi, ..._ })], ..._ }),
 }
 
 // export const headerOptionSet = new OptionSet({

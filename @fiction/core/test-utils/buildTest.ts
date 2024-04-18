@@ -127,7 +127,7 @@ export async function createTestServer(params: {
 }
 
 type TestPageAction = {
-  type: 'visible' | 'click' | 'type' | 'keyboard' | 'exists'
+  type: 'visible' | 'click' | 'type' | 'keyboard' | 'exists' | 'count'
   selector: string
   text?: string
   key?: string
@@ -144,6 +144,16 @@ export async function performActions(args: {
   const page = browser.page
 
   const url = new URL(`http://localhost:${port}${path}`).toString()
+
+  const errorLogs: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error')
+      errorLogs.push(message.text())
+  })
+
+  page.on('pageerror', (err) => {
+    errorLogs.push(err.message)
+  })
 
   logger.info('NAVIGATE_TO', { data: { url } })
 
@@ -182,11 +192,19 @@ export async function performActions(args: {
         expect(exists, `${action.selector} exists`).toBeGreaterThan(0)
         break
       }
+      case 'count': {
+        const cnt = await element.count()
+        logger.info('CNT', { data: { result: cnt, selector: action.selector } })
+        expect(cnt, `${action.selector} count ${cnt}`).toBe(cnt)
+        break
+      }
     }
 
     if (action.wait)
       await waitFor(action.wait)
   }
+
+  expect(errorLogs.length).toBe(0)
 }
 
 function getModifiedCommands(commands: CliCommand[]) {

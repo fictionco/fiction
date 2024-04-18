@@ -19,7 +19,7 @@ const props = defineProps({
 })
 const control = props.site.settings.fictionSites
 const groupTemplates = vue.computed(() => {
-  const all = props.site.theme.value?.templates
+  const all = props.site.theme.value?.templates.filter(t => t.settings.isPublic)
   const grouped: Record<string, CardTemplate[]> = {}
 
   // Group templates by category

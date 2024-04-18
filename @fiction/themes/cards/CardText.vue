@@ -35,6 +35,7 @@ const value = vue.computed(() => {
 
 <template>
   <XTextBase
+    :data-key="path"
     v-bind="attrs"
     :tag="tag"
     :is-editable="card.site?.isEditable.value"

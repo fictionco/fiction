@@ -33,13 +33,6 @@ export type ClickHandler = (args: {
   item?: NavItem
 }) => void | Promise<void>
 
-export type MediaItem = {
-  media?: MediaDisplayObject
-  overlays?: MediaDisplayObject[]
-  tags?: string[]
-  actions?: ActionItem[]
-} & NavItem
-
 export interface NavItem {
   name?: string
   desc?: string
@@ -53,6 +46,20 @@ export interface NavItem {
   target?: string
 }
 
+export type ActionItem = NavItem & {
+  btn?: 'default' | 'danger' | 'primary' | 'caution' | 'success'
+  size?: 'sm' | 'lg' | 'md' | 'xl'
+  target?: string
+  loading?: boolean
+}
+
+export type MediaItem = {
+  media?: MediaDisplayObject
+  overlays?: MediaDisplayObject[]
+  tags?: string[]
+  actions?: ActionItem[]
+} & NavItem
+
 export interface NavItemGroup {
   title?: string
   key?: string
@@ -65,13 +72,6 @@ export interface NavGroup {
   key?: string
   class?: string
   items: NavItem[]
-}
-
-export type ActionItem = NavItem & {
-  btn?: 'default' | 'danger' | 'primary' | 'caution' | 'success'
-  size?: 'sm' | 'lg' | 'md' | 'xl'
-  target?: string
-  loading?: boolean
 }
 
 export type IndexItem = { links?: ActionItem[], actions?: ActionItem[], tags?: ActionItem[], fig?: Component, figProps?: Record<string, unknown> } & NavItem

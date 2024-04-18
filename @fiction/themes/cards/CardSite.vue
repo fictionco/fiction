@@ -221,7 +221,6 @@ body,
 .x-site,
 .x-engine{
   min-height: 100dvh;
-  height: 100%;
 }
 
 .x-site{

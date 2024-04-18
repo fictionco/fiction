@@ -42,19 +42,24 @@ const textWrapClass = vue.computed(() => {
 
   return out.join(' ')
 })
+
+const layout = vue.computed(() => {
+  return uc.value.layout || 'center'
+})
 </script>
 
 <template>
   <div>
     <div
       :class="textWrapClass"
+      data-key="layout"
+      :data-layout="layout"
     >
-      <div :class="uc.layout === 'justify' ? 'lg:min-w-[50%]' : ''">
+      <div :class="layout === 'justify' ? 'lg:min-w-[50%]' : ''">
         <CardText
           tag="h3"
           :card="card"
           class="text-theme-500 dark:text-primary-300/50 font-sans text-sm lg:text-lg font-medium antialiased"
-
           path="superHeading"
           placeholder="Super Heading"
         />
@@ -62,22 +67,22 @@ const textWrapClass = vue.computed(() => {
           tag="h1"
           :card="card"
           class="x-font-title text-4xl sm:text-5xl lg:text-7xl lg:tracking-tight font-bold text-balance"
-          :class="uc.layout === 'justify' || uc.layout === 'left' ? 'mt-3' : 'my-7'"
+          :class="layout === 'justify' || layout === 'left' ? 'mt-3' : 'my-7'"
           path="heading"
           placeholder="Heading"
         />
       </div>
-      <div :class="uc.layout === 'justify' ? 'lg:max-w-[50%]' : ''">
+      <div :class="layout === 'justify' ? 'lg:max-w-[50%]' : ''">
         <CardText
-          tag="h3"
+          tag="div"
           :card="card"
           class="mt-8 text-xl lg:text-3xl lg:leading-snug text-balance"
-          :class="uc.layout === 'justify' ? 'lg:text-right' : ''"
+          :class="layout === 'justify' ? 'lg:text-right' : ''"
           path="subHeading"
           placeholder="Sub Heading"
         />
       </div>
     </div>
-    <CardActions :card="card" :justify="uc.layout === 'justify' ? 'left' : 'center'" :default-size="uc.layout === 'justify' ? 'lg' : 'xl'" />
+    <CardActions :card="card" :justify="['justify', 'left', 'right'].includes(layout) ? 'left' : 'center'" :default-size="layout === 'justify' ? 'lg' : 'xl'" />
   </div>
 </template>

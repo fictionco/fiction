@@ -13,6 +13,7 @@ export const templates = [
     description: 'animated image marquee',
     icon: 'i-tabler-carousel-horizontal',
     iconTheme: 'pink',
+    isPublic: true,
     el,
     options: [
       standardOption.mediaItems({ key: 'items', label: 'Marquee Media Items' }),
