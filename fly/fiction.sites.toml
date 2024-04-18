@@ -14,7 +14,6 @@ min_machines_running = 1
 processes = [ 'app' ]
 
 [[http_service.checks]]
-port = 6565
 grace_period = "10s"
 interval = "30s"
 method = "GET"
