@@ -3,8 +3,7 @@ import type { ActionItem, MediaItem, NavItem } from '@fiction/core'
 import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
-import CardText from '@fiction/cards/CardText.vue'
-import { ref } from 'vue'
+import CardText from '../CardText.vue'
 import CardSocials from '../el/CardSocials.vue'
 
 export type UserConfig = {

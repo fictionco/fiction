@@ -2,10 +2,10 @@
 
 import { vue } from '@fiction/core'
 import { InputOption } from '@fiction/ui'
-import { refineOptions } from '@fiction/cards/utils/refiner'
-import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 import { createCard } from '@fiction/site'
+import { refineOptions } from '../utils/refiner'
+import { standardOption } from '../inputSets'
 import type { UserConfig } from './ElCard.vue'
 
 function userControls() {
