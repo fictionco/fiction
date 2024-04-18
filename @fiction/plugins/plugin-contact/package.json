@@ -1,7 +1,7 @@
 {
   "name": "@fiction/plugin-contact",
   "type": "module",
-  "version": "6.0.33",
+  "version": "6.0.34",
   "author": "Fiction",
   "license": "GPL-2.0-only",
   "main": "index.ts",

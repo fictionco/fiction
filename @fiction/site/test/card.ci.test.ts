@@ -67,7 +67,7 @@ describe('card', async () => {
     const totalEstimatedTime = card.generation.totalEstimatedTime.value
 
     expect(totalEstimatedTime).toBeGreaterThan(0)
-    expect(totalEstimatedTime).toMatchInlineSnapshot(`20`)
+    expect(totalEstimatedTime).toMatchInlineSnapshot(`24`)
   })
 
   it('should have correct generations settings', () => {
@@ -87,7 +87,7 @@ describe('card', async () => {
     expect(inputConfig).toMatchInlineSnapshot(`
       {
         "actions": {
-          "cumulativeTime": 20000,
+          "cumulativeTime": 24000,
           "estimatedMs": 4000,
           "isDisabled": undefined,
           "key": "actions",
@@ -108,6 +108,14 @@ describe('card', async () => {
           "isDisabled": undefined,
           "key": "layout",
           "label": "Layout",
+          "prompt": undefined,
+        },
+        "splash": {
+          "cumulativeTime": 20000,
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
+          "key": "splash",
+          "label": "Splash Image",
           "prompt": undefined,
         },
         "subHeading": {
@@ -199,6 +207,26 @@ describe('cardTemplate', async () => {
             ],
             "type": "string",
           },
+          "splash": {
+            "additionalProperties": false,
+            "description": "Splash Image",
+            "properties": {
+              "format": {
+                "enum": [
+                  "url",
+                ],
+                "type": "string",
+              },
+              "url": {
+                "type": "string",
+              },
+            },
+            "required": [
+              "url",
+              "format",
+            ],
+            "type": "object",
+          },
           "subHeading": {
             "description": "Sub Heading",
             "type": "string",
@@ -211,6 +239,7 @@ describe('cardTemplate', async () => {
         "required": [
           "heading",
           "subHeading",
+          "splash",
           "actions",
         ],
         "type": "object",

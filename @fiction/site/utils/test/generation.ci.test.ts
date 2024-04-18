@@ -53,6 +53,13 @@ describe('generation utils', async () => {
         {
           "estimatedMs": 4000,
           "isDisabled": undefined,
+          "key": "splash",
+          "label": "Splash Image",
+          "prompt": undefined,
+        },
+        {
+          "estimatedMs": 4000,
+          "isDisabled": undefined,
           "key": "actions",
           "label": "Actions",
           "prompt": undefined,
