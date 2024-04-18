@@ -17,7 +17,7 @@ describe('signin UX', async () => {
         { type: 'exists', selector: '[id="google-signin-button"]' },
       ],
     })
-  }, 15_000)
+  })
 
   it('defaults to login page', async () => {
     await kit.performActions({
@@ -28,7 +28,7 @@ describe('signin UX', async () => {
         { type: 'exists', selector: '[id="google-signin-button"]' },
       ],
     })
-  }, 15_000)
+  })
 
   it('allows toggle between sign up and login', async () => {
     await kit.performActions({
@@ -42,7 +42,7 @@ describe('signin UX', async () => {
         { type: 'visible', selector: '[data-test-id="to-login"]' },
       ],
     })
-  }, 25_000)
+  })
 
   // it('registers with name, email, password', async () => {
   //   await performActions({
