@@ -204,7 +204,7 @@ export async function performActions(args: {
       await waitFor(action.wait)
   }
 
-  expect(errorLogs.length).toBe(0)
+  expect(errorLogs).toStrictEqual([])
 }
 
 function getModifiedCommands(commands: CliCommand[]) {
