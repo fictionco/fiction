@@ -35,7 +35,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
         </div>
       </div>
 
-      <div class="p-3">
+      <div class="p-3 space-y-2">
         <div
           v-for="(sub, i) in nav"
           :key="i"
@@ -49,7 +49,7 @@ async function handleClick(event: MouseEvent, item: NavItem): Promise<void> {
               :href="sub.href"
               :class="
                 sub.isActive
-                  ? 'font-bold bg-theme-50 hover:text-primary-500 dark:bg-primary-975 dark:text-primary-400 dark:hover:bg-primary-900 '
+                  ? 'font-bold bg-theme-50 hover:text-primary-500 dark:bg-primary-975 dark:text-primary-200 '
                   : 'font-medium text-theme-700 dark:text-theme-0 dark:hover:bg-primary-975 hover:text-theme-900 border-theme-0'
               "
               @click="handleClick($event, sub)"

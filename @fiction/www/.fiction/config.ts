@@ -141,6 +141,7 @@ export interface CompiledServiceConfig {
       | 'config'
       | 'meta'
       | 'onboard'
+      | 'extend'
       | 'createdAt'
       | 'updatedAt'
     fiction_org_user:

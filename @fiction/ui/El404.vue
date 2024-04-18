@@ -17,10 +17,10 @@ defineProps({
         {{ superHeading || '404' }}
       </p>
       <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-5xl x-font-title">
-        {{ heading || 'Page not found' }}
+        {{ heading || 'Not Found' }}
       </h1>
       <p class="mt-6 text-base font-sans leading-7 text-theme-600">
-        {{ subHeading || `Nothing found at this URL` }}
+        {{ subHeading || `This page does not exist or has moved.` }}
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6">
         <ElButton

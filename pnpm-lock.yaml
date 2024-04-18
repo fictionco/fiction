@@ -796,6 +796,15 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  '@fiction/plugins/plugin-posts':
+    dependencies:
+      '@fiction/core':
+        specifier: workspace:*
+        version: link:../../core
+      '@fiction/ui':
+        specifier: workspace:*
+        version: link:../../ui
+
   '@fiction/plugins/plugin-stripe':
     dependencies:
       '@fiction/core':
@@ -1069,6 +1078,9 @@ importers:
       '@fiction/plugin-notify':
         specifier: workspace:*
         version: link:../plugins/plugin-notify
+      '@fiction/plugin-posts':
+        specifier: workspace:*
+        version: link:../plugins/plugin-posts
       '@fiction/plugin-stripe':
         specifier: workspace:*
         version: link:../plugins/plugin-stripe
@@ -2857,8 +2869,8 @@ packages:
   '@types/dompurify@3.0.5':
     resolution: {integrity: sha512-1Wg0g3BtQF7sSb27fJQAKck1HECM6zV1EB66j8JH9i3LCjYabJa0FSdiSgsD5K/RbrsR0SiraKacLB+T8ZVYAg==}
 
-  '@types/eslint@8.56.9':
-    resolution: {integrity: sha512-W4W3KcqzjJ0sHg2vAq9vfml6OhsJ53TcUjUqfzzZf/EChUtwspszj/S0pzMxnfRcO55/iGq47dscXw71Fxc4Zg==}
+  '@types/eslint@8.56.10':
+    resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
 
   '@types/eslint__eslintrc@2.1.1':
     resolution: {integrity: sha512-LI51vVv3N7WI4+fM7Xkh1+ciLA1gtuQPgXdKdece+vD8f/G2hrFqtwb4YIQyIM6VXpRM4vSy1PW5y3yuHK+Y2w==}
@@ -4297,8 +4309,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.741:
-    resolution: {integrity: sha512-AyTBZqDoS7/mvQK22gOQpjxbeV8iPeUBTvYlEh/1S9dKAHgQdxuF49g9rLbj0cRKtqH8PzLJzqT3nAdl+qoZTA==}
+  electron-to-chromium@1.4.742:
+    resolution: {integrity: sha512-EhE+z1d5RNytAq/qnGAxPR+ie3UzKbv7qqQc0wnEbOh+KDUplgfzkGSCy9d78B+S+nVNTS42BabHXB6Ni+Ud4w==}
 
   elliptic@6.5.5:
     resolution: {integrity: sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==}
@@ -10344,7 +10356,7 @@ snapshots:
 
   '@stylistic/eslint-plugin-js@1.7.2(eslint@8.57.0)':
     dependencies:
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       acorn: 8.11.3
       escape-string-regexp: 4.0.0
       eslint: 8.57.0
@@ -10354,14 +10366,14 @@ snapshots:
   '@stylistic/eslint-plugin-jsx@1.7.2(eslint@8.57.0)':
     dependencies:
       '@stylistic/eslint-plugin-js': 1.7.2(eslint@8.57.0)
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       eslint: 8.57.0
       estraverse: 5.3.0
       picomatch: 4.0.2
 
   '@stylistic/eslint-plugin-plus@1.7.2(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       '@typescript-eslint/utils': 6.21.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
     transitivePeerDependencies:
@@ -10371,7 +10383,7 @@ snapshots:
   '@stylistic/eslint-plugin-ts@1.7.2(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
       '@stylistic/eslint-plugin-js': 1.7.2(eslint@8.57.0)
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       '@typescript-eslint/utils': 6.21.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
     transitivePeerDependencies:
@@ -10384,7 +10396,7 @@ snapshots:
       '@stylistic/eslint-plugin-jsx': 1.7.2(eslint@8.57.0)
       '@stylistic/eslint-plugin-plus': 1.7.2(eslint@8.57.0)(typescript@5.4.5)
       '@stylistic/eslint-plugin-ts': 1.7.2(eslint@8.57.0)(typescript@5.4.5)
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       eslint: 8.57.0
     transitivePeerDependencies:
       - supports-color
@@ -10568,14 +10580,14 @@ snapshots:
     dependencies:
       '@types/trusted-types': 2.0.7
 
-  '@types/eslint@8.56.9':
+  '@types/eslint@8.56.10':
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
 
   '@types/eslint__eslintrc@2.1.1':
     dependencies:
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
 
   '@types/estree@1.0.5': {}
 
@@ -11484,7 +11496,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001611
-      electron-to-chromium: 1.4.741
+      electron-to-chromium: 1.4.742
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
 
@@ -12191,7 +12203,7 @@ snapshots:
     dependencies:
       jake: 10.8.7
 
-  electron-to-chromium@1.4.741: {}
+  electron-to-chromium@1.4.742: {}
 
   elliptic@6.5.5:
     dependencies:
@@ -12441,7 +12453,7 @@ snapshots:
 
   eslint-flat-config-utils@0.2.3:
     dependencies:
-      '@types/eslint': 8.56.9
+      '@types/eslint': 8.56.10
       pathe: 1.1.2
 
   eslint-import-resolver-node@0.3.9:

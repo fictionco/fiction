@@ -14,6 +14,7 @@ const topHeroCard = createCard({
     heading: `About`,
     splash: { format: 'url', url: spectrum },
     layout: 'justify',
+    actions: [],
   },
 })
 
@@ -26,6 +27,7 @@ const missionHeroCard = createCard({
     heading: `Helping People.`,
     splash: { format: 'url', url: pro },
     layout: 'left',
+    actions: [],
   },
 })
 
@@ -38,6 +40,7 @@ const missionHeroCard2 = createCard({
     heading: `Open Source Software.`,
     splash: { format: 'url', url: girlComputer },
     layout: 'right',
+    actions: [],
   },
 })
 

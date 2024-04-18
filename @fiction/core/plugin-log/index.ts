@@ -45,12 +45,15 @@ export class FictionLog {
   isRestart: boolean
   isDebug: boolean
   loggedErrorCount = 0
+  inFrame: boolean
   constructor(settings: FictionLogSettings = {}) {
     this.isProd = settings.isProd ?? isProd()
     this.isRestart = settings.isRestart ?? isRestart()
     this.isDebug = settings.isDebug ?? isDebug()
 
     this.browserShouldLog({ notify: true })
+
+    this.inFrame = typeof window !== 'undefined' && window !== window.top
   }
 
   logLevel = {
@@ -90,12 +93,13 @@ export class FictionLog {
     const { level, description, context, color, data, error } = config
 
     if (this.browserShouldLog({ notify: false }) && console[level]) {
+      const frame = this.inFrame ? 'IFRAME:' : ''
       const contextInfo = context ? `(${context})` : '(???)'
       const styleHeader = `color: ${color}; font-weight: bold;`
       const styleContext = `color: ${color}99;`
 
       console[level](
-        `%c${level.toUpperCase()} %c${contextInfo}: %c${description}`,
+        `%c${frame}${level.toUpperCase()} %c${contextInfo}: %c${description}`,
         styleContext,
         styleHeader,
         'color: initial;',

@@ -66,7 +66,7 @@ export class FictionSites extends FictionPlugin<SitesPluginSettings> {
     this.settings.fictionRouter?.update(getRoutes({ ...this.settings, fictionSites: this }))
   }
 
-  async setup() {
+  async afterSetup() {
     this.themes.value = await this.settings.themes()
   }
 

@@ -2,7 +2,7 @@
 
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
-import { templates as templates404 } from './404'
+import * as four04 from './404'
 import { templates as templatesQuote } from './quote'
 import { templates as templatesLogos } from './logos'
 import * as hero from './hero'
@@ -28,7 +28,7 @@ export const standardCardTemplates = [
     templateId: 'wrap',
     el: vue.defineAsyncComponent(() => import('./CardWrap.vue')),
   }),
-  ...templates404,
+  ...four04.templates,
   ...templatesQuote,
   ...hero.templates,
   ...marquee.templates,

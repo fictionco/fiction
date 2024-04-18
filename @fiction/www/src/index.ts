@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionExtend, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
 
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
@@ -13,7 +13,7 @@ import { FictionSites } from '@fiction/site'
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
 import { version } from '../package.json'
-import { getThemes } from './themes'
+import { getExtensions, getThemes } from './extend'
 
 import { commands } from './commands'
 
@@ -213,36 +213,24 @@ const fictionSites = new FictionSites({
   themes: () => getThemes({ fictionEnv, fictionStripe }),
 })
 
-// const plugins = createPluginConfig([
-//   {
-//     load: () => import('@fiction/site'),
-//     settings: () => {
-//       return { fictionAppSites, fictionRouterSites, flyIoApiToken: fictionEnv.var('FLY_API_TOKEN'), flyIoAppId: 'fiction-sites' }
-//     },
-//   },
-// ])
-// const fictionAdminPluginIndex = new FictionAdminPluginIndex({ ...pluginServices, plugins })
-
-// const fictionAdmin = new FictionAdmin({
-//   ...pluginServices,
-//   pluginIndex: fictionAdminPluginIndex,
-//   fictionAi,
-// })
-
 const fictionTeam = new FictionTeam({ ...pluginServices })
 
 const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites] })
+
+export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe }
+export type ServiceList = typeof service
+
+const fictionExtend = new FictionExtend({ ...service, extensions: getExtensions(service) })
 
 async function initializeBackingServices() {
   await fictionDb.init()
   fictionEmail.init()
 }
 
-export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe }
-
 export function setup(): ServiceConfig {
   return {
     fictionEnv,
+    createService: async () => ({ ...service, fictionExtend }),
     runCommand: async (args) => {
       const { command, options = {}, context } = args
 
@@ -316,7 +304,7 @@ export function setup(): ServiceConfig {
         }
       }
     },
-    createService: async () => service,
+
     createMount: async (args) => {
       // APP_INSTANCE is the APP being run
       if (args.runVars.APP_INSTANCE === 'sites') {

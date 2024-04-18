@@ -72,7 +72,6 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
      * node application init
      */
     if (!this.fictionEnv.isApp.value && this.fictionEnv?.cwd) {
-      console.warn('FictionApp: not an app', this.fictionEnv.isApp.value)
       this.fictionRender = new FictionRender({
         fictionApp: this,
         fictionEnv: this.fictionEnv,
@@ -189,7 +188,7 @@ export class FictionApp extends FictionPlugin<FictionAppSettings> {
       entry.app.mount(mountEl)
 
       document.documentElement.style.opacity = '1'
-      document.documentElement.style.transform = 'scale(1)'
+      document.documentElement.style.transform = 'none'
       mountEl.classList.remove('loading')
       mountEl.classList.add('loaded')
 

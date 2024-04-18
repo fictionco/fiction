@@ -388,6 +388,13 @@ export const orgColumns = [
     isPrivate: true,
     isSetting: true,
   }),
+  new FictionDbCol({
+    key: 'extend',
+    create: ({ schema, column }) => schema.jsonb(column.pgKey),
+    isSetting: true,
+    prepare: ({ value }) => JSON.stringify(toSnakeCaseKeys(value)),
+    default: () => ({} as Partial<Record<string, { extensionId: string, isActive: boolean }>>),
+  }),
 ] as const
 
 export const membersColumns = [

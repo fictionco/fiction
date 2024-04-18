@@ -10,6 +10,7 @@
     "@fiction/plugin-monitor": "workspace:*",
     "@fiction/plugin-notify": "workspace:*",
     "@fiction/plugin-stripe": "workspace:*",
+    "@fiction/plugin-posts": "workspace:*",
     "@fiction/site": "workspace:*",
     "@fiction/theme-admin": "workspace:*",
     "@fiction/theme-fiction": "workspace:*",
