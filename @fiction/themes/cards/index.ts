@@ -9,6 +9,7 @@ import * as hero from './hero'
 
 import * as area from './area'
 import * as tour from './tour'
+import * as profile from './profile'
 import { templates as templatesMediaGrid } from './media-grid'
 import * as metrics from './metrics'
 import * as features from './features'
@@ -29,6 +30,7 @@ export const standardCardTemplates = [
   }),
   ...four04.templates,
   ...quote.templates,
+  ...profile.templates,
   ...hero.templates,
   ...marquee.templates,
   ...area.templates,
@@ -51,5 +53,6 @@ export function getDemoPages() {
   return [
     marquee.demo(),
     hero.demo(),
+    profile.demo(),
   ]
 }

@@ -279,4 +279,14 @@ body,
   --primary-975: v-bind("primary?.[975]");
   --primary-1000: v-bind("primary?.[1000]");
 }
+
+/* Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 </style>

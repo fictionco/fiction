@@ -37,7 +37,7 @@ const hasAccessCode = vue.ref(false)
 <template>
   <div
     v-if="!hideModal"
-    class="early-access-veil text-primary-500 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-800 via-black to-theme-800"
+    class="early-access-veil text-theme-800 dark:text-theme-0 fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-theme-800 via-black to-theme-800"
   >
     <div class="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -107,7 +107,7 @@ const hasAccessCode = vue.ref(false)
             </div>
             <div v-else>
               <div class="space-x-4 flex justify-center">
-                <InputText v-model="code" placeholder="ACCESS_CODE" />
+                <InputText v-model="code" placeholder="ACCESS_CODE" @keyup.enter.stop="setCode()" />
                 <ElButton
                   type="button"
                   btn="primary"
@@ -123,7 +123,7 @@ const hasAccessCode = vue.ref(false)
             </div>
           </div>
         </div>
-        <div class="text-theme-700 dark:text-theme-300 p-8 text-xs font-sans antialiased font-medium">
+        <div class="text-theme-300 dark:text-theme-300 p-8 text-xs font-sans antialiased font-medium">
           <a href="https://www.fiction.com?reload=1">Back to homepage &rarr;</a>
         </div>
       </div>

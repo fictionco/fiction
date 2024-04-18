@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
 
-import type { Card, Site } from '@fiction/site'
+import type { Card } from '@fiction/site'
 
 type UserConfig = {
   isNavItem: boolean

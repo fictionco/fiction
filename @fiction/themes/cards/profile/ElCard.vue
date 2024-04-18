@@ -4,12 +4,14 @@ import { vue } from '@fiction/core'
 import ElImage from '@fiction/ui/ElImage.vue'
 import type { Card } from '@fiction/site'
 import CardText from '@fiction/cards/CardText.vue'
-import XSocials from '../ui/XSocials.vue'
+import { ref } from 'vue'
+import CardSocials from '../el/CardSocials.vue'
 
 export type UserConfig = {
   heading?: string
   subHeading?: string
   superHeading?: string
+  layout?: 'left' | 'right'
   mediaItems?: MediaItem[]
   detailsTitle?: string
   details?: NavItem[]
@@ -33,32 +35,40 @@ const mediaItems = vue.computed(() => {
 })
 
 const activeItem = vue.ref(0)
-const activeMediaItem = vue.computed(() => {
-  return mediaItems.value?.[activeItem.value]?.media
-})
 
 function setActiveItem(index: number) {
   activeItem.value = index
 }
+const observer = vue.ref()
+function createObserver() {
+  const options = { root: null, rootMargin: '0px', threshold: 0.5 }
+
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const e = entry.target as HTMLElement
+      if (entry.isIntersecting)
+        activeItem.value = Number.parseInt(e.dataset.index || '0')
+    })
+  }, options)
+}
+
+vue.onMounted(() => {
+  createObserver()
+  const elements = document.querySelectorAll('.snap-center')
+  elements.forEach(el => observer.value.observe(el))
+})
 </script>
 
 <template>
   <div class="minimal-profile">
     <div :class="card.classes.value.contentWidth">
-      <div class="md:flex -mx-2">
+      <div class="md:flex -mx-2 " :class="uc.layout === 'left' ? 'md:flex-row-reverse' : ''">
         <div class="w-full md:w-[50%] px-2 ">
           <div class="relative">
-            <transition
-              enter-active-class="transition ease duration-200"
-              enter-from-class="opacity-0"
-              enter-to-class="opacity-100"
-              leave-active-class="transition ease duration-200"
-              leave-from-class="opacity-100 "
-              leave-to-class="opacity-0"
-              mode="out-in"
-            >
-              <ElImage v-if="activeMediaItem?.url" :key="activeMediaItem.url" :media="activeMediaItem" class="aspect-[5.3/8]" />
-            </transition>
+            <div class="aspect-[5.3/8] relative w-full overflow-x-auto snap-mandatory snap-x flex no-scrollbar [clip-path:inset(0_round_10px)]">
+              <ElImage v-for="(item, i) in mediaItems" :key="i" :data-index="i" :media="item.media" class="h-full aspect-[5.5/8] snap-center shrink-0" />
+            </div>
+
             <div v-if="mediaItems?.length && mediaItems.length > 1" class="nav flex w-full justify-center space-x-3 absolute bottom-4 z-20">
               <div
                 v-for="(s, i) in mediaItems"
@@ -116,7 +126,7 @@ function setActiveItem(index: number) {
                   <CardText
                     tag="a"
                     :card="card"
-                    :class="item.href ? 'hover:text-primary-500 text-primary-600' : 'text-theme-500'"
+                    :class="item.href ? 'hover:text-primary-500 text-primary-600 dark:text-primary-400' : 'text-theme-500 dark:text-theme-400'"
                     :path="`details.${i}.desc`"
                     :href="item.href"
                   />
@@ -124,7 +134,7 @@ function setActiveItem(index: number) {
               </div>
             </div>
 
-            <XSocials :socials="uc.socials || []" class="flex space-x-6 text-2xl" />
+            <CardSocials :socials="uc.socials || []" class="flex space-x-6 text-2xl" justify="left" />
           </div>
         </div>
       </div>
