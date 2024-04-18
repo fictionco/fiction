@@ -45,14 +45,7 @@ export class Theme<T extends Record<string, unknown> = Record<string, unknown>> 
 
   async getPages(): Promise<Partial<TableCardConfig>[]> {
     const pages = (await this.pages()) || []
-    const isDev = this.settings.fictionEnv.isDev.value
-    const demoPages = isDev
-      ? this.templates.map(_ => _.settings.demoPage
-        ? createCard({ slug: `card-${_.settings.templateId}`, cards: _.settings.demoPage() })
-        : undefined).filter(Boolean) as ReturnType<typeof createCard>[]
-      : []
-
-    return [...demoPages, ...pages]
+    return pages
   }
 
   async toSite(): Promise<Partial<TableSiteConfig>> {

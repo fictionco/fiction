@@ -64,10 +64,7 @@ export function pages() {
       slug: '_404',
       title: 'Not Found (404)',
       cards: [
-        createCard({
-          templates,
-          templateId: '404',
-        }),
+        createCard({ templates, templateId: '404' }),
       ],
     }),
     createCard({

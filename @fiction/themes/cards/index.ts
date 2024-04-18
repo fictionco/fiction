@@ -3,15 +3,14 @@
 import { envConfig, safeDirname, vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site/card'
 import * as four04 from './404'
-import { templates as templatesQuote } from './quote'
+import * as quote from './quote'
 import { templates as templatesLogos } from './logos'
 import * as hero from './hero'
-import { templates as templatesDoc } from './doc'
 
-import { templates as templatesArea } from './area'
-import { templates as templatesTour } from './tour'
+import * as area from './area'
+import * as tour from './tour'
 import { templates as templatesMediaGrid } from './media-grid'
-import { templates as templatesMetrics } from './metrics'
+import * as metrics from './metrics'
 import * as features from './features'
 import * as team from './team'
 import * as map from './map'
@@ -29,10 +28,10 @@ export const standardCardTemplates = [
     el: vue.defineAsyncComponent(() => import('./CardWrap.vue')),
   }),
   ...four04.templates,
-  ...templatesQuote,
+  ...quote.templates,
   ...hero.templates,
   ...marquee.templates,
-  ...templatesArea,
+  ...area.templates,
 
 ] as const
 
@@ -40,11 +39,10 @@ export const marketingCardTemplates = [
   ...team.templates,
   ...pricing.templates,
   ...templatesLogos,
-  ...templatesTour,
+  ...tour.templates,
   ...templatesMediaGrid,
   ...features.templates,
-  ...templatesMetrics,
-  ...templatesDoc,
+  ...metrics.templates,
   ...map.templates,
   ...faq.templates,
 ] as const

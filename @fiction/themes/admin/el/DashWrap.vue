@@ -8,6 +8,7 @@ import DashNav from './DashNav.vue'
 import DashBar from './DashBar.vue'
 import ElLoadingLogo from './ElLoadingLogo.vue'
 import DashDarkModeToggle from './DashDarkModeToggle.vue'
+import PreLaunch from './PreLaunch.vue'
 
 export type UserConfig = {
   layoutFormat?: 'container' | 'full'
@@ -151,6 +152,7 @@ function toggleSidebar() {
         </div>
       </div>
     </div>
+    <PreLaunch :card="card"/>
   </div>
 </template>
 
