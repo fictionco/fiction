@@ -1,4 +1,3 @@
-
 import { vue } from '@fiction/core'
 import { CardTemplate } from '@fiction/site'
 import { standardOption } from '../inputSets'

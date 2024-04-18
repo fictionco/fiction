@@ -22,7 +22,7 @@ export type SiteTestUtils = TestUtils & {
   fictionMedia: FictionMedia
   fictionAws: FictionAws
   fictionAi: FictionAi
-  runApp: (args: { context: 'app' | 'node' }) => Promise<{ port: number }>
+  runApp: (args: { context: 'app' | 'node', isProd?: boolean }) => Promise<{ port: number }>
   close: () => Promise<void>
 }
 export async function createSiteTestUtils(args: { mainFilePath?: string, context?: 'node' | 'app', themes?: ThemeSetup[] } = {}): Promise<SiteTestUtils> {
@@ -79,11 +79,12 @@ export async function createSiteTestUtils(args: { mainFilePath?: string, context
 
   out.fictionEnv.log.info('sites test utils created')
 
-  out.runApp = async () => {
+  out.runApp = async (args: { isProd?: boolean } = {}) => {
+    const { isProd = false } = args
     await out.fictionDb.init()
     const srv = await out.fictionServer.initServer({ useLocal: true, fictionUser: out.fictionUser })
 
-    await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd: false })
+    await out.fictionApp.ssrServerSetup({ expressApp: srv?.expressApp, isProd })
 
     await srv?.run()
 
