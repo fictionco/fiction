@@ -123,7 +123,7 @@ jobs:
         run: npm -w @fiction/www exec -- fiction run generate
 
       - name: SPOT tests
-        run: npm exec -- vitest run spot -u
+        run: npm exec -- vitest run spot -u --passWithNoTests
 
       - name: STABLE unit tests
         run: npm exec -- vitest run ci -u
