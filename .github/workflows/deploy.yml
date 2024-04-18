@@ -44,6 +44,8 @@ env:
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   GH_TOKEN: ${{secrets.GH_TOKEN}}
+  SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
+  SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
 
 jobs:
   test:
@@ -52,16 +54,14 @@ jobs:
       REDIS_URL: redis://localhost:6379
       CLICKHOUSE_URL: http://default:@localhost:8123
       POSTGRES_URL: http://test:test@localhost:5432/test
-      SHOULD_DEPLOY: ${{ contains(github.event.head_commit.message, '-d') }}
-      SHOULD_RELEASE: ${{ contains(github.event.head_commit.message, '-r') }}
     name: build and test
     runs-on: ubuntu-latest
     steps:
 
       - name: Debug Info
         run: |
-          echo "SHOULD_RELEASE: $SHOULD_RELEASE"
-          echo "SHOULD_DEPLOY: $SHOULD_DEPLOY"
+          echo "SHOULD_RELEASE: ${{ env.SHOULD_RELEASE }}"
+          echo "SHOULD_DEPLOY: ${{ env.SHOULD_DEPLOY }}"
           echo "Commit Message: ${{ github.event.head_commit.message }}"
 
       - name: Get The Code
