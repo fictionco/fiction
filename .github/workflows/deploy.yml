@@ -137,33 +137,33 @@ jobs:
         run: npm exec -- vitest run build -u --no-file-parallelism
 
       - name: Install Build Packages
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         run: pnpm add tsup cross-env --global
 
       - name: Build Bundles
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         run: npm exec -- fiction run bundle
 
       - name: Render Apps
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         run: npm exec -- fiction run render
 
       - name: Install FlyCtl
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: DIST unit tests
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         run: npm exec -- vitest run dist -u
 
       - name: Deploy Apps
-        if: env.SHOULD_DEPLOY
+        if: env.SHOULD_DEPLOY == 'true'
         run: |
           cross-env DOMAIN=fiction APP=www npm run deploy
           cross-env DOMAIN=fiction APP=sites npm run deploy
 
       - name: Release Code
-        if: env.SHOULD_RELEASE
+        if: env.SHOULD_RELEASE == 'true'
         run: |
           npm run i:lockfile && npm run release
 
