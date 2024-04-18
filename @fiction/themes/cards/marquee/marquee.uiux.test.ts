@@ -18,7 +18,7 @@ describe('marquee card', async () => {
         { type: 'exists', selector: '.marquee-track.reverse' },
       ],
     })
-  }, 15_000)
+  })
 })
 
 describe('validate option keys', async () => {

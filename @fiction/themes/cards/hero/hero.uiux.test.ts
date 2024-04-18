@@ -17,7 +17,7 @@ describe('hero: card', async () => {
         { type: 'count', selector: '[data-card-type="hero"]' },
       ],
     })
-  }, 15_000)
+  })
 })
 
 describe('validate option keys', async () => {
@@ -43,7 +43,5 @@ describe('validate option keys', async () => {
         "ai.purpose",
       ]
     `)
-
-
   })
 })

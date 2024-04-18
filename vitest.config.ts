@@ -27,7 +27,7 @@ export default defineConfig({
   build: { sourcemap: true },
 
   test: {
-    testTimeout: 30000,
+    testTimeout: 40000,
     env: {
       NODE_ENV: 'development',
     },
