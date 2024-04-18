@@ -36,9 +36,28 @@ vue.watch(
 <template>
   <div v-if="site" class="min-h-0 p-4">
     <div
-      class="relative mx-auto py-4"
+      class="relative mx-auto pt-4 pb-20"
       :class="deviceModeConfig?.wrapClass"
     >
+      <div
+        class="mb-4 flex justify-center space-x-2 "
+      >
+        <div
+          v-for="(mode, i) in deviceModes"
+          :key="i"
+          class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1 font-medium font-sans antialiased space-x-1 border transition-all hover:opacity-80"
+          :class="activeDeviceMode === mode.name
+            ? 'bg-theme-500 dark:bg-theme-600 dark:border-theme-500 border-theme-600 text-theme-0 dark:text-theme-0 dark:text-theme-0'
+            : 'text-theme-500 dark:text-theme-100 bg-theme-100 dark:bg-theme-700 dark:border-theme-600 hover:text-white hover:bg-primary-500 hover:border-primary-600'
+          "
+          @click.stop="activeDeviceMode = mode.name"
+        >
+          <div class="text-base" :class="mode.icon" />
+          <div class="capitalize tracking-tight text-[10px]">
+            {{ mode.name }}
+          </div>
+        </div>
+      </div>
       <ElBrowserFrameDevice
         ref="frameRef"
         :device-mode="activeDeviceMode"
@@ -50,27 +69,6 @@ vue.watch(
         @update:url="site?.frame.updateFrameUrl($event)"
         @message="site?.frame.processFrameMessage({ scope: 'parent', msg: $event as FramePostMessageList })"
       />
-      <div
-        class="mt-4 flex justify-center space-x-2 "
-      >
-        <div
-          v-for="(mode, i) in deviceModes"
-          :key="i"
-          class="inline-flex cursor-pointer select-none items-center rounded px-2 py-1 font-semibold space-x-1"
-          :class="activeDeviceMode === mode.name
-            ? 'bg-theme-500 dark:bg-theme-500 text-theme-0 dark:text-theme-0'
-            : 'text-theme-500 dark:text-theme-100 bg-theme-100 dark:bg-theme-700 hover:text-white hover:bg-primary-500'
-          "
-          @click.stop="activeDeviceMode = mode.name"
-        >
-          <div class="text-xl">
-            <div :class="mode.icon" />
-          </div>
-          <div class="capitalize tracking-tight text-[10px]">
-            {{ mode.name }}
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
