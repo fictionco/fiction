@@ -6,6 +6,7 @@ import { refineOptions } from '@fiction/cards/utils/refiner'
 import { standardOption } from '@fiction/cards/inputSets'
 import { CardTemplate } from '@fiction/site/card'
 import { createCard } from '@fiction/site'
+import type { UserConfig } from './ElCard.vue'
 
 function userControls() {
   const options = [
@@ -27,6 +28,7 @@ function userControls() {
       'details.name': 'Label for a detail, like "Location"',
       'details.desc': 'Value for a detail, like "Laguna Beach, CA"',
       'socialsTitle': false,
+      'socials.desc': false,
     },
   })
 }
@@ -38,7 +40,7 @@ const options = [
 
 const templateId = 'profile'
 
-const defaultContent = {
+const defaultContent: UserConfig = {
   superHeading: 'A Tagline or Category',
   heading: 'A Catchy Headline About Something',
   subHeading: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
@@ -53,10 +55,9 @@ const defaultContent = {
     { name: 'Phone', desc: '123-456-7890' },
   ],
   socials: [
-    { name: 'handle', href: '#', icon: 'facebook' },
-    { name: '@handle', href: '#', icon: 'x' },
-    { name: 'linkedin username', href: '#', icon: 'linkedin' },
-    { name: 'youtube', href: '#', icon: 'youtube' },
+    { name: '@handle on facebook', href: '#', icon: 'facebook', target: '_blank' },
+    { name: '@handle on x', href: '#', icon: 'x', target: '_blank' },
+    { name: '@handle on linkedin', href: '#', icon: 'linkedin', target: '_blank' },
   ],
 }
 const minimalProfile = new CardTemplate({
@@ -67,6 +68,7 @@ const minimalProfile = new CardTemplate({
   iconTheme: 'blue',
   el: vue.defineAsyncComponent(() => import('./ElCard.vue')),
   userConfig: defaultContent,
+  isPublic: true,
   options,
 })
 

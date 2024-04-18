@@ -13,7 +13,7 @@ function pages() {
       title: 'Home',
       isHome: true,
       cards: [
-        createCard({ templates, templateId: 'minimalProfile', userConfig: { } }),
+        createCard({ templates, templateId: 'profile', userConfig: { } }),
       ],
     }),
   ]
