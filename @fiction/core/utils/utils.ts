@@ -87,26 +87,6 @@ export function splitDisplayName(fullName?: string): { firstName: string, lastNa
   return { firstName, lastName }
 }
 
-// Sort objects in an array by a priority value that defaults to 100
-export function sortPriority<T extends { priority?: number }[]>(arr: T): T {
-  if (!arr || arr.length === 0)
-    return arr
-
-  return arr.sort((a, b) => {
-    const ap = a.priority || 100
-    const bp = b.priority || 100
-
-    let result = 0
-
-    if (ap < bp)
-      result = -1
-    else if (ap > bp)
-      result = 1
-
-    return result
-  })
-}
-
 export function camelToUpperSnake(string: string): string {
   return string
     .replaceAll(/\w([A-Z])/g, (m) => {

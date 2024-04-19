@@ -28,8 +28,8 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
           ],
           userConfig: {
             isNavItem: true,
-            navIcon: 'i-heroicons-pencil-square',
-            navIconAlt: 'i-heroicons-pencil-square-solid',
+            navIcon: 'i-tabler-pin',
+            navIconAlt: 'i-tabler-pin-filled',
           },
         }),
       ]

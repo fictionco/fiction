@@ -1,6 +1,6 @@
 import deepMergeUtility from 'deepmerge'
 import type { PriorityItem } from '../types'
-import { sortPriority } from './utils'
+import { sortPriority } from './list'
 
 export function omit<T extends Record<string, any>, K extends keyof T>(
   obj: T,

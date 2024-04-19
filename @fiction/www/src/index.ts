@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { FictionUi } from '@fiction/ui'
 import type { ServiceConfig } from '@fiction/core'
-import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionExtend, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
+import { AppRoute, FictionApp, FictionAws, FictionDb, FictionEmail, FictionEnv, FictionMedia, FictionRouter, FictionServer, FictionUser, apiRoot, safeDirname } from '@fiction/core'
 
 import { FictionTeam } from '@fiction/core/plugin-team'
 import { FictionMonitor } from '@fiction/plugin-monitor'
@@ -12,6 +12,7 @@ import { FictionSites } from '@fiction/site'
 
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
+import { FictionExtend } from '@fiction/site/plugin-extend'
 import { version } from '../package.json'
 import { getExtensions, getThemes } from './extend'
 

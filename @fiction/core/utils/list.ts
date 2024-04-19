@@ -26,3 +26,25 @@ export function normalizeList(
     return { ...item, name: finalName, value: formattedValue }
   })
 }
+
+// Sort objects in an array by a priority value that defaults to 100
+export function sortPriority<T extends { priority?: number }[]>(arr: T, options?: { centerNumber?: number }): T {
+  const { centerNumber = 0 } = options || {}
+
+  if (!arr || arr.length === 0)
+    return arr
+
+  return arr.sort((a, b) => {
+    const ap = a.priority || centerNumber
+    const bp = b.priority || centerNumber
+
+    let result = 0
+
+    if (ap < bp)
+      result = -1
+    else if (ap > bp)
+      result = 1
+
+    return result
+  })
+}

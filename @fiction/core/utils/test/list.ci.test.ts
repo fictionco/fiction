@@ -1,6 +1,66 @@
 import { describe, expect, it } from 'vitest'
-import { normalizeList } from '../list'
+import { normalizeList, sortPriority } from '../list'
 import { toLabel, toSlug } from '../casing'
+
+describe('sortPriority', () => {
+  it('should sort an array of objects based on their priority', () => {
+    const items = [
+      { priority: 10 },
+      { priority: 5 },
+      { priority: 20 },
+    ]
+    const sorted = sortPriority(items)
+    expect(sorted).toEqual([
+      { priority: 5 },
+      { priority: 10 },
+      { priority: 20 },
+    ])
+  })
+
+  it('should handle missing priority values by using the default center number', () => {
+    const items = [
+      { priority: 10 },
+      {}, // Missing priority
+      { priority: 20 },
+      { priority: -20 },
+    ]
+
+    const sorted1 = sortPriority(items)
+    expect(sorted1).toEqual([
+      { priority: -20 },
+      {}, // Assumes default priority of 15
+      { priority: 10 },
+      { priority: 20 },
+    ])
+    const sorted = sortPriority(items, { centerNumber: 15 })
+    expect(sorted).toEqual([
+      { priority: -20 },
+      { priority: 10 },
+      {}, // Assumes default priority of 15
+      { priority: 20 },
+    ])
+  })
+
+  it('should return the same array if it is empty', () => {
+    const items: { priority?: number }[] = []
+    const sorted = sortPriority(items)
+    expect(sorted).toEqual([])
+  })
+
+  it('should treat undefined priorities as default if no center number specified', () => {
+    const items = [
+      { priority: 300 },
+      {}, // Undefined priority, default to 100
+      { priority: 200 },
+    ]
+    const sorted = sortPriority(items)
+    expect(sorted).toEqual([
+      {}, // Default priority of 100
+      { priority: 200 },
+      { priority: 300 },
+    ])
+  })
+})
 
 describe('normalizeList', () => {
   it('handles empty arrays', () => {

@@ -2,7 +2,7 @@
 import type { vue } from '@fiction/core'
 
 import type { Card } from '@fiction/site'
-import PostsIndex from './PostsIndex.vue'
+import { template } from 'lodash'
 
 type UserConfig = {
   isNavItem: boolean
@@ -13,7 +13,5 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="p-12 mx-auto max-w-screen-lg">
-    <PostsIndex :card="card" />
-  </div>
+  <div>hello world</div>
 </template>

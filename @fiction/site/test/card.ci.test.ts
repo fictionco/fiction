@@ -149,6 +149,7 @@ describe('cardTemplate', async () => {
         "wrap",
         "404",
         "quotes",
+        "profile",
         "hero",
         "marquee",
         "area",

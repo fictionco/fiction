@@ -37,26 +37,7 @@ export const templates = [
 
 export function pages() {
   return [
-    createCard({
-      templates,
-      regionId: 'main',
-      templateId: 'dash',
-      slug: '_home',
-      title: 'Your Sites',
-      cards: [
-        createCard({
-          tpl: new CardTemplate({
-            templateId: 'sites',
-            el: def(() => import('@fiction/site/plugin-builder/ViewIndex.vue')),
-          }),
-        }),
-      ],
-      userConfig: {
-        isNavItem: true,
-        navIcon: 'i-heroicons-square-3-stack-3d',
-        navIconAlt: 'i-heroicons-square-3-stack-3d-20-solid',
-      },
-    }),
+
     createCard({
       templates,
       regionId: 'main',
@@ -67,26 +48,7 @@ export function pages() {
         createCard({ templates, templateId: '404' }),
       ],
     }),
-    createCard({
-      templates,
-      regionId: 'main',
-      templateId: 'dash',
-      slug: 'edit-site',
-      title: 'Edit Site',
-      cards: [
-        createCard({
-          tpl: new CardTemplate({
-            templateId: 'siteEdit',
-            el: def(() => import('@fiction/site/plugin-builder/SiteEditor.vue')),
-          }),
-        }),
-      ],
-      userConfig: {
-        isNavItem: false,
-        layoutFormat: 'full',
-        navIcon: 'i-tabler-home-plus',
-      },
-    }),
+
     createCard({
       templates,
       regionId: 'main',

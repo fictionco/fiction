@@ -19,7 +19,7 @@ const validCode = vue.computed(() => {
 })
 
 const hideModal = localRef({
-  key: 'showPrelaunch',
+  key: 'hidePreLaunch',
   def: false,
   lifecycle: 'local',
 })
@@ -60,7 +60,7 @@ const hasAccessCode = vue.ref(false)
           class="relative w-full overflow-hidden rounded-lg bg-white dark:bg-theme-800 border border-theme-300 dark:border-theme-600 px-8 pb-8 pt-10 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-12"
         >
           <div>
-            <div class="my-3 text-center   sm:my-5">
+            <div class="my-3 text-left md:text-center   sm:my-5">
               <div class="mb-6 text-xs font-medium font-sans uppercase tracking-wider">
                 <span
                   v-if="code"
@@ -74,9 +74,9 @@ const hasAccessCode = vue.ref(false)
 
               <h3
                 id="modal-title"
-                class="x-font-title text-2xl font-bold leading-6 tracking-tight"
+                class="x-font-title text-3xl font-bold text-balance tracking-tight"
               >
-                Fiction is currently invite-only.
+                To ensure quality, Fiction is currently invite-only.
               </h3>
               <div class="mt-4">
                 <p class="text-theme-500 text-sm ">
@@ -86,14 +86,14 @@ const hasAccessCode = vue.ref(false)
             </div>
           </div>
           <div class="mt-8 mb-6">
-            <div v-if="!hasAccessCode" class="actions flex justify-center space-x-4 ">
+            <div v-if="!hasAccessCode" class="actions flex justify-center space-y-4 md:space-y-0 md:space-x-4 flex-col md:flex-row">
               <ElButton
                 type="button"
                 btn="primary"
                 size="lg"
                 @click="hasAccessCode = true"
               >
-                I Have An Access Code
+                I Have An Invite Code
               </ElButton>
               <ElButton
                 type="button"
@@ -123,8 +123,8 @@ const hasAccessCode = vue.ref(false)
             </div>
           </div>
         </div>
-        <div class="text-theme-300 dark:text-theme-300 p-8 text-xs font-sans antialiased font-medium">
-          <a href="https://www.fiction.com?reload=1">Back to homepage &rarr;</a>
+        <div class="p-8 text-xs font-sans antialiased font-medium">
+          <a class="text-theme-300 dark:text-theme-300  hover:opacity-80" href="https://www.fiction.com?reload=1">Back to homepage &rarr;</a>
         </div>
       </div>
     </div>

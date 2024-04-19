@@ -31,6 +31,7 @@ describe('user config', () => {
         "fictionTeam",
         "fictionUi",
         "fictionStripe",
+        "fictionExtend",
       ]
     `)
   })

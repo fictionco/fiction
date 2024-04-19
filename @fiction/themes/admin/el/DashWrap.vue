@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IndexItem, MediaDisplayObject, MemberAccess, NavItem } from '@fiction/core'
-import { getAccessLevel, onResetUi, useService, vue } from '@fiction/core'
+import { getAccessLevel, onResetUi, sortPriority, useService, vue } from '@fiction/core'
 import El404 from '@fiction/ui/El404.vue'
 import type { Card } from '@fiction/site/card'
 import ElEngine from '@fiction/cards/CardEngine.vue'
@@ -14,6 +14,7 @@ export type UserConfig = {
   layoutFormat?: 'container' | 'full'
   homeIcon?: MediaDisplayObject
   isNavItem?: boolean
+  priority?: number
   navIcon?: string
   navIconAlt?: string
   authRedirect?: string
@@ -39,8 +40,12 @@ const memberHasAccess = vue.computed(() => accessLevel.value >= getAccessLevel(p
 
 const primaryNav = vue.computed<NavItem[]>(() => {
   const site = props.card.site
+  if (!site)
+    return []
+  const pages = site?.pages.value as Card<UserConfig>[]
+  const navItems = pages.filter(v => v.userConfig.value.isNavItem)
 
-  const r = site?.pages.value.filter(v => v.userConfig.value.isNavItem).map((item) => {
+  const r = navItems?.map((item) => {
     const slug = item.slug.value === '_home' ? '' : item.slug.value
     const uc = item.userConfig.value as UserConfig
     const isActive = slug === site.siteRouter.params.value.viewId
@@ -50,10 +55,13 @@ const primaryNav = vue.computed<NavItem[]>(() => {
       href: item.link(`/${slug}`),
       icon,
       isActive,
+      priority: uc.priority,
     }
   })
 
-  return r || []
+  const resultSorted = sortPriority(r)
+
+  return resultSorted || []
 })
 
 const accountMenu: vue.ComputedRef<IndexItem[]> = vue.computed(() => {

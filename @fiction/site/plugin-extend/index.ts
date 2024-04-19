@@ -1,7 +1,8 @@
-import type { FictionPluginSettings, PluginSetupArgs } from '../plugin'
-import { FictionPlugin } from '../plugin'
-import type { FictionUser } from '../plugin-user'
-import { safeDirname } from '../utils'
+import { CardTemplate, createCard } from '@fiction/site'
+import { FictionPlugin } from '@fiction/core/plugin'
+import type { FictionUser } from '@fiction/core/plugin-user'
+import { safeDirname, vue } from '@fiction/core/utils'
+import type { FictionPluginSettings, PluginSetupArgs } from '@fiction/core/plugin'
 import type { ExtensionLoader } from './utils'
 import { loadAndInitializeExtensions } from './utils'
 
@@ -12,6 +13,34 @@ type PluginIndexSettings = { extensions: ExtensionLoader<Record<string, any>>[],
 export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> extends FictionPlugin<T> {
   constructor(settings: T) {
     super('FictionExtend', { root: safeDirname(import.meta.url), ...settings })
+
+    this.settings.fictionEnv.addHook({ hook: 'adminPages', callback: async (pages, meta) => {
+      const { templates } = meta
+      return [
+        ...pages,
+        createCard({
+          templates,
+          regionId: 'main',
+          templateId: 'dash',
+          slug: 'extend',
+          title: 'Plugins',
+          cards: [
+            createCard({
+              tpl: new CardTemplate({
+                templateId: 'extend',
+                el: vue.defineAsyncComponent(() => import('./ViewExtend.vue')),
+              }),
+            }),
+          ],
+          userConfig: {
+            isNavItem: true,
+            navIcon: 'i-tabler-plug',
+            navIconAlt: 'i-tabler-plug-x',
+            priority: 100,
+          },
+        }),
+      ]
+    } })
   }
 
   async setup(args: PluginSetupArgs) {
@@ -30,7 +59,7 @@ export class FictionExtend<T extends PluginIndexSettings = PluginIndexSettings> 
     if (context === 'app') {
       await this.settings.fictionUser.userInitialized()
       // const extend = this.settings.fictionUser.activeOrganization?.value?.extend || {}
-      const extend = [{ extensionId: 'fictionPosts', isActive: false }]
+      const extend = [{ extensionId: 'fictionPosts', isActive: true }]
       installIds = extend.map(v => v?.isActive && v?.extensionId ? v.extensionId : undefined).filter(Boolean) as string[] || []
     }
 
