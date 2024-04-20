@@ -13,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="p-12 mx-auto max-w-screen-lg">
+  <div class="py-12" :class="card.classes.value.contentWidth">
     <PostsIndex :card="card" />
   </div>
 </template>

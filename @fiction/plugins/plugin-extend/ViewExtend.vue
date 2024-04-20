@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { vue } from '@fiction/core'
-
 import type { Card } from '@fiction/site'
-import { template } from 'lodash'
+import ElIndex from './ElIndex.vue'
 
 type UserConfig = {
   isNavItem: boolean
@@ -13,5 +12,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>hello world</div>
+  <div :class="card.classes.value.contentWidth">
+    <ElIndex :card="card" />
+  </div>
 </template>

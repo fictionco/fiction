@@ -1,9 +1,6 @@
-/**
- * Standard list format
- */
-
-import type { Component, ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { MediaDisplayObject } from '../plugin-media'
+import type { User } from '../plugin-user'
 
 export interface ListItem {
   name?: string
@@ -74,7 +71,14 @@ export interface NavGroup {
   items: NavItem[]
 }
 
-export type IndexItem = { links?: ActionItem[], actions?: ActionItem[], tags?: ActionItem[], fig?: Component, figProps?: Record<string, unknown> } & NavItem
+export type IndexItem = {
+  images?: MediaDisplayObject[]
+  links?: ActionItem[]
+  actions?: ActionItem[]
+  category?: ActionItem[]
+  tags?: ActionItem[]
+  authors?: User[]
+} & NavItem
 
 // @deprecated
 export type MenuItem = {

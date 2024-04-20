@@ -2,9 +2,10 @@ import type { FictionPluginSettings } from '@fiction/core'
 
 import { FictionPlugin, safeDirname, vue } from '@fiction/core'
 import { CardTemplate, type FictionSites, createCard } from '@fiction/site'
+import type { ExtensionManifest } from '../plugin-extend'
 
-export type FictionPostsSettings = { fictionSites: FictionSites } & FictionPluginSettings
-export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
+ type FictionPostsSettings = { fictionSites: FictionSites } & FictionPluginSettings
+class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   constructor(settings: FictionPostsSettings) {
     super('FictionPosts', { ...settings, root: safeDirname(import.meta.url) })
 
@@ -41,6 +42,9 @@ export class FictionPosts extends FictionPlugin<FictionPostsSettings> {
   }
 }
 
-export async function setup(settings: FictionPostsSettings) {
-  return new FictionPosts(settings)
+export const plugin: ExtensionManifest<FictionPostsSettings> = {
+  extensionId: 'fictionPosts',
+  name: 'Post and Blog System',
+  desc: 'Adds posts and blog functionality to Fiction',
+  setup: async settings => new FictionPosts(settings),
 }

@@ -125,6 +125,7 @@ export function pages() {
       templateId: 'auth',
       slug: 'auth',
       title: 'Settings',
+
     }),
   ]
 }
@@ -147,7 +148,7 @@ export async function setup(args: { fictionEnv: FictionEnv }) {
     userConfig: {
       colors: { isDarkMode: true },
       spacing: {
-        contentWidthClass: 'max-w-screen-2xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
+        contentWidthClass: 'max-w-screen-xl px-4 sm:px-4 md:px-6 xl:px-20 mx-auto',
         spacingClass: ``,
       },
     },

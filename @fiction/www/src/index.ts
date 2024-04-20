@@ -12,9 +12,9 @@ import { FictionSites } from '@fiction/site'
 
 import FSite from '@fiction/cards/CardSite.vue'
 import { FictionAi } from '@fiction/plugin-ai'
-import { FictionExtend } from '@fiction/site/plugin-extend'
+import { FictionExtend } from '@fiction/plugin-extend'
 import { version } from '../package.json'
-import { getExtensions, getThemes } from './extend'
+import { getExtensionIndex, getThemes } from './extend'
 
 import { commands } from './commands'
 
@@ -221,7 +221,7 @@ const fictionUi = new FictionUi({ fictionEnv, apps: [fictionApp, fictionAppSites
 export const service = { ...pluginServices, fictionSites, fictionTeam, fictionUi, fictionStripe }
 export type ServiceList = typeof service
 
-const fictionExtend = new FictionExtend({ ...service, extensions: getExtensions(service) })
+const fictionExtend = new FictionExtend({ ...service, extensionIndex: getExtensionIndex(service) })
 
 async function initializeBackingServices() {
   await fictionDb.init()

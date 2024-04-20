@@ -4,7 +4,7 @@ import * as themeAdmin from '@fiction/theme-admin'
 import type { FictionEnv } from '@fiction/core'
 import type { Theme } from '@fiction/site/theme'
 import type { FictionStripe } from '@fiction/plugins/plugin-stripe'
-import { getExtensionIndex } from '@fiction/site/plugin-extend'
+import { getExtensionIndexTypeHelper } from '@fiction/plugin-extend'
 import type { ServiceList } from '.'
 
 export async function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: FictionStripe }): Promise<Theme[]> {
@@ -17,20 +17,11 @@ export async function getThemes(args: { fictionEnv: FictionEnv, fictionStripe: F
   return themes
 }
 
-export function getExtensions(args: ServiceList) {
-  return getExtensionIndex([
+export function getExtensionIndex(args: ServiceList) {
+  return getExtensionIndexTypeHelper([
     {
-
-      extensionId: 'fictionPosts',
-      title: 'Post System',
-      description: 'Extends the posts functionality of Fiction',
-      getExtension: () => import('@fiction/plugin-posts'),
-      getSettings: () => {
-        return {
-          test: true,
-          ...args,
-        }
-      },
+      load: () => import('@fiction/plugin-posts'),
+      settings: () => ({ test: true, ...args }),
     },
   ])
 }

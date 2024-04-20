@@ -45,18 +45,12 @@ const formattedData = vue.computed<IndexItem[]>(() => {
     const editLink = props.card.link({ path: '/edit-site', query: { siteId: site.settings.siteId } })
     const out: IndexItem = {
       name: site.settings.title || 'Untitled',
+      desc: `${displayDomain}`,
       key: site.settings.siteId,
-      links: [
-        { name: 'Edit', btn: 'default', href: editLink, icon: 'i-tabler-edit' },
-        { name: displayDomain, href: domain, target: '_blank', class: '', icon: 'i-tabler-world' },
-      ],
-      actions: [
-      ],
+      href: editLink,
       fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
       figProps: { site },
-      onClick: async () => {
-        await fictionRouter.push(editLink, { caller: 'indexLink' })
-      },
+
     }
 
     return out
@@ -76,21 +70,23 @@ const actions: ActionItem[] = [{
 
 <template>
   <ElPanel :actions="actions" :class="card.classes.value.contentWidth">
-    <ElIndexGrid
-      :loading="loading"
-      :list="formattedData"
-      :index-meta="{}"
-      :edit-actions="[]"
-      :empty="{
-        title: 'Start New Website',
-        description: `Welcome to the world's simplest and fastest web creation platform for influencers and professionals.`,
-        actions,
-        fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
-      }"
-      :actions="[]"
-      :on-item-click="() => {}"
-      @bulk-edit="() => {}"
-    />
+    <div class="pt-8  ">
+      <ElIndexGrid
+        :loading="loading"
+        :list="formattedData"
+        :index-meta="{}"
+        :edit-actions="[]"
+        :empty="{
+          title: 'Start New Website',
+          description: `Welcome to the world's simplest and fastest web creation platform for influencers and professionals.`,
+          actions,
+          fig: vue.defineAsyncComponent(() => import('./fig/FigSite.vue')),
+        }"
+        :actions="[]"
+        :on-item-click="() => {}"
+        @bulk-edit="() => {}"
+      />
+    </div>
 
     <ElSiteStart :vis="showCreateModal" :card="card" />
   </ElPanel>

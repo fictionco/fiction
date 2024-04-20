@@ -1,16 +1,14 @@
 {
   "dependencies": {
     "@fiction/core": "workspace:*",
-    "@fiction/plugin-unsplash": "workspace:*",
-    "@pinecone-database/pinecone": "^2.2.0",
-    "openai": "^4.38.2",
-    "tailwindcss": "^3.4.3",
-    "vue": "^3.4.23"
+    "@fiction/cards": "workspace:*",
+    "@fiction/site": "workspace:*",
+    "@fiction/ui": "workspace:*"
   },
   "gitHead": "b257411e1c6c32b52b444cc6f1518bf1bee1e480",
   "license": "GPL-2.0-only",
   "main": "index.ts",
-  "name": "@fiction/plugin-ai",
+  "name": "@fiction/plugin-extend",
   "publishConfig": {
     "access": "public"
   },
