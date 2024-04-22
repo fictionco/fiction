@@ -2,7 +2,7 @@
 import { vue } from '@fiction/core'
 import TransitionSlide from '@fiction/ui/TransitionSlide.vue'
 import { iconStyle } from '../util'
-import type { Handle } from './tools'
+import type { Handle } from '../admin'
 
 const props = defineProps({
   handle: { type: Object as vue.PropType<Handle>, required: true },

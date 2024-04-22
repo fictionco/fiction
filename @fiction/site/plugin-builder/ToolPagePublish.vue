@@ -9,7 +9,7 @@ import type { Site } from '../site'
 import type { TableSiteConfig } from '../tables'
 import { tableNames } from '../tables'
 import { activeSiteHostname, saveSite } from '../utils/site'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
 

@@ -4,10 +4,11 @@ import { vue } from '@fiction/core'
 import ElInput from '@fiction/ui/ElInput.vue'
 import ElButton from '@fiction/ui/ElButton.vue'
 import type { Site } from '../site'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
 import DraggableLayout from './LayoutDraggable.vue'
 import LayoutToolRegion from './LayoutToolRegion.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   site: {
@@ -20,15 +21,13 @@ const props = defineProps({
   },
 })
 
-const control = props.site.settings.fictionSites
-
 const actions: ActionItem[] = [
   {
     name: 'Add Elements',
     icon: 'i-tabler-new-section',
     onClick: () => {
       props.site.activeRegionKey.value = 'main'
-      control.builder.useTool({ toolId: 'add' })
+      siteEditController.useTool({ toolId: 'add' })
     },
   },
 ]
@@ -50,7 +49,7 @@ const pageList = vue.computed<ListItem[]>(() => {
         <div class=" rounded-md space-y-1">
           <div class="relative flex justify-between items-center">
             <span class="text-[10px] uppercase text-theme-400/40 font-semibold tracking-wide">Current Page</span>
-            <ElButton size="xxs" @click="control.builder.useTool({ toolId: 'pages' })">
+            <ElButton size="xxs" @click="siteEditController.useTool({ toolId: 'pages' })">
               Change Page
             </ElButton>
           </div>

@@ -5,7 +5,7 @@ import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import type { Site } from '../site'
 import { saveSite, updateSite } from '../utils/site'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
 

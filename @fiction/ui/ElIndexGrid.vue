@@ -18,7 +18,7 @@ defineProps({
 
 const sending = vue.ref(false)
 
-const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-200/60 dark:border-theme-600 rounded-xl'
+const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px-6 border border-theme-300/70 shadow-xs dark:border-theme-600 rounded-xl'
 </script>
 
 <template>
@@ -96,4 +96,4 @@ const boxClass = 'dark:bg-theme-975 hover:bg-theme-50 dark:hover:bg-theme-700 px
       </nav>
     </div>
   </div>
-</template>Figure,Figure,Figure,Figure,
+</template>

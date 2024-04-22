@@ -2,7 +2,7 @@
 import type { ActionItem, vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
 import { iconStyle } from '../util'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 
 const props = defineProps({
   tool: { type: Object as vue.PropType<EditorTool>, required: true },

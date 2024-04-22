@@ -4,22 +4,34 @@ import type { ActionItem } from '@fiction/core'
 import type { Site } from '../site'
 
 import { saveSite } from '../utils/site'
-import type { EditorTool, Handle } from './tools'
+import type { EditorTool, Handle } from '../admin/index'
 import ElTool from './ElTool.vue'
 import ElToolBanner from './ElToolBanner.vue'
 import ELToolHandle from './ElToolHandle.vue'
 import DraggableSort from './DraggableSort.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
 
+function useEditPage(args: { cardId?: string } = {}) {
+  const { cardId } = args
+
+  if (cardId)
+    props.site.activePageId.value = cardId
+
+  props.site.editor.value.selectedPageId = cardId || ''
+
+  siteEditController.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
+}
+
 const actions: ActionItem[] = [
   {
     name: 'New Page',
     icon: 'i-tabler-circle-plus',
-    onClick: () => props.site.useEditPage(),
+    onClick: () => useEditPage(),
   },
 ]
 
@@ -29,7 +41,7 @@ const handles = vue.computed(() => {
     const actions: ActionItem[] = [{
       name: 'Settings',
       icon: 'i-tabler-edit',
-      onClick: () => props.site.useEditPage({ cardId }),
+      onClick: () => useEditPage({ cardId }),
     }]
 
     if (pg.slug.value === '_home') {

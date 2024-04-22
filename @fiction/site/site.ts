@@ -1,4 +1,3 @@
-// @unocss-include
 import type { FictionRouter } from '@fiction/core'
 import { FictionObject, deepMerge, getColorScheme, localRef, objectId, resetUi, shortId, vue, waitFor } from '@fiction/core'
 import type { CardConfigPortable, PageRegion, SiteUserConfig, TableCardConfig, TableSiteConfig } from './tables'
@@ -11,6 +10,7 @@ import { addNewCard, removeCard } from './utils/region'
 import type { QueryVarHook } from './utils/site'
 import { saveSite, setSections, setupRouteWatcher, updateSite } from './utils/site'
 import type { SiteMode } from './load'
+import { siteEditController } from './plugin-builder/tools'
 import type { FictionSites } from '.'
 
 export type EditorState = {
@@ -159,7 +159,7 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
 
     this.editor.value.selectedCardId = cardId
 
-    this.settings.fictionSites.builder.useTool({ toolId: 'editCard' })
+    siteEditController.useTool({ toolId: 'editCard' })
 
     this.frame.syncActiveCard({ cardId })
   }
@@ -192,17 +192,6 @@ export class Site<T extends SiteSettings = SiteSettings> extends FictionObject<T
     await this.save()
 
     this.activePageId.value = this.editPageConfig.value.cardId || ''
-  }
-
-  useEditPage(args: { cardId?: string } = {}) {
-    const { cardId } = args
-
-    if (cardId)
-      this.activePageId.value = cardId
-
-    this.editor.value.selectedPageId = cardId || ''
-
-    this.settings.fictionSites.builder.useTool({ toolId: cardId ? 'editPage' : 'addPage' })
   }
 
   removeCard(args: { cardId: string }) {

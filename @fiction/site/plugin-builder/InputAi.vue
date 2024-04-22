@@ -11,6 +11,7 @@ import ElModal from '@fiction/ui/ElModal.vue'
 import ElProgress from '@fiction/ui/ElProgress.vue'
 import type { Site } from '../site'
 import type { Card } from '../card'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -76,7 +77,7 @@ const numFields = vue.computed(() => {
           size="xs"
           tag="div"
           wrap-class="gap-1 cursor-pointer"
-          @click.stop="site.fictionSites.builder.useTool({ toolId: 'ai' })"
+          @click.stop="siteEditController.useTool({ toolId: 'ai' })"
         >
           <span class="i-tabler-world text-base" />
         </ElButton>

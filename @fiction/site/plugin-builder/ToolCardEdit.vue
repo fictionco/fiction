@@ -8,17 +8,19 @@ import ElToolBanner from './ElToolBanner.vue'
 import ToolForm from './ToolForm.vue'
 
 const props = defineProps({
-  site: { type: Object as vue.PropType<Site>, required: true },
+  site: { type: Object as vue.PropType<Site>, default: undefined },
 })
 useService<{ fictionSites: FictionSites }>()
 
 const tool = { toolId: 'settings', icon: 'i-tabler-settings', title: 'Settings' }
 
-const options = vue.computed(() => props.site.activeCard.value?.options.value || [])
+const options = vue.computed(() => props.site?.activeCard.value?.options.value || [])
 
 function setActiveCardConfig(config: Partial<TableCardConfig>) {
-  props.site.activeCardConfig.value = config
-  props.site.frame.syncSite({ caller: 'updateCardConfig' })
+  if (props.site) {
+    props.site.activeCardConfig.value = config
+    props.site.frame.syncSite({ caller: 'updateCardConfig' })
+  }
 }
 </script>
 

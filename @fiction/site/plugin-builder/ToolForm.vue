@@ -89,7 +89,7 @@ function getOptionPath(key: string) {
             class="setting-input"
             v-bind="opt.outputProps.value"
             :input="opt.input.value"
-            input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-300 dark:border-theme-600"
+            input-class="bg-theme-50 dark:bg-theme-800 text-theme-700 dark:text-theme-25 border-theme-200 dark:border-theme-600"
             :model-value="getNested({ path: getOptionPath(opt.key.value), data: modelValue })"
             :site="site"
             @update:model-value="emit('update:modelValue', setNested({ path: getOptionPath(opt.key.value), data: modelValue, value: $event }))"

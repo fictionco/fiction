@@ -6,16 +6,16 @@ import ElForm from '@fiction/ui/ElForm.vue'
 import type { CardConfigPortable } from '../tables'
 import type { Site } from '../site'
 import { requestManagePage } from '../utils/region'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
 import InputSlug from './InputSlug.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
   tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
-const control = props.site.settings.fictionSites
 const loading = vue.ref(false)
 
 const options = [
@@ -60,7 +60,7 @@ async function save() {
   })
   loading.value = false
 
-  control.builder.useTool({ toolId: 'pages' })
+  siteEditController.useTool({ toolId: 'pages' })
 }
 </script>
 
@@ -70,7 +70,7 @@ async function save() {
     v-bind="props"
     :back="{
       name: 'All Pages',
-      onClick: () => control.builder.useTool({ toolId: 'pages' }),
+      onClick: () => siteEditController.useTool({ toolId: 'pages' }),
     }"
     title="Add Page"
   >

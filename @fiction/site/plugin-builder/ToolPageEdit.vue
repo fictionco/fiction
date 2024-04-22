@@ -5,10 +5,11 @@ import ElInput from '@fiction/ui/ElInput.vue'
 import ElForm from '@fiction/ui/ElForm.vue'
 import type { Site } from '../site'
 import { requestManagePage } from '../utils/region'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
 import ToolForm from './ToolForm.vue'
 import InputSlug from './InputSlug.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -53,7 +54,7 @@ async function save() {
   })
   loading.value = false
 
-  control.builder.useTool({ toolId: 'pages' })
+  siteEditController.useTool({ toolId: 'pages' })
 }
 </script>
 
@@ -61,7 +62,7 @@ async function save() {
   <ElTool
     :actions="[]"
     v-bind="props"
-    :back="{ name: 'All Pages', onClick: () => control.builder.useTool({ toolId: 'pages' }) }"
+    :back="{ name: 'All Pages', onClick: () => siteEditController.useTool({ toolId: 'pages' }) }"
     title="Edit Page"
   >
     <ElForm @submit="save()">

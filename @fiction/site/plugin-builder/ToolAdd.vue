@@ -4,20 +4,15 @@ import ElInput from '@fiction/ui/ElInput.vue'
 import type { CardTemplate } from '../card'
 import type { Site } from '../site'
 import { categoryOrder } from '../card'
-import type { EditorTool } from './tools'
+import type { EditorTool } from '../admin'
 import ElTool from './ElTool.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
-  site: {
-    type: Object as vue.PropType<Site>,
-    required: true,
-  },
-  tool: {
-    type: Object as vue.PropType<EditorTool>,
-    required: true,
-  },
+  site: { type: Object as vue.PropType<Site>, required: true },
+  tool: { type: Object as vue.PropType<EditorTool>, required: true },
 })
-const control = props.site.settings.fictionSites
+
 const groupTemplates = vue.computed(() => {
   const all = props.site.theme.value?.templates.filter(t => t.settings.isPublic)
   const grouped: Record<string, CardTemplate[]> = {}
@@ -46,7 +41,7 @@ const groupTemplates = vue.computed(() => {
 function addCard(args: { templateId: string }) {
   const { templateId = 'page' } = args
   props.site.addCard({ templateId, delay: 400 })
-  control.builder.useTool({ toolId: 'layout' })
+  siteEditController.useTool({ toolId: 'layout' })
 }
 </script>
 

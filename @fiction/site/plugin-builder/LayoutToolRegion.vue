@@ -3,9 +3,10 @@ import type { vue } from '@fiction/core'
 import { toLabel } from '@fiction/core'
 import type { Site } from '../site'
 import type { Card } from '../card'
-import type { Handle } from './tools'
+import type { Handle } from '../admin'
 import ElToolHandle from './ElToolHandle.vue'
 import TransitionList from './TransitionList.vue'
+import { siteEditController } from './tools'
 
 const props = defineProps({
   site: { type: Object as vue.PropType<Site>, required: true },
@@ -13,7 +14,6 @@ const props = defineProps({
   regionId: { type: String, required: true },
 })
 
-const control = props.site.settings.fictionSites
 function getCardHandle(card: Card): Handle {
   return {
     title: card.tpl.value?.settings.title ?? 'Card',
@@ -73,7 +73,7 @@ function getCardHandle(card: Card): Handle {
         v-if="!card.cards.value.length"
         key="add"
         class="hidden border-3 border-dashed border-theme-200 dark:border-theme-700 rounded-lg mt-2 p-4 text-xs text-center hover:border-theme-300 cursor-pointer text-theme-300 hover:text-theme-400 font-semibold"
-        @click="site.activeRegionKey.value = regionId; control.builder.useTool({ toolId: 'add' })"
+        @click="site.activeRegionKey.value = regionId; siteEditController.useTool({ toolId: 'add' })"
       >
         Add Element
       </div>

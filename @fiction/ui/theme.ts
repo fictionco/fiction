@@ -4,7 +4,7 @@ export function inputClasses(feature: 'box') {
   const out: string[] = []
 
   if (feature === 'box')
-    out.push('text-input-size bg-theme-100 hover:bg-theme-200 border-theme-300')
+    out.push('text-input-size bg-theme-100 hover:bg-theme-200 border-theme-200')
 
   return out
 }
